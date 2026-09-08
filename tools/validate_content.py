@@ -214,17 +214,31 @@ def validate_file(path, data, rep):
     return data
 
 
-def validate_chapter(folder, files, rep):
+def folder_info(folder):
+    parts = folder.relative_to(CONTENT).parts
+    m = re.match(r"chapter-(\d+)", folder.name)
+    num = int(m.group(1)) if m else None
+    path = "shared" if parts[0] == "shared" else parts[1]
+    return path, num
+
+
+def validate_chapter(folder, files, rep, known_terms):
     ids = {d["id"]: d for d in files}
     ordered = sorted(files, key=lambda d: level_key(d["id"]))
+    _, folder_num = folder_info(folder)
     for d in ordered:
         p = d.get("prerequisite")
         if p is not None and p not in ids:
             rep.err(d["_file"], f"prerequisite '{p}' not found in chapter")
+        if folder_num is not None and d.get("chapter") != folder_num:
+            rep.warn(d["_file"], f"chapter field {d.get('chapter')} differs from folder chapter {folder_num}")
     # use-before-definition
     introduced_at = {}
     for d in ordered:
         for term in d.get("terms_introduced") or []:
+            if term.lower() in known_terms:
+                rep.warn(d["_file"], f"re-introduces '{term}', already known from a lower chapter")
+                continue
             introduced_at.setdefault(term.lower(), level_key(d["id"]))
     for d in ordered:
         k = level_key(d["id"])
@@ -266,8 +280,17 @@ def main():
         if data:
             data["_file"] = path.relative_to(ROOT)
             chapters[path.parent].append(data)
+    infos = {folder: folder_info(folder) for folder in chapters}
     for folder, files in chapters.items():
-        validate_chapter(folder, files, rep)
+        path, num = infos[folder]
+        known = set()
+        for other, (opath, onum) in infos.items():
+            if other == folder or onum is None or num is None or onum >= num:
+                continue
+            if opath == "shared" or opath == path:
+                for d in chapters[other]:
+                    known.update(t.lower() for t in d.get("terms_introduced") or [])
+        validate_chapter(folder, files, rep, known)
     if status:
         print(f"{'chapter':60} {'levels':>6} {'subs':>5} {'screens':>7} {'questions':>9} {'minutes':>7}")
         for folder in sorted(chapters):

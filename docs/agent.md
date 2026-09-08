@@ -97,7 +97,21 @@ Path structure is **linear with rare fan-outs** (max 1–2 per path, never per c
 - Pass mark 70 %. Below that: "Almost — review these levels" with the per-question list and links; the user can retry immediately (hearts apply).
 - Hearts are lost only in Tests and Final Exams.
 
-### 3.6 Copy
+### 3.6 Consistency across sessions
+
+Chapters are written by different sessions and models. To keep them indistinguishable:
+
+- **Reference files.** Before writing, read `content/shared/chapter-01-market-basics/level-01-1.yaml`, `content/shared/chapter-01-market-basics/level-08-2.yaml` and `content/paths/scalping/chapter-03-orders-costs-position-size/level-03-2.yaml`. Match their tone (short, direct, second person), difficulty curve and screen rhythm exactly.
+- **Outline is binding.** Write the chapter as laid out in `docs/curriculum.md` (levels, titles, subs, what each sub teaches, new terms). If the material truly needs a different split, do it and list the deviation in the session report.
+- **Terms.** A chapter may use terms introduced in Chapter 1 and in lower-numbered chapters of the same path (listed in `docs/curriculum.md`); the validator warns about anything else and about re-introducing a known term. New terms go into `terms_introduced` of the sub that defines them, defined in plain words on a theory/example/carousel screen first.
+- **Charts.** `chart-decision` and `chart-tap` use synthetic data: 8–12 bars, `[open, high, low, close]` per candle, realistic tick sizes (cents on a $10–$200 stock), `decision_index` between bar 4 and bar 7, the outcome visible in the remaining bars. Chapter 1 uses `kind: line`; every path chapter uses `kind: candles`. State the share count in the scenario and the P/L in the outcome.
+- **Component ids and hotspot targets** are fixed in `docs/schema.md`; never invent new ones — if a screen needs a component that doesn't exist, use the closest existing one and note it in the report.
+- **Tokens.** Session times, currency notes, index names and regulation notes always come from `{{market.*}}`; never write "9:30 ET" or "the S&P 500" literally in a path chapter.
+- **Numbers.** Scalping: 500–2,000 shares, $0.05–$0.30 targets, $5,000–$30,000 accounts. Day trading: 100–1,000 shares, $0.30–$2 targets. Swing: 20–300 shares, $2–$20 targets, $5,000–$50,000 accounts.
+- **Question variety.** Across a chapter, use every question type in `docs/UI.md` §4 at least twice; no sub-level repeats the same sequence of types as the previous one.
+- **Do not edit `docs/`** beyond ticking the status of the chapter you wrote (in `docs/curriculum.md` and section 6 below). If a rule blocks good content, write the content the best way you can, then raise it in the report — never silently change a rule.
+
+### 3.7 Copy
 
 - Second person, present tense, one idea per screen, body text max 3 lines (≈220 characters).
 - Confident simple statements; nuance in the reveal note.
@@ -153,12 +167,25 @@ Never use influencers, YouTube or forum content as a source.
 
 ## 6. Process and status
 
-Steps:
+### Session workflow (one chapter per session)
+
+1. Read `CLAUDE.md`, this file, `docs/curriculum.md`, `docs/UI.md`, `docs/schema.md`, and the three reference files in section 3.6. Do not read other content files unless a term or callback requires it.
+2. Write **every** lesson file of the chapter in one pass, in level order, into the folder named in `docs/curriculum.md`.
+3. Run `python3 tools/validate_content.py`. Fix every error and every warning. Run again until clean.
+4. Do the zero-knowledge read-through (section 5, item 7) on the whole chapter and fix what you find.
+5. Tick the chapter's status in `docs/curriculum.md` and in the step list below. Update the status lines in `README.md`.
+6. Commit with a message that names the chapter and its level/sub counts; push to `main`.
+7. Report back **only**: the `--status` table, deviations from the outline (with reasons), and questions that need a human decision. Then stop — the next chapter is a new session.
+
+### Steps
 
 1. Structure, rules, schema, validator, UI reference — **done**.
-2. Chapter 1 (shared) rewritten in the new format — **done, awaiting review**.
-3. Scalping Chapter 3 "Orders, Costs & Position Size" rewritten (was "Chapter 2 — Order Execution and Spread") — **done, awaiting review**.
-4. After approval: Scalping Chapter 2 (Charts 101), then Chapters 4–6; then Day Trading Chapters 2–6; then Swing Trading Chapters 2–6, chapter by chapter with a stop after each.
+2. Chapter 1 (shared) — **done, reviewed**.
+3. Scalping Chapter 3 "Orders, Costs & Position Size" — **done, reviewed**.
+4. Scalping Chapter 2 "Charts 101" — **next**.
+5. Scalping Chapters 4, 5, 6 — planned.
+6. Day Trading Chapters 2–6 — planned.
+7. Swing Trading Chapters 2–6 — planned.
 
 Live status (levels, screens, minutes per chapter) is generated, not hand-written:
 

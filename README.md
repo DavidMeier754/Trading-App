@@ -26,6 +26,7 @@ Requires Python 3 and PyYAML (`pip install pyyaml`).
 
 ## Status
 
-- Chapter 1 (shared) — written, in review
-- Scalping Chapter 3 "Orders, Costs & Position Size" — written, in review
-- Everything else — planned (see `docs/curriculum.md`)
+- Chapter 1 (shared) — written, reviewed
+- Scalping Chapter 3 "Orders, Costs & Position Size" — written, reviewed
+- Scalping Chapter 2 "Charts 101" — next
+- Everything else — outlined level by level in `docs/curriculum.md`

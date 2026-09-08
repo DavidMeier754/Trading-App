@@ -186,6 +186,25 @@ Common: every screen has `type`. Question screens have `explanation` (one senten
   explanation: "…"
 ```
 
+## Components, data and hotspot targets
+
+Use only these component ids and target ids (UI.md §6 defines how they look).
+
+| Component | `data` / `visual_data` fields | Hotspot / spotlight targets |
+|---|---|---|
+| `quote-card` | `ticker`, `name`, `price`, `change`, `change_pct`, `volume` (string like "3.2M"), `prev_close` | `ticker`, `name`, `price`, `change`, `volume`, `prev_close` |
+| `quote-panel` | `bid`, `ask`, `last`; optional `animate_to: {bid, ask}` | `bid`, `ask`, `last`, `spread` |
+| `order-ticket` | `ticker`, `side` (buy/sell), `qty`, `type` (market/limit/stop/stop-limit), `price`, `stop_price` | `side`, `qty`, `type`, `price`, `stop_price`, `submit` |
+| `order-book` | `bids: [[price, size], …]`, `asks: [[price, size], …]` (best first) | `best`, `depth`, `size`, `bid-1`…`bid-3`, `ask-1`…`ask-3` |
+| `chart-line` | `data: [close, …]` or `series: [{label, data}]`; optional `markers: [{index, label}]`, `levels: [{price, label}]` | (use `chart-tap` with a bar index) |
+| `chart-candles` | `data: [[open, high, low, close], …]`; optional `volume: [n, …]`, `levels`, `markers`, `vwap: [v, …]` | (use `chart-tap` with a bar index) |
+| `bar-chart` | `bars: [{label, value}]`, optional `unit` | — |
+| `session-ribbon` | `premarket`, `regular`, `afterhours`, `timezone` (tokens) | — |
+| `cost-stack` | `shares`, `spread`, `slippage`, `fees`, `target` (per share) or `rows: [{label, value}]`, `targets: [{label, value}]` | — |
+| `ownership-pie` | `total`, `owned` | — |
+
+Chart conventions: 8–12 bars; `decision_index` between 4 and 7; prices with two decimals; candle `high` ≥ max(open, close) and `low` ≤ min(open, close); outcome visible in the bars after the decision. Chapter 1 uses `chart-line`; path chapters use `chart-candles`.
+
 ## Validator rules (tools/validate_content.py)
 
 Errors (must fix):
@@ -199,6 +218,8 @@ Errors (must fix):
 
 Warnings (review):
 - Estimated time outside 160–260 s (theory-type 10 s, carousel/walkthrough 10 s per card/step, question 15 s, match/sort/order 18 s, chart-decision 20 s, summary/badge 10 s).
-- A glossary term (any `terms_introduced` in the chapter) used in a question before the sub-level that introduces it.
+- A glossary term used in a question before the sub-level that introduces it. Known terms = Chapter 1 terms plus terms from lower-numbered chapters of the same path; anything else must be introduced in the chapter before use.
+- A term re-introduced that a lower chapter already introduced.
+- Folder chapter number differs from the `chapter` field.
 - Identical prompt text in two different files of the same chapter.
 - Level without a visual/interactive screen in Chapter ≥2.
