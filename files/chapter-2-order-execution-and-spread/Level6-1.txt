@@ -1,0 +1,18 @@
+Level: 6-1
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: New Theory
+Subcategory: Order & Spread Mechanics
+Learning Goal: User understands why many Scalpers favor speed (Market Orders) over price precision (Limit Orders), unlike some other trading styles, without treating this as a rigid rule.
+Purpose: This explains a real, common pattern in how Scalpers place trades — useful for understanding platforms and other traders' behavior, not a rule you must follow rigidly.
+
+Screens:
+1. Title: "So which order type do many Scalpers lean on?" Body: "Because Scalping depends on acting within seconds, many Scalpers favor Market Orders for speed — even knowing they'll cross the Spread. This is a common pattern, not a strict rule.".
+2. Text: "A Swing Trader has days to wait for a Limit price to be hit. A Scalper often doesn't have that luxury — the opportunity may vanish in seconds.".
+3. Text: "This doesn't mean Limit Orders are never used in Scalping — but Market Orders are more commonly used for entries where speed matters most.".
+4. Multiple choice. Prompt: "Why do many Scalpers favor Market Orders despite the Spread cost?"Four answer options: (A) "Speed matters more than exact price when opportunities last only seconds" [correct], (B) "Market Orders have no Spread cost at all", (C) "Limit Orders are illegal for Scalpers", (D) "Market Orders are always cheaper than Limit Orders". Reveal note: "It's a trade-off: many Scalpers accept the Spread cost in exchange for not missing a fast-moving opportunity."
+5. Scenario multiple choice. Prompt: "A Scalper spots a brief price movement they believe will only last a couple of seconds. Which order type best fits getting in immediately?"Four answer options: (A) "Market Order" [correct], (B) "Limit Order set well below current price", (C) "Neither order type works for fast situations", (D) "It doesn't matter which is used". Reveal note: "A fleeting opportunity calls for immediate execution — exactly what a Market Order is designed for."
+6. True/False. Statement: "Scalpers never use Limit Orders under any circumstances."Two answer options "True" / "False" (correct). Reveal note: "Limit Orders still have their place — for example, setting a precise exit."
+7. Scenario multiple choice. Prompt: "A Scalper uses a Market Order and crosses a Spread that eats 50% of their target profit. What does this suggest about their stock selection, not their order choice?"Four answer options: (A) "The stock itself may be a poor Scalping candidate, regardless of order type used" [correct], (B) "Market Orders are always the wrong choice", (C) "The trader should have used a Limit Order instead to avoid the Spread entirely", (D) "This is a normal, ideal outcome". Reveal note: "The order type isn't the real problem here — a 50% Spread-to-target ratio points back to Level 2: this stock likely wasn't a good candidate to begin with."
+
+All other relevant info: Source — Aziz, Scalping chapter (core order-type guidance for this style, softened per audit to present as a common pattern rather than a rigid rule). Prerequisite: 5-2.

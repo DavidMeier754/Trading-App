@@ -1,0 +1,18 @@
+Level: 14-2
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: New Theory
+Subcategory: Order & Spread Mechanics
+Learning Goal: User understands the concept of having a pre-planned fallback action for technology failures.
+Purpose: Having a fallback plan in mind before you need it is what separates a manageable hiccup from a real problem.
+
+Screens:
+1. Title: "Reliable tech is the goal — but plan for when it isn't." Body: "Even with good preparation, outages happen. Having a simple fallback plan in mind matters more than assuming it'll never happen to you.".
+2. Text: "A fallback might be as simple as: 'if my connection drops, I call my broker directly to close the position' — the specific method matters less than having SOME plan.".
+3. Multiple choice. Prompt: "What's the main value of having a fallback plan for technology failures?"Four answer options: (A) "It reduces the chance of being stuck with no way to act if the primary method fails" [correct], (B) "It guarantees zero losses no matter what happens", (C) "It replaces the need for reliable technology altogether", (D) "It's only useful for professional trading firms". Reveal note: "A fallback doesn't guarantee a good outcome — it just means you're not left with zero options."
+4. Scenario multiple choice. Prompt: "A Scalper has a fallback plan (e.g., a phone number to call their broker) but their internet drops while holding an open position. What does having this fallback most directly provide?" Four answer options: (A) "A way to still attempt to act despite the technology failure" [correct], (B) "A guarantee that the trade will be profitable", (C) "Automatic cancellation of all fees", (D) "Nothing useful in this situation". Reveal note: "The fallback exists precisely for this moment."
+5. True/False. Statement: "Having a fallback plan means outages and technical issues no longer pose any risk at all."Two answer options "True" / "False" (correct). Reveal note: "A fallback reduces risk, it doesn't eliminate it."
+6. Text: "This idea — preparing for things going wrong, not just for things going right — comes up again in the dedicated Risk Management chapter later in this path.".
+7. Scenario multiple choice. Prompt: "Why might a Scalper specifically want a FAST fallback plan, not just any fallback plan?"Four answer options: (A) "Scalping's tight timeframes mean a slow fallback may already be too late to matter" [correct], (B) "Fast fallback plans are always free, slow ones are not", (C) "Speed of the fallback plan is irrelevant to Scalping", (D) "This only matters for Day Trading, not Scalping". Reveal note: "This reconnects to the chapter's core 'speed matters' theme one final time."
+
+All other relevant info: Source — synthesized from Aziz, Scalping chapter. Prerequisite: 14-1. Plants a forward reference to the dedicated Risk Management chapter without going into specifics.

@@ -1,0 +1,18 @@
+Level: 5-1
+Chapter: 1 — Market Basics
+Path: Scalping (identical across all paths)
+Category: New Theory
+Subcategory: Market Structure
+Learning Goal: User can define liquidity (ease of buying/selling without moving price much) and identify high vs. low liquidity examples.
+Purpose: Liquidity affects how easily you can actually get in and out of a trade — it's one of the first things experienced traders check before considering any stock.
+
+Screens:
+1. Title: "How easy is it to actually get in or out?" Body: "Liquidity describes how easily you can buy or sell a stock without the price jumping around because of your trade.".
+2. Text: "Compare that to a stock nobody's trading — even a small order there can swing the price a lot.".
+3. Text: "A stock with millions of trades every day is highly liquid — easy in, easy out. A stock with only a handful of daily trades is the opposite.".
+4. Multiple choice. Prompt: "What does 'high liquidity' mean for a stock?"Four answer options: (A) "It's easy to buy or sell without causing big price jumps" [correct], (B) "It always makes you money", (C) "It's a stock only banks are allowed to trade", (D) "It has no risk at all". Reveal note: "Liquidity is about ease of trading, not about guaranteed profit or safety."
+5. Scenario multiple choice. Prompt: "A trader places a modest-sized order on a stock that barely anyone trades, and the price jumps noticeably just from that one order. What does this suggest about the stock?"Four answer options: (A) "It has low liquidity" [correct], (B) "It has high liquidity", (C) "It's an index, not a stock", (D) "The trader made an illegal trade". Reveal note: "A single modest order shouldn't move the price much in a liquid stock — this points to low liquidity."
+6. True/False. Statement: "A stock that nobody trades is considered highly liquid."Two answer options "True" / "False" (correct). Reveal note: "The opposite — little to no trading activity is the definition of low liquidity."
+7. Matching exercise. Prompt: "Match each scenario to the correct liquidity level." Terms: "Millions of daily trades" and "A handful of daily trades" matched to "High liquidity" and "Low liquidity".
+
+All other relevant info: Source — Aziz, Ch. 2. Prerequisite: 4-3.

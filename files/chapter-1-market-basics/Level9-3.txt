@@ -1,0 +1,17 @@
+Level: 9-3
+Chapter: 1 — Market Basics
+Path: Scalping (identical across all paths)
+Category: Repetition
+Subcategory: Repetition
+Learning Goal: User reinforces and combines bull/bear market concepts from 9-1 and 9-2 with the broader chapter concepts (supply/demand, volatility, trading styles), at increased difficulty ahead of the Final Exam.
+Purpose: This is the hardest checkpoint in Chapter 1 — designed to make sure every concept from the whole chapter works together before you take the Final Exam.
+
+Screens:
+1. Text: "Last review before the Final Exam — let's connect everything about market trends.".
+2. Multiple choice. Prompt: "Over several months, more companies see rising demand than falling demand across the board. What overall market phase does this describe?"Four answer options: (A) "A bull market" [correct], (B) "A bear market", (C) "A liquidity event", (D) "A single stock's earnings report". Reveal note: "Broad, sustained rising demand across many companies is exactly what defines a bull market."
+3. Scenario multiple choice. Prompt: "A stock stays calm and barely moves for weeks during a bear market, then suddenly swings 15% in a day after unexpected news. What just changed?"Four answer options: (A) "Its short-term volatility spiked, independent of the bear market itself" [correct], (B) "The bear market ended immediately", (C) "The stock became illiquid", (D) "Bear markets prevent big single-day moves". Reveal note: "The overall bear trend didn't cause or prevent this — the news did."
+4. True/False. Statement: "A Day Trader's same-day-close rule would be different during a bull market versus a bear market."Two answer options "True" / "False" (correct). Reveal note: "Trading style rules stay constant regardless of overall market trend."
+5. Matching exercise. Prompt: "Match each term to its category." Terms: "Bull Market", "Bear Market", "Liquidity", "Volatility", "Index", "Holding Period" matched to three group headers: "Overall market context", "Stock-level behavior", and "Trading style concept".
+6. Scenario multiple choice. Prompt: "It's a bear market. A Day Trader is watching a highly liquid, currently calm stock. Suddenly, unexpected bad news hits and the stock's volatility spikes sharply. Following Day Trading's core rule, what must happen before the trading day ends?"Four answer options: (A) "The position must be closed, regardless of the bear market or the volatility spike" [correct], (B) "The position can be held overnight because it's a bear market", (C) "The position can be held overnight because of the volatility spike", (D) "Liquidity forces the position to stay open". Reveal note: "None of the context — bear market, volatility spike, liquidity — changes Day Trading's fundamental rule: always close before the day ends."
+
+All other relevant info: Source — combines 9-1, 9-2, and callbacks to Levels 1, 3, and 5. Prerequisite: 9-2. Hardest Repetition sub in Chapter 1 by design.

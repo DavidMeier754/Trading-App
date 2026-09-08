@@ -1,0 +1,18 @@
+Level: 12-1
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: New Theory
+Subcategory: Order & Spread Mechanics
+Learning Goal: User can compare how the same all-in cost affects Scalping versus Day Trading differently, reinforcing the Chapter 1 trading-style distinction with this chapter's cost concepts.
+Purpose: This explains why Scalpers care so much more about tiny cost differences than traders in other styles do — it's simple math, not overcaution.
+
+Screens:
+1. Title: "Same cost, very different impact." Body: "An $0.08 all-in cost means something very different to a Scalper making 40 trades a day than to a Day Trader making 4.".
+2. Text: "40 trades × $0.08 = $3.20 total cost for the Scalper's day. 4 trades × $0.08 = $0.32 for the Day Trader's day — same per-trade cost, very different daily total.".
+3. Text: "This is a direct consequence of holding period and trade frequency, first introduced back in Chapter 1.".
+4. Numeric multiple choice. Prompt: "A trader pays $0.06 all-in cost per trade and makes 25 trades in a day. What's the total cost impact for the day?"Four answer options: (A) "$1.50" [correct], (B) "$0.06", (C) "$0.25", (D) "$15.00". Reveal shows $0.06×25=$1.50.
+5. Scenario multiple choice. Prompt: "Trader A (Scalper) and Trader B (Day Trader) both pay identical $0.05 all-in cost per trade. Trader A makes 30 trades daily; Trader B makes 3. Whose daily costs, in total, are higher?"Four answer options: (A) "Trader A, due to far higher trade frequency" [correct], (B) "Trader B, due to longer holding periods", (C) "They are exactly equal", (D) "Cost totals don't depend on trade frequency". Reveal note: "Same per-trade cost, but Trader A's far higher frequency means a much larger total daily cost impact."
+6. True/False. Statement: "This means Scalping is always a worse choice than Day Trading."Two answer options "True" / "False" (correct). Reveal note: "Higher total costs are simply a trade-off of the Scalping style — not a verdict on which style is 'better.'"
+7. Scenario multiple choice. Prompt: "Given this cost dynamic, what does a Scalper generally need in order for their strategy to work out over many trades?"Four answer options: (A) "Enough winning trades, and tight enough costs, to outweigh the accumulated cost impact" [correct], (B) "Absolutely no losing trades, ever", (C) "A guarantee from their broker of profitability", (D) "Nothing — costs don't need to be outweighed". Reveal note: "This is exactly why stock selection, tight Spreads, and cost awareness — everything covered in this chapter — matter so much for Scalping to be viable at all."
+
+All other relevant info: Source — synthesized, connecting Chapter 1 (holding period/frequency) with Chapter 2 (cost concepts). Prerequisite: 11-2. Removed "per share-equivalent" phrasing flagged in the audit — now uses plain "total cost" language throughout. Deliberately neutral on Scalping vs. Day Trading value judgment.

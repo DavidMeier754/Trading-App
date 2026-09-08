@@ -1,0 +1,17 @@
+Level: 16-2
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: Repetition
+Subcategory: Repetition
+Learning Goal: User reinforces execution speed, slippage, and cost concepts from the middle third of the chapter (Levels 7-14) at high difficulty, as part 2 of the three-part final review.
+Purpose: This checkpoint covers the cost-and-technology half of the chapter — the part that determines whether a trade is actually worth taking.
+
+Screens:
+1. Text: "Final review, part 2 of 3 — speed, slippage, and costs.".
+2. Scenario multiple choice. Prompt: "A Scalper's order fills quickly, but at a price $0.04 worse than expected due to a fast-moving stock. Which concept explains this gap, and is it the same thing as the Spread?"Four answer options: (A) "Slippage — and no, it's a separate concept from Spread" [correct], (B) "Spread — and yes, they're the same thing", (C) "Transaction fees — unrelated to price movement", (D) "This gap cannot be explained by anything in this chapter". Reveal note: "This is slippage specifically — the expected-versus-actual price gap — kept conceptually separate from the static Bid/Ask Spread."
+3. Numeric scenario. Prompt: "All-in cost (Spread + slippage + fees) is $0.095 per trade. A Scalper makes 38 trades in a day. What's the approximate total daily cost impact?"Four answer options: (A) "$3.61" [correct], (B) "$0.095", (C) "$38.00", (D) "$36.10". Reveal shows $0.095×38≈$3.61.
+4. True/False. Statement: "Because Scalpers make more trades than Day Traders, the same per-trade cost improvement saves a Scalper more money in total over a day."Two answer options "True" (correct) / "False". Reveal note: "Higher frequency means the same improvement compounds into a bigger total benefit."
+5. Scenario multiple choice. Prompt: "A Scalper's connection drops for several seconds while they're relying on a fast Market Order strategy. Which TWO chapter themes does this scenario touch on at once?"Four answer options: (A) "Execution speed reliability, and the value of having a fallback plan" [correct], (B) "Only Spread size, nothing else", (C) "Only transaction fees, nothing else", (D) "Neither theme applies to this scenario". Reveal note: "Both apply directly — the connection failure threatens fast execution, which is exactly why a fallback plan matters."
+6. Matching exercise. Prompt: "Match each term to its definition." Terms: "Execution Speed", "Slippage", "All-In Cost", "Frequency Multiplication Effect", "Fallback Plan" matched to their definitions.
+
+All other relevant info: Source — combines Levels 7-1 through 14-2. Prerequisite: 16-1. Second of three Repetition subs forming the chapter's final review.

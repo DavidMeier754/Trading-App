@@ -1,0 +1,18 @@
+Level: 1-2
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: New Theory
+Subcategory: Order & Spread Mechanics
+Learning Goal: User understands that the Spread functions as an implicit cost paid on every trade.
+Purpose: Recognizing the Spread as a real cost — not just a display number — is the mental shift that makes everything else in this chapter make sense.
+
+Screens:
+1. Title: "Here's the part that matters most for you." Body: "Every time you buy at the Ask and would need to sell at the Bid, you effectively pay the Spread as a hidden cost.".
+2. Text: "Buy at $50.05 (the Ask), and if you immediately sold, you'd get $50.00 (the Bid) — a built-in $0.05 cost before anything else happens.".
+3. Text: "This is different from a broker commission — it's a natural cost baked into the market itself, on every single trade.".
+4. Multiple choice. Prompt: "Why does the Spread act like a cost to a trader?"Four answer options: (A) "Buying at the Ask and selling at the Bid means giving up the gap" [correct], (B) "Brokers charge the Spread as a separate fee", (C) "The Spread only applies to illegal trades", (D) "It doesn't act like a cost at all". Reveal note: "The Spread isn't a separate fee charged by anyone — it's the built-in gap you cross by buying high and selling low relative to the quote."
+5. Scenario multiple choice. Prompt: "A stock has Bid $30.00 and Ask $30.10. A trader buys at the Ask and immediately reverses the trade. Roughly how much would they be down, ignoring any other costs?"Four answer options: (A) "About $0.10 per share" [correct], (B) "About $30.00 per share", (C) "Nothing at all", (D) "It's impossible to estimate". Reveal note: "The $0.10 gap between Ask and Bid is the built-in cost of that round trip, before any other costs are added."
+6. True/False. Statement: "The Spread cost matters only for Scalpers and has little relevance to other traders."Two answer options "True" / "False" (correct). Reveal note: "Every trader can cross the Spread, but it is especially important for fast, small-profit trading — which is why Scalping is so sensitive to it."
+7. Fill-in-the-blank. Prompt: "Buying at the Ask and selling at the Bid means giving up the ___ as a built-in cost." Letter-tile input spelling "spread". Reveal note confirms the connection to earlier screens.
+
+All other relevant info: Source — Aziz, Scalping chapter. Prerequisite: 1-1.

@@ -1,0 +1,18 @@
+Level: 8-1
+Chapter: 1 — Market Basics
+Path: Scalping (identical across all paths)
+Category: New Theory
+Subcategory: Market Structure
+Learning Goal: User understands that news and company events are a primary driver of sudden supply/demand shifts and resulting volatility.
+Purpose: Sudden price moves usually have a specific trigger — recognizing news as one of the biggest triggers helps you make sense of otherwise-confusing price action.
+
+Screens:
+1. Title: "So what actually shifts supply and demand suddenly?" Body: "One of the biggest triggers is news — announcements about a company that change how people feel about it fast.".
+2. Text: "A company reports surprisingly strong earnings — suddenly, far more people want to buy than sell.".
+3. Contrast example. Text: "The opposite happens too: bad news can flip a calm stock into heavy selling within minutes.".
+4. Multiple choice. Prompt: "What might cause a sudden increase in demand for a stock?"Four answer options: (A) "Unexpectedly strong company news, like better-than-expected earnings" [correct], (B) "A new stock market building opening somewhere", (C) "A random daily system reset", (D) "The CEO's birthday being publicly known". Reveal note: "Real news that changes expectations about a company is what tends to move demand."
+5. Scenario multiple choice. Prompt: "A normally calm, low-volatility stock suddenly reports disappointing news. What's the likely short-term effect on its volatility?"Four answer options: (A) "Volatility likely increases as the price reacts sharply" [correct], (B) "Volatility stays exactly the same regardless of news", (C) "The stock becomes more liquid but less volatile", (D) "Volatility only changes with government approval". Reveal note: "Sudden news often causes a temporary volatility spike, even in stocks that are normally calm."
+6. True/False. Statement: "Company news and events can never meaningfully affect a stock's price."Two answer options "True" / "False" (correct). Reveal note: "News is one of the most direct ways a stock's supply and demand can shift quickly."
+7. Fill-in-the-blank. Prompt: "A company's price swings sharply after an announcement mainly because the news changed how people ___ about the company's future." Letter-tile input spelling "feel". Reveal note: "Price often reacts to changed expectations and sentiment, not just hard facts alone."
+
+All other relevant info: Source — Aziz, Ch. 2 (simplified). Prerequisite: 7-1.

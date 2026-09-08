@@ -1,0 +1,19 @@
+Level: 6-1
+Chapter: 1 — Market Basics
+Path: Scalping (identical across all paths)
+Category: New Theory
+Subcategory: Market Structure
+Learning Goal: User can read a basic stock quote (current price, and whether it's up or down for the day) — a foundational screen-reading skill every later chapter assumes.
+Purpose: Every screen in this app that shows a stock will use this same basic quote format — learning to read it now means nothing will feel unfamiliar later.
+
+Screens:
+1. Title: "Let's look at the simplest way a stock is shown." Body: "Most apps display a stock's current price, plus how much it has changed relative to the daily reference price — usually the previous close — in dollars and percent.".
+2. Zoomed quote mock showing "$142.50" in large text. Text: "This is the current price — what the stock is trading at right now.".
+3. Same, showing "+$2.10 (+1.5%)" in green below the price. Text: "Green with a plus sign means the price is up compared with the previous close or daily reference price.".
+4. Same, showing "-$1.80 (-1.2%)" in red. Text: "Red with a minus sign means the price is down compared with the previous close or daily reference price.".
+5. Identification exercise. Prompt: "Identify the part of this quote that shows the price is falling today." The quote shows "$88.20" and, "-$0.95 (-1.1%)" in red;"
+6. Multiple choice. Prompt: "A stock shows '+$3.40 (+2.1%)' in green. What does this tell you?"Four answer options: (A) "The price is up $3.40, or 2.1%, compared with the previous close or daily reference price" [correct], (B) "The stock will keep rising tomorrow", (C) "The company just issued new shares", (D) "The stock is now the most valuable in the market". Reveal note: "It tells you the move relative to the daily reference price — nothing about tomorrow or overall company size."
+7. True/False. Statement: "A red, negative number next to a stock price always means the company is failing."Two answer options "True" / "False" (correct). Reveal note: "It only reflects the stock's move relative to the reference price — one red day says nothing about a company's overall health."
+8. Scenario multiple choice. Prompt: "You see a stock at '$54.00', with '+$0.00 (0.0%)' beneath it. What does this mean?"Four answer options: (A) "The price is currently unchanged from the daily reference price" [correct], (B) "The stock has never traded before", (C) "This combination is impossible", (D) "The stock is halted permanently". Reveal note: "Zero change simply means no net movement right now — it may or may not have moved earlier in the day."
+
+All other relevant info: Source — Aziz, Ch. 2 (quote-reading basics, generalized, no specific platform endorsed). Prerequisite: 5-2. Added to fill a genuine content gap identified during the v5 audit — later chapters assume the user can already read a basic price quote.

@@ -1,0 +1,18 @@
+Level: 11-1
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: New Theory
+Subcategory: Order & Spread Mechanics
+Learning Goal: User understands that transaction costs (fees, commissions) are a separate cost layer on top of Spread and slippage, and that even small per-trade fees add up at Scalping's high frequency.
+Purpose: This is the last cost layer to know about — after this, you'll have the complete picture of what a trade really costs a Scalper.
+
+Screens:
+1. Title: "One more cost layer: transaction costs." Body: "Beyond Spread and slippage, many brokers charge some form of fee or commission per trade — another cost stacking on top.".
+2. Text: "This app won't recommend specific brokers or fee structures — but understanding that fees exist and add up is essential regardless of which broker you eventually choose.".
+3. Text: "A $1 fee feels tiny on one trade. Across 50 trades in a single day, that's $50 — before counting Spread or slippage at all.".
+4. Multiple choice. Prompt: "Why do even small transaction fees matter significantly for Scalpers specifically?"Four answer options: (A) "Scalpers make many trades per day, so small fees multiply quickly" [correct], (B) "Scalpers are charged higher fees than any other trader by law", (C) "Transaction fees only apply to Limit Orders", (D) "Fees don't actually affect Scalpers at all". Reveal note: "It's the multiplication across many trades that makes this cost layer significant for Scalping."
+5. Numeric scenario. Prompt: "A Scalper pays a small fee of $0.50 per trade and makes 40 trades in a day. What's the total fee cost for that day alone?"Four answer options: (A) "$20.00" [correct], (B) "$0.50", (C) "$2.00", (D) "$200.00". Reveal shows $0.50 × 40 = $20.00.
+6. True/False. Statement: "Transaction fees are the same thing as the Spread."Two answer options "True" / "False" (correct). Reveal note: "Fees are a separate cost charged by a broker; Spread is a market-driven price gap."
+7. Scenario multiple choice. Prompt: "Considering Spread, slippage, AND transaction fees together, what does this suggest about how many trades a Scalper should aim to make per day?"Four answer options: (A) "Quality and selectivity matter — more trades isn't automatically better once all costs are considered" [correct], (B) "As many trades as physically possible, with no limit", (C) "Costs don't factor into how many trades to make", (D) "Exactly 100 trades per day is the industry standard". Reveal note: "Once Spread, slippage, and fees are all stacked together, trade quality and selectivity become just as important as speed or frequency."
+
+All other relevant info: Source — Aziz, Scalping chapter (transaction cost awareness, no specific broker fee structure endorsed). Prerequisite: 10-1.

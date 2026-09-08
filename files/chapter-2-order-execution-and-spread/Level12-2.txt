@@ -1,0 +1,17 @@
+Level: 12-2
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: New Theory
+Subcategory: Order & Spread Mechanics
+Learning Goal: User understands that lower per-trade costs become disproportionately valuable at Scalping's high frequency.
+Purpose: This is the mathematical payoff for everything this chapter has taught — small improvements in cost translate into real, compounding savings.
+
+Screens:
+1. Title: "Which means: small savings matter a lot here." Body: "If frequency multiplies costs, it also multiplies SAVINGS — shaving a few cents off your all-in cost pays off many times over across a day.".
+2. Text: "Cutting all-in cost from $0.08 to $0.05 per trade saves $0.03. Across 40 trades, that's $1.20 saved in a single day from that one improvement.".
+3. Numeric multiple choice. Prompt: "A Scalper reduces their all-in cost by $0.02 per trade through better stock selection, and makes 35 trades a day. How much does this save over the day?"Four answer options: (A) "$0.70" [correct], (B) "$0.02", (C) "$35.00", (D) "$7.00". Reveal shows $0.02×35=$0.70.
+4. True/False. Statement: "Small per-trade cost reductions are essentially meaningless for Scalpers due to how tiny each individual saving is."Two answer options "True" / "False" (correct). Reveal note: "The opposite is true — high frequency means small savings compound into meaningful totals, exactly like costs do."
+5. Scenario multiple choice. Prompt: "Looking back at this entire chapter, which combination would most reduce a Scalper's all-in cost per trade?"Four answer options: (A) "A highly liquid stock, tight Spread relative to movement, fast execution, and minimal slippage" [correct], (B) "A low-liquidity stock with a wide Spread and slow execution", (C) "Trade frequency alone, regardless of any other factor", (D) "The specific time of day only, with nothing else considered". Reveal note: "This combination directly reflects everything covered across the chapter."
+6. Fill-in-the-blank. Prompt: "Because Scalpers trade so often, small ___ in per-trade cost can add up to meaningful totals across a day." Letter-tile input spelling "savings" (or "reductions"). Reveal note confirms the multiplication-of-savings theme.
+
+All other relevant info: Source — synthesized from Aziz, Scalping chapter. Prerequisite: 12-1. This sub deliberately synthesizes nearly the entire chapter's content as a mid-point capstone before the final third of the chapter.

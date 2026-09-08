@@ -1,0 +1,21 @@
+Level: 10-1
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: Test
+Subcategory: Test
+Learning Goal: Verify retention and application of Bid/Ask/Spread, why Spread matters more for Scalping, quote reading, Spread stability, Market vs. Limit orders, execution speed, slippage, and combined execution costs — all concepts from Levels 1 through 9.
+Purpose: A checkpoint to confirm the cost-and-execution fundamentals are solid before the second half of the chapter builds on them.
+
+Screens:
+1. Text: "Halfway checkpoint — let's see what's sticking."
+2. Numeric multiple choice. Prompt: "Bid $88.30, Ask $88.37. What is the Spread?"Four answer options: (A) "$0.07" [correct], (B) "$0.70", (C) "$88.30", (D) "$176.67".
+3. Scenario multiple choice. Prompt: "A Scalper targets $0.10 profit per share; the Spread is $0.07. What does this suggest?"Four answer options: (A) "The Spread consumes 70% of the target — likely a poor candidate" [correct], (B) "This is an ideal, low-cost trade setup", (C) "Spread size is irrelevant to profit targets", (D) "The target should be ignored entirely".
+4. Multiple choice. Prompt: "A quote shows Bid $22.10, Ask $22.15, Last Trade $22.13. Which value represents the price the most recent trade actually executed at?"Four answer options: (A) "$22.13, the Last Trade" [correct], (B) "$22.10, the Bid", (C) "$22.15, the Ask", (D) "None of these values represent an actual trade".
+5. Multiple choice. Prompt: "Why can a Spread that looked tight a few seconds ago no longer be reliable when placing a trade?"Four answer options: (A) "Spreads shift constantly, especially around news or low-activity periods" [correct], (B) "Spreads are legally fixed once displayed", (C) "Quote panels only update once per day", (D) "This situation can never actually happen".
+6. Scenario multiple choice. Prompt: "A Scalper needs to enter a fast-moving, brief opportunity immediately, accepting the current price rather than waiting. Which order type fits, and why is this common in Scalping specifically?"Four answer options: (A) "Market Order — speed often outweighs price precision when opportunities are brief" [correct], (B) "Limit Order — because price precision always matters more", (C) "Neither order type applies here", (D) "Order type never matters for time-sensitive trades".
+7. Multiple choice. Prompt: "Why does execution speed matter more in Scalping than in Swing Trading?"Four answer options: (A) "Scalping's short timeframes make small delays proportionally more significant" [correct], (B) "Execution speed is identical across all trading styles", (C) "Swing Traders face stricter speed requirements", (D) "Speed only matters for Limit Orders".
+8. Numeric scenario. Prompt: "A trade has a $0.05 Spread and $0.02 of unfavorable slippage on entry. Against a $0.20 profit target, what percentage has been consumed before the trade even moves in the trader's favor?"Four answer options: (A) "35%" [correct], (B) "5%", (C) "2%", (D) "0%".
+9. True/False. Statement: "Execution speed and Spread size are the same thing measured two different ways."Two answer options "True" / "False" (correct).
+10. Scenario multiple choice. Prompt: "A Scalper uses a Market Order for speed, but the stock has a wide Spread and notable slippage, consuming most of their small target profit. What is the most likely root issue?"Four answer options: (A) "Poor stock selection — the Spread-to-target ratio was unfavorable from the start" [correct], (B) "The order type itself was the mistake", (C) "This is a normal and ideal outcome for Scalping", (D) "Execution speed was too fast".
+
+All other relevant info: No new content — retention and application check across Levels 1-9, now explicitly including a quote-panel-reading question (screen 4) that was missing from the prior version. Prerequisite: 9-1. Placed at the middle of the chapter. Has no subs. 9 scored questions total (screens 2-10), matching the "0/9" intro counter exactly. Summary screen: "X/9 correct", gentle tone, per-question review list with.

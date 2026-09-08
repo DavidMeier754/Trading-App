@@ -1,0 +1,19 @@
+Level: 3-2
+Chapter: 1 — Market Basics
+Path: Scalping (identical across all paths)
+Category: New Theory
+Subcategory: Market Structure
+Learning Goal: User can distinguish Day Trading, Swing Trading, and Scalping by holding period and general screen-time tendency.
+Purpose: Knowing what makes your chosen path different from the other two helps you understand why this app teaches things in the specific order it does.
+
+Screens:
+1. Title: "Meet the three styles." Body: "Scalping, Day Trading, and Swing Trading — same market, very different rhythms.".
+2.1/3. Text: "Scalping". Text: "Positions held for seconds to minutes. The fastest, most intense style.".
+3.2/3. Text: "Day Trading". Text: "Positions held for minutes to hours — but always closed before the trading day ends.".
+4.3/3. Text: "Swing Trading". Text: "Positions held for days to weeks, sometimes even over a weekend.".
+5. Informational screen (not a question). Horizontal bar chart showing "typical daily screen time" for each style: Scalping (longest bar), Day Trading (medium bar), Swing Trading (shortest bar). Caption: "More trades per day generally means more time watching the screen — though this varies trader to trader.".
+6. Matching exercise. Prompt: "Match each style to its holding period."Three terms: "Scalping", "Day Trading", "Swing Trading" matched to "Seconds to minutes", "Minutes to hours, same day", "Days to weeks".
+7. Multiple choice. Prompt: "Which style tends to need the least daily screen time, generally speaking?"Four answer options: (A) "Swing Trading" [correct], (B) "Day Trading", (C) "Scalping", (D) "They all require exactly the same amount". Reveal note: "Swing Trading's longer holding period generally means less need to watch the screen constantly — though individual habits vary."
+8. Scenario multiple choice. Prompt: "A trader usually holds positions for minutes to hours, closes out every position before the trading day ends, and makes several trades throughout the session. Which style best fits?"Four answer options: (A) "Day Trading" [correct], (B) "Swing Trading", (C) "Scalping", (D) "Not enough information to tell". Reveal note: "Minutes to hours, multiple trades, and same-day closing is the Day Trading pattern — Scalping is usually much shorter in duration and more intense."
+
+All other relevant info: Source — synthesized, path-agnostic comparison. Prerequisite: 3-1. This sub is the most important reference point in Chapter 1 — flagged for frequent reuse in Repetition sub-levels across all later chapters.

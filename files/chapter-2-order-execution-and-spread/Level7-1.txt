@@ -1,0 +1,18 @@
+Level: 7-1
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: New Theory
+Subcategory: Order & Spread Mechanics
+Learning Goal: User understands that order execution speed (the time between placing and filling an order) is a critical factor in Scalping.
+Purpose: Even a fraction of a second can separate a good fill from a bad one at Scalping's pace — understanding why helps you take execution speed seriously.
+
+Screens:
+1. Title: "There's a gap between clicking 'buy' and the trade actually happening." Body: "Execution speed is how fast your order actually gets filled after you submit it — and for Scalpers, that gap matters a lot.".
+2. Text: "A half-second delay might be irrelevant for a Swing Trader holding for two weeks. For a Scalper, half a second can mean a completely different price.".
+3. Text: "This is why platform choice and connection quality matter far more in Scalping than in slower trading styles.".
+4. Multiple choice. Prompt: "Why does execution speed matter more for Scalping than for Swing Trading?"Four answer options: (A) "Scalping's short timeframes mean small delays can significantly change outcomes" [correct], (B) "Execution speed is identical for every trading style", (C) "Swing Traders are legally required to use faster execution", (D) "Execution speed only affects Limit Orders, never Market Orders". Reveal note: "Scalping's second-by-second nature makes even small execution delays proportionally significant."
+5. Scenario multiple choice. Prompt: "Two Scalpers submit a Market buy order for the same stock at nearly the same instant. One's order fills 0.1 seconds faster than the other's. In a fast-moving stock, what could this mean?"Four answer options: (A) "They could end up filled at meaningfully different prices" [correct], (B) "They are guaranteed to get the exact same price", (C) "The slower one automatically gets a better price", (D) "Execution speed never affects fill price". Reveal note: "In a fast-moving stock, even fractions of a second can separate very different fill prices."
+6. True/False. Statement: "Execution speed is something only professional trading firms need to think about, never individual Scalpers."Two answer options "True" / "False" (correct). Reveal note: "Any Scalper, not just large firms, is affected by execution speed."
+7. Fill-in-the-blank. Prompt: "The time between submitting an order and it actually filling is called ___ speed." Letter-tile input spelling "execution". Reveal note confirms the term.
+
+All other relevant info: Source — Aziz, Scalping chapter (execution speed emphasis). Prerequisite: 6-2. No specific broker/platform/hardware endorsed.

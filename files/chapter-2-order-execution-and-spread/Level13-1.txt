@@ -1,0 +1,18 @@
+Level: 13-1
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: Repetition
+Subcategory: Repetition
+Learning Goal: User reinforces and combines all cost-related concepts from Levels 11-12 (transaction fees, all-in cost, frequency multiplication, and the cost-to-target ratio) at increased difficulty.
+Purpose: This locks in the cost math that underlies every trade decision in Scalping — worth being fast and confident with before moving to technology topics.
+
+Screens:
+1. Text: "Let's make sure the cost math is second nature.".
+2. Title: "One more useful term: cost-to-target ratio." Body: "This is just the all-in cost divided by your target profit, shown as a percentage — the single number that tells you how favorable a trade setup is.".
+3. Numeric multiple choice. Prompt: "Spread $0.06, slippage $0.03, fees $0.015. What is the all-in cost per trade?"Four answer options: (A) "$0.105" [correct], (B) "$0.06", (C) "$0.09", (D) "$0.15". Reveal shows the addition worked out precisely.
+4. Numeric scenario. Prompt: "All-in cost is $0.07 per trade. A Scalper makes 45 trades in a day. What's the total daily cost impact?"Four answer options: (A) "$3.15" [correct], (B) "$0.07", (C) "$45.00", (D) "$31.50". Reveal shows $0.07×45=$3.15.
+5. True/False. Statement: "Since frequency multiplies both costs and savings, a Scalper's stock and execution quality choices matter less than for other trading styles."Two answer options "True" / "False" (correct). Reveal note: "It's the reverse — because frequency multiplies everything, stock and execution quality choices matter MORE for Scalpers, not less."
+6. Scenario multiple choice. Prompt: "A Day Trader and a Scalper both improve their all-in cost by the same $0.02 per trade. Whose total daily savings benefit more from this improvement, given typical trade frequency for each style?"Four answer options: (A) "The Scalper, due to significantly higher trade frequency" [correct], (B) "The Day Trader, due to longer holding periods", (C) "Both benefit identically regardless of frequency", (D) "Neither benefits at all from cost improvements". Reveal note: "Same logic as before — higher frequency means the same per-trade improvement adds up to more total savings."
+7. Matching exercise. Prompt: "Match each term to its correct definition." Terms: "Transaction Fee", "All-In Cost", "Frequency Multiplication Effect", "Cost-to-Target Ratio" matched to their four definitions.
+
+All other relevant info: Source — combines Levels 11-1 through 12-2. Prerequisite: 12-2. Added screen 2 (theory defining cost-to-target ratio) per audit finding — this term previously appeared only in the matching exercise without being taught first.

@@ -1,0 +1,20 @@
+4. Text: "Institutional Investor". Text: "Big funds, banks, and firms trading very large amounts of money."
+Level: 2-2
+Chapter: 1 — Market Basics
+Path: Scalping (identical across all paths)
+Category: New Theory
+Subcategory: Market Structure
+Learning Goal: User can name the main types of market participants (retail traders, market makers, institutional investors).
+Purpose: Sudden, unexplained price jumps often come from these bigger players — recognizing who else is in the market helps you understand why prices sometimes move the way they do.
+
+Screens:
+1. Title: "You're not the only one out there." Body: "Different types of players are active in the market at the same time as you, each with different goals and different amounts of money.".
+2.1/3. Text: "Retail Trader". Text: "That's individuals like you, trading with personal money.".
+3.2/3. Text: "Market Maker". Text: "A market maker constantly offers to buy AND sell, helping keep trading smooth.".
+4. Text: "Institutional Investor". Text: "Big funds, banks, and firms trading very large amounts of money."
+5. Matching exercise. Prompt: "Match each participant to its description."Three terms: "Retail Trader", "Market Maker", "Institutional Investor" matched to their three definitions.
+6. Multiple choice. Prompt: "Which type of participant typically moves the largest amounts of money in a single trade?"Four answer options: (A) "Institutional investor" [correct], (B) "Retail trader", (C) "Market maker", (D) "None of them trade large amounts". Reveal note: "Institutional investors often move far more money per trade than an individual retail trader."
+7. Scenario multiple choice. Prompt: "A stock suddenly gets a wave of very large trades within seconds, all at once. Which type of participant is this most likely to be?"Four answer options: (A) "An institutional investor" [correct], (B) "A single retail trader with a small account", (C) "The company's own employees", (D) "A random computer glitch". Reveal note: "Sudden large trades are a common sign of institutional activity."
+8. True/False. Statement: "A market maker's main job is to constantly buy and sell to help keep trading active."Two answer options "True" (correct) / "False". Reveal note: "That constant two-sided activity is exactly what a market maker provides."
+
+All other relevant info: Source — Aziz, Ch. 1-2 (market participants, simplified). Prerequisite: 2-1.

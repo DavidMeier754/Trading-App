@@ -1,0 +1,19 @@
+Level: 3-1
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: New Theory
+Subcategory: Order & Spread Mechanics
+Learning Goal: User can read Bid, Ask, and Spread directly from a realistic quote display UI element.
+Purpose: Every real trading platform shows this same information — practicing reading it here means the real thing won't feel unfamiliar.
+
+Screens:
+1. Title: "Let's look at a real quote screen." Body: "Trading platforms show Bid and Ask live — knowing where to look is a practical skill on its own.".
+2. Zoomed. Text: "This number is the Bid.".
+3. Same panel,. Text: "This number is the Ask.".
+4. Same panel,. Text: "Some platforms calculate the Spread for you automatically.".
+5. Identification exercise. Prompt: "Identify the Ask price in this quote." The quote shows Bid ($45.20), Ask ($45.24), and Last Trade ($45.22). Reveal: "Ask — $45.24."
+6. Multiple choice. Prompt: "Based on the quote (Bid $45.20, Ask $45.24), what is the Spread?"Four answer options: (A) "$0.04" [correct], (B) "$45.20", (C) "$45.24", (D) "$90.44". Reveal shows the subtraction $45.24 − $45.20 = $0.04.
+7. Scenario multiple choice. Prompt: "The quote shows a 'Last Trade' price of $45.22, between the Bid and Ask. What does this most likely represent?"Four answer options: (A) "The price at which the most recent trade actually executed" [correct], (B) "A typo in the platform", (C) "The average of all trades ever made", (D) "A prediction of tomorrow's price". Reveal note: "Last Trade shows what actually just happened — it often sits between Bid and Ask but isn't guaranteed to."
+8. True/False. Statement: "On most platforms, you have to calculate the Spread yourself with no help from the interface."Two answer options "True" / "False" (correct). Reveal note: "Many platforms display the Spread automatically — but knowing how to verify it yourself is still valuable."
+
+All other relevant info: Source — Aziz, Scalping chapter (platform reading skills, generalized, no specific broker platform endorsed). Prerequisite: 2-2.

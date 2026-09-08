@@ -1,0 +1,18 @@
+Level: 3-1
+Chapter: 1 — Market Basics
+Path: Scalping (identical across all paths)
+Category: New Theory
+Subcategory: Market Structure
+Learning Goal: User understands that "trading style" is defined by holding period, setting up the style comparison in the next sub.
+Purpose: You picked a path (Day Trading, Swing Trading, or Scalping) when you started this app — this level explains exactly what that choice actually means.
+
+Screens:
+1. Title: "Not everyone trades the same way." Body: "The biggest difference between traders isn't what they buy — it's how LONG they hold a position before selling.".
+2. Title: "This is called your holding period." Body: "Some traders hold for seconds. Others hold for months or years. Where you land shapes everything else about how you trade.".
+3. Multiple choice. Prompt: "What mainly defines someone's 'trading style'?"Four answer options: (A) "How long they hold a position before selling" [correct], (B) "Which mobile app they use to trade", (C) "How much money is in their account", (D) "Their age or job title". Reveal note: "Holding period is the defining feature — not the app, the balance, or who you are."
+4. Text: "This app teaches trading through specific 'paths' — but they all share this same holding-period idea underneath.".
+5. True/False. Statement: "Holding period only matters for very experienced traders, not beginners."Two answer options "True" / "False" (correct). Reveal note: "Holding period matters from day one — it's one of the very first decisions any trader makes."
+6. Scenario multiple choice. Prompt: "Trader A closes every position before the market closes each day. Trader B keeps positions open for two weeks. What's different about them?"Four answer options: (A) "Their holding periods" [correct], (B) "Trader A is younger", (C) "Trader B uses more money", (D) "Nothing meaningful is different". Reveal note: "That gap between 'same day' and 'two weeks' IS the holding period difference."
+7. Fill-in-the-blank. Prompt: "The length of time a trader keeps a position open before closing it is called the trader's holding ___." Letter-tile input spelling "period". Reveal note: "Holding period — the term you'll see throughout this app."
+
+All other relevant info: Source — synthesized from Aziz (Day Trading), Aziz & Pezim (Swing Trading), Aziz Scalping chapter — presented neutrally. Prerequisite: 2-2.

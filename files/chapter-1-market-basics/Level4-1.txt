@@ -1,0 +1,19 @@
+Level: 4-1
+Chapter: 1 — Market Basics
+Path: Scalping (identical across all paths)
+Category: New Theory
+Subcategory: Market Structure
+Learning Goal: User can name the three market phases (pre-market, regular hours, after-hours) and their rough timing.
+Purpose: Knowing when markets are actually most active helps you understand why the same stock can behave very differently depending on the time of day.
+
+Screens:
+1. Title: "Markets don't just flip on and off." Body: "Each trading day actually has three phases, not one single 'open' period.".
+2.1/3."Pre-Market". Text: "Happens before the main session — fewer traders are active, prices can jump around more.".
+3.2/3."Regular Hours". Text: "The main event — most trading activity happens here, with generally more stable prices.".
+4.3/3."After-Hours". Text: "Happens after the main session closes — similar to pre-market, lower activity, bigger price swings possible.".
+5. Multiple choice. Prompt: "Which phase usually has the MOST trading activity?"Four answer options: (A) "Regular hours" [correct], (B) "Pre-market", (C) "After-hours", (D) "All three are always identical". Reveal note: "Regular hours draw the most participants, which tends to make prices more stable there."
+6. Scenario multiple choice. Prompt: "A stock jumps sharply in price right before the main session opens, then calms down once regular trading begins. What likely explains this?"Four answer options: (A) "Lower activity in pre-market makes prices more prone to big swings" [correct], (B) "The company changed its name overnight", (C) "Regular hours always cause price jumps", (D) "This can never actually happen". Reveal note: "Fewer traders in pre-market means each trade has a bigger relative impact on price."
+7. True/False. Statement: "After-hours trading has the exact same activity level as regular hours."Two answer options "True" / "False" (correct). Reveal note: "After-hours, like pre-market, tends to see noticeably less activity than the regular session."
+8. Matching exercise. Prompt: "Match each phase to its description."Three terms: "Pre-Market", "Regular Hours", "After-Hours" matched to "Before the main session, lower activity", "The main session, highest activity", "After the main session, lower activity".
+
+All other relevant info: Source — Aziz, Ch. 2. Prerequisite: 3-3.

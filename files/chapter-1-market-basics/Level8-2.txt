@@ -1,0 +1,18 @@
+Level: 8-2
+Chapter: 1 — Market Basics
+Path: Scalping (identical across all paths)
+Category: New Theory
+Subcategory: Market Structure
+Learning Goal: User understands what a broker is, why a brokerage account is needed, and how the broker fits into the real trading flow before any order is placed.
+Purpose: Before you can place a single real trade, you need this piece of the puzzle — knowing what a broker actually does removes a common point of confusion for beginners and prepares you for real execution later.
+
+Screens:
+1. Title: "One more piece: how do you actually place a trade?" Body: "You cannot trade directly on the exchange yourself. You need a broker, which is the company or platform that connects you to the market and lets you submit orders.".
+2. Text: "A brokerage account is where your money, order history, and any shares you own are held and tracked. In ordinary language, this is the account you use to buy and sell.".
+3. Text: "The broker is not the company whose stock you trade. It is the service that gives you access to the market. Different brokers have different fees, account types, and rules, but the basic idea is the same.".
+4. Multiple choice. Prompt: "What is the main role of a broker?"Four answer options: (A) "Connecting you to the market so you can place trades" [correct], (B) "Setting the price of every stock", (C) "Owning all publicly traded companies", (D) "Guaranteeing that every trade makes money". Reveal note: "A broker is the connection point — it does not set prices or guarantee outcomes."
+5. True/False. Statement: "A broker guarantees that you will make money on your trades."Two answer options "True" / "False" (correct). Reveal note: "No broker or app can guarantee profit — outcomes depend on the trades you choose to make and the market conditions."
+6. Scenario multiple choice. Prompt: "A new trader wants to buy shares of a company for the first time. What do they need first, before anything else?"Four answer options: (A) "A brokerage account" [correct], (B) "Permission from the company itself", (C) "A university degree in finance", (D) "Approval from another trader". Reveal note: "A brokerage account is the entry point — without it, there's no way to place the trade at all."
+7. Matching exercise. Prompt: "Match each term to its role." Terms: "Broker" and "Brokerage Account" matched to "Connects you to the market and lets you place orders" and "Holds your money and tracks your positions".
+
+All other relevant info: Source — synthesized from broker basics and brokerage account concepts, simplified and generalized. Prerequisite: 8-1. This level is intentionally practical and beginner-friendly without endorsing a specific broker or promising returns.

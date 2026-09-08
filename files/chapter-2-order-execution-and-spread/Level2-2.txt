@@ -1,0 +1,18 @@
+Level: 2-2
+Chapter: 2 — Order Execution and Spread
+Path: Scalping
+Category: New Theory
+Subcategory: Order & Spread Mechanics
+Learning Goal: User can identify red flags that a stock's Spread is too wide for viable Scalping.
+Purpose: This gives you a practical, repeatable method to judge any stock before risking a trade on it, instead of guessing.
+
+Screens:
+1. Title: "So how do you actually spot a bad Spread?" Body: "You compare the Spread size to the stock's typical price movement — not just look at the raw number alone.".
+2. Text: "A $0.05 Spread on a stock that moves $0.50 a day is very different from that same $0.05 Spread on a stock that only moves $0.10 a day.".
+3. Text: "In the first case, the Spread is small relative to movement. In the second, it eats up half the entire daily range.".
+4. Multiple choice. Prompt: "What should a Scalper compare the Spread against, to judge if it's too wide?"Four answer options: (A) "The stock's typical price movement/volatility" [correct], (B) "The company's total number of employees", (C) "The current time of day only", (D) "The Spread should never be compared to anything else". Reveal note: "Comparing Spread to typical movement tells you whether there's realistically enough room to profit after crossing it."
+5. Scenario multiple choice. Prompt: "Stock A: Spread $0.03, typical daily range $0.60. Stock B: Spread $0.03, typical daily range $0.08. Which is the more viable Scalping candidate, all else equal?"Four answer options: (A) "Stock A — the Spread is small relative to its movement" [correct], (B) "Stock B — identical Spread means identical viability", (C) "Neither is viable due to having any Spread at all", (D) "Both are equally viable regardless of range". Reveal note: "Same raw Spread, very different story — Stock A leaves far more realistic room to profit."
+6. True/False. Statement: "A wider raw Spread number always means a worse Scalping candidate, regardless of the stock's typical price movement."Two answer options "True" / "False" (correct). Reveal note: "Raw Spread size alone is misleading — it always needs to be judged relative to typical movement."
+7. Fill-in-the-blank. Prompt: "Judging Spread quality means comparing it to the stock's typical ___, not looking at the raw number alone." Letter-tile input spelling "movement" (or "range"). Reveal note confirms the comparison principle.
+
+All other relevant info: Source — Aziz, Scalping chapter. Prerequisite: 2-1.
