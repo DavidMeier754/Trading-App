@@ -73,7 +73,7 @@ Folder: `content/paths/scalping/chapter-03-orders-costs-position-size/`
 
 10 levels, 17 subs.
 
-### Chapter 4 — Reading Fast Markets — planned
+### Chapter 4 — Reading Fast Markets — written
 
 Folder: `content/paths/scalping/chapter-04-reading-fast-markets/`. Sources: Aziz (scalping chapter, Level 2), Bellafiore (tape), Volman (price action), Murphy/Nison (candles). Contains the path's one fan-out.
 
@@ -90,7 +90,7 @@ Folder: `content/paths/scalping/chapter-04-reading-fast-markets/`. Sources: Aziz
 | 9 | Two Timeframes | 9-1 | 5-min context, 1-min trigger; never fight the 5-min |
 | 10 | Final Exam | 10-1 F | 12 questions → badge |
 
-10 levels, 16 subs. New terms: VWAP, Confluence, Doji, Engulfing candle, Rejection, Tape, Print, Stacking, Pulling, Halt, Opening drive, Reclaim, Failed test.
+10 levels, 17 subs. New terms: VWAP, Confluence, Doji, Engulfing candle, Rejection, Tape, Print, Stacking, Pulling, Halt, Opening drive, Reclaim, Failed test.
 
 ### Chapter 5 — Risk & Psychology for Scalpers — planned
 

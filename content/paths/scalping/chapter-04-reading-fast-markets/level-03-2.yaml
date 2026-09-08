@@ -1,0 +1,114 @@
+id: "3-2"
+title: "Candle Signals on the 1-Minute"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [confluence, candles, volume]
+learning_goal: "User only calls a candle a signal when a marked level and the volume agree with it, and treats a lone candle as noise."
+purpose: "Most losing scalps come from acting on one piece of evidence — this is the filter that removes them."
+terms_introduced: ["Confluence"]
+prerequisite: "3-1"
+xp: 20
+difficulty: 2
+sources: ["Murphy — Technical Analysis of the Financial Markets", "Volman — Understanding Price Action"]
+screens:
+  - type: intro
+    text: "One candle is noise. A candle, at a level, on real volume is a signal."
+
+  - type: theory
+    title: "Confluence"
+    body: "Confluence is two or more independent reasons pointing the same way at the same price: a level, VWAP, a candle, the volume. The more that agree, the fewer surprises you get."
+
+  - type: example
+    body: "XYZ stalls at $44.00. VWAP has risen to $44.02, the candle leaves a long upper wick, and volume is the biggest of the hour. One price, three reasons."
+
+  - type: checklist-reveal
+    title: "Before you call it a signal"
+    items:
+      - "Is price at a level you marked before the open?"
+      - "Does the candle show one side clearly winning the minute?"
+      - "Is volume bigger than the candles around it?"
+      - "Does VWAP point the same way?"
+
+  - type: chart-decision
+    scenario: "XYZ pulls back into VWAP at $61.30, which is also yesterday's close. The candle there is a rejection with a long lower wick on double the recent volume. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[61.60, 61.66, 61.52, 61.54], [61.54, 61.58, 61.44, 61.46], [61.46, 61.50, 61.38, 61.40], [61.40, 61.44, 61.32, 61.36], [61.36, 61.38, 61.28, 61.33], [61.33, 61.40, 61.24, 61.38], [61.38, 61.50, 61.36, 61.48], [61.48, 61.58, 61.46, 61.56], [61.56, 61.64, 61.52, 61.62], [61.62, 61.68, 61.58, 61.64]]
+      vwap: [61.31, 61.31, 61.30, 61.30, 61.30, 61.30, 61.31, 61.32, 61.33, 61.34]
+      volume: [5200, 4800, 4100, 3600, 3300, 9400, 6800, 6100, 5400, 4900]
+      levels:
+        - {price: 61.30, label: "Yesterday's close"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It turned at the line and reached $61.64 — $0.26 per share, +$260 long on 1,000 shares from $61.38."
+    explanation: "Level, VWAP, rejection candle and volume all at one price: that is confluence, and it is where the odds are best."
+
+  - type: mc
+    prompt: "A perfect momentum candle appears in the middle of a range, nowhere near a level, on average volume. What is it?"
+    options:
+      - {text: "Noise — one piece of evidence with nothing to back it", correct: true}
+      - {text: "A signal, because the candle shape is what matters"}
+      - {text: "A signal, because momentum always continues"}
+    explanation: "Shape without a level and without volume is one reason, and one reason is not enough."
+
+  - type: sort
+    prompt: "Signal or noise?"
+    buckets: ["Signal", "Noise"]
+    items:
+      - {text: "Rejection candle at yesterday's high on the biggest volume of the hour", bucket: "Signal"}
+      - {text: "Engulfing candle right at VWAP as price reaches it", bucket: "Signal"}
+      - {text: "Doji in the middle of a quiet range", bucket: "Noise"}
+      - {text: "Big red candle with no level anywhere near it", bucket: "Noise"}
+    explanation: "A candle earns the word signal from where it happens and what traded there."
+
+  - type: tf
+    statement: "Volume that is no bigger than the candles around it makes a level test more convincing."
+    answer: false
+    explanation: "Ordinary volume means nobody has committed anything yet — the test is still unproven."
+
+  - type: theory
+    title: "Volume is the tiebreaker"
+    body: "Level and candle tell you where and what. Volume tells you how many shares agreed. When two reasons are there and volume is not, wait for the next candle."
+
+  - type: chart-decision
+    scenario: "XYZ makes a nice engulfing candle, but it is nowhere near a level, VWAP is far below, and volume is average. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[36.20, 36.28, 36.16, 36.22], [36.22, 36.26, 36.14, 36.16], [36.16, 36.20, 36.10, 36.12], [36.12, 36.22, 36.10, 36.20], [36.20, 36.24, 36.14, 36.18], [36.18, 36.30, 36.16, 36.28], [36.28, 36.32, 36.18, 36.20], [36.20, 36.24, 36.12, 36.14], [36.14, 36.22, 36.12, 36.20], [36.20, 36.24, 36.14, 36.18]]
+      vwap: [36.44, 36.42, 36.40, 36.38, 36.37, 36.36, 36.35, 36.34, 36.33, 36.32]
+      volume: [4100, 3900, 4200, 3800, 4000, 4300, 4100, 3900, 4200, 4000]
+      levels:
+        - {price: 36.80, label: "Yesterday's high"}
+      decision_index: 5
+    best: no-trade
+    outcome: "Price wandered back to where it started. The candle was the only thing that happened."
+    explanation: "A good-looking candle with nothing agreeing with it is one reason — and one reason is a coin flip with costs attached."
+
+  - type: numeric-input
+    prompt: "You skip that trade. The spread is $0.04 on 1,000 shares. How much did not trading save you in spread alone?"
+    answer: 40
+    unit: "$"
+    working: "$0.04 per share × 1,000 shares = $40"
+    explanation: "Every trade you do not take is a round trip you do not pay for."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Three reasons agree at one price,"}
+      - {text: "so the trade is guaranteed to work", wrong: true}
+      - {text: "more often than a one-reason trade."}
+    explanation: "Confluence improves the odds; nothing on a chart is guaranteed."
+
+  - type: fill-tiles
+    sentence: "Two or more independent reasons pointing the same way at one price is called ___."
+    answer: "confluence"
+    explanation: "Reasons flowing together — that is all the word means."
+
+  - type: theory
+    title: "The filter"
+    body: "Level, candle, volume, VWAP. Two of them is a look, three is a trade, one is a spread paid for nothing."

@@ -1,0 +1,102 @@
+id: "5-1"
+title: "Tape Reading"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [tape, execution]
+learning_goal: "User can read speed and size on the tape and tell buyers paying up from sellers hitting out."
+purpose: "The chart shows you what happened a minute ago; the tape shows it happening now."
+terms_introduced: ["Tape", "Print"]
+prerequisite: "4-1"
+xp: 20
+difficulty: 3
+path_position: fan-out:tape
+sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
+notes: "Fan-out strand A. Self-contained: uses nothing from the other two strands. No time-and-sales component exists, so the tape is shown as text and the book as order-book."
+screens:
+  - type: intro
+    text: "The chart is a summary. The tape is the thing itself."
+
+  - type: theory
+    title: "The tape"
+    body: "Time and sales — the scrolling list of every trade in the stock — is what traders call the tape. Each line is one execution, with its price, its size and its time."
+
+  - type: theory
+    title: "A print"
+    body: "One line on the tape is a print: shares that actually changed hands. A print at the ask means a buyer paid up. A print at the bid means a seller hit out."
+
+  - type: example
+    body: "Six seconds of XYZ: 1,000 at the ask, 2,500 at the ask, 4,000 at the ask, all inside two cents. Buyers are lifting everything in front of them."
+
+  - type: mc
+    prompt: "Print after print comes in at the bid, each one bigger than the last. What are you looking at?"
+    options:
+      - {text: "Sellers hitting out and not waiting for a better price", correct: true}
+      - {text: "Buyers stepping in at the bid to get filled cheaply"}
+      - {text: "Market makers moving the spread wider"}
+    explanation: "Trading at the bid means accepting the buyer's price — that is selling in a hurry."
+
+  - type: tf
+    statement: "A print is an order somebody has placed and could still cancel."
+    answer: false
+    explanation: "A print already traded. Orders that can still be cancelled sit in the order book, not on the tape."
+
+  - type: theory
+    title: "Speed and size"
+    body: "Two things matter. How fast the prints arrive tells you the urgency. How big they are tells you who is behind them: a wall of tiny prints is background noise, a run of large ones is a real order being worked."
+
+  - type: hotspot
+    component: order-book
+    prompt: "The tape is running at the ask and the first ask row is nearly gone. Tap the price the next prints will happen at."
+    data:
+      bids: [[30.10, 1800], [30.09, 1200], [30.08, 2600]]
+      asks: [[30.12, 300], [30.13, 2000], [30.14, 3400]]
+    target: ask-2
+    explanation: "Once the 300 shares at $30.12 are taken, buyers in a hurry have to pay $30.13."
+
+  - type: sort
+    prompt: "Who is in a hurry?"
+    buckets: ["Buyers", "Sellers"]
+    items:
+      - {text: "Prints at the ask", bucket: "Buyers"}
+      - {text: "Prints at the bid", bucket: "Sellers"}
+      - {text: "Large prints as price ticks up", bucket: "Buyers"}
+      - {text: "Large prints as price ticks down", bucket: "Sellers"}
+    explanation: "Whoever crosses the spread to get filled is the one in a hurry."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ is at yesterday's high. The tape has been quiet, then twenty large prints hit the ask in ten seconds."
+
+  - type: chart-decision
+    scenario: "That burst of prints at the ask carries price through yesterday's high at $18.50 and the candle closes above it. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.30, 18.36, 18.28, 18.34], [18.34, 18.40, 18.32, 18.38], [18.38, 18.44, 18.36, 18.42], [18.42, 18.46, 18.38, 18.44], [18.44, 18.50, 18.42, 18.48], [18.48, 18.60, 18.46, 18.58], [18.58, 18.68, 18.56, 18.66], [18.66, 18.74, 18.62, 18.72], [18.72, 18.78, 18.68, 18.74], [18.74, 18.80, 18.70, 18.76]]
+      volume: [3200, 3600, 3400, 3800, 4600, 14200, 9800, 8400, 6600, 5800]
+      levels:
+        - {price: 18.50, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "The buying kept coming and price reached $18.76 — $0.18 per share, +$270 long on 1,500 shares from $18.58."
+    explanation: "Large prints at the ask through a level are buyers who need shares — the level broke because somebody was paying for it."
+
+  - type: numeric-input
+    prompt: "XYZ traded 60,000 shares in the last minute. Your 1,500-share order is what share of that minute's volume?"
+    answer: 2.5
+    tolerance: 0.1
+    unit: "%"
+    working: "1,500 ÷ 60,000 = 0.025 = 2.5 %"
+    explanation: "Small enough to get in and out without being the reason price moved."
+
+  - type: fill-tiles
+    sentence: "The scrolling list of every trade in a stock is called the ___."
+    answer: "tape"
+    explanation: "Its formal name is time and sales; every trader calls it the tape."
+
+  - type: theory
+    title: "Prints tell you now"
+    body: "Speed, size and which side of the spread. That is the whole reading. Next: the orders that have not traded yet."

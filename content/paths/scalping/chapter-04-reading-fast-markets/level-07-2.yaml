@@ -1,0 +1,117 @@
+id: "7-2"
+title: "The Opening Drive"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [open, halt, no-trade]
+learning_goal: "User knows what a halt does to an open position and can name the conditions that make the opening minutes untradeable."
+purpose: "Standing aside for the first minutes costs nothing; being in the wrong stock at the wrong second costs a lot."
+terms_introduced: ["Halt"]
+prerequisite: "7-1"
+xp: 20
+difficulty: 3
+path_position: fan-out:open
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "Fan-out strand C, second sub. Self-contained. Halt mechanics kept generic so both market profiles fit."
+screens:
+  - type: intro
+    text: "Some mornings the honest read is: not this one."
+
+  - type: theory
+    title: "When trading stops"
+    body: "If a stock moves too far too fast, or news is about to be released, the exchange pauses trading in it for a few minutes. That pause is a halt, and it happens most often near the open."
+
+  - type: theory
+    title: "What a halt does to you"
+    body: "During a halt nothing fills. Your stop cannot protect you, because there is nothing to trade against. When the stock reopens it can start far away from where it stopped."
+
+  - type: example
+    body: "You are long 1,000 shares at $12.40 with a stop at $12.28. The stock halts and reopens at $11.90. Your stop fills there: $0.50 per share, $500, not the $120 you planned."
+
+  - type: mc
+    prompt: "Why can a stop order not do its job through a halt?"
+    options:
+      - {text: "No trading happens during a halt, so there is nothing for it to fill against", correct: true}
+      - {text: "Stop orders are cancelled automatically when a stock halts"}
+      - {text: "The broker holds the order back until the price is better"}
+    explanation: "A stop needs a market to trade in; during the pause there is none."
+
+  - type: tf
+    statement: "A halt is a normal part of a fast session, and it can happen on the way up as well as on the way down."
+    answer: true
+    explanation: "It is triggered by speed, not by direction — a violent rally halts as readily as a collapse."
+
+  - type: checklist-reveal
+    title: "Stand aside when"
+    items:
+      - "The spread is a large slice of the move you are trading for."
+      - "You cannot name a level near the price."
+      - "The stock is moving on news you have not read."
+      - "Your first two trades of the day were both losses."
+
+  - type: chart-decision
+    scenario: "XYZ gapped up on news you have not read. It is swinging fifteen cents a minute with a $0.09 spread and no level anywhere near. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[26.40, 26.62, 26.28, 26.34], [26.34, 26.56, 26.30, 26.52], [26.52, 26.58, 26.26, 26.30], [26.30, 26.50, 26.24, 26.46], [26.46, 26.52, 26.22, 26.28], [26.28, 26.44, 26.20, 26.40], [26.40, 26.46, 26.14, 26.20], [26.20, 26.38, 26.16, 26.34], [26.34, 26.40, 26.10, 26.16], [26.16, 26.32, 26.12, 26.26]]
+      volume: [31000, 24000, 27000, 19000, 22000, 18000, 21000, 17000, 19000, 16000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It swung both ways for another ten minutes and got nowhere. Both sides would have been stopped out."
+    explanation: "No level, news you cannot read and a nine-cent spread is three reasons to let this one go."
+
+  - type: numeric-input
+    prompt: "The spread is $0.09 and you are trading 1,000 shares for a $0.20 target. What does the round trip cost you in spread?"
+    answer: 90
+    unit: "$"
+    working: "$0.09 per share × 1,000 shares = $90"
+    explanation: "You would need almost half of your target just to get back to flat."
+
+  - type: slider
+    prompt: "That $0.09 spread against a $0.20 target — how much of the target does it take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 45
+    tolerance: 10
+    explanation: "$0.09 of $0.20 is 45 % of the move, before slippage and fees."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The stock is halted,"}
+      - {text: "so I will place my stop now", wrong: true}
+      - {text: "and be protected when it reopens."}
+    explanation: "A stop placed during a halt fills at whatever the reopening price is — protection it cannot give."
+
+  - type: fill-tiles
+    sentence: "An exchange pausing trading in a stock for a few minutes is called a ___."
+    answer: "halt"
+    explanation: "Nothing fills while it lasts, and the reopening price can be far away."
+
+  - type: story
+    character: retail-trader
+    text: "Ten minutes later. The wild stock is still wild; a second one has settled into a clean range above VWAP."
+
+  - type: chart-decision
+    scenario: "This one opened quietly, held above VWAP for eight minutes and is now breaking its opening-range high at $54.30 with volume picking up. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[54.10, 54.20, 54.06, 54.18], [54.18, 54.26, 54.14, 54.22], [54.22, 54.30, 54.18, 54.26], [54.26, 54.30, 54.20, 54.24], [54.24, 54.28, 54.18, 54.26], [54.26, 54.38, 54.24, 54.36], [54.36, 54.46, 54.32, 54.44], [54.44, 54.52, 54.40, 54.50], [54.50, 54.56, 54.46, 54.52], [54.52, 54.58, 54.48, 54.54]]
+      vwap: [54.12, 54.15, 54.18, 54.20, 54.21, 54.23, 54.26, 54.29, 54.32, 54.35]
+      volume: [7200, 6400, 6800, 5100, 4600, 11800, 9400, 8600, 7200, 6600]
+      levels:
+        - {price: 54.30, label: "Opening range high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $54.54 — $0.18 per share, +$270 long on 1,500 shares from $54.36."
+    explanation: "Above VWAP, a level to break, volume arriving on the break: the same trade the wild stock could not offer you."
+
+  - type: theory
+    title: "Two stocks, one morning"
+    body: "The chaotic one pays in adrenaline. The orderly one pays in cents you can measure. Both were available at the same minute."

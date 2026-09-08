@@ -1,0 +1,108 @@
+id: "5-2"
+title: "Tape Reading"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [tape, order-book, execution]
+learning_goal: "User can tell size that is building in the order book from size that disappears, and knows what that does to a fill."
+purpose: "The book shows intentions, and intentions can be withdrawn — which is exactly where surprise slippage comes from."
+terms_introduced: ["Stacking", "Pulling"]
+prerequisite: "5-1"
+xp: 20
+difficulty: 3
+path_position: fan-out:tape
+sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
+notes: "Fan-out strand A, second sub. Self-contained."
+screens:
+  - type: intro
+    text: "Half the size you see in the book will never trade."
+
+  - type: theory
+    title: "Stacking"
+    body: "When size builds at several prices on one side — bids appearing under the price, row after row — the book is stacking. Buyers are queueing up and price has something to lean on."
+
+  - type: theory
+    title: "Pulling"
+    body: "Size that vanishes the moment price gets close was never going to trade. Traders call it pulling. A book can go from stacked to empty in a second."
+
+  - type: visual
+    component: order-book
+    data:
+      bids: [[24.18, 2400], [24.17, 3100], [24.16, 5200]]
+      asks: [[24.20, 700], [24.21, 600], [24.22, 900]]
+    caption: "Size stacked on the bid, thin on the ask: it takes far less buying than selling to move this price."
+
+  - type: hotspot
+    component: order-book
+    prompt: "Tap the row that would absorb the most selling before price moves through it."
+    data:
+      bids: [[24.18, 2400], [24.17, 3100], [24.16, 5200]]
+      asks: [[24.20, 700], [24.21, 600], [24.22, 900]]
+    target: bid-3
+    explanation: "$24.16 holds 5,200 shares — more than the two rows above it together."
+
+  - type: mc
+    prompt: "A 20,000-share bid sits one cent under the price for ten minutes, then disappears the second price reaches it. What happened?"
+    options:
+      - {text: "It was pulled — the size was shown, not meant", correct: true}
+      - {text: "It filled, which is why it is gone"}
+      - {text: "The exchange cancelled it for being too large"}
+    explanation: "A bid that fills leaves prints on the tape; this one left nothing behind."
+
+  - type: tf
+    statement: "Size in the order book is a promise that those shares will trade."
+    answer: false
+    explanation: "It is an offer that can be cancelled until the moment it trades — only a print is real."
+
+  - type: theory
+    title: "What pulling does to your stop"
+    body: "If the bids you were leaning on get pulled, there is nothing under the price. Your stop still triggers, but it fills several cents lower. That is where the ugly slippage comes from."
+
+  - type: chart-decision
+    scenario: "XYZ has been grinding up with bids stacking under every candle. Now the stack thins, the tape slows to a trickle, and the last candle stalls. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[27.10, 27.18, 27.08, 27.16], [27.16, 27.26, 27.14, 27.24], [27.24, 27.34, 27.22, 27.32], [27.32, 27.42, 27.30, 27.40], [27.40, 27.48, 27.38, 27.46], [27.46, 27.50, 27.42, 27.44], [27.44, 27.46, 27.34, 27.36], [27.36, 27.40, 27.28, 27.30], [27.30, 27.34, 27.22, 27.24], [27.24, 27.28, 27.18, 27.22]]
+      volume: [6200, 7400, 8100, 7600, 6800, 3100, 4400, 5200, 5600, 4900]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "Price drifted back to $27.22. A long at $27.44 would have been 22 cents under water, $330 on 1,500 shares."
+    explanation: "Buyers stepping away and the tape going quiet is the move ending — that is the worst moment to join it."
+
+  - type: order
+    prompt: "Put those thirty seconds in order."
+    items:
+      - "Bids stack under the price"
+      - "Prints hit the ask, fast and large"
+      - "Price runs twelve cents"
+      - "The prints slow to a trickle"
+      - "You close into the last buyers"
+    explanation: "Support builds, buyers pay up, the move happens, the urgency fades, you are out."
+
+  - type: numeric-input
+    prompt: "Your stop triggers and fills three cents worse than your stop price on 1,500 shares. What did the pulled bids cost you?"
+    answer: 45
+    unit: "$"
+    working: "$0.03 per share × 1,500 shares = $45"
+    explanation: "Slippage is a real cost, and an empty book is where most of it comes from."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "A large bid under the price"}
+      - {text: "guarantees a floor,", wrong: true}
+      - {text: "so you can hold through the test."}
+    explanation: "Displayed size can be pulled in an instant — it is a hint, never a floor."
+
+  - type: fill-choice
+    sentence: "Size that disappears the moment price reaches it has been ___."
+    options: ["pulled", "filled", "stacked"]
+    answer: "pulled"
+    explanation: "Cancelled before it could trade — no print, no shares."
+
+  - type: theory
+    title: "Intentions and actions"
+    body: "The book shows what people say they will do. The tape shows what they did. When the two disagree, believe the tape."

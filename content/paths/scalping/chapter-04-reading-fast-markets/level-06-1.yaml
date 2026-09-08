@@ -1,0 +1,110 @@
+id: "6-1"
+title: "VWAP & Levels in Action"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [vwap, levels, confluence]
+learning_goal: "User can spot a level and VWAP arriving at the same price and knows why the first test of a level is worth more than the third."
+purpose: "Two lines at one price is the cleanest situation a scalper gets — and it does not stay clean for long."
+terms_introduced: []
+prerequisite: "4-1"
+xp: 20
+difficulty: 3
+path_position: fan-out:levels
+sources: ["Volman — Understanding Price Action", "Murphy — Technical Analysis of the Financial Markets"]
+notes: "Fan-out strand B. Self-contained: uses nothing from the other two strands."
+screens:
+  - type: intro
+    text: "When two of your lines land on the same price, pay attention."
+
+  - type: theory
+    title: "One wall, not two"
+    body: "A marked level and VWAP within a few cents of each other is one obstacle made of two reasons. Price needs more buying or selling to get through it than through either alone."
+
+  - type: example
+    body: "Yesterday's high is $62.40. By late morning VWAP has risen to $62.38. Price arrives with both inside two cents — everybody's line is in the same place."
+    visual: chart-candles
+    visual_data:
+      data: [[62.00, 62.10, 61.96, 62.08], [62.08, 62.18, 62.04, 62.16], [62.16, 62.26, 62.12, 62.24], [62.24, 62.34, 62.20, 62.32], [62.32, 62.42, 62.28, 62.34], [62.34, 62.40, 62.24, 62.26], [62.26, 62.30, 62.16, 62.18], [62.18, 62.22, 62.08, 62.12]]
+      vwap: [62.20, 62.24, 62.28, 62.32, 62.36, 62.38, 62.38, 62.37]
+      levels:
+        - {price: 62.40, label: "Yesterday's high"}
+
+  - type: chart-decision
+    scenario: "XYZ is under yesterday's high at $34.60, with VWAP at $34.58 just below it. The candle into the pair leaves a long upper wick on heavy volume. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[34.20, 34.28, 34.16, 34.26], [34.26, 34.36, 34.24, 34.34], [34.34, 34.44, 34.30, 34.42], [34.42, 34.52, 34.40, 34.50], [34.50, 34.58, 34.46, 34.56], [34.56, 34.64, 34.48, 34.50], [34.50, 34.54, 34.40, 34.42], [34.42, 34.46, 34.32, 34.34], [34.34, 34.38, 34.24, 34.28], [34.28, 34.32, 34.20, 34.24]]
+      vwap: [34.44, 34.46, 34.50, 34.54, 34.56, 34.58, 34.57, 34.55, 34.53, 34.51]
+      volume: [4400, 4800, 5200, 5600, 6100, 12800, 8400, 7200, 6400, 5600]
+      levels:
+        - {price: 34.60, label: "Yesterday's high"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It failed at both lines and slid to $34.24 — $0.26 per share, +$390 short on 1,500 shares from $34.50."
+    explanation: "One push, two lines rejected, heavy volume: the buyers who paid up there are already trapped."
+
+  - type: theory
+    title: "First touch, third touch"
+    body: "The first test of a level is the cleanest — nobody has been stopped out yet and the resting orders are untouched. Each further test eats more of them. By the third, the level is thinner than it looks."
+
+  - type: mc
+    prompt: "A level has held twice this morning. Price is coming back to it a third time. What has changed?"
+    options:
+      - {text: "Fewer resting orders are left, so it is more likely to give way", correct: true}
+      - {text: "Nothing — a level is a level"}
+      - {text: "It is stronger, because it has proved itself twice"}
+    explanation: "Every test consumes orders; a level that keeps being tested is being worn down."
+
+  - type: tf
+    statement: "A level that is being tested for the third time in twenty minutes is a safer place to trade against than the first test was."
+    answer: false
+    explanation: "Repeated tests use up the orders that made the level work — the first test is the clean one."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[48.50, 48.60, 48.46, 48.58], [48.58, 48.79, 48.56, 48.66], [48.66, 48.70, 48.58, 48.62], [48.62, 48.78, 48.60, 48.68], [48.68, 48.72, 48.62, 48.70], [48.70, 48.79, 48.68, 48.76], [48.76, 48.90, 48.74, 48.88], [48.88, 48.98, 48.84, 48.94]]
+      levels:
+        - {price: 48.80, label: "Pre-market high"}
+    caption: "Three touches at $48.80, each one taking a few more of the orders there — then it goes through."
+
+  - type: chart-tap
+    prompt: "Tap the candle making the third test of the level at $48.80."
+    chart:
+      kind: candles
+      data: [[48.50, 48.60, 48.46, 48.58], [48.58, 48.79, 48.56, 48.66], [48.66, 48.70, 48.58, 48.62], [48.62, 48.78, 48.60, 48.68], [48.68, 48.72, 48.62, 48.70], [48.70, 48.79, 48.68, 48.76], [48.76, 48.90, 48.74, 48.88], [48.88, 48.98, 48.84, 48.94]]
+      levels:
+        - {price: 48.80, label: "Pre-market high"}
+    target: 5
+    explanation: "Highs of $48.79, $48.78 and $48.79 — the third of them is the last touch before the break on the next candle."
+
+  - type: numeric-input
+    prompt: "You will risk $150 on the trade and your stop sits $0.10 away from your entry. How many shares does that allow?"
+    answer: 1500
+    unit: "shares"
+    working: "$150 ÷ $0.10 per share = 1,500 shares"
+    explanation: "Risk divided by stop distance — the same sizing rule, now at a level you chose."
+
+  - type: sort
+    prompt: "Stronger case or weaker case?"
+    buckets: ["Stronger case", "Weaker case"]
+    items:
+      - {text: "Level and VWAP within two cents of each other", bucket: "Stronger case"}
+      - {text: "First test of the level today", bucket: "Stronger case"}
+      - {text: "Fourth test in fifteen minutes", bucket: "Weaker case"}
+      - {text: "VWAP twenty cents away and pointing the other way", bucket: "Weaker case"}
+    explanation: "Agreement and freshness make the case; distance and repetition take it away."
+
+  - type: fill-choice
+    sentence: "A level and VWAP arriving at the same price is an example of ___."
+    options: ["confluence", "momentum", "liquidity"]
+    answer: "confluence"
+    explanation: "Two independent reasons, one price."
+
+  - type: theory
+    title: "Where the lines meet"
+    body: "Trade the first clean test where two lines agree. Next: what happens when a level breaks and cannot hold the break."

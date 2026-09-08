@@ -183,9 +183,10 @@ Never use influencers, YouTube or forum content as a source.
 2. Chapter 1 (shared) — **done, reviewed**.
 3. Scalping Chapter 3 "Orders, Costs & Position Size" — **done, reviewed**.
 4. Scalping Chapter 2 "Charts 101" — **done**.
-5. Scalping Chapters 4, 5, 6 — planned.
-6. Day Trading Chapters 2–6 — planned.
-7. Swing Trading Chapters 2–6 — planned.
+5. Scalping Chapter 4 "Reading Fast Markets" — **done**.
+6. Scalping Chapters 5, 6 — planned.
+7. Day Trading Chapters 2–6 — planned.
+8. Swing Trading Chapters 2–6 — planned.
 
 Live status (levels, screens, minutes per chapter) is generated, not hand-written:
 

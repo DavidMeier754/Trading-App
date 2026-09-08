@@ -29,4 +29,5 @@ Requires Python 3 and PyYAML (`pip install pyyaml`).
 - Chapter 1 (shared) — written, reviewed
 - Scalping Chapter 3 "Orders, Costs & Position Size" — written, reviewed
 - Scalping Chapter 2 "Charts 101" — written
+- Scalping Chapter 4 "Reading Fast Markets" — written
 - Everything else — outlined level by level in `docs/curriculum.md`

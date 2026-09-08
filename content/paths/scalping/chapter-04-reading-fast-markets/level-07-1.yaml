@@ -1,0 +1,111 @@
+id: "7-1"
+title: "The Opening Drive"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [open, opening-range, momentum]
+learning_goal: "User can recognise an opening drive, trade the opening-range break that has volume behind it and leave the one that does not."
+purpose: "The first minutes carry the day's biggest moves and its worst fills — you need a rule for both."
+terms_introduced: ["Opening drive"]
+prerequisite: "4-1"
+xp: 20
+difficulty: 3
+path_position: fan-out:open
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Fan-out strand C. Self-contained: uses nothing from the other two strands."
+screens:
+  - type: intro
+    text: "More shares trade in the first five minutes than in the next hour. So does more of your risk."
+
+  - type: theory
+    title: "The opening drive"
+    body: "In the first minutes after {{market.regular_open}} {{market.timezone}} one side often takes control and pushes price in an almost straight line. That first push is the opening drive."
+
+  - type: theory
+    title: "Why it happens"
+    body: "Orders held back overnight, news from before the session and every trader acting on the same plan all arrive at once. Nothing else in the day has that much pressure behind it."
+
+  - type: example
+    body: "XYZ opens at $30.00 and trades to $30.42 in four minutes without a red candle. Everyone who wanted in overnight is getting in now."
+    visual: chart-candles
+    visual_data:
+      data: [[30.00, 30.12, 29.98, 30.10], [30.10, 30.22, 30.08, 30.20], [30.20, 30.30, 30.16, 30.28], [30.28, 30.42, 30.26, 30.38], [30.38, 30.44, 30.32, 30.36], [30.36, 30.40, 30.28, 30.32], [30.32, 30.38, 30.30, 30.36], [30.36, 30.46, 30.34, 30.44]]
+      volume: [24000, 18000, 15000, 16000, 9000, 7000, 6000, 11000]
+
+  - type: theory
+    title: "The break and the fade"
+    body: "The high and low of the first five minutes are the opening range. A break with volume behind it usually keeps going. A break that closes straight back inside the range usually goes the other way."
+
+  - type: chart-decision
+    scenario: "The opening range is $30.28 to $30.46. Price breaks above it on the heaviest volume since the bell and holds. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[30.30, 30.46, 30.28, 30.42], [30.42, 30.46, 30.34, 30.38], [30.38, 30.44, 30.32, 30.40], [30.40, 30.46, 30.36, 30.44], [30.44, 30.56, 30.42, 30.54], [30.54, 30.62, 30.50, 30.60], [30.60, 30.70, 30.56, 30.68], [30.68, 30.76, 30.64, 30.72], [30.72, 30.80, 30.68, 30.76], [30.76, 30.82, 30.72, 30.78]]
+      volume: [22000, 12000, 9000, 8000, 19000, 14000, 12000, 10000, 9000, 8000]
+      levels:
+        - {price: 30.46, label: "Opening range high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "The drive continued to $30.78 — $0.18 per share, +$270 long on 1,500 shares from $30.60."
+    explanation: "A range break on the biggest volume since the open is the drive resuming, not a new idea."
+
+  - type: mc
+    prompt: "Price breaks the opening-range high by a cent on the lightest volume of the session and closes back inside the range. What does that suggest?"
+    options:
+      - {text: "Nobody was willing to pay above the range — the sellers are still there", correct: true}
+      - {text: "The break is confirmed, because price traded above the range"}
+      - {text: "Nothing at all — volume says nothing about a break"}
+    explanation: "A break nobody paid for is a break that has not really happened."
+
+  - type: tf
+    statement: "Spreads in the first minutes are usually wider than they are an hour later."
+    answer: true
+    explanation: "Prices are moving fast and market makers protect themselves — which makes every entry there more expensive."
+
+  - type: chart-decision
+    scenario: "The opening range is $17.86 to $18.10. Price pokes above $18.10 on light volume and the candle closes back inside the range. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.90, 18.10, 17.86, 18.06], [18.06, 18.09, 17.96, 18.00], [18.00, 18.08, 17.98, 18.06], [18.06, 18.09, 18.02, 18.07], [18.07, 18.14, 18.04, 18.08], [18.08, 18.10, 17.98, 18.00], [18.00, 18.02, 17.90, 17.92], [17.92, 17.96, 17.84, 17.86], [17.86, 17.90, 17.78, 17.80], [17.80, 17.84, 17.74, 17.76]]
+      volume: [26000, 11000, 9000, 7000, 5000, 8000, 12000, 11000, 9000, 8000]
+      levels:
+        - {price: 18.10, label: "Opening range high"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid to $17.76 — $0.24 per share, +$360 short on 1,500 shares from $18.00."
+    explanation: "A break with no volume that closes back inside leaves trapped buyers, and they sell on the way down."
+
+  - type: numeric-mc
+    prompt: "At the open the spread is $0.06 and it is still $0.06 when you get out. On 1,000 shares, what does the round trip cost you in spread?"
+    options:
+      - {text: "$60", correct: true}
+      - {text: "$120"}
+      - {text: "$6"}
+      - {text: "$30"}
+    working: "$0.06 per share × 1,000 shares = $60"
+    explanation: "Buying at the ask and selling at the bid costs one full spread — six cents of whatever the move gives you."
+
+  - type: sort
+    prompt: "Reason to take the opening trade, or reason to skip it?"
+    buckets: ["Take it", "Skip it"]
+    items:
+      - {text: "Range break on the heaviest volume since the bell", bucket: "Take it"}
+      - {text: "The drive has been one-sided with no red candle", bucket: "Take it"}
+      - {text: "Spread is six cents on a fifteen-cent target", bucket: "Skip it"}
+      - {text: "Price is bouncing around inside the range on light volume", bucket: "Skip it"}
+    explanation: "Volume and a workable spread make the opening trade; chop and cost take it away."
+
+  - type: fill-choice
+    sentence: "The box that the first five minutes leaves behind is the opening ___."
+    options: ["range", "drive", "gap"]
+    answer: "range"
+    explanation: "The drive is the push; the range is the box it leaves behind."
+
+  - type: theory
+    title: "First the drive, then the range"
+    body: "Read which side is driving, mark the range it leaves, and trade the break that has volume. Next: the two things that can stop you dead at the open."

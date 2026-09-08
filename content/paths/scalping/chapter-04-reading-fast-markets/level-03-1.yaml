@@ -1,0 +1,101 @@
+id: "3-1"
+title: "Candle Signals on the 1-Minute"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [candles, signals]
+learning_goal: "User can name a momentum candle, a doji, a rejection candle and an engulfing candle on a 1-minute chart and say what each one shows."
+purpose: "On a fast chart a single candle is the smallest piece of evidence you get — you need to read it in one glance."
+terms_introduced: ["Doji", "Engulfing candle"]
+prerequisite: "2-2"
+xp: 20
+difficulty: 2
+sources: ["Nison — Japanese Candlestick Charting Techniques", "Volman — Understanding Price Action"]
+screens:
+  - type: intro
+    text: "Sixty seconds of fighting, drawn as one candle. Four shapes are worth knowing."
+
+  - type: theory
+    title: "One minute, one story"
+    body: "On a 1-minute chart every candle is a minute of buyers and sellers arguing. Four shapes come up again and again, and each one tells you who won the argument."
+
+  - type: carousel
+    cards:
+      - {label: "Momentum candle", text: "A big body, small wicks. One side pushed from the first second to the last and never gave ground.", icon: candle-momentum}
+      - {label: "Doji", text: "Open and close almost the same price, wicks on both sides. Nobody won the minute — that is indecision.", icon: candle-doji}
+      - {label: "Rejection candle", text: "A long wick with a small body at the other end. Price went there and was pushed straight back.", icon: candle-rejection}
+      - {label: "Engulfing candle", text: "A candle whose body covers the whole body of the one before it, in the other direction. A minute of selling erased by a minute of buying, or the reverse.", icon: candle-engulfing}
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[16.20, 16.24, 16.18, 16.23], [16.23, 16.38, 16.22, 16.37], [16.37, 16.40, 16.35, 16.38], [16.38, 16.39, 16.34, 16.37], [16.37, 16.52, 16.36, 16.39], [16.39, 16.41, 16.26, 16.28], [16.28, 16.31, 16.24, 16.29], [16.29, 16.32, 16.22, 16.24]]
+      volume: [3100, 7800, 2600, 2200, 6400, 7100, 2800, 3300]
+    caption: "One momentum candle, one rejection, one doji and one engulfing candle — eight minutes of a normal session."
+
+  - type: chart-tap
+    prompt: "Tap the doji."
+    chart:
+      kind: candles
+      data: [[28.40, 28.46, 28.36, 28.44], [28.44, 28.58, 28.42, 28.56], [28.56, 28.62, 28.54, 28.61], [28.61, 28.66, 28.55, 28.61], [28.61, 28.70, 28.59, 28.68], [28.68, 28.74, 28.64, 28.72], [28.72, 28.76, 28.66, 28.69], [28.69, 28.72, 28.60, 28.62]]
+    target: 3
+    explanation: "Open and close both $28.61 with wicks on both sides — that minute settled nothing."
+
+  - type: mc
+    prompt: "A candle at the high of a fast run has a long upper wick and a tiny body at the bottom. What does it show?"
+    options:
+      - {text: "Buyers pushed higher and sellers pushed it all the way back", correct: true}
+      - {text: "Buyers were in control for the whole minute"}
+      - {text: "Volume dried up and nothing happened"}
+    explanation: "The wick is the part of the move that was taken back — that is a rejection."
+
+  - type: tf
+    statement: "A big green body with almost no wicks says one side controlled the whole minute."
+    answer: true
+    explanation: "Nothing was given back at any point in the minute — that is what a momentum candle is."
+
+  - type: theory
+    title: "Context beats shape"
+    body: "The same doji is a harmless pause in a strong trend and a warning at a level you marked. A candle only means something where it happens."
+
+  - type: match
+    prompt: "Match each candle to what it shows."
+    pairs:
+      - ["Momentum candle", "One side pushed all minute and held it"]
+      - ["Doji", "Neither side finished ahead"]
+      - ["Rejection candle", "Price went to a price and was pushed back"]
+      - ["Engulfing candle", "One minute wiped out the minute before it"]
+    explanation: "Body size, wick length and what came before: that is the whole reading."
+
+  - type: chart-decision
+    scenario: "XYZ has run into yesterday's high at $23.80. The last candle spikes through it and closes back below with a long upper wick, on the heaviest volume of the run. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[23.40, 23.50, 23.38, 23.48], [23.48, 23.60, 23.46, 23.58], [23.58, 23.68, 23.55, 23.66], [23.66, 23.74, 23.63, 23.72], [23.72, 23.78, 23.69, 23.76], [23.76, 23.86, 23.70, 23.72], [23.72, 23.74, 23.60, 23.62], [23.62, 23.65, 23.52, 23.54], [23.54, 23.58, 23.46, 23.48], [23.48, 23.52, 23.42, 23.46]]
+      volume: [4200, 5100, 5600, 6200, 6800, 11400, 8200, 6600, 5900, 5100]
+      levels:
+        - {price: 23.80, label: "Yesterday's high"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "The rejection held and price slid to $23.46 — $0.26 per share, +$390 short on 1,500 shares from $23.72."
+    explanation: "A long wick through a level on the heaviest volume of the run is the buyers being filled and then abandoned."
+
+  - type: numeric-input
+    prompt: "That short is 1,500 shares at $23.72 with a stop at $23.84. How much money is at risk before costs?"
+    answer: 180
+    unit: "$"
+    working: "($23.84 − $23.72) × 1,500 shares = $180"
+    explanation: "Stop distance times share count — the number you size from."
+
+  - type: fill-choice
+    sentence: "A candle whose body covers the previous body in the other direction is an ___ candle."
+    options: ["engulfing", "indecision", "exhaustion"]
+    answer: "engulfing"
+    explanation: "It swallows the minute before it whole."
+
+  - type: theory
+    title: "One candle is not a trade"
+    body: "You can now name what a minute did. Next: why a candle only becomes a signal when the level and the volume agree with it."

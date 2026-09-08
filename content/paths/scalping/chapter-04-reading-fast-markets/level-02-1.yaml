@@ -1,0 +1,111 @@
+id: "2-1"
+title: "Intraday Levels"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [levels, preparation]
+learning_goal: "User can name the lines worth drawing before the open and knows which of them exist before the first trade of the session."
+purpose: "A scalper has no time to look for levels once the session is running — the map has to be finished before the open."
+terms_introduced: []
+prerequisite: "1-2"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Murphy — Technical Analysis of the Financial Markets"]
+screens:
+  - type: intro
+    text: "Five lines, drawn before the open. They decide most of your morning."
+
+  - type: theory
+    title: "A level is memory"
+    body: "A level is a price where the market already made a decision. Enough traders remember it that orders pile up there again — which is what makes it work a second time."
+
+  - type: carousel
+    cards:
+      - {label: "Yesterday's high and low", text: "The extremes of the last session. Price stalls there because every chart in the market shows them.", icon: level-yesterday}
+      - {label: "Yesterday's close", text: "The reference for today's change. Above it the stock is up on the day, below it it is down.", icon: level-close}
+      - {label: "Pre-market high and low", text: "The extremes traded during {{market.premarket}} {{market.timezone}}. Thin volume, but real prices that traders remember.", icon: level-premarket}
+      - {label: "Round numbers", text: "$50.00, $25.00, $7.50. Orders cluster on round prices because people think in round prices.", icon: level-round}
+
+  - type: theory
+    title: "And today's open"
+    body: "The opening price is the session's first agreement. Above it buyers have controlled the day, below it sellers have. Many scalpers mark it and never take it off the chart."
+
+  - type: example
+    body: "XYZ closed yesterday at $27.40, traded up to $27.86 before the open and opened at $27.62. Three lines on the chart before you place a single order."
+    visual: chart-candles
+    visual_data:
+      data: [[27.62, 27.70, 27.58, 27.68], [27.68, 27.76, 27.64, 27.74], [27.74, 27.78, 27.70, 27.72], [27.72, 27.80, 27.68, 27.78], [27.78, 27.82, 27.74, 27.80], [27.80, 27.88, 27.78, 27.79], [27.79, 27.82, 27.70, 27.72], [27.72, 27.74, 27.62, 27.64]]
+      levels:
+        - {price: 27.86, label: "Pre-market high"}
+        - {price: 27.62, label: "Open"}
+        - {price: 27.40, label: "Yesterday's close"}
+
+  - type: mc
+    prompt: "It is three minutes before {{market.regular_open}} {{market.timezone}}. Which line can you not draw yet?"
+    options:
+      - {text: "Today's opening price", correct: true}
+      - {text: "Yesterday's low"}
+      - {text: "The pre-market high"}
+    explanation: "The open has not happened; the other two are already fixed."
+
+  - type: sort
+    prompt: "Ready before the open, or only after it?"
+    buckets: ["Before the open", "Only after the open"]
+    items:
+      - {text: "Yesterday's high", bucket: "Before the open"}
+      - {text: "The pre-market low", bucket: "Before the open"}
+      - {text: "The round number above price", bucket: "Before the open"}
+      - {text: "The opening price", bucket: "Only after the open"}
+      - {text: "The high of the day so far", bucket: "Only after the open"}
+    explanation: "Everything from yesterday and the pre-market is homework; the rest builds during the session."
+
+  - type: theory
+    title: "Levels are zones"
+    body: "Price rarely turns at the exact cent. Treat a level as a zone a few cents wide and judge it by where the candle closes, not by where the wick reached."
+
+  - type: chart-tap
+    prompt: "The pre-market high is $27.86. Tap the candle that tested it and failed."
+    chart:
+      kind: candles
+      data: [[27.62, 27.70, 27.58, 27.68], [27.68, 27.76, 27.64, 27.74], [27.74, 27.78, 27.70, 27.72], [27.72, 27.80, 27.68, 27.78], [27.78, 27.82, 27.74, 27.80], [27.80, 27.88, 27.78, 27.79], [27.79, 27.82, 27.70, 27.72], [27.72, 27.74, 27.62, 27.64], [27.64, 27.68, 27.56, 27.58], [27.58, 27.62, 27.50, 27.54]]
+      levels:
+        - {price: 27.86, label: "Pre-market high"}
+    target: 5
+    explanation: "Only one candle traded above $27.86, and it closed seven cents back under the level."
+
+  - type: chart-decision
+    scenario: "Yesterday's low is $19.20. XYZ has sold off into it all morning, dipped one cent under and closed back above. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[19.60, 19.64, 19.48, 19.50], [19.50, 19.54, 19.36, 19.38], [19.38, 19.42, 19.24, 19.28], [19.28, 19.32, 19.19, 19.26], [19.26, 19.34, 19.24, 19.32], [19.32, 19.38, 19.28, 19.36], [19.36, 19.48, 19.34, 19.46], [19.46, 19.56, 19.44, 19.54], [19.54, 19.60, 19.50, 19.58], [19.58, 19.66, 19.54, 19.62]]
+      levels:
+        - {price: 19.20, label: "Yesterday's low"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "The level held and price ran to $19.62 — $0.26 per share, +$260 long on 1,000 shares from $19.36."
+    explanation: "A level that gets tested, holds, and then makes a higher low is doing its job — the trade is with the buyers defending it."
+
+  - type: numeric-input
+    prompt: "You are long 1,500 shares from $27.71 and take profit at the pre-market high of $27.86. Result before costs?"
+    answer: 225
+    unit: "$"
+    working: "($27.86 − $27.71) × 1,500 shares = $225"
+    explanation: "Fifteen cents on 1,500 shares — the level gave you the exit before you were in the trade."
+
+  - type: tf
+    statement: "A level only counts if price turns at exactly that price."
+    answer: false
+    explanation: "Treat it as a zone: a few cents either side is still the level doing its work."
+
+  - type: fill-choice
+    sentence: "Above today's ___ price, buyers have controlled the session."
+    options: ["opening", "closing", "average"]
+    answer: "opening"
+    explanation: "The open is the session's starting agreement; everything above it is buyers having their way."
+
+  - type: theory
+    title: "The map before the bell"
+    body: "Yesterday's high, low and close, the pre-market high and low, the round numbers. Add VWAP once the session starts and your map is finished."

@@ -1,0 +1,121 @@
+id: "8-2"
+title: "The Scalper's Map"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: repetition
+tags: [map, decisions, practice]
+learning_goal: "User applies the four-part read to unseen charts and passes on the ones where the inputs disagree."
+purpose: "The read only counts if it still works when the chart is new and the clock is running."
+terms_introduced: []
+prerequisite: "8-1"
+xp: 30
+difficulty: 3
+path_position: merge
+sources: ["Bellafiore — One Good Trade", "Volman — Understanding Price Action"]
+notes: "Practice sub. Three decisions across the chapter's material, with cost and execution checks."
+screens:
+  - type: intro
+    text: "Three decisions, no hints. Level, line, candle, tape."
+
+  - type: story
+    character: retail-trader
+    text: "Mid-morning. Lines drawn, VWAP on the chart, tape open on the right, $20,000 in the account."
+
+  - type: chart-decision
+    scenario: "XYZ is above VWAP all session. It pulls back to the line at $38.60, leaves a long lower wick and the tape starts printing at the ask again. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[38.90, 38.96, 38.80, 38.82], [38.82, 38.86, 38.72, 38.74], [38.74, 38.78, 38.66, 38.68], [38.68, 38.72, 38.62, 38.66], [38.66, 38.70, 38.58, 38.64], [38.64, 38.72, 38.56, 38.70], [38.70, 38.80, 38.68, 38.78], [38.78, 38.88, 38.74, 38.86], [38.86, 38.92, 38.82, 38.90], [38.90, 38.96, 38.86, 38.92]]
+      vwap: [38.58, 38.58, 38.59, 38.59, 38.60, 38.60, 38.61, 38.62, 38.63, 38.64]
+      volume: [5600, 5100, 4600, 4200, 3900, 9800, 7400, 6800, 6100, 5600]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It bounced to $38.92 — $0.22 per share, +$330 long on 1,500 shares from $38.70."
+    explanation: "A pullback into the line that holds, with the tape turning back to the ask, is the bounce this chapter started with."
+
+  - type: mc
+    prompt: "Same trade, but the tape is silent and the volume on the bounce candle is the smallest of the hour. What changes?"
+    options:
+      - {text: "One input is missing, so the case is weaker and the trade is optional", correct: true}
+      - {text: "Nothing — the level and the line are what matter"}
+      - {text: "It becomes a short, because low volume means sellers"}
+    explanation: "Nobody committed anything at the line, so the bounce has nothing holding it up."
+
+  - type: chart-decision
+    scenario: "XYZ has been under VWAP all morning. It rallies into the line at $61.40, stalls for three candles and the tape starts printing at the bid. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[61.00, 61.10, 60.96, 61.08], [61.08, 61.18, 61.04, 61.16], [61.16, 61.26, 61.12, 61.24], [61.24, 61.34, 61.20, 61.32], [61.32, 61.38, 61.28, 61.34], [61.34, 61.40, 61.28, 61.30], [61.30, 61.34, 61.20, 61.22], [61.22, 61.26, 61.10, 61.12], [61.12, 61.16, 61.02, 61.04], [61.04, 61.08, 60.94, 60.98]]
+      vwap: [61.52, 61.50, 61.48, 61.46, 61.44, 61.42, 61.41, 61.40, 61.38, 61.36]
+      volume: [6400, 5900, 5600, 5100, 4400, 7800, 8400, 7600, 6900, 6200]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rolled over to $60.98 — $0.32 per share, +$480 short on 1,500 shares from $61.30."
+    explanation: "Three candles that cannot reach the line, then prints at the bid: the rejection is already happening."
+
+  - type: numeric-input
+    prompt: "That short is 1,500 shares. The spread is $0.04 and you also pay $0.005 per share in fees each way. What are the all-in costs for the round trip?"
+    answer: 75
+    unit: "$"
+    working: "Spread $0.04 × 1,500 = $60; fees $0.005 × 1,500 × 2 = $15; total $75"
+    explanation: "On a $480 result that is a sixth of the move — worth knowing, never worth ignoring."
+
+  - type: sort
+    prompt: "Which input is telling you this?"
+    buckets: ["The level", "VWAP", "The candle", "The tape"]
+    items:
+      - {text: "Price is at yesterday's high", bucket: "The level"}
+      - {text: "Sellers have owned the whole session", bucket: "VWAP"}
+      - {text: "The last minute closed with a long upper wick", bucket: "The candle"}
+      - {text: "Prints are arriving at the bid, faster and larger", bucket: "The tape"}
+    explanation: "Where, who, what, now."
+
+  - type: tf
+    statement: "A read where three inputs agree and one disagrees is the same as a read where all four agree."
+    answer: false
+    explanation: "It can still be a trade, but it is a weaker one — and the disagreement is usually what you learn from later."
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "You are long and want out immediately. Tap the price your sell fills at."
+    data: {bid: 38.88, ask: 38.92, last: 38.90}
+    target: bid
+    explanation: "A seller in a hurry takes the bid, four cents below the ask. That gap is the round trip."
+
+  - type: fill-choice
+    sentence: "The only one of the four inputs that shows you what is happening right now is the ___."
+    options: ["tape", "level", "candle"]
+    answer: "tape"
+    explanation: "The candle is the last minute, the level is history — only prints are live."
+
+  - type: chart-tap
+    prompt: "Tap the candle that broke yesterday's low at $27.50 and could not hold below it."
+    chart:
+      kind: candles
+      data: [[27.80, 27.86, 27.72, 27.74], [27.74, 27.78, 27.66, 27.68], [27.68, 27.72, 27.58, 27.60], [27.60, 27.64, 27.54, 27.56], [27.56, 27.60, 27.46, 27.58], [27.58, 27.66, 27.54, 27.64], [27.64, 27.72, 27.60, 27.70], [27.70, 27.78, 27.66, 27.76]]
+      levels:
+        - {price: 27.50, label: "Yesterday's low"}
+    target: 4
+    explanation: "It traded to $27.46 and closed at $27.58 — through the level and back inside within the minute."
+
+  - type: chart-decision
+    scenario: "XYZ is drifting sideways in an eight-cent band, VWAP is flat through the middle of it, no level is near and the tape is barely moving. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[33.20, 33.24, 33.18, 33.22], [33.22, 33.25, 33.18, 33.20], [33.20, 33.24, 33.17, 33.21], [33.21, 33.24, 33.18, 33.19], [33.19, 33.23, 33.17, 33.22], [33.22, 33.25, 33.19, 33.21], [33.21, 33.24, 33.18, 33.20], [33.20, 33.23, 33.17, 33.21], [33.21, 33.24, 33.18, 33.22], [33.22, 33.24, 33.19, 33.20]]
+      vwap: [33.21, 33.21, 33.21, 33.21, 33.21, 33.21, 33.21, 33.21, 33.21, 33.21]
+      volume: [2100, 1900, 1800, 1700, 1600, 1500, 1700, 1600, 1500, 1400]
+      decision_index: 5
+    best: no-trade
+    outcome: "Eight cents of range for another fifteen minutes. Every entry paid the spread and got nothing back."
+    explanation: "Zero of four inputs. Most of the session looks like this, and most of the session is not a trade."
+
+  - type: theory
+    title: "The reps are the skill"
+    body: "You have now made the same read a dozen times. Next: the one chart that overrules all four inputs."
