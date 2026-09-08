@@ -1,0 +1,38 @@
+# Market profiles. Content uses {{market.<key>}} tokens; the app renders the active profile.
+# "$" in content is replaced by currency_symbol.
+
+US:
+  name: "United States"
+  currency_symbol: "$"
+  currency_code: USD
+  index_example: "S&P 500"
+  index_size: "500 large U.S. companies"
+  exchange_examples: "the NYSE or Nasdaq"
+  timezone: "ET"
+  premarket: "4:00–9:30"
+  regular_open: "9:30"
+  regular_close: "16:00"
+  regular: "9:30–16:00"
+  afterhours: "16:00–20:00"
+  first_minutes: "9:30–10:00"
+  regulation_note: "In the U.S., a margin account under $25,000 is limited to 3 day trades in 5 business days (the pattern day trader rule). Cash accounts are not, but must wait for funds to settle."
+  fee_note: "Many U.S. brokers charge no commission on stocks, but exchange and regulatory fees still apply, and some charge per share."
+  scalping_note: "Retail scalping in the U.S. is mostly done in stocks with direct-access brokers that charge per share."
+
+EU-DE:
+  name: "Germany / Europe"
+  currency_symbol: "€"
+  currency_code: EUR
+  index_example: "DAX"
+  index_size: "40 large German companies"
+  exchange_examples: "Xetra or the Frankfurt Stock Exchange"
+  timezone: "CET"
+  premarket: "8:00–9:00 (limited venues)"
+  regular_open: "9:00"
+  regular_close: "17:30"
+  regular: "9:00–17:30"
+  afterhours: "17:30–22:00 (limited venues)"
+  first_minutes: "9:00–9:30"
+  regulation_note: "In Germany there is no pattern-day-trader rule, but leveraged products for retail traders are limited by ESMA rules, and losses are capped at the account for stocks."
+  fee_note: "Most German brokers charge a fee per order (often €1–€5 plus venue fees), which matters a lot when you trade many times a day."
+  scalping_note: "In Europe, retail scalpers often trade futures or CFDs because per-order stock fees are high. This app teaches scalping with stocks because the mechanics are the same and the costs are easier to see."

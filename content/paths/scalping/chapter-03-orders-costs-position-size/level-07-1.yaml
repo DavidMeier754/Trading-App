@@ -1,0 +1,95 @@
+id: "7-1"
+title: "Slippage, Speed & Fees"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [slippage, execution]
+learning_goal: "User can define slippage and execution speed, keep both separate from the spread, and compute slippage cost for a share count."
+purpose: "The gap between the price you saw and the price you got is a real, recurring cost — naming it is the first step to controlling it."
+terms_introduced: ["Slippage", "Execution speed"]
+prerequisite: "6-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "You tapped at $50.00. You got $50.03. Meet slippage."
+
+  - type: theory
+    title: "Slippage"
+    body: "The difference between the price you expected and the price you got. The market moved in the fraction of a second between your tap and the fill."
+
+  - type: theory
+    title: "It works both ways"
+    body: "Mostly against you — you're usually chasing a move. Sometimes for you, when the ask dips as your order arrives. Fast, volatile stocks slip most."
+
+  - type: visual
+    component: cost-stack
+    data: {shares: 1000, spread: 0.02, slippage: 0.03, target: 0.20}
+    caption: "Market buy of 1,000 shares: ask $50.00 on screen, filled at $50.03. Slippage $30, spread $20 — $50 gone before the trade starts."
+
+  - type: numeric-input
+    prompt: "Expected $27.40, filled at $27.44, 600 shares. Slippage cost?"
+    answer: 24
+    unit: "$"
+    working: "$0.04 × 600 = $24"
+    explanation: "Slip per share times shares."
+
+  - type: mc
+    prompt: "Which order type caps slippage on entry?"
+    options:
+      - {text: "Marketable limit — it never fills above your limit", correct: true}
+      - {text: "Market order — it fills fastest"}
+      - {text: "Stop-market — it waits for the price"}
+    explanation: "A cap on the price is a cap on the slip."
+
+  - type: theory
+    title: "Execution speed"
+    body: "The time from your tap to the fill. Slow app, slow connection, slow broker → more time for the price to move → more slippage. For a scalper, speed is money. It is not the same thing as a tight spread."
+
+  - type: tf
+    statement: "A tight spread protects you from slippage."
+    answer: false
+    explanation: "Spread is the gap at one moment; slippage is the move during execution. They're independent."
+
+  - type: sort
+    prompt: "Spread or slippage?"
+    buckets: ["Spread", "Slippage"]
+    items:
+      - {text: "Ask minus bid right now", bucket: "Spread"}
+      - {text: "Price moved between tap and fill", bucket: "Slippage"}
+      - {text: "Paid on every round trip", bucket: "Spread"}
+      - {text: "Biggest in fast, volatile stocks", bucket: "Slippage"}
+    explanation: "A gap versus a move."
+
+  - type: numeric-mc
+    prompt: "Spread $0.02, slippage $0.03 on entry, 1,000 shares. Cost so far?"
+    options:
+      - {text: "$50", correct: true}
+      - {text: "$5"}
+      - {text: "$500"}
+      - {text: "$30"}
+    working: "($0.02 + $0.03) × 1,000 = $50"
+    explanation: "Both layers, times shares."
+
+  - type: story
+    character: retail-trader
+    text: "Two scalpers tap buy at the same instant. One fills in 40 milliseconds at $18.10, the other in 600 milliseconds at $18.16."
+
+  - type: mc
+    prompt: "What separated them?"
+    options:
+      - {text: "Execution speed — the slower fill met a higher ask", correct: true}
+      - {text: "The spread — they saw different quotes"}
+      - {text: "Position size — bigger orders fill later"}
+    explanation: "Half a second was six cents."
+
+  - type: fill-tiles
+    sentence: "The gap between the expected price and your fill is ___."
+    answer: "slippage"
+    explanation: "The market moved while you were executing."
+
+  - type: theory
+    title: "One more layer"
+    body: "Next: the one cost that does come as a bill."

@@ -1,0 +1,101 @@
+id: "4-1"
+title: "Volume, Liquidity, Volatility"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [liquidity, volume]
+learning_goal: "User can define liquidity, use volume as its clue, and predict what a normal-sized trade does to the price of a liquid versus an illiquid stock."
+purpose: "Liquidity decides whether you can get out when you want to — it's the first thing experienced traders check."
+terms_introduced: ["Liquidity", "Liquid", "Illiquid"]
+prerequisite: "3-1"
+xp: 20
+difficulty: 1
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Can you get out when you want to? That's liquidity."
+
+  - type: theory
+    title: "Liquidity"
+    body: "A liquid stock has many buyers and sellers ready at any moment: you can buy or sell a normal amount without moving the price. An illiquid stock has few — your own trade can move it."
+
+  - type: example
+    body: "XYZ trades 5 million shares a day. Your 100 shares are a drop in the ocean. Tiny Corp trades 3,000 shares a day. Your 100 shares are 3 % of everything — the price jumps."
+    visual: bar-chart
+    visual_data: {bars: [{label: "XYZ daily volume", value: 5000000}, {label: "Tiny Corp daily volume", value: 3000}]}
+
+  - type: theory
+    title: "Volume is the clue"
+    body: "High daily volume usually means high liquidity. Check the volume on the quote card before you trade — it's the fastest liquidity check there is."
+
+  - type: mc
+    prompt: "You place a modest buy on a stock and the price jumps 2 % just from your trade. What does that tell you?"
+    options:
+      - {text: "The stock is illiquid — there were few sellers near the current price", correct: true}
+      - {text: "The stock is liquid — buyers are eager"}
+      - {text: "The exchange added a charge for your trade"}
+    explanation: "A normal-sized trade shouldn't move a liquid stock. It moved this one, so sellers were scarce."
+
+  - type: tf
+    statement: "A stock with 200 shares traded per day is easy to get out of quickly."
+    answer: false
+    explanation: "Almost nobody is trading it — finding a buyer for your shares means cutting the price."
+
+  - type: slider
+    prompt: "Tiny Corp trades 3,000 shares a day. You want to sell 600. Roughly what share of the day's volume is that?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 20
+    tolerance: 5
+    explanation: "600 ÷ 3,000 = 20 % of the whole day. Expect the price to move against you."
+
+  - type: mc
+    prompt: "Why do most active traders stick to liquid stocks?"
+    options:
+      - {text: "They can enter and exit close to the price they see, even with size", correct: true}
+      - {text: "Liquid stocks have smaller daily price moves"}
+      - {text: "Exchanges charge less for liquid stocks"}
+    explanation: "Liquidity is about getting your price, not about how far the stock moves."
+
+  - type: sort
+    prompt: "Liquid or illiquid?"
+    buckets: ["Liquid", "Illiquid"]
+    items:
+      - {text: "5 M shares a day", bucket: "Liquid"}
+      - {text: "3,000 shares a day", bucket: "Illiquid"}
+      - {text: "Your 100-share sell moves the price 2 %", bucket: "Illiquid"}
+      - {text: "Buyers and sellers ready at every price", bucket: "Liquid"}
+    explanation: "Volume and price impact are the two clues."
+
+  - type: story
+    character: retail-trader
+    text: "You hold 400 shares of a small stock. News hits and you want out now. Only 50 shares are wanted at the current price."
+
+  - type: mc
+    prompt: "What happens if you insist on selling all 400 right away?"
+    options:
+      - {text: "50 sell at the current price and the rest at lower and lower prices", correct: true}
+      - {text: "All 400 sell at the current price, just more slowly"}
+      - {text: "The exchange finds a market maker to take all 400 at the current price"}
+    explanation: "To find enough buyers you have to walk the price down. That's illiquidity costing you money."
+
+  - type: fill-tiles
+    sentence: "A stock you can buy or sell without moving the price much is ___."
+    answer: "liquid"
+    explanation: "Plenty of buyers and sellers ready."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Liquidity", "How easily you can trade without moving the price"]
+      - ["Volume", "Shares traded in a period"]
+      - ["Illiquid", "Few buyers and sellers ready"]
+      - ["Liquid", "Many buyers and sellers ready"]
+    explanation: "Liquidity is ease; volume is the clue."
+
+  - type: theory
+    title: "Ease, not movement"
+    body: "Liquidity is about ease of getting in and out. Next: a different question — how much does the price move at all?"

@@ -1,0 +1,100 @@
+id: "8-1"
+title: "Inside the Quote"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [level-2, order-book]
+learning_goal: "User can read a basic Level 2 ladder and time & sales, and predict how an order larger than the displayed size moves the price."
+purpose: "The quote panel shows two numbers; Level 2 shows the crowd behind them — and how far your own order will push the price."
+terms_introduced: ["Level 2", "Order book", "Displayed size", "Time and sales"]
+prerequisite: "7-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Intro only; tape reading is a Chapter 4 topic."
+screens:
+  - type: intro
+    text: "The quote panel shows the best bid and ask. Level 2 shows everyone behind them."
+
+  - type: theory
+    title: "Level 2, the order book"
+    body: "A list of bids below the best bid and asks above the best ask, each with a displayed size — how many shares are waiting at that price."
+    visual: order-book
+    visual_data: {bids: [[20.00, 1200], [19.99, 800], [19.98, 3000]], asks: [[20.02, 500], [20.03, 2200], [20.04, 900]]}
+
+  - type: walkthrough
+    component: order-book
+    data: {bids: [[20.00, 1200], [19.99, 800], [19.98, 3000]], asks: [[20.02, 500], [20.03, 2200], [20.04, 900]]}
+    steps:
+      - {spotlight: best, text: "Top rows: best bid $20.00 with 1,200 shares, best ask $20.02 with 500."}
+      - {spotlight: depth, text: "Below and above: more prices, more sizes. That's depth."}
+      - {spotlight: size, text: "Displayed size tells you how many shares must trade before the price moves to the next row."}
+
+  - type: theory
+    title: "Time and sales"
+    body: "A scrolling list of every trade: price, size, time. Trades at the ask are buyers hitting sellers; trades at the bid are sellers hitting buyers. Traders call it the tape."
+
+  - type: mc
+    prompt: "Best ask $20.02 shows 500 shares. You market-buy 800. Likely result?"
+    options:
+      - {text: "500 fill at $20.02 and 300 at $20.03 — you moved the price", correct: true}
+      - {text: "All 800 at $20.02 — the size is only a suggestion"}
+      - {text: "The order is rejected for exceeding the size"}
+    explanation: "Your order eats the first row and starts on the next."
+
+  - type: hotspot
+    component: order-book
+    prompt: "Tap the row where that 800-share market buy finishes filling."
+    data: {bids: [[20.00, 1200], [19.99, 800], [19.98, 3000]], asks: [[20.02, 500], [20.03, 2200], [20.04, 900]]}
+    target: ask-2
+    explanation: "$20.03 — the second ask row."
+
+  - type: tf
+    statement: "Large displayed size on the bid means buyers are waiting there, so the price may hold."
+    answer: true
+    explanation: "Waiting buyers can absorb selling — not a guarantee, sizes can vanish in an instant."
+
+  - type: sort
+    prompt: "Level 2 or time and sales?"
+    buckets: ["Level 2", "Time and sales"]
+    items:
+      - {text: "Shares waiting at each price", bucket: "Level 2"}
+      - {text: "Every trade that already happened", bucket: "Time and sales"}
+      - {text: "Depth", bucket: "Level 2"}
+      - {text: "The tape", bucket: "Time and sales"}
+    explanation: "Intentions versus actions."
+
+  - type: mc
+    prompt: "Time and sales prints trade after trade at the ask with growing sizes. What are you seeing?"
+    options:
+      - {text: "Aggressive buyers lifting the offer", correct: true}
+      - {text: "Sellers hitting the bid"}
+      - {text: "Market makers widening the spread"}
+    explanation: "Trades at the ask are buyers paying up."
+
+  - type: numeric-input
+    prompt: "Best ask: 400 shares at $9.50. Next: 600 at $9.51. You market-buy 1,000. Average fill?"
+    answer: 9.506
+    tolerance: 0.001
+    unit: "$"
+    working: "(400 × 9.50 + 600 × 9.51) ÷ 1,000 = 9.506"
+    explanation: "Two rows, weighted by shares."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Level 2", "Bids and asks beyond the best"]
+      - ["Displayed size", "Shares waiting at a price"]
+      - ["Time and sales", "List of executed trades"]
+      - ["Order book", "Another name for Level 2"]
+    explanation: "The crowd behind the quote."
+
+  - type: fill-tiles
+    sentence: "Trades printing at the ask mean ___ are in charge."
+    answer: "buyers"
+    explanation: "They're paying the sellers' price."
+
+  - type: theory
+    title: "Chapter 4 makes this a skill"
+    body: "For now: displayed size tells you how far your order will push the price. Size your orders with that in mind."

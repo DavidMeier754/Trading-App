@@ -1,0 +1,98 @@
+id: "2-1"
+title: "What You're Actually Buying"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [stocks, ownership]
+learning_goal: "User can explain a share as a fraction of a company, read a ticker, and knows where stocks trade."
+purpose: "Knowing that a stock is a piece of a real business — with a code and a marketplace — keeps trading from feeling like a lottery."
+terms_introduced: ["Shareholder", "Ticker", "Exchange"]
+prerequisite: "1-3"
+xp: 20
+difficulty: 1
+sources: [consensus]
+screens:
+  - type: intro
+    text: "XYZ isn't a lottery ticket. It's a piece of a real business."
+
+  - type: theory
+    title: "A stock is ownership"
+    body: "A company is cut into many equal pieces called shares. Own one share and you own that fraction of the company. Owners are called shareholders."
+    visual: ownership-pie
+    visual_data: {total: 100, owned: 1}
+
+  - type: example
+    body: "A company with 1,000 shares. You buy 10. You own 1 % — of the buildings, the brand, the profits."
+    visual: ownership-pie
+    visual_data: {total: 1000, owned: 10}
+
+  - type: theory
+    title: "Why sell pieces of yourself?"
+    body: "To raise money — for factories, products, growth. Investors pay cash once and get a share of the future. After that, the shares change hands between traders."
+
+  - type: numeric-mc
+    prompt: "A company has 400 shares. You buy 20. What fraction of the company is yours?"
+    options:
+      - {text: "5 %", correct: true}
+      - {text: "20 %"}
+      - {text: "2 %"}
+      - {text: "0.5 %"}
+    working: "20 ÷ 400 = 0.05 = 5 %"
+    explanation: "Your shares divided by all shares."
+
+  - type: theory
+    title: "The ticker"
+    body: "Every stock has a short code so nobody types the full name. Apple is AAPL; our example is XYZ. That code is the ticker."
+    visual: quote-card
+    visual_data: {ticker: XYZ, name: Example Corp, price: 22.40}
+
+  - type: theory
+    title: "The exchange"
+    body: "Stocks trade on an exchange, like {{market.exchange_examples}} — a marketplace that matches buyers and sellers. You never deal with it directly; that's what a broker is for (Level 7)."
+
+  - type: mc
+    prompt: "You own 50 shares of a company that has 5,000 shares. Which is true?"
+    options:
+      - {text: "You own 1 % of the company", correct: true}
+      - {text: "You lent the company money that it must repay"}
+      - {text: "You are owed 50 % of the company's profits"}
+    explanation: "50 ÷ 5,000 = 1 %. A share is ownership, not a loan."
+
+  - type: tf
+    statement: "When you buy a share on the exchange, your money goes to the company."
+    answer: false
+    explanation: "It goes to the seller — another shareholder. The company only gets money when it first sells the shares."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the ticker symbol."
+    data: {ticker: NOVA, name: Nova Energy, price: 48.10, change: 0.35, change_pct: 0.7}
+    target: ticker
+    explanation: "NOVA is the code; Nova Energy is the name."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Share", "One piece of a company"]
+      - ["Shareholder", "Someone who owns shares"]
+      - ["Ticker", "Code that identifies a stock"]
+      - ["Exchange", "Marketplace matching buyers and sellers"]
+    explanation: "Pieces, owners, codes and the marketplace."
+
+  - type: mc
+    prompt: "A company's stock price doubles in a year. Which statement is right?"
+    options:
+      - {text: "Each share is worth twice as much, so the whole company is valued about twice as high", correct: true}
+      - {text: "The company now has twice as many shares"}
+      - {text: "Each shareholder now owns twice as big a fraction of the company"}
+    explanation: "Price changes what a share is worth — not how many you own or what fraction."
+
+  - type: fill-tiles
+    sentence: "The code that identifies a stock is its ___."
+    answer: "ticker"
+    explanation: "AAPL, XYZ, NOVA — tickers."
+
+  - type: theory
+    title: "Next up"
+    body: "The little card every app shows for a stock — and how to read it in two seconds."

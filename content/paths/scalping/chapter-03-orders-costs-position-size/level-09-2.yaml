@@ -1,0 +1,117 @@
+id: "9-2"
+title: "The All-In Check"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: repetition
+tags: [costs, checklist, decisions]
+learning_goal: "User runs the all-in check on three setups and makes cost-aware long / short / no-trade decisions."
+purpose: "The check only matters if it changes what you do — here it decides real trades."
+terms_introduced: []
+prerequisite: "9-1"
+xp: 30
+difficulty: 3
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Three real setups. Run the check, then trade — or don't."
+
+  - type: story
+    character: retail-trader
+    text: "Setup 1: XYZ bid $52.00 / ask $52.02, moves about $0.30 while you'd hold. Slippage about $0.01, fees $0.01. Connection solid. Target $0.20."
+
+  - type: numeric-input
+    prompt: "All-in cost per share?"
+    answer: 0.04
+    tolerance: 0.001
+    unit: "$"
+    working: "0.02 + 0.01 + 0.01 = 0.04"
+    explanation: "Spread, slippage, fees."
+
+  - type: numeric-mc
+    prompt: "Percent of the $0.20 target?"
+    options:
+      - {text: "20 %", correct: true}
+      - {text: "4 %"}
+      - {text: "40 %"}
+      - {text: "2 %"}
+    working: "0.04 ÷ 0.20 = 0.20"
+    explanation: "A fifth — fine."
+
+  - type: chart-decision
+    scenario: "XYZ pulls back to a level where buyers stepped in twice this morning, volume steady, all-in 20 % of target. 1,000 shares."
+    shares: 1000
+    chart: {kind: candles, data: [[51.80, 51.95, 51.75, 51.90], [51.90, 52.10, 51.85, 52.05], [52.05, 52.20, 52.00, 52.15], [52.15, 52.18, 51.98, 52.02], [52.02, 52.06, 51.96, 52.00], [52.00, 52.04, 51.97, 52.02], [52.02, 52.15, 52.00, 52.12], [52.12, 52.22, 52.08, 52.20], [52.20, 52.26, 52.14, 52.24]], decision_index: 5}
+    best: long
+    reasonable: [no-trade]
+    outcome: "It bounced $0.22 — +$220 on 1,000 shares, minus about $40 in costs."
+    explanation: "A tested level, steady volume and a cheap trade: a long with the pressure."
+
+  - type: story
+    character: retail-trader
+    text: "Setup 2: bid $7.40 / ask $7.48, moves about $0.10. Fees $0.01. Target $0.10."
+
+  - type: slider
+    prompt: "Percent of the target eaten by the spread alone?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 80
+    tolerance: 10
+    explanation: "0.08 ÷ 0.10 = 80 %."
+
+  - type: chart-decision
+    scenario: "Same stock breaking out on volume — but that spread. 1,000 shares."
+    shares: 1000
+    chart: {kind: candles, data: [[7.30, 7.36, 7.28, 7.34], [7.34, 7.40, 7.32, 7.38], [7.38, 7.42, 7.36, 7.40], [7.40, 7.46, 7.39, 7.44], [7.44, 7.48, 7.42, 7.46], [7.46, 7.50, 7.44, 7.48], [7.48, 7.56, 7.46, 7.54], [7.54, 7.60, 7.50, 7.57], [7.57, 7.60, 7.52, 7.55]], decision_index: 5}
+    best: no-trade
+    outcome: "It moved $0.11. After the $0.08 spread and fees, about $0.02 per share — before slippage."
+    explanation: "A good-looking move on bad ground. The check says no."
+
+  - type: story
+    character: retail-trader
+    text: "Setup 3: bid $30.10 / ask $30.11, moves about $0.25. Your Wi-Fi dropped twice in the last hour."
+
+  - type: mc
+    prompt: "Trade?"
+    options:
+      - {text: "No — fix the connection first; the setup will come again", correct: true}
+      - {text: "Yes — the cost check passes, and that's what matters"}
+      - {text: "Yes, with half size"}
+    explanation: "Reliability is a check, not a suggestion. Half size doesn't fix a dropped connection."
+
+  - type: numeric-input
+    prompt: "Later, connection fixed. 1 % of a $12,000 account, stop $0.08. Shares?"
+    answer: 1500
+    unit: "shares"
+    working: "$120 ÷ $0.08 = 1,500"
+    explanation: "Risk budget over stop distance."
+
+  - type: chart-decision
+    scenario: "Setup 3, connection stable, 1,500 shares sized. The stock grinds up along rising volume."
+    shares: 1500
+    chart: {kind: candles, data: [[29.90, 29.98, 29.86, 29.96], [29.96, 30.04, 29.94, 30.02], [30.02, 30.08, 30.00, 30.06], [30.06, 30.10, 30.02, 30.08], [30.08, 30.12, 30.06, 30.10], [30.10, 30.14, 30.08, 30.11], [30.11, 30.20, 30.10, 30.18], [30.18, 30.26, 30.16, 30.24], [30.24, 30.30, 30.22, 30.28]], decision_index: 5}
+    best: long
+    reasonable: [no-trade]
+    outcome: "+$0.18 — +$270 on 1,500 shares, minus about $45 in costs."
+    explanation: "All four checks pass, pressure is up: a long."
+
+  - type: sort
+    prompt: "Passes the check?"
+    buckets: ["Passes", "Fails"]
+    items:
+      - {text: "All-in 15 % of target, stable connection", bucket: "Passes"}
+      - {text: "Spread alone 80 % of target", bucket: "Fails"}
+      - {text: "Perfect costs, connection dropping", bucket: "Fails"}
+      - {text: "All-in 25 %, sized from the stop", bucket: "Passes"}
+    explanation: "Any failed question is a no."
+
+  - type: fill-tiles
+    sentence: "Spread, slippage and fees together are the all-in ___."
+    answer: "cost"
+    explanation: "The trade's honest price tag."
+
+  - type: theory
+    title: "Final exam next"
+    body: "After it, you're a scalper who knows what every trade costs."

@@ -1,0 +1,108 @@
+id: "4-1"
+title: "The Stop Order"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [orders, risk]
+learning_goal: "User can place a stop-loss on the correct side of an entry, choose stop-market over stop-limit for a scalp, and compute the planned loss."
+purpose: "You will be wrong often — the stop order is how being wrong stays cheap."
+terms_introduced: ["Stop order", "Stop-loss", "Stop-market", "Stop-limit", "Stop distance"]
+prerequisite: "3-3"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "You will be wrong. Often. The stop order is how being wrong stays cheap."
+
+  - type: theory
+    title: "Stop order"
+    body: "An order that sits idle until the price reaches your stop price — then it activates. Used to exit a losing position automatically, it's a stop-loss."
+
+  - type: example
+    body: "Long 500 at $20.00. You place a sell stop at $19.90. If the price touches $19.90, the stop becomes an order to sell. Loss about $0.10 × 500 = $50, and you're out."
+    visual: chart-line
+    visual_data: {data: [20.00, 20.04, 19.98, 19.95, 19.92, 19.90, 19.85], levels: [{price: 20.00, label: "Entry"}, {price: 19.90, label: "Stop"}]}
+
+  - type: theory
+    title: "Stop-market vs stop-limit"
+    body: "Stop-market: when triggered it sells at market — exit guaranteed, price not. Stop-limit: when triggered it becomes a limit order — price capped, exit not guaranteed. In a fast drop a stop-limit can leave you stuck."
+
+  - type: theory
+    title: "Stop distance"
+    body: "The gap between your entry and your stop — here $0.10. It's the most you plan to lose per share, and it drives your position size in the next level."
+
+  - type: mc
+    prompt: "Long 300 at $41.00, sell stop at $40.80. The stock drops to $40.75 in one fast move. With a stop-market you:"
+    options:
+      - {text: "Are out around $40.75–$40.80 — the exit is guaranteed", correct: true}
+      - {text: "Are still in — the price skipped past $40.80"}
+      - {text: "Sell at exactly $40.80 no matter what"}
+    explanation: "Triggered, then filled at the next available bid."
+
+  - type: mc
+    prompt: "Same situation with a stop-limit at $40.80 (limit $40.80). Likely result?"
+    options:
+      - {text: "Not filled — the price is already below your limit; you're still in", correct: true}
+      - {text: "Filled at $40.80"}
+      - {text: "Filled at market"}
+    explanation: "The limit part can't fill below $40.80, so the position stays open."
+
+  - type: tf
+    statement: "For a scalper, a stop-market is usually the safer choice for a stop-loss."
+    answer: true
+    explanation: "Getting out matters more than the last cent when a scalp fails."
+
+  - type: slider
+    prompt: "You're long at $20.00 on a stock that wiggles a few cents. Set your sell stop."
+    min: 19.50
+    max: 20.50
+    step: 0.02
+    unit: "$"
+    answer: 19.88
+    tolerance: 0.08
+    explanation: "Below your entry, close enough to keep the loss small, far enough that normal wiggle doesn't hit it."
+
+  - type: numeric-input
+    prompt: "Long 800 at $15.20, stop at $15.10. Planned loss if stopped?"
+    answer: 80
+    unit: "$"
+    working: "$0.10 × 800 = $80"
+    explanation: "Stop distance times shares."
+
+  - type: sort
+    prompt: "Stop-market or stop-limit?"
+    buckets: ["Stop-market", "Stop-limit"]
+    items:
+      - {text: "Exit guaranteed", bucket: "Stop-market"}
+      - {text: "Price capped", bucket: "Stop-limit"}
+      - {text: "Can leave you stuck in a fast drop", bucket: "Stop-limit"}
+      - {text: "The scalper's usual stop-loss", bucket: "Stop-market"}
+    explanation: "Out for sure, or out at a price — pick 'out for sure'."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "To protect a long position,"}
+      - {text: "place a buy stop above your entry.", wrong: true}
+      - {text: "It triggers if the price falls."}
+    explanation: "A long is protected by a sell stop below the entry."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Stop order", "Idle until the stop price is touched"]
+      - ["Stop-loss", "A stop used to cut a loss"]
+      - ["Stop-market", "Triggers a market order"]
+      - ["Stop distance", "Entry to stop, per share"]
+    explanation: "The exit kit."
+
+  - type: fill-tiles
+    sentence: "A stop that becomes a market order when triggered is a stop-___."
+    answer: "market"
+    explanation: "Guaranteed out."
+
+  - type: theory
+    title: "The full kit"
+    body: "Entry capped, exit targeted, loss stopped. Now: how many shares?"

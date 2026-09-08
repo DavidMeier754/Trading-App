@@ -1,0 +1,100 @@
+id: "6-1"
+title: "Checkpoint"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: test
+tags: [checkpoint]
+learning_goal: "Verify Levels 1–5: bid/ask/spread, spread versus expected move, market/limit/marketable limit orders, stop orders, position sizing."
+purpose: "The cost-and-order fundamentals must be solid before slippage and fees stack on top."
+terms_introduced: []
+prerequisite: "5-2"
+xp: 40
+difficulty: 2
+sources: [consensus]
+notes: "10 scored questions. Hearts apply. Pass mark 70 %."
+screens:
+  - type: intro
+    text: "Checkpoint. Ten questions, nothing new. Hearts are on."
+    counter: 10
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "Tap the price a market sell fills at."
+    data: {bid: 33.10, ask: 33.13, last: 33.12}
+    target: bid
+    explanation: "Sellers get the bid."
+
+  - type: numeric-input
+    prompt: "Bid $33.10, ask $33.13. Round trip on 700 shares — spread cost?"
+    answer: 21
+    unit: "$"
+    working: "$0.03 × 700 = $21"
+    explanation: "Spread times shares."
+
+  - type: mc
+    prompt: "Expected move $0.12, spread $0.06. Verdict?"
+    options:
+      - {text: "Skip — half the move is gone at entry", correct: true}
+      - {text: "Fine — six cents is small"}
+      - {text: "Good — wide spreads mean big moves"}
+    explanation: "50 % of the move to the spread is far too much."
+
+  - type: mc
+    prompt: "Ask $10.20. You send a limit buy at $10.23 while sellers are still at $10.20. You pay:"
+    options:
+      - {text: "$10.20", correct: true}
+      - {text: "$10.23"}
+      - {text: "$10.215"}
+    explanation: "Marketable limit: fills at the ask, capped at your limit."
+
+  - type: tf
+    statement: "A stop-limit guarantees you get out when the stop price is touched."
+    answer: false
+    explanation: "Only a stop-market guarantees the exit."
+
+  - type: sort
+    prompt: "Which order type?"
+    buckets: ["Market order", "Limit order", "Stop order"]
+    items:
+      - {text: "Now, at the best price", bucket: "Market order"}
+      - {text: "Only at my price or better", bucket: "Limit order"}
+      - {text: "Idle until a price is touched", bucket: "Stop order"}
+      - {text: "Marketable when placed at or above the ask", bucket: "Limit order"}
+    explanation: "Three tools, three behaviors."
+
+  - type: numeric-mc
+    prompt: "Account $15,000, 1 % rule, stop $0.15. Shares?"
+    options:
+      - {text: "1,000", correct: true}
+      - {text: "150"}
+      - {text: "10,000"}
+      - {text: "100"}
+    working: "$150 ÷ $0.15 = 1,000"
+    explanation: "Risk budget over stop distance."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Long 600 at $22.00,"}
+      - {text: "protective buy stop at $21.90.", wrong: true}
+      - {text: "Risk $60."}
+    explanation: "A long needs a sell stop below the entry."
+
+  - type: numeric-input
+    prompt: "800 shares, stop distance $0.09. Risk per trade?"
+    answer: 72
+    unit: "$"
+    working: "$0.09 × 800 = $72"
+    explanation: "Stop distance times shares."
+
+  - type: mc
+    prompt: "The spread jumps from $0.02 to $0.12 at {{market.regular_open}}. Best move?"
+    options:
+      - {text: "Wait for it to settle — a thin, jumpy quote", correct: true}
+      - {text: "Buy now — a wider spread means momentum"}
+      - {text: "Use a stop order to enter"}
+    explanation: "Wide and unstable is a reason to wait."
+
+  - type: summary
+    total: 10

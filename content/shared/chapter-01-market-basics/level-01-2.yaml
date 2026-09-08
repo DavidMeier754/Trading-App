@@ -1,0 +1,98 @@
+id: "1-2"
+title: "Your First Trade"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [supply-demand, price]
+learning_goal: "User can explain a price move as the balance of buyers and sellers, and predict the direction from a described imbalance."
+purpose: "Every jump and dip you will ever see is buyers versus sellers — knowing that turns a chart from noise into a story."
+terms_introduced: ["Market", "Buyer", "Seller", "Demand", "Supply"]
+prerequisite: "1-1"
+xp: 20
+difficulty: 1
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Why did XYZ go up? Not magic. People."
+
+  - type: theory
+    title: "A price is a deal"
+    body: "Every trade needs a buyer and a seller who agree on a price. The market is where they meet — today mostly a computer matching them in milliseconds."
+
+  - type: theory
+    title: "More buyers than sellers → up"
+    body: "When more people want to buy than sell at the current price, buyers have to offer more to get shares. The price rises."
+    visual: bar-chart
+    visual_data: {bars: [{label: "Want to buy", value: 8}, {label: "Want to sell", value: 3}]}
+
+  - type: theory
+    title: "More sellers than buyers → down"
+    body: "When more people want to sell than buy, sellers have to accept less to find a buyer. The price falls."
+    visual: bar-chart
+    visual_data: {bars: [{label: "Want to buy", value: 2}, {label: "Want to sell", value: 9}]}
+
+  - type: example
+    body: "Demand is how much people want to buy. Supply is how much is for sale. The price is the balance between them — it moves until every buyer finds a seller."
+
+  - type: mc
+    prompt: "A stock has far more people wanting to buy than sell right now. What happens next, most likely?"
+    options:
+      - {text: "The price rises until enough sellers show up", correct: true}
+      - {text: "The price stays put until the company adds more shares"}
+      - {text: "Trading pauses until buyers and sellers are equal"}
+    explanation: "Buyers compete by paying more; the higher price draws out sellers."
+
+  - type: story
+    character: retail-trader
+    text: "Breaking news: XYZ's biggest product is being recalled. Suddenly everyone who owns it wants out."
+
+  - type: mc
+    prompt: "After the recall news, what happens to XYZ's price, and why?"
+    options:
+      - {text: "It falls — many sellers, few buyers willing to pay the old price", correct: true}
+      - {text: "It rises — bad news attracts bargain hunters first"}
+      - {text: "It doesn't move — news doesn't change the number of shares"}
+    explanation: "More supply than demand at the old price pushes the price down until buyers appear."
+
+  - type: tf
+    statement: "A price can rise even if nothing changed at the company itself."
+    answer: true
+    explanation: "Price is about what buyers and sellers do. Mood, rumors or a big buyer can shift demand without any change at the company."
+
+  - type: sort
+    prompt: "Sort each situation."
+    buckets: ["Pushes price up", "Pushes price down"]
+    items:
+      - {text: "A wave of new buyers", bucket: "Pushes price up"}
+      - {text: "Owners rushing to sell", bucket: "Pushes price down"}
+      - {text: "Buyers offering more than the last price", bucket: "Pushes price up"}
+      - {text: "Sellers accepting less than the last price", bucket: "Pushes price down"}
+    explanation: "Whoever is more eager moves the price in their direction."
+
+  - type: chart-decision
+    scenario: "XYZ at $15.00. Lots of buyers, few sellers; the price has ticked up steadily for five minutes. Buy 100 shares, or wait?"
+    shares: 100
+    chart: {kind: line, data: [14.80, 14.84, 14.88, 14.90, 14.95, 15.00, 15.05, 15.10, 15.16, 15.20, 15.25], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It climbed to $15.25 — +$25 on 100 shares."
+    explanation: "Demand above supply, price rising: buying with the pressure is reasonable."
+
+  - type: fill-tiles
+    sentence: "When demand is higher than supply, the price ___."
+    answer: "rises"
+    explanation: "More buyers than sellers pushes the price up."
+
+  - type: theory
+    title: "The only rule"
+    body: "Every jump, every dip, every crash in this app is this rule at work: buyers versus sellers. Nothing else moves a price."
+
+  - type: mc
+    prompt: "Two stocks get the same bad news. Stock A has many eager buyers waiting; Stock B has almost none. Which one drops more on a wave of selling?"
+    options:
+      - {text: "Stock B — with few buyers, sellers must cut the price further to find one", correct: true}
+      - {text: "Stock A — more buyers means more trading, so bigger moves"}
+      - {text: "Both the same — the news is identical"}
+    explanation: "The price moves as far as it must to find the other side. Few buyers, bigger drop."

@@ -1,0 +1,101 @@
+id: "3-2"
+title: "Market, Limit, Marketable Limit"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [orders, execution]
+learning_goal: "User can use a marketable limit order for a fast, price-capped entry and a limit order for a targeted exit, and understands unfilled risk."
+purpose: "This is how experienced scalpers actually enter: immediately, but never above the price they chose."
+terms_introduced: ["Marketable limit order", "Unfilled"]
+prerequisite: "3-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "The scalper's entry: a limit order that acts like a market order — with a ceiling."
+
+  - type: theory
+    title: "Marketable limit order"
+    body: "A limit buy placed at or above the current ask. It fills immediately like a market order, but never above your limit. Speed with a cap."
+
+  - type: example
+    body: "Ask $25.10. You send a limit buy at $25.13. If sellers are there at $25.10, you pay $25.10. If the ask jumps to $25.20 in that instant, you don't chase — your order sits at $25.13, unfilled."
+    visual: order-ticket
+    visual_data: {ticker: XYZ, side: buy, qty: 500, type: limit, price: 25.13}
+
+  - type: theory
+    title: "Why not just a market order?"
+    body: "In a fast stock the ask can jump between your tap and the fill. A market order pays whatever is there. A marketable limit pays at most your cap. Most experienced scalpers enter this way."
+
+  - type: mc
+    prompt: "Ask $12.40. You send a limit buy at $12.43 and sellers are still at $12.40. You pay:"
+    options:
+      - {text: "$12.40 — a limit fills at your price or better", correct: true}
+      - {text: "$12.43 — the limit price"}
+      - {text: "$12.415 — the average"}
+    explanation: "The cap is a ceiling, not the price you pay."
+
+  - type: mc
+    prompt: "Same order, but the ask jumps to $12.50 before it arrives. What happens?"
+    options:
+      - {text: "It doesn't fill — it waits at $12.43", correct: true}
+      - {text: "It fills at $12.50 because it's marketable"}
+      - {text: "It's cancelled by the exchange"}
+    explanation: "Above your cap, you don't chase. That's the point."
+
+  - type: tf
+    statement: "A marketable limit order can stay unfilled if the price runs away."
+    answer: true
+    explanation: "That's the trade-off for the cap."
+
+  - type: theory
+    title: "Exits"
+    body: "Many scalpers set a limit sell at their target as soon as they're in. It fills the moment the price gets there. If it never does, you're still holding — unfilled risk again. The stop, next level, covers the other side."
+
+  - type: numeric-input
+    prompt: "You enter 400 shares at $12.40 with a limit sell at $12.52. It fills. Profit before costs?"
+    answer: 48
+    unit: "$"
+    working: "$0.12 × 400 = $48"
+    explanation: "Twelve cents on 400 shares."
+
+  - type: sort
+    prompt: "Which order is it?"
+    buckets: ["Market order", "Marketable limit", "Limit below the ask"]
+    items:
+      - {text: "Fills now, price uncapped", bucket: "Market order"}
+      - {text: "Fills now, price capped", bucket: "Marketable limit"}
+      - {text: "Waits for a dip", bucket: "Limit below the ask"}
+      - {text: "Can miss a fast move entirely", bucket: "Limit below the ask"}
+    explanation: "Speed, capped speed, or patience."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "To enter fast with a price cap, place a limit buy"}
+      - {text: "below the current ask", wrong: true}
+      - {text: "and it fills immediately."}
+    explanation: "Below the ask it just waits. At or above the ask it's marketable."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ is ripping: ask $8.10, then $8.14, then $8.19 within a second."
+
+  - type: mc
+    prompt: "You send a limit buy at $8.15. The ask is now $8.19. Outcome?"
+    options:
+      - {text: "Unfilled — you didn't chase, which is the point", correct: true}
+      - {text: "Filled at $8.19"}
+      - {text: "Filled at $8.15 by a market maker"}
+    explanation: "The cap protected you from paying $8.19 for an $8.10 idea."
+
+  - type: fill-tiles
+    sentence: "A limit order placed at or above the ask is ___ — it fills like a market order."
+    answer: "marketable"
+    explanation: "Marketable: immediately executable."
+
+  - type: theory
+    title: "Cap and target"
+    body: "Cap your entries. Target your exits. One more order type and you have the full kit."

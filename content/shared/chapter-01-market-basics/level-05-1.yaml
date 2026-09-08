@@ -1,0 +1,97 @@
+id: "5-1"
+title: "When the Market Is Open"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [sessions, liquidity]
+learning_goal: "User can order the three sessions of a trading day, knows their times for their market, and explains why thin sessions are jumpy."
+purpose: "The same stock behaves differently at 8:00 and at 11:00 — knowing the sessions explains most 'weird' moves."
+terms_introduced: ["Session", "Pre-market", "Regular session", "After-hours"]
+prerequisite: "4-3"
+xp: 20
+difficulty: 1
+sources: [consensus]
+screens:
+  - type: intro
+    text: "The market has opening hours — and a before and an after."
+
+  - type: visual
+    component: session-ribbon
+    data: {premarket: "{{market.premarket}}", regular: "{{market.regular}}", afterhours: "{{market.afterhours}}", timezone: "{{market.timezone}}"}
+    caption: "A trading day in {{market.name}}: pre-market {{market.premarket}}, regular session {{market.regular}}, after-hours {{market.afterhours}} ({{market.timezone}})."
+
+  - type: carousel
+    cards:
+      - {label: "Pre-market", text: "Before the official open. Few traders, thin volume — prices can jump on small trades.", icon: session-pre}
+      - {label: "Regular session", text: "{{market.regular}} {{market.timezone}}. Most volume, most participants, most reliable prices.", icon: session-regular}
+      - {label: "After-hours", text: "After the close. Thin again. News released after the close shows up here first.", icon: session-after}
+
+  - type: theory
+    title: "Thin means jumpy"
+    body: "Fewer traders means fewer buyers and sellers ready — low liquidity. That's why pre-market and after-hours prices jump around more. Same rule as Level 4."
+
+  - type: order
+    prompt: "Arrange the sessions from first to last."
+    items: ["Pre-market", "Regular session", "After-hours"]
+    explanation: "Before, main, after."
+
+  - type: mc
+    prompt: "A stock jumps 6 % in pre-market on 40,000 shares, then gives most of it back in the first regular minutes. Best explanation?"
+    options:
+      - {text: "Pre-market is thin — a few trades moved it a lot, and the full crowd disagreed", correct: true}
+      - {text: "The company reversed its news at the open"}
+      - {text: "The regular session always starts with a drop"}
+    explanation: "40,000 shares is a handful of traders. The real verdict comes with volume."
+
+  - type: tf
+    statement: "Most of a normal stock's daily volume happens in the regular session."
+    answer: true
+    explanation: "The regular session is where almost everyone trades."
+
+  - type: story
+    character: retail-trader
+    text: "7:15 {{market.timezone}}. XYZ announces record results. The regular session opens at {{market.regular_open}}."
+
+  - type: mc
+    prompt: "Why would a trader look at pre-market trading right after the 7:15 news?"
+    options:
+      - {text: "To see how early traders are reacting before the full session starts", correct: true}
+      - {text: "Because pre-market prices are more reliable than regular-hour prices"}
+      - {text: "Because the news can only be traded before the open"}
+    explanation: "Pre-market gives an early, thin read on the reaction."
+
+  - type: mc
+    prompt: "Why are pre-market moves often less reliable than regular-session moves?"
+    options:
+      - {text: "Low liquidity — few participants, so each trade moves the price a lot", correct: true}
+      - {text: "Prices there aren't real and get reset at the open"}
+      - {text: "Institutions aren't allowed to trade before the open"}
+    explanation: "Thin sessions, jumpy prices."
+
+  - type: fill-choice
+    sentence: "The most liquid part of the trading day is the ___ session."
+    options: ["regular", "pre-market", "after-hours"]
+    answer: "regular"
+    explanation: "Most volume, most participants."
+
+  - type: match
+    prompt: "Match each session to its description."
+    pairs:
+      - ["Pre-market", "Before the open, thin"]
+      - ["Regular session", "Main hours, most volume"]
+      - ["After-hours", "After the close, thin"]
+      - ["Session", "A block of trading time"]
+    explanation: "Three sessions, one busy one."
+
+  - type: theory
+    title: "Where beginners practice"
+    body: "New traders usually practice in the regular session: more liquidity, fewer surprises. When you're ready for the edges, you'll know why they're jumpy."
+
+  - type: mc
+    prompt: "Twenty minutes after the close, XYZ prints −8 % on light volume after a headline. What do you know for sure?"
+    options:
+      - {text: "The reaction so far comes from a thin market — tomorrow's session will show the full verdict", correct: true}
+      - {text: "XYZ will open −8 % tomorrow"}
+      - {text: "The drop can't be real because the market is closed"}
+    explanation: "After-hours moves are real but thin; the crowd votes tomorrow."

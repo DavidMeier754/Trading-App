@@ -1,0 +1,100 @@
+id: "7-1"
+title: "Getting Access"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [broker, fees]
+learning_goal: "User knows what a broker and a brokerage account do, what an order is, why paper trading comes first, and that fees apply to every trade."
+purpose: "Before a single real trade you need this piece — and knowing fees exist now saves painful surprises later."
+terms_introduced: ["Broker", "Brokerage account", "Order", "Paper trading", "Fee"]
+prerequisite: "6-1"
+xp: 20
+difficulty: 1
+sources: [consensus]
+screens:
+  - type: intro
+    text: "You can't walk up to the exchange. You need a broker."
+
+  - type: theory
+    title: "The broker"
+    body: "A broker is the company whose app connects you to the exchange. You tell it what to buy or sell — that instruction is an order — and it sends it to the market."
+
+  - type: theory
+    title: "The brokerage account"
+    body: "Your cash, your shares and your history live in a brokerage account at the broker. Deposit money, place orders, see your positions."
+
+  - type: carousel
+    cards:
+      - {label: "Fees", text: "Brokers charge for the service — per order, per share, or hidden in the prices. {{market.fee_note}}", icon: fee}
+      - {label: "Paper trading", text: "Most brokers offer a practice mode with virtual money and real prices. Use it before risking a cent.", icon: paper}
+      - {label: "Rules", text: "{{market.regulation_note}}", icon: rules}
+
+  - type: mc
+    prompt: "What does a broker actually do for you?"
+    options:
+      - {text: "Sends your orders to the exchange and holds your account", correct: true}
+      - {text: "Sets the prices of the stocks you trade"}
+      - {text: "Picks which stocks you should buy"}
+    explanation: "A broker is the connection and the custodian — not the price setter and not an advisor."
+
+  - type: tf
+    statement: "The broker is the company whose stock you are buying."
+    answer: false
+    explanation: "The broker is the middleman. The company is what you buy a piece of."
+
+  - type: walkthrough
+    component: order-ticket
+    data: {ticker: XYZ, side: buy, qty: 100}
+    steps:
+      - {spotlight: side, text: "Buy or sell."}
+      - {spotlight: qty, text: "How many shares."}
+      - {spotlight: submit, text: "Send it — the broker routes the order to the exchange in a fraction of a second."}
+
+  - type: story
+    character: retail-trader
+    text: "You open an account, deposit $1,000, and see a button: 'Practice with virtual $10,000'."
+
+  - type: mc
+    prompt: "What's the smart first move?"
+    options:
+      - {text: "Practice — same prices, same buttons, no real risk", correct: true}
+      - {text: "Skip practice — virtual money doesn't teach anything"}
+      - {text: "Deposit more first so the practice feels real"}
+    explanation: "Paper trading teaches the buttons and the habits for free."
+
+  - type: numeric-mc
+    prompt: "Your broker charges $1 per order. You place 30 orders in a day. Fees?"
+    options:
+      - {text: "$30", correct: true}
+      - {text: "$1"}
+      - {text: "$3"}
+      - {text: "$300"}
+    working: "30 × $1 = $30"
+    explanation: "Every order costs, win or lose."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Broker", "Connects you to the exchange"]
+      - ["Brokerage account", "Holds your cash and shares"]
+      - ["Order", "Instruction to buy or sell"]
+      - ["Paper trading", "Practice with virtual money"]
+    explanation: "The four pieces between you and the market."
+
+  - type: mc
+    prompt: "Same $1 per order. You buy 100 shares of XYZ and sell them later. Total fees for that round?"
+    options:
+      - {text: "$2", correct: true}
+      - {text: "$1"}
+      - {text: "$100"}
+    explanation: "Two orders — one to open, one to close."
+
+  - type: fill-tiles
+    sentence: "An instruction to your broker to buy or sell is an ___."
+    answer: "order"
+    explanation: "Orders are how you talk to the market."
+
+  - type: theory
+    title: "No promises"
+    body: "Nothing you learn here promises profit. Brokers don't promise it either — anyone who does is selling something."

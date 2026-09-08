@@ -1,0 +1,107 @@
+id: "3-1"
+title: "Market, Limit, Marketable Limit"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [orders]
+learning_goal: "User can explain market and limit orders, knows which price each fills at, and knows a limit order may never fill."
+purpose: "Every trade you'll ever place is one of a few order types — this is the first two, and the trade-off between them."
+terms_introduced: ["Market order", "Limit order", "Fill"]
+prerequisite: "2-2"
+xp: 20
+difficulty: 1
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Two ways to tell your broker 'buy': right now, or at my price."
+
+  - type: theory
+    title: "Market order"
+    body: "Buy or sell immediately at the best price available. A market buy fills at the ask; a market sell fills at the bid. Getting your order executed is called a fill."
+    visual: order-ticket
+    visual_data: {ticker: XYZ, side: buy, qty: 500, type: market}
+
+  - type: theory
+    title: "Limit order"
+    body: "You name a price. A limit buy fills only at your price or lower; a limit sell only at your price or higher. If the market never gets there, it never fills."
+
+  - type: walkthrough
+    component: order-ticket
+    data: {ticker: XYZ, side: buy, qty: 500, type: limit, price: 20.05}
+    steps:
+      - {spotlight: type, text: "Market or limit."}
+      - {spotlight: price, text: "Your limit price — only used for limit orders."}
+      - {spotlight: qty, text: "500 shares."}
+
+  - type: mc
+    prompt: "Bid $20.00, ask $20.05. A market buy fills at about:"
+    options:
+      - {text: "$20.05", correct: true}
+      - {text: "$20.00"}
+      - {text: "$20.025"}
+    explanation: "Market buys take the ask."
+
+  - type: mc
+    prompt: "Same quote. You place a limit buy at $19.90. What happens?"
+    options:
+      - {text: "It waits, and fills only if the ask drops to $19.90 or lower", correct: true}
+      - {text: "It fills now at $20.05"}
+      - {text: "It's rejected for being below the bid"}
+    explanation: "A limit below the market simply waits."
+
+  - type: tf
+    statement: "A limit order guarantees a fill, just possibly later."
+    answer: false
+    explanation: "If the price never reaches your limit, it never fills."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "A market sell"}
+      - {text: "fills at the ask,", wrong: true}
+      - {text: "so you get whatever buyers are offering right now."}
+    explanation: "A market sell fills at the bid — the buyers' price."
+
+  - type: sort
+    prompt: "Market or limit?"
+    buckets: ["Market order", "Limit order"]
+    items:
+      - {text: "Fills now at the best available price", bucket: "Market order"}
+      - {text: "Waits for your price", bucket: "Limit order"}
+      - {text: "May never fill", bucket: "Limit order"}
+      - {text: "Fill guaranteed, price not", bucket: "Market order"}
+    explanation: "Speed versus price."
+
+  - type: numeric-mc
+    prompt: "Bid $40.00, ask $40.06. Market buy of 500 shares — you pay about:"
+    options:
+      - {text: "$20,030", correct: true}
+      - {text: "$20,000"}
+      - {text: "$20,015"}
+      - {text: "$20,060"}
+    working: "$40.06 × 500 = $20,030"
+    explanation: "At the ask, times shares."
+
+  - type: story
+    character: retail-trader
+    text: "You want 300 shares of XYZ, but only if it dips to $31.50. It's at bid $31.60 / ask $31.62."
+
+  - type: fill-choice
+    sentence: "You place a ___ buy at $31.50."
+    options: ["limit", "market", "last"]
+    answer: "limit"
+    explanation: "A limit buy waits for your price."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Market order", "Executes now at the best available price"]
+      - ["Limit order", "Executes only at your price or better"]
+      - ["Fill", "Your order gets executed"]
+      - ["Ask", "Where a market buy fills"]
+    explanation: "Two order types and where they land."
+
+  - type: theory
+    title: "Speed or price?"
+    body: "Market = speed, limit = price. Scalpers want both. Next lesson: the trick that gives you both."

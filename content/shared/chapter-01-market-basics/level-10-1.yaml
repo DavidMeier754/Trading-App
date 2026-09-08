@@ -1,0 +1,95 @@
+id: "10-1"
+title: "The Big Picture"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [trend, news]
+learning_goal: "User can name bull and bear markets, treat the trend as context rather than a signal, and explain news as the trigger of sudden supply/demand shifts."
+purpose: "Headlines say 'bull market' and 'bad news' all day — this tells you what they change and what they don't."
+terms_introduced: ["Trend", "Bull market", "Bear market"]
+prerequisite: "9-2"
+xp: 20
+difficulty: 1
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Zoom out. Way out."
+
+  - type: theory
+    title: "Trend"
+    body: "Over weeks and months, prices form a trend: mostly up, mostly down, or sideways. Single days are noise inside it."
+    visual: chart-line
+    visual_data: {data: [100, 103, 101, 106, 104, 109, 112, 110, 115, 113, 118, 121, 119, 124, 122, 127, 125, 130]}
+
+  - type: carousel
+    cards:
+      - {label: "Bull market", text: "The whole market mostly rising for months or years. Named after a bull tossing prices up with its horns.", icon: bull}
+      - {label: "Bear market", text: "The whole market mostly falling for months. The bear swipes down.", icon: bear}
+
+  - type: theory
+    title: "Context, not a signal"
+    body: "A bull market doesn't make every stock rise every day. It tilts the odds. Your trade still depends on this stock, today, buyers versus sellers."
+
+  - type: mc
+    prompt: "In a bull market, a stock you hold drops 6 % in a day. Which is right?"
+    options:
+      - {text: "Possible and normal — single days go against the trend all the time", correct: true}
+      - {text: "Impossible — bull markets don't have down days"}
+      - {text: "The bull market just ended"}
+    explanation: "Trend is the average of many days, not a rule for each one."
+
+  - type: theory
+    title: "News: the spark"
+    body: "What flips supply and demand in seconds? News. Results, deals, recalls, rumors — anything that changes what people expect. That's where sudden volatility comes from."
+
+  - type: story
+    character: institution
+    text: "Wednesday, 7:30. XYZ reports profits far above what anyone expected."
+
+  - type: mc
+    prompt: "What's the most likely immediate effect?"
+    options:
+      - {text: "Demand jumps — many want in, the price rises", correct: true}
+      - {text: "Supply jumps — insiders sell, the price falls"}
+      - {text: "Nothing until the regular session — pre-market can't react"}
+    explanation: "A positive surprise pulls in buyers; pre-market reacts first, thinly."
+
+  - type: tf
+    statement: "Good news guarantees the price goes up."
+    answer: false
+    explanation: "If people expected even better, sellers can win. Price reacts to news versus expectations."
+
+  - type: chart-tap
+    prompt: "This is XYZ over 30 days. Tap the point where the trend turned from up to down."
+    chart: {kind: line, data: [50, 51, 52, 51.5, 53, 54, 53.5, 55, 56, 57, 56.5, 58, 59, 60, 61, 62, 61.5, 63, 64, 62, 60.5, 59, 57.5, 56, 55, 53.5, 52, 51, 49.5, 48]}
+    target: 18
+    explanation: "The peak at day 19 — after it, lower highs and lower lows."
+
+  - type: sort
+    prompt: "Context or signal?"
+    buckets: ["Context", "Signal for a trade"]
+    items:
+      - {text: "Bull market", bucket: "Context"}
+      - {text: "Bear market", bucket: "Context"}
+      - {text: "Buyers overwhelming sellers right now on this stock", bucket: "Signal for a trade"}
+      - {text: "A break lower on heavy volume", bucket: "Signal for a trade"}
+    explanation: "The big trend sets the weather; the stock's own pressure is the trade."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Trend", "Overall direction over weeks or months"]
+      - ["Bull market", "Broadly rising market"]
+      - ["Bear market", "Broadly falling market"]
+      - ["Volatility", "Size and speed of moves"]
+    explanation: "Direction over time, and the size of the wiggles."
+
+  - type: fill-tiles
+    sentence: "A market that mostly falls for months is a ___ market."
+    answer: "bear"
+    explanation: "Bear swipes down."
+
+  - type: theory
+    title: "Weather"
+    body: "Trend and news are the weather. Your trade is what you do in it. Next: one review, then the final exam and your path."

@@ -1,0 +1,109 @@
+id: "1-1"
+title: "Your First Trade"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [price, position, profit-loss]
+learning_goal: "User makes a simulated buy-and-sell, and can compute profit or loss from price move and share count."
+purpose: "Trading is buying something and selling it at a different price — doing it once, right now, makes every later lesson concrete."
+terms_introduced: ["Price", "Chart", "Stock", "Share", "Buy", "Sell", "Position", "Profit", "Loss", "Trade"]
+prerequisite: null
+xp: 20
+difficulty: 1
+sources: [consensus]
+notes: "First screen of the entire app. Gentlest on-ramp, but the user trades within two minutes."
+screens:
+  - type: intro
+    text: "Let's make a trade. Right now."
+
+  - type: theory
+    title: "This is a price chart"
+    body: "Each point is the price of XYZ at one moment. Time runs left to right. When the line climbs, the price went up."
+    visual: chart-line
+    visual_data: {data: [10.00, 10.02, 9.98, 10.05, 10.10, 10.08, 10.15, 10.20]}
+
+  - type: example
+    body: "XYZ is a stock: a small piece of a company that you can buy and sell. You buy it in shares — 100 shares means 100 pieces. Right now one share costs $10.00."
+    visual: quote-card
+    visual_data: {ticker: XYZ, name: Example Corp, price: 10.00}
+
+  - type: theory
+    title: "Buy low, sell higher"
+    body: "Buy at $10, sell at $11, and you keep the difference: $1 per share. That's a profit. Sell for less than you paid, and it's a loss."
+
+  - type: theory
+    title: "While you hold it, you have a position"
+    body: "Buying opens a position. Selling closes it. Your profit or loss only becomes real when you close."
+
+  - type: chart-decision
+    scenario: "XYZ at $10.00 has been climbing steadily for the last ten minutes. Buy 100 shares, or wait?"
+    shares: 100
+    chart: {kind: line, data: [9.80, 9.84, 9.90, 9.88, 9.95, 10.00, 10.06, 10.12, 10.18, 10.24, 10.30], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It rose to $10.30. Buying 100 shares here would have made +$30."
+    explanation: "A steady climb is a reasonable moment to buy — you just made your first trade."
+
+  - type: numeric-mc
+    prompt: "You bought 100 shares at $10.00 and sold at $10.30. What's your profit?"
+    options:
+      - {text: "$30", correct: true}
+      - {text: "$3"}
+      - {text: "$300"}
+      - {text: "$0.30"}
+    working: "$0.30 per share × 100 shares = $30"
+    explanation: "Profit per share times the number of shares."
+
+  - type: tf
+    statement: "Your profit is locked in the moment the price rises, even before you sell."
+    answer: false
+    explanation: "Until you close the position it's only a paper gain — the price can still fall."
+
+  - type: theory
+    title: "Move × shares = result"
+    body: "The same $0.30 move makes $30 on 100 shares and $3 on 10 shares. How many shares you hold matters as much as where the price goes."
+
+  - type: numeric-input
+    prompt: "You buy 50 shares at $20.00 and sell at $19.60. What's your result per share?"
+    answer: -0.4
+    tolerance: 0.001
+    unit: "$"
+    working: "19.60 − 20.00 = −0.40"
+    explanation: "Selling below your buy price is a loss: $0.40 per share, $20 in total."
+
+  - type: chart-decision
+    scenario: "XYZ just dropped from $12.00 to $11.00 in one minute and is still falling. Buy 100 shares, or wait?"
+    shares: 100
+    chart: {kind: line, data: [12.00, 11.90, 11.70, 11.40, 11.20, 11.00, 10.90, 10.80, 10.70, 10.65, 10.60], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    outcome: "It kept falling to $10.60. Waiting avoided a $40 loss on 100 shares."
+    explanation: "You don't have to trade every move. Waiting is a decision too."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Buy", "Open a position"]
+      - ["Sell", "Close a position"]
+      - ["Position", "Shares you currently hold"]
+      - ["Profit", "Sold higher than you bought"]
+    explanation: "Buy opens, sell closes, and the difference is your profit or loss."
+
+  - type: fill-tiles
+    sentence: "Buying opens a position; selling ___ it."
+    answer: "closes"
+    explanation: "A position stays open until you sell what you bought."
+
+  - type: mc
+    prompt: "Which of these is a finished profit?"
+    options:
+      - {text: "Buy at $8.00, sell at $8.50", correct: true}
+      - {text: "Buy at $8.50, sell at $8.00"}
+      - {text: "Buy at $8.00 and keep holding while it trades at $8.50"}
+    explanation: "Only a closed trade has a result. The third one isn't finished — it's a paper gain."
+
+  - type: theory
+    title: "That's trading"
+    body: "Buy, wait for the price to move, sell. Everything else in this app is about doing that well."

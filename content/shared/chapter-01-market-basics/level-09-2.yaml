@@ -1,0 +1,99 @@
+id: "9-2"
+title: "Three Ways to Trade"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: repetition
+tags: [styles, holding-period, liquidity]
+learning_goal: "User applies the three styles to real-life constraints and connects them to liquidity, sessions and long/short."
+purpose: "Choosing a path is a decision about your time and temperament — this lesson tests that, not trivia."
+terms_introduced: []
+prerequisite: "9-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Let's test the styles against real life — and against everything else you've learned."
+
+  - type: mc
+    prompt: "A scalper and a swing trader both see a stock tick up 0.3 % in a minute on strong volume. Who cares?"
+    options:
+      - {text: "The scalper — 0.3 % is a whole trade for them; the swing trader thinks in weeks", correct: true}
+      - {text: "The swing trader — small moves add up over weeks"}
+      - {text: "Neither — 0.3 % is noise for everyone"}
+    explanation: "Same move, different holding periods, different meaning."
+
+  - type: tf
+    statement: "Liquidity matters more to a scalper than to a swing trader."
+    answer: true
+    explanation: "In and out many times a day, a scalper pays for every bit of price impact; a swing trader trades a few times a month."
+
+  - type: mc
+    prompt: "Why do day traders avoid holding overnight?"
+    options:
+      - {text: "News after the close can move the price before they can react", correct: true}
+      - {text: "Overnight holding fees are charged per share"}
+      - {text: "Exchanges cancel open positions at the close"}
+    explanation: "After-hours and pre-market are thin and news-driven; the day trader sidesteps them."
+
+  - type: sort
+    prompt: "Which style?"
+    buckets: ["Scalping", "Day trading", "Swing trading"]
+    items:
+      - {text: "Closes everything before the session ends", bucket: "Day trading"}
+      - {text: "Held for 40 seconds", bucket: "Scalping"}
+      - {text: "Held from Friday to Monday", bucket: "Swing trading"}
+      - {text: "Ten trades before 10:30", bucket: "Scalping"}
+    explanation: "Holding period tells you the style."
+
+  - type: story
+    character: retail-trader
+    text: "You're a student. Two free hours every morning during the regular session, then classes all day."
+
+  - type: mc
+    prompt: "Which style is realistic?"
+    options:
+      - {text: "Day trading in that window — positions closed before class", correct: true}
+      - {text: "Swing trading only — two hours a day is too little to trade"}
+      - {text: "Scalping only — day trades need the whole session"}
+    explanation: "Two focused hours in the regular session fit day trading well; scalping fits too if you like the pace, and swing trading works if you check charts daily."
+
+  - type: chart-decision
+    scenario: "Five minutes before the close. You're a day trader. XYZ has been rising all afternoon. 100 shares."
+    shares: 100
+    chart: {kind: line, data: [40.00, 40.20, 40.35, 40.50, 40.70, 40.80, 40.90, 41.00, 39.40, 39.30, 39.20], decision_index: 5}
+    best: no-trade
+    reasonable: [long]
+    outcome: "It closed strong — and gapped down 4 % overnight on news. A day trader was flat; a long held overnight lost $80."
+    explanation: "A day trader doesn't open positions minutes before the close; there's no time to be right and no way to manage the overnight."
+
+  - type: numeric-input
+    prompt: "A scalper made 40 trades today with an average holding period of 90 seconds. Total time in the market, in minutes?"
+    answer: 60
+    unit: "min"
+    working: "40 × 90 s = 3,600 s = 60 min"
+    explanation: "An hour of exposure spread over forty tiny trades."
+
+  - type: tf
+    statement: "Investing and trading use the same rules, just with different holding periods."
+    answer: false
+    explanation: "Investing judges the business; trading judges the price movement — buyers versus sellers."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Holding period", "Time a position is open"]
+      - ["Scalping", "Seconds to minutes"]
+      - ["Day trading", "Closed before the session ends"]
+      - ["Swing trading", "Days to weeks, holds overnight"]
+    explanation: "One number, three styles."
+
+  - type: fill-tiles
+    sentence: "The style that always closes before the session ends is day ___."
+    answer: "trading"
+    explanation: "No overnight positions."
+
+  - type: theory
+    title: "Rule of thumb"
+    body: "Little time and no taste for adrenaline → swing. More time and a taste for speed → day. Both of those plus nerves of steel → scalp. You can switch later."

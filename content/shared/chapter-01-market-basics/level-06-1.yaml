@@ -1,0 +1,96 @@
+id: "6-1"
+title: "Checkpoint"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: test
+tags: [checkpoint]
+learning_goal: "Verify Levels 1–5: profit math, buyers vs sellers, ownership, quote reading, liquidity vs volatility, participants, sessions."
+purpose: "A quick, honest check that the basics are solid before the second half of the chapter."
+terms_introduced: []
+prerequisite: "5-1"
+xp: 40
+difficulty: 2
+sources: [consensus]
+notes: "10 scored questions. Hearts apply. Pass mark 70 %."
+screens:
+  - type: intro
+    text: "Checkpoint. Ten questions, nothing new. Hearts are on."
+    counter: 10
+
+  - type: numeric-mc
+    prompt: "You buy 200 shares at $15.00 and sell at $15.45. Total profit?"
+    options:
+      - {text: "$90", correct: true}
+      - {text: "$9"}
+      - {text: "$45"}
+      - {text: "$0.45"}
+    working: "$0.45 × 200 = $90"
+    explanation: "Move times shares."
+
+  - type: mc
+    prompt: "A stock's price is rising steadily. What must be true?"
+    options:
+      - {text: "Buyers are willing to pay more than sellers were asking", correct: true}
+      - {text: "The company announced good news"}
+      - {text: "More shares were created"}
+    explanation: "Only buyers versus sellers moves a price — news is one possible cause, not the rule."
+
+  - type: tf
+    statement: "When you buy shares on the exchange, your money goes to the company."
+    answer: false
+    explanation: "It goes to the seller, another shareholder."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the change from the previous close."
+    data: {ticker: KOA, name: Koa Foods, price: 31.20, change: -0.64, change_pct: -2.0, volume: "2.4M"}
+    target: change
+    explanation: "−$0.64 (−2.0 %) is today's change."
+
+  - type: mc
+    prompt: "A stock trades 800 shares a day. Which risk is biggest for a trader holding 500 shares?"
+    options:
+      - {text: "Getting out will move the price against them", correct: true}
+      - {text: "The price will barely move"}
+      - {text: "The stock will be removed from the exchange"}
+    explanation: "500 shares is most of a day's volume — illiquid."
+
+  - type: sort
+    prompt: "Which dial?"
+    buckets: ["Liquidity", "Volatility"]
+    items:
+      - {text: "Daily volume", bucket: "Liquidity"}
+      - {text: "Size of daily moves", bucket: "Volatility"}
+      - {text: "Whether your trade moves the price", bucket: "Liquidity"}
+      - {text: "A 20 % jump on news", bucket: "Volatility"}
+    explanation: "Ease versus movement."
+
+  - type: mc
+    prompt: "Who always quotes a price to buy and a price to sell?"
+    options:
+      - {text: "Market maker", correct: true}
+      - {text: "Institution"}
+      - {text: "Retail trader"}
+    explanation: "That two-sided quote is the market maker's job."
+
+  - type: order
+    prompt: "Drag the sessions into place, first to last."
+    items: ["Pre-market", "Regular session", "After-hours"]
+    explanation: "Before, main, after."
+
+  - type: mc
+    prompt: "A stock is up 5 % in pre-market on very low volume. Why be careful?"
+    options:
+      - {text: "Thin trading — only a few participants set that price", correct: true}
+      - {text: "Pre-market moves always reverse"}
+      - {text: "Only institutions can trade pre-market"}
+    explanation: "Thin sessions are jumpy; the crowd arrives at the open."
+
+  - type: fill-tiles
+    sentence: "How big and fast a price moves is its ___."
+    answer: "volatility"
+    explanation: "Size and speed of moves."
+
+  - type: summary
+    total: 10

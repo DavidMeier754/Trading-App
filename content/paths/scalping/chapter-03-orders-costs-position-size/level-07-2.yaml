@@ -1,0 +1,106 @@
+id: "7-2"
+title: "Slippage, Speed & Fees"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [fees, frequency]
+learning_goal: "User can compute commission costs per trade and per month at scalping frequency, and knows where retail scalping is realistically done in their market."
+purpose: "At forty trades a day, a small fee is a large salary paid to your broker — you need to see the monthly number, not the per-trade one."
+terms_introduced: ["Commission", "Per-share fee"]
+prerequisite: "7-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "A $1 fee is nothing. Forty of them a day is your lunch, your dinner and your edge."
+
+  - type: theory
+    title: "Commissions"
+    body: "A commission is what the broker charges per order or per share. {{market.fee_note}}"
+
+  - type: visual
+    component: cost-stack
+    data: {rows: [{label: "Per order $1, 40 round trips", value: 80}, {label: "Per share $0.005, 1,000 sh × 40 round trips", value: 400}], unit: "$ per day"}
+    caption: "Per order: 40 round trips × $2 = $80 a day. Per share: 1,000 shares × 2 × $0.005 × 40 = $400 a day."
+
+  - type: theory
+    title: "Frequency multiplies everything"
+    body: "A scalper's costs are the same small numbers as anyone's — times forty. Spread, slippage and fees each look tiny per trade and enormous per month."
+
+  - type: numeric-input
+    prompt: "Per-share fee $0.004. Round trip on 1,500 shares?"
+    answer: 12
+    unit: "$"
+    working: "1,500 × 2 × $0.004 = $12"
+    explanation: "Both legs, every share."
+
+  - type: numeric-input
+    prompt: "$2 per round trip, 35 round trips a day, 20 trading days. Monthly fees?"
+    answer: 1400
+    unit: "$"
+    working: "$2 × 35 × 20 = $1,400"
+    explanation: "That's the number to remember."
+
+  - type: numeric-mc
+    prompt: "Per-order fee $4, 30 round trips a day. Daily fees?"
+    options:
+      - {text: "$240", correct: true}
+      - {text: "$120"}
+      - {text: "$4"}
+      - {text: "$30"}
+    working: "$4 × 2 × 30 = $240"
+    explanation: "Two orders per round trip."
+
+  - type: tf
+    statement: "Fees are charged only on winning trades."
+    answer: false
+    explanation: "Every order, win or lose."
+
+  - type: theory
+    title: "Where scalping is done"
+    body: "{{market.scalping_note}}"
+
+  - type: sort
+    prompt: "Per trade, per share, or neither?"
+    buckets: ["Per trade", "Per share", "Neither"]
+    items:
+      - {text: "$1 per order", bucket: "Per trade"}
+      - {text: "$0.005 per share", bucket: "Per share"}
+      - {text: "Spread", bucket: "Neither"}
+      - {text: "Slippage", bucket: "Neither"}
+    explanation: "Fees are billed; spread and slippage are paid in the prices."
+
+  - type: story
+    character: retail-trader
+    text: "Your day: 30 round trips, 1,000 shares each, spread $0.02, slippage $0.01 per side, fee $0.004 per share."
+
+  - type: numeric-input
+    prompt: "Spread cost for the day?"
+    answer: 600
+    unit: "$"
+    working: "$0.02 × 1,000 × 30 = $600"
+    explanation: "Two cents, a thousand shares, thirty times."
+
+  - type: numeric-mc
+    prompt: "Fees for the day at $0.004 per share, round trips of 1,000 shares?"
+    options:
+      - {text: "$240", correct: true}
+      - {text: "$120"}
+      - {text: "$24"}
+      - {text: "$2,400"}
+    working: "1,000 × 2 × $0.004 × 30 = $240"
+    explanation: "Both legs, times thirty."
+
+  - type: mc
+    prompt: "Same day. Which single change cuts costs the most?"
+    options:
+      - {text: "Taking 15 better trades instead of 30", correct: true}
+      - {text: "Using market orders for speed"}
+      - {text: "Trading a stock with a $0.05 spread because it moves more"}
+    explanation: "Halving frequency halves every cost layer at once."
+
+  - type: theory
+    title: "The cheapest edge"
+    body: "Fewer, better trades. Nothing else cuts costs like it."

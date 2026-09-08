@@ -1,0 +1,112 @@
+id: "5-2"
+title: "How Many Shares?"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [position-size, risk, spread]
+learning_goal: "User sizes several setups from risk and spots when the spread is too large for the stop."
+purpose: "Sizing has to be a reflex; this also connects the spread back to your stop, which most beginners never do."
+terms_introduced: []
+prerequisite: "5-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Five setups. Size each one from risk."
+
+  - type: numeric-input
+    prompt: "Account $10,000, 1 % rule, stop $0.10. Shares?"
+    answer: 1000
+    unit: "shares"
+    working: "$100 ÷ $0.10 = 1,000"
+    explanation: "Risk budget divided by stop distance."
+
+  - type: numeric-input
+    prompt: "Account $10,000, 1 % rule, stop $0.40. Shares?"
+    answer: 250
+    unit: "shares"
+    working: "$100 ÷ $0.40 = 250"
+    explanation: "Wider stop, fewer shares."
+
+  - type: mc
+    prompt: "Both trades above risk $100. At $8 per share, which has the bigger position value?"
+    options:
+      - {text: "The $0.10-stop trade: 1,000 × $8 = $8,000", correct: true}
+      - {text: "The $0.40-stop trade"}
+      - {text: "Both equal — same risk"}
+    explanation: "Same risk, four times the shares, four times the value."
+
+  - type: tf
+    statement: "Risking 1 % per trade means a single loss costs 1 % of the account."
+    answer: true
+    explanation: "If the stop is respected — that's the whole idea."
+
+  - type: slider
+    prompt: "Account $25,000. Set your max risk per trade under the 1 % rule."
+    min: 0
+    max: 1000
+    step: 50
+    unit: "$"
+    answer: 250
+    tolerance: 50
+    explanation: "1 % of $25,000 = $250."
+
+  - type: numeric-mc
+    prompt: "1,500 shares, stop $0.06. Risk?"
+    options:
+      - {text: "$90", correct: true}
+      - {text: "$9"}
+      - {text: "$900"}
+      - {text: "$60"}
+    working: "$0.06 × 1,500 = $90"
+    explanation: "Stop distance times shares."
+
+  - type: story
+    character: retail-trader
+    text: "You sized 2,000 shares for a $0.05 stop. Then you notice the spread is $0.03."
+
+  - type: mc
+    prompt: "What's the problem?"
+    options:
+      - {text: "The spread eats more than half your stop distance — you're nearly stopped out at entry", correct: true}
+      - {text: "None — spread and stop are unrelated"}
+      - {text: "The position is too small"}
+    explanation: "Buy at the ask, and the bid is already $0.03 closer to your stop. Tight stops need tight spreads."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Max risk $150, stop $0.15,"}
+      - {text: "so buy 1,500 shares", wrong: true}
+      - {text: "and place the stop."}
+    explanation: "$150 ÷ $0.15 = 1,000 shares."
+
+  - type: sort
+    prompt: "Fits a $100 max risk?"
+    buckets: ["Fits", "Too big"]
+    items:
+      - {text: "1,000 shares, $0.10 stop", bucket: "Fits"}
+      - {text: "500 shares, $0.30 stop", bucket: "Too big"}
+      - {text: "2,000 shares, $0.05 stop", bucket: "Fits"}
+      - {text: "800 shares, $0.20 stop", bucket: "Too big"}
+    explanation: "$100, $150, $100, $160."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Position value", "Shares × price"]
+      - ["Risk per trade", "Shares × stop distance"]
+      - ["1 % rule", "Risk at most 1 % of the account"]
+      - ["Stop distance", "Entry to stop, per share"]
+    explanation: "The sizing vocabulary."
+
+  - type: fill-tiles
+    sentence: "Wider stop, ___ shares."
+    answer: "fewer"
+    explanation: "Same risk budget."
+
+  - type: theory
+    title: "Checkpoint next"
+    body: "Ten questions on everything from bid to shares."

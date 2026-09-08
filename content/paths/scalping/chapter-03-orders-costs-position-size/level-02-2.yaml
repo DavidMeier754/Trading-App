@@ -1,0 +1,113 @@
+id: "2-2"
+title: "The Scalper's Enemy"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: repetition
+tags: [spread, liquidity]
+learning_goal: "User judges real-looking quotes as scalp candidates or not, using spread versus expected move, volume and spread stability."
+purpose: "Judging a quote in three seconds is a habit — this builds it with a handful of realistic quotes."
+terms_introduced: []
+prerequisite: "2-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Six quotes. Which ones would a scalper touch?"
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "Tap the ask."
+    data: {bid: 24.10, ask: 24.11, last: 24.10}
+    target: ask
+    explanation: "$24.11 — a one-cent spread."
+
+  - type: numeric-input
+    prompt: "Bid $24.10, ask $24.11, expected move $0.12. Percent of the move eaten?"
+    answer: 8.3
+    tolerance: 0.4
+    unit: "%"
+    working: "0.01 ÷ 0.12 = 0.083 = 8.3 %"
+    explanation: "A small slice — good ground."
+
+  - type: mc
+    prompt: "That quote: spread 8 % of the expected move, heavy volume. Verdict?"
+    options:
+      - {text: "Good ground for a scalp — tight relative to the move", correct: true}
+      - {text: "Too tight — no room for the price to move"}
+      - {text: "Unclear — you'd need the share price first"}
+    explanation: "Tight spread and liquidity are exactly what you want; price level doesn't matter."
+
+  - type: numeric-mc
+    prompt: "Bid $3.40, ask $3.46, expected move $0.08. Percent eaten?"
+    options:
+      - {text: "75 %", correct: true}
+      - {text: "7.5 %"}
+      - {text: "6 %"}
+      - {text: "46 %"}
+    working: "0.06 ÷ 0.08 = 0.75"
+    explanation: "Three quarters of the move is gone at entry."
+
+  - type: tf
+    statement: "That $3.40 / $3.46 stock is a poor scalp candidate even though the spread is only six cents."
+    answer: true
+    explanation: "Six cents against an eight-cent move is terrible. Dollars don't matter; the ratio does."
+
+  - type: story
+    character: retail-trader
+    text: "{{market.regular_open}}. XYZ opens: bid $50.00, ask $50.30. Two minutes later: bid $50.12, ask $50.14."
+
+  - type: mc
+    prompt: "What happened to the spread, and why?"
+    options:
+      - {text: "It tightened from $0.30 to $0.02 as more traders arrived after the open", correct: true}
+      - {text: "It widened — the price rose"}
+      - {text: "Nothing — the difference is just the price moving"}
+    explanation: "The first minutes are thin; the crowd tightens the spread."
+
+  - type: slider
+    prompt: "Round trip on 600 shares with a $0.02 spread. Cost?"
+    min: 0
+    max: 60
+    step: 2
+    unit: "$"
+    answer: 12
+    tolerance: 2
+    explanation: "600 × $0.02 = $12."
+
+  - type: sort
+    prompt: "Scalp candidate or skip?"
+    buckets: ["Candidate", "Skip"]
+    items:
+      - {text: "Spread 5 % of expected move, 8 M volume", bucket: "Candidate"}
+      - {text: "Spread 70 % of expected move", bucket: "Skip"}
+      - {text: "Spread $0.01 on a stock that moves $0.01", bucket: "Skip"}
+      - {text: "Spread $0.10 on a liquid stock that moves $2.00", bucket: "Candidate"}
+    explanation: "Ratio and liquidity decide, not the dollar amount."
+
+  - type: match
+    prompt: "Match each word to its meaning."
+    pairs:
+      - ["Target", "Move you aim to capture"]
+      - ["Expected move", "How far the price should travel while you hold"]
+      - ["Spread", "Ask minus bid"]
+      - ["Round trip", "Open and close of one position"]
+    explanation: "The vocabulary of a spread check."
+
+  - type: mc
+    prompt: "A stock's spread is $0.02 all morning, then jumps to $0.15 at 11:30. Most likely?"
+    options:
+      - {text: "News or a sudden drop in liquidity — wait for it to settle", correct: true}
+      - {text: "The exchange changed the minimum spread"}
+      - {text: "The price went up, so the spread scaled with it"}
+    explanation: "A widening spread is a warning sign, not an invitation."
+
+  - type: fill-tiles
+    sentence: "Many buyers and sellers competing makes the spread ___."
+    answer: "tighter"
+    explanation: "Competition squeezes the gap."
+
+  - type: theory
+    title: "Three seconds"
+    body: "Spread versus move, volume, calm or jumpy. You can judge a quote in three seconds now. Next: how to actually place the trade."

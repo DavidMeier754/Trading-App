@@ -1,0 +1,119 @@
+id: "10-1"
+title: "Final Exam"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: final-exam
+tags: [final-exam]
+learning_goal: "Confirm mastery of bid/ask/spread, spread versus expected move, market / limit / marketable limit / stop orders, position sizing, slippage, fees, Level 2 basics and the all-in check."
+purpose: "The gate before fast-market chart reading — every scalp from here on assumes these costs are second nature."
+terms_introduced: []
+prerequisite: "9-2"
+xp: 80
+difficulty: 3
+sources: [consensus]
+notes: "12 scored questions. Hearts apply. Pass mark 70 %."
+screens:
+  - type: intro
+    text: "Final exam: Orders, Costs & Position Size. Twelve questions."
+    counter: 12
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "Tap the price a market buy fills at."
+    data: {bid: 41.20, ask: 41.24, last: 41.22}
+    target: ask
+    explanation: "Buyers pay the ask."
+
+  - type: numeric-input
+    prompt: "Bid $41.20, ask $41.24, 900 shares. Round-trip spread cost?"
+    answer: 36
+    unit: "$"
+    working: "$0.04 × 900 = $36"
+    explanation: "Spread times shares."
+
+  - type: mc
+    prompt: "Expected move $0.10, spread $0.04. Verdict?"
+    options:
+      - {text: "Skip — 40 % of the move is gone at entry", correct: true}
+      - {text: "Take it — four cents is tiny"}
+      - {text: "Take it — a $41 stock always moves more"}
+    explanation: "The ratio decides, not the dollars or the share price."
+
+  - type: mc
+    prompt: "Ask $15.30. You send a limit buy at $15.33; the ask jumps to $15.40 before it arrives. Result?"
+    options:
+      - {text: "Unfilled — it waits at $15.33", correct: true}
+      - {text: "Filled at $15.40"}
+      - {text: "Filled at $15.33"}
+    explanation: "Above the cap you don't chase."
+
+  - type: tf
+    statement: "A stop-market guarantees the exit but not the exit price."
+    answer: true
+    explanation: "Out for sure, at the next available price."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Long 500 at $9.00,"}
+      - {text: "sell stop at $9.10", wrong: true}
+      - {text: "to limit the loss."}
+    explanation: "A sell stop for a long belongs below the entry, e.g. $8.90."
+
+  - type: numeric-input
+    prompt: "Account $30,000, 1 % rule, stop $0.12. Shares?"
+    answer: 2500
+    unit: "shares"
+    working: "$300 ÷ $0.12 = 2,500"
+    explanation: "Risk budget over stop distance."
+
+  - type: sort
+    prompt: "Which cost is it?"
+    buckets: ["Spread", "Slippage", "Fees"]
+    items:
+      - {text: "Ask minus bid", bucket: "Spread"}
+      - {text: "Moved between tap and fill", bucket: "Slippage"}
+      - {text: "$0.005 per share to the broker", bucket: "Fees"}
+      - {text: "Capped by a marketable limit", bucket: "Slippage"}
+    explanation: "Three layers of the all-in cost."
+
+  - type: numeric-mc
+    prompt: "Spread $0.02, slippage $0.02, fees $0.01, target $0.25. Percent eaten?"
+    options:
+      - {text: "20 %", correct: true}
+      - {text: "5 %"}
+      - {text: "25 %"}
+      - {text: "50 %"}
+    working: "0.05 ÷ 0.25 = 0.20"
+    explanation: "A fifth of the target."
+
+  - type: mc
+    prompt: "The best ask shows 300 shares. You market-buy 1,000. What happens?"
+    options:
+      - {text: "300 fill there and the rest at higher rows — you push the price", correct: true}
+      - {text: "All 1,000 at the best ask"}
+      - {text: "Only 300 fill; the rest is cancelled"}
+    explanation: "Your order walks up the book."
+
+  - type: numeric-input
+    prompt: "$2 per round trip, 25 round trips a day, 20 trading days. Monthly fees?"
+    answer: 1000
+    unit: "$"
+    working: "$2 × 25 × 20 = $1,000"
+    explanation: "Frequency times fee."
+
+  - type: mc
+    prompt: "All costs fine, sizing right, connection dropping. Trade?"
+    options:
+      - {text: "No — a failed check is a no", correct: true}
+      - {text: "Yes — costs are what matter"}
+      - {text: "Yes — with a stop-limit for safety"}
+    explanation: "Reliability is one of the four checks."
+
+  - type: summary
+    total: 12
+
+  - type: badge
+    name: "Orders, Costs & Position Size — Complete"
+    unlocks: "Chapter 4"

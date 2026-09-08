@@ -1,0 +1,98 @@
+id: "8-2"
+title: "Long and Short"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [long-short, decisions]
+learning_goal: "User makes long / short / no-trade decisions on simple charts and treats 'no trade' as a valid answer."
+purpose: "This is the decision you'll make thousands of times — starting now, while the charts are still simple."
+terms_introduced: ["No trade"]
+prerequisite: "8-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Three buttons. One of them is often the right one: no trade."
+
+  - type: theory
+    title: "No trade is a decision"
+    body: "Not every chart offers a clear edge. When buyers and sellers look balanced, or you can't explain the move, the best trade is none. It scores the same as a good trade here."
+
+  - type: chart-decision
+    scenario: "XYZ has climbed steadily on rising volume for 15 minutes; buyers are clearly in charge. 100 shares."
+    shares: 100
+    chart: {kind: line, data: [19.60, 19.70, 19.78, 19.85, 19.92, 20.00, 20.08, 20.16, 20.25, 20.33, 20.40], decision_index: 5}
+    best: long
+    reasonable: [no-trade]
+    outcome: "It rose $0.40 to $20.40 — +$40 long on 100 shares."
+    explanation: "Demand in charge, price climbing: long is the trade with the pressure."
+
+  - type: chart-decision
+    scenario: "XYZ broke sharply lower after bad news on heavy volume; every small bounce gets sold. 100 shares."
+    shares: 100
+    chart: {kind: line, data: [33.00, 32.80, 32.30, 32.40, 31.90, 31.70, 31.50, 31.60, 31.30, 31.15, 31.10], decision_index: 5}
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell another $0.60 — +$60 short on 100 shares."
+    explanation: "Sellers in charge and bounces failing: short goes with the pressure."
+
+  - type: chart-decision
+    scenario: "XYZ is chopping sideways in a tight range on light volume, no news. 100 shares."
+    shares: 100
+    chart: {kind: line, data: [12.00, 12.03, 11.98, 12.02, 12.00, 12.01, 11.99, 12.02, 12.00, 12.01, 12.00], decision_index: 5}
+    best: no-trade
+    outcome: "It kept chopping. Long or short would have gone nowhere and paid fees."
+    explanation: "No pressure, no edge, no trade."
+
+  - type: mc
+    prompt: "You went short and the stock rises $1 while you hold 100 shares. Your position shows:"
+    options:
+      - {text: "−$100 paper loss", correct: true}
+      - {text: "+$100 paper gain"}
+      - {text: "No change until you cover"}
+    explanation: "Short plus rising price is losing; it becomes real when you cover."
+
+  - type: tf
+    statement: "Choosing 'no trade' means you failed the scenario."
+    answer: false
+    explanation: "Sitting out a bad setup is one of the best decisions a trader makes."
+
+  - type: numeric-mc
+    prompt: "Long 300 shares at $12.00, price now $11.70. Paper result?"
+    options:
+      - {text: "−$90", correct: true}
+      - {text: "+$90"}
+      - {text: "−$9"}
+      - {text: "−$0.30"}
+    working: "(11.70 − 12.00) × 300 = −$90"
+    explanation: "Thirty cents against you on 300 shares."
+
+  - type: chart-decision
+    scenario: "XYZ spiked 15 % in two minutes on a rumor and is now 3 % below the peak with sellers appearing. 100 shares."
+    shares: 100
+    chart: {kind: line, data: [8.00, 8.40, 8.90, 9.20, 9.10, 8.95, 9.05, 8.80, 8.90, 8.70, 8.75], decision_index: 5}
+    best: no-trade
+    reasonable: [short]
+    outcome: "It whipsawed both ways before settling. A short would have worked, but it was a coin flip in the moment."
+    explanation: "Rumor spikes are unpredictable — waiting for structure is a valid choice."
+
+  - type: sort
+    prompt: "What's the reason for?"
+    buckets: ["Going long", "Going short", "No trade"]
+    items:
+      - {text: "Steady rise on rising volume", bucket: "Going long"}
+      - {text: "Break lower on heavy selling", bucket: "Going short"}
+      - {text: "Sideways chop, no news", bucket: "No trade"}
+      - {text: "A move you can't explain", bucket: "No trade"}
+    explanation: "Pressure up, pressure down, or no pressure."
+
+  - type: fill-tiles
+    sentence: "Betting on a falling price is going ___."
+    answer: "short"
+    explanation: "Sell first, buy back later."
+
+  - type: theory
+    title: "Three buttons, honest answers"
+    body: "The honest one is often 'no trade'. From Chapter 2 you'll read charts well enough to know which button it is."
