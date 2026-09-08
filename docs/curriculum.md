@@ -52,7 +52,7 @@ Folder: `content/paths/scalping/chapter-02-charts-101/`. First candlestick chart
 | 9 | The Scalper's Screen | 9-1, 9-2 R | 1-min chart, 5-min context, volume, quote panel; marking levels before the open. Then: full practice, 5–6 decisions combining everything |
 | 10 | Final Exam | 10-1 F | 12 questions → badge |
 
-10 levels, 16 subs. New terms: Candle, Open, High, Low, Close, Body, Wick, Timeframe, Volume bar, Uptrend, Downtrend, Range, Higher high, Higher low, Lower high, Lower low, Pullback, Support, Resistance, Breakout, Bounce, Gap, Opening range, Momentum, Exhaustion. (Trend, Volume, Pre-market already exist — deepen, don't re-introduce.)
+10 levels, 17 subs. New terms: Candle, Open, High, Low, Close, Body, Wick, Timeframe, Volume bar, Climax volume, Uptrend, Downtrend, Range, Higher high, Higher low, Lower high, Lower low, Pullback, Support, Resistance, Breakout, Bounce, Gap, Opening range, Momentum, Exhaustion. (Trend, Volume, Pre-market already exist — deepen, don't re-introduce.)
 
 ### Chapter 3 — Orders, Costs & Position Size — written
 
