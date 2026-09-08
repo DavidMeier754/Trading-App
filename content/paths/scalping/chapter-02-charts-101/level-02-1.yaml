@@ -1,0 +1,103 @@
+id: "2-1"
+title: "Timeframes"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [timeframes, chart-reading]
+learning_goal: "User can explain what a timeframe is, build a 5-minute candle out of 1-minute candles, and act on the 1-minute while reading context on the 5-minute."
+purpose: "Scalpers live on the 1-minute chart, and the fastest way to lose on it is to ignore what the 5-minute is doing."
+terms_introduced: ["Timeframe"]
+prerequisite: "1-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Two charts, two jobs. The 15-minute is named once for orientation and not used again in this chapter."
+screens:
+  - type: intro
+    text: "Same stock, same morning, three different charts — and they can disagree."
+
+  - type: theory
+    title: "A candle is a slice of time"
+    body: "The timeframe says how much time one candle covers. On a 1-minute chart every candle is one minute. On a 5-minute chart, one candle holds five of them."
+
+  - type: example
+    body: "Five 1-minute candles: the first opens at $30.10, the last closes at $30.34. Along the way the highest price was $30.41 and the lowest $30.04."
+    visual: chart-candles
+    visual_data:
+      data: [[30.10, 30.18, 30.04, 30.16], [30.16, 30.24, 30.14, 30.22], [30.22, 30.29, 30.18, 30.20], [30.20, 30.33, 30.19, 30.31], [30.31, 30.41, 30.29, 30.34]]
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[30.10, 30.41, 30.04, 30.34]]
+    caption: "The same five minutes as one 5-minute candle: first open, last close, highest high, lowest low."
+
+  - type: numeric-mc
+    prompt: "Those five 1-minute candles make one 5-minute candle. Where is its low?"
+    options:
+      - {text: "$30.04", correct: true}
+      - {text: "$30.10"}
+      - {text: "$30.19"}
+      - {text: "$30.29"}
+    working: "The lowest low of the five: $30.04"
+    explanation: "The bigger candle keeps the extremes of every minute inside it, not just the first or last one."
+
+  - type: fill-choice
+    sentence: "The high of a 5-minute candle is the ___ of the five minutes it covers."
+    options: ["highest high", "last high", "average high"]
+    answer: "highest high"
+    explanation: "Nothing is averaged away — the wick reaches as far as the furthest minute did."
+
+  - type: theory
+    title: "Two charts, two jobs"
+    body: "The 5-minute tells you which way the bigger move is running. The 1-minute tells you when to act. Scalpers decide with the first and enter with the second."
+
+  - type: match
+    prompt: "Which chart does which job?"
+    pairs:
+      - ["1-minute", "Where the entry and the exit happen"]
+      - ["5-minute", "Which way the bigger move is running"]
+      - ["15-minute", "The shape of the whole morning"]
+    explanation: "Slower charts set the context; the fastest one gives the moment."
+
+  - type: chart-decision
+    scenario: "On the 5-minute, XYZ has slid all morning and every push has topped out under the one before. On your 1-minute it has just put in four green candles. You are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.22, 14.26, 14.18, 14.20], [14.20, 14.24, 14.16, 14.23], [14.23, 14.32, 14.22, 14.31], [14.31, 14.38, 14.29, 14.36], [14.36, 14.44, 14.34, 14.42], [14.42, 14.46, 14.38, 14.40], [14.40, 14.42, 14.30, 14.32], [14.32, 14.35, 14.24, 14.26], [14.26, 14.29, 14.18, 14.20], [14.20, 14.23, 14.12, 14.14], [14.14, 14.18, 14.08, 14.10]]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "The push died at $14.46 and price fell to $14.10. Buying there would have cost $0.30 a share — $360 on 1,200 shares."
+    explanation: "Four green candles inside a falling 5-minute chart is a pause in a sale, not a new move."
+
+  - type: tf
+    statement: "A move that takes five minutes shows up as five candles on the 5-minute chart."
+    answer: false
+    explanation: "Five minutes is one 5-minute candle; it is the 1-minute chart that draws five."
+
+  - type: order
+    prompt: "Put a scalper's read in the order it happens."
+    items:
+      - "Check the 5-minute for the bigger move"
+      - "Wait for a 1-minute candle that fits it"
+      - "Take the trade on the 1-minute"
+    explanation: "Context first, trigger second, action last — never the other way round."
+
+  - type: chart-decision
+    scenario: "The 5-minute chart of XYZ is climbing steadily. Your 1-minute shows a shallow dip that just closed green again. You are sizing 500 shares."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[52.10, 52.22, 52.06, 52.18], [52.18, 52.30, 52.15, 52.28], [52.28, 52.34, 52.20, 52.24], [52.24, 52.38, 52.22, 52.36], [52.36, 52.48, 52.34, 52.46], [52.46, 52.54, 52.42, 52.52], [52.52, 52.66, 52.50, 52.64], [52.64, 52.74, 52.60, 52.70], [52.70, 52.80, 52.66, 52.78], [52.78, 52.84, 52.72, 52.76], [52.76, 52.82, 52.70, 52.79]]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $52.79 — $0.27 a share, +$135 long on 500 shares."
+    explanation: "Both charts point the same way, so the fast one is only being asked for timing."
+
+  - type: theory
+    title: "Zoom out to decide, zoom in to act"
+    body: "One chart is never enough and three is too many. The 5-minute for direction, the 1-minute for the moment — that is the scalper's pair."

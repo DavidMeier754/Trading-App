@@ -1,0 +1,111 @@
+id: "6-1"
+title: "Checkpoint"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: test
+tags: [checkpoint, candles, volume, trend, levels]
+learning_goal: "User proves they can read a candle, a timeframe, a volume bar, a trend and a level, and decide from them."
+purpose: "Everything after this level assumes these five things are automatic."
+terms_introduced: []
+prerequisite: "5-3"
+xp: 40
+difficulty: 2
+sources: [consensus]
+notes: "Ten scored questions on Levels 1–5, all in new wordings and with new numbers."
+screens:
+  - type: intro
+    text: "Ten questions on Levels 1 to 5. Nothing here is timed — read each chart properly."
+    counter: 10
+
+  - type: numeric-input
+    prompt: "A candle opens at $31.20, runs to $31.44, dips to $31.14 and closes at $31.32. How long is the upper wick?"
+    answer: 0.12
+    tolerance: 0.001
+    unit: "$"
+    working: "31.44 − 31.32 = 0.12"
+    explanation: "The upper wick runs from the top of the body to the high."
+
+  - type: chart-tap
+    prompt: "Tap the candle with the longest lower wick."
+    chart:
+      kind: candles
+      data: [[29.40, 29.48, 29.36, 29.46], [29.46, 29.52, 29.42, 29.44], [29.44, 29.50, 29.20, 29.46], [29.46, 29.54, 29.43, 29.52], [29.52, 29.58, 29.46, 29.50], [29.50, 29.56, 29.44, 29.54], [29.54, 29.60, 29.50, 29.58], [29.58, 29.64, 29.53, 29.62]]
+    target: 2
+    explanation: "Price fell to $29.20 and was bought back to $29.46 inside that one minute."
+
+  - type: mc
+    prompt: "You are long on the 1-minute chart. The 5-minute has topped out lower with every push all morning. That means:"
+    options:
+      - {text: "Your trade is running against the bigger move", correct: true}
+      - {text: "The 5-minute will follow the 1-minute back up"}
+      - {text: "The two charts cannot both be right"}
+    explanation: "Both charts are always right about their own timeframe; the slower one is the one with more traders behind it."
+
+  - type: tf
+    statement: "A tall volume bar under a candle proves the move will carry on."
+    answer: false
+    explanation: "It proves a lot of shares changed hands. After a long run, the tallest bar of all often marks the end."
+
+  - type: sort
+    prompt: "Does the volume back the move or warn you about it?"
+    buckets: ["Volume backs it", "Volume warns you"]
+    items:
+      - {text: "Bars getting taller as price pushes further", bucket: "Volume backs it"}
+      - {text: "The biggest bar of the day after a long run, closing far below its high", bucket: "Volume warns you"}
+      - {text: "Bars shrinking every minute while price creeps up", bucket: "Volume warns you"}
+      - {text: "Three times the usual volume on a close beyond a level", bucket: "Volume backs it"}
+    explanation: "Volume with a fresh move is fuel; volume at the end of a long one is usually the crowd arriving late."
+
+  - type: chart-decision
+    scenario: "XYZ has made higher highs and higher lows all morning. It has eased back two candles on falling volume and just closed green again, above the last dip. You are sizing 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[37.80, 37.96, 37.78, 37.94], [37.94, 38.10, 37.92, 38.08], [38.08, 38.22, 38.06, 38.20], [38.20, 38.24, 38.10, 38.12], [38.12, 38.16, 38.06, 38.09], [38.09, 38.18, 38.07, 38.16], [38.16, 38.30, 38.14, 38.28], [38.28, 38.40, 38.26, 38.38], [38.38, 38.46, 38.34, 38.42], [38.42, 38.48, 38.38, 38.44], [38.44, 38.50, 38.40, 38.46]]
+      volume: [74000, 88000, 96000, 52000, 41000, 58000, 92000, 104000, 86000, 68000, 60000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "The trend continued to $38.50 — $0.30 a share above the decision, +$210 long on 700 shares."
+    explanation: "A shallow pullback on shrinking volume, then a green close: the trend asking you to join at a discount."
+
+  - type: fill-tiles
+    sentence: "In an uptrend, every dip that stops above the last one is a higher ___."
+    answer: "low"
+    explanation: "Higher highs and higher lows together are what make it an uptrend."
+
+  - type: numeric-mc
+    prompt: "You were short 1,000 shares from $18.32 and covered at $18.14. Result before costs?"
+    options:
+      - {text: "$180", correct: true}
+      - {text: "$18"}
+      - {text: "$1,800"}
+      - {text: "$0.18"}
+    working: "$0.18 a share × 1,000 shares = $180"
+    explanation: "Eighteen cents in your favor, multiplied by the share count."
+
+  - type: match
+    prompt: "Match each term to its meaning."
+    pairs:
+      - ["Body", "The distance from the open to the close"]
+      - ["Wick", "A price that was reached and refused"]
+      - ["Volume bar", "How many shares traded in that minute"]
+      - ["Resistance", "A price where sellers keep stopping the rise"]
+    explanation: "The vocabulary of Levels 1 to 5, all of it about who is in control and where."
+
+  - type: chart-decision
+    scenario: "XYZ has run into $24.50 — yesterday's high — twice. Both attempts left a wick and closed under it, and volume is rising as price slips away. You are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[24.20, 24.30, 24.18, 24.28], [24.28, 24.40, 24.26, 24.38], [24.38, 24.50, 24.36, 24.42], [24.42, 24.46, 24.34, 24.36], [24.36, 24.49, 24.34, 24.40], [24.40, 24.44, 24.32, 24.34], [24.34, 24.38, 24.24, 24.26], [24.26, 24.30, 24.16, 24.18], [24.18, 24.22, 24.10, 24.14], [24.14, 24.18, 24.06, 24.08], [24.08, 24.14, 24.04, 24.10]]
+      volume: [64000, 72000, 96000, 58000, 78000, 86000, 92000, 88000, 76000, 64000, 58000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It gave up $24.04 at the low and finished at $24.10 — $0.24 a share, +$288 short on 1,200 shares."
+    explanation: "Twice refused at a level everybody watches, with sellers getting heavier: the crowd is leaving the same way."
+
+  - type: summary
+    total: 10

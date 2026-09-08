@@ -1,0 +1,121 @@
+id: "3-1"
+title: "Volume Bars"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [volume, chart-reading]
+learning_goal: "User can read the volume bars under a candle chart and tell a move that volume backs from a drift that nobody is behind."
+purpose: "A scalper needs shares on the other side to get in and out; volume is the chart's honest answer to whether they are there."
+terms_introduced: ["Volume bar", "Climax volume"]
+prerequisite: "2-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Volume as confirmation only. Exhaustion as a named idea waits for Level 8."
+screens:
+  - type: intro
+    text: "The candles say what happened. The bars underneath say whether anyone meant it."
+
+  - type: theory
+    title: "One bar per candle"
+    body: "Under the chart sits a volume bar for every candle: how many shares changed hands in that minute. Taller bar, more shares, more traders involved."
+    visual: chart-candles
+    visual_data:
+      data: [[27.10, 27.18, 27.06, 27.16], [27.16, 27.22, 27.13, 27.20], [27.20, 27.26, 27.17, 27.19], [27.19, 27.24, 27.15, 27.22], [27.22, 27.34, 27.21, 27.32], [27.32, 27.44, 27.30, 27.42], [27.42, 27.50, 27.38, 27.47], [27.47, 27.52, 27.43, 27.50]]
+      volume: [42000, 38000, 31000, 35000, 96000, 128000, 141000, 88000]
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the field that says how many shares have traded today."
+    data: {ticker: XYZ, name: Example Corp, price: 27.40, change: 0.62, change_pct: 2.3, volume: "4.1M"}
+    target: volume
+    explanation: "The quote card counts the whole day; the bars under your chart count one minute each."
+
+  - type: theory
+    title: "Volume backs a move"
+    body: "A move with tall bars had real buyers and sellers behind it. The same move on thin bars is drift: a few shares pushing an empty market, and it gives back just as easily."
+
+  - type: example
+    body: "Minutes 1–3 lifted XYZ $0.18 on 90k, 120k and 150k shares. Minutes 4–6 lifted it another $0.18 on 9k, 7k and 6k. Same move on the chart, completely different backing."
+    visual: bar-chart
+    visual_data:
+      bars:
+        - {label: "Minute 1", value: 90}
+        - {label: "Minute 2", value: 120}
+        - {label: "Minute 3", value: 150}
+        - {label: "Minute 4", value: 9}
+        - {label: "Minute 5", value: 7}
+        - {label: "Minute 6", value: 6}
+      unit: "k shares"
+
+  - type: sort
+    prompt: "Backed by volume, or just drift?"
+    buckets: ["Volume backs it", "Just drift"]
+    items:
+      - {text: "A $0.20 jump printed on the biggest bar of the morning", bucket: "Volume backs it"}
+      - {text: "A slow $0.15 climb on the thinnest bars since the open", bucket: "Just drift"}
+      - {text: "A push through a busy price with three times the volume of the last few minutes", bucket: "Volume backs it"}
+      - {text: "Price creeping up while every bar is shorter than the one before", bucket: "Just drift"}
+    explanation: "Ask who had to trade for that move to happen. Thin bars mean almost nobody."
+
+  - type: numeric-mc
+    prompt: "The last five minutes averaged 40,000 shares each. This minute traded 180,000. That is:"
+    options:
+      - {text: "about 4.5 times normal", correct: true}
+      - {text: "about 45 times normal"}
+      - {text: "about 1.4 times normal"}
+      - {text: "about 0.2 times normal"}
+    working: "180,000 ÷ 40,000 = 4.5"
+    explanation: "Volume is judged against this stock's own recent minutes, never against another stock."
+
+  - type: theory
+    title: "Climax volume"
+    body: "Sometimes one bar towers over everything before it at the end of a long run. That is climax volume: the crowd all acting at once. It often marks where a move ends, not where it starts."
+
+  - type: chart-decision
+    scenario: "XYZ is stepping up minute by minute and the volume bars are getting taller with every candle. Nothing is being given back. You are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[19.02, 19.08, 18.99, 19.06], [19.06, 19.12, 19.03, 19.10], [19.10, 19.22, 19.09, 19.20], [19.20, 19.32, 19.18, 19.30], [19.30, 19.42, 19.28, 19.40], [19.40, 19.48, 19.37, 19.46], [19.46, 19.58, 19.44, 19.56], [19.56, 19.66, 19.53, 19.64], [19.64, 19.72, 19.61, 19.70], [19.70, 19.76, 19.66, 19.73], [19.73, 19.78, 19.69, 19.74]]
+      volume: [40000, 46000, 92000, 118000, 145000, 152000, 160000, 138000, 120000, 96000, 80000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $19.74 — $0.28 a share above the decision, +$420 long on 1,500 shares."
+    explanation: "Rising price on rising volume: more people are joining the move, not fewer."
+
+  - type: mc
+    prompt: "After a twenty-minute run, one bar towers over every bar before it and that candle closes well below its high. The safer read is:"
+    options:
+      - {text: "The move may be finishing", correct: true}
+      - {text: "The run has just been confirmed for another leg"}
+      - {text: "The stock is more liquid now, so the move is safer to join"}
+    explanation: "Everyone trading at once at the end of a run is usually the last of the buyers, not the first."
+
+  - type: tf
+    statement: "A tall volume bar tells you which way the price moved."
+    answer: false
+    explanation: "It only says how much traded. The candle above it says who won the minute."
+
+  - type: chart-decision
+    scenario: "XYZ has crept up eight cents over five minutes. Every bar underneath is smaller than the one before and the last one is the thinnest of the morning. You are sizing 500 shares."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[51.02, 51.06, 50.99, 51.04], [51.04, 51.08, 51.02, 51.06], [51.06, 51.09, 51.03, 51.07], [51.07, 51.12, 51.05, 51.10], [51.10, 51.14, 51.08, 51.12], [51.12, 51.16, 51.09, 51.14], [51.14, 51.17, 51.08, 51.10], [51.10, 51.13, 51.05, 51.07], [51.07, 51.12, 51.04, 51.11], [51.11, 51.15, 51.07, 51.09], [51.09, 51.13, 51.05, 51.12]]
+      volume: [9000, 7000, 6000, 8000, 5000, 4000, 6000, 5000, 7000, 4000, 5000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes later price was $51.12, two cents below the decision. A long on 500 shares would have been $10 down before a single cost."
+    explanation: "A drift on shrinking volume has nothing pushing it, so there is nothing to catch."
+
+  - type: fill-tiles
+    sentence: "A move on thin bars, with nobody having to fight for it, is ___."
+    answer: "drift"
+    explanation: "Drift moves the price and moves it back; it rarely pays for the trade."
+
+  - type: theory
+    title: "Two questions, one screen"
+    body: "Which way did it go, and did anyone mean it? Candle, then bar. From here on, every chart in this app has both."

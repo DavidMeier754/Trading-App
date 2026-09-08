@@ -1,0 +1,102 @@
+id: "4-2"
+title: "Trend and Range"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [trend, structure, costs]
+learning_goal: "User can tell a range from a trend early on the 1-minute chart and treats a pullback inside a trend as a place to join it."
+purpose: "Most of a scalper's losing days are spent trading a range as if it were a trend."
+terms_introduced: ["Pullback"]
+prerequisite: "4-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Costs appear only as motivation here; the full cost math is Chapter 3."
+screens:
+  - type: intro
+    text: "A range offers a trade in both directions. That is exactly the problem."
+
+  - type: theory
+    title: "Where scalps die"
+    body: "In a range price keeps returning to where you found it. You pay to get in and out every time, and the move you were trading for never arrives."
+
+  - type: example
+    body: "Four scalps in one sideways stretch, 1,000 shares each. Getting in and out costs the spread: $0.02 × 1,000 shares = $20 a trade. Four trades, $80 gone, price unchanged."
+    visual: cost-stack
+    visual_data: {shares: 1000, spread: 0.02, slippage: 0, fees: 0, target: 0.10}
+
+  - type: theory
+    title: "Telling them apart early"
+    body: "The first push looks the same in both. The difference shows up in the second dip: in a trend it stops above the last one, in a range it drops back to the same floor."
+
+  - type: chart-decision
+    scenario: "XYZ has turned down from about $12.58 three times and turned back up from about $12.46 three times. It is sitting between the two. You are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[12.50, 12.56, 12.46, 12.54], [12.54, 12.58, 12.48, 12.50], [12.50, 12.57, 12.45, 12.55], [12.55, 12.59, 12.49, 12.51], [12.51, 12.56, 12.46, 12.53], [12.53, 12.58, 12.47, 12.49], [12.49, 12.55, 12.45, 12.52], [12.52, 12.58, 12.48, 12.50], [12.50, 12.56, 12.46, 12.54], [12.54, 12.59, 12.47, 12.49], [12.49, 12.54, 12.44, 12.48]]
+      volume: [41000, 36000, 33000, 30000, 28000, 26000, 29000, 25000, 27000, 24000, 26000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Price finished at $12.48, a cent below the decision — $15 down on 1,500 shares before costs, after two swings that would have shaken you out first."
+    explanation: "Both edges have held three times; the middle is the worst place on the chart to pick a side."
+
+  - type: mc
+    prompt: "Three scalps in the same sideways stretch have all gone nowhere. The most useful conclusion is:"
+    options:
+      - {text: "The chart is in a range and there is nothing here to catch", correct: true}
+      - {text: "The next one is more likely to work, because three failures are enough"}
+      - {text: "The share size was too small for the move to pay"}
+    explanation: "Size multiplies a move that happens; it cannot create one."
+
+  - type: theory
+    title: "The pullback"
+    body: "Price never climbs in a straight line. It pushes, then dips as early buyers take their profit. That dip inside a trend is a pullback."
+
+  - type: example
+    body: "XYZ pushes from $15.20 to $15.50, then eases back to $15.38 while the volume bars shrink. Twelve of the thirty cents handed back, with fewer and fewer sellers behind each one."
+
+  - type: numeric-input
+    prompt: "Price pushed from $15.20 to $15.50, then pulled back to $15.38. How much of the push did it give back?"
+    answer: 0.12
+    tolerance: 0.001
+    unit: "$"
+    working: "15.50 − 15.38 = 0.12"
+    explanation: "Twelve cents of a thirty-cent push — a dip that leaves most of the move intact."
+
+  - type: chart-decision
+    scenario: "XYZ ran up for three minutes, then drifted back two candles on shrinking volume and has just closed green again, still well above the low of the move. You are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[21.02, 21.14, 21.00, 21.12], [21.12, 21.26, 21.10, 21.24], [21.24, 21.38, 21.22, 21.36], [21.36, 21.40, 21.28, 21.31], [21.31, 21.35, 21.26, 21.29], [21.29, 21.36, 21.27, 21.34], [21.34, 21.48, 21.32, 21.46], [21.46, 21.58, 21.44, 21.56], [21.56, 21.64, 21.52, 21.60], [21.60, 21.66, 21.56, 21.62], [21.62, 21.68, 21.58, 21.64]]
+      volume: [88000, 96000, 104000, 52000, 38000, 44000, 92000, 108000, 86000, 64000, 58000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "The trend carried on to $21.68 — $0.30 a share above the decision, +$360 long on 1,200 shares."
+    explanation: "Selling that fades while price holds up is a pullback, and the first green candle after it is the cheapest ticket into the trend."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "A pullback"}
+      - {text: "that stops above the last higher low"}
+      - {text: "tells you the uptrend is over.", wrong: true}
+    explanation: "The uptrend only breaks when a dip goes through the last higher low; until then a pullback is part of it."
+
+  - type: fill-choice
+    sentence: "A dip inside an uptrend that holds above the previous low is a ___."
+    options: ["pullback", "downtrend", "range"]
+    answer: "pullback"
+    explanation: "Same shape, different meaning, depending on where it stops."
+
+  - type: tf
+    statement: "A pullback on shrinking volume is a better sign for the trend than one on the heaviest volume of the morning."
+    answer: true
+    explanation: "Fewer sellers pushing back means people are taking profit, not turning the move around."
+
+  - type: theory
+    title: "Join, don't chase"
+    body: "Trends pay scalpers on the pullback, not at the top of the push. Ranges mostly pay the costs. Next: the prices where all of this turns."

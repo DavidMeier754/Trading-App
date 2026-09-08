@@ -182,7 +182,7 @@ Never use influencers, YouTube or forum content as a source.
 1. Structure, rules, schema, validator, UI reference — **done**.
 2. Chapter 1 (shared) — **done, reviewed**.
 3. Scalping Chapter 3 "Orders, Costs & Position Size" — **done, reviewed**.
-4. Scalping Chapter 2 "Charts 101" — **next**.
+4. Scalping Chapter 2 "Charts 101" — **done**.
 5. Scalping Chapters 4, 5, 6 — planned.
 6. Day Trading Chapters 2–6 — planned.
 7. Swing Trading Chapters 2–6 — planned.

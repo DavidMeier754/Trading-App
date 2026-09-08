@@ -1,0 +1,123 @@
+id: "9-2"
+title: "The Scalper's Screen"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: repetition
+tags: [practice, decisions, levels, volume]
+learning_goal: "User reads one full morning — open, break, pullback, climax, refusal and chop — and decides at each point."
+purpose: "This is what the whole chapter was for: six ordinary moments, decided in seconds each."
+terms_introduced: []
+prerequisite: "9-1"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "One stock, one morning, in order. Six decisions; three of them are 'no trade'."
+screens:
+  - type: intro
+    text: "One stock, one morning, six moments. You have everything you need."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ closed yesterday at $27.40 and traded up to $28.10 before the bell. Your levels are marked, both charts are open, and you are sizing 1,000 shares."
+
+  - type: chart-decision
+    scenario: "The first minutes: XYZ opened at $27.90. Every candle overlaps the last one and price has already crossed the opening price four times. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[27.90, 28.06, 27.72, 27.84], [27.84, 27.98, 27.70, 27.94], [27.94, 28.02, 27.80, 27.84], [27.84, 27.96, 27.76, 27.92], [27.92, 28.00, 27.82, 27.86], [27.86, 27.98, 27.80, 27.90], [27.90, 28.04, 27.84, 28.00], [28.00, 28.06, 27.88, 27.92], [27.92, 28.02, 27.86, 27.98], [27.98, 28.04, 27.90, 27.94], [27.94, 28.00, 27.88, 27.96]]
+      volume: [460000, 380000, 320000, 300000, 280000, 240000, 260000, 250000, 230000, 210000, 200000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Price finished at $27.96, six cents above the decision — after crossing the opening price four more times on the way."
+    explanation: "Nothing has been taken and nothing has held: both sides keep winning inside the same few cents."
+
+  - type: chart-decision
+    scenario: "The opening range is set: $27.70 to $28.06. XYZ has just closed at $28.16, above the range high and above the round number, on triple the volume of any candle before it. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[27.92, 27.98, 27.88, 27.96], [27.96, 28.02, 27.92, 27.98], [27.98, 28.04, 27.94, 28.02], [28.02, 28.06, 27.96, 27.99], [27.99, 28.05, 27.96, 28.03], [28.03, 28.18, 28.01, 28.16], [28.16, 28.28, 28.14, 28.26], [28.26, 28.34, 28.22, 28.32], [28.32, 28.40, 28.28, 28.38], [28.38, 28.44, 28.34, 28.40], [28.40, 28.46, 28.36, 28.42]]
+      volume: [180000, 160000, 190000, 170000, 200000, 420000, 360000, 300000, 260000, 220000, 200000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $28.46 — $0.26 a share above the decision, +$260 long on 1,000 shares."
+    explanation: "A close beyond the opening range on heavy volume is the first real signal the morning has given."
+
+  - type: chart-decision
+    scenario: "XYZ pushed to $28.62, eased back three candles on shrinking volume and has just closed green at $28.50, still above the last dip. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[28.42, 28.54, 28.40, 28.52], [28.52, 28.62, 28.50, 28.60], [28.60, 28.64, 28.52, 28.54], [28.54, 28.58, 28.44, 28.46], [28.46, 28.50, 28.40, 28.42], [28.42, 28.52, 28.41, 28.50], [28.50, 28.62, 28.48, 28.60], [28.60, 28.72, 28.58, 28.70], [28.70, 28.78, 28.66, 28.74], [28.74, 28.80, 28.70, 28.76], [28.76, 28.82, 28.72, 28.78]]
+      volume: [240000, 220000, 140000, 110000, 90000, 150000, 210000, 240000, 200000, 170000, 150000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "The trend carried to $28.82 — $0.28 a share above the decision, +$280 long on 1,000 shares."
+    explanation: "Shrinking volume into the dip, a green close above the last low: a pullback inside a trend that is still working."
+
+  - type: mc
+    prompt: "Across a morning a scalper passes on far more charts than they trade. That is:"
+    options:
+      - {text: "Normal — most minutes offer nothing worth the costs", correct: true}
+      - {text: "A sign you picked the wrong stock to watch"}
+      - {text: "A missed chance to practice your entries"}
+    explanation: "Sitting out is not a lost trade; it is how the winning ones stay affordable."
+
+  - type: chart-decision
+    scenario: "The run has gone on for six minutes. The last candle spiked to $29.72, closed back at $29.42 and traded twice the volume of any candle in the move. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[28.78, 28.92, 28.76, 28.90], [28.90, 29.06, 28.88, 29.04], [29.04, 29.20, 29.02, 29.18], [29.18, 29.30, 29.14, 29.28], [29.28, 29.40, 29.24, 29.36], [29.36, 29.72, 29.32, 29.42], [29.42, 29.48, 29.24, 29.28], [29.28, 29.34, 29.12, 29.16], [29.16, 29.24, 29.08, 29.20], [29.20, 29.26, 29.10, 29.14], [29.14, 29.22, 29.06, 29.12]]
+      volume: [190000, 240000, 300000, 340000, 380000, 720000, 480000, 400000, 320000, 280000, 260000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "Price drifted back to $29.12. A long there would have been $0.30 a share underwater — $300 on 1,000 shares."
+    explanation: "Climax volume with a long wick is the end of that push, and the third leg is a bad place to be the last buyer."
+
+  - type: numeric-input
+    prompt: "Your two winning scalps: 1,000 shares from $28.16 to $28.42, then 1,000 shares from $28.50 to $28.78. Total before costs?"
+    answer: 540
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.26 × 1,000 = $260; $0.28 × 1,000 = $280; together $540"
+    explanation: "Two ordinary scalps, both under thirty cents, and the share count does the rest."
+
+  - type: chart-decision
+    scenario: "XYZ has come back to $29.40, where the last push gave up. It has been refused there twice and the candle that just closed finished at the low of its move on rising volume. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[29.12, 29.20, 29.08, 29.18], [29.18, 29.32, 29.16, 29.30], [29.30, 29.40, 29.26, 29.32], [29.32, 29.38, 29.24, 29.26], [29.26, 29.39, 29.22, 29.28], [29.28, 29.32, 29.18, 29.20], [29.20, 29.24, 29.06, 29.08], [29.08, 29.12, 28.96, 28.98], [28.98, 29.04, 28.88, 28.92], [28.92, 28.98, 28.86, 28.90], [28.90, 28.96, 28.84, 28.92]]
+      volume: [200000, 220000, 240000, 190000, 210000, 260000, 300000, 280000, 240000, 200000, 180000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell to $28.84 and finished at $28.92 — $0.28 a share, +$280 short on 1,000 shares."
+    explanation: "The price that ended the last push became resistance, and it held twice before the sellers took over."
+
+  - type: tf
+    statement: "By late morning the same stock can be worth leaving alone completely."
+    answer: true
+    explanation: "Volume thins out after the open; a chart with no push and no level has nothing to pay you with."
+
+  - type: chart-decision
+    scenario: "It is late in the morning. XYZ is turning down from about $28.98 and up from about $28.85 on the thinnest bars since the open. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[28.92, 28.98, 28.86, 28.90], [28.90, 28.96, 28.84, 28.94], [28.94, 28.99, 28.88, 28.90], [28.90, 28.97, 28.85, 28.95], [28.95, 29.00, 28.89, 28.91], [28.91, 28.97, 28.86, 28.93], [28.93, 28.99, 28.87, 28.89], [28.89, 28.96, 28.84, 28.94], [28.94, 28.98, 28.88, 28.90], [28.90, 28.96, 28.85, 28.93], [28.93, 28.98, 28.87, 28.91]]
+      volume: [90000, 80000, 70000, 65000, 60000, 55000, 58000, 50000, 52000, 48000, 45000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Price finished at $28.91, two cents below the decision — $20 down on 1,000 shares before a single cost."
+    explanation: "A thin range at the end of the morning is where a good session gets given back."
+
+  - type: theory
+    title: "That is a morning"
+    body: "Six moments, three trades, three charts you left alone. Read the shape, check the volume, look at the level — and let the rest go."

@@ -1,0 +1,122 @@
+id: "9-1"
+title: "The Scalper's Screen"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [routine, levels, screen-setup]
+learning_goal: "User can describe the four things on a scalper's screen and mark the levels that matter before the session opens."
+purpose: "In a one-minute decision you can only read what you set up in advance."
+terms_introduced: []
+prerequisite: "8-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Quote information is shown on the quote card from Chapter 1; bid, ask and the full quote panel arrive in Chapter 3."
+screens:
+  - type: intro
+    text: "Four things on the screen. Everything else is decoration."
+
+  - type: theory
+    title: "What is actually on it"
+    body: "A 1-minute chart with volume under it. The same stock on the 5-minute for context. The quote for price, day's move and how much has traded. Your levels drawn on both charts."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[22.10, 22.18, 22.06, 22.16], [22.16, 22.24, 22.13, 22.20], [22.20, 22.30, 22.18, 22.28], [22.28, 22.32, 22.20, 22.22], [22.22, 22.29, 22.19, 22.27], [22.27, 22.40, 22.25, 22.38], [22.38, 22.44, 22.34, 22.36], [22.36, 22.42, 22.32, 22.40]]
+      volume: [64000, 58000, 96000, 47000, 52000, 128000, 71000, 66000]
+      levels:
+        - {price: 22.40, label: "pre-market high"}
+        - {price: 22.00, label: "round number"}
+    caption: "One minute per candle, volume underneath, and the levels you marked before the open."
+
+  - type: example
+    body: "The same morning on the 5-minute: four candles, all green, each one finishing above the last. That is the context every 1-minute idea has to fit."
+    visual: chart-candles
+    visual_data:
+      data: [[21.70, 21.92, 21.66, 21.88], [21.88, 22.06, 21.84, 22.02], [22.02, 22.20, 21.98, 22.16], [22.16, 22.44, 22.10, 22.40]]
+      volume: [310000, 288000, 264000, 342000]
+
+  - type: walkthrough
+    component: quote-card
+    data: {ticker: XYZ, name: Example Corp, price: 22.38, change: 0.62, change_pct: 2.9, volume: "2.4M", prev_close: 21.76}
+    steps:
+      - {spotlight: price, text: "The price you would be trading right now."}
+      - {spotlight: change, text: "How far it has already come since yesterday's close."}
+      - {spotlight: volume, text: "How much has traded today. On a thin day it is hard to get in and out."}
+
+  - type: checklist-reveal
+    title: "Marked before the open"
+    items:
+      - "Yesterday's high and low"
+      - "The pre-market high and low"
+      - "The round numbers either side of the price"
+      - "Which way the 5-minute is running"
+
+  - type: order
+    prompt: "Put a scalper's morning in order."
+    items:
+      - "Mark yesterday's high and low"
+      - "Mark the pre-market high and low"
+      - "Let the first five minutes finish"
+      - "Trade the first clean level"
+    explanation: "Levels are drawn while nothing is happening; the session is for reading, not for preparing."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the field that shows how far the stock has moved since yesterday's close."
+    data: {ticker: XYZ, name: Example Corp, price: 22.38, change: 0.62, change_pct: 2.9, volume: "2.4M", prev_close: 21.76}
+    target: change
+    explanation: "Up $0.62 already — a stock that has travelled a long way today has less room left for your scalp."
+
+  - type: mc
+    prompt: "Your 1-minute chart says long. Your 5-minute says the morning is falling. You:"
+    options:
+      - {text: "Take nothing and wait for the two to agree", correct: true}
+      - {text: "Take the 1-minute trade, because it is the faster chart"}
+      - {text: "Take half the size, because both charts are partly right"}
+    explanation: "Half a position in a fight you have already read as a fight is still a position in the wrong direction."
+
+  - type: chart-decision
+    scenario: "The 5-minute is climbing. On the 1-minute, XYZ has just closed at $22.48 — above the pre-market high of $22.40 you marked — on the biggest volume bar of the morning. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[22.16, 22.24, 22.13, 22.20], [22.20, 22.30, 22.18, 22.28], [22.28, 22.32, 22.20, 22.22], [22.22, 22.29, 22.19, 22.27], [22.27, 22.38, 22.25, 22.36], [22.36, 22.50, 22.34, 22.48], [22.48, 22.58, 22.46, 22.56], [22.56, 22.64, 22.52, 22.62], [22.62, 22.70, 22.58, 22.66], [22.66, 22.74, 22.62, 22.70], [22.70, 22.76, 22.66, 22.72]]
+      volume: [58000, 96000, 47000, 52000, 88000, 164000, 140000, 118000, 96000, 84000, 76000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $22.76 — $0.24 a share above the decision, +$240 long on 1,000 shares."
+    explanation: "Context, level, close beyond it and volume: all four parts of the screen said the same thing."
+
+  - type: tf
+    statement: "More charts and more numbers on the screen make the decision faster."
+    answer: false
+    explanation: "Every extra thing is one more thing to read inside a minute that only lasts sixty seconds."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "You mark your levels"}
+      - {text: "once the first big move is under way,", wrong: true}
+      - {text: "so you know where price is."}
+    explanation: "Levels are drawn while nothing is happening. During the move there is no time, and the move itself talks you out of them."
+
+  - type: chart-decision
+    scenario: "The 5-minute has fallen all morning. On the 1-minute, XYZ has been refused twice at $31.00 — yesterday's close — and the candle that just closed finished at the low of its own move on rising volume. You are sizing 900 shares."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[30.72, 30.88, 30.70, 30.86], [30.86, 31.00, 30.84, 30.92], [30.92, 31.01, 30.86, 30.90], [30.90, 30.96, 30.82, 30.84], [30.84, 30.92, 30.80, 30.88], [30.88, 30.94, 30.78, 30.80], [30.80, 30.84, 30.66, 30.68], [30.68, 30.72, 30.58, 30.60], [30.60, 30.66, 30.52, 30.56], [30.56, 30.62, 30.50, 30.54], [30.54, 30.60, 30.48, 30.52]]
+      volume: [62000, 88000, 76000, 71000, 58000, 96000, 104000, 98000, 84000, 72000, 66000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell to $30.48 and finished at $30.52 — $0.28 a share, +$252 short on 900 shares."
+    explanation: "A falling 5-minute, a level that has held twice and heavier selling: the whole screen agrees again, in the other direction."
+
+  - type: theory
+    title: "Set it up once"
+    body: "The screen never changes: two charts, volume, a quote, a handful of levels. What changes is the market — and you now have everything you need to read it."

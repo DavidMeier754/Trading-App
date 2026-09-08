@@ -35,7 +35,7 @@ Terms Chapter 1 introduces (available to every later chapter): Price, Chart, Sto
 
 ## Scalping
 
-### Chapter 2 — Charts 101 — next
+### Chapter 2 — Charts 101 — written
 
 Folder: `content/paths/scalping/chapter-02-charts-101/`. First candlestick charts of the app. Every level has at least one `chart-decision` (candles, 8–12 bars). Timeframes: 1-minute with 5-minute context.
 

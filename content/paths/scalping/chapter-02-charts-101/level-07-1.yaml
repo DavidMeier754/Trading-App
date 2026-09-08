@@ -1,0 +1,104 @@
+id: "7-1"
+title: "The Opening Minutes"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [open, gaps, opening-range]
+learning_goal: "User knows why the first minutes of the session behave differently, can read a gap, and can find the opening range on a 1-minute chart."
+purpose: "Scalpers make much of their day in the first half hour, and beginners lose much of theirs in the first five minutes."
+terms_introduced: ["Gap", "Opening range"]
+prerequisite: "6-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Session times, pre-market and the first half hour all come from market tokens."
+screens:
+  - type: intro
+    text: "The loudest half hour of the day — and the easiest one to lose money in."
+
+  - type: theory
+    title: "The open is not a normal time"
+    body: "The session opens at {{market.regular_open}} {{market.timezone}}. In the first half hour, {{market.first_minutes}}, more shares change hands than at any other time, moves are bigger, and spreads are at their widest."
+
+  - type: visual
+    component: session-ribbon
+    data:
+      premarket: "{{market.premarket}}"
+      regular: "{{market.regular}}"
+      afterhours: "{{market.afterhours}}"
+      timezone: "{{market.timezone}}"
+    caption: "Everything a scalper does happens inside the regular session — most of it near its start."
+
+  - type: slider
+    prompt: "Take a guess: how much of a whole day's volume trades in the first half hour?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 20
+    tolerance: 10
+    explanation: "Around a fifth on a typical day: half an hour of clock time carrying hours' worth of trading."
+
+  - type: theory
+    title: "Gaps"
+    body: "A gap is a jump between yesterday's close and the first price of the new session. News, earnings or overnight demand arrived while the market was shut. Above yesterday's close is a gap up, below it a gap down."
+
+  - type: example
+    body: "XYZ closed yesterday at $32.00 and opens at $33.10 — a $1.10 gap up. Nobody bought at $32.50 on the way: no trades happened in between at all."
+
+  - type: mc
+    prompt: "XYZ closed at $32.00 and opens at $33.10. For the first minutes that mostly means:"
+    options:
+      - {text: "Something changed overnight, and the open is the fight over what it is now worth", correct: true}
+      - {text: "The stock is $1.10 too expensive and has to come back"}
+      - {text: "Yesterday's chart no longer matters at all"}
+    explanation: "A gap is new information, not a mistake — and yesterday's high, low and close are still levels everybody can see."
+
+  - type: theory
+    title: "The opening range"
+    body: "The high and the low of the first five minutes are the opening range. It is the first structure of the day: two prices the whole market can see, built while the biggest volume of the session trades."
+
+  - type: numeric-input
+    prompt: "The first five 1-minute candles print highs of $20.44, $20.62, $20.58, $20.71, $20.66 and lows of $20.30, $20.36, $20.28, $20.44, $20.52. Where is the low of the opening range?"
+    answer: 20.28
+    tolerance: 0.001
+    unit: "$"
+    working: "The lowest low of the first five minutes: $20.28"
+    explanation: "The opening range is the whole span of those five minutes, wicks included."
+
+  - type: order
+    prompt: "Put the start of a session in order."
+    items:
+      - "Pre-market trading sets a high and a low"
+      - "The session opens"
+      - "The first five minutes finish"
+      - "Price leaves the opening range"
+    explanation: "You cannot trade the opening range before it exists — which is why the first five minutes are for watching."
+
+  - type: chart-decision
+    scenario: "XYZ gapped up from $32.00 to $33.10 and the first minutes are swinging 25 cents in both directions with wicks everywhere. You are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[33.10, 33.48, 32.96, 33.36], [33.36, 33.52, 33.08, 33.14], [33.14, 33.44, 33.06, 33.40], [33.40, 33.46, 33.10, 33.16], [33.16, 33.38, 33.12, 33.32], [33.32, 33.40, 33.06, 33.10], [33.10, 33.34, 33.04, 33.28], [33.28, 33.36, 33.08, 33.12], [33.12, 33.30, 33.06, 33.24], [33.24, 33.32, 33.10, 33.14], [33.14, 33.28, 33.08, 33.20]]
+      volume: [480000, 360000, 310000, 280000, 240000, 260000, 220000, 200000, 180000, 170000, 160000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Price finished at $33.20, ten cents above the decision — after two swings big enough to shake you out in either direction first."
+    explanation: "In the first minutes there is no structure yet: every candle overlaps the last and both sides keep winning."
+
+  - type: tf
+    statement: "A stock that gaps up comes back to yesterday's close the same day."
+    answer: false
+    explanation: "Some do and some never return. A gap is a starting condition, not a promise."
+
+  - type: fill-choice
+    sentence: "The high and the low of the first five minutes are the ___."
+    options: ["opening range", "pre-market range", "daily range"]
+    answer: "opening range"
+    explanation: "The pre-market high and low are set before the bell, and the day's own high and low are not finished until the close."
+
+  - type: theory
+    title: "Loud, fast, and worth waiting out"
+    body: "The open pays the traders who already know their levels. For the first five minutes, most scalpers only watch — and the next sub-level shows what they are watching for."

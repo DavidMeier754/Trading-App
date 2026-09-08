@@ -1,0 +1,111 @@
+id: "5-1"
+title: "Support and Resistance"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [levels, structure, chart-reading]
+learning_goal: "User can find support and resistance on a 1-minute chart from earlier turns, round numbers and pre-market and previous-day extremes."
+purpose: "Levels are the few prices where everyone is looking at the same thing at the same time, which is where a scalp gets its reason."
+terms_introduced: ["Support", "Resistance"]
+prerequisite: "4-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Finding levels only. What to do when one is reached is 5-2."
+screens:
+  - type: intro
+    text: "Some prices on the chart matter more than the rest — and everybody can see which ones."
+
+  - type: theory
+    title: "A level is a memory"
+    body: "When price turns at the same spot twice, traders remember it. Orders collect there, and the next visit gets a reaction instead of a shrug."
+
+  - type: theory
+    title: "Support and resistance"
+    body: "Support is a price where buyers keep stepping in and the fall stops. Resistance is a price where sellers keep stepping in and the rise stops."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[18.72, 18.80, 18.68, 18.74], [18.74, 18.79, 18.62, 18.65], [18.65, 18.70, 18.41, 18.46], [18.46, 18.55, 18.44, 18.53], [18.53, 18.66, 18.51, 18.64], [18.64, 18.80, 18.62, 18.70], [18.70, 18.76, 18.58, 18.61], [18.61, 18.66, 18.40, 18.44], [18.44, 18.58, 18.43, 18.56]]
+      volume: [58000, 47000, 96000, 52000, 61000, 74000, 49000, 88000, 63000]
+      levels:
+        - {price: 18.80, label: "resistance"}
+        - {price: 18.40, label: "support"}
+    caption: "Two pushes stopped at $18.80. Two dips stopped at $18.40."
+
+  - type: carousel
+    cards:
+      - {label: "Yesterday's high and low", text: "The extremes of the last session. Plenty of traders still have orders and opinions parked there."}
+      - {label: "The pre-market high and low", text: "Where price turned in {{market.premarket}} trading, before the crowd arrived."}
+      - {label: "Round numbers", text: "$20.00, $50.00, $100.00. People think and place orders in round figures, so price reacts to them."}
+
+  - type: chart-tap
+    prompt: "Price was turned back from the same area twice. Tap the candle that reached it first."
+    chart:
+      kind: candles
+      data: [[73.10, 73.22, 73.06, 73.20], [73.20, 73.45, 73.18, 73.28], [73.28, 73.34, 73.16, 73.19], [73.19, 73.26, 73.12, 73.24], [73.24, 73.38, 73.22, 73.36], [73.36, 73.44, 73.30, 73.33], [73.33, 73.37, 73.24, 73.26], [73.26, 73.31, 73.18, 73.21], [73.21, 73.28, 73.16, 73.24]]
+    target: 1
+    explanation: "$73.45 stopped the first push, and the second one died a cent short of it. That price is now resistance."
+
+  - type: mc
+    prompt: "XYZ was turned back at $50.00 twice this morning. It is $49.88 and rising again. The useful expectation is:"
+    options:
+      - {text: "Sellers may be waiting at $50.00 again, so this push can stall there", correct: true}
+      - {text: "The third attempt always goes through"}
+      - {text: "The level is used up now, so $50.00 no longer matters"}
+    explanation: "A level stays interesting until price closes through it — and even then it is worth watching from the other side."
+
+  - type: tf
+    statement: "Support at $18.40 means the price cannot trade below $18.40."
+    answer: false
+    explanation: "Support is where buyers have been showing up, not a floor. It holds until the day it doesn't."
+
+  - type: chart-decision
+    scenario: "XYZ has dropped into $26.00 — a round number, and the price that stopped two dips earlier. The last candle poked below it and closed back above with a long lower wick, on the heaviest volume of the move. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[26.44, 26.50, 26.38, 26.40], [26.40, 26.44, 26.28, 26.30], [26.30, 26.34, 26.16, 26.18], [26.18, 26.22, 26.04, 26.10], [26.10, 26.14, 26.01, 26.05], [26.05, 26.16, 26.00, 26.14], [26.14, 26.26, 26.12, 26.24], [26.24, 26.34, 26.21, 26.32], [26.32, 26.40, 26.29, 26.38], [26.38, 26.44, 26.34, 26.40], [26.40, 26.46, 26.36, 26.42]]
+      volume: [62000, 58000, 74000, 88000, 66000, 112000, 96000, 84000, 72000, 58000, 51000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "Buyers held it and price worked back to $26.42 — $0.28 a share above the decision, +$280 long on 1,000 shares."
+    explanation: "A long lower wick on heavy volume at a level everybody can see is buyers defending it in public."
+
+  - type: fill-tiles
+    sentence: "A price where sellers keep stopping the rise is ___."
+    answer: "resistance"
+    explanation: "Support underneath, resistance above — named for what they do, not for how they look."
+
+  - type: match
+    prompt: "Where does each level come from?"
+    pairs:
+      - ["Support", "Buyers have stepped in at this price before"]
+      - ["Resistance", "Sellers have stopped the rise at this price before"]
+      - ["Round number", "Orders cluster there because of the digits, nothing else"]
+      - ["Pre-market high", "The best price buyers paid before the session opened"]
+    explanation: "Different sources, same job: a price where the crowd is looking."
+
+  - type: chart-decision
+    scenario: "XYZ has climbed for five minutes straight into $55.50 — yesterday's high — and is now two cents below it. You are sizing 500 shares."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[54.98, 55.08, 54.94, 55.06], [55.06, 55.18, 55.02, 55.16], [55.16, 55.28, 55.12, 55.26], [55.26, 55.38, 55.22, 55.34], [55.34, 55.46, 55.30, 55.42], [55.42, 55.50, 55.38, 55.44], [55.44, 55.52, 55.36, 55.38], [55.38, 55.42, 55.26, 55.28], [55.28, 55.34, 55.18, 55.22], [55.22, 55.28, 55.14, 55.18], [55.18, 55.24, 55.10, 55.16]]
+      volume: [54000, 61000, 68000, 72000, 79000, 84000, 66000, 71000, 58000, 49000, 44000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It stalled at $55.52 and slid to $55.16. A long would have lost $0.28 a share — $140 on 500 shares."
+    explanation: "Buying the last cents into a price that stopped the market yesterday means paying up for the seller's best price."
+
+  - type: theory
+    title: "Mark them before the open"
+    body: "Yesterday's high and low, the pre-market high and low from {{market.premarket}}, the round numbers nearby. Once the session is running there is no time to look for them."
+
+  - type: theory
+    title: "A handful of prices"
+    body: "Four or five levels are enough for one stock. They tell you where a move is likely to pause — and next, what to do when it gets there."

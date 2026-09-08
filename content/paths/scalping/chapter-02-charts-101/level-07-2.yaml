@@ -1,0 +1,110 @@
+id: "7-2"
+title: "The Opening Minutes"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [open, gaps, opening-range, decisions]
+learning_goal: "User can judge whether an opening gap is holding or fading and waits for the first 5-minute candle to close before trading it."
+purpose: "The first five minutes decide the shape of the morning; trading them blind is the most common beginner mistake at the open."
+terms_introduced: []
+prerequisite: "7-1"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Uses the opening range from 7-1 as the first level of the day."
+screens:
+  - type: intro
+    text: "The gap has happened. Now the market decides whether it deserved it."
+
+  - type: theory
+    title: "Two ways a gap goes"
+    body: "Either buyers keep paying the new price and it carries on, or the push fades and price works back toward yesterday's close. The first candles show you which one you have."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[19.20, 19.34, 19.14, 19.30], [19.30, 19.38, 19.22, 19.26], [19.26, 19.40, 19.24, 19.38], [19.38, 19.48, 19.34, 19.46], [19.46, 19.54, 19.42, 19.50], [19.50, 19.60, 19.46, 19.58]]
+      volume: [420000, 280000, 240000, 260000, 210000, 230000]
+      levels:
+        - {price: 18.60, label: "yesterday's close"}
+        - {price: 19.20, label: "today's open"}
+    caption: "A gap that held: every candle stayed above the opening price and buyers kept paying up."
+
+  - type: theory
+    title: "Wait for the candle to finish"
+    body: "While a candle is still forming, its high and its low keep moving. When the first 5-minute candle closes you have two prices that stop changing — and the day has its first structure."
+
+  - type: mc
+    prompt: "Ten seconds after the open, the 1-minute candle is long and green. Buying it means:"
+    options:
+      - {text: "Trading a candle that is not finished — its low could still end up anywhere", correct: true}
+      - {text: "Getting the best price available that day"}
+      - {text: "Confirming that the gap is holding"}
+    explanation: "An unfinished candle has no close, and the close is the part that decides what the candle meant."
+
+  - type: chart-decision
+    scenario: "XYZ gapped up from $40.10 to $41.00. The first five minutes are complete — opening range $40.92 to $41.38 — and price has closed above the opening price every single minute. You are sizing 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[41.00, 41.28, 40.92, 41.22], [41.22, 41.34, 41.14, 41.30], [41.30, 41.38, 41.18, 41.22], [41.22, 41.32, 41.16, 41.28], [41.28, 41.36, 41.24, 41.26], [41.26, 41.30, 41.18, 41.28], [41.28, 41.44, 41.26, 41.42], [41.42, 41.52, 41.38, 41.50], [41.50, 41.56, 41.44, 41.52], [41.52, 41.58, 41.46, 41.54], [41.54, 41.60, 41.50, 41.56]]
+      volume: [520000, 330000, 280000, 240000, 190000, 170000, 260000, 240000, 200000, 180000, 160000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It pushed out of the opening range to $41.60 — $0.28 a share above the decision, +$196 long on 700 shares."
+    explanation: "Buyers defended the opening price for five minutes; the gap is being paid for, not sold into."
+
+  - type: sort
+    prompt: "Is the gap holding or fading?"
+    buckets: ["Holding", "Fading"]
+    items:
+      - {text: "Every candle closes above the opening price", bucket: "Holding"}
+      - {text: "Price slips back under the opening price on rising volume", bucket: "Fading"}
+      - {text: "Dips keep stopping above the low of the opening range", bucket: "Holding"}
+      - {text: "Each push after the open tops out lower than the last", bucket: "Fading"}
+    explanation: "The opening price and the opening range are the two references; which side of them price lives on is the answer."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The gap is large,"}
+      - {text: "so the move is certain to continue", wrong: true}
+      - {text: "for the rest of the morning."}
+    explanation: "Size says how much news arrived, not what happens next. Plenty of big gaps are sold from the first minute."
+
+  - type: numeric-input
+    prompt: "You are long 1,000 shares of a gapped-up stock from $19.24 and it slips to $19.06. Where do you stand before costs?"
+    answer: -180
+    tolerance: 0.01
+    unit: "$"
+    working: "(19.06 − 19.24) × 1,000 shares = −$180"
+    explanation: "Eighteen cents against you on 1,000 shares — the same arithmetic as a win, in reverse."
+
+  - type: tf
+    statement: "A stock that gaps down is cheap, because it costs less than yesterday."
+    answer: false
+    explanation: "It means sellers accepted less than yesterday's close before the session even started; cheap and lower are not the same thing."
+
+  - type: chart-decision
+    scenario: "XYZ gapped up from $25.10 to $26.00, then closed under the opening price on the very first candle and every one since, each push topping out lower. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[26.00, 26.14, 25.86, 25.92], [25.92, 26.02, 25.80, 25.84], [25.84, 25.96, 25.78, 25.90], [25.90, 25.98, 25.76, 25.80], [25.80, 25.86, 25.68, 25.72], [25.72, 25.78, 25.62, 25.66], [25.66, 25.70, 25.52, 25.56], [25.56, 25.62, 25.44, 25.48], [25.48, 25.54, 25.38, 25.42], [25.42, 25.48, 25.36, 25.40], [25.40, 25.46, 25.34, 25.38]]
+      volume: [540000, 380000, 300000, 320000, 340000, 360000, 330000, 310000, 280000, 240000, 220000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked back toward yesterday's close and finished at $25.38 — $0.28 a share, +$280 short on 1,000 shares."
+    explanation: "Everybody who bought the gap is now offside, and their selling is what carries the move down."
+
+  - type: fill-tiles
+    sentence: "Waiting for a candle to ___ means its high and low finally stop moving."
+    answer: "close"
+    explanation: "Only a finished candle can be measured, marked or traded against."
+
+  - type: theory
+    title: "Five minutes of patience"
+    body: "Watch the first five minutes, mark the opening range, then decide. That single habit removes most of the damage the open does to beginners."

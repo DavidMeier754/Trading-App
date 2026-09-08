@@ -1,0 +1,134 @@
+id: "10-1"
+title: "Final Exam"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: final-exam
+tags: [exam, candles, volume, trend, levels, open]
+learning_goal: "User proves they can read a candlestick chart with volume, name the structure, find the levels and decide at each of them."
+purpose: "Everything in this chapter, once, in fresh situations."
+terms_introduced: []
+prerequisite: "9-2"
+xp: 80
+difficulty: 3
+sources: [consensus]
+notes: "Twelve scored questions across Levels 1–9, all with new numbers and new wordings."
+screens:
+  - type: intro
+    text: "Twelve questions on the whole chapter. Nothing here is timed."
+    counter: 12
+
+  - type: mc
+    prompt: "A candle opens at $44.10 and closes at $44.12, with wicks reaching $44.40 and $43.86. It tells you:"
+    options:
+      - {text: "Both sides pushed hard and neither kept anything", correct: true}
+      - {text: "Buyers were in control, because it closed above its open"}
+      - {text: "Very little traded in that minute"}
+    explanation: "A tiny body between two long wicks is the picture of a minute nobody won."
+
+  - type: chart-tap
+    prompt: "$35.00 was yesterday's high. Tap the first candle that closed above it."
+    chart:
+      kind: candles
+      data: [[34.70, 34.80, 34.66, 34.78], [34.78, 35.02, 34.76, 34.90], [34.90, 34.96, 34.82, 34.86], [34.86, 34.98, 34.84, 34.96], [34.96, 35.12, 34.94, 35.10], [35.10, 35.22, 35.06, 35.20], [35.20, 35.28, 35.16, 35.24], [35.24, 35.32, 35.20, 35.30]]
+      levels:
+        - {price: 35.00, label: "yesterday's high"}
+    target: 4
+    explanation: "The earlier candle reached $35.02 and closed back at $34.90 — a wick, not a break."
+
+  - type: numeric-input
+    prompt: "You are long 1,500 shares from $12.44 and sell at $12.61. Result before costs?"
+    answer: 255
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.17 a share × 1,500 shares = $255"
+    explanation: "Seventeen cents, and the share count turns it into a scalp worth taking."
+
+  - type: tf
+    statement: "The 1-minute chart gives a scalper the direction and the 5-minute gives the entry."
+    answer: false
+    explanation: "The other way round: the 5-minute says which way, the 1-minute says when."
+
+  - type: sort
+    prompt: "Take the trade, or stand aside?"
+    buckets: ["Take the trade", "Stand aside"]
+    items:
+      - {text: "A close beyond the opening range on the biggest bar of the day", bucket: "Take the trade"}
+      - {text: "Price crossing the opening price for the fifth time in five minutes", bucket: "Stand aside"}
+      - {text: "A pullback on shrinking volume inside a clean uptrend", bucket: "Take the trade"}
+      - {text: "The fourth push, right after the heaviest bar of the run", bucket: "Stand aside"}
+    explanation: "Structure and volume together make a reason; everything else is watching."
+
+  - type: chart-decision
+    scenario: "XYZ has fallen five minutes straight into $13.00, a round number that held earlier. The last candle dipped to $13.00, closed at $13.14 and traded the heaviest volume of the fall. You are sizing 2,000 shares."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[13.40, 13.44, 13.32, 13.34], [13.34, 13.38, 13.24, 13.26], [13.26, 13.30, 13.16, 13.18], [13.18, 13.22, 13.08, 13.12], [13.12, 13.16, 13.02, 13.06], [13.06, 13.16, 13.00, 13.14], [13.14, 13.24, 13.12, 13.22], [13.22, 13.30, 13.19, 13.28], [13.28, 13.34, 13.24, 13.32], [13.32, 13.38, 13.28, 13.34], [13.34, 13.40, 13.30, 13.36]]
+      volume: [88000, 96000, 104000, 118000, 132000, 156000, 128000, 110000, 96000, 84000, 76000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "Buyers held the level and price reached $13.40 — $0.22 a share above the decision, +$440 long on 2,000 shares."
+    explanation: "A long lower wick into a level, on the heaviest bar of the move, is buyers defending a price in public."
+
+  - type: mc
+    prompt: "XYZ gapped down and every candle since the open has closed below the opening price. The read is:"
+    options:
+      - {text: "Sellers are keeping the gap — so far the day belongs to them", correct: true}
+      - {text: "The gap will be filled, because gaps always are"}
+      - {text: "The stock is cheap now, so buyers will step in"}
+    explanation: "Where price lives relative to the opening price is the answer; 'cheap' is not something a chart can tell you."
+
+  - type: fill-choice
+    sentence: "The heaviest bar of a long run, with a long wick and a close far off the high, is ___."
+    options: ["exhaustion", "momentum", "a pullback"]
+    answer: "exhaustion"
+    explanation: "Everybody traded at once and price still could not hold the highs."
+
+  - type: match
+    prompt: "Match each idea to its definition."
+    pairs:
+      - ["Opening range", "The high and low of the first five minutes"]
+      - ["Gap", "A jump between yesterday's close and today's opening price"]
+      - ["Pullback", "A dip inside a trend that holds above the last low"]
+      - ["Breakout", "A close beyond a level, not just a wick through it"]
+    explanation: "Four ideas that between them describe most of a scalper's morning."
+
+  - type: numeric-mc
+    prompt: "The first five minutes ran from $30.86 to $31.24. How wide is the opening range?"
+    options:
+      - {text: "$0.38", correct: true}
+      - {text: "$0.28"}
+      - {text: "$3.80"}
+      - {text: "$30.86"}
+    working: "31.24 − 30.86 = 0.38"
+    explanation: "The width matters: a wide opening range means bigger moves and more room between the two edges."
+
+  - type: chart-decision
+    scenario: "XYZ has made lower highs and lower lows all morning. It has rallied back into $48.40 — the last lower high — and the candle that just closed was refused there on rising volume. You are sizing 600 shares."
+    shares: 600
+    chart:
+      kind: candles
+      data: [[48.40, 48.52, 48.36, 48.38], [48.38, 48.44, 48.20, 48.24], [48.24, 48.30, 48.10, 48.14], [48.14, 48.36, 48.12, 48.32], [48.32, 48.40, 48.28, 48.36], [48.36, 48.41, 48.26, 48.28], [48.28, 48.32, 48.14, 48.16], [48.16, 48.20, 48.02, 48.06], [48.06, 48.12, 47.96, 48.00], [48.00, 48.06, 47.94, 47.98], [47.98, 48.04, 47.92, 48.00]]
+      volume: [74000, 88000, 96000, 70000, 62000, 84000, 92000, 88000, 76000, 66000, 60000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rolled over to $47.92 and finished at $48.00 — $0.28 a share, +$168 short on 600 shares."
+    explanation: "A rally into the last lower high, refused on heavier volume, is the downtrend doing exactly what it has done all morning."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "You trade the 1-minute chart,"}
+      - {text: "so the 5-minute chart"}
+      - {text: "can be ignored once you are in.", wrong: true}
+    explanation: "The bigger move decides how much room your trade has, before and after you enter."
+
+  - type: summary
+    total: 12
+
+  - type: badge
+    name: "Charts 101 — Complete"
+    unlocks: "Chapter 3"
