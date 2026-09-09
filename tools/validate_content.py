@@ -183,7 +183,7 @@ def validate_file(path, data, rep):
             kind = chart.get("kind")
             if kind not in ("line", "candles"):
                 rep.err(f, f"screen {i}: chart.kind must be line or candles")
-            if not 8 <= len(bars) <= 12:
+            if t == "chart-decision" and not 8 <= len(bars) <= 12:
                 rep.warn(f, f"screen {i}: chart has {len(bars)} bars (expected 8–12)")
             if kind == "candles":
                 for b_i, bar in enumerate(bars):
