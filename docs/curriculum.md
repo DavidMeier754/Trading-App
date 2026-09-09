@@ -1,307 +1,525 @@
 # curriculum.md — Chapter and level plan
 
 Authority for *what* is taught where. Rules live in `docs/agent.md`, UI in `docs/UI.md`, format in `docs/schema.md`.
-Every path has 6 chapters. Chapter 1 is shared and ends with the path choice.
+Every path has **8 chapters**. Chapter 1 is shared and ends with the path choice.
 
-Legend: `T` = test, `F` = final exam, `R` = repetition sub. Subs listed as `1-1, 1-2`. A level's row says what its subs teach, in order.
+Status: **v3**. The path is sized so a learner doing two sub-levels a day (~10 minutes) finishes in about six months and comes out able to run a plan: pick the stock, read the day, recognise the setup, size it, manage it, and review it. See `docs/agent.md` §1.1 for what "finished" is allowed to claim.
+
+Legend: `T` = test, `F` = final exam, `R` = repetition sub. Subs listed as a count; files are `level-LL-S.yaml`.
+The **Reinforces** column lists earlier chapters the level deliberately re-tests — it becomes the `reinforces:` header field (`docs/schema.md`). Every chapter from 3 on has one explicit **Callback** level.
+
 Write each chapter exactly as outlined; if the material genuinely needs a different split, note the deviation in the session report.
 
-Status: **written** = in the repo and validated · **next** = the next session writes it · **planned** = outlined only.
+Chapter status: **written** = in the repo and validated · **expand** = v2 content exists, needs the v3 level plan · **new** = does not exist yet · **planned** = outlined only.
+
+### Shape at a glance
+
+| Path | Ch1 | Ch2 | Ch3 | Ch4 | Ch5 | Ch6 | Ch7 | Ch8 | Levels | Subs |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Scalping | 17 | 18 | 19 | 18 | 17 | 19 | 19 | 17 | 144 | ~387 |
+| Day Trading | 17 | 18 | 19 | 18 | 17 | 19 | 19 | 17 | 144 | ~385 |
+| Swing Trading | 17 | 18 | 18 | 18 | 17 | 19 | 19 | 17 | 143 | ~382 |
+
+(Chapter 1 is shared, so a learner sees Chapter 1 once plus one path's Chapters 2–8. ~387 sub-levels ≈ 22 hours ≈ six months at two a day.)
+
+### Migration note — v2 chapters are renumbered
+
+v3 inserts **Finding the Trade** at Chapter 5, which pushes the two chapters after it down by one. Before any v3 content is written, the existing scalping folders must be renamed and their `chapter:` fields updated:
+
+| v2 folder | v3 folder | `chapter:` |
+|---|---|---|
+| `chapter-05-risk-and-psychology` | `chapter-06-risk-and-psychology` | 5 → 6 |
+| `chapter-06-scalping-playbook` | `chapter-07-scalping-playbook` | 6 → 7 |
+| — | `chapter-05-finding-the-trade` (new) | 5 |
+| — | `chapter-08-the-trading-day` (new) | 8 |
+
+Chapters 1–4 keep their numbers and folders. `prerequisite` values are within-chapter and do not change; cross-chapter references in prose ("Chapter 5 covers…") do.
 
 ---
 
-## Chapter 1 — Market Basics (shared) — written
+## Chapter 1 — Market Basics (shared) — expand
 
-Folder: `content/shared/chapter-01-market-basics/`
+Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 47 subs · v2 has 12 levels / 19 subs
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | Your First Trade | 1-1, 1-2, 1-3 R | Buy low / sell high on a line chart, price, position, profit & loss, buy/wait decisions; what moves price (buyers vs sellers); mixed practice |
-| 2 | What You're Actually Buying | 2-1, 2-2 | Stock = share of a company, ticker, exchange; quote card (price, change vs previous close, %), volume |
-| 3 | Who's On the Other Side | 3-1 | Retail traders, institutions, market makers (they quote two prices and keep the spread) |
-| 4 | Volume, Liquidity, Volatility | 4-1, 4-2, 4-3 R | Volume, liquidity; volatility and why it is not liquidity; mixed practice |
-| 5 | When the Market Is Open | 5-1 | Sessions per market profile; thin sessions are jumpy |
-| 6 | Checkpoint | 6-1 T | 10 questions on Levels 1–5 |
-| 7 | Getting Access | 7-1 | Broker, brokerage account, order, paper trading, fees, regulation note |
-| 8 | Long and Short | 8-1, 8-2 | Long / short / borrow / cover, risk asymmetry; first long / short / no-trade decisions |
-| 9 | Three Ways to Trade | 9-1, 9-2 R | Holding period; scalping / day / swing; trading vs investing; mixed practice |
-| 10 | The Big Picture | 10-1 | Trend, bull / bear markets as context, news as the trigger |
-| 11 | Chapter Review | 11-1 R | Story-driven review |
-| 12 | Final Exam | 12-1 F | 12 questions → badge → path choice |
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | Your First Trade | 4 | Line chart, price, buy/sell, position, profit and loss; the first buy/wait decisions; move × shares; mixed practice | — |
+| 2 | Why Prices Move | 3 | Buyers vs sellers, demand and supply, the imbalance rule; news as the trigger that flips it | 1 |
+| 3 | What You're Actually Buying | 3 | Share = a fraction of a company, shareholder, ticker, exchange; why companies sell shares; your money goes to the seller | 1 |
+| 4 | The Quote Card | 4 | Price, previous close, daily change in $ and %, volume; reading a quote in two seconds; red days mean nothing alone; practice | 1 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 1 |
+| 6 | Who's On the Other Side | 3 | Retail traders, institutions, market makers; the two-sided quote and the spread as their income; reading footprints from volume | 1 |
+| 7 | Volume and Liquidity | 4 | Volume as activity; liquidity as ease of exit; volume as the liquidity clue; what a big order does in a thin stock; practice | 1 |
+| 8 | Volatility | 3 | Size and speed of moves; volatility is not liquidity; the two dials; picking a stock to learn on | 1 |
+| 9 | Two Dials Practice | 2 R | Classifying real-looking quotes on both dials; a buy/wait decision that turns on liquidity | 1 |
+| 10 | When the Market Is Open | 3 | Pre-market, regular session, after-hours from `{{market.*}}`; thin sessions are jumpy; where beginners practise | 1 |
+| 11 | Checkpoint | 1 T | 10 questions on Levels 6–10 | 1 |
+| 12 | Getting Access | 3 | Broker, brokerage account, order, paper trading, fees as a category, `{{market.regulation_note}}`; the order ticket | 1 |
+| 13 | Long and Short | 4 | Long, short, borrow, cover; computing each result; the risk asymmetry; first long / short / no-trade decisions | 1 |
+| 14 | Three Ways to Trade | 3 | Holding period; scalping / day / swing; trading vs investing; matching a style to a real life | 1 |
+| 15 | The Big Picture | 3 | Trend, bull and bear markets as context not signal; news versus expectations; where sudden volatility comes from | 1 |
+| 16 | Chapter Review | 2 R | One narrated trading day using every Chapter 1 idea; a `plan-card` where the user writes what kind of trader they want to be | 1 |
+| 17 | Final Exam | 1 F | 12 questions → badge → `tier-up` (Observer) → path choice | 1 |
 
-Terms Chapter 1 introduces (available to every later chapter): Price, Chart, Stock, Share, Buy, Sell, Position, Profit, Loss, Trade, Market, Buyer, Seller, Demand, Supply, Shareholder, Ticker, Exchange, Quote, Previous close, Daily change, Volume, Retail trader, Institution, Market maker, Spread, Liquidity, Liquid, Illiquid, Volatility, Volatile, Session, Pre-market, Regular session, After-hours, Broker, Brokerage account, Order, Paper trading, Fee, Long, Short, Borrow, Cover, No trade, Holding period, Scalping, Day trading, Swing trading, Investing, Trend, Bull market, Bear market.
+**Terms Chapter 1 introduces** (available to every later chapter): Price, Chart, Stock, Share, Buy, Sell, Position, Profit, Loss, Trade, Market, Buyer, Seller, Demand, Supply, Shareholder, Ticker, Exchange, Quote, Previous close, Daily change, Volume, Retail trader, Institution, Market maker, Spread, Liquidity, Liquid, Illiquid, Volatility, Volatile, Session, Pre-market, Regular session, After-hours, Broker, Brokerage account, Order, Paper trading, Fee, Long, Short, Borrow, Cover, No trade, Holding period, Scalping, Day trading, Swing trading, Investing, Trend, Bull market, Bear market.
 
 ---
 
 ## Scalping
 
-### Chapter 2 — Charts 101 — written
+Folder base: `content/paths/scalping/`. Timeframes: 1-minute with 5-minute context. Numbers: 500–2,000 shares, $0.05–$0.30 targets, $5,000–$30,000 accounts, drill prices $10–$30.
 
-Folder: `content/paths/scalping/chapter-02-charts-101/`. First candlestick charts of the app. Every level has at least one `chart-decision` (candles, 8–12 bars). Timeframes: 1-minute with 5-minute context.
+### Chapter 2 — Charts 101 — expand
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | The Candle | 1-1, 1-2 | Open, high, low, close; body and wick; green/red; reading one candle (`hotspot`/`chart-tap`). Then: what a candle says — long body = conviction, long wick = rejection, tiny body = indecision; first candle-chart decisions |
-| 2 | Timeframes | 2-1 | A candle is a time slice; 1-min, 5-min, 15-min; the same move on three charts; scalpers act on the 1-min and read context on the 5-min |
-| 3 | Volume Bars | 3-1, 3-2 R | Volume bars under the chart; volume confirms a move, low-volume drift doesn't; climax volume; practice: candles + volume decisions |
-| 4 | Trend and Range | 4-1, 4-2 | Higher highs / higher lows, lower highs / lower lows, sideways range; trade with the trend. Then: range = chop where scalps die; telling range from trend on the 1-min; the pullback |
-| 5 | Support and Resistance | 5-1, 5-2, 5-3 R | Levels where price turned before; round numbers; yesterday's high/low; pre-market high/low. Then: bounce vs break, waiting for the candle to close beyond a level. Practice with decisions at levels |
-| 6 | Checkpoint | 6-1 T | 10 questions on Levels 1–5 |
-| 7 | The Opening Minutes | 7-1, 7-2 | First 15–30 minutes: highest volume, widest spreads, biggest moves; gap up / gap down; the opening range. Then: what a gap means for the first candles; why beginners wait for the first 5-min candle to close |
-| 8 | Momentum vs Exhaustion | 8-1 | Expanding candles on rising volume = momentum; long wicks on climax volume = exhaustion; don't chase the third leg |
-| 9 | The Scalper's Screen | 9-1, 9-2 R | 1-min chart, 5-min context, volume, quote panel; marking levels before the open. Then: full practice, 5–6 decisions combining everything |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+Folder: `chapter-02-charts-101` · 18 levels, 49 subs · v2 has 10 levels / 17 subs
+First candlestick charts of the app. Every level from 3 on has at least one `chart-decision`.
 
-10 levels, 17 subs. New terms: Candle, Open, High, Low, Close, Body, Wick, Timeframe, Volume bar, Climax volume, Uptrend, Downtrend, Range, Higher high, Higher low, Lower high, Lower low, Pullback, Support, Resistance, Breakout, Bounce, Gap, Opening range, Momentum, Exhaustion. (Trend, Volume, Pre-market already exist — deepen, don't re-introduce.)
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | The Candle | 4 | Open, high, low, close; body and wick; green and red; reading one candle with `hotspot` and `chart-tap`; measuring a body | — |
+| 2 | What a Candle Says | 3 | Long body = conviction, long wick = refusal, tiny body = indecision; shape-only decisions | — |
+| 3 | Timeframes | 3 | A candle is a time slice; building one 5-minute candle from five 1-minute candles; act on the 1-min, read context on the 5-min | — |
+| 4 | Volume Bars | 4 | One bar per candle; volume confirms, thin bars are drift; relative to this stock's own minutes; climax volume; `chart-annotate` on the heaviest bar | 1 |
+| 5 | Candles and Volume Practice | 2 R | Mixed drill: shape plus weight, four decisions and a `swipe-deck` | 1 |
+| 6 | Checkpoint | 1 T | 10 questions on Levels 1–5 | 1 |
+| 7 | Trend and Range | 4 | Higher highs / higher lows, lower highs / lower lows, sideways range; naming the shape; why ranges kill scalps; practice | 1 |
+| 8 | The Pullback | 3 | The dip inside a trend; shrinking volume into it; joining on the first candle back | — |
+| 9 | Support and Resistance | 4 | Levels as memory; round numbers; yesterday's high and low; the pre-market high and low; marking them with `chart-annotate` | 1 |
+| 10 | Bounce or Break | 3 | The two answers at a level; wick versus close; waiting for the candle to finish | — |
+| 11 | Levels Practice | 2 R | Four decisions at levels plus a `compare` between a bounce and a break | 1 |
+| 12 | Checkpoint | 1 T | 10 questions on Levels 7–11 | 1 |
+| 13 | The Opening Minutes | 4 | The first 30 minutes from `{{market.first_minutes}}`; gaps up and down; the opening range; why the first five minutes are for watching | 1 |
+| 14 | Momentum vs Exhaustion | 3 | Expanding bodies on rising volume; climax volume with a long wick; not chasing the third leg | 1 |
+| 15 | Chapter 1 Callback | 2 R | Liquidity, volatility and sessions re-tested *on charts*: which chart is the illiquid one, which move is the thin-session one | 1 |
+| 16 | The Scalper's Screen | 3 | 1-min chart, 5-min context, volume, quote panel; which stock gets on the screen at all; marking levels before the open | 1 |
+| 17 | Chapter Review | 2 R | One full morning: open, break, pullback, climax, refusal, chop — six decisions in order | 1 |
+| 18 | Final Exam | 1 F | 13 questions → badge → `tier-up` (Observer) | 1 |
 
-### Chapter 3 — Orders, Costs & Position Size — written
+**New terms:** Candle, Open, High, Low, Close, Body, Wick, Timeframe, Volume bar, Climax volume, Uptrend, Downtrend, Range, Higher high, Higher low, Lower high, Lower low, Pullback, Support, Resistance, Breakout, Bounce, Gap, Opening range, Momentum, Exhaustion.
 
-Folder: `content/paths/scalping/chapter-03-orders-costs-position-size/`
+### Chapter 3 — Orders, Costs & Position Size — expand
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | Bid, Ask, Spread | 1-1, 1-2 | Bid/ask/last/spread on the quote panel; the spread as a round-trip cost with share counts |
-| 2 | The Scalper's Enemy | 2-1, 2-2 R | Spread vs target and expected move, liquidity → tight spreads, spreads move; practice |
-| 3 | Market, Limit, Marketable Limit | 3-1, 3-2, 3-3 R | Market and limit orders; marketable limit entries and limit exits, unfilled risk; ticket practice |
-| 4 | The Stop Order | 4-1 | Stop-loss, stop-market vs stop-limit, stop distance |
-| 5 | How Many Shares? | 5-1, 5-2 | Position value, risk per trade, 1 % rule, spread vs stop |
-| 6 | Checkpoint | 6-1 T | 10 questions |
-| 7 | Slippage, Speed & Fees | 7-1, 7-2 | Slippage, execution speed; commissions at frequency, market note |
-| 8 | Inside the Quote | 8-1 | Level 2, displayed size, time and sales |
-| 9 | The All-In Check | 9-1, 9-2 R | All-in cost, fallback plan, four-question checklist; cost-aware decisions |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+Folder: `chapter-03-orders-costs-position-size` · 19 levels, 50 subs · v2 has 10 levels / 17 subs
 
-10 levels, 17 subs.
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | Bid, Ask, Spread | 4 | Bid, ask, last, spread on the quote panel; who pays which; reading a panel with `hotspot`; the spread as the market maker's income | 1 |
+| 2 | The Spread as a Cost | 3 | The round trip; you are down the spread the instant you enter; spread × share count | 1 |
+| 3 | Judging a Spread | 3 | Spread against the *expected move*, never against the share price; liquidity makes spreads tight; spreads widen on news and at the open | 1, 2 |
+| 4 | Spread Practice | 2 R | Six quotes judged in three seconds each, `swipe-deck` style; a cost-aware decision | 1 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 1 |
+| 6 | Market and Limit Orders | 4 | Market fills now at the ask/bid; limit waits for your price and may never fill; the fill; `order-build` on a real ticket | — |
+| 7 | The Marketable Limit | 3 | A limit at or above the ask: speed with a ceiling; unfilled risk; limit exits at the target | — |
+| 8 | Ticket Practice | 2 R | Choosing the right order for six situations, on tickets | 2 |
+| 9 | The Stop Order | 4 | Stop-loss, stop-market vs stop-limit, which side of the entry, stop distance; where a stop belongs on the chart | 2 |
+| 10 | How Many Shares? | 4 | Position value, risk per trade, the 1 % rule, **and the account ceiling** — shares = min(risk ÷ stop, account ÷ price); spread versus stop | 1 |
+| 11 | Sizing Practice | 2 R | Five setups sized from both ceilings; the one where the account binds | 1 |
+| 12 | Checkpoint | 1 T | 10 questions on Levels 6–11 | 1, 2 |
+| 13 | Slippage and Speed | 3 | The gap between the price you saw and the fill; execution speed; capping slippage with a marketable limit | 2 |
+| 14 | Fees at Frequency | 3 | Per-order and per-share fees; the monthly number at scalping frequency; `{{market.fee_note}}`, `{{market.scalping_note}}`; fewer, better trades | 1 |
+| 15 | Inside the Quote | 3 | Level 2, the order book, displayed size, time and sales; `depth-ladder` — where a 1,000-share order actually fills | 1 |
+| 16 | Chapters 1–2 Callback | 2 R | Liquidity → spread → the size you can actually trade; chart levels → where the stop goes. Old ideas, priced | 1, 2 |
+| 17 | The All-In Check | 3 | Spread + slippage + fees per share against the target; the fallback plan; the four-question pre-trade checklist; a `plan-card` for the user's own limits | 2 |
+| 18 | Chapter Review | 2 R | Three setups run end to end: check the cost, size it, place it, decide | 1, 2 |
+| 19 | Final Exam | 1 F | 13 questions → badge | 1, 2 |
 
-### Chapter 4 — Reading Fast Markets — written
+**New terms:** Bid, Ask, Last, Quote panel, Round trip, Target, Expected move, Market order, Limit order, Fill, Marketable limit order, Unfilled, Stop order, Stop-loss, Stop-market, Stop-limit, Stop distance, Position size, Position value, Risk per trade, 1 % rule, Account ceiling, Slippage, Execution speed, Commission, Per-share fee, Level 2, Order book, Displayed size, Time and sales, Tape, All-in cost, Fallback plan.
 
-Folder: `content/paths/scalping/chapter-04-reading-fast-markets/`. Sources: Aziz (scalping chapter, Level 2), Bellafiore (tape), Volman (price action), Murphy/Nison (candles). Contains the path's one fan-out.
+### Chapter 4 — Reading Fast Markets — expand
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | VWAP | 1-1, 1-2 | Volume-weighted average price: what it is, why institutions benchmark it, price above/below VWAP. Then: VWAP as magnet and level — bounce, reject, reclaim |
-| 2 | Intraday Levels | 2-1, 2-2 R | Pre-market high/low, open price, yesterday's close/high/low, round numbers; marking them before the open; practice |
-| 3 | Candle Signals on the 1-Minute | 3-1, 3-2 | Momentum candle, doji/indecision, long-wick rejection, engulfing — on fast charts. Then: candle + level + volume = a signal; one alone is noise |
-| 4 | Checkpoint | 4-1 T | 10 questions on Levels 1–3 |
-| 5 | Fan-out A — Tape Reading | 5-1, 5-2 | `path_position: fan-out:tape`. Time & sales speed and size, prints at ask vs bid, Level 2 stacking and pulling; reading a 30-second tape |
-| 6 | Fan-out B — VWAP & Levels in Action | 6-1, 6-2 | `path_position: fan-out:levels`. Confluence (level + VWAP), first touch vs third touch, failed test |
-| 7 | Fan-out C — The Opening Drive | 7-1, 7-2 | `path_position: fan-out:open`. First five minutes, opening-range break and failure, halts, when to stand aside |
-| 8 | The Scalper's Map | 8-1, 8-2 R | `path_position: merge`. Combining level + VWAP + tape + candle into one read; practice |
-| 9 | Two Timeframes | 9-1 | 5-min context, 1-min trigger; never fight the 5-min |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+Folder: `chapter-04-reading-fast-markets` · 18 levels, 48 subs · v2 has 10 levels / 17 subs
+Contains the path's one fan-out (Levels 9–11 → merge at 12). Sources: Aziz, Bellafiore, Volman, Murphy, Nison, Carter.
 
-10 levels, 17 subs. New terms: VWAP, Confluence, Doji, Engulfing candle, Rejection, Tape, Print, Stacking, Pulling, Halt, Opening drive, Reclaim, Failed test.
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | VWAP | 4 | Volume-weighted average price; computing a simple one; why institutions are graded against it; above and below the line | 1 |
+| 2 | Trading the Line | 3 | Bounce, rejection, reclaim; a poke is not a reclaim; the close is what counts | 2 |
+| 3 | Intraday Levels | 4 | Yesterday's high, low and close; the pre-market extremes; the opening price; round numbers; levels are zones; drawing the map with `chart-annotate` | 2 |
+| 4 | Map Practice | 2 R | Three decisions using VWAP plus one marked level, each priced before it is taken | 3 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 2, 3 |
+| 6 | Candle Signals on the 1-Minute | 4 | Momentum candle, doji, rejection candle, engulfing candle; context beats shape; `compare` between a signal and noise | 2 |
+| 7 | Confluence | 3 | Two or more independent reasons at one price; the four-part filter; one reason is a coin flip with costs | 2, 3 |
+| 8 | Checkpoint | 1 T | 10 questions on Levels 6–7 plus the map | 2, 3 |
+| 9 | Fan-out A — Tape Reading | 3 | `fan-out:tape`. Time and sales, prints, speed and size, prints at the ask vs the bid; stacking and pulling; what pulling does to your stop | 3 |
+| 10 | Fan-out B — VWAP & Levels in Action | 3 | `fan-out:levels`. Confluence at one price; first touch vs third touch; the failed test and why it moves fast | 2 |
+| 11 | Fan-out C — The Opening Drive | 3 | `fan-out:open`. The first five minutes; the opening-range break and the break that fails; wide spreads at the open | 2, 3 |
+| 12 | The Scalper's Map | 4 | `merge`. Level → VWAP → candle → tape, in that order, every time; what each input contributes; running the read in three seconds | 2, 3 |
+| 13 | Map Drills | 2 R | Six reads on unseen charts, three of which are passes | 2, 3 |
+| 14 | Two Timeframes | 3 | The 5-minute decides direction, the 1-minute decides the moment; never fight the slower chart | 2 |
+| 15 | Halts and Standing Aside | 3 | What a halt does to an open position and to a stop; the conditions that make a morning untradeable | 3 |
+| 16 | Chapters 2–3 Callback | 2 R | Structure and cost re-tested inside a live read: is this level worth the spread, does the 5-min agree, what size does the stop allow | 2, 3 |
+| 17 | Chapter Review | 2 R | Two mornings read end to end, with the four-part read written out each time | 2, 3 |
+| 18 | Final Exam | 1 F | 13 questions → badge → `tier-up` (Student) | 1, 2, 3 |
 
-### Chapter 5 — Risk & Psychology for Scalpers — written
+**New terms:** VWAP, Rejection, Reclaim, Confluence, Doji, Engulfing candle, Print, Stacking, Pulling, Failed test, Opening drive, Halt.
 
-Folder: `content/paths/scalping/chapter-05-risk-and-psychology/`. Sources: Elder, Douglas, Tharp, Bellafiore.
+### Chapter 5 — Finding the Trade — new
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | The Stop Is Not Optional | 1-1, 1-2 | Stop before entry, hard vs mental stop, never widen it. Then: R — the risk unit; 1R, 2R; results in R |
-| 2 | Expectancy at High Frequency | 2-1, 2-2 R | Win rate, average win, average loss, expectancy; costs inside expectancy; practice with realistic scalping numbers |
-| 3 | Session Limits | 3-1 | Max loss per day, max trades, stop-trading rules; why scalpers need them most |
-| 4 | Checkpoint | 4-1 T | 10 questions |
-| 5 | Overtrading and Tilt | 5-1, 5-2 | Revenge trading, FOMO, chasing; recognizing tilt in yourself. Then: the reset routine |
-| 6 | Thinking in Probabilities | 6-1, 6-2 R | Douglas: the next trade is one of many, edge over a series, no single trade matters; practice |
-| 7 | The Journal | 7-1, 7-2 | What to log for a scalp (setup, R, execution grade, emotion). Then: the weekly review — best setup, best hour, worst habit |
-| 8 | Sizing Under Stress | 8-1 | Reduce size after losses, scale up only with proof, drawdown math |
-| 9 | Chapter Review | 9-1 R | One losing morning, handled well |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+Folder: `chapter-05-finding-the-trade` · 17 levels, 45 subs
+The chapter the v2 path was missing entirely: which stock, and what kind of day. Sources: Aziz (scanning, watchlist), Bellafiore, Carter (internals), Raschke & Connors.
 
-10 levels, 15 subs. New terms: R, Expectancy, Win rate, Daily loss limit, Tilt, Journal, Drawdown.
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | Not Every Stock | 4 | What makes a stock scalpable at all: enough volume, a spread you can pay, a range worth trading, a price your account can hold; the ones to leave alone | 1, 3 |
+| 2 | Relative Volume | 4 | Today's volume against this stock's own normal day; why 4× normal matters more than the absolute number; where it is read; the first filter of the morning | 1, 2 |
+| 3 | The Catalyst | 3 | Why a stock is in play — earnings, news, a gap; a mover with no reason versus one with a reason; never trading news you have not read | 1 |
+| 4 | Selection Practice | 2 R | Six `scanner-pick` rounds: which of these is worth the screen today | 1, 3 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 1, 3 |
+| 6 | Reading a Scanner | 4 | The columns that matter, gappers and top movers, sorting by relative volume, filtering out the untradeable; building the shortlist | 1, 3 |
+| 7 | Building the Watchlist | 3 | Three to five names, not twenty; why more names means worse decisions; writing the levels for each before the open | 2 |
+| 8 | Float and Share Structure | 3 | Float in plain words; why a small float moves faster and slips more; matching size to the name | 1, 3 |
+| 9 | Watchlist Practice | 2 R | Build a watchlist from a scanner, then defend two cuts | 1, 3 |
+| 10 | Checkpoint | 1 T | 10 questions on Levels 6–9 | 1, 3 |
+| 11 | The Market Behind the Stock | 3 | The index as weather, the sector as the street; a strong stock in a falling market; `{{market.index_example}}` | 1 |
+| 12 | Market Internals | 3 | Breadth in plain words, risk-on and risk-off, the `internals-panel`; when the whole tape turns at once | 1 |
+| 13 | Trend Day or Range Day | 4 | Reading the day type in the first half hour; what each type offers and refuses; the day type as a filter on everything later | 2, 4 |
+| 14 | Chapters 1 & 4 Callback | 2 R | Liquidity and volatility re-tested as selection criteria; the four-part read applied to *choosing* rather than entering | 1, 4 |
+| 15 | The Pre-Market Routine | 3 | The ritual end to end: scan, shortlist, levels, market check, day-type guess, plan; a `plan-card` for the user's own routine | 2, 3, 4 |
+| 16 | Chapter Review | 2 R | One full pre-market, from an empty screen to three names with levels drawn | 1, 2, 3, 4 |
+| 17 | Final Exam | 1 F | 13 questions → badge | 1, 2, 3, 4 |
 
-### Chapter 6 — Scalping Playbook — written
+**New terms:** Relative volume, Catalyst, In play, Scanner, Gapper, Watchlist, Float, Small float, Index, Sector, Breadth, Risk-on, Risk-off, Trend day, Range day, Pre-market routine.
 
-Folder: `content/paths/scalping/chapter-06-scalping-playbook/`. Every setup is a playbook card: context, entry, stop, target, invalidation. Each setup gets one theory sub and one drill sub with 4–6 `chart-decision` screens. Two named sources per setup claim.
+### Chapter 6 — Risk & Psychology — expand
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | What a Playbook Is | 1-1 | Bellafiore's playbook card; why one setup done well beats ten done badly |
-| 2 | Setup A — VWAP Bounce | 2-1, 2-2 R | Pullback to VWAP in an uptrend, entry on the reclaim candle, stop below the wick, target the high of day; drills |
-| 3 | Setup B — Opening-Range Scalp | 3-1, 3-2 R | First 5-min range, break with volume, stop inside the range, target 1R–2R; failure mode; drills |
-| 4 | Setup C — Momentum Continuation | 4-1, 4-2 R | Fast trend, shallow pullback on falling volume, entry on the first candle back in the direction; drills |
-| 5 | Checkpoint | 5-1 T | 10 questions |
-| 6 | Setup D — Mean Reversion at a Level | 6-1, 6-2 R | Exhaustion into a level, rejection candle, entry against the move, tight stop, target VWAP; drills |
-| 7 | Setup E — Failed-Breakout Fade | 7-1, 7-2 R | Break of a level that fails within minutes, entry on the re-entry candle; drills |
-| 8 | Choosing the Setup for the Day | 8-1 | Market conditions → setup; when nothing fits, no trade |
-| 9 | Capstone — A Full Session | 9-1 R, 9-2 R | A narrated session with 6–8 decisions across setups, costs and limits included |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+Folder: `chapter-06-risk-and-psychology` · 19 levels, 51 subs · v2 has 10 levels / 15 subs
+The thinnest chapter in v2 and the one where retail traders actually fail, so it gets the largest expansion. Sources: Elder, Douglas, Tharp, Steenbarger, Bellafiore.
 
-10 levels, 16 subs.
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | The Stop Is Not Optional | 4 | The stop is chosen before the entry; hard versus mental; never widening; where it belongs on the chart; what it costs to move it | 3, 4 |
+| 2 | R — The Unit | 4 | 1R as entry minus stop times shares; results as R-multiples; why R beats dollars; rejecting a trade whose target is smaller than its stop | 3 |
+| 3 | Managing the Trade | 4 | The break-even stop and what it really removes; partial exits and the trade they make; trailing a stop; the time stop when nothing happens | 3 |
+| 4 | Stops and R Practice | 2 R | Five trades sized, stopped and graded in R; one `branch` where the trade goes against you | 3 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 3 |
+| 6 | Win Rate and Expectancy | 4 | Win rate alone tells you nothing; average win and average loss; expectancy as the value of one average trade; a 40 % win rate that pays | 3 |
+| 7 | Costs Inside Expectancy | 3 | Spread, slippage and fees inside the average; measuring expectancy after costs; what halving frequency does to it | 3 |
+| 8 | Expectancy Practice | 2 R | Five sets of real-looking numbers; which method to keep and which to delete | 3 |
+| 9 | Session Limits | 3 | The daily loss limit in R, the trade cap, the time cap; written before the open; a limit broken once is not a limit; a `plan-card` | 5 |
+| 10 | Checkpoint | 1 T | 10 questions on Levels 6–9 | 3 |
+| 11 | Overtrading and Tilt | 3 | Revenge trading, FOMO, chasing; the signs of tilt in yourself; the trade right after the loss | 5 |
+| 12 | The Reset Routine | 3 | Why a routine beats willpower; the written steps; coming back at half size and what that proves | — |
+| 13 | Thinking in Probabilities | 3 | One trade is close to random; sample size; the two mistakes a losing run and a winning run each cause | — |
+| 14 | Chapter 3 Callback | 2 R | Sizing and costs re-tested as risk: the same trade at two share counts, the same method with two cost structures | 3 |
+| 15 | The Journal | 3 | One row per trade; the execution grade, independent of the result; `journal-row` on a finished trade; writing it the same day | 5 |
+| 16 | The Weekly Review | 3 | Sorting rows by setup and by hour; finding the column that bleeds; one rule for next week | 5 |
+| 17 | Sizing Under Stress | 3 | Drawdown and its asymmetric math; cutting size on results, raising it only on evidence | 3 |
+| 18 | A Losing Morning, Handled | 2 R | One narrated morning: a clean stop, a limit respected, a reset, a return at half size, finishing down 1R instead of 5 | 3, 5 |
+| 19 | Final Exam | 1 F | 14 questions → badge → `tier-up` (Planner) | 3, 4, 5 |
+
+**New terms:** Setup, Hard stop, Mental stop, R, R-multiple, Break-even stop, Partial exit, Trailing stop, Time stop, Win rate, Average win, Average loss, Expectancy, Edge, Daily loss limit, Trade limit, Overtrading, Revenge trade, FOMO, Chasing, Tilt, Reset routine, Sample size, Journal, Execution grade, Weekly review, Drawdown.
+
+### Chapter 7 — The Scalping Playbook — expand
+
+Folder: `chapter-07-scalping-playbook` · 19 levels, 50 subs · v2 has 10 levels / 16 subs
+Eight setups instead of five. Every setup is a playbook card: context, entry, stop, target, invalidation. Each gets a theory sub and drill subs. Two named sources per setup claim.
+
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | What a Playbook Is | 3 | The card and its five fields; invalidation versus the stop; why a short playbook beats a long one; the user starts their own `plan-sheet` | 6 |
+| 2 | Setup A — VWAP Bounce | 4 | Above VWAP all session, first or second touch, entry on the reclaim close, stop under the candle, target the high of day; drills; a `compare` against the mirror image | 4, 6 |
+| 3 | Setup B — Opening-Range Break | 4 | The first five minutes as a box, the close beyond it on volume, the stop back inside, 1R–2R; the failure mode; drills both directions | 2, 4 |
+| 4 | Setup C — Momentum Continuation | 4 | The leg, the shallow quiet pause, the first close back in the direction; the measured move as a projection; drills | 2, 4 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 4, 6 |
+| 6 | Setup D — Mean Reversion at a Level | 4 | The stretched run into a marked level, climax volume, the rejection close, the tight stop, VWAP as the target, and smaller size because it fights the move | 4, 6 |
+| 7 | Setup E — Failed-Breakout Fade | 3 | The break nobody bought, the re-entry candle, trapped traders, the stop beyond the failed extreme | 4 |
+| 8 | Mixed Drill I | 2 R | A `swipe-deck` across Setups A–E: which card is this, or none | 4 |
+| 9 | Checkpoint | 1 T | 10 questions on Levels 6–8 | 4, 6 |
+| 10 | Setup F — Gap-and-Go Continuation | 3 | The gap that holds, the first pullback, entry on the resumption; when a gap is too extended to join | 2, 5 |
+| 11 | Setup G — Range Rotation | 3 | The range day's edges; fading the edge with the day type as permission; why this card is forbidden on a trend day | 5 |
+| 12 | Setup H — The Re-Entry | 3 | Getting back into a trade that stopped you out: what has to be true, what makes it revenge instead, the size it deserves | 6 |
+| 13 | Mixed Drill II | 2 R | Eight charts across all eight cards, half of them passes | 4, 5 |
+| 14 | Choosing the Setup for the Day | 3 | Day type → which cards are on the table; trend days feed continuation, range days feed reversion; when none are | 5 |
+| 15 | Chapters 5 & 6 Callback | 2 R | Selection and risk re-tested inside the playbook: right card, wrong stock; right card, wrong day; right card, no risk budget left | 5, 6 |
+| 16 | When Nothing Fits | 2 | The discipline of the empty morning; what a playbook costs you in missed trades and why that is the price | 6 |
+| 17 | Capstone — A Full Session | 3 R | One narrated morning: eight decisions across setups, with costs, limits and a losing trade taken correctly | 3, 5, 6 |
+| 18 | Chapter Review | 2 R | The eight cards summarised by trigger, then a mixed `compare` set | 4, 5, 6 |
+| 19 | Final Exam | 1 F | 14 questions → badge | 4, 5, 6 |
+
+**New terms:** Playbook, Playbook card, Invalidation, VWAP bounce, High of day, Opening-range scalp, Momentum continuation, Leg, Measured move, Mean reversion, Fade, Re-entry candle, Trapped traders, Gap-and-go, Range rotation, Re-entry.
+
+### Chapter 8 — The Trading Day — new
+
+Folder: `chapter-08-the-trading-day` · 17 levels, 47 subs
+Execution, the full routine, and the honest handover to a simulator. Sources: Aziz (platform, hotkeys, routine), Bellafiore, Steenbarger, Elder.
+
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | The Platform | 4 | What an order-entry screen actually does; the ladder; why a scalper's platform differs from a broker app; what a simulator is and why it comes first. No products named | 3 |
+| 2 | Hotkeys and Muscle Memory | 3 | Why speed is a risk control, not a thrill; a small key set (buy, sell, size, flatten, cancel); `hotkey-pad` sequences; practising them away from the market | 3 |
+| 3 | Execution Drills | 2 R | `order-build` and `depth-ladder` rounds against the clock of the chart, not a timer | 3, 4 |
+| 4 | The Pre-Market Hour | 4 | The full ritual: scan, shortlist, levels, market check, day-type guess, risk numbers, if-then plans written before the bell | 5, 6 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 3, 5 |
+| 6 | The Open | 3 | The first thirty minutes: watch, mark, then act; what the opening range gives you; the trades to skip while spreads are wide | 2, 4 |
+| 7 | Mid-Session | 3 | Thinning volume, widening spreads, the midday trap; when to reduce size and when to stop | 4, 6 |
+| 8 | The Close and the Review | 3 | Flat before the bell; the post-market review while the charts are fresh; filling the journal the same day | 6 |
+| 9 | Full-Day Practice | 3 R | One session start to finish with the routine applied, including two passes and one stop-out | 5, 6, 7 |
+| 10 | Checkpoint | 1 T | 10 questions on Levels 6–9 | 6, 7 |
+| 11 | Tracking Your Numbers | 4 | The handful of stats that matter; expectancy across a sample rather than a day; the `stats-card`; spotting the setup that quietly bleeds | 6 |
+| 12 | When to Increase Size | 3 | Evidence-based scaling: a number of grade-A trades, not a good week; what to do after a drawdown | 6 |
+| 13 | Chapters 6 & 7 Callback | 2 R | Risk and playbook re-tested inside a live session: the card fires but the limit is nearly gone; the setup is right but the size is wrong | 6, 7 |
+| 14 | Your First 30 Days on Sim | 4 | A concrete simulator plan: which cards, how many trades, what to record, what "ready" would look like; the honest statement that the app cannot make you profitable | 6, 7 |
+| 15 | Going Live, Carefully | 3 | The smallest size that is still real; what changes psychologically when money is live; the rules that must survive the switch | 6 |
+| 16 | Capstone — A Full Week | 3 R | Five sessions compressed: a green day, a red day inside the limit, a day with no trades, a tilt caught early, a weekly review that produces one rule | 5, 6, 7 |
+| 17 | Final Exam and Graduation | 1 F | 15 questions → badge → `tier-up` (Sim Trader) → the user's finished `plan-sheet` | 4, 5, 6, 7 |
+
+**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, Grade-A trade, Live trading.
 
 ---
 
 ## Day Trading
 
-Folder base: `content/paths/day-trading/`. Timeframes: 5-minute and 15-minute, with the daily chart as context. Sources: Aziz, Brooks, Bellafiore, Murphy, Nison, Elder, Douglas, Tharp.
+Folder base: `content/paths/day-trading/`. Timeframes: 5-minute and 15-minute, with the daily chart as context. Numbers: 100–1,000 shares, $0.30–$2 targets, $5,000–$30,000 accounts, drill prices $10–$30. Sources: Aziz, Brooks, Bellafiore, Raschke & Connors, Murphy, Nison, Elder, Douglas, Tharp, Steenbarger.
 
-### Chapter 2 — Charts 101 — planned (`chapter-02-charts-101`)
+### Chapter 2 — Charts 101 — planned (`chapter-02-charts-101`) · 18 levels, ~48 subs
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | The Candle | 1-1, 1-2 | OHLC, body, wick; what a candle says; first decisions on 5-min candles |
-| 2 | Timeframes | 2-1 | 5-min for trades, 15-min and daily for context; the same day on three charts |
-| 3 | Volume Bars | 3-1, 3-2 R | Volume confirms; relative volume vs a normal day; practice |
-| 4 | The Shape of a Day | 4-1, 4-2 | Open (volatile), midday lull, last hour; where day trades live. Then: gaps at the open and what they mean |
-| 5 | Trend and Range | 5-1, 5-2 | Higher highs / lows on the 5-min, ranges, pullbacks. Then: range days vs trend days |
-| 6 | Checkpoint | 6-1 T | 10 questions |
-| 7 | Support and Resistance | 7-1, 7-2, 7-3 R | Yesterday's high/low/close, pre-market levels, round numbers; bounce vs break; practice |
-| 8 | Momentum vs Exhaustion | 8-1 | Expanding candles and volume; climaxes; don't chase |
-| 9 | The Day Trader's Screen | 9-1, 9-2 R | Daily context, 15-min structure, 5-min trigger, volume, quote; marking levels; full practice |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | The Candle | 4 | OHLC, body, wick, colour; reading one 5-minute candle; measuring a body | — |
+| 2 | What a Candle Says | 3 | Conviction, refusal, indecision on the 5-min; first shape-only decisions | — |
+| 3 | Timeframes | 3 | 5-min for trades, 15-min for structure, daily for context; the same day on three charts | — |
+| 4 | Volume Bars | 4 | Volume confirms; relative volume against a normal day; climax bars; practice | 1 |
+| 5 | Candles and Volume Practice | 2 R | Mixed shape-plus-weight drill | 1 |
+| 6 | Checkpoint | 1 T | 10 questions on Levels 1–5 | 1 |
+| 7 | The Shape of a Day | 4 | The volatile open, the midday lull, the last hour; where day trades live; the daily range | 1 |
+| 8 | Gaps at the Open | 3 | Gap up and gap down; what a gap says about the day; gap fill versus gap and go | 1 |
+| 9 | Trend and Range | 4 | Higher highs and lows on the 5-min; ranges; the pullback; trend days versus range days | 1 |
+| 10 | Support and Resistance | 3 | Yesterday's high, low and close; pre-market levels; round numbers; levels as zones | 1 |
+| 11 | Levels Practice | 2 R | Bounce versus break on the 5-min, with `compare` | 1 |
+| 12 | Checkpoint | 1 T | 10 questions on Levels 7–11 | 1 |
+| 13 | Momentum vs Exhaustion | 3 | Expanding candles and volume; climaxes; not chasing the third leg | 1 |
+| 14 | Multiple Timeframes, First Look | 3 | Daily sets the bias, 15-min the structure, 5-min the trigger; alignment | — |
+| 15 | Chapter 1 Callback | 2 R | Liquidity, volatility and sessions re-tested on 5-minute charts | 1 |
+| 16 | The Day Trader's Screen | 3 | Daily context, 15-min structure, 5-min trigger, volume, quote; marking levels before the open | 1 |
+| 17 | Chapter Review | 2 R | One full day read in six decisions | 1 |
+| 18 | Final Exam | 1 F | 13 questions → badge → `tier-up` (Observer) | 1 |
 
-### Chapter 3 — Orders, Costs & Position Size — planned (`chapter-03-orders-costs-position-size`)
+### Chapter 3 — Orders, Costs & Position Size — planned (`chapter-03-orders-costs-position-size`) · 19 levels, ~49 subs
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | Bid, Ask, Spread | 1-1 | Quote panel, spread as a round-trip cost (lighter than scalping — a few trades a day) |
-| 2 | Market, Limit, Marketable Limit | 2-1, 2-2 R | Same order kit; when a day trader waits with a limit and when speed wins |
-| 3 | The Stop Order | 3-1, 3-2 | Stop-market vs stop-limit; where the stop goes on 5-min structure (below the pullback low, not a round dollar) |
-| 4 | Bracket Orders | 4-1 | Entry + stop + target in one ticket; OCO; setting the bracket before the entry fills |
-| 5 | How Many Shares? | 5-1, 5-2 R | Position value, risk per trade, 1 % rule with wider intraday stops; practice |
-| 6 | Checkpoint | 6-1 T | 10 questions |
-| 7 | Slippage, Fees & Rules | 7-1, 7-2 | Slippage at the open; fees at 5–10 trades a day; `{{market.regulation_note}}`; cash vs margin account basics |
-| 8 | Scaling Out | 8-1 | Partial exits at 1R and 2R, moving the stop to break-even, what it does to expectancy |
-| 9 | The Pre-Trade Check | 9-1, 9-2 R | Level, trigger, stop, size, bracket, costs; worked examples with decisions |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | Bid, Ask, Spread | 4 | The quote panel; the spread as a round-trip cost, lighter than scalping but never zero | 1 |
+| 2 | Judging a Spread | 3 | Spread against a $0.30–$2 target; liquidity and tight spreads; when it widens | 1, 2 |
+| 3 | Market, Limit, Marketable Limit | 4 | The order kit; when a day trader waits with a limit and when speed wins; `order-build` | — |
+| 4 | Order Practice | 2 R | Six situations, right order each time | 2 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 1, 2 |
+| 6 | The Stop Order | 4 | Stop-market versus stop-limit; the stop on 5-min structure, below the pullback low, not a round dollar | 2 |
+| 7 | Bracket Orders | 3 | Entry + stop + target in one ticket; OCO; setting the bracket before the entry fills | — |
+| 8 | Bracket Practice | 2 R | Building brackets on real setups | 2 |
+| 9 | How Many Shares? | 4 | Position value, risk per trade, the 1 % rule with wider intraday stops, **and the account ceiling** | 1 |
+| 10 | Sizing Practice | 2 R | Five setups sized from both ceilings | 1 |
+| 11 | Checkpoint | 1 T | 10 questions on Levels 6–10 | 1, 2 |
+| 12 | Slippage at the Open | 3 | Where slippage comes from; capping it; why the open is the worst of it | 2 |
+| 13 | Fees and Account Rules | 3 | Fees at 5–10 trades a day; `{{market.fee_note}}`; `{{market.regulation_note}}`; cash versus margin basics | 1 |
+| 14 | Inside the Quote | 3 | Level 2, displayed size, time and sales; `depth-ladder` | 1 |
+| 15 | Scaling Out | 3 | Partial exits at 1R and 2R, moving the stop to break-even, what each does to expectancy | 2 |
+| 16 | Chapters 1–2 Callback | 2 R | Liquidity → spread → size; 5-min structure → where the stop goes | 1, 2 |
+| 17 | The Pre-Trade Check | 3 | Level, trigger, stop, size, bracket, cost; a `plan-card` for the user's own numbers | 2 |
+| 18 | Chapter Review | 2 R | Three setups run end to end | 1, 2 |
+| 19 | Final Exam | 1 F | 13 questions → badge | 1, 2 |
 
-### Chapter 4 — Chart Reading II — planned (`chapter-04-chart-reading-ii`)
+### Chapter 4 — Chart Reading II — planned (`chapter-04-chart-reading-ii`) · 18 levels, ~48 subs
 
-Fan-out here: candlestick patterns / support & resistance in depth / volume analysis → merge at VWAP.
+Fan-out at Levels 9–11: candlestick patterns / support & resistance in depth / volume analysis → merge at VWAP (Level 12).
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | Moving Averages | 1-1, 1-2 | 9 and 20 EMA on the 5-min, 50 and 200 on the daily; slope as trend, price vs average; MA as dynamic support |
-| 2 | Trend Lines and Channels | 2-1, 2-2 R | Drawing them, touches, breaks; practice |
-| 3 | Checkpoint | 3-1 T | 10 questions |
-| 4 | Fan-out A — Candlestick Patterns | 4-1, 4-2 | `fan-out:candles`. Hammer, shooting star, engulfing, doji, inside bar (Nison); context first |
-| 5 | Fan-out B — Support & Resistance II | 5-1, 5-2 | `fan-out:levels`. Role reversal, multi-day levels, confluence, false breaks |
-| 6 | Fan-out C — Volume Analysis | 6-1, 6-2 | `fan-out:volume`. Volume at breakouts, climaxes, dry-ups, relative volume |
-| 7 | VWAP | 7-1, 7-2 R | `merge`. VWAP as the day's fair price; reclaim and reject; combining the three strands with VWAP |
-| 8 | Multiple Timeframes | 8-1, 8-2 | Daily → 15-min → 5-min; alignment; the higher timeframe wins |
-| 9 | Chapter Review | 9-1 R | Full reads on three days |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | Moving Averages | 4 | 9 and 20 EMA on the 5-min, 50 and 200 on the daily; slope as trend; price versus the average; MA as dynamic support | 2 |
+| 2 | Trend Lines and Channels | 3 | Drawing them with `chart-annotate`; touches, breaks, and what a break is worth | 2 |
+| 3 | Structure Practice | 2 R | Reading MAs and trend lines together on unseen days | 2 |
+| 4 | The Opening Range | 3 | The first 15–30 minutes as the day's first structure; the break and the failure | 2 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 2, 3 |
+| 6 | Relative Strength Intraday | 3 | The stock versus the index, minute by minute; why the strongest name leads | 2 |
+| 7 | Confluence | 3 | Two or more independent reasons at one price; one reason is noise | 2, 3 |
+| 8 | Checkpoint | 1 T | 10 questions on Levels 6–7 | 2, 3 |
+| 9 | Fan-out A — Candlestick Patterns | 3 | `fan-out:candles`. Hammer, shooting star, engulfing, doji, inside bar (Nison); context first | 2 |
+| 10 | Fan-out B — Support & Resistance II | 3 | `fan-out:levels`. Role reversal, multi-day levels, confluence, false breaks | 2 |
+| 11 | Fan-out C — Volume Analysis | 3 | `fan-out:volume`. Volume at breakouts, climaxes, dry-ups, relative volume | 2 |
+| 12 | VWAP | 4 | `merge`. VWAP as the day's fair price; reclaim and reject; combining the three strands with the line | 2, 3 |
+| 13 | Map Drills | 2 R | Six reads on unseen days, three of them passes | 2, 3 |
+| 14 | Multiple Timeframes | 3 | Daily → 15-min → 5-min; alignment; the higher timeframe wins | 2 |
+| 15 | Halts and Standing Aside | 3 | Halts, wide spreads, news you have not read | 3 |
+| 16 | Chapters 2–3 Callback | 2 R | Structure and cost re-tested inside a live read | 2, 3 |
+| 17 | Chapter Review | 2 R | Two days read end to end | 2, 3 |
+| 18 | Final Exam | 1 F | 13 questions → badge → `tier-up` (Student) | 1, 2, 3 |
 
-### Chapter 5 — Risk & Psychology — planned (`chapter-05-risk-and-psychology`)
+### Chapter 5 — Finding the Trade — planned (`chapter-05-finding-the-trade`) · 17 levels, ~45 subs
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | R and the Stop | 1-1, 1-2 | R as the unit; hard stops; never widening; results in R |
-| 2 | Expectancy | 2-1, 2-2 R | Win rate × average win vs loss; a 40 % win rate can be profitable; practice |
-| 3 | The Daily Max Loss | 3-1 | Loss limit, trade limit, walking away; why the open is where limits get hit |
-| 4 | Checkpoint | 4-1 T | 10 questions |
-| 5 | Revenge Trading and FOMO | 5-1, 5-2 | Recognizing them; the reset; rules that remove the decision |
-| 6 | Thinking in Probabilities | 6-1, 6-2 R | Douglas; edge over a series; practice |
-| 7 | The Pre-Market Routine | 7-1, 7-2 | Plan the day: watchlist, levels, if-then scenarios; the review after the close |
-| 8 | The Journal | 8-1 | What to log; weekly review; finding your best setup and time |
-| 9 | Chapter Review | 9-1 R | A losing day handled by the rules |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | Not Every Stock | 4 | What makes a stock day-tradable: average range, volume, spread, price your account can hold | 1, 3 |
+| 2 | Relative Volume | 4 | Today against this stock's own normal; the first filter of the morning | 1, 2 |
+| 3 | The Catalyst | 3 | Earnings, news, a gap; a mover with a reason versus one without | 1 |
+| 4 | Selection Practice | 2 R | Six `scanner-pick` rounds | 1, 3 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 1, 3 |
+| 6 | Reading a Scanner | 4 | Gappers, top movers, sorting by relative volume, filtering the untradeable | 1, 3 |
+| 7 | Building the Watchlist | 3 | Three to five names with levels drawn for each | 2 |
+| 8 | Float and Share Structure | 3 | Float in plain words; why it changes how a name moves and slips | 1, 3 |
+| 9 | Watchlist Practice | 2 R | Build one, then defend two cuts | 1, 3 |
+| 10 | Checkpoint | 1 T | 10 questions on Levels 6–9 | 1, 3 |
+| 11 | The Market Behind the Stock | 3 | The index as weather, the sector as the street; `{{market.index_example}}` | 1 |
+| 12 | Market Internals | 3 | Breadth, risk-on and risk-off, the `internals-panel` | 1 |
+| 13 | Trend Day or Range Day | 4 | Reading the day type in the first half hour; what each offers and refuses | 2, 4 |
+| 14 | Chapters 1 & 4 Callback | 2 R | Liquidity and structure re-tested as selection criteria | 1, 4 |
+| 15 | The Pre-Market Routine | 3 | Scan, shortlist, levels, market check, day type, plan; a `plan-card` | 2, 3, 4 |
+| 16 | Chapter Review | 2 R | One full pre-market from empty screen to three names | 1, 2, 3, 4 |
+| 17 | Final Exam | 1 F | 13 questions → badge | 1, 2, 3, 4 |
 
-### Chapter 6 — Day Trading Playbook — planned (`chapter-06-day-trading-playbook`)
+### Chapter 6 — Risk & Psychology — planned (`chapter-06-risk-and-psychology`) · 19 levels, ~50 subs
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | What a Playbook Is | 1-1 | The card; one setup done well |
-| 2 | Setup A — Opening Range Breakout | 2-1, 2-2 R | Aziz ORB: 5-min range, break with volume, stop inside, target from the daily chart; drills |
-| 3 | Setup B — Bull Flag | 3-1, 3-2 R | Strong move, tight pullback on falling volume, break of the flag; drills |
-| 4 | Setup C — VWAP Reclaim | 4-1, 4-2 R | Loss and recovery of VWAP with volume; drills |
-| 5 | Checkpoint | 5-1 T | 10 questions |
-| 6 | Setup D — ABCD | 6-1, 6-2 R | Aziz ABCD: leg, pullback, entry above C; drills |
-| 7 | Setup E — Reversal at the Extreme | 7-1, 7-2 R | Climax volume, rejection candle at a daily level, entry on confirmation; drills |
-| 8 | Choosing the Setup for the Day | 8-1 | Conditions → setup; gap days vs quiet days; no trade |
-| 9 | Capstone — A Full Day | 9-1 R, 9-2 R | Pre-market plan through close, 6–8 decisions |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+Same nineteen-level spine as scalping Chapter 6, with day-trading numbers (wider stops, fewer trades, overnight gap risk noted but not held). Levels: 1 The Stop Is Not Optional (4) · 2 R — The Unit (4) · 3 Managing the Trade (4) · 4 Stops and R Practice (2 R) · 5 Checkpoint (1 T) · 6 Win Rate and Expectancy (4) · 7 Costs Inside Expectancy (3) · 8 Expectancy Practice (2 R) · 9 The Daily Max Loss (3) · 10 Checkpoint (1 T) · 11 Revenge Trading and FOMO (3) · 12 The Reset Routine (3) · 13 Thinking in Probabilities (3) · 14 Chapter 3 Callback (2 R) · 15 The Journal (3) · 16 The Weekly Review (3) · 17 Sizing Under Stress (3) · 18 A Losing Day, Handled (2 R) · 19 Final Exam (1 F → `tier-up` Planner).
+
+### Chapter 7 — Day Trading Playbook — planned (`chapter-07-day-trading-playbook`) · 19 levels, ~50 subs
+
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | What a Playbook Is | 3 | The card, its five fields, why few setups win; the user's `plan-sheet` starts | 6 |
+| 2 | Setup A — Opening Range Breakout | 4 | Aziz ORB: the 5-min range, the break on volume, stop inside, target from the daily | 2, 4 |
+| 3 | Setup B — Bull Flag | 4 | Strong move, tight pullback on falling volume, the break of the flag | 2, 4 |
+| 4 | Setup C — VWAP Reclaim | 4 | Loss and recovery of VWAP with volume; the hold that confirms it | 4 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 4, 6 |
+| 6 | Setup D — ABCD | 4 | Aziz ABCD: the leg, the pullback, entry above C | 2, 4 |
+| 7 | Setup E — Reversal at the Extreme | 3 | Climax volume, rejection candle at a daily level, entry on confirmation, smaller size | 4, 6 |
+| 8 | Mixed Drill I | 2 R | `swipe-deck` across Setups A–E | 4 |
+| 9 | Checkpoint | 1 T | 10 questions on Levels 6–8 | 4, 6 |
+| 10 | Setup F — The Gap Fill | 3 | The gap that fails to hold and works back toward yesterday's close | 2, 5 |
+| 11 | Setup G — Range Rotation | 3 | The range day's edges; forbidden on a trend day | 5 |
+| 12 | Setup H — The Re-Entry | 3 | Getting back in after a stop-out; what separates it from revenge | 6 |
+| 13 | Mixed Drill II | 2 R | Eight charts across all eight cards, half passes | 4, 5 |
+| 14 | Choosing the Setup for the Day | 3 | Day type → which cards are on the table; gap days versus quiet days | 5 |
+| 15 | Chapters 5 & 6 Callback | 2 R | Right card, wrong stock; right card, wrong day; right card, no risk left | 5, 6 |
+| 16 | When Nothing Fits | 2 | The empty day and what a playbook costs in missed trades | 6 |
+| 17 | Capstone — A Full Day | 3 R | Pre-market plan through the close, eight decisions | 3, 5, 6 |
+| 18 | Chapter Review | 2 R | Eight cards by trigger, then a mixed `compare` set | 4, 5, 6 |
+| 19 | Final Exam | 1 F | 14 questions → badge | 4, 5, 6 |
+
+### Chapter 8 — The Trading Day — planned (`chapter-08-the-trading-day`) · 17 levels, ~46 subs
+
+Same seventeen-level spine as scalping Chapter 8, retuned for 5–10 trades a day: 1 The Platform (4) · 2 Order Entry and Brackets (3) · 3 Execution Drills (2 R) · 4 The Pre-Market Hour (4) · 5 Checkpoint (1 T) · 6 The Open (3) · 7 The Midday Lull (3) · 8 The Last Hour and the Close (3) · 9 Full-Day Practice (3 R) · 10 Checkpoint (1 T) · 11 Tracking Your Numbers (4) · 12 When to Increase Size (3) · 13 Chapters 6 & 7 Callback (2 R) · 14 Your First 30 Days on Sim (4) · 15 Going Live, Carefully (3) · 16 Capstone — A Full Week (3 R) · 17 Final Exam and Graduation (1 F → `tier-up` Sim Trader).
 
 ---
 
 ## Swing Trading
 
-Folder base: `content/paths/swing-trading/`. Timeframes: daily with weekly context. Sources: Minervini, Aziz & Pezim, Shannon, Murphy, Nison, Elder, Douglas, Tharp.
+Folder base: `content/paths/swing-trading/`. Timeframes: daily with weekly context. Numbers: 20–300 shares, $2–$20 targets, $5,000–$50,000 accounts, drill prices $20–$80. Sources: Minervini, Aziz & Pezim, Shannon, Murphy, Nison, Elder, Douglas, Tharp, Steenbarger.
 
-### Chapter 2 — Charts 101 — planned (`chapter-02-charts-101`)
+### Chapter 2 — Charts 101 — planned (`chapter-02-charts-101`) · 18 levels, ~48 subs
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | The Candle | 1-1, 1-2 | OHLC on a daily candle; what a day's candle says; first decisions on daily charts |
-| 2 | Timeframes | 2-1 | Daily for trades, weekly for context; a month on both |
-| 3 | Volume Bars | 3-1, 3-2 R | Daily volume, average volume, volume on up days vs down days; practice |
-| 4 | Gaps | 4-1, 4-2 | Overnight gaps, earnings gaps, why swing traders live with them. Then: gap and go vs gap fill |
-| 5 | Trend and Range | 5-1, 5-2 | Higher highs / lows on the daily, ranges, pullbacks. Then: stage of a trend (early, mature, late) |
-| 6 | Checkpoint | 6-1 T | 10 questions |
-| 7 | Support and Resistance | 7-1, 7-2, 7-3 R | Swing highs and lows, prior breakout levels, round numbers; bounce vs break on daily closes; practice |
-| 8 | Momentum vs Exhaustion | 8-1 | Expanding daily ranges and volume; climax days; don't chase |
-| 9 | The Swing Trader's Screen | 9-1, 9-2 R | Weekly context, daily trigger, volume, earnings date; the evening routine; full practice |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | The Candle | 4 | OHLC on a daily candle; body and wick; what a whole day's candle says | — |
+| 2 | What a Day Says | 3 | Wide range versus narrow; closing near the high or the low; the first daily decisions | — |
+| 3 | Timeframes | 3 | Daily for trades, weekly for context; a month on both | — |
+| 4 | Volume Bars | 4 | Daily volume, average volume, volume on up days versus down days; distribution days | 1 |
+| 5 | Candles and Volume Practice | 2 R | Mixed daily drill | 1 |
+| 6 | Checkpoint | 1 T | 10 questions on Levels 1–5 | 1 |
+| 7 | Gaps | 4 | Overnight gaps, earnings gaps, why swing traders live with them; gap and go versus gap fill | 1 |
+| 8 | Trend and Range | 4 | Higher highs and lows on the daily; ranges; the pullback; stage of a trend (early, mature, late) | 1 |
+| 9 | Support and Resistance | 3 | Swing highs and lows, prior breakout levels, round numbers; judged on daily closes | 1 |
+| 10 | Levels Practice | 2 R | Bounce versus break on daily closes, with `compare` | 1 |
+| 11 | Checkpoint | 1 T | 10 questions on Levels 7–10 | 1 |
+| 12 | Momentum vs Exhaustion | 3 | Expanding daily ranges and volume; climax days; not chasing an extended move | 1 |
+| 13 | Bases and Consolidation | 3 | What a base looks like; tightness; why price going nowhere can be the best sign | — |
+| 14 | Weekly Context | 3 | The weekly chart's job; when weekly and daily disagree | — |
+| 15 | Chapter 1 Callback | 2 R | Liquidity, volatility and sessions re-tested on daily charts, including overnight risk | 1 |
+| 16 | The Swing Trader's Screen | 3 | Weekly context, daily trigger, volume, the earnings date; the evening routine | 1 |
+| 17 | Chapter Review | 2 R | Three charts read end to end | 1 |
+| 18 | Final Exam | 1 F | 13 questions → badge → `tier-up` (Observer) | 1 |
 
-### Chapter 3 — Orders, Costs & Position Size — planned (`chapter-03-orders-costs-position-size`)
+### Chapter 3 — Orders, Costs & Position Size — planned (`chapter-03-orders-costs-position-size`) · 18 levels, ~47 subs
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | Bid, Ask, Spread | 1-1 | Quote panel; the spread matters little over days — gaps matter a lot |
-| 2 | Limit and Market Orders | 2-1, 2-2 R | Limit entries at your level, market when the breakout is happening; practice |
-| 3 | The Stop Order and the Gap | 3-1, 3-2 | Stop-market vs stop-limit; stops can be jumped overnight — why size, not the stop alone, protects you |
-| 4 | Bracket and Good-Till-Cancelled | 4-1 | Orders that live for days; entry + stop + target; reviewing them nightly |
-| 5 | How Many Shares? | 5-1, 5-2 R | Position value, risk per trade with wider stops, 1 % rule, several open positions at once; practice |
-| 6 | Checkpoint | 6-1 T | 10 questions |
-| 7 | Costs and Overnight Risk | 7-1, 7-2 | Fees are minor; overnight and weekend risk, earnings risk, `{{market.regulation_note}}` |
-| 8 | Scaling In and Out | 8-1 | Building a position in pieces, partial profits at targets, trailing the stop |
-| 9 | The Pre-Trade Check | 9-1, 9-2 R | Trend, level, trigger, stop, size, earnings date, costs; worked examples with decisions |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | Bid, Ask, Spread | 3 | The quote panel; why the spread matters little over days — and gaps matter a lot | 1 |
+| 2 | Limit and Market Orders | 4 | Limit entries at your level, market when the breakout is happening; `order-build` | — |
+| 3 | Order Practice | 2 R | Six situations, right order each time | 2 |
+| 4 | The Stop Order and the Gap | 4 | Stop-market versus stop-limit; stops jumped overnight; why size, not the stop alone, protects you | 2 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 1, 2 |
+| 6 | Bracket and Good-Till-Cancelled | 3 | Orders that live for days; entry + stop + target; reviewing them nightly | — |
+| 7 | How Many Shares? | 4 | Position value, risk per trade with wider stops, the 1 % rule, **and the account ceiling**; several open positions at once | 1 |
+| 8 | Sizing Practice | 2 R | Five setups sized from both ceilings | 1 |
+| 9 | Checkpoint | 1 T | 10 questions on Levels 6–8 | 1, 2 |
+| 10 | Costs Over Days | 3 | Fees are minor; slippage on the open; what actually costs a swing trader | 1 |
+| 11 | Overnight and Weekend Risk | 3 | The gap through your stop; earnings risk; `{{market.regulation_note}}` | 1 |
+| 12 | Scaling In and Out | 3 | Building a position in pieces; partial profits at targets; trailing the stop | 2 |
+| 13 | Portfolio Basics | 3 | Several positions at once; total risk; why correlated names are one position | 1 |
+| 14 | Chapters 1–2 Callback | 2 R | Liquidity and daily structure re-tested through sizing and stop placement | 1, 2 |
+| 15 | The Pre-Trade Check | 3 | Trend, level, trigger, stop, size, earnings date, cost; a `plan-card` | 2 |
+| 16 | Check Practice | 2 R | Three setups run end to end | 1, 2 |
+| 17 | Chapter Review | 2 R | Two candidates accepted, two rejected, with reasons | 1, 2 |
+| 18 | Final Exam | 1 F | 13 questions → badge | 1, 2 |
 
-### Chapter 4 — Chart Reading II — planned (`chapter-04-chart-reading-ii`)
+### Chapter 4 — Chart Reading II — planned (`chapter-04-chart-reading-ii`) · 18 levels, ~48 subs
 
-Fan-out here: VCP / cup-and-handle / flat base → merge at moving averages.
+Fan-out at Levels 9–11: VCP / cup-and-handle / flat base → merge at moving averages (Level 12).
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | Trend Lines and Stages | 1-1, 1-2 | Drawing trend lines on the daily; Stage 1–4 of a stock (Minervini/Weinstein-style, taught as consensus) |
-| 2 | Volume Signatures | 2-1, 2-2 R | Volume dry-up in a base, expansion on breakout, distribution days; practice |
-| 3 | Checkpoint | 3-1 T | 10 questions |
-| 4 | Fan-out A — Volatility Contraction (VCP) | 4-1, 4-2 | `fan-out:vcp`. Contracting pullbacks, pivot, breakout |
-| 5 | Fan-out B — Cup and Handle | 5-1, 5-2 | `fan-out:cup`. Shape, depth, handle, pivot |
-| 6 | Fan-out C — Flat Base | 6-1, 6-2 | `fan-out:base`. Tight range for weeks, breakout with volume |
-| 7 | Moving Averages | 7-1, 7-2 R | `merge`. 10/21/50/200-day; alignment; MA as support; combining the three patterns with MAs |
-| 8 | Relative Strength and Multiple Timeframes | 8-1, 8-2 | Stock vs index; weekly → daily alignment |
-| 9 | Chapter Review | 9-1 R | Full reads on three charts |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+| Level | Title | Subs | Teaches | Reinforces |
+|---|---|---|---|---|
+| 1 | Trend Lines | 3 | Drawing them on the daily with `chart-annotate`; touches and breaks | 2 |
+| 2 | Stages of a Stock | 4 | Stage 1–4 taught as consensus (Minervini / Weinstein-style); which stage is buyable | 2 |
+| 3 | Stage Practice | 2 R | Naming the stage on unseen charts | 2 |
+| 4 | Volume Signatures | 4 | Dry-up in a base, expansion on the breakout, distribution days | 2 |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 2, 3 |
+| 6 | Relative Strength | 3 | The stock versus the index over weeks; why leaders lead | 2 |
+| 7 | Confluence | 3 | Stage, base, volume and relative strength agreeing at one price | 2, 3 |
+| 8 | Checkpoint | 1 T | 10 questions on Levels 6–7 | 2, 3 |
+| 9 | Fan-out A — Volatility Contraction | 3 | `fan-out:vcp`. Contracting pullbacks, the pivot, the breakout | 2 |
+| 10 | Fan-out B — Cup and Handle | 3 | `fan-out:cup`. Shape, depth, the handle, the pivot | 2 |
+| 11 | Fan-out C — Flat Base | 3 | `fan-out:base`. A tight range for weeks, then the breakout on volume | 2 |
+| 12 | Moving Averages | 4 | `merge`. 10/21/50/200-day; alignment; MA as support; combining the three patterns with them | 2, 3 |
+| 13 | Pattern Drills | 2 R | Six charts, three of them failures | 2, 3 |
+| 14 | Multiple Timeframes | 3 | Weekly → daily alignment; when to believe the weekly | 2 |
+| 15 | Failed Patterns | 3 | The breakout that does not hold; what it means and what it offers | 2, 3 |
+| 16 | Chapters 2–3 Callback | 2 R | Daily structure and sizing re-tested inside a pattern read | 2, 3 |
+| 17 | Chapter Review | 2 R | Three full reads | 2, 3 |
+| 18 | Final Exam | 1 F | 13 questions → badge → `tier-up` (Student) | 1, 2, 3 |
 
-### Chapter 5 — Risk & Psychology — planned (`chapter-05-risk-and-psychology`)
+### Chapter 5 — Finding the Trade — planned (`chapter-05-finding-the-trade`) · 17 levels, ~45 subs
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | R and the Stop | 1-1, 1-2 | R as the unit; where a daily stop belongs; never widening; results in R |
-| 2 | Expectancy | 2-1, 2-2 R | Win rate and R multiples over a series; practice |
-| 3 | Portfolio Heat | 3-1 | Total risk across open positions; correlation; a cap on open R |
-| 4 | Checkpoint | 4-1 T | 10 questions |
-| 5 | Holding Through Noise | 5-1, 5-2 | Daily wiggles vs real failure; not checking every minute; rules for exits |
-| 6 | Thinking in Probabilities | 6-1, 6-2 R | Douglas; edge over a series; practice |
-| 7 | Earnings and Events | 7-1 | Holding through earnings or not; sizing for gaps |
-| 8 | The Weekly Routine and Journal | 8-1, 8-2 | Weekend review, watchlist, journal fields; finding your best pattern |
-| 9 | Chapter Review | 9-1 R | A losing week handled by the rules |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+Swing selection is a screen, not a scanner: 1 Not Every Stock (4) · 2 Screening for Candidates (4) · 3 The Fundamental Backdrop, Lightly (3) · 4 Selection Practice (2 R) · 5 Checkpoint (1 T) · 6 Reading a Screen Result (4) · 7 Building the Watchlist (3) · 8 Earnings Dates and the Calendar (3) · 9 Watchlist Practice (2 R) · 10 Checkpoint (1 T) · 11 The Market Behind the Stock (3) · 12 Market Stage and Breadth (3) · 13 Leading Sectors (4) · 14 Chapters 1 & 4 Callback (2 R) · 15 The Weekend Routine (3) · 16 Chapter Review (2 R) · 17 Final Exam (1 F).
 
-### Chapter 6 — Swing Trading Playbook — planned (`chapter-06-swing-trading-playbook`)
+### Chapter 6 — Risk & Psychology — planned (`chapter-06-risk-and-psychology`) · 19 levels, ~50 subs
 
-| Level | Title | Subs | Teaches |
-|---|---|---|---|
-| 1 | What a Playbook Is | 1-1 | The card; a few positions, one style |
-| 2 | Setup A — VCP Breakout | 2-1, 2-2 R | Minervini: contraction, pivot, volume, stop below the pivot; drills |
-| 3 | Setup B — Pullback to the Moving Average | 3-1, 3-2 R | Uptrend, orderly pullback to the 21-day, reversal candle; drills |
-| 4 | Setup C — Base Breakout | 4-1, 4-2 R | Flat base or cup, breakout day volume, stop inside the base; drills |
-| 5 | Checkpoint | 5-1 T | 10 questions |
-| 6 | Setup D — Gap and Go | 6-1, 6-2 R | Earnings gap with volume, first pullback, continuation; drills |
-| 7 | Setup E — Failed Breakdown | 7-1, 7-2 R | Break below support that reverses within days; drills |
-| 8 | Choosing Setups for the Week | 8-1 | Market stage → setups; when to sit in cash |
-| 9 | Capstone — A Full Month | 9-1 R, 9-2 R | Four weeks, 6–8 decisions, portfolio heat included |
-| 10 | Final Exam | 10-1 F | 12 questions → badge |
+Same spine, swing-specific: 1 The Stop Is Not Optional (4) · 2 R — The Unit (4) · 3 Managing the Trade (4: break-even, partials, trailing, time stop) · 4 Stops and R Practice (2 R) · 5 Checkpoint (1 T) · 6 Win Rate and Expectancy (4) · 7 Portfolio Heat (3: total open R, correlation, a cap) · 8 Expectancy Practice (2 R) · 9 Holding Through Noise (3) · 10 Checkpoint (1 T) · 11 Earnings and Events (3) · 12 The Reset Routine (3) · 13 Thinking in Probabilities (3) · 14 Chapter 3 Callback (2 R) · 15 The Journal (3) · 16 The Weekly Routine (3) · 17 Sizing Under Stress (3) · 18 A Losing Week, Handled (2 R) · 19 Final Exam (1 F → `tier-up` Planner).
+
+### Chapter 7 — Swing Trading Playbook — planned (`chapter-07-swing-trading-playbook`) · 19 levels, ~50 subs
+
+1 What a Playbook Is (3) · 2 Setup A — VCP Breakout (4) · 3 Setup B — Pullback to the Moving Average (4) · 4 Setup C — Base Breakout (4) · 5 Checkpoint (1 T) · 6 Setup D — Gap and Go on Earnings (4) · 7 Setup E — Failed Breakdown (3) · 8 Mixed Drill I (2 R) · 9 Checkpoint (1 T) · 10 Setup F — Pullback to Prior Breakout (3) · 11 Setup G — Range Rotation on the Daily (3) · 12 Setup H — The Re-Entry (3) · 13 Mixed Drill II (2 R) · 14 Choosing Setups for the Week (3) · 15 Chapters 5 & 6 Callback (2 R) · 16 When Nothing Fits (2) · 17 Capstone — A Full Month (3 R) · 18 Chapter Review (2 R) · 19 Final Exam (1 F).
+
+### Chapter 8 — The Trading Week — planned (`chapter-08-the-trading-week`) · 17 levels, ~46 subs
+
+1 The Platform (4) · 2 Orders That Live for Days (3) · 3 Execution Drills (2 R) · 4 The Weekend Plan (4) · 5 Checkpoint (1 T) · 6 The Trading Week (3) · 7 Managing Open Positions (3) · 8 The Nightly Review (3) · 9 Full-Week Practice (3 R) · 10 Checkpoint (1 T) · 11 Tracking Your Numbers (4) · 12 When to Increase Size (3) · 13 Chapters 6 & 7 Callback (2 R) · 14 Your First 90 Days on Sim (4) · 15 Going Live, Carefully (3) · 16 Capstone — A Full Quarter (3 R) · 17 Final Exam and Graduation (1 F → `tier-up` Sim Trader).
+
+---
+
+## Drill packs
+
+Folder: `content/drills/<path>/<slug>.yaml` · format in `docs/schema.md`. These feed the Practice hub (UI.md §7.3), not the path map. They are the rep volume that turns recognition into reflex, and they are written **after** the chapter they unlock from.
+
+| Pack | Path | Unlocked by | Size | Contents |
+|---|---|---|---|---|
+| `charts-structure` | all | Ch2 exam | 30 | Trend / range / pullback naming, `swipe-deck` and `chart-tap` |
+| `levels-and-breaks` | all | Ch2 exam | 30 | Bounce versus break, wick versus close |
+| `cost-check` | all | Ch3 exam | 20 | Spread against target, sizing from both ceilings |
+| `the-read` | all | Ch4 exam | 40 | The four-part read on unseen charts, a third of them passes |
+| `selection` | all | Ch5 exam | 25 | `scanner-pick` and watchlist cuts |
+| `risk-calls` | all | Ch6 exam | 25 | R, expectancy, limits and `branch` management decisions |
+| `setup-a` … `setup-h` | all | each setup's level | 20 each | One `swipe-deck` bank per playbook card |
+| `mixed-daily` | all | Ch7 exam | 40 | Everything, weighted by the learner's weak concepts |
+
+Target at launch of a path: **~350 drill screens**, roughly the same volume again as the linear path's own questions.
 
 ---
 
 ## Writing order
 
-1. Scalping 2 → 4 → 5 → 6
-2. Day Trading 2 → 3 → 4 → 5 → 6
-3. Swing Trading 2 → 3 → 4 → 5 → 6
+1. Scalping Chapters 2 → 3 → 4 (expand v2 content to the v3 level plan)
+2. Chapter 1 (expand — done after Scalping 2–4 so the callbacks are known)
+3. Scalping Chapters 5 → 6 → 7 → 8 (5 and 8 are new)
+4. Scalping drill packs
+5. Day Trading Chapters 2 → 8
+6. Swing Trading Chapters 2 → 8
 
-One chapter per session. After each: validator clean, commit, push, short report, stop.
+One chapter per session, written in blocks of 4–6 levels (`docs/agent.md` §6). After each: validator clean, commit, push, short report, stop.
+
+Stage order, per-stage prompts and model choices for the v2 → v3 build: `docs/build-plan.md`.
