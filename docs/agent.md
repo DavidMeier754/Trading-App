@@ -184,7 +184,7 @@ Never use influencers, YouTube or forum content as a source.
 3. Scalping Chapter 3 "Orders, Costs & Position Size" — **done, reviewed**.
 4. Scalping Chapter 2 "Charts 101" — **done**.
 5. Scalping Chapter 4 "Reading Fast Markets" — **done**.
-6. Scalping Chapter 5 "Risk & Psychology for Scalpers" — **done**. Scalping Chapter 6 — planned.
+6. Scalping Chapter 5 "Risk & Psychology for Scalpers" — **done**. Scalping Chapter 6 — next.
 7. Day Trading Chapters 2–6 — planned.
 8. Swing Trading Chapters 2–6 — planned.
 

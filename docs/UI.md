@@ -88,7 +88,7 @@ Shared behaviour: prompt on top, answer area in the middle, `Check` CTA (disable
 | `hotspot` | A mock component (quote card, quote panel, order ticket, chart); tap the right region. Correct region pulses green; wrong tap ripples red and the correct region highlights. | 1–2 targets. |
 | `slider` | Set a value on a slider; reveal shows exact value with a tolerance band. | For proportional intuition. |
 | `chart-tap` | Tap a candle/point/level on a chart. | |
-| `chart-decision` | The scenario engine. The chart plays to a decision point and pauses. Three buttons: **Long**, **Short**, **No trade** (Chapter 1 uses a simplified **Buy / Wait** variant). After choosing, the chart continues candle by candle (~120 ms each, tap to skip) and shows the outcome strip and a one-line rationale. Scored on reasoning; "No trade" can be best; other answers can be "reasonable" and are marked amber. | At least one per level from Chapter 2 on. |
+| `chart-decision` | The scenario engine. The chart plays to a decision point and pauses. Three buttons: **Long**, **Short**, **No trade** (Chapter 1 uses a simplified **Buy / Wait** variant). After choosing, the chart continues candle by candle (~120 ms each, tap to skip) and shows the outcome strip and a one-line rationale. Scored on reasoning; "No trade" can be best; other answers can be "reasonable" and are marked amber. Session state (day in R, limit, trades taken, size) shows as chips above the chart (6.4). | At least one per level from Chapter 2 on. |
 | `spot-mistake` | A short statement or ticket with one wrong part; tap the wrong segment. | For misconceptions. |
 
 **Selection rules:** ≥3 different question types per sub-level; max 2 `mc` in a row; every Chapter ≥2 sub-level has at least one visual/interactive screen. `tf` never asks what the prompt gives away.
@@ -148,6 +148,7 @@ Bid green-tinted left, Ask red-tinted right, spread as a bracketed gap with its 
 - **Candlestick chart** from Chapter 2 on (green/red bodies, wicks, optional volume bars, time axis, price axis right).
 - **Playback:** candles appear one by one (120 ms, play/pause, tap to skip). Used by `chart-decision`.
 - **Annotations:** dashed levels, arrows, shaded zones, labels; animate in.
+- **State chips:** the level file's optional `state` strings render as small chips in a row above the chart (day result in R, the session limit, trades taken, current share size). They appear with the scenario and stay visible through playback, so a situation the scenario only describes is also something the user can see. Absent when the decision rests on the chart alone.
 - **Decision overlay:** at the pause point the three buttons rise from the bottom; after the choice the chart continues and a P/L strip shows the outcome in points and % (with the share count from the scenario), then the rationale.
 - Expand → landscape fullscreen with pinch-zoom (later).
 

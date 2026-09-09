@@ -78,6 +78,7 @@ screens:
       data: [[88.20, 88.30, 88.14, 88.28], [88.28, 88.44, 88.26, 88.40], [88.40, 88.52, 88.36, 88.48], [88.48, 88.54, 88.38, 88.42], [88.42, 88.46, 88.32, 88.36], [88.36, 88.40, 88.30, 88.38], [88.38, 88.50, 88.36, 88.48], [88.48, 88.58, 88.44, 88.56], [88.56, 88.62, 88.50, 88.58], [88.58, 88.64, 88.52, 88.56]]
       vwap: [88.18, 88.22, 88.26, 88.29, 88.31, 88.32, 88.34, 88.36, 88.39, 88.41]
       decision_index: 5
+    state: ["Trades: 8 of 8", "Trade cap reached"]
     best: no-trade
     outcome: "It bounced off VWAP and reached $88.64. A 20-cent scalp from $88.38 would have made $200 on 1,000 shares — that is what the cap cost you."
     explanation: "Rules cost you good trades sometimes. That is the price of them stopping the bad ones."

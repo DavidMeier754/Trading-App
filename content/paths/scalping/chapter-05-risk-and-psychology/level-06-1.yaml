@@ -56,13 +56,14 @@ screens:
     explanation: "Five is far below the sample size that could show that. Losing runs live inside methods that pay."
 
   - type: chart-decision
-    scenario: "Four stops already this morning, still inside your limit. XYZ reclaims VWAP on the heaviest volume since the open and holds above it. Entry $71.30, stop $71.16. 1,000 shares."
+    scenario: "Four stops already this morning, with one full stop of room left before your limit. XYZ reclaims VWAP on the heaviest volume since the open and holds above it. Entry $71.30, stop $71.16. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
       data: [[71.10, 71.18, 71.04, 71.08], [71.08, 71.16, 71.02, 71.14], [71.14, 71.24, 71.10, 71.22], [71.22, 71.30, 71.18, 71.28], [71.28, 71.34, 71.22, 71.26], [71.26, 71.34, 71.22, 71.30], [71.30, 71.42, 71.28, 71.40], [71.40, 71.50, 71.36, 71.48], [71.48, 71.62, 71.44, 71.58], [71.58, 71.64, 71.52, 71.56]]
       vwap: [71.20, 71.20, 71.21, 71.22, 71.23, 71.24, 71.25, 71.27, 71.29, 71.31]
       decision_index: 5
+    state: ["Day: −4R", "1R of room left"]
     best: long
     reasonable: [no-trade]
     outcome: "It held the line and reached $71.64. Sold at $71.58: $0.28 per share, +$280 on 1,000 shares against $140 of risk."

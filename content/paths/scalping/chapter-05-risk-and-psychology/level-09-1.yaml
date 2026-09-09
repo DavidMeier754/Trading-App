@@ -27,6 +27,7 @@ screens:
       kind: candles
       data: [[41.10, 41.22, 41.06, 41.18], [41.18, 41.26, 41.14, 41.22], [41.22, 41.28, 41.16, 41.20], [41.20, 41.24, 41.14, 41.18], [41.18, 41.28, 41.16, 41.24], [41.24, 41.32, 41.20, 41.26], [41.26, 41.30, 41.16, 41.18], [41.18, 41.22, 41.10, 41.12], [41.12, 41.16, 41.04, 41.06], [41.06, 41.10, 41.00, 41.04]]
       decision_index: 5
+    state: ["Day: 0R", "Trade 1 of 8"]
     best: long
     reasonable: [no-trade]
     outcome: "It rolled over and hit the stop: −$120 on 1,000 shares, a clean −1R."
@@ -42,7 +43,7 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "Half an hour in: two more stops, both from the plan. Down 2R with a 3R limit."
+    text: "Half an hour in: one more stop, taken straight from the plan. Down 2R with a 3R limit."
 
   - type: mc
     prompt: "Down 2R with a 3R limit. What is allowed?"
@@ -59,6 +60,7 @@ screens:
       kind: candles
       data: [[41.04, 41.16, 41.00, 41.14], [41.14, 41.30, 41.12, 41.28], [41.28, 41.42, 41.26, 41.40], [41.40, 41.50, 41.36, 41.48], [41.48, 41.56, 41.44, 41.52], [41.52, 41.58, 41.48, 41.54], [41.54, 41.56, 41.42, 41.44], [41.44, 41.48, 41.34, 41.36], [41.36, 41.40, 41.30, 41.34], [41.34, 41.38, 41.28, 41.32]]
       decision_index: 5
+    state: ["Day: −2R", "Limit: 3R"]
     best: no-trade
     outcome: "It gave back 22 cents. A long at $41.54 was $220 down on 1,000 shares."
     explanation: "Same stock, no level, more hurry: that is the last result choosing the trade, not the chart."
@@ -83,6 +85,7 @@ screens:
       data: [[41.20, 41.26, 41.12, 41.16], [41.16, 41.22, 41.10, 41.20], [41.20, 41.28, 41.18, 41.26], [41.26, 41.32, 41.22, 41.30], [41.30, 41.34, 41.26, 41.28], [41.28, 41.36, 41.26, 41.32], [41.32, 41.44, 41.30, 41.42], [41.42, 41.50, 41.38, 41.48], [41.48, 41.62, 41.44, 41.56], [41.56, 41.60, 41.48, 41.54]]
       vwap: [41.24, 41.24, 41.24, 41.25, 41.26, 41.26, 41.27, 41.29, 41.31, 41.33]
       decision_index: 5
+    state: ["Day: −2R", "Size: 500 of 1,000"]
     best: long
     reasonable: [no-trade]
     outcome: "It reached $41.62. Sold at $41.54: $0.24 per share, +$120 on 500 shares — 2R at the smaller size."

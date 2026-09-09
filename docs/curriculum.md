@@ -111,7 +111,7 @@ Folder: `content/paths/scalping/chapter-05-risk-and-psychology/`. Sources: Elder
 
 10 levels, 15 subs. New terms: R, Expectancy, Win rate, Daily loss limit, Tilt, Journal, Drawdown.
 
-### Chapter 6 — Scalping Playbook — planned
+### Chapter 6 — Scalping Playbook — next
 
 Folder: `content/paths/scalping/chapter-06-scalping-playbook/`. Every setup is a playbook card: context, entry, stop, target, invalidation. Each setup gets one theory sub and one drill sub with 4–6 `chart-decision` screens. Two named sources per setup claim.
 
