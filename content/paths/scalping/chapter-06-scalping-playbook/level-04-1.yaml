@@ -1,0 +1,105 @@
+id: "4-1"
+title: "Setup C — Momentum Continuation"
+chapter: 6
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [momentum, setup-c, playbook]
+learning_goal: "User can identify a leg, judge whether the pullback is shallow enough, and place the entry, stop and measured-move target."
+purpose: "Most of a fast move happens after the first push, and this is the card that gets you in without chasing."
+terms_introduced: ["Momentum continuation", "Leg", "Measured move"]
+prerequisite: "3-2"
+xp: 20
+difficulty: 2
+sources: ["Volman — Understanding Price Action", "Bellafiore — The PlayBook"]
+notes: "Third card. Introduces the leg and the measured move. 4-2 drills it."
+screens:
+  - type: intro
+    text: "Card three: you missed the push. Good — that is when this one starts."
+
+  - type: theory
+    title: "A leg is one push"
+    body: "Three or more 1-minute candles running the same way, bodies getting bigger, volume rising. That run is a leg. Chasing the third candle of it is how beginners buy the high."
+
+  - type: theory
+    title: "Then the market breathes"
+    body: "After a leg comes a pause: one to three small candles drifting back, on shrinking volume. Falling volume means few shares are being sold into it — buyers have just stepped back for a minute."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[23.10, 23.24, 23.08, 23.22], [23.22, 23.38, 23.20, 23.36], [23.36, 23.50, 23.34, 23.48], [23.48, 23.50, 23.40, 23.42], [23.42, 23.46, 23.36, 23.38], [23.38, 23.52, 23.36, 23.50], [23.50, 23.64, 23.48, 23.62], [23.62, 23.74, 23.58, 23.70]]
+      volume: [7800, 9200, 10800, 5400, 4000, 9600, 8400, 7600]
+    caption: "Leg, two quiet candles, then the push starts again."
+
+  - type: theory
+    title: "The trigger"
+    body: "The first candle that closes back in the direction of the leg puts you in. That is the momentum continuation: you buy the restart, not the run."
+
+  - type: slider
+    prompt: "A leg ran from $30.00 to $30.40. The pullback stopped at $30.28. How much of the leg did it give back?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 30
+    tolerance: 10
+    explanation: "$0.12 given back out of a $0.40 leg — under a third, which is exactly the shallow pause this card wants."
+
+  - type: theory
+    title: "Stop and target"
+    body: "Stop two cents beyond the pullback's extreme. Target a measured move: the height of the leg, projected from your entry. A leg that ran $0.40 is asking for roughly $0.40 more."
+
+  - type: numeric-input
+    prompt: "The leg ran $0.40. You buy 2,000 shares at $30.32 and the measured move plays out in full. What is the profit before costs?"
+    answer: 800
+    unit: "$"
+    working: "Target $30.32 + $0.40 = $30.72; $0.40 × 2,000 shares = $800"
+    explanation: "The measured move is a projection, not a promise — but it is the number the card is written around."
+
+  - type: mc
+    prompt: "Which pullback is the one this card is waiting for?"
+    options:
+      - {text: "Two candles back, each smaller than the last, on falling volume", correct: true}
+      - {text: "Five candles back to where the leg started, on rising volume"}
+      - {text: "One large candle that swallows the whole leg in a minute"}
+    explanation: "Shallow, short and quiet. The other two are the leg being unwound, not paused."
+
+  - type: tf
+    statement: "A pullback that gives back more than half the leg is still a good entry for this card."
+    answer: false
+    explanation: "Past half, the buyers who made the leg have already been overwhelmed — the pause has become a reversal."
+
+  - type: chart-decision
+    scenario: "XYZ ran from $29.96 to $30.42 in three candles above VWAP, then paused for two small candles on light volume. The next candle closes at $30.38 on heavy volume. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[29.98, 30.14, 29.96, 30.12], [30.12, 30.28, 30.10, 30.26], [30.26, 30.42, 30.24, 30.40], [30.40, 30.42, 30.30, 30.32], [30.32, 30.36, 30.26, 30.28], [30.28, 30.40, 30.26, 30.38], [30.38, 30.52, 30.36, 30.50], [30.50, 30.64, 30.48, 30.62], [30.62, 30.74, 30.58, 30.70], [30.70, 30.80, 30.66, 30.76]]
+      vwap: [29.90, 29.94, 30.00, 30.06, 30.10, 30.14, 30.20, 30.26, 30.32, 30.38]
+      volume: [8200, 9400, 10600, 5200, 3900, 9800, 8600, 7800, 7000, 6400]
+      decision_index: 5
+    best: long
+    outcome: "It pushed on to $30.76. Out there: $0.38 per share, +$760 long on 2,000 shares from $30.38, with $0.14 of risk."
+    explanation: "A shallow pause on light volume above VWAP, then a close back in the direction of the leg — every field filled."
+
+  - type: match
+    prompt: "Match each thing you see to what it is telling you."
+    pairs:
+      - ["Bodies growing through the leg", "The push is still being bought"]
+      - ["Volume falling through the pullback", "Nobody is selling into it"]
+      - ["Volume rising through the pullback", "The leg is being unwound"]
+      - ["A close back in the leg's direction", "Your trigger"]
+    explanation: "The candles give you the shape; the volume tells you whether to believe it."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The leg is running, so you buy"}
+      - {text: "the third candle of the leg itself", wrong: true}
+      - {text: "rather than waiting for the pause."}
+    explanation: "Buying inside the leg puts your stop far away and your entry at the worst price of the minute. The card pays for the pause."
+
+  - type: theory
+    title: "Three cards, and a checkpoint"
+    body: "You have a bounce, a break and a continuation. Ten questions next to see which ones actually stuck."

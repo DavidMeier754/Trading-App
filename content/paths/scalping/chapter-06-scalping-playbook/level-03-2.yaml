@@ -1,0 +1,134 @@
+id: "3-2"
+title: "Setup B — Opening-Range Scalp"
+chapter: 6
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [opening-range, setup-b, practice, decisions]
+learning_goal: "User trades opening-range breaks in both directions and rejects wicks and failed breaks."
+purpose: "The edge of the box gets touched far more often than it gets broken, and the difference is one candle close."
+terms_introduced: []
+prerequisite: "3-1"
+xp: 30
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Five decisions: three takes, two passes. Both sides of the box."
+screens:
+  - type: intro
+    text: "The first half hour. Five boxes, five decisions."
+
+  - type: story
+    character: retail-trader
+    text: "{{market.regular_open}} {{market.timezone}} plus five minutes. The box is drawn, $20,000 in the account, finger off the mouse."
+
+  - type: chart-decision
+    scenario: "The opening range is $51.80 to $52.10. Five shrinking candles press the top edge, then one closes at $52.22 on triple the volume. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[51.94, 52.02, 51.88, 51.96], [51.96, 52.04, 51.92, 52.00], [52.00, 52.08, 51.96, 52.02], [52.02, 52.10, 51.98, 52.06], [52.06, 52.10, 52.00, 52.08], [52.08, 52.24, 52.06, 52.22], [52.22, 52.34, 52.18, 52.30], [52.30, 52.42, 52.26, 52.38], [52.38, 52.48, 52.34, 52.44], [52.44, 52.52, 52.40, 52.48]]
+      levels:
+        - {price: 52.10, label: "Opening-range high"}
+        - {price: 51.80, label: "Opening-range low"}
+      volume: [3900, 3600, 3200, 3000, 2800, 9200, 8000, 7200, 6400, 5900]
+      decision_index: 5
+    best: long
+    outcome: "It reached $52.48. Out there: $0.26 per share, +$520 long on 2,000 shares from $52.22, about 1.4R with the stop at $52.04."
+    explanation: "Coiling against the edge, then a close beyond it on the heaviest volume of the session so far."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "You are entering that break with a marketable limit. Tap the field that keeps you from paying more than you meant to."
+    data: {ticker: XYZ, side: buy, qty: 2000, type: limit, price: 52.25}
+    target: price
+    explanation: "The limit price is the cap. In the first minutes the ask can move several cents while your order travels."
+
+  - type: chart-decision
+    scenario: "The opening-range high is $29.40. A candle spikes to $29.46 and closes back at $29.38, inside the box. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[29.20, 29.28, 29.14, 29.24], [29.24, 29.32, 29.18, 29.28], [29.28, 29.36, 29.22, 29.30], [29.30, 29.38, 29.24, 29.34], [29.34, 29.40, 29.28, 29.36], [29.36, 29.46, 29.32, 29.38], [29.38, 29.40, 29.26, 29.28], [29.28, 29.32, 29.18, 29.20], [29.20, 29.24, 29.10, 29.14], [29.14, 29.18, 29.04, 29.08]]
+      levels:
+        - {price: 29.40, label: "Opening-range high"}
+      volume: [4100, 3800, 3600, 3400, 3200, 6200, 5400, 5000, 4600, 4200]
+      decision_index: 5
+    best: no-trade
+    outcome: "It rolled over to $29.08. A long at $29.38 would have been $0.30 against you — $600 on 2,000 shares."
+    explanation: "A wick through the edge is a rejected break. Your card waits for a close, and the close never came."
+
+  - type: numeric-mc
+    prompt: "You are short 1,500 shares from $62.72 with the stop at $62.92. What is a 2R target worth in dollars?"
+    options:
+      - {text: "$600", correct: true}
+      - {text: "$300"}
+      - {text: "$400"}
+      - {text: "$1,200"}
+    working: "1R = $62.92 − $62.72 = $0.20 per share; 2R = $0.40; $0.40 × 1,500 = $600"
+    explanation: "Two times the risk, measured in the same shares you are actually holding."
+
+  - type: chart-decision
+    scenario: "The opening-range low is $62.80. Price grinds down to it, then a candle closes at $62.72 on the heaviest volume since the open. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[63.10, 63.16, 63.02, 63.06], [63.06, 63.10, 62.96, 63.00], [63.00, 63.06, 62.92, 62.96], [62.96, 63.00, 62.88, 62.92], [62.92, 62.96, 62.84, 62.88], [62.88, 62.90, 62.70, 62.72], [62.72, 62.76, 62.58, 62.60], [62.60, 62.64, 62.46, 62.50], [62.50, 62.54, 62.38, 62.42], [62.42, 62.46, 62.32, 62.36]]
+      levels:
+        - {price: 62.80, label: "Opening-range low"}
+      volume: [4400, 4100, 3900, 3600, 3300, 9600, 8400, 7600, 6800, 6100]
+      decision_index: 5
+    best: short
+    outcome: "It fell to $62.36 — $0.36 per share, +$540 short on 1,500 shares from $62.72, close to 2R."
+    explanation: "The box breaks downward on the same rules. Nothing about the card changes except the direction."
+
+  - type: order
+    prompt: "Put the opening-range scalp in the order it happens."
+    items:
+      - "The first five minutes finish and the box has a high and a low"
+      - "A 1-minute candle closes beyond an edge on heavy volume"
+      - "The entry fills and the stop goes back inside the box"
+      - "Price reaches the target between 1R and 2R"
+    explanation: "Box, close, fill with a stop, target. Every step waits for the one before it."
+
+  - type: chart-decision
+    scenario: "Price closed above the opening-range high at $17.32, then the very next candle closed back inside at $17.26. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[17.14, 17.20, 17.10, 17.18], [17.18, 17.24, 17.14, 17.22], [17.22, 17.28, 17.18, 17.24], [17.24, 17.30, 17.20, 17.26], [17.26, 17.34, 17.22, 17.32], [17.32, 17.36, 17.24, 17.26], [17.26, 17.30, 17.18, 17.20], [17.20, 17.24, 17.12, 17.16], [17.16, 17.20, 17.08, 17.10], [17.10, 17.14, 17.02, 17.06]]
+      levels:
+        - {price: 17.30, label: "Opening-range high"}
+      volume: [3600, 3400, 3200, 3000, 5800, 5200, 4800, 4400, 4100, 3800]
+      decision_index: 5
+    best: no-trade
+    outcome: "It kept going down to $17.06 without ever getting back above the edge."
+    explanation: "Back inside the box is the invalidation on your card. If you were long you are already out; if you were not, you stay out."
+
+  - type: tf
+    statement: "A break of the opening-range low is traded on the same rules as a break of the high, mirrored."
+    answer: true
+    explanation: "Same box, same close-beyond-the-edge trigger, stop back inside, target between 1R and 2R."
+
+  - type: fill-choice
+    sentence: "The stop for this card belongs ___ the box."
+    options: ["inside", "far below", "at the high of day"]
+    answer: "inside"
+    explanation: "If price is back in the box the break failed, so that is exactly where the trade should end."
+
+  - type: chart-decision
+    scenario: "An early candle poked above the opening-range high at $40.20 and closed back inside. Four candles later one closes at $40.32 on the biggest volume of the morning. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[40.06, 40.14, 40.02, 40.10], [40.10, 40.22, 40.06, 40.12], [40.12, 40.18, 40.04, 40.08], [40.08, 40.16, 40.04, 40.14], [40.14, 40.20, 40.10, 40.18], [40.18, 40.34, 40.16, 40.32], [40.32, 40.44, 40.28, 40.40], [40.40, 40.52, 40.36, 40.48], [40.48, 40.58, 40.44, 40.54], [40.54, 40.64, 40.50, 40.60]]
+      levels:
+        - {price: 40.20, label: "Opening-range high"}
+      volume: [4600, 5200, 4400, 4000, 3800, 10400, 8800, 7800, 7000, 6400]
+      decision_index: 5
+    best: long
+    outcome: "It ran to $40.60 — $0.28 per share, +$420 long on 1,500 shares from $40.32, with $0.18 of risk."
+    explanation: "An earlier failed poke does not disqualify the box. This close is beyond the edge and carries the volume the first one lacked."
+
+  - type: theory
+    title: "Two cards, one clock"
+    body: "Card B belongs to the first half hour; card A works once the session has picked a side. The next card does not care what time it is."

@@ -1,0 +1,107 @@
+id: "3-1"
+title: "Setup B — Opening-Range Scalp"
+chapter: 6
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [opening-range, setup-b, playbook]
+learning_goal: "User can define the opening range, name the trigger and stop for the opening-range scalp, and size a target in R."
+purpose: "The first minutes carry the day's heaviest volume, and this is the card built for them."
+terms_introduced: ["Opening-range scalp"]
+prerequisite: "2-2"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Second card. Uses R from Chapter 5 as the target unit. 3-2 drills it."
+screens:
+  - type: intro
+    text: "Card two: the box the first five minutes draws for you."
+
+  - type: theory
+    title: "The opening range"
+    body: "Take the high and the low of the first five minutes after {{market.regular_open}} {{market.timezone}}. That box is the opening range, and for the next half hour everyone is trading around its edges."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[44.10, 44.28, 44.02, 44.20], [44.20, 44.24, 44.08, 44.12], [44.12, 44.22, 44.06, 44.18], [44.18, 44.26, 44.14, 44.16], [44.16, 44.26, 44.10, 44.22], [44.22, 44.40, 44.20, 44.36], [44.36, 44.48, 44.32, 44.44], [44.44, 44.56, 44.40, 44.52]]
+      levels:
+        - {price: 44.28, label: "Opening-range high"}
+        - {price: 44.02, label: "Opening-range low"}
+    caption: "Five candles build the box; the sixth leaves it."
+
+  - type: theory
+    title: "The trigger"
+    body: "A 1-minute candle that closes beyond an edge of the box, on volume bigger than the candles that built it. A wick through the edge is not a break — the close is."
+
+  - type: chart-tap
+    prompt: "The opening-range high is $21.40. Tap the candle that breaks it."
+    chart:
+      kind: candles
+      data: [[21.28, 21.34, 21.22, 21.26], [21.26, 21.32, 21.20, 21.30], [21.30, 21.36, 21.26, 21.32], [21.32, 21.38, 21.28, 21.34], [21.34, 21.40, 21.30, 21.38], [21.38, 21.48, 21.36, 21.46], [21.46, 21.54, 21.42, 21.52], [21.52, 21.60, 21.48, 21.58]]
+      levels:
+        - {price: 21.40, label: "Opening-range high"}
+    target: 5
+    explanation: "The candle before it reached $21.40 and closed back under. Only the next one finished above the edge."
+
+  - type: theory
+    title: "Stop and target"
+    body: "The stop goes back inside the box, two cents past the trigger candle's far side. That distance is your R for the trade. The target is 1R to 2R — the box's own height is the usual reach."
+
+  - type: numeric-input
+    prompt: "You buy 1,500 shares at $36.30 with the stop at $36.14. What is 1R in dollars for this position?"
+    answer: 240
+    unit: "$"
+    working: "$36.30 − $36.14 = $0.16 per share; $0.16 × 1,500 = $240"
+    explanation: "One R is what you lose if you are wrong: sixteen cents on 1,500 shares."
+
+  - type: mc
+    prompt: "Two stocks break their opening-range high in the same minute. Which break does this card prefer?"
+    options:
+      - {text: "The one whose breaking candle traded more volume than any candle in the box", correct: true}
+      - {text: "The one that broke by the most cents"}
+      - {text: "The one with the wider opening range"}
+    explanation: "Volume is what separates a break somebody bought from a break that just drifted through."
+
+  - type: theory
+    title: "The failure mode"
+    body: "The common way this card loses: price closes beyond the edge, then closes back inside within a couple of candles. That is the invalidation — you leave, you do not wait for the stop."
+
+  - type: tf
+    statement: "Once a break has closed beyond the edge, closing back inside the box is nothing to worry about."
+    answer: false
+    explanation: "A break that returns inside has failed, and the traders who bought it are now the ones selling."
+
+  - type: chart-decision
+    scenario: "The opening range is $35.90 to $36.20. Five quiet candles hug the top edge, then one closes at $36.30 on the heaviest volume since the open. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[36.02, 36.10, 35.96, 36.06], [36.06, 36.14, 36.00, 36.10], [36.10, 36.18, 36.04, 36.12], [36.12, 36.20, 36.08, 36.16], [36.16, 36.22, 36.12, 36.18], [36.18, 36.32, 36.16, 36.30], [36.30, 36.42, 36.28, 36.40], [36.40, 36.50, 36.36, 36.48], [36.48, 36.56, 36.42, 36.52], [36.52, 36.60, 36.48, 36.56]]
+      levels:
+        - {price: 36.20, label: "Opening-range high"}
+        - {price: 35.90, label: "Opening-range low"}
+      volume: [4200, 3800, 3400, 3100, 2900, 9800, 8400, 7600, 6800, 6200]
+      decision_index: 5
+    best: long
+    outcome: "It ran to $36.60. Out at $36.60: $0.30 per share, +$450 long on 1,500 shares from $36.30 — just under 2R with the stop at $36.14."
+    explanation: "Quiet candles squeezing the top edge, then a close beyond it on the day's heaviest volume: the box gave way."
+
+  - type: sort
+    prompt: "Which card is this chart asking for?"
+    buckets: ["Opening-range scalp", "VWAP bounce", "Neither"]
+    items:
+      - {text: "First ten minutes, price closing above the box on heavy volume", bucket: "Opening-range scalp"}
+      - {text: "Mid-morning, above VWAP all session, first pullback into the line", bucket: "VWAP bounce"}
+      - {text: "Quiet hour, no level near price, VWAP flat", bucket: "Neither"}
+      - {text: "Price closes back inside the box two minutes after breaking out", bucket: "Neither"}
+    explanation: "Two cards, and a large pile of charts that are neither."
+
+  - type: fill-tiles
+    sentence: "A break that closes back inside the range within minutes is a failed ___."
+    answer: "breakout"
+    explanation: "Failed breakouts are so common that Setup E later trades them from the other side."
+
+  - type: theory
+    title: "The box and the clock"
+    body: "This card lives in {{market.first_minutes}} and dies with the volume. Once the session settles down, the box stops being the thing everyone is watching."

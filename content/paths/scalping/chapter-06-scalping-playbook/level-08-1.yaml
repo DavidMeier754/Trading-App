@@ -1,0 +1,110 @@
+id: "8-1"
+title: "Choosing the Setup for the Day"
+chapter: 6
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [conditions, selection, process]
+learning_goal: "User reads the day's condition first and picks the cards that condition can produce — or none."
+purpose: "The same five cards on the wrong day is how a good playbook still loses money."
+terms_introduced: ["Trend day", "Range day"]
+prerequisite: "7-2"
+xp: 20
+difficulty: 2
+sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
+notes: "Single sub. Maps conditions to the five cards and to no trade. Uses the daily loss limit from Chapter 5."
+screens:
+  - type: intro
+    text: "The cards are written. Now: which one is today even offering?"
+
+  - type: theory
+    title: "Read the day, then the chart"
+    body: "Before the first trade, ask what kind of session this is. The answer decides which cards are on the table — and on plenty of days, none of them are."
+
+  - type: carousel
+    cards:
+      - {label: "Trend day", text: "The 5-minute runs one way for hours. Price stays on one side of VWAP and pullbacks are shallow."}
+      - {label: "Range day", text: "Price rotates between the same two levels. Every push stalls and comes back to VWAP."}
+      - {label: "A day with nothing in it", text: "Half the usual volume, no level near price, VWAP flat. The spread is the only thing that moves."}
+
+  - type: theory
+    title: "Conditions choose the card"
+    body: "Trend days feed the continuation and the VWAP bounce. Range days feed mean reversion and the failed-breakout fade. The opening-range scalp belongs to the first half hour of either."
+
+  - type: checklist-reveal
+    title: "Before you take anything"
+    items:
+      - "Which way is the 5-minute running?"
+      - "Is price above VWAP, below it, or crossing it all morning?"
+      - "Is today's volume bigger or smaller than this stock's normal?"
+      - "Which of my five cards can this day actually produce?"
+
+  - type: sort
+    prompt: "What kind of day is each of these?"
+    buckets: ["Trend day", "Range day", "Neither"]
+    items:
+      - {text: "One-way 5-minute chart, price never back to VWAP", bucket: "Trend day"}
+      - {text: "Price rotating between the same two levels for an hour", bucket: "Range day"}
+      - {text: "Half the usual volume and no level near price", bucket: "Neither"}
+      - {text: "Every push stalling at the same price and sliding back to VWAP", bucket: "Range day"}
+    explanation: "You can usually tell inside the first half hour, and it changes which cards you are even looking for."
+
+  - type: mc
+    prompt: "The 5-minute has run one way all morning and price has not touched VWAP since the open. Which card is least likely to work?"
+    options:
+      - {text: "Mean reversion at a level — the run keeps going straight through them", correct: true}
+      - {text: "Momentum continuation"}
+      - {text: "VWAP bounce"}
+    explanation: "Fading a trend day is the fastest way to give a morning back. On those days the cards that go with the move are the ones on the table."
+
+  - type: tf
+    statement: "If none of your five cards fits the day, the sensible move is to take the closest one with a smaller share count."
+    answer: false
+    explanation: "A smaller wrong trade is still a wrong trade. No card means no trade — that is what having cards is for."
+
+  - type: chart-decision
+    scenario: "XYZ has rotated between $43.90 and $44.30 all morning, VWAP in the middle. Back at the top edge, this candle wicks to $44.36 and closes at $44.18 on the heaviest volume of the move. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[43.90, 44.02, 43.88, 44.00], [44.00, 44.12, 43.98, 44.10], [44.10, 44.22, 44.08, 44.20], [44.20, 44.28, 44.18, 44.26], [44.26, 44.30, 44.22, 44.28], [44.28, 44.36, 44.16, 44.18], [44.18, 44.22, 44.06, 44.08], [44.08, 44.12, 43.96, 43.98], [43.98, 44.02, 43.88, 43.90], [43.90, 43.94, 43.82, 43.86]]
+      vwap: [44.06, 44.06, 44.07, 44.08, 44.09, 44.10, 44.10, 44.09, 44.08, 44.07]
+      levels:
+        - {price: 44.30, label: "Top of the morning range"}
+        - {price: 43.90, label: "Bottom of the morning range"}
+      volume: [6200, 7400, 8600, 10200, 12400, 13600, 9800, 8600, 7800, 7000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rotated back to the other edge at $43.90 — $0.28 per share, +$280 short on 1,000 shares from $44.18."
+    explanation: "A range day at the top of its range with a rejection close: card D, exactly where that card belongs."
+
+  - type: theory
+    title: "When nothing fits"
+    body: "Some sessions produce no card at all. Those are the days your playbook earns most — you keep the money you would have paid in spread for the privilege of being bored."
+
+  - type: match
+    prompt: "Match each day to the card that fits it best."
+    pairs:
+      - ["A trend day running above VWAP", "Momentum continuation"]
+      - ["The first pullback inside that trend", "VWAP bounce"]
+      - ["A range day with clean edges", "Mean reversion at a level"]
+      - ["A range edge that breaks and immediately fails", "Failed-breakout fade"]
+    explanation: "Same five cards every day; the day decides which ones get dealt."
+
+  - type: numeric-input
+    prompt: "Your daily loss limit is 3R and you risk $200 per trade. Two trades have hit their stops. How much risk is left for today?"
+    answer: 200
+    unit: "$"
+    working: "3R × $200 = $600 for the day; two full stops = $400 used; $600 − $400 = $200"
+    explanation: "One trade left. Knowing that before you take it is what stops the third one from becoming the fifth."
+
+  - type: fill-choice
+    sentence: "A session where price rotates between the same two levels for hours is a ___ day."
+    options: ["range", "trend", "gap"]
+    answer: "range"
+    explanation: "Rotation, not direction — and the cards that trade rotation are the ones that lean against the edges."
+
+  - type: theory
+    title: "One session, start to finish"
+    body: "Last stop before the exam: a whole morning, with the cards, the costs and the limit all running at once."

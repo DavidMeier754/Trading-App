@@ -1,0 +1,110 @@
+id: "5-1"
+title: "Checkpoint"
+chapter: 6
+chapter_title: "Scalping Playbook"
+path: scalping
+category: test
+tags: [checkpoint]
+learning_goal: "Verify Levels 1–4: the five fields of a card, the VWAP bounce, the opening-range scalp, the momentum continuation, R and the measured move, and the cost check."
+purpose: "Two more cards are coming. They only help if the first three are already automatic."
+terms_introduced: []
+prerequisite: "4-2"
+xp: 40
+difficulty: 2
+sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
+notes: "10 scored questions. Hearts apply. Pass mark 70 %."
+screens:
+  - type: intro
+    text: "Checkpoint. Ten questions on the first three cards. Hearts are on."
+    counter: 10
+
+  - type: mc
+    prompt: "A card reads: 'Above VWAP all session. Long on the reclaim candle. Stop two cents under its low. Out at the high of day.' Which field is still missing?"
+    options:
+      - {text: "Invalidation — what makes you drop the idea before the stop", correct: true}
+      - {text: "Entry — the card never says what puts you in"}
+      - {text: "Target — the card never says where you get out"}
+    explanation: "Context, entry, stop and target are all there. Nothing tells you when the idea is simply no longer true."
+
+  - type: numeric-mc
+    prompt: "You are long 2,000 shares at $44.60 with the stop at $44.48. What is 1R for this position?"
+    options:
+      - {text: "$240", correct: true}
+      - {text: "$120"}
+      - {text: "$0.12"}
+      - {text: "$480"}
+    working: "$44.60 − $44.48 = $0.12 per share; $0.12 × 2,000 shares = $240"
+    explanation: "R is the risk in money, so the share count is part of it."
+
+  - type: chart-decision
+    scenario: "XYZ has held above VWAP since the open. It eases into the line at $53.99 on shrinking volume and the next candle closes at $54.06 on the heaviest volume in ten minutes. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[54.30, 54.36, 54.22, 54.24], [54.24, 54.28, 54.12, 54.14], [54.14, 54.18, 54.04, 54.06], [54.06, 54.10, 53.98, 54.00], [54.00, 54.04, 53.92, 53.96], [53.96, 54.08, 53.94, 54.06], [54.06, 54.16, 54.04, 54.14], [54.14, 54.24, 54.10, 54.20], [54.20, 54.28, 54.16, 54.26], [54.26, 54.34, 54.22, 54.30]]
+      vwap: [54.02, 54.01, 54.00, 54.00, 53.99, 53.99, 54.00, 54.01, 54.02, 54.03]
+      volume: [7400, 6600, 5800, 4900, 4200, 9800, 8600, 7800, 7000, 6400]
+      decision_index: 5
+    best: long
+    outcome: "It climbed back to $54.30 — $0.24 per share, +$360 long on 1,500 shares from $54.06."
+    explanation: "Quiet into the line, bought on the way out: card A with every field filled."
+
+  - type: tf
+    statement: "A stop can be moved further away once you are in, as long as the idea still looks right."
+    answer: false
+    explanation: "Widening a stop turns a known risk into an unknown one, and every number on the card stops meaning anything."
+
+  - type: match
+    prompt: "Match each card to the chart it belongs on."
+    pairs:
+      - ["VWAP bounce", "Above the line all session, first pullback into it"]
+      - ["Opening-range scalp", "First half hour, a close beyond the edge of the box"]
+      - ["Momentum continuation", "A leg, then a shallow pause on falling volume"]
+      - ["No trade", "A ten-cent band, flat VWAP, no level nearby"]
+    explanation: "Three cards and a large fourth category that most of the session belongs to."
+
+  - type: mc
+    prompt: "Price has chopped around the top edge of the opening range for ten minutes. What does the card need before you buy?"
+    options:
+      - {text: "A 1-minute candle closing above the edge on volume bigger than the box's candles", correct: true}
+      - {text: "A single trade printing above the edge"}
+      - {text: "Three candles in a row making higher highs"}
+    explanation: "The close is the trigger and the volume is the proof. Anything less is still chop."
+
+  - type: chart-decision
+    scenario: "XYZ ran from $38.08 to $38.58 in three candles, then pulled back to $38.16 on volume as heavy as the run itself. The next candle closes at $38.28. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[38.10, 38.26, 38.08, 38.24], [38.24, 38.42, 38.22, 38.40], [38.40, 38.58, 38.38, 38.56], [38.56, 38.58, 38.34, 38.36], [38.36, 38.40, 38.16, 38.18], [38.18, 38.30, 38.16, 38.28], [38.28, 38.32, 38.14, 38.16], [38.16, 38.20, 38.02, 38.04], [38.04, 38.08, 37.90, 37.92], [37.92, 37.96, 37.80, 37.84]]
+      volume: [8400, 9600, 11200, 8800, 10400, 6200, 7400, 8200, 9000, 9800]
+      decision_index: 5
+    best: no-trade
+    outcome: "It slid on to $37.84 — $0.44 against a long, $880 on 2,000 shares."
+    explanation: "Eighty per cent of the leg given back on heavy volume. That is a reversal wearing a pullback's clothes."
+
+  - type: order
+    prompt: "Put these opening-range moments in the order they happen."
+    items:
+      - "The first five minutes close and the box is set"
+      - "Price coils against the top edge on shrinking volume"
+      - "A candle closes above the edge on heavy volume"
+      - "The stop goes back inside the box"
+    explanation: "The box has to exist, then be pressed, then be broken — and only then does the stop have a home."
+
+  - type: numeric-input
+    prompt: "You buy 2,000 shares at $22.40 and sell at $22.58. The round trip costs $0.03 per share in spread and $0.005 per share in fees each way. What is left?"
+    answer: 280
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.18 × 2,000 = $360; spread $0.03 × 2,000 = $60; fees $0.005 × 2,000 × 2 = $20; $360 − $80 = $280"
+    explanation: "Eighteen cents gross, fourteen net. Costs take about a fifth of a trade this size."
+
+  - type: fill-choice
+    sentence: "The target on the continuation card is the height of the ___ projected from your entry."
+    options: ["leg", "pullback", "opening range"]
+    answer: "leg"
+    explanation: "The leg tells you how far this stock is travelling today; the pullback only tells you whether to get in."
+
+  - type: summary
+    total: 10

@@ -1,0 +1,125 @@
+id: "9-2"
+title: "Capstone — A Full Session"
+chapter: 6
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [capstone, session, costs, decisions]
+learning_goal: "User finishes a session with a losing trade taken correctly, a card passed because the day is wrong for it, and a chart passed on cost alone."
+purpose: "The second half of a session is where the playbook is either a rulebook or a suggestion."
+terms_introduced: []
+prerequisite: "9-1"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Elder — Trading for a Living"]
+notes: "Second half of the capstone: four charts, one of them a correct trade that loses."
+screens:
+  - type: intro
+    text: "Same stock, same account, four more charts."
+
+  - type: story
+    character: retail-trader
+    text: "The high of day is $31.22. Price pushes through it on quiet volume, and one minute later it is back underneath."
+
+  - type: chart-decision
+    scenario: "The break of $31.22 traded fewer shares than the candles before it. This candle closes back under at $31.16 on heavier volume. You have 1,250 shares ready and $200 of risk."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[31.10, 31.16, 31.06, 31.14], [31.14, 31.20, 31.10, 31.18], [31.18, 31.28, 31.16, 31.26], [31.26, 31.30, 31.20, 31.22], [31.22, 31.26, 31.14, 31.16], [31.16, 31.34, 31.14, 31.32], [31.32, 31.44, 31.30, 31.42], [31.42, 31.52, 31.38, 31.48], [31.48, 31.56, 31.44, 31.52], [31.52, 31.60, 31.48, 31.56]]
+      levels:
+        - {price: 31.22, label: "High of day"}
+      volume: [6200, 5800, 5400, 4900, 7600, 9800, 9200, 8600, 8000, 7400]
+      decision_index: 4
+    best: short
+    reasonable: [no-trade]
+    outcome: "It took the level back and ran to $31.56. The stop filled at $31.32 — $0.16 per share, −$200 on 1,250 shares. Exactly 1R."
+    explanation: "The card fired correctly and the trade still lost. That is what the stop is for, and why it was decided before the entry."
+
+  - type: numeric-input
+    prompt: "The morning is +$300 and +$300 gross from two winners and −$200 from the stop-out, with $0.03 per share of costs on each of the three 1,250-share round trips. What is the net?"
+    answer: 287.5
+    tolerance: 0.5
+    unit: "$"
+    working: "$300 + $300 − $200 = $400; costs $0.03 × 1,250 × 3 = $112.50; $400 − $112.50 = $287.50"
+    explanation: "Three round trips on 1,250 shares cost $112.50 — more than half of one winner."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The fade stopped out for 1R, so you take the same trade again"}
+      - {text: "with double the share count", wrong: true}
+      - {text: "to get the loss back."}
+    explanation: "Doubling after a loss lets the loss pick the size. The next trade gets the share count on the card, whatever the last one did."
+
+  - type: chart-decision
+    scenario: "XYZ pushes into a fresh leg above VWAP, pauses for two small candles on the lightest volume of the hour, then closes at $31.96. You have 1,250 shares ready."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[31.56, 31.70, 31.54, 31.68], [31.68, 31.84, 31.66, 31.82], [31.82, 31.98, 31.80, 31.96], [31.96, 31.98, 31.86, 31.88], [31.88, 31.92, 31.82, 31.86], [31.86, 31.98, 31.84, 31.96], [31.96, 32.10, 31.94, 32.08], [32.08, 32.22, 32.06, 32.20], [32.20, 32.30, 32.16, 32.26], [32.26, 32.36, 32.22, 32.32]]
+      vwap: [31.40, 31.46, 31.54, 31.60, 31.64, 31.68, 31.74, 31.82, 31.88, 31.94]
+      volume: [8800, 10200, 11600, 5600, 4200, 10800, 9400, 8600, 7800, 7200]
+      decision_index: 5
+    best: long
+    outcome: "It carried on to $32.32 — $0.36 per share, +$450 long on 1,250 shares from $31.96, with the stop at $31.80."
+    explanation: "Card C straight after a loss, taken at the size on the card. The previous trade had nothing to do with this one."
+
+  - type: mc
+    prompt: "The next chart offers a textbook rejection candle at a round number — on a day that has trended up since the open. What does the playbook say?"
+    options:
+      - {text: "Pass — the card is right and the day is wrong for it", correct: true}
+      - {text: "Take it small, since the morning can absorb a loss"}
+      - {text: "Take it full size, since the setup is textbook"}
+    explanation: "Conditions come before cards. Mean reversion belongs to range days, not to a chart that has not seen VWAP since the open."
+
+  - type: chart-decision
+    scenario: "That rejection: price wicks through $33.00 and closes back under at $32.80 on a day that has climbed all morning. You have 1,250 shares ready."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[32.32, 32.46, 32.30, 32.44], [32.44, 32.58, 32.42, 32.56], [32.56, 32.72, 32.54, 32.70], [32.70, 32.86, 32.68, 32.84], [32.84, 33.04, 32.82, 32.88], [32.88, 32.94, 32.78, 32.80], [32.80, 32.96, 32.78, 32.94], [32.94, 33.10, 32.92, 33.08], [33.08, 33.22, 33.06, 33.20], [33.20, 33.34, 33.18, 33.30]]
+      levels:
+        - {price: 33.00, label: "Round number"}
+      volume: [9200, 10400, 11800, 13200, 14600, 8600, 9800, 11200, 12400, 13600]
+      decision_index: 5
+    best: no-trade
+    outcome: "It paused for one candle, then made new highs to $33.30 — $0.50 against a short, $625 on 1,250 shares."
+    explanation: "The rejection was a breather in a trend, not a turn. On this kind of day the round number gets taken on the second try."
+
+  - type: slider
+    prompt: "News hits, the spread jumps to $0.11 and your target on this card is $0.20. How much of the target does the round-trip spread take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 55
+    tolerance: 10
+    explanation: "$0.11 of $0.20 — more than half the move gone before slippage or fees, at any share count."
+
+  - type: chart-decision
+    scenario: "On that news the spread is $0.11, five times its normal size. The chart still shows a clean VWAP reclaim at $33.08. You have 1,250 shares ready."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[33.30, 33.44, 33.26, 33.28], [33.28, 33.34, 33.14, 33.16], [33.16, 33.22, 33.02, 33.04], [33.04, 33.10, 32.94, 32.96], [32.96, 33.04, 32.90, 32.94], [32.94, 33.10, 32.92, 33.08], [33.08, 33.14, 32.88, 32.90], [32.90, 33.16, 32.86, 33.12], [33.12, 33.20, 32.90, 32.94], [32.94, 33.10, 32.88, 33.06]]
+      vwap: [33.06, 33.04, 33.02, 33.01, 33.00, 33.00, 33.00, 33.01, 33.02, 33.02]
+      volume: [9800, 11200, 13600, 15400, 14200, 16800, 18200, 17400, 16600, 15800]
+      decision_index: 5
+    best: no-trade
+    outcome: "It whipsawed twenty cents each way for ten minutes. Two round trips at an eleven-cent spread would have cost $275 on 1,250 shares before a single cent of movement."
+    explanation: "The shape was there and the price of admission was not payable. A spread five times its normal size is news you have not read yet."
+
+  - type: theory
+    title: "Where the morning ends"
+    body: "Four trades, one loss, two charts passed, and the loss limit never came close. The session ends because the plan says so, not because the screen goes quiet."
+
+  - type: fill-choice
+    sentence: "When the spread widens to several times its normal size, the honest answer is usually ___."
+    options: ["no trade", "a smaller size", "a wider stop"]
+    answer: "no trade"
+    explanation: "Smaller size and wider stops both leave you paying the same spread on every share you do trade."
+
+  - type: theory
+    title: "One exam left"
+    body: "Five cards, the day read, the costs counted and the limit respected. Twelve questions and the chapter is yours."

@@ -1,0 +1,112 @@
+id: "7-1"
+title: "Setup E — Failed-Breakout Fade"
+chapter: 6
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [failed-breakout, levels, setup-e, playbook]
+learning_goal: "User can recognise a break that fails, wait for the re-entry candle and fade it with a stop beyond the failed extreme."
+purpose: "Most breaks of a level do not hold, and this card turns the most common disappointment on the chart into a plan."
+terms_introduced: ["Fade", "Re-entry candle", "Trapped traders"]
+prerequisite: "6-2"
+xp: 20
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Bellafiore — One Good Trade"]
+notes: "Fifth and last card. Pairs with the failed test from Chapter 4. 7-2 drills it."
+screens:
+  - type: intro
+    text: "Card five: the break that didn't."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ pushes three cents through yesterday's low. Nothing happens. Two minutes later it is back above it."
+
+  - type: theory
+    title: "Most breaks do not hold"
+    body: "A level only matters because traders act at it. Plenty of breaks poke through, find no buyers or sellers waiting, and quietly come back."
+
+  - type: theory
+    title: "Trapped traders"
+    body: "Everyone who took that break is now on the wrong side, watching a small loss grow. Those are trapped traders, and their exits are the fuel for the move back."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[15.40, 15.46, 15.34, 15.36], [15.36, 15.40, 15.26, 15.28], [15.28, 15.32, 15.16, 15.18], [15.18, 15.22, 15.12, 15.14], [15.14, 15.30, 15.12, 15.28], [15.28, 15.42, 15.26, 15.40], [15.40, 15.52, 15.38, 15.50], [15.50, 15.60, 15.46, 15.56]]
+      levels:
+        - {price: 15.20, label: "Yesterday's low"}
+      volume: [6800, 5600, 4400, 3600, 9800, 8600, 7800, 7000]
+    caption: "Two candles under the level on fading interest, then everything back above it."
+
+  - type: theory
+    title: "Fade the break"
+    body: "To fade a move is to trade against it. Here you fade the break, and the trigger is the re-entry candle: the first candle that closes back on the level's original side."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Price broke the level and came back inside,"}
+      - {text: "so you enter the second it trades back through", wrong: true}
+      - {text: "rather than waiting for the candle to close."}
+    explanation: "Price crosses back over levels constantly during a minute. Only the close says the break is finished."
+
+  - type: theory
+    title: "Stop and target"
+    body: "Stop two cents beyond the failed break's extreme — if price goes back there, the break was real after all. Target VWAP, or the far side of the range price came from."
+
+  - type: numeric-input
+    prompt: "You are long 1,500 shares at $28.46 and exit at $28.72. The round trip costs $0.03 per share in spread and fees. What is left?"
+    answer: 345
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.26 × 1,500 = $390; costs $0.03 × 1,500 = $45; $390 − $45 = $345"
+    explanation: "Twenty-six cents gross, twenty-three net. On 1,500 shares those three cents are $45."
+
+  - type: mc
+    prompt: "Why does price often move quickly once a break has failed?"
+    options:
+      - {text: "The traders who took the break are now losing, and their exits push it further", correct: true}
+      - {text: "Market makers widen the spread and force price back the other way"}
+      - {text: "A failed break always returns to the opening price"}
+    explanation: "Trapped traders have to do something, and what they do is exactly the move you are already in."
+
+  - type: chart-tap
+    prompt: "The level is the round number $55.00. Tap the re-entry candle."
+    chart:
+      kind: candles
+      data: [[54.70, 54.80, 54.68, 54.78], [54.78, 54.90, 54.76, 54.88], [54.88, 55.02, 54.86, 55.00], [55.00, 55.10, 54.98, 55.06], [55.06, 55.08, 54.92, 54.94], [54.94, 54.98, 54.80, 54.82], [54.82, 54.86, 54.68, 54.70], [54.70, 54.74, 54.58, 54.60]]
+      levels:
+        - {price: 55.00, label: "Round number"}
+      volume: [6200, 6800, 7400, 5200, 9600, 8400, 7600, 6900]
+    target: 4
+    explanation: "The fourth candle closed above the number; the fifth closed back under it. That close is the trigger, and everyone long from above it is now trapped."
+
+  - type: tf
+    statement: "A break on the heaviest volume of the session is a good candidate for this card."
+    answer: false
+    explanation: "Heavy volume means the break was genuinely bought. This card wants the breaks that nobody committed to."
+
+  - type: chart-decision
+    scenario: "XYZ closes two candles under yesterday's low at $28.40 on the lightest volume of the hour. The next candle closes at $28.46, back above it, on heavy volume. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[28.70, 28.76, 28.62, 28.64], [28.64, 28.68, 28.54, 28.56], [28.56, 28.60, 28.44, 28.46], [28.46, 28.50, 28.34, 28.36], [28.36, 28.40, 28.30, 28.34], [28.34, 28.48, 28.32, 28.46], [28.46, 28.58, 28.44, 28.56], [28.56, 28.68, 28.54, 28.66], [28.66, 28.76, 28.62, 28.72], [28.72, 28.82, 28.68, 28.78]]
+      vwap: [28.74, 28.72, 28.70, 28.68, 28.66, 28.64, 28.64, 28.65, 28.66, 28.68]
+      levels:
+        - {price: 28.40, label: "Yesterday's low"}
+      volume: [8600, 7400, 6200, 5400, 4600, 10800, 9200, 8400, 7600, 6800]
+      decision_index: 5
+    best: long
+    outcome: "It ran to $28.78. Out at $28.72: $0.26 per share, +$390 long on 1,500 shares from $28.46, against $0.18 of risk."
+    explanation: "A break on the quietest volume of the hour, then a heavy close back inside — the sellers who broke it are the buyers now."
+
+  - type: fill-choice
+    sentence: "Trading against a break that has just failed is called ___ the break."
+    options: ["fading", "chasing", "confirming"]
+    answer: "fading"
+    explanation: "Fading means taking the other side of what just happened — only ever with a level and a close to lean on."
+
+  - type: theory
+    title: "Five cards"
+    body: "Bounce, break, continuation, reversion, fade. Next: which of them the day in front of you is actually offering."
