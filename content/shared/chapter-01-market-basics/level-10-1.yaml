@@ -1,95 +1,102 @@
 id: "10-1"
-title: "The Big Picture"
+title: "When the Market Is Open"
 chapter: 1
 chapter_title: "Market Basics"
 path: all
 category: new-theory
-tags: [trend, news]
-learning_goal: "User can name bull and bear markets, treat the trend as context rather than a signal, and explain news as the trigger of sudden supply/demand shifts."
-purpose: "Headlines say 'bull market' and 'bad news' all day — this tells you what they change and what they don't."
-terms_introduced: ["Trend", "Bull market", "Bear market"]
-prerequisite: "9-2"
+tags: [sessions, liquidity]
+learning_goal: "User can order the three sessions of a trading day, knows their times for their market, and explains why thin sessions are jumpy."
+purpose: "The same stock behaves differently before the open and at midday — knowing the sessions explains most 'weird' moves."
+terms_introduced: ["Session", "Pre-market", "Regular session", "After-hours"]
+prerequisite: "9-1"
 xp: 20
-difficulty: 2
+difficulty: 1
 sources: [consensus]
 screens:
   - type: intro
-    text: "Zoom out. Way out."
+    text: "The market has opening hours — and a before and an after."
 
-  - type: theory
-    title: "Trend"
-    body: "Over weeks and months, prices form a trend: mostly up, mostly down, or sideways. Single days are noise inside it."
-    visual: chart-line
-    visual_data: {data: [100, 103, 101, 106, 104, 109, 112, 110, 115, 113, 118, 121, 119, 124, 122, 127, 125, 130]}
+  - type: visual
+    component: session-ribbon
+    data: {premarket: "{{market.premarket}}", regular: "{{market.regular}}", afterhours: "{{market.afterhours}}", timezone: "{{market.timezone}}"}
+    caption: "A trading day in {{market.name}}: pre-market {{market.premarket}}, regular session {{market.regular}}, after-hours {{market.afterhours}} ({{market.timezone}})."
 
   - type: carousel
     cards:
-      - {label: "Bull market", text: "The whole market mostly rising for months or years. Named after a bull tossing prices up with its horns.", icon: bull}
-      - {label: "Bear market", text: "The whole market mostly falling for months. The bear swipes down.", icon: bear}
+      - {label: "Pre-market", text: "Before the official open. Few traders, thin volume — prices can jump on small trades.", icon: session-pre}
+      - {label: "Regular session", text: "{{market.regular}} {{market.timezone}}. Most volume, most participants, most reliable prices.", icon: session-regular}
+      - {label: "After-hours", text: "After the close. Thin again. News released after the close shows up here first.", icon: session-after}
 
   - type: theory
-    title: "Context, not a signal"
-    body: "A bull market doesn't make every stock rise every day. It tilts the odds. Your trade still depends on this stock, today, buyers versus sellers."
+    title: "Thin means jumpy"
+    body: "Fewer traders means fewer buyers and sellers ready — low liquidity. That's why pre-market and after-hours prices jump around more. Same rule as Level 4."
+
+  - type: order
+    prompt: "Arrange the sessions from first to last."
+    items: ["Pre-market", "Regular session", "After-hours"]
+    explanation: "Before, main, after."
 
   - type: mc
-    prompt: "In a bull market, a stock you hold drops 6 % in a day. Which is right?"
+    prompt: "A stock jumps 6 % in pre-market on 40,000 shares, then gives most of it back in the first regular minutes. Best explanation?"
     options:
-      - {text: "Impossible — bull markets don't have down days"}
-      - {text: "The bull market just ended"}
-      - {text: "Possible and normal", correct: true}
-    explanation: "Trend is the average of many days, not a rule for each one."
-
-  - type: theory
-    title: "News: the spark"
-    body: "What flips supply and demand in seconds? News. Results, deals, recalls, rumors — anything that changes what people expect. That's where sudden volatility comes from."
-
-  - type: story
-    character: institution
-    text: "Wednesday, before the open. XYZ reports profits far above what anyone expected."
-
-  - type: mc
-    prompt: "What's the most likely immediate effect?"
-    options:
-      - {text: "Demand jumps — many want in, the price rises", correct: true}
-      - {text: "Supply jumps — insiders sell, the price falls"}
-      - {text: "Nothing until the regular session — pre-market can't react"}
-    explanation: "A positive surprise pulls in buyers; pre-market reacts first, thinly."
+      - {text: "The company reversed its news at the open"}
+      - {text: "The regular session always starts with a drop"}
+      - {text: "Pre-market is thin — a handful of trades set that price", correct: true}
+    explanation: "40,000 shares is a handful of traders. The real verdict comes with volume."
 
   - type: tf
-    statement: "Good news guarantees the price goes up."
-    answer: false
-    explanation: "If people expected even better, sellers can win. Price reacts to news versus expectations."
+    statement: "Most of a normal stock's daily volume happens in the regular session."
+    answer: true
+    explanation: "The regular session is where almost everyone trades."
 
-  - type: chart-tap
-    prompt: "This is XYZ over 30 days. Tap the point where the trend turned from up to down."
-    chart: {kind: line, data: [50, 51, 52, 51.5, 53, 54, 53.5, 55, 56, 57, 56.5, 58, 59, 60, 61, 62, 61.5, 63, 64, 62, 60.5, 59, 57.5, 56, 55, 53.5, 52, 51, 49.5, 48]}
-    target: 18
-    explanation: "The peak at day 19 — after it, lower highs and lower lows."
+  - type: story
+    character: retail-trader
+    text: "Two hours before the bell. XYZ announces record results; the regular session opens at {{market.regular_open}} {{market.timezone}}."
 
-  - type: sort
-    prompt: "Context or signal?"
-    buckets: ["Context", "Signal for a trade"]
-    items:
-      - {text: "Bull market", bucket: "Context"}
-      - {text: "Bear market", bucket: "Context"}
-      - {text: "Buyers overwhelming sellers right now on this stock", bucket: "Signal for a trade"}
-      - {text: "A break lower on heavy volume", bucket: "Signal for a trade"}
-    explanation: "The big trend sets the weather; the stock's own pressure is the trade."
+  - type: mc
+    prompt: "Why would a trader look at pre-market trading right after that news?"
+    options:
+      - {text: "To see how early traders are reacting before the full session starts", correct: true}
+      - {text: "Because pre-market prices are more reliable than regular-hour prices"}
+      - {text: "Because the news can only be traded before the open"}
+    explanation: "Pre-market gives an early, thin read on the reaction."
+
+  - type: mc
+    prompt: "Why are pre-market moves often less reliable than regular-session moves?"
+    options:
+      - {text: "Prices there aren't real and get reset at the open"}
+      - {text: "Institutions aren't allowed to trade before the open"}
+      - {text: "Low liquidity — few participants set the price", correct: true}
+    explanation: "Thin sessions, jumpy prices."
+
+  - type: fill-choice
+    sentence: "The most liquid part of the trading day is the ___ session."
+    options: ["regular", "pre-market", "after-hours"]
+    answer: "regular"
+    explanation: "Most volume, most participants."
 
   - type: match
-    prompt: "Direction over time, and the size of the wiggles."
+    prompt: "Match each session to its description."
     pairs:
-      - ["Trend", "Overall direction over weeks or months"]
-      - ["Bull market", "Broadly rising market"]
-      - ["Bear market", "Broadly falling market"]
-      - ["Volatility", "Size and speed of moves"]
-    explanation: "Direction over time, and the size of the wiggles."
-
-  - type: fill-tiles
-    sentence: "A market that mostly falls for months is a ___ market."
-    answer: "bear"
-    explanation: "Bear swipes down."
+      - ["Pre-market", "Before the open, thin"]
+      - ["Regular session", "Main hours, most volume"]
+      - ["After-hours", "After the close, thin"]
+      - ["Session", "A block of trading time"]
+    explanation: "Three sessions, one busy one."
 
   - type: theory
-    title: "Weather"
-    body: "Trend and news are the weather. Your trade is what you do in it. Next: one review, then the final exam and your path."
+    title: "Where beginners practice"
+    body: "New traders usually practice in the regular session: more liquidity, fewer surprises. When you're ready for the edges, you'll know why they're jumpy."
+
+  - type: mc
+    prompt: "Twenty minutes after the close, XYZ prints −8 % on light volume after a headline. What do you know for sure?"
+    options:
+      - {text: "The reaction so far comes from a thin market", correct: true}
+      - {text: "XYZ will open −8 % tomorrow"}
+      - {text: "The drop can't be real because the market is closed"}
+    explanation: "After-hours moves are real but thin; the crowd votes tomorrow."
+
+  - type: story
+    character: retail-trader
+    text: "Same stock, three sessions, three different characters. Tomorrow you meet the people on the other side of your trades."
+

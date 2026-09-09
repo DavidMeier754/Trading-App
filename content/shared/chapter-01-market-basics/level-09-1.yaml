@@ -1,98 +1,121 @@
 id: "9-1"
-title: "Three Ways to Trade"
+title: "Volume, Liquidity, Volatility"
 chapter: 1
 chapter_title: "Market Basics"
 path: all
-category: new-theory
-tags: [styles, holding-period]
-learning_goal: "User can distinguish scalping, day trading and swing trading by holding period and screen time, and separate trading from investing."
-purpose: "After this chapter you pick a path — this is what the three paths actually mean."
-terms_introduced: ["Holding period", "Scalping", "Day trading", "Swing trading", "Investing"]
-prerequisite: "8-2"
+category: repetition
+tags: [liquidity, volatility, volume]
+learning_goal: "User classifies real-looking quotes on both dials and uses them in a buy/wait decision."
+purpose: "Reading the two dials on a quote card has to become automatic before charts arrive."
+terms_introduced: []
+prerequisite: "8-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
 screens:
   - type: intro
-    text: "How long do you hold? That one question defines your style."
-
-  - type: theory
-    title: "Holding period"
-    body: "The time between opening and closing a position. Seconds, hours, weeks or years. Everything about how you trade follows from it."
-
-  - type: carousel
-    cards:
-      - {label: "Scalping", text: "Seconds to minutes. Many small trades a day, tiny moves, full attention while trading.", icon: style-scalp}
-      - {label: "Day trading", text: "Minutes to hours. A few trades a day, always closed before the session ends — no overnight surprises.", icon: style-day}
-      - {label: "Swing trading", text: "Days to weeks. Holds overnight and over weekends; checks charts once or twice a day.", icon: style-swing}
-
-  - type: theory
-    title: "And investing?"
-    body: "Months to years, based on the company's business rather than the chart. This app teaches trading; investing is a different game with different rules."
-
-  - type: visual
-    component: bar-chart
-    data: {bars: [{label: "Scalping", value: 90}, {label: "Day trading", value: 60}, {label: "Swing trading", value: 15}], unit: "min of screen time per active day (rough)"}
-    caption: "Rough screen time while active: scalpers watch every tick, swing traders check in daily. Everyone differs."
-
-  - type: match
-    prompt: "Match each style to its holding period."
-    pairs:
-      - ["Scalping", "Seconds to minutes"]
-      - ["Day trading", "Minutes to hours, closed same day"]
-      - ["Swing trading", "Days to weeks"]
-      - ["Investing", "Months to years"]
-    explanation: "Holding period is the whole difference."
-
-  - type: mc
-    prompt: "A trader takes 25 trades before lunch, each lasting under two minutes."
-    options:
-      - {text: "Day trading"}
-      - {text: "Swing trading"}
-      - {text: "Scalping", correct: true}
-    explanation: "Many tiny, fast trades — scalping."
-
-  - type: mc
-    prompt: "A trader buys on Tuesday and plans to sell 'sometime next week, when the chart says so'."
-    options:
-      - {text: "Swing trading", correct: true}
-      - {text: "Day trading"}
-      - {text: "Investing"}
-    explanation: "Days to weeks, chart-based — swing trading."
-
-  - type: tf
-    statement: "A day trader who holds a position overnight is, for that trade, swing trading."
-    answer: true
-    explanation: "The style is defined by the holding period, not by what you call yourself."
+    text: "Four stocks, two dials. Let's read them."
 
   - type: story
     character: mascot
-    text: "You have a full-time job, can look at charts in the evening, and hate staring at screens."
+    text: "Meet four stocks. Judge each one on liquidity and volatility."
 
   - type: mc
-    prompt: "Which style fits that life best?"
+    prompt: "APEX: 30 M shares a day, moves about 0.8 % a day."
     options:
-      - {text: "Scalping"}
-      - {text: "Swing trading", correct: true}
-      - {text: "Day trading"}
-    explanation: "Evening chart checks and no screen-staring is the swing trader's rhythm."
+      - {text: "Liquid, volatile"}
+      - {text: "Illiquid, calm"}
+      - {text: "Liquid, calm", correct: true}
+    explanation: "Huge volume, small moves."
+
+  - type: mc
+    prompt: "MOON: 12 M shares a day, moved 35 % today on a drug approval."
+    options:
+      - {text: "Liquid, volatile", correct: true}
+      - {text: "Illiquid, volatile"}
+      - {text: "Liquid, calm"}
+    explanation: "Plenty of volume, enormous move."
+
+  - type: tf
+    statement: "DUST: 1,500 shares a day, price flat for weeks. It's calm, so it's safe to trade a large position."
+    answer: false
+    explanation: "Calm, yes — but illiquid. A large position can't get out without moving the price."
+
+  - type: slider
+    prompt: "DUST trades 1,500 shares a day. You want to buy 300. What share of daily volume is that?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 20
+    tolerance: 5
+    explanation: "300 ÷ 1,500 = 20 % — you'd be a big part of the day."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the number that tells you FLUX is volatile today."
+    data: {ticker: FLUX, name: Flux Systems, price: 7.42, change: 1.10, change_pct: 17.4, volume: "48M"}
+    target: change
+    explanation: "+17.4 % in a day is a big swing. The volume says it's liquid too."
+
+  - type: mc
+    prompt: "Same FLUX quote: 48 M shares, +17.4 %. Two dials?"
+    options:
+      - {text: "Illiquid and volatile"}
+      - {text: "Liquid and volatile", correct: true}
+      - {text: "Liquid and calm"}
+    explanation: "Big volume, big move."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "DUST trades 1,500 shares a day"}
+      - {text: "and its price barely moves,"}
+      - {text: "so a large position is easy to get out of.", wrong: true}
+    explanation: "Calm is not the same as liquid. At 1,500 shares a day, getting out means walking the price down."
+
+  - type: match
+    prompt: "Three measurements and one player — match them up."
+    pairs:
+      - ["Liquidity", "Ease of trading without moving the price"]
+      - ["Volatility", "Size and speed of moves"]
+      - ["Volume", "Shares traded"]
+      - ["Market maker", "Quotes two prices, keeps the spread"]
+    explanation: "Three dials and one player."
+
+  - type: mc
+    prompt: "A friend says: 'This stock is up 12 % today on huge volume, so it's easy to trade and it'll be up again tomorrow.' Which part is wrong?"
+    options:
+      - {text: "'Easy to trade' — high volume doesn't mean liquid"}
+      - {text: "'Up again tomorrow' — nothing here says anything about tomorrow", correct: true}
+      - {text: "Nothing — both parts follow from the numbers"}
+    explanation: "Volume backs the move today; it predicts nothing."
+
+  - type: chart-decision
+    scenario: "XYZ is liquid and usually calm. Today it dropped 9 % in ten minutes on a rumor and is still falling fast. Buy 100 shares, or wait?"
+    shares: 100
+    chart: {kind: line, data: [30.00, 29.60, 29.10, 28.40, 27.80, 27.30, 27.00, 26.80, 26.60, 26.50, 26.45], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    outcome: "It fell another 3 % before stabilizing. Waiting avoided −$85 on 100 shares."
+    explanation: "Sudden volatility on a rumor is a moment to watch, not to jump in."
+
+  - type: fill-tiles
+    sentence: "A stock with few buyers and sellers ready is ___."
+    answer: "illiquid"
+    explanation: "Your own trade moves it."
 
   - type: sort
-    prompt: "Which style?"
-    buckets: ["Fits scalping", "Fits swing trading"]
+    prompt: "Does it raise the risk of a bad exit?"
+    buckets: ["Raises the risk", "Doesn't"]
     items:
-      - {text: "Tiny moves, many trades", bucket: "Fits scalping"}
-      - {text: "Holds over the weekend", bucket: "Fits swing trading"}
-      - {text: "Full attention for every tick", bucket: "Fits scalping"}
-      - {text: "Checks charts once a day", bucket: "Fits swing trading"}
-    explanation: "Speed and attention versus patience."
+      - {text: "Low daily volume", bucket: "Raises the risk"}
+      - {text: "High volatility during news", bucket: "Raises the risk"}
+      - {text: "High daily volume", bucket: "Doesn't"}
+      - {text: "A calm, liquid stock", bucket: "Doesn't"}
+    explanation: "Thin or wild makes exits expensive."
 
-  - type: fill-choice
-    sentence: "The time between opening and closing a position is the ___."
-    options: ["holding period", "session", "spread"]
-    answer: "holding period"
-    explanation: "It defines your style."
+  - type: story
+    character: mascot
+    text: "Sleepy or wild, crowded or empty — you can now read both dials off a quote card. Next: when the market is actually open."
 
-  - type: theory
-    title: "Choosing honestly"
-    body: "After this chapter you'll pick one path. The next lesson helps you choose for the life you actually have — and you can switch later."

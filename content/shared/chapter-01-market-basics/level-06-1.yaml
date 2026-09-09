@@ -1,96 +1,88 @@
 id: "6-1"
-title: "Checkpoint"
+title: "Who's On the Other Side"
 chapter: 1
 chapter_title: "Market Basics"
 path: all
-category: test
-tags: [checkpoint]
-learning_goal: "Verify Levels 1–5: profit math, buyers vs sellers, ownership, quote reading, liquidity vs volatility, participants, sessions."
-purpose: "A quick, honest check that the basics are solid before the second half of the chapter."
-terms_introduced: []
-prerequisite: "5-1"
-xp: 40
-difficulty: 2
+category: new-theory
+tags: [participants, market-maker]
+learning_goal: "User can name retail traders, institutions and market makers, and knows the market maker earns the gap between its two prices."
+purpose: "Big, sudden moves usually come from big players — knowing who is out there explains why prices sometimes jump for no visible reason."
+terms_introduced: ["Retail trader", "Institution", "Market maker", "Spread"]
+prerequisite: "4-1"
+xp: 20
+difficulty: 1
 sources: [consensus]
-notes: "10 scored questions. Hearts apply. Pass mark 70 %."
 screens:
   - type: intro
-    text: "Checkpoint. Ten questions, nothing new. Hearts are on."
-    counter: 10
+    text: "Every time you buy, someone sells. Who?"
 
-  - type: numeric-mc
-    prompt: "You buy 200 shares at $15.00 and sell at $15.45. Total profit?"
-    options:
-      - {text: "$9"}
-      - {text: "$45"}
-      - {text: "$90", correct: true}
-      - {text: "$0.45"}
-    working: "$0.45 × 200 = $90"
-    explanation: "Move times shares."
+  - type: carousel
+    cards:
+      - {label: "Retail trader", text: "Individuals like you, trading their own money from a phone or laptop.", icon: retail-trader}
+      - {label: "Institution", text: "Funds, banks, pension plans — trading millions at a time. When they move, prices move.", icon: institution}
+      - {label: "Market maker", text: "A firm that always offers to buy and to sell. It quotes two prices and keeps the small gap between them.", icon: market-maker}
+
+  - type: theory
+    title: "The market maker's gap"
+    body: "A market maker might buy from you at $10.00 and sell to you at $10.02. That gap is the spread — how it gets paid for always being there. You'll meet the spread on every quote from Chapter 3."
 
   - type: mc
-    prompt: "A stock's price is rising steadily. What must be true?"
+    prompt: "Why does a market maker quote two prices instead of one?"
     options:
-      - {text: "The company announced good news"}
-      - {text: "Buyers are paying more than sellers were asking", correct: true}
-      - {text: "More shares were created and sold into the market"}
-    explanation: "Only buyers versus sellers moves a price — news is one possible cause, not the rule."
+      - {text: "One price is for retail traders, the other for institutions"}
+      - {text: "Rules require two prices so trades can be reversed"}
+      - {text: "It buys at the lower and sells at the higher — the gap is its income", correct: true}
+    explanation: "Buy low, sell slightly higher, thousands of times a day."
+
+  - type: story
+    character: institution
+    text: "A pension fund decides to buy 2 million shares of XYZ this afternoon."
+
+  - type: mc
+    prompt: "What does the fund's buying most likely do to XYZ's price during the afternoon?"
+    options:
+      - {text: "Push it up — that much demand has to find sellers", correct: true}
+      - {text: "Nothing — one buyer can't move a price"}
+      - {text: "Push it down — big buyers negotiate discounts"}
+    explanation: "Size matters. Large demand moves price by the same rule as Level 1."
 
   - type: tf
-    statement: "The cash you pay for shares on the exchange ends up with the seller."
-    answer: true
-    explanation: "Another shareholder is on the other side. The company was paid when the shares were first sold."
-
-  - type: hotspot
-    component: quote-card
-    prompt: "Tap the change from the previous close."
-    data: {ticker: KOA, name: Koa Foods, price: 31.20, change: -0.64, change_pct: -2.0, volume: "2.4M"}
-    target: change
-    explanation: "−$0.64 (−2.0 %) is today's change."
-
-  - type: mc
-    prompt: "A stock trades 800 shares a day. Which risk is biggest for a trader holding 500 shares?"
-    options:
-      - {text: "The price will barely move"}
-      - {text: "Getting out will move the price against them", correct: true}
-      - {text: "The stock will be removed from the exchange"}
-    explanation: "500 shares is most of a day's volume — illiquid."
+    statement: "Retail traders make up most of the trading volume in big stocks."
+    answer: false
+    explanation: "Institutions and market makers account for most of it. Retail is a small slice — remember that when a stock suddenly moves on huge volume."
 
   - type: sort
-    prompt: "Which dial?"
-    buckets: ["Liquidity", "Volatility"]
+    prompt: "Who is it?"
+    buckets: ["Retail trader", "Institution", "Market maker"]
     items:
-      - {text: "Daily volume", bucket: "Liquidity"}
-      - {text: "Size of daily moves", bucket: "Volatility"}
-      - {text: "Whether your trade moves the price", bucket: "Liquidity"}
-      - {text: "A 20 % jump on news", bucket: "Volatility"}
-    explanation: "Ease versus movement."
+      - {text: "Trades their own savings from an app", bucket: "Retail trader"}
+      - {text: "Buys 2 million shares for a fund", bucket: "Institution"}
+      - {text: "Always quotes a buy and a sell price", bucket: "Market maker"}
+      - {text: "Earns the gap between two prices", bucket: "Market maker"}
+    explanation: "Three kinds of players, three kinds of footprints."
+
+  - type: match
+    prompt: "Who is who on the other side of your trade?"
+    pairs:
+      - ["Retail trader", "Individual trading their own money"]
+      - ["Institution", "Fund or bank trading very large size"]
+      - ["Market maker", "Always ready to buy and to sell"]
+      - ["Spread", "Gap between the market maker's two prices"]
+    explanation: "Who's there, and what the gap is called."
 
   - type: mc
-    prompt: "Who always quotes a price to buy and a price to sell?"
+    prompt: "XYZ suddenly trades 20 times its normal volume, with the price jumping in big steps. Most likely?"
     options:
-      - {text: "Institution"}
-      - {text: "Retail trader"}
-      - {text: "Market maker", correct: true}
-    explanation: "That two-sided quote is the market maker's job."
-
-  - type: order
-    prompt: "Drag the sessions into place, first to last."
-    items: ["Pre-market", "Regular session", "After-hours"]
-    explanation: "Before, main, after."
-
-  - type: mc
-    prompt: "A stock is up 5 % in pre-market on very low volume. Why be careful?"
-    options:
-      - {text: "Thin trading — only a few participants set that price", correct: true}
-      - {text: "Pre-market moves always reverse once the session opens"}
-      - {text: "Only institutions can trade pre-market"}
-    explanation: "Thin sessions are jumpy; the crowd arrives at the open."
+      - {text: "Many retail traders happened to click at the same second"}
+      - {text: "The market maker widened its two prices"}
+      - {text: "Institutions are active — large blocks are moving the price", correct: true}
+    explanation: "Huge volume and big steps are the footprint of size."
 
   - type: fill-tiles
-    sentence: "A stock that swings 8 % in a day is highly ___."
-    answer: "volatile"
-    explanation: "Big, fast moves in both directions."
+    sentence: "The gap between a market maker's buy price and sell price is the ___."
+    answer: "spread"
+    explanation: "Spread — you'll pay it on every trade."
 
-  - type: summary
-    total: 10
+  - type: theory
+    title: "Footprints"
+    body: "You'll rarely know who is on the other side. But you can read their footprints: volume and price moves. That's what the next levels are about."

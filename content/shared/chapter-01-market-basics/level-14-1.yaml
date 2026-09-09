@@ -1,0 +1,98 @@
+id: "14-1"
+title: "Three Ways to Trade"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [styles, holding-period]
+learning_goal: "User can distinguish scalping, day trading and swing trading by holding period and screen time, and separate trading from investing."
+purpose: "After this chapter you pick a path — this is what the three paths actually mean."
+terms_introduced: ["Holding period", "Scalping", "Day trading", "Swing trading", "Investing"]
+prerequisite: "13-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "How long do you hold? That one question defines your style."
+
+  - type: theory
+    title: "Holding period"
+    body: "The time between opening and closing a position. Seconds, hours, weeks or years. Everything about how you trade follows from it."
+
+  - type: carousel
+    cards:
+      - {label: "Scalping", text: "Seconds to minutes. Many small trades a day, tiny moves, full attention while trading.", icon: style-scalp}
+      - {label: "Day trading", text: "Minutes to hours. A few trades a day, always closed before the session ends — no overnight surprises.", icon: style-day}
+      - {label: "Swing trading", text: "Days to weeks. Holds overnight and over weekends; checks charts once or twice a day.", icon: style-swing}
+
+  - type: theory
+    title: "And investing?"
+    body: "Months to years, based on the company's business rather than the chart. This app teaches trading; investing is a different game with different rules."
+
+  - type: visual
+    component: bar-chart
+    data: {bars: [{label: "Scalping", value: 90}, {label: "Day trading", value: 60}, {label: "Swing trading", value: 15}], unit: "min of screen time per active day (rough)"}
+    caption: "Rough screen time while active: scalpers watch every tick, swing traders check in daily. Everyone differs."
+
+  - type: match
+    prompt: "Match each style to its holding period."
+    pairs:
+      - ["Scalping", "Seconds to minutes"]
+      - ["Day trading", "Minutes to hours, closed same day"]
+      - ["Swing trading", "Days to weeks"]
+      - ["Investing", "Months to years"]
+    explanation: "Holding period is the whole difference."
+
+  - type: mc
+    prompt: "A trader takes 25 trades before lunch, each lasting under two minutes."
+    options:
+      - {text: "Day trading"}
+      - {text: "Swing trading"}
+      - {text: "Scalping", correct: true}
+    explanation: "Many tiny, fast trades — scalping."
+
+  - type: mc
+    prompt: "A trader buys on Tuesday and plans to sell 'sometime next week, when the chart says so'."
+    options:
+      - {text: "Swing trading", correct: true}
+      - {text: "Day trading"}
+      - {text: "Investing"}
+    explanation: "Days to weeks, chart-based — swing trading."
+
+  - type: tf
+    statement: "A day trader who holds a position overnight is, for that trade, swing trading."
+    answer: true
+    explanation: "The style is defined by the holding period, not by what you call yourself."
+
+  - type: story
+    character: mascot
+    text: "You have a full-time job, can look at charts in the evening, and hate staring at screens."
+
+  - type: mc
+    prompt: "Which style fits that life best?"
+    options:
+      - {text: "Scalping"}
+      - {text: "Swing trading", correct: true}
+      - {text: "Day trading"}
+    explanation: "Evening chart checks and no screen-staring is the swing trader's rhythm."
+
+  - type: sort
+    prompt: "Which style?"
+    buckets: ["Fits scalping", "Fits swing trading"]
+    items:
+      - {text: "Tiny moves, many trades", bucket: "Fits scalping"}
+      - {text: "Holds over the weekend", bucket: "Fits swing trading"}
+      - {text: "Full attention for every tick", bucket: "Fits scalping"}
+      - {text: "Checks charts once a day", bucket: "Fits swing trading"}
+    explanation: "Speed and attention versus patience."
+
+  - type: fill-choice
+    sentence: "The time between opening and closing a position is the ___."
+    options: ["holding period", "session", "spread"]
+    answer: "holding period"
+    explanation: "It defines your style."
+
+  - type: theory
+    title: "Choosing honestly"
+    body: "After this chapter you'll pick one path. The next lesson helps you choose for the life you actually have — and you can switch later."

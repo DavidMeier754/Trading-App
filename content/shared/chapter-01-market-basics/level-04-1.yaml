@@ -1,101 +1,105 @@
 id: "4-1"
-title: "Volume, Liquidity, Volatility"
+title: "What You're Actually Buying"
 chapter: 1
 chapter_title: "Market Basics"
 path: all
 category: new-theory
-tags: [liquidity, volume]
-learning_goal: "User can define liquidity, use volume as its clue, and predict what a normal-sized trade does to the price of a liquid versus an illiquid stock."
-purpose: "Liquidity decides whether you can get out when you want to — it's the first thing experienced traders check."
-terms_introduced: ["Liquidity", "Liquid", "Illiquid"]
+tags: [quote, volume]
+learning_goal: "User can read a quote card: price, change versus previous close in dollars and percent, and volume."
+purpose: "Every stock you'll ever look at starts as this card — reading it instantly is the first real skill."
+terms_introduced: ["Quote", "Previous close", "Daily change", "Volume"]
 prerequisite: "3-1"
 xp: 20
 difficulty: 1
 sources: [consensus]
 screens:
   - type: intro
-    text: "Can you get out when you want to? That's liquidity."
+    text: "Two seconds. That's how long reading a quote should take."
 
-  - type: theory
-    title: "Liquidity"
-    body: "A liquid stock has many buyers and sellers ready at any moment: you can buy or sell a normal amount without moving the price. An illiquid stock has few — your own trade can move it."
+  - type: walkthrough
+    component: quote-card
+    data: {ticker: XYZ, name: Example Corp, price: 142.50, change: 2.10, change_pct: 1.5, volume: "3.2M", prev_close: 140.40}
+    steps:
+      - {spotlight: price, text: "The current price — what XYZ trades at right now."}
+      - {spotlight: change, text: "The change: how far the price is from yesterday's closing price, in dollars and percent. Green with a plus means up."}
+      - {spotlight: prev_close, text: "Yesterday's last price is the previous close — the reference point for today's change."}
+      - {spotlight: volume, text: "Volume: how many shares changed hands today. More volume, more activity."}
 
   - type: example
-    body: "XYZ trades 5 million shares a day. Your 100 shares are a drop in the ocean. Tiny Corp trades 3,000 shares a day. Your 100 shares are 3 % of everything — the price jumps."
-    visual: bar-chart
-    visual_data: {bars: [{label: "XYZ daily volume", value: 5000000}, {label: "Tiny Corp daily volume", value: 3000}]}
+    body: "Red and minus: −$1.80 (−1.2 %) means the stock is $1.80 below yesterday's close. One red day says nothing about the company — only about today's buyers and sellers."
+    visual: quote-card
+    visual_data: {ticker: XYZ, name: Example Corp, price: 138.60, change: -1.80, change_pct: -1.2}
 
-  - type: theory
-    title: "Volume is the clue"
-    body: "High daily volume usually means high liquidity. Check the volume on the quote card before you trade — it's the fastest liquidity check there is."
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the number that shows how far the price is from yesterday's close."
+    data: {ticker: BRIX, name: Brix Materials, price: 88.20, change: -0.95, change_pct: -1.1, volume: "540K"}
+    target: change
+    explanation: "−$0.95 (−1.1 %) is the change from the previous close."
 
   - type: mc
-    prompt: "You place a modest buy on a stock and the price jumps 2 % just from your trade. What does that tell you?"
+    prompt: "XYZ shows +$3.40 (+2.1 %). What do you know?"
     options:
-      - {text: "The stock is illiquid", correct: true}
-      - {text: "The stock is liquid — buyers are eager"}
-      - {text: "The exchange added a charge for your trade"}
-    explanation: "A normal-sized trade shouldn't move a liquid stock. It moved this one, so sellers were scarce."
+      - {text: "It's $3.40 above yesterday's close", correct: true}
+      - {text: "It rose $3.40 in the last hour"}
+      - {text: "It will likely rise another 2 % tomorrow"}
+    explanation: "The change is measured from the previous close — nothing about the last hour or tomorrow."
+
+  - type: numeric-input
+    prompt: "Previous close $50.00. Price now $51.50. What is the change in percent?"
+    answer: 3
+    tolerance: 0.01
+    unit: "%"
+    working: "1.50 ÷ 50.00 = 0.03 = 3 %"
+    explanation: "Dollar change divided by the previous close."
 
   - type: tf
-    statement: "Selling 200 shares of a stock that trades 200 shares a day means cutting the price to find buyers."
+    statement: "A stock showing +$0.00 (0.0 %) may have swung up and down all day."
     answer: true
-    explanation: "Almost nobody is trading it, so finding buyers means walking the price down to meet them."
-
-  - type: slider
-    prompt: "Tiny Corp trades 3,000 shares a day. You want to sell 600. Roughly what share of the day's volume is that?"
-    min: 0
-    max: 100
-    step: 5
-    unit: "%"
-    answer: 20
-    tolerance: 5
-    explanation: "600 ÷ 3,000 = 20 % of the whole day. Expect the price to move against you."
-
-  - type: mc
-    prompt: "Why do most active traders stick to liquid stocks?"
-    options:
-      - {text: "Liquid stocks have smaller daily price moves"}
-      - {text: "They can enter and exit close to the price they see", correct: true}
-      - {text: "Exchanges charge less for liquid stocks"}
-    explanation: "Liquidity is about getting your price, not about how far the stock moves."
-
-  - type: sort
-    prompt: "Liquid or illiquid?"
-    buckets: ["Liquid", "Illiquid"]
-    items:
-      - {text: "5 M shares a day", bucket: "Liquid"}
-      - {text: "3,000 shares a day", bucket: "Illiquid"}
-      - {text: "Your 100-share sell moves the price 2 %", bucket: "Illiquid"}
-      - {text: "Buyers and sellers ready at every price", bucket: "Liquid"}
-    explanation: "Volume and price impact are the two clues."
-
-  - type: story
-    character: retail-trader
-    text: "You hold 400 shares of a small stock. News hits and you want out now. Only 50 shares are wanted at the current price."
-
-  - type: mc
-    prompt: "What happens if you insist on selling all 400 right away?"
-    options:
-      - {text: "All 400 sell at the current price, just more slowly"}
-      - {text: "50 sell at the current price and the rest at lower and lower prices", correct: true}
-      - {text: "The exchange finds a market maker to take all 400 at the current price"}
-    explanation: "To find enough buyers you have to walk the price down. That's illiquidity costing you money."
-
-  - type: fill-tiles
-    sentence: "A stock you can buy or sell without moving the price much is ___."
-    answer: "liquid"
-    explanation: "Plenty of buyers and sellers ready."
-
-  - type: match
-    prompt: "Sort out the liquidity vocabulary."
-    pairs:
-      - ["Liquidity", "How easily you can trade without moving the price"]
-      - ["Volume", "Shares traded in a period"]
-      - ["Illiquid", "Few buyers and sellers ready"]
-      - ["Liquid", "Many buyers and sellers ready"]
-    explanation: "Liquidity is ease; volume is the clue."
+    explanation: "The change compares now with yesterday's close; everything in between is invisible on that one number."
 
   - type: theory
-    title: "Ease, not movement"
-    body: "Liquidity is about ease of getting in and out. Next: a different question — how much does the price move at all?"
+    title: "Volume: how busy is it?"
+    body: "3.2 M means 3.2 million shares traded today. A stock with 5,000 shares traded is quiet, and each trade matters more there. Keep that in mind for Level 4."
+
+  - type: mc
+    prompt: "Two stocks are both up 2 %. Stock A traded 4 million shares today, Stock B 6,000. Which move was backed by more people?"
+    options:
+      - {text: "Stock B — fewer trades means each one was more deliberate"}
+      - {text: "Stock A — far more shares changed hands behind that move", correct: true}
+      - {text: "Equal — the percentage is what counts"}
+    explanation: "Volume shows how much activity stands behind a move."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the volume."
+    data: {ticker: TRN, name: Trion Logistics, price: 12.05, change: 0.15, change_pct: 1.3, volume: "1.1M"}
+    target: volume
+    explanation: "1.1 M shares traded today."
+
+  - type: match
+    prompt: "Four fields on a quote card. What does each one tell you?"
+    pairs:
+      - ["Quote", "The price card of a stock"]
+      - ["Previous close", "Yesterday's last price"]
+      - ["Daily change", "Distance from the previous close"]
+      - ["Volume", "Shares traded today"]
+    explanation: "Four things on every quote card."
+
+  - type: mc
+    prompt: "Half an hour after the open. XYZ: $19.60, −$0.40 (−2.0 %), volume 8 M — it usually has 2 M by now. Best reading?"
+    options:
+      - {text: "Down 2 % on a normal, quiet morning"}
+      - {text: "Down 2 % on unusually heavy activity — something is going on", correct: true}
+      - {text: "Volume is high because the price fell; nothing more to it"}
+    explanation: "Four times the usual volume means many participants are reacting."
+
+  - type: fill-choice
+    sentence: "Today's change is measured from the ___."
+    options: ["previous close", "opening price", "highest price"]
+    answer: "previous close"
+    explanation: "Yesterday's last price is the reference."
+
+  - type: theory
+    title: "Done in two seconds"
+    body: "Price, change, volume — you can now read what every app shows. Next: who is on the other side of your trades?"

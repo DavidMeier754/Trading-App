@@ -1,98 +1,103 @@
 id: "2-1"
-title: "What You're Actually Buying"
+title: "Your First Trade"
 chapter: 1
 chapter_title: "Market Basics"
 path: all
 category: new-theory
-tags: [stocks, ownership]
-learning_goal: "User can explain a share as a fraction of a company, read a ticker, and knows where stocks trade."
-purpose: "Knowing that a stock is a piece of a real business — with a code and a marketplace — keeps trading from feeling like a lottery."
-terms_introduced: ["Shareholder", "Ticker", "Exchange"]
-prerequisite: "1-3"
+tags: [supply-demand, price]
+learning_goal: "User can explain a price move as the balance of buyers and sellers, and predict the direction from a described imbalance."
+purpose: "Every jump and dip you will ever see is buyers versus sellers — knowing that turns a chart from noise into a story."
+terms_introduced: ["Market", "Buyer", "Seller", "Demand", "Supply"]
+prerequisite: "1-4"
 xp: 20
 difficulty: 1
 sources: [consensus]
 screens:
   - type: intro
-    text: "XYZ isn't a lottery ticket. It's a piece of a real business."
+    text: "Why did XYZ go up? Not magic. People."
 
   - type: theory
-    title: "A stock is ownership"
-    body: "A company is cut into many equal pieces called shares. Own one share and you own that fraction of the company. Owners are called shareholders."
-    visual: ownership-pie
-    visual_data: {total: 100, owned: 1}
+    title: "A price is a deal"
+    body: "Every trade needs a buyer and a seller who agree on a price. The market is where they meet — today mostly a computer matching them in milliseconds."
+
+  - type: theory
+    title: "More buyers than sellers → up"
+    body: "When more people want to buy than sell at the current price, buyers have to offer more to get shares. The price rises."
+    visual: bar-chart
+    visual_data: {bars: [{label: "Want to buy", value: 8}, {label: "Want to sell", value: 3}]}
+
+  - type: theory
+    title: "More sellers than buyers → down"
+    body: "When more people want to sell than buy, sellers have to accept less to find a buyer. The price falls."
+    visual: bar-chart
+    visual_data: {bars: [{label: "Want to buy", value: 2}, {label: "Want to sell", value: 9}]}
 
   - type: example
-    body: "A company with 1,000 shares. You buy 10. You own 1 % — of the buildings, the brand, the profits."
-    visual: ownership-pie
-    visual_data: {total: 1000, owned: 10}
-
-  - type: theory
-    title: "Why sell pieces of yourself?"
-    body: "To raise money — for factories, products, growth. Investors pay cash once and get a share of the future. After that, the shares change hands between traders."
-
-  - type: numeric-mc
-    prompt: "A company has 400 shares. You buy 20. What fraction of the company is yours?"
-    options:
-      - {text: "20 %"}
-      - {text: "2 %"}
-      - {text: "5 %", correct: true}
-      - {text: "0.5 %"}
-    working: "20 ÷ 400 = 0.05 = 5 %"
-    explanation: "Your shares divided by all shares."
-
-  - type: theory
-    title: "The ticker"
-    body: "Every stock has a short code so nobody types the full name. Apple is AAPL; our example is XYZ. That code is the ticker."
-    visual: quote-card
-    visual_data: {ticker: XYZ, name: Example Corp, price: 22.40}
-
-  - type: theory
-    title: "The exchange"
-    body: "Stocks trade on an exchange, like {{market.exchange_examples}} — a marketplace that matches buyers and sellers. You never deal with it directly; that's what a broker is for (Level 7)."
+    body: "Demand is how much people want to buy. Supply is how much is for sale. The price is the balance between them — it moves until every buyer finds a seller."
 
   - type: mc
-    prompt: "You own 50 shares of a company that has 5,000 shares. Which is true?"
+    prompt: "A stock has far more people wanting to buy than sell right now. What happens next, most likely?"
     options:
-      - {text: "You own 1 % of the company", correct: true}
-      - {text: "You lent the company money that it must repay"}
-      - {text: "You are owed 50 % of the company's profits"}
-    explanation: "50 ÷ 5,000 = 1 %. A share is ownership, not a loan."
+      - {text: "The price stays put until the company adds more shares"}
+      - {text: "Trading pauses until buyers and sellers are equal"}
+      - {text: "The price rises until enough sellers show up", correct: true}
+    explanation: "Buyers compete by paying more; the higher price draws out sellers."
+
+  - type: story
+    character: retail-trader
+    text: "Breaking news: XYZ's biggest product is being recalled. Suddenly everyone who owns it wants out."
+
+  - type: mc
+    prompt: "After the recall news, what happens to XYZ's price, and why?"
+    options:
+      - {text: "It falls — many sellers, few buyers willing to pay the old price", correct: true}
+      - {text: "It rises — bad news attracts bargain hunters first"}
+      - {text: "It doesn't move — news doesn't change the number of shares"}
+    explanation: "More supply than demand at the old price pushes the price down until buyers appear."
 
   - type: tf
-    statement: "When you buy a share on the exchange, your money goes to the company."
-    answer: false
-    explanation: "It goes to the seller — another shareholder. The company only gets money when it first sells the shares."
+    statement: "A price can rise even if nothing changed at the company itself."
+    answer: true
+    explanation: "Price is about what buyers and sellers do. Mood, rumors or a big buyer can shift demand without any change at the company."
 
-  - type: hotspot
-    component: quote-card
-    prompt: "Tap the ticker symbol."
-    data: {ticker: NOVA, name: Nova Energy, price: 48.10, change: 0.35, change_pct: 0.7}
-    target: ticker
-    explanation: "NOVA is the code; Nova Energy is the name."
+  - type: sort
+    prompt: "Sort each situation."
+    buckets: ["Pushes price up", "Pushes price down"]
+    items:
+      - {text: "A wave of new buyers", bucket: "Pushes price up"}
+      - {text: "Owners rushing to sell", bucket: "Pushes price down"}
+      - {text: "Buyers offering more than the last price", bucket: "Pushes price up"}
+      - {text: "Sellers accepting less than the last price", bucket: "Pushes price down"}
+    explanation: "Whoever is more eager moves the price in their direction."
 
-  - type: match
-    prompt: "Pieces, owners, codes and marketplaces — which is which?"
-    pairs:
-      - ["Share", "One piece of a company"]
-      - ["Shareholder", "Someone who owns shares"]
-      - ["Ticker", "Code that identifies a stock"]
-      - ["Exchange", "Marketplace matching buyers and sellers"]
-    explanation: "Pieces, owners, codes and the marketplace."
-
-  - type: mc
-    prompt: "A company's stock price doubles in a year. Which statement is right?"
-    options:
-      - {text: "The company now has twice as many shares"}
-      - {text: "Each shareholder now owns twice as big a fraction of the company"}
-      - {text: "Each share is worth twice as much", correct: true}
-    explanation: "Price changes what a share is worth — not how many you own or what fraction."
+  - type: chart-decision
+    scenario: "XYZ at $15.00. Lots of buyers, few sellers; the price has ticked up steadily for five minutes. Buy 100 shares, or wait?"
+    shares: 100
+    chart: {kind: line, data: [14.80, 14.84, 14.88, 14.90, 14.95, 15.00, 15.05, 15.10, 15.16, 15.20, 15.25], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It climbed to $15.25 — +$25 on 100 shares."
+    explanation: "Demand above supply, price rising: buying with the pressure is reasonable."
 
   - type: fill-tiles
-    sentence: "The code that identifies a stock is its ___."
-    answer: "ticker"
-    explanation: "AAPL, XYZ, NOVA — tickers."
+    sentence: "When demand is higher than supply, the price ___."
+    answer: "rises"
+    explanation: "More buyers than sellers pushes the price up."
 
   - type: theory
-    title: "Next up"
-    body: "The little card every app shows for a stock — and how to read it in two seconds."
+    title: "The only rule"
+    body: "Every jump, every dip, every crash in this app is this rule at work: buyers versus sellers. Nothing else moves a price."
+
+  - type: mc
+    prompt: "Two stocks get the same bad news. Stock A has many eager buyers waiting; Stock B has almost none. Which one drops more on a wave of selling?"
+    options:
+      - {text: "Stock A — more buyers means more trading, so bigger moves"}
+      - {text: "Stock B — sellers have to cut the price further", correct: true}
+      - {text: "Both the same — the news is identical"}
+    explanation: "The price moves as far as it must to find the other side. Few buyers, bigger drop."
+
+  - type: story
+    character: mascot
+    text: "Buyers versus sellers. That is the whole engine — and you can already read it."
+

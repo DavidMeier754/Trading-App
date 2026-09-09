@@ -1,120 +1,100 @@
 id: "12-1"
-title: "Final Exam"
+title: "Getting Access"
 chapter: 1
 chapter_title: "Market Basics"
 path: all
-category: final-exam
-tags: [final-exam]
-learning_goal: "Confirm mastery of profit math, supply/demand, ownership and exchanges, quote reading, liquidity vs volatility, participants, sessions, broker and fees, long/short, styles, trend and news."
-purpose: "The gate before path-specific content — and the moment you pick your path."
-terms_introduced: []
+category: new-theory
+tags: [broker, fees]
+learning_goal: "User knows what a broker and a brokerage account do, what an order is, why paper trading comes first, and that fees apply to every trade."
+purpose: "Before a single real trade you need this piece — and knowing fees exist now saves painful surprises later."
+terms_introduced: ["Broker", "Brokerage account", "Order", "Paper trading", "Fee"]
 prerequisite: "11-1"
-xp: 80
-difficulty: 2
+xp: 20
+difficulty: 1
 sources: [consensus]
-notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with badge and path choice."
 screens:
   - type: intro
-    text: "Final exam: Market Basics. Twelve questions, then your path."
-    counter: 12
+    text: "You can't walk up to the exchange. You need a broker."
+
+  - type: theory
+    title: "The broker"
+    body: "A broker is the company whose app connects you to the exchange. You tell it what to buy or sell — that instruction is an order — and it sends it to the market."
+
+  - type: theory
+    title: "The brokerage account"
+    body: "Your cash, your shares and your history live in a brokerage account at the broker. Deposit money, place orders, see your positions."
+
+  - type: carousel
+    cards:
+      - {label: "Fees", text: "Brokers charge for the service — per order, per share, or hidden in the prices. {{market.fee_note}}", icon: fee}
+      - {label: "Paper trading", text: "Most brokers offer a practice mode with virtual money and real prices. Use it before risking a cent.", icon: paper}
+      - {label: "Rules", text: "{{market.regulation_note}}", icon: rules}
+
+  - type: mc
+    prompt: "What does a broker actually do for you?"
+    options:
+      - {text: "Sets the prices of the stocks you trade each morning"}
+      - {text: "Picks which stocks you should buy"}
+      - {text: "Sends your orders to the exchange and holds your account", correct: true}
+    explanation: "A broker is the connection and the custodian — not the price setter and not an advisor."
+
+  - type: tf
+    statement: "Your broker passes your order to the exchange but has no say in what a share is worth."
+    answer: true
+    explanation: "The broker is the middleman. Buyers and sellers set the price between them."
+
+  - type: walkthrough
+    component: order-ticket
+    data: {ticker: XYZ, side: buy, qty: 100}
+    steps:
+      - {spotlight: side, text: "Buy or sell."}
+      - {spotlight: qty, text: "How many shares."}
+      - {spotlight: submit, text: "Send it — the broker routes the order to the exchange in a fraction of a second."}
+
+  - type: story
+    character: retail-trader
+    text: "You open an account, deposit $1,000, and see a button: 'Practice with virtual $10,000'."
+
+  - type: mc
+    prompt: "What's the smart first move?"
+    options:
+      - {text: "Practice — same prices, same buttons, no real risk", correct: true}
+      - {text: "Skip practice — virtual money doesn't teach anything"}
+      - {text: "Deposit more first so the practice feels real"}
+    explanation: "Paper trading teaches the buttons and the habits for free."
 
   - type: numeric-mc
-    prompt: "You short 150 shares at $40.00 and cover at $38.50. Result?"
+    prompt: "Your broker charges $1 per order. You place 30 orders in a day. Fees?"
     options:
-      - {text: "+$225", correct: true}
-      - {text: "−$225"}
-      - {text: "+$150"}
-      - {text: "+$1.50"}
-    working: "(40.00 − 38.50) × 150 = +$225"
-    explanation: "Sold high, covered lower."
+      - {text: "$30", correct: true}
+      - {text: "$1"}
+      - {text: "$3"}
+      - {text: "$300"}
+    working: "30 × $1 = $30"
+    explanation: "Every order costs, win or lose."
+
+  - type: match
+    prompt: "The four pieces between you and the exchange."
+    pairs:
+      - ["Broker", "Connects you to the exchange"]
+      - ["Brokerage account", "Holds your cash and shares"]
+      - ["Order", "Instruction to buy or sell"]
+      - ["Paper trading", "Practice with virtual money"]
+    explanation: "The four pieces between you and the market."
 
   - type: mc
-    prompt: "XYZ's price rises while nothing at the company changed. Most likely reason?"
+    prompt: "Same $1 per order. You buy 100 shares of XYZ and sell them later. Total fees for that round?"
     options:
-      - {text: "More demand than supply", correct: true}
-      - {text: "The exchange raised the price"}
-      - {text: "New shares were issued"}
-    explanation: "Buyers versus sellers is the only thing that moves a price."
+      - {text: "$1"}
+      - {text: "$2", correct: true}
+      - {text: "$100"}
+    explanation: "Two orders — one to open, one to close."
 
-  - type: tf
-    statement: "Owning 10 of a company's 1,000 shares means you own 10 % of it."
-    answer: false
-    explanation: "10 ÷ 1,000 = 1 %."
+  - type: fill-tiles
+    sentence: "An instruction to your broker to buy or sell is an ___."
+    answer: "order"
+    explanation: "Orders are how you talk to the market."
 
-  - type: hotspot
-    component: quote-card
-    prompt: "Tap the number that says how many shares have changed hands today."
-    data: {ticker: VELA, name: Vela Motors, price: 66.30, change: 1.20, change_pct: 1.8, volume: "900K"}
-    target: volume
-    explanation: "900,000 shares traded today."
-
-  - type: mc
-    prompt: "A stock trades 1,200 shares a day. You hold 900. Main problem?"
-    options:
-      - {text: "It's too volatile to hold"}
-      - {text: "Fees are higher on low-volume stocks"}
-      - {text: "Selling will push the price down a lot", correct: true}
-    explanation: "You'd be most of the day's volume."
-
-  - type: sort
-    prompt: "Ease of trading, or size of the moves?"
-    buckets: ["Liquidity", "Volatility"]
-    items:
-      - {text: "Whether your trade moves the price", bucket: "Liquidity"}
-      - {text: "A 12 % swing in an hour", bucket: "Volatility"}
-      - {text: "Shares traded per day", bucket: "Liquidity"}
-      - {text: "How far the price moves", bucket: "Volatility"}
-    explanation: "Ease versus movement."
-
-  - type: mc
-    prompt: "Who most likely stands behind a sudden wave of very large trades?"
-    options:
-      - {text: "An institution", correct: true}
-      - {text: "Many retail traders at once"}
-      - {text: "The market maker"}
-    explanation: "Size is the institution's footprint."
-
-  - type: mc
-    prompt: "Why are pre-market prices less reliable?"
-    options:
-      - {text: "They're set by the exchange, not by trades"}
-      - {text: "Few participants — thin liquidity", correct: true}
-      - {text: "Only market makers trade then"}
-    explanation: "Thin sessions are jumpy."
-
-  - type: numeric-input
-    prompt: "Fee $1 per order. You open and close 12 positions in a day. Total fees?"
-    answer: 24
-    unit: "$"
-    working: "12 positions × 2 orders × $1 = $24"
-    explanation: "Every open and every close is an order."
-
-  - type: mc
-    prompt: "A trader holds positions for days and checks charts each evening."
-    options:
-      - {text: "Day trading"}
-      - {text: "Swing trading", correct: true}
-      - {text: "Scalping"}
-    explanation: "Days to weeks, daily check-ins."
-
-  - type: tf
-    statement: "A short position's possible loss has no fixed limit."
-    answer: true
-    explanation: "A price can rise without limit; a short must buy back at whatever it is."
-
-  - type: mc
-    prompt: "A company reports better-than-expected results, yet the stock falls. Best explanation?"
-    options:
-      - {text: "Good news always sells off"}
-      - {text: "The results must have been wrong"}
-      - {text: "Expectations were even higher", correct: true}
-    explanation: "Price reacts to news versus expectations, not to news alone."
-
-  - type: summary
-    total: 12
-
-  - type: badge
-    name: "Market Basics — Complete"
-    unlocks: "Your path"
-
-  - type: path-choice
+  - type: theory
+    title: "No promises"
+    body: "Nothing you learn here promises profit. Brokers don't promise it either — anyone who does is selling something."

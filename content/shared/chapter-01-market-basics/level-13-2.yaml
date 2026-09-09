@@ -1,4 +1,4 @@
-id: "8-2"
+id: "13-2"
 title: "Long and Short"
 chapter: 1
 chapter_title: "Market Basics"
@@ -8,7 +8,7 @@ tags: [long-short, decisions]
 learning_goal: "User makes long / short / no-trade decisions on simple charts and treats 'no trade' as a valid answer."
 purpose: "This is the decision you'll make thousands of times — starting now, while the charts are still simple."
 terms_introduced: ["No trade"]
-prerequisite: "8-1"
+prerequisite: "13-1"
 xp: 20
 difficulty: 2
 sources: [consensus]

@@ -1,0 +1,120 @@
+id: "17-1"
+title: "Final Exam"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: final-exam
+tags: [final-exam]
+learning_goal: "Confirm mastery of profit math, supply/demand, ownership and exchanges, quote reading, liquidity vs volatility, participants, sessions, broker and fees, long/short, styles, trend and news."
+purpose: "The gate before path-specific content — and the moment you pick your path."
+terms_introduced: []
+prerequisite: "16-1"
+xp: 80
+difficulty: 2
+sources: [consensus]
+notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with badge and path choice."
+screens:
+  - type: intro
+    text: "Final exam: Market Basics. Twelve questions, then your path."
+    counter: 12
+
+  - type: numeric-mc
+    prompt: "You short 150 shares at $40.00 and cover at $38.50. Result?"
+    options:
+      - {text: "+$225", correct: true}
+      - {text: "−$225"}
+      - {text: "+$150"}
+      - {text: "+$1.50"}
+    working: "(40.00 − 38.50) × 150 = +$225"
+    explanation: "Sold high, covered lower."
+
+  - type: mc
+    prompt: "XYZ's price rises while nothing at the company changed. Most likely reason?"
+    options:
+      - {text: "More demand than supply", correct: true}
+      - {text: "The exchange raised the price"}
+      - {text: "New shares were issued"}
+    explanation: "Buyers versus sellers is the only thing that moves a price."
+
+  - type: tf
+    statement: "Owning 10 of a company's 1,000 shares means you own 10 % of it."
+    answer: false
+    explanation: "10 ÷ 1,000 = 1 %."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the number that says how many shares have changed hands today."
+    data: {ticker: VELA, name: Vela Motors, price: 66.30, change: 1.20, change_pct: 1.8, volume: "900K"}
+    target: volume
+    explanation: "900,000 shares traded today."
+
+  - type: mc
+    prompt: "A stock trades 1,200 shares a day. You hold 900. Main problem?"
+    options:
+      - {text: "It's too volatile to hold"}
+      - {text: "Fees are higher on low-volume stocks"}
+      - {text: "Selling will push the price down a lot", correct: true}
+    explanation: "You'd be most of the day's volume."
+
+  - type: sort
+    prompt: "Ease of trading, or size of the moves?"
+    buckets: ["Liquidity", "Volatility"]
+    items:
+      - {text: "Whether your trade moves the price", bucket: "Liquidity"}
+      - {text: "A 12 % swing in an hour", bucket: "Volatility"}
+      - {text: "Shares traded per day", bucket: "Liquidity"}
+      - {text: "How far the price moves", bucket: "Volatility"}
+    explanation: "Ease versus movement."
+
+  - type: mc
+    prompt: "Who most likely stands behind a sudden wave of very large trades?"
+    options:
+      - {text: "An institution", correct: true}
+      - {text: "Many retail traders at once"}
+      - {text: "The market maker"}
+    explanation: "Size is the institution's footprint."
+
+  - type: mc
+    prompt: "Why are pre-market prices less reliable?"
+    options:
+      - {text: "They're set by the exchange, not by trades"}
+      - {text: "Few participants — thin liquidity", correct: true}
+      - {text: "Only market makers trade then"}
+    explanation: "Thin sessions are jumpy."
+
+  - type: numeric-input
+    prompt: "Fee $1 per order. You open and close 12 positions in a day. Total fees?"
+    answer: 24
+    unit: "$"
+    working: "12 positions × 2 orders × $1 = $24"
+    explanation: "Every open and every close is an order."
+
+  - type: mc
+    prompt: "A trader holds positions for days and checks charts each evening."
+    options:
+      - {text: "Day trading"}
+      - {text: "Swing trading", correct: true}
+      - {text: "Scalping"}
+    explanation: "Days to weeks, daily check-ins."
+
+  - type: tf
+    statement: "A short position's possible loss has no fixed limit."
+    answer: true
+    explanation: "A price can rise without limit; a short must buy back at whatever it is."
+
+  - type: mc
+    prompt: "A company reports better-than-expected results, yet the stock falls. Best explanation?"
+    options:
+      - {text: "Good news always sells off"}
+      - {text: "The results must have been wrong"}
+      - {text: "Expectations were even higher", correct: true}
+    explanation: "Price reacts to news versus expectations, not to news alone."
+
+  - type: summary
+    total: 12
+
+  - type: badge
+    name: "Market Basics — Complete"
+    unlocks: "Your path"
+
+  - type: path-choice

@@ -1,110 +1,96 @@
 id: "11-1"
-title: "Chapter Review"
+title: "Checkpoint"
 chapter: 1
 chapter_title: "Market Basics"
 path: all
-category: repetition
-tags: [review]
-learning_goal: "User applies every Chapter 1 concept across one narrated trading day."
-purpose: "Seeing all the pieces in one real-looking day is the best preparation for the final exam — and for Chapter 2."
+category: test
+tags: [checkpoint]
+learning_goal: "Verify Levels 1–5: profit math, buyers vs sellers, ownership, quote reading, liquidity vs volatility, participants, sessions."
+purpose: "A quick, honest check that the basics are solid before the second half of the chapter."
 terms_introduced: []
 prerequisite: "10-1"
-xp: 30
+xp: 40
 difficulty: 2
 sources: [consensus]
+notes: "10 scored questions. Hearts apply. Pass mark 70 %."
 screens:
   - type: intro
-    text: "One trading day, start to finish. Everything you've learned."
+    text: "Checkpoint. Ten questions, nothing new. Hearts are on."
+    counter: 10
 
-  - type: story
-    character: retail-trader
-    text: "Before the open. Coffee. News: XYZ lands a huge contract, and {{market.premarket}} {{market.timezone}} trading shows +7 % on 30,000 shares."
+  - type: numeric-mc
+    prompt: "You buy 200 shares at $15.00 and sell at $15.45. Total profit?"
+    options:
+      - {text: "$9"}
+      - {text: "$45"}
+      - {text: "$90", correct: true}
+      - {text: "$0.45"}
+    working: "$0.45 × 200 = $90"
+    explanation: "Move times shares."
 
   - type: mc
-    prompt: "Why not trust the +7 % fully yet?"
+    prompt: "A stock's price is rising steadily. What must be true?"
     options:
-      - {text: "Contracts don't move stock prices"}
-      - {text: "Pre-market is thin — 30,000 shares is a handful of traders", correct: true}
-      - {text: "Percent changes only count in the regular session"}
-    explanation: "Thin session, few participants, jumpy price."
-
-  - type: story
-    character: retail-trader
-    text: "{{market.regular_open}}. The session opens. XYZ trades 4 million shares in the first ten minutes and holds +6 %."
-
-  - type: mc
-    prompt: "What does that volume tell you?"
-    options:
-      - {text: "Institutions are selling into it"}
-      - {text: "Many participants agree — the move has broad support", correct: true}
-      - {text: "Volume this high means the stock is illiquid"}
-    explanation: "Heavy volume behind a move means the crowd is voting with it."
-
-  - type: chart-decision
-    scenario: "XYZ +6 % on 4 million shares, pulling back slightly; buyers step in on every dip. 100 shares."
-    shares: 100
-    chart: {kind: line, data: [52.40, 52.10, 52.30, 52.00, 52.20, 52.00, 52.30, 52.45, 52.60, 52.70, 52.80], decision_index: 5}
-    best: long
-    reasonable: [no-trade]
-    outcome: "+$0.80 over the next twenty minutes — +$80 on 100 shares."
-    explanation: "Volume-backed strength with buyers defending dips: a long with the pressure."
-
-  - type: numeric-input
-    prompt: "You bought 100 shares at $52.00 and sold at $52.80. Your broker charges $1 per order. Net profit?"
-    answer: 78
-    unit: "$"
-    working: "$0.80 × 100 = $80, minus 2 orders × $1 = $78"
-    explanation: "Fees come off every round, win or lose."
-
-  - type: story
-    character: market-maker
-    text: "Meanwhile the market maker keeps quoting XYZ all day: buy at $52.78, sell at $52.80."
+      - {text: "The company announced good news"}
+      - {text: "Buyers are paying more than sellers were asking", correct: true}
+      - {text: "More shares were created and sold into the market"}
+    explanation: "Only buyers versus sellers moves a price — news is one possible cause, not the rule."
 
   - type: tf
-    statement: "The market maker profits from the gap between its two prices, not from XYZ going up."
+    statement: "The cash you pay for shares on the exchange ends up with the seller."
     answer: true
-    explanation: "Two cents, thousands of times — that's the spread."
+    explanation: "Another shareholder is on the other side. The company was paid when the shares were first sold."
 
-  - type: story
-    character: retail-trader
-    text: "Late morning. A rumor: the contract may be smaller than reported. XYZ drops 3 % in two minutes on heavy selling."
-
-  - type: chart-decision
-    scenario: "XYZ falling fast on heavy volume after the rumor; every bounce gets sold. 100 shares."
-    shares: 100
-    chart: {kind: line, data: [53.20, 52.60, 52.00, 52.20, 51.70, 51.50, 51.30, 51.40, 51.00, 50.70, 50.50], decision_index: 5}
-    best: short
-    reasonable: [no-trade]
-    outcome: "It fell another 2 % before the company clarified — +$100 on a 100-share short."
-    explanation: "Sellers in control, bounces failing: short with the pressure, or stand aside."
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the change from the previous close."
+    data: {ticker: KOA, name: Koa Foods, price: 31.20, change: -0.64, change_pct: -2.0, volume: "2.4M"}
+    target: change
+    explanation: "−$0.64 (−2.0 %) is today's change."
 
   - type: mc
-    prompt: "You're a day trader and it's three minutes to the close. XYZ is +4 % on the day. You:"
+    prompt: "A stock trades 800 shares a day. Which risk is biggest for a trader holding 500 shares?"
     options:
-      - {text: "Go long for the overnight gap"}
-      - {text: "Go short because day traders will all sell now"}
-      - {text: "Make sure you're flat before the bell", correct: true}
-    explanation: "A day trader's rule is to be out before the close."
+      - {text: "The price will barely move"}
+      - {text: "Getting out will move the price against them", correct: true}
+      - {text: "The stock will be removed from the exchange"}
+    explanation: "500 shares is most of a day's volume — illiquid."
 
   - type: sort
-    prompt: "Which concept?"
-    buckets: ["Liquidity", "Volatility", "Style"]
+    prompt: "Which dial?"
+    buckets: ["Liquidity", "Volatility"]
     items:
-      - {text: "4 million shares in ten minutes", bucket: "Liquidity"}
-      - {text: "−3 % in two minutes", bucket: "Volatility"}
-      - {text: "Closed before the bell", bucket: "Style"}
-      - {text: "Thin pre-market", bucket: "Liquidity"}
-    explanation: "Ease, movement, holding period."
+      - {text: "Daily volume", bucket: "Liquidity"}
+      - {text: "Size of daily moves", bucket: "Volatility"}
+      - {text: "Whether your trade moves the price", bucket: "Liquidity"}
+      - {text: "A 20 % jump on news", bucket: "Volatility"}
+    explanation: "Ease versus movement."
 
-  - type: match
-    prompt: "Four ideas you used during today's session."
-    pairs:
-      - ["Long", "Profit if the price rises"]
-      - ["Short", "Profit if the price falls"]
-      - ["Previous close", "Reference for today's change"]
-      - ["Holding period", "Defines your style"]
-    explanation: "Four ideas you used today."
+  - type: mc
+    prompt: "Who always quotes a price to buy and a price to sell?"
+    options:
+      - {text: "Institution"}
+      - {text: "Retail trader"}
+      - {text: "Market maker", correct: true}
+    explanation: "That two-sided quote is the market maker's job."
 
-  - type: theory
-    title: "A whole day"
-    body: "You just read a trading day from coffee to close. Final exam next — then you choose your path."
+  - type: order
+    prompt: "Drag the sessions into place, first to last."
+    items: ["Pre-market", "Regular session", "After-hours"]
+    explanation: "Before, main, after."
+
+  - type: mc
+    prompt: "A stock is up 5 % in pre-market on very low volume. Why be careful?"
+    options:
+      - {text: "Thin trading — only a few participants set that price", correct: true}
+      - {text: "Pre-market moves always reverse once the session opens"}
+      - {text: "Only institutions can trade pre-market"}
+    explanation: "Thin sessions are jumpy; the crowd arrives at the open."
+
+  - type: fill-tiles
+    sentence: "A stock that swings 8 % in a day is highly ___."
+    answer: "volatile"
+    explanation: "Big, fast moves in both directions."
+
+  - type: summary
+    total: 10

@@ -1,88 +1,98 @@
 id: "3-1"
-title: "Who's On the Other Side"
+title: "What You're Actually Buying"
 chapter: 1
 chapter_title: "Market Basics"
 path: all
 category: new-theory
-tags: [participants, market-maker]
-learning_goal: "User can name retail traders, institutions and market makers, and knows the market maker earns the gap between its two prices."
-purpose: "Big, sudden moves usually come from big players — knowing who is out there explains why prices sometimes jump for no visible reason."
-terms_introduced: ["Retail trader", "Institution", "Market maker", "Spread"]
-prerequisite: "2-2"
+tags: [stocks, ownership]
+learning_goal: "User can explain a share as a fraction of a company, read a ticker, and knows where stocks trade."
+purpose: "Knowing that a stock is a piece of a real business — with a code and a marketplace — keeps trading from feeling like a lottery."
+terms_introduced: ["Shareholder", "Ticker", "Exchange"]
+prerequisite: "2-1"
 xp: 20
 difficulty: 1
 sources: [consensus]
 screens:
   - type: intro
-    text: "Every time you buy, someone sells. Who?"
-
-  - type: carousel
-    cards:
-      - {label: "Retail trader", text: "Individuals like you, trading their own money from a phone or laptop.", icon: retail-trader}
-      - {label: "Institution", text: "Funds, banks, pension plans — trading millions at a time. When they move, prices move.", icon: institution}
-      - {label: "Market maker", text: "A firm that always offers to buy and to sell. It quotes two prices and keeps the small gap between them.", icon: market-maker}
+    text: "XYZ isn't a lottery ticket. It's a piece of a real business."
 
   - type: theory
-    title: "The market maker's gap"
-    body: "A market maker might buy from you at $10.00 and sell to you at $10.02. That gap is the spread — how it gets paid for always being there. You'll meet the spread on every quote from Chapter 3."
+    title: "A stock is ownership"
+    body: "A company is cut into many equal pieces called shares. Own one share and you own that fraction of the company. Owners are called shareholders."
+    visual: ownership-pie
+    visual_data: {total: 100, owned: 1}
+
+  - type: example
+    body: "A company with 1,000 shares. You buy 10. You own 1 % — of the buildings, the brand, the profits."
+    visual: ownership-pie
+    visual_data: {total: 1000, owned: 10}
+
+  - type: theory
+    title: "Why sell pieces of yourself?"
+    body: "To raise money — for factories, products, growth. Investors pay cash once and get a share of the future. After that, the shares change hands between traders."
+
+  - type: numeric-mc
+    prompt: "A company has 400 shares. You buy 20. What fraction of the company is yours?"
+    options:
+      - {text: "20 %"}
+      - {text: "2 %"}
+      - {text: "5 %", correct: true}
+      - {text: "0.5 %"}
+    working: "20 ÷ 400 = 0.05 = 5 %"
+    explanation: "Your shares divided by all shares."
+
+  - type: theory
+    title: "The ticker"
+    body: "Every stock has a short code so nobody types the full name. Apple is AAPL; our example is XYZ. That code is the ticker."
+    visual: quote-card
+    visual_data: {ticker: XYZ, name: Example Corp, price: 22.40}
+
+  - type: theory
+    title: "The exchange"
+    body: "Stocks trade on an exchange, like {{market.exchange_examples}} — a marketplace that matches buyers and sellers. You never deal with it directly; that's what a broker is for (Level 7)."
 
   - type: mc
-    prompt: "Why does a market maker quote two prices instead of one?"
+    prompt: "You own 50 shares of a company that has 5,000 shares. Which is true?"
     options:
-      - {text: "One price is for retail traders, the other for institutions"}
-      - {text: "Rules require two prices so trades can be reversed"}
-      - {text: "It buys at the lower and sells at the higher — the gap is its income", correct: true}
-    explanation: "Buy low, sell slightly higher, thousands of times a day."
-
-  - type: story
-    character: institution
-    text: "A pension fund decides to buy 2 million shares of XYZ this afternoon."
-
-  - type: mc
-    prompt: "What does the fund's buying most likely do to XYZ's price during the afternoon?"
-    options:
-      - {text: "Push it up — that much demand has to find sellers", correct: true}
-      - {text: "Nothing — one buyer can't move a price"}
-      - {text: "Push it down — big buyers negotiate discounts"}
-    explanation: "Size matters. Large demand moves price by the same rule as Level 1."
+      - {text: "You own 1 % of the company", correct: true}
+      - {text: "You lent the company money that it must repay"}
+      - {text: "You are owed 50 % of the company's profits"}
+    explanation: "50 ÷ 5,000 = 1 %. A share is ownership, not a loan."
 
   - type: tf
-    statement: "Retail traders make up most of the trading volume in big stocks."
+    statement: "When you buy a share on the exchange, your money goes to the company."
     answer: false
-    explanation: "Institutions and market makers account for most of it. Retail is a small slice — remember that when a stock suddenly moves on huge volume."
+    explanation: "It goes to the seller — another shareholder. The company only gets money when it first sells the shares."
 
-  - type: sort
-    prompt: "Who is it?"
-    buckets: ["Retail trader", "Institution", "Market maker"]
-    items:
-      - {text: "Trades their own savings from an app", bucket: "Retail trader"}
-      - {text: "Buys 2 million shares for a fund", bucket: "Institution"}
-      - {text: "Always quotes a buy and a sell price", bucket: "Market maker"}
-      - {text: "Earns the gap between two prices", bucket: "Market maker"}
-    explanation: "Three kinds of players, three kinds of footprints."
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the ticker symbol."
+    data: {ticker: NOVA, name: Nova Energy, price: 48.10, change: 0.35, change_pct: 0.7}
+    target: ticker
+    explanation: "NOVA is the code; Nova Energy is the name."
 
   - type: match
-    prompt: "Who is who on the other side of your trade?"
+    prompt: "Pieces, owners, codes and marketplaces — which is which?"
     pairs:
-      - ["Retail trader", "Individual trading their own money"]
-      - ["Institution", "Fund or bank trading very large size"]
-      - ["Market maker", "Always ready to buy and to sell"]
-      - ["Spread", "Gap between the market maker's two prices"]
-    explanation: "Who's there, and what the gap is called."
+      - ["Share", "One piece of a company"]
+      - ["Shareholder", "Someone who owns shares"]
+      - ["Ticker", "Code that identifies a stock"]
+      - ["Exchange", "Marketplace matching buyers and sellers"]
+    explanation: "Pieces, owners, codes and the marketplace."
 
   - type: mc
-    prompt: "XYZ suddenly trades 20 times its normal volume, with the price jumping in big steps. Most likely?"
+    prompt: "A company's stock price doubles in a year. Which statement is right?"
     options:
-      - {text: "Many retail traders happened to click at the same second"}
-      - {text: "The market maker widened its two prices"}
-      - {text: "Institutions are active — large blocks are moving the price", correct: true}
-    explanation: "Huge volume and big steps are the footprint of size."
+      - {text: "The company now has twice as many shares"}
+      - {text: "Each shareholder now owns twice as big a fraction of the company"}
+      - {text: "Each share is worth twice as much", correct: true}
+    explanation: "Price changes what a share is worth — not how many you own or what fraction."
 
   - type: fill-tiles
-    sentence: "The gap between a market maker's buy price and sell price is the ___."
-    answer: "spread"
-    explanation: "Spread — you'll pay it on every trade."
+    sentence: "The code that identifies a stock is its ___."
+    answer: "ticker"
+    explanation: "AAPL, XYZ, NOVA — tickers."
 
   - type: theory
-    title: "Footprints"
-    body: "You'll rarely know who is on the other side. But you can read their footprints: volume and price moves. That's what the next levels are about."
+    title: "Next up"
+    body: "The little card every app shows for a stock — and how to read it in two seconds."
