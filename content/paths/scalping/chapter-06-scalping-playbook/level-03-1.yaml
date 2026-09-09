@@ -32,7 +32,7 @@ screens:
 
   - type: theory
     title: "The trigger"
-    body: "A 1-minute candle that closes beyond an edge of the box, on volume bigger than the candles that built it. A wick through the edge is not a break — the close is."
+    body: "A 1-minute candle that closes beyond one side of the box, on volume bigger than the candles that built it. A wick through the line is not a break — the close is."
 
   - type: chart-tap
     prompt: "The opening-range high is $21.40. Tap the candle that breaks it."
@@ -42,11 +42,11 @@ screens:
       levels:
         - {price: 21.40, label: "Opening-range high"}
     target: 5
-    explanation: "The candle before it reached $21.40 and closed back under. Only the next one finished above the edge."
+    explanation: "The candle before it reached $21.40 and closed back under. Only the next one finished above the line."
 
   - type: theory
     title: "Stop and target"
-    body: "The stop goes back inside the box, two cents past the trigger candle's far side. That distance is your R for the trade. The target is 1R to 2R — the box's own height is the usual reach."
+    body: "The stop goes back inside the box, two cents past the trigger candle's far side. That distance times your share count is 1R. The target is 1R to 2R — the box's own height is the usual reach."
 
   - type: numeric-input
     prompt: "You buy 1,500 shares at $36.30 with the stop at $36.14. What is 1R in dollars for this position?"
@@ -65,15 +65,15 @@ screens:
 
   - type: theory
     title: "The failure mode"
-    body: "The common way this card loses: price closes beyond the edge, then closes back inside within a couple of candles. That is the invalidation — you leave, you do not wait for the stop."
+    body: "The common way this card loses: price closes beyond the box, then closes back inside within a couple of candles. That is the invalidation — you leave, you do not wait for the stop."
 
   - type: tf
-    statement: "Once a break has closed beyond the edge, closing back inside the box is nothing to worry about."
+    statement: "Once a break has closed beyond the box, closing back inside it is nothing to worry about."
     answer: false
     explanation: "A break that returns inside has failed, and the traders who bought it are now the ones selling."
 
   - type: chart-decision
-    scenario: "The opening range is $35.90 to $36.20. Five quiet candles hug the top edge, then one closes at $36.30 on the heaviest volume since the open. You have 1,500 shares ready."
+    scenario: "The opening range is $35.90 to $36.20. Five quiet candles hug the top of the box, then one closes at $36.30 on the heaviest volume since the open. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
@@ -85,7 +85,7 @@ screens:
       decision_index: 5
     best: long
     outcome: "It ran to $36.60. Out at $36.60: $0.30 per share, +$450 long on 1,500 shares from $36.30 — just under 2R with the stop at $36.14."
-    explanation: "Quiet candles squeezing the top edge, then a close beyond it on the day's heaviest volume: the box gave way."
+    explanation: "Quiet candles squeezing the top of the box, then a close beyond it on the day's heaviest volume: the box gave way."
 
   - type: sort
     prompt: "Which card is this chart asking for?"

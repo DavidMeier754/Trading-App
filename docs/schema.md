@@ -172,6 +172,7 @@ Common: every screen has `type`. Question screens have `explanation` (one senten
     kind: line                # line (Chapter 1) | candles
     data: [10.00, 10.05, …]   # line: closes; candles: [o,h,l,c] per bar
     decision_index: 12        # bar at which the chart pauses
+  state: ["Day: −2R", "Limit: 3R"]   # optional: session-state chips above the chart (UI.md 6.4)
   buttons: [buy, wait]        # Chapter 1 variant; default [long, short, no-trade]
   best: buy
   reasonable: [wait]          # optional: answers marked amber, not red
@@ -202,6 +203,8 @@ Use only these component ids and target ids (UI.md §6 defines how they look).
 | `session-ribbon` | `premarket`, `regular`, `afterhours`, `timezone` (tokens) | — |
 | `cost-stack` | `shares`, `spread`, `slippage`, `fees`, `target` (per share) or `rows: [{label, value}]`, `targets: [{label, value}]` | — |
 | `ownership-pie` | `total`, `owned` | — |
+
+`state` holds 1–3 short strings; use it whenever the right answer depends on where the trader stands (day result in R, the limit, the trade count, the current size) rather than on the chart alone.
 
 Chart conventions: 8–12 bars; `decision_index` between 4 and 7; prices with two decimals; candle `high` ≥ max(open, close) and `low` ≤ min(open, close); outcome visible in the bars after the decision. Chapter 1 uses `chart-line`; path chapters use `chart-candles`.
 

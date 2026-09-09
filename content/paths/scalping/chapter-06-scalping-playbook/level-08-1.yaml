@@ -63,7 +63,7 @@ screens:
     explanation: "A smaller wrong trade is still a wrong trade. No card means no trade — that is what having cards is for."
 
   - type: chart-decision
-    scenario: "XYZ has rotated between $43.90 and $44.30 all morning, VWAP in the middle. Back at the top edge, this candle wicks to $44.36 and closes at $44.18 on the heaviest volume of the move. You have 1,000 shares ready."
+    scenario: "XYZ has rotated between $43.90 and $44.30 all morning, VWAP in the middle. Back at the top of the range, this candle wicks to $44.36 and closes at $44.18 on the heaviest volume of the move. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
@@ -76,7 +76,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It rotated back to the other edge at $43.90 — $0.28 per share, +$280 short on 1,000 shares from $44.18."
+    outcome: "It rotated back to the other side at $43.90 — $0.28 per share, +$280 short on 1,000 shares from $44.18."
     explanation: "A range day at the top of its range with a rejection close: card D, exactly where that card belongs."
 
   - type: theory
@@ -89,7 +89,7 @@ screens:
       - ["A trend day running above VWAP", "Momentum continuation"]
       - ["The first pullback inside that trend", "VWAP bounce"]
       - ["A range day with clean edges", "Mean reversion at a level"]
-      - ["A range edge that breaks and immediately fails", "Failed-breakout fade"]
+      - ["A range boundary that breaks and immediately fails", "Failed-breakout fade"]
     explanation: "Same five cards every day; the day decides which ones get dealt."
 
   - type: numeric-input

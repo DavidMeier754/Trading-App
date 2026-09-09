@@ -1,0 +1,100 @@
+id: "6-1"
+title: "Thinking in Probabilities"
+chapter: 5
+chapter_title: "Risk & Psychology for Scalpers"
+path: scalping
+category: new-theory
+tags: [psychology, probability, expectancy]
+learning_goal: "User treats a single trade's outcome as one draw from a series and judges the decision instead of the result."
+purpose: "Nothing else in this chapter survives a losing run unless you already expect losing runs."
+terms_introduced: ["Sample size"]
+prerequisite: "5-2"
+xp: 20
+difficulty: 2
+sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
+screens:
+  - type: intro
+    text: "You can trade a setup perfectly and lose. That is not a mistake — it is the job."
+
+  - type: theory
+    title: "One trade is close to random"
+    body: "Your edge does not decide the next trade. It decides what a long run of them looks like. Two traders with the same method can have opposite mornings."
+
+  - type: theory
+    title: "Sample size"
+    body: "The number of trades a judgment rests on. Five trades tell you nothing about a method. A hundred taken the same way start to tell you something."
+
+  - type: example
+    body: "At a 55 % win rate, about one four-trade stretch in twenty-four is four losses in a row. Take a hundred scalps a week and it will happen to you."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars: [{label: "1", value: 1}, {label: "2", value: -1}, {label: "3", value: -1}, {label: "4", value: -1}, {label: "5", value: -1}, {label: "6", value: 1}, {label: "7", value: 2}, {label: "8", value: -1}, {label: "9", value: 1}, {label: "10", value: 1}]
+      unit: "R"
+    caption: "Ten trades from a method that pays: four straight losses sit in the middle of a +1R run."
+
+  - type: theory
+    title: "The two mistakes it causes"
+    body: "After a run of losses: skipping the setup that was next in line. After a run of wins: sizing up because you feel sharp. Both replace the method with the last result."
+
+  - type: story
+    character: retail-trader
+    text: "Four stops before the opening window is over. The fifth setup is textbook and your finger hesitates."
+
+  - type: mc
+    prompt: "Your last three trades all hit the stop. Your next setup is the same one. What are its odds?"
+    options:
+      - {text: "About the same as always", correct: true}
+      - {text: "Lower — the method has stopped working"}
+      - {text: "Higher — three losses mean one is due"}
+    explanation: "The market has no memory of your morning. Three losses is a normal run, not a signal in either direction."
+
+  - type: tf
+    statement: "A method that has lost five trades in a row is proven broken."
+    answer: false
+    explanation: "Five is far below the sample size that could show that. Losing runs live inside methods that pay."
+
+  - type: chart-decision
+    scenario: "Four stops already this morning, with one full stop of room left before your limit. XYZ reclaims VWAP on the heaviest volume since the open and holds above it. Entry $71.30, stop $71.16. 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[71.10, 71.18, 71.04, 71.08], [71.08, 71.16, 71.02, 71.14], [71.14, 71.24, 71.10, 71.22], [71.22, 71.30, 71.18, 71.28], [71.28, 71.34, 71.22, 71.26], [71.26, 71.34, 71.22, 71.30], [71.30, 71.42, 71.28, 71.40], [71.40, 71.50, 71.36, 71.48], [71.48, 71.62, 71.44, 71.58], [71.58, 71.64, 71.52, 71.56]]
+      vwap: [71.20, 71.20, 71.21, 71.22, 71.23, 71.24, 71.25, 71.27, 71.29, 71.31]
+      decision_index: 5
+    state: ["Day: −4R", "1R of room left"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It held the line and reached $71.64. Sold at $71.58: $0.28 per share, +$280 on 1,000 shares against $140 of risk."
+    explanation: "The setup knows nothing about your morning. Skipping it is how a losing run becomes a losing week."
+
+  - type: sort
+    prompt: "Random outcome, or your mistake?"
+    buckets: ["Random outcome", "Your mistake"]
+    items:
+      - {text: "A clean setup that hit the stop by a cent", bucket: "Random outcome"}
+      - {text: "Entering two candles before the trigger", bucket: "Your mistake"}
+      - {text: "A winner that ran twice as far as your target", bucket: "Random outcome"}
+      - {text: "Skipping the next setup because the last one lost", bucket: "Your mistake"}
+    explanation: "Grade the decision. The result is one draw from a long series and grades nothing on its own."
+
+  - type: fill-choice
+    sentence: "A method is judged on a large enough ___ of trades, not on this morning."
+    options: ["sample", "profit", "streak"]
+    answer: "sample"
+    explanation: "One morning is noise. A hundred trades taken the same way is evidence."
+
+  - type: slider
+    prompt: "A 20-trade day at a 55 % win rate. How many losers is a normal number?"
+    min: 0
+    max: 20
+    step: 1
+    unit: "trades"
+    answer: 9
+    tolerance: 3
+    explanation: "About nine. That is what a method that pays looks like on an ordinary day."
+
+  - type: theory
+    title: "One of many"
+    body: "The next trade is not the one that matters. It is one of the next thousand, and only the thousand has a result you can count on."

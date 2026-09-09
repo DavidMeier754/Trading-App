@@ -63,11 +63,11 @@ screens:
     body: "Stop two cents beyond the wick. Target VWAP. And take a smaller share count than the other cards: you are trading against a move that is still moving."
 
   - type: numeric-input
-    prompt: "You short 1,000 shares at $65.38, stop $65.58, target VWAP at $65.10. How many R is that target?"
+    prompt: "You short 1,000 shares at $65.38, stop $65.58, target VWAP at $65.10. What is that target as an R-multiple?"
     answer: 1.4
     tolerance: 0.05
     working: "Risk $65.58 − $65.38 = $0.20; reward $65.38 − $65.10 = $0.28; $0.28 ÷ $0.20 = 1.4"
-    explanation: "A little under one and a half times the risk — normal for this card, because the stop has to be tight."
+    explanation: "A 1.4R target — normal for this card, because the stop has to be tight to be worth taking at all."
 
   - type: mc
     prompt: "Why does this card use a smaller share count than the other three?"

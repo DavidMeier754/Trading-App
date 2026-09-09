@@ -31,18 +31,19 @@ screens:
         - {price: 31.22, label: "High of day"}
       volume: [6200, 5800, 5400, 4900, 7600, 9800, 9200, 8600, 8000, 7400]
       decision_index: 4
+    state: ["Day: +3R", "Trade 3 of 6"]
     best: short
     reasonable: [no-trade]
     outcome: "It took the level back and ran to $31.56. The stop filled at $31.32 — $0.16 per share, −$200 on 1,250 shares. Exactly 1R."
     explanation: "The card fired correctly and the trade still lost. That is what the stop is for, and why it was decided before the entry."
 
   - type: numeric-input
-    prompt: "The morning is +$300 and +$300 gross from two winners and −$200 from the stop-out, with $0.03 per share of costs on each of the three 1,250-share round trips. What is the net?"
-    answer: 287.5
+    prompt: "The morning is +$300 and +$400 gross from two winners and −$200 from the stop-out, with $0.03 per share of costs on each of the three 1,250-share round trips. What is the net?"
+    answer: 387.5
     tolerance: 0.5
     unit: "$"
-    working: "$300 + $300 − $200 = $400; costs $0.03 × 1,250 × 3 = $112.50; $400 − $112.50 = $287.50"
-    explanation: "Three round trips on 1,250 shares cost $112.50 — more than half of one winner."
+    working: "$300 + $400 − $200 = $500; costs $0.03 × 1,250 × 3 = $112.50; $500 − $112.50 = $387.50"
+    explanation: "Three round trips on 1,250 shares cost $112.50 — more than a quarter of what the winners made."
 
   - type: spot-mistake
     prompt: "Tap the mistake."
@@ -50,7 +51,7 @@ screens:
       - {text: "The fade stopped out for 1R, so you take the same trade again"}
       - {text: "with double the share count", wrong: true}
       - {text: "to get the loss back."}
-    explanation: "Doubling after a loss lets the loss pick the size. The next trade gets the share count on the card, whatever the last one did."
+    explanation: "Doubling after a loss lets the loss pick the size. The reset routine says the opposite: same setups, same stops, smaller shares."
 
   - type: chart-decision
     scenario: "XYZ pushes into a fresh leg above VWAP, pauses for two small candles on the lightest volume of the hour, then closes at $31.96. You have 1,250 shares ready."
@@ -61,8 +62,9 @@ screens:
       vwap: [31.40, 31.46, 31.54, 31.60, 31.64, 31.68, 31.74, 31.82, 31.88, 31.94]
       volume: [8800, 10200, 11600, 5600, 4200, 10800, 9400, 8600, 7800, 7200]
       decision_index: 5
+    state: ["Day: +2R", "Trade 4 of 6"]
     best: long
-    outcome: "It carried on to $32.32 — $0.36 per share, +$450 long on 1,250 shares from $31.96, with the stop at $31.80."
+    outcome: "It carried on past $32.28. Out there: $0.32 per share, +$400 long on 1,250 shares from $31.96, with the stop at $31.80 — a 2R win."
     explanation: "Card C straight after a loss, taken at the size on the card. The previous trade had nothing to do with this one."
 
   - type: mc
@@ -83,6 +85,7 @@ screens:
         - {price: 33.00, label: "Round number"}
       volume: [9200, 10400, 11800, 13200, 14600, 8600, 9800, 11200, 12400, 13600]
       decision_index: 5
+    state: ["Day: +4R", "Trades: 4 of 6"]
     best: no-trade
     outcome: "It paused for one candle, then made new highs to $33.30 — $0.50 against a short, $625 on 1,250 shares."
     explanation: "The rejection was a breather in a trend, not a turn. On this kind of day the round number gets taken on the second try."
@@ -106,6 +109,7 @@ screens:
       vwap: [33.06, 33.04, 33.02, 33.01, 33.00, 33.00, 33.00, 33.01, 33.02, 33.02]
       volume: [9800, 11200, 13600, 15400, 14200, 16800, 18200, 17400, 16600, 15800]
       decision_index: 5
+    state: ["Day: +4R", "Trades: 4 of 6"]
     best: no-trade
     outcome: "It whipsawed twenty cents each way for ten minutes. Two round trips at an eleven-cent spread would have cost $275 on 1,250 shares before a single cent of movement."
     explanation: "The shape was there and the price of admission was not payable. A spread five times its normal size is news you have not read yet."

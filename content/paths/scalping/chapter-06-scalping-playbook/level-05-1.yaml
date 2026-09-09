@@ -58,16 +58,16 @@ screens:
     prompt: "Match each card to the chart it belongs on."
     pairs:
       - ["VWAP bounce", "Above the line all session, first pullback into it"]
-      - ["Opening-range scalp", "First half hour, a close beyond the edge of the box"]
+      - ["Opening-range scalp", "First half hour, a close beyond one side of the box"]
       - ["Momentum continuation", "A leg, then a shallow pause on falling volume"]
       - ["No trade", "A ten-cent band, flat VWAP, no level nearby"]
     explanation: "Three cards and a large fourth category that most of the session belongs to."
 
   - type: mc
-    prompt: "Price has chopped around the top edge of the opening range for ten minutes. What does the card need before you buy?"
+    prompt: "Price has chopped around the top of the opening range for ten minutes. What does the card need before you buy?"
     options:
-      - {text: "A 1-minute candle closing above the edge on volume bigger than the box's candles", correct: true}
-      - {text: "A single trade printing above the edge"}
+      - {text: "A 1-minute candle closing above the box on volume bigger than its own candles", correct: true}
+      - {text: "A single trade printing above the box"}
       - {text: "Three candles in a row making higher highs"}
     explanation: "The close is the trigger and the volume is the proof. Anything less is still chop."
 
@@ -87,8 +87,8 @@ screens:
     prompt: "Put these opening-range moments in the order they happen."
     items:
       - "The first five minutes close and the box is set"
-      - "Price coils against the top edge on shrinking volume"
-      - "A candle closes above the edge on heavy volume"
+      - "Price coils against the top of the box on shrinking volume"
+      - "A candle closes above the box on heavy volume"
       - "The stop goes back inside the box"
     explanation: "The box has to exist, then be pressed, then be broken — and only then does the stop have a home."
 

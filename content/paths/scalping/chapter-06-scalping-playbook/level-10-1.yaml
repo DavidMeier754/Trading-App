@@ -19,7 +19,7 @@ screens:
     counter: 12
 
   - type: mc
-    prompt: "'Range day. Short the rejection candle at the top edge. Stop two cents over the wick. Target VWAP. Out on a close through the edge.' Which card is this?"
+    prompt: "'Range day. Short the rejection candle at the top of the range. Stop two cents over the wick. Target VWAP. Out on a close through the level.' Which card is this?"
     options:
       - {text: "Mean reversion at a level", correct: true}
       - {text: "Failed-breakout fade"}
@@ -27,14 +27,14 @@ screens:
     explanation: "It leans against a level on a range day and aims back at the average price. The fade would need a break to have happened first."
 
   - type: numeric-mc
-    prompt: "You risk $250 per trade. The day goes −1R, +2R, −1R. Where does it stand in money, before costs?"
+    prompt: "You risk $250 per trade. Three cards fired: the bounce made 2R, the fade lost 1R, the continuation made 1.5R. Where does the day stand, before costs?"
     options:
-      - {text: "$0", correct: true}
-      - {text: "−$250"}
-      - {text: "+$500"}
+      - {text: "+$625", correct: true}
+      - {text: "+$375"}
+      - {text: "+$1,125"}
       - {text: "+$250"}
-    working: "(−1 + 2 − 1) × $250 = $0"
-    explanation: "R makes a mixed day one sum. Costs are what turn a flat day like this into a small red one."
+    working: "(2 − 1 + 1.5) = 2.5R; 2.5 × $250 = $625"
+    explanation: "R makes a mixed day one sum, whatever share count each card used."
 
   - type: chart-decision
     scenario: "XYZ closed under the opening-range low at $19.60 on the lightest volume of the morning. This candle closes back above it at $19.64 on heavy volume. You have 1,500 shares ready."
@@ -59,7 +59,7 @@ screens:
     prompt: "Match each card to its trigger."
     pairs:
       - ["VWAP bounce", "The first candle closing back above the line"]
-      - ["Opening-range scalp", "A candle closing beyond the edge of the box on volume"]
+      - ["Opening-range scalp", "A candle closing beyond one side of the box on volume"]
       - ["Momentum continuation", "The first close back in the leg's direction after a quiet pause"]
       - ["Failed-breakout fade", "The candle closing back on the level's original side"]
     explanation: "Every trigger is a close. None of them is a touch, a wick or a feeling."
@@ -97,11 +97,11 @@ screens:
     explanation: "Shape, volume, conditions, cost. A card needs all four, not three."
 
   - type: numeric-input
-    prompt: "You are long 2,000 shares at $18.40 and sell at $18.62. The spread costs $0.04 per share on the round trip and fees are $0.005 per share each way. What is left?"
-    answer: 340
+    prompt: "You are long 1,500 shares at $26.80 and sell at $27.02. The spread costs $0.04 per share on the round trip and fees are $0.005 per share each way. What is left?"
+    answer: 255
     tolerance: 0.5
     unit: "$"
-    working: "$0.22 × 2,000 = $440; spread $0.04 × 2,000 = $80; fees $0.005 × 2,000 × 2 = $20; $440 − $100 = $340"
+    working: "$0.22 × 1,500 = $330; spread $0.04 × 1,500 = $60; fees $0.005 × 1,500 × 2 = $15; $330 − $75 = $255"
     explanation: "Twenty-two cents gross, seventeen net. Costs took nearly a quarter of the move."
 
   - type: chart-tap

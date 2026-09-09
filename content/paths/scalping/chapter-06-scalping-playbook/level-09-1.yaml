@@ -23,7 +23,7 @@ screens:
 
   - type: theory
     title: "The plan fits on one line"
-    body: "Risk $200 a trade — one per cent of the account. Daily loss limit 3R, so $600. Five cards, and no trade that is not one of them."
+    body: "Risk $200 a trade — one per cent of the account. Daily loss limit 3R, so $600. Trade limit six. Five cards, and no trade that is not one of them."
 
   - type: visual
     component: chart-candles
@@ -33,7 +33,7 @@ screens:
         - {price: 30.40, label: "Opening-range high"}
         - {price: 30.10, label: "Opening-range low"}
       volume: [4400, 4000, 3600, 3300, 3100]
-    caption: "The first five minutes are done. The box is $30.10 to $30.40, and volume is shrinking against the top edge."
+    caption: "The first five minutes are done. The box is $30.10 to $30.40, and volume is shrinking against the top of the box."
 
   - type: chart-decision
     scenario: "The next candle closes at $30.50, above the box, on more than triple the volume of the candles that built it. You have 1,250 shares ready and $200 of risk for the trade."
@@ -46,9 +46,10 @@ screens:
         - {price: 30.10, label: "Opening-range low"}
       volume: [4400, 4000, 3600, 3300, 3100, 10200, 8800, 8000, 7200, 6600]
       decision_index: 5
+    state: ["Day: 0R", "Trade 1 of 6"]
     best: long
-    outcome: "It ran to $30.74. Out there: $0.24 per share, +$300 long on 1,250 shares from $30.50, with the stop at $30.34."
-    explanation: "Card B, first trade of the day: coiling against the edge, then a close beyond it on the session's heaviest volume."
+    outcome: "It ran to $30.74. Out there: $0.24 per share, +$300 long on 1,250 shares from $30.50, with the stop at $30.34 — a 1.5R win."
+    explanation: "Card B, first trade of the day: coiling against the line, then a close beyond it on the session's heaviest volume."
 
   - type: numeric-input
     prompt: "You bought 1,250 shares at $30.50 and sold at $30.74. The round trip costs $0.03 per share. What is the net?"
@@ -67,12 +68,13 @@ screens:
     shares: 1250
     chart:
       kind: candles
-      data: [[31.10, 31.16, 31.02, 31.04], [31.04, 31.08, 30.96, 30.98], [30.98, 31.02, 30.90, 30.92], [30.92, 30.96, 30.86, 30.88], [30.88, 30.92, 30.80, 30.84], [30.84, 30.96, 30.82, 30.94], [30.94, 31.04, 30.92, 31.02], [31.02, 31.12, 31.00, 31.10], [31.10, 31.18, 31.06, 31.14], [31.14, 31.22, 31.10, 31.18]]
+      data: [[31.10, 31.16, 31.02, 31.04], [31.04, 31.08, 30.96, 30.98], [30.98, 31.02, 30.90, 30.92], [30.92, 30.96, 30.86, 30.88], [30.88, 30.92, 30.80, 30.84], [30.84, 30.96, 30.80, 30.94], [30.94, 31.04, 30.92, 31.02], [31.02, 31.12, 31.00, 31.10], [31.10, 31.18, 31.06, 31.14], [31.14, 31.22, 31.10, 31.18]]
       vwap: [30.90, 30.89, 30.88, 30.88, 30.87, 30.87, 30.88, 30.89, 30.90, 30.91]
       volume: [6600, 5800, 5100, 4400, 3800, 9400, 8200, 7400, 6800, 6200]
       decision_index: 5
+    state: ["Day: +1.5R", "Trade 2 of 6"]
     best: long
-    outcome: "It reached the high of day at $31.22. Out at $31.18: $0.24 per share, +$300 long on 1,250 shares from $30.94."
+    outcome: "It reached the high of day at $31.22. Out at $31.18: $0.24 per share, +$300 long on 1,250 shares from $30.94, with the stop at $30.78 — a 1.5R win."
     explanation: "Card A on a trend day — the pullback into the line, bought back on volume, with the high of day as the target."
 
   - type: mc
@@ -92,6 +94,7 @@ screens:
       vwap: [31.13, 31.13, 31.13, 31.13, 31.13, 31.13, 31.13, 31.13, 31.13, 31.13]
       volume: [4200, 3800, 3400, 3100, 2800, 2600, 2500, 2400, 2300, 2200]
       decision_index: 5
+    state: ["Day: +3R", "Trades: 2 of 6"]
     best: no-trade
     outcome: "Another twenty minutes in the same band. Two round trips would have paid $75 in spread on 1,250 shares and returned nothing."
     explanation: "No card, no trade — and this is the stretch of the session where most of a good morning gets handed back."

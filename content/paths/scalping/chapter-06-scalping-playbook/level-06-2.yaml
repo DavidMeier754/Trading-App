@@ -22,25 +22,25 @@ screens:
     text: "Levels marked before the open, VWAP on the chart, $20,000 in the account. Size down for these."
 
   - type: chart-decision
-    scenario: "XYZ has run five candles into the pre-market high at $41.20 on the heaviest volume of the move, thirty-six cents above VWAP. The next candle wicks to $41.28 and closes at $41.08. You have 1,000 shares ready."
+    scenario: "XYZ has run five candles into the pre-market high at $45.80 on the heaviest volume of the move, thirty-six cents above VWAP. The next candle wicks to $45.88 and closes at $45.68. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[40.60, 40.74, 40.58, 40.72], [40.72, 40.88, 40.70, 40.86], [40.86, 41.02, 40.84, 41.00], [41.00, 41.14, 40.98, 41.12], [41.12, 41.20, 41.10, 41.18], [41.18, 41.28, 41.06, 41.08], [41.08, 41.12, 40.94, 40.96], [40.96, 41.00, 40.82, 40.84], [40.84, 40.88, 40.72, 40.74], [40.74, 40.78, 40.68, 40.72]]
-      vwap: [40.62, 40.64, 40.66, 40.68, 40.70, 40.72, 40.73, 40.74, 40.75, 40.76]
+      data: [[45.20, 45.34, 45.18, 45.32], [45.32, 45.48, 45.30, 45.46], [45.46, 45.62, 45.44, 45.60], [45.60, 45.74, 45.58, 45.72], [45.72, 45.80, 45.70, 45.78], [45.78, 45.88, 45.66, 45.68], [45.68, 45.72, 45.54, 45.56], [45.56, 45.60, 45.42, 45.44], [45.44, 45.48, 45.32, 45.34], [45.34, 45.38, 45.28, 45.32]]
+      vwap: [45.22, 45.24, 45.26, 45.28, 45.30, 45.32, 45.33, 45.34, 45.35, 45.36]
       levels:
-        - {price: 41.20, label: "Pre-market high"}
+        - {price: 45.80, label: "Pre-market high"}
       volume: [7200, 8400, 9800, 11600, 13800, 15200, 10400, 9200, 8200, 7400]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It came back to VWAP at $40.74 — $0.34 per share, +$340 short on 1,000 shares from $41.08."
+    outcome: "It came back to VWAP at $45.34 — $0.34 per share, +$340 short on 1,000 shares from $45.68."
     explanation: "Marked level, climax volume, a wick through and a close back under. All four boxes on the card."
 
   - type: hotspot
     component: quote-panel
     prompt: "You are short and want to cover at VWAP right now. Tap the price your buy fills at."
-    data: {bid: 40.72, ask: 40.75, last: 40.73}
+    data: {bid: 45.32, ask: 45.35, last: 45.33}
     target: ask
     explanation: "A buyer in a hurry pays the ask. Three cents on 1,000 shares is $30 of the $340."
 
@@ -58,14 +58,14 @@ screens:
     explanation: "A wick with nothing behind it. There was no level for the run to fail against, so nothing failed."
 
   - type: numeric-mc
-    prompt: "Back to the first trade: short at $41.08, stop $41.30, covered at VWAP $40.74. What did it make in R?"
+    prompt: "Back to the first trade: short at $45.68, stop $45.90, covered at VWAP $45.34. What did it make as an R-multiple?"
     options:
-      - {text: "About 1.5 R", correct: true}
-      - {text: "About 0.6 R"}
-      - {text: "About 2.2 R"}
-      - {text: "About 3.4 R"}
-    working: "Risk $41.30 − $41.08 = $0.22; reward $41.08 − $40.74 = $0.34; $0.34 ÷ $0.22 ≈ 1.5"
-    explanation: "R turns every trade into the same unit, whatever the price of the stock."
+      - {text: "About 1.5R", correct: true}
+      - {text: "About 0.6R"}
+      - {text: "About 2.2R"}
+      - {text: "About 3.4R"}
+    working: "Risk $45.90 − $45.68 = $0.22; reward $45.68 − $45.34 = $0.34; $0.34 ÷ $0.22 ≈ 1.5"
+    explanation: "The R-multiple turns every trade into the same unit, whatever the stock costs or how many shares you held."
 
   - type: chart-decision
     scenario: "XYZ rejected the round number $50.00 once, then the next candle closed at $50.04, through it. Now a third candle closes at $50.16 on growing volume. You have 1,000 shares ready."

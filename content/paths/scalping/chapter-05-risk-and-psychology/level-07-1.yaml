@@ -1,0 +1,94 @@
+id: "7-1"
+title: "The Journal"
+chapter: 5
+chapter_title: "Risk & Psychology for Scalpers"
+path: scalping
+category: new-theory
+tags: [journal, review, execution]
+learning_goal: "User logs a scalp as one row — setup, prices, R risked and made, execution grade, state — and grades execution independently of the result."
+purpose: "Twenty trades a day is a lot of evidence, and none of it survives until Friday unless it is written down."
+terms_introduced: ["Journal", "Execution grade"]
+prerequisite: "6-2"
+xp: 20
+difficulty: 2
+sources: ["Bellafiore — One Good Trade", "Elder — Trading for a Living"]
+screens:
+  - type: intro
+    text: "Twenty trades a day, and you will remember three of them by Friday."
+
+  - type: theory
+    title: "The journal"
+    body: "A record of every trade, written the same way each time. Not a diary — a table you can sort. Without one, a hundred scalps a week teach you nothing."
+
+  - type: checklist-reveal
+    title: "One row per trade"
+    items:
+      - "The setup name"
+      - "Entry, stop and exit"
+      - "R risked and R made"
+      - "An execution grade"
+      - "One line on your state"
+
+  - type: theory
+    title: "Execution grade"
+    body: "A letter for how well you followed the plan, ignoring the result. A losing trade taken exactly as written is an A. A winner you chased into is a C."
+
+  - type: example
+    body: "Tuesday's row: VWAP bounce, 1,000 shares, in $44.28, stop $44.16, out $44.52. Risked $120, made $240 — +2R, grade A."
+
+  - type: mc
+    prompt: "A trade you entered late, at double size, that made $300. What is its execution grade?"
+    options:
+      - {text: "Low — the result does not grade the execution", correct: true}
+      - {text: "High — it made money"}
+      - {text: "It cannot be graded until the week is finished"}
+    explanation: "The grade is about the plan. The habit that produced this winner is the one that costs you later."
+
+  - type: chart-tap
+    prompt: "Your row says: enter on the first candle that closes back above $30.20. Tap that candle."
+    chart:
+      kind: candles
+      data: [[30.24, 30.26, 30.12, 30.16], [30.16, 30.20, 30.08, 30.10], [30.10, 30.18, 30.06, 30.14], [30.14, 30.20, 30.10, 30.18], [30.18, 30.30, 30.16, 30.28], [30.28, 30.36, 30.24, 30.34], [30.34, 30.42, 30.30, 30.40], [30.40, 30.44, 30.34, 30.38], [30.38, 30.48, 30.36, 30.46], [30.46, 30.50, 30.40, 30.44]]
+    target: 4
+    explanation: "Written before the trade, the entry is a rule you can check afterwards instead of a feeling you can argue with."
+
+  - type: numeric-input
+    prompt: "Your row: 1,500 shares, entry $12.70, stop $12.62, exit $12.82. What is the result in R?"
+    answer: 1.5
+    tolerance: 0.01
+    working: "Gain $0.12 ÷ risk $0.08 = 1.5"
+    explanation: "The share count never enters the R column — that is what makes rows from different days comparable."
+
+  - type: tf
+    statement: "A losing trade can earn an A for execution."
+    answer: true
+    explanation: "If you took the setup as written and the stop did its job, the execution was right and the result was one draw."
+
+  - type: theory
+    title: "Write it the same day"
+    body: "Fill the row while the chart is still on the screen. A day later you will remember the trade you want to remember, not the one you took."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "I log my winners in detail"}
+      - {text: "and skip the losers", wrong: true}
+      - {text: "so the review stays quick."}
+    explanation: "The losers hold the pattern. A record of winners only is a highlight reel."
+
+  - type: chart-decision
+    scenario: "Your plan's setup: pullback to the rising VWAP in an uptrend, entry on the first candle that turns up, stop under the pullback low. XYZ is there: entry $66.40, stop $66.28. 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[66.20, 66.34, 66.18, 66.32], [66.32, 66.46, 66.30, 66.44], [66.44, 66.52, 66.40, 66.48], [66.48, 66.52, 66.34, 66.38], [66.38, 66.42, 66.30, 66.34], [66.34, 66.44, 66.32, 66.40], [66.40, 66.52, 66.38, 66.50], [66.50, 66.60, 66.46, 66.58], [66.58, 66.72, 66.54, 66.68], [66.68, 66.74, 66.62, 66.66]]
+      vwap: [66.24, 66.26, 66.29, 66.31, 66.32, 66.33, 66.35, 66.37, 66.40, 66.42]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It turned off the line and reached $66.74. Sold at $66.68: $0.28 per share, +$280 on 1,000 shares. Row: +2.3R, grade A."
+    explanation: "The setup was named before the open, so the row writes itself — including the grade."
+
+  - type: theory
+    title: "The row is the point"
+    body: "Every rule in this chapter becomes a column. Next: what the columns tell you at the end of the week."

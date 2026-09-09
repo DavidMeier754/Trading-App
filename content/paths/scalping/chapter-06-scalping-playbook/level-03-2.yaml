@@ -6,7 +6,7 @@ path: scalping
 category: repetition
 tags: [opening-range, setup-b, practice, decisions]
 learning_goal: "User trades opening-range breaks in both directions and rejects wicks and failed breaks."
-purpose: "The edge of the box gets touched far more often than it gets broken, and the difference is one candle close."
+purpose: "The line gets touched far more often than it gets broken, and the difference is one candle close."
 terms_introduced: []
 prerequisite: "3-1"
 xp: 30
@@ -22,7 +22,7 @@ screens:
     text: "{{market.regular_open}} {{market.timezone}} plus five minutes. The box is drawn, $20,000 in the account, finger off the mouse."
 
   - type: chart-decision
-    scenario: "The opening range is $51.80 to $52.10. Five shrinking candles press the top edge, then one closes at $52.22 on triple the volume. You have 2,000 shares ready."
+    scenario: "The opening range is $51.80 to $52.10. Five shrinking candles press the top of the box, then one closes at $52.22 on triple the volume. You have 2,000 shares ready."
     shares: 2000
     chart:
       kind: candles
@@ -34,7 +34,7 @@ screens:
       decision_index: 5
     best: long
     outcome: "It reached $52.48. Out there: $0.26 per share, +$520 long on 2,000 shares from $52.22, about 1.4R with the stop at $52.04."
-    explanation: "Coiling against the edge, then a close beyond it on the heaviest volume of the session so far."
+    explanation: "Coiling against the line, then a close beyond it on the heaviest volume of the session so far."
 
   - type: hotspot
     component: order-ticket
@@ -55,7 +55,7 @@ screens:
       decision_index: 5
     best: no-trade
     outcome: "It rolled over to $29.08. A long at $29.38 would have been $0.30 against you — $600 on 2,000 shares."
-    explanation: "A wick through the edge is a rejected break. Your card waits for a close, and the close never came."
+    explanation: "A wick through the line is a rejected break. Your card waits for a close, and the close never came."
 
   - type: numeric-mc
     prompt: "You are short 1,500 shares from $62.72 with the stop at $62.92. What is a 2R target worth in dollars?"
@@ -85,7 +85,7 @@ screens:
     prompt: "Put the opening-range scalp in the order it happens."
     items:
       - "The first five minutes finish and the box has a high and a low"
-      - "A 1-minute candle closes beyond an edge on heavy volume"
+      - "A 1-minute candle closes beyond a side of the box on heavy volume"
       - "The entry fills and the stop goes back inside the box"
       - "Price reaches the target between 1R and 2R"
     explanation: "Box, close, fill with a stop, target. Every step waits for the one before it."
@@ -101,13 +101,13 @@ screens:
       volume: [3600, 3400, 3200, 3000, 5800, 5200, 4800, 4400, 4100, 3800]
       decision_index: 5
     best: no-trade
-    outcome: "It kept going down to $17.06 without ever getting back above the edge."
+    outcome: "It kept going down to $17.06 without ever getting back above the line."
     explanation: "Back inside the box is the invalidation on your card. If you were long you are already out; if you were not, you stay out."
 
   - type: tf
     statement: "A break of the opening-range low is traded on the same rules as a break of the high, mirrored."
     answer: true
-    explanation: "Same box, same close-beyond-the-edge trigger, stop back inside, target between 1R and 2R."
+    explanation: "Same box, same close-beyond-the-line trigger, stop back inside, target between 1R and 2R."
 
   - type: fill-choice
     sentence: "The stop for this card belongs ___ the box."
@@ -127,7 +127,7 @@ screens:
       decision_index: 5
     best: long
     outcome: "It ran to $40.60 — $0.28 per share, +$420 long on 1,500 shares from $40.32, with $0.18 of risk."
-    explanation: "An earlier failed poke does not disqualify the box. This close is beyond the edge and carries the volume the first one lacked."
+    explanation: "An earlier failed poke does not disqualify the box. This close is beyond the line and carries the volume the first one lacked."
 
   - type: theory
     title: "Two cards, one clock"
