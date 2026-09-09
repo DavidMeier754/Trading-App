@@ -1,0 +1,107 @@
+id: "2-1"
+title: "Setup A — VWAP Bounce"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [vwap, setup-a, playbook]
+learning_goal: "User can state the five fields of the VWAP bounce card and pick the entry candle on a chart."
+purpose: "It is the most common intraday scalp there is, because the line it trades against is the one institutions measure themselves by."
+terms_introduced: ["VWAP bounce", "High of day"]
+prerequisite: "1-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "First card. 2-2 drills it."
+screens:
+  - type: intro
+    text: "Card one: the pullback that everybody above the line is waiting for."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ has been above VWAP since {{market.regular_open}} {{market.timezone}}. Now it is drifting back down toward the line, candle by candle."
+
+  - type: theory
+    title: "The VWAP bounce"
+    body: "In a stock that has held above VWAP all session, a pullback into the line is where the buyers who missed the move finally get their price. Buying that touch is the VWAP bounce."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[31.20, 31.26, 31.12, 31.14], [31.14, 31.18, 31.02, 31.04], [31.04, 31.08, 30.94, 30.96], [30.96, 31.00, 30.88, 30.90], [30.90, 31.02, 30.86, 31.00], [31.00, 31.10, 30.98, 31.08], [31.08, 31.18, 31.06, 31.16], [31.16, 31.24, 31.12, 31.22]]
+      vwap: [30.94, 30.93, 30.92, 30.92, 30.92, 30.93, 30.94, 30.95]
+    caption: "Four candles down into the line, then one that closes back above it."
+
+  - type: theory
+    title: "Context comes first"
+    body: "The 5-minute has to be climbing and price has to have stayed above VWAP all session. First or second touch of the line, not the fifth."
+
+  - type: theory
+    title: "The trigger"
+    body: "You do not buy the touch. You buy the first 1-minute candle that closes back above the line — the reclaim. Until it closes, the pullback is still a pullback."
+
+  - type: chart-tap
+    prompt: "Tap the candle this card puts you in on."
+    chart:
+      kind: candles
+      data: [[42.60, 42.66, 42.52, 42.54], [42.54, 42.58, 42.42, 42.44], [42.44, 42.48, 42.34, 42.36], [42.36, 42.40, 42.26, 42.28], [42.28, 42.40, 42.24, 42.38], [42.38, 42.48, 42.36, 42.46], [42.46, 42.56, 42.44, 42.54], [42.54, 42.62, 42.50, 42.60]]
+      vwap: [42.31, 42.31, 42.31, 42.30, 42.30, 42.30, 42.31, 42.32]
+    target: 4
+    explanation: "The fourth candle closed under the line; the fifth closed back above it. That close is the trigger."
+
+  - type: theory
+    title: "Stop and target"
+    body: "Stop two cents below the low of that candle. Target the high of day — the highest price the stock has traded since the session opened, and the level the move was heading for anyway."
+
+  - type: numeric-input
+    prompt: "You buy 1,500 shares at $18.30. The entry candle's low was $18.22 and your stop sits two cents under it. How much is at risk, before costs?"
+    answer: 150
+    unit: "$"
+    working: "Stop $18.20; $18.30 − $18.20 = $0.10 per share; $0.10 × 1,500 = $150"
+    explanation: "Ten cents of risk on 1,500 shares. The share count is what turns a small number into a real one."
+
+  - type: mc
+    prompt: "XYZ has traded below VWAP since the open and is now rallying up to the line from underneath. Is this the bounce card?"
+    options:
+      - {text: "Yes — price is touching VWAP, and that touch is the setup"}
+      - {text: "No — the card needs price above the line all session", correct: true}
+      - {text: "Yes, as long as the volume on the rally is falling"}
+    explanation: "Touching the line is not the setup. The setup is a pullback inside a move that has owned the line all session."
+
+  - type: tf
+    statement: "The fifth pullback to VWAP in an hour is as good a buy as the first."
+    answer: false
+    explanation: "Each test uses up the buyers waiting at the line; by the fifth there are usually few left."
+
+  - type: checklist-reveal
+    title: "The VWAP bounce card"
+    items:
+      - "Context: 5-minute climbing, price above VWAP all session, first or second touch"
+      - "Entry: the first 1-minute candle that closes back above the line"
+      - "Stop: two cents below that candle's low"
+      - "Target: the high of day"
+      - "Invalidation: a close back below the line, or volume rising on the way down"
+
+  - type: chart-decision
+    scenario: "XYZ has held above VWAP since the open. It slides four candles into the line at $18.22 on shrinking volume, then the next candle closes back above it. High of day $18.50. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.42, 18.48, 18.38, 18.40], [18.40, 18.44, 18.32, 18.34], [18.34, 18.38, 18.26, 18.28], [18.28, 18.32, 18.22, 18.24], [18.24, 18.26, 18.16, 18.20], [18.20, 18.30, 18.19, 18.28], [18.28, 18.36, 18.26, 18.34], [18.34, 18.42, 18.32, 18.40], [18.40, 18.46, 18.36, 18.44], [18.44, 18.50, 18.40, 18.48]]
+      vwap: [18.24, 18.23, 18.23, 18.22, 18.22, 18.21, 18.22, 18.22, 18.23, 18.24]
+      volume: [62000, 54000, 47000, 41000, 36000, 89000, 76000, 68000, 61000, 56000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran back to the high of day at $18.50. Out at $18.48: $0.20 per share, +$300 long on 1,500 shares from $18.28."
+    explanation: "Volume shrank all the way down and jumped on the reclaim — every field on the card is filled in."
+
+  - type: fill-choice
+    sentence: "On this card the stop goes two cents below the ___ of the candle that put you in."
+    options: ["low", "close", "open"]
+    answer: "low"
+    explanation: "Below the low is below the price that already got rejected once. Below the close would sit inside the candle."
+
+  - type: theory
+    title: "One card down"
+    body: "You now own a setup: context, entry, stop, target, invalidation. Next you trade it on charts you have not seen."

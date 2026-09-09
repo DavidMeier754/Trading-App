@@ -1,0 +1,97 @@
+id: "5-2"
+title: "Overtrading and Tilt"
+chapter: 6
+chapter_title: "Risk & Psychology for Scalpers"
+path: scalping
+category: new-theory
+tags: [psychology, routine, sizing]
+learning_goal: "User follows a written reset routine after a bad run and returns at half size instead of full size."
+purpose: "Willpower is the tool that breaks first; a routine decided in advance is the one that still works."
+terms_introduced: ["Reset routine"]
+prerequisite: "5-1"
+xp: 20
+difficulty: 2
+sources: ["Elder — Trading for a Living", "Bellafiore — One Good Trade"]
+screens:
+  - type: intro
+    text: "Tilt doesn't need willpower. It needs a checklist."
+
+  - type: theory
+    title: "Why a routine beats willpower"
+    body: "On tilt, your judgment is the broken tool — so a plan that needs judgment is no plan. A reset routine written in advance only needs following."
+
+  - type: checklist-reveal
+    title: "The reset routine"
+    items:
+      - "Hands off the keyboard"
+      - "Close the platform for ten minutes"
+      - "Write down what actually happened"
+      - "Re-read the plan and the limits"
+      - "Come back at half size, or not at all"
+
+  - type: theory
+    title: "Half size, not full"
+    body: "Half size makes the next mistake cost half as much and lets the market show you the state has passed. Full size comes back after a few trades taken exactly by the plan."
+
+  - type: story
+    character: retail-trader
+    text: "Two stops in ten minutes and your hands are quick. You close the platform and stand up."
+
+  - type: mc
+    prompt: "You come back from the reset and the first setup appears. What size?"
+    options:
+      - {text: "Your normal size — the reset is finished"}
+      - {text: "Half your normal size", correct: true}
+      - {text: "Double, to make the morning back"}
+    explanation: "Half size is the proof step: it lets the market confirm the state has passed at half the cost."
+
+  - type: tf
+    statement: "Feeling calm again is exactly what tilt feels like from the inside."
+    answer: true
+    explanation: "That is why the routine is written in advance — you follow it instead of trusting the feeling."
+
+  - type: numeric-input
+    prompt: "1R is $140 at full size. You come back at half size with the same stop distance. What is 1R now?"
+    answer: 70
+    tolerance: 0.01
+    unit: "$"
+    working: "$140 ÷ 2 = $70"
+    explanation: "Half the shares, half the risk per trade — the chart and the stop are unchanged."
+
+  - type: chart-decision
+    scenario: "You are back from a reset, trading 500 shares instead of 1,000. XYZ pulls back to the morning's support at $25.60 and holds it with a tight candle. Entry $25.66, stop $25.54."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[25.90, 25.96, 25.82, 25.86], [25.86, 25.90, 25.72, 25.74], [25.74, 25.80, 25.62, 25.66], [25.66, 25.72, 25.58, 25.62], [25.62, 25.68, 25.60, 25.64], [25.64, 25.70, 25.60, 25.66], [25.66, 25.78, 25.64, 25.76], [25.76, 25.86, 25.72, 25.84], [25.84, 25.96, 25.80, 25.92], [25.92, 25.98, 25.86, 25.90]]
+      decision_index: 5
+    state: ["After the reset", "Size: 500 of 1,000"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It held and reached $25.98. Sold at $25.90: $0.24 per share, +$120 on 500 shares — 2R at the smaller size."
+    explanation: "The state has passed, the setup is the plan's, and the size is the one that proves it."
+
+  - type: fill-tiles
+    sentence: "A routine written in advance works on tilt because it needs no fresh ___."
+    answer: "decisions"
+    explanation: "You decided once, calmly. In the moment you only execute."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "After three losses I close the platform for ten minutes,"}
+      - {text: "then double my size", wrong: true}
+      - {text: "on the first setup that appears."}
+    explanation: "The break is right. Coming back bigger undoes everything the break just bought you."
+
+  - type: mc
+    prompt: "Which of these is not part of a reset?"
+    options:
+      - {text: "Writing down what actually happened in the trade"}
+      - {text: "Re-reading the plan and your session limits"}
+      - {text: "Looking for a different stock that is moving right now", correct: true}
+    explanation: "Hunting for action is the state itself, wearing a different ticker."
+
+  - type: theory
+    title: "You will need it"
+    body: "Every scalper tilts. The ones who last have a written way back that does not depend on how they feel at the time."

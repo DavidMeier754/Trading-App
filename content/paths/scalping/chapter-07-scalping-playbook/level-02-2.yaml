@@ -1,0 +1,119 @@
+id: "2-2"
+title: "Setup A — VWAP Bounce"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [vwap, setup-a, practice, decisions]
+learning_goal: "User takes the VWAP bounce only when all five fields are filled, and passes when the context or the volume is wrong."
+purpose: "A card is worth nothing until you can spot the charts that almost look like it."
+terms_introduced: []
+prerequisite: "2-1"
+xp: 30
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "Five chart decisions: two takes, three passes."
+screens:
+  - type: intro
+    text: "Five charts. Only some of them are your card."
+
+  - type: story
+    character: retail-trader
+    text: "Mid-morning. VWAP on the chart, $30,000 in the account, the card open beside you."
+
+  - type: chart-decision
+    scenario: "XYZ has been above VWAP since the open and has just pulled back into the line. High of day $18.30. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.20, 18.28, 18.12, 18.14], [18.14, 18.18, 18.02, 18.04], [18.04, 18.08, 17.94, 17.96], [17.96, 18.00, 17.86, 17.88], [17.88, 17.94, 17.82, 17.86], [17.86, 17.98, 17.84, 17.96], [17.96, 18.08, 17.94, 18.06], [18.06, 18.16, 18.02, 18.14], [18.14, 18.24, 18.10, 18.20], [18.20, 18.30, 18.16, 18.26]]
+      vwap: [17.94, 17.93, 17.92, 17.91, 17.90, 17.90, 17.91, 17.92, 17.93, 17.94]
+      volume: [72000, 64000, 56000, 48000, 41000, 96000, 82000, 74000, 68000, 62000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $18.26. Out there: $0.30 per share, +$450 long on 1,500 shares from $17.96."
+    explanation: "Above the line all session, shrinking pullback, heavy reclaim candle — the card without a single missing field."
+
+  - type: mc
+    prompt: "On that trade the stop was two cents under the reclaim candle's low of $17.84. What was at risk on 1,500 shares?"
+    options:
+      - {text: "$0.14"}
+      - {text: "$140"}
+      - {text: "$210", correct: true}
+      - {text: "$450"}
+    explanation: "Entry $17.96 minus stop $17.82 is $0.14 per share, and $0.14 × 1,500 = $210."
+
+  - type: chart-decision
+    scenario: "XYZ has traded below VWAP since the open. It rallies six candles up to the line at $18.06 and stalls there. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.70, 17.76, 17.64, 17.66], [17.66, 17.78, 17.62, 17.76], [17.76, 17.88, 17.72, 17.86], [17.86, 17.96, 17.82, 17.94], [17.94, 18.02, 17.90, 18.00], [18.00, 18.06, 17.96, 18.02], [18.02, 18.06, 17.94, 17.96], [17.96, 18.00, 17.86, 17.88], [17.88, 17.92, 17.78, 17.80], [17.80, 17.84, 17.70, 17.74]]
+      vwap: [18.20, 18.18, 18.16, 18.14, 18.10, 18.06, 18.04, 18.02, 18.00, 17.98]
+      volume: [68000, 62000, 56000, 51000, 46000, 42000, 64000, 71000, 76000, 82000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It turned at the line and slid to $17.74. A long at $18.02 would have been $420 against you on 1,500 shares."
+    explanation: "Sellers have owned the line all session. A later card trades this chart; the bounce card needs price above VWAP, not under it."
+
+  - type: numeric-input
+    prompt: "Back to the first trade: $0.30 per share on 1,500 shares, minus a $0.03 round-trip spread and $0.005 per share in fees each way. What is left?"
+    answer: 390
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.30 × 1,500 = $450; spread $0.03 × 1,500 = $45; fees $0.005 × 1,500 × 2 = $15; $450 − $60 = $390"
+    explanation: "Costs took $60 of a $450 result — about one seventh, on a trade that went exactly to plan."
+
+  - type: sort
+    prompt: "Take it or skip it?"
+    buckets: ["Take it", "Skip it"]
+    items:
+      - {text: "First touch of the line, volume shrinking into it", bucket: "Take it"}
+      - {text: "Reclaim candle closes above the line on heavy volume", bucket: "Take it"}
+      - {text: "Price has been under VWAP since the open", bucket: "Skip it"}
+      - {text: "Fourth touch of the line in twenty minutes", bucket: "Skip it"}
+    explanation: "Fresh, above the line, and bought back with conviction — anything else is a different chart."
+
+  - type: chart-decision
+    scenario: "XYZ pulls back to VWAP at $17.84, but volume has grown on every candle down. The next candle closes one cent above the line. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.30, 18.36, 18.22, 18.24], [18.24, 18.28, 18.10, 18.12], [18.12, 18.16, 17.98, 18.00], [18.00, 18.04, 17.88, 17.90], [17.90, 17.96, 17.78, 17.80], [17.80, 17.88, 17.74, 17.86], [17.86, 17.90, 17.72, 17.74], [17.74, 17.78, 17.60, 17.62], [17.62, 17.66, 17.48, 17.52], [17.52, 17.56, 17.40, 17.44]]
+      vwap: [17.92, 17.90, 17.88, 17.86, 17.85, 17.84, 17.83, 17.82, 17.80, 17.78]
+      volume: [42000, 51000, 63000, 74000, 86000, 52000, 48000, 56000, 64000, 72000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It fell straight back through the line to $17.44 — $0.42 against a long, $630 on 1,500 shares."
+    explanation: "Volume rising all the way down is sellers arriving, and that is the invalidation line on your card."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Price touched VWAP,"}
+      - {text: "so you buy the touch", wrong: true}
+      - {text: "and put the stop under the low of the day."}
+    explanation: "The card waits for a close back above the line. Buying the touch is buying before anything has been proved."
+
+  - type: chart-decision
+    scenario: "XYZ pulls back to VWAP at $18.11. The candle at the line is tiny, closes one cent above it, and trades the smallest volume of the session. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.60, 18.68, 18.48, 18.52], [18.52, 18.58, 18.36, 18.40], [18.40, 18.46, 18.24, 18.28], [18.28, 18.34, 18.14, 18.18], [18.18, 18.24, 18.06, 18.10], [18.10, 18.18, 18.04, 18.12], [18.12, 18.16, 17.98, 18.00], [18.00, 18.04, 17.86, 17.90], [17.90, 17.94, 17.76, 17.80], [17.80, 17.86, 17.70, 17.74]]
+      vwap: [18.30, 18.26, 18.22, 18.18, 18.14, 18.11, 18.09, 18.06, 18.03, 18.00]
+      volume: [86000, 74000, 62000, 51000, 43000, 36000, 59000, 68000, 74000, 81000]
+      decision_index: 5
+    best: no-trade
+    outcome: "The next candle gave it all back and the slide continued to $17.74 — $0.38 against a long, $570 on 1,500 shares."
+    explanation: "A one-cent close on the smallest volume of the session is not a reclaim. Price stopped falling for a minute; nobody bought it."
+
+  - type: tf
+    statement: "A reclaim candle on the lightest volume of the session counts as a valid trigger."
+    answer: false
+    explanation: "The reclaim has to be bought. Without volume it is drift, and drift gives up the level again."
+
+  - type: theory
+    title: "Two takes, three passes"
+    body: "That ratio is normal. The card earns its keep on the charts it keeps you out of, not only on the ones it puts you in."

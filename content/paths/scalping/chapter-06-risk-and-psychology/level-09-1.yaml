@@ -1,0 +1,116 @@
+id: "9-1"
+title: "Chapter Review"
+chapter: 6
+chapter_title: "Risk & Psychology for Scalpers"
+path: scalping
+category: repetition
+tags: [review, decisions, discipline]
+learning_goal: "User walks one losing morning end to end and applies the stop, the limits, the reset and the smaller size in sequence."
+purpose: "The chapter is one routine, not seven ideas — this is what it looks like on a bad day."
+terms_introduced: []
+prerequisite: "8-1"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Douglas — Trading in the Zone"]
+screens:
+  - type: intro
+    text: "One losing morning, handled well — from the first stop to the reset."
+
+  - type: story
+    character: retail-trader
+    text: "Before the open: 1R is $120 on 1,000 shares. Daily loss limit 3R. Maximum eight trades. All of it written down."
+
+  - type: chart-decision
+    scenario: "First setup: XYZ holds the pre-market high at $11.20 and turns up from it. Entry $11.26, stop $11.14. 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[11.10, 11.22, 11.06, 11.18], [11.18, 11.26, 11.14, 11.22], [11.22, 11.28, 11.16, 11.20], [11.20, 11.24, 11.14, 11.18], [11.18, 11.28, 11.16, 11.24], [11.24, 11.32, 11.20, 11.26], [11.26, 11.30, 11.16, 11.18], [11.18, 11.22, 11.10, 11.12], [11.12, 11.16, 11.04, 11.06], [11.06, 11.10, 11.00, 11.04]]
+      decision_index: 5
+    state: ["Day: 0R", "Trade 1 of 8"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It rolled over and hit the stop: −$120 on 1,000 shares, a clean −1R."
+    explanation: "Right decision, losing result. The row gets a grade A and the morning moves on."
+
+  - type: chart-tap
+    prompt: "You entered on the sixth candle with the stop under $11.14. Tap the first candle after your entry whose low breaks it."
+    chart:
+      kind: candles
+      data: [[11.10, 11.22, 11.06, 11.18], [11.18, 11.26, 11.14, 11.22], [11.22, 11.28, 11.16, 11.20], [11.20, 11.24, 11.14, 11.18], [11.18, 11.28, 11.16, 11.24], [11.24, 11.32, 11.20, 11.26], [11.26, 11.30, 11.16, 11.18], [11.18, 11.22, 11.10, 11.12], [11.12, 11.16, 11.04, 11.06], [11.06, 11.10, 11.00, 11.04]]
+    target: 7
+    explanation: "The resting order did the work at the price you chose while you were calm."
+
+  - type: story
+    character: retail-trader
+    text: "Half an hour in: one more stop, taken straight from the plan. Down 2R with a 3R limit."
+
+  - type: mc
+    prompt: "Down 2R with a 3R limit. What is allowed?"
+    options:
+      - {text: "One more trade at double size, to get back to flat"}
+      - {text: "Nothing — 2R is close enough to the limit"}
+      - {text: "One more trade from the plan, at plan size", correct: true}
+    explanation: "The limit is a line, not a mood. Until it is reached, the plan runs at its normal size."
+
+  - type: chart-decision
+    scenario: "The stock that just stopped you out is running again, 25 cents above your last entry, with no level underneath to hide a stop. Your hand is quick. 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[11.04, 11.16, 11.00, 11.14], [11.14, 11.30, 11.12, 11.28], [11.28, 11.42, 11.26, 11.40], [11.40, 11.50, 11.36, 11.48], [11.48, 11.56, 11.44, 11.52], [11.52, 11.58, 11.48, 11.54], [11.54, 11.56, 11.42, 11.44], [11.44, 11.48, 11.34, 11.36], [11.36, 11.40, 11.30, 11.34], [11.34, 11.38, 11.28, 11.32]]
+      decision_index: 5
+    state: ["Day: −2R", "Limit: 3R"]
+    best: no-trade
+    outcome: "It gave back 22 cents. A long at $11.54 was $220 down on 1,000 shares."
+    explanation: "Same stock, no level, more hurry: that is the last result choosing the trade, not the chart."
+
+  - type: numeric-input
+    prompt: "Down 2R at $120 per R. After the reset you take one +2R trade at half size. Where is the morning in dollars?"
+    answer: -120
+    tolerance: 0.01
+    unit: "$"
+    working: "−2 × $120 = −$240; at half size 1R is $60, so +2R = +$120; −$240 + $120 = −$120"
+    explanation: "Half size halves the win too — and it also halved what the next mistake could have cost."
+
+  - type: story
+    character: retail-trader
+    text: "Ten minutes away from the screen, the rows written up, back at 500 shares."
+
+  - type: chart-decision
+    scenario: "Back at 500 shares. XYZ reclaims VWAP and holds above it for two candles. Entry $11.30, stop $11.18."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[11.20, 11.26, 11.12, 11.16], [11.16, 11.22, 11.10, 11.20], [11.20, 11.28, 11.18, 11.26], [11.26, 11.32, 11.22, 11.30], [11.30, 11.34, 11.26, 11.28], [11.28, 11.36, 11.26, 11.32], [11.32, 11.44, 11.30, 11.42], [11.42, 11.50, 11.38, 11.48], [11.48, 11.62, 11.44, 11.56], [11.56, 11.60, 11.48, 11.54]]
+      vwap: [11.24, 11.24, 11.24, 11.25, 11.26, 11.26, 11.27, 11.29, 11.31, 11.33]
+      decision_index: 5
+    state: ["Day: −2R", "Size: 500 of 1,000"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached $11.62. Sold at $11.54: $0.24 per share, +$120 on 500 shares — 2R at the smaller size."
+    explanation: "Full plan, half size. The morning finishes at −1R instead of −5R."
+
+  - type: tf
+    statement: "Ending that morning down 1R counts as a bad session."
+    answer: false
+    explanation: "Four decisions followed the plan and one bad state was caught early. That is the session doing its job."
+
+  - type: match
+    prompt: "Match each term to what happened this morning."
+    pairs:
+      - ["Execution grade", "An A for a losing trade taken as written"]
+      - ["Reset routine", "Ten minutes away, then half size"]
+      - ["Daily loss limit", "The line that would have ended the session"]
+      - ["Chasing", "Paying up for a move with no level underneath"]
+    explanation: "Every one of them was decided before the open and only applied during it."
+
+  - type: fill-choice
+    sentence: "The morning counts as a success because the ___ were followed, not because of the result."
+    options: ["rules", "charts", "targets"]
+    answer: "rules"
+    explanation: "On any single morning the result is mostly noise; the rules are the part you own."
+
+  - type: theory
+    title: "This is the skill"
+    body: "Not avoiding losses — sizing them, stopping them and coming back smaller. The exam is next."

@@ -1,0 +1,103 @@
+id: "8-1"
+title: "Sizing Under Stress"
+chapter: 6
+chapter_title: "Risk & Psychology for Scalpers"
+path: scalping
+category: new-theory
+tags: [risk, sizing, drawdown]
+learning_goal: "User cuts share size during a drawdown, keeps the same setups and stops, and raises size only on evidence."
+purpose: "Size is the one risk control you can change in the middle of a bad run without changing your method."
+terms_introduced: ["Drawdown"]
+prerequisite: "7-2"
+xp: 20
+difficulty: 3
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Elder — Trading for a Living"]
+screens:
+  - type: intro
+    text: "You cannot make the losses stop. You can make them smaller."
+
+  - type: theory
+    title: "Drawdown"
+    body: "The distance from your account's high point down to where it is now. Normal, temporary if the method pays — and it gets deeper faster than it fills back in."
+
+  - type: theory
+    title: "The math is not symmetric"
+    body: "Lose 20 % and you need 25 % to get back. Lose 50 % and you need 100 %. Every extra R of loss makes the climb steeper than the fall was."
+
+  - type: example
+    body: "A $25,000 account in a 20 % drawdown is worth $20,000. Getting back to $25,000 from there takes a 25 % gain, not the 20 % you lost."
+
+  - type: numeric-input
+    prompt: "A $20,000 account is in a 25 % drawdown. What is it worth now?"
+    answer: 15000
+    tolerance: 1
+    unit: "$"
+    working: "$20,000 × 0.75 = $15,000"
+    explanation: "A quarter of the account, gone from the number every later percentage is measured against."
+
+  - type: numeric-mc
+    prompt: "What percentage gain takes that $15,000 back to $20,000?"
+    options:
+      - {text: "25 %"}
+      - {text: "About 33 %", correct: true}
+      - {text: "20 %"}
+      - {text: "75 %"}
+    working: "$5,000 ÷ $15,000 = 0.333"
+    explanation: "The climb is measured against the smaller account, which is why deep drawdowns are so expensive."
+
+  - type: theory
+    title: "Cut the size, not the method"
+    body: "After a losing run, halve the shares. Same setups, same stops, same plan — half the damage, and half the pressure that produces the next mistake."
+
+  - type: example
+    body: "1,000 shares with a 12-cent stop is $120 of risk. At 500 shares the same trade risks $60. The chart has not changed; the size of your mistakes has."
+
+  - type: theory
+    title: "Scaling back up"
+    body: "Raise size on evidence: a set number of trades taken at grade A, or the account back at its old high. One good morning is not evidence."
+
+  - type: mc
+    prompt: "You are in the deepest drawdown of your year. What changes first?"
+    options:
+      - {text: "The stop distance"}
+      - {text: "The share size", correct: true}
+      - {text: "The number of different setups you will take"}
+    explanation: "Size scales the whole problem down at once. Wider stops and new setups make it bigger while you are least able to judge them."
+
+  - type: tf
+    statement: "A drawdown gets deeper faster than it fills back in."
+    answer: true
+    explanation: "The gain is measured against the smaller account, so size comes down in one, never up."
+
+  - type: sort
+    prompt: "When does each one happen?"
+    buckets: ["After a losing run", "After a run of grade-A trades"]
+    items:
+      - {text: "Cut to half size", bucket: "After a losing run"}
+      - {text: "Step the size back up", bucket: "After a run of grade-A trades"}
+      - {text: "Trade the same setups at fewer shares", bucket: "After a losing run"}
+      - {text: "Raise 1R back to its normal dollars", bucket: "After a run of grade-A trades"}
+    explanation: "Size comes down on results and goes back up on evidence, never the other way around."
+
+  - type: chart-decision
+    scenario: "You are in a drawdown and trading 500 shares instead of 1,000. XYZ breaks the opening range low at $19.38 on the day's heaviest volume. Entry $19.34, stop $19.44."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[19.58, 19.62, 19.48, 19.50], [19.50, 19.52, 19.38, 19.42], [19.42, 19.48, 19.38, 19.44], [19.44, 19.50, 19.40, 19.46], [19.46, 19.48, 19.36, 19.38], [19.38, 19.40, 19.30, 19.34], [19.34, 19.36, 19.22, 19.24], [19.24, 19.28, 19.16, 19.18], [19.18, 19.22, 19.06, 19.10], [19.10, 19.16, 19.04, 19.12]]
+      volume: [50000, 74000, 46000, 40000, 82000, 118000, 96000, 90000, 112000, 68000]
+      decision_index: 5
+    state: ["In a drawdown", "Size: 500 of 1,000"]
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell to $19.04. Covered at $19.10: $0.24 per share, +$120 on 500 shares against $50 of risk."
+    explanation: "Smaller size does not mean fewer setups. It is the same plan with less at stake while you rebuild."
+
+  - type: fill-tiles
+    sentence: "The deeper the drawdown, the ___ the percentage gain needed to get back."
+    answer: "bigger"
+    explanation: "Because the gain is measured against a smaller account than the loss was."
+
+  - type: example
+    body: "Half size turns a $120 mistake into a $60 one and a −6R week into −3R. Nothing else in this chapter can be changed mid-drawdown without changing the method."
+

@@ -1,0 +1,129 @@
+id: "4-2"
+title: "Setup C — Momentum Continuation"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [momentum, setup-c, practice, decisions]
+learning_goal: "User takes continuations after shallow, quiet pullbacks and passes on deep ones, volume that rises into the pause, and moves too small to pay for the spread."
+purpose: "Every chart in this drill has a leg and a pause. Only some of them have a trade."
+terms_introduced: []
+prerequisite: "4-1"
+xp: 30
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Bellafiore — The PlayBook"]
+notes: "Five decisions: two takes, three passes, one of them purely on cost."
+screens:
+  - type: intro
+    text: "Leg, pause, restart. Five times — and three of them are traps."
+
+  - type: story
+    character: retail-trader
+    text: "Late morning. VWAP on the chart, $30,000 in the account, spread showing on the quote panel."
+
+  - type: chart-decision
+    scenario: "XYZ fell from $18.42 to $17.92 in three candles, well below VWAP, then drifted up for two small candles on light volume. The next candle closes at $17.94 on heavy volume. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.40, 18.42, 18.26, 18.28], [18.28, 18.30, 18.10, 18.12], [18.12, 18.14, 17.94, 17.96], [17.96, 18.06, 17.94, 18.04], [18.04, 18.10, 18.00, 18.06], [18.06, 18.08, 17.92, 17.94], [17.94, 17.96, 17.78, 17.80], [17.80, 17.84, 17.64, 17.66], [17.66, 17.70, 17.52, 17.54], [17.54, 17.58, 17.42, 17.46]]
+      vwap: [18.52, 18.48, 18.42, 18.38, 18.34, 18.30, 18.24, 18.18, 18.12, 18.06]
+      volume: [94000, 102000, 114000, 56000, 42000, 106000, 94000, 86000, 78000, 70000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It carried on to $17.46 — $0.48 per share, +$720 short on 1,500 shares from $17.94."
+    explanation: "The card works upside down without a single change: leg, quiet pause, close back in the leg's direction."
+
+  - type: numeric-input
+    prompt: "That short is 1,500 shares from $17.94 with the stop two cents above the pause high, at $18.12. How much is at risk?"
+    answer: 270
+    unit: "$"
+    working: "$18.12 − $17.94 = $0.18 per share; $0.18 × 1,500 = $270"
+    explanation: "Eighteen cents of risk. The $0.48 the trade actually made is a little under 2.7 times that."
+
+  - type: chart-decision
+    scenario: "XYZ ran from $13.88 to $14.32, then pulled back to $14.04 over two candles on volume that grew each minute. The next candle closes at $14.12. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[13.90, 14.04, 13.88, 14.02], [14.02, 14.18, 14.00, 14.16], [14.16, 14.32, 14.14, 14.30], [14.30, 14.32, 14.16, 14.18], [14.18, 14.20, 14.04, 14.06], [14.06, 14.14, 14.04, 14.12], [14.12, 14.16, 14.00, 14.02], [14.02, 14.06, 13.90, 13.92], [13.92, 13.96, 13.82, 13.84], [13.84, 13.88, 13.74, 13.78]]
+      volume: [76000, 88000, 96000, 62000, 74000, 56000, 64000, 72000, 78000, 84000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It rolled over to $13.78 — $0.34 against a long, $680 on 2,000 shares."
+    explanation: "Two thirds of the leg handed back, with volume growing on the way down. That is not a pause."
+
+  - type: mc
+    prompt: "That leg ran $0.44 and the pullback gave back $0.28. Why does the card pass?"
+    options:
+      - {text: "The pullback lasted two candles instead of one"}
+      - {text: "The stop would sit too close to the entry"}
+      - {text: "More than half the leg is back", correct: true}
+    explanation: "Depth is the first filter. Past half, the buyers who built the leg have already been outnumbered."
+
+  - type: chart-decision
+    scenario: "XYZ fell from $18.66 to $18.20 below VWAP, paused for two small candles on the lightest volume of the hour, then closed at $18.22. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.64, 18.66, 18.50, 18.52], [18.52, 18.54, 18.36, 18.38], [18.38, 18.40, 18.20, 18.22], [18.22, 18.32, 18.20, 18.30], [18.30, 18.34, 18.26, 18.32], [18.32, 18.34, 18.20, 18.22], [18.22, 18.24, 18.08, 18.10], [18.10, 18.12, 17.96, 17.98], [17.98, 18.02, 17.86, 17.90], [17.90, 17.94, 17.78, 17.82]]
+      vwap: [18.72, 18.68, 18.62, 18.56, 18.52, 18.48, 18.42, 18.36, 18.30, 18.24]
+      volume: [86000, 98000, 112000, 54000, 41000, 102000, 90000, 82000, 74000, 68000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It reached $17.82 — $0.40 per share, +$600 short on 1,500 shares from $18.22, against $0.14 of risk."
+    explanation: "A ten-cent pause on the quietest volume of the hour, then a close back at the leg's low. The card is drawn the same way in both directions."
+
+  - type: fill-tiles
+    sentence: "This card's target is a ___ move: the height of the leg projected from your entry."
+    answer: "measured"
+    explanation: "It is a projection, not a prediction — the leg tells you how far this stock is moving today."
+
+  - type: chart-decision
+    scenario: "XYZ ran from $18.08 to $18.52, then pulled back on volume larger than the leg's own candles. The next candle closes back up at $18.40. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.10, 18.24, 18.08, 18.22], [18.22, 18.38, 18.20, 18.36], [18.36, 18.52, 18.34, 18.50], [18.50, 18.52, 18.38, 18.40], [18.40, 18.44, 18.30, 18.32], [18.32, 18.42, 18.30, 18.40], [18.40, 18.44, 18.28, 18.30], [18.30, 18.34, 18.16, 18.18], [18.18, 18.22, 18.06, 18.08], [18.08, 18.12, 17.96, 18.00]]
+      volume: [82000, 94000, 106000, 98000, 114000, 72000, 84000, 92000, 98000, 104000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It gave the leg back and kept going to $18.00 — $0.40 against a long, $600 on 1,500 shares."
+    explanation: "The pullback is shallow enough, but it traded more shares than the leg did. Someone big was selling into it."
+
+  - type: chart-tap
+    prompt: "Tap the last candle of the leg."
+    chart:
+      kind: candles
+      data: [[26.10, 26.24, 26.08, 26.22], [26.22, 26.38, 26.20, 26.36], [26.36, 26.52, 26.34, 26.50], [26.50, 26.52, 26.40, 26.42], [26.42, 26.46, 26.36, 26.38], [26.38, 26.52, 26.36, 26.50], [26.50, 26.64, 26.48, 26.62], [26.62, 26.72, 26.58, 26.68]]
+      volume: [74000, 88000, 102000, 51000, 39000, 94000, 86000, 78000]
+    target: 2
+    explanation: "Three candles up, each bigger than the last. The two after it are smaller and quieter — that is the pause, not the leg."
+
+  - type: chart-decision
+    scenario: "XYZ's leg ran ten cents, from $9.42 to $9.52, and paused. The bid is $9.48 and the ask $9.52. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[9.42, 9.46, 9.41, 9.45], [9.45, 9.49, 9.44, 9.48], [9.48, 9.52, 9.47, 9.51], [9.51, 9.52, 9.47, 9.48], [9.48, 9.50, 9.46, 9.47], [9.47, 9.52, 9.46, 9.51], [9.51, 9.54, 9.48, 9.50], [9.50, 9.53, 9.46, 9.48], [9.48, 9.52, 9.45, 9.50], [9.50, 9.54, 9.47, 9.52]]
+      volume: [52000, 58000, 64000, 38000, 32000, 56000, 48000, 44000, 40000, 38000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It managed three more cents. On 2,000 shares that is $60, and the four-cent round-trip spread alone costs $80."
+    explanation: "The shape is right and the arithmetic is wrong. A measured move the size of the spread is not a trade at any share count."
+
+  - type: sort
+    prompt: "Continuation, or pass?"
+    buckets: ["Take the continuation", "Pass"]
+    items:
+      - {text: "Two small pullback candles on falling volume", bucket: "Take the continuation"}
+      - {text: "A close back in the leg's direction on heavy volume", bucket: "Take the continuation"}
+      - {text: "A pullback that gives back two thirds of the leg", bucket: "Pass"}
+      - {text: "A measured move about the size of the spread", bucket: "Pass"}
+    explanation: "Shape, volume, depth, cost. All four have to agree before the card is a trade."
+
+  - type: theory
+    title: "Halfway"
+    body: "Three cards, and one habit: check the shape, then check what it costs. The checkpoint is next."

@@ -1,0 +1,103 @@
+id: "1-1"
+title: "The Stop Is Not Optional"
+chapter: 6
+chapter_title: "Risk & Psychology for Scalpers"
+path: scalping
+category: new-theory
+tags: [risk, stops, discipline]
+learning_goal: "User picks the stop before sending the entry, tells a hard stop from a mental stop, and never widens a stop that is about to be hit."
+purpose: "At scalping speed the stop is the only thing between a loss you planned and one you didn't."
+terms_introduced: ["Setup", "Hard stop", "Mental stop"]
+prerequisite: null
+xp: 20
+difficulty: 1
+sources: ["Elder — Trading for a Living", "Bellafiore — One Good Trade"]
+notes: "Opens the chapter. Everything later is measured against the stop placed here."
+screens:
+  - type: intro
+    text: "Where you're wrong comes first. The entry comes second."
+
+  - type: theory
+    title: "A setup is a pattern with a plan"
+    body: "A setup is a chart situation you have seen many times and know how to trade: where you get in, where you get out, what makes you drop it. Chapter 7 gives you five of them; this chapter is the rules they all run on."
+
+  - type: theory
+    title: "Decide where you're wrong first"
+    body: "Before you send the entry, pick the price that says the idea failed. That price is your stop. If you can't name it, you don't have a trade yet."
+
+  - type: theory
+    title: "Hard stop"
+    body: "A stop order resting at your broker. It triggers whether you are watching, thinking or frozen. On a 1-minute chart that matters — a fast stock covers your whole risk in seconds."
+
+  - type: theory
+    title: "Mental stop"
+    body: "A price you hold in your head and act on yourself. It shows nothing to the market and costs nothing to place, but it only works if you actually click."
+
+  - type: example
+    body: "You buy 1,000 shares of XYZ at $18.40. The last swing low is $18.28, so the stop goes just under it. Risk: $0.12 per share × 1,000 shares = $120."
+    visual: chart-candles
+    visual_data:
+      data: [[18.24, 18.32, 18.20, 18.30], [18.30, 18.36, 18.28, 18.32], [18.32, 18.38, 18.28, 18.30], [18.30, 18.34, 18.28, 18.34], [18.34, 18.40, 18.30, 18.38], [18.38, 18.42, 18.34, 18.40], [18.40, 18.44, 18.36, 18.42], [18.42, 18.46, 18.38, 18.40]]
+      levels: [{price: 18.28, label: "Stop"}, {price: 18.40, label: "Entry"}]
+
+  - type: mc
+    prompt: "Which one of these is a hard stop?"
+    options:
+      - {text: "A note on your monitor that says 'out at 18.28'"}
+      - {text: "A stop order sitting at your broker at $18.28", correct: true}
+      - {text: "A promise to sell as soon as the trade feels wrong"}
+    explanation: "A hard stop is already an order in the market; the other two still need you to act."
+
+  - type: tf
+    statement: "A resting stop order still works if you freeze; a mental stop does not."
+    answer: true
+    explanation: "The resting order lives at the broker and does not depend on you clicking under pressure."
+
+  - type: numeric-input
+    prompt: "You short 800 shares at $24.60 with a stop at $24.72. How much do you risk?"
+    answer: 96
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.12 per share × 800 shares = $96"
+    explanation: "Stop distance times share count is the whole risk of the trade."
+
+  - type: theory
+    title: "Never widen it"
+    body: "Moving a stop away from price is the most expensive habit in trading. It turns a loss you sized on purpose into one you didn't. Move it toward your entry as a trade works — never away."
+
+  - type: chart-decision
+    scenario: "XYZ has made higher highs on the 1-minute for twenty minutes. It pulls back and holds $27.10. A stop under $27.02 costs 8 cents; the morning high at $27.35 is 25 cents away. 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[26.90, 26.98, 26.88, 26.96], [26.96, 27.06, 26.94, 27.04], [27.04, 27.14, 27.02, 27.12], [27.12, 27.22, 27.10, 27.20], [27.20, 27.24, 27.14, 27.16], [27.16, 27.20, 27.10, 27.14], [27.14, 27.24, 27.12, 27.22], [27.22, 27.32, 27.20, 27.30], [27.30, 27.38, 27.28, 27.35], [27.35, 27.40, 27.30, 27.34]]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It turned at $27.10 and ran to $27.38. Sold at $27.35: $0.21 per share, +$210 on 1,000 shares."
+    explanation: "Eight cents of risk for a 25-cent move, with the trend behind it — that is a stop worth placing."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Price is a cent from your stop,"}
+      - {text: "so you move the stop 10 cents further away", wrong: true}
+      - {text: "to give the trade room to work."}
+    explanation: "Widening turns your planned $120 loss into an open-ended one. The plan was made when you were calm."
+
+  - type: fill-choice
+    sentence: "Moving a stop further from your entry while the trade is against you makes the loss you planned ___."
+    options: ["larger", "smaller", "faster"]
+    answer: "larger"
+    explanation: "The stop was your risk. Move it and the risk moves with it."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "You are long 1,000 shares from $27.14. On this exit ticket, tap the field that decides where you are wrong."
+    data: {ticker: XYZ, side: sell, qty: 1000, type: stop, stop_price: 27.02}
+    target: stop_price
+    explanation: "The stop price ends the trade. Everything else on the ticket is mechanics."
+
+  - type: theory
+    title: "The stop is the plan"
+    body: "Stop, then size, then entry — decided before you click. Next you'll measure every trade in one unit, so trades of different sizes can be compared."

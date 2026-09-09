@@ -1,0 +1,137 @@
+id: "3-2"
+title: "Setup B — Opening-Range Scalp"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [opening-range, setup-b, practice, decisions]
+learning_goal: "User trades opening-range breaks in both directions and rejects wicks and failed breaks."
+purpose: "The line gets touched far more often than it gets broken, and the difference is one candle close."
+terms_introduced: []
+prerequisite: "3-1"
+xp: 30
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Five decisions: three takes, two passes. Both sides of the box."
+screens:
+  - type: intro
+    text: "The first half hour. Five boxes, five decisions."
+
+  - type: story
+    character: retail-trader
+    text: "{{market.regular_open}} {{market.timezone}} plus five minutes. The box is drawn, $30,000 in the account, finger off the mouse."
+
+  - type: chart-decision
+    scenario: "The opening range is $12.80 to $13.10. Five shrinking candles press the top of the box, then one closes at $13.22 on triple the volume. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[12.94, 13.02, 12.88, 12.96], [12.96, 13.04, 12.92, 13.00], [13.00, 13.08, 12.96, 13.02], [13.02, 13.10, 12.98, 13.06], [13.06, 13.10, 13.00, 13.08], [13.08, 13.24, 13.06, 13.22], [13.22, 13.34, 13.18, 13.30], [13.30, 13.42, 13.26, 13.38], [13.38, 13.48, 13.34, 13.44], [13.44, 13.52, 13.40, 13.48]]
+      levels:
+        - {price: 13.10, label: "Opening-range low"}
+        - {price: 12.80, label: "Opening-range low"}
+      volume: [39000, 36000, 32000, 30000, 28000, 92000, 80000, 72000, 64000, 59000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached $13.48. Out there: $0.26 per share, +$520 long on 2,000 shares from $13.22, about 1.4R with the stop at $13.04."
+    explanation: "Coiling against the line, then a close beyond it on the heaviest volume of the session so far."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "You are entering that break with a marketable limit. Tap the field that keeps you from paying more than you meant to."
+    data: {ticker: XYZ, side: buy, qty: 2000, type: limit, price: 52.25}
+    target: price
+    explanation: "The limit price is the cap. In the first minutes the ask can move several cents while your order travels."
+
+  - type: chart-decision
+    scenario: "The opening-range high is $13.40. A candle spikes to $13.46 and closes back at $13.38, inside the box. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[13.20, 13.28, 13.14, 13.24], [13.24, 13.32, 13.18, 13.28], [13.28, 13.36, 13.22, 13.30], [13.30, 13.38, 13.24, 13.34], [13.34, 13.40, 13.28, 13.36], [13.36, 13.46, 13.32, 13.38], [13.38, 13.40, 13.26, 13.28], [13.28, 13.32, 13.18, 13.20], [13.20, 13.24, 13.10, 13.14], [13.14, 13.18, 13.04, 13.08]]
+      levels:
+        - {price: 13.40, label: "Opening-range high"}
+      volume: [41000, 38000, 36000, 34000, 32000, 62000, 54000, 50000, 46000, 42000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It rolled over to $13.08. A long at $13.38 would have been $0.30 against you — $600 on 2,000 shares."
+    explanation: "A wick through the line is a rejected break. Your card waits for a close, and the close never came."
+
+  - type: numeric-mc
+    prompt: "You are short 1,500 shares from $17.72 with the stop at $17.92. What is a 2R target worth in dollars?"
+    options:
+      - {text: "$300"}
+      - {text: "$400"}
+      - {text: "$1,200"}
+      - {text: "$600", correct: true}
+    working: "1R = $17.92 − $17.72 = $0.20 per share; 2R = $0.40; $0.40 × 1,500 = $600"
+    explanation: "Two times the risk, measured in the same shares you are actually holding."
+
+  - type: chart-decision
+    scenario: "The opening-range low is $17.80. Price grinds down to it, then a candle closes at $17.72 on the heaviest volume since the open. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.10, 18.16, 18.02, 18.06], [18.06, 18.10, 17.96, 18.00], [18.00, 18.06, 17.92, 17.96], [17.96, 18.00, 17.88, 17.92], [17.92, 17.96, 17.84, 17.88], [17.88, 17.90, 17.70, 17.72], [17.72, 17.76, 17.58, 17.60], [17.60, 17.64, 17.46, 17.50], [17.50, 17.54, 17.38, 17.42], [17.42, 17.46, 17.32, 17.36]]
+      levels:
+        - {price: 17.80, label: "Opening-range low"}
+      volume: [44000, 41000, 39000, 36000, 33000, 96000, 84000, 76000, 68000, 61000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell to $17.36 — $0.36 per share, +$540 short on 1,500 shares from $17.72, close to 2R."
+    explanation: "The box breaks downward on the same rules. Nothing about the card changes except the direction."
+
+  - type: order
+    prompt: "Put the opening-range scalp in the order it happens."
+    items:
+      - "The first five minutes finish and the box has a high and a low"
+      - "A 1-minute candle closes beyond a side of the box on heavy volume"
+      - "The entry fills and the stop goes back inside the box"
+      - "Price reaches the target between 1R and 2R"
+    explanation: "Box, close, fill with a stop, target. Every step waits for the one before it."
+
+  - type: chart-decision
+    scenario: "Price closed above the opening-range high at $13.32, then the very next candle closed back inside at $13.26. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[13.14, 13.20, 13.10, 13.18], [13.18, 13.24, 13.14, 13.22], [13.22, 13.28, 13.18, 13.24], [13.24, 13.30, 13.20, 13.26], [13.26, 13.34, 13.22, 13.32], [13.32, 13.36, 13.24, 13.26], [13.26, 13.30, 13.18, 13.20], [13.20, 13.24, 13.12, 13.16], [13.16, 13.20, 13.08, 13.10], [13.10, 13.14, 13.02, 13.06]]
+      levels:
+        - {price: 13.30, label: "Opening-range high"}
+      volume: [36000, 34000, 32000, 30000, 58000, 52000, 48000, 44000, 41000, 38000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It kept going down to $13.06 without ever getting back above the line."
+    explanation: "Back inside the box is the invalidation on your card. If you were long you are already out; if you were not, you stay out."
+
+  - type: tf
+    statement: "A break of the opening-range low is traded on the same rules as a break of the high, mirrored."
+    answer: true
+    explanation: "Same box, same close-beyond-the-line trigger, stop back inside, target between 1R and 2R."
+
+  - type: fill-choice
+    sentence: "The stop for this card belongs ___ the box."
+    options: ["inside", "far below", "at the high of day"]
+    answer: "inside"
+    explanation: "If price is back in the box the break failed, so that is exactly where the trade should end."
+
+  - type: chart-decision
+    scenario: "An early candle poked below the opening-range low at $18.44 and closed back inside. Four candles later one closes at $18.32 on the biggest volume of the morning. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.58, 18.62, 18.50, 18.54], [18.54, 18.58, 18.42, 18.52], [18.52, 18.60, 18.46, 18.56], [18.56, 18.60, 18.48, 18.50], [18.50, 18.54, 18.44, 18.46], [18.46, 18.48, 18.30, 18.32], [18.32, 18.36, 18.20, 18.24], [18.24, 18.28, 18.12, 18.16], [18.16, 18.20, 18.06, 18.10], [18.10, 18.14, 18.00, 18.04]]
+      levels:
+        - {price: 18.44, label: "Opening-range high"}
+      volume: [46000, 52000, 44000, 40000, 38000, 104000, 88000, 78000, 70000, 64000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell to $18.04 — $0.28 per share, +$420 short on 1,500 shares from $18.32, with $0.18 of risk."
+    explanation: "The box breaks downward on the same rules. An earlier failed poke does not disqualify it, and this close carries the volume the first one lacked."
+
+  - type: theory
+    title: "Two cards, one clock"
+    body: "Card B belongs to the first half hour; card A works once the session has picked a side. The next card does not care what time it is."

@@ -1,0 +1,141 @@
+id: "7-2"
+title: "Setup E — Failed-Breakout Fade"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [failed-breakout, setup-e, practice, decisions]
+learning_goal: "User fades only weak breaks that close back inside, and leaves alone breaks that were bought, weak re-entries and fades against the 5-minute trend."
+purpose: "The difference between a failed break and a real one is volume and one candle close — and it is worth a lot of money either way."
+terms_introduced: []
+prerequisite: "7-1"
+xp: 30
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Bellafiore — One Good Trade"]
+notes: "Five decisions: two fades, one continuation, two passes. Interleaves the two-timeframe rule from Chapter 4."
+screens:
+  - type: intro
+    text: "Five breaks. Only two of them broke."
+
+  - type: story
+    character: retail-trader
+    text: "Levels marked, VWAP on the chart, 5-minute chart open beside the 1-minute. $30,000 in the account."
+
+  - type: chart-decision
+    scenario: "XYZ closed above the opening-range high at $18.20 on the lightest volume of the morning. This candle closes back inside at $18.16 on heavy volume. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.94, 18.06, 17.92, 18.04], [18.04, 18.16, 18.02, 18.14], [18.14, 18.28, 18.12, 18.26], [18.26, 18.30, 18.20, 18.24], [18.24, 18.28, 18.14, 18.16], [18.16, 18.20, 18.06, 18.08], [18.08, 18.12, 17.96, 17.98], [17.98, 18.02, 17.86, 17.88], [17.88, 17.92, 17.78, 17.80], [17.80, 17.84, 17.70, 17.74]]
+      vwap: [17.90, 17.92, 17.94, 17.96, 17.98, 17.98, 17.98, 17.97, 17.96, 17.95]
+      levels:
+        - {price: 18.20, label: "Opening-range high"}
+      volume: [72000, 64000, 51000, 44000, 98000, 86000, 78000, 70000, 64000, 59000]
+      decision_index: 4
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell to VWAP at $17.98 and carried on to $17.74. Out at the line: $0.18 per share, +$270 short on 1,500 shares from $18.16."
+    explanation: "The break traded fewer shares than the candles before it, and the return closed on heavy volume. That is the whole card."
+
+  - type: slider
+    prompt: "The break traded 3,100 shares against 6,800 on the candle before it. What share of the earlier candle's volume is that?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 45
+    tolerance: 10
+    explanation: "Under half. A break that trades less than the candles it broke through is the one this card is looking for."
+
+  - type: chart-decision
+    scenario: "XYZ closed above the round number $18.00 on triple the volume of the candles before it, pulled back for one small candle that stayed above, and now closes at $18.16. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.70, 17.80, 17.68, 17.78], [17.78, 17.90, 17.76, 17.88], [17.88, 18.04, 17.86, 18.02], [18.02, 18.14, 18.00, 18.12], [18.12, 18.16, 18.04, 18.06], [18.06, 18.18, 18.02, 18.16], [18.16, 18.30, 18.14, 18.28], [18.28, 18.42, 18.26, 18.40], [18.40, 18.52, 18.36, 18.48], [18.48, 18.60, 18.44, 18.56]]
+      levels:
+        - {price: 18.00, label: "Round number"}
+      volume: [64000, 76000, 128000, 114000, 82000, 96000, 92000, 86000, 78000, 72000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $18.56 — $0.40 per share, +$600 long on 1,500 shares from $18.16."
+    explanation: "This break was bought on triple volume and never gave the level back. The shape here is card C, and fading it would be taking the losing side."
+
+  - type: numeric-mc
+    prompt: "Back to the first trade: short 1,500 shares at $18.16, covered at $17.98. What did it make before costs?"
+    options:
+      - {text: "$270", correct: true}
+      - {text: "$180"}
+      - {text: "$240"}
+      - {text: "$540"}
+    working: "$18.16 − $17.98 = $0.18 per share; $0.18 × 1,500 shares = $270"
+    explanation: "Eighteen cents. The share count is what makes it worth the screen time."
+
+  - type: chart-decision
+    scenario: "XYZ closed above the pre-market high at $13.12 on shrinking volume. This candle closes back under it at $13.06 on the heaviest volume in ten minutes. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[12.82, 12.90, 12.76, 12.88], [12.88, 13.00, 12.84, 12.98], [12.98, 13.10, 12.94, 13.08], [13.08, 13.20, 13.04, 13.18], [13.18, 13.22, 13.04, 13.06], [13.06, 13.08, 12.94, 12.96], [12.96, 12.98, 12.84, 12.86], [12.86, 12.90, 12.76, 12.80], [12.80, 12.84, 12.70, 12.74], [12.74, 12.78, 12.66, 12.70]]
+      vwap: [12.78, 12.80, 12.82, 12.84, 12.86, 12.86, 12.85, 12.84, 12.82, 12.80]
+      levels:
+        - {price: 13.12, label: "Pre-market high"}
+      volume: [78000, 66000, 54000, 42000, 104000, 92000, 84000, 76000, 70000, 64000]
+      decision_index: 4
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid through VWAP to $12.70. Out at $12.80: $0.26 per share, +$520 short on 2,000 shares from $13.06, against $0.18 of risk."
+    explanation: "Quiet break, loud return. The buyers who pushed it above the level had to sell it back under."
+
+  - type: match
+    prompt: "Match each break to what it actually is."
+    pairs:
+      - ["Break on the lightest volume of the hour, back inside next minute", "Card E — fade it"]
+      - ["Break on triple volume that holds and pauses shallowly", "Card C — continuation"]
+      - ["Re-entry candle on the smallest volume of the session", "Nobody bought it back — pass"]
+      - ["Break the other way from a clear 5-minute trend", "Fighting the slower chart — pass"]
+    explanation: "Two of these are trades on your cards. The other two are charts that look like trades."
+
+  - type: chart-decision
+    scenario: "XYZ closed under the round number $13.00, and this candle closes back above it at $13.02 — on the smallest volume of the session. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[13.30, 13.36, 13.24, 13.26], [13.26, 13.30, 13.16, 13.18], [13.18, 13.22, 13.06, 13.08], [13.08, 13.12, 12.94, 12.96], [12.96, 13.04, 12.94, 13.02], [13.02, 13.06, 12.92, 12.94], [12.94, 12.98, 12.84, 12.86], [12.86, 12.90, 12.76, 12.78], [12.78, 12.82, 12.68, 12.70], [12.70, 12.74, 12.62, 12.66]]
+      levels:
+        - {price: 13.00, label: "Round number"}
+      volume: [68000, 62000, 58000, 54000, 31000, 56000, 64000, 70000, 76000, 82000]
+      decision_index: 4
+    best: no-trade
+    outcome: "It closed back under the number the next minute and slid to $12.66 — $0.36 against a long, $720 on 2,000 shares."
+    explanation: "The return has to be at least as convincing as the break was weak. On the session's smallest volume, nobody bought anything back."
+
+  - type: tf
+    statement: "The stop for a fade goes two cents beyond the failed break's extreme."
+    answer: true
+    explanation: "If price gets back there the break was real after all, and there is nothing left to fade."
+
+  - type: chart-decision
+    scenario: "The 5-minute chart has been in a clear uptrend all session. XYZ pushes above yesterday's high at $17.60 on heavy volume, then closes back under it at $17.56. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.20, 17.32, 17.18, 17.30], [17.30, 17.44, 17.28, 17.42], [17.42, 17.56, 17.40, 17.54], [17.54, 17.68, 17.52, 17.66], [17.66, 17.70, 17.54, 17.56], [17.56, 17.60, 17.48, 17.52], [17.52, 17.66, 17.50, 17.64], [17.64, 17.78, 17.62, 17.76], [17.76, 17.90, 17.72, 17.86], [17.86, 17.98, 17.82, 17.94]]
+      levels:
+        - {price: 17.60, label: "Yesterday's high"}
+      volume: [82000, 94000, 106000, 118000, 92000, 64000, 86000, 98000, 104000, 112000]
+      decision_index: 4
+    best: no-trade
+    reasonable: [short]
+    outcome: "It paused for one candle, then made new highs to $17.94 — $0.38 against a short, $570 on 1,500 shares."
+    explanation: "The break came on heavy volume inside a 5-minute uptrend. Fading that is fighting the slower chart, and the slower chart wins more often."
+
+  - type: fill-tiles
+    sentence: "Everyone still holding the failed break at a loss is a ___ trader."
+    answer: "trapped"
+    explanation: "Their exits are the move, which is why a failed break can travel further than the break would have."
+
+  - type: theory
+    title: "The playbook is complete"
+    body: "Five cards. From here it stops being about learning setups and starts being about picking the right one for the day in front of you."

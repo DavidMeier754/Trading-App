@@ -1,0 +1,103 @@
+id: "1-1"
+title: "What a Playbook Is"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [playbook, setups, process]
+learning_goal: "User can name the five fields of a playbook card and say why a short playbook beats a long one."
+purpose: "Everything after this chapter is one question: which card is this? Without cards there is no question, only guessing."
+terms_introduced: ["Playbook", "Playbook card", "Invalidation"]
+prerequisite: null
+xp: 20
+difficulty: 1
+sources: ["Bellafiore — The PlayBook", "Bellafiore — One Good Trade"]
+notes: "Opening sub of the chapter. Defines the card that Levels 2-7 fill in five times."
+screens:
+  - type: intro
+    text: "Five cards. That is the whole chapter."
+
+  - type: theory
+    title: "From one setup to five"
+    body: "You met the word in Chapter 6: a chart situation you know how to trade. This chapter turns that into five written ones, each with the same five fields."
+
+  - type: theory
+    title: "A playbook is your list of them"
+    body: "One page per setup. Traders who keep one write the page before the session, not during it. Most keep a handful, not a shelf full."
+
+  - type: carousel
+    cards:
+      - {label: "Context", text: "What the whole chart has to look like first: the trend, which side of VWAP, which part of the session."}
+      - {label: "Entry", text: "The exact candle or price that puts you in. One trigger, written down, not a feeling."}
+      - {label: "Stop", text: "The price that says the idea was wrong. Chosen before you enter, never after."}
+      - {label: "Target", text: "Where you take the money. Decided on the card, not while the position is open."}
+
+  - type: theory
+    title: "And one more field: invalidation"
+    body: "Your stop is a price. Invalidation is a condition that makes the idea wrong — volume drying up, a level giving way, the move already gone. It often gets you out before the stop does."
+
+  - type: mc
+    prompt: "A card reads: 'Uptrend, price above VWAP. Long on the first green candle at the line. Out sixteen cents higher.' What is missing?"
+    options:
+      - {text: "The stop — the price that says you were wrong", correct: true}
+      - {text: "The ticker the setup applies to"}
+      - {text: "The number of shares to trade"}
+    explanation: "Context, entry and target are there. Without a stop the card is a wish — and the share count follows from the stop, so that is missing too."
+
+  - type: tf
+    statement: "Invalidation is a condition, and it usually shows up before the stop is touched."
+    answer: true
+    explanation: "The stop is one price on the chart; the idea can stop being true well above or below it."
+
+  - type: example
+    body: "A finished card: uptrend, above VWAP. Enter 1,000 shares on the first candle closing back above the line. Stop $0.08 below its low — $80 at risk. Target $0.16 — $160. Drop it if pullback volume rises."
+
+  - type: order
+    prompt: "Put these in the order they happen in a live trade."
+    items:
+      - "The chart matches the context on the card"
+      - "The trigger candle closes"
+      - "The entry fills and the stop goes in"
+      - "The target fills"
+    explanation: "The stop goes in with the fill, not a minute later — that minute is where scalpers lose most of their bad trades."
+
+  - type: match
+    prompt: "Match each field to the question it answers."
+    pairs:
+      - ["Context", "Is this the right kind of chart at all?"]
+      - ["Entry", "What exactly puts me in?"]
+      - ["Stop", "Which price says I was wrong?"]
+      - ["Invalidation", "What makes me drop the idea before the stop?"]
+    explanation: "Four questions answered before the session, so none of them has to be answered during it."
+
+  - type: mc
+    prompt: "Why do experienced traders keep so few setups?"
+    options:
+      - {text: "Each extra setup adds fees to every trade"}
+      - {text: "Ten half-known setups means none gets enough reps", correct: true}
+      - {text: "A setup stops working once enough traders know it"}
+    explanation: "Reps are the point. One setup taken 200 times teaches more than ten taken twice."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "You are long, the move stalls,"}
+      - {text: "so you push the target further away", wrong: true}
+      - {text: "to give the trade more room."}
+    explanation: "The target was decided on the card. Moving it mid-trade turns a planned trade into an unplanned one."
+
+  - type: chart-decision
+    scenario: "Your playbook holds three setups, all of them trend trades. This is XYZ for the last ten minutes. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[27.40, 27.44, 27.36, 27.42], [27.42, 27.45, 27.37, 27.39], [27.39, 27.44, 27.36, 27.43], [27.43, 27.46, 27.38, 27.40], [27.40, 27.44, 27.36, 27.42], [27.42, 27.45, 27.37, 27.41], [27.41, 27.45, 27.36, 27.38], [27.38, 27.44, 27.36, 27.43], [27.43, 27.46, 27.37, 27.39], [27.39, 27.44, 27.36, 27.41]]
+      volume: [31000, 28000, 26000, 24000, 22000, 21000, 20000, 22000, 19000, 18000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Twenty more minutes inside the same band. Two round trips at a $0.02 spread would have cost $40 on 1,000 shares and returned nothing."
+    explanation: "A playbook is also a list of what you do not trade. No card, no trade."
+
+  - type: theory
+    title: "Now the cards"
+    body: "Five setups follow, one level each: the idea, the five fields, then drills until the chart tells you which card it is."
