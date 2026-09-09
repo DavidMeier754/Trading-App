@@ -177,6 +177,32 @@ def validate_file(path, data, rep):
                 rep.err(f, f"screen {i}: chart-decision.best '{s.get('best')}' not in buttons")
             if not s.get("outcome"):
                 rep.err(f, f"screen {i}: chart-decision needs outcome")
+        if t in ("chart-decision", "chart-tap"):
+            chart = s.get("chart") or {}
+            bars = chart.get("data") or []
+            kind = chart.get("kind")
+            if kind not in ("line", "candles"):
+                rep.err(f, f"screen {i}: chart.kind must be line or candles")
+            if not 8 <= len(bars) <= 12:
+                rep.warn(f, f"screen {i}: chart has {len(bars)} bars (expected 8–12)")
+            if kind == "candles":
+                for b_i, bar in enumerate(bars):
+                    if not (isinstance(bar, list) and len(bar) == 4 and all(isinstance(x, (int, float)) for x in bar)):
+                        rep.err(f, f"screen {i}: candle {b_i} must be [open, high, low, close]")
+                        break
+                    o, h, l, c = bar
+                    if h < max(o, c) or l > min(o, c):
+                        rep.err(f, f"screen {i}: candle {b_i} high/low inconsistent with open/close")
+            if kind == "line" and not all(isinstance(x, (int, float)) for x in bars):
+                rep.err(f, f"screen {i}: line data must be numbers")
+            if t == "chart-decision":
+                di = chart.get("decision_index")
+                if not isinstance(di, int) or not 3 <= di <= len(bars) - 3:
+                    rep.warn(f, f"screen {i}: decision_index {di} should leave bars before and after the decision")
+            if t == "chart-tap":
+                tg = s.get("target")
+                if not isinstance(tg, int) or not 0 <= tg < len(bars):
+                    rep.err(f, f"screen {i}: chart-tap.target must be a bar index")
         if t == "numeric-input" and not isinstance(s.get("answer"), (int, float)):
             rep.err(f, f"screen {i}: numeric-input.answer must be a number")
         if t == "spot-mistake":
