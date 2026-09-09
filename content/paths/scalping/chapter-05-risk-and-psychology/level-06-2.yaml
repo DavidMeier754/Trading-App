@@ -1,0 +1,108 @@
+id: "6-2"
+title: "Thinking in Probabilities"
+chapter: 5
+chapter_title: "Risk & Psychology for Scalpers"
+path: scalping
+category: repetition
+tags: [practice, probability, expectancy]
+learning_goal: "User separates decision quality from result across a mixed set of mornings, numbers and charts."
+purpose: "Judging your own trading correctly is a skill you practice on other people's numbers first."
+terms_introduced: []
+prerequisite: "6-1"
+xp: 20
+difficulty: 3
+sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
+screens:
+  - type: intro
+    text: "Same method, opposite mornings. Grade the decision, not the day."
+
+  - type: story
+    character: retail-trader
+    text: "Monday: +3R before the opening window closed. Tuesday: −3R in the same half hour. Same setups, same size."
+
+  - type: mc
+    prompt: "What do those two mornings tell you about the method?"
+    options:
+      - {text: "Nothing yet — two mornings is far below a useful sample size", correct: true}
+      - {text: "That Tuesday's market did not suit it"}
+      - {text: "That it works better early in the week"}
+    explanation: "Two data points from a series that needs hundreds. Both mornings are inside normal."
+
+  - type: numeric-mc
+    prompt: "1R is $110. A trader ends the week at +6R across 63 trades. How much is that?"
+    options:
+      - {text: "+$660", correct: true}
+      - {text: "+$6.60"}
+      - {text: "+$693"}
+      - {text: "−$660"}
+    working: "6 × $110 = $660"
+    explanation: "Sixty-three decisions, and the week is worth six units of risk."
+
+  - type: chart-decision
+    scenario: "Up 4R and feeling sharp. XYZ is 40 cents above the last level with no pullback, still running. 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[39.20, 39.34, 39.16, 39.32], [39.32, 39.50, 39.30, 39.46], [39.46, 39.62, 39.44, 39.60], [39.60, 39.74, 39.56, 39.70], [39.70, 39.82, 39.66, 39.78], [39.78, 39.88, 39.74, 39.84], [39.84, 39.86, 39.68, 39.70], [39.70, 39.74, 39.58, 39.60], [39.60, 39.66, 39.52, 39.56], [39.56, 39.60, 39.48, 39.54]]
+      decision_index: 5
+    best: no-trade
+    outcome: "It gave back 30 cents. A long at $39.84 was $300 down on 1,000 shares."
+    explanation: "A good morning does not make a bad setup good. The chart has not heard about your +4R."
+
+  - type: match
+    prompt: "Match each term to what it describes."
+    pairs:
+      - ["Sample size", "How many trades a judgment should rest on"]
+      - ["Expectancy", "What one average trade is worth after costs"]
+      - ["1R", "The loss you accept if the stop hits"]
+      - ["Tilt", "When the last result, not the chart, picks the trade"]
+    explanation: "Four ideas that all point the same way: the series decides, not the trade."
+
+  - type: tf
+    statement: "After a five-trade winning run, raising your size is justified by the results."
+    answer: false
+    explanation: "Five wins is a normal run inside almost any method, including one that loses. Size changes on evidence, not on a streak."
+
+  - type: numeric-input
+    prompt: "Win rate 45 %, average win $200, average loss $120. What is the expectancy per trade?"
+    answer: 24
+    tolerance: 0.01
+    unit: "$"
+    working: "(0.45 × $200) − (0.55 × $120) = $90 − $66 = $24"
+    explanation: "Fewer than half the trades win and the method still pays, because the winners are bigger."
+
+  - type: chart-decision
+    scenario: "Two stops down, inside your limit. XYZ has held $27.80 three times this morning and turns up from it again on rising volume. Entry $27.86, stop $27.74. 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[28.00, 28.06, 27.90, 27.94], [27.94, 27.98, 27.82, 27.84], [27.84, 27.92, 27.80, 27.88], [27.88, 27.94, 27.80, 27.82], [27.82, 27.90, 27.78, 27.86], [27.86, 27.92, 27.80, 27.88], [27.88, 27.98, 27.84, 27.96], [27.96, 28.06, 27.92, 28.04], [28.04, 28.14, 28.00, 28.10], [28.10, 28.16, 28.04, 28.08]]
+      volume: [62, 70, 55, 48, 66, 84, 92, 88, 105, 71]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached $28.16. Sold at $28.10: $0.24 per share, +$240 on 1,000 shares against $120 of risk."
+    explanation: "A level that has held three times, a 12-cent stop and a 24-cent move. This morning's score has nothing to do with it."
+
+  - type: fill-tiles
+    sentence: "Grade the decision, not the ___."
+    answer: "result"
+    explanation: "You control one of them; the other is one draw from the series."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "I am up 4R today,"}
+      - {text: "so I can risk 3R on this one", wrong: true}
+      - {text: "and still finish the day green."}
+    explanation: "Today's profit is not a bigger risk budget. It is the first part of a series that is still running."
+
+  - type: fill-choice
+    sentence: "Down 2R with a 3R limit, one more full stop ends the ___."
+    options: ["session", "week", "setup"]
+    answer: "session"
+    explanation: "The limit is a day-sized rule; tomorrow starts again at zero."
+
+  - type: theory
+    title: "The series is the unit"
+    body: "One trade is a coin toss with a lean. A thousand trades is a business. The next level is how you actually see the series."

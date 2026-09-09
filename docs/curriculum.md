@@ -92,7 +92,7 @@ Folder: `content/paths/scalping/chapter-04-reading-fast-markets/`. Sources: Aziz
 
 10 levels, 17 subs. New terms: VWAP, Confluence, Doji, Engulfing candle, Rejection, Tape, Print, Stacking, Pulling, Halt, Opening drive, Reclaim, Failed test.
 
-### Chapter 5 — Risk & Psychology for Scalpers — next
+### Chapter 5 — Risk & Psychology for Scalpers — written
 
 Folder: `content/paths/scalping/chapter-05-risk-and-psychology/`. Sources: Elder, Douglas, Tharp, Bellafiore.
 

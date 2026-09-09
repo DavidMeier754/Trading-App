@@ -1,0 +1,133 @@
+id: "10-1"
+title: "Final Exam"
+chapter: 5
+chapter_title: "Risk & Psychology for Scalpers"
+path: scalping
+category: final-exam
+tags: [final-exam]
+learning_goal: "Confirm mastery of the stop before the entry, R, expectancy after costs, the session limits, tilt and the reset, probability thinking, the journal and sizing in a drawdown."
+purpose: "The playbook chapter assumes every rule in these twelve questions is already automatic."
+terms_introduced: []
+prerequisite: "9-1"
+xp: 80
+difficulty: 3
+sources: ["Elder — Trading for a Living", "Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "12 scored questions. Hearts apply. Pass mark 70 %."
+screens:
+  - type: intro
+    text: "Final exam: Risk & Psychology for Scalpers. Twelve questions."
+    counter: 12
+
+  - type: mc
+    prompt: "Where does the stop belong in your sequence?"
+    options:
+      - {text: "Chosen from the chart before the entry is sent", correct: true}
+      - {text: "Set once you have seen how the trade behaves"}
+      - {text: "Set at a fixed dollar amount you are comfortable losing"}
+    explanation: "The level that says the idea failed comes from the chart, and it comes first — the share count is worked out from it."
+
+  - type: numeric-input
+    prompt: "You short 2,000 shares at $7.45 with a stop at $7.51. What is 1R?"
+    answer: 120
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.06 per share × 2,000 shares = $120"
+    explanation: "Six cents of stop distance across 2,000 shares is the whole risk."
+
+  - type: numeric-mc
+    prompt: "That short covers at $7.33. What is the result as an R-multiple?"
+    options:
+      - {text: "+2R", correct: true}
+      - {text: "+1R"}
+      - {text: "+0.5R"}
+      - {text: "+2.4R"}
+    working: "Gain $0.12 ÷ risk $0.06 = 2"
+    explanation: "Twelve cents made against six risked, whatever the share count was."
+
+  - type: tf
+    statement: "Two traders with the same win rate can have opposite expectancies."
+    answer: true
+    explanation: "The size of the average win against the average loss decides it, not how often you are right."
+
+  - type: chart-decision
+    scenario: "The spread on XYZ has widened to 7 cents in a fast move. The setup is otherwise the one from your plan and your target is 15 cents. 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[26.10, 26.20, 26.06, 26.18], [26.18, 26.32, 26.16, 26.30], [26.30, 26.40, 26.26, 26.36], [26.36, 26.44, 26.32, 26.42], [26.42, 26.50, 26.38, 26.46], [26.46, 26.54, 26.42, 26.50], [26.50, 26.60, 26.48, 26.58], [26.58, 26.66, 26.54, 26.62], [26.62, 26.68, 26.58, 26.65], [26.65, 26.70, 26.60, 26.64]]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It reached the target. Crossing a 7-cent spread on 1,000 shares took $70 of the $150."
+    explanation: "Nearly half the target paid away to the spread turns a good setup into a poor trade."
+
+  - type: sort
+    prompt: "Hard stop or mental stop?"
+    buckets: ["Hard stop", "Mental stop"]
+    items:
+      - {text: "A resting order at the broker", bucket: "Hard stop"}
+      - {text: "Still works while your platform is frozen", bucket: "Hard stop"}
+      - {text: "Needs you to click in the moment", bucket: "Mental stop"}
+      - {text: "Shows nothing to the market", bucket: "Mental stop"}
+    explanation: "One of them survives you freezing. That is the whole difference."
+
+  - type: mc
+    prompt: "You reach your trade limit for the day and a clean setup appears ten minutes later. What now?"
+    options:
+      - {text: "You are done — the cap exists to stop exactly this trade", correct: true}
+      - {text: "Take it, because it is your best setup of the day"}
+      - {text: "Take it at half size, as a compromise"}
+    explanation: "A cap only works if it is the same on good days and bad ones."
+
+  - type: numeric-mc
+    prompt: "Out of 100 trades, 65 win an average of $50 and 35 lose an average of $110. What is the expectancy per trade?"
+    options:
+      - {text: "−$6", correct: true}
+      - {text: "+$6"}
+      - {text: "−$60"}
+      - {text: "+$32.50"}
+    working: "(0.65 × $50) − (0.35 × $110) = $32.50 − $38.50 = −$6"
+    explanation: "Right two times in three and still negative — the losers are more than twice the winners."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "I am 4 % down this month,"}
+      - {text: "so I will double my size", wrong: true}
+      - {text: "until the account is back at its high."}
+    explanation: "A drawdown gets deeper faster than it fills. Size comes down in one, never up."
+
+  - type: chart-decision
+    scenario: "Two stops down with a 3R limit. XYZ pulls back to the rising VWAP for the first time and turns up on the biggest volume of the pullback. Entry $58.70, stop $58.58. 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[58.30, 58.44, 58.26, 58.42], [58.42, 58.58, 58.40, 58.54], [58.54, 58.70, 58.52, 58.68], [58.68, 58.76, 58.62, 58.66], [58.66, 58.70, 58.58, 58.62], [58.62, 58.72, 58.60, 58.70], [58.70, 58.82, 58.68, 58.80], [58.80, 58.90, 58.76, 58.88], [58.88, 59.02, 58.84, 58.98], [58.98, 59.04, 58.92, 58.96]]
+      vwap: [58.34, 58.40, 58.48, 58.53, 58.56, 58.58, 58.61, 58.65, 58.70, 58.74]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $59.04. Sold at $58.98: $0.28 per share, +$280 on 1,000 shares against $120 of risk."
+    explanation: "Inside the limit, the plan's setup, plan size. The morning's score does not change what the chart is offering."
+
+  - type: match
+    prompt: "Match each term to its meaning."
+    pairs:
+      - ["Tilt", "When the last result, not the chart, picks the trade"]
+      - ["Reset routine", "The written way back after a bad run"]
+      - ["Execution grade", "How well you followed the plan, result aside"]
+      - ["Sample size", "How many trades a verdict should rest on"]
+    explanation: "Four ideas that keep one bad half hour from becoming a bad month."
+
+  - type: fill-choice
+    sentence: "A trade taken exactly as planned that loses money is still a good ___."
+    options: ["decision", "result", "week"]
+    answer: "decision"
+    explanation: "You control the decision. The result is one draw from a series that needs hundreds."
+
+  - type: summary
+    total: 12
+
+  - type: badge
+    name: "Risk & Psychology — Complete"
+    unlocks: "Chapter 6"
