@@ -54,17 +54,17 @@ screens:
     body: "Stop two cents below the low of that candle. Target the high of day — the highest price the stock has traded since the session opened, and the level the move was heading for anyway."
 
   - type: numeric-input
-    prompt: "You buy 1,500 shares at $24.30. The entry candle's low was $24.22 and your stop sits two cents under it. How much is at risk, before costs?"
+    prompt: "You buy 1,500 shares at $18.30. The entry candle's low was $18.22 and your stop sits two cents under it. How much is at risk, before costs?"
     answer: 150
     unit: "$"
-    working: "Stop $24.20; $24.30 − $24.20 = $0.10 per share; $0.10 × 1,500 = $150"
+    working: "Stop $18.20; $18.30 − $18.20 = $0.10 per share; $0.10 × 1,500 = $150"
     explanation: "Ten cents of risk on 1,500 shares. The share count is what turns a small number into a real one."
 
   - type: mc
     prompt: "XYZ has traded below VWAP since the open and is now rallying up to the line from underneath. Is this the bounce card?"
     options:
-      - {text: "No — the card needs price above the line all session; this is the mirror image", correct: true}
       - {text: "Yes — price is touching VWAP, and that touch is the setup"}
+      - {text: "No — the card needs price above the line all session", correct: true}
       - {text: "Yes, as long as the volume on the rally is falling"}
     explanation: "Touching the line is not the setup. The setup is a pullback inside a move that has owned the line all session."
 
@@ -89,7 +89,7 @@ screens:
       kind: candles
       data: [[18.42, 18.48, 18.38, 18.40], [18.40, 18.44, 18.32, 18.34], [18.34, 18.38, 18.26, 18.28], [18.28, 18.32, 18.22, 18.24], [18.24, 18.26, 18.16, 18.20], [18.20, 18.30, 18.19, 18.28], [18.28, 18.36, 18.26, 18.34], [18.34, 18.42, 18.32, 18.40], [18.40, 18.46, 18.36, 18.44], [18.44, 18.50, 18.40, 18.48]]
       vwap: [18.24, 18.23, 18.23, 18.22, 18.22, 18.21, 18.22, 18.22, 18.23, 18.24]
-      volume: [6200, 5400, 4700, 4100, 3600, 8900, 7600, 6800, 6100, 5600]
+      volume: [62000, 54000, 47000, 41000, 36000, 89000, 76000, 68000, 61000, 56000]
       decision_index: 5
     best: long
     reasonable: [no-trade]

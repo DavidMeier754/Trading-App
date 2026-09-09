@@ -18,13 +18,13 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "6:45 {{market.timezone}}. Coffee. News: XYZ lands a huge contract. Pre-market shows +7 % on 30,000 shares."
+    text: "Before the open. Coffee. News: XYZ lands a huge contract, and {{market.premarket}} {{market.timezone}} trading shows +7 % on 30,000 shares."
 
   - type: mc
     prompt: "Why not trust the +7 % fully yet?"
     options:
-      - {text: "Pre-market is thin — 30,000 shares is a handful of traders", correct: true}
       - {text: "Contracts don't move stock prices"}
+      - {text: "Pre-market is thin — 30,000 shares is a handful of traders", correct: true}
       - {text: "Percent changes only count in the regular session"}
     explanation: "Thin session, few participants, jumpy price."
 
@@ -35,8 +35,8 @@ screens:
   - type: mc
     prompt: "What does that volume tell you?"
     options:
-      - {text: "Many participants agree — the move has broad support", correct: true}
       - {text: "Institutions are selling into it"}
+      - {text: "Many participants agree — the move has broad support", correct: true}
       - {text: "Volume this high means the stock is illiquid"}
     explanation: "Heavy volume behind a move means the crowd is voting with it."
 
@@ -67,7 +67,7 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "11:00. A rumor: the contract may be smaller than reported. XYZ drops 3 % in two minutes on heavy selling."
+    text: "Late morning. A rumor: the contract may be smaller than reported. XYZ drops 3 % in two minutes on heavy selling."
 
   - type: chart-decision
     scenario: "XYZ falling fast on heavy volume after the rumor; every bounce gets sold. 100 shares."
@@ -81,9 +81,9 @@ screens:
   - type: mc
     prompt: "You're a day trader and it's three minutes to the close. XYZ is +4 % on the day. You:"
     options:
-      - {text: "Make sure you're flat — no new positions this close to the bell", correct: true}
       - {text: "Go long for the overnight gap"}
       - {text: "Go short because day traders will all sell now"}
+      - {text: "Make sure you're flat before the bell", correct: true}
     explanation: "A day trader's rule is to be out before the close."
 
   - type: sort
@@ -97,7 +97,7 @@ screens:
     explanation: "Ease, movement, holding period."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Four ideas you used during today's session."
     pairs:
       - ["Long", "Profit if the price rises"]
       - ["Short", "Profit if the price falls"]

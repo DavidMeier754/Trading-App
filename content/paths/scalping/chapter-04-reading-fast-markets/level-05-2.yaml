@@ -45,9 +45,9 @@ screens:
   - type: mc
     prompt: "A 20,000-share bid sits one cent under the price for ten minutes, then disappears the second price reaches it. What happened?"
     options:
-      - {text: "It was pulled — the size was shown, not meant", correct: true}
       - {text: "It filled, which is why it is gone"}
       - {text: "The exchange cancelled it for being too large"}
+      - {text: "It was pulled — the size was shown, not meant", correct: true}
     explanation: "A bid that fills leaves prints on the tape; this one left nothing behind."
 
   - type: tf
@@ -64,12 +64,12 @@ screens:
     shares: 1500
     chart:
       kind: candles
-      data: [[27.10, 27.18, 27.08, 27.16], [27.16, 27.26, 27.14, 27.24], [27.24, 27.34, 27.22, 27.32], [27.32, 27.42, 27.30, 27.40], [27.40, 27.48, 27.38, 27.46], [27.46, 27.50, 27.42, 27.44], [27.44, 27.46, 27.34, 27.36], [27.36, 27.40, 27.28, 27.30], [27.30, 27.34, 27.22, 27.24], [27.24, 27.28, 27.18, 27.22]]
-      volume: [6200, 7400, 8100, 7600, 6800, 3100, 4400, 5200, 5600, 4900]
+      data: [[17.10, 17.18, 17.08, 17.16], [17.16, 17.26, 17.14, 17.24], [17.24, 17.34, 17.22, 17.32], [17.32, 17.42, 17.30, 17.40], [17.40, 17.48, 17.38, 17.46], [17.46, 17.50, 17.42, 17.44], [17.44, 17.46, 17.34, 17.36], [17.36, 17.40, 17.28, 17.30], [17.30, 17.34, 17.22, 17.24], [17.24, 17.28, 17.18, 17.22]]
+      volume: [62000, 74000, 81000, 76000, 68000, 31000, 44000, 52000, 56000, 49000]
       decision_index: 5
     best: no-trade
     reasonable: [short]
-    outcome: "Price drifted back to $27.22. A long at $27.44 would have been 22 cents under water, $330 on 1,500 shares."
+    outcome: "Price drifted back to $17.22. A long at $17.44 would have been 22 cents under water, $330 on 1,500 shares."
     explanation: "Buyers stepping away and the tape going quiet is the move ending — that is the worst moment to join it."
 
   - type: order
@@ -103,6 +103,10 @@ screens:
     answer: "pulled"
     explanation: "Cancelled before it could trade — no print, no shares."
 
-  - type: theory
-    title: "Intentions and actions"
-    body: "The book shows what people say they will do. The tape shows what they did. When the two disagree, believe the tape."
+  - type: visual
+    component: order-book
+    data:
+      bids: [[24.18, 2400], [24.17, 3100], [24.16, 5200]]
+      asks: [[24.20, 700], [24.21, 600], [24.22, 900]]
+    caption: "The book shows what people say they will do. The tape shows what they did. When the two disagree, believe the tape."
+

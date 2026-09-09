@@ -32,15 +32,15 @@ screens:
   - type: mc
     prompt: "You place a modest buy on a stock and the price jumps 2 % just from your trade. What does that tell you?"
     options:
-      - {text: "The stock is illiquid — there were few sellers near the current price", correct: true}
+      - {text: "The stock is illiquid", correct: true}
       - {text: "The stock is liquid — buyers are eager"}
       - {text: "The exchange added a charge for your trade"}
     explanation: "A normal-sized trade shouldn't move a liquid stock. It moved this one, so sellers were scarce."
 
   - type: tf
-    statement: "A stock with 200 shares traded per day is easy to get out of quickly."
-    answer: false
-    explanation: "Almost nobody is trading it — finding a buyer for your shares means cutting the price."
+    statement: "Selling 200 shares of a stock that trades 200 shares a day means cutting the price to find buyers."
+    answer: true
+    explanation: "Almost nobody is trading it, so finding buyers means walking the price down to meet them."
 
   - type: slider
     prompt: "Tiny Corp trades 3,000 shares a day. You want to sell 600. Roughly what share of the day's volume is that?"
@@ -55,8 +55,8 @@ screens:
   - type: mc
     prompt: "Why do most active traders stick to liquid stocks?"
     options:
-      - {text: "They can enter and exit close to the price they see, even with size", correct: true}
       - {text: "Liquid stocks have smaller daily price moves"}
+      - {text: "They can enter and exit close to the price they see", correct: true}
       - {text: "Exchanges charge less for liquid stocks"}
     explanation: "Liquidity is about getting your price, not about how far the stock moves."
 
@@ -77,8 +77,8 @@ screens:
   - type: mc
     prompt: "What happens if you insist on selling all 400 right away?"
     options:
-      - {text: "50 sell at the current price and the rest at lower and lower prices", correct: true}
       - {text: "All 400 sell at the current price, just more slowly"}
+      - {text: "50 sell at the current price and the rest at lower and lower prices", correct: true}
       - {text: "The exchange finds a market maker to take all 400 at the current price"}
     explanation: "To find enough buyers you have to walk the price down. That's illiquidity costing you money."
 
@@ -88,7 +88,7 @@ screens:
     explanation: "Plenty of buyers and sellers ready."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Sort out the liquidity vocabulary."
     pairs:
       - ["Liquidity", "How easily you can trade without moving the price"]
       - ["Volume", "Shares traded in a period"]

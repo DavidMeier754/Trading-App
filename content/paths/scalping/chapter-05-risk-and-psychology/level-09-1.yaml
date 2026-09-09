@@ -21,11 +21,11 @@ screens:
     text: "Before the open: 1R is $120 on 1,000 shares. Daily loss limit 3R. Maximum eight trades. All of it written down."
 
   - type: chart-decision
-    scenario: "First setup: XYZ holds the pre-market high at $41.20 and turns up from it. Entry $41.26, stop $41.14. 1,000 shares."
+    scenario: "First setup: XYZ holds the pre-market high at $11.20 and turns up from it. Entry $11.26, stop $11.14. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[41.10, 41.22, 41.06, 41.18], [41.18, 41.26, 41.14, 41.22], [41.22, 41.28, 41.16, 41.20], [41.20, 41.24, 41.14, 41.18], [41.18, 41.28, 41.16, 41.24], [41.24, 41.32, 41.20, 41.26], [41.26, 41.30, 41.16, 41.18], [41.18, 41.22, 41.10, 41.12], [41.12, 41.16, 41.04, 41.06], [41.06, 41.10, 41.00, 41.04]]
+      data: [[11.10, 11.22, 11.06, 11.18], [11.18, 11.26, 11.14, 11.22], [11.22, 11.28, 11.16, 11.20], [11.20, 11.24, 11.14, 11.18], [11.18, 11.28, 11.16, 11.24], [11.24, 11.32, 11.20, 11.26], [11.26, 11.30, 11.16, 11.18], [11.18, 11.22, 11.10, 11.12], [11.12, 11.16, 11.04, 11.06], [11.06, 11.10, 11.00, 11.04]]
       decision_index: 5
     state: ["Day: 0R", "Trade 1 of 8"]
     best: long
@@ -34,10 +34,10 @@ screens:
     explanation: "Right decision, losing result. The row gets a grade A and the morning moves on."
 
   - type: chart-tap
-    prompt: "Your stop was under $41.14. Tap the first candle whose low breaks it."
+    prompt: "You entered on the sixth candle with the stop under $11.14. Tap the first candle after your entry whose low breaks it."
     chart:
       kind: candles
-      data: [[41.10, 41.22, 41.06, 41.18], [41.18, 41.26, 41.14, 41.22], [41.22, 41.28, 41.16, 41.20], [41.20, 41.24, 41.14, 41.18], [41.18, 41.28, 41.16, 41.24], [41.24, 41.32, 41.20, 41.26], [41.26, 41.30, 41.16, 41.18], [41.18, 41.22, 41.10, 41.12], [41.12, 41.16, 41.04, 41.06], [41.06, 41.10, 41.00, 41.04]]
+      data: [[11.10, 11.22, 11.06, 11.18], [11.18, 11.26, 11.14, 11.22], [11.22, 11.28, 11.16, 11.20], [11.20, 11.24, 11.14, 11.18], [11.18, 11.28, 11.16, 11.24], [11.24, 11.32, 11.20, 11.26], [11.26, 11.30, 11.16, 11.18], [11.18, 11.22, 11.10, 11.12], [11.12, 11.16, 11.04, 11.06], [11.06, 11.10, 11.00, 11.04]]
     target: 7
     explanation: "The resting order did the work at the price you chose while you were calm."
 
@@ -48,9 +48,9 @@ screens:
   - type: mc
     prompt: "Down 2R with a 3R limit. What is allowed?"
     options:
-      - {text: "One more trade from the plan, at plan size", correct: true}
       - {text: "One more trade at double size, to get back to flat"}
       - {text: "Nothing — 2R is close enough to the limit"}
+      - {text: "One more trade from the plan, at plan size", correct: true}
     explanation: "The limit is a line, not a mood. Until it is reached, the plan runs at its normal size."
 
   - type: chart-decision
@@ -58,11 +58,11 @@ screens:
     shares: 1000
     chart:
       kind: candles
-      data: [[41.04, 41.16, 41.00, 41.14], [41.14, 41.30, 41.12, 41.28], [41.28, 41.42, 41.26, 41.40], [41.40, 41.50, 41.36, 41.48], [41.48, 41.56, 41.44, 41.52], [41.52, 41.58, 41.48, 41.54], [41.54, 41.56, 41.42, 41.44], [41.44, 41.48, 41.34, 41.36], [41.36, 41.40, 41.30, 41.34], [41.34, 41.38, 41.28, 41.32]]
+      data: [[11.04, 11.16, 11.00, 11.14], [11.14, 11.30, 11.12, 11.28], [11.28, 11.42, 11.26, 11.40], [11.40, 11.50, 11.36, 11.48], [11.48, 11.56, 11.44, 11.52], [11.52, 11.58, 11.48, 11.54], [11.54, 11.56, 11.42, 11.44], [11.44, 11.48, 11.34, 11.36], [11.36, 11.40, 11.30, 11.34], [11.34, 11.38, 11.28, 11.32]]
       decision_index: 5
     state: ["Day: −2R", "Limit: 3R"]
     best: no-trade
-    outcome: "It gave back 22 cents. A long at $41.54 was $220 down on 1,000 shares."
+    outcome: "It gave back 22 cents. A long at $11.54 was $220 down on 1,000 shares."
     explanation: "Same stock, no level, more hurry: that is the last result choosing the trade, not the chart."
 
   - type: numeric-input
@@ -78,17 +78,17 @@ screens:
     text: "Ten minutes away from the screen, the rows written up, back at 500 shares."
 
   - type: chart-decision
-    scenario: "Back at 500 shares. XYZ reclaims VWAP and holds above it for two candles. Entry $41.30, stop $41.18."
+    scenario: "Back at 500 shares. XYZ reclaims VWAP and holds above it for two candles. Entry $11.30, stop $11.18."
     shares: 500
     chart:
       kind: candles
-      data: [[41.20, 41.26, 41.12, 41.16], [41.16, 41.22, 41.10, 41.20], [41.20, 41.28, 41.18, 41.26], [41.26, 41.32, 41.22, 41.30], [41.30, 41.34, 41.26, 41.28], [41.28, 41.36, 41.26, 41.32], [41.32, 41.44, 41.30, 41.42], [41.42, 41.50, 41.38, 41.48], [41.48, 41.62, 41.44, 41.56], [41.56, 41.60, 41.48, 41.54]]
-      vwap: [41.24, 41.24, 41.24, 41.25, 41.26, 41.26, 41.27, 41.29, 41.31, 41.33]
+      data: [[11.20, 11.26, 11.12, 11.16], [11.16, 11.22, 11.10, 11.20], [11.20, 11.28, 11.18, 11.26], [11.26, 11.32, 11.22, 11.30], [11.30, 11.34, 11.26, 11.28], [11.28, 11.36, 11.26, 11.32], [11.32, 11.44, 11.30, 11.42], [11.42, 11.50, 11.38, 11.48], [11.48, 11.62, 11.44, 11.56], [11.56, 11.60, 11.48, 11.54]]
+      vwap: [11.24, 11.24, 11.24, 11.25, 11.26, 11.26, 11.27, 11.29, 11.31, 11.33]
       decision_index: 5
     state: ["Day: −2R", "Size: 500 of 1,000"]
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $41.62. Sold at $41.54: $0.24 per share, +$120 on 500 shares — 2R at the smaller size."
+    outcome: "It reached $11.62. Sold at $11.54: $0.24 per share, +$120 on 500 shares — 2R at the smaller size."
     explanation: "Full plan, half size. The morning finishes at −1R instead of −5R."
 
   - type: tf

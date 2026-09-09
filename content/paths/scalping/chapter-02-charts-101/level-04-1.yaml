@@ -56,16 +56,16 @@ screens:
     body: "In an uptrend, buying dips has been paying the crowd all morning, so the crowd keeps doing it. Trading against that needs a much better reason than a feeling that it has gone far enough."
 
   - type: chart-decision
-    scenario: "XYZ has topped each push above the last one all morning. It just dipped for the second time and stopped well above the first dip. You are sizing 1,000 shares."
+    scenario: "XYZ has topped each push above the last one all morning, and has just finished its second dip. You are sizing 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[28.10, 28.22, 28.06, 28.20], [28.20, 28.32, 28.18, 28.30], [28.30, 28.34, 28.16, 28.19], [28.19, 28.30, 28.17, 28.28], [28.28, 28.44, 28.26, 28.42], [28.42, 28.46, 28.30, 28.34], [28.34, 28.48, 28.32, 28.46], [28.46, 28.60, 28.44, 28.58], [28.58, 28.64, 28.54, 28.60], [28.60, 28.66, 28.57, 28.63], [28.63, 28.67, 28.59, 28.62]]
+      data: [[28.10, 28.22, 28.06, 28.20], [28.20, 28.32, 28.18, 28.30], [28.30, 28.34, 28.16, 28.19], [28.19, 28.30, 28.17, 28.28], [28.28, 28.44, 28.26, 28.42], [28.42, 28.46, 28.30, 28.34], [28.34, 28.45, 28.32, 28.44], [28.44, 28.55, 28.42, 28.54], [28.54, 28.59, 28.50, 28.55], [28.55, 28.60, 28.53, 28.58], [28.58, 28.61, 28.55, 28.57]]
       volume: [64000, 71000, 42000, 38000, 88000, 45000, 79000, 104000, 72000, 61000, 55000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "The next push topped the last one at $28.67 — $0.28 a share above the decision, +$280 long on 1,000 shares."
+    outcome: "The next push topped the last one at $28.61 and held $28.57 — $0.23 a share above the decision, +$230 long on 1,000 shares."
     explanation: "A higher low inside an uptrend is the cheapest place to join it, because the last dip already showed where buyers wait."
 
   - type: mc

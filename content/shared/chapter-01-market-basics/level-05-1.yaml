@@ -6,7 +6,7 @@ path: all
 category: new-theory
 tags: [sessions, liquidity]
 learning_goal: "User can order the three sessions of a trading day, knows their times for their market, and explains why thin sessions are jumpy."
-purpose: "The same stock behaves differently at 8:00 and at 11:00 — knowing the sessions explains most 'weird' moves."
+purpose: "The same stock behaves differently before the open and at midday — knowing the sessions explains most 'weird' moves."
 terms_introduced: ["Session", "Pre-market", "Regular session", "After-hours"]
 prerequisite: "4-3"
 xp: 20
@@ -39,9 +39,9 @@ screens:
   - type: mc
     prompt: "A stock jumps 6 % in pre-market on 40,000 shares, then gives most of it back in the first regular minutes. Best explanation?"
     options:
-      - {text: "Pre-market is thin — a few trades moved it a lot, and the full crowd disagreed", correct: true}
       - {text: "The company reversed its news at the open"}
       - {text: "The regular session always starts with a drop"}
+      - {text: "Pre-market is thin — a handful of trades set that price", correct: true}
     explanation: "40,000 shares is a handful of traders. The real verdict comes with volume."
 
   - type: tf
@@ -51,10 +51,10 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "7:15 {{market.timezone}}. XYZ announces record results. The regular session opens at {{market.regular_open}}."
+    text: "Two hours before the bell. XYZ announces record results; the regular session opens at {{market.regular_open}} {{market.timezone}}."
 
   - type: mc
-    prompt: "Why would a trader look at pre-market trading right after the 7:15 news?"
+    prompt: "Why would a trader look at pre-market trading right after that news?"
     options:
       - {text: "To see how early traders are reacting before the full session starts", correct: true}
       - {text: "Because pre-market prices are more reliable than regular-hour prices"}
@@ -64,9 +64,9 @@ screens:
   - type: mc
     prompt: "Why are pre-market moves often less reliable than regular-session moves?"
     options:
-      - {text: "Low liquidity — few participants, so each trade moves the price a lot", correct: true}
       - {text: "Prices there aren't real and get reset at the open"}
       - {text: "Institutions aren't allowed to trade before the open"}
+      - {text: "Low liquidity — few participants set the price", correct: true}
     explanation: "Thin sessions, jumpy prices."
 
   - type: fill-choice
@@ -91,7 +91,12 @@ screens:
   - type: mc
     prompt: "Twenty minutes after the close, XYZ prints −8 % on light volume after a headline. What do you know for sure?"
     options:
-      - {text: "The reaction so far comes from a thin market — tomorrow's session will show the full verdict", correct: true}
+      - {text: "The reaction so far comes from a thin market", correct: true}
       - {text: "XYZ will open −8 % tomorrow"}
       - {text: "The drop can't be real because the market is closed"}
     explanation: "After-hours moves are real but thin; the crowd votes tomorrow."
+
+  - type: story
+    character: retail-trader
+    text: "Same stock, three sessions, three different characters. Tomorrow you meet the people on the other side of your trades."
+

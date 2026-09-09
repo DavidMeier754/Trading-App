@@ -52,15 +52,15 @@ screens:
     explanation: "Ask minus bid."
 
   - type: tf
-    statement: "The last price is always exactly the bid or the ask."
-    answer: false
-    explanation: "Trades happen at the bid, at the ask or in between; 'last' is just the most recent one."
+    statement: "A trade can print at a price between the bid and the ask."
+    answer: true
+    explanation: "'Last' is simply the most recent trade — at the bid, at the ask, or somewhere in between."
 
   - type: mc
     prompt: "You sell 500 shares right now while the quote shows bid $18.40 / ask $18.46. What do you receive per share?"
     options:
-      - {text: "$18.40 — sellers get the bid", correct: true}
       - {text: "$18.46 — sellers get the ask"}
+      - {text: "$18.40 — sellers get the bid", correct: true}
       - {text: "$18.43 — the middle"}
     explanation: "Selling now means taking what buyers are offering: the bid."
 
@@ -74,15 +74,15 @@ screens:
   - type: numeric-mc
     prompt: "Bid $67.42, ask $67.49. Spread?"
     options:
-      - {text: "$0.07", correct: true}
       - {text: "$0.70"}
       - {text: "$0.05"}
+      - {text: "$0.07", correct: true}
       - {text: "$134.91"}
     working: "67.49 − 67.42 = 0.07"
     explanation: "Seven cents between the two sides."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Four numbers on every quote panel. Which is which?"
     pairs:
       - ["Bid", "Highest price a buyer offers now"]
       - ["Ask", "Lowest price a seller takes now"]

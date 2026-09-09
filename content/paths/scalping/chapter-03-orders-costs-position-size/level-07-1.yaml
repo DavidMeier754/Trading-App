@@ -39,8 +39,8 @@ screens:
   - type: mc
     prompt: "Which order type caps slippage on entry?"
     options:
-      - {text: "Marketable limit — it never fills above your limit", correct: true}
       - {text: "Market order — it fills fastest"}
+      - {text: "Marketable limit — it never fills above your limit", correct: true}
       - {text: "Stop-market — it waits for the price"}
     explanation: "A cap on the price is a cap on the slip."
 
@@ -80,16 +80,29 @@ screens:
   - type: mc
     prompt: "What separated them?"
     options:
-      - {text: "Execution speed — the slower fill met a higher ask", correct: true}
       - {text: "The spread — they saw different quotes"}
+      - {text: "Execution speed — the slower fill met a higher ask", correct: true}
       - {text: "Position size — bigger orders fill later"}
     explanation: "Half a second was six cents."
+
+  - type: chart-decision
+    scenario: "XYZ is spiking on news: candles are 15 cents tall, the quote is jumping several cents between looks and your target is 20 cents. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[19.20, 19.46, 19.10, 19.18], [19.18, 19.40, 19.14, 19.36], [19.36, 19.42, 19.10, 19.14], [19.14, 19.34, 19.08, 19.30], [19.30, 19.36, 19.06, 19.12], [19.12, 19.28, 19.04, 19.24], [19.24, 19.30, 19.00, 19.06], [19.06, 19.22, 19.02, 19.18], [19.18, 19.24, 18.96, 19.02], [19.02, 19.18, 18.98, 19.14]]
+      volume: [310000, 240000, 270000, 190000, 220000, 180000, 210000, 170000, 190000, 160000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It swung both ways for another ten minutes and finished at $19.14, ten cents below the decision."
+    explanation: "A quote moving several cents between looks is slippage waiting to happen, and it is bigger than half your target."
 
   - type: fill-tiles
     sentence: "The gap between the expected price and your fill is ___."
     answer: "slippage"
     explanation: "The market moved while you were executing."
 
-  - type: theory
-    title: "One more layer"
-    body: "Next: the one cost that does come as a bill."
+  - type: story
+    character: retail-trader
+    text: "Spread, then slippage. One more layer to go — and it is the only one that arrives as an actual bill."
+

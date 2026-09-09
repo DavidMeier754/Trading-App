@@ -37,10 +37,10 @@ screens:
   - type: numeric-mc
     prompt: "That short covers at $7.33. What is the result as an R-multiple?"
     options:
-      - {text: "+2R", correct: true}
       - {text: "+1R"}
       - {text: "+0.5R"}
       - {text: "+2.4R"}
+      - {text: "+2R", correct: true}
     working: "Gain $0.12 ÷ risk $0.06 = 2"
     explanation: "Twelve cents made against six risked, whatever the share count was."
 
@@ -74,13 +74,13 @@ screens:
   - type: mc
     prompt: "You reach your trade limit for the day and a clean setup appears ten minutes later. What now?"
     options:
-      - {text: "You are done — the cap exists to stop exactly this trade", correct: true}
       - {text: "Take it, because it is your best setup of the day"}
       - {text: "Take it at half size, as a compromise"}
+      - {text: "You are done — the cap exists to stop exactly this trade", correct: true}
     explanation: "A cap only works if it is the same on good days and bad ones."
 
   - type: numeric-mc
-    prompt: "Out of 100 trades, 65 win an average of $50 and 35 lose an average of $110. What is the expectancy per trade?"
+    prompt: "A hundred trades: 65 winners averaging $50, 35 losers averaging $110. What is one average trade worth?"
     options:
       - {text: "−$6", correct: true}
       - {text: "+$6"}
@@ -98,21 +98,21 @@ screens:
     explanation: "A drawdown gets deeper faster than it fills. Size comes down in one, never up."
 
   - type: chart-decision
-    scenario: "Two stops down with a 3R limit. XYZ pulls back to the rising VWAP for the first time and turns up on the biggest volume of the pullback. Entry $58.70, stop $58.58. 1,000 shares."
+    scenario: "Two stops down with a 3R limit. XYZ pulls back to the rising VWAP for the first time and turns up on the biggest volume of the pullback. Entry $26.70, stop $26.58. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[58.30, 58.44, 58.26, 58.42], [58.42, 58.58, 58.40, 58.54], [58.54, 58.70, 58.52, 58.68], [58.68, 58.76, 58.62, 58.66], [58.66, 58.70, 58.58, 58.62], [58.62, 58.72, 58.60, 58.70], [58.70, 58.82, 58.68, 58.80], [58.80, 58.90, 58.76, 58.88], [58.88, 59.02, 58.84, 58.98], [58.98, 59.04, 58.92, 58.96]]
-      vwap: [58.34, 58.40, 58.48, 58.53, 58.56, 58.58, 58.61, 58.65, 58.70, 58.74]
+      data: [[26.30, 26.44, 26.26, 26.42], [26.42, 26.58, 26.40, 26.54], [26.54, 26.70, 26.52, 26.68], [26.68, 26.76, 26.62, 26.66], [26.66, 26.70, 26.58, 26.62], [26.62, 26.72, 26.60, 26.70], [26.70, 26.82, 26.68, 26.80], [26.80, 26.90, 26.76, 26.88], [26.88, 27.02, 26.84, 26.98], [26.98, 27.04, 26.92, 26.96]]
+      vwap: [26.34, 26.40, 26.48, 26.53, 26.56, 26.58, 26.61, 26.65, 26.70, 26.74]
       decision_index: 5
     state: ["Day: −2R", "Limit: 3R"]
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $59.04. Sold at $58.98: $0.28 per share, +$280 on 1,000 shares against $120 of risk."
+    outcome: "It ran to $27.04. Sold at $26.98: $0.28 per share, +$280 on 1,000 shares against $120 of risk."
     explanation: "Inside the limit, the plan's setup, plan size. The morning's score does not change what the chart is offering."
 
   - type: match
-    prompt: "Match each term to its meaning."
+    prompt: "Match each idea that keeps a bad half hour from becoming a bad month."
     pairs:
       - ["Tilt", "When the last result, not the chart, picks the trade"]
       - ["Reset routine", "The written way back after a bad run"]

@@ -27,15 +27,15 @@ screens:
   - type: visual
     component: bar-chart
     data:
-      bars: [{label: "VWAP bounce", value: 6.5}, {label: "Range fade", value: -3.0}, {label: "Opening drive", value: 2.0}, {label: "Chases", value: -7.5}]
+      bars: [{label: "Pullback to VWAP", value: 6.5}, {label: "Range trades", value: -3.0}, {label: "Opening drive", value: 2.0}, {label: "Chases", value: -7.5}]
       unit: "R"
     caption: "One trader's week in R, grouped by setup."
 
   - type: mc
     prompt: "Looking at that week, which change would have had the biggest effect?"
     options:
+      - {text: "Doubling the size on the VWAP pullbacks"}
       - {text: "Not taking the chases at all", correct: true}
-      - {text: "Doubling the size on the VWAP bounces"}
       - {text: "Adding a fifth setup to the plan"}
     explanation: "Deleting the worst column is worth 7.5R and needs no new skill. Doubling the size on the winner adds 6.5R and doubles what its losers cost."
 
@@ -56,7 +56,7 @@ screens:
     explanation: "A losing week built entirely out of one column that was never in the plan."
 
   - type: slider
-    prompt: "Of that trader's winning R (+8.5R in total), what share came from the VWAP bounce?"
+    prompt: "Of that trader's winning R (+8.5R in total), what share came from the pullback to VWAP?"
     min: 0
     max: 100
     step: 5

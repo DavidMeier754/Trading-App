@@ -33,15 +33,15 @@ screens:
   - type: mc
     prompt: "What does a broker actually do for you?"
     options:
-      - {text: "Sends your orders to the exchange and holds your account", correct: true}
-      - {text: "Sets the prices of the stocks you trade"}
+      - {text: "Sets the prices of the stocks you trade each morning"}
       - {text: "Picks which stocks you should buy"}
+      - {text: "Sends your orders to the exchange and holds your account", correct: true}
     explanation: "A broker is the connection and the custodian — not the price setter and not an advisor."
 
   - type: tf
-    statement: "The broker is the company whose stock you are buying."
-    answer: false
-    explanation: "The broker is the middleman. The company is what you buy a piece of."
+    statement: "Your broker passes your order to the exchange but has no say in what a share is worth."
+    answer: true
+    explanation: "The broker is the middleman. Buyers and sellers set the price between them."
 
   - type: walkthrough
     component: order-ticket
@@ -74,7 +74,7 @@ screens:
     explanation: "Every order costs, win or lose."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "The four pieces between you and the exchange."
     pairs:
       - ["Broker", "Connects you to the exchange"]
       - ["Brokerage account", "Holds your cash and shares"]
@@ -85,8 +85,8 @@ screens:
   - type: mc
     prompt: "Same $1 per order. You buy 100 shares of XYZ and sell them later. Total fees for that round?"
     options:
-      - {text: "$2", correct: true}
       - {text: "$1"}
+      - {text: "$2", correct: true}
       - {text: "$100"}
     explanation: "Two orders — one to open, one to close."
 

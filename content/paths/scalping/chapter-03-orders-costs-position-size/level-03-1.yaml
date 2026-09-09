@@ -37,15 +37,15 @@ screens:
   - type: mc
     prompt: "Bid $20.00, ask $20.05. A market buy fills at about:"
     options:
-      - {text: "$20.05", correct: true}
       - {text: "$20.00"}
       - {text: "$20.025"}
+      - {text: "$20.05", correct: true}
     explanation: "Market buys take the ask."
 
   - type: mc
     prompt: "Same quote. You place a limit buy at $19.90. What happens?"
     options:
-      - {text: "It waits, and fills only if the ask drops to $19.90 or lower", correct: true}
+      - {text: "It waits for the ask to reach $19.90", correct: true}
       - {text: "It fills now at $20.05"}
       - {text: "It's rejected for being below the bid"}
     explanation: "A limit below the market simply waits."
@@ -94,7 +94,7 @@ screens:
     explanation: "A limit buy waits for your price."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Two order types and where each one lands."
     pairs:
       - ["Market order", "Executes now at the best available price"]
       - ["Limit order", "Executes only at your price or better"]

@@ -21,9 +21,9 @@ screens:
   - type: mc
     prompt: "A candle opens at $44.10 and closes at $44.12, with wicks reaching $44.40 and $43.86. It tells you:"
     options:
-      - {text: "Both sides pushed hard and neither kept anything", correct: true}
       - {text: "Buyers were in control, because it closed above its open"}
       - {text: "Very little traded in that minute"}
+      - {text: "Both sides pushed hard and neither kept anything", correct: true}
     explanation: "A tiny body between two long wicks is the picture of a minute nobody won."
 
   - type: chart-tap
@@ -98,8 +98,8 @@ screens:
   - type: numeric-mc
     prompt: "The first five minutes ran from $30.86 to $31.24. How wide is the opening range?"
     options:
-      - {text: "$0.38", correct: true}
       - {text: "$0.28"}
+      - {text: "$0.38", correct: true}
       - {text: "$3.80"}
       - {text: "$30.86"}
     working: "31.24 − 30.86 = 0.38"
@@ -110,12 +110,12 @@ screens:
     shares: 600
     chart:
       kind: candles
-      data: [[48.40, 48.52, 48.36, 48.38], [48.38, 48.44, 48.20, 48.24], [48.24, 48.30, 48.10, 48.14], [48.14, 48.36, 48.12, 48.32], [48.32, 48.40, 48.28, 48.36], [48.36, 48.41, 48.26, 48.28], [48.28, 48.32, 48.14, 48.16], [48.16, 48.20, 48.02, 48.06], [48.06, 48.12, 47.96, 48.00], [48.00, 48.06, 47.94, 47.98], [47.98, 48.04, 47.92, 48.00]]
+      data: [[48.40, 48.52, 48.36, 48.38], [48.38, 48.44, 48.20, 48.24], [48.24, 48.30, 48.10, 48.14], [48.14, 48.36, 48.12, 48.32], [48.32, 48.40, 48.28, 48.36], [48.36, 48.41, 48.26, 48.28], [48.28, 48.33, 48.12, 48.14], [48.14, 48.19, 47.98, 48.03], [48.03, 48.10, 47.91, 47.96], [47.96, 48.03, 47.89, 47.94], [47.94, 48.01, 47.87, 47.96]]
       volume: [74000, 88000, 96000, 70000, 62000, 84000, 92000, 88000, 76000, 66000, 60000]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It rolled over to $47.92 and finished at $48.00 — $0.28 a share, +$168 short on 600 shares."
+    outcome: "It rolled over to $47.87 and finished at $47.96 — $0.32 a share, +$192 short on 600 shares."
     explanation: "A rally into the last lower high, refused on heavier volume, is the downtrend doing exactly what it has done all morning."
 
   - type: spot-mistake

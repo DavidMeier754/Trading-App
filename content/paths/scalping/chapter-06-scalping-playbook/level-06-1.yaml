@@ -49,7 +49,7 @@ screens:
       data: [[87.20, 87.34, 87.18, 87.32], [87.32, 87.48, 87.30, 87.46], [87.46, 87.64, 87.44, 87.62], [87.62, 87.84, 87.60, 87.82], [87.82, 88.06, 87.80, 87.86], [87.86, 87.92, 87.70, 87.72], [87.72, 87.78, 87.56, 87.58], [87.58, 87.64, 87.44, 87.46]]
       levels:
         - {price: 88.00, label: "Round number"}
-      volume: [6400, 7600, 9200, 11400, 14800, 9600, 8400, 7600]
+      volume: [64000, 76000, 92000, 114000, 148000, 96000, 84000, 76000]
     target: 4
     explanation: "It traded to $88.06, six cents through the number, and closed at $87.86 — everyone who bought above the level was wrong within a minute."
 
@@ -63,17 +63,17 @@ screens:
     body: "Stop two cents beyond the wick. Target VWAP. And take a smaller share count than the other cards: you are trading against a move that is still moving."
 
   - type: numeric-input
-    prompt: "You short 1,000 shares at $65.38, stop $65.58, target VWAP at $65.10. What is that target as an R-multiple?"
+    prompt: "You short 1,000 shares at $27.38, stop $27.58, target VWAP at $27.10. What is that target as an R-multiple?"
     answer: 1.4
     tolerance: 0.05
-    working: "Risk $65.58 − $65.38 = $0.20; reward $65.38 − $65.10 = $0.28; $0.28 ÷ $0.20 = 1.4"
+    working: "Risk $27.58 − $27.38 = $0.20; reward $27.38 − $27.10 = $0.28; $0.28 ÷ $0.20 = 1.4"
     explanation: "A 1.4R target — normal for this card, because the stop has to be tight to be worth taking at all."
 
   - type: mc
     prompt: "Why does this card use a smaller share count than the other three?"
     options:
-      - {text: "It trades against a move that is still running, so it is wrong more often", correct: true}
       - {text: "Counter-trend trades always have wider spreads"}
+      - {text: "It trades against a move that is still running", correct: true}
       - {text: "The target is always closer than on the other cards"}
     explanation: "Catching a turn is the hardest thing in the playbook. A smaller size is how the card survives being wrong."
 
@@ -87,19 +87,19 @@ screens:
       - "Target: VWAP — invalidation is any candle that closes through the level"
 
   - type: chart-decision
-    scenario: "XYZ has run five candles into yesterday's high at $65.50 on climax volume, thirty cents above VWAP. The next candle wicks to $65.56 and closes at $65.38. You have 1,000 shares ready."
+    scenario: "XYZ has run five candles into yesterday's high at $27.50 on climax volume, thirty cents above VWAP. The next candle wicks to $27.56 and closes at $27.38. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[64.90, 65.04, 64.88, 65.02], [65.02, 65.16, 65.00, 65.14], [65.14, 65.30, 65.12, 65.28], [65.28, 65.44, 65.26, 65.42], [65.42, 65.50, 65.40, 65.48], [65.48, 65.56, 65.36, 65.38], [65.38, 65.42, 65.24, 65.26], [65.26, 65.30, 65.12, 65.14], [65.14, 65.18, 65.04, 65.06], [65.06, 65.10, 64.96, 65.00]]
-      vwap: [65.02, 65.03, 65.05, 65.07, 65.09, 65.10, 65.11, 65.12, 65.12, 65.13]
+      data: [[26.90, 27.04, 26.88, 27.02], [27.02, 27.16, 27.00, 27.14], [27.14, 27.30, 27.12, 27.28], [27.28, 27.44, 27.26, 27.42], [27.42, 27.50, 27.40, 27.48], [27.48, 27.56, 27.36, 27.38], [27.38, 27.42, 27.24, 27.26], [27.26, 27.30, 27.12, 27.14], [27.14, 27.18, 27.04, 27.06], [27.06, 27.10, 26.96, 27.00]]
+      vwap: [27.02, 27.03, 27.05, 27.07, 27.09, 27.10, 27.11, 27.12, 27.12, 27.13]
       levels:
-        - {price: 65.50, label: "Yesterday's high"}
-      volume: [6200, 7400, 8800, 10600, 12600, 14200, 9800, 8600, 7800, 7000]
+        - {price: 27.50, label: "Yesterday's high"}
+      volume: [62000, 74000, 88000, 106000, 126000, 142000, 98000, 86000, 78000, 70000]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It came back to VWAP at $65.10 — $0.28 per share, +$280 short on 1,000 shares from $65.38."
+    outcome: "It came back to VWAP at $27.10 — $0.28 per share, +$280 short on 1,000 shares from $27.38."
     explanation: "Climax volume into a level you marked, a wick through it and a close back under: the run bought its last buyer."
 
   - type: fill-tiles

@@ -7,7 +7,7 @@ category: new-theory
 tags: [playbook, setups, process]
 learning_goal: "User can name the five fields of a playbook card and say why a short playbook beats a long one."
 purpose: "Everything after this chapter is one question: which card is this? Without cards there is no question, only guessing."
-terms_introduced: ["Setup", "Playbook", "Playbook card", "Invalidation"]
+terms_introduced: ["Playbook", "Playbook card", "Invalidation"]
 prerequisite: null
 xp: 20
 difficulty: 1
@@ -18,8 +18,8 @@ screens:
     text: "Five cards. That is the whole chapter."
 
   - type: theory
-    title: "A setup is a pattern with a plan"
-    body: "A setup is a chart situation you have seen hundreds of times and know exactly how to trade — where you get in, where you get out, what makes you drop it."
+    title: "From one setup to five"
+    body: "You met the word in Chapter 5: a chart situation you know how to trade. This chapter turns that into five written ones, each with the same five fields."
 
   - type: theory
     title: "A playbook is your list of them"
@@ -45,9 +45,9 @@ screens:
     explanation: "Context, entry and target are there. Without a stop the card is a wish — and the share count follows from the stop, so that is missing too."
 
   - type: tf
-    statement: "Invalidation and the stop are always the same price."
-    answer: false
-    explanation: "The stop is one price on the chart; invalidation is a condition, and it usually shows up first."
+    statement: "Invalidation is a condition, and it usually shows up before the stop is touched."
+    answer: true
+    explanation: "The stop is one price on the chart; the idea can stop being true well above or below it."
 
   - type: example
     body: "A finished card: uptrend, above VWAP. Enter 1,000 shares on the first candle closing back above the line. Stop $0.08 below its low — $80 at risk. Target $0.16 — $160. Drop it if pullback volume rises."
@@ -73,8 +73,8 @@ screens:
   - type: mc
     prompt: "Why do experienced traders keep so few setups?"
     options:
-      - {text: "Ten half-known setups means none of them gets traded often enough to get good at", correct: true}
       - {text: "Each extra setup adds fees to every trade"}
+      - {text: "Ten half-known setups means none gets enough reps", correct: true}
       - {text: "A setup stops working once enough traders know it"}
     explanation: "Reps are the point. One setup taken 200 times teaches more than ten taken twice."
 
@@ -87,12 +87,12 @@ screens:
     explanation: "The target was decided on the card. Moving it mid-trade turns a planned trade into an unplanned one."
 
   - type: chart-decision
-    scenario: "Your playbook holds three setups, all of them trend trades. XYZ is drifting inside a ten-cent band, no trend, no level nearby. You have 1,000 shares ready."
+    scenario: "Your playbook holds three setups, all of them trend trades. This is XYZ for the last ten minutes. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
       data: [[27.40, 27.44, 27.36, 27.42], [27.42, 27.45, 27.37, 27.39], [27.39, 27.44, 27.36, 27.43], [27.43, 27.46, 27.38, 27.40], [27.40, 27.44, 27.36, 27.42], [27.42, 27.45, 27.37, 27.41], [27.41, 27.45, 27.36, 27.38], [27.38, 27.44, 27.36, 27.43], [27.43, 27.46, 27.37, 27.39], [27.39, 27.44, 27.36, 27.41]]
-      volume: [3100, 2800, 2600, 2400, 2200, 2100, 2000, 2200, 1900, 1800]
+      volume: [31000, 28000, 26000, 24000, 22000, 21000, 20000, 22000, 19000, 18000]
       decision_index: 5
     best: no-trade
     outcome: "Twenty more minutes inside the same band. Two round trips at a $0.02 spread would have cost $40 on 1,000 shares and returned nothing."

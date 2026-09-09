@@ -31,10 +31,10 @@ screens:
   - type: numeric-mc
     prompt: "2,000 shares trade at $30.00, then 6,000 at $30.40. What is VWAP?"
     options:
-      - {text: "$30.30", correct: true}
       - {text: "$30.20"}
       - {text: "$30.40"}
       - {text: "$30.10"}
+      - {text: "$30.30", correct: true}
     working: "(2,000 × $30.00 + 6,000 × $30.40) ÷ 8,000 shares = $30.30"
     explanation: "Three quarters of the shares traded at $30.40, so VWAP sits close to it."
 
@@ -46,7 +46,7 @@ screens:
     component: chart-candles
     data:
       data: [[24.10, 24.18, 24.08, 24.16], [24.16, 24.24, 24.14, 24.22], [24.22, 24.26, 24.18, 24.20], [24.20, 24.30, 24.19, 24.28], [24.28, 24.36, 24.26, 24.34], [24.34, 24.38, 24.28, 24.31], [24.31, 24.42, 24.30, 24.40], [24.40, 24.48, 24.38, 24.46]]
-      volume: [4200, 5100, 3300, 4800, 6200, 3900, 5600, 6100]
+      volume: [42000, 51000, 33000, 48000, 62000, 39000, 56000, 61000]
       vwap: [24.12, 24.15, 24.17, 24.19, 24.22, 24.24, 24.27, 24.30]
     caption: "Every candle closes above the VWAP line: buyers in charge all session."
 
@@ -71,7 +71,7 @@ screens:
   - type: mc
     prompt: "Why does price react at VWAP so often?"
     options:
-      - {text: "Large orders are measured against it, so their buying and selling clusters there", correct: true}
+      - {text: "Large orders are measured against it and cluster there", correct: true}
       - {text: "It sits exactly halfway between the day's high and low"}
       - {text: "Exchanges use it as the official reference price for the session"}
     explanation: "It matters because so many big orders are judged by it, not because of anything the exchange does."

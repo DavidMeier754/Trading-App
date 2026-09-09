@@ -23,9 +23,9 @@ screens:
   - type: numeric-mc
     prompt: "Of those 100 trades, 55 won an average of $70 and 45 lost an average of $80. What is the expectancy per trade?"
     options:
-      - {text: "+$2.50", correct: true}
       - {text: "−$10.00"}
       - {text: "+$38.50"}
+      - {text: "+$2.50", correct: true}
       - {text: "−$2.50"}
     working: "(0.55 × $70) − (0.45 × $80) = $38.50 − $36.00 = $2.50"
     explanation: "Two and a half dollars an average trade — real, but thin enough that costs decide it."
@@ -33,7 +33,7 @@ screens:
   - type: mc
     prompt: "Which change raises that $2.50 per trade the most?"
     options:
-      - {text: "Taking only the setups where the target is at least twice the stop", correct: true}
+      - {text: "Taking only setups with a target twice the stop", correct: true}
       - {text: "Taking three more trades a day"}
       - {text: "Moving the stop wider so fewer trades stop out"}
     explanation: "More trades multiply whatever expectancy already is; a wider stop raises the average loss. Better reward against risk changes the number itself."
@@ -61,10 +61,10 @@ screens:
     shares: 1000
     chart:
       kind: candles
-      data: [[15.10, 15.18, 15.08, 15.16], [15.16, 15.28, 15.14, 15.26], [15.26, 15.40, 15.24, 15.38], [15.38, 15.48, 15.36, 15.46], [15.46, 15.54, 15.44, 15.50], [15.50, 15.56, 15.46, 15.52], [15.52, 15.54, 15.40, 15.42], [15.42, 15.46, 15.30, 15.32], [15.32, 15.38, 15.26, 15.36], [15.36, 15.40, 15.28, 15.30]]
+      data: [[10.10, 10.18, 10.08, 10.16], [10.16, 10.28, 10.14, 10.26], [10.26, 10.40, 10.24, 10.38], [10.38, 10.48, 10.36, 10.46], [10.46, 10.54, 10.44, 10.50], [10.50, 10.56, 10.46, 10.52], [10.52, 10.54, 10.40, 10.42], [10.42, 10.46, 10.30, 10.32], [10.32, 10.38, 10.26, 10.36], [10.36, 10.40, 10.28, 10.30]]
       decision_index: 5
     best: no-trade
-    outcome: "It faded to $15.26 and sat at $15.30. A long at $15.52 was $220 down on 1,000 shares, with the stop 8 cents lower still."
+    outcome: "It faded to $10.26 and sat at $10.30. A long at $10.52 was $220 down on 1,000 shares, with the stop 8 cents lower still."
     explanation: "Thirty cents of risk for a fifteen-cent target is negative expectancy before the first candle prints."
 
   - type: tf
@@ -81,10 +81,10 @@ screens:
   - type: numeric-mc
     prompt: "1R is $150. A day of twenty trades ends at −3R. How much is that?"
     options:
-      - {text: "−$450", correct: true}
       - {text: "−$300"}
       - {text: "−$3,000"}
       - {text: "−$150"}
+      - {text: "−$450", correct: true}
     working: "3 × $150 = $450"
     explanation: "Twenty decisions, and three units of risk is the whole story of the day."
 
@@ -97,15 +97,15 @@ screens:
     explanation: "Seven $20 winners against three $60 losers is −$40. The win rate never answers it alone."
 
   - type: chart-decision
-    scenario: "XYZ has made lower highs all morning and just failed again at $61.20, a level that rejected it twice. Entry $61.10, stop $61.24, first support $60.80. 1,000 shares."
+    scenario: "XYZ has made lower highs all morning and just failed again at $11.20, a level that rejected it twice. Entry $11.10, stop $11.24, first support $10.80. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[61.40, 61.44, 61.28, 61.30], [61.30, 61.36, 61.18, 61.20], [61.20, 61.26, 61.10, 61.14], [61.14, 61.22, 61.08, 61.18], [61.18, 61.20, 61.10, 61.12], [61.12, 61.18, 61.06, 61.08], [61.08, 61.10, 60.96, 60.98], [60.98, 61.02, 60.88, 60.90], [60.90, 60.94, 60.78, 60.82], [60.82, 60.86, 60.76, 60.84]]
+      data: [[11.40, 11.44, 11.28, 11.30], [11.30, 11.36, 11.18, 11.20], [11.20, 11.26, 11.10, 11.14], [11.14, 11.22, 11.08, 11.18], [11.18, 11.20, 11.10, 11.12], [11.12, 11.18, 11.06, 11.08], [11.08, 11.10, 10.96, 10.98], [10.98, 11.02, 10.88, 10.90], [10.90, 10.94, 10.78, 10.82], [10.82, 10.86, 10.76, 10.84]]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It slid to $60.76. Covered at $60.80: $0.30 per share, +$300 on 1,000 shares against $140 of risk."
+    outcome: "It slid to $10.76. Covered at $10.80: $0.30 per share, +$300 on 1,000 shares against $140 of risk."
     explanation: "A level that has turned price twice, a 14-cent stop and a 30-cent target — that is what positive expectancy looks like on a chart."
 
   - type: theory

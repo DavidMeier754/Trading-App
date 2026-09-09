@@ -48,12 +48,12 @@ screens:
     shares: 800
     chart:
       kind: candles
-      data: [[33.80, 33.92, 33.78, 33.90], [33.90, 34.04, 33.88, 34.02], [34.02, 34.08, 33.96, 33.98], [33.98, 34.02, 33.90, 33.92], [33.92, 33.96, 33.84, 33.86], [33.86, 33.90, 33.78, 33.80], [33.80, 33.84, 33.68, 33.70], [33.70, 33.74, 33.60, 33.62], [33.62, 33.68, 33.54, 33.58], [33.58, 33.62, 33.50, 33.54], [33.54, 33.60, 33.48, 33.52]]
+      data: [[33.80, 33.92, 33.78, 33.90], [33.90, 34.04, 33.88, 34.02], [34.02, 34.08, 33.96, 33.98], [33.98, 34.02, 33.90, 33.92], [33.92, 33.96, 33.84, 33.86], [33.86, 33.90, 33.78, 33.80], [33.80, 33.83, 33.71, 33.73], [33.73, 33.76, 33.65, 33.66], [33.66, 33.71, 33.60, 33.63], [33.63, 33.66, 33.57, 33.60], [33.60, 33.65, 33.56, 33.59]]
       volume: [52000, 71000, 84000, 66000, 74000, 88000, 96000, 92000, 78000, 66000, 58000]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It fell to $33.48 and finished the run at $33.52 — $0.28 a share, +$224 short on 800 shares."
+    outcome: "It fell to $33.56 and finished the run at $33.59 — $0.21 a share, +$168 short on 800 shares."
     explanation: "A push above the level that could not close there leaves everyone who bought it offside, and they sell."
 
   - type: numeric-mc
@@ -119,6 +119,11 @@ screens:
       - {text: "A second stock to be doing the same thing at the same time"}
     explanation: "Levels are areas, not exact prices, and the close is the only part of a candle that settles anything."
 
-  - type: theory
-    title: "Levels give you a reason"
-    body: "Every decision so far had one: a level, a close, and volume behind it. That is the whole checkpoint you are about to take."
+  - type: checklist-reveal
+    title: "What every decision here had"
+    items:
+      - "A level you marked before the open"
+      - "A candle that closed, not a wick"
+      - "Volume behind the close"
+      - "A reason to say no when one of them was missing"
+

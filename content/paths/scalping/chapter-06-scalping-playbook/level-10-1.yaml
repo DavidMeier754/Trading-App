@@ -15,22 +15,22 @@ sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living
 notes: "12 scored questions. Hearts apply. Pass mark 70 %."
 screens:
   - type: intro
-    text: "Final exam: the Scalping Playbook. Twelve questions."
-    counter: 12
+    text: "Final exam: the Scalping Playbook. Thirteen questions."
+    counter: 13
 
   - type: mc
     prompt: "'Range day. Short the rejection candle at the top of the range. Stop two cents over the wick. Target VWAP. Out on a close through the level.' Which card is this?"
     options:
-      - {text: "Mean reversion at a level", correct: true}
       - {text: "Failed-breakout fade"}
+      - {text: "Mean reversion at a level", correct: true}
       - {text: "Momentum continuation"}
     explanation: "It leans against a level on a range day and aims back at the average price. The fade would need a break to have happened first."
 
   - type: numeric-mc
     prompt: "You risk $250 per trade. Three cards fired: the bounce made 2R, the fade lost 1R, the continuation made 1.5R. Where does the day stand, before costs?"
     options:
-      - {text: "+$625", correct: true}
       - {text: "+$375"}
+      - {text: "+$625", correct: true}
       - {text: "+$1,125"}
       - {text: "+$250"}
     working: "(2 − 1 + 1.5) = 2.5R; 2.5 × $250 = $625"
@@ -44,15 +44,16 @@ screens:
       data: [[19.90, 19.96, 19.82, 19.84], [19.84, 19.88, 19.72, 19.74], [19.74, 19.78, 19.62, 19.64], [19.64, 19.68, 19.54, 19.56], [19.56, 19.66, 19.52, 19.64], [19.64, 19.76, 19.62, 19.74], [19.74, 19.86, 19.72, 19.84], [19.84, 19.94, 19.80, 19.90], [19.90, 19.98, 19.86, 19.94], [19.94, 20.02, 19.90, 19.98]]
       levels:
         - {price: 19.60, label: "Opening-range low"}
-      volume: [8200, 7000, 5800, 4600, 10600, 9400, 8600, 7800, 7200, 6600]
+      volume: [82000, 70000, 58000, 46000, 106000, 94000, 86000, 78000, 72000, 66000]
       decision_index: 4
     best: long
+    reasonable: [no-trade]
     outcome: "It ran to $19.98. Out at $19.94: $0.30 per share, +$450 long on 1,500 shares from $19.64, against $0.14 of risk."
     explanation: "A break nobody bought, then a heavy close back inside. Everyone short from under the level has to cover."
 
   - type: tf
-    statement: "A trade taken exactly by the card and stopped out was a bad trade."
-    answer: false
+    statement: "A trade taken exactly by the card and stopped out still counts as a good decision."
+    answer: true
     explanation: "The card decides whether a trade was good; one outcome does not. Losses inside the plan are what the plan costs."
 
   - type: match
@@ -67,23 +68,23 @@ screens:
   - type: mc
     prompt: "Volume is half its normal level, VWAP is flat, and no level is within twenty cents of price. How many of your five cards are on the table?"
     options:
-      - {text: "None", correct: true}
       - {text: "The two that suit a range day"}
       - {text: "All five, at a smaller share count"}
+      - {text: "None", correct: true}
     explanation: "No movement and no level means no card. Sessions like this are where a playbook saves money rather than making it."
 
   - type: chart-decision
-    scenario: "XYZ has climbed all morning and never traded back to VWAP. It wicks through the round number $71.00 to $71.14 and closes at $70.90. You have 1,000 shares ready."
+    scenario: "XYZ has climbed all morning and never traded back to VWAP. It wicks through the round number $27.00 to $27.14 and closes at $26.90. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[70.20, 70.40, 70.18, 70.38], [70.38, 70.58, 70.36, 70.56], [70.56, 70.78, 70.54, 70.76], [70.76, 70.98, 70.74, 70.96], [70.96, 71.14, 70.94, 71.00], [71.00, 71.06, 70.88, 70.90], [70.90, 71.10, 70.88, 71.08], [71.08, 71.28, 71.06, 71.26], [71.26, 71.44, 71.22, 71.40], [71.40, 71.58, 71.36, 71.54]]
+      data: [[26.20, 26.40, 26.18, 26.38], [26.38, 26.58, 26.36, 26.56], [26.56, 26.78, 26.54, 26.76], [26.76, 26.98, 26.74, 26.96], [26.96, 27.14, 26.94, 27.00], [27.00, 27.06, 26.88, 26.90], [26.90, 27.10, 26.88, 27.08], [27.08, 27.28, 27.06, 27.26], [27.26, 27.44, 27.22, 27.40], [27.40, 27.58, 27.36, 27.54]]
       levels:
-        - {price: 71.00, label: "Round number"}
-      volume: [9400, 10600, 11800, 13200, 14600, 9200, 10400, 11600, 12800, 14000]
+        - {price: 27.00, label: "Round number"}
+      volume: [94000, 106000, 118000, 132000, 146000, 92000, 104000, 116000, 128000, 140000]
       decision_index: 5
     best: no-trade
-    outcome: "It took the number on the next attempt and ran to $71.54 — $0.64 against a short, $640 on 1,000 shares."
+    outcome: "It took the number on the next attempt and ran to $27.54 — $0.64 against a short, $640 on 1,000 shares."
     explanation: "A rejection candle inside a trend that has not seen VWAP all session is a breather, not a turn."
 
   - type: sort
@@ -97,7 +98,7 @@ screens:
     explanation: "Shape, volume, conditions, cost. A card needs all four, not three."
 
   - type: numeric-input
-    prompt: "You are long 1,500 shares at $26.80 and sell at $27.02. The spread costs $0.04 per share on the round trip and fees are $0.005 per share each way. What is left?"
+    prompt: "You are long 1,500 shares at $18.80 and sell at $19.02. The spread costs $0.04 per share on the round trip and fees are $0.005 per share each way. What is left?"
     answer: 255
     tolerance: 0.5
     unit: "$"
@@ -109,7 +110,7 @@ screens:
     chart:
       kind: candles
       data: [[41.20, 41.36, 41.18, 41.34], [41.34, 41.52, 41.32, 41.50], [41.50, 41.68, 41.48, 41.66], [41.66, 41.68, 41.56, 41.58], [41.58, 41.62, 41.52, 41.54], [41.54, 41.68, 41.52, 41.66], [41.66, 41.82, 41.64, 41.80], [41.80, 41.94, 41.76, 41.90]]
-      volume: [8600, 10200, 11800, 5400, 4000, 10600, 9200, 8400]
+      volume: [86000, 102000, 118000, 54000, 40000, 106000, 92000, 84000]
     target: 5
     explanation: "Three candles up, two small quiet ones back, then the first close in the leg's direction on volume."
 
@@ -118,6 +119,14 @@ screens:
     options: ["VWAP bounce", "failed-breakout fade", "mean reversion at a level"]
     answer: "VWAP bounce"
     explanation: "It is a with-trend trade in a stock that has held the line all session, so the day's own high is the natural stop-off point."
+
+  - type: mc
+    prompt: "Over 200 trades each: card A wins 60 % of the time, average win 0.9R, average loss 1R. Card B wins 35 %, average win 2.4R, average loss 1R. Which card do you keep?"
+    options:
+      - {text: "B — (0.35 × 2.4) − (0.65 × 1) = +0.19R a trade, against A's +0.14R", correct: true}
+      - {text: "A — it is right nearly twice as often as B"}
+      - {text: "Both are the same, because both average losses are 1R"}
+    explanation: "Expectancy, not win rate, decides which card earns its place in the playbook."
 
   - type: spot-mistake
     prompt: "Tap the mistake."
@@ -128,7 +137,7 @@ screens:
     explanation: "Beyond the extreme is the price that would prove the break was real. VWAP is where this card takes profit, not where it gives up."
 
   - type: summary
-    total: 12
+    total: 13
 
   - type: badge
     name: "Scalping Playbook — Complete"

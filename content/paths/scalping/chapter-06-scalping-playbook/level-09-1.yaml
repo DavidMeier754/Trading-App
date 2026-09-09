@@ -12,7 +12,7 @@ prerequisite: "8-1"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
-notes: "First half of the capstone: the plan and the first three charts. 9-2 finishes the morning."
+notes: "First half of the capstone: the plan and the first three charts. 9-2 finishes the morning. Deviation from docs/curriculum.md, which lists 9-1 as a repetition sub: it is kept as new-theory because it teaches the session procedure (plan, day read, risk check between trades), and because 9-1/9-2/10-1 as three review-type subs in a row would break the interleaving rule in docs/agent.md 3.2."
 screens:
   - type: intro
     text: "One morning, one stock, five cards and $20,000."
@@ -23,36 +23,37 @@ screens:
 
   - type: theory
     title: "The plan fits on one line"
-    body: "Risk $200 a trade — one per cent of the account. Daily loss limit 3R, so $600. Trade limit six. Five cards, and no trade that is not one of them."
+    body: "Risk $200 a trade — one per cent of the account — and never more stock than $20,000 can pay for. Daily loss limit 3R, so $600. Trade limit six. Five cards, nothing else."
 
   - type: visual
     component: chart-candles
     data:
-      data: [[30.22, 30.30, 30.18, 30.26], [30.26, 30.34, 30.22, 30.30], [30.30, 30.38, 30.26, 30.32], [30.32, 30.40, 30.28, 30.36], [30.36, 30.40, 30.32, 30.38]]
+      data: [[12.22, 12.30, 12.18, 12.26], [12.26, 12.34, 12.22, 12.30], [12.30, 12.38, 12.26, 12.32], [12.32, 12.40, 12.28, 12.36], [12.36, 12.40, 12.32, 12.38]]
       levels:
-        - {price: 30.40, label: "Opening-range high"}
-        - {price: 30.10, label: "Opening-range low"}
-      volume: [4400, 4000, 3600, 3300, 3100]
-    caption: "The first five minutes are done. The box is $30.10 to $30.40, and volume is shrinking against the top of the box."
+        - {price: 12.40, label: "Opening-range high"}
+        - {price: 12.10, label: "Opening-range low"}
+      volume: [44000, 40000, 36000, 33000, 31000]
+    caption: "The first five minutes are done. The box is $12.10 to $12.40, and volume is shrinking against the top of the box."
 
   - type: chart-decision
-    scenario: "The next candle closes at $30.50, above the box, on more than triple the volume of the candles that built it. You have 1,250 shares ready and $200 of risk for the trade."
+    scenario: "The next candle closes at $12.50, above the box, on more than triple the volume of the candles that built it. You have 1,250 shares ready and $200 of risk for the trade."
     shares: 1250
     chart:
       kind: candles
-      data: [[30.22, 30.30, 30.18, 30.26], [30.26, 30.34, 30.22, 30.30], [30.30, 30.38, 30.26, 30.32], [30.32, 30.40, 30.28, 30.36], [30.36, 30.40, 30.32, 30.38], [30.38, 30.52, 30.36, 30.50], [30.50, 30.62, 30.48, 30.60], [30.60, 30.70, 30.56, 30.66], [30.66, 30.74, 30.62, 30.70], [30.70, 30.78, 30.66, 30.74]]
+      data: [[12.22, 12.30, 12.18, 12.26], [12.26, 12.34, 12.22, 12.30], [12.30, 12.38, 12.26, 12.32], [12.32, 12.40, 12.28, 12.36], [12.36, 12.40, 12.32, 12.38], [12.38, 12.52, 12.36, 12.50], [12.50, 12.62, 12.48, 12.60], [12.60, 12.70, 12.56, 12.66], [12.66, 12.74, 12.62, 12.70], [12.70, 12.78, 12.66, 12.74]]
       levels:
-        - {price: 30.40, label: "Opening-range high"}
-        - {price: 30.10, label: "Opening-range low"}
-      volume: [4400, 4000, 3600, 3300, 3100, 10200, 8800, 8000, 7200, 6600]
+        - {price: 12.40, label: "Opening-range high"}
+        - {price: 12.10, label: "Opening-range low"}
+      volume: [44000, 40000, 36000, 33000, 31000, 102000, 88000, 80000, 72000, 66000]
       decision_index: 5
     state: ["Day: 0R", "Trade 1 of 6"]
     best: long
-    outcome: "It ran to $30.74. Out there: $0.24 per share, +$300 long on 1,250 shares from $30.50, with the stop at $30.34 — a 1.5R win."
+    reasonable: [no-trade]
+    outcome: "It ran to $12.74. Out there: $0.24 per share, +$300 long on 1,250 shares from $12.50, with the stop at $12.34 — a 1.5R win."
     explanation: "Card B, first trade of the day: coiling against the line, then a close beyond it on the session's heaviest volume."
 
   - type: numeric-input
-    prompt: "You bought 1,250 shares at $30.50 and sold at $30.74. The round trip costs $0.03 per share. What is the net?"
+    prompt: "You bought 1,250 shares at $12.50 and sold at $12.74. The round trip costs $0.03 per share. What is the net?"
     answer: 262.5
     tolerance: 0.5
     unit: "$"
@@ -64,35 +65,36 @@ screens:
     text: "An hour later. XYZ has stayed above VWAP the whole time and the 5-minute is still climbing. Now it eases back toward the line."
 
   - type: chart-decision
-    scenario: "Price drifts into VWAP at $30.87 on shrinking volume, and this candle closes at $30.94 on the heaviest volume in ten minutes. High of day $31.22. You have 1,250 shares ready."
+    scenario: "Price drifts into VWAP at $12.87 on shrinking volume, and this candle closes at $12.94 on the heaviest volume in ten minutes. High of day $13.22. You have 1,250 shares ready."
     shares: 1250
     chart:
       kind: candles
-      data: [[31.10, 31.16, 31.02, 31.04], [31.04, 31.08, 30.96, 30.98], [30.98, 31.02, 30.90, 30.92], [30.92, 30.96, 30.86, 30.88], [30.88, 30.92, 30.80, 30.84], [30.84, 30.96, 30.80, 30.94], [30.94, 31.04, 30.92, 31.02], [31.02, 31.12, 31.00, 31.10], [31.10, 31.18, 31.06, 31.14], [31.14, 31.22, 31.10, 31.18]]
-      vwap: [30.90, 30.89, 30.88, 30.88, 30.87, 30.87, 30.88, 30.89, 30.90, 30.91]
-      volume: [6600, 5800, 5100, 4400, 3800, 9400, 8200, 7400, 6800, 6200]
+      data: [[13.10, 13.16, 13.02, 13.04], [13.04, 13.08, 12.96, 12.98], [12.98, 13.02, 12.90, 12.92], [12.92, 12.96, 12.86, 12.88], [12.88, 12.92, 12.80, 12.84], [12.84, 12.96, 12.80, 12.94], [12.94, 13.04, 12.92, 13.02], [13.02, 13.12, 13.00, 13.10], [13.10, 13.18, 13.06, 13.14], [13.14, 13.22, 13.10, 13.18]]
+      vwap: [12.90, 12.89, 12.88, 12.88, 12.87, 12.87, 12.88, 12.89, 12.90, 12.91]
+      volume: [66000, 58000, 51000, 44000, 38000, 94000, 82000, 74000, 68000, 62000]
       decision_index: 5
     state: ["Day: +1.5R", "Trade 2 of 6"]
     best: long
-    outcome: "It reached the high of day at $31.22. Out at $31.18: $0.24 per share, +$300 long on 1,250 shares from $30.94, with the stop at $30.78 — a 1.5R win."
+    reasonable: [no-trade]
+    outcome: "It reached the high of day at $13.22. Out at $13.18: $0.24 per share, +$300 long on 1,250 shares from $12.94, with the stop at $12.78 — a 1.5R win."
     explanation: "Card A on a trend day — the pullback into the line, bought back on volume, with the high of day as the target."
 
   - type: mc
     prompt: "Two winners in, the morning is up about $525 net. What does the playbook say about the next chart?"
     options:
-      - {text: "Nothing — the next chart is judged on its own card, not on the morning so far", correct: true}
+      - {text: "Nothing — the next chart is judged on its own card", correct: true}
       - {text: "Size up, because the day is clearly working"}
       - {text: "Stop for the day and protect what is there"}
     explanation: "The chart does not know what you made this morning. Sizing up on a good run is how a good morning turns into a flat one."
 
   - type: chart-decision
-    scenario: "Late morning. Volume has dried up, VWAP is flat, and price is sitting in a ten-cent band with no level nearby. You have 1,250 shares ready."
+    scenario: "Late morning on the same stock, with no marked level within twenty cents. You have 1,250 shares ready."
     shares: 1250
     chart:
       kind: candles
-      data: [[31.14, 31.18, 31.10, 31.16], [31.16, 31.20, 31.11, 31.13], [31.13, 31.18, 31.09, 31.15], [31.15, 31.19, 31.10, 31.12], [31.12, 31.17, 31.08, 31.14], [31.14, 31.18, 31.09, 31.11], [31.11, 31.16, 31.08, 31.13], [31.13, 31.17, 31.09, 31.12], [31.12, 31.16, 31.08, 31.14], [31.14, 31.18, 31.10, 31.12]]
-      vwap: [31.13, 31.13, 31.13, 31.13, 31.13, 31.13, 31.13, 31.13, 31.13, 31.13]
-      volume: [4200, 3800, 3400, 3100, 2800, 2600, 2500, 2400, 2300, 2200]
+      data: [[13.14, 13.18, 13.10, 13.16], [13.16, 13.20, 13.11, 13.13], [13.13, 13.18, 13.09, 13.15], [13.15, 13.19, 13.10, 13.12], [13.12, 13.17, 13.08, 13.14], [13.14, 13.18, 13.09, 13.11], [13.11, 13.16, 13.08, 13.13], [13.13, 13.17, 13.09, 13.12], [13.12, 13.16, 13.08, 13.14], [13.14, 13.18, 13.10, 13.12]]
+      vwap: [13.13, 13.13, 13.13, 13.13, 13.13, 13.13, 13.13, 13.13, 13.13, 13.13]
+      volume: [42000, 38000, 34000, 31000, 28000, 26000, 25000, 24000, 23000, 22000]
       decision_index: 5
     state: ["Day: +3R", "Trades: 2 of 6"]
     best: no-trade
@@ -113,6 +115,7 @@ screens:
       - "Check the risk left before looking at the next one"
     explanation: "Plan, wait, trade, count. The counting step is the one beginners drop first."
 
-  - type: theory
-    title: "Half a morning gone"
-    body: "Two cards taken, one chart passed, costs paid. The second half is where the day stops being easy."
+  - type: story
+    character: retail-trader
+    text: "Two cards taken, one chart passed, costs paid, +3R on the day. The second half is where it stops being easy."
+

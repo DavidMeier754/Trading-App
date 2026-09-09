@@ -54,9 +54,9 @@ screens:
     explanation: "Dollar change divided by the previous close."
 
   - type: tf
-    statement: "A quote showing +$0.00 (0.0 %) means the stock hasn't traded today."
-    answer: false
-    explanation: "It means the price is currently back at yesterday's close — it may have moved up and down in between."
+    statement: "A stock showing +$0.00 (0.0 %) may have swung up and down all day."
+    answer: true
+    explanation: "The change compares now with yesterday's close; everything in between is invisible on that one number."
 
   - type: theory
     title: "Volume: how busy is it?"
@@ -65,8 +65,8 @@ screens:
   - type: mc
     prompt: "Two stocks are both up 2 %. Stock A traded 4 million shares today, Stock B 6,000. Which move was backed by more people?"
     options:
-      - {text: "Stock A — far more shares changed hands behind that move", correct: true}
       - {text: "Stock B — fewer trades means each one was more deliberate"}
+      - {text: "Stock A — far more shares changed hands behind that move", correct: true}
       - {text: "Equal — the percentage is what counts"}
     explanation: "Volume shows how much activity stands behind a move."
 
@@ -78,7 +78,7 @@ screens:
     explanation: "1.1 M shares traded today."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Four fields on a quote card. What does each one tell you?"
     pairs:
       - ["Quote", "The price card of a stock"]
       - ["Previous close", "Yesterday's last price"]
@@ -87,10 +87,10 @@ screens:
     explanation: "Four things on every quote card."
 
   - type: mc
-    prompt: "It's 10:00. XYZ's quote: $19.60, −$0.40 (−2.0 %), volume 8 M — it usually has 2 M by now. Best reading?"
+    prompt: "Half an hour after the open. XYZ: $19.60, −$0.40 (−2.0 %), volume 8 M — it usually has 2 M by now. Best reading?"
     options:
-      - {text: "Down 2 % on unusually heavy activity — something is going on", correct: true}
       - {text: "Down 2 % on a normal, quiet morning"}
+      - {text: "Down 2 % on unusually heavy activity — something is going on", correct: true}
       - {text: "Volume is high because the price fell; nothing more to it"}
     explanation: "Four times the usual volume means many participants are reacting."
 

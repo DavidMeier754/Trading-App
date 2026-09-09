@@ -7,7 +7,7 @@ category: new-theory
 tags: [tape, execution]
 learning_goal: "User can read speed and size on the tape and tell buyers paying up from sellers hitting out."
 purpose: "The chart shows you what happened a minute ago; the tape shows it happening now."
-terms_introduced: ["Tape", "Print"]
+terms_introduced: ["Print"]
 prerequisite: "4-1"
 xp: 20
 difficulty: 3
@@ -20,7 +20,7 @@ screens:
 
   - type: theory
     title: "The tape"
-    body: "Time and sales — the scrolling list of every trade in the stock — is what traders call the tape. Each line is one execution, with its price, its size and its time."
+    body: "You met the tape in Chapter 3: time and sales, the scrolling list of every trade in the stock. Each line is one execution, with its price, its size and its time."
 
   - type: theory
     title: "A print"
@@ -32,15 +32,15 @@ screens:
   - type: mc
     prompt: "Print after print comes in at the bid, each one bigger than the last. What are you looking at?"
     options:
-      - {text: "Sellers hitting out and not waiting for a better price", correct: true}
       - {text: "Buyers stepping in at the bid to get filled cheaply"}
+      - {text: "Sellers hitting out and not waiting for a better price", correct: true}
       - {text: "Market makers moving the spread wider"}
     explanation: "Trading at the bid means accepting the buyer's price — that is selling in a hurry."
 
   - type: tf
-    statement: "A print is an order somebody has placed and could still cancel."
-    answer: false
-    explanation: "A print already traded. Orders that can still be cancelled sit in the order book, not on the tape."
+    statement: "A print is a trade that has already happened and cannot be taken back."
+    answer: true
+    explanation: "Orders that can still be cancelled sit in the order book. The tape only shows what traded."
 
   - type: theory
     title: "Speed and size"
@@ -75,7 +75,7 @@ screens:
     chart:
       kind: candles
       data: [[18.30, 18.36, 18.28, 18.34], [18.34, 18.40, 18.32, 18.38], [18.38, 18.44, 18.36, 18.42], [18.42, 18.46, 18.38, 18.44], [18.44, 18.50, 18.42, 18.48], [18.48, 18.60, 18.46, 18.58], [18.58, 18.68, 18.56, 18.66], [18.66, 18.74, 18.62, 18.72], [18.72, 18.78, 18.68, 18.74], [18.74, 18.80, 18.70, 18.76]]
-      volume: [3200, 3600, 3400, 3800, 4600, 14200, 9800, 8400, 6600, 5800]
+      volume: [32000, 36000, 34000, 38000, 46000, 150000, 98000, 84000, 66000, 58000]
       levels:
         - {price: 18.50, label: "Yesterday's high"}
       decision_index: 5
@@ -85,11 +85,11 @@ screens:
     explanation: "Large prints at the ask through a level are buyers who need shares — the level broke because somebody was paying for it."
 
   - type: numeric-input
-    prompt: "XYZ traded 60,000 shares in the last minute. Your 1,500-share order is what share of that minute's volume?"
-    answer: 2.5
+    prompt: "That burst minute traded 150,000 shares. Your 1,500-share order is what share of that minute's volume?"
+    answer: 1
     tolerance: 0.1
     unit: "%"
-    working: "1,500 ÷ 60,000 = 0.025 = 2.5 %"
+    working: "1,500 ÷ 150,000 = 0.01 = 1 %"
     explanation: "Small enough to get in and out without being the reason price moved."
 
   - type: fill-tiles

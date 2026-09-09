@@ -18,7 +18,7 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "Setup 1: XYZ bid $52.00 / ask $52.02, moves about $0.30 while you'd hold. Slippage about $0.01, fees $0.01. Connection solid. Target $0.20."
+    text: "Setup 1: XYZ bid $11.00 / ask $11.02, moves about $0.30 while you'd hold. Slippage about $0.01, fees $0.01. Connection solid. Target $0.20."
 
   - type: numeric-input
     prompt: "All-in cost per share?"
@@ -41,11 +41,21 @@ screens:
   - type: chart-decision
     scenario: "XYZ pulls back to a level where buyers stepped in twice this morning, volume steady, all-in 20 % of target. 1,000 shares."
     shares: 1000
-    chart: {kind: candles, data: [[51.80, 51.95, 51.75, 51.90], [51.90, 52.10, 51.85, 52.05], [52.05, 52.20, 52.00, 52.15], [52.15, 52.18, 51.98, 52.02], [52.02, 52.06, 51.96, 52.00], [52.00, 52.04, 51.97, 52.02], [52.02, 52.15, 52.00, 52.12], [52.12, 52.22, 52.08, 52.20], [52.20, 52.26, 52.14, 52.24]], decision_index: 5}
+    chart: {kind: candles, data: [[10.80, 10.95, 10.75, 10.90], [10.90, 11.10, 10.85, 11.05], [11.05, 11.20, 11.00, 11.15], [11.15, 11.18, 10.98, 11.02], [11.02, 11.06, 10.96, 11.00], [11.00, 11.04, 10.97, 11.02], [11.02, 11.15, 11.00, 11.12], [11.12, 11.22, 11.08, 11.20], [11.20, 11.26, 11.14, 11.24]], decision_index: 5}
     best: long
     reasonable: [no-trade]
     outcome: "It bounced $0.22 — +$220 on 1,000 shares, minus about $40 in costs."
     explanation: "A tested level, steady volume and a cheap trade: a long with the pressure."
+
+  - type: chart-tap
+    prompt: "Setup 1's level held twice this morning. Tap the second test of it."
+    chart:
+      kind: candles
+      data: [[11.24, 11.30, 11.18, 11.20], [11.20, 11.24, 11.06, 11.10], [11.10, 11.16, 11.04, 11.14], [11.14, 11.22, 11.10, 11.20], [11.20, 11.26, 11.14, 11.16], [11.16, 11.20, 11.05, 11.15], [11.15, 11.24, 11.12, 11.22], [11.22, 11.30, 11.18, 11.28]]
+      levels:
+        - {price: 11.05, label: "Support"}
+    target: 5
+    explanation: "Both dips stopped within a cent of $11.05, and the second one is the test the scenario was built on."
 
   - type: story
     character: retail-trader
@@ -71,31 +81,31 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "Setup 3: bid $30.10 / ask $30.11, moves about $0.25. Your Wi-Fi dropped twice in the last hour."
+    text: "Setup 3: bid $11.10 / ask $11.11, moves about $0.25. Your Wi-Fi dropped twice in the last hour."
 
   - type: mc
     prompt: "Trade?"
     options:
-      - {text: "No — fix the connection first; the setup will come again", correct: true}
       - {text: "Yes — the cost check passes, and that's what matters"}
+      - {text: "No — fix the connection first; the setup will come again", correct: true}
       - {text: "Yes, with half size"}
     explanation: "Reliability is a check, not a suggestion. Half size doesn't fix a dropped connection."
 
   - type: numeric-input
-    prompt: "Later, connection fixed. 1 % of a $12,000 account, stop $0.08. Shares?"
-    answer: 1500
+    prompt: "Later, connection fixed. 1 % of a $12,000 account, stop $0.12, share price $11.10. Shares?"
+    answer: 1000
     unit: "shares"
-    working: "$120 ÷ $0.08 = 1,500"
-    explanation: "Risk budget over stop distance."
+    working: "Risk: $120 ÷ $0.12 = 1,000. Account: $12,000 ÷ $11.10 = 1,081. Take the smaller: 1,000"
+    explanation: "Two ceilings — the stop and the account. The lower one is your share count."
 
   - type: chart-decision
-    scenario: "Setup 3, connection stable, 1,500 shares sized. The stock grinds up along rising volume."
-    shares: 1500
-    chart: {kind: candles, data: [[29.90, 29.98, 29.86, 29.96], [29.96, 30.04, 29.94, 30.02], [30.02, 30.08, 30.00, 30.06], [30.06, 30.10, 30.02, 30.08], [30.08, 30.12, 30.06, 30.10], [30.10, 30.14, 30.08, 30.11], [30.11, 30.20, 30.10, 30.18], [30.18, 30.26, 30.16, 30.24], [30.24, 30.30, 30.22, 30.28]], decision_index: 5}
-    best: long
+    scenario: "Setup 3, connection stable, 1,000 shares sized. The stock grinds down along rising volume."
+    shares: 1000
+    chart: {kind: candles, data: [[11.32, 11.36, 11.24, 11.26], [11.26, 11.28, 11.18, 11.20], [11.20, 11.22, 11.14, 11.16], [11.16, 11.20, 11.12, 11.14], [11.14, 11.16, 11.10, 11.12], [11.12, 11.14, 11.08, 11.11], [11.11, 11.12, 11.02, 11.04], [11.04, 11.06, 10.96, 10.98], [10.98, 11.00, 10.92, 10.94]], decision_index: 5}
+    best: short
     reasonable: [no-trade]
-    outcome: "+$0.18 — +$270 on 1,500 shares, minus about $45 in costs."
-    explanation: "All four checks pass, pressure is up: a long."
+    outcome: "It slid $0.18 — +$180 short on 1,000 shares, minus about $30 in costs."
+    explanation: "All four checks pass and the pressure is down: a short, on the same arithmetic in reverse."
 
   - type: sort
     prompt: "Passes the check?"

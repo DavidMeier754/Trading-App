@@ -26,18 +26,18 @@ screens:
     body: "XYZ pushes two cents through yesterday's high at $41.20, spends one minute there and closes back at $41.14. Everyone who bought the break is now offside."
 
   - type: chart-decision
-    scenario: "XYZ breaks yesterday's high at $41.20 by two cents, then closes back below it on the next candle with volume fading. You have 1,500 shares ready."
+    scenario: "XYZ breaks yesterday's high at $18.20 by two cents, then closes back below it on the next candle with volume fading. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[40.90, 40.98, 40.86, 40.96], [40.96, 41.06, 40.94, 41.04], [41.04, 41.14, 41.02, 41.12], [41.12, 41.22, 41.10, 41.18], [41.18, 41.22, 41.12, 41.14], [41.14, 41.16, 41.04, 41.06], [41.06, 41.08, 40.96, 40.98], [40.98, 41.02, 40.88, 40.90], [40.90, 40.94, 40.80, 40.82], [40.82, 40.86, 40.74, 40.78]]
-      volume: [6800, 7200, 8400, 9100, 4200, 7600, 8100, 7400, 6900, 6200]
+      data: [[17.90, 17.98, 17.86, 17.96], [17.96, 18.06, 17.94, 18.04], [18.04, 18.14, 18.02, 18.12], [18.12, 18.22, 18.10, 18.18], [18.18, 18.22, 18.12, 18.14], [18.14, 18.16, 18.04, 18.06], [18.06, 18.08, 17.96, 17.98], [17.98, 18.02, 17.88, 17.90], [17.90, 17.94, 17.80, 17.82], [17.82, 17.86, 17.74, 17.78]]
+      volume: [68000, 72000, 84000, 91000, 42000, 76000, 81000, 74000, 69000, 62000]
       levels:
-        - {price: 41.20, label: "Yesterday's high"}
+        - {price: 18.20, label: "Yesterday's high"}
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It fell to $40.78 — $0.28 per share, +$420 short on 1,500 shares from $41.06."
+    outcome: "It fell to $17.78 — $0.28 per share, +$420 short on 1,500 shares from $18.06."
     explanation: "The break had no volume behind it, so the buyers it attracted became the sellers on the way back down."
 
   - type: theory
@@ -47,9 +47,9 @@ screens:
   - type: mc
     prompt: "Price breaks a level on the heaviest volume of the day and holds above it for five candles. What is that?"
     options:
-      - {text: "A break that is holding — the level has changed hands", correct: true}
       - {text: "A failed test, because price will always come back"}
       - {text: "Noise, because levels never break"}
+      - {text: "A break that is holding — the level has changed hands", correct: true}
     explanation: "Heavy volume and closes that hold is the opposite of a failure — this level has genuinely gone."
 
   - type: spot-mistake
@@ -61,18 +61,18 @@ screens:
     explanation: "While price is still beyond the level nothing has failed yet — the failure is the close back inside."
 
   - type: chart-decision
-    scenario: "XYZ breaks the pre-market high at $23.40 on the biggest volume of the morning and the next two candles close above it. You have 1,500 shares ready."
+    scenario: "XYZ breaks the pre-market high at $17.40 on the biggest volume of the morning and the next two candles close above it. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[23.10, 23.18, 23.06, 23.16], [23.16, 23.24, 23.14, 23.22], [23.22, 23.30, 23.18, 23.28], [23.28, 23.38, 23.26, 23.36], [23.36, 23.48, 23.34, 23.46], [23.46, 23.54, 23.44, 23.52], [23.52, 23.62, 23.50, 23.60], [23.60, 23.68, 23.56, 23.66], [23.66, 23.72, 23.62, 23.70], [23.70, 23.76, 23.66, 23.72]]
-      volume: [4200, 4600, 5100, 6800, 13400, 10200, 9100, 8200, 7400, 6800]
+      data: [[17.10, 17.18, 17.06, 17.16], [17.16, 17.24, 17.14, 17.22], [17.22, 17.30, 17.18, 17.28], [17.28, 17.38, 17.26, 17.36], [17.36, 17.48, 17.34, 17.46], [17.46, 17.54, 17.44, 17.52], [17.52, 17.62, 17.50, 17.60], [17.60, 17.68, 17.56, 17.66], [17.66, 17.72, 17.62, 17.70], [17.70, 17.76, 17.66, 17.72]]
+      volume: [42000, 46000, 51000, 68000, 134000, 102000, 91000, 82000, 74000, 68000]
       levels:
-        - {price: 23.40, label: "Pre-market high"}
+        - {price: 17.40, label: "Pre-market high"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It kept going to $23.72 — $0.20 per share, +$300 long on 1,500 shares from $23.52."
+    outcome: "It kept going to $17.72 — $0.20 per share, +$300 long on 1,500 shares from $17.52."
     explanation: "Shorting a break because breaks sometimes fail is fighting the volume; this one had it."
 
   - type: tf
@@ -90,10 +90,10 @@ screens:
     explanation: "Where the candle closes and how many shares traded — that is the whole reading."
 
   - type: numeric-input
-    prompt: "You short 1,500 shares at $41.06 with a stop at $41.24. What is at risk before costs?"
+    prompt: "You short 1,500 shares at $18.06 with a stop at $18.24. What is at risk before costs?"
     answer: 270
     unit: "$"
-    working: "($41.24 − $41.06) × 1,500 shares = $270"
+    working: "($18.24 − $18.06) × 1,500 shares = $270"
     explanation: "The stop goes just beyond the failed break, because that is the price that would prove you wrong."
 
   - type: fill-tiles

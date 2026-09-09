@@ -62,9 +62,9 @@ screens:
   - type: mc
     prompt: "You see a $0.02 spread, think for ten seconds, then buy. What's the realistic risk?"
     options:
-      - {text: "The spread widened while you thought — you pay more than planned", correct: true}
       - {text: "None — spreads are fixed for the session"}
       - {text: "The bid and ask swapped places"}
+      - {text: "The spread widened while you were thinking", correct: true}
     explanation: "Ten seconds is a long time in a fast stock."
 
   - type: sort
@@ -80,8 +80,8 @@ screens:
   - type: numeric-mc
     prompt: "Expected move $0.15, spread $0.09. Percent eaten?"
     options:
-      - {text: "60 %", correct: true}
       - {text: "6 %"}
+      - {text: "60 %", correct: true}
       - {text: "15 %"}
       - {text: "90 %"}
     working: "0.09 ÷ 0.15 = 0.60"

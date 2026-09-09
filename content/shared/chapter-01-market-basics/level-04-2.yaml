@@ -32,18 +32,18 @@ screens:
   - type: mc
     prompt: "A stock trades 10 M shares a day and its price barely moves. Best description?"
     options:
-      - {text: "Liquid, low volatility", correct: true}
       - {text: "Liquid, high volatility"}
       - {text: "Illiquid, low volatility"}
       - {text: "Illiquid, high volatility"}
+      - {text: "Liquid, low volatility", correct: true}
     explanation: "Lots of volume (liquid), small moves (calm)."
 
   - type: mc
     prompt: "A stock trades 2,000 shares a day and swings 8 % on most days."
     options:
-      - {text: "Illiquid, high volatility", correct: true}
       - {text: "Liquid, high volatility"}
       - {text: "Illiquid, low volatility"}
+      - {text: "Illiquid, high volatility", correct: true}
     explanation: "Tiny volume (illiquid), big swings (volatile) — a dangerous combination."
 
   - type: tf
@@ -74,8 +74,8 @@ screens:
   - type: numeric-mc
     prompt: "A stock moves from $40.00 to $46.00 in a day. What's that in percent?"
     options:
-      - {text: "15 %", correct: true}
       - {text: "6 %"}
+      - {text: "15 %", correct: true}
       - {text: "1.5 %"}
       - {text: "60 %"}
     working: "6 ÷ 40 = 0.15 = 15 %"

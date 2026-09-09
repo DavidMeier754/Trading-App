@@ -36,8 +36,8 @@ screens:
   - type: numeric-mc
     prompt: "Those five 1-minute candles make one 5-minute candle. Where is its low?"
     options:
-      - {text: "$30.04", correct: true}
       - {text: "$30.10"}
+      - {text: "$30.04", correct: true}
       - {text: "$30.19"}
       - {text: "$30.29"}
     working: "The lowest low of the five: $30.04"

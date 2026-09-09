@@ -62,10 +62,10 @@ screens:
   - type: numeric-mc
     prompt: "Long 300 shares at $12.00, price now $11.70. Paper result?"
     options:
-      - {text: "−$90", correct: true}
       - {text: "+$90"}
       - {text: "−$9"}
       - {text: "−$0.30"}
+      - {text: "−$90", correct: true}
     working: "(11.70 − 12.00) × 300 = −$90"
     explanation: "Thirty cents against you on 300 shares."
 

@@ -44,8 +44,8 @@ screens:
   - type: mc
     prompt: "XYZ has already made three pushes with a dip between each. A fourth starts. For a scalper this is:"
     options:
-      - {text: "Late in the move, with less room left and a real chance of being the last buyer", correct: true}
       - {text: "The safest push of the day, because the trend has proved itself three times"}
+      - {text: "Late in the move, with less room left and a real chance of being the last buyer", correct: true}
       - {text: "Exactly the same trade as the first push"}
     explanation: "Every push uses up buyers who are already in; the later the leg, the fewer are left to pay you."
 
@@ -58,16 +58,16 @@ screens:
       - "The next candle cannot make a new high"
 
   - type: chart-decision
-    scenario: "XYZ is in the second push of the morning. Each body is longer than the one before, each volume bar taller, and there is barely a wick on top. You are sizing 1,500 shares."
+    scenario: "XYZ is in the second push of the morning. You are sizing 1,500 shares."
     shares: 1500
     chart:
       kind: candles
-      data: [[15.90, 15.98, 15.88, 15.96], [15.96, 16.06, 15.94, 16.04], [16.04, 16.18, 16.02, 16.16], [16.16, 16.24, 16.13, 16.22], [16.22, 16.36, 16.20, 16.34], [16.34, 16.44, 16.32, 16.42], [16.42, 16.56, 16.40, 16.54], [16.54, 16.64, 16.51, 16.62], [16.62, 16.70, 16.58, 16.66], [16.66, 16.72, 16.62, 16.68], [16.68, 16.74, 16.64, 16.70]]
+      data: [[15.90, 15.98, 15.88, 15.96], [15.96, 16.06, 15.94, 16.04], [16.04, 16.18, 16.02, 16.16], [16.16, 16.24, 16.13, 16.22], [16.22, 16.36, 16.20, 16.34], [16.34, 16.44, 16.32, 16.42], [16.42, 16.55, 16.40, 16.53], [16.53, 16.62, 16.50, 16.60], [16.60, 16.67, 16.56, 16.63], [16.63, 16.69, 16.60, 16.65], [16.65, 16.71, 16.62, 16.67]]
       volume: [70000, 92000, 120000, 96000, 150000, 168000, 182000, 160000, 132000, 104000, 92000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $16.74 — $0.28 a share above the decision, +$420 long on 1,500 shares."
+    outcome: "It carried to $16.71 and closed at $16.67 — $0.25 a share above the decision, +$375 long on 1,500 shares."
     explanation: "Growing bodies, growing volume, no upper wicks: the move is still recruiting buyers."
 
   - type: sort
@@ -107,13 +107,17 @@ screens:
   - type: numeric-mc
     prompt: "You chased the fourth push, got nervous and sold at your entry price. On 1,200 shares with a spread of $0.03, that trade cost you:"
     options:
-      - {text: "$36", correct: true}
       - {text: "$3.60"}
       - {text: "$360"}
       - {text: "$0.03"}
+      - {text: "$36", correct: true}
     working: "$0.03 a share × 1,200 shares = $36"
     explanation: "A flat trade is never free — you always pay to get in and out."
 
-  - type: theory
-    title: "Join early or not at all"
-    body: "Momentum pays the traders who are already in it. Once the biggest bar has printed and the wicks appear, the good trade was two minutes ago."
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[11.20, 11.34, 11.18, 11.32], [11.32, 11.52, 11.30, 11.50], [11.50, 11.78, 11.46, 11.56], [11.56, 11.60, 11.40, 11.44]]
+      volume: [96000, 168000, 420000, 240000]
+    caption: "Momentum pays the traders already in it. Once the biggest bar prints and the wick appears, the good trade was two minutes ago."
+

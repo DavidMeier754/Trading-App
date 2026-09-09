@@ -34,7 +34,7 @@ screens:
     body: "A letter for how well you followed the plan, ignoring the result. A losing trade taken exactly as written is an A. A winner you chased into is a C."
 
   - type: example
-    body: "Tuesday's row: VWAP bounce, 1,000 shares, in $44.28, stop $44.16, out $44.52. Risked $120, made $240 — +2R, grade A."
+    body: "Tuesday's row: pullback to VWAP, 1,000 shares, in $44.28, stop $44.16, out $44.52. Risked $120, made $240 — +2R, grade A."
 
   - type: mc
     prompt: "A trade you entered late, at double size, that made $300. What is its execution grade?"
@@ -77,16 +77,16 @@ screens:
     explanation: "The losers hold the pattern. A record of winners only is a highlight reel."
 
   - type: chart-decision
-    scenario: "Your plan's setup: pullback to the rising VWAP in an uptrend, entry on the first candle that turns up, stop under the pullback low. XYZ is there: entry $66.40, stop $66.28. 1,000 shares."
+    scenario: "Your plan's setup: pullback to the rising VWAP in an uptrend, entry on the first candle that turns up, stop under the pullback low. XYZ is there: entry $27.40, stop $27.28. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[66.20, 66.34, 66.18, 66.32], [66.32, 66.46, 66.30, 66.44], [66.44, 66.52, 66.40, 66.48], [66.48, 66.52, 66.34, 66.38], [66.38, 66.42, 66.30, 66.34], [66.34, 66.44, 66.32, 66.40], [66.40, 66.52, 66.38, 66.50], [66.50, 66.60, 66.46, 66.58], [66.58, 66.72, 66.54, 66.68], [66.68, 66.74, 66.62, 66.66]]
-      vwap: [66.24, 66.26, 66.29, 66.31, 66.32, 66.33, 66.35, 66.37, 66.40, 66.42]
+      data: [[27.20, 27.34, 27.18, 27.32], [27.32, 27.46, 27.30, 27.44], [27.44, 27.52, 27.40, 27.48], [27.48, 27.52, 27.34, 27.38], [27.38, 27.42, 27.30, 27.34], [27.34, 27.44, 27.32, 27.40], [27.40, 27.52, 27.38, 27.50], [27.50, 27.60, 27.46, 27.58], [27.58, 27.72, 27.54, 27.68], [27.68, 27.74, 27.62, 27.66]]
+      vwap: [27.24, 27.26, 27.29, 27.31, 27.32, 27.33, 27.35, 27.37, 27.40, 27.42]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It turned off the line and reached $66.74. Sold at $66.68: $0.28 per share, +$280 on 1,000 shares. Row: +2.3R, grade A."
+    outcome: "It turned off the line and reached $27.74. Sold at $27.68: $0.28 per share, +$280 on 1,000 shares. Row: +2.3R, grade A."
     explanation: "The setup was named before the open, so the row writes itself — including the grade."
 
   - type: theory

@@ -26,12 +26,12 @@ screens:
     shares: 1000
     chart:
       kind: candles
-      data: [[23.10, 23.16, 23.06, 23.14], [23.14, 23.20, 23.11, 23.18], [23.18, 23.30, 23.16, 23.28], [23.28, 23.36, 23.25, 23.34], [23.34, 23.44, 23.32, 23.42], [23.42, 23.50, 23.39, 23.48], [23.48, 23.60, 23.46, 23.58], [23.58, 23.68, 23.55, 23.66], [23.66, 23.74, 23.63, 23.72], [23.72, 23.78, 23.68, 23.75], [23.75, 23.80, 23.71, 23.76]]
+      data: [[23.10, 23.16, 23.06, 23.14], [23.14, 23.20, 23.11, 23.18], [23.18, 23.30, 23.16, 23.28], [23.28, 23.36, 23.25, 23.34], [23.34, 23.44, 23.32, 23.42], [23.42, 23.50, 23.39, 23.48], [23.48, 23.56, 23.47, 23.55], [23.55, 23.62, 23.53, 23.60], [23.60, 23.66, 23.58, 23.64], [23.64, 23.68, 23.62, 23.66], [23.66, 23.70, 23.64, 23.67]]
       volume: [38000, 42000, 88000, 104000, 126000, 134000, 148000, 130000, 112000, 90000, 76000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $23.76 — $0.28 a share above the decision, +$280 long on 1,000 shares."
+    outcome: "It reached $23.70 and settled at $23.67 — $0.19 a share above the decision, +$190 long on 1,000 shares."
     explanation: "Shape and volume agree: buyers keep taking price and more of them arrive each minute."
 
   - type: chart-tap
@@ -101,11 +101,15 @@ screens:
   - type: mc
     prompt: "Two stocks each rose $0.20 in ten minutes: one on 40,000 shares a minute, one on 4,000. For a scalper the difference is:"
     options:
-      - {text: "The busy one is far easier to get into and out of", correct: true}
       - {text: "None — the price move is what pays you"}
       - {text: "The quiet one is cheaper, because fewer people want it"}
+      - {text: "The busy one is far easier to get into and out of", correct: true}
     explanation: "You can only trade where somebody else is trading; on 4,000 shares a minute your own order becomes the move."
 
-  - type: theory
-    title: "Two signals, one glance"
-    body: "Candle for direction, bar for weight. Next you give the chart a shape: trend or sideways."
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[20.10, 20.16, 20.06, 20.14], [20.14, 20.28, 20.12, 20.26], [20.26, 20.32, 20.22, 20.24], [20.24, 20.30, 20.20, 20.28]]
+      volume: [42000, 148000, 39000, 96000]
+    caption: "Candle for direction, bar for weight — one glance gives you both. Next: the shape the whole chart is in."
+

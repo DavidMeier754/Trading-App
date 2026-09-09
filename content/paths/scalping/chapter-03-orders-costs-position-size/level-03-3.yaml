@@ -23,9 +23,9 @@ screens:
   - type: mc
     prompt: "Which order?"
     options:
-      - {text: "Limit buy at $20.03 — marketable, capped", correct: true}
-      - {text: "Market buy"}
-      - {text: "Limit buy at $19.95"}
+      - {text: "Market buy, filled at whatever the ask is"}
+      - {text: "Limit buy at $20.03 — marketable and capped", correct: true}
+      - {text: "Limit buy at $19.95, waiting for a dip"}
     explanation: "At or above the ask fills now; the $20.03 cap protects you."
 
   - type: hotspot
@@ -43,9 +43,9 @@ screens:
   - type: numeric-mc
     prompt: "You're long 500 at $20.00 and set a limit sell at $20.12. It fills. Gross profit?"
     options:
-      - {text: "$60", correct: true}
       - {text: "$6"}
       - {text: "$600"}
+      - {text: "$60", correct: true}
       - {text: "$12"}
     working: "$0.12 × 500 = $60"
     explanation: "Twelve cents on 500 shares."
@@ -65,9 +65,9 @@ screens:
   - type: mc
     prompt: "Which order?"
     options:
-      - {text: "Market sell, or a limit sell at $54.30 or slightly below — marketable", correct: true}
-      - {text: "Limit sell at $54.40"}
-      - {text: "Limit buy at $54.30"}
+      - {text: "Limit sell at $54.40, ten cents above the bid"}
+      - {text: "Limit buy at $54.30, to average down first"}
+      - {text: "Market sell, or a marketable limit sell at $54.30", correct: true}
     explanation: "Getting out now means hitting the bid."
 
   - type: sort

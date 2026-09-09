@@ -19,22 +19,22 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "Levels marked before the open, VWAP on the chart, $20,000 in the account. Size down for these."
+    text: "Levels marked before the open, VWAP on the chart, $30,000 in the account. Size down for these."
 
   - type: chart-decision
-    scenario: "XYZ has run five candles into the pre-market high at $45.80 on the heaviest volume of the move, thirty-six cents above VWAP. The next candle wicks to $45.88 and closes at $45.68. You have 1,000 shares ready."
+    scenario: "XYZ has run five candles into the pre-market high at $26.80 on the heaviest volume of the move, thirty-six cents above VWAP. The next candle wicks to $26.88 and closes at $26.68. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[45.20, 45.34, 45.18, 45.32], [45.32, 45.48, 45.30, 45.46], [45.46, 45.62, 45.44, 45.60], [45.60, 45.74, 45.58, 45.72], [45.72, 45.80, 45.70, 45.78], [45.78, 45.88, 45.66, 45.68], [45.68, 45.72, 45.54, 45.56], [45.56, 45.60, 45.42, 45.44], [45.44, 45.48, 45.32, 45.34], [45.34, 45.38, 45.28, 45.32]]
-      vwap: [45.22, 45.24, 45.26, 45.28, 45.30, 45.32, 45.33, 45.34, 45.35, 45.36]
+      data: [[26.20, 26.34, 26.18, 26.32], [26.32, 26.48, 26.30, 26.46], [26.46, 26.62, 26.44, 26.60], [26.60, 26.74, 26.58, 26.72], [26.72, 26.80, 26.70, 26.78], [26.78, 26.88, 26.66, 26.68], [26.68, 26.72, 26.54, 26.56], [26.56, 26.60, 26.42, 26.44], [26.44, 26.48, 26.32, 26.34], [26.34, 26.38, 26.28, 26.32]]
+      vwap: [26.22, 26.24, 26.26, 26.28, 26.30, 26.32, 26.33, 26.34, 26.35, 26.36]
       levels:
-        - {price: 45.80, label: "Pre-market high"}
-      volume: [7200, 8400, 9800, 11600, 13800, 15200, 10400, 9200, 8200, 7400]
+        - {price: 26.80, label: "Pre-market high"}
+      volume: [72000, 84000, 98000, 116000, 138000, 152000, 104000, 92000, 82000, 74000]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It came back to VWAP at $45.34 — $0.34 per share, +$340 short on 1,000 shares from $45.68."
+    outcome: "It came back to VWAP at $26.34 — $0.34 per share, +$340 short on 1,000 shares from $26.68."
     explanation: "Marked level, climax volume, a wick through and a close back under. All four boxes on the card."
 
   - type: hotspot
@@ -45,39 +45,39 @@ screens:
     explanation: "A buyer in a hurry pays the ask. Three cents on 1,000 shares is $30 of the $340."
 
   - type: chart-decision
-    scenario: "XYZ has run five candles and is twenty cents above VWAP. No level is marked anywhere near the price. The next candle wicks up and closes back down at $33.12. You have 1,000 shares ready."
+    scenario: "XYZ has run five candles and is twenty cents above VWAP. No level is marked anywhere near the price. The next candle wicks up and closes back down at $27.12. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[32.60, 32.72, 32.58, 32.70], [32.70, 32.84, 32.68, 32.82], [32.82, 32.96, 32.80, 32.94], [32.94, 33.08, 32.92, 33.06], [33.06, 33.18, 33.04, 33.16], [33.16, 33.26, 33.10, 33.12], [33.12, 33.28, 33.10, 33.26], [33.26, 33.42, 33.24, 33.40], [33.40, 33.54, 33.38, 33.52], [33.52, 33.66, 33.50, 33.64]]
-      vwap: [32.70, 32.74, 32.80, 32.86, 32.92, 32.96, 33.00, 33.06, 33.12, 33.18]
-      volume: [6800, 7400, 8200, 8800, 9400, 8600, 9800, 10600, 11200, 11800]
+      data: [[26.60, 26.72, 26.58, 26.70], [26.70, 26.84, 26.68, 26.82], [26.82, 26.96, 26.80, 26.94], [26.94, 27.08, 26.92, 27.06], [27.06, 27.18, 27.04, 27.16], [27.16, 27.26, 27.10, 27.12], [27.12, 27.28, 27.10, 27.26], [27.26, 27.42, 27.24, 27.40], [27.40, 27.54, 27.38, 27.52], [27.52, 27.66, 27.50, 27.64]]
+      vwap: [26.70, 26.74, 26.80, 26.86, 26.92, 26.96, 27.00, 27.06, 27.12, 27.18]
+      volume: [68000, 74000, 82000, 88000, 94000, 86000, 98000, 106000, 112000, 118000]
       decision_index: 5
     best: no-trade
-    outcome: "One quiet minute, then it carried on to $33.64 — $0.52 against a short, $520 on 1,000 shares."
+    outcome: "One quiet minute, then it carried on to $27.64 — $0.52 against a short, $520 on 1,000 shares."
     explanation: "A wick with nothing behind it. There was no level for the run to fail against, so nothing failed."
 
   - type: numeric-mc
-    prompt: "Back to the first trade: short at $45.68, stop $45.90, covered at VWAP $45.34. What did it make as an R-multiple?"
+    prompt: "Back to the first trade: short at $26.68, stop $26.90, covered at VWAP $26.34. What did it make as an R-multiple?"
     options:
-      - {text: "About 1.5R", correct: true}
       - {text: "About 0.6R"}
       - {text: "About 2.2R"}
+      - {text: "About 1.5R", correct: true}
       - {text: "About 3.4R"}
-    working: "Risk $45.90 − $45.68 = $0.22; reward $45.68 − $45.34 = $0.34; $0.34 ÷ $0.22 ≈ 1.5"
+    working: "Risk $26.90 − $26.68 = $0.22; reward $26.68 − $26.34 = $0.34; $0.34 ÷ $0.22 ≈ 1.5"
     explanation: "The R-multiple turns every trade into the same unit, whatever the stock costs or how many shares you held."
 
   - type: chart-decision
-    scenario: "XYZ rejected the round number $50.00 once, then the next candle closed at $50.04, through it. Now a third candle closes at $50.16 on growing volume. You have 1,000 shares ready."
+    scenario: "XYZ rejected the round number $27.00 once, then the next candle closed at $27.04, through it. Now a third candle closes at $27.16 on growing volume. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[49.60, 49.74, 49.58, 49.72], [49.72, 49.86, 49.70, 49.84], [49.84, 49.98, 49.82, 49.96], [49.96, 50.06, 49.90, 49.94], [49.94, 50.08, 49.92, 50.04], [50.04, 50.18, 50.02, 50.16], [50.16, 50.30, 50.14, 50.28], [50.28, 50.42, 50.26, 50.40], [50.40, 50.52, 50.36, 50.48], [50.48, 50.60, 50.44, 50.56]]
-      vwap: [49.66, 49.70, 49.76, 49.80, 49.84, 49.90, 49.96, 50.02, 50.08, 50.14]
-      volume: [7600, 8400, 9200, 10600, 12400, 13800, 12600, 11400, 10600, 9800]
+      data: [[26.60, 26.74, 26.58, 26.72], [26.72, 26.86, 26.70, 26.84], [26.84, 26.98, 26.82, 26.96], [26.96, 27.06, 26.90, 26.94], [26.94, 27.08, 26.92, 27.04], [27.04, 27.18, 27.02, 27.16], [27.16, 27.30, 27.14, 27.28], [27.28, 27.42, 27.26, 27.40], [27.40, 27.52, 27.36, 27.48], [27.48, 27.60, 27.44, 27.56]]
+      vwap: [26.66, 26.70, 26.76, 26.80, 26.84, 26.90, 26.96, 27.02, 27.08, 27.14]
+      volume: [76000, 84000, 92000, 106000, 124000, 138000, 126000, 114000, 106000, 98000]
       decision_index: 5
     best: no-trade
-    outcome: "It ran to $50.56 — $0.40 against a short from $50.16, $400 on 1,000 shares."
+    outcome: "It ran to $27.56 — $0.40 against a short from $27.16, $400 on 1,000 shares."
     explanation: "The first rejection failed and a candle closed through the number. The level is now a floor, and your card has already told you to leave."
 
   - type: fill-choice
@@ -93,7 +93,7 @@ screens:
       kind: candles
       data: [[24.40, 24.44, 24.28, 24.30], [24.30, 24.34, 24.16, 24.18], [24.18, 24.22, 24.02, 24.04], [24.04, 24.08, 23.90, 23.92], [23.92, 23.96, 23.82, 23.84], [23.84, 23.98, 23.74, 23.96], [23.96, 24.10, 23.94, 24.08], [24.08, 24.20, 24.06, 24.18], [24.18, 24.30, 24.14, 24.26], [24.26, 24.36, 24.22, 24.32]]
       vwap: [24.34, 24.32, 24.30, 24.28, 24.26, 24.24, 24.24, 24.25, 24.26, 24.27]
-      volume: [7400, 8600, 10200, 12400, 14600, 16200, 11400, 10200, 9400, 8600]
+      volume: [74000, 86000, 102000, 124000, 146000, 162000, 114000, 102000, 94000, 86000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
@@ -106,26 +106,26 @@ screens:
     explanation: "That is the last of the buyers being used up, and it is the reason this card exists at all."
 
   - type: chart-decision
-    scenario: "XYZ rejects the pre-market high at $76.50 with a clean wick and a close at $76.38. But VWAP is only twelve cents away at $76.26, and the quote shows a nine-cent spread. You have 1,000 shares ready."
+    scenario: "XYZ rejects the pre-market high at $27.50 with a clean wick and a close at $27.38. But VWAP is only twelve cents away at $27.26, and the quote shows a nine-cent spread. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[75.90, 76.06, 75.88, 76.04], [76.04, 76.20, 76.02, 76.18], [76.18, 76.34, 76.16, 76.32], [76.32, 76.46, 76.30, 76.44], [76.44, 76.50, 76.40, 76.48], [76.48, 76.58, 76.36, 76.38], [76.38, 76.42, 76.28, 76.30], [76.30, 76.36, 76.24, 76.32], [76.32, 76.38, 76.26, 76.28], [76.28, 76.34, 76.22, 76.26]]
-      vwap: [76.14, 76.16, 76.19, 76.22, 76.24, 76.26, 76.26, 76.26, 76.26, 76.26]
+      data: [[26.90, 27.06, 26.88, 27.04], [27.04, 27.20, 27.02, 27.18], [27.18, 27.34, 27.16, 27.32], [27.32, 27.46, 27.30, 27.44], [27.44, 27.50, 27.40, 27.48], [27.48, 27.58, 27.36, 27.38], [27.38, 27.42, 27.28, 27.30], [27.30, 27.36, 27.24, 27.32], [27.32, 27.38, 27.26, 27.28], [27.28, 27.34, 27.22, 27.26]]
+      vwap: [27.14, 27.16, 27.19, 27.22, 27.24, 27.26, 27.26, 27.26, 27.26, 27.26]
       levels:
-        - {price: 76.50, label: "Pre-market high"}
-      volume: [6400, 7600, 9200, 11000, 13200, 14400, 9600, 8200, 7400, 6800]
+        - {price: 27.50, label: "Pre-market high"}
+      volume: [64000, 76000, 92000, 110000, 132000, 144000, 96000, 82000, 74000, 68000]
       decision_index: 5
     best: no-trade
-    outcome: "It drifted to VWAP at $76.26 — $0.12 per share, $120 on 1,000 shares, against $90 of spread on the round trip."
+    outcome: "It drifted to VWAP at $27.26 — $0.12 per share, $120 on 1,000 shares, against $90 of spread on the round trip."
     explanation: "The read was right and there was nothing left in it. A twelve-cent target behind a nine-cent spread is not a trade at any size."
 
   - type: mc
     prompt: "Which of these is card D?"
     options:
-      - {text: "Six candles up into yesterday's high on the biggest volume of the move, then a wick through and a close back under", correct: true}
-      - {text: "Six candles up into yesterday's high on shrinking volume, still climbing"}
-      - {text: "A wick and a close back down in the middle of the day's range"}
+      - {text: "Six candles up into yesterday's high on shrinking volume, still climbing with no wick"}
+      - {text: "A wick and a close back down in the middle of the day's range on the heaviest bar of the move"}
+      - {text: "Six candles up into yesterday's high on climax volume, then a wick through and a close back under", correct: true}
     explanation: "Level, climax volume, rejection close. Take any one away and it is a different chart."
 
   - type: theory

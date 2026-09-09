@@ -49,17 +49,17 @@ screens:
   - type: numeric-mc
     prompt: "You bought 100 shares at $10.00 and sold at $10.30. What's your profit?"
     options:
-      - {text: "$30", correct: true}
       - {text: "$3"}
       - {text: "$300"}
       - {text: "$0.30"}
+      - {text: "$30", correct: true}
     working: "$0.30 per share × 100 shares = $30"
     explanation: "Profit per share times the number of shares."
 
   - type: tf
-    statement: "Your profit is locked in the moment the price rises, even before you sell."
-    answer: false
-    explanation: "Until you close the position it's only a paper gain — the price can still fall."
+    statement: "A gain on a position you still hold can disappear before you ever sell it."
+    answer: true
+    explanation: "Until you close the position it is only a paper gain — the price can still fall."
 
   - type: theory
     title: "Move × shares = result"
@@ -83,7 +83,7 @@ screens:
     explanation: "You don't have to trade every move. Waiting is a decision too."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Which word describes which part of a trade?"
     pairs:
       - ["Buy", "Open a position"]
       - ["Sell", "Close a position"]

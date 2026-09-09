@@ -37,8 +37,8 @@ screens:
   - type: mc
     prompt: "Which of these is the clearest sign of tilt?"
     options:
-      - {text: "You have doubled your size on a setup you would normally skip", correct: true}
       - {text: "You have taken two losses in a row"}
+      - {text: "You have doubled your size on a setup you would normally skip", correct: true}
       - {text: "You have traded three different stocks this morning"}
     explanation: "Losses and variety are normal. Size that was never in the plan is the state, not the market."
 

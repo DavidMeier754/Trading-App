@@ -33,9 +33,9 @@ screens:
     explanation: "Spread times shares."
 
   - type: mc
-    prompt: "Expected move $0.12, spread $0.06. Verdict?"
+    prompt: "You expect $0.12 of movement and the quote shows a $0.06 spread. Take it?"
     options:
-      - {text: "Skip — half the move is gone at entry", correct: true}
+      - {text: "No — half the move is gone at entry", correct: true}
       - {text: "Fine — six cents is small"}
       - {text: "Good — wide spreads mean big moves"}
     explanation: "50 % of the move to the spread is far too much."
@@ -43,9 +43,9 @@ screens:
   - type: mc
     prompt: "Ask $10.20. You send a limit buy at $10.23 while sellers are still at $10.20. You pay:"
     options:
-      - {text: "$10.20", correct: true}
       - {text: "$10.23"}
       - {text: "$10.215"}
+      - {text: "$10.20", correct: true}
     explanation: "Marketable limit: fills at the ask, capped at your limit."
 
   - type: tf
@@ -64,14 +64,14 @@ screens:
     explanation: "Three tools, three behaviors."
 
   - type: numeric-mc
-    prompt: "Account $15,000, 1 % rule, stop $0.15. Shares?"
+    prompt: "Account $15,000, 1 % rule, stop $0.15, stock at $25.00. Shares?"
     options:
-      - {text: "1,000", correct: true}
+      - {text: "1,000"}
+      - {text: "600", correct: true}
       - {text: "150"}
-      - {text: "10,000"}
-      - {text: "100"}
-    working: "$150 ÷ $0.15 = 1,000"
-    explanation: "Risk budget over stop distance."
+      - {text: "2,500"}
+    working: "Risk: $150 ÷ $0.15 = 1,000. Account: $15,000 ÷ $25.00 = 600. Take the smaller."
+    explanation: "The account is the lower ceiling here, so 600 is the honest number."
 
   - type: spot-mistake
     prompt: "Tap the mistake."

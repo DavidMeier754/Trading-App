@@ -83,9 +83,9 @@ screens:
   - type: mc
     prompt: "Three long green bodies in a row, each closing near its high. The most useful read is:"
     options:
-      - {text: "Buyers kept control minute after minute", correct: true}
       - {text: "A red candle is due after three green ones"}
       - {text: "The stock has become too expensive to buy"}
+      - {text: "Buyers kept control minute after minute", correct: true}
     explanation: "Candles have no memory and no fair price — they only show who kept control."
 
   - type: chart-decision

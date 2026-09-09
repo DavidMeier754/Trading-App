@@ -37,8 +37,8 @@ screens:
   - type: numeric-mc
     prompt: "That trade exits at $9.94. What is the result as an R-multiple?"
     options:
-      - {text: "+1R", correct: true}
       - {text: "+2R"}
+      - {text: "+1R", correct: true}
       - {text: "+0.5R"}
       - {text: "+1.5R"}
     working: "Gain $0.09 ÷ risk $0.09 = 1"
@@ -50,16 +50,16 @@ screens:
     explanation: "Big enough winners against small losers outweigh being wrong more often."
 
   - type: chart-decision
-    scenario: "You are two full stops down and your limit is 3R. XYZ sets up long at a level it held twice: entry $34.20, stop $34.08, next resistance $34.50. 1,000 shares."
+    scenario: "You are two full stops down and your limit is 3R. XYZ sets up short at a level that capped it twice: entry $16.20, stop $16.32, next support $15.90. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[33.90, 34.00, 33.86, 33.98], [33.98, 34.10, 33.94, 34.08], [34.08, 34.20, 34.04, 34.16], [34.16, 34.24, 34.10, 34.14], [34.14, 34.18, 34.06, 34.10], [34.10, 34.22, 34.08, 34.20], [34.20, 34.32, 34.18, 34.30], [34.30, 34.40, 34.26, 34.38], [34.38, 34.52, 34.34, 34.48], [34.48, 34.54, 34.42, 34.46]]
+      data: [[16.50, 16.54, 16.40, 16.42], [16.42, 16.46, 16.30, 16.32], [16.32, 16.36, 16.20, 16.24], [16.24, 16.30, 16.16, 16.26], [16.26, 16.34, 16.22, 16.30], [16.30, 16.32, 16.18, 16.20], [16.20, 16.22, 16.08, 16.10], [16.10, 16.14, 16.00, 16.02], [16.02, 16.06, 15.88, 15.92], [15.92, 15.98, 15.86, 15.94]]
       decision_index: 5
     state: ["Day: −2R", "Limit: 3R"]
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It ran to $34.54. Sold at $34.50: $0.30 per share, +$300 on 1,000 shares — 2.5R."
+    outcome: "It rolled over to $15.86. Covered at $15.90: $0.30 per share, +$300 on 1,000 shares — 2.5R."
     explanation: "Two stops down is not the limit. Twelve cents of risk for thirty of reward is the trade the rules leave room for."
 
   - type: sort
@@ -75,9 +75,9 @@ screens:
   - type: numeric-mc
     prompt: "Out of 100 trades, 40 win an average of $180 and 60 lose an average of $100. What is the expectancy per trade?"
     options:
-      - {text: "+$12", correct: true}
       - {text: "−$12"}
       - {text: "+$72"}
+      - {text: "+$12", correct: true}
       - {text: "−$28"}
     working: "(0.4 × $180) − (0.6 × $100) = $72 − $60 = $12"
     explanation: "Wrong six times in ten and still positive, because the winners are nearly twice the losers."
@@ -99,7 +99,7 @@ screens:
     explanation: "Less than one full stop left, which is worth knowing before you size the next trade."
 
   - type: match
-    prompt: "Match each term to its meaning."
+    prompt: "Four words that describe a method, not a trade."
     pairs:
       - ["Win rate", "The share of trades that end in profit"]
       - ["Average loss", "Everything lost, divided by the number of losers"]

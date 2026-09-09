@@ -38,9 +38,9 @@ screens:
   - type: mc
     prompt: "A stock has far more people wanting to buy than sell right now. What happens next, most likely?"
     options:
-      - {text: "The price rises until enough sellers show up", correct: true}
       - {text: "The price stays put until the company adds more shares"}
       - {text: "Trading pauses until buyers and sellers are equal"}
+      - {text: "The price rises until enough sellers show up", correct: true}
     explanation: "Buyers compete by paying more; the higher price draws out sellers."
 
   - type: story
@@ -92,7 +92,12 @@ screens:
   - type: mc
     prompt: "Two stocks get the same bad news. Stock A has many eager buyers waiting; Stock B has almost none. Which one drops more on a wave of selling?"
     options:
-      - {text: "Stock B — with few buyers, sellers must cut the price further to find one", correct: true}
       - {text: "Stock A — more buyers means more trading, so bigger moves"}
+      - {text: "Stock B — sellers have to cut the price further", correct: true}
       - {text: "Both the same — the news is identical"}
     explanation: "The price moves as far as it must to find the other side. Few buyers, bigger drop."
+
+  - type: story
+    character: mascot
+    text: "Buyers versus sellers. That is the whole engine — and you can already read it."
+

@@ -57,8 +57,8 @@ screens:
   - type: mc
     prompt: "A candle's body runs from:"
     options:
-      - {text: "the open to the close", correct: true}
       - {text: "the low to the high"}
+      - {text: "the open to the close", correct: true}
       - {text: "yesterday's close to today's close"}
     explanation: "Low to high is the whole candle including wicks; the body is only open to close."
 
@@ -89,9 +89,9 @@ screens:
     explanation: "Green body after green body, closing near the highs: buyers held every minute they took."
 
   - type: tf
-    statement: "A tall body means a lot of shares changed hands in that minute."
-    answer: false
-    explanation: "The body shows how far price travelled, not how much traded — that is volume, in Level 3."
+    statement: "A tall body tells you how far price travelled that minute, not how much traded."
+    answer: true
+    explanation: "How much traded is volume, and it lives in the bar underneath — that is Level 3."
 
   - type: chart-tap
     prompt: "Tap the candle that reached the highest price."

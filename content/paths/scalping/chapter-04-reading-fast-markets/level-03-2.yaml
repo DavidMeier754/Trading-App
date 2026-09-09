@@ -32,27 +32,27 @@ screens:
       - "Does VWAP point the same way?"
 
   - type: chart-decision
-    scenario: "XYZ pulls back into VWAP at $61.30, which is also yesterday's close. The candle there is a rejection with a long lower wick on double the recent volume. You have 1,000 shares ready."
+    scenario: "XYZ pulls back into VWAP at $27.30, which is also yesterday's close. The candle there is a rejection with a long lower wick on double the recent volume. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[61.60, 61.66, 61.52, 61.54], [61.54, 61.58, 61.44, 61.46], [61.46, 61.50, 61.38, 61.40], [61.40, 61.44, 61.32, 61.36], [61.36, 61.38, 61.28, 61.33], [61.33, 61.40, 61.24, 61.38], [61.38, 61.50, 61.36, 61.48], [61.48, 61.58, 61.46, 61.56], [61.56, 61.64, 61.52, 61.62], [61.62, 61.68, 61.58, 61.64]]
-      vwap: [61.31, 61.31, 61.30, 61.30, 61.30, 61.30, 61.31, 61.32, 61.33, 61.34]
-      volume: [5200, 4800, 4100, 3600, 3300, 9400, 6800, 6100, 5400, 4900]
+      data: [[27.60, 27.66, 27.52, 27.54], [27.54, 27.58, 27.44, 27.46], [27.46, 27.50, 27.38, 27.40], [27.40, 27.44, 27.32, 27.36], [27.36, 27.38, 27.28, 27.33], [27.33, 27.40, 27.24, 27.38], [27.38, 27.50, 27.36, 27.48], [27.48, 27.58, 27.46, 27.56], [27.56, 27.64, 27.52, 27.62], [27.62, 27.68, 27.58, 27.64]]
+      vwap: [27.31, 27.31, 27.30, 27.30, 27.30, 27.30, 27.31, 27.32, 27.33, 27.34]
+      volume: [52000, 48000, 41000, 36000, 33000, 94000, 68000, 61000, 54000, 49000]
       levels:
-        - {price: 61.30, label: "Yesterday's close"}
+        - {price: 27.30, label: "Yesterday's close"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It turned at the line and reached $61.64 — $0.26 per share, +$260 long on 1,000 shares from $61.38."
+    outcome: "It turned at the line and reached $27.64 — $0.26 per share, +$260 long on 1,000 shares from $27.38."
     explanation: "Level, VWAP, rejection candle and volume all at one price: that is confluence, and it is where the odds are best."
 
   - type: mc
     prompt: "A perfect momentum candle appears in the middle of a range, nowhere near a level, on average volume. What is it?"
     options:
-      - {text: "Noise — one piece of evidence with nothing to back it", correct: true}
       - {text: "A signal, because the candle shape is what matters"}
       - {text: "A signal, because momentum always continues"}
+      - {text: "Noise — one piece of evidence with nothing to back it", correct: true}
     explanation: "Shape without a level and without volume is one reason, and one reason is not enough."
 
   - type: sort
@@ -66,9 +66,9 @@ screens:
     explanation: "A candle earns the word signal from where it happens and what traded there."
 
   - type: tf
-    statement: "Volume that is no bigger than the candles around it makes a level test more convincing."
-    answer: false
-    explanation: "Ordinary volume means nobody has committed anything yet — the test is still unproven."
+    statement: "A level test on ordinary volume leaves you with a shape and nothing behind it."
+    answer: true
+    explanation: "Nobody has committed anything yet, so the test is still unproven — wait for the next candle."
 
   - type: theory
     title: "Volume is the tiebreaker"
@@ -79,11 +79,11 @@ screens:
     shares: 1000
     chart:
       kind: candles
-      data: [[36.20, 36.28, 36.16, 36.22], [36.22, 36.26, 36.14, 36.16], [36.16, 36.20, 36.10, 36.12], [36.12, 36.22, 36.10, 36.20], [36.20, 36.24, 36.14, 36.18], [36.18, 36.30, 36.16, 36.28], [36.28, 36.32, 36.18, 36.20], [36.20, 36.24, 36.12, 36.14], [36.14, 36.22, 36.12, 36.20], [36.20, 36.24, 36.14, 36.18]]
-      vwap: [36.44, 36.42, 36.40, 36.38, 36.37, 36.36, 36.35, 36.34, 36.33, 36.32]
-      volume: [4100, 3900, 4200, 3800, 4000, 4300, 4100, 3900, 4200, 4000]
+      data: [[27.20, 27.28, 27.16, 27.22], [27.22, 27.26, 27.14, 27.16], [27.16, 27.20, 27.10, 27.12], [27.12, 27.22, 27.10, 27.20], [27.20, 27.24, 27.14, 27.18], [27.18, 27.30, 27.16, 27.28], [27.28, 27.32, 27.18, 27.20], [27.20, 27.24, 27.12, 27.14], [27.14, 27.22, 27.12, 27.20], [27.20, 27.24, 27.14, 27.18]]
+      vwap: [27.44, 27.42, 27.40, 27.38, 27.37, 27.36, 27.35, 27.34, 27.33, 27.32]
+      volume: [41000, 39000, 42000, 38000, 40000, 43000, 41000, 39000, 42000, 40000]
       levels:
-        - {price: 36.80, label: "Yesterday's high"}
+        - {price: 27.80, label: "Yesterday's high"}
       decision_index: 5
     best: no-trade
     outcome: "Price wandered back to where it started. The candle was the only thing that happened."
@@ -100,9 +100,9 @@ screens:
     prompt: "Tap the mistake."
     segments:
       - {text: "Three reasons agree at one price,"}
-      - {text: "so the trade is guaranteed to work", wrong: true}
-      - {text: "more often than a one-reason trade."}
-    explanation: "Confluence improves the odds; nothing on a chart is guaranteed."
+      - {text: "so this trade works more often"}
+      - {text: "than a one-reason trade, and cannot lose.", wrong: true}
+    explanation: "Confluence improves the odds over a series. Any single trade can still lose, and plenty of them do."
 
   - type: fill-tiles
     sentence: "Two or more independent reasons pointing the same way at one price is called ___."

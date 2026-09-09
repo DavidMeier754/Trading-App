@@ -5,9 +5,9 @@ chapter_title: "Risk & Psychology for Scalpers"
 path: scalping
 category: new-theory
 tags: [risk, r-multiple, sizing]
-learning_goal: "User expresses risk and result as R and rejects trades whose target is smaller than their stop."
+learning_goal: "User expresses risk and result as R, rejects trades whose target is smaller than their stop, and knows what moving the stop to break-even and taking a partial actually change."
 purpose: "R is the unit every rule in this chapter is written in — it makes a $40 trade and a $400 trade comparable."
-terms_introduced: ["R", "R-multiple"]
+terms_introduced: ["R", "R-multiple", "Break-even stop", "Partial exit"]
 prerequisite: "1-1"
 xp: 20
 difficulty: 2
@@ -21,14 +21,14 @@ screens:
     body: "R is what you lose if the stop hits: entry minus stop, times shares. Every trade you take is a bet of exactly 1R, whatever the share count."
 
   - type: example
-    body: "Long 1,000 shares at $18.40, stop $18.28. 1R = $0.12 × 1,000 shares = $120. Sell at $18.64 and you made $0.24 × 1,000 = $240 — a 2R win."
+    body: "Long 1,000 shares at $11.40, stop $11.28. 1R = $0.12 × 1,000 shares = $120. Sell at $11.64 and you made $0.24 × 1,000 = $240 — a 2R win."
 
   - type: theory
     title: "Why R beats dollars"
     body: "A $60 win on $30 of risk is a better trade than a $100 win on $200 of risk. In dollars the second looks bigger. As an R-multiple it is +2R against +0.5R."
 
   - type: numeric-input
-    prompt: "You buy 500 shares at $41.20 with a stop at $41.12. What is 1R in dollars?"
+    prompt: "You buy 500 shares at $21.20 with a stop at $21.12. What is 1R in dollars?"
     answer: 40
     tolerance: 0.01
     unit: "$"
@@ -36,14 +36,37 @@ screens:
     explanation: "Eight cents of stop distance on 500 shares is the whole risk of that trade."
 
   - type: numeric-mc
-    prompt: "That trade exits at $41.32. What is the result as an R-multiple?"
+    prompt: "That trade exits at $21.32. What is the result as an R-multiple?"
     options:
-      - {text: "+1.5R", correct: true}
       - {text: "+1.2R"}
+      - {text: "+1.5R", correct: true}
       - {text: "+3R"}
       - {text: "+0.5R"}
     working: "Gain $0.12 ÷ risk $0.08 = 1.5"
     explanation: "Divide what you made by what you risked; the share count cancels out."
+
+  - type: theory
+    title: "Moving the stop up"
+    body: "Once a trade is about 1R in front, many scalpers pull the stop up to their entry. That is a break-even stop: from there the worst case is a scratch and the costs, not a full R."
+
+  - type: tf
+    statement: "A break-even stop takes all the risk out of the trade."
+    answer: false
+    explanation: "It takes out the R, not the cost — and a stop sitting at your entry gets scratched by normal wiggle far more often than one under the pullback low."
+
+  - type: theory
+    title: "Taking a partial"
+    body: "A partial exit closes some of the position early — half at 1R, the rest left for the target. It books less on the winners and loses less on the ones that turn, so it trades a smaller average win for a steadier one."
+
+  - type: numeric-mc
+    prompt: "1,000 shares, 1R is $120. You sell 500 at 1R and the last 500 stop out at break-even. What is the trade worth, before costs?"
+    options:
+      - {text: "+$60", correct: true}
+      - {text: "+$120"}
+      - {text: "−$60"}
+      - {text: "$0"}
+    working: "500 shares at +1R = half of $120 = $60; the other 500 exit at entry = $0"
+    explanation: "Half a unit banked instead of a full one lost — that is the whole trade-off a partial makes."
 
   - type: theory
     title: "Targets in R"
@@ -59,14 +82,14 @@ screens:
     explanation: "Every result is measured against the risk that trade took."
 
   - type: chart-decision
-    scenario: "XYZ drifts in a 1-minute range. You would enter long at $47.60, but the only place for a stop is under $47.35 — 25 cents. The range top at $47.72 is your only target. 1,000 shares."
+    scenario: "XYZ drifts in a 1-minute range. You would enter long at $10.60, but the only place for a stop is under $10.35 — 25 cents. The range top at $10.72 is your only target. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[47.50, 47.60, 47.44, 47.56], [47.56, 47.64, 47.50, 47.52], [47.52, 47.58, 47.40, 47.44], [47.44, 47.56, 47.38, 47.54], [47.54, 47.66, 47.50, 47.58], [47.58, 47.64, 47.54, 47.60], [47.60, 47.70, 47.56, 47.66], [47.66, 47.70, 47.54, 47.56], [47.56, 47.60, 47.44, 47.46], [47.46, 47.50, 47.38, 47.42]]
+      data: [[10.50, 10.60, 10.44, 10.56], [10.56, 10.64, 10.50, 10.52], [10.52, 10.58, 10.40, 10.44], [10.44, 10.56, 10.38, 10.54], [10.54, 10.66, 10.50, 10.58], [10.58, 10.64, 10.54, 10.60], [10.60, 10.70, 10.56, 10.66], [10.66, 10.70, 10.54, 10.56], [10.56, 10.60, 10.44, 10.46], [10.46, 10.50, 10.38, 10.42]]
       decision_index: 5
     best: no-trade
-    outcome: "It stalled two cents under the target and slid back to $47.42 — 18 cents against you, $180 down on 1,000 shares, with 7 cents still to go before the stop."
+    outcome: "It stalled two cents under the target and slid back to $10.42 — 18 cents against you, $180 down on 1,000 shares, with 7 cents still to go before the stop."
     explanation: "Twelve cents of reward against 25 cents of risk is half an R for a full R — the math says no before the chart does."
 
   - type: visual
@@ -79,10 +102,10 @@ screens:
   - type: numeric-mc
     prompt: "A different morning: +2R, −1R, −1R, +1.5R, −1R. What is the net?"
     options:
-      - {text: "−0.5R", correct: true}
       - {text: "+0.5R"}
       - {text: "−1.5R"}
       - {text: "+2.5R"}
+      - {text: "−0.5R", correct: true}
     working: "2 − 1 − 1 + 1.5 − 1 = −0.5"
     explanation: "Three losers and two winners, and the morning is only half an R down — that is what the unit is for."
 

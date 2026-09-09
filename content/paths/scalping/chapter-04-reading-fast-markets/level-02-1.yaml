@@ -44,8 +44,8 @@ screens:
   - type: mc
     prompt: "It is three minutes before {{market.regular_open}} {{market.timezone}}. Which line can you not draw yet?"
     options:
-      - {text: "Today's opening price", correct: true}
       - {text: "Yesterday's low"}
+      - {text: "Today's opening price", correct: true}
       - {text: "The pre-market high"}
     explanation: "The open has not happened; the other two are already fixed."
 
@@ -89,16 +89,16 @@ screens:
     explanation: "A level that gets tested, holds, and then makes a higher low is doing its job — the trade is with the buyers defending it."
 
   - type: numeric-input
-    prompt: "You are long 1,500 shares from $27.71 and take profit at the pre-market high of $27.86. Result before costs?"
+    prompt: "You are long 1,500 shares from $17.71 and take profit at the pre-market high of $17.86. Result before costs?"
     answer: 225
     unit: "$"
-    working: "($27.86 − $27.71) × 1,500 shares = $225"
+    working: "($17.86 − $17.71) × 1,500 shares = $225"
     explanation: "Fifteen cents on 1,500 shares — the level gave you the exit before you were in the trade."
 
   - type: tf
-    statement: "A level only counts if price turns at exactly that price."
-    answer: false
-    explanation: "Treat it as a zone: a few cents either side is still the level doing its work."
+    statement: "A level is worth treating as a zone a few cents wide rather than one exact price."
+    answer: true
+    explanation: "Judge it by where the candle closes, not by whether the wick touched the cent."
 
   - type: fill-choice
     sentence: "Above today's ___ price, buyers have controlled the session."
@@ -106,6 +106,11 @@ screens:
     answer: "opening"
     explanation: "The open is the session's starting agreement; everything above it is buyers having their way."
 
-  - type: theory
-    title: "The map before the bell"
-    body: "Yesterday's high, low and close, the pre-market high and low, the round numbers. Add VWAP once the session starts and your map is finished."
+  - type: checklist-reveal
+    title: "The map, before the bell"
+    items:
+      - "Yesterday's high, low and close"
+      - "The pre-market high and low"
+      - "The round numbers either side of price"
+      - "VWAP, once the session starts drawing it"
+

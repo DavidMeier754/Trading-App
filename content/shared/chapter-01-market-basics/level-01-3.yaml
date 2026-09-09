@@ -18,7 +18,7 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "Monday, 10:02. XYZ trades at $22.00. You have $2,200 and want 100 shares."
+    text: "Monday, mid-morning. XYZ trades at $22.00. You have $2,200 and want 100 shares."
 
   - type: chart-decision
     scenario: "XYZ has drifted sideways around $22.00 for ten minutes. Buyers and sellers look balanced. Buy, or wait?"
@@ -33,8 +33,8 @@ screens:
   - type: mc
     prompt: "Now a rush of buyers appears and XYZ jumps to $22.40 in one minute. What does the jump tell you?"
     options:
-      - {text: "Demand outran supply — buyers had to pay more", correct: true}
       - {text: "The company just released more shares"}
+      - {text: "Demand outran supply — buyers had to pay more", correct: true}
       - {text: "The market paused and reset the price"}
     explanation: "A fast rise means eager buyers competing for too few sellers."
 
@@ -74,7 +74,7 @@ screens:
     explanation: "Sellers in charge, price falling: not the moment to buy."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Two words about the market, two about your trade."
     pairs:
       - ["Demand", "How much people want to buy"]
       - ["Supply", "How much is for sale"]
@@ -91,9 +91,9 @@ screens:
   - type: mc
     prompt: "You hold 100 shares bought at $22.40. The price is now $22.10. Which is true?"
     options:
-      - {text: "You have a $30 loss on paper — it becomes real only if you sell", correct: true}
       - {text: "$30 has already been taken from your account"}
       - {text: "Nothing counts until the price is back above $22.40"}
+      - {text: "You have a $30 loss on paper — it becomes real only if you sell", correct: true}
     explanation: "Paper losses are real risk, but they're only booked when you close."
 
   - type: sort

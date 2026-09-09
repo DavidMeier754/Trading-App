@@ -45,8 +45,8 @@ screens:
   - type: mc
     prompt: "Three scalps in the same sideways stretch have all gone nowhere. The most useful conclusion is:"
     options:
-      - {text: "The chart is in a range and there is nothing here to catch", correct: true}
       - {text: "The next one is more likely to work, because three failures are enough"}
+      - {text: "The chart is in a range and there is nothing here to catch", correct: true}
       - {text: "The share size was too small for the move to pay"}
     explanation: "Size multiplies a move that happens; it cannot create one."
 

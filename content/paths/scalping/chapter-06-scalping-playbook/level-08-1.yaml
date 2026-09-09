@@ -52,9 +52,9 @@ screens:
   - type: mc
     prompt: "The 5-minute has run one way all morning and price has not touched VWAP since the open. Which card is least likely to work?"
     options:
-      - {text: "Mean reversion at a level — the run keeps going straight through them", correct: true}
       - {text: "Momentum continuation"}
       - {text: "VWAP bounce"}
+      - {text: "Mean reversion at a level", correct: true}
     explanation: "Fading a trend day is the fastest way to give a morning back. On those days the cards that go with the move are the ones on the table."
 
   - type: tf
@@ -63,21 +63,29 @@ screens:
     explanation: "A smaller wrong trade is still a wrong trade. No card means no trade — that is what having cards is for."
 
   - type: chart-decision
-    scenario: "XYZ has rotated between $43.90 and $44.30 all morning, VWAP in the middle. Back at the top of the range, this candle wicks to $44.36 and closes at $44.18 on the heaviest volume of the move. You have 1,000 shares ready."
+    scenario: "XYZ has rotated between $26.90 and $27.30 all morning, VWAP in the middle. Back at the top of the range, this candle wicks to $27.36 and closes at $27.18 on the heaviest volume of the move. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[43.90, 44.02, 43.88, 44.00], [44.00, 44.12, 43.98, 44.10], [44.10, 44.22, 44.08, 44.20], [44.20, 44.28, 44.18, 44.26], [44.26, 44.30, 44.22, 44.28], [44.28, 44.36, 44.16, 44.18], [44.18, 44.22, 44.06, 44.08], [44.08, 44.12, 43.96, 43.98], [43.98, 44.02, 43.88, 43.90], [43.90, 43.94, 43.82, 43.86]]
-      vwap: [44.06, 44.06, 44.07, 44.08, 44.09, 44.10, 44.10, 44.09, 44.08, 44.07]
+      data: [[26.90, 27.02, 26.88, 27.00], [27.00, 27.12, 26.98, 27.10], [27.10, 27.22, 27.08, 27.20], [27.20, 27.28, 27.18, 27.26], [27.26, 27.30, 27.22, 27.28], [27.28, 27.36, 27.16, 27.18], [27.18, 27.22, 27.06, 27.08], [27.08, 27.12, 26.96, 26.98], [26.98, 27.02, 26.88, 26.90], [26.90, 26.94, 26.82, 26.86]]
+      vwap: [27.06, 27.06, 27.07, 27.08, 27.09, 27.10, 27.10, 27.09, 27.08, 27.07]
       levels:
-        - {price: 44.30, label: "Top of the morning range"}
-        - {price: 43.90, label: "Bottom of the morning range"}
-      volume: [6200, 7400, 8600, 10200, 12400, 13600, 9800, 8600, 7800, 7000]
+        - {price: 27.30, label: "Top of the morning range"}
+        - {price: 26.90, label: "Bottom of the morning range"}
+      volume: [62000, 74000, 86000, 102000, 124000, 136000, 98000, 86000, 78000, 70000]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It rotated back to the other side at $43.90 — $0.28 per share, +$280 short on 1,000 shares from $44.18."
+    outcome: "It rotated back to the other side at $26.90 — $0.28 per share, +$280 short on 1,000 shares from $27.18."
     explanation: "A range day at the top of its range with a rejection close: card D, exactly where that card belongs."
+
+  - type: mc
+    prompt: "None of the stocks on your list is on unusual volume this morning. What does that change?"
+    options:
+      - {text: "Nothing — the cards work on any stock"}
+      - {text: "The list was picked before the open, so it stands for the day"}
+      - {text: "Nothing to trade yet — the cards need a stock that is moving", correct: true}
+    explanation: "A card needs volume before it needs a shape. Picking the stock is the first filter of the day, and it can rule out every one of them."
 
   - type: theory
     title: "When nothing fits"

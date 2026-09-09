@@ -21,9 +21,9 @@ screens:
   - type: numeric-mc
     prompt: "You buy 200 shares at $15.00 and sell at $15.45. Total profit?"
     options:
-      - {text: "$90", correct: true}
       - {text: "$9"}
       - {text: "$45"}
+      - {text: "$90", correct: true}
       - {text: "$0.45"}
     working: "$0.45 × 200 = $90"
     explanation: "Move times shares."
@@ -31,15 +31,15 @@ screens:
   - type: mc
     prompt: "A stock's price is rising steadily. What must be true?"
     options:
-      - {text: "Buyers are willing to pay more than sellers were asking", correct: true}
       - {text: "The company announced good news"}
-      - {text: "More shares were created"}
+      - {text: "Buyers are paying more than sellers were asking", correct: true}
+      - {text: "More shares were created and sold into the market"}
     explanation: "Only buyers versus sellers moves a price — news is one possible cause, not the rule."
 
   - type: tf
-    statement: "When you buy shares on the exchange, your money goes to the company."
-    answer: false
-    explanation: "It goes to the seller, another shareholder."
+    statement: "The cash you pay for shares on the exchange ends up with the seller."
+    answer: true
+    explanation: "Another shareholder is on the other side. The company was paid when the shares were first sold."
 
   - type: hotspot
     component: quote-card
@@ -51,8 +51,8 @@ screens:
   - type: mc
     prompt: "A stock trades 800 shares a day. Which risk is biggest for a trader holding 500 shares?"
     options:
-      - {text: "Getting out will move the price against them", correct: true}
       - {text: "The price will barely move"}
+      - {text: "Getting out will move the price against them", correct: true}
       - {text: "The stock will be removed from the exchange"}
     explanation: "500 shares is most of a day's volume — illiquid."
 
@@ -69,9 +69,9 @@ screens:
   - type: mc
     prompt: "Who always quotes a price to buy and a price to sell?"
     options:
-      - {text: "Market maker", correct: true}
       - {text: "Institution"}
       - {text: "Retail trader"}
+      - {text: "Market maker", correct: true}
     explanation: "That two-sided quote is the market maker's job."
 
   - type: order
@@ -83,14 +83,14 @@ screens:
     prompt: "A stock is up 5 % in pre-market on very low volume. Why be careful?"
     options:
       - {text: "Thin trading — only a few participants set that price", correct: true}
-      - {text: "Pre-market moves always reverse"}
+      - {text: "Pre-market moves always reverse once the session opens"}
       - {text: "Only institutions can trade pre-market"}
     explanation: "Thin sessions are jumpy; the crowd arrives at the open."
 
   - type: fill-tiles
-    sentence: "How big and fast a price moves is its ___."
-    answer: "volatility"
-    explanation: "Size and speed of moves."
+    sentence: "A stock that swings 8 % in a day is highly ___."
+    answer: "volatile"
+    explanation: "Big, fast moves in both directions."
 
   - type: summary
     total: 10

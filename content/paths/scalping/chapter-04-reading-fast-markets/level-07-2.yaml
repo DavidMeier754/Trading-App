@@ -32,8 +32,8 @@ screens:
   - type: mc
     prompt: "Why can a stop order not do its job through a halt?"
     options:
-      - {text: "No trading happens during a halt, so there is nothing for it to fill against", correct: true}
       - {text: "Stop orders are cancelled automatically when a stock halts"}
+      - {text: "Nothing trades during a halt, so nothing can fill", correct: true}
       - {text: "The broker holds the order back until the price is better"}
     explanation: "A stop needs a market to trade in; during the pause there is none."
 
@@ -56,7 +56,7 @@ screens:
     chart:
       kind: candles
       data: [[26.40, 26.62, 26.28, 26.34], [26.34, 26.56, 26.30, 26.52], [26.52, 26.58, 26.26, 26.30], [26.30, 26.50, 26.24, 26.46], [26.46, 26.52, 26.22, 26.28], [26.28, 26.44, 26.20, 26.40], [26.40, 26.46, 26.14, 26.20], [26.20, 26.38, 26.16, 26.34], [26.34, 26.40, 26.10, 26.16], [26.16, 26.32, 26.12, 26.26]]
-      volume: [31000, 24000, 27000, 19000, 22000, 18000, 21000, 17000, 19000, 16000]
+      volume: [310000, 240000, 270000, 190000, 220000, 180000, 210000, 170000, 190000, 160000]
       decision_index: 5
     best: no-trade
     outcome: "It swung both ways for another ten minutes and got nowhere. Both sides would have been stopped out."
@@ -97,19 +97,19 @@ screens:
     text: "Ten minutes later. The wild stock is still wild; a second one has settled into a clean range above VWAP."
 
   - type: chart-decision
-    scenario: "This one opened quietly, held above VWAP for eight minutes and is now breaking its opening-range high at $54.30 with volume picking up. You have 1,500 shares ready."
+    scenario: "This one opened quietly, held above VWAP for eight minutes and is now breaking its opening-range high at $18.30 with volume picking up. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[54.10, 54.20, 54.06, 54.18], [54.18, 54.26, 54.14, 54.22], [54.22, 54.30, 54.18, 54.26], [54.26, 54.30, 54.20, 54.24], [54.24, 54.28, 54.18, 54.26], [54.26, 54.38, 54.24, 54.36], [54.36, 54.46, 54.32, 54.44], [54.44, 54.52, 54.40, 54.50], [54.50, 54.56, 54.46, 54.52], [54.52, 54.58, 54.48, 54.54]]
-      vwap: [54.12, 54.15, 54.18, 54.20, 54.21, 54.23, 54.26, 54.29, 54.32, 54.35]
-      volume: [7200, 6400, 6800, 5100, 4600, 11800, 9400, 8600, 7200, 6600]
+      data: [[18.10, 18.20, 18.06, 18.18], [18.18, 18.26, 18.14, 18.22], [18.22, 18.30, 18.18, 18.26], [18.26, 18.30, 18.20, 18.24], [18.24, 18.28, 18.18, 18.26], [18.26, 18.38, 18.24, 18.36], [18.36, 18.46, 18.32, 18.44], [18.44, 18.52, 18.40, 18.50], [18.50, 18.56, 18.46, 18.52], [18.52, 18.58, 18.48, 18.54]]
+      vwap: [18.12, 18.15, 18.18, 18.20, 18.21, 18.23, 18.26, 18.29, 18.32, 18.35]
+      volume: [72000, 64000, 68000, 51000, 46000, 118000, 94000, 86000, 72000, 66000]
       levels:
-        - {price: 54.30, label: "Opening range high"}
+        - {price: 18.30, label: "Opening range high"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $54.54 — $0.18 per share, +$270 long on 1,500 shares from $54.36."
+    outcome: "It ran to $18.54 — $0.18 per share, +$270 long on 1,500 shares from $18.36."
     explanation: "Above VWAP, a level to break, volume arriving on the break: the same trade the wild stock could not offer you."
 
   - type: theory

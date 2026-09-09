@@ -7,10 +7,10 @@ category: new-theory
 tags: [level-2, order-book]
 learning_goal: "User can read a basic Level 2 ladder and time & sales, and predict how an order larger than the displayed size moves the price."
 purpose: "The quote panel shows two numbers; Level 2 shows the crowd behind them — and how far your own order will push the price."
-terms_introduced: ["Level 2", "Order book", "Displayed size", "Time and sales"]
+terms_introduced: ["Level 2", "Order book", "Displayed size", "Time and sales", "Tape"]
 prerequisite: "7-2"
 xp: 20
-difficulty: 2
+difficulty: 3
 sources: [consensus]
 notes: "Intro only; tape reading is a Chapter 4 topic."
 screens:
@@ -68,9 +68,9 @@ screens:
   - type: mc
     prompt: "Time and sales prints trade after trade at the ask with growing sizes. What are you seeing?"
     options:
-      - {text: "Aggressive buyers lifting the offer", correct: true}
       - {text: "Sellers hitting the bid"}
       - {text: "Market makers widening the spread"}
+      - {text: "Aggressive buyers lifting the offer", correct: true}
     explanation: "Trades at the ask are buyers paying up."
 
   - type: numeric-input
@@ -82,7 +82,7 @@ screens:
     explanation: "Two rows, weighted by shares."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "What is behind the quote? Match each name to it."
     pairs:
       - ["Level 2", "Bids and asks beyond the best"]
       - ["Displayed size", "Shares waiting at a price"]

@@ -5,7 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [routine, levels, screen-setup]
-learning_goal: "User can describe the four things on a scalper's screen and mark the levels that matter before the session opens."
+learning_goal: "User can say what puts a stock on the screen in the first place, describe the four things on it, and mark the levels that matter before the session opens."
 purpose: "In a one-minute decision you can only read what you set up in advance."
 terms_introduced: []
 prerequisite: "8-1"
@@ -38,11 +38,22 @@ screens:
       data: [[21.70, 21.92, 21.66, 21.88], [21.88, 22.06, 21.84, 22.02], [22.02, 22.20, 21.98, 22.16], [22.16, 22.44, 22.10, 22.40]]
       volume: [310000, 288000, 264000, 342000]
 
+  - type: theory
+    title: "Which stock, before which chart"
+    body: "The screen comes second. First you pick the stock: one trading far more than its own normal volume today, with a reason for it, and liquid enough that your size is a small part of every minute."
+
+  - type: mc
+    prompt: "Two stocks at {{market.regular_open}}. One is on its normal volume with no news; the other is on four times normal after results. Which is the scalper's?"
+    options:
+      - {text: "The quiet one — a normal day is easier to read"}
+      - {text: "Neither matters; the chart pattern is what decides"}
+      - {text: "The busy one — four times its normal volume", correct: true}
+    explanation: "Volume measured against this stock's own normal day is the first filter. No volume, no scalp, whatever the chart looks like."
+
   - type: walkthrough
     component: quote-card
     data: {ticker: XYZ, name: Example Corp, price: 22.38, change: 0.62, change_pct: 2.9, volume: "2.4M", prev_close: 21.76}
     steps:
-      - {spotlight: price, text: "The price you would be trading right now."}
       - {spotlight: change, text: "How far it has already come since yesterday's close."}
       - {spotlight: volume, text: "How much has traded today. On a thin day it is hard to get in and out."}
 
@@ -73,9 +84,9 @@ screens:
   - type: mc
     prompt: "Your 1-minute chart says long. Your 5-minute says the morning is falling. You:"
     options:
-      - {text: "Take nothing and wait for the two to agree", correct: true}
       - {text: "Take the 1-minute trade, because it is the faster chart"}
       - {text: "Take half the size, because both charts are partly right"}
+      - {text: "Take nothing and wait for the two to agree", correct: true}
     explanation: "Half a position in a fight you have already read as a fight is still a position in the wrong direction."
 
   - type: chart-decision
@@ -92,9 +103,9 @@ screens:
     explanation: "Context, level, close beyond it and volume: all four parts of the screen said the same thing."
 
   - type: tf
-    statement: "More charts and more numbers on the screen make the decision faster."
-    answer: false
-    explanation: "Every extra thing is one more thing to read inside a minute that only lasts sixty seconds."
+    statement: "Every extra number on the screen is one more thing to read inside a sixty-second candle."
+    answer: true
+    explanation: "Two charts, volume, a quote and a few levels is the whole screen for a reason."
 
   - type: spot-mistake
     prompt: "Tap the mistake."

@@ -10,7 +10,7 @@ purpose: "The first minutes carry the day's biggest moves and its worst fills �
 terms_introduced: ["Opening drive"]
 prerequisite: "4-1"
 xp: 20
-difficulty: 3
+difficulty: 2
 path_position: fan-out:open
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
 notes: "Fan-out strand C. Self-contained: uses nothing from the other two strands."
@@ -31,25 +31,25 @@ screens:
     visual: chart-candles
     visual_data:
       data: [[30.00, 30.12, 29.98, 30.10], [30.10, 30.22, 30.08, 30.20], [30.20, 30.30, 30.16, 30.28], [30.28, 30.42, 30.26, 30.38], [30.38, 30.44, 30.32, 30.36], [30.36, 30.40, 30.28, 30.32], [30.32, 30.38, 30.30, 30.36], [30.36, 30.46, 30.34, 30.44]]
-      volume: [24000, 18000, 15000, 16000, 9000, 7000, 6000, 11000]
+      volume: [240000, 180000, 150000, 160000, 90000, 70000, 60000, 110000]
 
   - type: theory
     title: "The break and the fade"
     body: "The high and low of the first five minutes are the opening range. A break with volume behind it usually keeps going. A break that closes straight back inside the range usually goes the other way."
 
   - type: chart-decision
-    scenario: "The opening range is $30.28 to $30.46. Price breaks above it on the heaviest volume since the bell and holds. You have 1,500 shares ready."
+    scenario: "The first five minutes are over and the opening range is $17.28 to $17.46. This chart starts after them: price breaks above the box on the heaviest volume since, and holds. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[30.30, 30.46, 30.28, 30.42], [30.42, 30.46, 30.34, 30.38], [30.38, 30.44, 30.32, 30.40], [30.40, 30.46, 30.36, 30.44], [30.44, 30.56, 30.42, 30.54], [30.54, 30.62, 30.50, 30.60], [30.60, 30.70, 30.56, 30.68], [30.68, 30.76, 30.64, 30.72], [30.72, 30.80, 30.68, 30.76], [30.76, 30.82, 30.72, 30.78]]
-      volume: [22000, 12000, 9000, 8000, 19000, 14000, 12000, 10000, 9000, 8000]
+      data: [[17.30, 17.46, 17.28, 17.42], [17.42, 17.46, 17.34, 17.38], [17.38, 17.44, 17.32, 17.40], [17.40, 17.46, 17.36, 17.44], [17.44, 17.56, 17.42, 17.54], [17.54, 17.62, 17.50, 17.60], [17.60, 17.70, 17.56, 17.68], [17.68, 17.76, 17.64, 17.72], [17.72, 17.80, 17.68, 17.76], [17.76, 17.82, 17.72, 17.78]]
+      volume: [220000, 120000, 90000, 80000, 190000, 140000, 120000, 100000, 90000, 80000]
       levels:
-        - {price: 30.46, label: "Opening range high"}
+        - {price: 17.46, label: "Opening range high"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "The drive continued to $30.78 — $0.18 per share, +$270 long on 1,500 shares from $30.60."
+    outcome: "The drive continued to $17.78 — $0.18 per share, +$270 long on 1,500 shares from $17.60."
     explanation: "A range break on the biggest volume since the open is the drive resuming, not a new idea."
 
   - type: mc
@@ -66,14 +66,14 @@ screens:
     explanation: "Prices are moving fast and market makers protect themselves — which makes every entry there more expensive."
 
   - type: chart-decision
-    scenario: "The opening range is $17.86 to $18.10. Price pokes above $18.10 on light volume and the candle closes back inside the range. You have 1,500 shares ready."
+    scenario: "The first five minutes are over and the opening range is $17.86 to $18.14. This chart starts after them: price pokes at $18.14 on light volume and closes back inside. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
       data: [[17.90, 18.10, 17.86, 18.06], [18.06, 18.09, 17.96, 18.00], [18.00, 18.08, 17.98, 18.06], [18.06, 18.09, 18.02, 18.07], [18.07, 18.14, 18.04, 18.08], [18.08, 18.10, 17.98, 18.00], [18.00, 18.02, 17.90, 17.92], [17.92, 17.96, 17.84, 17.86], [17.86, 17.90, 17.78, 17.80], [17.80, 17.84, 17.74, 17.76]]
-      volume: [26000, 11000, 9000, 7000, 5000, 8000, 12000, 11000, 9000, 8000]
+      volume: [260000, 110000, 90000, 70000, 50000, 80000, 120000, 110000, 90000, 80000]
       levels:
-        - {price: 18.10, label: "Opening range high"}
+        - {price: 18.14, label: "Opening range high"}
       decision_index: 5
     best: short
     reasonable: [no-trade]
@@ -83,9 +83,9 @@ screens:
   - type: numeric-mc
     prompt: "At the open the spread is $0.06 and it is still $0.06 when you get out. On 1,000 shares, what does the round trip cost you in spread?"
     options:
-      - {text: "$60", correct: true}
       - {text: "$120"}
       - {text: "$6"}
+      - {text: "$60", correct: true}
       - {text: "$30"}
     working: "$0.06 per share × 1,000 shares = $60"
     explanation: "Buying at the ask and selling at the bid costs one full spread — six cents of whatever the move gives you."

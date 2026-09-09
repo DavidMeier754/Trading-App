@@ -27,9 +27,10 @@ Requires Python 3 and PyYAML (`pip install pyyaml`).
 ## Status
 
 - Chapter 1 (shared) — written, reviewed
+- Scalping Chapter 2 "Charts 101" — written, reviewed
 - Scalping Chapter 3 "Orders, Costs & Position Size" — written, reviewed
-- Scalping Chapter 2 "Charts 101" — written
-- Scalping Chapter 4 "Reading Fast Markets" — written
-- Scalping Chapter 5 "Risk & Psychology for Scalpers" — written
-- Scalping Chapter 6 "Scalping Playbook" — written
+- Scalping Chapter 4 "Reading Fast Markets" — written, reviewed
+- Scalping Chapter 5 "Risk & Psychology for Scalpers" — written, reviewed
+- Scalping Chapter 6 "Scalping Playbook" — written, reviewed
+- The whole Scalping path was reviewed end to end as one piece (see the review pass in git history)
 - Everything else — outlined level by level in `docs/curriculum.md`

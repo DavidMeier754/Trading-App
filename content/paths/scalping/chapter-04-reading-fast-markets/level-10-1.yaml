@@ -31,24 +31,24 @@ screens:
   - type: mc
     prompt: "Which of these is the strongest case for a short?"
     options:
-      - {text: "Rejection candle at yesterday's high, VWAP just below, heaviest volume of the hour", correct: true}
       - {text: "A big red candle in the middle of the day's range on average volume"}
       - {text: "Price twenty cents above VWAP with the tape running at the ask"}
+      - {text: "Rejection candle at yesterday's high with VWAP just below", correct: true}
     explanation: "Level, line, candle and volume together — the other two are one reason or none."
 
   - type: chart-decision
-    scenario: "XYZ breaks the pre-market low at $22.40 by three cents on fading volume, then closes back above it. You have 1,500 shares ready."
+    scenario: "XYZ breaks the pre-market low at $17.40 by three cents on fading volume, then closes back above it. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[22.80, 22.84, 22.68, 22.70], [22.70, 22.74, 22.58, 22.60], [22.60, 22.64, 22.48, 22.52], [22.52, 22.56, 22.44, 22.46], [22.46, 22.50, 22.37, 22.44], [22.44, 22.52, 22.40, 22.50], [22.50, 22.60, 22.48, 22.58], [22.58, 22.68, 22.54, 22.66], [22.66, 22.74, 22.62, 22.72], [22.72, 22.78, 22.68, 22.74]]
-      volume: [8400, 7600, 6800, 5900, 4200, 7800, 8600, 7400, 6800, 6100]
+      data: [[17.80, 17.84, 17.68, 17.70], [17.70, 17.74, 17.58, 17.60], [17.60, 17.64, 17.48, 17.52], [17.52, 17.56, 17.44, 17.46], [17.46, 17.50, 17.37, 17.44], [17.44, 17.52, 17.40, 17.50], [17.50, 17.60, 17.48, 17.58], [17.58, 17.68, 17.54, 17.66], [17.66, 17.74, 17.62, 17.72], [17.72, 17.78, 17.68, 17.74]]
+      volume: [84000, 76000, 68000, 59000, 42000, 78000, 86000, 74000, 68000, 61000]
       levels:
-        - {price: 22.40, label: "Pre-market low"}
+        - {price: 17.40, label: "Pre-market low"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It recovered to $22.74 — $0.24 per share, +$360 long on 1,500 shares from $22.50."
+    outcome: "It recovered to $17.74 — $0.24 per share, +$360 long on 1,500 shares from $17.50."
     explanation: "A break on fading volume that closes back inside is a failed test, and the trapped sellers buy it back."
 
   - type: tf
@@ -80,14 +80,14 @@ screens:
       bids: [[46.18, 2200], [46.17, 1800], [46.16, 4100]]
       asks: [[46.21, 900], [46.22, 1600], [46.23, 2400]]
     target: bid-1
-    explanation: "Selling in a hurry means taking the best bid, $46.18."
+    explanation: "Selling in a hurry means taking the best bid, $14.18."
 
   - type: numeric-input
-    prompt: "You are long 2,000 shares from $46.18 and sell at $46.33. The spread costs you $0.03 per share on the round trip. What is left?"
+    prompt: "You are long 2,000 shares from $14.18 and sell at $14.33. The spread costs you $0.03 per share on the round trip. What is left?"
     answer: 240
     tolerance: 0.5
     unit: "$"
-    working: "($46.33 − $46.18) × 2,000 = $300; spread $0.03 × 2,000 = $60; $300 − $60 = $240"
+    working: "($14.33 − $14.18) × 2,000 = $300; spread $0.03 × 2,000 = $60; $300 − $60 = $240"
     explanation: "Fifteen cents gross, twelve cents net — the spread took a fifth of it."
 
   - type: sort
@@ -103,8 +103,8 @@ screens:
   - type: mc
     prompt: "A stock you are long halts. What is true of your stop?"
     options:
-      - {text: "It cannot fill while trading is paused, and may fill far away when it reopens", correct: true}
       - {text: "It fills at your stop price as soon as the halt begins"}
+      - {text: "It cannot fill while trading is paused", correct: true}
       - {text: "It is cancelled and has to be replaced"}
     explanation: "A stop needs a market; a halt removes it for a few minutes."
 

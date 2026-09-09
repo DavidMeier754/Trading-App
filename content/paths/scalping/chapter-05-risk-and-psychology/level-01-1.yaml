@@ -7,7 +7,7 @@ category: new-theory
 tags: [risk, stops, discipline]
 learning_goal: "User picks the stop before sending the entry, tells a hard stop from a mental stop, and never widens a stop that is about to be hit."
 purpose: "At scalping speed the stop is the only thing between a loss you planned and one you didn't."
-terms_introduced: ["Hard stop", "Mental stop"]
+terms_introduced: ["Setup", "Hard stop", "Mental stop"]
 prerequisite: null
 xp: 20
 difficulty: 1
@@ -16,6 +16,10 @@ notes: "Opens the chapter. Everything later is measured against the stop placed 
 screens:
   - type: intro
     text: "Where you're wrong comes first. The entry comes second."
+
+  - type: theory
+    title: "A setup is a pattern with a plan"
+    body: "A setup is a chart situation you have seen many times and know how to trade: where you get in, where you get out, what makes you drop it. Chapter 6 gives you five of them; this chapter is the rules they all run on."
 
   - type: theory
     title: "Decide where you're wrong first"
@@ -39,15 +43,15 @@ screens:
   - type: mc
     prompt: "Which one of these is a hard stop?"
     options:
-      - {text: "A stop order sitting at your broker at $18.28", correct: true}
       - {text: "A note on your monitor that says 'out at 18.28'"}
+      - {text: "A stop order sitting at your broker at $18.28", correct: true}
       - {text: "A promise to sell as soon as the trade feels wrong"}
     explanation: "A hard stop is already an order in the market; the other two still need you to act."
 
   - type: tf
-    statement: "At scalping speed a mental stop protects you as reliably as a resting stop order."
-    answer: false
-    explanation: "It depends on you reacting in seconds under pressure; a resting order doesn't depend on you at all."
+    statement: "A resting stop order still works if you freeze; a mental stop does not."
+    answer: true
+    explanation: "The resting order lives at the broker and does not depend on you clicking under pressure."
 
   - type: numeric-input
     prompt: "You short 800 shares at $24.60 with a stop at $24.72. How much do you risk?"
@@ -62,15 +66,15 @@ screens:
     body: "Moving a stop away from price is the most expensive habit in trading. It turns a loss you sized on purpose into one you didn't. Move it toward your entry as a trade works — never away."
 
   - type: chart-decision
-    scenario: "XYZ has made higher highs on the 1-minute for twenty minutes. It pulls back and holds $32.10. A stop under $32.02 costs 8 cents; the morning high at $32.35 is 25 cents away. 1,000 shares."
+    scenario: "XYZ has made higher highs on the 1-minute for twenty minutes. It pulls back and holds $27.10. A stop under $27.02 costs 8 cents; the morning high at $27.35 is 25 cents away. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[31.90, 31.98, 31.88, 31.96], [31.96, 32.06, 31.94, 32.04], [32.04, 32.14, 32.02, 32.12], [32.12, 32.22, 32.10, 32.20], [32.20, 32.24, 32.14, 32.16], [32.16, 32.20, 32.10, 32.14], [32.14, 32.24, 32.12, 32.22], [32.22, 32.32, 32.20, 32.30], [32.30, 32.38, 32.28, 32.35], [32.35, 32.40, 32.30, 32.34]]
+      data: [[26.90, 26.98, 26.88, 26.96], [26.96, 27.06, 26.94, 27.04], [27.04, 27.14, 27.02, 27.12], [27.12, 27.22, 27.10, 27.20], [27.20, 27.24, 27.14, 27.16], [27.16, 27.20, 27.10, 27.14], [27.14, 27.24, 27.12, 27.22], [27.22, 27.32, 27.20, 27.30], [27.30, 27.38, 27.28, 27.35], [27.35, 27.40, 27.30, 27.34]]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It turned at $32.10 and ran to $32.38. Sold at $32.35: $0.21 per share, +$210 on 1,000 shares."
+    outcome: "It turned at $27.10 and ran to $27.38. Sold at $27.35: $0.21 per share, +$210 on 1,000 shares."
     explanation: "Eight cents of risk for a 25-cent move, with the trend behind it — that is a stop worth placing."
 
   - type: spot-mistake
@@ -89,8 +93,8 @@ screens:
 
   - type: hotspot
     component: order-ticket
-    prompt: "You are long 1,000 shares from $32.14. On this exit ticket, tap the field that decides where you are wrong."
-    data: {ticker: XYZ, side: sell, qty: 1000, type: stop, stop_price: 32.02}
+    prompt: "You are long 1,000 shares from $27.14. On this exit ticket, tap the field that decides where you are wrong."
+    data: {ticker: XYZ, side: sell, qty: 1000, type: stop, stop_price: 27.02}
     target: stop_price
     explanation: "The stop price ends the trade. Everything else on the ticket is mechanics."
 

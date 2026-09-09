@@ -10,7 +10,7 @@ purpose: "The 1-minute chart will offer you a trade every few minutes; the 5-min
 terms_introduced: []
 prerequisite: "8-2"
 xp: 20
-difficulty: 3
+difficulty: 2
 sources: ["Murphy — Technical Analysis of the Financial Markets", "Aziz — How to Day Trade for a Living"]
 screens:
   - type: intro
@@ -27,13 +27,13 @@ screens:
     component: chart-candles
     data:
       data: [[41.20, 41.60, 41.10, 41.50], [41.50, 41.80, 41.40, 41.74], [41.74, 41.90, 41.60, 41.66], [41.66, 42.00, 41.62, 41.96], [41.96, 42.20, 41.88, 42.10], [42.10, 42.30, 41.98, 42.04], [42.04, 42.40, 42.00, 42.36], [42.36, 42.60, 42.30, 42.54]]
-      volume: [42000, 38000, 26000, 34000, 31000, 24000, 29000, 27000]
+      volume: [420000, 380000, 260000, 340000, 310000, 240000, 290000, 270000]
     caption: "The 5-minute chart: higher highs, higher lows. On a day like this the 1-minute triggers worth taking are the longs."
 
   - type: mc
     prompt: "The 5-minute chart is making lower highs and lower lows. Your 1-minute chart gives a clean long signal at a level. What is it?"
     options:
-      - {text: "A bounce inside a downtrend — small, quick, and against the bigger chart", correct: true}
+      - {text: "A bounce inside a downtrend — small and quick", correct: true}
       - {text: "A reversal, because the 1-minute chart is the faster one"}
       - {text: "The same trade as a long in an uptrend"}
     explanation: "The 1-minute signal is real, but it is fighting the direction the day has, so it needs a shorter leash."
@@ -57,22 +57,22 @@ screens:
     body: "When the two charts disagree, the slower one is right more often. Take the 1-minute triggers that point the same way as the 5-minute and let the rest go."
 
   - type: tf
-    statement: "The 1-minute chart is the more reliable of the two because it updates faster."
-    answer: false
-    explanation: "Faster means noisier — more of what happens on the 1-minute means nothing at all."
+    statement: "The faster of the two charts is also the noisier one."
+    answer: true
+    explanation: "More of what happens on the 1-minute means nothing at all, which is why the 5-minute sets the direction."
 
   - type: chart-decision
-    scenario: "The 5-minute chart is making higher highs and higher lows. On the 1-minute, price pulls back into VWAP at $41.80 and holds it. You have 1,500 shares ready."
+    scenario: "The 5-minute chart is making higher highs and higher lows. On the 1-minute, price pulls back into VWAP at $17.80 and holds it. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[42.10, 42.14, 42.00, 42.02], [42.02, 42.06, 41.92, 41.94], [41.94, 41.98, 41.86, 41.88], [41.88, 41.92, 41.80, 41.84], [41.84, 41.88, 41.78, 41.82], [41.82, 41.90, 41.78, 41.88], [41.88, 41.98, 41.86, 41.96], [41.96, 42.06, 41.92, 42.04], [42.04, 42.12, 42.00, 42.10], [42.10, 42.16, 42.06, 42.12]]
-      vwap: [41.76, 41.77, 41.78, 41.79, 41.79, 41.80, 41.81, 41.82, 41.84, 41.85]
-      volume: [6800, 6200, 5600, 4900, 4200, 9600, 8100, 7400, 6800, 6200]
+      data: [[18.10, 18.14, 18.00, 18.02], [18.02, 18.06, 17.92, 17.94], [17.94, 17.98, 17.86, 17.88], [17.88, 17.92, 17.80, 17.84], [17.84, 17.88, 17.78, 17.82], [17.82, 17.90, 17.78, 17.88], [17.88, 17.98, 17.86, 17.96], [17.96, 18.06, 17.92, 18.04], [18.04, 18.12, 18.00, 18.10], [18.10, 18.16, 18.06, 18.12]]
+      vwap: [17.76, 17.77, 17.78, 17.79, 17.79, 17.80, 17.81, 17.82, 17.84, 17.85]
+      volume: [68000, 62000, 56000, 49000, 42000, 96000, 81000, 74000, 68000, 62000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It resumed to $42.12 — $0.24 per share, +$360 long on 1,500 shares from $41.88."
+    outcome: "It resumed to $18.12 — $0.24 per share, +$360 long on 1,500 shares from $17.88."
     explanation: "Both charts pointing the same way is the only situation where a pullback entry is a simple decision."
 
   - type: sort
@@ -86,10 +86,10 @@ screens:
     explanation: "Direction on the slow chart, timing on the fast one."
 
   - type: numeric-input
-    prompt: "You take that pullback long: 1,500 shares at $41.88, stop at $41.76. What is at risk before costs?"
+    prompt: "You take that pullback long: 1,500 shares at $17.88, stop at $17.76. What is at risk before costs?"
     answer: 180
     unit: "$"
-    working: "($41.88 − $41.76) × 1,500 shares = $180"
+    working: "($17.88 − $17.76) × 1,500 shares = $180"
     explanation: "The stop goes under the pullback low, because below it the 5-minute uptrend is in question."
 
   - type: spot-mistake

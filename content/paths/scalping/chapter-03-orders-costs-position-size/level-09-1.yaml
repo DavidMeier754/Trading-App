@@ -59,8 +59,17 @@ screens:
     items:
       - "Is the spread small against the move I expect?"
       - "Is the all-in cost under about a third of my target?"
-      - "Are my shares sized from my stop and the 1 % rule?"
+      - "Are my shares the lower of what my stop allows and what the account can pay for?"
       - "Are my connection and fallback ready?"
+
+  - type: order
+    prompt: "Put the three seconds before a scalp in the order you run them."
+    items:
+      - "Read the spread against the move you expect"
+      - "Add slippage and fees to get the all-in cost"
+      - "Size the shares from the stop and the account"
+      - "Check the connection, then send the entry"
+    explanation: "Cost first, because it can end the decision before sizing is worth doing at all."
 
   - type: mc
     prompt: "All-in 40 % of target, connection unstable, sizing correct. Trade?"
@@ -86,7 +95,7 @@ screens:
     explanation: "Costs of executing, not the risk of being wrong."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Four terms this chapter turned into one habit."
     pairs:
       - ["All-in cost", "Spread + slippage + fees per share"]
       - ["Fallback plan", "How to act if your setup fails"]

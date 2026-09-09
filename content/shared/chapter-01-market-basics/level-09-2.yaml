@@ -19,8 +19,8 @@ screens:
   - type: mc
     prompt: "A scalper and a swing trader both see a stock tick up 0.3 % in a minute on strong volume. Who cares?"
     options:
-      - {text: "The scalper — 0.3 % is a whole trade for them; the swing trader thinks in weeks", correct: true}
       - {text: "The swing trader — small moves add up over weeks"}
+      - {text: "The scalper — 0.3 % is a whole trade for them", correct: true}
       - {text: "Neither — 0.3 % is noise for everyone"}
     explanation: "Same move, different holding periods, different meaning."
 
@@ -32,9 +32,9 @@ screens:
   - type: mc
     prompt: "Why do day traders avoid holding overnight?"
     options:
-      - {text: "News after the close can move the price before they can react", correct: true}
-      - {text: "Overnight holding fees are charged per share"}
+      - {text: "Overnight holding fees are charged on every share you hold"}
       - {text: "Exchanges cancel open positions at the close"}
+      - {text: "News after the close can move the price before they can react", correct: true}
     explanation: "After-hours and pre-market are thin and news-driven; the day trader sidesteps them."
 
   - type: sort
@@ -44,7 +44,7 @@ screens:
       - {text: "Closes everything before the session ends", bucket: "Day trading"}
       - {text: "Held for 40 seconds", bucket: "Scalping"}
       - {text: "Held from Friday to Monday", bucket: "Swing trading"}
-      - {text: "Ten trades before 10:30", bucket: "Scalping"}
+      - {text: "Ten trades in the first hour", bucket: "Scalping"}
     explanation: "Holding period tells you the style."
 
   - type: story
@@ -81,7 +81,7 @@ screens:
     explanation: "Investing judges the business; trading judges the price movement — buyers versus sellers."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "One number, three styles — match each to its holding period."
     pairs:
       - ["Holding period", "Time a position is open"]
       - ["Scalping", "Seconds to minutes"]

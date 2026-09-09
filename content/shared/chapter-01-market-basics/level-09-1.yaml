@@ -10,7 +10,7 @@ purpose: "After this chapter you pick a path — this is what the three paths ac
 terms_introduced: ["Holding period", "Scalping", "Day trading", "Swing trading", "Investing"]
 prerequisite: "8-2"
 xp: 20
-difficulty: 1
+difficulty: 2
 sources: [consensus]
 screens:
   - type: intro
@@ -47,9 +47,9 @@ screens:
   - type: mc
     prompt: "A trader takes 25 trades before lunch, each lasting under two minutes."
     options:
-      - {text: "Scalping", correct: true}
       - {text: "Day trading"}
       - {text: "Swing trading"}
+      - {text: "Scalping", correct: true}
     explanation: "Many tiny, fast trades — scalping."
 
   - type: mc
@@ -72,8 +72,8 @@ screens:
   - type: mc
     prompt: "Which style fits that life best?"
     options:
-      - {text: "Swing trading", correct: true}
       - {text: "Scalping"}
+      - {text: "Swing trading", correct: true}
       - {text: "Day trading"}
     explanation: "Evening chart checks and no screen-staring is the swing trader's rhythm."
 

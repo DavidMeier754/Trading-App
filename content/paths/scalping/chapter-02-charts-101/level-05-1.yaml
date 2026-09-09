@@ -52,27 +52,27 @@ screens:
   - type: mc
     prompt: "XYZ was turned back at $50.00 twice this morning. It is $49.88 and rising again. The useful expectation is:"
     options:
-      - {text: "Sellers may be waiting at $50.00 again, so this push can stall there", correct: true}
       - {text: "The third attempt always goes through"}
+      - {text: "Sellers may be waiting at $50.00 again", correct: true}
       - {text: "The level is used up now, so $50.00 no longer matters"}
     explanation: "A level stays interesting until price closes through it — and even then it is worth watching from the other side."
 
   - type: tf
-    statement: "Support at $18.40 means the price cannot trade below $18.40."
-    answer: false
-    explanation: "Support is where buyers have been showing up, not a floor. It holds until the day it doesn't."
+    statement: "Support at $18.40 is where buyers have been showing up, not a floor that has to hold."
+    answer: true
+    explanation: "It works until the day it doesn't, which is why a close below it changes the picture."
 
   - type: chart-decision
     scenario: "XYZ has dropped into $26.00 — a round number, and the price that stopped two dips earlier. The last candle poked below it and closed back above with a long lower wick, on the heaviest volume of the move. You are sizing 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[26.44, 26.50, 26.38, 26.40], [26.40, 26.44, 26.28, 26.30], [26.30, 26.34, 26.16, 26.18], [26.18, 26.22, 26.04, 26.10], [26.10, 26.14, 26.01, 26.05], [26.05, 26.16, 26.00, 26.14], [26.14, 26.26, 26.12, 26.24], [26.24, 26.34, 26.21, 26.32], [26.32, 26.40, 26.29, 26.38], [26.38, 26.44, 26.34, 26.40], [26.40, 26.46, 26.36, 26.42]]
+      data: [[26.44, 26.50, 26.38, 26.40], [26.40, 26.44, 26.28, 26.30], [26.30, 26.34, 26.16, 26.18], [26.18, 26.22, 26.04, 26.10], [26.10, 26.14, 26.01, 26.05], [26.05, 26.16, 26.00, 26.14], [26.14, 26.27, 26.12, 26.25], [26.25, 26.36, 26.22, 26.34], [26.34, 26.43, 26.31, 26.41], [26.41, 26.47, 26.36, 26.43], [26.43, 26.49, 26.38, 26.45]]
       volume: [62000, 58000, 74000, 88000, 66000, 112000, 96000, 84000, 72000, 58000, 51000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "Buyers held it and price worked back to $26.42 — $0.28 a share above the decision, +$280 long on 1,000 shares."
+    outcome: "Buyers held it and price worked back to $26.45 — $0.31 a share above the decision, +$310 long on 1,000 shares."
     explanation: "A long lower wick on heavy volume at a level everybody can see is buyers defending it in public."
 
   - type: fill-tiles
@@ -94,12 +94,12 @@ screens:
     shares: 500
     chart:
       kind: candles
-      data: [[54.98, 55.08, 54.94, 55.06], [55.06, 55.18, 55.02, 55.16], [55.16, 55.28, 55.12, 55.26], [55.26, 55.38, 55.22, 55.34], [55.34, 55.46, 55.30, 55.42], [55.42, 55.50, 55.38, 55.44], [55.44, 55.52, 55.36, 55.38], [55.38, 55.42, 55.26, 55.28], [55.28, 55.34, 55.18, 55.22], [55.22, 55.28, 55.14, 55.18], [55.18, 55.24, 55.10, 55.16]]
+      data: [[54.98, 55.08, 54.94, 55.06], [55.06, 55.18, 55.02, 55.16], [55.16, 55.28, 55.12, 55.26], [55.26, 55.38, 55.22, 55.34], [55.34, 55.46, 55.30, 55.42], [55.42, 55.50, 55.38, 55.44], [55.44, 55.54, 55.34, 55.36], [55.36, 55.41, 55.21, 55.23], [55.23, 55.31, 55.11, 55.16], [55.16, 55.23, 55.05, 55.11], [55.11, 55.18, 55.00, 55.08]]
       volume: [54000, 61000, 68000, 72000, 79000, 84000, 66000, 71000, 58000, 49000, 44000]
       decision_index: 5
     best: no-trade
     reasonable: [short]
-    outcome: "It stalled at $55.52 and slid to $55.16. A long would have lost $0.28 a share — $140 on 500 shares."
+    outcome: "It stalled at $55.54 and slid to $55.08. A long would have lost $0.36 a share — $180 on 500 shares."
     explanation: "Buying the last cents into a price that stopped the market yesterday means paying up for the seller's best price."
 
   - type: theory

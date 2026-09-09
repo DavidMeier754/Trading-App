@@ -50,7 +50,7 @@ screens:
   - type: mc
     prompt: "XYZ closed at $32.00 and opens at $33.10. For the first minutes that mostly means:"
     options:
-      - {text: "Something changed overnight, and the open is the fight over what it is now worth", correct: true}
+      - {text: "Something changed overnight and the open is the fight over it", correct: true}
       - {text: "The stock is $1.10 too expensive and has to come back"}
       - {text: "Yesterday's chart no longer matters at all"}
     explanation: "A gap is new information, not a mistake — and yesterday's high, low and close are still levels everybody can see."
@@ -89,9 +89,9 @@ screens:
     explanation: "In the first minutes there is no structure yet: every candle overlaps the last and both sides keep winning."
 
   - type: tf
-    statement: "A stock that gaps up comes back to yesterday's close the same day."
-    answer: false
-    explanation: "Some do and some never return. A gap is a starting condition, not a promise."
+    statement: "Some gaps get filled the same day and some are never filled at all."
+    answer: true
+    explanation: "A gap is a starting condition, not a promise in either direction."
 
   - type: fill-choice
     sentence: "The high and the low of the first five minutes are the ___."

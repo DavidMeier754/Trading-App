@@ -37,9 +37,9 @@ screens:
   - type: mc
     prompt: "A candle closes above resistance on the biggest volume bar of the morning. Next to the same close on the thinnest bar, this one is:"
     options:
-      - {text: "More likely to keep going — real size had to trade to get through", correct: true}
       - {text: "The same: a close beyond the level is a close beyond the level"}
       - {text: "Less likely to keep going, because everyone who wanted in is now in"}
+      - {text: "More likely to keep going — real size had to trade to get through", correct: true}
     explanation: "A level is a wall of orders; getting through it takes shares, and the volume bar is where you see them."
 
   - type: chart-tap
@@ -97,11 +97,11 @@ screens:
     explanation: "Two refusals at the same price and a lower close: the sellers there are winning, and that is a bounce you can trade."
 
   - type: numeric-input
-    prompt: "You went short 800 shares at $55.44 when the level held, and covered at $55.20. Result before costs?"
-    answer: 192
+    prompt: "You went short 500 shares at $55.44 when the level held, and covered at $55.20. Result before costs?"
+    answer: 120
     tolerance: 0.01
     unit: "$"
-    working: "$0.24 a share × 800 shares = $192"
+    working: "$0.24 a share × 500 shares = $120"
     explanation: "Shorts make the move in reverse: sold high, covered lower."
 
   - type: tf

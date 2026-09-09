@@ -56,17 +56,17 @@ screens:
     explanation: "Five is far below the sample size that could show that. Losing runs live inside methods that pay."
 
   - type: chart-decision
-    scenario: "Four stops already this morning, with one full stop of room left before your limit. XYZ reclaims VWAP on the heaviest volume since the open and holds above it. Entry $71.30, stop $71.16. 1,000 shares."
+    scenario: "Four stops already this morning, with one full stop of room left before your limit. XYZ reclaims VWAP on the heaviest volume since the open and holds above it. Entry $27.30, stop $27.16. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[71.10, 71.18, 71.04, 71.08], [71.08, 71.16, 71.02, 71.14], [71.14, 71.24, 71.10, 71.22], [71.22, 71.30, 71.18, 71.28], [71.28, 71.34, 71.22, 71.26], [71.26, 71.34, 71.22, 71.30], [71.30, 71.42, 71.28, 71.40], [71.40, 71.50, 71.36, 71.48], [71.48, 71.62, 71.44, 71.58], [71.58, 71.64, 71.52, 71.56]]
-      vwap: [71.20, 71.20, 71.21, 71.22, 71.23, 71.24, 71.25, 71.27, 71.29, 71.31]
+      data: [[27.10, 27.18, 27.04, 27.08], [27.08, 27.16, 27.02, 27.14], [27.14, 27.24, 27.10, 27.22], [27.22, 27.30, 27.18, 27.28], [27.28, 27.34, 27.22, 27.26], [27.26, 27.34, 27.22, 27.30], [27.30, 27.42, 27.28, 27.40], [27.40, 27.50, 27.36, 27.48], [27.48, 27.62, 27.44, 27.58], [27.58, 27.64, 27.52, 27.56]]
+      vwap: [27.20, 27.20, 27.21, 27.22, 27.23, 27.24, 27.25, 27.27, 27.29, 27.31]
       decision_index: 5
     state: ["Day: −4R", "1R of room left"]
     best: long
     reasonable: [no-trade]
-    outcome: "It held the line and reached $71.64. Sold at $71.58: $0.28 per share, +$280 on 1,000 shares against $140 of risk."
+    outcome: "It held the line and reached $27.64. Sold at $27.58: $0.28 per share, +$280 on 1,000 shares against $140 of risk."
     explanation: "The setup knows nothing about your morning. Skipping it is how a losing run becomes a losing week."
 
   - type: sort
@@ -95,6 +95,10 @@ screens:
     tolerance: 3
     explanation: "About nine. That is what a method that pays looks like on an ordinary day."
 
-  - type: theory
-    title: "One of many"
-    body: "The next trade is not the one that matters. It is one of the next thousand, and only the thousand has a result you can count on."
+  - type: visual
+    component: bar-chart
+    data:
+      bars: [{label: "Any one trade", value: 1}, {label: "Ten trades", value: 10}, {label: "A hundred", value: 100}, {label: "A thousand", value: 1000}]
+      unit: "trades the verdict rests on"
+    caption: "The next trade is one of the next thousand, and only the thousand has a result you can count on."
+

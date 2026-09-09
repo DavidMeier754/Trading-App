@@ -38,8 +38,8 @@ screens:
   - type: numeric-mc
     prompt: "What percentage gain takes that $15,000 back to $20,000?"
     options:
-      - {text: "About 33 %", correct: true}
       - {text: "25 %"}
+      - {text: "About 33 %", correct: true}
       - {text: "20 %"}
       - {text: "75 %"}
     working: "$5,000 ÷ $15,000 = 0.333"
@@ -59,15 +59,15 @@ screens:
   - type: mc
     prompt: "You are in the deepest drawdown of your year. What changes first?"
     options:
-      - {text: "The share size", correct: true}
       - {text: "The stop distance"}
+      - {text: "The share size", correct: true}
       - {text: "The number of different setups you will take"}
     explanation: "Size scales the whole problem down at once. Wider stops and new setups make it bigger while you are least able to judge them."
 
   - type: tf
-    statement: "Trading bigger after a losing run is the fastest way back, so it is worth the risk."
-    answer: false
-    explanation: "It is the fastest way in either direction, and the direction you cannot control is the one that ends accounts."
+    statement: "A drawdown gets deeper faster than it fills back in."
+    answer: true
+    explanation: "The gain is measured against the smaller account, so size comes down in one, never up."
 
   - type: sort
     prompt: "When does each one happen?"
@@ -80,17 +80,17 @@ screens:
     explanation: "Size comes down on results and goes back up on evidence, never the other way around."
 
   - type: chart-decision
-    scenario: "You are in a drawdown and trading 500 shares instead of 1,000. XYZ breaks the opening range high at $19.30 on the day's heaviest volume. Entry $19.34, stop $19.24."
+    scenario: "You are in a drawdown and trading 500 shares instead of 1,000. XYZ breaks the opening range low at $19.38 on the day's heaviest volume. Entry $19.34, stop $19.44."
     shares: 500
     chart:
       kind: candles
-      data: [[19.10, 19.20, 19.06, 19.18], [19.18, 19.30, 19.16, 19.26], [19.26, 19.30, 19.20, 19.24], [19.24, 19.28, 19.18, 19.22], [19.22, 19.32, 19.20, 19.30], [19.30, 19.38, 19.28, 19.34], [19.34, 19.46, 19.32, 19.44], [19.44, 19.52, 19.40, 19.50], [19.50, 19.62, 19.46, 19.58], [19.58, 19.64, 19.52, 19.56]]
-      volume: [50, 74, 46, 40, 82, 118, 96, 90, 112, 68]
+      data: [[19.58, 19.62, 19.48, 19.50], [19.50, 19.52, 19.38, 19.42], [19.42, 19.48, 19.38, 19.44], [19.44, 19.50, 19.40, 19.46], [19.46, 19.48, 19.36, 19.38], [19.38, 19.40, 19.30, 19.34], [19.34, 19.36, 19.22, 19.24], [19.24, 19.28, 19.16, 19.18], [19.18, 19.22, 19.06, 19.10], [19.10, 19.16, 19.04, 19.12]]
+      volume: [50000, 74000, 46000, 40000, 82000, 118000, 96000, 90000, 112000, 68000]
       decision_index: 5
     state: ["In a drawdown", "Size: 500 of 1,000"]
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It ran to $19.64. Sold at $19.58: $0.24 per share, +$120 on 500 shares against $50 of risk."
+    outcome: "It fell to $19.04. Covered at $19.10: $0.24 per share, +$120 on 500 shares against $50 of risk."
     explanation: "Smaller size does not mean fewer setups. It is the same plan with less at stake while you rebuild."
 
   - type: fill-tiles
@@ -98,6 +98,6 @@ screens:
     answer: "bigger"
     explanation: "Because the gain is measured against a smaller account than the loss was."
 
-  - type: theory
-    title: "Survive the drawdown"
-    body: "Nothing in this chapter works if the account runs out before the sample size arrives. Size is how you stay long enough for the edge to show."
+  - type: example
+    body: "Half size turns a $120 mistake into a $60 one and a −6R week into −3R. Nothing else in this chapter can be changed mid-drawdown without changing the method."
+

@@ -31,7 +31,7 @@ screens:
   - type: mc
     prompt: "XYZ's price rises while nothing at the company changed. Most likely reason?"
     options:
-      - {text: "More demand than supply — buyers outbid each other", correct: true}
+      - {text: "More demand than supply", correct: true}
       - {text: "The exchange raised the price"}
       - {text: "New shares were issued"}
     explanation: "Buyers versus sellers is the only thing that moves a price."
@@ -43,7 +43,7 @@ screens:
 
   - type: hotspot
     component: quote-card
-    prompt: "Tap the volume."
+    prompt: "Tap the number that says how many shares have changed hands today."
     data: {ticker: VELA, name: Vela Motors, price: 66.30, change: 1.20, change_pct: 1.8, volume: "900K"}
     target: volume
     explanation: "900,000 shares traded today."
@@ -51,13 +51,13 @@ screens:
   - type: mc
     prompt: "A stock trades 1,200 shares a day. You hold 900. Main problem?"
     options:
-      - {text: "Selling will push the price down a lot — it's illiquid", correct: true}
       - {text: "It's too volatile to hold"}
       - {text: "Fees are higher on low-volume stocks"}
+      - {text: "Selling will push the price down a lot", correct: true}
     explanation: "You'd be most of the day's volume."
 
   - type: sort
-    prompt: "Which dial?"
+    prompt: "Ease of trading, or size of the moves?"
     buckets: ["Liquidity", "Volatility"]
     items:
       - {text: "Whether your trade moves the price", bucket: "Liquidity"}
@@ -77,8 +77,8 @@ screens:
   - type: mc
     prompt: "Why are pre-market prices less reliable?"
     options:
-      - {text: "Few participants — thin liquidity", correct: true}
       - {text: "They're set by the exchange, not by trades"}
+      - {text: "Few participants — thin liquidity", correct: true}
       - {text: "Only market makers trade then"}
     explanation: "Thin sessions are jumpy."
 
@@ -92,8 +92,8 @@ screens:
   - type: mc
     prompt: "A trader holds positions for days and checks charts each evening."
     options:
-      - {text: "Swing trading", correct: true}
       - {text: "Day trading"}
+      - {text: "Swing trading", correct: true}
       - {text: "Scalping"}
     explanation: "Days to weeks, daily check-ins."
 
@@ -105,9 +105,9 @@ screens:
   - type: mc
     prompt: "A company reports better-than-expected results, yet the stock falls. Best explanation?"
     options:
-      - {text: "Expectations were even higher — sellers outnumbered buyers", correct: true}
       - {text: "Good news always sells off"}
       - {text: "The results must have been wrong"}
+      - {text: "Expectations were even higher", correct: true}
     explanation: "Price reacts to news versus expectations, not to news alone."
 
   - type: summary

@@ -23,9 +23,9 @@ screens:
   - type: mc
     prompt: "APEX: 30 M shares a day, moves about 0.8 % a day."
     options:
-      - {text: "Liquid, calm", correct: true}
       - {text: "Liquid, volatile"}
       - {text: "Illiquid, calm"}
+      - {text: "Liquid, calm", correct: true}
     explanation: "Huge volume, small moves."
 
   - type: mc
@@ -61,13 +61,21 @@ screens:
   - type: mc
     prompt: "Same FLUX quote: 48 M shares, +17.4 %. Two dials?"
     options:
-      - {text: "Liquid and volatile", correct: true}
       - {text: "Illiquid and volatile"}
+      - {text: "Liquid and volatile", correct: true}
       - {text: "Liquid and calm"}
     explanation: "Big volume, big move."
 
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "DUST trades 1,500 shares a day"}
+      - {text: "and its price barely moves,"}
+      - {text: "so a large position is easy to get out of.", wrong: true}
+    explanation: "Calm is not the same as liquid. At 1,500 shares a day, getting out means walking the price down."
+
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Three measurements and one player — match them up."
     pairs:
       - ["Liquidity", "Ease of trading without moving the price"]
       - ["Volatility", "Size and speed of moves"]
@@ -78,8 +86,8 @@ screens:
   - type: mc
     prompt: "A friend says: 'This stock is up 12 % today on huge volume, so it's easy to trade and it'll be up again tomorrow.' Which part is wrong?"
     options:
-      - {text: "'Up again tomorrow' — volume and volatility say nothing about tomorrow's direction", correct: true}
       - {text: "'Easy to trade' — high volume doesn't mean liquid"}
+      - {text: "'Up again tomorrow' — nothing here says anything about tomorrow", correct: true}
       - {text: "Nothing — both parts follow from the numbers"}
     explanation: "Volume backs the move today; it predicts nothing."
 
@@ -107,6 +115,7 @@ screens:
       - {text: "A calm, liquid stock", bucket: "Doesn't"}
     explanation: "Thin or wild makes exits expensive."
 
-  - type: theory
-    title: "Done"
-    body: "You can tell a sleepy stock from a wild one, and a crowded one from an empty one. Next: when the market is actually open."
+  - type: story
+    character: mascot
+    text: "Sleepy or wild, crowded or empty — you can now read both dials off a quote card. Next: when the market is actually open."
+

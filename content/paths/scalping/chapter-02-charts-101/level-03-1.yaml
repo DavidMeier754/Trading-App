@@ -62,10 +62,10 @@ screens:
   - type: numeric-mc
     prompt: "The last five minutes averaged 40,000 shares each. This minute traded 180,000. That is:"
     options:
-      - {text: "about 4.5 times normal", correct: true}
       - {text: "about 45 times normal"}
       - {text: "about 1.4 times normal"}
       - {text: "about 0.2 times normal"}
+      - {text: "about 4.5 times normal", correct: true}
     working: "180,000 ÷ 40,000 = 4.5"
     explanation: "Volume is judged against this stock's own recent minutes, never against another stock."
 
@@ -78,12 +78,12 @@ screens:
     shares: 1500
     chart:
       kind: candles
-      data: [[19.02, 19.08, 18.99, 19.06], [19.06, 19.12, 19.03, 19.10], [19.10, 19.22, 19.09, 19.20], [19.20, 19.32, 19.18, 19.30], [19.30, 19.42, 19.28, 19.40], [19.40, 19.48, 19.37, 19.46], [19.46, 19.58, 19.44, 19.56], [19.56, 19.66, 19.53, 19.64], [19.64, 19.72, 19.61, 19.70], [19.70, 19.76, 19.66, 19.73], [19.73, 19.78, 19.69, 19.74]]
+      data: [[19.02, 19.08, 18.99, 19.06], [19.06, 19.12, 19.03, 19.10], [19.10, 19.22, 19.09, 19.20], [19.20, 19.32, 19.18, 19.30], [19.30, 19.42, 19.28, 19.40], [19.40, 19.48, 19.37, 19.46], [19.46, 19.61, 19.44, 19.58], [19.58, 19.70, 19.55, 19.68], [19.68, 19.78, 19.64, 19.75], [19.75, 19.82, 19.70, 19.79], [19.79, 19.85, 19.74, 19.80]]
       volume: [40000, 46000, 92000, 118000, 145000, 152000, 160000, 138000, 120000, 96000, 80000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $19.74 — $0.28 a share above the decision, +$420 long on 1,500 shares."
+    outcome: "It ran to $19.85 and finished at $19.80 — $0.34 a share above the decision, +$510 long on 1,500 shares."
     explanation: "Rising price on rising volume: more people are joining the move, not fewer."
 
   - type: mc
@@ -95,9 +95,9 @@ screens:
     explanation: "Everyone trading at once at the end of a run is usually the last of the buyers, not the first."
 
   - type: tf
-    statement: "A tall volume bar tells you which way the price moved."
-    answer: false
-    explanation: "It only says how much traded. The candle above it says who won the minute."
+    statement: "A tall volume bar says how much traded, and the candle above it says who won the minute."
+    answer: true
+    explanation: "The bar has no direction of its own. Read it together with the candle, never instead of it."
 
   - type: chart-decision
     scenario: "XYZ has crept up eight cents over five minutes. Every bar underneath is smaller than the one before and the last one is the thinnest of the morning. You are sizing 500 shares."

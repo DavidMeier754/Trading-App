@@ -29,7 +29,7 @@ screens:
     component: chart-candles
     data:
       data: [[23.10, 23.24, 23.08, 23.22], [23.22, 23.38, 23.20, 23.36], [23.36, 23.50, 23.34, 23.48], [23.48, 23.50, 23.40, 23.42], [23.42, 23.46, 23.36, 23.38], [23.38, 23.52, 23.36, 23.50], [23.50, 23.64, 23.48, 23.62], [23.62, 23.74, 23.58, 23.70]]
-      volume: [7800, 9200, 10800, 5400, 4000, 9600, 8400, 7600]
+      volume: [78000, 92000, 108000, 54000, 40000, 96000, 84000, 76000]
     caption: "Leg, two quiet candles, then the push starts again."
 
   - type: theory
@@ -37,7 +37,7 @@ screens:
     body: "The first candle that closes back in the direction of the leg puts you in. That is the momentum continuation: you buy the restart, not the run."
 
   - type: slider
-    prompt: "A leg ran from $30.00 to $30.40. The pullback stopped at $30.28. How much of the leg did it give back?"
+    prompt: "A leg ran from $13.00 to $13.40. The pullback stopped at $13.28. How much of the leg did it give back?"
     min: 0
     max: 100
     step: 5
@@ -51,10 +51,10 @@ screens:
     body: "Stop two cents beyond the pullback's extreme. Target a measured move: the height of the leg, projected from your entry. A leg that ran $0.40 is asking for roughly $0.40 more."
 
   - type: numeric-input
-    prompt: "The leg ran $0.40. You buy 2,000 shares at $30.32 and the measured move plays out in full. What is the profit before costs?"
+    prompt: "The leg ran $0.40. You buy 2,000 shares at $13.32 and the measured move plays out in full. What is the profit before costs?"
     answer: 800
     unit: "$"
-    working: "Target $30.32 + $0.40 = $30.72; $0.40 × 2,000 shares = $800"
+    working: "Target $13.32 + $0.40 = $13.72; $0.40 × 2,000 shares = $800"
     explanation: "The measured move is a projection, not a promise — but it is the number the card is written around."
 
   - type: mc
@@ -71,17 +71,18 @@ screens:
     explanation: "Past half, the buyers who made the leg have already been overwhelmed — the pause has become a reversal."
 
   - type: chart-decision
-    scenario: "XYZ ran from $29.96 to $30.42 in three candles above VWAP, then paused for two small candles on light volume. The next candle closes at $30.38 on heavy volume. You have 2,000 shares ready."
+    scenario: "XYZ ran from $12.96 to $13.42 in three candles above VWAP, then paused for two small candles on light volume. The next candle closes at $13.38 on heavy volume. You have 2,000 shares ready."
     shares: 2000
     chart:
       kind: candles
-      data: [[29.98, 30.14, 29.96, 30.12], [30.12, 30.28, 30.10, 30.26], [30.26, 30.42, 30.24, 30.40], [30.40, 30.42, 30.30, 30.32], [30.32, 30.36, 30.26, 30.28], [30.28, 30.40, 30.26, 30.38], [30.38, 30.52, 30.36, 30.50], [30.50, 30.64, 30.48, 30.62], [30.62, 30.74, 30.58, 30.70], [30.70, 30.80, 30.66, 30.76]]
-      vwap: [29.90, 29.94, 30.00, 30.06, 30.10, 30.14, 30.20, 30.26, 30.32, 30.38]
-      volume: [8200, 9400, 10600, 5200, 3900, 9800, 8600, 7800, 7000, 6400]
+      data: [[12.98, 13.14, 12.96, 13.12], [13.12, 13.28, 13.10, 13.26], [13.26, 13.42, 13.24, 13.40], [13.40, 13.42, 13.30, 13.32], [13.32, 13.36, 13.26, 13.28], [13.28, 13.40, 13.26, 13.38], [13.38, 13.52, 13.36, 13.50], [13.50, 13.64, 13.48, 13.62], [13.62, 13.74, 13.58, 13.70], [13.70, 13.80, 13.66, 13.76]]
+      vwap: [12.90, 12.94, 13.00, 13.06, 13.10, 13.14, 13.20, 13.26, 13.32, 13.38]
+      volume: [82000, 94000, 106000, 52000, 39000, 98000, 86000, 78000, 70000, 64000]
       decision_index: 5
     best: long
-    outcome: "It pushed on to $30.76. Out there: $0.38 per share, +$760 long on 2,000 shares from $30.38, with $0.14 of risk."
-    explanation: "A shallow pause on light volume above VWAP, then a close back in the direction of the leg — every field filled."
+    reasonable: [no-trade]
+    outcome: "It pushed on to $13.76 — eight cents short of the $13.84 measured move. Out at $13.76: $0.38 per share, +$760 long on 2,000 shares from $13.38, with $0.14 of risk."
+    explanation: "Every field on the card filled, and the move still stopped short of the projection. That is what 'projection, not promise' means."
 
   - type: match
     prompt: "Match each thing you see to what it is telling you."

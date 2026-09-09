@@ -46,9 +46,9 @@ screens:
   - type: mc
     prompt: "Which number tells you least on its own about whether a method pays?"
     options:
-      - {text: "The win rate", correct: true}
       - {text: "The expectancy"}
       - {text: "The average win compared with the average loss"}
+      - {text: "The win rate", correct: true}
     explanation: "A 90 % win rate with one huge loser is negative; a 40 % win rate with big winners is positive."
 
   - type: theory
@@ -81,7 +81,7 @@ screens:
     unit: "%"
     answer: 15
     tolerance: 10
-    explanation: "About 17 %. At scalping size and frequency, costs are a permanent slice of every result."
+    explanation: "$20 of $120 is a sixth of it. At scalping size and frequency, costs are a permanent slice of every result."
 
   - type: tf
     statement: "A method that wins only 40 % of the time can still have positive expectancy."
@@ -89,16 +89,16 @@ screens:
     explanation: "If the winners are big enough relative to the losers, yes: 0.4 × 3R beats 0.6 × 1R."
 
   - type: chart-decision
-    scenario: "XYZ breaks the morning high at $26.40 on the heaviest volume of the day and holds above it. Entry $26.44, stop $26.36 under the breakout candle, next level $26.68. 1,000 shares."
+    scenario: "XYZ breaks the morning low at $26.48 on the heaviest volume of the day and stays under it. Entry $26.44, stop $26.52 above the breakdown candle, next level $26.20. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[26.20, 26.28, 26.18, 26.26], [26.26, 26.34, 26.24, 26.32], [26.32, 26.40, 26.30, 26.38], [26.38, 26.40, 26.34, 26.39], [26.39, 26.48, 26.38, 26.46], [26.46, 26.50, 26.42, 26.44], [26.44, 26.56, 26.42, 26.54], [26.54, 26.62, 26.52, 26.60], [26.60, 26.70, 26.58, 26.68], [26.68, 26.72, 26.62, 26.66]]
-      volume: [40, 52, 78, 45, 96, 88, 104, 92, 110, 74]
+      data: [[26.68, 26.70, 26.60, 26.62], [26.62, 26.64, 26.54, 26.56], [26.56, 26.58, 26.48, 26.50], [26.50, 26.54, 26.48, 26.49], [26.49, 26.50, 26.40, 26.42], [26.42, 26.46, 26.38, 26.44], [26.44, 26.46, 26.32, 26.34], [26.34, 26.36, 26.26, 26.28], [26.28, 26.30, 26.18, 26.20], [26.20, 26.26, 26.16, 26.22]]
+      volume: [40000, 52000, 78000, 45000, 96000, 88000, 104000, 92000, 110000, 74000]
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It ran to $26.72. Sold at $26.68: $0.24 per share, +$240 on 1,000 shares against $80 of risk."
+    outcome: "It fell to $26.16. Covered at $26.20: $0.24 per share, +$240 on 1,000 shares against $80 of risk."
     explanation: "Eight cents risked for twenty-four keeps expectancy positive even when you are right less than half the time."
 
   - type: theory

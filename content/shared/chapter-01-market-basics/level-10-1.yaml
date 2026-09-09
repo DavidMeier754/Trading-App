@@ -10,7 +10,7 @@ purpose: "Headlines say 'bull market' and 'bad news' all day — this tells you 
 terms_introduced: ["Trend", "Bull market", "Bear market"]
 prerequisite: "9-2"
 xp: 20
-difficulty: 1
+difficulty: 2
 sources: [consensus]
 screens:
   - type: intro
@@ -34,9 +34,9 @@ screens:
   - type: mc
     prompt: "In a bull market, a stock you hold drops 6 % in a day. Which is right?"
     options:
-      - {text: "Possible and normal — single days go against the trend all the time", correct: true}
       - {text: "Impossible — bull markets don't have down days"}
       - {text: "The bull market just ended"}
+      - {text: "Possible and normal", correct: true}
     explanation: "Trend is the average of many days, not a rule for each one."
 
   - type: theory
@@ -45,7 +45,7 @@ screens:
 
   - type: story
     character: institution
-    text: "Wednesday, 7:30. XYZ reports profits far above what anyone expected."
+    text: "Wednesday, before the open. XYZ reports profits far above what anyone expected."
 
   - type: mc
     prompt: "What's the most likely immediate effect?"
@@ -77,7 +77,7 @@ screens:
     explanation: "The big trend sets the weather; the stock's own pressure is the trade."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Direction over time, and the size of the wiggles."
     pairs:
       - ["Trend", "Overall direction over weeks or months"]
       - ["Bull market", "Broadly rising market"]

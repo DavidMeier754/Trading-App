@@ -5,12 +5,12 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [fees, frequency]
-learning_goal: "User can compute commission costs per trade and per month at scalping frequency, and knows where retail scalping is realistically done in their market."
+learning_goal: "User can compute commission costs per trade and per month at scalping frequency, knows a short needs borrowable shares, and knows where retail scalping is realistically done in their market."
 purpose: "At forty trades a day, a small fee is a large salary paid to your broker — you need to see the monthly number, not the per-trade one."
 terms_introduced: ["Commission", "Per-share fee"]
 prerequisite: "7-1"
 xp: 20
-difficulty: 2
+difficulty: 3
 sources: [consensus]
 screens:
   - type: intro
@@ -46,8 +46,8 @@ screens:
   - type: numeric-mc
     prompt: "Per-order fee $4, 30 round trips a day. Daily fees?"
     options:
-      - {text: "$240", correct: true}
       - {text: "$120"}
+      - {text: "$240", correct: true}
       - {text: "$4"}
       - {text: "$30"}
     working: "$4 × 2 × 30 = $240"
@@ -57,6 +57,15 @@ screens:
     statement: "Fees are charged only on winning trades."
     answer: false
     explanation: "Every order, win or lose."
+
+  - type: theory
+    title: "A short needs shares to borrow"
+    body: "Half your decisions are shorts, and a short only exists if your broker has shares to lend. On small or heavily shorted stocks there are often none, or they cost a daily fee. Check before you plan the trade, not after."
+
+  - type: tf
+    statement: "If a stock is hard to borrow, the short side of your plan simply is not available that day."
+    answer: true
+    explanation: "No borrow, no short — and a stock that has just fallen hard can also be restricted, so the long side is sometimes the only side you have."
 
   - type: theory
     title: "Where scalping is done"
@@ -86,19 +95,19 @@ screens:
   - type: numeric-mc
     prompt: "Fees for the day at $0.004 per share, round trips of 1,000 shares?"
     options:
-      - {text: "$240", correct: true}
       - {text: "$120"}
       - {text: "$24"}
       - {text: "$2,400"}
+      - {text: "$240", correct: true}
     working: "1,000 × 2 × $0.004 × 30 = $240"
     explanation: "Both legs, times thirty."
 
   - type: mc
     prompt: "Same day. Which single change cuts costs the most?"
     options:
-      - {text: "Taking 15 better trades instead of 30", correct: true}
       - {text: "Using market orders for speed"}
       - {text: "Trading a stock with a $0.05 spread because it moves more"}
+      - {text: "Taking 15 better trades instead of 30", correct: true}
     explanation: "Halving frequency halves every cost layer at once."
 
   - type: theory

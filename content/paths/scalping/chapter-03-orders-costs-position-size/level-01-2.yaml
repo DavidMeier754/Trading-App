@@ -39,8 +39,8 @@ screens:
   - type: mc
     prompt: "Why is the spread called a cost even though nobody charges it?"
     options:
-      - {text: "You buy at the higher price and sell at the lower — the gap is gone the moment you enter", correct: true}
       - {text: "The exchange collects it at the end of the day"}
+      - {text: "You buy at the higher price and sell at the lower", correct: true}
       - {text: "It's only a cost if the price falls"}
     explanation: "It's paid in the prices, not on a statement."
 
@@ -91,9 +91,9 @@ screens:
   - type: mc
     prompt: "Two stocks both move about $0.20 a minute. Stock A: spread $0.01. Stock B: spread $0.08. For a scalper?"
     options:
-      - {text: "A — it keeps $0.19 of a $0.20 move; B keeps only $0.12", correct: true}
       - {text: "B — a wider spread means more room to profit"}
       - {text: "Equal — the move is the same"}
+      - {text: "A — it keeps $0.19 of a $0.20 move; B keeps only $0.12", correct: true}
     explanation: "Same move, very different take-home."
 
   - type: theory

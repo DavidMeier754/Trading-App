@@ -37,9 +37,9 @@ screens:
   - type: mc
     prompt: "You are long on the 1-minute chart. The 5-minute has topped out lower with every push all morning. That means:"
     options:
-      - {text: "Your trade is running against the bigger move", correct: true}
       - {text: "The 5-minute will follow the 1-minute back up"}
       - {text: "The two charts cannot both be right"}
+      - {text: "Your trade is running against the bigger move", correct: true}
     explanation: "Both charts are always right about their own timeframe; the slower one is the one with more traders behind it."
 
   - type: tf
@@ -78,15 +78,15 @@ screens:
   - type: numeric-mc
     prompt: "You were short 1,000 shares from $18.32 and covered at $18.14. Result before costs?"
     options:
-      - {text: "$180", correct: true}
       - {text: "$18"}
       - {text: "$1,800"}
+      - {text: "$180", correct: true}
       - {text: "$0.18"}
     working: "$0.18 a share × 1,000 shares = $180"
     explanation: "Eighteen cents in your favor, multiplied by the share count."
 
   - type: match
-    prompt: "Match each term to its meaning."
+    prompt: "The vocabulary of Levels 1 to 5 — match each to its meaning."
     pairs:
       - ["Body", "The distance from the open to the close"]
       - ["Wick", "A price that was reached and refused"]

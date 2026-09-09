@@ -38,8 +38,8 @@ screens:
   - type: mc
     prompt: "Ten seconds after the open, the 1-minute candle is long and green. Buying it means:"
     options:
-      - {text: "Trading a candle that is not finished — its low could still end up anywhere", correct: true}
       - {text: "Getting the best price available that day"}
+      - {text: "Trading a candle that has not finished", correct: true}
       - {text: "Confirming that the gap is holding"}
     explanation: "An unfinished candle has no close, and the close is the part that decides what the candle meant."
 
@@ -48,12 +48,12 @@ screens:
     shares: 700
     chart:
       kind: candles
-      data: [[41.00, 41.28, 40.92, 41.22], [41.22, 41.34, 41.14, 41.30], [41.30, 41.38, 41.18, 41.22], [41.22, 41.32, 41.16, 41.28], [41.28, 41.36, 41.24, 41.26], [41.26, 41.30, 41.18, 41.28], [41.28, 41.44, 41.26, 41.42], [41.42, 41.52, 41.38, 41.50], [41.50, 41.56, 41.44, 41.52], [41.52, 41.58, 41.46, 41.54], [41.54, 41.60, 41.50, 41.56]]
+      data: [[41.00, 41.28, 40.92, 41.22], [41.22, 41.34, 41.14, 41.30], [41.30, 41.38, 41.18, 41.22], [41.22, 41.32, 41.16, 41.28], [41.28, 41.36, 41.24, 41.26], [41.26, 41.30, 41.18, 41.28], [41.28, 41.47, 41.26, 41.45], [41.45, 41.56, 41.40, 41.54], [41.54, 41.61, 41.47, 41.56], [41.56, 41.63, 41.49, 41.59], [41.59, 41.66, 41.54, 41.61]]
       volume: [520000, 330000, 280000, 240000, 190000, 170000, 260000, 240000, 200000, 180000, 160000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It pushed out of the opening range to $41.60 — $0.28 a share above the decision, +$196 long on 700 shares."
+    outcome: "It pushed out of the opening range to $41.66 and closed there at $41.61 — $0.33 a share above the decision, +$231 long on 700 shares."
     explanation: "Buyers defended the opening price for five minutes; the gap is being paid for, not sold into."
 
   - type: sort
@@ -92,12 +92,12 @@ screens:
     shares: 1000
     chart:
       kind: candles
-      data: [[26.00, 26.14, 25.86, 25.92], [25.92, 26.02, 25.80, 25.84], [25.84, 25.96, 25.78, 25.90], [25.90, 25.98, 25.76, 25.80], [25.80, 25.86, 25.68, 25.72], [25.72, 25.78, 25.62, 25.66], [25.66, 25.70, 25.52, 25.56], [25.56, 25.62, 25.44, 25.48], [25.48, 25.54, 25.38, 25.42], [25.42, 25.48, 25.36, 25.40], [25.40, 25.46, 25.34, 25.38]]
+      data: [[26.00, 26.14, 25.86, 25.92], [25.92, 26.02, 25.80, 25.84], [25.84, 25.96, 25.78, 25.90], [25.90, 25.98, 25.76, 25.80], [25.80, 25.86, 25.68, 25.72], [25.72, 25.78, 25.62, 25.66], [25.66, 25.72, 25.45, 25.51], [25.51, 25.60, 25.33, 25.39], [25.39, 25.48, 25.24, 25.30], [25.30, 25.39, 25.21, 25.27], [25.27, 25.36, 25.18, 25.24]]
       volume: [540000, 380000, 300000, 320000, 340000, 360000, 330000, 310000, 280000, 240000, 220000]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked back toward yesterday's close and finished at $25.38 — $0.28 a share, +$280 short on 1,000 shares."
+    outcome: "It worked back through yesterday's close and finished at $25.24 — $0.42 a share, +$420 short on 1,000 shares."
     explanation: "Everybody who bought the gap is now offside, and their selling is what carries the move down."
 
   - type: fill-tiles

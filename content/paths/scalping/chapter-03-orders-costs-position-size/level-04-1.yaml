@@ -36,15 +36,15 @@ screens:
   - type: mc
     prompt: "Long 300 at $41.00, sell stop at $40.80. The stock drops to $40.75 in one fast move. With a stop-market you:"
     options:
-      - {text: "Are out around $40.75–$40.80 — the exit is guaranteed", correct: true}
       - {text: "Are still in — the price skipped past $40.80"}
       - {text: "Sell at exactly $40.80 no matter what"}
+      - {text: "Are out around $40.75–$40.80 — the exit is guaranteed", correct: true}
     explanation: "Triggered, then filled at the next available bid."
 
   - type: mc
     prompt: "Same situation with a stop-limit at $40.80 (limit $40.80). Likely result?"
     options:
-      - {text: "Not filled — the price is already below your limit; you're still in", correct: true}
+      - {text: "Not filled — you're still in", correct: true}
       - {text: "Filled at $40.80"}
       - {text: "Filled at market"}
     explanation: "The limit part can't fill below $40.80, so the position stays open."
@@ -71,6 +71,16 @@ screens:
     working: "$0.10 × 800 = $80"
     explanation: "Stop distance times shares."
 
+  - type: chart-tap
+    prompt: "You are long 800 shares from $15.20 with the sell stop at $15.10. Tap the candle that takes you out."
+    chart:
+      kind: candles
+      data: [[15.18, 15.26, 15.16, 15.24], [15.24, 15.30, 15.20, 15.22], [15.22, 15.28, 15.18, 15.26], [15.26, 15.28, 15.14, 15.16], [15.16, 15.20, 15.06, 15.08], [15.08, 15.12, 15.00, 15.02], [15.02, 15.08, 14.98, 15.04], [15.04, 15.10, 15.00, 15.06]]
+      levels:
+        - {price: 15.10, label: "Stop"}
+    target: 4
+    explanation: "The candle before it dipped to $15.14 and held; this one traded through $15.10 and the resting order did the rest."
+
   - type: sort
     prompt: "Stop-market or stop-limit?"
     buckets: ["Stop-market", "Stop-limit"]
@@ -89,8 +99,17 @@ screens:
       - {text: "It triggers if the price falls."}
     explanation: "A long is protected by a sell stop below the entry."
 
+  - type: order
+    prompt: "Put one round trip in the order the tickets go out."
+    items:
+      - "Marketable limit buy, capped a few cents above the ask"
+      - "Stop-market sell, below the entry, the moment the fill comes back"
+      - "Limit sell at the target, once the stop is resting"
+      - "Whichever of the two fills first cancels the other by hand"
+    explanation: "Entry, then protection, then target. The stop goes in before the target, because being wrong is the thing that costs money."
+
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Match each part of the exit kit to what it does."
     pairs:
       - ["Stop order", "Idle until the stop price is touched"]
       - ["Stop-loss", "A stop used to cut a loss"]
@@ -103,6 +122,11 @@ screens:
     answer: "market"
     explanation: "Guaranteed out."
 
-  - type: theory
-    title: "The full kit"
-    body: "Entry capped, exit targeted, loss stopped. Now: how many shares?"
+  - type: checklist-reveal
+    title: "The order kit, complete"
+    items:
+      - "Marketable limit to get in without chasing"
+      - "Limit sell at the target to get out"
+      - "Stop-market below the entry for when you are wrong"
+      - "All three decided before the entry is sent"
+

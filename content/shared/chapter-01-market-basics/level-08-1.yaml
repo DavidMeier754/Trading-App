@@ -34,8 +34,8 @@ screens:
   - type: numeric-mc
     prompt: "You short 100 shares at $30 and cover at $28. Result?"
     options:
-      - {text: "+$200", correct: true}
       - {text: "−$200"}
+      - {text: "+$200", correct: true}
       - {text: "+$2"}
       - {text: "+$2,800"}
     working: "(30 − 28) × 100 = +$200"
@@ -57,6 +57,14 @@ screens:
     answer: true
     explanation: "You have to buy back higher than you sold."
 
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "You borrow shares and sell them,"}
+      - {text: "then buy them back later."}
+      - {text: "A rising price is what you want.", wrong: true}
+    explanation: "Short and rising is a loss — you have to buy back higher than you sold."
+
   - type: sort
     prompt: "Long or short?"
     buckets: ["Long", "Short"]
@@ -70,17 +78,17 @@ screens:
   - type: mc
     prompt: "You're short XYZ from $40. Which is the worst news?"
     options:
-      - {text: "XYZ jumps to $60 on a takeover", correct: true}
       - {text: "XYZ drifts down to $38"}
+      - {text: "XYZ jumps to $60 on a takeover", correct: true}
       - {text: "XYZ closes flat at $40"}
     explanation: "A $20 jump against a short is a $20-per-share loss."
 
   - type: mc
     prompt: "Why can a short lose more than a long on the same stock?"
     options:
-      - {text: "A price can rise without limit but can only fall to zero", correct: true}
       - {text: "Brokers charge shorts a higher fee"}
       - {text: "Short trades can't be closed until the end of the day"}
+      - {text: "A price can rise without limit but can only fall to zero", correct: true}
     explanation: "Unlimited upside for the stock is unlimited downside for the short."
 
   - type: fill-choice
@@ -90,7 +98,7 @@ screens:
     explanation: "Cover the short, return the shares."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Two directions and two verbs. Which is which?"
     pairs:
       - ["Long", "Buy first, profit if the price rises"]
       - ["Short", "Sell borrowed shares first, profit if the price falls"]

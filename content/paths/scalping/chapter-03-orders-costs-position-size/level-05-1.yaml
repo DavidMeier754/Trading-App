@@ -5,7 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [position-size, risk]
-learning_goal: "User can compute position value and risk per trade, and derive share count from a risk budget and a stop distance."
+learning_goal: "User derives a share count from the risk budget and the stop distance, then caps it at what the account can actually pay for, and takes the lower of the two."
 purpose: "Share count is the one number you fully control — sizing from risk is what keeps a run of losses survivable."
 terms_introduced: ["Position size", "Position value", "Risk per trade", "1 % rule"]
 prerequisite: "4-1"
@@ -31,7 +31,7 @@ screens:
   - type: visual
     component: bar-chart
     data: {bars: [{label: "$0.10 stop", value: 1000}, {label: "$0.25 stop", value: 400}, {label: "$0.50 stop", value: 200}], unit: "shares for $100 risk"}
-    caption: "Work backwards: max risk ÷ stop distance = shares. Wider stop, fewer shares."
+    caption: "The first ceiling: max risk ÷ stop distance = shares. Wider stop, fewer shares."
 
   - type: numeric-input
     prompt: "Account $20,000, 1 % rule. Max risk per trade?"
@@ -41,19 +41,31 @@ screens:
     explanation: "One percent of the account."
 
   - type: numeric-input
-    prompt: "Max risk $200, stop distance $0.08. How many shares?"
+    prompt: "Max risk $200, stop distance $0.08. How many shares does the risk allow?"
     answer: 2500
     unit: "shares"
     working: "$200 ÷ $0.08 = 2,500"
-    explanation: "Risk divided by stop distance."
+    explanation: "Risk divided by stop distance — and that is only the first of two ceilings."
+
+  - type: theory
+    title: "The second ceiling"
+    body: "Shares have to be paid for. A $20,000 account holds $20,000 of stock, so at $12 a share it holds 1,666 — however tight the stop is. Take whichever ceiling is lower."
+
+  - type: numeric-input
+    prompt: "Same $20,000 account and $0.08 stop, and the stock trades at $12.00. How many shares do you actually take?"
+    answer: 1666
+    tolerance: 1
+    unit: "shares"
+    working: "Risk: $200 ÷ $0.08 = 2,500. Account: $20,000 ÷ $12.00 = 1,666. Take the smaller."
+    explanation: "Here the account is the binding one — the stop would have let you buy stock you cannot pay for."
 
   - type: mc
-    prompt: "Same $200 risk. Stock A needs a $0.05 stop, Stock B a $0.20 stop. Which allows more shares?"
+    prompt: "Same $200 risk, and both stocks cost the same. Stock A needs a $0.10 stop, Stock B a $0.25 stop. Which does the risk ceiling allow more of?"
     options:
-      - {text: "A — 4,000 shares versus 1,000", correct: true}
       - {text: "B — a wider stop means a safer, bigger position"}
+      - {text: "A — 2,000 shares versus 800", correct: true}
       - {text: "Equal — the risk is the same"}
-    explanation: "Tighter stop, more shares for the same risk."
+    explanation: "Tighter stop, more shares for the same risk. The account ceiling then decides whether you can hold them."
 
   - type: tf
     statement: "Position value and risk per trade are the same thing."
@@ -61,26 +73,26 @@ screens:
     explanation: "Value is what's in the trade; risk is what you lose if the stop hits."
 
   - type: numeric-mc
-    prompt: "1,000 shares at $32.00 with a $0.12 stop. Risk?"
+    prompt: "1,000 shares at $18.00 with a $0.12 stop. Risk?"
     options:
-      - {text: "$120", correct: true}
-      - {text: "$32,000"}
+      - {text: "$18,000"}
       - {text: "$12"}
       - {text: "$1,200"}
+      - {text: "$120", correct: true}
     working: "$0.12 × 1,000 = $120"
-    explanation: "Stop distance times shares. $32,000 is the position value."
+    explanation: "Stop distance times shares. The $18,000 is the position value, and it has to fit the account."
 
   - type: story
     character: retail-trader
-    text: "Account $5,000. You like a stock at $60 with a $0.30 stop. 1 % rule."
+    text: "Account $10,000. You like a stock at $12.00 with a $0.20 stop. 1 % rule."
 
   - type: numeric-input
     prompt: "How many shares?"
-    answer: 166
+    answer: 500
     tolerance: 1
     unit: "shares"
-    working: "$50 ÷ $0.30 = 166.7 → 166"
-    explanation: "Round down — never up."
+    working: "Risk: $100 ÷ $0.20 = 500. Account: $10,000 ÷ $12.00 = 833. Take the smaller: 500"
+    explanation: "This time the stop is the binding ceiling. Round down — never up."
 
   - type: sort
     prompt: "Raises or lowers risk per trade?"
@@ -99,5 +111,5 @@ screens:
     explanation: "What you lose if the stop hits."
 
   - type: theory
-    title: "Shares come from risk"
-    body: "Never from excitement. Practice next."
+    title: "Two ceilings, take the lower"
+    body: "What your stop lets you risk, and what your account can pay for. Never the number that excitement suggests. Practice next."

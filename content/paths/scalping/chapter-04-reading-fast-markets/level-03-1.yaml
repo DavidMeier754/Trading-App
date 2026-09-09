@@ -31,7 +31,7 @@ screens:
     component: chart-candles
     data:
       data: [[16.20, 16.24, 16.18, 16.23], [16.23, 16.38, 16.22, 16.37], [16.37, 16.40, 16.35, 16.38], [16.38, 16.39, 16.34, 16.37], [16.37, 16.52, 16.36, 16.39], [16.39, 16.41, 16.26, 16.28], [16.28, 16.31, 16.24, 16.29], [16.29, 16.32, 16.22, 16.24]]
-      volume: [3100, 7800, 2600, 2200, 6400, 7100, 2800, 3300]
+      volume: [31000, 78000, 26000, 22000, 64000, 71000, 28000, 33000]
     caption: "One momentum candle, one rejection, one doji and one engulfing candle — eight minutes of a normal session."
 
   - type: chart-tap
@@ -45,7 +45,7 @@ screens:
   - type: mc
     prompt: "A candle at the high of a fast run has a long upper wick and a tiny body at the bottom. What does it show?"
     options:
-      - {text: "Buyers pushed higher and sellers pushed it all the way back", correct: true}
+      - {text: "Buyers pushed up and sellers took it all back", correct: true}
       - {text: "Buyers were in control for the whole minute"}
       - {text: "Volume dried up and nothing happened"}
     explanation: "The wick is the part of the move that was taken back — that is a rejection."
@@ -69,25 +69,25 @@ screens:
     explanation: "Body size, wick length and what came before: that is the whole reading."
 
   - type: chart-decision
-    scenario: "XYZ has run into yesterday's high at $23.80. The last candle spikes through it and closes back below with a long upper wick, on the heaviest volume of the run. You have 1,500 shares ready."
+    scenario: "XYZ has run into yesterday's high at $17.80. The last candle spikes through it and closes back below with a long upper wick, on the heaviest volume of the run. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[23.40, 23.50, 23.38, 23.48], [23.48, 23.60, 23.46, 23.58], [23.58, 23.68, 23.55, 23.66], [23.66, 23.74, 23.63, 23.72], [23.72, 23.78, 23.69, 23.76], [23.76, 23.86, 23.70, 23.72], [23.72, 23.74, 23.60, 23.62], [23.62, 23.65, 23.52, 23.54], [23.54, 23.58, 23.46, 23.48], [23.48, 23.52, 23.42, 23.46]]
-      volume: [4200, 5100, 5600, 6200, 6800, 11400, 8200, 6600, 5900, 5100]
+      data: [[17.40, 17.50, 17.38, 17.48], [17.48, 17.60, 17.46, 17.58], [17.58, 17.68, 17.55, 17.66], [17.66, 17.74, 17.63, 17.72], [17.72, 17.78, 17.69, 17.76], [17.76, 17.86, 17.70, 17.72], [17.72, 17.74, 17.60, 17.62], [17.62, 17.65, 17.52, 17.54], [17.54, 17.58, 17.46, 17.48], [17.48, 17.52, 17.42, 17.46]]
+      volume: [42000, 51000, 56000, 62000, 68000, 114000, 82000, 66000, 59000, 51000]
       levels:
-        - {price: 23.80, label: "Yesterday's high"}
+        - {price: 17.80, label: "Yesterday's high"}
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "The rejection held and price slid to $23.46 — $0.26 per share, +$390 short on 1,500 shares from $23.72."
+    outcome: "The rejection held and price slid to $17.46 — $0.26 per share, +$390 short on 1,500 shares from $17.72."
     explanation: "A long wick through a level on the heaviest volume of the run is the buyers being filled and then abandoned."
 
   - type: numeric-input
-    prompt: "That short is 1,500 shares at $23.72 with a stop at $23.84. How much money is at risk before costs?"
+    prompt: "That short is 1,500 shares at $17.72 with a stop at $17.84. How much money is at risk before costs?"
     answer: 180
     unit: "$"
-    working: "($23.84 − $23.72) × 1,500 shares = $180"
+    working: "($17.84 − $17.72) × 1,500 shares = $180"
     explanation: "Stop distance times share count — the number you size from."
 
   - type: fill-choice

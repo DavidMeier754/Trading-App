@@ -34,9 +34,9 @@ screens:
   - type: numeric-mc
     prompt: "A company has 400 shares. You buy 20. What fraction of the company is yours?"
     options:
-      - {text: "5 %", correct: true}
       - {text: "20 %"}
       - {text: "2 %"}
+      - {text: "5 %", correct: true}
       - {text: "0.5 %"}
     working: "20 ÷ 400 = 0.05 = 5 %"
     explanation: "Your shares divided by all shares."
@@ -72,7 +72,7 @@ screens:
     explanation: "NOVA is the code; Nova Energy is the name."
 
   - type: match
-    prompt: "Match each word to its meaning."
+    prompt: "Pieces, owners, codes and marketplaces — which is which?"
     pairs:
       - ["Share", "One piece of a company"]
       - ["Shareholder", "Someone who owns shares"]
@@ -83,9 +83,9 @@ screens:
   - type: mc
     prompt: "A company's stock price doubles in a year. Which statement is right?"
     options:
-      - {text: "Each share is worth twice as much, so the whole company is valued about twice as high", correct: true}
       - {text: "The company now has twice as many shares"}
       - {text: "Each shareholder now owns twice as big a fraction of the company"}
+      - {text: "Each share is worth twice as much", correct: true}
     explanation: "Price changes what a share is worth — not how many you own or what fraction."
 
   - type: fill-tiles

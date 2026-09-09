@@ -35,7 +35,7 @@ screens:
       data: [[15.40, 15.46, 15.34, 15.36], [15.36, 15.40, 15.26, 15.28], [15.28, 15.32, 15.16, 15.18], [15.18, 15.22, 15.12, 15.14], [15.14, 15.30, 15.12, 15.28], [15.28, 15.42, 15.26, 15.40], [15.40, 15.52, 15.38, 15.50], [15.50, 15.60, 15.46, 15.56]]
       levels:
         - {price: 15.20, label: "Yesterday's low"}
-      volume: [6800, 5600, 4400, 3600, 9800, 8600, 7800, 7000]
+      volume: [68000, 56000, 44000, 36000, 98000, 86000, 78000, 70000]
     caption: "Two candles under the level on fading interest, then everything back above it."
 
   - type: theory
@@ -55,7 +55,7 @@ screens:
     body: "Stop two cents beyond the failed break's extreme — if price goes back there, the break was real after all. Target VWAP, or the far side of the range price came from."
 
   - type: numeric-input
-    prompt: "You are long 1,500 shares at $28.46 and exit at $28.72. The round trip costs $0.03 per share in spread and fees. What is left?"
+    prompt: "You are long 1,500 shares at $17.46 and exit at $17.72. The round trip costs $0.03 per share in spread and fees. What is left?"
     answer: 345
     tolerance: 0.5
     unit: "$"
@@ -77,7 +77,7 @@ screens:
       data: [[54.70, 54.80, 54.68, 54.78], [54.78, 54.90, 54.76, 54.88], [54.88, 55.02, 54.86, 55.00], [55.00, 55.10, 54.98, 55.06], [55.06, 55.08, 54.92, 54.94], [54.94, 54.98, 54.80, 54.82], [54.82, 54.86, 54.68, 54.70], [54.70, 54.74, 54.58, 54.60]]
       levels:
         - {price: 55.00, label: "Round number"}
-      volume: [6200, 6800, 7400, 5200, 9600, 8400, 7600, 6900]
+      volume: [62000, 68000, 74000, 52000, 96000, 84000, 76000, 69000]
     target: 4
     explanation: "The fourth candle closed above the number; the fifth closed back under it. That close is the trigger, and everyone long from above it is now trapped."
 
@@ -87,18 +87,19 @@ screens:
     explanation: "Heavy volume means the break was genuinely bought. This card wants the breaks that nobody committed to."
 
   - type: chart-decision
-    scenario: "XYZ closes two candles under yesterday's low at $28.40 on the lightest volume of the hour. The next candle closes at $28.46, back above it, on heavy volume. You have 1,500 shares ready."
+    scenario: "XYZ closes two candles under yesterday's low at $17.40 on the lightest volume of the hour. The next candle closes at $17.46, back above it, on heavy volume. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[28.70, 28.76, 28.62, 28.64], [28.64, 28.68, 28.54, 28.56], [28.56, 28.60, 28.44, 28.46], [28.46, 28.50, 28.34, 28.36], [28.36, 28.40, 28.30, 28.34], [28.34, 28.48, 28.32, 28.46], [28.46, 28.58, 28.44, 28.56], [28.56, 28.68, 28.54, 28.66], [28.66, 28.76, 28.62, 28.72], [28.72, 28.82, 28.68, 28.78]]
-      vwap: [28.74, 28.72, 28.70, 28.68, 28.66, 28.64, 28.64, 28.65, 28.66, 28.68]
+      data: [[17.70, 17.76, 17.62, 17.64], [17.64, 17.68, 17.54, 17.56], [17.56, 17.60, 17.44, 17.46], [17.46, 17.50, 17.34, 17.36], [17.36, 17.40, 17.30, 17.34], [17.34, 17.48, 17.32, 17.46], [17.46, 17.58, 17.44, 17.56], [17.56, 17.68, 17.54, 17.66], [17.66, 17.76, 17.62, 17.72], [17.72, 17.82, 17.68, 17.78]]
+      vwap: [17.74, 17.72, 17.70, 17.68, 17.66, 17.64, 17.64, 17.65, 17.66, 17.68]
       levels:
-        - {price: 28.40, label: "Yesterday's low"}
-      volume: [8600, 7400, 6200, 5400, 4600, 10800, 9200, 8400, 7600, 6800]
+        - {price: 17.40, label: "Yesterday's low"}
+      volume: [86000, 74000, 62000, 54000, 46000, 108000, 92000, 84000, 76000, 68000]
       decision_index: 5
     best: long
-    outcome: "It ran to $28.78. Out at $28.72: $0.26 per share, +$390 long on 1,500 shares from $28.46, against $0.18 of risk."
+    reasonable: [no-trade]
+    outcome: "It ran to $17.78. Out at $17.72: $0.26 per share, +$390 long on 1,500 shares from $17.46, against $0.18 of risk."
     explanation: "A break on the quietest volume of the hour, then a heavy close back inside — the sellers who broke it are the buyers now."
 
   - type: fill-choice
@@ -107,6 +108,12 @@ screens:
     answer: "fading"
     explanation: "Fading means taking the other side of what just happened — only ever with a level and a close to lean on."
 
-  - type: theory
-    title: "Five cards"
-    body: "Bounce, break, continuation, reversion, fade. Next: which of them the day in front of you is actually offering."
+  - type: checklist-reveal
+    title: "The playbook, complete"
+    items:
+      - "A — pullback to VWAP in a stock that has held it all session"
+      - "B — a close beyond the opening range, on volume"
+      - "C — the restart after a shallow, quiet pause"
+      - "D — a rejection at a level after a stretched run"
+      - "E — the break that could not hold, faded from the other side"
+

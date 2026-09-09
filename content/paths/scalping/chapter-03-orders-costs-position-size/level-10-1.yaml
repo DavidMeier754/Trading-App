@@ -35,17 +35,17 @@ screens:
   - type: mc
     prompt: "Expected move $0.10, spread $0.04. Verdict?"
     options:
-      - {text: "Skip — 40 % of the move is gone at entry", correct: true}
       - {text: "Take it — four cents is tiny"}
+      - {text: "Skip — 40 % of the move is gone at entry", correct: true}
       - {text: "Take it — a $41 stock always moves more"}
     explanation: "The ratio decides, not the dollars or the share price."
 
   - type: mc
     prompt: "Ask $15.30. You send a limit buy at $15.33; the ask jumps to $15.40 before it arrives. Result?"
     options:
-      - {text: "Unfilled — it waits at $15.33", correct: true}
       - {text: "Filled at $15.40"}
       - {text: "Filled at $15.33"}
+      - {text: "Unfilled — it waits at $15.33", correct: true}
     explanation: "Above the cap you don't chase."
 
   - type: tf
@@ -62,11 +62,12 @@ screens:
     explanation: "A sell stop for a long belongs below the entry, e.g. $8.90."
 
   - type: numeric-input
-    prompt: "Account $30,000, 1 % rule, stop $0.12. Shares?"
-    answer: 2500
+    prompt: "Account $30,000, 1 % rule, stop $0.12, stock at $20.00. How many shares?"
+    answer: 1500
+    tolerance: 1
     unit: "shares"
-    working: "$300 ÷ $0.12 = 2,500"
-    explanation: "Risk budget over stop distance."
+    working: "Risk: $300 ÷ $0.12 = 2,500. Account: $30,000 ÷ $20.00 = 1,500. Take the smaller."
+    explanation: "The stop sets one ceiling and the account sets the other; you take the lower."
 
   - type: sort
     prompt: "Which cost is it?"
@@ -81,9 +82,9 @@ screens:
   - type: numeric-mc
     prompt: "Spread $0.02, slippage $0.02, fees $0.01, target $0.25. Percent eaten?"
     options:
-      - {text: "20 %", correct: true}
       - {text: "5 %"}
       - {text: "25 %"}
+      - {text: "20 %", correct: true}
       - {text: "50 %"}
     working: "0.05 ÷ 0.25 = 0.20"
     explanation: "A fifth of the target."
@@ -91,7 +92,7 @@ screens:
   - type: mc
     prompt: "The best ask shows 300 shares. You market-buy 1,000. What happens?"
     options:
-      - {text: "300 fill there and the rest at higher rows — you push the price", correct: true}
+      - {text: "300 fill there and the rest at higher rows", correct: true}
       - {text: "All 1,000 at the best ask"}
       - {text: "Only 300 fill; the rest is cancelled"}
     explanation: "Your order walks up the book."
@@ -106,9 +107,9 @@ screens:
   - type: mc
     prompt: "All costs fine, sizing right, connection dropping. Trade?"
     options:
-      - {text: "No — a failed check is a no", correct: true}
       - {text: "Yes — costs are what matter"}
       - {text: "Yes — with a stop-limit for safety"}
+      - {text: "No — a failed check is a no", correct: true}
     explanation: "Reliability is one of the four checks."
 
   - type: summary
