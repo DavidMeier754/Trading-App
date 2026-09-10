@@ -1,100 +1,107 @@
 id: "6-1"
-title: "Checkpoint"
+title: "Market, Limit, Marketable Limit"
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
-category: test
-tags: [checkpoint]
-learning_goal: "Verify Levels 1–5: bid/ask/spread, spread versus expected move, market/limit/marketable limit orders, stop orders, position sizing."
-purpose: "The cost-and-order fundamentals must be solid before slippage and fees stack on top."
-terms_introduced: []
-prerequisite: "5-2"
-xp: 40
-difficulty: 2
+category: new-theory
+tags: [orders]
+learning_goal: "User can explain market and limit orders, knows which price each fills at, and knows a limit order may never fill."
+purpose: "Every trade you'll ever place is one of a few order types — this is the first two, and the trade-off between them."
+terms_introduced: ["Market order", "Limit order", "Fill"]
+prerequisite: "4-1"
+xp: 20
+difficulty: 1
 sources: [consensus]
-notes: "10 scored questions. Hearts apply. Pass mark 70 %."
 screens:
   - type: intro
-    text: "Checkpoint. Ten questions, nothing new. Hearts are on."
-    counter: 10
+    text: "Two ways to tell your broker 'buy': right now, or at my price."
 
-  - type: hotspot
-    component: quote-panel
-    prompt: "Tap the price a market sell fills at."
-    data: {bid: 33.10, ask: 33.13, last: 33.12}
-    target: bid
-    explanation: "Sellers get the bid."
+  - type: theory
+    title: "Market order"
+    body: "Buy or sell immediately at the best price available. A market buy fills at the ask; a market sell fills at the bid. Getting your order executed is called a fill."
+    visual: order-ticket
+    visual_data: {ticker: XYZ, side: buy, qty: 500, type: market}
 
-  - type: numeric-input
-    prompt: "Bid $33.10, ask $33.13. Round trip on 700 shares — spread cost?"
-    answer: 21
-    unit: "$"
-    working: "$0.03 × 700 = $21"
-    explanation: "Spread times shares."
+  - type: theory
+    title: "Limit order"
+    body: "You name a price. A limit buy fills only at your price or lower; a limit sell only at your price or higher. If the market never gets there, it never fills."
 
-  - type: mc
-    prompt: "You expect $0.12 of movement and the quote shows a $0.06 spread. Take it?"
-    options:
-      - {text: "No — half the move is gone at entry", correct: true}
-      - {text: "Fine — six cents is small"}
-      - {text: "Good — wide spreads mean big moves"}
-    explanation: "50 % of the move to the spread is far too much."
+  - type: walkthrough
+    component: order-ticket
+    data: {ticker: XYZ, side: buy, qty: 500, type: limit, price: 20.05}
+    steps:
+      - {spotlight: type, text: "Market or limit."}
+      - {spotlight: price, text: "Your limit price — only used for limit orders."}
+      - {spotlight: qty, text: "500 shares."}
 
   - type: mc
-    prompt: "Ask $10.20. You send a limit buy at $10.23 while sellers are still at $10.20. You pay:"
+    prompt: "Bid $20.00, ask $20.05. A market buy fills at about:"
     options:
-      - {text: "$10.23"}
-      - {text: "$10.215"}
-      - {text: "$10.20", correct: true}
-    explanation: "Marketable limit: fills at the ask, capped at your limit."
+      - {text: "$20.00"}
+      - {text: "$20.025"}
+      - {text: "$20.05", correct: true}
+    explanation: "Market buys take the ask."
+
+  - type: mc
+    prompt: "Same quote. You place a limit buy at $19.90. What happens?"
+    options:
+      - {text: "It waits for the ask to reach $19.90", correct: true}
+      - {text: "It fills now at $20.05"}
+      - {text: "It's rejected for being below the bid"}
+    explanation: "A limit below the market simply waits."
 
   - type: tf
-    statement: "A stop-limit guarantees you get out when the stop price is touched."
+    statement: "A limit order guarantees a fill, just possibly later."
     answer: false
-    explanation: "Only a stop-market guarantees the exit."
-
-  - type: sort
-    prompt: "Which order type?"
-    buckets: ["Market order", "Limit order", "Stop order"]
-    items:
-      - {text: "Now, at the best price", bucket: "Market order"}
-      - {text: "Only at my price or better", bucket: "Limit order"}
-      - {text: "Idle until a price is touched", bucket: "Stop order"}
-      - {text: "Marketable when placed at or above the ask", bucket: "Limit order"}
-    explanation: "Three tools, three behaviors."
-
-  - type: numeric-mc
-    prompt: "Account $15,000, 1 % rule, stop $0.15, stock at $25.00. Shares?"
-    options:
-      - {text: "1,000"}
-      - {text: "600", correct: true}
-      - {text: "150"}
-      - {text: "2,500"}
-    working: "Risk: $150 ÷ $0.15 = 1,000. Account: $15,000 ÷ $25.00 = 600. Take the smaller."
-    explanation: "The account is the lower ceiling here, so 600 is the honest number."
+    explanation: "If the price never reaches your limit, it never fills."
 
   - type: spot-mistake
     prompt: "Tap the mistake."
     segments:
-      - {text: "Long 600 at $22.00,"}
-      - {text: "protective buy stop at $21.90.", wrong: true}
-      - {text: "Risk $60."}
-    explanation: "A long needs a sell stop below the entry."
+      - {text: "A market sell"}
+      - {text: "fills at the ask,", wrong: true}
+      - {text: "so you get whatever buyers are offering right now."}
+    explanation: "A market sell fills at the bid — the buyers' price."
 
-  - type: numeric-input
-    prompt: "800 shares, stop distance $0.09. Risk per trade?"
-    answer: 72
-    unit: "$"
-    working: "$0.09 × 800 = $72"
-    explanation: "Stop distance times shares."
+  - type: sort
+    prompt: "Market or limit?"
+    buckets: ["Market order", "Limit order"]
+    items:
+      - {text: "Fills now at the best available price", bucket: "Market order"}
+      - {text: "Waits for your price", bucket: "Limit order"}
+      - {text: "May never fill", bucket: "Limit order"}
+      - {text: "Fill guaranteed, price not", bucket: "Market order"}
+    explanation: "Speed versus price."
 
-  - type: mc
-    prompt: "The spread jumps from $0.02 to $0.12 at {{market.regular_open}}. Best move?"
+  - type: numeric-mc
+    prompt: "Bid $40.00, ask $40.06. Market buy of 500 shares — you pay about:"
     options:
-      - {text: "Wait for it to settle — a thin, jumpy quote", correct: true}
-      - {text: "Buy now — a wider spread means momentum"}
-      - {text: "Use a stop order to enter"}
-    explanation: "Wide and unstable is a reason to wait."
+      - {text: "$20,030", correct: true}
+      - {text: "$20,000"}
+      - {text: "$20,015"}
+      - {text: "$20,060"}
+    working: "$40.06 × 500 = $20,030"
+    explanation: "At the ask, times shares."
 
-  - type: summary
-    total: 10
+  - type: story
+    character: retail-trader
+    text: "You want 300 shares of XYZ, but only if it dips to $31.50. It's at bid $31.60 / ask $31.62."
+
+  - type: fill-choice
+    sentence: "You place a ___ buy at $31.50."
+    options: ["limit", "market", "last"]
+    answer: "limit"
+    explanation: "A limit buy waits for your price."
+
+  - type: match
+    prompt: "Two order types and where each one lands."
+    pairs:
+      - ["Market order", "Executes now at the best available price"]
+      - ["Limit order", "Executes only at your price or better"]
+      - ["Fill", "Your order gets executed"]
+      - ["Ask", "Where a market buy fills"]
+    explanation: "Two order types and where they land."
+
+  - type: theory
+    title: "Speed or price?"
+    body: "Market = speed, limit = price. Scalpers want both. Next lesson: the trick that gives you both."

@@ -1,114 +1,132 @@
 id: "9-1"
-title: "The All-In Check"
+title: "The Stop Order"
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [costs, checklist]
-learning_goal: "User computes all-in cost per share, compares it to the target, and runs a four-question pre-trade checklist including reliability."
-purpose: "One number and four questions turn everything in this chapter into a three-second habit before every scalp."
-terms_introduced: ["All-in cost", "Fallback plan"]
+tags: [orders, risk]
+learning_goal: "User can place a stop-loss on the correct side of an entry, choose stop-market over stop-limit for a scalp, and compute the planned loss."
+purpose: "You will be wrong often — the stop order is how being wrong stays cheap."
+terms_introduced: ["Stop order", "Stop-loss", "Stop-market", "Stop-limit", "Stop distance"]
 prerequisite: "8-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
 screens:
   - type: intro
-    text: "Before every scalp: one number and four questions."
+    text: "You will be wrong. Often. The stop order is how being wrong stays cheap."
 
   - type: theory
-    title: "All-in cost"
-    body: "Spread + slippage + fees, per share, for the round trip. Compare it to your target move. That ratio is the trade's honest price tag."
+    title: "Stop order"
+    body: "An order that sits idle until the price reaches your stop price — then it activates. Used to exit a losing position automatically, it's a stop-loss."
 
-  - type: visual
-    component: cost-stack
-    data: {shares: 1000, spread: 0.02, slippage: 0.02, fees: 0.01, target: 0.15}
-    caption: "$0.02 + $0.02 + $0.01 = $0.05 all-in against a $0.15 target — 33 % gone before you start."
-
-  - type: numeric-input
-    prompt: "Spread $0.03, round-trip slippage $0.02, fees $0.01. All-in cost per share?"
-    answer: 0.06
-    tolerance: 0.001
-    unit: "$"
-    working: "0.03 + 0.02 + 0.01 = 0.06"
-    explanation: "Three layers, one number."
-
-  - type: numeric-input
-    prompt: "All-in $0.06, target $0.20. Percent eaten?"
-    answer: 30
-    unit: "%"
-    working: "0.06 ÷ 0.20 = 0.30"
-    explanation: "Under a third — workable."
-
-  - type: slider
-    prompt: "All-in $0.09, target $0.12. Percent eaten?"
-    min: 0
-    max: 100
-    step: 5
-    unit: "%"
-    answer: 75
-    tolerance: 10
-    explanation: "Three quarters gone — skip."
+  - type: example
+    body: "Long 500 at $20.00. You place a sell stop at $19.90. If the price touches $19.90, the stop becomes an order to sell. Loss about $0.10 × 500 = $50, and you're out."
+    visual: chart-line
+    visual_data: {data: [20.00, 20.04, 19.98, 19.95, 19.92, 19.90, 19.85], levels: [{price: 20.00, label: "Entry"}, {price: 19.90, label: "Stop"}]}
 
   - type: theory
-    title: "Reliability"
-    body: "All of this assumes your app, connection and broker work when it matters. A dropped connection with 2,000 shares open is a real risk. Have a fallback plan: the broker's phone number, a second device, mobile data."
+    title: "Stop-market vs stop-limit"
+    body: "Stop-market: when triggered it sells at market — exit guaranteed, price not. Stop-limit: when triggered it becomes a limit order — price capped, exit not guaranteed. In a fast drop a stop-limit can leave you stuck."
 
-  - type: checklist-reveal
-    title: "Before every scalp"
-    items:
-      - "Is the spread small against the move I expect?"
-      - "Is the all-in cost under about a third of my target?"
-      - "Are my shares the lower of what my stop allows and what the account can pay for?"
-      - "Are my connection and fallback ready?"
-
-  - type: order
-    prompt: "Put the three seconds before a scalp in the order you run them."
-    items:
-      - "Read the spread against the move you expect"
-      - "Add slippage and fees to get the all-in cost"
-      - "Size the shares from the stop and the account"
-      - "Check the connection, then send the entry"
-    explanation: "Cost first, because it can end the decision before sizing is worth doing at all."
+  - type: theory
+    title: "Stop distance"
+    body: "The gap between your entry and your stop — here $0.10. It's the most you plan to lose per share, and it drives your position size in the next level."
 
   - type: mc
-    prompt: "All-in 40 % of target, connection unstable, sizing correct. Trade?"
+    prompt: "Long 300 at $41.00, sell stop at $40.80. The stock drops to $40.75 in one fast move. With a stop-market you:"
     options:
-      - {text: "No — two of the four checks fail", correct: true}
-      - {text: "Yes — sizing is what matters"}
-      - {text: "Yes, but with market orders for speed"}
-    explanation: "One failed check is a no. Two is a loud no."
+      - {text: "Are still in — the price skipped past $40.80"}
+      - {text: "Sell at exactly $40.80 no matter what"}
+      - {text: "Are out around $40.75–$40.80 — the exit is guaranteed", correct: true}
+    explanation: "Triggered, then filled at the next available bid."
+
+  - type: mc
+    prompt: "Same situation with a stop-limit at $40.80 (limit $40.80). Likely result?"
+    options:
+      - {text: "Not filled — you're still in", correct: true}
+      - {text: "Filled at $40.80"}
+      - {text: "Filled at market"}
+    explanation: "The limit part can't fill below $40.80, so the position stays open."
 
   - type: tf
-    statement: "Passing all four checks means the trade will be profitable."
-    answer: false
-    explanation: "It means the trade is well-structured. The outcome stays uncertain."
+    statement: "For a scalper, a stop-market is usually the safer choice for a stop-loss."
+    answer: true
+    explanation: "Getting out matters more than the last cent when a scalp fails."
+
+  - type: slider
+    prompt: "You're long at $20.00 on a stock that wiggles a few cents. Set your sell stop."
+    min: 19.50
+    max: 20.50
+    step: 0.02
+    unit: "$"
+    answer: 19.88
+    tolerance: 0.08
+    explanation: "Below your entry, close enough to keep the loss small, far enough that normal wiggle doesn't hit it."
+
+  - type: numeric-input
+    prompt: "Long 800 at $15.20, stop at $15.10. Planned loss if stopped?"
+    answer: 80
+    unit: "$"
+    working: "$0.10 × 800 = $80"
+    explanation: "Stop distance times shares."
+
+  - type: chart-tap
+    prompt: "You are long 800 shares from $15.20 with the sell stop at $15.10. Tap the candle that takes you out."
+    chart:
+      kind: candles
+      data: [[15.18, 15.26, 15.16, 15.24], [15.24, 15.30, 15.20, 15.22], [15.22, 15.28, 15.18, 15.26], [15.26, 15.28, 15.14, 15.16], [15.16, 15.20, 15.06, 15.08], [15.08, 15.12, 15.00, 15.02], [15.02, 15.08, 14.98, 15.04], [15.04, 15.10, 15.00, 15.06]]
+      levels:
+        - {price: 15.10, label: "Stop"}
+    target: 4
+    explanation: "The candle before it dipped to $15.14 and held; this one traded through $15.10 and the resting order did the rest."
 
   - type: sort
-    prompt: "Part of the all-in cost?"
-    buckets: ["All-in cost", "Not part of it"]
+    prompt: "Stop-market or stop-limit?"
+    buckets: ["Stop-market", "Stop-limit"]
     items:
-      - {text: "Spread", bucket: "All-in cost"}
-      - {text: "Slippage", bucket: "All-in cost"}
-      - {text: "Fees", bucket: "All-in cost"}
-      - {text: "Your stop distance", bucket: "Not part of it"}
-    explanation: "Costs of executing, not the risk of being wrong."
+      - {text: "Exit guaranteed", bucket: "Stop-market"}
+      - {text: "Price capped", bucket: "Stop-limit"}
+      - {text: "Can leave you stuck in a fast drop", bucket: "Stop-limit"}
+      - {text: "The scalper's usual stop-loss", bucket: "Stop-market"}
+    explanation: "Out for sure, or out at a price — pick 'out for sure'."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "To protect a long position,"}
+      - {text: "place a buy stop above your entry.", wrong: true}
+      - {text: "It triggers if the price falls."}
+    explanation: "A long is protected by a sell stop below the entry."
+
+  - type: order
+    prompt: "Put one round trip in the order the tickets go out."
+    items:
+      - "Marketable limit buy, capped a few cents above the ask"
+      - "Stop-market sell, below the entry, the moment the fill comes back"
+      - "Limit sell at the target, once the stop is resting"
+      - "Whichever of the two fills first cancels the other by hand"
+    explanation: "Entry, then protection, then target. The stop goes in before the target, because being wrong is the thing that costs money."
 
   - type: match
-    prompt: "Four terms this chapter turned into one habit."
+    prompt: "Match each part of the exit kit to what it does."
     pairs:
-      - ["All-in cost", "Spread + slippage + fees per share"]
-      - ["Fallback plan", "How to act if your setup fails"]
-      - ["Risk per trade", "Shares × stop distance"]
-      - ["Marketable limit", "Capped entry that fills now"]
-    explanation: "The chapter in four terms."
+      - ["Stop order", "Idle until the stop price is touched"]
+      - ["Stop-loss", "A stop used to cut a loss"]
+      - ["Stop-market", "Triggers a market order"]
+      - ["Stop distance", "Entry to stop, per share"]
+    explanation: "The exit kit."
 
-  - type: fill-choice
-    sentence: "Compare the all-in cost to your ___."
-    options: ["target move", "share price", "account size"]
-    answer: "target move"
-    explanation: "The move, never the price."
+  - type: fill-tiles
+    sentence: "A stop that becomes a market order when triggered is a stop-___."
+    answer: "market"
+    explanation: "Guaranteed out."
 
-  - type: theory
-    title: "Three seconds"
-    body: "One number, four questions, three seconds. Practice on real setups next."
+  - type: checklist-reveal
+    title: "The order kit, complete"
+    items:
+      - "Marketable limit to get in without chasing"
+      - "Limit sell at the target to get out"
+      - "Stop-market below the entry for when you are wrong"
+      - "All three decided before the entry is sent"
+

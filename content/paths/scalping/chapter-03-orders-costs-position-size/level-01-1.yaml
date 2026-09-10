@@ -8,6 +8,7 @@ tags: [spread, quote-panel]
 learning_goal: "User can read bid, ask, last and spread from a quote panel and knows which price a buyer pays and a seller receives right now."
 purpose: "Bid and ask are the two prices every scalp starts and ends at — reading them instantly is the base skill of this whole path."
 terms_introduced: ["Bid", "Ask", "Last", "Quote panel"]
+reinforces: [1]
 prerequisite: null
 xp: 20
 difficulty: 1

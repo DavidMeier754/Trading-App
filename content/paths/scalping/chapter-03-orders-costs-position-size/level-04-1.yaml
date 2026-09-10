@@ -1,132 +1,127 @@
 id: "4-1"
-title: "The Stop Order"
+title: "The Scalper's Enemy"
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
-category: new-theory
-tags: [orders, risk]
-learning_goal: "User can place a stop-loss on the correct side of an entry, choose stop-market over stop-limit for a scalp, and compute the planned loss."
-purpose: "You will be wrong often — the stop order is how being wrong stays cheap."
-terms_introduced: ["Stop order", "Stop-loss", "Stop-market", "Stop-limit", "Stop distance"]
-prerequisite: "3-3"
+category: repetition
+tags: [spread, liquidity]
+learning_goal: "User judges real-looking quotes as scalp candidates or not, using spread versus expected move, volume and spread stability."
+purpose: "Judging a quote in three seconds is a habit — this builds it with a handful of realistic quotes."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "3-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
 screens:
   - type: intro
-    text: "You will be wrong. Often. The stop order is how being wrong stays cheap."
+    text: "Six quotes. Which ones would a scalper touch?"
 
-  - type: theory
-    title: "Stop order"
-    body: "An order that sits idle until the price reaches your stop price — then it activates. Used to exit a losing position automatically, it's a stop-loss."
-
-  - type: example
-    body: "Long 500 at $20.00. You place a sell stop at $19.90. If the price touches $19.90, the stop becomes an order to sell. Loss about $0.10 × 500 = $50, and you're out."
-    visual: chart-line
-    visual_data: {data: [20.00, 20.04, 19.98, 19.95, 19.92, 19.90, 19.85], levels: [{price: 20.00, label: "Entry"}, {price: 19.90, label: "Stop"}]}
-
-  - type: theory
-    title: "Stop-market vs stop-limit"
-    body: "Stop-market: when triggered it sells at market — exit guaranteed, price not. Stop-limit: when triggered it becomes a limit order — price capped, exit not guaranteed. In a fast drop a stop-limit can leave you stuck."
-
-  - type: theory
-    title: "Stop distance"
-    body: "The gap between your entry and your stop — here $0.10. It's the most you plan to lose per share, and it drives your position size in the next level."
-
-  - type: mc
-    prompt: "Long 300 at $41.00, sell stop at $40.80. The stock drops to $40.75 in one fast move. With a stop-market you:"
-    options:
-      - {text: "Are still in — the price skipped past $40.80"}
-      - {text: "Sell at exactly $40.80 no matter what"}
-      - {text: "Are out around $40.75–$40.80 — the exit is guaranteed", correct: true}
-    explanation: "Triggered, then filled at the next available bid."
-
-  - type: mc
-    prompt: "Same situation with a stop-limit at $40.80 (limit $40.80). Likely result?"
-    options:
-      - {text: "Not filled — you're still in", correct: true}
-      - {text: "Filled at $40.80"}
-      - {text: "Filled at market"}
-    explanation: "The limit part can't fill below $40.80, so the position stays open."
-
-  - type: tf
-    statement: "For a scalper, a stop-market is usually the safer choice for a stop-loss."
-    answer: true
-    explanation: "Getting out matters more than the last cent when a scalp fails."
-
-  - type: slider
-    prompt: "You're long at $20.00 on a stock that wiggles a few cents. Set your sell stop."
-    min: 19.50
-    max: 20.50
-    step: 0.02
-    unit: "$"
-    answer: 19.88
-    tolerance: 0.08
-    explanation: "Below your entry, close enough to keep the loss small, far enough that normal wiggle doesn't hit it."
+  - type: hotspot
+    component: quote-panel
+    prompt: "Tap the ask."
+    data: {bid: 24.10, ask: 24.11, last: 24.10}
+    target: ask
+    explanation: "$24.11 — a one-cent spread."
 
   - type: numeric-input
-    prompt: "Long 800 at $15.20, stop at $15.10. Planned loss if stopped?"
-    answer: 80
-    unit: "$"
-    working: "$0.10 × 800 = $80"
-    explanation: "Stop distance times shares."
+    prompt: "Bid $24.10, ask $24.11, expected move $0.12. Percent of the move eaten?"
+    answer: 8.3
+    tolerance: 0.4
+    unit: "%"
+    working: "0.01 ÷ 0.12 = 0.083 = 8.3 %"
+    explanation: "A small slice — good ground."
 
-  - type: chart-tap
-    prompt: "You are long 800 shares from $15.20 with the sell stop at $15.10. Tap the candle that takes you out."
-    chart:
-      kind: candles
-      data: [[15.18, 15.26, 15.16, 15.24], [15.24, 15.30, 15.20, 15.22], [15.22, 15.28, 15.18, 15.26], [15.26, 15.28, 15.14, 15.16], [15.16, 15.20, 15.06, 15.08], [15.08, 15.12, 15.00, 15.02], [15.02, 15.08, 14.98, 15.04], [15.04, 15.10, 15.00, 15.06]]
-      levels:
-        - {price: 15.10, label: "Stop"}
-    target: 4
-    explanation: "The candle before it dipped to $15.14 and held; this one traded through $15.10 and the resting order did the rest."
+  - type: mc
+    prompt: "That quote: spread 8 % of the expected move, heavy volume. Verdict?"
+    options:
+      - {text: "Good ground for a scalp — tight relative to the move", correct: true}
+      - {text: "Too tight — no room for the price to move"}
+      - {text: "Unclear — you'd need the share price first"}
+    explanation: "Tight spread and liquidity are exactly what you want; price level doesn't matter."
+
+  - type: numeric-mc
+    prompt: "Bid $3.40, ask $3.46, expected move $0.08. Percent eaten?"
+    options:
+      - {text: "7.5 %"}
+      - {text: "6 %"}
+      - {text: "46 %"}
+      - {text: "75 %", correct: true}
+    working: "0.06 ÷ 0.08 = 0.75"
+    explanation: "Three quarters of the move is gone at entry."
+
+  - type: tf
+    statement: "That $3.40 / $3.46 stock is a poor scalp candidate even though the spread is only six cents."
+    answer: true
+    explanation: "Six cents against an eight-cent move is terrible. Dollars don't matter; the ratio does."
+
+  - type: story
+    character: retail-trader
+    text: "{{market.regular_open}}. XYZ opens: bid $50.00, ask $50.30. Two minutes later: bid $50.12, ask $50.14."
+
+  - type: mc
+    prompt: "What happened to the spread, and why?"
+    options:
+      - {text: "It widened — the price rose"}
+      - {text: "It tightened from $0.30 to $0.02", correct: true}
+      - {text: "Nothing — the difference is just the price moving"}
+    explanation: "The first minutes are thin; the crowd tightens the spread."
+
+  - type: slider
+    prompt: "Round trip on 600 shares with a $0.02 spread. Cost?"
+    min: 0
+    max: 60
+    step: 2
+    unit: "$"
+    answer: 12
+    tolerance: 2
+    explanation: "600 × $0.02 = $12."
 
   - type: sort
-    prompt: "Stop-market or stop-limit?"
-    buckets: ["Stop-market", "Stop-limit"]
+    prompt: "Scalp candidate or skip?"
+    buckets: ["Candidate", "Skip"]
     items:
-      - {text: "Exit guaranteed", bucket: "Stop-market"}
-      - {text: "Price capped", bucket: "Stop-limit"}
-      - {text: "Can leave you stuck in a fast drop", bucket: "Stop-limit"}
-      - {text: "The scalper's usual stop-loss", bucket: "Stop-market"}
-    explanation: "Out for sure, or out at a price — pick 'out for sure'."
+      - {text: "Spread 5 % of expected move, 8 M volume", bucket: "Candidate"}
+      - {text: "Spread 70 % of expected move", bucket: "Skip"}
+      - {text: "Spread $0.01 on a stock that moves $0.01", bucket: "Skip"}
+      - {text: "Spread $0.10 on a liquid stock that moves $2.00", bucket: "Candidate"}
+    explanation: "Ratio and liquidity decide, not the dollar amount."
 
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "To protect a long position,"}
-      - {text: "place a buy stop above your entry.", wrong: true}
-      - {text: "It triggers if the price falls."}
-    explanation: "A long is protected by a sell stop below the entry."
-
-  - type: order
-    prompt: "Put one round trip in the order the tickets go out."
-    items:
-      - "Marketable limit buy, capped a few cents above the ask"
-      - "Stop-market sell, below the entry, the moment the fill comes back"
-      - "Limit sell at the target, once the stop is resting"
-      - "Whichever of the two fills first cancels the other by hand"
-    explanation: "Entry, then protection, then target. The stop goes in before the target, because being wrong is the thing that costs money."
+  - type: chart-decision
+    scenario: "XYZ is stepping up on rising volume and the quote is steady at bid $16.28 / ask $16.30 — one cent against the twenty you expect. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[16.02, 16.10, 16.00, 16.08], [16.08, 16.16, 16.06, 16.14], [16.14, 16.22, 16.12, 16.20], [16.20, 16.26, 16.16, 16.24], [16.24, 16.32, 16.22, 16.30], [16.30, 16.34, 16.26, 16.28], [16.28, 16.40, 16.26, 16.38], [16.38, 16.48, 16.36, 16.46], [16.46, 16.54, 16.42, 16.50], [16.50, 16.56, 16.46, 16.52]]
+      volume: [48000, 62000, 84000, 96000, 118000, 74000, 126000, 108000, 92000, 80000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $16.52 — $0.24 per share, +$240 long on 1,000 shares from $16.28, and the spread took $10 of it."
+    explanation: "A one-cent spread against a twenty-cent expectation is the ground this chapter has been describing."
 
   - type: match
-    prompt: "Match each part of the exit kit to what it does."
+    prompt: "The vocabulary of a three-second spread check."
     pairs:
-      - ["Stop order", "Idle until the stop price is touched"]
-      - ["Stop-loss", "A stop used to cut a loss"]
-      - ["Stop-market", "Triggers a market order"]
-      - ["Stop distance", "Entry to stop, per share"]
-    explanation: "The exit kit."
+      - ["Target", "Move you aim to capture"]
+      - ["Expected move", "How far the price should travel while you hold"]
+      - ["Spread", "Ask minus bid"]
+      - ["Round trip", "Open and close of one position"]
+    explanation: "The vocabulary of a spread check."
+
+  - type: mc
+    prompt: "A stock's spread is $0.02 all morning, then jumps to $0.15 late in the session. Most likely?"
+    options:
+      - {text: "The exchange changed the minimum spread"}
+      - {text: "News or a sudden drop in liquidity — wait for it to settle", correct: true}
+      - {text: "The price went up, so the spread scaled with it"}
+    explanation: "A widening spread is a warning sign, not an invitation."
 
   - type: fill-tiles
-    sentence: "A stop that becomes a market order when triggered is a stop-___."
-    answer: "market"
-    explanation: "Guaranteed out."
+    sentence: "Many buyers and sellers competing makes the spread ___."
+    answer: "tighter"
+    explanation: "Competition squeezes the gap."
 
-  - type: checklist-reveal
-    title: "The order kit, complete"
-    items:
-      - "Marketable limit to get in without chasing"
-      - "Limit sell at the target to get out"
-      - "Stop-market below the entry for when you are wrong"
-      - "All three decided before the entry is sent"
-
+  - type: theory
+    title: "Three seconds"
+    body: "Spread versus move, volume, calm or jumpy. You can judge a quote in three seconds now. Next: how to actually place the trade."

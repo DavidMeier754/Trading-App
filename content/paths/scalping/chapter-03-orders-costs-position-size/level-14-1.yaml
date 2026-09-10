@@ -1,4 +1,4 @@
-id: "7-2"
+id: "14-1"
 title: "Slippage, Speed & Fees"
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
@@ -8,7 +8,7 @@ tags: [fees, frequency]
 learning_goal: "User can compute commission costs per trade and per month at scalping frequency, knows a short needs borrowable shares, and knows where retail scalping is realistically done in their market."
 purpose: "At forty trades a day, a small fee is a large salary paid to your broker — you need to see the monthly number, not the per-trade one."
 terms_introduced: ["Commission", "Per-share fee"]
-prerequisite: "7-1"
+prerequisite: "13-1"
 xp: 20
 difficulty: 3
 sources: [consensus]

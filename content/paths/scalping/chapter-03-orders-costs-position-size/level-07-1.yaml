@@ -1,108 +1,101 @@
 id: "7-1"
-title: "Slippage, Speed & Fees"
+title: "Market, Limit, Marketable Limit"
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [slippage, execution]
-learning_goal: "User can define slippage and execution speed, keep both separate from the spread, and compute slippage cost for a share count."
-purpose: "The gap between the price you saw and the price you got is a real, recurring cost — naming it is the first step to controlling it."
-terms_introduced: ["Slippage", "Execution speed"]
+tags: [orders, execution]
+learning_goal: "User can use a marketable limit order for a fast, price-capped entry and a limit order for a targeted exit, and understands unfilled risk."
+purpose: "This is how experienced scalpers actually enter: immediately, but never above the price they chose."
+terms_introduced: ["Marketable limit order", "Unfilled"]
 prerequisite: "6-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
 screens:
   - type: intro
-    text: "You tapped at $50.00. You got $50.03. Meet slippage."
+    text: "The scalper's entry: a limit order that acts like a market order — with a ceiling."
 
   - type: theory
-    title: "Slippage"
-    body: "The difference between the price you expected and the price you got. The market moved in the fraction of a second between your tap and the fill."
+    title: "Marketable limit order"
+    body: "A limit buy placed at or above the current ask. It fills immediately like a market order, but never above your limit. Speed with a cap."
+
+  - type: example
+    body: "Ask $25.10. You send a limit buy at $25.13. If sellers are there at $25.10, you pay $25.10. If the ask jumps to $25.20 in that instant, you don't chase — your order sits at $25.13, unfilled."
+    visual: order-ticket
+    visual_data: {ticker: XYZ, side: buy, qty: 500, type: limit, price: 25.13}
 
   - type: theory
-    title: "It works both ways"
-    body: "Mostly against you — you're usually chasing a move. Sometimes for you, when the ask dips as your order arrives. Fast, volatile stocks slip most."
-
-  - type: visual
-    component: cost-stack
-    data: {shares: 1000, spread: 0.02, slippage: 0.03, target: 0.20}
-    caption: "Market buy of 1,000 shares: ask $50.00 on screen, filled at $50.03. Slippage $30, spread $20 — $50 gone before the trade starts."
-
-  - type: numeric-input
-    prompt: "Expected $27.40, filled at $27.44, 600 shares. Slippage cost?"
-    answer: 24
-    unit: "$"
-    working: "$0.04 × 600 = $24"
-    explanation: "Slip per share times shares."
+    title: "Why not just a market order?"
+    body: "In a fast stock the ask can jump between your tap and the fill. A market order pays whatever is there. A marketable limit pays at most your cap. Most experienced scalpers enter this way."
 
   - type: mc
-    prompt: "Which order type caps slippage on entry?"
+    prompt: "Ask $12.40. You send a limit buy at $12.43 and sellers are still at $12.40. You pay:"
     options:
-      - {text: "Market order — it fills fastest"}
-      - {text: "Marketable limit — it never fills above your limit", correct: true}
-      - {text: "Stop-market — it waits for the price"}
-    explanation: "A cap on the price is a cap on the slip."
+      - {text: "$12.43 — the limit price you named"}
+      - {text: "$12.415 — the midpoint of the two"}
+      - {text: "$12.40 — a limit fills at your price or better", correct: true}
+    explanation: "The cap is a ceiling, not the price you pay."
 
-  - type: theory
-    title: "Execution speed"
-    body: "The time from your tap to the fill. Slow app, slow connection, slow broker → more time for the price to move → more slippage. For a scalper, speed is money. It is not the same thing as a tight spread."
+  - type: mc
+    prompt: "Same order, but the ask jumps to $12.50 before it arrives. What happens?"
+    options:
+      - {text: "It doesn't fill — it waits at $12.43", correct: true}
+      - {text: "It fills at $12.50 because it's marketable"}
+      - {text: "It's cancelled by the exchange"}
+    explanation: "Above your cap, you don't chase. That's the point."
 
   - type: tf
-    statement: "A tight spread protects you from slippage."
-    answer: false
-    explanation: "Spread is the gap at one moment; slippage is the move during execution. They're independent."
+    statement: "A marketable limit order can stay unfilled if the price runs away."
+    answer: true
+    explanation: "That's the trade-off for the cap."
+
+  - type: theory
+    title: "Exits"
+    body: "Many scalpers set a limit sell at their target as soon as they're in. It fills the moment the price gets there. If it never does, you're still holding — unfilled risk again. The stop, next level, covers the other side."
+
+  - type: numeric-input
+    prompt: "You enter 400 shares at $12.40 with a limit sell at $12.52. It fills. Profit before costs?"
+    answer: 48
+    unit: "$"
+    working: "$0.12 × 400 = $48"
+    explanation: "Twelve cents on 400 shares."
 
   - type: sort
-    prompt: "Spread or slippage?"
-    buckets: ["Spread", "Slippage"]
+    prompt: "Which order is it?"
+    buckets: ["Market order", "Marketable limit", "Limit below the ask"]
     items:
-      - {text: "Ask minus bid right now", bucket: "Spread"}
-      - {text: "Price moved between tap and fill", bucket: "Slippage"}
-      - {text: "Paid on every round trip", bucket: "Spread"}
-      - {text: "Biggest in fast, volatile stocks", bucket: "Slippage"}
-    explanation: "A gap versus a move."
+      - {text: "Fills now, price uncapped", bucket: "Market order"}
+      - {text: "Fills now, price capped", bucket: "Marketable limit"}
+      - {text: "Waits for a dip", bucket: "Limit below the ask"}
+      - {text: "Can miss a fast move entirely", bucket: "Limit below the ask"}
+    explanation: "Speed, capped speed, or patience."
 
-  - type: numeric-mc
-    prompt: "Spread $0.02, slippage $0.03 on entry, 1,000 shares. Cost so far?"
-    options:
-      - {text: "$50", correct: true}
-      - {text: "$5"}
-      - {text: "$500"}
-      - {text: "$30"}
-    working: "($0.02 + $0.03) × 1,000 = $50"
-    explanation: "Both layers, times shares."
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "To enter fast with a price cap, place a limit buy"}
+      - {text: "below the current ask", wrong: true}
+      - {text: "and it fills immediately."}
+    explanation: "Below the ask it just waits. At or above the ask it's marketable."
 
   - type: story
     character: retail-trader
-    text: "Two scalpers tap buy at the same instant. One fills in 40 milliseconds at $18.10, the other in 600 milliseconds at $18.16."
+    text: "XYZ is ripping: ask $8.10, then $8.14, then $8.19 within a second."
 
   - type: mc
-    prompt: "What separated them?"
+    prompt: "You send a limit buy at $8.15. The ask is now $8.19. Outcome?"
     options:
-      - {text: "The spread — they saw different quotes"}
-      - {text: "Execution speed — the slower fill met a higher ask", correct: true}
-      - {text: "Position size — bigger orders fill later"}
-    explanation: "Half a second was six cents."
-
-  - type: chart-decision
-    scenario: "XYZ is spiking on news: candles are 15 cents tall, the quote is jumping several cents between looks and your target is 20 cents. You have 1,000 shares ready."
-    shares: 1000
-    chart:
-      kind: candles
-      data: [[19.20, 19.46, 19.10, 19.18], [19.18, 19.40, 19.14, 19.36], [19.36, 19.42, 19.10, 19.14], [19.14, 19.34, 19.08, 19.30], [19.30, 19.36, 19.06, 19.12], [19.12, 19.28, 19.04, 19.24], [19.24, 19.30, 19.00, 19.06], [19.06, 19.22, 19.02, 19.18], [19.18, 19.24, 18.96, 19.02], [19.02, 19.18, 18.98, 19.14]]
-      volume: [310000, 240000, 270000, 190000, 220000, 180000, 210000, 170000, 190000, 160000]
-      decision_index: 5
-    best: no-trade
-    outcome: "It swung both ways for another ten minutes and finished at $19.14, ten cents below the decision."
-    explanation: "A quote moving several cents between looks is slippage waiting to happen, and it is bigger than half your target."
+      - {text: "Filled at $8.19"}
+      - {text: "Unfilled — you didn't chase, which is the point", correct: true}
+      - {text: "Filled at $8.15 by a market maker"}
+    explanation: "The cap protected you from paying $8.19 for an $8.10 idea."
 
   - type: fill-tiles
-    sentence: "The gap between the expected price and your fill is ___."
-    answer: "slippage"
-    explanation: "The market moved while you were executing."
+    sentence: "A limit order placed at or above the ask is ___ — it fills like a market order."
+    answer: "marketable"
+    explanation: "Marketable: immediately executable."
 
-  - type: story
-    character: retail-trader
-    text: "Spread, then slippage. One more layer to go — and it is the only one that arrives as an actual bill."
-
+  - type: theory
+    title: "Cap and target"
+    body: "Cap your entries. Target your exits. One more order type and you have the full kit."

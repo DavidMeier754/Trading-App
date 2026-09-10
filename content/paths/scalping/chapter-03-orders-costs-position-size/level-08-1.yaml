@@ -1,100 +1,114 @@
 id: "8-1"
-title: "Inside the Quote"
+title: "Market, Limit, Marketable Limit"
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
-category: new-theory
-tags: [level-2, order-book]
-learning_goal: "User can read a basic Level 2 ladder and time & sales, and predict how an order larger than the displayed size moves the price."
-purpose: "The quote panel shows two numbers; Level 2 shows the crowd behind them — and how far your own order will push the price."
-terms_introduced: ["Level 2", "Order book", "Displayed size", "Time and sales", "Tape"]
-prerequisite: "7-2"
+category: repetition
+tags: [orders, execution]
+learning_goal: "User picks the right order type for realistic entry and exit situations and reads an order ticket."
+purpose: "Order choice has to be automatic at scalping speed — this drills it on real tickets."
+terms_introduced: []
+prerequisite: "7-1"
 xp: 20
-difficulty: 3
+difficulty: 2
 sources: [consensus]
-notes: "Intro only; tape reading is a Chapter 4 topic."
 screens:
   - type: intro
-    text: "The quote panel shows the best bid and ask. Level 2 shows everyone behind them."
+    text: "Real tickets, real quotes. Pick the right order every time."
 
-  - type: theory
-    title: "Level 2, the order book"
-    body: "A list of bids below the best bid and asks above the best ask, each with a displayed size — how many shares are waiting at that price."
-    visual: order-book
-    visual_data: {bids: [[20.00, 1200], [19.99, 800], [19.98, 3000]], asks: [[20.02, 500], [20.03, 2200], [20.04, 900]]}
-
-  - type: walkthrough
-    component: order-book
-    data: {bids: [[20.00, 1200], [19.99, 800], [19.98, 3000]], asks: [[20.02, 500], [20.03, 2200], [20.04, 900]]}
-    steps:
-      - {spotlight: best, text: "Top rows: best bid $20.00 with 1,200 shares, best ask $20.02 with 500."}
-      - {spotlight: depth, text: "Below and above: more prices, more sizes. That's depth."}
-      - {spotlight: size, text: "Displayed size tells you how many shares must trade before the price moves to the next row."}
-
-  - type: theory
-    title: "Time and sales"
-    body: "A scrolling list of every trade: price, size, time. Trades at the ask are buyers hitting sellers; trades at the bid are sellers hitting buyers. Traders call it the tape."
+  - type: story
+    character: retail-trader
+    text: "Bid $19.98 / ask $20.00. You want in right now, but not above $20.03."
 
   - type: mc
-    prompt: "Best ask $20.02 shows 500 shares. You market-buy 800. Likely result?"
+    prompt: "Which order?"
     options:
-      - {text: "500 fill at $20.02 and 300 at $20.03 — you moved the price", correct: true}
-      - {text: "All 800 at $20.02 — the size is only a suggestion"}
-      - {text: "The order is rejected for exceeding the size"}
-    explanation: "Your order eats the first row and starts on the next."
+      - {text: "Market buy, filled at whatever the ask is"}
+      - {text: "Limit buy at $20.03 — marketable and capped", correct: true}
+      - {text: "Limit buy at $19.95, waiting for a dip"}
+    explanation: "At or above the ask fills now; the $20.03 cap protects you."
 
   - type: hotspot
-    component: order-book
-    prompt: "Tap the row where that 800-share market buy finishes filling."
-    data: {bids: [[20.00, 1200], [19.99, 800], [19.98, 3000]], asks: [[20.02, 500], [20.03, 2200], [20.04, 900]]}
-    target: ask-2
-    explanation: "$20.03 — the second ask row."
+    component: order-ticket
+    prompt: "Tap the field that caps your price."
+    data: {ticker: XYZ, side: buy, qty: 500, type: limit, price: 20.03}
+    target: price
+    explanation: "The limit price is the ceiling."
 
   - type: tf
-    statement: "Large displayed size on the bid means buyers are waiting there, so the price may hold."
-    answer: true
-    explanation: "Waiting buyers can absorb selling — not a guarantee, sizes can vanish in an instant."
+    statement: "With a market buy on that quote you'd pay $19.98."
+    answer: false
+    explanation: "Market buys hit the ask: $20.00."
 
-  - type: sort
-    prompt: "Level 2 or time and sales?"
-    buckets: ["Level 2", "Time and sales"]
-    items:
-      - {text: "Shares waiting at each price", bucket: "Level 2"}
-      - {text: "Every trade that already happened", bucket: "Time and sales"}
-      - {text: "Depth", bucket: "Level 2"}
-      - {text: "The tape", bucket: "Time and sales"}
-    explanation: "Intentions versus actions."
+  - type: numeric-mc
+    prompt: "You're long 500 at $20.00 and set a limit sell at $20.12. It fills. Gross profit?"
+    options:
+      - {text: "$6"}
+      - {text: "$600"}
+      - {text: "$60", correct: true}
+      - {text: "$12"}
+    working: "$0.12 × 500 = $60"
+    explanation: "Twelve cents on 500 shares."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "A limit sell at $20.12"}
+      - {text: "is guaranteed to fill by the end of the day", wrong: true}
+      - {text: "if you're patient."}
+    explanation: "Limit orders fill only if the price gets there. No guarantee, ever."
+
+  - type: story
+    character: retail-trader
+    text: "Bid $54.30 / ask $54.34. The stock is dropping and you want out of 300 shares now."
 
   - type: mc
-    prompt: "Time and sales prints trade after trade at the ask with growing sizes. What are you seeing?"
+    prompt: "Which order?"
     options:
-      - {text: "Sellers hitting the bid"}
-      - {text: "Market makers widening the spread"}
-      - {text: "Aggressive buyers lifting the offer", correct: true}
-    explanation: "Trades at the ask are buyers paying up."
+      - {text: "Limit sell at $54.40, ten cents above the bid"}
+      - {text: "Limit buy at $54.30, to average down first"}
+      - {text: "Market sell, or a marketable limit sell at $54.30", correct: true}
+    explanation: "Getting out now means hitting the bid."
+
+  - type: sort
+    prompt: "Fills immediately, or waits?"
+    buckets: ["Fills immediately", "Waits"]
+    items:
+      - {text: "Market buy", bucket: "Fills immediately"}
+      - {text: "Limit buy at the ask", bucket: "Fills immediately"}
+      - {text: "Limit buy $0.10 below the ask", bucket: "Waits"}
+      - {text: "Limit sell $0.10 above the bid", bucket: "Waits"}
+    explanation: "At or through the market fills; away from it waits."
 
   - type: numeric-input
-    prompt: "Best ask: 400 shares at $9.50. Next: 600 at $9.51. You market-buy 1,000. Average fill?"
-    answer: 9.506
-    tolerance: 0.001
+    prompt: "Bid $54.30. Market sell of 300 shares. You receive about:"
+    answer: 16290
     unit: "$"
-    working: "(400 × 9.50 + 600 × 9.51) ÷ 1,000 = 9.506"
-    explanation: "Two rows, weighted by shares."
+    working: "$54.30 × 300 = $16,290"
+    explanation: "At the bid, times shares."
 
   - type: match
-    prompt: "What is behind the quote? Match each name to it."
+    prompt: "Match each order to its behavior."
     pairs:
-      - ["Level 2", "Bids and asks beyond the best"]
-      - ["Displayed size", "Shares waiting at a price"]
-      - ["Time and sales", "List of executed trades"]
-      - ["Order book", "Another name for Level 2"]
-    explanation: "The crowd behind the quote."
+      - ["Market order", "Now, price uncapped"]
+      - ["Marketable limit", "Now, price capped"]
+      - ["Limit order", "Only at your price or better"]
+      - ["Unfilled", "Never executed"]
+    explanation: "The order kit so far."
+
+  - type: mc
+    prompt: "Fast stock, the ask jumping every tick. Which entry protects you from paying far more than you saw?"
+    options:
+      - {text: "Marketable limit a few cents above the ask", correct: true}
+      - {text: "Market order"}
+      - {text: "Limit order well below the ask"}
+    explanation: "Capped speed. The market order is uncapped; the low limit misses the move."
 
   - type: fill-tiles
-    sentence: "Trades printing at the ask mean ___ are in charge."
-    answer: "buyers"
-    explanation: "They're paying the sellers' price."
+    sentence: "When an order is executed, it is ___."
+    answer: "filled"
+    explanation: "A fill is an execution."
 
   - type: theory
-    title: "Chapter 4 makes this a skill"
-    body: "For now: displayed size tells you how far your order will push the price. Size your orders with that in mind."
+    title: "Next"
+    body: "The order that gets you out when you're wrong."

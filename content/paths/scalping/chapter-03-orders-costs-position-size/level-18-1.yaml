@@ -1,4 +1,4 @@
-id: "9-2"
+id: "18-1"
 title: "The All-In Check"
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
@@ -8,7 +8,8 @@ tags: [costs, checklist, decisions]
 learning_goal: "User runs the all-in check on three setups and makes cost-aware long / short / no-trade decisions."
 purpose: "The check only matters if it changes what you do — here it decides real trades."
 terms_introduced: []
-prerequisite: "9-1"
+reinforces: [2]
+prerequisite: "17-1"
 xp: 30
 difficulty: 3
 sources: [consensus]
