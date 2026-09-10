@@ -1,0 +1,127 @@
+id: "9-4"
+title: "Support and Resistance"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [levels, liquidity, decisions, practice]
+learning_goal: "User marks the level that matters on a fresh chart and decides from where price is standing relative to it."
+purpose: "Marking a level is a physical habit, and it is worth nothing until a decision is taken at one."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "9-3"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Level 9's practice page. The 9,000-share question is the Chapter 1 callback: a clean level in a stock you cannot exit is not a trade."
+screens:
+  - type: intro
+    text: "Mark the price, then decide from it. Six charts, and the line comes first every time."
+
+  - type: story
+    character: retail-trader
+    text: "$20,000 in the account. Every chart here is a stock you have never seen, and each one has exactly one price worth drawing."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price both pushes have stopped at."
+    chart:
+      kind: candles
+      data: [[26.80, 26.94, 26.76, 26.92], [26.92, 27.20, 26.90, 27.02], [27.02, 27.08, 26.94, 26.96], [26.96, 27.06, 26.92, 27.04], [27.04, 27.20, 27.00, 27.06], [27.06, 27.10, 26.96, 26.98], [26.98, 27.06, 26.94, 27.02], [27.02, 27.08, 26.96, 27.00]]
+      volume: [112000, 168000, 96000, 104000, 158000, 92000, 84000, 78000]
+    answer: 27.20
+    tolerance: 0.04
+    label: "Resistance"
+    explanation: "Both pushes reached $27.20 and neither could stay there. Until that changes, it is the ceiling every trade in this stock is measured against."
+
+  - type: chart-decision
+    scenario: "Same stock, a few minutes on. Price has come back to $27.20 twice more, and the minute that just closed finished ten cents under it on 148,000 shares, right after the heaviest bar of the morning did the same. Your account is $20,000 and you are sizing 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[26.96, 27.06, 26.92, 27.04], [27.04, 27.20, 27.00, 27.06], [27.06, 27.10, 26.96, 26.98], [26.98, 27.08, 26.96, 27.06], [27.06, 27.20, 27.04, 27.10], [27.10, 27.14, 26.98, 27.00], [27.00, 27.04, 26.88, 26.90], [26.90, 26.96, 26.80, 26.82], [26.82, 26.88, 26.70, 26.74], [26.74, 26.80, 26.66, 26.70], [26.70, 26.76, 26.58, 26.62]]
+      volume: [104000, 158000, 92000, 98000, 164000, 148000, 138000, 126000, 132000, 108000, 102000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rolled away to $26.58 and finished at $26.62 — $0.38 a share, +$266 short on 700 shares."
+    explanation: "Four visits now, four refusals, and the heaviest minute of the morning spent failing at the same price. The people selling at $27.20 have not run out yet."
+
+  - type: numeric-mc
+    prompt: "You are short 700 shares from $27.00. If price reaches the $26.60 level below, what is that worth before costs?"
+    options:
+      - {text: "$28"}
+      - {text: "$40"}
+      - {text: "$280", correct: true}
+      - {text: "$2,800"}
+    working: "$27.00 − $26.60 = $0.40 a share × 700 shares = $280"
+    explanation: "The level below is what the trade is worth; the level above is what it costs to be wrong. Both are on the chart before you press anything."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price this stock keeps refusing to stay below."
+    chart:
+      kind: candles
+      data: [[14.86, 14.92, 14.78, 14.80], [14.80, 14.84, 14.66, 14.70], [14.70, 14.74, 14.50, 14.56], [14.56, 14.66, 14.52, 14.62], [14.62, 14.68, 14.50, 14.54], [14.54, 14.62, 14.48, 14.58], [14.58, 14.66, 14.54, 14.62], [14.62, 14.70, 14.58, 14.66]]
+      volume: [96000, 108000, 142000, 84000, 128000, 116000, 92000, 86000]
+    answer: 14.50
+    tolerance: 0.04
+    label: "Support"
+    explanation: "Three visits to $14.50, one of them two cents through it, and every time the minute finished back above. A level is an area, and this one is being defended."
+
+  - type: mc
+    prompt: "That level is clean, but the stock has printed 9,000 shares a minute all morning. What is the honest answer?"
+    options:
+      - {text: "take it — levels beat volume"}
+      - {text: "the level is fine and the stock is not", correct: true}
+      - {text: "wait for a third visit to the level"}
+    explanation: "Getting 1,000 shares back out of a 9,000-share minute costs more than the level is likely to pay. Liquidity still decides whether a good chart is a good trade."
+
+  - type: chart-decision
+    scenario: "The nearest levels are yesterday's low at $20.80 and the round number at $21.50. XYZ has spent eleven minutes between $21.08 and $21.32 on bars near 54,000. Your account is $20,000 and you are sizing 900 shares."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[21.20, 21.28, 21.14, 21.24], [21.24, 21.30, 21.16, 21.18], [21.18, 21.26, 21.12, 21.22], [21.22, 21.29, 21.15, 21.17], [21.17, 21.25, 21.13, 21.21], [21.21, 21.27, 21.15, 21.19], [21.19, 21.24, 21.12, 21.16], [21.16, 21.22, 21.10, 21.20], [21.20, 21.26, 21.12, 21.14], [21.14, 21.20, 21.08, 21.18], [21.18, 21.22, 21.10, 21.14]]
+      volume: [64000, 58000, 60000, 54000, 56000, 52000, 50000, 56000, 52000, 48000, 54000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes on it was $21.14 — five cents under the decision, $45 down on 900 shares before a single cost."
+    explanation: "Thirty-one cents up to the round number, thirty-nine down to yesterday's low, and nothing happening in between. You take trades at levels, not in the space between them."
+
+  - type: compare
+    prompt: "In which of these is price arriving at something the market has already reacted to?"
+    charts:
+      - {kind: candles, data: [[13.10, 13.18, 13.06, 13.16], [13.16, 13.24, 13.12, 13.22], [13.22, 13.30, 13.18, 13.28], [13.28, 13.36, 13.24, 13.34], [13.34, 13.42, 13.30, 13.40], [13.40, 13.48, 13.36, 13.46], [13.46, 13.54, 13.42, 13.52], [13.52, 13.60, 13.48, 13.58]], label: "A"}
+      - {kind: candles, data: [[13.10, 13.30, 13.06, 13.28], [13.28, 13.30, 13.16, 13.18], [13.18, 13.30, 13.14, 13.22], [13.22, 13.26, 13.12, 13.14], [13.14, 13.22, 13.10, 13.20], [13.20, 13.26, 13.16, 13.24], [13.24, 13.28, 13.20, 13.26], [13.26, 13.29, 13.22, 13.28]], label: "B"}
+    answer: "B"
+    explanation: "A is climbing through prices nothing has happened at yet. B is back at $13.30, which stopped it three times in the first three minutes."
+
+  - type: tf
+    statement: "A price that used to be resistance can act as support once the market has traded above it."
+    answer: true
+    explanation: "The people who sold there watch it come back, and the people who missed it there want it. The number keeps its meaning; only the side changes."
+
+  - type: fill-choice
+    sentence: "Once price has traded above it, old resistance can act as ___."
+    options: ["support", "volume", "a wick"]
+    answer: "support"
+    explanation: "Same price, opposite job, and it is the reason a level stays useful long after it has been passed."
+
+  - type: chart-decision
+    scenario: "Yesterday XYZ topped at $16.40. It got above that price early and has now come back to it: two minutes touched $16.40 and turned, and the one that just closed finished at $16.54 on 178,000 shares. Your account is $20,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[16.60, 16.66, 16.52, 16.54], [16.54, 16.58, 16.44, 16.46], [16.46, 16.50, 16.40, 16.42], [16.42, 16.52, 16.40, 16.48], [16.48, 16.50, 16.40, 16.42], [16.42, 16.56, 16.40, 16.54], [16.54, 16.68, 16.52, 16.66], [16.66, 16.72, 16.60, 16.62], [16.62, 16.80, 16.60, 16.76], [16.76, 16.82, 16.70, 16.74], [16.74, 16.92, 16.72, 16.88]]
+      volume: [124000, 132000, 148000, 96000, 126000, 178000, 164000, 104000, 152000, 98000, 142000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It climbed to $16.92 and finished at $16.88 — $0.34 a share above the decision, +$408 long on 1,200 shares."
+    explanation: "Yesterday's ceiling has become today's floor: three visits, no close below it, and the heaviest bar of the morning spent holding it."
+
+  - type: recap
+    title: "Level 9 in three lines"
+    points:
+      - {text: "A level is a price the market has already reacted to, twice.", level: "9-1"}
+      - {text: "Round numbers gather orders, but they still have to be tested.", level: "9-2"}
+      - {text: "Yesterday's high and low and the pre-market extremes are marked before you sit down.", level: "9-3"}

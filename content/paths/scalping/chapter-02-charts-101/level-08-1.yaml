@@ -4,99 +4,109 @@ chapter: 2
 chapter_title: "Charts 101"
 path: scalping
 category: new-theory
-tags: [trend, structure, costs]
-learning_goal: "User can tell a range from a trend early on the 1-minute chart and treats a pullback inside a trend as a place to join it."
-purpose: "Most of a scalper's losing days are spent trading a range as if it were a trend."
+tags: [pullback, trend, structure]
+learning_goal: "User can tell a pullback inside a trend from the trend actually ending, using the last higher low."
+purpose: "Chasing the push is what beginners do; the give-back after it is where the same trade is available cheaper."
 terms_introduced: ["Pullback"]
-prerequisite: "7-1"
+reinforces: []
+prerequisite: "7-4"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Costs appear only as motivation here; the full cost math is Chapter 3."
+notes: "Definition and the one line that separates a pullback from a shape falling apart."
 screens:
   - type: intro
-    text: "A range offers a trade in both directions. That is exactly the problem."
+    text: "Nobody buys the top of the push. The interesting candles are the ones straight after it."
 
   - type: theory
-    title: "Where scalps die"
-    body: "In a range price keeps returning to where you found it. You pay to get in and out every time, and the move you were trading for never arrives."
-
-  - type: example
-    body: "Four scalps in one sideways stretch, 1,000 shares each. Getting in and out costs the spread: $0.02 × 1,000 shares = $20 a trade. Four trades, $80 gone, price unchanged."
-    visual: cost-stack
-    visual_data: {shares: 1000, spread: 0.02, slippage: 0, fees: 0, target: 0.10}
+    title: "The dip inside the climb"
+    body: "A trend hands a little back after every push. That give-back is a pullback: traders taking money off the table, not the crowd changing its mind."
 
   - type: theory
-    title: "Telling them apart early"
-    body: "The first push looks the same in both. The difference shows up in the second dip: in a trend it stops above the last one, in a range it drops back to the same floor."
+    title: "Where it stops mattering"
+    body: "A pullback is still a pullback while it holds above the last dip of the climb. Under that price, the higher lows are gone and so is the shape."
+    visual: chart-candles
+    visual_data:
+      data: [[14.10, 14.24, 14.06, 14.22], [14.22, 14.38, 14.20, 14.36], [14.36, 14.52, 14.34, 14.50], [14.50, 14.54, 14.40, 14.42], [14.42, 14.46, 14.36, 14.38], [14.38, 14.56, 14.36, 14.54], [14.54, 14.70, 14.52, 14.68], [14.68, 14.74, 14.60, 14.72]]
+      volume: [128000, 142000, 156000, 64000, 48000, 138000, 150000, 120000]
+
+  - type: chart-tap
+    prompt: "Tap the last minute of the give-back, before the climb picked up again."
+    chart:
+      kind: candles
+      data: [[14.10, 14.24, 14.06, 14.22], [14.22, 14.38, 14.20, 14.36], [14.36, 14.52, 14.34, 14.50], [14.50, 14.54, 14.40, 14.42], [14.42, 14.46, 14.36, 14.38], [14.38, 14.56, 14.36, 14.54], [14.54, 14.70, 14.52, 14.68], [14.68, 14.74, 14.60, 14.72]]
+      volume: [128000, 142000, 156000, 64000, 48000, 138000, 150000, 120000]
+    target: 4
+    explanation: "Two red minutes, the second one finishing at $14.38, and then the buyers were back. That second minute is the cheap end of the move."
+
+  - type: mc
+    prompt: "A stock in a climb dips for three minutes and stops two cents above the last dip. What have you seen?"
+    options:
+      - {text: "the climb ending"}
+      - {text: "a stock with no shape at all"}
+      - {text: "a pullback", correct: true}
+    explanation: "It held above the last floor, so the higher lows are intact. Three red candles are not a verdict on their own."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price this give-back has to hold for the climb to still be a climb."
+    chart:
+      kind: candles
+      data: [[16.10, 16.24, 16.06, 16.20], [16.20, 16.26, 16.12, 16.14], [16.14, 16.42, 16.12, 16.38], [16.38, 16.56, 16.36, 16.52], [16.52, 16.58, 16.40, 16.42], [16.42, 16.46, 16.34, 16.38], [16.38, 16.44, 16.30, 16.36], [16.36, 16.40, 16.28, 16.34]]
+      volume: [96000, 52000, 124000, 138000, 58000, 46000, 44000, 40000]
+    answer: 16.12
+    tolerance: 0.04
+    label: "Last higher low"
+    explanation: "$16.12 was the last dip before the push. Above it the shape holds; through it the buyers who defended there have given up."
+
+  - type: tf
+    statement: "A pullback that goes deeper than the previous dip is still a pullback as long as the stock is green on the day."
+    answer: false
+    explanation: "The day's colour is not the shape. Once the last floor breaks, the higher lows are over whatever the stock did since the open."
 
   - type: chart-decision
-    scenario: "XYZ has turned down from about $12.58 three times and turned back up from about $12.46 three times. It is sitting between the two. You are sizing 1,500 shares."
+    scenario: "XYZ pushed from $12.20 to $12.62, handed back two minutes on shrinking bars that stopped at $12.44, and the minute that just closed is green again on 152,000 shares. Your account is $20,000 and you are sizing 1,500 shares."
     shares: 1500
     chart:
       kind: candles
-      data: [[12.50, 12.56, 12.46, 12.54], [12.54, 12.58, 12.48, 12.50], [12.50, 12.57, 12.45, 12.55], [12.55, 12.59, 12.49, 12.51], [12.51, 12.56, 12.46, 12.53], [12.53, 12.58, 12.47, 12.49], [12.49, 12.55, 12.45, 12.52], [12.52, 12.58, 12.48, 12.50], [12.50, 12.56, 12.46, 12.54], [12.54, 12.59, 12.47, 12.49], [12.49, 12.54, 12.44, 12.48]]
-      volume: [41000, 36000, 33000, 30000, 28000, 26000, 29000, 25000, 27000, 24000, 26000]
-      decision_index: 5
-    best: no-trade
-    outcome: "Price finished at $12.48, a cent below the decision — $15 down on 1,500 shares before costs, after two swings that would have shaken you out first."
-    explanation: "Both edges have held three times; the middle is the worst place on the chart to pick a side."
-
-  - type: mc
-    prompt: "Three scalps in the same sideways stretch have all gone nowhere. The most useful conclusion is:"
-    options:
-      - {text: "The next one is more likely to work, because three failures are enough"}
-      - {text: "The chart is in a range and there is nothing here to catch", correct: true}
-      - {text: "The share size was too small for the move to pay"}
-    explanation: "Size multiplies a move that happens; it cannot create one."
-
-  - type: theory
-    title: "The pullback"
-    body: "Price never climbs in a straight line. It pushes, then dips as early buyers take their profit. That dip inside a trend is a pullback."
-
-  - type: example
-    body: "XYZ pushes from $15.20 to $15.50, then eases back to $15.38 while the volume bars shrink. Twelve of the thirty cents handed back, with fewer and fewer sellers behind each one."
-
-  - type: numeric-input
-    prompt: "Price pushed from $15.20 to $15.50, then pulled back to $15.38. How much of the push did it give back?"
-    answer: 0.12
-    tolerance: 0.001
-    unit: "$"
-    working: "15.50 − 15.38 = 0.12"
-    explanation: "Twelve cents of a thirty-cent push — a dip that leaves most of the move intact."
-
-  - type: chart-decision
-    scenario: "XYZ ran up for three minutes, then drifted back two candles on shrinking volume and has just closed green again, still well above the low of the move. You are sizing 1,200 shares."
-    shares: 1200
-    chart:
-      kind: candles
-      data: [[21.02, 21.14, 21.00, 21.12], [21.12, 21.26, 21.10, 21.24], [21.24, 21.38, 21.22, 21.36], [21.36, 21.40, 21.28, 21.31], [21.31, 21.35, 21.26, 21.29], [21.29, 21.36, 21.27, 21.34], [21.34, 21.48, 21.32, 21.46], [21.46, 21.58, 21.44, 21.56], [21.56, 21.64, 21.52, 21.60], [21.60, 21.66, 21.56, 21.62], [21.62, 21.68, 21.58, 21.64]]
-      volume: [88000, 96000, 104000, 52000, 38000, 44000, 92000, 108000, 86000, 64000, 58000]
+      data: [[12.20, 12.34, 12.16, 12.32], [12.32, 12.48, 12.30, 12.46], [12.46, 12.62, 12.44, 12.58], [12.58, 12.62, 12.48, 12.50], [12.50, 12.54, 12.44, 12.46], [12.46, 12.64, 12.44, 12.62], [12.62, 12.78, 12.60, 12.74], [12.74, 12.80, 12.68, 12.70], [12.70, 12.90, 12.68, 12.86], [12.86, 12.92, 12.80, 12.84], [12.84, 13.00, 12.82, 12.96]]
+      volume: [132000, 146000, 158000, 62000, 48000, 152000, 140000, 66000, 148000, 60000, 144000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "The trend carried on to $21.68 — $0.30 a share above the decision, +$360 long on 1,200 shares."
-    explanation: "Selling that fades while price holds up is a pullback, and the first green candle after it is the cheapest ticket into the trend."
+    outcome: "It went on to $13.00 and finished at $12.96 — $0.34 a share above the decision, +$510 long on 1,500 shares."
+    explanation: "The give-back held above the floor of the last one and the buyers came back with weight behind them. That is the climb resuming, not a new one starting."
 
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "A pullback"}
-      - {text: "that stops above the last higher low"}
-      - {text: "tells you the uptrend is over.", wrong: true}
-    explanation: "The uptrend only breaks when a dip goes through the last higher low; until then a pullback is part of it."
+  - type: numeric-input
+    prompt: "That push ran to $12.62 and the give-back stopped at $12.44. How much of the push was handed back?"
+    answer: 0.18
+    tolerance: 0.001
+    unit: "$"
+    working: "12.62 − 12.44 = 0.18"
+    explanation: "Eighteen cents back out of a forty-two-cent push — small enough that the people who owned it were happy to keep owning it."
+
+  - type: compare
+    prompt: "One of these dips is still inside the climb. Which?"
+    charts:
+      - {kind: candles, data: [[20.10, 20.26, 20.06, 20.24], [20.24, 20.42, 20.22, 20.40], [20.40, 20.44, 20.30, 20.32], [20.32, 20.50, 20.30, 20.46], [20.46, 20.64, 20.44, 20.60], [20.60, 20.66, 20.52, 20.54], [20.54, 20.58, 20.48, 20.52], [20.52, 20.68, 20.50, 20.64]], label: "A"}
+      - {kind: candles, data: [[20.10, 20.26, 20.06, 20.24], [20.24, 20.42, 20.22, 20.40], [20.40, 20.44, 20.30, 20.32], [20.32, 20.50, 20.30, 20.46], [20.46, 20.64, 20.44, 20.60], [20.60, 20.62, 20.36, 20.38], [20.38, 20.42, 20.22, 20.24], [20.24, 20.30, 20.14, 20.18]], label: "B"}
+    answer: "A"
+    explanation: "Both climbed to the same place. A's dip stopped eighteen cents above the last floor; B's went straight through it and kept going."
 
   - type: fill-choice
-    sentence: "A dip inside an uptrend that holds above the previous low is a ___."
-    options: ["pullback", "downtrend", "range"]
-    answer: "pullback"
-    explanation: "Same shape, different meaning, depending on where it stops."
+    sentence: "A pullback that breaks the last higher low is no longer a pullback — it is the ___ ending."
+    options: ["uptrend", "minute", "volume"]
+    answer: "uptrend"
+    explanation: "The floor breaking is the definition of the shape coming apart, not a slower version of the same climb."
 
-  - type: tf
-    statement: "A pullback on shrinking volume is a better sign for the trend than one on the heaviest volume of the morning."
-    answer: true
-    explanation: "Fewer sellers pushing back means people are taking profit, not turning the move around."
+  - type: sort
+    prompt: "Inside the climb, or the climb coming apart?"
+    buckets: ["Still a pullback", "Shape is gone"]
+    items:
+      - {text: "Two red minutes stopping above the last dip", bucket: "Still a pullback"}
+      - {text: "A red minute closing under the last two dips", bucket: "Shape is gone"}
+      - {text: "A dip that gives back a third of the push", bucket: "Still a pullback"}
+      - {text: "A dip that takes back the whole of the last push", bucket: "Shape is gone"}
+    explanation: "Depth alone decides nothing. The question is always whether the last floor is still under price."
 
-  - type: theory
-    title: "Join, don't chase"
-    body: "Trends pay scalpers on the pullback, not at the top of the push. Ranges mostly pay the costs. Next: the prices where all of this turns."
+  - type: example
+    body: "A push of forty cents that hands back fifteen and holds is a trend breathing. The same push handing back forty-five is a trend that has changed its mind."

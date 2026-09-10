@@ -1,0 +1,118 @@
+id: "8-2"
+title: "The Pullback"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [pullback, volume, trend]
+learning_goal: "User reads the volume bars under a give-back and separates owners resting from a crowd changing sides."
+purpose: "The shape of a pullback is easy to fake; the weight underneath it is what says whether the trend still has owners."
+terms_introduced: []
+reinforces: []
+prerequisite: "8-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Second row of the chart applied to the give-back. Pairs with 8-1's structure rule."
+screens:
+  - type: intro
+    text: "Two give-backs can look identical. The bars underneath tell you which one to buy."
+
+  - type: theory
+    title: "Who is trading the dip"
+    body: "In a healthy give-back, the people who own the stock simply stop buying for a minute. Fewer trades happen, so the bars underneath get shorter."
+
+  - type: theory
+    title: "And when they do not"
+    body: "If the dip prints heavier bars than the push did, the selling is not tidying up. A crowd arrived, and it arrived on the other side."
+    visual: chart-candles
+    visual_data:
+      data: [[21.10, 21.28, 21.06, 21.26], [21.26, 21.44, 21.24, 21.42], [21.42, 21.58, 21.40, 21.54], [21.54, 21.58, 21.42, 21.44], [21.44, 21.48, 21.38, 21.40], [21.40, 21.60, 21.38, 21.58], [21.58, 21.74, 21.56, 21.70], [21.70, 21.78, 21.64, 21.74]]
+      volume: [148000, 162000, 176000, 62000, 44000, 158000, 170000, 120000]
+
+  - type: chart-tap
+    prompt: "Tap the minute where the fewest shares changed hands."
+    chart:
+      kind: candles
+      data: [[21.10, 21.28, 21.06, 21.26], [21.26, 21.44, 21.24, 21.42], [21.42, 21.58, 21.40, 21.54], [21.54, 21.58, 21.42, 21.44], [21.44, 21.48, 21.38, 21.40], [21.40, 21.60, 21.38, 21.58], [21.58, 21.74, 21.56, 21.70], [21.70, 21.78, 21.64, 21.74]]
+      volume: [148000, 162000, 176000, 62000, 44000, 158000, 170000, 120000]
+    target: 4
+    explanation: "44,000 shares, against 176,000 on the last push. Almost nobody wanted out at that price, which is the cheapest information on the chart."
+
+  - type: slider
+    prompt: "The push was trading about 160,000 shares a minute. The give-back is trading 48,000. The dip is running at what share of the push's pace?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 30
+    tolerance: 10
+    explanation: "48,000 ÷ 160,000 = 30 %. Under a third of the traffic, which is what a rest looks like."
+
+  - type: compare
+    prompt: "Both stocks pushed and then dipped. In which one did the crowd switch sides?"
+    charts:
+      - {kind: candles, data: [[18.20, 18.34, 18.16, 18.32], [18.32, 18.48, 18.30, 18.46], [18.46, 18.60, 18.44, 18.56], [18.56, 18.60, 18.46, 18.48], [18.48, 18.52, 18.42, 18.44], [18.44, 18.58, 18.42, 18.56], [18.56, 18.70, 18.54, 18.66], [18.66, 18.74, 18.60, 18.70]], volume: [140000, 155000, 168000, 58000, 42000, 146000, 160000, 118000], label: "A"}
+      - {kind: candles, data: [[18.20, 18.34, 18.16, 18.32], [18.32, 18.48, 18.30, 18.46], [18.46, 18.60, 18.44, 18.56], [18.56, 18.58, 18.42, 18.44], [18.44, 18.46, 18.34, 18.36], [18.36, 18.44, 18.32, 18.40], [18.40, 18.46, 18.34, 18.38], [18.38, 18.44, 18.32, 18.36]], volume: [96000, 104000, 112000, 208000, 236000, 88000, 92000, 76000], label: "B"}
+    answer: "B"
+    explanation: "A's dip ran at a third of the push's traffic. B's dip printed twice it — the busiest minutes of B's morning happened on the way down."
+
+  - type: chart-decision
+    scenario: "XYZ pushed from $26.16 to $26.72 on bars near 170,000, then gave back two minutes on 66,000 and 48,000 that stopped at $26.48. The minute that just closed is green on 176,000. Your account is $20,000 and you are sizing 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[26.20, 26.40, 26.16, 26.36], [26.36, 26.58, 26.34, 26.54], [26.54, 26.72, 26.52, 26.68], [26.68, 26.72, 26.54, 26.56], [26.56, 26.60, 26.48, 26.50], [26.50, 26.74, 26.48, 26.72], [26.72, 26.92, 26.70, 26.88], [26.88, 26.94, 26.80, 26.84], [26.84, 27.06, 26.82, 27.02], [27.02, 27.08, 26.94, 26.98], [26.98, 27.18, 26.96, 27.14]]
+      volume: [154000, 168000, 182000, 66000, 48000, 176000, 190000, 120000, 174000, 110000, 166000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $27.18 and finished at $27.14 — $0.42 a share above the decision, +$294 long on 700 shares."
+    explanation: "The rest was quiet and the return was loud. Everybody who wanted out at $26.50 had the chance and did not take it."
+
+  - type: tf
+    statement: "A give-back on bigger bars than the push is just more people taking money off the table."
+    answer: false
+    explanation: "Somebody buys every share that is sold. Bars that big on the way down mean sellers are being served in size, which is a different market from the one that made the push."
+
+  - type: match
+    prompt: "Three pushes, three give-backs. What does each pairing say?"
+    pairs:
+      - ["Heavy push, thin give-back", "The owners are sitting still and the sellers are few"]
+      - ["Heavy push, heavier give-back", "A crowd arrived during the dip, on the other side"]
+      - ["Thin push, thin give-back", "Nobody has taken a side worth joining"]
+    explanation: "You are always comparing the dip to the push that came before it, never to a fixed number of shares."
+
+  - type: chart-decision
+    scenario: "XYZ pushed to $15.48 on bars near 105,000. The three minutes since have all been red, on 218,000, 246,000 and 232,000, and the last one finished at $15.14. Your account is $20,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[15.10, 15.24, 15.06, 15.22], [15.22, 15.36, 15.20, 15.34], [15.34, 15.48, 15.32, 15.44], [15.44, 15.46, 15.28, 15.30], [15.30, 15.34, 15.16, 15.18], [15.18, 15.24, 15.12, 15.14], [15.14, 15.18, 15.02, 15.04], [15.04, 15.10, 14.94, 14.96], [14.96, 15.02, 14.86, 14.90], [14.90, 14.96, 14.82, 14.86], [14.86, 14.92, 14.78, 14.82]]
+      volume: [92000, 104000, 116000, 218000, 246000, 232000, 208000, 190000, 168000, 150000, 140000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It carried on to $14.78 and finished at $14.82. Buying that dip would have been $0.32 a share underwater — $416 on 1,300 shares."
+    explanation: "Every bar since the high is twice the size of the bars that made it. That is not a rest inside a climb; it is the climb being sold."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The dip came on thin bars,"}
+      - {text: "so few people were selling,"}
+      - {text: "which guarantees the next push.", wrong: true}
+    explanation: "Thin selling improves the odds of the trend resuming. Nothing on a chart guarantees the next minute, and a card that says otherwise is selling you something."
+
+  - type: fill-tiles
+    sentence: "Under a healthy give-back, the volume bars get ___."
+    answer: "thinner"
+    explanation: "Fewer trades, because the people holding the stock have not changed their minds — they have just stopped buying for a minute."
+
+  - type: checklist-reveal
+    title: "Reading a give-back in three looks"
+    items:
+      - "Is it still above the last dip of the climb?"
+      - "Are the bars underneath thinner than the push's?"
+      - "Did the minute that ended it come back with weight?"
+      - "Three yeses is a pullback; two is a wait"

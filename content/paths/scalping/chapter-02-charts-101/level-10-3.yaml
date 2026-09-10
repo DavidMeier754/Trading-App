@@ -1,0 +1,133 @@
+id: "10-3"
+title: "Bounce or Break"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [levels, breakout, patience, decisions]
+learning_goal: "User acts on a level only after the minute has closed, and reads a broken level from the other side."
+purpose: "Almost every level a beginner gets wrong was traded halfway through a candle that had not finished."
+terms_introduced: []
+reinforces: []
+prerequisite: "10-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "The branch walks through one level three times: too early, the verdict, and the real one."
+screens:
+  - type: intro
+    text: "The candle you are staring at is not finished. Everything it is telling you can still be taken back."
+
+  - type: story
+    character: retail-trader
+    text: "$19.00 has turned XYZ away twice. Price is trading above it right now, the bar is growing, and the minute has forty seconds left."
+
+  - type: theory
+    title: "A rumour until it closes"
+    body: "Mid-minute, a candle can be any shape. The one you decide from is the one that has finished, because that is the only one every other trader is also looking at."
+
+  - type: branch
+    scenario: "XYZ has been refused twice at $19.00. You have $20,000 in the account and 1,000 shares in mind."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[18.70, 18.80, 18.66, 18.78], [18.78, 18.90, 18.76, 18.88], [18.88, 19.00, 18.86, 18.94], [18.94, 19.00, 18.90, 18.96], [18.96, 19.02, 18.92, 18.98], [18.98, 19.08, 18.94, 18.96], [18.96, 19.00, 18.90, 18.94], [18.94, 19.16, 18.92, 19.14], [19.14, 19.26, 19.10, 19.22], [19.22, 19.28, 19.16, 19.20]]
+      decision_index: 5
+    steps:
+      - prompt: "Halfway through the minute price is trading at $19.06, above the level for the first time today. What now?"
+        options:
+          - {text: "Wait for the minute to finish", correct: true, next: 1}
+          - {text: "Take it now, before everyone else sees it", next: 1}
+        explanation: "Nothing that happens inside a minute has to survive it. The chart you will be judged on is the one printed at the close."
+      - prompt: "The minute finishes at $18.96 with a wick up to $19.08 — back under the level. What now?"
+        options:
+          - {text: "Nothing happened, and the level held", correct: true}
+          - {text: "Take it anyway, price was above for most of the minute"}
+        explanation: "That is the trade you would have been in. The wick is exactly the shape of the money the early buyer handed over."
+      - prompt: "Two minutes later a candle finishes at $19.14 on 262,000 shares, the heaviest bar of the day. What now?"
+        options:
+          - {text: "This is the close you were waiting for", correct: true}
+          - {text: "Too late — the move has already started"}
+        explanation: "A close through, with the day's biggest bar behind it. Waiting cost you fourteen cents and saved you the first trade entirely."
+
+  - type: chart-decision
+    scenario: "XYZ has been sliding into $23.00, which held it twice. The minute that just closed finished at $22.88 on 246,000 shares, the heaviest bar of the morning. Your account is $20,000 and you are sizing 850 shares."
+    shares: 850
+    chart:
+      kind: candles
+      data: [[23.40, 23.44, 23.30, 23.32], [23.32, 23.36, 23.20, 23.24], [23.24, 23.28, 23.12, 23.16], [23.16, 23.20, 23.00, 23.06], [23.06, 23.10, 23.00, 23.02], [23.02, 23.06, 22.86, 22.88], [22.88, 22.92, 22.74, 22.76], [22.76, 22.82, 22.66, 22.68], [22.68, 22.74, 22.56, 22.60], [22.60, 22.66, 22.52, 22.56], [22.56, 22.62, 22.44, 22.48]]
+      volume: [118000, 128000, 136000, 154000, 142000, 246000, 196000, 172000, 158000, 134000, 126000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It kept going to $22.44 and finished at $22.48 — $0.40 a share, +$340 short on 850 shares."
+    explanation: "A close under the level, on the heaviest bar of the day, after the level had been defended twice. The people who bought at $23.00 are now the ones selling."
+
+  - type: mc
+    prompt: "Why does a scalper wait for the minute to finish before acting at a level?"
+    options:
+      - {text: "orders placed mid-minute get rejected"}
+      - {text: "the level moves while the minute runs"}
+      - {text: "a candle can look like anything until it closes", correct: true}
+    explanation: "The shape you are reacting to has to be the shape that survives, or you are reacting to something that never happened."
+
+  - type: tf
+    statement: "If price spends most of the minute above the level, the level has broken even when the close is below it."
+    answer: false
+    explanation: "Most of a minute is not a verdict. The close is where the whole market ended up, and it ended up on the old side."
+
+  - type: order
+    prompt: "Put a trade at a level in the order the screen gives it to you."
+    items:
+      - "Price arrives at the level you marked"
+      - "A minute finishes on one side of it"
+      - "You check the bar underneath that close"
+      - "You take the side the close handed you"
+    explanation: "Three of the four are watching, and the level did the choosing. That is the whole method."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price that held this fall up twice before it gave way."
+    chart:
+      kind: candles
+      data: [[23.40, 23.44, 23.30, 23.32], [23.32, 23.36, 23.20, 23.24], [23.24, 23.28, 23.12, 23.16], [23.16, 23.20, 23.00, 23.06], [23.06, 23.10, 23.00, 23.02], [23.02, 23.06, 22.86, 22.88], [22.88, 22.92, 22.74, 22.76], [22.76, 22.82, 22.66, 22.68]]
+      volume: [118000, 128000, 136000, 154000, 142000, 246000, 196000, 172000]
+    answer: 23.00
+    tolerance: 0.04
+    label: "Broken support"
+    explanation: "$23.00 stopped two minutes dead and then failed on the third. From here it is the price the stock has to get back above."
+
+  - type: numeric-mc
+    prompt: "You took 1,000 shares at $19.14 on the close through the level. The next level above is $19.50. What is that worth before costs?"
+    options:
+      - {text: "$36"}
+      - {text: "$50"}
+      - {text: "$360", correct: true}
+      - {text: "$3,600"}
+    working: "$19.50 − $19.14 = $0.36 a share × 1,000 shares = $360"
+    explanation: "One level gives you the entry and the next one tells you what it is worth. Both were on the chart before the trade existed."
+
+  - type: fill-choice
+    sentence: "Old support that price has closed under often acts as ___ when price comes back to it."
+    options: ["resistance", "support", "a range"]
+    answer: "resistance"
+    explanation: "The buyers who defended it are now underwater and want out at their price, which is exactly what a ceiling is made of."
+
+  - type: chart-decision
+    scenario: "XYZ closed under $17.00 twenty minutes ago. It has worked back up and the minute that just closed reached $17.02, finished at $16.88, and traded 164,000 shares — the most since the level went. Your account is $20,000 and you are sizing 1,150 shares."
+    shares: 1150
+    chart:
+      kind: candles
+      data: [[16.60, 16.70, 16.56, 16.68], [16.68, 16.80, 16.66, 16.78], [16.78, 16.90, 16.76, 16.88], [16.88, 16.98, 16.86, 16.94], [16.94, 17.00, 16.90, 16.96], [16.96, 17.02, 16.86, 16.88], [16.88, 16.92, 16.76, 16.78], [16.78, 16.84, 16.68, 16.70], [16.70, 16.76, 16.60, 16.62], [16.62, 16.68, 16.54, 16.58], [16.58, 16.64, 16.48, 16.52]]
+      volume: [108000, 116000, 124000, 132000, 136000, 164000, 142000, 136000, 128000, 114000, 108000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It turned away to $16.48 and finished at $16.52 — $0.36 a share, +$414 short on 1,150 shares."
+    explanation: "Price came back to a level it had already lost, poked two cents through it, and finished fourteen cents underneath. The old floor is doing the ceiling's job."
+
+  - type: recap
+    title: "Level 10 in three lines"
+    points:
+      - {text: "A level has two answers, and you only need to be quick once one arrives.", level: "10-1"}
+      - {text: "The wick is a visit; the close is the verdict.", level: "10-2"}
+      - {text: "Nothing counts until the minute is finished, and a lost level becomes the ceiling.", level: "10-3"}

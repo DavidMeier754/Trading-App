@@ -1,0 +1,116 @@
+id: "9-3"
+title: "Support and Resistance"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [levels, sessions, premarket]
+learning_goal: "User can name the levels that exist before the session starts and use them in the first part of the day."
+purpose: "The first hour trades against numbers that were set before you sat down, and everybody else already has them marked."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "9-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Chapter 1's sessions, re-tested as levels: a thin pre-market high is still a price everyone can see."
+screens:
+  - type: intro
+    text: "Some of today's most important prices were made before today started."
+
+  - type: story
+    character: retail-trader
+    text: "An hour before the bell. XYZ has pushed to $18.16 in {{market.premarket}} trading and stopped, on bars a tenth the size of a normal minute."
+
+  - type: theory
+    title: "Levels from before today"
+    body: "Yesterday's high and low, and the high and low of {{market.premarket}}, are on every chart watching this stock. That is what makes them work, not the number of shares behind them."
+
+  - type: carousel
+    cards:
+      - {label: "Yesterday's high", text: "The most anybody paid in the last full session. Price arriving there again is a question the market already answered once.", icon: level-high}
+      - {label: "Yesterday's low", text: "The least anybody accepted. Buyers who missed it there tend to be waiting if it comes back.", icon: level-low}
+      - {label: "The pre-market high and low", text: "Set by very few traders in {{market.premarket}}, and watched by all of them once the session opens.", icon: session-pre}
+
+  - type: chart-annotate
+    prompt: "The first three minutes here are the last of {{market.premarket}}. Drag the line to the high they made."
+    chart:
+      kind: candles
+      data: [[17.92, 18.06, 17.90, 18.04], [18.04, 18.14, 18.02, 18.10], [18.10, 18.16, 18.04, 18.08], [18.08, 18.12, 17.96, 17.98], [17.98, 18.04, 17.90, 17.92], [17.92, 18.08, 17.90, 18.06], [18.06, 18.16, 18.02, 18.12], [18.12, 18.18, 18.06, 18.10]]
+      volume: [18000, 22000, 16000, 210000, 186000, 164000, 152000, 138000]
+    answer: 18.16
+    tolerance: 0.04
+    label: "Pre-market high"
+    explanation: "$18.16 on 16,000 shares — and look what the session did when it came back there. Nobody needed to know how thin it was."
+
+  - type: mc
+    prompt: "That pre-market high was made on 16,000 shares. Why does it matter once the crowd arrives?"
+    options:
+      - {text: "thin prices are more accurate"}
+      - {text: "the exchange resets the day from it"}
+      - {text: "everybody can see the same number", correct: true}
+    explanation: "Very few people made that price, but every trader watching the stock has it on their chart, and that is what turns a thin high into a level."
+
+  - type: chart-decision
+    scenario: "Yesterday XYZ bottomed at $12.90. It has fallen towards that price all morning, touched it twice, and the minute that just closed came back to $13.08 on 196,000 shares. Your account is $20,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[13.40, 13.44, 13.28, 13.30], [13.30, 13.34, 13.12, 13.16], [13.16, 13.20, 12.98, 13.02], [13.02, 13.08, 12.90, 12.94], [12.94, 13.00, 12.90, 12.92], [12.92, 13.08, 12.90, 13.08], [13.08, 13.22, 13.06, 13.20], [13.20, 13.26, 13.14, 13.16], [13.16, 13.34, 13.14, 13.30], [13.30, 13.36, 13.24, 13.28], [13.28, 13.48, 13.26, 13.44]]
+      volume: [128000, 142000, 156000, 178000, 132000, 196000, 174000, 108000, 162000, 96000, 148000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked back to $13.48 and finished at $13.44 — $0.36 a share above the decision, +$540 long on 1,500 shares."
+    explanation: "Yesterday's low held twice and the third minute there was the heaviest of the morning, closing at its high. The buyers who missed that price yesterday were waiting for it."
+
+  - type: tf
+    statement: "A level from yesterday matters less as today's session goes on."
+    answer: true
+    explanation: "The morning trades against yesterday's numbers. By the afternoon the session has made plenty of its own, and those are closer to hand."
+
+  - type: sort
+    prompt: "Which of these prices can you draw before the session even opens?"
+    buckets: ["Known before the open", "Only once the session runs"]
+    items:
+      - {text: "Yesterday's high", bucket: "Known before the open"}
+      - {text: "The high of the first half hour", bucket: "Only once the session runs"}
+      - {text: "The pre-market low", bucket: "Known before the open"}
+      - {text: "The price the third push stalls at", bucket: "Only once the session runs"}
+    explanation: "Two of these are homework and two are the session talking. The homework is what you have ready when there is no time to think."
+
+  - type: numeric-input
+    prompt: "You are long 900 shares from $20.88 and yesterday's high at $21.30 is the first level above you. What is that worth before costs?"
+    answer: 378
+    tolerance: 0.01
+    unit: "$"
+    working: "$21.30 − $20.88 = $0.42 a share × 900 shares = $378"
+    explanation: "Knowing the level before you take the trade is what turns 'it might go up' into a number you can decide on."
+
+  - type: match
+    prompt: "Three levels that existed before today's first candle. Where does each come from?"
+    pairs:
+      - ["Yesterday's high", "The most anybody paid in the last full session"]
+      - ["Yesterday's low", "The least anybody accepted in the last full session"]
+      - ["The pre-market high", "The most anybody paid before the crowd arrived"]
+    explanation: "Three numbers, five seconds of homework, and they decide most of what happens in the first hour."
+
+  - type: chart-decision
+    scenario: "XYZ is trading between yesterday's low at $25.60 and yesterday's high at $26.40. Eleven minutes have gone by between $25.92 and $26.10 on bars near 52,000. Your account is $20,000 and you are sizing 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[26.00, 26.08, 25.94, 26.04], [26.04, 26.10, 25.96, 25.98], [25.98, 26.06, 25.92, 26.02], [26.02, 26.09, 25.95, 25.97], [25.97, 26.05, 25.93, 26.01], [26.01, 26.07, 25.95, 25.99], [25.99, 26.06, 25.93, 26.03], [26.03, 26.10, 25.97, 26.00], [26.00, 26.08, 25.94, 26.04], [26.04, 26.09, 25.96, 25.98], [25.98, 26.06, 25.94, 26.02]]
+      volume: [62000, 54000, 58000, 50000, 56000, 52000, 48000, 54000, 50000, 46000, 52000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes on price was $26.02 — three cents above the decision, $21 on 700 shares before a single cost."
+    explanation: "Both levels are forty cents away and price is doing nothing in between. Levels are worth trading at, not halfway between."
+
+  - type: checklist-reveal
+    title: "Your five minutes before the session"
+    items:
+      - "Yesterday's high and low on the chart"
+      - "The high and low of {{market.premarket}} on the chart"
+      - "The round numbers between them"
+      - "Then nothing until the session tells you something"

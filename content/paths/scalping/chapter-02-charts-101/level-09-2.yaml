@@ -1,0 +1,114 @@
+id: "9-2"
+title: "Support and Resistance"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [levels, round-numbers, participants]
+learning_goal: "User knows why whole and half dollars collect orders, and marks them only where price has already reacted."
+purpose: "Round numbers are the levels every other trader can see too, which is exactly what makes them work."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "9-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "The order-queue question reaches back to Chapter 1's participants: everybody places orders at numbers they can say."
+screens:
+  - type: intro
+    text: "There is nothing magic about $20.00. There is something very ordinary about it, and that is why it works."
+
+  - type: theory
+    title: "Numbers people can say"
+    body: "Orders pile up at whole dollars and half dollars because that is how people think. Nobody decides to sell at $19.87; plenty of people decide to sell at $20.00."
+
+  - type: theory
+    title: "Round, then reacted to"
+    body: "A round number is a place to look, not a level yet. It becomes one the first time price gets there and cannot get through."
+    visual: chart-candles
+    visual_data:
+      data: [[19.62, 19.74, 19.58, 19.72], [19.72, 19.86, 19.70, 19.84], [19.84, 20.00, 19.82, 19.90], [19.90, 19.96, 19.84, 19.88], [19.88, 20.00, 19.86, 19.92], [19.92, 19.98, 19.84, 19.86], [19.86, 19.94, 19.80, 19.90], [19.90, 19.98, 19.86, 19.92]]
+      volume: [108000, 122000, 168000, 94000, 146000, 88000, 82000, 76000]
+      levels: [20.00]
+
+  - type: chart-tap
+    prompt: "Tap the first minute that reached the whole dollar."
+    chart:
+      kind: candles
+      data: [[19.62, 19.74, 19.58, 19.72], [19.72, 19.86, 19.70, 19.84], [19.84, 20.00, 19.82, 19.90], [19.90, 19.96, 19.84, 19.88], [19.88, 20.00, 19.86, 19.92], [19.92, 19.98, 19.84, 19.86], [19.86, 19.94, 19.80, 19.90], [19.90, 19.98, 19.86, 19.92]]
+      volume: [108000, 122000, 168000, 94000, 146000, 88000, 82000, 76000]
+    target: 2
+    explanation: "$20.00 on 168,000 shares, and the minute still finished ten cents under it. Everybody who had said 'I'll sell at twenty' got served in that minute."
+
+  - type: mc
+    prompt: "Why do so many orders sit at whole dollars?"
+    options:
+      - {text: "people think in round numbers", correct: true}
+      - {text: "brokers only accept round prices"}
+      - {text: "the exchange charges less at whole dollars"}
+    explanation: "Retail traders, institutions and market makers all place orders at numbers they can say out loud, so that is where the queue forms."
+
+  - type: numeric-mc
+    prompt: "You are long 1,100 shares from $17.66. If price stops at the next whole dollar, what is the trade worth before costs?"
+    options:
+      - {text: "$34"}
+      - {text: "$374", correct: true}
+      - {text: "$3,740"}
+      - {text: "$37.40"}
+    working: "$18.00 − $17.66 = $0.34 a share × 1,100 shares = $374"
+    explanation: "The round number above you is what the trade is worth if it works, and you can know that before you take it."
+
+  - type: chart-decision
+    scenario: "XYZ has fallen all morning and stopped twice at $15.50. The minute that just closed came off that price again and finished at $15.68 on the heaviest bar since the fall started. Your account is $20,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.92, 15.96, 15.80, 15.82], [15.82, 15.86, 15.66, 15.70], [15.70, 15.74, 15.50, 15.56], [15.56, 15.68, 15.54, 15.64], [15.64, 15.66, 15.50, 15.52], [15.52, 15.70, 15.50, 15.68], [15.68, 15.84, 15.66, 15.80], [15.80, 15.86, 15.74, 15.76], [15.76, 15.94, 15.74, 15.90], [15.90, 15.96, 15.84, 15.88], [15.88, 16.04, 15.86, 16.00]]
+      volume: [96000, 108000, 142000, 88000, 118000, 164000, 152000, 96000, 140000, 92000, 134000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $16.04 and finished at $16.00 — $0.32 a share above the decision, +$384 long on 1,200 shares."
+    explanation: "Twice to the half dollar, twice turned, and this time the buyers took the whole minute back on the biggest bar of the fall. The level is doing the work, not your opinion."
+
+  - type: tf
+    statement: "Half dollars collect orders for the same reason whole dollars do."
+    answer: true
+    explanation: "Any number people can say quickly gathers a queue. The whole dollar is simply the loudest of them."
+
+  - type: sort
+    prompt: "Which of these prices goes on your chart before the session?"
+    buckets: ["Worth marking", "Not worth marking"]
+    items:
+      - {text: "$20.00, where two pushes stopped this morning", bucket: "Worth marking"}
+      - {text: "$19.87, where nothing has happened yet", bucket: "Not worth marking"}
+      - {text: "$15.50, where the fall turned twice", bucket: "Worth marking"}
+      - {text: "$16.00, in a stock that has not traded near it today", bucket: "Not worth marking"}
+    explanation: "Round is a reason to look. A reaction is the reason to draw."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price this fall keeps stopping at."
+    chart:
+      kind: candles
+      data: [[22.86, 22.90, 22.72, 22.74], [22.74, 22.78, 22.60, 22.64], [22.64, 22.68, 22.50, 22.56], [22.56, 22.66, 22.52, 22.62], [22.62, 22.64, 22.50, 22.54], [22.54, 22.70, 22.52, 22.68], [22.68, 22.76, 22.64, 22.72], [22.72, 22.80, 22.68, 22.76]]
+      volume: [92000, 104000, 138000, 86000, 124000, 146000, 98000, 88000]
+    answer: 22.50
+    tolerance: 0.04
+    label: "Support"
+    explanation: "Two visits to $22.50 and two refusals to go below it. A half dollar that has already been defended is worth more than any number you like the look of."
+
+  - type: fill-tiles
+    sentence: "Traders place more orders at ___ numbers than at odd ones."
+    answer: "round"
+    explanation: "Which is the whole reason those prices stop the market — everybody arrived at the same number independently."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Price stopped dead at $20.00,"}
+      - {text: "which is where the sellers were,"}
+      - {text: "so it cannot trade above $20.00 today.", wrong: true}
+    explanation: "Levels get taken out all day long. They tell you where the fight is, never who wins it."
+
+  - type: example
+    body: "Mark $20.00 before the session and you already know where the morning's argument will happen. Mark $19.87 and you have drawn a line on a screen."

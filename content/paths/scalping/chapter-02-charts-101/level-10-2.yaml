@@ -1,0 +1,111 @@
+id: "10-2"
+title: "Bounce or Break"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [levels, breakout, wicks, decisions]
+learning_goal: "User judges a level by where the minute closed, not by how far the wick went through it."
+purpose: "Most of the levels a beginner thinks broke were only visited, and the difference is worth more than any indicator."
+terms_introduced: []
+reinforces: []
+prerequisite: "10-1"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Uses the body-and-wick reading from Level 1 against the levels from Level 9."
+screens:
+  - type: intro
+    text: "Price traded through the level. That is not the same as the level going."
+
+  - type: story
+    character: retail-trader
+    text: "You are watching $16.00 hold up XYZ for the third time. The minute prints down to $15.92, and your finger moves before the candle has finished."
+
+  - type: theory
+    title: "A visit and a verdict"
+    body: "The wick says price went there. The close says what the market decided about it. A level is only gone once a minute finishes on the other side."
+
+  - type: chart-tap
+    prompt: "Tap the minute that traded under $16.00 and still finished above it."
+    chart:
+      kind: candles
+      data: [[16.30, 16.34, 16.20, 16.22], [16.22, 16.26, 16.10, 16.12], [16.12, 16.16, 16.00, 16.04], [16.04, 16.08, 15.92, 16.06], [16.06, 16.18, 16.04, 16.16], [16.16, 16.24, 16.12, 16.22], [16.22, 16.30, 16.18, 16.28], [16.28, 16.34, 16.24, 16.30]]
+      volume: [104000, 118000, 132000, 186000, 158000, 142000, 128000, 112000]
+    target: 3
+    explanation: "Eight cents below the level inside the minute, and the close six cents above it. Everything sold down there was bought back before the candle finished."
+
+  - type: compare
+    prompt: "In which of these did $22.00 actually go?"
+    charts:
+      - {kind: candles, data: [[22.30, 22.34, 22.20, 22.22], [22.22, 22.26, 22.10, 22.12], [22.12, 22.16, 22.00, 22.04], [22.04, 22.08, 21.92, 22.06], [22.06, 22.18, 22.04, 22.16], [22.16, 22.24, 22.12, 22.20], [22.20, 22.28, 22.16, 22.24], [22.24, 22.30, 22.20, 22.28]], label: "A"}
+      - {kind: candles, data: [[22.30, 22.34, 22.20, 22.22], [22.22, 22.26, 22.10, 22.12], [22.12, 22.16, 22.00, 22.04], [22.04, 22.06, 21.88, 21.90], [21.90, 21.94, 21.78, 21.80], [21.80, 21.86, 21.70, 21.72], [21.72, 21.78, 21.62, 21.64], [21.64, 21.70, 21.56, 21.58]], label: "B"}
+    answer: "B"
+    explanation: "Both traded below $22.00. A finished the minute back above it and never went there again; B finished under it and kept finishing under it."
+
+  - type: chart-decision
+    scenario: "XYZ has been falling towards $13.50 all morning. The minute before last traded down to $13.44 on 232,000 shares — the heaviest bar of the fall — and finished at $13.54. The one that just closed is green at $13.64. Your account is $20,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.86, 13.90, 13.74, 13.76], [13.76, 13.80, 13.64, 13.66], [13.66, 13.70, 13.54, 13.58], [13.58, 13.62, 13.50, 13.52], [13.52, 13.56, 13.44, 13.54], [13.54, 13.66, 13.52, 13.64], [13.64, 13.78, 13.62, 13.76], [13.76, 13.82, 13.70, 13.72], [13.72, 13.90, 13.70, 13.86], [13.86, 13.92, 13.80, 13.84], [13.84, 14.00, 13.82, 13.96]]
+      volume: [116000, 128000, 142000, 154000, 232000, 198000, 176000, 108000, 164000, 96000, 152000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $14.00 and finished at $13.96 — $0.32 a share above the decision, +$448 long on 1,400 shares."
+    explanation: "The heaviest minute of the fall was spent below the level and finished above it. Everyone who sold under $13.50 was bought out inside sixty seconds."
+
+  - type: tf
+    statement: "A long wick through support with the close back above it is one of the strongest signs the level is holding."
+    answer: true
+    explanation: "Price was available below the level and the market took it all back in the same minute. That is buyers acting, not price drifting."
+
+  - type: mc
+    prompt: "A minute trades ten cents through the level and finishes back inside. What have you seen?"
+    options:
+      - {text: "the level breaking, slowly"}
+      - {text: "the level being defended", correct: true}
+      - {text: "a level that should be moved ten cents"}
+    explanation: "Somebody was willing to trade on the other side and got overwhelmed before the minute was out. The line stays where it is."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The candle traded under support"}
+      - {text: "and finished back above it,"}
+      - {text: "so the level has broken.", wrong: true}
+    explanation: "It finished above, so the level held. A close under it would have been the other answer."
+
+  - type: chart-decision
+    scenario: "XYZ has pressed against $25.00 for four minutes. The minute that just closed finished at $25.04 — the first close above it — on 46,000 shares, the thinnest bar since the open. Your account is $20,000 and you are sizing 750 shares."
+    shares: 750
+    chart:
+      kind: candles
+      data: [[24.70, 24.78, 24.66, 24.76], [24.76, 24.86, 24.74, 24.84], [24.84, 24.94, 24.82, 24.90], [24.90, 25.00, 24.88, 24.96], [24.96, 25.00, 24.92, 24.98], [24.98, 25.08, 24.96, 25.04], [25.04, 25.06, 24.92, 24.94], [24.94, 24.98, 24.84, 24.86], [24.86, 24.90, 24.76, 24.78], [24.78, 24.84, 24.72, 24.74], [24.74, 24.80, 24.66, 24.70]]
+      volume: [88000, 96000, 104000, 112000, 98000, 46000, 108000, 116000, 104000, 92000, 96000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It came straight back under $25.00 and finished at $24.70. Buying that close would have been $0.34 a share underwater — $255 on 750 shares."
+    explanation: "The close is on the right side and nobody is behind it. A level that changes hands on the thinnest bar of the morning has not changed hands."
+
+  - type: numeric-input
+    prompt: "The level was $13.50 and the minute traded down to $13.44 before finishing at $13.54. How far through the level did price actually trade?"
+    answer: 0.06
+    tolerance: 0.001
+    unit: "$"
+    working: "13.50 − 13.44 = 0.06"
+    explanation: "Six cents, held for less than a minute, and handed straight back. That distance is the whole evidence people use to declare a level broken."
+
+  - type: fill-tiles
+    sentence: "The part of the candle that decides whether a level held is the ___."
+    answer: "close"
+    explanation: "Everything else in the minute is an offer. The close is the only price the whole market has to live with."
+
+  - type: checklist-reveal
+    title: "Judging a level in one minute"
+    items:
+      - "Did a minute finish on the other side, or only visit it?"
+      - "How heavy was the bar under that close?"
+      - "Did the next minute agree with it?"
+      - "Two yeses is an answer; one is a visit"

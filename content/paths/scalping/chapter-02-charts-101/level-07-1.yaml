@@ -4,110 +4,112 @@ chapter: 2
 chapter_title: "Charts 101"
 path: scalping
 category: new-theory
-tags: [trend, structure, chart-reading]
-learning_goal: "User can label a 1-minute chart as uptrend, downtrend or range from its highs and lows, and prefers trades that run with the trend."
-purpose: "Naming the shape takes two seconds and decides whether your idea has the crowd with it or against it."
-terms_introduced: ["Uptrend", "Downtrend", "Higher high", "Higher low", "Lower high", "Lower low", "Range"]
+tags: [trend, structure, decisions]
+learning_goal: "User can name an uptrend from its higher highs and higher lows, and reads the last dip as the thing that has to hold."
+purpose: "Every scalp is taken with the shape of the last twenty minutes or against it, and the shape has a name."
+terms_introduced: ["Uptrend", "Higher high", "Higher low"]
+reinforces: [1]
 prerequisite: "6-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Structure by highs and lows only. Why ranges hurt scalpers, and the pullback, come in 4-2."
+notes: "One direction only. The mirror image is 7-2, so nothing on this page uses the word for it."
 screens:
   - type: intro
-    text: "Every chart is doing one of three things. Name it, and half the decision is made."
+    text: "You can read one candle. Now read the shape a dozen of them make together."
+
+  - type: story
+    character: retail-trader
+    text: "Eight minutes of XYZ on your screen. Three pushes up, two give-backs, and the second give-back stopped above the first."
 
   - type: theory
-    title: "An uptrend in two words"
-    body: "Higher highs and higher lows. Each push goes further than the last, each dip stops above the last one. Buyers keep stepping in earlier than before."
+    title: "Price climbs in steps"
+    body: "A rising market does not go straight up. It pushes, hands a little back, then pushes again. The pushes and the give-backs are the two halves you name."
+
+  - type: theory
+    title: "Uptrend"
+    body: "Each push tops above the last one: a higher high. Each dip stops above the last one: a higher low. Both halves at once, and the shape is an uptrend."
+    visual: chart-candles
+    visual_data:
+      data: [[16.20, 16.34, 16.16, 16.32], [16.32, 16.36, 16.22, 16.24], [16.24, 16.52, 16.22, 16.48], [16.48, 16.54, 16.38, 16.40], [16.40, 16.70, 16.38, 16.66], [16.66, 16.72, 16.54, 16.56], [16.56, 16.86, 16.54, 16.82], [16.82, 16.88, 16.70, 16.74]]
+      volume: [86000, 52000, 104000, 48000, 126000, 56000, 142000, 60000]
+
+  - type: chart-tap
+    prompt: "Tap the first minute whose dip stopped above the dip before it."
+    chart:
+      kind: candles
+      data: [[16.20, 16.34, 16.16, 16.32], [16.32, 16.36, 16.22, 16.24], [16.24, 16.52, 16.22, 16.48], [16.48, 16.54, 16.38, 16.40], [16.40, 16.70, 16.38, 16.66], [16.66, 16.72, 16.54, 16.56], [16.56, 16.86, 16.54, 16.82], [16.82, 16.88, 16.70, 16.74]]
+      volume: [86000, 52000, 104000, 48000, 126000, 56000, 142000, 60000]
+    target: 3
+    explanation: "The first give-back bottomed at $16.22, the next one at $16.38. Sixteen cents higher, and the buyers are the ones setting the floor."
+
+  - type: mc
+    prompt: "Price makes a new high for the morning, then falls back under the low of the last dip. What is missing?"
+    options:
+      - {text: "nothing, a new high is enough"}
+      - {text: "a heavier bar under the new high"}
+      - {text: "the higher low", correct: true}
+    explanation: "An uptrend needs both halves. A new high with the floor caving in underneath it is one half of a shape, not a shape."
+
+  - type: tf
+    statement: "Two higher highs still make an uptrend if the dips between them are getting deeper."
+    answer: false
+    explanation: "Deeper dips mean the sellers take more ground each time. Whatever the highs do, the floor is dropping."
+
+  - type: chart-decision
+    scenario: "XYZ has stepped up for five minutes. The last two dips stopped at $13.24 and then $13.38, and the minute that just closed is another shallow dip that held at $13.38. Your account is $20,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.10, 13.22, 13.06, 13.20], [13.20, 13.24, 13.12, 13.14], [13.14, 13.36, 13.12, 13.32], [13.32, 13.38, 13.24, 13.26], [13.26, 13.50, 13.24, 13.46], [13.46, 13.52, 13.38, 13.42], [13.42, 13.66, 13.40, 13.62], [13.62, 13.70, 13.56, 13.60], [13.60, 13.84, 13.58, 13.80], [13.80, 13.88, 13.74, 13.78], [13.78, 13.94, 13.72, 13.90]]
+      volume: [92000, 58000, 110000, 54000, 128000, 62000, 136000, 70000, 150000, 74000, 158000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It kept stepping up to $13.94 and finished at $13.90 — $0.48 a share above the decision, +$672 long on 1,400 shares."
+    explanation: "Three highs in a row above the last, three dips in a row above the last, and the push bars are the heavy ones. You are joining the step, not calling the top."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Before you join the steps you want to know whether a crowd is making them. Tap the number that tells you."
+    data: {ticker: XYZ, name: Example Corp, price: 13.42, change: 0.62, change_pct: 4.8, volume: "4.6M", prev_close: 12.80}
+    target: volume
+    explanation: "The staircase looks the same at any size. Volume is still the liquidity clue, and it is what says whether you can get 1,400 shares back out."
+
+  - type: fill-tiles
+    sentence: "A dip that stops above the dip before it is a higher ___."
+    answer: "low"
+    explanation: "The floor moved up, which is the half of the shape most beginners never check."
+
+  - type: sort
+    prompt: "Uptrend, or not yet?"
+    buckets: ["Uptrend", "Not yet"]
+    items:
+      - {text: "Each push tops higher and each dip stops higher", bucket: "Uptrend"}
+      - {text: "A new high, then a dip straight through the last one", bucket: "Not yet"}
+      - {text: "Highs and lows both climbing for twenty minutes", bucket: "Uptrend"}
+      - {text: "One long green candle after a flat half hour", bucket: "Not yet"}
+    explanation: "Two halves, both rising. One long candle is a minute, not a shape."
+
+  - type: numeric-input
+    prompt: "You joined the third step at $13.46 with 1,200 shares and sold into the next push at $13.74. What is the result before costs?"
+    answer: 336
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.28 a share × 1,200 shares = $336"
+    explanation: "Twenty-eight cents is one step of the staircase, and the share count is what turns it into a number worth having."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "An uptrend needs"}
+      - {text: "each push to top the last one"}
+      - {text: "and each dip to go deeper.", wrong: true}
+    explanation: "The dips have to stop higher, not lower. Deeper dips are the first thing to go wrong in a climb."
 
   - type: visual
     component: chart-candles
     data:
-      data: [[40.02, 40.10, 39.98, 40.08], [40.08, 40.20, 40.06, 40.18], [40.18, 40.19, 40.02, 40.05], [40.05, 40.14, 40.03, 40.12], [40.12, 40.26, 40.10, 40.24], [40.24, 40.34, 40.22, 40.30], [40.30, 40.31, 40.11, 40.15], [40.15, 40.28, 40.13, 40.26], [40.26, 40.42, 40.24, 40.40]]
-      volume: [52000, 68000, 44000, 39000, 74000, 81000, 46000, 62000, 96000]
-      markers:
-        - {index: 1, label: "high 40.20"}
-        - {index: 2, label: "low 40.02"}
-        - {index: 5, label: "higher high 40.34"}
-        - {index: 6, label: "higher low 40.11"}
-    caption: "Two pushes, two dips: each one further up than the one before."
-
-  - type: theory
-    title: "The mirror image"
-    body: "A downtrend is lower highs and lower lows. Every rally dies sooner and every drop goes deeper, because sellers keep getting in front of the buyers."
-
-  - type: chart-tap
-    prompt: "This chart dipped twice. Tap the candle at the bottom of the second dip."
-    chart:
-      kind: candles
-      data: [[16.20, 16.28, 16.16, 16.26], [16.26, 16.36, 16.24, 16.34], [16.34, 16.35, 16.18, 16.21], [16.21, 16.30, 16.20, 16.28], [16.28, 16.44, 16.26, 16.42], [16.42, 16.43, 16.29, 16.32], [16.32, 16.40, 16.30, 16.38], [16.38, 16.52, 16.36, 16.50], [16.50, 16.56, 16.44, 16.52]]
-    target: 5
-    explanation: "Its low is $16.29, well above the first dip at $16.18 — a higher low, which is what keeps an uptrend alive."
-
-  - type: carousel
-    cards:
-      - {label: "Uptrend", text: "Higher highs, higher lows. Longs run with the crowd; shorts fight it."}
-      - {label: "Downtrend", text: "Lower highs, lower lows. Shorts run with the crowd; longs are catching a falling stock."}
-      - {label: "Range", text: "Highs stall around one price, lows hold around another. Price goes sideways between them."}
-
-  - type: theory
-    title: "Trade with the trend"
-    body: "In an uptrend, buying dips has been paying the crowd all morning, so the crowd keeps doing it. Trading against that needs a much better reason than a feeling that it has gone far enough."
-
-  - type: chart-decision
-    scenario: "XYZ has topped each push above the last one all morning, and has just finished its second dip. You are sizing 1,000 shares."
-    shares: 1000
-    chart:
-      kind: candles
-      data: [[28.10, 28.22, 28.06, 28.20], [28.20, 28.32, 28.18, 28.30], [28.30, 28.34, 28.16, 28.19], [28.19, 28.30, 28.17, 28.28], [28.28, 28.44, 28.26, 28.42], [28.42, 28.46, 28.30, 28.34], [28.34, 28.45, 28.32, 28.44], [28.44, 28.55, 28.42, 28.54], [28.54, 28.59, 28.50, 28.55], [28.55, 28.60, 28.53, 28.58], [28.58, 28.61, 28.55, 28.57]]
-      volume: [64000, 71000, 42000, 38000, 88000, 45000, 79000, 104000, 72000, 61000, 55000]
-      decision_index: 5
-    best: long
-    reasonable: [no-trade]
-    outcome: "The next push topped the last one at $28.61 and held $28.57 — $0.23 a share above the decision, +$230 long on 1,000 shares."
-    explanation: "A higher low inside an uptrend is the cheapest place to join it, because the last dip already showed where buyers wait."
-
-  - type: mc
-    prompt: "Pushes topped at $40.20 and then $40.34; the dips between them stopped at $40.02 and then $40.11. The chart is in:"
-    options:
-      - {text: "an uptrend", correct: true}
-      - {text: "a downtrend"}
-      - {text: "a range"}
-    explanation: "Both the highs and the lows moved up, which is the whole definition."
-
-  - type: tf
-    statement: "A stock can be in an uptrend on the 5-minute chart and a downtrend on the 1-minute at the same time."
-    answer: true
-    explanation: "A trend always belongs to one timeframe — which is exactly why a scalper looks at both."
-
-  - type: chart-decision
-    scenario: "XYZ has spent twenty minutes turning down from about $34.20 and turning up from about $34.06, over and over. You are sizing 800 shares."
-    shares: 800
-    chart:
-      kind: candles
-      data: [[34.10, 34.18, 34.04, 34.14], [34.14, 34.20, 34.08, 34.10], [34.10, 34.19, 34.05, 34.16], [34.16, 34.21, 34.07, 34.09], [34.09, 34.18, 34.06, 34.15], [34.15, 34.20, 34.08, 34.11], [34.11, 34.19, 34.05, 34.16], [34.16, 34.21, 34.09, 34.12], [34.12, 34.18, 34.06, 34.14], [34.14, 34.20, 34.07, 34.10], [34.10, 34.19, 34.06, 34.13]]
-      volume: [38000, 33000, 29000, 31000, 27000, 24000, 26000, 22000, 25000, 21000, 23000]
-      decision_index: 5
-    best: no-trade
-    outcome: "Five minutes on, price was $34.13 — two cents from the decision. On 800 shares that is $16, and you would have paid costs both ways."
-    explanation: "In a range there is no push to join; you are guessing which edge holds."
-
-  - type: sort
-    prompt: "Which shape is each chart in?"
-    buckets: ["Uptrend", "Downtrend", "Range"]
-    items:
-      - {text: "A new high for the morning, then a dip that stops above the last one", bucket: "Uptrend"}
-      - {text: "Every rally dies a little lower than the one before", bucket: "Downtrend"}
-      - {text: "Four pushes into $22.40 and four dips into $22.20", bucket: "Range"}
-      - {text: "A fresh low, a weak rally, then another fresh low", bucket: "Downtrend"}
-    explanation: "Read the highs, then the lows. If neither is moving, it is a range."
-
-  - type: fill-tiles
-    sentence: "A chart making lower highs and lower lows is in a ___."
-    answer: "downtrend"
-    explanation: "Each lower high and each lower low says the sellers got there before the buyers did."
-
-  - type: theory
-    title: "Name it before you trade it"
-    body: "Uptrend, downtrend, range. One glance at the highs and lows tells you which side the crowd is on — and whether there is a side at all."
+      data: [[15.40, 15.56, 15.36, 15.52], [15.52, 15.58, 15.44, 15.46], [15.46, 15.74, 15.44, 15.70], [15.70, 15.76, 15.60, 15.64]]
+      volume: [118000, 54000, 132000, 58000]
+    caption: "Push, hand a little back, push again. Two rising halves, and the shape has a name."

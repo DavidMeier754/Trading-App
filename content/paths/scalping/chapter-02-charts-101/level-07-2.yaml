@@ -1,0 +1,118 @@
+id: "7-2"
+title: "Trend and Range"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [trend, structure, liquidity, decisions]
+learning_goal: "User can name a downtrend from its lower highs and lower lows and take the short side of it."
+purpose: "Half of a scalper's day is on the short side, and beginners keep buying the dips of a shape that has none."
+terms_introduced: ["Downtrend", "Lower high", "Lower low"]
+reinforces: [1]
+prerequisite: "7-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "The mirror of 7-1. The liquidity question is the Chapter 1 callback."
+screens:
+  - type: intro
+    text: "Turn yesterday's staircase upside down. Same two halves, other direction."
+
+  - type: theory
+    title: "Downtrend"
+    body: "Each push down ends below the last one: a lower low. Each attempt back up stalls below the last one: a lower high. Both halves falling, and the shape is a downtrend."
+    visual: chart-candles
+    visual_data:
+      data: [[22.40, 22.46, 22.24, 22.28], [22.28, 22.38, 22.26, 22.34], [22.34, 22.36, 22.12, 22.16], [22.16, 22.26, 22.14, 22.22], [22.22, 22.24, 22.00, 22.04], [22.04, 22.14, 22.02, 22.10], [22.10, 22.12, 21.88, 21.92], [21.92, 22.02, 21.90, 21.98]]
+      volume: [96000, 54000, 112000, 58000, 124000, 62000, 138000, 66000]
+
+  - type: theory
+    title: "The attempts are the tell"
+    body: "In a fall, the interesting candles are the green ones. Where the buying runs out of room tells you what the sellers are willing to pay for."
+
+  - type: chart-tap
+    prompt: "Tap the first minute whose push back up stalled below the push before it."
+    chart:
+      kind: candles
+      data: [[22.40, 22.46, 22.24, 22.28], [22.28, 22.38, 22.26, 22.34], [22.34, 22.36, 22.12, 22.16], [22.16, 22.26, 22.14, 22.22], [22.22, 22.24, 22.00, 22.04], [22.04, 22.14, 22.02, 22.10], [22.10, 22.12, 21.88, 21.92], [21.92, 22.02, 21.90, 21.98]]
+      volume: [96000, 54000, 112000, 58000, 124000, 62000, 138000, 66000]
+    target: 3
+    explanation: "The first attempt reached $22.38, the next one gave up at $22.26. Twelve cents less ground, and the sellers had not even had to work for it."
+
+  - type: compare
+    prompt: "One of these is a downtrend. Which?"
+    charts:
+      - {kind: candles, data: [[18.60, 18.66, 18.48, 18.52], [18.52, 18.62, 18.50, 18.58], [18.58, 18.60, 18.38, 18.42], [18.42, 18.50, 18.40, 18.46], [18.46, 18.48, 18.26, 18.30], [18.30, 18.38, 18.28, 18.34], [18.34, 18.36, 18.14, 18.18], [18.18, 18.26, 18.16, 18.22]], label: "A"}
+      - {kind: candles, data: [[18.60, 18.64, 18.54, 18.58], [18.58, 18.62, 18.52, 18.56], [18.56, 18.60, 18.20, 18.24], [18.24, 18.32, 18.20, 18.28], [18.28, 18.34, 18.22, 18.26], [18.26, 18.32, 18.20, 18.30], [18.30, 18.34, 18.22, 18.28], [18.28, 18.33, 18.21, 18.25]], label: "B"}
+    answer: "A"
+    explanation: "B fell once and then stopped falling — the same two prices for five minutes. A takes new ground on every push and gives less back on every attempt."
+
+  - type: chart-decision
+    scenario: "XYZ has been sliding for five minutes. The attempts back up stalled at $26.38, then $26.24, and the minute that just closed stalled at $26.10. Your account is $20,000 and you are sizing 750 shares."
+    shares: 750
+    chart:
+      kind: candles
+      data: [[26.40, 26.48, 26.24, 26.28], [26.28, 26.38, 26.26, 26.34], [26.34, 26.36, 26.10, 26.14], [26.14, 26.24, 26.12, 26.20], [26.20, 26.22, 25.96, 26.00], [26.00, 26.10, 25.98, 26.06], [26.06, 26.08, 25.82, 25.86], [25.86, 25.94, 25.84, 25.90], [25.90, 25.92, 25.68, 25.72], [25.72, 25.80, 25.70, 25.76], [25.76, 25.78, 25.56, 25.60]]
+      volume: [104000, 56000, 118000, 60000, 126000, 58000, 134000, 62000, 142000, 66000, 148000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It stepped down to $25.56 and finished the run at $25.60 — $0.46 a share, +$345 short on 750 shares."
+    explanation: "Three stalls in a row, each one lower, and the heavy bars are all on the red candles. You are joining the sellers, not guessing at a floor."
+
+  - type: mc
+    prompt: "You find that same shape in a stock printing 7,000 shares a minute. What changes?"
+    options:
+      - {text: "the exit, not the shape", correct: true}
+      - {text: "the shape, not the exit"}
+      - {text: "nothing, a trend is a trend"}
+    explanation: "The staircase looks identical at any size. What changes is whether 750 shares can be bought back inside a 7,000-share minute without you paying for the privilege."
+
+  - type: tf
+    statement: "A stock can be stepping down on the 1-minute chart while the 5-minute chart is still stepping up."
+    answer: true
+    explanation: "Each chart describes its own stretch of time. The slower one has more traders behind it, which is why you check it before you take the fast one."
+
+  - type: fill-choice
+    sentence: "An attempt back up that stalls under the last one is a lower ___."
+    options: ["high", "low", "close"]
+    answer: "high"
+    explanation: "It is a high — the highest price of that attempt — and it is lower than the attempt before it."
+
+  - type: match
+    prompt: "Four readings from the last twenty minutes. What is each one telling you?"
+    pairs:
+      - ["Lower low", "The sellers took ground nobody had given up before"]
+      - ["Lower high", "The buyers ran out of room earlier than last time"]
+      - ["Higher low", "The buyers defended above where they defended last time"]
+      - ["Higher high", "The buyers took ground nobody had paid for before"]
+    explanation: "Two halves, two directions. Everything in this level is one of these four."
+
+  - type: numeric-input
+    prompt: "You went short 700 shares at $26.06 and covered at $25.72. What is the result before costs?"
+    answer: 238
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.34 a share × 700 shares = $238"
+    explanation: "A short pays the move in reverse: sold at the stall, bought back a step lower."
+
+  - type: chart-decision
+    scenario: "XYZ has fallen all morning. The last two attempts back up stopped at $11.54 and $11.52. The minute that just closed is a green candle that reached $11.62 on the heaviest bar since the fall began. Your account is $20,000 and you are sizing 1,700 shares."
+    shares: 1700
+    chart:
+      kind: candles
+      data: [[11.80, 11.84, 11.62, 11.66], [11.66, 11.72, 11.44, 11.46], [11.46, 11.48, 11.30, 11.34], [11.34, 11.54, 11.32, 11.50], [11.50, 11.52, 11.26, 11.28], [11.28, 11.62, 11.26, 11.60], [11.60, 11.70, 11.56, 11.68], [11.68, 11.78, 11.64, 11.74], [11.74, 11.84, 11.70, 11.80], [11.80, 11.90, 11.76, 11.86], [11.86, 11.94, 11.82, 11.90]]
+      volume: [92000, 106000, 118000, 64000, 124000, 268000, 196000, 164000, 140000, 118000, 102000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "Price worked up to $11.94 and finished at $11.90. A short there would have been $0.30 a share underwater — $510 on 1,700 shares."
+    explanation: "The lower highs stopped being lower. Shorting a shape the moment it breaks its own rule is the most expensive habit in this chapter."
+
+  - type: checklist-reveal
+    title: "Naming the shape, in four seconds"
+    items:
+      - "Find the last two pushes: is the newer one higher or lower?"
+      - "Find the last two give-backs: same question"
+      - "Both rising, both falling, or one of each?"
+      - "Only then look at where you would get in"

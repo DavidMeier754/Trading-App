@@ -1,0 +1,123 @@
+id: "8-3"
+title: "The Pullback"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [pullback, entry, decisions]
+learning_goal: "User waits for the first candle that takes ground back and joins the trend there rather than inside the falling dip."
+purpose: "This is the entry a scalper uses more than any other, and it is decided by one candle."
+terms_introduced: []
+reinforces: []
+prerequisite: "8-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "The branch is the level's centrepiece: wait, join, and then read the trade coming apart."
+screens:
+  - type: intro
+    text: "You have the shape and you have the dip. Now the only question left: which minute do you join?"
+
+  - type: story
+    character: retail-trader
+    text: "XYZ has climbed for six minutes and handed back three on shrinking bars. Your finger is over the button and every red candle makes it heavier."
+
+  - type: theory
+    title: "The first candle back"
+    body: "Do not buy while the dip is still making lower closes. Wait for the first minute that takes back ground — a green body closing above the previous minute's close, ideally on a heavier bar."
+
+  - type: chart-tap
+    prompt: "Tap the first minute that took back ground the give-back had taken."
+    chart:
+      kind: candles
+      data: [[17.10, 17.26, 17.06, 17.24], [17.24, 17.42, 17.22, 17.40], [17.40, 17.44, 17.30, 17.32], [17.32, 17.36, 17.24, 17.26], [17.26, 17.30, 17.20, 17.22], [17.22, 17.40, 17.20, 17.38], [17.38, 17.50, 17.36, 17.46], [17.46, 17.54, 17.40, 17.50]]
+      volume: [132000, 148000, 60000, 48000, 40000, 154000, 162000, 118000]
+    target: 5
+    explanation: "Three red minutes on thinning bars, then a green body straight back through all three on 154,000 shares. That is the minute the sellers ran out."
+
+  - type: branch
+    scenario: "XYZ climbed from $19.10 to $19.50 on heavy bars and has handed back four minutes on 68,000, 52,000, 44,000 and 40,000. You have $20,000 in the account and 1,000 shares in mind."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[19.10, 19.30, 19.06, 19.28], [19.28, 19.48, 19.26, 19.44], [19.44, 19.50, 19.34, 19.36], [19.36, 19.40, 19.28, 19.30], [19.30, 19.34, 19.24, 19.26], [19.26, 19.30, 19.20, 19.22], [19.22, 19.42, 19.20, 19.40], [19.40, 19.44, 19.30, 19.32], [19.32, 19.34, 19.16, 19.18], [19.18, 19.24, 19.12, 19.16]]
+      decision_index: 5
+    steps:
+      - prompt: "The minute that just closed is another small red one, at $19.22 on 40,000 shares. What now?"
+        options:
+          - {text: "Wait for a minute that takes ground back", correct: true, next: 1}
+          - {text: "Buy here — the bars cannot get any thinner", next: 1}
+        explanation: "Thin bars say the selling is drying up, not that it has stopped. The evidence you are waiting for is a candle, not a hunch."
+      - prompt: "The next minute closes at $19.40, back through the whole give-back, on 158,000 shares. What now?"
+        options:
+          - {text: "Join it, with $19.20 underneath the trade", correct: true}
+          - {text: "Wait for a second green one to be sure"}
+        explanation: "One minute took back four, on four times their volume. Waiting for confirmation of the confirmation is how the whole move gets watched from the sidelines."
+      - prompt: "Two minutes later price closes at $19.18, under the low of the give-back you bought. What does the chart say?"
+        options:
+          - {text: "The reason you took it is gone", correct: true}
+          - {text: "It is a deeper give-back, so buy more"}
+        explanation: "You joined because $19.20 held. It did not hold. Whatever you do next, this is no longer the trade you took."
+
+  - type: chart-decision
+    scenario: "XYZ pushed from $22.06 to $22.52, handed back three minutes on 70,000, 54,000 and 46,000 that stopped at $22.24, and the minute that just closed is a green body at $22.46 on 168,000. Your account is $20,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[22.10, 22.30, 22.06, 22.28], [22.28, 22.50, 22.26, 22.46], [22.46, 22.52, 22.34, 22.36], [22.36, 22.40, 22.28, 22.30], [22.30, 22.34, 22.24, 22.26], [22.26, 22.48, 22.24, 22.46], [22.46, 22.62, 22.44, 22.58], [22.58, 22.64, 22.52, 22.54], [22.54, 22.76, 22.52, 22.72], [22.72, 22.78, 22.66, 22.70], [22.70, 22.86, 22.68, 22.82]]
+      volume: [158000, 172000, 70000, 54000, 46000, 168000, 180000, 104000, 166000, 98000, 158000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It climbed on to $22.86 and finished at $22.82 — $0.36 a share above the decision, +$288 long on 800 shares."
+    explanation: "The give-back thinned out, held above the last floor, and one heavy green minute took the whole of it back. That candle is the entry the level is about."
+
+  - type: mc
+    prompt: "Why wait for a minute that takes ground back instead of buying while the dip is still falling?"
+    options:
+      - {text: "the price is always better a minute later"}
+      - {text: "the sellers show you they are done first", correct: true}
+      - {text: "red candles cannot be bought"}
+    explanation: "Buying into falling closes is a guess about when the selling ends. Waiting turns it into something you watched happen."
+
+  - type: numeric-input
+    prompt: "You joined that candle at $22.46 with 800 shares and sold into the next push at $22.72. What is the result before costs?"
+    answer: 208
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.26 a share × 800 shares = $208"
+    explanation: "Twenty-six cents for holding a stock through two minutes, which is the whole business model of the trade."
+
+  - type: chart-decision
+    scenario: "XYZ pushed to $13.52 and has been red for four minutes since. Each bar is bigger than the last and the minute that just closed made a new low at $13.12. Your account is $20,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[13.20, 13.38, 13.16, 13.36], [13.36, 13.52, 13.34, 13.48], [13.48, 13.52, 13.36, 13.38], [13.38, 13.42, 13.28, 13.30], [13.30, 13.34, 13.20, 13.22], [13.22, 13.26, 13.12, 13.14], [13.14, 13.18, 13.04, 13.06], [13.06, 13.12, 12.98, 13.00], [13.00, 13.06, 12.92, 12.96], [12.96, 13.02, 12.90, 12.94], [12.94, 13.00, 12.88, 12.92]]
+      volume: [142000, 156000, 88000, 96000, 104000, 118000, 126000, 132000, 120000, 108000, 100000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It slid on to $12.88 and finished at $12.92. Buying that give-back would have been $0.22 a share underwater — $330 on 1,500 shares."
+    explanation: "No minute has taken any ground back yet, and the bars are growing rather than thinning. There is nothing here to join, only something to watch."
+
+  - type: order
+    prompt: "Put the give-back trade in the order it happens on the screen."
+    items:
+      - "A push runs and stops"
+      - "Price hands some back on thinner bars"
+      - "One minute takes ground back on a heavy bar"
+      - "You join, with the low of the give-back underneath you"
+    explanation: "Three of the four steps are watching. The trade itself is the shortest part of it."
+
+  - type: tf
+    statement: "Waiting for the candle back means you always get in worse than the low of the dip."
+    answer: true
+    explanation: "You trade a few cents of the move for evidence that the selling is over. That is the price of not standing in front of a stock that is still falling."
+
+  - type: recap
+    title: "Level 8 in three lines"
+    points:
+      - {text: "A give-back is a pullback while it holds above the last dip of the climb.", level: "8-1"}
+      - {text: "Healthy give-backs run thinner than the push that came before them.", level: "8-2"}
+      - {text: "You join on the first minute that takes ground back, not before it.", level: "8-3"}

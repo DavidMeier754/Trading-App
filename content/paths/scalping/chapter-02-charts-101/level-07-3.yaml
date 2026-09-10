@@ -1,0 +1,114 @@
+id: "7-3"
+title: "Trend and Range"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [trend, structure, liquidity, volatility]
+learning_goal: "User can name a range and explain why it is the most expensive shape a scalper can trade."
+purpose: "Most of a session is neither up nor down, and most beginner losses are taken in exactly that stretch."
+terms_introduced: ["Range"]
+reinforces: [1]
+prerequisite: "7-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "The two-dials question is the Chapter 1 callback: busy and going nowhere are not the same reading."
+screens:
+  - type: intro
+    text: "Two shapes have names. The third one is what the market does most of the day."
+
+  - type: theory
+    title: "When neither side wins"
+    body: "Sometimes the pushes stop topping the last one and the dips stop breaking the last one. Price crosses the same two prices again and again. That stretch is a range."
+    visual: chart-candles
+    visual_data:
+      data: [[17.38, 17.50, 17.36, 17.46], [17.46, 17.54, 17.40, 17.42], [17.42, 17.48, 17.34, 17.38], [17.38, 17.50, 17.36, 17.48], [17.48, 17.50, 17.38, 17.40], [17.40, 17.46, 17.34, 17.44], [17.44, 17.49, 17.38, 17.40], [17.40, 17.47, 17.35, 17.44]]
+      volume: [58000, 46000, 52000, 44000, 50000, 42000, 48000, 40000]
+
+  - type: chart-tap
+    prompt: "Tap the minute that traded at the highest price of this stretch."
+    chart:
+      kind: candles
+      data: [[17.38, 17.50, 17.36, 17.46], [17.46, 17.54, 17.40, 17.42], [17.42, 17.48, 17.34, 17.38], [17.38, 17.50, 17.36, 17.48], [17.48, 17.50, 17.38, 17.40], [17.40, 17.46, 17.34, 17.44], [17.44, 17.49, 17.38, 17.40], [17.40, 17.47, 17.35, 17.44]]
+      volume: [58000, 46000, 52000, 44000, 50000, 42000, 48000, 40000]
+    target: 1
+    explanation: "$17.54, and the minute still finished twelve cents below it. That price is the ceiling everything else here is measured against."
+
+  - type: theory
+    title: "Why it is expensive"
+    body: "Twenty cents from floor to ceiling sounds like room. You never get in at the floor, you pay the market maker's gap on the way in and again on the way out, and what is left is a few cents of noise."
+
+  - type: slider
+    prompt: "The stretch above runs from $17.34 to $17.54. You buy at $17.46 and plan to sell at the ceiling. How much of it is still there to pay you?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 40
+    tolerance: 10
+    explanation: "$17.54 − $17.46 = $0.08 of a $0.20 stretch. You are paying full price for the last two fifths of it."
+
+  - type: mc
+    prompt: "Why is a range the hardest shape for a scalper?"
+    options:
+      - {text: "a range means nobody is trading the stock"}
+      - {text: "there is less room than there is noise", correct: true}
+      - {text: "prices inside a range are not real prices"}
+    explanation: "Every price in there is real and plenty of people are trading. The problem is that the whole stretch is worth less than one candle in a trend."
+
+  - type: chart-decision
+    scenario: "XYZ has crossed the same eighteen cents ten times in the last eleven minutes. Bars are steady near 50,000 shares and the candle that just closed finished in the middle of them. Your account is $20,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[24.20, 24.30, 24.16, 24.26], [24.26, 24.32, 24.18, 24.20], [24.20, 24.28, 24.14, 24.24], [24.24, 24.31, 24.17, 24.19], [24.19, 24.29, 24.15, 24.25], [24.25, 24.30, 24.16, 24.18], [24.18, 24.28, 24.14, 24.24], [24.24, 24.32, 24.18, 24.20], [24.20, 24.29, 24.15, 24.23], [24.23, 24.30, 24.16, 24.19], [24.19, 24.28, 24.14, 24.22]]
+      volume: [62000, 48000, 56000, 44000, 58000, 46000, 54000, 42000, 52000, 44000, 50000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes later price was $24.22 — four cents above the decision, $32 on 800 shares before a single cost."
+    explanation: "Nothing here is broken; there is simply nothing to take. A shape that hands back everything it gives is not a trade, it is a waiting room."
+
+  - type: tf
+    statement: "A stock trading 300,000 shares a minute inside a six-cent stretch is liquid without being volatile."
+    answer: true
+    explanation: "Two separate dials, and this is the corner beginners misread: easy to get in and out of, and going nowhere worth trading."
+
+  - type: match
+    prompt: "Three shapes, three readings. Which is which?"
+    pairs:
+      - ["Uptrend", "Highs and lows both climbing"]
+      - ["Downtrend", "Highs and lows both falling"]
+      - ["Range", "Neither half going anywhere"]
+    explanation: "Everything on a 1-minute chart is one of these three, or the moment one turns into another."
+
+  - type: numeric-mc
+    prompt: "A stretch is 14 cents from floor to ceiling. You buy in the middle and sell at the ceiling. What is that worth on 1,000 shares, before costs?"
+    options:
+      - {text: "$7"}
+      - {text: "$14"}
+      - {text: "$70", correct: true}
+      - {text: "$140"}
+    working: "$0.14 ÷ 2 = $0.07 a share × 1,000 shares = $70"
+    explanation: "Seven cents is the whole prize for a perfect entry and a perfect exit, and nobody gets both."
+
+  - type: fill-tiles
+    sentence: "Flat highs and flat lows for twenty minutes make a ___."
+    answer: "range"
+    explanation: "Neither side is taking new ground, so neither side is worth joining."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The stock has gone nowhere for half an hour,"}
+      - {text: "so the next move has to be big"}
+      - {text: "and I should be in before it.", wrong: true}
+    explanation: "A quiet stretch does often end in a move, but nothing on the chart says which way. Being in beforehand is a coin toss you paid to enter."
+
+  - type: checklist-reveal
+    title: "Three shapes, one question each"
+    items:
+      - "Climbing: is the last dip still holding above the one before it?"
+      - "Falling: is the last attempt up still stalling below the one before it?"
+      - "Flat: is there more room than there is noise?"
+      - "If the answer is no, the shape is telling you to wait"
