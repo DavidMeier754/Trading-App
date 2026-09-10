@@ -8,7 +8,7 @@ tags: [open, gaps, opening-range]
 learning_goal: "User knows why the first minutes of the session behave differently, can read a gap, and can find the opening range on a 1-minute chart."
 purpose: "Scalpers make much of their day in the first half hour, and beginners lose much of theirs in the first five minutes."
 terms_introduced: ["Gap", "Opening range"]
-prerequisite: "6-1"
+prerequisite: "12-1"
 xp: 20
 difficulty: 2
 sources: [consensus]

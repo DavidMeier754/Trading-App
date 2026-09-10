@@ -24,15 +24,17 @@ session's work and must not be attempted as one. The unit of work is a **block o
 
 ## Stage order
 
+**Stages 0–2 are done** (see git history; the four defects the Stage 1–2 pass left behind were fixed in a follow-up). Stage 3 is next, starting with Scalping Chapter 2.
+
 Stages 0–2 are prerequisites and are cheap. Do not start Stage 3 until 0–2 are done
 and the validator is clean, because Stage 3 produces 286 files that would all inherit
 any mistake.
 
 | Stage | What | Model | Surface | Rough size |
 |---|---|---|---|---|
-| 0 | Teach the validator the v3 rules | `claude-opus-5` | Claude Code | 1 session |
-| 1 | Renumber chapter folders 5→6, 6→7 | `claude-haiku-4-5` | Claude Code | 20 min |
-| 2 | Retrofit the 101 existing subs (`reinforces:`, level remap) | `claude-sonnet-5` | Claude Code | 2–3 sessions |
+| 0 ✅ | Teach the validator the v3 rules | `claude-opus-5` | Claude Code | 1 session |
+| 1 ✅ | Renumber chapter folders 5→6, 6→7 | `claude-haiku-4-5` | Claude Code | 20 min |
+| 2 ✅ | Retrofit the 101 existing subs (`reinforces:`, level remap) | `claude-sonnet-5` | Claude Code | 2–3 sessions |
 | 3 | Author the new content, chapter by chapter | `claude-opus-5` / `claude-sonnet-5` | Claude Code | ~20 sessions |
 | 4 | Drill packs | `claude-sonnet-5` | **Batch API** | 1 script run |
 | 5 | Day Trading + Swing paths | `claude-sonnet-5` | Claude Code | ~30 sessions |

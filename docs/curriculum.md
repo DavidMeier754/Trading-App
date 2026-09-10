@@ -218,7 +218,7 @@ Eight setups instead of five. Every setup is a playbook card: context, entry, st
 |---|---|---|---|---|
 | 1 | What a Playbook Is | 3 | The card and its five fields; invalidation versus the stop; why a short playbook beats a long one; the user starts their own `plan-sheet` | 6 |
 | 2 | Setup A — VWAP Bounce | 4 | Above VWAP all session, first or second touch, entry on the reclaim close, stop under the candle, target the high of day; drills; a `compare` against the mirror image | 4, 6 |
-| 3 | Setup B — Opening-Range Break | 4 | The first five minutes as a box, the close beyond it on volume, the stop back inside, 1R–2R; the failure mode; drills both directions | 2, 4 |
+| 3 | Setup B — Opening-Range Scalp | 4 | The first five minutes as a box, the close beyond it on volume, the stop back inside, 1R–2R; the failure mode; drills both directions | 2, 4 |
 | 4 | Setup C — Momentum Continuation | 4 | The leg, the shallow quiet pause, the first close back in the direction; the measured move as a projection; drills | 2, 4 |
 | 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 4, 6 |
 | 6 | Setup D — Mean Reversion at a Level | 4 | The stretched run into a marked level, climax volume, the rejection close, the tight stop, VWAP as the target, and smaller size because it fights the move | 4, 6 |
