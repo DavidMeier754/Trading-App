@@ -1,4 +1,4 @@
-id: "6-2"
+id: "10-2"
 title: "VWAP & Levels in Action"
 chapter: 4
 chapter_title: "Reading Fast Markets"
@@ -8,7 +8,8 @@ tags: [levels, failed-test, decisions]
 learning_goal: "User can tell a break that holds from a failed test and knows why the failure often moves faster than the break."
 purpose: "The moment a level breaks and immediately fails is one of the few times a fast market shows its hand."
 terms_introduced: ["Failed test"]
-prerequisite: "6-1"
+reinforces: [2]
+prerequisite: "10-1"
 xp: 20
 difficulty: 3
 path_position: fan-out:levels

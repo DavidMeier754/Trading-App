@@ -1,4 +1,4 @@
-id: "5-2"
+id: "9-2"
 title: "Tape Reading"
 chapter: 4
 chapter_title: "Reading Fast Markets"
@@ -8,7 +8,8 @@ tags: [tape, order-book, execution]
 learning_goal: "User can tell size that is building in the order book from size that disappears, and knows what that does to a fill."
 purpose: "The book shows intentions, and intentions can be withdrawn — which is exactly where surprise slippage comes from."
 terms_introduced: ["Stacking", "Pulling"]
-prerequisite: "5-1"
+reinforces: [3]
+prerequisite: "9-1"
 xp: 20
 difficulty: 3
 path_position: fan-out:tape

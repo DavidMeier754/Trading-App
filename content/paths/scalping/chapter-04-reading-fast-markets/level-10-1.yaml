@@ -1,131 +1,111 @@
 id: "10-1"
-title: "Final Exam"
+title: "VWAP & Levels in Action"
 chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
-category: final-exam
-tags: [final-exam]
-learning_goal: "Confirm mastery of VWAP, the intraday levels, the 1-minute candles, confluence, the tape and the order book, the opening drive and halts, the four-part read and the two-timeframe rule."
-purpose: "Everything the playbook chapters build on is in these twelve questions."
+category: new-theory
+tags: [vwap, levels, confluence]
+learning_goal: "User can spot a level and VWAP arriving at the same price and knows why the first test of a level is worth more than the third."
+purpose: "Two lines at one price is the cleanest situation a scalper gets — and it does not stay clean for long."
 terms_introduced: []
-prerequisite: "9-1"
-xp: 80
-difficulty: 3
-sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade", "Volman — Understanding Price Action"]
-notes: "12 scored questions. Hearts apply. Pass mark 70 %."
+reinforces: [2]
+prerequisite: "8-1"
+xp: 20
+difficulty: 2
+path_position: fan-out:levels
+sources: ["Volman — Understanding Price Action", "Murphy — Technical Analysis of the Financial Markets"]
+notes: "Fan-out strand B. Self-contained: uses nothing from the other two strands."
 screens:
   - type: intro
-    text: "Final exam: Reading Fast Markets. Twelve questions."
-    counter: 12
+    text: "When two of your lines land on the same price, pay attention."
 
-  - type: numeric-mc
-    prompt: "8,000 shares trade at $15.00 and 2,000 at $15.50. Where is VWAP?"
-    options:
-      - {text: "$15.10", correct: true}
-      - {text: "$15.25"}
-      - {text: "$15.40"}
-      - {text: "$15.50"}
-    working: "(8,000 × $15.00 + 2,000 × $15.50) ÷ 10,000 shares = $15.10"
-    explanation: "Most of the shares traded at $15.00, so VWAP sits close to it."
+  - type: theory
+    title: "One wall, not two"
+    body: "A marked level and VWAP within a few cents of each other is one obstacle made of two reasons. Price needs more buying or selling to get through it than through either alone."
 
-  - type: mc
-    prompt: "Which of these is the strongest case for a short?"
-    options:
-      - {text: "A big red candle in the middle of the day's range on average volume"}
-      - {text: "Price twenty cents above VWAP with the tape running at the ask"}
-      - {text: "Rejection candle at yesterday's high with VWAP just below", correct: true}
-    explanation: "Level, line, candle and volume together — the other two are one reason or none."
+  - type: example
+    body: "Yesterday's high is $62.40. By late morning VWAP has risen to $62.38. Price arrives with both inside two cents — everybody's line is in the same place."
+    visual: chart-candles
+    visual_data:
+      data: [[62.00, 62.10, 61.96, 62.08], [62.08, 62.18, 62.04, 62.16], [62.16, 62.26, 62.12, 62.24], [62.24, 62.34, 62.20, 62.32], [62.32, 62.42, 62.28, 62.34], [62.34, 62.40, 62.24, 62.26], [62.26, 62.30, 62.16, 62.18], [62.18, 62.22, 62.08, 62.12]]
+      vwap: [62.20, 62.24, 62.28, 62.32, 62.36, 62.38, 62.38, 62.37]
+      levels:
+        - {price: 62.40, label: "Yesterday's high"}
 
   - type: chart-decision
-    scenario: "XYZ breaks the pre-market low at $17.40 by three cents on fading volume, then closes back above it. You have 1,500 shares ready."
+    scenario: "XYZ is under yesterday's high at $17.60, with VWAP at $17.58 just below it. The candle into the pair leaves a long upper wick on heavy volume. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[17.80, 17.84, 17.68, 17.70], [17.70, 17.74, 17.58, 17.60], [17.60, 17.64, 17.48, 17.52], [17.52, 17.56, 17.44, 17.46], [17.46, 17.50, 17.37, 17.44], [17.44, 17.52, 17.40, 17.50], [17.50, 17.60, 17.48, 17.58], [17.58, 17.68, 17.54, 17.66], [17.66, 17.74, 17.62, 17.72], [17.72, 17.78, 17.68, 17.74]]
-      volume: [84000, 76000, 68000, 59000, 42000, 78000, 86000, 74000, 68000, 61000]
+      data: [[17.20, 17.28, 17.16, 17.26], [17.26, 17.36, 17.24, 17.34], [17.34, 17.44, 17.30, 17.42], [17.42, 17.52, 17.40, 17.50], [17.50, 17.58, 17.46, 17.56], [17.56, 17.64, 17.48, 17.50], [17.50, 17.54, 17.40, 17.42], [17.42, 17.46, 17.32, 17.34], [17.34, 17.38, 17.24, 17.28], [17.28, 17.32, 17.20, 17.24]]
+      vwap: [17.44, 17.46, 17.50, 17.54, 17.56, 17.58, 17.57, 17.55, 17.53, 17.51]
+      volume: [44000, 48000, 52000, 56000, 61000, 128000, 84000, 72000, 64000, 56000]
       levels:
-        - {price: 17.40, label: "Pre-market low"}
+        - {price: 17.60, label: "Yesterday's high"}
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It recovered to $17.74 — $0.24 per share, +$360 long on 1,500 shares from $17.50."
-    explanation: "A break on fading volume that closes back inside is a failed test, and the trapped sellers buy it back."
+    outcome: "It failed at both lines and slid to $17.24 — $0.26 per share, +$390 short on 1,500 shares from $17.50."
+    explanation: "One push, two lines rejected, heavy volume: the buyers who paid up there are already trapped."
+
+  - type: theory
+    title: "First touch, third touch"
+    body: "The first test of a level is the cleanest — nobody has been stopped out yet and the resting orders are untouched. Each further test eats more of them. By the third, the level is thinner than it looks."
+
+  - type: mc
+    prompt: "A level has held twice this morning. Price is coming back to it a third time. What has changed?"
+    options:
+      - {text: "Fewer resting orders are left, so it is more likely to give way", correct: true}
+      - {text: "Nothing — a level is a level"}
+      - {text: "It is stronger, because it has proved itself twice"}
+    explanation: "Every test consumes orders; a level that keeps being tested is being worn down."
 
   - type: tf
-    statement: "Size shown in the order book can be cancelled at any moment before it trades."
+    statement: "Every test of a level uses up some of the orders that made it work."
     answer: true
-    explanation: "Only a print is a fact; everything in the book is still an intention."
+    explanation: "The first test is the clean one; by the third the level is thinner than it looks."
 
-  - type: order
-    prompt: "Put the four-part read in the order you run it."
-    items:
-      - "Is price at a level I marked?"
-      - "Which side of VWAP is it on?"
-      - "What did the last candle do?"
-      - "What is the tape doing right now?"
-    explanation: "Where, who, what, now — the same order on every chart."
-
-  - type: mc
-    prompt: "The 5-minute chart is in a clear uptrend. Your 1-minute chart offers a short at a level. What is the sensible read?"
-    options:
-      - {text: "Skip it — the day is long and this is a counter-trend trade", correct: true}
-      - {text: "Take it with extra size, because the level is clear"}
-      - {text: "Take it and hold for longer than usual"}
-    explanation: "When the two charts disagree, the slower one is right more often."
-
-  - type: hotspot
-    component: order-book
-    prompt: "Tap the row a seller in a hurry trades against right now."
+  - type: visual
+    component: chart-candles
     data:
-      bids: [[46.18, 2200], [46.17, 1800], [46.16, 4100]]
-      asks: [[46.21, 900], [46.22, 1600], [46.23, 2400]]
-    target: bid-1
-    explanation: "Selling in a hurry means taking the best bid, $14.18."
-
-  - type: numeric-input
-    prompt: "You are long 2,000 shares from $14.18 and sell at $14.33. The spread costs you $0.03 per share on the round trip. What is left?"
-    answer: 240
-    tolerance: 0.5
-    unit: "$"
-    working: "($14.33 − $14.18) × 2,000 = $300; spread $0.03 × 2,000 = $60; $300 − $60 = $240"
-    explanation: "Fifteen cents gross, twelve cents net — the spread took a fifth of it."
-
-  - type: sort
-    prompt: "Which one is it?"
-    buckets: ["Signal", "Reason to stand aside"]
-    items:
-      - {text: "First test of a level with VWAP agreeing", bucket: "Signal"}
-      - {text: "Range break on the heaviest volume since the open", bucket: "Signal"}
-      - {text: "News you have not read and a nine-cent spread", bucket: "Reason to stand aside"}
-      - {text: "Fourth test of the same level in fifteen minutes", bucket: "Reason to stand aside"}
-    explanation: "Fresh agreement is a signal; cost, confusion and repetition are not."
-
-  - type: mc
-    prompt: "A stock you are long halts. What is true of your stop?"
-    options:
-      - {text: "It fills at your stop price as soon as the halt begins"}
-      - {text: "It cannot fill while trading is paused", correct: true}
-      - {text: "It is cancelled and has to be replaced"}
-    explanation: "A stop needs a market; a halt removes it for a few minutes."
+      data: [[48.50, 48.60, 48.46, 48.58], [48.58, 48.79, 48.56, 48.66], [48.66, 48.70, 48.58, 48.62], [48.62, 48.78, 48.60, 48.68], [48.68, 48.72, 48.62, 48.70], [48.70, 48.79, 48.68, 48.76], [48.76, 48.90, 48.74, 48.88], [48.88, 48.98, 48.84, 48.94]]
+      levels:
+        - {price: 48.80, label: "Pre-market high"}
+    caption: "Three touches at $48.80, each one taking a few more of the orders there — then it goes through."
 
   - type: chart-tap
-    prompt: "Tap the candle that reclaimed VWAP."
+    prompt: "Tap the candle making the third test of the level at $48.80."
     chart:
       kind: candles
-      data: [[35.60, 35.64, 35.50, 35.52], [35.52, 35.56, 35.44, 35.46], [35.46, 35.52, 35.42, 35.50], [35.50, 35.56, 35.46, 35.54], [35.54, 35.62, 35.52, 35.60], [35.60, 35.68, 35.58, 35.66], [35.66, 35.72, 35.62, 35.70], [35.70, 35.76, 35.66, 35.74]]
-      vwap: [35.58, 35.57, 35.57, 35.57, 35.57, 35.58, 35.59, 35.60]
-    target: 4
-    explanation: "The first close above the line — and the candles after it held there."
+      data: [[48.50, 48.60, 48.46, 48.58], [48.58, 48.79, 48.56, 48.66], [48.66, 48.70, 48.58, 48.62], [48.62, 48.78, 48.60, 48.68], [48.68, 48.72, 48.62, 48.70], [48.70, 48.79, 48.68, 48.76], [48.76, 48.90, 48.74, 48.88], [48.88, 48.98, 48.84, 48.94]]
+      levels:
+        - {price: 48.80, label: "Pre-market high"}
+    target: 5
+    explanation: "Highs of $48.79, $48.78 and $48.79 — the third of them is the last touch before the break on the next candle."
+
+  - type: numeric-input
+    prompt: "You will risk $150 on the trade and your stop sits $0.10 away from your entry. How many shares does that allow?"
+    answer: 1500
+    unit: "shares"
+    working: "$150 ÷ $0.10 per share = 1,500 shares"
+    explanation: "Risk divided by stop distance — the same sizing rule, now at a level you chose."
+
+  - type: sort
+    prompt: "Stronger case or weaker case?"
+    buckets: ["Stronger case", "Weaker case"]
+    items:
+      - {text: "Level and VWAP within two cents of each other", bucket: "Stronger case"}
+      - {text: "First test of the level today", bucket: "Stronger case"}
+      - {text: "Fourth test in fifteen minutes", bucket: "Weaker case"}
+      - {text: "VWAP twenty cents away and pointing the other way", bucket: "Weaker case"}
+    explanation: "Agreement and freshness make the case; distance and repetition take it away."
 
   - type: fill-choice
-    sentence: "A minute that opens and closes at almost the same price, with wicks on both sides, is a ___."
-    options: ["doji", "momentum candle", "engulfing candle"]
-    answer: "doji"
-    explanation: "Nobody finished the minute ahead — on its own that is a pause, not a signal."
+    sentence: "A level and VWAP arriving at the same price is an example of ___."
+    options: ["confluence", "momentum", "liquidity"]
+    answer: "confluence"
+    explanation: "Two independent reasons, one price."
 
-  - type: summary
-    total: 12
-
-  - type: badge
-    name: "Reading Fast Markets — Complete"
-    unlocks: "Chapter 5"
+  - type: theory
+    title: "Where the lines meet"
+    body: "Trade the first clean test where two lines agree. Next: what happens when a level breaks and cannot hold the break."

@@ -1,110 +1,102 @@
 id: "6-1"
-title: "VWAP & Levels in Action"
+title: "Candle Signals on the 1-Minute"
 chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
-tags: [vwap, levels, confluence]
-learning_goal: "User can spot a level and VWAP arriving at the same price and knows why the first test of a level is worth more than the third."
-purpose: "Two lines at one price is the cleanest situation a scalper gets — and it does not stay clean for long."
-terms_introduced: []
+tags: [candles, signals]
+learning_goal: "User can name a momentum candle, a doji, a rejection candle and an engulfing candle on a 1-minute chart and say what each one shows."
+purpose: "On a fast chart a single candle is the smallest piece of evidence you get — you need to read it in one glance."
+terms_introduced: ["Doji", "Engulfing candle"]
+reinforces: [2]
 prerequisite: "4-1"
 xp: 20
 difficulty: 2
-path_position: fan-out:levels
-sources: ["Volman — Understanding Price Action", "Murphy — Technical Analysis of the Financial Markets"]
-notes: "Fan-out strand B. Self-contained: uses nothing from the other two strands."
+sources: ["Nison — Japanese Candlestick Charting Techniques", "Volman — Understanding Price Action"]
 screens:
   - type: intro
-    text: "When two of your lines land on the same price, pay attention."
+    text: "Sixty seconds of fighting, drawn as one candle. Four shapes are worth knowing."
 
   - type: theory
-    title: "One wall, not two"
-    body: "A marked level and VWAP within a few cents of each other is one obstacle made of two reasons. Price needs more buying or selling to get through it than through either alone."
+    title: "One minute, one story"
+    body: "On a 1-minute chart every candle is a minute of buyers and sellers arguing. Four shapes come up again and again, and each one tells you who won the argument."
 
-  - type: example
-    body: "Yesterday's high is $62.40. By late morning VWAP has risen to $62.38. Price arrives with both inside two cents — everybody's line is in the same place."
-    visual: chart-candles
-    visual_data:
-      data: [[62.00, 62.10, 61.96, 62.08], [62.08, 62.18, 62.04, 62.16], [62.16, 62.26, 62.12, 62.24], [62.24, 62.34, 62.20, 62.32], [62.32, 62.42, 62.28, 62.34], [62.34, 62.40, 62.24, 62.26], [62.26, 62.30, 62.16, 62.18], [62.18, 62.22, 62.08, 62.12]]
-      vwap: [62.20, 62.24, 62.28, 62.32, 62.36, 62.38, 62.38, 62.37]
-      levels:
-        - {price: 62.40, label: "Yesterday's high"}
-
-  - type: chart-decision
-    scenario: "XYZ is under yesterday's high at $17.60, with VWAP at $17.58 just below it. The candle into the pair leaves a long upper wick on heavy volume. You have 1,500 shares ready."
-    shares: 1500
-    chart:
-      kind: candles
-      data: [[17.20, 17.28, 17.16, 17.26], [17.26, 17.36, 17.24, 17.34], [17.34, 17.44, 17.30, 17.42], [17.42, 17.52, 17.40, 17.50], [17.50, 17.58, 17.46, 17.56], [17.56, 17.64, 17.48, 17.50], [17.50, 17.54, 17.40, 17.42], [17.42, 17.46, 17.32, 17.34], [17.34, 17.38, 17.24, 17.28], [17.28, 17.32, 17.20, 17.24]]
-      vwap: [17.44, 17.46, 17.50, 17.54, 17.56, 17.58, 17.57, 17.55, 17.53, 17.51]
-      volume: [44000, 48000, 52000, 56000, 61000, 128000, 84000, 72000, 64000, 56000]
-      levels:
-        - {price: 17.60, label: "Yesterday's high"}
-      decision_index: 5
-    best: short
-    reasonable: [no-trade]
-    outcome: "It failed at both lines and slid to $17.24 — $0.26 per share, +$390 short on 1,500 shares from $17.50."
-    explanation: "One push, two lines rejected, heavy volume: the buyers who paid up there are already trapped."
-
-  - type: theory
-    title: "First touch, third touch"
-    body: "The first test of a level is the cleanest — nobody has been stopped out yet and the resting orders are untouched. Each further test eats more of them. By the third, the level is thinner than it looks."
-
-  - type: mc
-    prompt: "A level has held twice this morning. Price is coming back to it a third time. What has changed?"
-    options:
-      - {text: "Fewer resting orders are left, so it is more likely to give way", correct: true}
-      - {text: "Nothing — a level is a level"}
-      - {text: "It is stronger, because it has proved itself twice"}
-    explanation: "Every test consumes orders; a level that keeps being tested is being worn down."
-
-  - type: tf
-    statement: "Every test of a level uses up some of the orders that made it work."
-    answer: true
-    explanation: "The first test is the clean one; by the third the level is thinner than it looks."
+  - type: carousel
+    cards:
+      - {label: "Momentum candle", text: "A big body, small wicks. One side pushed from the first second to the last and never gave ground.", icon: candle-momentum}
+      - {label: "Doji", text: "Open and close almost the same price, wicks on both sides. Nobody won the minute — that is indecision.", icon: candle-doji}
+      - {label: "Rejection candle", text: "A long wick with a small body at the other end. Price went there and was pushed straight back.", icon: candle-rejection}
+      - {label: "Engulfing candle", text: "A candle whose body covers the whole body of the one before it, in the other direction. A minute of selling erased by a minute of buying, or the reverse.", icon: candle-engulfing}
 
   - type: visual
     component: chart-candles
     data:
-      data: [[48.50, 48.60, 48.46, 48.58], [48.58, 48.79, 48.56, 48.66], [48.66, 48.70, 48.58, 48.62], [48.62, 48.78, 48.60, 48.68], [48.68, 48.72, 48.62, 48.70], [48.70, 48.79, 48.68, 48.76], [48.76, 48.90, 48.74, 48.88], [48.88, 48.98, 48.84, 48.94]]
-      levels:
-        - {price: 48.80, label: "Pre-market high"}
-    caption: "Three touches at $48.80, each one taking a few more of the orders there — then it goes through."
+      data: [[16.20, 16.24, 16.18, 16.23], [16.23, 16.38, 16.22, 16.37], [16.37, 16.40, 16.35, 16.38], [16.38, 16.39, 16.34, 16.37], [16.37, 16.52, 16.36, 16.39], [16.39, 16.41, 16.26, 16.28], [16.28, 16.31, 16.24, 16.29], [16.29, 16.32, 16.22, 16.24]]
+      volume: [31000, 78000, 26000, 22000, 64000, 71000, 28000, 33000]
+    caption: "One momentum candle, one rejection, one doji and one engulfing candle — eight minutes of a normal session."
 
   - type: chart-tap
-    prompt: "Tap the candle making the third test of the level at $48.80."
+    prompt: "Tap the doji."
     chart:
       kind: candles
-      data: [[48.50, 48.60, 48.46, 48.58], [48.58, 48.79, 48.56, 48.66], [48.66, 48.70, 48.58, 48.62], [48.62, 48.78, 48.60, 48.68], [48.68, 48.72, 48.62, 48.70], [48.70, 48.79, 48.68, 48.76], [48.76, 48.90, 48.74, 48.88], [48.88, 48.98, 48.84, 48.94]]
-      levels:
-        - {price: 48.80, label: "Pre-market high"}
-    target: 5
-    explanation: "Highs of $48.79, $48.78 and $48.79 — the third of them is the last touch before the break on the next candle."
+      data: [[28.40, 28.46, 28.36, 28.44], [28.44, 28.58, 28.42, 28.56], [28.56, 28.62, 28.54, 28.61], [28.61, 28.66, 28.55, 28.61], [28.61, 28.70, 28.59, 28.68], [28.68, 28.74, 28.64, 28.72], [28.72, 28.76, 28.66, 28.69], [28.69, 28.72, 28.60, 28.62]]
+    target: 3
+    explanation: "Open and close both $28.61 with wicks on both sides — that minute settled nothing."
 
-  - type: numeric-input
-    prompt: "You will risk $150 on the trade and your stop sits $0.10 away from your entry. How many shares does that allow?"
-    answer: 1500
-    unit: "shares"
-    working: "$150 ÷ $0.10 per share = 1,500 shares"
-    explanation: "Risk divided by stop distance — the same sizing rule, now at a level you chose."
+  - type: mc
+    prompt: "A candle at the high of a fast run has a long upper wick and a tiny body at the bottom. What does it show?"
+    options:
+      - {text: "Buyers pushed up and sellers took it all back", correct: true}
+      - {text: "Buyers were in control for the whole minute"}
+      - {text: "Volume dried up and nothing happened"}
+    explanation: "The wick is the part of the move that was taken back — that is a rejection."
 
-  - type: sort
-    prompt: "Stronger case or weaker case?"
-    buckets: ["Stronger case", "Weaker case"]
-    items:
-      - {text: "Level and VWAP within two cents of each other", bucket: "Stronger case"}
-      - {text: "First test of the level today", bucket: "Stronger case"}
-      - {text: "Fourth test in fifteen minutes", bucket: "Weaker case"}
-      - {text: "VWAP twenty cents away and pointing the other way", bucket: "Weaker case"}
-    explanation: "Agreement and freshness make the case; distance and repetition take it away."
-
-  - type: fill-choice
-    sentence: "A level and VWAP arriving at the same price is an example of ___."
-    options: ["confluence", "momentum", "liquidity"]
-    answer: "confluence"
-    explanation: "Two independent reasons, one price."
+  - type: tf
+    statement: "A big green body with almost no wicks says one side controlled the whole minute."
+    answer: true
+    explanation: "Nothing was given back at any point in the minute — that is what a momentum candle is."
 
   - type: theory
-    title: "Where the lines meet"
-    body: "Trade the first clean test where two lines agree. Next: what happens when a level breaks and cannot hold the break."
+    title: "Context beats shape"
+    body: "The same doji is a harmless pause in a strong trend and a warning at a level you marked. A candle only means something where it happens."
+
+  - type: match
+    prompt: "Match each candle to what it shows."
+    pairs:
+      - ["Momentum candle", "One side pushed all minute and held it"]
+      - ["Doji", "Neither side finished ahead"]
+      - ["Rejection candle", "Price went to a price and was pushed back"]
+      - ["Engulfing candle", "One minute wiped out the minute before it"]
+    explanation: "Body size, wick length and what came before: that is the whole reading."
+
+  - type: chart-decision
+    scenario: "XYZ has run into yesterday's high at $17.80. The last candle spikes through it and closes back below with a long upper wick, on the heaviest volume of the run. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.40, 17.50, 17.38, 17.48], [17.48, 17.60, 17.46, 17.58], [17.58, 17.68, 17.55, 17.66], [17.66, 17.74, 17.63, 17.72], [17.72, 17.78, 17.69, 17.76], [17.76, 17.86, 17.70, 17.72], [17.72, 17.74, 17.60, 17.62], [17.62, 17.65, 17.52, 17.54], [17.54, 17.58, 17.46, 17.48], [17.48, 17.52, 17.42, 17.46]]
+      volume: [42000, 51000, 56000, 62000, 68000, 114000, 82000, 66000, 59000, 51000]
+      levels:
+        - {price: 17.80, label: "Yesterday's high"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "The rejection held and price slid to $17.46 — $0.26 per share, +$390 short on 1,500 shares from $17.72."
+    explanation: "A long wick through a level on the heaviest volume of the run is the buyers being filled and then abandoned."
+
+  - type: numeric-input
+    prompt: "That short is 1,500 shares at $17.72 with a stop at $17.84. How much money is at risk before costs?"
+    answer: 180
+    unit: "$"
+    working: "($17.84 − $17.72) × 1,500 shares = $180"
+    explanation: "Stop distance times share count — the number you size from."
+
+  - type: fill-choice
+    sentence: "A candle whose body covers the previous body in the other direction is an ___ candle."
+    options: ["engulfing", "indecision", "exhaustion"]
+    answer: "engulfing"
+    explanation: "It swallows the minute before it whole."
+
+  - type: theory
+    title: "One candle is not a trade"
+    body: "You can now name what a minute did. Next: why a candle only becomes a signal when the level and the volume agree with it."

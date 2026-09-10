@@ -1,0 +1,114 @@
+id: "12-1"
+title: "The Scalper's Map"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [map, confluence, process]
+learning_goal: "User runs one read in a fixed order — level, VWAP, candle, tape — and can say what each part contributed to the decision."
+purpose: "In a fast market you cannot weigh four things at once; you need an order to check them in."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "11-1"
+xp: 20
+difficulty: 3
+path_position: merge
+sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
+notes: "Merge sub after the three fan-out strands. Assumes tape, levels and opening drive have all been completed."
+screens:
+  - type: intro
+    text: "Four pieces of evidence, one order to read them in."
+
+  - type: theory
+    title: "One read, four inputs"
+    body: "Everything in this chapter answers a different question. Together they take about three seconds to check, and the order matters more than the speed."
+
+  - type: carousel
+    cards:
+      - {label: "The level — where?", text: "Price has to be somewhere that matters. No level, no trade, however good the candle looks.", icon: map-level}
+      - {label: "VWAP — who is in charge?", text: "Above the line the session belongs to buyers, below it to sellers. It tells you which way to lean.", icon: map-vwap}
+      - {label: "The candle — what just happened?", text: "A rejection, an engulfing candle or a momentum candle tells you who won the last minute.", icon: map-candle}
+      - {label: "The tape — is it happening now?", text: "Prints at the ask or the bid, getting faster or slowing down. The only input that is live.", icon: map-tape}
+
+  - type: example
+    body: "$44.00 round number, VWAP at $43.98, an engulfing candle up off the level, and the tape running at the ask. Four for four — and you still size it like any other trade."
+
+  - type: chart-decision
+    scenario: "XYZ holds the round number at $18.00 with VWAP just under it. The candle engulfs the previous one and the tape is running at the ask. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.30, 18.34, 18.16, 18.18], [18.18, 18.22, 18.06, 18.08], [18.08, 18.12, 17.98, 18.02], [18.02, 18.08, 17.99, 18.04], [18.04, 18.06, 17.98, 18.00], [18.00, 18.12, 17.98, 18.10], [18.10, 18.20, 18.08, 18.18], [18.18, 18.28, 18.14, 18.26], [18.26, 18.32, 18.22, 18.30], [18.30, 18.36, 18.26, 18.32]]
+      vwap: [18.06, 18.04, 18.02, 18.00, 17.99, 17.98, 17.99, 18.00, 18.02, 18.04]
+      volume: [61000, 58000, 64000, 49000, 42000, 106000, 84000, 76000, 68000, 61000]
+      levels:
+        - {price: 18.00, label: "Round number"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $18.32 — $0.22 per share, +$330 long on 1,500 shares from $18.10."
+    explanation: "Level, line, candle and tape all pointing up at one price is the best case this chapter has to offer."
+
+  - type: mc
+    prompt: "Level, candle and tape all say long. VWAP is thirty cents above price and falling. What is the honest read?"
+    options:
+      - {text: "Four of four, because three out of four is close enough"}
+      - {text: "Three of four — a smaller trade or none, and the line is the reason", correct: true}
+      - {text: "A short, because VWAP is the only input that counts"}
+    explanation: "One input disagreeing does not forbid the trade, but it is exactly what you write down when it fails."
+
+  - type: order
+    prompt: "Put the read in the order you run it."
+    items:
+      - "Is price at a level I marked?"
+      - "Which side of VWAP are we on?"
+      - "What did the last candle do?"
+      - "What is the tape doing right now?"
+      - "What is my stop and my size?"
+    explanation: "Place first, side second, evidence third, execution last — the same order every time."
+
+  - type: tf
+    statement: "If the tape is fast and heavy, the other three checks can be skipped."
+    answer: false
+    explanation: "A fast tape with no level is exactly how traders end up buying the high of the move."
+
+  - type: chart-decision
+    scenario: "XYZ breaks yesterday's low at $19.80 by three cents, closes back above it, and the tape at the bid goes quiet. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[20.20, 20.24, 20.08, 20.10], [20.10, 20.14, 19.98, 20.00], [20.00, 20.04, 19.88, 19.90], [19.90, 19.94, 19.82, 19.86], [19.86, 19.88, 19.77, 19.84], [19.84, 19.92, 19.80, 19.90], [19.90, 20.00, 19.88, 19.98], [19.98, 20.08, 19.94, 20.06], [20.06, 20.14, 20.02, 20.12], [20.12, 20.18, 20.08, 20.14]]
+      vwap: [20.14, 20.10, 20.06, 20.02, 19.99, 19.97, 19.97, 19.98, 20.00, 20.02]
+      volume: [74000, 68000, 72000, 61000, 89000, 76000, 69000, 64000, 58000, 52000]
+      levels:
+        - {price: 19.80, label: "Yesterday's low"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It recovered to $20.14 — $0.24 per share, +$360 long on 1,500 shares from $19.90."
+    explanation: "A failed test at a level with the selling drying up on the tape: the sellers who broke it have nobody left to sell to."
+
+  - type: numeric-input
+    prompt: "You are long 1,500 shares from $19.90 with your stop at $19.74. What is at risk before costs?"
+    answer: 240
+    unit: "$"
+    working: "($19.90 − $19.74) × 1,500 shares = $240"
+    explanation: "The stop sits under the low of the failed break, because below there the read was simply wrong."
+
+  - type: match
+    prompt: "Match each input to the question it answers."
+    pairs:
+      - ["The level", "Is this price worth anything?"]
+      - ["VWAP", "Whose session is this?"]
+      - ["The candle", "Who won the last minute?"]
+      - ["The tape", "Is it still happening right now?"]
+    explanation: "Where, who, what, now — four questions, three seconds."
+
+  - type: checklist-reveal
+    title: "The read, in order"
+    items:
+      - "Is price at a level I marked?"
+      - "Which side of VWAP are we on?"
+      - "What did the last candle do?"
+      - "Is the tape still doing it right now?"
+

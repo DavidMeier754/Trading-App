@@ -1,5 +1,5 @@
-id: "8-2"
-title: "The Scalper's Map"
+id: "13-1"
+title: "Map Drills"
 chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
@@ -8,10 +8,10 @@ tags: [map, decisions, practice]
 learning_goal: "User applies the four-part read to unseen charts and passes on the ones where the inputs disagree."
 purpose: "The read only counts if it still works when the chart is new and the clock is running."
 terms_introduced: []
-prerequisite: "8-1"
+reinforces: [2, 3]
+prerequisite: "12-1"
 xp: 30
 difficulty: 3
-path_position: merge
 sources: ["Bellafiore — One Good Trade", "Volman — Understanding Price Action"]
 notes: "Practice sub. Three decisions across the chapter's material, with cost and execution checks."
 screens:

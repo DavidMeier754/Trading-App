@@ -1,113 +1,111 @@
 id: "8-1"
-title: "The Scalper's Map"
+title: "Checkpoint"
 chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
-category: new-theory
-tags: [map, confluence, process]
-learning_goal: "User runs one read in a fixed order — level, VWAP, candle, tape — and can say what each part contributed to the decision."
-purpose: "In a fast market you cannot weigh four things at once; you need an order to check them in."
+category: test
+tags: [checkpoint]
+learning_goal: "Verify Levels 1–3: VWAP and what it means, bounce / rejection / reclaim, the levels drawn before the open, the four 1-minute candles and confluence."
+purpose: "The fan-out ahead assumes you can read a level, a line and a candle without thinking about it."
 terms_introduced: []
-prerequisite: "7-2"
-xp: 20
-difficulty: 3
-path_position: merge
-sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
-notes: "Merge sub after the three fan-out strands. Assumes tape, levels and opening drive have all been completed."
+reinforces: [2]
+prerequisite: "7-1"
+xp: 40
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Nison — Japanese Candlestick Charting Techniques"]
+notes: "10 scored questions. Hearts apply. Pass mark 70 %."
 screens:
   - type: intro
-    text: "Four pieces of evidence, one order to read them in."
+    text: "Checkpoint. Ten questions on the map and the candles. Hearts are on."
+    counter: 10
 
-  - type: theory
-    title: "One read, four inputs"
-    body: "Everything in this chapter answers a different question. Together they take about three seconds to check, and the order matters more than the speed."
-
-  - type: carousel
-    cards:
-      - {label: "The level — where?", text: "Price has to be somewhere that matters. No level, no trade, however good the candle looks.", icon: map-level}
-      - {label: "VWAP — who is in charge?", text: "Above the line the session belongs to buyers, below it to sellers. It tells you which way to lean.", icon: map-vwap}
-      - {label: "The candle — what just happened?", text: "A rejection, an engulfing candle or a momentum candle tells you who won the last minute.", icon: map-candle}
-      - {label: "The tape — is it happening now?", text: "Prints at the ask or the bid, getting faster or slowing down. The only input that is live.", icon: map-tape}
-
-  - type: example
-    body: "$44.00 round number, VWAP at $43.98, an engulfing candle up off the level, and the tape running at the ask. Four for four — and you still size it like any other trade."
-
-  - type: chart-decision
-    scenario: "XYZ holds the round number at $18.00 with VWAP just under it. The candle engulfs the previous one and the tape is running at the ask. You have 1,500 shares ready."
-    shares: 1500
-    chart:
-      kind: candles
-      data: [[18.30, 18.34, 18.16, 18.18], [18.18, 18.22, 18.06, 18.08], [18.08, 18.12, 17.98, 18.02], [18.02, 18.08, 17.99, 18.04], [18.04, 18.06, 17.98, 18.00], [18.00, 18.12, 17.98, 18.10], [18.10, 18.20, 18.08, 18.18], [18.18, 18.28, 18.14, 18.26], [18.26, 18.32, 18.22, 18.30], [18.30, 18.36, 18.26, 18.32]]
-      vwap: [18.06, 18.04, 18.02, 18.00, 17.99, 17.98, 17.99, 18.00, 18.02, 18.04]
-      volume: [61000, 58000, 64000, 49000, 42000, 106000, 84000, 76000, 68000, 61000]
-      levels:
-        - {price: 18.00, label: "Round number"}
-      decision_index: 5
-    best: long
-    reasonable: [no-trade]
-    outcome: "It ran to $18.32 — $0.22 per share, +$330 long on 1,500 shares from $18.10."
-    explanation: "Level, line, candle and tape all pointing up at one price is the best case this chapter has to offer."
+  - type: numeric-mc
+    prompt: "5,000 shares trade at $12.00 and 5,000 at $12.40. Where is VWAP?"
+    options:
+      - {text: "$12.40"}
+      - {text: "$12.20", correct: true}
+      - {text: "$12.00"}
+      - {text: "$12.10"}
+    working: "(5,000 × $12.00 + 5,000 × $12.40) ÷ 10,000 shares = $12.20"
+    explanation: "Equal share counts, so this time the weighted average is the middle."
 
   - type: mc
-    prompt: "Level, candle and tape all say long. VWAP is thirty cents above price and falling. What is the honest read?"
+    prompt: "XYZ has traded above VWAP since the open. What does that tell you?"
     options:
-      - {text: "Four of four, because three out of four is close enough"}
-      - {text: "Three of four — a smaller trade or none, and the line is the reason", correct: true}
-      - {text: "A short, because VWAP is the only input that counts"}
-    explanation: "One input disagreeing does not forbid the trade, but it is exactly what you write down when it fails."
-
-  - type: order
-    prompt: "Put the read in the order you run it."
-    items:
-      - "Is price at a level I marked?"
-      - "Which side of VWAP are we on?"
-      - "What did the last candle do?"
-      - "What is the tape doing right now?"
-      - "What is my stop and my size?"
-    explanation: "Place first, side second, evidence third, execution last — the same order every time."
-
-  - type: tf
-    statement: "If the tape is fast and heavy, the other three checks can be skipped."
-    answer: false
-    explanation: "A fast tape with no level is exactly how traders end up buying the high of the move."
+      - {text: "Buyers have been paying up all session", correct: true}
+      - {text: "The stock is up on yesterday's close"}
+      - {text: "The next move is up"}
+    explanation: "VWAP compares price to today's average fill, not to yesterday and not to the future."
 
   - type: chart-decision
-    scenario: "XYZ breaks yesterday's low at $19.80 by three cents, closes back above it, and the tape at the bid goes quiet. You have 1,500 shares ready."
+    scenario: "XYZ is below VWAP all morning. It rallies to the line, stalls under it for three candles, then rolls over. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[27.20, 27.26, 27.10, 27.14], [27.14, 27.22, 27.08, 27.20], [27.20, 27.30, 27.18, 27.28], [27.28, 27.34, 27.24, 27.31], [27.31, 27.36, 27.28, 27.32], [27.32, 27.35, 27.24, 27.26], [27.26, 27.28, 27.14, 27.16], [27.16, 27.20, 27.04, 27.06], [27.06, 27.10, 26.96, 26.98], [26.98, 27.02, 26.90, 26.94]]
+      vwap: [27.44, 27.42, 27.40, 27.39, 27.38, 27.38, 27.37, 27.35, 27.33, 27.31]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It never reached the line and fell to $26.94 — $0.32 per share, +$320 short on 1,000 shares from $27.26."
+    explanation: "Three candles that cannot even reach VWAP are sellers still holding the session."
+
+  - type: tf
+    statement: "A single candle closing above VWAP is enough to call the reclaim confirmed."
+    answer: false
+    explanation: "The close has to hold — one candle back below and nothing changed."
+
+  - type: chart-tap
+    prompt: "Tap the rejection candle at the round number $75.00."
+    chart:
+      kind: candles
+      data: [[74.60, 74.68, 74.56, 74.66], [74.66, 74.78, 74.64, 74.76], [74.76, 74.86, 74.72, 74.84], [74.84, 74.92, 74.80, 74.90], [74.90, 75.08, 74.88, 74.92], [74.92, 74.96, 74.82, 74.84], [74.84, 74.88, 74.74, 74.76], [74.76, 74.80, 74.66, 74.70]]
+      levels:
+        - {price: 75.00, label: "Round number"}
+    target: 4
+    explanation: "It traded to $75.08 and closed at $74.92 — the whole push above the level was given back."
+
+  - type: numeric-input
+    prompt: "You are short 2,000 shares from $14.24 and cover at $14.12. Result before costs?"
+    answer: 240
+    unit: "$"
+    working: "($14.24 − $14.12) × 2,000 shares = $240"
+    explanation: "A short makes money when the price falls: twelve cents on 2,000 shares."
+
+  - type: match
+    prompt: "Match each event at VWAP to its name."
+    pairs:
+      - ["Bounce", "Price comes back to the line and continues in the old direction"]
+      - ["Rejection", "Price pushes through the line and snaps straight back"]
+      - ["Reclaim", "Price closes back on the other side of the line and holds"]
+      - ["Confluence", "A level, the line and a candle agreeing at one price"]
+    explanation: "Three things price does at the line, and the word for several reasons agreeing."
+
+  - type: mc
+    prompt: "It is one minute before {{market.regular_open}} {{market.timezone}}. Which of these lines is already on your chart?"
+    options:
+      - {text: "VWAP for today"}
+      - {text: "The pre-market low", correct: true}
+      - {text: "The opening price"}
+    explanation: "Pre-market trading has already happened; VWAP and the open both start at the bell."
+
+  - type: fill-choice
+    sentence: "A candle with a long wick and a small body shows that price went there and was pushed ___."
+    options: ["back", "through", "sideways"]
+    answer: "back"
+    explanation: "The wick is exactly the part of the move that was taken away again."
+
+  - type: chart-decision
+    scenario: "XYZ makes a big green candle, with no level within twenty cents of it. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[20.20, 20.24, 20.08, 20.10], [20.10, 20.14, 19.98, 20.00], [20.00, 20.04, 19.88, 19.90], [19.90, 19.94, 19.82, 19.86], [19.86, 19.88, 19.77, 19.84], [19.84, 19.92, 19.80, 19.90], [19.90, 20.00, 19.88, 19.98], [19.98, 20.08, 19.94, 20.06], [20.06, 20.14, 20.02, 20.12], [20.12, 20.18, 20.08, 20.14]]
-      vwap: [20.14, 20.10, 20.06, 20.02, 19.99, 19.97, 19.97, 19.98, 20.00, 20.02]
-      volume: [74000, 68000, 72000, 61000, 89000, 76000, 69000, 64000, 58000, 52000]
-      levels:
-        - {price: 19.80, label: "Yesterday's low"}
+      data: [[17.30, 17.36, 17.26, 17.32], [17.32, 17.38, 17.28, 17.30], [17.30, 17.34, 17.24, 17.28], [17.28, 17.36, 17.26, 17.34], [17.34, 17.38, 17.30, 17.32], [17.32, 17.44, 17.30, 17.42], [17.42, 17.46, 17.34, 17.36], [17.36, 17.40, 17.30, 17.34], [17.34, 17.40, 17.30, 17.38], [17.38, 17.42, 17.32, 17.36]]
+      volume: [38000, 41000, 39000, 40000, 37000, 42000, 41000, 38000, 40000, 39000]
       decision_index: 5
-    best: long
-    reasonable: [no-trade]
-    outcome: "It recovered to $20.14 — $0.24 per share, +$360 long on 1,500 shares from $19.90."
-    explanation: "A failed test at a level with the selling drying up on the tape: the sellers who broke it have nobody left to sell to."
+    best: no-trade
+    outcome: "It came straight back into the range: ten cents up, ten cents back, spread paid both ways."
+    explanation: "No level, no volume, no VWAP argument — one candle on its own is not a signal."
 
-  - type: numeric-input
-    prompt: "You are long 1,500 shares from $19.90 with your stop at $19.74. What is at risk before costs?"
-    answer: 240
-    unit: "$"
-    working: "($19.90 − $19.74) × 1,500 shares = $240"
-    explanation: "The stop sits under the low of the failed break, because below there the read was simply wrong."
-
-  - type: match
-    prompt: "Match each input to the question it answers."
-    pairs:
-      - ["The level", "Is this price worth anything?"]
-      - ["VWAP", "Whose session is this?"]
-      - ["The candle", "Who won the last minute?"]
-      - ["The tape", "Is it still happening right now?"]
-    explanation: "Where, who, what, now — four questions, three seconds."
-
-  - type: checklist-reveal
-    title: "The read, in order"
-    items:
-      - "Is price at a level I marked?"
-      - "Which side of VWAP are we on?"
-      - "What did the last candle do?"
-      - "Is the tape still doing it right now?"
-
+  - type: summary
+    total: 10

@@ -1,101 +1,117 @@
 id: "3-1"
-title: "Candle Signals on the 1-Minute"
+title: "Intraday Levels"
 chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
-tags: [candles, signals]
-learning_goal: "User can name a momentum candle, a doji, a rejection candle and an engulfing candle on a 1-minute chart and say what each one shows."
-purpose: "On a fast chart a single candle is the smallest piece of evidence you get — you need to read it in one glance."
-terms_introduced: ["Doji", "Engulfing candle"]
-prerequisite: "2-2"
+tags: [levels, preparation]
+learning_goal: "User can name the lines worth drawing before the open and knows which of them exist before the first trade of the session."
+purpose: "A scalper has no time to look for levels once the session is running — the map has to be finished before the open."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "2-1"
 xp: 20
 difficulty: 2
-sources: ["Nison — Japanese Candlestick Charting Techniques", "Volman — Understanding Price Action"]
+sources: ["Aziz — How to Day Trade for a Living", "Murphy — Technical Analysis of the Financial Markets"]
 screens:
   - type: intro
-    text: "Sixty seconds of fighting, drawn as one candle. Four shapes are worth knowing."
+    text: "Five lines, drawn before the open. They decide most of your morning."
 
   - type: theory
-    title: "One minute, one story"
-    body: "On a 1-minute chart every candle is a minute of buyers and sellers arguing. Four shapes come up again and again, and each one tells you who won the argument."
+    title: "A level is memory"
+    body: "A level is a price where the market already made a decision. Enough traders remember it that orders pile up there again — which is what makes it work a second time."
 
   - type: carousel
     cards:
-      - {label: "Momentum candle", text: "A big body, small wicks. One side pushed from the first second to the last and never gave ground.", icon: candle-momentum}
-      - {label: "Doji", text: "Open and close almost the same price, wicks on both sides. Nobody won the minute — that is indecision.", icon: candle-doji}
-      - {label: "Rejection candle", text: "A long wick with a small body at the other end. Price went there and was pushed straight back.", icon: candle-rejection}
-      - {label: "Engulfing candle", text: "A candle whose body covers the whole body of the one before it, in the other direction. A minute of selling erased by a minute of buying, or the reverse.", icon: candle-engulfing}
+      - {label: "Yesterday's high and low", text: "The extremes of the last session. Price stalls there because every chart in the market shows them.", icon: level-yesterday}
+      - {label: "Yesterday's close", text: "The reference for today's change. Above it the stock is up on the day, below it it is down.", icon: level-close}
+      - {label: "Pre-market high and low", text: "The extremes traded during {{market.premarket}} {{market.timezone}}. Thin volume, but real prices that traders remember.", icon: level-premarket}
+      - {label: "Round numbers", text: "$50.00, $25.00, $7.50. Orders cluster on round prices because people think in round prices.", icon: level-round}
 
-  - type: visual
-    component: chart-candles
-    data:
-      data: [[16.20, 16.24, 16.18, 16.23], [16.23, 16.38, 16.22, 16.37], [16.37, 16.40, 16.35, 16.38], [16.38, 16.39, 16.34, 16.37], [16.37, 16.52, 16.36, 16.39], [16.39, 16.41, 16.26, 16.28], [16.28, 16.31, 16.24, 16.29], [16.29, 16.32, 16.22, 16.24]]
-      volume: [31000, 78000, 26000, 22000, 64000, 71000, 28000, 33000]
-    caption: "One momentum candle, one rejection, one doji and one engulfing candle — eight minutes of a normal session."
+  - type: theory
+    title: "And today's open"
+    body: "The opening price is the session's first agreement. Above it buyers have controlled the day, below it sellers have. Many scalpers mark it and never take it off the chart."
 
-  - type: chart-tap
-    prompt: "Tap the doji."
-    chart:
-      kind: candles
-      data: [[28.40, 28.46, 28.36, 28.44], [28.44, 28.58, 28.42, 28.56], [28.56, 28.62, 28.54, 28.61], [28.61, 28.66, 28.55, 28.61], [28.61, 28.70, 28.59, 28.68], [28.68, 28.74, 28.64, 28.72], [28.72, 28.76, 28.66, 28.69], [28.69, 28.72, 28.60, 28.62]]
-    target: 3
-    explanation: "Open and close both $28.61 with wicks on both sides — that minute settled nothing."
+  - type: example
+    body: "XYZ closed yesterday at $27.40, traded up to $27.86 before the open and opened at $27.62. Three lines on the chart before you place a single order."
+    visual: chart-candles
+    visual_data:
+      data: [[27.62, 27.70, 27.58, 27.68], [27.68, 27.76, 27.64, 27.74], [27.74, 27.78, 27.70, 27.72], [27.72, 27.80, 27.68, 27.78], [27.78, 27.82, 27.74, 27.80], [27.80, 27.88, 27.78, 27.79], [27.79, 27.82, 27.70, 27.72], [27.72, 27.74, 27.62, 27.64]]
+      levels:
+        - {price: 27.86, label: "Pre-market high"}
+        - {price: 27.62, label: "Open"}
+        - {price: 27.40, label: "Yesterday's close"}
 
   - type: mc
-    prompt: "A candle at the high of a fast run has a long upper wick and a tiny body at the bottom. What does it show?"
+    prompt: "It is three minutes before {{market.regular_open}} {{market.timezone}}. Which line can you not draw yet?"
     options:
-      - {text: "Buyers pushed up and sellers took it all back", correct: true}
-      - {text: "Buyers were in control for the whole minute"}
-      - {text: "Volume dried up and nothing happened"}
-    explanation: "The wick is the part of the move that was taken back — that is a rejection."
+      - {text: "Yesterday's low"}
+      - {text: "Today's opening price", correct: true}
+      - {text: "The pre-market high"}
+    explanation: "The open has not happened; the other two are already fixed."
 
-  - type: tf
-    statement: "A big green body with almost no wicks says one side controlled the whole minute."
-    answer: true
-    explanation: "Nothing was given back at any point in the minute — that is what a momentum candle is."
+  - type: sort
+    prompt: "Ready before the open, or only after it?"
+    buckets: ["Before the open", "Only after the open"]
+    items:
+      - {text: "Yesterday's high", bucket: "Before the open"}
+      - {text: "The pre-market low", bucket: "Before the open"}
+      - {text: "The round number above price", bucket: "Before the open"}
+      - {text: "The opening price", bucket: "Only after the open"}
+      - {text: "The high of the day so far", bucket: "Only after the open"}
+    explanation: "Everything from yesterday and the pre-market is homework; the rest builds during the session."
 
   - type: theory
-    title: "Context beats shape"
-    body: "The same doji is a harmless pause in a strong trend and a warning at a level you marked. A candle only means something where it happens."
+    title: "Levels are zones"
+    body: "Price rarely turns at the exact cent. Treat a level as a zone a few cents wide and judge it by where the candle closes, not by where the wick reached."
 
-  - type: match
-    prompt: "Match each candle to what it shows."
-    pairs:
-      - ["Momentum candle", "One side pushed all minute and held it"]
-      - ["Doji", "Neither side finished ahead"]
-      - ["Rejection candle", "Price went to a price and was pushed back"]
-      - ["Engulfing candle", "One minute wiped out the minute before it"]
-    explanation: "Body size, wick length and what came before: that is the whole reading."
-
-  - type: chart-decision
-    scenario: "XYZ has run into yesterday's high at $17.80. The last candle spikes through it and closes back below with a long upper wick, on the heaviest volume of the run. You have 1,500 shares ready."
-    shares: 1500
+  - type: chart-tap
+    prompt: "The pre-market high is $27.86. Tap the candle that tested it and failed."
     chart:
       kind: candles
-      data: [[17.40, 17.50, 17.38, 17.48], [17.48, 17.60, 17.46, 17.58], [17.58, 17.68, 17.55, 17.66], [17.66, 17.74, 17.63, 17.72], [17.72, 17.78, 17.69, 17.76], [17.76, 17.86, 17.70, 17.72], [17.72, 17.74, 17.60, 17.62], [17.62, 17.65, 17.52, 17.54], [17.54, 17.58, 17.46, 17.48], [17.48, 17.52, 17.42, 17.46]]
-      volume: [42000, 51000, 56000, 62000, 68000, 114000, 82000, 66000, 59000, 51000]
+      data: [[27.62, 27.70, 27.58, 27.68], [27.68, 27.76, 27.64, 27.74], [27.74, 27.78, 27.70, 27.72], [27.72, 27.80, 27.68, 27.78], [27.78, 27.82, 27.74, 27.80], [27.80, 27.88, 27.78, 27.79], [27.79, 27.82, 27.70, 27.72], [27.72, 27.74, 27.62, 27.64], [27.64, 27.68, 27.56, 27.58], [27.58, 27.62, 27.50, 27.54]]
       levels:
-        - {price: 17.80, label: "Yesterday's high"}
+        - {price: 27.86, label: "Pre-market high"}
+    target: 5
+    explanation: "Only one candle traded above $27.86, and it closed seven cents back under the level."
+
+  - type: chart-decision
+    scenario: "Yesterday's low is $19.20. XYZ has sold off into it all morning, dipped one cent under and closed back above. You have 1,000 shares ready."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[19.60, 19.64, 19.48, 19.50], [19.50, 19.54, 19.36, 19.38], [19.38, 19.42, 19.24, 19.28], [19.28, 19.32, 19.19, 19.26], [19.26, 19.34, 19.24, 19.32], [19.32, 19.38, 19.28, 19.36], [19.36, 19.48, 19.34, 19.46], [19.46, 19.56, 19.44, 19.54], [19.54, 19.60, 19.50, 19.58], [19.58, 19.66, 19.54, 19.62]]
+      levels:
+        - {price: 19.20, label: "Yesterday's low"}
       decision_index: 5
-    best: short
+    best: long
     reasonable: [no-trade]
-    outcome: "The rejection held and price slid to $17.46 — $0.26 per share, +$390 short on 1,500 shares from $17.72."
-    explanation: "A long wick through a level on the heaviest volume of the run is the buyers being filled and then abandoned."
+    outcome: "The level held and price ran to $19.62 — $0.26 per share, +$260 long on 1,000 shares from $19.36."
+    explanation: "A level that gets tested, holds, and then makes a higher low is doing its job — the trade is with the buyers defending it."
 
   - type: numeric-input
-    prompt: "That short is 1,500 shares at $17.72 with a stop at $17.84. How much money is at risk before costs?"
-    answer: 180
+    prompt: "You are long 1,500 shares from $17.71 and take profit at the pre-market high of $17.86. Result before costs?"
+    answer: 225
     unit: "$"
-    working: "($17.84 − $17.72) × 1,500 shares = $180"
-    explanation: "Stop distance times share count — the number you size from."
+    working: "($17.86 − $17.71) × 1,500 shares = $225"
+    explanation: "Fifteen cents on 1,500 shares — the level gave you the exit before you were in the trade."
+
+  - type: tf
+    statement: "A level is worth treating as a zone a few cents wide rather than one exact price."
+    answer: true
+    explanation: "Judge it by where the candle closes, not by whether the wick touched the cent."
 
   - type: fill-choice
-    sentence: "A candle whose body covers the previous body in the other direction is an ___ candle."
-    options: ["engulfing", "indecision", "exhaustion"]
-    answer: "engulfing"
-    explanation: "It swallows the minute before it whole."
+    sentence: "Above today's ___ price, buyers have controlled the session."
+    options: ["opening", "closing", "average"]
+    answer: "opening"
+    explanation: "The open is the session's starting agreement; everything above it is buyers having their way."
 
-  - type: theory
-    title: "One candle is not a trade"
-    body: "You can now name what a minute did. Next: why a candle only becomes a signal when the level and the volume agree with it."
+  - type: checklist-reveal
+    title: "The map, before the bell"
+    items:
+      - "Yesterday's high, low and close"
+      - "The pre-market high and low"
+      - "The round numbers either side of price"
+      - "VWAP, once the session starts drawing it"
+

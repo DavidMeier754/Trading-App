@@ -1,5 +1,5 @@
-id: "7-2"
-title: "The Opening Drive"
+id: "15-1"
+title: "Halts and Standing Aside"
 chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
@@ -8,12 +8,12 @@ tags: [open, halt, no-trade]
 learning_goal: "User knows what a halt does to an open position and can name the conditions that make the opening minutes untradeable."
 purpose: "Standing aside for the first minutes costs nothing; being in the wrong stock at the wrong second costs a lot."
 terms_introduced: ["Halt"]
-prerequisite: "7-1"
+reinforces: [3]
+prerequisite: "14-1"
 xp: 20
 difficulty: 3
-path_position: fan-out:open
 sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
-notes: "Fan-out strand C, second sub. Self-contained. Halt mechanics kept generic so both market profiles fit."
+notes: "Halt mechanics kept generic so both market profiles fit."
 screens:
   - type: intro
     text: "Some mornings the honest read is: not this one."

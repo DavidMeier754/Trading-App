@@ -8,6 +8,7 @@ tags: [vwap, levels]
 learning_goal: "User can say what VWAP is, work out a simple volume-weighted average, and read price above or below the line."
 purpose: "VWAP is the one line almost every intraday trader has on the screen — including the institutions on the other side of your fills."
 terms_introduced: ["VWAP"]
+reinforces: [1]
 prerequisite: null
 xp: 20
 difficulty: 2

@@ -1,0 +1,132 @@
+id: "18-1"
+title: "Final Exam"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: final-exam
+tags: [final-exam]
+learning_goal: "Confirm mastery of VWAP, the intraday levels, the 1-minute candles, confluence, the tape and the order book, the opening drive and halts, the four-part read and the two-timeframe rule."
+purpose: "Everything the playbook chapters build on is in these twelve questions."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "15-1"
+xp: 80
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade", "Volman — Understanding Price Action"]
+notes: "12 scored questions. Hearts apply. Pass mark 70 %."
+screens:
+  - type: intro
+    text: "Final exam: Reading Fast Markets. Twelve questions."
+    counter: 12
+
+  - type: numeric-mc
+    prompt: "8,000 shares trade at $15.00 and 2,000 at $15.50. Where is VWAP?"
+    options:
+      - {text: "$15.10", correct: true}
+      - {text: "$15.25"}
+      - {text: "$15.40"}
+      - {text: "$15.50"}
+    working: "(8,000 × $15.00 + 2,000 × $15.50) ÷ 10,000 shares = $15.10"
+    explanation: "Most of the shares traded at $15.00, so VWAP sits close to it."
+
+  - type: mc
+    prompt: "Which of these is the strongest case for a short?"
+    options:
+      - {text: "A big red candle in the middle of the day's range on average volume"}
+      - {text: "Price twenty cents above VWAP with the tape running at the ask"}
+      - {text: "Rejection candle at yesterday's high with VWAP just below", correct: true}
+    explanation: "Level, line, candle and volume together — the other two are one reason or none."
+
+  - type: chart-decision
+    scenario: "XYZ breaks the pre-market low at $17.40 by three cents on fading volume, then closes back above it. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.80, 17.84, 17.68, 17.70], [17.70, 17.74, 17.58, 17.60], [17.60, 17.64, 17.48, 17.52], [17.52, 17.56, 17.44, 17.46], [17.46, 17.50, 17.37, 17.44], [17.44, 17.52, 17.40, 17.50], [17.50, 17.60, 17.48, 17.58], [17.58, 17.68, 17.54, 17.66], [17.66, 17.74, 17.62, 17.72], [17.72, 17.78, 17.68, 17.74]]
+      volume: [84000, 76000, 68000, 59000, 42000, 78000, 86000, 74000, 68000, 61000]
+      levels:
+        - {price: 17.40, label: "Pre-market low"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It recovered to $17.74 — $0.24 per share, +$360 long on 1,500 shares from $17.50."
+    explanation: "A break on fading volume that closes back inside is a failed test, and the trapped sellers buy it back."
+
+  - type: tf
+    statement: "Size shown in the order book can be cancelled at any moment before it trades."
+    answer: true
+    explanation: "Only a print is a fact; everything in the book is still an intention."
+
+  - type: order
+    prompt: "Put the four-part read in the order you run it."
+    items:
+      - "Is price at a level I marked?"
+      - "Which side of VWAP is it on?"
+      - "What did the last candle do?"
+      - "What is the tape doing right now?"
+    explanation: "Where, who, what, now — the same order on every chart."
+
+  - type: mc
+    prompt: "The 5-minute chart is in a clear uptrend. Your 1-minute chart offers a short at a level. What is the sensible read?"
+    options:
+      - {text: "Skip it — the day is long and this is a counter-trend trade", correct: true}
+      - {text: "Take it with extra size, because the level is clear"}
+      - {text: "Take it and hold for longer than usual"}
+    explanation: "When the two charts disagree, the slower one is right more often."
+
+  - type: hotspot
+    component: order-book
+    prompt: "Tap the row a seller in a hurry trades against right now."
+    data:
+      bids: [[46.18, 2200], [46.17, 1800], [46.16, 4100]]
+      asks: [[46.21, 900], [46.22, 1600], [46.23, 2400]]
+    target: bid-1
+    explanation: "Selling in a hurry means taking the best bid, $14.18."
+
+  - type: numeric-input
+    prompt: "You are long 2,000 shares from $14.18 and sell at $14.33. The spread costs you $0.03 per share on the round trip. What is left?"
+    answer: 240
+    tolerance: 0.5
+    unit: "$"
+    working: "($14.33 − $14.18) × 2,000 = $300; spread $0.03 × 2,000 = $60; $300 − $60 = $240"
+    explanation: "Fifteen cents gross, twelve cents net — the spread took a fifth of it."
+
+  - type: sort
+    prompt: "Which one is it?"
+    buckets: ["Signal", "Reason to stand aside"]
+    items:
+      - {text: "First test of a level with VWAP agreeing", bucket: "Signal"}
+      - {text: "Range break on the heaviest volume since the open", bucket: "Signal"}
+      - {text: "News you have not read and a nine-cent spread", bucket: "Reason to stand aside"}
+      - {text: "Fourth test of the same level in fifteen minutes", bucket: "Reason to stand aside"}
+    explanation: "Fresh agreement is a signal; cost, confusion and repetition are not."
+
+  - type: mc
+    prompt: "A stock you are long halts. What is true of your stop?"
+    options:
+      - {text: "It fills at your stop price as soon as the halt begins"}
+      - {text: "It cannot fill while trading is paused", correct: true}
+      - {text: "It is cancelled and has to be replaced"}
+    explanation: "A stop needs a market; a halt removes it for a few minutes."
+
+  - type: chart-tap
+    prompt: "Tap the candle that reclaimed VWAP."
+    chart:
+      kind: candles
+      data: [[35.60, 35.64, 35.50, 35.52], [35.52, 35.56, 35.44, 35.46], [35.46, 35.52, 35.42, 35.50], [35.50, 35.56, 35.46, 35.54], [35.54, 35.62, 35.52, 35.60], [35.60, 35.68, 35.58, 35.66], [35.66, 35.72, 35.62, 35.70], [35.70, 35.76, 35.66, 35.74]]
+      vwap: [35.58, 35.57, 35.57, 35.57, 35.57, 35.58, 35.59, 35.60]
+    target: 4
+    explanation: "The first close above the line — and the candles after it held there."
+
+  - type: fill-choice
+    sentence: "A minute that opens and closes at almost the same price, with wicks on both sides, is a ___."
+    options: ["doji", "momentum candle", "engulfing candle"]
+    answer: "doji"
+    explanation: "Nobody finished the minute ahead — on its own that is a pause, not a signal."
+
+  - type: summary
+    total: 12
+
+  - type: badge
+    name: "Reading Fast Markets — Complete"
+    unlocks: "Chapter 5"

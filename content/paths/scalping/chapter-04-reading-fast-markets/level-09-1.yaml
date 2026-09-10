@@ -1,110 +1,103 @@
 id: "9-1"
-title: "Two Timeframes"
+title: "Tape Reading"
 chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
-tags: [timeframes, context]
-learning_goal: "User checks the 5-minute chart for direction before taking a 1-minute trigger, and skips triggers that fight it."
-purpose: "The 1-minute chart will offer you a trade every few minutes; the 5-minute chart decides which of them are worth taking."
-terms_introduced: []
-prerequisite: "8-2"
+tags: [tape, execution]
+learning_goal: "User can read speed and size on the tape and tell buyers paying up from sellers hitting out."
+purpose: "The chart shows you what happened a minute ago; the tape shows it happening now."
+terms_introduced: ["Print"]
+reinforces: [3]
+prerequisite: "8-1"
 xp: 20
-difficulty: 2
-sources: ["Murphy — Technical Analysis of the Financial Markets", "Aziz — How to Day Trade for a Living"]
+difficulty: 3
+path_position: fan-out:tape
+sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
+notes: "Fan-out strand A. Self-contained: uses nothing from the other two strands. No time-and-sales component exists, so the tape is shown as text and the book as order-book."
 screens:
   - type: intro
-    text: "Two charts. One decides the direction, the other decides the moment."
+    text: "The chart is a summary. The tape is the thing itself."
 
   - type: theory
-    title: "Two charts, two jobs"
-    body: "The 5-minute chart tells you which way this stock is going today. The 1-minute chart tells you when to press the button. Neither can do the other's job."
+    title: "The tape"
+    body: "You met the tape in Chapter 3: time and sales, the scrolling list of every trade in the stock. Each line is one execution, with its price, its size and its time."
+
+  - type: theory
+    title: "A print"
+    body: "One line on the tape is a print: shares that actually changed hands. A print at the ask means a buyer paid up. A print at the bid means a seller hit out."
 
   - type: example
-    body: "On the 5-minute, XYZ has made higher highs and higher lows since the open. On the 1-minute you get a shallow pullback into VWAP. Direction from one chart, timing from the other."
-
-  - type: visual
-    component: chart-candles
-    data:
-      data: [[41.20, 41.60, 41.10, 41.50], [41.50, 41.80, 41.40, 41.74], [41.74, 41.90, 41.60, 41.66], [41.66, 42.00, 41.62, 41.96], [41.96, 42.20, 41.88, 42.10], [42.10, 42.30, 41.98, 42.04], [42.04, 42.40, 42.00, 42.36], [42.36, 42.60, 42.30, 42.54]]
-      volume: [420000, 380000, 260000, 340000, 310000, 240000, 290000, 270000]
-    caption: "The 5-minute chart: higher highs, higher lows. On a day like this the 1-minute triggers worth taking are the longs."
+    body: "Six seconds of XYZ: 1,000 at the ask, 2,500 at the ask, 4,000 at the ask, all inside two cents. Buyers are lifting everything in front of them."
 
   - type: mc
-    prompt: "The 5-minute chart is making lower highs and lower lows. Your 1-minute chart gives a clean long signal at a level. What is it?"
+    prompt: "Print after print comes in at the bid, each one bigger than the last. What are you looking at?"
     options:
-      - {text: "A bounce inside a downtrend — small and quick", correct: true}
-      - {text: "A reversal, because the 1-minute chart is the faster one"}
-      - {text: "The same trade as a long in an uptrend"}
-    explanation: "The 1-minute signal is real, but it is fighting the direction the day has, so it needs a shorter leash."
-
-  - type: chart-decision
-    scenario: "On the 5-minute XYZ has made lower highs all morning. On this 1-minute chart it bounces off a round number with a decent candle. You have 1,000 shares ready."
-    shares: 1000
-    chart:
-      kind: candles
-      data: [[29.30, 29.34, 29.18, 29.20], [29.20, 29.24, 29.10, 29.12], [29.12, 29.16, 29.00, 29.04], [29.04, 29.10, 28.98, 29.08], [29.08, 29.14, 29.04, 29.12], [29.12, 29.20, 29.08, 29.18], [29.18, 29.22, 29.06, 29.08], [29.08, 29.12, 28.96, 28.98], [28.98, 29.02, 28.88, 28.90], [28.90, 28.94, 28.80, 28.84]]
-      levels:
-        - {price: 29.00, label: "Round number"}
-      decision_index: 5
-    best: no-trade
-    reasonable: [long]
-    outcome: "The bounce lasted three minutes and gave it all back, ending at $28.84. A long from $29.18 would have been $0.34 offside — $340 on 1,000 shares."
-    explanation: "A 1-minute long inside a 5-minute downtrend is the trade that keeps working just long enough to cost you."
-
-  - type: theory
-    title: "Never fight the 5-minute"
-    body: "When the two charts disagree, the slower one is right more often. Take the 1-minute triggers that point the same way as the 5-minute and let the rest go."
+      - {text: "Buyers stepping in at the bid to get filled cheaply"}
+      - {text: "Sellers hitting out and not waiting for a better price", correct: true}
+      - {text: "Market makers moving the spread wider"}
+    explanation: "Trading at the bid means accepting the buyer's price — that is selling in a hurry."
 
   - type: tf
-    statement: "The faster of the two charts is also the noisier one."
+    statement: "A print is a trade that has already happened and cannot be taken back."
     answer: true
-    explanation: "More of what happens on the 1-minute means nothing at all, which is why the 5-minute sets the direction."
+    explanation: "Orders that can still be cancelled sit in the order book. The tape only shows what traded."
+
+  - type: theory
+    title: "Speed and size"
+    body: "Two things matter. How fast the prints arrive tells you the urgency. How big they are tells you who is behind them: a wall of tiny prints is background noise, a run of large ones is a real order being worked."
+
+  - type: hotspot
+    component: order-book
+    prompt: "The tape is running at the ask and the first ask row is nearly gone. Tap the price the next prints will happen at."
+    data:
+      bids: [[30.10, 1800], [30.09, 1200], [30.08, 2600]]
+      asks: [[30.12, 300], [30.13, 2000], [30.14, 3400]]
+    target: ask-2
+    explanation: "Once the 300 shares at $30.12 are taken, buyers in a hurry have to pay $30.13."
+
+  - type: sort
+    prompt: "Who is in a hurry?"
+    buckets: ["Buyers", "Sellers"]
+    items:
+      - {text: "Prints at the ask", bucket: "Buyers"}
+      - {text: "Prints at the bid", bucket: "Sellers"}
+      - {text: "Large prints as price ticks up", bucket: "Buyers"}
+      - {text: "Large prints as price ticks down", bucket: "Sellers"}
+    explanation: "Whoever crosses the spread to get filled is the one in a hurry."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ is at yesterday's high. The tape has been quiet, then twenty large prints hit the ask in ten seconds."
 
   - type: chart-decision
-    scenario: "The 5-minute chart is making higher highs and higher lows. On the 1-minute, price pulls back into VWAP at $17.80 and holds it. You have 1,500 shares ready."
+    scenario: "That burst of prints at the ask carries price through yesterday's high at $18.50 and the candle closes above it. You have 1,500 shares ready."
     shares: 1500
     chart:
       kind: candles
-      data: [[18.10, 18.14, 18.00, 18.02], [18.02, 18.06, 17.92, 17.94], [17.94, 17.98, 17.86, 17.88], [17.88, 17.92, 17.80, 17.84], [17.84, 17.88, 17.78, 17.82], [17.82, 17.90, 17.78, 17.88], [17.88, 17.98, 17.86, 17.96], [17.96, 18.06, 17.92, 18.04], [18.04, 18.12, 18.00, 18.10], [18.10, 18.16, 18.06, 18.12]]
-      vwap: [17.76, 17.77, 17.78, 17.79, 17.79, 17.80, 17.81, 17.82, 17.84, 17.85]
-      volume: [68000, 62000, 56000, 49000, 42000, 96000, 81000, 74000, 68000, 62000]
+      data: [[18.30, 18.36, 18.28, 18.34], [18.34, 18.40, 18.32, 18.38], [18.38, 18.44, 18.36, 18.42], [18.42, 18.46, 18.38, 18.44], [18.44, 18.50, 18.42, 18.48], [18.48, 18.60, 18.46, 18.58], [18.58, 18.68, 18.56, 18.66], [18.66, 18.74, 18.62, 18.72], [18.72, 18.78, 18.68, 18.74], [18.74, 18.80, 18.70, 18.76]]
+      volume: [32000, 36000, 34000, 38000, 46000, 150000, 98000, 84000, 66000, 58000]
+      levels:
+        - {price: 18.50, label: "Yesterday's high"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It resumed to $18.12 — $0.24 per share, +$360 long on 1,500 shares from $17.88."
-    explanation: "Both charts pointing the same way is the only situation where a pullback entry is a simple decision."
-
-  - type: sort
-    prompt: "Which chart is that job?"
-    buckets: ["5-minute", "1-minute"]
-    items:
-      - {text: "Deciding whether today is a long day or a short day", bucket: "5-minute"}
-      - {text: "Finding the candle you enter on", bucket: "1-minute"}
-      - {text: "Seeing the shape of the whole session", bucket: "5-minute"}
-      - {text: "Timing the exact entry after a pullback", bucket: "1-minute"}
-    explanation: "Direction on the slow chart, timing on the fast one."
+    outcome: "The buying kept coming and price reached $18.76 — $0.18 per share, +$270 long on 1,500 shares from $18.58."
+    explanation: "Large prints at the ask through a level are buyers who need shares — the level broke because somebody was paying for it."
 
   - type: numeric-input
-    prompt: "You take that pullback long: 1,500 shares at $17.88, stop at $17.76. What is at risk before costs?"
-    answer: 180
-    unit: "$"
-    working: "($17.88 − $17.76) × 1,500 shares = $180"
-    explanation: "The stop goes under the pullback low, because below it the 5-minute uptrend is in question."
-
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "The 5-minute chart is in a downtrend,"}
-      - {text: "so I will hold my 1-minute long longer", wrong: true}
-      - {text: "to give it room to work."}
-    explanation: "A trade against the slower chart gets less room, not more."
+    prompt: "That burst minute traded 150,000 shares. Your 1,500-share order is what share of that minute's volume?"
+    answer: 1
+    tolerance: 0.1
+    unit: "%"
+    working: "1,500 ÷ 150,000 = 0.01 = 1 %"
+    explanation: "Small enough to get in and out without being the reason price moved."
 
   - type: fill-tiles
-    sentence: "Direction comes from the 5-minute chart; the 1-minute chart only gives you the ___."
-    answer: "timing"
-    explanation: "Two charts, two jobs, in that order."
+    sentence: "The scrolling list of every trade in a stock is called the ___."
+    answer: "tape"
+    explanation: "Its formal name is time and sales; every trader calls it the tape."
 
   - type: theory
-    title: "Context, then trigger"
-    body: "You now have the whole read: the slower chart for direction, the map for the price, the candle and the tape for the moment. The exam is next."
+    title: "Prints tell you now"
+    body: "Speed, size and which side of the spread. That is the whole reading. Next: the orders that have not traded yet."
