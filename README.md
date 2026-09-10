@@ -17,6 +17,7 @@ A finished path is ~144 levels and ~387 sub-levels: about 22 hours, or six month
 | `content/shared/` | Chapter 1 (all paths). |
 | `content/paths/<path>/` | Chapters 2–8 per path. |
 | `tools/validate_content.py` | Validates all lesson files; `--status` prints chapter statistics. |
+| `tools/test_validate.py` | Self-test for the validator. Run it after changing `validate_content.py`. |
 
 ## Validate content
 
@@ -24,6 +25,7 @@ A finished path is ~144 levels and ~387 sub-levels: about 22 hours, or six month
 python3 tools/validate_content.py            # errors and warnings
 python3 tools/validate_content.py --status   # levels, screens, minutes per chapter
 python3 tools/validate_content.py --strict   # chapter-level warnings become errors
+python3 tools/test_validate.py               # self-test: every validator rule still fires
 ```
 
 Requires Python 3 and PyYAML (`pip install pyyaml`).
