@@ -1,4 +1,4 @@
-id: "8-1"
+id: "14-1"
 title: "Choosing the Setup for the Day"
 chapter: 7
 chapter_title: "Scalping Playbook"
@@ -8,6 +8,7 @@ tags: [conditions, selection, process]
 learning_goal: "User reads the day's condition first and picks the cards that condition can produce — or none."
 purpose: "The same five cards on the wrong day is how a good playbook still loses money."
 terms_introduced: ["Trend day", "Range day"]
+reinforces: [6]
 prerequisite: "7-2"
 xp: 20
 difficulty: 2

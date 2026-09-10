@@ -8,6 +8,7 @@ tags: [failed-breakout, levels, setup-e, playbook]
 learning_goal: "User can recognise a break that fails, wait for the re-entry candle and fade it with a stop beyond the failed extreme."
 purpose: "Most breaks of a level do not hold, and this card turns the most common disappointment on the chart into a plan."
 terms_introduced: ["Fade", "Re-entry candle", "Trapped traders"]
+reinforces: [2, 3, 4]
 prerequisite: "6-2"
 xp: 20
 difficulty: 3

@@ -8,6 +8,7 @@ tags: [opening-range, setup-b, practice, decisions]
 learning_goal: "User trades opening-range breaks in both directions and rejects wicks and failed breaks."
 purpose: "The line gets touched far more often than it gets broken, and the difference is one candle close."
 terms_introduced: []
+reinforces: [2, 3, 6]
 prerequisite: "3-1"
 xp: 30
 difficulty: 2

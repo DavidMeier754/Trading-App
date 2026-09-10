@@ -8,6 +8,7 @@ tags: [mean-reversion, levels, setup-d, practice, decisions]
 learning_goal: "User fades stretched runs only at marked levels with climax volume and a rejection close, and passes when the level, the rejection or the room to VWAP is missing."
 purpose: "Counter-trend trades punish loose rules faster than any other card, so the rules get drilled hardest here."
 terms_introduced: []
+reinforces: [2, 3, 4, 6]
 prerequisite: "6-1"
 xp: 30
 difficulty: 3

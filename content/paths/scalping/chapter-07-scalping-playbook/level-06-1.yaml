@@ -8,6 +8,7 @@ tags: [mean-reversion, levels, setup-d, playbook]
 learning_goal: "User can spot a stretched run into a marked level, take the rejection candle against it with a smaller share count, and target VWAP."
 purpose: "Price spends the session leaving VWAP and coming back to it; this is the card for the coming back."
 terms_introduced: ["Mean reversion"]
+reinforces: [2, 4, 6]
 prerequisite: "5-1"
 xp: 20
 difficulty: 3

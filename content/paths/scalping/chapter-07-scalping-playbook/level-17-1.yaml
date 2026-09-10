@@ -1,4 +1,4 @@
-id: "9-1"
+id: "17-1"
 title: "Capstone — A Full Session"
 chapter: 7
 chapter_title: "Scalping Playbook"
@@ -8,7 +8,8 @@ tags: [capstone, session, process, decisions]
 learning_goal: "User runs a session in order: plan, day read, cards as they appear, and the risk left checked between trades."
 purpose: "Setups are the easy half. Running them in sequence, with costs and a limit, is the job."
 terms_introduced: []
-prerequisite: "8-1"
+reinforces: [3, 6]
+prerequisite: "14-1"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]

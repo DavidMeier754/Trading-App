@@ -1,4 +1,4 @@
-id: "10-1"
+id: "19-1"
 title: "Final Exam"
 chapter: 7
 chapter_title: "Scalping Playbook"
@@ -8,7 +8,8 @@ tags: [final-exam]
 learning_goal: "Confirm mastery of the playbook card, the five setups, matching conditions to cards, R, costs and the discipline of passing."
 purpose: "Twelve questions across everything the chapter built, and the last node on the scalping path."
 terms_introduced: []
-prerequisite: "9-2"
+reinforces: [3, 4, 6]
+prerequisite: "17-2"
 xp: 80
 difficulty: 3
 sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
