@@ -382,4 +382,4 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - Any single per-share outcome value used in more than 25 % of `chart-decision` outcomes.
 - More than five consecutive sub-levels at the same `difficulty`.
 - A `chart-decision` whose `shares` × decision price exceeds the account named in the same file.
-- 1-minute chart volume outside 4,000–500,000 per bar (path chapters).
+- The **typical** (median) bar of a chart's volume outside 4,000–500,000 (path chapters). Judged on the median, not every bar: an opening bar or a climax bar legitimately spikes above the band, and Chapter 2 teaches climax volume on purpose.
