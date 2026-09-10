@@ -1,0 +1,113 @@
+id: "15-1"
+title: "Chapter 1 Callback"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: repetition
+tags: [callback, liquidity, volatility, decisions]
+learning_goal: "User reads liquidity and volatility straight off a candlestick chart and rejects the shapes their size cannot be traded in."
+purpose: "Chapter 1 taught the two dials in words. On a 1-minute chart they are the difference between a trade and a trap."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "14-3"
+xp: 25
+difficulty: 2
+sources: [consensus]
+notes: "Every question here needs Chapter 1's liquidity or volatility, asked through candles and volume bars instead of definitions."
+screens:
+  - type: intro
+    text: "Two questions from Chapter 1, asked again in a language you did not have then."
+
+  - type: story
+    character: retail-trader
+    text: "Four charts on the screen and the same $20,000 behind all of them. Two of these stocks cannot take your size, and neither of them says so in words."
+
+  - type: theory
+    title: "The dials, drawn"
+    body: "Liquidity shows up in the volume bars and in whether candles touch each other. Volatility shows up in how much ground one candle covers. They are different rows on the same screen."
+
+  - type: compare
+    prompt: "Both charts cover eight minutes. In which one would 1,200 shares be hard to get back out of?"
+    charts:
+      - {kind: candles, data: [[16.40, 16.48, 16.36, 16.46], [16.46, 16.54, 16.42, 16.50], [16.50, 16.58, 16.46, 16.56], [16.56, 16.62, 16.50, 16.54], [16.54, 16.64, 16.52, 16.62], [16.62, 16.70, 16.58, 16.66], [16.66, 16.74, 16.62, 16.70], [16.70, 16.78, 16.66, 16.74]], volume: [268000, 242000, 286000, 224000, 258000, 232000, 214000, 246000], label: "A"}
+      - {kind: candles, data: [[16.40, 16.62, 16.38, 16.60], [16.60, 16.64, 16.36, 16.40], [16.40, 16.44, 16.38, 16.42], [16.42, 16.72, 16.40, 16.70], [16.70, 16.74, 16.44, 16.48], [16.48, 16.52, 16.46, 16.50], [16.50, 16.78, 16.48, 16.76], [16.76, 16.80, 16.52, 16.56]], volume: [12000, 9000, 6000, 14000, 8000, 5000, 16000, 7000], label: "B"}
+    answer: "B"
+    explanation: "A moves in touching candles on a quarter of a million shares a minute. B jumps twenty cents and back on bars of a few thousand, where every candle is a handful of orders and yours would be one of them."
+
+  - type: mc
+    prompt: "What on the chart itself gives a thin stock away?"
+    options:
+      - {text: "candles that are small and sit close together"}
+      - {text: "bars of a few thousand shares under jumpy candles", correct: true}
+      - {text: "a wide range between the morning's high and its low"}
+    explanation: "The bar says how many people were there. When it is tiny and the candle is long, the price was moved by almost nobody."
+
+  - type: numeric-input
+    prompt: "The stock is printing about 10,000 shares a minute and you want 1,500 of them. What share of one whole minute is your order?"
+    answer: 15
+    tolerance: 0.01
+    unit: "%"
+    working: "1,500 ÷ 10,000 = 0.15 = 15 %"
+    explanation: "Fifteen per cent of a minute going in, and the same again coming out. At that size you are not reading the chart, you are part of it."
+
+  - type: chart-decision
+    scenario: "XYZ trades around 190,000 shares a minute all morning and has spent the last six minutes inside nine cents. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[19.40, 19.44, 19.38, 19.42], [19.42, 19.45, 19.39, 19.41], [19.41, 19.44, 19.38, 19.43], [19.43, 19.46, 19.40, 19.42], [19.42, 19.45, 19.39, 19.44], [19.44, 19.47, 19.41, 19.43], [19.43, 19.46, 19.40, 19.42], [19.42, 19.45, 19.39, 19.44], [19.44, 19.47, 19.41, 19.45], [19.45, 19.48, 19.42, 19.44], [19.44, 19.47, 19.41, 19.46]]
+      volume: [212000, 196000, 184000, 202000, 178000, 190000, 186000, 174000, 192000, 168000, 182000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes later price was $19.46, three cents above the decision — $30 on 1,000 shares, before a spread that would take most of it."
+    explanation: "You could get in and out of this all day, and there is nothing in it to get. Easy to trade and worth trading are two different dials."
+
+  - type: sort
+    prompt: "Which dial is this chart telling you about?"
+    buckets: ["Says liquidity", "Says volatility"]
+    items:
+      - {text: "Volume bars of a few thousand shares", bucket: "Says liquidity"}
+      - {text: "Candles that each cover thirty cents", bucket: "Says volatility"}
+      - {text: "A twenty-cent hole between one close and the next open", bucket: "Says liquidity"}
+      - {text: "Six minutes spent inside nine cents", bucket: "Says volatility"}
+    explanation: "Holes and small bars are about who is there. The size of the candle is about how far the price travels once they are."
+
+  - type: tf
+    statement: "A stock can be easy to get in and out of and still not be worth trading."
+    answer: true
+    explanation: "That is the whole left-hand column of this sub-level: heavy bars, tiny candles, nothing to pay for the costs of being there."
+
+  - type: chart-decision
+    scenario: "XYZ trades near 200,000 shares a minute and moves in ten-cent candles. $14.20 has turned it back twice, and the minute that just closed finished at $14.32 on 312,000 shares. Your account is $20,000 and you are sizing 1,350 shares."
+    shares: 1350
+    chart:
+      kind: candles
+      data: [[13.86, 13.96, 13.82, 13.94], [13.94, 14.06, 13.90, 14.02], [14.02, 14.20, 13.98, 14.10], [14.10, 14.20, 14.04, 14.08], [14.08, 14.16, 14.02, 14.12], [14.12, 14.34, 14.10, 14.32], [14.32, 14.44, 14.28, 14.40], [14.40, 14.50, 14.34, 14.46], [14.46, 14.58, 14.42, 14.54], [14.54, 14.60, 14.48, 14.52], [14.52, 14.64, 14.50, 14.60]]
+      volume: [142000, 168000, 224000, 138000, 156000, 312000, 268000, 232000, 206000, 178000, 194000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $14.64 and finished at $14.60 — $0.28 a share above the decision, +$378 long on 1,350 shares."
+    explanation: "Both dials are where you need them and the level has just answered. This is the chart the last two were not."
+
+  - type: match
+    prompt: "Four charts, two dials each. What are you looking at?"
+    pairs:
+      - ["Big bars, big candles", "Worth a look: you can get in, and there is something to get"]
+      - ["Big bars, tiny candles", "Easy to trade, with nothing in it to pay the costs"]
+      - ["Tiny bars, big candles", "The dangerous one: it moves and you cannot get out"]
+      - ["Tiny bars, tiny candles", "Nobody is there and nothing is happening"]
+    explanation: "Only one of the four is a scalp, and the one that looks most exciting is the one that traps you."
+
+  - type: fill-tiles
+    sentence: "Whether you can get out at the price you can see is a question about ___."
+    answer: "liquidity"
+    explanation: "How far the price moves is the other dial, and it never answers this question."
+
+  - type: checklist-reveal
+    title: "Two dials, read off the chart"
+    items:
+      - "How tall are the bars, in this stock's own minutes?"
+      - "How much ground does one candle cover?"
+      - "Do the candles touch, or do they jump?"
+      - "Would my size be a big part of one minute?"

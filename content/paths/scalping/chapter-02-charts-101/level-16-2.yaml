@@ -1,0 +1,124 @@
+id: "16-2"
+title: "The Scalper's Screen"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [routine, timeframes, screen-setup]
+learning_goal: "User can name the four things on a scalper's screen and refuses a 1-minute trade the 5-minute chart disagrees with."
+purpose: "Inside a sixty-second decision you can only read what was already in front of you."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "16-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "The quote card is the Chapter 1 one; bid, ask and the full quote panel arrive in Chapter 3."
+screens:
+  - type: intro
+    text: "Four things on the screen. Everything else on it is decoration."
+
+  - type: theory
+    title: "What is actually on it"
+    body: "A 1-minute chart with volume under it. The same stock on the 5-minute for direction. The quote, for what has already happened today. Your levels, drawn on both charts."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[20.86, 20.94, 20.82, 20.92], [20.92, 21.00, 20.88, 20.96], [20.96, 21.02, 20.90, 20.94], [20.94, 21.06, 20.92, 21.04], [21.04, 21.12, 21.00, 21.08], [21.08, 21.16, 21.04, 21.14], [21.14, 21.20, 21.08, 21.12], [21.12, 21.22, 21.10, 21.18]]
+      volume: [186000, 214000, 142000, 238000, 196000, 264000, 168000, 208000]
+      levels:
+        - {price: 21.00, label: "round number"}
+        - {price: 21.20, label: "pre-market high"}
+    caption: "One minute per candle, volume underneath, and two lines that were drawn before any of it happened."
+
+  - type: example
+    body: "The same morning on the 5-minute: four candles, each finishing above the last. That is the context every 1-minute idea has to fit inside."
+    visual: chart-candles
+    visual_data:
+      data: [[20.60, 20.96, 20.56, 20.92], [20.92, 21.08, 20.86, 21.02], [21.02, 21.14, 20.94, 21.10], [21.10, 21.24, 21.06, 21.18]]
+      volume: [386000, 342000, 298000, 364000]
+
+  - type: walkthrough
+    component: quote-card
+    data: {ticker: XYZ, name: Example Corp, price: 21.18, change: 0.74, change_pct: 3.6, volume: "3.6M", prev_close: 20.44}
+    steps:
+      - {spotlight: price, text: "The last traded price. Everything on the chart is a history of this one number."}
+      - {spotlight: change, text: "How far it has already travelled since yesterday's close. A stock that has come a long way has less of the day left."}
+      - {spotlight: volume, text: "How much has changed hands today. This is the number that decides whether you can get back out."}
+
+  - type: numeric-input
+    prompt: "That quote says 3.6 million shares have traded today. This stock's whole ordinary day is about 900,000. How many times its normal is that?"
+    answer: 4
+    tolerance: 0.01
+    working: "3,600,000 ÷ 900,000 = 4"
+    explanation: "Four times its own normal day, before the morning is even over. That is what the quote is on the screen for."
+
+  - type: mc
+    prompt: "Your 1-minute chart says long. Your 5-minute says the morning has been falling all session. What do you do?"
+    options:
+      - {text: "take nothing until the two agree", correct: true}
+      - {text: "take the 1-minute trade, because it is the faster chart"}
+      - {text: "take half the size, since both charts are partly right"}
+    explanation: "Half a position in a fight you have already read as a fight is still a position on the wrong side of it."
+
+  - type: chart-tap
+    prompt: "This is the 5-minute chart. Tap the first candle that finished below where it opened."
+    chart:
+      kind: candles
+      data: [[18.20, 18.52, 18.14, 18.48], [18.48, 18.76, 18.44, 18.72], [18.72, 18.96, 18.66, 18.90], [18.90, 19.10, 18.84, 19.04], [19.04, 19.16, 18.82, 18.86], [18.86, 18.94, 18.60, 18.64], [18.64, 18.72, 18.44, 18.48], [18.48, 18.56, 18.30, 18.34]]
+      volume: [412000, 368000, 324000, 286000, 438000, 392000, 348000, 316000]
+    target: 4
+    explanation: "Five minutes of the morning being handed back on the heaviest bar of the eight. Every long idea on the 1-minute after that is fighting this candle."
+
+  - type: chart-decision
+    scenario: "The 5-minute has made higher highs and higher lows all morning. On the 1-minute, XYZ has just closed at $19.72, twelve cents above the pre-market high you marked, on the heaviest bar of the session. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[19.30, 19.40, 19.26, 19.38], [19.38, 19.48, 19.34, 19.44], [19.44, 19.60, 19.42, 19.52], [19.52, 19.58, 19.46, 19.50], [19.50, 19.60, 19.46, 19.56], [19.56, 19.74, 19.54, 19.72], [19.72, 19.84, 19.68, 19.80], [19.80, 19.90, 19.74, 19.86], [19.86, 19.96, 19.82, 19.92], [19.92, 20.00, 19.88, 19.96], [19.96, 20.08, 19.94, 20.04]]
+      volume: [168000, 194000, 246000, 142000, 176000, 328000, 286000, 248000, 212000, 184000, 206000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $20.08 and finished at $20.04 — $0.32 a share above the decision, +$320 long on 1,000 shares."
+    explanation: "Direction from the slower chart, the level from the pre-market, the close from the minute and the crowd from the bar. All four parts of the screen said one thing."
+
+  - type: tf
+    statement: "The 5-minute chart decides which way you are trading and the 1-minute decides when."
+    answer: true
+    explanation: "One chart for the direction, one for the moment. Swapping their jobs is how a scalper ends up short in a rising morning."
+
+  - type: compare
+    prompt: "Your 1-minute chart is telling you to buy. Which 5-minute chart does that trade belong in?"
+    charts:
+      - {kind: candles, data: [[16.20, 16.52, 16.14, 16.48], [16.48, 16.72, 16.42, 16.68], [16.68, 16.86, 16.60, 16.80], [16.80, 17.04, 16.74, 17.00], [17.00, 17.18, 16.92, 17.12], [17.12, 17.34, 17.06, 17.28], [17.28, 17.46, 17.22, 17.40], [17.40, 17.58, 17.34, 17.52]], label: "A"}
+      - {kind: candles, data: [[17.40, 17.48, 17.10, 17.16], [17.16, 17.24, 16.90, 16.96], [16.96, 17.08, 16.80, 16.86], [16.86, 16.92, 16.60, 16.66], [16.66, 16.74, 16.48, 16.52], [16.52, 16.58, 16.30, 16.36], [16.36, 16.44, 16.16, 16.22], [16.22, 16.30, 16.04, 16.10]], label: "B"}
+    answer: "A"
+    explanation: "In A every five minutes finishes above the last. In B your long has to get through eight candles of people selling into every push."
+
+  - type: fill-choice
+    sentence: "The chart that tells you which way the morning is going is the ___ one."
+    options: ["5-minute", "1-minute", "pre-market"]
+    answer: "5-minute"
+    explanation: "It holds five times as much of the session in the same space, so it changes its mind five times less often."
+
+  - type: chart-decision
+    scenario: "The 5-minute has made lower highs and lower lows all morning. On the 1-minute, XYZ has just closed green at $12.86 on the best bar in ten minutes. Your account is $20,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[12.60, 12.66, 12.54, 12.58], [12.58, 12.64, 12.52, 12.62], [12.62, 12.70, 12.58, 12.66], [12.66, 12.72, 12.60, 12.64], [12.64, 12.78, 12.62, 12.76], [12.76, 12.90, 12.74, 12.86], [12.86, 12.90, 12.72, 12.74], [12.74, 12.78, 12.60, 12.62], [12.62, 12.68, 12.52, 12.56], [12.56, 12.62, 12.46, 12.50], [12.50, 12.56, 12.42, 12.46]]
+      volume: [132000, 142000, 156000, 168000, 186000, 224000, 208000, 232000, 218000, 196000, 184000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It rolled back over to $12.42 and finished at $12.46 — a long at the decision would be $0.40 a share offside, $600 down on 1,500 shares."
+    explanation: "One good minute inside a morning of bad ones. The 1-minute chart is allowed to be excited; the 5-minute is the one you have to get past."
+
+  - type: checklist-reveal
+    title: "The whole screen"
+    items:
+      - "A 1-minute chart with volume under it"
+      - "The same stock on the 5-minute, for direction"
+      - "The quote, for what has already happened today"
+      - "Your levels, drawn on both of them"

@@ -1,0 +1,115 @@
+id: "17-2"
+title: "Chapter Review"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: repetition
+tags: [practice, exhaustion, levels, decisions]
+learning_goal: "User finishes the morning — the climax, the refusal at the price the run died on, and the thin late chop — and counts what the six decisions were worth."
+purpose: "Half of a good morning is the three charts you leave alone after the good ones have already happened."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "17-1"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "The same stock and the same morning as 17-1, with the reasoning left to the learner."
+screens:
+  - type: intro
+    text: "Same stock, same morning, three moments left. Two of them are traps."
+
+  - type: story
+    character: retail-trader
+    text: "Two trades done and $500 in front of you before costs. The run is still going and it has never looked better than it does right now."
+
+  - type: chart-decision
+    scenario: "The climb has run eleven minutes. The minute that just closed reached $19.86, finished at $19.72 and traded 486,000 shares, more than any bar since the opening one. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[19.36, 19.48, 19.34, 19.46], [19.46, 19.56, 19.42, 19.52], [19.52, 19.62, 19.48, 19.58], [19.58, 19.64, 19.52, 19.60], [19.60, 19.72, 19.58, 19.68], [19.68, 19.86, 19.64, 19.72], [19.72, 19.76, 19.58, 19.60], [19.60, 19.66, 19.52, 19.56], [19.56, 19.62, 19.48, 19.52], [19.52, 19.58, 19.44, 19.48], [19.48, 19.54, 19.42, 19.46]]
+      volume: [262000, 238000, 224000, 196000, 212000, 486000, 338000, 286000, 248000, 224000, 206000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "Price slid to $19.42 and finished at $19.46 — a long at the decision would be $0.26 a share offside, $260 down on 1,000 shares."
+    explanation: "The busiest minute since the bell, fourteen cents handed back inside it. That bar is everyone who was still going to buy, buying."
+
+  - type: mc
+    prompt: "By the end of this morning you will have left half of the six moments alone. What does that say?"
+    options:
+      - {text: "the stock was the wrong one to watch this morning"}
+      - {text: "most minutes are not worth what they cost", correct: true}
+      - {text: "three entries were missed and should be chased"}
+    explanation: "The ones you skip are what keep the ones you take affordable. Standing aside is a result, not a hole in one."
+
+  - type: chart-decision
+    scenario: "XYZ has worked back up to $19.72, where the run died, and been turned away twice. The minute that just closed finished at $19.52, at the low of its own move, on 288,000 shares. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[19.46, 19.54, 19.42, 19.52], [19.52, 19.62, 19.48, 19.58], [19.58, 19.72, 19.54, 19.62], [19.62, 19.68, 19.56, 19.58], [19.58, 19.72, 19.54, 19.64], [19.64, 19.68, 19.50, 19.52], [19.52, 19.56, 19.40, 19.42], [19.42, 19.48, 19.32, 19.34], [19.34, 19.40, 19.24, 19.28], [19.28, 19.34, 19.20, 19.22], [19.22, 19.28, 19.14, 19.18]]
+      volume: [206000, 218000, 246000, 182000, 232000, 288000, 264000, 242000, 226000, 204000, 192000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rolled down to $19.14 and finished at $19.18 — $0.34 a share, +$340 short on 1,000 shares."
+    explanation: "The price that ended the run became the ceiling, it held twice, and the third try finished at its own low on the heaviest bar of the stretch."
+
+  - type: compare
+    prompt: "One of these dips is a give-back inside the climb and one is the climb ending. Which is the give-back?"
+    charts:
+      - {kind: candles, data: [[19.28, 19.42, 19.24, 19.38], [19.38, 19.40, 19.28, 19.30], [19.30, 19.34, 19.26, 19.28], [19.28, 19.38, 19.26, 19.36], [19.36, 19.48, 19.34, 19.46], [19.46, 19.56, 19.42, 19.52], [19.52, 19.62, 19.48, 19.58], [19.58, 19.64, 19.52, 19.60]], volume: [288000, 118000, 96000, 284000, 262000, 238000, 224000, 196000], label: "A"}
+      - {kind: candles, data: [[19.28, 19.42, 19.24, 19.38], [19.38, 19.40, 19.22, 19.24], [19.24, 19.28, 19.10, 19.12], [19.12, 19.18, 19.02, 19.06], [19.06, 19.12, 18.96, 19.00], [19.00, 19.06, 18.90, 18.94], [18.94, 19.00, 18.84, 18.88], [18.88, 18.94, 18.78, 18.82]], volume: [288000, 246000, 312000, 286000, 268000, 252000, 238000, 224000], label: "B"}
+    answer: "A"
+    explanation: "A goes quiet and stops above the last dip. B breaks it on bars heavier than the push that made it, which is the difference between a rest and an ending."
+
+  - type: numeric-input
+    prompt: "Three trades, 1,000 shares each: long $19.14 out at $19.36, long $19.36 out at $19.64, short $19.52 covered at $19.24. What is the morning worth before costs?"
+    answer: 780
+    tolerance: 0.01
+    unit: "$"
+    working: "$220 + $280 + $280 = $780"
+    explanation: "Three moves of under thirty cents each. The share count is what turns cents into a morning."
+
+  - type: tf
+    statement: "By the late morning the same stock can be worth leaving alone completely."
+    answer: true
+    explanation: "The crowd that made the open has gone. A chart with no push and no level has nothing to pay you with."
+
+  - type: chart-decision
+    scenario: "It is late in the morning. XYZ is turning down from about $19.22 and up from about $19.13, on the thinnest bars since the bell. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[19.18, 19.24, 19.12, 19.20], [19.20, 19.24, 19.14, 19.16], [19.16, 19.22, 19.12, 19.20], [19.20, 19.23, 19.13, 19.15], [19.15, 19.22, 19.12, 19.19], [19.19, 19.22, 19.13, 19.16], [19.16, 19.21, 19.12, 19.19], [19.19, 19.23, 19.14, 19.16], [19.16, 19.20, 19.12, 19.18], [19.18, 19.22, 19.13, 19.15], [19.15, 19.20, 19.12, 19.17]]
+      volume: [96000, 84000, 76000, 68000, 62000, 56000, 52000, 48000, 46000, 44000, 42000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes later price was $19.17, one cent above the decision — $10 on 1,000 shares, and the spread would take several times that."
+    explanation: "Nine cents of range on bars a fifth of the size of the open. This is the chart that gives a good morning back."
+
+  - type: match
+    prompt: "Four moments from this morning. What was each one?"
+    pairs:
+      - ["The first six minutes", "Both sides winning inside the same forty cents"]
+      - ["The close above the range high", "The first thing the morning actually decided"]
+      - ["The heaviest bar of the run, closing far off its high", "The last buyers of the move, arriving"]
+      - ["Forty-thousand-share minutes late on", "A good morning waiting to be handed back"]
+    explanation: "Two of the four were trades, and the other two were the reason those two were still worth taking."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The morning gave you three trades,"}
+      - {text: "so the rest of the day owes you three more,", wrong: true}
+      - {text: "and the chart decides when there are none."}
+    explanation: "The chart does not know what you have made or what you want. Six moments gave three trades because that is how many they gave."
+
+  - type: recap
+    title: "Level 17 in four lines"
+    points:
+      - {text: "The open is watched before it is traded.", level: "17-1"}
+      - {text: "One level answering is worth more than six minutes of movement.", level: "17-1"}
+      - {text: "The heaviest bar of a run is the end of it, not the middle.", level: "17-2"}
+      - {text: "A thin late morning is where a good one gets given back.", level: "17-2"}

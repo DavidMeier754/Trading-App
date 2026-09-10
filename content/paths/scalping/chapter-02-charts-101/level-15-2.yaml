@@ -1,0 +1,108 @@
+id: "15-2"
+title: "Chapter 1 Callback"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: repetition
+tags: [callback, sessions, liquidity, drill]
+learning_goal: "User tells a move made by the whole market from one made by a handful of traders in a thin session, using the volume bars alone."
+purpose: "Half the charts a beginner gets excited about were printed when almost nobody was trading."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "15-1"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "The chapter's third drill page. Sessions from Chapter 1, judged off the bars rather than the clock."
+screens:
+  - type: intro
+    text: "Six charts, and the volume bars underneath tell you which of them are real."
+
+  - type: story
+    character: retail-trader
+    text: "A stock is up 6 % before the bell and you have not been able to stop looking at it. The bars under those candles are 8,000 shares each."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[13.40, 13.42, 13.38, 13.40], [13.40, 13.72, 13.38, 13.70], [13.70, 13.74, 13.44, 13.48], [13.48, 13.52, 13.46, 13.50], [13.50, 13.80, 13.48, 13.78], [13.78, 13.82, 13.52, 13.56]]
+      volume: [6000, 14000, 9000, 5000, 12000, 8000]
+    caption: "Thirty cents up, thirty cents back, three times over, on bars you could count by hand."
+
+  - type: swipe-deck
+    prompt: "Your card is a move on a 1-minute chart. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[13.40, 13.42, 13.38, 13.40], [13.40, 13.72, 13.38, 13.70], [13.70, 13.74, 13.44, 13.48], [13.48, 13.52, 13.46, 13.50], [13.50, 13.80, 13.48, 13.78], [13.78, 13.82, 13.52, 13.56], [13.56, 13.60, 13.52, 13.58], [13.58, 13.62, 13.54, 13.56]], volume: [6000, 14000, 9000, 5000, 12000, 8000, 4000, 6000]}
+        answer: pass
+        note: "Thirty cents up and thirty cents back on a few thousand shares a minute. That price was set by almost nobody."
+      - chart: {kind: candles, data: [[18.20, 18.28, 18.16, 18.26], [18.26, 18.38, 18.24, 18.36], [18.36, 18.52, 18.34, 18.50], [18.50, 18.56, 18.44, 18.48], [18.48, 18.64, 18.46, 18.62], [18.62, 18.76, 18.60, 18.74], [18.74, 18.84, 18.70, 18.80], [18.80, 18.92, 18.76, 18.88]], volume: [186000, 232000, 286000, 164000, 268000, 312000, 274000, 246000]}
+        answer: take
+        note: "Bodies growing on a quarter of a million shares a minute. This one can carry your size and pay for it."
+      - chart: {kind: candles, data: [[21.60, 21.64, 21.56, 21.62], [21.62, 21.90, 21.60, 21.88], [21.88, 21.92, 21.64, 21.66], [21.66, 21.70, 21.62, 21.68], [21.68, 21.72, 21.42, 21.46], [21.46, 21.50, 21.44, 21.48], [21.48, 21.76, 21.46, 21.74], [21.74, 21.78, 21.50, 21.54]], volume: [7000, 11000, 6000, 4000, 9000, 5000, 13000, 8000]}
+        answer: pass
+        note: "Big candles with holes between them. When the session is over, the price is whatever the last order says it is."
+      - chart: {kind: candles, data: [[15.80, 15.90, 15.76, 15.88], [15.88, 16.00, 15.86, 15.94], [15.94, 16.00, 15.88, 15.92], [15.92, 15.98, 15.86, 15.96], [15.96, 16.14, 15.94, 16.12], [16.12, 16.22, 16.08, 16.18], [16.18, 16.28, 16.14, 16.24], [16.24, 16.32, 16.20, 16.28]], volume: [216000, 268000, 178000, 192000, 346000, 282000, 244000, 226000]}
+        answer: take
+        note: "Twice stopped at $16.00, then a close twelve cents through it on the heaviest bar of the stretch."
+      - chart: {kind: candles, data: [[17.30, 17.33, 17.28, 17.32], [17.32, 17.34, 17.29, 17.31], [17.31, 17.34, 17.28, 17.33], [17.33, 17.35, 17.30, 17.32], [17.32, 17.35, 17.29, 17.34], [17.34, 17.36, 17.31, 17.33], [17.33, 17.36, 17.30, 17.34], [17.34, 17.37, 17.32, 17.35]], volume: [164000, 158000, 172000, 146000, 168000, 152000, 160000, 148000]}
+        answer: pass
+        note: "Everybody is here and nothing is happening. Seven cents of range in eight minutes cannot pay for two spreads."
+      - chart: {kind: candles, data: [[12.40, 12.52, 12.38, 12.50], [12.50, 12.62, 12.48, 12.60], [12.60, 12.64, 12.52, 12.54], [12.54, 12.58, 12.50, 12.52], [12.52, 12.66, 12.50, 12.64], [12.64, 12.76, 12.62, 12.74], [12.74, 12.82, 12.70, 12.78], [12.78, 12.88, 12.74, 12.84]], volume: [214000, 268000, 96000, 78000, 246000, 272000, 232000, 208000]}
+        answer: take
+        note: "The dip came on a third of the push's volume and stopped above the last low, then one heavy minute took it all back."
+    explanation: "Two of the passes had no crowd and one had no movement. Every take had both, which is the only combination that pays."
+
+  - type: chart-decision
+    scenario: "XYZ ran up before the bell on bars of about 12,000 shares. The session has opened and every minute since has closed lower, on twenty times that volume. Your account is $20,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[14.86, 14.90, 14.62, 14.66], [14.66, 14.72, 14.50, 14.54], [14.54, 14.66, 14.50, 14.62], [14.62, 14.66, 14.44, 14.48], [14.48, 14.54, 14.38, 14.42], [14.42, 14.46, 14.26, 14.28], [14.28, 14.32, 14.14, 14.18], [14.18, 14.24, 14.06, 14.10], [14.10, 14.16, 13.98, 14.02], [14.02, 14.08, 13.92, 13.96], [13.96, 14.00, 13.84, 13.88]]
+      volume: [386000, 312000, 268000, 286000, 258000, 302000, 274000, 246000, 224000, 198000, 186000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It kept going to $13.84 and finished at $13.88 — $0.40 a share, +$520 short on 1,300 shares."
+    explanation: "A few thousand shares a minute made that morning price and a quarter of a million a minute are now taking it apart. The session outvotes the pre-market every time."
+
+  - type: numeric-input
+    prompt: "XYZ traded 24,000 shares before the bell and 480,000 in the first ten minutes after it. The second number is how many times the first?"
+    answer: 20
+    tolerance: 0.01
+    working: "480,000 ÷ 24,000 = 20"
+    explanation: "Twenty times the participation, in a fraction of the time. That is the difference between a price and an opinion."
+
+  - type: chart-decision
+    scenario: "The same stock, well into the late morning. The bars have shrunk to about 42,000 and price has spent six minutes inside ten cents. Your account is $20,000 and you are sizing 850 shares."
+    shares: 850
+    chart:
+      kind: candles
+      data: [[23.40, 23.46, 23.36, 23.44], [23.44, 23.48, 23.38, 23.40], [23.40, 23.46, 23.36, 23.44], [23.44, 23.50, 23.40, 23.42], [23.42, 23.48, 23.38, 23.46], [23.46, 23.50, 23.40, 23.42], [23.42, 23.48, 23.38, 23.46], [23.46, 23.50, 23.40, 23.44], [23.44, 23.48, 23.38, 23.42], [23.42, 23.46, 23.38, 23.44], [23.44, 23.48, 23.40, 23.46]]
+      volume: [64000, 58000, 52000, 48000, 44000, 42000, 40000, 38000, 36000, 38000, 34000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes later price was $23.46, four cents above the decision — $34 on 850 shares, and the spread would take more than that."
+    explanation: "The crowd that made the open has gone. What is left is a stock that can be traded easily and has nowhere to go."
+
+  - type: tf
+    statement: "A move printed before the bell counts for as much as the same move an hour into the session."
+    answer: false
+    explanation: "The shape can be identical. The number of people behind it is not, and that is what has to hold the price up while you are in it."
+
+  - type: sort
+    prompt: "Which part of the day is this chart from?"
+    buckets: ["The busy session", "A thin session"]
+    items:
+      - {text: "Bars of a quarter of a million shares and candles that touch", bucket: "The busy session"}
+      - {text: "Holes between the candles and bars of 8,000", bucket: "A thin session"}
+      - {text: "A thirty-cent spike given straight back on 12,000 shares", bucket: "A thin session"}
+      - {text: "Six minutes of ten-cent candles on steady heavy bars", bucket: "The busy session"}
+    explanation: "You are not reading a clock here, you are reading how many people were in the room when the price was made."
+
+  - type: checklist-reveal
+    title: "Before you believe a move"
+    items:
+      - "Is that bar big for this stock, or only big for right now?"
+      - "Do the candles touch each other?"
+      - "Was the whole move made by a few thousand shares?"
+      - "Could I get my size back out at these bars?"

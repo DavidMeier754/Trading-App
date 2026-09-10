@@ -4,107 +4,125 @@ chapter: 2
 chapter_title: "Charts 101"
 path: scalping
 category: new-theory
-tags: [open, gaps, opening-range, decisions]
-learning_goal: "User can judge whether an opening gap is holding or fading and waits for the first 5-minute candle to close before trading it."
-purpose: "The first five minutes decide the shape of the morning; trading them blind is the most common beginner mistake at the open."
-terms_introduced: []
+tags: [open, gaps, decisions]
+learning_goal: "User can read a gap up or down against yesterday's close and tell a gap that is being paid for from one that is being sold."
+purpose: "A gap is the first thing on the chart every morning, and half the crowd misreads it as a discount."
+terms_introduced: ["Gap"]
+reinforces: [1]
 prerequisite: "13-1"
 xp: 20
-difficulty: 3
+difficulty: 2
 sources: [consensus]
-notes: "Uses the opening range from 7-1 as the first level of the day."
+notes: "Yesterday's close comes off the quote card from Chapter 1; the opening range arrives in 13-3."
 screens:
   - type: intro
-    text: "The gap has happened. Now the market decides whether it deserved it."
+    text: "Some mornings the chart starts somewhere else entirely."
 
   - type: theory
-    title: "Two ways a gap goes"
-    body: "Either buyers keep paying the new price and it carries on, or the push fades and price works back toward yesterday's close. The first candles show you which one you have."
+    title: "Gap"
+    body: "A gap is a jump between yesterday's close and the first price of the new session. The market was shut while the news arrived, so no trades happened in between at all."
+
+  - type: example
+    body: "XYZ closed yesterday at $20.00 and the first trade this morning is at $20.90. Nobody bought at $20.40 on the way up, because there was no way up."
 
   - type: visual
     component: chart-candles
     data:
-      data: [[19.20, 19.34, 19.14, 19.30], [19.30, 19.38, 19.22, 19.26], [19.26, 19.40, 19.24, 19.38], [19.38, 19.48, 19.34, 19.46], [19.46, 19.54, 19.42, 19.50], [19.50, 19.60, 19.46, 19.58]]
-      volume: [420000, 280000, 240000, 260000, 210000, 230000]
+      data: [[20.90, 21.06, 20.84, 21.00], [21.00, 21.08, 20.92, 20.96], [20.96, 21.10, 20.94, 21.06], [21.06, 21.12, 20.98, 21.02], [21.02, 21.14, 21.00, 21.10], [21.10, 21.18, 21.04, 21.16]]
+      volume: [412000, 286000, 232000, 208000, 196000, 224000]
       levels:
-        - {price: 18.60, label: "yesterday's close"}
-        - {price: 19.20, label: "today's open"}
-    caption: "A gap that held: every candle stayed above the opening price and buyers kept paying up."
+        - {price: 20.00, label: "yesterday's close"}
+        - {price: 20.90, label: "opening price"}
+    caption: "Ninety cents of empty chart between yesterday and today, and a session that starts above all of it."
 
-  - type: theory
-    title: "Wait for the candle to finish"
-    body: "While a candle is still forming, its high and its low keep moving. When the first 5-minute candle closes you have two prices that stop changing — and the day has its first structure."
+  - type: numeric-mc
+    prompt: "The quote card says XYZ closed at $20.00 yesterday and the session opened at $20.90. How big is that gap in percent?"
+    options:
+      - {text: "9.0 %"}
+      - {text: "0.9 %"}
+      - {text: "4.5 %", correct: true}
+      - {text: "45 %"}
+    working: "$0.90 ÷ $20.00 = 0.045 = 4.5 %"
+    explanation: "The same arithmetic as the daily change on the quote card: the move divided by yesterday's close."
 
   - type: mc
-    prompt: "Ten seconds after the open, the 1-minute candle is long and green. Buying it means:"
+    prompt: "So what has that ninety-cent jump actually told you?"
     options:
-      - {text: "Getting the best price available that day"}
-      - {text: "Trading a candle that has not finished", correct: true}
-      - {text: "Confirming that the gap is holding"}
-    explanation: "An unfinished candle has no close, and the close is the part that decides what the candle meant."
+      - {text: "the stock is ninety cents too expensive and will come back to yesterday's close"}
+      - {text: "news arrived overnight, and the open is the argument about it", correct: true}
+      - {text: "yesterday's chart can be thrown away now"}
+    explanation: "A gap is information, not a mistake. Yesterday's high, low and close are still prices the whole market can see."
+
+  - type: theory
+    title: "The opening price is the line"
+    body: "The first price of the session is the one every trader shares. Above it, the buyers who paid for the gap are winning. Below it, they are the ones looking for a way out."
 
   - type: chart-decision
-    scenario: "XYZ gapped up from $40.10 to $41.00. The first five minutes are complete — opening range $40.92 to $41.38 — and price has closed above the opening price every single minute. You are sizing 700 shares."
-    shares: 700
+    scenario: "XYZ gapped up from $20.00 to $20.90. Six minutes in, every minute has finished above the opening price and each dip has stopped higher than the last. Your account is $20,000 and you are sizing 900 shares."
+    shares: 900
     chart:
       kind: candles
-      data: [[41.00, 41.28, 40.92, 41.22], [41.22, 41.34, 41.14, 41.30], [41.30, 41.38, 41.18, 41.22], [41.22, 41.32, 41.16, 41.28], [41.28, 41.36, 41.24, 41.26], [41.26, 41.30, 41.18, 41.28], [41.28, 41.47, 41.26, 41.45], [41.45, 41.56, 41.40, 41.54], [41.54, 41.61, 41.47, 41.56], [41.56, 41.63, 41.49, 41.59], [41.59, 41.66, 41.54, 41.61]]
-      volume: [520000, 330000, 280000, 240000, 190000, 170000, 260000, 240000, 200000, 180000, 160000]
+      data: [[20.90, 21.06, 20.84, 21.00], [21.00, 21.08, 20.92, 20.96], [20.96, 21.10, 20.94, 21.06], [21.06, 21.12, 20.98, 21.02], [21.02, 21.14, 21.00, 21.10], [21.10, 21.18, 21.04, 21.16], [21.16, 21.28, 21.14, 21.26], [21.26, 21.34, 21.22, 21.30], [21.30, 21.40, 21.26, 21.38], [21.38, 21.44, 21.32, 21.36], [21.36, 21.48, 21.34, 21.44]]
+      volume: [412000, 286000, 232000, 208000, 196000, 224000, 246000, 218000, 232000, 196000, 214000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It pushed out of the opening range to $41.66 and closed there at $41.61 — $0.33 a share above the decision, +$231 long on 700 shares."
-    explanation: "Buyers defended the opening price for five minutes; the gap is being paid for, not sold into."
+    outcome: "It carried on to $21.48 and finished at $21.44 — $0.28 a share above the decision, +$252 long on 900 shares."
+    explanation: "Six minutes of buyers defending the price they gapped to. Nothing is being handed back, so the gap is being paid for rather than sold into."
 
   - type: sort
-    prompt: "Is the gap holding or fading?"
+    prompt: "Is the gap being kept, or given back?"
     buckets: ["Holding", "Fading"]
     items:
-      - {text: "Every candle closes above the opening price", bucket: "Holding"}
-      - {text: "Price slips back under the opening price on rising volume", bucket: "Fading"}
-      - {text: "Dips keep stopping above the low of the opening range", bucket: "Holding"}
-      - {text: "Each push after the open tops out lower than the last", bucket: "Fading"}
-    explanation: "The opening price and the opening range are the two references; which side of them price lives on is the answer."
-
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "The gap is large,"}
-      - {text: "so the move is certain to continue", wrong: true}
-      - {text: "for the rest of the morning."}
-    explanation: "Size says how much news arrived, not what happens next. Plenty of big gaps are sold from the first minute."
-
-  - type: numeric-input
-    prompt: "You are long 1,000 shares of a gapped-up stock from $19.24 and it slips to $19.06. Where do you stand before costs?"
-    answer: -180
-    tolerance: 0.01
-    unit: "$"
-    working: "(19.06 − 19.24) × 1,000 shares = −$180"
-    explanation: "Eighteen cents against you on 1,000 shares — the same arithmetic as a win, in reverse."
+      - {text: "Every minute finishing above the opening price", bucket: "Holding"}
+      - {text: "Each push after the open topping out lower than the last", bucket: "Fading"}
+      - {text: "Dips that keep stopping above the first minute's low", bucket: "Holding"}
+      - {text: "A slide back under the opening price on the heaviest bar since the bell", bucket: "Fading"}
+    explanation: "One reference price and one question: which side of it is price choosing to live on."
 
   - type: tf
-    statement: "A stock that gaps down is cheap, because it costs less than yesterday."
+    statement: "A stock that has gapped down is cheap, because it costs less than it did yesterday."
     answer: false
-    explanation: "It means sellers accepted less than yesterday's close before the session even started; cheap and lower are not the same thing."
+    explanation: "Sellers accepted less than yesterday's close before the session even started. Lower and cheap are not the same word."
+
+  - type: compare
+    prompt: "Both stocks gapped up to $18.40. In which one are buyers still paying for the gap?"
+    charts:
+      - {kind: candles, data: [[18.40, 18.54, 18.34, 18.50], [18.50, 18.58, 18.44, 18.54], [18.54, 18.66, 18.48, 18.62], [18.62, 18.70, 18.56, 18.66], [18.66, 18.78, 18.62, 18.74], [18.74, 18.84, 18.70, 18.80], [18.80, 18.90, 18.76, 18.86], [18.86, 18.96, 18.82, 18.92]], label: "A"}
+      - {kind: candles, data: [[18.40, 18.48, 18.20, 18.26], [18.26, 18.34, 18.16, 18.20], [18.20, 18.28, 18.10, 18.14], [18.14, 18.22, 18.04, 18.08], [18.08, 18.16, 17.98, 18.02], [18.02, 18.10, 17.94, 17.98], [17.98, 18.04, 17.88, 17.92], [17.92, 17.98, 17.82, 17.86]], label: "B"}
+    answer: "A"
+    explanation: "A has not closed a single minute under its opening price. B lost it on the first one and has made a lower high every minute since."
+
+  - type: numeric-input
+    prompt: "You bought the gap at $20.94 with 900 shares and it is now $20.72. Where do you stand before costs?"
+    answer: -198
+    tolerance: 0.01
+    unit: "$"
+    working: "($20.72 − $20.94) × 900 shares = −$198"
+    explanation: "Twenty-two cents against you on 900 shares, and the arithmetic of a loss is the arithmetic of a win with the sign turned round."
 
   - type: chart-decision
-    scenario: "XYZ gapped up from $25.10 to $26.00, then closed under the opening price on the very first candle and every one since, each push topping out lower. You are sizing 1,000 shares."
-    shares: 1000
+    scenario: "XYZ gapped up from $13.80 to $14.60 and lost the opening price on the very first minute. Every push since has topped out lower. Your account is $20,000 and you are sizing 1,300 shares."
+    shares: 1300
     chart:
       kind: candles
-      data: [[26.00, 26.14, 25.86, 25.92], [25.92, 26.02, 25.80, 25.84], [25.84, 25.96, 25.78, 25.90], [25.90, 25.98, 25.76, 25.80], [25.80, 25.86, 25.68, 25.72], [25.72, 25.78, 25.62, 25.66], [25.66, 25.72, 25.45, 25.51], [25.51, 25.60, 25.33, 25.39], [25.39, 25.48, 25.24, 25.30], [25.30, 25.39, 25.21, 25.27], [25.27, 25.36, 25.18, 25.24]]
-      volume: [540000, 380000, 300000, 320000, 340000, 360000, 330000, 310000, 280000, 240000, 220000]
+      data: [[14.60, 14.66, 14.42, 14.48], [14.48, 14.56, 14.38, 14.42], [14.42, 14.52, 14.34, 14.38], [14.38, 14.46, 14.28, 14.32], [14.32, 14.40, 14.24, 14.28], [14.28, 14.34, 14.16, 14.18], [14.18, 14.22, 14.04, 14.06], [14.06, 14.12, 13.94, 13.98], [13.98, 14.02, 13.86, 13.90], [13.90, 13.96, 13.80, 13.84], [13.84, 13.90, 13.76, 13.80]]
+      volume: [438000, 322000, 286000, 264000, 248000, 302000, 288000, 264000, 236000, 218000, 206000]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked back through yesterday's close and finished at $25.24 — $0.42 a share, +$420 short on 1,000 shares."
-    explanation: "Everybody who bought the gap is now offside, and their selling is what carries the move down."
+    outcome: "It gave the whole gap back to yesterday's close at $13.80 — $0.38 a share, +$494 short on 1,300 shares."
+    explanation: "Everyone who bought the first minutes is offside, and their way out is the selling that carries the move."
 
-  - type: fill-tiles
-    sentence: "Waiting for a candle to ___ means its high and low finally stop moving."
-    answer: "close"
-    explanation: "Only a finished candle can be measured, marked or traded against."
+  - type: fill-choice
+    sentence: "Price that has spent the whole morning under the opening price says the gap is ___."
+    options: ["fading", "holding", "widening"]
+    answer: "fading"
+    explanation: "The buyers who paid for the news have not been able to keep a single minute above the price they paid."
 
-  - type: theory
-    title: "Five minutes of patience"
-    body: "Watch the first five minutes, mark the opening range, then decide. That single habit removes most of the damage the open does to beginners."
+  - type: example
+    body: "Two mornings, one shape. The gap tells you what arrived; the first minutes tell you who is willing to pay for it."
+    visual: chart-candles
+    visual_data:
+      data: [[14.28, 14.34, 14.16, 14.18], [14.18, 14.22, 14.04, 14.06], [14.06, 14.12, 13.94, 13.98], [13.98, 14.02, 13.86, 13.90]]
+      volume: [302000, 288000, 264000, 236000]

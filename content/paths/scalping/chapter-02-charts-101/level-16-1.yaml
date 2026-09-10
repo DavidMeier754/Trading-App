@@ -4,131 +4,101 @@ chapter: 2
 chapter_title: "Charts 101"
 path: scalping
 category: new-theory
-tags: [routine, levels, screen-setup]
-learning_goal: "User can say what puts a stock on the screen in the first place, describe the four things on it, and mark the levels that matter before the session opens."
-purpose: "In a one-minute decision you can only read what you set up in advance."
+tags: [routine, selection, liquidity]
+learning_goal: "User can say what puts a stock on the screen in the first place: volume against its own normal day, movement worth the costs, and a price the account can hold."
+purpose: "The best chart reading in the world cannot rescue a stock that should never have been on the screen."
 terms_introduced: []
 reinforces: [1]
-prerequisite: "14-1"
+prerequisite: "15-2"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Quote information is shown on the quote card from Chapter 1; bid, ask and the full quote panel arrive in Chapter 3."
+notes: "Chapter 5 turns this into a scanning routine; here it is only the three questions asked before a chart is opened."
 screens:
   - type: intro
-    text: "Four things on the screen. Everything else is decoration."
+    text: "Before the chart, the stock. Most beginners do these two the wrong way round."
 
   - type: theory
-    title: "What is actually on it"
-    body: "A 1-minute chart with volume under it. The same stock on the 5-minute for context. The quote for price, day's move and how much has traded. Your levels drawn on both charts."
+    title: "The screen comes second"
+    body: "A chart is a picture of a stock somebody chose. Choosing badly is a mistake you cannot read your way out of later, because it is already priced into every candle."
 
-  - type: visual
-    component: chart-candles
-    data:
-      data: [[22.10, 22.18, 22.06, 22.16], [22.16, 22.24, 22.13, 22.20], [22.20, 22.30, 22.18, 22.28], [22.28, 22.32, 22.20, 22.22], [22.22, 22.29, 22.19, 22.27], [22.27, 22.40, 22.25, 22.38], [22.38, 22.44, 22.34, 22.36], [22.36, 22.42, 22.32, 22.40]]
-      volume: [64000, 58000, 96000, 47000, 52000, 128000, 71000, 66000]
-      levels:
-        - {price: 22.40, label: "pre-market high"}
-        - {price: 22.00, label: "round number"}
-    caption: "One minute per candle, volume underneath, and the levels you marked before the open."
-
-  - type: example
-    body: "The same morning on the 5-minute: four candles, all green, each one finishing above the last. That is the context every 1-minute idea has to fit."
-    visual: chart-candles
-    visual_data:
-      data: [[21.70, 21.92, 21.66, 21.88], [21.88, 22.06, 21.84, 22.02], [22.02, 22.20, 21.98, 22.16], [22.16, 22.44, 22.10, 22.40]]
-      volume: [310000, 288000, 264000, 342000]
-
-  - type: theory
-    title: "Which stock, before which chart"
-    body: "The screen comes second. First you pick the stock: one trading far more than its own normal volume today, with a reason for it, and liquid enough that your size is a small part of every minute."
+  - type: carousel
+    cards:
+      - {label: "Enough volume", text: "Bars big enough that your whole position is a small slice of one minute, going in and coming back out.", icon: volume}
+      - {label: "Enough movement", text: "Candles that cover more ground than being there costs. Ten-cent minutes, not two-cent ones.", icon: volatility}
+      - {label: "A price you can hold", text: "The account has to be able to pay for the shares. $20,000 against a $25 stock is 800 shares, whatever the chart says.", icon: account}
 
   - type: mc
-    prompt: "Two stocks at {{market.regular_open}}. One is on its normal volume with no news; the other is on four times normal after results. Which is the scalper's?"
+    prompt: "Two stocks at {{market.regular_open}}. One is on its usual volume with nothing new; the other is on four times normal after results. Which one gets the screen?"
     options:
-      - {text: "The quiet one — a normal day is easier to read"}
-      - {text: "Neither matters; the chart pattern is what decides"}
-      - {text: "The busy one — four times its normal volume", correct: true}
-    explanation: "Volume measured against this stock's own normal day is the first filter. No volume, no scalp, whatever the chart looks like."
+      - {text: "the quiet one, because a normal day is easier to read"}
+      - {text: "neither, the shape of the chart is what decides"}
+      - {text: "the busy one, at four times its own normal", correct: true}
+    explanation: "Volume measured against this stock's own ordinary day is the first filter of the morning. No crowd, no scalp, whatever the chart looks like."
 
-  - type: walkthrough
-    component: quote-card
-    data: {ticker: XYZ, name: Example Corp, price: 22.38, change: 0.62, change_pct: 2.9, volume: "2.4M", prev_close: 21.76}
-    steps:
-      - {spotlight: change, text: "How far it has already come since yesterday's close."}
-      - {spotlight: volume, text: "How much has traded today. On a thin day it is hard to get in and out."}
+  - type: numeric-input
+    prompt: "Your account is $20,000 and the stock trades at $25. What is the largest position the account can pay for?"
+    answer: 800
+    tolerance: 0.01
+    unit: "shares"
+    working: "$20,000 ÷ $25 = 800 shares"
+    explanation: "This ceiling has nothing to do with the chart, and it decides your size on every expensive stock you will ever look at."
 
-  - type: checklist-reveal
-    title: "Marked before the open"
-    items:
-      - "Yesterday's high and low"
-      - "The pre-market high and low"
-      - "The round numbers either side of the price"
-      - "Which way the 5-minute is running"
-
-  - type: order
-    prompt: "Put a scalper's morning in order."
-    items:
-      - "Mark yesterday's high and low"
-      - "Mark the pre-market high and low"
-      - "Let the first five minutes finish"
-      - "Trade the first clean level"
-    explanation: "Levels are drawn while nothing is happening; the session is for reading, not for preparing."
-
-  - type: hotspot
-    component: quote-card
-    prompt: "Tap the field that shows how far the stock has moved since yesterday's close."
-    data: {ticker: XYZ, name: Example Corp, price: 22.38, change: 0.62, change_pct: 2.9, volume: "2.4M", prev_close: 21.76}
-    target: change
-    explanation: "Up $0.62 already — a stock that has travelled a long way today has less room left for your scalp."
-
-  - type: mc
-    prompt: "Your 1-minute chart says long. Your 5-minute says the morning is falling. You:"
-    options:
-      - {text: "Take the 1-minute trade, because it is the faster chart"}
-      - {text: "Take half the size, because both charts are partly right"}
-      - {text: "Take nothing and wait for the two to agree", correct: true}
-    explanation: "Half a position in a fight you have already read as a fight is still a position in the wrong direction."
+  - type: tf
+    statement: "A stock can be busy enough to trade and still be too expensive for your account to hold a scalper's size."
+    answer: true
+    explanation: "Two separate tests. The volume decides whether you can get out; the share price decides how much of it you could ever own."
 
   - type: chart-decision
-    scenario: "The 5-minute is climbing. On the 1-minute, XYZ has just closed at $22.48 — above the pre-market high of $22.40 you marked — on the biggest volume bar of the morning. You are sizing 1,000 shares."
-    shares: 1000
+    scenario: "XYZ is trading about four times its normal volume after results. It pushed, gave three minutes back on a third of the volume, and the minute that just closed finished at $16.44 on 286,000 shares. Your account is $20,000 and you are sizing 1,200 shares."
+    shares: 1200
     chart:
       kind: candles
-      data: [[22.16, 22.24, 22.13, 22.20], [22.20, 22.30, 22.18, 22.28], [22.28, 22.32, 22.20, 22.22], [22.22, 22.29, 22.19, 22.27], [22.27, 22.38, 22.25, 22.36], [22.36, 22.50, 22.34, 22.48], [22.48, 22.58, 22.46, 22.56], [22.56, 22.64, 22.52, 22.62], [22.62, 22.70, 22.58, 22.66], [22.66, 22.74, 22.62, 22.70], [22.70, 22.76, 22.66, 22.72]]
-      volume: [58000, 96000, 47000, 52000, 88000, 164000, 140000, 118000, 96000, 84000, 76000]
+      data: [[16.10, 16.24, 16.06, 16.22], [16.22, 16.38, 16.20, 16.36], [16.36, 16.42, 16.26, 16.28], [16.28, 16.34, 16.22, 16.26], [16.26, 16.32, 16.24, 16.30], [16.30, 16.46, 16.28, 16.44], [16.44, 16.56, 16.40, 16.52], [16.52, 16.62, 16.48, 16.58], [16.58, 16.68, 16.54, 16.64], [16.64, 16.70, 16.58, 16.62], [16.62, 16.74, 16.60, 16.70]]
+      volume: [268000, 302000, 118000, 96000, 88000, 286000, 264000, 232000, 208000, 176000, 194000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $22.76 — $0.24 a share above the decision, +$240 long on 1,000 shares."
-    explanation: "Context, level, close beyond it and volume: all four parts of the screen said the same thing."
+    outcome: "It carried to $16.74 and finished at $16.70 — $0.26 a share above the decision, +$312 long on 1,200 shares."
+    explanation: "The right stock and then the right minute, in that order. The dip was quiet, it held above the last low, and one heavy minute took the whole of it back."
 
-  - type: tf
-    statement: "Every extra number on the screen is one more thing to read inside a sixty-second candle."
-    answer: true
-    explanation: "Two charts, volume, a quote and a few levels is the whole screen for a reason."
+  - type: sort
+    prompt: "Does this stock get on the screen this morning?"
+    buckets: ["Gets the screen", "Left alone"]
+    items:
+      - {text: "Four times its own normal volume, on results", bucket: "Gets the screen"}
+      - {text: "Ten-cent minutes on a quarter of a million shares", bucket: "Gets the screen"}
+      - {text: "A $90 share price against a $20,000 account", bucket: "Left alone"}
+      - {text: "Two-cent candles all morning", bucket: "Left alone"}
+    explanation: "Two of these fail before the chart is even drawn, and no amount of good reading gets that back."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the number that says how much of this stock has changed hands today."
+    data: {ticker: XYZ, name: Example Corp, price: 16.70, change: 1.24, change_pct: 8.0, volume: "4.8M", prev_close: 15.46}
+    target: volume
+    explanation: "4.8 million by the middle of the morning, against an ordinary whole day of about 1.2 million. That is what a stock in play looks like on a quote card."
 
   - type: spot-mistake
     prompt: "Tap the mistake."
     segments:
-      - {text: "You mark your levels"}
-      - {text: "once the first big move is under way,", wrong: true}
-      - {text: "so you know where price is."}
-    explanation: "Levels are drawn while nothing is happening. During the move there is no time, and the move itself talks you out of them."
+      - {text: "You choose the stock by what it is trading,"}
+      - {text: "and the chart decides the rest,"}
+      - {text: "so a clean chart is enough on its own.", wrong: true}
+    explanation: "A clean chart on 9,000 shares a minute is a clean chart you cannot get out of. The order of the two checks is the point."
 
-  - type: chart-decision
-    scenario: "The 5-minute has fallen all morning. On the 1-minute, XYZ has been refused twice at $31.00 — yesterday's close — and the candle that just closed finished at the low of its own move on rising volume. You are sizing 900 shares."
-    shares: 900
-    chart:
-      kind: candles
-      data: [[30.72, 30.88, 30.70, 30.86], [30.86, 31.00, 30.84, 30.92], [30.92, 31.01, 30.86, 30.90], [30.90, 30.96, 30.82, 30.84], [30.84, 30.92, 30.80, 30.88], [30.88, 30.94, 30.78, 30.80], [30.80, 30.84, 30.66, 30.68], [30.68, 30.72, 30.58, 30.60], [30.60, 30.66, 30.52, 30.56], [30.56, 30.62, 30.50, 30.54], [30.54, 30.60, 30.48, 30.52]]
-      volume: [62000, 88000, 76000, 71000, 58000, 96000, 104000, 98000, 84000, 72000, 66000]
-      decision_index: 5
-    best: short
-    reasonable: [no-trade]
-    outcome: "It fell to $30.48 and finished at $30.52 — $0.28 a share, +$252 short on 900 shares."
-    explanation: "A falling 5-minute, a level that has held twice and heavier selling: the whole screen agrees again, in the other direction."
+  - type: match
+    prompt: "Four facts about a stock. What does each one decide?"
+    pairs:
+      - ["Trading four times its own normal", "Somebody has a reason to be in it today"]
+      - ["Ten-cent candles all morning", "There is enough movement to pay for being there"]
+      - ["Bars of 12,000 shares", "Your size would be most of a whole minute"]
+      - ["$90 a share against a $20,000 account", "You could hold 222 shares, so the move would have to be huge"]
+    explanation: "Volume, movement, size and price. Three of them are about the stock and one is about you."
 
-  - type: theory
-    title: "Set it up once"
-    body: "The screen never changes: two charts, volume, a quote, a handful of levels. What changes is the market — and you now have everything you need to read it."
+  - type: example
+    body: "Three questions before a chart is opened: is anyone there, does it move, and can the account hold it. Then, and only then, the candles."
+    visual: chart-candles
+    visual_data:
+      data: [[16.30, 16.46, 16.28, 16.44], [16.44, 16.56, 16.40, 16.52], [16.52, 16.62, 16.48, 16.58], [16.58, 16.68, 16.54, 16.64]]
+      volume: [286000, 264000, 232000, 208000]

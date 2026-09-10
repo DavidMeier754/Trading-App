@@ -1,0 +1,118 @@
+id: "16-3"
+title: "The Scalper's Screen"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [routine, levels, plan]
+learning_goal: "User marks yesterday's extremes, the pre-market extremes and the round numbers before the session starts, and keeps their own screen as a written plan."
+purpose: "Lines drawn during a move are drawn by the move, which is the one thing a level must never be."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "16-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Ends on the chapter's plan-card: the user's own screen, kept and editable in later chapters."
+screens:
+  - type: intro
+    text: "The most useful ten minutes of a scalper's day happen before anything moves."
+
+  - type: story
+    character: retail-trader
+    text: "The bell is still a while away. Nothing on the screen is doing anything, which is exactly why this is when the work gets done."
+
+  - type: theory
+    title: "Drawn while nothing is happening"
+    body: "A level is a price that has already mattered. You can find those calmly in advance, or you can hunt for them while a stock is moving and let the move tell you where to look."
+
+  - type: checklist-reveal
+    title: "Marked before the open"
+    items:
+      - "Yesterday's high and yesterday's low"
+      - "The pre-market high and the pre-market low"
+      - "The round numbers on either side of the price"
+      - "Which way the 5-minute chart is running"
+
+  - type: chart-annotate
+    prompt: "This is the pre-market. Drag the line to the price it pushed to twice and could not keep."
+    chart:
+      kind: candles
+      data: [[16.90, 16.98, 16.86, 16.94], [16.94, 17.20, 16.92, 17.06], [17.06, 17.10, 16.98, 17.02], [17.02, 17.20, 17.00, 17.08], [17.08, 17.12, 17.02, 17.06], [17.06, 17.14, 17.00, 17.10], [17.10, 17.16, 17.04, 17.08], [17.08, 17.14, 17.02, 17.06]]
+      volume: [8000, 16000, 7000, 14000, 6000, 9000, 5000, 7000]
+    answer: 17.20
+    tolerance: 0.04
+    label: "Pre-market high"
+    explanation: "Two pushes to $17.20 on bars of a few thousand shares, and both handed back more than ten cents. Thin or not, it is now a line."
+
+  - type: mc
+    prompt: "That pre-market high was made on 20,000 shares in total. What is it worth once the session starts?"
+    options:
+      - {text: "nothing, it was set by far too few people"}
+      - {text: "a line the whole market can see", correct: true}
+      - {text: "the price the stock has to come back to"}
+    explanation: "The crowd that made it was tiny and the crowd looking at it is not. That is what turns a thin price into a level worth trading against."
+
+  - type: order
+    prompt: "Put the morning into the order the work is done in."
+    items:
+      - "Yesterday's high and low go on the chart"
+      - "The pre-market high and low go on the chart"
+      - "The first five minutes are watched, not traded"
+      - "The first level to answer gets the trade"
+    explanation: "Everything above the last line is done in the quiet. By the time a level answers, there is no time left to prepare for it."
+
+  - type: chart-decision
+    scenario: "The pre-market high at $17.50 has been on your chart since before the bell. XYZ reached it, backed off, came again, and the minute that just closed finished at $17.62 on 342,000 shares. Your account is $20,000 and you are sizing 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[17.20, 17.28, 17.16, 17.26], [17.26, 17.36, 17.22, 17.32], [17.32, 17.50, 17.30, 17.40], [17.40, 17.46, 17.34, 17.38], [17.38, 17.50, 17.36, 17.46], [17.46, 17.64, 17.44, 17.62], [17.62, 17.74, 17.58, 17.70], [17.70, 17.80, 17.66, 17.76], [17.76, 17.86, 17.72, 17.82], [17.82, 17.88, 17.78, 17.86], [17.86, 17.90, 17.82, 17.88]]
+      volume: [186000, 214000, 268000, 148000, 176000, 342000, 296000, 258000, 224000, 198000, 212000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran up to yesterday's high at $17.90 and finished at $17.88 — $0.26 a share above the decision, +$286 long on 1,100 shares."
+    explanation: "Twice stopped at a line you drew in the quiet, then a close twelve cents through it on the heaviest bar of the morning. The preparation is most of the trade."
+
+  - type: numeric-mc
+    prompt: "You are long 1,100 shares from $17.62 and the next line on your chart is yesterday's high at $17.90. What is the space between them worth?"
+    options:
+      - {text: "$28"}
+      - {text: "$308", correct: true}
+      - {text: "$3,080"}
+      - {text: "$30.80"}
+    working: "$17.90 − $17.62 = $0.28 a share × 1,100 shares = $308"
+    explanation: "One line got you in and the next one says what the trade can pay, and both were drawn before the session existed."
+
+  - type: tf
+    statement: "A line is only worth drawing if something has already happened at that price."
+    answer: true
+    explanation: "A level is other people's memory of a price. Where nothing happened, there is nobody to remember it."
+
+  - type: sort
+    prompt: "Does this line go on the chart before the open?"
+    buckets: ["Draw it", "Leave it off"]
+    items:
+      - {text: "Yesterday's high and low", bucket: "Draw it"}
+      - {text: "The pre-market high and low", bucket: "Draw it"}
+      - {text: "Every price the stock touched last week", bucket: "Leave it off"}
+      - {text: "A line where the chart just looked empty", bucket: "Leave it off"}
+    explanation: "Four lines you can hold in your head beat twenty you have to search through with sixty seconds to decide in."
+
+  - type: plan-card
+    title: "Your screen"
+    intro: "Write down the screen you will actually use, so that it is decided before any stock is."
+    fields:
+      - {key: decision_timeframe, label: "Chart you decide on (minutes)", kind: number, suggest: 1}
+      - {key: context_timeframe, label: "Chart you check direction on (minutes)", kind: number, suggest: 5}
+      - {key: levels_marked, label: "Lines marked before the open", kind: number, suggest: 4}
+      - {key: names_watched, label: "Stocks on the screen at once", kind: number, suggest: 2}
+    note: "You can change these later in your plan."
+
+  - type: recap
+    title: "Level 16 in three lines"
+    points:
+      - {text: "The stock is chosen before the chart is ever opened.", level: "16-1"}
+      - {text: "Two charts, volume and a quote, and nothing else on the screen.", level: "16-2"}
+      - {text: "The lines are drawn while nothing is happening.", level: "16-3"}

@@ -4,22 +4,23 @@ chapter: 2
 chapter_title: "Charts 101"
 path: scalping
 category: new-theory
-tags: [open, gaps, opening-range]
-learning_goal: "User knows why the first minutes of the session behave differently, can read a gap, and can find the opening range on a 1-minute chart."
-purpose: "Scalpers make much of their day in the first half hour, and beginners lose much of theirs in the first five minutes."
-terms_introduced: ["Gap", "Opening range"]
+tags: [open, sessions, volume]
+learning_goal: "User can say why the first minutes of the session behave differently from every other part of the day, and why the first five of them are for watching."
+purpose: "A scalper's whole morning happens in the half hour beginners lose their money in."
+terms_introduced: []
+reinforces: [1]
 prerequisite: "12-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Session times, pre-market and the first half hour all come from market tokens."
+notes: "Session times come from market tokens; the gap and the opening range arrive in 13-2 and 13-3."
 screens:
   - type: intro
-    text: "The loudest half hour of the day — and the easiest one to lose money in."
+    text: "The loudest half hour of the day, and the one that costs beginners the most."
 
   - type: theory
-    title: "The open is not a normal time"
-    body: "The session opens at {{market.regular_open}} {{market.timezone}}. In the first half hour, {{market.first_minutes}}, more shares change hands than at any other time, moves are bigger, and spreads are at their widest."
+    title: "One half hour, hours of trading"
+    body: "The session opens at {{market.regular_open}} {{market.timezone}}. Inside {{market.first_minutes}} more shares change hands than in any other stretch, the moves are bigger, and the spread is at its widest."
 
   - type: visual
     component: session-ribbon
@@ -28,77 +29,84 @@ screens:
       regular: "{{market.regular}}"
       afterhours: "{{market.afterhours}}"
       timezone: "{{market.timezone}}"
-    caption: "Everything a scalper does happens inside the regular session — most of it near its start."
+    caption: "Everything in this chapter happens inside the regular session, and most of it near the front of it."
 
   - type: slider
-    prompt: "Take a guess: how much of a whole day's volume trades in the first half hour?"
+    prompt: "Guess before you are told: how much of a whole day's volume goes through in the first half hour?"
     min: 0
     max: 100
     step: 5
     unit: "%"
     answer: 20
     tolerance: 10
-    explanation: "Around a fifth on a typical day: half an hour of clock time carrying hours' worth of trading."
+    explanation: "Around a fifth on an ordinary day. Half an hour of clock time carrying hours' worth of trading."
 
   - type: theory
-    title: "Gaps"
-    body: "A gap is a jump between yesterday's close and the first price of the new session. News, earnings or overnight demand arrived while the market was shut. Above yesterday's close is a gap up, below it a gap down."
-
-  - type: example
-    body: "XYZ closed yesterday at $32.00 and opens at $33.10 — a $1.10 gap up. Nobody bought at $32.50 on the way: no trades happened in between at all."
+    title: "Why it is different"
+    body: "Everyone acts on the same overnight news at the same moment. Orders held back for hours arrive together, and the price they agree on takes a few minutes to find."
 
   - type: mc
-    prompt: "XYZ closed at $32.00 and opens at $33.10. For the first minutes that mostly means:"
+    prompt: "XYZ traded 26,000 shares in the pre-market and 1,100,000 in the first ten minutes of the session. What does that change?"
     options:
-      - {text: "Something changed overnight and the open is the fight over it", correct: true}
-      - {text: "The stock is $1.10 too expensive and has to come back"}
-      - {text: "Yesterday's chart no longer matters at all"}
-    explanation: "A gap is new information, not a mistake — and yesterday's high, low and close are still levels everybody can see."
-
-  - type: theory
-    title: "The opening range"
-    body: "The high and the low of the first five minutes are the opening range. It is the first structure of the day: two prices the whole market can see, built while the biggest volume of the session trades."
-
-  - type: numeric-input
-    prompt: "The first five 1-minute candles print highs of $20.44, $20.62, $20.58, $20.71, $20.66 and lows of $20.30, $20.36, $20.28, $20.44, $20.52. Where is the low of the opening range?"
-    answer: 20.28
-    tolerance: 0.001
-    unit: "$"
-    working: "The lowest low of the first five minutes: $20.28"
-    explanation: "The opening range is the whole span of those five minutes, wicks included."
-
-  - type: order
-    prompt: "Put the start of a session in order."
-    items:
-      - "Pre-market trading sets a high and a low"
-      - "The session opens"
-      - "The first five minutes finish"
-      - "Price leaves the opening range"
-    explanation: "You cannot trade the opening range before it exists — which is why the first five minutes are for watching."
+      - {text: "the pre-market price was set by very few people", correct: true}
+      - {text: "the pre-market price is the more reliable of the two"}
+      - {text: "nothing, it is the same stock either way"}
+    explanation: "Twenty-six thousand shares is a handful of traders. The session is where the crowd votes, and it can vote the other way in seconds."
 
   - type: chart-decision
-    scenario: "XYZ gapped up from $32.00 to $33.10 and the first minutes are swinging 25 cents in both directions with wicks everywhere. You are sizing 800 shares."
-    shares: 800
+    scenario: "The bell has just gone. XYZ opened at $16.20 and every minute since has overlapped the one before it, on the heaviest bars of the day. Your account is $20,000 and you are sizing 1,200 shares."
+    shares: 1200
     chart:
       kind: candles
-      data: [[33.10, 33.48, 32.96, 33.36], [33.36, 33.52, 33.08, 33.14], [33.14, 33.44, 33.06, 33.40], [33.40, 33.46, 33.10, 33.16], [33.16, 33.38, 33.12, 33.32], [33.32, 33.40, 33.06, 33.10], [33.10, 33.34, 33.04, 33.28], [33.28, 33.36, 33.08, 33.12], [33.12, 33.30, 33.06, 33.24], [33.24, 33.32, 33.10, 33.14], [33.14, 33.28, 33.08, 33.20]]
-      volume: [480000, 360000, 310000, 280000, 240000, 260000, 220000, 200000, 180000, 170000, 160000]
+      data: [[16.20, 16.44, 16.06, 16.34], [16.34, 16.40, 16.12, 16.16], [16.16, 16.38, 16.10, 16.32], [16.32, 16.36, 16.08, 16.14], [16.14, 16.34, 16.10, 16.30], [16.30, 16.36, 16.12, 16.18], [16.18, 16.38, 16.14, 16.32], [16.32, 16.36, 16.10, 16.16], [16.16, 16.34, 16.12, 16.28], [16.28, 16.32, 16.10, 16.14], [16.14, 16.30, 16.12, 16.24]]
+      volume: [468000, 386000, 342000, 318000, 296000, 274000, 262000, 248000, 236000, 224000, 218000]
       decision_index: 5
     best: no-trade
-    outcome: "Price finished at $33.20, ten cents above the decision — after two swings big enough to shake you out in either direction first."
-    explanation: "In the first minutes there is no structure yet: every candle overlaps the last and both sides keep winning."
+    outcome: "Five minutes on, price was $16.24 — six cents above the decision, $72 on 1,200 shares before a single cost."
+    explanation: "Six minutes and nothing has been kept: every candle overlaps the one before it and the whole stretch is thirty-eight cents wide. Volume this big with no progress is two crowds paying each other."
 
   - type: tf
-    statement: "Some gaps get filled the same day and some are never filled at all."
+    statement: "The spread on the same stock is usually wider in the first minutes than it is an hour later."
     answer: true
-    explanation: "A gap is a starting condition, not a promise in either direction."
+    explanation: "Prices are moving too fast for anyone to quote them tightly. Chapter 3 puts a number on what that costs you."
 
-  - type: fill-choice
-    sentence: "The high and the low of the first five minutes are the ___."
-    options: ["opening range", "pre-market range", "daily range"]
-    answer: "opening range"
-    explanation: "The pre-market high and low are set before the bell, and the day's own high and low are not finished until the close."
+  - type: numeric-input
+    prompt: "XYZ traded 1,150,000 shares in the first half hour and 230,000 in the half hour before the close. The first is how many times the second?"
+    answer: 5
+    tolerance: 0.01
+    working: "1,150,000 ÷ 230,000 = 5"
+    explanation: "The same stock, the same length of time, five times the participation. That is why a scalper's day is front-loaded."
 
-  - type: theory
-    title: "Loud, fast, and worth waiting out"
-    body: "The open pays the traders who already know their levels. For the first five minutes, most scalpers only watch — and the next sub-level shows what they are watching for."
+  - type: order
+    prompt: "Put the front of a trading day in the order you see it."
+    items:
+      - "Pre-market trades set a high and a low on thin volume"
+      - "The session opens and the heaviest bars of the day print"
+      - "The first five minutes finish and their extremes stop moving"
+      - "The pace thins out into the late morning"
+    explanation: "Three of them happen before there is anything worth trading, which is exactly why the first five minutes are for watching."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Volume is at its highest in the first minutes,"}
+      - {text: "so the direction is at its clearest,", wrong: true}
+      - {text: "and the spread is at its widest."}
+    explanation: "Heavy volume means many people are trading, not that they agree. At the open they are still arguing."
+
+  - type: chart-tap
+    prompt: "Tap the minute that traded the most shares."
+    chart:
+      kind: candles
+      data: [[14.60, 14.86, 14.52, 14.78], [14.78, 14.84, 14.62, 14.66], [14.66, 14.80, 14.60, 14.76], [14.76, 14.82, 14.64, 14.68], [14.68, 14.78, 14.62, 14.74], [14.74, 14.80, 14.66, 14.70], [14.70, 14.78, 14.66, 14.76], [14.76, 14.82, 14.70, 14.74]]
+      volume: [452000, 316000, 284000, 262000, 238000, 214000, 206000, 198000]
+    target: 0
+    explanation: "The opening minute is almost always the biggest bar on the chart, and the bars shrink from there for the next half hour."
+
+  - type: checklist-reveal
+    title: "What the first five minutes are for"
+    items:
+      - "Watching which side keeps the price it takes"
+      - "Letting the widest spread of the day settle"
+      - "Waiting for the first prices that stop moving"
+      - "Being ready, not being in"

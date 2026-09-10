@@ -4,130 +4,147 @@ chapter: 2
 chapter_title: "Charts 101"
 path: scalping
 category: final-exam
-tags: [exam, candles, volume, trend, levels, open]
-learning_goal: "User proves they can read a candlestick chart with volume, name the structure, find the levels and decide at each of them."
-purpose: "Everything in this chapter, once, in fresh situations."
+tags: [exam, candles, volume, levels, open, momentum]
+learning_goal: "User proves they can read a candlestick chart with volume, name the structure, find the levels, judge the open and decide at each of them."
+purpose: "Everything in this chapter, once, in situations none of the lessons used."
 terms_introduced: []
-prerequisite: "17-1"
+reinforces: [1]
+prerequisite: "17-2"
 xp: 80
 difficulty: 3
 sources: [consensus]
-notes: "Twelve scored questions across Levels 1–9, all with new numbers and new wordings."
+notes: "Thirteen scored questions across Levels 1–17. Four of them reach back into Chapter 1: long and short, the two dials, the quote card and liquidity."
 screens:
   - type: intro
-    text: "Twelve questions on the whole chapter. Nothing here is timed."
-    counter: 12
+    text: "Thirteen questions on the whole chapter. Nothing here is timed."
+    counter: 13
 
   - type: mc
-    prompt: "A candle opens at $44.10 and closes at $44.12, with wicks reaching $44.40 and $43.86. It tells you:"
+    prompt: "A minute opens at $14.10 and closes at $14.12, with wicks up to $14.40 and down to $13.86. What happened inside it?"
     options:
-      - {text: "Buyers were in control, because it closed above its open"}
-      - {text: "Very little traded in that minute"}
-      - {text: "Both sides pushed hard and neither kept anything", correct: true}
-    explanation: "A tiny body between two long wicks is the picture of a minute nobody won."
+      - {text: "buyers were in control, since it closed above its open"}
+      - {text: "hardly anything traded in that minute at all"}
+      - {text: "both sides pushed hard and neither kept anything", correct: true}
+    explanation: "A tiny body between two long wicks is a minute that was fought over and ended level."
 
   - type: chart-tap
-    prompt: "$35.00 was yesterday's high. Tap the first candle that closed above it."
+    prompt: "$20.00 was yesterday's high. Tap the first minute that finished above it."
     chart:
       kind: candles
-      data: [[34.70, 34.80, 34.66, 34.78], [34.78, 35.02, 34.76, 34.90], [34.90, 34.96, 34.82, 34.86], [34.86, 34.98, 34.84, 34.96], [34.96, 35.12, 34.94, 35.10], [35.10, 35.22, 35.06, 35.20], [35.20, 35.28, 35.16, 35.24], [35.24, 35.32, 35.20, 35.30]]
+      data: [[19.70, 19.80, 19.66, 19.78], [19.78, 20.02, 19.76, 19.90], [19.90, 19.96, 19.82, 19.86], [19.86, 19.98, 19.84, 19.96], [19.96, 20.12, 19.94, 20.10], [20.10, 20.22, 20.06, 20.20], [20.20, 20.28, 20.16, 20.24], [20.24, 20.32, 20.20, 20.30]]
+      volume: [186000, 268000, 142000, 164000, 312000, 286000, 248000, 224000]
       levels:
-        - {price: 35.00, label: "yesterday's high"}
+        - {price: 20.00, label: "yesterday's high"}
     target: 4
-    explanation: "The earlier candle reached $35.02 and closed back at $34.90 — a wick, not a break."
+    explanation: "The earlier minute reached $20.02 and closed back at $19.90. That is a visit; the one you tapped is a verdict."
 
   - type: numeric-input
-    prompt: "You are long 1,500 shares from $12.44 and sell at $12.61. Result before costs?"
-    answer: 255
+    prompt: "You are short 1,200 shares from $16.48 and cover at $16.19. What is the result before costs?"
+    answer: 348
     tolerance: 0.01
     unit: "$"
-    working: "$0.17 a share × 1,500 shares = $255"
-    explanation: "Seventeen cents, and the share count turns it into a scalp worth taking."
+    working: "$16.48 − $16.19 = $0.29 a share × 1,200 shares = $348"
+    explanation: "Sold first, bought back lower, and the share count turns twenty-nine cents into the number that matters."
 
   - type: tf
-    statement: "The 1-minute chart gives a scalper the direction and the 5-minute gives the entry."
+    statement: "A stock that is easy to get in and out of moves enough to be worth scalping."
     answer: false
-    explanation: "The other way round: the 5-minute says which way, the 1-minute says when."
+    explanation: "Two different dials. Heavy volume and two-cent candles is a stock you can trade all day and get nothing from."
 
   - type: sort
     prompt: "Take the trade, or stand aside?"
     buckets: ["Take the trade", "Stand aside"]
     items:
-      - {text: "A close beyond the opening range on the biggest bar of the day", bucket: "Take the trade"}
-      - {text: "Price crossing the opening price for the fifth time in five minutes", bucket: "Stand aside"}
-      - {text: "A pullback on shrinking volume inside a clean uptrend", bucket: "Take the trade"}
-      - {text: "The fourth push, right after the heaviest bar of the run", bucket: "Stand aside"}
-    explanation: "Structure and volume together make a reason; everything else is watching."
+      - {text: "A close beyond the opening range on the heaviest bar since the bell", bucket: "Take the trade"}
+      - {text: "Price crossing its opening price for the fifth minute running", bucket: "Stand aside"}
+      - {text: "A quiet dip inside a climb that holds above the last low", bucket: "Take the trade"}
+      - {text: "The fourth push, straight after the biggest bar of the run", bucket: "Stand aside"}
+    explanation: "A close and a crowd make a reason. Movement on its own is just movement."
 
   - type: chart-decision
-    scenario: "XYZ has fallen five minutes straight into $13.00, a round number that held earlier. The last candle dipped to $13.00, closed at $13.14 and traded the heaviest volume of the fall. You are sizing 2,000 shares."
-    shares: 2000
+    scenario: "XYZ has fallen five minutes straight into $13.00, a round number that stopped it earlier. The minute that just closed dipped to $13.00, finished at $13.16, and traded the heaviest bar of the fall. Your account is $20,000 and you are sizing 1,500 shares."
+    shares: 1500
     chart:
       kind: candles
-      data: [[13.40, 13.44, 13.32, 13.34], [13.34, 13.38, 13.24, 13.26], [13.26, 13.30, 13.16, 13.18], [13.18, 13.22, 13.08, 13.12], [13.12, 13.16, 13.02, 13.06], [13.06, 13.16, 13.00, 13.14], [13.14, 13.24, 13.12, 13.22], [13.22, 13.30, 13.19, 13.28], [13.28, 13.34, 13.24, 13.32], [13.32, 13.38, 13.28, 13.34], [13.34, 13.40, 13.30, 13.36]]
-      volume: [88000, 96000, 104000, 118000, 132000, 156000, 128000, 110000, 96000, 84000, 76000]
+      data: [[13.40, 13.44, 13.32, 13.34], [13.34, 13.38, 13.24, 13.26], [13.26, 13.30, 13.16, 13.18], [13.18, 13.22, 13.08, 13.12], [13.12, 13.16, 13.02, 13.06], [13.06, 13.18, 13.00, 13.16], [13.16, 13.26, 13.14, 13.24], [13.24, 13.32, 13.20, 13.28], [13.28, 13.36, 13.24, 13.32], [13.32, 13.38, 13.28, 13.34], [13.34, 13.42, 13.30, 13.38]]
+      volume: [118000, 126000, 138000, 152000, 168000, 264000, 218000, 186000, 164000, 142000, 156000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "Buyers held the level and price reached $13.40 — $0.22 a share above the decision, +$440 long on 2,000 shares."
-    explanation: "A long lower wick into a level, on the heaviest bar of the move, is buyers defending a price in public."
-
-  - type: mc
-    prompt: "XYZ gapped down and every candle since the open has closed below the opening price. The read is:"
-    options:
-      - {text: "Sellers are keeping the gap — so far the day belongs to them", correct: true}
-      - {text: "The gap will be filled, because gaps always are"}
-      - {text: "The stock is cheap now, so buyers will step in"}
-    explanation: "Where price lives relative to the opening price is the answer; 'cheap' is not something a chart can tell you."
+    outcome: "Buyers held the level and price reached $13.42, finishing at $13.38 — $0.22 a share above the decision, +$330 long on 1,500 shares."
+    explanation: "A long lower wick into a round number, on the busiest bar of the fall, is buyers defending a price where everyone can see them do it."
 
   - type: fill-choice
-    sentence: "The heaviest bar of a long run, with a long wick and a close far off the high, is ___."
+    sentence: "The heaviest bar of a long run, with a long wick and a close far off its high, is ___."
     options: ["exhaustion", "momentum", "a pullback"]
     answer: "exhaustion"
-    explanation: "Everybody traded at once and price still could not hold the highs."
+    explanation: "Everybody traded at once and the price still could not stay up there."
 
-  - type: match
-    prompt: "Match each idea to its definition."
-    pairs:
-      - ["Opening range", "The high and low of the first five minutes"]
-      - ["Gap", "A jump between yesterday's close and today's opening price"]
-      - ["Pullback", "A dip inside a trend that holds above the last low"]
-      - ["Breakout", "A close beyond a level, not just a wick through it"]
-    explanation: "Four ideas that between them describe most of a scalper's morning."
-
-  - type: numeric-mc
-    prompt: "The first five minutes ran from $30.86 to $31.24. How wide is the opening range?"
-    options:
-      - {text: "$0.28"}
-      - {text: "$0.38", correct: true}
-      - {text: "$3.80"}
-      - {text: "$30.86"}
-    working: "31.24 − 30.86 = 0.38"
-    explanation: "The width matters: a wide opening range means bigger moves and more room between the two edges."
-
-  - type: chart-decision
-    scenario: "XYZ has made lower highs and lower lows all morning. It has rallied back into $48.40 — the last lower high — and the candle that just closed was refused there on rising volume. You are sizing 600 shares."
-    shares: 600
+  - type: chart-annotate
+    prompt: "The first five minutes are finished. Drag the line to the lowest price they reached."
     chart:
       kind: candles
-      data: [[48.40, 48.52, 48.36, 48.38], [48.38, 48.44, 48.20, 48.24], [48.24, 48.30, 48.10, 48.14], [48.14, 48.36, 48.12, 48.32], [48.32, 48.40, 48.28, 48.36], [48.36, 48.41, 48.26, 48.28], [48.28, 48.33, 48.12, 48.14], [48.14, 48.19, 47.98, 48.03], [48.03, 48.10, 47.91, 47.96], [47.96, 48.03, 47.89, 47.94], [47.94, 48.01, 47.87, 47.96]]
-      volume: [74000, 88000, 96000, 70000, 62000, 84000, 92000, 88000, 76000, 66000, 60000]
+      data: [[21.60, 21.74, 21.44, 21.68], [21.68, 21.76, 21.56, 21.60], [21.60, 21.72, 21.54, 21.66], [21.66, 21.70, 21.58, 21.62], [21.62, 21.72, 21.56, 21.70], [21.70, 21.78, 21.62, 21.66], [21.66, 21.74, 21.60, 21.70], [21.70, 21.80, 21.64, 21.76]]
+      volume: [446000, 326000, 284000, 248000, 226000, 208000, 196000, 212000]
+    answer: 21.44
+    tolerance: 0.04
+    label: "Range low"
+    explanation: "The opening minute made the low and nothing since has been back to it. It is the floor of the morning until a minute closes under it."
+
+  - type: numeric-mc
+    prompt: "The quote card says XYZ last traded at $16.40 and closed yesterday at $16.00. What is the daily change in percent?"
+    options:
+      - {text: "0.4 %"}
+      - {text: "2.5 %", correct: true}
+      - {text: "4.0 %"}
+      - {text: "25 %"}
+    working: "$16.40 − $16.00 = $0.40; $0.40 ÷ $16.00 = 0.025 = 2.5 %"
+    explanation: "The change is measured against yesterday's close, and it tells you how much of today's move has already been taken."
+
+  - type: chart-decision
+    scenario: "XYZ has made lower highs and lower lows all morning. It has rallied back into $22.40, the last lower high, and the minute that just closed was refused there and finished at $22.28 on the heaviest bar of the rally. Your account is $20,000 and you are sizing 850 shares."
+    shares: 850
+    chart:
+      kind: candles
+      data: [[22.40, 22.52, 22.36, 22.38], [22.38, 22.44, 22.20, 22.24], [22.24, 22.30, 22.10, 22.14], [22.14, 22.36, 22.12, 22.32], [22.32, 22.40, 22.28, 22.36], [22.36, 22.41, 22.26, 22.28], [22.28, 22.33, 22.12, 22.14], [22.14, 22.19, 21.98, 22.03], [22.03, 22.10, 21.91, 21.96], [21.96, 22.03, 21.89, 21.94], [21.94, 22.01, 21.87, 21.96]]
+      volume: [174000, 188000, 196000, 142000, 128000, 246000, 232000, 214000, 198000, 182000, 168000]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It rolled over to $47.87 and finished at $47.96 — $0.32 a share, +$192 short on 600 shares."
-    explanation: "A rally into the last lower high, refused on heavier volume, is the downtrend doing exactly what it has done all morning."
+    outcome: "It rolled away to $21.87 and finished at $21.96 — $0.32 a share, +$272 short on 850 shares."
+    explanation: "A rally into the last lower high, refused on the heaviest bar of that rally, is the morning doing what it has done all session."
+
+  - type: match
+    prompt: "Four ideas from this chapter. What is each one?"
+    pairs:
+      - ["Opening range", "The high and the low of the first five minutes"]
+      - ["Gap", "A jump between yesterday's close and today's first price"]
+      - ["Pullback", "A dip inside a climb that holds above the last low"]
+      - ["Exhaustion", "The heaviest bar of a run, closing far from its high"]
+    explanation: "Four words that between them describe most of what a scalper's morning is made of."
+
+  - type: compare
+    prompt: "Both stocks climbed this stretch. In which one could 1,500 shares be bought and sold without moving the price?"
+    charts:
+      - {kind: candles, data: [[15.40, 15.52, 15.36, 15.50], [15.50, 15.60, 15.46, 15.56], [15.56, 15.68, 15.52, 15.64], [15.64, 15.72, 15.58, 15.62], [15.62, 15.76, 15.60, 15.74], [15.74, 15.84, 15.70, 15.80], [15.80, 15.88, 15.74, 15.84], [15.84, 15.94, 15.80, 15.90]], volume: [224000, 268000, 246000, 182000, 286000, 252000, 218000, 234000], label: "A"}
+      - {kind: candles, data: [[15.40, 15.66, 15.38, 15.62], [15.62, 15.66, 15.36, 15.40], [15.40, 15.46, 15.38, 15.44], [15.44, 15.74, 15.42, 15.70], [15.70, 15.74, 15.44, 15.48], [15.48, 15.54, 15.46, 15.52], [15.52, 15.80, 15.50, 15.76], [15.76, 15.82, 15.52, 15.56]], volume: [9000, 14000, 6000, 12000, 7000, 5000, 16000, 8000], label: "B"}
+    answer: "A"
+    explanation: "A trades a quarter of a million shares a minute. B climbs in jumps on bars of a few thousand, where your 1,500 would be more than a whole minute of it, twice."
 
   - type: spot-mistake
     prompt: "Tap the mistake."
     segments:
-      - {text: "You trade the 1-minute chart,"}
-      - {text: "so the 5-minute chart"}
-      - {text: "can be ignored once you are in.", wrong: true}
-    explanation: "The bigger move decides how much room your trade has, before and after you enter."
+      - {text: "The 5-minute chart decides which way you trade,"}
+      - {text: "and stops mattering the moment you are in,", wrong: true}
+      - {text: "so it is worth checking before every entry."}
+    explanation: "It decides how much room the trade has, and that question does not close when the order fills."
 
   - type: summary
-    total: 12
+    total: 13
+
+  - type: tier-up
+    tier: "Observer"
+    means: "You can read a chart: the candle, the bar under it, the shape they make and the lines they keep stopping at."
 
   - type: badge
     name: "Charts 101 — Complete"

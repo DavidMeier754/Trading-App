@@ -1,0 +1,115 @@
+id: "13-4"
+title: "The Opening Minutes"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [open, opening-range, gaps, decisions]
+learning_goal: "User decides at the open: takes the break that finished outside the range on volume, and passes on the poke, the drift and the stock that cannot carry their size."
+purpose: "The open hands you one good decision and about ten bad ones, and they all look similar for the first few seconds."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "13-3"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "The level's decision page. One of the passes turns on liquidity from Chapter 1 rather than on the shape."
+screens:
+  - type: intro
+    text: "Same open, nine charts. Most of them are somebody else's morning."
+
+  - type: story
+    character: retail-trader
+    text: "$20,000 in the account, yesterday's high and low already drawn, and the first five minutes about to finish. You have not touched anything yet."
+
+  - type: swipe-deck
+    prompt: "Your card is a break of the opening range. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[19.20, 19.40, 19.10, 19.32], [19.32, 19.38, 19.18, 19.22], [19.22, 19.36, 19.16, 19.30], [19.30, 19.38, 19.24, 19.28], [19.28, 19.36, 19.22, 19.34], [19.34, 19.54, 19.32, 19.52], [19.52, 19.62, 19.48, 19.58], [19.58, 19.68, 19.54, 19.64]], volume: [428000, 306000, 268000, 236000, 212000, 348000, 284000, 252000]}
+        answer: take
+        note: "A finished minute twelve cents above the range high, on the biggest bar since the opening one."
+      - chart: {kind: candles, data: [[21.30, 21.52, 21.22, 21.44], [21.44, 21.50, 21.30, 21.34], [21.34, 21.48, 21.28, 21.42], [21.42, 21.50, 21.36, 21.40], [21.40, 21.46, 21.34, 21.44], [21.44, 21.58, 21.42, 21.46], [21.46, 21.52, 21.38, 21.42], [21.42, 21.48, 21.36, 21.40]], volume: [406000, 288000, 246000, 218000, 196000, 164000, 178000, 172000]}
+        answer: pass
+        note: "Six cents through the high for part of a minute, on the lightest bar of the session, and a close back under it."
+      - chart: {kind: candles, data: [[12.90, 12.98, 12.72, 12.78], [12.78, 12.88, 12.70, 12.84], [12.84, 12.90, 12.74, 12.76], [12.76, 12.86, 12.72, 12.82], [12.82, 12.88, 12.76, 12.78], [12.78, 12.80, 12.60, 12.62], [12.62, 12.66, 12.50, 12.52], [12.52, 12.58, 12.42, 12.46]], volume: [418000, 296000, 254000, 226000, 208000, 332000, 286000, 258000]}
+        answer: take
+        note: "Eight cents under the range low on the heaviest bar since the bell. The break points down, so you take that side."
+      - chart: {kind: candles, data: [[16.40, 16.52, 16.30, 16.44], [16.44, 16.50, 16.36, 16.40], [16.40, 16.48, 16.36, 16.44], [16.44, 16.48, 16.38, 16.42], [16.42, 16.47, 16.38, 16.44], [16.44, 16.48, 16.40, 16.42], [16.42, 16.46, 16.39, 16.43], [16.43, 16.47, 16.40, 16.44]], volume: [396000, 262000, 184000, 142000, 116000, 98000, 86000, 74000]}
+        answer: pass
+        note: "Eight cents from either edge with the bars halving every minute. Neither line has been asked anything."
+      - chart: {kind: candles, data: [[11.60, 11.72, 11.54, 11.68], [11.68, 11.74, 11.60, 11.62], [11.62, 11.70, 11.58, 11.66], [11.66, 11.72, 11.62, 11.64], [11.64, 11.70, 11.60, 11.68], [11.68, 11.86, 11.66, 11.84], [11.84, 11.92, 11.78, 11.88], [11.88, 11.96, 11.82, 11.90]], volume: [16000, 11000, 9000, 8000, 7000, 14000, 10000, 9000]}
+        answer: pass
+        note: "The shape is perfect and the whole stock trades 10,000 shares a minute. Your size would be the entire minute, twice."
+      - chart: {kind: candles, data: [[13.20, 13.34, 13.12, 13.30], [13.30, 13.36, 13.18, 13.22], [13.22, 13.32, 13.16, 13.28], [13.28, 13.36, 13.22, 13.26], [13.26, 13.34, 13.20, 13.32], [13.32, 13.44, 13.30, 13.42], [13.42, 13.48, 13.36, 13.38], [13.38, 13.52, 13.36, 13.50]], volume: [412000, 284000, 246000, 224000, 206000, 318000, 182000, 268000]}
+        answer: take
+        note: "The first close above the high held, the give-back stopped above the line, and the next minute made a new high."
+    explanation: "A break needs a finished minute outside the range, a bar heavy enough to mean a crowd, and a stock that can carry your size back out again."
+
+  - type: chart-decision
+    scenario: "XYZ gapped down from $19.40 to $18.60 and has not finished a single minute back above the opening price. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[18.60, 18.66, 18.42, 18.48], [18.48, 18.56, 18.40, 18.44], [18.44, 18.58, 18.38, 18.52], [18.52, 18.56, 18.36, 18.40], [18.40, 18.48, 18.32, 18.36], [18.36, 18.40, 18.20, 18.22], [18.22, 18.26, 18.10, 18.12], [18.12, 18.18, 18.00, 18.04], [18.04, 18.10, 17.92, 17.94], [17.94, 17.98, 17.82, 17.86], [17.86, 17.90, 17.74, 17.78]]
+      volume: [452000, 318000, 286000, 264000, 242000, 308000, 286000, 262000, 238000, 214000, 202000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It ran down to $17.74 and finished at $17.78 — $0.44 a share, +$440 short on 1,000 shares."
+    explanation: "Six minutes, six closes under the opening price, and the heaviest bar since the bell was the one that took out the morning's low."
+
+  - type: numeric-input
+    prompt: "You are long 1,700 shares from a range break at $11.72 and sell at $11.90. What is the result before costs?"
+    answer: 306
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.18 a share × 1,700 shares = $306"
+    explanation: "Eighteen cents is an ordinary opening scalp, and at that price the account can still pay for the shares."
+
+  - type: chart-decision
+    scenario: "XYZ has spent six minutes inside the same forty cents, crossing its opening price of $24.20 on almost every one of them. Your account is $20,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[24.20, 24.52, 24.06, 24.40], [24.40, 24.48, 24.14, 24.20], [24.20, 24.46, 24.12, 24.38], [24.38, 24.50, 24.18, 24.24], [24.24, 24.44, 24.16, 24.36], [24.36, 24.46, 24.14, 24.22], [24.22, 24.44, 24.18, 24.38], [24.38, 24.48, 24.20, 24.26], [24.26, 24.42, 24.16, 24.34], [24.34, 24.46, 24.22, 24.28], [24.28, 24.40, 24.20, 24.32]]
+      volume: [486000, 372000, 336000, 318000, 294000, 286000, 272000, 264000, 252000, 244000, 238000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes later price was $24.32, ten cents above the decision and still inside the same range — $80 on 800 shares before costs."
+    explanation: "Both edges are being visited and neither is being kept. This is the shape the first minutes make when the argument is not settled."
+
+  - type: tf
+    statement: "A clean range break is worth the same in a stock printing 10,000 shares a minute as in one printing 300,000."
+    answer: false
+    explanation: "The chart is identical and the exit is not. In the thin one your own order is most of the minute, going in and coming out."
+
+  - type: chart-decision
+    scenario: "XYZ gapped up and held it. The opening range is $11.34 to $11.62, and the minute that just closed finished at $11.72 on 364,000 shares. Your account is $20,000 and you are sizing 1,700 shares."
+    shares: 1700
+    chart:
+      kind: candles
+      data: [[11.40, 11.62, 11.34, 11.56], [11.56, 11.60, 11.44, 11.48], [11.48, 11.58, 11.42, 11.54], [11.54, 11.60, 11.48, 11.52], [11.52, 11.62, 11.46, 11.58], [11.58, 11.74, 11.56, 11.72], [11.72, 11.80, 11.68, 11.78], [11.78, 11.84, 11.72, 11.74], [11.74, 11.88, 11.72, 11.86], [11.86, 11.92, 11.80, 11.84], [11.84, 11.96, 11.82, 11.92]]
+      volume: [446000, 312000, 268000, 232000, 214000, 364000, 296000, 238000, 272000, 224000, 246000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $11.96 and finished at $11.92 — $0.20 a share above the decision, +$340 long on 1,700 shares."
+    explanation: "Ten cents clear of the range high on the busiest minute since the first one, in a stock cheap enough for the account to hold the whole position."
+
+  - type: sort
+    prompt: "At the open: worth a decision, or leave it?"
+    buckets: ["Worth a decision", "Leave it"]
+    items:
+      - {text: "A minute finished twelve cents outside the range on the heaviest bar since the bell", bucket: "Worth a decision"}
+      - {text: "Price crossing its opening price for the fifth time in five minutes", bucket: "Leave it"}
+      - {text: "A close under the range low with the bars growing", bucket: "Worth a decision"}
+      - {text: "A textbook break in a stock trading 9,000 shares a minute", bucket: "Leave it"}
+    explanation: "The two that qualify have a finished close and a crowd behind it. The two that do not are missing one or the other."
+
+  - type: recap
+    title: "Level 13 in four lines"
+    points:
+      - {text: "The first minutes carry the day's volume and the day's widest spread.", level: "13-1"}
+      - {text: "A gap is news, and the opening price says who is willing to pay for it.", level: "13-2"}
+      - {text: "The first five minutes leave two lines the whole market trades against.", level: "13-3"}
+      - {text: "Break, poke or drift, and only one of the three is a trade.", level: "13-4"}

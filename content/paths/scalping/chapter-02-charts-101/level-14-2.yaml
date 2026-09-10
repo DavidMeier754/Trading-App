@@ -1,0 +1,132 @@
+id: "14-2"
+title: "Momentum vs Exhaustion"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [exhaustion, climax-volume, decisions]
+learning_goal: "User can read the end of a run: the heaviest bar of the move, a long wick, a close far from the high, and a next minute that cannot make a new one."
+purpose: "The last minute of a move looks exactly like the strongest one, and beginners buy it every single time."
+terms_introduced: ["Exhaustion"]
+reinforces: [1]
+prerequisite: "14-1"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Takes the climax volume bar from Level 4 and reads what it does to the move it ends."
+screens:
+  - type: intro
+    text: "A move looks strongest twice: as it starts, and as it finishes."
+
+  - type: theory
+    title: "Exhaustion"
+    body: "Exhaustion is the far end of the same run: the heaviest bar of the whole move, a long wick where the body used to be, and a close nowhere near the high. Everyone who wanted in has just got in."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[20.88, 21.12, 20.86, 21.10], [21.10, 21.36, 21.06, 21.34], [21.34, 21.52, 21.30, 21.48], [21.48, 21.86, 21.40, 21.52], [21.52, 21.58, 21.34, 21.38], [21.38, 21.44, 21.22, 21.26]]
+      volume: [186000, 242000, 286000, 468000, 322000, 286000]
+    caption: "The bar that traded the most shares of the run is the one that kept the least of its move."
+
+  - type: chart-tap
+    prompt: "Tap the minute where this run ran out of buyers."
+    chart:
+      kind: candles
+      data: [[14.20, 14.30, 14.16, 14.28], [14.28, 14.46, 14.26, 14.44], [14.44, 14.66, 14.42, 14.64], [14.64, 14.88, 14.60, 14.84], [14.84, 15.02, 14.80, 14.98], [14.98, 15.38, 14.94, 15.04], [15.04, 15.10, 14.88, 14.92], [14.92, 14.98, 14.82, 14.88]]
+      volume: [78000, 116000, 158000, 206000, 252000, 436000, 308000, 264000]
+    target: 5
+    explanation: "The biggest bar of the run, a spike to $15.38 and a close back at $15.04. Maximum participation, no progress."
+
+  - type: checklist-reveal
+    title: "Signs a run has finished"
+    items:
+      - "The heaviest bar since the move began"
+      - "A long wick where the body used to be"
+      - "A close nowhere near the high of that candle"
+      - "A next minute that cannot make a new high"
+
+  - type: chart-decision
+    scenario: "XYZ has climbed six minutes. The minute that just closed reached $21.86, finished at $21.52 and traded 468,000 shares, more than any bar of the run. Your account is $20,000 and you are sizing 900 shares."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[20.60, 20.72, 20.56, 20.70], [20.70, 20.90, 20.68, 20.88], [20.88, 21.12, 20.86, 21.10], [21.10, 21.36, 21.06, 21.34], [21.34, 21.52, 21.30, 21.48], [21.48, 21.86, 21.40, 21.52], [21.52, 21.58, 21.34, 21.38], [21.38, 21.44, 21.22, 21.26], [21.26, 21.34, 21.18, 21.30], [21.30, 21.36, 21.20, 21.24], [21.24, 21.30, 21.14, 21.18]]
+      volume: [94000, 138000, 186000, 242000, 286000, 468000, 322000, 286000, 214000, 178000, 156000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "Price drifted to $21.14 and finished at $21.18 — a long at the decision would be $0.34 a share offside, $306 down on 900 shares."
+    explanation: "The busiest minute of the run handed back thirty-four cents of its own high. Buying there means buying from the people who have just finished buying."
+
+  - type: mc
+    prompt: "The heaviest bar of the run has just printed with a long wick above it. What has happened?"
+    options:
+      - {text: "the last of the buyers have just bought", correct: true}
+      - {text: "sellers have taken the stock over for the rest of the day"}
+      - {text: "the price has become too expensive for anyone to buy"}
+    explanation: "It takes a crowd to print that bar, and a crowd that has finished buying has nothing left to pay you with."
+
+  - type: tf
+    statement: "Exhaustion means the price has to turn around."
+    answer: false
+    explanation: "It means the fuel for that push is gone. Often price just stops dead sideways while the crowd works out what it has done."
+
+  - type: mc
+    prompt: "You are already long when the heaviest bar of the run prints. What does all that volume give you?"
+    options:
+      - {text: "the easiest minute of the day to sell into", correct: true}
+      - {text: "proof that the move still has somewhere to go"}
+      - {text: "a reason to add to the position"}
+    explanation: "Getting out is easiest when the most people are there, and that is exactly the minute the move is ending in."
+
+  - type: numeric-input
+    prompt: "A climax minute opens at $12.60, reaches $12.98 and closes at $12.66. How much of its own high did it hand back?"
+    answer: 0.32
+    tolerance: 0.001
+    unit: "$"
+    working: "$12.98 − $12.66 = $0.32"
+    explanation: "Thirty-two cents that somebody paid for and did not keep, printed on the biggest bar of the move."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The biggest bar of the run has printed,"}
+      - {text: "so the crowd is arriving,", wrong: true}
+      - {text: "and the candle closed near its low."}
+    explanation: "The crowd has arrived. That is the problem: the buying is behind you, not in front of you."
+
+  - type: chart-decision
+    scenario: "The climax bar printed three minutes ago at $18.34. Since then XYZ has not made a new high, and the minute that just closed finished at $17.76, under the low of that bar, on 296,000 shares. Your account is $20,000 and you are sizing 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[17.60, 17.78, 17.58, 17.76], [17.76, 17.98, 17.74, 17.96], [17.96, 18.34, 17.90, 18.02], [18.02, 18.12, 17.94, 17.98], [17.98, 18.06, 17.88, 17.90], [17.90, 17.94, 17.74, 17.76], [17.76, 17.80, 17.62, 17.64], [17.64, 17.70, 17.52, 17.56], [17.56, 17.62, 17.44, 17.48], [17.48, 17.54, 17.38, 17.42], [17.42, 17.48, 17.30, 17.34]]
+      volume: [128000, 182000, 462000, 268000, 232000, 296000, 264000, 238000, 212000, 186000, 168000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid to $17.30 and finished at $17.34 — $0.42 a share, +$462 short on 1,100 shares."
+    explanation: "Three minutes of not being able to make a new high, and then a close under the climax bar itself. The buyers from that bar are now the sellers."
+
+  - type: sort
+    prompt: "Still recruiting, or out of buyers?"
+    buckets: ["Still recruiting", "Out of buyers"]
+    items:
+      - {text: "Bodies getting longer while the bars get taller", bucket: "Still recruiting"}
+      - {text: "The tallest bar of the run with a long wick above it", bucket: "Out of buyers"}
+      - {text: "Every candle closing within a cent or two of its high", bucket: "Still recruiting"}
+      - {text: "A huge bar and a close in the bottom third of the candle", bucket: "Out of buyers"}
+    explanation: "The direction on the chart is the same in both columns. Where the candle closes, and how heavy the bar is, is what separates them."
+
+  - type: fill-tiles
+    sentence: "At the end of a run the heaviest bar of all closes far from its own ___."
+    answer: "high"
+    explanation: "That distance is the money the last buyers of the move handed straight back."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[17.96, 18.34, 17.90, 18.02], [18.02, 18.12, 17.94, 17.98], [17.98, 18.06, 17.88, 17.90], [17.90, 17.94, 17.74, 17.76]]
+      volume: [462000, 268000, 232000, 296000]
+    caption: "One bar ends the run; the three after it are the market agreeing that it did."

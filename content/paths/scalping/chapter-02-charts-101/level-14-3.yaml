@@ -1,0 +1,123 @@
+id: "14-3"
+title: "Momentum vs Exhaustion"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [momentum, exhaustion, patience, decisions]
+learning_goal: "User stops joining the third and fourth leg of a move and can say what the first leg has that the late ones do not."
+purpose: "Almost every beginner's worst trade of the morning is a late one, taken because the earlier legs looked easy."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "14-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "The branch walks one chased fourth push all the way through, so the cost is felt rather than described."
+screens:
+  - type: intro
+    text: "The trade that looks safest is usually the one everybody else has already taken."
+
+  - type: story
+    character: retail-trader
+    text: "Three pushes have gone past while you were reading the chart. The fourth one is starting and it is the first that has felt obvious."
+
+  - type: theory
+    title: "Every leg spends the next one"
+    body: "Each push pulls in buyers who were not in yet. They are then in, and they cannot buy again. The later the leg, the fewer people are left to pay you for it."
+
+  - type: branch
+    scenario: "XYZ has made three pushes this morning with a dip between each. A fourth is starting and you are looking at 1,200 shares against a $20,000 account."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.20, 15.40, 15.18, 15.38], [15.38, 15.44, 15.26, 15.30], [15.30, 15.56, 15.28, 15.54], [15.54, 15.58, 15.42, 15.46], [15.46, 15.70, 15.44, 15.68], [15.68, 15.74, 15.58, 15.62], [15.62, 15.80, 15.60, 15.66], [15.66, 15.70, 15.52, 15.54], [15.54, 15.60, 15.44, 15.48], [15.48, 15.54, 15.40, 15.44]]
+      volume: [186000, 96000, 214000, 88000, 238000, 104000, 268000, 196000, 164000, 142000]
+      decision_index: 5
+    steps:
+      - prompt: "The fourth push begins and the candle is green. What now?"
+        options:
+          - {text: "Pass, three legs are already behind this one", correct: true, next: 1}
+          - {text: "Take it, the trend has proved itself three times", next: 1}
+        explanation: "Three legs of proof is three legs of buying that has already happened. Proof and fuel are not the same thing."
+      - prompt: "You bought at $15.72. The minute closed at $15.66 and left a wick above your entry. What now?"
+        options:
+          - {text: "Take the close you were given and get out", correct: true}
+          - {text: "Hold, the morning has been up all the way"}
+        explanation: "The wick sits exactly where you paid. That is the market telling you what your price was worth to everybody else."
+      - prompt: "Two minutes later price is $15.48. What does the fourth push change about the fifth?"
+        options:
+          - {text: "The next push has to earn it on its own bar", correct: true}
+          - {text: "Nothing, three legs out of four still worked"}
+        explanation: "Every push is judged on its own volume and its own close. A run's history is not a reason, and by leg four it is an excuse."
+
+  - type: chart-decision
+    scenario: "The third push has just ended on the heaviest bar of the morning, which reached $23.24 and closed at $23.00. A fourth is being set up. Your account is $20,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[22.40, 22.60, 22.38, 22.58], [22.58, 22.64, 22.46, 22.50], [22.50, 22.78, 22.48, 22.76], [22.76, 22.82, 22.64, 22.68], [22.68, 22.96, 22.66, 22.94], [22.94, 23.24, 22.90, 23.00], [23.00, 23.06, 22.86, 22.90], [22.90, 22.96, 22.78, 22.82], [22.82, 22.90, 22.74, 22.86], [22.86, 22.92, 22.76, 22.80], [22.80, 22.88, 22.72, 22.76]]
+      volume: [168000, 108000, 214000, 124000, 268000, 486000, 322000, 268000, 212000, 184000, 162000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "Price faded to $22.72 and finished at $22.76 — a long at the decision would be $0.24 a share offside, $192 down on 800 shares."
+    explanation: "Three legs and then the biggest bar of the day with a wick on it. There is no fourth push to join, only the people leaving the third."
+
+  - type: mc
+    prompt: "The quote card says XYZ is up 9.4 % on the day, and the push in front of you is the fourth. What does that number add?"
+    options:
+      - {text: "most of the day's move is already behind you", correct: true}
+      - {text: "a stock up that much on the day is likely to keep going"}
+      - {text: "a percentage on the day says nothing about a one-minute chart"}
+    explanation: "The daily change tells you how much room has already been used. Late in the day's move and late in the run is the same warning twice."
+
+  - type: numeric-mc
+    prompt: "You chased the fourth push, lost your nerve and sold at your entry price. On 1,200 shares with a spread of three cents, what did that flat trade cost?"
+    options:
+      - {text: "$0.03"}
+      - {text: "$3.60"}
+      - {text: "$36", correct: true}
+      - {text: "$360"}
+    working: "$0.03 a share × 1,200 shares = $36"
+    explanation: "You buy at one price and sell at the other, so a trade that went nowhere still charged you the spread twice over."
+
+  - type: chart-decision
+    scenario: "XYZ has been flat for five minutes on the lightest bars of the morning. The minute that just closed finished at $12.36 on 246,000 shares, four times any bar before it. Your account is $20,000 and you are sizing 1,600 shares."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[12.10, 12.14, 12.06, 12.12], [12.12, 12.16, 12.08, 12.10], [12.10, 12.15, 12.07, 12.13], [12.13, 12.18, 12.10, 12.14], [12.14, 12.20, 12.12, 12.18], [12.18, 12.38, 12.16, 12.36], [12.36, 12.52, 12.34, 12.50], [12.50, 12.62, 12.46, 12.58], [12.58, 12.68, 12.54, 12.64], [12.64, 12.72, 12.60, 12.68], [12.68, 12.76, 12.64, 12.72]]
+      volume: [62000, 58000, 54000, 66000, 88000, 246000, 268000, 238000, 196000, 172000, 158000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $12.76 and finished at $12.72 — $0.36 a share above the decision, +$576 long on 1,600 shares."
+    explanation: "Five quiet minutes and then one bar four times their size. This is the first leg, and none of the buyers have been used up yet."
+
+  - type: tf
+    statement: "The later a push comes in a move, the fewer buyers are left who have not already bought."
+    answer: true
+    explanation: "That is the whole reason a first leg pays better than a fourth, even when the fourth one looks cleaner on the chart."
+
+  - type: order
+    prompt: "Put the life of one morning move into the order you see it."
+    items:
+      - "A quiet base on the lightest bars of the morning"
+      - "The first push, on the biggest bar so far"
+      - "A give-back on shrinking volume"
+      - "The heaviest bar of the whole move, with a wick on top"
+    explanation: "The best entry is at the front of that list and the worst one is at the back, and they are only a few minutes apart."
+
+  - type: fill-choice
+    sentence: "By the fourth push, the buyers who could still pay you have mostly already ___."
+    options: ["bought", "sold", "waited"]
+    answer: "bought"
+    explanation: "They are in the stock now, and a trader who is already in can only sell to you, never buy from you."
+
+  - type: recap
+    title: "Level 14 in three lines"
+    points:
+      - {text: "Growing bodies on growing bars means buyers are still arriving.", level: "14-1"}
+      - {text: "The heaviest bar of the run, closing far off its high, is the end of it.", level: "14-2"}
+      - {text: "The first leg pays for the fourth one, so wait for a first leg.", level: "14-3"}

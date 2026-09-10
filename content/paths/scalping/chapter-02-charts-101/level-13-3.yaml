@@ -1,0 +1,119 @@
+id: "13-3"
+title: "The Opening Minutes"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [open, opening-range, levels]
+learning_goal: "User can build the opening range from the first five minutes, mark both edges, and tell a close beyond one of them from a poke through it."
+purpose: "The opening range is the first structure of the day, and for the next hour it is the level everybody trades against."
+terms_introduced: ["Opening range"]
+reinforces: [1]
+prerequisite: "13-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Reuses the close-versus-wick verdict from Level 10 at the day's first level."
+screens:
+  - type: intro
+    text: "Five minutes in, the day finally has two prices that stop moving."
+
+  - type: theory
+    title: "Opening range"
+    body: "The opening range is the high and the low of the first five minutes of the session. Two prices, built on the heaviest volume of the day, that every other trader can also see."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[22.60, 22.86, 22.40, 22.72], [22.72, 22.80, 22.52, 22.58], [22.58, 22.78, 22.54, 22.74], [22.74, 22.84, 22.62, 22.66], [22.66, 22.82, 22.60, 22.78]]
+      volume: [478000, 342000, 296000, 264000, 238000]
+      levels:
+        - {price: 22.86, label: "range high"}
+        - {price: 22.40, label: "range low"}
+    caption: "Five minutes, forty-six cents wide. Everything the morning does next happens above, below or between those two lines."
+
+  - type: numeric-input
+    prompt: "The first five minutes print highs of $12.62, $12.78, $12.74, $12.86, $12.80 and lows of $12.46, $12.58, $12.50, $12.66, $12.72. Where is the low of the opening range?"
+    answer: 12.46
+    tolerance: 0.001
+    unit: "$"
+    working: "The lowest low of the first five minutes: $12.46"
+    explanation: "The range is the whole span those five minutes covered, wicks included, not just the bodies."
+
+  - type: chart-annotate
+    prompt: "The first five minutes are finished. Drag the line to the highest price they reached."
+    chart:
+      kind: candles
+      data: [[17.20, 17.44, 17.12, 17.38], [17.38, 17.42, 17.24, 17.28], [17.28, 17.40, 17.22, 17.36], [17.36, 17.44, 17.30, 17.34], [17.34, 17.40, 17.28, 17.38], [17.38, 17.42, 17.30, 17.32], [17.32, 17.40, 17.26, 17.36], [17.36, 17.42, 17.30, 17.38]]
+      volume: [446000, 318000, 276000, 244000, 226000, 208000, 196000, 188000]
+    answer: 17.44
+    tolerance: 0.04
+    label: "Range high"
+    explanation: "Two of the first five minutes reached $17.44 and neither could finish there. Three minutes later it is still the price the stock has to get past."
+
+  - type: mc
+    prompt: "Why does the whole market end up trading against those two prices in particular?"
+    options:
+      - {text: "every trader is looking at the same two prices", correct: true}
+      - {text: "the first five minutes are always the day's high and the day's low"}
+      - {text: "prices set before the crowd arrives are the more accurate ones"}
+    explanation: "They are printed on every screen and built on the busiest minutes of the day. A level nobody else can see is not a level."
+
+  - type: chart-decision
+    scenario: "The first five minutes ran from $22.40 to $22.86. The minute that just closed finished at $22.98 on 386,000 shares, the heaviest bar since the opening minute. Your account is $20,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[22.60, 22.86, 22.40, 22.72], [22.72, 22.80, 22.52, 22.58], [22.58, 22.78, 22.54, 22.74], [22.74, 22.84, 22.62, 22.66], [22.66, 22.82, 22.60, 22.78], [22.78, 23.00, 22.76, 22.98], [22.98, 23.10, 22.94, 23.06], [23.06, 23.16, 23.00, 23.12], [23.12, 23.24, 23.08, 23.20], [23.20, 23.26, 23.14, 23.18], [23.18, 23.32, 23.16, 23.28]]
+      volume: [478000, 342000, 296000, 264000, 238000, 386000, 312000, 286000, 262000, 234000, 248000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It kept going to $23.32 and finished at $23.28 — $0.30 a share above the decision, +$240 long on 800 shares."
+    explanation: "A finished minute twelve cents clear of the range high, on the biggest bar since the bell. The range asked its question and the buyers answered it."
+
+  - type: tf
+    statement: "The opening range stops changing the moment the fifth minute closes."
+    answer: true
+    explanation: "That is what makes it usable: two prices that are fixed for the rest of the morning while everything else keeps moving."
+
+  - type: chart-decision
+    scenario: "The opening range is $15.30 to $15.66. The minute that just closed reached $15.72, finished back at $15.60, and traded 178,000 shares — the lightest bar since the bell. Your account is $20,000 and you are sizing 1,250 shares."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[15.44, 15.66, 15.30, 15.58], [15.58, 15.64, 15.36, 15.40], [15.40, 15.62, 15.38, 15.56], [15.56, 15.64, 15.44, 15.48], [15.48, 15.60, 15.42, 15.54], [15.54, 15.72, 15.52, 15.60], [15.60, 15.66, 15.50, 15.54], [15.54, 15.62, 15.46, 15.50], [15.50, 15.58, 15.44, 15.52], [15.52, 15.60, 15.46, 15.56], [15.56, 15.62, 15.48, 15.52]]
+      volume: [462000, 306000, 268000, 232000, 214000, 178000, 196000, 184000, 172000, 166000, 158000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "Five minutes later price was $15.52, eight cents under the decision — buying that poke would be $100 down on 1,250 shares before costs."
+    explanation: "Six cents above the line for part of a minute, on the thinnest bar of the session, and a close back inside. The range is still the range."
+
+  - type: match
+    prompt: "Four things the opening range can do to you. What is each one?"
+    pairs:
+      - ["A close ten cents above the range high on the heaviest bar since the bell", "The break the lines were drawn for"]
+      - ["A poke above the range high and a close back inside", "The high held, so it is still the ceiling"]
+      - ["Price in the middle of the range on shrinking bars", "Neither edge has been asked anything"]
+      - ["A close under the range low on rising volume", "The same break, pointing the other way"]
+    explanation: "Two of these are trades, one is a warning about the ceiling and one is a reason to keep watching."
+
+  - type: tf
+    statement: "The same opening range matters less in a stock that traded 9,000 shares in those five minutes than in one that traded 900,000."
+    answer: true
+    explanation: "Two identical lines, drawn by two very different crowds. A level is only worth as much as the number of people who had to agree on it."
+
+  - type: fill-choice
+    sentence: "A minute that pushes past the range high and finishes back inside has left a ___, not a break."
+    options: ["wick", "body", "gap"]
+    answer: "wick"
+    explanation: "The same reading as any other level: the visit is the wick and the verdict is the close."
+
+  - type: checklist-reveal
+    title: "In the first five minutes you are only doing this"
+    items:
+      - "Watching where the highest price stops"
+      - "Watching where the lowest price stops"
+      - "Drawing both of them on the chart"
+      - "Waiting for a minute to finish outside one of them"
