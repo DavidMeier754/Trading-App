@@ -61,10 +61,15 @@ mistake — a cheap first block makes twelve expensive ones wrong.
 found 147 chart drills whose arithmetic had to be right to the cent and whose "best"
 answer had to follow from the lesson. That is not a Haiku task.
 
-**Effort and thinking.** For Stage 0 and Stage 6 use `output_config: {effort: "high"}`
-and `thinking: {type: "adaptive"}`. For Stage 3 authoring, `effort: "medium"` is
-enough and roughly halves the thinking spend. Do not pass `budget_tokens` — it
-returns a 400 on current models.
+**Effort and thinking.** Always `thinking: {type: "adaptive"}`; never pass
+`budget_tokens` — it returns a 400 on current models. Use
+`output_config: {effort: "high"}` for Stage 0, Stage 6, and every **Opus** block in
+Stage 3 — those are the blocks that set a chapter's voice, invent Ch5/Ch8 from
+nothing, or carry a Callback or Final Exam, and they are where deliberation buys
+fewer arithmetic and answer-key errors. `effort: "medium"` is enough for the
+**Sonnet** blocks, which mostly expand existing subs against a voice already set.
+Higher than `high` is not worth it here: this is careful writing plus cent-level
+arithmetic, not deep problem-solving.
 
 **Prompt caching.** Every authoring prompt starts with the same ~18K tokens of
 `docs/agent.md` + `docs/schema.md` + `docs/UI.md`. Keep that block byte-identical and
@@ -304,9 +309,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter [N] levels [7–11]" and push to [branch].
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter [N] levels [7–11]" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the

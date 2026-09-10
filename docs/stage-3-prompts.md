@@ -1,7 +1,7 @@
 # Stage 3 — ready-to-run authoring prompts
 One filled-in prompt per level block, in the writing order from `docs/curriculum.md`. Copy the next un-done block's prompt verbatim into a fresh session and run it. The prompt body is byte-identical to the template in `docs/build-plan.md`; only the five variables are filled.
 **Before you paste, check two things:**
-1. **Branch.** Every prompt says push to `claude/scalping-path-review-2z32by` (the designated dev branch). If the session you run it in is on a different branch, change that one word.
+1. **Push target.** Every prompt commits and pushes straight to `main`, so you do not have to move anything by hand. Each block is validated before it is pushed; if you would rather review a block first, change `push to main` to your branch name in that one prompt.
 2. **Model.** Each block names the model to run it under (from `docs/build-plan.md`): the first block of a chapter, the two brand-new chapters (5 and 8), and any block holding a Callback or Final Exam get `claude-opus-5`; the rest get `claude-sonnet-5`. The model is not part of the prompt — set it in the session before pasting. Treat it as a floor, not a ceiling: bump a Sonnet block to `claude-opus-5` if it leans heavy — dense setup teaching, tricky sizing math, a lot of new chart-decisions.
 Work top to bottom: a block's callbacks reach into earlier chapters, which must already be written. Tick each block as you finish it.
 
@@ -52,9 +52,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 2 levels 1–6" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 2 levels 1–6" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -103,9 +107,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 2 levels 7–12" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 2 levels 7–12" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -155,9 +163,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 2 levels 13–18" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 2 levels 13–18" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -209,9 +221,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 3 levels 1–5" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 3 levels 1–5" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -259,9 +275,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 3 levels 6–10" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 3 levels 6–10" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -311,9 +331,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 3 levels 11–15" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 3 levels 11–15" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -363,9 +387,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 3 levels 16–19" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 3 levels 16–19" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -417,9 +445,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 4 levels 1–6" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 4 levels 1–6" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -468,9 +500,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 4 levels 7–12" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 4 levels 7–12" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -520,9 +556,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 4 levels 13–18" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 4 levels 13–18" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -574,9 +614,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 1 levels 1–5" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 1 levels 1–5" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -625,9 +669,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 1 levels 6–11" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 1 levels 6–11" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -676,9 +724,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 1 levels 12–17" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 1 levels 12–17" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -729,9 +781,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 5 levels 1–4" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 5 levels 1–4" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -779,9 +835,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 5 levels 5–9" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 5 levels 5–9" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -829,9 +889,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 5 levels 10–13" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 5 levels 10–13" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -879,9 +943,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 5 levels 14–17" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 5 levels 14–17" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -933,9 +1001,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 6 levels 1–5" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 6 levels 1–5" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -985,9 +1057,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 6 levels 6–10" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 6 levels 6–10" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1036,9 +1112,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 6 levels 11–15" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 6 levels 11–15" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1087,9 +1167,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 6 levels 16–19" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 6 levels 16–19" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1141,9 +1225,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 7 levels 1–5" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 7 levels 1–5" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1192,9 +1280,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 7 levels 6–9" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 7 levels 6–9" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1242,9 +1334,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 7 levels 10–13" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 7 levels 10–13" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1294,9 +1390,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 7 levels 14–19" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 7 levels 14–19" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1347,9 +1447,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 8 levels 1–4" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 8 levels 1–4" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1397,9 +1501,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 8 levels 5–9" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 8 levels 5–9" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1447,9 +1555,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 8 levels 10–13" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 8 levels 10–13" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
@@ -1497,9 +1609,13 @@ After each sub-level, check your own arithmetic: recompute every stop distance,
 R-multiple, share count and dollar total from the numbers as written in the file.
 Fix rather than report.
 
-Run `python3 tools/validate_content.py --strict` and get to 0 errors and 0 warnings
-before you tell me you are done. Then commit as
-"content: chapter 8 levels 14–17" and push to claude/scalping-path-review-2z32by.
+Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
+naming any file you wrote or touched. Then run it with `--strict` and confirm every
+remaining finding names a level outside this block — those are the chapter-wide
+counts, and they clear only when the whole chapter is written, so do not try to
+force them to zero and never edit content outside this block to silence them.
+Then commit as
+"content: chapter 8 levels 14–17" and push to main.
 
 Finally, report: the levels written, sub-level and screen counts, the screen-type
 mix as a table, which earlier chapters you reinforced and how, and anything in the
