@@ -262,6 +262,8 @@ screen is invented rather than expanded, which is where a cheaper model shows.
 
 ### The authoring prompt
 
+Every block's copy is pre-filled in **`docs/stage-3-prompts.md`** — 29 ready-to-run prompts in writing order, each with its recommended model. Copy the next un-done block instead of filling the template by hand.
+
 This is the one you will run twenty times. Keep the first paragraph byte-identical
 every time so the docs cache; change only the bracketed parts.
 
