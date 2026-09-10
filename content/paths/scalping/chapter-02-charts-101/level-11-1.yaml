@@ -1,5 +1,5 @@
-id: "5-3"
-title: "Support and Resistance"
+id: "11-1"
+title: "Levels Practice"
 chapter: 2
 chapter_title: "Charts 101"
 path: scalping
@@ -8,7 +8,7 @@ tags: [levels, decisions, practice]
 learning_goal: "User applies levels, closes beyond them and volume together to choose long, short or no trade."
 purpose: "Levels only pay when you can act on them in the minute they matter."
 terms_introduced: []
-prerequisite: "5-2"
+prerequisite: "10-1"
 xp: 20
 difficulty: 3
 sources: [consensus]

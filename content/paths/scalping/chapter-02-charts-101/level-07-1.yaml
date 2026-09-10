@@ -1,104 +1,113 @@
 id: "7-1"
-title: "The Opening Minutes"
+title: "Trend and Range"
 chapter: 2
 chapter_title: "Charts 101"
 path: scalping
 category: new-theory
-tags: [open, gaps, opening-range]
-learning_goal: "User knows why the first minutes of the session behave differently, can read a gap, and can find the opening range on a 1-minute chart."
-purpose: "Scalpers make much of their day in the first half hour, and beginners lose much of theirs in the first five minutes."
-terms_introduced: ["Gap", "Opening range"]
-prerequisite: "6-1"
+tags: [trend, structure, chart-reading]
+learning_goal: "User can label a 1-minute chart as uptrend, downtrend or range from its highs and lows, and prefers trades that run with the trend."
+purpose: "Naming the shape takes two seconds and decides whether your idea has the crowd with it or against it."
+terms_introduced: ["Uptrend", "Downtrend", "Higher high", "Higher low", "Lower high", "Lower low", "Range"]
+prerequisite: "5-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Session times, pre-market and the first half hour all come from market tokens."
+notes: "Structure by highs and lows only. Why ranges hurt scalpers, and the pullback, come in 4-2."
 screens:
   - type: intro
-    text: "The loudest half hour of the day — and the easiest one to lose money in."
+    text: "Every chart is doing one of three things. Name it, and half the decision is made."
 
   - type: theory
-    title: "The open is not a normal time"
-    body: "The session opens at {{market.regular_open}} {{market.timezone}}. In the first half hour, {{market.first_minutes}}, more shares change hands than at any other time, moves are bigger, and spreads are at their widest."
+    title: "An uptrend in two words"
+    body: "Higher highs and higher lows. Each push goes further than the last, each dip stops above the last one. Buyers keep stepping in earlier than before."
 
   - type: visual
-    component: session-ribbon
+    component: chart-candles
     data:
-      premarket: "{{market.premarket}}"
-      regular: "{{market.regular}}"
-      afterhours: "{{market.afterhours}}"
-      timezone: "{{market.timezone}}"
-    caption: "Everything a scalper does happens inside the regular session — most of it near its start."
-
-  - type: slider
-    prompt: "Take a guess: how much of a whole day's volume trades in the first half hour?"
-    min: 0
-    max: 100
-    step: 5
-    unit: "%"
-    answer: 20
-    tolerance: 10
-    explanation: "Around a fifth on a typical day: half an hour of clock time carrying hours' worth of trading."
+      data: [[40.02, 40.10, 39.98, 40.08], [40.08, 40.20, 40.06, 40.18], [40.18, 40.19, 40.02, 40.05], [40.05, 40.14, 40.03, 40.12], [40.12, 40.26, 40.10, 40.24], [40.24, 40.34, 40.22, 40.30], [40.30, 40.31, 40.11, 40.15], [40.15, 40.28, 40.13, 40.26], [40.26, 40.42, 40.24, 40.40]]
+      volume: [52000, 68000, 44000, 39000, 74000, 81000, 46000, 62000, 96000]
+      markers:
+        - {index: 1, label: "high 40.20"}
+        - {index: 2, label: "low 40.02"}
+        - {index: 5, label: "higher high 40.34"}
+        - {index: 6, label: "higher low 40.11"}
+    caption: "Two pushes, two dips: each one further up than the one before."
 
   - type: theory
-    title: "Gaps"
-    body: "A gap is a jump between yesterday's close and the first price of the new session. News, earnings or overnight demand arrived while the market was shut. Above yesterday's close is a gap up, below it a gap down."
+    title: "The mirror image"
+    body: "A downtrend is lower highs and lower lows. Every rally dies sooner and every drop goes deeper, because sellers keep getting in front of the buyers."
 
-  - type: example
-    body: "XYZ closed yesterday at $32.00 and opens at $33.10 — a $1.10 gap up. Nobody bought at $32.50 on the way: no trades happened in between at all."
+  - type: chart-tap
+    prompt: "This chart dipped twice. Tap the candle at the bottom of the second dip."
+    chart:
+      kind: candles
+      data: [[16.20, 16.28, 16.16, 16.26], [16.26, 16.36, 16.24, 16.34], [16.34, 16.35, 16.18, 16.21], [16.21, 16.30, 16.20, 16.28], [16.28, 16.44, 16.26, 16.42], [16.42, 16.43, 16.29, 16.32], [16.32, 16.40, 16.30, 16.38], [16.38, 16.52, 16.36, 16.50], [16.50, 16.56, 16.44, 16.52]]
+    target: 5
+    explanation: "Its low is $16.29, well above the first dip at $16.18 — a higher low, which is what keeps an uptrend alive."
 
-  - type: mc
-    prompt: "XYZ closed at $32.00 and opens at $33.10. For the first minutes that mostly means:"
-    options:
-      - {text: "Something changed overnight and the open is the fight over it", correct: true}
-      - {text: "The stock is $1.10 too expensive and has to come back"}
-      - {text: "Yesterday's chart no longer matters at all"}
-    explanation: "A gap is new information, not a mistake — and yesterday's high, low and close are still levels everybody can see."
+  - type: carousel
+    cards:
+      - {label: "Uptrend", text: "Higher highs, higher lows. Longs run with the crowd; shorts fight it."}
+      - {label: "Downtrend", text: "Lower highs, lower lows. Shorts run with the crowd; longs are catching a falling stock."}
+      - {label: "Range", text: "Highs stall around one price, lows hold around another. Price goes sideways between them."}
 
   - type: theory
-    title: "The opening range"
-    body: "The high and the low of the first five minutes are the opening range. It is the first structure of the day: two prices the whole market can see, built while the biggest volume of the session trades."
-
-  - type: numeric-input
-    prompt: "The first five 1-minute candles print highs of $20.44, $20.62, $20.58, $20.71, $20.66 and lows of $20.30, $20.36, $20.28, $20.44, $20.52. Where is the low of the opening range?"
-    answer: 20.28
-    tolerance: 0.001
-    unit: "$"
-    working: "The lowest low of the first five minutes: $20.28"
-    explanation: "The opening range is the whole span of those five minutes, wicks included."
-
-  - type: order
-    prompt: "Put the start of a session in order."
-    items:
-      - "Pre-market trading sets a high and a low"
-      - "The session opens"
-      - "The first five minutes finish"
-      - "Price leaves the opening range"
-    explanation: "You cannot trade the opening range before it exists — which is why the first five minutes are for watching."
+    title: "Trade with the trend"
+    body: "In an uptrend, buying dips has been paying the crowd all morning, so the crowd keeps doing it. Trading against that needs a much better reason than a feeling that it has gone far enough."
 
   - type: chart-decision
-    scenario: "XYZ gapped up from $32.00 to $33.10 and the first minutes are swinging 25 cents in both directions with wicks everywhere. You are sizing 800 shares."
+    scenario: "XYZ has topped each push above the last one all morning, and has just finished its second dip. You are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[28.10, 28.22, 28.06, 28.20], [28.20, 28.32, 28.18, 28.30], [28.30, 28.34, 28.16, 28.19], [28.19, 28.30, 28.17, 28.28], [28.28, 28.44, 28.26, 28.42], [28.42, 28.46, 28.30, 28.34], [28.34, 28.45, 28.32, 28.44], [28.44, 28.55, 28.42, 28.54], [28.54, 28.59, 28.50, 28.55], [28.55, 28.60, 28.53, 28.58], [28.58, 28.61, 28.55, 28.57]]
+      volume: [64000, 71000, 42000, 38000, 88000, 45000, 79000, 104000, 72000, 61000, 55000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "The next push topped the last one at $28.61 and held $28.57 — $0.23 a share above the decision, +$230 long on 1,000 shares."
+    explanation: "A higher low inside an uptrend is the cheapest place to join it, because the last dip already showed where buyers wait."
+
+  - type: mc
+    prompt: "Pushes topped at $40.20 and then $40.34; the dips between them stopped at $40.02 and then $40.11. The chart is in:"
+    options:
+      - {text: "an uptrend", correct: true}
+      - {text: "a downtrend"}
+      - {text: "a range"}
+    explanation: "Both the highs and the lows moved up, which is the whole definition."
+
+  - type: tf
+    statement: "A stock can be in an uptrend on the 5-minute chart and a downtrend on the 1-minute at the same time."
+    answer: true
+    explanation: "A trend always belongs to one timeframe — which is exactly why a scalper looks at both."
+
+  - type: chart-decision
+    scenario: "XYZ has spent twenty minutes turning down from about $34.20 and turning up from about $34.06, over and over. You are sizing 800 shares."
     shares: 800
     chart:
       kind: candles
-      data: [[33.10, 33.48, 32.96, 33.36], [33.36, 33.52, 33.08, 33.14], [33.14, 33.44, 33.06, 33.40], [33.40, 33.46, 33.10, 33.16], [33.16, 33.38, 33.12, 33.32], [33.32, 33.40, 33.06, 33.10], [33.10, 33.34, 33.04, 33.28], [33.28, 33.36, 33.08, 33.12], [33.12, 33.30, 33.06, 33.24], [33.24, 33.32, 33.10, 33.14], [33.14, 33.28, 33.08, 33.20]]
-      volume: [480000, 360000, 310000, 280000, 240000, 260000, 220000, 200000, 180000, 170000, 160000]
+      data: [[34.10, 34.18, 34.04, 34.14], [34.14, 34.20, 34.08, 34.10], [34.10, 34.19, 34.05, 34.16], [34.16, 34.21, 34.07, 34.09], [34.09, 34.18, 34.06, 34.15], [34.15, 34.20, 34.08, 34.11], [34.11, 34.19, 34.05, 34.16], [34.16, 34.21, 34.09, 34.12], [34.12, 34.18, 34.06, 34.14], [34.14, 34.20, 34.07, 34.10], [34.10, 34.19, 34.06, 34.13]]
+      volume: [38000, 33000, 29000, 31000, 27000, 24000, 26000, 22000, 25000, 21000, 23000]
       decision_index: 5
     best: no-trade
-    outcome: "Price finished at $33.20, ten cents above the decision — after two swings big enough to shake you out in either direction first."
-    explanation: "In the first minutes there is no structure yet: every candle overlaps the last and both sides keep winning."
+    outcome: "Five minutes on, price was $34.13 — two cents from the decision. On 800 shares that is $16, and you would have paid costs both ways."
+    explanation: "In a range there is no push to join; you are guessing which edge holds."
 
-  - type: tf
-    statement: "Some gaps get filled the same day and some are never filled at all."
-    answer: true
-    explanation: "A gap is a starting condition, not a promise in either direction."
+  - type: sort
+    prompt: "Which shape is each chart in?"
+    buckets: ["Uptrend", "Downtrend", "Range"]
+    items:
+      - {text: "A new high for the morning, then a dip that stops above the last one", bucket: "Uptrend"}
+      - {text: "Every rally dies a little lower than the one before", bucket: "Downtrend"}
+      - {text: "Four pushes into $22.40 and four dips into $22.20", bucket: "Range"}
+      - {text: "A fresh low, a weak rally, then another fresh low", bucket: "Downtrend"}
+    explanation: "Read the highs, then the lows. If neither is moving, it is a range."
 
-  - type: fill-choice
-    sentence: "The high and the low of the first five minutes are the ___."
-    options: ["opening range", "pre-market range", "daily range"]
-    answer: "opening range"
-    explanation: "The pre-market high and low are set before the bell, and the day's own high and low are not finished until the close."
+  - type: fill-tiles
+    sentence: "A chart making lower highs and lower lows is in a ___."
+    answer: "downtrend"
+    explanation: "Each lower high and each lower low says the sellers got there before the buyers did."
 
   - type: theory
-    title: "Loud, fast, and worth waiting out"
-    body: "The open pays the traders who already know their levels. For the first five minutes, most scalpers only watch — and the next sub-level shows what they are watching for."
+    title: "Name it before you trade it"
+    body: "Uptrend, downtrend, range. One glance at the highs and lows tells you which side the crowd is on — and whether there is a side at all."

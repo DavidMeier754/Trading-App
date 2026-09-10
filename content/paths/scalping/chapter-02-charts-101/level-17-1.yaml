@@ -1,5 +1,5 @@
-id: "9-2"
-title: "The Scalper's Screen"
+id: "17-1"
+title: "Chapter Review"
 chapter: 2
 chapter_title: "Charts 101"
 path: scalping
@@ -8,7 +8,7 @@ tags: [practice, decisions, levels, volume]
 learning_goal: "User reads one full morning — open, break, pullback, climax, refusal and chop — and decides at each point."
 purpose: "This is what the whole chapter was for: six ordinary moments, decided in seconds each."
 terms_introduced: []
-prerequisite: "9-1"
+prerequisite: "16-1"
 xp: 30
 difficulty: 3
 sources: [consensus]

@@ -1,4 +1,4 @@
-id: "7-2"
+id: "13-2"
 title: "The Opening Minutes"
 chapter: 2
 chapter_title: "Charts 101"
@@ -8,7 +8,7 @@ tags: [open, gaps, opening-range, decisions]
 learning_goal: "User can judge whether an opening gap is holding or fading and waits for the first 5-minute candle to close before trading it."
 purpose: "The first five minutes decide the shape of the morning; trading them blind is the most common beginner mistake at the open."
 terms_introduced: []
-prerequisite: "7-1"
+prerequisite: "13-1"
 xp: 20
 difficulty: 3
 sources: [consensus]

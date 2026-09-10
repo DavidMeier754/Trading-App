@@ -8,7 +8,7 @@ tags: [checkpoint, candles, volume, trend, levels]
 learning_goal: "User proves they can read a candle, a timeframe, a volume bar, a trend and a level, and decide from them."
 purpose: "Everything after this level assumes these five things are automatic."
 terms_introduced: []
-prerequisite: "5-3"
+prerequisite: "11-1"
 xp: 40
 difficulty: 2
 sources: [consensus]
