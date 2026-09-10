@@ -3,114 +3,124 @@ title: "Candles and Volume Practice"
 chapter: 2
 chapter_title: "Charts 101"
 path: scalping
-category: repetition
-tags: [volume, candles, decisions]
-learning_goal: "User reads candle shape and volume together and decides long, short or no trade from the pair."
-purpose: "Neither signal is worth much alone; every read from here on uses both at once."
+category: new-theory
+tags: [volume, candles, liquidity, decisions]
+learning_goal: "User runs the three-question read — which way, did anybody mean it, can this stock take my size — before deciding."
+purpose: "A chart you like in a stock you cannot get out of is not a trade, and that is the question beginners skip."
 terms_introduced: []
 reinforces: [1]
-prerequisite: "4-1"
+prerequisite: "4-4"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Mixed practice on Levels 1–3. No new ideas."
+notes: "Adds the Chapter 1 liquidity question to the two-row read. The pure drill is 5-2."
 screens:
   - type: intro
-    text: "Three charts, two questions each: which way, and did anybody mean it?"
+    text: "Two rows on the chart answer two questions. The third one is about you, not about the chart."
 
-  - type: story
-    character: retail-trader
-    text: "Two stocks on your screen. Both are up about $0.20 on the morning. Only one of them has anybody actually trading it."
+  - type: theory
+    title: "Three questions, in order"
+    body: "Which way did the last minutes go? Did enough people trade for it to mean anything? And can this stock take the size you want, in and out?"
+
+  - type: checklist-reveal
+    title: "The read, every time"
+    items:
+      - "Body and wicks: who kept the ground"
+      - "The bar underneath: how many had to trade for it"
+      - "The recent bars: is this minute heavy for this stock"
+      - "Your size against that minute: can you get back out"
+
+  - type: compare
+    prompt: "You want 1,500 shares in and out inside two minutes. Which of these mornings can take that?"
+    charts:
+      - {kind: candles, data: [[18.40, 18.48, 18.36, 18.46], [18.46, 18.56, 18.44, 18.54], [18.54, 18.60, 18.50, 18.52], [18.52, 18.64, 18.50, 18.62], [18.62, 18.72, 18.59, 18.70], [18.70, 18.78, 18.66, 18.74], [18.74, 18.84, 18.71, 18.82], [18.82, 18.90, 18.78, 18.86]], volume: [64000, 96000, 58000, 88000, 132000, 74000, 118000, 92000], label: "A"}
+      - {kind: candles, data: [[18.40, 18.48, 18.36, 18.46], [18.46, 18.56, 18.44, 18.54], [18.54, 18.60, 18.50, 18.52], [18.52, 18.64, 18.50, 18.62], [18.62, 18.72, 18.59, 18.70], [18.70, 18.78, 18.66, 18.74], [18.74, 18.84, 18.71, 18.82], [18.82, 18.90, 18.78, 18.86]], volume: [7000, 9000, 6000, 8000, 11000, 5000, 9000, 7000], label: "B"}
+    answer: "A"
+    explanation: "The candles are identical. In B your 1,500 shares are more than a whole minute of trading, so you would be the move rather than joining it."
 
   - type: chart-decision
-    scenario: "XYZ steps up candle after candle with almost no wick, and each volume bar is taller than the last. You are sizing 1,000 shares."
-    shares: 1000
+    scenario: "XYZ has drifted sideways on bars near 45,000 shares. The candle that just closed is the longest green body of the morning, on 168,000. Your account is $20,000 and you are sizing 900 shares."
+    shares: 900
     chart:
       kind: candles
-      data: [[23.10, 23.16, 23.06, 23.14], [23.14, 23.20, 23.11, 23.18], [23.18, 23.30, 23.16, 23.28], [23.28, 23.36, 23.25, 23.34], [23.34, 23.44, 23.32, 23.42], [23.42, 23.50, 23.39, 23.48], [23.48, 23.56, 23.47, 23.55], [23.55, 23.62, 23.53, 23.60], [23.60, 23.66, 23.58, 23.64], [23.64, 23.68, 23.62, 23.66], [23.66, 23.70, 23.64, 23.67]]
-      volume: [38000, 42000, 88000, 104000, 126000, 134000, 148000, 130000, 112000, 90000, 76000]
+      data: [[21.90, 21.96, 21.86, 21.94], [21.94, 22.02, 21.92, 22.00], [22.00, 22.06, 21.96, 21.99], [21.99, 22.04, 21.95, 22.02], [22.02, 22.08, 22.00, 22.06], [22.06, 22.22, 22.04, 22.20], [22.20, 22.32, 22.17, 22.30], [22.30, 22.40, 22.26, 22.37], [22.37, 22.46, 22.33, 22.43], [22.43, 22.54, 22.39, 22.51], [22.51, 22.62, 22.47, 22.59]]
+      volume: [46000, 52000, 40000, 44000, 58000, 168000, 152000, 134000, 118000, 100000, 86000]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $23.70 and settled at $23.67 — $0.19 a share above the decision, +$190 long on 1,000 shares."
-    explanation: "Shape and volume agree: buyers keep taking price and more of them arrive each minute."
+    outcome: "It kept going to $22.62 and finished at $22.59 — $0.39 a share above the decision, +$351 long on 900 shares."
+    explanation: "Longest body of the morning on nearly four times the recent bars, in a stock busy enough to sell 900 shares back into."
 
-  - type: chart-tap
-    prompt: "Tap the candle where the most shares changed hands."
-    chart:
-      kind: candles
-      data: [[15.40, 15.48, 15.36, 15.46], [15.46, 15.52, 15.43, 15.50], [15.50, 15.56, 15.44, 15.47], [15.47, 15.60, 15.45, 15.58], [15.58, 15.72, 15.56, 15.70], [15.70, 15.76, 15.64, 15.66], [15.66, 15.71, 15.60, 15.63], [15.63, 15.68, 15.59, 15.66]]
-      volume: [34000, 41000, 38000, 76000, 152000, 88000, 62000, 45000]
-    target: 4
-    explanation: "152,000 shares in that minute — the tallest bar, under the longest body."
-
-  - type: chart-decision
-    scenario: "XYZ has small bodies with wicks both ways for five minutes and the bars underneath keep shrinking. You are sizing 800 shares."
-    shares: 800
-    chart:
-      kind: candles
-      data: [[37.20, 37.26, 37.16, 37.22], [37.22, 37.27, 37.18, 37.20], [37.20, 37.25, 37.15, 37.23], [37.23, 37.28, 37.19, 37.21], [37.21, 37.26, 37.17, 37.24], [37.24, 37.29, 37.20, 37.22], [37.22, 37.27, 37.18, 37.25], [37.25, 37.29, 37.21, 37.23], [37.23, 37.28, 37.19, 37.21], [37.21, 37.26, 37.17, 37.24], [37.24, 37.28, 37.20, 37.22]]
-      volume: [12000, 9000, 8000, 7000, 6000, 5000, 6000, 5000, 7000, 4000, 5000]
-      decision_index: 5
-    best: no-trade
-    outcome: "Five minutes later price was $37.22 — exactly where you looked. Long or short, 800 shares would have paid costs for nothing."
-    explanation: "Indecision on shrinking volume is the clearest 'not yet' a chart can give you."
-
-  - type: numeric-input
-    prompt: "You went long 1,200 shares at $9.86 and closed at $9.98. Result before costs?"
-    answer: 144
-    tolerance: 0.01
-    unit: "$"
-    working: "$0.12 a share × 1,200 shares = $144"
-    explanation: "Twelve cents on 1,200 shares — small moves get their size from the share count."
-
-  - type: match
-    prompt: "Match what you see to what it means."
-    pairs:
-      - ["Long green body, tallest bar of the morning", "Buyers paid up, and plenty of them"]
-      - ["Long upper wick on a huge bar", "A price the market refused, with a crowd watching"]
-      - ["Small bodies, shrinking bars", "Nobody is interested right now"]
-      - ["Long red body on rising bars", "Sellers in control and finding takers"]
-    explanation: "Body and wick give the direction; the bar gives the weight behind it."
-
-  - type: chart-decision
-    scenario: "XYZ has sold off for four minutes on the heaviest bars since the open. One small green candle pauses it, then sellers take it again. You are sizing 600 shares."
-    shares: 600
-    chart:
-      kind: candles
-      data: [[44.60, 44.66, 44.52, 44.56], [44.56, 44.60, 44.40, 44.44], [44.44, 44.48, 44.28, 44.32], [44.32, 44.36, 44.18, 44.22], [44.22, 44.30, 44.20, 44.28], [44.28, 44.32, 44.16, 44.18], [44.18, 44.22, 44.04, 44.06], [44.06, 44.10, 43.92, 43.96], [43.96, 44.00, 43.84, 43.88], [43.88, 43.94, 43.80, 43.90], [43.90, 43.96, 43.84, 43.92]]
-      volume: [60000, 98000, 126000, 140000, 70000, 132000, 150000, 144000, 128000, 96000, 84000]
-      decision_index: 5
-    best: short
-    reasonable: [no-trade]
-    outcome: "It fell to $43.92 — $0.26 a share, +$156 short on 600 shares."
-    explanation: "The pause came on the thinnest bar of the move; the selling came back on the heaviest."
+  - type: numeric-mc
+    prompt: "A stock is printing 6,000 shares a minute. Your 1,500-share order would be what share of that minute?"
+    options:
+      - {text: "4 %"}
+      - {text: "2.5 %"}
+      - {text: "25 %", correct: true}
+      - {text: "40 %"}
+    working: "1,500 ÷ 6,000 = 0.25 = 25 %"
+    explanation: "A quarter of everything traded in that minute is you. Prices move to find the other side of an order that size."
 
   - type: tf
-    statement: "A thin volume bar under a green candle means buyers are waiting and will show up soon."
+    statement: "Once the chart looks right, how many shares trade each minute stops mattering."
     answer: false
-    explanation: "It means almost nobody traded that minute. Nothing in a bar says what the next one does."
+    explanation: "The shapes look the same at any size. Whether you can get your own order back out is a separate question, and it is the one that decides the trade."
 
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "A huge volume bar"}
-      - {text: "in the middle of a quiet stretch"}
-      - {text: "proves the next candle will be green.", wrong: true}
-    explanation: "Volume shows how much interest arrived, never in which direction it will push."
+  - type: chart-decision
+    scenario: "XYZ has climbed twenty cents over six minutes. Every bar is shorter than the one before it, and the last one is 6,000 shares. Your account is $20,000 and you are sizing 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[25.90, 25.96, 25.86, 25.94], [25.94, 25.99, 25.90, 25.96], [25.96, 26.02, 25.93, 26.00], [26.00, 26.05, 25.97, 26.03], [26.03, 26.08, 26.00, 26.06], [26.06, 26.12, 26.03, 26.10], [26.10, 26.14, 26.04, 26.06], [26.06, 26.11, 26.02, 26.09], [26.09, 26.13, 26.05, 26.07], [26.07, 26.12, 26.03, 26.10], [26.10, 26.15, 26.06, 26.08]]
+      volume: [16000, 13000, 11000, 9000, 8000, 6000, 7000, 6000, 8000, 5000, 6000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes on, price was $26.08 — two cents under the decision, and $14 down on 700 shares before a single cost."
+    explanation: "The climb is real and nobody is behind it. Getting 700 shares back out of a 6,000-share minute costs more than the climb is worth."
+
+  - type: match
+    prompt: "Match each pairing on the chart to what you do with it."
+    pairs:
+      - ["Long body, heavy bar, busy stock", "Take it"]
+      - ["Long body, thin bar", "Leave it — nobody is behind the move"]
+      - ["Tiny body, heavy bar", "Leave it — a crowd arrived and settled nothing"]
+      - ["Long body, heavy bar, 6,000-share minutes", "Leave it — you cannot get your size back out"]
+    explanation: "Three of the four look tempting on the candles alone, which is exactly why the other two questions exist."
 
   - type: mc
-    prompt: "Two stocks each rose $0.20 in ten minutes: one on 40,000 shares a minute, one on 4,000. For a scalper the difference is:"
+    prompt: "You have found a chart you like in a stock trading 8,000 shares a minute. The next question is:"
     options:
-      - {text: "None — the price move is what pays you"}
-      - {text: "The quiet one is cheaper, because fewer people want it"}
-      - {text: "The busy one is far easier to get into and out of", correct: true}
-    explanation: "You can only trade where somebody else is trading; on 4,000 shares a minute your own order becomes the move."
+      - {text: "whether that shape has worked in this stock before"}
+      - {text: "how many shares you could get back out", correct: true}
+      - {text: "whether to double the size, since the move will be bigger"}
+    explanation: "Getting in is easy in any stock. The exit is what the 8,000 shares a minute is threatening."
+
+  - type: order
+    prompt: "Put a two-row read in the order it happens."
+    items:
+      - "Read the last candle's body and wicks"
+      - "Check the bar under it against the recent minutes"
+      - "Ask whether the stock can take your size"
+      - "Decide long, short or nothing"
+    explanation: "Direction, weight, size, decision. Skipping the third step is what turns a good read into a bad fill."
+
+  - type: chart-tap
+    prompt: "Tap the minute where a long body printed on the thinnest bar of the chart."
+    chart:
+      kind: candles
+      data: [[19.20, 19.26, 19.16, 19.24], [19.24, 19.30, 19.21, 19.28], [19.28, 19.34, 19.25, 19.31], [19.31, 19.48, 19.29, 19.46], [19.46, 19.52, 19.42, 19.48], [19.48, 19.54, 19.44, 19.50], [19.50, 19.56, 19.46, 19.52], [19.52, 19.58, 19.48, 19.54]]
+      volume: [64000, 58000, 52000, 9000, 46000, 44000, 40000, 38000]
+    target: 3
+    explanation: "A fifteen-cent body on 9,000 shares. Price went up because almost nobody was there to sell, and it comes back the same way."
+
+  - type: fill-tiles
+    sentence: "Before you trade a chart you like, check that the stock can take your ___."
+    answer: "size"
+    explanation: "The chart is the same for everybody; how many shares you need is yours alone."
 
   - type: visual
     component: chart-candles
     data:
-      data: [[20.10, 20.16, 20.06, 20.14], [20.14, 20.28, 20.12, 20.26], [20.26, 20.32, 20.22, 20.24], [20.24, 20.30, 20.20, 20.28]]
-      volume: [42000, 148000, 39000, 96000]
-    caption: "Candle for direction, bar for weight — one glance gives you both. Next: the shape the whole chart is in."
-
+      data: [[16.40, 16.52, 16.36, 16.50], [16.50, 16.58, 16.46, 16.48], [16.48, 16.64, 16.46, 16.62], [16.62, 16.70, 16.58, 16.66]]
+      volume: [58000, 44000, 176000, 92000]
+    caption: "Which way, who meant it, can I get out. Three questions, about four seconds, every single time."

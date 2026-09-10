@@ -8,7 +8,7 @@ tags: [trend, structure, chart-reading]
 learning_goal: "User can label a 1-minute chart as uptrend, downtrend or range from its highs and lows, and prefers trades that run with the trend."
 purpose: "Naming the shape takes two seconds and decides whether your idea has the crowd with it or against it."
 terms_introduced: ["Uptrend", "Downtrend", "Higher high", "Higher low", "Lower high", "Lower low", "Range"]
-prerequisite: "5-1"
+prerequisite: "6-1"
 xp: 20
 difficulty: 2
 sources: [consensus]

@@ -5,102 +5,106 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, chart-reading]
-learning_goal: "User can read open, high, low and close from a single candle and name body and wick."
-purpose: "Every chart you will read from here on is built from these; one candle is one minute of the fight between buyers and sellers."
-terms_introduced: ["Candle", "Open", "High", "Low", "Close", "Body", "Wick"]
+learning_goal: "User can name the four prices a single candle records and read each of them off a 1-minute chart."
+purpose: "Every chart from here to the end of the path is drawn out of these four numbers."
+terms_introduced: ["Candle", "Open", "High", "Low", "Close"]
+reinforces: []
 prerequisite: null
 xp: 20
 difficulty: 1
 sources: [consensus]
-notes: "First candlestick chart of the app. Reading one candle only — what a candle means comes in 1-2."
+notes: "Four prices only. The names for the shape itself arrive in 1-2, so nothing here says body or wick."
 screens:
   - type: intro
-    text: "A line gives you one price per minute. A candle gives you four."
+    text: "A line gives you one price a minute. A candle gives you four."
 
   - type: theory
-    title: "Four prices, one shape"
-    body: "A candle covers one slice of time — for a scalper, one minute. It records where price started, how high it got, how low it got and where it ended."
+    title: "One minute, one candle"
+    body: "A candle covers one slice of time. For a scalper that slice is a minute, and the chart draws a fresh one every sixty seconds."
     visual: chart-candles
     visual_data:
-      data: [[21.40, 21.48, 21.36, 21.45], [21.45, 21.52, 21.43, 21.50], [21.50, 21.55, 21.41, 21.44], [21.44, 21.51, 21.42, 21.49], [21.49, 21.58, 21.47, 21.56], [21.56, 21.61, 21.52, 21.59], [21.59, 21.64, 21.55, 21.57], [21.57, 21.66, 21.56, 21.65]]
+      data: [[17.40, 17.48, 17.36, 17.45], [17.45, 17.52, 17.42, 17.50], [17.50, 17.55, 17.41, 17.44], [17.44, 17.51, 17.42, 17.49], [17.49, 17.58, 17.47, 17.56], [17.56, 17.61, 17.52, 17.59], [17.59, 17.64, 17.55, 17.57], [17.57, 17.66, 17.56, 17.65]]
 
   - type: theory
-    title: "Open and close"
-    body: "The open is the first price of that minute, the close is the last. The thick block between them is the body. Green: the close sits above the open. Red: below it."
+    title: "Where the minute started and stopped"
+    body: "The open is the first price traded in that minute. The close is the last one. The thick block in the middle of the shape is drawn between those two."
 
   - type: theory
-    title: "High and low"
-    body: "The thin lines above and below the body are wicks. The top of the upper wick is the high, the bottom of the lower wick is the low — the furthest price got in each direction."
+    title: "How far it got either way"
+    body: "The high is the furthest price up inside the minute, the low the furthest down. The thin threads above and below the block reach out to them."
 
   - type: example
-    body: "XYZ, one minute: open $24.10, high $24.28, low $24.06, close $24.24. A green body from $24.10 up to $24.24, with a short wick at each end."
+    body: "XYZ, one minute. The first trade goes off at $17.40, price runs to $17.58, dips to $17.36, and the last trade of the minute is $17.52."
     visual: chart-candles
     visual_data:
-      data: [[24.10, 24.28, 24.06, 24.24]]
-
-  - type: chart-tap
-    prompt: "Tap the one candle that closed below its open."
-    chart:
-      kind: candles
-      data: [[12.02, 12.08, 12.01, 12.07], [12.07, 12.11, 12.05, 12.10], [12.10, 12.15, 12.09, 12.14], [12.14, 12.16, 12.06, 12.08], [12.08, 12.13, 12.07, 12.12], [12.12, 12.18, 12.11, 12.17], [12.17, 12.21, 12.15, 12.20], [12.20, 12.24, 12.18, 12.23]]
-    target: 3
-    explanation: "That minute opened at $12.14 and ended at $12.08 — sellers finished in front, so the body is red."
-
-  - type: numeric-input
-    prompt: "A candle opens at $18.40, reaches $18.62, dips to $18.36 and closes at $18.55. How tall is the body?"
-    answer: 0.15
-    tolerance: 0.001
-    unit: "$"
-    working: "18.55 − 18.40 = 0.15"
-    explanation: "The body measures open to close; the $18.62 and $18.36 are wick, not body."
-
-  - type: mc
-    prompt: "A candle's body runs from:"
-    options:
-      - {text: "the low to the high"}
-      - {text: "the open to the close", correct: true}
-      - {text: "yesterday's close to today's close"}
-    explanation: "Low to high is the whole candle including wicks; the body is only open to close."
-
-  - type: fill-tiles
-    sentence: "The thin line sticking out above the body is the upper ___."
-    answer: "wick"
-    explanation: "A wick marks a price that was reached but not held at the close."
+      data: [[17.40, 17.58, 17.36, 17.52]]
 
   - type: match
-    prompt: "Match each price to what it marks."
+    prompt: "Four numbers come out of every minute. Which is which?"
     pairs:
-      - ["Open", "The first price of the minute"]
-      - ["Close", "The last price of the minute"]
-      - ["High", "The furthest price up"]
-      - ["Low", "The furthest price down"]
-    explanation: "Four prices per candle: two ends of the body, two ends of the wicks."
-
-  - type: chart-decision
-    scenario: "XYZ, 1-minute chart. Five green candles in a row, each one closing near its high and opening where the last one closed. You are sizing 800 shares."
-    shares: 800
-    chart:
-      kind: candles
-      data: [[24.02, 24.08, 24.00, 24.06], [24.06, 24.12, 24.05, 24.11], [24.11, 24.16, 24.09, 24.15], [24.15, 24.19, 24.13, 24.18], [24.18, 24.23, 24.16, 24.21], [24.21, 24.28, 24.20, 24.27], [24.27, 24.33, 24.25, 24.31], [24.31, 24.38, 24.30, 24.36], [24.36, 24.42, 24.34, 24.40], [24.40, 24.46, 24.38, 24.44], [24.44, 24.48, 24.41, 24.46]]
-      decision_index: 5
-    best: long
-    reasonable: [no-trade]
-    outcome: "It carried on to $24.46 — $0.19 a share above the decision, +$152 long on 800 shares."
-    explanation: "Green body after green body, closing near the highs: buyers held every minute they took."
-
-  - type: tf
-    statement: "A tall body tells you how far price travelled that minute, not how much traded."
-    answer: true
-    explanation: "How much traded is volume, and it lives in the bar underneath — that is Level 3."
+      - ["Open", "The first price traded in that minute"]
+      - ["Close", "The last price traded in that minute"]
+      - ["High", "The furthest price up inside the minute"]
+      - ["Low", "The furthest price down inside the minute"]
+    explanation: "Two of them are the ends of the minute, two of them are the extremes reached inside it."
 
   - type: chart-tap
-    prompt: "Tap the candle that reached the highest price."
+    prompt: "Tap the minute that ended lower than it started."
     chart:
       kind: candles
-      data: [[31.20, 31.28, 31.16, 31.25], [31.25, 31.34, 31.22, 31.31], [31.31, 31.46, 31.29, 31.42], [31.42, 31.58, 31.40, 31.44], [31.44, 31.49, 31.35, 31.38], [31.38, 31.43, 31.30, 31.33], [31.33, 31.40, 31.28, 31.36], [31.36, 31.41, 31.31, 31.39], [31.39, 31.45, 31.36, 31.43]]
+      data: [[11.02, 11.08, 11.01, 11.07], [11.07, 11.12, 11.05, 11.10], [11.10, 11.16, 11.09, 11.15], [11.15, 11.18, 11.06, 11.09], [11.09, 11.14, 11.08, 11.13], [11.13, 11.19, 11.12, 11.18], [11.18, 11.23, 11.16, 11.22], [11.22, 11.27, 11.20, 11.26]]
     target: 3
-    explanation: "$31.58 is the top of a wick, not of a body — price got there and was back down before the minute ended."
+    explanation: "That minute opened at $11.15 and closed at $11.09, so it finished six cents under where it began."
 
-  - type: theory
-    title: "One candle, four numbers"
-    body: "Open, high, low, close. Read them in that order and you have replayed the minute. Next: what the shape of the candle tells you."
+  - type: numeric-mc
+    prompt: "A minute of XYZ: open $21.12, high $21.44, low $21.06, close $21.38. How far did price travel from its low to its high?"
+    options:
+      - {text: "$0.26"}
+      - {text: "$0.06"}
+      - {text: "$0.32"}
+      - {text: "$0.38", correct: true}
+    working: "21.44 − 21.06 = 0.38"
+    explanation: "Low to high is the whole span of the minute, not just the part between the open and the close."
+
+  - type: tf
+    statement: "Two candles can share the same open and the same close and still not look alike."
+    answer: true
+    explanation: "Their highs and lows can sit far apart, so the same start and finish can come out of two very different minutes."
+
+  - type: fill-choice
+    sentence: "Price ended the minute higher than it started, so the close sits above the ___."
+    options: ["open", "high", "low"]
+    answer: "open"
+    explanation: "Green or red is decided by close against open; the high and the low take no part in it."
+
+  - type: chart-tap
+    prompt: "Tap the minute that reached the highest price of this stretch."
+    chart:
+      kind: candles
+      data: [[24.20, 24.28, 24.16, 24.25], [24.25, 24.34, 24.22, 24.31], [24.31, 24.46, 24.29, 24.42], [24.42, 24.58, 24.40, 24.44], [24.44, 24.49, 24.35, 24.38], [24.38, 24.43, 24.30, 24.33], [24.33, 24.40, 24.28, 24.36], [24.36, 24.41, 24.31, 24.39], [24.39, 24.45, 24.36, 24.43]]
+    target: 3
+    explanation: "$24.58 is the top of a thin thread, not the top of a block — price got there and was back below before the minute ended."
+
+  - type: numeric-input
+    prompt: "A candle opens at $13.86, highs at $14.02, lows at $13.80 and closes at $13.94. How far below the high did the minute finish?"
+    answer: 0.08
+    tolerance: 0.001
+    unit: "$"
+    working: "14.02 − 13.94 = 0.08"
+    explanation: "Eight cents were reached and then handed back before the minute was over."
+
+  - type: sort
+    prompt: "Is each of these describing the high, or the close?"
+    buckets: ["The high", "The close"]
+    items:
+      - {text: "The last trade before the minute ran out", bucket: "The close"}
+      - {text: "The most anyone paid inside that minute", bucket: "The high"}
+      - {text: "The price the next candle starts from", bucket: "The close"}
+      - {text: "The top of the thin thread above the block", bucket: "The high"}
+    explanation: "The close ends the minute; the high only marks the furthest price up inside it."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[19.84, 20.06, 19.78, 20.00]]
+    caption: "Open $19.84, high $20.06, low $19.78, close $20.00. Four numbers, one shape, sixty seconds."

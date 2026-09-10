@@ -1,0 +1,122 @@
+id: "5-2"
+title: "Candles and Volume Practice"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: repetition
+tags: [volume, candles, decisions, practice]
+learning_goal: "User decides on nine fresh charts using body, wicks and the volume bar together, with almost no reading in between."
+purpose: "Recognition is built by repetition, and this is the first page of the chapter that is almost entirely repetition."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "5-1"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "The chapter's drill sub-level. Nine decisions, one calculation, no new ideas."
+screens:
+  - type: intro
+    text: "Ten charts. No new ideas — just the read, over and over, until it stops feeling like work."
+
+  - type: story
+    character: retail-trader
+    text: "You have $20,000 in the account and no position. Every chart is a fresh stock, and most of them are somebody else's trade."
+
+  - type: swipe-deck
+    prompt: "Body, wicks, and the bar underneath. Take a long, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[12.10, 12.16, 12.06, 12.14], [12.14, 12.22, 12.12, 12.20], [12.20, 12.32, 12.18, 12.30], [12.30, 12.44, 12.28, 12.42], [12.42, 12.56, 12.40, 12.54], [12.54, 12.66, 12.51, 12.64], [12.64, 12.74, 12.61, 12.72], [12.72, 12.82, 12.69, 12.80]], volume: [48000, 56000, 92000, 124000, 150000, 168000, 146000, 128000]}
+        answer: take
+        note: "Bodies lengthening, bars getting taller, nothing handed back at the top."
+      - chart: {kind: candles, data: [[17.02, 17.06, 16.99, 17.04], [17.04, 17.09, 17.02, 17.07], [17.07, 17.12, 17.05, 17.10], [17.10, 17.15, 17.08, 17.13], [17.13, 17.18, 17.11, 17.16], [17.16, 17.21, 17.14, 17.19], [17.19, 17.23, 17.16, 17.21], [17.21, 17.25, 17.18, 17.23]], volume: [14000, 11000, 9000, 8000, 7000, 6000, 5000, 4000]}
+        answer: pass
+        note: "Twenty cents on shrinking bars. Nobody had to trade for that, and nobody will pay you to leave."
+      - chart: {kind: candles, data: [[21.10, 21.24, 21.06, 21.22], [21.22, 21.40, 21.20, 21.38], [21.38, 21.58, 21.34, 21.54], [21.54, 21.74, 21.50, 21.70], [21.70, 21.88, 21.66, 21.84], [21.84, 22.30, 21.80, 21.90], [21.90, 21.96, 21.72, 21.76], [21.76, 21.84, 21.66, 21.70]], volume: [70000, 102000, 138000, 176000, 220000, 480000, 300000, 220000]}
+        answer: pass
+        note: "The heaviest bar of the run, and price could not stay up there for the rest of the minute."
+      - chart: {kind: candles, data: [[14.60, 14.64, 14.52, 14.54], [14.54, 14.58, 14.44, 14.46], [14.46, 14.50, 14.36, 14.38], [14.38, 14.42, 14.28, 14.30], [14.30, 14.34, 14.22, 14.24], [14.24, 14.48, 14.20, 14.46], [14.46, 14.56, 14.42, 14.54], [14.54, 14.64, 14.50, 14.62]], volume: [66000, 78000, 92000, 104000, 116000, 260000, 196000, 164000]}
+        answer: take
+        note: "One green body took back three red ones, on more than twice the heaviest bar of the fall."
+      - chart: {kind: candles, data: [[25.40, 25.50, 25.30, 25.44], [25.44, 25.54, 25.34, 25.38], [25.38, 25.48, 25.28, 25.42], [25.42, 25.52, 25.32, 25.36], [25.36, 25.46, 25.26, 25.40], [25.40, 25.66, 25.14, 25.42], [25.42, 25.52, 25.32, 25.38], [25.38, 25.48, 25.30, 25.44]], volume: [72000, 66000, 80000, 74000, 68000, 340000, 150000, 110000]}
+        answer: pass
+        note: "The biggest crowd of the morning turned up and finished the minute two cents from where it started."
+      - chart: {kind: candles, data: [[28.02, 28.06, 27.98, 28.04], [28.04, 28.08, 28.00, 28.06], [28.06, 28.10, 28.02, 28.07], [28.07, 28.12, 28.04, 28.09], [28.09, 28.14, 28.06, 28.11], [28.11, 28.34, 28.09, 28.32], [28.32, 28.46, 28.28, 28.44], [28.44, 28.56, 28.40, 28.53]], volume: [40000, 36000, 42000, 38000, 44000, 210000, 180000, 158000]}
+        answer: take
+        note: "Five flat minutes, then the first heavy bar of the day under the longest body of the day."
+    explanation: "Take when the body kept its ground and the bar says a crowd was behind it. Pass when either half is missing."
+
+  - type: chart-decision
+    scenario: "XYZ has been selling all morning. A small green candle on the thinnest bar of the move lifted it back to $20.60, and the candle that just closed is a long red body on 158,000 shares, the heaviest bar since the open. Your account is $20,000 and you are sizing 950 shares."
+    shares: 950
+    chart:
+      kind: candles
+      data: [[20.60, 20.66, 20.52, 20.56], [20.56, 20.62, 20.48, 20.52], [20.52, 20.58, 20.44, 20.48], [20.48, 20.60, 20.46, 20.58], [20.58, 20.62, 20.44, 20.46], [20.46, 20.50, 20.32, 20.34], [20.34, 20.38, 20.22, 20.24], [20.24, 20.30, 20.14, 20.16], [20.16, 20.22, 20.06, 20.10], [20.10, 20.16, 20.02, 20.06], [20.06, 20.12, 19.98, 20.02]]
+      volume: [88000, 96000, 104000, 62000, 84000, 158000, 146000, 132000, 118000, 102000, 90000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid to $19.98 and finished the run at $20.02 — $0.32 a share, +$304 short on 950 shares."
+    explanation: "The lift back came on the thinnest bar of the move and the selling returned on the heaviest one. Both rows say the same thing."
+
+  - type: numeric-input
+    prompt: "You were short 950 shares from $20.34 and covered at $20.02. What is the result before costs?"
+    answer: 304
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.32 a share × 950 shares = $304"
+    explanation: "A short makes the move in reverse: sold high, bought back lower, and the share count does the rest."
+
+  - type: chart-decision
+    scenario: "XYZ has been flat for five minutes on bars around 45,000 shares. The candle that just closed is a $0.16 green body on 204,000, more than four times any bar before it. Your account is $20,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[14.90, 14.96, 14.86, 14.94], [14.94, 15.00, 14.91, 14.97], [14.97, 15.02, 14.93, 14.99], [14.99, 15.04, 14.96, 15.02], [15.02, 15.08, 15.00, 15.06], [15.06, 15.24, 15.04, 15.22], [15.22, 15.34, 15.19, 15.32], [15.32, 15.42, 15.28, 15.39], [15.39, 15.48, 15.35, 15.45], [15.45, 15.54, 15.41, 15.51], [15.51, 15.62, 15.47, 15.59]]
+      volume: [42000, 38000, 46000, 40000, 50000, 204000, 178000, 152000, 130000, 112000, 96000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It kept going to $15.62 and finished at $15.59 — $0.37 a share above the decision, +$481 long on 1,300 shares."
+    explanation: "A stock nobody was trading suddenly took four times its normal minute, and the body says which side wanted it."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price the heaviest candle on this chart finished at."
+    chart:
+      kind: candles
+      data: [[13.20, 13.28, 13.16, 13.26], [13.26, 13.36, 13.24, 13.34], [13.34, 13.42, 13.30, 13.36], [13.36, 13.44, 13.32, 13.40], [13.40, 13.48, 13.36, 13.44], [13.44, 13.72, 13.42, 13.68], [13.68, 13.76, 13.62, 13.70], [13.70, 13.78, 13.66, 13.74]]
+      volume: [52000, 64000, 48000, 56000, 60000, 246000, 158000, 120000]
+    answer: 13.68
+    tolerance: 0.03
+    label: "Heavy close"
+    explanation: "246,000 shares changed hands and the minute finished at $13.68. That is where the crowd agreed to leave it."
+
+  - type: chart-decision
+    scenario: "XYZ has run for five minutes. The candle that just closed reached $27.48, finished at $27.08 and traded 520,000 shares against 214,000 the minute before. Your account is $20,000 and you are sizing 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[26.20, 26.36, 26.16, 26.34], [26.34, 26.54, 26.30, 26.50], [26.50, 26.72, 26.46, 26.68], [26.68, 26.90, 26.64, 26.86], [26.86, 27.04, 26.82, 27.00], [27.00, 27.48, 26.96, 27.08], [27.08, 27.14, 26.90, 26.94], [26.94, 27.00, 26.76, 26.80], [26.80, 26.88, 26.68, 26.84], [26.84, 26.90, 26.72, 26.76], [26.76, 26.82, 26.62, 26.66]]
+      volume: [82000, 110000, 146000, 182000, 214000, 520000, 340000, 280000, 216000, 170000, 144000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "Price worked back to $26.66. Buying there would have been $0.42 a share underwater — $294 on 700 shares."
+    explanation: "Everybody traded in one minute and forty cents of the push came straight back. Whatever happens next, that was not the moment to buy."
+
+  - type: sort
+    prompt: "Take it, or leave it?"
+    buckets: ["Take it", "Leave it"]
+    items:
+      - {text: "A long body on the first heavy bar after a quiet stretch", bucket: "Take it"}
+      - {text: "The same body on the thinnest bar of the morning", bucket: "Leave it"}
+      - {text: "A red body on rising bars, right after a pause on a thin one", bucket: "Take it"}
+      - {text: "A huge bar under a candle that finished where it opened", bucket: "Leave it"}
+    explanation: "The body has to have kept something and the bar has to say somebody was there. One out of two is a pass."
+
+  - type: checklist-reveal
+    title: "What every take on this page had"
+    items:
+      - "A body that kept what the minute took"
+      - "A bar that was heavy for this stock's own recent minutes"
+      - "Enough shares a minute to get the size back out"
+      - "And every pass was missing one of the three"

@@ -1,0 +1,114 @@
+id: "1-3"
+title: "The Candle"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [candles, chart-reading, practice]
+learning_goal: "User can read all four prices off one candle at a glance and mark the price a candle closed at."
+purpose: "In a sixty-second decision you read the last candle once, and it has to be right the first time."
+terms_introduced: []
+reinforces: []
+prerequisite: "1-2"
+xp: 20
+difficulty: 1
+sources: [consensus]
+notes: "Reading practice. Introduces the drag-a-line interaction on the easiest possible target."
+screens:
+  - type: intro
+    text: "One candle, read in under two seconds. That is the whole skill here."
+
+  - type: story
+    character: retail-trader
+    text: "The minute is over. Whatever happened inside it, this one shape is everything the chart kept."
+
+  - type: theory
+    title: "Read it in one order"
+    body: "Open, close, high, low. Where the minute started, where it finished, and how far it stretched either way. Same order every time, so you never have to think about it."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price the last candle on this chart closed at."
+    chart:
+      kind: candles
+      data: [[21.04, 21.12, 21.00, 21.10], [21.10, 21.18, 21.07, 21.15], [21.15, 21.20, 21.09, 21.12], [21.12, 21.24, 21.10, 21.22], [21.22, 21.30, 21.19, 21.28], [21.28, 21.34, 21.24, 21.26], [21.26, 21.33, 21.22, 21.31], [21.31, 21.40, 21.29, 21.36]]
+    answer: 21.36
+    tolerance: 0.02
+    label: "Close"
+    explanation: "$21.40 is where the minute reached and $21.36 is where it finished. The line belongs on the finish."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "The last candle on your 1-minute chart has just closed at $21.36. Tap the field that has to be showing the same number."
+    data: {ticker: XYZ, name: Example Corp, price: 21.36, change: 0.44, change_pct: 2.1, volume: "1.8M", prev_close: 20.92}
+    target: price
+    explanation: "The close of the newest candle is the last trade there has been, so it is also the price on the card."
+
+  - type: numeric-mc
+    prompt: "A candle opens at $15.72, highs at $15.90, lows at $15.68 and closes at $15.84. How long is the upper wick?"
+    options:
+      - {text: "$0.18"}
+      - {text: "$0.12"}
+      - {text: "$0.06", correct: true}
+      - {text: "$0.04"}
+    working: "15.90 − 15.84 = 0.06"
+    explanation: "The upper wick starts at the top of the body, which on a green candle is the close."
+
+  - type: mc
+    prompt: "Two candles both closed at $28.40. The first opened at $28.16, the second at $28.62. What separates them?"
+    options:
+      - {text: "the first is green and the second is red", correct: true}
+      - {text: "the first traded more shares than the second"}
+      - {text: "the second one covered less time than the first"}
+    explanation: "Close against open decides the colour. Every candle on a 1-minute chart covers the same sixty seconds."
+
+  - type: order
+    prompt: "One minute of XYZ, four prices out of order. Put them from lowest to highest."
+    items:
+      - "$18.36 — the low"
+      - "$18.40 — the open"
+      - "$18.55 — the close"
+      - "$18.62 — the high"
+    explanation: "The low and the high are always the outer two; where the open and the close sit between them is what makes the shape."
+
+  - type: tf
+    statement: "A candle's open is the lowest price traded in that minute."
+    answer: false
+    explanation: "That only holds when price never went below where the minute started. The low is its own number, and usually a different one."
+
+  - type: fill-choice
+    sentence: "A candle whose close is also its high has no upper ___."
+    options: ["wick", "body", "low"]
+    answer: "wick"
+    explanation: "Nothing was reached above the close, so there is no thread to draw."
+
+  - type: chart-tap
+    prompt: "Tap the minute with the tallest body."
+    chart:
+      kind: candles
+      data: [[25.86, 25.94, 25.82, 25.92], [25.92, 25.98, 25.88, 25.95], [25.95, 26.12, 25.93, 26.10], [26.10, 26.50, 26.06, 26.44], [26.44, 26.52, 26.38, 26.46], [26.46, 26.54, 26.42, 26.50], [26.50, 26.58, 26.44, 26.52], [26.52, 26.60, 26.48, 26.56]]
+    target: 3
+    explanation: "Open $26.10 to close $26.44 — more than twice the body of any other minute on the chart."
+
+  - type: numeric-input
+    prompt: "That same minute reached $26.50 before it ended. How long is its upper wick?"
+    answer: 0.06
+    tolerance: 0.001
+    unit: "$"
+    working: "26.50 − 26.44 = 0.06"
+    explanation: "A $0.34 body with only six cents given back at the top."
+
+  - type: sort
+    prompt: "Which of these can you read off a single candle, and which can you not?"
+    buckets: ["The candle tells you", "The candle does not"]
+    items:
+      - {text: "The first price of the minute", bucket: "The candle tells you"}
+      - {text: "The furthest price down inside it", bucket: "The candle tells you"}
+      - {text: "How many shares changed hands", bucket: "The candle does not"}
+      - {text: "How long price spent up at the high", bucket: "The candle does not"}
+    explanation: "Four prices, and nothing else. How much traded is a separate reading, and it comes in Level 4."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[12.84, 12.98, 12.80, 12.88]]
+    caption: "Open $12.84, close $12.88, high $12.98, low $12.80. Two seconds, four numbers, and you have the minute."

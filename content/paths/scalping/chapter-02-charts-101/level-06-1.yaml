@@ -1,0 +1,112 @@
+id: "6-1"
+title: "Checkpoint"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: test
+tags: [checkpoint, candles, timeframes, volume]
+learning_goal: "User proves they can read a candle, work between two timeframes, judge a volume bar and decide from the pair."
+purpose: "Everything after this level assumes these four things happen without thinking about them."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "5-2"
+xp: 40
+difficulty: 2
+sources: [consensus]
+notes: "Ten scored questions on Levels 1–5, in fresh wordings and with fresh numbers. Two of them reach back to Chapter 1."
+screens:
+  - type: intro
+    text: "Ten questions on Levels 1 to 5. Nothing here is timed, so read each chart properly."
+    counter: 10
+
+  - type: numeric-input
+    prompt: "One minute of XYZ: open $18.74, high $18.96, low $18.68, close $18.86. How long is the upper wick?"
+    answer: 0.10
+    tolerance: 0.001
+    unit: "$"
+    working: "18.96 − 18.86 = 0.10"
+    explanation: "The upper wick runs from the top of the body up to the high."
+
+  - type: chart-tap
+    prompt: "Tap the minute with the longest upper wick."
+    chart:
+      kind: candles
+      data: [[23.40, 23.48, 23.36, 23.46], [23.46, 23.54, 23.43, 23.52], [23.52, 23.86, 23.50, 23.56], [23.56, 23.62, 23.50, 23.54], [23.54, 23.60, 23.48, 23.58], [23.58, 23.66, 23.55, 23.63], [23.63, 23.70, 23.60, 23.68], [23.68, 23.74, 23.64, 23.72]]
+    target: 2
+    explanation: "Price reached $23.86 and finished at $23.56 — thirty cents given back inside one minute."
+
+  - type: mc
+    prompt: "Your 5-minute chart has finished lower every five minutes since the open. Your 1-minute has just turned green. That means:"
+    options:
+      - {text: "a long here runs against the bigger move", correct: true}
+      - {text: "the two charts cannot both be right"}
+      - {text: "the 5-minute is about to follow the 1-minute back up"}
+    explanation: "Both charts are always right about their own stretch of time. The slower one has more traders behind it."
+
+  - type: tf
+    statement: "A stock printing 5,000 shares a minute can move fast and still be a bad place to put 1,500 shares."
+    answer: true
+    explanation: "Size of move and ease of exit are separate. Your order would be almost a third of the minute, and it would move the price on the way in and again on the way out."
+
+  - type: sort
+    prompt: "Which row of the chart does each reading come from?"
+    buckets: ["The candle", "The volume bar"]
+    items:
+      - {text: "Who kept the ground in that minute", bucket: "The candle"}
+      - {text: "How many shares changed hands", bucket: "The volume bar"}
+      - {text: "How much of the push was handed back", bucket: "The candle"}
+      - {text: "Whether a crowd or a handful of traders was involved", bucket: "The volume bar"}
+    explanation: "Direction and refusal come from the shape; weight comes from the bar. Neither row does the other's job."
+
+  - type: chart-decision
+    scenario: "XYZ has been flat for five minutes on bars near 42,000 shares. The candle that just closed is a $0.15 green body on 188,000. Your account is $20,000 and you are sizing 1,600 shares."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[11.40, 11.46, 11.36, 11.44], [11.44, 11.50, 11.41, 11.47], [11.47, 11.52, 11.43, 11.49], [11.49, 11.54, 11.45, 11.51], [11.51, 11.56, 11.48, 11.53], [11.53, 11.70, 11.51, 11.68], [11.68, 11.78, 11.65, 11.76], [11.76, 11.86, 11.72, 11.83], [11.83, 11.92, 11.79, 11.89], [11.89, 11.98, 11.85, 11.95], [11.95, 12.02, 11.91, 11.99]]
+      volume: [40000, 44000, 38000, 42000, 46000, 188000, 164000, 142000, 124000, 106000, 92000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $12.02 and finished at $11.99 — $0.31 a share above the decision, +$496 long on 1,600 shares."
+    explanation: "Four times the recent bars under the longest body of the morning: a crowd arrived, and it arrived buying."
+
+  - type: fill-tiles
+    sentence: "A price that was reached inside the minute and not kept shows up as a ___."
+    answer: "wick"
+    explanation: "The body only records what survived to the close."
+
+  - type: numeric-mc
+    prompt: "You were long 1,100 shares from $16.42 and sold at $16.63. What is the result before costs?"
+    options:
+      - {text: "$23.10"}
+      - {text: "$2,310"}
+      - {text: "$231", correct: true}
+      - {text: "$0.21"}
+    working: "$0.21 a share × 1,100 shares = $231"
+    explanation: "Twenty-one cents a share, multiplied by the number of shares you held."
+
+  - type: match
+    prompt: "Five levels of vocabulary. Match each one to what it measures."
+    pairs:
+      - ["Body", "The distance between the open and the close"]
+      - ["Timeframe", "How much time one candle holds"]
+      - ["Volume bar", "The shares that changed hands in that minute"]
+      - ["Climax volume", "One bar dwarfing every bar before it"]
+    explanation: "Four words that between them describe almost everything on a scalper's chart."
+
+  - type: chart-decision
+    scenario: "XYZ has been climbing all morning. The last two pushes both stalled just above $29.40 and gave the ground straight back. The candle that just closed is a $0.16 red body on the heaviest bar of the morning. Your account is $20,000 and you are sizing 650 shares."
+    shares: 650
+    chart:
+      kind: candles
+      data: [[28.80, 28.90, 28.76, 28.88], [28.88, 29.02, 28.86, 29.00], [29.00, 29.16, 28.98, 29.14], [29.14, 29.44, 29.12, 29.18], [29.18, 29.42, 29.14, 29.20], [29.20, 29.24, 29.02, 29.04], [29.04, 29.10, 28.90, 28.92], [28.92, 28.98, 28.78, 28.82], [28.82, 28.90, 28.70, 28.76], [28.76, 28.82, 28.64, 28.68], [28.68, 28.76, 28.60, 28.66]]
+      volume: [72000, 86000, 104000, 138000, 126000, 182000, 166000, 148000, 130000, 112000, 98000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rolled over to $28.60 and finished at $28.66 — $0.38 a share, +$247 short on 650 shares."
+    explanation: "Two refusals at the same price and then a red body on the heaviest bar of the day: the buyers who paid up there are the ones selling now."
+
+  - type: summary
+    total: 10

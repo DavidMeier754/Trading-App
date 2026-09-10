@@ -5,15 +5,15 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [volume, chart-reading]
-learning_goal: "User can read the volume bars under a candle chart and tell a move that volume backs from a drift that nobody is behind."
-purpose: "A scalper needs shares on the other side to get in and out; volume is the chart's honest answer to whether they are there."
-terms_introduced: ["Volume bar", "Climax volume"]
+learning_goal: "User can read the volume bars under a candle chart and tell a move that volume backs from a drift nobody is behind."
+purpose: "A scalper needs shares on the other side to get in and out, and volume is the chart's honest answer to whether they are there."
+terms_introduced: ["Volume bar"]
 reinforces: [1]
-prerequisite: "3-1"
+prerequisite: "3-3"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Volume as confirmation only. Exhaustion as a named idea waits for Level 8."
+notes: "Volume as confirmation, and the Chapter 1 liquidity idea priced on a chart. Climax volume waits for 4-3."
 screens:
   - type: intro
     text: "The candles say what happened. The bars underneath say whether anyone meant it."
@@ -26,19 +26,12 @@ screens:
       data: [[27.10, 27.18, 27.06, 27.16], [27.16, 27.22, 27.13, 27.20], [27.20, 27.26, 27.17, 27.19], [27.19, 27.24, 27.15, 27.22], [27.22, 27.34, 27.21, 27.32], [27.32, 27.44, 27.30, 27.42], [27.42, 27.50, 27.38, 27.47], [27.47, 27.52, 27.43, 27.50]]
       volume: [42000, 38000, 31000, 35000, 96000, 128000, 141000, 88000]
 
-  - type: hotspot
-    component: quote-card
-    prompt: "Tap the field that says how many shares have traded today."
-    data: {ticker: XYZ, name: Example Corp, price: 27.40, change: 0.62, change_pct: 2.3, volume: "4.1M"}
-    target: volume
-    explanation: "The quote card counts the whole day; the bars under your chart count one minute each."
-
   - type: theory
     title: "Volume backs a move"
-    body: "A move with tall bars had real buyers and sellers behind it. The same move on thin bars is drift: a few shares pushing an empty market, and it gives back just as easily."
+    body: "A move printed on tall bars had real buyers and sellers behind it. The same move on thin bars is drift: a few shares pushing an empty market, and it gives back just as easily."
 
   - type: example
-    body: "Minutes 1–3 lifted XYZ $0.18 on 90k, 120k and 150k shares. Minutes 4–6 lifted it another $0.18 on 9k, 7k and 6k. Same move on the chart, completely different backing."
+    body: "Minutes 1 to 3 lifted XYZ $0.18 on 90,000, 120,000 and 150,000 shares. Minutes 4 to 6 lifted it another $0.18 on 9,000, 7,000 and 6,000. Same move on the chart, completely different backing."
     visual: bar-chart
     visual_data:
       bars:
@@ -54,46 +47,19 @@ screens:
     prompt: "Backed by volume, or just drift?"
     buckets: ["Volume backs it", "Just drift"]
     items:
-      - {text: "A $0.20 jump printed on the biggest bar of the morning", bucket: "Volume backs it"}
+      - {text: "A $0.20 jump printed on the tallest bar of the morning", bucket: "Volume backs it"}
       - {text: "A slow $0.15 climb on the thinnest bars since the open", bucket: "Just drift"}
-      - {text: "A push through a busy price with three times the volume of the last few minutes", bucket: "Volume backs it"}
+      - {text: "A push that needs three times the shares of a normal minute", bucket: "Volume backs it"}
       - {text: "Price creeping up while every bar is shorter than the one before", bucket: "Just drift"}
-    explanation: "Ask who had to trade for that move to happen. Thin bars mean almost nobody."
-
-  - type: numeric-mc
-    prompt: "The last five minutes averaged 40,000 shares each. This minute traded 180,000. That is:"
-    options:
-      - {text: "about 45 times normal"}
-      - {text: "about 1.4 times normal"}
-      - {text: "about 0.2 times normal"}
-      - {text: "about 4.5 times normal", correct: true}
-    working: "180,000 ÷ 40,000 = 4.5"
-    explanation: "Volume is judged against this stock's own recent minutes, never against another stock."
-
-  - type: theory
-    title: "Climax volume"
-    body: "Sometimes one bar towers over everything before it at the end of a long run. That is climax volume: the crowd all acting at once. It often marks where a move ends, not where it starts."
-
-  - type: chart-decision
-    scenario: "XYZ is stepping up minute by minute and the volume bars are getting taller with every candle. Nothing is being given back. You are sizing 1,500 shares."
-    shares: 1500
-    chart:
-      kind: candles
-      data: [[19.02, 19.08, 18.99, 19.06], [19.06, 19.12, 19.03, 19.10], [19.10, 19.22, 19.09, 19.20], [19.20, 19.32, 19.18, 19.30], [19.30, 19.42, 19.28, 19.40], [19.40, 19.48, 19.37, 19.46], [19.46, 19.61, 19.44, 19.58], [19.58, 19.70, 19.55, 19.68], [19.68, 19.78, 19.64, 19.75], [19.75, 19.82, 19.70, 19.79], [19.79, 19.85, 19.74, 19.80]]
-      volume: [40000, 46000, 92000, 118000, 145000, 152000, 160000, 138000, 120000, 96000, 80000]
-      decision_index: 5
-    best: long
-    reasonable: [no-trade]
-    outcome: "It ran to $19.85 and finished at $19.80 — $0.34 a share above the decision, +$510 long on 1,500 shares."
-    explanation: "Rising price on rising volume: more people are joining the move, not fewer."
+    explanation: "Ask who had to trade for that move to happen. Thin bars mean the answer is almost nobody."
 
   - type: mc
-    prompt: "After a twenty-minute run, one bar towers over every bar before it and that candle closes well below its high. The safer read is:"
+    prompt: "You want 1,500 shares of a stock whose bars have been printing about 5,000 a minute. The trouble is:"
     options:
-      - {text: "The move may be finishing", correct: true}
-      - {text: "The run has just been confirmed for another leg"}
-      - {text: "The stock is more liquid now, so the move is safer to join"}
-    explanation: "Everyone trading at once at the end of a run is usually the last of the buyers, not the first."
+      - {text: "the exchange charges a higher rate for orders in quiet stocks"}
+      - {text: "you would be most of that minute yourself", correct: true}
+      - {text: "the chart will not draw a candle that small"}
+    explanation: "An order that size against 5,000 shares a minute has to walk the price to find the other side — which is exactly what an illiquid stock does to you."
 
   - type: tf
     statement: "A tall volume bar says how much traded, and the candle above it says who won the minute."
@@ -101,22 +67,54 @@ screens:
     explanation: "The bar has no direction of its own. Read it together with the candle, never instead of it."
 
   - type: chart-decision
-    scenario: "XYZ has crept up eight cents over five minutes. Every bar underneath is smaller than the one before and the last one is the thinnest of the morning. You are sizing 500 shares."
-    shares: 500
+    scenario: "XYZ is stepping up minute by minute and the bars underneath are getting taller with every candle. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
     chart:
       kind: candles
-      data: [[51.02, 51.06, 50.99, 51.04], [51.04, 51.08, 51.02, 51.06], [51.06, 51.09, 51.03, 51.07], [51.07, 51.12, 51.05, 51.10], [51.10, 51.14, 51.08, 51.12], [51.12, 51.16, 51.09, 51.14], [51.14, 51.17, 51.08, 51.10], [51.10, 51.13, 51.05, 51.07], [51.07, 51.12, 51.04, 51.11], [51.11, 51.15, 51.07, 51.09], [51.09, 51.13, 51.05, 51.12]]
+      data: [[19.02, 19.08, 18.99, 19.06], [19.06, 19.12, 19.03, 19.10], [19.10, 19.22, 19.09, 19.20], [19.20, 19.32, 19.18, 19.30], [19.30, 19.42, 19.28, 19.40], [19.40, 19.54, 19.38, 19.52], [19.52, 19.64, 19.49, 19.61], [19.61, 19.72, 19.58, 19.69], [19.69, 19.78, 19.65, 19.75], [19.75, 19.82, 19.71, 19.79], [19.79, 19.84, 19.75, 19.81]]
+      volume: [42000, 48000, 92000, 118000, 145000, 168000, 150000, 132000, 116000, 98000, 84000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $19.84 and finished at $19.81 — $0.29 a share above the decision, +$290 long on 1,000 shares."
+    explanation: "Rising price on rising volume means more people are joining the move, not fewer."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "You are checking whether this stock is busy enough to trade 1,500 shares in. Tap the field that answers that."
+    data: {ticker: XYZ, name: Example Corp, price: 27.40, change: 0.62, change_pct: 2.3, volume: "4.1M", prev_close: 26.78}
+    target: volume
+    explanation: "The card counts the whole day, and 4.1 M shares says your 1,500 are a rounding error. The bars under your chart do the same job minute by minute."
+
+  - type: chart-decision
+    scenario: "XYZ has crept up ten cents over five minutes. Every bar underneath is smaller than the one before, and the last one is the thinnest of the morning. Your account is $20,000 and you are sizing 600 shares."
+    shares: 600
+    chart:
+      kind: candles
+      data: [[21.02, 21.06, 20.99, 21.04], [21.04, 21.08, 21.02, 21.06], [21.06, 21.09, 21.03, 21.07], [21.07, 21.12, 21.05, 21.10], [21.10, 21.14, 21.08, 21.12], [21.12, 21.16, 21.09, 21.14], [21.14, 21.17, 21.08, 21.10], [21.10, 21.13, 21.05, 21.07], [21.07, 21.12, 21.04, 21.11], [21.11, 21.15, 21.07, 21.09], [21.09, 21.13, 21.05, 21.12]]
       volume: [9000, 7000, 6000, 8000, 5000, 4000, 6000, 5000, 7000, 4000, 5000]
       decision_index: 5
     best: no-trade
-    outcome: "Five minutes later price was $51.12, two cents below the decision. A long on 500 shares would have been $10 down before a single cost."
-    explanation: "A drift on shrinking volume has nothing pushing it, so there is nothing to catch."
+    outcome: "Five minutes on, price was $21.12 — two cents below the decision, and $12 down on 600 shares before a single cost."
+    explanation: "A climb on shrinking volume has nothing pushing it, so there is nothing there to catch."
 
   - type: fill-tiles
     sentence: "A move on thin bars, with nobody having to fight for it, is ___."
     answer: "drift"
-    explanation: "Drift moves the price and moves it back; it rarely pays for the trade."
+    explanation: "Drift moves the price and moves it back, and it rarely pays for the trade."
 
-  - type: theory
-    title: "Two questions, one screen"
-    body: "Which way did it go, and did anyone mean it? Candle, then bar. From here on, every chart in this app has both."
+  - type: match
+    prompt: "Match what the two rows of the chart are each telling you."
+    pairs:
+      - ["A long green body", "Buyers finished that minute in front"]
+      - ["A tall bar under it", "Plenty of shares had to change hands for that"]
+      - ["A long green body on a thin bar", "Buyers finished in front against almost nobody"]
+      - ["A thin bar under a tiny body", "Nothing worth reading happened at all"]
+    explanation: "Direction comes from the candle, weight comes from the bar, and you always want both."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[20.10, 20.16, 20.06, 20.14], [20.14, 20.28, 20.12, 20.26], [20.26, 20.32, 20.22, 20.24], [20.24, 20.30, 20.20, 20.28]]
+      volume: [42000, 148000, 39000, 96000]
+    caption: "Candle for direction, bar for weight. From here on, every chart in this app has both."

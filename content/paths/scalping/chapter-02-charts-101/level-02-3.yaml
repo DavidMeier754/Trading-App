@@ -1,0 +1,126 @@
+id: "2-3"
+title: "What a Candle Says"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [candles, decisions, practice]
+learning_goal: "User decides long, short or no trade from candle shape alone, and passes when the shapes disagree with each other."
+purpose: "Shape is the first filter a scalper applies, and most charts do not get past it."
+terms_introduced: []
+reinforces: []
+prerequisite: "2-2"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Decisions on shape only — no volume and no structure yet. Every position fits the $20,000 account named in the scenarios."
+screens:
+  - type: intro
+    text: "Bodies and threads, nothing else. Eight charts — four are a trade and four are not."
+
+  - type: story
+    character: retail-trader
+    text: "No lines, no numbers, no tools yet. Just the shapes — and they are already enough to leave half of these charts alone."
+
+  - type: swipe-deck
+    prompt: "Bodies and wicks only. Take a long here, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[10.20, 10.26, 10.18, 10.25], [10.25, 10.32, 10.23, 10.31], [10.31, 10.38, 10.29, 10.37], [10.37, 10.46, 10.35, 10.45], [10.45, 10.56, 10.43, 10.55], [10.55, 10.68, 10.53, 10.66], [10.66, 10.72, 10.63, 10.70], [10.70, 10.78, 10.68, 10.76]]}
+        answer: take
+        note: "Every minute finishes at the top of its own move and hands nothing back."
+      - chart: {kind: candles, data: [[19.40, 19.52, 19.38, 19.50], [19.50, 19.66, 19.48, 19.64], [19.64, 19.80, 19.62, 19.78], [19.78, 20.06, 19.76, 19.82], [19.82, 20.04, 19.79, 19.84], [19.84, 19.90, 19.74, 19.76], [19.76, 19.82, 19.68, 19.70], [19.70, 19.76, 19.62, 19.66]]}
+        answer: pass
+        note: "Twice up to the same price, twice pushed straight back. Buyers up there were refused."
+      - chart: {kind: candles, data: [[23.40, 23.48, 23.32, 23.42], [23.42, 23.50, 23.34, 23.38], [23.38, 23.46, 23.30, 23.44], [23.44, 23.52, 23.36, 23.40], [23.40, 23.48, 23.32, 23.45], [23.45, 23.51, 23.37, 23.41], [23.41, 23.49, 23.33, 23.46], [23.46, 23.52, 23.38, 23.42]]}
+        answer: pass
+        note: "Eight minutes of pushing both ways and keeping none of it."
+      - chart: {kind: candles, data: [[14.60, 14.64, 14.54, 14.56], [14.56, 14.60, 14.50, 14.52], [14.52, 14.56, 14.46, 14.48], [14.48, 14.52, 14.42, 14.44], [14.44, 14.48, 14.40, 14.46], [14.46, 14.68, 14.45, 14.67], [14.67, 14.74, 14.64, 14.72], [14.72, 14.80, 14.70, 14.78]]}
+        answer: take
+        note: "One green body longer than the whole slide before it, finishing at its own high."
+      - chart: {kind: candles, data: [[28.20, 28.26, 28.14, 28.16], [28.16, 28.22, 28.10, 28.20], [28.20, 28.28, 28.16, 28.24], [28.24, 28.30, 28.18, 28.20], [28.20, 28.24, 28.12, 28.14], [28.14, 28.16, 27.90, 27.91], [27.91, 27.96, 27.80, 27.82], [27.82, 27.88, 27.74, 27.76]]}
+        answer: pass
+        note: "Sellers were still pushing when the minute ran out. Nothing here for a buyer."
+    explanation: "Take when the last minutes kept what they took. Pass when they handed it back, or when both sides keep swapping the same few cents."
+
+  - type: chart-decision
+    scenario: "XYZ has fallen five minutes with small red bodies. The candle that just closed is green, longer than any of them, and it finished at the top of its own minute. Your account is $20,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[12.94, 12.98, 12.86, 12.88], [12.88, 12.90, 12.78, 12.80], [12.80, 12.84, 12.70, 12.72], [12.72, 12.76, 12.62, 12.64], [12.64, 12.68, 12.58, 12.62], [12.62, 12.84, 12.61, 12.83], [12.83, 12.92, 12.80, 12.90], [12.90, 12.99, 12.87, 12.97], [12.97, 13.04, 12.93, 13.01], [13.01, 13.08, 12.98, 13.05], [13.05, 13.10, 13.01, 13.07]]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $13.10 and finished at $13.07 — $0.24 a share above the decision, +$360 long on 1,500 shares."
+    explanation: "One minute undid five. A body that long, finishing at its own high, says the buying was strong enough that nobody argued with it."
+
+  - type: numeric-mc
+    prompt: "A minute reached $21.26 and closed at $21.04. The next one reached $21.24 and closed at $21.06. How much did the sellers take back on the first of them?"
+    options:
+      - {text: "$0.18"}
+      - {text: "$0.02"}
+      - {text: "$0.22", correct: true}
+      - {text: "$0.26"}
+    working: "21.26 − 21.04 = 0.22"
+    explanation: "That is the length of the upper wick, and it is the size of the refusal."
+
+  - type: chart-decision
+    scenario: "XYZ climbed three minutes, then twice reached above $21.20 and was pushed straight back. The candle that just closed is a long red body finishing at its own low. Your account is $20,000 and you are sizing 900 shares."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[20.60, 20.72, 20.58, 20.70], [20.70, 20.86, 20.68, 20.84], [20.84, 21.02, 20.82, 21.00], [21.00, 21.26, 20.98, 21.04], [21.04, 21.24, 21.00, 21.06], [21.06, 21.08, 20.86, 20.87], [20.87, 20.90, 20.70, 20.72], [20.72, 20.76, 20.58, 20.60], [20.60, 20.66, 20.50, 20.53], [20.53, 20.58, 20.44, 20.47], [20.47, 20.52, 20.40, 20.43]]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid to $20.40 and finished the run at $20.43 — $0.44 a share, +$396 short on 900 shares."
+    explanation: "Two refusals and then a body that finished at its own low: the buyers who paid up there are the ones now selling."
+
+  - type: tf
+    statement: "A long red body that finishes at its own low means the sellers were still pushing when the minute ran out."
+    answer: true
+    explanation: "Nothing was bought back at the end, so the last trade of the minute was the cheapest one in it."
+
+  - type: match
+    prompt: "Match each shape to how much of its own push it kept."
+    pairs:
+      - ["No upper wick at all", "Everything the minute gained was still there at the close"]
+      - ["Upper wick as long as the body", "About half the push was handed back"]
+      - ["Body sitting on top of a long lower wick", "Price fell inside the minute and was bought all the way back"]
+      - ["Small body with threads both sides", "Both directions were tried and neither stuck"]
+    explanation: "Read the body against the whole candle, and you have measured the refusal without doing any arithmetic."
+
+  - type: chart-decision
+    scenario: "XYZ has spent six minutes with small bodies and threads out both sides, none of them finishing more than four cents from where it started. Your account is $20,000 and you are sizing 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[26.90, 26.98, 26.82, 26.92], [26.92, 27.00, 26.84, 26.88], [26.88, 26.96, 26.80, 26.94], [26.94, 27.02, 26.86, 26.90], [26.90, 26.98, 26.82, 26.95], [26.95, 27.01, 26.87, 26.91], [26.91, 26.99, 26.83, 26.96], [26.96, 27.02, 26.88, 26.90], [26.90, 26.98, 26.84, 26.95], [26.95, 27.00, 26.86, 26.89], [26.89, 26.97, 26.83, 26.93]]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes on, price was $26.93 — two cents above the decision, $14 on 700 shares before a single cost."
+    explanation: "Neither side has kept anything for six minutes running, so there is no push to join in either direction."
+
+  - type: fill-choice
+    sentence: "Two minutes in a row reaching higher and closing back down are two ___."
+    options: ["refusals", "conviction", "bodies"]
+    answer: "refusals"
+    explanation: "Twice buyers reached up and twice somebody sold them everything they wanted."
+
+  - type: sort
+    prompt: "Take a long, or pass?"
+    buckets: ["Take a long", "Pass"]
+    items:
+      - {text: "A green body longer than the five red ones before it, finishing at its high", bucket: "Take a long"}
+      - {text: "Two minutes in a row reaching higher and closing back at their opens", bucket: "Pass"}
+      - {text: "Five minutes of tiny bodies with threads out both sides", bucket: "Pass"}
+      - {text: "Three green bodies in a row, each longer than the last, each closing at its top", bucket: "Take a long"}
+    explanation: "Buy where the last minutes kept what they took. Everywhere else, wait for a shape that says something."
+
+  - type: checklist-reveal
+    title: "How far shape alone gets you"
+    items:
+      - "Who kept the ground in each of the last few minutes"
+      - "How much of each push was handed straight back"
+      - "Whether the last attempt in that direction was refused"
+      - "And the answer that is always available: pass"

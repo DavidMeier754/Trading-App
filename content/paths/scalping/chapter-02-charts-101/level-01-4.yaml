@@ -1,0 +1,122 @@
+id: "1-4"
+title: "The Candle"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [candles, chart-reading, decisions]
+learning_goal: "User can measure a body and a wick to the cent and make a first decision from a run of candles."
+purpose: "A scalp is won or lost in a few cents, so reading a candle has to be exact rather than roughly right."
+terms_introduced: []
+reinforces: []
+prerequisite: "1-3"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "First chart-decisions of the chapter. Positions are sized against the $20,000 account named in the scenarios."
+screens:
+  - type: intro
+    text: "Cents are the unit. Read them off the candle exactly."
+
+  - type: theory
+    title: "Three measurements"
+    body: "Body: close minus open, sign dropped. Upper wick: high minus the top of the body. Lower wick: the bottom of the body minus the low."
+
+  - type: example
+    body: "XYZ: open $23.86, high $24.10, low $23.80, close $24.02. Body $0.16, upper wick $0.08, lower wick $0.06."
+    visual: chart-candles
+    visual_data:
+      data: [[23.86, 24.10, 23.80, 24.02]]
+
+  - type: numeric-input
+    prompt: "A red candle opens at $14.58, highs at $14.64, lows at $14.32 and closes at $14.40. How tall is its body?"
+    answer: 0.18
+    tolerance: 0.001
+    unit: "$"
+    working: "14.58 − 14.40 = 0.18"
+    explanation: "On a red candle the open is the top of the body and the close is the bottom."
+
+  - type: numeric-mc
+    prompt: "Same candle. How long is its lower wick?"
+    options:
+      - {text: "$0.26"}
+      - {text: "$0.08", correct: true}
+      - {text: "$0.32"}
+      - {text: "$0.06"}
+    working: "14.40 − 14.32 = 0.08"
+    explanation: "The lower wick runs from the bottom of the body, which on a red candle is the close, down to the low."
+
+  - type: chart-tap
+    prompt: "Tap the minute that ended at the very top of its own move."
+    chart:
+      kind: candles
+      data: [[22.10, 22.18, 22.06, 22.14], [22.14, 22.22, 22.11, 22.19], [22.19, 22.27, 22.16, 22.24], [22.24, 22.30, 22.20, 22.26], [22.26, 22.38, 22.24, 22.38], [22.38, 22.44, 22.33, 22.36], [22.36, 22.42, 22.32, 22.39], [22.39, 22.46, 22.35, 22.42]]
+    target: 4
+    explanation: "Close $22.38 and high $22.38 are the same number, so that candle has no upper wick — buyers held the best price of the minute right to its last trade."
+
+  - type: chart-decision
+    scenario: "XYZ has printed four green candles in a row. Each one opened where the last one closed and each one finished within a cent of its own high. Your account is $20,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[16.92, 17.00, 16.90, 16.98], [16.98, 17.06, 16.96, 17.05], [17.05, 17.12, 17.03, 17.11], [17.11, 17.19, 17.09, 17.18], [17.18, 17.26, 17.16, 17.25], [17.25, 17.33, 17.23, 17.32], [17.32, 17.41, 17.30, 17.40], [17.40, 17.47, 17.37, 17.45], [17.45, 17.52, 17.43, 17.50], [17.50, 17.55, 17.47, 17.53], [17.53, 17.58, 17.50, 17.55]]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $17.58 and finished at $17.55 — $0.23 a share above the decision, +$184 long on 800 shares."
+    explanation: "Every minute started where the last one ended and kept what it took, which is buyers paying up without being argued with."
+
+  - type: tf
+    statement: "A candle with a tall body must have had a lot of shares traded inside it."
+    answer: false
+    explanation: "The body measures how far price moved, not how much changed hands. How much traded is the bar underneath the chart, and that is Level 4."
+
+  - type: slider
+    prompt: "A candle stretched from $19.20 to $19.60, and its body runs from $19.28 to $19.56. How much of that stretch is body?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 70
+    tolerance: 10
+    explanation: "A $0.28 body inside a $0.40 stretch — most of the minute's travel was kept rather than handed back."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Price reached $30.40 inside the minute"}
+      - {text: "and closed at $30.22."}
+      - {text: "The candle's high is therefore $30.22.", wrong: true}
+    explanation: "The high is $30.40 — the furthest price up, whether or not it was still there at the close."
+
+  - type: fill-tiles
+    sentence: "Close minus open, with the sign dropped, is the height of the ___."
+    answer: "body"
+    explanation: "Two numbers, one subtraction, and you have the part of the minute that stuck."
+
+  - type: match
+    prompt: "Match each measurement to the two prices it is taken from."
+    pairs:
+      - ["Body", "Open and close"]
+      - ["Upper wick", "High and the top of the body"]
+      - ["Lower wick", "Low and the bottom of the body"]
+      - ["The whole candle", "High and low"]
+    explanation: "Four measurements, and every one of them is a subtraction you can do in your head."
+
+  - type: chart-decision
+    scenario: "XYZ has spent five minutes with tiny bodies and threads out both sides, each minute ending within a cent or two of where it began. Your account is $20,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.20, 14.26, 14.14, 14.21], [14.21, 14.27, 14.15, 14.19], [14.19, 14.25, 14.13, 14.22], [14.22, 14.28, 14.16, 14.20], [14.20, 14.26, 14.14, 14.23], [14.23, 14.28, 14.17, 14.21], [14.21, 14.27, 14.15, 14.24], [14.24, 14.29, 14.18, 14.22], [14.22, 14.28, 14.16, 14.20], [14.20, 14.26, 14.15, 14.23], [14.23, 14.28, 14.17, 14.21]]
+      decision_index: 5
+    best: no-trade
+    outcome: "Five minutes on, price was $14.21 — the same price you looked at. Either direction on 1,200 shares would have paid costs for nothing."
+    explanation: "Bodies that small with threads both ways mean both sides pushed inside every minute and neither one kept the ground."
+
+  - type: recap
+    title: "Level 1 in three lines"
+    points:
+      - {text: "A candle records four prices: open, high, low and close.", level: "1-1"}
+      - {text: "The body runs open to close; the wicks reach out to the high and the low.", level: "1-2"}
+      - {text: "Measure in cents — a scalp is only ever a few of them.", level: "1-4"}

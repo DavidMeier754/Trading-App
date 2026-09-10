@@ -1,0 +1,118 @@
+id: "2-2"
+title: "What a Candle Says"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [candles, chart-reading, decisions]
+learning_goal: "User can read a run of candles as one story and knows what shape alone does not settle."
+purpose: "One candle is sixty seconds of evidence; the reason to act comes from what the last few have done together."
+terms_introduced: []
+reinforces: []
+prerequisite: "2-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Sequences of shapes, and the limits of reading shape on its own. Positions sit inside the $20,000 account named here."
+screens:
+  - type: intro
+    text: "Shape says who won the minute. It never says what the next one does."
+
+  - type: theory
+    title: "One candle, one minute of evidence"
+    body: "A long green body settles exactly one thing: buyers kept the ground for those sixty seconds. What happens next is still completely open."
+
+  - type: example
+    body: "Three long green bodies in a row is three minutes of buyers keeping what they took. Read together they are a reason to look. They are not a promise of a fourth."
+
+  - type: compare
+    prompt: "One of these is three minutes of one side keeping everything it took. Which?"
+    charts:
+      - {kind: candles, data: [[15.20, 15.29, 15.18, 15.28], [15.28, 15.41, 15.26, 15.40], [15.40, 15.56, 15.38, 15.54], [15.54, 15.60, 15.50, 15.58], [15.58, 15.66, 15.55, 15.64], [15.64, 15.70, 15.61, 15.68], [15.68, 15.74, 15.65, 15.72], [15.72, 15.78, 15.69, 15.76]], label: "A"}
+      - {kind: candles, data: [[15.20, 15.38, 15.18, 15.24], [15.24, 15.44, 15.22, 15.28], [15.28, 15.50, 15.26, 15.32], [15.32, 15.40, 15.28, 15.36], [15.36, 15.46, 15.33, 15.38], [15.38, 15.48, 15.35, 15.40], [15.40, 15.50, 15.37, 15.42], [15.42, 15.52, 15.39, 15.44]], label: "B"}
+    answer: "A"
+    explanation: "B climbs too, but every minute reaches far above its close. A keeps what it takes; B keeps about a fifth of it."
+
+  - type: chart-decision
+    scenario: "XYZ on the 1-minute: three bodies in a row, each longer than the one before, each finishing at the top of its own minute with barely any thread. Your account is $20,000 and you are sizing 900 shares."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[18.02, 18.08, 17.99, 18.06], [18.06, 18.12, 18.03, 18.10], [18.10, 18.16, 18.07, 18.13], [18.13, 18.26, 18.12, 18.24], [18.24, 18.38, 18.22, 18.36], [18.36, 18.52, 18.34, 18.50], [18.50, 18.58, 18.47, 18.56], [18.56, 18.70, 18.54, 18.68], [18.68, 18.79, 18.65, 18.76], [18.76, 18.84, 18.72, 18.81], [18.81, 18.86, 18.77, 18.83]]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It pushed on to $18.86 and settled at $18.83 — $0.33 a share above the decision, +$297 long on 900 shares."
+    explanation: "Bodies getting longer with almost nothing given back at the top: buyers are paying more each minute and nobody is arguing."
+
+  - type: mc
+    prompt: "Three long green bodies in a row, each finishing near its high. The most useful read is:"
+    options:
+      - {text: "a red candle is due after three green ones"}
+      - {text: "the stock has become too expensive to buy"}
+      - {text: "buyers have kept control minute after minute", correct: true}
+    explanation: "Candles have no memory and no fair price. They only show who kept the ground."
+
+  - type: numeric-input
+    prompt: "Those three bodies ran $17.20 to $17.29, then $17.29 to $17.43, then $17.43 to $17.62. How far did price travel across the three minutes?"
+    answer: 0.42
+    tolerance: 0.001
+    unit: "$"
+    working: "17.62 − 17.20 = 0.42"
+    explanation: "Each minute started where the last one finished, so the three bodies add straight up."
+
+  - type: chart-tap
+    prompt: "Tap the first minute after the push in which the sellers finished ahead."
+    chart:
+      kind: candles
+      data: [[11.42, 11.50, 11.40, 11.48], [11.48, 11.60, 11.46, 11.58], [11.58, 11.72, 11.56, 11.70], [11.70, 11.82, 11.68, 11.80], [11.80, 11.86, 11.70, 11.74], [11.74, 11.80, 11.68, 11.78], [11.78, 11.84, 11.72, 11.76], [11.76, 11.82, 11.70, 11.79]]
+    target: 4
+    explanation: "Opened $11.80, closed $11.74 — the first minute of the run that ended under where it began."
+
+  - type: tf
+    statement: "Two long upper wicks in a row are a reason to stop buying, even though price has not fallen yet."
+    answer: true
+    explanation: "Twice now buyers reached higher and were pushed straight back. That is two failures on the record, whatever the price says."
+
+  - type: sort
+    prompt: "Which of these does a candle's shape settle, and which does it leave open?"
+    buckets: ["Shape settles it", "Shape leaves it open"]
+    items:
+      - {text: "Who finished the minute in front", bucket: "Shape settles it"}
+      - {text: "Whether price was reached above the close and refused", bucket: "Shape settles it"}
+      - {text: "Whether the next minute is green", bucket: "Shape leaves it open"}
+      - {text: "How many traders were involved", bucket: "Shape leaves it open"}
+    explanation: "Shape is a complete record of one minute and no evidence at all about the next."
+
+  - type: chart-decision
+    scenario: "XYZ has climbed for six minutes. The last two candles both spiked higher and finished back near their opens, leaving long threads on top. Your account is $20,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.42, 13.50, 13.40, 13.48], [13.48, 13.60, 13.47, 13.58], [13.58, 13.72, 13.56, 13.70], [13.70, 13.86, 13.68, 13.84], [13.84, 13.98, 13.82, 13.86], [13.86, 13.97, 13.83, 13.85], [13.85, 13.88, 13.74, 13.76], [13.76, 13.79, 13.66, 13.68], [13.68, 13.72, 13.60, 13.63], [13.63, 13.67, 13.57, 13.59], [13.59, 13.62, 13.52, 13.55]]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "Price slid to $13.55. Buying there would have cost $0.30 a share — $420 on 1,400 shares. Standing aside cost nothing."
+    explanation: "Two refusals in a row are reason enough to stop buying. Selling a stock that has risen all morning needs more than shape, and that comes later."
+
+  - type: fill-tiles
+    sentence: "A minute that reached far above its close and gave it all back is a ___."
+    answer: "refusal"
+    explanation: "Somebody was willing to sell every share the buyers wanted up there."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The last three candles were long and green,"}
+      - {text: "so the next one"}
+      - {text: "has to be red.", wrong: true}
+    explanation: "Nothing on a chart is owed. Three minutes of buyers keeping control is a reason to watch the fourth, not to bet against it."
+
+  - type: checklist-reveal
+    title: "What a run of candles gives you"
+    items:
+      - "Who has been keeping the ground, minute after minute"
+      - "How much of each push is being handed back"
+      - "Whether the last attempt was refused"
+      - "Nothing at all about the minute that has not happened yet"

@@ -1,0 +1,114 @@
+id: "3-3"
+title: "Timeframes"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [timeframes, decisions]
+learning_goal: "User takes the 1-minute trigger only when the 5-minute agrees, and stands aside when the two charts point different ways."
+purpose: "Most beginner scalps are good 1-minute ideas taken against a 5-minute chart nobody looked at."
+terms_introduced: []
+reinforces: []
+prerequisite: "3-2"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Decisions where the answer turns on the 5-minute context described in the scenario. Positions fit the $20,000 account."
+screens:
+  - type: intro
+    text: "The fast chart is always saying something. The slow one decides whether it is worth hearing."
+
+  - type: theory
+    title: "When they disagree"
+    body: "Four green minutes inside a morning that has been selling all the way down is a pause in the selling. The 1-minute is right about the minute and wrong about the trade."
+
+  - type: story
+    character: retail-trader
+    text: "Your 5-minute chart has been red since the session opened. Your 1-minute has just turned green four candles in a row, and it looks like the start of something."
+
+  - type: chart-decision
+    scenario: "On the 5-minute, XYZ has finished lower every five minutes since the open. On your 1-minute it has just put in four green candles. Your account is $20,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[14.30, 14.34, 14.24, 14.26], [14.26, 14.30, 14.20, 14.22], [14.22, 14.32, 14.21, 14.31], [14.31, 14.38, 14.29, 14.36], [14.36, 14.44, 14.34, 14.42], [14.42, 14.52, 14.40, 14.50], [14.50, 14.52, 14.38, 14.40], [14.40, 14.43, 14.30, 14.32], [14.32, 14.36, 14.22, 14.24], [14.24, 14.28, 14.14, 14.16], [14.16, 14.20, 14.08, 14.10]]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "The push stalled at $14.52 and price fell to $14.10. A long there would have been $0.40 a share underwater — $520 on 1,300 shares."
+    explanation: "Four green minutes inside a morning that has closed lower every five is a pause, not a turn."
+
+  - type: mc
+    prompt: "Your 1-minute says buy and your 5-minute has been selling all morning. Taking half the usual size is:"
+    options:
+      - {text: "sensible, because the two charts are each partly right"}
+      - {text: "still a position in the direction you just read as wrong", correct: true}
+      - {text: "the same trade as full size, so it makes no difference"}
+    explanation: "Half a position does not make a trade half wrong. It only makes the loss smaller when it comes."
+
+  - type: chart-decision
+    scenario: "The 5-minute has closed higher every five minutes since the open. On the 1-minute, XYZ has eased back two candles and the one that just closed is green again. Your account is $20,000 and you are sizing 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[17.02, 17.12, 16.98, 17.10], [17.10, 17.22, 17.06, 17.18], [17.18, 17.30, 17.15, 17.28], [17.28, 17.34, 17.20, 17.24], [17.24, 17.28, 17.16, 17.19], [17.19, 17.32, 17.17, 17.30], [17.30, 17.42, 17.27, 17.40], [17.40, 17.50, 17.36, 17.47], [17.47, 17.56, 17.44, 17.54], [17.54, 17.62, 17.50, 17.58], [17.58, 17.66, 17.54, 17.62]]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $17.66 and finished at $17.62 — $0.32 a share above the decision, +$352 long on 1,100 shares."
+    explanation: "Both charts point the same way, so the fast one is only being asked for timing, which is the job it is good at."
+
+  - type: numeric-input
+    prompt: "That trade ran from $17.30 to $17.62 on 1,100 shares. What is the result before costs?"
+    answer: 352
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.32 a share × 1,100 shares = $352"
+    explanation: "Thirty-two cents is a normal scalp; the share count is what turns it into a number worth the screen time."
+
+  - type: tf
+    statement: "A push that is real on the 1-minute chart can be too small to show on the 5-minute at all."
+    answer: true
+    explanation: "Four green minutes inside a twenty-cent slide barely move the bigger candle, which is exactly why the slow chart keeps its opinion."
+
+  - type: chart-decision
+    scenario: "The 5-minute has closed lower every five minutes since the open. On the 1-minute, XYZ has rallied six candles, and the last one reached $23.20 before finishing at $22.98. Your account is $20,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[22.52, 22.60, 22.48, 22.58], [22.58, 22.68, 22.56, 22.66], [22.66, 22.78, 22.64, 22.76], [22.76, 22.88, 22.74, 22.86], [22.86, 22.96, 22.83, 22.94], [22.94, 23.20, 22.92, 22.98], [22.98, 23.02, 22.86, 22.88], [22.88, 22.92, 22.74, 22.76], [22.76, 22.80, 22.62, 22.64], [22.64, 22.70, 22.52, 22.56], [22.56, 22.62, 22.44, 22.48]]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rolled back over to $22.44 and finished at $22.48 — $0.50 a share, +$400 short on 800 shares."
+    explanation: "The rally was refused on the 1-minute and the 5-minute had been selling all along, so both charts finally agree in the same direction."
+
+  - type: sort
+    prompt: "Which chart is each of these a job for?"
+    buckets: ["The 5-minute", "The 1-minute"]
+    items:
+      - {text: "Deciding whether you are allowed to be long at all", bucket: "The 5-minute"}
+      - {text: "Deciding which candle you press the button on", bucket: "The 1-minute"}
+      - {text: "Telling you which side has owned the morning", bucket: "The 5-minute"}
+      - {text: "Telling you the push you were waiting for has just been refused", bucket: "The 1-minute"}
+    explanation: "Permission from the slow chart, timing from the fast one. Neither can do the other's job."
+
+  - type: fill-tiles
+    sentence: "A short push inside a falling morning is a pause, not a ___."
+    answer: "turn"
+    explanation: "It takes a 5-minute candle finishing green to change what the morning is doing."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "You trade the 1-minute chart,"}
+      - {text: "so once the entry is on the screen"}
+      - {text: "the 5-minute has done its job.", wrong: true}
+    explanation: "The bigger move decides how much room the trade has, and it keeps deciding that after you are in."
+
+  - type: recap
+    title: "Level 3 in three lines"
+    points:
+      - {text: "The timeframe is how much time one candle is asked to hold.", level: "3-1"}
+      - {text: "A 5-minute candle takes the first open, the last close, the highest high and the lowest low.", level: "3-2"}
+      - {text: "Permission from the 5-minute, timing from the 1-minute.", level: "3-3"}

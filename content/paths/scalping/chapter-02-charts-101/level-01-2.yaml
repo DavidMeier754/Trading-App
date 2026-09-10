@@ -1,0 +1,106 @@
+id: "1-2"
+title: "The Candle"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [candles, chart-reading]
+learning_goal: "User can name the body and the wicks of a candle, tell green from red, and measure both parts."
+purpose: "The block and the threads are two different pieces of information, and a scalper reads them separately."
+terms_introduced: ["Body", "Wick"]
+reinforces: []
+prerequisite: "1-1"
+xp: 20
+difficulty: 1
+sources: [consensus]
+notes: "Names the shape. What the shape means is 2-1; this sub only teaches the parts and how to measure them."
+screens:
+  - type: intro
+    text: "The block and the threads have names, and they are not telling you the same thing."
+
+  - type: theory
+    title: "The body"
+    body: "The thick block is the body. It runs from the open to the close. Green means the close finished above the open, red means it finished below."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[18.10, 18.18, 18.06, 18.16], [18.16, 18.20, 18.08, 18.10], [18.10, 18.15, 18.04, 18.06], [18.06, 18.14, 18.03, 18.12], [18.12, 18.22, 18.10, 18.20], [18.20, 18.24, 18.12, 18.14]]
+    caption: "Six minutes of the same stock: three the buyers finished ahead, three the sellers did."
+
+  - type: theory
+    title: "The wicks"
+    body: "The thin threads are wicks. The upper wick reaches up to the high, the lower wick down to the low — prices that were touched inside the minute and not kept."
+
+  - type: example
+    body: "XYZ: open $16.30, high $16.44, low $16.26, close $16.40. That is a green body $0.10 tall with a $0.04 wick at each end."
+    visual: chart-candles
+    visual_data:
+      data: [[16.30, 16.44, 16.26, 16.40]]
+
+  - type: numeric-input
+    prompt: "A candle opens at $25.44, tops out at $25.71, dips to $25.40 and closes at $25.62. How tall is the body?"
+    answer: 0.18
+    tolerance: 0.001
+    unit: "$"
+    working: "25.62 − 25.44 = 0.18"
+    explanation: "The body measures open to close; $25.71 and $25.40 are wick, and neither counts."
+
+  - type: fill-tiles
+    sentence: "The thin thread reaching down below the body is the lower ___."
+    answer: "wick"
+    explanation: "It marks a price the minute fell to and was bought back from before it ended."
+
+  - type: chart-tap
+    prompt: "Tap the minute with the longest lower wick."
+    chart:
+      kind: candles
+      data: [[20.40, 20.48, 20.36, 20.46], [20.46, 20.52, 20.43, 20.44], [20.44, 20.50, 20.20, 20.46], [20.46, 20.54, 20.43, 20.52], [20.52, 20.58, 20.46, 20.50], [20.50, 20.56, 20.44, 20.53], [20.53, 20.59, 20.50, 20.57], [20.57, 20.63, 20.53, 20.61]]
+    target: 2
+    explanation: "Price fell to $20.20 and finished back at $20.46 — a $0.24 thread, four times the next longest."
+
+  - type: mc
+    prompt: "A red candle tells you:"
+    options:
+      - {text: "the close finished under the open", correct: true}
+      - {text: "the price is lower than it was an hour ago"}
+      - {text: "more shares were sold than bought"}
+    explanation: "Red is one minute compared with itself. Every trade has a buyer and a seller, and the hour before it can look like anything."
+
+  - type: tf
+    statement: "Every candle has an upper wick and a lower wick."
+    answer: false
+    explanation: "When the close is also the high there is nothing above the body, so that candle has no upper wick at all."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "A long lower wick"}
+      - {text: "means price traded below the body"}
+      - {text: "and closed down there.", wrong: true}
+    explanation: "It traded down there and came back. The close is an end of the body, never the tip of a wick."
+
+  - type: slider
+    prompt: "A candle stretched from $12.60 to $13.00, and its body runs from $12.66 to $12.74. How much of that stretch is body?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 20
+    tolerance: 10
+    explanation: "An $0.08 body inside a $0.40 stretch: four fifths of what price did that minute went into the threads."
+
+  - type: match
+    prompt: "Match each part of the shape to the prices it is drawn between."
+    pairs:
+      - ["Green body", "The open at the bottom, the close at the top"]
+      - ["Red body", "The open at the top, the close at the bottom"]
+      - ["Upper wick", "The top of the body up to the high"]
+      - ["Lower wick", "The bottom of the body down to the low"]
+    explanation: "Four pieces, four pairs of prices — and every candle on every chart is made of them."
+
+  - type: example
+    body: "The same numbers from two different minutes: both opened at $19.20 and closed at $19.34. One is all body. The other reached $19.54 first and gave every cent of it back."
+    visual: chart-candles
+    visual_data:
+      data: [[19.20, 19.34, 19.18, 19.34], [19.20, 19.54, 19.18, 19.34]]

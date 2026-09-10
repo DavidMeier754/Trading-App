@@ -1,0 +1,113 @@
+id: "3-2"
+title: "Timeframes"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [timeframes, chart-reading]
+learning_goal: "User can build one 5-minute candle out of five 1-minute candles and read the bigger candle back onto the smaller ones."
+purpose: "Knowing how the bigger candle is made is what stops the two charts from ever contradicting each other in your head."
+terms_introduced: []
+reinforces: []
+prerequisite: "3-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Pure construction. Uses the same ten minutes as 3-1 so the two subs stack."
+screens:
+  - type: intro
+    text: "Five candles go in. One comes out. Nothing is averaged away."
+
+  - type: theory
+    title: "Four rules, no arithmetic"
+    body: "The bigger candle takes the open of the first minute, the close of the last, the highest high of the five and the lowest low. That is the whole method."
+
+  - type: example
+    body: "Five minutes of XYZ: $24.60 to $24.70, then to $24.68, then a dip that reaches $24.52, back to $24.64, and a last minute finishing at $24.80."
+    visual: chart-candles
+    visual_data:
+      data: [[24.60, 24.72, 24.56, 24.70], [24.70, 24.78, 24.66, 24.68], [24.68, 24.74, 24.52, 24.58], [24.58, 24.66, 24.54, 24.64], [24.64, 24.82, 24.62, 24.80]]
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[24.60, 24.82, 24.52, 24.80]]
+    caption: "The same five minutes as one candle: open $24.60, high $24.82, low $24.52, close $24.80."
+
+  - type: numeric-mc
+    prompt: "Those five minutes make one 5-minute candle. Where is its low?"
+    options:
+      - {text: "$24.60"}
+      - {text: "$24.56"}
+      - {text: "$24.62"}
+      - {text: "$24.52", correct: true}
+    working: "The lowest low of the five minutes: $24.52"
+    explanation: "The bigger candle keeps the furthest reach of every minute inside it, not just the first or the last."
+
+  - type: fill-choice
+    sentence: "The high of a 5-minute candle is the ___ of the five minutes it covers."
+    options: ["highest high", "last high", "average high"]
+    answer: "highest high"
+    explanation: "Nothing is smoothed. The thread reaches exactly as far as the furthest minute did."
+
+  - type: numeric-input
+    prompt: "Same five minutes. How tall is the body of the 5-minute candle they build?"
+    answer: 0.20
+    tolerance: 0.001
+    unit: "$"
+    working: "24.80 − 24.60 = 0.20"
+    explanation: "First open to last close. The dip to $24.52 lives in the lower wick and adds nothing to the body."
+
+  - type: slider
+    prompt: "Those five minutes travelled from $24.52 to $24.82. The body runs from $24.60 to $24.80. How much of the travel is body?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 65
+    tolerance: 10
+    explanation: "A $0.20 body inside a $0.30 stretch — most of what happened in those five minutes was kept."
+
+  - type: compare
+    prompt: "One of these 5-minute charts belongs to a stock whose 1-minute candles have been small and overlapping for the last forty minutes. Which?"
+    charts:
+      - {kind: candles, data: [[17.42, 17.50, 17.34, 17.44], [17.44, 17.52, 17.36, 17.40], [17.40, 17.48, 17.32, 17.46], [17.46, 17.54, 17.38, 17.42], [17.42, 17.50, 17.34, 17.47], [17.47, 17.53, 17.39, 17.43], [17.43, 17.51, 17.35, 17.48], [17.48, 17.54, 17.40, 17.44]], label: "A"}
+      - {kind: candles, data: [[17.42, 17.66, 17.38, 17.62], [17.62, 17.94, 17.58, 17.90], [17.90, 18.22, 17.86, 18.18], [18.18, 18.44, 18.14, 18.40], [18.40, 18.62, 18.36, 18.58], [18.58, 18.80, 18.54, 18.76], [18.76, 18.96, 18.72, 18.92], [18.92, 19.14, 18.88, 19.10]], label: "B"}
+    answer: "A"
+    explanation: "Small overlapping minutes cannot add up to a long body: the fifth minute finishes near where the first one started, so the bigger candle is short too."
+
+  - type: tf
+    statement: "A green 5-minute candle means all five of the minutes inside it were green."
+    answer: false
+    explanation: "It only means the fifth minute finished above where the first one opened. Two or three of them can be red and it still comes out green."
+
+  - type: chart-tap
+    prompt: "On this 5-minute chart, tap the five minutes in which price travelled furthest from its low to its high."
+    chart:
+      kind: candles
+      data: [[15.20, 15.34, 15.14, 15.30], [15.30, 15.42, 15.24, 15.38], [15.38, 15.46, 15.32, 15.36], [15.36, 15.84, 15.28, 15.76], [15.76, 15.88, 15.70, 15.82], [15.82, 15.92, 15.74, 15.86], [15.86, 15.96, 15.80, 15.90], [15.90, 16.00, 15.84, 15.94]]
+    target: 3
+    explanation: "$15.28 to $15.84 is fifty-six cents; no other candle on the chart covers more than twenty."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "A 5-minute candle takes the open of the first minute"}
+      - {text: "and the close of the last minute,"}
+      - {text: "then averages the five highs.", wrong: true}
+    explanation: "It takes the highest of the five, not their average. Averaging would hide exactly the minute you need to see."
+
+  - type: match
+    prompt: "Where does each part of the 5-minute candle come from?"
+    pairs:
+      - ["Its open", "The open of the first of the five minutes"]
+      - ["Its close", "The close of the fifth of the five minutes"]
+      - ["Its high", "The highest of the five highs"]
+      - ["Its low", "The lowest of the five lows"]
+    explanation: "Two ends and two extremes, taken straight off the smaller candles."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[24.80, 24.88, 24.76, 24.86], [24.86, 24.94, 24.82, 24.90], [24.90, 24.98, 24.84, 24.88], [24.88, 24.96, 24.80, 24.82], [24.82, 24.90, 24.78, 24.88], [24.80, 24.98, 24.76, 24.88]]
+    caption: "The next five minutes, and the candle they build, side by side: $24.80 open, $24.98 high, $24.76 low, $24.88 close."

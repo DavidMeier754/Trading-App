@@ -1,0 +1,124 @@
+id: "4-3"
+title: "Volume Bars"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [volume, chart-reading]
+learning_goal: "User can spot climax volume and tell the heavy bar that starts a move from the heavy bar that ends one."
+purpose: "The tallest bar of the day is either the crowd arriving or the crowd leaving, and the difference is worth real money."
+terms_introduced: ["Climax volume"]
+reinforces: [1]
+prerequisite: "4-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Marking the heaviest bar by hand is the point of the annotate screen. Re-tests Chapter 1 liquidity through the climax minute."
+screens:
+  - type: intro
+    text: "One bar towering over all the others. It means opposite things in two different places."
+
+  - type: theory
+    title: "Climax volume"
+    body: "Sometimes one bar dwarfs everything before it at the end of a long run. That is climax volume: the whole crowd acting in the same minute."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[14.60, 14.70, 14.58, 14.68], [14.68, 14.84, 14.66, 14.82], [14.82, 15.02, 14.80, 15.00], [15.00, 15.24, 14.98, 15.22], [15.22, 15.58, 15.18, 15.28], [15.28, 15.34, 15.12, 15.16], [15.16, 15.22, 15.06, 15.10], [15.10, 15.18, 15.04, 15.14]]
+      volume: [62000, 88000, 124000, 168000, 320000, 210000, 160000, 120000]
+    caption: "Bodies growing on rising bars, then the biggest bar of all — and a close far below its own high."
+
+  - type: example
+    body: "That minute traded 320,000 shares against 168,000 the minute before. Everyone who had been waiting to buy finally bought, and there was nobody left behind them."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the high of the heaviest bar on this chart."
+    chart:
+      kind: candles
+      data: [[14.60, 14.70, 14.58, 14.68], [14.68, 14.84, 14.66, 14.82], [14.82, 15.02, 14.80, 15.00], [15.00, 15.24, 14.98, 15.22], [15.22, 15.58, 15.18, 15.28], [15.28, 15.34, 15.12, 15.16], [15.16, 15.22, 15.06, 15.10], [15.10, 15.18, 15.04, 15.14]]
+      volume: [62000, 88000, 124000, 168000, 320000, 210000, 160000, 120000]
+    answer: 15.58
+    tolerance: 0.04
+    label: "Climax high"
+    explanation: "$15.58 is the furthest the crowd got with everyone pushing at once, and nothing has traded above it since."
+
+  - type: numeric-mc
+    prompt: "That climax minute reached $15.58 and finished at $15.28. How much of its own push did it hand back?"
+    options:
+      - {text: "$0.06"}
+      - {text: "$0.36"}
+      - {text: "$0.30", correct: true}
+      - {text: "$0.20"}
+    working: "15.58 − 15.28 = 0.30"
+    explanation: "Maximum participation, and by the end of the minute most of the ground was gone again."
+
+  - type: tf
+    statement: "The minute with the tallest bar of the morning is also the easiest one to sell 1,500 shares into."
+    answer: true
+    explanation: "Liquidity is other people trading, and that is the minute there are most of them — a climax bar fills the sellers as readily as the buyers."
+
+  - type: chart-decision
+    scenario: "XYZ has run for five minutes. The candle that just closed reached $23.46, finished back at $23.06 and traded more than twice the shares of any minute before it. Your account is $20,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[22.20, 22.34, 22.16, 22.32], [22.32, 22.50, 22.30, 22.48], [22.48, 22.70, 22.44, 22.66], [22.66, 22.88, 22.62, 22.84], [22.84, 23.02, 22.80, 22.98], [22.98, 23.46, 22.94, 23.06], [23.06, 23.12, 22.88, 22.92], [22.92, 22.98, 22.74, 22.78], [22.78, 22.86, 22.66, 22.82], [22.82, 22.88, 22.70, 22.74], [22.74, 22.82, 22.64, 22.70]]
+      volume: [70000, 96000, 132000, 168000, 204000, 460000, 300000, 250000, 190000, 150000, 130000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "Price drifted back to $22.70. Buying there would have been $0.36 a share underwater — $288 on 800 shares."
+    explanation: "Everybody traded at once and price still could not stay up there. That is the end of the push, not the start of one."
+
+  - type: sort
+    prompt: "Is this heavy bar fuel, or a warning?"
+    buckets: ["Fuel", "Warning"]
+    items:
+      - {text: "The first heavy bar after a quiet stretch", bucket: "Fuel"}
+      - {text: "The heaviest bar of the day at the end of a long run", bucket: "Warning"}
+      - {text: "Bars getting taller while the bodies get longer", bucket: "Fuel"}
+      - {text: "A huge bar under a candle that finished near its low after five green minutes", bucket: "Warning"}
+    explanation: "Where in the move the bar prints decides everything. The bar itself looks identical either way."
+
+  - type: mc
+    prompt: "Twenty minutes into a run, one bar towers over every bar before it and that candle finished well below its own high. The safer read is:"
+    options:
+      - {text: "the run has just been confirmed for another leg"}
+      - {text: "the stock is more liquid now, so the move is safer to join"}
+      - {text: "the move may be finishing", correct: true}
+    explanation: "Everyone trading at once at the end of a run is usually the last of the buyers rather than the first."
+
+  - type: fill-tiles
+    sentence: "One bar towering over everything before it at the end of a long run is ___ volume."
+    answer: "climax"
+    explanation: "It marks where the crowd finished arriving, which is rarely where the move starts."
+
+  - type: match
+    prompt: "Match each pairing of candle and bar to what it says."
+    pairs:
+      - ["Climax volume", "The whole crowd trading in one minute"]
+      - ["A thin bar", "Almost nobody had to trade for that minute"]
+      - ["Rising bars under lengthening bodies", "More people joining the move each minute"]
+      - ["A huge bar under a tiny body", "A crowd arrived and neither side kept anything"]
+    explanation: "The bar gives you the size of the audience; the candle tells you what they did."
+
+  - type: chart-decision
+    scenario: "XYZ has been quiet for five minutes on bars around 40,000 shares. The candle that just closed is a long green body on 196,000, the first heavy minute of the morning. Your account is $20,000 and you are sizing 1,700 shares."
+    shares: 1700
+    chart:
+      kind: candles
+      data: [[10.82, 10.86, 10.78, 10.80], [10.80, 10.84, 10.76, 10.82], [10.82, 10.88, 10.80, 10.86], [10.86, 10.90, 10.82, 10.88], [10.88, 10.94, 10.86, 10.92], [10.92, 11.10, 10.90, 11.08], [11.08, 11.20, 11.05, 11.18], [11.18, 11.28, 11.14, 11.25], [11.25, 11.34, 11.22, 11.32], [11.32, 11.40, 11.28, 11.37], [11.37, 11.44, 11.34, 11.41]]
+      volume: [44000, 38000, 42000, 40000, 46000, 196000, 178000, 156000, 132000, 110000, 94000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $11.44 and finished at $11.41 — $0.33 a share above the decision, +$561 long on 1,700 shares."
+    explanation: "The same tall bar, in the other place in the move: a crowd arriving in a stock that had nobody in it a minute ago."
+
+  - type: example
+    body: "The tallest bar of the day is the minute the most people traded. That makes it a cheap place to get out of a position and an expensive place to get into one."
+    visual: chart-candles
+    visual_data:
+      data: [[11.20, 11.34, 11.18, 11.32], [11.32, 11.52, 11.30, 11.50], [11.50, 11.78, 11.46, 11.56], [11.56, 11.60, 11.40, 11.44]]
+      volume: [96000, 168000, 420000, 240000]

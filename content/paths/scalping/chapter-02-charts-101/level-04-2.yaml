@@ -1,0 +1,120 @@
+id: "4-2"
+title: "Volume Bars"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: new-theory
+tags: [volume, liquidity, chart-reading]
+learning_goal: "User judges a volume bar against this stock's own recent minutes rather than against a fixed number or another stock."
+purpose: "Heavy and thin are relative words, and a scalper who forgets that will call an empty minute busy."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "4-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Relative volume without the jargon. Re-tests the Chapter 1 liquidity and volatility dials through the bars."
+screens:
+  - type: intro
+    text: "Two hundred thousand shares is a stampede in one stock and a quiet minute in another."
+
+  - type: theory
+    title: "Compared with itself"
+    body: "A bar is tall or thin only against this stock's own recent minutes. There is no share count that means busy everywhere in the market."
+
+  - type: example
+    body: "XYZ has been printing about 40,000 shares a minute all morning; DEF prints about 300,000. A minute of 210,000 is a crowd arriving in XYZ and a slow patch in DEF."
+
+  - type: numeric-mc
+    prompt: "The last five minutes of XYZ averaged 60,000 shares each. The minute that just closed traded 210,000. That is:"
+    options:
+      - {text: "about 35 times normal"}
+      - {text: "about 3.5 times normal", correct: true}
+      - {text: "about 1.5 times normal"}
+      - {text: "about 0.3 times normal"}
+    working: "210,000 ÷ 60,000 = 3.5"
+    explanation: "Divide the minute by what the stock has been doing lately, and the answer is a multiple, never a share count."
+
+  - type: numeric-input
+    prompt: "DEF has averaged 300,000 shares a minute this morning and this minute printed 210,000. What multiple of its normal minute is that?"
+    answer: 0.7
+    tolerance: 0.01
+    working: "210,000 ÷ 300,000 = 0.7"
+    explanation: "The same 210,000 shares: three and a half times normal in one stock, below normal in the other."
+
+  - type: mc
+    prompt: "XYZ trades 12 M shares a day and moves about 1 %. TNY trades 90,000 a day and moves about 9 %. You need 1,500 shares in and out inside two minutes. Which one can do that?"
+    options:
+      - {text: "XYZ — enough shares trade to take yours", correct: true}
+      - {text: "TNY — the bigger daily move is what pays a scalp"}
+      - {text: "Either one, as long as the chart looks the same"}
+    explanation: "TNY moves more and still cannot fill you. Size of move and ease of exit are two separate dials, and a scalp needs the second one first."
+
+  - type: tf
+    statement: "A stock that trades 90,000 shares in a whole day can still make a bigger percentage move than one that trades 12 million."
+    answer: true
+    explanation: "Thin stocks move furthest on the least trading — which is why the move you can see is not the move you can take."
+
+  - type: chart-tap
+    prompt: "Tap the minute in which the most shares changed hands."
+    chart:
+      kind: candles
+      data: [[15.40, 15.48, 15.36, 15.46], [15.46, 15.52, 15.43, 15.50], [15.50, 15.56, 15.44, 15.47], [15.47, 15.60, 15.45, 15.58], [15.58, 15.72, 15.56, 15.70], [15.70, 15.76, 15.64, 15.66], [15.66, 15.71, 15.60, 15.63], [15.63, 15.68, 15.59, 15.66]]
+      volume: [34000, 41000, 38000, 76000, 152000, 88000, 62000, 45000]
+    target: 4
+    explanation: "152,000 shares in that minute, and the longest body of the stretch sitting on top of it."
+
+  - type: slider
+    prompt: "XYZ's tallest bar this morning was 240,000 shares. The minute that just closed printed 60,000. What share of the tallest bar is that?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 25
+    tolerance: 10
+    explanation: "60,000 against 240,000 is a quarter — quiet by this morning's own standard, whatever it would mean elsewhere."
+
+  - type: sort
+    prompt: "Heavy or light, for the stock it belongs to?"
+    buckets: ["Heavy for this stock", "Light for this stock"]
+    items:
+      - {text: "60,000 shares in a stock that normally does 15,000 a minute", bucket: "Heavy for this stock"}
+      - {text: "60,000 shares in a stock that normally does 250,000 a minute", bucket: "Light for this stock"}
+      - {text: "A bar three times the tallest of the last twenty minutes", bucket: "Heavy for this stock"}
+      - {text: "The shortest bar since the session opened", bucket: "Light for this stock"}
+    explanation: "The same number lands in either bucket. What decides it is the stock beside it."
+
+  - type: chart-decision
+    scenario: "XYZ has traded between 36,000 and 44,000 shares a minute all morning. The candle that just closed is a long green body on 182,000. Your account is $20,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.86, 15.92, 15.82, 15.90], [15.90, 15.96, 15.87, 15.93], [15.93, 15.98, 15.89, 15.95], [15.95, 16.00, 15.92, 15.97], [15.97, 16.02, 15.94, 15.99], [15.99, 16.16, 15.98, 16.14], [16.14, 16.26, 16.11, 16.24], [16.24, 16.34, 16.20, 16.31], [16.31, 16.40, 16.28, 16.37], [16.37, 16.44, 16.33, 16.41], [16.41, 16.48, 16.38, 16.45]]
+      volume: [38000, 42000, 36000, 40000, 44000, 182000, 164000, 140000, 118000, 96000, 82000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It kept going to $16.48 and finished at $16.45 — $0.31 a share above the decision, +$372 long on 1,200 shares."
+    explanation: "More than four times its own normal minute, on a long body: a crowd arrived, and they arrived buying."
+
+  - type: fill-choice
+    sentence: "A volume bar is judged against this stock's own recent ___."
+    options: ["minutes", "price", "spread"]
+    answer: "minutes"
+    explanation: "Its price and its spread say nothing about whether this particular minute was busy."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "PQR printed 200,000 shares this minute"}
+      - {text: "and STU printed 50,000,"}
+      - {text: "so PQR is the busier chart.", wrong: true}
+    explanation: "Not until you know what each of them normally does. 200,000 can be a slow minute and 50,000 a stampede."
+
+  - type: checklist-reveal
+    title: "Before you call a bar heavy"
+    items:
+      - "Compare it with this stock's own last twenty minutes"
+      - "Compare it with the tallest bar of this morning"
+      - "Ask whether enough shares trade for the size you want"
+      - "Never compare it with another stock's bars"
