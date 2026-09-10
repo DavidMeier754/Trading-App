@@ -1,14 +1,14 @@
-id: "6-2"
+id: "13-2"
 title: "Thinking in Probabilities"
 chapter: 6
-chapter_title: "Risk & Psychology for Scalpers"
+chapter_title: "Risk & Psychology"
 path: scalping
 category: repetition
 tags: [practice, probability, expectancy]
 learning_goal: "User separates decision quality from result across a mixed set of mornings, numbers and charts."
 purpose: "Judging your own trading correctly is a skill you practice on other people's numbers first."
 terms_introduced: []
-prerequisite: "6-1"
+prerequisite: "13-1"
 xp: 20
 difficulty: 3
 sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]

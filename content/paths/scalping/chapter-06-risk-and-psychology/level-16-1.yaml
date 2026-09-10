@@ -1,14 +1,15 @@
-id: "7-2"
-title: "The Journal"
+id: "16-1"
+title: "The Weekly Review"
 chapter: 6
-chapter_title: "Risk & Psychology for Scalpers"
+chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [journal, review, routine]
 learning_goal: "User runs a weekly review that finds the best setup, the best hour and the habit that costs most, and turns it into one rule."
 purpose: "The rows are only worth writing if something changes because of them."
 terms_introduced: ["Weekly review"]
-prerequisite: "7-1"
+reinforces: [3]
+prerequisite: "15-1"
 xp: 20
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]

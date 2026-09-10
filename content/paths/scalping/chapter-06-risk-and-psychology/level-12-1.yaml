@@ -1,14 +1,14 @@
-id: "5-2"
-title: "Overtrading and Tilt"
+id: "12-1"
+title: "The Reset Routine"
 chapter: 6
-chapter_title: "Risk & Psychology for Scalpers"
+chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [psychology, routine, sizing]
 learning_goal: "User follows a written reset routine after a bad run and returns at half size instead of full size."
 purpose: "Willpower is the tool that breaks first; a routine decided in advance is the one that still works."
 terms_introduced: ["Reset routine"]
-prerequisite: "5-1"
+prerequisite: "11-1"
 xp: 20
 difficulty: 2
 sources: ["Elder — Trading for a Living", "Bellafiore — One Good Trade"]

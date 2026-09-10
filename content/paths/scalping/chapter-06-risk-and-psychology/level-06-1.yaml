@@ -1,104 +1,107 @@
 id: "6-1"
-title: "Thinking in Probabilities"
+title: "Win Rate and Expectancy"
 chapter: 6
-chapter_title: "Risk & Psychology for Scalpers"
+chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
-tags: [psychology, probability, expectancy]
-learning_goal: "User treats a single trade's outcome as one draw from a series and judges the decision instead of the result."
-purpose: "Nothing else in this chapter survives a losing run unless you already expect losing runs."
-terms_introduced: ["Sample size"]
-prerequisite: "5-2"
+tags: [expectancy, win-rate, costs]
+learning_goal: "User computes expectancy from win rate, average win and average loss, and subtracts costs before judging a method."
+purpose: "A scalper takes hundreds of trades a month; whatever one average trade is worth gets multiplied by all of them."
+terms_introduced: ["Win rate", "Average win", "Average loss", "Expectancy", "Edge"]
+reinforces: [3]
+prerequisite: "2-1"
 xp: 20
 difficulty: 2
-sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Aziz — How to Day Trade for a Living"]
 screens:
   - type: intro
-    text: "You can trade a setup perfectly and lose. That is not a mistake — it is the job."
+    text: "Six winners out of ten, and the account still shrinks. Here is how that happens."
 
   - type: theory
-    title: "One trade is close to random"
-    body: "Your edge does not decide the next trade. It decides what a long run of them looks like. Two traders with the same method can have opposite mornings."
+    title: "Win rate"
+    body: "The share of your trades that end in profit. Sixty out of a hundred is a 60 % win rate. On its own it tells you almost nothing about whether the method pays."
 
   - type: theory
-    title: "Sample size"
-    body: "The number of trades a judgment rests on. Five trades tell you nothing about a method. A hundred taken the same way start to tell you something."
+    title: "Average win, average loss"
+    body: "Add up the winners and divide by how many there were. Do the same for the losers. Two numbers, in dollars or in R."
+
+  - type: theory
+    title: "Expectancy"
+    body: "What one average trade is worth: (win rate × average win) − (loss rate × average loss). Positive means the series pays. A positive expectancy is what traders mean by an edge."
 
   - type: example
-    body: "At a 55 % win rate, about one four-trade stretch in twenty-four is four losses in a row. Take a hundred scalps a week and it will happen to you."
+    body: "Sixty winners of $30 and forty losers of $60 on 1,000-share scalps: (0.6 × $30) − (0.4 × $60) = $18 − $24 = −$6 per trade. At 20 trades a day, that is −$120 a day."
+    visual: bar-chart
+    visual_data:
+      bars: [{label: "0.6 × $30", value: 18}, {label: "0.4 × $60", value: -24}]
+      unit: "$"
 
-  - type: visual
-    component: bar-chart
-    data:
-      bars: [{label: "1", value: 1}, {label: "2", value: -1}, {label: "3", value: -1}, {label: "4", value: -1}, {label: "5", value: -1}, {label: "6", value: 1}, {label: "7", value: 2}, {label: "8", value: -1}, {label: "9", value: 1}, {label: "10", value: 1}]
-      unit: "R"
-    caption: "Ten trades from a method that pays: four straight losses sit in the middle of a +1R run."
-
-  - type: theory
-    title: "The two mistakes it causes"
-    body: "After a run of losses: skipping the setup that was next in line. After a run of wins: sizing up because you feel sharp. Both replace the method with the last result."
-
-  - type: story
-    character: retail-trader
-    text: "Four stops before the opening window is over. The fifth setup is textbook and your finger hesitates."
+  - type: numeric-input
+    prompt: "Fifty of a hundred trades win. The average win is $40 and the average loss is $20. What is the expectancy per trade?"
+    answer: 10
+    tolerance: 0.01
+    unit: "$"
+    working: "(0.5 × $40) − (0.5 × $20) = $20 − $10 = $10"
+    explanation: "Half the trades win, but the winners are twice the losers, so the average trade is worth $10."
 
   - type: mc
-    prompt: "Your last three trades all hit the stop. Your next setup is the same one. What are its odds?"
+    prompt: "Which number tells you least on its own about whether a method pays?"
     options:
-      - {text: "About the same as always", correct: true}
-      - {text: "Lower — the method has stopped working"}
-      - {text: "Higher — three losses mean one is due"}
-    explanation: "The market has no memory of your morning. Three losses is a normal run, not a signal in either direction."
+      - {text: "The expectancy"}
+      - {text: "The average win compared with the average loss"}
+      - {text: "The win rate", correct: true}
+    explanation: "A 90 % win rate with one huge loser is negative; a 40 % win rate with big winners is positive."
+
+  - type: theory
+    title: "Costs live inside it"
+    body: "The spread, slippage and fees come out of every single trade. They make your average win smaller and your average loss bigger, so expectancy has to be measured after them."
+
+  - type: numeric-mc
+    prompt: "You scalp 1,000 shares with a $0.12 target and a $0.10 stop. Round-trip costs are $0.02 per share. What is the average loss after costs?"
+    options:
+      - {text: "$120", correct: true}
+      - {text: "$100"}
+      - {text: "$80"}
+      - {text: "$20"}
+    working: "($0.10 stop + $0.02 costs) × 1,000 shares = $120"
+    explanation: "Costs are paid on losers too, so they land on both sides of the calculation."
+
+  - type: numeric-input
+    prompt: "Same trade: 60 % win rate, net win $100, net loss $120. What is the expectancy per trade?"
+    answer: 12
+    tolerance: 0.01
+    unit: "$"
+    working: "(0.6 × $100) − (0.4 × $120) = $60 − $48 = $12"
+    explanation: "Twelve dollars an average trade, and it only exists because the win rate is well above half."
+
+  - type: slider
+    prompt: "That winner was worth $0.12 × 1,000 shares = $120 gross. What share of it do the $20 of costs take?"
+    min: 0
+    max: 50
+    step: 5
+    unit: "%"
+    answer: 15
+    tolerance: 10
+    explanation: "$20 of $120 is a sixth of it. At scalping size and frequency, costs are a permanent slice of every result."
 
   - type: tf
-    statement: "A method that has lost five trades in a row is proven broken."
-    answer: false
-    explanation: "Five is far below the sample size that could show that. Losing runs live inside methods that pay."
+    statement: "A method that wins only 40 % of the time can still have positive expectancy."
+    answer: true
+    explanation: "If the winners are big enough relative to the losers, yes: 0.4 × 3R beats 0.6 × 1R."
 
   - type: chart-decision
-    scenario: "Four stops already this morning, with one full stop of room left before your limit. XYZ reclaims VWAP on the heaviest volume since the open and holds above it. Entry $27.30, stop $27.16. 1,000 shares."
+    scenario: "XYZ breaks the morning low at $26.48 on the heaviest volume of the day and stays under it. Entry $26.44, stop $26.52 above the breakdown candle, next level $26.20. 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[27.10, 27.18, 27.04, 27.08], [27.08, 27.16, 27.02, 27.14], [27.14, 27.24, 27.10, 27.22], [27.22, 27.30, 27.18, 27.28], [27.28, 27.34, 27.22, 27.26], [27.26, 27.34, 27.22, 27.30], [27.30, 27.42, 27.28, 27.40], [27.40, 27.50, 27.36, 27.48], [27.48, 27.62, 27.44, 27.58], [27.58, 27.64, 27.52, 27.56]]
-      vwap: [27.20, 27.20, 27.21, 27.22, 27.23, 27.24, 27.25, 27.27, 27.29, 27.31]
+      data: [[26.68, 26.70, 26.60, 26.62], [26.62, 26.64, 26.54, 26.56], [26.56, 26.58, 26.48, 26.50], [26.50, 26.54, 26.48, 26.49], [26.49, 26.50, 26.40, 26.42], [26.42, 26.46, 26.38, 26.44], [26.44, 26.46, 26.32, 26.34], [26.34, 26.36, 26.26, 26.28], [26.28, 26.30, 26.18, 26.20], [26.20, 26.26, 26.16, 26.22]]
+      volume: [40000, 52000, 78000, 45000, 96000, 88000, 104000, 92000, 110000, 74000]
       decision_index: 5
-    state: ["Day: −4R", "1R of room left"]
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It held the line and reached $27.64. Sold at $27.58: $0.28 per share, +$280 on 1,000 shares against $140 of risk."
-    explanation: "The setup knows nothing about your morning. Skipping it is how a losing run becomes a losing week."
+    outcome: "It fell to $26.16. Covered at $26.20: $0.24 per share, +$240 on 1,000 shares against $80 of risk."
+    explanation: "Eight cents risked for twenty-four keeps expectancy positive even when you are right less than half the time."
 
-  - type: sort
-    prompt: "Random outcome, or your mistake?"
-    buckets: ["Random outcome", "Your mistake"]
-    items:
-      - {text: "A clean setup that hit the stop by a cent", bucket: "Random outcome"}
-      - {text: "Entering two candles before the trigger", bucket: "Your mistake"}
-      - {text: "A winner that ran twice as far as your target", bucket: "Random outcome"}
-      - {text: "Skipping the next setup because the last one lost", bucket: "Your mistake"}
-    explanation: "Grade the decision. The result is one draw from a long series and grades nothing on its own."
-
-  - type: fill-choice
-    sentence: "A method is judged on a large enough ___ of trades, not on this morning."
-    options: ["sample", "profit", "streak"]
-    answer: "sample"
-    explanation: "One morning is noise. A hundred trades taken the same way is evidence."
-
-  - type: slider
-    prompt: "A 20-trade day at a 55 % win rate. How many losers is a normal number?"
-    min: 0
-    max: 20
-    step: 1
-    unit: "trades"
-    answer: 9
-    tolerance: 3
-    explanation: "About nine. That is what a method that pays looks like on an ordinary day."
-
-  - type: visual
-    component: bar-chart
-    data:
-      bars: [{label: "Any one trade", value: 1}, {label: "Ten trades", value: 10}, {label: "A hundred", value: 100}, {label: "A thousand", value: 1000}]
-      unit: "trades the verdict rests on"
-    caption: "The next trade is one of the next thousand, and only the thousand has a result you can count on."
-
+  - type: theory
+    title: "Expectancy is the score"
+    body: "Not today's dollars, not the last trade. Your edge multiplied by a lot of trades is the number that decides how this goes."
