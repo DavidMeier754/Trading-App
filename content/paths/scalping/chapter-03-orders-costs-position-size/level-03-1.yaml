@@ -4,96 +4,98 @@ chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [spread, liquidity]
-learning_goal: "User judges a spread relative to the move they expect, links tight spreads to liquidity, and knows spreads change constantly."
-purpose: "A spread that looks tiny in dollars can be most of a scalp — judging it correctly is the difference between an edge and a leak."
+tags: [spread, target, expected-move]
+learning_goal: "User judges a spread as a fraction of the move they are going for, and ignores the share price entirely when doing it."
+purpose: "A gap that looks tiny in dollars can be most of a scalp, and the only way to tell is to hold it against the move."
 terms_introduced: ["Target", "Expected move"]
 reinforces: [1]
-prerequisite: "2-1"
+prerequisite: "2-3"
 xp: 20
 difficulty: 2
 sources: [consensus]
+notes: "Account named at $25,000; the chart decision is 1,100 shares near $22."
 screens:
   - type: intro
-    text: "A $0.05 spread is nothing to a swing trader and everything to you."
+    text: "Five cents is nothing to a swing trader and most of the trade to you."
 
   - type: theory
-    title: "Your target is tiny"
-    body: "A scalper's target is the move you aim to capture — often $0.05 to $0.30 per share. A swing trader aims for $5. Same spread, totally different bite."
+    title: "Two words for the same small distance"
+    body: "Your target is the move you are trying to capture — for a scalper, usually five to thirty cents. The expected move is how far the price is likely to travel while you are in it. Judge every gap against those, not against the share price."
 
   - type: visual
     component: cost-stack
-    data: {spread: 0.05, targets: [{label: "Scalp target", value: 0.10}, {label: "Swing target", value: 5.00}]}
-    caption: "$0.05 spread against a $0.10 scalp target (50 %) and a $5 swing target (1 %)."
+    data: {spread: 0.05, targets: [{label: "Scalp target", value: 0.12}, {label: "Swing target", value: 4.00}]}
+    caption: "The same five cents: 42 % of a twelve-cent scalp, and about 1 % of a four-dollar swing."
 
   - type: numeric-input
-    prompt: "Target $0.20 per share, spread $0.08. What percent of the target is eaten?"
-    answer: 40
+    prompt: "Six cents between the sides and an expected move of twenty-four cents. What share of the move does the gap take?"
+    answer: 25
+    tolerance: 1
     unit: "%"
-    working: "0.08 ÷ 0.20 = 0.40 = 40 %"
-    explanation: "Almost half the target is gone at entry."
+    working: "0.06 ÷ 0.24 = 0.25 = 25 %"
+    explanation: "A quarter of the move is spent before the trade begins."
 
   - type: theory
-    title: "Compare to the move, not to the price"
-    body: "A $0.05 spread on a $200 stock looks tiny. If that stock only moves $0.10 while you hold, the spread is half your world. Judge the spread against the move you expect — never against the share price."
+    title: "The share price is a distraction"
+    body: "Four cents on a $180 stock is a rounding error as a percentage of the price. It is still four cents out of the twelve you were going for. Price level never enters the calculation."
 
   - type: mc
-    prompt: "Stock A: $150, spread $0.05, moves about $0.60 while you'd hold. Stock B: $8, spread $0.02, moves about $0.04. Better scalp?"
+    prompt: "Stock A: $26, three-cent gap, expected move thirty cents. Stock B: $11, two-cent gap, expected move five cents. Which is the better scalp?"
     options:
-      - {text: "A — the spread is a small slice of the expected move", correct: true}
-      - {text: "B — the spread is smaller in dollars"}
-      - {text: "B — cheaper stocks are easier to scalp"}
-    explanation: "A: 8 % of the move. B: 50 %. Price level is irrelevant."
-
-  - type: theory
-    title: "Liquidity makes spreads tight"
-    body: "Many buyers and sellers competing push bid and ask together. Thin stocks have wide spreads. Chapter 1's liquidity dial just turned into money."
-
-  - type: tf
-    statement: "A wider spread in dollars always means a worse scalping candidate."
-    answer: false
-    explanation: "Only relative to the expected move. $0.10 on a stock that moves $2 is fine; $0.02 on a stock that moves $0.03 is terrible."
-
-  - type: theory
-    title: "Spreads move"
-    body: "Bid and ask update many times a second. Around news and in the first minutes after the open, spreads widen. A spread you checked five seconds ago may be gone."
-    visual: quote-panel
-    visual_data: {bid: 20.10, ask: 20.12, animate_to: {bid: 20.06, ask: 20.16}}
-
-  - type: mc
-    prompt: "You see a $0.02 spread, think for ten seconds, then buy. What's the realistic risk?"
-    options:
-      - {text: "None — spreads are fixed for the session"}
-      - {text: "The bid and ask swapped places"}
-      - {text: "The spread widened while you were thinking", correct: true}
-    explanation: "Ten seconds is a long time in a fast stock."
-
-  - type: sort
-    prompt: "Tightens or widens the spread?"
-    buckets: ["Tightens", "Widens"]
-    items:
-      - {text: "Heavy volume, many participants", bucket: "Tightens"}
-      - {text: "Breaking news", bucket: "Widens"}
-      - {text: "The first minute after the open", bucket: "Widens"}
-      - {text: "A calm, liquid large-cap at midday", bucket: "Tightens"}
-    explanation: "Crowded and calm is tight; thin or scared is wide."
+      - {text: "A — the gap is a tenth of the move", correct: true}
+      - {text: "B — two cents is less than three"}
+      - {text: "B — a cheaper share risks less money"}
+    explanation: "A keeps 90 % of its move; B keeps 60 %. The dollar figures point the wrong way."
 
   - type: numeric-mc
-    prompt: "Expected move $0.15, spread $0.09. Percent eaten?"
+    prompt: "Expected move twenty cents, gap seven cents. What share is eaten?"
     options:
-      - {text: "6 %"}
-      - {text: "60 %", correct: true}
-      - {text: "15 %"}
-      - {text: "90 %"}
-    working: "0.09 ÷ 0.15 = 0.60"
-    explanation: "Most of the move is gone — skip."
+      - {text: "7 %"}
+      - {text: "35 %", correct: true}
+      - {text: "20 %"}
+      - {text: "14 %"}
+    working: "0.07 ÷ 0.20 = 0.35"
+    explanation: "Over a third gone, which turns a decent read into a coin flip."
+
+  - type: sort
+    prompt: "Gap against expected move — worth paying, or not?"
+    buckets: ["Worth paying", "Not worth it"]
+    items:
+      - {text: "Gap $0.02, expected move $0.25", bucket: "Worth paying"}
+      - {text: "Gap $0.03, expected move $0.05", bucket: "Not worth it"}
+      - {text: "Gap $0.08, expected move $1.20", bucket: "Worth paying"}
+      - {text: "Gap $0.05, expected move $0.08", bucket: "Not worth it"}
+    explanation: "Eight per cent and seven per cent on the left; sixty and sixty-three on the right. The dollar amounts are in no particular order."
+
+  - type: tf
+    statement: "A ten-cent gap can be cheap and a one-cent gap can be expensive."
+    answer: true
+    explanation: "It depends entirely on what the stock travels. Chapter 1's volatility dial is what decides which of the two you are looking at."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ has been stepping up for six minutes in twelve-cent bodies. Bid $22.25 / ask $22.27, and your $25,000 account allows 1,100 shares here."
+
+  - type: chart-decision
+    scenario: "The panel has been two cents wide through the whole climb and each minute is printing over 90,000 shares. You have 1,100 shares ready."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[21.70, 21.82, 21.66, 21.78], [21.78, 21.94, 21.74, 21.90], [21.90, 22.02, 21.86, 21.96], [21.96, 22.10, 21.92, 22.06], [22.06, 22.18, 22.02, 22.14], [22.14, 22.30, 22.10, 22.26], [22.26, 22.42, 22.22, 22.38], [22.38, 22.52, 22.34, 22.48], [22.48, 22.60, 22.42, 22.54], [22.54, 22.66, 22.48, 22.60]]
+      volume: [72000, 88000, 76000, 94000, 108000, 146000, 132000, 118000, 96000, 84000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $22.60 — $0.34 a share above the decision, +$374 long on 1,100 shares, against $22 of gap."
+    explanation: "Two cents is nothing against a stock that has travelled twelve a minute for six minutes, and the volume says 1,100 shares can get back out."
 
   - type: fill-choice
-    sentence: "Judge a spread against the ___ you expect."
+    sentence: "Judge a gap against the ___ you expect, never against the share price."
     options: ["move", "price", "volume"]
     answer: "move"
-    explanation: "Not the share price — the move."
+    explanation: "The only question the gap has to answer is how much of your move it takes."
 
-  - type: theory
-    title: "Solid ground"
-    body: "Tight spread, liquid stock, calm quote. That's the ground a scalper stands on."
+  - type: example
+    body: "Same gap, three different stocks: five cents out of $2.00 is noise, five out of $0.30 is a sixth, five out of $0.08 is most of the trade. Nothing about the gap changed."
+    visual: cost-stack
+    visual_data: {spread: 0.05, targets: [{label: "Travels $2.00", value: 2.00}, {label: "Travels $0.30", value: 0.30}, {label: "Travels $0.08", value: 0.08}]}

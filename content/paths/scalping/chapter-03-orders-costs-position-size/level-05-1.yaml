@@ -1,0 +1,110 @@
+id: "5-1"
+title: "Checkpoint"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: test
+tags: [checkpoint, spread, quote-panel, costs]
+learning_goal: "User proves they can read a quote panel, name which price they get, turn a spread into dollars, and judge it against the move and against their size."
+purpose: "Everything from Level 6 on assumes these four readings happen without effort."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "4-2"
+xp: 40
+difficulty: 2
+sources: [consensus]
+notes: "Ten scored questions on Levels 1–4, in fresh wordings and with fresh numbers. Three of them reach back to Chapter 1. Account named at $25,000."
+screens:
+  - type: intro
+    text: "Ten questions on Levels 1 to 4. Nothing here is timed, so read each quote properly."
+    counter: 10
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "You are opening a long in XYZ right now. Tap the price you will be paying."
+    data: {bid: 28.44, ask: 28.49, last: 28.46}
+    target: ask
+    explanation: "$28.49. Buying takes the seller's price, and the seller's price is always the higher one."
+
+  - type: numeric-input
+    prompt: "Bid $19.06, ask $19.13. You take 1,200 shares and close the position a minute later. What has the gap alone taken?"
+    answer: 84
+    tolerance: 0.01
+    unit: "$"
+    working: "19.13 − 19.06 = $0.07 per share; $0.07 × 1,200 = $84"
+    explanation: "Seven cents times twelve hundred shares, paid once across the open and the close."
+
+  - type: mc
+    prompt: "Bid $23.41 / ask $23.45. You open a short here and cover a minute later with the quote unchanged. Where do you stand?"
+    options:
+      - {text: "Down $0.04 a share", correct: true}
+      - {text: "Flat — the quote never moved"}
+      - {text: "Up $0.04 a share, since a short sells high"}
+    explanation: "You sold at the bid of $23.41 and bought back at the ask of $23.45. A quote standing still does not make the round trip free."
+
+  - type: tf
+    statement: "You are back to break-even as soon as the last trade prints at the price you paid."
+    answer: false
+    explanation: "The last is history. You are level when the bid reaches your entry, because the bid is where you will be leaving."
+
+  - type: numeric-mc
+    prompt: "Three cents wide, 1,900 shares of a $12 stock, one complete position. What does the gap hand over?"
+    options:
+      - {text: "$5.70"}
+      - {text: "$570"}
+      - {text: "$57", correct: true}
+      - {text: "$0.03"}
+    working: "$0.03 × 1,900 = $57"
+    explanation: "A per-share number is meaningless until the share count is attached to it."
+
+  - type: sort
+    prompt: "Each of these is a gap held against the move expected. Pay it, or leave it?"
+    buckets: ["Pay it", "Leave it"]
+    items:
+      - {text: "$0.02 against a $0.30 move", bucket: "Pay it"}
+      - {text: "$0.07 against a $0.10 move", bucket: "Leave it"}
+      - {text: "$0.12 against a $2.40 move", bucket: "Pay it"}
+      - {text: "$0.04 against a $0.06 move", bucket: "Leave it"}
+    explanation: "Seven per cent and five per cent on the left; seventy and sixty-seven on the right. The twelve-cent gap is the cheapest trade on the list."
+
+  - type: chart-decision
+    scenario: "XYZ has stepped up for five minutes and the bar under the last candle is nearly twice anything before it. Bid $13.25 / ask $13.27, and your $25,000 account allows 1,400 shares here."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[12.90, 12.98, 12.86, 12.96], [12.96, 13.04, 12.92, 13.01], [13.01, 13.06, 12.97, 13.03], [13.03, 13.12, 13.00, 13.10], [13.10, 13.18, 13.06, 13.15], [13.15, 13.28, 13.13, 13.26], [13.26, 13.38, 13.23, 13.35], [13.35, 13.46, 13.31, 13.43], [13.43, 13.52, 13.39, 13.48], [13.48, 13.62, 13.44, 13.57]]
+      volume: [54000, 66000, 58000, 72000, 88000, 164000, 146000, 128000, 110000, 94000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $13.57 — $0.31 a share above the decision, +$434 long on 1,400 shares, of which the two-cent gap took $28."
+    explanation: "Two cents against eleven-cent minutes, on double the volume, with 1,400 shares a small slice of that bar. All three questions come back clean."
+
+  - type: match
+    prompt: "Chapter 1 described every stock on two dials. Match each kind of stock to the quote it usually shows."
+    pairs:
+      - ["Heavily traded all session", "A gap of a cent or two"]
+      - ["Barely traded all session", "A gap of ten cents or more"]
+      - ["Volatile but thinly traded", "A wide gap and a move big enough to tempt you into it"]
+    explanation: "Liquidity sets the width. Volatility sets what the width is worth. The third one is where beginners lose money."
+
+  - type: chart-decision
+    scenario: "XYZ is climbing cleanly, but every bar beneath it is around 7,000 shares and the panel reads bid $17.55 / ask $17.69. Your $25,000 account allows 1,100 shares here."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[17.10, 17.22, 17.06, 17.20], [17.20, 17.34, 17.16, 17.30], [17.30, 17.40, 17.26, 17.36], [17.36, 17.50, 17.32, 17.46], [17.46, 17.56, 17.42, 17.52], [17.52, 17.66, 17.48, 17.62], [17.62, 17.70, 17.46, 17.50], [17.50, 17.56, 17.36, 17.40], [17.40, 17.46, 17.28, 17.32], [17.32, 17.38, 17.22, 17.26]]
+      volume: [9000, 7000, 6000, 8000, 5000, 11000, 8000, 7000, 6000, 9000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It turned and gave it all back to $17.26 — $0.36 a share against a long, $396 on 1,100 shares, before the $154 the gap would have taken."
+    explanation: "Fourteen cents wide is the stock telling you what your exit costs, and 1,100 shares is a sixth of everything this stock trades in a minute."
+
+  - type: fill-choice
+    sentence: "A complete position, open and close, pays the gap ___."
+    options: ["once", "twice", "never"]
+    answer: "once"
+    explanation: "Buying at the ask while the bid sits lower already accounts for both ends of the trade."
+
+  - type: summary
+    total: 10

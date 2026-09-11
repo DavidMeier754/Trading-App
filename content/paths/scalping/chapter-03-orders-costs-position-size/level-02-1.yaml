@@ -4,98 +4,102 @@ chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [spread, costs]
-learning_goal: "User understands the spread as a cost paid on every round trip and can compute it for a given share count."
-purpose: "You are down money the instant you enter a trade — seeing exactly how much is what separates scalpers who last from those who don't."
+tags: [spread, costs, round-trip]
+learning_goal: "User can define a round trip and explain why the whole spread is already paid the moment a position is opened."
+purpose: "Every trade starts behind, and knowing exactly how far behind is what stops a scalper taking trades that were never worth taking."
 terms_introduced: ["Round trip"]
-prerequisite: "1-1"
+reinforces: [1]
+prerequisite: "1-4"
 xp: 20
 difficulty: 1
 sources: [consensus]
+notes: "The account is named once at $25,000 so every worked number in the file sits inside it."
 screens:
   - type: intro
-    text: "You lose money the instant you buy. Here's why."
+    text: "You are behind the second you get in. Here is exactly how far."
 
   - type: theory
-    title: "Buy at the ask, sell at the bid"
-    body: "Bid $20.00, ask $20.05. You buy at $20.05. If you sold right away you'd get $20.00. You're down $0.05 per share before the price moved at all."
+    title: "One position, two crossings"
+    body: "Getting in crosses the gap. Getting out crosses it again. A round trip is one complete position — open and close — and the gap is paid once across the pair."
+
+  - type: theory
+    title: "It is paid at the start, not at the end"
+    body: "You bought at the ask. The price you could sell at is already lower. Nothing has to happen for you to be down: the loss is sitting there the instant you are in."
 
   - type: example
-    body: "500 shares × $0.05 = $25. Buying and then selling — a round trip — costs the spread every single time, on top of any fee."
+    body: "With a $25,000 account you buy 1,000 shares at the ask of $20.05. Bid is $20.00. Sell this second and you get $20,000 back for $20,050 spent — $50 gone, price unmoved."
     visual: cost-stack
-    visual_data: {shares: 500, spread: 0.05, target: 0.20}
-
-  - type: theory
-    title: "Not a fee, but real"
-    body: "Nobody sends you a bill for the spread. It's built into the two prices. That's why it's easy to ignore and expensive to forget."
+    visual_data: {shares: 1000, spread: 0.05, target: 0.20}
 
   - type: numeric-input
-    prompt: "Bid $30.00, ask $30.10. You buy 1,000 shares at the ask and immediately sell at the bid. Total loss?"
-    answer: 100
+    prompt: "Bid $13.00, ask $13.04. You buy 1,500 shares and sell them straight back. What does that cost you?"
+    answer: 60
+    tolerance: 0.01
     unit: "$"
-    working: "$0.10 × 1,000 = $100"
-    explanation: "The whole spread, times every share."
-
-  - type: mc
-    prompt: "Why is the spread called a cost even though nobody charges it?"
-    options:
-      - {text: "The exchange collects it at the end of the day"}
-      - {text: "You buy at the higher price and sell at the lower", correct: true}
-      - {text: "It's only a cost if the price falls"}
-    explanation: "It's paid in the prices, not on a statement."
+    working: "$0.04 per share × 1,500 shares = $60"
+    explanation: "Four cents times fifteen hundred shares, and the price never had to move at all."
 
   - type: tf
-    statement: "A round trip means buying and then selling the same shares — or, for a short, selling and then buying back."
-    answer: true
-    explanation: "One complete open-and-close."
+    statement: "The gap is charged twice on a position — once going in and once coming out."
+    answer: false
+    explanation: "Once per round trip. Buying at the ask while the bid sits lower already accounts for both ends."
+
+  - type: mc
+    prompt: "Nobody bills you for the gap. Why is it still money you have lost?"
+    options:
+      - {text: "It is built into the two prices", correct: true}
+      - {text: "It appears on the monthly statement"}
+      - {text: "It only counts when the trade goes against you"}
+    explanation: "It never appears as a line item anywhere, which is exactly why beginners forget it."
+
+  - type: sort
+    prompt: "Which of these actually crosses the gap?"
+    buckets: ["Crosses it", "Does not"]
+    items:
+      - {text: "Buying now and selling ten seconds later", bucket: "Crosses it"}
+      - {text: "Selling short now and covering a minute later", bucket: "Crosses it"}
+      - {text: "Watching the panel for an hour", bucket: "Does not"}
+      - {text: "Deciding against a trade before you press anything", bucket: "Does not"}
+    explanation: "Both directions pay it, and both pay it once. Only the trades you do not take are free."
+
+  - type: fill-tiles
+    sentence: "One open plus one close makes a round ___."
+    answer: "trip"
+    explanation: "The unit a scalper counts costs in — not per order, per round trip."
 
   - type: numeric-mc
-    prompt: "Spread $0.03, position 800 shares. Round-trip spread cost?"
+    prompt: "Four cents between the sides, 800 shares, one complete position. What has the gap taken?"
     options:
-      - {text: "$24", correct: true}
-      - {text: "$2.40"}
-      - {text: "$0.03"}
-      - {text: "$240"}
-    working: "$0.03 × 800 = $24"
-    explanation: "Spread times shares."
+      - {text: "$3.20"}
+      - {text: "$320"}
+      - {text: "$32", correct: true}
+      - {text: "$0.04"}
+    working: "$0.04 × 800 = $32"
+    explanation: "Per-share numbers have to be multiplied by the share count before they mean anything."
+
+  - type: slider
+    prompt: "A six-cent gap on a stock that travels about fifteen cents while you hold it. What share of that fifteen cents is gone before you start?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 40
+    tolerance: 10
+    explanation: "0.06 ÷ 0.15 = 40 %. You are playing for the remaining nine cents."
 
   - type: story
     character: retail-trader
-    text: "You're eyeing a $0.10 move on a stock with a $0.06 spread."
+    text: "You bought 1,200 shares at the ask of $17.02. The panel now reads bid $17.10 / ask $17.14, and you want to be out."
 
-  - type: slider
-    prompt: "How much of that $0.10 move does the spread eat?"
-    min: 0
-    max: 100
-    step: 10
-    unit: "%"
-    answer: 60
-    tolerance: 10
-    explanation: "0.06 ÷ 0.10 = 60 % gone before you start."
+  - type: numeric-input
+    prompt: "You sell all 1,200 shares right now. What is the result on the position?"
+    answer: 96
+    tolerance: 0.01
+    unit: "$"
+    working: "Sold at the bid: 17.10 − 17.02 = $0.08 per share; $0.08 × 1,200 = $96"
+    explanation: "Chapter 1's move times shares, with one correction: the move runs from the ask you paid to the bid you got."
 
-  - type: sort
-    prompt: "Does it cost you the spread?"
-    buckets: ["Costs the spread", "Doesn't"]
-    items:
-      - {text: "Buying at the ask, selling at the bid", bucket: "Costs the spread"}
-      - {text: "Any round trip", bucket: "Costs the spread"}
-      - {text: "Holding a position for an hour", bucket: "Doesn't"}
-      - {text: "Watching the quote panel", bucket: "Doesn't"}
-    explanation: "Crossing the two prices costs; waiting doesn't."
-
-  - type: fill-tiles
-    sentence: "Buying and then selling the same shares is a round ___."
-    answer: "trip"
-    explanation: "Open plus close."
-
-  - type: mc
-    prompt: "Two stocks both move about $0.20 a minute. Stock A: spread $0.01. Stock B: spread $0.08. For a scalper?"
-    options:
-      - {text: "B — a wider spread means more room to profit"}
-      - {text: "Equal — the move is the same"}
-      - {text: "A — it keeps $0.19 of a $0.20 move; B keeps only $0.12", correct: true}
-    explanation: "Same move, very different take-home."
-
-  - type: theory
-    title: "The opponent"
-    body: "For a scalper the spread isn't a detail. It's the opponent. Next: how to size it up in three seconds."
+  - type: visual
+    component: cost-stack
+    data: {shares: 1200, spread: 0.04, target: 0.12}
+    caption: "The dark block is already spent when the position opens. Everything above it is what you are playing for."

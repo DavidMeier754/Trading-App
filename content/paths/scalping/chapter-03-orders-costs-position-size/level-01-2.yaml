@@ -1,0 +1,100 @@
+id: "1-2"
+title: "Bid, Ask, Spread"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [spread, quote-panel, execution]
+learning_goal: "User knows which of the two prices they get on each of the four things a trader can do: open and close a long, open and close a short."
+purpose: "You never pick between the two prices — the side you are on picks for you, and it always picks the worse one."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "1-1"
+xp: 20
+difficulty: 1
+sources: [consensus]
+notes: "Applies Chapter 1's long and short to the two-sided quote. The market maker's side of it is 1-4."
+screens:
+  - type: intro
+    text: "Two prices are showing. You do not get to choose which one is yours."
+
+  - type: theory
+    title: "Your side chooses for you"
+    body: "Want in right now? You are buying from a seller, so you pay the ask. Want out right now? You are selling to a buyer, so you take the bid. The price you would rather have is always the other one."
+
+  - type: example
+    body: "Bid $12.48, ask $12.51. You buy 900 shares and pay $12.51 each. A second later you change your mind and sell: you get $12.48 each."
+    visual: quote-panel
+    visual_data: {bid: 12.48, ask: 12.51, last: 12.50}
+
+  - type: mc
+    prompt: "You are long 900 shares and you press sell right now. Which price do you receive?"
+    options:
+      - {text: "The ask"}
+      - {text: "The last"}
+      - {text: "The bid", correct: true}
+    explanation: "Selling hands your shares to a buyer, and the bid is what buyers are offering."
+
+  - type: theory
+    title: "A short uses the same two prices"
+    body: "Chapter 1's short sells first and buys back later. The selling takes the bid and the buying back pays the ask — the same two prices, just met in the other order."
+
+  - type: mc
+    prompt: "You are short 700 shares and you cover right now. Which price do you pay?"
+    options:
+      - {text: "The ask", correct: true}
+      - {text: "The bid"}
+      - {text: "Whichever of the two is closer to the last"}
+    explanation: "Covering means buying, and buying always pays the ask — long or short."
+
+  - type: sort
+    prompt: "Which of the two prices does each of these take?"
+    buckets: ["You pay the ask", "You receive the bid"]
+    items:
+      - {text: "Opening a long", bucket: "You pay the ask"}
+      - {text: "Closing a long", bucket: "You receive the bid"}
+      - {text: "Opening a short", bucket: "You receive the bid"}
+      - {text: "Closing a short", bucket: "You pay the ask"}
+    explanation: "Buying pays the higher price and selling takes the lower one, whichever direction you are trading."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "Closing a short means buying the shares back,"}
+      - {text: "at the bid,", wrong: true}
+      - {text: "which ends the position."}
+    explanation: "Buying is buying. It pays the ask, even when the reason for it is a short."
+
+  - type: numeric-input
+    prompt: "Bid $12.48, ask $12.51. How much more is the price you pay than the price you would receive?"
+    answer: 0.03
+    tolerance: 0.001
+    unit: "$"
+    working: "12.51 − 12.48 = 0.03"
+    explanation: "Three cents between getting in and getting out, before the price has done anything."
+
+  - type: tf
+    statement: "The number shown as 'last' is the price you will receive if you sell right now."
+    answer: false
+    explanation: "The last is a trade that already happened. What you receive is the bid, which may be above or below it."
+
+  - type: fill-choice
+    sentence: "Buying takes the ___ side of the quote, every time."
+    options: ["ask", "bid", "last"]
+    answer: "ask"
+    explanation: "There is no version of buying that gets you the lower number."
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "You want to open a short in XYZ right now. Tap the price you would be selling at."
+    data: {bid: 27.84, ask: 27.89, last: 27.86}
+    target: bid
+    explanation: "$27.84. Opening a short is selling, and selling takes the bid."
+
+  - type: checklist-reveal
+    title: "Which price is yours"
+    items:
+      - "Opening a long: you pay the ask"
+      - "Closing a long: you receive the bid"
+      - "Opening a short: you receive the bid"
+      - "Closing a short: you pay the ask"

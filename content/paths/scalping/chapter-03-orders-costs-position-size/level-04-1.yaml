@@ -3,125 +3,115 @@ title: "Spread Practice"
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
-category: repetition
-tags: [spread, liquidity]
-learning_goal: "User judges real-looking quotes as scalp candidates or not, using spread versus expected move, volume and spread stability."
-purpose: "Judging a quote in three seconds is a habit — this builds it with a handful of realistic quotes."
+category: new-theory
+tags: [spread, practice, checklist]
+learning_goal: "User runs a three-question check on a quote — how wide, worth it, can my size get out — and reaches a verdict in a few seconds."
+purpose: "The judgement has to be a habit, because the moment you need it you will have no time to think."
 terms_introduced: []
 reinforces: [1]
-prerequisite: "3-1"
+prerequisite: "3-3"
 xp: 20
 difficulty: 2
 sources: [consensus]
+notes: "Adds the three-question order to what Level 3 taught. The pure drill is 4-2."
 screens:
   - type: intro
-    text: "Six quotes. Which ones would a scalper touch?"
+    text: "Three questions, in this order, every time a quote comes up."
+
+  - type: checklist-reveal
+    title: "The three-second check"
+    items:
+      - "How wide is the gap right now?"
+      - "How much of the move I expect does that take?"
+      - "Can this stock take my share count, in and out?"
+
+  - type: theory
+    title: "The order matters"
+    body: "Width first, because it takes one subtraction. Then the ratio, because that is the verdict. Size last, because it is the only one of the three that is about you and not about the stock."
 
   - type: hotspot
     component: quote-panel
-    prompt: "Tap the ask."
-    data: {bid: 24.10, ask: 24.11, last: 24.10}
-    target: ask
-    explanation: "$24.11 — a one-cent spread."
+    prompt: "You are long and you want out. Tap the number you would be selling into."
+    data: {bid: 21.36, ask: 21.39, last: 21.38}
+    target: bid
+    explanation: "$21.36, three cents under the ask you paid to get in."
 
   - type: numeric-input
-    prompt: "Bid $24.10, ask $24.11, expected move $0.12. Percent of the move eaten?"
-    answer: 8.3
-    tolerance: 0.4
+    prompt: "Same panel — bid $21.36, ask $21.39 — and you expect a move of twenty-four cents. What share of it does the gap take?"
+    answer: 12.5
+    tolerance: 0.5
     unit: "%"
-    working: "0.01 ÷ 0.12 = 0.083 = 8.3 %"
-    explanation: "A small slice — good ground."
+    working: "0.03 ÷ 0.24 = 0.125"
+    explanation: "An eighth. That leaves twenty-one cents of the twenty-four to play for."
 
   - type: mc
-    prompt: "That quote: spread 8 % of the expected move, heavy volume. Verdict?"
+    prompt: "That quote again: three cents out of a twenty-four-cent move, in a name printing 120,000 shares a minute. Verdict?"
     options:
-      - {text: "Good ground for a scalp — tight relative to the move", correct: true}
-      - {text: "Too tight — no room for the price to move"}
-      - {text: "Unclear — you'd need the share price first"}
-    explanation: "Tight spread and liquidity are exactly what you want; price level doesn't matter."
-
-  - type: numeric-mc
-    prompt: "Bid $3.40, ask $3.46, expected move $0.08. Percent eaten?"
-    options:
-      - {text: "7.5 %"}
-      - {text: "6 %"}
-      - {text: "46 %"}
-      - {text: "75 %", correct: true}
-    working: "0.06 ÷ 0.08 = 0.75"
-    explanation: "Three quarters of the move is gone at entry."
+      - {text: "Skip — you cannot judge it without the share price"}
+      - {text: "Skip — three cents is too much to pay"}
+      - {text: "Trade it — an eighth of the move is fair", correct: true}
+    explanation: "All three questions come back clean: narrow, a small fraction, and busy enough to leave."
 
   - type: tf
-    statement: "That $3.40 / $3.46 stock is a poor scalp candidate even though the spread is only six cents."
-    answer: true
-    explanation: "Six cents against an eight-cent move is terrible. Dollars don't matter; the ratio does."
+    statement: "A one-cent gap is reason enough to trade a stock."
+    answer: false
+    explanation: "One cent out of a two-cent move is half your trade. The width means nothing until you divide it by the move."
+
+  - type: compare
+    prompt: "Both of these stocks quote four cents wide. In which one is the four cents worth paying?"
+    charts:
+      - {kind: candles, data: [[19.02, 19.05, 18.99, 19.03], [19.03, 19.06, 19.00, 19.01], [19.01, 19.05, 18.98, 19.04], [19.04, 19.07, 19.01, 19.02], [19.02, 19.06, 18.99, 19.05], [19.05, 19.08, 19.02, 19.03], [19.03, 19.07, 19.00, 19.06], [19.06, 19.09, 19.03, 19.04]], volume: [68000, 74000, 62000, 70000, 66000, 72000, 64000, 69000], label: "A"}
+      - {kind: candles, data: [[18.70, 18.86, 18.66, 18.82], [18.82, 19.00, 18.78, 18.96], [18.96, 19.06, 18.88, 18.92], [18.92, 19.10, 18.88, 19.06], [19.06, 19.24, 19.02, 19.20], [19.20, 19.32, 19.12, 19.16], [19.16, 19.36, 19.12, 19.32], [19.32, 19.48, 19.28, 19.44]], volume: [71000, 66000, 74000, 68000, 76000, 63000, 70000, 72000], label: "B"}
+    answer: "B"
+    explanation: "A's whole minute is six or seven cents, so four of them is most of it. B travels fifteen to twenty a minute, and four cents out of that is a toll you can afford."
+
+  - type: numeric-mc
+    prompt: "Gap six cents, expected move ten cents. What share is eaten?"
+    options:
+      - {text: "6 %"}
+      - {text: "16 %"}
+      - {text: "60 %", correct: true}
+      - {text: "0.6 %"}
+    working: "0.06 ÷ 0.10 = 0.60"
+    explanation: "You would be playing for four cents and paying six to find out. That is the whole verdict."
+
+  - type: sort
+    prompt: "Run the check on each of these. Candidate or skip?"
+    buckets: ["Candidate", "Skip"]
+    items:
+      - {text: "Gap is 5 % of the move, 200,000 shares a minute", bucket: "Candidate"}
+      - {text: "Gap is 70 % of the move", bucket: "Skip"}
+      - {text: "One-cent gap, and the stock has moved a cent in an hour", bucket: "Skip"}
+      - {text: "Eight-cent gap in a busy name that travels a dollar", bucket: "Candidate"}
+    explanation: "Two of these have the smallest gaps on the list and both are skips. The ratio decides, and the size question can still veto it."
 
   - type: story
     character: retail-trader
-    text: "{{market.regular_open}}. XYZ opens: bid $50.00, ask $50.30. Two minutes later: bid $50.12, ask $50.14."
-
-  - type: mc
-    prompt: "What happened to the spread, and why?"
-    options:
-      - {text: "It widened — the price rose"}
-      - {text: "It tightened from $0.30 to $0.02", correct: true}
-      - {text: "Nothing — the difference is just the price moving"}
-    explanation: "The first minutes are thin; the crowd tightens the spread."
-
-  - type: slider
-    prompt: "Round trip on 600 shares with a $0.02 spread. Cost?"
-    min: 0
-    max: 60
-    step: 2
-    unit: "$"
-    answer: 12
-    tolerance: 2
-    explanation: "600 × $0.02 = $12."
-
-  - type: sort
-    prompt: "Scalp candidate or skip?"
-    buckets: ["Candidate", "Skip"]
-    items:
-      - {text: "Spread 5 % of expected move, 8 M volume", bucket: "Candidate"}
-      - {text: "Spread 70 % of expected move", bucket: "Skip"}
-      - {text: "Spread $0.01 on a stock that moves $0.01", bucket: "Skip"}
-      - {text: "Spread $0.10 on a liquid stock that moves $2.00", bucket: "Candidate"}
-    explanation: "Ratio and liquidity decide, not the dollar amount."
+    text: "XYZ ran all morning and has now stalled twice at $27.04. Bid $26.73 / ask $26.76, 150,000 shares a minute, and your $30,000 account allows 1,000 shares here."
 
   - type: chart-decision
-    scenario: "XYZ is stepping up on rising volume and the quote is steady at bid $16.28 / ask $16.30 — one cent against the twenty you expect. You have 1,000 shares ready."
+    scenario: "The candle that just closed is a red body on the heaviest bar of the morning, and the panel has held three cents wide throughout. You have 1,000 shares ready."
     shares: 1000
     chart:
       kind: candles
-      data: [[16.02, 16.10, 16.00, 16.08], [16.08, 16.16, 16.06, 16.14], [16.14, 16.22, 16.12, 16.20], [16.20, 16.26, 16.16, 16.24], [16.24, 16.32, 16.22, 16.30], [16.30, 16.34, 16.26, 16.28], [16.28, 16.40, 16.26, 16.38], [16.38, 16.48, 16.36, 16.46], [16.46, 16.54, 16.42, 16.50], [16.50, 16.56, 16.46, 16.52]]
-      volume: [48000, 62000, 84000, 96000, 118000, 74000, 126000, 108000, 92000, 80000]
+      data: [[26.60, 26.72, 26.56, 26.68], [26.68, 26.84, 26.64, 26.80], [26.80, 26.96, 26.76, 26.90], [26.90, 27.04, 26.86, 26.94], [26.94, 27.04, 26.84, 26.88], [26.88, 26.92, 26.70, 26.74], [26.74, 26.78, 26.54, 26.58], [26.58, 26.64, 26.40, 26.44], [26.44, 26.52, 26.32, 26.38], [26.38, 26.44, 26.26, 26.30]]
+      volume: [86000, 102000, 118000, 134000, 122000, 168000, 152000, 138000, 120000, 104000]
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It carried to $16.52 — $0.24 per share, +$240 long on 1,000 shares from $16.28, and the spread took $10 of it."
-    explanation: "A one-cent spread against a twenty-cent expectation is the ground this chapter has been describing."
+    outcome: "It rolled over to $26.30 — $0.44 a share, +$440 short on 1,000 shares, of which the three-cent gap took $30."
+    explanation: "Two refusals at the same price and a heavy red body is the read. Three cents on a forty-cent expectation is what makes it worth acting on."
 
   - type: match
-    prompt: "The vocabulary of a three-second spread check."
+    prompt: "Each question in the check, and the thing on your screen that answers it."
     pairs:
-      - ["Target", "Move you aim to capture"]
-      - ["Expected move", "How far the price should travel while you hold"]
-      - ["Spread", "Ask minus bid"]
-      - ["Round trip", "Open and close of one position"]
-    explanation: "The vocabulary of a spread check."
+      - ["How wide is it", "Subtract the bid from the ask"]
+      - ["Is it worth paying", "Divide it by the move you expect"]
+      - ["Can my size get out", "Look at the shares printed each minute"]
+      - ["Is the number steady", "Watch it for a second before you act"]
+    explanation: "Four glances, one after another. None of them takes longer than the one before."
 
-  - type: mc
-    prompt: "A stock's spread is $0.02 all morning, then jumps to $0.15 late in the session. Most likely?"
-    options:
-      - {text: "The exchange changed the minimum spread"}
-      - {text: "News or a sudden drop in liquidity — wait for it to settle", correct: true}
-      - {text: "The price went up, so the spread scaled with it"}
-    explanation: "A widening spread is a warning sign, not an invitation."
-
-  - type: fill-tiles
-    sentence: "Many buyers and sellers competing makes the spread ___."
-    answer: "tighter"
-    explanation: "Competition squeezes the gap."
-
-  - type: theory
-    title: "Three seconds"
-    body: "Spread versus move, volume, calm or jumpy. You can judge a quote in three seconds now. Next: how to actually place the trade."
+  - type: visual
+    component: quote-panel
+    data: {bid: 26.73, ask: 26.76, last: 26.75}
+    caption: "Three cents. Against forty, that is a toll. Against six, it is the trade."

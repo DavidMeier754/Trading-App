@@ -1,0 +1,110 @@
+id: "4-2"
+title: "Spread Practice"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: repetition
+tags: [spread, drill, decisions]
+learning_goal: "User judges six quotes at a glance and then prices three live setups, taking the ones where the gap is small against the move and the stock can carry the size."
+purpose: "Judging a quote is a reflex or it is nothing, and reflexes are built by repetition, not by explanation."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "4-1"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "The chapter's drill sub-level: a deck and three decisions, no theory. Account named at $25,000."
+screens:
+  - type: intro
+    text: "Every quote in this deck is four cents wide. You are going for the kind of move these minutes have been making."
+
+  - type: swipe-deck
+    prompt: "Four cents to get in and out. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[14.10, 14.26, 14.06, 14.22], [14.22, 14.40, 14.18, 14.36], [14.36, 14.48, 14.30, 14.34], [14.34, 14.52, 14.30, 14.48], [14.48, 14.66, 14.44, 14.62], [14.62, 14.74, 14.56, 14.60], [14.60, 14.78, 14.56, 14.74], [14.74, 14.90, 14.70, 14.86]], volume: [84000, 96000, 72000, 88000, 104000, 78000, 92000, 86000]}
+        answer: take
+        note: "Minutes of about twenty cents. Four of them is a fifth of one bar."
+      - chart: {kind: candles, data: [[22.04, 22.07, 22.01, 22.05], [22.05, 22.09, 22.02, 22.03], [22.03, 22.07, 22.00, 22.06], [22.06, 22.09, 22.03, 22.04], [22.04, 22.08, 22.01, 22.07], [22.07, 22.10, 22.04, 22.05], [22.05, 22.09, 22.02, 22.08], [22.08, 22.11, 22.05, 22.06]], volume: [62000, 58000, 66000, 54000, 60000, 57000, 63000, 59000]}
+        answer: pass
+        note: "The whole minute is six cents. You would pay four of them for the privilege."
+      - chart: {kind: candles, data: [[11.86, 11.92, 11.68, 11.72], [11.72, 11.78, 11.52, 11.56], [11.56, 11.64, 11.40, 11.46], [11.46, 11.56, 11.34, 11.38], [11.38, 11.44, 11.18, 11.22], [11.22, 11.32, 11.10, 11.14], [11.14, 11.20, 10.96, 11.00], [11.00, 11.08, 10.86, 10.90]], volume: [118000, 132000, 108000, 124000, 146000, 112000, 128000, 120000]}
+        answer: take
+        note: "Twenty-four-cent minutes going down. Direction does not change the arithmetic."
+      - chart: {kind: candles, data: [[17.30, 17.34, 17.28, 17.32], [17.32, 17.37, 17.30, 17.35], [17.35, 17.39, 17.32, 17.33], [17.33, 17.38, 17.31, 17.36], [17.36, 17.40, 17.34, 17.38], [17.38, 17.42, 17.35, 17.37], [17.37, 17.41, 17.34, 17.40], [17.40, 17.44, 17.37, 17.42]], volume: [48000, 52000, 44000, 50000, 46000, 53000, 47000, 51000]}
+        answer: pass
+        note: "A tidy little uptrend of six-cent minutes. The gap takes two thirds of one."
+      - chart: {kind: candles, data: [[25.10, 25.24, 25.06, 25.20], [25.20, 25.30, 25.14, 25.16], [25.16, 25.32, 25.12, 25.28], [25.28, 25.42, 25.24, 25.38], [25.38, 25.46, 25.30, 25.32], [25.32, 25.48, 25.28, 25.44], [25.44, 25.58, 25.40, 25.54], [25.54, 25.62, 25.46, 25.50]], volume: [92000, 86000, 98000, 104000, 82000, 96000, 108000, 90000]}
+        answer: take
+        note: "Sixteen to twenty cents a minute, and the gap is a quarter of one of them."
+      - chart: {kind: candles, data: [[12.40, 12.42, 12.38, 12.41], [12.41, 12.44, 12.39, 12.40], [12.40, 12.43, 12.38, 12.42], [12.42, 12.45, 12.40, 12.41], [12.41, 12.44, 12.39, 12.43], [12.43, 12.45, 12.41, 12.42], [12.42, 12.46, 12.40, 12.44], [12.44, 12.47, 12.42, 12.45]], volume: [41000, 44000, 39000, 43000, 40000, 45000, 42000, 46000]}
+        answer: pass
+        note: "Four-cent minutes and a four-cent gap. There is nothing here to divide."
+    explanation: "Three takes and three passes, decided by one division each: the gap over what a minute of this stock is actually worth."
+
+  - type: chart-decision
+    scenario: "XYZ has based for five minutes and the bar under the last candle is nearly double anything before it. Bid $14.09 / ask $14.11, and your $25,000 account allows 1,600 shares here."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[13.72, 13.80, 13.70, 13.78], [13.78, 13.86, 13.75, 13.84], [13.84, 13.90, 13.80, 13.86], [13.86, 13.96, 13.83, 13.94], [13.94, 14.02, 13.90, 13.99], [13.99, 14.12, 13.97, 14.10], [14.10, 14.22, 14.07, 14.20], [14.20, 14.30, 14.16, 14.27], [14.27, 14.36, 14.23, 14.33], [14.33, 14.42, 14.29, 14.38]]
+      volume: [62000, 74000, 58000, 80000, 92000, 176000, 158000, 136000, 114000, 98000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $14.38 — $0.28 a share above the decision, +$448 long on 1,600 shares, of which the two-cent gap took $32."
+    explanation: "Two cents against a stock that has just moved eleven in one minute, on double the volume, and 1,600 shares is a small slice of that bar."
+
+  - type: chart-decision
+    scenario: "XYZ has printed five-cent bodies for ten minutes on ordinary volume. Bid $16.22 / ask $16.31, and your $25,000 account allows 1,300 shares here."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[16.20, 16.25, 16.17, 16.22], [16.22, 16.26, 16.18, 16.20], [16.20, 16.24, 16.16, 16.23], [16.23, 16.28, 16.19, 16.21], [16.21, 16.26, 16.18, 16.24], [16.24, 16.29, 16.20, 16.26], [16.26, 16.30, 16.21, 16.23], [16.23, 16.28, 16.19, 16.25], [16.25, 16.30, 16.22, 16.27], [16.27, 16.32, 16.23, 16.28]]
+      volume: [38000, 42000, 36000, 40000, 44000, 39000, 41000, 37000, 43000, 40000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Four minutes later it was two cents above the decision — $26 on 1,300 shares, against $117 of gap."
+    explanation: "Nine cents wide in a stock whose whole minute is nine cents. The verdict is decided before you even look at the candles."
+
+  - type: numeric-input
+    prompt: "Back to the first of those: 1,600 shares, twenty-eight cents a share, two cents of gap. What is left?"
+    answer: 416
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.28 × 1,600 = $448; $0.02 × 1,600 = $32; $448 − $32 = $416"
+    explanation: "Seven per cent of a clean win handed over, on the cheapest quote in the chapter."
+
+  - type: chart-decision
+    scenario: "XYZ pushed to $12.90 twice, failed both times, and the candle that just closed is red on the heaviest bar of the session. Bid $12.65 / ask $12.67, and your $25,000 account allows 1,900 shares here."
+    shares: 1900
+    chart:
+      kind: candles
+      data: [[12.48, 12.60, 12.44, 12.56], [12.56, 12.70, 12.52, 12.66], [12.66, 12.82, 12.62, 12.78], [12.78, 12.90, 12.74, 12.80], [12.80, 12.90, 12.72, 12.76], [12.76, 12.80, 12.62, 12.66], [12.66, 12.70, 12.52, 12.56], [12.56, 12.62, 12.44, 12.48], [12.48, 12.54, 12.38, 12.42], [12.42, 12.46, 12.32, 12.34]]
+      volume: [82000, 96000, 124000, 108000, 92000, 178000, 156000, 134000, 116000, 102000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid to $12.34 — $0.32 a share, +$608 short on 1,900 shares, with $38 of gap paid."
+    explanation: "Two refusals at one price, a heavy red body, and a two-cent quote in a busy name. All three questions come back clean."
+
+  - type: tf
+    statement: "A chart you would happily trade can still be a pass because of the quote next to it."
+    answer: true
+    explanation: "The candles and the quote are two separate readings, and the quote can veto the chart."
+
+  - type: sort
+    prompt: "In the three-second check, which of these settles it and which is noise?"
+    buckets: ["Settles it", "Noise"]
+    items:
+      - {text: "The gap as a share of the move you expect", bucket: "Settles it"}
+      - {text: "The shares printed each minute against your size", bucket: "Settles it"}
+      - {text: "Whether the share price is $9 or $90", bucket: "Noise"}
+      - {text: "Whether the gap is a round number of cents", bucket: "Noise"}
+    explanation: "Two ratios decide it. Everything else on the screen is scenery."
+
+  - type: recap
+    title: "Level 4 in three lines"
+    points:
+      - {text: "Width, then the ratio, then whether your size can get back out.", level: "4-1"}
+      - {text: "Half of a good-looking deck is a pass once you divide.", level: "4-2"}
+      - {text: "Direction never changes the arithmetic — a short pays the same gap.", level: "4-2"}

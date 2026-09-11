@@ -1,0 +1,105 @@
+id: "2-2"
+title: "The Spread as a Cost"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [spread, costs, break-even]
+learning_goal: "User can work out where a position breaks even once the spread is paid, and recognises that a green-looking screen can still be a losing exit."
+purpose: "Break-even is not your entry price, and traders who think it is take half their losses without noticing."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "2-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $30,000; the chart decision uses 1,400 shares near $18."
+screens:
+  - type: intro
+    text: "Your screen says you are flat. Your exit says otherwise."
+
+  - type: theory
+    title: "Break-even sits above your entry"
+    body: "You bought at the ask, and you will sell at the bid. To get out for what you paid, the bid has to climb all the way to your entry price — which means the whole gap has to be travelled first."
+
+  - type: example
+    body: "Bid $11.96, ask $12.00. You buy at $12.00. You are level again only when the bid reaches $12.00, and that needs the ask up at $12.04."
+    visual: quote-panel
+    visual_data: {bid: 11.96, ask: 12.00, last: 11.98}
+
+  - type: numeric-input
+    prompt: "Bid $21.44, ask $21.50. You buy at the ask. How far must the bid climb before you can get out for what you paid?"
+    answer: 0.06
+    tolerance: 0.001
+    unit: "$"
+    working: "21.50 − 21.44 = 0.06"
+    explanation: "Six cents of travel just to stand still. Anything past that is the first money you have actually made."
+
+  - type: tf
+    statement: "A position showing green on your screen can still be a loss the moment you close it."
+    answer: true
+    explanation: "Most screens mark you against the last trade. You leave at the bid, which is lower — and you came in at the ask, which was higher."
+
+  - type: mc
+    prompt: "You buy at the ask and for a full minute neither price moves. Where do you stand?"
+    options:
+      - {text: "Down one gap", correct: true}
+      - {text: "Exactly flat"}
+      - {text: "Down two gaps"}
+    explanation: "The bid never came up to meet your entry, so closing costs you the whole distance — once."
+
+  - type: numeric-mc
+    prompt: "Four cents between the sides and 1,800 shares. How deep is the hole you open in?"
+    options:
+      - {text: "$720"}
+      - {text: "$7.20"}
+      - {text: "$72", correct: true}
+      - {text: "$0.04"}
+    working: "$0.04 × 1,800 = $72"
+    explanation: "Seventy-two dollars that the trade has to make back before it has made anything."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ has gone nowhere for ten minutes. Bid $18.02 / ask $18.08. Your account is $30,000 and you are sizing 1,400 shares."
+
+  - type: chart-decision
+    scenario: "Every minute of the last ten has printed a body of three or four cents and the panel has been six cents wide throughout. Volume is steady but ordinary. You have 1,400 shares ready."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[18.06, 18.09, 18.03, 18.05], [18.05, 18.08, 18.02, 18.07], [18.07, 18.10, 18.04, 18.05], [18.05, 18.09, 18.03, 18.08], [18.08, 18.11, 18.05, 18.06], [18.06, 18.10, 18.04, 18.08], [18.08, 18.12, 18.05, 18.07], [18.07, 18.11, 18.04, 18.09], [18.09, 18.13, 18.06, 18.10], [18.10, 18.15, 18.08, 18.12]]
+      volume: [58000, 52000, 46000, 51000, 44000, 48000, 42000, 47000, 45000, 50000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Four minutes later it was $18.12 — $0.04 a share above the decision, which is +$56 on 1,400 shares against $84 of gap."
+    explanation: "The hole is six cents deep and the stock has not managed six cents in ten minutes. There is nothing here to win."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "You bought at the ask,"}
+      - {text: "so you break even at the ask,", wrong: true}
+      - {text: "and everything above that is profit."}
+    explanation: "You break even when the bid reaches your entry, not when the ask does."
+
+  - type: match
+    prompt: "Chapter 1's volatility dial, with a four-cent gap put against it."
+    pairs:
+      - ["Travels $0.40 in a busy minute", "Four cents is a tenth of the move"]
+      - ["Travels $0.06 in a busy minute", "Four cents is most of the move"]
+      - ["Has not moved in twenty minutes", "Four cents is the whole trade"]
+    explanation: "The same gap is cheap, expensive or fatal depending only on how far the stock actually travels."
+
+  - type: fill-choice
+    sentence: "You break even when the ___ reaches the price you paid."
+    options: ["bid", "ask", "last"]
+    answer: "bid"
+    explanation: "Because the bid is the price you will be leaving at."
+
+  - type: checklist-reveal
+    title: "Before you call a position flat"
+    items:
+      - "What did you pay — the ask, not the last"
+      - "Where would you leave — the bid, not the last"
+      - "Has the bid reached your entry yet"
+      - "If not, how far does it still have to travel"

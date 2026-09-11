@@ -1,0 +1,116 @@
+id: "3-3"
+title: "Judging a Spread"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [spread, volatility, opening]
+learning_goal: "User expects the spread to widen at the open and on news, and checks it at the moment of acting rather than the moment of deciding."
+purpose: "A gap is a live number, and the moments a scalper most wants to trade are the moments it is worst."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "3-2"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $25,000. Uses {{market.regular_open}} rather than any clock time."
+screens:
+  - type: intro
+    text: "The gap you checked ten seconds ago is not the gap you are about to pay."
+
+  - type: theory
+    title: "The gap breathes"
+    body: "Both prices are withdrawn and re-posted many times a second. The distance between them is a live reading, not a property of the stock, and it is at its worst when nobody knows what the price should be."
+
+  - type: example
+    body: "XYZ at {{market.regular_open}}: bid $20.00, ask $20.30. Two minutes later, with the crowd in: bid $20.12, ask $20.14. Same stock, same morning, a gap fifteen times smaller."
+    visual: quote-panel
+    visual_data: {bid: 20.00, ask: 20.30, animate_to: {bid: 20.12, ask: 20.14}}
+
+  - type: tf
+    statement: "The first minutes after {{market.regular_open}} usually show a wider gap than the middle of the session."
+    answer: true
+    explanation: "Overnight news is still being priced and the crowd has not arrived. Chapter 2 told you those minutes were for watching; this is one of the reasons."
+
+  - type: mc
+    prompt: "Why does the gap open so wide in the first minutes?"
+    options:
+      - {text: "The exchange raises the minimum gap for the first half hour"}
+      - {text: "Nobody yet knows where the price belongs", correct: true}
+      - {text: "Volume is at its lowest of the day"}
+    explanation: "Whoever quotes both sides is guessing too, so they quote defensively until the trading tells them where the price settles."
+
+  - type: theory
+    title: "News does exactly the same thing"
+    body: "When something is announced, the traders posting prices step back until they can work out what it means. The gap opens and stays open until the crowd comes back to argue over it."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ gapped on an overnight headline. It is minutes into the session, the bars are enormous, and the panel is showing bid $19.77 / ask $19.99. Your $25,000 account allows 1,200 shares here."
+
+  - type: chart-decision
+    scenario: "Price has swung through a forty-cent range twice in six minutes and the panel is twenty-two cents wide. You have 1,200 shares ready."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[19.40, 19.86, 19.32, 19.74], [19.74, 19.92, 19.50, 19.58], [19.58, 19.96, 19.54, 19.90], [19.90, 20.10, 19.72, 19.80], [19.80, 20.04, 19.66, 19.98], [19.98, 20.16, 19.80, 19.88], [19.88, 20.06, 19.60, 19.66], [19.66, 19.90, 19.52, 19.84], [19.84, 20.00, 19.70, 19.76], [19.76, 19.94, 19.58, 19.64]]
+      volume: [480000, 320000, 260000, 210000, 180000, 160000, 190000, 150000, 140000, 130000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Four minutes on it was $19.64 — $0.24 a share below the decision, so $288 down on 1,200 shares long, with $264 of gap paid on top."
+    explanation: "The move is there and so is the volume. What is missing is a price you can enter and leave at without handing over a quarter of a dollar a share."
+
+  - type: numeric-input
+    prompt: "A stock that was quoting two cents wide is now quoting twenty-two. On 1,300 shares, how much more does a round trip cost than it did?"
+    answer: 260
+    tolerance: 0.01
+    unit: "$"
+    working: "0.22 − 0.02 = $0.20 per share; $0.20 × 1,300 = $260"
+    explanation: "The chart looks better in the wide moments, and that is precisely when it is being sold to you at a markup."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "You checked the gap ten seconds ago,"}
+      - {text: "so there is no need to look again,", wrong: true}
+      - {text: "and the stock is about to report."}
+    explanation: "Ten seconds is a long time, and a pending announcement is the one moment the number is guaranteed to change."
+
+  - type: sort
+    prompt: "Does each of these open the gap or close it?"
+    buckets: ["Opens it", "Closes it"]
+    items:
+      - {text: "The first minute of the session", bucket: "Opens it"}
+      - {text: "An hour of steady two-way volume", bucket: "Closes it"}
+      - {text: "An announcement nobody was expecting", bucket: "Opens it"}
+      - {text: "A heavily traded name at midday", bucket: "Closes it"}
+    explanation: "Uncertainty opens it, participation closes it. Both are temporary."
+
+  - type: branch
+    scenario: "You are long 1,100 shares from $16.40 and the panel reads bid $16.44 / ask $16.46. A headline lands and the panel jumps to bid $16.28 / ask $16.52."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[16.30, 16.38, 16.28, 16.36], [16.36, 16.44, 16.34, 16.42], [16.42, 16.48, 16.38, 16.44], [16.44, 16.50, 16.40, 16.46], [16.46, 16.52, 16.42, 16.48], [16.48, 16.54, 16.26, 16.32], [16.32, 16.40, 16.20, 16.24], [16.24, 16.32, 16.16, 16.22]]
+      volume: [64000, 72000, 58000, 66000, 60000, 240000, 180000, 150000]
+      decision_index: 5
+    steps:
+      - prompt: "Before you decide anything: what just happened to your exit?"
+        options:
+          - {text: "It dropped sixteen cents in one second", correct: true, next: 1}
+          - {text: "Nothing — you leave at the last trade", next: 1}
+        explanation: "You leave at the bid, and the bid went from $16.44 to $16.28 without a single share trading there."
+      - prompt: "You still want out. What does leaving now actually cost, compared with a second ago?"
+        options:
+          - {text: "$176 more on the exit alone", correct: true}
+          - {text: "$16 more, since the gap is quoted per share"}
+          - {text: "Nothing more — you are getting out either way"}
+        explanation: "$0.16 × 1,100 = $176 on the exit alone, and the twenty-four-cent gap means anyone buying is paying up as well."
+
+  - type: checklist-reveal
+    title: "When the gap is wide"
+    items:
+      - "Is this the opening stretch, or a headline"
+      - "How wide is it right now, not a minute ago"
+      - "What is that width worth on the size you were planning"
+      - "Is there a later, calmer version of this same trade"

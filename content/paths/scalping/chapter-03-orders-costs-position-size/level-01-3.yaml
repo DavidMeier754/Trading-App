@@ -1,0 +1,117 @@
+id: "1-3"
+title: "Bid, Ask, Spread"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [spread, quote-panel, practice]
+learning_goal: "User reads a quote panel at speed: which two numbers, how far apart, and what changed since the last look."
+purpose: "In a fast stock the panel is a moving instrument, and a scalper has about a second to read it."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "1-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Speed and comparison, not new theory. The Chapter 1 callback is the panel-versus-card sort."
+screens:
+  - type: intro
+    text: "Panel after panel. Each one is two numbers and a distance."
+
+  - type: theory
+    title: "The numbers are alive"
+    body: "Bid and ask are re-posted many times a second. Reading them is not arithmetic you sit down to — it is a glance that answers two things: which two numbers, and how far apart."
+    visual: quote-panel
+    visual_data: {bid: 15.62, ask: 15.65, last: 15.63}
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "Tap the price a buyer is currently offering."
+    data: {bid: 15.62, ask: 15.65, last: 15.63}
+    target: bid
+    explanation: "$15.62. That is what a buyer is willing to hand over right now."
+
+  - type: numeric-input
+    prompt: "Bid $15.62, ask $15.65. How far apart?"
+    answer: 0.03
+    tolerance: 0.001
+    unit: "$"
+    working: "15.65 − 15.62 = 0.03"
+    explanation: "Three cents. That distance is the number you actually care about, not the price level."
+
+  - type: example
+    body: "The same stock, ten seconds later. Nothing dramatic happened — the two prices simply stepped up together."
+    visual: quote-panel
+    visual_data: {bid: 22.40, ask: 22.43, animate_to: {bid: 22.46, ask: 22.49}}
+
+  - type: mc
+    prompt: "The panel went from bid $22.40 / ask $22.43 to bid $22.46 / ask $22.49. What changed?"
+    options:
+      - {text: "The two sides swapped, so the bid now sits above the ask"}
+      - {text: "The price rose and the gap stayed at three cents", correct: true}
+      - {text: "The gap widened from three cents to six"}
+    explanation: "Both numbers moved six cents up. The distance between them never changed."
+
+  - type: numeric-mc
+    prompt: "Bid $10.97, ask $11.03. What is the gap?"
+    options:
+      - {text: "$0.60"}
+      - {text: "$0.06", correct: true}
+      - {text: "$0.03"}
+      - {text: "$21.99"}
+    working: "11.03 − 10.97 = 0.06"
+    explanation: "Crossing a round number changes nothing about the subtraction."
+
+  - type: order
+    prompt: "Four panels on four stocks. Put them in order, tightest gap first."
+    items:
+      - "Bid $14.20 / ask $14.21"
+      - "Bid $14.20 / ask $14.23"
+      - "Bid $14.20 / ask $14.28"
+      - "Bid $14.20 / ask $14.45"
+    explanation: "One cent, three cents, eight cents, twenty-five cents. The share price is identical in all four, so it tells you nothing."
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "Tap the distance between the two live prices."
+    data: {bid: 31.10, ask: 31.22, last: 31.14}
+    target: spread
+    explanation: "Twelve cents. Wide enough that you would want a reason before touching it."
+
+  - type: slider
+    prompt: "Bid $16.44, ask $16.52. If a trade prints exactly halfway between the two sides, at what price does it print?"
+    min: 16.44
+    max: 16.52
+    step: 0.01
+    unit: "$"
+    answer: 16.48
+    tolerance: 0.01
+    explanation: "Halfway between 16.44 and 16.52 is 16.48 — and that print becomes the new last."
+
+  - type: sort
+    prompt: "Which screen tells you each of these — Chapter 1's quote card, or this chapter's panel?"
+    buckets: ["The quote panel", "The quote card"]
+    items:
+      - {text: "The lowest price a seller will take right now", bucket: "The quote panel"}
+      - {text: "How far the stock has moved since the previous close", bucket: "The quote card"}
+      - {text: "The highest price a buyer is offering right now", bucket: "The quote panel"}
+      - {text: "How many shares have changed hands today", bucket: "The quote card"}
+    explanation: "The card summarises the day. The panel shows the two prices available this second, and only a panel can tell you what a trade would cost."
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "Tap the number that records where a trade actually happened."
+    data: {bid: 28.31, ask: 28.36, last: 28.33}
+    target: last
+    explanation: "$28.33 — inside the gap, which is where a lot of trades end up."
+
+  - type: fill-choice
+    sentence: "The gap between the two live prices is measured in ___."
+    options: ["cents", "shares", "minutes"]
+    answer: "cents"
+    explanation: "Not as a percentage of the share price, and not relative to yesterday. Just cents."
+
+  - type: visual
+    component: quote-panel
+    data: {bid: 19.44, ask: 19.46, last: 19.45}
+    caption: "Which two numbers, how far apart. Everything else on the panel is commentary."

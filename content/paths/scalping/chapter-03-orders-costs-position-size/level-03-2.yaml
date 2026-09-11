@@ -1,0 +1,116 @@
+id: "3-2"
+title: "Judging a Spread"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [spread, liquidity, volume]
+learning_goal: "User links a tight spread to competition between traders, reads volume as the visible clue to it, and prices what a wide one costs at size."
+purpose: "Chapter 1's liquidity dial has a price tag on it, and volume is the only part of it you can see on a chart."
+terms_introduced: []
+reinforces: [1, 2]
+prerequisite: "3-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $20,000; the chart decision is 1,200 shares near $14 in a deliberately thin stock."
+screens:
+  - type: intro
+    text: "Why is one stock's gap a cent and another's fifteen? Count the people."
+
+  - type: theory
+    title: "Competition closes the gap"
+    body: "When many buyers and sellers want the same shares, each one has to improve on the last to get filled first. The two prices are squeezed together. Where almost nobody is trading, nobody has to improve on anything."
+
+  - type: compare
+    prompt: "Same candles, same stock price. Which of these two mornings is the one quoting a one-cent gap?"
+    charts:
+      - {kind: candles, data: [[20.40, 20.48, 20.36, 20.46], [20.46, 20.56, 20.44, 20.54], [20.54, 20.60, 20.50, 20.52], [20.52, 20.64, 20.50, 20.62], [20.62, 20.72, 20.59, 20.70], [20.70, 20.78, 20.66, 20.74], [20.74, 20.84, 20.71, 20.82], [20.82, 20.90, 20.78, 20.86]], volume: [88000, 124000, 76000, 112000, 146000, 94000, 132000, 108000], label: "A"}
+      - {kind: candles, data: [[20.40, 20.48, 20.36, 20.46], [20.46, 20.56, 20.44, 20.54], [20.54, 20.60, 20.50, 20.52], [20.52, 20.64, 20.50, 20.62], [20.62, 20.72, 20.59, 20.70], [20.70, 20.78, 20.66, 20.74], [20.74, 20.84, 20.71, 20.82], [20.82, 20.90, 20.78, 20.86]], volume: [9000, 12000, 7000, 11000, 14000, 8000, 13000, 10000], label: "B"}
+    answer: "A"
+    explanation: "The shapes are identical, so the candles cannot tell them apart. A trades ten times the shares, which means ten times the people arguing over the price."
+
+  - type: mc
+    prompt: "The gap is never drawn on a chart. Which row of the chart is the closest clue to it?"
+    options:
+      - {text: "The length of the last candle's body"}
+      - {text: "The volume bars under the candles", correct: true}
+      - {text: "How high the price is"}
+    explanation: "Volume counts the crowd, and the size of the crowd is what sets the distance between the two prices."
+
+  - type: theory
+    title: "Quiet is not the same as cheap"
+    body: "A stock printing 6,000 shares a minute can look perfectly calm and still cost fifteen cents to get in and out of. Nobody is competing for your order, so nobody has to offer you a better price."
+
+  - type: numeric-input
+    prompt: "Fifteen cents between the sides and you take 900 shares. What does the round trip hand over in gap alone?"
+    answer: 135
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.15 × 900 = $135"
+    explanation: "One hundred and thirty-five dollars to open and close a position that has not yet done anything."
+
+  - type: tf
+    statement: "Heavy volume guarantees a one-cent gap."
+    answer: false
+    explanation: "It makes a tight gap likely, not certain. A heavily traded stock in the middle of a news release can be busy and wide at the same time."
+
+  - type: sort
+    prompt: "Tight gap or wide gap?"
+    buckets: ["Tight", "Wide"]
+    items:
+      - {text: "Hundreds of thousands of shares a minute", bucket: "Tight"}
+      - {text: "Six thousand shares in the last minute", bucket: "Wide"}
+      - {text: "Dozens of traders on both sides of every price", bucket: "Tight"}
+      - {text: "One market maker and nobody else", bucket: "Wide"}
+    explanation: "Crowded and calm is tight. Empty is wide, however pretty the chart looks."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ is stepping up cleanly, but every bar under it is around 6,000 shares. Bid $14.50 / ask $14.62, and your $20,000 account allows 1,200 shares here."
+
+  - type: chart-decision
+    scenario: "Six green minutes in a row, and the panel is twelve cents wide. You have 1,200 shares ready."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.10, 14.20, 14.08, 14.18], [14.18, 14.30, 14.16, 14.28], [14.28, 14.36, 14.24, 14.32], [14.32, 14.44, 14.30, 14.42], [14.42, 14.50, 14.38, 14.46], [14.46, 14.58, 14.44, 14.56], [14.56, 14.60, 14.42, 14.44], [14.44, 14.48, 14.30, 14.34], [14.34, 14.40, 14.26, 14.30], [14.30, 14.34, 14.20, 14.24]]
+      volume: [7000, 6000, 8000, 5000, 6000, 9000, 7000, 6000, 5000, 7000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It turned and slid to $14.24 — $0.32 a share against a long, $384 on 1,200 shares, and the twelve-cent gap would have taken $144 of any win."
+    explanation: "The climb is real and there is nobody behind it. A twelve-cent gap is the market telling you what your exit will cost."
+
+  - type: numeric-mc
+    prompt: "A stock prints 8,000 shares in a minute. Your 1,200-share order is what share of that minute?"
+    options:
+      - {text: "15 %", correct: true}
+      - {text: "1.5 %"}
+      - {text: "6.7 %"}
+      - {text: "66 %"}
+    working: "1,200 ÷ 8,000 = 0.15"
+    explanation: "One share in seven traded that minute would be yours, which is exactly why the two prices sit so far apart."
+
+  - type: match
+    prompt: "Chapter 1's liquidity dial and Chapter 2's volume row, matched to what they do to the gap."
+    pairs:
+      - ["Liquid", "Many competing orders, so the two prices sit close"]
+      - ["Illiquid", "Few orders, so the two prices sit far apart"]
+      - ["Volume bar", "The visible count of who was actually there that minute"]
+    explanation: "You learned the first two as descriptions of a stock. They are also a forecast of what a round trip will cost."
+
+  - type: fill-tiles
+    sentence: "Traders competing for the same shares make the gap ___."
+    answer: "tighter"
+    explanation: "Which is why the busiest names are usually the cheapest to trade, whatever their share price."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "500k a minute", value: 1}
+        - {label: "90k a minute", value: 3}
+        - {label: "20k a minute", value: 8}
+        - {label: "6k a minute", value: 15}
+      unit: "cents"
+    caption: "Typical gap against typical minute. Not a law, but the direction never changes."

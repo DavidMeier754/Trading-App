@@ -4,98 +4,99 @@ chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [spread, quote-panel]
-learning_goal: "User can read bid, ask, last and spread from a quote panel and knows which price a buyer pays and a seller receives right now."
-purpose: "Bid and ask are the two prices every scalp starts and ends at — reading them instantly is the base skill of this whole path."
+tags: [spread, quote-panel, bid-ask]
+learning_goal: "User reads bid, ask, last and the spread off a quote panel and can subtract one from the other without thinking about it."
+purpose: "Every scalp begins at one of these two prices and ends at the other, so reading them has to be instant."
 terms_introduced: ["Bid", "Ask", "Last", "Quote panel"]
 reinforces: [1]
 prerequisite: null
 xp: 20
 difficulty: 1
 sources: [consensus]
-notes: "Spread was introduced in Chapter 1 Level 3 (market maker's gap); here it becomes a number."
+notes: "Chapter 1 called the gap between buyers and sellers the spread. Here it becomes two numbers you can subtract."
 screens:
   - type: intro
-    text: "Every stock has two prices at once. Scalpers live in the gap between them."
+    text: "Chapter 1 said buyers and sellers never quite agree on a price. Here are both of their numbers."
 
   - type: theory
-    title: "Bid and ask"
-    body: "The bid is the highest price a buyer is offering right now. The ask is the lowest price a seller will take right now. The ask is always a little higher — that gap is the spread from Chapter 1."
+    title: "A stock has two prices"
+    body: "One is the most any buyer is currently offering. The other is the least any seller will currently take. They are never the same number, and the seller's is always the higher one."
     visual: quote-panel
-    visual_data: {bid: 45.20, ask: 45.24, last: 45.22}
+    visual_data: {bid: 24.18, ask: 24.22, last: 24.20}
 
   - type: walkthrough
     component: quote-panel
-    data: {bid: 45.20, ask: 45.24, last: 45.22}
+    data: {bid: 24.18, ask: 24.22, last: 24.20}
     steps:
-      - {spotlight: bid, text: "Bid: what you get if you sell right now."}
-      - {spotlight: ask, text: "Ask: what you pay if you buy right now."}
-      - {spotlight: spread, text: "Spread = ask − bid. Here $0.04."}
-      - {spotlight: last, text: "Last: the price of the most recent trade — usually between the two."}
+      - {spotlight: bid, text: "The bid: the highest price a buyer is offering right now."}
+      - {spotlight: ask, text: "The ask: the lowest price a seller will take right now."}
+      - {spotlight: spread, text: "The spread is the distance between them. Here, four cents."}
+      - {spotlight: last, text: "The last: the price of the trade that actually happened most recently."}
 
   - type: theory
-    title: "Who sets them?"
-    body: "Market makers and other traders post bids and asks all day. The spread is their income — and your cost, every single time you cross it."
+    title: "This panel is your instrument"
+    body: "Bid, ask, last and the gap between the first two. Four numbers, one glance. A scalper reads this more often than the chart."
 
   - type: hotspot
     component: quote-panel
-    prompt: "Tap the price you'd pay to buy right now."
+    prompt: "Tap the lowest price a seller will currently take."
     data: {bid: 18.40, ask: 18.46, last: 18.44}
     target: ask
-    explanation: "Buyers pay the ask: $18.46."
+    explanation: "$18.46. Sellers are not going lower than that at this moment."
 
   - type: numeric-input
-    prompt: "Bid $18.40, ask $18.46. What is the spread?"
+    prompt: "Same panel: bid $18.40, ask $18.46. How far apart are the two prices?"
     answer: 0.06
     tolerance: 0.001
     unit: "$"
     working: "18.46 − 18.40 = 0.06"
-    explanation: "Ask minus bid."
+    explanation: "Ask minus bid, always in that order, always a positive number."
 
   - type: tf
-    statement: "A trade can print at a price between the bid and the ask."
+    statement: "A trade can happen at a price that sits between the bid and the ask."
     answer: true
-    explanation: "'Last' is simply the most recent trade — at the bid, at the ask, or somewhere in between."
+    explanation: "It happens constantly — someone meets in the middle, and that trade becomes the new last."
 
   - type: mc
-    prompt: "You sell 500 shares right now while the quote shows bid $18.40 / ask $18.46. What do you receive per share?"
+    prompt: "Chapter 1's quote card showed XYZ at a single price. Which number on this panel is the one that card was showing?"
     options:
-      - {text: "$18.46 — sellers get the ask"}
-      - {text: "$18.40 — sellers get the bid", correct: true}
-      - {text: "$18.43 — the middle"}
-    explanation: "Selling now means taking what buyers are offering: the bid."
+      - {text: "The bid"}
+      - {text: "The last", correct: true}
+      - {text: "The midpoint of the two"}
+    explanation: "A card reports the trade that already happened. The panel shows you the two live prices behind it."
+
+  - type: numeric-mc
+    prompt: "Bid $67.42, ask $67.49. How wide is the gap?"
+    options:
+      - {text: "$0.07", correct: true}
+      - {text: "$0.70"}
+      - {text: "$0.05"}
+      - {text: "$134.91"}
+    working: "67.49 − 67.42 = 0.07"
+    explanation: "Seven cents between the two sides of this stock."
 
   - type: hotspot
     component: quote-panel
-    prompt: "Tap both prices that make up the spread."
-    data: {bid: 95.12, ask: 95.20, last: 95.15}
+    prompt: "Tap both of the prices that the gap is measured between."
+    data: {bid: 15.12, ask: 15.20, last: 15.15}
     targets: [bid, ask]
-    explanation: "Spread = 95.20 − 95.12 = $0.08."
-
-  - type: numeric-mc
-    prompt: "Bid $67.42, ask $67.49. Spread?"
-    options:
-      - {text: "$0.70"}
-      - {text: "$0.05"}
-      - {text: "$0.07", correct: true}
-      - {text: "$134.91"}
-    working: "67.49 − 67.42 = 0.07"
-    explanation: "Seven cents between the two sides."
+    explanation: "15.20 − 15.12 = $0.08. The last does not come into it."
 
   - type: match
-    prompt: "Four numbers on every quote panel. Which is which?"
+    prompt: "Four numbers, one panel. Which one is which?"
     pairs:
-      - ["Bid", "Highest price a buyer offers now"]
-      - ["Ask", "Lowest price a seller takes now"]
-      - ["Spread", "Ask minus bid"]
-      - ["Last", "Price of the most recent trade"]
-    explanation: "Four numbers on every quote panel."
+      - ["Bid", "Highest price a buyer is offering right now"]
+      - ["Ask", "Lowest price a seller will take right now"]
+      - ["Spread", "The distance between those two"]
+      - ["Last", "Price of the trade that already happened"]
+    explanation: "Three live numbers and one piece of history."
 
   - type: fill-tiles
-    sentence: "The lowest price a seller will accept right now is the ___."
-    answer: "ask"
-    explanation: "Buyers pay the ask."
+    sentence: "Ask minus bid gives you the ___."
+    answer: "spread"
+    explanation: "Same word Chapter 1 used, now with a number attached to it."
 
-  - type: theory
-    title: "Say it until it's boring"
-    body: "Buy at the ask, sell at the bid. That sentence is the whole next lesson."
+  - type: visual
+    component: quote-panel
+    data: {bid: 31.07, ask: 31.09, last: 31.08}
+    caption: "Two cents apart. Read it in one glance — which two numbers, and how far apart."
