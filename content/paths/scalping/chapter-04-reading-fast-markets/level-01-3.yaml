@@ -1,0 +1,100 @@
+id: "1-3"
+title: "VWAP"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [vwap, participants]
+learning_goal: "User can explain why large orders are measured against VWAP and why that makes price react at the line."
+purpose: "The line works because of who is being graded on it, and Chapter 1 already introduced every one of those people."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "1-2"
+xp: 20
+difficulty: 2
+sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
+notes: "Chapter 1's institutions and market makers, re-tested through the line. Account named at $25,000."
+screens:
+  - type: intro
+    text: "The line is not magic. It is somebody's scorecard."
+
+  - type: theory
+    title: "Somebody is being graded"
+    body: "A desk told to buy 400,000 shares cannot do it in one trade. Its work gets judged against the session's average price: buy under the line and the fill was good, buy over it and it was not."
+
+  - type: example
+    body: "The desk buys in slices all session. Every time price dips to the line, it adds. It does not chase twenty cents above it, because that is the number it will be measured against."
+
+  - type: mc
+    prompt: "Price stalls at the line more often than at a random price. Why?"
+    options:
+      - {text: "It sits halfway between the day's high and low"}
+      - {text: "The exchange publishes it as the session's official price"}
+      - {text: "So many large orders are judged against it", correct: true}
+    explanation: "The line collects orders because it is the benchmark those orders are scored on. The exchange has nothing to do with it."
+
+  - type: depth-ladder
+    prompt: "VWAP is $20.02 and a desk has left size a few cents under it. You market-sell 1,000 shares. Where does your last share fill?"
+    data:
+      bids: [[19.98, 300], [19.97, 400], [19.96, 12000]]
+      asks: [[20.00, 500], [20.01, 900], [20.02, 700]]
+    target: bid-3
+    explanation: "300 and 400 shares go first, and the remaining 300 land on the 12,000-share bid at $19.96 — the buyer who wants everything under the line."
+
+  - type: theory
+    title: "Which is why it holds"
+    body: "That resting size is the reason a pullback to the line so often stops there. You are not reading an indicator; you are reading where a patient buyer has parked."
+
+  - type: match
+    prompt: "Three people from Chapter 1, one line. What is each of them doing with it?"
+    pairs:
+      - ["A desk buying 400,000 shares", "Wants its average fill to end up under the line"]
+      - ["A market maker quoting both sides", "Earns the gap between its two prices wherever the line sits"]
+      - ["A scalper holding for two minutes", "Uses the line to pick which side to take"]
+    explanation: "One is being scored on it, one is indifferent to it, and one is borrowing the first one's orders."
+
+  - type: numeric-input
+    prompt: "The desk finished with 400,000 shares at an average of $30.06, and VWAP closed at $30.14. How much did it save against the line?"
+    answer: 32000
+    tolerance: 1
+    unit: "$"
+    working: "$30.14 − $30.06 = $0.08 per share; $0.08 × 400,000 shares = $32,000"
+    explanation: "Eight cents is nothing on one share and a bonus on four hundred thousand. That is why the desk is patient at the line."
+
+  - type: chart-decision
+    scenario: "XYZ has finished every minute of the session above the line. The minute that just closed took out the high of the morning on the heaviest bar since the open. Your account is $25,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[17.02, 17.12, 17.00, 17.10], [17.10, 17.20, 17.08, 17.18], [17.18, 17.22, 17.12, 17.14], [17.14, 17.28, 17.12, 17.26], [17.26, 17.36, 17.24, 17.34], [17.34, 17.48, 17.32, 17.46], [17.46, 17.58, 17.44, 17.56], [17.56, 17.66, 17.54, 17.62], [17.62, 17.74, 17.60, 17.70], [17.70, 17.80, 17.68, 17.76], [17.76, 17.86, 17.74, 17.81]]
+      volume: [72000, 84000, 58000, 96000, 104000, 168000, 142000, 126000, 114000, 98000, 88000]
+      vwap: [17.05, 17.09, 17.11, 17.14, 17.18, 17.23, 17.28, 17.33, 17.38, 17.43, 17.48]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped up to $17.81 — $0.35 a share past the decision, +$490 long on 1,400 shares."
+    explanation: "Nobody who bought this session is behind, and the biggest buyer of the morning arrived on the minute that made a new high."
+
+  - type: tf
+    statement: "A market maker quoting both sides of XYZ makes its money from where price sits relative to VWAP."
+    answer: false
+    explanation: "It earns the gap between its own two prices. The line is the other side's scorecard, not its income."
+
+  - type: fill-choice
+    sentence: "A desk filling a large buy order is measured against the session's ___ price."
+    options: ["average", "opening", "closing"]
+    answer: "average"
+    explanation: "Which is exactly the number the line draws, minute by minute."
+
+  - type: chart-tap
+    prompt: "Tap the only minute that traded under the line and finished back above it."
+    chart:
+      kind: candles
+      data: [[18.40, 18.50, 18.38, 18.48], [18.48, 18.56, 18.44, 18.52], [18.52, 18.54, 18.42, 18.44], [18.44, 18.46, 18.37, 18.38], [18.38, 18.44, 18.34, 18.42], [18.42, 18.52, 18.40, 18.50], [18.50, 18.60, 18.48, 18.58], [18.58, 18.64, 18.54, 18.60], [18.60, 18.70, 18.58, 18.68]]
+      vwap: [18.30, 18.33, 18.35, 18.36, 18.37, 18.38, 18.40, 18.42, 18.44]
+    target: 4
+    explanation: "The minute before it stopped a cent short of the line. This one traded three cents through and closed five cents over."
+
+  - type: story
+    character: institution
+    text: "Four hundred thousand shares to buy, and one number to answer for. So it waits for the dips into the line and never pays up for the highs."

@@ -1,0 +1,128 @@
+id: "3-4"
+title: "Intraday Levels"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [levels, preparation, orders]
+learning_goal: "User draws the session's map in one pass before the open and places an entry at a line rather than near it."
+purpose: "A map you draw during the session is a map you draw too late."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "3-3"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Murphy — Technical Analysis of the Financial Markets"]
+notes: "Closes Level 3. Chapter 2's structure reading is what the annotations rest on; the ticket is the Chapter 3 habit applied at a line. Account named at $26,000."
+screens:
+  - type: intro
+    text: "Six lines, one pass, and then you leave the chart alone."
+
+  - type: story
+    character: retail-trader
+    text: "An hour before the bell the chart has no candles on it yet. You draw yesterday's three prices, then the two from {{market.premarket}}, then the round numbers between them."
+
+  - type: theory
+    title: "One pass, in one order"
+    body: "Yesterday's high, low and close. Then the extremes of {{market.premarket}}. Then the round numbers inside them. The line for the session's average price draws itself once trading starts."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the low this session has defended twice."
+    chart:
+      kind: candles
+      data: [[15.44, 15.48, 15.34, 15.36], [15.36, 15.40, 15.28, 15.30], [15.30, 15.34, 15.20, 15.32], [15.32, 15.38, 15.28, 15.30], [15.30, 15.32, 15.20, 15.26], [15.26, 15.36, 15.24, 15.34], [15.34, 15.42, 15.32, 15.40], [15.40, 15.46, 15.38, 15.44], [15.44, 15.52, 15.42, 15.50]]
+      volume: [96000, 88000, 124000, 76000, 118000, 104000, 92000, 84000, 78000]
+    answer: 15.2
+    tolerance: 0.04
+    label: "Support"
+    explanation: "$15.20 twice — the minute finished twelve cents above it the first time and six the second. That is a line worth carrying for the rest of the day."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the high this stretch has failed at twice."
+    chart:
+      kind: candles
+      data: [[21.20, 21.30, 21.18, 21.28], [21.28, 21.40, 21.26, 21.38], [21.38, 21.60, 21.36, 21.52], [21.52, 21.56, 21.44, 21.46], [21.46, 21.54, 21.42, 21.50], [21.50, 21.60, 21.48, 21.52], [21.52, 21.54, 21.42, 21.44], [21.44, 21.48, 21.36, 21.38], [21.38, 21.42, 21.30, 21.32], [21.32, 21.36, 21.24, 21.26]]
+      volume: [82000, 104000, 138000, 86000, 74000, 126000, 92000, 84000, 76000, 68000]
+    answer: 21.6
+    tolerance: 0.04
+    label: "Resistance"
+    explanation: "$21.60 on the third minute and again on the sixth, and neither of them finished above it."
+
+  - type: chart-decision
+    scenario: "Two of your lines are here: the pre-market high at $15.42 and yesterday's close at $15.20. The minute that just closed finished through the upper one on the heaviest bar of the session. Your account is $26,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[15.30, 15.38, 15.28, 15.36], [15.36, 15.42, 15.34, 15.40], [15.40, 15.42, 15.34, 15.36], [15.36, 15.40, 15.32, 15.38], [15.38, 15.42, 15.36, 15.40], [15.40, 15.50, 15.38, 15.48], [15.48, 15.56, 15.46, 15.54], [15.54, 15.62, 15.52, 15.60], [15.60, 15.66, 15.56, 15.62], [15.62, 15.70, 15.60, 15.68], [15.68, 15.74, 15.66, 15.71]]
+      volume: [78000, 92000, 64000, 58000, 72000, 148000, 126000, 108000, 94000, 86000, 78000]
+      vwap: [15.28, 15.30, 15.32, 15.33, 15.34, 15.36, 15.38, 15.40, 15.43, 15.45, 15.47]
+      levels:
+        - {price: 15.42, label: "Pre-market high"}
+        - {price: 15.2, label: "Yesterday's close"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $15.71 — $0.23 a share past the decision, +$345 long on 1,500 shares."
+    explanation: "Four minutes pressed at the line and the fifth finished six cents through it, with the session's average price underneath the whole time."
+
+  - type: order-build
+    prompt: "Take that long: 1,500 shares, and you will pay up to three cents over the ask of $15.44, no further."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [500, 1000, 1500]
+      price: [15.41, 15.44, 15.47]
+    answer: {side: buy, type: limit, qty: 1500, price: 15.47}
+    explanation: "A limit three cents over the ask fills like a market order and still refuses anything worse than $15.47."
+
+  - type: mc
+    prompt: "Price is sitting twenty cents from the line above and twenty from the line below, and the last four minutes have gone nowhere. What does the map say?"
+    options:
+      - {text: "Long, towards the line above"}
+      - {text: "Nothing yet", correct: true}
+      - {text: "Short, towards the line below"}
+    explanation: "The map earns its keep by being silent in the middle. Lines are worth trading at, not halfway between."
+
+  - type: numeric-input
+    prompt: "Your lines sit at $15.20, $15.42, $15.60 and $16.00. You are long 1,500 shares from $15.47 and the first line above you is the exit. What is that worth before costs?"
+    answer: 195
+    tolerance: 0.01
+    unit: "$"
+    working: "$15.60 − $15.47 = $0.13 a share; $0.13 × 1,500 shares = $195"
+    explanation: "The map gave you the exit before the entry, which is the only order in which a target is worth anything."
+
+  - type: tf
+    statement: "A line is worth drawing even when you have no intention of trading at it."
+    answer: true
+    explanation: "Those are the lines that tell you where a move you are already in can stall."
+
+  - type: compare
+    prompt: "Which of these has a trade your map can price?"
+    charts:
+      - kind: candles
+        data: [[19.30, 19.36, 19.24, 19.28], [19.28, 19.34, 19.22, 19.32], [19.32, 19.38, 19.26, 19.30], [19.30, 19.36, 19.24, 19.26], [19.26, 19.34, 19.22, 19.32], [19.32, 19.36, 19.26, 19.28], [19.28, 19.34, 19.24, 19.30], [19.30, 19.36, 19.26, 19.32]]
+        levels:
+          - {price: 19.0, label: "Support"}
+          - {price: 19.6, label: "Resistance"}
+        label: "A"
+      - kind: candles
+        data: [[19.30, 19.38, 19.28, 19.36], [19.36, 19.46, 19.34, 19.44], [19.44, 19.52, 19.42, 19.50], [19.50, 19.58, 19.48, 19.56], [19.56, 19.60, 19.52, 19.54], [19.54, 19.66, 19.52, 19.64], [19.64, 19.72, 19.62, 19.70], [19.70, 19.78, 19.68, 19.76]]
+        levels:
+          - {price: 19.6, label: "Resistance"}
+        label: "B"
+    answer: "B"
+    explanation: "A is thirty cents from either line and going nowhere. B has just finished a minute through the line it was drawn at, so the entry and the risk are both measurable."
+
+  - type: fill-tiles
+    sentence: "Lines you will never trade still tell you where a move can ___."
+    answer: "stall"
+    explanation: "Which is worth knowing while you are holding, not only while you are deciding."
+
+  - type: recap
+    title: "Level 3 in three lines"
+    points:
+      - {text: "Yesterday leaves a high, a low and a close, and the close is today's zero.", level: "3-1"}
+      - {text: "The pre-market extremes and the opening price are the session's own first lines.", level: "3-2"}
+      - {text: "Round numbers collect orders, and every level is a band rather than a cent.", level: "3-3"}

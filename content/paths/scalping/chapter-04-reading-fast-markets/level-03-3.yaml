@@ -1,0 +1,108 @@
+id: "3-3"
+title: "Intraday Levels"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [levels, round-numbers, order-book]
+learning_goal: "User marks round numbers as levels and treats every line as a band a few cents wide rather than one exact price."
+purpose: "Waiting for the exact cent is how a trader watches the level work without ever being in the trade."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "3-2"
+xp: 25
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Bellafiore — One Good Trade"]
+notes: "Chapter 2's level reading widened into zones; the ladder from Chapter 3 shows why the round number collects the orders. Account named at $30,000."
+screens:
+  - type: intro
+    text: "Nobody decides to sell at $19.97."
+
+  - type: theory
+    title: "Round numbers collect orders"
+    body: "$20.00, $15.00, $7.50. People pick prices in round numbers, so that is where their resting orders end up. A pile of resting orders is all a level ever was."
+
+  - type: example
+    body: "$25.00 stopped XYZ at $24.97, then at $25.03, then at $24.96. Three turns, no two at the same price, and every one of them the same level."
+
+  - type: theory
+    title: "So a level is a band"
+    body: "Price almost never turns on the exact cent. Draw the line, then treat the few cents either side of it as the level, and let the close decide which side of the band price is on."
+
+  - type: depth-ladder
+    prompt: "The round number here is $20.00. You market-buy 800 shares. Where does your last share fill?"
+    data:
+      bids: [[19.96, 1200], [19.95, 800], [19.94, 1500]]
+      asks: [[19.98, 200], [19.99, 300], [20.00, 9000]]
+    target: ask-3
+    explanation: "200 and 300 shares go first, and the last 300 hit the 9,000 sitting on $20.00 — the pile that makes the round number a level in the first place."
+
+  - type: chart-decision
+    scenario: "$18.00 is the round number above. XYZ has not finished a minute above the line all session, and the push into $18.00 traded four cents through it and gave every cent back. Your account is $30,000 and you are sizing 1,600 shares."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[17.80, 17.88, 17.78, 17.86], [17.86, 17.92, 17.84, 17.90], [17.90, 17.96, 17.88, 17.94], [17.94, 18.00, 17.92, 17.98], [17.98, 18.04, 17.94, 17.96], [17.96, 17.98, 17.88, 17.90], [17.90, 17.92, 17.84, 17.86], [17.86, 17.88, 17.78, 17.80], [17.80, 17.82, 17.74, 17.76], [17.76, 17.78, 17.70, 17.72], [17.72, 17.74, 17.68, 17.71]]
+      volume: [58000, 64000, 72000, 86000, 124000, 96000, 84000, 76000, 68000, 62000, 58000]
+      vwap: [18.14, 18.10, 18.06, 18.03, 18.01, 17.99, 17.97, 17.94, 17.91, 17.88, 17.85]
+      levels:
+        - {price: 18.0, label: "Round number"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It leaked down to $17.71 — $0.19 a share under the decision, +$304 short on 1,600 shares."
+    explanation: "The heaviest minute of the session was spent inside the band and finished under it, with the session's average price still overhead. Both lines point the same way."
+
+  - type: mc
+    prompt: "Why do resting orders pile up on $20.00 rather than on $19.97?"
+    options:
+      - {text: "Exchanges charge less to trade at round prices"}
+      - {text: "Market makers are required to quote whole dollars"}
+      - {text: "People decide their prices in round numbers", correct: true}
+    explanation: "Nothing about the venue changes at a whole dollar. What changes is how many people picked that number when they typed an order."
+
+  - type: slider
+    prompt: "A level at $18.00 has turned price at $17.96, then $18.02, then $17.97. How wide is the band those turns describe?"
+    min: 0
+    max: 0.2
+    step: 0.02
+    unit: "$"
+    answer: 0.06
+    tolerance: 0.02
+    explanation: "$18.02 − $17.96 = $0.06. Six cents is the level; the line in the middle is just where you drew it."
+
+  - type: tf
+    statement: "A level is best treated as one exact cent, because that is where the resting orders sit."
+    answer: false
+    explanation: "The orders sit near it, spread over a few cents. Demanding the exact price is how you watch the move from the sidelines."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Price turned two cents under $20.00"}
+      - {text: "and again three cents over it,"}
+      - {text: "so neither turn was at the level.", wrong: true}
+    explanation: "Both of them were. Five cents of scatter around a whole dollar is what the level looks like every time."
+
+  - type: numeric-input
+    prompt: "You short 1,600 shares at $17.90 with the stop three cents above the round number, at $18.03. What is at risk?"
+    answer: 208
+    tolerance: 0.01
+    unit: "$"
+    working: "$18.03 − $17.90 = $0.13 a share; $0.13 × 1,600 shares = $208"
+    explanation: "The stop goes outside the band, not on the line, or the scatter takes you out before the level has answered."
+
+  - type: fill-choice
+    sentence: "Treat a level as a ___ a few cents wide and judge it by where the minute closed."
+    options: ["band", "tick", "gap"]
+    answer: "band"
+    explanation: "One line on the chart, a few cents of level around it."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[24.14, 24.18, 24.04, 24.06], [24.06, 24.10, 23.96, 23.98], [23.98, 24.04, 23.94, 24.02], [24.02, 24.08, 23.98, 24.04], [24.04, 24.06, 23.95, 23.97], [23.97, 24.06, 23.96, 24.04], [24.04, 24.12, 24.02, 24.10], [24.10, 24.18, 24.08, 24.16]]
+      volume: [104000, 118000, 86000, 74000, 92000, 126000, 108000, 96000]
+      levels:
+        - {price: 24.0, label: "Round number"}
+    caption: "Five lows between $23.94 and $23.98, and not one of them at $24.00. The line is drawn; the level is the band."

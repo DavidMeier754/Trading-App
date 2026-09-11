@@ -1,0 +1,116 @@
+id: "6-4"
+title: "Candle Signals on the 1-Minute"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [candles, drill, decisions]
+learning_goal: "User runs two questions on every shape — is it at a line, and did the bar carry weight — and passes when either answer is no."
+purpose: "Telling a signal from a shape that merely looks like one is the whole skill; everything else in this level was vocabulary."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "6-3"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Nison — Japanese Candlestick Charting Techniques"]
+notes: "Closes Level 6 with the filter and a deck. Chapter 2's volume row is the second of the two questions. Account named at $28,000."
+screens:
+  - type: intro
+    text: "Two questions per shape. Most shapes fail one of them."
+
+  - type: theory
+    title: "The filter"
+    body: "Is the shape sitting at a line you marked, or at the session's average price? And did the bar under it carry weight? Two yeses make a signal. One makes a minute."
+
+  - type: compare
+    prompt: "Both last minutes undo the minute before them. Which one was actually bought?"
+    charts:
+      - kind: candles
+        data: [[21.40, 21.44, 21.34, 21.36], [21.36, 21.40, 21.30, 21.32], [21.32, 21.36, 21.26, 21.28], [21.28, 21.32, 21.22, 21.24], [21.24, 21.28, 21.20, 21.22], [21.22, 21.26, 21.18, 21.20], [21.20, 21.24, 21.16, 21.18], [21.16, 21.34, 21.14, 21.32]]
+        volume: [96000, 88000, 84000, 80000, 76000, 72000, 68000, 38000]
+        label: "A"
+      - kind: candles
+        data: [[21.40, 21.44, 21.34, 21.36], [21.36, 21.40, 21.30, 21.32], [21.32, 21.36, 21.26, 21.28], [21.28, 21.32, 21.22, 21.24], [21.24, 21.28, 21.20, 21.22], [21.22, 21.26, 21.18, 21.20], [21.20, 21.24, 21.16, 21.18], [21.16, 21.34, 21.14, 21.32]]
+        volume: [96000, 88000, 84000, 80000, 76000, 72000, 68000, 184000]
+        label: "B"
+    answer: "B"
+    explanation: "The candles are the same to the cent. A's was the thinnest bar of the eight and B's was nearly double the heaviest."
+
+  - type: swipe-deck
+    prompt: "Your filter: the shape is at a marked line and the bar under it is one of the heaviest of the session. Take the trade it offers, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[12.20, 12.26, 12.16, 12.24], [12.24, 12.30, 12.22, 12.28], [12.28, 12.32, 12.24, 12.26], [12.26, 12.32, 12.24, 12.30], [12.30, 12.34, 12.28, 12.32], [12.32, 12.50, 12.31, 12.48], [12.48, 12.54, 12.46, 12.52], [12.52, 12.58, 12.50, 12.56]], volume: [64000, 72000, 58000, 66000, 62000, 182000, 142000, 124000], levels: [{price: 12.36, label: "Yesterday's high"}]}
+        answer: take
+        note: "A sixteen-cent body straight through the level, on two and a half times the volume of anything before it."
+      - chart: {kind: candles, data: [[15.20, 15.26, 15.16, 15.24], [15.24, 15.30, 15.22, 15.28], [15.28, 15.32, 15.24, 15.26], [15.26, 15.32, 15.24, 15.30], [15.30, 15.34, 15.28, 15.32], [15.32, 15.50, 15.31, 15.48], [15.48, 15.54, 15.46, 15.52], [15.52, 15.58, 15.50, 15.56]], volume: [64000, 72000, 58000, 66000, 62000, 178000, 140000, 122000], levels: [{price: 16.2, label: "Yesterday's high"}]}
+        answer: pass
+        note: "The same body and the same weight, seventy-two cents short of the only line on the chart."
+      - chart: {kind: candles, data: [[18.20, 18.26, 18.16, 18.24], [18.24, 18.30, 18.22, 18.28], [18.28, 18.34, 18.26, 18.32], [18.32, 18.38, 18.30, 18.36], [18.36, 18.42, 18.34, 18.40], [18.40, 18.54, 18.38, 18.42], [18.42, 18.46, 18.36, 18.38], [18.38, 18.42, 18.32, 18.34]], volume: [88000, 82000, 78000, 74000, 70000, 26000, 64000, 60000], levels: [{price: 18.48, label: "Pre-market high"}]}
+        answer: pass
+        note: "Refused at the line, and on the thinnest bar of the eight. Nobody was there to refuse it."
+      - chart: {kind: candles, data: [[16.60, 16.64, 16.52, 16.54], [16.54, 16.58, 16.46, 16.48], [16.48, 16.52, 16.42, 16.44], [16.44, 16.48, 16.38, 16.40], [16.40, 16.44, 16.36, 16.38], [16.36, 16.56, 16.34, 16.54], [16.54, 16.60, 16.52, 16.58], [16.58, 16.64, 16.56, 16.62]], volume: [82000, 88000, 94000, 98000, 86000, 196000, 152000, 132000], levels: [{price: 16.36, label: "Yesterday's low"}]}
+        answer: take
+        note: "The whole of the last minute undone at the level, on double everything before it."
+      - chart: {kind: candles, data: [[13.10, 13.16, 13.06, 13.14], [13.14, 13.20, 13.12, 13.18], [13.18, 13.24, 13.16, 13.22], [13.22, 13.28, 13.20, 13.26], [13.26, 13.30, 13.24, 13.28], [13.28, 13.32, 13.24, 13.28], [13.28, 13.30, 13.22, 13.24], [13.24, 13.28, 13.20, 13.22]], volume: [72000, 78000, 84000, 80000, 76000, 74000, 70000, 66000], levels: [{price: 13.32, label: "Yesterday's high"}]}
+        answer: pass
+        note: "At the line, on an ordinary bar, and settling nothing. A question is not an answer."
+    explanation: "Two of the five pass both questions. The other three have one of the two and nothing else."
+
+  - type: chart-decision
+    scenario: "Yesterday's high is $18.20. XYZ has spent four minutes inside four cents underneath it, and the minute that just closed is a sixteen-cent body on three times the volume of them. Your account is $28,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[18.04, 18.12, 18.02, 18.10], [18.10, 18.18, 18.08, 18.16], [18.16, 18.18, 18.12, 18.14], [18.14, 18.18, 18.12, 18.16], [18.16, 18.18, 18.12, 18.14], [18.16, 18.34, 18.15, 18.32], [18.32, 18.40, 18.30, 18.38], [18.38, 18.46, 18.36, 18.44], [18.44, 18.50, 18.42, 18.48], [18.48, 18.54, 18.46, 18.52], [18.52, 18.60, 18.50, 18.57]]
+      volume: [68000, 74000, 52000, 58000, 48000, 186000, 148000, 126000, 108000, 94000, 84000]
+      vwap: [18.04, 18.06, 18.08, 18.09, 18.10, 18.11, 18.13, 18.15, 18.17, 18.19, 18.20]
+      levels:
+        - {price: 18.2, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $18.57 — $0.25 a share past the decision, +$350 long on 1,400 shares."
+    explanation: "Both questions come back yes: the body finished twelve cents through the line, and the bar under it is three times the quiet minutes it came out of."
+
+  - type: mc
+    prompt: "A refused push at yesterday's high, on the thinnest bar of the session. What is it?"
+    options:
+      - {text: "A short, because the level held"}
+      - {text: "A long, because the level was reached"}
+      - {text: "A minute nobody paid for", correct: true}
+    explanation: "The shape passes the first question and fails the second, and the second one is what tells you somebody was actually there."
+
+  - type: chart-decision
+    scenario: "XYZ has spent eleven minutes inside sixteen cents with the line running through the middle of them. The minute that just closed covers the whole body of the one before it. Your account is $28,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[19.08, 19.18, 19.04, 19.14], [19.14, 19.16, 19.04, 19.08], [19.08, 19.16, 19.04, 19.12], [19.12, 19.14, 19.02, 19.06], [19.06, 19.12, 19.04, 19.10], [19.04, 19.18, 19.02, 19.16], [19.16, 19.18, 19.06, 19.10], [19.10, 19.16, 19.06, 19.14], [19.14, 19.16, 19.04, 19.08], [19.08, 19.16, 19.04, 19.12], [19.12, 19.14, 19.04, 19.09]]
+      volume: [64000, 58000, 62000, 56000, 60000, 54000, 66000, 58000, 62000, 56000, 60000]
+      vwap: [19.1, 19.1, 19.1, 19.1, 19.1, 19.1, 19.1, 19.1, 19.1, 19.1, 19.1]
+      decision_index: 5
+    best: no-trade
+    reasonable: []
+    outcome: "It was $19.09 six minutes later — $0.07 a share against a long, $98 on 1,400 shares before a single cost."
+    explanation: "The shape is real and there is nowhere for it to matter: no line within reach, the session's average price in the middle of the band, and the lightest bar of the eleven underneath it."
+
+  - type: numeric-input
+    prompt: "The sixteen-cent body opened at $18.16 and its low was $18.15. You take 1,400 shares at $18.32 with the stop a cent under that low. What is at risk?"
+    answer: 252
+    tolerance: 0.01
+    unit: "$"
+    working: "$18.32 − $18.14 = $0.18 a share; $0.18 × 1,400 shares = $252"
+    explanation: "The candle that made the signal also gives you the price at which the signal was wrong, which is the cheapest stop you will get all day."
+
+  - type: tf
+    statement: "A shape at a line with no weight behind it is the same trade as one with the heaviest bar of the session under it."
+    answer: false
+    explanation: "One of them had somebody behind it. Without the bar, the shape is a price that drifted rather than a price that was taken."
+
+  - type: recap
+    title: "Level 6 in four lines"
+    points:
+      - {text: "A long body is one side holding the minute; a flat one is nobody holding it.", level: "6-1"}
+      - {text: "A long wick is a price refused; an engulfing body undoes the minute before it.", level: "6-2"}
+      - {text: "The same shape means different things at a marked line and in open space.", level: "6-3"}
+      - {text: "Two questions per shape: is it at a line, and did the bar carry weight.", level: "6-4"}

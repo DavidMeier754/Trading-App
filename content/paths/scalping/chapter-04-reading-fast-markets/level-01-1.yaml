@@ -5,101 +5,98 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [vwap, levels]
-learning_goal: "User can say what VWAP is, work out a simple volume-weighted average, and read price above or below the line."
-purpose: "VWAP is the one line almost every intraday trader has on the screen — including the institutions on the other side of your fills."
+learning_goal: "User can say what VWAP is and work out a simple volume-weighted average from a handful of trades."
+purpose: "VWAP is the one line almost every intraday trader has on the screen, and it is the first thing a scalper looks at after the shape of the chart."
 terms_introduced: ["VWAP"]
 reinforces: [1]
 prerequisite: null
 xp: 20
-difficulty: 2
+difficulty: 1
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
-notes: "First sub of the chapter. Defines the line; 1-2 trades it."
+notes: "First sub of the chapter. Defines the line and computes it; Chapter 1's volume reading is what makes the weighting land."
 screens:
   - type: intro
-    text: "One line on your chart knows what the whole session paid."
+    text: "One line on the chart knows what every share of this session actually paid."
 
   - type: theory
-    title: "The average price of the session"
-    body: "VWAP is the volume-weighted average price: every trade of the session averaged together, with bigger trades counting for more. It starts at the open and updates with every trade."
+    title: "The price the session paid"
+    body: "VWAP is the volume-weighted average price. Take every trade since the open, weight each price by the shares that traded at it, and average them. It starts at the open and moves with every trade."
 
   - type: example
-    body: "So far today XYZ traded 1,000 shares at $20.00, 4,000 at $20.50 and 5,000 at $21.00. That is $207,000 for 10,000 shares. VWAP is $20.70."
+    body: "XYZ has traded 2,000 shares at $15.00, 3,000 at $15.20 and 5,000 at $15.30. That is $152,100 for 10,000 shares, so VWAP is $15.21."
 
   - type: theory
     title: "Weighted, not averaged"
-    body: "A plain average of those three prices is $20.50. VWAP says $20.70, because most of the shares changed hands higher up. VWAP follows the shares, not the ticks."
+    body: "A plain average of those three prices is $15.17. VWAP says $15.21, because half the shares changed hands at the top price. The line follows the shares, not the list of prices."
 
   - type: numeric-mc
-    prompt: "2,000 shares trade at $30.00, then 6,000 at $30.40. What is VWAP?"
+    prompt: "4,000 shares trade at $19.00, then 1,000 at $19.50. Where is VWAP?"
     options:
-      - {text: "$30.20"}
-      - {text: "$30.40"}
-      - {text: "$30.10"}
-      - {text: "$30.30", correct: true}
-    working: "(2,000 × $30.00 + 6,000 × $30.40) ÷ 8,000 shares = $30.30"
-    explanation: "Three quarters of the shares traded at $30.40, so VWAP sits close to it."
-
-  - type: theory
-    title: "Above the line or below it"
-    body: "Price above VWAP: buyers have been paying up and the average buyer today is ahead. Below: sellers have had the upper hand. Scalpers lean long above the line and short below it."
+      - {text: "$19.25"}
+      - {text: "$19.40"}
+      - {text: "$19.10", correct: true}
+      - {text: "$19.05"}
+    working: "(4,000 × $19.00 + 1,000 × $19.50) ÷ 5,000 = $95,500 ÷ 5,000 = $19.10"
+    explanation: "Four fifths of the shares went through at $19.00, so the line sits ten cents above it and nowhere near the middle."
 
   - type: visual
     component: chart-candles
     data:
-      data: [[24.10, 24.18, 24.08, 24.16], [24.16, 24.24, 24.14, 24.22], [24.22, 24.26, 24.18, 24.20], [24.20, 24.30, 24.19, 24.28], [24.28, 24.36, 24.26, 24.34], [24.34, 24.38, 24.28, 24.31], [24.31, 24.42, 24.30, 24.40], [24.40, 24.48, 24.38, 24.46]]
-      volume: [42000, 51000, 33000, 48000, 62000, 39000, 56000, 61000]
-      vwap: [24.12, 24.15, 24.17, 24.19, 24.22, 24.24, 24.27, 24.30]
-    caption: "Every candle closes above the VWAP line: buyers in charge all session."
+      data: [[15.02, 15.10, 15.00, 15.08], [15.08, 15.16, 15.06, 15.14], [15.14, 15.18, 15.10, 15.12], [15.12, 15.22, 15.11, 15.20], [15.20, 15.28, 15.18, 15.26], [15.26, 15.30, 15.20, 15.23], [15.23, 15.34, 15.22, 15.32], [15.32, 15.40, 15.30, 15.38]]
+      volume: [88000, 96000, 62000, 74000, 108000, 58000, 92000, 104000]
+      vwap: [15.04, 15.07, 15.09, 15.11, 15.14, 15.16, 15.19, 15.22]
+    caption: "Eight minutes, eight closes above the line, and the line climbing behind them."
 
   - type: chart-tap
-    prompt: "Tap the first candle that closes below VWAP."
+    prompt: "Tap the first minute that finished above the line."
     chart:
       kind: candles
-      data: [[31.40, 31.48, 31.36, 31.46], [31.46, 31.54, 31.44, 31.52], [31.52, 31.56, 31.46, 31.48], [31.48, 31.52, 31.40, 31.46], [31.46, 31.48, 31.32, 31.34], [31.34, 31.40, 31.26, 31.28], [31.28, 31.36, 31.24, 31.33], [31.33, 31.38, 31.20, 31.22], [31.22, 31.28, 31.16, 31.18], [31.18, 31.24, 31.10, 31.14]]
-      vwap: [31.38, 31.42, 31.44, 31.44, 31.44, 31.42, 31.41, 31.39, 31.36, 31.34]
-    target: 4
-    explanation: "The candle before it dipped under the line but closed back above — only a close counts."
+      data: [[12.40, 12.44, 12.32, 12.34], [12.34, 12.38, 12.26, 12.28], [12.28, 12.34, 12.24, 12.32], [12.32, 12.40, 12.30, 12.38], [12.38, 12.42, 12.34, 12.36], [12.36, 12.48, 12.35, 12.46], [12.46, 12.54, 12.44, 12.52], [12.52, 12.56, 12.46, 12.50], [12.50, 12.60, 12.48, 12.58], [12.58, 12.66, 12.56, 12.62]]
+      vwap: [12.46, 12.42, 12.40, 12.39, 12.38, 12.39, 12.41, 12.43, 12.45, 12.47]
+    target: 5
+    explanation: "The fourth minute traded above the line and finished a cent underneath it. This one finished seven cents clear."
 
   - type: tf
-    statement: "A stock that has traded under VWAP all morning is showing you buyers in control."
+    statement: "VWAP resets every hour, so the afternoon line has nothing to do with the morning."
     answer: false
-    explanation: "Under the line the average buyer of the session is behind; that is sellers in control."
+    explanation: "It runs from the open to the close of the session. Every share of the morning is still inside the afternoon's number."
 
   - type: theory
-    title: "Why the big money watches it"
-    body: "An institution filling 400,000 shares is graded against VWAP — buying below it counts as a good fill. Large orders lean on the line, which is why price so often reacts there."
+    title: "Which side of it you are on"
+    body: "Above the line, the average share of this session was bought for less than it is worth now. Below it, the average share is under water. That is the first thing the line tells you."
 
   - type: mc
-    prompt: "Why does price react at VWAP so often?"
+    prompt: "Two stocks are both at $18.40. One has traded 4 million shares today, the other 90,000. A 2,000-share trade goes through at $18.70. Whose VWAP barely notices?"
     options:
-      - {text: "Large orders are measured against it and cluster there", correct: true}
-      - {text: "It sits exactly halfway between the day's high and low"}
-      - {text: "Exchanges use it as the official reference price for the session"}
-    explanation: "It matters because so many big orders are judged by it, not because of anything the exchange does."
+      - {text: "The one that has traded 4 million shares", correct: true}
+      - {text: "The one that has traded 90,000 shares"}
+      - {text: "Neither, since the trade is the same size in both"}
+    explanation: "Chapter 1's volume reading decides it: 2,000 shares is a rounding error inside 4 million and a real slice of 90,000."
 
   - type: fill-choice
-    sentence: "VWAP weights every price by the ___ that traded there."
-    options: ["volume", "time", "spread"]
-    answer: "volume"
-    explanation: "Shares, not minutes — that is what makes it volume-weighted."
-
-  - type: slider
-    prompt: "XYZ traded between $50.00 and $50.60 today, but four out of five shares changed hands near $50.10. Where is VWAP?"
-    min: 50.0
-    max: 50.6
-    step: 0.05
-    unit: "$"
-    answer: 50.15
-    tolerance: 0.1
-    explanation: "Weighted by shares, VWAP sits near where the volume traded, not in the middle of the range."
+    sentence: "VWAP counts each price by the number of ___ that traded at it."
+    options: ["shares", "minutes", "orders"]
+    answer: "shares"
+    explanation: "Two minutes can carry wildly different weight; two thousand shares always carry the same."
 
   - type: numeric-input
-    prompt: "You are long 1,000 shares from $20.70. Price is now $20.82. Paper result before costs?"
-    answer: 120
+    prompt: "The first minute traded 30,000 shares at an average of $21.00. The second traded 10,000 at an average of $21.40. Where is VWAP now?"
+    answer: 21.1
+    tolerance: 0.01
     unit: "$"
-    working: "$0.12 per share × 1,000 shares = $120"
-    explanation: "Twelve cents on a thousand shares — a normal scalp."
+    working: "(30,000 × $21.00 + 10,000 × $21.40) ÷ 40,000 = $844,000 ÷ 40,000 = $21.10"
+    explanation: "The quiet second minute moved the line ten cents, because the busy first minute was three times its size."
+
+  - type: sort
+    prompt: "Which of these actually drags the line, and which one it ignores?"
+    buckets: ["Drags the line", "The line ignores it"]
+    items:
+      - {text: "400,000 shares changing hands ten cents above it", bucket: "Drags the line"}
+      - {text: "600 shares changing hands a dollar above it", bucket: "The line ignores it"}
+      - {text: "A 260,000-share minute at the low of the day", bucket: "Drags the line"}
+      - {text: "One 100-share trade at the high of the day", bucket: "The line ignores it"}
+    explanation: "Distance from the line is not what moves it. Shares are."
 
   - type: theory
-    title: "The day's centre of gravity"
-    body: "VWAP is where the session's money actually traded. Next: what price does when it comes back to the line."
+    title: "The session's centre of gravity"
+    body: "You can now build the line and say which side of it price is on. Next: what happens when price comes back to it."

@@ -1,0 +1,140 @@
+id: "4-2"
+title: "Map Practice"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: repetition
+tags: [drill, levels, vwap, costs]
+learning_goal: "User runs the read-then-price sequence on unseen charts and passes on the ones where the room, the cost or the size fails."
+purpose: "Recognition is built on charts you have never seen, not on the ones you have already been told the answer to."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "4-1"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Volman — Understanding Price Action"]
+notes: "The chapter's drill sub: no theory screens, five swipe cards and three decisions. Account named at $24,000."
+screens:
+  - type: intro
+    text: "No new ideas. Your lines, and the arithmetic that decides which of them you can afford."
+
+  - type: swipe-deck
+    prompt: "Your rule: price above the line, and a finished minute through a marked level. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[22.20, 22.28, 22.18, 22.26], [22.26, 22.34, 22.24, 22.32], [22.32, 22.38, 22.28, 22.30], [22.30, 22.40, 22.28, 22.38], [22.38, 22.42, 22.34, 22.40], [22.40, 22.52, 22.38, 22.50], [22.50, 22.58, 22.48, 22.56], [22.56, 22.64, 22.54, 22.62]], vwap: [22.18, 22.20, 22.22, 22.24, 22.26, 22.28, 22.31, 22.34], levels: [{price: 22.44, label: "Yesterday's high"}]}
+        answer: take
+        note: "Above the line all the way, and the sixth minute finished six cents through the level."
+      - chart: {kind: candles, data: [[19.20, 19.26, 19.16, 19.24], [19.24, 19.30, 19.20, 19.26], [19.26, 19.32, 19.22, 19.28], [19.28, 19.34, 19.24, 19.30], [19.30, 19.34, 19.26, 19.28], [19.28, 19.36, 19.26, 19.34], [19.34, 19.38, 19.30, 19.32], [19.32, 19.40, 19.30, 19.38]], vwap: [19.18, 19.20, 19.21, 19.22, 19.23, 19.24, 19.26, 19.28], levels: [{price: 19.8, label: "Round number"}]}
+        answer: pass
+        note: "The right side of the line and forty-two cents from the level. Half the rule, and the cheaper half."
+      - chart: {kind: candles, data: [[16.60, 16.66, 16.56, 16.58], [16.58, 16.62, 16.52, 16.54], [16.54, 16.60, 16.50, 16.58], [16.58, 16.64, 16.54, 16.62], [16.62, 16.68, 16.58, 16.66], [16.66, 16.74, 16.64, 16.72], [16.72, 16.76, 16.66, 16.68], [16.68, 16.72, 16.62, 16.64]], vwap: [16.86, 16.84, 16.82, 16.80, 16.79, 16.78, 16.77, 16.76], levels: [{price: 16.7, label: "Pre-market high"}]}
+        answer: pass
+        note: "The level went, and every close of the session is under the line. Buying into that is buying against the session."
+      - chart: {kind: candles, data: [[13.40, 13.48, 13.38, 13.46], [13.46, 13.52, 13.42, 13.50], [13.50, 13.54, 13.46, 13.48], [13.48, 13.56, 13.46, 13.54], [13.54, 13.58, 13.50, 13.56], [13.56, 13.66, 13.54, 13.64], [13.64, 13.72, 13.62, 13.70], [13.70, 13.78, 13.68, 13.76]], vwap: [13.38, 13.40, 13.42, 13.44, 13.46, 13.48, 13.51, 13.54], levels: [{price: 13.6, label: "Yesterday's high"}]}
+        answer: take
+        note: "Both halves: above the line from the first minute, and a close four cents through the level."
+      - chart: {kind: candles, data: [[17.20, 17.28, 17.18, 17.26], [17.26, 17.32, 17.22, 17.30], [17.30, 17.36, 17.26, 17.32], [17.32, 17.38, 17.28, 17.36], [17.36, 17.40, 17.32, 17.38], [17.38, 17.48, 17.36, 17.40], [17.40, 17.44, 17.34, 17.36], [17.36, 17.42, 17.32, 17.34]], vwap: [17.18, 17.20, 17.22, 17.24, 17.26, 17.28, 17.30, 17.31], levels: [{price: 17.44, label: "Yesterday's high"}]}
+        answer: pass
+        note: "Four cents through the level inside the minute and four cents back under by the close."
+    explanation: "Two of the five have both halves. The other three have the side of the line and nothing else."
+
+  - type: chart-decision
+    scenario: "Yesterday's low is $14.70. XYZ has not finished a minute above the line today, and the minute that just closed finished six cents under the level on the heaviest bar of the session. Your account is $24,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[14.90, 14.92, 14.84, 14.86], [14.86, 14.88, 14.78, 14.80], [14.80, 14.86, 14.78, 14.84], [14.84, 14.86, 14.76, 14.78], [14.78, 14.80, 14.70, 14.72], [14.72, 14.74, 14.62, 14.64], [14.64, 14.66, 14.56, 14.58], [14.58, 14.60, 14.50, 14.52], [14.52, 14.54, 14.44, 14.46], [14.46, 14.48, 14.40, 14.42], [14.42, 14.44, 14.37, 14.39]]
+      volume: [68000, 76000, 58000, 72000, 96000, 142000, 124000, 108000, 94000, 84000, 76000]
+      vwap: [14.92, 14.90, 14.88, 14.86, 14.84, 14.82, 14.80, 14.77, 14.74, 14.71, 14.68]
+      levels:
+        - {price: 14.7, label: "Yesterday's low"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It kept going to $14.39 — $0.25 a share under the decision, +$375 short on 1,500 shares."
+    explanation: "The session's average price has been overhead all morning and the last full session's floor has just been finished through, with the weight to go with it."
+
+  - type: compare
+    prompt: "Costs run four cents a share in both. In which one is there twenty cents of room to the line above?"
+    charts:
+      - kind: candles
+        data: [[20.10, 20.16, 20.06, 20.14], [20.14, 20.20, 20.10, 20.18], [20.18, 20.22, 20.14, 20.16], [20.16, 20.24, 20.14, 20.22], [20.22, 20.26, 20.18, 20.24], [20.24, 20.30, 20.22, 20.28], [20.28, 20.32, 20.24, 20.26], [20.26, 20.32, 20.22, 20.30]]
+        levels:
+          - {price: 20.36, label: "Yesterday's high"}
+        label: "A"
+      - kind: candles
+        data: [[15.40, 15.46, 15.36, 15.44], [15.44, 15.50, 15.40, 15.48], [15.48, 15.52, 15.44, 15.46], [15.46, 15.54, 15.44, 15.52], [15.52, 15.56, 15.48, 15.54], [15.54, 15.60, 15.52, 15.58], [15.58, 15.62, 15.54, 15.56], [15.56, 15.62, 15.52, 15.60]]
+        levels:
+          - {price: 15.66, label: "Pre-market high"}
+        label: "B"
+    answer: "neither"
+    allow_neither: true
+    explanation: "Six cents of room in each. Four cents of cost against six cents of room is a trade that needs everything to go right just to get back to flat."
+
+  - type: chart-decision
+    scenario: "Yesterday's high is $19.34 and XYZ has finished every minute above the line. Your account is $24,000 and you are sizing 1,200 shares."
+    shares: 1200
+    state: ["Costs $0.04 a share round trip"]
+    chart:
+      kind: candles
+      data: [[19.14, 19.22, 19.12, 19.20], [19.20, 19.26, 19.18, 19.24], [19.24, 19.28, 19.20, 19.22], [19.22, 19.28, 19.20, 19.26], [19.26, 19.28, 19.22, 19.24], [19.24, 19.30, 19.22, 19.28], [19.28, 19.30, 19.24, 19.26], [19.26, 19.32, 19.24, 19.30], [19.30, 19.32, 19.26, 19.28], [19.28, 19.34, 19.26, 19.31]]
+      volume: [82000, 76000, 68000, 72000, 64000, 78000, 70000, 74000, 66000, 72000]
+      vwap: [19.14, 19.16, 19.17, 19.18, 19.19, 19.20, 19.21, 19.22, 19.22, 19.23]
+      levels:
+        - {price: 19.34, label: "Yesterday's high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: []
+    outcome: "Four minutes later it was $19.31 — $0.03 a share past the decision, $36 on 1,200 shares against $48 of costs."
+    explanation: "The side of the line is right and there is nothing behind it: six cents of room, four cents of cost, and a level that has capped every minute so far."
+
+  - type: branch
+    scenario: "You are long 1,200 shares from $16.34, two minutes after the line was taken back. Stop at $16.22, and yesterday's high at $16.58 is the exit. Your account is $24,000."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[16.20, 16.24, 16.14, 16.16], [16.16, 16.20, 16.10, 16.12], [16.12, 16.26, 16.10, 16.24], [16.24, 16.30, 16.22, 16.28], [16.28, 16.36, 16.26, 16.34], [16.34, 16.42, 16.32, 16.40], [16.40, 16.46, 16.38, 16.44], [16.44, 16.54, 16.42, 16.52], [16.52, 16.56, 16.44, 16.46], [16.46, 16.48, 16.28, 16.30]]
+      volume: [72000, 78000, 126000, 96000, 88000, 104000, 92000, 84000, 76000, 138000]
+      vwap: [16.26, 16.24, 16.23, 16.23, 16.24, 16.25, 16.27, 16.29, 16.31, 16.32]
+      decision_index: 5
+    steps:
+      - prompt: "Price stalls four cents under $16.58 on two slower minutes. What now?"
+        options:
+          - {text: "Hold — nothing has finished on the wrong side of anything", correct: true, next: 1}
+          - {text: "Pull the exit down to where price is now", next: 1}
+        explanation: "The exit came off the map before the entry did. Two slow minutes are not new information."
+      - prompt: "The next minute finishes back under the line, on the heaviest bar since you went in. Now?"
+        options:
+          - {text: "Out — the reading that put you in has gone", correct: true}
+          - {text: "Sit and let the stop at $16.22 handle it"}
+        explanation: "The stop is the backstop for being wrong quickly, not the plan. A close back under the line on weight is the read ending."
+
+  - type: numeric-input
+    prompt: "That long was 1,200 shares at $16.34 with the stop at $16.22. What was at risk?"
+    answer: 144
+    tolerance: 0.01
+    unit: "$"
+    working: "$16.34 − $16.22 = $0.12 a share; $0.12 × 1,200 shares = $144"
+    explanation: "And 1,200 × $16.34 is $19,608, so the $24,000 account can hold the whole position it is risking $144 on."
+
+  - type: chart-decision
+    scenario: "The pre-market high is $13.20. XYZ has held above the line all session and the minute that just closed finished four cents through the level on the biggest bar of the morning. Your account is $24,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.02, 13.10, 13.00, 13.08], [13.08, 13.16, 13.06, 13.14], [13.14, 13.18, 13.10, 13.12], [13.12, 13.20, 13.10, 13.18], [13.18, 13.20, 13.14, 13.16], [13.16, 13.26, 13.14, 13.24], [13.24, 13.30, 13.22, 13.28], [13.28, 13.34, 13.26, 13.32], [13.32, 13.38, 13.30, 13.36], [13.36, 13.40, 13.34, 13.38], [13.38, 13.44, 13.36, 13.41]]
+      volume: [66000, 74000, 56000, 68000, 62000, 128000, 112000, 96000, 84000, 76000, 70000]
+      vwap: [13.02, 13.04, 13.06, 13.07, 13.08, 13.09, 13.10, 13.12, 13.14, 13.16, 13.18]
+      levels:
+        - {price: 13.2, label: "Pre-market high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $13.41 — $0.17 a share past the decision, +$238 long on 1,400 shares."
+    explanation: "Four minutes pressed at the level and the fifth finished through it on double the volume of the five before it, with the session's average price underneath all morning."
+
+  - type: recap
+    title: "Level 4 in two lines"
+    points:
+      - {text: "Read first, price second: the cost against the room, then the size against both ceilings.", level: "4-1"}
+      - {text: "Most charts fail one of those tests, so passing is the ordinary answer, not a failure.", level: "4-2"}

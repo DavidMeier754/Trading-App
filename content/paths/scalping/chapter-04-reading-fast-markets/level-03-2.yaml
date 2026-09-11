@@ -1,0 +1,108 @@
+id: "3-2"
+title: "Intraday Levels"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [levels, premarket, sessions]
+learning_goal: "User can mark the extremes of the pre-market session and today's opening price, and say which of the day's lines exist before the bell."
+purpose: "The first part of the session trades against prices set before anybody sat down, and the opening price splits the day in two."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "3-1"
+xp: 25
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Chapter 2's level-holds re-tested on the pre-market extremes; the opening price is the new line. Account named at $25,000."
+screens:
+  - type: intro
+    text: "Two more lines from a session almost nobody trades, and one the first minute hands you."
+
+  - type: theory
+    title: "Made in the quiet session"
+    body: "The high and low of {{market.premarket}} {{market.timezone}} are set by a handful of traders on tiny volume. They still work, because every chart watching this stock shows them."
+
+  - type: example
+    body: "XYZ closed yesterday at $16.80, traded up to $17.44 during {{market.premarket}} and opened at $17.16. Three numbers, and not one of them needed a candle to be read."
+
+  - type: visual
+    component: session-ribbon
+    data:
+      premarket: "{{market.premarket}}"
+      regular: "{{market.regular}}"
+      afterhours: "{{market.afterhours}}"
+      timezone: "{{market.timezone}}"
+    caption: "The thin session on the left leaves two prices that the busy one in the middle spends the morning arguing about."
+
+  - type: theory
+    title: "And today's first price"
+    body: "The opening price is the session's first agreement. Above it, buyers have had the day since the first trade; below it, sellers have. Mark it and leave it on the chart."
+
+  - type: sort
+    prompt: "Which of these are already on the chart before the bell?"
+    buckets: ["On the chart before the bell", "Only once the session runs"]
+    items:
+      - {text: "The high of {{market.premarket}}", bucket: "On the chart before the bell"}
+      - {text: "Yesterday's close", bucket: "On the chart before the bell"}
+      - {text: "Today's opening price", bucket: "Only once the session runs"}
+      - {text: "The high of the day so far", bucket: "Only once the session runs"}
+      - {text: "The round number above yesterday's high", bucket: "On the chart before the bell"}
+    explanation: "Three of them are homework and two are the session talking. The homework is what you have ready when there is no time to think."
+
+  - type: mc
+    prompt: "Price has spent the last twenty minutes above today's opening price. What does that say?"
+    options:
+      - {text: "Buyers have had the session since the first trade", correct: true}
+      - {text: "The stock gapped up from yesterday's close"}
+      - {text: "The high of {{market.premarket}} has been taken out"}
+    explanation: "The opening price only ever tells you which side has been comfortable since the first trade. The gap and the pre-market high are separate readings."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price this session opened at."
+    chart:
+      kind: candles
+      data: [[18.44, 18.56, 18.40, 18.52], [18.52, 18.60, 18.48, 18.50], [18.50, 18.54, 18.38, 18.42], [18.42, 18.48, 18.36, 18.46], [18.46, 18.58, 18.44, 18.56], [18.56, 18.62, 18.50, 18.52], [18.52, 18.56, 18.42, 18.46], [18.46, 18.52, 18.40, 18.50], [18.50, 18.60, 18.48, 18.58]]
+      volume: [196000, 142000, 118000, 104000, 126000, 98000, 86000, 92000, 108000]
+    answer: 18.44
+    tolerance: 0.04
+    label: "Today's open"
+    explanation: "$18.44, the left edge of the first candle. Eight of the nine minutes have finished above it."
+
+  - type: chart-decision
+    scenario: "The low of {{market.premarket}} is $16.90. XYZ sold into it, traded two cents through, and the minute that just closed finished back above it on the heaviest bar since the open. Your account is $25,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[17.30, 17.34, 17.20, 17.22], [17.22, 17.26, 17.10, 17.12], [17.12, 17.16, 17.02, 17.04], [17.04, 17.08, 16.96, 16.98], [16.98, 17.00, 16.88, 16.96], [16.96, 17.06, 16.94, 17.04], [17.04, 17.12, 17.02, 17.10], [17.10, 17.18, 17.08, 17.16], [17.16, 17.22, 17.12, 17.20], [17.20, 17.28, 17.18, 17.26], [17.26, 17.30, 17.22, 17.27]]
+      volume: [88000, 96000, 104000, 112000, 168000, 132000, 118000, 104000, 92000, 84000, 78000]
+      levels:
+        - {price: 16.9, label: "Pre-market low"}
+      decision_index: 4
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked back to $17.27 — $0.31 a share above the decision, +$434 long on 1,400 shares."
+    explanation: "Price was available under the level for less than a minute and the busiest bar of the session took it all back. Thin volume made the line; the crowd is defending it."
+
+  - type: numeric-mc
+    prompt: "XYZ closed yesterday at $16.80 and the first trade of the session goes through at $17.16. How big is the gap?"
+    options:
+      - {text: "$0.16"}
+      - {text: "$0.46"}
+      - {text: "$1.16"}
+      - {text: "$0.36", correct: true}
+    working: "$17.16 − $16.80 = $0.36"
+    explanation: "Thirty-six cents of the move happened while you were not allowed to trade it, which is why yesterday's close stays on the chart."
+
+  - type: tf
+    statement: "The opening price is worth marking because above it the session's buyers have been in front since the first trade."
+    answer: true
+    explanation: "It is the cheapest context line on the chart: one number, and it never moves again."
+
+  - type: fill-tiles
+    sentence: "Today's first agreed price is the session's ___."
+    answer: "open"
+    explanation: "It is fixed by the first trade and stays where it is for the rest of the day."
+
+  - type: story
+    character: retail-trader
+    text: "Five lines drawn and not one candle read: yesterday's high, low and close, and the two extremes of {{market.premarket}}. The opening price makes six, a minute from now."

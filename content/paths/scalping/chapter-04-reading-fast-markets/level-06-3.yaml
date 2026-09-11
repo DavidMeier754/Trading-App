@@ -1,0 +1,129 @@
+id: "6-3"
+title: "Candle Signals on the 1-Minute"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [candles, context, levels]
+learning_goal: "User reads the same candle shape differently depending on whether it sits at a marked line or in open space."
+purpose: "A shape is evidence about a price. With no price worth arguing about, it is evidence about nothing."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "6-2"
+xp: 25
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Murphy — Technical Analysis of the Financial Markets"]
+notes: "Chapter 2's levels are the context that decides whether the shape counts. Account named at $26,000."
+screens:
+  - type: intro
+    text: "The same candle, twice, meaning two different things."
+
+  - type: story
+    character: retail-trader
+    text: "You have started noticing the shapes everywhere, and you have started taking them everywhere. That is the part that costs money."
+
+  - type: theory
+    title: "A shape needs somewhere to happen"
+    body: "A flat minute inside a strong run is the run resting. The same flat minute under a line the run has not beaten is the run asking a question nobody has answered."
+
+  - type: compare
+    prompt: "Both last minutes are the same refused push. In which one does it mean something?"
+    charts:
+      - kind: candles
+        data: [[18.20, 18.28, 18.16, 18.26], [18.26, 18.34, 18.24, 18.32], [18.32, 18.38, 18.28, 18.36], [18.36, 18.42, 18.32, 18.40], [18.40, 18.46, 18.38, 18.44], [18.44, 18.50, 18.40, 18.48], [18.48, 18.54, 18.44, 18.52], [18.52, 18.68, 18.50, 18.54]]
+        levels:
+          - {price: 18.6, label: "Yesterday's high"}
+        label: "A"
+      - kind: candles
+        data: [[18.20, 18.28, 18.16, 18.26], [18.26, 18.34, 18.24, 18.32], [18.32, 18.38, 18.28, 18.36], [18.36, 18.42, 18.32, 18.40], [18.40, 18.46, 18.38, 18.44], [18.44, 18.50, 18.40, 18.48], [18.48, 18.54, 18.44, 18.52], [18.52, 18.68, 18.50, 18.54]]
+        levels:
+          - {price: 19.4, label: "Yesterday's high"}
+        label: "B"
+    answer: "A"
+    explanation: "The candles are identical. In A the wick was refused at a line the whole market can see; in B it was refused eighty-six cents short of anything."
+
+  - type: chart-decision
+    scenario: "XYZ has made a higher close in each of the last five minutes above the line, and the minute that just closed opened and finished at the same price on the lightest bar of the run. Your account is $26,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[15.10, 15.20, 15.08, 15.18], [15.18, 15.30, 15.16, 15.28], [15.28, 15.38, 15.26, 15.36], [15.36, 15.46, 15.34, 15.44], [15.44, 15.50, 15.42, 15.48], [15.48, 15.54, 15.42, 15.48], [15.48, 15.58, 15.46, 15.56], [15.56, 15.64, 15.54, 15.62], [15.62, 15.70, 15.60, 15.68], [15.68, 15.76, 15.66, 15.74], [15.74, 15.82, 15.72, 15.79]]
+      volume: [96000, 104000, 112000, 98000, 72000, 46000, 108000, 96000, 88000, 80000, 74000]
+      vwap: [15.10, 15.14, 15.18, 15.21, 15.24, 15.26, 15.29, 15.32, 15.35, 15.38, 15.40]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $15.79 — $0.31 a share past the decision, +$403 long on 1,300 shares."
+    explanation: "A flat minute on the quietest bar of a run, with no line within reach, is the trend catching its breath rather than arguing with anybody."
+
+  - type: mc
+    prompt: "Where does a flat minute carry the most weight?"
+    options:
+      - {text: "In the middle of a quiet range"}
+      - {text: "At a level not beaten yet", correct: true}
+      - {text: "On the first minute of the session"}
+    explanation: "At a line, indecision is the push failing to finish its argument. In open space it is a minute of nothing."
+
+  - type: tf
+    statement: "A candle shape is worth the same wherever on the chart it appears."
+    answer: false
+    explanation: "The shape tells you what happened in the minute. Where it happened is what makes that worth knowing."
+
+  - type: chart-decision
+    scenario: "The pre-market high is $20.40. XYZ has run into it three times in five minutes, and the minute that just closed opened and finished at the same price. Your account is $26,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[20.08, 20.18, 20.06, 20.16], [20.16, 20.28, 20.14, 20.26], [20.26, 20.36, 20.24, 20.34], [20.34, 20.40, 20.32, 20.38], [20.38, 20.40, 20.34, 20.36], [20.36, 20.40, 20.32, 20.36], [20.36, 20.38, 20.28, 20.30], [20.30, 20.32, 20.22, 20.24], [20.24, 20.26, 20.16, 20.18], [20.18, 20.20, 20.12, 20.14], [20.14, 20.16, 20.08, 20.10]]
+      volume: [112000, 124000, 136000, 98000, 68000, 52000, 104000, 96000, 88000, 82000, 76000]
+      vwap: [20.08, 20.12, 20.16, 20.19, 20.22, 20.24, 20.25, 20.25, 20.24, 20.23, 20.22]
+      levels:
+        - {price: 20.4, label: "Pre-market high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It never finished above $20.40 and drifted to $20.10 — $0.26 a share against a long, $312 on 1,200 shares."
+    explanation: "The same flat minute as the last chart, and this one is under a line that has stopped three pushes on falling volume. Nothing has been beaten, so there is nothing to join."
+
+  - type: sort
+    prompt: "Is the shape worth acting on where it is?"
+    buckets: ["Worth acting on", "Just a minute"]
+    items:
+      - {text: "A refused push at a level that has held twice", bucket: "Worth acting on"}
+      - {text: "A flat minute halfway between two lines", bucket: "Just a minute"}
+      - {text: "An engulfing candle at yesterday's low on the heaviest bar", bucket: "Worth acting on"}
+      - {text: "A long body in the third minute of a quiet range", bucket: "Just a minute"}
+    explanation: "Two of them are at a price the market has already argued about. The other two are in the middle of nowhere."
+
+  - type: numeric-input
+    prompt: "You short 1,200 shares at $20.36 with the stop four cents above the line, at $20.44. What is at risk?"
+    answer: 96
+    tolerance: 0.01
+    unit: "$"
+    working: "$20.44 − $20.36 = $0.08 a share; $0.08 × 1,200 shares = $96"
+    explanation: "The line gives you an eight-cent stop, which is the other reason shapes at lines are worth more than shapes in open space."
+
+  - type: fill-choice
+    sentence: "A shape at a marked line is evidence; the same shape in open space is ___."
+    options: ["noise", "proof", "risk"]
+    answer: "noise"
+    explanation: "Nothing was at stake in that minute, so nothing was settled by it."
+
+  - type: slider
+    prompt: "Your costs run five cents a share and the refused push leaves twenty cents of room to the line below. How much of that room do the costs take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 25
+    tolerance: 10
+    explanation: "$0.05 ÷ $0.20 = 25 %. A quarter of the move, which a shape at a line can carry and a shape in open space cannot."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[16.10, 16.18, 16.06, 16.16], [16.16, 16.24, 16.14, 16.22], [16.22, 16.28, 16.16, 16.22], [16.22, 16.30, 16.20, 16.28], [16.28, 16.36, 16.26, 16.34], [16.34, 16.42, 16.32, 16.40], [16.40, 16.46, 16.38, 16.44], [16.44, 16.60, 16.42, 16.46], [16.46, 16.50, 16.40, 16.42], [16.42, 16.48, 16.38, 16.44]]
+      volume: [92000, 86000, 64000, 78000, 96000, 104000, 88000, 168000, 102000, 84000]
+      levels:
+        - {price: 16.54, label: "Yesterday's high"}
+    caption: "The flat minute at the third bar cost nobody anything. The refused one at the eighth is standing under a line."

@@ -5,107 +5,98 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [vwap, decisions]
-learning_goal: "User can tell a bounce, a rejection and a reclaim apart at VWAP and pick the side the line is pointing to."
-purpose: "Price comes back to VWAP several times a session — what it does when it gets there is the scalp."
-terms_introduced: ["Rejection", "Reclaim"]
+learning_goal: "User can tell price being defended at the line from price being pushed away from it, and picks the side each one gives."
+purpose: "Price comes back to the line several times a session, and what it does when it gets there is the whole trade."
+terms_introduced: ["Rejection"]
 reinforces: [2]
-prerequisite: "1-1"
-xp: 20
+prerequisite: "1-4"
+xp: 25
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Chapter 2's shrinking-pullback reading and its close-versus-wick rule, both re-tested at the line. Account named at $26,000."
 screens:
   - type: intro
     text: "Price keeps coming back to the line. What happens there is the trade."
 
   - type: theory
     title: "The magnet"
-    body: "In a trending session price runs away from VWAP and then drifts back to it. Traders who missed the move are waiting there, so the pullback often stops at the line."
+    body: "In a session with a direction, price runs away from the line and then drifts back to it. Everyone who missed the move is waiting there, and so is the desk that is being scored on it."
 
   - type: example
-    body: "XYZ climbs from $33.40 to $33.90, then drifts back to $33.66 — right onto VWAP. The candles shrink on the way down, sellers run out, and it turns back up."
+    body: "XYZ climbs from $19.20 to $19.44, hands fourteen cents back on three quieter minutes, and stops at $19.28 — one cent over the line. The next minute takes the whole give-back with it."
     visual: chart-candles
     visual_data:
-      data: [[33.40, 33.52, 33.38, 33.50], [33.50, 33.66, 33.48, 33.64], [33.64, 33.80, 33.62, 33.78], [33.78, 33.90, 33.74, 33.86], [33.86, 33.88, 33.72, 33.74], [33.74, 33.76, 33.64, 33.66], [33.66, 33.68, 33.60, 33.65], [33.65, 33.78, 33.64, 33.76]]
-      vwap: [33.44, 33.50, 33.56, 33.60, 33.62, 33.62, 33.62, 33.63]
+      data: [[19.20, 19.34, 19.18, 19.32], [19.32, 19.44, 19.30, 19.42], [19.42, 19.46, 19.34, 19.36], [19.36, 19.38, 19.26, 19.28], [19.28, 19.34, 19.25, 19.32], [19.32, 19.44, 19.30, 19.42], [19.42, 19.52, 19.40, 19.50], [19.50, 19.60, 19.48, 19.58]]
+      volume: [86000, 94000, 68000, 52000, 44000, 102000, 92000, 84000]
+      vwap: [19.22, 19.26, 19.28, 19.27, 19.27, 19.28, 19.30, 19.33]
 
   - type: carousel
     cards:
-      - {label: "Bounce", text: "Price comes down to VWAP from above, buyers defend it, and the move continues in the old direction.", icon: bounce}
-      - {label: "Rejection", text: "Price pushes through the line, cannot hold there, and snaps straight back. The side that tried just failed.", icon: rejection}
-      - {label: "Reclaim", text: "Price that has been below VWAP closes back above it and holds. Control has changed hands.", icon: reclaim}
-
-  - type: theory
-    title: "A poke is not a reclaim"
-    body: "One wick through the line proves nothing. A reclaim is a close on the other side that the next candle or two holds. Same rule you use at any level: wait for the close."
+      - {label: "Defended", text: "Price comes back to the line from above and stops there. Buyers are still paying the session's average price, so the old direction is intact.", icon: level-hold}
+      - {label: "Rejection", text: "Price pushes into the line from the wrong side, cannot finish a minute through it, and snaps back. Whoever tried just failed in public.", icon: level-reject}
 
   - type: chart-decision
-    scenario: "XYZ has climbed all morning and is now easing back into VWAP on shrinking candles. You have 1,000 shares ready."
-    shares: 1000
+    scenario: "XYZ has held above the line all session, and the give-back into it has come on bars shrinking every minute. Your account is $26,000 and you are sizing 1,400 shares."
+    shares: 1400
     chart:
       kind: candles
-      data: [[18.20, 18.34, 18.18, 18.32], [18.32, 18.48, 18.30, 18.46], [18.46, 18.60, 18.44, 18.56], [18.56, 18.58, 18.46, 18.48], [18.48, 18.50, 18.42, 18.44], [18.44, 18.46, 18.40, 18.45], [18.45, 18.56, 18.44, 18.54], [18.54, 18.66, 18.52, 18.64], [18.64, 18.72, 18.60, 18.70], [18.70, 18.78, 18.66, 18.74]]
-      vwap: [18.22, 18.28, 18.35, 18.38, 18.40, 18.41, 18.42, 18.44, 18.46, 18.48]
+      data: [[17.06, 17.20, 17.04, 17.18], [17.18, 17.32, 17.16, 17.30], [17.30, 17.38, 17.26, 17.28], [17.28, 17.30, 17.18, 17.20], [17.20, 17.22, 17.15, 17.18], [17.18, 17.28, 17.16, 17.26], [17.26, 17.38, 17.24, 17.36], [17.36, 17.46, 17.34, 17.44], [17.44, 17.52, 17.42, 17.50], [17.50, 17.58, 17.48, 17.56], [17.56, 17.64, 17.54, 17.62]]
+      volume: [96000, 108000, 74000, 58000, 46000, 124000, 112000, 98000, 86000, 78000, 70000]
+      vwap: [17.08, 17.13, 17.16, 17.17, 17.17, 17.17, 17.18, 17.19, 17.21, 17.23, 17.25]
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "The line held and price ran to $18.74 — $0.29 per share, +$290 long on 1,000 shares from $18.45."
-    explanation: "An uptrend that eases back onto VWAP and stalls there is the bounce: the trend is intact and the line is doing the work."
+    outcome: "It worked up to $17.62 — $0.36 a share past the decision, +$504 long on 1,400 shares."
+    explanation: "The give-back dried up right at the line and the next minute was the busiest of the session. Nobody sold the session's average price for long."
 
   - type: mc
-    prompt: "Price has been below VWAP since the open. Which of these is a reclaim?"
+    prompt: "Price has been under the line since the open, pushes up into it, and finishes the minute back underneath. What have you seen?"
     options:
-      - {text: "A candle wicks above the line and closes back below"}
-      - {text: "A candle closes above the line and the next two stay above it", correct: true}
-      - {text: "Price rises to within a cent of the line and stops"}
-    explanation: "A reclaim is a close above the line that holds — anything less is still a test."
+      - {text: "The line has stopped working as a level"}
+      - {text: "The sellers are still there", correct: true}
+      - {text: "Buyers have taken the session back"}
+    explanation: "Somebody was happy to sell at the session's average price again. Until a minute finishes above it, that has not changed."
+
+  - type: chart-decision
+    scenario: "XYZ has not finished a minute above the line today. It has just traded five cents through it and closed eight cents back underneath. Your account is $26,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[14.52, 14.54, 14.40, 14.42], [14.42, 14.44, 14.32, 14.34], [14.34, 14.42, 14.32, 14.40], [14.40, 14.46, 14.38, 14.44], [14.44, 14.48, 14.42, 14.46], [14.46, 14.54, 14.38, 14.40], [14.40, 14.42, 14.28, 14.30], [14.30, 14.32, 14.20, 14.22], [14.22, 14.24, 14.12, 14.14], [14.14, 14.16, 14.06, 14.08], [14.08, 14.10, 14.00, 14.02]]
+      volume: [78000, 66000, 52000, 48000, 44000, 118000, 104000, 92000, 84000, 76000, 68000]
+      vwap: [14.60, 14.56, 14.53, 14.51, 14.50, 14.49, 14.47, 14.45, 14.42, 14.39, 14.36]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell away to $14.02 — $0.38 a share below the decision, +$532 short on 1,400 shares."
+    explanation: "The best minute of the rally was spent above the line and given back inside the same sixty seconds, on the heaviest bar since the open."
+
+  - type: tf
+    statement: "A minute that trades through the line and finishes back on its old side is the line holding, not breaking."
+    answer: true
+    explanation: "The same rule Chapter 2 gave you for any level: the wick says price went there, the close says what was decided about it."
 
   - type: spot-mistake
     prompt: "Tap the mistake."
     segments:
-      - {text: "Price is below VWAP."}
-      - {text: "One wick above the line", wrong: true}
-      - {text: "tells you buyers have taken control."}
-    explanation: "A wick above proves nothing; you need a close above that holds."
-
-  - type: chart-decision
-    scenario: "XYZ has been under VWAP all morning. It rallies into the line, leaves a long upper wick and closes back below. You have 1,000 shares ready."
-    shares: 1000
-    chart:
-      kind: candles
-      data: [[27.30, 27.34, 27.10, 27.14], [27.14, 27.20, 27.00, 27.04], [27.04, 27.16, 27.02, 27.14], [27.14, 27.26, 27.12, 27.24], [27.24, 27.32, 27.22, 27.26], [27.26, 27.30, 27.18, 27.20], [27.20, 27.22, 27.06, 27.08], [27.08, 27.12, 26.96, 26.98], [26.98, 27.02, 26.88, 26.92], [26.92, 26.96, 26.84, 26.88]]
-      vwap: [27.40, 27.34, 27.30, 27.28, 27.27, 27.26, 27.24, 27.22, 27.19, 27.16]
-      decision_index: 5
-    best: short
-    reasonable: [no-trade]
-    outcome: "Sellers were waiting at the line. It fell to $26.88 — $0.32 per share, +$320 short on 1,000 shares from $27.20."
-    explanation: "Rallying into the line and closing back below is a rejection: the sellers who own this session are still there."
-
-  - type: tf
-    statement: "Price rallying into VWAP from below and being pushed straight back down is a reason to look for a long."
-    answer: false
-    explanation: "That is a rejection — sellers are still in charge; the long only comes after a close above that holds."
-
-  - type: order
-    prompt: "Put a reclaim in order."
-    items:
-      - "Price trades below VWAP"
-      - "A candle closes back above the line"
-      - "The next candle holds above it"
-      - "You look for your entry"
-    explanation: "Close first, hold second, entry third — in that order there is no guessing."
-
-  - type: fill-tiles
-    sentence: "Price that was below VWAP, closes back above it and holds, has made a ___."
-    answer: "reclaim"
-    explanation: "Control of the session just changed hands."
+      - {text: "Price pushed up through the line"}
+      - {text: "and finished the minute back underneath it,"}
+      - {text: "so the buyers have taken the session.", wrong: true}
+    explanation: "They tried and were turned away. A minute finishing on the old side is the opposite of control changing hands."
 
   - type: numeric-input
-    prompt: "You buy 1,000 shares on a reclaim at $18.46 and the spread is $0.02. What does the round trip cost you in spread?"
-    answer: 20
+    prompt: "You are long 1,400 shares from $17.26 with the stop at $17.12. What is at risk?"
+    answer: 196
+    tolerance: 0.01
     unit: "$"
-    working: "$0.02 per share × 1,000 shares = $20"
-    explanation: "Two cents of your move is gone before the trade even starts working."
+    working: "$17.26 − $17.12 = $0.14 a share; $0.14 × 1,400 shares = $196"
+    explanation: "Fourteen cents of stop, and 1,400 × $17.26 is $24,164 — the account can pay for the position it is risking."
+
+  - type: fill-tiles
+    sentence: "Price pushing into the line and finishing the minute back on its old side is a ___."
+    answer: "rejection"
+    explanation: "The side that tried to change the session got turned away inside the minute."
 
   - type: theory
-    title: "Three trades from one line"
-    body: "The bounce goes with the trend, the rejection fades a failed push, the reclaim catches a change of control. Next: the other lines worth drawing."
+    title: "Two of the three"
+    body: "The line defended gives you the old direction. The line rejecting gives you the other one. Next: the trade that only exists when control actually changes hands."

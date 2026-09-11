@@ -1,0 +1,122 @@
+id: "5-1"
+title: "Checkpoint"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: test
+tags: [checkpoint, vwap, levels, costs]
+learning_goal: "User proves they can build the session's average price, read which side of it price is on, tell a held line from a lost one, name the lines that exist before the bell, and price a read before taking it."
+purpose: "Everything from Level 6 on assumes the line and the map are read without effort."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "4-2"
+xp: 40
+difficulty: 2
+sources: [consensus]
+notes: "Ten scored questions on Levels 1–4 with fresh wordings and fresh numbers. Four reach back: the quote panel, the gap in dollars and the gap against the move from Chapter 3, and the close-over-wick reading from Chapter 2. Account named at $25,000."
+screens:
+  - type: intro
+    text: "Ten questions on Levels 1 to 4. Nothing here is timed, so read each chart properly."
+    counter: 10
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "You are short XYZ and closing the position right now. Tap the price you will be paying."
+    data: {bid: 21.36, ask: 21.41, last: 21.38}
+    target: ask
+    explanation: "$21.41. Closing a short means buying, and buying takes the seller's price."
+
+  - type: numeric-mc
+    prompt: "6,000 shares trade at $14.00, then 2,000 at $14.40. Where is the session's average price?"
+    options:
+      - {text: "$14.20"}
+      - {text: "$14.30"}
+      - {text: "$14.10", correct: true}
+      - {text: "$14.40"}
+    working: "(6,000 × $14.00 + 2,000 × $14.40) ÷ 8,000 = $112,800 ÷ 8,000 = $14.10"
+    explanation: "Three quarters of the shares went through at the lower price, so the line sits ten cents above it."
+
+  - type: chart-tap
+    prompt: "Tap the first minute that finished above the line and was followed by another one above it."
+    chart:
+      kind: candles
+      data: [[18.20, 18.24, 18.10, 18.12], [18.12, 18.16, 18.02, 18.04], [18.04, 18.20, 18.02, 18.18], [18.18, 18.26, 18.16, 18.24], [18.24, 18.28, 18.16, 18.18], [18.18, 18.28, 18.16, 18.26], [18.26, 18.34, 18.24, 18.32], [18.32, 18.40, 18.30, 18.38], [18.38, 18.46, 18.36, 18.44]]
+      vwap: [18.28, 18.24, 18.22, 18.21, 18.20, 18.20, 18.21, 18.23, 18.25]
+    target: 5
+    explanation: "The fourth minute finished above the line as well, and the one straight after it handed the line back. This is the first close above with a second behind it."
+
+  - type: mc
+    prompt: "Price has been above the line all session. One minute trades five cents under it and finishes three cents above. What is that?"
+    options:
+      - {text: "The line holding", correct: true}
+      - {text: "The line breaking slowly"}
+      - {text: "A level that should be moved five cents lower"}
+    explanation: "Price was available below the line and it was taken back inside the minute. The close is the only part of that minute that counts."
+
+  - type: chart-decision
+    scenario: "XYZ has finished every minute above the line, and the give-back into it came on the three quietest bars of the session. Your account is $25,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[17.44, 17.54, 17.42, 17.52], [17.52, 17.62, 17.50, 17.60], [17.60, 17.64, 17.56, 17.58], [17.58, 17.60, 17.52, 17.54], [17.54, 17.56, 17.48, 17.52], [17.52, 17.64, 17.50, 17.62], [17.62, 17.72, 17.60, 17.70], [17.70, 17.78, 17.68, 17.76], [17.76, 17.84, 17.74, 17.82], [17.82, 17.90, 17.80, 17.88], [17.88, 18.02, 17.86, 17.99]]
+      volume: [92000, 104000, 78000, 64000, 52000, 136000, 118000, 102000, 94000, 86000, 80000]
+      vwap: [17.44, 17.47, 17.49, 17.50, 17.50, 17.51, 17.52, 17.54, 17.56, 17.58, 17.60]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran on to $17.99 — $0.37 a share past the decision, +$518 long on 1,400 shares."
+    explanation: "Sellers ran out at the line and the minute that turned it was the heaviest of the session. 1,400 × $17.62 is $24,668, so the account can hold it."
+
+  - type: order-build
+    prompt: "Take that long: 1,400 shares, and you will pay no more than two cents over the ask of $17.64."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [700, 1400, 2100]
+      price: [17.62, 17.64, 17.66]
+    answer: {side: buy, type: limit, qty: 1400, price: 17.66}
+    explanation: "A limit two cents through the ask fills like a market order and still refuses anything worse than $17.66."
+
+  - type: sort
+    prompt: "Which of these are already on the chart before the first trade of the session?"
+    buckets: ["Before the first trade", "Only after it"]
+    items:
+      - {text: "Yesterday's close", bucket: "Before the first trade"}
+      - {text: "The low of {{market.premarket}}", bucket: "Before the first trade"}
+      - {text: "The session's average price", bucket: "Only after it"}
+      - {text: "Today's opening price", bucket: "Only after it"}
+    explanation: "Two of them are homework you can do in the quiet, and two of them need the session to have started."
+
+  - type: numeric-input
+    prompt: "Bid $16.18 / ask $16.22, and you take 1,200 shares in and back out. What does the gap alone take?"
+    answer: 48
+    tolerance: 0.01
+    unit: "$"
+    working: "$16.22 − $16.18 = $0.04 a share; $0.04 × 1,200 shares = $48"
+    explanation: "Paid once across the open and the close, and it comes out of the distance to your next line."
+
+  - type: tf
+    statement: "A four-cent gap matters more against a ten-cent move than against a forty-cent one."
+    answer: true
+    explanation: "Forty per cent of the move against ten per cent of it. The gap is only ever judged as a share of the room you are going for."
+
+  - type: chart-decision
+    scenario: "Yesterday's high is $16.40. XYZ has held above the line all session and the last six bars have shrunk every minute. Your account is $25,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[16.06, 16.16, 16.04, 16.14], [16.14, 16.24, 16.12, 16.22], [16.22, 16.30, 16.20, 16.28], [16.28, 16.34, 16.26, 16.32], [16.32, 16.38, 16.30, 16.36], [16.36, 16.40, 16.34, 16.38], [16.38, 16.40, 16.32, 16.34], [16.34, 16.36, 16.28, 16.30], [16.30, 16.32, 16.24, 16.26], [16.26, 16.28, 16.22, 16.24], [16.24, 16.26, 16.20, 16.22]]
+      volume: [118000, 104000, 86000, 72000, 58000, 44000, 92000, 84000, 76000, 68000, 62000]
+      vwap: [16.06, 16.09, 16.12, 16.14, 16.16, 16.18, 16.19, 16.20, 16.21, 16.21, 16.21]
+      levels:
+        - {price: 16.4, label: "Yesterday's high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It never finished above $16.40 and eased back to $16.22 — $0.16 a share against a long, $192 on 1,200 shares."
+    explanation: "The right side of the line, and the push into the level running out of people. Two cents of room and shrinking bars is the sellers' part of the move, not yours."
+
+  - type: summary
+    total: 10

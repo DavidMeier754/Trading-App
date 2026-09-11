@@ -1,0 +1,121 @@
+id: "2-3"
+title: "Trading the Line"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [vwap, closes, decisions]
+learning_goal: "User waits for a finished minute before treating the line as won or lost, and weighs that close against the bar underneath it."
+purpose: "Half of what looks like a change of control at the line is a wick that was handed straight back."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "2-2"
+xp: 25
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Nison — Japanese Candlestick Charting Techniques"]
+notes: "Chapter 2's close-over-wick rule and its volume row, both used as the test of a change at the line. Account named at $30,000."
+screens:
+  - type: intro
+    text: "Inside the minute, anything is possible. At the end of it, something has been decided."
+
+  - type: theory
+    title: "A verdict needs a finished minute"
+    body: "Everything a candle did before it closed was an offer somebody could still take back. The close is the one price the whole minute had to live with."
+
+  - type: branch
+    scenario: "XYZ has traded under the line since the open. Your account is $30,000, you have 1,500 shares ready, and you are reading one minute at a time."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.70, 18.72, 18.58, 18.60], [18.60, 18.64, 18.50, 18.52], [18.52, 18.74, 18.50, 18.68], [18.68, 18.76, 18.66, 18.74], [18.74, 18.80, 18.70, 18.78], [18.78, 18.88, 18.76, 18.86], [18.86, 18.94, 18.84, 18.92], [18.92, 19.00, 18.90, 18.98], [18.98, 19.06, 18.96, 19.04], [19.04, 19.12, 19.02, 19.10]]
+      volume: [76000, 82000, 118000, 96000, 132000, 104000, 92000, 84000, 78000, 72000]
+      vwap: [18.76, 18.72, 18.70, 18.70, 18.71, 18.72, 18.74, 18.76, 18.78, 18.80]
+      decision_index: 4
+    steps:
+      - prompt: "The third minute traded four cents above the line and finished two cents underneath it. What do you do?"
+        options:
+          - {text: "Nothing — no minute has finished above the line yet", correct: true, next: 1}
+          - {text: "Buy it: the line has been tested and beaten", next: 1}
+        explanation: "It got there and could not stay. A close one cent under is still a close under."
+      - prompt: "The next minute finishes four cents above the line. What do you do?"
+        options:
+          - {text: "Wait for the minute after it", correct: true, next: 2}
+          - {text: "Buy now — that is the close you were waiting for", next: 2}
+        explanation: "One close is a claim. The second one is what tells you it was not an accident."
+      - prompt: "The minute after finishes seven cents above the line, on a bar heavier than either of them. Now?"
+        options:
+          - {text: "Take the long, stop under the low that held", correct: true}
+          - {text: "Wait for a fourth close to be sure"}
+        explanation: "Both halves have happened and the bar says it was bought. A fourth close costs you the part of the move you were waiting for."
+
+  - type: chart-decision
+    scenario: "XYZ has finished every minute above the line until the one that just closed, which finished three cents under it. Your account is $30,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[21.08, 21.18, 21.06, 21.16], [21.16, 21.26, 21.14, 21.24], [21.24, 21.28, 21.20, 21.22], [21.22, 21.32, 21.20, 21.30], [21.30, 21.32, 21.24, 21.26], [21.26, 21.28, 21.16, 21.18], [21.18, 21.26, 21.16, 21.24], [21.24, 21.30, 21.22, 21.28], [21.28, 21.30, 21.20, 21.22], [21.22, 21.28, 21.20, 21.26], [21.26, 21.28, 21.20, 21.24]]
+      volume: [92000, 84000, 76000, 88000, 64000, 22000, 71000, 68000, 74000, 62000, 66000]
+      vwap: [21.10, 21.13, 21.16, 21.18, 21.20, 21.21, 21.21, 21.21, 21.21, 21.21, 21.21]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "The next minute was back above the line and the rest stayed inside eight cents — $0.06 a share against a short, $78 on 1,300 shares before a single cost."
+    explanation: "The close is on the new side and the bar under it is the thinnest of the morning. A session does not change hands on the quietest minute of the day."
+
+  - type: tf
+    statement: "A close on the other side of the line means more when the bar underneath it is one of the heaviest of the session."
+    answer: true
+    explanation: "Chapter 2's volume row is the difference between somebody deciding and nobody being there."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "One minute finished under the line"}
+      - {text: "on the thinnest bar of the morning,"}
+      - {text: "so the sellers own the session now.", wrong: true}
+    explanation: "Right side, no weight. That is drift across a line, and drift gives the line back."
+
+  - type: chart-decision
+    scenario: "XYZ held above the line for the first part of the session. The last two minutes both finished under it, the second on the heaviest bar since the open. Your account is $30,000 and you are sizing 1,600 shares."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[13.58, 13.68, 13.56, 13.66], [13.66, 13.72, 13.64, 13.70], [13.70, 13.72, 13.64, 13.66], [13.66, 13.68, 13.62, 13.64], [13.64, 13.66, 13.56, 13.58], [13.58, 13.60, 13.50, 13.52], [13.52, 13.54, 13.44, 13.46], [13.46, 13.48, 13.38, 13.40], [13.40, 13.42, 13.32, 13.34], [13.34, 13.36, 13.26, 13.28], [13.28, 13.30, 13.17, 13.19]]
+      volume: [74000, 68000, 56000, 62000, 104000, 128000, 116000, 98000, 88000, 80000, 72000]
+      vwap: [13.60, 13.62, 13.63, 13.63, 13.62, 13.60, 13.58, 13.56, 13.53, 13.50, 13.47]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid to $13.19 — $0.33 a share under the decision, +$528 short on 1,600 shares."
+    explanation: "Two finished minutes on the new side and the second one the busiest of the morning. Both halves of the change, in the other direction."
+
+  - type: numeric-input
+    prompt: "You short 1,600 shares of that at $13.52 with the stop back above the line at $13.67. What is at risk?"
+    answer: 240
+    tolerance: 0.01
+    unit: "$"
+    working: "$13.67 − $13.52 = $0.15 a share; $0.15 × 1,600 shares = $240"
+    explanation: "The stop goes where the read would be wrong, which here is back above the line it just lost."
+
+  - type: fill-choice
+    sentence: "Until a minute has ___, nothing it did inside those sixty seconds is a verdict."
+    options: ["finished", "opened", "doubled"]
+    answer: "finished"
+    explanation: "Wicks are what the minute tried. The close is what it settled on."
+
+  - type: sort
+    prompt: "A verdict at the line, or only a visit?"
+    buckets: ["A verdict", "Only a visit"]
+    items:
+      - {text: "A close on the new side on the heaviest bar of the session", bucket: "A verdict"}
+      - {text: "A wick five cents through, close back on the old side", bucket: "Only a visit"}
+      - {text: "Two closes in a row on the new side", bucket: "A verdict"}
+      - {text: "Price a cent past the line halfway through a minute", bucket: "Only a visit"}
+    explanation: "Two of these finished somewhere. The other two were still arguing when the minute ran out."
+
+  - type: recap
+    title: "Level 2 in three lines"
+    points:
+      - {text: "A give-back into the line that dries up there hands you the session's own direction.", level: "2-1"}
+      - {text: "A push into the line that finishes on the old side is the other side failing in public.", level: "2-2"}
+      - {text: "Control changes hands on a finished minute with weight under it, never on a wick.", level: "2-3"}

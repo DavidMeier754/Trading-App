@@ -1,0 +1,105 @@
+id: "2-2"
+title: "Trading the Line"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [vwap, decisions, levels]
+learning_goal: "User can tell a minute that took the line back from a minute that only visited the other side of it."
+purpose: "The trade that pays for knowing the line is the one where control of the session changes hands."
+terms_introduced: ["Reclaim"]
+reinforces: [2]
+prerequisite: "2-1"
+xp: 25
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Chapter 2's close-versus-wick rule and its last-low-that-has-to-hold, both applied to the line. Account named at $24,000."
+screens:
+  - type: intro
+    text: "Sometimes the line does not hold. That is the third trade."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ has been under the line since the open and you have left it alone. Then a minute finishes above it, and your hand moves to the keyboard."
+
+  - type: theory
+    title: "Taking the line back"
+    body: "A reclaim is a minute that finishes on the other side of the line after a session spent on this one, and a minute after it that stays there. Control of the session has changed hands."
+
+  - type: example
+    body: "XYZ spends the morning underneath. One minute finishes five cents above the line on the heaviest bar since the open, and the next never trades back under. From there it is a different session."
+
+  - type: chart-tap
+    prompt: "Tap the minute that only poked above the line."
+    chart:
+      kind: candles
+      data: [[20.40, 20.44, 20.30, 20.32], [20.32, 20.36, 20.24, 20.26], [20.26, 20.50, 20.24, 20.40], [20.40, 20.41, 20.30, 20.32], [20.32, 20.36, 20.24, 20.26], [20.26, 20.30, 20.18, 20.20], [20.20, 20.24, 20.12, 20.14], [20.14, 20.18, 20.06, 20.08]]
+      vwap: [20.50, 20.46, 20.44, 20.42, 20.40, 20.37, 20.34, 20.31]
+    target: 2
+    explanation: "Six cents through the line inside the minute and four cents back under it by the close. Nothing was taken back."
+
+  - type: order
+    prompt: "Put the sequence in the order it has to happen."
+    items:
+      - "The session's closes are all on one side of the line"
+      - "One minute finishes on the other side"
+      - "The minute after it finishes there as well"
+      - "The entry goes on"
+    explanation: "One close is a claim, two is an answer, and only then is there anything to buy."
+
+  - type: chart-decision
+    scenario: "XYZ traded under the line for the first part of the session. The last two minutes have both finished above it, the first of them on the heaviest bar of the morning. Your account is $24,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[15.66, 15.68, 15.54, 15.56], [15.56, 15.58, 15.46, 15.48], [15.48, 15.54, 15.46, 15.52], [15.52, 15.58, 15.50, 15.56], [15.56, 15.62, 15.54, 15.60], [15.60, 15.68, 15.58, 15.66], [15.66, 15.72, 15.64, 15.70], [15.70, 15.78, 15.68, 15.76], [15.76, 15.84, 15.74, 15.82], [15.82, 15.90, 15.80, 15.88], [15.88, 15.96, 15.86, 15.94], [15.94, 16.02, 15.92, 16.00]]
+      volume: [84000, 92000, 64000, 58000, 72000, 136000, 118000, 104000, 96000, 88000, 80000, 76000]
+      vwap: [15.72, 15.70, 15.68, 15.66, 15.64, 15.62, 15.61, 15.61, 15.62, 15.63, 15.64, 15.65]
+      decision_index: 6
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $16.00 — $0.30 a share past the decision, +$450 long on 1,500 shares."
+    explanation: "A close above the line with weight behind it, and a second close that stayed there. Both halves happened before the entry."
+
+  - type: compare
+    prompt: "In which of these has the line actually changed hands?"
+    charts:
+      - kind: candles
+        data: [[12.80, 12.82, 12.70, 12.72], [12.72, 12.76, 12.66, 12.70], [12.70, 12.78, 12.68, 12.76], [12.76, 12.84, 12.74, 12.82], [12.82, 12.88, 12.80, 12.86], [12.86, 12.94, 12.84, 12.92], [12.92, 13.00, 12.90, 12.98], [12.98, 13.06, 12.96, 13.04]]
+        vwap: [12.86, 12.84, 12.82, 12.80, 12.79, 12.79, 12.80, 12.81]
+        label: "A"
+      - kind: candles
+        data: [[12.80, 12.82, 12.70, 12.72], [12.72, 12.76, 12.66, 12.70], [12.70, 12.78, 12.68, 12.76], [12.76, 12.86, 12.74, 12.78], [12.78, 12.80, 12.70, 12.72], [12.72, 12.74, 12.64, 12.66], [12.66, 12.70, 12.60, 12.62], [12.62, 12.66, 12.56, 12.58]]
+        vwap: [12.86, 12.84, 12.82, 12.81, 12.80, 12.79, 12.77, 12.75]
+        label: "B"
+    answer: "A"
+    explanation: "Both traded above the line. In A five minutes in a row then finished above it; in B one wick went there and every close afterwards was lower."
+
+  - type: mc
+    prompt: "Price has been below the line all session. Which of these is control changing hands?"
+    options:
+      - {text: "A minute trades above the line and finishes back under it"}
+      - {text: "Price rises to within a cent of the line and stops"}
+      - {text: "Two minutes in a row finish above the line", correct: true}
+    explanation: "The first is a visit and the second never arrived. Only a close that is then held says anything about who owns the session."
+
+  - type: tf
+    statement: "A single wick through the line on the biggest bar of the morning is enough to call the line taken back."
+    answer: false
+    explanation: "Heavy and brief is still brief. Everything that traded up there was sold back before the minute finished."
+
+  - type: numeric-input
+    prompt: "You are long 1,500 shares from $15.70 with the stop two cents under the low of the minute that took the line back, at $15.56. What is at risk?"
+    answer: 210
+    tolerance: 0.01
+    unit: "$"
+    working: "$15.70 − $15.56 = $0.14 a share; $0.14 × 1,500 shares = $210"
+    explanation: "The low that had to hold gives you the stop, and 1,500 × $15.70 is $23,550 — the account can carry it."
+
+  - type: checklist-reveal
+    title: "Before you call the line taken back"
+    items:
+      - "Has a minute finished on the other side of it?"
+      - "Did the next minute stay there?"
+      - "Was there weight under the minute that did it?"
+      - "Is the low that has to hold close enough to be a stop?"

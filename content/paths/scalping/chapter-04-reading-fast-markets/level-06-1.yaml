@@ -5,98 +5,96 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [candles, signals]
-learning_goal: "User can name a momentum candle, a doji, a rejection candle and an engulfing candle on a 1-minute chart and say what each one shows."
-purpose: "On a fast chart a single candle is the smallest piece of evidence you get — you need to read it in one glance."
-terms_introduced: ["Doji", "Engulfing candle"]
+learning_goal: "User can name a momentum candle and a doji on a 1-minute chart and say who won the minute in each."
+purpose: "On a fast chart one candle is the smallest piece of evidence you get, and you have to read it in a glance."
+terms_introduced: ["Doji"]
 reinforces: [2]
-prerequisite: "4-1"
-xp: 20
+prerequisite: "5-1"
+xp: 25
 difficulty: 2
 sources: ["Nison — Japanese Candlestick Charting Techniques", "Volman — Understanding Price Action"]
+notes: "Chapter 2's body-and-wick measuring, re-tested on the two easiest shapes. Account named at $22,000."
 screens:
   - type: intro
-    text: "Sixty seconds of fighting, drawn as one candle. Four shapes are worth knowing."
+    text: "Sixty seconds of arguing, drawn as one candle."
 
   - type: theory
-    title: "One minute, one story"
-    body: "On a 1-minute chart every candle is a minute of buyers and sellers arguing. Four shapes come up again and again, and each one tells you who won the argument."
+    title: "One minute, one argument"
+    body: "Every candle on a 1-minute chart is sixty seconds of buyers and sellers arguing. The body is what the minute settled; the wicks are what it tried and gave back."
 
   - type: carousel
     cards:
-      - {label: "Momentum candle", text: "A big body, small wicks. One side pushed from the first second to the last and never gave ground.", icon: candle-momentum}
-      - {label: "Doji", text: "Open and close almost the same price, wicks on both sides. Nobody won the minute — that is indecision.", icon: candle-doji}
-      - {label: "Rejection candle", text: "A long wick with a small body at the other end. Price went there and was pushed straight back.", icon: candle-rejection}
-      - {label: "Engulfing candle", text: "A candle whose body covers the whole body of the one before it, in the other direction. A minute of selling erased by a minute of buying, or the reverse.", icon: candle-engulfing}
+      - {label: "Momentum candle", text: "A long body with barely any wick. One side pushed from the first second to the last and never handed anything back.", icon: candle-momentum}
+      - {label: "Doji", text: "Open and close at almost the same price, with wicks on both sides. The minute ran out before either side finished in front.", icon: candle-doji}
 
   - type: visual
     component: chart-candles
     data:
-      data: [[16.20, 16.24, 16.18, 16.23], [16.23, 16.38, 16.22, 16.37], [16.37, 16.40, 16.35, 16.38], [16.38, 16.39, 16.34, 16.37], [16.37, 16.52, 16.36, 16.39], [16.39, 16.41, 16.26, 16.28], [16.28, 16.31, 16.24, 16.29], [16.29, 16.32, 16.22, 16.24]]
-      volume: [31000, 78000, 26000, 22000, 64000, 71000, 28000, 33000]
-    caption: "One momentum candle, one rejection, one doji and one engulfing candle — eight minutes of a normal session."
+      data: [[12.60, 12.64, 12.56, 12.62], [12.62, 12.80, 12.60, 12.78], [12.78, 12.84, 12.76, 12.78], [12.78, 12.82, 12.72, 12.80], [12.80, 12.96, 12.78, 12.94], [12.94, 12.98, 12.88, 12.90], [12.90, 12.94, 12.84, 12.86], [12.86, 12.92, 12.82, 12.90]]
+      volume: [48000, 126000, 38000, 52000, 138000, 64000, 46000, 58000]
+    caption: "Two minutes where one side pushed the whole way, and one that ended exactly where it began."
 
   - type: chart-tap
     prompt: "Tap the doji."
     chart:
       kind: candles
-      data: [[28.40, 28.46, 28.36, 28.44], [28.44, 28.58, 28.42, 28.56], [28.56, 28.62, 28.54, 28.61], [28.61, 28.66, 28.55, 28.61], [28.61, 28.70, 28.59, 28.68], [28.68, 28.74, 28.64, 28.72], [28.72, 28.76, 28.66, 28.69], [28.69, 28.72, 28.60, 28.62]]
+      data: [[14.20, 14.26, 14.16, 14.24], [14.24, 14.38, 14.22, 14.36], [14.36, 14.42, 14.34, 14.40], [14.40, 14.46, 14.34, 14.40], [14.40, 14.48, 14.38, 14.46], [14.46, 14.52, 14.42, 14.50], [14.50, 14.54, 14.44, 14.46], [14.46, 14.56, 14.44, 14.54], [14.54, 14.60, 14.50, 14.58]]
+      volume: [64000, 148000, 72000, 44000, 86000, 78000, 62000, 94000, 70000]
     target: 3
-    explanation: "Open and close both $28.61 with wicks on both sides — that minute settled nothing."
+    explanation: "Open and close both $14.40, with six cents of wick above and below. That minute settled nothing."
 
   - type: mc
-    prompt: "A candle at the high of a fast run has a long upper wick and a tiny body at the bottom. What does it show?"
+    prompt: "A minute opens and closes at the same price with wicks on both sides. What does it tell you?"
     options:
-      - {text: "Buyers pushed up and sellers took it all back", correct: true}
-      - {text: "Buyers were in control for the whole minute"}
-      - {text: "Volume dried up and nothing happened"}
-    explanation: "The wick is the part of the move that was taken back — that is a rejection."
+      - {text: "Buyers gave up and went home"}
+      - {text: "Neither side finished ahead", correct: true}
+      - {text: "The move is about to reverse"}
+    explanation: "Both sides were active — the wicks prove it — and neither of them kept the ground they took."
 
   - type: tf
-    statement: "A big green body with almost no wicks says one side controlled the whole minute."
+    statement: "A long body with almost no wick says one side held everything it took during the minute."
     answer: true
-    explanation: "Nothing was given back at any point in the minute — that is what a momentum candle is."
-
-  - type: theory
-    title: "Context beats shape"
-    body: "The same doji is a harmless pause in a strong trend and a warning at a level you marked. A candle only means something where it happens."
-
-  - type: match
-    prompt: "Match each candle to what it shows."
-    pairs:
-      - ["Momentum candle", "One side pushed all minute and held it"]
-      - ["Doji", "Neither side finished ahead"]
-      - ["Rejection candle", "Price went to a price and was pushed back"]
-      - ["Engulfing candle", "One minute wiped out the minute before it"]
-    explanation: "Body size, wick length and what came before: that is the whole reading."
+    explanation: "Nothing was given back at any point, which is what makes the shape worth noticing at all."
 
   - type: chart-decision
-    scenario: "XYZ has run into yesterday's high at $17.80. The last candle spikes through it and closes back below with a long upper wick, on the heaviest volume of the run. You have 1,500 shares ready."
+    scenario: "XYZ has spent five minutes inside four cents above the line, and the minute that just closed is a sixteen-cent body with barely any wick. Your account is $22,000 and you are sizing 1,500 shares."
     shares: 1500
     chart:
       kind: candles
-      data: [[17.40, 17.50, 17.38, 17.48], [17.48, 17.60, 17.46, 17.58], [17.58, 17.68, 17.55, 17.66], [17.66, 17.74, 17.63, 17.72], [17.72, 17.78, 17.69, 17.76], [17.76, 17.86, 17.70, 17.72], [17.72, 17.74, 17.60, 17.62], [17.62, 17.65, 17.52, 17.54], [17.54, 17.58, 17.46, 17.48], [17.48, 17.52, 17.42, 17.46]]
-      volume: [42000, 51000, 56000, 62000, 68000, 114000, 82000, 66000, 59000, 51000]
-      levels:
-        - {price: 17.80, label: "Yesterday's high"}
+      data: [[14.28, 14.34, 14.26, 14.32], [14.32, 14.38, 14.30, 14.36], [14.36, 14.38, 14.32, 14.34], [14.34, 14.38, 14.32, 14.36], [14.36, 14.38, 14.32, 14.34], [14.34, 14.52, 14.33, 14.50], [14.50, 14.56, 14.48, 14.54], [14.54, 14.60, 14.52, 14.58], [14.58, 14.64, 14.56, 14.62], [14.62, 14.68, 14.60, 14.66], [14.66, 14.72, 14.64, 14.69]]
+      volume: [62000, 58000, 44000, 48000, 42000, 164000, 128000, 110000, 96000, 84000, 76000]
+      vwap: [14.28, 14.29, 14.30, 14.30, 14.31, 14.32, 14.34, 14.36, 14.38, 14.40, 14.42]
       decision_index: 5
-    best: short
+    best: long
     reasonable: [no-trade]
-    outcome: "The rejection held and price slid to $17.46 — $0.26 per share, +$390 short on 1,500 shares from $17.72."
-    explanation: "A long wick through a level on the heaviest volume of the run is the buyers being filled and then abandoned."
+    outcome: "It carried on to $14.69 — $0.19 a share past the decision, +$285 long on 1,500 shares."
+    explanation: "Five quiet minutes of nothing, then one minute that took sixteen cents and kept every one of them, on three times the volume of the five before it."
 
   - type: numeric-input
-    prompt: "That short is 1,500 shares at $17.72 with a stop at $17.84. How much money is at risk before costs?"
-    answer: 180
+    prompt: "You are long 1,500 shares from $14.50 with the stop at the open of that candle, $14.34. What is at risk?"
+    answer: 240
+    tolerance: 0.01
     unit: "$"
-    working: "($17.84 − $17.72) × 1,500 shares = $180"
-    explanation: "Stop distance times share count — the number you size from."
+    working: "$14.50 − $14.34 = $0.16 a share; $0.16 × 1,500 shares = $240"
+    explanation: "The body of the candle is the risk: if price goes back through where the minute started, the minute meant nothing."
 
-  - type: fill-choice
-    sentence: "A candle whose body covers the previous body in the other direction is an ___ candle."
-    options: ["engulfing", "indecision", "exhaustion"]
-    answer: "engulfing"
-    explanation: "It swallows the minute before it whole."
+  - type: fill-tiles
+    sentence: "A minute that opens and closes at the same price is a ___."
+    answer: "doji"
+    explanation: "Both sides turned up and neither of them finished in front."
+
+  - type: compare
+    prompt: "Which chart's last minute is the momentum candle?"
+    charts:
+      - kind: candles
+        data: [[17.20, 17.26, 17.16, 17.24], [17.24, 17.28, 17.20, 17.22], [17.22, 17.28, 17.18, 17.26], [17.26, 17.30, 17.22, 17.24], [17.24, 17.28, 17.20, 17.26], [17.26, 17.30, 17.22, 17.28], [17.28, 17.32, 17.24, 17.26], [17.26, 17.44, 17.25, 17.42]]
+        label: "A"
+      - kind: candles
+        data: [[17.20, 17.26, 17.16, 17.24], [17.24, 17.28, 17.20, 17.22], [17.22, 17.28, 17.18, 17.26], [17.26, 17.30, 17.22, 17.24], [17.24, 17.28, 17.20, 17.26], [17.26, 17.30, 17.22, 17.28], [17.28, 17.32, 17.24, 17.26], [17.26, 17.44, 17.24, 17.28]]
+        label: "B"
+    answer: "A"
+    explanation: "Both last minutes reached $17.44. A finished sixteen cents up and kept it; B gave all sixteen back and finished two cents up."
 
   - type: theory
-    title: "One candle is not a trade"
-    body: "You can now name what a minute did. Next: why a candle only becomes a signal when the level and the volume agree with it."
+    title: "Two shapes down"
+    body: "A long body is one side holding everything. A flat one is nobody holding anything. Next: the two shapes that show a minute being taken back."

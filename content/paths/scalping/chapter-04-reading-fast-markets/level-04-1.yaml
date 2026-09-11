@@ -3,129 +3,119 @@ title: "Map Practice"
 chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
-category: repetition
-tags: [levels, vwap, decisions]
-learning_goal: "User combines VWAP and the marked levels into decisions and prices the cost of each one before taking it."
-purpose: "Lines only earn their place when they change what you do — this is where they start doing that."
+category: new-theory
+tags: [levels, vwap, costs, position-size]
+learning_goal: "User prices every read before taking it: the cost against the distance to the next line, and the size against both ceilings."
+purpose: "A good read you cannot afford is not a trade, and the only way to know is to price it before you send anything."
 terms_introduced: []
-reinforces: [2, 3]
-prerequisite: "3-1"
-xp: 20
+reinforces: [3]
+prerequisite: "3-4"
+xp: 25
 difficulty: 2
-sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
-notes: "Practice sub. No new ideas; three decisions plus cost and level checks."
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "First sub of Level 4 and the one new rule in it: read first, price second. Chapter 3's cost ratio and two ceilings do the work. Account named at $20,000 so the account ceiling can bind."
 screens:
   - type: intro
-    text: "No new ideas. Your lines, three decisions and the cost of each one."
+    text: "Three reads. Each one priced before a single share is sent."
 
   - type: story
     character: retail-trader
-    text: "{{market.regular_open}} {{market.timezone}}. Four lines on the chart, $30,000 in the account, one stock on the screen."
+    text: "Three names on the screen, $20,000 in the account, and the lines already drawn. Nothing new today except the candles."
+
+  - type: theory
+    title: "Read first, price second"
+    body: "The map tells you there is a trade. The arithmetic tells you whether it survives the cost and whether the account can pay for it. In that order, every time."
 
   - type: chart-decision
-    scenario: "XYZ opened under VWAP and sold off. It now closes back above the line and the next candle holds above it. You have 1,500 shares ready."
-    shares: 1500
+    scenario: "XYZ has taken the line back with two closes above it, and the pre-market high at $12.72 is the first line overhead. Your account is $20,000 and you are sizing 1,600 shares."
+    shares: 1600
+    state: ["Costs $0.04 a share round trip"]
     chart:
       kind: candles
-      data: [[18.40, 18.44, 18.26, 18.28], [18.28, 18.32, 18.14, 18.16], [18.16, 18.24, 18.12, 18.22], [18.22, 18.30, 18.20, 18.28], [18.28, 18.36, 18.26, 18.34], [18.34, 18.40, 18.32, 18.38], [18.38, 18.48, 18.36, 18.46], [18.46, 18.54, 18.44, 18.52], [18.52, 18.58, 18.48, 18.56], [18.56, 18.62, 18.52, 18.58]]
-      vwap: [18.36, 18.32, 18.30, 18.30, 18.31, 18.32, 18.33, 18.35, 18.37, 18.39]
-      decision_index: 5
+      data: [[12.44, 12.46, 12.32, 12.34], [12.34, 12.36, 12.26, 12.28], [12.28, 12.34, 12.26, 12.32], [12.32, 12.38, 12.30, 12.36], [12.36, 12.38, 12.32, 12.34], [12.34, 12.44, 12.32, 12.42], [12.42, 12.50, 12.40, 12.48], [12.48, 12.56, 12.46, 12.54], [12.54, 12.60, 12.52, 12.58], [12.58, 12.66, 12.56, 12.64], [12.64, 12.70, 12.62, 12.69]]
+      volume: [68000, 74000, 52000, 58000, 64000, 132000, 114000, 98000, 86000, 78000, 72000]
+      vwap: [12.48, 12.46, 12.44, 12.42, 12.40, 12.38, 12.37, 12.37, 12.38, 12.39, 12.40]
+      levels:
+        - {price: 12.72, label: "Pre-market high"}
+      decision_index: 6
     best: long
     reasonable: [no-trade]
-    outcome: "It held the line and reached $18.58 — $0.20 per share, +$300 long on 1,500 shares from $18.38."
-    explanation: "Two closes above the line after a morning below it: control changed hands and the reclaim held."
+    outcome: "It ran to $12.69, three cents short of the line — $0.21 a share past the decision, +$336 long on 1,600 shares."
+    explanation: "Two closes back above the line, twenty-four cents of room to the next one, and four cents of cost to get there and back. The read and the price agree."
 
   - type: numeric-input
-    prompt: "Before that trade: the spread is $0.03 and you are trading 1,500 shares. What does the round trip cost in spread?"
-    answer: 45
+    prompt: "Costs run four cents a share on that trade and you took 1,600 shares. What does the round trip hand over?"
+    answer: 64
+    tolerance: 0.01
     unit: "$"
-    working: "$0.03 per share × 1,500 shares = $45"
-    explanation: "On a $0.20 target that is 15 % of the move — worth knowing before you press the button."
-
-  - type: chart-decision
-    scenario: "XYZ is grinding up into the round number at $27.00 with the candles getting smaller and volume drying up. You have 1,000 shares ready."
-    shares: 1000
-    chart:
-      kind: candles
-      data: [[26.62, 26.72, 26.60, 26.70], [26.70, 26.82, 26.68, 26.80], [26.80, 26.88, 26.76, 26.86], [26.86, 26.92, 26.84, 26.90], [26.90, 26.96, 26.88, 26.93], [26.93, 26.98, 26.91, 26.95], [26.95, 26.99, 26.86, 26.88], [26.88, 26.92, 26.80, 26.82], [26.82, 26.86, 26.74, 26.76], [26.76, 26.80, 26.70, 26.74]]
-      volume: [82000, 74000, 61000, 48000, 36000, 29000, 68000, 54000, 49000, 42000]
-      levels:
-        - {price: 27.00, label: "Round number"}
-      decision_index: 5
-    best: no-trade
-    reasonable: [short]
-    outcome: "It never touched $27.00 and drifted back to $26.74. A long into the level would have been under water within two minutes."
-    explanation: "Buying into a level on fading volume is paying up for the last few cents before the sellers who are waiting there."
-
-  - type: match
-    prompt: "Match each line to what it tells you."
-    pairs:
-      - ["VWAP", "The volume-weighted average price of the session so far"]
-      - ["Yesterday's close", "Whether the stock is up or down on the day"]
-      - ["Pre-market high", "The highest price traded before the session opened"]
-      - ["Round number", "A price where orders cluster because people think in round numbers"]
-    explanation: "Four lines, four different pieces of information."
-
-  - type: mc
-    prompt: "Price is above VWAP and one cent under yesterday's high, which has stopped it twice already. Best plan?"
-    options:
-      - {text: "Buy now, because being above VWAP means buyers are in charge"}
-      - {text: "Short into the level, because it has held twice"}
-      - {text: "Wait — the level has to break and hold before the long is there", correct: true}
-    explanation: "Two signals disagree, so you wait for the level to settle the argument."
-
-  - type: tf
-    statement: "Once price is above VWAP, the levels above it stop mattering."
-    answer: false
-    explanation: "VWAP tells you who is in charge; the levels above still tell you where the move can stall."
-
-  - type: chart-tap
-    prompt: "Yesterday's high is $52.50. Tap the candle that broke it and closed above."
-    chart:
-      kind: candles
-      data: [[52.10, 52.18, 52.06, 52.16], [52.16, 52.26, 52.12, 52.24], [52.24, 52.32, 52.20, 52.28], [52.28, 52.44, 52.26, 52.40], [52.40, 52.48, 52.34, 52.38], [52.38, 52.46, 52.34, 52.44], [52.44, 52.62, 52.42, 52.58], [52.58, 52.70, 52.54, 52.66], [52.66, 52.74, 52.60, 52.70], [52.70, 52.78, 52.66, 52.74]]
-      levels:
-        - {price: 52.50, label: "Yesterday's high"}
-    target: 6
-    explanation: "Earlier candles reached $52.48 at best; this one closed eight cents through the level."
-
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "The pre-market high is a level"}
-      - {text: "because pre-market volume is heavy,", wrong: true}
-      - {text: "and traders remember where price turned."}
-    explanation: "Pre-market volume is thin — the level works because traders remember the price, not because much traded there."
+    working: "$0.04 a share × 1,600 shares = $64"
+    explanation: "A per-share number means nothing until the share count is attached, and $64 is what the trip costs whether it works or not."
 
   - type: slider
-    prompt: "Your target is 15 cents. The spread is 3 cents. How much of the target does the round trip in spread take?"
+    prompt: "Costs four cents a share, and the line above is twenty-four cents away. How much of that target goes to costs?"
     min: 0
     max: 100
     step: 5
     unit: "%"
-    answer: 20
+    answer: 15
     tolerance: 10
-    explanation: "$0.03 of $0.15 is 20 % of the move, gone before slippage and fees."
-
-  - type: fill-tiles
-    sentence: "Price closing back above VWAP after a morning below it is a ___."
-    answer: "reclaim"
-    explanation: "The buyers took the line back."
+    explanation: "$0.04 ÷ $0.24 is about 17 %, which leaves most of the move for the trade. Past a third, the read stops being worth taking."
 
   - type: chart-decision
-    scenario: "XYZ with VWAP through the middle of it and yesterday's close along the bottom. You have 1,000 shares ready."
-    shares: 1000
+    scenario: "XYZ has finished every minute above the line and has just closed through yesterday's high at $26.40. Your account is $20,000, the risk budget is $200, and a stop under the breakout minute sits at $26.31."
+    shares: 700
+    state: ["Risk budget $200", "Stop $26.31"]
     chart:
       kind: candles
-      data: [[14.52, 14.56, 14.48, 14.50], [14.50, 14.55, 14.47, 14.53], [14.53, 14.56, 14.49, 14.51], [14.51, 14.54, 14.47, 14.49], [14.49, 14.55, 14.48, 14.54], [14.54, 14.56, 14.50, 14.52], [14.52, 14.55, 14.47, 14.50], [14.50, 14.54, 14.48, 14.53], [14.53, 14.56, 14.49, 14.51], [14.51, 14.54, 14.48, 14.52]]
-      vwap: [14.51, 14.51, 14.51, 14.51, 14.51, 14.51, 14.51, 14.51, 14.51, 14.51]
+      data: [[26.10, 26.20, 26.08, 26.18], [26.18, 26.26, 26.16, 26.24], [26.24, 26.28, 26.20, 26.22], [26.22, 26.34, 26.20, 26.32], [26.32, 26.38, 26.30, 26.36], [26.36, 26.48, 26.34, 26.46], [26.46, 26.54, 26.44, 26.52], [26.52, 26.60, 26.50, 26.58], [26.58, 26.66, 26.56, 26.64], [26.64, 26.72, 26.62, 26.70], [26.70, 26.78, 26.68, 26.75]]
+      volume: [84000, 96000, 72000, 88000, 104000, 156000, 132000, 118000, 102000, 92000, 84000]
+      vwap: [26.10, 26.14, 26.18, 26.22, 26.25, 26.28, 26.31, 26.34, 26.37, 26.40, 26.43]
       levels:
-        - {price: 14.47, label: "Yesterday's close"}
+        - {price: 26.4, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $26.75 — $0.29 a share past the decision, +$203 long on 700 shares."
+    explanation: "The read is clean, and 700 shares is all of it you can hold: at $26.46 that is $18,522, and the account has $20,000."
+
+  - type: numeric-mc
+    prompt: "Same trade: $200 of risk budget, fifteen cents of stop, $26.46 a share, $20,000 in the account. How many shares does the pair of ceilings allow?"
+    options:
+      - {text: "755 — the account binds", correct: true}
+      - {text: "1,333 — the risk budget binds"}
+      - {text: "1,900 — the stop is tight"}
+    working: "$200 ÷ $0.15 = 1,333 shares; $20,000 ÷ $26.46 = 755 shares; take the lower of the two"
+    explanation: "The stop would let you hold 1,333, and the bank will not pay for them. The lower number is the size, every time."
+
+  - type: tf
+    statement: "A read good enough to trade can still be a trade you are not able to take."
+    answer: true
+    explanation: "The account ceiling is not a cost you can weigh up — it is cash you either have or do not have."
+
+  - type: chart-decision
+    scenario: "XYZ is stepping up above the line, the bars underneath are all near 10,000 shares, and the panel reads bid $18.09 / ask $18.23. Your account is $20,000 and you are sizing 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[17.96, 18.04, 17.94, 18.02], [18.02, 18.10, 18.00, 18.08], [18.08, 18.12, 18.04, 18.06], [18.06, 18.14, 18.04, 18.12], [18.12, 18.14, 18.08, 18.10], [18.10, 18.18, 18.08, 18.16], [18.16, 18.18, 18.10, 18.12], [18.12, 18.20, 18.10, 18.18], [18.18, 18.20, 18.12, 18.14], [18.14, 18.22, 18.12, 18.20]]
+      volume: [11000, 9000, 8000, 12000, 7000, 14000, 9000, 8000, 11000, 10000]
+      vwap: [17.96, 17.97, 17.98, 17.99, 18.00, 18.01, 18.02, 18.03, 18.04, 18.05]
       decision_index: 5
     best: no-trade
-    outcome: "It was still in the same band twenty minutes later. Any entry would have paid the spread for nothing."
-    explanation: "Lines stacked on top of each other with no room between them is a range, and a range this tight has no scalp in it."
+    reasonable: []
+    outcome: "Four minutes later it was $18.20 — $0.04 a share past the decision, $44 on 1,100 shares against the $154 the gap would have taken."
+    explanation: "Fourteen cents wide against minutes that travel ten, and 1,100 shares is a tenth of everything this stock trades in a minute. The read is the least of the problems."
 
-  - type: theory
-    title: "Lines, then decisions"
-    body: "The map does not tell you to trade. It tells you where a trade could be — and where there is nothing worth paying the spread for."
+  - type: fill-choice
+    sentence: "The read says a trade is there; the ___ says whether you may take it."
+    options: ["cost", "chart", "clock"]
+    answer: "cost"
+    explanation: "Two separate questions, and the second one has stopped better reads than that."
+
+  - type: checklist-reveal
+    title: "Pricing a read"
+    items:
+      - "How far is the next line from the entry?"
+      - "What do the gap, the slippage and the fees take out of it?"
+      - "What does the stop allow, and what can the account pay for?"
+      - "Which of those two share counts is smaller?"
