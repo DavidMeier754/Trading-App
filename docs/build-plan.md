@@ -273,18 +273,28 @@ This is the one you will run twenty times. Keep the first paragraph byte-identic
 every time so the docs cache; change only the bracketed parts.
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter [N] table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter [N] section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter [N] —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels [7–11] of Chapter [N] ([chapter title]) in
 content/[folder]/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.

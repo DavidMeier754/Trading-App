@@ -16,18 +16,28 @@ Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_
 **Expand:** 1, 2, 3, 4, 5.
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 2 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 2 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 2 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 1–6 of Chapter 2 (Charts 101) in
 content/paths/scalping/chapter-02-charts-101/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -71,18 +81,28 @@ Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or 
 **Revise to v3** (already 1 sub from retrofit): 12 (Checkpoint).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 2 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 2 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 2 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 7–12 of Chapter 2 (Charts 101) in
 content/paths/scalping/chapter-02-charts-101/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -127,18 +147,28 @@ Model: `claude-opus-5` · _Opus — holds a Callback level; holds the Final Exam
 **Revise to v3** (already 1 sub from retrofit): 18 (Final Exam).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 2 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 2 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 2 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 13–18 of Chapter 2 (Charts 101) in
 content/paths/scalping/chapter-02-charts-101/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -185,18 +215,28 @@ Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_
 **Expand:** 1, 2, 3, 4.
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 3 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 3 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 3 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 1–5 of Chapter 3 (Orders, Costs & Position Size) in
 content/paths/scalping/chapter-03-orders-costs-position-size/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -239,18 +279,28 @@ Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or 
 **Expand:** 6, 7, 8, 9, 10.
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 3 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 3 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 3 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 6–10 of Chapter 3 (Orders, Costs & Position Size) in
 content/paths/scalping/chapter-03-orders-costs-position-size/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -295,18 +345,28 @@ Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or 
 **Revise to v3** (already 1 sub from retrofit): 12 (Checkpoint).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 3 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 3 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 3 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 11–15 of Chapter 3 (Orders, Costs & Position Size) in
 content/paths/scalping/chapter-03-orders-costs-position-size/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -351,18 +411,28 @@ Model: `claude-opus-5` · _Opus — holds a Callback level; holds the Final Exam
 **Revise to v3** (already 1 sub from retrofit): 19 (Final Exam).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 3 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 3 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 3 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 16–19 of Chapter 3 (Orders, Costs & Position Size) in
 content/paths/scalping/chapter-03-orders-costs-position-size/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -409,18 +479,28 @@ Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_
 **Expand:** 1, 2, 3, 4, 6.
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 4 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 4 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 4 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 1–6 of Chapter 4 (Reading Fast Markets) in
 content/paths/scalping/chapter-04-reading-fast-markets/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -464,18 +544,28 @@ Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or 
 **Revise to v3** (already 1 sub from retrofit): 8 (Checkpoint).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 4 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 4 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 4 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 7–12 of Chapter 4 (Reading Fast Markets) in
 content/paths/scalping/chapter-04-reading-fast-markets/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -520,18 +610,28 @@ Model: `claude-opus-5` · _Opus — holds a Callback level; holds the Final Exam
 **Revise to v3** (already 1 sub from retrofit): 18 (Final Exam).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 4 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 4 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 4 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 13–18 of Chapter 4 (Reading Fast Markets) in
 content/paths/scalping/chapter-04-reading-fast-markets/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -578,18 +678,28 @@ Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_
 **Expand:** 1, 2, 3, 4.
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 1 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 1 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 1 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 1–5 of Chapter 1 (Market Basics (shared)) in
 content/shared/chapter-01-market-basics/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -633,18 +743,28 @@ Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or 
 **Revise to v3** (already 1 sub from retrofit): 11 (Checkpoint).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 1 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 1 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 1 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 6–11 of Chapter 1 (Market Basics (shared)) in
 content/shared/chapter-01-market-basics/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -688,18 +808,28 @@ Model: `claude-opus-5` · _Opus — holds the Final Exam_
 **Revise to v3** (already 1 sub from retrofit): 17 (Final Exam).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 1 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 1 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 1 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 12–17 of Chapter 1 (Market Basics (shared)) in
 content/shared/chapter-01-market-basics/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -745,18 +875,28 @@ Model: `claude-opus-5` · _Opus — first block, sets the chapter voice; new cha
 **New:** 1 (Not Every Stock), 2 (Relative Volume), 3 (The Catalyst), 4 (Selection Practice).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 5 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 5 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 5 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 1–4 of Chapter 5 (Finding the Trade) in
 content/paths/scalping/chapter-05-finding-the-trade/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -799,18 +939,28 @@ Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand_
 **New:** 5 (Checkpoint), 6 (Reading a Scanner), 7 (Building the Watchlist), 8 (Float and Share Structure), 9 (Watchlist Practice).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 5 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 5 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 5 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 5–9 of Chapter 5 (Finding the Trade) in
 content/paths/scalping/chapter-05-finding-the-trade/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -853,18 +1003,28 @@ Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand_
 **New:** 10 (Checkpoint), 11 (The Market Behind the Stock), 12 (Market Internals), 13 (Trend Day or Range Day).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 5 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 5 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 5 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 10–13 of Chapter 5 (Finding the Trade) in
 content/paths/scalping/chapter-05-finding-the-trade/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -907,18 +1067,28 @@ Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand; holds a C
 **New:** 14 (Chapters 1 & 4 Callback), 15 (The Pre-Market Routine), 16 (Chapter Review), 17 (Final Exam).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 5 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 5 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 5 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 14–17 of Chapter 5 (Finding the Trade) in
 content/paths/scalping/chapter-05-finding-the-trade/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -965,18 +1135,28 @@ Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_
 **Expand:** 1, 2.
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 6 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 6 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 6 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 1–5 of Chapter 6 (Risk & Psychology) in
 content/paths/scalping/chapter-06-risk-and-psychology/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1021,18 +1201,28 @@ Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or 
 **Revise to v3** (already 1 sub from retrofit): 10 (Checkpoint).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 6 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 6 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 6 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 6–10 of Chapter 6 (Risk & Psychology) in
 content/paths/scalping/chapter-06-risk-and-psychology/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1076,18 +1266,28 @@ Model: `claude-opus-5` · _Opus — holds a Callback level_
 **Expand:** 11, 12, 13, 15.
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 6 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 6 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 6 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 11–15 of Chapter 6 (Risk & Psychology) in
 content/paths/scalping/chapter-06-risk-and-psychology/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1131,18 +1331,28 @@ Model: `claude-opus-5` · _Opus — holds the Final Exam_
 **Revise to v3** (already 1 sub from retrofit): 19 (Final Exam).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 6 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 6 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 6 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 16–19 of Chapter 6 (Risk & Psychology) in
 content/paths/scalping/chapter-06-risk-and-psychology/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1189,18 +1399,28 @@ Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_
 **Revise to v3** (already 1 sub from retrofit): 5 (Checkpoint).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 7 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 7 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 7 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 1–5 of Chapter 7 (The Scalping Playbook) in
 content/paths/scalping/chapter-07-scalping-playbook/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1244,18 +1464,28 @@ Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or 
 **Expand:** 6, 7.
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 7 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 7 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 7 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 6–9 of Chapter 7 (The Scalping Playbook) in
 content/paths/scalping/chapter-07-scalping-playbook/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1298,18 +1528,28 @@ Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or 
 **New:** 10 (Setup F — Gap-and-Go Continuation), 11 (Setup G — Range Rotation), 12 (Setup H — The Re-Entry), 13 (Mixed Drill II).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 7 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 7 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 7 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 10–13 of Chapter 7 (The Scalping Playbook) in
 content/paths/scalping/chapter-07-scalping-playbook/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1354,18 +1594,28 @@ Model: `claude-opus-5` · _Opus — holds a Callback level; holds the Final Exam
 **Revise to v3** (already 1 sub from retrofit): 19 (Final Exam).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 7 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 7 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 7 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 14–19 of Chapter 7 (The Scalping Playbook) in
 content/paths/scalping/chapter-07-scalping-playbook/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1411,18 +1661,28 @@ Model: `claude-opus-5` · _Opus — first block, sets the chapter voice; new cha
 **New:** 1 (The Platform), 2 (Hotkeys and Muscle Memory), 3 (Execution Drills), 4 (The Pre-Market Hour).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 8 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 8 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 8 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 1–4 of Chapter 8 (The Trading Day) in
 content/paths/scalping/chapter-08-the-trading-day/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1465,18 +1725,28 @@ Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand_
 **New:** 5 (Checkpoint), 6 (The Open), 7 (Mid-Session), 8 (The Close and the Review), 9 (Full-Day Practice).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 8 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 8 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 8 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 5–9 of Chapter 8 (The Trading Day) in
 content/paths/scalping/chapter-08-the-trading-day/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1519,18 +1789,28 @@ Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand; holds a C
 **New:** 10 (Checkpoint), 11 (Tracking Your Numbers), 12 (When to Increase Size), 13 (Chapters 6 & 7 Callback).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 8 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 8 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 8 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 10–13 of Chapter 8 (The Trading Day) in
 content/paths/scalping/chapter-08-the-trading-day/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
@@ -1573,18 +1853,28 @@ Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand; holds the
 **New:** 14 (Your First 30 Days on Sim), 15 (Going Live, Carefully), 16 (Capstone — A Full Week), 17 (Final Exam and Graduation).
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full, then the
-Chapter 8 table in docs/curriculum.md. These are the rules; where this prompt and
-those docs disagree, the docs win.
+Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
+the Chapter 8 section of docs/curriculum.md and only that section — find it with
+`grep -n 'Chapter 8 —' docs/curriculum.md` and read that range; the first match is this
+path's. Do not read the file whole: it carries all three paths and the rest is not
+yours. These are the rules; where this prompt and those docs disagree, the docs win.
 
 Write levels 14–17 of Chapter 8 (The Trading Day) in
 content/paths/scalping/chapter-08-the-trading-day/, following the v3 level table exactly: the level titles, the
 sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
 
-Before writing, read every existing sub-level in this chapter and the last block you
-wrote, so voice, difficulty and screen mix continue rather than restart. Also read
-the chapters named in the Reinforces column for these levels — you are reaching back
-into real lessons, and the callback has to match what was actually taught there.
+Before writing, read three things and stop there. One: the existing sub-levels of the
+levels in this block — you are adding siblings to them, so they fix the level's terms,
+numbers and voice. Two: the most recently written block, in this chapter if it has one
+and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
+rather than restart. Three: three or four further sub-levels sampled across the
+chapter's range. Do not read every sub-level in the chapter — by the later blocks that
+is tens of thousands of tokens for no added signal.
+
+For the Reinforces column, do not read those chapters end to end either. Look up in
+docs/curriculum.md which level teaches the concept you are calling back to, and read
+only those sub-levels. The callback has to match what was actually taught there, and a
+handful of files decides that, not a whole chapter.
 
 Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
 - 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
