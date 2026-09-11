@@ -5,40 +5,19 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: test
 tags: [checkpoint]
-learning_goal: "Verify Levels 1–5: bid/ask/spread, spread versus expected move, market/limit/marketable limit orders, stop orders, position sizing."
-purpose: "The cost-and-order fundamentals must be solid before slippage and fees stack on top."
+learning_goal: "Verify Levels 6–11: market/limit/marketable limit orders, stop orders and stop distance, position sizing from both ceilings, and where the account binds."
+purpose: "Orders and sizing have to be automatic before slippage and fees stack on top of them."
 terms_introduced: []
-prerequisite: "10-2"
+reinforces: [1, 2]
+prerequisite: "11-2"
 xp: 40
 difficulty: 2
 sources: [consensus]
-notes: "10 scored questions. Hearts apply. Pass mark 70 %."
+notes: "10 scored questions on Levels 6–11. Three reach back — one to Chapter 1's volatility dial, one to Chapter 2's climax volume, one to Chapter 1's session structure. Hearts apply. Pass mark 70 %."
 screens:
   - type: intro
     text: "Checkpoint. Ten questions, nothing new. Hearts are on."
     counter: 10
-
-  - type: hotspot
-    component: quote-panel
-    prompt: "Tap the price a market sell fills at."
-    data: {bid: 33.10, ask: 33.13, last: 33.12}
-    target: bid
-    explanation: "Sellers get the bid."
-
-  - type: numeric-input
-    prompt: "Bid $33.10, ask $33.13. Round trip on 700 shares — spread cost?"
-    answer: 21
-    unit: "$"
-    working: "$0.03 × 700 = $21"
-    explanation: "Spread times shares."
-
-  - type: mc
-    prompt: "You expect $0.12 of movement and the quote shows a $0.06 spread. Take it?"
-    options:
-      - {text: "No — half the move is gone at entry", correct: true}
-      - {text: "Fine — six cents is small"}
-      - {text: "Good — wide spreads mean big moves"}
-    explanation: "50 % of the move to the spread is far too much."
 
   - type: mc
     prompt: "Ask $10.20. You send a limit buy at $10.23 while sellers are still at $10.20. You pay:"
@@ -81,6 +60,16 @@ screens:
       - {text: "Risk $60."}
     explanation: "A long needs a sell stop below the entry."
 
+  - type: numeric-mc
+    prompt: "$16,000 account, 1 % rule, stock at $29.00, stop nine cents away. Which ceiling wins?"
+    options:
+      - {text: "1,777 shares — the stop sets the size"}
+      - {text: "551 shares — the account is what binds here", correct: true}
+      - {text: "1,164, splitting the two"}
+      - {text: "3,555, doubling the risk ceiling"}
+    working: "Risk: $160 ÷ $0.09 = 1,777. Account: $16,000 ÷ $29.00 = 551. Take the smaller."
+    explanation: "A stock this close to the top of the price band eats the account long before the stop does."
+
   - type: numeric-input
     prompt: "800 shares, stop distance $0.09. Risk per trade?"
     answer: 72
@@ -89,12 +78,25 @@ screens:
     explanation: "Stop distance times shares."
 
   - type: mc
-    prompt: "The spread jumps from $0.02 to $0.12 at {{market.regular_open}}. Best move?"
+    prompt: "Chapter 1 gave every stock two dials. Which one decides how far away a stop has to sit?"
     options:
-      - {text: "Wait for it to settle — a thin, jumpy quote", correct: true}
-      - {text: "Buy now — a wider spread means momentum"}
-      - {text: "Use a stop order to enter"}
-    explanation: "Wide and unstable is a reason to wait."
+      - {text: "Liquidity — thin stocks always need wider stops"}
+      - {text: "Volatility — the more a stock swings, the more room the stop needs", correct: true}
+      - {text: "Volume — heavier bars always mean wider stops"}
+    explanation: "Volatility is the size of the moves. A calmer stock lets the stop sit closer without ordinary noise touching it off."
+
+  - type: mc
+    prompt: "Chapter 2 called the single heaviest bar of a run climax volume — the whole crowd trading in one minute. Why does that make it an easy minute to get an order filled in?"
+    options:
+      - {text: "It isn't — heavy bars are the most dangerous ones to trade into"}
+      - {text: "Buyers and sellers are both there in size, in the same sixty seconds", correct: true}
+      - {text: "Climax bars only happen once the spread has already gone to zero"}
+    explanation: "Maximum participation is maximum liquidity for that minute — the opposite of the thin bar nobody is behind."
+
+  - type: tf
+    statement: "A quote that jumps from two cents wide to twelve right at {{market.regular_open}} means the quote is thin and unsettled, not that momentum has arrived."
+    answer: true
+    explanation: "Chapter 1 called the opening minutes the jumpiest of the session. A wide, unstable quote right then is the session being thin — not a signal to chase."
 
   - type: summary
     total: 10

@@ -1,0 +1,105 @@
+id: "15-3"
+title: "Inside the Quote"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [level-2, order-book, synthesis]
+learning_goal: "User reads a stacked resting order alongside the candle it sits under, walks a second order through the book, and treats book depth as a clue rather than a guarantee."
+purpose: "Closing the level: the book, the tape and the chart are three views of the same few seconds, and they're most useful read together."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "15-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Closes Level 15. Second use of depth-ladder in the chapter. Account named at $17,000."
+screens:
+  - type: intro
+    text: "Book, tape, candle. Three views of the same few seconds — read together, they say more than any one alone."
+
+  - type: theory
+    title: "Reading them together"
+    body: "A resting order tells you who's willing. The tape tells you who already acted. The candle tells you who won the minute. None of the three is the whole story by itself."
+
+  - type: depth-ladder
+    prompt: "You market-sell 1,600 shares. Where does the last share fill?"
+    data:
+      bids: [[15.60, 400], [15.59, 900], [15.58, 700]]
+      asks: [[15.62, 600], [15.63, 500], [15.64, 800]]
+    target: bid-3
+    explanation: "The first 400 go off at $15.60, the next 900 at $15.59, and the final 300 need the third level, $15.58 — that's where your last share fills."
+
+  - type: numeric-mc
+    prompt: "Best bid 600 at $11.20, next 900 at $11.19. You market-sell 1,200. Average fill?"
+    options:
+      - {text: "$11.20"}
+      - {text: "$11.195", correct: true}
+      - {text: "$11.19"}
+      - {text: "$11.1975"}
+    working: "(600 × 11.20 + 600 × 11.19) ÷ 1,200 = 11.195"
+    explanation: "Only 600 of that second row is needed to finish the order."
+
+  - type: mc
+    prompt: "Time and sales shows trades alternating between the bid and the ask, similar size each time, for two straight minutes. What's the read?"
+    options:
+      - {text: "A one-sided crowd is building"}
+      - {text: "Neither side is winning — a stalemate, not a trend", correct: true}
+      - {text: "The stock is about to halt"}
+    explanation: "Alternating prints of similar size is two sides trading evenly. No edge either way yet."
+
+  - type: tf
+    statement: "A resting order at the best price is a promise to trade at that price."
+    answer: false
+    explanation: "It's a resting intention, not a promise — it can vanish before anything trades against it."
+
+  - type: fill-choice
+    sentence: "3,000 shares resting on the bid is a ___, not a guarantee."
+    options: ["clue", "promise", "law"]
+    answer: "clue"
+    explanation: "Resting size can vanish before it trades — it's evidence, not a certainty."
+
+  - type: chart-decision
+    scenario: "XYZ has drifted down to a level where the book shows 3,000 shares stacked on the bid at $16.96, and the candle that just closed bounced off that level on the heaviest bar of the morning. Your $17,000 account allows 900 shares here."
+    shares: 900
+    state: ["Bid stacked: 3,000 sh at $16.96"]
+    chart:
+      kind: candles
+      data: [[17.14, 17.18, 17.08, 17.10], [17.10, 17.14, 17.04, 17.06], [17.06, 17.10, 17.00, 17.02], [17.02, 17.06, 16.98, 17.00], [17.00, 17.04, 16.96, 16.98], [16.98, 17.08, 16.96, 17.06], [17.06, 17.14, 17.02, 17.12], [17.12, 17.20, 17.08, 17.18], [17.18, 17.26, 17.14, 17.24], [17.24, 17.30, 17.20, 17.28]]
+      volume: [82000, 74000, 88000, 70000, 94000, 168000, 132000, 118000, 104000, 96000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $17.28 — $0.22 a share above the decision, +$198 long on 900 shares."
+    explanation: "A big resting bid gave the level somewhere to hold, and the bounce came on the heaviest bar of the morning — book and candle agreeing is worth more than either alone."
+
+  - type: numeric-input
+    prompt: "Entry $17.06, stop four cents under the stacked bid at $16.92, 900 shares. What's the planned loss?"
+    answer: 126
+    unit: "$"
+    working: "$17.06 − $16.92 = $0.14; $0.14 × 900 = $126"
+    explanation: "The stacked size gave the stop a place to sit — not a reason to skip measuring it."
+
+  - type: match
+    prompt: "Four ideas from across the level. Match each to its meaning."
+    pairs:
+      - ["A stacked bid under a bounce candle", "Book and chart agreeing on the same level"]
+      - ["Alternating prints, similar size", "Neither side winning yet"]
+      - ["Walking the book", "What a market order does through more than one price level"]
+      - ["Chapter 1's liquidity, one instant at a time", "What the order book actually shows you"]
+    explanation: "The level in four pieces."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "3,000 shares are stacked on the bid,"}
+      - {text: "which guarantees the price cannot trade below it,", wrong: true}
+      - {text: "so the bounce here is worth more than a candle alone."}
+    explanation: "Guarantees nothing — that size can be pulled in an instant. It's evidence the level might hold, not a promise that it will."
+
+  - type: recap
+    title: "Level 15 in three lines"
+    points:
+      - {text: "The order book shows what's resting; time and sales shows what already happened.", level: "15-1"}
+      - {text: "A big order walks through more than one price level, and the average fill reflects all of them.", level: "15-2"}
+      - {text: "Book, tape and the candle agreeing is worth more than any one of them alone.", level: "15-3"}

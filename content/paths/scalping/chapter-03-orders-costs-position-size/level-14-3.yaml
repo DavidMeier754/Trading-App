@@ -1,0 +1,102 @@
+id: "14-3"
+title: "Fees at Frequency"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [fees, frequency, costs]
+learning_goal: "User adds fees to the rest of a day's costs, sizes up what each trade needs to clear before it's worth taking, and passes on a range too small to cover it."
+purpose: "The chapter's costs don't arrive one at a time — they stack, and the stack is what a setup actually has to beat."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "14-2"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Closes Level 14. Account named at $15,000 for the chart-decision."
+screens:
+  - type: intro
+    text: "Spread, slippage, fees. Add them up, and that's the number a setup has to beat before it's worth anything."
+
+  - type: theory
+    title: "Costs decide the frequency, not the other way round"
+    body: "The chapter's answer has been 'fewer, better trades' from the start. Now you can say exactly how much better: enough to clear the day's combined cost, divided across however many trades you actually take."
+
+  - type: example
+    body: "$340 a day in combined costs across 30 round trips means each one needs to clear about $11 before it's paid for itself, let alone made anything."
+
+  - type: numeric-input
+    prompt: "Spread $0.03, fee $0.005 per share, 1,000-share round trips, 25 round trips a day. What's the day's combined cost?"
+    answer: 1000
+    unit: "$"
+    working: "Spread: $0.03 × 1,000 × 25 = $750. Fees: $0.005 × 1,000 × 2 × 25 = $250. Total $1,000."
+    explanation: "Two layers, added, at the day's actual frequency."
+
+  - type: numeric-mc
+    prompt: "Same day, but you cut to 15 round trips instead of 25. New combined cost?"
+    options:
+      - {text: "$1,000"}
+      - {text: "$600", correct: true}
+      - {text: "$400"}
+      - {text: "$850"}
+    working: "Spread: $0.03 × 1,000 × 15 = $450. Fees: $0.005 × 1,000 × 2 × 15 = $150. Total $600."
+    explanation: "Cutting the trade count cuts every layer at once, not just the fee line."
+
+  - type: tf
+    statement: "Cutting from 25 to 15 round trips also lowers the spread cost, not just the fees."
+    answer: true
+    explanation: "Every layer of cost scales with the trade count. Fewer trades touches all three at once."
+
+  - type: chart-decision
+    scenario: "XYZ has chopped inside a four-cent range for ten minutes on ordinary volume. Spread, slippage and fees together run about three cents a share here. Your $15,000 account allows 1,200 shares here."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[12.00, 12.04, 11.97, 12.02], [12.02, 12.05, 11.99, 12.01], [12.01, 12.04, 11.98, 12.03], [12.03, 12.06, 12.00, 12.02], [12.02, 12.05, 11.99, 12.04], [12.04, 12.07, 12.01, 12.03], [12.03, 12.06, 12.00, 12.02], [12.02, 12.05, 11.99, 12.01], [12.01, 12.04, 11.98, 12.03], [12.03, 12.06, 12.00, 12.02]]
+      volume: [88000, 76000, 82000, 70000, 74000, 90000, 68000, 72000, 66000, 64000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long, short]
+    outcome: "It kept chopping inside the same four cents for another ten minutes and closed at $12.02 — a range too small to clear three cents of costs in either direction."
+    explanation: "A four-cent range is barely more than the cost of getting in and out. The cheapest edge is still fewer, better trades, and this one doesn't clear the bar to be one of them."
+
+  - type: mc
+    prompt: "Half your decisions are shorts. On a day the borrow is unavailable in your usual name, what happens to your trade count — and your monthly fee total?"
+    options:
+      - {text: "Nothing — you simply short a different stock instead"}
+      - {text: "Your count drops, and so does the fee total, whether you like it or not", correct: true}
+      - {text: "Fees rise, since missed shorts still get billed"}
+    explanation: "Chapter 1's borrow and cover aren't just vocabulary here — no borrow means fewer trades that day, and fewer trades means a smaller bill."
+
+  - type: numeric-input
+    prompt: "That chop cost about $0.03 a share all-in. On the 1,200 shares you passed on, what did skipping it save?"
+    answer: 36
+    unit: "$"
+    working: "$0.03 × 1,200 = $36"
+    explanation: "Not trading has a value too, and it's exactly the cost you didn't pay."
+
+  - type: sort
+    prompt: "Which lowers your monthly cost more, at scalping frequency?"
+    buckets: ["Bigger lever", "Smaller lever"]
+    items:
+      - {text: "Trading a liquid name with a tight spread", bucket: "Bigger lever"}
+      - {text: "Finding a broker $0.001 cheaper per share", bucket: "Smaller lever"}
+      - {text: "Cutting from forty trades a day to twenty", bucket: "Bigger lever"}
+      - {text: "Switching order types for the same trade count", bucket: "Smaller lever"}
+    explanation: "Liquidity and frequency move every layer of cost at once. A slightly cheaper fee schedule only ever moves one."
+
+  - type: match
+    prompt: "Four ideas from this level. Match each to its job."
+    pairs:
+      - ["Commission", "What the broker charges per order or per share"]
+      - ["Per-share fee", "Scales with quantity, not price"]
+      - ["Frequency", "The multiplier that turns a small cost into a real number"]
+      - ["Fewer, better trades", "The cheapest edge in the whole chapter"]
+    explanation: "The level in four terms."
+
+  - type: recap
+    title: "Level 14 in three lines"
+    points:
+      - {text: "A commission is billed per order or per share, and either way it's billed every trade.", level: "14-1"}
+      - {text: "Which structure costs more depends on whether you trade big or trade often.", level: "14-2"}
+      - {text: "Add it to the spread, and the cheapest edge is still fewer, better trades.", level: "14-3"}

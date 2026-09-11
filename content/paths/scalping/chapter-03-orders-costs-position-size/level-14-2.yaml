@@ -1,0 +1,103 @@
+id: "14-2"
+title: "Fees at Frequency"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [fees, frequency, practice]
+learning_goal: "User tells which fee schedule punishes size and which punishes trade count, and can show that a wide spread usually dwarfs the fee line it sits next to."
+purpose: "A commission is one number on a statement. Which number hurts depends on whether you trade big or trade often — and it is rarely the biggest cost in the room."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "14-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "No new terms — this sub adds the size-versus-frequency distinction between the two fee structures from 14-1."
+screens:
+  - type: intro
+    text: "A fee schedule doesn't ask how good your read was. It only asks two questions: how big, and how often."
+
+  - type: theory
+    title: "Two questions, two structures"
+    body: "A per-order fee is flat, so it punishes trade count. A per-share fee scales with size, so it punishes how much stock you move. The same trader can be hurt by one and barely notice the other."
+
+  - type: example
+    body: "2,000 shares, round trip. A flat $1-per-order fee: $2 total. A $0.005-per-share fee: $20 total. Same trade, ten times the bill."
+    visual: cost-stack
+    visual_data: {rows: [{label: "Per order, 2,000 sh", value: 2}, {label: "Per share, 2,000 sh", value: 20}], unit: "$ per round trip"}
+
+  - type: numeric-input
+    prompt: "$3 per round trip, 25 round trips a day, 20 trading days. Monthly fees?"
+    answer: 1500
+    unit: "$"
+    working: "$3 × 25 × 20 = $1,500"
+    explanation: "Flat fee, times trades, times days — the whole bill in one line."
+
+  - type: numeric-mc
+    prompt: "A 2,000-share round trip. Which costs more: $1 per order (both legs), or $0.005 per share (both legs)?"
+    options:
+      - {text: "$2 from per-order — take that plan for size"}
+      - {text: "$20 from per-share — a big trade favors per-order pricing instead", correct: true}
+      - {text: "They come out equal at this size"}
+      - {text: "$200 from per-share"}
+    working: "Per order: $1 × 2 = $2. Per share: 2,000 × 2 × $0.005 = $20."
+    explanation: "Size punishes a per-share fee; frequency punishes a per-order one. Which structure is cheaper depends on which one you are."
+
+  - type: mc
+    prompt: "Which trader does a flat per-order fee schedule hurt more?"
+    options:
+      - {text: "One taking few, large trades"}
+      - {text: "One taking many, small trades", correct: true}
+      - {text: "Neither — total shares traded is all that matters"}
+    explanation: "Every order costs the same flat fee regardless of its size, so it's the count of trades that hurts, not how big each one is."
+
+  - type: slider
+    prompt: "Fees run $1,500 a month against a $6,000 monthly target. What share of the target do fees eat?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 25
+    tolerance: 5
+    explanation: "$1,500 ÷ $6,000 = 25 %. A quarter of the target, gone before the month even started trading."
+
+  - type: sort
+    prompt: "Which fee schedule punishes which habit?"
+    buckets: ["Punishes frequency", "Punishes size"]
+    items:
+      - {text: "A flat $1 per order", bucket: "Punishes frequency"}
+      - {text: "$0.005 per share", bucket: "Punishes size"}
+      - {text: "Forty round trips a day at small size", bucket: "Punishes frequency"}
+      - {text: "Three round trips a day at 5,000 shares each", bucket: "Punishes size"}
+    explanation: "One is billed by the trade, the other by the share — so each one has a different trader it hurts most."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "Tap the field a per-share fee is actually billed from."
+    data: {ticker: XYZ, side: buy, qty: 2000, type: market, price: 14.50}
+    target: qty
+    explanation: "Per-share fees scale with quantity, not price — the qty field is what the bill is computed from."
+
+  - type: mc
+    prompt: "A stock with a wide ten-cent spread, traded 30 times a day at 1,000 shares, sits next to a flat $2-per-round-trip fee. Which cost line is bigger?"
+    options:
+      - {text: "The spread, by a wide margin", correct: true}
+      - {text: "The fee, by a wide margin"}
+      - {text: "They come out roughly equal"}
+    explanation: "Spread: $0.10 × 1,000 × 30 = $3,000 a day. Fee: $2 × 30 = $60. Chapter 1's liquidity lesson is still the bigger lever — a tight spread saves far more than chasing a cheaper fee schedule."
+
+  - type: numeric-input
+    prompt: "$0.005 per share, 1,200-share round trips, 28 round trips a day. Daily fee total?"
+    answer: 336
+    unit: "$"
+    working: "1,200 × 2 × $0.005 × 28 = $336"
+    explanation: "Both legs, every share, every trip."
+
+  - type: checklist-reveal
+    title: "Reading a fee schedule"
+    items:
+      - "Is it charged per order or per share?"
+      - "At your usual size, which one costs more?"
+      - "At your usual frequency, what does a month actually total?"
+      - "Would fewer, bigger trades cost less than more, smaller ones?"

@@ -1,0 +1,133 @@
+id: "11-1"
+title: "Sizing Practice"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: repetition
+tags: [position-size, risk, practice]
+learning_goal: "User runs the two-ceiling sizing habit on fresh setups without prompting, including a short, and names which ceiling bound each one."
+purpose: "Level 10 taught the two ceilings once each. Trading them needs to be a reflex, not a worksheet."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "10-4"
+xp: 25
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $18,000 throughout. Setup 2 is the one the account binds; Setup 3 is the short."
+screens:
+  - type: intro
+    text: "Three setups. Same two questions on every one: what does the risk allow, what does the account allow, which is smaller?"
+
+  - type: theory
+    title: "One habit, five times"
+    body: "Risk budget ÷ stop distance. Account ÷ price. Whichever is smaller is the size. Nothing else in this level is new."
+
+  - type: numeric-input
+    prompt: "Account $18,000, one per cent per trade, stop twenty cents away. What does the risk budget allow?"
+    answer: 900
+    tolerance: 1
+    unit: "shares"
+    working: "$18,000 × 0.01 = $180; $180 ÷ $0.20 = 900 shares"
+    explanation: "Budget divided by distance — the first ceiling, on its own."
+
+  - type: numeric-mc
+    prompt: "Same setup, the stock is $15.00. What is the account ceiling, and what do you actually send?"
+    options:
+      - {text: "1,200 shares — the account ceiling, and the bigger number wins"}
+      - {text: "1,200 is the ceiling, but 900 is what you send", correct: true}
+      - {text: "900 is both ceilings here, so it hardly matters"}
+      - {text: "600, splitting the two down the middle"}
+    working: "$18,000 ÷ $15.00 = 1,200. The smaller of 1,200 and 900 is 900."
+    explanation: "The account has plenty of room this time — it's the stop that limits you."
+
+  - type: mc
+    prompt: "That 900 shares is going into a stock printing about 45,000 shares a minute. Comfortable exit?"
+    options:
+      - {text: "Yes — under two per cent of a minute's trading", correct: true}
+      - {text: "No — Chapter 1 said any position under five figures is too thin"}
+      - {text: "Unknowable — sizing is a risk question, not a volume one"}
+    explanation: "Chapter 1 called liquidity the ease of getting out. 900 shares of 45,000 a minute leaves the door wide open either way."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "Stock at $18.20, stop five cents, $18,000 account."}
+      - {text: "Risk ceiling 3,600, account ceiling 989 — send 3,600,", wrong: true}
+      - {text: "since more shares means more if the read is right."}
+    explanation: "Send 989. The account cannot pay for 3,600 shares at $18.20; whichever ceiling is smaller is the one that exists."
+
+  - type: numeric-input
+    prompt: "Account $18,000, stock at $18.20. What is the account ceiling?"
+    answer: 989
+    tolerance: 1
+    unit: "shares"
+    working: "$18,000 ÷ $18.20 = 989 shares (rounded down)"
+    explanation: "Round down, always — the next share is one the account cannot cover."
+
+  - type: tf
+    statement: "With a stop that tight, the risk ceiling is always going to be the smaller of the two."
+    answer: false
+    explanation: "Not here — the risk ceiling on that stop is 3,600. It's the account, at 989, that actually binds."
+
+  - type: numeric-input
+    prompt: "A short this time: account $18,000, stop fifteen cents away. What does the risk budget allow?"
+    answer: 1200
+    tolerance: 1
+    unit: "shares"
+    working: "$180 ÷ $0.15 = 1,200 shares"
+    explanation: "Same formula. A short's stop sits above the entry, but the arithmetic doesn't know the difference."
+
+  - type: numeric-mc
+    prompt: "That short is in a $12.50 stock. Account ceiling, and the size you send?"
+    options:
+      - {text: "1,440 shares — the account ceiling, and it wins"}
+      - {text: "1,200 shares — the risk ceiling, and it wins", correct: true}
+      - {text: "1,320, splitting the two"}
+      - {text: "2,400, doubling the risk ceiling"}
+    working: "$18,000 ÷ $12.50 = 1,440. The smaller of 1,440 and 1,200 is 1,200."
+    explanation: "The stop is what limits this one — the account had room to spare."
+
+  - type: chart-decision
+    scenario: "XYZ has held a tight base between $16.20 and $16.40 for five minutes and the candle that just closed pushed out the top on the heaviest bar of the morning. Your $18,000 account allows 750 shares here."
+    shares: 750
+    state: ["Stop would sit at $16.22"]
+    chart:
+      kind: candles
+      data: [[16.28, 16.34, 16.24, 16.30], [16.30, 16.34, 16.22, 16.26], [16.26, 16.32, 16.20, 16.28], [16.28, 16.36, 16.24, 16.34], [16.34, 16.40, 16.30, 16.38], [16.38, 16.50, 16.36, 16.46], [16.46, 16.54, 16.42, 16.50], [16.50, 16.60, 16.46, 16.58], [16.58, 16.68, 16.54, 16.64], [16.64, 16.80, 16.62, 16.76]]
+      volume: [76000, 68000, 72000, 66000, 74000, 186000, 152000, 134000, 118000, 104000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $16.80 and finished at $16.76 — $0.30 a share above the decision, +$225 long on 750 shares."
+    explanation: "A base with a floor, a breakout on the heaviest bar of the morning, and a size the stop already justified before the candle closed."
+
+  - type: numeric-input
+    prompt: "In at $16.46, stop at $16.22, 750 shares. What was the planned loss?"
+    answer: 180
+    tolerance: 1
+    unit: "$"
+    working: "$16.46 − $16.22 = $0.24; $0.24 × 750 = $180"
+    explanation: "Exactly the budget — this size was built to risk the full one per cent and not a share more."
+
+  - type: sort
+    prompt: "Risk ceiling, or account ceiling — which one bound each setup?"
+    buckets: ["Risk ceiling bound it", "Account ceiling bound it"]
+    items:
+      - {text: "$15.00 stock, twenty-cent stop, sent 900", bucket: "Risk ceiling bound it"}
+      - {text: "$18.20 stock, five-cent stop, sent 989", bucket: "Account ceiling bound it"}
+      - {text: "$12.50 short, fifteen-cent stop, sent 1,200", bucket: "Risk ceiling bound it"}
+      - {text: "$16.46 breakout, twenty-four-cent stop, sent 750", bucket: "Risk ceiling bound it"}
+    explanation: "Three of four were the stop's call. The tight-stop stock was the exception, and it's exactly the setup that catches people sizing on autopilot."
+
+  - type: match
+    prompt: "Four pieces of the same habit. Match each to its job."
+    pairs:
+      - ["Risk budget", "One per cent of the account, fixed before any chart opens"]
+      - ["Risk ceiling", "Budget divided by the stop distance"]
+      - ["Account ceiling", "Account divided by the share price"]
+      - ["The size you send", "Whichever ceiling came out smaller"]
+    explanation: "Two divisions and one comparison — that's the entire decision, run three times over."
+
+  - type: theory
+    title: "One more account"
+    body: "Every setup here shared an $18,000 account. Next: a smaller one, where the second ceiling stops being the exception and starts being the usual answer."

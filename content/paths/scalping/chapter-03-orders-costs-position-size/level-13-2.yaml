@@ -1,0 +1,111 @@
+id: "13-2"
+title: "Slippage and Speed"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [slippage, execution, order-types]
+learning_goal: "User names what widens or narrows slippage, builds a marketable-limit ticket that caps it, and can tell a high-slip moment from a low-slip one on sight."
+purpose: "Naming slippage was Level 13-1. Controlling it is a ticket you build and a shape on the chart you learn to recognise."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "13-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $16,000. The chart-decision reuses Chapter 2's momentum shape from Level 14, five minutes further along and with the quote gone unstable."
+screens:
+  - type: intro
+    text: "Naming slippage was the easy part. Now: what makes it bigger, and what makes it smaller."
+
+  - type: theory
+    title: "What drives the size of the slip"
+    body: "How fast the price is moving when your order arrives, and how much size is actually resting at the price you can see. A calm, deep quote barely slips; a fast, thin one can slip several cents in a blink."
+
+  - type: example
+    body: "A fast minute: two cents of spread, six of slippage on a 1,000-share market order — eight cents gone before the target even starts."
+    visual: cost-stack
+    visual_data: {shares: 1000, spread: 0.02, slippage: 0.06, target: 0.20}
+
+  - type: numeric-input
+    prompt: "Expected $32.10, filled at $32.16, 900 shares. Slippage cost?"
+    answer: 54
+    unit: "$"
+    working: "$32.16 − $32.10 = $0.06; $0.06 × 900 = $54"
+    explanation: "The price moved six cents against you between the tap and the fill."
+
+  - type: numeric-mc
+    prompt: "Expected $19.50, filled at $19.47 — the ask dipped as the order arrived — on 1,200 shares. What happened to the money?"
+    options:
+      - {text: "$36 against you"}
+      - {text: "$36 in your favor", correct: true}
+      - {text: "$3.60 against you"}
+      - {text: "$360 in your favor"}
+    working: "$19.50 − $19.47 = $0.03; $0.03 × 1,200 = $36, and the fill was better than expected."
+    explanation: "Slippage cuts both ways. This one paid $36 instead of taking it."
+
+  - type: mc
+    prompt: "Which moment carries the most slippage risk?"
+    options:
+      - {text: "A stock basing quietly between two prices"}
+      - {text: "A stock whose bodies and volume bars are both growing minute by minute", correct: true}
+      - {text: "A stock printing the same close three minutes running"}
+    explanation: "Fast, expanding price action is exactly when the gap between your tap and your fill opens widest."
+
+  - type: tf
+    statement: "A marketable limit removes slippage entirely."
+    answer: false
+    explanation: "It caps the worst case. It doesn't remove the risk of the price moving before the fill arrives."
+
+  - type: order-build
+    prompt: "Build the entry: a marketable limit to buy 900 shares, capped two cents over the ask of $19.40."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [500, 900, 1400]
+      price: [19.40, 19.42, 19.46]
+    answer: {side: buy, type: limit, qty: 900, price: 19.42}
+    explanation: "A limit at $19.42 fills like a market order against a normal quote, and refuses to chase past two cents if it isn't."
+
+  - type: sort
+    prompt: "High slippage risk, or low?"
+    buckets: ["High risk", "Low risk"]
+    items:
+      - {text: "Bodies growing, bars growing, minute after minute", bucket: "High risk"}
+      - {text: "A tight base going nowhere for five minutes", bucket: "Low risk"}
+      - {text: "The heaviest, fastest bar of the whole morning", bucket: "High risk"}
+      - {text: "A slow, steady drift on thin, shrinking bars", bucket: "Low risk"}
+    explanation: "Speed and size are what widen the gap between your tap and your fill — a quiet chart has neither."
+
+  - type: chart-decision
+    scenario: "XYZ has run for five minutes already — each body longer than the last, each bar heavier than the last — and the quote has gone from two cents wide to twelve. Your $16,000 account allows 900 shares here."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[14.00, 14.08, 13.96, 14.06], [14.06, 14.20, 14.04, 14.18], [14.18, 14.38, 14.16, 14.36], [14.36, 14.62, 14.34, 14.60], [14.60, 14.94, 14.58, 14.92], [14.92, 15.10, 14.86, 15.06], [15.06, 15.14, 14.80, 14.86], [14.86, 14.92, 14.60, 14.66], [14.66, 14.74, 14.44, 14.50], [14.50, 14.58, 14.30, 14.36]]
+      volume: [92000, 128000, 172000, 224000, 286000, 258000, 240000, 198000, 164000, 140000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It stalled two minutes later and slid back to $14.36 — $0.70 a share below the decision close, on a quote that never settled back down."
+    explanation: "Five minutes of expanding bodies and bars is the shape Chapter 2 called momentum, but momentum this far along is also where the quote gets least reliable. Chasing it here means paying the widest slippage of the whole move for a leg that was already ending."
+
+  - type: mc
+    prompt: "That run matched Chapter 2's momentum shape exactly — growing bodies, growing bars. What made this particular instance a pass rather than a buy?"
+    options:
+      - {text: "Momentum can never be traded, only watched"}
+      - {text: "It was already five minutes and several legs old, with the quote no longer reliable", correct: true}
+      - {text: "The bars were too small to count as momentum at all"}
+    explanation: "The shape was real. The timing — late, extended, and slipping — was what turned it into a pass."
+
+  - type: fill-choice
+    sentence: "Joining a run while it is still expanding costs less in slippage than joining one that has started to ___."
+    options: ["stall", "gap", "split"]
+    answer: "stall"
+    explanation: "A stalling run is also an unstable quote — the two arrive together."
+
+  - type: theory
+    title: "Early costs less"
+    body: "Two traders take the same setup. One enters on the second minute; the other chases it on the sixth. The first pays a normal spread. The second pays spread, slippage, and a worse price before the order even reaches the book."

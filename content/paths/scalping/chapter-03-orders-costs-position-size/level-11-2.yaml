@@ -1,0 +1,130 @@
+id: "11-2"
+title: "Sizing Practice"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: repetition
+tags: [position-size, risk, liquidity, practice]
+learning_goal: "User sizes two more setups on a smaller account, sees the account ceiling bind again, and judges whether a fixed size fits a stock's own volume."
+purpose: "A smaller account is where the second ceiling stops being the exception from Level 10 and starts being the usual answer."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "11-1"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $12,000 throughout. Setup 5 (the chart-decision) is the one the account binds."
+screens:
+  - type: intro
+    text: "Two more setups, one smaller account, and a volume check to close it out."
+
+  - type: numeric-input
+    prompt: "A $12,000 account, one per cent per trade. What is the risk budget?"
+    answer: 120
+    tolerance: 1
+    unit: "$"
+    working: "$12,000 × 0.01 = $120"
+    explanation: "Same rule, smaller account, smaller budget."
+
+  - type: numeric-mc
+    prompt: "Budget $120, stop twenty-two cents away. What does the risk ceiling allow?"
+    options:
+      - {text: "600"}
+      - {text: "545", correct: true}
+      - {text: "5,454"}
+      - {text: "22"}
+    working: "$120 ÷ $0.22 = 545 shares (rounded down)"
+    explanation: "Budget over distance, same as ever."
+
+  - type: numeric-input
+    prompt: "Same setup, the stock is $11.00. What is the account ceiling?"
+    answer: 1090
+    tolerance: 1
+    unit: "shares"
+    working: "$12,000 ÷ $11.00 = 1,090 shares (rounded down)"
+    explanation: "Plenty of room in the account this time."
+
+  - type: tf
+    statement: "In that setup, the account ceiling is the smaller of the two, so it's the one that binds."
+    answer: false
+    explanation: "545 is smaller than 1,090. The stop is what limits this trade, not the cash."
+
+  - type: numeric-input
+    prompt: "A tighter one: stock at $19.50, stop four cents away. What does the risk budget allow?"
+    answer: 3000
+    tolerance: 1
+    unit: "shares"
+    working: "$120 ÷ $0.04 = 3,000 shares"
+    explanation: "A stop this tight always produces a big number here — which is exactly when the other ceiling starts to matter."
+
+  - type: numeric-mc
+    prompt: "Same $12,000 account, $19.50 stock. Account ceiling, and the size you send?"
+    options:
+      - {text: "3,000 — the risk ceiling, and shorter stops win"}
+      - {text: "615 — the account ceiling, and that's the send", correct: true}
+      - {text: "1,807, splitting the two"}
+      - {text: "615 is the risk ceiling here"}
+    working: "$12,000 ÷ $19.50 = 615 shares. The smaller of 3,000 and 615 is 615."
+    explanation: "A four-cent stop is tight enough that almost any account becomes the real ceiling."
+
+  - type: mc
+    prompt: "The four-cent stop belongs to a stock barely moving all morning; the twenty-two-cent stop belongs to one swinging hard through the same hour. Which of Chapter 1's two dials explains the gap?"
+    options:
+      - {text: "Liquidity — the busier stock earns the tighter stop"}
+      - {text: "Volatility — the calmer stock earns the tight stop, the wild one needs the room", correct: true}
+      - {text: "Volume — heavier bars always mean wider stops"}
+    explanation: "Chapter 1's volatility dial is exactly this: how far a stock swings decides how far away the stop has to sit to mean anything."
+
+  - type: swipe-deck
+    prompt: "Every one of these is sized at 1,000 shares. Take it if the volume can carry you out; pass if it can't."
+    cards:
+      - chart: {kind: candles, data: [[19.00, 19.06, 18.96, 19.04], [19.04, 19.10, 19.00, 19.08], [19.08, 19.14, 19.04, 19.12], [19.12, 19.20, 19.08, 19.18], [19.18, 19.26, 19.14, 19.24], [19.24, 19.32, 19.20, 19.30], [19.30, 19.38, 19.26, 19.36], [19.36, 19.44, 19.32, 19.42]], volume: [185000, 210000, 195000, 225000, 205000, 235000, 215000, 240000]}
+        answer: take
+        note: "Under one per cent of a minute's volume — you'd never notice you were there."
+      - chart: {kind: candles, data: [[13.20, 13.24, 13.16, 13.22], [13.22, 13.26, 13.18, 13.20], [13.20, 13.25, 13.17, 13.23], [13.23, 13.27, 13.19, 13.21], [13.21, 13.26, 13.16, 13.24], [13.24, 13.28, 13.18, 13.22], [13.22, 13.27, 13.17, 13.25], [13.25, 13.30, 13.20, 13.23]], volume: [9000, 11000, 8000, 10000, 7000, 12000, 9000, 10000]}
+        answer: pass
+        note: "1,000 shares here is close to a tenth of the whole minute. You are the volume."
+      - chart: {kind: candles, data: [[21.10, 21.16, 21.06, 21.14], [21.14, 21.20, 21.10, 21.18], [21.18, 21.24, 21.14, 21.22], [21.22, 21.30, 21.18, 21.28], [21.28, 21.34, 21.22, 21.30], [21.30, 21.38, 21.26, 21.36], [21.36, 21.42, 21.30, 21.40], [21.40, 21.48, 21.36, 21.46]], volume: [92000, 108000, 86000, 118000, 102000, 128000, 112000, 122000]}
+        answer: take
+        note: "Still a small slice, even on the quieter bars of the run."
+      - chart: {kind: candles, data: [[10.50, 10.54, 10.46, 10.52], [10.52, 10.56, 10.48, 10.50], [10.50, 10.55, 10.47, 10.53], [10.53, 10.57, 10.49, 10.51], [10.51, 10.56, 10.46, 10.54], [10.54, 10.58, 10.48, 10.52], [10.52, 10.57, 10.47, 10.55], [10.55, 10.60, 10.50, 10.53]], volume: [6000, 8000, 5000, 9000, 7000, 8000, 6000, 9000]}
+        answer: pass
+        note: "Under 10,000 a minute — the size doesn't fit, whatever the stop said."
+    explanation: "The stop sets the risk ceiling; the stock's own volume sets whether you can actually leave. Both get checked, every time."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "Account $12,000, one per cent rule,"}
+      - {text: "so the risk budget is $1,200,", wrong: true}
+      - {text: "which then gets divided by the stop distance."}
+    explanation: "One per cent of $12,000 is $120, not $1,200 — a slipped decimal here sizes every trade ten times too big."
+
+  - type: chart-decision
+    scenario: "XYZ has made three lower highs against $14.40 and the candle that just closed broke the base at $14.18 on the heaviest bar of the morning. Your $12,000 account allows 845 shares here."
+    shares: 845
+    state: ["Stop would sit at $14.32"]
+    chart:
+      kind: candles
+      data: [[14.40, 14.46, 14.36, 14.42], [14.42, 14.48, 14.38, 14.40], [14.40, 14.44, 14.34, 14.38], [14.38, 14.42, 14.30, 14.34], [14.34, 14.40, 14.28, 14.36], [14.36, 14.38, 14.18, 14.20], [14.20, 14.24, 14.08, 14.10], [14.10, 14.14, 14.02, 14.04], [14.04, 14.08, 13.98, 14.02], [14.02, 14.06, 13.96, 14.00]]
+      volume: [74000, 68000, 62000, 70000, 66000, 172000, 148000, 130000, 112000, 98000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It broke down to $14.00 — $0.20 a share below the decision, +$169 short on 845 shares."
+    explanation: "Lower highs into a heavier and heavier bar down is sellers pressing. The stop would have allowed 1,000 shares; the account only 845, so 845 is the trade."
+
+  - type: numeric-input
+    prompt: "Short at $14.20, stop at $14.32, 845 shares. What was the planned loss?"
+    answer: 101.4
+    tolerance: 1
+    unit: "$"
+    working: "$14.32 − $14.20 = $0.12; $0.12 × 845 = $101.40"
+    explanation: "Twelve cents of structure, and the account — not the stop — is what decided how many shares carried it."
+
+  - type: recap
+    title: "Level 11 in three lines"
+    points:
+      - {text: "Risk budget ÷ stop distance is the first ceiling, every time.", level: "11-1"}
+      - {text: "Account ÷ price is the second, and a tight stop is exactly when it starts to bind.", level: "11-1"}
+      - {text: "Whichever ceiling is smaller is the size — and a small account makes that the normal answer, not the exception.", level: "11-2"}

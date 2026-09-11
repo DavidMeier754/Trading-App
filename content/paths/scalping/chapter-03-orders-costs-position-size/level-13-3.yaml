@@ -1,0 +1,113 @@
+id: "13-3"
+title: "Slippage and Speed"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [slippage, execution, speed]
+learning_goal: "User names what actually controls execution speed, handles a slipped entry without widening the stop to match, and contrasts a momentum minute's slippage risk with an exhausted one's."
+purpose: "The chain from tap to fill has several weak links, and only one of them is yours to fix."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "13-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Closes Level 13. The exhaustion reach-back in screen 9 deliberately mirrors 13-2's momentum chart-decision from the other side of the same move."
+screens:
+  - type: intro
+    text: "Your tap, your app, your connection, the broker, the exchange. Slippage lives somewhere in that chain."
+
+  - type: theory
+    title: "What actually eats the time"
+    body: "A slow app, a weak connection, a broker's own queue — every link between your tap and the exchange adds time, and every added moment is more room for the price to move."
+
+  - type: compare
+    prompt: "Both of these lag half a second on your next order. In which one does that half-second cost more?"
+    charts:
+      - {kind: candles, data: [[20.00, 20.04, 19.97, 20.02], [20.02, 20.05, 19.99, 20.01], [20.01, 20.04, 19.98, 20.03], [20.03, 20.06, 20.00, 20.02], [20.02, 20.05, 19.99, 20.04], [20.04, 20.07, 20.01, 20.03], [20.03, 20.06, 20.00, 20.05], [20.05, 20.08, 20.02, 20.04]], label: "A"}
+      - {kind: candles, data: [[20.00, 20.10, 19.96, 20.08], [20.08, 20.22, 20.06, 20.20], [20.20, 20.40, 20.18, 20.38], [20.38, 20.64, 20.36, 20.62], [20.62, 20.94, 20.60, 20.92], [20.92, 21.10, 20.86, 21.06], [21.06, 21.20, 20.98, 21.16], [21.16, 21.32, 21.10, 21.28]], label: "B"}
+    answer: "B"
+    explanation: "A barely moves in half a second. B is moving several cents a bar — the same lag is nearly free in one and expensive in the other."
+
+  - type: numeric-input
+    prompt: "Your device lags half a second. In that half second XYZ runs from $21.00 to $21.05. On 700 shares, what does the lag cost?"
+    answer: 35
+    unit: "$"
+    working: "$21.05 − $21.00 = $0.05; $0.05 × 700 = $35"
+    explanation: "Half a second, five cents, seven hundred shares."
+
+  - type: mc
+    prompt: "Of everything between your tap and the fill, which link is actually yours to fix?"
+    options:
+      - {text: "The exchange's matching engine speed"}
+      - {text: "A live, responsive order-entry app on a solid connection", correct: true}
+      - {text: "How fast the market maker updates its own quote"}
+    explanation: "You can't speed up the exchange or the other side of the trade. Your own app and connection are the one link you control."
+
+  - type: branch
+    scenario: "You send a 900-share buy at the ask of $17.20. Your connection stalls for two seconds before the order reaches the book."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[17.10, 17.16, 17.06, 17.14], [17.14, 17.20, 17.10, 17.18], [17.18, 17.24, 17.14, 17.20], [17.20, 17.30, 17.18, 17.28], [17.28, 17.38, 17.24, 17.34], [17.34, 17.42, 17.30, 17.38], [17.38, 17.44, 17.34, 17.40], [17.40, 17.46, 17.36, 17.42]]
+      decision_index: 3
+    steps:
+      - prompt: "The connection catches up. The order fills at $17.28 instead of the $17.20 you saw. What just happened?"
+        options:
+          - {text: "Slippage — the price moved during the stall", correct: true, next: 1}
+          - {text: "A stop-limit rejection", next: 1}
+        explanation: "The stall didn't cancel anything. It just meant the fill found the price two seconds later than you expected."
+      - prompt: "You're in 900 shares eight cents higher than planned, and the stop you'd set from the chart is unchanged. What do you do?"
+        options:
+          - {text: "Leave the stop where it was — the cushion to it just got smaller, and that's fine", correct: true}
+          - {text: "Widen the stop back out to the original distance from the new entry"}
+        explanation: "The chart set the stop, not the fill. Widening it to protect a worse entry is how one slip becomes two."
+
+  - type: tf
+    statement: "Execution speed only matters on the entry, never on the exit."
+    answer: false
+    explanation: "A slow exit in a falling market slips exactly the same way an entry does — sometimes worse, since you're leaving in a hurry."
+
+  - type: sort
+    prompt: "Fast fill, or slow fill?"
+    buckets: ["Points to a fast fill", "Points to a slow fill"]
+    items:
+      - {text: "A responsive app on a strong connection", bucket: "Points to a fast fill"}
+      - {text: "A laggy connection during a busy minute", bucket: "Points to a slow fill"}
+      - {text: "A deep, steady quote with size on both sides", bucket: "Points to a fast fill"}
+      - {text: "An order queued behind a slow broker", bucket: "Points to a slow fill"}
+    explanation: "Some of this is your setup, some of it is the stock's own quote — both decide how long an order takes to land."
+
+  - type: mc
+    prompt: "Chapter 2 called the quiet minute after a climax exhaustion — the crowd that was going to trade already has. Compared to the momentum run from the last level, what does that do to slippage risk?"
+    options:
+      - {text: "Nothing changes — volume was heavy in both cases"}
+      - {text: "It drops — the fastest trading is already over, so price has less reason to jump between your tap and your fill", correct: true}
+      - {text: "It rises — exhaustion always means a wider spread"}
+    explanation: "Momentum is the crowd still arriving; exhaustion is the crowd that already has. The second one is calmer to trade into, slippage included."
+
+  - type: numeric-mc
+    prompt: "Expected $26.30, filled at $26.37, 650 shares. Slippage cost?"
+    options:
+      - {text: "$4.55"}
+      - {text: "$45.50", correct: true}
+      - {text: "$7.00"}
+      - {text: "$455"}
+    working: "$26.37 − $26.30 = $0.07; $0.07 × 650 = $45.50"
+    explanation: "Seven cents, six hundred fifty shares."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "The fill came back four cents worse than planned,"}
+      - {text: "so you move the stop out four cents to give the trade room,", wrong: true}
+      - {text: "since the setup itself hasn't changed."}
+    explanation: "The setup decided the stop, not the fill. A worse entry means a smaller cushion to the same stop — never a reason to widen it."
+
+  - type: recap
+    title: "Level 13 in three lines"
+    points:
+      - {text: "Slippage is the gap between the price you expected and the one you got, and it runs both ways.", level: "13-1"}
+      - {text: "It's biggest in a fast, expanding move, and a marketable limit is what caps it.", level: "13-2"}
+      - {text: "Execution speed is the one link in the chain that's actually yours to fix.", level: "13-3"}

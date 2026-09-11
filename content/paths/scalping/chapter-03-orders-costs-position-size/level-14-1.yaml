@@ -8,7 +8,8 @@ tags: [fees, frequency]
 learning_goal: "User can compute commission costs per trade and per month at scalping frequency, knows a short needs borrowable shares, and knows where retail scalping is realistically done in their market."
 purpose: "At forty trades a day, a small fee is a large salary paid to your broker — you need to see the monthly number, not the per-trade one."
 terms_introduced: ["Commission", "Per-share fee"]
-prerequisite: "13-1"
+reinforces: [1]
+prerequisite: "13-3"
 xp: 20
 difficulty: 3
 sources: [consensus]
@@ -66,6 +67,14 @@ screens:
     statement: "If a stock is hard to borrow, the short side of your plan simply is not available that day."
     answer: true
     explanation: "No borrow, no short — and a stock that has just fallen hard can also be restricted, so the long side is sometimes the only side you have."
+
+  - type: mc
+    prompt: "Chapter 1 called buying back borrowed shares to close a short covering. At forty round trips a day, half of them shorts, which cost line does covering add that a long never touches?"
+    options:
+      - {text: "Nothing extra — covering is just another sell order"}
+      - {text: "A borrow fee on top of the commission, whenever the stock is hard to borrow", correct: true}
+      - {text: "Covering is free, but opening the short costs double"}
+    explanation: "A long only ever pays the order fee. A short can pay that and whatever it costs to keep the borrow open underneath it."
 
   - type: theory
     title: "Where scalping is done"

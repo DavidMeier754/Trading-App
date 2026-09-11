@@ -8,6 +8,7 @@ tags: [slippage, execution]
 learning_goal: "User can define slippage and execution speed, keep both separate from the spread, and compute slippage cost for a share count."
 purpose: "The gap between the price you saw and the price you got is a real, recurring cost — naming it is the first step to controlling it."
 terms_introduced: ["Slippage", "Execution speed"]
+reinforces: [2]
 prerequisite: "12-1"
 xp: 20
 difficulty: 2
@@ -101,6 +102,14 @@ screens:
     sentence: "The gap between the expected price and your fill is ___."
     answer: "slippage"
     explanation: "The market moved while you were executing."
+
+  - type: mc
+    prompt: "Chapter 2 called the fastest, most crowded minute of a run climax volume. Why is that exact minute also the worst one to chase for slippage?"
+    options:
+      - {text: "It isn't — heavy volume always means a calmer fill"}
+      - {text: "Price is moving fastest exactly when everyone wants the same shares", correct: true}
+      - {text: "Climax bars only happen after the spread has already gone to zero"}
+    explanation: "Maximum participation is also maximum speed. Tapping into that minute is tapping into the exact moment the price is hardest to catch."
 
   - type: story
     character: retail-trader

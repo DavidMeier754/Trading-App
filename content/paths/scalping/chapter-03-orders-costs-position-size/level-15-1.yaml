@@ -8,7 +8,8 @@ tags: [level-2, order-book]
 learning_goal: "User can read a basic Level 2 ladder and time & sales, and predict how an order larger than the displayed size moves the price."
 purpose: "The quote panel shows two numbers; Level 2 shows the crowd behind them — and how far your own order will push the price."
 terms_introduced: ["Level 2", "Order book", "Displayed size", "Time and sales", "Tape"]
-prerequisite: "14-1"
+reinforces: [1]
+prerequisite: "14-3"
 xp: 20
 difficulty: 3
 sources: [consensus]
@@ -54,6 +55,14 @@ screens:
     statement: "Large displayed size on the bid means buyers are waiting there, so the price may hold."
     answer: true
     explanation: "Waiting buyers can absorb selling — not a guarantee, sizes can vanish in an instant."
+
+  - type: mc
+    prompt: "Chapter 1 called liquidity the ease of getting out. Which row of the book gives you the most direct read on that, right now?"
+    options:
+      - {text: "The last-traded price"}
+      - {text: "The displayed size resting at each price", correct: true}
+      - {text: "How many price levels are shown on screen"}
+    explanation: "Chapter 1's liquidity was always about who else is there to trade against. Displayed size is that answer, written in shares instead of a feeling."
 
   - type: sort
     prompt: "Level 2 or time and sales?"

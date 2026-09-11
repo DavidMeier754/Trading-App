@@ -1,0 +1,100 @@
+id: "15-2"
+title: "Inside the Quote"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [level-2, order-book, depth]
+learning_goal: "User walks an order through more than one price level, reads aggression from time and sales, and ties book depth back to Chapter 1's liquidity clue."
+purpose: "A book is more than its best row — most orders worth sizing touch more than one."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "15-1"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "First use of depth-ladder in the chapter. A second follows in 15-3."
+screens:
+  - type: intro
+    text: "One order can eat through more than one row. Here's what that actually looks like."
+
+  - type: theory
+    title: "Walking the book"
+    body: "An order bigger than the size at the best price doesn't stop there — it fills the first row, then starts on the next, and the next, until the whole order is done."
+
+  - type: depth-ladder
+    prompt: "You market-buy 1,400 shares. Where does the last share fill?"
+    data:
+      bids: [[20.00, 700], [19.99, 450], [19.98, 1100]]
+      asks: [[20.02, 500], [20.03, 600], [20.04, 900]]
+    target: ask-3
+    explanation: "The first 500 go off at $20.02, the next 600 at $20.03, and the final 300 need the third level, $20.04 — that's where your last share fills."
+
+  - type: numeric-input
+    prompt: "Best bid 800 at $16.40, next 500 at $16.39. You market-sell 1,000. Average fill?"
+    answer: 16.398
+    tolerance: 0.001
+    unit: "$"
+    working: "(800 × 16.40 + 200 × 16.39) ÷ 1,000 = 16.398"
+    explanation: "Only 200 of that second row is needed to finish the order."
+
+  - type: numeric-mc
+    prompt: "Best ask 300 at $9.80, next 700 at $9.81. You market-buy 1,000. Average fill?"
+    options:
+      - {text: "$9.80"}
+      - {text: "$9.807", correct: true}
+      - {text: "$9.81"}
+      - {text: "$9.805"}
+    working: "(300 × 9.80 + 700 × 9.81) ÷ 1,000 = 9.807"
+    explanation: "The whole second row gets used this time, so the average sits close to it."
+
+  - type: mc
+    prompt: "Time and sales prints six trades in a row at the ask, each one a little bigger than the last. What's the read?"
+    options:
+      - {text: "Sellers are stepping in harder with each print"}
+      - {text: "Buyers are getting more aggressive, not less", correct: true}
+      - {text: "The spread is about to widen"}
+    explanation: "Trades at the ask are buyers paying up, and growing size on each one means more conviction, not less."
+
+  - type: tf
+    statement: "The order book shows intentions; time and sales shows what already happened."
+    answer: true
+    explanation: "Resting size can vanish before it trades. A printed trade is final."
+
+  - type: sort
+    prompt: "Which one tells you this?"
+    buckets: ["The order book", "Time and sales"]
+    items:
+      - {text: "How many shares are waiting, not yet traded", bucket: "The order book"}
+      - {text: "What actually printed a second ago", bucket: "Time and sales"}
+      - {text: "Can vanish before your order ever arrives", bucket: "The order book"}
+      - {text: "A record that can't be cancelled once it happens", bucket: "Time and sales"}
+    explanation: "Waiting, versus done."
+
+  - type: hotspot
+    component: order-book
+    prompt: "Tap the row showing the deepest resting size on either side."
+    data: {bids: [[14.20, 900], [14.19, 2400], [14.18, 600]], asks: [[14.22, 700], [14.23, 500], [14.24, 300]]}
+    target: bid-2
+    explanation: "2,400 shares waiting at $14.19 — the heaviest single row on the ladder."
+
+  - type: mc
+    prompt: "A book showing about 15,000 shares across its first three levels sits under a stock printing 400,000 shares a minute at the open. What does that say about trading against it?"
+    options:
+      - {text: "The book looks deep on paper, but a busy stock like this refills it in seconds anyway", correct: true}
+      - {text: "15,000 is a small number, so the book is thin no matter what the stock trades"}
+      - {text: "Book depth and daily volume measure the same thing, so either one alone tells you enough"}
+    explanation: "Chapter 1's liquidity clue was volume, and this is the same idea at one instant — a fast, busy stock restocks its own book almost as quickly as it's eaten."
+
+  - type: match
+    prompt: "Four ideas about reading depth. Match each to its meaning."
+    pairs:
+      - ["Walking the book", "Filling through more than one price level"]
+      - ["Displayed size", "What's resting, not what's guaranteed"]
+      - ["A printed trade", "What actually happened, unlike a resting order"]
+      - ["A deep book on a busy stock", "Refills itself almost as fast as it's eaten"]
+    explanation: "Depth on the screen and depth in practice aren't always the same number."
+
+  - type: theory
+    title: "One read, several inputs"
+    body: "Book, tape, and the daily volume from Chapter 1 all answer the same question — can you get out — from three different angles. None of them alone is the whole picture."
