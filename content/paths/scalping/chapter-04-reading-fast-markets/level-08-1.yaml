@@ -4,108 +4,128 @@ chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
 category: test
-tags: [checkpoint]
-learning_goal: "Verify Levels 1–3: VWAP and what it means, bounce / rejection / reclaim, the levels drawn before the open, the four 1-minute candles and confluence."
-purpose: "The fan-out ahead assumes you can read a level, a line and a candle without thinking about it."
+tags: [checkpoint, candles, confluence, levels]
+learning_goal: "User proves they can name a 1-minute shape, count the readings standing at a price, price the trade those readings offer, and pass when only one of them is there."
+purpose: "The three strands ahead each assume the shape, the line and the count are read without effort."
 terms_introduced: []
-reinforces: [2]
-prerequisite: "7-1"
+reinforces: [2, 3]
+prerequisite: "7-3"
 xp: 40
 difficulty: 2
-sources: ["Aziz — How to Day Trade for a Living", "Nison — Japanese Candlestick Charting Techniques"]
-notes: "10 scored questions. Hearts apply. Pass mark 70 %."
+sources: [consensus]
+notes: "Ten scored questions on Levels 6 and 7 with fresh wordings and numbers. Three reach back: Chapter 2's climax volume at a level, and Chapter 3's order book and spread. Account named at $28,000."
 screens:
   - type: intro
-    text: "Checkpoint. Ten questions on the map and the candles. Hearts are on."
+    text: "Ten questions on the shapes and the count. Nothing here is timed, so read each chart properly."
     counter: 10
 
-  - type: numeric-mc
-    prompt: "5,000 shares trade at $12.00 and 5,000 at $12.40. Where is VWAP?"
-    options:
-      - {text: "$12.40"}
-      - {text: "$12.20", correct: true}
-      - {text: "$12.00"}
-      - {text: "$12.10"}
-    working: "(5,000 × $12.00 + 5,000 × $12.40) ÷ 10,000 shares = $12.20"
-    explanation: "Equal share counts, so this time the weighted average is the middle."
+  - type: chart-tap
+    prompt: "Tap the minute whose push was refused before it finished."
+    chart:
+      kind: candles
+      data: [[21.10, 21.18, 21.06, 21.16], [21.16, 21.24, 21.14, 21.22], [21.22, 21.28, 21.18, 21.26], [21.26, 21.32, 21.24, 21.30], [21.30, 21.52, 21.28, 21.32], [21.32, 21.36, 21.26, 21.28], [21.28, 21.32, 21.22, 21.24], [21.24, 21.28, 21.18, 21.20], [21.20, 21.24, 21.14, 21.16]]
+      volume: [86000, 94000, 88000, 92000, 198000, 104000, 96000, 88000, 82000]
+    target: 4
+    explanation: "Twenty-two cents of push and twenty of it handed back inside the same minute, on the busiest bar of the nine."
 
   - type: mc
-    prompt: "XYZ has traded above VWAP since the open. What does that tell you?"
+    prompt: "Price is at $19.70. Which of these leaves two separate readings standing at $19.80?"
     options:
-      - {text: "Buyers have been paying up all session", correct: true}
-      - {text: "The stock is up on yesterday's close"}
-      - {text: "The next move is up"}
-    explanation: "VWAP compares price to today's average fill, not to yesterday and not to the future."
+      - {text: "The high of the day at $19.80, which is also the level that capped the last two pushes"}
+      - {text: "Resistance at $19.80 and the top of the morning's range at $19.80"}
+      - {text: "Yesterday's close at $19.80 and the round number sitting eight cents away", correct: true}
+    explanation: "The first two are one price with a second name on it. A price from the last full session and a number people type into orders are two different habits agreeing."
 
   - type: chart-decision
-    scenario: "XYZ is below VWAP all morning. It rallies to the line, stalls under it for three candles, then rolls over. You have 1,000 shares ready."
+    scenario: "Yesterday's high is $24.98 and the round number above it is $25.00. XYZ has finished every minute above its own average price, and the minute that just closed took both lines on the heaviest bar of the morning. Your account is $28,000 and you are sizing 1,000 shares."
     shares: 1000
     chart:
       kind: candles
-      data: [[27.20, 27.26, 27.10, 27.14], [27.14, 27.22, 27.08, 27.20], [27.20, 27.30, 27.18, 27.28], [27.28, 27.34, 27.24, 27.31], [27.31, 27.36, 27.28, 27.32], [27.32, 27.35, 27.24, 27.26], [27.26, 27.28, 27.14, 27.16], [27.16, 27.20, 27.04, 27.06], [27.06, 27.10, 26.96, 26.98], [26.98, 27.02, 26.90, 26.94]]
-      vwap: [27.44, 27.42, 27.40, 27.39, 27.38, 27.38, 27.37, 27.35, 27.33, 27.31]
-      decision_index: 5
-    best: short
-    reasonable: [no-trade]
-    outcome: "It never reached the line and fell to $26.94 — $0.32 per share, +$320 short on 1,000 shares from $27.26."
-    explanation: "Three candles that cannot even reach VWAP are sellers still holding the session."
-
-  - type: tf
-    statement: "A single candle closing above VWAP is enough to call the reclaim confirmed."
-    answer: false
-    explanation: "The close has to hold — one candle back below and nothing changed."
-
-  - type: chart-tap
-    prompt: "Tap the rejection candle at the round number $75.00."
-    chart:
-      kind: candles
-      data: [[74.60, 74.68, 74.56, 74.66], [74.66, 74.78, 74.64, 74.76], [74.76, 74.86, 74.72, 74.84], [74.84, 74.92, 74.80, 74.90], [74.90, 75.08, 74.88, 74.92], [74.92, 74.96, 74.82, 74.84], [74.84, 74.88, 74.74, 74.76], [74.76, 74.80, 74.66, 74.70]]
+      data: [[24.60, 24.68, 24.58, 24.66], [24.66, 24.74, 24.64, 24.72], [24.72, 24.78, 24.68, 24.70], [24.70, 24.78, 24.68, 24.76], [24.76, 24.82, 24.72, 24.78], [24.78, 25.06, 24.76, 25.04], [25.04, 25.12, 25.02, 25.10], [25.10, 25.18, 25.08, 25.16], [25.16, 25.24, 25.14, 25.22], [25.22, 25.28, 25.20, 25.26], [25.26, 25.38, 25.24, 25.35]]
+      volume: [78000, 86000, 62000, 68000, 58000, 176000, 144000, 122000, 106000, 94000, 86000]
+      vwap: [24.60, 24.63, 24.65, 24.67, 24.69, 24.72, 24.76, 24.80, 24.84, 24.88, 24.92]
       levels:
-        - {price: 75.00, label: "Round number"}
-    target: 4
-    explanation: "It traded to $75.08 and closed at $74.92 — the whole push above the level was given back."
+        - {price: 24.98, label: "Yesterday's high"}
+        - {price: 25.0, label: "Round number"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran on to $25.35 — $0.31 a share past the decision, +$310 long on 1,000 shares."
+    explanation: "Two lines inside two cents, a session that has never been under its own average, a body that finished clear of both, and three times the volume of the minutes before it."
 
   - type: numeric-input
-    prompt: "You are short 2,000 shares from $14.24 and cover at $14.12. Result before costs?"
-    answer: 240
+    prompt: "You take 1,000 shares of that at $25.04 with the stop under the low of the minute that did it, at $24.74. What is at risk?"
+    answer: 300
+    tolerance: 0.01
     unit: "$"
-    working: "($14.24 − $14.12) × 2,000 shares = $240"
-    explanation: "A short makes money when the price falls: twelve cents on 2,000 shares."
+    working: "$25.04 − $24.74 = $0.30 a share; $0.30 × 1,000 shares = $300"
+    explanation: "Thirty cents is a wide stop for a scalp, and 1,000 × $25.04 is $25,040, so the account carries the position but only just."
 
-  - type: match
-    prompt: "Match each event at VWAP to its name."
-    pairs:
-      - ["Bounce", "Price comes back to the line and continues in the old direction"]
-      - ["Rejection", "Price pushes through the line and snaps straight back"]
-      - ["Reclaim", "Price closes back on the other side of the line and holds"]
-      - ["Confluence", "A level, the line and a candle agreeing at one price"]
-    explanation: "Three things price does at the line, and the word for several reasons agreeing."
+  - type: tf
+    statement: "A push refused at a level on the heaviest bar of the session says more than the same push on a quiet one."
+    answer: true
+    explanation: "Somebody was there to refuse it. On a quiet bar the price simply ran out of buyers rather than meeting sellers."
 
-  - type: mc
-    prompt: "It is one minute before {{market.regular_open}} {{market.timezone}}. Which of these lines is already on your chart?"
+  - type: depth-ladder
+    prompt: "You market-sell 1,200 shares into this book. Where does the last share fill?"
+    data:
+      bids: [[17.40, 400], [17.39, 500], [17.38, 1600]]
+      asks: [[17.42, 700], [17.43, 900], [17.44, 500]]
+    target: bid-3
+    explanation: "400 shares go at $17.40 and 500 at $17.39, and the last 300 need the 1,600 resting at $17.38."
+
+  - type: sort
+    prompt: "Does the price have a second reading standing at it, or only the first one?"
+    buckets: ["A second reading", "Only the first"]
+    items:
+      - {text: "Yesterday's low, with the session's average price arriving at the same cent", bucket: "A second reading"}
+      - {text: "A round number, with price above its own average all session", bucket: "A second reading"}
+      - {text: "The pre-market high, on a chart with nothing else drawn on it", bucket: "Only the first"}
+      - {text: "Resistance at $22.40, which is where the morning's range tops out", bucket: "Only the first"}
+    explanation: "Two of them were built by different sessions or different habits. The other two are one price, once."
+
+  - type: compare
+    prompt: "Costs are the same in both. In which one is a second reading standing at the price the minute just closed through?"
+    charts:
+      - kind: candles
+        data: [[13.60, 13.68, 13.58, 13.66], [13.66, 13.72, 13.62, 13.64], [13.64, 13.70, 13.60, 13.68], [13.68, 13.74, 13.64, 13.72], [13.72, 13.76, 13.68, 13.70], [13.70, 13.86, 13.68, 13.84], [13.84, 13.90, 13.82, 13.88], [13.88, 13.94, 13.86, 13.92]]
+        vwap: [14.02, 14.01, 14.00, 13.99, 13.98, 13.97, 13.97, 13.96]
+        levels:
+          - {price: 13.8, label: "Yesterday's high"}
+        label: "A"
+      - kind: candles
+        data: [[13.60, 13.68, 13.58, 13.66], [13.66, 13.72, 13.62, 13.64], [13.64, 13.70, 13.60, 13.68], [13.68, 13.74, 13.64, 13.72], [13.72, 13.76, 13.68, 13.70], [13.70, 13.86, 13.68, 13.84], [13.84, 13.90, 13.82, 13.88], [13.88, 13.94, 13.86, 13.92]]
+        vwap: [13.58, 13.60, 13.62, 13.64, 13.66, 13.69, 13.72, 13.75]
+        levels:
+          - {price: 13.8, label: "Yesterday's high"}
+        label: "B"
+    answer: "B"
+    explanation: "Same candles, same line. In B the session has been above its own average the whole way, so the break has the day behind it; in A the break is still happening underneath it."
+
+  - type: numeric-mc
+    prompt: "Bid $15.94 / ask $15.99. You take 1,200 shares and close the position a minute later. What has the gap alone taken?"
     options:
-      - {text: "VWAP for today"}
-      - {text: "The pre-market low", correct: true}
-      - {text: "The opening price"}
-    explanation: "Pre-market trading has already happened; VWAP and the open both start at the bell."
-
-  - type: fill-choice
-    sentence: "A candle with a long wick and a small body shows that price went there and was pushed ___."
-    options: ["back", "through", "sideways"]
-    answer: "back"
-    explanation: "The wick is exactly the part of the move that was taken away again."
+      - {text: "$6"}
+      - {text: "$600"}
+      - {text: "$0.05"}
+      - {text: "$60", correct: true}
+    working: "$15.99 − $15.94 = $0.05 a share; $0.05 × 1,200 shares = $60"
+    explanation: "Paid once across the open and the close, and taken straight out of the distance to your next line."
 
   - type: chart-decision
-    scenario: "XYZ makes a big green candle, with no level within twenty cents of it. You have 1,500 shares ready."
-    shares: 1500
+    scenario: "XYZ has finished every minute above its own average price, there is no line within twenty cents in either direction, and the bars have been the same size for ten minutes. Your account is $28,000 and you are sizing 1,400 shares."
+    shares: 1400
     chart:
       kind: candles
-      data: [[17.30, 17.36, 17.26, 17.32], [17.32, 17.38, 17.28, 17.30], [17.30, 17.34, 17.24, 17.28], [17.28, 17.36, 17.26, 17.34], [17.34, 17.38, 17.30, 17.32], [17.32, 17.44, 17.30, 17.42], [17.42, 17.46, 17.34, 17.36], [17.36, 17.40, 17.30, 17.34], [17.34, 17.40, 17.30, 17.38], [17.38, 17.42, 17.32, 17.36]]
-      volume: [38000, 41000, 39000, 40000, 37000, 42000, 41000, 38000, 40000, 39000]
+      data: [[13.40, 13.46, 13.36, 13.44], [13.44, 13.48, 13.40, 13.42], [13.42, 13.48, 13.38, 13.46], [13.46, 13.50, 13.42, 13.44], [13.44, 13.50, 13.40, 13.48], [13.48, 13.52, 13.44, 13.50], [13.50, 13.54, 13.46, 13.48], [13.48, 13.52, 13.44, 13.50], [13.50, 13.54, 13.46, 13.52], [13.52, 13.56, 13.48, 13.50], [13.50, 13.54, 13.46, 13.52]]
+      volume: [58000, 54000, 60000, 52000, 56000, 50000, 54000, 48000, 52000, 50000, 54000]
+      vwap: [13.38, 13.39, 13.40, 13.41, 13.42, 13.42, 13.43, 13.44, 13.44, 13.45, 13.45]
+      levels: []
       decision_index: 5
     best: no-trade
-    outcome: "It came straight back into the range: ten cents up, ten cents back, spread paid both ways."
-    explanation: "No level, no volume, no VWAP argument — one candle on its own is not a signal."
+    reasonable: [long]
+    outcome: "It was $13.52 five minutes later — $0.02 a share past the decision, $28 on 1,400 shares against $56 of costs."
+    explanation: "One reading, and it is the cheapest one on the list. Nothing to enter at, nothing to aim at, and the round trip costs twice what the move paid."
 
   - type: summary
     total: 10

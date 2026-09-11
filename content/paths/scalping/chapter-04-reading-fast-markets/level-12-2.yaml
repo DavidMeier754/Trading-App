@@ -1,0 +1,123 @@
+id: "12-2"
+title: "The Scalper's Map"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [map, process, tape, levels]
+learning_goal: "User can say what each of the four readings contributes and what it cannot answer, and notices which one is missing."
+purpose: "Four readings that all said the same thing would be one reading. They are worth running because each answers a different question."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "12-1"
+xp: 25
+difficulty: 3
+path_position: merge
+sources: ["Bellafiore — The PlayBook", "Volman — Understanding Price Action"]
+notes: "Merge sub two. Chapter 2's levels give the price and Chapter 3's book gives the fill, which is the cleanest way to show that the four inputs are not interchangeable. Account named at $28,000."
+screens:
+  - type: intro
+    text: "Four readings, four different questions, and not one of them answers another one."
+
+  - type: theory
+    title: "Different jobs"
+    body: "The level says where. The side of the average says which way. The candle says when. The tape says whether anybody is still paying, and what your order will actually get."
+
+  - type: carousel
+    cards:
+      - {label: "The level gives the price", text: "The entry, and the price at which the whole idea was wrong. Everything you can size comes from this one.", icon: level-line}
+      - {label: "The average gives the lean", text: "Which side the session has been comfortable on since the first trade. It is what keeps you from taking a good-looking trade against the day.", icon: vwap-side}
+      - {label: "The candle gives the moment", text: "The finished minute that settles the argument at the price. Without it you are early, and early is just wrong with a story.", icon: candle-momentum}
+      - {label: "The tape gives the fill", text: "Who is paying right now, and what is resting where you are going. It turns a decision into an order that lands somewhere sensible.", icon: tape-prints}
+
+  - type: match
+    prompt: "Each reading is silent about something. Which one about which?"
+    pairs:
+      - ["The level", "When to act on it"]
+      - ["The side of the average", "Where the stop belongs"]
+      - ["The candle", "Whether anybody paid for it"]
+      - ["The tape", "How far the move can travel"]
+    explanation: "Run one of them on its own and you are guessing at whatever it is silent about."
+
+  - type: chart-decision
+    scenario: "Yesterday's close at $15.60 has been overhead all session and price has not finished a minute above its own average price. The minute that just closed pushed into the level and finished six cents back under it on the heaviest bar of the morning, with the prints going off at the bid. Your account is $28,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[15.30, 15.38, 15.28, 15.36], [15.36, 15.44, 15.34, 15.42], [15.42, 15.50, 15.40, 15.48], [15.48, 15.56, 15.46, 15.54], [15.54, 15.60, 15.52, 15.58], [15.58, 15.64, 15.52, 15.54], [15.54, 15.56, 15.44, 15.46], [15.46, 15.48, 15.36, 15.38], [15.38, 15.40, 15.28, 15.30], [15.30, 15.32, 15.22, 15.24], [15.24, 15.26, 15.16, 15.18]]
+      volume: [78000, 84000, 92000, 86000, 74000, 168000, 142000, 124000, 108000, 96000, 88000]
+      vwap: [15.7, 15.68, 15.67, 15.66, 15.65, 15.64, 15.62, 15.6, 15.57, 15.54, 15.51]
+      levels:
+        - {price: 15.6, label: "Yesterday's close"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rolled over to $15.18 — $0.36 a share under the decision, +$540 short on 1,500 shares."
+    explanation: "The level gives the entry and a stop four cents above the refused high, the average says the session never wanted to be up there, the minute settled it, and the prints said who settled it."
+
+  - type: mc
+    prompt: "Which reading is the one that gives you a number you can size a position from?"
+    options:
+      - {text: "The level, because the entry and the stop both come off it", correct: true}
+      - {text: "The tape, because it shows the size resting nearby"}
+      - {text: "The side of the average, because it tells you the direction"}
+    explanation: "Direction without a price is not a position, and resting size is not a stop. The level is where both numbers come from."
+
+  - type: depth-ladder
+    prompt: "You market-buy 2,000 shares to take that level back. Where does your last share fill?"
+    data:
+      bids: [[15.60, 800], [15.59, 600], [15.58, 1200]]
+      asks: [[15.62, 600], [15.63, 500], [15.64, 1500]]
+    target: ask-3
+    explanation: "600 shares at $15.62 and 500 at $15.63 leave 900 to come out of the 1,500 resting at $15.64."
+
+  - type: numeric-mc
+    prompt: "Those 2,000 shares filled 600 at $15.62, 500 at $15.63 and 900 at $15.64. What did they cost on average?"
+    options:
+      - {text: "$15.6200"}
+      - {text: "$15.6400"}
+      - {text: "$15.6300"}
+      - {text: "$15.6315", correct: true}
+    working: "(600 × $15.62 + 500 × $15.63 + 900 × $15.64) ÷ 2,000 = $31,263 ÷ 2,000 = $15.6315"
+    explanation: "A cent and a bit worse than the price on the screen, which is the part of the trade only the book could have told you about."
+
+  - type: tf
+    statement: "Which side of its own average the session is on tells you where the stop belongs."
+    answer: false
+    explanation: "It tells you which way to lean. The stop comes off the level and the candle, which are the two readings with a price in them."
+
+  - type: sort
+    prompt: "Does this reading give you a price, or a moment?"
+    buckets: ["A price", "A moment"]
+    items:
+      - {text: "The level you drew before the open", bucket: "A price"}
+      - {text: "The minute that just finished through it", bucket: "A moment"}
+      - {text: "Yesterday's close", bucket: "A price"}
+      - {text: "A bar three times the size of the five before it", bucket: "A moment"}
+    explanation: "Two of them were true an hour ago and will be true in an hour. The other two are only true right now."
+
+  - type: chart-decision
+    scenario: "Yesterday's high at $12.60 is two cents above price and the session has been above its own average since the open. The minute that just closed opened and finished at the same price, on the quietest bar of the stretch. Your account is $28,000 and you are sizing 1,600 shares."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[12.30, 12.38, 12.28, 12.36], [12.36, 12.44, 12.34, 12.42], [12.42, 12.50, 12.40, 12.48], [12.48, 12.56, 12.46, 12.54], [12.54, 12.60, 12.52, 12.58], [12.58, 12.62, 12.56, 12.58], [12.58, 12.62, 12.54, 12.56], [12.56, 12.60, 12.52, 12.58], [12.58, 12.62, 12.54, 12.60], [12.60, 12.66, 12.58, 12.64], [12.64, 12.70, 12.62, 12.67]]
+      volume: [92000, 86000, 78000, 74000, 68000, 54000, 58000, 62000, 70000, 96000, 88000]
+      vwap: [12.28, 12.31, 12.34, 12.37, 12.4, 12.43, 12.46, 12.48, 12.5, 12.53, 12.56]
+      levels:
+        - {price: 12.6, label: "Yesterday's high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It sat under the level for four more minutes and finished at $12.67 — $0.09 a share past the decision, $144 on 1,600 shares against $64 of costs."
+    explanation: "The level is there and the session is on your side. The reading that gives you the moment has not arrived, and it is the one you cannot substitute with the other three."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[18.20, 18.28, 18.18, 18.26], [18.26, 18.34, 18.24, 18.32], [18.32, 18.38, 18.28, 18.30], [18.30, 18.38, 18.28, 18.36], [18.36, 18.42, 18.32, 18.40], [18.40, 18.58, 18.38, 18.56], [18.56, 18.64, 18.54, 18.62], [18.62, 18.70, 18.60, 18.68]]
+      volume: [84000, 92000, 66000, 72000, 64000, 178000, 148000, 126000]
+      vwap: [18.20, 18.23, 18.25, 18.27, 18.29, 18.32, 18.36, 18.40]
+      levels:
+        - {price: 18.5, label: "Yesterday's high"}
+    caption: "One chart, four answers: the line at $18.50, the session above its average, the sixth minute finishing clear, and the bar that paid for it."

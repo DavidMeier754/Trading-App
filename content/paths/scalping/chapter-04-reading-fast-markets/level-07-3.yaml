@@ -1,0 +1,127 @@
+id: "7-3"
+title: "Confluence"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [confluence, costs, decisions]
+learning_goal: "User can say what a one-reason read costs over a morning of them, and passes on reads where only a single reading is standing at the price."
+purpose: "A single reason is roughly a coin flip, and every flip is paid for in full whichever way it lands."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "7-2"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Carter — Mastering the Trade"]
+notes: "Closes Level 7. Chapter 3's round-trip cost is what turns the counting rule into money; Chapter 2's levels supply the reasons being counted. Account named at $22,000."
+screens:
+  - type: intro
+    text: "One reason is not a small edge. It is a flip you pay to take."
+
+  - type: story
+    character: retail-trader
+    text: "By the middle of the morning you have taken nine trades. Each one had something behind it. None of them had two things behind it."
+
+  - type: theory
+    title: "The flip is not free"
+    body: "A read with one reason behind it lands either way and hands over the round trip every time. Ten of them in a morning is a bill you paid before the market did anything at all."
+
+  - type: numeric-input
+    prompt: "Costs run four cents a share and you are trading 1,500 shares. What does one attempt hand over?"
+    answer: 60
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.04 a share × 1,500 shares = $60"
+    explanation: "That is the ticket price for finding out, paid before the trade is right or wrong about anything."
+
+  - type: numeric-mc
+    prompt: "You take ten of those in a morning. What have the round trips cost, before a single one of them is judged?"
+    options:
+      - {text: "$60"}
+      - {text: "$600", correct: true}
+      - {text: "$6,000"}
+      - {text: "$240"}
+    working: "$60 an attempt × 10 attempts = $600"
+    explanation: "On a $22,000 account that is the morning's costs alone, and the coin has not been asked to land yet."
+
+  - type: chart-decision
+    scenario: "Yesterday's high at $12.94 is the only line on the chart. XYZ has traded under its own average price since the open, and the minute that just closed opened and finished at the same price on an ordinary bar. Your account is $22,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[12.84, 12.88, 12.78, 12.80], [12.80, 12.86, 12.76, 12.84], [12.84, 12.90, 12.80, 12.86], [12.86, 12.90, 12.82, 12.84], [12.84, 12.92, 12.82, 12.90], [12.90, 12.94, 12.88, 12.90], [12.90, 12.92, 12.84, 12.86], [12.86, 12.90, 12.82, 12.88], [12.88, 12.92, 12.84, 12.86], [12.86, 12.90, 12.82, 12.84], [12.84, 12.88, 12.80, 12.85]]
+      volume: [64000, 58000, 62000, 56000, 60000, 54000, 58000, 52000, 56000, 50000, 54000]
+      vwap: [13.16, 13.14, 13.13, 13.12, 13.11, 13.10, 13.09, 13.08, 13.07, 13.06, 13.05]
+      levels:
+        - {price: 12.94, label: "Yesterday's high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It drifted sideways under the level and finished at $12.85 — $0.05 a share under the decision, $70 on 1,400 shares against $56 of costs."
+    explanation: "A line, and nothing else: the minute settled nothing, the bar was the quietest of the six, and the nine cents that followed barely covered getting in and out."
+
+  - type: swipe-deck
+    prompt: "Your rule: at least two separate readings standing at the price. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[19.60, 19.68, 19.58, 19.66], [19.66, 19.74, 19.64, 19.72], [19.72, 19.78, 19.68, 19.70], [19.70, 19.78, 19.68, 19.76], [19.76, 19.82, 19.74, 19.80], [19.80, 20.08, 19.78, 20.06], [20.06, 20.14, 20.04, 20.12], [20.12, 20.20, 20.10, 20.18]], vwap: [19.60, 19.63, 19.66, 19.69, 19.72, 19.76, 19.80, 19.84], levels: [{price: 20.0, label: "Round number"}, {price: 19.98, label: "Yesterday's high"}]}
+        answer: take
+        note: "Two lines inside two cents of each other, a session that has never been under its own average, and a minute that finished through both."
+      - chart: {kind: candles, data: [[14.20, 14.28, 14.18, 14.26], [14.26, 14.32, 14.22, 14.28], [14.28, 14.34, 14.24, 14.30], [14.30, 14.36, 14.26, 14.32], [14.32, 14.38, 14.28, 14.34], [14.34, 14.42, 14.32, 14.40], [14.40, 14.46, 14.36, 14.42], [14.42, 14.48, 14.38, 14.44]], vwap: [14.18, 14.20, 14.22, 14.24, 14.26, 14.28, 14.31, 14.34], levels: [{price: 15.0, label: "Round number"}]}
+        answer: pass
+        note: "The right side of its own average and fifty-six cents of empty chart to the only line on it."
+      - chart: {kind: candles, data: [[23.40, 23.44, 23.30, 23.32], [23.32, 23.36, 23.22, 23.24], [23.24, 23.30, 23.20, 23.28], [23.28, 23.34, 23.24, 23.30], [23.30, 23.36, 23.26, 23.34], [23.34, 23.48, 23.30, 23.32], [23.32, 23.34, 23.22, 23.24], [23.24, 23.28, 23.16, 23.18]], vwap: [23.44, 23.42, 23.41, 23.41, 23.42, 23.42, 23.41, 23.40], levels: [{price: 23.42, label: "Pre-market low"}]}
+        answer: take
+        note: "The level and the session's average price on the same cent, price under both all morning, and the push into them refused inside the minute."
+      - chart: {kind: candles, data: [[16.80, 16.88, 16.78, 16.86], [16.86, 16.92, 16.82, 16.84], [16.84, 16.90, 16.80, 16.88], [16.88, 16.94, 16.84, 16.90], [16.90, 16.96, 16.86, 16.92], [16.92, 17.02, 16.90, 16.94], [16.94, 16.98, 16.88, 16.90], [16.90, 16.96, 16.86, 16.92]], vwap: [16.90, 16.90, 16.89, 16.89, 16.90, 16.90, 16.90, 16.90], levels: [{price: 17.0, label: "Round number"}]}
+        answer: pass
+        note: "A refused push at the line, with the session's average price running through the middle of everything. One reading, and the other three shrug."
+      - chart: {kind: candles, data: [[11.40, 11.46, 11.36, 11.44], [11.44, 11.50, 11.40, 11.46], [11.46, 11.52, 11.42, 11.48], [11.48, 11.54, 11.44, 11.50], [11.50, 11.56, 11.46, 11.52], [11.52, 11.58, 11.48, 11.54], [11.54, 11.60, 11.50, 11.56], [11.56, 11.62, 11.52, 11.58]], vwap: [11.38, 11.40, 11.42, 11.44, 11.46, 11.48, 11.50, 11.52], levels: []}
+        answer: pass
+        note: "Above its own average and climbing, and not one line anywhere on the chart. Half a read is still half a read."
+    explanation: "Two of the five have a second reading standing at the price. The other three have one, and one is what the morning's costs eat."
+
+  - type: mc
+    prompt: "Why is a one-reason read worse than it looks on the chart?"
+    options:
+      - {text: "It is right less often than it is wrong"}
+      - {text: "It pays the round trip either way", correct: true}
+      - {text: "It always has a wider stop than a two-reason read"}
+    explanation: "Nobody knows the first, and the third depends on the chart. The cost is the part that is certain before the trade even starts."
+
+  - type: chart-decision
+    scenario: "The round number at $18.00 and the session's average price have arrived at the same cent. XYZ has finished every minute above the line, and the give-back into $18.00 just stopped there on the heaviest bar of the stretch. Your account is $22,000 and you are sizing 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[18.16, 18.24, 18.14, 18.22], [18.22, 18.28, 18.18, 18.20], [18.20, 18.22, 18.10, 18.12], [18.12, 18.14, 18.04, 18.06], [18.06, 18.08, 17.98, 18.02], [18.02, 18.14, 18.00, 18.12], [18.12, 18.20, 18.10, 18.18], [18.18, 18.26, 18.16, 18.24], [18.24, 18.32, 18.22, 18.30], [18.30, 18.36, 18.28, 18.34], [18.34, 18.44, 18.32, 18.41]]
+      volume: [96000, 88000, 76000, 64000, 58000, 142000, 118000, 104000, 94000, 86000, 78000]
+      vwap: [17.96, 17.97, 17.98, 17.99, 18.00, 18.00, 18.01, 18.03, 18.05, 18.07, 18.09]
+      levels:
+        - {price: 18.0, label: "Round number"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped up to $18.41 — $0.29 a share past the decision, +$319 long on 1,100 shares."
+    explanation: "The number people type into orders and the price the session has paid on average are the same cent today, and the give-back into them dried up on the busiest minute of the stretch."
+
+  - type: tf
+    statement: "A one-reason trade hands over the round trip whichever way it lands."
+    answer: true
+    explanation: "Which is why the reasons are counted before the entry and not argued about afterwards."
+
+  - type: slider
+    prompt: "Costs are four cents a share and the one-reason read has ten cents of room to the next line. How much of that room do the costs take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 40
+    tolerance: 10
+    explanation: "$0.04 ÷ $0.10 = 40 %. Two fifths of the move gone before the read is asked to be right."
+
+  - type: recap
+    title: "Level 7 in three lines"
+    points:
+      - {text: "Confluence is two separate readings at one price, not one fact wearing two labels.", level: "7-1"}
+      - {text: "Four questions every time: the line, the side, the candle, the bar.", level: "7-2"}
+      - {text: "One reason is a flip you pay the round trip to take.", level: "7-3"}

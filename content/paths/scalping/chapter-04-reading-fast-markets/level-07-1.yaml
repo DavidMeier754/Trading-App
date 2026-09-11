@@ -4,112 +4,130 @@ chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
-tags: [confluence, candles, volume]
-learning_goal: "User only calls a candle a signal when a marked level and the volume agree with it, and treats a lone candle as noise."
-purpose: "Most losing scalps come from acting on one piece of evidence — this is the filter that removes them."
+tags: [confluence, levels, vwap]
+learning_goal: "User can count the independent reasons standing at one price and tell two separate readings from one fact written twice."
+purpose: "Almost every scalp that looked fine and went nowhere had exactly one reason behind it."
 terms_introduced: ["Confluence"]
-reinforces: [2]
-prerequisite: "6-1"
-xp: 20
+reinforces: [2, 3]
+prerequisite: "6-4"
+xp: 25
 difficulty: 2
 sources: ["Murphy — Technical Analysis of the Financial Markets", "Volman — Understanding Price Action"]
+notes: "Chapter 2's support and resistance supply half the reasons; Chapter 3's cost-against-room decides whether a single-reason read is worth paying for. Account named at $24,000."
 screens:
   - type: intro
-    text: "One candle is noise. A candle, at a level, on real volume is a signal."
+    text: "Every chart gives you a reason. The question is how many."
 
   - type: theory
-    title: "Confluence"
-    body: "Confluence is two or more independent reasons pointing the same way at the same price: a level, VWAP, a candle, the volume. The more that agree, the fewer surprises you get."
+    title: "Two reasons at one price"
+    body: "Confluence is two or more separate readings landing on the same price. Not a stronger reason: a second one, arrived at a different way, that happens to agree."
 
   - type: example
-    body: "XYZ stalls at $44.00. VWAP has risen to $44.02, the candle leaves a long upper wick, and volume is the biggest of the hour. One price, three reasons."
+    body: "Yesterday's high is $20.98 and the round number is $21.00. Two cents apart, so one band of price carries both of them, and everything in the market that watches either one is watching the same six cents."
+    visual: chart-candles
+    visual_data:
+      data: [[20.70, 20.78, 20.68, 20.76], [20.76, 20.84, 20.74, 20.82], [20.82, 20.86, 20.78, 20.80], [20.80, 20.88, 20.78, 20.86], [20.86, 20.90, 20.82, 20.88], [20.88, 21.08, 20.86, 21.06], [21.06, 21.14, 21.04, 21.12], [21.12, 21.20, 21.10, 21.18]]
+      volume: [72000, 84000, 58000, 64000, 56000, 168000, 138000, 118000]
+      levels:
+        - {price: 20.98, label: "Yesterday's high"}
+        - {price: 21.0, label: "Round number"}
+    caption: "Two lines, six cents of band, and one minute that finished above both of them."
 
-  - type: checklist-reveal
-    title: "Before you call it a signal"
+  - type: theory
+    title: "Separate, or the same fact twice"
+    body: "If the high of the day is the pre-market high, that is one fact on two labels. Two readings only count as two when one could have been false while the other stayed true."
+
+  - type: sort
+    prompt: "Two reasons standing at one price, or one reason wearing two labels?"
+    buckets: ["Two reasons", "One reason twice"]
     items:
-      - "Is price at a level you marked before the open?"
-      - "Does the candle show one side clearly winning the minute?"
-      - "Is volume bigger than the candles around it?"
-      - "Does VWAP point the same way?"
+      - {text: "Yesterday's close at $18.00, and $18.00 is the round number", bucket: "Two reasons"}
+      - {text: "The high of the day, which is also the pre-market high nothing has beaten", bucket: "One reason twice"}
+      - {text: "The session's average price arriving at yesterday's low", bucket: "Two reasons"}
+      - {text: "Resistance at $24.40, and the top of the range is $24.40", bucket: "One reason twice"}
+    explanation: "The left-hand pair were drawn from different sessions and different habits. The right-hand pair are one price with two names on it."
 
   - type: chart-decision
-    scenario: "XYZ pulls back into VWAP at $27.30, which is also yesterday's close. The candle there is a rejection with a long lower wick on double the recent volume. You have 1,000 shares ready."
-    shares: 1000
+    scenario: "Yesterday's high is $20.98 and the round number above it is $21.00. XYZ has finished every minute above the line, and the minute that just closed finished through both of them on the heaviest bar of the morning. Your account is $24,000 and you are sizing 1,100 shares."
+    shares: 1100
     chart:
       kind: candles
-      data: [[27.60, 27.66, 27.52, 27.54], [27.54, 27.58, 27.44, 27.46], [27.46, 27.50, 27.38, 27.40], [27.40, 27.44, 27.32, 27.36], [27.36, 27.38, 27.28, 27.33], [27.33, 27.40, 27.24, 27.38], [27.38, 27.50, 27.36, 27.48], [27.48, 27.58, 27.46, 27.56], [27.56, 27.64, 27.52, 27.62], [27.62, 27.68, 27.58, 27.64]]
-      vwap: [27.31, 27.31, 27.30, 27.30, 27.30, 27.30, 27.31, 27.32, 27.33, 27.34]
-      volume: [52000, 48000, 41000, 36000, 33000, 94000, 68000, 61000, 54000, 49000]
+      data: [[20.70, 20.78, 20.68, 20.76], [20.76, 20.84, 20.74, 20.82], [20.82, 20.86, 20.78, 20.80], [20.80, 20.88, 20.78, 20.86], [20.86, 20.90, 20.82, 20.88], [20.88, 21.08, 20.86, 21.06], [21.06, 21.14, 21.04, 21.12], [21.12, 21.20, 21.10, 21.18], [21.18, 21.26, 21.16, 21.24], [21.24, 21.30, 21.22, 21.28], [21.28, 21.36, 21.26, 21.33]]
+      volume: [72000, 84000, 58000, 64000, 56000, 168000, 138000, 118000, 102000, 92000, 84000]
+      vwap: [20.70, 20.73, 20.75, 20.77, 20.79, 20.81, 20.84, 20.87, 20.90, 20.93, 20.96]
       levels:
-        - {price: 27.30, label: "Yesterday's close"}
+        - {price: 20.98, label: "Yesterday's high"}
+        - {price: 21.0, label: "Round number"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It turned at the line and reached $27.64 — $0.26 per share, +$260 long on 1,000 shares from $27.38."
-    explanation: "Level, VWAP, rejection candle and volume all at one price: that is confluence, and it is where the odds are best."
-
-  - type: mc
-    prompt: "A perfect momentum candle appears in the middle of a range, nowhere near a level, on average volume. What is it?"
-    options:
-      - {text: "A signal, because the candle shape is what matters"}
-      - {text: "A signal, because momentum always continues"}
-      - {text: "Noise — one piece of evidence with nothing to back it", correct: true}
-    explanation: "Shape without a level and without volume is one reason, and one reason is not enough."
-
-  - type: sort
-    prompt: "Signal or noise?"
-    buckets: ["Signal", "Noise"]
-    items:
-      - {text: "Rejection candle at yesterday's high on the biggest volume of the hour", bucket: "Signal"}
-      - {text: "Engulfing candle right at VWAP as price reaches it", bucket: "Signal"}
-      - {text: "Doji in the middle of a quiet range", bucket: "Noise"}
-      - {text: "Big red candle with no level anywhere near it", bucket: "Noise"}
-    explanation: "A candle earns the word signal from where it happens and what traded there."
-
-  - type: tf
-    statement: "A level test on ordinary volume leaves you with a shape and nothing behind it."
-    answer: true
-    explanation: "Nobody has committed anything yet, so the test is still unproven — wait for the next candle."
-
-  - type: theory
-    title: "Volume is the tiebreaker"
-    body: "Level and candle tell you where and what. Volume tells you how many shares agreed. When two reasons are there and volume is not, wait for the next candle."
-
-  - type: chart-decision
-    scenario: "XYZ makes a nice engulfing candle, but it is nowhere near a level, VWAP is far below, and volume is average. You have 1,000 shares ready."
-    shares: 1000
-    chart:
-      kind: candles
-      data: [[27.20, 27.28, 27.16, 27.22], [27.22, 27.26, 27.14, 27.16], [27.16, 27.20, 27.10, 27.12], [27.12, 27.22, 27.10, 27.20], [27.20, 27.24, 27.14, 27.18], [27.18, 27.30, 27.16, 27.28], [27.28, 27.32, 27.18, 27.20], [27.20, 27.24, 27.12, 27.14], [27.14, 27.22, 27.12, 27.20], [27.20, 27.24, 27.14, 27.18]]
-      vwap: [27.44, 27.42, 27.40, 27.38, 27.37, 27.36, 27.35, 27.34, 27.33, 27.32]
-      volume: [41000, 39000, 42000, 38000, 40000, 43000, 41000, 39000, 42000, 40000]
-      levels:
-        - {price: 27.80, label: "Yesterday's high"}
-      decision_index: 5
-    best: no-trade
-    outcome: "Price wandered back to where it started. The candle was the only thing that happened."
-    explanation: "A good-looking candle with nothing agreeing with it is one reason — and one reason is a coin flip with costs attached."
+    outcome: "It carried to $21.33 — $0.27 a share past the decision, +$297 long on 1,100 shares."
+    explanation: "Three separate readings at one price: the last full session's ceiling, the number people type into orders, and a session that has never traded under its own average."
 
   - type: numeric-input
-    prompt: "You skip that trade. The spread is $0.04 on 1,000 shares. How much did not trading save you in spread alone?"
-    answer: 40
+    prompt: "Costs run four cents a share on that trade and you took 1,100 shares. What does the round trip hand over?"
+    answer: 44
+    tolerance: 0.01
     unit: "$"
-    working: "$0.04 per share × 1,000 shares = $40"
-    explanation: "Every trade you do not take is a round trip you do not pay for."
+    working: "$0.04 a share × 1,100 shares = $44"
+    explanation: "Twenty-seven cents of move against four cents of cost is what a stack of reasons is supposed to buy you."
 
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "Three reasons agree at one price,"}
-      - {text: "so this trade works more often"}
-      - {text: "than a one-reason trade, and cannot lose.", wrong: true}
-    explanation: "Confluence improves the odds over a series. Any single trade can still lose, and plenty of them do."
+  - type: mc
+    prompt: "Price is at $15.90. Which of these leaves you with two independent reasons at one price?"
+    options:
+      - {text: "The round number at $16.00 and the top of this morning's range at $16.00"}
+      - {text: "The high of the day at $16.00 and the level it has stopped at twice, $16.00"}
+      - {text: "Yesterday's high at $16.00 and the session's average price climbing into $16.00", correct: true}
+    explanation: "The other two are a single price with a second label attached. Yesterday's ceiling and today's average were built by different sessions."
+
+  - type: compare
+    prompt: "Costs are the same in both. In which one is more than one reading standing at the price?"
+    charts:
+      - kind: candles
+        data: [[17.60, 17.68, 17.56, 17.66], [17.66, 17.74, 17.64, 17.72], [17.72, 17.78, 17.68, 17.70], [17.70, 17.78, 17.68, 17.76], [17.76, 17.82, 17.74, 17.80], [17.80, 17.88, 17.78, 17.86], [17.86, 17.92, 17.82, 17.84], [17.84, 17.90, 17.80, 17.88]]
+        vwap: [17.78, 17.78, 17.78, 17.78, 17.79, 17.80, 17.81, 17.82]
+        levels:
+          - {price: 18.2, label: "Yesterday's high"}
+        label: "A"
+      - kind: candles
+        data: [[17.60, 17.68, 17.56, 17.66], [17.66, 17.74, 17.64, 17.72], [17.72, 17.78, 17.68, 17.70], [17.70, 17.78, 17.68, 17.76], [17.76, 17.82, 17.74, 17.80], [17.80, 17.88, 17.78, 17.86], [17.86, 17.92, 17.82, 17.84], [17.84, 17.90, 17.80, 17.88]]
+        vwap: [17.90, 17.90, 17.90, 17.90, 17.90, 17.90, 17.90, 17.90]
+        levels:
+          - {price: 17.9, label: "Yesterday's close"}
+        label: "B"
+    answer: "B"
+    explanation: "Identical candles. In B the last full session's zero and this session's average price sit on the same cent; in A the only line is thirty-two cents overhead."
+
+  - type: tf
+    statement: "Two reasons at one price make the move that follows a certainty."
+    answer: false
+    explanation: "They improve the odds and they pay for the cost of finding out. Nothing on a chart does more than that."
+
+  - type: chart-decision
+    scenario: "XYZ has finished every minute above the line. The minute that just closed finished three cents under a small level from earlier in the morning, on an ordinary bar. Your account is $24,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[16.30, 16.38, 16.28, 16.36], [16.36, 16.44, 16.34, 16.42], [16.42, 16.48, 16.38, 16.40], [16.40, 16.46, 16.38, 16.44], [16.44, 16.48, 16.40, 16.42], [16.42, 16.44, 16.36, 16.37], [16.37, 16.44, 16.35, 16.42], [16.42, 16.48, 16.40, 16.46], [16.46, 16.50, 16.42, 16.44], [16.44, 16.52, 16.42, 16.50], [16.50, 16.54, 16.46, 16.52]]
+      volume: [74000, 82000, 66000, 70000, 62000, 68000, 72000, 66000, 60000, 74000, 68000]
+      vwap: [16.30, 16.32, 16.33, 16.34, 16.35, 16.35, 16.36, 16.36, 16.37, 16.38, 16.39]
+      levels:
+        - {price: 16.4, label: "Morning level"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It was back through the level inside two minutes and finished at $16.52 — $0.15 a share against a short, $195 on 1,300 shares."
+    explanation: "One reading says sell and another says the session's buyers have never let go. Reasons that point opposite ways do not add up to a trade."
 
   - type: fill-tiles
-    sentence: "Two or more independent reasons pointing the same way at one price is called ___."
+    sentence: "Two separate readings landing on the same price is ___."
     answer: "confluence"
-    explanation: "Reasons flowing together — that is all the word means."
+    explanation: "Two, arrived at different ways, agreeing on one number."
 
-  - type: theory
-    title: "The filter"
-    body: "Level, candle, volume, VWAP. Two of them is a look, three is a trade, one is a spread paid for nothing."
+  - type: checklist-reveal
+    title: "Counting the reasons"
+    items:
+      - "Which lines are standing at this price?"
+      - "Were any two of them drawn from the same fact?"
+      - "Which side of its own average is the session on?"
+      - "Do the reasons point the same way, or against each other?"

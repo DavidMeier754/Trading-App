@@ -1,0 +1,155 @@
+id: "12-4"
+title: "The Scalper's Map"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: repetition
+tags: [drill, map, decisions, tape]
+learning_goal: "User runs the four-reading map on unseen charts and passes on the ones where a reading is missing or two of them disagree."
+purpose: "The map is only worth anything at the speed the market actually moves, on charts nobody has explained first."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "12-3"
+xp: 35
+difficulty: 3
+path_position: merge
+sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
+notes: "Drill sub closing the merge: no theory screens, four decisions and a deck. Chapter 2's levels and Chapter 3's sizing are inside every one of them. Account named at $24,000."
+screens:
+  - type: intro
+    text: "No new ideas. Four readings, unseen charts, and an answer that is often nothing at all."
+
+  - type: chart-decision
+    scenario: "The round number at $24.00 broke three minutes ago and price is back underneath it and under its own average price. As it came back the bids two cents below were pulled without trading. Your account is $24,000 and you are sizing 900 shares."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[23.80, 23.88, 23.78, 23.86], [23.86, 23.94, 23.84, 23.92], [23.92, 24.12, 23.90, 24.08], [24.08, 24.12, 24.00, 24.02], [24.02, 24.04, 23.92, 23.94], [23.94, 23.96, 23.84, 23.86], [23.86, 23.88, 23.76, 23.78], [23.78, 23.80, 23.68, 23.70], [23.70, 23.72, 23.60, 23.62], [23.62, 23.64, 23.54, 23.56], [23.56, 23.60, 23.48, 23.51]]
+      volume: [78000, 86000, 164000, 98000, 126000, 152000, 134000, 116000, 102000, 92000, 84000]
+      vwap: [23.9, 23.92, 23.96, 23.98, 23.98, 23.96, 23.94, 23.92, 23.89, 23.86, 23.83]
+      levels:
+        - {price: 24.0, label: "Round number"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell away to $23.51 — $0.35 a share under the decision, +$315 short on 900 shares."
+    explanation: "A break handed back, the session under its own average again, two minutes finishing below the level, and the size that might have caught it leaving before it was asked to."
+
+  - type: chart-decision
+    scenario: "The pre-market high is $11.36. The minute that just closed finished four cents above it and back above the session's average price, with 2,000-share prints going off at the ask and the bid refilling behind them. Your account is $24,000 and you are sizing 2,000 shares."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[11.30, 11.34, 11.22, 11.24], [11.24, 11.28, 11.16, 11.18], [11.18, 11.24, 11.14, 11.22], [11.22, 11.28, 11.20, 11.26], [11.26, 11.32, 11.24, 11.30], [11.30, 11.42, 11.28, 11.40], [11.40, 11.46, 11.38, 11.44], [11.44, 11.50, 11.42, 11.48], [11.48, 11.54, 11.46, 11.52], [11.52, 11.58, 11.50, 11.56], [11.56, 11.62, 11.54, 11.59]]
+      volume: [82000, 88000, 64000, 70000, 66000, 158000, 132000, 114000, 98000, 88000, 80000]
+      vwap: [11.34, 11.32, 11.31, 11.31, 11.32, 11.34, 11.36, 11.38, 11.41, 11.43, 11.45]
+      levels:
+        - {price: 11.36, label: "Pre-market high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $11.59 — $0.19 a share past the decision, +$380 long on 2,000 shares."
+    explanation: "All four: the level, the side taken back on the same minute, a body that finished clear of both, and size still paying the ask behind it."
+
+  - type: order-build
+    prompt: "Take that long: 2,000 shares, and you will pay up to two cents over the ask of $11.42 and no further."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [1000, 1500, 2000]
+      price: [11.40, 11.42, 11.44]
+    answer: {side: buy, type: limit, qty: 2000, price: 11.44}
+    explanation: "Two thousand shares at $11.44 is $22,880, which the $24,000 account can pay for, and the limit refuses anything worse."
+
+  - type: compare
+    prompt: "Both sessions have been above their own average price throughout. In which one is price standing at a level?"
+    charts:
+      - kind: candles
+        data: [[14.20, 14.28, 14.18, 14.26], [14.26, 14.34, 14.24, 14.32], [14.32, 14.38, 14.28, 14.30], [14.30, 14.38, 14.28, 14.36], [14.36, 14.44, 14.34, 14.42], [14.42, 14.50, 14.40, 14.48], [14.48, 14.56, 14.46, 14.54], [14.54, 14.62, 14.52, 14.60]]
+        vwap: [14.18, 14.20, 14.22, 14.24, 14.27, 14.30, 14.34, 14.38]
+        levels:
+          - {price: 15.2, label: "Yesterday's high"}
+        label: "A"
+      - kind: candles
+        data: [[14.20, 14.28, 14.18, 14.26], [14.26, 14.34, 14.24, 14.32], [14.32, 14.38, 14.28, 14.30], [14.30, 14.38, 14.28, 14.36], [14.36, 14.44, 14.34, 14.42], [14.42, 14.50, 14.40, 14.48], [14.48, 14.56, 14.46, 14.54], [14.54, 14.62, 14.52, 14.60]]
+        vwap: [14.18, 14.20, 14.22, 14.24, 14.27, 14.30, 14.34, 14.38]
+        levels:
+          - {price: 14.6, label: "Yesterday's high"}
+        label: "B"
+    answer: "B"
+    explanation: "Identical candles and identical lines under them. B has finished the stretch at the price its level was drawn at; A is sixty cents short of anything."
+
+  - type: chart-decision
+    scenario: "The level at $17.70 has stopped price twice already this morning and the minute that just closed is its third arrival, two cents underneath, on the quietest bar of the stretch. Your account is $24,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[17.60, 17.70, 17.58, 17.68], [17.68, 17.70, 17.60, 17.62], [17.62, 17.68, 17.58, 17.66], [17.66, 17.70, 17.62, 17.64], [17.64, 17.68, 17.60, 17.66], [17.66, 17.70, 17.64, 17.68], [17.68, 17.70, 17.62, 17.64], [17.64, 17.68, 17.60, 17.62], [17.62, 17.66, 17.58, 17.60], [17.60, 17.64, 17.56, 17.58], [17.58, 17.62, 17.54, 17.56]]
+      volume: [124000, 86000, 78000, 92000, 66000, 54000, 62000, 58000, 64000, 56000, 60000]
+      vwap: [17.62, 17.62, 17.62, 17.63, 17.63, 17.64, 17.64, 17.63, 17.63, 17.62, 17.62]
+      levels:
+        - {price: 17.7, label: "Resistance"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It never finished above the level and drifted to $17.56 — $0.12 a share against a long, $156 on 1,300 shares."
+    explanation: "Third arrival, lightest bar of the stretch, and nothing has finished through the level all morning. Two readings answered and the two that decide the moment did not."
+
+  - type: swipe-deck
+    prompt: "Four readings a chart, a few seconds each. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[26.20, 26.28, 26.18, 26.26], [26.26, 26.34, 26.24, 26.32], [26.32, 26.38, 26.28, 26.30], [26.30, 26.38, 26.28, 26.36], [26.36, 26.42, 26.34, 26.40], [26.40, 26.58, 26.38, 26.56], [26.56, 26.64, 26.54, 26.62], [26.62, 26.70, 26.60, 26.68]], volume: [74000, 82000, 60000, 66000, 62000, 176000, 148000, 128000], vwap: [26.20, 26.23, 26.25, 26.27, 26.29, 26.32, 26.36, 26.40], levels: [{price: 26.46, label: "Yesterday's high"}]}
+        answer: take
+        note: "Level, side, a body finishing ten cents clear, and nearly three times the volume of the five before it."
+      - chart: {kind: candles, data: [[15.80, 15.88, 15.78, 15.86], [15.86, 15.92, 15.82, 15.84], [15.84, 15.90, 15.80, 15.88], [15.88, 15.94, 15.84, 15.90], [15.90, 15.96, 15.86, 15.92], [15.92, 15.98, 15.88, 15.94], [15.94, 16.00, 15.90, 15.96], [15.96, 16.02, 15.92, 15.98]], volume: [66000, 70000, 62000, 68000, 64000, 70000, 66000, 72000], vwap: [15.82, 15.83, 15.84, 15.85, 15.86, 15.87, 15.88, 15.90], levels: [{price: 16.50, label: "Round number"}]}
+        answer: pass
+        note: "The side of the line and fifty-two cents of empty chart. One reading of the four."
+      - chart: {kind: candles, data: [[21.40, 21.44, 21.30, 21.32], [21.32, 21.36, 21.22, 21.24], [21.24, 21.30, 21.20, 21.28], [21.28, 21.32, 21.22, 21.24], [21.24, 21.28, 21.14, 21.16], [21.16, 21.18, 21.04, 21.06], [21.06, 21.10, 20.96, 20.98], [20.98, 21.02, 20.88, 20.90]], volume: [82000, 88000, 72000, 78000, 94000, 182000, 152000, 134000], vwap: [21.46, 21.44, 21.42, 21.40, 21.37, 21.34, 21.30, 21.26], levels: [{price: 21.20, label: "Yesterday's low"}]}
+        answer: take
+        note: "Under its own average all morning, a minute finishing fourteen cents through the floor, on the heaviest bar of the eight."
+      - chart: {kind: candles, data: [[12.60, 12.68, 12.58, 12.66], [12.66, 12.74, 12.64, 12.72], [12.72, 12.78, 12.68, 12.70], [12.70, 12.78, 12.68, 12.76], [12.76, 12.82, 12.74, 12.80], [12.80, 12.92, 12.78, 12.82], [12.82, 12.86, 12.76, 12.78], [12.78, 12.84, 12.74, 12.80]], volume: [70000, 76000, 58000, 64000, 60000, 148000, 82000, 74000], vwap: [12.60, 12.63, 12.65, 12.67, 12.69, 12.72, 12.74, 12.76], levels: [{price: 12.86, label: "Pre-market high"}]}
+        answer: pass
+        note: "Six cents through the level inside the minute and four cents back under it by the close. The moment never arrived."
+      - chart: {kind: candles, data: [[18.40, 18.48, 18.38, 18.46], [18.46, 18.52, 18.42, 18.44], [18.44, 18.50, 18.40, 18.48], [18.48, 18.54, 18.44, 18.50], [18.50, 18.56, 18.46, 18.52], [18.52, 18.62, 18.50, 18.60], [18.60, 18.64, 18.54, 18.56], [18.56, 18.62, 18.52, 18.58]], volume: [78000, 84000, 70000, 76000, 72000, 88000, 74000, 80000], vwap: [18.66, 18.65, 18.64, 18.63, 18.63, 18.63, 18.63, 18.63], levels: [{price: 18.56, label: "Yesterday's close"}]}
+        answer: pass
+        note: "A level and a decent minute, with the session under its own average the whole way. Two against two."
+    explanation: "Two of the five answer all four readings. The other three are missing the bar, the moment, or the agreement."
+
+  - type: chart-decision
+    scenario: "The first five minutes bottomed at $20.24. The minute that just closed finished eight cents under it on a bar heavier than the four before it, with the prints going off at the bid. Your account is $24,000 and you are sizing 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[20.40, 20.52, 20.34, 20.38], [20.38, 20.44, 20.26, 20.30], [20.30, 20.38, 20.28, 20.36], [20.36, 20.40, 20.28, 20.32], [20.32, 20.36, 20.24, 20.26], [20.26, 20.28, 20.14, 20.16], [20.16, 20.20, 20.06, 20.08], [20.08, 20.12, 19.98, 20.00], [20.00, 20.04, 19.90, 19.92], [19.92, 19.96, 19.84, 19.86], [19.86, 19.90, 19.76, 19.79]]
+      volume: [380000, 300000, 240000, 200000, 220000, 320000, 240000, 210000, 190000, 170000, 160000]
+      vwap: [20.44, 20.4, 20.38, 20.36, 20.34, 20.31, 20.27, 20.23, 20.18, 20.14, 20.1]
+      levels:
+        - {price: 20.24, label: "Opening-range low"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It carried down to $19.79 — $0.37 a share under the decision, +$407 short on 1,100 shares."
+    explanation: "The box gave way on a finished minute, the session has been under its own average since the second one, and the size is being paid at the bid."
+
+  - type: numeric-input
+    prompt: "You short 1,100 shares of that at $20.16 with the stop back inside the box at $20.28. What is at risk?"
+    answer: 132
+    tolerance: 0.01
+    unit: "$"
+    working: "$20.28 − $20.16 = $0.12 a share; $0.12 × 1,100 shares = $132"
+    explanation: "The edge of the box is the price the break would be wrong at, which is the only place the stop belongs."
+
+  - type: tf
+    statement: "A level that has already stopped price twice is worth less on its third arrival than it was on its first."
+    answer: true
+    explanation: "Two arrivals have already traded against the orders behind it, and nobody is obliged to replace them."
+
+  - type: recap
+    title: "Level 12 in four lines"
+    points:
+      - {text: "Level, side, candle, tape — in that order, and stop at the first empty answer.", level: "12-1"}
+      - {text: "Each reading answers a different question, so none of them can stand in for another.", level: "12-2"}
+      - {text: "Two readings pointing opposite ways is a pass, not a smaller trade.", level: "12-3"}
+      - {text: "On unseen charts the ordinary answer is that a reading is missing.", level: "12-4"}

@@ -1,0 +1,128 @@
+id: "11-2"
+title: "Fan-out C — The Opening Drive"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [open, opening-range, decisions]
+learning_goal: "User takes an opening-range break only when a minute has finished outside the box with weight, and stands aside when price steps back inside."
+purpose: "Every morning offers this trade and most mornings offer the version of it that does not hold."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "11-1"
+xp: 25
+difficulty: 3
+path_position: fan-out:open
+sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
+notes: "Strand C, second sub. Self-contained: no material from strands A or B. Chapter 2 built the opening range; here it becomes a decision, priced with Chapter 3's stop distance. Account named at $24,000."
+screens:
+  - type: intro
+    text: "The first five minutes draw a box. The rest of the morning argues about its edges."
+
+  - type: theory
+    title: "The box"
+    body: "The high and the low of the first five minutes are the day's first two lines, and unlike yesterday's prices they were made by today's crowd, in today's mood."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the high of the first five minutes."
+    chart:
+      kind: candles
+      data: [[19.00, 19.18, 18.96, 19.14], [19.14, 19.24, 19.10, 19.16], [19.16, 19.20, 19.06, 19.10], [19.10, 19.18, 19.04, 19.14], [19.14, 19.22, 19.10, 19.18], [19.18, 19.20, 19.12, 19.16], [19.16, 19.22, 19.12, 19.20], [19.20, 19.24, 19.16, 19.18], [19.18, 19.22, 19.14, 19.16]]
+      volume: [340000, 260000, 210000, 180000, 160000, 140000, 150000, 170000, 130000]
+    answer: 19.24
+    tolerance: 0.04
+    label: "Opening-range high"
+    explanation: "$19.24, set in the second minute and not beaten since. The eighth minute reached it again and finished six cents underneath."
+
+  - type: theory
+    title: "What counts as a break"
+    body: "A minute finishing beyond the edge, with a bar heavier than the ones that drew the box. Trading through it is price visiting; finishing through it is price leaving."
+
+  - type: chart-decision
+    scenario: "The first five minutes topped out at $14.86. The minute that just closed finished eight cents above it on the heaviest bar since the opening minute, with price above its own average price throughout. Your account is $24,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[14.60, 14.76, 14.58, 14.72], [14.72, 14.86, 14.70, 14.80], [14.80, 14.84, 14.68, 14.72], [14.72, 14.82, 14.70, 14.78], [14.78, 14.84, 14.74, 14.80], [14.80, 14.96, 14.78, 14.94], [14.94, 15.02, 14.92, 15.00], [15.00, 15.08, 14.98, 15.06], [15.06, 15.14, 15.04, 15.12], [15.12, 15.18, 15.08, 15.14], [15.14, 15.22, 15.12, 15.19]]
+      volume: [380000, 300000, 240000, 200000, 180000, 320000, 240000, 210000, 190000, 170000, 160000]
+      vwap: [14.66, 14.70, 14.72, 14.73, 14.75, 14.78, 14.82, 14.86, 14.9, 14.94, 14.98]
+      levels:
+        - {price: 14.86, label: "Opening-range high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $15.19 — $0.25 a share past the decision, +$375 long on 1,500 shares."
+    explanation: "The box held for four minutes and then a minute finished clear of it on a bar bigger than anything since the opening one. The edge is behind you now."
+
+  - type: numeric-input
+    prompt: "You take 1,500 shares of that at $14.94 with the stop back inside the box at $14.78. What is at risk?"
+    answer: 240
+    tolerance: 0.01
+    unit: "$"
+    working: "$14.94 − $14.78 = $0.16 a share; $0.16 × 1,500 shares = $240"
+    explanation: "The stop belongs back inside the box, because price returning there is the break being taken back."
+
+  - type: mc
+    prompt: "The range high is $19.24. Which of these is the break?"
+    options:
+      - {text: "A minute that trades to $19.31 and finishes at $19.22"}
+      - {text: "A minute that finishes at $19.24 exactly, on an ordinary bar"}
+      - {text: "A minute that finishes at $19.30 on the heaviest bar since the opening minute", correct: true}
+    explanation: "One visited, one arrived, and one finished outside with a crowd behind it."
+
+  - type: order
+    prompt: "Put an opening-range break in the order the chart has to give it to you."
+    items:
+      - "The first five minutes finish and the box is drawn"
+      - "A minute finishes beyond one edge"
+      - "The bar under it is heavier than the ones that drew the box"
+      - "The stop goes back inside the box and the entry goes on"
+    explanation: "The box first, then the close, then the weight. The entry is the last thing that happens, not the first."
+
+  - type: compare
+    prompt: "Both minutes went beyond the box. In which one did the session actually leave it?"
+    charts:
+      - kind: candles
+        data: [[20.20, 20.36, 20.18, 20.32], [20.32, 20.40, 20.28, 20.34], [20.34, 20.38, 20.24, 20.28], [20.28, 20.36, 20.26, 20.34], [20.34, 20.48, 20.32, 20.36], [20.36, 20.40, 20.28, 20.30], [20.30, 20.36, 20.26, 20.32], [20.32, 20.38, 20.28, 20.34]]
+        levels:
+          - {price: 20.4, label: "Opening-range high"}
+        label: "A"
+      - kind: candles
+        data: [[20.20, 20.36, 20.18, 20.32], [20.32, 20.40, 20.28, 20.34], [20.34, 20.38, 20.24, 20.28], [20.28, 20.36, 20.26, 20.34], [20.34, 20.48, 20.32, 20.46], [20.46, 20.54, 20.44, 20.52], [20.52, 20.60, 20.50, 20.58], [20.58, 20.66, 20.56, 20.64]]
+        levels:
+          - {price: 20.4, label: "Opening-range high"}
+        label: "B"
+    answer: "B"
+    explanation: "Both reached $20.48 on the same minute. A finished four cents back inside the box; B finished six cents outside it and never came back."
+
+  - type: tf
+    statement: "A minute that trades outside the box and finishes back inside it has broken the range."
+    answer: false
+    explanation: "It has tested the range. The close is the only part of that minute anybody will still be looking at in five minutes' time."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Price traded eight cents above the range high"}
+      - {text: "on the biggest bar of the morning,"}
+      - {text: "so the range has broken.", wrong: true}
+    explanation: "Heavy and brief is still brief. Without a close beyond the edge there is nothing to lean the stop against."
+
+  - type: chart-decision
+    scenario: "The first five minutes bottomed at $22.40. The minute before last finished two cents under it, and the one that just closed is back inside the box. Your account is $24,000 and you are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[22.70, 22.76, 22.56, 22.60], [22.60, 22.66, 22.40, 22.44], [22.44, 22.58, 22.42, 22.54], [22.54, 22.60, 22.46, 22.50], [22.50, 22.54, 22.44, 22.48], [22.48, 22.52, 22.36, 22.38], [22.38, 22.52, 22.36, 22.50], [22.50, 22.56, 22.44, 22.48], [22.48, 22.54, 22.42, 22.46], [22.46, 22.52, 22.40, 22.44], [22.44, 22.54, 22.40, 22.52]]
+      volume: [400000, 320000, 260000, 220000, 200000, 240000, 200000, 180000, 170000, 160000, 140000]
+      vwap: [22.62, 22.56, 22.55, 22.54, 22.52, 22.50, 22.50, 22.50, 22.49, 22.49, 22.49]
+      levels:
+        - {price: 22.4, label: "Opening-range low"}
+      decision_index: 6
+    best: no-trade
+    reasonable: [long]
+    outcome: "It chopped between $22.40 and $22.56 for the rest of the stretch and finished at $22.52 — $0.02 a share past the decision, $20 on 1,000 shares against $40 of costs."
+    explanation: "The break lasted one minute and the box took it back. Until an edge is finished through and stayed through, the trades are at the edges and you are in the middle of it."
+
+  - type: example
+    body: "One box, two edges, and the only question that matters at either of them: did a minute finish outside, and was anybody there when it did."

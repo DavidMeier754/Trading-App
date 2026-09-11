@@ -4,109 +4,106 @@ chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
-tags: [open, opening-range, momentum]
-learning_goal: "User can recognise an opening drive, trade the opening-range break that has volume behind it and leave the one that does not."
-purpose: "The first minutes carry the day's biggest moves and its worst fills — you need a rule for both."
+tags: [open, momentum, sessions]
+learning_goal: "User can recognise a session that opens and keeps going, and still waits out the first five minutes before acting on it."
+purpose: "The biggest moves of the day and the worst fills of the day are in the same few minutes."
 terms_introduced: ["Opening drive"]
 reinforces: [2, 3]
 prerequisite: "8-1"
-xp: 20
+xp: 25
 difficulty: 2
 path_position: fan-out:open
-sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
-notes: "Fan-out strand C. Self-contained: uses nothing from the other two strands."
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "Strand C, first sub. Self-contained: uses nothing from strands A or B. Chapter 2's opening minutes and its momentum reading are what this builds on; Chapter 3 supplies the cost of chasing. Account named at $24,000."
 screens:
   - type: intro
-    text: "More shares trade in the first five minutes than in the next hour. So does more of your risk."
+    text: "Some sessions spend the first minutes deciding. Others leave without you."
 
   - type: theory
-    title: "The opening drive"
-    body: "In the first minutes after {{market.regular_open}} {{market.timezone}} one side often takes control and pushes price in an almost straight line. That first push is the opening drive."
+    title: "The first minutes"
+    body: "Inside {{market.first_minutes}} {{market.timezone}} more shares change hands than in any other stretch of the day. Everything is faster, wider and louder, and none of it is a mistake."
 
   - type: theory
-    title: "Why it happens"
-    body: "Orders held back overnight, news from before the session and every trader acting on the same plan all arrive at once. Nothing else in the day has that much pressure behind it."
+    title: "An opening drive"
+    body: "A session that opens and keeps going one way: every minute finishing near its far end, nothing given back, and the heaviest volume of the day underneath. It is the clearest thing a chart ever says."
 
   - type: example
-    body: "XYZ opens at $30.00 and trades to $30.42 in four minutes without a red candle. Everyone who wanted in overnight is getting in now."
-    visual: chart-candles
-    visual_data:
-      data: [[30.00, 30.12, 29.98, 30.10], [30.10, 30.22, 30.08, 30.20], [30.20, 30.30, 30.16, 30.28], [30.28, 30.42, 30.26, 30.38], [30.38, 30.44, 30.32, 30.36], [30.36, 30.40, 30.28, 30.32], [30.32, 30.38, 30.30, 30.36], [30.36, 30.46, 30.34, 30.44]]
-      volume: [240000, 180000, 150000, 160000, 90000, 70000, 60000, 110000]
-
-  - type: theory
-    title: "The break and the fade"
-    body: "The high and low of the first five minutes are the opening range. A break with volume behind it usually keeps going. A break that closes straight back inside the range usually goes the other way."
+    body: "XYZ opens at $16.40 and the first four minutes finish at $16.60, $16.76, $16.88 and $17.00. Sixty cents in four minutes, and not one minute closed below the one before it."
 
   - type: chart-decision
-    scenario: "The first five minutes are over and the opening range is $17.28 to $17.46. This chart starts after them: price breaks above the box on the heaviest volume since, and holds. You have 1,500 shares ready."
-    shares: 1500
+    scenario: "The bell went four minutes ago. XYZ has finished every minute near its high on the heaviest bars of the day, and there is no line from yesterday within thirty cents. Your account is $24,000 and you are sizing 1,100 shares."
+    shares: 1100
     chart:
       kind: candles
-      data: [[17.30, 17.46, 17.28, 17.42], [17.42, 17.46, 17.34, 17.38], [17.38, 17.44, 17.32, 17.40], [17.40, 17.46, 17.36, 17.44], [17.44, 17.56, 17.42, 17.54], [17.54, 17.62, 17.50, 17.60], [17.60, 17.70, 17.56, 17.68], [17.68, 17.76, 17.64, 17.72], [17.72, 17.80, 17.68, 17.76], [17.76, 17.82, 17.72, 17.78]]
-      volume: [220000, 120000, 90000, 80000, 190000, 140000, 120000, 100000, 90000, 80000]
-      levels:
-        - {price: 17.46, label: "Opening range high"}
-      decision_index: 5
-    best: long
-    reasonable: [no-trade]
-    outcome: "The drive continued to $17.78 — $0.18 per share, +$270 long on 1,500 shares from $17.60."
-    explanation: "A range break on the biggest volume since the open is the drive resuming, not a new idea."
+      data: [[16.40, 16.62, 16.38, 16.60], [16.60, 16.78, 16.58, 16.76], [16.76, 16.90, 16.72, 16.88], [16.88, 17.02, 16.86, 17.00], [17.00, 17.10, 16.96, 17.06], [17.06, 17.12, 16.98, 17.02], [17.02, 17.08, 16.94, 16.98], [16.98, 17.04, 16.90, 16.94], [16.94, 17.00, 16.88, 16.98], [16.98, 17.06, 16.94, 17.04], [17.04, 17.12, 17.00, 17.08]]
+      volume: [420000, 320000, 280000, 240000, 210000, 180000, 160000, 150000, 140000, 130000, 120000]
+      vwap: [16.52, 16.62, 16.70, 16.78, 16.84, 16.88, 16.90, 16.91, 16.92, 16.93, 16.94]
+      decision_index: 3
+    best: no-trade
+    reasonable: [long]
+    outcome: "It spent the next seven minutes between $16.88 and $17.12 and finished at $17.08 — $0.08 a share past the decision, $88 on 1,100 shares."
+    explanation: "The drive is real and you are four minutes in with nothing to lean on. Chapter 2's rule holds here: the first five minutes are for watching, because the only stop on offer is back under the minute that just closed, fourteen cents away."
+
+  - type: chart-tap
+    prompt: "Tap the first minute of that session that finished lower than the one before it."
+    chart:
+      kind: candles
+      data: [[16.40, 16.62, 16.38, 16.60], [16.60, 16.78, 16.58, 16.76], [16.76, 16.90, 16.72, 16.88], [16.88, 17.02, 16.86, 17.00], [17.00, 17.10, 16.96, 17.06], [17.06, 17.12, 16.98, 17.02], [17.02, 17.08, 16.94, 16.98], [16.98, 17.04, 16.90, 16.94], [16.94, 17.00, 16.88, 16.98]]
+      volume: [420000, 320000, 280000, 240000, 210000, 180000, 160000, 150000, 140000]
+    target: 5
+    explanation: "Five closes climbing, and this is the first one that finished under the minute before it. That is where the drive stopped being a drive."
 
   - type: mc
-    prompt: "Price breaks the opening-range high by a cent on the lightest volume of the session and closes back inside the range. What does that suggest?"
+    prompt: "What does an opening drive actually tell you?"
     options:
-      - {text: "Nobody was willing to pay above the range — the sellers are still there", correct: true}
-      - {text: "The break is confirmed, because price traded above the range"}
-      - {text: "Nothing at all — volume says nothing about a break"}
-    explanation: "A break nobody paid for is a break that has not really happened."
+      - {text: "Which side has been in front since the first trade", correct: true}
+      - {text: "Where the day will finish"}
+      - {text: "That the stock will be liquid for the rest of the session"}
+    explanation: "It is the strongest statement about the session so far, and it says nothing at all about the hours after it."
 
-  - type: tf
-    statement: "Spreads in the first minutes are usually wider than they are an hour later."
-    answer: true
-    explanation: "Prices are moving fast and market makers protect themselves — which makes every entry there more expensive."
+  - type: numeric-input
+    prompt: "You are long 1,100 shares from $16.88 and the drive stalls at $17.12, where you get out. What is that worth before costs?"
+    answer: 264
+    tolerance: 0.01
+    unit: "$"
+    working: "$17.12 − $16.88 = $0.24 a share; $0.24 × 1,100 shares = $264"
+    explanation: "And 1,100 × $16.88 is $18,568, so the account carries the position comfortably."
+
+  - type: sort
+    prompt: "A drive, or the usual opening noise?"
+    buckets: ["A drive", "Noise"]
+    items:
+      - {text: "Every minute finishing near its high on the heaviest volume of the day", bucket: "A drive"}
+      - {text: "Six minutes overlapping each other inside eight cents", bucket: "Noise"}
+      - {text: "Forty cents travelled one way with no minute closing back", bucket: "A drive"}
+      - {text: "Two big minutes up, two big minutes down, back where it started", bucket: "Noise"}
+    explanation: "A drive keeps what it takes. Noise takes the same distance and hands it back before anybody can use it."
 
   - type: chart-decision
-    scenario: "The first five minutes are over and the opening range is $17.86 to $18.14. This chart starts after them: price pokes at $18.14 on light volume and closes back inside. You have 1,500 shares ready."
-    shares: 1500
+    scenario: "The session opened and sold off for five minutes, has not finished a minute above its own average price, and the sixth minute has just closed under all five before it. Your account is $24,000 and you are sizing 1,100 shares."
+    shares: 1100
     chart:
       kind: candles
-      data: [[17.90, 18.10, 17.86, 18.06], [18.06, 18.09, 17.96, 18.00], [18.00, 18.08, 17.98, 18.06], [18.06, 18.09, 18.02, 18.07], [18.07, 18.14, 18.04, 18.08], [18.08, 18.10, 17.98, 18.00], [18.00, 18.02, 17.90, 17.92], [17.92, 17.96, 17.84, 17.86], [17.86, 17.90, 17.78, 17.80], [17.80, 17.84, 17.74, 17.76]]
-      volume: [260000, 110000, 90000, 70000, 50000, 80000, 120000, 110000, 90000, 80000]
-      levels:
-        - {price: 18.14, label: "Opening range high"}
+      data: [[21.60, 21.62, 21.30, 21.34], [21.34, 21.40, 21.16, 21.20], [21.20, 21.24, 21.04, 21.08], [21.08, 21.14, 20.96, 21.00], [21.00, 21.06, 20.90, 20.94], [20.94, 21.00, 20.86, 20.90], [20.90, 20.94, 20.76, 20.80], [20.80, 20.84, 20.66, 20.70], [20.70, 20.74, 20.58, 20.62], [20.62, 20.66, 20.52, 20.56], [20.56, 20.60, 20.46, 20.50]]
+      volume: [460000, 340000, 300000, 260000, 220000, 190000, 210000, 180000, 160000, 150000, 140000]
+      vwap: [21.46, 21.36, 21.28, 21.22, 21.16, 21.10, 21.04, 20.98, 20.92, 20.86, 20.80]
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It slid to $17.76 — $0.24 per share, +$360 short on 1,500 shares from $18.00."
-    explanation: "A break with no volume that closes back inside leaves trapped buyers, and they sell on the way down."
+    outcome: "It kept going to $20.50 — $0.40 a share under the decision, +$440 short on 1,100 shares."
+    explanation: "The watching is done, the six minutes are on the chart, and every one of them finished under the price the session has paid on average."
 
-  - type: numeric-mc
-    prompt: "At the open the spread is $0.06 and it is still $0.06 when you get out. On 1,000 shares, what does the round trip cost you in spread?"
-    options:
-      - {text: "$120"}
-      - {text: "$6"}
-      - {text: "$60", correct: true}
-      - {text: "$30"}
-    working: "$0.06 per share × 1,000 shares = $60"
-    explanation: "Buying at the ask and selling at the bid costs one full spread — six cents of whatever the move gives you."
-
-  - type: sort
-    prompt: "Reason to take the opening trade, or reason to skip it?"
-    buckets: ["Take it", "Skip it"]
-    items:
-      - {text: "Range break on the heaviest volume since the bell", bucket: "Take it"}
-      - {text: "The drive has been one-sided with no red candle", bucket: "Take it"}
-      - {text: "Spread is six cents on a fifteen-cent target", bucket: "Skip it"}
-      - {text: "Price is bouncing around inside the range on light volume", bucket: "Skip it"}
-    explanation: "Volume and a workable spread make the opening trade; chop and cost take it away."
+  - type: tf
+    statement: "The widest moves of the day and the worst fills of the day happen in the same few minutes."
+    answer: true
+    explanation: "It is one crowd arriving at once, which is what makes both the range and the spread what they are."
 
   - type: fill-choice
-    sentence: "The box that the first five minutes leaves behind is the opening ___."
-    options: ["range", "drive", "gap"]
-    answer: "range"
-    explanation: "The drive is the push; the range is the box it leaves behind."
+    sentence: "A session that opens and keeps going without handing anything back is an opening ___."
+    options: ["drive", "range", "gap"]
+    answer: "drive"
+    explanation: "One direction, from the first trade, with the day's volume behind it."
 
-  - type: theory
-    title: "First the drive, then the range"
-    body: "Read which side is driving, mark the range it leaves, and trade the break that has volume. Next: the two things that can stop you dead at the open."
+  - type: story
+    character: retail-trader
+    text: "Four minutes in you wanted it badly. Six minutes in you had the same trade with a stop you could actually place."

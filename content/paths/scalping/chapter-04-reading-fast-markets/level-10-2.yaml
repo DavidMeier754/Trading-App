@@ -4,104 +4,110 @@ chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
-tags: [levels, failed-test, decisions]
-learning_goal: "User can tell a break that holds from a failed test and knows why the failure often moves faster than the break."
-purpose: "The moment a level breaks and immediately fails is one of the few times a fast market shows its hand."
-terms_introduced: ["Failed test"]
+tags: [levels, touches, decisions]
+learning_goal: "User treats the first test of a level as the one worth trading and expects a level to be thinner on every test after it."
+purpose: "The same level is a different trade the third time price arrives at it, and the chart looks almost identical."
+terms_introduced: []
 reinforces: [2]
 prerequisite: "10-1"
-xp: 20
+xp: 25
 difficulty: 3
 path_position: fan-out:levels
-sources: ["Volman — Understanding Price Action", "Bellafiore — One Good Trade"]
-notes: "Fan-out strand B, second sub. Self-contained."
+sources: ["Volman — Understanding Price Action", "Raschke & Connors — Street Smarts"]
+notes: "Strand B, second sub. Self-contained. Chapter 2's support and resistance and its close-versus-wick verdict decide what counts as a test. Account named at $28,000."
 screens:
   - type: intro
-    text: "A level breaks. Ninety seconds later price is back inside. That is information."
+    text: "A level does not get stronger every time it holds. It gets emptier."
 
   - type: theory
-    title: "The failed test"
-    body: "A failed test is a break of a level that cannot hold: price trades through, then closes back on the old side within a candle or two. The break did not have the buying or selling behind it."
+    title: "Each test spends it"
+    body: "A level is a pile of resting orders. Every test trades against some of them and they are not replaced for free. The first arrival meets the whole pile; the fourth meets what is left of it."
 
   - type: example
-    body: "XYZ pushes two cents through yesterday's high at $41.20, spends one minute there and closes back at $41.14. Everyone who bought the break is now offside."
+    body: "Four thousand shares are bid at $21.40. The first test takes 1,500 of them, the second another 1,600. What meets the third push is 900 shares and a reputation."
+
+  - type: carousel
+    cards:
+      - {label: "First test", text: "The whole pile is there and nobody has been proved wrong yet. The tightest stop and the cleanest reaction you will get at this price.", icon: level-first}
+      - {label: "Second test", text: "Still worth taking, with less behind it. The reaction is usually smaller and slower than the first one was.", icon: level-second}
+      - {label: "Third and after", text: "Price keeps coming back because it is being allowed to. Each return is a hint that one side has run out of patience, not that the level is strong.", icon: level-third}
 
   - type: chart-decision
-    scenario: "XYZ breaks yesterday's high at $18.20 by two cents, then closes back below it on the next candle with volume fading. You have 1,500 shares ready."
-    shares: 1500
+    scenario: "Yesterday's high at $13.60 was taken twenty minutes ago. XYZ has been above its own average price since the open and has just come back to the level for the first time, finishing the minute ten cents above it on the heaviest bar of the stretch. Your account is $28,000 and you are sizing 1,700 shares."
+    shares: 1700
     chart:
       kind: candles
-      data: [[17.90, 17.98, 17.86, 17.96], [17.96, 18.06, 17.94, 18.04], [18.04, 18.14, 18.02, 18.12], [18.12, 18.22, 18.10, 18.18], [18.18, 18.22, 18.12, 18.14], [18.14, 18.16, 18.04, 18.06], [18.06, 18.08, 17.96, 17.98], [17.98, 18.02, 17.88, 17.90], [17.90, 17.94, 17.80, 17.82], [17.82, 17.86, 17.74, 17.78]]
-      volume: [68000, 72000, 84000, 91000, 42000, 76000, 81000, 74000, 69000, 62000]
+      data: [[13.72, 13.78, 13.68, 13.70], [13.70, 13.74, 13.64, 13.66], [13.66, 13.68, 13.60, 13.62], [13.62, 13.66, 13.58, 13.60], [13.60, 13.64, 13.56, 13.62], [13.62, 13.72, 13.60, 13.70], [13.70, 13.78, 13.68, 13.76], [13.76, 13.84, 13.74, 13.82], [13.82, 13.88, 13.80, 13.86], [13.86, 13.92, 13.84, 13.90], [13.90, 13.98, 13.88, 13.95]]
+      volume: [84000, 76000, 68000, 58000, 62000, 148000, 124000, 108000, 96000, 88000, 80000]
+      vwap: [13.50, 13.52, 13.53, 13.54, 13.55, 13.56, 13.58, 13.60, 13.62, 13.64, 13.66]
       levels:
-        - {price: 18.20, label: "Yesterday's high"}
-      decision_index: 5
-    best: short
-    reasonable: [no-trade]
-    outcome: "It fell to $17.78 — $0.28 per share, +$420 short on 1,500 shares from $18.06."
-    explanation: "The break had no volume behind it, so the buyers it attracted became the sellers on the way back down."
-
-  - type: theory
-    title: "Why the failure moves"
-    body: "Two groups push the same way at once: the traders who bought the break and now want out, and the traders who were waiting for it to fail. That is why a failed test often travels faster than the break did."
-
-  - type: mc
-    prompt: "Price breaks a level on the heaviest volume of the day and holds above it for five candles. What is that?"
-    options:
-      - {text: "A failed test, because price will always come back"}
-      - {text: "Noise, because levels never break"}
-      - {text: "A break that is holding — the level has changed hands", correct: true}
-    explanation: "Heavy volume and closes that hold is the opposite of a failure — this level has genuinely gone."
-
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "Price traded one cent through the level"}
-      - {text: "and is still there, so the test", wrong: true}
-      - {text: "has already failed."}
-    explanation: "While price is still beyond the level nothing has failed yet — the failure is the close back inside."
-
-  - type: chart-decision
-    scenario: "XYZ breaks the pre-market high at $17.40 on the biggest volume of the morning and the next two candles close above it. You have 1,500 shares ready."
-    shares: 1500
-    chart:
-      kind: candles
-      data: [[17.10, 17.18, 17.06, 17.16], [17.16, 17.24, 17.14, 17.22], [17.22, 17.30, 17.18, 17.28], [17.28, 17.38, 17.26, 17.36], [17.36, 17.48, 17.34, 17.46], [17.46, 17.54, 17.44, 17.52], [17.52, 17.62, 17.50, 17.60], [17.60, 17.68, 17.56, 17.66], [17.66, 17.72, 17.62, 17.70], [17.70, 17.76, 17.66, 17.72]]
-      volume: [42000, 46000, 51000, 68000, 134000, 102000, 91000, 82000, 74000, 68000]
-      levels:
-        - {price: 17.40, label: "Pre-market high"}
+        - {price: 13.6, label: "Yesterday's high"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It kept going to $17.72 — $0.20 per share, +$300 long on 1,500 shares from $17.52."
-    explanation: "Shorting a break because breaks sometimes fail is fighting the volume; this one had it."
-
-  - type: tf
-    statement: "A break on volume that holds for several closes is the same situation as a break that snaps back within a minute."
-    answer: false
-    explanation: "One has buying behind it and one does not — that is the whole difference between a break and a failed test."
-
-  - type: match
-    prompt: "Match each picture to what it is."
-    pairs:
-      - ["Two cents through, closed back inside", "Failed test"]
-      - ["Through on record volume, three closes beyond", "A break that holds"]
-      - ["Wick through, body back inside, average volume", "Not proven either way"]
-      - ["Third touch of the level in ten minutes", "A level being worn thin"]
-    explanation: "Where the candle closes and how many shares traded — that is the whole reading."
+    outcome: "It stepped away to $13.95 — $0.25 a share past the decision, +$425 long on 1,700 shares."
+    explanation: "First arrival, full pile: price dipped four cents under the level, was taken straight back, and the minute that did it was the busiest of the stretch."
 
   - type: numeric-input
-    prompt: "You short 1,500 shares at $18.06 with a stop at $18.24. What is at risk before costs?"
-    answer: 270
+    prompt: "You take 1,700 shares of that at $13.70 with the stop two cents under the low of the touch, $13.56. What is at risk?"
+    answer: 272
+    tolerance: 0.01
     unit: "$"
-    working: "($18.24 − $18.06) × 1,500 shares = $270"
-    explanation: "The stop goes just beyond the failed break, because that is the price that would prove you wrong."
+    working: "$13.70 − $13.54 = $0.16 a share; $0.16 × 1,700 shares = $272"
+    explanation: "The first test gives you the tightest stop of the day at this price, because the low it makes is the shallowest one the level will produce."
 
-  - type: fill-tiles
-    sentence: "A break that closes straight back inside the level is a ___ test."
-    answer: "failed"
-    explanation: "It went there, it could not stay, and everyone who joined it is now offside."
+  - type: chart-tap
+    prompt: "Tap the third time this level was tested."
+    chart:
+      kind: candles
+      data: [[21.20, 21.40, 21.18, 21.32], [21.32, 21.36, 21.24, 21.26], [21.26, 21.34, 21.22, 21.30], [21.30, 21.40, 21.28, 21.34], [21.34, 21.38, 21.26, 21.28], [21.28, 21.36, 21.24, 21.32], [21.32, 21.40, 21.30, 21.34], [21.34, 21.38, 21.28, 21.30], [21.30, 21.34, 21.22, 21.24]]
+      volume: [136000, 98000, 86000, 112000, 82000, 76000, 94000, 72000, 68000]
+      levels:
+        - {price: 21.4, label: "Resistance"}
+    target: 6
+    explanation: "$21.40 on the first minute, again on the fourth, and this is the third arrival. Each one reached the same price on lighter volume than the one before."
 
-  - type: theory
-    title: "The best evidence a level gives"
-    body: "A level that holds tells you something. A level that breaks and cannot hold the break tells you more, and it usually tells you faster."
+  - type: mc
+    prompt: "Why is the first test of a level usually the one worth trading?"
+    options:
+      - {text: "Because the whole pile of resting orders is still there", correct: true}
+      - {text: "Because the first test always produces the biggest move"}
+      - {text: "Because spreads are tighter the first time price arrives"}
+    explanation: "Size is what makes a level react, and the first arrival is the only one that meets all of it."
+
+  - type: swipe-deck
+    prompt: "Your rule: the first or second test of the level, with the session on the same side. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[18.40, 18.46, 18.36, 18.44], [18.44, 18.50, 18.40, 18.42], [18.42, 18.46, 18.34, 18.36], [18.36, 18.40, 18.30, 18.38], [18.38, 18.48, 18.36, 18.46], [18.46, 18.54, 18.44, 18.52], [18.52, 18.58, 18.48, 18.56], [18.56, 18.62, 18.52, 18.60]], vwap: [18.28, 18.30, 18.31, 18.32, 18.34, 18.36, 18.39, 18.42], levels: [{price: 18.3, label: "Pre-market high"}]}
+        answer: take
+        note: "First return to the level since it broke, above the session's average the whole way, and the minute at it closed back up."
+      - chart: {kind: candles, data: [[18.40, 18.46, 18.30, 18.38], [18.38, 18.48, 18.36, 18.46], [18.46, 18.50, 18.30, 18.34], [18.34, 18.44, 18.32, 18.42], [18.42, 18.46, 18.30, 18.36], [18.36, 18.44, 18.30, 18.38], [18.38, 18.42, 18.30, 18.32], [18.32, 18.40, 18.28, 18.30]], vwap: [18.44, 18.43, 18.42, 18.41, 18.40, 18.39, 18.38, 18.37], levels: [{price: 18.3, label: "Pre-market high"}]}
+        answer: pass
+        note: "Five arrivals at the same price in eight minutes, with the session under its own average throughout. That is a level being worn out."
+      - chart: {kind: candles, data: [[24.60, 24.66, 24.52, 24.54], [24.54, 24.58, 24.46, 24.48], [24.48, 24.54, 24.44, 24.52], [24.52, 24.56, 24.46, 24.48], [24.48, 24.52, 24.40, 24.42], [24.42, 24.44, 24.34, 24.36], [24.36, 24.40, 24.30, 24.32], [24.32, 24.36, 24.26, 24.28]], vwap: [24.70, 24.68, 24.66, 24.64, 24.62, 24.60, 24.58, 24.56], levels: [{price: 24.4, label: "Yesterday's low"}]}
+        answer: take
+        note: "First time through the floor, under the session's average all morning, and the minute finished clear of it."
+      - chart: {kind: candles, data: [[16.20, 16.28, 16.16, 16.26], [16.26, 16.32, 16.22, 16.24], [16.24, 16.30, 16.18, 16.28], [16.28, 16.32, 16.22, 16.24], [16.24, 16.30, 16.20, 16.28], [16.28, 16.32, 16.24, 16.26], [16.26, 16.30, 16.22, 16.28], [16.28, 16.32, 16.26, 16.30]], vwap: [16.22, 16.23, 16.24, 16.24, 16.25, 16.25, 16.26, 16.26], levels: [{price: 16.32, label: "Round number"}]}
+        answer: pass
+        note: "Four pushes into the same cent and not one minute finished through it. Arriving is not the same as testing."
+    explanation: "Two firsts and two levels that have been visited until there is nothing left behind them."
+
+  - type: tf
+    statement: "A level that has held three times is certain to break on the fourth."
+    answer: false
+    explanation: "Nothing on a chart is certain. What has changed is the balance: fewer orders behind the level, and a crowd that keeps being allowed back."
+
+  - type: fill-choice
+    sentence: "Every test of a level spends some of the orders resting ___ it."
+    options: ["behind", "above", "inside"]
+    answer: "behind"
+    explanation: "They are traded against, and nobody is obliged to put them back."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[19.80, 20.00, 19.78, 19.92], [19.92, 19.96, 19.84, 19.86], [19.86, 19.94, 19.82, 19.90], [19.90, 20.00, 19.88, 19.94], [19.94, 19.98, 19.86, 19.88], [19.88, 19.96, 19.84, 19.92], [19.92, 20.00, 19.90, 19.96], [19.96, 20.08, 19.94, 20.06]]
+      volume: [164000, 104000, 88000, 118000, 76000, 68000, 82000, 142000]
+      levels:
+        - {price: 20.0, label: "Round number"}
+    caption: "Three arrivals at $20.00 on falling volume, and the fourth one goes straight through."

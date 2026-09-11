@@ -5,109 +5,125 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [tape, order-book, execution]
-learning_goal: "User can tell size that is building in the order book from size that disappears, and knows what that does to a fill."
-purpose: "The book shows intentions, and intentions can be withdrawn — which is exactly where surprise slippage comes from."
+learning_goal: "User can tell size that is being refreshed as it trades from size that disappears before anybody reaches it."
+purpose: "Half the shares you can see on a ladder are an intention, and intentions are free to change their mind."
 terms_introduced: ["Stacking", "Pulling"]
 reinforces: [3]
 prerequisite: "9-1"
-xp: 20
+xp: 25
 difficulty: 3
 path_position: fan-out:tape
 sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
-notes: "Fan-out strand A, second sub. Self-contained."
+notes: "Strand A, second sub. Self-contained. Chapter 3's displayed size is the thing being re-tested: it showed what a ladder says, this sub shows what it is worth. Account named at $28,000."
 screens:
   - type: intro
-    text: "Half the size you see in the book will never trade."
+    text: "Half of what the ladder shows you will never trade."
 
   - type: theory
     title: "Stacking"
-    body: "When size builds at several prices on one side — bids appearing under the price, row after row — the book is stacking. Buyers are queueing up and price has something to lean on."
+    body: "Size arriving on one side of the book and being replaced as fast as it is taken. Two thousand shares are lifted, two thousand more appear. Somebody wants the whole of what is there."
 
   - type: theory
     title: "Pulling"
-    body: "Size that vanishes the moment price gets close was never going to trade. Traders call it pulling. A book can go from stacked to empty in a second."
+    body: "Size disappearing before anybody trades against it. The row that looked like a wall is gone by the time price arrives, and nothing was bought or sold to make it go."
 
   - type: visual
     component: order-book
     data:
-      bids: [[24.18, 2400], [24.17, 3100], [24.16, 5200]]
-      asks: [[24.20, 700], [24.21, 600], [24.22, 900]]
-    caption: "Size stacked on the bid, thin on the ask: it takes far less buying than selling to move this price."
+      bids: [[18.10, 4000], [18.09, 800], [18.08, 600]]
+      asks: [[18.12, 500], [18.13, 700], [18.14, 900]]
+    caption: "Four thousand shares on the bid. Whether that is a floor depends entirely on what happens to it when price gets there."
 
-  - type: hotspot
-    component: order-book
-    prompt: "Tap the row that would absorb the most selling before price moves through it."
+  - type: depth-ladder
+    prompt: "The 2,400 at $20.03 has been taken twice and refilled twice. You market-buy 1,500 shares. Where does your last share fill?"
     data:
-      bids: [[24.18, 2400], [24.17, 3100], [24.16, 5200]]
-      asks: [[24.20, 700], [24.21, 600], [24.22, 900]]
-    target: bid-3
-    explanation: "$24.16 holds 5,200 shares — more than the two rows above it together."
+      bids: [[20.00, 900], [19.99, 600], [19.98, 1400]]
+      asks: [[20.02, 300], [20.03, 2400], [20.04, 800]]
+    target: ask-2
+    explanation: "300 shares clear the first row and the remaining 1,200 sit inside the 2,400 at $20.03, so the whole rest of the order fills there."
 
   - type: mc
-    prompt: "A 20,000-share bid sits one cent under the price for ten minutes, then disappears the second price reaches it. What happened?"
+    prompt: "A 6,000-share bid two cents under price vanishes without a single trade going off at it. What have you learned?"
     options:
-      - {text: "It filled, which is why it is gone"}
-      - {text: "The exchange cancelled it for being too large"}
-      - {text: "It was pulled — the size was shown, not meant", correct: true}
-    explanation: "A bid that fills leaves prints on the tape; this one left nothing behind."
-
-  - type: tf
-    statement: "Size in the order book is a promise that those shares will trade."
-    answer: false
-    explanation: "It is an offer that can be cancelled until the moment it trades — only a print is real."
-
-  - type: theory
-    title: "What pulling does to your stop"
-    body: "If the bids you were leaning on get pulled, there is nothing under the price. Your stop still triggers, but it fills several cents lower. That is where the ugly slippage comes from."
-
-  - type: chart-decision
-    scenario: "XYZ has been grinding up with bids stacking under every candle. Now the stack thins, the tape slows to a trickle, and the last candle stalls. You have 1,500 shares ready."
-    shares: 1500
-    chart:
-      kind: candles
-      data: [[17.10, 17.18, 17.08, 17.16], [17.16, 17.26, 17.14, 17.24], [17.24, 17.34, 17.22, 17.32], [17.32, 17.42, 17.30, 17.40], [17.40, 17.48, 17.38, 17.46], [17.46, 17.50, 17.42, 17.44], [17.44, 17.46, 17.34, 17.36], [17.36, 17.40, 17.28, 17.30], [17.30, 17.34, 17.22, 17.24], [17.24, 17.28, 17.18, 17.22]]
-      volume: [62000, 74000, 81000, 76000, 68000, 31000, 44000, 52000, 56000, 49000]
-      decision_index: 5
-    best: no-trade
-    reasonable: [short]
-    outcome: "Price drifted back to $17.22. A long at $17.44 would have been 22 cents under water, $330 on 1,500 shares."
-    explanation: "Buyers stepping away and the tape going quiet is the move ending — that is the worst moment to join it."
-
-  - type: order
-    prompt: "Put those thirty seconds in order."
-    items:
-      - "Bids stack under the price"
-      - "Prints hit the ask, fast and large"
-      - "Price runs twelve cents"
-      - "The prints slow to a trickle"
-      - "You close into the last buyers"
-    explanation: "Support builds, buyers pay up, the move happens, the urgency fades, you are out."
-
-  - type: numeric-input
-    prompt: "Your stop triggers and fills three cents worse than your stop price on 1,500 shares. What did the pulled bids cost you?"
-    answer: 45
-    unit: "$"
-    working: "$0.03 per share × 1,500 shares = $45"
-    explanation: "Slippage is a real cost, and an empty book is where most of it comes from."
+      - {text: "Six thousand shares were bought there"}
+      - {text: "Nobody was ever committed to that price", correct: true}
+      - {text: "The spread is about to tighten"}
+    explanation: "It never traded, so it never had to be honoured. The only fact is that somebody no longer wants to be seen bidding."
 
   - type: spot-mistake
     prompt: "Tap the mistake."
     segments:
-      - {text: "A large bid under the price"}
-      - {text: "guarantees a floor,", wrong: true}
-      - {text: "so you can hold through the test."}
-    explanation: "Displayed size can be pulled in an instant — it is a hint, never a floor."
+      - {text: "The bid was stacked with 6,000 shares"}
+      - {text: "and most of it vanished as price arrived,"}
+      - {text: "which means those buyers were filled.", wrong: true}
+    explanation: "Filled size shows up as prints. Size that disappears without a print was withdrawn, not traded."
+
+  - type: chart-decision
+    scenario: "Yesterday's low is $15.40. XYZ has traded under its own average price all session, the bid that held the last two pushes was pulled as price came back to it, and the minute that just closed finished four cents under the level on the heaviest bar of the morning. Your account is $28,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[15.66, 15.70, 15.58, 15.60], [15.60, 15.64, 15.52, 15.54], [15.54, 15.58, 15.48, 15.56], [15.56, 15.60, 15.50, 15.52], [15.52, 15.54, 15.44, 15.46], [15.46, 15.48, 15.34, 15.36], [15.36, 15.38, 15.26, 15.28], [15.28, 15.30, 15.18, 15.20], [15.20, 15.22, 15.12, 15.14], [15.14, 15.16, 15.06, 15.08], [15.08, 15.10, 15.00, 15.03]]
+      volume: [76000, 84000, 62000, 68000, 96000, 178000, 142000, 124000, 106000, 94000, 86000]
+      vwap: [15.68, 15.66, 15.64, 15.62, 15.60, 15.58, 15.55, 15.52, 15.49, 15.46, 15.43]
+      levels:
+        - {price: 15.4, label: "Yesterday's low"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid to $15.03 — $0.33 a share under the decision, +$495 short on 1,500 shares."
+    explanation: "The level gave way on the busiest minute of the session, and the size that had been holding price up left before it was asked to do anything."
+
+  - type: numeric-mc
+    prompt: "The book under price shows 1,200 shares, then 900, then 2,000. Half of every row is pulled as price arrives. How many shares are actually there to trade against?"
+    options:
+      - {text: "4,100"}
+      - {text: "1,200"}
+      - {text: "3,100"}
+      - {text: "2,050", correct: true}
+    working: "1,200 + 900 + 2,000 = 4,100 shares shown; half of it pulled leaves 4,100 ÷ 2 = 2,050"
+    explanation: "Which is why a ladder that looks deep enough for your size is not the same as a ladder that is."
+
+  - type: tf
+    statement: "Size that keeps refilling at one price as it trades is worth more than the same size shown once."
+    answer: true
+    explanation: "Refilling costs somebody real shares every time. Showing costs nothing at all."
+
+  - type: match
+    prompt: "Four things a ladder and a tape can show you. Which is which?"
+    pairs:
+      - ["Stacking", "Size refreshed at a price as fast as it is taken"]
+      - ["Pulling", "Size withdrawn before anything trades against it"]
+      - ["A print", "A trade that has already happened"]
+      - ["Displayed size", "Shares showing at a price, and nothing more"]
+    explanation: "Two of them are intentions, one is a fact, and one is the thing that turns an intention into a fact."
+
+  - type: branch
+    scenario: "You are long 1,500 shares of XYZ from $18.16, leaning on 4,000 shares showing on the bid at $18.10. Your stop is at $18.04 and your account is $28,000."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.04, 18.12, 18.02, 18.10], [18.10, 18.20, 18.08, 18.18], [18.18, 18.22, 18.14, 18.16], [18.16, 18.24, 18.14, 18.22], [18.22, 18.24, 18.12, 18.14], [18.14, 18.16, 18.04, 18.06], [18.06, 18.08, 17.96, 17.98], [17.98, 18.02, 17.92, 17.94], [17.94, 17.98, 17.88, 17.90], [17.90, 17.94, 17.84, 17.86]]
+      volume: [104000, 118000, 82000, 76000, 92000, 156000, 138000, 118000, 102000, 94000]
+      vwap: [18.06, 18.09, 18.11, 18.13, 18.14, 18.13, 18.12, 18.10, 18.08, 18.06]
+      decision_index: 4
+    steps:
+      - prompt: "Price eases back towards $18.10 and the 4,000 shares disappear before a single trade goes off there. What now?"
+        options:
+          - {text: "Treat the floor as gone and get out at the market", correct: true, next: 1}
+          - {text: "Hold — the stop at $18.04 is only six cents further down", next: 1}
+        explanation: "The reason you were comfortable was the size. It left without being tested, so the reason left with it."
+      - prompt: "You are out at $18.08. The next two minutes print straight through $18.04 on heavy size at the bid. What does that say about the exit?"
+        options:
+          - {text: "It saved you the part of the move between the pulled bid and the stop", correct: true}
+          - {text: "It cost you, since the stop would have taken you out at $18.04 anyway"}
+        explanation: "A stop is a price you have asked for, not a price you are promised. When the size underneath leaves, the fill leaves with it."
 
   - type: fill-choice
-    sentence: "Size that disappears the moment price reaches it has been ___."
-    options: ["pulled", "filled", "stacked"]
+    sentence: "Size that disappears before anything trades against it has been ___."
+    options: ["pulled", "printed", "filled"]
     answer: "pulled"
-    explanation: "Cancelled before it could trade — no print, no shares."
+    explanation: "No print, no trade, no commitment — just a row that is no longer on the screen."
 
-  - type: visual
-    component: order-book
-    data:
-      bids: [[24.18, 2400], [24.17, 3100], [24.16, 5200]]
-      asks: [[24.20, 700], [24.21, 600], [24.22, 900]]
-    caption: "The book shows what people say they will do. The tape shows what they did. When the two disagree, believe the tape."
-
+  - type: example
+    body: "Two ladders can look identical. The one where 2,000 shares keep coming back at the same price is a floor; the one where 6,000 vanish on the way down was a picture."

@@ -1,0 +1,134 @@
+id: "11-3"
+title: "Fan-out C — The Opening Drive"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [open, spread, costs, execution]
+learning_goal: "User prices the opening gap between bid and ask against the move they are going for, and lets the quote settle before paying it."
+purpose: "The first minutes hand you the best reads of the day at the worst prices of the day."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "11-2"
+xp: 30
+difficulty: 2
+path_position: fan-out:open
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Strand C, third sub. Self-contained. Chapter 3's spread-against-the-move and marketable limit carry this sub; Chapter 2's opening minutes supply the situation. Account named at $22,000."
+screens:
+  - type: intro
+    text: "The read is free. At the open, acting on it is not."
+
+  - type: theory
+    title: "Widest when it is loudest"
+    body: "In the first minutes nobody knows what the price is yet, so the gap between the bid and the ask is at its widest. The same trade you would pay three cents for later costs twelve now."
+
+  - type: visual
+    component: quote-panel
+    data:
+      bid: 17.86
+      ask: 17.98
+      last: 17.92
+      animate_to: {bid: 18.13, ask: 18.16}
+    caption: "Twelve cents wide in the first minutes, three cents wide once the session settles. Same stock, same screen."
+
+  - type: numeric-input
+    prompt: "Bid $17.86 / ask $17.98 and you want 1,200 shares in and back out. What does the gap alone take?"
+    answer: 144
+    tolerance: 0.01
+    unit: "$"
+    working: "$17.98 − $17.86 = $0.12 a share; $0.12 × 1,200 shares = $144"
+    explanation: "Paid once across the open and the close, and paid before the read is asked to be right about anything."
+
+  - type: slider
+    prompt: "Nine cents of gap, and the move you are going for is thirty cents. How much of it goes on the gap?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 30
+    tolerance: 10
+    explanation: "$0.09 ÷ $0.30 = 30 %. The same nine cents against a ten-cent scalp would be most of the trade."
+
+  - type: mc
+    prompt: "Why is the gap between bid and ask at its widest in the first minutes?"
+    options:
+      - {text: "Because nobody yet knows what the price should be", correct: true}
+      - {text: "Because fewer shares trade then than at any other time"}
+      - {text: "Because brokers charge more at the open"}
+    explanation: "Whoever quotes both sides is guessing in the loudest part of the day, and a wide quote is how they charge for the guess."
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "You are taking 1,500 shares at the market in the first minutes. Tap the number that decides your fill."
+    data: {bid: 17.86, ask: 17.98, last: 17.92}
+    target: ask
+    explanation: "$17.98. The last trade is history and the bid is where you would be leaving, not arriving."
+
+  - type: chart-decision
+    scenario: "The opening-range high is $17.86 and the minute that just closed finished eight cents above it on a heavy bar. The quote is twelve cents wide. Your account is $22,000 and you are sizing 1,200 shares."
+    shares: 1200
+    state: ["Bid $17.86 / ask $17.98"]
+    chart:
+      kind: candles
+      data: [[17.60, 17.78, 17.58, 17.74], [17.74, 17.86, 17.70, 17.80], [17.80, 17.84, 17.68, 17.72], [17.72, 17.82, 17.70, 17.78], [17.78, 17.84, 17.76, 17.82], [17.82, 17.98, 17.80, 17.94], [17.94, 18.00, 17.88, 17.92], [17.92, 17.98, 17.86, 17.90], [17.90, 17.96, 17.84, 17.88], [17.88, 17.94, 17.82, 17.86], [17.86, 17.92, 17.80, 17.84]]
+      volume: [420000, 320000, 260000, 220000, 200000, 280000, 240000, 210000, 190000, 170000, 160000]
+      vwap: [17.66, 17.70, 17.72, 17.73, 17.76, 17.80, 17.83, 17.85, 17.86, 17.86, 17.86]
+      levels:
+        - {price: 17.86, label: "Opening-range high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It faded back to $17.84 — $0.10 a share against a long, $120 on 1,200 shares, on top of the $144 the gap alone would have taken."
+    explanation: "There is nothing wrong with the read. Twelve cents of gap against a move of this size is what is wrong, and the quote is the part you can wait out."
+
+  - type: sort
+    prompt: "Pay the gap now, or let the quote settle first?"
+    buckets: ["Pay it now", "Let it settle"]
+    items:
+      - {text: "Three cents wide, and the move you are going for is thirty", bucket: "Pay it now"}
+      - {text: "Twelve cents wide, and the move you are going for is twenty", bucket: "Let it settle"}
+      - {text: "Two cents wide on a level that has just been finished through", bucket: "Pay it now"}
+      - {text: "Nine cents wide in the first minute of a stock you have never traded", bucket: "Let it settle"}
+    explanation: "The gap is never judged on its own. It is judged against the distance you are going for, exactly as Chapter 3 priced it."
+
+  - type: tf
+    statement: "A quote that is wide at the open narrows as the session settles, so the same read costs less later."
+    answer: true
+    explanation: "The trade-off is the part of the move that goes past while you wait, which is why the box and the level matter more than the first tick."
+
+  - type: chart-decision
+    scenario: "Twenty minutes later the same stock is three cents wide. Yesterday's high at $18.10 has just been finished through on the heaviest bar of the last ten minutes, with price above its own average price. Your account is $22,000 and you are sizing 1,100 shares."
+    shares: 1100
+    state: ["Bid $18.13 / ask $18.16"]
+    chart:
+      kind: candles
+      data: [[17.90, 17.98, 17.88, 17.96], [17.96, 18.02, 17.92, 17.98], [17.98, 18.04, 17.94, 18.00], [18.00, 18.06, 17.98, 18.04], [18.04, 18.08, 18.00, 18.06], [18.06, 18.18, 18.04, 18.16], [18.16, 18.22, 18.14, 18.20], [18.20, 18.26, 18.18, 18.24], [18.24, 18.30, 18.22, 18.28], [18.28, 18.34, 18.26, 18.32], [18.32, 18.38, 18.30, 18.35]]
+      volume: [160000, 140000, 120000, 110000, 100000, 190000, 160000, 140000, 130000, 120000, 110000]
+      vwap: [17.88, 17.9, 17.92, 17.94, 17.96, 17.98, 18.01, 18.04, 18.07, 18.1, 18.13]
+      levels:
+        - {price: 18.1, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped up to $18.35 — $0.19 a share past the decision, +$209 long on 1,100 shares."
+    explanation: "Same kind of read as twenty minutes ago, and now three cents of gap instead of twelve takes $33 of it instead of $132."
+
+  - type: order-build
+    prompt: "Take it: 1,100 shares long, and you will pay up to three cents over the ask of $18.16 and no further."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [550, 1100, 2200]
+      price: [18.13, 18.16, 18.19]
+    answer: {side: buy, type: limit, qty: 1100, price: 18.19}
+    explanation: "A limit three cents through the ask fills like a market order and refuses the fill the opening quote would have given you."
+
+  - type: recap
+    title: "Level 11 in three lines"
+    points:
+      - {text: "An opening drive keeps everything it takes, and the first five minutes are still for watching.", level: "11-1"}
+      - {text: "The box breaks on a finished minute beyond the edge with weight, not on a visit.", level: "11-2"}
+      - {text: "The opening quote is at its widest, so price the gap against the move before paying it.", level: "11-3"}

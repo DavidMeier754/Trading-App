@@ -4,111 +4,108 @@ chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
-tags: [map, confluence, process]
-learning_goal: "User runs one read in a fixed order — level, VWAP, candle, tape — and can say what each part contributed to the decision."
-purpose: "In a fast market you cannot weigh four things at once; you need an order to check them in."
+tags: [map, process, confluence]
+learning_goal: "User runs one read in a fixed order — level, side of the average, candle, tape — and stops at the first step that comes back empty."
+purpose: "In a fast market nobody weighs four things at once, so the four things get an order and the order never changes."
 terms_introduced: []
 reinforces: [2, 3]
-prerequisite: "11-1"
-xp: 20
-difficulty: 3
+prerequisite: "11-3"
+xp: 25
+difficulty: 2
 path_position: merge
 sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
-notes: "Merge sub after the three fan-out strands. Assumes tape, levels and opening drive have all been completed."
+notes: "Merge sub after the three strands: assumes the tape, the levels and the open have all been done. Chapter 2 supplies the levels, Chapter 3 the stop the level pays for. Account named at $26,000."
 screens:
   - type: intro
-    text: "Four pieces of evidence, one order to read them in."
+    text: "Four readings, one order, every single time."
+
+  - type: story
+    character: retail-trader
+    text: "Before the three strands you had one thing to look at. Now you have four, the minute is still sixty seconds long, and you need them in an order."
 
   - type: theory
-    title: "One read, four inputs"
-    body: "Everything in this chapter answers a different question. Together they take about three seconds to check, and the order matters more than the speed."
+    title: "The order"
+    body: "The level, then which side of its own average the session is on, then what the last finished minute settled, then the tape. If the first one comes back empty, there is no read to finish."
 
-  - type: carousel
-    cards:
-      - {label: "The level — where?", text: "Price has to be somewhere that matters. No level, no trade, however good the candle looks.", icon: map-level}
-      - {label: "VWAP — who is in charge?", text: "Above the line the session belongs to buyers, below it to sellers. It tells you which way to lean.", icon: map-vwap}
-      - {label: "The candle — what just happened?", text: "A rejection, an engulfing candle or a momentum candle tells you who won the last minute.", icon: map-candle}
-      - {label: "The tape — is it happening now?", text: "Prints at the ask or the bid, getting faster or slowing down. The only input that is live.", icon: map-tape}
-
-  - type: example
-    body: "$44.00 round number, VWAP at $43.98, an engulfing candle up off the level, and the tape running at the ask. Four for four — and you still size it like any other trade."
-
-  - type: chart-decision
-    scenario: "XYZ holds the round number at $18.00 with VWAP just under it. The candle engulfs the previous one and the tape is running at the ask. You have 1,500 shares ready."
-    shares: 1500
-    chart:
-      kind: candles
-      data: [[18.30, 18.34, 18.16, 18.18], [18.18, 18.22, 18.06, 18.08], [18.08, 18.12, 17.98, 18.02], [18.02, 18.08, 17.99, 18.04], [18.04, 18.06, 17.98, 18.00], [18.00, 18.12, 17.98, 18.10], [18.10, 18.20, 18.08, 18.18], [18.18, 18.28, 18.14, 18.26], [18.26, 18.32, 18.22, 18.30], [18.30, 18.36, 18.26, 18.32]]
-      vwap: [18.06, 18.04, 18.02, 18.00, 17.99, 17.98, 17.99, 18.00, 18.02, 18.04]
-      volume: [61000, 58000, 64000, 49000, 42000, 106000, 84000, 76000, 68000, 61000]
-      levels:
-        - {price: 18.00, label: "Round number"}
-      decision_index: 5
-    best: long
-    reasonable: [no-trade]
-    outcome: "It ran to $18.32 — $0.22 per share, +$330 long on 1,500 shares from $18.10."
-    explanation: "Level, line, candle and tape all pointing up at one price is the best case this chapter has to offer."
-
-  - type: mc
-    prompt: "Level, candle and tape all say long. VWAP is thirty cents above price and falling. What is the honest read?"
-    options:
-      - {text: "Four of four, because three out of four is close enough"}
-      - {text: "Three of four — a smaller trade or none, and the line is the reason", correct: true}
-      - {text: "A short, because VWAP is the only input that counts"}
-    explanation: "One input disagreeing does not forbid the trade, but it is exactly what you write down when it fails."
+  - type: theory
+    title: "Slowest first, fastest last"
+    body: "Your levels were drawn before the open and will still be there in an hour. The tape is different every second. Check the things that hold still while you think, and check the fastest one last."
 
   - type: order
-    prompt: "Put the read in the order you run it."
+    prompt: "Put the four readings in the order you run them."
     items:
-      - "Is price at a level I marked?"
-      - "Which side of VWAP are we on?"
-      - "What did the last candle do?"
-      - "What is the tape doing right now?"
-      - "What is my stop and my size?"
-    explanation: "Place first, side second, evidence third, execution last — the same order every time."
+      - "Is price standing at a level?"
+      - "Which side of its own average is the session on?"
+      - "What did the last finished minute settle?"
+      - "Is size still arriving where you are going?"
+    explanation: "The first three decide whether there is a trade. The last one decides whether this second is the second to take it."
 
-  - type: tf
-    statement: "If the tape is fast and heavy, the other three checks can be skipped."
-    answer: false
-    explanation: "A fast tape with no level is exactly how traders end up buying the high of the move."
+  - type: mc
+    prompt: "Why does the level come first rather than the candle?"
+    options:
+      - {text: "Because the level gives you the entry and the stop, and without one there is nothing to size", correct: true}
+      - {text: "Because the candle is harder to read than a level"}
+      - {text: "Because levels are right more often than candles are"}
+    explanation: "A shape in open space cannot be priced. Everything after step one is about a price that step one has already found."
 
   - type: chart-decision
-    scenario: "XYZ breaks yesterday's low at $19.80 by three cents, closes back above it, and the tape at the bid goes quiet. You have 1,500 shares ready."
-    shares: 1500
+    scenario: "Yesterday's high is $19.40. Price has been above its own average price all session, the minute that just closed finished six cents through the level on the heaviest bar of the morning, and the prints behind it were 1,000s and 1,500s at the ask. Your account is $26,000 and you are sizing 1,200 shares."
+    shares: 1200
     chart:
       kind: candles
-      data: [[20.20, 20.24, 20.08, 20.10], [20.10, 20.14, 19.98, 20.00], [20.00, 20.04, 19.88, 19.90], [19.90, 19.94, 19.82, 19.86], [19.86, 19.88, 19.77, 19.84], [19.84, 19.92, 19.80, 19.90], [19.90, 20.00, 19.88, 19.98], [19.98, 20.08, 19.94, 20.06], [20.06, 20.14, 20.02, 20.12], [20.12, 20.18, 20.08, 20.14]]
-      vwap: [20.14, 20.10, 20.06, 20.02, 19.99, 19.97, 19.97, 19.98, 20.00, 20.02]
-      volume: [74000, 68000, 72000, 61000, 89000, 76000, 69000, 64000, 58000, 52000]
+      data: [[19.10, 19.18, 19.08, 19.16], [19.16, 19.24, 19.14, 19.22], [19.22, 19.28, 19.18, 19.20], [19.20, 19.28, 19.18, 19.26], [19.26, 19.32, 19.22, 19.30], [19.30, 19.48, 19.28, 19.46], [19.46, 19.54, 19.44, 19.52], [19.52, 19.60, 19.50, 19.58], [19.58, 19.64, 19.56, 19.62], [19.62, 19.70, 19.60, 19.68], [19.68, 19.74, 19.66, 19.71]]
+      volume: [86000, 94000, 68000, 74000, 66000, 172000, 146000, 124000, 108000, 96000, 88000]
+      vwap: [19.1, 19.13, 19.15, 19.17, 19.19, 19.22, 19.26, 19.3, 19.34, 19.38, 19.42]
       levels:
-        - {price: 19.80, label: "Yesterday's low"}
+        - {price: 19.4, label: "Yesterday's high"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It recovered to $20.14 — $0.24 per share, +$360 long on 1,500 shares from $19.90."
-    explanation: "A failed test at a level with the selling drying up on the tape: the sellers who broke it have nobody left to sell to."
+    outcome: "It stepped away to $19.71 — $0.25 a share past the decision, +$300 long on 1,200 shares."
+    explanation: "All four in order: a level to lean on, the session on your side, a minute that finished through it, and size still paying the ask while you were deciding."
 
   - type: numeric-input
-    prompt: "You are long 1,500 shares from $19.90 with your stop at $19.74. What is at risk before costs?"
-    answer: 240
+    prompt: "You take 1,200 shares of that at $19.46 with the stop under the low of the minute that broke the level, $19.28. What is at risk?"
+    answer: 216
+    tolerance: 0.01
     unit: "$"
-    working: "($19.90 − $19.74) × 1,500 shares = $240"
-    explanation: "The stop sits under the low of the failed break, because below there the read was simply wrong."
+    working: "$19.46 − $19.28 = $0.18 a share; $0.18 × 1,200 shares = $216"
+    explanation: "The level you found in step one is what makes that stop eighteen cents instead of a guess."
 
-  - type: match
-    prompt: "Match each input to the question it answers."
-    pairs:
-      - ["The level", "Is this price worth anything?"]
-      - ["VWAP", "Whose session is this?"]
-      - ["The candle", "Who won the last minute?"]
-      - ["The tape", "Is it still happening right now?"]
-    explanation: "Where, who, what, now — four questions, three seconds."
+  - type: tf
+    statement: "The tape is checked last because it matters least of the four."
+    answer: false
+    explanation: "It is checked last because it changes fastest. Checking it first means reading it again by the time the other three are done."
 
-  - type: checklist-reveal
-    title: "The read, in order"
-    items:
-      - "Is price at a level I marked?"
-      - "Which side of VWAP are we on?"
-      - "What did the last candle do?"
-      - "Is the tape still doing it right now?"
+  - type: fill-choice
+    sentence: "The ___ is the reading you check last, because it is different a second later."
+    options: ["tape", "level", "candle"]
+    answer: "tape"
+    explanation: "Levels keep. Prints do not."
 
+  - type: chart-decision
+    scenario: "The round number at $21.20 has just been finished through and price has been above its own average price all session. As it went through, the size resting on the bid was pulled and the prints thinned to 100s and 200s. Your account is $26,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[21.00, 21.08, 20.98, 21.06], [21.06, 21.12, 21.02, 21.10], [21.10, 21.16, 21.06, 21.08], [21.08, 21.14, 21.06, 21.12], [21.12, 21.18, 21.10, 21.16], [21.16, 21.28, 21.14, 21.26], [21.26, 21.28, 21.18, 21.20], [21.20, 21.22, 21.12, 21.14], [21.14, 21.18, 21.08, 21.10], [21.10, 21.14, 21.04, 21.06], [21.06, 21.10, 21.00, 21.03]]
+      volume: [76000, 82000, 64000, 70000, 66000, 128000, 88000, 76000, 70000, 66000, 62000]
+      vwap: [21.0, 21.02, 21.04, 21.05, 21.07, 21.09, 21.12, 21.14, 21.15, 21.16, 21.16]
+      levels:
+        - {price: 21.2, label: "Round number"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It gave the level back and finished at $21.03 — $0.23 a share against a long, $276 on 1,200 shares."
+    explanation: "Three readings came back yes and the fourth said nobody was left to buy it. The last step is the one that stops you paying for a break nobody is behind."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The prints were heavy at the ask,"}
+      - {text: "so the level and the side were checked afterwards,", wrong: true}
+      - {text: "and the entry went on."}
+    explanation: "Run backwards, the tape talks you into trades with nothing underneath them. It is the confirmation, never the reason."
+
+  - type: example
+    body: "Level, side, candle, tape. Four answers, about three seconds, and the same three seconds whether the answer is a trade or a pass."

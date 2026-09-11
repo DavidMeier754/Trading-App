@@ -4,100 +4,99 @@ chapter: 4
 chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
-tags: [tape, execution]
-learning_goal: "User can read speed and size on the tape and tell buyers paying up from sellers hitting out."
-purpose: "The chart shows you what happened a minute ago; the tape shows it happening now."
+tags: [tape, prints, execution]
+learning_goal: "User can read a run of prints for speed, size and side, and say which crowd is paying up."
+purpose: "The chart tells you what the last minute settled; the prints tell you what is being paid for right now."
 terms_introduced: ["Print"]
 reinforces: [3]
 prerequisite: "8-1"
-xp: 20
-difficulty: 3
+xp: 25
+difficulty: 2
 path_position: fan-out:tape
 sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
-notes: "Fan-out strand A. Self-contained: uses nothing from the other two strands. No time-and-sales component exists, so the tape is shown as text and the book as order-book."
+notes: "Strand A, first sub. Self-contained: uses nothing from strands B or C. Chapter 3 introduced the tape and the order book as screens; here they become a reading. No time-and-sales component exists, so runs of prints are given in prose. Account named at $26,000."
 screens:
   - type: intro
-    text: "The chart is a summary. The tape is the thing itself."
+    text: "A candle is sixty seconds summarised. The prints are the sixty seconds themselves."
 
   - type: theory
-    title: "The tape"
-    body: "You met the tape in Chapter 3: time and sales, the scrolling list of every trade in the stock. Each line is one execution, with its price, its size and its time."
+    title: "One trade, one print"
+    body: "A print is a single trade that has already happened: a price and a share count. The tape is the list of them, newest first, and it never stops while the session is open."
 
   - type: theory
-    title: "A print"
-    body: "One line on the tape is a print: shares that actually changed hands. A print at the ask means a buyer paid up. A print at the bid means a seller hit out."
+    title: "Speed, size, side"
+    body: "Three things to read. How fast the prints arrive, how many shares each one carries, and whether they are going off at the ask or at the bid."
 
   - type: example
-    body: "Six seconds of XYZ: 1,000 at the ask, 2,500 at the ask, 4,000 at the ask, all inside two cents. Buyers are lifting everything in front of them."
+    body: "1,200 at the ask. 800 at the ask. 1,500 at the ask. Three prints, one side, growing size — somebody is paying the seller's price and not slowing down about it."
 
   - type: mc
-    prompt: "Print after print comes in at the bid, each one bigger than the last. What are you looking at?"
+    prompt: "The prints are arriving four a second, almost all of them at the bid, and each one is bigger than the last. What is that?"
     options:
-      - {text: "Buyers stepping in at the bid to get filled cheaply"}
-      - {text: "Sellers hitting out and not waiting for a better price", correct: true}
-      - {text: "Market makers moving the spread wider"}
-    explanation: "Trading at the bid means accepting the buyer's price — that is selling in a hurry."
-
-  - type: tf
-    statement: "A print is a trade that has already happened and cannot be taken back."
-    answer: true
-    explanation: "Orders that can still be cancelled sit in the order book. The tape only shows what traded."
-
-  - type: theory
-    title: "Speed and size"
-    body: "Two things matter. How fast the prints arrive tells you the urgency. How big they are tells you who is behind them: a wall of tiny prints is background noise, a run of large ones is a real order being worked."
-
-  - type: hotspot
-    component: order-book
-    prompt: "The tape is running at the ask and the first ask row is nearly gone. Tap the price the next prints will happen at."
-    data:
-      bids: [[30.10, 1800], [30.09, 1200], [30.08, 2600]]
-      asks: [[30.12, 300], [30.13, 2000], [30.14, 3400]]
-    target: ask-2
-    explanation: "Once the 300 shares at $30.12 are taken, buyers in a hurry have to pay $30.13."
+      - {text: "Sellers hitting out, and getting more urgent", correct: true}
+      - {text: "Buyers paying up, and getting more urgent"}
+      - {text: "Market makers widening the spread"}
+    explanation: "The bid is what a buyer is offering. Anyone trading there is accepting it, which means they want out more than they want the extra cent."
 
   - type: sort
-    prompt: "Who is in a hurry?"
-    buckets: ["Buyers", "Sellers"]
+    prompt: "Which crowd is being aggressive in each of these?"
+    buckets: ["Buyers paying up", "Sellers hitting out"]
     items:
-      - {text: "Prints at the ask", bucket: "Buyers"}
-      - {text: "Prints at the bid", bucket: "Sellers"}
-      - {text: "Large prints as price ticks up", bucket: "Buyers"}
-      - {text: "Large prints as price ticks down", bucket: "Sellers"}
-    explanation: "Whoever crosses the spread to get filled is the one in a hurry."
+      - {text: "A 900-share print at the ask", bucket: "Buyers paying up"}
+      - {text: "A 1,500-share print at the bid", bucket: "Sellers hitting out"}
+      - {text: "Prints arriving faster, and all of them at the ask", bucket: "Buyers paying up"}
+      - {text: "Each print a cent lower than the one before it, all at the bid", bucket: "Sellers hitting out"}
+    explanation: "Whichever side of the quote the trade happens on, the aggressor is the one who crossed to get there."
 
-  - type: story
-    character: retail-trader
-    text: "XYZ is at yesterday's high. The tape has been quiet, then twenty large prints hit the ask in ten seconds."
+  - type: depth-ladder
+    prompt: "The prints are all going off at the ask. You market-buy 1,000 shares into this book. Where does your last share fill?"
+    data:
+      bids: [[20.00, 900], [19.99, 600], [19.98, 1400]]
+      asks: [[20.02, 300], [20.03, 400], [20.04, 1200]]
+    target: ask-3
+    explanation: "300 shares at $20.02 and 400 at $20.03 leave 300 to take from $20.04, so the last share fills two cents worse than the price you were looking at."
+
+  - type: numeric-input
+    prompt: "Six prints go off at the ask in a few seconds: 400, 800, 1,200, 600, 900 and 1,100 shares. How many shares did buyers pay up for?"
+    answer: 5000
+    tolerance: 0
+    unit: "shares"
+    working: "400 + 800 + 1,200 + 600 + 900 + 1,100 = 5,000 shares"
+    explanation: "Five thousand shares taken at the seller's price in a few seconds, which is the kind of number that moves a quote."
 
   - type: chart-decision
-    scenario: "That burst of prints at the ask carries price through yesterday's high at $18.50 and the candle closes above it. You have 1,500 shares ready."
-    shares: 1500
+    scenario: "The round number at $20.00 is the first line above. Price is above its own average price, the minute that just closed finished six cents through the level, and the prints behind it were 800s and 1,200s at the ask. Your account is $26,000 and you are sizing 1,200 shares."
+    shares: 1200
     chart:
       kind: candles
-      data: [[18.30, 18.36, 18.28, 18.34], [18.34, 18.40, 18.32, 18.38], [18.38, 18.44, 18.36, 18.42], [18.42, 18.46, 18.38, 18.44], [18.44, 18.50, 18.42, 18.48], [18.48, 18.60, 18.46, 18.58], [18.58, 18.68, 18.56, 18.66], [18.66, 18.74, 18.62, 18.72], [18.72, 18.78, 18.68, 18.74], [18.74, 18.80, 18.70, 18.76]]
-      volume: [32000, 36000, 34000, 38000, 46000, 150000, 98000, 84000, 66000, 58000]
+      data: [[19.76, 19.82, 19.74, 19.80], [19.80, 19.86, 19.78, 19.84], [19.84, 19.90, 19.80, 19.82], [19.82, 19.90, 19.80, 19.88], [19.88, 19.94, 19.86, 19.92], [19.92, 20.08, 19.90, 20.06], [20.06, 20.14, 20.04, 20.12], [20.12, 20.18, 20.10, 20.16], [20.16, 20.22, 20.14, 20.20], [20.20, 20.26, 20.18, 20.24], [20.24, 20.30, 20.22, 20.28]]
+      volume: [82000, 90000, 66000, 72000, 64000, 182000, 146000, 124000, 108000, 96000, 88000]
+      vwap: [19.76, 19.78, 19.80, 19.82, 19.84, 19.86, 19.89, 19.92, 19.95, 19.98, 20.01]
       levels:
-        - {price: 18.50, label: "Yesterday's high"}
+        - {price: 20.0, label: "Round number"}
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "The buying kept coming and price reached $18.76 — $0.18 per share, +$270 long on 1,500 shares from $18.58."
-    explanation: "Large prints at the ask through a level are buyers who need shares — the level broke because somebody was paying for it."
+    outcome: "It stepped up to $20.28 — $0.22 a share past the decision, +$264 long on 1,200 shares."
+    explanation: "The candle says the level went. The prints say who took it: size, at the ask, one after another."
 
-  - type: numeric-input
-    prompt: "That burst minute traded 150,000 shares. Your 1,500-share order is what share of that minute's volume?"
-    answer: 1
-    tolerance: 0.1
-    unit: "%"
-    working: "1,500 ÷ 150,000 = 0.01 = 1 %"
-    explanation: "Small enough to get in and out without being the reason price moved."
+  - type: tf
+    statement: "A print is an order waiting at a price for somebody to trade against it."
+    answer: false
+    explanation: "That is the book. A print is a trade that already happened and cannot be taken back."
+
+  - type: hotspot
+    component: order-book
+    prompt: "Buyers are lifting the asks print after print. Tap the row that will hold them up the longest."
+    data: {bids: [[20.00, 900], [19.99, 600], [19.98, 1400]], asks: [[20.02, 300], [20.03, 2400], [20.04, 400]]}
+    target: ask-2
+    explanation: "2,400 shares at $20.03 against 300 and 400 either side of it. That is the row the buying has to chew through."
 
   - type: fill-tiles
-    sentence: "The scrolling list of every trade in a stock is called the ___."
-    answer: "tape"
-    explanation: "Its formal name is time and sales; every trader calls it the tape."
+    sentence: "A single trade that has already happened is a ___."
+    answer: "print"
+    explanation: "Price and size, done, and on the tape a fraction of a second later."
 
-  - type: theory
-    title: "Prints tell you now"
-    body: "Speed, size and which side of the spread. That is the whole reading. Next: the orders that have not traded yet."
+  - type: story
+    character: market-maker
+    text: "The size going off at my ask is not slowing down. I can keep offering at this price, or I can move up and let them come to me."

@@ -1,0 +1,113 @@
+id: "9-3"
+title: "Fan-out A — Tape Reading"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [tape, stops, slippage, position-size]
+learning_goal: "User sizes a position against the size actually resting under it, and expects a stop to fill into whatever is left rather than at the price they asked for."
+purpose: "A stop is a request. What it costs you is decided by whoever is still there when it triggers."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "9-2"
+xp: 30
+difficulty: 3
+path_position: fan-out:tape
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "Strand A, third sub. Self-contained. Chapter 3's stop-market, stop-limit and slippage are the whole spine here; the tape supplies the reason they behave the way they do. Account named at $28,000."
+screens:
+  - type: intro
+    text: "You do not choose the price your stop gets. You choose the crowd it lands in."
+
+  - type: story
+    character: retail-trader
+    text: "The stop was at $18.04, which is where you decided to be wrong. The fill came back at $17.97, which is where the market decided it for you."
+
+  - type: theory
+    title: "A stop lands in what is left"
+    body: "A stop-market turns into a market order the instant it triggers, and takes whatever size is resting underneath. If the rows below were pulled on the way down, your order is the one that finds out."
+
+  - type: example
+    body: "1,500 shares stopped at $18.04 and filled at $17.97. Seven cents of it was not in the plan, and on 1,500 shares that is $105 of loss nobody chose."
+
+  - type: numeric-input
+    prompt: "Your stop was $18.04, the fill came back at $17.97, and the position was 1,500 shares. What did the difference cost?"
+    answer: 105
+    tolerance: 0.01
+    unit: "$"
+    working: "$18.04 − $17.97 = $0.07 a share; $0.07 × 1,500 shares = $105"
+    explanation: "Seven cents that never appeared in the plan, on a stop that was supposed to settle the question at $18.04."
+
+  - type: slider
+    prompt: "You planned to lose fourteen cents a share on that trade and the fill made it twenty-one. How much bigger is the loss than the one you sized for?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 50
+    tolerance: 10
+    explanation: "$0.07 on top of $0.14 is half as much again, which is what a thin ladder does to a stop that was perfectly sensible on the chart."
+
+  - type: mc
+    prompt: "The rows under your stop are being pulled as price falls. Which order leaves you exposed to the worse fill?"
+    options:
+      - {text: "The stop-limit, because it may sit unfilled"}
+      - {text: "The stop-market, because it takes whatever is there", correct: true}
+      - {text: "Neither, since both are triggered at the same price"}
+    explanation: "They trigger together and then part company: one accepts any price, the other accepts a price and risks staying in the trade."
+
+  - type: order-build
+    prompt: "Place the stop for a 1,500-share long: you are out at $18.04, and you will take whatever the market gives you there."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [500, 1000, 1500]
+      price: [17.98, 18.04, 18.10]
+    answer: {side: sell, type: stop, qty: 1500, price: 18.04}
+    explanation: "Selling closes the long, and a stop at $18.04 is the price that triggers it rather than the price it is promised."
+
+  - type: fill-choice
+    sentence: "A stop-market becomes a ___ order the moment it is triggered."
+    options: ["market", "limit", "stop"]
+    answer: "market"
+    explanation: "Which is why the size resting underneath decides what it costs you."
+
+  - type: chart-decision
+    scenario: "The round number at $16.30 has just been finished through and price is above its own average price. The bars underneath are all near 12,000 shares. Your account is $28,000 and you are sizing 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[16.10, 16.16, 16.06, 16.14], [16.14, 16.20, 16.10, 16.18], [16.18, 16.22, 16.14, 16.16], [16.16, 16.22, 16.12, 16.20], [16.20, 16.24, 16.16, 16.22], [16.22, 16.34, 16.20, 16.32], [16.32, 16.36, 16.26, 16.28], [16.28, 16.32, 16.22, 16.24], [16.24, 16.28, 16.18, 16.20], [16.20, 16.24, 16.14, 16.16], [16.16, 16.20, 16.10, 16.13]]
+      volume: [11000, 13000, 9000, 12000, 10000, 18000, 14000, 11000, 9000, 12000, 10000]
+      vwap: [16.10, 16.12, 16.13, 16.14, 16.16, 16.18, 16.20, 16.21, 16.21, 16.20, 16.19]
+      levels:
+        - {price: 16.3, label: "Round number"}
+      decision_index: 5
+    best: no-trade
+    reasonable: []
+    outcome: "It gave the level back and finished at $16.13 — $0.19 a share against a long, $285 on 1,500 shares, into bars of 12,000."
+    explanation: "The read is fine and the size is not. Your 1,500 shares are an eighth of everything this stock trades in a minute, so the stop lands wherever the ladder happens to be."
+
+  - type: sort
+    prompt: "Will the stop most likely fill near where you asked, or somewhere worse?"
+    buckets: ["Near the price you asked", "Worse than you asked"]
+    items:
+      - {text: "800 shares out of a stock printing 200,000 a minute", bucket: "Near the price you asked"}
+      - {text: "1,500 shares out of a stock printing 12,000 a minute", bucket: "Worse than you asked"}
+      - {text: "A stop under a level where the bids keep refilling", bucket: "Near the price you asked"}
+      - {text: "A stop under a level where the bids left before price arrived", bucket: "Worse than you asked"}
+    explanation: "Two of these have somebody underneath them, and the other two are an order arriving at an empty row."
+
+  - type: tf
+    statement: "A stop-limit protects you from the worse fill, and can leave you in the trade instead."
+    answer: true
+    explanation: "It is a trade, not a fix: the price you refuse to accept is also the price you may not get."
+
+  - type: recap
+    title: "Level 9 in three lines"
+    points:
+      - {text: "Prints are trades that happened: read their speed, their size and which side of the quote they hit.", level: "9-1"}
+      - {text: "Size refreshed as it trades is a floor; size withdrawn before it trades was a picture.", level: "9-2"}
+      - {text: "A stop fills into what is left, so size to the ladder and not only to the risk budget.", level: "9-3"}

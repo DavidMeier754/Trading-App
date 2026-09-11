@@ -1,0 +1,120 @@
+id: "12-3"
+title: "The Scalper's Map"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [map, process, decisions, plan]
+learning_goal: "User treats two readings pointing opposite ways as a reason to stand aside, and can run all four in the time one minute gives them."
+purpose: "Most of the reads you will ever see are three quarters of a trade, and the quarter that is missing is the whole decision."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "12-2"
+xp: 30
+difficulty: 3
+path_position: merge
+sources: ["Bellafiore — One Good Trade", "Carter — Mastering the Trade"]
+notes: "Merge sub three, and the chapter's plan-card. Chapter 2's support and Chapter 3's cost of being in and out are both inside the disagreement cases. Account named at $26,000."
+screens:
+  - type: intro
+    text: "Three readings say yes. The fourth says no. That is the whole lesson."
+
+  - type: story
+    character: retail-trader
+    text: "The level is exactly where you wanted it and the session has been leaning the other way since the first trade. You can feel yourself deciding to ignore one of them."
+
+  - type: theory
+    title: "Disagreement is an answer"
+    body: "Two readings pointing opposite ways do not average into a smaller trade. They are the chart telling you that the people on each side of this price have not finished arguing."
+
+  - type: chart-decision
+    scenario: "Yesterday's low at $16.80 has just held for the first time and the minute that closed finished twelve cents above it. Price has not traded above its own average price all session, and the prints are still going off at the bid. Your account is $26,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[17.10, 17.14, 17.00, 17.02], [17.02, 17.06, 16.92, 16.94], [16.94, 16.98, 16.84, 16.86], [16.86, 16.90, 16.78, 16.82], [16.82, 16.86, 16.76, 16.84], [16.84, 16.94, 16.82, 16.92], [16.92, 16.96, 16.84, 16.86], [16.86, 16.90, 16.78, 16.80], [16.80, 16.84, 16.72, 16.74], [16.74, 16.78, 16.66, 16.68], [16.68, 16.72, 16.60, 16.63]]
+      volume: [96000, 104000, 112000, 88000, 74000, 118000, 86000, 92000, 104000, 96000, 88000]
+      vwap: [17.2, 17.16, 17.12, 17.08, 17.05, 17.03, 17.0, 16.97, 16.94, 16.9, 16.86]
+      levels:
+        - {price: 16.8, label: "Yesterday's low"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It rolled back through the level and finished at $16.63 — $0.29 a share against a long, $406 on 1,400 shares."
+    explanation: "A level that held and a minute that closed well, against a session that has never once been above its own average and a tape still paying the bid. Two against two is a pass."
+
+  - type: mc
+    prompt: "The level and the candle say long; the session's lean and the tape say the sellers are in front. What is the read?"
+    options:
+      - {text: "Long with half the size, since two of four agree"}
+      - {text: "Short, because the tape is the most recent information"}
+      - {text: "There is no read here", correct: true}
+    explanation: "Halving the size of a trade you cannot justify buys you a smaller version of the same mistake, and the tape on its own is a reason to act, never a reason to be right."
+
+  - type: branch
+    scenario: "You are long 1,500 shares of XYZ from $14.86, taken two minutes after the $14.80 level went. Your stop is at $14.70 and your account is $26,000."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[14.60, 14.68, 14.58, 14.66], [14.66, 14.74, 14.64, 14.72], [14.72, 14.90, 14.70, 14.88], [14.88, 14.92, 14.82, 14.84], [14.84, 14.86, 14.76, 14.78], [14.78, 14.84, 14.74, 14.82], [14.82, 14.96, 14.80, 14.94], [14.94, 15.02, 14.92, 15.00], [15.00, 15.08, 14.98, 15.06], [15.06, 15.12, 15.02, 15.10]]
+      volume: [72000, 84000, 158000, 96000, 124000, 88000, 186000, 148000, 126000, 108000]
+      vwap: [14.66, 14.68, 14.72, 14.74, 14.75, 14.76, 14.79, 14.83, 14.87, 14.91]
+      decision_index: 4
+    steps:
+      - prompt: "The minute finishes two cents back under the level, on a heavier bar than the one that broke it. What now?"
+        options:
+          - {text: "The reading that put you in has gone, so get out", correct: true, next: 1}
+          - {text: "Hold, the stop at $14.70 is only eight cents further down", next: 1}
+        explanation: "You paid for a level that had gone, and it has come back. The stop is what catches you being wrong quickly, not the plan for being wrong slowly."
+      - prompt: "You are out at $14.78. Two minutes later a minute finishes twelve cents above the level on the heaviest bar of the morning, with size paying the ask. What now?"
+        options:
+          - {text: "Run the four readings again and take it if they answer", correct: true}
+          - {text: "Leave it alone, since this level has already cost you once"}
+        explanation: "The chart has no idea you were in it. Four readings, three seconds, and the last trade is not one of the four."
+
+  - type: numeric-input
+    prompt: "That was 1,500 shares in at $14.86 and out at $14.78. What did the round turn cost before fees?"
+    answer: 120
+    tolerance: 0.01
+    unit: "$"
+    working: "$14.86 − $14.78 = $0.08 a share; $0.08 × 1,500 shares = $120"
+    explanation: "Eight cents for being wrong about a level, which is roughly what a read costs when you close it the minute it stops being true."
+
+  - type: tf
+    statement: "Two readings pointing opposite ways average out into a smaller version of the same trade."
+    answer: false
+    explanation: "They are not weights on a scale. One of them is going to be wrong, and smaller size does not make it the right one."
+
+  - type: swipe-deck
+    prompt: "Three seconds a chart. All four readings answered, or not? Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[13.20, 13.28, 13.18, 13.26], [13.26, 13.34, 13.24, 13.32], [13.32, 13.38, 13.28, 13.30], [13.30, 13.38, 13.28, 13.36], [13.36, 13.42, 13.34, 13.40], [13.40, 13.56, 13.38, 13.54], [13.54, 13.62, 13.52, 13.60], [13.60, 13.68, 13.58, 13.66]], volume: [72000, 80000, 58000, 64000, 60000, 168000, 142000, 124000], vwap: [13.20, 13.23, 13.25, 13.27, 13.29, 13.32, 13.36, 13.40], levels: [{price: 13.46, label: "Yesterday's high"}]}
+        answer: take
+        note: "Level, session, finished minute, and a bar near three times the five before it. Four out of four."
+      - chart: {kind: candles, data: [[22.40, 22.48, 22.38, 22.46], [22.46, 22.54, 22.44, 22.52], [22.52, 22.58, 22.48, 22.50], [22.50, 22.58, 22.48, 22.56], [22.56, 22.62, 22.54, 22.60], [22.60, 22.76, 22.58, 22.74], [22.74, 22.78, 22.68, 22.70], [22.70, 22.74, 22.64, 22.66]], volume: [64000, 72000, 58000, 62000, 56000, 38000, 64000, 60000], vwap: [22.40, 22.43, 22.45, 22.47, 22.49, 22.52, 22.55, 22.57], levels: [{price: 22.66, label: "Yesterday's high"}]}
+        answer: pass
+        note: "Everything in place except the bar, which is the lightest of the eight. Nobody paid for that break."
+      - chart: {kind: candles, data: [[19.60, 19.64, 19.50, 19.52], [19.52, 19.56, 19.42, 19.44], [19.44, 19.50, 19.40, 19.48], [19.48, 19.52, 19.42, 19.44], [19.44, 19.48, 19.34, 19.36], [19.36, 19.38, 19.24, 19.26], [19.26, 19.30, 19.16, 19.18], [19.18, 19.22, 19.08, 19.10]], volume: [86000, 92000, 74000, 80000, 96000, 174000, 146000, 128000], vwap: [19.66, 19.64, 19.62, 19.60, 19.58, 19.55, 19.52, 19.48], levels: [{price: 19.30, label: "Pre-market low"}]}
+        answer: take
+        note: "Under its own average all the way, a minute finishing four cents through the floor, and the busiest bar of the eight underneath it."
+      - chart: {kind: candles, data: [[16.40, 16.48, 16.38, 16.46], [16.46, 16.52, 16.42, 16.44], [16.44, 16.50, 16.40, 16.48], [16.48, 16.54, 16.44, 16.50], [16.50, 16.56, 16.46, 16.52], [16.52, 16.58, 16.48, 16.54], [16.54, 16.60, 16.50, 16.56], [16.56, 16.62, 16.52, 16.58]], volume: [68000, 72000, 64000, 70000, 66000, 74000, 68000, 72000], vwap: [16.42, 16.43, 16.44, 16.45, 16.46, 16.47, 16.48, 16.50], levels: [{price: 17.00, label: "Round number"}]}
+        answer: pass
+        note: "The session is on the right side and forty-two cents from the only line on the chart. One reading out of four."
+    explanation: "Two of the four answer all the way through. The others break down at the bar or at the level, which is where most charts break down."
+
+  - type: plan-card
+    title: "Your read, written down"
+    intro: "This is the read you will run on every chart for the rest of the path. Write it as you will use it."
+    fields:
+      - {key: read_order, label: "The order you run the four readings in", kind: text, suggest: "Level, side, candle, tape"}
+      - {key: minimum_agreeing, label: "How many must agree before you act", kind: number, suggest: 3}
+      - {key: never_without, label: "The reading you will never trade without", kind: text, suggest: "A level"}
+    note: "You can change these later, and Chapter 7 will ask you for them again."
+
+  - type: checklist-reveal
+    title: "Three seconds, four answers"
+    items:
+      - "Am I standing at a level, or between two of them?"
+      - "Which side of its own average has this session been on?"
+      - "Did the last finished minute settle anything?"
+      - "Is anybody still paying where I am going?"

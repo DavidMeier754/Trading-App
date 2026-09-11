@@ -1,0 +1,109 @@
+id: "7-2"
+title: "Confluence"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [confluence, filter, candles, volume]
+learning_goal: "User runs four questions over every read — the line, the side of the average, the candle, the weight — and counts the yeses before deciding."
+purpose: "Counting is faster than arguing, and in a fast market you only have time to count."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "7-1"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Volman — Understanding Price Action"]
+notes: "Chapter 2's broken level turning into a ceiling and its volume row are two of the four questions; Chapter 3's stop distance closes the sub. Account named at $26,000."
+screens:
+  - type: intro
+    text: "Four questions, asked in the same order, every time."
+
+  - type: theory
+    title: "Count, do not weigh"
+    body: "Is a line standing here? Which side of its own average is the session on? What did the last minute settle? Did the bar under it carry weight? Count the yeses."
+
+  - type: carousel
+    cards:
+      - {label: "The line", text: "A price the market has already argued about, drawn before the session or left behind by it. Without one, there is nothing for the minute to be about.", icon: level-line}
+      - {label: "The side", text: "Above its own average the session has been leaning one way all morning, below it the other. This is the question that stops you trading against the day.", icon: vwap-side}
+      - {label: "The candle", text: "What the last finished minute settled: held, refused, erased, or nothing at all.", icon: candle-momentum}
+      - {label: "The bar", text: "Whether anybody paid for what the candle says. A shape on a thin bar is a price that drifted.", icon: volume-bar}
+
+  - type: chart-decision
+    scenario: "Yesterday's low at $14.72 has been overhead since the open. XYZ pushed six cents through it and finished eight cents back underneath, on the heaviest bar of the morning. Your account is $26,000 and you are sizing 1,600 shares."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[14.70, 14.74, 14.60, 14.62], [14.62, 14.66, 14.52, 14.54], [14.54, 14.60, 14.50, 14.58], [14.58, 14.64, 14.54, 14.62], [14.62, 14.68, 14.58, 14.66], [14.66, 14.78, 14.62, 14.64], [14.64, 14.66, 14.54, 14.56], [14.56, 14.58, 14.46, 14.48], [14.48, 14.50, 14.38, 14.40], [14.40, 14.42, 14.32, 14.34], [14.34, 14.36, 14.26, 14.29]]
+      volume: [82000, 88000, 64000, 58000, 72000, 186000, 142000, 124000, 106000, 94000, 86000]
+      vwap: [14.72, 14.70, 14.69, 14.69, 14.70, 14.70, 14.69, 14.68, 14.66, 14.64, 14.62]
+      levels:
+        - {price: 14.72, label: "Yesterday's low"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It gave way to $14.29 — $0.35 a share under the decision, +$560 short on 1,600 shares."
+    explanation: "All four come back yes: the last full session's floor is the ceiling now, the session has not finished a minute above its own average, the push was refused inside the minute, and the bar was the biggest of the day."
+
+  - type: numeric-input
+    prompt: "You short 1,600 shares of that at $14.64 with the stop two cents above the refused high of $14.78. What is at risk?"
+    answer: 256
+    tolerance: 0.01
+    unit: "$"
+    working: "$14.80 − $14.64 = $0.16 a share; $0.16 × 1,600 shares = $256"
+    explanation: "The candle that answered the third question also hands you the price at which the answer was wrong."
+
+  - type: match
+    prompt: "Each of the four questions buys you something different. Which is which?"
+    pairs:
+      - ["The line", "A price the market has already argued about"]
+      - ["The side", "Which way the session has leaned all morning"]
+      - ["The candle", "What the last sixty seconds settled"]
+      - ["The bar", "Whether anybody actually paid for it"]
+    explanation: "Four different kinds of evidence, which is exactly why counting them is worth anything."
+
+  - type: chart-decision
+    scenario: "The pre-market low at $19.16 was overhead all session until the minute that just closed. The minute that just closed covers the whole body of the one before it and finished four cents above the level, on the thinnest bar of the morning. Your account is $26,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[19.14, 19.16, 19.04, 19.06], [19.06, 19.10, 18.98, 19.00], [19.00, 19.06, 18.96, 19.04], [19.04, 19.08, 18.98, 19.00], [19.00, 19.04, 18.94, 18.96], [18.94, 19.22, 18.92, 19.20], [19.20, 19.22, 19.10, 19.12], [19.12, 19.14, 19.02, 19.04], [19.04, 19.06, 18.94, 18.96], [18.96, 18.98, 18.86, 18.88], [18.88, 18.90, 18.80, 18.83]]
+      volume: [72000, 68000, 64000, 58000, 54000, 32000, 60000, 66000, 72000, 78000, 84000]
+      vwap: [19.30, 19.28, 19.27, 19.26, 19.25, 19.24, 19.24, 19.23, 19.22, 19.20, 19.18]
+      levels:
+        - {price: 19.16, label: "Pre-market low"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It handed the level straight back and was $18.83 five minutes later — $0.37 a share against a long, $481 on 1,300 shares."
+    explanation: "A line and a candle, and then two noes: price is still under the session's average, and the minute that undid the last one is the quietest bar of the day."
+
+  - type: mc
+    prompt: "Three of the four come back yes and the fourth is the bar, which is ordinary. What is the read worth?"
+    options:
+      - {text: "Enough to take, with the weakest answer known before you go in", correct: true}
+      - {text: "Nothing — four yeses or nothing at all"}
+      - {text: "More than four yeses, because the crowd has not noticed yet"}
+    explanation: "Counting is not a gate at four. It tells you how much of the read is standing up, and which part you are choosing to live without."
+
+  - type: tf
+    statement: "A read with one yes and three noes is still a trade if the one yes is a strong level."
+    answer: false
+    explanation: "One reading is where the coin flip starts, and Chapter 3 priced what a coin flip costs by the time you are in and out."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The level and the candle both came back yes"}
+      - {text: "and the session's average price agrees,"}
+      - {text: "so the thin bar underneath does not matter.", wrong: true}
+    explanation: "It is the fourth answer, not a rounding error. Three yeses and a thin bar is a read you take smaller, knowing which leg is missing."
+
+  - type: fill-choice
+    sentence: "The fourth question asks whether the bar under the candle carried ___."
+    options: ["weight", "colour", "a wick"]
+    answer: "weight"
+    explanation: "Shape without weight is drift, and drift gives the level back."
+
+  - type: example
+    body: "Four questions, about three seconds. The count is what you carry into the trade, and it is also the first thing you write down afterwards when it does not work."
