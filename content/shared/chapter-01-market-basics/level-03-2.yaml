@@ -1,0 +1,97 @@
+id: "3-2"
+title: "What You're Actually Buying"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [stocks, ownership, exchange]
+learning_goal: "User can say who receives the money when shares are bought, and why the company is paid only once for a share."
+purpose: "Beginners assume they are funding the company. Knowing they are buying from a stranger changes how they think about every trade they make."
+terms_introduced: []
+reinforces: []
+prerequisite: "3-1"
+xp: 20
+difficulty: 1
+sources: [consensus]
+screens:
+  - type: intro
+    text: "You pay. Somebody gets the money. It is almost never the company."
+
+  - type: theory
+    title: "The company sells once"
+    body: "A company cuts itself into shares and sells some of them to raise money for what it wants to build. That is the one time the company is paid for those shares."
+
+  - type: visual
+    component: ownership-pie
+    data: {total: 1000, owned: 250}
+    caption: "A company with 1,000 shares sold 250 of them to raise cash. The other 750 stayed where they were."
+
+  - type: theory
+    title: "After that they just change hands"
+    body: "Once sold, a share belongs to whoever holds it. When you buy, you buy from another holder, and every cent you pay goes to that person."
+
+  - type: mc
+    prompt: "You buy 100 shares of XYZ this morning. Who ends up with your money?"
+    options:
+      - {text: "Another holder of XYZ, who sold them to you", correct: true}
+      - {text: "XYZ itself, which uses it to run the business"}
+      - {text: "Nobody — it is held aside until you sell again"}
+    explanation: "The company was paid for those shares when they were first sold, possibly years ago."
+
+  - type: tf
+    statement: "Two people can trade XYZ shares all day without the company being involved at all."
+    answer: true
+    explanation: "The shares move between holders. The company is not a party to any of it."
+
+  - type: example
+    body: "A company raised money by selling shares eight years ago and has not sold one since. Its stock still trades every day — the same shares, moving between people."
+
+  - type: match
+    prompt: "Who gets paid, and where does it happen?"
+    pairs:
+      - ["The first sale of a share", "The company is paid"]
+      - ["Every sale after that", "The previous holder is paid"]
+      - ["Exchange", "Where the two sides are matched"]
+      - ["Ticker", "The code you type to find it"]
+    explanation: "Paid once at the start, and after that it is holder to holder."
+
+  - type: numeric-input
+    prompt: "A company has 2,500 shares in total and you hold 75 of them. What percentage of the company is yours?"
+    answer: 3
+    tolerance: 0.01
+    unit: "%"
+    working: "75 ÷ 2,500 = 0.03 = 3 %"
+    explanation: "Your shares divided by every share the company has."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the company's full name."
+    data: {ticker: HALO, name: Halo Robotics, price: 34.80, change: 0.62, change_pct: 1.8}
+    target: name
+    explanation: "Halo Robotics is the company; HALO is the code that stands for it."
+
+  - type: mc
+    prompt: "XYZ's price doubles over a year. What happens to the money the company raised when it first sold those shares?"
+    options:
+      - {text: "It doubles as well"}
+      - {text: "The company has to repay it at the higher price"}
+      - {text: "It was raised and spent years ago", correct: true}
+    explanation: "A rising price makes the holders' stakes worth more. It sends the company nothing."
+
+  - type: sort
+    prompt: "Where does the money end up in each of these?"
+    buckets: ["To the company", "To another holder"]
+    items:
+      - {text: "A company issuing brand-new shares to raise cash", bucket: "To the company"}
+      - {text: "You buying 100 shares this morning", bucket: "To another holder"}
+      - {text: "A pension fund selling 50,000 shares to a bank", bucket: "To another holder"}
+      - {text: "The very first sale of a newly created share", bucket: "To the company"}
+    explanation: "Only a brand-new share puts money into the business."
+
+  - type: fill-tiles
+    sentence: "When you buy shares on an exchange, your money goes to the ___."
+    answer: "seller"
+    explanation: "Somebody had to be giving those shares up for you to get them."
+
+  - type: example
+    body: "So: a fraction of a real business, bought from a stranger, found by a four-letter code. Next comes the card that tells you what it costs today."

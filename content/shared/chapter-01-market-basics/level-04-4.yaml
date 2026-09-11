@@ -1,0 +1,108 @@
+id: "4-4"
+title: "The Quote Card"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: repetition
+tags: [drill, decisions, quote, profit-loss]
+learning_goal: "User reads a chart and a card and reaches a buy-or-wait answer without being walked through it."
+purpose: "Recognition is built by repetition, not by another explanation."
+terms_introduced: []
+reinforces: []
+prerequisite: "4-3"
+xp: 25
+difficulty: 2
+sources: [consensus]
+notes: "Drill sub for this block: nine decisions and almost no prose. Account named at $6,000; the largest position worked here is 200 × $28.50 = $5,700."
+screens:
+  - type: intro
+    text: "Nine decisions. No explanations until after you have made them."
+
+  - type: swipe-deck
+    prompt: "Six charts. Buy it, or pass?"
+    cards:
+      - chart: {kind: line, data: [13.40, 13.46, 13.50, 13.56, 13.62, 13.68, 13.74, 13.82]}
+        answer: take
+        note: "Small steps, all of them upward, right up to the edge of the chart."
+      - chart: {kind: line, data: [25.20, 24.90, 24.50, 24.10, 23.80, 23.50, 23.20, 23.00]}
+        answer: pass
+        note: "Down the whole way and still going. Nothing here has turned yet."
+      - chart: {kind: line, data: [11.00, 11.02, 10.99, 11.01, 11.00, 11.02, 11.01, 10.99]}
+        answer: pass
+        note: "Three cents of range across the whole stretch. There is nothing to be paid for."
+      - chart: {kind: line, data: [22.60, 22.40, 22.30, 22.42, 22.56, 22.68, 22.80, 22.90]}
+        answer: take
+        note: "It fell, turned at $22.30, and has climbed for five steps since."
+      - chart: {kind: line, data: [16.00, 16.06, 16.80, 16.70, 16.58, 16.46, 16.36, 16.28]}
+        answer: pass
+        note: "One jump, then five steps giving it back. The move happened without you."
+      - chart: {kind: line, data: [8.20, 8.22, 8.21, 8.26, 8.30, 8.34, 8.38, 8.43]}
+        answer: take
+        note: "Two cents at a time is still a direction. Twenty-three cents across the stretch."
+    explanation: "Three takes and three passes, and in every case the deciding thing was which way it was going at the right-hand edge."
+
+  - type: chart-decision
+    scenario: "XYZ trades at $14.20 after six minutes of stepping up. You have a $6,000 account and are looking at 300 shares. Buy, or wait?"
+    shares: 300
+    chart: {kind: line, data: [13.80, 13.86, 13.84, 13.96, 14.08, 14.20, 14.32, 14.40, 14.50, 14.58], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It reached $14.58 — 38 cents a share, +$114 on 300 shares."
+    explanation: "A direction that is already on the chart, and a position the account can pay for twice over."
+
+  - type: chart-decision
+    scenario: "NOVA trades at $28.50 and has not moved more than six cents either way in twelve minutes. You are looking at 200 shares. Buy, or wait?"
+    shares: 200
+    chart: {kind: line, data: [28.46, 28.50, 28.44, 28.48, 28.52, 28.50, 28.46, 28.52, 28.48, 28.50], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    reasonable: [buy]
+    outcome: "It finished at $28.50, exactly where you would have bought. Nothing gained, nothing lost on 200 shares."
+    explanation: "Buying here is not a disaster. It is just a position that cannot pay you, because nothing is moving."
+
+  - type: numeric-mc
+    prompt: "You hold 350 shares and the price moves 16 cents your way. What is that worth?"
+    options:
+      - {text: "$5.60"}
+      - {text: "$560"}
+      - {text: "$16"}
+      - {text: "$56", correct: true}
+    working: "$0.16 × 350 shares = $56"
+    explanation: "Move times shares, every time."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the number that compares this stock with where it finished yesterday."
+    data: {ticker: ORCA, name: Orca Shipping, price: 41.15, change: 1.25, change_pct: 3.1, volume: "2.8M"}
+    target: change
+    explanation: "+$1.25 (+3.1 %) measures today against yesterday's close of $39.90."
+
+  - type: chart-decision
+    scenario: "BRIX has fallen from $12.90 to $11.60 in seven minutes and the last step was the biggest of them. You are looking at 400 shares. Buy, or wait?"
+    shares: 400
+    chart: {kind: line, data: [12.90, 12.70, 12.44, 12.20, 11.94, 11.60, 11.42, 11.28, 11.18, 11.12], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    outcome: "It carried on to $11.12 — 48 cents a share lower, which would have cost −$192 on 400 shares."
+    explanation: "Cheaper than it was is not the same as finished falling, and 400 shares makes every cent of that count four times."
+
+  - type: compare
+    prompt: "One of these finished the stretch below where it started. Which one?"
+    charts:
+      - {kind: line, data: [30.00, 30.50, 30.90, 30.60, 30.35, 30.20, 30.05, 29.90], label: "A"}
+      - {kind: line, data: [30.00, 29.60, 29.75, 30.10, 30.35, 30.20, 30.40, 30.55], label: "B"}
+    answer: "A"
+    explanation: "A spent the stretch handing back its early jump and finished 10 cents down. B started badly and finished 55 cents up."
+
+  - type: tf
+    statement: "A stock can finish a stretch higher than it started and still be falling at the moment you look at it."
+    answer: true
+    explanation: "Where it has got to and which way it is going right now are two separate readings, and a decision uses the second one."
+
+  - type: recap
+    title: "Level 4 in three lines"
+    points:
+      - {text: "Price, change and volume are the whole card, and it reads in two seconds.", level: "4-1"}
+      - {text: "Dollars say what a move paid; percent says how big a day it was.", level: "4-2"}
+      - {text: "Volume is that stock's own normal, compared with today.", level: "4-3"}

@@ -1,0 +1,113 @@
+id: "1-4"
+title: "Your First Trade"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: repetition
+tags: [drill, decisions, profit-loss, position-size]
+learning_goal: "User runs buy-or-wait decisions and result arithmetic back to back without being told which is which."
+purpose: "Recognising a chart and pricing a position have to be one motion, not two lessons."
+terms_introduced: []
+reinforces: []
+prerequisite: "1-3"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Chapter 1's first drill sub: nine questions, almost no theory. Account named at $5,000; the largest position worked here is 200 × $13.10 = $2,620."
+screens:
+  - type: intro
+    text: "No new ideas. Just charts, decisions and arithmetic."
+
+  - type: story
+    character: retail-trader
+    text: "You sit down with a $5,000 account and six charts in front of you. Nobody tells you which ones matter."
+
+  - type: chart-annotate
+    prompt: "You bought 100 shares at $9.80. Drag the line to the price at which this position would be $40 ahead."
+    chart:
+      kind: line
+      data: [9.62, 9.70, 9.66, 9.74, 9.80, 9.88, 9.96, 10.06, 10.14, 10.22]
+    answer: 10.20
+    tolerance: 0.04
+    label: "$40 ahead"
+    explanation: "$40 divided across 100 shares is 40 cents a share, so the line goes at $10.20."
+
+  - type: chart-decision
+    scenario: "XYZ has stepped up for five minutes and trades at $13.10. You are looking at 200 shares. Buy, or wait?"
+    shares: 200
+    chart: {kind: line, data: [12.70, 12.76, 12.72, 12.84, 12.96, 13.10, 13.22, 13.30, 13.42, 13.50], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It reached $13.50 — 40 cents a share, +$80 on 200 shares."
+    explanation: "Steady steps in one direction, and a position small enough that the account barely notices it."
+
+  - type: numeric-mc
+    prompt: "A different position: you hold 150 shares and the price slides from $22.40 to $22.10. Your result?"
+    options:
+      - {text: "−$30"}
+      - {text: "−$4.50"}
+      - {text: "−$45", correct: true}
+      - {text: "−$450"}
+    working: "$22.40 − $22.10 = $0.30 a share; $0.30 × 150 shares = $45"
+    explanation: "Thirty cents is small. On 150 shares it is $45."
+
+  - type: compare
+    prompt: "You bought 100 shares at the left edge of both of these. Which position is ahead right now?"
+    charts:
+      - {kind: line, data: [15.00, 15.10, 14.90, 14.70, 14.80, 14.60, 14.50, 14.40], label: "A"}
+      - {kind: line, data: [15.00, 14.80, 14.90, 15.05, 15.20, 15.10, 15.30, 15.40], label: "B"}
+    answer: "B"
+    explanation: "B dipped first and finished 40 cents above where you bought. A never recovered and sits 60 cents below."
+
+  - type: swipe-deck
+    prompt: "Five charts. Buy it, or pass?"
+    cards:
+      - chart: {kind: line, data: [7.20, 7.24, 7.28, 7.34, 7.40, 7.46, 7.50, 7.56]}
+        answer: take
+        note: "Small steps, all of them up, right to the edge of the chart."
+      - chart: {kind: line, data: [28.00, 28.02, 27.99, 28.01, 28.00, 28.02, 28.01, 27.99]}
+        answer: pass
+        note: "Three cents of range. There is nothing here to be paid for."
+      - chart: {kind: line, data: [24.60, 24.40, 24.10, 23.80, 23.60, 23.40, 23.20, 23.05]}
+        answer: pass
+        note: "Down the whole way and still going. Buying is a guess about where it stops."
+      - chart: {kind: line, data: [18.40, 18.22, 18.10, 18.18, 18.30, 18.42, 18.54, 18.62]}
+        answer: take
+        note: "It fell, turned, and has climbed for five steps since. The direction now is up."
+      - chart: {kind: line, data: [9.00, 9.04, 9.60, 9.52, 9.40, 9.30, 9.22, 9.16]}
+        answer: pass
+        note: "One jump and then five steps giving it back. The move already happened without you."
+    explanation: "Two takes out of five, and both of them were climbing at the moment you had to decide."
+
+  - type: tf
+    statement: "A position that is $200 ahead has already put $200 into your cash."
+    answer: false
+    explanation: "Not until you sell. Until then it is a number on the screen that can still change."
+
+  - type: spot-mistake
+    prompt: "Tap the part that does not work."
+    segments:
+      - {text: "XYZ has climbed steadily for ten minutes,"}
+      - {text: "so you buy 500 shares at $14.00"}
+      - {text: "with the $5,000 you have.", wrong: true}
+    explanation: "500 × $14.00 is $7,000. The chart was fine; the cash does not stretch that far."
+
+  - type: fill-tiles
+    sentence: "Your total result is the move multiplied by the number of ___."
+    answer: "shares"
+    explanation: "Two numbers, and you choose the second one."
+
+  - type: numeric-input
+    prompt: "You hold 400 shares and the price moves 12 cents your way. What is the position worth to you?"
+    answer: 48
+    unit: "$"
+    working: "$0.12 × 400 shares = $48"
+    explanation: "Twelve cents on 400 shares is $48 — the same twelve cents on 40 shares is $4.80."
+
+  - type: recap
+    title: "Level 1 in three lines"
+    points:
+      - {text: "Buying opens a position, selling closes it, and only a closed trade has a result.", level: "1-1"}
+      - {text: "Most charts are a wait, and waiting is a real answer.", level: "1-2"}
+      - {text: "Result = move × shares, and your cash caps the shares.", level: "1-3"}

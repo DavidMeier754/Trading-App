@@ -43,7 +43,7 @@ the levels the v3 plan adds are not written yet. Chapters 5 (Finding the Trade) 
 
 | Chapter | Levels | Subs | v3 target |
 |---|---|---|---|
-| 1 Market Basics (shared) | 16 | 19 | 17 / 47 |
+| 1 Market Basics (shared) | 17 | 29 | 17 / 47 |
 | Scalping 2 Charts 101 | 16 | 17 | 18 / 49 |
 | Scalping 3 Orders, Costs & Position Size | 16 | 17 | 19 / 50 |
 | Scalping 4 Reading Fast Markets | 18 | 48 | 18 / 48 |

@@ -1,0 +1,106 @@
+id: "2-3"
+title: "Why Prices Move"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [news, supply-demand, price]
+learning_goal: "User explains a news-driven move as a change in what people are willing to pay, and knows a move can happen with no news at all."
+purpose: "Headlines are the thing beginners chase, and understanding what a headline actually does is what stops the chasing."
+terms_introduced: []
+reinforces: []
+prerequisite: "2-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Closes Level 2. News is framed as a trigger for the imbalance from 2-1, never as a forecast. Keeps clear of expectations, which Level 15 owns."
+screens:
+  - type: intro
+    text: "A headline has never moved a price by itself."
+
+  - type: theory
+    title: "News works through people"
+    body: "A headline changes what people are willing to pay or accept. Then they buy and sell, and that is what moves the price. No trading, no move."
+
+  - type: carousel
+    cards:
+      - {label: "News about one company", text: "Results, a new product, a recall. It changes what XYZ is worth to the people holding it.", icon: news}
+      - {label: "News about everything", text: "An interest-rate decision moves most stocks at once, whichever company you happen to own.", icon: market-wide}
+      - {label: "No news at all", text: "Someone large simply decides to buy this morning. There is no headline, and the balance tips anyway.", icon: institution}
+
+  - type: mc
+    prompt: "XYZ's main factory burns down overnight. Why does the price fall in the morning rather than at the moment of the fire?"
+    options:
+      - {text: "Prices are set once a day and cannot change overnight"}
+      - {text: "A price only moves when people are able to buy and sell", correct: true}
+      - {text: "Bad news is always acted on before it happens"}
+    explanation: "The news waited for the people. Nothing traded, so nothing moved."
+
+  - type: story
+    character: retail-trader
+    text: "A rumour goes round that XYZ is about to be bought by a bigger company. Nothing is confirmed, and the price is already somewhere else."
+
+  - type: chart-decision
+    scenario: "XYZ jumped from $18.02 to $19.40 the moment the rumour broke and has traded between $19.36 and $19.44 since. It sits at $19.42. Buy 100 shares, or wait?"
+    shares: 100
+    chart: {kind: line, data: [18.00, 18.04, 18.02, 19.40, 19.36, 19.42, 19.38, 19.44, 19.36, 19.34], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    reasonable: [buy]
+    outcome: "It drifted to $19.34 — eight cents below where you would have bought, −$8 on 100 shares."
+    explanation: "Everyone who wanted in on the rumour got in during that one step. What is left is a flat chart at a higher price."
+
+  - type: tf
+    statement: "A price can move hard on news that later turns out to be wrong."
+    answer: true
+    explanation: "People trade on what they believe at the time, and the price follows the belief, not the truth."
+
+  - type: branch
+    scenario: "XYZ trades at $24.00 when a headline says the company has lost its biggest customer. You hold nothing and have 100 shares in mind."
+    shares: 100
+    chart:
+      kind: line
+      data: [24.00, 23.90, 23.40, 23.00, 22.80, 22.70, 22.86, 23.00, 23.10, 23.16]
+      decision_index: 4
+    steps:
+      - prompt: "The price is dropping fast and is now $22.80, about 5 % below where it started. What do you do?"
+        options:
+          - {text: "Watch, and see where the selling stops", correct: true, next: 1}
+          - {text: "Buy — it is 5 % cheaper than it was an hour ago", next: 1}
+        explanation: "Cheaper than an hour ago is not the same thing as cheap. While far more people want out than in, the price keeps going."
+      - prompt: "The fall stops at $22.70 and the price has stepped up three times since. What changed?"
+        options:
+          - {text: "The rush to get out ran out of people", correct: true}
+          - {text: "The headline must have been withdrawn"}
+        explanation: "Nothing about the news changed. The people who wanted out simply finished, and the other side set the price again."
+
+  - type: sort
+    prompt: "Which of these actually moves a price?"
+    buckets: ["Moves the price", "Moves nothing by itself"]
+    items:
+      - {text: "A headline that makes owners want out", bucket: "Moves the price"}
+      - {text: "A headline nobody acts on", bucket: "Moves nothing by itself"}
+      - {text: "Somebody large quietly buying", bucket: "Moves the price"}
+      - {text: "An announcement everybody already acted on last week", bucket: "Moves nothing by itself"}
+    explanation: "News reaches the price only through people trading on it."
+
+  - type: mc
+    prompt: "Two companies get news of the same kind on the same morning. One stock jumps 8 %, the other 1 %. What separates them?"
+    options:
+      - {text: "How much the news changed what people would pay", correct: true}
+      - {text: "The number of shares each company has issued"}
+      - {text: "The 8 % company is the better business"}
+    explanation: "The size of a move is the size of the change in what people will pay — not the size of the headline."
+
+  - type: fill-choice
+    sentence: "News moves a price only when it changes what people are willing to ___."
+    options: ["pay", "read", "publish"]
+    answer: "pay"
+    explanation: "Willingness to pay is the only channel a headline has."
+
+  - type: example
+    body: "XYZ is up 4 % today and there is no news anywhere. A pension fund simply wanted 200,000 shares this morning. Plenty of moves have no story at all."
+
+  - type: story
+    character: mascot
+    text: "You now have the engine and the trigger. Next: what XYZ actually is."

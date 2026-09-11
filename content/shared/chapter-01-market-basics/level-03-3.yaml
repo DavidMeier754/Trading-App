@@ -1,0 +1,113 @@
+id: "3-3"
+title: "What You're Actually Buying"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: repetition
+tags: [ownership, practice, profit-loss]
+learning_goal: "User moves between ownership arithmetic and trade arithmetic without losing track of which is which."
+purpose: "The fraction you own and the money you make are two different sums, and mixing them up is how beginners misjudge a position."
+terms_introduced: []
+reinforces: []
+prerequisite: "3-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $5,000; the one worked position is 150 × $26.40 = $3,960."
+screens:
+  - type: intro
+    text: "Two kinds of arithmetic, mixed together on purpose."
+
+  - type: story
+    character: mascot
+    text: "One set of numbers tells you what slice of a business you hold. The other tells you what the day did to your cash."
+
+  - type: numeric-mc
+    prompt: "A company has 800 shares in issue and you hold 40 of them. What fraction of it is yours?"
+    options:
+      - {text: "20 %"}
+      - {text: "2 %"}
+      - {text: "0.5 %"}
+      - {text: "5 %", correct: true}
+    working: "40 ÷ 800 = 0.05 = 5 %"
+    explanation: "Your shares over every share there is."
+
+  - type: slider
+    prompt: "You hold 18 shares of a company that has 600 in issue. Set the slider to the percentage you own."
+    min: 0
+    max: 10
+    step: 1
+    unit: "%"
+    answer: 3
+    tolerance: 1
+    explanation: "18 ÷ 600 = 0.03, so 3 % of the company is yours."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the code you would type to pull up this stock."
+    data: {ticker: VANE, name: Vane Aerospace, price: 27.40, change: -0.35, change_pct: -1.3}
+    target: ticker
+    explanation: "VANE is the code; Vane Aerospace is the business behind it."
+
+  - type: tf
+    statement: "Holding 200 of a company's 4,000 shares makes you a 20 % owner of it."
+    answer: false
+    explanation: "200 ÷ 4,000 = 5 %. Moving the decimal point is the commonest slip here."
+
+  - type: chart-decision
+    scenario: "NOVA has stepped lower for six minutes straight and trades at $26.40. You have a $5,000 account and are looking at 150 shares. Buy, or wait?"
+    shares: 150
+    chart: {kind: line, data: [27.60, 27.40, 27.20, 26.90, 26.70, 26.40, 26.20, 26.05, 25.90, 25.80], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    outcome: "It went on to $25.80 — 60 cents a share further down, which would have been −$90 on 150 shares."
+    explanation: "Owning a piece of a good business is not a reason to buy it while it is still falling."
+
+  - type: match
+    prompt: "Two words about ownership, two about your trade."
+    pairs:
+      - ["Shareholder", "Anyone holding shares in a company"]
+      - ["Exchange", "Where the two sides of a trade are matched"]
+      - ["Position", "The shares you are holding right now"]
+      - ["Loss", "Closing below what you paid"]
+    explanation: "The first two describe the business; the last two describe you."
+
+  - type: compare
+    prompt: "Which of these two finished further from where it started?"
+    charts:
+      - {kind: line, data: [20.00, 20.10, 20.30, 20.20, 20.40, 20.50, 20.60, 20.70], label: "A"}
+      - {kind: line, data: [20.00, 19.60, 19.80, 20.40, 20.90, 20.60, 20.50, 20.45], label: "B"}
+    answer: "A"
+    explanation: "A finished 70 cents up and B 45 cents up, even though B covered far more ground getting there."
+
+  - type: spot-mistake
+    prompt: "Tap the part that does not follow."
+    segments:
+      - {text: "You hold 50 of a company's 5,000 shares,"}
+      - {text: "so 1 % of the business is yours"}
+      - {text: "and the company owes you 1 % of its cash today.", wrong: true}
+    explanation: "Owning part of a business is a claim on the whole of it, not a bill you can present this afternoon."
+
+  - type: numeric-input
+    prompt: "You bought 150 shares at $26.40 and sold them at $26.75. What did the trade make?"
+    answer: 52.5
+    tolerance: 0.01
+    unit: "$"
+    working: "$26.75 − $26.40 = $0.35 a share; $0.35 × 150 shares = $52.50"
+    explanation: "The fraction of the company you held has nothing to do with this sum."
+
+  - type: order
+    prompt: "Drag these into the sequence they happen for one share."
+    items:
+      - "A company cuts itself into shares"
+      - "It sells part of them once, and is paid"
+      - "Those shares change hands between holders"
+      - "You buy some from a holder today"
+    explanation: "The company is paid at step two and never again for those shares."
+
+  - type: recap
+    title: "Level 3 in three lines"
+    points:
+      - {text: "A share is a fraction of a real business, found by its code and traded on an exchange.", level: "3-1"}
+      - {text: "The company is paid once; after that your money goes to whoever sold to you.", level: "3-2"}
+      - {text: "The slice you own and the money the trade made are two separate sums.", level: "3-3"}

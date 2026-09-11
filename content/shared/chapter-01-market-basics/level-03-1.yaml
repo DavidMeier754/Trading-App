@@ -8,7 +8,7 @@ tags: [stocks, ownership]
 learning_goal: "User can explain a share as a fraction of a company, read a ticker, and knows where stocks trade."
 purpose: "Knowing that a stock is a piece of a real business — with a code and a marketplace — keeps trading from feeling like a lottery."
 terms_introduced: ["Shareholder", "Ticker", "Exchange"]
-prerequisite: "2-2"
+prerequisite: "2-3"
 xp: 20
 difficulty: 1
 sources: [consensus]
@@ -49,7 +49,7 @@ screens:
 
   - type: theory
     title: "The exchange"
-    body: "Stocks trade on an exchange, like {{market.exchange_examples}} — a marketplace that matches buyers and sellers. You never deal with it directly; that's what a broker is for (Level 7)."
+    body: "Stocks trade on an exchange, like {{market.exchange_examples}} — a marketplace that matches buyers and sellers. You never deal with it directly; that's what a broker is for (Level 12)."
 
   - type: mc
     prompt: "You own 50 shares of a company that has 5,000 shares. Which is true?"

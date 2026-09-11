@@ -8,7 +8,7 @@ tags: [quote, volume]
 learning_goal: "User can read a quote card: price, change versus previous close in dollars and percent, and volume."
 purpose: "Every stock you'll ever look at starts as this card — reading it instantly is the first real skill."
 terms_introduced: ["Quote", "Previous close", "Daily change", "Volume"]
-prerequisite: "3-1"
+prerequisite: "3-3"
 xp: 20
 difficulty: 1
 sources: [consensus]
@@ -60,7 +60,7 @@ screens:
 
   - type: theory
     title: "Volume: how busy is it?"
-    body: "3.2 M means 3.2 million shares traded today. A stock with 5,000 shares traded is quiet, and each trade matters more there. Keep that in mind for Level 4."
+    body: "3.2 M means 3.2 million shares traded today. A stock with 5,000 shares traded is quiet, and each trade matters more there. Levels 7 and 8 are built on it."
 
   - type: mc
     prompt: "Two stocks are both up 2 %. Stock A traded 4 million shares today, Stock B 6,000. Which move was backed by more people?"

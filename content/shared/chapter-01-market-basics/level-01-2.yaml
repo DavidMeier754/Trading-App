@@ -1,0 +1,104 @@
+id: "1-2"
+title: "Your First Trade"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [decisions, price, chart]
+learning_goal: "User decides to buy or to wait from a line chart, and treats waiting as a full answer rather than a failure."
+purpose: "Most charts you look at are not trades — learning that on day one saves you from the habit of trading everything."
+terms_introduced: []
+reinforces: []
+prerequisite: "1-1"
+xp: 20
+difficulty: 1
+sources: [consensus]
+notes: "First real rep block. Three decisions, a four-card deck and a side-by-side, all on line charts so nothing new has to be read."
+screens:
+  - type: intro
+    text: "Three charts. Only one of them is a trade."
+
+  - type: theory
+    title: "Buy, or wait"
+    body: "Every chart gives you two answers, not one. Buying is a decision. Waiting is also a decision, and it is the one you will use most."
+
+  - type: chart-decision
+    scenario: "XYZ has ticked higher for six minutes straight, each step a little above the last. It trades at $11.62. Buy 100 shares, or wait?"
+    shares: 100
+    chart: {kind: line, data: [11.40, 11.44, 11.42, 11.50, 11.56, 11.62, 11.70, 11.76, 11.84, 11.90], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It carried on to $11.90 — 28 cents a share, +$28 on 100 shares."
+    explanation: "A move that is already under way in one direction is the clearest reason a beginner has to buy."
+
+  - type: chart-decision
+    scenario: "XYZ has dropped from $16.20 to $14.90 in five minutes and the last step down was the biggest yet. Buy 100 shares, or wait?"
+    shares: 100
+    chart: {kind: line, data: [16.20, 16.00, 15.70, 15.40, 15.10, 14.90, 14.70, 14.55, 14.45, 14.40], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    outcome: "It slid on to $14.40 — 50 cents a share lower, which would have been −$50 on 100 shares."
+    explanation: "Catching something that is still falling is guessing where it stops. Waiting costs nothing."
+
+  - type: tf
+    statement: "A chart you decided to wait on counts as a wasted lesson."
+    answer: false
+    explanation: "Deciding not to buy is the answer most charts deserve, and you get it right or wrong exactly like any other decision."
+
+  - type: chart-decision
+    scenario: "XYZ has spent ten minutes between $7.98 and $8.02 with no step bigger than three cents. Buy 100 shares, or wait?"
+    shares: 100
+    chart: {kind: line, data: [8.00, 7.98, 8.01, 8.00, 7.99, 8.01, 8.00, 8.02, 7.99, 8.01, 8.00], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    reasonable: [buy]
+    outcome: "It finished the stretch at $8.00, a cent below where you would have bought — −$1 on 100 shares."
+    explanation: "Nothing is moving, so there is nothing to be paid for. Buying here is not a disaster, it is just pointless."
+
+  - type: theory
+    title: "What you are looking for"
+    body: "A direction that is already on the chart. Not a hunch about what happens next — a move you can point at, that has been going the same way for a while."
+
+  - type: swipe-deck
+    prompt: "Four charts, same question each time. Would you buy it, or pass?"
+    cards:
+      - chart: {kind: line, data: [12.10, 12.14, 12.18, 12.24, 12.30, 12.36, 12.40, 12.46]}
+        answer: take
+        note: "Up in small steps the whole way across. That is a direction you can point at."
+      - chart: {kind: line, data: [19.80, 19.60, 19.45, 19.20, 19.00, 18.85, 18.70, 18.60]}
+        answer: pass
+        note: "Still going down, and still going down fast. Buying here is hoping."
+      - chart: {kind: line, data: [6.50, 6.48, 6.51, 6.50, 6.49, 6.51, 6.50, 6.49]}
+        answer: pass
+        note: "Three cents of range across the whole chart. Nothing to catch."
+      - chart: {kind: line, data: [14.00, 13.86, 13.80, 13.88, 13.96, 14.04, 14.12, 14.20]}
+        answer: take
+        note: "It dipped, turned, and has climbed for five steps since. The direction now is up."
+    explanation: "Two of the four were going somewhere. The other two were falling or asleep."
+
+  - type: mc
+    prompt: "You have watched XYZ for twenty minutes and it has done nothing at all. What is the right move?"
+    options:
+      - {text: "Leave it alone", correct: true}
+      - {text: "Buy a small amount so the time is not wasted"}
+      - {text: "Buy, because a quiet stretch is always followed by a big one"}
+    explanation: "Time spent watching is never the reason to put money on something."
+
+  - type: compare
+    prompt: "One of these climbed step by step. The other jumped once and then sat still. Which one climbed?"
+    charts:
+      - {kind: line, data: [10.00, 10.02, 10.60, 10.58, 10.61, 10.59, 10.60, 10.62], label: "A"}
+      - {kind: line, data: [10.00, 10.06, 10.12, 10.20, 10.26, 10.34, 10.42, 10.50], label: "B"}
+    answer: "B"
+    explanation: "A did all of its work in one step and has gone nowhere since. B is still moving."
+
+  - type: fill-choice
+    sentence: "A chart with almost no movement gives you ___ to buy."
+    options: ["no reason", "the best reason", "half a reason"]
+    answer: "no reason"
+    explanation: "You are paid by the move. No move, no payment."
+
+  - type: story
+    character: mascot
+    text: "Three buys out of seven charts. That ratio will feel wrong for a while, and then it will feel normal."

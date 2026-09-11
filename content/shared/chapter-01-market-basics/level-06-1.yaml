@@ -8,7 +8,7 @@ tags: [participants, market-maker]
 learning_goal: "User can name retail traders, institutions and market makers, and knows the market maker earns the gap between its two prices."
 purpose: "Big, sudden moves usually come from big players — knowing who is out there explains why prices sometimes jump for no visible reason."
 terms_introduced: ["Retail trader", "Institution", "Market maker", "Spread"]
-prerequisite: "4-1"
+prerequisite: "5-1"
 xp: 20
 difficulty: 1
 sources: [consensus]

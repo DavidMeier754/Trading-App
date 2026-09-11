@@ -1,0 +1,106 @@
+id: "4-2"
+title: "The Quote Card"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [quote, percent, price]
+learning_goal: "User converts between a change in dollars and a change in percent, and uses percent to compare two stocks at different prices."
+purpose: "Dollars tell you what a move paid you; percent tells you whether the move was unusual. Beginners who only read one of them mis-rank every stock they look at."
+terms_introduced: []
+reinforces: []
+prerequisite: "4-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+screens:
+  - type: intro
+    text: "The same move, written two ways, meaning two different things."
+
+  - type: theory
+    title: "Dollars or percent"
+    body: "A $2.00 move on a $20 stock is 10 % of it. The same $2.00 on a $200 stock is 1 %. Identical dollars, completely different days."
+
+  - type: example
+    body: "ORCA closed yesterday at $39.90 and trades at $42.00. That is $2.10 higher, and $2.10 out of $39.90 is 5.3 %."
+    visual: quote-card
+    visual_data: {ticker: ORCA, name: Orca Shipping, price: 42.00, change: 2.10, change_pct: 5.3, prev_close: 39.90}
+
+  - type: numeric-input
+    prompt: "KOA closed yesterday at $80.00 and trades at $82.40 now. What is today's change in percent?"
+    answer: 3
+    tolerance: 0.01
+    unit: "%"
+    working: "$82.40 − $80.00 = $2.40; $2.40 ÷ $80.00 = 0.03 = 3 %"
+    explanation: "Dollar change divided by the price it started from."
+
+  - type: numeric-mc
+    prompt: "BRIX is up 2.5 % today and closed yesterday at $60.00. How many dollars is that?"
+    options:
+      - {text: "$2.50"}
+      - {text: "$15.00"}
+      - {text: "$0.15"}
+      - {text: "$1.50", correct: true}
+    working: "2.5 % of $60.00 = 0.025 × 60.00 = $1.50"
+    explanation: "Percent back into dollars: multiply by the previous close."
+
+  - type: chart-annotate
+    prompt: "XYZ closed yesterday at $24.60 and its card reads +$0.90 right now. Drag the line to the price it is trading at."
+    chart:
+      kind: line
+      data: [24.60, 24.72, 24.66, 24.88, 25.06, 25.20, 25.34, 25.42, 25.48, 25.50]
+    answer: 25.50
+    tolerance: 0.04
+    label: "Price now"
+    explanation: "$24.60 plus $0.90 is $25.50, which is where the line on the chart has ended up."
+
+  - type: theory
+    title: "Red is not a verdict"
+    body: "A stock is red because more people wanted out than in today. Yesterday's close is a line drawn by the clock, not a judgement on the business behind it."
+
+  - type: mc
+    prompt: "XYZ reads −$2.40 (−1.5 %). NOVA reads −$0.72 (−4.0 %). Which one had the rougher day?"
+    options:
+      - {text: "NOVA, because it gave up far more of its value", correct: true}
+      - {text: "XYZ, because it lost more dollars per share"}
+      - {text: "The same — they are both down"}
+    explanation: "Percent measures the move against the price it started from, which is the only fair way to compare two different stocks."
+
+  - type: tf
+    statement: "Yesterday's closing price is picked by the clock, not by the company."
+    answer: true
+    explanation: "It is simply the last price that traded before the close. It is a reference point, and nothing more."
+
+  - type: visual
+    component: bar-chart
+    data: {bars: [{label: "$1.00 on a $12 stock", value: 8.3}, {label: "$1.00 on a $150 stock", value: 0.7}], unit: "%"}
+    caption: "One dollar, two prices, two very different percentages."
+
+  - type: numeric-mc
+    prompt: "A card reads $18.40, −$0.90 (−4.7 %). What did this stock close at yesterday?"
+    options:
+      - {text: "$17.50"}
+      - {text: "$18.40"}
+      - {text: "$19.30", correct: true}
+    working: "$18.40 + $0.90 = $19.30"
+    explanation: "Today's price plus what it has lost gets you back to yesterday's close."
+
+  - type: sort
+    prompt: "Which of these questions does each number answer?"
+    buckets: ["The dollar change", "The percent change"]
+    items:
+      - {text: "What is this position worth to me?", bucket: "The dollar change"}
+      - {text: "Is this a big day for this stock?", bucket: "The percent change"}
+      - {text: "How much did one share gain?", bucket: "The dollar change"}
+      - {text: "Did it move more than the stock next to it?", bucket: "The percent change"}
+    explanation: "Dollars pay you. Percent tells you how unusual the day was."
+
+  - type: fill-choice
+    sentence: "To compare a move in a $15 stock with a move in a $150 stock, read the change in ___."
+    options: ["percent", "dollars", "shares"]
+    answer: "percent"
+    explanation: "Dollars are not comparable between two stocks at different prices."
+
+  - type: story
+    character: mascot
+    text: "Two numbers, two jobs. One tells you about the stock, the other tells you about your cash."

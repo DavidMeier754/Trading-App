@@ -1,0 +1,114 @@
+id: "1-3"
+title: "Your First Trade"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [position-size, profit-loss, price]
+learning_goal: "User computes a result from the price move and the share count, and knows that the cash they hold limits how many shares they can buy."
+purpose: "Two traders can take the same move and end up with results ten times apart — the difference is the share count, and it is the part you control."
+terms_introduced: []
+reinforces: []
+prerequisite: "1-2"
+xp: 20
+difficulty: 1
+sources: [consensus]
+notes: "Account named at $5,000. Every worked position here costs less than that: 250 × $16.00 = $4,000, 200 × $12.00 = $2,400, 500 × $9.40 = $4,700."
+screens:
+  - type: intro
+    text: "Same move, three traders, three very different days."
+
+  - type: theory
+    title: "Two numbers, one result"
+    body: "How far the price moved, and how many shares you held. Multiply them and you have your result. Neither number means much on its own."
+
+  - type: example
+    body: "XYZ moves 25 cents. On 100 shares that is $25; on 300 it is $75; on 600 it is $150. The chart looked identical to all three of them."
+    visual: bar-chart
+    visual_data: {bars: [{label: "100 shares", value: 25}, {label: "300 shares", value: 75}, {label: "600 shares", value: 150}], unit: "$"}
+
+  - type: numeric-input
+    prompt: "You hold 300 shares and the price rises 25 cents. What is that worth in total?"
+    answer: 75
+    unit: "$"
+    working: "$0.25 × 300 shares = $75"
+    explanation: "Per-share move times the share count."
+
+  - type: numeric-mc
+    prompt: "You hold 80 shares. The price falls 15 cents. What is your result?"
+    options:
+      - {text: "−$120"}
+      - {text: "−$12", correct: true}
+      - {text: "−$1.20"}
+      - {text: "−$15"}
+    working: "$0.15 × 80 shares = $12, and it went the wrong way"
+    explanation: "A small share count keeps a loss small; it keeps the gains small too."
+
+  - type: theory
+    title: "Your cash sets the ceiling"
+    body: "You cannot hold more shares than your money pays for. With $5,000 and a price of $25.00 you can buy 200 shares, and that is the end of the discussion."
+
+  - type: slider
+    prompt: "You have $5,000 and you buy 250 shares at $16.00. How much of your cash is now in that position?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 80
+    tolerance: 10
+    explanation: "250 × $16.00 = $4,000, which is 80 % of $5,000. Almost everything you have is in one stock."
+
+  - type: branch
+    scenario: "You buy 200 shares of XYZ at $11.70 out of your $5,000. It is now $12.00 and still stepping up."
+    shares: 200
+    chart:
+      kind: line
+      data: [11.62, 11.66, 11.70, 11.78, 11.90, 12.00, 12.02, 11.96, 11.82, 11.74]
+      decision_index: 5
+    steps:
+      - prompt: "You are 30 cents a share ahead, $60 in total. What now?"
+        options:
+          - {text: "Hold — nothing about the direction has changed", correct: true, next: 1}
+          - {text: "Close it; $60 is $60", next: 1}
+        explanation: "The size of a gain is not a reason to end a position. A change of direction is."
+      - prompt: "It stalls, then slips back to $11.74 and you close there. What did the trade make?"
+        options:
+          - {text: "+$8, four cents a share on 200 shares", correct: true}
+          - {text: "−$52, because it gave back 26 cents from the high"}
+        explanation: "Your result is measured from $11.70, where you bought. The high it touched on the way is not a price you ever had."
+
+  - type: chart-decision
+    scenario: "XYZ has stepped up for five minutes and trades at $9.40. You have a $5,000 account and are looking at 500 shares. Buy, or wait?"
+    shares: 500
+    chart: {kind: line, data: [9.10, 9.14, 9.12, 9.20, 9.30, 9.40, 9.52, 9.60, 9.68, 9.74], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It reached $9.74 — 34 cents a share, +$170 on 500 shares."
+    explanation: "An ordinary climb. The share count is what makes it $170 rather than the $34 the same climb pays on 100 shares."
+
+  - type: numeric-input
+    prompt: "You hold 500 shares and the price moves 6 cents against you. How many dollars is that?"
+    answer: 30
+    unit: "$"
+    working: "$0.06 × 500 shares = $30"
+    explanation: "Six cents sounds like nothing until you multiply it by the size you are holding."
+
+  - type: tf
+    statement: "Doubling your share count doubles what you make per share."
+    answer: false
+    explanation: "Per share is set by the price move alone. The share count changes the total, never the per-share number."
+
+  - type: sort
+    prompt: "Which of these describes one share, and which describes the whole position?"
+    buckets: ["Per share", "Whole position"]
+    items:
+      - {text: "The price moved 25 cents", bucket: "Per share"}
+      - {text: "You made $75 on 300 shares", bucket: "Whole position"}
+      - {text: "The gap between your buy price and your sell price", bucket: "Per share"}
+      - {text: "The number that reaches your cash", bucket: "Whole position"}
+    explanation: "The move is per share. What you keep depends on how many of them you held."
+
+  - type: story
+    character: mascot
+    text: "The move is the market's half of the trade. The share count is yours, and it is the half you decide."

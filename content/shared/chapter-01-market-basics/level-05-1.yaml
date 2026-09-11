@@ -1,0 +1,103 @@
+id: "5-1"
+title: "Checkpoint"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: test
+tags: [checkpoint]
+learning_goal: "Verify Levels 1–4: result arithmetic, buy-or-wait, what moves a price, what a share is, where the money goes, and reading a quote card in dollars, percent and volume."
+purpose: "An honest check that the first four levels are solid before the chapter introduces the people behind the prices."
+terms_introduced: []
+reinforces: []
+prerequisite: "4-4"
+xp: 40
+difficulty: 2
+sources: [consensus]
+notes: "10 scored questions. Hearts apply. Pass mark 70 %. Account named at $6,000; the worked position is 250 × $21.40 = $5,350. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+screens:
+  - type: intro
+    text: "Checkpoint. Ten questions on everything so far. Hearts are on."
+    counter: 10
+
+  - type: numeric-mc
+    prompt: "You buy 250 shares at $19.20 and sell them at $19.56. What did the trade make?"
+    options:
+      - {text: "$9"}
+      - {text: "$90", correct: true}
+      - {text: "$36"}
+      - {text: "$900"}
+    working: "$19.56 − $19.20 = $0.36 a share; $0.36 × 250 shares = $90"
+    explanation: "Move times shares."
+
+  - type: mc
+    prompt: "A stock falls hard the morning after a bad headline, though nothing at the company has changed since yesterday. What moved the price?"
+    options:
+      - {text: "The headline itself, whether or not anyone traded on it"}
+      - {text: "The company reducing the number of shares it has"}
+      - {text: "What the headline made people willing to do", correct: true}
+    explanation: "A headline reaches a price only through the people who act on it."
+
+  - type: tf
+    statement: "Two stocks that are both up $1.50 today have had equally big days."
+    answer: false
+    explanation: "$1.50 on a $15 stock is 10 % of it; on a $150 stock it is 1 %."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap yesterday's closing price."
+    data: {ticker: KITE, name: Kite Logistics, price: 23.60, change: -0.80, change_pct: -3.3, volume: "1.4M", prev_close: 24.40}
+    target: prev_close
+    explanation: "$24.40 is where it finished yesterday; $23.60 is where it trades now."
+
+  - type: chart-decision
+    scenario: "XYZ trades at $21.40 after six minutes of stepping higher. You have a $6,000 account and are looking at 250 shares. Buy, or wait?"
+    shares: 250
+    chart: {kind: line, data: [20.90, 20.96, 20.94, 21.08, 21.24, 21.40, 21.54, 21.64, 21.76, 21.86], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It reached $21.86 — 46 cents a share, +$115 on 250 shares."
+    explanation: "A direction already on the chart, and a position the account can pay for."
+
+  - type: sort
+    prompt: "Which of these describes the stock, and which describes your position in it?"
+    buckets: ["About the stock", "About your position"]
+    items:
+      - {text: "Shares traded today", bucket: "About the stock"}
+      - {text: "How many shares you are holding", bucket: "About your position"}
+      - {text: "The percent change on the day", bucket: "About the stock"}
+      - {text: "What a 20-cent move pays you", bucket: "About your position"}
+    explanation: "The card describes the stock. The share count is the part you brought with you."
+
+  - type: numeric-input
+    prompt: "A stock closed yesterday at $25.00 and trades at $23.50 now. What is today's change in percent?"
+    answer: -6
+    tolerance: 0.01
+    unit: "%"
+    working: "$23.50 − $25.00 = −$1.50; −$1.50 ÷ $25.00 = −0.06 = −6 %"
+    explanation: "Dollar change over the previous close, sign and all."
+
+  - type: match
+    prompt: "Four words from the first four levels. Which meaning belongs to which?"
+    pairs:
+      - ["Ticker", "What you type in to find a stock"]
+      - ["Supply", "How many shares are for sale"]
+      - ["Position", "What you hold until you close it"]
+      - ["Volume", "How many shares have traded today"]
+    explanation: "A code, a side of the balance, your holding and a count of activity."
+
+  - type: fill-tiles
+    sentence: "A price rises when there are more eager buyers than eager ___."
+    answer: "sellers"
+    explanation: "Whichever side is more eager moves the price their way."
+
+  - type: mc
+    prompt: "XYZ's stock has tripled since the company first sold shares eight years ago. How much of that rise has reached the company?"
+    options:
+      - {text: "All of it, since it is the company's own stock"}
+      - {text: "None of it", correct: true}
+      - {text: "A third of it, in proportion to the rise"}
+    explanation: "The company was paid once, eight years ago. Everything since has moved between holders."
+
+  - type: summary
+    total: 10

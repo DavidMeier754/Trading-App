@@ -1,0 +1,110 @@
+id: "4-3"
+title: "The Quote Card"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [quote, volume, activity]
+learning_goal: "User judges today's volume against what the stock normally does, and knows what volume cannot tell them."
+purpose: "Volume is the only number on the card that says how many people are involved — and the only one beginners consistently ignore."
+terms_introduced: []
+reinforces: []
+prerequisite: "4-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Volume as a count of activity, compared against the stock's own normal. Ease of getting out belongs to Level 7 and is deliberately left alone here. Account named at $6,000; the worked position is 300 × $16.80 = $5,040."
+screens:
+  - type: intro
+    text: "One number on the card counts people rather than prices."
+
+  - type: theory
+    title: "Volume counts shares"
+    body: "Three million shares traded means three million shares changed hands between somebody and somebody else today. Not three million people, and not three million dollars."
+
+  - type: visual
+    component: bar-chart
+    data: {bars: [{label: "Mon", value: 2.1}, {label: "Tue", value: 2.4}, {label: "Wed", value: 1.9}, {label: "Thu", value: 2.2}, {label: "Fri", value: 9.6}], unit: "M shares"}
+    caption: "Four ordinary days for this stock, and one that was not."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the count of shares traded today."
+    data: {ticker: LUMA, name: Luma Health, price: 15.80, change: 0.42, change_pct: 2.7, volume: "6.4M"}
+    target: volume
+    explanation: "6.4 M shares have changed hands so far today."
+
+  - type: numeric-mc
+    prompt: "LUMA normally trades about 1.6 M shares in a day. Today it has done 7.2 M. How many times its normal day is that?"
+    options:
+      - {text: "2.5 ×"}
+      - {text: "5.6 ×"}
+      - {text: "4.5 ×", correct: true}
+      - {text: "0.2 ×"}
+    working: "7.2 M ÷ 1.6 M = 4.5"
+    explanation: "Volume only means something next to the same stock's usual day."
+
+  - type: mc
+    prompt: "Two stocks are both up 3 % today. One traded its normal amount, the other five times its normal. What does that difference tell you?"
+    options:
+      - {text: "Far more people took part in the second one's move", correct: true}
+      - {text: "The second one is likely to keep rising tomorrow"}
+      - {text: "The first one's move is not a real one"}
+    explanation: "Volume tells you how many took part. It says nothing at all about tomorrow."
+
+  - type: tf
+    statement: "A day's volume tells you whether the buying or the selling was stronger."
+    answer: false
+    explanation: "Every share traded had somebody on each side, so volume counts both equally. The price move is what says which side pushed."
+
+  - type: example
+    body: "XYZ traded 40,000 shares in a whole day. You want 5,000 of them. That is one share in every eight that changed hands — you would be a large part of that day by yourself."
+
+  - type: chart-decision
+    scenario: "XYZ trades at $16.80 and has done 11 M shares today against a normal day of 2 M. You have a $6,000 account and are looking at 300 shares. Buy, or wait?"
+    shares: 300
+    chart: {kind: line, data: [16.30, 16.36, 16.34, 16.48, 16.62, 16.80, 16.94, 17.06, 17.14, 17.22], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It reached $17.22 — 42 cents a share, +$126 on 300 shares."
+    explanation: "A climb that plenty of people are taking part in is a better one to join than a climb nobody noticed."
+
+  - type: sort
+    prompt: "What can you take from today's volume, and what can you not?"
+    buckets: ["Volume tells you", "Volume does not tell you"]
+    items:
+      - {text: "How many shares changed hands", bucket: "Volume tells you"}
+      - {text: "Whether many people took part in a move", bucket: "Volume tells you"}
+      - {text: "Which way the price went", bucket: "Volume does not tell you"}
+      - {text: "What the price does tomorrow", bucket: "Volume does not tell you"}
+    explanation: "It is a count of activity. Everything else has to come from somewhere else on the card."
+
+  - type: fill-tiles
+    sentence: "Volume counts shares, not ___."
+    answer: "people"
+    explanation: "Three million shares might be three hundred participants or thirty thousand of them."
+
+  - type: mc
+    prompt: "A card shows 800K traded and the day is only half over. Yesterday's whole day was 900K. What can you fairly say?"
+    options:
+      - {text: "Volume that high means the price must be rising"}
+      - {text: "Today is running much busier than yesterday", correct: true}
+      - {text: "Today will finish somewhere near 900K too"}
+    explanation: "Half a day has nearly matched a whole one. That is the whole of what the number supports."
+
+  - type: numeric-input
+    prompt: "A stock trades 60,000 shares on a normal day. You want to buy 3,000 of them. What percentage of a normal day is that?"
+    answer: 5
+    tolerance: 0.01
+    unit: "%"
+    working: "3,000 ÷ 60,000 = 0.05 = 5 %"
+    explanation: "Your own size is worth measuring against the stock, not against your account."
+
+  - type: checklist-reveal
+    title: "A quote card in two seconds"
+    items:
+      - "What does one share cost?"
+      - "How far is that from yesterday's close, in dollars and in percent?"
+      - "How many shares have changed hands today?"
+      - "Is that a lot for this stock, or an ordinary day?"
