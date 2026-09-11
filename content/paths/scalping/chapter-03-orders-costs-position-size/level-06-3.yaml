@@ -1,0 +1,114 @@
+id: "6-3"
+title: "Market and Limit Orders"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [orders, execution, decisions]
+learning_goal: "User chooses between taking the ask and posting a price by comparing what the gap costs against what missing the trade would cost."
+purpose: "Both orders have a bill; only one of the two bills is printed on the screen in front of you."
+terms_introduced: []
+reinforces: []
+prerequisite: "6-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $25,000; the chart decision is 1,800 shares near $12.50. Uses Level 3's gap-against-the-move test as the deciding tool."
+screens:
+  - type: intro
+    text: "Two instructions, one moment. The art is knowing which bill this moment is willing to pay."
+
+  - type: theory
+    title: "Two costs, and only one has a number"
+    body: "Taking the ask costs the gap, and you can work that out before you press. Waiting at your own price costs nothing at all until the trade leaves without you."
+
+  - type: example
+    body: "1,800 shares of a $12.40 stock, two cents wide, out of a $25,000 account: taking the ask costs $36. The twenty cents you are going for is worth $360."
+    visual: cost-stack
+    visual_data: {shares: 1800, spread: 0.02, target: 0.20}
+
+  - type: numeric-input
+    prompt: "Two cents between the sides and 1,800 shares. What does refusing to wait cost you?"
+    answer: 36
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.02 × 1,800 = $36"
+    explanation: "Thirty-six dollars for being in immediately, out of the $360 the move is worth."
+
+  - type: mc
+    prompt: "The minute that just closed finished above the level on the heaviest bar of the morning, and the quote is two cents wide. Which ticket?"
+    options:
+      - {text: "Take the ask now", correct: true}
+      - {text: "Post a nickel under and wait for a pullback"}
+      - {text: "Post at the bid and let a seller come to you"}
+    explanation: "Two cents is a rounding error against a break that is already moving. The order that waits is the one that watches."
+
+  - type: compare
+    prompt: "You have decided you will pay $14.60 and not a cent more. In which of these mornings does that resting order actually trade?"
+    charts:
+      - {kind: candles, data: [[14.66, 14.70, 14.56, 14.58], [14.58, 14.64, 14.54, 14.62], [14.62, 14.66, 14.57, 14.59], [14.59, 14.68, 14.56, 14.65], [14.65, 14.69, 14.58, 14.60], [14.60, 14.66, 14.55, 14.63], [14.63, 14.67, 14.57, 14.59], [14.59, 14.68, 14.58, 14.64]], label: "A"}
+      - {kind: candles, data: [[14.62, 14.74, 14.61, 14.72], [14.72, 14.86, 14.70, 14.84], [14.84, 14.96, 14.82, 14.92], [14.92, 15.06, 14.90, 15.02], [15.02, 15.14, 14.99, 15.10], [15.10, 15.24, 15.08, 15.20], [15.20, 15.32, 15.17, 15.28], [15.28, 15.40, 15.25, 15.36]], label: "B"}
+    answer: "A"
+    explanation: "Every minute in A trades below $14.60, so your price keeps being offered. B's lowest tick of the whole stretch is $14.61 — that order is never touched."
+
+  - type: mc
+    prompt: "Different stock: twenty minutes inside a six-cent range, and you would like to be long at the bottom of it. Which ticket?"
+    options:
+      - {text: "Take the ask and be done with it"}
+      - {text: "Take the ask, then post a second order lower"}
+      - {text: "Post your price at the low of the range", correct: true}
+    explanation: "Nothing is running away from you here. In a stock going nowhere, the gap is the only thing you can still control."
+
+  - type: chart-decision
+    scenario: "XYZ has pressed at $12.50 for four minutes and the candle that just closed finished six cents above it on the heaviest bar of the session. The quote is two cents wide and your $25,000 account allows 1,800 shares here."
+    shares: 1800
+    chart:
+      kind: candles
+      data: [[12.30, 12.38, 12.28, 12.36], [12.36, 12.44, 12.34, 12.40], [12.40, 12.46, 12.36, 12.42], [12.42, 12.50, 12.39, 12.44], [12.44, 12.50, 12.40, 12.46], [12.46, 12.58, 12.45, 12.56], [12.56, 12.66, 12.53, 12.63], [12.63, 12.72, 12.60, 12.69], [12.69, 12.78, 12.66, 12.74], [12.74, 12.80, 12.71, 12.75]]
+      volume: [72000, 84000, 66000, 78000, 90000, 186000, 164000, 142000, 118000, 96000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $12.75 — $0.19 a share above the decision, +$342 long on 1,800 shares, with $36 of that spent at the entry."
+    explanation: "The level has gone and the volume says who took it. Waiting for two cents here is waiting for a price that has already left."
+
+  - type: tf
+    statement: "The cheaper-looking order is sometimes the more expensive one."
+    answer: true
+    explanation: "The thirty-six dollars you saved by waiting is a bargain only if you are still in the trade afterwards."
+
+  - type: sort
+    prompt: "Take the ask, or post your price and wait?"
+    buckets: ["Take the ask", "Post and wait"]
+    items:
+      - {text: "The level has just gone on heavy volume", bucket: "Take the ask"}
+      - {text: "The stock has been asleep for twenty minutes", bucket: "Post and wait"}
+      - {text: "You are in a position that is going against you", bucket: "Take the ask"}
+      - {text: "You are hoping to join a dip that has not arrived", bucket: "Post and wait"}
+    explanation: "Speed is worth paying for when something is happening. When nothing is happening, patience is free."
+
+  - type: numeric-mc
+    prompt: "Same 1,800 shares in a name quoting nine cents wide. What does taking the ask cost there?"
+    options:
+      - {text: "$162", correct: true}
+      - {text: "$16.20"}
+      - {text: "$1,620"}
+      - {text: "$90"}
+    working: "$0.09 × 1,800 = $162"
+    explanation: "Nine cents at scalping size is not a toll any more. That is the quote where waiting starts to earn its keep."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "A limit order trades at your price or better,"}
+      - {text: "so it cannot cost you anything,", wrong: true}
+      - {text: "however far the stock travels without you."}
+    explanation: "It cannot cost you cash. It can cost you the entire trade, which is usually the larger number."
+
+  - type: checklist-reveal
+    title: "Which ticket is this moment's ticket"
+    items:
+      - "Is something happening right now, or is the stock asleep?"
+      - "How many dollars is the gap on the size I want?"
+      - "What is the move worth if I get it?"
+      - "If my price never trades, am I happy to have missed this?"

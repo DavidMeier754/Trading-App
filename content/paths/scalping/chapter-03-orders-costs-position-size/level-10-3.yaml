@@ -1,0 +1,118 @@
+id: "10-3"
+title: "How Many Shares?"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [position-size, risk, account]
+learning_goal: "User computes both ceilings — risk budget divided by stop distance, and account divided by share price — and takes the lower one."
+purpose: "A share count the stop allows but the account cannot pay for is not a position, and on a small account it is the usual answer."
+terms_introduced: ["Account ceiling"]
+reinforces: [1]
+prerequisite: "10-2"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $10,000 so the second ceiling actually binds. Chapter 1's point that shares are bought and paid for is the callback."
+screens:
+  - type: intro
+    text: "Your stop says 1,666 shares. Your bank says otherwise."
+
+  - type: theory
+    title: "Shares have to be paid for"
+    body: "Chapter 1 said buying a share means handing money to whoever is selling it. That has not stopped being true because you plan to hold it for ninety seconds."
+
+  - type: example
+    body: "A $10,000 account and an $18.00 stock. The most you can hold is $10,000 ÷ $18.00 = 555 shares, whatever the chart is offering. That is the account ceiling."
+
+  - type: numeric-input
+    prompt: "A $10,000 account, stock at $18.00. What is the account ceiling?"
+    answer: 555
+    tolerance: 1
+    unit: "shares"
+    working: "$10,000 ÷ $18.00 = 555 shares"
+    explanation: "Round down, always. The 556th share is one you cannot pay for."
+
+  - type: theory
+    title: "Two ceilings, take the lower"
+    body: "Shares equal the risk budget divided by the stop distance, or the account divided by the price — whichever of the two comes out smaller. Never the larger, and never an average of them."
+
+  - type: numeric-input
+    prompt: "Same $10,000 account, one per cent per trade, and the stop is six cents away. How many shares does the budget allow?"
+    answer: 1666
+    tolerance: 1
+    unit: "shares"
+    working: "$10,000 × 0.01 = $100; $100 ÷ $0.06 = 1,666 shares"
+    explanation: "A tight stop always produces a big number here, and a big number is exactly when the second ceiling matters."
+
+  - type: mc
+    prompt: "Budget allows 1,666 shares, the account allows 555, and the stock is $18.00. What do you buy?"
+    options:
+      - {text: "1,666 — the stop is what sets the size"}
+      - {text: "555, and the trade simply risks less than the budget", correct: true}
+      - {text: "1,100, splitting the difference between the two"}
+    explanation: "555 shares with a six-cent stop risks $33. Being under your budget is never a problem; being unable to pay for the stock is."
+
+  - type: order
+    prompt: "Put the sizing decision in the order it actually happens."
+    items:
+      - "Read the chart and find where the stop belongs"
+      - "Measure the stop distance from the entry"
+      - "Divide the risk budget by that distance"
+      - "Divide the account by the share price"
+      - "Take the smaller of the two and round down"
+    explanation: "Every step before the last two is measurement. Only the final comparison is a decision, and it takes a second."
+
+  - type: tf
+    statement: "A tighter stop always means a bigger position."
+    answer: false
+    explanation: "It means a bigger risk ceiling. Past a certain point the account is the number that answers, and the stop stops mattering to the size at all."
+
+  - type: numeric-mc
+    prompt: "Same $10,000 account. A $12.00 stock with a twenty-five-cent stop. How many shares?"
+    options:
+      - {text: "833"}
+      - {text: "1,233"}
+      - {text: "400", correct: true}
+      - {text: "40,000"}
+    working: "Risk: $100 ÷ $0.25 = 400. Account: $10,000 ÷ $12.00 = 833. The smaller is 400."
+    explanation: "This time the chart is the binding one. Which ceiling wins changes from trade to trade, which is why both get checked."
+
+  - type: chart-decision
+    scenario: "XYZ has held $17.80 three times this morning and the candle that just closed pushed up out of the base on the heaviest bar. The quote is two cents wide, and with the stop just under $17.80 your $10,000 account allows 500 shares here."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[17.80, 17.92, 17.80, 17.90], [17.90, 17.94, 17.84, 17.86], [17.86, 17.92, 17.80, 17.82], [17.82, 17.88, 17.80, 17.84], [17.84, 17.94, 17.82, 17.92], [17.92, 18.00, 17.90, 17.98], [17.98, 18.12, 17.94, 18.08], [18.08, 18.20, 18.04, 18.16], [18.16, 18.26, 18.10, 18.21], [18.21, 18.28, 18.16, 18.24]]
+      volume: [82000, 96000, 68000, 74000, 104000, 188000, 160000, 138000, 116000, 98000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $18.24 — $0.26 a share above the decision, +$130 long on 500 shares."
+    explanation: "Twenty cents from $17.98 down to the stop uses the whole $100 budget at 500 shares, and 500 shares is $8,990 of a $10,000 account. A good chart does not enlarge an account."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "The budget allows 1,200 shares"}
+      - {text: "and the account allows 700, so take 1,200,", wrong: true}
+      - {text: "since the stop is the number that protects you."}
+    explanation: "Take 700. A stop cannot protect a position you were never able to buy in the first place."
+
+  - type: match
+    prompt: "Four numbers in one sizing decision. What is each one for?"
+    pairs:
+      - ["Risk budget ÷ stop distance", "The most shares your losses can afford"]
+      - ["Account ÷ share price", "The most shares your cash can afford"]
+      - ["The smaller of the two", "The size you actually send"]
+      - ["Shares × stop distance", "What this trade risks once it is on"]
+    explanation: "Two ceilings, one choice between them, and one last check that the answer is the size you meant."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "Risk ceiling, $0.06 stop", value: 1666}
+        - {label: "Account ceiling at $18.00", value: 555}
+      unit: "shares"
+    caption: "Two answers to the same question. The short bar is the one you trade."

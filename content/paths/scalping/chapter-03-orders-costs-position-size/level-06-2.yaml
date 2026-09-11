@@ -1,0 +1,102 @@
+id: "6-2"
+title: "Market and Limit Orders"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [orders, execution, limit-order]
+learning_goal: "User can post a limit order, knows it fills at their price or better, and accepts that it may simply never trade."
+purpose: "The limit order is the only way to stop paying the gap, and the only way to miss the trade entirely."
+terms_introduced: ["Limit order"]
+reinforces: []
+prerequisite: "6-1"
+xp: 20
+difficulty: 1
+sources: [consensus]
+notes: "Account named at $15,000. The word for an order that never trades is held back until Level 7 introduces it properly."
+screens:
+  - type: intro
+    text: "The second instruction: not now, but at my number."
+
+  - type: theory
+    title: "The limit order"
+    body: "A limit order names a price. A limit buy trades at your price or lower, a limit sell at your price or higher, and neither one will cross to the other side to find you a fill."
+
+  - type: example
+    body: "Bid $18.30, ask $18.34. Out of a $15,000 account you post a limit buy for 800 shares at $18.30. You are now standing with the buyers, waiting for a seller to come to you."
+    visual: order-ticket
+    visual_data: {ticker: XYZ, side: buy, qty: 800, type: limit, price: 18.30}
+
+  - type: mc
+    prompt: "The ask is $18.34 and your limit buy sits at $18.30. What happens the second it is sent?"
+    options:
+      - {text: "It joins the buyers at $18.30 and waits", correct: true}
+      - {text: "It trades at $18.34, since that is what is available"}
+      - {text: "The broker rejects it for being under the market"}
+    explanation: "A limit under the ask has nothing to trade against yet. It is a standing offer, not a purchase."
+
+  - type: tf
+    statement: "A limit buy placed at $18.30 can come back filled at $18.28."
+    answer: true
+    explanation: "Your price or better. If a seller dumps into the bids while your order is there, the better price is yours."
+
+  - type: order-build
+    prompt: "Build that resting order: 800 shares of XYZ, bought at $18.30 and not a cent higher."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit]
+      qty: [400, 800, 1200]
+      price: [18.26, 18.30, 18.34]
+    answer: {side: buy, type: limit, qty: 800, price: 18.30}
+    explanation: "Buy, limit, 800, $18.30 — and the price box is the whole difference between this ticket and the last one."
+
+  - type: theory
+    title: "It can wait for ever"
+    body: "The market owes you nothing at your number. If the price never comes back down to it, your order is still sitting there at the end of the day, having done nothing at all."
+
+  - type: numeric-input
+    prompt: "The ask is $18.34 and your limit is at $18.30. If a seller does come to you, what do 800 shares save against taking the ask?"
+    answer: 32
+    tolerance: 0.01
+    unit: "$"
+    working: "$18.34 − $18.30 = $0.04 per share; $0.04 × 800 = $32"
+    explanation: "Four cents times eight hundred shares, kept rather than handed across the gap."
+
+  - type: story
+    character: retail-trader
+    text: "You wanted those 800 shares at $18.30. The bid never traded below $18.31, and a few minutes later the stock is $18.62."
+
+  - type: mc
+    prompt: "What did that limit order cost you?"
+    options:
+      - {text: "Four cents a share"}
+      - {text: "The trade itself", correct: true}
+      - {text: "Nothing at all"}
+    explanation: "Not a cent left the account, and the whole move left without you. That is the bill a limit order sends."
+
+  - type: match
+    prompt: "Three tickets on the same stock. What does each one actually promise?"
+    pairs:
+      - ["Limit buy at $18.30", "Trades at $18.30 or lower, or never"]
+      - ["Limit sell at $18.62", "Trades at $18.62 or higher, or never"]
+      - ["Market buy", "Trades now, at whatever the ask is"]
+    explanation: "Two of them promise a price and no trade. The third promises a trade and no price."
+
+  - type: fill-tiles
+    sentence: "A limit order names the worst price you are willing to ___."
+    answer: "accept"
+    explanation: "Better than your number is always allowed. Worse than it is what the order exists to refuse."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "Tap the box a market order leaves empty."
+    data: {ticker: XYZ, side: buy, qty: 800, type: limit, price: 18.30}
+    target: price
+    explanation: "The limit price. Fill that box in and your order stops chasing the market and starts waiting for it."
+
+  - type: visual
+    component: quote-panel
+    data: {bid: 18.30, ask: 18.34, last: 18.32}
+    caption: "Your order is the left-hand number now. Nothing happens until somebody decides to sell into it."

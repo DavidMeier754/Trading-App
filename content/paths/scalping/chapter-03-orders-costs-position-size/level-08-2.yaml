@@ -1,0 +1,122 @@
+id: "8-2"
+title: "Ticket Practice"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: repetition
+tags: [orders, execution, drill, decisions]
+learning_goal: "User decides in a glance whether a moment is worth paying the ask for, and builds the entry and the exit for a short."
+purpose: "Order choice has to happen at the speed of the chart, which means it has to be drilled rather than reasoned."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "8-1"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $20,000. Six-card deck, then a short run end to end. Chapter 2's volume and exhaustion readings decide every card."
+screens:
+  - type: intro
+    text: "Six moments. The only question is whether this one is worth paying the sellers' price for."
+
+  - type: swipe-deck
+    prompt: "Would you pay the ask to be in this right now — take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[15.20, 15.30, 15.18, 15.28], [15.28, 15.34, 15.24, 15.26], [15.26, 15.32, 15.22, 15.30], [15.30, 15.36, 15.26, 15.32], [15.32, 15.48, 15.30, 15.46], [15.46, 15.56, 15.42, 15.54], [15.54, 15.62, 15.50, 15.60], [15.60, 15.70, 15.56, 15.68]], volume: [88000, 64000, 72000, 80000, 196000, 168000, 140000, 126000]}
+        answer: take
+        note: "Four minutes stuck under $15.36, then a close ten cents through it on the heaviest bar."
+      - chart: {kind: candles, data: [[19.40, 19.43, 19.38, 19.41], [19.41, 19.44, 19.39, 19.42], [19.42, 19.45, 19.40, 19.41], [19.41, 19.44, 19.38, 19.43], [19.43, 19.46, 19.41, 19.42], [19.42, 19.45, 19.40, 19.44], [19.44, 19.47, 19.42, 19.43], [19.43, 19.46, 19.41, 19.45]], volume: [42000, 38000, 45000, 40000, 43000, 39000, 44000, 41000]}
+        answer: pass
+        note: "Five-cent ranges and one-cent bodies. Nothing here is moving fast enough to be worth paying up for."
+      - chart: {kind: candles, data: [[22.40, 22.44, 22.26, 22.30], [22.30, 22.36, 22.22, 22.26], [22.26, 22.32, 22.14, 22.16], [22.16, 22.20, 22.02, 22.06], [22.06, 22.12, 21.94, 21.98], [21.98, 22.04, 21.86, 21.90], [21.90, 21.96, 21.78, 21.82], [21.82, 21.88, 21.70, 21.74]], volume: [140000, 160000, 180000, 210000, 190000, 170000, 150000, 138000]}
+        answer: take
+        note: "Eight to ten cents lower every minute, on heavy bars. A short is the same ticket with the side flipped."
+      - chart: {kind: candles, data: [[11.60, 11.74, 11.58, 11.72], [11.72, 11.88, 11.70, 11.86], [11.86, 12.02, 11.84, 12.00], [12.00, 12.20, 11.98, 12.16], [12.16, 12.48, 12.14, 12.20], [12.20, 12.26, 12.08, 12.12], [12.12, 12.18, 12.02, 12.06], [12.06, 12.12, 11.98, 12.02]], volume: [110000, 130000, 150000, 180000, 380000, 220000, 180000, 160000]}
+        answer: pass
+        note: "The biggest bar of the run finished a long way off its high. That is somebody else's exit being sold to you."
+      - chart: {kind: candles, data: [[17.10, 17.24, 17.08, 17.22], [17.22, 17.36, 17.20, 17.34], [17.34, 17.40, 17.26, 17.28], [17.28, 17.32, 17.24, 17.26], [17.26, 17.40, 17.25, 17.38], [17.38, 17.50, 17.36, 17.48], [17.48, 17.58, 17.44, 17.55], [17.55, 17.66, 17.52, 17.63]], volume: [128000, 146000, 68000, 54000, 138000, 160000, 142000, 124000]}
+        answer: take
+        note: "Two quiet minutes of give-back, then the first close back up. This is the entry, not the chase."
+      - chart: {kind: candles, data: [[14.50, 14.62, 14.44, 14.48], [14.48, 14.60, 14.42, 14.58], [14.58, 14.64, 14.46, 14.50], [14.50, 14.62, 14.44, 14.60], [14.60, 14.64, 14.48, 14.52], [14.52, 14.63, 14.46, 14.58], [14.58, 14.62, 14.45, 14.49], [14.49, 14.61, 14.44, 14.57]], volume: [96000, 104000, 88000, 110000, 92000, 102000, 98000, 106000]}
+        answer: pass
+        note: "Eight minutes, every bar overlapping the last. You would pay the gap twice to end up where you started."
+    explanation: "Three takes and three passes. Pay the sellers' price when something is happening on volume; leave your own price sitting there when it is not."
+
+  - type: chart-decision
+    scenario: "XYZ pushed through $18.60 and could not hold it. The candle that just closed is back under the level on the heaviest bar of the session, and the quote is two cents wide. Your $20,000 account allows 1,000 shares here."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[18.30, 18.44, 18.28, 18.42], [18.42, 18.56, 18.40, 18.52], [18.52, 18.64, 18.50, 18.60], [18.60, 18.68, 18.56, 18.62], [18.62, 18.70, 18.58, 18.66], [18.66, 18.72, 18.52, 18.56], [18.56, 18.60, 18.44, 18.48], [18.48, 18.52, 18.36, 18.40], [18.40, 18.44, 18.30, 18.34], [18.34, 18.38, 18.25, 18.27]]
+      volume: [96000, 128000, 152000, 88000, 74000, 212000, 178000, 150000, 124000, 106000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $18.27 — $0.29 a share below the decision, +$290 short on 1,000 shares."
+    explanation: "The break was bought and then given straight back on the heaviest bar of the day. Everyone who paid up above $18.60 is now offside."
+
+  - type: order-build
+    prompt: "Get short 1,000 shares now, accepting nothing worse than two cents under the bid of $18.56."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit]
+      qty: [500, 1000, 2000]
+      price: [18.54, 18.56, 18.60]
+    answer: {side: sell, type: limit, qty: 1000, price: 18.54}
+    explanation: "Selling to open reaches down to the buyers, so the limit goes below the bid — the same trick as a capped buy, pointing the other way."
+
+  - type: mc
+    prompt: "Why does a short entry put its limit under the bid rather than over the ask?"
+    options:
+      - {text: "Because you are selling, so the buyers are the side you have to reach", correct: true}
+      - {text: "Because short sales must be priced below the last trade"}
+      - {text: "Because a short always fills at the lower of the two prices"}
+    explanation: "Reaching the other side is what makes any limit trade immediately, and for a seller the other side is the bid."
+
+  - type: order-build
+    prompt: "Now rest the cover: buy back all 1,000 shares at $18.32, twenty-four cents below your entry."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit]
+      qty: [500, 1000, 2000]
+      price: [18.32, 18.56, 18.70]
+    answer: {side: buy, type: limit, qty: 1000, price: 18.32}
+    explanation: "Closing a short is buying, and the target sits below the entry rather than above it."
+
+  - type: numeric-input
+    prompt: "Short at $18.56, covered at $18.32, 1,000 shares. What did the trade make?"
+    answer: 240
+    tolerance: 0.01
+    unit: "$"
+    working: "$18.56 − $18.32 = $0.24 per share; $0.24 × 1,000 = $240"
+    explanation: "A short is priced the same way round, just sold first and bought back second."
+
+  - type: tf
+    statement: "A short is opened with a sell ticket and closed with a buy ticket."
+    answer: true
+    explanation: "The tickets are in the reverse order of a long, which is the only thing that makes shorting feel strange at first."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "To get short in a hurry you send a limit sell"}
+      - {text: "a few cents above the ask,", wrong: true}
+      - {text: "so that it reaches the buyers immediately."}
+    explanation: "Above the ask a sell order just sits there. To trade now it has to come down to where the buyers are."
+
+  - type: match
+    prompt: "Four moments from this drill, and the ticket each one wanted."
+    pairs:
+      - ["Getting in as a level breaks", "A ceiling a few cents through the ask"]
+      - ["Getting out at your number", "A limit resting at the target"]
+      - ["Getting out because you were wrong", "An order that reaches the other side now"]
+      - ["Getting in where nothing is happening", "Your own price, sitting and waiting"]
+    explanation: "Two of these are about speed and two are about price. The chart tells you which kind of moment you are in."
+
+  - type: visual
+    component: order-ticket
+    data: {ticker: XYZ, side: sell, qty: 1000, type: limit, price: 18.54}
+    caption: "Four boxes. By now the only hard one is deciding how urgent the moment really is."

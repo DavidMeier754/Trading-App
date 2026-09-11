@@ -1,0 +1,116 @@
+id: "6-4"
+title: "Market and Limit Orders"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [orders, execution, tickets]
+learning_goal: "User fills in a complete ticket — side, type, quantity and price — for an immediate entry, a resting entry and an immediate exit."
+purpose: "Knowing the two order types is not the same as being able to send one without thinking about it."
+terms_introduced: []
+reinforces: []
+prerequisite: "6-3"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $20,000. Three tickets, built rather than described; closes Level 6."
+screens:
+  - type: intro
+    text: "Three moments, three tickets. Build each one before you read what it did."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ: bid $23.86 / ask $23.90. You have decided to be long 700 shares and you have decided it now."
+
+  - type: order-build
+    prompt: "Build the ticket that puts you in immediately, out of a $20,000 account."
+    ticker: XYZ
+    slots: [side, type, qty]
+    chips:
+      side: [buy, sell]
+      type: [market, limit]
+      qty: [300, 700, 1500]
+    answer: {side: buy, type: market, qty: 700}
+    explanation: "Buy, market, 700. No price box, because you have just agreed to take whatever the sellers are showing."
+
+  - type: numeric-input
+    prompt: "The fill comes back at the ask. How much of the account is in the stock now?"
+    answer: 16730
+    tolerance: 1
+    unit: "$"
+    working: "700 × $23.90 = $16,730"
+    explanation: "Sixteen and a half thousand of a twenty-thousand account, committed in one tap."
+
+  - type: mc
+    prompt: "Your fill says $23.90 while the last trade on the panel says $23.88. Were you filled badly?"
+    options:
+      - {text: "No — $23.90 is what a buyer pays", correct: true}
+      - {text: "Yes — the last trade was $23.88"}
+      - {text: "Yes — a fill should land between the two sides"}
+    explanation: "The last is a trade somebody else did. Yours was done against the sellers, and $23.90 is where they were."
+
+  - type: story
+    character: retail-trader
+    text: "A different name: bid $19.00 / ask $19.04. You want 500 shares, but only at $19.00 — the four cents is more than this slow little stock is worth."
+
+  - type: order-build
+    prompt: "Build the resting ticket that buys 500 shares at $19.00 and nowhere else."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit]
+      qty: [200, 500, 900]
+      price: [18.96, 19.00, 19.04]
+    answer: {side: buy, type: limit, qty: 500, price: 19.00}
+    explanation: "Buy, limit, 500, $19.00. You have stopped asking the sellers for a price and started offering one."
+
+  - type: tf
+    statement: "That order has to wait for a seller willing to come down to $19.00."
+    answer: true
+    explanation: "Nothing about a limit order reaches across the gap. It sits on your side and waits to be hit."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "Tap the single box that would have to change to make this resting order trade right now."
+    data: {ticker: XYZ, side: buy, qty: 500, type: limit, price: 19.00}
+    target: price
+    explanation: "Move the price up to where the sellers already are and the same ticket stops waiting. That is the whole of the next level."
+
+  - type: story
+    character: retail-trader
+    text: "You got the 500 at $19.00. The stock has run and the panel now reads bid $19.34 / ask $19.36. You want the position closed before it comes back."
+
+  - type: order-build
+    prompt: "Build the ticket that gets you flat this second."
+    ticker: XYZ
+    slots: [side, type, qty]
+    chips:
+      side: [buy, sell]
+      type: [market, limit]
+      qty: [250, 500, 1000]
+    answer: {side: sell, type: market, qty: 500}
+    explanation: "Sell, market, 500 — the whole position, at the price the buyers are showing."
+
+  - type: numeric-input
+    prompt: "In at $19.00, out at the bid of $19.34, 500 shares. What did the round trip make?"
+    answer: 170
+    tolerance: 0.01
+    unit: "$"
+    working: "$19.34 − $19.00 = $0.34 per share; $0.34 × 500 = $170"
+    explanation: "The entry price was the one you chose and the exit price was the one you accepted, which is how most scalps end."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "To close a long in a hurry"}
+      - {text: "you send a market buy,", wrong: true}
+      - {text: "and it trades against the bid."}
+    explanation: "Closing a long is selling. Buying again would leave you with a thousand shares instead of none."
+
+  - type: recap
+    title: "Level 6 in three lines"
+    points:
+      - {text: "A market order buys you speed and charges you the gap for it.", level: "6-1"}
+      - {text: "A limit order names your price and may sit there all day.", level: "6-2"}
+      - {text: "Something happening means take the ask; nothing happening means post and wait.", level: "6-3"}

@@ -1,0 +1,119 @@
+id: "7-2"
+title: "The Marketable Limit"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [orders, execution, risk]
+learning_goal: "User recognises that a capped order can leave them with no position at all, and handles the miss without chasing the price."
+purpose: "The ceiling is only worth having if you are willing to live with the mornings it costs you the trade."
+terms_introduced: ["Unfilled"]
+reinforces: []
+prerequisite: "7-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $25,000. The branch is the point of the sub-level: a miss is not permission to pay any price."
+screens:
+  - type: intro
+    text: "The ceiling has a price of its own, and it is paid on the mornings you never get in."
+
+  - type: theory
+    title: "Still showing, nothing done"
+    body: "An order that has not traded is unfilled. It is live, it is visible, it has cost you nothing — and you own no shares, which on a fast morning is the expensive part."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ is running. The ask goes $21.40, then $21.48, then $21.56, faster than you can read it. Your capped buy for 1,000 shares went out at $21.46, out of a $25,000 account."
+
+  - type: mc
+    prompt: "Your ceiling is $21.46 and the ask is now $21.56. Where do you stand?"
+    options:
+      - {text: "Long 1,000 shares at $21.56"}
+      - {text: "Long 1,000 shares at your ceiling"}
+      - {text: "Flat, with an order showing at $21.46", correct: true}
+    explanation: "Nothing traded inside your number, so nothing happened. You are watching, not holding."
+
+  - type: branch
+    scenario: "Your buy for 1,000 shares is showing at $21.46 and the stock has gone without you."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[21.30, 21.42, 21.28, 21.40], [21.40, 21.52, 21.38, 21.50], [21.50, 21.60, 21.48, 21.56], [21.56, 21.62, 21.44, 21.48], [21.48, 21.54, 21.42, 21.47], [21.47, 21.62, 21.45, 21.60], [21.60, 21.74, 21.58, 21.72], [21.72, 21.92, 21.70, 21.88]]
+      volume: [180000, 220000, 260000, 120000, 86000, 160000, 190000, 210000]
+      decision_index: 4
+    steps:
+      - prompt: "The stock is ten cents above your number and still going. What do you do with the order?"
+        options:
+          - {text: "Cancel it and let this one go", correct: true, next: 1}
+          - {text: "Lift the ceiling to $21.60 and get in", next: 1}
+        explanation: "Lifting the ceiling turns your ticket into a market order with extra steps. The number was the plan; the plan has been overtaken."
+      - prompt: "Two minutes later it eases back and prints $21.47 on much lighter volume. What now?"
+        options:
+          - {text: "Send the same capped entry again", correct: true}
+          - {text: "Stay out — the trade was missed once already"}
+        explanation: "This is the price you wanted, offered again. Taking it is the original plan; only paying up would have been the mistake."
+
+  - type: numeric-input
+    prompt: "The first push ran from your $21.46 up to $21.90. On 1,000 shares, how big was the move you stood aside for?"
+    answer: 440
+    tolerance: 0.01
+    unit: "$"
+    working: "$21.90 − $21.46 = $0.44 per share; $0.44 × 1,000 = $440"
+    explanation: "That is the real cost of a ceiling, and it is why the ceiling is set a few cents wide rather than exactly at the ask."
+
+  - type: tf
+    statement: "An order that has not traded is still working until you cancel it."
+    answer: true
+    explanation: "It sits at your price waiting for the market to come back, which is helpful when you meant it and dangerous when you have forgotten it."
+
+  - type: chart-decision
+    scenario: "A different name has run for five straight minutes. The candle that just closed has a thirty-cent upper wick on the heaviest bar of the day and finished near its low. The quote is three cents wide and your $25,000 account allows 1,000 shares here."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[22.60, 22.78, 22.56, 22.74], [22.74, 22.92, 22.70, 22.88], [22.88, 23.02, 22.84, 22.96], [22.96, 23.20, 22.92, 23.16], [23.16, 23.36, 23.12, 23.32], [23.32, 23.62, 23.30, 23.38], [23.38, 23.44, 23.18, 23.22], [23.22, 23.28, 23.04, 23.08], [23.08, 23.14, 22.96, 23.00], [23.00, 23.06, 22.88, 22.92]]
+      volume: [96000, 118000, 140000, 168000, 190000, 420000, 260000, 220000, 180000, 150000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It slid to $22.92 — $0.46 a share below the decision, which is $460 handed back on a chased 1,000-share long."
+    explanation: "Missing one entry is not a reason to take a worse one. The heaviest bar of the day closing at the bottom of its own range is the crowd leaving, not arriving."
+
+  - type: mc
+    prompt: "You have gone off the idea completely, and your order is still showing at $21.46. What has to happen?"
+    options:
+      - {text: "You cancel it", correct: true}
+      - {text: "Nothing — it lapses on its own"}
+      - {text: "Nothing — it is not a real order until it trades"}
+    explanation: "It is a live instruction. Leave it there and the market can hand you a position you no longer want."
+
+  - type: sort
+    prompt: "In the position, or not?"
+    buckets: ["In", "Not in"]
+    items:
+      - {text: "The confirmation reads 1,000 at $21.46", bucket: "In"}
+      - {text: "Your price is showing and nothing has traded there", bucket: "Not in"}
+      - {text: "You cancelled before the price came back", bucket: "Not in"}
+      - {text: "The ask dropped inside your ceiling and the fill came back", bucket: "In"}
+    explanation: "Only a fill puts you in. Everything else is an intention, however carefully it was typed."
+
+  - type: fill-tiles
+    sentence: "An order that is still showing and has never traded is ___."
+    answer: "unfilled"
+    explanation: "Costing nothing and doing nothing, which is fine on a quiet morning and painful on a fast one."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "The stock ran past your ceiling,"}
+      - {text: "so raise the ceiling until it trades,", wrong: true}
+      - {text: "and you are in at a price you chose."}
+    explanation: "A ceiling you keep raising is not a ceiling. The last sentence stops being true the second you move the number."
+
+  - type: checklist-reveal
+    title: "When your order has not traded"
+    items:
+      - "Is the price still near my number, or has it gone?"
+      - "Would I take this trade at today's price, or only at mine?"
+      - "If I am not taking it, is the order cancelled?"
+      - "If it comes back to my price, am I still interested?"

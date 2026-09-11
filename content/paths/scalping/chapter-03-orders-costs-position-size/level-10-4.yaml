@@ -1,0 +1,126 @@
+id: "10-4"
+title: "How Many Shares?"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [position-size, risk, spread, stops]
+learning_goal: "User holds the spread against the stop distance before sizing, and takes the lower of the two ceilings on the trades that survive that check."
+purpose: "A stop only a few cents wider than the quote is a trade that starts most of the way to being stopped out."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "10-3"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $25,000; the chart decision is 1,800 shares near $13. Closes Level 10 by tying Level 2's gap to Level 9's stop."
+screens:
+  - type: intro
+    text: "One last check before the share count: how much of your stop has the quote already eaten?"
+
+  - type: theory
+    title: "The gap sits inside the stop"
+    body: "You bought at the ask and you will be marked against the bid. The whole width of the quote is spent inside the distance between your entry and your stop, before the stock has moved a tick."
+
+  - type: example
+    body: "Bid $12.00, ask $12.04, stop at $11.96. Your stop distance is eight cents — and the moment the fill comes back, four of those cents are already gone."
+    visual: quote-panel
+    visual_data: {bid: 12.00, ask: 12.04, last: 12.02}
+
+  - type: numeric-input
+    prompt: "Four cents of quote inside an eight-cent stop distance. What share of the distance is gone at the entry?"
+    answer: 50
+    tolerance: 1
+    unit: "%"
+    working: "0.04 ÷ 0.08 = 0.50"
+    explanation: "Half the room the trade has, spent on getting into it. The stock now has to travel that far just to give you back the start."
+
+  - type: mc
+    prompt: "Two trades. One has a three-cent quote and a twenty-cent stop; the other a four-cent quote and an eight-cent stop. Which is the healthier pairing?"
+    options:
+      - {text: "The four-cent one — the stop is tighter, so the risk is smaller"}
+      - {text: "The three-cent one — the quote is a seventh of the room", correct: true}
+      - {text: "Neither differs; the quote is a cost, not part of the stop"}
+    explanation: "Fifteen per cent of the room against fifty. The second trade is stopped out by ordinary noise while the first one is still breathing."
+
+  - type: slider
+    prompt: "Three cents of quote, twelve cents of stop distance. Slide to the share of the room the quote takes."
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 25
+    tolerance: 5
+    explanation: "0.03 ÷ 0.12 = 25 %. A quarter is liveable; the trouble starts somewhere around a third."
+
+  - type: chart-annotate
+    prompt: "This stock has held one price three times this morning. Drag the line to where the stop belongs."
+    chart:
+      kind: candles
+      data: [[15.96, 16.00, 15.90, 15.92], [15.92, 15.98, 15.90, 15.94], [15.94, 15.98, 15.91, 15.93], [15.93, 15.99, 15.90, 15.96], [15.96, 16.02, 15.92, 16.00], [16.00, 16.08, 15.98, 16.06], [16.06, 16.14, 16.02, 16.10], [16.10, 16.18, 16.06, 16.14]]
+      volume: [92000, 74000, 68000, 86000, 118000, 164000, 140000, 120000]
+    answer: 15.86
+    tolerance: 0.04
+    label: "Stop"
+    explanation: "Three visits to $15.90 and three refusals. A few cents under it is the price that would say the base has gone."
+
+  - type: numeric-input
+    prompt: "You are long that stock from $16.06 with the stop at $15.86, on a $25,000 account at one per cent. How many shares does the budget allow?"
+    answer: 1250
+    tolerance: 1
+    unit: "shares"
+    working: "Budget: $25,000 × 0.01 = $250. Distance: $16.06 − $15.86 = $0.20. $250 ÷ $0.20 = 1,250 shares"
+    explanation: "1,250 shares at $16.06 is $20,075 of stock, so the account can carry it and the budget is the ceiling that binds."
+
+  - type: numeric-mc
+    prompt: "Same $25,000 account. A $12.00 stock with an eight-cent stop. How many shares do you send?"
+    options:
+      - {text: "3,125"}
+      - {text: "1,042"}
+      - {text: "2,083", correct: true}
+      - {text: "4,166"}
+    working: "Risk: $250 ÷ $0.08 = 3,125. Account: $25,000 ÷ $12.00 = 2,083. Take the smaller."
+    explanation: "The tight stop asks for more stock than the account owns, so the cash decides — and at eight cents you would want a very tight quote before taking it at all."
+
+  - type: chart-decision
+    scenario: "XYZ has ticked along in a tight base for five minutes. The lowest price in that base is $13.13, and the panel reads bid $13.17 / ask $13.22. Your $25,000 account allows 1,800 shares here."
+    shares: 1800
+    state: ["Quote: 5 cents wide", "Stop would sit at $13.11"]
+    chart:
+      kind: candles
+      data: [[13.14, 13.18, 13.13, 13.16], [13.16, 13.20, 13.14, 13.18], [13.18, 13.22, 13.15, 13.17], [13.17, 13.21, 13.14, 13.16], [13.16, 13.22, 13.13, 13.20], [13.20, 13.26, 13.18, 13.22], [13.22, 13.26, 13.16, 13.18], [13.18, 13.22, 13.12, 13.14], [13.14, 13.18, 13.08, 13.12], [13.12, 13.16, 13.07, 13.09]]
+      volume: [64000, 58000, 72000, 66000, 80000, 124000, 96000, 88000, 76000, 70000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It drifted back to $13.09 — $0.13 a share under the decision, and the quote alone would have taken $90 of 1,800 shares on the way through."
+    explanation: "Eleven cents from the ask down to the stop, five of them spent on the quote. There is not enough room in this trade to be right slowly."
+
+  - type: sort
+    prompt: "Better or worse, for the check you just ran?"
+    buckets: ["Better", "Worse"]
+    items:
+      - {text: "A two-cent quote against a twenty-cent stop", bucket: "Better"}
+      - {text: "A five-cent quote against a six-cent stop", bucket: "Worse"}
+      - {text: "The same quote, on a chart offering a wider price to lean on", bucket: "Better"}
+      - {text: "Tightening the stop inside the same wide quote", bucket: "Worse"}
+    explanation: "Only the ratio moves the verdict, and tightening a stop to feel safer makes the ratio worse every single time."
+
+  - type: tf
+    statement: "A very tight stop is only worth having if the quote is tight as well."
+    answer: true
+    explanation: "The tighter the stop, the larger the share of it the quote takes, and the more often you pay for a read that was never given time."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "You buy at the ask,"}
+      - {text: "so the stop distance starts from the bid,", wrong: true}
+      - {text: "and every cent of the quote sits inside it."}
+    explanation: "The distance runs from the price you actually paid — the ask — down to the stop. That is precisely why the whole quote ends up inside it."
+
+  - type: recap
+    title: "Level 10 in three lines"
+    points:
+      - {text: "Position value is what you tie up; risk per trade is what being wrong costs.", level: "10-1"}
+      - {text: "One per cent of the account, divided by the stop distance, is the first ceiling.", level: "10-2"}
+      - {text: "The account divided by the price is the second, and the smaller one wins.", level: "10-3"}

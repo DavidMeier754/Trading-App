@@ -1,0 +1,122 @@
+id: "9-3"
+title: "The Stop Order"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [stops, levels, structure]
+learning_goal: "User measures stop distance from the entry to the price the chart says has to hold, and converts it into dollars for a given size."
+purpose: "Stop distance is the number the whole next level runs on, and the chart chooses it rather than you."
+terms_introduced: ["Stop distance"]
+reinforces: [2]
+prerequisite: "9-2"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $25,000. Chapter 2's support and its last higher low are what set the distance in both worked examples."
+screens:
+  - type: intro
+    text: "How far is your stop? Not how far you would like it to be — how far the chart puts it."
+
+  - type: theory
+    title: "Stop distance"
+    body: "Entry price minus stop price, per share. It is the most you plan to lose on each share, and it is the number every sizing decision from here on is built out of."
+
+  - type: chart-annotate
+    prompt: "Two pushes have been turned away from the same price this morning. Drag the line to where a stop under that price belongs."
+    chart:
+      kind: candles
+      data: [[21.92, 21.96, 21.78, 21.82], [21.82, 21.88, 21.60, 21.66], [21.66, 21.80, 21.64, 21.78], [21.78, 21.84, 21.70, 21.72], [21.72, 21.76, 21.60, 21.68], [21.68, 21.82, 21.66, 21.80], [21.80, 21.88, 21.76, 21.84], [21.84, 21.90, 21.78, 21.86]]
+      volume: [120000, 168000, 96000, 88000, 152000, 110000, 94000, 86000]
+    answer: 21.56
+    tolerance: 0.04
+    label: "Stop"
+    explanation: "Buyers turned it at $21.60 twice. A few cents underneath is where the stop goes — on the level it would be hit by the ordinary noise around it."
+
+  - type: numeric-input
+    prompt: "You are long from the ask of $21.78 with that stop at $21.56. What is the stop distance?"
+    answer: 0.22
+    tolerance: 0.001
+    unit: "$"
+    working: "$21.78 − $21.56 = $0.22"
+    explanation: "Twenty-two cents per share, decided by where the level is rather than by how brave you feel."
+
+  - type: numeric-mc
+    prompt: "Same trade, 1,000 shares out of a $25,000 account. What is the planned loss?"
+    options:
+      - {text: "$0.22"}
+      - {text: "$22"}
+      - {text: "$220", correct: true}
+      - {text: "$2,200"}
+    working: "$0.22 × 1,000 shares = $220"
+    explanation: "Per share, then times the size. That second step is where the number stops being abstract."
+
+  - type: theory
+    title: "The chart picks the distance"
+    body: "You do not choose ten cents because it sounds reasonable. You find the price that would prove the trade wrong, put the stop just beyond it, and then measure what that turned out to be."
+
+  - type: mc
+    prompt: "Two ways to place the same stop: six cents under your entry, or four cents under the last dip of the climb, which happens to be twenty-two cents away. Which is the trade's stop?"
+    options:
+      - {text: "The six-cent one — a scalper keeps losses small"}
+      - {text: "The one under the dip, wherever that lands", correct: true}
+      - {text: "Whichever of the two the platform offers first"}
+    explanation: "A stop six cents down is a stop the ordinary wobble will hit while the trade is still perfectly alive. That is a loss with no information in it."
+
+  - type: tf
+    statement: "A tighter stop is always the better stop."
+    answer: false
+    explanation: "A tight stop is only better when the chart supports it. Inside the noise it just pays for the same idea several times over."
+
+  - type: compare
+    prompt: "You would enter both of these at $18.44, with the stop beyond the last dip. In which one is that a stop a scalper can work with?"
+    charts:
+      - {kind: candles, data: [[18.20, 18.34, 18.18, 18.32], [18.32, 18.44, 18.30, 18.42], [18.42, 18.46, 18.34, 18.36], [18.36, 18.40, 18.32, 18.38], [18.38, 18.46, 18.36, 18.44], [18.44, 18.52, 18.42, 18.50], [18.50, 18.56, 18.46, 18.54], [18.54, 18.60, 18.50, 18.58]], label: "A"}
+      - {kind: candles, data: [[17.90, 18.30, 17.86, 18.26], [18.26, 18.44, 17.94, 18.02], [18.02, 18.52, 17.98, 18.46], [18.46, 18.56, 17.96, 18.06], [18.06, 18.60, 18.02, 18.52], [18.52, 18.66, 18.10, 18.20], [18.20, 18.64, 18.16, 18.58], [18.58, 18.70, 18.20, 18.30]], label: "B"}
+    answer: "A"
+    explanation: "A's last dip is $18.32, so the stop sits about fourteen cents away. B swings half a dollar every minute, and the same rule would put the stop nearer fifty."
+
+  - type: slider
+    prompt: "Different name: you are long from $13.42 and the dip that has to hold is $13.34. Place the stop."
+    min: 13.20
+    max: 13.50
+    step: 0.02
+    unit: "$"
+    answer: 13.30
+    tolerance: 0.04
+    explanation: "Just under $13.34, not on it. A stop sitting exactly on the low gets taken out by the one tick that tests it."
+
+  - type: numeric-input
+    prompt: "Long from $13.42 with the stop at $13.30, 1,500 shares. What is the planned loss?"
+    answer: 180
+    tolerance: 0.01
+    unit: "$"
+    working: "$13.42 − $13.30 = $0.12 per share; $0.12 × 1,500 = $180"
+    explanation: "Half the distance of the last example, so a larger size carries a similar bill. That relationship is the whole of Level 10."
+
+  - type: sort
+    prompt: "Which of these has a say in where the stop goes?"
+    buckets: ["Has a say", "Has none"]
+    items:
+      - {text: "The last dip the climb made", bucket: "Has a say"}
+      - {text: "The level the trade is leaning on", bucket: "Has a say"}
+      - {text: "How much you would like to lose today", bucket: "Has none"}
+      - {text: "The number of shares you were hoping to take", bucket: "Has none"}
+    explanation: "The chart sets the distance. Your budget then decides the size — never the other way round."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "Find the price that proves you wrong,"}
+      - {text: "put the stop exactly on it,", wrong: true}
+      - {text: "and measure the distance from your entry."}
+    explanation: "Exactly on it is inside the noise. A few cents beyond is the difference between a stop and a donation."
+
+  - type: example
+    body: "Two trades, same morning: twenty-two cents on 1,000 shares is $220, twelve cents on 1,500 shares is $180. Neither number was chosen — both were measured."
+    visual: bar-chart
+    visual_data:
+      bars:
+        - {label: "$0.22 stop, 1,000 shares", value: 220}
+        - {label: "$0.12 stop, 1,500 shares", value: 180}
+      unit: "$ at risk"

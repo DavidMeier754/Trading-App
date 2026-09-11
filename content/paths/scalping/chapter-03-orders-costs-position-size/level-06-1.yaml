@@ -4,104 +4,106 @@ chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [orders]
-learning_goal: "User can explain market and limit orders, knows which price each fills at, and knows a limit order may never fill."
-purpose: "Every trade you'll ever place is one of a few order types — this is the first two, and the trade-off between them."
-terms_introduced: ["Market order", "Limit order", "Fill"]
-prerequisite: "4-1"
+tags: [orders, execution, market-order]
+learning_goal: "User can send a market order knowing it trades price certainty for speed, and can name the price it fills at and the cash it moves."
+purpose: "It is the simplest instruction there is, and the one that quietly hands over the spread every single time."
+terms_introduced: ["Market order", "Fill"]
+reinforces: []
+prerequisite: "5-1"
 xp: 20
 difficulty: 1
 sources: [consensus]
+notes: "Account named at $20,000. Builds straight on Level 1: the order type never changes which of the two prices is yours."
 screens:
   - type: intro
-    text: "Two ways to tell your broker 'buy': right now, or at my price."
+    text: "You have read the quote. Now you have to tell somebody to do something about it."
 
   - type: theory
-    title: "Market order"
-    body: "Buy or sell immediately at the best price available. A market buy fills at the ask; a market sell fills at the bid. Getting your order executed is called a fill."
+    title: "An order is an instruction"
+    body: "There are only two things you can say about price: do it now at whatever is there, or do it only at my number. This sub-level is the first one."
+
+  - type: theory
+    title: "The market order"
+    body: "A market order says fill me now, at the best price the other side is showing. A market buy takes the ask, a market sell takes the bid, and neither one waits."
     visual: order-ticket
-    visual_data: {ticker: XYZ, side: buy, qty: 500, type: market}
+    visual_data: {ticker: XYZ, side: buy, qty: 900, type: market}
 
-  - type: theory
-    title: "Limit order"
-    body: "You name a price. A limit buy fills only at your price or lower; a limit sell only at your price or higher. If the market never gets there, it never fills."
+  - type: example
+    body: "Bid $16.48, ask $16.51. You send a market buy for 900 shares out of a $20,000 account and the confirmation comes back: 900 at $16.51. That confirmation is the fill."
+    visual: quote-panel
+    visual_data: {bid: 16.48, ask: 16.51, last: 16.50}
 
   - type: walkthrough
     component: order-ticket
-    data: {ticker: XYZ, side: buy, qty: 500, type: limit, price: 20.05}
+    data: {ticker: XYZ, side: buy, qty: 900, type: market}
     steps:
-      - {spotlight: type, text: "Market or limit."}
-      - {spotlight: price, text: "Your limit price — only used for limit orders."}
-      - {spotlight: qty, text: "500 shares."}
+      - {spotlight: side, text: "Buy or sell. This is the part that decides which of the two prices is yours."}
+      - {spotlight: type, text: "Market: take what is there, right now."}
+      - {spotlight: qty, text: "900 shares. The price box stays empty — you are not naming one."}
 
   - type: mc
-    prompt: "Bid $20.00, ask $20.05. A market buy fills at about:"
+    prompt: "Bid $16.48 / ask $16.51. Your market buy comes back filled at:"
     options:
-      - {text: "$20.00"}
-      - {text: "$20.025"}
-      - {text: "$20.05", correct: true}
-    explanation: "Market buys take the ask."
+      - {text: "$16.495"}
+      - {text: "$16.48"}
+      - {text: "$16.51", correct: true}
+    explanation: "Buying takes the seller's price. Choosing a fast order does not buy you a better one."
 
-  - type: mc
-    prompt: "Same quote. You place a limit buy at $19.90. What happens?"
-    options:
-      - {text: "It waits for the ask to reach $19.90", correct: true}
-      - {text: "It fills now at $20.05"}
-      - {text: "It's rejected for being below the bid"}
-    explanation: "A limit below the market simply waits."
+  - type: numeric-input
+    prompt: "Those 900 shares at $16.51. How much of the account is now sitting in the stock?"
+    answer: 14859
+    tolerance: 1
+    unit: "$"
+    working: "900 × $16.51 = $14,859"
+    explanation: "Inside a $20,000 account with room to spare, which is the second question every order has to answer."
 
   - type: tf
-    statement: "A limit order guarantees a fill, just possibly later."
+    statement: "The price on your screen when you press a market buy is the price you are promised."
     answer: false
-    explanation: "If the price never reaches your limit, it never fills."
+    explanation: "You are promised a fill, not a number. Whatever the ask happens to be when the order lands is what you pay."
 
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "A market sell"}
-      - {text: "fills at the ask,", wrong: true}
-      - {text: "so you get whatever buyers are offering right now."}
-    explanation: "A market sell fills at the bid — the buyers' price."
+  - type: hotspot
+    component: order-ticket
+    prompt: "Tap the part of this ticket that makes it fill straight away."
+    data: {ticker: XYZ, side: buy, qty: 900, type: market}
+    target: type
+    explanation: "Market. Side and size are separate decisions from how fast you want it done."
 
   - type: sort
-    prompt: "Market or limit?"
-    buckets: ["Market order", "Limit order"]
+    prompt: "A market order promises some of these and none of the others."
+    buckets: ["Promised", "Not promised"]
     items:
-      - {text: "Fills now at the best available price", bucket: "Market order"}
-      - {text: "Waits for your price", bucket: "Limit order"}
-      - {text: "May never fill", bucket: "Limit order"}
-      - {text: "Fill guaranteed, price not", bucket: "Market order"}
-    explanation: "Speed versus price."
+      - {text: "That you end up in the position", bucket: "Promised"}
+      - {text: "The exact price you pay", bucket: "Not promised"}
+      - {text: "That it happens this second", bucket: "Promised"}
+      - {text: "That the ask is where it was when you looked", bucket: "Not promised"}
+    explanation: "Speed and certainty of getting done, bought with the one thing you would rather keep."
 
   - type: numeric-mc
-    prompt: "Bid $40.00, ask $40.06. Market buy of 500 shares — you pay about:"
+    prompt: "You are long 1,200 shares and send a market sell. Bid $16.48, ask $16.51. What comes back into the account?"
     options:
-      - {text: "$20,030", correct: true}
-      - {text: "$20,000"}
-      - {text: "$20,015"}
-      - {text: "$20,060"}
-    working: "$40.06 × 500 = $20,030"
-    explanation: "At the ask, times shares."
+      - {text: "$19,812"}
+      - {text: "$19,794"}
+      - {text: "$1,977.60"}
+      - {text: "$19,776", correct: true}
+    working: "1,200 × $16.48 = $19,776"
+    explanation: "Selling hands shares to a buyer, so the bid sets the price however the ticket is filled in."
 
-  - type: story
-    character: retail-trader
-    text: "You want 300 shares of XYZ, but only if it dips to $31.50. It's at bid $31.60 / ask $31.62."
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "A market buy is sent without a price,"}
+      - {text: "so the broker holds it for a good one,", wrong: true}
+      - {text: "and reports back what you paid."}
+    explanation: "Nothing is held. With no price on the ticket there is nothing to wait for."
 
   - type: fill-choice
-    sentence: "You place a ___ buy at $31.50."
-    options: ["limit", "market", "last"]
-    answer: "limit"
-    explanation: "A limit buy waits for your price."
+    sentence: "A market order gives up control of the ___."
+    options: ["price", "fill", "share count"]
+    answer: "price"
+    explanation: "You keep the side and the size. The price is what you hand over in exchange for speed."
 
-  - type: match
-    prompt: "Two order types and where each one lands."
-    pairs:
-      - ["Market order", "Executes now at the best available price"]
-      - ["Limit order", "Executes only at your price or better"]
-      - ["Fill", "Your order gets executed"]
-      - ["Ask", "Where a market buy fills"]
-    explanation: "Two order types and where they land."
-
-  - type: theory
-    title: "Speed or price?"
-    body: "Market = speed, limit = price. Scalpers want both. Next lesson: the trick that gives you both."
+  - type: example
+    body: "Three cents wide, 900 shares: $27 gone the instant the fill comes back. Speed is never free — it is the spread, paid on purpose."
+    visual: cost-stack
+    visual_data: {shares: 900, spread: 0.03, target: 0.15}

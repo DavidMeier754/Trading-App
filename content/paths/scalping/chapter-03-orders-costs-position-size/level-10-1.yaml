@@ -4,112 +4,111 @@ chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [position-size, risk]
-learning_goal: "User derives a share count from the risk budget and the stop distance, then caps it at what the account can actually pay for, and takes the lower of the two."
-purpose: "Share count is the one number you fully control — sizing from risk is what keeps a run of losses survivable."
-terms_introduced: ["Position size", "Position value", "Risk per trade", "1 % rule"]
-prerequisite: "9-1"
+tags: [position-size, risk, liquidity]
+learning_goal: "User separates what a position ties up from what it risks, and can compute both from a share count, a price and a stop distance."
+purpose: "Two numbers describe every position, and confusing them is how a sensible-looking trade turns into an unsurvivable one."
+terms_introduced: ["Position size", "Position value", "Risk per trade"]
+reinforces: [1]
+prerequisite: "9-4"
 xp: 20
 difficulty: 2
 sources: [consensus]
+notes: "Account named at $20,000. Chapter 1's liquidity dial comes back as a limit on the share count itself."
 screens:
   - type: intro
-    text: "The most important number in trading isn't the price. It's how many shares."
+    text: "The chart has given you a stop. Now for the number that is entirely yours."
 
   - type: theory
-    title: "Position value"
-    body: "Shares × price. 500 shares at $20 = $10,000 in the trade. Your account decides what's possible; your risk decides what's smart."
+    title: "Position size is the share count"
+    body: "Not how confident you are, not how good the setup looks. Position size is one number — how many shares — and it is the only part of a trade you control completely."
 
   - type: theory
-    title: "Risk per trade"
-    body: "Shares × stop distance. 500 shares with a $0.10 stop = $50 at risk. That's the number you control — not the profit."
+    title: "Two numbers that look alike"
+    body: "Position value is shares times price: what the trade ties up. Risk per trade is shares times stop distance: what it costs if you are wrong. They are not remotely the same size."
 
-  - type: theory
-    title: "The 1 % rule"
-    body: "Many traders risk at most 1 % of the account per trade. $10,000 account → $100 max risk. Ten losers in a row cost 10 % of the account, not all of it."
+  - type: example
+    body: "1,200 shares at $14.00 out of a $20,000 account. The position value is $16,800 — most of the account. The stop is fourteen cents away, so the risk is $168."
+    visual: cost-stack
+    visual_data: {shares: 1200, spread: 0.03, target: 0.14}
+
+  - type: numeric-input
+    prompt: "1,200 shares at $14.00. What does the position tie up?"
+    answer: 16800
+    tolerance: 1
+    unit: "$"
+    working: "1,200 × $14.00 = $16,800"
+    explanation: "This is the number that has to fit in the account, and it has nothing to do with how wrong the trade can go."
+
+  - type: numeric-mc
+    prompt: "Same 1,200 shares, stop fourteen cents under the entry. What does the trade risk?"
+    options:
+      - {text: "$16,800"}
+      - {text: "$1,680"}
+      - {text: "$168", correct: true}
+      - {text: "$14"}
+    working: "$0.14 × 1,200 = $168"
+    explanation: "A hundredth of what the position is worth, because the stop only lets a small slice of it go wrong."
+
+  - type: mc
+    prompt: "Which of those two numbers does the account have to be able to pay?"
+    options:
+      - {text: "The $168, since that is the money genuinely at risk"}
+      - {text: "The $16,800, because the shares have to be bought", correct: true}
+      - {text: "Neither — only the difference between them matters"}
+    explanation: "Being wrong costs $168. Being in the trade at all costs $16,800, and that money has to exist first."
+
+  - type: tf
+    statement: "Doubling the share count doubles both of those numbers."
+    answer: true
+    explanation: "Both are a multiplication by the size, so the size moves what you tie up and what you risk in exactly the same proportion."
+
+  - type: sort
+    prompt: "Position value, or risk per trade?"
+    buckets: ["Position value", "Risk per trade"]
+    items:
+      - {text: "Shares × price", bucket: "Position value"}
+      - {text: "Shares × stop distance", bucket: "Risk per trade"}
+      - {text: "What the account has to cover", bucket: "Position value"}
+      - {text: "What a wrong read actually costs", bucket: "Risk per trade"}
+    explanation: "One is measured against your account, the other against your appetite for being wrong."
+
+  - type: mc
+    prompt: "Those 1,200 shares are in a name printing about 9,000 shares a minute. What does that say about the size?"
+    options:
+      - {text: "Nothing — size is a risk question, not a volume one"}
+      - {text: "It is comfortable, since you own a tiny slice of the company"}
+      - {text: "You would be an eighth of a whole minute's trading on the way out", correct: true}
+    explanation: "Chapter 1 called liquidity the ease of getting out. A size that needs a minute of the stock's whole trading to leave is not an easy exit."
+
+  - type: slider
+    prompt: "Stop distance fourteen cents. Slide to what 1,200 shares put at risk."
+    min: 0
+    max: 400
+    step: 20
+    unit: "$"
+    answer: 160
+    tolerance: 20
+    explanation: "$0.14 × 1,200 = $168, which is the band you are aiming at rather than a number to be exact about on a slider."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "The position is 1,200 shares at $14.00,"}
+      - {text: "so the trade risks $16,800,", wrong: true}
+      - {text: "and the stop is fourteen cents away."}
+    explanation: "That is what the position is worth. What it risks is the stop distance times the shares — $168."
+
+  - type: fill-choice
+    sentence: "Shares × stop distance is the ___."
+    options: ["risk per trade", "position value", "spread cost"]
+    answer: "risk per trade"
+    explanation: "The only one of the three that tells you what being wrong is going to feel like."
 
   - type: visual
     component: bar-chart
-    data: {bars: [{label: "$0.10 stop", value: 1000}, {label: "$0.25 stop", value: 400}, {label: "$0.50 stop", value: 200}], unit: "shares for $100 risk"}
-    caption: "The first ceiling: max risk ÷ stop distance = shares. Wider stop, fewer shares."
-
-  - type: numeric-input
-    prompt: "Account $20,000, 1 % rule. Max risk per trade?"
-    answer: 200
-    unit: "$"
-    working: "$20,000 × 0.01 = $200"
-    explanation: "One percent of the account."
-
-  - type: numeric-input
-    prompt: "Max risk $200, stop distance $0.08. How many shares does the risk allow?"
-    answer: 2500
-    unit: "shares"
-    working: "$200 ÷ $0.08 = 2,500"
-    explanation: "Risk divided by stop distance — and that is only the first of two ceilings."
-
-  - type: theory
-    title: "The second ceiling"
-    body: "Shares have to be paid for. A $20,000 account holds $20,000 of stock, so at $12 a share it holds 1,666 — however tight the stop is. Take whichever ceiling is lower."
-
-  - type: numeric-input
-    prompt: "Same $20,000 account and $0.08 stop, and the stock trades at $12.00. How many shares do you actually take?"
-    answer: 1666
-    tolerance: 1
-    unit: "shares"
-    working: "Risk: $200 ÷ $0.08 = 2,500. Account: $20,000 ÷ $12.00 = 1,666. Take the smaller."
-    explanation: "Here the account is the binding one — the stop would have let you buy stock you cannot pay for."
-
-  - type: mc
-    prompt: "Same $200 risk, and both stocks cost the same. Stock A needs a $0.10 stop, Stock B a $0.25 stop. Which does the risk ceiling allow more of?"
-    options:
-      - {text: "B — a wider stop means a safer, bigger position"}
-      - {text: "A — 2,000 shares versus 800", correct: true}
-      - {text: "Equal — the risk is the same"}
-    explanation: "Tighter stop, more shares for the same risk. The account ceiling then decides whether you can hold them."
-
-  - type: tf
-    statement: "Position value and risk per trade are the same thing."
-    answer: false
-    explanation: "Value is what's in the trade; risk is what you lose if the stop hits."
-
-  - type: numeric-mc
-    prompt: "1,000 shares at $18.00 with a $0.12 stop. Risk?"
-    options:
-      - {text: "$18,000"}
-      - {text: "$12"}
-      - {text: "$1,200"}
-      - {text: "$120", correct: true}
-    working: "$0.12 × 1,000 = $120"
-    explanation: "Stop distance times shares. The $18,000 is the position value, and it has to fit the account."
-
-  - type: story
-    character: retail-trader
-    text: "Account $10,000. You like a stock at $12.00 with a $0.20 stop. 1 % rule."
-
-  - type: numeric-input
-    prompt: "How many shares?"
-    answer: 500
-    tolerance: 1
-    unit: "shares"
-    working: "Risk: $100 ÷ $0.20 = 500. Account: $10,000 ÷ $12.00 = 833. Take the smaller: 500"
-    explanation: "This time the stop is the binding ceiling. Round down — never up."
-
-  - type: sort
-    prompt: "Raises or lowers risk per trade?"
-    buckets: ["Raises", "Lowers"]
-    items:
-      - {text: "More shares", bucket: "Raises"}
-      - {text: "Wider stop", bucket: "Raises"}
-      - {text: "Tighter stop", bucket: "Lowers"}
-      - {text: "Fewer shares", bucket: "Lowers"}
-    explanation: "Two levers, same product."
-
-  - type: fill-choice
-    sentence: "Shares × stop distance = ___."
-    options: ["risk per trade", "position value", "spread cost"]
-    answer: "risk per trade"
-    explanation: "What you lose if the stop hits."
-
-  - type: theory
-    title: "Two ceilings, take the lower"
-    body: "What your stop lets you risk, and what your account can pay for. Never the number that excitement suggests. Practice next."
+    data:
+      bars:
+        - {label: "Position value", value: 16800}
+        - {label: "Risk per trade", value: 168}
+      unit: "$"
+    caption: "Same 1,200 shares, two numbers, a hundred times apart. Both of them have to be checked."

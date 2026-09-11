@@ -4,129 +4,106 @@ chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [orders, risk]
-learning_goal: "User can place a stop-loss on the correct side of an entry, choose stop-market over stop-limit for a scalp, and compute the planned loss."
-purpose: "You will be wrong often — the stop order is how being wrong stays cheap."
-terms_introduced: ["Stop order", "Stop-loss", "Stop-market", "Stop-limit", "Stop distance"]
-prerequisite: "8-1"
+tags: [orders, stops, risk]
+learning_goal: "User places a stop on the correct side of an entry and can state the planned loss in dollars before the trade is taken."
+purpose: "You are going to be wrong all morning long; the stop is the order that keeps being wrong cheap."
+terms_introduced: ["Stop order", "Stop-loss"]
+reinforces: [2]
+prerequisite: "8-2"
 xp: 20
 difficulty: 2
 sources: [consensus]
+notes: "Account named at $20,000. Chapter 2's higher low is the price the stop is placed against, not a round number of cents."
 screens:
   - type: intro
-    text: "You will be wrong. Often. The stop order is how being wrong stays cheap."
+    text: "Two of your three tickets are written. This is the one for the mornings you are wrong."
 
   - type: theory
-    title: "Stop order"
-    body: "An order that sits idle until the price reaches your stop price — then it activates. Used to exit a losing position automatically, it's a stop-loss."
+    title: "An order that waits for bad news"
+    body: "A stop order does nothing until the price touches the number on it. Then it wakes up and becomes a live order. Used to close a losing position, it is a stop-loss."
 
   - type: example
-    body: "Long 500 at $20.00. You place a sell stop at $19.90. If the price touches $19.90, the stop becomes an order to sell. Loss about $0.10 × 500 = $50, and you're out."
-    visual: chart-line
-    visual_data: {data: [20.00, 20.04, 19.98, 19.95, 19.92, 19.90, 19.85], levels: [{price: 20.00, label: "Entry"}, {price: 19.90, label: "Stop"}]}
-
-  - type: theory
-    title: "Stop-market vs stop-limit"
-    body: "Stop-market: when triggered it sells at market — exit guaranteed, price not. Stop-limit: when triggered it becomes a limit order — price capped, exit not guaranteed. In a fast drop a stop-limit can leave you stuck."
-
-  - type: theory
-    title: "Stop distance"
-    body: "The gap between your entry and your stop — here $0.10. It's the most you plan to lose per share, and it drives your position size in the next level."
+    body: "You are long 1,000 shares from $15.40 out of a $20,000 account. The climb's last dip was $15.30, so a sell stop goes at $15.28 — twelve cents under your entry, $120 if it is touched."
+    visual: chart-candles
+    visual_data:
+      data: [[15.36, 15.46, 15.34, 15.44], [15.44, 15.52, 15.40, 15.42], [15.42, 15.48, 15.36, 15.46], [15.46, 15.50, 15.30, 15.34], [15.34, 15.42, 15.32, 15.40]]
+      volume: [110000, 96000, 88000, 124000, 102000]
+      levels: [15.28]
 
   - type: mc
-    prompt: "Long 300 at $41.00, sell stop at $40.80. The stock drops to $40.75 in one fast move. With a stop-market you:"
+    prompt: "You are long. Your stop-loss goes:"
     options:
-      - {text: "Are still in — the price skipped past $40.80"}
-      - {text: "Sell at exactly $40.80 no matter what"}
-      - {text: "Are out around $40.75–$40.80 — the exit is guaranteed", correct: true}
-    explanation: "Triggered, then filled at the next available bid."
-
-  - type: mc
-    prompt: "Same situation with a stop-limit at $40.80 (limit $40.80). Likely result?"
-    options:
-      - {text: "Not filled — you're still in", correct: true}
-      - {text: "Filled at $40.80"}
-      - {text: "Filled at market"}
-    explanation: "The limit part can't fill below $40.80, so the position stays open."
-
-  - type: tf
-    statement: "For a scalper, a stop-market is usually the safer choice for a stop-loss."
-    answer: true
-    explanation: "Getting out matters more than the last cent when a scalp fails."
-
-  - type: slider
-    prompt: "You're long at $20.00 on a stock that wiggles a few cents. Set your sell stop."
-    min: 19.50
-    max: 20.50
-    step: 0.02
-    unit: "$"
-    answer: 19.88
-    tolerance: 0.08
-    explanation: "Below your entry, close enough to keep the loss small, far enough that normal wiggle doesn't hit it."
+      - {text: "Above the entry, where the trade is working"}
+      - {text: "Below the entry, where the trade is finished", correct: true}
+      - {text: "At the entry, so the worst case is nothing"}
+    explanation: "A long loses money as price falls, so the order that ends it has to be sitting underneath."
 
   - type: numeric-input
-    prompt: "Long 800 at $15.20, stop at $15.10. Planned loss if stopped?"
-    answer: 80
+    prompt: "Long 1,000 shares from $15.40 with the sell stop at $15.28. What is the planned loss?"
+    answer: 120
+    tolerance: 0.01
     unit: "$"
-    working: "$0.10 × 800 = $80"
-    explanation: "Stop distance times shares."
+    working: "$15.40 − $15.28 = $0.12 per share; $0.12 × 1,000 = $120"
+    explanation: "A number you know before you enter, which is the only useful kind of number about a losing trade."
 
   - type: chart-tap
-    prompt: "You are long 800 shares from $15.20 with the sell stop at $15.10. Tap the candle that takes you out."
+    prompt: "You are long 1,000 from $15.40 with the sell stop at $15.28. Tap the minute that takes you out."
     chart:
       kind: candles
-      data: [[15.18, 15.26, 15.16, 15.24], [15.24, 15.30, 15.20, 15.22], [15.22, 15.28, 15.18, 15.26], [15.26, 15.28, 15.14, 15.16], [15.16, 15.20, 15.06, 15.08], [15.08, 15.12, 15.00, 15.02], [15.02, 15.08, 14.98, 15.04], [15.04, 15.10, 15.00, 15.06]]
+      data: [[15.36, 15.46, 15.34, 15.44], [15.44, 15.52, 15.40, 15.42], [15.42, 15.48, 15.36, 15.46], [15.46, 15.50, 15.30, 15.34], [15.34, 15.40, 15.26, 15.28], [15.28, 15.32, 15.18, 15.20], [15.20, 15.26, 15.14, 15.22], [15.22, 15.28, 15.16, 15.24]]
+      volume: [110000, 96000, 88000, 124000, 168000, 152000, 120000, 104000]
       levels:
-        - {price: 15.10, label: "Stop"}
+        - {price: 15.28, label: "Stop"}
     target: 4
-    explanation: "The candle before it dipped to $15.14 and held; this one traded through $15.10 and the resting order did the rest."
+    explanation: "The minute before it came down to $15.30 and held. This one traded through $15.28 and the resting order did the rest without you."
+
+  - type: tf
+    statement: "Your stop is drawn on the chart, so other traders can see where it sits."
+    answer: false
+    explanation: "It is an instruction sitting at your broker. The line on your screen is for you alone."
+
+  - type: theory
+    title: "Chosen before the entry, not after"
+    body: "The stop is part of deciding whether to take the trade at all. Once you are in, every price on the screen is arguing with you, and that is the worst moment to pick a number."
+
+  - type: mc
+    prompt: "Your long was taken because the climb kept making higher lows, and the last of those lows is $15.30. Where does the stop belong?"
+    options:
+      - {text: "Ten cents under the entry, wherever that lands"}
+      - {text: "Exactly on $15.30, the low itself"}
+      - {text: "Just under $15.30, where the higher lows would be finished", correct: true}
+    explanation: "The stop marks the price that proves the shape is gone. A round number of cents proves nothing about this chart."
 
   - type: sort
-    prompt: "Stop-market or stop-limit?"
-    buckets: ["Stop-market", "Stop-limit"]
+    prompt: "Which side of the entry does each of these sit on?"
+    buckets: ["Below the entry", "Above the entry"]
     items:
-      - {text: "Exit guaranteed", bucket: "Stop-market"}
-      - {text: "Price capped", bucket: "Stop-limit"}
-      - {text: "Can leave you stuck in a fast drop", bucket: "Stop-limit"}
-      - {text: "The scalper's usual stop-loss", bucket: "Stop-market"}
-    explanation: "Out for sure, or out at a price — pick 'out for sure'."
+      - {text: "The stop on a long", bucket: "Below the entry"}
+      - {text: "The stop on a short", bucket: "Above the entry"}
+      - {text: "The target on a long", bucket: "Above the entry"}
+      - {text: "The target on a short", bucket: "Below the entry"}
+    explanation: "Stop and target always straddle the entry, and shorting swaps which one is which."
 
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "To protect a long position,"}
-      - {text: "place a buy stop above your entry.", wrong: true}
-      - {text: "It triggers if the price falls."}
-    explanation: "A long is protected by a sell stop below the entry."
+  - type: numeric-mc
+    prompt: "Short 800 shares from $22.60 with a buy stop at $22.74. Planned loss?"
+    options:
+      - {text: "$1,120"}
+      - {text: "$14"}
+      - {text: "$112", correct: true}
+      - {text: "$11.20"}
+    working: "$22.74 − $22.60 = $0.14 per share; $0.14 × 800 = $112"
+    explanation: "Fourteen cents against you times eight hundred shares — the same arithmetic, just measured upwards."
 
-  - type: order
-    prompt: "Put one round trip in the order the tickets go out."
-    items:
-      - "Marketable limit buy, capped a few cents above the ask"
-      - "Stop-market sell, below the entry, the moment the fill comes back"
-      - "Limit sell at the target, once the stop is resting"
-      - "Whichever of the two fills first cancels the other by hand"
-    explanation: "Entry, then protection, then target. The stop goes in before the target, because being wrong is the thing that costs money."
-
-  - type: match
-    prompt: "Match each part of the exit kit to what it does."
-    pairs:
-      - ["Stop order", "Idle until the stop price is touched"]
-      - ["Stop-loss", "A stop used to cut a loss"]
-      - ["Stop-market", "Triggers a market order"]
-      - ["Stop distance", "Entry to stop, per share"]
-    explanation: "The exit kit."
-
-  - type: fill-tiles
-    sentence: "A stop that becomes a market order when triggered is a stop-___."
-    answer: "market"
-    explanation: "Guaranteed out."
+  - type: fill-choice
+    sentence: "A stop order placed to end a losing trade is a stop-___."
+    options: ["loss", "limit", "market"]
+    answer: "loss"
+    explanation: "Same order, named for the job it is doing."
 
   - type: checklist-reveal
-    title: "The order kit, complete"
+    title: "Before the entry goes out"
     items:
-      - "Marketable limit to get in without chasing"
-      - "Limit sell at the target to get out"
-      - "Stop-market below the entry for when you are wrong"
-      - "All three decided before the entry is sent"
-
+      - "Which price says this trade is finished?"
+      - "Is my stop just beyond that price, not on it?"
+      - "How many dollars is that on the size I want?"
+      - "Am I still happy to take the trade knowing that number?"

@@ -1,0 +1,118 @@
+id: "9-4"
+title: "The Stop Order"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [stops, drill, decisions, structure]
+learning_goal: "User judges at a glance whether a chart offers a stop worth trading, and knows what to do when a stop-limit is left behind."
+purpose: "A setup without a nearby price to lean on is not a cheap trade with a wide stop — it is somebody else's trade."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "9-3"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $20,000. Six-card deck on structure, then one stop that does not fill, run to the end."
+screens:
+  - type: intro
+    text: "Six charts. On each one, the only question is whether there is anything close enough to lean on."
+
+  - type: swipe-deck
+    prompt: "Your stop would go just beyond the last dip or the last failed push. Is that a stop worth trading — take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[13.60, 13.72, 13.58, 13.70], [13.70, 13.80, 13.68, 13.78], [13.78, 13.84, 13.74, 13.76], [13.76, 13.80, 13.73, 13.79], [13.79, 13.86, 13.77, 13.84], [13.84, 13.88, 13.80, 13.82], [13.82, 13.90, 13.79, 13.88], [13.88, 13.94, 13.85, 13.92]], volume: [104000, 126000, 72000, 66000, 118000, 84000, 132000, 116000]}
+        answer: take
+        note: "The dip that has to hold is $13.79, thirteen cents under the price. Close enough to lean on."
+      - chart: {kind: candles, data: [[21.40, 21.90, 21.30, 21.80], [21.80, 22.10, 21.40, 21.50], [21.50, 22.00, 21.44, 21.94], [21.94, 22.20, 21.60, 21.70], [21.70, 22.20, 21.64, 22.10], [22.10, 22.40, 21.80, 21.90], [21.90, 22.30, 21.86, 22.24], [22.24, 22.50, 21.94, 22.06]], volume: [186000, 210000, 172000, 194000, 168000, 180000, 156000, 174000]}
+        answer: pass
+        note: "Half-dollar bars. The nearest dip worth the name is a long way under the price, and that is not a scalp."
+      - chart: {kind: candles, data: [[19.20, 19.30, 19.18, 19.28], [19.28, 19.34, 19.24, 19.26], [19.26, 19.32, 19.22, 19.30], [19.30, 19.36, 19.26, 19.28], [19.28, 19.44, 19.26, 19.42], [19.42, 19.48, 19.40, 19.44], [19.44, 19.50, 19.41, 19.46], [19.46, 19.54, 19.42, 19.52]], volume: [88000, 64000, 76000, 70000, 142000, 118000, 96000, 124000]}
+        answer: take
+        note: "The push has left a shelf at $19.40, twelve cents under the price, and nothing has traded under it since."
+      - chart: {kind: candles, data: [[16.40, 16.70, 16.30, 16.62], [16.62, 16.74, 16.36, 16.44], [16.44, 16.72, 16.40, 16.66], [16.66, 16.78, 16.38, 16.46], [16.46, 16.70, 16.42, 16.64], [16.64, 16.76, 16.40, 16.48], [16.48, 16.72, 16.44, 16.68], [16.68, 16.80, 16.46, 16.54]], volume: [128000, 116000, 134000, 122000, 140000, 118000, 130000, 124000]}
+        answer: pass
+        note: "Thirty- and forty-cent bars going nowhere. Every dip here sits in the middle of the noise, so a stop under one is a guess."
+      - chart: {kind: candles, data: [[24.60, 24.64, 24.46, 24.50], [24.50, 24.56, 24.40, 24.42], [24.42, 24.52, 24.38, 24.48], [24.48, 24.50, 24.34, 24.36], [24.36, 24.44, 24.32, 24.34], [24.34, 24.40, 24.26, 24.28], [24.28, 24.32, 24.20, 24.22], [24.22, 24.26, 24.14, 24.16]], volume: [132000, 118000, 96000, 124000, 108000, 140000, 126000, 112000]}
+        answer: take
+        note: "The short side. The last failed push is sixteen cents over the price, and that is where the stop sits."
+      - chart: {kind: candles, data: [[11.80, 11.88, 11.76, 11.84], [11.84, 11.92, 11.80, 11.88], [11.88, 12.40, 11.86, 12.36], [12.36, 12.48, 12.30, 12.44], [12.44, 12.52, 12.38, 12.48], [12.48, 12.56, 12.44, 12.52], [12.52, 12.58, 12.48, 12.54], [12.54, 12.62, 12.50, 12.58]], volume: [64000, 58000, 320000, 180000, 140000, 116000, 98000, 104000]}
+        answer: pass
+        note: "The only price under this one is on the far side of a fifty-cent candle. Nothing close enough to lean on."
+    explanation: "Three charts hand you a price within fifteen cents and three do not. The ones that do not are not cheaper trades with wider stops — they are trades for somebody else's timeframe."
+
+  - type: chart-decision
+    scenario: "XYZ based between $16.34 and $16.46 for three minutes and the candle that just closed pushed out of the top of it on rising volume. The quote is two cents wide and your $20,000 account allows 1,200 shares here."
+    shares: 1200
+    state: ["Size: 1,200 shares", "Stop would sit at $16.32"]
+    chart:
+      kind: candles
+      data: [[16.18, 16.30, 16.16, 16.28], [16.28, 16.40, 16.26, 16.38], [16.38, 16.44, 16.34, 16.36], [16.36, 16.42, 16.34, 16.40], [16.40, 16.46, 16.36, 16.44], [16.44, 16.52, 16.42, 16.50], [16.50, 16.62, 16.48, 16.60], [16.60, 16.70, 16.56, 16.66], [16.66, 16.76, 16.62, 16.72], [16.72, 16.80, 16.68, 16.77]]
+      volume: [104000, 128000, 72000, 66000, 88000, 156000, 142000, 126000, 112000, 96000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran on to $16.77 — $0.27 a share above the decision, +$324 long on 1,200 shares."
+    explanation: "The base gives you the stop at $16.32 and the push gives you the entry, which is the order those two decisions belong in."
+
+  - type: numeric-input
+    prompt: "In at $16.50 with the stop at $16.32, 1,200 shares. What is the planned loss on that trade?"
+    answer: 216
+    tolerance: 0.01
+    unit: "$"
+    working: "$16.50 − $16.32 = $0.18 per share; $0.18 × 1,200 = $216"
+    explanation: "Eighteen cents of structure, twelve hundred shares, and a number you had before you pressed anything."
+
+  - type: order-build
+    prompt: "Send the protection: sell all 1,200 shares if $16.32 trades, and take whatever price is there."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [600, 1200, 2400]
+      price: [16.32, 16.50, 16.68]
+    answer: {side: sell, type: stop, qty: 1200, price: 16.32}
+    explanation: "Sell, stop, 1,200 at $16.32 — and no limit attached to it, because on this ticket being out is the point."
+
+  - type: branch
+    scenario: "A different trade: you are long 1,200 shares from $14.86 and your stop was sent as a stop-limit at $14.74."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.92, 14.98, 14.84, 14.88], [14.88, 14.94, 14.82, 14.86], [14.86, 14.92, 14.80, 14.84], [14.84, 14.88, 14.76, 14.78], [14.78, 14.82, 14.70, 14.72], [14.72, 14.76, 14.62, 14.66], [14.66, 14.70, 14.58, 14.62], [14.62, 14.68, 14.56, 14.60]]
+      volume: [96000, 84000, 102000, 130000, 186000, 164000, 140000, 120000]
+      decision_index: 4
+    steps:
+      - prompt: "$14.74 traded, your order woke up, and nothing came back. The stock is $14.70 and sliding. What now?"
+        options:
+          - {text: "Sell at the market and be out", correct: true, next: 1}
+          - {text: "Leave the limit at $14.74 and wait for it to come back", next: 1}
+        explanation: "Waiting for your number is how a twelve-cent loss becomes whatever the stock feels like. The stop already told you this trade was finished."
+      - prompt: "You are out at $14.70. What did the trade actually cost, against the $144 you had planned?"
+        options:
+          - {text: "$192 — sixteen cents on 1,200 shares", correct: true}
+          - {text: "$144 — the stop price is what counts"}
+        explanation: "$14.86 − $14.70 = $0.16, and $0.16 × 1,200 = $192. The extra $48 is what the limit on that stop cost you."
+
+  - type: tf
+    statement: "A chart with no price nearby to lean on is simply a trade with a wider stop."
+    answer: false
+    explanation: "It is a trade whose stop no longer fits the size, the spread or the minutes you are working in. That is a different trade, not a bigger version of this one."
+
+  - type: sort
+    prompt: "Deciding a trade: which comes from the chart and which comes from you?"
+    buckets: ["The chart decides", "You decide"]
+    items:
+      - {text: "Where the stop belongs", bucket: "The chart decides"}
+      - {text: "How far that is from the entry", bucket: "The chart decides"}
+      - {text: "Whether that distance is worth taking", bucket: "You decide"}
+      - {text: "How many shares to put behind it", bucket: "You decide"}
+    explanation: "The first two are measurements. The next level is entirely about the second two."
+
+  - type: recap
+    title: "Level 9 in three lines"
+    points:
+      - {text: "A stop sits idle until your price trades, then ends the position for you.", level: "9-1"}
+      - {text: "Stop-market guarantees the exit; stop-limit guarantees only the price.", level: "9-2"}
+      - {text: "The chart sets the distance, and the distance is what you will size from.", level: "9-3"}

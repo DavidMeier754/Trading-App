@@ -1,0 +1,117 @@
+id: "9-2"
+title: "The Stop Order"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [orders, stops, execution]
+learning_goal: "User can choose between a stop-market and a stop-limit and explain what each one guarantees when a level breaks fast."
+purpose: "A stop that protects your price instead of your position is the one that turns a small loss into a large one."
+terms_introduced: ["Stop-market", "Stop-limit"]
+reinforces: [2]
+prerequisite: "9-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $15,000. The break-through-support chart from Chapter 2 is what makes the difference between the two visible."
+screens:
+  - type: intro
+    text: "Your stop wakes up. The next question is what it turns into."
+
+  - type: theory
+    title: "Stop-market"
+    body: "Touched, it becomes a market order. You are out — at the next price the buyers are showing, which on a bad minute can be several cents below your number."
+
+  - type: theory
+    title: "Stop-limit"
+    body: "Touched, it becomes a limit order at the price you named. It protects you from a terrible fill, and it will happily leave you holding the position if the market has already gone past."
+
+  - type: example
+    body: "Long 800 shares from $12.60 out of a $15,000 account, stop at $12.48. Support gives way and the stock trades $12.50, then $12.44, then $12.36 in one minute."
+    visual: chart-candles
+    visual_data:
+      data: [[12.62, 12.66, 12.56, 12.58], [12.58, 12.62, 12.54, 12.56], [12.56, 12.60, 12.48, 12.50], [12.50, 12.52, 12.34, 12.36], [12.36, 12.40, 12.28, 12.32]]
+      volume: [92000, 86000, 148000, 226000, 184000]
+      levels: [12.48]
+
+  - type: mc
+    prompt: "Which of the two leaves you still holding 800 shares at $12.36?"
+    options:
+      - {text: "The stop-market, because it sells at the market price"}
+      - {text: "The stop-limit, because nothing traded at $12.48 or better after it woke", correct: true}
+      - {text: "Neither — both are out by $12.44"}
+    explanation: "The limit refused everything under $12.48, and everything under $12.48 was all there was."
+
+  - type: numeric-input
+    prompt: "The stop-market got you out at $12.44. Holding to $12.36 instead, on 800 shares, costs how much more?"
+    answer: 64
+    tolerance: 0.01
+    unit: "$"
+    working: "$12.44 − $12.36 = $0.08 per share; $0.08 × 800 = $64"
+    explanation: "Sixty-four dollars for insisting on a price, in a minute where the price was the one thing nobody was offering."
+
+  - type: tf
+    statement: "A stop-limit protects your exit price and risks your exit."
+    answer: true
+    explanation: "That is the whole trade-off in one line, and it is why the two orders are not interchangeable."
+
+  - type: compare
+    prompt: "Both of these break $12.48. In which one would a stop-limit at $12.48 have made almost no difference?"
+    charts:
+      - {kind: candles, data: [[12.62, 12.64, 12.56, 12.58], [12.58, 12.60, 12.52, 12.54], [12.54, 12.56, 12.50, 12.52], [12.52, 12.54, 12.47, 12.49], [12.49, 12.51, 12.45, 12.46], [12.46, 12.48, 12.42, 12.44], [12.44, 12.46, 12.40, 12.42], [12.42, 12.44, 12.38, 12.40]], label: "A"}
+      - {kind: candles, data: [[12.62, 12.64, 12.56, 12.58], [12.58, 12.60, 12.54, 12.56], [12.56, 12.58, 12.50, 12.52], [12.52, 12.54, 12.32, 12.34], [12.34, 12.38, 12.28, 12.30], [12.30, 12.34, 12.22, 12.26], [12.26, 12.30, 12.20, 12.24], [12.24, 12.28, 12.18, 12.22]], label: "B"}
+    answer: "A"
+    explanation: "A walks down two cents at a time, so there is trading at $12.48 and just under it. B jumps twenty cents in one minute, and a limit sitting in that gap never gets a chance."
+
+  - type: sort
+    prompt: "Which order does each of these describe?"
+    buckets: ["Stop-market", "Stop-limit"]
+    items:
+      - {text: "You are out, at a price you will only find out afterwards", bucket: "Stop-market"}
+      - {text: "You are out at your number, or not at all", bucket: "Stop-limit"}
+      - {text: "Can leave you holding a falling position", bucket: "Stop-limit"}
+      - {text: "Cannot promise the price it fills at", bucket: "Stop-market"}
+    explanation: "One of them guarantees the exit, the other guarantees the price. Only one of those two is the reason you set a stop."
+
+  - type: mc
+    prompt: "For a scalper's stop-loss, which is the usual choice?"
+    options:
+      - {text: "Stop-market, because being out matters more than a few cents", correct: true}
+      - {text: "Stop-limit, because the fill is controlled"}
+      - {text: "Whichever the platform happens to default to"}
+    explanation: "The trades that break through a stop fastest are the ones you most need to be out of."
+
+  - type: chart-decision
+    scenario: "XYZ has leaned on $12.70 for four minutes. The candle that just closed cut through it and finished at $12.60 on the heaviest bar of the morning. The quote is two cents wide and your $15,000 account allows 800 shares here."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[12.86, 12.92, 12.78, 12.82], [12.82, 12.88, 12.74, 12.76], [12.76, 12.82, 12.70, 12.78], [12.78, 12.84, 12.72, 12.74], [12.74, 12.80, 12.68, 12.72], [12.72, 12.76, 12.58, 12.60], [12.60, 12.64, 12.50, 12.52], [12.52, 12.58, 12.44, 12.48], [12.48, 12.52, 12.40, 12.44], [12.44, 12.48, 12.41, 12.43]]
+      volume: [78000, 92000, 74000, 86000, 80000, 204000, 176000, 148000, 120000, 98000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $12.43 — $0.17 a share below the decision, +$136 short on 800 shares."
+    explanation: "The floor everyone was leaning on has gone on triple volume. Anyone long from above $12.70 now has a decision to make, and their exits are on your side."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "A stop-market order triggers at your price"}
+      - {text: "and always fills at it,", wrong: true}
+      - {text: "which is why it is the scalper's default."}
+    explanation: "It triggers at your price and fills at the next one available. Certainty of the exit is what you are buying, not certainty of the number."
+
+  - type: match
+    prompt: "Four things about the two stops. Which order does each belong to?"
+    pairs:
+      - ["Stop-market", "Becomes a market order the moment it is touched"]
+      - ["Stop-limit", "Becomes a limit order the moment it is touched"]
+      - ["The risk of a stop-market", "A fill a few cents worse than planned"]
+      - ["The risk of a stop-limit", "No fill, in the minute you needed one"]
+    explanation: "Both have a bad day. One of them costs cents and the other one costs whatever the stock does next."
+
+  - type: visual
+    component: order-ticket
+    data: {ticker: XYZ, side: sell, qty: 800, type: stop, stop_price: 12.48}
+    caption: "Sell, stop, 800 at $12.48 — the ticket that goes out the moment the entry is filled."

@@ -4,111 +4,122 @@ chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: repetition
-tags: [orders, execution]
-learning_goal: "User picks the right order type for realistic entry and exit situations and reads an order ticket."
-purpose: "Order choice has to be automatic at scalping speed — this drills it on real tickets."
+tags: [orders, execution, practice, levels]
+learning_goal: "User picks and builds the right ticket for a break, for a position going wrong and for a stock that is going nowhere."
+purpose: "The chart says whether there is a trade; the ticket decides how much of it you keep."
 terms_introduced: []
-prerequisite: "7-1"
-xp: 20
+reinforces: [2]
+prerequisite: "7-3"
+xp: 30
 difficulty: 2
 sources: [consensus]
+notes: "Account named at $25,000. Chapter 2's break-versus-poke and pullback readings are what choose the ticket in each situation."
 screens:
   - type: intro
-    text: "Real tickets, real quotes. Pick the right order every time."
+    text: "Three situations. Read the chart first, then decide what to send."
 
   - type: story
     character: retail-trader
-    text: "Bid $19.98 / ask $20.00. You want in right now, but not above $20.03."
+    text: "XYZ has pressed at $24.00 twice this morning. The minute that just closed finished at $24.06 on the heaviest bar of the session, and the panel reads bid $24.03 / ask $24.06."
+
+  - type: chart-tap
+    prompt: "Tap the first minute that finished above $24.00 rather than merely touching it."
+    chart:
+      kind: candles
+      data: [[23.72, 23.86, 23.70, 23.84], [23.84, 24.00, 23.82, 23.92], [23.92, 23.98, 23.86, 23.90], [23.90, 24.00, 23.88, 23.96], [23.96, 24.08, 23.94, 24.06], [24.06, 24.14, 24.02, 24.10], [24.10, 24.20, 24.07, 24.17], [24.17, 24.24, 24.12, 24.20]]
+      volume: [92000, 138000, 84000, 110000, 246000, 180000, 150000, 128000]
+      levels:
+        - {price: 24.00, label: "Resistance"}
+    target: 4
+    explanation: "Two minutes reached $24.00 and finished underneath it. This one closed six cents through, on nearly twice the shares."
+
+  - type: order-build
+    prompt: "Get long 1,000 shares now, paying no more than three cents over the ask of $24.06."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit]
+      qty: [500, 1000, 2000]
+      price: [24.00, 24.06, 24.09]
+    answer: {side: buy, type: limit, qty: 1000, price: 24.09}
+    explanation: "A ceiling three cents over the sellers: it trades at $24.06 if they are still there, and refuses anything sillier."
 
   - type: mc
-    prompt: "Which order?"
+    prompt: "Why not a plain market order in the second after a level goes?"
     options:
-      - {text: "Market buy, filled at whatever the ask is"}
-      - {text: "Limit buy at $20.03 — marketable and capped", correct: true}
-      - {text: "Limit buy at $19.95, waiting for a dip"}
-    explanation: "At or above the ask fills now; the $20.03 cap protects you."
+      - {text: "Because a market order is slower to arrive"}
+      - {text: "Because a market order cannot be used on a breakout"}
+      - {text: "Because it pays whatever the ask has become by the time it lands", correct: true}
+    explanation: "The minute a level breaks is the minute the ask moves fastest. That is the one moment a ceiling earns its keep."
+
+  - type: story
+    character: retail-trader
+    text: "You are long 1,000 from $24.06. Four minutes later the stock has closed back under $24.00, and the bar underneath that candle is the biggest since your entry."
+
+  - type: mc
+    prompt: "Which ticket goes out now?"
+    options:
+      - {text: "Rest a sell at $24.06 and wait for it to come back"}
+      - {text: "A market sell, or a limit sell down at the bid", correct: true}
+      - {text: "Buy 1,000 more at $23.96 to bring the average down"}
+    explanation: "The reason you were long has just failed on heavy volume. Patience belongs on the exit you wanted, not on the one you need."
 
   - type: hotspot
     component: order-ticket
-    prompt: "Tap the field that caps your price."
-    data: {ticker: XYZ, side: buy, qty: 500, type: limit, price: 20.03}
-    target: price
-    explanation: "The limit price is the ceiling."
+    prompt: "Tap the one box on your entry ticket that has to change to make this the exit."
+    data: {ticker: XYZ, side: buy, qty: 1000, type: limit, price: 24.09}
+    target: side
+    explanation: "Same size, same type, opposite side. The price then points down at the buyers instead of up at the sellers."
 
   - type: tf
-    statement: "With a market buy on that quote you'd pay $19.98."
-    answer: false
-    explanation: "Market buys hit the ask: $20.00."
-
-  - type: numeric-mc
-    prompt: "You're long 500 at $20.00 and set a limit sell at $20.12. It fills. Gross profit?"
-    options:
-      - {text: "$6"}
-      - {text: "$600"}
-      - {text: "$60", correct: true}
-      - {text: "$12"}
-    working: "$0.12 × 500 = $60"
-    explanation: "Twelve cents on 500 shares."
-
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "A limit sell at $20.12"}
-      - {text: "is guaranteed to fill by the end of the day", wrong: true}
-      - {text: "if you're patient."}
-    explanation: "Limit orders fill only if the price gets there. No guarantee, ever."
+    statement: "A limit sell placed down at the bid trades straight away."
+    answer: true
+    explanation: "It reaches the buyers, so there is something to trade against — the marketable trick, used to get out rather than in."
 
   - type: story
     character: retail-trader
-    text: "Bid $54.30 / ask $54.34. The stock is dropping and you want out of 300 shares now."
+    text: "A third name has spent twenty minutes between $13.42 and $13.50. Bid $13.44 / ask $13.46, and you would be happy to own 1,800 shares at the bottom of that box."
 
-  - type: mc
-    prompt: "Which order?"
-    options:
-      - {text: "Limit sell at $54.40, ten cents above the bid"}
-      - {text: "Limit buy at $54.30, to average down first"}
-      - {text: "Market sell, or a marketable limit sell at $54.30", correct: true}
-    explanation: "Getting out now means hitting the bid."
-
-  - type: sort
-    prompt: "Fills immediately, or waits?"
-    buckets: ["Fills immediately", "Waits"]
-    items:
-      - {text: "Market buy", bucket: "Fills immediately"}
-      - {text: "Limit buy at the ask", bucket: "Fills immediately"}
-      - {text: "Limit buy $0.10 below the ask", bucket: "Waits"}
-      - {text: "Limit sell $0.10 above the bid", bucket: "Waits"}
-    explanation: "At or through the market fills; away from it waits."
+  - type: order-build
+    prompt: "Build the ticket that buys 1,800 shares at the low of the range and nowhere else."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit]
+      qty: [900, 1800, 3000]
+      price: [13.42, 13.46, 13.50]
+    answer: {side: buy, type: limit, qty: 1800, price: 13.42}
+    explanation: "Nothing is running away from you in a twenty-minute box, so there is no reason to pay the sellers' price."
 
   - type: numeric-input
-    prompt: "Bid $54.30. Market sell of 300 shares. You receive about:"
-    answer: 16290
+    prompt: "If that order trades, what do 1,800 shares save against having paid the ask of $13.46?"
+    answer: 72
+    tolerance: 0.01
     unit: "$"
-    working: "$54.30 × 300 = $16,290"
-    explanation: "At the bid, times shares."
+    working: "$13.46 − $13.42 = $0.04 per share; $0.04 × 1,800 = $72"
+    explanation: "Seventy-two dollars for being patient in a stock that was not going anywhere anyway."
 
-  - type: match
-    prompt: "Match each order to its behavior."
-    pairs:
-      - ["Market order", "Now, price uncapped"]
-      - ["Marketable limit", "Now, price capped"]
-      - ["Limit order", "Only at your price or better"]
-      - ["Unfilled", "Never executed"]
-    explanation: "The order kit so far."
+  - type: compare
+    prompt: "Both of these stalled after a push. In which one is the give-back still a pullback you could buy?"
+    charts:
+      - {kind: candles, data: [[13.30, 13.44, 13.28, 13.42], [13.42, 13.58, 13.40, 13.56], [13.56, 13.62, 13.48, 13.50], [13.50, 13.54, 13.46, 13.48], [13.48, 13.56, 13.45, 13.54], [13.54, 13.68, 13.52, 13.66], [13.66, 13.74, 13.62, 13.70], [13.70, 13.80, 13.67, 13.78]], volume: [126000, 148000, 72000, 58000, 96000, 164000, 140000, 120000], label: "A"}
+      - {kind: candles, data: [[13.30, 13.44, 13.28, 13.42], [13.42, 13.58, 13.40, 13.56], [13.56, 13.60, 13.44, 13.46], [13.46, 13.50, 13.32, 13.34], [13.34, 13.40, 13.24, 13.26], [13.26, 13.32, 13.18, 13.20], [13.20, 13.26, 13.12, 13.16], [13.16, 13.22, 13.10, 13.14]], volume: [130000, 152000, 110000, 124000, 138000, 116000, 128000, 118000], label: "B"}
+    answer: "A"
+    explanation: "A gives back eight cents on the two lightest bars of the stretch and stays well above the dip it climbed from. B goes straight through that dip and keeps making lower lows."
 
-  - type: mc
-    prompt: "Fast stock, the ask jumping every tick. Which entry protects you from paying far more than you saw?"
-    options:
-      - {text: "Marketable limit a few cents above the ask", correct: true}
-      - {text: "Market order"}
-      - {text: "Limit order well below the ask"}
-    explanation: "Capped speed. The market order is uncapped; the low limit misses the move."
+  - type: sort
+    prompt: "Which kind of ticket does each of these mornings call for?"
+    buckets: ["Capped entry, now", "Your price, resting"]
+    items:
+      - {text: "The level has just gone on the heaviest bar of the day", bucket: "Capped entry, now"}
+      - {text: "Twenty minutes of eight-cent bars and no direction", bucket: "Your price, resting"}
+      - {text: "The reason for your position has just failed", bucket: "Capped entry, now"}
+      - {text: "You want the low of a range that keeps being revisited", bucket: "Your price, resting"}
+    explanation: "Urgency is the only thing that decides it, and only the chart can tell you whether there is any."
 
-  - type: fill-tiles
-    sentence: "When an order is executed, it is ___."
-    answer: "filled"
-    explanation: "A fill is an execution."
-
-  - type: theory
-    title: "Next"
-    body: "The order that gets you out when you're wrong."
+  - type: example
+    body: "Three tickets, three different mornings: a ceiling three cents wide, a market sell, and an order sitting four cents under the bid doing nothing at all."
+    visual: cost-stack
+    visual_data: {shares: 1800, spread: 0.04, target: 0.16}

@@ -4,117 +4,116 @@ chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [position-size, risk, spread]
-learning_goal: "User sizes several setups from the lower of the two ceilings and spots when the spread is too large for the stop."
-purpose: "Sizing has to be a reflex; this also connects the spread back to your stop, which most beginners never do."
-terms_introduced: []
+tags: [position-size, risk, one-percent]
+learning_goal: "User sets a risk budget of about 1 % of the account and divides it by the stop distance to get a share count."
+purpose: "A fixed budget per trade is what makes a bad run survivable, and it is the first of the two ceilings on size."
+terms_introduced: ["1 % rule"]
+reinforces: [1]
 prerequisite: "10-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
+notes: "Account named at $30,000, so every share count in the file is payable at the prices quoted. Chapter 1's volatility dial decides the stop, and the stop decides the size."
 screens:
   - type: intro
-    text: "Five setups. Size each one from risk."
-
-  - type: numeric-input
-    prompt: "Account $10,000, 1 % rule, stop $0.10. How many shares does the risk allow?"
-    answer: 1000
-    unit: "shares"
-    working: "$100 ÷ $0.10 = 1,000"
-    explanation: "Risk budget divided by stop distance."
-
-  - type: numeric-input
-    prompt: "Account $10,000, 1 % rule, stop $0.40. How many shares does the risk allow?"
-    answer: 250
-    unit: "shares"
-    working: "$100 ÷ $0.40 = 250"
-    explanation: "Wider stop, fewer shares."
-
-  - type: mc
-    prompt: "Both trades above risk $100. At $8 per share, which has the bigger position value?"
-    options:
-      - {text: "The $0.40-stop trade: 250 × $8 = $2,000"}
-      - {text: "The $0.10-stop trade: 1,000 × $8 = $8,000", correct: true}
-      - {text: "Both equal — the risk is the same"}
-    explanation: "Same risk, four times the shares, four times the value."
-
-  - type: mc
-    prompt: "Account $10,000, stop $0.10 — the risk ceiling says 1,000 shares. The stock trades at $18.00. What do you actually buy?"
-    options:
-      - {text: "1,000 shares — the stop is what sets the size"}
-      - {text: "1,000 shares, and sell half if it goes against you"}
-      - {text: "555 shares — $10,000 ÷ $18.00", correct: true}
-    explanation: "$18,000 of stock does not fit a $10,000 account. Whichever ceiling is lower is the one you take."
-
-  - type: tf
-    statement: "Risking 1 % per trade means a single loss costs 1 % of the account."
-    answer: true
-    explanation: "If the stop is respected — that's the whole idea."
-
-  - type: slider
-    prompt: "Account $25,000. Set your max risk per trade under the 1 % rule."
-    min: 0
-    max: 1000
-    step: 50
-    unit: "$"
-    answer: 250
-    tolerance: 50
-    explanation: "1 % of $25,000 = $250."
-
-  - type: numeric-mc
-    prompt: "1,500 shares, stop $0.06. Risk?"
-    options:
-      - {text: "$9"}
-      - {text: "$90", correct: true}
-      - {text: "$900"}
-      - {text: "$60"}
-    working: "$0.06 × 1,500 = $90"
-    explanation: "Stop distance times shares."
-
-  - type: story
-    character: retail-trader
-    text: "You sized 2,000 shares for a $0.05 stop. Then you notice the spread is $0.03."
-
-  - type: mc
-    prompt: "What's the problem?"
-    options:
-      - {text: "None — spread and stop are unrelated"}
-      - {text: "The position is too small"}
-      - {text: "The spread eats more than half your stop distance", correct: true}
-    explanation: "Buy at the ask, and the bid is already $0.03 closer to your stop. Tight stops need tight spreads."
-
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "Max risk $150, stop $0.15,"}
-      - {text: "so buy 1,500 shares", wrong: true}
-      - {text: "and place the stop."}
-    explanation: "$150 ÷ $0.15 = 1,000 shares."
-
-  - type: sort
-    prompt: "Fits a $100 max risk?"
-    buckets: ["Fits", "Too big"]
-    items:
-      - {text: "1,000 shares, $0.10 stop", bucket: "Fits"}
-      - {text: "500 shares, $0.30 stop", bucket: "Too big"}
-      - {text: "2,000 shares, $0.05 stop", bucket: "Fits"}
-      - {text: "800 shares, $0.20 stop", bucket: "Too big"}
-    explanation: "$100, $150, $100, $160."
-
-  - type: match
-    prompt: "The sizing vocabulary — which formula is which?"
-    pairs:
-      - ["Position value", "Shares × price"]
-      - ["Risk per trade", "Shares × stop distance"]
-      - ["1 % rule", "Risk at most 1 % of the account"]
-      - ["Stop distance", "Entry to stop, per share"]
-    explanation: "The sizing vocabulary."
-
-  - type: fill-tiles
-    sentence: "When the account allows fewer shares than the stop does, you take the ___ number."
-    answer: "smaller"
-    explanation: "Two ceilings, and the lower one always wins."
+    text: "Before the share count, the budget. One number, written once, used every time."
 
   - type: theory
-    title: "Checkpoint next"
-    body: "Ten questions on everything from bid to shares."
+    title: "The 1 % rule"
+    body: "Risk at most one per cent of the account on any single trade. It is not a law of nature — it is the number most traders land on because it makes a bad morning boring rather than fatal."
+
+  - type: example
+    body: "A $30,000 account allows $300 of risk per trade. Ten losses in a row cost a tenth of the account, and you are still trading on the eleventh."
+
+  - type: numeric-input
+    prompt: "A $30,000 account, one per cent per trade. What is the risk budget for the next trade?"
+    answer: 300
+    tolerance: 0.01
+    unit: "$"
+    working: "$30,000 × 0.01 = $300"
+    explanation: "One number, decided away from the screen, before any particular stock has a chance to argue with it."
+
+  - type: numeric-input
+    prompt: "Budget $300, stop distance fifteen cents. How many shares does the budget allow?"
+    answer: 2000
+    tolerance: 1
+    unit: "shares"
+    working: "$300 ÷ $0.15 = 2,000 shares"
+    explanation: "The budget divided by the stop distance. At $14.00 a share that is $28,000 of stock, which this account can just about carry."
+
+  - type: mc
+    prompt: "Same $300 budget. Which stop lets you hold more shares?"
+    options:
+      - {text: "The wider one — more room means a safer position"}
+      - {text: "The tighter one, because the budget is spread over a shorter fall", correct: true}
+      - {text: "Neither — the budget fixes the share count"}
+    explanation: "Each share can only lose the stop distance, so a shorter distance buys more shares for the same money."
+
+  - type: tf
+    statement: "Risking one per cent per trade means one loss costs about one per cent of the account."
+    answer: true
+    explanation: "As long as the stop is respected. The rule is arithmetic until the moment somebody decides to give the trade more room."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "$0.12 stop", value: 2500}
+        - {label: "$0.15 stop", value: 2000}
+        - {label: "$0.30 stop", value: 1000}
+      unit: "shares for a $300 budget"
+    caption: "The same budget, three different charts. The stop is doing all the work."
+
+  - type: numeric-mc
+    prompt: "Budget $300, and this setup needs a thirty-cent stop. How many shares?"
+    options:
+      - {text: "3,000"}
+      - {text: "900"}
+      - {text: "1,000", correct: true}
+      - {text: "100"}
+    working: "$300 ÷ $0.30 = 1,000 shares"
+    explanation: "At $22.00 a share that is $22,000 of stock — comfortably inside the account, with the budget untouched."
+
+  - type: mc
+    prompt: "Two names at the same price. The calm one needs a twelve-cent stop and the jumpy one needs thirty-six. What does that do to the size the same $300 allows?"
+    options:
+      - {text: "Nothing — the budget has not changed"}
+      - {text: "Halves it, roughly"}
+      - {text: "Cuts it to a third", correct: true}
+    explanation: "Chapter 1's volatility dial arrives on your ticket as a share count: the more a stock swings, the less of it you can hold for the same money."
+
+  - type: sort
+    prompt: "Does each of these raise or lower the share count the budget allows?"
+    buckets: ["More shares", "Fewer shares"]
+    items:
+      - {text: "A tighter stop", bucket: "More shares"}
+      - {text: "A wider stop", bucket: "Fewer shares"}
+      - {text: "A bigger account, same 1 %", bucket: "More shares"}
+      - {text: "A stock that swings twice as far in a minute", bucket: "Fewer shares"}
+    explanation: "Only two things move the number: the budget above the line and the stop distance below it."
+
+  - type: slider
+    prompt: "Set the risk budget for a $30,000 account under the 1 % rule."
+    min: 0
+    max: 900
+    step: 50
+    unit: "$"
+    answer: 300
+    tolerance: 50
+    explanation: "$30,000 × 0.01 = $300. Anything much above that and a normal run of four or five losses starts to hurt."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "Budget $300, stop twenty cents,"}
+      - {text: "so take 3,000 shares", wrong: true}
+      - {text: "and place the stop where the chart said."}
+    explanation: "$300 ÷ $0.20 = 1,500 shares. Slipping a decimal here is a trade that risks ten times what you meant."
+
+  - type: checklist-reveal
+    title: "The budget half of the decision"
+    items:
+      - "One per cent of the account, worked out before the session"
+      - "The stop distance the chart is offering, in cents"
+      - "Budget divided by distance, rounded down"
+      - "And one more ceiling, which is what the next sub-level is about"
