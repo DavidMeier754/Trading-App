@@ -1,0 +1,119 @@
+id: "15-3"
+title: "Halts and Standing Aside"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [no-trade, cost, discipline]
+learning_goal: "User sorts a reason to stand aside into the cost, the chart or themselves, and names what has to change before they look again."
+purpose: "A pass with a reason behind it is a decision you can review; a pass out of vague unease is not."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "15-2"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Volman — Understanding Price Action"]
+notes: "Closes the standing-aside level. Chapter 3's spread-against-the-move and the marketable limit come back as the re-entry. Account named at $16,000."
+screens:
+  - type: intro
+    text: "Three kinds of reason to pass, and only one of them is about the stock."
+
+  - type: story
+    character: retail-trader
+    text: "Four minutes after a headline. The chart is moving, the quote is wide, and you have not taken a trade yet today."
+
+  - type: carousel
+    cards:
+      - {label: "The cost", text: "The spread, the slippage and the fees take more of this move than what is left is worth collecting.", icon: cost-spread}
+      - {label: "The chart", text: "Nothing you marked before the open is anywhere near price, so there is no entry and nowhere for a stop to live.", icon: chart-empty}
+      - {label: "You", text: "Two quick losses, or a minute you could not describe if somebody asked. Neither belongs to the stock, and both follow you to the next one.", icon: retail-trader}
+
+  - type: chart-decision
+    scenario: "XYZ came out of a headline four minutes ago. The spread is $0.07, the minute that just closed covered twenty cents, and the nearest price you marked before the open is thirty-five cents away. Your account is $16,000 and you are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[13.20, 13.38, 13.14, 13.34], [13.34, 13.40, 13.16, 13.20], [13.20, 13.36, 13.16, 13.32], [13.32, 13.38, 13.14, 13.18], [13.18, 13.34, 13.12, 13.30], [13.30, 13.36, 13.16, 13.20], [13.20, 13.34, 13.14, 13.30], [13.30, 13.36, 13.12, 13.16], [13.16, 13.32, 13.10, 13.28], [13.28, 13.34, 13.14, 13.18]]
+      volume: [240000, 190000, 210000, 170000, 180000, 160000, 170000, 150000, 160000, 140000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It swung between $13.10 and $13.36 for another ten minutes and finished at $13.18. Every entry inside it paid seven cents to find out."
+    explanation: "Seven cents of spread, nothing marked within thirty-five, and a headline nobody has finished reading. Each of those on its own is enough."
+
+  - type: numeric-mc
+    prompt: "The spread is $0.07 and you are going for eighteen cents on 1,000 shares. What does the round trip cost in spread alone?"
+    options:
+      - {text: "$7"}
+      - {text: "$140"}
+      - {text: "$70", correct: true}
+      - {text: "$180"}
+    working: "$0.07 a share × 1,000 shares = $70, the width of the quote, paid once on the way in and out"
+    explanation: "Seventy dollars of a $180 target, gone before the stock has moved a cent your way."
+
+  - type: sort
+    prompt: "Three families of reason to stand aside. Which family is each of these?"
+    buckets: ["The cost", "The chart", "You"]
+    items:
+      - {text: "The quote is a third of the move you are going for", bucket: "The cost"}
+      - {text: "Nothing you marked before the open is within thirty cents", bucket: "The chart"}
+      - {text: "Your last two trades were both stopped out inside four minutes", bucket: "You"}
+      - {text: "The fees at this share count eat most of a winner", bucket: "The cost"}
+      - {text: "You could not say what the last three minutes did", bucket: "You"}
+    explanation: "Only the middle one belongs to the stock. The other two follow you from name to name all morning."
+
+  - type: theory
+    title: "A pass is a decision"
+    body: "Standing aside is not the absence of a trade. It is a reading with a reason behind it, and the reason is the part worth writing down."
+
+  - type: tf
+    statement: "A morning you stood aside from teaches you nothing, because no trade was taken."
+    answer: false
+    explanation: "The reason you passed is a reading, and by the close it is right or wrong in exactly the way an entry would have been."
+
+  - type: chart-decision
+    scenario: "The same name, twenty minutes on. The spread is back to $0.02, price has held above its own average price for twelve minutes, and the minute that just closed finished five cents through the high of the headline stretch at $13.40 on the heaviest bar since it. Your account is $16,000 and you are sizing 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[13.24, 13.30, 13.20, 13.28], [13.28, 13.34, 13.24, 13.30], [13.30, 13.36, 13.26, 13.32], [13.32, 13.38, 13.28, 13.36], [13.36, 13.40, 13.32, 13.38], [13.38, 13.48, 13.36, 13.45], [13.45, 13.52, 13.42, 13.50], [13.50, 13.56, 13.46, 13.54], [13.54, 13.60, 13.50, 13.58], [13.58, 13.64, 13.54, 13.62], [13.62, 13.68, 13.58, 13.65]]
+      vwap: [13.22, 13.24, 13.26, 13.28, 13.30, 13.32, 13.35, 13.38, 13.41, 13.44, 13.47]
+      volume: [72000, 66000, 58000, 62000, 56000, 148000, 124000, 106000, 92000, 84000, 76000]
+      levels:
+        - {price: 13.40, label: "Headline-stretch high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried up to $13.65 — $0.20 a share past the decision, +$220 long on 1,100 shares."
+    explanation: "Same stock, same headline, and the two things that made it untradeable have both gone: the quote is two cents and there is a price on the chart to stand at."
+
+  - type: order-build
+    prompt: "Take it: 1,100 shares, paying up to three cents over the ask of $13.46 and no further."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [900, 1100, 1500]
+      price: [13.43, 13.46, 13.49]
+    answer: {side: buy, type: limit, qty: 1100, price: 13.49}
+    explanation: "Eleven hundred at $13.49 is $14,839, inside the $16,000 the account has, and the cap is what a market order would not have given you."
+
+  - type: mc
+    prompt: "You decide the first ten minutes are untradeable. What makes that a plan rather than a delay?"
+    options:
+      - {text: "Deciding how long you will wait before you look again"}
+      - {text: "Naming what has to change before you look again", correct: true}
+      - {text: "Choosing a second stock to watch in the meantime"}
+    explanation: "A clock does not tighten a quote. The trigger for coming back is the condition that sent you away, reversed."
+
+  - type: fill-tiles
+    sentence: "A quote you cannot pay and a chart with nothing marked on it are both reasons to ___."
+    answer: "pass"
+    explanation: "Two different families of reason, and the same answer from both."
+
+  - type: recap
+    title: "Level 15 in three lines"
+    points:
+      - {text: "A pause stops the market your stop was relying on.", level: "15-1"}
+      - {text: "Nothing you place survives a restart — only the share count you chose does.", level: "15-2"}
+      - {text: "Sort the reason into cost, chart or you, then name what has to change.", level: "15-3"}

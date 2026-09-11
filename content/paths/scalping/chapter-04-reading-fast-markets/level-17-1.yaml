@@ -1,0 +1,150 @@
+id: "17-1"
+title: "Chapter Review"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [review, routine, open]
+learning_goal: "User runs one morning from the first five minutes to the point where it stops offering anything, writing the four-part read out at each decision."
+purpose: "Everything in this chapter happens inside one morning, in an order, and this is that order."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "16-2"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
+notes: "Morning one, long side, end to end. Introduces writing the read out as a fixed four-line habit. Account named at $22,000."
+screens:
+  - type: intro
+    text: "One morning, start to finish, with the read written out at every decision."
+
+  - type: story
+    character: retail-trader
+    text: "The first five minutes have finished. Yesterday's prices are already on the chart and nothing has been taken yet."
+
+  - type: chart-annotate
+    prompt: "The first five minutes have finished. Drag the line to the top of the box they drew."
+    chart:
+      kind: candles
+      data: [[15.00, 15.18, 14.96, 15.12], [15.12, 15.24, 15.08, 15.16], [15.16, 15.20, 15.04, 15.08], [15.08, 15.18, 15.02, 15.14], [15.14, 15.22, 15.10, 15.18], [15.18, 15.22, 15.12, 15.16], [15.16, 15.24, 15.12, 15.20], [15.20, 15.24, 15.14, 15.18], [15.18, 15.22, 15.12, 15.16]]
+      volume: [420000, 300000, 260000, 220000, 200000, 180000, 190000, 170000, 160000]
+    answer: 15.24
+    tolerance: 0.04
+    label: "Opening-range high"
+    explanation: "$15.24, set in the second minute. The seventh and eighth reached it again and neither finished through."
+
+  - type: chart-decision
+    scenario: "The ninth minute traded two cents above the box at $15.26 and finished at $15.18, back inside. The bar under it was the lightest since the open. Your account is $22,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[15.00, 15.18, 14.96, 15.12], [15.12, 15.24, 15.08, 15.16], [15.16, 15.20, 15.04, 15.08], [15.08, 15.18, 15.02, 15.14], [15.14, 15.22, 15.10, 15.18], [15.18, 15.26, 15.14, 15.18], [15.18, 15.22, 15.10, 15.12], [15.12, 15.16, 15.04, 15.06], [15.06, 15.12, 15.00, 15.02], [15.02, 15.08, 14.96, 14.98]]
+      vwap: [15.06, 15.09, 15.09, 15.10, 15.11, 15.12, 15.13, 15.12, 15.11, 15.10]
+      volume: [420000, 300000, 260000, 220000, 200000, 150000, 190000, 170000, 160000, 150000]
+      levels:
+        - {price: 15.24, label: "Opening-range high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It rolled back through the box and finished at $14.98 — $0.20 a share against a long from $15.18, $280 on 1,400 shares."
+    explanation: "A minute that finishes back inside on the lightest bar of the morning has answered the edge's question, and the answer was no."
+
+  - type: mc
+    prompt: "The break failed and price is back inside the box. What have the last ten minutes given you?"
+    options:
+      - {text: "An edge that has now been tried and held", correct: true}
+      - {text: "A reason to short, because a failed break reverses"}
+      - {text: "Nothing — the morning starts again from here"}
+    explanation: "The high is worth more after the test than before it: it has been argued over once, and some of what was resting on it has been spent."
+
+  - type: chart-decision
+    scenario: "Twenty minutes later. Price has climbed back and the minute that just closed finished seven cents above the box high on the heaviest bar since the opening minute, with the session above its own average price throughout the climb. Your account is $22,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[15.02, 15.08, 14.98, 15.06], [15.06, 15.12, 15.02, 15.10], [15.10, 15.16, 15.06, 15.14], [15.14, 15.20, 15.10, 15.18], [15.18, 15.24, 15.14, 15.22], [15.22, 15.34, 15.20, 15.31], [15.31, 15.38, 15.28, 15.36], [15.36, 15.44, 15.32, 15.42], [15.42, 15.48, 15.38, 15.46], [15.46, 15.54, 15.42, 15.52], [15.52, 15.58, 15.48, 15.55]]
+      vwap: [15.02, 15.04, 15.06, 15.09, 15.12, 15.15, 15.19, 15.23, 15.27, 15.31, 15.35]
+      volume: [180000, 170000, 150000, 160000, 145000, 380000, 290000, 240000, 210000, 190000, 170000]
+      levels:
+        - {price: 15.24, label: "Opening-range high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped up to $15.55 — $0.24 a share past the decision, +$336 long on 1,400 shares."
+    explanation: "The same edge, the second attempt, and this time the minute finished clear of it with the biggest bar since the open underneath."
+
+  - type: numeric-input
+    prompt: "You are in at $15.31 with the stop back inside the box at $15.19. What is at risk on 1,400 shares?"
+    answer: 168
+    tolerance: 0.01
+    unit: "$"
+    working: "$15.31 − $15.19 = $0.12 a share; $0.12 × 1,400 shares = $168"
+    explanation: "Back inside the box is the break being taken back, so that is the only price the stop is worth putting at."
+
+  - type: order-build
+    prompt: "Build the entry: 1,400 shares, paying up to two cents over the ask of $15.32 and no further."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [1000, 1400, 1800]
+      price: [15.30, 15.32, 15.34]
+    answer: {side: buy, type: limit, qty: 1400, price: 15.34}
+    explanation: "Fourteen hundred at $15.34 is $21,476, inside the $22,000 account, and the cap refuses anything above it."
+
+  - type: branch
+    scenario: "You are long 1,400 shares from $15.31 with the stop at $15.19 and the next price you marked twenty-eight cents above."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[15.22, 15.34, 15.20, 15.31], [15.31, 15.38, 15.28, 15.36], [15.36, 15.44, 15.32, 15.42], [15.42, 15.48, 15.38, 15.46], [15.46, 15.54, 15.42, 15.52], [15.52, 15.58, 15.48, 15.50], [15.50, 15.56, 15.44, 15.46], [15.46, 15.62, 15.44, 15.60], [15.60, 15.68, 15.56, 15.64], [15.64, 15.70, 15.60, 15.66]]
+      vwap: [15.24, 15.27, 15.30, 15.34, 15.38, 15.41, 15.43, 15.46, 15.49, 15.52]
+      volume: [380000, 290000, 240000, 210000, 190000, 150000, 170000, 260000, 200000, 180000]
+      decision_index: 4
+    steps:
+      - prompt: "Price reaches $15.58, a cent under the price you marked, and stalls for two minutes on shrinking bars. What now?"
+        options:
+          - {text: "Hold — nothing has finished back under anything", correct: true, next: 1}
+          - {text: "Get out; stalling a cent short is a rejection", next: 1}
+        explanation: "Shrinking bars at the top of a push are the pause every move makes. A minute finishing back under the last give-back is the thing that ends it."
+      - prompt: "It eases to $15.44, two cents above the last give-back, and the next minute finishes at $15.60. What was the stall?"
+        options:
+          - {text: "The pullback that let the next push start", correct: true}
+          - {text: "A rejection that the next minute happened to undo"}
+        explanation: "The stop never came into it. What decided the trade was the price the give-back stopped at, not the one you were hoping for."
+
+  - type: tf
+    statement: "A share count the risk budget allows can still be more stock than the account can pay for."
+    answer: true
+    explanation: "Two ceilings, and on a cheap stock with a tight stop it is almost always the account that binds first."
+
+  - type: chart-decision
+    scenario: "An hour after the open. Price has settled into a nine-cent band, the bars are half what they were, and the nearest price you marked is twenty-two cents away. Your account is $22,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[15.50, 15.54, 15.47, 15.52], [15.52, 15.56, 15.48, 15.50], [15.50, 15.55, 15.47, 15.53], [15.53, 15.56, 15.48, 15.49], [15.49, 15.54, 15.47, 15.52], [15.52, 15.56, 15.48, 15.50], [15.50, 15.55, 15.47, 15.51], [15.51, 15.55, 15.48, 15.53], [15.53, 15.56, 15.49, 15.50], [15.50, 15.54, 15.47, 15.52]]
+      vwap: [15.48, 15.48, 15.49, 15.49, 15.49, 15.50, 15.50, 15.50, 15.50, 15.50]
+      volume: [84000, 72000, 66000, 58000, 54000, 50000, 52000, 48000, 46000, 44000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Nine cents of range for another twenty minutes. The morning's work had already been done."
+    explanation: "No price to stand at, no side worth naming and nothing in the bars. The read takes three seconds and gives the answer it gives most of the day."
+
+  - type: order
+    prompt: "Write the read out for the break you took, in the order you ran it."
+    items:
+      - "The price: the high of the first five minutes, at $15.24"
+      - "The side: above its own average price for the whole climb"
+      - "The minute: finished seven cents clear of the edge"
+      - "The weight: the heaviest bar since the opening minute"
+    explanation: "Four lines, and every one of them was on the chart before the order went in."
+
+  - type: checklist-reveal
+    title: "The morning, in the order it happened"
+    items:
+      - "The first five minutes drew the box."
+      - "The first break finished back inside on the lightest bar."
+      - "The second finished clear of the edge on the heaviest."
+      - "An hour in, there was nothing left to read."

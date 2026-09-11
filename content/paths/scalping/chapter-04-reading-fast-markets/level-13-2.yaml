@@ -1,0 +1,155 @@
+id: "13-2"
+title: "Map Drills"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [drill, map, decisions, sizing, base-rate]
+learning_goal: "User expects most reads to come back a pass and judges a morning by the reads run, not by the trades taken."
+purpose: "A beginner who expects six trades a morning will manufacture four of them."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "13-1"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Volman — Understanding Price Action"]
+notes: "One new idea — the base rate of passes — and then the drill that shows it. Three reads plus a deck, two of the three reads are passes. Chapter 2's levels and Chapter 3's two ceilings are inside the sizing. Account named at $22,000. Deviation from the outline's 2 R: kept as new-theory so the level does not make a third review sub in a row (agent.md §3.2)."
+screens:
+  - type: intro
+    text: "Three reads and a deck, and most of them are not trades."
+
+  - type: theory
+    title: "Most reads are passes"
+    body: "Run the four readings all morning and the ordinary answer is that one of them is missing. Two or three charts an hour answer all four, and a morning is judged by the reads you ran, not the trades you took."
+
+  - type: chart-decision
+    scenario: "XYZ has held above its own average price all morning. The nearest price you marked is $16.90, and the minute that just closed is the lightest bar of the hour. Your account is $22,000 and you are sizing 1,300 shares."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[16.30, 16.38, 16.28, 16.36], [16.36, 16.44, 16.34, 16.42], [16.42, 16.46, 16.36, 16.38], [16.38, 16.46, 16.36, 16.44], [16.44, 16.50, 16.42, 16.48], [16.48, 16.52, 16.44, 16.48], [16.48, 16.54, 16.44, 16.50], [16.50, 16.54, 16.44, 16.46], [16.46, 16.52, 16.42, 16.48], [16.48, 16.52, 16.44, 16.46], [16.46, 16.50, 16.42, 16.44]]
+      vwap: [16.30, 16.32, 16.34, 16.36, 16.38, 16.40, 16.41, 16.42, 16.43, 16.43, 16.44]
+      volume: [62000, 68000, 54000, 58000, 52000, 48000, 50000, 46000, 44000, 42000, 40000]
+      levels:
+        - {price: 16.90, label: "Yesterday's high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It drifted between $16.44 and $16.54 for the rest of the stretch and finished at $16.44 — $0.04 a share against a long, $52 on 1,300 shares."
+    explanation: "The side of the line is the only reading that answered. Forty-two cents of empty chart above price is not a level you are standing at."
+
+  - type: compare
+    prompt: "Both sessions have just finished a minute through the same level from above its own average price. In which one did a crowd do it?"
+    charts:
+      - kind: candles
+        data: [[21.10, 21.18, 21.08, 21.16], [21.16, 21.24, 21.14, 21.20], [21.20, 21.26, 21.16, 21.18], [21.18, 21.26, 21.16, 21.24], [21.24, 21.30, 21.22, 21.28], [21.28, 21.46, 21.26, 21.44], [21.44, 21.50, 21.40, 21.48], [21.48, 21.54, 21.44, 21.52]]
+        volume: [74000, 80000, 62000, 68000, 64000, 66000, 60000, 58000]
+        vwap: [21.10, 21.13, 21.15, 21.17, 21.19, 21.22, 21.26, 21.30]
+        levels:
+          - {price: 21.40, label: "Yesterday's high"}
+        label: "A"
+      - kind: candles
+        data: [[21.10, 21.18, 21.08, 21.16], [21.16, 21.24, 21.14, 21.20], [21.20, 21.26, 21.16, 21.18], [21.18, 21.26, 21.16, 21.24], [21.24, 21.30, 21.22, 21.28], [21.28, 21.46, 21.26, 21.44], [21.44, 21.50, 21.40, 21.48], [21.48, 21.54, 21.44, 21.52]]
+        volume: [74000, 80000, 62000, 68000, 64000, 178000, 146000, 124000]
+        vwap: [21.10, 21.13, 21.15, 21.17, 21.19, 21.22, 21.26, 21.30]
+        levels:
+          - {price: 21.40, label: "Yesterday's high"}
+        label: "B"
+    answer: "B"
+    explanation: "Identical candles and identical lines. B put nearly three times the morning's usual size through the minute that did it; A did it on the quietest bar of the eight."
+
+  - type: chart-decision
+    scenario: "Yesterday's low is $13.60. XYZ has traded under its own average price since the first minute, and the minute that just closed finished five cents under the level on the heaviest bar of the morning. Your account is $22,000 and you are sizing 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[13.90, 13.94, 13.82, 13.84], [13.84, 13.88, 13.76, 13.78], [13.78, 13.84, 13.74, 13.80], [13.80, 13.84, 13.72, 13.74], [13.74, 13.78, 13.64, 13.66], [13.66, 13.68, 13.54, 13.55], [13.55, 13.58, 13.46, 13.48], [13.48, 13.52, 13.40, 13.42], [13.42, 13.46, 13.34, 13.36], [13.36, 13.40, 13.28, 13.30], [13.30, 13.34, 13.19, 13.21]]
+      vwap: [13.92, 13.90, 13.88, 13.86, 13.83, 13.80, 13.77, 13.73, 13.69, 13.65, 13.61]
+      volume: [72000, 78000, 58000, 64000, 88000, 186000, 148000, 126000, 108000, 96000, 88000]
+      levels:
+        - {price: 13.60, label: "Yesterday's low"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It carried down to $13.21 — $0.34 a share under the decision, +$374 short on 1,100 shares."
+    explanation: "A level finished through, the session on the same side of its average all morning, and twice the usual size in the minute that did it."
+
+  - type: numeric-input
+    prompt: "That short: in at $13.55, stop back above the level at $13.75, and 1 % of your $22,000 account as the budget. How many shares?"
+    answer: 1100
+    tolerance: 1
+    unit: "shares"
+    working: "1 % of $22,000 = $220; $13.75 − $13.55 = $0.20 a share; $220 ÷ $0.20 = 1,100 shares — and the account would have paid for 1,623"
+    explanation: "The budget came out lower than the account this time, so the budget is the number you take."
+
+  - type: swipe-deck
+    prompt: "Five charts, four readings each. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[24.10, 24.18, 24.08, 24.16], [24.16, 24.22, 24.12, 24.14], [24.14, 24.20, 24.10, 24.18], [24.18, 24.24, 24.14, 24.22], [24.22, 24.28, 24.18, 24.26], [24.26, 24.44, 24.24, 24.42], [24.42, 24.48, 24.38, 24.46], [24.46, 24.52, 24.42, 24.50]], volume: [64000, 70000, 58000, 62000, 60000, 164000, 138000, 118000], vwap: [24.08, 24.10, 24.12, 24.14, 24.17, 24.20, 24.24, 24.28], levels: [{price: 24.30, label: "Pre-market high"}]}
+        answer: take
+        note: "Standing at the price it was drawn at, on the right side of the line, with a minute finishing twelve cents clear on a bar nobody could miss."
+      - chart: {kind: candles, data: [[11.20, 11.26, 11.18, 11.24], [11.24, 11.30, 11.22, 11.26], [11.26, 11.32, 11.22, 11.30], [11.30, 11.34, 11.26, 11.32], [11.32, 11.38, 11.28, 11.34], [11.34, 11.40, 11.30, 11.38], [11.38, 11.42, 11.34, 11.40], [11.40, 11.46, 11.36, 11.42]], volume: [58000, 62000, 54000, 56000, 52000, 58000, 54000, 56000], vwap: [11.18, 11.20, 11.22, 11.24, 11.26, 11.28, 11.31, 11.34], levels: [{price: 11.90, label: "Yesterday's high"}]}
+        answer: pass
+        note: "A tidy climb and forty-eight cents to the only price on the chart. Nothing to lean on and nothing to stop against."
+      - chart: {kind: candles, data: [[18.90, 18.96, 18.86, 18.88], [18.88, 18.92, 18.80, 18.82], [18.82, 18.88, 18.78, 18.84], [18.84, 18.88, 18.76, 18.78], [18.78, 18.82, 18.70, 18.72], [18.72, 18.74, 18.60, 18.62], [18.62, 18.66, 18.54, 18.56], [18.56, 18.60, 18.48, 18.50]], volume: [70000, 76000, 62000, 68000, 84000, 172000, 146000, 128000], vwap: [18.96, 18.94, 18.92, 18.90, 18.87, 18.84, 18.80, 18.76], levels: [{price: 18.70, label: "Yesterday's low"}]}
+        answer: take
+        note: "Under the line since the open, a body finishing eight cents below the floor, and the heaviest minute of the eight doing it."
+      - chart: {kind: candles, data: [[15.40, 15.48, 15.36, 15.46], [15.46, 15.52, 15.42, 15.48], [15.48, 15.54, 15.44, 15.50], [15.50, 15.56, 15.46, 15.52], [15.52, 15.58, 15.48, 15.54], [15.54, 15.68, 15.50, 15.56], [15.56, 15.60, 15.50, 15.52], [15.52, 15.58, 15.48, 15.54]], volume: [62000, 66000, 58000, 60000, 56000, 132000, 74000, 68000], vwap: [15.38, 15.40, 15.42, 15.44, 15.46, 15.48, 15.50, 15.51], levels: [{price: 15.60, label: "Round number"}]}
+        answer: pass
+        note: "Eight cents past the round number inside the minute and four cents back under it at the close. Price visited and left."
+      - chart: {kind: candles, data: [[13.10, 13.16, 13.06, 13.14], [13.14, 13.20, 13.10, 13.16], [13.16, 13.22, 13.12, 13.20], [13.20, 13.24, 13.14, 13.18], [13.18, 13.24, 13.14, 13.22], [13.22, 13.34, 13.18, 13.32], [13.32, 13.36, 13.28, 13.30], [13.30, 13.36, 13.26, 13.32]], volume: [66000, 70000, 62000, 64000, 60000, 148000, 82000, 76000], vwap: [13.44, 13.42, 13.40, 13.39, 13.38, 13.37, 13.36, 13.36], levels: [{price: 13.28, label: "Yesterday's close"}]}
+        answer: pass
+        note: "A level finished through on a heavy minute, with sellers owning every one of the eight before it. Two say yes and two say no."
+    explanation: "Two of the five answered all four. The others were missing the price, the close or the agreement."
+
+  - type: chart-decision
+    scenario: "Yesterday's close is $19.20. XYZ has traded under its own average price all session, and the minute that just closed finished three cents above the level on an ordinary bar. Your account is $22,000 and you are sizing 900 shares."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[19.02, 19.08, 18.98, 19.06], [19.06, 19.12, 19.02, 19.08], [19.08, 19.14, 19.04, 19.10], [19.10, 19.16, 19.06, 19.12], [19.12, 19.20, 19.10, 19.18], [19.18, 19.26, 19.16, 19.23], [19.23, 19.26, 19.14, 19.16], [19.16, 19.20, 19.10, 19.12], [19.12, 19.16, 19.06, 19.08], [19.08, 19.12, 19.02, 19.05]]
+      vwap: [19.32, 19.31, 19.30, 19.29, 19.29, 19.28, 19.28, 19.27, 19.26, 19.25]
+      volume: [66000, 62000, 58000, 60000, 56000, 64000, 58000, 54000, 50000, 48000]
+      levels:
+        - {price: 19.20, label: "Yesterday's close"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It slipped straight back under the level and finished at $19.05 — $0.18 a share against a long, $162 on 900 shares."
+    explanation: "The price and the close both said yes. The side of the line and the bar under it both said no, and a read that is two against two is a pass."
+
+  - type: tf
+    statement: "Two charts can carry the same four readings and still deserve different share counts."
+    answer: true
+    explanation: "The stop the chart offers and the price of the share both set the size, and neither of them is part of the read."
+
+  - type: fill-choice
+    sentence: "Size larger than the lower of your two ___ is not a bigger trade, it is one the account cannot pay for."
+    options: ["ceilings", "targets", "stops"]
+    answer: "ceilings"
+    explanation: "The budget gives one number and the account gives another; the smaller of them is the position."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The nearest level is forty cents away"}
+      - {text: "and the last minute is the lightest of the hour,"}
+      - {text: "so a smaller size makes it a trade.", wrong: true}
+    explanation: "Size answers how much, never whether. A read with nothing in it is not improved by putting less money on it."
+
+  - type: chart-tap
+    prompt: "Tap the minute that finished through yesterday's high for the first time."
+    chart:
+      kind: candles
+      data: [[17.60, 17.66, 17.56, 17.64], [17.64, 17.72, 17.62, 17.66], [17.66, 17.74, 17.64, 17.70], [17.70, 17.78, 17.68, 17.74], [17.74, 17.80, 17.70, 17.76], [17.76, 17.88, 17.74, 17.86], [17.86, 17.92, 17.82, 17.90], [17.90, 17.96, 17.86, 17.94]]
+      levels:
+        - {price: 17.80, label: "Yesterday's high"}
+    target: 5
+    explanation: "The fifth minute reached the level and finished four cents underneath. The sixth finished six cents above it."
+
+  - type: recap
+    title: "Level 13 in three lines"
+    points:
+      - {text: "The same four questions work on a chart nobody has introduced.", level: "13-1"}
+      - {text: "Two readings agreeing and two disagreeing is a pass, not a half-sized trade.", level: "13-2"}
+      - {text: "The share count comes from the stop and the account, never from how good the read felt.", level: "13-2"}

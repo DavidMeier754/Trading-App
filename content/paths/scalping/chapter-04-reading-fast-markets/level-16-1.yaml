@@ -1,0 +1,136 @@
+id: "16-1"
+title: "Chapters 2–3 Callback"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: repetition
+tags: [callback, levels, spread, cost]
+learning_goal: "User prices a level with the quote in front of it and drops the read when the spread takes most of the room the level was offering."
+purpose: "A level is worth what is left of the move after the quote has taken its share, and that number changes from stock to stock."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "15-3"
+xp: 30
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Callback sub one: Chapter 2's levels through Chapter 3's spread. Two reads with the same shape and different quotes. Account named at $15,000."
+screens:
+  - type: intro
+    text: "The chart says there is a move. The quote says how much of it reaches you."
+
+  - type: story
+    character: retail-trader
+    text: "Two names, the same reading on both, and the only difference is four cents between the bid and the ask."
+
+  - type: chart-decision
+    scenario: "Yesterday's high is $11.60. Price has held above its own average price all session and the minute that just closed finished four cents through the level. The quote is $11.61 bid, $11.67 ask, and the next price you marked is fourteen cents above. Your account is $15,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[11.40, 11.46, 11.38, 11.44], [11.44, 11.50, 11.42, 11.48], [11.48, 11.52, 11.44, 11.46], [11.46, 11.52, 11.44, 11.50], [11.50, 11.56, 11.48, 11.54], [11.54, 11.66, 11.52, 11.64], [11.64, 11.70, 11.60, 11.66], [11.66, 11.72, 11.62, 11.68], [11.68, 11.72, 11.62, 11.64], [11.64, 11.70, 11.60, 11.66], [11.66, 11.70, 11.60, 11.62]]
+      vwap: [11.38, 11.40, 11.42, 11.44, 11.46, 11.48, 11.51, 11.54, 11.56, 11.58, 11.59]
+      volume: [64000, 68000, 54000, 58000, 52000, 128000, 96000, 84000, 72000, 66000, 60000]
+      levels:
+        - {price: 11.60, label: "Yesterday's high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It reached $11.72 and came back — $0.08 a share past the decision at the very best, $96 on 1,200 shares against $72 of spread."
+    explanation: "Six cents of quote against fourteen cents of room is Chapter 3's question, and it answers before the chart gets a vote."
+
+  - type: numeric-mc
+    prompt: "Six cents of spread on 1,200 shares. What is the round trip?"
+    options:
+      - {text: "$7.20"}
+      - {text: "$72", correct: true}
+      - {text: "$144"}
+      - {text: "$720"}
+    working: "$0.06 a share × 1,200 shares = $72, the whole width of the quote, paid once"
+    explanation: "Which is three quarters of the $96 the move actually offered."
+
+  - type: slider
+    prompt: "Six cents of spread against the fourteen cents to the next level — how much of the move does it take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 45
+    tolerance: 10
+    explanation: "Six of fourteen is about 43 %, and that is before a cent of slippage or a cent of fees."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price that has stopped the last two pushes."
+    chart:
+      kind: candles
+      data: [[18.20, 18.26, 18.18, 18.24], [18.24, 18.36, 18.22, 18.28], [18.28, 18.32, 18.24, 18.26], [18.26, 18.30, 18.22, 18.28], [18.28, 18.32, 18.26, 18.30], [18.30, 18.36, 18.28, 18.32], [18.32, 18.34, 18.28, 18.30], [18.30, 18.34, 18.26, 18.28], [18.28, 18.32, 18.24, 18.30]]
+      volume: [58000, 86000, 52000, 48000, 54000, 92000, 56000, 50000, 48000]
+    answer: 18.36
+    tolerance: 0.04
+    label: "Resistance"
+    explanation: "$18.36 — reached on the second minute and again on the sixth, and finished under it both times."
+
+  - type: chart-decision
+    scenario: "A different name. The pre-market high is $19.80, price has been above its own average price since the open, and the minute that just closed finished six cents through it on the heaviest bar of the morning. The quote is $19.85 bid, $19.87 ask, and the next price you marked is twenty-eight cents above. Your account is $15,000 and you are sizing 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[19.50, 19.58, 19.46, 19.56], [19.56, 19.64, 19.52, 19.60], [19.60, 19.66, 19.56, 19.62], [19.62, 19.70, 19.58, 19.68], [19.68, 19.76, 19.64, 19.74], [19.74, 19.88, 19.72, 19.86], [19.86, 19.94, 19.82, 19.92], [19.92, 20.00, 19.88, 19.98], [19.98, 20.06, 19.94, 20.04], [20.04, 20.12, 20.00, 20.10], [20.10, 20.16, 20.06, 20.12]]
+      vwap: [19.48, 19.51, 19.54, 19.57, 19.61, 19.65, 19.70, 19.75, 19.80, 19.85, 19.90]
+      volume: [76000, 82000, 64000, 70000, 66000, 188000, 152000, 128000, 110000, 96000, 86000]
+      levels:
+        - {price: 19.80, label: "Pre-market high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $20.12 — $0.26 a share past the decision, +$182 long on 700 shares against $14 of spread."
+    explanation: "Same shape and the same four readings, two cents instead of six, and twice as far to the next price on the chart."
+
+  - type: tf
+    statement: "A wider quote makes a level less worth trading, even though nothing about the level has changed."
+    answer: true
+    explanation: "The chart decides whether there is a move. The quote decides how much of it stays in the account."
+
+  - type: compare
+    prompt: "Both stocks are standing at a price they were given before the open. In which one is this the first arrival of the day?"
+    charts:
+      - kind: candles
+        data: [[16.20, 16.26, 16.16, 16.24], [16.24, 16.30, 16.20, 16.28], [16.28, 16.34, 16.24, 16.32], [16.32, 16.38, 16.28, 16.36], [16.36, 16.42, 16.32, 16.40], [16.40, 16.46, 16.36, 16.44], [16.44, 16.50, 16.40, 16.48], [16.48, 16.56, 16.44, 16.54]]
+        levels:
+          - {price: 16.56, label: "Yesterday's high"}
+        label: "A"
+      - kind: candles
+        data: [[16.20, 16.56, 16.16, 16.30], [16.30, 16.38, 16.24, 16.28], [16.28, 16.34, 16.22, 16.32], [16.32, 16.56, 16.28, 16.36], [16.36, 16.42, 16.30, 16.34], [16.34, 16.40, 16.28, 16.38], [16.38, 16.46, 16.34, 16.44], [16.44, 16.56, 16.40, 16.52]]
+        levels:
+          - {price: 16.56, label: "Yesterday's high"}
+        label: "B"
+    answer: "A"
+    explanation: "B has already been up there twice in eight minutes and finished under it both times. A has only just got there, and what is resting on the level has not been spent yet."
+
+  - type: sort
+    prompt: "Which half of the decision does each of these belong to?"
+    buckets: ["The chart", "The cost"]
+    items:
+      - {text: "A minute finished through the price you marked", bucket: "The chart"}
+      - {text: "The quote is six cents wide on a fourteen-cent move", bucket: "The cost"}
+      - {text: "The session has been above its own average all morning", bucket: "The chart"}
+      - {text: "The fees at this share count come to a fifth of the target", bucket: "The cost"}
+    explanation: "The chart says whether the move is there. The cost says how much of it arrives."
+
+  - type: numeric-input
+    prompt: "1,200 shares, $0.06 of spread, a cent a share of slippage on the way in and $0.005 a share in fees each way. What does the round trip cost?"
+    answer: 96
+    tolerance: 0.01
+    unit: "$"
+    working: "Spread $0.06 × 1,200 = $72; slippage $0.01 × 1,200 = $12; fees $0.005 × 1,200 × 2 = $12; $72 + $12 + $12 = $96"
+    explanation: "Eight cents a share all in, on a move the chart said was fourteen."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The spread is six cents on a fourteen-cent move,"}
+      - {text: "which is fine because the share price is high,", wrong: true}
+      - {text: "so this one is not worth the quote."}
+    explanation: "Judge the gap against the move you are going for, never against the price of the share."
+
+  - type: example
+    body: "Two identical reads and two different answers. Nothing on either chart decided it — the four cents between the two quotes did."

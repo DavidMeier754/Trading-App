@@ -1,0 +1,130 @@
+id: "16-2"
+title: "Chapters 2–3 Callback"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: repetition
+tags: [callback, sizing, stop, levels]
+learning_goal: "User turns a Chapter 2 level into a stop, sizes it from both Chapter 3 ceilings, and passes when the stop the chart offers makes the position too small to be worth its costs."
+purpose: "The chart chooses the stop, the stop and the account choose the size, and sometimes the size they choose ends the trade."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "16-1"
+xp: 30
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "Callback sub two: Chapter 2's levels become Chapter 3's stop distance and share count. The account binds on the first read, and the stop distance kills the second. Account named at $24,000."
+screens:
+  - type: intro
+    text: "The level picks the stop. The stop and the account pick the size."
+
+  - type: story
+    character: retail-trader
+    text: "Two reads left. On one of them the account has the final word, and on the other the stop does."
+
+  - type: chart-decision
+    scenario: "The 5-minute chart has made higher highs and higher lows all morning. On the 1-minute, price has pulled back to yesterday's close at $12.80, left a three-cent tail under it, and the minute that just closed finished eight cents above. Your account is $24,000 and you are sizing 1,800 shares."
+    shares: 1800
+    chart:
+      kind: candles
+      data: [[13.10, 13.14, 13.02, 13.04], [13.04, 13.08, 12.96, 12.98], [12.98, 13.02, 12.90, 12.92], [12.92, 12.96, 12.84, 12.86], [12.86, 12.90, 12.77, 12.84], [12.84, 12.92, 12.80, 12.88], [12.88, 12.96, 12.86, 12.94], [12.94, 13.02, 12.92, 13.00], [13.00, 13.08, 12.98, 13.06], [13.06, 13.12, 13.02, 13.10], [13.10, 13.20, 13.06, 13.16]]
+      vwap: [12.92, 12.91, 12.90, 12.89, 12.87, 12.86, 12.86, 12.87, 12.88, 12.90, 12.92]
+      volume: [72000, 66000, 58000, 52000, 88000, 112000, 94000, 82000, 74000, 68000, 62000]
+      levels:
+        - {price: 12.80, label: "Yesterday's close"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked back up to $13.16 — $0.28 a share past the decision, +$504 long on 1,800 shares."
+    explanation: "The slow chart is making higher lows, the give-back stopped three cents under a price drawn before the open, and the minute that left it finished clear."
+
+  - type: numeric-input
+    prompt: "The tail under the level reached $12.77. You are in at $12.88 and the stop goes a cent under that tail. What is the stop distance?"
+    answer: 0.12
+    tolerance: 0.001
+    unit: "$"
+    working: "$12.88 − $12.76 = $0.12 a share"
+    explanation: "Chapter 2 drew the level; Chapter 3 said the stop goes a cent past the price the level was defended from."
+
+  - type: numeric-mc
+    prompt: "You risk 1 % of a $24,000 account. At a twelve-cent stop, how many shares does the budget allow?"
+    options:
+      - {text: "1,846"}
+      - {text: "2,000", correct: true}
+      - {text: "3,000"}
+      - {text: "1,200"}
+    working: "1 % of $24,000 = $240; $240 ÷ $0.12 a share = 2,000 shares"
+    explanation: "That is the first ceiling, and it is not the answer yet."
+
+  - type: numeric-input
+    prompt: "Same trade, in at $12.88. How many shares can a $24,000 account actually pay for?"
+    answer: 1863
+    tolerance: 1
+    unit: "shares"
+    working: "$24,000 ÷ $12.88 a share = 1,863 shares, rounded down"
+    explanation: "Two thousand was the budget's answer and 1,863 is the account's, so the trade is 1,800 and the budget never gets spent in full."
+
+  - type: order-build
+    prompt: "Build the entry: 1,800 shares, paying up to two cents over the ask of $12.90 and no further."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [1200, 1800, 2000]
+      price: [12.88, 12.90, 12.92]
+    answer: {side: buy, type: limit, qty: 1800, price: 12.92}
+    explanation: "Eighteen hundred at $12.92 is $23,256, inside the account. Two thousand at the same price would have been $25,840, which it is not."
+
+  - type: tf
+    statement: "When the risk budget and the account disagree about the share count, the larger of the two is the one the chart deserves."
+    answer: false
+    explanation: "The lower one is the only number you can pay for; the other is a loan you did not take out."
+
+  - type: chart-decision
+    scenario: "A different name. A minute has just finished through yesterday's high at $26.40, but the last price it was defended from is $26.00, so a stop under it sits forty-four cents away. Your account is $24,000 and the sizing puts you in 500 shares."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[26.00, 26.10, 26.00, 26.08], [26.08, 26.18, 26.04, 26.14], [26.14, 26.22, 26.10, 26.18], [26.18, 26.28, 26.14, 26.24], [26.24, 26.36, 26.20, 26.32], [26.32, 26.48, 26.30, 26.44], [26.44, 26.50, 26.36, 26.40], [26.40, 26.44, 26.30, 26.34], [26.34, 26.40, 26.26, 26.30], [26.30, 26.36, 26.22, 26.26], [26.26, 26.32, 26.18, 26.22]]
+      vwap: [26.02, 26.06, 26.09, 26.12, 26.16, 26.20, 26.24, 26.26, 26.28, 26.29, 26.29]
+      volume: [64000, 70000, 58000, 62000, 56000, 124000, 88000, 74000, 66000, 60000, 56000]
+      levels:
+        - {price: 26.40, label: "Yesterday's high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It held the level for six minutes and then slid back to $26.22 — $0.22 a share against a long, $110 on 500 shares."
+    explanation: "The read is fine. The nearest place a stop can live is forty-four cents away, which cuts the position to five hundred shares — and five hundred shares of a twenty-cent move does not cover what it costs to take."
+
+  - type: match
+    prompt: "Four things Chapter 2 put on a chart. What does Chapter 3 do with each of them?"
+    pairs:
+      - ["Yesterday's close", "A price to lean the stop against"]
+      - ["The low of a pullback", "The distance that sets the share count"]
+      - ["A thin volume bar", "A reason the fill comes back worse than the quote"]
+      - ["The opening-range high", "The price a limit order is capped just above"]
+    explanation: "Every line Chapter 2 drew turns into a number Chapter 3 has to price."
+
+  - type: depth-ladder
+    prompt: "You want all 1,800 shares at once and you market-buy. Where does the last share fill?"
+    data:
+      bids: [[12.88, 900], [12.87, 1200], [12.86, 2000]]
+      asks: [[12.90, 600], [12.91, 900], [12.92, 2400]]
+    target: ask-3
+    explanation: "Six hundred and nine hundred shares clear the first two rows and the last three hundred fill at $12.92 — exactly the two cents the limit was capped at."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The stop is twice as far away as usual,"}
+      - {text: "so the share count stays where it always is,", wrong: true}
+      - {text: "and the money at risk doubles."}
+    explanation: "The share count is the part that moves. Twice the distance means half the shares, or the risk is what doubled instead."
+
+  - type: recap
+    title: "Level 16 in three lines"
+    points:
+      - {text: "A level is worth what is left of the move once the quote has taken its share.", level: "16-1"}
+      - {text: "The stop goes a cent past the price the level was defended from.", level: "16-2"}
+      - {text: "Budget ÷ stop, account ÷ price, and the trade is the smaller of the two.", level: "16-2"}

@@ -125,9 +125,9 @@ Folder: `chapter-03-orders-costs-position-size` · 19 levels, 50 subs · v2 has 
 
 **New terms:** Bid, Ask, Last, Quote panel, Round trip, Target, Expected move, Market order, Limit order, Fill, Marketable limit order, Unfilled, Stop order, Stop-loss, Stop-market, Stop-limit, Stop distance, Position size, Position value, Risk per trade, 1 % rule, Account ceiling, Slippage, Execution speed, Commission, Per-share fee, Level 2, Order book, Displayed size, Time and sales, Tape, All-in cost, Fallback plan.
 
-### Chapter 4 — Reading Fast Markets — expand
+### Chapter 4 — Reading Fast Markets — written
 
-Folder: `chapter-04-reading-fast-markets` · 18 levels, 48 subs · v2 has 10 levels / 17 subs
+Folder: `chapter-04-reading-fast-markets` · 18 levels, 48 subs
 Contains the path's one fan-out (Levels 9–11 → merge at 12). Sources: Aziz, Bellafiore, Volman, Murphy, Nison, Carter.
 
 | Level | Title | Subs | Teaches | Reinforces |

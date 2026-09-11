@@ -1,0 +1,126 @@
+id: "14-2"
+title: "Two Timeframes"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [timeframes, context, levels]
+learning_goal: "User names the shape of the 5-minute chart and lets that shape decide how many 1-minute triggers the day is worth taking."
+purpose: "The slower chart does not only pick a direction; it tells you how many trades today has in it at all."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "14-1"
+xp: 20
+difficulty: 2
+sources: ["Murphy — Technical Analysis of the Financial Markets", "Raschke & Connors — Street Smarts"]
+notes: "Chapter 2's trend, range and higher-high naming come back on the slow chart. No new terms."
+screens:
+  - type: intro
+    text: "The slow chart has two jobs, and only one of them is direction."
+
+  - type: theory
+    title: "Shape first, direction second"
+    body: "Before you ask which way the 5-minute chart is going, ask what shape it is in. Higher highs and higher lows, lower highs and lower lows, or forty minutes between the same two prices."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[23.70, 23.96, 23.66, 23.88], [23.88, 24.00, 23.80, 23.84], [23.84, 23.92, 23.62, 23.68], [23.68, 23.86, 23.64, 23.82], [23.82, 23.98, 23.78, 23.86], [23.86, 23.94, 23.66, 23.70], [23.70, 23.88, 23.64, 23.84], [23.84, 23.98, 23.80, 23.88]]
+      volume: [420000, 360000, 310000, 280000, 300000, 260000, 240000, 250000]
+    caption: "Forty minutes of 5-minute bars finishing where they started. The 1-minute chart underneath this has been offering trades the whole time."
+
+  - type: compare
+    prompt: "Two 5-minute charts, forty minutes each. In which one does a 1-minute long have the day behind it?"
+    charts:
+      - kind: candles
+        data: [[19.20, 19.40, 19.16, 19.36], [19.36, 19.54, 19.30, 19.50], [19.50, 19.58, 19.40, 19.44], [19.44, 19.66, 19.42, 19.62], [19.62, 19.80, 19.58, 19.76], [19.76, 19.86, 19.68, 19.72], [19.72, 19.94, 19.70, 19.90], [19.90, 20.06, 19.86, 20.02]]
+        label: "A"
+      - kind: candles
+        data: [[19.20, 19.40, 19.16, 19.36], [19.36, 19.44, 19.22, 19.26], [19.26, 19.42, 19.20, 19.38], [19.38, 19.44, 19.18, 19.22], [19.22, 19.40, 19.18, 19.36], [19.36, 19.42, 19.20, 19.24], [19.24, 19.40, 19.18, 19.34], [19.34, 19.42, 19.22, 19.28]]
+        label: "B"
+    answer: "A"
+    explanation: "A has finished every stretch above the one before it. B has spent forty minutes between $19.18 and $19.44, so a long there is a trade to the ceiling and no further."
+
+  - type: mc
+    prompt: "Your 5-minute chart has been sideways between $19.18 and $19.44 for forty minutes. What does that do to the next half hour?"
+    options:
+      - {text: "It cuts the trades down to the two edges", correct: true}
+      - {text: "It raises them, because a range gives signals in both directions"}
+      - {text: "It leaves them alone, since entries come off the 1-minute"}
+    explanation: "A range pays whoever buys the floor or sells the ceiling about twenty-six cents, and pays nothing at all in the middle of it."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the ceiling these 5-minute bars have refused."
+    chart:
+      kind: candles
+      data: [[19.20, 19.40, 19.16, 19.36], [19.36, 19.44, 19.22, 19.26], [19.26, 19.42, 19.20, 19.38], [19.38, 19.44, 19.18, 19.22], [19.22, 19.40, 19.18, 19.36], [19.36, 19.42, 19.20, 19.24], [19.24, 19.40, 19.18, 19.34], [19.34, 19.42, 19.22, 19.28]]
+      volume: [340000, 300000, 260000, 240000, 220000, 230000, 210000, 200000]
+    answer: 19.44
+    tolerance: 0.04
+    label: "Range high"
+    explanation: "$19.44 — reached on the second stretch and again on the fourth, and finished through on neither."
+
+  - type: theory
+    title: "A slow level is a heavier level"
+    body: "A price the 5-minute chart turned at was made by five minutes of trading, not one. More screens have it drawn on them, so more orders are waiting there."
+
+  - type: tf
+    statement: "A level drawn from the 5-minute chart and one drawn from the 1-minute chart are worth the same."
+    answer: false
+    explanation: "The slow one was made by five times as much trading, and five times as many traders are watching it."
+
+  - type: chart-decision
+    scenario: "The 5-minute chart has been sideways between $19.18 and $19.44 all morning. On the 1-minute, price has just pushed up through its own average price on a slightly heavier bar. Your account is $18,000 and you are sizing 900 shares."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[19.26, 19.30, 19.22, 19.24], [19.24, 19.28, 19.20, 19.26], [19.26, 19.32, 19.24, 19.30], [19.30, 19.34, 19.26, 19.28], [19.28, 19.34, 19.26, 19.32], [19.32, 19.38, 19.30, 19.36], [19.36, 19.38, 19.30, 19.32], [19.32, 19.36, 19.28, 19.30], [19.30, 19.34, 19.26, 19.28], [19.28, 19.32, 19.24, 19.26]]
+      vwap: [19.28, 19.28, 19.28, 19.29, 19.29, 19.30, 19.30, 19.30, 19.30, 19.30]
+      volume: [58000, 54000, 60000, 52000, 56000, 72000, 58000, 54000, 50000, 48000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It reached $19.38 and came back to $19.26 — $0.10 a share against a long, $90 on 900 shares."
+    explanation: "The trigger is real and the room above it is eight cents. Inside a 5-minute range the trades are at the edges, and this is the middle."
+
+  - type: match
+    prompt: "Three shapes the 5-minute chart can be in. What does each one hand down to the 1-minute?"
+    pairs:
+      - ["Higher highs and higher lows", "Pullback longs, and the shorts left alone"]
+      - ["Lower highs and lower lows", "Rallies sold, and the longs left alone"]
+      - ["Sideways between two prices", "The two edges, and nothing in between"]
+    explanation: "The slow chart never gives you an entry. It gives you the half of the entries you are allowed to take."
+
+  - type: numeric-mc
+    prompt: "Five 1-minute candles run $14.20 to $14.26, then to $14.22, $14.34, $14.30 and $14.38, with a low of $14.18 and a high of $14.40 across them. Where does the 5-minute candle close?"
+    options:
+      - {text: "$14.30"}
+      - {text: "$14.40"}
+      - {text: "$14.38", correct: true}
+      - {text: "$14.20"}
+    working: "The 5-minute candle opens where the first minute opened and closes where the fifth minute closed: $14.20 to $14.38"
+    explanation: "One slow bar is five fast ones with the middle thrown away — the first open, the last close, and the extremes of all five."
+
+  - type: chart-decision
+    scenario: "The 5-minute chart has made three higher highs and three higher lows since the open, and its last higher low is $14.40. On the 1-minute, price has pulled back into that price and the minute that just closed finished twelve cents above it on a heavier bar. Your account is $18,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.62, 14.66, 14.56, 14.58], [14.58, 14.62, 14.52, 14.54], [14.54, 14.58, 14.48, 14.50], [14.50, 14.54, 14.44, 14.46], [14.46, 14.50, 14.40, 14.44], [14.44, 14.54, 14.42, 14.52], [14.52, 14.60, 14.50, 14.58], [14.58, 14.66, 14.56, 14.64], [14.64, 14.70, 14.60, 14.68], [14.68, 14.74, 14.64, 14.72], [14.72, 14.78, 14.68, 14.75]]
+      vwap: [14.44, 14.44, 14.44, 14.45, 14.45, 14.46, 14.47, 14.48, 14.50, 14.52, 14.54]
+      volume: [64000, 58000, 52000, 46000, 42000, 104000, 88000, 78000, 70000, 64000, 58000]
+      levels:
+        - {price: 14.40, label: "5-minute higher low"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $14.75 — $0.23 a share past the decision, +$276 long on 1,200 shares."
+    explanation: "The slow chart says the day is long, the give-back stopped at the price the slow chart last turned from, and the minute that left it was the heaviest in six."
+
+  - type: fill-tiles
+    sentence: "Direction, the number of trades and the levels worth waiting at all come off the ___ chart."
+    answer: "slower"
+    explanation: "The fast chart is for the moment, and nothing else."
+
+  - type: example
+    body: "Two charts, and the slow one goes first: it says whether today has a direction, how many trades that direction allows, and which prices are worth standing at."

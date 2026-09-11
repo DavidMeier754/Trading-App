@@ -1,0 +1,119 @@
+id: "15-2"
+title: "Halts and Standing Aside"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [halt, risk, sizing]
+learning_goal: "User can say what a reopening does to a resting stop and sizes for the gap rather than for the stop distance."
+purpose: "The only part of a halt you control is the share count you chose before it happened."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "15-1"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "Second halt sub: the reopening rather than the pause. Chapter 3's stop order, slippage and position size are the material being re-tested. Account named at $20,000."
+screens:
+  - type: intro
+    text: "The pause is not the dangerous half. The restart is."
+
+  - type: theory
+    title: "Two events, not one"
+    body: "Trading stops, and a few minutes later it starts again at a price worked out from the orders that piled up while nobody could trade. Both halves happen without you."
+
+  - type: example
+    body: "You are long 1,000 shares at $14.10 with the stop at $13.96 — $140 at risk. It pauses, restarts at $13.50, and your stop fills there: $0.60 a share, $600."
+
+  - type: depth-ladder
+    prompt: "XYZ has just restarted and the book is nearly empty. You market-sell 1,000 shares. Where does the last one fill?"
+    data:
+      bids: [[13.50, 300], [13.46, 400], [13.40, 1200]]
+      asks: [[13.56, 500], [13.60, 700], [13.64, 900]]
+    target: bid-3
+    explanation: "Three hundred and four hundred shares clear the top two rows, and the last three hundred go at $13.40 — ten cents under the price on the screen."
+
+  - type: mc
+    prompt: "Why is the first minute after a restart a different market from the minute before the pause?"
+    options:
+      - {text: "The book it restarts into is a new one", correct: true}
+      - {text: "Only market makers may trade for the first minute"}
+      - {text: "The exchange fixes the spread until the book refills"}
+    explanation: "Everything you were leaning on — the resting size, the level, the last prints — was built before the news that caused the pause."
+
+  - type: numeric-input
+    prompt: "Long 1,200 shares at $14.10, stop at $13.96. It pauses and restarts at $13.60, where the stop fills. How much worse is that than the plan?"
+    answer: 432
+    tolerance: 0.01
+    unit: "$"
+    working: "Planned $0.14 × 1,200 = $168; filled $0.50 × 1,200 = $600; $600 − $168 = $432"
+    explanation: "The stop was never wrong about the price. It was wrong about there being a market at it."
+
+  - type: theory
+    title: "Size is the whole protection"
+    body: "Nothing you can place survives a pause. The one number that decides how bad a restart can be is the share count you chose while the stock was still trading."
+
+  - type: tf
+    statement: "The stop you placed before a pause still decides the price you get when trading restarts."
+    answer: false
+    explanation: "It decides the price at which your order goes to the market. What it gets is whatever is bid when it arrives."
+
+  - type: sort
+    prompt: "A stop order, honestly. Which side does each of these belong on?"
+    buckets: ["A stop can do this", "A stop cannot do this"]
+    items:
+      - {text: "Take the decision out of your hands once price reaches it", bucket: "A stop can do this"}
+      - {text: "Get you out near your price in a stock trading continuously", bucket: "A stop can do this"}
+      - {text: "Protect you across a pause when nothing is trading at all", bucket: "A stop cannot do this"}
+      - {text: "Promise the fill price when the book underneath is empty", bucket: "A stop cannot do this"}
+    explanation: "A stop is an instruction, and an instruction needs somebody on the other side to carry it out."
+
+  - type: chart-decision
+    scenario: "XYZ has paused twice in the first half hour and is trading again. The spread is $0.11, the last five minutes have covered forty cents in both directions, and the nearest price you marked is thirty cents away. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[14.20, 14.44, 14.10, 14.16], [14.16, 14.38, 14.06, 14.32], [14.32, 14.40, 14.02, 14.08], [14.08, 14.30, 14.04, 14.26], [14.26, 14.34, 13.98, 14.04], [14.04, 14.26, 14.00, 14.20], [14.20, 14.28, 13.94, 14.00], [14.00, 14.22, 13.96, 14.16], [14.16, 14.24, 13.90, 13.96], [13.96, 14.18, 13.92, 14.10]]
+      volume: [280000, 240000, 260000, 200000, 220000, 190000, 210000, 180000, 200000, 170000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It covered another forty cents in both directions and finished at $14.10, ten cents under the decision. Both sides were stopped out on the way."
+    explanation: "Two pauses, eleven cents of spread and nothing marked within thirty. The read has nowhere to start."
+
+  - type: slider
+    prompt: "Your account is $20,000 and you are long 1,000 shares at $14.00. It restarts sixty cents lower. What share of the account is that?"
+    min: 0
+    max: 10
+    step: 0.5
+    unit: "%"
+    answer: 3
+    tolerance: 1
+    explanation: "$0.60 × 1,000 shares = $600, which is 3 % of $20,000 — from one pause, on a trade you planned to risk far less on."
+
+  - type: match
+    prompt: "Four things that decide how a pause ends for you. Which description belongs to which?"
+    pairs:
+      - ["Halt", "Trading in one stock is paused by the exchange"]
+      - ["Restart price", "Worked out from the orders that piled up while nothing traded"]
+      - ["Slippage", "The distance between the price you asked for and the one you got"]
+      - ["Position size", "The share count that decides how large that distance can be in dollars"]
+    explanation: "Only the last one was ever yours, which is why it is the only one worth arguing about beforehand."
+
+  - type: chart-decision
+    scenario: "A different name, half an hour later. It has held above its own average price for twenty minutes, the spread is $0.02, and the minute that just closed finished six cents through yesterday's close at $16.40 on the heaviest bar of the stretch. Your account is $20,000 and you are sizing 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[16.20, 16.26, 16.16, 16.24], [16.24, 16.30, 16.20, 16.26], [16.26, 16.32, 16.22, 16.28], [16.28, 16.34, 16.24, 16.32], [16.32, 16.40, 16.30, 16.38], [16.38, 16.48, 16.36, 16.46], [16.46, 16.52, 16.42, 16.50], [16.50, 16.58, 16.46, 16.56], [16.56, 16.62, 16.52, 16.60], [16.60, 16.66, 16.56, 16.64], [16.64, 16.70, 16.60, 16.67]]
+      vwap: [16.18, 16.20, 16.22, 16.24, 16.27, 16.30, 16.34, 16.38, 16.42, 16.45, 16.48]
+      volume: [68000, 72000, 58000, 64000, 60000, 164000, 132000, 114000, 98000, 88000, 80000]
+      levels:
+        - {price: 16.40, label: "Yesterday's close"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped up to $16.67 — $0.21 a share past the decision, +$252 long on 1,200 shares."
+    explanation: "Twenty quiet minutes on one side of the line, a two-cent quote and a level finished through on the heaviest minute: everything the other name could not offer."
+
+  - type: example
+    body: "Two names, one morning. One of them spent it deciding what it was worth. The other told you at every level what it thought, and charged two cents to join in."

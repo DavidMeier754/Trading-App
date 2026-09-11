@@ -1,0 +1,127 @@
+id: "14-3"
+title: "Two Timeframes"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: new-theory
+tags: [timeframes, management, decisions]
+learning_goal: "User re-checks the slower chart while a trade is on and leaves when the shape that started the trade stops being there."
+purpose: "The chart that let you in is also the one that tells you the reason has gone, usually before the stop does."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "14-2"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Second half of the two-timeframe rule: the slow chart as a live reading rather than a morning setting. Account named at $20,000."
+screens:
+  - type: intro
+    text: "The slow chart is not homework you do once at the open."
+
+  - type: story
+    character: retail-trader
+    text: "You are long, eight cents ahead, and the stretch that just finished on the 5-minute topped out below the one before it."
+
+  - type: theory
+    title: "The day can change its mind"
+    body: "Three higher highs do not promise a fourth. The first stretch that tops below the last one is the earliest thing the slow chart says, and it says it while you are still in."
+
+  - type: chart-decision
+    scenario: "Since the open the 5-minute chart has made higher highs, but the stretch that just finished topped out four cents below the one before it. On the 1-minute, price is bouncing off its own average price. Your account is $20,000 and you are sizing 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[17.30, 17.36, 17.24, 17.26], [17.26, 17.30, 17.18, 17.20], [17.20, 17.26, 17.16, 17.24], [17.24, 17.28, 17.18, 17.20], [17.20, 17.24, 17.14, 17.16], [17.16, 17.26, 17.14, 17.24], [17.24, 17.28, 17.18, 17.20], [17.20, 17.24, 17.12, 17.14], [17.14, 17.18, 17.06, 17.08], [17.08, 17.12, 17.00, 17.02], [17.02, 17.06, 16.94, 16.97]]
+      vwap: [17.22, 17.21, 17.21, 17.21, 17.20, 17.20, 17.20, 17.19, 17.18, 17.16, 17.14]
+      volume: [72000, 66000, 58000, 62000, 54000, 86000, 64000, 78000, 92000, 84000, 76000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "The bounce stopped at $17.28 and the session rolled to $16.97 — $0.27 a share against a long, $297 on 1,100 shares."
+    explanation: "The first lower high on the slow chart is the day changing its mind. A 1-minute bounce into that is the trade the old direction keeps offering after it has stopped paying."
+
+  - type: branch
+    scenario: "You are long 1,100 shares of XYZ from $17.24 with the stop at $17.10, and your account is $20,000."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[17.10, 17.18, 17.08, 17.16], [17.16, 17.24, 17.14, 17.22], [17.22, 17.28, 17.18, 17.24], [17.24, 17.34, 17.22, 17.32], [17.32, 17.34, 17.26, 17.28], [17.28, 17.30, 17.18, 17.20], [17.20, 17.22, 17.08, 17.10], [17.10, 17.12, 17.00, 17.02], [17.02, 17.06, 16.96, 16.98], [16.98, 17.02, 16.92, 16.95]]
+      vwap: [17.12, 17.14, 17.16, 17.18, 17.19, 17.19, 17.18, 17.16, 17.13, 17.10]
+      volume: [88000, 94000, 72000, 110000, 76000, 92000, 118000, 104000, 92000, 84000]
+      decision_index: 4
+    steps:
+      - prompt: "Two stretches later the 5-minute prints a high four cents under the last one, and you are eight cents ahead at $17.32. What now?"
+        options:
+          - {text: "Take what is there — the reason you are long has just been withdrawn", correct: true, next: 1}
+          - {text: "Hold for the original target; the 1-minute has not broken anything yet", next: 1}
+        explanation: "You were long because the slow chart was making higher highs. It has stopped, so the trade you took no longer exists."
+      - prompt: "You are out at $17.32. Price adds two more cents and then falls through $17.10 inside three minutes. What did leaving early cost?"
+        options:
+          - {text: "Two cents, against the fourteen the stop would have given back", correct: true}
+          - {text: "Nothing either way — the stop was going to fill at $17.10 anyway"}
+        explanation: "Leaving on the reason rather than the stop costs the last cents of the move and saves the whole distance to the stop."
+
+  - type: theory
+    title: "Against the day, on a shorter leash"
+    body: "A 1-minute trigger that fights the 5-minute is not forbidden. It is smaller: the target comes in, the stop comes in with it, and you are out at the first sign it is not working."
+
+  - type: numeric-input
+    prompt: "You take a 1-minute long against a 5-minute downtrend: 1,000 shares, and you cut the target from twenty-four cents to ten. How many dollars does that take off the plan?"
+    answer: 140
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.24 − $0.10 = $0.14 a share; $0.14 × 1,000 shares = $140"
+    explanation: "Which is the real question about a counter-trend trade: not whether it can work, but whether the smaller version of it still covers what it costs."
+
+  - type: mc
+    prompt: "The 5-minute chart is in a clear downtrend and the 1-minute gives you a long at a level. If you take it, what changes?"
+    options:
+      - {text: "The stop goes wider, because a counter-trend trade needs room"}
+      - {text: "The target comes in and the stop comes with it", correct: true}
+      - {text: "Nothing — the level is the level"}
+    explanation: "A trade fighting the day is a shorter trade at both ends, not a looser one."
+
+  - type: tf
+    statement: "The slower chart can change its mind while you are in a trade."
+    answer: true
+    explanation: "It is a live reading, not a setting you check once at the open, and the first stretch that tops below the last one is the change."
+
+  - type: order
+    prompt: "Put the two-chart check in the order it happens."
+    items:
+      - "The 5-minute shape says which direction today allows"
+      - "The 1-minute offers a trigger in that direction"
+      - "The stop goes where the trigger would be wrong"
+      - "The 5-minute is checked again while the trade is on"
+    explanation: "The slow chart both starts the trade and ends it, and the second of those is the half most people skip."
+
+  - type: chart-decision
+    scenario: "The 5-minute chart has made lower highs and lower lows since the open, and $12.70 is the last of those lower highs. On the 1-minute, price has rallied into it and the minute that just closed finished ten cents underneath on a heavier bar. Your account is $20,000 and you are sizing 1,400 shares."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[12.44, 12.50, 12.42, 12.48], [12.48, 12.56, 12.46, 12.54], [12.54, 12.62, 12.52, 12.60], [12.60, 12.68, 12.58, 12.66], [12.66, 12.70, 12.62, 12.68], [12.68, 12.70, 12.58, 12.60], [12.60, 12.62, 12.50, 12.52], [12.52, 12.56, 12.44, 12.46], [12.46, 12.50, 12.38, 12.40], [12.40, 12.44, 12.32, 12.34], [12.34, 12.38, 12.26, 12.29]]
+      vwap: [12.76, 12.74, 12.73, 12.72, 12.71, 12.70, 12.69, 12.67, 12.65, 12.62, 12.60]
+      volume: [58000, 64000, 72000, 68000, 54000, 96000, 88000, 80000, 72000, 66000, 60000]
+      levels:
+        - {price: 12.70, label: "5-minute lower high"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It gave way to $12.29 — $0.31 a share under the decision, +$434 short on 1,400 shares."
+    explanation: "The slow chart's last lower high, a rally that could not finish through it, and a heavier bar on the minute that turned away: all three point the same way."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The 5-minute chart turned while I was long,"}
+      - {text: "so I gave the trade more room", wrong: true}
+      - {text: "and it came back to the stop anyway."}
+    explanation: "A stop that moves away from price is the one change to a trade that has never made one better."
+
+  - type: recap
+    title: "Level 14 in three lines"
+    points:
+      - {text: "Direction comes off the slow chart; the fast one only picks the minute.", level: "14-1"}
+      - {text: "The slow chart's shape also decides how many trades the day has in it.", level: "14-2"}
+      - {text: "Check it again while you are in: the reason can leave before the stop does.", level: "14-3"}

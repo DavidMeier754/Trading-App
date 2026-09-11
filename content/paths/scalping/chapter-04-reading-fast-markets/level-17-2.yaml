@@ -1,0 +1,144 @@
+id: "17-2"
+title: "Chapter Review"
+chapter: 4
+chapter_title: "Reading Fast Markets"
+path: scalping
+category: repetition
+tags: [review, decisions, short]
+learning_goal: "User reads a second morning from the short side and recognises the point at which the day stops offering anything."
+purpose: "The same four readings, the same order, and a morning that happens to pay on the other side."
+terms_introduced: []
+reinforces: [2, 3]
+prerequisite: "17-1"
+xp: 30
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Bellafiore — One Good Trade"]
+notes: "Morning two, short side, end to end. Chapter 2's levels and Chapter 3's stop and round trip are re-tested inside it. Account named at $18,000."
+screens:
+  - type: intro
+    text: "A second morning, the same four readings, and sellers in charge from the third minute."
+
+  - type: story
+    character: retail-trader
+    text: "It gapped up and gave it back before you had finished drawing the lines. Since then every minute has traded under the session's own average price."
+
+  - type: chart-decision
+    scenario: "XYZ has traded under its own average price since the third minute. It has just rallied into the line at $21.30, and the minute that closed there spent nine cents above it and finished at $21.18. Your account is $18,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[21.60, 21.64, 21.40, 21.44], [21.44, 21.50, 21.26, 21.30], [21.30, 21.36, 21.18, 21.22], [21.22, 21.30, 21.16, 21.26], [21.26, 21.32, 21.20, 21.28], [21.28, 21.39, 21.16, 21.18], [21.18, 21.22, 21.06, 21.08], [21.08, 21.12, 20.96, 20.98], [20.98, 21.04, 20.88, 20.90], [20.90, 20.96, 20.80, 20.82], [20.82, 20.88, 20.74, 20.77]]
+      vwap: [21.52, 21.44, 21.38, 21.35, 21.32, 21.30, 21.28, 21.25, 21.21, 21.17, 21.13]
+      volume: [340000, 200000, 180000, 140000, 120000, 240000, 210000, 190000, 170000, 150000, 140000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It fell away to $20.77 — $0.41 a share under the decision, +$328 short on 800 shares."
+    explanation: "Under the line all session, a rally that spent nine cents above it and kept none of them, on the heaviest bar since the opening minute."
+
+  - type: numeric-input
+    prompt: "You are short 800 shares from $21.18 with the stop a cent above the highest price the rally reached, $21.40. What is at risk?"
+    answer: 176
+    tolerance: 0.01
+    unit: "$"
+    working: "$21.40 − $21.18 = $0.22 a share; $0.22 × 800 shares = $176"
+    explanation: "Above the top of the rally the refusal did not happen, and that is the only thing the stop is there to find out."
+
+  - type: compare
+    prompt: "Both minutes rallied into the session's own average price. In which one was the rally refused?"
+    charts:
+      - kind: candles
+        data: [[20.10, 20.16, 20.06, 20.14], [20.14, 20.22, 20.12, 20.20], [20.20, 20.28, 20.18, 20.26], [20.26, 20.34, 20.24, 20.32], [20.32, 20.42, 20.30, 20.40], [20.40, 20.48, 20.38, 20.46], [20.46, 20.54, 20.44, 20.52], [20.52, 20.60, 20.50, 20.58]]
+        vwap: [20.30, 20.30, 20.30, 20.31, 20.32, 20.34, 20.36, 20.39]
+        label: "A"
+      - kind: candles
+        data: [[20.10, 20.16, 20.06, 20.14], [20.14, 20.22, 20.12, 20.20], [20.20, 20.28, 20.18, 20.26], [20.26, 20.34, 20.24, 20.32], [20.32, 20.44, 20.28, 20.30], [20.30, 20.34, 20.22, 20.24], [20.24, 20.28, 20.16, 20.18], [20.18, 20.22, 20.10, 20.12]]
+        vwap: [20.30, 20.30, 20.30, 20.31, 20.32, 20.32, 20.31, 20.30]
+        label: "B"
+    answer: "B"
+    explanation: "A has finished every one of its last five minutes above the line. B went twelve cents past it inside one minute and handed every one of them back before that minute closed."
+
+  - type: chart-decision
+    scenario: "Yesterday's low is $20.80. Price has come back to it and the minute that just closed finished six cents under, on the heaviest bar since the rally. Your account is $18,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[21.00, 21.06, 20.92, 20.94], [20.94, 20.98, 20.86, 20.90], [20.90, 20.96, 20.84, 20.88], [20.88, 20.92, 20.80, 20.86], [20.86, 20.90, 20.78, 20.82], [20.82, 20.84, 20.70, 20.74], [20.74, 20.78, 20.64, 20.66], [20.66, 20.70, 20.56, 20.58], [20.58, 20.62, 20.48, 20.50], [20.50, 20.54, 20.40, 20.42], [20.42, 20.46, 20.34, 20.37]]
+      vwap: [21.08, 21.06, 21.03, 21.00, 20.98, 20.95, 20.92, 20.88, 20.84, 20.80, 20.76]
+      volume: [180000, 160000, 140000, 150000, 130000, 280000, 230000, 200000, 180000, 160000, 150000]
+      levels:
+        - {price: 20.80, label: "Yesterday's low"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It carried to $20.37 — $0.37 a share under the decision, +$296 short on 800 shares."
+    explanation: "The floor from yesterday finished through, the session on the same side of its average all morning, and the heaviest minute since the rally doing it."
+
+  - type: swipe-deck
+    prompt: "Four more minutes from the same morning. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[22.40, 22.46, 22.34, 22.36], [22.36, 22.40, 22.28, 22.30], [22.30, 22.36, 22.26, 22.32], [22.32, 22.36, 22.24, 22.26], [22.26, 22.30, 22.18, 22.20], [22.20, 22.22, 22.08, 22.10], [22.10, 22.14, 22.02, 22.04], [22.04, 22.08, 21.96, 21.98]], volume: [120000, 130000, 110000, 118000, 140000, 290000, 240000, 210000], vwap: [22.48, 22.46, 22.44, 22.42, 22.39, 22.36, 22.32, 22.28], levels: [{price: 22.18, label: "Yesterday's low"}]}
+        answer: take
+        note: "Sellers have owned every minute, the floor is eight cents behind and the bar that took it was the heaviest of the eight."
+      - chart: {kind: candles, data: [[17.60, 17.66, 17.54, 17.56], [17.56, 17.62, 17.50, 17.52], [17.52, 17.58, 17.46, 17.54], [17.54, 17.58, 17.44, 17.48], [17.48, 17.54, 17.42, 17.44], [17.44, 17.50, 17.38, 17.40], [17.40, 17.46, 17.34, 17.36], [17.36, 17.42, 17.30, 17.32]], volume: [96000, 88000, 92000, 84000, 90000, 86000, 88000, 82000], vwap: [17.68, 17.66, 17.64, 17.62, 17.60, 17.57, 17.54, 17.51], levels: [{price: 16.90, label: "Yesterday's low"}]}
+        answer: pass
+        note: "The right side of the line and forty-two cents of nothing between price and the only mark on the chart."
+      - chart: {kind: candles, data: [[25.20, 25.28, 25.16, 25.26], [25.26, 25.34, 25.22, 25.32], [25.32, 25.38, 25.28, 25.30], [25.30, 25.36, 25.26, 25.34], [25.34, 25.40, 25.30, 25.38], [25.38, 25.44, 25.26, 25.28], [25.28, 25.34, 25.24, 25.30], [25.30, 25.36, 25.26, 25.32]], volume: [88000, 94000, 76000, 82000, 78000, 116000, 80000, 76000], vwap: [25.40, 25.39, 25.38, 25.38, 25.38, 25.38, 25.37, 25.37], levels: [{price: 25.40, label: "Yesterday's close"}]}
+        answer: take
+        note: "A rally into the line and the level at the same price, a high spent above both of them and a close back under."
+      - chart: {kind: candles, data: [[19.40, 19.48, 19.36, 19.46], [19.46, 19.52, 19.42, 19.50], [19.50, 19.56, 19.46, 19.52], [19.52, 19.58, 19.48, 19.56], [19.56, 19.62, 19.52, 19.60], [19.60, 19.66, 19.56, 19.64], [19.64, 19.70, 19.60, 19.68], [19.68, 19.74, 19.64, 19.72]], volume: [70000, 74000, 66000, 68000, 64000, 72000, 68000, 70000], vwap: [19.36, 19.38, 19.40, 19.43, 19.46, 19.49, 19.52, 19.56], levels: [{price: 19.60, label: "Yesterday's high"}]}
+        answer: pass
+        note: "Buyers have owned the whole stretch. Whatever this is, it is not the morning you have been reading."
+    explanation: "Two of the four sit on the side the morning has been on and at a price somebody drew. The others are one reading each."
+
+  - type: tf
+    statement: "A level that has been finished through stops being a level."
+    answer: false
+    explanation: "It changes sides: the floor that gave way this morning is the first thing to stop a rally back up to it."
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "You are short and want to be flat immediately. Tap the price you buy at."
+    data: {bid: 20.36, ask: 20.39, last: 20.37}
+    target: ask
+    explanation: "Covering is buying, so a cover in a hurry pays the ask — the same round trip as a long, taken in the other order."
+
+  - type: sort
+    prompt: "The morning's first short. Which reading gave you which part of it?"
+    buckets: ["Where", "Who", "When", "How much"]
+    items:
+      - {text: "Price standing at the session's own average", bucket: "Where"}
+      - {text: "Sellers have owned every minute since the third", bucket: "Who"}
+      - {text: "A minute that handed back the nine cents it took", bucket: "When"}
+      - {text: "Eight hundred shares, out of a twenty-two-cent stop", bucket: "How much"}
+    explanation: "Four readings, four different jobs, and only the last one is not decided by the chart alone."
+
+  - type: chart-decision
+    scenario: "Late in the first hour. Price has spent twelve minutes in a six-cent band, the bars are a third of what they were, and nothing you marked is within twenty cents. Your account is $18,000 and you are sizing 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[20.38, 20.42, 20.36, 20.40], [20.40, 20.43, 20.37, 20.39], [20.39, 20.42, 20.36, 20.41], [20.41, 20.43, 20.37, 20.38], [20.38, 20.42, 20.36, 20.40], [20.40, 20.43, 20.37, 20.39], [20.39, 20.42, 20.36, 20.41], [20.41, 20.42, 20.38, 20.40], [20.40, 20.43, 20.37, 20.39], [20.39, 20.42, 20.36, 20.40]]
+      vwap: [20.62, 20.60, 20.58, 20.56, 20.55, 20.53, 20.52, 20.51, 20.50, 20.49]
+      volume: [90000, 72000, 64000, 58000, 52000, 48000, 50000, 46000, 44000, 42000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Six cents of range for another fifteen minutes, and the two trades that paid were both behind it."
+    explanation: "Sitting through this part of the morning is what protects the part that worked."
+
+  - type: numeric-mc
+    prompt: "The morning's two shorts: 800 shares each, $0.41 a share on the first and $0.37 on the second. What did the morning make before costs?"
+    options:
+      - {text: "$312"}
+      - {text: "$78"}
+      - {text: "$624", correct: true}
+      - {text: "$780"}
+    working: "($0.41 + $0.37) × 800 shares = $0.78 × 800 = $624"
+    explanation: "Two reads, two trades, and eight hundred shares on each because that is what the stops and the account allowed."
+
+  - type: recap
+    title: "Level 17 in three lines"
+    points:
+      - {text: "A box that is tested and holds is a better break the second time.", level: "17-1"}
+      - {text: "Which side of its own average the session is on decides which half of the triggers you may take.", level: "17-2"}
+      - {text: "Both mornings ended the same way: nothing left to read, and nothing taken.", level: "17-2"}

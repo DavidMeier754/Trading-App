@@ -6,18 +6,18 @@ path: scalping
 category: final-exam
 tags: [final-exam]
 learning_goal: "Confirm mastery of VWAP, the intraday levels, the 1-minute candles, confluence, the tape and the order book, the opening drive and halts, the four-part read and the two-timeframe rule."
-purpose: "Everything the playbook chapters build on is in these twelve questions."
+purpose: "Everything the playbook chapters build on is in these thirteen questions."
 terms_introduced: []
-reinforces: [2, 3]
-prerequisite: "15-1"
+reinforces: [1, 2, 3]
+prerequisite: "17-2"
 xp: 80
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade", "Volman — Understanding Price Action"]
-notes: "12 scored questions. Hearts apply. Pass mark 70 %."
+notes: "13 scored questions. Hearts apply. Pass mark 70 %. Questions 4, 7, 8, 9 and 10 reach back into Chapters 1–3."
 screens:
   - type: intro
-    text: "Final exam: Reading Fast Markets. Twelve questions."
-    counter: 12
+    text: "Final exam: Reading Fast Markets. Thirteen questions."
+    counter: 13
 
   - type: numeric-mc
     prompt: "8,000 shares trade at $15.00 and 2,000 at $15.50. Where is VWAP?"
@@ -66,6 +66,14 @@ screens:
       - "What is the tape doing right now?"
     explanation: "Where, who, what, now — the same order on every chart."
 
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The stock prints about 5,000 shares a minute,"}
+      - {text: "so a 2,000-share order is a small part of it,", wrong: true}
+      - {text: "and the fill will come back worse than the quote."}
+    explanation: "Two thousand shares is most of a whole minute's trading in that name, which is the liquidity dial deciding the fill before the chart gets a say."
+
   - type: mc
     prompt: "The 5-minute chart is in a clear uptrend. Your 1-minute chart offers a short at a level. What is the sensible read?"
     options:
@@ -81,7 +89,7 @@ screens:
       bids: [[46.18, 2200], [46.17, 1800], [46.16, 4100]]
       asks: [[46.21, 900], [46.22, 1600], [46.23, 2400]]
     target: bid-1
-    explanation: "Selling in a hurry means taking the best bid, $14.18."
+    explanation: "Selling in a hurry means taking the best bid, $46.18 — the buyer who is already there."
 
   - type: numeric-input
     prompt: "You are long 2,000 shares from $14.18 and sell at $14.33. The spread costs you $0.03 per share on the round trip. What is left?"
@@ -125,7 +133,11 @@ screens:
     explanation: "Nobody finished the minute ahead — on its own that is a pause, not a signal."
 
   - type: summary
-    total: 12
+    total: 13
+
+  - type: tier-up
+    tier: "Student"
+    means: "You can read a market in motion: the session's own average price, the levels it stops at, the minute that settles it and the size behind it."
 
   - type: badge
     name: "Reading Fast Markets — Complete"
