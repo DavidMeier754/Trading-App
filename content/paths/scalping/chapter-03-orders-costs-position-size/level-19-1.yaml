@@ -5,115 +5,139 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: final-exam
 tags: [final-exam]
-learning_goal: "Confirm mastery of bid/ask/spread, spread versus expected move, market / limit / marketable limit / stop orders, position sizing, slippage, fees, Level 2 basics and the all-in check."
+learning_goal: "Confirm mastery of bid, ask and spread, spread against the expected move, market / limit / marketable limit / stop orders, the two sizing ceilings, slippage, fees, Level 2 basics and the all-in check."
 purpose: "The gate before fast-market chart reading — every scalp from here on assumes these costs are second nature."
 terms_introduced: []
-prerequisite: "18-1"
+reinforces: [1, 2]
+prerequisite: "18-2"
 xp: 80
 difficulty: 3
 sources: [consensus]
-notes: "12 scored questions. Hearts apply. Pass mark 70 %."
+notes: "13 scored questions in fresh wordings and with fresh numbers. Four of them reach back: one to Chapter 1's sessions, one to Chapter 1's liquidity dial, two to Chapter 2's levels and range. Account named at $26,000. Hearts apply. Pass mark 70 %."
 screens:
   - type: intro
-    text: "Final exam: Orders, Costs & Position Size. Twelve questions."
-    counter: 12
+    text: "Final exam: Orders, Costs & Position Size. Thirteen questions, nothing timed."
+    counter: 13
 
   - type: hotspot
     component: quote-panel
-    prompt: "Tap the price a market buy fills at."
-    data: {bid: 41.20, ask: 41.24, last: 41.22}
-    target: ask
-    explanation: "Buyers pay the ask."
+    prompt: "You are long from $31.13. Tap the number that has to climb to your entry before the position is level again."
+    data: {bid: 31.08, ask: 31.13, last: 31.10}
+    target: bid
+    explanation: "You leave at the bid, so break-even arrives when the bid reaches what you paid, not when the last print does."
 
   - type: numeric-input
-    prompt: "Bid $41.20, ask $41.24, 900 shares. Round-trip spread cost?"
-    answer: 36
+    prompt: "Bid $31.08, ask $31.13, 1,300 shares, one complete position. What has the gap taken?"
+    answer: 65
+    tolerance: 1
     unit: "$"
-    working: "$0.04 × 900 = $36"
-    explanation: "Spread times shares."
+    working: "$31.13 − $31.08 = $0.05; $0.05 × 1,300 = $65"
+    explanation: "Five cents across thirteen hundred shares, paid once for the open and the close together."
 
   - type: mc
-    prompt: "Expected move $0.10, spread $0.04. Verdict?"
+    prompt: "One name quotes nine cents wide and has been making forty-cent minutes; another quotes two cents and has been making five-cent minutes. Which is the cheaper scalp?"
     options:
-      - {text: "Take it — four cents is tiny"}
-      - {text: "Skip — 40 % of the move is gone at entry", correct: true}
-      - {text: "Take it — a $41 stock always moves more"}
-    explanation: "The ratio decides, not the dollars or the share price."
+      - {text: "The two-cent quote, because a tight gap is always cheaper"}
+      - {text: "Neither, since the share prices are not given"}
+      - {text: "The nine-cent quote, at under a quarter of the move", correct: true}
+    explanation: "Nine out of forty is 23 %; two out of five is 40 %. The wider quote is the cheaper trade, and the share price never came into it."
 
-  - type: mc
-    prompt: "Ask $15.30. You send a limit buy at $15.33; the ask jumps to $15.40 before it arrives. Result?"
-    options:
-      - {text: "Filled at $15.40"}
-      - {text: "Filled at $15.33"}
-      - {text: "Unfilled — it waits at $15.33", correct: true}
-    explanation: "Above the cap you don't chase."
+  - type: order-build
+    prompt: "Rest the exit for that 1,300-share long: out at the target of $31.48 and nowhere lower."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [700, 1300, 2000]
+      price: [31.08, 31.13, 31.48]
+    answer: {side: sell, type: limit, qty: 1300, price: 31.48}
+    explanation: "A resting limit sell at the target collects the gap from whoever takes it, instead of paying it to get out."
 
   - type: tf
-    statement: "A stop-market guarantees the exit but not the exit price."
+    statement: "A stop-limit can leave you still holding the stock after the price it names has already traded."
     answer: true
-    explanation: "Out for sure, at the next available price."
-
-  - type: spot-mistake
-    prompt: "Tap the mistake."
-    segments:
-      - {text: "Long 500 at $9.00,"}
-      - {text: "sell stop at $9.10", wrong: true}
-      - {text: "to limit the loss."}
-    explanation: "A sell stop for a long belongs below the entry, e.g. $8.90."
-
-  - type: numeric-input
-    prompt: "Account $30,000, 1 % rule, stop $0.12, stock at $20.00. How many shares?"
-    answer: 1500
-    tolerance: 1
-    unit: "shares"
-    working: "Risk: $300 ÷ $0.12 = 2,500. Account: $30,000 ÷ $20.00 = 1,500. Take the smaller."
-    explanation: "The stop sets one ceiling and the account sets the other; you take the lower."
-
-  - type: sort
-    prompt: "Which cost is it?"
-    buckets: ["Spread", "Slippage", "Fees"]
-    items:
-      - {text: "Ask minus bid", bucket: "Spread"}
-      - {text: "Moved between tap and fill", bucket: "Slippage"}
-      - {text: "$0.005 per share to the broker", bucket: "Fees"}
-      - {text: "Capped by a marketable limit", bucket: "Slippage"}
-    explanation: "Three layers of the all-in cost."
+    explanation: "It turns into a limit order, so a fast break straight through the level can leave it sitting there unfilled. The stop-market is the one that guarantees the exit."
 
   - type: numeric-mc
-    prompt: "Spread $0.02, slippage $0.02, fees $0.01, target $0.25. Percent eaten?"
+    prompt: "A $26,000 account at one per cent, a stock at $21.50, stop seven cents away. How many shares?"
     options:
-      - {text: "5 %"}
-      - {text: "25 %"}
-      - {text: "20 %", correct: true}
-      - {text: "50 %"}
-    working: "0.05 ÷ 0.25 = 0.20"
-    explanation: "A fifth of the target."
+      - {text: "3,714"}
+      - {text: "1,209", correct: true}
+      - {text: "2,461"}
+      - {text: "260"}
+    working: "Risk: $260 ÷ $0.07 = 3,714. Account: $26,000 ÷ $21.50 = 1,209. Take the smaller."
+    explanation: "A seven-cent stop on a $21 stock is where the cash runs out long before the risk does."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "Short 900 shares at $14.70,"}
+      - {text: "protective sell stop at $14.86,", wrong: true}
+      - {text: "so the planned loss is $144."}
+    explanation: "A short is closed by buying, so its protection is a buy stop, placed above the entry at $14.86."
+
+  - type: sort
+    prompt: "Which layer of the cost is each of these?"
+    buckets: ["Spread", "Slippage", "Fees"]
+    items:
+      - {text: "The two prices the panel is showing right now", bucket: "Spread"}
+      - {text: "The ask two cents higher by the time the order lands", bucket: "Slippage"}
+      - {text: "Billed per share, on both legs", bucket: "Fees"}
+      - {text: "Capped by naming a ceiling on the entry", bucket: "Slippage"}
+    explanation: "Two of the three are paid in the prices you get and never appear on a statement. Only the third arrives as a bill."
 
   - type: mc
-    prompt: "The best ask shows 300 shares. You market-buy 1,000. What happens?"
+    prompt: "A name quoting two cents wide mid-session quotes eleven cents in the first minutes after {{market.regular_open}}. Chapter 1 named the reason. What is it?"
     options:
-      - {text: "300 fill there and the rest at higher rows", correct: true}
-      - {text: "All 1,000 at the best ask"}
-      - {text: "Only 300 fill; the rest is cancelled"}
-    explanation: "Your order walks up the book."
+      - {text: "The crowd that keeps the quote tight is not all there yet", correct: true}
+      - {text: "The stock has become permanently more volatile rather than less liquid"}
+      - {text: "The exchange widens quotes on purpose at the open"}
+    explanation: "Liquidity is how many people are there to trade against, and at the open fewer of them are. A nine-cent difference is nothing to a swing trader and the whole trade to you."
 
-  - type: numeric-input
-    prompt: "$2 per round trip, 25 round trips a day, 20 trading days. Monthly fees?"
-    answer: 1000
-    unit: "$"
-    working: "$2 × 25 × 20 = $1,000"
-    explanation: "Frequency times fee."
+  - type: depth-ladder
+    prompt: "You market-buy 1,100 shares. Where does the last share fill?"
+    data:
+      bids: [[22.38, 600], [22.37, 800], [22.36, 1100]]
+      asks: [[22.41, 400], [22.42, 500], [22.43, 1200]]
+    target: ask-3
+    explanation: "400 go off at $22.41, 500 at $22.42, and the last 200 need the third row at $22.43."
+
+  - type: chart-decision
+    scenario: "XYZ has been turned back by $17.00 twice this morning. The minute that just closed finished at $17.06 on the heaviest bar since the session opened, the panel reads bid $17.05 / ask $17.07, and your $26,000 account allows 1,100 shares here."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[16.86, 17.00, 16.82, 16.90], [16.90, 16.94, 16.84, 16.88], [16.88, 17.00, 16.86, 16.94], [16.94, 16.98, 16.88, 16.92], [16.92, 16.98, 16.90, 16.96], [16.96, 17.10, 16.94, 17.06], [17.06, 17.20, 17.03, 17.18], [17.18, 17.32, 17.14, 17.28], [17.28, 17.44, 17.24, 17.40], [17.40, 17.58, 17.36, 17.53]]
+      volume: [88000, 74000, 92000, 78000, 66000, 214000, 182000, 156000, 132000, 114000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $17.53 — $0.47 a share past the decision, +$517 long on 1,100 shares before the two cents of quote."
+    explanation: "A price that has turned the market back twice, a close through it on the biggest bar of the session, and two cents of gap against a move worth far more. Chapter 2 found the level; this chapter priced it."
+
+  - type: chart-decision
+    scenario: "A different name has stepped up for six minutes and closed at $19.80, but every bar under it is around 7,000 shares and the panel reads bid $19.66 / ask $19.80. Your $26,000 account allows 1,300 shares here."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[19.30, 19.40, 19.26, 19.38], [19.38, 19.48, 19.34, 19.46], [19.46, 19.56, 19.42, 19.54], [19.54, 19.64, 19.50, 19.62], [19.62, 19.74, 19.58, 19.70], [19.70, 19.84, 19.66, 19.80], [19.80, 19.84, 19.62, 19.66], [19.66, 19.70, 19.48, 19.52], [19.52, 19.58, 19.38, 19.44], [19.44, 19.50, 19.34, 19.39]]
+      volume: [8000, 6000, 9000, 7000, 5000, 11000, 9000, 7000, 8000, 6000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It turned and gave back $0.41 a share to $19.39 — $533 against a long on 1,300 shares, before the $182 a fourteen-cent round trip would have taken."
+    explanation: "A fourteen-cent quote is the stock telling you what leaving costs, and 7,000-share minutes mean your 1,300 are nearly a fifth of one. Chapter 1's liquidity dial, priced twice over."
 
   - type: mc
-    prompt: "All costs fine, sizing right, connection dropping. Trade?"
+    prompt: "Chapter 2 called a stretch of flat highs and flat lows a range. Put a five-cent round trip inside a twelve-cent one. What have you got?"
     options:
-      - {text: "Yes — costs are what matter"}
-      - {text: "Yes — with a stop-limit for safety"}
-      - {text: "No — a failed check is a no", correct: true}
-    explanation: "Reliability is one of the four checks."
+      - {text: "Two trades a day at worst, since both edges are known"}
+      - {text: "Worth trading as soon as the volume picks up in it"}
+      - {text: "Most of the move gone to costs before you are right", correct: true}
+    explanation: "Buy in the middle of twelve cents and the best case is six, with five of them spent getting in and out. Chapter 2 called the range hard to trade; this is the arithmetic behind it."
 
   - type: summary
-    total: 12
+    total: 13
 
   - type: badge
     name: "Orders, Costs & Position Size — Complete"

@@ -1,0 +1,121 @@
+id: "17-3"
+title: "The All-In Check"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [costs, checklist, plan]
+learning_goal: "User runs the four pre-trade questions in order, names which one has failed when one does, and writes down the cost limits they will trade by."
+purpose: "A chapter's worth of arithmetic is only useful if it collapses into four questions you can answer before the next candle closes."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "17-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Closes Level 17 with the user's own plan-card. Account named at $22,000. The swipe-deck states both criteria in the prompt so every card is decidable from the chart."
+screens:
+  - type: intro
+    text: "Four questions. A few seconds. Every trade, in this order."
+
+  - type: theory
+    title: "The four questions"
+    body: "Is the gap small against the move? Is the all-in cost under about a third of the target? Is the size the lower of the two ceilings? Are the tools solid?"
+
+  - type: checklist-reveal
+    title: "The check, in order"
+    items:
+      - "The gap, held against the move these minutes are making"
+      - "Slippage and fees on top of it, as a share of the target"
+      - "Shares: the lower of what the stop allows and what the account can pay"
+      - "The screen, the connection, and a way to reach the broker without them"
+
+  - type: order
+    prompt: "Put the four checks into the order you actually run them."
+    items:
+      - "Hold the gap against the move you expect"
+      - "Add slippage and fees for the cost per share"
+      - "Size from the stop and from the account"
+      - "Check the tools, then send the entry"
+    explanation: "Cost first, because a cost you cannot clear ends the decision before sizing is worth doing. Tools last, because they are the one check that does not depend on the chart."
+
+  - type: numeric-mc
+    prompt: "Gap three cents, slippage two, fees one, target twenty cents. Does this one clear the third?"
+    options:
+      - {text: "No, six cents is more than a third of twenty"}
+      - {text: "No, the gap alone is already a third"}
+      - {text: "Yes, at 30 %, and the gap is two cents inside the stop too"}
+      - {text: "Yes, six cents is 30 % of twenty", correct: true}
+    working: "$0.03 + $0.02 + $0.01 = $0.06; $0.06 ÷ $0.20 = 0.30"
+    explanation: "Thirty per cent is just inside the line. Close enough that a wider gap or one extra cent of slippage turns it into a pass."
+
+  - type: mc
+    prompt: "All-in cost 18 % of the target, connection solid, and the size came from the stop alone. Which check failed?"
+    options:
+      - {text: "None of them, since 18 % is a cheap trade"}
+      - {text: "The cost check, because a ratio that low is never trustworthy"}
+      - {text: "The sizing check, since only one ceiling was used", correct: true}
+    explanation: "The stop's number is half the answer. Until the account has been divided by the share price, you do not know whether the position can be paid for."
+
+  - type: chart-decision
+    scenario: "XYZ has pulled back for four minutes, held $16.40 twice, and the minute that just closed took back the whole of the last one on rising volume. The quote is two cents wide, slippage and fees run three cents between them, and these minutes have been travelling about twenty cents. Your $22,000 account allows 1,200 shares here."
+    shares: 1200
+    state: ["Stop would sit at $16.38", "Connection solid all session"]
+    chart:
+      kind: candles
+      data: [[16.46, 16.56, 16.42, 16.54], [16.54, 16.58, 16.46, 16.48], [16.48, 16.52, 16.42, 16.44], [16.44, 16.48, 16.40, 16.42], [16.42, 16.46, 16.40, 16.44], [16.44, 16.56, 16.43, 16.52], [16.52, 16.64, 16.49, 16.62], [16.62, 16.74, 16.58, 16.70], [16.70, 16.82, 16.66, 16.78], [16.78, 16.94, 16.74, 16.90]]
+      volume: [71000, 64000, 78000, 69000, 60000, 176000, 148000, 130000, 112000, 96000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped up to $16.90 — $0.38 a share past the decision, +$456 long on 1,200 shares before the $60 the round trip took."
+    explanation: "Five cents all-in against a twenty-cent move is a quarter of the target, the pullback held $16.40 twice so the stop has fourteen cents to measure, and $168 of risk on 1,200 shares is inside the budget. Four questions, four clean answers."
+
+  - type: swipe-deck
+    prompt: "Five cents a share in costs on every one of these, and 1,200 shares to get in and out with. Take it, or pass?"
+    cards:
+      - chart: {kind: candles, data: [[18.40, 18.52, 18.36, 18.50], [18.50, 18.64, 18.48, 18.62], [18.62, 18.74, 18.58, 18.70], [18.70, 18.84, 18.66, 18.82], [18.82, 18.94, 18.78, 18.90], [18.90, 19.04, 18.86, 19.00], [19.00, 19.12, 18.96, 19.10], [19.10, 19.24, 19.06, 19.20]], volume: [96000, 104000, 88000, 112000, 98000, 118000, 92000, 106000]}
+        answer: take
+        note: "Twelve-cent minutes on 100,000 shares each. Five cents of a twenty-cent target is a quarter of it."
+      - chart: {kind: candles, data: [[12.40, 12.43, 12.37, 12.41], [12.41, 12.44, 12.38, 12.39], [12.39, 12.43, 12.36, 12.42], [12.42, 12.45, 12.39, 12.40], [12.40, 12.44, 12.37, 12.43], [12.43, 12.45, 12.38, 12.40], [12.40, 12.43, 12.36, 12.42], [12.42, 12.45, 12.39, 12.41]], volume: [82000, 74000, 80000, 71000, 78000, 69000, 76000, 72000]}
+        answer: pass
+        note: "Eight minutes inside nine cents. Five cents of cost against a move that is not there."
+      - chart: {kind: candles, data: [[15.60, 15.74, 15.56, 15.72], [15.72, 15.86, 15.68, 15.84], [15.84, 15.96, 15.80, 15.92], [15.92, 16.06, 15.88, 16.04], [16.04, 16.16, 16.00, 16.12], [16.12, 16.26, 16.08, 16.24], [16.24, 16.34, 16.20, 16.32], [16.32, 16.46, 16.28, 16.44]], volume: [8000, 7000, 9000, 6000, 8000, 7000, 9000, 8000]}
+        answer: pass
+        note: "The move is there, but 1,200 shares is a seventh of one of those minutes."
+      - chart: {kind: candles, data: [[21.00, 21.18, 20.94, 21.16], [21.16, 21.34, 21.12, 21.30], [21.30, 21.48, 21.26, 21.44], [21.44, 21.62, 21.40, 21.58], [21.58, 21.74, 21.54, 21.70], [21.70, 21.88, 21.66, 21.84], [21.84, 22.00, 21.80, 21.96], [21.96, 22.14, 21.92, 22.10]], volume: [124000, 138000, 116000, 142000, 128000, 150000, 132000, 146000]}
+        answer: take
+        note: "Sixteen-cent minutes and heavy bars. Five cents is small against anything this chart is offering."
+      - chart: {kind: candles, data: [[13.80, 13.85, 13.77, 13.84], [13.84, 13.89, 13.81, 13.88], [13.88, 13.92, 13.84, 13.90], [13.90, 13.95, 13.86, 13.94], [13.94, 13.98, 13.90, 13.96], [13.96, 14.01, 13.92, 14.00], [14.00, 14.04, 13.96, 14.02], [14.02, 14.07, 13.98, 14.06]], volume: [148000, 162000, 139000, 155000, 144000, 167000, 151000, 158000]}
+        answer: pass
+        note: "Plenty of volume, but four-cent minutes. The costs are bigger than the move they would have to come out of."
+    explanation: "Two questions on every card: is the move bigger than the cost, and can the stock carry 1,200 shares out. A card has to pass both."
+
+  - type: tf
+    statement: "Two of the four questions can pass on costs and still leave you sending fewer shares than the stop allowed."
+    answer: true
+    explanation: "The account ceiling is not a cost, it is a cash limit, and it sets the size whenever it comes out lower than the stop's number."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "The gap is two cents against a thirty-cent move,"}
+      - {text: "so the costs are settled and the size can wait,", wrong: true}
+      - {text: "and the connection has been solid all session."}
+    explanation: "The gap is one layer of three, and the share count is the question that decides what any of those cents actually cost you."
+
+  - type: plan-card
+    title: "Your cost limits"
+    intro: "Three numbers you will trade by from here. You can change them later."
+    fields:
+      - {key: max_cost_share, label: "Most of a target you will let costs take (%)", kind: number, suggest: 33}
+      - {key: max_spread_cents, label: "Widest gap you will pay, in cents", kind: number, suggest: 5}
+      - {key: risk_per_trade_pct, label: "Risk per trade (% of the account)", kind: number, suggest: 1}
+    note: "Chapter 6 adds the daily limits that sit on top of these."
+
+  - type: recap
+    title: "Level 17 in three lines"
+    points:
+      - {text: "Spread, slippage and fees added per share is the all-in cost, and it is judged as a share of the target.", level: "17-1"}
+      - {text: "A dropped connection is a cost you cannot price, so a fallback plan is written before you need it.", level: "17-2"}
+      - {text: "Four questions in order: the gap, the cost ratio, the lower ceiling, the tools.", level: "17-3"}

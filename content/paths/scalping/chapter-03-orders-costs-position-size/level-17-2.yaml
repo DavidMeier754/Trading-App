@@ -1,0 +1,120 @@
+id: "17-2"
+title: "The All-In Check"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: new-theory
+tags: [costs, reliability, fallback-plan]
+learning_goal: "User treats a dropping connection or a frozen screen as a hard no, and can say what a written fallback plan contains before it is needed."
+purpose: "Every cost in this chapter can be paid in cents. The one that cannot is the tools failing while you are holding stock."
+terms_introduced: ["Fallback plan"]
+reinforces: [2]
+prerequisite: "17-1"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $21,000. The chart-decision is a good setup deliberately refused on reliability, so the outcome shows what a failed check costs you."
+screens:
+  - type: intro
+    text: "The cost check assumes one thing: that the tools work."
+
+  - type: theory
+    title: "The cost you cannot price"
+    body: "Spread, slippage and fees all come out in cents. The app, the connection and the broker do not, and they fail at the worst possible moment: while you are holding stock."
+
+  - type: story
+    character: retail-trader
+    text: "You are long 1,400 shares and the chart stops updating. The quote freezes. You cannot tell whether you are still in the position or already out of it."
+
+  - type: branch
+    scenario: "You are long 1,400 shares of XYZ from $14.20 out of a $21,000 account, and your screen has stopped updating. The stop you sent with the entry is resting at $14.06."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[14.10, 14.16, 14.08, 14.14], [14.14, 14.24, 14.12, 14.20], [14.20, 14.26, 14.16, 14.18], [14.18, 14.22, 14.12, 14.14], [14.14, 14.18, 14.10, 14.12], [14.12, 14.16, 14.09, 14.10], [14.10, 14.18, 14.08, 14.16], [14.16, 14.22, 14.12, 14.18]]
+      decision_index: 3
+    steps:
+      - prompt: "What is the first thing you do?"
+        options:
+          - {text: "Reach the broker another way and find out where the position stands", correct: true, next: 1}
+          - {text: "Keep refreshing until the chart comes back", next: 1}
+        explanation: "You cannot manage a position you cannot see. The first job is finding out what you own, and that does not need the screen that just died."
+      - prompt: "The broker confirms you are still long 1,400 and the stop is live. What does the rest of the session look like?"
+        options:
+          - {text: "Flatten, fix the connection, and come back when the tools are solid", correct: true}
+          - {text: "Trade on as normal, since the stop is doing its job"}
+        explanation: "A resting stop covers one exit. It does not cover the next entry, the early exit, or the twenty minutes you spend blind — and the setup will be there tomorrow."
+
+  - type: theory
+    title: "Fallback plan"
+    body: "Written before you need it: how to reach the broker without your screen, a second device, a second connection, and the one move you make first. That is your fallback plan."
+
+  - type: mc
+    prompt: "Which of these is actually a fallback plan?"
+    options:
+      - {text: "A promise to yourself that you will stay calm if the screen ever freezes"}
+      - {text: "A second monitor plugged into the same computer"}
+      - {text: "Trading smaller so that an outage matters less"}
+      - {text: "The broker's number and a phone on mobile data, in reach", correct: true}
+    explanation: "A plan is something you can act on in ten seconds with the screen dark. A second monitor shares the failure; a smaller size only changes the price of it."
+
+  - type: tf
+    statement: "A stop order already resting with the broker keeps working even if your own connection drops."
+    answer: true
+    explanation: "That is the argument for sending the stop with the entry instead of watching for the level yourself. It does not cover the exit you wanted early, or the entry you never got to place."
+
+  - type: checklist-reveal
+    title: "Before you trust the tools"
+    items:
+      - "Has the connection held all session?"
+      - "Is the stop already resting with the broker, not in my head?"
+      - "Can I reach the broker without this screen?"
+      - "Is a second device awake and logged in?"
+
+  - type: sort
+    prompt: "Part of a fallback plan, or not?"
+    buckets: ["Part of the plan", "Not part of it"]
+    items:
+      - {text: "The broker's number written down off-screen", bucket: "Part of the plan"}
+      - {text: "A second device already logged in", bucket: "Part of the plan"}
+      - {text: "A faster order type on the entry", bucket: "Not part of it"}
+      - {text: "A bigger risk budget for the day", bucket: "Not part of it"}
+    explanation: "A plan is a route out when the screen is dark. Nothing you do inside the platform helps once the platform is the thing that failed."
+
+  - type: chart-decision
+    scenario: "A different name has based for six minutes and the minute that just closed pushed out of the top of it on the biggest bar since the open. The quote is two cents wide. Your screen has frozen twice in the last half hour, and your $21,000 account allows 1,300 shares here."
+    shares: 1300
+    state: ["Screen froze twice this hour"]
+    chart:
+      kind: candles
+      data: [[15.32, 15.38, 15.28, 15.34], [15.34, 15.40, 15.30, 15.36], [15.36, 15.41, 15.29, 15.33], [15.33, 15.38, 15.28, 15.36], [15.36, 15.40, 15.32, 15.38], [15.38, 15.50, 15.36, 15.46], [15.46, 15.56, 15.43, 15.54], [15.54, 15.64, 15.51, 15.62], [15.62, 15.72, 15.59, 15.70], [15.70, 15.82, 15.67, 15.79]]
+      volume: [66000, 72000, 59000, 64000, 57000, 158000, 134000, 118000, 102000, 88000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It ran to $15.79, so the trade was there: $0.33 a share, $429 on 1,300 shares. It was also 1,300 shares to manage on a screen that goes dark twice an hour."
+    explanation: "The chart passes and the costs pass. A failed check still ends it, and this is what that honestly costs — a good setup, left alone, because the tools could not be trusted to carry it."
+
+  - type: numeric-input
+    prompt: "A different outage, another morning: long 1,400 shares from $14.20, and by the time you were flat the bid was $14.02. What did the blackout cost against your entry?"
+    answer: 252
+    tolerance: 1
+    unit: "$"
+    working: "$14.20 − $14.02 = $0.18; $0.18 × 1,400 = $252"
+    explanation: "Eighteen cents is not a big move. On 1,400 shares it is more than one per cent of this account, paid for a dropped connection."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "The screen has frozen twice this hour,"}
+      - {text: "so you trade half size until it settles down,", wrong: true}
+      - {text: "and keep the stop resting with the broker."}
+    explanation: "Half size does not make an outage smaller, only cheaper, and those are different things. A broken tool is a reason to stop, not a reason to shrink."
+
+  - type: fill-choice
+    sentence: "A written route to the broker that does not need your screen is your ___ plan."
+    options: ["fallback", "exit", "sizing"]
+    answer: "fallback"
+    explanation: "Written while nothing is wrong, because that is the only time you can think clearly about it."
+
+  - type: example
+    body: "Two traders lose their connection in the same minute. One has a number to call and a phone already on mobile data. The other is refreshing a frozen chart and guessing what they own."

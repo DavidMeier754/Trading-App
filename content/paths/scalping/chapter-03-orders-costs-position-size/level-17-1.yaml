@@ -4,111 +4,109 @@ chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
-tags: [costs, checklist]
-learning_goal: "User computes all-in cost per share, compares it to the target, and runs a four-question pre-trade checklist including reliability."
-purpose: "One number and four questions turn everything in this chapter into a three-second habit before every scalp."
-terms_introduced: ["All-in cost", "Fallback plan"]
-prerequisite: "15-1"
+tags: [costs, all-in-cost]
+learning_goal: "User adds spread, slippage and fees into one per-share number and holds it against the target move as a share of it."
+purpose: "Three costs arriving separately are three things to forget. One number, held against the move, is a habit you can run in a second."
+terms_introduced: ["All-in cost"]
+reinforces: [2]
+prerequisite: "16-2"
 xp: 20
 difficulty: 2
 sources: [consensus]
+notes: "Account named at $20,000 for the chart-decision. Introduces All-in cost; Fallback plan follows in 17-2."
 screens:
   - type: intro
-    text: "Before every scalp: one number and four questions."
+    text: "Three costs. One number. One comparison."
 
   - type: theory
     title: "All-in cost"
-    body: "Spread + slippage + fees, per share, for the round trip. Compare it to your target move. That ratio is the trade's honest price tag."
+    body: "Spread, slippage and fees, added together, per share, for the whole round trip. That single number is the all-in cost, and it is what a setup has to beat before it can make you anything."
 
   - type: visual
     component: cost-stack
-    data: {shares: 1000, spread: 0.02, slippage: 0.02, fees: 0.01, target: 0.15}
-    caption: "$0.02 + $0.02 + $0.01 = $0.05 all-in against a $0.15 target — 33 % gone before you start."
+    data: {shares: 1100, spread: 0.04, slippage: 0.02, fees: 0.01, target: 0.28}
+    caption: "Seven cents all-in against a twenty-eight-cent target: $77 of the $308 that 1,100 shares would make, gone before the trade starts."
 
   - type: numeric-input
-    prompt: "Spread $0.03, round-trip slippage $0.02, fees $0.01. All-in cost per share?"
-    answer: 0.06
+    prompt: "Spread five cents, round-trip slippage two cents, fees one cent. What is the all-in cost per share?"
+    answer: 0.08
     tolerance: 0.001
     unit: "$"
-    working: "0.03 + 0.02 + 0.01 = 0.06"
-    explanation: "Three layers, one number."
+    working: "$0.05 + $0.02 + $0.01 = $0.08"
+    explanation: "Three layers, one number, and from here you only ever carry the one."
 
-  - type: numeric-input
-    prompt: "All-in $0.06, target $0.20. Percent eaten?"
-    answer: 30
-    unit: "%"
-    working: "0.06 ÷ 0.20 = 0.30"
-    explanation: "Under a third — workable."
+  - type: numeric-mc
+    prompt: "That eight cents against a target of thirty-two cents. What share of the move goes to costs?"
+    options:
+      - {text: "8 %"}
+      - {text: "40 %"}
+      - {text: "25 %", correct: true}
+      - {text: "4 %"}
+    working: "$0.08 ÷ $0.32 = 0.25"
+    explanation: "A quarter of the move is the cost of being in the trade at all. The other three quarters are what you are actually playing for."
+
+  - type: theory
+    title: "A third is the line"
+    body: "Under about a third of the target and the trade is worth having. Half or more and the move has to go perfectly just to break even. The number is not a law; the habit of looking is."
 
   - type: slider
-    prompt: "All-in $0.09, target $0.12. Percent eaten?"
+    prompt: "All-in cost nine cents, target fifteen cents. What share of the move is gone?"
     min: 0
     max: 100
     step: 5
     unit: "%"
-    answer: 75
+    answer: 60
     tolerance: 10
-    explanation: "Three quarters gone — skip."
-
-  - type: theory
-    title: "Reliability"
-    body: "All of this assumes your app, connection and broker work when it matters. A dropped connection with 2,000 shares open is a real risk. Have a fallback plan: the broker's phone number, a second device, mobile data."
-
-  - type: checklist-reveal
-    title: "Before every scalp"
-    items:
-      - "Is the spread small against the move I expect?"
-      - "Is the all-in cost under about a third of my target?"
-      - "Are my shares the lower of what my stop allows and what the account can pay for?"
-      - "Are my connection and fallback ready?"
-
-  - type: order
-    prompt: "Put the three seconds before a scalp in the order you run them."
-    items:
-      - "Read the spread against the move you expect"
-      - "Add slippage and fees to get the all-in cost"
-      - "Size the shares from the stop and the account"
-      - "Check the connection, then send the entry"
-    explanation: "Cost first, because it can end the decision before sizing is worth doing at all."
-
-  - type: mc
-    prompt: "All-in 40 % of target, connection unstable, sizing correct. Trade?"
-    options:
-      - {text: "No — two of the four checks fail", correct: true}
-      - {text: "Yes — sizing is what matters"}
-      - {text: "Yes, but with market orders for speed"}
-    explanation: "One failed check is a no. Two is a loud no."
-
-  - type: tf
-    statement: "Passing all four checks means the trade will be profitable."
-    answer: false
-    explanation: "It means the trade is well-structured. The outcome stays uncertain."
+    explanation: "$0.09 out of $0.15 is three fifths. You would need the whole move, every time, to make the trade worth sending."
 
   - type: sort
-    prompt: "Part of the all-in cost?"
-    buckets: ["All-in cost", "Not part of it"]
+    prompt: "Each of these is an all-in cost held against the target. Worth it, or not?"
+    buckets: ["Worth the costs", "Not worth the costs"]
     items:
-      - {text: "Spread", bucket: "All-in cost"}
-      - {text: "Slippage", bucket: "All-in cost"}
-      - {text: "Fees", bucket: "All-in cost"}
-      - {text: "Your stop distance", bucket: "Not part of it"}
-    explanation: "Costs of executing, not the risk of being wrong."
+      - {text: "Four cents against a thirty-cent target", bucket: "Worth the costs"}
+      - {text: "Nine cents against a fourteen-cent target", bucket: "Not worth the costs"}
+      - {text: "Two cents against a twelve-cent target", bucket: "Worth the costs"}
+      - {text: "Seven cents against a ten-cent target", bucket: "Not worth the costs"}
+    explanation: "Thirteen and seventeen per cent on the left; sixty-four and seventy on the right. The dollar amounts never settled any of them."
 
-  - type: match
-    prompt: "Four terms this chapter turned into one habit."
-    pairs:
-      - ["All-in cost", "Spread + slippage + fees per share"]
-      - ["Fallback plan", "How to act if your setup fails"]
-      - ["Risk per trade", "Shares × stop distance"]
-      - ["Marketable limit", "Capped entry that fills now"]
-    explanation: "The chapter in four terms."
+  - type: chart-decision
+    scenario: "XYZ has twice stopped falling at $13.90 and the minute that just closed came off it on rising volume. The quote is two cents wide, slippage runs about two cents and fees a cent, against the twenty-five to thirty cents these minutes have been travelling. Your $20,000 account allows 1,100 shares here."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[14.20, 14.24, 14.12, 14.14], [14.14, 14.18, 14.04, 14.06], [14.06, 14.10, 13.96, 13.98], [13.98, 14.02, 13.92, 13.94], [13.94, 13.98, 13.90, 13.92], [13.92, 14.00, 13.90, 13.98], [13.98, 14.06, 13.95, 14.04], [14.04, 14.12, 14.01, 14.10], [14.10, 14.18, 14.07, 14.16], [14.16, 14.26, 14.13, 14.23]]
+      volume: [84000, 72000, 64000, 56000, 48000, 138000, 116000, 104000, 92000, 81000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked back up to $14.23 — $0.25 a share above the decision, +$275 long on 1,100 shares before costs."
+    explanation: "Five cents all-in against a move worth twenty-five to thirty is a fifth of the target, and the level has already turned price twice. Both halves of the check come back clean."
 
-  - type: fill-choice
-    sentence: "Compare the all-in cost to your ___."
-    options: ["target move", "share price", "account size"]
-    answer: "target move"
-    explanation: "The move, never the price."
+  - type: numeric-input
+    prompt: "Take the five cents of all-in cost off that result. What does the trade actually leave?"
+    answer: 220
+    tolerance: 1
+    unit: "$"
+    working: "$0.05 × 1,100 = $55; $275 − $55 = $220"
+    explanation: "A fifth of the gross, paid to the quote, the fill and the broker between them."
 
-  - type: theory
-    title: "Three seconds"
-    body: "One number, four questions, three seconds. Practice on real setups next."
+  - type: tf
+    statement: "Cutting the all-in cost and raising the target move the same ratio the same way."
+    answer: true
+    explanation: "It is one division, so there are two ways to improve it: pay less to get in and out, or stop taking setups whose move is too small to matter."
+
+  - type: mc
+    prompt: "Chapter 2 called twenty minutes of flat highs and flat lows a range. Why is that the first shape the all-in cost rules out?"
+    options:
+      - {text: "The whole move on offer is barely bigger than the round trip", correct: true}
+      - {text: "A range always quotes a wider gap than a trend does"}
+      - {text: "A range has no volume, so there is nothing to pay the costs with"}
+    explanation: "Chapter 2 called the range expensive without putting a number on it. The number is this one: buy in the middle of twelve cents and five cents of cost is most of the best case."
+
+  - type: fill-tiles
+    sentence: "Spread plus slippage plus fees, per share, is the all-in ___."
+    answer: "cost"
+    explanation: "One number to carry, instead of three to forget."
+
+  - type: example
+    body: "Two setups, the same chart-reading skill: a thirty-cent move behind five cents of cost, and a twelve-cent move behind seven. One of them is a trade, and reading the chart was never what separated them."

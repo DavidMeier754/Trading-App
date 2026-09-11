@@ -1,0 +1,122 @@
+id: "18-2"
+title: "Chapter Review"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: repetition
+tags: [review, shorts, costs, decisions]
+learning_goal: "User runs the same sequence on a short, walks the cover through the book, and passes on a chart whose quote and volume both say the size will not come back out."
+purpose: "Half your decisions are shorts, and the cheapest trade of the day is usually the one you did not take."
+terms_introduced: []
+reinforces: [1, 2]
+prerequisite: "18-1"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "Closes Level 18. Account named at $19,000. Setup 3 is the short run end to end; Setup 4 is the pass, failing on the quote and the volume at once. Second use of scanner-pick and journal-row."
+screens:
+  - type: intro
+    text: "Setup 3 is a short. One of the two after it is not a trade at all."
+
+  - type: story
+    character: retail-trader
+    text: "Three names on the list have given up a level this morning and you have one short to place. $19,000 in the account, one per cent to risk, and 1,000 shares is the size you want."
+
+  - type: scanner-pick
+    prompt: "One short, three candidates, 1,000 shares to place. Which row can carry it?"
+    data:
+      rows:
+        - {ticker: HVN, price: 18.60, change_pct: -4.2, spread: 0.03}
+        - {ticker: ORC, price: 24.10, change_pct: -5.6, spread: 0.02}
+        - {ticker: PLT, price: 14.80, change_pct: -3.9, spread: 0.16}
+    target: HVN
+    explanation: "ORC is the biggest faller and 1,000 of it costs $24,100, which the account does not have. PLT's sixteen-cent gap takes $160 of the trade before it starts. HVN is the only row left standing."
+
+  - type: numeric-input
+    prompt: "Short HVN from $18.58 with the stop four cents above the broken level at $18.70, so $18.74. What does the trade risk on 1,000 shares?"
+    answer: 160
+    tolerance: 1
+    unit: "$"
+    working: "$18.74 − $18.58 = $0.16; $0.16 × 1,000 = $160"
+    explanation: "Inside the $190 that one per cent of this account allows, so 1,000 shares is a size the stop can actually justify."
+
+  - type: depth-ladder
+    prompt: "Your cover will be a market buy for all 1,000 shares. With the book at your target looking like this, where does the last share fill?"
+    data:
+      bids: [[18.41, 500], [18.40, 700], [18.39, 900]]
+      asks: [[18.43, 400], [18.44, 700], [18.45, 800]]
+    target: ask-2
+    explanation: "Covering is a buy, so it climbs the asks: 400 go off at $18.43 and the remaining 600 at $18.44, which is where your last share fills."
+
+  - type: chart-decision
+    scenario: "Setup 3, live. HVN has leaned on $18.70 three times and the minute that just closed cut through it on the biggest bar since the open. Bid $18.58 / ask $18.60, and your $19,000 account allows 1,000 shares here."
+    shares: 1000
+    state: ["Stop would sit at $18.74", "Cost $0.03 a share"]
+    chart:
+      kind: candles
+      data: [[18.84, 18.88, 18.74, 18.76], [18.76, 18.80, 18.70, 18.72], [18.72, 18.78, 18.70, 18.74], [18.74, 18.76, 18.68, 18.70], [18.70, 18.74, 18.66, 18.68], [18.68, 18.70, 18.56, 18.58], [18.58, 18.60, 18.50, 18.52], [18.52, 18.55, 18.46, 18.48], [18.48, 18.51, 18.43, 18.45], [18.45, 18.48, 18.41, 18.43]]
+      volume: [64000, 58000, 66000, 61000, 55000, 152000, 128000, 110000, 96000, 84000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $18.43 — $0.15 a share below the decision, +$150 short on 1,000 shares before the $30 the round trip cost."
+    explanation: "Three failures at the same price, a close well under it on the heaviest bar of the session, and a three-cent quote against a move worth fifteen. The arithmetic of a short runs in exactly the same direction."
+
+  - type: journal-row
+    prompt: "Fill the record for the short you just covered."
+    trade: {setup: "Level gave way", entry: 18.58, stop: 18.74, exit: 18.43, shares: 1000}
+    slots: [risk, gross, net]
+    chips:
+      risk: ["$120", "$160", "$190"]
+      gross: ["$100", "$150", "$180"]
+      net: ["$90", "$120", "$150"]
+    answer: {risk: "$160", gross: "$150", net: "$120"}
+    explanation: "Sixteen cents of stop on 1,000 shares is $160 at risk, fifteen cents made is $150 gross, and three cents all-in leave $120."
+
+  - type: mc
+    prompt: "You go to place Setup 3 and the broker has no HVN to lend. Chapter 1 called the shares you sell in a short borrowed. What does that leave you?"
+    options:
+      - {text: "The same trade, with a buy ticket instead of a sell"}
+      - {text: "A short you can place but not close until shares appear"}
+      - {text: "A short at half size, since half the borrow is always there"}
+      - {text: "The long side only, and this chart does not offer one", correct: true}
+    explanation: "No borrow, no short. It is not a cost you can price down — it is a whole side of the market being shut for the day, and the chart in front of you was only ever a short."
+
+  - type: chart-decision
+    scenario: "Setup 4. A fourth name has stepped down for six minutes and just closed under $13.66. Bid $13.54 / ask $13.65, the bars under it are around 8,000 shares, and your $19,000 account allows 1,200 shares here."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[13.84, 13.88, 13.76, 13.78], [13.78, 13.82, 13.70, 13.72], [13.72, 13.76, 13.66, 13.68], [13.68, 13.72, 13.64, 13.66], [13.66, 13.70, 13.62, 13.64], [13.64, 13.66, 13.58, 13.60], [13.60, 13.63, 13.55, 13.57], [13.57, 13.60, 13.52, 13.54], [13.54, 13.57, 13.49, 13.51], [13.51, 13.54, 13.47, 13.48]]
+      volume: [9000, 7000, 8000, 6000, 9000, 11000, 8000, 7000, 9000, 8000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It drifted another $0.12 a share to $13.48 — $144 on 1,200 shares, which an eleven-cent round trip would have cut to $12."
+    explanation: "Eleven cents of gap in a minute that trades 8,000 shares, and 1,200 of them would be yours. The chart is falling cleanly and there is still no trade in it."
+
+  - type: tf
+    statement: "A stock moving enough to be worth trading is, by that fact, liquid enough to trade it in."
+    answer: false
+    explanation: "Chapter 1 kept the two dials apart for exactly this case. Setup 4 is moving and almost nobody is there, which is the pairing that looks most like an opportunity and costs the most."
+
+  - type: match
+    prompt: "Four things Setup 3 needed before it could be sent. What did each one settle?"
+    pairs:
+      - ["The quote", "What the round trip costs per share"]
+      - ["The level above the entry", "Where the stop has a reason to sit"]
+      - ["The account", "Whether the shares can be paid for"]
+      - ["The borrow", "Whether the short exists at all"]
+    explanation: "Four different screens, four separate answers, and any one of them can end the trade on its own."
+
+  - type: fill-choice
+    sentence: "An eleven-cent gap in a minute of 8,000 shares is Chapter 1's ___ dial, written as a price."
+    options: ["liquidity", "volatility", "volume"]
+    answer: "liquidity"
+    explanation: "Liquidity was always the question of who else is there to trade against. The gap is that answer, quoted in cents."
+
+  - type: recap
+    title: "Level 18 in three lines"
+    points:
+      - {text: "Price it, size it, place it, decide — and the pass usually arrives at the first step.", level: "18-1"}
+      - {text: "A short runs the same sequence, with a borrow to check before any of it counts.", level: "18-2"}
+      - {text: "A clean chart in a thin, wide-quoted name is the most expensive trade on the list.", level: "18-2"}

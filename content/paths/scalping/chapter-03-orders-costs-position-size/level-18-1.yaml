@@ -3,126 +3,137 @@ title: "Chapter Review"
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping
-category: repetition
-tags: [costs, checklist, decisions]
-learning_goal: "User runs the all-in check on three setups and makes cost-aware long / short / no-trade decisions."
-purpose: "The check only matters if it changes what you do — here it decides real trades."
+category: new-theory
+tags: [review, costs, position-size, decisions]
+learning_goal: "User runs a setup end to end in one fixed order — price it, size it, place it, decide — and reaches the pass on the second one from the cost line alone."
+purpose: "Every piece of this chapter has been practised separately. A trade uses all of them, in one order, in about ten seconds."
 terms_introduced: []
-reinforces: [2]
-prerequisite: "17-1"
+reinforces: [1, 2]
+prerequisite: "17-3"
 xp: 30
 difficulty: 3
 sources: [consensus]
+notes: "First of the two Chapter Review subs. Account named at $24,000. Setup 1 runs the full sequence and is taken; Setup 2 fails on cost with a chart that was never the problem. Categorised new-theory because the four-step sequence itself is stated here for the first time, and because agent.md §3.2 allows no more than two review-type subs in a row before the Final Exam."
 screens:
   - type: intro
-    text: "Three real setups. Run the check, then trade — or don't."
+    text: "Two setups, start to finish. Price it, size it, place it, decide."
+
+  - type: theory
+    title: "The order never changes"
+    body: "Price the trade first, because a cost you cannot clear ends it before sizing is worth doing. Then the share count. Then the tickets. The decision comes last, and by then it is almost made."
 
   - type: story
     character: retail-trader
-    text: "Setup 1: XYZ bid $11.00 / ask $11.02, moves about $0.30 while you'd hold. Slippage about $0.01, fees $0.01. Connection solid. Target $0.20."
+    text: "Setup 1. XYZ has turned up twice off the same price this morning. Bid $16.44 / ask $16.46, its minutes have been travelling about twenty cents, fees run a cent a share and slippage about two."
 
   - type: numeric-input
-    prompt: "All-in cost per share?"
-    answer: 0.04
+    prompt: "Gap two cents, slippage two cents, fees one cent. What does Setup 1 cost per share, in and out?"
+    answer: 0.05
     tolerance: 0.001
     unit: "$"
-    working: "0.02 + 0.01 + 0.01 = 0.04"
-    explanation: "Spread, slippage, fees."
+    working: "$0.02 + $0.02 + $0.01 = $0.05"
+    explanation: "A quarter of the twenty cents these minutes are making. Inside the line, so the trade survives its first question."
 
-  - type: numeric-mc
-    prompt: "Percent of the $0.20 target?"
-    options:
-      - {text: "20 %", correct: true}
-      - {text: "4 %"}
-      - {text: "40 %"}
-      - {text: "2 %"}
-    working: "0.04 ÷ 0.20 = 0.20"
-    explanation: "A fifth — fine."
-
-  - type: chart-decision
-    scenario: "XYZ pulls back to a level where buyers stepped in twice this morning, volume steady, all-in 20 % of target. 1,000 shares."
-    shares: 1000
-    chart: {kind: candles, data: [[10.80, 10.95, 10.75, 10.90], [10.90, 11.10, 10.85, 11.05], [11.05, 11.20, 11.00, 11.15], [11.15, 11.18, 10.98, 11.02], [11.02, 11.06, 10.96, 11.00], [11.00, 11.04, 10.97, 11.02], [11.02, 11.15, 11.00, 11.12], [11.12, 11.22, 11.08, 11.20], [11.20, 11.26, 11.14, 11.24]], decision_index: 5}
-    best: long
-    reasonable: [no-trade]
-    outcome: "It bounced $0.22 — +$220 on 1,000 shares, minus about $40 in costs."
-    explanation: "A tested level, steady volume and a cheap trade: a long with the pressure."
-
-  - type: chart-tap
-    prompt: "Setup 1's level held twice this morning. Tap the second test of it."
+  - type: chart-annotate
+    prompt: "Drag the line to the price Setup 1 has turned up off twice this morning."
     chart:
       kind: candles
-      data: [[11.24, 11.30, 11.18, 11.20], [11.20, 11.24, 11.06, 11.10], [11.10, 11.16, 11.04, 11.14], [11.14, 11.22, 11.10, 11.20], [11.20, 11.26, 11.14, 11.16], [11.16, 11.20, 11.05, 11.15], [11.15, 11.24, 11.12, 11.22], [11.22, 11.30, 11.18, 11.28]]
-      levels:
-        - {price: 11.05, label: "Support"}
-    target: 5
-    explanation: "Both dips stopped within a cent of $11.05, and the second one is the test the scenario was built on."
+      data: [[16.58, 16.62, 16.50, 16.52], [16.52, 16.56, 16.44, 16.46], [16.46, 16.50, 16.36, 16.38], [16.38, 16.42, 16.30, 16.34], [16.34, 16.40, 16.30, 16.38], [16.38, 16.42, 16.33, 16.36], [16.36, 16.44, 16.32, 16.42], [16.42, 16.48, 16.38, 16.44], [16.44, 16.50, 16.40, 16.46]]
+    answer: 16.30
+    tolerance: 0.03
+    label: "Support"
+    explanation: "Both dips stopped dead on $16.30. That is the price the stop will be measured from, and the only reason the stop sits where it does."
+
+  - type: numeric-mc
+    prompt: "Stop four cents under that level, entry at the ask of $16.46, and a $24,000 account at one per cent. How many shares?"
+    options:
+      - {text: "1,200 — the stop is the lower ceiling", correct: true}
+      - {text: "1,457 — the account is the lower ceiling"}
+      - {text: "1,328, between the two"}
+      - {text: "2,400, twice the stop's ceiling"}
+    working: "Stop distance: $16.46 − $16.26 = $0.20. Risk: $240 ÷ $0.20 = 1,200. Account: $24,000 ÷ $16.46 = 1,457. Take the smaller."
+    explanation: "Twenty cents of stop is what turns a $240 budget into 1,200 shares. The account had room to spare this time, which is why the stop is the number that counts."
+
+  - type: order-build
+    prompt: "Build Setup 1's entry: 1,200 shares, capped two cents over the ask of $16.46."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [900, 1200, 1457]
+      price: [16.44, 16.46, 16.48]
+    answer: {side: buy, type: limit, qty: 1200, price: 16.48}
+    explanation: "A limit at $16.48 fills like a market order against this quote and refuses to chase more than two cents if the ask jumps as the order lands."
+
+  - type: chart-decision
+    scenario: "Setup 1, live. The minute that just closed came off $16.30 a third time on the biggest bar since the session opened, and the ask is $16.46. Your $24,000 account allows 1,200 shares here."
+    shares: 1200
+    state: ["Stop would sit at $16.26", "Cost $0.05 a share"]
+    chart:
+      kind: candles
+      data: [[16.52, 16.58, 16.44, 16.46], [16.46, 16.50, 16.36, 16.38], [16.38, 16.42, 16.30, 16.34], [16.34, 16.40, 16.30, 16.38], [16.38, 16.42, 16.33, 16.36], [16.36, 16.50, 16.30, 16.46], [16.46, 16.60, 16.43, 16.58], [16.58, 16.72, 16.54, 16.68], [16.68, 16.82, 16.64, 16.78], [16.78, 16.94, 16.74, 16.89]]
+      volume: [78000, 69000, 61000, 66000, 57000, 168000, 142000, 124000, 108000, 94000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $16.89 — $0.43 a share past the decision, +$516 long on 1,200 shares before costs."
+    explanation: "Three holds at the same price, a push off it on the heaviest bar of the session, and a size the stop and the account had already agreed on. Nothing here was decided by the candle alone."
+
+  - type: journal-row
+    prompt: "Fill the record for the trade you just closed."
+    trade: {setup: "Third hold at the level", entry: 16.46, stop: 16.26, exit: 16.89, shares: 1200}
+    slots: [risk, gross, all_in]
+    chips:
+      risk: ["$216", "$240", "$260"]
+      gross: ["$430", "$516", "$600"]
+      all_in: ["$36", "$60", "$84"]
+    answer: {risk: "$240", gross: "$516", all_in: "$60"}
+    explanation: "Twenty cents of stop on 1,200 shares is $240 at risk; forty-three cents made is $516 before costs; the five cents all-in took $60 of it."
 
   - type: story
     character: retail-trader
-    text: "Setup 2: bid $7.40 / ask $7.48, moves about $0.10. Fees $0.01. Target $0.10."
+    text: "Setup 2. A different name, bid $12.38 / ask $12.46, and the best any minute has managed all morning is twelve cents. Fees a cent a share, slippage about a cent."
 
   - type: slider
-    prompt: "Percent of the target eaten by the spread alone?"
+    prompt: "Setup 2's all-in cost against the twelve cents on offer. What share is gone?"
     min: 0
     max: 100
     step: 5
     unit: "%"
-    answer: 80
+    answer: 85
     tolerance: 10
-    explanation: "0.08 ÷ 0.10 = 80 %."
+    explanation: "Eight cents of gap plus two of slippage and fees is ten cents, out of twelve. There is almost nothing left to be right about."
 
   - type: chart-decision
-    scenario: "Same stock breaking out on volume — but that spread. 1,000 shares."
-    shares: 1000
-    chart: {kind: candles, data: [[7.30, 7.36, 7.28, 7.34], [7.34, 7.40, 7.32, 7.38], [7.38, 7.42, 7.36, 7.40], [7.40, 7.46, 7.39, 7.44], [7.44, 7.48, 7.42, 7.46], [7.46, 7.50, 7.44, 7.48], [7.48, 7.56, 7.46, 7.54], [7.54, 7.60, 7.50, 7.57], [7.57, 7.60, 7.52, 7.55]], decision_index: 5}
+    scenario: "Setup 2, live. It has just closed out of the top of its range on the biggest bar of the morning, the ask is $12.46 and the bid is $12.38. Your $24,000 account allows 1,800 shares here."
+    shares: 1800
+    state: ["Cost $0.10 a share", "Range was 12 cents"]
+    chart:
+      kind: candles
+      data: [[12.38, 12.42, 12.34, 12.40], [12.40, 12.44, 12.36, 12.38], [12.38, 12.43, 12.35, 12.41], [12.41, 12.45, 12.37, 12.39], [12.39, 12.44, 12.36, 12.42], [12.42, 12.48, 12.40, 12.46], [12.46, 12.55, 12.44, 12.52], [12.52, 12.54, 12.46, 12.48], [12.48, 12.51, 12.42, 12.44], [12.44, 12.48, 12.40, 12.42]]
+      volume: [92000, 84000, 76000, 88000, 72000, 164000, 138000, 112000, 96000, 88000]
+      decision_index: 5
     best: no-trade
-    outcome: "It moved $0.11. After the $0.08 spread and fees, about $0.02 per share — before slippage."
-    explanation: "A good-looking move on bad ground. The check says no."
+    outcome: "It managed $0.09 a share to $12.55 and came straight back. $162 made on 1,800 shares, $180 paid to get in and out."
+    explanation: "The breakout was real and the volume was there. Ten cents of cost inside a twelve-cent range is what ruled it out, and the chart was never the problem."
 
-  - type: story
-    character: retail-trader
-    text: "Setup 3: bid $11.10 / ask $11.11, moves about $0.25. Your Wi-Fi dropped twice in the last hour."
-
-  - type: mc
-    prompt: "Trade?"
-    options:
-      - {text: "Yes — the cost check passes, and that's what matters"}
-      - {text: "No — fix the connection first; the setup will come again", correct: true}
-      - {text: "Yes, with half size"}
-    explanation: "Reliability is a check, not a suggestion. Half size doesn't fix a dropped connection."
-
-  - type: numeric-input
-    prompt: "Later, connection fixed. 1 % of a $12,000 account, stop $0.12, share price $11.10. Shares?"
-    answer: 1000
-    unit: "shares"
-    working: "Risk: $120 ÷ $0.12 = 1,000. Account: $12,000 ÷ $11.10 = 1,081. Take the smaller: 1,000"
-    explanation: "Two ceilings — the stop and the account. The lower one is your share count."
-
-  - type: chart-decision
-    scenario: "Setup 3, connection stable, 1,000 shares sized. The stock grinds down along rising volume."
-    shares: 1000
-    chart: {kind: candles, data: [[11.32, 11.36, 11.24, 11.26], [11.26, 11.28, 11.18, 11.20], [11.20, 11.22, 11.14, 11.16], [11.16, 11.20, 11.12, 11.14], [11.14, 11.16, 11.10, 11.12], [11.12, 11.14, 11.08, 11.11], [11.11, 11.12, 11.02, 11.04], [11.04, 11.06, 10.96, 10.98], [10.98, 11.00, 10.92, 10.94]], decision_index: 5}
-    best: short
-    reasonable: [no-trade]
-    outcome: "It slid $0.18 — +$180 short on 1,000 shares, minus about $30 in costs."
-    explanation: "All four checks pass and the pressure is down: a short, on the same arithmetic in reverse."
+  - type: tf
+    statement: "Setup 2 failed on its costs, so the chart reading that found it was wasted work."
+    answer: false
+    explanation: "The reading is what let you price the trade and put it down in one look. Finding the pass quickly is most of what the check is for."
 
   - type: sort
-    prompt: "Passes the check?"
-    buckets: ["Passes", "Fails"]
+    prompt: "On these two setups, what was settled before the entry and what was left to the market?"
+    buckets: ["Settled before the entry", "Left to the market"]
     items:
-      - {text: "All-in 15 % of target, stable connection", bucket: "Passes"}
-      - {text: "Spread alone 80 % of target", bucket: "Fails"}
-      - {text: "Perfect costs, connection dropping", bucket: "Fails"}
-      - {text: "All-in 25 %, sized from the stop", bucket: "Passes"}
-    explanation: "Any failed question is a no."
+      - {text: "How many shares go out", bucket: "Settled before the entry"}
+      - {text: "Where the stop sits", bucket: "Settled before the entry"}
+      - {text: "Whether the level holds a third time", bucket: "Left to the market"}
+      - {text: "What the fill comes back at", bucket: "Left to the market"}
+    explanation: "Two of those four are yours, and they are the two you can get right every single time."
 
-  - type: fill-tiles
-    sentence: "Spread, slippage and fees together are the all-in ___."
-    answer: "cost"
-    explanation: "The trade's honest price tag."
-
-  - type: theory
-    title: "Final exam next"
-    body: "After it, you're a scalper who knows what every trade costs."
+  - type: visual
+    component: cost-stack
+    data: {shares: 1200, spread: 0.02, slippage: 0.02, fees: 0.01, target: 0.43}
+    caption: "Setup 1, finished: $60 of cost against $516 made on 1,200 shares. Setup 2 never got past the first bar of this picture."

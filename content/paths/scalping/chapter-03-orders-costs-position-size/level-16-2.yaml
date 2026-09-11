@@ -1,0 +1,125 @@
+id: "16-2"
+title: "Chapters 1–2 Callback"
+chapter: 3
+chapter_title: "Orders, Costs & Position Size"
+path: scalping
+category: repetition
+tags: [callback, levels, stops, position-size]
+learning_goal: "User turns a Chapter 2 level into a stop placement, measures the distance, sizes from it, and knows what the opening session's wider quote does to a tight stop."
+purpose: "Chapter 2 taught you to find the price that has turned the market. That price is where the stop has a reason to sit — and the distance to it is what sets your share count."
+terms_introduced: []
+reinforces: [1, 2]
+prerequisite: "16-1"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "Second Callback sub. Account named at $26,000 throughout. The short side first, then the long, so the stop sits on both sides of the entry within one sub."
+screens:
+  - type: intro
+    text: "A level was a place price turned. Now it is the only reason your stop is where it is."
+
+  - type: theory
+    title: "The level pays for the stop"
+    body: "A stop needs somewhere the chart says price should not go. That is what a level is. Put the stop a few cents clear of it, and the distance you just measured is what decides your size."
+
+  - type: chart-annotate
+    prompt: "Two pushes have failed at the same price this morning and the minute that just closed finished sixteen cents under it, at $23.44. Drag the line to where the stop on a short belongs."
+    chart:
+      kind: candles
+      data: [[23.30, 23.44, 23.28, 23.42], [23.42, 23.60, 23.40, 23.54], [23.54, 23.58, 23.46, 23.50], [23.50, 23.56, 23.44, 23.52], [23.52, 23.60, 23.48, 23.54], [23.54, 23.58, 23.46, 23.48], [23.48, 23.52, 23.40, 23.42], [23.42, 23.46, 23.38, 23.44]]
+    answer: 23.63
+    tolerance: 0.03
+    label: "Stop"
+    explanation: "Both pushes died at $23.60, so a few cents above it is the price that says the short was wrong. A line at $23.63 does that; a line on $23.60 itself does not."
+
+  - type: numeric-input
+    prompt: "You are short from $23.44 with that stop at $23.63. What is the stop distance?"
+    answer: 0.19
+    tolerance: 0.001
+    unit: "$"
+    working: "$23.63 − $23.44 = $0.19"
+    explanation: "Measured from your entry to the price the chart named, not from a number you liked the look of."
+
+  - type: numeric-mc
+    prompt: "Your $26,000 account at one per cent, that nineteen-cent stop, the stock at $23.44. How many shares, and which ceiling bound it?"
+    options:
+      - {text: "1,368 shares, because the stop is what sizing is for"}
+      - {text: "1,109 shares, and the account is what bound it", correct: true}
+      - {text: "1,238 shares, splitting the two"}
+      - {text: "2,736 shares, doubling the stop's number"}
+    working: "Risk: $260 ÷ $0.19 = 1,368. Account: $26,000 ÷ $23.44 = 1,109. The smaller is 1,109."
+    explanation: "A $23 share price is high enough that the cash runs out before the risk does, even on a stop this wide."
+
+  - type: mc
+    prompt: "Chapter 2 judged a level by where the minute closed, not by how far a wick poked through it. What does that do to a stop placed one cent beyond the level?"
+    options:
+      - {text: "Nothing, because a stop only triggers on a closing price"}
+      - {text: "It makes the stop cheaper, since the level is closer"}
+      - {text: "A poke the chart ignores still takes you out", correct: true}
+    explanation: "A stop is a price, not a close. The harmless wick Chapter 2 taught you to wait out is a real exit if your stop is sitting one cent the other side of it."
+
+  - type: tf
+    statement: "A four-cent stop is worth the same in the first minutes after {{market.regular_open}} as it is an hour later."
+    answer: false
+    explanation: "Chapter 1 called the open the jumpiest part of the day, and Level 3 showed the quote at its widest there. A four-cent stop with an eight-cent gap inside it is not a stop at all."
+
+  - type: order-build
+    prompt: "Send the protection for that short: buy back all 1,109 shares if $23.63 trades, at whatever price is there."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [900, 1109, 1368]
+      price: [23.44, 23.63, 23.80]
+    answer: {side: buy, type: stop, qty: 1109, price: 23.63}
+    explanation: "A short is closed with a buy, and taking whatever price is there makes it the stop-market — the one that guarantees the exit rather than the price."
+
+  - type: chart-decision
+    scenario: "A different name has turned up off $18.80 twice this morning, and the minute that just closed came off it again on the biggest bar since the session opened. The quote is two cents wide, and your $26,000 account allows 1,100 shares here."
+    shares: 1100
+    state: ["Stop would sit at $18.76"]
+    chart:
+      kind: candles
+      data: [[19.04, 19.08, 18.96, 18.98], [18.98, 19.02, 18.88, 18.90], [18.90, 18.94, 18.80, 18.84], [18.84, 18.90, 18.80, 18.88], [18.88, 18.92, 18.83, 18.85], [18.85, 18.94, 18.80, 18.92], [18.92, 19.00, 18.89, 18.98], [18.98, 19.04, 18.94, 19.02], [19.02, 19.08, 18.98, 19.05], [19.05, 19.12, 19.02, 19.08]]
+      volume: [76000, 68000, 84000, 72000, 62000, 171000, 142000, 126000, 110000, 98000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked back up to $19.08 — $0.16 a share above the decision, +$176 long on 1,100 shares."
+    explanation: "The level has turned price twice and has just turned it a third time on the heaviest bar of the session. Four cents of clearance puts the stop below the price that has to hold."
+
+  - type: slider
+    prompt: "Your stop on that long is sixteen cents. In the first minutes after {{market.regular_open}} the same name was quoting eight cents wide. What share of the stop would the quote have taken then?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 50
+    tolerance: 10
+    explanation: "$0.08 out of $0.16 is half the room gone before price has moved against you — which is why the opening minutes are for watching, not for tight stops."
+
+  - type: sort
+    prompt: "On this trade, who decided each of these?"
+    buckets: ["The chart decided it", "Your account decided it"]
+    items:
+      - {text: "Which price has to hold", bucket: "The chart decided it"}
+      - {text: "How far the stop sits from the entry", bucket: "The chart decided it"}
+      - {text: "How many shares carry that stop", bucket: "Your account decided it"}
+      - {text: "Whether the position can be paid for at all", bucket: "Your account decided it"}
+    explanation: "The chart gets the two prices. You get the share count. Neither one is allowed to do the other's job."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "Two pushes failed at $23.60,"}
+      - {text: "so the stop goes on $23.60 itself,", wrong: true}
+      - {text: "and the share count comes from the distance to it."}
+    explanation: "Leave the stop a few cents clear. Sitting it exactly on the price everybody else is watching hands the trade to the first wick through it."
+
+  - type: recap
+    title: "Level 16 in three lines"
+    points:
+      - {text: "The volume row says whether you can leave, the quote says what leaving costs, the account says how much you can hold.", level: "16-1"}
+      - {text: "A level is where the stop has a reason to sit, a few cents clear of the price everyone is watching.", level: "16-2"}
+      - {text: "The chart sets the distance; your account sets the share count that carries it.", level: "16-2"}
