@@ -1,0 +1,110 @@
+id: "2-1"
+title: "Relative Volume"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [relative-volume, selection, volume]
+learning_goal: "User computes relative volume as today's volume over this name's own normal by the same point in the day, and reads it as a multiple."
+purpose: "It is the one number that separates the handful of names something is happening in from the thousands having an ordinary day."
+terms_introduced: ["Relative volume"]
+reinforces: [1, 2]
+prerequisite: "1-4"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
+notes: "Defines the term and the sum. Chapter 2 judged one bar against recent minutes; this judges the whole day against the name's own normal day. Account named at $20,000."
+screens:
+  - type: intro
+    text: "Every name on your screen is there for one reason: today it is trading far more than it usually does."
+
+  - type: theory
+    title: "Relative volume"
+    body: "Relative volume is today's volume measured against what this name normally trades by the same point in the day. Four times its own normal is 4×. It is a multiple, never a share count."
+
+  - type: example
+    body: "MESA normally trades 300,000 shares by mid-morning. Today it has done 1.5 M by the same point. That is 5× — the same name with five times the crowd inside it."
+
+  - type: numeric-input
+    prompt: "HALO normally trades 800,000 shares by mid-morning and has done 2.4 M today. What is its relative volume?"
+    answer: 3
+    tolerance: 0.05
+    working: "2,400,000 ÷ 800,000 = 3"
+    explanation: "Three times its own normal. Whether that is a lot depends on nothing except this name's own history."
+
+  - type: theory
+    title: "Against itself, at the same point in the day"
+    body: "Two things have to match: this name's own history, and the same point in the session. Volume by the first half hour and volume by lunchtime are different questions with different answers."
+
+  - type: mc
+    prompt: "Why is relative volume written as a multiple rather than a share count?"
+    options:
+      - {text: "Because a multiple is quicker to sort a list by"}
+      - {text: "Because share counts change when the price changes"}
+      - {text: "Because a share count means nothing on its own", correct: true}
+    explanation: "2 M shares is a crowd in one name and a slow day in another. Chapter 2 said the same about a single bar: the number only means something next to the name it belongs to."
+
+  - type: tf
+    statement: "A name trading 900,000 shares today can be busier than one trading 6 M."
+    answer: true
+    explanation: "If 900,000 is six times its normal and the 6 M is barely average, the smaller number is the busy one."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "NOVA normal", value: 240000}
+        - {label: "NOVA today", value: 1440000}
+        - {label: "GRAN normal", value: 3100000}
+        - {label: "GRAN today", value: 3400000}
+      unit: "shares by mid-morning"
+    caption: "NOVA is at 6× its own normal. GRAN trades more shares and has almost nothing unusual about it."
+
+  - type: numeric-mc
+    prompt: "GRAN normally does 3.1 M by mid-morning and has done 3.4 M today. Its relative volume is about:"
+    options:
+      - {text: "3.4×"}
+      - {text: "1.1×", correct: true}
+      - {text: "0.9×"}
+      - {text: "11×"}
+    working: "3,400,000 ÷ 3,100,000 ≈ 1.1"
+    explanation: "An ordinary day with slightly more shares in it than usual. Nothing has changed in this name."
+
+  - type: sort
+    prompt: "Which of these readings says a name is unusually busy today?"
+    buckets: ["Unusually busy", "Nothing unusual"]
+    items:
+      - {text: "1.4 M shares by the first hour against a normal 300,000", bucket: "Unusually busy"}
+      - {text: "9 M shares by the first hour in a name that always does 8 M", bucket: "Nothing unusual"}
+      - {text: "Five times its own normal pace", bucket: "Unusually busy"}
+      - {text: "The biggest share count on the whole list", bucket: "Nothing unusual"}
+    explanation: "Multiples on the left, absolute size on the right. The biggest name on a list is usually just the biggest name."
+
+  - type: chart-decision
+    scenario: "KELP has held 4× its normal volume all morning, its minutes are printing over 90,000 shares against a usual 20,000, and the minute that just closed is the longest body since the open. Your account is $20,000 and 1,300 shares is the size you trade."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[14.70, 14.80, 14.66, 14.78], [14.78, 14.88, 14.74, 14.84], [14.84, 14.92, 14.78, 14.82], [14.82, 14.94, 14.78, 14.90], [14.90, 15.00, 14.86, 14.96], [14.96, 15.16, 14.94, 15.12], [15.12, 15.24, 15.08, 15.20], [15.20, 15.32, 15.16, 15.28], [15.28, 15.40, 15.24, 15.36], [15.36, 15.44, 15.32, 15.40], [15.40, 15.44, 15.34, 15.38]]
+      volume: [94000, 102000, 92000, 98000, 96000, 142000, 126000, 116000, 108000, 100000, 94000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $15.40 — $0.28 a share above the decision, +$364 long on 1,300 shares."
+    explanation: "Four times the usual crowd, and 1,300 shares is under a hundredth of the minute it closed on, so the way out is there."
+
+  - type: fill-choice
+    sentence: "Relative volume compares today's volume with this name's own ___."
+    options: ["normal", "price", "quote"]
+    answer: "normal"
+    explanation: "Its own history, read at the same point in the day."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the number you would need this name's own history to make sense of."
+    data: {ticker: NOVA, name: Nova Freight, price: 14.60, change: 0.92, change_pct: 6.7, volume: "1.4M"}
+    target: volume
+    explanation: "1.4 M means nothing on its own. Against a normal 240,000 it means the crowd is six deep."
+
+  - type: example
+    body: "Two names, both up about 6 %. One is doing 6× its normal volume and the other 1.1×. Only one of them has anything unusual happening inside it."

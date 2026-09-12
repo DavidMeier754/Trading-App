@@ -1,0 +1,122 @@
+id: "1-3"
+title: "Not Every Stock"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [selection, position-size, account]
+learning_goal: "User checks a name's share price against the account before reading its chart, and can say which of the two ceilings is binding."
+purpose: "The cheapest way to cross a name off is the price tag: if the account cannot pay for a position that matters, nothing else about the name does."
+terms_introduced: []
+reinforces: [1, 3]
+prerequisite: "1-2"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "Filter four. Chapter 3's account ceiling arriving as a selection tool. Account named at $12,000; every position in the file is payable at the price quoted."
+screens:
+  - type: intro
+    text: "The cheapest reason to cross a name off is the one printed next to its ticker."
+
+  - type: theory
+    title: "Size still has two ceilings"
+    body: "Chapter 3 gave you both: the risk budget divided by the stop distance, and the account divided by the share price. Selection runs the second one first, because it takes one glance and it is final."
+
+  - type: example
+    body: "A $12,000 account and a name at $190: sixty-three shares. A ten-cent move on sixty-three shares is $6.30, and the quote takes a third of it. The name is not wrong. It is out of reach."
+
+  - type: numeric-input
+    prompt: "Your account is $12,000. How many shares of an $86 name can it pay for?"
+    answer: 139
+    tolerance: 1
+    unit: "shares"
+    working: "$12,000 ÷ $86 = 139 shares"
+    explanation: "A hundred and thirty-nine, and a fifteen-cent move on them is $20.85 before a cent of cost."
+
+  - type: theory
+    title: "Which ceiling binds"
+    body: "Work both out and take the smaller. On a cheap name with a wide stop the budget binds. On a dear name with a tight stop the account binds. In selection it is nearly always the account."
+
+  - type: numeric-mc
+    prompt: "A $12,000 account, one per cent of it at risk, a fourteen-cent stop, and the name trades at $19.00. How many shares?"
+    options:
+      - {text: "857 shares"}
+      - {text: "1,200 shares"}
+      - {text: "120 shares"}
+      - {text: "631 shares", correct: true}
+    working: "$120 ÷ $0.14 = 857 shares; $12,000 ÷ $19.00 = 631 shares; take the smaller"
+    explanation: "The budget would allow 857 and the account cannot pay for them. Six hundred and thirty-one is the size."
+
+  - type: tf
+    statement: "With everything else equal, the dearer of two names is the worse one for a small account to trade."
+    answer: true
+    explanation: "Same move, fewer shares, same quote to pay. Nothing about the company enters it."
+
+  - type: sort
+    prompt: "For a $12,000 account, which of these names is reachable?"
+    buckets: ["Reachable", "Out of reach"]
+    items:
+      - {text: "$14 a share, 200,000-share minutes", bucket: "Reachable"}
+      - {text: "$160 a share, tight quote, travels well", bucket: "Out of reach"}
+      - {text: "$22 a share, four-cent quote", bucket: "Reachable"}
+      - {text: "$310 a share, the cleanest chart on the list", bucket: "Out of reach"}
+    explanation: "The account pays for 857 of the first and 38 of the last. A clean chart you can hold 38 shares of is somebody else's trade."
+
+  - type: chart-decision
+    scenario: "WREN travels about eighteen cents a minute on 80,000-share bars and quotes five cents wide. It trades at $27, so your $12,000 account pays for 444 shares and you are taking 440."
+    shares: 440
+    chart:
+      kind: candles
+      data: [[26.62, 26.74, 26.56, 26.70], [26.70, 26.84, 26.64, 26.80], [26.80, 26.92, 26.74, 26.86], [26.86, 27.00, 26.80, 26.96], [26.96, 27.06, 26.90, 27.00], [27.00, 27.12, 26.94, 27.02], [27.02, 27.18, 26.98, 27.14], [27.14, 27.26, 27.08, 27.22], [27.22, 27.34, 27.16, 27.29], [27.29, 27.32, 27.20, 27.24]]
+      volume: [82000, 88000, 76000, 84000, 80000, 92000, 86000, 78000, 74000, 70000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It went on to $27.29 — $0.27 a share past the decision, $119 on 440 shares, of which the quote would have taken $22."
+    explanation: "Not a bad chart, an unreachable one. Four hundred and forty shares is all this account can pay for at $27, and the quote takes a fifth of what they make."
+
+  - type: mc
+    prompt: "Same account, the same eighteen-cent minutes, and a name at $13.50 instead of $27. What changes?"
+    options:
+      - {text: "Nothing — the move is the same size either way"}
+      - {text: "The account pays for twice the shares", correct: true}
+      - {text: "The quote becomes twice as expensive"}
+    explanation: "888 shares instead of 444, so the same eighteen cents is worth twice as much to you."
+
+  - type: chart-decision
+    scenario: "FERN prints over 90,000-share minutes, quotes two cents wide and the minute that just closed is the heaviest since the open. It trades at $13.20, so your $12,000 account pays for 909 shares and you are taking 900."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[12.98, 13.06, 12.94, 13.04], [13.04, 13.10, 13.00, 13.08], [13.08, 13.14, 13.03, 13.06], [13.06, 13.16, 13.02, 13.12], [13.12, 13.20, 13.08, 13.16], [13.16, 13.32, 13.14, 13.28], [13.28, 13.40, 13.24, 13.36], [13.36, 13.46, 13.32, 13.42], [13.42, 13.52, 13.38, 13.48], [13.48, 13.54, 13.44, 13.50], [13.50, 13.54, 13.44, 13.46]]
+      volume: [96000, 104000, 92000, 98000, 100000, 148000, 132000, 120000, 112000, 106000, 98000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped up to $13.50 — $0.22 a share above the decision, +$198 long on 900 shares."
+    explanation: "Nine hundred shares at $13.20 is $11,880, just inside the 909 the account would stretch to, and a position worth having."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the number that decides how many shares your account can pay for."
+    data: {ticker: WREN, name: Wren Materials, price: 27.00, change: 1.08, change_pct: 4.2, volume: "6.4M"}
+    target: price
+    explanation: "The price. Volume decides whether you can leave; the price decides how much you can hold."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The budget allows 900 shares,"}
+      - {text: "so the account's 631 can be rounded up,", wrong: true}
+      - {text: "and the smaller of the two numbers is the size."}
+    explanation: "Both are ceilings, and a ceiling is not a suggestion. Six hundred and thirty-one is the size."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "$13", value: 923}
+        - {label: "$19", value: 631}
+        - {label: "$27", value: 444}
+      unit: "shares a $12,000 account can pay for"
+    caption: "One account, three prices, and not one chart looked at yet."

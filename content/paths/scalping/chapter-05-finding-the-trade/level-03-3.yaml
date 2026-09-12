@@ -1,0 +1,118 @@
+id: "3-3"
+title: "The Catalyst"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [catalyst, news, selection]
+learning_goal: "User reads what the reason actually is before opening the chart, and drops a name whose reason has pinned it in place."
+purpose: "Fifteen seconds of reading is the cheapest way to find out that a name cannot travel today, whatever its multiple says."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "3-2"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "Closes Level 3. Carries the block's short-side decision. Account named at $30,000; the short is 1,700 shares near $17.50 with $238 at risk, inside 1 % of the account."
+screens:
+  - type: intro
+    text: "The percentage in the column is not the reason. Read the reason before you read the chart."
+
+  - type: theory
+    title: "Read it, or leave it"
+    body: "A name up 9 % could be up on results, on a takeover offer, or on a court ruling. Those three behave differently, and one of them stops dead. If you have not read why, you are trading a number."
+
+  - type: carousel
+    cards:
+      - {label: "Results", text: "A re-pricing that usually trades all morning, with a large crowd and both sides busy.", icon: earnings}
+      - {label: "A takeover offer", text: "Price jumps to just under the offered price and then barely moves. Nothing left to travel.", icon: institution}
+      - {label: "A halt risk", text: "Some reasons come with the risk that the exchange stops trading in the name altogether.", icon: halt}
+
+  - type: mc
+    prompt: "A name jumps 22 % on a takeover offer and then trades inside three cents for an hour. Why?"
+    options:
+      - {text: "The crowd has not arrived yet"}
+      - {text: "The quote is too wide for anyone to trade"}
+      - {text: "Nobody disagrees about the price", correct: true}
+    explanation: "Everyone has settled on the offered price, so there is nothing left to argue over between here and there. Agreement is a flat chart, and a flat chart has nothing in it for you."
+
+  - type: tf
+    statement: "A 20 % move always means there is something to trade."
+    answer: false
+    explanation: "The move happened before you arrived. What matters is whether the name is still travelling now."
+
+  - type: chart-decision
+    scenario: "QUIL is up 24 % on a takeover offer of $18.50 and has traded between $18.38 and $18.44 for the last half hour on minutes of 40,000 shares. Your account is $30,000 and 1,600 shares is the size you trade."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[18.40, 18.43, 18.38, 18.41], [18.41, 18.44, 18.39, 18.42], [18.42, 18.44, 18.38, 18.40], [18.40, 18.43, 18.38, 18.42], [18.42, 18.44, 18.39, 18.41], [18.41, 18.44, 18.38, 18.42], [18.42, 18.44, 18.39, 18.40], [18.40, 18.43, 18.38, 18.42], [18.42, 18.44, 18.38, 18.41], [18.41, 18.44, 18.39, 18.42]]
+      volume: [42000, 38000, 40000, 36000, 44000, 40000, 38000, 42000, 36000, 40000]
+      levels:
+        - {price: 18.50, label: "Offer price"}
+      decision_index: 5
+    best: no-trade
+    outcome: "It finished the next half hour at $18.42, having covered six cents in all — $0.02 a share between the closes after the decision."
+    explanation: "The offer is a ceiling and a floor at once. The volume is fine and there is nowhere for the price to go."
+
+  - type: theory
+    title: "What the reason never tells you"
+    body: "Which way it goes next. Reading it stops you trading a name that cannot move. It does not turn into a direction — the chart decides that, on the day, in front of you."
+
+  - type: order
+    prompt: "Put the morning's reading in the order that saves the most trouble."
+    items:
+      - "The multiple, to find the unusual names"
+      - "The reason, to find out what kind of morning each one is having"
+      - "The quote and the minute volume, to see whether it is tradeable at all"
+      - "The chart, to find the moment"
+    explanation: "The reason costs you fifteen seconds and it is the cheapest way to drop a name that cannot travel."
+
+  - type: chart-decision
+    scenario: "LOOM reported weak results, opened below yesterday's close and has made lower highs and lower lows for twenty minutes on 130,000-share minutes against a normal 25,000. The minute that just closed finished four cents under the low of the morning at $17.56. Your account is $30,000 and 1,700 shares is the size you trade."
+    shares: 1700
+    chart:
+      kind: candles
+      data: [[18.00, 18.06, 17.88, 17.92], [17.92, 17.98, 17.80, 17.84], [17.84, 17.90, 17.72, 17.78], [17.78, 17.84, 17.64, 17.68], [17.68, 17.74, 17.56, 17.60], [17.60, 17.64, 17.48, 17.52], [17.52, 17.56, 17.40, 17.44], [17.44, 17.48, 17.32, 17.36], [17.36, 17.40, 17.26, 17.30], [17.30, 17.34, 17.20, 17.24], [17.24, 17.30, 17.20, 17.26]]
+      volume: [124000, 132000, 118000, 128000, 122000, 156000, 142000, 132000, 124000, 118000, 112000]
+      levels:
+        - {price: 17.56, label: "Low of the morning"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It carried down to $17.24 — $0.28 a share below the decision, +$476 short on 1,700 shares."
+    explanation: "A reason, a crowd that stayed, and a chart making lower lows. The reason said which name; the chart said which side."
+
+  - type: numeric-input
+    prompt: "You are short 1,700 shares from $17.52, with the stop two cents above the high of the minute you entered on, $17.66. What is at risk?"
+    answer: 238
+    tolerance: 0.01
+    unit: "$"
+    working: "$17.66 − $17.52 = $0.14 a share; $0.14 × 1,700 shares = $238"
+    explanation: "Under one per cent of the account, which is what the stop distance and the share count were chosen together to do."
+
+  - type: fill-choice
+    sentence: "Read the ___ before you read the chart."
+    options: ["reason", "volume", "quote"]
+    answer: "reason"
+    explanation: "It is the cheapest of the checks and the only one that says what kind of morning this is."
+
+  - type: compare
+    prompt: "Both names are up about 20 % this morning. Which one still has something left to trade?"
+    charts:
+      - kind: candles
+        data: [[18.40, 18.43, 18.38, 18.41], [18.41, 18.44, 18.39, 18.42], [18.42, 18.44, 18.38, 18.40], [18.40, 18.43, 18.38, 18.42], [18.42, 18.44, 18.39, 18.41], [18.41, 18.44, 18.38, 18.42], [18.42, 18.44, 18.39, 18.40], [18.40, 18.43, 18.38, 18.42]]
+        label: "A"
+      - kind: candles
+        data: [[17.60, 17.74, 17.54, 17.70], [17.70, 17.86, 17.64, 17.82], [17.82, 17.96, 17.76, 17.92], [17.92, 18.08, 17.86, 18.04], [18.04, 18.18, 17.98, 18.14], [18.14, 18.30, 18.08, 18.26], [18.26, 18.40, 18.20, 18.36], [18.36, 18.52, 18.30, 18.48]]
+        label: "B"
+    answer: "B"
+    explanation: "A has agreed on a price and stopped. B is still arguing, and the argument is the only thing a scalper is paid for."
+
+  - type: checklist-reveal
+    title: "Before a name earns a chart"
+    items:
+      - "What is the multiple?"
+      - "What is the reason, in one sentence?"
+      - "Can my size leave inside a typical minute?"
+      - "Does the quote leave anything of the travel?"

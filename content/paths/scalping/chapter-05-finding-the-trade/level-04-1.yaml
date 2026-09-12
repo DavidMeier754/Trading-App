@@ -1,0 +1,117 @@
+id: "4-1"
+title: "Selection Practice"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [practice, selection, list]
+learning_goal: "User picks the tradeable rows out of a morning list and names the one reason each rejected row was dropped."
+purpose: "A cut you cannot explain in one sentence is a cut you will forget, and the same name will cost you again next week."
+terms_introduced: []
+reinforces: [1, 3]
+prerequisite: "3-3"
+xp: 20
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "Three rounds, with the reason named each time. Account named at $25,000; every kept row is payable at 1,400 shares."
+screens:
+  - type: intro
+    text: "Six rounds across this level, and the same four questions in all of them."
+
+  - type: story
+    character: retail-trader
+    text: "Twenty minutes before the open. The list is sorted, and the pen is more use to you than the chart."
+
+  - type: theory
+    title: "Say why you cut it"
+    body: "For every name you drop, one short reason: cannot leave it, cannot pay the quote, cannot hold it, nothing in it. Naming the reason is what stops the same mistake arriving twice."
+
+  - type: scanner-pick
+    prompt: "Your account is $25,000 and you trade 1,400 shares. Which row is worth the screen?"
+    data:
+      rows:
+        - {ticker: BRIM, price: 13.90, change_pct: 7.4, rvol: 6.3, spread: 0.02, catalyst: "Results"}
+        - {ticker: RIME, price: 21.40, change_pct: 14.2, rvol: 12.0, spread: 0.18, catalyst: "Court ruling"}
+        - {ticker: GRAN, price: 24.60, change_pct: 0.4, rvol: 0.9, spread: 0.03, catalyst: "—"}
+        - {ticker: VELA, price: 92.30, change_pct: 6.1, rvol: 5.4, spread: 0.05, catalyst: "Product launch"}
+    target: BRIM
+    explanation: "BRIM: 6× normal, two cents wide, and $19,460 of the account for 1,400 shares. RIME quotes eighteen cents, GRAN is having an ordinary day, VELA is 270 shares at this price."
+
+  - type: numeric-input
+    prompt: "1,400 shares of BRIM at $13.90. What does the position cost?"
+    answer: 19460
+    tolerance: 1
+    unit: "$"
+    working: "1,400 shares × $13.90 = $19,460"
+    explanation: "Inside a $25,000 account with room left over, which is the third filter answered."
+
+  - type: mc
+    prompt: "RIME is up 14 % on a court ruling and quotes eighteen cents wide. What is the reason to cut it?"
+    options:
+      - {text: "There is no reason behind the move"}
+      - {text: "The quote takes most of the move", correct: true}
+      - {text: "14 % is too far to be worth chasing"}
+    explanation: "It has a reason and a crowd. It also charges you eighteen cents to find out, which on 1,400 shares is $252."
+
+  - type: scanner-pick
+    prompt: "A different morning, the same account and the same size. Two rows survive."
+    data:
+      rows:
+        - {ticker: ASHE, price: 15.60, change_pct: 5.8, rvol: 4.6, spread: 0.02, catalyst: "Results"}
+        - {ticker: TARN, price: 44.80, change_pct: 7.2, rvol: 8.1, spread: 0.04, catalyst: "Upgrade"}
+        - {ticker: CLAY, price: 12.40, change_pct: 9.1, rvol: 7.8, spread: 0.03, catalyst: "Contract win"}
+        - {ticker: PEAT, price: 11.20, change_pct: 4.4, rvol: 1.2, spread: 0.02, catalyst: "—"}
+    targets: [ASHE, CLAY]
+    explanation: "ASHE and CLAY. TARN is 558 shares on this account, and PEAT has the tightest quote on the list and nothing happening behind it."
+
+  - type: tf
+    statement: "A tight quote and an ordinary multiple is a name worth keeping on the shortlist."
+    answer: false
+    explanation: "A cheap toll on a road nobody is travelling is not a trade."
+
+  - type: match
+    prompt: "Four names cut on four different mornings. Which reason belongs to which?"
+    pairs:
+      - ["An eighteen-cent quote", "Cannot pay the toll"]
+      - ["$92 a share on this account", "Cannot hold enough of it"]
+      - ["1.2× its own normal volume", "Nothing is happening in it"]
+      - ["7,000-share minutes", "Cannot get back out"]
+    explanation: "Four different noes, each of them a whole sentence, and each one enough on its own."
+
+  - type: chart-decision
+    scenario: "BRIM held 6× normal volume through the first half hour, and the minute that just closed finished five cents above the pre-market high of $14.07 on the heaviest bar since the open. Your account is $25,000 and 1,400 shares is the size you trade."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.70, 13.80, 13.64, 13.78], [13.78, 13.88, 13.72, 13.84], [13.84, 13.92, 13.78, 13.82], [13.82, 13.94, 13.76, 13.90], [13.90, 14.00, 13.84, 13.96], [13.96, 14.16, 13.94, 14.12], [14.12, 14.24, 14.08, 14.20], [14.20, 14.30, 14.16, 14.26], [14.26, 14.38, 14.22, 14.34], [14.34, 14.42, 14.30, 14.39], [14.39, 14.42, 14.32, 14.36]]
+      volume: [96000, 104000, 92000, 98000, 94000, 138000, 124000, 114000, 106000, 100000, 94000]
+      levels:
+        - {price: 14.07, label: "Pre-market high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped up to $14.39 — $0.27 a share above the decision, +$378 long on 1,400 shares."
+    explanation: "The row survived four filters before the open, and the chart then did the one thing the row could not: it named the moment."
+
+  - type: scanner-pick
+    prompt: "A third morning, sorted by the multiple as usual. Which row survives?"
+    data:
+      rows:
+        - {ticker: RIME, price: 18.70, change_pct: 16.0, rvol: 14.0, spread: 0.14, catalyst: "Takeover offer"}
+        - {ticker: PEAT, price: 16.90, change_pct: 11.2, rvol: 9.6, spread: 0.03, catalyst: "Results"}
+        - {ticker: DUNE, price: 13.10, change_pct: 3.0, rvol: 1.4, spread: 0.02, catalyst: "—"}
+    target: PEAT
+    explanation: "PEAT, second in the column. RIME is up 16 % on a takeover offer with a fourteen-cent quote: pinned under an offered price, and charging you to find out."
+
+  - type: numeric-mc
+    prompt: "1,400 shares of PEAT at $16.90, quoted three cents wide. What does the toll come to?"
+    options:
+      - {text: "$42", correct: true}
+      - {text: "$4.20"}
+      - {text: "$420"}
+      - {text: "$0.03"}
+    working: "$0.03 a share × 1,400 shares = $42"
+    explanation: "Forty-two dollars, against the $252 that an eighteen-cent quote would have taken on the same size."
+
+  - type: example
+    body: "Three mornings, eleven rows, four names kept. That ratio is the job — a list is mostly names that are somebody else's trade."

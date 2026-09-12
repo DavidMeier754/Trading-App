@@ -1,0 +1,117 @@
+id: "3-2"
+title: "The Catalyst"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [catalyst, volume, selection]
+learning_goal: "User separates a mover whose crowd has stayed from one whose crowd has left, using the last twenty minutes rather than the first two."
+purpose: "The percentage change is history. What you can trade is whatever is still arriving."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "3-1"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "The fade. Chapter 1 said today's crowd can come for one headline and leave; here it is priced. Account named at $22,000."
+screens:
+  - type: intro
+    text: "Same multiple, same percentage on the day, and only one of them will still be moving in an hour."
+
+  - type: theory
+    title: "With a reason, and without"
+    body: "A name with a catalyst keeps its crowd: people keep arriving because the reason is still there. A name without one had a buyer rather than a reason, and when they finish the volume leaves with them."
+
+  - type: example
+    body: "ORCA reported and has printed 4× normal volume in every one of the first thirty minutes. MESA did 9× in its first ten minutes and 1.2× in the twenty since."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "ORCA first 10 min", value: 420000}
+        - {label: "ORCA second 10 min", value: 380000}
+        - {label: "MESA first 10 min", value: 460000}
+        - {label: "MESA second 10 min", value: 60000}
+      unit: "shares"
+    caption: "One crowd stayed and one left. The first ten minutes looked much the same in both."
+
+  - type: mc
+    prompt: "Which reading tells you the crowd has stayed?"
+    options:
+      - {text: "The second ten minutes traded nearly as much as the first", correct: true}
+      - {text: "The first ten minutes were the heaviest of the whole day"}
+      - {text: "The name is still up 8 % on the day"}
+    explanation: "What is still arriving, not what arrived. A name up 8 % on no volume is a name nobody is trading."
+
+  - type: tf
+    statement: "What the twenty minutes after a burst trade tells you more about a name than the burst did."
+    answer: true
+    explanation: "The burst says somebody was there. The twenty minutes say whether anybody still is."
+
+  - type: numeric-input
+    prompt: "MESA's first ten minutes traded 460,000 shares, and the twenty minutes after them traded 120,000 in total. What is the average minute of those twenty?"
+    answer: 6000
+    tolerance: 1
+    unit: "shares"
+    working: "120,000 ÷ 20 = 6,000 shares a minute"
+    explanation: "Six thousand a minute. Whatever the first two minutes were, this is the name you would be trading now."
+
+  - type: chart-decision
+    scenario: "MESA is still up 8 % on the day and its last twenty minutes have averaged 6,000 shares. The quote has widened to seven cents. Your account is $22,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[13.50, 13.56, 13.44, 13.48], [13.48, 13.54, 13.42, 13.46], [13.46, 13.52, 13.40, 13.44], [13.44, 13.50, 13.38, 13.46], [13.46, 13.52, 13.40, 13.44], [13.44, 13.50, 13.38, 13.42], [13.42, 13.46, 13.34, 13.38], [13.38, 13.44, 13.32, 13.36], [13.36, 13.40, 13.28, 13.32], [13.32, 13.36, 13.24, 13.28], [13.28, 13.32, 13.22, 13.26]]
+      volume: [6000, 7000, 5000, 6000, 8000, 6000, 5000, 7000, 6000, 5000, 6000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It slid to $13.26 — $0.16 a share below the decision, which on a long would have been $240 on 1,500 shares."
+    explanation: "Eight per cent up and 6,000 shares a minute is a chart of something that has already happened."
+
+  - type: chart-decision
+    scenario: "ORCA reported before the open and has held 4× normal volume for thirty minutes. The minute that just closed is the heaviest of the last ten and finished three cents above yesterday's high. Your account is $22,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[14.02, 14.14, 13.98, 14.10], [14.10, 14.20, 14.04, 14.16], [14.16, 14.24, 14.10, 14.14], [14.14, 14.26, 14.08, 14.22], [14.22, 14.34, 14.16, 14.30], [14.30, 14.48, 14.26, 14.44], [14.44, 14.56, 14.40, 14.52], [14.52, 14.62, 14.46, 14.58], [14.58, 14.70, 14.52, 14.66], [14.66, 14.72, 14.60, 14.68], [14.68, 14.72, 14.62, 14.66]]
+      volume: [96000, 104000, 92000, 98000, 94000, 124000, 112000, 104000, 98000, 92000, 88000]
+      levels:
+        - {price: 14.41, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $14.68 — $0.24 a share above the decision, +$360 long on 1,500 shares."
+    explanation: "Thirty minutes of crowd, the heaviest bar of the last ten, and a minute finishing clear of a price from yesterday."
+
+  - type: slider
+    prompt: "ORCA's first ten minutes traded 420,000 shares and its second ten traded 380,000. What percentage of the first is the second?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 90
+    tolerance: 10
+    explanation: "380,000 of 420,000 is about 90 %. The crowd barely thinned."
+
+  - type: sort
+    prompt: "A reason, or one order that has finished?"
+    buckets: ["The crowd has a reason", "The crowd was one order"]
+    items:
+      - {text: "Results this morning and 4× normal all session", bucket: "The crowd has a reason"}
+      - {text: "One 90,000-share minute, then back to normal", bucket: "The crowd was one order"}
+      - {text: "A recall headline and heavy minutes for half an hour", bucket: "The crowd has a reason"}
+      - {text: "Up 8 % on the day and 6,000 shares a minute now", bucket: "The crowd was one order"}
+    explanation: "The evidence is in what the last twenty minutes traded, never in what the first two did."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "MESA did 9× normal volume in its first ten minutes,"}
+      - {text: "so the crowd is still in it,", wrong: true}
+      - {text: "and its quote has widened to seven cents."}
+    explanation: "A widening quote is the crowd leaving. Both readings are about now, and now is 6,000 shares a minute."
+
+  - type: story
+    character: mascot
+    text: "A name that has already moved without you is not a missed trade. It is a name with nothing left in it."

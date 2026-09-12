@@ -1,0 +1,106 @@
+id: "3-1"
+title: "The Catalyst"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [catalyst, in-play, selection]
+learning_goal: "User names the reason a stock is busy today, and knows that the reason explains the crowd and never the direction."
+purpose: "A crowd with a reason stays all session. A crowd without one is a single order that has already finished."
+terms_introduced: ["Catalyst", "In play"]
+reinforces: [1]
+prerequisite: "2-4"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
+notes: "Chapter 1's 'news works through people' arriving as a selection tool. Account named at $20,000."
+screens:
+  - type: intro
+    text: "A name at 6× its normal volume is at 6× for a reason, and the reason has a name."
+
+  - type: theory
+    title: "The catalyst"
+    body: "A catalyst is whatever brought the crowd: results, a headline, a price that opened well away from yesterday's close. A name with one is in play — it is where today's volume and today's movement are."
+
+  - type: carousel
+    cards:
+      - {label: "Results", text: "The company reported. Everyone who owns it and everyone who wants to has to re-price it this morning.", icon: earnings}
+      - {label: "A headline", text: "A contract, a recall, an approval, a court date. It changes what people will pay, and then they trade.", icon: news}
+      - {label: "A gap", text: "The name opened well away from yesterday's close, so something happened while the market was shut.", icon: gap}
+
+  - type: mc
+    prompt: "Chapter 1 said a headline never moves a price by itself. So what does a catalyst do?"
+    options:
+      - {text: "It sets the price the name ought to trade at"}
+      - {text: "It changes what people will pay, and then they trade", correct: true}
+      - {text: "It tells you which way the name is going to go"}
+    explanation: "It brings people in and gives them a reason to re-price. The trading is what moves it."
+
+  - type: match
+    prompt: "Each of these mornings has a reason behind it. Which one?"
+    pairs:
+      - ["Opened 9 % above yesterday's close", "A gap"]
+      - ["Reported before the open", "Results"]
+      - ["A regulator approved its main product", "A headline"]
+      - ["No story anywhere and volume at 5× normal", "Somebody large is simply buying"]
+    explanation: "Three named reasons and one with no story at all — Chapter 1's last case, and more common than beginners expect."
+
+  - type: tf
+    statement: "A name can be in play with no headline anywhere."
+    answer: true
+    explanation: "A large buyer needs no story. The volume is the evidence, and the story may never arrive."
+
+  - type: theory
+    title: "Why the reason matters to you"
+    body: "A catalyst is what keeps the crowd there all session. Without one, a burst of volume fades inside ten minutes and the name goes back to drifting — and drifting is where a scalp dies."
+
+  - type: chart-decision
+    scenario: "ASHE reported before the open, opened above yesterday's close and has spent the last half hour stepping higher on minutes of over 110,000 shares against a normal 22,000. Your account is $20,000 and 1,200 shares is the size you trade."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.70, 15.82, 15.64, 15.78], [15.78, 15.90, 15.72, 15.86], [15.86, 15.96, 15.80, 15.90], [15.90, 16.04, 15.84, 16.00], [16.00, 16.14, 15.94, 16.10], [16.10, 16.28, 16.06, 16.24], [16.24, 16.38, 16.18, 16.34], [16.34, 16.48, 16.28, 16.44], [16.44, 16.58, 16.38, 16.54], [16.54, 16.62, 16.48, 16.57], [16.57, 16.60, 16.50, 16.54]]
+      volume: [112000, 124000, 108000, 118000, 114000, 146000, 132000, 124000, 118000, 110000, 104000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $16.57 — $0.33 a share above the decision, +$396 long on 1,200 shares."
+    explanation: "A reason the crowd is here, a crowd that has stayed half an hour, and a chart still stepping. The reason chose the name; the chart chose the moment."
+
+  - type: sort
+    prompt: "Which of these is a reason the crowd came, and which is the crowd at work?"
+    buckets: ["The reason", "The crowd at work"]
+    items:
+      - {text: "Results published before the open", bucket: "The reason"}
+      - {text: "Opened 7 % above yesterday's close", bucket: "The reason"}
+      - {text: "Made a higher high three minutes ago", bucket: "The crowd at work"}
+      - {text: "Has held above its own average price all session", bucket: "The crowd at work"}
+    explanation: "The first two brought people in. The last two are what the people who came in are doing."
+
+  - type: fill-tiles
+    sentence: "A name with a reason behind today's crowd is in ___."
+    answer: "play"
+    explanation: "In play means the volume and the movement are here today, and it says nothing about direction."
+
+  - type: chart-decision
+    scenario: "DUNE printed one minute of 90,000 shares against a normal 18,000 and has gone quiet again. There is no story on it anywhere and the bars since are back to 20,000. Your account is $20,000 and 1,300 shares is the size you trade."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[14.02, 14.16, 13.98, 14.14], [14.14, 14.18, 14.08, 14.10], [14.10, 14.16, 14.06, 14.12], [14.12, 14.15, 14.07, 14.09], [14.09, 14.14, 14.06, 14.12], [14.12, 14.15, 14.08, 14.12], [14.12, 14.16, 14.07, 14.10], [14.10, 14.14, 14.06, 14.12], [14.12, 14.15, 14.06, 14.08], [14.08, 14.13, 14.06, 14.11], [14.11, 14.14, 14.07, 14.10]]
+      volume: [90000, 22000, 19000, 20000, 21000, 20000, 18000, 21000, 19000, 20000, 18000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It sat inside a ten-cent band for the next twenty minutes — $0.04 a share between the best and the worst close after the decision."
+    explanation: "One minute of crowd and nothing to keep it there. A burst with no reason behind it is usually one order, and that order has finished."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "ASHE is up 8 % on its results,"}
+      - {text: "which tells you where it goes next,", wrong: true}
+      - {text: "and it tells you the crowd is here all session."}
+    explanation: "A reason tells you where the volume is. Which way it travels is on the chart, on the day, and nowhere else."
+
+  - type: example
+    body: "Two names at 5× normal. One reported this morning; the other had one large order at the open. By mid-morning only one of them still has a crowd in it."

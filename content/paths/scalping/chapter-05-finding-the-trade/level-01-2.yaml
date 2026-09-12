@@ -1,0 +1,119 @@
+id: "1-2"
+title: "Not Every Stock"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [selection, spread, expected-move]
+learning_goal: "User drops a name whose quote takes most of what it travels, and one that does not travel far enough to pay for any quote at all."
+purpose: "Selection asks Chapter 3's question before there is a chart: what does this name usually travel, and what does its quote take out of that?"
+terms_introduced: []
+reinforces: [1, 3]
+prerequisite: "1-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Filters two and three of four, taught as one pair because neither means anything alone. Account named at $25,000."
+screens:
+  - type: intro
+    text: "Two names can both be busy. Only one of them is worth paying to get into."
+
+  - type: theory
+    title: "The quote, against what the name travels"
+    body: "Chapter 3 held a quote against the move you were going for. Selection runs the same sum before there is a chart: what does this name travel in a minute, and what does the gap take out of it?"
+
+  - type: example
+    body: "GRAN travels about eight cents in a minute. HALO travels about thirty-four. The same six-cent gap is three quarters of one of them and a sixth of the other."
+    visual: cost-stack
+    visual_data: {spread: 0.06, targets: [{label: "GRAN travels $0.08", value: 0.08}, {label: "HALO travels $0.34", value: 0.34}]}
+
+  - type: numeric-input
+    prompt: "HALO's quote is four cents wide and its minutes run about thirty-four cents low to high. What share of one minute does the quote take?"
+    answer: 12
+    tolerance: 1
+    unit: "%"
+    working: "0.04 ÷ 0.34 ≈ 0.12 = 12 %"
+    explanation: "An eighth of one minute's travel. On this name the gap is a toll rather than the trade."
+
+  - type: theory
+    title: "And something to pay it for"
+    body: "A name can have a one-cent quote and still be useless. If it has covered eleven cents all morning there is nothing in it to divide. You need both: a payable quote, and travel to pay it out of."
+
+  - type: mc
+    prompt: "Two names at the same price. ORCA: three-cent quote, minutes of about twenty-five cents. DUNE: one-cent quote, eleven cents covered all morning. Which is the scalp?"
+    options:
+      - {text: "DUNE — it has the cheapest quote on the list"}
+      - {text: "ORCA — the quote is an eighth of one minute", correct: true}
+      - {text: "Neither, until the two charts are compared"}
+    explanation: "Three cents out of twenty-five leaves plenty to aim at. One cent out of eleven cents a morning leaves nothing."
+
+  - type: tf
+    statement: "A one-cent quote is a reason to trade a name."
+    answer: false
+    explanation: "It is a reason not to reject it. What is left to trade is decided by how far the name travels."
+
+  - type: slider
+    prompt: "PEAT's quote is five cents wide and it has been travelling about twelve cents a minute. How much of one minute does the quote take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 40
+    tolerance: 10
+    explanation: "Five of twelve is about 42 %, and that is before a cent of slippage or a cent of fees."
+
+  - type: compare
+    prompt: "Both of these names quote two cents wide. In which one does that leave a scalper something to divide?"
+    charts:
+      - kind: candles
+        data: [[16.42, 16.45, 16.40, 16.44], [16.44, 16.46, 16.41, 16.42], [16.42, 16.46, 16.40, 16.45], [16.45, 16.47, 16.41, 16.43], [16.43, 16.46, 16.40, 16.44], [16.44, 16.46, 16.41, 16.42], [16.42, 16.45, 16.40, 16.44], [16.44, 16.47, 16.42, 16.45]]
+        label: "A"
+      - kind: candles
+        data: [[16.20, 16.34, 16.14, 16.32], [16.32, 16.46, 16.26, 16.44], [16.44, 16.58, 16.38, 16.56], [16.56, 16.70, 16.50, 16.66], [16.66, 16.80, 16.60, 16.78], [16.78, 16.92, 16.72, 16.90], [16.90, 17.04, 16.84, 17.02], [17.02, 17.16, 16.96, 17.14]]
+        label: "B"
+    answer: "B"
+    explanation: "A has spent eight minutes inside seven cents, so two cents is most of anything it offers. One of B's minutes is fourteen."
+
+  - type: chart-decision
+    scenario: "QUIL is stepping up cleanly on 60,000-share minutes. The bars have been running about eight cents, the panel reads $12.44 bid, $12.50 ask, and the next price you marked is eleven cents above. Your account is $25,000 and 1,600 shares is the size you trade."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[12.14, 12.22, 12.10, 12.20], [12.20, 12.28, 12.16, 12.26], [12.26, 12.34, 12.22, 12.32], [12.32, 12.40, 12.28, 12.38], [12.38, 12.46, 12.34, 12.44], [12.44, 12.52, 12.40, 12.48], [12.48, 12.56, 12.44, 12.52], [12.52, 12.60, 12.48, 12.59], [12.59, 12.60, 12.50, 12.54], [12.54, 12.58, 12.46, 12.50]]
+      volume: [58000, 62000, 56000, 60000, 64000, 66000, 58000, 54000, 52000, 56000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It reached $12.59 — $0.11 a share past the decision, and the six-cent quote was more than half of that before a cent of it arrived."
+    explanation: "Eight-cent minutes and a six-cent gap. The volume is fine and there is nothing left over for you."
+
+  - type: numeric-mc
+    prompt: "Six cents of quote on 1,600 shares. What does one complete position hand over?"
+    options:
+      - {text: "$9.60"}
+      - {text: "$960"}
+      - {text: "$96", correct: true}
+      - {text: "$0.06"}
+    working: "$0.06 a share × 1,600 shares = $96"
+    explanation: "Ninety-six dollars, out of the $176 that eleven cents on 1,600 shares was worth at best."
+
+  - type: chart-decision
+    scenario: "LOOM has printed twenty-cent minutes low to high since the open on 90,000-share bars, the panel reads $21.62 bid, $21.64 ask, and the price you marked is thirty cents above. Your account is $25,000 and 1,100 shares is the size you trade."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[20.86, 21.02, 20.80, 20.98], [20.98, 21.16, 20.92, 21.12], [21.12, 21.30, 21.06, 21.26], [21.26, 21.44, 21.20, 21.40], [21.40, 21.56, 21.34, 21.50], [21.50, 21.70, 21.46, 21.63], [21.63, 21.82, 21.58, 21.78], [21.78, 21.94, 21.72, 21.90], [21.90, 22.02, 21.84, 21.98], [21.98, 22.04, 21.90, 21.94]]
+      volume: [88000, 94000, 86000, 92000, 90000, 104000, 96000, 90000, 84000, 80000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked to $21.98 — $0.35 a share above the decision, +$385 long on 1,100 shares against $22 of quote."
+    explanation: "Two cents out of a twenty-cent minute, and thirty cents of room before the price you marked. Same sum as QUIL, opposite answer."
+
+  - type: fill-tiles
+    sentence: "A quote is cheap or dear only against the ___ a name travels."
+    answer: "distance"
+    explanation: "Never against the share price, and never against another name's quote."
+
+  - type: example
+    body: "Six cents on a name that travels thirty is a toll you hardly notice. Six cents on a name that travels eight is the trade. The six cents never changed."

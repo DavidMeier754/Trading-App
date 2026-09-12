@@ -1,0 +1,107 @@
+id: "2-3"
+title: "Relative Volume"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [relative-volume, list, selection]
+learning_goal: "User reads relative volume as a column on the morning list, sorts by it, and still runs Level 1's filters on whatever comes to the top."
+purpose: "The multiple is how four thousand names become eight. It has never once said which of the eight to trade."
+terms_introduced: []
+reinforces: [1, 2]
+prerequisite: "2-2"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "First list screens of the chapter. The tool itself is named in Level 6; here it is just the morning list. Account named at $15,000."
+screens:
+  - type: intro
+    text: "You never work this out yourself. It is a column, and it is the one you sort by."
+
+  - type: theory
+    title: "It arrives as a column"
+    body: "Your platform prints today's volume against each name's own normal as one number per row. Sort the list by that column and the morning's unusual names come to the top of it."
+
+  - type: visual
+    component: scanner-table
+    data:
+      rows:
+        - {ticker: NOVA, price: 14.60, change_pct: 6.7, rvol: 6.1, spread: 0.02}
+        - {ticker: RIME, price: 19.20, change_pct: 12.4, rvol: 18.0, spread: 0.16}
+        - {ticker: CLAY, price: 14.70, change_pct: 4.1, rvol: 4.4, spread: 0.02}
+        - {ticker: GRAN, price: 22.40, change_pct: 0.8, rvol: 1.1, spread: 0.03}
+    caption: "The multiple column is what lifted RIME and NOVA to the top. It is not what decides which of them you trade."
+
+  - type: scanner-pick
+    prompt: "Your account is $15,000 and you trade 1,000 shares. Which row is worth the screen?"
+    data:
+      rows:
+        - {ticker: RIME, price: 19.20, change_pct: 12.4, rvol: 18.0, spread: 0.16}
+        - {ticker: CLAY, price: 14.70, change_pct: 4.1, rvol: 4.4, spread: 0.02}
+        - {ticker: GRAN, price: 22.40, change_pct: 0.8, rvol: 1.1, spread: 0.03}
+        - {ticker: VELA, price: 86.50, change_pct: 5.2, rvol: 5.0, spread: 0.06}
+    target: CLAY
+    explanation: "RIME has the biggest multiple and a sixteen-cent quote. GRAN is having an ordinary day. VELA at $86 is 173 shares on this account. CLAY clears all four filters."
+
+  - type: theory
+    title: "Sort by it, do not trade by it"
+    body: "The column brings names to your attention and nothing more. Everything from Level 1 still has to be run afterwards, and the top of the list is very often a name you cannot pay for or cannot leave."
+
+  - type: tf
+    statement: "The name at the top of the multiple column is the best trade of the morning."
+    answer: false
+    explanation: "It is the most unusual name, which is a different thing. Three of the four filters have not been run on it yet."
+
+  - type: mc
+    prompt: "Where does the multiple on each row come from?"
+    options:
+      - {text: "You count the volume bars on the chart yourself"}
+      - {text: "Your platform works it out from that name's own history", correct: true}
+      - {text: "It is the percentage the name is up today"}
+    explanation: "One number per row, computed from the same point in the day on that name's normal days."
+
+  - type: fill-tiles
+    sentence: "Sorting the morning list by relative ___ is how the unusual names reach the top."
+    answer: "volume"
+    explanation: "Sorting by today's percentage move gives you a different list, and mostly a worse one."
+
+  - type: chart-decision
+    scenario: "SLAT came up the list on a later morning at 7× normal, quotes two cents wide and has printed twenty-cent minutes since the open. It trades at $24.18, so your $15,000 account pays for 619 shares and you are taking 600."
+    shares: 600
+    chart:
+      kind: candles
+      data: [[23.66, 23.80, 23.60, 23.76], [23.76, 23.92, 23.70, 23.88], [23.88, 24.00, 23.82, 23.94], [23.94, 24.10, 23.88, 24.06], [24.06, 24.18, 24.00, 24.12], [24.12, 24.26, 24.06, 24.18], [24.18, 24.34, 24.12, 24.30], [24.30, 24.46, 24.24, 24.42], [24.42, 24.58, 24.36, 24.54], [24.54, 24.60, 24.46, 24.50]]
+      volume: [78000, 84000, 74000, 80000, 76000, 96000, 88000, 82000, 76000, 72000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $24.54 — $0.36 a share above the decision, +$216 long on 600 shares."
+    explanation: "The multiple put it on the screen and the price set the size. Six hundred shares is what the account pays for, and the trade is still worth taking."
+
+  - type: numeric-input
+    prompt: "Your account is $15,000 and SLAT trades at $24.20. How many shares can the account pay for?"
+    answer: 619
+    tolerance: 1
+    unit: "shares"
+    working: "$15,000 ÷ $24.20 = 619 shares"
+    explanation: "Six hundred and nineteen, which is a ceiling on the size rather than a reason to drop the name."
+
+  - type: match
+    prompt: "Four readings on one row of the morning list. What does each one actually tell you?"
+    pairs:
+      - ["Relative volume", "Whether today is unusual for this name"]
+      - ["Shares in a typical minute", "Whether your size can leave"]
+      - ["Price", "How many shares the account can pay for"]
+      - ["Quote width", "How much of the travel the toll takes"]
+    explanation: "Four different jobs, and only the first one is what the list is sorted by."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "NOVA is top of the list at 6× normal,"}
+      - {text: "which is why it is the first name to trade,", wrong: true}
+      - {text: "and the four filters still have to be run on it."}
+    explanation: "Top of the list is where the checking starts, not where it finishes."
+
+  - type: example
+    body: "The column turns four thousand names into the eight worth looking at. Which of the eight gets traded is decided by everything else you know."

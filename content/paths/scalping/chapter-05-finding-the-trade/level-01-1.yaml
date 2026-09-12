@@ -1,0 +1,116 @@
+id: "1-1"
+title: "Not Every Stock"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [selection, liquidity, volume]
+learning_goal: "User rejects a name whose typical minute cannot absorb the size they trade, before the chart is read at all."
+purpose: "A scalp is held for a minute, so the only volume that matters is the volume in a minute — and most names do not have it."
+terms_introduced: []
+reinforces: [1, 3]
+prerequisite: null
+xp: 20
+difficulty: 1
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Chapter opener. Filter one of four. Account named at $20,000; both worked positions are 1,200 shares near $16."
+screens:
+  - type: intro
+    text: "There are thousands of names. On any morning, maybe five of them are yours."
+
+  - type: theory
+    title: "Four questions, before the chart"
+    body: "Can I get back out of it? Can I pay its quote? Does it travel far enough to be worth paying? Can the account hold enough of it? A no anywhere and the chart never gets opened."
+
+  - type: theory
+    title: "Question one: can you get out?"
+    body: "You are in for a minute or two. So the only volume that counts is what trades in a minute, and whether your own order is small enough to hide inside it."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "KELP", value: 140000}
+        - {label: "MESA", value: 46000}
+        - {label: "RIME", value: 6000}
+      unit: "shares in a typical minute"
+    caption: "Three names, one question: which of them would take 1,200 shares without noticing?"
+
+  - type: numeric-input
+    prompt: "RIME trades about 6,000 shares in a typical minute. You want 1,200 of them. What percentage of that minute is yours?"
+    answer: 20
+    tolerance: 0.5
+    unit: "%"
+    working: "1,200 ÷ 6,000 = 0.20 = 20 %"
+    explanation: "A fifth of everything that trades in the minute is you, arriving and leaving both."
+
+  - type: mc
+    prompt: "You need 1,500 shares in and out inside two minutes. Which of these can do it?"
+    options:
+      - {text: "A name printing 46,000 shares a minute", correct: true}
+      - {text: "A name printing 6,000 a minute that has ranged 9 % today"}
+      - {text: "A name printing 6,000 a minute with a two-cent quote"}
+    explanation: "Chapter 1's two dials again. The size of the move and the width of the quote are worth nothing if the shares are not there to trade."
+
+  - type: tf
+    statement: "A name can move 9 % in a morning and still be no use to a scalper."
+    answer: true
+    explanation: "Distance is not access. If your own order is a fifth of the minute, the distance is visible rather than reachable."
+
+  - type: chart-decision
+    scenario: "RIME has stepped up for five straight minutes. Every bar underneath is between 5,000 and 8,000 shares, and the panel reads $16.18 bid, $16.31 ask. Your account is $20,000 and 1,200 shares is the size you trade."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.82, 15.94, 15.78, 15.90], [15.90, 16.02, 15.86, 15.98], [15.98, 16.06, 15.92, 16.00], [16.00, 16.14, 15.96, 16.10], [16.10, 16.22, 16.06, 16.18], [16.18, 16.34, 16.14, 16.28], [16.28, 16.44, 16.24, 16.40], [16.40, 16.52, 16.34, 16.48], [16.48, 16.54, 16.42, 16.50], [16.50, 16.56, 16.44, 16.52], [16.52, 16.56, 16.46, 16.48]]
+      volume: [6000, 7000, 5000, 8000, 6000, 7000, 5000, 6000, 8000, 6000, 5000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It worked up to $16.52 — $0.24 a share above the decision, and thirteen cents of that was the quote before a share had to find a buyer."
+    explanation: "The chart was right and unreachable. Six thousand shares a minute is not a market you put 1,200 into and take back out."
+
+  - type: sort
+    prompt: "Which of these names could take 1,500 shares in and out, and which could not?"
+    buckets: ["Could take it", "Could not"]
+    items:
+      - {text: "About 90,000 shares a minute all morning", bucket: "Could take it"}
+      - {text: "About 7,000 shares a minute, up 11 % today", bucket: "Could not"}
+      - {text: "Steady 120,000-share minutes and a two-cent quote", bucket: "Could take it"}
+      - {text: "A price that jumps twenty cents at a time with nothing in between", bucket: "Could not"}
+    explanation: "Two of them trade enough to hide your order. The staircase and the 7,000-share minute would both wear your own order as the move."
+
+  - type: fill-choice
+    sentence: "The first question a name has to answer is whether you can ___ of it."
+    options: ["get out", "make sense", "borrow enough"]
+    answer: "get out"
+    explanation: "Getting in is never the problem. The exit is what a thin minute takes away."
+
+  - type: chart-decision
+    scenario: "KELP has printed between 120,000 and 160,000 shares a minute since the open and the panel has stayed two cents wide throughout. The minute that just closed is the longest body of the morning. Your account is $20,000 and 1,200 shares is the size you trade."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.20, 15.28, 15.16, 15.26], [15.26, 15.34, 15.22, 15.31], [15.31, 15.38, 15.27, 15.33], [15.33, 15.42, 15.29, 15.39], [15.39, 15.48, 15.35, 15.45], [15.45, 15.70, 15.43, 15.67], [15.67, 15.80, 15.63, 15.76], [15.76, 15.88, 15.72, 15.84], [15.84, 15.94, 15.80, 15.90], [15.90, 16.02, 15.86, 15.98], [15.98, 16.04, 15.92, 15.96]]
+      volume: [128000, 136000, 120000, 132000, 124000, 158000, 146000, 138000, 130000, 126000, 118000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $15.98 — $0.31 a share above the decision, +$372 long on 1,200 shares."
+    explanation: "1,200 shares is under a hundredth of one of those minutes, so the way out is there for the whole of the trade."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "RIME trades 6,000 shares in a typical minute,"}
+      - {text: "and a tight quote would make that enough for 1,200 shares,", wrong: true}
+      - {text: "so this is not a name you can trade in size."}
+    explanation: "No quote stays tight once your own order is a fifth of the minute. The width you see is for the size standing in front of you, not yours."
+
+  - type: checklist-reveal
+    title: "Question one of four"
+    items:
+      - "What does this name trade in a typical minute?"
+      - "What share of that minute is my size?"
+      - "Would the way out still be there in a quiet minute?"
+      - "Is the move in it reachable, or only visible?"

@@ -1,0 +1,122 @@
+id: "2-2"
+title: "Relative Volume"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [relative-volume, liquidity, selection]
+learning_goal: "User keeps the multiple and the absolute minute volume apart, and rejects a high multiple of a name that barely trades."
+purpose: "The two numbers answer different questions, and a beginner who uses one of them for both jobs ends up in the least tradeable name on the list."
+terms_introduced: []
+reinforces: [1, 2]
+prerequisite: "2-1"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "The 20×-of-nothing trap. Account named at $30,000; the worked position is 1,500 shares near $19."
+screens:
+  - type: intro
+    text: "Two numbers, two different questions, and they are constantly asked to do each other's job."
+
+  - type: theory
+    title: "One says can I leave, the other says is anything happening"
+    body: "Absolute volume — shares in a typical minute — decides whether you can get out. Relative volume decides whether today is unusual. A name needs a yes to both."
+
+  - type: example
+    body: "SPUR is at 20× its normal volume. Normal for SPUR is 400 shares a minute, so 20× is 8,000. Twenty times almost nothing is still almost nothing."
+
+  - type: tf
+    statement: "A very high relative volume reading means you can get 1,500 shares back out quickly."
+    answer: false
+    explanation: "It is a multiple of that name's own normal. When normal is tiny, so is twenty times normal."
+
+  - type: mc
+    prompt: "Which pair of readings is the one you want?"
+    options:
+      - {text: "20× normal, 8,000 shares a minute"}
+      - {text: "3× normal, 120,000 shares a minute", correct: true}
+      - {text: "1.1× normal, 400,000 shares a minute"}
+    explanation: "Enough shares to leave and enough unusual activity to be worth watching. The first cannot fill you and the third has nothing going on."
+
+  - type: numeric-input
+    prompt: "A name normally trades 15,000 shares a minute and is running at 4× that today. How many shares is a typical minute now?"
+    answer: 60000
+    tolerance: 1
+    unit: "shares"
+    working: "15,000 × 4 = 60,000 shares a minute"
+    explanation: "Sixty thousand a minute is a market you can put 1,500 shares into and take them back out of."
+
+  - type: theory
+    title: "Why people use four"
+    body: "Under about 2× a name is having an ordinary day. From about 4× upwards, something has brought people in and the moves tend to be long enough to be worth a quote. It is a convention, not a law."
+
+  - type: slider
+    prompt: "A name's normal minute is 25,000 shares and today's minutes are running 100,000. Set its relative volume."
+    min: 0
+    max: 10
+    step: 1
+    unit: "×"
+    answer: 4
+    tolerance: 1
+    explanation: "100,000 ÷ 25,000 = 4. Four times the usual crowd, in the same name."
+
+  - type: sort
+    prompt: "Two questions. Which number answers which?"
+    buckets: ["Can I get back out?", "Is anything happening?"]
+    items:
+      - {text: "120,000 shares in a typical minute", bucket: "Can I get back out?"}
+      - {text: "Four times this name's normal volume", bucket: "Is anything happening?"}
+      - {text: "Today's volume against the same hour on a normal day", bucket: "Is anything happening?"}
+      - {text: "The size resting on the bid right now", bucket: "Can I get back out?"}
+    explanation: "Absolute size is the way out. The multiple is the reason to look at the name at all."
+
+  - type: chart-decision
+    scenario: "RIME is running at 18× its own normal volume and is up 12 %. Its minutes are printing between 7,000 and 12,000 shares and the panel reads $19.10 bid, $19.26 ask. Your account is $30,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.62, 18.78, 18.56, 18.74], [18.74, 18.90, 18.68, 18.86], [18.86, 19.00, 18.80, 18.94], [18.94, 19.10, 18.88, 19.06], [19.06, 19.20, 19.00, 19.14], [19.14, 19.28, 19.08, 19.20], [19.20, 19.38, 19.14, 19.34], [19.34, 19.50, 19.28, 19.46], [19.46, 19.62, 19.40, 19.58], [19.58, 19.64, 19.50, 19.54]]
+      volume: [8000, 11000, 7000, 9000, 12000, 10000, 9000, 8000, 11000, 7000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It ran to $19.58 — $0.38 a share past the decision, in minutes of 9,000 shares with sixteen cents between the two sides."
+    explanation: "The multiple is real and it is a multiple of almost nothing. 1,500 shares is a sixth of a whole minute of this name, each way."
+
+  - type: numeric-mc
+    prompt: "RIME normally trades 600 shares a minute. At 18× normal, what is one minute?"
+    options:
+      - {text: "1,080"}
+      - {text: "108,000"}
+      - {text: "18,000"}
+      - {text: "10,800", correct: true}
+    working: "600 × 18 = 10,800 shares a minute"
+    explanation: "An eighteenfold crowd in a name nobody trades is still a name nobody trades."
+
+  - type: compare
+    prompt: "Both names are at 5× their own normal volume this morning. In which one can 1,500 shares get back out?"
+    charts:
+      - kind: candles
+        data: [[16.20, 16.26, 16.16, 16.24], [16.24, 16.30, 16.20, 16.28], [16.28, 16.34, 16.24, 16.32], [16.32, 16.38, 16.28, 16.36], [16.36, 16.42, 16.32, 16.40], [16.40, 16.46, 16.36, 16.44], [16.44, 16.50, 16.40, 16.48], [16.48, 16.54, 16.44, 16.52]]
+        label: "A"
+      - kind: candles
+        data: [[16.20, 16.22, 16.18, 16.20], [16.20, 16.42, 16.19, 16.40], [16.40, 16.42, 16.38, 16.40], [16.40, 16.41, 16.37, 16.38], [16.38, 16.60, 16.37, 16.58], [16.58, 16.60, 16.55, 16.57], [16.57, 16.58, 16.54, 16.56], [16.56, 16.76, 16.55, 16.74]]
+        label: "B"
+    answer: "A"
+    explanation: "A fills in the space between prices. B travels twenty cents at a time because there is nobody in between — the same multiple, a completely different market."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "RIME is at 18× its normal volume,"}
+      - {text: "and eighteen times normal is a lot of shares,", wrong: true}
+      - {text: "but the quote is still sixteen cents wide."}
+    explanation: "A lot of shares compared with RIME. Eighteen times a 600-share minute is 10,800, and the width of the quote is telling you so."
+
+  - type: checklist-reveal
+    title: "Two numbers, both needed"
+    items:
+      - "What does a typical minute trade, in shares?"
+      - "What multiple of its own normal is today?"
+      - "Could my size leave inside one of those minutes?"
+      - "Is the multiple big enough to be worth watching at all?"
