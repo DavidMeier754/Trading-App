@@ -1,0 +1,122 @@
+id: "6-3"
+title: "Reading a Scanner"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [scanner, filters, selection]
+learning_goal: "User sets the conditions that keep untradeable names off the list entirely, and still treats what survives as a short list rather than as a set of trades."
+purpose: "A filter you set once on a quiet evening does the same work as a check you would otherwise run eight times every morning under time pressure."
+terms_introduced: []
+reinforces: [1, 3]
+prerequisite: "6-2"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "The four filters of Level 1 turned into scanner conditions. Account named at $20,000; the worked position is 1,200 shares at $15.38 = $18,456."
+screens:
+  - type: intro
+    text: "Three conditions, set once. After that the list arrives with the impossible names already gone."
+
+  - type: theory
+    title: "Filter first, sort second"
+    body: "Sorting a list of four thousand by the multiple still leaves you rows you could never trade. Set the conditions that remove those first, then sort what is left."
+
+  - type: carousel
+    cards:
+      - {label: "A price band", text: "A floor and a ceiling, worked out from your account and the size you trade. Above the ceiling you cannot hold enough of it.", icon: scanner}
+      - {label: "A volume floor", text: "A minimum ordinary daily volume, so a name whose minutes are too thin to leave never reaches the list.", icon: bar-chart}
+      - {label: "A spread ceiling", text: "A maximum quote width. It is the cheapest condition to set and it removes the most expensive rows.", icon: quote-panel}
+
+  - type: numeric-mc
+    prompt: "Your account is $20,000 and you will not trade under 1,200 shares. Where does the price ceiling go?"
+    options:
+      - {text: "$24.00"}
+      - {text: "$12.00"}
+      - {text: "$20.00"}
+      - {text: "$16.66", correct: true}
+    working: "$20,000 ÷ 1,200 shares = $16.66"
+    explanation: "Anything dearer and the account buys fewer than 1,200 shares of it, so the row is decided before the chart is."
+
+  - type: sort
+    prompt: "Which of these can a scanner decide for you, and which is still yours every morning?"
+    buckets: ["The scanner decides", "Still yours"]
+    items:
+      - {text: "Whether the price is inside your band", bucket: "The scanner decides"}
+      - {text: "Whether the quote is under your ceiling", bucket: "The scanner decides"}
+      - {text: "What the reason behind the move actually is", bucket: "Still yours"}
+      - {text: "Whether this minute is the moment", bucket: "Still yours"}
+    explanation: "Conditions are arithmetic and a machine is better at it. Reading is judgement and the machine has none."
+
+  - type: slider
+    prompt: "Your spread ceiling is three cents and you are going for a twelve-cent move. How much of that move does the quote take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 25
+    tolerance: 10
+    explanation: "A quarter of it, on the round trip. The ceiling is set against the move you go for, never against the share price."
+
+  - type: scanner-pick
+    prompt: "The list after the filters, sorted by the multiple. Your account is $20,000 and you trade 1,200 shares. Which row survives the reading?"
+    data:
+      rows:
+        - {ticker: YARN, price: 15.40, change_pct: 4.6, rvol: 8.9, spread: 0.02, catalyst: "—"}
+        - {ticker: PIKE, price: 12.80, change_pct: 9.2, rvol: 7.4, spread: 0.02, catalyst: "Results"}
+        - {ticker: SALT, price: 14.10, change_pct: 3.1, rvol: 2.2, spread: 0.03, catalyst: "Upgrade"}
+    target: PIKE
+    explanation: "All three cleared the conditions, which is what the conditions are for. PIKE is the one with a reason behind it; YARN has the crowd and no story, SALT has neither in any size."
+
+  - type: tf
+    statement: "Once the filters are set, every row the scanner returns is a name you could trade today."
+    answer: false
+    explanation: "Every row is a name you could trade in principle. Whether there is anything in it today is the reading, and the reading has not happened yet."
+
+  - type: chart-decision
+    scenario: "YARN cleared every condition: inside the band, two cents wide, and minutes of about 88,000 shares. It has held between $15.32 and $15.46 for the last ten minutes. Your account is $20,000 and 1,200 shares is the size you trade."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.36, 15.44, 15.32, 15.40], [15.40, 15.46, 15.34, 15.38], [15.38, 15.44, 15.32, 15.42], [15.42, 15.46, 15.34, 15.36], [15.36, 15.44, 15.32, 15.41], [15.41, 15.46, 15.34, 15.38], [15.38, 15.44, 15.33, 15.42], [15.42, 15.46, 15.32, 15.36], [15.36, 15.45, 15.34, 15.40], [15.40, 15.44, 15.33, 15.37]]
+      volume: [88000, 94000, 82000, 90000, 86000, 92000, 84000, 88000, 80000, 86000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It stayed in the same fourteen-cent band — $0.06 a share between the best and the worst close after the decision."
+    explanation: "Everything the conditions can measure is fine. Nothing the conditions cannot measure is happening."
+
+  - type: numeric-input
+    prompt: "1,200 shares of PIKE in and back out on its two-cent quote. What does the quote take?"
+    answer: 24
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.02 a share × 1,200 shares = $24"
+    explanation: "Twenty-four dollars, which is the price of the condition being set where it is rather than at seventeen cents."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The filters keep out names I could never trade,"}
+      - {text: "so the rows that survive are the day's best trades,", wrong: true}
+      - {text: "and the reading still has to be done on every one of them."}
+    explanation: "Surviving a filter means a name is possible, not that it is good. The whole list is a starting point."
+
+  - type: compare
+    prompt: "Two rows that cleared every condition. Which one has something in it this morning?"
+    charts:
+      - kind: candles
+        data: [[15.36, 15.44, 15.32, 15.40], [15.40, 15.46, 15.34, 15.38], [15.38, 15.44, 15.32, 15.42], [15.42, 15.46, 15.34, 15.36], [15.36, 15.44, 15.32, 15.41], [15.41, 15.46, 15.34, 15.38], [15.38, 15.44, 15.33, 15.42], [15.42, 15.46, 15.32, 15.36]]
+        label: "A"
+      - kind: candles
+        data: [[12.60, 12.74, 12.56, 12.72], [12.72, 12.86, 12.68, 12.82], [12.82, 12.94, 12.76, 12.90], [12.90, 13.04, 12.86, 13.00], [13.00, 13.14, 12.96, 13.10], [13.10, 13.24, 13.06, 13.20], [13.20, 13.32, 13.14, 13.28], [13.28, 13.42, 13.24, 13.38]]
+        label: "B"
+    answer: "B"
+    explanation: "A is the same fourteen cents over and over. B is covering ground in one direction, and only one of the two pays for a quote."
+
+  - type: checklist-reveal
+    title: "Set once, on a quiet evening"
+    items:
+      - "The price band my account and my size allow"
+      - "The ordinary daily volume a name must have"
+      - "The widest quote I am willing to pay"
+      - "And then, every morning, the reading"

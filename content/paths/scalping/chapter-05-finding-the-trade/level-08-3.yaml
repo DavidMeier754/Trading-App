@@ -1,0 +1,153 @@
+id: "8-3"
+title: "Float and Share Structure"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [float, position-size, execution]
+learning_goal: "User chooses a share count per name from the book in front of them, not from a habit, and takes the smallest of the ceilings."
+purpose: "One usual size across every name means you are too small in the easy ones and far too large in the thin ones."
+terms_introduced: []
+reinforces: [1, 3]
+prerequisite: "8-2"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "Closes Level 8. Chapter 3's two ceilings gain a third, read off the book. Account named at $13,000; the worked position is 450 shares at $14.30 = $6,435."
+screens:
+  - type: intro
+    text: "Your usual size is a habit. The book in front of you is a fact, and the two of them disagree most in the names worth trading."
+
+  - type: theory
+    title: "A third ceiling"
+    body: "The stop gives you one share count and the account gives you another. In a thin name the book gives you a third: how much is actually sitting at the first price you are willing to pay."
+
+  - type: branch
+    scenario: "An 11 M-float name at $14.20, and you want 900 shares. The best ask holds 450 of them. Your account is $13,000."
+    shares: 450
+    chart:
+      kind: candles
+      data: [[13.98, 14.08, 13.94, 14.06], [14.06, 14.18, 14.02, 14.14], [14.14, 14.22, 14.08, 14.12], [14.12, 14.26, 14.06, 14.22], [14.22, 14.34, 14.16, 14.30], [14.30, 14.48, 14.26, 14.44], [14.44, 14.56, 14.38, 14.52], [14.52, 14.64, 14.46, 14.58], [14.58, 14.66, 14.50, 14.60]]
+      volume: [30000, 36000, 26000, 32000, 28000, 52000, 44000, 38000, 32000]
+      decision_index: 5
+    steps:
+      - prompt: "Four hundred and fifty are sitting there and you want nine hundred. What do you send?"
+        options:
+          - {text: "An order sized to what is actually at the first price", correct: true, next: 1}
+          - {text: "All nine hundred, and accept the walk up the book", next: 1}
+          - {text: "All nine hundred with the limit five cents higher, so it fills", next: 1}
+        explanation: "The book is the tightest of the three ceilings here. Sending more than it holds is choosing to pay for the difference."
+      - prompt: "You are long 450 and the name is going your way. The book has refilled. What now?"
+        options:
+          - {text: "Leave it, because 450 was the size this name was given", correct: true}
+          - {text: "Add the other 450 now that the fill would be clean"}
+          - {text: "Double it, since the read has been paid for once already"}
+        explanation: "The refill is temporary and the float is not. Adding turns a sized position back into the one the book refused ten seconds ago."
+      - prompt: "Time to get out, and the best bid holds 200 of your 450. What should you expect?"
+        options:
+          - {text: "The last 250 to fill lower", correct: true}
+          - {text: "The bid to refill before the order reaches it"}
+          - {text: "The same exit cost as a 700 M-float name would give"}
+        explanation: "The exit walks the book the same way the entry did, and halving the size is what paid for half that walk."
+
+  - type: depth-ladder
+    prompt: "A second thin name, and you have cut the order to 600 shares. Where does the last share fill?"
+    data:
+      bids: [[15.30, 600], [15.27, 800], [15.22, 1100]]
+      asks: [[15.34, 700], [15.37, 500], [15.42, 900]]
+    target: ask-1
+    explanation: "Seven hundred are sitting at $15.34 and you only want six. The whole order fills at one price, and there is no walk to pay for."
+
+  - type: numeric-mc
+    prompt: "A $13,000 account, one per cent per trade, a stop eight cents away, and the name trades at $14.20. How many shares?"
+    options:
+      - {text: "1,625 shares"}
+      - {text: "915 shares", correct: true}
+      - {text: "650 shares"}
+      - {text: "1,300 shares"}
+    working: "$13,000 × 0.01 = $130; $130 ÷ $0.08 = 1,625 shares. $13,000 ÷ $14.20 = 915 shares. Take the lower."
+    explanation: "The stop would allow 1,625 and the account pays for 915. Two ceilings, and the lower one is the answer every time."
+
+  - type: tf
+    statement: "Once both ceilings are worked out, the size is settled and the book has nothing to add."
+    answer: false
+    explanation: "In a thin name the book is often the tightest of the three. It decides what you can buy at one price rather than at three."
+
+  - type: numeric-input
+    prompt: "In a 9 M-float name you halve that to 450 shares, at $14.20. How much of the account is standing in the position?"
+    answer: 6390
+    tolerance: 1
+    unit: "$"
+    working: "450 shares × $14.20 = $6,390"
+    explanation: "Under half the account, deliberately, because the name gives back in fills what it offers in travel."
+
+  - type: chart-decision
+    scenario: "A 9 M-float name at 5× its normal volume, minutes of about 40,000 shares. The minute that just closed finished four cents above the pre-market high of $14.26. Your account is $13,000 and you have cut your size to 450 shares for this name."
+    shares: 450
+    chart:
+      kind: candles
+      data: [[13.80, 13.94, 13.74, 13.90], [13.90, 14.02, 13.84, 13.98], [13.98, 14.06, 13.90, 13.94], [13.94, 14.08, 13.88, 14.04], [14.04, 14.16, 13.98, 14.10], [14.10, 14.36, 14.06, 14.30], [14.30, 14.44, 14.24, 14.40], [14.40, 14.56, 14.34, 14.50], [14.50, 14.64, 14.44, 14.58], [14.58, 14.68, 14.50, 14.62], [14.62, 14.66, 14.52, 14.56]]
+      volume: [38000, 44000, 34000, 40000, 36000, 64000, 56000, 48000, 42000, 38000, 34000]
+      levels:
+        - {price: 14.26, label: "Pre-market high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $14.62 — $0.32 a share above the decision, +$144 long on 450 shares."
+    explanation: "A small float travelling thirty-two cents where a large one would have gone eight. Half the size on three times the move is the trade the name is actually offering."
+
+  - type: mc
+    prompt: "A thin name would fill your usual size across three prices. What is the fix?"
+    options:
+      - {text: "Widen the stop so the extra fill cost fits inside it"}
+      - {text: "Take fewer shares, at the price that is actually there", correct: true}
+      - {text: "Use a market order so the whole lot goes through at once"}
+    explanation: "Fewer shares. Widening the stop pays for the bad fill with more risk, and a market order is what caused the walk in the first place."
+
+  - type: sort
+    prompt: "Two names on the same watchlist. Which gets your full size and which gets half?"
+    buckets: ["Full size", "Half size"]
+    items:
+      - {text: "740 M float, 200,000-share minutes, two cents wide", bucket: "Full size"}
+      - {text: "96 M float, 120,000-share minutes, two cents wide", bucket: "Full size"}
+      - {text: "9 M float, 40,000-share minutes, five cents wide", bucket: "Half size"}
+      - {text: "12 M float that fills your order across three prices", bucket: "Half size"}
+    explanation: "Two of them can absorb you without noticing. In the other two your own order is part of the move you are trying to read."
+
+  - type: swipe-deck
+    prompt: "Four names off the filtered list. At your usual size, take it or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[12.40, 12.52, 12.36, 12.50], [12.50, 12.62, 12.46, 12.58], [12.58, 12.70, 12.54, 12.66], [12.66, 12.78, 12.62, 12.74], [12.74, 12.86, 12.70, 12.82], [12.82, 12.94, 12.78, 12.90], [12.90, 13.02, 12.86, 12.98], [12.98, 13.10, 12.94, 13.06]]
+        answer: take
+        note: "A large float covering sixty-six cents a few at a time. Your whole order fits at one price."
+      - chart:
+          kind: candles
+          data: [[11.60, 11.64, 11.56, 11.62], [11.62, 11.92, 11.60, 11.90], [11.90, 11.94, 11.86, 11.88], [11.88, 11.92, 11.84, 11.90], [11.90, 12.20, 11.88, 12.18], [12.18, 12.22, 12.12, 12.16], [12.16, 12.20, 12.10, 12.14], [12.14, 12.44, 12.12, 12.42]]
+        answer: pass
+        note: "Three jumps and three flat landings. At full size you are filled across the landing, not the jump."
+      - chart:
+          kind: candles
+          data: [[14.06, 14.10, 14.02, 14.08], [14.08, 14.12, 14.04, 14.06], [14.06, 14.11, 14.03, 14.09], [14.09, 14.12, 14.04, 14.07], [14.07, 14.11, 14.02, 14.08], [14.08, 14.12, 14.04, 14.06], [14.06, 14.10, 14.03, 14.09], [14.09, 14.12, 14.04, 14.07]]
+        answer: pass
+        note: "Ten cents all morning. Size is not the problem here; there is simply nothing to divide."
+      - chart:
+          kind: candles
+          data: [[16.80, 16.86, 16.64, 16.68], [16.68, 16.74, 16.52, 16.56], [16.56, 16.62, 16.40, 16.44], [16.44, 16.50, 16.30, 16.34], [16.34, 16.40, 16.20, 16.24], [16.24, 16.30, 16.10, 16.14], [16.14, 16.20, 16.02, 16.06], [16.06, 16.12, 15.94, 15.98]]
+        answer: take
+        note: "Full bodies down with no holes in them. The side is not the question; whether your size fits is."
+    explanation: "Two takes and two passes, and only one of the passes is about the chart. The other is about what your own order would do to it."
+
+  - type: fill-choice
+    sentence: "Your usual size is a starting point. What is sitting at the first price is a ___."
+    options: ["ceiling", "target", "spread"]
+    answer: "ceiling"
+    explanation: "A third one, alongside the stop and the account, and in a thin name it is usually the lowest of the three."
+
+  - type: recap
+    title: "Level 8 in three lines"
+    points:
+      - {text: "The float is what is available to trade, not what exists.", level: "8-1"}
+      - {text: "Thin stock between prices is both the travel and the bad fill.", level: "8-2"}
+      - {text: "Size comes from the name in front of you, never from habit.", level: "8-3"}

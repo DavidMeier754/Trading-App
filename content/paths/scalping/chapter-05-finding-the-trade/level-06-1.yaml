@@ -1,0 +1,118 @@
+id: "6-1"
+title: "Reading a Scanner"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [scanner, columns, selection]
+learning_goal: "User names what each column of a scanner is for, and reads a row as four answers rather than as a recommendation."
+purpose: "The tool that hands you the morning's names is the one tool a scalper uses every single day, and it is usually read wrong."
+terms_introduced: ["Scanner"]
+reinforces: [1, 3]
+prerequisite: "5-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Opens Level 6 by naming the tool the chapter has been using since Level 2. Account named at $22,000; the worked position is 1,500 shares at $14.20 = $21,300."
+screens:
+  - type: intro
+    text: "You have been reading these rows for four levels. This is what the thing is called, and what each column is actually for."
+
+  - type: theory
+    title: "The scanner"
+    body: "A scanner is a list that watches every name for you and shows only the ones meeting conditions you set. It does not pick trades. It hands you a short list to check by hand."
+
+  - type: visual
+    component: scanner-table
+    data:
+      rows:
+        - {ticker: FERN, price: 14.06, change_pct: 7.1, rvol: 5.0, spread: 0.02, catalyst: "Results"}
+        - {ticker: ORCA, price: 26.80, change_pct: 5.4, rvol: 4.1, spread: 0.03, catalyst: "Upgrade"}
+        - {ticker: MARL, price: 11.90, change_pct: 12.8, rvol: 9.7, spread: 0.14, catalyst: "Court ruling"}
+    caption: "Six columns, and every one of them answers a question you already know how to ask."
+
+  - type: carousel
+    cards:
+      - {label: "Price and the multiple", text: "The multiple says a crowd is here. The price says how much of it your account can hold.", icon: scanner}
+      - {label: "The spread column", text: "What the quote charges you for one round trip. Judged against the move you are going for, never against the price.", icon: quote-panel}
+      - {label: "The catalyst tag", text: "One or two words on why the crowd came. It is a prompt to go and read, not the reading itself.", icon: news}
+
+  - type: match
+    prompt: "Four columns on the row, four questions. Which column answers which?"
+    pairs:
+      - ["The multiple", "Is anything unusual happening here"]
+      - ["The price", "Can the account hold my size"]
+      - ["The spread", "What does one round trip cost me"]
+      - ["The catalyst tag", "Is there a reason the crowd stays"]
+    explanation: "Four questions, four columns, and a row that fails any one of them is finished before the chart opens."
+
+  - type: numeric-input
+    prompt: "FERN's multiple reads 5.0 and its ordinary minute is 18,000 shares. What is a minute running at today?"
+    answer: 90000
+    tolerance: 1
+    unit: "shares"
+    working: "18,000 shares × 5.0 = 90,000 shares a minute"
+    explanation: "The column is a ratio, so it only becomes a share count once you know what ordinary looks like in this name."
+
+  - type: hotspot
+    component: scanner-table
+    prompt: "Tap the row your $22,000 account cannot hold 1,500 shares of."
+    data:
+      rows:
+        - {ticker: FERN, price: 14.06, change_pct: 7.1, rvol: 5.0, spread: 0.02, catalyst: "Results"}
+        - {ticker: ORCA, price: 26.80, change_pct: 5.4, rvol: 4.1, spread: 0.03, catalyst: "Upgrade"}
+        - {ticker: MARL, price: 11.90, change_pct: 12.8, rvol: 9.7, spread: 0.14, catalyst: "Court ruling"}
+    target: ORCA
+    explanation: "1,500 × $26.80 is $40,200. The account pays for 820 shares of it, and the row never gets as far as the chart."
+
+  - type: tf
+    statement: "A scanner set up well enough will eventually hand you rows you can trade without checking them."
+    answer: false
+    explanation: "It applies the conditions you gave it and nothing else. The reason, the minute volume and the chart are still yours to read."
+
+  - type: scanner-pick
+    prompt: "Same $22,000 account, same 1,500 shares. Which row is worth the screen?"
+    data:
+      rows:
+        - {ticker: MARL, price: 11.90, change_pct: 12.8, rvol: 9.7, spread: 0.14, catalyst: "Court ruling"}
+        - {ticker: FERN, price: 14.06, change_pct: 7.1, rvol: 5.0, spread: 0.02, catalyst: "Results"}
+        - {ticker: SALT, price: 13.20, change_pct: 1.8, rvol: 1.2, spread: 0.02, catalyst: "—"}
+    target: FERN
+    explanation: "FERN answers all four. MARL has the biggest number in the multiple column and charges fourteen cents for it; SALT is having an ordinary day."
+
+  - type: chart-decision
+    scenario: "FERN reported before the open and has held 5× its normal volume since. The minute that just closed finished three cents above the pre-market high of $14.17. Your account is $22,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[13.80, 13.90, 13.74, 13.88], [13.88, 13.98, 13.82, 13.94], [13.94, 14.02, 13.88, 13.92], [13.92, 14.04, 13.86, 14.00], [14.00, 14.10, 13.94, 14.06], [14.06, 14.24, 14.02, 14.20], [14.20, 14.32, 14.16, 14.28], [14.28, 14.38, 14.22, 14.34], [14.34, 14.44, 14.28, 14.40], [14.40, 14.46, 14.34, 14.41], [14.41, 14.44, 14.34, 14.38]]
+      volume: [92000, 100000, 86000, 96000, 90000, 138000, 122000, 110000, 100000, 92000, 86000]
+      levels:
+        - {price: 14.17, label: "Pre-market high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $14.41 — $0.21 a share above the decision, +$315 long on 1,500 shares."
+    explanation: "The row got FERN onto the screen. The minute finishing clear of the marked price is the part the row could never tell you."
+
+  - type: mc
+    prompt: "The multiple column and the percentage-change column disagree: a name is up 11 % at 1.3× normal. What is that?"
+    options:
+      - {text: "A big move in a name nobody else has turned up for", correct: true}
+      - {text: "A scanner reading one of the two columns wrong"}
+      - {text: "A crowd that has arrived but not started trading"}
+    explanation: "The distance happened, probably overnight. The crowd that would have to carry it further is not here."
+
+  - type: fill-choice
+    sentence: "A scanner hands you a short list. What it never hands you is the ___."
+    options: ["reading", "multiple", "spread"]
+    answer: "reading"
+    explanation: "Every column is a fact. Putting the facts together into a yes or a no is the part you are paid for."
+
+  - type: checklist-reveal
+    title: "One row, four readings"
+    items:
+      - "The multiple: is anything unusual happening?"
+      - "The price: what can the account hold?"
+      - "The spread: what does the round trip cost?"
+      - "The tag: what is the reason, in one sentence?"

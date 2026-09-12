@@ -1,0 +1,145 @@
+id: "9-2"
+title: "Watchlist Practice"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: repetition
+tags: [drill, watchlist, selection]
+learning_goal: "User defends every cut in one sentence and handles a name that arrives after the preparation is finished."
+purpose: "Most of a scalper's mornings include a name nobody prepared for, and the answer to it is the routine rather than a guess."
+terms_introduced: []
+reinforces: [1, 3]
+prerequisite: "9-1"
+xp: 30
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
+notes: "Closes the block. A branch on the unprepared name, then a cut that has to be defended against a very good-looking chart. Account named at $16,000; the branch position is 700 shares at $21.54 = $15,078."
+screens:
+  - type: intro
+    text: "Second run. Your account is $16,000, 1,000 shares is your usual size, and one name today was never on the list."
+
+  - type: scanner-pick
+    prompt: "The watchlist you built before the bell. Which single row would you defend keeping?"
+    data:
+      rows:
+        - {ticker: WREN, price: 14.20, change_pct: 11.6, rvol: 12.0, float: "18M", spread: 0.13, catalyst: "Results"}
+        - {ticker: GLEN, price: 13.60, change_pct: 8.2, rvol: 6.9, float: "94M", spread: 0.02, catalyst: "Contract win"}
+        - {ticker: VEIN, price: 24.80, change_pct: 7.4, rvol: 5.5, float: "310M", spread: 0.03, catalyst: "Approval"}
+    target: GLEN
+    explanation: "GLEN: $13,600 for 1,000 shares and two cents on the round trip. WREN is the biggest multiple at thirteen cents a share, VEIN is 645 shares on this account."
+
+  - type: mc
+    prompt: "Defend the cut on VEIN in one sentence."
+    options:
+      - {text: "The reason behind it will not hold a crowd"}
+      - {text: "Three cents is too wide for a $24 name"}
+      - {text: "The account pays for 645 of the 1,000 I trade", correct: true}
+    explanation: "Nothing is wrong with the name. It is simply dearer than this account can hold at the size the plan is built on."
+
+  - type: tf
+    statement: "WREN has the biggest multiple on the list, so it deserves a look at the chart before it is cut."
+    answer: false
+    explanation: "Thirteen cents on 1,000 shares is $130 of the round trip. That is answered off the row, and the chart cannot change it."
+
+  - type: branch
+    scenario: "Half an hour in, FERN is top of the movers list and you never prepared it: 7× normal, two cents wide, results behind it, trading at $21.40. Your account is $16,000."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[21.10, 21.20, 21.04, 21.18], [21.18, 21.28, 21.12, 21.24], [21.24, 21.32, 21.18, 21.22], [21.22, 21.34, 21.16, 21.30], [21.30, 21.42, 21.24, 21.38], [21.38, 21.58, 21.34, 21.54], [21.54, 21.66, 21.48, 21.62], [21.62, 21.74, 21.56, 21.70], [21.70, 21.78, 21.62, 21.74]]
+      volume: [88000, 96000, 82000, 90000, 86000, 132000, 118000, 104000, 94000]
+      decision_index: 5
+    steps:
+      - prompt: "It is moving and you have nothing drawn on it. What comes first?"
+        options:
+          - {text: "The four questions, off the row", correct: true, next: 1}
+          - {text: "The chart, to find a level in the last ten minutes", next: 1}
+          - {text: "A small position, and work the rest out from inside it", next: 1}
+        explanation: "The row is faster than the chart and it answers three of the four. A level found while price is moving was found by the move."
+      - prompt: "It clears all four. Your usual 1,000 shares at $21.40 — can the account pay?"
+        options:
+          - {text: "No: $16,000 buys 747, so this is a 700-share name", correct: true}
+          - {text: "Yes, because 7× normal volume makes up for the price"}
+          - {text: "Yes, as long as the stop is tight enough to keep the risk down"}
+        explanation: "$16,000 ÷ $21.40 = 747 shares. A tight stop changes the risk, never what the account can pay for."
+      - prompt: "You mark the round number at $21.50 and the minute closes four cents through it. Where does the stop go?"
+        options:
+          - {text: "Just the far side of the line, at $21.46", correct: true}
+          - {text: "Ten cents under the fill, wherever that lands"}
+          - {text: "At the low of the morning, so it has room"}
+        explanation: "The stop belongs on the far side of the price the trade is about. If $21.50 does not hold, the reason for being in has gone."
+
+  - type: numeric-input
+    prompt: "Confirm it: a $16,000 account and a name at $21.40. What is the account ceiling?"
+    answer: 747
+    tolerance: 1
+    unit: "shares"
+    working: "$16,000 ÷ $21.40 = 747 shares"
+    explanation: "Rounded down, and it is the number the whole trade gets built on rather than the 1,000 in your head."
+
+  - type: order-build
+    prompt: "Protect it. 700 shares are long and the stop belongs at $21.46, filled at whatever is there."
+    ticker: FERN
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [350, 700, 1050]
+      price: [21.42, 21.46, 21.54]
+    answer: {side: sell, type: stop, qty: 700, price: 21.46}
+    explanation: "A sell stop at $21.46 on all 700 shares. A limit here would refuse the fill on exactly the day you need it."
+
+  - type: chart-decision
+    scenario: "WREN, the name you cut, is stepping higher on 12× normal volume. The panel reads $14.15 bid, $14.28 ask. Your account is $16,000 and 1,000 shares is the size you trade."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[13.70, 13.82, 13.64, 13.80], [13.80, 13.92, 13.74, 13.88], [13.88, 13.98, 13.82, 13.92], [13.92, 14.06, 13.86, 14.02], [14.02, 14.14, 13.96, 14.10], [14.10, 14.26, 14.06, 14.22], [14.22, 14.34, 14.16, 14.30], [14.30, 14.40, 14.24, 14.36], [14.36, 14.46, 14.30, 14.41], [14.41, 14.44, 14.34, 14.38]]
+      volume: [44000, 52000, 40000, 48000, 44000, 68000, 60000, 54000, 48000, 44000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It reached $14.41 — $0.19 a share past the decision, and thirteen of those nineteen cents were the quote."
+    explanation: "The cut was right and the chart was good, and both of those are true at once. A defended cut does not become wrong because the name went up."
+
+  - type: swipe-deck
+    prompt: "Four more rows, four charts, same $16,000 account. Take it onto the screen, or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[13.10, 13.22, 13.06, 13.20], [13.20, 13.32, 13.16, 13.28], [13.28, 13.40, 13.24, 13.36], [13.36, 13.48, 13.32, 13.44], [13.44, 13.56, 13.40, 13.52], [13.52, 13.64, 13.48, 13.60], [13.60, 13.72, 13.56, 13.68], [13.68, 13.80, 13.64, 13.76]]
+        answer: take
+        note: "Sixty-six cents a few at a time, and 1,000 shares at $13 is well inside the account."
+      - chart:
+          kind: candles
+          data: [[27.40, 27.56, 27.32, 27.52], [27.52, 27.68, 27.46, 27.64], [27.64, 27.78, 27.58, 27.74], [27.74, 27.90, 27.68, 27.86], [27.86, 28.00, 27.80, 27.96], [27.96, 28.12, 27.90, 28.08], [28.08, 28.22, 28.02, 28.18], [28.18, 28.34, 28.12, 28.30]]
+        answer: pass
+        note: "As clean a chart as the morning has. This account pays for 583 shares of it, not 1,000."
+      - chart:
+          kind: candles
+          data: [[12.86, 12.90, 12.82, 12.88], [12.88, 12.92, 12.84, 12.86], [12.86, 12.91, 12.83, 12.89], [12.89, 12.92, 12.84, 12.87], [12.87, 12.91, 12.82, 12.88], [12.88, 12.92, 12.84, 12.86], [12.86, 12.90, 12.83, 12.89], [12.89, 12.92, 12.84, 12.87]]
+        answer: pass
+        note: "Ten cents in eight minutes. Two cents of quote is cheap and there is still nothing to buy it with."
+      - chart:
+          kind: candles
+          data: [[15.40, 15.46, 15.24, 15.28], [15.28, 15.34, 15.12, 15.16], [15.16, 15.22, 15.02, 15.06], [15.06, 15.12, 14.92, 14.96], [14.96, 15.02, 14.82, 14.86], [14.86, 14.92, 14.72, 14.76], [14.76, 14.82, 14.62, 14.66], [14.66, 14.72, 14.54, 14.58]]
+        answer: take
+        note: "Ninety cents of range, all of it downward, on full bodies. 1,000 shares at $15 sits inside the account."
+    explanation: "Two takes and two passes. One pass is the chart and one is the account, and the account one is the harder to do."
+
+  - type: sort
+    prompt: "Which of these cuts can be defended off the row, and which need the chart opened?"
+    buckets: ["Off the row", "Needs the chart"]
+    items:
+      - {text: "A thirteen-cent quote against my size", bucket: "Off the row"}
+      - {text: "A price the account cannot hold enough of", bucket: "Off the row"}
+      - {text: "A name that has stopped travelling since the open", bucket: "Needs the chart"}
+      - {text: "A name whose pushes are all landing in the same place", bucket: "Needs the chart"}
+    explanation: "Two of the four questions are arithmetic on a row. The other two only exist once you look at what price has been doing."
+
+  - type: recap
+    title: "Level 9 in three lines"
+    points:
+      - {text: "Every cut gets one sentence, and the sentence is usually arithmetic.", level: "9-1"}
+      - {text: "A name that arrives late gets the routine, not a guess.", level: "9-2"}
+      - {text: "A cut does not become wrong because the name went up.", level: "9-2"}

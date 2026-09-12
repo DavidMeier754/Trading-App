@@ -1,0 +1,109 @@
+id: "7-1"
+title: "Building the Watchlist"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [watchlist, routine, levels]
+learning_goal: "User cuts a shortlist down to three to five names and knows what the watchlist is for: charts that are already marked when a minute arrives."
+purpose: "You cannot watch twelve charts properly, and a chart you are not watching properly is a chart you will trade badly."
+terms_introduced: ["Watchlist"]
+reinforces: [2]
+prerequisite: "6-4"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Chapter 2's marked levels arriving as a selection discipline. Account named at $28,000; the worked position is 1,800 shares at $15.20 = $27,360."
+screens:
+  - type: intro
+    text: "Four names, each with its prices already drawn. That is the whole product of a pre-market."
+
+  - type: theory
+    title: "The watchlist"
+    body: "The watchlist is the three to five names you will actually watch today, each with its levels already marked. It is shorter than the shortlist, and it is the last cut you make before the bell."
+
+  - type: story
+    character: retail-trader
+    text: "Eight names survived the reading. Four charts fit on the screen with levels drawn on them, so four is what the day gets."
+
+  - type: scanner-pick
+    prompt: "Your shortlist, your $28,000 account, 1,800 shares. Two of these go on the watchlist."
+    data:
+      rows:
+        - {ticker: PIKE, price: 15.20, change_pct: 7.8, rvol: 6.4, spread: 0.02, catalyst: "Results"}
+        - {ticker: ORCA, price: 22.60, change_pct: 6.9, rvol: 5.7, spread: 0.03, catalyst: "Upgrade"}
+        - {ticker: ROAN, price: 13.40, change_pct: 9.1, rvol: 7.2, spread: 0.02, catalyst: "Guidance raised"}
+        - {ticker: SALT, price: 12.90, change_pct: 2.6, rvol: 1.4, spread: 0.02, catalyst: "—"}
+    targets: [PIKE, ROAN]
+    explanation: "PIKE and ROAN: both payable at 1,800 shares, both two cents wide, both with a reason. ORCA is 1,238 shares on this account and SALT is having an ordinary day."
+
+  - type: numeric-input
+    prompt: "One full position in PIKE at $15.20, 1,800 shares. How much of the $28,000 is standing in it?"
+    answer: 27360
+    tolerance: 1
+    unit: "$"
+    working: "1,800 shares × $15.20 = $27,360"
+    explanation: "Almost all of it, which is why the watchlist holds four names and never four positions."
+
+  - type: mc
+    prompt: "Why does a watchlist stop at about four or five names?"
+    options:
+      - {text: "Because the scanner slows down past that"}
+      - {text: "Because five is the most positions an account can fund"}
+      - {text: "Because past that, none of them has its levels drawn", correct: true}
+    explanation: "The limit is not the names, it is the preparation each one needs. An unmarked chart tells you nothing in the ten seconds you get."
+
+  - type: example
+    body: "Four names, three marked prices each: yesterday's high, the pre-market high and the round number above. Twelve lines drawn in the quiet, and every one of them is where a decision will happen."
+
+  - type: match
+    prompt: "Each of these names has one price that matters most this morning. Which?"
+    pairs:
+      - ["Gapped above yesterday's range and held there", "Yesterday's high"]
+      - ["Ran hard before the bell and stopped twice at one price", "The pre-market high"]
+      - ["Opened eight cents under a whole dollar", "The round number"]
+      - ["Spent the first five minutes in a tight band", "The high of the opening range"]
+    explanation: "Chapter 2's lines, chosen per name rather than drawn everywhere. The situation says which one is going to matter."
+
+  - type: tf
+    statement: "A price only counts as a level once price has already reacted to it."
+    answer: true
+    explanation: "A round number or yesterday's high is a place to look. It becomes a level the first time the name arrives there and cannot get through."
+
+  - type: chart-decision
+    scenario: "PIKE is on your watchlist with $15.00 marked: yesterday's high, and a round number. It has come back to that price and the minute that just closed finished twenty cents above it on the heaviest bar of the morning. Your account is $28,000 and 1,800 shares is the size you trade."
+    shares: 1800
+    chart:
+      kind: candles
+      data: [[15.32, 15.40, 15.26, 15.30], [15.30, 15.34, 15.16, 15.20], [15.20, 15.24, 15.06, 15.10], [15.10, 15.16, 14.98, 15.04], [15.04, 15.08, 14.96, 14.99], [14.99, 15.24, 14.97, 15.20], [15.20, 15.32, 15.16, 15.28], [15.28, 15.38, 15.22, 15.34], [15.34, 15.44, 15.28, 15.40], [15.40, 15.48, 15.34, 15.45], [15.45, 15.48, 15.38, 15.42]]
+      volume: [118000, 106000, 98000, 88000, 76000, 164000, 142000, 128000, 116000, 106000, 98000]
+      levels:
+        - {price: 15.0, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked back up to $15.45 — $0.25 a share above the decision, +$450 long on 1,800 shares."
+    explanation: "Price was available under the marked price for one minute and was taken back inside it. The line was drawn before the bell, which is the only reason it was there to read."
+
+  - type: sort
+    prompt: "Which of this morning's work happens before the bell, and which after it?"
+    buckets: ["Before the bell", "After it"]
+    items:
+      - {text: "Cutting eight names to four", bucket: "Before the bell"}
+      - {text: "Drawing the lines on each of the four", bucket: "Before the bell"}
+      - {text: "Deciding which of the four is moving first", bucket: "After it"}
+      - {text: "Adding a name the movers list turned up", bucket: "After it"}
+    explanation: "Everything that can be done calmly gets done calmly. What is left is the part that only exists once the session does."
+
+  - type: fill-tiles
+    sentence: "The three to five names you will actually watch today are your ___."
+    answer: "watchlist"
+    explanation: "Shorter than the shortlist, and each name on it arrives with its prices already drawn."
+
+  - type: checklist-reveal
+    title: "A name earns a place on the watchlist when"
+    items:
+      - "It cleared the reading, not just the conditions"
+      - "The account can hold the size you trade"
+      - "You can say its reason in one sentence"
+      - "You have somewhere to draw a line on it"

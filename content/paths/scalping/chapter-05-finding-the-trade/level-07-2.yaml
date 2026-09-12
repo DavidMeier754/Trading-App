@@ -1,0 +1,123 @@
+id: "7-2"
+title: "Building the Watchlist"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [watchlist, attention, levels]
+learning_goal: "User can say what a long watchlist costs in the only currency that matters — lines drawn before the bell — and draws the line on a chart themselves."
+purpose: "Twelve names is not twelve times the opportunity; it is one third of the preparation on each of them."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "7-1"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
+notes: "The cost of a long list, measured in minutes of pre-market. Account named at $21,000; the worked position is 1,400 shares at $14.90 = $20,860."
+screens:
+  - type: intro
+    text: "Twelve names looks like more chances. Count what it costs before the bell and it stops looking like that."
+
+  - type: theory
+    title: "The list is paid for in minutes"
+    body: "Every name on the watchlist needs its lines drawn, and drawing them is slow because it means looking at yesterday, at the pre-market, and at the round numbers on either side."
+
+  - type: example
+    body: "Three lines a name, about forty seconds a line once you have found the price and checked that something happened there. Four names is eight minutes. Twelve names is not."
+
+  - type: numeric-input
+    prompt: "Twelve names, three lines each, forty seconds a line. How many minutes of pre-market is that?"
+    answer: 24
+    tolerance: 0.5
+    unit: "minutes"
+    working: "12 × 3 = 36 lines; 36 × 40 seconds = 1,440 seconds = 24 minutes"
+    explanation: "Which is most of the quiet time you have, spent drawing instead of reading the reasons behind the names."
+
+  - type: chart-annotate
+    prompt: "One of your names before the bell. Drag the line to the price that stopped the last two pushes."
+    chart:
+      kind: candles
+      data: [[14.40, 14.52, 14.36, 14.50], [14.50, 14.62, 14.46, 14.58], [14.58, 14.86, 14.54, 14.68], [14.68, 14.74, 14.60, 14.64], [14.64, 14.72, 14.58, 14.70], [14.70, 14.86, 14.66, 14.72], [14.72, 14.78, 14.64, 14.68], [14.68, 14.74, 14.60, 14.66], [14.66, 14.72, 14.58, 14.62], [14.62, 14.68, 14.56, 14.64]]
+    answer: 14.86
+    tolerance: 0.04
+    label: "Resistance"
+    explanation: "Twice up to $14.86 and twice turned away without a close through it. That is the line, and it is drawn while nothing is happening."
+
+  - type: mc
+    prompt: "You are watching twelve charts. One of them closes a minute through a price you marked. What usually happens?"
+    options:
+      - {text: "You see it a minute later, on the next chart round", correct: true}
+      - {text: "The quote widens while you are looking elsewhere"}
+      - {text: "The line you drew turns out to be in the wrong place"}
+    explanation: "Nothing goes wrong with the name. You simply were not looking at it, and the minute you needed has already closed."
+
+  - type: tf
+    statement: "Adding a sixth name to the watchlist adds a sixth of the preparation you already had time for."
+    answer: false
+    explanation: "It takes preparation away from the five you had. The time before the bell does not grow because the list did."
+
+  - type: chart-decision
+    scenario: "This is the name you drew that line on. It has come back up to $14.86 and the minute that just closed finished four cents through it on the heaviest bar since the open. Your account is $21,000 and 1,400 shares is the size you trade."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[14.52, 14.62, 14.48, 14.58], [14.58, 14.68, 14.54, 14.64], [14.64, 14.72, 14.58, 14.62], [14.62, 14.74, 14.56, 14.70], [14.70, 14.80, 14.64, 14.76], [14.76, 14.94, 14.72, 14.90], [14.90, 15.02, 14.86, 14.98], [14.98, 15.08, 14.92, 15.04], [15.04, 15.14, 14.98, 15.10], [15.10, 15.22, 15.04, 15.19], [15.19, 15.22, 15.10, 15.14]]
+      volume: [86000, 94000, 80000, 90000, 84000, 132000, 118000, 108000, 98000, 90000, 84000]
+      levels:
+        - {price: 14.86, label: "The price that stopped the last two pushes"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran on to $15.19 — $0.29 a share above the decision, +$406 long on 1,400 shares."
+    explanation: "The price that turned it twice was given up on a heavier minute than either of those. You were looking, because there were only four charts to look at."
+
+  - type: compare
+    prompt: "Two of your four names, same minute, each with its own marked price. Which one is asking you for a decision?"
+    charts:
+      - kind: candles
+        data: [[13.20, 13.28, 13.14, 13.24], [13.24, 13.30, 13.18, 13.22], [13.22, 13.28, 13.16, 13.26], [13.26, 13.32, 13.20, 13.24], [13.24, 13.30, 13.18, 13.28], [13.28, 13.34, 13.22, 13.26], [13.26, 13.32, 13.20, 13.28], [13.28, 13.34, 13.22, 13.30]]
+        levels: [13.60]
+        label: "A"
+      - kind: candles
+        data: [[14.62, 14.70, 14.58, 14.68], [14.68, 14.76, 14.64, 14.72], [14.72, 14.80, 14.66, 14.78], [14.78, 14.84, 14.72, 14.80], [14.80, 14.86, 14.74, 14.82], [14.82, 14.88, 14.78, 14.86], [14.86, 14.98, 14.84, 14.94], [14.94, 15.04, 14.90, 15.00]]
+        levels: [14.86]
+        label: "B"
+    answer: "B"
+    explanation: "A is thirty cents under its line and going nowhere near it. B has just closed two minutes through its line. Only one of them needs you this minute."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "I keep twelve names up so I miss less,"}
+      - {text: "which means every one of them is marked,", wrong: true}
+      - {text: "and I can see any of them the moment it moves."}
+    explanation: "Twelve names is exactly when the marking stops happening. The last sentence is true of four names and false of twelve."
+
+  - type: fill-choice
+    sentence: "The real limit on a watchlist is not the names. It is the ___ each one needs."
+    options: ["preparation", "capital", "volume"]
+    answer: "preparation"
+    explanation: "Four marked charts beat twelve unmarked ones, because an unmarked chart cannot be read in the ten seconds you get."
+
+  - type: order
+    prompt: "Put the cut from four thousand names down to four in the order it happens."
+    items:
+      - "The conditions remove what could never be traded"
+      - "The sort puts the unusual names on top"
+      - "The reading removes what cannot travel or cannot be paid for"
+      - "The lines get drawn, and whatever is left over comes off the list"
+    explanation: "Each step is cheaper than the one after it, which is why they run in that order and not the other way round."
+
+  - type: story
+    character: retail-trader
+    text: "Four charts, twelve lines, and eight minutes still left before the bell. The last of those minutes is for reading the reasons again, not for adding a fifth name."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "4 names", value: 8}
+        - {label: "8 names", value: 16}
+        - {label: "12 names", value: 24}
+      unit: "minutes of drawing"
+    caption: "The same twenty minutes of quiet, split three ways."

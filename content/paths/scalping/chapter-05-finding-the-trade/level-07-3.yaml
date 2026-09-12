@@ -1,0 +1,112 @@
+id: "7-3"
+title: "Building the Watchlist"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [watchlist, levels, premarket]
+learning_goal: "User finds the three prices worth marking on a watchlist name and draws them before the session starts."
+purpose: "A line found during a move was found by the move, and the whole point of marking prices in advance is that the move had no say in them."
+terms_introduced: []
+reinforces: [2]
+prerequisite: "7-2"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
+notes: "Closes Level 7. Same name carried across three screens: tap yesterday's low, draw the pre-market high, then trade the level. Account named at $19,000; the worked position is 1,300 shares at $14.10 = $18,330."
+screens:
+  - type: intro
+    text: "Three prices a name, and all three of them exist before anything has traded today."
+
+  - type: theory
+    title: "Where the lines come from"
+    body: "Yesterday's high and low. The highest and lowest the name reached before the bell. The round numbers on either side of where it is now. Nothing else needs marking on a watchlist name."
+
+  - type: carousel
+    cards:
+      - {label: "Yesterday's extremes", text: "Prices a whole session's worth of people already argued over. Everyone else on this name can see them too.", icon: chart-candles}
+      - {label: "The pre-market extremes", text: "Where this morning's crowd pushed to and failed during {{market.premarket}}. Thin volume, but the prices still count.", icon: session-ribbon}
+      - {label: "The round numbers", text: "The whole and half dollars either side. They are places to look, and they become levels the first time price cannot get through.", icon: quote-panel}
+
+  - type: chart-tap
+    prompt: "Yesterday's last few minutes. Tap the minute that set the low you will mark."
+    chart:
+      kind: candles
+      data: [[14.56, 14.60, 14.48, 14.50], [14.50, 14.54, 14.38, 14.42], [14.42, 14.46, 14.20, 14.26], [14.26, 14.34, 14.24, 14.32], [14.32, 14.40, 14.28, 14.36], [14.36, 14.44, 14.32, 14.40], [14.40, 14.48, 14.36, 14.44], [14.44, 14.50, 14.40, 14.46], [14.46, 14.52, 14.42, 14.48]]
+      volume: [88000, 96000, 124000, 92000, 84000, 78000, 82000, 76000, 90000]
+    target: 2
+    explanation: "$14.20, on the heaviest minute of the lot. It goes on the chart as a line tonight, not tomorrow at the moment price arrives there."
+
+  - type: chart-annotate
+    prompt: "Same name, this morning before the bell. Drag the line to the highest price it has reached."
+    chart:
+      kind: candles
+      data: [[14.30, 14.40, 14.26, 14.38], [14.38, 14.46, 14.34, 14.42], [14.42, 14.58, 14.38, 14.50], [14.50, 14.54, 14.42, 14.46], [14.46, 14.52, 14.40, 14.44], [14.44, 14.50, 14.38, 14.42], [14.42, 14.48, 14.36, 14.40], [14.40, 14.46, 14.34, 14.44], [14.44, 14.50, 14.38, 14.42]]
+      volume: [12000, 9000, 18000, 8000, 7000, 6000, 8000, 7000, 9000]
+    answer: 14.58
+    tolerance: 0.03
+    label: "Pre-market high"
+    explanation: "$14.58, on thin volume and in a session most people ignore. It is still the price this morning's crowd could not get through."
+
+  - type: slider
+    prompt: "Yesterday's low is $14.20, the pre-market high is $14.58, and price is sitting at $14.30. How far up that band is it?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 25
+    tolerance: 10
+    explanation: "Ten cents into a thirty-eight-cent band, so about a quarter of the way up. Knowing that takes two lines and no thinking at all."
+
+  - type: tf
+    statement: "A line drawn before the bell can be drawn calmly, because nothing is moving while you draw it."
+    answer: true
+    explanation: "That is the whole argument for doing it early. A line drawn during a push is a line the push chose for you."
+
+  - type: chart-decision
+    scenario: "Your line at $14.20 is yesterday's low. The name has come down to it all morning and the minute that just closed finished ten cents under it on the heaviest bar since the open. Your account is $19,000 and 1,300 shares is the size you trade."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[14.62, 14.68, 14.50, 14.54], [14.54, 14.60, 14.42, 14.46], [14.46, 14.52, 14.34, 14.38], [14.38, 14.44, 14.26, 14.30], [14.30, 14.36, 14.18, 14.22], [14.22, 14.26, 14.06, 14.10], [14.10, 14.16, 14.00, 14.04], [14.04, 14.10, 13.94, 13.98], [13.98, 14.04, 13.88, 13.92], [13.92, 13.98, 13.76, 13.79], [13.79, 13.86, 13.74, 13.82]]
+      volume: [96000, 104000, 92000, 100000, 108000, 142000, 128000, 118000, 110000, 102000, 94000]
+      levels:
+        - {price: 14.2, label: "Yesterday's low"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It carried down to $13.79 — $0.31 a share below the decision, +$403 short on 1,300 shares."
+    explanation: "A price a whole session argued over yesterday, given up today on the heaviest minute of the morning. The line was on the chart an hour before it mattered."
+
+  - type: numeric-input
+    prompt: "Short 1,300 shares from $14.10, stop two cents back above the broken line at $14.22. What is at risk?"
+    answer: 156
+    tolerance: 0.01
+    unit: "$"
+    working: "$14.22 − $14.10 = $0.12 a share; $0.12 × 1,300 shares = $156"
+    explanation: "Under one per cent of the account, and the stop sits just the far side of the price the trade is about."
+
+  - type: mc
+    prompt: "Price has never traded near $18.00 this week and the name is at $14.10. Do you mark the whole dollar?"
+    options:
+      - {text: "Yes, because round numbers always collect orders"}
+      - {text: "Yes, but only if it was yesterday's high as well"}
+      - {text: "No, the name would have to travel all day to reach it", correct: true}
+    explanation: "Mark the round numbers either side of where price actually is. A line four dollars away is a line you will never look at."
+
+  - type: sort
+    prompt: "Which of these prices go on the chart before the bell, and which cannot exist yet?"
+    buckets: ["On the chart already", "Cannot exist yet"]
+    items:
+      - {text: "Yesterday's high and low", bucket: "On the chart already"}
+      - {text: "The pre-market high", bucket: "On the chart already"}
+      - {text: "The high of the first five minutes", bucket: "Cannot exist yet"}
+      - {text: "The session's average price", bucket: "Cannot exist yet"}
+    explanation: "Two are homework. The other two need the session to have started, and they get drawn while you watch."
+
+  - type: recap
+    title: "Level 7 in three lines"
+    points:
+      - {text: "Three to five names, because that is how many can be properly marked.", level: "7-1"}
+      - {text: "A long list costs you the preparation, not the opportunity.", level: "7-2"}
+      - {text: "Yesterday's extremes, the pre-market extremes, the round numbers either side.", level: "7-3"}

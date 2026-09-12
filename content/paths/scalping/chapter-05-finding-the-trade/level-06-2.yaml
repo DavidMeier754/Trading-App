@@ -1,0 +1,122 @@
+id: "6-2"
+title: "Reading a Scanner"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [scanner, gapper, premarket]
+learning_goal: "User knows which of the two lists to read before the open and which after it, and that a gap is a question rather than a direction."
+purpose: "The two lists answer different questions, and reading the wrong one at the wrong time is how a morning gets spent on names that stopped moving an hour ago."
+terms_introduced: ["Gapper"]
+reinforces: [1, 3]
+prerequisite: "6-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
+notes: "Chapter 2's gap arriving as a selection list rather than as a chart shape. Account named at $24,000; the worked position is 1,700 shares at $13.38 = $22,746."
+screens:
+  - type: intro
+    text: "Two lists. One of them is finished before the bell, and the other has not started."
+
+  - type: story
+    character: retail-trader
+    text: "An hour before {{market.regular_open}}. Nothing has traded yet in most of these names, and the first list is already complete."
+
+  - type: theory
+    title: "The gapper list"
+    body: "A gapper is a name whose first price today sits well away from yesterday's close. Something happened while the market was shut, and the list of them exists before a single regular-session share trades."
+
+  - type: visual
+    component: scanner-table
+    data:
+      rows:
+        - {ticker: GLEN, price: 13.62, change_pct: 9.8, rvol: 6.2, spread: 0.03, catalyst: "Results"}
+        - {ticker: PIKE, price: 12.10, change_pct: 7.4, rvol: 5.1, spread: 0.02, catalyst: "Contract win"}
+        - {ticker: VEIN, price: 28.40, change_pct: 6.6, rvol: 4.4, spread: 0.04, catalyst: "Approval"}
+    caption: "The gapper list, built from prices that have not traded in the regular session yet."
+
+  - type: chart-tap
+    prompt: "Tap the minute that opened well away from the one before it."
+    chart:
+      kind: candles
+      data: [[12.44, 12.48, 12.40, 12.42], [12.42, 12.46, 12.36, 12.40], [12.40, 12.44, 12.36, 12.38], [12.38, 12.44, 12.34, 12.40], [13.30, 13.44, 13.26, 13.40], [13.40, 13.52, 13.34, 13.48], [13.48, 13.56, 13.40, 13.44], [13.44, 13.50, 13.36, 13.46], [13.46, 13.58, 13.42, 13.54]]
+      volume: [42000, 38000, 36000, 40000, 210000, 168000, 134000, 122000, 116000]
+    target: 4
+    explanation: "Ninety cents of air between yesterday's last trade and today's first one. Nothing traded in that space, which is why nobody's stop is sitting in it."
+
+  - type: numeric-input
+    prompt: "That name closed at $12.40 yesterday and its first trade today is $13.30. How big is the gap in percent?"
+    answer: 7.3
+    tolerance: 0.2
+    unit: "%"
+    working: "$13.30 − $12.40 = $0.90; $0.90 ÷ $12.40 = 0.073 = 7.3 %"
+    explanation: "Always as a share of the price. Ninety cents is a large gap in a $12 name and a rounding error in a $200 one."
+
+  - type: theory
+    title: "The movers list"
+    body: "The second list is built from what has actually traded since the bell. It answers a different question: who is moving now. Before the open it is empty, and by mid-morning it is the only one that is current."
+
+  - type: order
+    prompt: "Put a morning's two lists in the order you actually read them."
+    items:
+      - "The gapper list, while nothing has traded yet"
+      - "The four checks, on the names the gapper list gave you"
+      - "The movers list, once the session has some minutes behind it"
+      - "The four checks again, on anything new the movers list added"
+    explanation: "The same four questions, run twice, on two lists built at two different times of the morning."
+
+  - type: tf
+    statement: "A name can be near the top of the movers list without ever having appeared on the gapper list."
+    answer: true
+    explanation: "It opened where it closed and the crowd arrived afterwards. Plenty of the day's best-travelled names start exactly like that."
+
+  - type: mc
+    prompt: "A name gapped up 9 % and has spent the first twenty minutes making lower highs. What has the gap told you?"
+    options:
+      - {text: "That the sellers will run out where the gap started"}
+      - {text: "That the move has further to run once it steadies"}
+      - {text: "That something happened overnight, and nothing else", correct: true}
+    explanation: "A gap says a re-pricing happened while you were asleep. Which way it travels from here is this morning's argument, and this morning it is going the other way."
+
+  - type: chart-decision
+    scenario: "GLEN gapped up on results and has made lower highs since the bell on minutes of about 120,000 shares. The minute that just closed finished six cents under the low of the first half hour at $13.44. Your account is $24,000 and 1,700 shares is the size you trade."
+    shares: 1700
+    chart:
+      kind: candles
+      data: [[13.90, 13.96, 13.76, 13.80], [13.80, 13.86, 13.66, 13.70], [13.70, 13.78, 13.60, 13.66], [13.66, 13.72, 13.54, 13.58], [13.58, 13.64, 13.46, 13.50], [13.50, 13.54, 13.34, 13.38], [13.38, 13.44, 13.28, 13.32], [13.32, 13.38, 13.22, 13.26], [13.26, 13.30, 13.14, 13.18], [13.18, 13.24, 13.10, 13.14], [13.14, 13.20, 13.08, 13.12]]
+      volume: [116000, 124000, 108000, 118000, 112000, 148000, 134000, 122000, 114000, 106000, 100000]
+      levels:
+        - {price: 13.44, label: "Low of the first half hour"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It kept sliding to $13.12 — $0.26 a share below the decision, +$442 short on 1,700 shares."
+    explanation: "The gap brought the crowd and the crowd has spent the morning selling. The list chose the name; the lower highs chose the side."
+
+  - type: sort
+    prompt: "Which of these does each list answer? Sort them."
+    buckets: ["The gapper list", "The movers list"]
+    items:
+      - {text: "What happened overnight", bucket: "The gapper list"}
+      - {text: "Which names I can mark levels on before the bell", bucket: "The gapper list"}
+      - {text: "Who has picked up since the open", bucket: "The movers list"}
+      - {text: "Which name to add at mid-morning", bucket: "The movers list"}
+    explanation: "One is homework, done in the quiet. The other is the session reporting on itself while you watch."
+
+  - type: scanner-pick
+    prompt: "Mid-morning, and the movers list has refreshed. Your account is $24,000 and you trade 1,700 shares. Which row survives?"
+    data:
+      rows:
+        - {ticker: VEIN, price: 28.40, change_pct: 6.6, rvol: 4.4, spread: 0.04, catalyst: "Approval"}
+        - {ticker: ROAN, price: 12.70, change_pct: 8.1, rvol: 6.9, spread: 0.02, catalyst: "Guidance raised"}
+        - {ticker: CRAG, price: 11.40, change_pct: 14.2, rvol: 11.8, spread: 0.17, catalyst: "Trial result"}
+    target: ROAN
+    explanation: "ROAN: 1,700 shares at $12.70 is $21,590, and two cents a share on the round trip. VEIN is 845 shares here and CRAG charges seventeen."
+
+  - type: fill-tiles
+    sentence: "A name whose first price today sits well away from yesterday's close is a ___."
+    answer: "gapper"
+    explanation: "And it is on the one list you can finish reading before anything has traded."
+
+  - type: example
+    body: "Two names on a Tuesday: one gapped 9 % and drifted all morning, the other opened flat and was the day's best mover by ten past. Both lists were right about what they measure."

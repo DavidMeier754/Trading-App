@@ -1,0 +1,110 @@
+id: "8-2"
+title: "Float and Share Structure"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [float, slippage, execution]
+learning_goal: "User can explain why a small float travels faster and fills worse, and reads the cost of that out of an order book."
+purpose: "The same feature that makes a small float worth watching is the one that takes cents out of every entry and every exit."
+terms_introduced: ["Small float"]
+reinforces: [1, 3]
+prerequisite: "8-1"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Chapter 3's slippage and order book, re-tested through the float column. Account named at $15,000; the worked position is 900 shares at $16.10 = $14,490."
+screens:
+  - type: intro
+    text: "Fewer shares to go round means the price has to move further to find the next seller. That is the whole mechanism."
+
+  - type: theory
+    title: "Small float"
+    body: "A small float is a name with only a few million shares available to trade. When a crowd arrives, there is not much stock to buy, so price travels further and faster to find someone willing to sell."
+
+  - type: theory
+    title: "The same thing, from the other side"
+    body: "Thin stock between prices is why it moves. It is also why your order walks up three price levels instead of filling at the one you saw."
+
+  - type: depth-ladder
+    prompt: "A 12 M-float name. You market-buy 900 shares. Where does the last share fill?"
+    data:
+      bids: [[14.79, 400], [14.76, 500], [14.72, 900]]
+      asks: [[14.82, 300], [14.85, 400], [14.90, 1200]]
+    target: ask-3
+    explanation: "Three hundred at $14.82 and four hundred at $14.85 is only seven hundred shares. The last two hundred come from $14.90."
+
+  - type: numeric-input
+    prompt: "That fill: 300 shares at $14.82, 400 at $14.85, 200 at $14.90. What is the average price you paid?"
+    answer: 14.85
+    tolerance: 0.01
+    unit: "$"
+    working: "(300 × $14.82 + 400 × $14.85 + 200 × $14.90) = $13,366; $13,366 ÷ 900 = $14.85"
+    explanation: "Three cents above the price on the screen, and the trade has not started yet."
+
+  - type: slider
+    prompt: "You were going for twelve cents. How much of it did those three cents of fill take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 25
+    tolerance: 10
+    explanation: "A quarter, on the entry alone, before the quote has taken its own share on the way back out."
+
+  - type: mc
+    prompt: "Why does the same 900-share order fill worse in a 12 M float than in a 740 M one?"
+    options:
+      - {text: "Small-float names have wider quotes by regulation"}
+      - {text: "Brokers route small-float orders more slowly"}
+      - {text: "There is less stock sitting at each price", correct: true}
+    explanation: "Nothing about the order changes. What changes is how much is waiting for it at the first price, and how far it has to reach for the rest."
+
+  - type: tf
+    statement: "The thing that makes a small float travel is the same thing that makes it fill badly."
+    answer: true
+    explanation: "Thin stock between prices. Read one way it is a move worth having; read the other it is three cents off every entry."
+
+  - type: chart-decision
+    scenario: "A 9 M-float name, up 8 % this morning. It has jumped about a quarter of a dollar at a time and then sat still, on landing minutes of about 20,000 shares. Your account is $15,000 and 900 shares is the size you trade."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[15.60, 15.64, 15.56, 15.62], [15.62, 15.90, 15.60, 15.88], [15.88, 15.92, 15.84, 15.86], [15.86, 15.90, 15.82, 15.88], [15.88, 16.16, 15.86, 16.12], [16.12, 16.16, 16.06, 16.10], [16.10, 16.14, 16.04, 16.08], [16.08, 16.40, 16.06, 16.36], [16.36, 16.40, 16.30, 16.34], [16.34, 16.38, 16.26, 16.30]]
+      volume: [22000, 64000, 18000, 16000, 72000, 20000, 18000, 68000, 22000, 19000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It reached $16.36 — $0.26 a share past the decision, and all of it arrived inside one minute. Your exit would have been in one of the flat stretches either side."
+    explanation: "900 shares is a twentieth of a landing minute. You can be filled on the jump or on the flat, and you do not get to choose which."
+
+  - type: compare
+    prompt: "Both names are up about 8 % on the same morning. Which one is the small float?"
+    charts:
+      - kind: candles
+        data: [[15.60, 15.64, 15.56, 15.62], [15.62, 15.90, 15.60, 15.88], [15.88, 15.92, 15.84, 15.86], [15.86, 15.90, 15.82, 15.88], [15.88, 16.16, 15.86, 16.12], [16.12, 16.16, 16.06, 16.10], [16.10, 16.14, 16.04, 16.08], [16.08, 16.40, 16.06, 16.36]]
+        label: "A"
+      - kind: candles
+        data: [[15.60, 15.70, 15.56, 15.68], [15.68, 15.78, 15.64, 15.74], [15.74, 15.84, 15.70, 15.80], [15.80, 15.90, 15.76, 15.86], [15.86, 15.96, 15.82, 15.92], [15.92, 16.04, 15.88, 16.00], [16.00, 16.10, 15.96, 16.06], [16.06, 16.18, 16.02, 16.14]]
+        label: "B"
+    answer: "A"
+    explanation: "A covers the ground in three jumps with nothing in between. B covers its ground a few cents at a time, which is what a large float looks like on a busy day."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "A small float travels further on the same buying,"}
+      - {text: "so the same size fills more easily in it,", wrong: true}
+      - {text: "and the fill is where most of the extra cost turns up."}
+    explanation: "One cause, two effects, and they point opposite ways. The travel is the reward and the fill is the bill."
+
+  - type: example
+    body: "Nine hundred shares in a 12 M float: three cents of fill in and often three cents out. On a twelve-cent target that is half the trade, paid to the structure of the company rather than to the market."
+
+  - type: checklist-reveal
+    title: "Before you take a small float"
+    items:
+      - "How much stock is sitting at the first price?"
+      - "What does the walk up the book cost my size?"
+      - "Is the target big enough to survive that twice?"
+      - "Would a smaller order fill at one price instead of three?"
