@@ -1,0 +1,139 @@
+id: "3-3"
+title: "Managing the Trade"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [risk, management, stops, trend]
+learning_goal: "User trails a stop under each new higher low, knows it always gives back the last leg, and does not run one in a chart with no legs."
+purpose: "A trail is how a scalp is allowed to become a bigger winner without anybody having to guess where the move ends."
+terms_introduced: ["Trailing stop"]
+reinforces: [3]
+prerequisite: "3-2"
+xp: 20
+difficulty: 2
+sources: ["Volman — Understanding Price Action", "Raschke & Connors — Street Smarts"]
+notes: "Account named at $18,000 with 1R at $165; worked positions are 1,100 shares at $16.10 and 1,150 at $12.80."
+screens:
+  - type: intro
+    text: "A target decides in advance where the move ends. There is another way to ask."
+
+  - type: theory
+    title: "Trailing stop"
+    body: "A stop you move up behind a working trade, hiding it under each new higher low the move makes. It only ever travels toward the trade, never away from it."
+
+  - type: example
+    body: "Long 1,100 shares of WOLD at $16.10, stop $15.95, so 1R is $165. It makes a low at $16.18 and the stop goes to $16.16. It makes another at $16.34 and the stop goes to $16.32."
+    visual: chart-candles
+    visual_data:
+      data: [[16.02, 16.12, 15.98, 16.10], [16.10, 16.26, 16.08, 16.24], [16.24, 16.28, 16.18, 16.22], [16.22, 16.40, 16.20, 16.38], [16.38, 16.44, 16.34, 16.40], [16.40, 16.52, 16.38, 16.50], [16.50, 16.52, 16.40, 16.42], [16.42, 16.46, 16.30, 16.32]]
+      levels: [{price: 16.18, label: "First low"}, {price: 16.34, label: "Second low"}]
+
+  - type: chart-annotate
+    prompt: "WOLD again. Drag the line to where the stop sits once the second pullback is in."
+    chart:
+      kind: candles
+      data: [[16.02, 16.12, 15.98, 16.10], [16.10, 16.26, 16.08, 16.24], [16.24, 16.28, 16.18, 16.22], [16.22, 16.40, 16.20, 16.38], [16.38, 16.44, 16.34, 16.40], [16.40, 16.52, 16.38, 16.50], [16.50, 16.52, 16.40, 16.42], [16.42, 16.46, 16.30, 16.32]]
+    answer: 16.32
+    tolerance: 0.04
+    label: "Trailed stop"
+    explanation: "Two cents under the second low. Each leg hands the stop a new place to hide, and the old place is never coming back."
+
+  - type: numeric-input
+    prompt: "That stop at $16.32 takes you out. Long 1,100 shares from $16.10 — what did the trade make?"
+    answer: 242
+    tolerance: 0.01
+    unit: "$"
+    working: "$16.32 − $16.10 = $0.22; $0.22 × 1,100 shares = $242"
+    explanation: "About one and a half units, from a trade nobody had to predict the end of."
+
+  - type: numeric-mc
+    prompt: "The move topped at $16.52. What did the trail hand back against selling that high?"
+    options:
+      - {text: "$242"}
+      - {text: "$462"}
+      - {text: "$220", correct: true}
+      - {text: "$20"}
+    working: "$16.52 − $16.32 = $0.20; $0.20 × 1,100 shares = $220"
+    explanation: "Twenty cents a share, which is the last leg. A trail always pays for it, and selling the high was never on offer in advance."
+
+  - type: theory
+    title: "The give-back is the fee"
+    body: "You will never exit at the high with a trail, because the trail only knows the move is over once it has partly reversed. What you get for that is the trades that keep going."
+
+  - type: tf
+    statement: "A trailing stop can be moved down as well as up, to give the trade room."
+    answer: false
+    explanation: "It only ever moves toward the trade. A stop that can travel backwards is not a trail, it is the widening you were warned about in Level 1."
+
+  - type: swipe-deck
+    prompt: "Four working trades. Is there a new low to hide a trail under, or not?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[14.20, 14.32, 14.18, 14.30], [14.30, 14.34, 14.24, 14.26], [14.26, 14.44, 14.24, 14.42], [14.42, 14.46, 14.38, 14.40], [14.40, 14.56, 14.38, 14.54], [14.54, 14.58, 14.50, 14.52], [14.52, 14.68, 14.50, 14.66], [14.66, 14.72, 14.62, 14.70]]
+        answer: take
+        note: "A new higher low every leg — $14.24, then $14.38, then $14.50. The stop has somewhere fresh to go each time."
+      - chart:
+          kind: candles
+          data: [[13.10, 13.22, 13.08, 13.20], [13.20, 13.34, 13.18, 13.32], [13.32, 13.46, 13.30, 13.44], [13.44, 13.58, 13.42, 13.56], [13.56, 13.70, 13.54, 13.68], [13.68, 13.82, 13.66, 13.80], [13.80, 13.94, 13.78, 13.92], [13.92, 14.04, 13.90, 14.02]]
+        answer: pass
+        note: "Eight green minutes and no pullback in any of them. There is no low behind the last one, so the trail can only sit inside the move."
+      - chart:
+          kind: candles
+          data: [[16.40, 16.44, 16.28, 16.30], [16.30, 16.34, 16.26, 16.28], [16.28, 16.32, 16.14, 16.16], [16.16, 16.20, 16.12, 16.14], [16.14, 16.18, 16.02, 16.04], [16.04, 16.08, 16.00, 16.02], [16.02, 16.06, 15.90, 15.92], [15.92, 15.96, 15.88, 15.90]]
+        answer: take
+        note: "Lower highs at $16.34, then $16.20, then $16.08. A short trails the same way, with the stop stepping down behind each one."
+      - chart:
+          kind: candles
+          data: [[15.10, 15.18, 15.04, 15.14], [15.14, 15.20, 15.06, 15.08], [15.08, 15.18, 15.04, 15.16], [15.16, 15.20, 15.06, 15.10], [15.10, 15.16, 15.02, 15.14], [15.14, 15.18, 15.06, 15.08], [15.08, 15.16, 15.04, 15.14], [15.14, 15.18, 15.06, 15.10]]
+        answer: pass
+        note: "Eighteen cents of range crossed six times. Every low in there is the same low, so a trail is just a tighter stop waiting to be hit."
+    explanation: "Two of them have legs and two do not. A trail needs a new low to move to; without one it only shortens the distance to your own exit."
+
+  - type: chart-tap
+    prompt: "Back to WOLD. Tap the candle that took the trailed stop out."
+    chart:
+      kind: candles
+      data: [[16.02, 16.12, 15.98, 16.10], [16.10, 16.26, 16.08, 16.24], [16.24, 16.28, 16.18, 16.22], [16.22, 16.40, 16.20, 16.38], [16.38, 16.44, 16.34, 16.40], [16.40, 16.52, 16.38, 16.50], [16.50, 16.52, 16.40, 16.42], [16.42, 16.46, 16.30, 16.32], [16.32, 16.36, 16.22, 16.26]]
+    target: 7
+    explanation: "The one before it came down to $16.40 and held. This one traded through $16.32, and the order did the rest."
+
+  - type: chart-decision
+    scenario: "THAW has made lower highs since the bell and the minute that just closed finished under the $12.82 floor at $12.80. Your account is $18,000, 1R is $165, and a stop at $12.94 is fourteen cents away."
+    shares: 1150
+    chart:
+      kind: candles
+      data: [[13.00, 13.04, 12.92, 12.96], [12.96, 13.00, 12.88, 12.90], [12.90, 12.96, 12.82, 12.94], [12.94, 12.96, 12.82, 12.86], [12.86, 12.92, 12.84, 12.88], [12.88, 12.90, 12.78, 12.80], [12.80, 12.82, 12.68, 12.70], [12.70, 12.74, 12.58, 12.60], [12.60, 12.66, 12.52, 12.56], [12.56, 12.60, 12.48, 12.52]]
+      volume: [72000, 84000, 96000, 88000, 80000, 132000, 118000, 106000, 94000, 86000]
+      levels:
+        - {price: 12.82, label: "Floor"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $12.48. The stop followed the lower highs and covered at $12.62 — 18 cents a share, +$207 on 1,150 shares against $161 of risk."
+    explanation: "A short trails the same way in reverse: the stop comes down behind each lower high, and it hands back the last leg on the way out."
+
+  - type: mc
+    prompt: "What does a trail do that a fixed target does not?"
+    options:
+      - {text: "It lets a trade that keeps going keep going", correct: true}
+      - {text: "It guarantees you get out somewhere above your entry"}
+      - {text: "It makes the typical trade bigger"}
+    explanation: "A target is a decision made before the move; a trail asks the chart again every leg. The price of asking is the last leg, every time."
+
+  - type: fill-choice
+    sentence: "A trailing stop hides under each new ___ the move makes."
+    options: ["higher low", "higher high", "round number"]
+    answer: "higher low"
+    explanation: "The highs tell you it is working. The lows are the only thing you can put an order underneath."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars: [{label: "Stopped at entry", value: 0}, {label: "Trailed out", value: 242}, {label: "Sold the high", value: 462}]
+      unit: "$"
+    caption: "Three ways the same WOLD trade could have ended. Only the middle one needed no guessing."
+
+  - type: example
+    body: "The trail never catches the top and never has to. It turns one question you cannot answer — where does this end — into one you can: where is the last low."

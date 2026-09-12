@@ -1,0 +1,135 @@
+id: "2-3"
+title: "R — The Unit"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [risk, r-multiple, targets, levels]
+learning_goal: "User measures the room to the first level overhead before entering and refuses a trade that asks more than it offers."
+purpose: "Most bad scalps are not bad reads; they are good reads taken where there was nothing left to be paid."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "2-2"
+xp: 20
+difficulty: 3
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Volman — Understanding Price Action"]
+notes: "Account named at $24,000; worked positions are 1,100 shares at $21.40, 1,200 at $19.60 and 1,200 at $18.00."
+screens:
+  - type: intro
+    text: "Before you ask whether it will work, ask what it pays you if it does."
+
+  - type: theory
+    title: "Two distances, both measured first"
+    body: "Down to the stop, and up to the first price that is already in the way. One is what being wrong costs. The other is what being right can realistically collect."
+
+  - type: example
+    body: "HALE: in at $21.40, stop $21.28 under the floor it just made, and the ceiling that turned it back twice this morning sits at $21.76. Twelve cents risked, thirty-six available."
+    visual: chart-candles
+    visual_data:
+      data: [[21.52, 21.76, 21.48, 21.70], [21.70, 21.74, 21.56, 21.60], [21.60, 21.68, 21.54, 21.66], [21.66, 21.76, 21.62, 21.68], [21.68, 21.72, 21.52, 21.56], [21.56, 21.60, 21.44, 21.48], [21.48, 21.52, 21.28, 21.32], [21.32, 21.44, 21.30, 21.42], [21.42, 21.46, 21.36, 21.40]]
+      levels: [{price: 21.76, label: "Ceiling"}, {price: 21.28, label: "Floor"}]
+
+  - type: chart-annotate
+    prompt: "HALE again. Drag the line to the first price overhead that has already turned it back today."
+    chart:
+      kind: candles
+      data: [[21.52, 21.76, 21.48, 21.70], [21.70, 21.74, 21.56, 21.60], [21.60, 21.68, 21.54, 21.66], [21.66, 21.76, 21.62, 21.68], [21.68, 21.72, 21.52, 21.56], [21.56, 21.60, 21.44, 21.48], [21.48, 21.52, 21.28, 21.32], [21.32, 21.44, 21.30, 21.42], [21.42, 21.46, 21.36, 21.40]]
+    answer: 21.76
+    tolerance: 0.04
+    label: "First level overhead"
+    explanation: "The trade's realistic ceiling. Sellers turned it back there twice already, and anything measured past it is a hope rather than a target."
+
+  - type: numeric-input
+    prompt: "A long at $21.40 with the stop at $21.28 and that ceiling at $21.76. How many R is the trade offering?"
+    answer: 3
+    tolerance: 0.05
+    working: "$0.36 of room ÷ $0.12 of risk = 3"
+    explanation: "Three for one before costs, which is why the level overhead is the first thing worth finding."
+
+  - type: theory
+    title: "The level sets the target, not your mood"
+    body: "You can measure a target anywhere you like. Price still has to get through everyone waiting at the first level above you, and most scalps do not."
+
+  - type: tf
+    statement: "Setting the target past the first level overhead makes a trade look better than it is."
+    answer: true
+    explanation: "The arithmetic improves and the trade does not. The sellers at that level have not read your plan."
+
+  - type: mc
+    prompt: "Your stop is fourteen cents and the first level overhead is nine cents away. What is the honest read?"
+    options:
+      - {text: "Take it — nine cents is a normal scalp"}
+      - {text: "Take it with the target set past the level"}
+      - {text: "Pass: it asks more than it offers", correct: true}
+    explanation: "Under 1R before costs, and the costs come out of the nine cents, never out of the fourteen."
+
+  - type: compare
+    prompt: "Two longs at $21.40, both stopping twelve cents down. Which one has room to pay for that stop?"
+    charts:
+      - kind: candles
+        data: [[21.70, 21.76, 21.62, 21.64], [21.64, 21.68, 21.52, 21.56], [21.56, 21.60, 21.44, 21.48], [21.48, 21.52, 21.28, 21.32], [21.32, 21.40, 21.30, 21.38], [21.38, 21.42, 21.32, 21.36], [21.36, 21.44, 21.30, 21.42], [21.42, 21.44, 21.36, 21.40]]
+        levels: [{price: 21.76, label: "Ceiling"}]
+        label: "A"
+      - kind: candles
+        data: [[21.44, 21.50, 21.38, 21.42], [21.42, 21.50, 21.36, 21.40], [21.40, 21.44, 21.28, 21.32], [21.32, 21.38, 21.28, 21.36], [21.36, 21.50, 21.34, 21.44], [21.44, 21.48, 21.36, 21.38], [21.38, 21.46, 21.34, 21.42], [21.42, 21.46, 21.36, 21.40]]
+        levels: [{price: 21.50, label: "Ceiling"}]
+        label: "B"
+    answer: "A"
+    explanation: "A has thirty-six cents of clear air above it. B has ten, and ten cents cannot pay for a twelve-cent stop, however good the entry looks."
+
+  - type: chart-decision
+    scenario: "FERN has been stopped at $19.70 twice this morning and has just closed a minute at $19.60. The floor underneath is $19.44. Your account is $24,000 and 1R is $180."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[19.48, 19.56, 19.44, 19.52], [19.52, 19.70, 19.50, 19.66], [19.66, 19.68, 19.54, 19.58], [19.58, 19.70, 19.52, 19.62], [19.62, 19.64, 19.44, 19.50], [19.50, 19.62, 19.48, 19.60], [19.60, 19.70, 19.58, 19.64], [19.64, 19.70, 19.56, 19.58], [19.58, 19.62, 19.48, 19.50], [19.50, 19.54, 19.44, 19.46]]
+      volume: [72000, 96000, 84000, 88000, 92000, 104000, 86000, 78000, 94000, 90000]
+      levels:
+        - {price: 19.70, label: "Ceiling"}
+        - {price: 19.44, label: "Floor"}
+      decision_index: 5
+    best: no-trade
+    outcome: "It touched $19.70 twice more and slid back to $19.46 — 14 cents a share against you, $154 down on 1,100 shares, with the stop two cents away."
+    explanation: "Sixteen cents down to the floor and ten cents up to the ceiling. The chart is fine; the trade is the wrong way round before it starts."
+
+  - type: numeric-mc
+    prompt: "An $18 name, a ten-cent stop, the first level twenty-five cents up, and you take 1,200 shares. What does it risk and what does it offer?"
+    options:
+      - {text: "$120 risked, $250 offered"}
+      - {text: "$1,200 risked, $3,000 offered"}
+      - {text: "$100 risked, $300 offered"}
+      - {text: "$120 risked, $300 offered", correct: true}
+    working: "$0.10 × 1,200 = $120; $0.25 × 1,200 = $300"
+    explanation: "Two and a half units for one, and both numbers come off the same share count."
+
+  - type: slider
+    prompt: "Round-trip costs take two cents of a nine-cent target. What share of the reward is gone before you start?"
+    min: 0
+    max: 50
+    step: 5
+    unit: "%"
+    answer: 20
+    tolerance: 10
+    explanation: "Two of nine, a fifth of everything the trade can pay, and it comes out whether the trade works or not."
+
+  - type: fill-choice
+    sentence: "A trade whose first level overhead is nearer than its stop is offering less than ___."
+    options: ["1R", "2R", "its costs"]
+    answer: "1R"
+    explanation: "Less than you are putting up, and that is before the spread has taken its cut."
+
+  - type: order
+    prompt: "Put the pre-entry check in the order you actually do it."
+    items:
+      - "Find the level the idea is leaning on"
+      - "Put the stop just past it"
+      - "Measure the first level overhead"
+      - "Size the position from the distance"
+    explanation: "Stop first, room second, size last. Sizing before you know the distance is guessing with a calculator."
+
+  - type: checklist-reveal
+    title: "Before the entry goes out"
+    items:
+      - "Where is the stop, and what has to hold for it to survive?"
+      - "What is the first price overhead that has already turned this name back?"
+      - "Is the room at least as big as the risk?"

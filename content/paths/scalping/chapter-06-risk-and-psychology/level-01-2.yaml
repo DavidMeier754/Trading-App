@@ -1,0 +1,133 @@
+id: "1-2"
+title: "The Stop Is Not Optional"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [risk, stops, levels]
+learning_goal: "User reads the stop off the chart — just past the level the idea leans on — and lets the share count absorb the distance."
+purpose: "A stop placed where the chart says survives the normal noise of a fast minute; a stop placed where your wallet says does not."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "1-1"
+xp: 20
+difficulty: 1
+sources: ["Elder — Trading for a Living", "Volman — Understanding Price Action"]
+notes: "Account named at $20,000 with a $200 risk budget; worked positions are 1,200 shares at $16.46 and 1,200 at $13.96."
+screens:
+  - type: intro
+    text: "Your stop has an address on the chart. It is not a number you like the look of."
+
+  - type: theory
+    title: "The chart names the price"
+    body: "The stop belongs just past the price that proves the idea wrong: under the floor a long is leaning on, above the ceiling a short is leaning on. You read it off the chart before you touch the size."
+
+  - type: theory
+    title: "Not a round number of cents"
+    body: "A ten-cent stop is a preference, not a plan. If the floor that has to hold sits fourteen cents away, the stop sits fourteen cents away, and the share count is what bends to pay for it."
+
+  - type: example
+    body: "KELP has turned at $16.34 twice. A long at $16.46 puts the stop just under that floor at $16.32 — fourteen cents, decided before the order goes out."
+    visual: chart-candles
+    visual_data:
+      data: [[16.52, 16.56, 16.44, 16.46], [16.46, 16.50, 16.34, 16.38], [16.38, 16.48, 16.36, 16.46], [16.46, 16.52, 16.42, 16.44], [16.44, 16.46, 16.34, 16.40], [16.40, 16.50, 16.38, 16.48], [16.48, 16.58, 16.46, 16.56], [16.56, 16.62, 16.52, 16.60]]
+      levels: [{price: 16.34, label: "Floor"}, {price: 16.46, label: "Entry"}]
+
+  - type: chart-annotate
+    prompt: "KELP again. Drag the line to where a long taken at $16.46 puts its stop."
+    chart:
+      kind: candles
+      data: [[16.52, 16.56, 16.44, 16.46], [16.46, 16.50, 16.34, 16.38], [16.38, 16.48, 16.36, 16.46], [16.46, 16.52, 16.42, 16.44], [16.44, 16.46, 16.34, 16.40], [16.40, 16.50, 16.38, 16.48], [16.48, 16.58, 16.46, 16.56], [16.56, 16.62, 16.52, 16.60]]
+    answer: 16.32
+    tolerance: 0.04
+    label: "Stop"
+    explanation: "Just under the floor that has turned it twice. A stop inside that floor is not a stop, it is a wish."
+
+  - type: chart-tap
+    prompt: "Tap the candle that tested $16.34 for the second time."
+    chart:
+      kind: candles
+      data: [[16.52, 16.56, 16.44, 16.46], [16.46, 16.50, 16.34, 16.38], [16.38, 16.48, 16.36, 16.46], [16.46, 16.52, 16.42, 16.44], [16.44, 16.46, 16.34, 16.40], [16.40, 16.50, 16.38, 16.48], [16.48, 16.58, 16.46, 16.56], [16.56, 16.62, 16.52, 16.60]]
+    target: 4
+    explanation: "Two visits to the same floor are what make it worth leaning on, and the second one is what you place the stop under."
+
+  - type: mc
+    prompt: "Three traders take the same long. Which stop was placed for the right reason?"
+    options:
+      - {text: "Ten cents down, because that is the risk you like"}
+      - {text: "Twenty cents down, so a normal wiggle cannot reach it"}
+      - {text: "Twelve cents down, where the floor is", correct: true}
+    explanation: "Only one of those was read off the chart. The other two were read off the trader."
+
+  - type: tf
+    statement: "If the floor that has to hold sits further away than usual, the stop moves further away with it."
+    answer: true
+    explanation: "The stop follows the chart. The share count is what shrinks to keep the risk where you planned it."
+
+  - type: theory
+    title: "Then the size follows"
+    body: "Distance first, share count second: your risk budget divided by the stop distance, capped by what the account can actually pay for. Two ceilings, and the lower one wins."
+
+  - type: numeric-input
+    prompt: "KELP: long at $16.46, stop at $16.32. What is the stop distance, per share?"
+    answer: 0.14
+    tolerance: 0.001
+    unit: "$"
+    working: "$16.46 − $16.32 = $0.14"
+    explanation: "Fourteen cents is the whole distance between being in this trade and being out of it."
+
+  - type: numeric-mc
+    prompt: "Your account is $20,000 and you risk $200 a trade. At $16.46 with that fourteen-cent stop, how many shares?"
+    options:
+      - {text: "1,428"}
+      - {text: "1,200", correct: true}
+      - {text: "2,000"}
+      - {text: "800"}
+    working: "$200 ÷ $0.14 = 1,428 shares; $20,000 ÷ $16.46 = 1,215 shares"
+    explanation: "The budget allows 1,428 and the account can only pay for 1,215, so 1,200 it is."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The floor is fourteen cents under your entry,"}
+      - {text: "so you put the stop ten cents under instead", wrong: true}
+      - {text: "to keep the risk at a round number."}
+    explanation: "A stop inside the level gets hit by the move that was supposed to work. Cut the share count, never the distance."
+
+  - type: compare
+    prompt: "Two longs at $16.46. Which one has a floor close enough to lean on?"
+    charts:
+      - kind: candles
+        data: [[16.52, 16.56, 16.44, 16.46], [16.46, 16.50, 16.34, 16.38], [16.38, 16.48, 16.36, 16.46], [16.46, 16.52, 16.42, 16.44], [16.44, 16.46, 16.34, 16.40], [16.40, 16.50, 16.38, 16.48], [16.48, 16.52, 16.42, 16.44], [16.44, 16.50, 16.40, 16.46]]
+        levels: [{price: 16.34, label: "Floor"}]
+        label: "A"
+      - kind: candles
+        data: [[16.08, 16.14, 16.06, 16.12], [16.12, 16.20, 16.10, 16.18], [16.18, 16.28, 16.16, 16.26], [16.26, 16.34, 16.24, 16.32], [16.32, 16.40, 16.30, 16.38], [16.38, 16.46, 16.36, 16.44], [16.44, 16.50, 16.42, 16.48], [16.48, 16.52, 16.42, 16.46]]
+        levels: [{price: 16.10, label: "Floor"}]
+        label: "B"
+    answer: "A"
+    explanation: "A is fourteen cents from a floor that already turned it twice. B has not paused since $16.10, so its nearest honest stop is thirty-six cents away — the same idea at less than half the size."
+
+  - type: fill-choice
+    sentence: "When the level that has to hold is far away, the thing that shrinks is your ___."
+    options: ["share count", "stop distance", "target"]
+    answer: "share count"
+    explanation: "Distance is the chart's decision. Size is yours."
+
+  - type: chart-decision
+    scenario: "RILL has turned at $13.88 twice in the last four minutes and the minute that just closed finished back above it at $13.96. Your account is $20,000, you risk $200 a trade, and a stop under $13.86 is ten cents away."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.02, 14.06, 13.94, 13.96], [13.96, 13.98, 13.88, 13.90], [13.90, 13.98, 13.90, 13.94], [13.94, 13.96, 13.88, 13.90], [13.90, 13.96, 13.89, 13.94], [13.94, 13.98, 13.92, 13.96], [13.96, 14.06, 13.94, 14.04], [14.04, 14.12, 14.00, 14.10], [14.10, 14.18, 14.06, 14.14], [14.14, 14.18, 14.08, 14.12]]
+      volume: [88000, 96000, 74000, 92000, 80000, 112000, 128000, 116000, 104000, 92000]
+      levels:
+        - {price: 13.88, label: "Floor"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $14.18. Out at $14.14 — 18 cents a share, +$216 on 1,200 shares against $120 of risk."
+    explanation: "The floor named the stop, the stop named the risk, and ten cents of risk bought eighteen of move."
+
+  - type: example
+    body: "Fourteen cents on one name, ten on the other. Two different distances, one rule: the chart put the stop there and the share count did the bending."

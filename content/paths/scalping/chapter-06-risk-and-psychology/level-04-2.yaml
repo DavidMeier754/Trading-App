@@ -1,0 +1,144 @@
+id: "4-2"
+title: "Stops and R Practice"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: repetition
+tags: [drill, stops, risk, charts]
+learning_goal: "User decides, at speed, whether a chart offers a stop close enough to trade against, and sizes what it does offer."
+purpose: "Recognising an affordable stop in a second is the skill; the arithmetic behind it only helps once it is automatic."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "4-1"
+xp: 25
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Bellafiore — One Good Trade"]
+notes: "Drill sub-level for the chapter. Account named at $21,000 with 1R at $210; worked positions are 1,300 shares at $15.70, 1,250 at $16.40, 1,200 at $17.30 and 1,150 at $14.20."
+screens:
+  - type: intro
+    text: "Almost no words in this one. Your account is $21,000 and you risk $210 a trade."
+
+  - type: swipe-deck
+    prompt: "Six charts. Is there a level within about twenty cents of the last price to hide a stop behind? Take it or pass."
+    cards:
+      - chart:
+          kind: candles
+          data: [[13.60, 13.64, 13.50, 13.52], [13.52, 13.56, 13.42, 13.46], [13.46, 13.54, 13.44, 13.50], [13.50, 13.52, 13.42, 13.46], [13.46, 13.54, 13.44, 13.52], [13.52, 13.58, 13.50, 13.54], [13.54, 13.60, 13.52, 13.58], [13.58, 13.62, 13.54, 13.60]]
+        answer: take
+        note: "The floor at $13.42 has turned it twice and sits eighteen cents under. That is a stop you can put an order at."
+      - chart:
+          kind: candles
+          data: [[12.80, 12.90, 12.78, 12.88], [12.88, 13.02, 12.86, 13.00], [13.00, 13.14, 12.98, 13.12], [13.12, 13.26, 13.10, 13.24], [13.24, 13.36, 13.22, 13.34], [13.34, 13.44, 13.32, 13.42], [13.42, 13.52, 13.40, 13.50], [13.50, 13.58, 13.46, 13.54]]
+        answer: pass
+        note: "Not one pause since $12.80. The nearest honest stop is the best part of seventy cents down, and at that distance there is no position left to take."
+      - chart:
+          kind: candles
+          data: [[15.20, 15.24, 15.10, 15.12], [15.12, 15.18, 15.04, 15.06], [15.06, 15.14, 15.02, 15.10], [15.10, 15.12, 15.00, 15.02], [15.02, 15.08, 14.96, 14.98], [14.98, 15.02, 14.92, 14.94], [14.94, 14.98, 14.88, 14.90], [14.90, 14.94, 14.84, 14.86]]
+        answer: take
+        note: "Lower highs the whole way down, and the last of them at $15.02 gives a short somewhere to rest a stop."
+      - chart:
+          kind: candles
+          data: [[14.10, 14.18, 14.04, 14.14], [14.14, 14.20, 14.06, 14.08], [14.08, 14.18, 14.04, 14.16], [14.16, 14.20, 14.06, 14.10], [14.10, 14.16, 14.02, 14.14], [14.14, 14.18, 14.06, 14.08], [14.08, 14.16, 14.04, 14.14], [14.14, 14.18, 14.06, 14.10]]
+        answer: pass
+        note: "Eighteen cents of range crossed seven times. Every stop in there is inside the noise, so none of them is a stop."
+      - chart:
+          kind: candles
+          data: [[11.90, 11.98, 11.86, 11.94], [11.94, 12.06, 11.92, 12.04], [12.04, 12.10, 11.98, 12.00], [12.00, 12.08, 11.98, 12.06], [12.06, 12.12, 12.02, 12.08], [12.08, 12.10, 11.98, 12.02], [12.02, 12.10, 12.00, 12.08], [12.08, 12.14, 12.04, 12.10]]
+        answer: take
+        note: "The pullback has bottomed at $11.98 three times and price is twelve cents above it."
+      - chart:
+          kind: candles
+          data: [[13.30, 13.44, 13.28, 13.42], [13.42, 13.50, 13.40, 13.48], [13.48, 13.50, 13.44, 13.46], [13.46, 13.48, 13.44, 13.45], [13.45, 13.47, 13.43, 13.44], [13.44, 13.46, 13.43, 13.45], [13.45, 13.46, 13.43, 13.44], [13.44, 13.46, 13.42, 13.44]]
+        answer: pass
+        note: "Two cents of range for five minutes. There is a floor to lean on and nothing left to lean toward."
+    explanation: "Three of the six had a level within reach. The passes fail for different reasons — one ran without pausing, one never made a level at all, and one stopped moving."
+
+  - type: chart-decision
+    scenario: "CLEG has turned at $15.56 three times in the last six minutes and the minute that just closed finished at $15.70, above the highs behind it."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[15.62, 15.68, 15.56, 15.60], [15.60, 15.66, 15.56, 15.64], [15.64, 15.68, 15.58, 15.60], [15.60, 15.66, 15.58, 15.64], [15.64, 15.68, 15.60, 15.66], [15.66, 15.74, 15.64, 15.70], [15.70, 15.82, 15.68, 15.80], [15.80, 15.90, 15.76, 15.88], [15.88, 15.98, 15.84, 15.94], [15.94, 15.98, 15.88, 15.92]]
+      volume: [82000, 90000, 74000, 86000, 78000, 126000, 118000, 104000, 96000, 88000]
+      levels:
+        - {price: 15.56, label: "Floor"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $15.98 and the exit filled at $15.92 — 22 cents a share, +$286 on 1,300 shares against $208 of risk."
+    explanation: "Sixteen cents to a floor that has held three times, which is what makes 1,300 shares the right number rather than a guess."
+
+  - type: chart-annotate
+    prompt: "That CLEG long again, taken at $15.70. Drag the line to the stop."
+    chart:
+      kind: candles
+      data: [[15.62, 15.68, 15.56, 15.60], [15.60, 15.66, 15.56, 15.64], [15.64, 15.68, 15.58, 15.60], [15.60, 15.66, 15.58, 15.64], [15.64, 15.68, 15.60, 15.66], [15.66, 15.74, 15.64, 15.70], [15.70, 15.82, 15.68, 15.80], [15.80, 15.90, 15.76, 15.88], [15.88, 15.98, 15.84, 15.94]]
+    answer: 15.54
+    tolerance: 0.04
+    label: "Stop"
+    explanation: "Two cents under the floor. Sixteen cents from the entry, which is where the 1,300 came from."
+
+  - type: chart-decision
+    scenario: "LARK has gone from $15.86 to $16.40 without a single pullback, and the minute that just closed is the sixth green one in a row. Your account is $21,000."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[15.86, 15.98, 15.84, 15.96], [15.96, 16.08, 15.94, 16.06], [16.06, 16.18, 16.04, 16.16], [16.16, 16.26, 16.12, 16.24], [16.24, 16.34, 16.20, 16.32], [16.32, 16.44, 16.30, 16.40], [16.40, 16.44, 16.26, 16.28], [16.28, 16.32, 16.14, 16.18], [16.18, 16.24, 16.08, 16.12], [16.12, 16.18, 16.06, 16.14]]
+      volume: [138000, 126000, 112000, 98000, 92000, 104000, 118000, 96000, 84000, 78000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It turned over at $16.44 and gave back to $16.06 — a long at $16.40 was 34 cents a share down at the worst of it, $425 on 1,250 shares."
+    explanation: "The direction was right and there was nowhere to be wrong. Fifty-four cents without a pause leaves no level to lean on, and a stop you invent is not a stop."
+
+  - type: chart-decision
+    scenario: "ZINC has been capped at $17.46 four times since the bell and the minute that just closed finished at $17.30, on the lowest close of the morning."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[17.20, 17.44, 17.18, 17.40], [17.40, 17.46, 17.34, 17.38], [17.38, 17.46, 17.32, 17.36], [17.36, 17.44, 17.30, 17.34], [17.34, 17.40, 17.28, 17.32], [17.32, 17.36, 17.26, 17.30], [17.30, 17.32, 17.16, 17.18], [17.18, 17.22, 17.06, 17.08], [17.08, 17.14, 16.98, 17.02], [17.02, 17.08, 16.92, 16.96]]
+      volume: [142000, 108000, 96000, 88000, 92000, 128000, 120000, 110000, 98000, 86000]
+      levels:
+        - {price: 17.46, label: "Ceiling"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $16.92 and covered at $16.94 — 36 cents a share, +$432 on 1,200 shares against $192 of risk."
+    explanation: "A ceiling that has refused it four times is a place to put a stop above, and sixteen cents of risk is why the size stops at 1,200."
+
+  - type: numeric-input
+    prompt: "That ZINC short: 1,200 shares at $17.30 with the stop at $17.46. What is 1R?"
+    answer: 192
+    tolerance: 0.01
+    unit: "$"
+    working: "$17.46 − $17.30 = $0.16; $0.16 × 1,200 shares = $192"
+    explanation: "Under the $210 budget, because the share count was rounded down rather than the stop pulled in."
+
+  - type: compare
+    prompt: "Two shorts at $15.02. Which one has a ceiling close enough to hide a stop above?"
+    charts:
+      - kind: candles
+        data: [[15.44, 15.48, 15.34, 15.36], [15.36, 15.40, 15.26, 15.28], [15.28, 15.32, 15.18, 15.20], [15.20, 15.24, 15.10, 15.12], [15.12, 15.16, 15.04, 15.06], [15.06, 15.10, 14.98, 15.00], [15.00, 15.06, 14.96, 15.02], [15.02, 15.06, 14.98, 15.02]]
+        label: "A"
+      - kind: candles
+        data: [[15.20, 15.24, 15.10, 15.12], [15.12, 15.14, 15.02, 15.04], [15.04, 15.14, 15.00, 15.06], [15.06, 15.10, 14.98, 15.00], [15.00, 15.14, 14.98, 15.08], [15.08, 15.12, 15.00, 15.02], [15.02, 15.08, 14.98, 15.04], [15.04, 15.06, 14.98, 15.02]]
+        label: "B"
+    answer: "B"
+    explanation: "B has been capped at $15.14 three times, so the stop sits fourteen cents away. A has not paused since $15.48, and the same idea there is a third of the size."
+
+  - type: chart-decision
+    scenario: "DUNE failed twice at $14.36 and the minute that just closed finished under the $14.24 floor at $14.20, on the heaviest volume of the session."
+    shares: 1150
+    chart:
+      kind: candles
+      data: [[14.44, 14.48, 14.34, 14.38], [14.38, 14.42, 14.28, 14.30], [14.30, 14.36, 14.24, 14.34], [14.34, 14.36, 14.24, 14.26], [14.26, 14.30, 14.22, 14.28], [14.28, 14.30, 14.16, 14.20], [14.20, 14.22, 14.08, 14.10], [14.10, 14.14, 14.00, 14.02], [14.02, 14.06, 13.92, 13.96], [13.96, 14.02, 13.90, 13.94]]
+      volume: [88000, 96000, 82000, 90000, 86000, 134000, 124000, 112000, 100000, 92000]
+      levels:
+        - {price: 14.24, label: "Floor"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It ran down to $13.90 and the cover filled at $14.00 — 20 cents a share, +$230 on 1,150 shares against $207 of risk."
+    explanation: "A stop above the $14.36 ceiling it failed at twice is eighteen cents away, and eighteen cents is what caps this one at 1,150 shares."
+
+  - type: example
+    body: "Ten decisions, and not one of them turned on where price was going. Every one turned on whether there was somewhere to be wrong."

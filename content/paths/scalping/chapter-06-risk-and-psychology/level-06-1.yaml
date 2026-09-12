@@ -9,7 +9,7 @@ learning_goal: "User computes expectancy from win rate, average win and average 
 purpose: "A scalper takes hundreds of trades a month; whatever one average trade is worth gets multiplied by all of them."
 terms_introduced: ["Win rate", "Average win", "Average loss", "Expectancy", "Edge"]
 reinforces: [3]
-prerequisite: "2-1"
+prerequisite: "5-1"
 xp: 20
 difficulty: 2
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Aziz — How to Day Trade for a Living"]

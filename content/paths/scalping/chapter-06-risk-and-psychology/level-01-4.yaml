@@ -1,0 +1,131 @@
+id: "1-4"
+title: "The Stop Is Not Optional"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [risk, stops, entries, sizing]
+learning_goal: "User treats a worse entry as a longer stop, and pays for it out of the share count instead of out of the loss."
+purpose: "The entry is the one part of the trade you control to the cent, and every cent of hurry lands on the stop distance."
+terms_introduced: []
+reinforces: [3, 4]
+prerequisite: "1-3"
+xp: 20
+difficulty: 2
+sources: ["Volman — Understanding Price Action", "Bellafiore — One Good Trade"]
+notes: "Same $20,000 account and $200 budget as 1-2 and 1-3; worked positions are 1,200 shares at $16.46, 900 at $16.54 and 1,200 at $15.62."
+screens:
+  - type: intro
+    text: "The stop is nailed to the chart. Your entry is not — and every cent you pay comes out of the same fourteen."
+
+  - type: theory
+    title: "The stop does not move when you do"
+    body: "The floor is where it is. Buy four cents higher and you have not moved the stop; you have made the distance to it four cents longer, on exactly the same idea."
+
+  - type: example
+    body: "KELP: floor $16.34, stop $16.32. In at $16.46 the distance is fourteen cents. Miss it, buy at $16.54 instead, and the same trade now has twenty-two."
+
+  - type: numeric-mc
+    prompt: "Same $200 budget, same $20,000 account. How many shares does the twenty-two-cent version allow?"
+    options:
+      - {text: "1,428"}
+      - {text: "1,215"}
+      - {text: "909", correct: true}
+      - {text: "600"}
+    working: "$200 ÷ $0.22 = 909 shares, and $20,000 ÷ $16.54 = 1,209, so the budget is the binding ceiling"
+    explanation: "Eight cents of hurry cost you a quarter of the position."
+
+  - type: theory
+    title: "The entry is a price, not a moment"
+    body: "You get the price the plan named, or you let it go. A worse fill is not the same trade with a small blemish; it is a different trade with worse arithmetic behind it."
+
+  - type: order-build
+    prompt: "KELP is $16.46 on the ask. The plan is 1,200 shares and you will pay up to three cents for them. Build it."
+    ticker: KELP
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [900, 1200, 1800]
+      price: [16.43, 16.46, 16.49]
+    answer: {side: buy, type: limit, qty: 1200, price: 16.49}
+    explanation: "A limit three cents over the ask fills like a market order on a normal minute and refuses to hand you a twenty-cent stop on a bad one."
+
+  - type: mc
+    prompt: "You missed the entry by six cents and the idea still looks good. What is the honest move?"
+    options:
+      - {text: "Take it anyway and keep the stop where it was"}
+      - {text: "Take it at the share count the longer stop allows", correct: true}
+      - {text: "Take it and lift the stop six cents to keep the risk identical"}
+    explanation: "The third keeps the risk and gives up the level; the first keeps the level and quietly grows the loss. Only the share count bends without breaking something."
+
+  - type: tf
+    statement: "A worse entry on the same idea can be fixed by holding a wider stop."
+    answer: false
+    explanation: "Then it is not the same trade any more. Same idea, bigger risk — and the risk is the part you agreed to in advance."
+
+  - type: chart-annotate
+    prompt: "VANE has just closed a minute back above its average price. Drag the line to the stop for a long taken on that close."
+    chart:
+      kind: candles
+      data: [[15.44, 15.50, 15.40, 15.46], [15.46, 15.52, 15.42, 15.50], [15.50, 15.58, 15.48, 15.56], [15.56, 15.60, 15.50, 15.52], [15.52, 15.58, 15.48, 15.56], [15.56, 15.64, 15.54, 15.62], [15.62, 15.72, 15.60, 15.70], [15.70, 15.80, 15.66, 15.78], [15.78, 15.90, 15.74, 15.88]]
+      vwap: [15.56, 15.55, 15.55, 15.55, 15.55, 15.56, 15.58, 15.61, 15.65]
+    answer: 15.46
+    tolerance: 0.04
+    label: "Stop"
+    explanation: "Under the low the reclaim came off. Above it, an ordinary pullback takes you out of a trade that is still working."
+
+  - type: chart-decision
+    scenario: "VANE spent the morning under its average price and the minute that just closed finished back above it at $15.62, on the heaviest volume of the session. The last pullback low is $15.48. Your account is $20,000 and you risk $200 a trade."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.44, 15.50, 15.40, 15.46], [15.46, 15.52, 15.42, 15.50], [15.50, 15.58, 15.48, 15.56], [15.56, 15.60, 15.50, 15.52], [15.52, 15.58, 15.48, 15.56], [15.56, 15.64, 15.54, 15.62], [15.62, 15.72, 15.60, 15.70], [15.70, 15.80, 15.66, 15.78], [15.78, 15.90, 15.74, 15.88], [15.88, 15.94, 15.82, 15.86]]
+      volume: [96000, 84000, 92000, 78000, 88000, 136000, 124000, 118000, 132000, 104000]
+      vwap: [15.56, 15.55, 15.55, 15.55, 15.55, 15.56, 15.58, 15.61, 15.65, 15.69]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $15.94. Out at $15.88 — 26 cents a share, +$312 on 1,200 shares against $192 of risk."
+    explanation: "Sixteen cents to the floor the reclaim came off, and a share count chosen so those sixteen cents cost under two hundred dollars."
+
+  - type: sort
+    prompt: "Four ways to handle a fill you did not plan. Which keep the risk where you left it?"
+    buckets: ["Keeps the risk as planned", "Quietly grows the risk"]
+    items:
+      - {text: "Paying up four cents and cutting the share count to match", bucket: "Keeps the risk as planned"}
+      - {text: "Paying up four cents and buying the same number of shares", bucket: "Quietly grows the risk"}
+      - {text: "Waiting for the price the plan named and passing if it never comes", bucket: "Keeps the risk as planned"}
+      - {text: "Buying early, before the level has actually held", bucket: "Quietly grows the risk"}
+    explanation: "Two of them pay for the hurry out of the share count. The other two pay for it out of the loss."
+
+  - type: fill-choice
+    sentence: "Every cent you pay above the planned entry is a cent added to your ___."
+    options: ["stop distance", "target", "position value"]
+    answer: "stop distance"
+    explanation: "The stop stays where the chart put it, so the gap it has to cover gets longer."
+
+  - type: numeric-input
+    prompt: "Long 900 shares of KELP at $16.54 with the stop still at $16.32. What does the trade risk?"
+    answer: 198
+    tolerance: 0.01
+    unit: "$"
+    working: "$16.54 − $16.32 = $0.22; $0.22 × 900 shares = $198"
+    explanation: "Inside the $200 budget on a worse entry, because the share count did the work instead of the stop."
+
+  - type: slider
+    prompt: "Your planned stop was fourteen cents. You paid up until it was twenty-one. What share of the planned position can you still buy?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 65
+    tolerance: 10
+    explanation: "14 ÷ 21 is two thirds. Seven cents of hurry cost a third of the size."
+
+  - type: recap
+    title: "Level 1 in three lines"
+    points:
+      - {text: "The stop is chosen before the entry is sent, and it is an order, not an intention.", level: "1-1"}
+      - {text: "It sits just past the level the idea leans on, never at a round number of cents.", level: "1-2"}
+      - {text: "Widening it only raises the price of the same answer.", level: "1-3"}

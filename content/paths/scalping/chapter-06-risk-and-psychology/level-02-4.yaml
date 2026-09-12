@@ -1,0 +1,117 @@
+id: "2-4"
+title: "R — The Unit"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [risk, r-multiple, session, review]
+learning_goal: "User reads a whole session in R, converts between R and dollars in both directions, and knows which of their rules survive a change of account size."
+purpose: "Every rule in the rest of this chapter is written in R, because R is the only unit that still means the same thing next year."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "2-3"
+xp: 20
+difficulty: 2
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Steenbarger — Trading Psychology 2.0"]
+notes: "Account named at $24,000 with $180 a trade; the worked position is 1,100 shares at $17.20."
+screens:
+  - type: intro
+    text: "Two traders finish the week. One made $1,400, the other $600. One of them had the better week."
+
+  - type: story
+    character: retail-trader
+    text: "Same setups, same screens, same hours. The only thing they did differently was how much they put on each time."
+
+  - type: theory
+    title: "Dollars measure size, R measures decisions"
+    body: "A big number can come from a big bet and an ordinary week. Dividing by the risk strips the bet out and leaves the part you actually did."
+
+  - type: numeric-mc
+    prompt: "Trader A risks $500 a trade and made $1,400. Trader B risks $120 a trade and made $600. Who had the better week?"
+    options:
+      - {text: "A, at +2.8R"}
+      - {text: "B, at +5R", correct: true}
+      - {text: "A, because the account grew more"}
+      - {text: "Level — the methods are the same"}
+    working: "$1,400 ÷ $500 = 2.8R; $600 ÷ $120 = 5R"
+    explanation: "B made less money and more progress. Which one you would rather be depends on nothing but your account size."
+
+  - type: visual
+    component: r-tracker
+    data:
+      trades: [1, -1, -1, 2, 0.5, -1, 1.5]
+      limit: 3
+    caption: "Seven scalps, three of them losers, and the morning still finishes +2R."
+
+  - type: numeric-input
+    prompt: "1R is $180 for that trader. What is the +2R morning worth?"
+    answer: 360
+    tolerance: 0.01
+    unit: "$"
+    working: "2 × $180 = $360"
+    explanation: "Seven decisions, four of which paid, and the morning is worth two units of risk."
+
+  - type: tf
+    statement: "Two traders who both finish the month at +12R made the same amount of money."
+    answer: false
+    explanation: "The same decisions, priced differently. R measures what they did; the unit size decides what it pays."
+
+  - type: theory
+    title: "Why the rules are written in units"
+    body: "Your account changes and your share size changes with it. A rule written in dollars quietly stops meaning what it meant; one written in R never does."
+
+  - type: sort
+    prompt: "Your account doubles overnight. Which of these still say what they used to?"
+    buckets: ["Still true", "Has to be rewritten"]
+    items:
+      - {text: "A full stop costs one unit of risk", bucket: "Still true"}
+      - {text: "A bad morning is three units down", bucket: "Still true"}
+      - {text: "A bad morning is $540 down", bucket: "Has to be rewritten"}
+      - {text: "You buy 1,100 shares of a $17 stock", bucket: "Has to be rewritten"}
+    explanation: "The two written in units survive the account changing. The two written in dollars and shares have to be redone every time it does."
+
+  - type: chart-decision
+    scenario: "Up 2R for the morning. DRAY has turned at $17.06 twice and the minute that just closed finished at $17.20, above the small highs behind it. Your account is $24,000, 1R is $180, and a stop under $17.04 is sixteen cents away."
+    shares: 1100
+    state: ["Day: +2R"]
+    chart:
+      kind: candles
+      data: [[17.18, 17.22, 17.08, 17.12], [17.12, 17.16, 17.06, 17.10], [17.10, 17.18, 17.08, 17.16], [17.16, 17.18, 17.06, 17.10], [17.10, 17.16, 17.08, 17.14], [17.14, 17.22, 17.12, 17.20], [17.20, 17.32, 17.18, 17.30], [17.30, 17.42, 17.26, 17.40], [17.40, 17.54, 17.36, 17.50], [17.50, 17.58, 17.46, 17.52]]
+      volume: [84000, 92000, 76000, 88000, 80000, 124000, 118000, 132000, 112000, 96000]
+      levels:
+        - {price: 17.06, label: "Floor"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $17.58. Out at $17.52 — 32 cents a share, +$352 on 1,100 shares, two more units on top of the two you had."
+    explanation: "A good morning does not make the next trade bigger, and it does not make it worse either. This one is a full unit, taken because the chart earned it."
+
+  - type: numeric-mc
+    prompt: "A trader finishes the week at −4R, with 1R at $150. What did the week cost?"
+    options:
+      - {text: "−$450"}
+      - {text: "+$600"}
+      - {text: "−$600", correct: true}
+      - {text: "−$4"}
+    working: "4 × $150 = $600"
+    explanation: "Four units. The only thing that decided what they cost was the size chosen before the week began."
+
+  - type: fill-tiles
+    sentence: "A rule written in R survives a change of account size; one written in dollars needs a ___."
+    answer: "rewrite"
+    explanation: "Which is why every limit in this chapter is a number of units, not an amount of money."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "I finished the month up $2,000,"}
+      - {text: "so the method is working", wrong: true}
+      - {text: "and I can size up from here."}
+    explanation: "Two thousand dollars is a size reading. Up how many units, over how many trades, is the part that says anything about the method."
+
+  - type: recap
+    title: "Level 2 in three lines"
+    points:
+      - {text: "1R is the stop distance times the share count, and every trade is a bet of exactly one.", level: "2-1"}
+      - {text: "The same unit works on a short, with the stop sitting above the entry.", level: "2-2"}
+      - {text: "The room to the first level overhead is what the trade is offering for it.", level: "2-3"}
