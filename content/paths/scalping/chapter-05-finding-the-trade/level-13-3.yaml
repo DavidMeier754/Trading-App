@@ -1,0 +1,115 @@
+id: "13-3"
+title: "Trend Day or Range Day"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [day-type, management, market-context]
+learning_goal: "User names what each kind of day offers and what it refuses, and changes how a trade is held rather than which setups are taken."
+purpose: "Most of the money a day type saves you is made after the entry, in what you do with a winner and how long you give it."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "13-2"
+xp: 25
+difficulty: 3
+sources: ["Raschke & Connors — Street Smarts", "Bellafiore — One Good Trade"]
+notes: "Both worked positions are 1,500 shares against a $23,000 account, at $15.08 and $15.12. Chapter 2's range edges and Chapter 4's slower chart, used for management rather than entry."
+screens:
+  - type: intro
+    text: "Your account is $23,000 and 1,500 shares is the size you trade. Same setups today — different rules for what happens after the fill."
+
+  - type: theory
+    title: "Each day offers one thing and refuses another"
+    body: "A session that keeps going pays for patience and refuses you a cheap entry. A session that keeps returning pays at its edges and refuses everything taken in the middle."
+
+  - type: carousel
+    cards:
+      - {label: "A trend day offers", text: "Shallow pauses, targets further out than usual, and fewer trades worth taking. What it refuses is a good price.", icon: bull}
+      - {label: "A range day offers", text: "Two prices that keep working and a target you can measure beforehand. What it refuses is breakouts, over and over.", icon: bear}
+      - {label: "Both refuse the middle", text: "Halfway between the day's two prices there is no line to be wrong against, so there is nothing to size a trade from.", icon: quote-panel}
+
+  - type: sort
+    prompt: "Which of these belongs to a session that keeps going, and which to one that keeps returning?"
+    buckets: ["Keeps going", "Keeps returning"]
+    items:
+      - {text: "Holding a winner past the first target", bucket: "Keeps going"}
+      - {text: "Joining on a shallow pause", bucket: "Keeps going"}
+      - {text: "Taking the profit at the far edge and not past it", bucket: "Keeps returning"}
+      - {text: "Selling into the third push at one price", bucket: "Keeps returning"}
+    explanation: "Same trader and the same setups. What changes is the set of rules for what to do once you are in."
+
+  - type: chart-decision
+    scenario: "PELT has turned away from $15.20 twice this hour, and $14.84 has held every dip this morning. The minute that just closed reached $15.19 and finished eleven cents lower. Your account is $23,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[14.90, 14.98, 14.84, 14.94], [14.94, 15.20, 14.90, 15.02], [15.02, 15.20, 14.98, 15.12], [15.12, 15.16, 15.00, 15.04], [15.04, 15.12, 14.98, 15.08], [15.08, 15.19, 15.04, 15.08], [15.08, 15.10, 14.98, 15.00], [15.00, 15.04, 14.92, 14.94], [14.94, 14.98, 14.86, 14.88], [14.88, 14.92, 14.82, 14.84], [14.84, 14.94, 14.82, 14.90]]
+      volume: [92000, 104000, 128000, 96000, 88000, 116000, 108000, 98000, 90000, 112000, 94000]
+      levels:
+        - {price: 15.20, label: "Ceiling"}
+        - {price: 14.84, label: "Floor"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked back down to $14.84 — $0.24 a share below the decision, +$360 short on 1,500 shares, and stopped where it stopped this morning."
+    explanation: "A third refusal at one price, on a session that has not left this range all day. The far edge is the target, and the day is what says so."
+
+  - type: mc
+    prompt: "You are long on a session that keeps going, and price reaches the target on your card. What does the day type suggest?"
+    options:
+      - {text: "Close it: the card is the card, on any day"}
+      - {text: "Take part of it off and let the rest run to the next level", correct: true}
+      - {text: "Double the position, since the session is only going one way today"}
+    explanation: "A session that travels tends to go past the obvious price. Taking some off keeps the trade a winner while the rest finds out."
+
+  - type: numeric-mc
+    prompt: "PELT's range runs from $14.84 to $15.20 and you trade 1,500 shares. What is one full crossing of it worth?"
+    options:
+      - {text: "$540", correct: true}
+      - {text: "$360"}
+      - {text: "$54"}
+      - {text: "$5,400"}
+    working: "$15.20 − $14.84 = $0.36 a share × 1,500 shares = $540"
+    explanation: "Five hundred and forty for the whole width, and nobody gets the whole width. Half of it, twice, is the honest version."
+
+  - type: slider
+    prompt: "On a session that keeps returning, how much of the range does a realistic scalp actually take out of it?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 50
+    tolerance: 20
+    explanation: "About half is a fair expectation. You are never in at the floor or out at the ceiling, and the quote takes a slice of what is left between them."
+
+  - type: chart-decision
+    scenario: "SWIFT left its opening range behind early and every give-back since has stopped higher than the last. The minute that just closed ended a three-minute pause of nine cents, the lightest stretch of the session. Your account is $23,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[14.80, 14.94, 14.76, 14.90], [14.90, 15.06, 14.86, 15.02], [15.02, 15.18, 14.98, 15.14], [15.14, 15.16, 15.09, 15.10], [15.10, 15.13, 15.09, 15.11], [15.11, 15.16, 15.09, 15.12], [15.12, 15.26, 15.10, 15.22], [15.22, 15.36, 15.18, 15.32], [15.32, 15.44, 15.28, 15.40], [15.40, 15.50, 15.36, 15.45], [15.45, 15.48, 15.38, 15.42]]
+      volume: [110000, 122000, 134000, 68000, 58000, 86000, 126000, 118000, 108000, 96000, 88000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $15.45 — $0.33 a share above the decision, +$495 long on 1,500 shares."
+    explanation: "A shallow pause on the lightest minutes of a session that has not come back once. This is the entry a travelling day hands out, and it is the only cheap one it offers."
+
+  - type: match
+    prompt: "Four things a session can do to a trade. What does each one belong to?"
+    pairs:
+      - ["Targets getting reached and passed", "A session that keeps going"]
+      - ["The third break of one price failing", "A session that keeps returning"]
+      - ["Pauses of three minutes and nine cents", "The only cheap entry a trending session gives"]
+      - ["The middle paying nothing either way", "True on both kinds of day"]
+    explanation: "Three of them tell you which day you are in. The fourth is true whatever the label turns out to be."
+
+  - type: example
+    body: "Same trader, same setup, two mornings. On the first, the target was passed by twenty cents and the rest of the position paid for the week. On the second, the same trade handed everything back."
+
+  - type: checklist-reveal
+    title: "Once the label is written"
+    items:
+      - "Keeps going: fewer trades, and let a winner breathe."
+      - "Keeps returning: trade the edges, and take the far one."
+      - "Either way, the middle is not a trade."

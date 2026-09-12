@@ -1,0 +1,129 @@
+id: "13-2"
+title: "Trend Day or Range Day"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [day-type, opening-range, market-context]
+learning_goal: "User reads the day type from the opening range and the give-backs that follow it, and waits for the label instead of guessing it at the bell."
+purpose: "The label is worth most in the first hour and costs most when it is written early and defended all day."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "13-1"
+xp: 25
+difficulty: 3
+sources: ["Raschke & Connors — Street Smarts", "Volman — Understanding Price Action"]
+notes: "Chapter 2's opening range and wick-versus-close, used as the evidence for a day type. Account named at $25,000; the worked position is 1,600 shares at $13.88 = $22,208."
+screens:
+  - type: intro
+    text: "Your account is $25,000 and 1,600 shares is the size you trade. The first half hour is where the label gets written."
+
+  - type: theory
+    title: "The first half hour writes the label"
+    body: "The opening range — the high and low of {{market.first_minutes}} — is the first thing a session hands you. What happens to those two prices next is what tells you which kind of day this is."
+
+  - type: checklist-reveal
+    title: "Three readings, in the first half hour"
+    items:
+      - "Where are the opening range's high and low?"
+      - "Has either of them been left behind and not come back?"
+      - "Are the give-backs since then getting shallower or deeper?"
+      - "Is volume still arriving, or did it stop after the first minutes?"
+
+  - type: chart-annotate
+    prompt: "The opening minutes of the session. Drag the line to the high of the opening range."
+    chart:
+      kind: candles
+      data: [[15.00, 15.14, 14.96, 15.10], [15.10, 15.18, 15.04, 15.12], [15.12, 15.24, 15.08, 15.16], [15.16, 15.20, 15.06, 15.10], [15.10, 15.16, 15.02, 15.14], [15.14, 15.20, 15.08, 15.12], [15.12, 15.18, 15.06, 15.16], [15.16, 15.22, 15.10, 15.18], [15.18, 15.22, 15.12, 15.20]]
+      volume: [320000, 260000, 240000, 180000, 160000, 150000, 170000, 190000, 200000]
+    answer: 15.24
+    tolerance: 0.04
+    label: "Opening-range high"
+    explanation: "$15.24. Everything the session does from here gets measured against it and against the low underneath it."
+
+  - type: mc
+    prompt: "Forty minutes in, the opening-range high was left behind early and every give-back since has stopped higher than the last. What have you got?"
+    options:
+      - {text: "A range day whose ceiling has not been found yet"}
+      - {text: "Not enough to say yet, because a session this young can still turn"}
+      - {text: "A trend day, and the give-backs are where it lets you in", correct: true}
+    explanation: "Out of the range, never back inside, and the pauses getting shallower. Three readings that agree are what a label is made of."
+
+  - type: chart-decision
+    scenario: "BROOK has crossed the same two prices three times since the bell. The minute that just closed pushed two cents through the ceiling at $13.90 and finished back under it. Your account is $25,000 and 1,600 shares is the size you trade."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[13.64, 13.70, 13.62, 13.66], [13.66, 13.88, 13.62, 13.84], [13.84, 13.90, 13.70, 13.74], [13.74, 13.80, 13.62, 13.66], [13.66, 13.84, 13.64, 13.80], [13.80, 13.92, 13.76, 13.88], [13.88, 13.90, 13.74, 13.78], [13.78, 13.84, 13.68, 13.72], [13.72, 13.78, 13.64, 13.68], [13.68, 13.80, 13.66, 13.76], [13.76, 13.86, 13.70, 13.80]]
+      volume: [98000, 126000, 104000, 92000, 110000, 118000, 100000, 94000, 88000, 96000, 102000]
+      levels:
+        - {price: 13.90, label: "Ceiling"}
+        - {price: 13.62, label: "Floor"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It fell back to $13.68 — $0.20 a share under the decision, and then crossed the middle of the range again."
+    explanation: "The third push at this ceiling finished back inside it, exactly as the two before it did. A break is a break once a minute closes outside, and this one did not."
+
+  - type: tf
+    statement: "The same 1-minute breakout candle is worth different amounts on two different days."
+    answer: true
+    explanation: "On a session that travels, the break keeps going. On one that keeps coming back, the same candle is the best price a seller gets all hour."
+
+  - type: swipe-deck
+    prompt: "Five sessions, half an hour old, on the slower chart. Take the ones reading as a day that travels, pass the rest."
+    cards:
+      - chart:
+          kind: candles
+          data: [[12.20, 12.34, 12.16, 12.30], [12.30, 12.44, 12.26, 12.40], [12.40, 12.48, 12.34, 12.38], [12.38, 12.58, 12.34, 12.54], [12.54, 12.66, 12.48, 12.62], [12.62, 12.70, 12.56, 12.60], [12.60, 12.82, 12.56, 12.78], [12.78, 12.94, 12.72, 12.90]]
+        answer: take
+        note: "Every pause stops above the one before it and nothing has come back. That is a session travelling."
+      - chart:
+          kind: candles
+          data: [[13.40, 13.56, 13.36, 13.52], [13.52, 13.58, 13.34, 13.38], [13.38, 13.46, 13.28, 13.32], [13.32, 13.52, 13.30, 13.48], [13.48, 13.56, 13.38, 13.42], [13.42, 13.48, 13.28, 13.34], [13.34, 13.50, 13.32, 13.46], [13.46, 13.54, 13.36, 13.40]]
+        answer: pass
+        note: "Two prices, four crossings, half an hour gone. Nothing has been left behind."
+      - chart:
+          kind: candles
+          data: [[15.60, 15.64, 15.42, 15.46], [15.46, 15.50, 15.28, 15.32], [15.32, 15.40, 15.26, 15.36], [15.36, 15.40, 15.14, 15.18], [15.18, 15.24, 15.04, 15.08], [15.08, 15.16, 15.02, 15.12], [15.12, 15.16, 14.92, 14.96], [14.96, 15.02, 14.80, 14.84]]
+        answer: take
+        note: "Travelling is not the same as rising. Every bounce here stalls lower than the one before it."
+      - chart:
+          kind: candles
+          data: [[11.20, 11.60, 11.16, 11.54], [11.54, 11.60, 11.44, 11.48], [11.48, 11.54, 11.42, 11.50], [11.50, 11.56, 11.44, 11.48], [11.48, 11.54, 11.42, 11.50], [11.50, 11.56, 11.44, 11.46], [11.46, 11.52, 11.40, 11.48], [11.48, 11.54, 11.42, 11.50]]
+        answer: pass
+        note: "One push at the bell and nothing since. The day spent its move before you sat down."
+      - chart:
+          kind: candles
+          data: [[13.00, 13.12, 12.96, 13.08], [13.08, 13.22, 13.04, 13.18], [13.18, 13.24, 13.12, 13.16], [13.16, 13.34, 13.12, 13.30], [13.30, 13.42, 13.24, 13.38], [13.38, 13.44, 13.32, 13.36], [13.36, 13.52, 13.32, 13.48], [13.48, 13.60, 13.42, 13.56]]
+        answer: take
+        note: "Shallow pauses and new highs still arriving. The label was readable twenty minutes ago."
+    explanation: "Three travel and two do not. The fourth card is the trap: a big first candle and then a session with nothing left in it."
+
+  - type: numeric-input
+    prompt: "The opening range ran from $15.02 to $15.24. A move the width of it, on 1,600 shares, is worth how much?"
+    answer: 352
+    tolerance: 1
+    unit: "$"
+    working: "$15.24 − $15.02 = $0.22 a share × 1,600 shares = $352"
+    explanation: "Three hundred and fifty-two dollars if the day hands you the range once. A session that keeps coming back offers it and takes it away again."
+
+  - type: order
+    prompt: "Put the first half hour in the order you read it."
+    items:
+      - "Mark the opening range's high and low"
+      - "Watch whether either is left behind"
+      - "Check whether the give-backs are getting shallower"
+      - "Write the label for the day"
+    explanation: "The label is the last step. A day type guessed before the range is drawn is a guess you then spend the session defending."
+
+  - type: example
+    body: "Two sessions left their opening range in the same minute. One never traded back inside it; the other was in the middle of it again six minutes later. Only the first was worth a second trade."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The opening range broke on heavy volume,"}
+      - {text: "so the day type was settled at that minute,", wrong: true}
+      - {text: "and the next half hour was worth watching closely."}
+    explanation: "A break is one reading. The label needs the give-backs that come after it, and plenty of breaks are back inside within ten minutes."

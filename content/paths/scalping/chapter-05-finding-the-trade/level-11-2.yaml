@@ -1,0 +1,112 @@
+id: "11-2"
+title: "The Market Behind the Stock"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [market-context, sector, selection]
+learning_goal: "User spots a shortlist that is secretly one bet, and prices the second name of a sector against the account before the chart gets a vote."
+purpose: "The most common way a careful beginner ends up oversized is by taking three names they picked separately and never noticing they were the same trade."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "11-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Chapter 1's imbalance rule re-tested at index scale, then used to price concentration. Account named at $24,000; the worked position is 1,600 shares at $11.92 = $19,072."
+screens:
+  - type: intro
+    text: "Your account is $24,000 and 1,600 shares is the size you trade. Three names cleared the row this morning, and two of them are the same trade."
+
+  - type: theory
+    title: "One imbalance, in many places at once"
+    body: "An index has no buyers or sellers of its own. It slides because sellers got the better of buyers in most of the names inside it — Chapter 1's one rule, running in hundreds of places at once."
+
+  - type: mc
+    prompt: "What is actually happening while the index slides through a morning?"
+    options:
+      - {text: "The index itself is being sold, and every name inside it follows it down"}
+      - {text: "Money is moving out of shares and into the index"}
+      - {text: "Sellers are beating buyers in most of the names inside it", correct: true}
+    explanation: "The number is built out of the names, not the other way round. There is nothing to sell called an index."
+
+  - type: example
+    body: "You are long one bank on the morning's rate decision. The second bank on the list looks identical to it, because it is: same news, same street, and the same minute if the news turns."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "Banks", value: 4}
+        - {label: "Everything else", value: 1}
+    caption: "Five names on the shortlist, and one reason underneath four of them."
+
+  - type: scanner-pick
+    prompt: "Four names cleared the row. Three of them are the same bet — which one is not?"
+    data:
+      rows:
+        - {ticker: BRAY, price: 12.40, change_pct: 6.8, rvol: 5.4, float: "140M", spread: 0.02, catalyst: "Rate decision"}
+        - {ticker: KEEL, price: 11.90, change_pct: 7.2, rvol: 6.1, float: "96M", spread: 0.02, catalyst: "Rate decision"}
+        - {ticker: MYRA, price: 13.20, change_pct: 9.4, rvol: 8.0, float: "58M", spread: 0.02, catalyst: "Results"}
+        - {ticker: TOLL, price: 12.80, change_pct: 6.4, rvol: 5.2, float: "110M", spread: 0.03, catalyst: "Rate decision"}
+    target: MYRA
+    explanation: "Three banks on one decision are one position split three ways. MYRA is up on results of its own, and its morning is the only one that can go differently."
+
+  - type: tf
+    statement: "Two names on the same street, up on the same piece of news, can fail in the same minute."
+    answer: true
+    explanation: "They are one bet wearing two tickers. Whatever ends the reason ends both of them, and it ends them together."
+
+  - type: match
+    prompt: "Four readings you take before a ticket. Which question does each one answer?"
+    pairs:
+      - ["The index", "Is the whole room leaning, and which way"]
+      - ["The sector", "Did this push arrive for my name or for all of them"]
+      - ["The row", "Can I hold this name at my size"]
+      - ["The chart", "Is this minute worth a ticket"]
+    explanation: "Four readings and four different questions. Answering the last one first is how a morning gets expensive."
+
+  - type: chart-decision
+    scenario: "You are already long 1,600 shares of BRAY, a bank, on this morning's rate decision. KEEL is a bank too, and its minute just closed two cents above the round number at $11.90. Your account is $24,000 and 1,600 shares is the size you trade."
+    shares: 1600
+    state: ["Long 1,600 BRAY", "Size: 1,600 shares"]
+    chart:
+      kind: candles
+      data: [[11.60, 11.70, 11.54, 11.66], [11.66, 11.74, 11.60, 11.70], [11.70, 11.78, 11.64, 11.68], [11.68, 11.80, 11.62, 11.76], [11.76, 11.86, 11.70, 11.80], [11.80, 11.96, 11.76, 11.92], [11.92, 12.02, 11.86, 11.98], [11.98, 12.08, 11.92, 12.04], [12.04, 12.14, 11.98, 12.09], [12.09, 12.12, 12.00, 12.05]]
+      volume: [76000, 84000, 70000, 80000, 74000, 112000, 100000, 90000, 82000, 76000]
+      levels:
+        - {price: 11.90, label: "Round number"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It carried on to $12.09 — $0.17 a share past the decision, which is +$272 on 1,600 shares the account could not have paid for."
+    explanation: "The chart earned a ticket and the morning could not fund one. Two positions on one decision is the same trade at twice the size, and the money is already in the first."
+
+  - type: numeric-input
+    prompt: "1,600 shares of BRAY at $12.40, and 1,600 of KEEL at $11.92. What would both stand at together?"
+    answer: 38912
+    tolerance: 1
+    unit: "$"
+    working: "1,600 × $12.40 = $19,840; 1,600 × $11.92 = $19,072; together $38,912"
+    explanation: "Thirty-eight thousand nine hundred against a $24,000 account, so the second bank was never on offer at that size."
+
+  - type: fill-choice
+    sentence: "Four names on one street is not four positions. It is one position at four times the ___."
+    options: ["size", "spread", "price"]
+    answer: "size"
+    explanation: "One reason carried four times over. If the reason goes, all four go, and the loss turns up as a single number."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The index has slid since the bell,"}
+      - {text: "so this is a short-only morning", wrong: true}
+      - {text: "and the names on the list still have to earn a ticket one at a time."}
+    explanation: "A red room makes the short side easier, not the only side. The list gets shorter; it does not get rewritten."
+
+  - type: checklist-reveal
+    title: "Before the second name goes on"
+    items:
+      - "Is this a new reason, or the one I already own?"
+      - "Can the account hold both at my size?"
+      - "If the reason goes, how many of my names go with it?"

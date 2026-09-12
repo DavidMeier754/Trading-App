@@ -1,0 +1,136 @@
+id: "11-3"
+title: "The Market Behind the Stock"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [market-context, index, selection]
+learning_goal: "User finds the name that refuses to fall with the room, says what that refusal is evidence of, and trades it without treating it as a guarantee."
+purpose: "The best long on a red morning is rarely the one with the best row — it is the one the room could not push over."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "11-2"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Raschke & Connors — Street Smarts"]
+notes: "Closes Level 11. Chapter 1's buyers-and-sellers reading applied to a name against its room. Account named at $17,000; the worked position is 1,200 shares at $14.02 = $16,824."
+screens:
+  - type: intro
+    text: "A red morning. Your account is $17,000 and 1,200 shares is the size you trade. One name on the list is not going down."
+
+  - type: theory
+    title: "The name that refuses"
+    body: "Some mornings the whole room leans down and one name will not go with it. It hands back less on every dip and comes back sooner. That refusal is a reading of its own."
+    visual: chart-line
+    visual_data:
+      series:
+        - {label: "The index", data: [100.0, 99.8, 99.5, 99.6, 99.2, 99.0, 98.8, 98.5, 98.6, 98.3]}
+        - {label: "HALE", data: [100.0, 100.2, 100.1, 100.5, 100.4, 100.8, 100.7, 101.0, 101.2, 101.5]}
+
+  - type: example
+    body: "Two miners on the same red morning. One handed back eighteen cents on every slide in the index; the other handed back four. An hour later the first was at the low of its day and the second at the high of its."
+
+  - type: compare
+    prompt: "The index fell through both of these mornings. Which name refused to go with it?"
+    charts:
+      - kind: candles
+        data: [[15.40, 15.48, 15.24, 15.28], [15.28, 15.34, 15.12, 15.16], [15.16, 15.24, 15.02, 15.06], [15.06, 15.14, 14.94, 14.98], [14.98, 15.04, 14.86, 14.90], [14.90, 14.96, 14.78, 14.82], [14.82, 14.90, 14.70, 14.74], [14.74, 14.80, 14.62, 14.66]]
+        label: "A"
+      - kind: candles
+        data: [[12.40, 12.50, 12.34, 12.44], [12.44, 12.52, 12.36, 12.48], [12.48, 12.56, 12.42, 12.50], [12.50, 12.60, 12.44, 12.56], [12.56, 12.64, 12.50, 12.60], [12.60, 12.68, 12.54, 12.64], [12.64, 12.72, 12.58, 12.68], [12.68, 12.78, 12.62, 12.74]]
+        label: "B"
+    answer: "B"
+    explanation: "A is the room's own shape with a ticker on it. B made higher lows through the same stretch, which means somebody kept buying what the room kept offering."
+
+  - type: mc
+    prompt: "The index has slid all morning and your name is sitting at the high of its day. What does that buy you?"
+    options:
+      - {text: "A promise it will not fall when the index does"}
+      - {text: "The first name to move if the room turns", correct: true}
+      - {text: "A reason to take it at double the usual size"}
+    explanation: "Holders who would not sell into a falling room are the least likely to sell into a rising one. It is a place in the queue, not a guarantee."
+
+  - type: chart-annotate
+    prompt: "HALE this morning. Drag the line to the price it has refused to go under twice."
+    chart:
+      kind: candles
+      data: [[13.90, 13.96, 13.78, 13.82], [13.82, 13.88, 13.62, 13.70], [13.70, 13.80, 13.66, 13.76], [13.76, 13.84, 13.68, 13.72], [13.72, 13.78, 13.62, 13.74], [13.74, 13.86, 13.70, 13.82], [13.82, 13.90, 13.76, 13.86], [13.86, 13.94, 13.80, 13.88], [13.88, 13.98, 13.82, 13.94]]
+      volume: [108000, 132000, 96000, 88000, 104000, 92000, 86000, 90000, 94000]
+    answer: 13.62
+    tolerance: 0.04
+    label: "Support"
+    explanation: "$13.62, turned away twice while the room outside was printing new lows. That price is what the whole read hangs on."
+
+  - type: chart-decision
+    scenario: "The index has made new lows all morning. HALE has held $13.62 twice, and the minute that just closed finished at the top of its own range. Your account is $17,000 and 1,200 shares is the size you trade."
+    shares: 1200
+    state: ["Index: new lows", "Size: 1,200 shares"]
+    chart:
+      kind: candles
+      data: [[13.76, 13.84, 13.70, 13.80], [13.80, 13.88, 13.74, 13.84], [13.84, 13.90, 13.76, 13.82], [13.82, 13.94, 13.78, 13.90], [13.90, 13.98, 13.84, 13.94], [13.94, 14.06, 13.90, 14.02], [14.02, 14.12, 13.98, 14.08], [14.08, 14.18, 14.04, 14.14], [14.14, 14.24, 14.08, 14.20], [14.20, 14.26, 14.14, 14.23], [14.23, 14.26, 14.16, 14.20]]
+      volume: [82000, 90000, 78000, 86000, 80000, 124000, 110000, 98000, 90000, 84000, 78000]
+      levels:
+        - {price: 13.62, label: "Support"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $14.23 — $0.21 a share above the decision, +$252 long on 1,200 shares."
+    explanation: "A name that would not go down while everything around it did, and then a minute finishing at the top of its own morning. The room is still leaning the other way, so the stop stays where the chart put it."
+
+  - type: journal-row
+    prompt: "Fill the morning's note for the trade you just closed."
+    trade: {ticker: HALE, entry: 14.04, exit: 14.23, shares: 1200}
+    slots: [market, name, gross]
+    chips:
+      market: ["Rising", "Flat", "Falling"]
+      name: ["With the market", "Against the market", "Not moving"]
+      gross: ["$168", "$228", "$304"]
+    answer: {market: "Falling", name: "Against the market", gross: "$228"}
+    explanation: "Nineteen cents on 1,200 shares is $228 before costs, and the two words beside it are the reason the trade existed at all."
+
+  - type: tf
+    statement: "A name that will not fall while the index does is telling you something about who owns it."
+    answer: true
+    explanation: "Someone is absorbing every share the falling room puts on offer. That buyer is why the chart looks the way it does."
+
+  - type: swipe-deck
+    prompt: "Four names, one red morning. Take it if it is refusing the room, pass if it is going with it."
+    cards:
+      - chart:
+          kind: candles
+          data: [[12.40, 12.50, 12.34, 12.46], [12.46, 12.56, 12.40, 12.52], [12.52, 12.60, 12.46, 12.50], [12.50, 12.62, 12.44, 12.58], [12.58, 12.68, 12.52, 12.64], [12.64, 12.74, 12.58, 12.70], [12.70, 12.80, 12.64, 12.76], [12.76, 12.86, 12.70, 12.82]]
+        answer: take
+        note: "Higher lows through a stretch of new lows outside. Someone is taking every share the room offers."
+      - chart:
+          kind: candles
+          data: [[13.20, 13.26, 13.04, 13.08], [13.08, 13.14, 12.88, 12.92], [12.92, 12.98, 12.74, 12.78], [12.78, 12.86, 12.68, 12.82], [12.82, 12.90, 12.76, 12.86], [12.86, 12.92, 12.78, 12.88], [12.88, 12.94, 12.82, 12.90], [12.90, 12.96, 12.84, 12.92]]
+        answer: pass
+        note: "It stopped falling, which is not the same as refusing. Thirty cents of the morning's damage is still in the chart."
+      - chart:
+          kind: candles
+          data: [[11.80, 11.92, 11.74, 11.88], [11.88, 12.04, 11.84, 12.00], [12.00, 12.08, 11.94, 12.02], [12.02, 12.08, 11.96, 12.04], [12.04, 12.10, 11.98, 12.06], [12.06, 12.12, 12.00, 12.08], [12.08, 12.14, 12.02, 12.10], [12.10, 12.16, 12.04, 12.12]]
+        answer: take
+        note: "Pushed early and then sat at the top of its range while the room slid. Refusing counts even when nothing is moving."
+      - chart:
+          kind: candles
+          data: [[14.10, 14.16, 13.96, 14.00], [14.00, 14.06, 13.88, 13.92], [13.92, 13.98, 13.78, 13.82], [13.82, 13.88, 13.70, 13.74], [13.74, 13.80, 13.62, 13.66], [13.66, 13.72, 13.54, 13.58], [13.58, 13.64, 13.46, 13.50], [13.50, 13.56, 13.40, 13.44]]
+        answer: pass
+        note: "Sixty-six cents down in eight minutes, in step with everything else. It may be a short; it is not a refusal."
+    explanation: "Two takes and two passes. The hard one is the second card, where stopping the bleeding gets mistaken for strength."
+
+  - type: numeric-mc
+    prompt: "The index has given back 1.2 % since the bell. HALE is up 0.4 % over the same stretch. How far apart are the two readings?"
+    options:
+      - {text: "0.8 points"}
+      - {text: "1.2 points"}
+      - {text: "0.4 points"}
+      - {text: "1.6 points", correct: true}
+    working: "+0.4 % − (−1.2 %) = 1.6 percentage points"
+    explanation: "One and a half points of distance opened between a name and its room in a single morning, and that gap is the whole reading."
+
+  - type: recap
+    title: "Level 11 in three lines"
+    points:
+      - {text: "The index is the weather and the sector is the street; neither picks your side.", level: "11-1"}
+      - {text: "Three names on one street are one position at three times the size.", level: "11-2"}
+      - {text: "A name that refuses a falling room is first in the queue if it turns.", level: "11-3"}

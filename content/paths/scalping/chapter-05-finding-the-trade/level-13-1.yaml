@@ -1,0 +1,106 @@
+id: "13-1"
+title: "Trend Day or Range Day"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [day-type, trend-day, range-day, market-context]
+learning_goal: "User can name a session as a trend day or a range day from the shape of the slower chart, and say what each one keeps offering on the 1-minute."
+purpose: "Two sessions can hand a scalper the same 1-minute signal and pay completely differently, and the difference has a name."
+terms_introduced: ["Trend day", "Range day"]
+reinforces: [2, 4]
+prerequisite: "12-3"
+xp: 20
+difficulty: 2
+sources: ["Raschke & Connors — Street Smarts", "Aziz — How to Day Trade for a Living"]
+notes: "Chapter 2's trend and range shapes read across a whole session, on Chapter 4's slower chart. Account named at $18,000; the worked position is 1,200 shares at $14.42 = $17,304."
+screens:
+  - type: intro
+    text: "Sessions come in two rough shapes, and which one you are in decides what your 1-minute signals are worth."
+
+  - type: theory
+    title: "A trend day"
+    body: "On a trend day the whole session travels one way: each push tops the last and each give-back stops above the one before it. The give-backs stay shallow and new highs keep arriving."
+    visual: chart-candles
+    visual_data:
+      data: [[14.10, 14.30, 14.06, 14.26], [14.26, 14.48, 14.20, 14.44], [14.44, 14.52, 14.34, 14.40], [14.40, 14.66, 14.36, 14.62], [14.62, 14.84, 14.56, 14.80], [14.80, 14.88, 14.70, 14.76], [14.76, 15.02, 14.72, 14.98], [14.98, 15.18, 14.92, 15.14]]
+
+  - type: theory
+    title: "A range day"
+    body: "On a range day the session crosses the same two prices over and over. Pushes above the ceiling close back inside, pushes under the floor do the same, and the middle is where most of the hours go."
+    visual: chart-candles
+    visual_data:
+      data: [[14.30, 14.58, 14.26, 14.52], [14.52, 14.60, 14.34, 14.38], [14.38, 14.46, 14.20, 14.24], [14.24, 14.32, 14.18, 14.30], [14.30, 14.56, 14.26, 14.44], [14.44, 14.60, 14.36, 14.40], [14.40, 14.46, 14.20, 14.26], [14.26, 14.42, 14.22, 14.36]]
+
+  - type: example
+    body: "Chapter 2 named these two shapes over twenty minutes of a 1-minute chart. A day type is the same two shapes read on the slower chart, across a whole session."
+
+  - type: compare
+    prompt: "Two sessions on the 5-minute chart. Which one is the trend day?"
+    charts:
+      - kind: candles
+        data: [[12.10, 12.28, 12.06, 12.24], [12.24, 12.42, 12.18, 12.38], [12.38, 12.46, 12.30, 12.34], [12.34, 12.60, 12.30, 12.56], [12.56, 12.74, 12.50, 12.70], [12.70, 12.78, 12.62, 12.68], [12.68, 12.92, 12.64, 12.88], [12.88, 13.06, 12.82, 13.02]]
+        label: "A"
+      - kind: candles
+        data: [[16.40, 16.68, 16.36, 16.62], [16.62, 16.70, 16.44, 16.48], [16.48, 16.56, 16.30, 16.34], [16.34, 16.42, 16.28, 16.40], [16.40, 16.66, 16.36, 16.54], [16.54, 16.70, 16.46, 16.50], [16.50, 16.56, 16.30, 16.36], [16.36, 16.52, 16.32, 16.46]]
+        label: "B"
+    answer: "A"
+    explanation: "A stops every give-back above the one before it. B crosses the same two prices four times, and the fourth crossing pays no better than the first."
+
+  - type: mc
+    prompt: "The 5-minute chart has crossed the same two prices three times since the bell. What will the 1-minute keep offering you?"
+    options:
+      - {text: "Breaks of the edges that come straight back", correct: true}
+      - {text: "Pullbacks that keep making higher lows"}
+      - {text: "Fewer signals than a travelling session has"}
+    explanation: "Every push out of a range has somebody waiting to sell it back inside. The 1-minute will show you the push; the day decides what happens next."
+
+  - type: tf
+    statement: "A range day is a day with no movement in it."
+    answer: false
+    explanation: "There can be plenty of movement — it keeps arriving back where it started. The distance travelled is real; the distance covered is not."
+
+  - type: chart-tap
+    prompt: "A range day on the 5-minute chart. Tap the candle where the ceiling was tested for the second time."
+    chart:
+      kind: candles
+      data: [[14.20, 14.30, 14.14, 14.26], [14.26, 14.60, 14.22, 14.40], [14.40, 14.46, 14.24, 14.28], [14.28, 14.36, 14.18, 14.22], [14.22, 14.32, 14.16, 14.30], [14.30, 14.60, 14.26, 14.38], [14.38, 14.44, 14.22, 14.26], [14.26, 14.34, 14.16, 14.20], [14.20, 14.30, 14.14, 14.24], [14.24, 14.40, 14.20, 14.34]]
+      volume: [280000, 340000, 240000, 220000, 250000, 330000, 230000, 210000, 220000, 260000]
+    target: 5
+    explanation: "$14.60 twice, and both times the candle finished back in the middle of the day. A third test is worth watching; it is not worth assuming."
+
+  - type: chart-decision
+    scenario: "TALL has stepped higher on the 5-minute chart since the first half hour. On the 1-minute it has handed back eight cents over three quiet minutes, and the one that just closed finished green. Your account is $18,000 and 1,200 shares is the size you trade."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.20, 14.32, 14.16, 14.28], [14.28, 14.40, 14.24, 14.36], [14.36, 14.48, 14.32, 14.44], [14.44, 14.46, 14.36, 14.38], [14.38, 14.42, 14.34, 14.36], [14.36, 14.44, 14.34, 14.42], [14.42, 14.54, 14.38, 14.50], [14.50, 14.62, 14.46, 14.58], [14.58, 14.70, 14.54, 14.66], [14.66, 14.76, 14.62, 14.71], [14.71, 14.74, 14.64, 14.68]]
+      volume: [104000, 112000, 124000, 72000, 64000, 96000, 118000, 110000, 102000, 94000, 86000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried up to $14.71 — $0.29 a share above the decision, +$348 long on 1,200 shares."
+    explanation: "The slower chart had been stepping all session and the give-back arrived on its lightest minutes. On a day with this shape, the pause is the offer."
+
+  - type: sort
+    prompt: "Which of these belong to a session that travels, and which to one that keeps coming back?"
+    buckets: ["Travels", "Comes back"]
+    items:
+      - {text: "Every give-back stopping above the last one", bucket: "Travels"}
+      - {text: "New highs still printing an hour after the open", bucket: "Travels"}
+      - {text: "Pushes through the ceiling closing back inside", bucket: "Comes back"}
+      - {text: "The same two prices crossed four times", bucket: "Comes back"}
+    explanation: "Four sentences, and one of them can usually be written about a session before its first hour is out."
+
+  - type: fill-choice
+    sentence: "On a trend day the entry a scalper waits for is the ___."
+    options: ["give-back", "breakout", "close"]
+    answer: "give-back"
+    explanation: "The session is already going one way, so the only cheap entry it offers is the pause — and on a trend day the pauses are shallow."
+
+  - type: checklist-reveal
+    title: "Which day am I in?"
+    items:
+      - "Is the slower chart stepping, or crossing?"
+      - "Are the give-backs stopping above the last one, or going all the way back?"
+      - "Is anything still making new highs an hour in?"

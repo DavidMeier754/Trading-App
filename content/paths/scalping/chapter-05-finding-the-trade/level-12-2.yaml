@@ -1,0 +1,120 @@
+id: "12-2"
+title: "Market Internals"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [internals, risk-on, risk-off, market-context]
+learning_goal: "User reads the tone of a morning from the index and the count together, and lets it change how many trades they expect rather than which way they face."
+purpose: "A tone is the shortest honest summary of a morning, and summarising it wrong is how a trader ends up forcing longs into a market that is emptying out."
+terms_introduced: ["Risk-on", "Risk-off"]
+reinforces: [1]
+prerequisite: "12-1"
+xp: 25
+difficulty: 3
+sources: ["Carter — Mastering the Trade", "Bellafiore — One Good Trade"]
+notes: "The panel's tone tag, earned from the two readings underneath it. Account named at $26,000; the worked position is 1,700 shares at $13.96 = $23,732."
+screens:
+  - type: intro
+    text: "Two readings, one word. Your account is $26,000 and 1,700 shares is the size you trade."
+
+  - type: theory
+    title: "The tone of a morning"
+    body: "Put the index and the count side by side and a morning usually reads as one of three things: money moving towards the names that swing, money leaving them, or no agreement at all."
+
+  - type: carousel
+    cards:
+      - {label: "Risk-on", text: "The index leaning up, most names joining in, the fast-moving streets leading. More names travel far on a morning like this.", icon: bull}
+      - {label: "Risk-off", text: "The index leaning down, more names falling than rising, money sitting in the dull streets. Fewer names travel far.", icon: bear}
+      - {label: "No tone", text: "The two readings disagreeing, or both flat. It is the most common kind of morning and it promises nothing either way.", icon: quote-panel}
+
+  - type: match
+    prompt: "Three panels from three mornings. What did each one read as?"
+    pairs:
+      - ["Index up, 2,200 names up, miners leading", "Risk-on"]
+      - ["Index down, 2,100 names down, steady names leading", "Risk-off"]
+      - ["Index up, 1,500 names up and 1,500 down", "No tone worth the name"]
+    explanation: "Two readings that agree make a tone. One reading on its own makes a headline."
+
+  - type: visual
+    component: internals-panel
+    data:
+      index: {label: "{{market.index_example}}", data: [100.0, 99.8, 99.6, 99.7, 99.4, 99.2, 99.3, 99.0]}
+      breadth: "940 up / 2,060 down"
+      sectors:
+        - {label: "Utilities", value: 0.6}
+        - {label: "Banks", value: -0.9}
+        - {label: "Chipmakers", value: -2.2}
+      tone: risk-off
+    caption: "The same panel with one line more: the tag the two readings above it add up to."
+
+  - type: mc
+    prompt: "It is a risk-off morning and your name is a small, fast one with results of its own behind it. What does the tone change?"
+    options:
+      - {text: "Nothing at all, since the results are this name's own reason"}
+      - {text: "Which way the results are going to push it"}
+      - {text: "How many of these you expect to work today", correct: true}
+    explanation: "The reason is still real and the chart is still the chart. What thins out is how many names carry a move all the way, so fewer tickets and less patience for a slow one."
+
+  - type: tf
+    statement: "A risk-off morning is a morning to stop trading."
+    answer: false
+    explanation: "It is a morning where fewer names travel far and the short side is the easier one. Standing aside stays your choice; the reading never makes it for you."
+
+  - type: compare
+    prompt: "A risk-off morning. One of these is a small, fast-moving name and the other is a steady one. Which chart belongs to the fast one?"
+    charts:
+      - kind: candles
+        data: [[16.40, 16.48, 16.10, 16.16], [16.16, 16.24, 15.88, 15.94], [15.94, 16.02, 15.66, 15.72], [15.72, 15.80, 15.48, 15.54], [15.54, 15.62, 15.28, 15.34], [15.34, 15.42, 15.08, 15.14], [15.14, 15.22, 14.90, 14.96], [14.96, 15.04, 14.74, 14.80]]
+        label: "A"
+      - kind: candles
+        data: [[24.60, 24.68, 24.54, 24.62], [24.62, 24.70, 24.56, 24.66], [24.66, 24.72, 24.58, 24.62], [24.62, 24.70, 24.56, 24.64], [24.64, 24.72, 24.58, 24.68], [24.68, 24.74, 24.60, 24.66], [24.66, 24.74, 24.60, 24.70], [24.70, 24.78, 24.64, 24.72]]
+        label: "B"
+    answer: "A"
+    explanation: "A has given up a dollar and a half in eight minutes; B has moved twelve cents in the same stretch. Risk-off is money leaving the first kind of name for the second."
+
+  - type: chart-decision
+    scenario: "WREN has failed twice at $14.10, and the minute that just closed finished four cents under $14.00, the price its dips had been holding all morning. Your account is $26,000 and 1,700 shares is the size you trade."
+    shares: 1700
+    state: ["Tone: risk-off", "Size: 1,700 shares"]
+    chart:
+      kind: candles
+      data: [[14.06, 14.10, 14.00, 14.04], [14.04, 14.10, 14.00, 14.06], [14.06, 14.08, 14.02, 14.04], [14.04, 14.08, 14.00, 14.02], [14.02, 14.06, 14.00, 14.00], [14.00, 14.02, 13.92, 13.96], [13.96, 13.98, 13.86, 13.88], [13.88, 13.92, 13.78, 13.80], [13.80, 13.84, 13.70, 13.72], [13.72, 13.78, 13.62, 13.66], [13.66, 13.72, 13.60, 13.68]]
+      volume: [92000, 100000, 86000, 94000, 88000, 136000, 122000, 110000, 100000, 92000, 86000]
+      levels:
+        - {price: 14.10, label: "Failed twice"}
+        - {price: 14.00, label: "Where the dips held"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $13.66 — $0.30 a share below the decision, +$510 short on 1,700 shares."
+    explanation: "Two refusals at one price, then the price underneath them given up on the heaviest minute of the morning. The tone did not choose the side; it agreed with the side the chart had already chosen."
+
+  - type: order-build
+    prompt: "Take it. 1,700 shares short, the bid is $13.95, and you refuse any fill worse than three cents under it."
+    ticker: WREN
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [850, 1700, 2550]
+      price: [13.92, 13.95, 13.98]
+    answer: {side: sell, type: limit, qty: 1700, price: 13.92}
+    explanation: "A sell limit three cents under the bid goes through like a market order and still refuses anything worse than $13.92."
+
+  - type: numeric-mc
+    prompt: "1,700 shares of WREN, in at $13.96 and out at $13.66. What is that before costs?"
+    options:
+      - {text: "$300"}
+      - {text: "$51"}
+      - {text: "$5,100"}
+      - {text: "$510", correct: true}
+    working: "$13.96 − $13.66 = $0.30 a share × 1,700 shares = $510"
+    explanation: "Thirty cents on seventeen hundred shares, and the round trip still has to come out of it."
+
+  - type: checklist-reveal
+    title: "The tone, in one line"
+    items:
+      - "Index leaning up, names joining in, fast streets leading: risk-on."
+      - "Index leaning down, more names falling, dull streets leading: risk-off."
+      - "The two disagreeing: no tone, and no help either way."

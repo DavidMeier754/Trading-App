@@ -1,0 +1,131 @@
+id: "12-3"
+title: "Market Internals"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [internals, market-context, management]
+learning_goal: "User recognises a minute that turns the whole screen at once, treats it as the room rather than the name, and neither widens a stop nor re-fights it on lighter volume."
+purpose: "Almost every scalper's worst minute of the week is one the whole market shared, and almost none of them noticed at the time."
+terms_introduced: []
+reinforces: [1]
+prerequisite: "12-2"
+xp: 25
+difficulty: 3
+sources: ["Carter — Mastering the Trade", "Bellafiore — One Good Trade"]
+notes: "Closes Level 12. Chapter 1's imbalance rule arriving in hundreds of names at the same moment. Account named at $20,000; the worked positions are 1,400 shares at $13.98 and $14.06."
+screens:
+  - type: intro
+    text: "Now and then a single minute stops everything on the screen at the same time. Your account is $20,000 and 1,400 shares is the size you trade."
+
+  - type: theory
+    title: "When everything turns in the same minute"
+    body: "Sometimes every name stalls together — the one you are long, the two you are watching, the ones you never opened. That is not your name changing its mind. That is the room."
+
+  - type: example
+    body: "You are long one name and watching two others. All three print a long upper wick on the same minute, on more volume than any of them had before it. Nothing happened inside any of the three companies."
+
+  - type: branch
+    scenario: "You are long 1,400 shares of MOOR from $13.86 with the stop at $13.70. The minute that just closed stalled MOOR and both watchlist names together, on the heaviest volume of the morning."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.70, 13.80, 13.66, 13.78], [13.78, 13.88, 13.74, 13.84], [13.84, 13.94, 13.80, 13.90], [13.90, 14.00, 13.86, 13.96], [13.96, 14.06, 13.92, 14.02], [14.02, 14.12, 13.96, 13.98], [13.98, 14.02, 13.88, 13.90], [13.90, 13.94, 13.80, 13.82], [13.82, 13.88, 13.74, 13.78], [13.78, 13.84, 13.72, 13.80]]
+      volume: [86000, 94000, 88000, 96000, 90000, 168000, 140000, 124000, 106000, 94000]
+      decision_index: 5
+    steps:
+      - prompt: "Three names stalled in the same minute. What does that tell you first?"
+        options:
+          - {text: "MOOR's reason has run out and the crowd is leaving", next: 1}
+          - {text: "It was the room, not anything inside MOOR", correct: true, next: 1}
+          - {text: "The other two were never worth watching", next: 1}
+        explanation: "One name turning is a name. Three turning together is one decision taken in a great many places at once, and none of it is about your company."
+      - prompt: "The tone read risk-on when you took this. What does a minute like that do to the reading?"
+        options:
+          - {text: "It puts the reading in question until the next minutes answer it", correct: true}
+          - {text: "Nothing: a tone is set at the open and holds all session"}
+          - {text: "It turns risk-off, so the position should be reversed"}
+        explanation: "A tone is a summary of what the room is doing, and the room has just done something new. It has not flipped; it has gone stale."
+      - prompt: "You are still long, with sixteen cents of stop underneath. What now?"
+        options:
+          - {text: "Widen the stop, because this was the room and not the name"}
+          - {text: "Add while the price is back near your entry"}
+          - {text: "Let the stop do its job and stop hunting the next entry", correct: true}
+        explanation: "A market-wide minute is a reason to stop looking for the next trade. It is never a reason to move the line that says you were wrong."
+
+  - type: mc
+    prompt: "Every name on your screen prints the same upper wick in the same minute. What has most likely happened?"
+    options:
+      - {text: "A large seller has appeared in each of those companies at once"}
+      - {text: "Three separate reasons happened to run out within the same sixty seconds"}
+      - {text: "The scanner refreshed and is showing one row three times"}
+      - {text: "One decision was taken across the whole market at once", correct: true}
+    explanation: "Chapter 1's rule at scale: not news inside three companies, but one imbalance arriving in all of them together."
+
+  - type: tf
+    statement: "A minute that stops three unrelated names at once is worth more than the same minute in only one of them."
+    answer: true
+    explanation: "One name stalling is that name's own business. Three at once is the room speaking, and the room decides how far the next move in any of them gets."
+
+  - type: chart-decision
+    scenario: "Ten minutes on, MOOR is back under $14.12, the price the turn came from, and the minute that just closed finished six cents below it on about a third of the volume the turn printed. Your account is $20,000 and 1,400 shares is the size you trade."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.80, 13.88, 13.74, 13.86], [13.86, 13.94, 13.82, 13.90], [13.90, 13.98, 13.86, 13.94], [13.94, 14.02, 13.90, 13.98], [13.98, 14.06, 13.94, 14.02], [14.02, 14.10, 13.98, 14.06], [14.06, 14.10, 14.00, 14.02], [14.02, 14.08, 13.96, 13.98], [13.98, 14.02, 13.90, 13.94], [13.94, 13.98, 13.88, 13.92]]
+      volume: [52000, 58000, 48000, 54000, 46000, 50000, 44000, 42000, 40000, 38000]
+      levels:
+        - {price: 14.12, label: "Where the room turned"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It slid back to $13.92 — $0.14 a share under the decision, which is $196 on 1,400 shares you never had to lose."
+    explanation: "The price came back and the interest behind it did not. A minute that stopped the whole room is not overturned on a third of the volume."
+
+  - type: numeric-input
+    prompt: "The turn printed 168,000 shares in its minute. The push back up is running at 48,000. What fraction of the turn's interest is that?"
+    answer: 29
+    tolerance: 2
+    unit: "%"
+    working: "48,000 ÷ 168,000 = 0.286, about 29 %"
+    explanation: "Under a third. Volume is what a move was worth to the people in it, and this one was worth a third as much."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Three names stalled in the same minute,"}
+      - {text: "so the stop needed more room to survive it,", wrong: true}
+      - {text: "and the next entry could wait for the room to settle."}
+    explanation: "Nothing about a market-wide minute makes your line wrong. A wider stop is the same loss, taken later and bigger."
+
+  - type: swipe-deck
+    prompt: "Ten minutes after the whole screen turned. Take the name that has gone back to work, pass the one still leaning on the room."
+    cards:
+      - chart:
+          kind: candles
+          data: [[13.90, 13.94, 13.82, 13.86], [13.86, 13.96, 13.84, 13.94], [13.94, 14.04, 13.92, 14.02], [14.02, 14.12, 14.00, 14.10], [14.10, 14.18, 14.06, 14.16], [14.16, 14.24, 14.12, 14.22], [14.22, 14.30, 14.18, 14.28], [14.28, 14.36, 14.24, 14.34]]
+        answer: take
+        note: "Back through the price the turn took away, on full bodies. This one is doing its own work again."
+      - chart:
+          kind: candles
+          data: [[14.10, 14.14, 13.98, 14.02], [14.02, 14.08, 13.92, 13.96], [13.96, 14.02, 13.86, 13.90], [13.90, 13.96, 13.80, 13.84], [13.84, 13.90, 13.74, 13.78], [13.78, 13.84, 13.68, 13.72], [13.72, 13.78, 13.62, 13.66], [13.66, 13.72, 13.58, 13.62]]
+        answer: pass
+        note: "Lower highs the whole way from the turn. Nothing here has come back at all."
+      - chart:
+          kind: candles
+          data: [[12.60, 12.66, 12.54, 12.58], [12.58, 12.64, 12.52, 12.60], [12.60, 12.66, 12.54, 12.56], [12.56, 12.62, 12.50, 12.58], [12.58, 12.64, 12.52, 12.60], [12.60, 12.64, 12.54, 12.56], [12.56, 12.62, 12.50, 12.58], [12.58, 12.64, 12.52, 12.60]]
+        answer: pass
+        note: "Ten cents of range since the turn. It has stopped falling and started waiting, which is not the same thing."
+      - chart:
+          kind: candles
+          data: [[11.40, 11.46, 11.30, 11.34], [11.34, 11.44, 11.32, 11.42], [11.42, 11.50, 11.38, 11.46], [11.46, 11.56, 11.42, 11.54], [11.54, 11.60, 11.48, 11.56], [11.56, 11.66, 11.52, 11.64], [11.64, 11.72, 11.60, 11.70], [11.70, 11.78, 11.66, 11.76]]
+        answer: take
+        note: "Every dip since the turn has stopped above the one before it. Buyers came back here first."
+    explanation: "Two went back to work and two are still waiting. The third card is the expensive one, because standing still looks a lot like holding up."
+
+  - type: recap
+    title: "Level 12 in three lines"
+    points:
+      - {text: "Breadth counts names, the index counts money, and the two can disagree.", level: "12-1"}
+      - {text: "A tone changes how many trades a morning has in it, not which way you face.", level: "12-2"}
+      - {text: "A minute that turns the whole screen is not about your name.", level: "12-3"}

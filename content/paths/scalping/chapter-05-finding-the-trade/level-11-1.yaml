@@ -1,0 +1,100 @@
+id: "11-1"
+title: "The Market Behind the Stock"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [market-context, index, sector]
+learning_goal: "User can say what an index and a sector are, and treat both as context that shortens a list rather than as a signal that picks a side."
+purpose: "A name is never alone on the screen, and a beginner who ignores the two things around it spends the day wondering why good setups keep failing."
+terms_introduced: ["Index", "Sector"]
+reinforces: [1]
+prerequisite: "10-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Murphy — Technical Analysis of the Financial Markets"]
+notes: "Opens the market-context half of the chapter. Chapter 1 taught the trend as context rather than signal; here the same idea arrives on a morning timescale. Account named at $19,000; the worked position is 1,300 shares at $14.10 = $18,330."
+screens:
+  - type: intro
+    text: "Your name is not the only thing on the screen. Two bigger things sit behind it, and reading both takes about ten seconds."
+
+  - type: theory
+    title: "The index"
+    body: "An index is one number built out of many shares at once. {{market.index_example}} follows {{market.index_size}}, so when it moves, a large part of the market has moved together."
+    visual: chart-line
+    visual_data: {data: [100.0, 100.2, 99.9, 100.4, 100.1, 100.6, 100.3, 100.8, 100.5, 101.0, 100.7, 101.1]}
+
+  - type: theory
+    title: "The sector"
+    body: "A sector is the group of companies that earn their money the same way: banks, miners, chipmakers. One piece of news usually reaches all of them, so they travel together more often than not."
+
+  - type: mc
+    prompt: "Your name is a chipmaker, up 7 % on results of its own. Every other chipmaker on the screen is up between 3 % and 5 %. What is the 7 % made of?"
+    options:
+      - {text: "Part the street, part this company", correct: true}
+      - {text: "Results weaker than the headline said"}
+      - {text: "A street that will catch up by the close"}
+    explanation: "Some of what is lifting your name arrived for reasons that have nothing to do with it, and that part can leave exactly as fast as it came."
+
+  - type: carousel
+    cards:
+      - {label: "What the index is for", text: "One reading before the bell: is the whole market leaning up, down or neither. It is the weather you trade in.", icon: chart-line}
+      - {label: "What the sector is for", text: "The street your name lives on. A name moving with its street has borrowed some of its push from the neighbours.", icon: bar-chart}
+      - {label: "What neither is for", text: "Picking a side. The buyers and sellers inside the name you are watching still settle where it goes next.", icon: quote-panel}
+
+  - type: fill-tiles
+    sentence: "Banks, miners and chipmakers are each a ___."
+    answer: "sector"
+    explanation: "Same business, same news, and mostly the same day. It is the first thing to check once a name has cleared its row."
+
+  - type: example
+    body: "A Tuesday: the index has slid since the bell, and four of your five shortlist names are banks. That is not five readings of the morning. It is one reading, written down five times."
+
+  - type: tf
+    statement: "A falling index means the long side is closed for the morning."
+    answer: false
+    explanation: "It shortens the list rather than shutting it. Plenty of names climb on a red morning, and the one in front of you is settled by its own buyers and sellers."
+
+  - type: compare
+    prompt: "The index on two different mornings. On which one does a long in any name have the room leaning with it?"
+    charts:
+      - kind: candles
+        data: [[100.0, 100.3, 99.9, 100.2], [100.2, 100.5, 100.1, 100.4], [100.4, 100.7, 100.3, 100.6], [100.6, 100.8, 100.4, 100.7], [100.7, 101.0, 100.6, 100.9], [100.9, 101.2, 100.8, 101.1], [101.1, 101.4, 101.0, 101.3], [101.3, 101.5, 101.1, 101.4]]
+        label: "A"
+      - kind: candles
+        data: [[100.0, 100.2, 99.7, 99.8], [99.8, 100.0, 99.5, 99.6], [99.6, 99.8, 99.3, 99.4], [99.4, 99.6, 99.1, 99.2], [99.2, 99.4, 98.9, 99.0], [99.0, 99.2, 98.7, 98.8], [98.8, 99.0, 98.5, 98.6], [98.6, 98.8, 98.3, 98.4]]
+        label: "B"
+    answer: "A"
+    explanation: "On B every long is asking a falling room to change its mind. That is not a reason to refuse, but it is a reason to want more from the chart."
+
+  - type: chart-decision
+    scenario: "The index has climbed since the bell and HOLT, a miner, is up with the rest of its street on 6× its normal volume. The minute that just closed finished four cents above yesterday's high at $14.06. Your account is $19,000 and 1,300 shares is the size you trade."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[13.80, 13.90, 13.74, 13.86], [13.86, 13.94, 13.80, 13.90], [13.90, 13.98, 13.84, 13.88], [13.88, 14.00, 13.82, 13.96], [13.96, 14.06, 13.90, 14.00], [14.00, 14.14, 13.96, 14.10], [14.10, 14.22, 14.06, 14.18], [14.18, 14.28, 14.12, 14.24], [14.24, 14.34, 14.18, 14.30], [14.30, 14.36, 14.24, 14.33], [14.33, 14.36, 14.26, 14.30]]
+      volume: [88000, 96000, 84000, 92000, 86000, 134000, 120000, 108000, 98000, 90000, 84000]
+      levels:
+        - {price: 14.06, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $14.33 — $0.23 a share above the decision, +$299 long on 1,300 shares."
+    explanation: "The name cleared its own marked price on the heaviest minute of the morning, and the weather and the street were both pushing that way while it did."
+
+  - type: sort
+    prompt: "Which of these does the market behind the stock get a say in, and which stays the stock's own business?"
+    buckets: ["The market gets a say", "The stock's own business"]
+    items:
+      - {text: "How many names are worth watching at all today", bucket: "The market gets a say"}
+      - {text: "Whether longs are the easier side this morning", bucket: "The market gets a say"}
+      - {text: "Where the line above this morning's price belongs", bucket: "The stock's own business"}
+      - {text: "Whether the minute that just closed went through it", bucket: "The stock's own business"}
+    explanation: "Weather decides how many umbrellas leave the cupboard. It never decides what the minute in front of you did."
+
+  - type: checklist-reveal
+    title: "The market check, in ten seconds"
+    items:
+      - "Which way has the index leaned since the bell?"
+      - "Is my shortlist secretly one sector?"
+      - "Does that change how many names I watch, or none of them?"

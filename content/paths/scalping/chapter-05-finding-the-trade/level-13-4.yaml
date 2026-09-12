@@ -1,0 +1,114 @@
+id: "13-4"
+title: "Trend Day or Range Day"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [day-type, filter, market-context]
+learning_goal: "User uses the day type as a filter on trade count, holding time and which setups get looked for, and rewrites the label when the session stops matching it."
+purpose: "A label written once and defended all afternoon costs more than never writing one."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "13-3"
+xp: 25
+difficulty: 3
+sources: ["Raschke & Connors — Street Smarts", "Aziz — How to Day Trade for a Living"]
+notes: "Closes Level 13 and the market-context half of the chapter. Account named at $21,000; the worked position is 1,400 shares at $14.32 = $20,048, and the branch runs at the same size under $14.70."
+screens:
+  - type: intro
+    text: "Your account is $21,000 and 1,400 shares is the size you trade. The label is written once and it is allowed to change."
+
+  - type: theory
+    title: "A filter, not a forecast"
+    body: "The day type never tells you what price does next. It changes three things you control: how many tickets you write, how long you hold, and which of your setups are worth hunting for at all."
+
+  - type: mc
+    prompt: "It is a session that keeps returning, and your best setup is a break of the morning's high. What does the label do to it?"
+    options:
+      - {text: "Nothing: a setup that works is a setup that works"}
+      - {text: "It turns the setup into its opposite, so the break gets sold"}
+      - {text: "It moves that setup to the bottom of today's list", correct: true}
+    explanation: "Every break so far today has come back. The setup is not wrong in general; it is the one this day keeps refusing, and you have others."
+
+  - type: example
+    body: "A scalper with six setups does not use six today. On a session that keeps returning, four of them are breaks, and four of them spend the day being right for ninety seconds each."
+
+  - type: chart-decision
+    scenario: "HAVEN has stepped higher all session, with every give-back stopping above the last. The minute that just closed finished four cents above the high of the morning at $14.28, on the heaviest volume since the bell. Your account is $21,000 and 1,400 shares is the size you trade."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[14.00, 14.12, 13.96, 14.08], [14.08, 14.18, 14.04, 14.14], [14.14, 14.20, 14.10, 14.12], [14.12, 14.24, 14.08, 14.20], [14.20, 14.28, 14.16, 14.24], [14.24, 14.36, 14.22, 14.32], [14.32, 14.44, 14.28, 14.40], [14.40, 14.52, 14.36, 14.48], [14.48, 14.58, 14.44, 14.54], [14.54, 14.62, 14.50, 14.58], [14.58, 14.60, 14.52, 14.55]]
+      volume: [92000, 100000, 84000, 94000, 88000, 146000, 132000, 118000, 106000, 96000, 88000]
+      levels:
+        - {price: 14.28, label: "High of the morning"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $14.58 — $0.26 a share above the decision, +$364 long on 1,400 shares."
+    explanation: "On a session that keeps returning this is the candle you sell into. On this one it is the candle you join, and nothing about the chart changed — only the label written above it."
+
+  - type: journal-row
+    prompt: "Fill the day's own row, the one written before any trade goes underneath it."
+    trade: {session: "Higher highs since the first half hour", opening_range: "$14.02–$14.28"}
+    slots: [day_type, trades_planned, hold]
+    chips:
+      day_type: ["Keeps going", "Keeps returning", "No label yet"]
+      trades_planned: ["2 to 3", "6 to 8"]
+      hold: ["To the first target", "Past the first target"]
+    answer: {day_type: "Keeps going", trades_planned: "2 to 3", hold: "Past the first target"}
+    explanation: "Three fields, written once, and they settle the afternoon's decisions before any of them has to be made under pressure."
+
+  - type: tf
+    statement: "Two sessions carrying the same label can still need different share sizes."
+    answer: true
+    explanation: "The label sets how many trades and how long. The size still comes from the stop, the account and the book in front of you, one name at a time."
+
+  - type: branch
+    scenario: "You wrote 'keeps going' on the day's row and the first trade worked. Two hours later the slower chart has crossed back through the middle of the session twice."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[14.60, 14.70, 14.54, 14.66], [14.66, 14.72, 14.50, 14.54], [14.54, 14.64, 14.48, 14.60], [14.60, 14.70, 14.54, 14.56], [14.56, 14.66, 14.50, 14.62], [14.62, 14.68, 14.52, 14.56], [14.56, 14.66, 14.50, 14.60], [14.60, 14.68, 14.52, 14.54], [14.54, 14.64, 14.48, 14.58], [14.58, 14.66, 14.52, 14.60]]
+      volume: [104000, 96000, 88000, 92000, 84000, 90000, 86000, 82000, 88000, 80000]
+      decision_index: 5
+    steps:
+      - prompt: "The label you wrote two hours ago no longer matches the slower chart. What is it worth now?"
+        options:
+          - {text: "Everything: the first reading of a day is the honest one", next: 1}
+          - {text: "Nothing, so the day is finished and the screen goes off", next: 1}
+          - {text: "Less than the chart in front of you, so it gets rewritten", correct: true, next: 1}
+        explanation: "A label is a reading of what the session has done, and the session has just done something new. It gets rewritten rather than defended."
+      - prompt: "You rewrite it as a session that keeps returning. What happens to the rest of the plan?"
+        options:
+          - {text: "The targets come in to the edges, and breaks go to the bottom of the list", correct: true}
+          - {text: "Nothing changes, because the setups are still the same setups"}
+          - {text: "Trading stops until the next session opens"}
+        explanation: "The setups do not change. What each of them is worth today does, and the edges are where this day is paying now."
+      - prompt: "The next trade goes in at one edge and stalls two cents short of the other. What does the new label say?"
+        options:
+          - {text: "Hold for the far edge, since that is where the target was set"}
+          - {text: "Take it here: a day like this rarely pays the last two cents", correct: true}
+          - {text: "Add, because the far edge has held all day"}
+        explanation: "The far edge is the price this day keeps refusing to reach exactly. Two cents is a cheap thing to give up for a fill you actually get."
+
+  - type: numeric-input
+    prompt: "A session that keeps returning, crossing between $14.48 and $14.70, and you trade 1,400 shares. What is half of that range worth to you?"
+    answer: 154
+    tolerance: 1
+    unit: "$"
+    working: "$14.70 − $14.48 = $0.22; half of it is $0.11 a share × 1,400 shares = $154"
+    explanation: "A hundred and fifty-four dollars a crossing before costs, and that number is what decides whether the day is worth trading at your size at all."
+
+  - type: fill-tiles
+    sentence: "On a session that keeps returning, the setup that spends the day being wrong is the ___."
+    answer: "breakout"
+    explanation: "Every push out has come back so far. It is not a bad setup; it is the one this day keeps refusing."
+
+  - type: recap
+    title: "Level 13 in four lines"
+    points:
+      - {text: "Sessions come in two rough shapes, and the shape decides what a signal is worth.", level: "13-1"}
+      - {text: "The opening range and the give-backs after it write the label.", level: "13-2"}
+      - {text: "Each kind of day offers one thing and refuses another; the middle is neither.", level: "13-3"}
+      - {text: "A label is rewritten when the session changes, never defended.", level: "13-4"}

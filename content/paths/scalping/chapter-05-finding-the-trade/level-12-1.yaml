@@ -1,0 +1,109 @@
+id: "12-1"
+title: "Market Internals"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [internals, breadth, market-context]
+learning_goal: "User reads breadth as a count of names, tells it apart from the index's move, and knows which of the two to trust for a small name."
+purpose: "An index can be carried by a handful of giants; the stock you are about to trade lives with everybody else."
+terms_introduced: ["Breadth"]
+reinforces: [1]
+prerequisite: "11-3"
+xp: 20
+difficulty: 2
+sources: ["Carter — Mastering the Trade", "Aziz — How to Day Trade for a Living"]
+notes: "Introduces the internals-panel. Chapter 1's buyers-and-sellers count re-tested across a whole market. Account named at $22,000; the worked position is 1,500 shares at $12.80 = $19,200."
+screens:
+  - type: intro
+    text: "The index tells you what the market's money did. There is a second reading that tells you what its names did, and the two do not always agree."
+
+  - type: theory
+    title: "Breadth"
+    body: "Breadth counts names instead of money: how many are up today against how many are down. A room where two names rise for every one that falls is a different room from an even one."
+
+  - type: visual
+    component: internals-panel
+    data:
+      index: {label: "{{market.index_example}}", data: [100.0, 100.2, 100.4, 100.3, 100.6, 100.8, 100.7, 101.0]}
+      breadth: "1,980 up / 1,020 down"
+      sectors:
+        - {label: "Banks", value: 1.4}
+        - {label: "Miners", value: 0.9}
+        - {label: "Chipmakers", value: -0.3}
+    caption: "One panel: what the money did, how many names joined in, and which streets carried it."
+
+  - type: mc
+    prompt: "The index is up 0.6 % and 1,100 names are up against 1,900 down. What is that?"
+    options:
+      - {text: "A few big names carrying a room that is not following", correct: true}
+      - {text: "A count that has been worked out wrong somewhere"}
+      - {text: "A market where most names are about to catch up with the index"}
+    explanation: "One number can be lifted by a few of its largest members. Counting names is how you find out whether the rest came along."
+
+  - type: example
+    body: "Two mornings, the same index reading of +0.5 %. On the first, 2,100 names were up and 900 down. On the second, 900 were up and 2,100 down. Only one of them was an easy morning to be long in."
+
+  - type: numeric-input
+    prompt: "Three thousand names traded today and 1,950 of them are up. What share of the market is higher?"
+    answer: 65
+    tolerance: 1
+    unit: "%"
+    working: "1,950 ÷ 3,000 = 0.65 = 65 %"
+    explanation: "Nearly two names up for every one down. It is the plainest arithmetic on the screen and almost nobody looks at it."
+
+  - type: hotspot
+    component: internals-panel
+    prompt: "The index is green and you want to know whether the rest of the market came with it. Tap the reading that answers that."
+    data:
+      index: {label: "{{market.index_example}}", data: [100.0, 100.1, 100.3, 100.2, 100.4, 100.5, 100.4, 100.6]}
+      breadth: "1,150 up / 1,850 down"
+      sectors:
+        - {label: "Banks", value: 0.2}
+        - {label: "Miners", value: -0.6}
+        - {label: "Chipmakers", value: 2.1}
+    target: breadth
+    explanation: "Eleven hundred up against eighteen hundred down, underneath a green index. One street is doing all of it, and the count is what says so."
+
+  - type: tf
+    statement: "Two mornings can print the same move in the index and mean opposite things for a list of small names."
+    answer: true
+    explanation: "The index can be carried by a few large members. What the rest of the room did is a separate count, and small names live in the rest of the room."
+
+  - type: chart-decision
+    scenario: "GRIT has made lower highs since the bell and the minute that just closed finished under the low of the morning at $12.84. Your account is $22,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    state: ["950 up / 2,050 down", "Size: 1,500 shares"]
+    chart:
+      kind: candles
+      data: [[13.30, 13.38, 13.18, 13.22], [13.22, 13.28, 13.10, 13.14], [13.14, 13.22, 13.04, 13.08], [13.08, 13.14, 12.96, 13.00], [13.00, 13.06, 12.84, 12.92], [12.92, 12.96, 12.76, 12.80], [12.80, 12.86, 12.68, 12.72], [12.72, 12.78, 12.60, 12.64], [12.64, 12.70, 12.52, 12.56], [12.56, 12.62, 12.44, 12.48], [12.48, 12.56, 12.42, 12.52]]
+      volume: [96000, 104000, 88000, 98000, 92000, 138000, 124000, 112000, 102000, 94000, 86000]
+      levels:
+        - {price: 12.84, label: "Low of the morning"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It carried down to $12.48 — $0.32 a share below the decision, +$480 short on 1,500 shares."
+    explanation: "The name gave up the price the morning had been resting on, and the chips above the chart say two names are falling for every one rising. Both readings lean the same way."
+
+  - type: sort
+    prompt: "Which of these readings counts names, and which counts money?"
+    buckets: ["Counts names", "Counts money"]
+    items:
+      - {text: "How many stocks are above yesterday's close", bucket: "Counts names"}
+      - {text: "How many are below it", bucket: "Counts names"}
+      - {text: "The index's move in percent", bucket: "Counts money"}
+      - {text: "What one large company added to the index today", bucket: "Counts money"}
+    explanation: "They answer different questions. A morning where they disagree is worth ten extra seconds before the first ticket."
+
+  - type: fill-tiles
+    sentence: "Counting how many names are up against how many are down is called ___."
+    answer: "breadth"
+    explanation: "One word for the count, and it costs about two seconds to read."
+
+  - type: checklist-reveal
+    title: "Two numbers, not one"
+    items:
+      - "Which way is the index leaning?"
+      - "How many names came with it?"
+      - "When those two disagree, the count is the one a small name lives in."
