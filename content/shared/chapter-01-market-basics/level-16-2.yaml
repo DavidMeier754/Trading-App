@@ -1,0 +1,136 @@
+id: "16-2"
+title: "Chapter Review"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [review, plan, practice]
+learning_goal: "User writes down the session, the name, the size and the style they will practise with, and uses those numbers to take one decision."
+purpose: "Decisions made before anything is at stake are the only ones you get to make calmly, and this is the first page of the plan you will carry for eight chapters."
+terms_introduced: []
+reinforces: []
+prerequisite: "16-1"
+xp: 30
+difficulty: 3
+sources: [consensus]
+notes: "Categorised new-theory rather than repetition: 16-1 plus this sub plus the 17-1 exam would otherwise be three review-type subs in a row (agent.md §3.2). Content is review plus the plan-card. Practice account named at $6,000; the worked position is 189 × $16.05 = $3,033. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+screens:
+  - type: intro
+    text: "One page, in your words, before the exam. You will still be using it in Chapter 8."
+
+  - type: theory
+    title: "A decision made early is a cheaper decision"
+    body: "Write down the session, the stock and the size while nothing is open. When something is open, the decision has already been made and you only have to keep it."
+
+  - type: scanner-pick
+    prompt: "You are going to watch one name for a month. You want one you could leave whenever you want, and that still moves enough for a decision to have a result. Which row?"
+    data:
+      rows:
+        - {ticker: DUST, price: 11.20, change_pct: 0.4, spread: 0.24}
+        - {ticker: LUMA, price: 15.80, change_pct: 2.7, spread: 0.03}
+        - {ticker: APEX, price: 24.10, change_pct: 0.2, spread: 0.01}
+        - {ticker: MOON, price: 8.60, change_pct: 18.6, spread: 0.26}
+    target: LUMA
+    explanation: "DUST and MOON each have a gap of a quarter of a dollar standing between you and the exit. APEX you can leave any time and there is nothing to leave with. LUMA is the row where both readings work."
+
+  - type: numeric-input
+    prompt: "Your practice account is $6,000 and you decide that one position will never use more than half of it. LUMA is $15.80. How many shares is your ceiling?"
+    answer: 189
+    unit: "shares"
+    working: "$6,000 ÷ 2 = $3,000; $3,000 ÷ $15.80 = 189.8, so 189 shares"
+    explanation: "189 × $15.80 = $2,986.20. A ceiling you set in advance is the one you can still respect at the wrong moment."
+
+  - type: story
+    character: retail-trader
+    text: "An hour into the regular session. LUMA is the name you have watched for a week, and it has just stepped higher for six minutes on volume well above its usual."
+
+  - type: branch
+    scenario: "You are about to place the first decision from your own page: LUMA around $15.80, $6,000 in the practice account."
+    shares: 189
+    chart:
+      kind: line
+      data: [15.52, 15.58, 15.56, 15.70, 15.80, 15.92, 16.00, 16.05, 16.12, 16.18]
+      decision_index: 4
+    steps:
+      - prompt: "Where in the day are you placing it?"
+        options:
+          - {text: "Here, an hour in, where most of the volume is", correct: true, next: 1}
+          - {text: "In the first minute of the session, where the moves are biggest", next: 1}
+        explanation: "You wrote down the crowded part of the day for a reason. The first minute is where the fewest readings hold."
+      - prompt: "And the size?"
+        options:
+          - {text: "189 shares, the ceiling you set before you looked at the chart", correct: true, next: 2}
+          - {text: "379 shares, which is everything the account can pay for", next: 2}
+        explanation: "379 shares is the account's own ceiling, not yours. Your number leaves room to be wrong twice."
+      - prompt: "You wrote that you would leave if it went 15 cents against you. It goes 14 and turns back up. What does the page say?"
+        options:
+          - {text: "Nothing yet: 14 cents is not 15", correct: true}
+          - {text: "Leave now, before it reaches your number"}
+        explanation: "189 × $0.15 = $28.35, decided in advance. A number you move while the position is open is not a number."
+
+  - type: plan-card
+    title: "Your first page"
+    intro: "Four lines. You will come back to this page in every chapter that follows."
+    fields:
+      - {key: practice_session, label: "Where in the day you will practise", kind: text}
+      - {key: practice_name, label: "The one name you will watch", kind: text}
+      - {key: max_account_pct, label: "Most of the account in one position (%)", kind: number, suggest: 50}
+      - {key: style_choice, label: "The holding period that fits your week", kind: text}
+    note: "Nothing here is permanent. It is a starting position, and Chapter 3 will give you a better way to set the size."
+
+  - type: tf
+    statement: "A size decided before you look at the chart is worth more than the same size decided while the position is open."
+    answer: true
+    explanation: "The second one is decided by whatever the price is doing, which is the one thing you cannot argue with."
+
+  - type: mc
+    prompt: "It is an hour into the session, you are flat, and nothing on your list is doing anything you can explain. What does your page say?"
+    options:
+      - {text: "Take the busiest name on the list and find out"}
+      - {text: "Halve the size and trade anyway"}
+      - {text: "That a day with no decision in it is a complete day", correct: true}
+    explanation: "No trade has been one of the three answers since Level 13, and a written plan is what makes it available at the moment it matters."
+
+  - type: match
+    prompt: "Four readings from this chapter, and what each one actually tells you."
+    pairs:
+      - ["Volume", "How many shares changed hands"]
+      - ["Liquidity", "Whether you can leave without moving the price"]
+      - ["Volatility", "How far a price travels in a session"]
+      - ["Previous close", "The number today's change is measured from"]
+    explanation: "A count, an ease, a distance, and a reference point."
+
+  - type: chart-decision
+    scenario: "Your own page, your own name: LUMA, an hour into the regular session, stepping higher for six minutes on volume above its usual. It is at $16.05 and your ceiling is 189 shares."
+    shares: 189
+    chart: {kind: line, data: [15.64, 15.70, 15.68, 15.82, 15.94, 16.05, 16.14, 16.22, 16.29, 16.35], decision_index: 5}
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached $16.35 — thirty cents a share, +$56.70 on 189 shares."
+    explanation: "Everything on the page agrees: the session, the name, the size, and a stock deep enough to leave."
+
+  - type: numeric-mc
+    prompt: "That position again: 189 shares, thirty cents, and $1 an order each way. What is left of it?"
+    options:
+      - {text: "$56.70"}
+      - {text: "$54.70", correct: true}
+      - {text: "$52.70"}
+      - {text: "$28.35"}
+    working: "$0.30 × 189 = $56.70, minus 2 orders × $1 = $54.70"
+    explanation: "Two orders, two charges, on the way in and the way out."
+
+  - type: fill-choice
+    sentence: "A number you will not go past, written down before the session, belongs on your ___."
+    options: ["plan", "position", "order"]
+    answer: "plan"
+    explanation: "The page is where the numbers live; the position is only where they get used."
+
+  - type: visual
+    component: plan-sheet
+    data:
+      fields:
+        - {key: practice_session, label: "Where you will practise", value: "An hour into the regular session"}
+        - {key: practice_name, label: "The name you will watch", value: "One liquid name, all month"}
+        - {key: max_account_pct, label: "Most of the account in one position", value: "50 %"}
+        - {key: style_choice, label: "Holding period", value: "Whatever fits your week"}
+    caption: "Your page as it stands. Every chapter from here adds a line to it."

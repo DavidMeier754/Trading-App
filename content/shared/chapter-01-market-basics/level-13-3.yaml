@@ -1,0 +1,118 @@
+id: "13-3"
+title: "Long and Short"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [long-short, arithmetic, risk]
+learning_goal: "User computes the result of a long and of a short with the same subtraction, and can say why only one of the two has a worst case you can write down."
+purpose: "Both directions use one piece of arithmetic, and the moment you believe they are mirror images is the moment a short can hurt you."
+terms_introduced: []
+reinforces: []
+prerequisite: "13-2"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $8,000; the largest position worked here is 400 × $19.40 = $7,760 in PINE. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+screens:
+  - type: intro
+    text: "Two directions, one subtraction. Then the part where they stop being mirror images."
+
+  - type: theory
+    title: "One subtraction either way"
+    body: "Your result is the price you sold at minus the price you bought at, times the shares. Going long you buy first; going short you sell first. The order of the two prices in your day changes nothing in the sum."
+
+  - type: example
+    body: "You have $8,000 and you short 300 shares of VANE at $18.40, then cover at $17.90. Sold at $18.40, bought at $17.90: $0.50 × 300 shares = $150."
+    visual: chart-line
+    visual_data: {data: [18.40, 18.32, 18.36, 18.18, 18.02, 17.94, 17.90], markers: [{index: 0, label: "Sell short"}, {index: 6, label: "Cover"}]}
+
+  - type: numeric-input
+    prompt: "You are long 400 shares of PINE from $19.40 and you sell at $19.05. What is the result in dollars?"
+    answer: -140
+    tolerance: 0.01
+    unit: "$"
+    working: "$19.05 − $19.40 = −$0.35; −$0.35 × 400 = −$140"
+    explanation: "Sold below what you paid, so the subtraction comes out negative and the share count multiplies it."
+
+  - type: numeric-mc
+    prompt: "You short 300 shares of TIDE at $22.60 and the price runs up. You cover at $23.05. Result?"
+    options:
+      - {text: "+$135"}
+      - {text: "−$45"}
+      - {text: "−$135", correct: true}
+      - {text: "−$1,350"}
+    working: "$22.60 − $23.05 = −$0.45; −$0.45 × 300 = −$135"
+    explanation: "You sold at the lower of your two prices, so the same subtraction turns against you."
+
+  - type: theory
+    title: "A floor, and no ceiling"
+    body: "A long has a worst case you can write down: the price can only fall to zero. A short has no such number, because there is no highest price a stock can reach."
+
+  - type: numeric-input
+    prompt: "You are long 300 shares of MOON at $8.60 and the business fails completely. What is the most that position can lose?"
+    answer: 2580
+    tolerance: 1
+    unit: "$"
+    working: "$8.60 × 300 shares = $2,580"
+    explanation: "Everything you paid, and not a cent more. That is the floor a long always has."
+
+  - type: mc
+    prompt: "Now the same 300 shares of MOON, short from $8.60. What is the most that position can lose?"
+    options:
+      - {text: "$2,580, the same as the long"}
+      - {text: "There is no number for it", correct: true}
+      - {text: "$8.60 a share, whatever happens next"}
+    explanation: "To close it you have to buy the shares back at whatever they cost that day, and nothing caps that price."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "You short 200 shares at $26.00,"}
+      - {text: "the price falls to $25.40,"}
+      - {text: "so you have lost 60 cents a share.", wrong: true}
+      - {text: "You buy them back and return them."}
+    explanation: "Short and falling is the good half: 60 cents in your favour, $120 on 200 shares."
+
+  - type: compare
+    prompt: "You are short 200 shares in both of these from the first price, $24.00. Which one has cost you more by the last price?"
+    charts:
+      - {kind: line, data: [24.00, 24.18, 24.10, 24.42, 24.66, 24.58, 24.86, 25.04, 25.20], label: "A"}
+      - {kind: line, data: [24.00, 24.22, 24.36, 24.60, 24.90, 24.74, 24.86, 24.62, 24.70], label: "B"}
+    answer: "A"
+    explanation: "A ends $1.20 above your sale, which is $240 on 200 shares. B travelled further on the way but ends 70 cents up, $140."
+
+  - type: slider
+    prompt: "You are short 200 shares from $26.00 with $8,000 in the account. How far can the price rise before the loss reaches a quarter of that account?"
+    min: 26
+    max: 46
+    step: 1
+    unit: "$"
+    answer: 36
+    tolerance: 2
+    explanation: "$2,000 ÷ 200 shares = $10 a share, so $36.00. Ten dollars sounds far away until a takeover is announced, which is why a short without an exit planned is the riskiest position a beginner can hold."
+
+  - type: sort
+    prompt: "Each of these is a position you are holding. Which way does it need the price to go?"
+    buckets: ["Wants the price up", "Wants the price down"]
+    items:
+      - {text: "Shares you paid for and still own", bucket: "Wants the price up"}
+      - {text: "Shares you borrowed and sold", bucket: "Wants the price down"}
+      - {text: "A position you will close by selling", bucket: "Wants the price up"}
+      - {text: "A position you will close by buying", bucket: "Wants the price down"}
+    explanation: "Whichever side you still owe decides it: if you have to sell later you want it higher, if you have to buy later you want it lower."
+
+  - type: tf
+    statement: "A short that has gone 40 cents your way is worth exactly what a long 40 cents your way is worth, on the same share count."
+    answer: true
+    explanation: "The arithmetic is symmetrical. What sits behind the two positions is not."
+
+  - type: fill-choice
+    sentence: "Whatever the direction, your result is the price you sold at minus the price you ___ at, times the shares."
+    options: ["bought", "borrowed", "opened"]
+    answer: "bought"
+    explanation: "Two prices and a share count, in any order."
+
+  - type: theory
+    title: "Same sum, different risk"
+    body: "Treat the arithmetic as symmetrical and the risk as anything but. A long can go to zero; a short can go further than you have."

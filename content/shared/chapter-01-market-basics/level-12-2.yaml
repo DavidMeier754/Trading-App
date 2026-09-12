@@ -1,0 +1,113 @@
+id: "12-2"
+title: "Getting Access"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [broker, fees, orders]
+learning_goal: "User can assemble the order that opens and closes a position, and work out what each of the three kinds of broker charge takes out of a round trip."
+purpose: "The charge is the one number in a trade that is certain before you start, and the only one you can decide in advance."
+terms_introduced: []
+reinforces: []
+prerequisite: "12-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $6,000; the worked position is 250 × $19.40 = $4,850 in PINE. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+screens:
+  - type: intro
+    text: "Two things the broker needs from you, and three ways it can charge you for them."
+
+  - type: theory
+    title: "Two decisions make an order"
+    body: "Which side you are on, and how many shares. Everything else on the ticket is the stock's name and a button. Send it, and the broker has an instruction it can act on."
+
+  - type: order-build
+    prompt: "You have a $6,000 account and you want to open a position in PINE at $19.40. Build the order for 250 shares."
+    ticker: PINE
+    slots: [side, qty]
+    chips:
+      side: [buy, sell]
+      qty: [100, 250, 400]
+    answer: {side: buy, qty: 250}
+    explanation: "Buy 250. At $19.40 that is $4,850 of the $6,000, which the account can actually pay for."
+
+  - type: theory
+    title: "Three ways a broker charges"
+    body: "A flat amount per order, an amount per share, or nothing visible at all because it sits in the prices you are given. {{market.fee_note}}"
+
+  - type: example
+    body: "PINE, 250 shares, in and out. At $1 an order that is $1 + $1 = $2. At half a cent a share it is 250 × $0.005 = $1.25 each way, so $2.50."
+    visual: cost-stack
+    visual_data: {shares: 250, spread: 0.02, slippage: 0.0, fees: 0.005, target: 0.20}
+
+  - type: numeric-input
+    prompt: "Half a cent a share, 400 shares, bought and sold. What have the charges taken in total?"
+    answer: 4
+    tolerance: 0.01
+    unit: "$"
+    working: "400 × $0.005 = $2 each way, × 2 = $4"
+    explanation: "Per-share charges grow with the position; the two sides of the trade are charged separately."
+
+  - type: sort
+    prompt: "Which of these grows when you take a bigger position?"
+    buckets: ["Same whatever the size", "Grows with the size"]
+    items:
+      - {text: "$1 an order", bucket: "Same whatever the size"}
+      - {text: "Half a cent a share", bucket: "Grows with the size"}
+      - {text: "The gap between the two prices on offer", bucket: "Grows with the size"}
+      - {text: "A monthly charge for the platform", bucket: "Same whatever the size"}
+    explanation: "Anything priced per share scales with you. The gap between the two prices is per share too, even though nobody sends you a bill for it."
+
+  - type: mc
+    prompt: "You place 30 orders of 100 shares today. Somebody else places 3 orders of 1,000 shares. Same broker, $1 an order. Who pays more, and why?"
+    options:
+      - {text: "You do: 30 orders against 3, for the same 3,000 shares", correct: true}
+      - {text: "They do: 3 orders of 1,000 shares is more stock to send"}
+      - {text: "Nobody: 3,000 shares either way, so the same charge"}
+    explanation: "$30 against $3. A flat charge per order is a charge on how often you trade, not on how much."
+
+  - type: tf
+    statement: "A broker that charges nothing per order is taking nothing out of your trade."
+    answer: false
+    explanation: "It can be in the prices you are handed instead. Free of charge and free are not the same thing."
+
+  - type: order-build
+    prompt: "PINE has done what you hoped and you want to close the position. Build that order."
+    ticker: PINE
+    slots: [side, qty]
+    chips:
+      side: [buy, sell]
+      qty: [100, 250, 400]
+    answer: {side: sell, qty: 250}
+    explanation: "Sell the same 250 you bought. A position is only closed when the share count comes back to zero."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "Tap the field that decides what a one-cent move is worth to you."
+    data: {ticker: PINE, side: buy, qty: 250}
+    target: qty
+    explanation: "250 shares makes a cent worth $2.50. The same cent is worth 50 cents on 50 shares."
+
+  - type: numeric-mc
+    prompt: "You buy 250 PINE at $19.40 and sell at $19.60, and the broker charges $1 an order. What is left?"
+    options:
+      - {text: "$50"}
+      - {text: "$49"}
+      - {text: "$48", correct: true}
+      - {text: "$46"}
+    working: "$0.20 × 250 = $50, minus 2 orders × $1 = $48"
+    explanation: "Twenty cents on 250 shares, minus the charge on the way in and the charge on the way out."
+
+  - type: fill-choice
+    sentence: "Buying and then selling the same 250 shares means the broker has handled ___ orders."
+    options: ["two", "one", "four"]
+    answer: "two"
+    explanation: "One to open, one to close, and each one charged."
+
+  - type: checklist-reveal
+    title: "Before you send a ticket"
+    items:
+      - "Which side am I on?"
+      - "How many shares, and can the account pay for them?"
+      - "What does the round trip cost before the price moves at all?"

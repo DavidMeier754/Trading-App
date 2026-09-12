@@ -1,0 +1,110 @@
+id: "15-2"
+title: "The Big Picture"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [news, expectations, volatility]
+learning_goal: "User can explain why a price reacts to the gap between news and what was expected, and can say where a stock's biggest single days come from."
+purpose: "Every beginner loses an argument with the market the first time good news and a falling price arrive together."
+terms_introduced: []
+reinforces: []
+prerequisite: "15-1"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $6,000; the worked position is 250 × $15.00 = $3,750 in LUMA. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+screens:
+  - type: intro
+    text: "Good news, falling price. It happens every week, and there is nothing strange about it."
+
+  - type: theory
+    title: "The price already holds a guess"
+    body: "Before a company reports, the price reflects what buyers and sellers already believe is coming. Everybody has bought or sold on that belief. Only the difference between the belief and the news is left to move it."
+
+  - type: example
+    body: "LUMA was widely expected to report profits about 20 % higher. It reported 12 % higher — a good year — and the price fell 6 % on the day."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "LUMA reported profits 12 % higher than last year,"}
+      - {text: "which is better than the year before,"}
+      - {text: "so the price had to rise.", wrong: true}
+      - {text: "Sellers took it down 6 % instead."}
+    explanation: "Better than last year is not the same as better than expected, and only the second one is still available to move the price."
+
+  - type: theory
+    title: "Two numbers, not one"
+    body: "There is the number a company reports, and the number people were braced for. Headlines only print the first one. The price answers the gap between them."
+
+  - type: mc
+    prompt: "Two companies report exactly the same 10 % profit growth on the same morning. One stock jumps, the other falls. What must have been different?"
+    options:
+      - {text: "The size of the two companies"}
+      - {text: "What was already expected of each one", correct: true}
+      - {text: "That one reported before the open and one after"}
+    explanation: "Same news, two different expectations, so two different gaps for the price to answer."
+
+  - type: tf
+    statement: "A report that lands exactly where everybody expected it still moves the price sharply, because the news is now confirmed."
+    answer: false
+    explanation: "The expectation was bought before the news arrived, so confirming it leaves the price almost nothing to answer."
+
+  - type: theory
+    title: "Where the sudden volatility lives"
+    body: "Most of a stock's biggest single days land on dates that were on the calendar: results, decisions, scheduled announcements. The date is public long in advance. The number is not."
+
+  - type: chart-annotate
+    prompt: "LUMA closed yesterday at $15.00. Overnight it reported, and this morning the market has taken it 8 % above that close. Drag the line to where that puts the price."
+    chart: {kind: line, data: [15.90, 15.98, 15.92, 16.04, 15.98, 16.08, 16.12, 16.10, 16.16]}
+    answer: 16.20
+    tolerance: 0.04
+    label: "8 % above the close"
+    explanation: "8 % of $15.00 is $1.20, so the line belongs at $16.20 — a little above where this morning has been trading."
+
+  - type: numeric-input
+    prompt: "You held 250 shares of LUMA from yesterday's close at $15.00 through that report. What is the 8 % gap worth to the position?"
+    answer: 300
+    tolerance: 1
+    unit: "$"
+    working: "8 % of $15.00 = $1.20; $1.20 × 250 shares = $300"
+    explanation: "A gap is paid or charged before you can do anything about it, which is exactly why it cuts both ways."
+
+  - type: mc
+    prompt: "Why is a scheduled report the riskiest thing a swing trader holds through?"
+    options:
+      - {text: "Brokers widen the gap between the two prices after a report"}
+      - {text: "Reports are usually bad news for a price"}
+      - {text: "Overnight the price can travel further than a whole ordinary day", correct: true}
+    explanation: "The position is open while nobody is trading, and the first price you can act on is already on the other side of the move."
+
+  - type: sort
+    prompt: "Each of these is due. Which still has something left to move the price, and which is already paid for?"
+    buckets: ["Still has room to move it", "Already in the price"]
+    items:
+      - {text: "A result far away from what anybody pencilled in", bucket: "Still has room to move it"}
+      - {text: "A dividend everybody has known about for a month", bucket: "Already in the price"}
+      - {text: "A decision that lands nowhere near what people braced for", bucket: "Still has room to move it"}
+      - {text: "A strong quarter that comes in exactly as forecast", bucket: "Already in the price"}
+    explanation: "Known and expected is bought already. Only the distance between the news and the expectation is left."
+
+  - type: slider
+    prompt: "NOVA closed at $20.00 and the first price this morning, after a report, is $21.00. How big is that gap?"
+    min: 0
+    max: 20
+    step: 1
+    unit: "%"
+    answer: 5
+    tolerance: 1
+    explanation: "$1.00 out of $20.00 is 5 %, made in one step while you could not trade."
+
+  - type: fill-choice
+    sentence: "A price reacts to the gap between the news and what people ___."
+    options: ["expected", "hoped", "announced"]
+    answer: "expected"
+    explanation: "The news alone is only half of the pair."
+
+  - type: story
+    character: institution
+    text: "The institution never asks whether the news is good. It asks whether the news is better than the price is already saying."

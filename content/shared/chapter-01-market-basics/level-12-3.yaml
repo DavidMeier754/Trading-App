@@ -1,0 +1,113 @@
+id: "12-3"
+title: "Getting Access"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: repetition
+tags: [paper-trading, broker, practice]
+learning_goal: "User runs one practice trade from picking the name to counting what the decision cost, and sizes it to what the account can pay for."
+purpose: "The practice account is the only place where a habit can be built for free, and most people waste it by treating the money as fake."
+terms_introduced: []
+reinforces: []
+prerequisite: "12-2"
+xp: 25
+difficulty: 2
+sources: [consensus]
+notes: "Practice account named at $6,000; the worked position is 250 × $22.40 = $5,600 in TIDE, and the sizing ceiling question answers 267 shares. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+screens:
+  - type: intro
+    text: "Real prices, real buttons, virtual money. Let's use one properly."
+
+  - type: story
+    character: retail-trader
+    text: "Your broker opens a practice account with $6,000 in it and the same ticket as the real one. Nothing you do in here can cost you anything."
+
+  - type: theory
+    title: "What practice is actually for"
+    body: "Not for proving you can pick a winner. For learning where the buttons are, what your own habits look like, and how big a position this much money can hold."
+
+  - type: scanner-pick
+    prompt: "Four names on your practice watchlist. You want one you could leave whenever you want, that still moves enough for a decision to have a result. Which row?"
+    data:
+      rows:
+        - {ticker: TIDE, price: 22.40, change_pct: 1.8, spread: 0.02}
+        - {ticker: RUSK, price: 12.90, change_pct: 2.1, spread: 0.18}
+        - {ticker: APEX, price: 24.10, change_pct: 0.2, spread: 0.01}
+        - {ticker: MOON, price: 8.60, change_pct: 31.3, spread: 0.26}
+    target: TIDE
+    explanation: "RUSK and MOON both move, and both have an 18- and a 26-cent gap standing between you and the exit. APEX is easy to leave and goes nowhere. TIDE is the one where both readings work."
+
+  - type: theory
+    title: "The rules where you trade"
+    body: "{{market.regulation_note}} Your broker applies them to your account whether or not you have read them."
+
+  - type: numeric-input
+    prompt: "The practice account holds $6,000 and TIDE trades at $22.40. What is the largest whole number of shares it can pay for?"
+    answer: 267
+    unit: "shares"
+    working: "$6,000 ÷ $22.40 = 267.8, so 267 shares (267 × $22.40 = $5,980.80)"
+    explanation: "Whatever a risk rule says later, this ceiling never moves: you cannot hold more stock than the account can pay for."
+
+  - type: order-build
+    prompt: "You decide on 250 shares of TIDE at $22.40, comfortably inside that ceiling. Build the order."
+    ticker: TIDE
+    slots: [side, qty]
+    chips:
+      side: [buy, sell]
+      qty: [250, 400, 600]
+    answer: {side: buy, qty: 250}
+    explanation: "250 × $22.40 = $5,600. The 400 and the 600 are both more stock than $6,000 can pay for."
+
+  - type: tf
+    statement: "Because the money in a practice account is not real, the size you take there does not matter."
+    answer: false
+    explanation: "The size is the habit, and the habit is the thing you are there to build."
+
+  - type: branch
+    scenario: "Your practice position is open: 250 shares of TIDE from $22.40."
+    shares: 250
+    chart:
+      kind: line
+      data: [22.40, 22.44, 22.38, 22.32, 22.28, 22.34, 22.26, 22.28, 22.20, 22.28]
+      decision_index: 4
+    steps:
+      - prompt: "It is 12 cents under your entry and you feel like doubling up to get back to even faster. What does this account let you find out?"
+        options:
+          - {text: "Whether that urge shows up in you at all, for free", correct: true, next: 1}
+          - {text: "Nothing — it is virtual, so the urge is not real either", next: 1}
+        explanation: "The urge arrives whether or not the money does. Meeting it here costs nothing; meeting it later costs whatever the position is worth."
+      - prompt: "You close instead, at $22.28. What is worth writing down?"
+        options:
+          - {text: "The decision and its price: 12 cents a share, $30 on 250", correct: true}
+          - {text: "Nothing, because no money changed hands"}
+        explanation: "$0.12 × 250 = $30. A practice trade you did not record is a trade you cannot learn anything from."
+
+  - type: mc
+    prompt: "What is the one thing a practice account cannot teach you?"
+    options:
+      - {text: "How the ticket works"}
+      - {text: "What your nerves do with real money at stake", correct: true}
+      - {text: "What a 12-cent move is worth on 250 shares"}
+    explanation: "Everything mechanical transfers. The feeling does not, which is why the first real position is always smaller than the practice one."
+
+  - type: sort
+    prompt: "Which of these is the same in the practice account, and which changes when the money is yours?"
+    buckets: ["The same in both", "Different in the real one"]
+    items:
+      - {text: "The prices on the screen", bucket: "The same in both"}
+      - {text: "Where the fields are on the ticket", bucket: "The same in both"}
+      - {text: "What a losing position feels like", bucket: "Different in the real one"}
+      - {text: "What a bad habit eventually costs", bucket: "Different in the real one"}
+    explanation: "The screen and the mechanics carry over exactly. The weight is the part you cannot rehearse."
+
+  - type: fill-tiles
+    sentence: "Practising with virtual money at real prices is called ___ trading."
+    answer: "paper"
+    explanation: "Same prices, same buttons, none of the consequences."
+
+  - type: recap
+    title: "Level 12 in three lines"
+    points:
+      - {text: "A broker connects you to the exchange and holds the account; an order is the instruction.", level: "12-1"}
+      - {text: "Charges come per order, per share, or hidden in the prices, and every round trip pays twice.", level: "12-2"}
+      - {text: "Practise with the size you will really use, and write down what each decision cost.", level: "12-3"}

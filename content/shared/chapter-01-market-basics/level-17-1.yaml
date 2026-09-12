@@ -8,11 +8,12 @@ tags: [final-exam]
 learning_goal: "Confirm mastery of profit math, supply/demand, ownership and exchanges, quote reading, liquidity vs volatility, participants, sessions, broker and fees, long/short, styles, trend and news."
 purpose: "The gate before path-specific content — and the moment you pick your path."
 terms_introduced: []
-prerequisite: "16-1"
+prerequisite: "16-2"
 xp: 80
-difficulty: 2
+difficulty: 3
+reinforces: []
 sources: [consensus]
-notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with badge and path choice."
+notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with the badge, the Observer tier and the path choice, per the v3 level table. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
 screens:
   - type: intro
     text: "Final exam: Market Basics. Twelve questions, then your path."
@@ -116,5 +117,9 @@ screens:
   - type: badge
     name: "Market Basics — Complete"
     unlocks: "Your path"
+
+  - type: tier-up
+    tier: "Observer"
+    means: "You can read a price, a quote and a chart, and you know what you do not know yet."
 
   - type: path-choice

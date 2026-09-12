@@ -1,0 +1,110 @@
+id: "13-4"
+title: "Long and Short"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: repetition
+tags: [drill, long-short, decisions]
+learning_goal: "User reaches long, short or no trade on charts where the direction and the stock behind it both have a say."
+purpose: "Three buttons only become useful when picking between them is automatic, and that is built by repetition, not by explanation."
+terms_introduced: []
+reinforces: []
+prerequisite: "13-3"
+xp: 25
+difficulty: 3
+sources: [consensus]
+notes: "Drill sub: four decisions, a deck and a comparison, with no teaching screens. Account named at $8,000; the largest position worked here is 400 × $12.90 = $5,160 in RUSK. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+screens:
+  - type: intro
+    text: "Four decisions and a deck. You have $8,000 in the account for all of them."
+
+  - type: chart-decision
+    scenario: "LUMA trades about 1.6 M shares on a normal day. It has stepped higher for six minutes and buyers are taking every offer. It is at $15.80 and you are looking at 350 shares."
+    shares: 350
+    chart: {kind: line, data: [15.42, 15.48, 15.46, 15.58, 15.70, 15.80, 15.88, 15.96, 16.04, 16.10], decision_index: 5}
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $16.10, thirty cents above where it paused — +$105 on 350 shares."
+    explanation: "Demand in charge in a stock deep enough that 350 shares is nothing to it."
+
+  - type: chart-decision
+    scenario: "VANE trades 3 M shares a day. It has made a lower high every two minutes and the last step down was the largest so far. It is at $18.90 and you are looking at 300 shares."
+    shares: 300
+    chart: {kind: line, data: [19.80, 19.66, 19.70, 19.42, 19.14, 18.90, 18.74, 18.60, 18.44, 18.36], decision_index: 5}
+    best: short
+    reasonable: [no-trade]
+    outcome: "It gave up another 54 cents to $18.36 — $162 on a 300-share short."
+    explanation: "Sellers taking every bid, each bounce smaller than the last, and a stock you can get back out of."
+
+  - type: swipe-deck
+    prompt: "You are looking for the kind of chart a short belongs on: sold down through the whole stretch, with nothing given back. Take it, or pass?"
+    cards:
+      - chart: {kind: line, data: [21.40, 21.26, 21.30, 21.08, 20.90, 20.72, 20.60, 20.44]}
+        answer: take
+        note: "Down almost a dollar in steps, and every small bounce sold again."
+      - chart: {kind: line, data: [16.10, 16.24, 16.18, 16.36, 16.50, 16.44, 16.62, 16.78]}
+        answer: pass
+        note: "That is the mirror image. Buyers have had this one from the first price."
+      - chart: {kind: line, data: [26.40, 26.22, 26.28, 26.04, 25.86, 25.70, 25.74, 25.52]}
+        answer: take
+        note: "Lower again at the end than at any point before it. Sellers never lost the ground."
+      - chart: {kind: line, data: [12.90, 12.74, 12.60, 12.66, 12.78, 12.86, 12.94, 13.02]}
+        answer: pass
+        note: "It fell, then handed all of it back and more. Whoever was selling has stopped."
+    explanation: "Two of the four fall and keep the ground. The other two are a climb and a recovery, and a short belongs on neither."
+
+  - type: chart-decision
+    scenario: "APEX trades 30 M shares a day. It has spent the last twelve minutes inside four cents at $24.10, and you are looking at 200 shares."
+    shares: 200
+    chart: {kind: line, data: [24.08, 24.10, 24.09, 24.11, 24.10, 24.10, 24.11, 24.09, 24.10, 24.12], decision_index: 5}
+    best: no-trade
+    outcome: "Twelve more minutes, three cents of range. A round trip either way would have paid the gap and collected nothing."
+    explanation: "Easy to get in and out of, and nothing to be paid for once you are. No pressure either way is a no trade."
+
+  - type: numeric-input
+    prompt: "That VANE short: 300 shares sold at $18.90 and covered at $18.36. What was the result?"
+    answer: 162
+    tolerance: 0.01
+    unit: "$"
+    working: "$18.90 − $18.36 = $0.54; $0.54 × 300 = $162"
+    explanation: "You sold at the higher of your two prices, so the subtraction is in your favour."
+
+  - type: chart-decision
+    scenario: "RUSK trades 9,000 shares on a normal day. It has stepped lower for six minutes and is at $12.90. You are looking at 400 shares."
+    shares: 400
+    chart: {kind: line, data: [13.40, 13.34, 13.36, 13.18, 13.02, 12.90, 12.82, 12.70, 12.66, 12.58], decision_index: 5}
+    best: no-trade
+    reasonable: [short]
+    outcome: "It did fall to $12.58 — $128 on paper for a 400-share short, in a stock where 400 shares is a twenty-second of a normal day's trading."
+    explanation: "The direction was readable and the way back out was not. Being right about a chart you cannot leave is not the same as a workable trade."
+
+  - type: compare
+    prompt: "Both of these trade millions of shares a day. In which one have the sellers kept what they took?"
+    charts:
+      - {kind: line, data: [29.60, 29.42, 29.20, 29.28, 29.46, 29.58, 29.66, 29.74], label: "A"}
+      - {kind: line, data: [17.80, 17.64, 17.70, 17.48, 17.32, 17.20, 17.24, 17.06], label: "B"}
+    answer: "B"
+    explanation: "A fell 40 cents and then took all of it back. B is lower at the end than anywhere earlier, which is what selling in control looks like."
+
+  - type: tf
+    statement: "A chart that says short is still a short in a stock almost nobody trades."
+    answer: false
+    explanation: "The chart is half the decision. If 400 shares is most of what the stock does in an hour, the exit is the other half."
+
+  - type: sort
+    prompt: "One of the three buttons for each of these. Which one?"
+    buckets: ["Long", "Short", "No trade"]
+    items:
+      - {text: "Stepping higher for six minutes in a stock that trades millions", bucket: "Long"}
+      - {text: "A lower low each time, and the last step the biggest", bucket: "Short"}
+      - {text: "Twelve minutes inside four cents", bucket: "No trade"}
+      - {text: "The direction you want, in a stock that trades 9,000 shares a day", bucket: "No trade"}
+    explanation: "Pressure one way, pressure the other way, or a stock that cannot give you the position back."
+
+  - type: recap
+    title: "Level 13 in four lines"
+    points:
+      - {text: "Long buys first and short sells borrowed shares first; covering closes it.", level: "13-1"}
+      - {text: "Every chart has three answers, and no trade is one of them.", level: "13-2"}
+      - {text: "One subtraction serves both directions; only the long has a worst case you can write down.", level: "13-3"}
+      - {text: "The direction is half of it; whether you can leave is the other half.", level: "13-4"}

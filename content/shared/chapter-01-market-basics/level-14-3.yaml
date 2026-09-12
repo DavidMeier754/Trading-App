@@ -1,0 +1,110 @@
+id: "14-3"
+title: "Three Ways to Trade"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [styles, costs, holding-period]
+learning_goal: "User can say how a style multiplies what trading costs, and pick the style that fits the time and the account they actually have."
+purpose: "The three styles are not three tastes; they are three different bills, and the smaller your target the bigger a share of it the bill takes."
+terms_introduced: []
+reinforces: []
+prerequisite: "14-2"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Account named at $6,000; the worked positions are 200 and 300 shares of LUMA at $15.80 ($3,160 and $4,740). Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+screens:
+  - type: intro
+    text: "Your style decides how many times a day you pay to get in and back out."
+
+  - type: theory
+    title: "Every round trip pays the gap"
+    body: "In and out once pays the gap between the two prices, plus whatever the broker takes. Nothing about that depends on whether you were right. Your style only decides how often it happens."
+
+  - type: example
+    body: "LUMA has a two-cent gap. A scalper doing 20 round trips of 200 shares pays 20 × 200 × $0.02 = $80 of gap in one day. A swing trader doing 20 round trips pays the same $80 across a whole year."
+    visual: cost-stack
+    visual_data: {shares: 300, spread: 0.02, slippage: 0.0, fees: 0.01, target: 0.06}
+
+  - type: numeric-input
+    prompt: "Same two-cent gap, 300 shares of LUMA, 8 round trips in one day. What has the gap alone taken?"
+    answer: 48
+    tolerance: 0.01
+    unit: "$"
+    working: "8 × 300 × $0.02 = $48"
+    explanation: "Per share, per round trip, and the round trips are what your style chooses."
+
+  - type: slider
+    prompt: "A scalper is playing for six cents a share and the gap is two cents. What share of that target does the gap take?"
+    min: 0
+    max: 60
+    step: 1
+    unit: "%"
+    answer: 33
+    tolerance: 8
+    explanation: "Two cents out of six is a third of the target, gone before the price has moved at all."
+
+  - type: numeric-mc
+    prompt: "A swing trader is playing for $2.00 a share with the same three cents of cost. What share of that target is the cost?"
+    options:
+      - {text: "15 %"}
+      - {text: "50 %"}
+      - {text: "6 %"}
+      - {text: "1.5 %", correct: true}
+    working: "$0.03 ÷ $2.00 = 0.015 = 1.5 %"
+    explanation: "The same three cents. The target it comes out of is what changed."
+
+  - type: tf
+    statement: "The same three cents of cost hurts the scalper more than the swing trader, because the scalper is playing for less."
+    answer: true
+    explanation: "Cost only means something next to the size of the move you are after."
+
+  - type: story
+    character: retail-trader
+    text: "You have $6,000, about an hour free in the middle of the regular session, and a broker that charges $1 an order."
+
+  - type: mc
+    prompt: "Twenty round trips a day at $1 an order comes to $40 a day in charges. Against a $6,000 account, what does that number tell you?"
+    options:
+      - {text: "That twenty round trips in a day is not possible"}
+      - {text: "That $40 is small next to $6,000, so it hardly matters"}
+      - {text: "That a style has to be matched to what it costs to run", correct: true}
+    explanation: "Forty orders is $40, which is two-thirds of a per cent of the account every day before a single price moves. The trades per day and the charge per order have to fit each other."
+
+  - type: order
+    prompt: "Put these four in order of holding period, shortest first."
+    items: ["Scalping", "Day trading", "Swing trading", "Investing"]
+    explanation: "Seconds, hours, weeks, years — and the cost of one round trip matters most at the top of that list."
+
+  - type: branch
+    scenario: "You decide to try day trading in your free hour. You are long 300 shares of LUMA from $15.80."
+    shares: 300
+    chart:
+      kind: line
+      data: [15.80, 15.84, 15.78, 15.74, 15.72, 15.76, 15.70, 15.72, 15.68, 15.72]
+      decision_index: 4
+    steps:
+      - prompt: "Your hour is nearly up and the position is 8 cents down. What does the style you chose say?"
+        options:
+          - {text: "Close it — a day trade ends when your session ends", correct: true, next: 1}
+          - {text: "Hold it overnight this once and see what the morning brings", next: 1}
+        explanation: "Holding it past your own session makes it a swing trade you never planned, in a stock you picked for an hour."
+      - prompt: "You close at $15.72. What did that decision cost you?"
+        options:
+          - {text: "$24, and a clean start tomorrow", correct: true}
+          - {text: "Nothing, since it might have come back by morning"}
+        explanation: "$0.08 × 300 = $24. Small, known, and finished — which is the whole point of the style."
+
+  - type: fill-tiles
+    sentence: "Buying and then selling the same shares once is one round ___."
+    answer: "trip"
+    explanation: "One round trip, one gap, one set of charges."
+
+  - type: checklist-reveal
+    title: "Choosing a style honestly"
+    items:
+      - "How many hours can I actually watch a screen, on an ordinary week?"
+      - "How many round trips does that style need per day?"
+      - "What does one round trip cost me, gap and charges together?"
+      - "Is the move I would be playing for big enough to carry that cost?"
