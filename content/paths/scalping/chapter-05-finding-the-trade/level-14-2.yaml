@@ -1,0 +1,150 @@
+id: "14-2"
+title: "Chapters 1 & 4 Callback"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: repetition
+tags: [callback, map, process, selection]
+learning_goal: "User runs Chapter 4's four readings on a shortlist rather than on a trade, and knows which of them cannot be answered before the bell."
+purpose: "The read you built to decide a trade is the same read that decides which name is worth a chart, and it is cheaper to run while nothing is moving."
+terms_introduced: []
+reinforces: [1, 4]
+prerequisite: "14-1"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
+notes: "Closes the callback level. The four-part read used for choosing. Account named at $22,000; the worked positions are 1,500 shares at $14.34, at $13.50 and at $12.82."
+screens:
+  - type: intro
+    text: "Four readings, one order. Your account is $22,000 and 1,500 shares is the size you trade."
+
+  - type: story
+    character: retail-trader
+    text: "The read you built in Chapter 4 was for a name already on your screen. This morning there are nine names and the bell has not gone yet."
+
+  - type: theory
+    title: "The same four, asked earlier"
+    body: "Level, side of the average, last finished minute, tape. In front of a chart they tell you whether to take a trade. Before the bell they tell you which name is worth a chart at all."
+
+  - type: match
+    prompt: "The four readings, run on a shortlist instead of on a trade. What does each one settle before the bell?"
+    pairs:
+      - ["The level", "Whether there is a price worth waiting at"]
+      - ["The side of the average", "Which direction the name has been paying"]
+      - ["The last finished minute", "Whether anything is happening in it yet"]
+      - ["The tape", "Nothing at all, an hour before the open"]
+    explanation: "Three of them can be answered on a quiet screen. The fourth needs a market, which is why it is the one left until the name is live."
+
+  - type: chart-annotate
+    prompt: "KILN, forty minutes before the bell. Drag the line to the price that has turned it back twice this morning."
+    chart:
+      kind: candles
+      data: [[13.98, 14.08, 13.94, 14.06], [14.06, 14.30, 14.02, 14.16], [14.16, 14.22, 14.08, 14.12], [14.12, 14.20, 14.06, 14.18], [14.18, 14.30, 14.14, 14.20], [14.20, 14.26, 14.12, 14.16], [14.16, 14.24, 14.10, 14.20], [14.20, 14.26, 14.14, 14.22], [14.22, 14.28, 14.16, 14.24]]
+      volume: [26000, 38000, 22000, 18000, 34000, 20000, 19000, 21000, 24000]
+    answer: 14.30
+    tolerance: 0.04
+    label: "Resistance"
+    explanation: "$14.30, reached twice and given back both times. That is reading one of four, and the only one you can finish while the market is shut."
+
+  - type: chart-decision
+    scenario: "KILN has held above its own average price since the bell and spent twenty minutes underneath the line you drew at $14.30. The minute that just closed finished four cents through it on the heaviest volume of the session, with 1,000s printing at the ask. Your account is $22,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[14.16, 14.24, 14.12, 14.20], [14.20, 14.28, 14.16, 14.24], [14.24, 14.30, 14.20, 14.22], [14.22, 14.28, 14.18, 14.26], [14.26, 14.30, 14.22, 14.28], [14.28, 14.38, 14.26, 14.34], [14.34, 14.46, 14.30, 14.42], [14.42, 14.52, 14.38, 14.48], [14.48, 14.58, 14.44, 14.54], [14.54, 14.64, 14.50, 14.61], [14.61, 14.64, 14.54, 14.58]]
+      volume: [96000, 104000, 88000, 94000, 90000, 168000, 142000, 128000, 114000, 102000, 94000]
+      vwap: [14.14, 14.16, 14.18, 14.19, 14.21, 14.23, 14.26, 14.30, 14.34, 14.38, 14.41]
+      levels:
+        - {price: 14.30, label: "Resistance"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $14.61 — $0.27 a share above the decision, +$405 long on 1,500 shares."
+    explanation: "All four, in order, on a name that earned its chart before the bell: a line already drawn, the session on the right side of its average, a minute that finished through, and size still paying the ask."
+
+  - type: fill-choice
+    sentence: "The one reading you cannot run before the bell is the ___."
+    options: ["tape", "level", "average"]
+    answer: "tape"
+    explanation: "Nothing has printed yet. Three of the four can be answered on a shut market, which is exactly why the pre-market is where they get done."
+
+  - type: chart-tap
+    prompt: "KILN's morning. Tap the first candle to finish above $14.30."
+    chart:
+      kind: candles
+      data: [[14.10, 14.18, 14.06, 14.14], [14.14, 14.22, 14.10, 14.18], [14.18, 14.26, 14.14, 14.20], [14.20, 14.30, 14.16, 14.24], [14.24, 14.30, 14.20, 14.26], [14.26, 14.34, 14.22, 14.32], [14.32, 14.40, 14.28, 14.36], [14.36, 14.42, 14.30, 14.34], [14.34, 14.44, 14.32, 14.40], [14.40, 14.46, 14.34, 14.42]]
+      volume: [88000, 96000, 84000, 92000, 86000, 148000, 126000, 108000, 98000, 90000]
+    target: 5
+    explanation: "The sixth candle is the first to finish above it. The two before it reached the line and closed back under, and a close is what this reading needs."
+
+  - type: mc
+    prompt: "A name answers all four readings cleanly, and trades about 8,000 shares in a typical minute. What does that do?"
+    options:
+      - {text: "Nothing at all: four clean readings are still four clean readings"}
+      - {text: "It ends the name, before the read was worth running", correct: true}
+      - {text: "It caps the trade at roughly a third of your usual size"}
+    explanation: "The dials come first because they are cheaper to check. A read run on a name you cannot leave is four good answers to a question that was already closed."
+
+  - type: branch
+    scenario: "Ten minutes after the bell, HAWK is top of the movers list at 9× normal, two cents wide, trading at $13.40 with results behind it. Nothing is drawn on it. Your account is $22,000."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[13.16, 13.26, 13.12, 13.24], [13.24, 13.34, 13.20, 13.30], [13.30, 13.40, 13.26, 13.36], [13.36, 13.44, 13.32, 13.38], [13.38, 13.46, 13.34, 13.42], [13.42, 13.54, 13.38, 13.50], [13.50, 13.58, 13.46, 13.54], [13.54, 13.62, 13.50, 13.58], [13.58, 13.66, 13.54, 13.62], [13.62, 13.68, 13.56, 13.64]]
+      volume: [92000, 100000, 86000, 94000, 88000, 140000, 124000, 110000, 100000, 92000]
+      decision_index: 5
+    steps:
+      - prompt: "You start the read and step one comes back empty — there is no level anywhere near price. What does the order say?"
+        options:
+          - {text: "Skip to the candle, which is the reading that is actually there", next: 1}
+          - {text: "Stop: with nothing to lean on there is nothing to size", correct: true, next: 1}
+          - {text: "Draw a level at the price it is trading now", next: 1}
+        explanation: "The read stops at the first empty step. A line drawn at the price you happen to be looking at was put there by the move, not by the market."
+      - prompt: "Ten minutes later HAWK has stalled twice at $13.66. What has changed?"
+        options:
+          - {text: "Nothing: the name failed the read once and is finished for the day"}
+          - {text: "Step one has an answer now, so the read can run", correct: true}
+          - {text: "The stall is the entry, so the rest of the read can be skipped"}
+        explanation: "Two refusals at one price is a level the market drew rather than you. Now there is something to lean on and something to put a stop behind."
+      - prompt: "The read comes back clean and you want your usual 1,500 shares, filled at $13.70 with the stop under $13.60. What gets checked last?"
+        options:
+          - {text: "The tape, because it is the fastest of the four readings"}
+          - {text: "Nothing: the read is clean, so the usual size applies"}
+          - {text: "Both ceilings — what $22,000 buys, and what the stop allows", correct: true}
+        explanation: "$22,000 buys 1,605 shares, so the account is not the binding one here. Ten cents on 1,500 shares is $150, and that is the number the size gets built from."
+
+  - type: numeric-input
+    prompt: "Confirm the account ceiling on HAWK: $22,000, and a fill at $13.70."
+    answer: 1605
+    tolerance: 1
+    unit: "shares"
+    working: "$22,000 ÷ $13.70 = 1,605 shares"
+    explanation: "Sixteen hundred and five, so 1,500 fits. On a $24 name the same account would have stopped you at 916, and no reading of the chart changes that."
+
+  - type: tf
+    statement: "Because the tape changes fastest, it is the reading a shortlist gets built on."
+    answer: false
+    explanation: "It changes fastest, which is why it is checked last and never before the bell. A shortlist is built out of the readings that keep."
+
+  - type: chart-decision
+    scenario: "MERE has stalled three times at $12.80 and the minute that just closed finished two cents through it on ordinary volume. It has been under its own average price since the bell and the prints going through were 100s and 200s. Your account is $22,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[12.72, 12.80, 12.68, 12.76], [12.76, 12.80, 12.70, 12.72], [12.72, 12.78, 12.66, 12.74], [12.74, 12.80, 12.70, 12.76], [12.76, 12.78, 12.70, 12.72], [12.72, 12.84, 12.70, 12.82], [12.82, 12.84, 12.74, 12.76], [12.76, 12.80, 12.68, 12.70], [12.70, 12.74, 12.62, 12.64], [12.64, 12.70, 12.60, 12.66], [12.66, 12.70, 12.58, 12.62]]
+      volume: [88000, 82000, 90000, 86000, 78000, 94000, 80000, 88000, 96000, 84000, 90000]
+      vwap: [12.86, 12.85, 12.84, 12.84, 12.83, 12.83, 12.83, 12.82, 12.80, 12.79, 12.78]
+      levels:
+        - {price: 12.80, label: "Resistance"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It gave the level straight back and finished at $12.62 — $0.20 a share under the decision."
+    explanation: "Reading one was there and reading two was not: a break through a level on a session that has paid sellers all morning, with nobody of size behind the prints."
+
+  - type: recap
+    title: "Level 14 in three lines"
+    points:
+      - {text: "The two dials fail in opposite directions, and either of them ends a name.", level: "14-1"}
+      - {text: "The four readings run on a shortlist as well as on a trade.", level: "14-2"}
+      - {text: "Three of the four can be answered before the open; the tape cannot.", level: "14-2"}

@@ -1,0 +1,159 @@
+id: "17-1"
+title: "Final Exam"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: final-exam
+tags: [final-exam]
+learning_goal: "Confirm mastery of the four selection questions, relative volume, the catalyst, the scanner and the watchlist, float, the index, the sector, breadth and tone, the day type and the pre-market routine."
+purpose: "Everything the playbook chapter drills has to be pointed at a name worth drilling, and these thirteen questions are where that gets checked."
+terms_introduced: []
+reinforces: [1, 2, 3, 4]
+prerequisite: "16-2"
+xp: 80
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade", "Carter — Mastering the Trade"]
+notes: "13 scored questions. Hearts apply. Pass mark 70 %. Questions 1, 7, 9, 10, 11 and 13 reach back into Chapters 1–4. Account named at $22,000; the worked positions are 1,500 shares at $13.94, at $13.94 and at $13.34."
+screens:
+  - type: intro
+    text: "Final exam: Finding the Trade. Thirteen questions. Your account is $22,000 and 1,500 shares is the size you trade."
+    counter: 13
+
+  - type: scanner-pick
+    prompt: "This morning's list, at the size you trade. Which single row survives?"
+    data:
+      rows:
+        - {ticker: QUAY, price: 13.70, change_pct: 8.8, rvol: 7.6, float: "80M", spread: 0.02, catalyst: "Results"}
+        - {ticker: BRAC, price: 26.40, change_pct: 10.4, rvol: 9.1, float: "300M", spread: 0.03, catalyst: "Upgrade"}
+        - {ticker: SILT, price: 12.20, change_pct: 16.2, rvol: 14.8, float: "4M", spread: 0.18, catalyst: "Trial result"}
+        - {ticker: ELMS, price: 13.90, change_pct: 1.6, rvol: 1.0, float: "130M", spread: 0.02, catalyst: "—"}
+    target: QUAY
+    explanation: "QUAY is $20,550 for 1,500 shares on a two-cent quote. BRAC is 833 shares on this account, SILT's quote is $270 of round trip, ELMS is having an ordinary day."
+
+  - type: numeric-mc
+    prompt: "By this point yesterday QUAY had traded 250,000 shares. Today it has traded 1.9 M. What is its relative volume?"
+    options:
+      - {text: "0.13×"}
+      - {text: "7.6×", correct: true}
+      - {text: "1.9×"}
+      - {text: "19×"}
+    working: "1,900,000 ÷ 250,000 = 7.6"
+    explanation: "Seven and a half times its own ordinary day, measured at the same point in it. The raw number says nothing until this name's own normal is underneath it."
+
+  - type: tf
+    statement: "A name can be up on good results and still be the better short of the two on your screen."
+    answer: true
+    explanation: "The reason explains why a crowd turned up, never which way it leaves. The chart picks the side, and sometimes it picks against the headline."
+
+  - type: chart-decision
+    scenario: "QUAY has held above its average price since the bell and spent fifteen minutes under yesterday's high at $13.90. The minute that just closed finished four cents through it on the heaviest bar of the session. Your account is $22,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[13.70, 13.78, 13.66, 13.76], [13.76, 13.84, 13.72, 13.80], [13.80, 13.88, 13.76, 13.82], [13.82, 13.90, 13.78, 13.86], [13.86, 13.90, 13.82, 13.88], [13.88, 13.98, 13.86, 13.94], [13.94, 14.06, 13.90, 14.02], [14.02, 14.12, 13.98, 14.08], [14.08, 14.18, 14.04, 14.14], [14.14, 14.22, 14.10, 14.18], [14.18, 14.22, 14.12, 14.16]]
+      volume: [98000, 106000, 90000, 96000, 92000, 164000, 140000, 124000, 112000, 102000, 94000]
+      vwap: [13.68, 13.70, 13.72, 13.74, 13.76, 13.78, 13.82, 13.86, 13.90, 13.94, 13.98]
+      levels:
+        - {price: 13.90, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $14.18 — $0.24 a share above the decision, +$360 long on 1,500 shares."
+    explanation: "A line drawn before the bell, the session on the right side of its own average, and the heaviest minute of the morning finishing through it."
+
+  - type: mc
+    prompt: "SILT has a 4 M float and QUAY has 80 M, and both are up about 15 %. What does that difference tell you?"
+    options:
+      - {text: "That SILT will keep moving and QUAY will stall"}
+      - {text: "That SILT gets there faster and fills you worse", correct: true}
+      - {text: "That QUAY is the safer of the two to carry overnight"}
+    explanation: "A small float has fewer shares to argue over, so price travels further per order and the book underneath it is thinner. Speed and slippage, not direction."
+
+  - type: sort
+    prompt: "Which of these is settled while the market is shut, and which has to wait for a session?"
+    buckets: ["Settled before the bell", "Waits for the session"]
+    items:
+      - {text: "Which names are allowed on the screen at all", bucket: "Settled before the bell"}
+      - {text: "Where the index sits against yesterday's close", bucket: "Settled before the bell"}
+      - {text: "Whether the day travels or keeps coming back", bucket: "Waits for the session"}
+      - {text: "What the opening range's high and low turn out to be", bucket: "Waits for the session"}
+    explanation: "Two of the four need nothing but a quiet screen. The other two need a session to have happened, and guessing them early gives you a label to spend the day defending."
+
+  - type: chart-annotate
+    prompt: "QUAY's first minutes after the bell. Drag the line to the high of the opening range."
+    chart:
+      kind: candles
+      data: [[13.88, 14.04, 13.84, 13.98], [13.98, 14.10, 13.94, 14.02], [14.02, 14.18, 13.98, 14.06], [14.06, 14.10, 14.00, 14.04], [14.04, 14.12, 13.98, 14.08], [14.08, 14.12, 14.02, 14.06], [14.06, 14.12, 14.00, 14.10], [14.10, 14.14, 14.04, 14.08], [14.08, 14.14, 14.02, 14.12]]
+      volume: [180000, 160000, 148000, 120000, 110000, 104000, 116000, 108000, 124000]
+    answer: 14.18
+    tolerance: 0.04
+    label: "Opening-range high"
+    explanation: "$14.18. Everything the session does from here gets measured against it and against the low sitting under it."
+
+  - type: chart-decision
+    scenario: "TERN has crossed the same two prices three times since the bell. The minute that just closed pushed two cents through the ceiling at $13.96 and finished back underneath it. Your account is $22,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[13.72, 13.78, 13.70, 13.74], [13.74, 13.96, 13.70, 13.92], [13.92, 13.96, 13.78, 13.82], [13.82, 13.88, 13.70, 13.74], [13.74, 13.92, 13.72, 13.88], [13.88, 13.98, 13.84, 13.94], [13.94, 13.96, 13.82, 13.86], [13.86, 13.92, 13.76, 13.80], [13.80, 13.86, 13.72, 13.76], [13.76, 13.88, 13.74, 13.84], [13.84, 13.94, 13.78, 13.88]]
+      volume: [96000, 124000, 102000, 92000, 108000, 116000, 98000, 92000, 88000, 94000, 100000]
+      levels:
+        - {price: 13.96, label: "Ceiling"}
+        - {price: 13.70, label: "Floor"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It fell back to $13.76 — $0.18 a share under the decision, and then crossed the middle of the range again."
+    explanation: "The third push at this ceiling finished back inside it, exactly as the two before it did. A break needs a minute that closes outside, and this one did not."
+
+  - type: depth-ladder
+    prompt: "SILT's book, and you market-buy 1,100 shares. Where does the last of them fill?"
+    data:
+      bids: [[12.12, 500], [12.08, 700], [12.02, 1600]]
+      asks: [[12.30, 400], [12.36, 900], [12.44, 1800]]
+    target: ask-2
+    explanation: "Four hundred at $12.30 and seven hundred more six cents higher. The row said eighteen cents wide; the book says what the second half of the order actually costs."
+
+  - type: mc
+    prompt: "A name prints 200,000 shares a minute, is a cent wide, and has covered seven cents all session. What is wrong with it?"
+    options:
+      - {text: "Nothing — it is the most tradeable name on the screen"}
+      - {text: "The quote is too tight for a scalp to clear its fees"}
+      - {text: "It fails the dial the other one cannot make up for", correct: true}
+    explanation: "It is as easy to leave as a stock gets and there is nothing to leave with. Access and movement are separate readings, and a name needs both of them."
+
+  - type: numeric-input
+    prompt: "SILT is eighteen cents wide and you were going to trade 1,500 shares of it. What does the quote alone take on the round trip?"
+    answer: 270
+    tolerance: 1
+    unit: "$"
+    working: "$0.18 a share × 1,500 shares = $270"
+    explanation: "Two hundred and seventy dollars before the name has moved at all. QUAY's two-cent quote takes $30 for the same size, and that gap is the whole of the cut."
+
+  - type: chart-decision
+    scenario: "The room is heavy: the index is down since the bell and more names are falling than rising. LODE sits in the sector doing worst of all and has made lower highs all morning. The minute that just closed gave up the low of the day at $13.40 on the heaviest bar yet. Your account is $22,000 and 1,500 shares is the size you trade."
+    shares: 1500
+    state: ["Room: risk-off", "Sector: worst on the board"]
+    chart:
+      kind: candles
+      data: [[13.84, 13.88, 13.70, 13.74], [13.74, 13.80, 13.62, 13.66], [13.66, 13.72, 13.56, 13.60], [13.60, 13.66, 13.40, 13.46], [13.46, 13.52, 13.40, 13.44], [13.44, 13.48, 13.32, 13.34], [13.34, 13.38, 13.22, 13.26], [13.26, 13.32, 13.16, 13.20], [13.20, 13.24, 13.10, 13.14], [13.14, 13.20, 13.06, 13.10], [13.10, 13.16, 13.04, 13.08]]
+      volume: [100000, 108000, 94000, 110000, 98000, 160000, 138000, 124000, 112000, 102000, 94000]
+      levels:
+        - {price: 13.40, label: "Low of the day"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $13.08 — $0.26 a share below the decision, +$390 short on 1,500 shares."
+    explanation: "Lower highs all morning, the day's low given up on the heaviest minute, and a whole room pushing the same way. The check is what told you this name sat inside the argument."
+
+  - type: tf
+    statement: "A level found while price is already running through it is worth as much as one drawn before the bell."
+    answer: false
+    explanation: "A line put there by the move it is meant to judge proves nothing. The levels worth leaning on were drawn while the name was still quiet."
+
+  - type: summary
+    total: 13
+
+  - type: badge
+    name: "Finding the Trade — Complete"
+    unlocks: "Chapter 6"

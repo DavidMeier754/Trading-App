@@ -153,7 +153,7 @@ Contains the path's one fan-out (Levels 9–11 → merge at 12). Sources: Aziz, 
 
 **New terms:** VWAP, Rejection, Reclaim, Confluence, Doji, Engulfing candle, Print, Stacking, Pulling, Failed test, Opening drive, Halt.
 
-### Chapter 5 — Finding the Trade — new
+### Chapter 5 — Finding the Trade — written
 
 Folder: `chapter-05-finding-the-trade` · 17 levels, 45 subs
 The chapter the v2 path was missing entirely: which stock, and what kind of day. Sources: Aziz (scanning, watchlist), Bellafiore, Carter (internals), Raschke & Connors.

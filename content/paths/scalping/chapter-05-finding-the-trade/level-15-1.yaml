@@ -1,0 +1,109 @@
+id: "15-1"
+title: "The Pre-Market Routine"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [routine, pre-market, process]
+learning_goal: "User names the six steps of the pre-market routine, runs them in the fixed order, and knows which one cannot be finished before the bell."
+purpose: "Everything this chapter taught is useless in pieces; it works as one sequence run the same way every morning."
+terms_introduced: ["Pre-market routine"]
+reinforces: [2, 3, 4]
+prerequisite: "14-2"
+xp: 25
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Names the routine and fixes its order. Account named at $20,000; the worked position is 1,400 shares at $13.10 = $18,340."
+screens:
+  - type: intro
+    text: "Thirteen levels of separate skills. This is the order they are run in."
+
+  - type: theory
+    title: "The pre-market routine"
+    body: "The pre-market routine is the fixed set of steps you run before the bell, in the same order, every morning. It is fixed so that a busy morning cannot quietly shorten it."
+
+  - type: checklist-reveal
+    title: "The routine, in order"
+    items:
+      - "Scan: the whole list, through conditions you set long ago."
+      - "Shortlist: the few rows that answered all four questions."
+      - "Levels: three prices drawn on every name that survived."
+      - "Market check: the index, the count of names, the sector, the tone."
+      - "Day type: written in the first half hour, never before it."
+      - "Plan: the size, the names and the limits, in writing."
+
+  - type: order
+    prompt: "Five of the six happen while the market is shut. Put those five in the order you run them."
+    items:
+      - "Scan the filtered list"
+      - "Cut it to three or four names"
+      - "Draw the levels on each one"
+      - "Check the index, the sector and the count"
+      - "Write the names and the size down"
+    explanation: "Widest first, narrowest last. Every step after the first is done on fewer names than the step before it."
+
+  - type: mc
+    prompt: "Why does the market check come after the levels rather than before them?"
+    options:
+      - {text: "Because the tone of the room does not change which names are in play", correct: true}
+      - {text: "Because the index has not opened yet and cannot be read any earlier"}
+      - {text: "Because the levels are the only step that has to be finished by the bell"}
+    explanation: "The check changes how many trades you expect, not which names you drew. Running it first would leave the slow work for the last minutes before the open."
+
+  - type: scanner-pick
+    prompt: "Steps one and two, in one screen. Your account is $20,000 and 1,400 shares is the size you trade — which two rows survive?"
+    data:
+      rows:
+        - {ticker: RILL, price: 13.10, change_pct: 8.6, rvol: 7.2, float: "62M", spread: 0.02, catalyst: "Results"}
+        - {ticker: SCAR, price: 19.80, change_pct: 11.2, rvol: 9.4, float: "140M", spread: 0.03, catalyst: "Guidance raise"}
+        - {ticker: NAVE, price: 13.80, change_pct: 6.4, rvol: 5.8, float: "86M", spread: 0.02, catalyst: "Contract win"}
+        - {ticker: VALE, price: 11.60, change_pct: 15.8, rvol: 13.2, float: "6M", spread: 0.17, catalyst: "Trial result"}
+    targets: [RILL, NAVE]
+    explanation: "RILL is $18,340 and NAVE is $19,320 for 1,400 shares, both two cents wide. SCAR is 1,010 shares on this account, and VALE's quote is $238 of round trip."
+
+  - type: tf
+    statement: "A morning where the scan turns up nothing is a morning the routine has failed."
+    answer: false
+    explanation: "The routine produced an answer and the answer was no names. A day spent watching is a result it is allowed to reach."
+
+  - type: chart-annotate
+    prompt: "RILL, before the bell. Step three on the first name: drag the line to the price the morning has bounced from twice."
+    chart:
+      kind: candles
+      data: [[13.08, 13.14, 12.96, 13.04], [13.04, 13.10, 13.00, 13.06], [13.06, 13.12, 13.02, 13.08], [13.08, 13.14, 12.96, 13.02], [13.02, 13.10, 12.98, 13.08], [13.08, 13.16, 13.04, 13.12], [13.12, 13.18, 13.06, 13.10], [13.10, 13.16, 13.04, 13.14], [13.14, 13.20, 13.08, 13.16]]
+      volume: [24000, 18000, 16000, 26000, 20000, 17000, 15000, 19000, 22000]
+    answer: 12.96
+    tolerance: 0.04
+    label: "Support"
+    explanation: "$12.96, reached twice and bought both times. Two more lines go on this name before the bell, and then it is the next name's turn."
+
+  - type: chart-decision
+    scenario: "RILL opened, dropped into the line you drew at $12.96 and turned there for a third time. The minute that just closed finished green on the heaviest bar since the bell. Your account is $20,000 and 1,400 shares is the size you trade."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.14, 13.18, 13.04, 13.08], [13.08, 13.12, 12.98, 13.02], [13.02, 13.06, 12.96, 12.98], [12.98, 13.04, 12.96, 13.00], [13.00, 13.04, 12.97, 12.99], [12.99, 13.12, 12.98, 13.10], [13.10, 13.20, 13.06, 13.16], [13.16, 13.26, 13.12, 13.22], [13.22, 13.30, 13.18, 13.26], [13.26, 13.34, 13.22, 13.31], [13.31, 13.34, 13.26, 13.30]]
+      volume: [98000, 106000, 92000, 86000, 82000, 152000, 130000, 116000, 104000, 96000, 88000]
+      levels:
+        - {price: 12.96, label: "Support"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $13.31 — $0.21 a share above the decision, +$294 long on 1,400 shares."
+    explanation: "The line was drawn while the market was shut and the name was still cheap to look at. All the bell added was a third turn at it and a bar with weight."
+
+  - type: fill-tiles
+    sentence: "The step that takes the longest, and gets cut first on a rushed morning, is drawing the ___."
+    answer: "levels"
+    explanation: "Three prices a name, at about forty seconds a price. It is the step that pays for itself and the step a late start quietly deletes."
+
+  - type: numeric-input
+    prompt: "Three lines a name at forty seconds a line. How many minutes does step three take on four names?"
+    answer: 8
+    tolerance: 0.1
+    working: "3 lines × 4 names = 12 lines; 12 × 40 seconds = 480 seconds = 8 minutes"
+    explanation: "Eight minutes, and it is why the shortlist is four names rather than twelve. Twelve would be twenty-four minutes of drawing and a bell arriving in the middle of it."
+
+  - type: story
+    character: retail-trader
+    text: "On the morning you start late, the routine is what you shorten. The names you did not draw are the ones you end up reading while they move."

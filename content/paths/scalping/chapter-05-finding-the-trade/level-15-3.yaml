@@ -1,0 +1,133 @@
+id: "15-3"
+title: "The Pre-Market Routine"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [routine, plan, pre-market]
+learning_goal: "User finishes the routine by writing the page — names, size and the caps they will trade by — and keeps it when the open argues with it."
+purpose: "Every number on the page is harder to write once something is moving, and the page exists to stop the open deciding them for you."
+terms_introduced: []
+reinforces: [2, 3, 4]
+prerequisite: "15-2"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Raschke & Connors — Street Smarts"]
+notes: "Closes Level 15 with the chapter's plan-card. Account named at $26,000; the worked position is 1,700 shares at $14.86 = $25,262."
+screens:
+  - type: intro
+    text: "Step six. Your account is $26,000 and 1,700 shares is the size you trade."
+
+  - type: theory
+    title: "The page is the last step"
+    body: "Everything before it produced information. The page turns that into a few numbers and a short list of names, written down while nothing is moving and nothing is at stake."
+
+  - type: example
+    body: "Two names, 1,700 shares each, a stop no wider than fifteen cents and three lines drawn on both. Four sentences, written before the bell, and every one of them harder to write afterwards."
+
+  - type: plan-card
+    title: "Your pre-market page"
+    intro: "The four numbers you write before every bell. You can change them later."
+    fields:
+      - {key: shortlist_size, label: "Names on the shortlist (maximum)", kind: number, suggest: 4}
+      - {key: lines_per_name, label: "Levels drawn per name", kind: number, suggest: 3}
+      - {key: share_size, label: "Your usual share size", kind: number, suggest: 1500}
+      - {key: start_minutes, label: "Minutes before the open you sit down", kind: number, suggest: 45}
+    note: "This page comes back, pre-filled, when Chapter 6 adds the limits to it."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The scan was done and the levels were drawn,"}
+      - {text: "so the size could be settled once a name started moving,", wrong: true}
+      - {text: "and the page was finished with two names on it."}
+    explanation: "Size is arithmetic, and arithmetic is cheap while nothing is moving. Left until the name is live it becomes a guess wearing a number."
+
+  - type: order-build
+    prompt: "The page says 1,700 shares of PIER and nothing worse than four cents through the ask of $14.86."
+    ticker: PIER
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [850, 1700, 2550]
+      price: [14.82, 14.86, 14.90]
+    answer: {side: buy, type: limit, qty: 1700, price: 14.90}
+    explanation: "A limit four cents through the ask fills like a market order and still refuses anything worse than $14.90."
+
+  - type: chart-decision
+    scenario: "PIER is one of the two names on the page you wrote before the bell, with $14.80 marked as yesterday's high. The minute that just closed finished six cents above it on the heaviest volume of the session. Your account is $26,000 and 1,700 shares is the size you trade."
+    shares: 1700
+    chart:
+      kind: candles
+      data: [[14.56, 14.64, 14.52, 14.62], [14.62, 14.70, 14.58, 14.66], [14.66, 14.74, 14.62, 14.68], [14.68, 14.78, 14.64, 14.74], [14.74, 14.80, 14.70, 14.76], [14.76, 14.90, 14.72, 14.86], [14.86, 14.98, 14.82, 14.94], [14.94, 15.04, 14.90, 15.00], [15.00, 15.10, 14.96, 15.06], [15.06, 15.18, 15.02, 15.16], [15.16, 15.18, 15.08, 15.12]]
+      volume: [102000, 110000, 94000, 104000, 96000, 160000, 138000, 124000, 112000, 102000, 94000]
+      levels:
+        - {price: 14.80, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $15.16 — $0.30 a share above the decision, +$510 long on 1,700 shares."
+    explanation: "Nothing on this screen was decided in this minute. The name, the size and the line were all on a page written while the market was shut."
+
+  - type: numeric-input
+    prompt: "Filled at $14.90 with the stop under the line at $14.76, on 1,700 shares. What is at risk?"
+    answer: 238
+    tolerance: 1
+    unit: "$"
+    working: "$14.90 − $14.76 = $0.14 a share × 1,700 shares = $238"
+    explanation: "Two hundred and thirty-eight dollars, a little under 1 % of the $26,000. The page set the size and the line set the distance."
+
+  - type: tf
+    statement: "A page written before the bell is worth rewriting the moment a better-looking name appears."
+    answer: false
+    explanation: "The page exists because the screen is far more persuasive at the open than it was an hour earlier. A name that arrives late gets the routine, not the page rewritten around it."
+
+  - type: swipe-deck
+    prompt: "Four names, four first minutes. Take the trade the page allows, or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[14.30, 14.38, 14.26, 14.36], [14.36, 14.44, 14.32, 14.40], [14.40, 14.46, 14.36, 14.42], [14.42, 14.50, 14.38, 14.46], [14.46, 14.52, 14.42, 14.48], [14.48, 14.62, 14.46, 14.58], [14.58, 14.70, 14.54, 14.66], [14.66, 14.78, 14.62, 14.74]]
+          levels: [14.50]
+        answer: take
+        note: "Through the line the page names, on the biggest body of the run. This is the trade the page was written for."
+      - chart:
+          kind: candles
+          data: [[12.40, 12.60, 12.36, 12.56], [12.56, 12.76, 12.52, 12.72], [12.72, 12.92, 12.68, 12.88], [12.88, 13.08, 12.84, 13.04], [13.04, 13.24, 13.00, 13.20], [13.20, 13.40, 13.16, 13.36], [13.36, 13.56, 13.32, 13.52], [13.52, 13.72, 13.48, 13.68]]
+        answer: pass
+        note: "The best-looking chart of the morning, and the page has never heard of it. It gets the routine before it gets a ticket."
+      - chart:
+          kind: candles
+          data: [[13.60, 13.66, 13.56, 13.62], [13.62, 13.68, 13.58, 13.64], [13.64, 13.70, 13.60, 13.62], [13.62, 13.68, 13.58, 13.66], [13.66, 13.70, 13.62, 13.64], [13.64, 13.70, 13.60, 13.66], [13.66, 13.72, 13.62, 13.68], [13.68, 13.72, 13.64, 13.66]]
+          levels: [13.78]
+        answer: pass
+        note: "Six cents under the price the page names, for eight straight minutes. The page names a price, and price has not been there."
+      - chart:
+          kind: candles
+          data: [[14.20, 14.24, 14.10, 14.14], [14.14, 14.18, 14.02, 14.06], [14.06, 14.12, 13.96, 14.00], [14.00, 14.04, 13.88, 13.92], [13.92, 13.96, 13.80, 13.84], [13.84, 13.88, 13.70, 13.74], [13.74, 13.80, 13.64, 13.68], [13.68, 13.74, 13.58, 13.62]]
+          levels: [13.92]
+        answer: take
+        note: "The line the page marked underneath it, given up on full bodies. A page names a price, not a direction."
+    explanation: "Two takes and two passes. Both takes were written down an hour before they happened, and neither of the passes was."
+
+  - type: fill-choice
+    sentence: "The page is written last because every step before it exists to ___ it."
+    options: ["fill", "replace", "delay"]
+    answer: "fill"
+    explanation: "The scan produced rows, the cuts produced names, the lines produced prices. The page is where all three of them end up."
+
+  - type: mc
+    prompt: "Your page says four names, and this morning nine cleared every condition. What does the page say to do?"
+    options:
+      - {text: "Keep all nine, since every one of them cleared the same conditions"}
+      - {text: "Raise the number on the page to nine for today"}
+      - {text: "Cut to four, and accept that a name you dropped may run", correct: true}
+    explanation: "Nine names is twenty-seven lines nobody has time to draw. The cap is what makes the four that survive actually prepared."
+
+  - type: recap
+    title: "Level 15 in three lines"
+    points:
+      - {text: "Six steps, always in the same order, widest first.", level: "15-1"}
+      - {text: "The check changes how many trades you expect, not which names.", level: "15-2"}
+      - {text: "The page is written while nothing is moving, and kept when something is.", level: "15-3"}

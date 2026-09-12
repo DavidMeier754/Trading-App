@@ -1,0 +1,149 @@
+id: "14-1"
+title: "Chapters 1 & 4 Callback"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: repetition
+tags: [callback, liquidity, volatility, selection]
+learning_goal: "User uses Chapter 1's two dials as the first cut of the morning, and can say which of the two ended a name."
+purpose: "Both dials end a name, they end it for opposite reasons, and a trader who only checks one of them spends the morning on names that cannot pay."
+terms_introduced: []
+reinforces: [1, 4]
+prerequisite: "13-4"
+xp: 30
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "First of the two callback subs. Chapter 1's liquidity and volatility dials re-tested as selection criteria, with one Chapter 4 reading folded in. Account named at $19,000; the worked positions are 1,300 shares at $14.02 and at $13.48."
+screens:
+  - type: intro
+    text: "Two dials, from long before you had a scanner. Your account is $19,000 and 1,300 shares is the size you trade."
+
+  - type: theory
+    title: "The same two dials, used to choose"
+    body: "How far a name travels, and how easily you can leave it. In Chapter 1 they described a stock. This morning they are the fastest way to delete most of a list."
+
+  - type: sort
+    prompt: "Four names cut this morning, one sentence each. Which dial did the cutting?"
+    buckets: ["The exit dial", "The movement dial"]
+    items:
+      - {text: "Seven thousand shares in a typical minute", bucket: "The exit dial"}
+      - {text: "Fourteen cents between the bid and the ask", bucket: "The exit dial"}
+      - {text: "A four-cent range in the whole first hour", bucket: "The movement dial"}
+      - {text: "Volume sitting at its own ordinary level all morning", bucket: "The movement dial"}
+    explanation: "Two of them could not be left and two had nothing worth leaving with. Both are a no, and they are a no for opposite reasons."
+
+  - type: scanner-pick
+    prompt: "One row answers both dials at the size you trade. Which?"
+    data:
+      rows:
+        - {ticker: LOAM, price: 13.90, change_pct: 7.8, rvol: 6.4, float: "74M", spread: 0.02, catalyst: "Results"}
+        - {ticker: BRAE, price: 24.60, change_pct: 9.2, rvol: 8.1, float: "180M", spread: 0.03, catalyst: "Upgrade"}
+        - {ticker: WEIR, price: 12.80, change_pct: 12.4, rvol: 9.6, float: "7M", spread: 0.14, catalyst: "Trial result"}
+        - {ticker: FLAX, price: 13.20, change_pct: 1.4, rvol: 1.1, float: "120M", spread: 0.02, catalyst: "—"}
+    target: LOAM
+    explanation: "LOAM is $18,070 for 1,300 shares on a two-cent quote. BRAE is 772 shares on this account, WEIR charges $182 for the round trip, FLAX is having an ordinary day."
+
+  - type: numeric-input
+    prompt: "WEIR trades about 9,000 shares in a typical minute. What share of that minute would the 1,300 you buy be?"
+    answer: 14.4
+    tolerance: 0.5
+    unit: "%"
+    working: "1,300 ÷ 9,000 = 0.144 = 14.4 %"
+    explanation: "A seventh of everything that trades in the minute is you arriving, and the same again leaving. The exit dial has answered before a chart is opened."
+
+  - type: chart-decision
+    scenario: "LOAM has run at 6.4× its normal volume since the bell and the panel has stayed two cents wide throughout. The minute that just closed is the heaviest of the morning and finished above the pre-market high at $13.94. Your account is $19,000 and 1,300 shares is the size you trade."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[13.62, 13.72, 13.58, 13.70], [13.70, 13.80, 13.66, 13.76], [13.76, 13.84, 13.70, 13.74], [13.74, 13.88, 13.70, 13.84], [13.84, 13.94, 13.80, 13.90], [13.90, 14.06, 13.86, 14.02], [14.02, 14.14, 13.98, 14.10], [14.10, 14.20, 14.06, 14.16], [14.16, 14.28, 14.12, 14.24], [14.24, 14.32, 14.18, 14.27], [14.27, 14.30, 14.20, 14.24]]
+      volume: [104000, 112000, 96000, 108000, 100000, 156000, 138000, 124000, 112000, 104000, 96000]
+      levels:
+        - {price: 13.94, label: "Pre-market high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $14.27 — $0.25 a share above the decision, +$325 long on 1,300 shares."
+    explanation: "Both dials said yes before the chart was opened, and then the heaviest minute of the morning finished clear of a line that was already drawn."
+
+  - type: tf
+    statement: "A name can clear every liquidity test you own and still be no use, because nothing in it moves."
+    answer: true
+    explanation: "The two dials fail independently. The easiest name on the screen to leave is very often the one with nothing to leave with."
+
+  - type: compare
+    prompt: "Both of these print about 100,000 shares a minute and both are on your shortlist. Which one is worth the screen?"
+    charts:
+      - kind: candles
+        data: [[11.46, 11.49, 11.44, 11.47], [11.47, 11.50, 11.45, 11.48], [11.48, 11.51, 11.45, 11.46], [11.46, 11.50, 11.44, 11.49], [11.49, 11.52, 11.46, 11.48], [11.48, 11.51, 11.45, 11.47], [11.47, 11.50, 11.44, 11.48], [11.48, 11.51, 11.46, 11.49]]
+        label: "A"
+      - kind: candles
+        data: [[11.40, 11.54, 11.36, 11.50], [11.50, 11.66, 11.46, 11.62], [11.62, 11.72, 11.56, 11.66], [11.66, 11.84, 11.62, 11.80], [11.80, 11.94, 11.74, 11.90], [11.90, 11.98, 11.82, 11.86], [11.86, 12.04, 11.82, 12.00], [12.00, 12.16, 11.96, 12.12]]
+        label: "B"
+    answer: "B"
+    explanation: "A has covered eight cents in eight minutes: as easy to leave as anything on the list, with nothing to leave with. B travelled seventy-two cents in the same time, and a decision in it has a result."
+
+  - type: mc
+    prompt: "Two shortlist names clear both dials. One has been above VWAP since the bell, the other under it all morning. What does that settle?"
+    options:
+      - {text: "Which one to buy, because above the line is the long"}
+      - {text: "Which side each name is offering, not which name to watch", correct: true}
+      - {text: "Nothing, because VWAP is an entry tool rather than a selection one"}
+    explanation: "Both names are still worth the screen. The line says which direction each one has been paying, and that is a different question from which name earns your attention."
+
+  - type: depth-ladder
+    prompt: "WEIR's book, and you market-buy 1,300 shares of it. Where does the last of them fill?"
+    data:
+      bids: [[12.72, 600], [12.70, 900], [12.68, 2000]]
+      asks: [[12.86, 400], [12.90, 500], [12.95, 1500]]
+    target: ask-3
+    explanation: "Four hundred, then five hundred, then four hundred more at a price nine cents above the one on the screen. The exit dial has a third reading and only the book carries it."
+
+  - type: chart-decision
+    scenario: "MOSS prints about 130,000 shares a minute and has never been more than two cents wide. Since the bell the whole name has covered nine cents, and the minute that just closed has the biggest body of its morning at three. Your account is $19,000 and 1,300 shares is the size you trade."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[13.42, 13.44, 13.40, 13.43], [13.43, 13.45, 13.41, 13.42], [13.42, 13.45, 13.40, 13.44], [13.44, 13.46, 13.42, 13.43], [13.43, 13.46, 13.41, 13.45], [13.45, 13.48, 13.44, 13.48], [13.48, 13.49, 13.45, 13.46], [13.46, 13.48, 13.43, 13.47], [13.47, 13.49, 13.44, 13.45], [13.45, 13.47, 13.42, 13.46]]
+      volume: [128000, 134000, 126000, 130000, 124000, 142000, 132000, 128000, 124000, 130000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It drifted back to $13.46 — $0.02 a share under the decision, and the session has still not covered a dime."
+    explanation: "Nothing about the exit is wrong here. Three cents is the biggest thing this name has done all morning and the quote takes two of them."
+
+  - type: swipe-deck
+    prompt: "Four names that already clear the quote and the account at 1,300 shares. The movement dial decides the rest — on the screen, or off?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[12.10, 12.24, 12.06, 12.20], [12.20, 12.34, 12.16, 12.30], [12.30, 12.42, 12.24, 12.36], [12.36, 12.52, 12.32, 12.48], [12.48, 12.62, 12.44, 12.58], [12.58, 12.68, 12.52, 12.62], [12.62, 12.78, 12.58, 12.74], [12.74, 12.88, 12.70, 12.84]]
+        answer: take
+        note: "Seventy-four cents in eight minutes and not one of them handed back. Plenty here to be right or wrong about."
+      - chart:
+          kind: candles
+          data: [[14.02, 14.05, 14.00, 14.03], [14.03, 14.06, 14.01, 14.04], [14.04, 14.07, 14.02, 14.03], [14.03, 14.06, 14.00, 14.05], [14.05, 14.07, 14.02, 14.04], [14.04, 14.06, 14.01, 14.03], [14.03, 14.06, 14.02, 14.05], [14.05, 14.07, 14.03, 14.04]]
+        answer: pass
+        note: "Seven cents of range with a two-cent quote inside it. The easiest name here to leave, and nothing to leave with."
+      - chart:
+          kind: candles
+          data: [[13.90, 13.94, 13.72, 13.76], [13.76, 13.80, 13.58, 13.62], [13.62, 13.68, 13.46, 13.50], [13.50, 13.56, 13.34, 13.38], [13.38, 13.44, 13.24, 13.28], [13.28, 13.34, 13.16, 13.20], [13.20, 13.26, 13.06, 13.10], [13.10, 13.16, 12.98, 13.02]]
+        answer: take
+        note: "Eighty-eight cents, all of it one way. The dial reads distance, and distance has no direction in it."
+      - chart:
+          kind: candles
+          data: [[11.30, 11.34, 11.28, 11.32], [11.32, 11.88, 11.30, 11.84], [11.84, 11.88, 11.80, 11.83], [11.83, 11.86, 11.80, 11.82], [11.82, 11.86, 11.79, 11.84], [11.84, 11.87, 11.81, 11.83], [11.83, 11.86, 11.80, 11.85], [11.85, 11.88, 11.81, 11.84]]
+        answer: pass
+        note: "One jump of fifty-two cents and then seven minutes of nothing. The range is real and all of it happened before you could have taken any of it."
+    explanation: "Two takes and two passes, and the passes fail the same dial in different ways: one never moved, the other moved once."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "MOSS prints 130,000 shares a minute on a two-cent quote,"}
+      - {text: "so the only thing left to check was the chart,", wrong: true}
+      - {text: "and nine cents of range is what the chart came back with."}
+    explanation: "One dial was answered, not both. A name earns the screen when it also travels far enough to pay for the leaving."
+
+  - type: example
+    body: "Two names went this morning for opposite reasons. One could not be left at 1,300 shares. The other could be left at any size, and had gone nowhere worth leaving for."

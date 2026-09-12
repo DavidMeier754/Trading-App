@@ -1,0 +1,146 @@
+id: "16-2"
+title: "Chapter Review"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: repetition
+tags: [review, routine, execution, selection]
+learning_goal: "User trades the morning they prepared: the lines do the deciding, the account decides how many names can be on, and the name nobody prepared stays off."
+purpose: "Preparation is only worth what the first hour does with it, and the first hour is where a prepared trader looks least busy."
+terms_introduced: []
+reinforces: [1, 2, 3, 4]
+prerequisite: "16-1"
+xp: 35
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Volman — Understanding Price Action"]
+notes: "Second half of the review: the session. Account named at $18,000; the worked positions are 1,200 shares at $14.30, at $14.56 and at $13.90."
+screens:
+  - type: intro
+    text: "The session, on the names you prepared. Your account is $18,000 and 1,200 shares is the size you trade."
+
+  - type: chart-annotate
+    prompt: "FELL, before the bell. Drag the line to the lowest price it has traded this morning."
+    chart:
+      kind: candles
+      data: [[14.24, 14.30, 14.14, 14.20], [14.20, 14.26, 14.08, 14.12], [14.12, 14.22, 14.06, 14.18], [14.18, 14.24, 14.12, 14.22], [14.22, 14.28, 14.16, 14.20], [14.20, 14.26, 14.14, 14.24], [14.24, 14.30, 14.18, 14.26], [14.26, 14.32, 14.20, 14.28], [14.28, 14.34, 14.22, 14.30]]
+      volume: [20000, 28000, 24000, 16000, 15000, 18000, 17000, 19000, 21000]
+    answer: 14.06
+    tolerance: 0.04
+    label: "Pre-market low"
+    explanation: "$14.06. It is the third line on this name and the one that matters most if the open goes the other way."
+
+  - type: chart-tap
+    prompt: "FELL's first minutes after the bell. Tap the candle that traded into $14.06 and finished back above it."
+    chart:
+      kind: candles
+      data: [[14.26, 14.30, 14.18, 14.22], [14.22, 14.26, 14.12, 14.16], [14.16, 14.20, 14.06, 14.14], [14.14, 14.22, 14.10, 14.20], [14.20, 14.28, 14.16, 14.24], [14.24, 14.32, 14.20, 14.30], [14.30, 14.38, 14.26, 14.34], [14.34, 14.42, 14.30, 14.38], [14.38, 14.44, 14.32, 14.40], [14.40, 14.46, 14.34, 14.42]]
+      volume: [104000, 118000, 132000, 108000, 100000, 124000, 112000, 102000, 96000, 92000]
+    target: 2
+    explanation: "The third candle went to the line and closed eight cents back above it. That is the line doing the one job you drew it for."
+
+  - type: order-build
+    prompt: "Take it: 1,200 shares of FELL, and nothing worse than three cents through the ask of $14.21."
+    ticker: FELL
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [600, 1200, 1800]
+      price: [14.18, 14.21, 14.24]
+    answer: {side: buy, type: limit, qty: 1200, price: 14.24}
+    explanation: "A buy limit at $14.24 crosses the spread like a market order and still refuses anything four cents worse than the price you saw."
+
+  - type: chart-decision
+    scenario: "FELL turned at the pre-market low you drew at $14.06 and has made higher lows for six minutes. The minute that just closed finished above the high of the first minute at $14.26, on the heaviest bar of the morning. Your account is $18,000 and 1,200 shares is the size you trade."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.20, 14.26, 14.06, 14.14], [14.14, 14.22, 14.10, 14.20], [14.20, 14.26, 14.16, 14.22], [14.22, 14.28, 14.18, 14.24], [14.24, 14.28, 14.20, 14.26], [14.26, 14.34, 14.24, 14.30], [14.30, 14.40, 14.26, 14.36], [14.36, 14.46, 14.32, 14.42], [14.42, 14.52, 14.38, 14.48], [14.48, 14.56, 14.44, 14.52], [14.52, 14.56, 14.46, 14.50]]
+      volume: [126000, 108000, 96000, 92000, 88000, 148000, 130000, 118000, 108000, 98000, 90000]
+      levels:
+        - {price: 14.06, label: "Pre-market low"}
+        - {price: 14.26, label: "High of the first minute"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $14.52 — $0.22 a share above the decision, +$264 long on 1,200 shares."
+    explanation: "Two of the three lines drawn before the bell did the work: one caught the low and the other said when the morning had turned."
+
+  - type: numeric-mc
+    prompt: "Filled at $14.24 with the stop just under the turn at $14.10, on 1,200 shares. What is at risk?"
+    options:
+      - {text: "$168", correct: true}
+      - {text: "$16.80"}
+      - {text: "$1,680"}
+      - {text: "$140"}
+    working: "$14.24 − $14.10 = $0.14 a share × 1,200 shares = $168"
+    explanation: "A hundred and sixty-eight dollars, a shade under 1 % of $18,000. The stop sits below the price the morning turned at rather than at a round number of cents."
+
+  - type: branch
+    scenario: "IRIS is the second name on your page. It has held above its average price all session and sits four cents under the line you drew at $14.60. Your account is $18,000 and 1,200 shares is the size you trade."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.40, 14.48, 14.36, 14.46], [14.46, 14.52, 14.42, 14.48], [14.48, 14.56, 14.44, 14.52], [14.52, 14.58, 14.48, 14.54], [14.54, 14.60, 14.50, 14.56], [14.56, 14.60, 14.52, 14.56], [14.56, 14.68, 14.54, 14.64], [14.64, 14.72, 14.60, 14.68], [14.68, 14.76, 14.64, 14.72], [14.72, 14.78, 14.66, 14.74]]
+      volume: [96000, 104000, 92000, 100000, 88000, 84000, 142000, 124000, 110000, 98000]
+      decision_index: 5
+    steps:
+      - prompt: "You are already long 1,200 shares of FELL. What does that do to IRIS?"
+        options:
+          - {text: "Nothing: they are two separate names and two separate trades", next: 1}
+          - {text: "It ends it for now, because the account is standing in FELL", correct: true, next: 1}
+          - {text: "It halves the size, and the trade goes on at 600", next: 1}
+        explanation: "$17,088 of an $18,000 account is already in FELL. Two names at full size is a number this account does not have, whatever the second chart is doing."
+      - prompt: "FELL reaches your target and you are flat again. IRIS has just closed through $14.60 on the heaviest bar of its session. What now?"
+        options:
+          - {text: "Nothing: the setup happened while you were busy and is gone"}
+          - {text: "Run the read, then size it from the $18,000", correct: true}
+          - {text: "Buy it now, since the work on this name was done before the bell"}
+        explanation: "The lines were drawn an hour ago and the read takes three seconds. That is exactly what the pre-market bought you — the ability to answer this now instead of later."
+      - prompt: "The read is clean and the stop belongs under $14.52. Where does the size come from?"
+        options:
+          - {text: "The smaller of what $18,000 buys and what the stop allows", correct: true}
+          - {text: "The 1,200 on the page, because the page is what you wrote"}
+          - {text: "The full 1,236 the account pays for at this price"}
+        explanation: "$18,000 ÷ $14.62 is 1,231 shares, and a ten-cent stop on 1,200 risks $120. The account is not the binding ceiling here, so the page's 1,200 stands."
+
+  - type: tf
+    statement: "Two names on the page mean two positions on the screen at the same time."
+    answer: false
+    explanation: "The page says which stocks are allowed, not how many the account can hold. At 1,200 shares of a $14 name, $18,000 holds one of them."
+
+  - type: chart-decision
+    scenario: "WELD is top of the movers list and was never on your page: 11× normal, a nine-cent quote, a 4 M float, trading at $13.90. The minute that just closed is the biggest of its day. Your account is $18,000 and 1,200 shares is the size you trade."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[13.40, 13.52, 13.36, 13.48], [13.48, 13.60, 13.44, 13.56], [13.56, 13.66, 13.50, 13.60], [13.60, 13.74, 13.56, 13.70], [13.70, 13.82, 13.64, 13.76], [13.76, 13.96, 13.72, 13.90], [13.90, 14.04, 13.84, 13.98], [13.98, 14.10, 13.92, 14.06], [14.06, 14.16, 14.00, 14.10], [14.10, 14.14, 14.02, 14.08]]
+      volume: [15000, 17000, 14000, 16000, 15000, 22000, 19000, 17000, 15000, 14000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It reached $14.10 — $0.20 a share past the decision, and nine of those cents were the quote before a share had to find a buyer."
+    explanation: "Nine cents is $108 of round trip on 1,200 shares, in a name printing sixteen thousand a minute. The page has nothing to say about it and neither does the book."
+
+  - type: journal-row
+    prompt: "One row for the morning, written after the session rather than before it."
+    trade: {setup: "Pre-market low reclaimed", entry: 14.24, stop: 14.10, exit: 14.52, shares: 1200}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$120", "$168", "$264"]
+      r_made: ["+1R", "+2R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$168", r_made: "+2R", grade: "A"}
+    explanation: "Fourteen cents risked and twenty-eight made on 1,200 shares: $168 against $336, which is two of them. The grade is for the process, and every price in this trade was drawn before the bell."
+
+  - type: fill-tiles
+    sentence: "Every decision this session asked for was answered from work done before the ___."
+    answer: "open"
+    explanation: "The names, the prices and the size were all on a page. The session's only job was to say when."
+
+  - type: recap
+    title: "Level 16 in three lines"
+    points:
+      - {text: "An empty screen becomes two marked names in about twenty minutes.", level: "16-1"}
+      - {text: "The account decides how many of those names can be on at once.", level: "16-2"}
+      - {text: "A name that was never on the page is still not on it at the open.", level: "16-2"}

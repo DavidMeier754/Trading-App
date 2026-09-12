@@ -1,0 +1,142 @@
+id: "15-2"
+title: "The Pre-Market Routine"
+chapter: 5
+chapter_title: "Finding the Trade"
+path: scalping
+category: new-theory
+tags: [routine, internals, market-context]
+learning_goal: "User runs the market check as a step of the routine, writes the tone on the morning's row, and leaves the day type blank until the session has given it one."
+purpose: "The check is ten seconds of work that changes how many trades you expect, and it is the step most often skipped because it changes no names."
+terms_introduced: []
+reinforces: [2, 3, 4]
+prerequisite: "15-1"
+xp: 25
+difficulty: 2
+sources: ["Carter — Mastering the Trade", "Aziz — How to Day Trade for a Living"]
+notes: "Step four of the routine, with step five deliberately left open. Account named at $24,000; the worked positions are 1,600 shares at $14.28 and at $13.54."
+screens:
+  - type: intro
+    text: "Step four. Your account is $24,000 and 1,600 shares is the size you trade."
+
+  - type: story
+    character: mascot
+    text: "This is the step that changes no names and gets skipped for exactly that reason. It changes what you expect the names to do."
+
+  - type: theory
+    title: "Two readings and a tag"
+    body: "The index, the count of names moving with it, and the tag the two add up to. It takes about as long as reading a quote and it sets how many clean tries you expect today."
+
+  - type: visual
+    component: internals-panel
+    data:
+      index: {label: "{{market.index_example}}", data: [100.0, 100.1, 100.3, 100.2, 100.4, 100.5, 100.4, 100.6]}
+      breadth: "1,050 up / 1,950 down"
+      sectors:
+        - {label: "Chipmakers", value: 2.4}
+        - {label: "Banks", value: -0.4}
+        - {label: "Miners", value: -1.1}
+      tone: mixed
+    caption: "Money says one thing, the count of names says another, and that disagreement is itself a reading."
+
+  - type: hotspot
+    component: internals-panel
+    prompt: "Tap the reading that tells you how many names are moving, rather than how far the index moved."
+    data:
+      index: {label: "{{market.index_example}}", data: [100.0, 100.2, 100.1, 100.4, 100.3, 100.6, 100.5, 100.8]}
+      breadth: "2,100 up / 900 down"
+      sectors:
+        - {label: "Banks", value: 1.2}
+        - {label: "Miners", value: 0.8}
+        - {label: "Chipmakers", value: 0.5}
+      tone: risk-on
+    target: breadth
+    explanation: "Breadth is a count. The line beside it is a weighted average of the money, and on plenty of mornings the two point different ways."
+
+  - type: mc
+    prompt: "Your check comes back with a green index and 1,050 names up against 1,950 down. What goes on the morning's row?"
+    options:
+      - {text: "Risk-on, because the index is the reading the tag is built from"}
+      - {text: "Mixed, and fewer tries than a green index on its own suggests", correct: true}
+      - {text: "Risk-off, because more names are falling than are rising"}
+    explanation: "The money and the names disagree, so the tag is neither one. A morning like this pays a name with its own reason and punishes anything leaning on the room."
+
+  - type: sort
+    prompt: "Which of these belongs to the check you run before the bell, and which to the label you write after it?"
+    buckets: ["The check, before the bell", "The label, after it"]
+    items:
+      - {text: "Where the index sits against yesterday's close", bucket: "The check, before the bell"}
+      - {text: "How many names are moving with it", bucket: "The check, before the bell"}
+      - {text: "Whether the give-backs are getting shallower", bucket: "The label, after it"}
+      - {text: "What the opening range's high and low turned out to be", bucket: "The label, after it"}
+    explanation: "Two of them exist while the market is shut. The other two need a session to have happened, which is why the day type is the one step the routine cannot finish early."
+
+  - type: chart-decision
+    scenario: "The check came back heavy: the index is down since the bell and more names are falling than rising. KNOT is up on results of its own and has held above its average price the whole time. The minute that just closed finished through the morning's high at $14.22. Your account is $24,000 and 1,600 shares is the size you trade."
+    shares: 1600
+    state: ["Room: risk-off", "Names on the list: 2"]
+    chart:
+      kind: candles
+      data: [[14.02, 14.10, 13.98, 14.08], [14.08, 14.16, 14.04, 14.12], [14.12, 14.18, 14.06, 14.10], [14.10, 14.22, 14.06, 14.18], [14.18, 14.22, 14.12, 14.16], [14.16, 14.32, 14.14, 14.28], [14.28, 14.40, 14.24, 14.36], [14.36, 14.46, 14.32, 14.42], [14.42, 14.52, 14.38, 14.48], [14.48, 14.54, 14.44, 14.51], [14.51, 14.54, 14.44, 14.48]]
+      volume: [104000, 112000, 96000, 106000, 98000, 162000, 140000, 126000, 114000, 104000, 96000]
+      levels:
+        - {price: 14.22, label: "High of the morning"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $14.51 — $0.23 a share above the decision, +$368 long on 1,600 shares."
+    explanation: "The room was heavy and this name was not part of the room's argument. The check told you to expect one or two tries today, and this was one of them."
+
+  - type: numeric-mc
+    prompt: "KNOT is filled at $14.30 with the stop under the morning's high at $14.18, on 1,600 shares. What is at risk?"
+    options:
+      - {text: "$192", correct: true}
+      - {text: "$19.20"}
+      - {text: "$120"}
+      - {text: "$1,920"}
+    working: "$14.30 − $14.18 = $0.12 a share × 1,600 shares = $192"
+    explanation: "A hundred and ninety-two dollars, under 1 % of a $24,000 account. The line the routine drew is what makes the stop twelve cents instead of a guess."
+
+  - type: journal-row
+    prompt: "Fill the morning's own row, the one written before any trade goes under it."
+    trade: {scan: "Nine rows cleared the conditions", shortlist: "KNOT and one other"}
+    slots: [tone, trades_expected, day_type]
+    chips:
+      tone: ["Risk-on", "Risk-off", "Mixed"]
+      trades_expected: ["1 to 2", "5 to 6"]
+      day_type: ["Written after the first half hour", "Written now"]
+    answer: {tone: "Risk-off", trades_expected: "1 to 2", day_type: "Written after the first half hour"}
+    explanation: "Three fields, and all of them are settled before the bell except the one that cannot be. A heavy room and two names is a morning with very few clean tries in it."
+
+  - type: slider
+    prompt: "On a morning where the room is heavy and your shortlist is two names, what share of a normal day's trade count do you expect?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 40
+    tolerance: 20
+    explanation: "Somewhere around a third to a half. The check does not stop you trading; it lowers a number you would otherwise have been disappointed not to reach."
+
+  - type: chart-decision
+    scenario: "Same heavy room, and REED sits in the same sector as the index's worst. It has made lower highs since the bell and the minute that just closed gave up the low of the morning at $13.60 on the heaviest bar yet. Your account is $24,000 and 1,600 shares is the size you trade."
+    shares: 1600
+    state: ["Room: risk-off", "Sector: worst on the board"]
+    chart:
+      kind: candles
+      data: [[13.96, 14.00, 13.84, 13.88], [13.88, 13.92, 13.76, 13.80], [13.80, 13.86, 13.70, 13.74], [13.74, 13.80, 13.60, 13.66], [13.66, 13.72, 13.60, 13.64], [13.64, 13.68, 13.52, 13.54], [13.54, 13.58, 13.42, 13.46], [13.46, 13.52, 13.36, 13.40], [13.40, 13.44, 13.28, 13.32], [13.32, 13.38, 13.24, 13.29], [13.29, 13.34, 13.22, 13.26]]
+      volume: [98000, 106000, 92000, 108000, 96000, 158000, 136000, 122000, 110000, 100000, 92000]
+      levels:
+        - {price: 13.60, label: "Low of the morning"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $13.26 — $0.28 a share below the decision, +$448 short on 1,600 shares."
+    explanation: "This one sat inside the room's argument rather than outside it, and the check is what told you which of the two names that was."
+
+  - type: checklist-reveal
+    title: "The check, in four readings"
+    items:
+      - "Where is the index against yesterday's close?"
+      - "Are more names moving with it, or against it?"
+      - "Which sector is carrying the move?"
+      - "Is my name inside that argument, or outside it?"
