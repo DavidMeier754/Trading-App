@@ -1,0 +1,113 @@
+id: "6-3"
+title: "Who's On the Other Side"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [participants, volume, footprints]
+learning_goal: "User can read unusual volume and large price steps as the footprint of a big participant, and knows what that footprint does not tell them."
+purpose: "You will never see who is trading, so the whole skill is reading what they leave behind on the only two numbers you have."
+terms_introduced: []
+reinforces: []
+prerequisite: "6-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Closes Level 6. Volume from Level 4 is reused as a footprint rather than re-taught. Account named at $6,000; the worked position is 300 × $18.60 = $5,580."
+screens:
+  - type: intro
+    text: "You never see the names. You do see what they left behind."
+
+  - type: theory
+    title: "Two numbers, one trail"
+    body: "Your screen tells you how far the price went and how many shares it took. Those two together are as close as you get to seeing who was in the room."
+
+  - type: visual
+    component: bar-chart
+    data: {bars: [{label: "Your order", value: 200}, {label: "A fund's order", value: 400000}], unit: "shares"}
+    caption: "Your two hundred shares next to one fund's four hundred thousand."
+
+  - type: mc
+    prompt: "XYZ normally trades 1.5 M shares in a whole day. An hour after the open it has done 9 M, in large steps. What does that most likely mean?"
+    options:
+      - {text: "A great many small orders have arrived at once"}
+      - {text: "The company has issued new shares this morning"}
+      - {text: "Somebody large is working a position", correct: true}
+    explanation: "Six times a normal day before the morning is out, in big steps, is not a crowd of small orders."
+
+  - type: tf
+    statement: "One trade of 400,000 shares and four thousand trades of 100 shares add the same amount to the day's volume."
+    answer: true
+    explanation: "Volume counts shares and not orders, which is exactly how one large participant hides inside an ordinary-looking number."
+
+  - type: compare
+    prompt: "In one of these, somebody was taking everything on offer in a few large bites. In the other, small orders arrived one after another. Which is the large buyer?"
+    charts:
+      - {kind: line, data: [20.00, 20.02, 20.30, 20.32, 20.60, 20.62, 20.90, 20.92], label: "A"}
+      - {kind: line, data: [20.00, 20.06, 20.12, 20.17, 20.24, 20.30, 20.37, 20.44], label: "B"}
+    answer: "A"
+    explanation: "A moves in three jumps of about 28 cents, each one somebody clearing a price out. B is a queue of small orders, a few cents at a time."
+
+  - type: chart-decision
+    scenario: "VANE has traded 8 M shares this morning against 1.5 M on a normal whole day, and it has stepped higher for six minutes to $18.60. You have a $6,000 account and are looking at 300 shares. Buy, or wait?"
+    shares: 300
+    chart: {kind: line, data: [18.10, 18.16, 18.14, 18.30, 18.46, 18.60, 18.72, 18.80, 18.88, 18.94], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It reached $18.94 — 34 cents a share, +$102 on 300 shares."
+    explanation: "A climb that this many shares are taking part in has somebody behind it, and 300 shares is a position the account covers."
+
+  - type: story
+    character: retail-trader
+    text: "You watch 60,000 shares go through in a single print while you are buying 200. Somebody just did three hundred times what you are doing, and you will never learn their name."
+
+  - type: sort
+    prompt: "Which footprint is each of these?"
+    buckets: ["Size at work", "An ordinary crowd"]
+    items:
+      - {text: "Six times a normal day's volume before lunch", bucket: "Size at work"}
+      - {text: "Volume close to what this stock does most days", bucket: "An ordinary crowd"}
+      - {text: "The price jumping in large steps with flat stretches between", bucket: "Size at work"}
+      - {text: "The price drifting a cent at a time", bucket: "An ordinary crowd"}
+    explanation: "Size shows up as more shares than usual, moving the price in bigger pieces."
+
+  - type: numeric-input
+    prompt: "A fund wants 450,000 shares of a stock that trades 3 M on a normal day. What percentage of a normal day is that?"
+    answer: 15
+    tolerance: 0.01
+    unit: "%"
+    working: "450,000 ÷ 3,000,000 = 0.15 = 15 %"
+    explanation: "A single buy worth a seventh of the day cannot be filled quietly."
+
+  - type: mc
+    prompt: "Why would that fund buy over several hours instead of all at once?"
+    options:
+      - {text: "Exchanges cap how many shares one trade may hold"}
+      - {text: "Because the price is always lower later in the day"}
+      - {text: "Because buying it at once lifts the price against itself", correct: true}
+    explanation: "It is competing with itself for the shares on offer. Slowly costs it less."
+
+  - type: spot-mistake
+    prompt: "Tap the part that does not follow."
+    segments:
+      - {text: "XYZ traded four times its normal volume today"}
+      - {text: "and finished 6 % higher,"}
+      - {text: "so tomorrow's buyers will have to pay more again.", wrong: true}
+    explanation: "Volume says how many took part today. It has nothing at all to say about tomorrow."
+
+  - type: match
+    prompt: "Two things your screen shows you, and two it never will."
+    pairs:
+      - ["Volume", "How many shares changed hands"]
+      - ["A run of large steps", "Somebody taking everything on offer"]
+      - ["The buyer's name", "Something you will never be shown"]
+      - ["The reason they bought", "Something you can only guess at"]
+    explanation: "You get the trail. You never get the traveller."
+
+  - type: recap
+    title: "Level 6 in three lines"
+    points:
+      - {text: "Retail traders, institutions and market makers are who you trade against.", level: "6-1"}
+      - {text: "The market maker's two prices are a gap apart, and that gap is the spread.", level: "6-2"}
+      - {text: "Size leaves a trail: unusual volume, moving in unusually large steps.", level: "6-3"}

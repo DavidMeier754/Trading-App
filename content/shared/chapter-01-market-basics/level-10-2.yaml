@@ -1,0 +1,105 @@
+id: "10-2"
+title: "When the Market Is Open"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [sessions, liquidity, volatility]
+learning_goal: "User explains why prices in the thin parts of the day move further on the same order size, and weighs a move by the number of participants behind it."
+purpose: "The biggest-looking moves on any chart happen where the fewest people are trading, and reading them as news is how beginners get caught."
+terms_introduced: []
+reinforces: []
+prerequisite: "10-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Applies Level 7's thin-stock arithmetic to a thin block of the day. The worked position is 250 × $19.60 = $4,900."
+screens:
+  - type: intro
+    text: "Why the edges of the day behave so strangely."
+
+  - type: theory
+    title: "Fewer people, bigger steps"
+    body: "Before the open and after the close there are far fewer buyers and sellers waiting. A trade that would move nothing in the middle of the regular session moves the price several per cent out there."
+
+  - type: example
+    body: "TIDE trades 4.2 M shares in a regular session and about 60,000 before the open. The same 5,000-share trade is one part in eight hundred of the first number and one part in twelve of the second."
+
+  - type: mc
+    prompt: "Why does the same number of shares move the price further before the open?"
+    options:
+      - {text: "Orders placed before the open are charged more"}
+      - {text: "There are fewer shares waiting at each price", correct: true}
+      - {text: "Prices before the open are estimates, not real trades"}
+    explanation: "It is exactly Level 7's thin-stock problem, applied to a thin part of the day."
+
+  - type: tf
+    statement: "A price printed after the close is not a real trade."
+    answer: false
+    explanation: "It is a real trade at a real price. It is simply a trade between very few people, so it says far less than a busy one would."
+
+  - type: chart-decision
+    scenario: "VANE printed $19.60 after the close on 8,000 shares following an announcement, against 3 M shares in a normal regular session, and it is still climbing. You are looking at 250 shares. Buy, or wait?"
+    shares: 250
+    chart: {kind: line, data: [18.40, 18.44, 19.10, 19.30, 19.48, 19.60, 19.52, 19.30, 19.12, 19.04], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    reasonable: [buy]
+    outcome: "It faded back to $19.04 before the after-hours ended, 56 cents below where you would have bought: −$140 on 250 shares."
+    explanation: "8,000 shares is a handful of people setting a price with nobody there to argue. The crowd has not voted yet."
+
+  - type: numeric-input
+    prompt: "A stock trades 90,000 shares before the open and 4.5 M in the regular session. What percentage of the regular-session volume is the pre-market number?"
+    answer: 2
+    tolerance: 0.01
+    unit: "%"
+    working: "90,000 ÷ 4,500,000 = 0.02 = 2 %"
+    explanation: "Two per cent of the crowd, setting a price the other ninety-eight have not seen yet."
+
+  - type: compare
+    prompt: "These are the same stock on the same morning: one before the open and one in the regular session. Which one is before the open?"
+    charts:
+      - {kind: line, data: [20.00, 20.00, 20.44, 20.44, 20.10, 20.10, 20.52, 20.52], label: "A"}
+      - {kind: line, data: [20.40, 20.46, 20.42, 20.50, 20.55, 20.52, 20.58, 20.63], label: "B"}
+    answer: "A"
+    explanation: "A moves 40 cents at a time and then does nothing, because only a few trades happen at all. B fills in every step between."
+
+  - type: sort
+    prompt: "Which of these readings would you trust more?"
+    buckets: ["Says more", "Says less"]
+    items:
+      - {text: "A 4 % move on 2 M shares in the regular session", bucket: "Says more"}
+      - {text: "A 4 % move on 15,000 shares before the open", bucket: "Says less"}
+      - {text: "A price that has traded all morning", bucket: "Says more"}
+      - {text: "A price set by a handful of trades after the close", bucket: "Says less"}
+    explanation: "The number of people behind a price is what makes it worth something."
+
+  - type: story
+    character: retail-trader
+    text: "You see a stock up 9 % before the open and decide it is going to be a great day. It opens up 2 % and spends the next hour handing that back too."
+
+  - type: mc
+    prompt: "The same announcement moves a stock 9 % before the open and 2 % once the regular session starts. What happened?"
+    options:
+      - {text: "The announcement was corrected during the morning"}
+      - {text: "The full crowd priced it differently from the few who were there first", correct: true}
+      - {text: "The exchange capped the move at the open"}
+    explanation: "The first price was a very small sample. The second one is the whole room."
+
+  - type: slider
+    prompt: "A stock does 50,000 shares before the open and 5 M in the regular session. Roughly what share of the day happens before the open?"
+    min: 0
+    max: 10
+    step: 1
+    unit: "%"
+    answer: 1
+    tolerance: 1
+    explanation: "About one per cent of the day, and it regularly produces the biggest-looking move on the chart."
+
+  - type: fill-tiles
+    sentence: "With far fewer buyers and sellers waiting, prices at the edges of the day are ___."
+    answer: "jumpy"
+    explanation: "Fewer people at each price, so every trade travels further."
+
+  - type: example
+    body: "None of this makes the edges of the day fake. It makes them a small sample. The same 4 % on 2 M shares means something that the same 4 % on 20,000 does not."

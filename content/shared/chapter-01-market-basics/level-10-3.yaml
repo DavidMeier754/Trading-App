@@ -1,0 +1,117 @@
+id: "10-3"
+title: "When the Market Is Open"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [sessions, practice, decisions]
+learning_goal: "User can say which part of the trading day to learn in and what to do with a price printed in a thin one."
+purpose: "Choosing where in the day to practise is the last piece of the beginner's setup, and it costs nothing to get right."
+terms_introduced: []
+reinforces: []
+prerequisite: "10-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Closes Level 10 and the block. Account named at $6,000; the worked position is 250 × $23.60 = $5,900."
+screens:
+  - type: intro
+    text: "So which part of the day is yours?"
+
+  - type: theory
+    title: "Start in the middle"
+    body: "Nearly everybody learning starts in the regular session, and most of them stay out of its first few minutes. More participants, steadier prices, fewer moves that come from nowhere."
+
+  - type: story
+    character: mascot
+    text: "The edges of the day are not forbidden. They are the part where the fewest people are watching and the most can go wrong at once."
+
+  - type: mc
+    prompt: "Why is the regular session the sensible place to learn?"
+    options:
+      - {text: "Prices there are guaranteed never to jump suddenly"}
+      - {text: "Most participants are there, so moves are readable", correct: true}
+      - {text: "Trading costs less during the regular session than at the edges of the day"}
+    explanation: "You want a crowd around you while you are learning to read one."
+
+  - type: tf
+    statement: "A move before the open is worth less as information than the same move in the regular session."
+    answer: true
+    explanation: "Same percentage, far fewer people behind it, and the number of participants is what gives a move its weight."
+
+  - type: chart-decision
+    scenario: "TIDE has traded steadily higher for six minutes into the regular session, on 900,000 shares so far against 4.2 M on a normal day. It is at $23.60. You have a $6,000 account and are looking at 250 shares. Buy, or wait?"
+    shares: 250
+    chart: {kind: line, data: [23.10, 23.16, 23.14, 23.30, 23.46, 23.60, 23.72, 23.80, 23.88, 23.96], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "It reached $23.96, 36 cents higher, +$90 on 250 shares."
+    explanation: "The busiest part of the day, a stock with a crowd in it, and a position the account covers."
+
+  - type: branch
+    scenario: "An announcement lands after the close and the stock prints 7 % higher on 12,000 shares, against millions in a normal regular session."
+    shares: 200
+    chart:
+      kind: line
+      data: [26.00, 26.04, 27.60, 27.82, 27.70, 27.90, 27.64, 27.40, 27.20, 27.10]
+      decision_index: 4
+    steps:
+      - prompt: "You want to act on it straight away. What do you actually know?"
+        options:
+          - {text: "That a few people have paid 7 % more so far", correct: true, next: 1}
+          - {text: "That the stock will open 7 % higher tomorrow", next: 1}
+        explanation: "12,000 shares is a tiny sample of a stock that normally trades millions. It is a first reading, not a result."
+      - prompt: "What is the most sensible thing to do with a reading like that?"
+        options:
+          - {text: "Note it, and let the regular session price it", correct: true}
+          - {text: "Buy now, before everybody else sees it"}
+        explanation: "The crowd sets the price the next morning, and that is the price you would have had to leave at."
+
+  - type: sort
+    prompt: "Where would you practise, and what keeps for later?"
+    buckets: ["Fine to learn in", "Leave it for later"]
+    items:
+      - {text: "The middle of the regular session, in a busy stock", bucket: "Fine to learn in"}
+      - {text: "The first minutes after the open", bucket: "Leave it for later"}
+      - {text: "Before the open on an announcement", bucket: "Leave it for later"}
+      - {text: "A liquid stock an hour into the regular session", bucket: "Fine to learn in"}
+    explanation: "Crowded and settled while you are learning. The edges later, and on purpose."
+
+  - type: fill-choice
+    sentence: "Almost everybody learning to trade starts in the ___ session."
+    options: ["regular", "pre-market", "after-hours"]
+    answer: "regular"
+    explanation: "Most participants, most readable prices."
+
+  - type: mc
+    prompt: "You keep seeing very large percentage moves before the open and almost none of them last. What is the useful conclusion?"
+    options:
+      - {text: "Those prices rest on very few people", correct: true}
+      - {text: "Moves before the open always reverse at the open"}
+      - {text: "Somebody is manipulating the price every morning"}
+    explanation: "Small sample, big swings. Sometimes they hold and sometimes they do not, and the point is how little the number rests on."
+
+  - type: match
+    prompt: "Four parts of a trading day, four one-line verdicts."
+    pairs:
+      - ["Pre-market", "A small sample, travelling a great distance"]
+      - ["The first minutes after the open", "Busy, fast, and not where you start"]
+      - ["The middle of the regular session", "Where most people learn"]
+      - ["After-hours", "Where an announcement lands first"]
+    explanation: "Every block has a character, and one of them is yours for now."
+
+  - type: checklist-reveal
+    title: "Four questions before any decision so far"
+    items:
+      - "Does this stock trade enough shares that I can leave whenever I want?"
+      - "Does it move enough for a decision to have a result?"
+      - "Is my position small against a normal day for it?"
+      - "Am I in the crowded part of the day, or at an edge?"
+
+  - type: recap
+    title: "Level 10 in three lines"
+    points:
+      - {text: "A trading day has three blocks and nearly all the volume is in the middle one.", level: "10-1"}
+      - {text: "Thin parts of the day move further on the same number of shares.", level: "10-2"}
+      - {text: "Learn where the crowd is; the edges will keep.", level: "10-3"}

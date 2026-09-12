@@ -4,118 +4,113 @@ chapter: 1
 chapter_title: "Market Basics"
 path: all
 category: repetition
-tags: [liquidity, volatility, volume]
-learning_goal: "User classifies real-looking quotes on both dials and uses them in a buy/wait decision."
-purpose: "Reading the two dials on a quote card has to become automatic before charts arrive."
+tags: [liquidity, volatility, quote, drill]
+learning_goal: "User places a stock on both dials from a quote card or a pair of numbers, quickly and without prompting."
+purpose: "Reading the two dials has to be automatic before charts and orders start competing for the same attention."
 terms_introduced: []
-prerequisite: "8-1"
+reinforces: []
+prerequisite: "8-3"
 xp: 20
 difficulty: 2
 sources: [consensus]
+notes: "Pure classification practice. The decisions that turn on the dials are 9-2's job."
 screens:
   - type: intro
-    text: "Four stocks, two dials. Let's read them."
+    text: "Six stocks, two dials each, and no explanations until you have answered."
 
   - type: story
     character: mascot
-    text: "Meet four stocks. Judge each one on liquidity and volatility."
+    text: "Nothing new in this level. Read the numbers, place the stock on both dials, and go."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the number that places MOON on the movement dial."
+    data: {ticker: MOON, name: Moon Bio, price: 8.60, change: 2.05, change_pct: 31.3, volume: "26M"}
+    target: change
+    explanation: "+$2.05 is +31.3 % on the day, which is the movement dial. The 26 M underneath it answers the other one."
 
   - type: mc
-    prompt: "APEX: 30 M shares a day, moves about 0.8 % a day."
+    prompt: "APEX trades 30 M shares a day and has not moved more than 1 % on any day this month. You want a stock where a decision has a result. What is APEX's problem?"
     options:
-      - {text: "Liquid, volatile"}
-      - {text: "Illiquid, calm"}
-      - {text: "Liquid, calm", correct: true}
-    explanation: "Huge volume, small moves."
+      - {text: "You could not get out of it quickly"}
+      - {text: "There is not enough movement to work with", correct: true}
+      - {text: "It is too expensive to buy"}
+    explanation: "APEX is as easy to leave as a stock gets. There is simply nothing to leave with."
 
   - type: mc
-    prompt: "MOON: 12 M shares a day, moved 35 % today on a drug approval."
+    prompt: "MOON did 26 M shares today, five times its usual, on one announcement. Where does that leave the way out tomorrow?"
     options:
-      - {text: "Liquid, volatile", correct: true}
-      - {text: "Illiquid, volatile"}
-      - {text: "Liquid, calm"}
-    explanation: "Plenty of volume, enormous move."
+      - {text: "Proven, since it has shown it can trade 26 M"}
+      - {text: "Impossible to guess from anything at all"}
+      - {text: "Back near its ordinary day once the crowd leaves", correct: true}
+    explanation: "Today's crowd came for the announcement. Your exit has to live in the ordinary day."
 
   - type: tf
-    statement: "DUST: 1,500 shares a day, price flat for weeks. It's calm, so it's safe to trade a large position."
+    statement: "DUST trades 1,500 shares a day and its price has been flat for weeks, so a large position in it is safe to hold."
     answer: false
-    explanation: "Calm, yes — but illiquid. A large position can't get out without moving the price."
+    explanation: "Calm is not the same as easy to leave. At 1,500 shares a day, a large position gets out by walking the price down."
+
+  - type: sort
+    prompt: "Which dial is each of these a reading of?"
+    buckets: ["Liquidity", "Volatility"]
+    items:
+      - {text: "48 M shares changed hands", bucket: "Liquidity"}
+      - {text: "Ranged 14 % between the high and the low", bucket: "Volatility"}
+      - {text: "A 300-share trade moved it 2 %", bucket: "Liquidity"}
+      - {text: "Went nowhere at all last week", bucket: "Volatility"}
+    explanation: "Counts and impact on the one side, distance travelled on the other."
 
   - type: slider
-    prompt: "DUST trades 1,500 shares a day. You want to buy 300. What share of daily volume is that?"
+    prompt: "DUST trades 1,500 shares on a normal day. You hold 450 of them. What share of a normal day is your position?"
     min: 0
     max: 100
     step: 5
     unit: "%"
-    answer: 20
+    answer: 30
     tolerance: 5
-    explanation: "300 ÷ 1,500 = 20 % — you'd be a big part of the day."
-
-  - type: hotspot
-    component: quote-card
-    prompt: "Tap the number that tells you FLUX is volatile today."
-    data: {ticker: FLUX, name: Flux Systems, price: 7.42, change: 1.10, change_pct: 17.4, volume: "48M"}
-    target: change
-    explanation: "+17.4 % in a day is a big swing. The volume says it's liquid too."
-
-  - type: mc
-    prompt: "Same FLUX quote: 48 M shares, +17.4 %. Two dials?"
-    options:
-      - {text: "Illiquid and volatile"}
-      - {text: "Liquid and volatile", correct: true}
-      - {text: "Liquid and calm"}
-    explanation: "Big volume, big move."
+    explanation: "450 ÷ 1,500 is nearly a third of the day's trading, sitting in one position."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not hold."
     segments:
-      - {text: "DUST trades 1,500 shares a day"}
-      - {text: "and its price barely moves,"}
-      - {text: "so a large position is easy to get out of.", wrong: true}
-    explanation: "Calm is not the same as liquid. At 1,500 shares a day, getting out means walking the price down."
+      - {text: "MOON is up 31 % today"}
+      - {text: "on 26 M shares,"}
+      - {text: "so it is a calm stock to practise on.", wrong: true}
+    explanation: "31 % in a day is the opposite of calm. The volume is fine; the movement is extreme."
 
   - type: match
-    prompt: "Three measurements and one player — match them up."
+    prompt: "Four stocks from this level, four one-line verdicts."
     pairs:
-      - ["Liquidity", "Ease of trading without moving the price"]
-      - ["Volatility", "Size and speed of moves"]
-      - ["Volume", "Shares traded"]
-      - ["Market maker", "Quotes two prices, keeps the spread"]
-    explanation: "Three dials and one player."
+      - ["APEX", "Easy to leave, nothing to trade"]
+      - ["MOON", "Huge move, crowd here for a day"]
+      - ["DUST", "Calm, and very hard to leave"]
+      - ["TIDE", "Busy, steady, workable"]
+    explanation: "The two dials, said out loud, four times over."
 
-  - type: mc
-    prompt: "A friend says: 'This stock is up 12 % today on huge volume, so it's easy to trade and it'll be up again tomorrow.' Which part is wrong?"
+  - type: numeric-mc
+    prompt: "TIDE trades between $22.00 and $22.66 on an ordinary day. What is that range as a percentage of the low?"
     options:
-      - {text: "'Easy to trade' — high volume doesn't mean liquid"}
-      - {text: "'Up again tomorrow' — nothing here says anything about tomorrow", correct: true}
-      - {text: "Nothing — both parts follow from the numbers"}
-    explanation: "Volume backs the move today; it predicts nothing."
+      - {text: "0.66 %"}
+      - {text: "6.6 %"}
+      - {text: "3 %", correct: true}
+      - {text: "0.3 %"}
+    working: "$22.66 − $22.00 = $0.66; $0.66 ÷ $22.00 = 0.03 = 3 %"
+    explanation: "Three per cent of movement in a stock that trades millions of shares. Workable."
 
-  - type: chart-decision
-    scenario: "XYZ is liquid and usually calm. Today it dropped 9 % in ten minutes on a rumor and is still falling fast. Buy 100 shares, or wait?"
-    shares: 100
-    chart: {kind: line, data: [30.00, 29.60, 29.10, 28.40, 27.80, 27.30, 27.00, 26.80, 26.60, 26.50, 26.45], decision_index: 5}
-    buttons: [buy, wait]
-    best: wait
-    outcome: "It fell another 3 % before stabilizing. Waiting avoided −$85 on 100 shares."
-    explanation: "Sudden volatility on a rumor is a moment to watch, not to jump in."
+  - type: fill-choice
+    sentence: "The dial that asks how easily you can leave a position is ___."
+    options: ["liquidity", "volatility", "volume"]
+    answer: "liquidity"
+    explanation: "Ease of getting out, not size of movement."
 
-  - type: fill-tiles
-    sentence: "A stock with few buyers and sellers ready is ___."
-    answer: "illiquid"
-    explanation: "Your own trade moves it."
-
-  - type: sort
-    prompt: "Does it raise the risk of a bad exit?"
-    buckets: ["Raises the risk", "Doesn't"]
-    items:
-      - {text: "Low daily volume", bucket: "Raises the risk"}
-      - {text: "High volatility during news", bucket: "Raises the risk"}
-      - {text: "High daily volume", bucket: "Doesn't"}
-      - {text: "A calm, liquid stock", bucket: "Doesn't"}
-    explanation: "Thin or wild makes exits expensive."
+  - type: compare
+    prompt: "Both of these trade 5 M shares a day. Which one gives you more to work with?"
+    charts:
+      - {kind: line, data: [33.00, 33.02, 33.01, 33.04, 33.03, 33.06, 33.05, 33.08], label: "A"}
+      - {kind: line, data: [33.00, 33.24, 33.16, 33.48, 33.36, 33.70, 33.58, 33.90], label: "B"}
+    answer: "B"
+    explanation: "A covered eight cents across the whole stretch. B covered ninety, in steps large enough to act on."
 
   - type: story
     character: mascot
-    text: "Sleepy or wild, crowded or empty — you can now read both dials off a quote card. Next: when the market is actually open."
-
+    text: "Both dials, off a card, in a couple of seconds. Now the same two dials with decisions attached to them."

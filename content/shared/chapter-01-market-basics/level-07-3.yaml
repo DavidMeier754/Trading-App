@@ -1,0 +1,112 @@
+id: "7-3"
+title: "Volume and Liquidity"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [liquidity, position-size, exits]
+learning_goal: "User can describe what a large order does to a thin stock, and work out what walking the price costs on a given share count."
+purpose: "Most of what beginners call bad luck is a position that was too large for the stock long before the trade went wrong."
+terms_introduced: []
+reinforces: []
+prerequisite: "7-2"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "RUSK stays the thin stock, 9,000 shares on a normal day. The branch runs the exit rather than the entry, which is the point of the level."
+screens:
+  - type: intro
+    text: "Here is what happens when a large position meets a small stock."
+
+  - type: theory
+    title: "Your order is part of the supply and demand"
+    body: "When your position is large compared with the stock, you are not reading the market any more. You are moving it, and every share you get costs a little more than the last one did."
+
+  - type: example
+    body: "RUSK has 200 shares wanted at $12.40, another 300 at $12.36 and 500 at $12.30. You want to sell 1,000 right now, so you take all three, the last of them 10 cents below where you looked."
+
+  - type: numeric-input
+    prompt: "From that example, what did your 1,000 shares sell at on average?"
+    answer: 12.34
+    tolerance: 0.01
+    unit: "$"
+    working: "(200 × $12.40) + (300 × $12.36) + (500 × $12.30) = $12,338, and $12,338 ÷ 1,000 = $12.34"
+    explanation: "Six cents below the price on your screen, and nothing about the company changed while you sold."
+
+  - type: branch
+    scenario: "You hold 900 shares of RUSK, which trades about 9,000 shares on a normal day. A headline lands and the price starts to slide."
+    shares: 900
+    chart:
+      kind: line
+      data: [12.40, 12.34, 12.20, 12.02, 11.86, 11.74, 11.66, 11.62, 11.70, 11.76]
+      decision_index: 4
+    steps:
+      - prompt: "You want out of all 900 at once, and only 150 shares are wanted at the price on your screen. What should you expect?"
+        options:
+          - {text: "150 fill where you looked and the other 750 fill lower", correct: true, next: 1}
+          - {text: "All 900 fill at the price on your screen", next: 1}
+        explanation: "Your position is a tenth of a normal day for this stock. There is no crowd standing by to absorb it in one piece."
+      - prompt: "You sell the lot and the average comes out 40 cents below the price you were looking at. What has that cost on 900 shares?"
+        options:
+          - {text: "$360", correct: true}
+          - {text: "$40"}
+        explanation: "$0.40 × 900 shares = $360, paid for being too large for the stock rather than for being wrong about it."
+      - prompt: "What would have changed that outcome the most?"
+        options:
+          - {text: "Holding a size RUSK could take back in one go", correct: true}
+          - {text: "Selling a few minutes earlier"}
+        explanation: "The position was too big for RUSK before the headline ever arrived. That was the decision that mattered."
+
+  - type: mc
+    prompt: "Why does the same 1,000-share sale cost more in a thin stock than in a busy one?"
+    options:
+      - {text: "Thin stocks carry a higher charge per share traded"}
+      - {text: "Thin stocks only update their price once every minute"}
+      - {text: "Each price holds fewer shares, so you run out sooner", correct: true}
+    explanation: "You are walking down a much shorter staircase, one step at a time."
+
+  - type: tf
+    statement: "A position is the right size only if you can leave it about as easily as you entered it."
+    answer: true
+    explanation: "Entering is voluntary and unhurried. Leaving very often is neither, and the size has to survive that."
+
+  - type: slider
+    prompt: "You hold 1,500 shares of a stock that trades 30,000 on a normal day. What percentage of a normal day would you have to sell?"
+    min: 0
+    max: 20
+    step: 1
+    unit: "%"
+    answer: 5
+    tolerance: 1
+    explanation: "1,500 ÷ 30,000 = 5 %. Big enough to be felt, small enough to get done."
+
+  - type: sort
+    prompt: "Which of these makes leaving expensive?"
+    buckets: ["Makes leaving expensive", "Does not"]
+    items:
+      - {text: "Your position is a tenth of a normal day's volume", bucket: "Makes leaving expensive"}
+      - {text: "You need to be out within the next minute", bucket: "Makes leaving expensive"}
+      - {text: "Your position is a hundredth of a normal day", bucket: "Does not"}
+      - {text: "You can leave the position across a whole day", bucket: "Does not"}
+    explanation: "Your size against the stock, and how much time you are willing to allow yourself."
+
+  - type: story
+    character: retail-trader
+    text: "The chart was right. The stock did exactly what you thought it would. You still finished behind, because 900 shares was more than RUSK could hand back."
+
+  - type: mc
+    prompt: "Two traders take the same view on the same thin stock. One buys 200 shares, the other 4,000. What separates their results?"
+    options:
+      - {text: "It pays more getting in and gets less getting out", correct: true}
+      - {text: "It pays a higher charge per trade on a larger position"}
+      - {text: "Nothing, since they own the same stock at the same time"}
+    explanation: "Same idea, different size, and the size is what the stock charges for."
+
+  - type: fill-tiles
+    sentence: "In a thin stock, selling in size walks the price ___ from where you saw it."
+    answer: "away"
+    explanation: "Every extra share has to come from a worse price than the one before."
+
+  - type: story
+    character: mascot
+    text: "Liquidity is never a property of the stock alone. It is the stock and your size, together."

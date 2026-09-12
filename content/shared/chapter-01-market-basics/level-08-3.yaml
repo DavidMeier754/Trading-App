@@ -1,0 +1,102 @@
+id: "8-3"
+title: "Volatility"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [volatility, liquidity, stock-selection]
+learning_goal: "User can pick a stock to learn on by putting both dials in the middle, and say why each extreme is a poor teacher."
+purpose: "The stock you practise on decides how much you learn per hour, and beginners almost always pick one of the two extremes."
+terms_introduced: []
+reinforces: []
+prerequisite: "8-2"
+xp: 20
+difficulty: 3
+sources: [consensus]
+notes: "Applies both dials to a choice. Account not named; the worked position is 300 × $13.20 = $3,960, well inside the $6,000 used across this block."
+screens:
+  - type: intro
+    text: "So which stock should you actually practise on?"
+
+  - type: theory
+    title: "What you want to learn on"
+    body: "Enough volume that you can leave whenever you like. Enough movement that a decision has a result. Not so much movement that one wrong minute undoes a week."
+
+  - type: story
+    character: mascot
+    text: "Nobody learns to drive on a race track or in an empty car park. You want an ordinary road with ordinary traffic on it."
+
+  - type: compare
+    prompt: "You are picking one of these to practise on. Both trade 4 M shares a day. Which is the better teacher?"
+    charts:
+      - {kind: line, data: [26.00, 26.12, 26.06, 26.24, 26.18, 26.34, 26.28, 26.42], label: "A"}
+      - {kind: line, data: [26.00, 27.40, 25.60, 27.10, 25.20, 26.80, 25.40, 26.30], label: "B"}
+    answer: "A"
+    explanation: "A moves enough to be worth a decision and slowly enough to let you make one. B would have thrown you out of three positions in the time it took to read it."
+
+  - type: mc
+    prompt: "Why is a very calm, very liquid stock still a poor stock to practise on?"
+    options:
+      - {text: "It costs too much per share for a small account"}
+      - {text: "Nothing happens, so no decision has a result", correct: true}
+      - {text: "Its price is set entirely by institutions"}
+    explanation: "You learn from outcomes, and a stock that moves four cents a day hands you almost none."
+
+  - type: tf
+    statement: "The most volatile stock of the day is the best one to learn on, because it offers the most to work with."
+    answer: false
+    explanation: "It also offers the most ways to be punished for a small mistake, at the stage where you are still making plenty of them."
+
+  - type: chart-decision
+    scenario: "RUSK moves about 8 % on a normal day but trades 9,000 shares. It has climbed for six minutes to $13.20 and you are looking at 300 shares, a thirtieth of a normal day. Buy, or wait?"
+    shares: 300
+    chart: {kind: line, data: [12.60, 12.70, 12.66, 12.84, 13.02, 13.20, 13.10, 13.34, 13.16, 13.24], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    reasonable: [buy]
+    outcome: "It ended at $13.24, four cents above where you would have bought: +$12 on 300 shares, before you had to find anybody to sell them to."
+    explanation: "The movement is there. The way out is not, and a thirtieth of a normal day is a size this stock will make you pay to leave."
+
+  - type: numeric-input
+    prompt: "A stock trades between $24.00 and $25.20 on an ordinary day. What is that range as a percentage of the low?"
+    answer: 5
+    tolerance: 0.01
+    unit: "%"
+    working: "$25.20 − $24.00 = $1.20; $1.20 ÷ $24.00 = 0.05 = 5 %"
+    explanation: "About five per cent of movement to work with: plenty for a beginner, and not a rollercoaster."
+
+  - type: order
+    prompt: "Drag these three stocks into place, calmest first."
+    items: ["Moves about 0.4 % on a normal day", "Moves about 5 % on a normal day", "Moves about 14 % on a normal day"]
+    explanation: "Calmest to wildest, and the one in the middle is where a beginner learns most per hour."
+
+  - type: sort
+    prompt: "Good to practise on, or leave it for later?"
+    buckets: ["Good to practise on", "Leave it for later"]
+    items:
+      - {text: "4 M shares a day, moves about 4 %", bucket: "Good to practise on"}
+      - {text: "9,000 shares a day, moves about 9 %", bucket: "Leave it for later"}
+      - {text: "12 M shares a day, moves about 0.3 %", bucket: "Leave it for later"}
+      - {text: "2 M shares a day, moves about 3 %", bucket: "Good to practise on"}
+    explanation: "Busy enough to leave, lively enough to learn from, and nothing extreme on either dial."
+
+  - type: mc
+    prompt: "You find a stock that trades 8 M shares a day and moves about 3 %. What is the honest description of it?"
+    options:
+      - {text: "A reasonable stock to practise a method on", correct: true}
+      - {text: "A stock that will make money"}
+      - {text: "A stock with very little risk in it"}
+    explanation: "The two dials tell you whether a stock is workable. They never tell you whether a trade in it will work."
+
+  - type: fill-tiles
+    sentence: "Enough volume to leave and enough movement to learn from makes a good practice ___."
+    answer: "stock"
+    explanation: "Both dials somewhere in the middle, neither of them at an extreme."
+
+  - type: checklist-reveal
+    title: "Before a stock goes on your screen"
+    items:
+      - "Does it trade enough shares that I can leave whenever I want?"
+      - "Does it move enough that a decision has a result?"
+      - "Is my position small against a normal day for it?"
+      - "Would one bad minute in it undo a week?"

@@ -1,0 +1,105 @@
+id: "6-2"
+title: "Who's On the Other Side"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [market-maker, spread, costs]
+learning_goal: "User can explain the two prices a market maker quotes, name the gap between them as the spread, and work out what that gap costs on a given share count."
+purpose: "The spread is the first cost a trader ever pays, it is paid on every single trade, and most beginners never notice it."
+terms_introduced: ["Spread"]
+reinforces: []
+prerequisite: "6-1"
+xp: 20
+difficulty: 1
+sources: [consensus]
+notes: "Deliberately avoids the words bid and ask; Chapter 3 introduces them properly on the quote panel. Here the two prices are described in plain words."
+screens:
+  - type: intro
+    text: "One firm will trade with you at any moment. It charges for being there."
+
+  - type: theory
+    title: "Two prices at once"
+    body: "A market maker posts two prices on the same stock: what it will pay you if you want to sell, and the slightly higher price it charges you if you want to buy."
+
+  - type: example
+    body: "On XYZ it will pay $10.00 for shares you want to be rid of, and it will sell you shares at $10.04. Sell and you get $10.00. Buy and you pay $10.04. Same stock, same second."
+
+  - type: numeric-input
+    prompt: "The market maker pays $10.00 for your shares and sells shares at $10.04. How far apart are its two prices?"
+    answer: 0.04
+    tolerance: 0.001
+    unit: "$"
+    working: "$10.04 − $10.00 = $0.04"
+    explanation: "Four cents between the two, and the market maker keeps them."
+
+  - type: theory
+    title: "That gap is the spread"
+    body: "The gap between the price you can sell at and the price you can buy at is the spread. Buy and sell straight back, and you have paid it once, whichever way the price went."
+
+  - type: tf
+    statement: "Buying a stock and selling it a minute later at unchanged prices leaves you level."
+    answer: false
+    explanation: "You bought at the higher of the two prices and sold at the lower one. The spread came out of the middle."
+
+  - type: numeric-mc
+    prompt: "You buy 400 shares and sell them straight back, with the two prices four cents apart. What has that gap cost you?"
+    options:
+      - {text: "$4"}
+      - {text: "$16", correct: true}
+      - {text: "$0.04"}
+      - {text: "$160"}
+    working: "$0.04 × 400 shares = $16"
+    explanation: "Cents per share times shares, exactly like working out a profit."
+
+  - type: mc
+    prompt: "Why does a market maker quote two prices instead of one?"
+    options:
+      - {text: "It buys at the lower and sells at the higher", correct: true}
+      - {text: "Large traders get one price, small traders the other"}
+      - {text: "A second price lets a trade be cancelled later"}
+    explanation: "Thousands of small gaps a day is the whole business."
+
+  - type: slider
+    prompt: "The two prices are 4 cents apart and you are hoping for a 20-cent move. What share of that move does the gap take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 20
+    tolerance: 10
+    explanation: "4 ÷ 20 is a fifth of what you are playing for, gone before the price has moved at all."
+
+  - type: sort
+    prompt: "Which way does each of these push the gap between the two prices?"
+    buckets: ["Makes the gap wider", "Makes the gap narrower"]
+    items:
+      - {text: "Almost nobody trading the stock", bucket: "Makes the gap wider"}
+      - {text: "Thousands of buyers and sellers at every price", bucket: "Makes the gap narrower"}
+      - {text: "A headline nobody has digested yet", bucket: "Makes the gap wider"}
+      - {text: "A quiet hour in a very busy stock", bucket: "Makes the gap narrower"}
+    explanation: "The more competition there is to trade with you, the less the market maker can get away with."
+
+  - type: story
+    character: market-maker
+    text: "Both sides of forty stocks on one screen, and no opinion about any of them. It only wants the gap, many times over."
+
+  - type: fill-tiles
+    sentence: "The gap between the price you can sell at and the price you can buy at is the ___."
+    answer: "spread"
+    explanation: "You meet it on the way in and again on the way out."
+
+  - type: mc
+    prompt: "Two stocks both trade near $20. One shows a 2-cent gap between its two prices, the other 25 cents. What separates them?"
+    options:
+      - {text: "How many people are competing to trade it", correct: true}
+      - {text: "How profitable the two companies are"}
+      - {text: "How many years each has been listed"}
+    explanation: "Where there is a crowd, the market maker cannot ask for much. Where there is not, it can."
+
+  - type: checklist-reveal
+    title: "What the gap means for you"
+    items:
+      - "You start every trade slightly behind."
+      - "The gap is a cost, not a price move."
+      - "A wide gap needs a bigger move to be worth taking."

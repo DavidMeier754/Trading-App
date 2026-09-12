@@ -1,0 +1,110 @@
+id: "8-2"
+title: "Volatility"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [volatility, liquidity, two-dials]
+learning_goal: "User keeps liquidity and volatility apart and can place a stock on both dials from its volume and its daily range."
+purpose: "Mixing up the two dials is the most common beginner error there is, and the pairing that hurts most is the one it hides."
+terms_introduced: []
+reinforces: []
+prerequisite: "8-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "Account named at $6,000; the worked position is 300 × $19.20 = $5,760."
+screens:
+  - type: intro
+    text: "Two dials, and almost everybody confuses them."
+
+  - type: theory
+    title: "Two different questions"
+    body: "Liquidity asks: can I get in and out without moving the price? Volatility asks: how far does the price move on its own? A stock can sit anywhere on either dial."
+
+  - type: example
+    body: "A large, busy stock that drifts 1 % a day is liquid and calm. A small one that jumps 12 % on a rumour and trades 6,000 shares is illiquid and volatile. The second is where beginners get hurt."
+
+  - type: sort
+    prompt: "Which dial does each of these belong to?"
+    buckets: ["Liquidity", "Volatility"]
+    items:
+      - {text: "How many shares change hands on a normal day", bucket: "Liquidity"}
+      - {text: "How far the price travels between its high and its low", bucket: "Volatility"}
+      - {text: "Whether your own buying moves the price", bucket: "Liquidity"}
+      - {text: "A 12 % jump on a rumour", bucket: "Volatility"}
+    explanation: "Ease of trading on the one dial, size of movement on the other."
+
+  - type: mc
+    prompt: "TIDE trades 4.2 M shares a day and moves about 1 %. Where does it sit?"
+    options:
+      - {text: "Liquid and volatile"}
+      - {text: "Illiquid and calm"}
+      - {text: "Liquid and calm", correct: true}
+    explanation: "Plenty of volume, very little movement."
+
+  - type: mc
+    prompt: "RUSK trades 9,000 shares a day and swings about 8 % on most of them. Where does it sit?"
+    options:
+      - {text: "Illiquid and volatile", correct: true}
+      - {text: "Liquid and volatile"}
+      - {text: "Illiquid and calm"}
+    explanation: "Almost nobody trading it, and large moves when they do. That is the combination that is hardest to leave."
+
+  - type: tf
+    statement: "A stock that moves a great deal must be easy to trade, since so much is happening in it."
+    answer: false
+    explanation: "Movement is not participation. A thin stock can move 10 % on a few hundred shares, and those few hundred are the whole of your way out."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "Tap the number that tells you this stock has had a big day."
+    data: {ticker: VANE, name: Vane Materials, price: 19.05, change: 1.85, change_pct: 10.8, volume: "3.1M"}
+    target: change
+    explanation: "+$1.85 (+10.8 %) is the size of the move. The 3.1 M underneath it answers the other dial."
+
+  - type: match
+    prompt: "Four readings off a screen, four things they actually tell you."
+    pairs:
+      - ["Shares traded on a normal day", "How easily you can leave"]
+      - ["The day's high minus its low", "How far the price moves"]
+      - ["Your own trade moving the price", "A sign the stock is thin"]
+      - ["The gap between the two prices", "Part of what the trade costs"]
+    explanation: "Two dials, one symptom and one bill."
+
+  - type: spot-mistake
+    prompt: "Tap the part that does not hold."
+    segments:
+      - {text: "RUSK swings 8 % on most days"}
+      - {text: "and trades 9,000 shares,"}
+      - {text: "so there is plenty of movement to sell into.", wrong: true}
+    explanation: "The movement is real. The buyers to sell it to are not, because 9,000 shares a day is almost nobody."
+
+  - type: mc
+    prompt: "Which combination is hardest on a beginner?"
+    options:
+      - {text: "Liquid and calm"}
+      - {text: "Liquid and volatile"}
+      - {text: "Illiquid and volatile", correct: true}
+    explanation: "Big moves you cannot leave. It goes against you and there is nobody to sell to."
+
+  - type: fill-choice
+    sentence: "A stock that trades 5 M shares a day but barely moves is liquid and ___."
+    options: ["calm", "volatile", "thin"]
+    answer: "calm"
+    explanation: "Easy to trade, with very little to trade for."
+
+  - type: chart-decision
+    scenario: "VANE trades 3 M shares a day and moves about 8 % on an ordinary one. It has stepped higher for six minutes to $19.20 and you are looking at 300 shares. You have a $6,000 account. Buy, or wait?"
+    shares: 300
+    chart: {kind: line, data: [18.40, 18.50, 18.46, 18.70, 18.96, 19.20, 19.44, 19.60, 19.78, 19.90], decision_index: 5}
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "By the end of the stretch it was $19.90: 70 cents a share, +$210 on 300 shares."
+    explanation: "Volatile enough to be worth the trade and liquid enough to leave. Two separate checks, and this stock passes both."
+
+  - type: visual
+    component: bar-chart
+    data: {bars: [{label: "TIDE", value: 1.2}, {label: "PINE", value: 3.4}, {label: "VANE", value: 8.1}, {label: "RUSK", value: 8.4}], unit: "% moved on a normal day"}
+    caption: "One dial only. VANE and RUSK move almost the same amount, and only one of them has anybody on the other side."

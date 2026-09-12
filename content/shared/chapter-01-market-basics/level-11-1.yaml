@@ -5,92 +5,98 @@ chapter_title: "Market Basics"
 path: all
 category: test
 tags: [checkpoint]
-learning_goal: "Verify Levels 1–5: profit math, buyers vs sellers, ownership, quote reading, liquidity vs volatility, participants, sessions."
-purpose: "A quick, honest check that the basics are solid before the second half of the chapter."
+learning_goal: "Verify Levels 6–10: who is on the other side, the spread and what it costs, liquidity as ease of exit, volatility as movement, both dials together, and the three sessions."
+purpose: "An honest check on the second block before the chapter moves on to getting access and to going short."
 terms_introduced: []
-prerequisite: "10-1"
+reinforces: []
+prerequisite: "10-3"
 xp: 40
-difficulty: 2
+difficulty: 3
 sources: [consensus]
-notes: "10 scored questions. Hearts apply. Pass mark 70 %."
+notes: "10 scored questions. Hearts apply. Pass mark 70 %. Every question re-tests Levels 6–10 in a situation it has not been asked in before. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
 screens:
   - type: intro
-    text: "Checkpoint. Ten questions, nothing new. Hearts are on."
+    text: "Checkpoint. Ten questions on the last five levels. Hearts are on."
     counter: 10
 
-  - type: numeric-mc
-    prompt: "You buy 200 shares at $15.00 and sell at $15.45. Total profit?"
-    options:
-      - {text: "$9"}
-      - {text: "$45"}
-      - {text: "$90", correct: true}
-      - {text: "$0.45"}
-    working: "$0.45 × 200 = $90"
-    explanation: "Move times shares."
-
   - type: mc
-    prompt: "A stock's price is rising steadily. What must be true?"
+    prompt: "You sell 500 shares and it fills straight away. What does that tell you about the other side?"
     options:
-      - {text: "The company announced good news"}
-      - {text: "Buyers are paying more than sellers were asking", correct: true}
-      - {text: "More shares were created and sold into the market"}
-    explanation: "Only buyers versus sellers moves a price — news is one possible cause, not the rule."
+      - {text: "Somebody was already willing to buy 500 shares there", correct: true}
+      - {text: "The exchange created the shares to fill your sale"}
+      - {text: "A market maker will deliver the shares later in the day"}
+    explanation: "A fill means the other side was already sitting there."
 
-  - type: tf
-    statement: "The cash you pay for shares on the exchange ends up with the seller."
-    answer: true
-    explanation: "Another shareholder is on the other side. The company was paid when the shares were first sold."
+  - type: numeric-mc
+    prompt: "The two prices on a stock are 3 cents apart. You buy 600 shares and sell them straight back. What has that gap cost you?"
+    options:
+      - {text: "$1.80"}
+      - {text: "$0.03"}
+      - {text: "$18", correct: true}
+      - {text: "$180"}
+    working: "$0.03 × 600 shares = $18"
+    explanation: "Cents per share times shares, paid once for going in and out."
 
   - type: hotspot
     component: quote-card
-    prompt: "Tap the change from the previous close."
-    data: {ticker: KOA, name: Koa Foods, price: 31.20, change: -0.64, change_pct: -2.0, volume: "2.4M"}
-    target: change
-    explanation: "−$0.64 (−2.0 %) is today's change."
-
-  - type: mc
-    prompt: "A stock trades 800 shares a day. Which risk is biggest for a trader holding 500 shares?"
-    options:
-      - {text: "The price will barely move"}
-      - {text: "Getting out will move the price against them", correct: true}
-      - {text: "The stock will be removed from the exchange"}
-    explanation: "500 shares is most of a day's volume — illiquid."
+    prompt: "Tap the number that says most about whether you could leave a position in this stock quickly."
+    data: {ticker: PINE, name: Pine Ridge Metals, price: 19.40, change: -0.28, change_pct: -1.4, volume: "640K"}
+    target: volume
+    explanation: "640K shares is the crowd you would be selling into. The price and the change say nothing about that."
 
   - type: sort
-    prompt: "Which dial?"
-    buckets: ["Liquidity", "Volatility"]
+    prompt: "You are choosing a stock to practise on. Does each reading count for it or against it?"
+    buckets: ["Counts for it", "Counts against it"]
     items:
-      - {text: "Daily volume", bucket: "Liquidity"}
-      - {text: "Size of daily moves", bucket: "Volatility"}
-      - {text: "Whether your trade moves the price", bucket: "Liquidity"}
-      - {text: "A 20 % jump on news", bucket: "Volatility"}
-    explanation: "Ease versus movement."
+      - {text: "4 M shares on a normal day", bucket: "Counts for it"}
+      - {text: "Moves about 0.2 % on a normal day", bucket: "Counts against it"}
+      - {text: "Your 300-share position would be 4 % of a normal day", bucket: "Counts against it"}
+      - {text: "Moves about 3 % on a normal day", bucket: "Counts for it"}
+    explanation: "Busy enough to leave, lively enough to learn from, and small enough that your own size is not the story."
 
-  - type: mc
-    prompt: "Who always quotes a price to buy and a price to sell?"
-    options:
-      - {text: "Institution"}
-      - {text: "Retail trader"}
-      - {text: "Market maker", correct: true}
-    explanation: "That two-sided quote is the market maker's job."
+  - type: chart-decision
+    scenario: "RUSK trades 9,000 shares on a normal day. It has climbed for six minutes to $13.30 and you are looking at 400 shares. Buy, or wait?"
+    shares: 400
+    chart: {kind: line, data: [12.80, 12.86, 12.84, 13.00, 13.16, 13.30, 13.24, 13.38, 13.30, 13.36], decision_index: 5}
+    buttons: [buy, wait]
+    best: wait
+    reasonable: [buy]
+    outcome: "It finished at $13.36 — six cents above where you would have bought, +$24 on 400 shares."
+    explanation: "The climb is real, but 400 shares is a twenty-second of everything RUSK trades in a day, and it cannot hand those back without moving."
 
-  - type: order
-    prompt: "Drag the sessions into place, first to last."
-    items: ["Pre-market", "Regular session", "After-hours"]
-    explanation: "Before, main, after."
-
-  - type: mc
-    prompt: "A stock is up 5 % in pre-market on very low volume. Why be careful?"
-    options:
-      - {text: "Thin trading — only a few participants set that price", correct: true}
-      - {text: "Pre-market moves always reverse once the session opens"}
-      - {text: "Only institutions can trade pre-market"}
-    explanation: "Thin sessions are jumpy; the crowd arrives at the open."
+  - type: tf
+    statement: "A price set before the open on 20,000 shares carries the same weight as the same price on 2 M shares in the regular session."
+    answer: false
+    explanation: "Same price, far fewer people behind it. The size of the crowd is what gives a price its weight."
 
   - type: fill-tiles
-    sentence: "A stock that swings 8 % in a day is highly ___."
-    answer: "volatile"
-    explanation: "Big, fast moves in both directions."
+    sentence: "A stock with big moves and almost nobody trading it is volatile and ___."
+    answer: "illiquid"
+    explanation: "The hardest pairing on the two dials: it moves, and you cannot leave."
+
+  - type: mc
+    prompt: "A market maker takes the other side of your buy at $14.28 and, a minute later, the other side of somebody's sell at $14.24. What has it made on the pair?"
+    options:
+      - {text: "Nothing, since it is holding no shares again"}
+      - {text: "Four cents a share", correct: true}
+      - {text: "Whatever the price does after that"}
+    explanation: "It sold at $14.28, bought at $14.24 and finished holding nothing. Four cents a share is exactly the business."
+
+  - type: compare
+    prompt: "Both of these trade 5 M shares a day. You want a stock where a decision has a result within a few minutes. Which one?"
+    charts:
+      - {kind: line, data: [50.00, 50.02, 50.01, 50.03, 50.02, 50.04, 50.03, 50.05], label: "A"}
+      - {kind: line, data: [50.00, 50.18, 50.10, 50.34, 50.26, 50.50, 50.42, 50.66], label: "B"}
+    answer: "B"
+    explanation: "A covered five cents across the whole stretch. B covered sixty-six, in steps you could act on."
+
+  - type: numeric-input
+    prompt: "A stock trades 40,000 shares on a normal day and you want 2,000 of them. What percentage of a normal day is that?"
+    answer: 5
+    tolerance: 0.01
+    unit: "%"
+    working: "2,000 ÷ 40,000 = 0.05 = 5 %"
+    explanation: "Five per cent of the day in one position is a size the stock will feel."
 
   - type: summary
     total: 10

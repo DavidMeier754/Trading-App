@@ -4,99 +4,94 @@ chapter: 1
 chapter_title: "Market Basics"
 path: all
 category: new-theory
-tags: [sessions, liquidity]
-learning_goal: "User can order the three sessions of a trading day, knows their times for their market, and explains why thin sessions are jumpy."
-purpose: "The same stock behaves differently before the open and at midday — knowing the sessions explains most 'weird' moves."
+tags: [sessions, market-hours]
+learning_goal: "User can name and order the three sessions of a trading day and say which one carries nearly all of the volume."
+purpose: "The same stock behaves like three different stocks across a day, and knowing which block you are looking at explains most of the moves that look wrong."
 terms_introduced: ["Session", "Pre-market", "Regular session", "After-hours"]
-prerequisite: "9-1"
+reinforces: []
+prerequisite: "9-2"
 xp: 20
 difficulty: 1
 sources: [consensus]
+notes: "All times come from {{market.*}} tokens; no clock time is ever written literally."
 screens:
   - type: intro
-    text: "The market has opening hours — and a before and an after."
+    text: "The market has opening hours, and a before and an after."
 
   - type: visual
     component: session-ribbon
     data: {premarket: "{{market.premarket}}", regular: "{{market.regular}}", afterhours: "{{market.afterhours}}", timezone: "{{market.timezone}}"}
-    caption: "A trading day in {{market.name}}: pre-market {{market.premarket}}, regular session {{market.regular}}, after-hours {{market.afterhours}} ({{market.timezone}})."
+    caption: "A trading day in {{market.name}}: pre-market {{market.premarket}}, the regular session {{market.regular}}, then after-hours {{market.afterhours}} ({{market.timezone}})."
 
   - type: carousel
     cards:
-      - {label: "Pre-market", text: "Before the official open. Few traders, thin volume — prices can jump on small trades.", icon: session-pre}
-      - {label: "Regular session", text: "{{market.regular}} {{market.timezone}}. Most volume, most participants, most reliable prices.", icon: session-regular}
-      - {label: "After-hours", text: "After the close. Thin again. News released after the close shows up here first.", icon: session-after}
-
-  - type: theory
-    title: "Thin means jumpy"
-    body: "Fewer traders means fewer buyers and sellers ready — low liquidity. That's why pre-market and after-hours prices jump around more. Same rule as Level 4."
+      - {label: "Pre-market", text: "Before the official open. Few traders, few shares, and prices that travel a long way on very little.", icon: session-pre}
+      - {label: "Regular session", text: "{{market.regular}} {{market.timezone}}. Nearly all of the day's volume, and the prices everybody else is looking at.", icon: session-regular}
+      - {label: "After-hours", text: "After the close, and thin again. Announcements held back until the close land here first.", icon: session-after}
 
   - type: order
-    prompt: "Arrange the sessions from first to last."
+    prompt: "Drag the three parts of a trading day into place, earliest first."
     items: ["Pre-market", "Regular session", "After-hours"]
-    explanation: "Before, main, after."
+    explanation: "Before, the main event, and after."
 
   - type: mc
-    prompt: "A stock jumps 6 % in pre-market on 40,000 shares, then gives most of it back in the first regular minutes. Best explanation?"
+    prompt: "A stock jumps 6 % before the open on 40,000 shares, then gives most of it back in the first minutes of the regular session. Best explanation?"
     options:
-      - {text: "The company reversed its news at the open"}
-      - {text: "The regular session always starts with a drop"}
-      - {text: "Pre-market is thin — a handful of trades set that price", correct: true}
-    explanation: "40,000 shares is a handful of traders. The real verdict comes with volume."
+      - {text: "The company must have withdrawn its announcement at the open"}
+      - {text: "Very few traders set that earlier price", correct: true}
+      - {text: "Prices are always reset when the regular session begins"}
+    explanation: "40,000 shares is a handful of people. The verdict arrives with the crowd."
 
   - type: tf
-    statement: "Most of a normal stock's daily volume happens in the regular session."
+    statement: "Most of a stock's daily volume changes hands in the regular session."
     answer: true
-    explanation: "The regular session is where almost everyone trades."
-
-  - type: story
-    character: retail-trader
-    text: "Two hours before the bell. XYZ announces record results; the regular session opens at {{market.regular_open}} {{market.timezone}}."
-
-  - type: mc
-    prompt: "Why would a trader look at pre-market trading right after that news?"
-    options:
-      - {text: "To see how early traders are reacting before the full session starts", correct: true}
-      - {text: "Because pre-market prices are more reliable than regular-hour prices"}
-      - {text: "Because the news can only be traded before the open"}
-    explanation: "Pre-market gives an early, thin read on the reaction."
-
-  - type: mc
-    prompt: "Why are pre-market moves often less reliable than regular-session moves?"
-    options:
-      - {text: "Prices there aren't real and get reset at the open"}
-      - {text: "Institutions aren't allowed to trade before the open"}
-      - {text: "Low liquidity — few participants set the price", correct: true}
-    explanation: "Thin sessions, jumpy prices."
-
-  - type: fill-choice
-    sentence: "The most liquid part of the trading day is the ___ session."
-    options: ["regular", "pre-market", "after-hours"]
-    answer: "regular"
-    explanation: "Most volume, most participants."
+    explanation: "It is where almost everybody trades, which is why its prices are the ones worth most."
 
   - type: match
-    prompt: "Match each session to its description."
+    prompt: "Which part of the trading day is which?"
     pairs:
-      - ["Pre-market", "Before the open, thin"]
-      - ["Regular session", "Main hours, most volume"]
-      - ["After-hours", "After the close, thin"]
-      - ["Session", "A block of trading time"]
-    explanation: "Three sessions, one busy one."
+      - ["Pre-market", "Before the open, very thin"]
+      - ["Regular session", "Nearly all of the day's volume"]
+      - ["After-hours", "After the close, thin again"]
+      - ["Session", "A named block of trading time"]
+    explanation: "Three blocks, and one busy one."
 
-  - type: theory
-    title: "Where beginners practice"
-    body: "New traders usually practice in the regular session: more liquidity, fewer surprises. When you're ready for the edges, you'll know why they're jumpy."
-
-  - type: mc
-    prompt: "Twenty minutes after the close, XYZ prints −8 % on light volume after a headline. What do you know for sure?"
-    options:
-      - {text: "The reaction so far comes from a thin market", correct: true}
-      - {text: "XYZ will open −8 % tomorrow"}
-      - {text: "The drop can't be real because the market is closed"}
-    explanation: "After-hours moves are real but thin; the crowd votes tomorrow."
+  - type: fill-choice
+    sentence: "The part of the day with the most participants is the ___ session."
+    options: ["regular", "pre-market", "after-hours"]
+    answer: "regular"
+    explanation: "Most volume, most participants, steadiest prices."
 
   - type: story
     character: retail-trader
-    text: "Same stock, three sessions, three different characters. Tomorrow you meet the people on the other side of your trades."
+    text: "An hour before the open, XYZ announces results well above what anyone expected. The regular session starts at {{market.regular_open}} {{market.timezone}}."
 
+  - type: mc
+    prompt: "Why would a trader look at what is trading before the open after news like that?"
+    options:
+      - {text: "Because prices before the open are more reliable than later ones"}
+      - {text: "For an early and very thin read on how it is being taken", correct: true}
+      - {text: "Because the news can only be traded before the open"}
+    explanation: "Early, and worth a look. Thin, and worth very little more than that."
+
+  - type: sort
+    prompt: "Which part of the day does each of these belong to?"
+    buckets: ["Regular session", "The thin parts"]
+    items:
+      - {text: "Nearly all of the day's volume", bucket: "Regular session"}
+      - {text: "A 5 % move on 20,000 shares", bucket: "The thin parts"}
+      - {text: "Where most beginners practise", bucket: "Regular session"}
+      - {text: "Where an announcement first shows up after the close", bucket: "The thin parts"}
+    explanation: "The crowd is in the middle of the day. The edges are a few people with a great deal of room."
+
+  - type: spot-mistake
+    prompt: "Tap the part that does not hold."
+    segments:
+      - {text: "XYZ is up 7 % before the open"}
+      - {text: "on 30,000 shares,"}
+      - {text: "so it will open 7 % higher and stay there.", wrong: true}
+    explanation: "A thin price before the open is a guess by very few people. The open is when everybody else votes."
+
+  - type: theory
+    title: "Same stock, three characters"
+    body: "The same stock is a different animal in each block of the day. Next comes the reason the thin blocks behave the way they do."

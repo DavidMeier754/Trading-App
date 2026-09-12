@@ -4,97 +4,102 @@ chapter: 1
 chapter_title: "Market Basics"
 path: all
 category: new-theory
-tags: [volatility, liquidity]
-learning_goal: "User can define volatility and classify a stock on both dials — liquidity and volatility — without confusing them."
-purpose: "Mixing up liquidity and volatility is the most common beginner error; keeping them apart lets you read any stock in seconds."
+tags: [volatility, movement]
+learning_goal: "User can define volatility as the size and speed of a stock's moves, measure a move in percent, and knows volatility has no direction."
+purpose: "How far a stock travels in a day decides whether a decision in it is worth anything at all, and how quickly a wrong one costs."
 terms_introduced: ["Volatility", "Volatile"]
-prerequisite: "7-1"
+reinforces: []
+prerequisite: "7-4"
 xp: 20
-difficulty: 1
+difficulty: 2
 sources: [consensus]
+notes: "Movement only. The confusion with liquidity is 8-2's job and is deliberately left alone here."
 screens:
   - type: intro
-    text: "Some stocks sleep. Some stocks jump. That's volatility."
+    text: "Some stocks barely move all day. Others cover a week's worth of ground in an hour."
 
   - type: theory
     title: "Volatility"
-    body: "Volatility is how big and how fast a price moves. A stock that swings 5 % a day is volatile. One that drifts 0.2 % a day is calm."
+    body: "Volatility is how far and how fast a price moves. A stock that swings 6 % in a day is volatile. One that drifts 0.3 % is calm. It measures movement, in both directions."
     visual: chart-line
-    visual_data: {series: [{label: "Calm", data: [50.0, 50.1, 50.0, 50.2, 50.1, 50.2, 50.3, 50.2]}, {label: "Volatile", data: [50.0, 52.5, 49.0, 53.0, 48.5, 51.0, 47.0, 52.0]}]}
-
-  - type: theory
-    title: "Not the same as liquidity"
-    body: "Liquidity: can I get in and out easily? Volatility: how much does it move? A stock can be liquid and volatile, liquid and calm, or illiquid and either."
+    visual_data: {series: [{label: "Calm", data: [30.00, 30.04, 30.00, 30.06, 30.02, 30.08, 30.05, 30.10]}, {label: "Volatile", data: [30.00, 31.20, 29.60, 31.80, 29.10, 30.90, 28.80, 31.40]}]}
 
   - type: example
-    body: "Big tech stock: 20 M shares a day, moves 1 %. Liquid and calm. Small biotech on news day: 15 M shares, moves 40 %. Liquid and very volatile."
+    body: "TIDE moved between $22.30 and $22.70 today: 40 cents, about 1.8 % of its price. VANE moved between $17.20 and $19.10, which is $1.90 and about 11 %. Same day, different animals."
+
+  - type: numeric-mc
+    prompt: "A stock runs from $24.00 to $26.40 in a day. How big is that move in percent?"
+    options:
+      - {text: "2.4 %"}
+      - {text: "24 %"}
+      - {text: "10 %", correct: true}
+      - {text: "1 %"}
+    working: "$26.40 − $24.00 = $2.40; $2.40 ÷ $24.00 = 0.10 = 10 %"
+    explanation: "Measure a move against the price it started from, never in dollars alone."
 
   - type: mc
-    prompt: "A stock trades 10 M shares a day and its price barely moves. Best description?"
+    prompt: "Which of these describes a volatile stock?"
     options:
-      - {text: "Liquid, high volatility"}
-      - {text: "Illiquid, low volatility"}
-      - {text: "Illiquid, high volatility"}
-      - {text: "Liquid, low volatility", correct: true}
-    explanation: "Lots of volume (liquid), small moves (calm)."
-
-  - type: mc
-    prompt: "A stock trades 2,000 shares a day and swings 8 % on most days."
-    options:
-      - {text: "Liquid, high volatility"}
-      - {text: "Illiquid, low volatility"}
-      - {text: "Illiquid, high volatility", correct: true}
-    explanation: "Tiny volume (illiquid), big swings (volatile) — a dangerous combination."
+      - {text: "It trades many millions of shares every day"}
+      - {text: "It covers a lot of ground quickly", correct: true}
+      - {text: "It costs a great deal per share"}
+    explanation: "Volatility is distance and speed. Not how many shares trade, and not what one of them costs."
 
   - type: tf
-    statement: "High volatility means it's hard to get in and out of a stock."
+    statement: "A volatile stock is one that rises more than other stocks do."
     answer: false
-    explanation: "That's liquidity. Volatility is about the size of the moves — a volatile stock can be very easy to trade."
+    explanation: "Volatility has no direction. A stock that falls 9 % in a morning is exactly as volatile as one that rises 9 %."
 
   - type: chart-tap
-    prompt: "Tap the day with the biggest price swing."
-    chart: {kind: candles, data: [[40.0, 40.4, 39.8, 40.2], [40.2, 40.5, 40.0, 40.4], [40.4, 40.6, 40.1, 40.3], [40.3, 40.7, 40.2, 40.6], [40.6, 40.8, 40.4, 40.5], [40.5, 43.9, 39.6, 43.2], [43.2, 43.5, 42.9, 43.1], [43.1, 43.4, 42.8, 43.0]]}
+    prompt: "Tap the point where this stock made its largest single step."
+    chart: {kind: line, data: [28.40, 28.52, 28.44, 28.60, 28.55, 27.10, 27.30, 27.22, 27.35, 27.28]}
     target: 5
-    explanation: "From 39.60 to 43.90 in one day — that's the volatile one."
+    explanation: "A $1.45 drop in one step, next to steps of twenty cents at most. That one step is most of the day's movement."
+
+  - type: chart-annotate
+    prompt: "VANE opened at $18.00, and a big day for it is a 10 % range. Drag the line to the top of a 10 % day."
+    chart: {kind: line, data: [18.00, 18.20, 18.10, 18.45, 18.70, 19.00, 19.25, 19.50, 19.70, 19.78]}
+    answer: 19.80
+    tolerance: 0.04
+    label: "Top of a 10 % day"
+    explanation: "10 % of $18.00 is $1.80, so the line belongs at $19.80, which is where the stock has spent the day walking."
+
+  - type: compare
+    prompt: "Both of these finished the stretch 20 cents higher than they started. Which one was the volatile one?"
+    charts:
+      - {kind: line, data: [40.00, 40.04, 40.02, 40.08, 40.10, 40.14, 40.16, 40.20], label: "A"}
+      - {kind: line, data: [40.00, 41.10, 39.30, 40.80, 39.10, 40.60, 39.40, 40.20], label: "B"}
+    answer: "B"
+    explanation: "Same finish, completely different journey. B swung two dollars between its high and its low to arrive at the same place."
+
+  - type: fill-choice
+    sentence: "How far and how fast a price moves is its ___."
+    options: ["volatility", "volume", "liquidity"]
+    answer: "volatility"
+    explanation: "Distance and speed, in whichever direction."
+
+  - type: story
+    character: retail-trader
+    text: "You buy 300 shares of a very calm stock and look again an hour later. It has moved four cents. Nothing has gone wrong; that is simply what a calm stock does."
+
+  - type: mc
+    prompt: "Why do bigger moves mean bigger losses as well as bigger gains?"
+    options:
+      - {text: "Because a volatile stock is more likely to fall than rise"}
+      - {text: "Because volatile stocks cost more per share to buy"}
+      - {text: "Because the size of a move says nothing about its direction", correct: true}
+    explanation: "The same stock that can hand you 5 % in an hour can take 5 % in an hour."
+
+  - type: sort
+    prompt: "Which of these readings is about movement, and which is about something else?"
+    buckets: ["About movement", "About something else"]
+    items:
+      - {text: "It ranged 9 % between its high and its low", bucket: "About movement"}
+      - {text: "It went from quiet to wild after the announcement", bucket: "About movement"}
+      - {text: "It trades 6 M shares a day", bucket: "About something else"}
+      - {text: "It costs $180 a share", bucket: "About something else"}
+    explanation: "Range and speed are volatility. A share count and a price tag are not."
 
   - type: theory
     title: "It cuts both ways"
-    body: "Bigger moves mean bigger possible profits — and bigger possible losses, faster. Traders pick their volatility on purpose; beginners usually start calmer."
-
-  - type: sort
-    prompt: "Which dial is it about?"
-    buckets: ["About liquidity", "About volatility"]
-    items:
-      - {text: "How many shares trade each day", bucket: "About liquidity"}
-      - {text: "How far the price moves each day", bucket: "About volatility"}
-      - {text: "Whether your trade moves the price", bucket: "About liquidity"}
-      - {text: "A 10 % jump after news", bucket: "About volatility"}
-    explanation: "Ease versus movement."
-
-  - type: numeric-mc
-    prompt: "A stock moves from $40.00 to $46.00 in a day. What's that in percent?"
-    options:
-      - {text: "6 %"}
-      - {text: "15 %", correct: true}
-      - {text: "1.5 %"}
-      - {text: "60 %"}
-    working: "6 ÷ 40 = 0.15 = 15 %"
-    explanation: "Move divided by the starting price."
-
-  - type: mc
-    prompt: "Which stock fits a beginner who wants to practice without violent swings but still get out any time?"
-    options:
-      - {text: "Liquid and low volatility", correct: true}
-      - {text: "Illiquid and low volatility"}
-      - {text: "Liquid and high volatility"}
-    explanation: "Easy to exit, calm enough to learn on."
-
-  - type: fill-choice
-    sentence: "How big and fast a stock's price moves is its ___."
-    options: ["volatility", "liquidity", "volume"]
-    answer: "volatility"
-    explanation: "Size and speed of moves."
-
-  - type: theory
-    title: "Two dials"
-    body: "Every stock has two dials: liquidity and volatility. Time to practice reading both."
+    body: "Bigger moves mean more to be made and more to be lost, in the same stock on the same day. Traders choose their volatility on purpose. Which brings us to the dial it keeps getting confused with."
