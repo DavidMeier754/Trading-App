@@ -1,0 +1,127 @@
+id: "6-3"
+title: "Win Rate and Expectancy"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [expectancy, risk, r-multiple]
+learning_goal: "User builds an average win and an average loss in R from a record, and reads an average loss above 1R as a fault to find."
+purpose: "The two averages are where a method tells you the truth about itself, and the loser column is the one that tells it first."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "6-2"
+xp: 20
+difficulty: 3
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Bellafiore — One Good Trade"]
+notes: "Account named at $25,000 with a $250 risk budget; the worked position is 1,400 shares at $17.16, 14-cent stop, 1R $196."
+screens:
+  - type: intro
+    text: "Two columns, eight trades. The second column is the one nobody wants to add up."
+
+  - type: theory
+    title: "Two columns"
+    body: "Add the winners and divide by how many there were. Do the same for the losers. Keep both in R and a 900-share trade sits in the same column as a 1,400-share one."
+
+  - type: example
+    body: "Eight trades, written in R: +1.6, −1.0, +2.0, −1.0, +1.8, −0.8, +2.6, −1.2. Four of each, so the win rate is exactly half."
+    visual: r-tracker
+    visual_data:
+      trades: [1.6, -1.0, 2.0, -1.0, 1.8, -0.8, 2.6, -1.2]
+      limit: 3
+
+  - type: numeric-input
+    prompt: "From that week: what is the average win, in R?"
+    answer: 2.0
+    tolerance: 0.05
+    unit: "R"
+    working: "(1.6 + 2.0 + 1.8 + 2.6) ÷ 4 = 8.0 ÷ 4 = 2.0R"
+    explanation: "Two units for an average winner, which is the half of the record that took patience to produce."
+
+  - type: numeric-mc
+    prompt: "The four losers average 1.0R. On a 50 % win rate, what is one average trade worth?"
+    options:
+      - {text: "+1.5R"}
+      - {text: "+1.0R"}
+      - {text: "+0.5R", correct: true}
+      - {text: "−0.5R"}
+    working: "(0.5 × 2.0R) − (0.5 × 1.0R) = 1.0R − 0.5R = 0.5R"
+    explanation: "Half a unit an average trade, and it exists entirely because the losers were held to one."
+
+  - type: theory
+    title: "The honest column"
+    body: "A loser should cost 1R. If the average loss comes out at 1.3R or 1.4R, the stop is not doing what the plan says — it was moved, or it filled a long way past where it triggered."
+
+  - type: tf
+    statement: "If every stop is honoured, the average loss should land near 1R."
+    answer: true
+    explanation: "That is what the unit means. Anything much above it is a fault in the exit, not bad luck in the entry."
+
+  - type: depth-ladder
+    prompt: "Your stop on 1,400 shares of JUTE triggers at $17.02 into this book. Where does the last of them fill?"
+    data:
+      bids: [[17.01, 400], [16.98, 500], [16.94, 1600]]
+      asks: [[17.05, 700], [17.08, 900], [17.12, 1500]]
+    target: bid-3
+    explanation: "Four hundred at the top, five hundred more three cents under, and the last five hundred eight cents below the trigger. Chapter 3 called that the difference between a guaranteed exit and a guaranteed price."
+
+  - type: numeric-input
+    prompt: "You were long 1,400 from $17.16. Those fills average out at $16.97. What did the loss actually cost?"
+    answer: 260
+    tolerance: 1
+    unit: "$"
+    working: "(400 × $17.01) + (500 × $16.98) + (500 × $16.94) = $23,764; $24,024 − $23,764 = $260"
+    explanation: "A planned 1R of $196 arrived as $260. That is 1.33R, and it lands in the average loss column for good."
+
+  - type: mc
+    prompt: "Fifty trades in, your average loss reads 1.4R. What are you looking for?"
+    options:
+      - {text: "Winners that are not big enough for the losers"}
+      - {text: "Stops that are not being honoured", correct: true}
+      - {text: "Trades taken too early in the session"}
+    explanation: "Either they were moved, or they were placed where a fill was never going to be near them. Both are findable in the record."
+
+  - type: journal-row
+    prompt: "The same JUTE trade, but this one worked. Fill in what it risked and what it returned."
+    trade: {setup: "Reclaim of the morning floor", entry: 17.16, stop: 17.02, exit: 17.44, shares: 1400}
+    slots: [r_risked, r_made]
+    chips:
+      r_risked: ["$140", "$196", "$280"]
+      r_made: ["+1R", "+2R", "+3R"]
+    answer: {r_risked: "$196", r_made: "+2R"}
+    explanation: "Fourteen cents on 1,400 shares is $196 of risk, and the twenty-eight cents it ran is exactly twice that."
+
+  - type: chart-decision
+    scenario: "JUTE has held $17.02 four times since the bell and the minute that just closed finished at $17.16, through the highs behind it. The stop goes under the floor. Your account is $25,000."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[17.10, 17.14, 17.02, 17.04], [17.04, 17.12, 17.02, 17.10], [17.10, 17.14, 17.04, 17.06], [17.06, 17.12, 17.02, 17.08], [17.08, 17.14, 17.06, 17.12], [17.12, 17.20, 17.10, 17.16], [17.16, 17.28, 17.14, 17.26], [17.26, 17.36, 17.22, 17.34], [17.34, 17.48, 17.30, 17.44], [17.44, 17.50, 17.38, 17.42]]
+      volume: [96000, 88000, 74000, 82000, 78000, 142000, 128000, 112000, 104000, 90000]
+      levels:
+        - {price: 17.02, label: "Floor"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached $17.50 and the exit filled at $17.44 — 28 cents a share, +$392 on 1,400 shares against $196 of risk."
+    explanation: "The winner is twice the unit and the loser was meant to be one. Those are the two numbers the whole record is built from."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "My average loss is 1.5R,"}
+      - {text: "which the winners will cover", wrong: true}
+      - {text: "as long as I keep finding 2R trades."}
+    explanation: "At 1.5R a loss, a 50 % win rate on 2R winners is worth 0.25R a trade instead of 0.5R. Half the edge, and none of it visible on the win rate."
+
+  - type: fill-choice
+    sentence: "An average loss well above 1R is a problem with the ___, not the entry."
+    options: ["exit", "win rate", "share size"]
+    answer: "exit"
+    explanation: "The entry decided where the stop belonged. What happened when it was reached is a different part of the trade."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars: [{label: "Average win", value: 2.0}, {label: "Average loss as planned", value: -1.0}, {label: "Average loss as filled", value: -1.33}]
+      unit: "R"
+    caption: "The third bar is the one that decides whether the first two were worth the morning."

@@ -1,0 +1,128 @@
+id: "9-2"
+title: "Session Limits"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [risk, limits, routine, selection]
+learning_goal: "User adds a time cap to the loss and trade caps, and writes all three onto the same pre-market page as the watchlist."
+purpose: "The caps only work if they are written where the rest of the morning's decisions already live."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "9-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Steenbarger — The Daily Trading Coach"]
+notes: "Account named at $24,000; worked positions are 1,400 shares at $16.90 and 1,400 at $16.40."
+screens:
+  - type: intro
+    text: "Two caps stop a bad morning. The third one stops a bad afternoon."
+
+  - type: theory
+    title: "The third cap"
+    body: "Money and trade count are the first two. The third is the clock: a time after which you take nothing new, whatever appears. Most of a scalper's edge lives in the first hour, {{market.first_minutes}} {{market.timezone}}."
+
+  - type: example
+    body: "The names that were in play at the bell are quieter by mid-session, the spreads are wider and the moves are smaller. The setups look the same and pay less."
+
+  - type: tf
+    statement: "A cap on when you stop taking new trades is as much a limit as a cap on how much you lose."
+    answer: true
+    explanation: "Both of them exist to stop a decision being made by a version of you who has been staring at a screen for hours."
+
+  - type: scanner-pick
+    prompt: "One trade left on today's cap of six. Your account is $24,000 and you trade 1,400 shares. Which name deserves it?"
+    data:
+      rows:
+        - {ticker: VANE, price: 16.90, change_pct: 5.4, rvol: 4.6, float: "14M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: HULL, price: 38.20, change_pct: 6.1, rvol: 5.2, float: "9M", spread: 0.03, catalyst: "Guidance"}
+        - {ticker: REED, price: 12.40, change_pct: 0.4, rvol: 0.8, float: "220M", spread: 0.02, catalyst: "—"}
+        - {ticker: LOOM, price: 15.60, change_pct: 7.8, rvol: 5.9, float: "6M", spread: 0.14, catalyst: "Halted, reopened"}
+    target: VANE
+    explanation: "HULL is the better mover and 1,400 shares of it is $53,480 — the account cannot hold it. LOOM's spread is fourteen cents, REED has no reason to move, and VANE is the one you can actually trade."
+
+  - type: mc
+    prompt: "Your last trade of the day is the one the cap pays for. What does that change?"
+    options:
+      - {text: "It should be the best name on the list, not the next one", correct: true}
+      - {text: "It should be taken at double size"}
+      - {text: "It should be taken as soon as anything sets up"}
+    explanation: "A cap turns trades into a budget. The last unit of any budget goes to the best thing on the list, not the first thing to move."
+
+  - type: theory
+    title: "Same page as the names"
+    body: "Chapter 5's pre-market page already holds the names, the levels and the share size. The three caps belong on it: written in the quiet, in the same handwriting, before anything is at stake."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The page has four names and their levels,"}
+      - {text: "and the caps get decided once trading starts", wrong: true}
+      - {text: "so they fit the kind of day it turns out to be."}
+    explanation: "A cap decided during the session is a cap decided by the session. That is the one state of mind it was supposed to protect you from."
+
+  - type: chart-decision
+    scenario: "VANE is holding above the $16.78 shelf and the minute that just closed is the highest of the last twenty at $16.90. You are past the time you wrote down for new trades."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[16.84, 16.88, 16.78, 16.80], [16.80, 16.86, 16.78, 16.84], [16.84, 16.88, 16.80, 16.82], [16.82, 16.86, 16.78, 16.84], [16.84, 16.88, 16.82, 16.86], [16.86, 16.94, 16.84, 16.90], [16.90, 17.00, 16.88, 16.98], [16.98, 17.06, 16.94, 17.02], [17.02, 17.08, 16.98, 17.04], [17.04, 17.08, 16.98, 17.00]]
+      volume: [58000, 64000, 52000, 60000, 54000, 88000, 82000, 70000, 62000, 56000]
+      levels:
+        - {price: 16.78, label: "Shelf"}
+      decision_index: 5
+    state: ["Trades: 4 of 6", "Past the new-trade time"]
+    best: no-trade
+    outcome: "It carried to $17.08. Fourteen cents on 1,400 shares is $196 the cap cost you, and the trade cap still had two left in it."
+    explanation: "Two caps were fine and the third one was not. Any of the three ending the session ends it — that is what makes them worth writing."
+
+  - type: numeric-input
+    prompt: "Your daily loss limit is 3R, 1R is $170, and you are down $290. How many more dollars of loss end the session?"
+    answer: 220
+    tolerance: 0.01
+    unit: "$"
+    working: "3 × $170 = $510; $510 − $290 = $220"
+    explanation: "Less than one and a half stops left, which is worth knowing before the next share size is chosen rather than after."
+
+  - type: scanner-pick
+    prompt: "Two trades left and the same 1,400 shares. Which of these belongs on the page?"
+    data:
+      rows:
+        - {ticker: SAGE, price: 22.40, change_pct: 4.8, rvol: 4.1, float: "18M", spread: 0.03, catalyst: "Upgrade"}
+        - {ticker: WREN, price: 16.40, change_pct: 5.6, rvol: 4.4, float: "11M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: PLUM, price: 9.80, change_pct: 11.2, rvol: 8.6, float: "4M", spread: 0.09, catalyst: "Share offering"}
+        - {ticker: ONYX, price: 14.60, change_pct: 0.6, rvol: 1.1, float: "160M", spread: 0.02, catalyst: "—"}
+    target: WREN
+    explanation: "1,400 shares of SAGE is $31,360, past what the account holds. PLUM has the biggest move, a four-million float and a nine-cent spread to pay twice. WREN is in play, liquid and affordable."
+
+  - type: chart-decision
+    scenario: "WREN has failed at $16.54 three times and the minute that just closed finished under the $16.44 shelf at $16.40. A stop above the ceiling is sixteen cents away. Your account is $24,000."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[16.52, 16.54, 16.44, 16.46], [16.46, 16.52, 16.44, 16.50], [16.50, 16.54, 16.46, 16.48], [16.48, 16.52, 16.44, 16.46], [16.46, 16.50, 16.42, 16.44], [16.44, 16.46, 16.36, 16.40], [16.40, 16.42, 16.28, 16.30], [16.30, 16.34, 16.20, 16.22], [16.22, 16.26, 16.12, 16.16], [16.16, 16.20, 16.08, 16.10]]
+      volume: [82000, 76000, 68000, 74000, 70000, 126000, 114000, 102000, 92000, 84000]
+      levels:
+        - {price: 16.54, label: "Ceiling"}
+        - {price: 16.44, label: "Shelf"}
+      decision_index: 5
+    state: ["Day: +1R", "Trades: 3 of 6"]
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $16.08 and the cover filled at $16.14 — 26 cents a share, +$364 on 1,400 shares against $224 of risk."
+    explanation: "Inside every cap, on a name the page already carried. The limits are not there to stop this trade; they are there so this trade is the fourth and not the fourteenth."
+
+  - type: fill-choice
+    sentence: "The three caps are money, trade count and ___."
+    options: ["time", "size", "names"]
+    answer: "time"
+    explanation: "Each of them ends the session on its own. None of them needs the other two to agree."
+
+  - type: checklist-reveal
+    title: "On the page, before the bell"
+    items:
+      - "The names and the levels drawn on each"
+      - "The share size for today"
+      - "1R in dollars at that size"
+      - "The daily loss limit in R"
+      - "The trade cap and the time you stop taking new ones"

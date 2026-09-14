@@ -1,0 +1,127 @@
+id: "7-3"
+title: "Costs Inside Expectancy"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [expectancy, costs, frequency]
+learning_goal: "User can show what halving trade count does to a day's total, and picks trades by the size of the move on offer against the round trip."
+purpose: "Frequency is the one thing a scalper controls completely, and it multiplies whichever average they happen to have."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "7-2"
+xp: 20
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Account named at $21,000; the worked position is 1,200 shares at $17.40. Fee schedule half a cent a share on each leg."
+screens:
+  - type: intro
+    text: "Thirty trades made $90 yesterday. Twelve of them would have made $360."
+
+  - type: theory
+    title: "Frequency multiplies"
+    body: "The number of trades never creates an average — it only repeats the one you have. Thirty copies of $3 is $90, and thirty copies of −$3 is the same day in reverse."
+
+  - type: example
+    body: "Yesterday: 30 trades worth $3 net each, so $90. The twelve best setups in that list were worth $60 gross and $30 net each. Twelve of those is $360."
+
+  - type: numeric-input
+    prompt: "Twelve trades at $30 net each. What is the day worth?"
+    answer: 360
+    tolerance: 0.01
+    unit: "$"
+    working: "12 × $30 = $360"
+    explanation: "Four times yesterday's money from less than half the clicking."
+
+  - type: mc
+    prompt: "Why does dropping eighteen trades raise the average instead of lowering it?"
+    options:
+      - {text: "The ones dropped had the thinnest edge", correct: true}
+      - {text: "Fewer trades means fewer losers"}
+      - {text: "The broker charges less per trade"}
+    explanation: "The marginal setups were the ones the costs were eating. Removing them changes which trades the average is made of."
+
+  - type: theory
+    title: "Cost is per trade, edge is per setup"
+    body: "The round trip costs the same whether the setup was your best of the week or a way of filling ten quiet minutes. Only one of those has enough move in it to pay for it."
+
+  - type: numeric-mc
+    prompt: "The fee is half a cent a share on each leg, and you trade 1,200 shares. What do those eighteen skipped round trips save?"
+    options:
+      - {text: "$108"}
+      - {text: "$216", correct: true}
+      - {text: "$432"}
+      - {text: "$54"}
+    working: "1,200 shares × $0.005 × 2 legs = $12 a round trip; 18 × $12 = $216"
+    explanation: "Two hundred and sixteen dollars of fees that never had to be earned back before the day started."
+
+  - type: tf
+    statement: "The way to make more from a method that pays is to take more trades."
+    answer: false
+    explanation: "The extra trades are the ones you were already skipping, and they are the ones the costs eat first."
+
+  - type: numeric-input
+    prompt: "Chapter 3 asked for the monthly number. That $216 a day, over twenty trading days?"
+    answer: 4320
+    tolerance: 0.01
+    unit: "$"
+    working: "$216 × 20 days = $4,320"
+    explanation: "Four thousand dollars a month in fees alone, paid for the privilege of taking the worst eighteen setups on the list."
+
+  - type: swipe-deck
+    prompt: "Five mornings. Is there enough move here to pay for a round trip, or not?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[12.84, 12.88, 12.78, 12.80], [12.80, 12.86, 12.78, 12.84], [12.84, 12.88, 12.80, 12.82], [12.82, 12.86, 12.78, 12.84], [12.84, 12.92, 12.82, 12.90], [12.90, 13.00, 12.88, 12.98], [12.98, 13.08, 12.94, 13.06], [13.06, 13.12, 13.00, 13.08]]
+        answer: take
+        note: "A floor at $12.78 that held three times, and the push off it has already made thirty cents. The bill is a tenth of that."
+      - chart:
+          kind: candles
+          data: [[17.12, 17.16, 17.10, 17.14], [17.14, 17.16, 17.10, 17.12], [17.12, 17.16, 17.10, 17.14], [17.14, 17.16, 17.10, 17.12], [17.12, 17.15, 17.10, 17.13], [17.13, 17.16, 17.10, 17.12], [17.12, 17.16, 17.11, 17.14], [17.14, 17.16, 17.10, 17.12]]
+        answer: pass
+        note: "Six cents of band, crossed eight times. Two cents of round trip is a third of the whole move you could catch."
+      - chart:
+          kind: candles
+          data: [[16.94, 16.98, 16.86, 16.88], [16.88, 16.92, 16.82, 16.84], [16.84, 16.90, 16.78, 16.80], [16.80, 16.84, 16.70, 16.72], [16.72, 16.76, 16.62, 16.64], [16.64, 16.68, 16.54, 16.56], [16.56, 16.60, 16.46, 16.48], [16.48, 16.52, 16.40, 16.44]]
+        answer: take
+        note: "Lower highs the whole way and fifty cents of travel since the first one. The bill is the same as on the six-cent chart above it."
+      - chart:
+          kind: candles
+          data: [[16.20, 16.32, 16.18, 16.30], [16.30, 16.44, 16.28, 16.42], [16.42, 16.56, 16.40, 16.54], [16.54, 16.70, 16.52, 16.68], [16.68, 16.82, 16.66, 16.80], [16.80, 16.94, 16.78, 16.92], [16.92, 16.96, 16.84, 16.86], [16.86, 16.90, 16.76, 16.80]]
+        answer: pass
+        note: "Seventy-five cents with nowhere to rest a stop, and the last two minutes are already giving it back. The move you are paying to join has happened."
+      - chart:
+          kind: candles
+          data: [[17.10, 17.22, 17.08, 17.20], [17.20, 17.34, 17.18, 17.32], [17.32, 17.46, 17.30, 17.44], [17.44, 17.56, 17.42, 17.54], [17.54, 17.62, 17.52, 17.58], [17.58, 17.64, 17.56, 17.60], [17.60, 17.64, 17.56, 17.58], [17.58, 17.62, 17.56, 17.60]]
+        answer: pass
+        note: "The run was real, and it has stopped twice at $17.64. Four cents of room left, against two cents of cost to go and get it."
+    explanation: "Two of the five had a move worth the bill. The other three cost exactly the same to trade, which is the whole argument for leaving them alone."
+
+  - type: chart-decision
+    scenario: "DOVE has held $17.28 four times this morning and the minute that just closed finished at $17.40, above the highs behind it. The nearest level overhead is thirty-five cents higher. Your account is $21,000."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[17.34, 17.38, 17.28, 17.30], [17.30, 17.36, 17.28, 17.34], [17.34, 17.38, 17.30, 17.32], [17.32, 17.36, 17.28, 17.30], [17.30, 17.38, 17.30, 17.36], [17.36, 17.44, 17.34, 17.40], [17.40, 17.54, 17.38, 17.52], [17.52, 17.66, 17.48, 17.62], [17.62, 17.76, 17.58, 17.72], [17.72, 17.78, 17.66, 17.70]]
+      volume: [86000, 94000, 78000, 88000, 82000, 134000, 124000, 112000, 100000, 88000]
+      levels:
+        - {price: 17.28, label: "Floor"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached $17.78 and the exit filled at $17.72 — 32 cents a share, $384 on 1,200 shares and $372 after the $12 round trip."
+    explanation: "Twelve cents of risk, thirty of room and a bill of twelve dollars. One of these is worth eighteen of the trades that were taken to fill the time."
+
+  - type: fill-choice
+    sentence: "Trade count multiplies the average; it cannot ___ one."
+    options: ["create", "repeat", "measure"]
+    answer: "create"
+    explanation: "Thirty trades of a method worth nothing is a long morning that ends exactly where it started, minus the fees."
+
+  - type: recap
+    title: "Level 7 in three lines"
+    points:
+      - {text: "The all-in cost shrinks every winner and grows every loser, so it lands twice inside the average.", level: "7-1"}
+      - {text: "Net expectancy is the gross number minus one round trip — measure it on fills, not on intentions.", level: "7-2"}
+      - {text: "Frequency multiplies the average you have; the trades worth keeping are the ones with room to pay the bill.", level: "7-3"}

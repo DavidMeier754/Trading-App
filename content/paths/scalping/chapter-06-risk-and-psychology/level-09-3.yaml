@@ -1,0 +1,117 @@
+id: "9-3"
+title: "Session Limits"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [risk, limits, discipline, day-type]
+learning_goal: "User keeps a limit that has become inconvenient, sizes the last trade so it cannot breach one, and writes their own three caps down."
+purpose: "A limit is only worth having on the one morning you would rather not have it."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "9-2"
+xp: 20
+difficulty: 3
+sources: ["Douglas — Trading in the Zone", "Steenbarger — Trading Psychology 2.0"]
+notes: "Account named at $19,000 with 1R at $150; worked positions are 1,150 shares at $16.40 and 1,100 at $16.60."
+screens:
+  - type: intro
+    text: "Every limit is easy to keep until the morning it costs you something."
+
+  - type: story
+    character: retail-trader
+    text: "Down two and a half units, one trade left on the cap, and the best-looking chart of the week just printed on the second name on the page."
+
+  - type: theory
+    title: "Renegotiation"
+    body: "A limit that can be discussed while the market is open is not a limit, it is an opinion. The version of you doing the discussing is the one the number was written to overrule."
+
+  - type: mc
+    prompt: "You are at 2.5R of a 3R loss limit. A setup appears that would risk a full unit. What does the plan allow?"
+    options:
+      - {text: "Half size, so a loss lands on the limit and not past it", correct: true}
+      - {text: "Full size — the limit is a stopping point, not a ceiling"}
+      - {text: "Full size, then stop for the day either way"}
+    explanation: "The limit is the most you lose today. A trade that could take you past it is the wrong size, not the wrong idea."
+
+  - type: compare
+    prompt: "Two sessions on the 5-minute chart. Which one keeps handing you the same setup all morning?"
+    charts:
+      - kind: candles
+        data: [[16.10, 16.30, 16.06, 16.26], [16.26, 16.48, 16.22, 16.44], [16.44, 16.52, 16.34, 16.40], [16.40, 16.66, 16.38, 16.62], [16.62, 16.84, 16.58, 16.80], [16.80, 16.90, 16.70, 16.76], [16.76, 17.00, 16.74, 16.96], [16.96, 17.18, 16.92, 17.14]]
+        label: "A"
+      - kind: candles
+        data: [[16.60, 16.78, 16.56, 16.74], [16.74, 16.80, 16.58, 16.62], [16.62, 16.78, 16.56, 16.76], [16.76, 16.80, 16.60, 16.64], [16.64, 16.78, 16.58, 16.72], [16.72, 16.80, 16.56, 16.60], [16.60, 16.76, 16.56, 16.74], [16.74, 16.80, 16.58, 16.62]]
+        label: "B"
+    answer: "A"
+    explanation: "A travels: every give-back stops above the one before it, so the pullback setup keeps arriving. B crosses the same twenty cents all session, and a six-trade cap on a day like that gets spent looking for a sixth trade."
+
+  - type: tf
+    statement: "A limit can carry one exception a month for a setup that is genuinely exceptional."
+    answer: false
+    explanation: "The exception will always be available, because the morning that argues hardest for one is the morning you are least able to judge it."
+
+  - type: branch
+    scenario: "You are down 2.5R with a 3R limit and two trades left on the cap. 1R is $150 and your account is $19,000."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[16.52, 16.56, 16.44, 16.46], [16.46, 16.54, 16.44, 16.52], [16.52, 16.56, 16.46, 16.48], [16.48, 16.54, 16.44, 16.46], [16.46, 16.52, 16.44, 16.50], [16.50, 16.58, 16.48, 16.54], [16.54, 16.56, 16.40, 16.42], [16.42, 16.46, 16.34, 16.36], [16.36, 16.44, 16.32, 16.40]]
+      decision_index: 5
+    steps:
+      - prompt: "The setup on your best name arrives. How much do you risk?"
+        options:
+          - {text: "Half a unit, so a loss lands exactly on the limit", correct: true, next: 1}
+          - {text: "A full unit — the limit is the point you stop at", next: 1}
+        explanation: "Half a unit is $75 here. It keeps the worst case at 3R, which is the number you wrote down when nothing was at stake."
+      - prompt: "It stops out. The day is at the limit and the second name is setting up beautifully. Now what?"
+        options:
+          - {text: "The session is over", correct: true}
+          - {text: "One more at half size — half size is barely trading"}
+        explanation: "Half size is still a trade, and the cap counts trades, not dollars. This is the exact moment the number exists for."
+    explanation: "Two decisions and both of them were made before the morning started. That is the whole mechanism."
+
+  - type: chart-decision
+    scenario: "You are at your 3R loss limit for the day. BRIG has held $16.48 four times and the minute that just closed finished at $16.60, above the highs behind it."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[16.54, 16.58, 16.48, 16.50], [16.50, 16.56, 16.48, 16.54], [16.54, 16.58, 16.50, 16.52], [16.52, 16.56, 16.48, 16.50], [16.50, 16.58, 16.48, 16.56], [16.56, 16.64, 16.54, 16.60], [16.60, 16.72, 16.58, 16.70], [16.70, 16.82, 16.66, 16.78], [16.78, 16.88, 16.74, 16.84], [16.84, 16.88, 16.78, 16.82]]
+      volume: [74000, 82000, 68000, 76000, 72000, 118000, 108000, 96000, 88000, 80000]
+      levels:
+        - {price: 16.48, label: "Floor"}
+      decision_index: 5
+    state: ["Day: −3R", "Limit: 3R"]
+    best: no-trade
+    outcome: "It ran to $16.88. Twenty-two cents on 1,100 shares is $242 the limit cost you, and the account is still the size it was this morning."
+    explanation: "The chart is good and the answer is still no. A limit that only holds on the bad charts has never actually been tested."
+
+  - type: numeric-input
+    prompt: "Your limit is 3R, 1R is $150, and you are down $380. What is the most the next trade may risk?"
+    answer: 70
+    tolerance: 0.01
+    unit: "$"
+    working: "3 × $150 = $450; $450 − $380 = $70"
+    explanation: "Seventy dollars, which on a fourteen-cent stop is 500 shares. The limit does not forbid the trade; it sizes it."
+
+  - type: fill-tiles
+    sentence: "Three caps, and any one of them ___ the session."
+    answer: "ends"
+    explanation: "Money, trade count or the clock. None of them waits for the other two to agree."
+
+  - type: plan-card
+    title: "Your session limits"
+    intro: "Four numbers. Write them as you would actually trade them, not as you would like to."
+    fields:
+      - {key: r_in_dollars, label: "1R in dollars at your share size", kind: number, suggest: 150}
+      - {key: daily_loss_limit, label: "Daily loss limit (in R)", kind: number, suggest: 3}
+      - {key: trade_cap, label: "Maximum trades a day", kind: number, suggest: 6}
+      - {key: new_trade_cutoff, label: "Minutes after the open you stop taking new trades", kind: number, suggest: 90}
+    note: "These sit next to your watchlist from Chapter 5 and come back, filled in, in Chapter 8."
+
+  - type: recap
+    title: "Level 9 in three lines"
+    points:
+      - {text: "The daily loss limit and the trade cap are written before the open and obeyed during it.", level: "9-1"}
+      - {text: "The clock is the third cap, and all three live on the same page as the names and the levels.", level: "9-2"}
+      - {text: "Near a limit, the trade gets smaller rather than skipped — and at one, the session is over.", level: "9-3"}

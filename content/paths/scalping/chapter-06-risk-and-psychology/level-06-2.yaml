@@ -1,0 +1,142 @@
+id: "6-2"
+title: "Win Rate and Expectancy"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [expectancy, win-rate, risk]
+learning_goal: "User refuses to judge a method by its win rate and always reads it next to the average win and the average loss."
+purpose: "The number every beginner quotes is the one number that cannot answer the question on its own."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "6-1"
+xp: 20
+difficulty: 2
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Douglas — Trading in the Zone"]
+notes: "Account named at $20,000 with a $200 risk budget; worked positions are 1,250 shares at $15.90 and 1,200 at $16.30."
+screens:
+  - type: intro
+    text: "Nine winners out of ten, and the month still ends red. Here is the number that hides it."
+
+  - type: theory
+    title: "Two records, one number"
+    body: "Two traders close six of every ten trades in profit. One is building an account and the other is emptying one. On that one line their statements are identical."
+
+  - type: example
+    body: "Trader A's winners average $80 and the losers $60. Trader B's winners average $50 and the losers $110. Both of them win six in ten."
+    visual: bar-chart
+    visual_data:
+      bars: [{label: "A wins", value: 80}, {label: "A loses", value: -60}, {label: "B wins", value: 50}, {label: "B loses", value: -110}]
+      unit: "$"
+
+  - type: numeric-input
+    prompt: "Trader A: 60 % of trades win, the average win is $80 and the average loss is $60. What is one average trade worth?"
+    answer: 24
+    tolerance: 0.01
+    unit: "$"
+    working: "(0.6 × $80) − (0.4 × $60) = $48 − $24 = $24"
+    explanation: "Twenty-four dollars a trade, which is the only figure on the statement that says anything about next month."
+
+  - type: numeric-mc
+    prompt: "Trader B, on the same 60 % win rate, with a $50 average win and a $110 average loss?"
+    options:
+      - {text: "+$30.00"}
+      - {text: "−$14.00", correct: true}
+      - {text: "+$14.00"}
+      - {text: "−$44.00"}
+    working: "(0.6 × $50) − (0.4 × $110) = $30 − $44 = −$14"
+    explanation: "Right more often than wrong, and still fourteen dollars down on an average trade."
+
+  - type: mc
+    prompt: "Same win rate, opposite outcomes. What separated them?"
+    options:
+      - {text: "How often each one was right"}
+      - {text: "The size of the losers", correct: true}
+      - {text: "The number of trades taken"}
+    explanation: "B's losers were more than twice the winners. A's were smaller than them. Nothing else on the statement differed."
+
+  - type: theory
+    title: "Half a sentence"
+    body: "A win rate is half a sentence. The other half is what a winner pays against what a loser costs. Either half alone can be dressed up to look like a method."
+
+  - type: tf
+    statement: "A method that wins nine trades out of ten must be worth trading."
+    answer: false
+    explanation: "Not if the tenth one costs more than the other nine together, which is exactly what a wide stop and a tight target produce."
+
+  - type: numeric-mc
+    prompt: "Ninety winners of $25 and ten losers of $300, out of a hundred trades. One average trade?"
+    options:
+      - {text: "+$22.50"}
+      - {text: "−$30.00"}
+      - {text: "−$7.50", correct: true}
+      - {text: "+$7.50"}
+    working: "(0.9 × $25) − (0.1 × $300) = $22.50 − $30.00 = −$7.50"
+    explanation: "A ninety per cent win rate that loses money, because one loser undoes twelve winners."
+
+  - type: sort
+    prompt: "Three lines off a statement. Which one settles whether the method pays, and which only describe it?"
+    buckets: ["Settles it", "Only describes it"]
+    items:
+      - {text: "Six of every ten trades close green", bucket: "Only describes it"}
+      - {text: "The winners average $80, the losers $60", bucket: "Only describes it"}
+      - {text: "One average trade is worth $24", bucket: "Settles it"}
+      - {text: "The last four trades were all winners", bucket: "Only describes it"}
+    explanation: "The first two are the ingredients. Only the third is the answer, and it needs both of them to exist."
+
+  - type: numeric-input
+    prompt: "Chapter 3's two ceilings, on a $20,000 account with $200 of risk a trade. The method needs a ten-cent stop on a $15.90 stock. How many shares?"
+    answer: 1257
+    tolerance: 5
+    unit: "shares"
+    working: "$200 ÷ $0.10 = 2,000 shares; $20,000 ÷ $15.90 = 1,257 shares"
+    explanation: "The risk budget would take 2,000. The account can pay for 1,257, and the smaller ceiling is always the one that decides."
+
+  - type: numeric-mc
+    prompt: "So on 1,250 shares with that ten-cent stop, what is one full loss worth?"
+    options:
+      - {text: "$200"}
+      - {text: "$250"}
+      - {text: "$125", correct: true}
+      - {text: "$159"}
+    working: "1,250 shares × $0.10 = $125"
+    explanation: "The account ceiling cut the position, so it cut the unit too. Your average loss will be built out of $125, not the $200 you budgeted."
+
+  - type: chart-decision
+    scenario: "VOSS has turned at $15.76 three times in the last six minutes and the minute that just closed finished at $15.90, above every high behind it. A stop under the floor is fourteen cents away. Your account is $20,000."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[15.84, 15.88, 15.76, 15.78], [15.78, 15.86, 15.76, 15.84], [15.84, 15.88, 15.78, 15.80], [15.80, 15.86, 15.76, 15.82], [15.82, 15.88, 15.80, 15.86], [15.86, 15.94, 15.84, 15.90], [15.90, 16.02, 15.88, 16.00], [16.00, 16.10, 15.96, 16.08], [16.08, 16.18, 16.04, 16.14], [16.14, 16.18, 16.08, 16.12]]
+      volume: [78000, 86000, 72000, 80000, 76000, 128000, 116000, 104000, 92000, 84000]
+      levels:
+        - {price: 15.76, label: "Floor"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $16.18 and the exit filled at $16.14 — 24 cents a share, +$300 on 1,250 shares against $175 of risk."
+    explanation: "Fourteen cents of risk for twenty-four of reward. Win that four times in ten and the average trade is still positive."
+
+  - type: fill-tiles
+    sentence: "On its own, a win rate decides ___."
+    answer: "nothing"
+    explanation: "It is one of two numbers, and you have now seen the same win rate both paying and losing."
+
+  - type: chart-decision
+    scenario: "KELP has been capped at $16.44 since the bell and the minute that just closed finished under the $16.34 floor at $16.30, on the heaviest volume of the morning. A stop above the ceiling is sixteen cents away."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[16.44, 16.48, 16.36, 16.38], [16.38, 16.44, 16.34, 16.36], [16.36, 16.42, 16.34, 16.40], [16.40, 16.44, 16.34, 16.36], [16.36, 16.40, 16.32, 16.38], [16.38, 16.40, 16.26, 16.30], [16.30, 16.32, 16.18, 16.20], [16.20, 16.24, 16.10, 16.12], [16.12, 16.16, 16.02, 16.06], [16.06, 16.10, 15.98, 16.02]]
+      volume: [92000, 84000, 76000, 88000, 80000, 138000, 124000, 110000, 98000, 88000]
+      levels:
+        - {price: 16.44, label: "Ceiling"}
+        - {price: 16.34, label: "Floor"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $15.98 and the cover filled at $16.04 — 26 cents a share, +$312 on 1,200 shares against $192 of risk."
+    explanation: "Sixteen cents risked against a level that has refused it all morning, for a move worth twenty-six. That shape is what keeps an average positive."
+
+  - type: example
+    body: "Nobody quotes their average loss at a dinner table. It is the half of the sentence that decides which of the two traders in this level you are."

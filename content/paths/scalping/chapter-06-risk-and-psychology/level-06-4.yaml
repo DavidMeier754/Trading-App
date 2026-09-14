@@ -1,0 +1,142 @@
+id: "6-4"
+title: "Win Rate and Expectancy"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [expectancy, r-multiple, method]
+learning_goal: "User compares methods by expectancy in R, and can see why a 40 % win rate with large winners beats a 70 % one with small ones."
+purpose: "Being right less than half the time is normal for a scalper — this is the arithmetic that makes it survivable."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "6-3"
+xp: 20
+difficulty: 3
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Douglas — Trading in the Zone"]
+notes: "Account named at $18,000 with a $180 risk budget; worked positions are 1,100 shares at $16.20 and 1,050 at $16.80."
+screens:
+  - type: intro
+    text: "Wrong six times out of ten, and the month is green. This is how that works."
+
+  - type: theory
+    title: "Expectancy in R"
+    body: "(win rate × average win in R) − (loss rate × average loss in R). In R, a 900-share trade and a 1,400-share trade belong in the same average, which is the whole reason the unit exists."
+
+  - type: example
+    body: "A method that wins four times in ten, with winners of 3R and losers of 1R: (0.4 × 3R) − (0.6 × 1R) = 1.2R − 0.6R = 0.6R an average trade."
+
+  - type: numeric-input
+    prompt: "Same shape, but the winners only run 2R. Four wins in ten, losers of 1R. What is one average trade worth, in R?"
+    answer: 0.2
+    tolerance: 0.02
+    unit: "R"
+    working: "(0.4 × 2.0R) − (0.6 × 1.0R) = 0.8R − 0.6R = 0.2R"
+    explanation: "A third of the previous number, from one change: what the winners were allowed to become."
+
+  - type: mc
+    prompt: "Why can a 40 % win rate pay at all?"
+    options:
+      - {text: "The losers arrive in a run, so they cancel"}
+      - {text: "Four trades happen to cover six"}
+      - {text: "Each winner is worth several losers", correct: true}
+    explanation: "Four winners at 3R make 12R; six losers at 1R cost 6R. The count is against you and the size is not."
+
+  - type: sort
+    prompt: "Four methods, a hundred trades each. Which are worth the screen time?"
+    buckets: ["Worth keeping", "Worth deleting"]
+    items:
+      - {text: "65 % win, +0.8R average win, −1.0R average loss", bucket: "Worth keeping"}
+      - {text: "40 % win, +2.5R average win, −1.0R average loss", bucket: "Worth keeping"}
+      - {text: "70 % win, +0.5R average win, −1.5R average loss", bucket: "Worth deleting"}
+      - {text: "45 % win, +1.0R average win, −1.2R average loss", bucket: "Worth deleting"}
+    explanation: "The two with the highest win rates split between the buckets, which is the point. Run each one and the answer is 0.17R, 0.40R, −0.10R and −0.21R."
+
+  - type: numeric-mc
+    prompt: "That 70 % method again: +0.5R average win, −1.5R average loss. One average trade?"
+    options:
+      - {text: "+0.35R"}
+      - {text: "−0.10R", correct: true}
+      - {text: "+0.10R"}
+      - {text: "−0.45R"}
+    working: "(0.7 × 0.5R) − (0.3 × 1.5R) = 0.35R − 0.45R = −0.10R"
+    explanation: "Seven small winners cannot carry three losses three times their size, and the statement will look cheerful the whole way down."
+
+  - type: theory
+    title: "The win rate that leaves you flat"
+    body: "Every reward-to-risk shape has one: the win rate where the two sides cancel. With 2R winners against 1R losers it is one in three, so anything above that is where the method starts to pay."
+
+  - type: slider
+    prompt: "Winners run 2R and losers cost 1R. What win rate leaves you exactly flat?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 35
+    tolerance: 10
+    explanation: "One in three, near enough. Two units gained per win against one lost per loss means one win pays for two losses."
+
+  - type: tf
+    statement: "Raising the average win does more for a 40 % method than raising the win rate by a few points."
+    answer: true
+    explanation: "At four wins in ten, a half-unit added to every winner is worth 0.2R a trade. Five points of win rate on 2R winners is worth 0.15R."
+
+  - type: numeric-input
+    prompt: "Chapter 3's ceilings again: an $18,000 account, $180 of risk a trade, a twelve-cent stop on a $16.20 stock. How many shares?"
+    answer: 1111
+    tolerance: 12
+    unit: "shares"
+    working: "$180 ÷ $0.12 = 1,500 shares; $18,000 ÷ $16.20 = 1,111 shares"
+    explanation: "The account binds first, so the position rounds down to 1,100 rather than the 1,500 the budget offered."
+
+  - type: numeric-mc
+    prompt: "On those 1,100 shares with the twelve-cent stop, what is 1R?"
+    options:
+      - {text: "$180"}
+      - {text: "$220"}
+      - {text: "$132", correct: true}
+      - {text: "$165"}
+    working: "1,100 shares × $0.12 = $132"
+    explanation: "Every R-multiple in this file is built on $132, not on the budget you wrote down before you saw the price."
+
+  - type: chart-decision
+    scenario: "RAMP has bottomed at $16.08 four times this morning and the minute that just closed finished at $16.20, above the highs behind it. The stop goes under the floor, twelve cents away. Your account is $18,000."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[16.14, 16.18, 16.08, 16.10], [16.10, 16.16, 16.08, 16.14], [16.14, 16.18, 16.10, 16.12], [16.12, 16.16, 16.08, 16.10], [16.10, 16.16, 16.08, 16.14], [16.14, 16.24, 16.12, 16.20], [16.20, 16.32, 16.18, 16.30], [16.30, 16.42, 16.26, 16.40], [16.40, 16.56, 16.36, 16.52], [16.52, 16.58, 16.46, 16.50]]
+      volume: [82000, 90000, 76000, 84000, 80000, 136000, 122000, 114000, 108000, 92000]
+      levels:
+        - {price: 16.08, label: "Floor"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $16.58 and the exit filled at $16.56 — 36 cents a share, +$396 on 1,100 shares against $132 of risk."
+    explanation: "Three units from one trade. A method that produces this shape can be wrong twice for every time it is right and still add up."
+
+  - type: fill-choice
+    sentence: "A method with small winners needs a ___ win rate to stay positive."
+    options: ["high", "low", "steady"]
+    answer: "high"
+    explanation: "The smaller the winner against the loser, the more often you have to be right — which is a harder thing to promise than patience is."
+
+  - type: chart-decision
+    scenario: "TARN has failed at $16.94 three times since the bell and the minute that just closed is the lowest of the morning at $16.80. A stop above the ceiling is fourteen cents away."
+    shares: 1050
+    chart:
+      kind: candles
+      data: [[16.86, 16.94, 16.84, 16.92], [16.92, 16.94, 16.86, 16.88], [16.88, 16.94, 16.84, 16.86], [16.86, 16.90, 16.82, 16.88], [16.88, 16.90, 16.82, 16.84], [16.84, 16.86, 16.78, 16.80], [16.80, 16.82, 16.68, 16.70], [16.70, 16.74, 16.58, 16.60], [16.60, 16.64, 16.50, 16.54], [16.54, 16.58, 16.44, 16.48]]
+      volume: [88000, 80000, 72000, 84000, 78000, 130000, 118000, 106000, 96000, 86000]
+      levels:
+        - {price: 16.94, label: "Ceiling"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid to $16.44 and the cover filled at $16.50 — 30 cents a share, +$315 on 1,050 shares against $147 of risk."
+    explanation: "Just over two units. Two of these a week cover four full stops and still leave the month green."
+
+  - type: recap
+    title: "Level 6 in three lines"
+    points:
+      - {text: "Expectancy is what one average trade is worth, and it is the only number that answers the question.", level: "6-1"}
+      - {text: "A win rate on its own decides nothing; it needs the average win and the average loss beside it.", level: "6-2"}
+      - {text: "An average loss above 1R is a fault in the exit, and it shows up in the average before anywhere else.", level: "6-3"}

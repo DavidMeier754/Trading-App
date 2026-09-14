@@ -1,0 +1,136 @@
+id: "7-1"
+title: "Costs Inside Expectancy"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [expectancy, costs, spread, fees]
+learning_goal: "User puts the all-in cost on both sides of the average — shrinking the winner and growing the loser — before calling a method positive."
+purpose: "A scalper pays the full cost of a round trip on every single trade, win or lose, and it lands inside the average where it is easy to miss."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "6-4"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Account named at $22,000; worked positions are 1,300 shares at $16.80 and 1,300 at $16.78. All-in cost $0.03 a share round trip."
+screens:
+  - type: intro
+    text: "The spread does not ask whether the read was any good. It is paid either way."
+
+  - type: theory
+    title: "Both sides of the average"
+    body: "Chapter 3 added the spread, the slippage and the fees into one all-in cost per share. That number comes off every trade, so it makes the average winner smaller and the average loser bigger."
+
+  - type: example
+    body: "1,300 shares, three cents all in on the round trip: $39 a trade. A twenty-cent winner is $260 gross and $221 net. A twelve-cent loser is $156 gross and $195 net."
+    visual: cost-stack
+    visual_data:
+      shares: 1300
+      spread: 0.02
+      slippage: 0.005
+      fees: 0.005
+      target: 0.20
+
+  - type: numeric-input
+    prompt: "That twelve-cent loser on 1,300 shares, with $39 of costs on top. What does it actually cost?"
+    answer: 195
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.12 × 1,300 shares = $156; $156 + $39 = $195"
+    explanation: "The stop was twelve cents. The trade was fifteen, because the round trip is paid on the way out of a loser too."
+
+  - type: numeric-mc
+    prompt: "Half the trades win. Gross, that is $260 against $156. Net, it is $221 against $195. What happens to one average trade?"
+    options:
+      - {text: "$52 gross becomes $13 net", correct: true}
+      - {text: "$52 gross becomes $39 net"}
+      - {text: "$52 gross becomes $26 net"}
+      - {text: "It does not change"}
+    working: "Gross: (0.5 × $260) − (0.5 × $156) = $52. Net: (0.5 × $221) − (0.5 × $195) = $13"
+    explanation: "Three quarters of the edge, gone into a cost that looked like three cents."
+
+  - type: theory
+    title: "Where the edge went"
+    body: "The costs took fifteen per cent of the winner and less than a third of the loser. What they took of the edge between them was seventy-five per cent, because the edge is the small difference the costs are subtracted from."
+
+  - type: tf
+    statement: "A cost that is trivial next to the share price can still be enormous next to the edge."
+    answer: true
+    explanation: "Three cents on a $16.80 stock is under two tenths of a per cent of it — and three quarters of what the method was worth."
+
+  - type: slider
+    prompt: "Of that $52 gross edge, what share did the $39 of costs take?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 75
+    tolerance: 10
+    explanation: "Thirty-nine of fifty-two. The share price it sits next to has nothing to do with it."
+
+  - type: numeric-input
+    prompt: "Chapter 3's all-in check on a different name: a three-cent spread, a cent of slippage getting in, and fees of four tenths of a cent over the round trip. What is the all-in cost per share?"
+    answer: 0.044
+    tolerance: 0.001
+    unit: "$"
+    working: "$0.03 + $0.01 + $0.004 = $0.044"
+    explanation: "Four cents and change before the trade has moved. On a fifteen-cent target that is nearly a third of it."
+
+  - type: chart-decision
+    scenario: "MAST has spent the last five minutes between $16.72 and $16.80. Your target would be the top of that band, and the all-in cost on 1,300 shares is three cents a share. Your account is $22,000."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[16.74, 16.80, 16.72, 16.78], [16.78, 16.80, 16.72, 16.74], [16.74, 16.80, 16.72, 16.78], [16.78, 16.80, 16.72, 16.74], [16.74, 16.78, 16.72, 16.76], [16.76, 16.80, 16.72, 16.78], [16.78, 16.80, 16.72, 16.74], [16.74, 16.78, 16.70, 16.72], [16.72, 16.78, 16.70, 16.76], [16.76, 16.80, 16.72, 16.74]]
+      volume: [62000, 54000, 48000, 52000, 46000, 58000, 50000, 44000, 48000, 52000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It crossed the same eight cents four more times. A long at $16.78 out at $16.74 lost $52 on 1,300 shares, and the costs added $39 to that."
+    explanation: "Two cents of move left to the top of the band and three cents of cost to get there and back. The trade is negative before the first candle prints."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "My method makes $40 an average trade"}
+      - {text: "before the spread and the fees,", wrong: true}
+      - {text: "so I am comfortably ahead."}
+    explanation: "An average measured before costs is not an average of anything you have ever been paid. The only version that counts is the one after them."
+
+  - type: fill-choice
+    sentence: "Costs make the average winner smaller and the average loser ___."
+    options: ["bigger", "smaller", "unchanged"]
+    answer: "bigger"
+    explanation: "You pay to get out of a loser as well as into it, so the round trip lands on both halves of the calculation."
+
+  - type: chart-decision
+    scenario: "MOSS has held $16.68 four times this morning and the minute that just closed finished at $16.80, through the highs behind it. The stop goes under the floor, twelve cents away."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[16.74, 16.78, 16.68, 16.70], [16.70, 16.76, 16.68, 16.74], [16.74, 16.78, 16.70, 16.72], [16.72, 16.76, 16.68, 16.70], [16.70, 16.76, 16.68, 16.74], [16.74, 16.84, 16.72, 16.80], [16.80, 16.90, 16.78, 16.88], [16.88, 16.98, 16.84, 16.96], [16.96, 17.06, 16.92, 17.02], [17.02, 17.06, 16.96, 17.00]]
+      volume: [84000, 92000, 78000, 86000, 80000, 132000, 120000, 108000, 98000, 88000]
+      levels:
+        - {price: 16.68, label: "Floor"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached $17.06 and the exit filled at $17.00 — 20 cents a share, $260 gross on 1,300 shares and $221 after the round trip."
+    explanation: "Twenty cents against twelve, and the three cents of cost still leaves it well clear. That is the size of move a cost of this size needs."
+
+  - type: mc
+    prompt: "Two trades, same stock, same costs. Which one survives them?"
+    options:
+      - {text: "The one with the bigger move to aim at", correct: true}
+      - {text: "The one with the higher win rate"}
+      - {text: "The one with the larger share count"}
+    explanation: "A bigger share count scales the cost with the trade. Only a bigger move changes what the cost is a share of."
+
+  - type: checklist-reveal
+    title: "Before calling a method positive"
+    items:
+      - "The all-in cost per share, written down"
+      - "That cost times the share count, as one dollar figure"
+      - "It subtracted from the average winner"
+      - "It added to the average loser"
+      - "The expectancy recalculated from those two"
