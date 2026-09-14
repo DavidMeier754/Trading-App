@@ -8,7 +8,7 @@ tags: [risk, sizing, drawdown]
 learning_goal: "User cuts share size during a drawdown, keeps the same setups and stops, and raises size only on evidence."
 purpose: "Size is the one risk control you can change in the middle of a bad run without changing your method."
 terms_introduced: ["Drawdown"]
-prerequisite: "16-1"
+prerequisite: "16-3"
 xp: 20
 difficulty: 3
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Elder — Trading for a Living"]

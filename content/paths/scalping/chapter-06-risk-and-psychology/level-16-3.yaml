@@ -1,0 +1,118 @@
+id: "16-3"
+title: "The Weekly Review"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [journal, review, routine, selection]
+learning_goal: "User turns a sorted week into one rule that can be answered before the click, runs it for a week, and does not rewrite the plan from twenty rows."
+purpose: "A review that ends in an opinion changes nothing; a review that ends in one checkable rule changes next week."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "16-2"
+xp: 20
+difficulty: 3
+sources: ["Steenbarger — The Daily Trading Coach", "Elder — Trading for a Living"]
+notes: "Closes Level 16 with the recap. Account named at $21,000 with 1R at $210; the worked position is 1,200 shares at $17.16 = $20,592."
+screens:
+  - type: intro
+    text: "Friday's rows have an answer in them. Getting it onto Monday's page is a separate skill. Your account here is $21,000."
+
+  - type: story
+    character: retail-trader
+    text: "The week is sorted, the bleeding column is obvious, and the temptation is to write six rules about it. Six rules is the same as none, because by Wednesday you will not know which one was working."
+
+  - type: theory
+    title: "A rule you can answer before the click"
+    body: "Write it so it can be checked while the trade is still an idea. \"Only names at three times their own normal\" is answerable before the entry. \"Trade better on slow days\" is answerable only in the review."
+
+  - type: mc
+    prompt: "Three candidate rules came out of your week. Which one can you actually apply at the moment of the entry?"
+    options:
+      - {text: "Take fewer marginal trades when the session is dull"}
+      - {text: "Stop giving back the morning's profit in the afternoon"}
+      - {text: "No entry unless the name is at 3× its own normal", correct: true}
+    explanation: "One of them is a number you can read off the page before you click. The other two can only be scored once the day is over."
+
+  - type: swipe-deck
+    prompt: "Next week's rule: the entry only on a session that is travelling one way. Take it or pass?"
+    cards:
+      - chart: {kind: candles, data: [[12.40, 12.56, 12.36, 12.52], [12.52, 12.68, 12.48, 12.64], [12.64, 12.72, 12.58, 12.62], [12.62, 12.84, 12.58, 12.80], [12.80, 12.96, 12.74, 12.92], [12.92, 13.00, 12.86, 12.90], [12.90, 13.12, 12.86, 13.08], [13.08, 13.24, 13.02, 13.20]]}
+        answer: take
+        note: "Every give-back stops above the last one and new highs keep arriving."
+      - chart: {kind: candles, data: [[14.60, 14.80, 14.56, 14.74], [14.74, 14.82, 14.60, 14.64], [14.64, 14.72, 14.50, 14.54], [14.54, 14.64, 14.48, 14.60], [14.60, 14.80, 14.56, 14.76], [14.76, 14.82, 14.66, 14.70], [14.70, 14.76, 14.52, 14.56], [14.56, 14.70, 14.52, 14.66]]}
+        answer: pass
+        note: "The same thirty cents crossed four times. This is the column that cost you last week."
+      - chart: {kind: candles, data: [[19.40, 19.44, 19.20, 19.24], [19.24, 19.30, 19.06, 19.10], [19.10, 19.22, 19.06, 19.18], [19.18, 19.20, 18.94, 18.98], [18.98, 19.04, 18.80, 18.84], [18.84, 18.96, 18.80, 18.92], [18.92, 18.94, 18.68, 18.72], [18.72, 18.78, 18.56, 18.60]]}
+        answer: take
+        note: "Travelling one way is not the same as travelling up — every bounce dies under the last one."
+      - chart: {kind: candles, data: [[11.02, 11.08, 10.98, 11.04], [11.04, 11.08, 10.98, 11.00], [11.00, 11.06, 10.96, 11.04], [11.04, 11.06, 10.98, 11.00], [11.00, 11.06, 10.96, 11.02], [11.02, 11.08, 10.98, 11.04], [11.04, 11.06, 10.98, 11.00], [11.00, 11.04, 10.96, 11.02]]}
+        answer: pass
+        note: "A dime of range in a whole session. There is nothing here for a target to be paid out of."
+    explanation: "The rule asks one question of the slower chart, and two of these four sessions answer it before the first entry of the day."
+
+  - type: numeric-input
+    prompt: "Last week came to +4R, with the ten range-day rows at −5.5R. On paper, what would the week have been with those rows removed?"
+    answer: 9.5
+    tolerance: 0.01
+    working: "+4R − (−5.5R) = +9.5R"
+    explanation: "On paper. The rule still has to survive a week in which it keeps you out of a winner."
+
+  - type: tf
+    statement: "A rule worth keeping can be one you are only able to score after the trade is closed."
+    answer: false
+    explanation: "Something you can only grade afterwards is a review note. A rule has to be answerable while the trade is still an idea."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "I take the rule from Friday's rows"}
+      - {text: "and rewrite it after every losing morning", wrong: true}
+      - {text: "so the week can actually test it."}
+    explanation: "A rule changed mid-week was never tested. One version, five sessions, then the rows decide."
+
+  - type: match
+    prompt: "Four things next week's rule has to be. Which description belongs to which?"
+    pairs:
+      - ["Checkable", "You can answer it before the click"]
+      - ["Single", "One change this week, not five"]
+      - ["Dated", "It runs until Friday, then gets read again"]
+      - ["Yours", "Written out of your own rows, not somebody else's"]
+    explanation: "Miss any one of them and Friday cannot tell you whether the rule did anything."
+
+  - type: chart-decision
+    scenario: "The rule is on the page: names at 3× or better, on a session travelling one way. VANE is at 3.4× and its 5-minute chart has stepped up all morning. It has paused for three lighter minutes. Entry $17.16, stop $17.02, 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[16.94, 17.06, 16.90, 17.04], [17.04, 17.16, 17.00, 17.12], [17.12, 17.16, 17.06, 17.08], [17.08, 17.12, 17.04, 17.06], [17.06, 17.14, 17.04, 17.10], [17.10, 17.20, 17.08, 17.16], [17.16, 17.30, 17.14, 17.28], [17.28, 17.40, 17.24, 17.36], [17.36, 17.52, 17.32, 17.48], [17.48, 17.52, 17.42, 17.46]]
+      volume: [104000, 132000, 78000, 64000, 60000, 124000, 146000, 138000, 120000, 106000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $17.52 and the exit filled at $17.46 — 30 cents a share, +$360 on 1,200 shares against $168 of risk."
+    explanation: "Both halves of the rule answered before the click, and fourteen cents of risk under the pause that asked the question."
+
+  - type: fill-tiles
+    sentence: "A rule you cannot check until the trade is closed is a review ___."
+    answer: "note"
+    explanation: "Worth writing, worth reading on Friday — but it will not change a single entry during the week."
+
+  - type: plan-card
+    title: "Your rule for next week"
+    intro: "Three numbers that decide what next Friday can tell you."
+    fields:
+      - {key: min_rvol, label: "Lowest relative volume you will trade (×)", kind: number, suggest: 3}
+      - {key: rules_tested, label: "New rules you test at the same time", kind: number, suggest: 1}
+      - {key: rows_before_judging, label: "Rows before you judge the rule", kind: number, suggest: 20}
+    note: "It sits under your session limits, and both pages come back when the playbook is built."
+
+  - type: example
+    body: "Twenty-two rows, one number on Monday's page, and a Friday that can answer whether it helped. That loop is the whole difference between a record and a habit."
+
+  - type: recap
+    title: "Level 16 in three lines"
+    points:
+      - {text: "Sort the week by setup and by hour, and delete the worst column before adding anything new.", level: "16-1"}
+      - {text: "Sort it again by the two columns you filled before the bell — the name's own normal and the shape of the day.", level: "16-2"}
+      - {text: "End with one rule you can answer before the click, and run it for a whole week.", level: "16-3"}

@@ -1,0 +1,126 @@
+id: "17-3"
+title: "Sizing Under Stress"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [risk, sizing, drawdown, execution]
+learning_goal: "User raises share size one written step at a time, on a rule fixed before the drawdown, and can say what a single good morning is worth as evidence."
+purpose: "Coming back too fast is how a recovered drawdown becomes a deeper one."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "17-2"
+xp: 20
+difficulty: 3
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Steenbarger — Trading Psychology 2.0"]
+notes: "Closes Level 17 with the recap. Full size is 1,200 shares, the cut size 600, the first step back 900. Account named at $16,400; the worked position is 900 shares at $15.62 = $14,058."
+screens:
+  - type: intro
+    text: "The account is back over $16,400 and the smaller size has started to feel like a punishment. This is the part people get wrong."
+
+  - type: story
+    character: retail-trader
+    text: "Two clean sessions at 600 shares, and the thought arrives on its own: the bad run is over, put the size back. The thought arrives on its own every single time, including the times it is wrong."
+
+  - type: theory
+    title: "Written before you need it"
+    body: "The rule for raising size has to exist before the drawdown, because the version of you who wants the size back is not the version who should be deciding."
+
+  - type: checklist-reveal
+    title: "Before the size goes up"
+    items:
+      - "Twenty rows since the cut, not two sessions"
+      - "Every one of them graded A or B"
+      - "Those twenty rows positive in R"
+      - "One step only, and the same page says when it comes back down"
+
+  - type: numeric-input
+    prompt: "Your ladder steps by a quarter of full size. Full size is 1,200 shares and you are trading 600. What is the next step?"
+    answer: 900
+    tolerance: 1
+    unit: "shares"
+    working: "1,200 ÷ 4 = 300; 600 + 300 = 900 shares"
+    explanation: "Three hundred shares, then twenty more rows before the next one. Doubling skips the part where the evidence arrives."
+
+  - type: branch
+    scenario: "Nineteen sessions into the drawdown, trading 600 shares. Two sessions in a row have finished green."
+    shares: 600
+    chart:
+      kind: candles
+      data: [[15.20, 15.34, 15.16, 15.30], [15.30, 15.44, 15.26, 15.40], [15.40, 15.46, 15.32, 15.36], [15.36, 15.52, 15.34, 15.48], [15.48, 15.58, 15.42, 15.54], [15.54, 15.62, 15.48, 15.58], [15.58, 15.72, 15.54, 15.68], [15.68, 15.80, 15.64, 15.76], [15.76, 15.84, 15.70, 15.80]]
+      decision_index: 5
+    steps:
+      - prompt: "Nine rows across those two sessions, all of them positive. Does the size go up?"
+        options:
+          - {text: "Not yet — the ladder asks for twenty rows", correct: true, next: 1}
+          - {text: "Yes, two green sessions is what evidence looks like", next: 1}
+        explanation: "Nine rows is one good stretch. The number on the page was twenty precisely so that a good stretch could not argue with it."
+      - prompt: "Twenty rows later: positive in R, every grade an A or a B. Now?"
+        options:
+          - {text: "One step, 600 to 900", correct: true}
+          - {text: "Straight back to 1,200 — the run has earned it"}
+        explanation: "One step, then twenty more rows. The ladder is slow on the way up because the account cannot afford it to be fast."
+    explanation: "Two decisions, both of them settled weeks before the morning they came up."
+
+  - type: mc
+    prompt: "What does one very good morning at the smaller size entitle you to?"
+    options:
+      - {text: "A step up, since the evidence has started arriving"}
+      - {text: "Nothing — one morning is one row", correct: true}
+      - {text: "Full size for the rest of the week, then a review"}
+    explanation: "A morning is a handful of rows out of a sample that needs hundreds. It is exactly the kind of evidence a drawdown is good at producing."
+
+  - type: chart-decision
+    scenario: "First session at the new step, 900 shares. DUNE has been refused at $15.76 three times and the minute that just closed finished at $15.62, the lowest close of the morning. Stop above the ceiling."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[15.72, 15.76, 15.62, 15.66], [15.66, 15.74, 15.62, 15.70], [15.70, 15.76, 15.64, 15.68], [15.68, 15.72, 15.60, 15.64], [15.64, 15.76, 15.60, 15.68], [15.68, 15.70, 15.58, 15.62], [15.62, 15.64, 15.48, 15.50], [15.50, 15.54, 15.38, 15.40], [15.40, 15.46, 15.30, 15.32], [15.32, 15.38, 15.26, 15.30]]
+      volume: [92000, 86000, 78000, 84000, 80000, 128000, 116000, 104000, 96000, 88000]
+      levels:
+        - {price: 15.76, label: "Ceiling"}
+      decision_index: 5
+    state: ["Size: 900 of 1,200", "Rebuilding"]
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $15.26 and the cover filled at $15.30 — 32 cents a share, +$288 on 900 shares against $126 of risk."
+    explanation: "Fourteen cents of risk above a ceiling that has refused it three times. A step up changes the share count and nothing else about how the trade is chosen."
+
+  - type: journal-row
+    prompt: "Write the row for that trade."
+    trade: {setup: "Ceiling fade", entry: 15.62, stop: 15.76, exit: 15.30, shares: 900}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$126", "$144", "$288"]
+      r_made: ["+1R", "+2R", "+2.3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$126", r_made: "+2.3R", grade: "A"}
+    explanation: "Fourteen cents risked and thirty-two made, on the nine hundred shares the ladder had just allowed. One row of the twenty the next step will need."
+
+  - type: tf
+    statement: "Size comes down the same session the account makes a new low, and goes up only where the ladder says."
+    answer: true
+    explanation: "Down fast and up slowly. That asymmetry is the whole reason a drawdown gets survived rather than deepened."
+
+  - type: slider
+    prompt: "One step into the rebuild, at 900 of your usual 1,200 shares. What share of full size is that?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 75
+    tolerance: 10
+    explanation: "Three quarters, with twenty more rows to go before the last quarter comes back."
+
+  - type: fill-choice
+    sentence: "A step up taken because this morning went well is a decision made by the ___."
+    options: ["result", "ladder", "account"]
+    answer: "result"
+    explanation: "The same mechanism as a revenge trade, pointing the other way: the last outcome, not the written rule, is choosing the size."
+
+  - type: recap
+    title: "Level 17 in three lines"
+    points:
+      - {text: "A drawdown deepens faster than it fills, so size is the control that changes first.", level: "17-1"}
+      - {text: "Both ceilings are recomputed against the account you have today, and the budget is the one that binds once risk is cut.", level: "17-2"}
+      - {text: "Size goes back up one written step at a time, on twenty rows rather than one good morning.", level: "17-3"}

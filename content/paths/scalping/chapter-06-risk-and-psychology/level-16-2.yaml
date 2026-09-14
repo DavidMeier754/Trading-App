@@ -1,0 +1,130 @@
+id: "16-2"
+title: "The Weekly Review"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [journal, review, selection, day-type]
+learning_goal: "User sorts a week of rows by the two columns filled before the open — the name against its own normal and the shape of the session — and reads which of them the losses are sitting in."
+purpose: "The column that explains a losing week is almost never the one you were staring at while you traded it."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "16-1"
+xp: 20
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Steenbarger — The Daily Trading Coach"]
+notes: "Chapter 5's relative volume and day type come back as the two columns Friday is sorted by. Account named at $16,000; the worked position is 1,000 shares at $13.82 = $13,820."
+screens:
+  - type: intro
+    text: "Sorted by setup, last week had an answer. Sorted by the two columns from before the bell, it has a better one. Your account here is $16,000."
+
+  - type: theory
+    title: "The two you filled early"
+    body: "One column says what the name was trading against its own normal. The other says what shape the session turned out to be. Both were written before your first entry, which is what makes them worth sorting."
+
+  - type: visual
+    component: journal-table
+    data:
+      columns: ["Setup", "Name", "RVOL", "Day", "R", "Grade"]
+      rows:
+        - {Setup: "Base reclaim", Name: "WREN", RVOL: "4.6x", Day: "Trend", R: "+2.1", Grade: "A"}
+        - {Setup: "Base reclaim", Name: "MOSS", RVOL: "1.1x", Day: "Range", R: "-1.0", Grade: "B"}
+        - {Setup: "Ceiling fade", Name: "PEAK", RVOL: "0.9x", Day: "Range", R: "-1.0", Grade: "C"}
+        - {Setup: "Base reclaim", Name: "WREN", RVOL: "4.6x", Day: "Trend", R: "+1.4", Grade: "A"}
+        - {Setup: "Ceiling fade", Name: "MOSS", RVOL: "1.2x", Day: "Range", R: "-0.6", Grade: "B"}
+    caption: "Twenty-two rows, five of them here. The same setup name appears on both sides of the week."
+
+  - type: mc
+    prompt: "Sorted by day type, twelve rows made +9.5R and ten came to −5.5R. What does that support?"
+    options:
+      - {text: "Doubling the size on the day type that pays, since that is where the money is"}
+      - {text: "One rule for next week, and the same column read again on Friday", correct: true}
+      - {text: "Nothing at all — ten rows is far too few to read"}
+    explanation: "Enough to change one thing and watch it, not enough to rebuild the plan. The column stays on the page either way."
+
+  - type: numeric-input
+    prompt: "The week came to +4R and the twelve rows on trend days made +9.5R. What did the ten range-day rows do?"
+    answer: -5.5
+    tolerance: 0.01
+    working: "+4 − 9.5 = −5.5"
+    explanation: "Almost six units, handed back by the sessions that kept coming back to where they started."
+
+  - type: slider
+    prompt: "Ten of the week's 22 rows were taken on the day type that lost money. What share of the week is that?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 45
+    tolerance: 10
+    explanation: "Close to half your decisions went into the shape of session your own record says pays you nothing."
+
+  - type: compare
+    prompt: "Two mornings from that week, on the 5-minute chart. Which one produced the rows that paid?"
+    charts:
+      - kind: candles
+        data: [[13.40, 13.58, 13.36, 13.54], [13.54, 13.72, 13.50, 13.68], [13.68, 13.76, 13.60, 13.64], [13.64, 13.88, 13.60, 13.84], [13.84, 14.02, 13.78, 13.98], [13.98, 14.06, 13.90, 13.96], [13.96, 14.20, 13.92, 14.16], [14.16, 14.34, 14.10, 14.30]]
+        label: "A"
+      - kind: candles
+        data: [[13.80, 14.00, 13.76, 13.94], [13.94, 14.02, 13.78, 13.82], [13.82, 13.90, 13.68, 13.72], [13.72, 13.80, 13.66, 13.78], [13.78, 14.00, 13.74, 13.92], [13.92, 14.02, 13.84, 13.88], [13.88, 13.94, 13.68, 13.74], [13.74, 13.88, 13.70, 13.84]]
+        label: "B"
+    answer: "A"
+    explanation: "A leaves every give-back above the one before it, so the pullback entry keeps arriving higher. B spends the morning crossing the same thirty cents, and the fourth crossing pays no better than the first."
+
+  - type: tf
+    statement: "Two names both up about six per cent that morning belong in the same bucket when the week is sorted by how busy they were."
+    answer: false
+    explanation: "Per cent up is not the busy column. One of them can be at five times its own normal while the other is having an ordinary day."
+
+  - type: sort
+    prompt: "Friday morning, in front of your rows. Which of these can you sort the week by?"
+    buckets: ["A column you can sort", "A line you can only read"]
+    items:
+      - {text: "What the name was trading against its own normal", bucket: "A column you can sort"}
+      - {text: "Whether the session travelled or kept coming back", bucket: "A column you can sort"}
+      - {text: "That the first half hour felt slower than usual", bucket: "A line you can only read"}
+      - {text: "That the tape looked strange somewhere in the middle", bucket: "A line you can only read"}
+    explanation: "Two of them were numbers before you clicked. The other two are impressions, and impressions cannot be totalled."
+
+  - type: scanner-pick
+    prompt: "Monday, and last week's rule is on the page: three times its own normal or better, and a spread a twelve-cent target can pay. Which row is it?"
+    data:
+      rows:
+        - {ticker: WREN, price: 13.80, change_pct: 7.4, rvol: 4.6, float: "14M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: KILN, price: 28.40, change_pct: 5.1, rvol: 3.8, float: "26M", spread: 0.07, catalyst: "Guidance"}
+        - {ticker: MOSS, price: 12.40, change_pct: 1.2, rvol: 1.1, float: "310M", spread: 0.02, catalyst: "—"}
+        - {ticker: PEAK, price: 15.60, change_pct: 6.8, rvol: 0.9, float: "9M", spread: 0.09, catalyst: "—"}
+    target: WREN
+    explanation: "KILN clears the volume test and then takes seven cents of a twelve-cent target. MOSS and PEAK are having ordinary days with a big percentage printed next to them."
+
+  - type: chart-decision
+    scenario: "WREN, 4.6 times its own normal, has stepped higher on the 5-minute chart since the first half hour. On the 1-minute it has handed back a dozen cents over three lighter minutes. Entry $13.82, stop $13.68, 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[13.62, 13.74, 13.58, 13.72], [13.72, 13.84, 13.68, 13.80], [13.80, 13.84, 13.74, 13.76], [13.76, 13.80, 13.72, 13.74], [13.74, 13.80, 13.72, 13.78], [13.78, 13.86, 13.76, 13.82], [13.82, 13.96, 13.80, 13.94], [13.94, 14.06, 13.90, 14.02], [14.02, 14.14, 13.98, 14.10], [14.10, 14.14, 14.04, 14.08]]
+      volume: [96000, 118000, 84000, 72000, 68000, 126000, 142000, 130000, 112000, 98000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $14.14 and the exit filled at $14.08 — 26 cents a share, +$260 on 1,000 shares against $140 of risk."
+    explanation: "The right name on the right shape of day, and the give-back arrived on the lightest minutes of the morning. Fourteen cents of risk under the pause."
+
+  - type: numeric-mc
+    prompt: "Those ten range-day rows came to −5.5R. What is one average range-day row worth?"
+    options:
+      - {text: "−1.1R"}
+      - {text: "−5.5R"}
+      - {text: "−0.55R", correct: true}
+      - {text: "+0.55R"}
+    working: "−5.5R ÷ 10 rows = −0.55R"
+    explanation: "Just over half a unit given away per decision, which is what an average trade looks like when the day cannot carry it."
+
+  - type: fill-choice
+    sentence: "Sorting the week by relative volume asks what each name was doing against its own ___."
+    options: ["normal", "sector", "float"]
+    answer: "normal"
+    explanation: "Its own history at the same point in the session — the number that put the name on your page in the first place."
+
+  - type: example
+    body: "Two columns, both filled before your first click, and they split a random-looking week into the half that paid and the half that funded it."

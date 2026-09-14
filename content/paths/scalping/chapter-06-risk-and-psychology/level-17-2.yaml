@@ -1,0 +1,116 @@
+id: "17-2"
+title: "Sizing Under Stress"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [risk, sizing, drawdown, account]
+learning_goal: "User recomputes both sizing ceilings against the account they have today, and can say which of the two decides the size once the risk per trade is cut."
+purpose: "A drawdown changes the numbers on both sides of the sizing sum, and the one that binds swaps over."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "17-1"
+xp: 20
+difficulty: 2
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Aziz — How to Day Trade for a Living"]
+notes: "Chapter 3's two ceilings — risk budget ÷ stop distance and account ÷ price — recomputed inside a drawdown. Account opened the month at $18,000 and stands at $15,300; the worked position is 600 shares at $14.02 = $8,412."
+screens:
+  - type: intro
+    text: "Three weeks ago this was an $18,000 account. This morning it is $15,300, and every sizing number you use is measured against the second one."
+
+  - type: theory
+    title: "The budget follows the account down"
+    body: "Risk per trade is a share of what you have, not of what you had. One per cent of a smaller account is a smaller budget, and it shrinks every share count that comes out of it."
+
+  - type: numeric-input
+    prompt: "One per cent per trade, and the account stands at $15,300. What is the risk budget for the next trade?"
+    answer: 153
+    tolerance: 0.01
+    unit: "$"
+    working: "$15,300 × 0.01 = $153"
+    explanation: "Twenty-seven dollars less than the same rule allowed you three weeks ago, without a single decision being made."
+
+  - type: example
+    body: "LARK is offered at $14.00 and the stop belongs twelve cents under the entry, just beneath the floor it has held all morning. Two sums decide the size, and they do not agree."
+
+  - type: numeric-input
+    prompt: "Budget $153, stop distance twelve cents. How many shares does the budget allow?"
+    answer: 1275
+    tolerance: 1
+    unit: "shares"
+    working: "$153 ÷ $0.12 = 1,275 shares"
+    explanation: "A tight stop always produces a large number here — which is exactly when the second sum matters."
+
+  - type: numeric-mc
+    prompt: "Same morning, LARK at $14.00, account $15,300. What does the account allow?"
+    options:
+      - {text: "1,275 shares"}
+      - {text: "1,530 shares"}
+      - {text: "2,186 shares"}
+      - {text: "1,092 shares", correct: true}
+    working: "$15,300 ÷ $14.00 = 1,092 shares, rounded down"
+    explanation: "Shares still have to be paid for, and there are fewer dollars in the account to pay with than there were last month."
+
+  - type: mc
+    prompt: "The budget allows 1,275 and the account allows 1,092. What goes on the ticket?"
+    options:
+      - {text: "1,275, because the chart is what decides the size"}
+      - {text: "1,180, halfway between the two answers"}
+      - {text: "1,092, and under budget is where it stays", correct: true}
+    explanation: "The lower of the two, always. Risking less than the budget costs you nothing; owning stock you cannot pay for is a different kind of problem."
+
+  - type: theory
+    title: "Then cut the risk itself"
+    body: "Rebuilding, you halve the risk per trade as well: half a per cent instead of one. That is a second cut, on top of the one the smaller account already made for you."
+
+  - type: numeric-input
+    prompt: "Half a per cent of $15,300, with the same twelve-cent stop. How many shares now?"
+    answer: 637
+    tolerance: 1
+    unit: "shares"
+    working: "$15,300 × 0.005 = $76.50; $76.50 ÷ $0.12 = 637 shares"
+    explanation: "Six hundred and change, against the 1,092 the account would have allowed. The two sums have swapped places."
+
+  - type: tf
+    statement: "Once the risk per trade has been halved, the account is usually still the ceiling that decides your size."
+    answer: false
+    explanation: "Halving the budget halves the first number and leaves the second one alone, so the budget is the one that binds while you rebuild."
+
+  - type: depth-ladder
+    prompt: "Half size means a 600-share market buy instead of 1,500. Where does its last share fill?"
+    data:
+      bids: [[13.98, 900], [13.97, 1400], [13.96, 2600]]
+      asks: [[14.00, 700], [14.01, 1800], [14.02, 2400]]
+    target: ask-1
+    explanation: "Seven hundred are offered at $14.00, so all 600 fill there. The 1,500 you used to send would have walked to the next price and paid for the privilege."
+
+  - type: order-build
+    prompt: "Build the entry: 600 shares, and you will pay at most two cents over the $14.00 offer."
+    ticker: LARK
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [600, 1200, 1500]
+      price: [13.98, 14.00, 14.02]
+    answer: {side: buy, type: limit, qty: 600, price: 14.02}
+    explanation: "A limit at $14.02 buys now and caps what a fast offer can charge you. Smaller size does not change which ticket the setup needs."
+
+  - type: chart-decision
+    scenario: "Nineteen sessions into the drawdown, trading 600 shares instead of 1,500. LARK has held $13.92 three times and the minute that just closed finished at $14.02, above the minutes behind it. Stop $13.90."
+    shares: 600
+    chart:
+      kind: candles
+      data: [[13.86, 13.98, 13.82, 13.96], [13.96, 14.00, 13.92, 13.98], [13.98, 14.00, 13.94, 13.96], [13.96, 13.98, 13.92, 13.94], [13.94, 14.00, 13.92, 13.98], [13.98, 14.08, 13.96, 14.02], [14.02, 14.16, 14.00, 14.14], [14.14, 14.26, 14.10, 14.22], [14.22, 14.34, 14.18, 14.30], [14.30, 14.34, 14.24, 14.28]]
+      volume: [88000, 112000, 76000, 68000, 64000, 118000, 132000, 124000, 106000, 94000]
+      levels:
+        - {price: 13.92, label: "Floor"}
+      decision_index: 5
+    state: ["In a drawdown", "Risk: 0.5 % per trade"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $14.34 and the exit filled at $14.30 — 28 cents a share, +$168 on 600 shares against $72 of risk."
+    explanation: "Twelve cents of risk over a floor that has held three times. The setup was never the thing that changed; only the number of shares behind it."
+
+  - type: example
+    body: "Same chart, same stop, same ticket. Seventy-two dollars at risk instead of a hundred and eighty, on an account that can afford the smaller number while it recovers."

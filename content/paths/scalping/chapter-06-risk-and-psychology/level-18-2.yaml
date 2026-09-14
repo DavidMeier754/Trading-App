@@ -1,0 +1,143 @@
+id: "18-2"
+title: "A Losing Morning, Handled"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: repetition
+tags: [review, decisions, selection, costs]
+learning_goal: "User traces a losing morning back to the page and the cost of the trades on it, rebuilds the page mid-session and finishes at half size."
+purpose: "Some bad mornings are execution. Most of them were decided before the bell, on a page with nothing worth trading on it."
+terms_introduced: []
+reinforces: [3, 5]
+prerequisite: "18-1"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
+notes: "Closes Level 18 with the recap. Account named at $12,000 with 1R at $120; full size 800 shares at $13.54 = $10,832, half size 400 at $16.84 = $6,736. The morning: −1R, −1R, then +$136 at half size = −$104."
+screens:
+  - type: intro
+    text: "A second losing morning, and this one was decided before the bell. Your account here is $12,000 and 1R is $120."
+
+  - type: story
+    character: retail-trader
+    text: "One name on the page, because the scan was run in a hurry and it was the only thing already familiar. It is trading at about its own ordinary pace, and the morning has not started yet."
+
+  - type: scanner-pick
+    prompt: "That morning's scan had these four on it. Which one belonged on a page you could trade?"
+    data:
+      rows:
+        - {ticker: BRAY, price: 13.50, change_pct: 2.1, rvol: 1.1, float: "240M", spread: 0.04, catalyst: "—"}
+        - {ticker: MARL, price: 16.80, change_pct: 8.4, rvol: 4.2, float: "18M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: GORS, price: 24.60, change_pct: 3.6, rvol: 2.8, float: "90M", spread: 0.11, catalyst: "Upgrade"}
+        - {ticker: PLOV, price: 11.20, change_pct: 0.4, rvol: 0.7, float: "150M", spread: 0.03, catalyst: "—"}
+    target: MARL
+    explanation: "One of them has a reason to be moving and a spread a scalp can pay. GORS clears the volume test and charges eleven cents at the door."
+
+  - type: numeric-input
+    prompt: "BRAY: a four-cent spread, a cent of slippage getting in, and fees of six tenths of a cent over the round trip. On 800 shares, what does one round trip cost?"
+    answer: 44.8
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.04 + $0.01 + $0.006 = $0.056 per share; × 800 shares = $44.80"
+    explanation: "Against a twelve-cent target worth $96 on the same 800 shares, that is nearly half the trade paid away before it starts."
+
+  - type: chart-decision
+    scenario: "BRAY is the only name on the page, trading at about its own ordinary pace. Its 5-minute chart has crossed the same twenty-cent band three times since the bell, and the minute that just closed pushed at the top of it. 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[13.40, 13.54, 13.36, 13.50], [13.50, 13.56, 13.42, 13.44], [13.44, 13.50, 13.34, 13.38], [13.38, 13.48, 13.36, 13.46], [13.46, 13.56, 13.42, 13.52], [13.52, 13.58, 13.48, 13.54], [13.54, 13.60, 13.46, 13.48], [13.48, 13.52, 13.36, 13.38], [13.38, 13.46, 13.34, 13.42], [13.42, 13.50, 13.38, 13.46]]
+      volume: [38000, 42000, 34000, 36000, 40000, 46000, 44000, 38000, 36000, 40000]
+      decision_index: 5
+    state: ["Day: 0R", "Page: 1 name"]
+    best: no-trade
+    outcome: "It pushed four cents above the band and closed back inside. A long at $13.54 was $48 down on 800 shares on the very next close."
+    explanation: "Nothing unusual in the name and nothing new about the price. This is the trade that gets taken because the page is empty, not because the chart asked for it."
+
+  - type: mc
+    prompt: "The morning went ahead anyway: two stops on that name, down 2R. Where did it actually go wrong?"
+    options:
+      - {text: "The stop on the first trade was tighter than the name's own noise"}
+      - {text: "The page had one name on it and it was not in play", correct: true}
+      - {text: "The second entry was a few cents late"}
+    explanation: "Both entries were taken as written. What was wrong was the list they had to choose from, and that was finished before the open."
+
+  - type: tf
+    statement: "A morning can be lost before the bell, on a page with nothing worth trading on it."
+    answer: true
+    explanation: "Selection decides what your discipline has to work with. Perfect execution on the wrong list is still a losing morning."
+
+  - type: branch
+    scenario: "Down 2R with a 3R limit, four trades used of six, and the one name on your page has stopped you out twice."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[13.46, 13.52, 13.34, 13.38], [13.38, 13.48, 13.36, 13.44], [13.44, 13.50, 13.38, 13.40], [13.40, 13.46, 13.32, 13.36], [13.36, 13.44, 13.34, 13.42], [13.42, 13.48, 13.36, 13.38], [13.38, 13.44, 13.30, 13.34], [13.34, 13.42, 13.32, 13.40], [13.40, 13.46, 13.34, 13.38]]
+      decision_index: 5
+    steps:
+      - prompt: "Ten minutes away from the screen, and you are back. What comes first?"
+        options:
+          - {text: "Run the scan again and rebuild the page", correct: true, next: 1}
+          - {text: "Watch the same name for a cleaner entry", next: 1}
+        explanation: "The name did not fail you; the list did. Rebuilding it is the only decision that changes what the rest of the morning can offer."
+      - prompt: "The scan gives you one name at 4.2× its own normal. At what size do you take its first setup?"
+        options:
+          - {text: "Half size, the way the reset routine ends", correct: true}
+          - {text: "Full size — the page is right now"}
+        explanation: "The page is fixed, but you have just walked back from a reset, and the routine finishes at half size until a few trades have gone by the plan."
+
+  - type: chart-decision
+    scenario: "MARL came off the rebuilt scan at 4.2 times its own normal. It has held $16.72 three times and the minute that just closed finished at $16.84, above the minutes behind it. Stop $16.69, 400 shares."
+    shares: 400
+    chart:
+      kind: candles
+      data: [[16.78, 16.80, 16.72, 16.74], [16.74, 16.80, 16.72, 16.78], [16.78, 16.80, 16.74, 16.76], [16.76, 16.78, 16.72, 16.74], [16.74, 16.80, 16.73, 16.78], [16.78, 16.88, 16.76, 16.84], [16.84, 16.98, 16.82, 16.96], [16.96, 17.10, 16.92, 17.06], [17.06, 17.24, 17.02, 17.20], [17.20, 17.24, 17.14, 17.18]]
+      volume: [128000, 142000, 96000, 88000, 84000, 156000, 168000, 148000, 132000, 118000]
+      levels:
+        - {price: 16.72, label: "Floor"}
+      decision_index: 5
+    state: ["Day: −2R", "Size: 400 of 800"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $17.24 and the exit filled at $17.18 — 34 cents a share, +$136 on 400 shares against $60 of risk."
+    explanation: "Fifteen cents of risk under a floor that has held three times, in the only name all morning that had a reason to move."
+
+  - type: numeric-mc
+    prompt: "1R is $120. Two stops at full size, then that +$136 at half size. Where does the morning finish in R?"
+    options:
+      - {text: "−2R"}
+      - {text: "−1.2R"}
+      - {text: "+0.13R"}
+      - {text: "−0.87R", correct: true}
+    working: "−$120 − $120 + $136 = −$104; −$104 ÷ $120 = −0.87R"
+    explanation: "Under a unit, on a morning whose first hour was spent on a name that should never have been on the page."
+
+  - type: sort
+    prompt: "That morning again. Which of these was already settled when the bell rang?"
+    buckets: ["Decided before the open", "Decided during the session"]
+    items:
+      - {text: "Which names are on the page", bucket: "Decided before the open"}
+      - {text: "What the day's loss limit is", bucket: "Decided before the open"}
+      - {text: "Whether this push is worth what the spread charges", bucket: "Decided during the session"}
+      - {text: "Which of the drawn levels the price is actually at", bucket: "Decided during the session"}
+    explanation: "The two on the left are the ones a bad morning cannot argue with, which is why they are written while nothing is at stake."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "I take the same number of trades"}
+      - {text: "whether or not anything is in play,", wrong: true}
+      - {text: "because the cap is six either way."}
+    explanation: "The cap is a ceiling, not a quota. On a morning with one real name on the page, two trades can be the whole day."
+
+  - type: fill-choice
+    sentence: "Two stops at full size and one winner at half size left the morning down less than one ___."
+    options: ["unit", "grade", "level"]
+    answer: "unit"
+    explanation: "Minus 0.87R. The size came down before the third decision, and that is what kept the arithmetic small."
+
+  - type: recap
+    title: "Level 18 in two lines"
+    points:
+      - {text: "A clean stop, a limit respected and a return at half size turn a −5R morning into −1R.", level: "18-1"}
+      - {text: "Most bad mornings start on the page: fix the list first, then take the one setup it gives you, smaller.", level: "18-2"}
