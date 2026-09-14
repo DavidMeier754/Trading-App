@@ -1,0 +1,124 @@
+id: "14-1"
+title: "Chapter 3 Callback"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: repetition
+tags: [callback, position-size, account, r-multiple]
+learning_goal: "User sizes the same trade for two different accounts, takes the lower of the two ceilings, and reads both results in the same R column."
+purpose: "Risk is what the two ceilings were always measuring; Chapter 3 just called it arithmetic."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "13-3"
+xp: 25
+difficulty: 3
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Aziz — How to Day Trade for a Living"]
+notes: "Accounts named at $12,000 and $30,000; worked positions are 600 shares at $12.06, 1,500 shares at $12.06 = $18,090, and 500 shares at $24.00 = $12,000. The chart-decision uses the smaller account's 600."
+screens:
+  - type: intro
+    text: "One chart. Two accounts, $12,000 and $30,000. Two share counts, and one identical decision."
+
+  - type: story
+    character: retail-trader
+    text: "The same base on the same name, on two screens in two different rooms. One trader buys 600 shares and the other buys 1,500, and neither of them is being braver than the other."
+
+  - type: theory
+    title: "Two ceilings, one decision"
+    body: "The risk budget divided by the stop distance, or the account divided by the price, whichever comes out smaller. What changes with the account is the share count. The decision it produces does not."
+
+  - type: numeric-input
+    prompt: "REED's stop sits 20 cents under the entry. On a $12,000 account risking one per cent a trade, how many shares does the budget allow?"
+    answer: 600
+    tolerance: 1
+    unit: "shares"
+    working: "$12,000 × 0.01 = $120; $120 ÷ $0.20 = 600 shares"
+    explanation: "The cash would have paid for 995 at $12.06, so this time the chart is the binding number."
+
+  - type: numeric-mc
+    prompt: "Same chart, same 20-cent stop, a $30,000 account at one per cent. How many shares?"
+    options:
+      - {text: "2,500"}
+      - {text: "600"}
+      - {text: "3,000"}
+      - {text: "1,500", correct: true}
+    working: "$30,000 × 0.01 = $300; $300 ÷ $0.20 = 1,500. The cash allows 2,487, so the budget is still the smaller one."
+    explanation: "Two and a half times the shares because the budget is two and a half times the size. Nothing on the chart moved."
+
+  - type: chart-decision
+    scenario: "REED has based at $11.88 twice and the minute that just closed finished at $12.06, above the highs behind it. Stop two cents under the base. The $12,000 account is taking 600 shares here."
+    shares: 600
+    chart:
+      kind: candles
+      data: [[12.00, 12.04, 11.90, 11.94], [11.94, 11.98, 11.88, 11.96], [11.96, 12.02, 11.92, 11.94], [11.94, 12.00, 11.88, 11.92], [11.92, 12.00, 11.90, 11.98], [11.98, 12.10, 11.96, 12.06], [12.06, 12.18, 12.02, 12.16], [12.16, 12.28, 12.12, 12.24], [12.24, 12.36, 12.20, 12.32], [12.32, 12.38, 12.26, 12.30]]
+      volume: [96000, 88000, 74000, 82000, 78000, 138000, 126000, 112000, 100000, 90000]
+      levels:
+        - {price: 11.88, label: "Base"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $12.38 and the exit filled at $12.33 — 27 cents a share. That is $162 on the 600 shares and $405 on the 1,500, and 1.35R on both sheets."
+    explanation: "Twenty cents of risk under a base that has held twice. The two traders disagree about the dollars and about nothing else."
+
+  - type: mc
+    prompt: "Which of those two traders is taking more risk on this trade?"
+    options:
+      - {text: "The 1,500-share trader, because more shares means more exposure"}
+      - {text: "Neither: both are risking one unit", correct: true}
+      - {text: "The 600-share trader, because $120 is a bigger slice of a small account"}
+    explanation: "This is the whole reason results are written in R. One unit is one unit, and the dollars behind it are private to the account."
+
+  - type: sort
+    prompt: "What does the share count change, and what does it leave alone?"
+    buckets: ["Changes with the share count", "Stays the same"]
+    items:
+      - {text: "The dollars at risk", bucket: "Changes with the share count"}
+      - {text: "The result in R", bucket: "Stays the same"}
+      - {text: "The position value against the account", bucket: "Changes with the share count"}
+      - {text: "Where the stop belongs on the chart", bucket: "Stays the same"}
+    explanation: "Two of these come off the chart and never hear about the account. The other two are what the account is for."
+
+  - type: chart-annotate
+    prompt: "That REED long again, taken at $12.06. Drag the line to the stop both traders are using."
+    chart:
+      kind: candles
+      data: [[12.00, 12.04, 11.90, 11.94], [11.94, 11.98, 11.88, 11.96], [11.96, 12.02, 11.92, 11.94], [11.94, 12.00, 11.88, 11.92], [11.92, 12.00, 11.90, 11.98], [11.98, 12.10, 11.96, 12.06], [12.06, 12.18, 12.02, 12.16], [12.16, 12.28, 12.12, 12.24], [12.24, 12.36, 12.20, 12.32]]
+    answer: 11.86
+    tolerance: 0.04
+    label: "Stop"
+    explanation: "Two cents under the base, twenty cents under the entry. One line on one chart, and it is what produced both share counts."
+
+  - type: tf
+    statement: "If the same trade is worth 1R to both traders, it is worth the same amount of money to both."
+    answer: false
+    explanation: "R is the same unit on both sheets and a completely different number of dollars, which is the point of it rather than a flaw in it."
+
+  - type: numeric-input
+    prompt: "The $12,000 account again, this time on a $24.00 name with a ten-cent stop. How many shares?"
+    answer: 500
+    tolerance: 1
+    unit: "shares"
+    working: "Budget: $120 ÷ $0.10 = 1,200. Cash: $12,000 ÷ $24.00 = 500. The smaller is 500."
+    explanation: "A tight stop always hands you a big number, and on a small account that is exactly when the cash is the ceiling that answers."
+
+  - type: order-build
+    prompt: "Build the $12,000 account's entry on REED: a marketable limit, capped two cents over the $12.06 ask."
+    ticker: REED
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [500, 600, 1500]
+      price: [11.86, 12.06, 12.08]
+    answer: {side: buy, type: limit, qty: 600, price: 12.08}
+    explanation: "Six hundred because the budget said so, and a limit two cents through because speed still has to have a ceiling on it."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The $30,000 account can take 1,500 shares here,"}
+      - {text: "so on $12,000 the same conviction earns 1,500 too,", wrong: true}
+      - {text: "with the stop left exactly where the chart put it."}
+    explanation: "Conviction has never been one of the two ceilings. The stop sets one number and the cash sets the other, and neither has an opinion about how sure you are."
+
+  - type: example
+    body: "Two traders, one chart, and $243 between their outcomes. They made the same decision and will grade it the same way, because the only column they both keep is R."

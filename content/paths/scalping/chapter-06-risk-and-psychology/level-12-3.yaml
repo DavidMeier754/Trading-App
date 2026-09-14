@@ -1,0 +1,116 @@
+id: "12-3"
+title: "The Reset Routine"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [psychology, routine, sizing, r-multiple]
+learning_goal: "User returns from a reset at half size, treats the first trades back as a test of execution, and goes back to full size on a count of trades taken as written."
+purpose: "Half size is not caution; it is the cheapest way to find out whether the state has actually passed."
+terms_introduced: []
+reinforces: []
+prerequisite: "12-2"
+xp: 20
+difficulty: 3
+sources: ["Elder — Trading for a Living", "Steenbarger — The Daily Trading Coach"]
+notes: "Account named at $18,000 with full size 1,000 shares and 1R at $180; the worked position is 500 shares at $16.18 = $8,090. Closes Level 12 with the recap."
+screens:
+  - type: intro
+    text: "Half size is not caution. It is a test with a cheap ticket. Your account here is $18,000."
+
+  - type: theory
+    title: "What half size is for"
+    body: "The question after a reset is not whether the market has changed. It is whether you have. Half size buys that answer at half the price."
+
+  - type: example
+    body: "Same reset, two traders. One comes back at 1,000 shares and needs the market to be kind; the other comes back at 500 and only needs to find out. Both get the same answer, and one of them pays twice for it."
+
+  - type: branch
+    scenario: "You are back from a ten-minute reset. Full size on this name is 1,000 shares and 1R is $180, so you are trading 500 until the routine says otherwise."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[16.10, 16.16, 16.00, 16.04], [16.04, 16.10, 16.00, 16.08], [16.08, 16.14, 16.02, 16.06], [16.06, 16.12, 16.00, 16.04], [16.04, 16.14, 16.02, 16.12], [16.12, 16.22, 16.10, 16.18], [16.18, 16.32, 16.14, 16.30], [16.30, 16.44, 16.26, 16.40], [16.40, 16.52, 16.36, 16.48]]
+      decision_index: 5
+    steps:
+      - prompt: "The first setup on your page arrives, exactly as written. What do you do?"
+        options:
+          - {text: "Take it at 500 shares", correct: true, next: 1}
+          - {text: "Wait for a second one, to be sure the state has passed", next: 1}
+        explanation: "Waiting proves nothing and costs you the setup. The half-size trade is the test, so it has to actually be taken."
+      - prompt: "It pays a unit and the next setup is just as clean. Same size?"
+        options:
+          - {text: "Yes — one trade is not evidence", correct: true, next: 2}
+          - {text: "No — go back to full, the first one settled it", next: 2}
+        explanation: "One trade at half size is one draw. The whole point of counting is that a single result cannot buy the share size back."
+      - prompt: "Three trades in, all taken exactly as written, two of them green. Now?"
+        options:
+          - {text: "Back to full size on the next setup", correct: true}
+          - {text: "Stay at half for the rest of the session either way"}
+        explanation: "The condition you wrote was three trades by the plan, not three winners. It has been met, so the size goes back."
+
+  - type: chart-decision
+    scenario: "First trade back, 500 shares instead of 1,000. VANE has been refused at $16.36 twice and the minute that just closed finished at $16.18, on the lowest close of the morning. Stop above the ceiling."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[16.32, 16.36, 16.20, 16.24], [16.24, 16.32, 16.18, 16.28], [16.28, 16.36, 16.22, 16.26], [16.26, 16.32, 16.18, 16.22], [16.22, 16.30, 16.16, 16.24], [16.24, 16.26, 16.12, 16.18], [16.18, 16.22, 16.06, 16.08], [16.08, 16.12, 15.96, 15.98], [15.98, 16.04, 15.88, 15.92], [15.92, 15.98, 15.84, 15.88]]
+      volume: [82000, 74000, 68000, 72000, 78000, 126000, 116000, 104000, 92000, 84000]
+      levels:
+        - {price: 16.36, label: "Ceiling"}
+      decision_index: 5
+    state: ["After the reset", "Size: 500 of 1,000"]
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $15.84 and the cover filled at $15.89 — 29 cents a share, $145 on 500 shares against $90 of risk."
+    explanation: "A ceiling that has refused it twice gives the stop somewhere to sit eighteen cents away. Half size changes what the trade pays and nothing about whether to take it."
+
+  - type: mc
+    prompt: "What does the first trade back at half size actually prove?"
+    options:
+      - {text: "That the setup still works in this market"}
+      - {text: "Whether you are following the plan again", correct: true}
+      - {text: "That the morning can still be made back"}
+    explanation: "The market was never the thing in question. The routine exists because your own execution was."
+
+  - type: match
+    prompt: "Four things the first trades back can tell you. Which is which?"
+    pairs:
+      - ["A clean entry at half size", "The state has passed"]
+      - ["A chase at half size", "The state has not passed, cheaply"]
+      - ["Three trades taken as written", "The condition for going back to full"]
+      - ["A green result at half size", "One draw, and no evidence at all"]
+    explanation: "Three of the four are about how the trade was taken. The one about the result is the one that proves nothing."
+
+  - type: tf
+    statement: "Going back to full size is earned by a count of trades taken as written, not by a count of winners."
+    answer: true
+    explanation: "Winners arrive at any size and in any state. Trades taken exactly as written only arrive in one of them."
+
+  - type: numeric-input
+    prompt: "At half size, 1R is $90. That short made 29 cents a share on 500 shares. What goes in the R column?"
+    answer: 1.6
+    tolerance: 0.05
+    working: "$0.29 × 500 = $145; $145 ÷ $90 = 1.6"
+    explanation: "One hundred and forty-five dollars, and the column that travels between days says a little over one and a half units."
+
+  - type: numeric-mc
+    prompt: "The same 29-cent move at full size: 1,000 shares, 1R $180. What is the R column now?"
+    options:
+      - {text: "1.6R", correct: true}
+      - {text: "3.2R"}
+      - {text: "0.8R"}
+    working: "$0.29 × 1,000 = $290; $290 ÷ $180 = 1.6"
+    explanation: "Half size and full size produce the same R, which is exactly why the reset costs you nothing you can measure in that column."
+
+  - type: fill-tiles
+    sentence: "Half size makes finding out cost ___."
+    answer: "half"
+    explanation: "Same chart, same stop, same question, and the answer arrives at half the price."
+
+  - type: recap
+    title: "Level 12 in three lines"
+    points:
+      - {text: "A routine beats willpower because it needs no fresh judgment, and judgment is the broken tool.", level: "12-1"}
+      - {text: "Give it a countable trigger and a fixed length, both written before the open.", level: "12-2"}
+      - {text: "Come back at half size and go back to full on a count of trades taken as written.", level: "12-3"}

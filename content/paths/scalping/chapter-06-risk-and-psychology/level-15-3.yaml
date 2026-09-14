@@ -1,0 +1,117 @@
+id: "15-3"
+title: "The Journal"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [journal, execution, routine]
+learning_goal: "User writes the row while the chart is still on the screen, and knows which part of it a night destroys."
+purpose: "The prices survive on your statement; how you actually took the trade survives nowhere but in your head, and not for long."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "15-2"
+xp: 20
+difficulty: 3
+sources: ["Elder — Trading for a Living", "Bellafiore — One Good Trade"]
+notes: "Account named at $23,000 with 1R at $230; the worked position is 1,250 shares at $17.20 = $21,500. Closes Level 15 with the recap."
+screens:
+  - type: intro
+    text: "The row costs forty seconds while the chart is still up, and it is unrecoverable by tomorrow. Your account here is $23,000."
+
+  - type: story
+    character: retail-trader
+    text: "Flat on the last trade of the morning, the chart still on the screen, a message waiting on your phone. The row takes forty seconds now and will not exist at all in ten minutes."
+
+  - type: theory
+    title: "What a night costs"
+    body: "By the next morning the trade you remember is the one that had a story. The entry drifts a couple of cents, the reason gets better, and the grade quietly improves."
+
+  - type: chart-decision
+    scenario: "GALE was on your page at three and a half times its normal volume. It has been refused at $17.38 twice and the minute that just closed finished at $17.20, the lowest close of the morning. Stop above the ceiling, 1,250 shares."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[17.34, 17.38, 17.24, 17.26], [17.26, 17.34, 17.22, 17.30], [17.30, 17.38, 17.24, 17.28], [17.28, 17.34, 17.20, 17.24], [17.24, 17.32, 17.20, 17.28], [17.28, 17.30, 17.16, 17.20], [17.20, 17.24, 17.06, 17.08], [17.08, 17.12, 16.96, 16.98], [16.98, 17.04, 16.88, 16.92], [16.92, 16.98, 16.84, 16.88]]
+      volume: [98000, 88000, 82000, 90000, 84000, 142000, 130000, 118000, 106000, 94000]
+      levels:
+        - {price: 17.38, label: "Ceiling"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $16.84 and the cover filled at $16.92 — 28 cents a share, $350 on 1,250 shares against $225 of risk."
+    explanation: "Eighteen cents of risk above a ceiling that has refused it twice, on a name that was chosen before the bell. Everything the row needs is on the screen right now."
+
+  - type: journal-row
+    prompt: "Write that trade's row before you do anything else."
+    trade: {setup: "Ceiling fade", entry: 17.20, stop: 17.38, exit: 16.92, shares: 1250}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$225", "$350", "$180"]
+      r_made: ["+1R", "+1.6R", "+2.5R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$225", r_made: "+1.6R", grade: "A"}
+    explanation: "Eighteen cents risked, twenty-eight made, and the whole row came off a screen that is still in front of you."
+
+  - type: mc
+    prompt: "You fill the row the next morning instead. What is most likely to be wrong in it?"
+    options:
+      - {text: "The grade", correct: true}
+      - {text: "The share count"}
+      - {text: "The name and the setup"}
+    explanation: "The numbers survive the night on your statement. What does not survive is how closely you actually followed the plan."
+
+  - type: numeric-input
+    prompt: "Your grade column for the week: 14 rows, 9 of them A. What share of the week was taken as written?"
+    answer: 64
+    tolerance: 2
+    unit: "%"
+    working: "9 ÷ 14 = 0.64"
+    explanation: "Five rows that were not the plan — and the value of the column is that you now know which five."
+
+  - type: chart-annotate
+    prompt: "The row says the stop went above the ceiling that fade was taken against. Drag the line to it."
+    chart:
+      kind: candles
+      data: [[17.34, 17.38, 17.24, 17.26], [17.26, 17.34, 17.22, 17.30], [17.30, 17.38, 17.24, 17.28], [17.28, 17.34, 17.20, 17.24], [17.24, 17.32, 17.20, 17.28], [17.28, 17.30, 17.16, 17.20], [17.20, 17.24, 17.06, 17.08], [17.08, 17.12, 16.96, 16.98], [16.98, 17.04, 16.88, 16.92]]
+    answer: 17.38
+    tolerance: 0.04
+    label: "Stop"
+    explanation: "Written down while the chart is still there, the stop is a price anyone could check. A day later it becomes about eighteen cents."
+
+  - type: tf
+    statement: "A short row written the same day is worth more than a long one written a day later."
+    answer: true
+    explanation: "Length was never the thing. The detail that decays fastest is the one the grade depends on."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "I write the row"}
+      - {text: "once the week is finished,", wrong: true}
+      - {text: "while the trades are still fresh."}
+    explanation: "Five sessions and a hundred trades sit between Friday and the morning being described. Fresh has a shelf life of about one session."
+
+  - type: order
+    prompt: "Put the forty seconds after a trade closes into order."
+    items:
+      - "Save the chart with your entry and exit marked on it"
+      - "Fill the prices and the share count"
+      - "Work out the R column"
+      - "Grade the execution"
+      - "Write one line on your state"
+    explanation: "Numbers first, because they are the part you can check. The grade last, because it is the part you will want to argue with."
+
+  - type: fill-tiles
+    sentence: "The column a night destroys is the ___."
+    answer: "grade"
+    explanation: "Prices sit on your statement. How you took the trade sits nowhere else at all."
+
+  - type: example
+    body: "Forty seconds a trade, twelve trades, eight minutes a day. By Friday that is sixty rows you can sort, and sorting them is the next level."
+
+  - type: recap
+    title: "Level 15 in three lines"
+    points:
+      - {text: "One row per trade, written the same way every time, sortable rather than readable.", level: "15-1"}
+      - {text: "Two of the columns come from your pre-market: what the name was doing and what shape the day took.", level: "15-2"}
+      - {text: "Fill it while the chart is still on the screen, because the grade is what a night costs you.", level: "15-3"}

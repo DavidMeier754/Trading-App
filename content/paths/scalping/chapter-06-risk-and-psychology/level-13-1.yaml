@@ -9,7 +9,7 @@ learning_goal: "User treats a single trade's outcome as one draw from a series a
 purpose: "Nothing else in this chapter survives a losing run unless you already expect losing runs."
 terms_introduced: ["Sample size"]
 reinforces: [4]
-prerequisite: "12-1"
+prerequisite: "12-3"
 xp: 20
 difficulty: 2
 sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]

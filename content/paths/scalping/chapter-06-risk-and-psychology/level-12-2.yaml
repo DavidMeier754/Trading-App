@@ -1,0 +1,118 @@
+id: "12-2"
+title: "The Reset Routine"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [psychology, routine, discipline]
+learning_goal: "User gives the reset a countable trigger and a fixed length, and writes both down before the open."
+purpose: "A routine with no start signal never runs, and the signal cannot be a feeling."
+terms_introduced: []
+reinforces: []
+prerequisite: "12-1"
+xp: 20
+difficulty: 2
+sources: ["Steenbarger — Trading Psychology 2.0", "Elder — Trading for a Living"]
+notes: "Account named at $20,000 with 1R at $120 on a 1,200-share plan; worked positions are 1,150 shares at $11.66 and 600 shares at $14.62."
+screens:
+  - type: intro
+    text: "Willpower decides when to stop. A trigger decides it for you. Your account here is $20,000."
+
+  - type: theory
+    title: "The trigger"
+    body: "A routine that starts when you feel bad starts too late. Give it something you can count: two stops inside a few minutes, an order in a name you never prepared, or a share count you did not write."
+
+  - type: carousel
+    cards:
+      - {label: "Two in a row", text: "Two stops inside a few minutes. Not a bad morning yet, but the countable beginning of one.", icon: retail-trader}
+      - {label: "A name off the page", text: "You sent an order in something you had not prepared. That one trade is the trigger by itself.", icon: bull}
+      - {label: "A size you did not write", text: "The share count came from the moment. Whatever the result was, the routine starts.", icon: bear}
+
+  - type: theory
+    title: "A fixed length"
+    body: "Ten minutes, or the rest of the session — decided in advance and written down. A reset that runs until you feel ready ends when the part of you it exists to overrule says so."
+
+  - type: mc
+    prompt: "Three things happen in the same ten minutes. Which one is a trigger you can actually count?"
+    options:
+      - {text: "Feeling rushed on the last two entries you sent"}
+      - {text: "A morning that is not going your way"}
+      - {text: "An order in a name you did not prepare", correct: true}
+    explanation: "Two feelings and one fact. The fact is the only one you can check while it is still happening."
+
+  - type: sort
+    prompt: "Starts the routine, or an ordinary session?"
+    buckets: ["Starts the routine", "Ordinary session"]
+    items:
+      - {text: "A second stop inside a few minutes", bucket: "Starts the routine"}
+      - {text: "A stop on a setup you wrote down before the open", bucket: "Ordinary session"}
+      - {text: "A ticket for twice the share count your stop allows", bucket: "Starts the routine"}
+      - {text: "Passing on a setup because the quote went too wide", bucket: "Ordinary session"}
+    explanation: "Losing and passing are most of what a session is made of. An unplanned size and a second quick stop are the two that say the next decision needs help."
+
+  - type: tf
+    statement: "A countable trigger starts the routine earlier than a feeling does."
+    answer: true
+    explanation: "By the time it feels bad the unplanned ticket has usually already gone, and both the second stop and the wrong share count were visible before that."
+
+  - type: chart-decision
+    scenario: "You have sent two orders in the last three minutes in names that were not on your page. MOSS is 40 cents off its base with no pause since, and the minute that just closed is the sixth green one in a row. 1,150 shares."
+    shares: 1150
+    chart:
+      kind: candles
+      data: [[11.22, 11.32, 11.18, 11.30], [11.30, 11.42, 11.28, 11.40], [11.40, 11.50, 11.36, 11.48], [11.48, 11.58, 11.44, 11.56], [11.56, 11.66, 11.52, 11.62], [11.62, 11.70, 11.58, 11.66], [11.66, 11.68, 11.52, 11.54], [11.54, 11.58, 11.42, 11.44], [11.44, 11.50, 11.38, 11.40], [11.40, 11.46, 11.34, 11.42]]
+      volume: [128000, 116000, 104000, 96000, 88000, 82000, 118000, 104000, 92000, 84000]
+      decision_index: 5
+    state: ["Unplanned orders: 2", "Day: −1R"]
+    best: no-trade
+    outcome: "It rolled over at $11.70 and traded down to $11.34. A long at $11.66 was 32 cents under water at the worst of it — $368 on 1,150 shares."
+    explanation: "Forty cents with nothing to lean on would be a pass on any morning. Two unplanned orders behind it make it the trigger as well, and the trigger does not need the chart's permission."
+
+  - type: numeric-mc
+    prompt: "Your normal size on this name is 1,200 shares against a ten-cent stop. What does the first trade back from a reset risk?"
+    options:
+      - {text: "$120"}
+      - {text: "$240"}
+      - {text: "$30"}
+      - {text: "$60", correct: true}
+    working: "Half of 1,200 is 600 shares; 600 × $0.10 = $60"
+    explanation: "Half the shares against the same stop, so half the unit — and the same chart decides both."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "My reset is ten minutes away from the screen,"}
+      - {text: "unless the setup I am waiting for appears", wrong: true}
+      - {text: "on one of the names I prepared."}
+    explanation: "An exception written into a routine is the routine's last day, and the names you prepared are exactly what the state will offer you."
+
+  - type: order-build
+    prompt: "First trade back from the reset. Your page says 1,200 shares on WREN and the ask is $14.60. Build the entry, capped two cents through."
+    ticker: WREN
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [600, 1200, 1800]
+      price: [14.58, 14.60, 14.62]
+    answer: {side: buy, type: limit, qty: 600, price: 14.62}
+    explanation: "Six hundred because the routine said so, and a limit two cents through because the fill still has to be paid for."
+
+  - type: fill-choice
+    sentence: "A reset that ends when you feel ready ends when the ___ part of you says so."
+    options: ["tilted", "patient", "prepared"]
+    answer: "tilted"
+    explanation: "That is the one voice the routine was written to outrank, so it cannot also be the one that calls time."
+
+  - type: plan-card
+    title: "Your reset routine"
+    intro: "Three numbers and one line, written now, while nothing is at stake."
+    fields:
+      - {key: reset_trigger_stops, label: "Stops in a row that start your reset", kind: number, suggest: 2}
+      - {key: reset_minutes, label: "Minutes away from the screen", kind: number, suggest: 10}
+      - {key: return_size_pct, label: "Share size on the first trade back (% of normal)", kind: number, suggest: 50}
+      - {key: return_condition, label: "What has to happen before you go back to full size", kind: text, suggest: "Three trades taken exactly as written"}
+    note: "It sits under the session limits you wrote in Level 9, and both come back in Chapter 8."
+
+  - type: example
+    body: "Two stops, ten minutes, half size, three clean trades. Four decisions, and not one of them has to be made on the morning it matters."

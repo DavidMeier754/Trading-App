@@ -1,0 +1,124 @@
+id: "11-3"
+title: "Overtrading and Tilt"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [psychology, tilt, re-entry, discipline]
+learning_goal: "User runs three checks in the minute after a stop and lets the answer, not the loss, decide the next trade."
+purpose: "Nothing in a scalping session is as expensive as the sixty seconds after the stop fills."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "11-2"
+xp: 20
+difficulty: 3
+sources: ["Douglas — Trading in the Zone", "Bellafiore — One Good Trade"]
+notes: "Account named at $22,000 with 1R at $220; the worked position is 1,200 shares at $17.40 = $20,880. Closes Level 11 with the recap."
+screens:
+  - type: intro
+    text: "The minute after a stop is the most expensive minute of your morning."
+
+  - type: story
+    character: retail-trader
+    text: "The stop fills. The number in the corner turns red, and the same chart is still sitting there, still looking like it wants to go."
+
+  - type: theory
+    title: "Why that minute"
+    body: "You have just been told you were wrong, the money is already gone, and the apparent fix is one key away. Nothing else in a session lines those three up at once."
+
+  - type: checklist-reveal
+    title: "Three questions, in this order"
+    items:
+      - "Is this name on the page I wrote before the open?"
+      - "Is this the share count my stop distance gives me?"
+      - "Can I point at the price that says I am wrong?"
+
+  - type: mc
+    prompt: "You have just been stopped out. Which of these makes the next trade a revenge trade rather than simply the next trade?"
+    options:
+      - {text: "It is in the same name as the one that stopped you"}
+      - {text: "It is bigger than the size your stop allows", correct: true}
+      - {text: "It comes less than five minutes after the stop"}
+    explanation: "Same name and quick are both ordinary at scalping speed. A share count the stop did not produce has only one source, and it is the last result."
+
+  - type: branch
+    scenario: "SILT stopped you for a full unit ten minutes ago. It is back at the same base and it is still on your page. 1R is $220 and your account is $22,000."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[17.36, 17.40, 17.24, 17.28], [17.28, 17.34, 17.24, 17.32], [17.32, 17.36, 17.26, 17.28], [17.28, 17.34, 17.24, 17.30], [17.30, 17.38, 17.28, 17.36], [17.36, 17.44, 17.34, 17.40], [17.40, 17.54, 17.38, 17.52], [17.52, 17.64, 17.48, 17.60], [17.60, 17.74, 17.56, 17.70]]
+      decision_index: 5
+    steps:
+      - prompt: "The base holds again and the trigger is the one written on your card. What share count do you send?"
+        options:
+          - {text: "1,200 — the number the 18-cent stop gives you", correct: true, next: 1}
+          - {text: "2,400 — the read was right, it was only early", next: 1}
+        explanation: "The stop distance has not changed, so neither has the size. Being early is not a reason to be bigger."
+      - prompt: "It runs twenty cents, stalls, and slides back toward your entry. What now?"
+        options:
+          - {text: "Leave the stop where the chart put it", correct: true}
+          - {text: "Scratch it at the entry — you cannot take a second loss here"}
+        explanation: "Scratching because of the last trade is the same mistake pointing the other way. The stop was the price that said you were wrong, and it still is."
+
+  - type: chart-decision
+    scenario: "The same name, ten minutes on. SILT has held $17.24 twice and the minute that just closed finished at $17.40, through the highs behind it. Stop under the base at $17.22, 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[17.36, 17.40, 17.24, 17.28], [17.28, 17.34, 17.24, 17.32], [17.32, 17.36, 17.26, 17.28], [17.28, 17.34, 17.24, 17.30], [17.30, 17.38, 17.28, 17.36], [17.36, 17.44, 17.34, 17.40], [17.40, 17.54, 17.38, 17.52], [17.52, 17.64, 17.48, 17.60], [17.60, 17.74, 17.56, 17.70], [17.70, 17.76, 17.64, 17.68]]
+      volume: [92000, 84000, 70000, 76000, 88000, 146000, 132000, 118000, 104000, 94000]
+      levels:
+        - {price: 17.24, label: "Base"}
+      decision_index: 5
+    state: ["Day: −1R", "Size: 1,200 (page: 1,200)"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "Straight on to $17.76, with the exit filling at $17.71 — 31 cents a share, $372 on 1,200 shares against $216 of risk."
+    explanation: "Three checks, three yeses: on the page, the size the stop gives, a price that says you are wrong. That it is the name that just took a unit off you is not a fourth question."
+
+  - type: compare
+    prompt: "Two charts of the name that stopped you, ten minutes apart. Which one is your setup again rather than just the same ticker?"
+    charts:
+      - kind: candles
+        data: [[17.60, 17.64, 17.48, 17.50], [17.50, 17.54, 17.38, 17.40], [17.40, 17.46, 17.32, 17.34], [17.34, 17.38, 17.24, 17.26], [17.26, 17.30, 17.16, 17.18], [17.18, 17.24, 17.10, 17.12], [17.12, 17.16, 17.02, 17.06], [17.06, 17.10, 16.98, 17.00]]
+        label: "A"
+      - kind: candles
+        data: [[17.36, 17.42, 17.24, 17.28], [17.28, 17.34, 17.24, 17.32], [17.32, 17.38, 17.26, 17.30], [17.30, 17.34, 17.24, 17.28], [17.28, 17.36, 17.26, 17.34], [17.34, 17.40, 17.30, 17.38], [17.38, 17.44, 17.34, 17.42], [17.42, 17.48, 17.38, 17.46]]
+        label: "B"
+    answer: "B"
+    explanation: "B has held one price four times and closed above the highs behind it. A has made a lower high every minute since you were stopped, which is the same ticker and a different trade entirely."
+
+  - type: tf
+    statement: "After two stops in a name, the safest thing you can do is stop trading that name for the session."
+    answer: false
+    explanation: "The name is not what went wrong; what you do about the number is. A name you prepared and have watched all morning is often still the best one on the page."
+
+  - type: numeric-input
+    prompt: "You were stopped for a full unit on 1,200 shares with an 18-cent stop. You take the setup again at the same size and stop and it pays 2R. Where do those two trades leave the morning, in dollars?"
+    answer: 216
+    tolerance: 0.01
+    unit: "$"
+    working: "1R = 1,200 × $0.18 = $216; −$216 + (2 × $216) = +$216"
+    explanation: "One unit back and one more on top, from a setup most people would have skipped because of the trade before it."
+
+  - type: order
+    prompt: "Put the minute after a stop into the order it should happen."
+    items:
+      - "Let the stop fill without touching it"
+      - "Write the number down"
+      - "Read the chart that is in front of you now"
+      - "Check the name against the page and the size against the stop"
+      - "Send it, or sit"
+    explanation: "Four checks and one decision, and the whole thing takes less time than the argument you would otherwise be having with yourself."
+
+  - type: fill-tiles
+    sentence: "What turns the next trade into revenge is not the name, it is the ___."
+    answer: "size"
+    explanation: "The stop hands you a share count. Anything above it came from the result, not the chart."
+
+  - type: recap
+    title: "Level 11 in three lines"
+    points:
+      - {text: "Revenge, FOMO and chasing all end the same way: a trade the plan never asked for.", level: "11-1"}
+      - {text: "The tells are on the ticket and the page — a name you did not pick, a size you did not write, a stop you did not place.", level: "11-2"}
+      - {text: "After a stop, three checks decide the next trade, and none of them is about the last one.", level: "11-3"}

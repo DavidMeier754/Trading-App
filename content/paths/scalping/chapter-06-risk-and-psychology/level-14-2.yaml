@@ -1,0 +1,124 @@
+id: "14-2"
+title: "Chapter 3 Callback"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: repetition
+tags: [callback, costs, expectancy, liquidity]
+learning_goal: "User runs the same method through two cost structures and sees one of them turn a positive average trade negative."
+purpose: "Two traders with identical charts and identical stops can end the month on opposite sides of zero, and the difference is on the quote."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "14-1"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "Account named at $20,000 with 1R at $180; worked positions are 1,200 shares at $14.40 = $17,280 and 800 shares at $21.50 = $17,200. Closes Level 14 with the recap."
+screens:
+  - type: intro
+    text: "Same setups, same stops, same trader, $20,000 account. Only one of these two is a business."
+
+  - type: example
+    body: "Two screens. On one the quote is two cents wide and the fill is where you clicked; on the other it is nine cents wide and the fill is somewhere near it."
+
+  - type: numeric-input
+    prompt: "A method wins 44 of every 100 trades. The winners average $300 and the losers average $150. What is one average trade worth before costs?"
+    answer: 48
+    tolerance: 0.01
+    unit: "$"
+    working: "(0.44 × $300) − (0.56 × $150) = $132 − $84 = $48"
+    explanation: "Wrong more often than right and still worth forty-eight dollars a trade — which is the number the costs get to attack."
+
+  - type: visual
+    component: cost-stack
+    data: {shares: 1200, spread: 0.02, slippage: 0.008, fees: 0.002, target: 0.23}
+    caption: "Three cents all in on 1,200 shares: $36 of the $276 a twenty-three-cent move would pay."
+
+  - type: numeric-mc
+    prompt: "You trade that method 1,200 shares at a time at three cents a share all in. What is left of the $48?"
+    options:
+      - {text: "$36"}
+      - {text: "$48"}
+      - {text: "$12", correct: true}
+      - {text: "$44.40"}
+    working: "$0.03 × 1,200 = $36; $48 − $36 = $12"
+    explanation: "Three quarters of the method belonged to the quote, the fill and the broker. The quarter that is left is the business."
+
+  - type: numeric-input
+    prompt: "Same method, same size, but the all-in cost is eight cents a share. What is one average trade worth now?"
+    answer: -48
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.08 × 1,200 = $96; $48 − $96 = −$48"
+    explanation: "The same decisions taken the same way, and the method is now a way of losing forty-eight dollars at a time."
+
+  - type: sort
+    prompt: "Four changes to that method. Which way does each move the net?"
+    buckets: ["Helps the net", "Hurts the net"]
+    items:
+      - {text: "Running the same setups on a name quoted two cents wide", bucket: "Helps the net"}
+      - {text: "Taking it twice as often at eight cents all in", bucket: "Hurts the net"}
+      - {text: "Holding the same size in a name that prints ten thousand shares a minute", bucket: "Hurts the net"}
+      - {text: "Waiting for setups with twice the room above the entry", bucket: "Helps the net"}
+    explanation: "Frequency multiplies whatever the average already is. Two of these change the average before it gets multiplied, and two only change how often it happens."
+
+  - type: chart-decision
+    scenario: "KELP is quoted two cents wide and prints well over a hundred thousand shares a minute. It has held $14.28 three times and the minute that just closed finished at $14.40, above the highs behind it. Stop three cents under the base, 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.34, 14.38, 14.28, 14.30], [14.30, 14.36, 14.28, 14.34], [14.34, 14.38, 14.30, 14.32], [14.32, 14.36, 14.28, 14.30], [14.30, 14.38, 14.30, 14.36], [14.36, 14.44, 14.34, 14.40], [14.40, 14.52, 14.38, 14.50], [14.50, 14.60, 14.46, 14.56], [14.56, 14.66, 14.52, 14.62], [14.62, 14.68, 14.56, 14.60]]
+      volume: [92000, 84000, 72000, 78000, 74000, 134000, 122000, 108000, 96000, 86000]
+      levels:
+        - {price: 14.28, label: "Base"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached $14.68 and the exit filled at $14.63 — 23 cents a share, $276 on 1,200 shares, and $240 of that survives the three-cent round trip."
+    explanation: "Fifteen cents of risk under a base that has held three times, and the costs take about an eighth of what the move pays. Both halves of the check come back clean."
+
+  - type: chart-decision
+    scenario: "MICA prints around eleven thousand shares a minute and is quoted nine cents wide; with slippage and fees that is twelve cents all in. It has held $21.30 three times and the minute that just closed finished at $21.50, above the highs behind it. 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[21.44, 21.50, 21.30, 21.34], [21.34, 21.46, 21.30, 21.42], [21.42, 21.52, 21.34, 21.38], [21.38, 21.48, 21.30, 21.36], [21.36, 21.50, 21.32, 21.44], [21.44, 21.58, 21.40, 21.50], [21.50, 21.62, 21.42, 21.46], [21.46, 21.56, 21.36, 21.40], [21.40, 21.52, 21.34, 21.48], [21.48, 21.56, 21.38, 21.44]]
+      volume: [14000, 11000, 9000, 12000, 10000, 18000, 15000, 13000, 11000, 9000]
+      levels:
+        - {price: 21.30, label: "Base"}
+      decision_index: 5
+    best: no-trade
+    outcome: "The best it ever offered was $21.62, twelve cents above the decision. On 800 shares that is $96 gross against $96 of cost, and it closed the stretch back at $21.44."
+    explanation: "The same base and the same close through the highs as the last one. Nine cents of quote in a name printing eleven thousand shares a minute means the whole best case is the round trip."
+
+  - type: depth-ladder
+    prompt: "You market-buy 1,200 shares of KELP. Where does the last share fill?"
+    data:
+      bids: [[14.38, 900], [14.37, 1400], [14.36, 2600]]
+      asks: [[14.40, 500], [14.41, 600], [14.42, 1800]]
+    target: ask-3
+    explanation: "Five hundred and six hundred is eleven hundred, so the last hundred shares pay $14.42 — two cents of slippage, straight into the all-in cost."
+
+  - type: tf
+    statement: "The all-in cost comes off every trade, winners and losers alike."
+    answer: true
+    explanation: "It is not a fee on profits. It is the price of being in the trade at all, so it widens the losers by the same amount it narrows the winners."
+
+  - type: fill-tiles
+    sentence: "Frequency multiplies the average trade, so it makes a losing method lose ___."
+    answer: "faster"
+    explanation: "The sum has one sign, and taking it more often has never changed which one."
+
+  - type: mc
+    prompt: "Two traders run the same setups at the same size. One nets $12 a trade and the other loses $48. What separated them?"
+    options:
+      - {text: "What they paid to get in and out", correct: true}
+      - {text: "How strictly each of them held the stop"}
+      - {text: "How many trades each of them took in a day"}
+    explanation: "Same entries, same exits, same stops. Five cents a share on 1,200 shares is the entire distance between the two sheets."
+
+  - type: recap
+    title: "Level 14 in two lines"
+    points:
+      - {text: "Share count changes the dollars and never the R, and the two ceilings still decide it.", level: "14-1"}
+      - {text: "The same method is a business at three cents all in and a leak at eight.", level: "14-2"}

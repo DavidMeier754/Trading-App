@@ -8,7 +8,7 @@ tags: [journal, review, execution]
 learning_goal: "User logs a scalp as one row — setup, prices, R risked and made, execution grade, state — and grades execution independently of the result."
 purpose: "Twenty trades a day is a lot of evidence, and none of it survives until Friday unless it is written down."
 terms_introduced: ["Journal", "Execution grade"]
-prerequisite: "13-2"
+prerequisite: "14-2"
 xp: 20
 difficulty: 2
 sources: ["Bellafiore — One Good Trade", "Elder — Trading for a Living"]
@@ -91,4 +91,4 @@ screens:
 
   - type: theory
     title: "The row is the point"
-    body: "Every rule in this chapter becomes a column. Next: what the columns tell you at the end of the week."
+    body: "Every rule in this chapter becomes a column. What goes in each of them, and when you fill them, comes next."

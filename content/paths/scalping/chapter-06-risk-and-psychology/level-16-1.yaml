@@ -9,7 +9,7 @@ learning_goal: "User runs a weekly review that finds the best setup, the best ho
 purpose: "The rows are only worth writing if something changes because of them."
 terms_introduced: ["Weekly review"]
 reinforces: [3]
-prerequisite: "15-1"
+prerequisite: "15-3"
 xp: 20
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]

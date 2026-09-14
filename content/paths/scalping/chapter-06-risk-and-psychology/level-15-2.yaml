@@ -1,0 +1,124 @@
+id: "15-2"
+title: "The Journal"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [journal, columns, selection, day-type]
+learning_goal: "User fills every column of a row, including the two that come from the pre-market, and can say what each column is there to answer."
+purpose: "A row you cannot sort is a story, and a hundred stories teach nothing."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "15-1"
+xp: 20
+difficulty: 2
+sources: ["Bellafiore — One Good Trade", "Steenbarger — Trading Psychology 2.0"]
+notes: "Chapter 5's relative volume and day type return as journal columns. Account named at $17,000 with 1R at $170; worked positions are 1,100 shares at $15.40, 1,000 at $16.40 and 1,200 at $13.60."
+screens:
+  - type: intro
+    text: "Six columns you already have, and two more that decide what the rows are worth. Your account here is $17,000."
+
+  - type: theory
+    title: "The six you have"
+    body: "Setup, entry, stop, exit, R, grade. Six boxes filled the same way every time, and the sameness is the point — a column you skip on bad days is a column you cannot sort."
+
+  - type: visual
+    component: journal-table
+    data:
+      columns: ["Setup", "Name", "RVOL", "Day", "Entry", "Stop", "Exit", "R", "Grade"]
+      rows:
+        - {Setup: "Base reclaim", Name: "TERN", RVOL: "4.2x", Day: "Trend", Entry: 15.40, Stop: 15.25, Exit: 15.65, R: "+1.7", Grade: "A"}
+        - {Setup: "Base reclaim", Name: "PIKE", RVOL: "0.8x", Day: "Range", Entry: 11.40, Stop: 11.26, Exit: 11.26, R: "-1.0", Grade: "C"}
+        - {Setup: "Ceiling fade", Name: "QUAR", RVOL: "3.6x", Day: "Range", Entry: 19.78, Stop: 19.98, Exit: 19.45, R: "+1.7", Grade: "A"}
+    caption: "Nine columns, and two of them were filled in before the market opened."
+
+  - type: theory
+    title: "Two more from before the open"
+    body: "Add what the name was doing against its own normal, and what shape the session turned out to be. You had the first before the bell and the second inside the opening half hour."
+
+  - type: journal-row
+    prompt: "Fill the row for the trade you just closed."
+    trade: {setup: "Base reclaim", entry: 16.40, stop: 16.26, exit: 16.68, shares: 1000}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$140", "$170", "$280"]
+      r_made: ["+1R", "+2R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$140", r_made: "+2R", grade: "A"}
+    explanation: "Fourteen cents risked and twenty-eight made on a setup that was on the page before the open: two units and an A."
+
+  - type: mc
+    prompt: "Why does the row carry the setup name as well as the prices?"
+    options:
+      - {text: "So the rows can be added up by setup", correct: true}
+      - {text: "So you can remember which chart it was"}
+      - {text: "Because the grade depends on which setup it was"}
+    explanation: "One row says nothing. Forty rows sorted by setup name say which of your cards is quietly paying for the others."
+
+  - type: match
+    prompt: "Five columns, five different questions. Which belongs to which?"
+    pairs:
+      - ["Setup", "Which of your cards this was"]
+      - ["R risked", "What a stop hit would have cost"]
+      - ["R made", "The result, in a unit that travels between days"]
+      - ["Grade", "How closely the plan was followed"]
+      - ["State", "What was going on with you when you sent it"]
+    explanation: "Five questions, and only one of them is about the money."
+
+  - type: tf
+    statement: "Two rows with the same dollar result can carry different numbers in the R column."
+    answer: true
+    explanation: "Different share counts and different stops. R is what makes a Tuesday at 600 shares comparable with a Thursday at 1,500."
+
+  - type: chart-decision
+    scenario: "TERN is on your page at four times its own normal volume on an earnings morning. It has held $15.28 three times and the minute that just closed finished at $15.40, above the highs behind it. Stop three cents under the base, 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[15.36, 15.40, 15.28, 15.32], [15.32, 15.38, 15.28, 15.36], [15.36, 15.40, 15.30, 15.34], [15.34, 15.38, 15.28, 15.32], [15.32, 15.40, 15.30, 15.38], [15.38, 15.44, 15.34, 15.40], [15.40, 15.52, 15.38, 15.50], [15.50, 15.62, 15.46, 15.58], [15.58, 15.70, 15.54, 15.66], [15.66, 15.72, 15.60, 15.64]]
+      volume: [186000, 164000, 142000, 156000, 148000, 268000, 242000, 214000, 190000, 172000]
+      levels:
+        - {price: 15.28, label: "Base"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $15.72 and the exit filled at $15.65 — 25 cents a share, $275 on 1,100 shares against $165 of risk. The row: base reclaim, 4.2x, trend, +1.7R, grade A."
+    explanation: "Fifteen cents of risk under a base that has held three times, in a name that was chosen before the bell. Nine columns, and every one of them was knowable at the moment you clicked."
+
+  - type: numeric-input
+    prompt: "That row again: 1,100 shares, entry $15.40, stop $15.25. What goes in the R risked column?"
+    answer: 165
+    tolerance: 0.01
+    unit: "$"
+    working: "$15.40 − $15.25 = $0.15; $0.15 × 1,100 shares = $165"
+    explanation: "The dollar column is private to your account. The R column beside it is the one you can hold against anybody's."
+
+  - type: journal-row
+    prompt: "Now the next trade, which stopped out. Fill its row."
+    trade: {setup: "Base reclaim", entry: 13.60, stop: 13.46, exit: 13.46, shares: 1200}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$168", "$120", "$210"]
+      r_made: ["-1R", "0R", "+1R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$168", r_made: "-1R", grade: "A"}
+    explanation: "The stop did exactly what it was placed to do. Minus one unit and an A, which is the row that proves the grade is not the result."
+
+  - type: fill-choice
+    sentence: "A row you cannot sort is a ___."
+    options: ["story", "plan", "trade"]
+    answer: "story"
+    explanation: "Sortable columns turn a hundred mornings into an answer. Prose turns them into a hundred mornings."
+
+  - type: sort
+    prompt: "Belongs in the row, or belongs somewhere else?"
+    buckets: ["Belongs in the row", "Belongs somewhere else"]
+    items:
+      - {text: "What the name was trading against its own normal that morning", bucket: "Belongs in the row"}
+      - {text: "What the market did after you were flat", bucket: "Belongs somewhere else"}
+      - {text: "Whether the session turned out to be a trend day or a range day", bucket: "Belongs in the row"}
+      - {text: "Your opinion of the company behind the ticker", bucket: "Belongs somewhere else"}
+    explanation: "Two things you knew before the entry and can sort on later, and two that can never change how the next trade is taken."
+
+  - type: example
+    body: "Forty rows sorted by day type: twenty-four on trend days, and almost every loser sitting in the other sixteen. That is a sentence no memory would ever have produced."

@@ -1,0 +1,119 @@
+id: "11-2"
+title: "Overtrading and Tilt"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [psychology, tilt, overtrading, selection]
+learning_goal: "User spots tilt from what is on the ticket and on the page rather than from how the morning feels."
+purpose: "A state you can only detect by introspection is a state you will detect too late."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "11-1"
+xp: 20
+difficulty: 2
+sources: ["Steenbarger — The Daily Trading Coach", "Bellafiore — One Good Trade"]
+notes: "Chapter 5's selection columns come back as a tilt check. Account named at $16,000 with 1R at $160; the worked position is 1,200 shares at $13.00 = $15,600."
+screens:
+  - type: intro
+    text: "Tilt is not a mood you catch yourself in. It is three tickets that do not match your page."
+
+  - type: theory
+    title: "The tells are things you did"
+    body: "You cannot audit a feeling in the middle of a session. You can audit the last three orders you sent, and they answer the same question more honestly."
+
+  - type: carousel
+    cards:
+      - {label: "A name you did not pick", text: "It was not on the page before the open, and the only reason you know the ticker is that it moved.", icon: retail-trader}
+      - {label: "A size you did not write", text: "The share count came off the moment, not off the stop. It is always bigger, never smaller.", icon: bull}
+      - {label: "A stop you did not place", text: "You know roughly where you would get out. You have not typed it anywhere.", icon: bear}
+
+  - type: story
+    character: retail-trader
+    text: "Fourth order in nine minutes, and you could not name the setup on any of them if somebody asked."
+
+  - type: mc
+    prompt: "Three of these happen on an ordinary morning. Which one is the state showing up on paper?"
+    options:
+      - {text: "An order in a name you never prepared", correct: true}
+      - {text: "Two stops on setups you wrote down before the open"}
+      - {text: "Passing on a setup because the quote went wide"}
+    explanation: "Losses and passes are what a session is made of. A ticker that was never on the page came from somewhere other than the plan."
+
+  - type: scanner-pick
+    prompt: "You have just taken a stop and three of these are moving. Which row is the one this morning's page would actually carry?"
+    data:
+      rows:
+        - {ticker: WREN, price: 14.80, change_pct: 7.4, rvol: 5.2, float: "14M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: MOSS, price: 26.10, change_pct: 3.1, rvol: 1.1, float: "300M", spread: 0.03, catalyst: "—"}
+        - {ticker: PIKE, price: 11.40, change_pct: 9.8, rvol: 0.8, float: "9M", spread: 0.14, catalyst: "—"}
+        - {ticker: HALO, price: 19.60, change_pct: 0.4, rvol: 0.9, float: "450M", spread: 0.02, catalyst: "—"}
+    target: WREN
+    explanation: "WREN trades five times its own normal on a reason you can read, two cents wide. PIKE is the loudest number on the screen and the thinnest name behind it, which is exactly the row a bad minute reaches for."
+
+  - type: theory
+    title: "Overtrading has a number"
+    body: "Your trade cap turned it into arithmetic. Orders seven and eight on a six-trade page are not enthusiasm; they are the state, already visible on the count."
+
+  - type: numeric-input
+    prompt: "Your page allows six trades and you took nine. Each of the three extra was 1,200 shares, and the round trip costs four cents a share all in. What did the extra three cost before the market moved at all?"
+    answer: 144
+    tolerance: 0.01
+    unit: "$"
+    working: "3 trades × 1,200 shares × $0.04 = $144"
+    explanation: "Almost a full unit, handed over for the privilege of taking trades nobody planned."
+
+  - type: sort
+    prompt: "A tell, or just a hard morning?"
+    buckets: ["A tell", "Just a hard morning"]
+    items:
+      - {text: "The name you are in was not on the page this morning", bucket: "A tell"}
+      - {text: "Three stops in a row on setups you wrote down", bucket: "Just a hard morning"}
+      - {text: "The share count on the ticket is one you did not plan", bucket: "A tell"}
+      - {text: "A winner that ran past your target without you", bucket: "Just a hard morning"}
+    explanation: "Two of these are results, which you do not choose. The other two are decisions, which you do."
+
+  - type: tf
+    statement: "Nine trades on a six-trade page is overtrading even if seven of them made money."
+    answer: true
+    explanation: "The cap counts decisions, not results, and a profitable run of extra trades is what keeps the habit alive until the morning it charges you."
+
+  - type: chart-decision
+    scenario: "Two stops behind you, four trades left on the cap. VANE has held $12.88 three times and the minute that just closed finished at $13.00, above the highs behind it. Stop just under the base at $12.87, 1,200 shares, $16,000 account."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[12.94, 12.98, 12.88, 12.90], [12.90, 12.96, 12.88, 12.94], [12.94, 12.98, 12.90, 12.92], [12.92, 12.96, 12.88, 12.90], [12.90, 12.98, 12.88, 12.96], [12.96, 13.04, 12.94, 13.00], [13.00, 13.14, 12.98, 13.12], [13.12, 13.24, 13.10, 13.22], [13.22, 13.32, 13.18, 13.28], [13.28, 13.32, 13.22, 13.26]]
+      volume: [86000, 94000, 72000, 80000, 76000, 132000, 124000, 110000, 98000, 88000]
+      levels:
+        - {price: 12.88, label: "Floor"}
+      decision_index: 5
+    state: ["Day: −2R", "Trades: 2 of 6"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $13.32 and the exit filled at $13.26 — 26 cents a share, which is $312 on 1,200 shares against $156 of risk."
+    explanation: "Thirteen cents of risk against a floor that has held three times, on a name that was on the page. Two stops is a score, and the score is not one of the checks."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "Your page says 1,200 shares on this name. Tap the field on the ticket you are about to send that no longer matches it."
+    data: {ticker: VANE, side: buy, qty: 2400, type: limit, price: 13.03}
+    target: qty
+    explanation: "Nothing on the chart asked for the other 1,200 shares. Only the last two stops did."
+
+  - type: fill-choice
+    sentence: "The first check after a stop is whether the next name is even on your ___."
+    options: ["watchlist", "ticket", "screen"]
+    answer: "watchlist"
+    explanation: "Everything moving is on your screen. Only four names were chosen before the market had an opinion."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "I am still inside my trade count,"}
+      - {text: "so the size on this one does not matter", wrong: true}
+      - {text: "as long as the setup is one of mine."}
+    explanation: "The cap and the share count are two separate rules, and the one nobody is counting is always the one that goes first."
+
+  - type: example
+    body: "Not one of those tells is a feeling. Each of them can be read off a ticket, a count or a page — which is why you can catch them while they are still cheap."

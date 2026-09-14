@@ -1,0 +1,135 @@
+id: "13-3"
+title: "Thinking in Probabilities"
+chapter: 6
+chapter_title: "Risk & Psychology"
+path: scalping
+category: new-theory
+tags: [psychology, probability, streaks, sizing]
+learning_goal: "User names the flinch after a losing run and the swagger after a winning one, and keeps the page in charge of both."
+purpose: "A run in either direction pushes you off the method, and only one of the two feels like a warning."
+terms_introduced: []
+reinforces: []
+prerequisite: "13-2"
+xp: 20
+difficulty: 3
+sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "Account named at $24,000 with 1R at $240; the worked position is 1,200 shares at $19.78 = $23,736. Closes Level 13 with the recap."
+screens:
+  - type: intro
+    text: "A losing run and a winning run push you in opposite directions. Both of them push you off the page."
+
+  - type: theory
+    title: "The flinch"
+    body: "After a run of stops the next setup looks thinner than the ones behind it. It is not. What changed is that you are now reading your morning instead of the chart."
+
+  - type: theory
+    title: "The swagger"
+    body: "After a run of winners the next setup looks better than it is, and the share count creeps. The market that produced the run is not the one that pays for the extra size."
+
+  - type: visual
+    component: stats-card
+    data:
+      rows:
+        - {label: "Trades", value: "112"}
+        - {label: "Win rate", value: "44 %"}
+        - {label: "Longest losing run", value: "6"}
+        - {label: "Longest winning run", value: "7"}
+        - {label: "Result", value: "+35R"}
+    caption: "One method, a hundred and twelve trades. A six-trade losing run and a seven-trade winning run both happened inside it."
+
+  - type: mc
+    prompt: "A run of six stops and a run of seven winners push you toward opposite mistakes. What do the two mistakes share?"
+    options:
+      - {text: "Both of them come from taking too many trades"}
+      - {text: "Both let the score choose, not the page", correct: true}
+      - {text: "Both of them show up as a change in share size"}
+    explanation: "One skips what the page offers and one adds what it never did. In both, the last few results are doing the choosing."
+
+  - type: swipe-deck
+    prompt: "Five charts. Your card is a base that has held at least twice, with the last minute closing above the highs behind it. Take it or pass — none of these knows how your morning has gone."
+    cards:
+      - chart:
+          kind: candles
+          data: [[19.52, 19.56, 19.42, 19.46], [19.46, 19.50, 19.40, 19.44], [19.44, 19.50, 19.42, 19.46], [19.46, 19.48, 19.40, 19.44], [19.44, 19.52, 19.42, 19.50], [19.50, 19.54, 19.46, 19.52], [19.52, 19.58, 19.48, 19.50], [19.50, 19.62, 19.48, 19.60]]
+        answer: take
+        note: "The floor at $19.40 has turned it twice and the last minute closed above every high behind it. Both halves of the card."
+      - chart:
+          kind: candles
+          data: [[12.40, 12.54, 12.36, 12.52], [12.52, 12.66, 12.50, 12.64], [12.64, 12.78, 12.60, 12.76], [12.76, 12.90, 12.72, 12.88], [12.88, 13.02, 12.84, 13.00], [13.00, 13.14, 12.96, 13.12], [13.12, 13.26, 13.08, 13.24], [13.24, 13.38, 13.20, 13.36]]
+        answer: pass
+        note: "Ninety cents without a pause. Nothing here has held twice, so there is no base and nowhere to put the stop."
+      - chart:
+          kind: candles
+          data: [[22.10, 22.16, 22.00, 22.04], [22.04, 22.10, 22.00, 22.08], [22.08, 22.14, 22.02, 22.06], [22.06, 22.12, 22.00, 22.04], [22.04, 22.16, 22.02, 22.14], [22.14, 22.20, 22.10, 22.16], [22.16, 22.24, 22.10, 22.12], [22.12, 22.18, 22.06, 22.10]]
+        answer: pass
+        note: "The floor at $22.00 is real and the last minute closed back under the highs behind it. Half the card is not the card."
+      - chart:
+          kind: candles
+          data: [[26.76, 26.80, 26.62, 26.66], [26.66, 26.72, 26.60, 26.68], [26.68, 26.74, 26.62, 26.64], [26.64, 26.70, 26.60, 26.66], [26.66, 26.74, 26.64, 26.72], [26.72, 26.78, 26.68, 26.74], [26.74, 26.80, 26.70, 26.76], [26.76, 26.88, 26.72, 26.86]]
+        answer: take
+        note: "Two touches at $26.60 and a close above every high behind it. The base is what the stop gets to sit under."
+      - chart:
+          kind: candles
+          data: [[15.44, 15.48, 15.42, 15.46], [15.46, 15.48, 15.43, 15.45], [15.45, 15.47, 15.43, 15.44], [15.44, 15.48, 15.43, 15.46], [15.46, 15.47, 15.44, 15.45], [15.45, 15.48, 15.44, 15.46], [15.46, 15.48, 15.44, 15.45], [15.45, 15.49, 15.44, 15.47]]
+        answer: pass
+        note: "Five cents of range across eight minutes. There is a floor and nowhere for the trade to go."
+    explanation: "Two takes and three passes, decided on two features of the chart. A run of stops behind you would not have moved a single one of these cards."
+
+  - type: chart-decision
+    scenario: "Five units up on the morning, four trades used of six. QUAR has been refused at $19.98 three times and the minute that just closed finished at $19.78, the lowest close of the session. Stop above the ceiling, 1,200 shares, $24,000 account."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[19.94, 19.98, 19.84, 19.86], [19.86, 19.92, 19.82, 19.90], [19.90, 19.98, 19.84, 19.88], [19.88, 19.94, 19.80, 19.84], [19.84, 19.98, 19.78, 19.86], [19.86, 19.88, 19.74, 19.78], [19.78, 19.82, 19.64, 19.66], [19.66, 19.70, 19.54, 19.56], [19.56, 19.62, 19.44, 19.48], [19.48, 19.54, 19.40, 19.44]]
+      volume: [104000, 92000, 86000, 90000, 84000, 148000, 136000, 122000, 110000, 98000]
+      levels:
+        - {price: 19.98, label: "Ceiling"}
+      decision_index: 5
+    state: ["Day: +5R", "Trades: 4 of 6"]
+    best: short
+    reasonable: [no-trade]
+    outcome: "It worked down to $19.40 and the cover filled at $19.45 — 33 cents a share, $396 on 1,200 shares against $240 of risk."
+    explanation: "Five units up is neither a reason nor a warning. Twenty cents of risk against a ceiling that has refused it three times, at the size the page allows — and the size is the part a good morning threatens."
+
+  - type: sort
+    prompt: "Which run does each of these come from?"
+    buckets: ["After a losing run", "After a winning run"]
+    items:
+      - {text: "The next setup suddenly looks thinner than the ones behind it", bucket: "After a losing run"}
+      - {text: "The share count on the ticket creeps past the page", bucket: "After a winning run"}
+      - {text: "You wait for one candle more than the rule asks for", bucket: "After a losing run"}
+      - {text: "You take a name you never prepared, because everything is working", bucket: "After a winning run"}
+    explanation: "Two flinches and two swaggers, and in all four the score is choosing instead of the page."
+
+  - type: tf
+    statement: "A run of five winners is evidence that your method suits today's market."
+    answer: false
+    explanation: "Five is a normal run inside almost any method, including one that loses money over a month, and far too short to be evidence of anything."
+
+  - type: numeric-input
+    prompt: "Your page says 1,200 shares of a $14 name against a 20-cent stop, and 1R is $240. After a good run you send 1,500 instead. What does that trade risk, in R?"
+    answer: 1.25
+    tolerance: 0.01
+    working: "1,500 × $0.20 = $300; $300 ÷ $240 = 1.25R"
+    explanation: "A quarter more risk on every trade, added at the point in the week when the method has told you the least."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Four stops in a row, so I sit out"}
+      - {text: "the next setup on the page", wrong: true}
+      - {text: "and wait for the one after it."}
+    explanation: "The page has not heard about the four, and the setup you skip is as likely to pay as the one behind it. If a count of stops is to change anything, it changes it through the limit you wrote, not through a hunch."
+
+  - type: fill-choice
+    sentence: "A winning run changes what you feel and nothing about what the next setup is ___."
+    options: ["worth", "called", "near"]
+    answer: "worth"
+    explanation: "Its value comes from the stop distance and the room above the entry, and both were there before your run started."
+
+  - type: recap
+    title: "Level 13 in three lines"
+    points:
+      - {text: "One trade is close to random; the method is judged over a sample, not over a morning.", level: "13-1"}
+      - {text: "Grade the decision, because the result is one draw and grades nothing on its own.", level: "13-2"}
+      - {text: "A losing run makes you flinch and a winning run makes you swagger; the page answers both.", level: "13-3"}
