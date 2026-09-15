@@ -1,0 +1,124 @@
+id: "15-3"
+title: "Going Live, Carefully"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [plan, risk, journal, sizing]
+learning_goal: "User carries the page across to a live account unchanged except for the share count, and starts a second sample rather than continuing the first."
+purpose: "Everything you wrote down over seven chapters is worth exactly as much as the part of it that survives the first real fill."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "15-2"
+xp: 25
+difficulty: 3
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Bellafiore — One Good Trade"]
+notes: "Closes Level 15 with a plan-card and a recap. Chapter 6's limits in R and the journal row carried across the switch. Live account named at $6,000, size 200 shares, 1R $28. The worked position is 200 shares at $19.30 = $3,860."
+screens:
+  - type: intro
+    text: "One field on the page changes. The argument is about all the others."
+
+  - type: theory
+    title: "Nothing else on the page moves"
+    body: "The cards, the stop rule, the limits in R, the trade cap and the review all came across unchanged. The quantity box is the only field the switch is allowed to touch."
+
+  - type: match
+    prompt: "Four numbers on your page. Match each to what the switch to a real account does with it."
+    pairs:
+      - ["Share size", "The one field the switch is allowed to move"]
+      - ["1R in dollars", "Falls with the share count, without being decided"]
+      - ["The daily loss limit", "Three units, whatever a unit is worth today"]
+      - ["Where the stop goes", "Put there by the chart, not by the account"]
+    explanation: "Only the first was ever a choice. The second follows from it and the last two were written in units precisely so this switch could not reach them."
+
+  - type: numeric-input
+    prompt: "Your first twenty live rows average +0.15R. At $28 a unit, what have those twenty trades come to?"
+    answer: 84
+    tolerance: 0.5
+    unit: "$"
+    working: "20 × 0.15R = 3R; 3 × $28 = $84"
+    explanation: "Eighty-four dollars across a month, which is what a real unit of twenty-eight dollars buys. The R column is the part that will still mean something at a larger size."
+
+  - type: chart-decision
+    scenario: "Second live week, two stops already taken. GLYN has held above its own average price all session, drifted back to it over four quiet minutes, and the minute that just closed finished at $19.30 back above the line. The stop belongs under the pullback at $19.16. Your live account is $6,000 and you are on 200 shares."
+    shares: 200
+    chart:
+      kind: candles
+      data: [[19.28, 19.34, 19.22, 19.24], [19.24, 19.30, 19.20, 19.22], [19.22, 19.26, 19.18, 19.20], [19.20, 19.24, 19.16, 19.18], [19.18, 19.22, 19.16, 19.20], [19.20, 19.32, 19.18, 19.30], [19.30, 19.40, 19.26, 19.38], [19.38, 19.46, 19.34, 19.42], [19.42, 19.54, 19.38, 19.50], [19.50, 19.62, 19.46, 19.52]]
+      volume: [82000, 74000, 68000, 61000, 58000, 156000, 138000, 118000, 104000, 96000]
+      vwap: [19.26, 19.24, 19.22, 19.20, 19.19, 19.19, 19.20, 19.22, 19.25, 19.28]
+      decision_index: 5
+    state: ["Day: −2R", "Room: 1R"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "The target at $19.58 filled on the last push — $0.28 a share above the entry, +$56 on 200 shares."
+    explanation: "One unit of room pays for exactly one stop, and the card asks for exactly one. Two stops behind you is a state chip, not a condition on the card."
+
+  - type: journal-row
+    prompt: "Your first live sheet needs its row. Fill it."
+    trade: {setup: "VWAP bounce", entry: 19.30, stop: 19.16, exit: 19.58, shares: 200}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$28", "$42", "$56"]
+      r_made: ["+1R", "+2R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$28", r_made: "+2R", grade: "A"}
+    explanation: "Fourteen cents risked and twenty-eight made on 200 shares. The row looks identical to a simulated one, which is the point of having written sixty of those."
+
+  - type: tf
+    statement: "Because a live unit is worth fewer dollars, the live daily limit can be more units."
+    answer: false
+    explanation: "The limit was written in units so that it would mean the same thing at every size. Three is three, and the smaller unit was already the decision."
+
+  - type: mc
+    prompt: "What do the live rows add to the record you have been keeping?"
+    options:
+      - {text: "A second sample, kept beside the simulated one", correct: true}
+      - {text: "A correction to the simulated one, which can now go"}
+      - {text: "Nothing, until the size has been raised twice"}
+    explanation: "The fills and the nerves are different, so live rows are not more of the same rows. Both sheets stay, and the interesting question is where they disagree."
+
+  - type: compare
+    prompt: "Your first live week, two charts you called the same card. Only one of them is."
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[18.42, 18.48, 18.36, 18.38], [18.38, 18.44, 18.32, 18.36], [18.36, 18.42, 18.30, 18.34], [18.34, 18.40, 18.30, 18.38], [18.38, 18.48, 18.36, 18.46], [18.46, 18.56, 18.44, 18.54], [18.54, 18.62, 18.50, 18.60], [18.60, 18.68, 18.56, 18.64]]
+      - kind: candles
+        label: "B"
+        data: [[18.50, 18.62, 18.44, 18.48], [18.48, 18.60, 18.42, 18.58], [18.58, 18.62, 18.44, 18.46], [18.46, 18.60, 18.42, 18.56], [18.56, 18.60, 18.44, 18.48], [18.48, 18.62, 18.44, 18.58], [18.58, 18.62, 18.46, 18.50], [18.50, 18.60, 18.44, 18.54]]
+    answer: "A"
+    explanation: "A gives back a few cents on shrinking bars and then closes above them. B crosses the same eighteen cents six times, which is a stop being hunted rather than a pullback being bought."
+
+  - type: order
+    prompt: "Put the switch to a real account in the order it happens."
+    items:
+      - "Thirty simulated sessions read positive under the rules"
+      - "The live account is funded and the size set to a fifth"
+      - "Twenty live rows are taken at that size"
+      - "The ladder from Level 12 decides the next rung"
+    explanation: "Each step is permission for the one after it. Skipping the third is how a first live week becomes a first live drawdown."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The first live week finishes up three units,"}
+      - {text: "so the size goes back to the one you practised,", wrong: true}
+      - {text: "and the rows go on the live sheet with the date."}
+    explanation: "Three units is four or five rows, and the ladder asks for twenty. A green week is the least informative reason there is to move a size."
+
+  - type: plan-card
+    title: "Your first live month"
+    intro: "Three numbers, written before the account is funded rather than after."
+    fields:
+      - {key: live_share_size, label: "Live share size", kind: number, suggest: 200}
+      - {key: live_r_dollars, label: "1R in dollars at that size", kind: number, suggest: 28}
+      - {key: live_rows_before_rung, label: "Live rows before the size moves", kind: number, suggest: 20}
+    note: "These sit on the same sheet as your Chapter 6 limits and your Chapter 7 cards."
+
+  - type: recap
+    title: "Level 15 in three lines"
+    points:
+      - {text: "Start at a size where one full stop is an amount you would not notice.", level: "15-1"}
+      - {text: "Hesitation, the negotiable stop and the early exit all arrive with the money.", level: "15-2"}
+      - {text: "Only the quantity box changes; the live rows start a second sample.", level: "15-3"}

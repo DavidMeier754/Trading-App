@@ -1,0 +1,118 @@
+id: "14-2"
+title: "Your First 30 Days on Sim"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [journal, simulator, costs, review]
+learning_goal: "User records a simulated trade with the two columns a simulator makes necessary, and discounts the sheet by what the fills were given."
+purpose: "A sheet that believes its own fills will tell you the method works right up until the money is real."
+terms_introduced: []
+reinforces: [6, 7]
+prerequisite: "14-1"
+xp: 25
+difficulty: 2
+sources: ["Elder — Trading for a Living", "Aziz — How to Day Trade for a Living"]
+notes: "Chapter 6's journal row extended with a fill haircut, and Chapter 7's card name as the column that sorts the sample. Simulator account named at $12,000; the worked position is 700 shares at $16.34 = $11,438."
+screens:
+  - type: intro
+    text: "The row you already know how to write, plus the two columns a simulator makes necessary."
+
+  - type: theory
+    title: "The row has not changed"
+    body: "Card, entry, stop, exit, R, grade, one line of note. Chapter 6 built it and nothing about a simulated fill makes any of those columns optional."
+
+  - type: theory
+    title: "Two columns the simulator adds"
+    body: "What the fill would have cost live — the haircut every simulated result needs — and whether the routine actually ran that morning."
+
+  - type: visual
+    component: journal-table
+    data:
+      columns: ["Card", "Entry", "Stop", "Exit", "R", "Grade", "Live cost", "Routine"]
+      rows:
+        - {Card: "VWAP bounce", Entry: 16.34, Stop: 16.22, Exit: 16.58, R: "+2.0", Grade: "A", "Live cost": "−0.15R", Routine: "Full"}
+        - {Card: "Momentum continuation", Entry: 14.86, Stop: 14.74, Exit: 14.74, R: "−1.0", Grade: "A", "Live cost": "−0.15R", Routine: "Full"}
+        - {Card: "VWAP bounce", Entry: 12.40, Stop: 12.28, Exit: 12.52, R: "+1.0", Grade: "C", "Live cost": "−0.15R", Routine: "Skipped the scan"}
+    caption: "Three rows from the first week. The last two columns are the ones a live sheet would not need."
+
+  - type: journal-row
+    prompt: "The first of those trades, 700 shares against the $12,000 account. Fill its row."
+    trade: {setup: "VWAP bounce", entry: 16.34, stop: 16.22, exit: 16.58, shares: 700}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$84", "$96", "$168"]
+      r_made: ["+1R", "+2R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$84", r_made: "+2R", grade: "A"}
+    explanation: "Twelve cents on 700 shares is $84 at risk and twenty-four cents made is two of them. Simulated money is still written down in R."
+
+  - type: depth-ladder
+    prompt: "Live, that entry would have been a 700-share market buy into this book. Where does the last share fill?"
+    data:
+      bids: [[16.32, 400], [16.31, 600], [16.30, 1100]]
+      asks: [[16.34, 300], [16.35, 250], [16.36, 900]]
+    target: ask-3
+    explanation: "Three hundred at $16.34 and two hundred and fifty at $16.35 leaves 150 shares, and those pay $16.36. The simulator printed the whole 700 at the inside price."
+
+  - type: numeric-input
+    prompt: "Your thirty days finished at +18R on the sheet. A realistic round trip costs about 0.15R that the simulator never charged. Across 60 trades, where does the month actually stand?"
+    answer: 9
+    tolerance: 0.1
+    working: "60 × 0.15R = 9R; 18R − 9R = 9R"
+    explanation: "Half the month, handed back to a cost the platform did not print. The haircut goes on the sheet as its own column so it can never be forgotten again."
+
+  - type: mc
+    prompt: "So which of those two numbers belongs in the sheet's total?"
+    options:
+      - {text: "+18R, since that is what the platform filled"}
+      - {text: "+9R, with the haircut kept beside it", correct: true}
+      - {text: "Both, on two separate sheets"}
+    explanation: "The haircut stays visible because it is an estimate, and an estimate you can see is one you can improve once live rows exist."
+
+  - type: hotspot
+    component: journal-table
+    prompt: "Tap the column a simulator cannot flatter."
+    data:
+      columns: ["Card", "Entry", "Exit", "R", "Grade"]
+      rows:
+        - {Card: "VWAP bounce", Entry: 16.34, Exit: 16.58, R: "+2.0", Grade: "A"}
+        - {Card: "Momentum continuation", Entry: 14.86, Exit: 14.74, R: "−1.0", Grade: "A"}
+    target: Grade
+    explanation: "Entry, exit and therefore R all come out better than they would live. Whether you followed the page is the same answer on either screen."
+
+  - type: tf
+    statement: "A simulated fill and a live fill differ most on the trades you most want to take."
+    answer: true
+    explanation: "The fastest, heaviest minutes are where the book moves under your order, so the card that looks best is the one the simulator flatters most."
+
+  - type: match
+    prompt: "Four fields on the row. Match each to the question it is the only one that can answer."
+    pairs:
+      - ["Entry and stop", "What one unit was worth on this trade"]
+      - ["The card's name", "Which sample this row joins"]
+      - ["The grade", "Whether you followed the page"]
+      - ["The live cost", "What the same trade would have paid live"]
+    explanation: "Each column exists because one question kept coming up. A column nobody asks anything of is a column you will stop filling in by week two."
+
+  - type: order
+    prompt: "Put the fields of the row in the order you are actually able to fill them."
+    items:
+      - "The card's name, before the ticket is sent"
+      - "Entry and stop, as the order goes in"
+      - "Exit, when the position is closed"
+      - "The grade, in the review afterwards"
+    explanation: "The grade comes last because it is about the whole trade, and it is the one field that needs you to have stopped trading before you write it."
+
+  - type: fill-tiles
+    sentence: "The grade says whether you followed the page, not whether the trade ___."
+    answer: "won"
+    explanation: "Chapter 6 separated those two columns on purpose. A stop that filled where you put it is an A, and a winner you chased into is not."
+
+  - type: checklist-reveal
+    title: "Before the row is finished"
+    items:
+      - "Is the card's own name in the first column?"
+      - "Is the R figured from the stop you actually placed?"
+      - "Has the live cost been taken off?"
+      - "Does the grade describe the execution and nothing else?"

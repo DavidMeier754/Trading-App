@@ -1,0 +1,125 @@
+id: "14-3"
+title: "Your First 30 Days on Sim"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [limits, simulator, risk, plan]
+learning_goal: "User bounds the simulated month with a trade cap, a daily limit and a floor for the whole thirty sessions, and holds all three when a card fires past them."
+purpose: "A month with no floor under it can spend thirty sessions proving one mistake very thoroughly."
+terms_introduced: []
+reinforces: [6, 7]
+prerequisite: "14-2"
+xp: 25
+difficulty: 3
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Elder — Trading for a Living"]
+notes: "Chapter 6's daily limit and trade cap extended to a monthly floor; Chapter 7's cards tested against the session cap. Simulator account named at $12,000, size 700 shares, 1R $84. The worked position is 700 shares at $13.58 = $9,506."
+screens:
+  - type: intro
+    text: "Three trades a session, three units a day, and one number underneath the whole month."
+
+  - type: story
+    character: retail-trader
+    text: "Nothing in a simulator stops you. No fill is refused, no balance runs out, and the thirtieth session will happen whatever the first twenty-nine did."
+
+  - type: theory
+    title: "The month gets a floor too"
+    body: "A daily limit protects a session from itself. It does nothing about a month spending thirty sessions making the same mistake three units at a time."
+
+  - type: numeric-input
+    prompt: "Your daily loss limit is 3R and the plan is thirty sessions. What would thirty maximum-loss days come to?"
+    answer: 90
+    tolerance: 0
+    working: "30 × 3R = 90R"
+    explanation: "Ninety units, every one of them allowed by a limit that was doing its job. The daily number was never designed to see the month."
+
+  - type: visual
+    component: r-tracker
+    data:
+      trades: [1.0, -1.0, 2.0]
+      limit: 3
+    caption: "One session inside the cap: three trades sent, and the running total never near the number that ends the day."
+
+  - type: mc
+    prompt: "So why is the month's own floor set nowhere near −90R?"
+    options:
+      - {text: "Because a simulator will not record more than fifteen losing days"}
+      - {text: "Because the daily limit already covers what the month needs"}
+      - {text: "Because thirty sessions of one mistake is not worth finishing", correct: true}
+    explanation: "The point of the month is a readable sample, and a sample that has gone badly wrong stops being worth more rows. The floor is where you go back and change something."
+
+  - type: chart-decision
+    scenario: "Eleventh session, third trade of the morning. HAVERN has held above its own average price all session, given back ten cents over three of the quietest minutes of the stretch, and the minute that just closed finished at $13.58 back above the line. The stop belongs under the pullback at $13.46. Your simulator account is $12,000 and the page says 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[13.62, 13.70, 13.58, 13.60], [13.58, 13.64, 13.54, 13.56], [13.54, 13.58, 13.50, 13.52], [13.50, 13.54, 13.48, 13.50], [13.48, 13.52, 13.46, 13.50], [13.50, 13.60, 13.48, 13.58], [13.58, 13.70, 13.56, 13.68], [13.68, 13.80, 13.64, 13.76], [13.76, 13.88, 13.72, 13.84], [13.84, 13.98, 13.80, 13.94]]
+      volume: [104000, 88000, 72000, 64000, 58000, 176000, 148000, 126000, 108000, 94000]
+      vwap: [13.60, 13.58, 13.55, 13.52, 13.50, 13.49, 13.50, 13.52, 13.55, 13.58]
+      decision_index: 5
+    state: ["Day: +1R", "Trades: 2 of 3"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $13.94 — $0.36 a share above the decision, +$252 on 700 shares against $84 of risk."
+    explanation: "The third trade is not the last trade grudgingly allowed; it is a trade the cap permits. A cap decides how many, never which ones."
+
+  - type: branch
+    scenario: "Same session, twenty minutes later. You are flat, the third trade is behind you, and one of your two cards is forming again on the other name."
+    shares: 700
+    steps:
+      - prompt: "The cap is three trades and this is a fourth card. What do you do?"
+        options:
+          - {text: "Pass it, and mark the chart for the review", correct: true, next: 1}
+          - {text: "Take it — the cap is there to count losers", next: 1}
+        explanation: "The cap counts tickets, not results. A number that only binds when the morning has gone badly is not a cap, it is a mood."
+      - prompt: "It runs exactly as the card says and you are flat for it. What does that make it?"
+        options:
+          - {text: "A row in the review and nothing more", correct: true}
+          - {text: "Evidence the cap has been set too low"}
+        explanation: "One chart cannot say anything about a cap. Thirty sessions can, and that read happens at the end with everything else."
+
+  - type: tf
+    statement: "The session cap counts every ticket you send, the winners included."
+    answer: true
+    explanation: "If winners were free the cap would be nothing but a losing streak detector, and you would find the exception on the morning it matters most."
+
+  - type: slider
+    prompt: "Your two cards fire about twice a session against a cap of three. What share of the cap does a normal session use?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 65
+    tolerance: 10
+    explanation: "About two-thirds, which is what a ceiling should look like. A cap you reach every session is a target wearing a cap's name."
+
+  - type: numeric-mc
+    prompt: "The month stops at −15R and your 1R on the simulator is $84. How many dollars is that?"
+    options:
+      - {text: "$840"}
+      - {text: "$1,260", correct: true}
+      - {text: "$1,680"}
+      - {text: "$1,050"}
+    working: "15 × $84 = $1,260"
+    explanation: "About a tenth of the simulated account, which is deep enough to survive a bad fortnight and shallow enough to stop a bad method."
+
+  - type: sort
+    prompt: "Four things that can happen in the thirty days. Which ends a session and which ends the month?"
+    buckets: ["Ends the session", "Ends the month"]
+    items:
+      - {text: "The third ticket of the morning closes", bucket: "Ends the session"}
+      - {text: "The day reaches −3R", bucket: "Ends the session"}
+      - {text: "The sheet reaches −15R", bucket: "Ends the month"}
+      - {text: "Both cards read negative across sixty rows", bucket: "Ends the month"}
+    explanation: "Two of them stop a morning and two of them send you back to the plan. Nothing on the list is ever answered by carrying on and hoping."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The third trade of the session fills and closes,"}
+      - {text: "so the cap lifts for whatever the two cards offer next,", wrong: true}
+      - {text: "and the rows go into the sheet the same evening."}
+    explanation: "A cap that expires the moment it binds has never bound at all. The fourth card is a line in the review, which is where it can still be useful."
+
+  - type: example
+    body: "Three tickets, a limit at −3R and a floor at −15R for the whole month. Nothing in the thirty sessions can cost you more than a number you wrote before the first one."

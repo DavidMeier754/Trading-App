@@ -1,0 +1,134 @@
+id: "16-2"
+title: "Capstone — A Full Week"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: repetition
+tags: [discipline, tilt, playbook, session]
+learning_goal: "User passes a whole session without a ticket and stops a tilting one after a single row."
+purpose: "The two sessions nobody practises are the empty one and the one that starts badly."
+terms_introduced: []
+reinforces: [5, 6, 7]
+prerequisite: "16-1"
+xp: 30
+difficulty: 3
+sources: ["Steenbarger — The Daily Trading Coach", "Bellafiore — The PlayBook"]
+notes: "Wednesday and Thursday of the capstone week. Chapter 6's reset routine and Chapter 7's passes re-tested inside the routine. Account named at $12,000, size 700 shares, 1R $84. The worked position is 700 shares at $13.14 = $9,198."
+screens:
+  - type: intro
+    text: "Wednesday offers nothing and Thursday starts badly. Both of them are sessions you have to be able to run."
+
+  - type: story
+    character: retail-trader
+    text: "Wednesday. Two names on the page, both of them at their own ordinary volume, and the levels you drew before the bell going untested all morning."
+
+  - type: swipe-deck
+    prompt: "Six charts from the week so far, two cards on your page. Which ones get a ticket?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[13.40, 13.46, 13.34, 13.36], [13.36, 13.42, 13.30, 13.34], [13.34, 13.40, 13.28, 13.32], [13.32, 13.38, 13.28, 13.36], [13.36, 13.46, 13.34, 13.44], [13.44, 13.54, 13.42, 13.52], [13.52, 13.60, 13.48, 13.58], [13.58, 13.66, 13.54, 13.62]]
+          levels: [13.28]
+        answer: take
+        note: "Three lighter minutes back to the shelf it broke from, then the first close above all of them."
+      - chart:
+          kind: candles
+          data: [[12.90, 13.02, 12.84, 12.88], [12.88, 13.00, 12.82, 12.98], [12.98, 13.02, 12.84, 12.86], [12.86, 13.00, 12.82, 12.96], [12.96, 13.00, 12.84, 12.88], [12.88, 13.02, 12.84, 12.98], [12.98, 13.02, 12.86, 12.90], [12.90, 13.00, 12.84, 12.94]]
+        answer: pass
+        note: "The same eighteen cents crossed six times. Neither card on your page describes this."
+      - chart:
+          kind: candles
+          data: [[14.20, 14.24, 14.10, 14.12], [14.12, 14.18, 14.04, 14.06], [14.06, 14.12, 14.00, 14.02], [14.02, 14.08, 13.96, 13.98], [13.98, 14.04, 13.92, 13.94], [13.94, 14.00, 13.88, 13.90], [13.90, 13.96, 13.84, 13.86], [13.86, 13.92, 13.80, 13.82]]
+          vwap: [14.18, 14.15, 14.12, 14.08, 14.05, 14.02, 13.99, 13.96]
+        answer: pass
+        note: "Under its own average price the whole stretch and turned away from it twice. Your bounce card needs the other side of that line."
+      - chart:
+          kind: candles
+          data: [[12.28, 12.40, 12.26, 12.38], [12.38, 12.50, 12.36, 12.48], [12.48, 12.56, 12.44, 12.54], [12.54, 12.58, 12.48, 12.50], [12.50, 12.54, 12.46, 12.48], [12.48, 12.60, 12.46, 12.58], [12.58, 12.68, 12.54, 12.66], [12.66, 12.74, 12.62, 12.70]]
+        answer: take
+        note: "A leg, two quiet minutes that give back almost none of it, then the first close back through them."
+      - chart:
+          kind: candles
+          data: [[13.10, 13.28, 13.08, 13.26], [13.26, 13.46, 13.24, 13.44], [13.44, 13.64, 13.42, 13.62], [13.62, 13.84, 13.60, 13.82], [13.82, 14.02, 13.78, 13.98], [13.98, 14.20, 13.96, 14.18], [14.18, 14.38, 14.14, 14.34], [14.34, 14.52, 14.30, 14.48]]
+        answer: pass
+        note: "Six straight minutes with no pause to buy and nothing marked above it. There is no stop on this chart that is not a guess."
+      - chart:
+          kind: candles
+          data: [[13.60, 13.66, 13.54, 13.64], [13.64, 13.72, 13.60, 13.70], [13.70, 13.82, 13.68, 13.72], [13.72, 13.76, 13.62, 13.64], [13.64, 13.70, 13.58, 13.60], [13.60, 13.64, 13.52, 13.54], [13.54, 13.60, 13.48, 13.50], [13.50, 13.56, 13.46, 13.52]]
+          levels: [13.76]
+        answer: pass
+        note: "The push through the level failed and came straight back, which is a card on your sheet and not one of this month's two."
+    explanation: "Two tickets out of six, and neither pass was close. Four of these are shapes that no card on the page describes, which is what a normal morning looks like."
+
+  - type: mc
+    prompt: "Wednesday's screens go off with no ticket sent. Where was the actual risk this morning?"
+    options:
+      - {text: "In the volume, which was too thin to trade at all"}
+      - {text: "In the morning itself — an unused session is lost practice"}
+      - {text: "In the charts that nearly fit, and nearly got taken", correct: true}
+    explanation: "An empty session costs nothing but the mornings. What it can cost is one widened card, and the four near misses are where that offer was made."
+
+  - type: chart-decision
+    scenario: "Wednesday, the closest thing to a card all morning. TARN has crossed the same twenty cents since the bell and the minute that just closed finished at $13.14, two cents above the highest minute of the stretch — on volume no heavier than the minutes behind it. Your account is $12,000 and the page says 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[13.02, 13.08, 12.96, 13.00], [13.00, 13.06, 12.94, 13.04], [13.04, 13.10, 12.98, 13.02], [13.02, 13.08, 12.96, 13.06], [13.06, 13.12, 13.00, 13.04], [13.04, 13.16, 13.02, 13.14], [13.14, 13.16, 13.04, 13.06], [13.06, 13.10, 12.98, 13.00], [13.00, 13.06, 12.94, 12.96], [12.96, 13.02, 12.92, 12.98]]
+      volume: [42000, 38000, 44000, 40000, 36000, 41000, 39000, 43000, 37000, 40000]
+      levels:
+        - {price: 13.12, label: "High of the stretch"}
+      decision_index: 5
+    state: ["Day: 0R", "Trades: 0 of 3"]
+    best: no-trade
+    outcome: "It came straight back inside the range and finished at $12.98 — $0.16 a share below the decision."
+    explanation: "A cent through a level on ordinary volume is the range doing what ranges do. Your card asks for a reason behind the close, and there is not one on this screen."
+
+  - type: story
+    character: retail-trader
+    text: "Thursday. The first ticket of the morning stops out in the middle stretch, and the next thing you notice is your hand moving faster than the chart is."
+
+  - type: branch
+    scenario: "One row, one stop, and forty minutes of session left. The day stands at −1R with two tickets still on the cap."
+    shares: 700
+    steps:
+      - prompt: "The same name sets up again four minutes later. What now?"
+        options:
+          - {text: "Stand up and run the reset routine", correct: true, next: 1}
+          - {text: "Take it — the card is the card", next: 1}
+        explanation: "The card may well be there; the four minutes are the problem. Chapter 6 made the reset a routine exactly so this moment does not need an argument."
+      - prompt: "Ten minutes away from the screens. What comes back with you?"
+        options:
+          - {text: "Half size, and the same two cards", correct: true, next: 2}
+          - {text: "Full size, since the reset is done"}
+        explanation: "Half size makes the next row cheap while you find out whether the reset took. The cards do not move, because nothing was wrong with them."
+      - prompt: "Nothing sets up again all session. How does Thursday finish?"
+        options:
+          - {text: "Down one unit, with the reset in the notes", correct: true}
+          - {text: "Down one unit, and the reset not worth recording"}
+        explanation: "In a month the note is the only evidence you will have that it happened. An unrecorded reset is a habit you cannot tell whether you have."
+
+  - type: hotspot
+    component: stats-card
+    prompt: "Tap the line that says Thursday was handled."
+    data:
+      rows:
+        - {label: "Thursday result", value: "−1R"}
+        - {label: "Tickets sent", value: "1 of 3"}
+        - {label: "Tickets sent after the stop", value: "0"}
+        - {label: "Rows graded", value: "1 of 1"}
+    target: "Tickets sent after the stop"
+    explanation: "A one-unit day is a draw and a graded row is routine. What made Thursday different is the ticket that did not go in four minutes after the fill."
+
+  - type: tf
+    statement: "A morning that produced no tickets can still produce rows in your notes."
+    answer: true
+    explanation: "The charts you passed and the reason you passed them are the cheapest evidence there is about what your cards do and do not cover."
+
+  - type: fill-choice
+    sentence: "Thursday's damage was limited by a routine rather than by ___."
+    options: ["willpower", "the bell", "the spread"]
+    answer: "willpower"
+    explanation: "Willpower is what you have least of four minutes after a stop. A routine is written when you have plenty and spends none of it."
+
+  - type: example
+    body: "Two sessions, one ticket between them, and the week's floor never in the conversation. Wednesday cost nothing and Thursday cost one unit, which is what a morning that starts badly is supposed to cost."

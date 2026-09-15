@@ -1,0 +1,108 @@
+id: "14-4"
+title: "Your First 30 Days on Sim"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [simulator, review, plan, process]
+learning_goal: "User can state the four conditions that end the thirty days well, and what thirty simulated sessions can never settle."
+purpose: "Knowing what would count as finished is the only thing that stops a practice month running forever."
+terms_introduced: []
+reinforces: [6, 7]
+prerequisite: "14-3"
+xp: 25
+difficulty: 3
+sources: ["Steenbarger — Trading Psychology 2.0", "Bellafiore — One Good Trade"]
+notes: "Closes Level 14 with a recap. Chapter 6's sample and grade columns and Chapter 7's cards read as one verdict. No position is worked here, so no account is named."
+screens:
+  - type: intro
+    text: "Thirty sessions are over. Four lines decide whether they counted."
+
+  - type: theory
+    title: "Four conditions, not one"
+    body: "The R column is the one everybody looks at and the only one that can be produced by luck. The other three cannot."
+
+  - type: checklist-reveal
+    title: "The thirty days are finished when"
+    items:
+      - "Thirty sessions were run end to end, routine included"
+      - "Sixty rows were written the same day they happened"
+      - "Both cards read positive across the sample, after the haircut"
+      - "No session broke a limit you had written down"
+
+  - type: mc
+    prompt: "Thirty sessions, both cards positive, and two mornings where the loss limit was ignored. What does the month say?"
+    options:
+      - {text: "Run it again under the rules you wrote", correct: true}
+      - {text: "Ready, since the cards were what it was for"}
+      - {text: "Ready at half the planned size, as a compromise"}
+    explanation: "The sample was produced under different rules than the ones being tested, so it answers a question nobody asked. A negative card is information; a broken limit is a void result."
+
+  - type: visual
+    component: stats-card
+    data:
+      rows:
+        - {label: "Sessions run", value: "30 of 30"}
+        - {label: "Rows written same day", value: "57 of 60"}
+        - {label: "Cards positive after costs", value: "2 of 2"}
+        - {label: "Sessions where a limit broke", value: "2"}
+    caption: "One month's card. Three of the four lines read well."
+
+  - type: hotspot
+    component: stats-card
+    prompt: "Tap the line that sends the month back to the start whatever the other three say."
+    data:
+      rows:
+        - {label: "Sessions run", value: "30 of 30"}
+        - {label: "Rows written same day", value: "57 of 60"}
+        - {label: "Cards positive after costs", value: "2 of 2"}
+        - {label: "Sessions where a limit broke", value: "2"}
+    target: "Sessions where a limit broke"
+    explanation: "Three missing rows cost you three rows. Two sessions run without the limit mean the thing you were measuring was not on the screen those mornings."
+
+  - type: numeric-input
+    prompt: "Your first card averaged +0.25R across 32 rows. What did that card contribute over the month?"
+    answer: 8
+    tolerance: 0.1
+    working: "32 × 0.25R = 8R"
+    explanation: "Eight units from one card across a month, which is the kind of number a thirty-row sample is actually able to produce."
+
+  - type: tf
+    statement: "A card averaging +0.04R across thirty rows has earned its place beside one averaging +0.25R."
+    answer: false
+    explanation: "Barely positive after the haircut means the card is paying for its own costs and little else. It keeps its place on the sheet and loses its place in the size."
+
+  - type: match
+    prompt: "Four lines on the card that closes the month. Match each to the thing it is able to settle."
+    pairs:
+      - ["Sessions run", "Whether the routine survived a month"]
+      - ["Rows written the same day", "Whether the record can be trusted"]
+      - ["R after the haircut", "Whether a card has earned more rows"]
+      - ["Limits broken", "Whether your own rules were tested at all"]
+    explanation: "Four questions, four places to look. Asking the R column about your discipline is how good months get read as permission."
+
+  - type: theory
+    title: "What thirty days cannot tell you"
+    body: "Whether the fills hold at your size, and whether the limit holds when the money is yours. Neither of those is on a simulated screen at all."
+
+  - type: example
+    body: "Nothing in this app, and nothing in thirty simulated sessions, makes anyone a profitable trader. What they can show is that the process runs and that the sheet is readable — which is where the work starts, not where it ends."
+
+  - type: tf
+    statement: "A simulator can prove the routine runs and still tell you nothing about your nerve."
+    answer: true
+    explanation: "That gap is the whole reason the next step is a live size small enough that finding out is cheap."
+
+  - type: fill-choice
+    sentence: "The thirty days are finished when the sheet can be read, not when it turns ___."
+    options: ["green", "long", "quiet"]
+    answer: "green"
+    explanation: "A green sheet with three broken limits behind it is a month you will have to run again. A flat one under the rules is a month you can act on."
+
+  - type: recap
+    title: "Level 14 in four lines"
+    points:
+      - {text: "Thirty sessions, two cards, so each card ends with thirty rows.", level: "14-1"}
+      - {text: "The same row as Chapter 6, plus the fill haircut and the routine.", level: "14-2"}
+      - {text: "Three tickets a session, −3R a day, −15R for the month.", level: "14-3"}
+      - {text: "Four conditions finish it, and none of them is a profit.", level: "14-4"}

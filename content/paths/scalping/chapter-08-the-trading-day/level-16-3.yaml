@@ -1,0 +1,131 @@
+id: "16-3"
+title: "Capstone — A Full Week"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [review, stats, plan, session]
+learning_goal: "User reads five sessions as one sample and turns them into a single dated rule the next twenty rows can settle."
+purpose: "A week is too small to prove anything and exactly the right size to point at something."
+terms_introduced: []
+reinforces: [5, 6, 7]
+prerequisite: "16-2"
+xp: 30
+difficulty: 3
+sources: ["Steenbarger — Trading Psychology 2.0", "Elder — Trading for a Living"]
+notes: "Friday of the capstone week plus the weekly read. Chapter 6's weekly review applied to the chapter's own session routine. Account named at $12,000, size 700 shares, 1R $84. The worked position is 700 shares at $12.96 = $9,072."
+screens:
+  - type: intro
+    text: "One session left, six rows in total, and a sheet that has started to point somewhere."
+
+  - type: story
+    character: retail-trader
+    text: "Friday, in the opening window. HOLLIS gapped up on its earnings, has held above its own average price since the bell, and has refused one price three times already."
+
+  - type: chart-annotate
+    prompt: "Friday's opening window on HOLLIS. Drag the line to the price it has refused to go under."
+    chart:
+      kind: candles
+      data: [[12.88, 12.98, 12.84, 12.94], [12.94, 13.00, 12.88, 12.92], [12.92, 12.96, 12.86, 12.88], [12.88, 12.94, 12.84, 12.90], [12.90, 12.94, 12.86, 12.88], [12.88, 12.92, 12.84, 12.90], [12.90, 12.96, 12.86, 12.92], [12.92, 12.96, 12.88, 12.94]]
+    answer: 12.84
+    tolerance: 0.04
+    label: "Shelf"
+    explanation: "$12.84, held three times without a close under it. That is where the stop goes, which is what makes the rest of the arithmetic possible."
+
+  - type: chart-decision
+    scenario: "Friday, still in the opening window. HOLLIS has drifted back to its own average price over three quiet minutes and the minute that just closed finished at $12.96 back above the line. The stop goes under the shelf at $12.84. Your account is $12,000 and the page says 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[12.88, 12.98, 12.84, 12.94], [12.94, 13.00, 12.88, 12.92], [12.92, 12.96, 12.86, 12.88], [12.88, 12.94, 12.84, 12.90], [12.90, 12.94, 12.86, 12.88], [12.88, 12.98, 12.86, 12.96], [12.96, 13.06, 12.94, 13.04], [13.04, 13.14, 13.00, 13.10], [13.10, 13.22, 13.06, 13.18], [13.18, 13.26, 13.14, 13.22]]
+      volume: [246000, 198000, 164000, 142000, 136000, 288000, 232000, 196000, 172000, 154000]
+      vwap: [12.92, 12.92, 12.91, 12.90, 12.89, 12.89, 12.90, 12.92, 12.95, 12.98]
+      decision_index: 5
+    state: ["Day: 0R", "Week: −0.5R"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "The target at $13.20 filled before the window closed — $0.24 a share above the entry, +$168 on 700 shares."
+    explanation: "Twelve cents of risk for a target two of them away, on the heaviest minute of the morning. The week standing at −0.5R is a chip above the chart and not a condition on the card."
+
+  - type: theory
+    title: "One week, one rule"
+    body: "Six rows cannot prove anything and can point somewhere. A week's output is a single dated rule that the next twenty rows are allowed to settle."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "Mon", value: 2.5}
+        - {label: "Tue", value: -2.0}
+        - {label: "Wed", value: 0.0}
+        - {label: "Thu", value: -1.0}
+        - {label: "Fri", value: 2.0}
+      unit: "R"
+    caption: "Five sessions in units. The two green ones were traded in the opening window and the two red ones were not."
+
+  - type: numeric-input
+    prompt: "The five sessions came to +2.5R, −2R, 0R, −1R and +2R. What is the week in units?"
+    answer: 1.5
+    tolerance: 0.1
+    working: "2.5 − 2 + 0 − 1 + 2 = 1.5R"
+    explanation: "A unit and a half across five sessions, which at this size is $126. The week is kept in units so it can sit beside weeks traded at other sizes."
+
+  - type: slider
+    prompt: "Your sheet held 54 rows before Monday and the week added six. What share of the sample is this week?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 10
+    tolerance: 5
+    explanation: "A tenth of what you have. That is the honest weight to give it, and it is why the week produces a rule to test rather than a change to make."
+
+  - type: journal-row
+    prompt: "Friday's row, 700 shares. Fill it."
+    trade: {setup: "VWAP bounce", entry: 12.96, stop: 12.84, exit: 13.20, shares: 700}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$84", "$120", "$168"]
+      r_made: ["+1R", "+2R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$84", r_made: "+2R", grade: "A"}
+    explanation: "Twelve cents risked and twenty-four made on 700 shares. The grade is an A because the stop, the size and the hour all came off the page rather than off the screen."
+
+  - type: mc
+    prompt: "Three red rows, all of them in the middle stretch. What is the week allowed to produce?"
+    options:
+      - {text: "Nothing — six rows cannot support a rule"}
+      - {text: "One rule, dated, that twenty rows will test", correct: true}
+      - {text: "One rule, kept until it stops feeling needed"}
+    explanation: "So the rule writes itself: no new entry in the middle stretch until twenty more rows say otherwise. The date is what lets you find the boundary between the two samples later."
+
+  - type: match
+    prompt: "Four columns of the week's sheet. Match each to the question Friday asks of it."
+    pairs:
+      - ["The hour column", "Where the red rows gathered"]
+      - ["The card column", "Which of the two is carrying the week"]
+      - ["The grade column", "Whether the rows were yours or the market's"]
+      - ["The ticket count", "Whether the cap was ever the binding number"]
+    explanation: "Four columns, four separate questions. A week read as one number tells you whether it was green and nothing else at all."
+
+  - type: numeric-mc
+    prompt: "Six tickets across the week and +1.5R in total. What did one average trade come to?"
+    options:
+      - {text: "+0.25R", correct: true}
+      - {text: "+0.30R"}
+      - {text: "+0.75R"}
+      - {text: "+1.50R"}
+    working: "1.5R ÷ 6 = 0.25R"
+    explanation: "A quarter of a unit an attempt, which is the figure Chapter 6 called the value of one average trade. Six of them is far too few to trust it and enough to start counting."
+
+  - type: fill-tiles
+    sentence: "A week of rows is allowed to produce at most one ___."
+    answer: "rule"
+    explanation: "Two rules off one week and the next twenty rows cannot tell you which of them did anything."
+
+  - type: recap
+    title: "Level 16 in three lines"
+    points:
+      - {text: "A green session and a red one are the same page followed twice.", level: "16-1"}
+      - {text: "An empty morning costs nothing; a bad one costs one unit and a reset.", level: "16-2"}
+      - {text: "Five sessions, six rows, one dated rule about the middle stretch.", level: "16-3"}

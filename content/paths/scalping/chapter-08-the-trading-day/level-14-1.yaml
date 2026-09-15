@@ -1,0 +1,105 @@
+id: "14-1"
+title: "Your First 30 Days on Sim"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [simulator, plan, playbook, practice]
+learning_goal: "User builds a thirty-session simulator plan around two cards and can say why the other six wait."
+purpose: "A month of practice that is spread across everything you know teaches you nothing about any of it."
+terms_introduced: []
+reinforces: [6, 7]
+prerequisite: "13-2"
+xp: 25
+difficulty: 2
+sources: ["Bellafiore — The PlayBook", "Steenbarger — The Daily Trading Coach"]
+notes: "Opens Level 14. Chapter 7's eight cards narrowed to two, and Chapter 6's sample size used as the reason. Simulator account named at $12,000; the worked position is 700 shares at $16.32 = $11,424."
+screens:
+  - type: intro
+    text: "Thirty mornings, eight cards and one sheet. Two of those numbers are about to get much smaller."
+
+  - type: story
+    character: retail-trader
+    text: "The simulator is set to the $12,000 account you will actually have. The page has eight cards on it, and you have thirty sessions before anything is decided."
+
+  - type: theory
+    title: "Thirty sessions, not thirty days"
+    body: "Sessions, because a morning you skipped is not one of them. Thirty is chosen so the sheet at the end is long enough to read rather than long enough to feel good about."
+
+  - type: theory
+    title: "Two cards carry the month"
+    body: "The other six stay on the sheet and get watched, marked and written down. They are not gone; they are waiting for a month of their own."
+
+  - type: numeric-input
+    prompt: "Thirty sessions at two trades a session, split across two cards. How many rows does each card finish with?"
+    answer: 30
+    tolerance: 0
+    working: "30 × 2 = 60 rows; 60 ÷ 2 = 30 a card"
+    explanation: "Thirty rows a card, which is the number Level 11 asked for before a card may be read at all. Spread across eight cards it would be seven each, and seven says nothing."
+
+  - type: mc
+    prompt: "Which two of your eight cards go into the thirty days?"
+    options:
+      - {text: "The two you already see most often", correct: true}
+      - {text: "The two that made the most R last month"}
+      - {text: "The two you have never managed to take"}
+    explanation: "Rows are what the month is buying, and the cards that appear most produce the most of them. A card you rarely see cannot fill a sample in thirty sessions."
+
+  - type: example
+    body: "The same sixty rows across eight cards gives you eight answers you cannot trust. Across two it gives you two you can."
+
+  - type: chart-decision
+    scenario: "Second week of the thirty. RENO has run six minutes into the level you marked before the bell, the volume on the last minute is the heaviest of the session, and it closed back under the level. That is your fade card — which is not one of the two you are drilling. Your simulator account is $12,000 and the page says 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[16.02, 16.14, 16.00, 16.12], [16.12, 16.24, 16.10, 16.22], [16.22, 16.32, 16.20, 16.30], [16.30, 16.38, 16.28, 16.36], [16.36, 16.42, 16.34, 16.40], [16.40, 16.46, 16.30, 16.32], [16.32, 16.34, 16.20, 16.22], [16.22, 16.26, 16.10, 16.12], [16.12, 16.16, 16.02, 16.04], [16.04, 16.08, 15.96, 15.98]]
+      volume: [96000, 118000, 142000, 168000, 206000, 288000, 174000, 146000, 122000, 104000]
+      levels:
+        - {price: 16.40, label: "Marked before the bell"}
+      decision_index: 5
+    state: ["Cards this month: 2 of 8"]
+    best: no-trade
+    outcome: "It faded to $15.98 — $0.34 a share below the decision, on a card that is on your sheet and not in your month."
+    explanation: "The card was complete and the answer is still no. A month that makes an exception the first time one appears is a month with eight cards in it again."
+
+  - type: sort
+    prompt: "Which of these is part of the thirty days, and which waits until they are over?"
+    buckets: ["In the thirty days", "Waits until after"]
+    items:
+      - {text: "The two cards you chose", bucket: "In the thirty days"}
+      - {text: "The same share size every session", bucket: "In the thirty days"}
+      - {text: "A third card you keep seeing", bucket: "Waits until after"}
+      - {text: "A bigger size after a green week", bucket: "Waits until after"}
+    explanation: "Everything that changes mid-month changes what the month measured. The sheet is only readable if the thing being measured held still."
+
+  - type: plan-card
+    title: "Your thirty days"
+    intro: "Three numbers that fix the shape of the month before it starts."
+    fields:
+      - {key: sim_sessions, label: "Sessions in the plan", kind: number, suggest: 30}
+      - {key: sim_cards, label: "Cards being drilled", kind: number, suggest: 2}
+      - {key: sim_trades_per_session, label: "Trades allowed a session", kind: number, suggest: 3}
+    note: "These sit beside the limits you wrote in Chapter 6 and the cards you built in Chapter 7."
+
+  - type: tf
+    statement: "A month that finishes with sixty rows and no profit on the sheet has failed."
+    answer: false
+    explanation: "The month is bought to find out whether the routine runs and whether the two cards are worth more rows. What the R column says is one of the four things it reports, not the test."
+
+  - type: fill-choice
+    sentence: "Two cards over thirty sessions is a plan built to produce a readable ___."
+    options: ["sample", "week", "streak"]
+    answer: "sample"
+    explanation: "The word comes from Chapter 6 and the arithmetic has not changed since. Thirty rows a card is the smallest thing worth reading."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Thirty sessions, two cards and the same size throughout,"}
+      - {text: "with any card that sets up cleanly added as you go,", wrong: true}
+      - {text: "and every trade written down the same evening."}
+    explanation: "A card added in week two has a dozen rows by the end and the other two have been diluted. The month now answers three questions badly instead of two well."
+
+  - type: example
+    body: "Sixty rows, two cards, one size. At the end of it you can say what each of those two cards did across a month, which is more than most people can say about any of theirs."

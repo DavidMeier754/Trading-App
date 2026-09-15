@@ -1,0 +1,171 @@
+id: "17-1"
+title: "Final Exam and Graduation"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: final-exam
+tags: [final-exam, graduation]
+learning_goal: "Confirm the whole day: the platform and the ticket, the pre-market plan, the open, the lull, the close, the numbers, the simulator plan and the switch to a live size."
+purpose: "The last fourteen questions of the path, and the point at which the plan stops being ours and becomes yours."
+terms_introduced: []
+reinforces: [4, 5, 6, 7]
+prerequisite: "16-3"
+xp: 80
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook", "Steenbarger — Trading Psychology 2.0"]
+notes: "14 scored questions on Levels 1–16. Hearts apply. Pass mark 70 %. Questions 1, 3, 4, 7, 8, 9, 12 and 14 reach back into Chapters 4, 5, 6 and 7. Account named at $14,000; the worked positions are 800 shares at $15.62 = $12,496 and 800 at $13.20 = $10,560."
+screens:
+  - type: intro
+    text: "Final exam: The Trading Day. Fourteen questions, one session's worth of decisions. Your account is $14,000."
+    counter: 14
+
+  - type: chart-annotate
+    prompt: "ALDER, the first minutes of the session. Drag the line to the price the pushes keep stopping at."
+    chart:
+      kind: candles
+      data: [[15.40, 15.48, 15.36, 15.46], [15.46, 15.60, 15.44, 15.56], [15.56, 15.60, 15.50, 15.52], [15.52, 15.58, 15.48, 15.54], [15.54, 15.60, 15.50, 15.52], [15.52, 15.56, 15.46, 15.50], [15.50, 15.58, 15.46, 15.54], [15.54, 15.60, 15.50, 15.56], [15.56, 15.58, 15.50, 15.52]]
+    answer: 15.60
+    tolerance: 0.04
+    label: "Resistance"
+    explanation: "$15.60, reached three times and closed above none of them. A price that has refused three pushes is the line the next close is measured against."
+
+  - type: numeric-input
+    prompt: "Your stop is twelve cents, the page says 800 shares and your daily loss limit is 3R. How many dollars end the session?"
+    answer: 288
+    tolerance: 1
+    unit: "$"
+    working: "$0.12 × 800 = $96; 3 × $96 = $288"
+    explanation: "Two hundred and eighty-eight dollars, fixed before the bell. A limit worked out while the day is going badly is a negotiation, not a limit."
+
+  - type: scanner-pick
+    prompt: "Four names off the scan. Tap the one a $14,000 account can trade at 800 shares today."
+    data:
+      rows:
+        - {ticker: ALDER, price: 15.46, change_pct: 6.8, rvol: 5.2, float: "32M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: CORVID, price: 22.80, change_pct: 7.4, rvol: 5.8, float: "26M", spread: 0.03, catalyst: "Guidance"}
+        - {ticker: MOSSET, price: 13.20, change_pct: 0.6, rvol: 0.7, float: "180M", spread: 0.02, catalyst: "—"}
+        - {ticker: PIQUE, price: 11.60, change_pct: 9.2, rvol: 6.4, float: "5M", spread: 0.11, catalyst: "Offering"}
+    target: ALDER
+    explanation: "800 of CORVID is $18,240 the account cannot pay for. MOSSET is at its own ordinary volume with nothing behind it, and PIQUE's eleven-cent quote costs $88 a round trip on 800 shares."
+
+  - type: tf
+    statement: "A card that only works on a trend day is a card the day type can take off your page."
+    answer: true
+    explanation: "The day type is read first precisely so it can shorten the list. A continuation card on a day that keeps coming back is a card being asked for something it does not do."
+
+  - type: chart-decision
+    scenario: "ALDER has pushed into $15.60 three times without closing above it, and the minute that just closed finished at $15.62 through the line on the heaviest bar of the session. The stop goes back under the pushes at $15.50. Your account is $14,000 and the page says 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[15.44, 15.52, 15.40, 15.50], [15.50, 15.58, 15.46, 15.54], [15.54, 15.60, 15.50, 15.56], [15.56, 15.60, 15.52, 15.58], [15.58, 15.60, 15.54, 15.56], [15.56, 15.66, 15.54, 15.62], [15.62, 15.74, 15.58, 15.72], [15.72, 15.82, 15.68, 15.78], [15.78, 15.92, 15.74, 15.88], [15.88, 16.08, 15.84, 16.04]]
+      volume: [96000, 88000, 76000, 68000, 62000, 198000, 164000, 142000, 124000, 108000]
+      levels:
+        - {price: 15.60, label: "Resistance"}
+      decision_index: 5
+    state: ["Day: +1R", "Trades: 1 of 6"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $16.04 — $0.42 a share above the decision, +$336 on 800 shares against $96 of risk."
+    explanation: "Three refusals and then a close through on the session's heaviest minute. The stop has an obvious home, which is what makes the size arithmetic possible at all."
+
+  - type: mc
+    prompt: "The same card fires on a $22.80 name and your page still says 800 shares against a $14,000 account. What changes?"
+    options:
+      - {text: "The stop comes in, so the unit stays the same"}
+      - {text: "The card, which does not apply at that price"}
+      - {text: "The share count, and nothing else", correct: true}
+    explanation: "Size is the smaller of the risk budget and what the account can pay for, and the account is the smaller one here. Nothing on the card was ever about a share count."
+
+  - type: depth-ladder
+    prompt: "You market-sell 1,200 shares into this book. Where does the last share fill?"
+    data:
+      bids: [[15.60, 500], [15.59, 400], [15.58, 2000]]
+      asks: [[15.62, 700], [15.63, 900], [15.64, 1500]]
+    target: bid-3
+    explanation: "Five hundred at $15.60 and four hundred at $15.59 leaves 300 shares, and those hit $15.58. Size walks the book whatever the top of it says."
+
+  - type: journal-row
+    prompt: "You took that ALDER trade and exited at $15.98 on 800 shares. Fill its row."
+    trade: {setup: "Break of resistance", entry: 15.62, stop: 15.50, exit: 15.98, shares: 800}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$96", "$120", "$288"]
+      r_made: ["+1R", "+2R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$96", r_made: "+3R", grade: "A"}
+    explanation: "Twelve cents risked on 800 shares is $96, and thirty-six cents made is three of them. The grade is about the execution, and this one came off the page."
+
+  - type: numeric-mc
+    prompt: "Across 40 rows your average trade is +0.2R and your 1R is $96. What did those 40 trades come to?"
+    options:
+      - {text: "$384"}
+      - {text: "$768", correct: true}
+      - {text: "$960"}
+      - {text: "$1,920"}
+    working: "40 × 0.2R = 8R; 8 × $96 = $768"
+    explanation: "Eight units across forty attempts. One average trade is the number that survives being multiplied by a sample; a good week is not."
+
+  - type: chart-decision
+    scenario: "Later in the same session, on the other name on your page. MOSSET has stepped higher for an hour and the minute that just closed finished at $13.20, through the high of the stretch on triple the volume behind it. The day stands at −3R against a 3R limit."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[13.02, 13.08, 12.98, 13.06], [13.06, 13.12, 13.02, 13.10], [13.10, 13.16, 13.06, 13.12], [13.12, 13.16, 13.08, 13.10], [13.10, 13.14, 13.06, 13.12], [13.12, 13.24, 13.10, 13.20], [13.20, 13.32, 13.16, 13.30], [13.30, 13.42, 13.26, 13.38], [13.38, 13.50, 13.34, 13.46], [13.46, 13.66, 13.42, 13.64]]
+      volume: [82000, 74000, 68000, 60000, 58000, 176000, 148000, 128000, 110000, 96000]
+      levels:
+        - {price: 13.16, label: "High of the stretch"}
+      decision_index: 5
+    state: ["Day: −3R", "Limit: 3R"]
+    best: no-trade
+    outcome: "It ran to $13.64 — $0.44 a share above the decision, $352 on 800 shares that the limit cost you."
+    explanation: "Every condition the card names is present and the answer is still no. A limit that bends for a good chart has never once been tested."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The minute closes through the level on the session's heaviest bar,"}
+      - {text: "so the stop goes a few cents wider to survive the noise,", wrong: true}
+      - {text: "and the share count comes off that stop and the account."}
+    explanation: "The stop comes off the chart, and the size is worked out from it. Widening it for comfort raises the risk on a position you have already sized."
+
+  - type: fill-choice
+    sentence: "A stock is worth the screen when today's volume is heavy against its own ___."
+    options: ["normal", "sector", "float"]
+    answer: "normal"
+    explanation: "Four times its own ordinary day says something has changed. A large absolute number on a name that always trades that much says nothing."
+
+  - type: hotspot
+    component: plan-sheet
+    prompt: "Your finished plan. Tap the line the next ticket's share count is worked out from."
+    data:
+      fields:
+        - {key: cards, label: "Cards on the page", value: "VWAP bounce, Momentum continuation"}
+        - {key: risk_per_trade, label: "Risk per trade", value: "$96"}
+        - {key: daily_loss_limit, label: "Daily loss limit", value: "3R"}
+        - {key: trade_cap, label: "Trades a session", value: "6"}
+    target: risk_per_trade
+    explanation: "That figure divided by the stop the chart asks for, then capped by what the account can pay for. The other three decide whether there is a ticket at all."
+
+  - type: compare
+    prompt: "Two charts from the same morning. Which one is the continuation your page names?"
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[14.20, 14.32, 14.18, 14.30], [14.30, 14.42, 14.28, 14.40], [14.40, 14.48, 14.36, 14.44], [14.44, 14.48, 14.38, 14.40], [14.40, 14.44, 14.36, 14.38], [14.38, 14.50, 14.36, 14.48], [14.48, 14.58, 14.44, 14.56], [14.56, 14.64, 14.52, 14.60]]
+      - kind: candles
+        label: "B"
+        data: [[14.10, 14.28, 14.08, 14.26], [14.26, 14.46, 14.24, 14.44], [14.44, 14.64, 14.42, 14.62], [14.62, 14.82, 14.60, 14.80], [14.80, 15.00, 14.76, 14.96], [14.96, 15.16, 14.92, 15.14], [15.14, 15.34, 15.10, 15.30], [15.30, 15.48, 15.26, 15.44]]
+    answer: "A"
+    explanation: "A runs, pauses on two quiet minutes that hold the leg, then closes back through them — which is the entry and the stop in one shape. B has never paused, so the only stop available on it is a guess."
+
+  - type: summary
+    total: 14
+
+  - type: tier-up
+    tier: "Sim Trader"
+    means: "You have a playbook, a session routine and a thirty-day simulator plan: names chosen before the bell, cards with stops on them, limits in units, rows written the same day, and a written answer to what would count as ready."
+
+  - type: badge
+    name: "The Trading Day — Complete"
+    unlocks: "Your 30-day simulator plan"

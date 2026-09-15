@@ -1,0 +1,119 @@
+id: "15-1"
+title: "Going Live, Carefully"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [sizing, risk, execution, plan]
+learning_goal: "User picks a first live share size from what it makes one stop worth, and can say which fields the switch is allowed to move."
+purpose: "The first live month is an experiment about you, and experiments are run at the smallest size that still produces a reading."
+terms_introduced: ["Going live"]
+reinforces: [6]
+prerequisite: "14-4"
+xp: 25
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Elder — Trading for a Living"]
+notes: "Chapter 6's R and daily limit re-tested at a size a fifth of the drilled one. Live account named at $6,000, size 200 shares, 1R $24 on a twelve-cent stop. The worked positions are 200 shares at $14.20 = $2,840 and 200 at $14.24 = $2,848."
+screens:
+  - type: intro
+    text: "Two hundred shares. Small enough to be boring, real enough to be different."
+
+  - type: theory
+    title: "Going live"
+    body: "Going live is running the same platform, the same cards and the same page with your own money behind the orders. One number on that page changes and nothing else is allowed to."
+
+  - type: theory
+    title: "Small enough to be boring"
+    body: "The first live size is chosen so a full stop is an amount you would not think about twice. You are not buying a result yet, you are buying a reading."
+
+  - type: numeric-input
+    prompt: "You start live at 200 shares with the same twelve-cent stop you drilled. What is 1R?"
+    answer: 24
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.12 × 200 = $24"
+    explanation: "Twenty-four dollars, against the $84 the same stop cost on the simulator. The stop distance came off the chart and did not move."
+
+  - type: example
+    body: "A $6,000 live account holds 200 shares of a $14 stock for $2,800. The account is not the constraint at this size; what one stop is worth is."
+
+  - type: numeric-mc
+    prompt: "Your live daily loss limit is still 3R. At $24 a unit, how many dollars ends the session?"
+    options:
+      - {text: "$72", correct: true}
+      - {text: "$60"}
+      - {text: "$84"}
+      - {text: "$252"}
+    working: "3 × $24 = $72"
+    explanation: "Seventy-two dollars, which is the point of starting here. A limit you can reach without it mattering is a limit you will actually keep the first time it is tested."
+
+  - type: chart-decision
+    scenario: "Fourth live session. FENN has stepped up all morning, paused for three quiet minutes that held most of the leg, and the minute that just closed finished at $14.20 back in the direction of the run. The stop belongs under the pause at $14.06. Your live account is $6,000 and you are on 200 shares."
+    shares: 200
+    chart:
+      kind: candles
+      data: [[13.96, 14.04, 13.92, 14.02], [14.02, 14.12, 13.98, 14.10], [14.10, 14.18, 14.08, 14.16], [14.16, 14.18, 14.12, 14.14], [14.14, 14.18, 14.10, 14.12], [14.12, 14.24, 14.10, 14.20], [14.20, 14.32, 14.16, 14.30], [14.30, 14.42, 14.26, 14.40], [14.40, 14.52, 14.36, 14.48], [14.48, 14.62, 14.44, 14.58]]
+      volume: [128000, 142000, 96000, 74000, 66000, 214000, 178000, 152000, 130000, 112000]
+      decision_index: 5
+    state: ["Size: 200 live", "Day: 0R"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $14.58 — $0.38 a share above the decision, +$76 on 200 shares against $28 of risk."
+    explanation: "Every condition the card names is on the screen, and the size in the quantity box is the only thing about this trade that is new."
+
+  - type: order-build
+    prompt: "FENN is offered at $14.22 and your page allows two cents through the offer. Build the live entry at your starting size."
+    ticker: FENN
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [200, 700, 1200]
+      price: [14.20, 14.22, 14.24]
+    answer: {side: buy, type: limit, qty: 200, price: 14.24}
+    explanation: "The same ticket you built all month with one field changed. The limit still refuses anything worse than the two cents the page allowed."
+
+  - type: tf
+    statement: "A position small enough that losing on it would not bother you is too small to teach you anything."
+    answer: false
+    explanation: "What the first live month measures is whether the rules survive the switch, and that is far easier to read when the money is not shouting over it."
+
+  - type: sort
+    prompt: "The switch from a simulated account to a real one. Which of these moves, and which is untouched?"
+    buckets: ["The switch moves it", "Untouched by the switch"]
+    items:
+      - {text: "The number in the quantity box", bucket: "The switch moves it"}
+      - {text: "What one unit is worth in dollars", bucket: "The switch moves it"}
+      - {text: "Where the stop sits on the chart", bucket: "Untouched by the switch"}
+      - {text: "How many tickets the session allows", bucket: "Untouched by the switch"}
+    explanation: "One field changes and everything downstream of it follows. Anything that came off the chart or off the page stays exactly where it was."
+
+  - type: mc
+    prompt: "What would let the live size go up a rung?"
+    options:
+      - {text: "The first live week finishing green"}
+      - {text: "Live rows saying what the simulated ones said", correct: true}
+      - {text: "A live session finally feeling like the simulator"}
+    explanation: "The ladder from Level 12 does not soften because the money is real. Rows earn a rung and weeks earn nothing, on either screen."
+
+  - type: slider
+    prompt: "You drilled 700 shares for a month and start live on 200. What share of the practised size is that?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 30
+    tolerance: 5
+    explanation: "Under a third, on purpose. The gap is what you climb back through on evidence, once there are live rows to read."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The first live morning opens on the card you drilled most,"}
+      - {text: "so the ticket takes the size the simulator was set to,", wrong: true}
+      - {text: "and the stop goes under the pause the chart left."}
+    explanation: "That is the practised size, not the starting one. The first live month is bought by making each stop small, and this ticket spends the whole budget on one."
+
+  - type: story
+    character: retail-trader
+    text: "First live fill. Two hundred shares, twenty-eight dollars at risk, and a pulse that belongs to a far larger position. That gap is the thing you are here to measure."

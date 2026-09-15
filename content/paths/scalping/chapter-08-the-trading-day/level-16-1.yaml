@@ -1,0 +1,133 @@
+id: "16-1"
+title: "Capstone — A Full Week"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: repetition
+tags: [session, selection, limits, playbook]
+learning_goal: "User runs a green session and a red session off the same page, and lets the red one cost exactly what the page allowed."
+purpose: "Two sessions that look like opposites are the same page being followed twice."
+terms_introduced: []
+reinforces: [5, 6, 7]
+prerequisite: "15-3"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Elder — Trading for a Living"]
+notes: "Monday and Tuesday of the capstone week, on the simulator month from Level 14. Account named at $12,000, size 700 shares, 1R $84, limit 3R, cap 3 tickets. The worked positions are 700 shares at $14.08 = $9,856 and 700 at $12.78 = $8,946."
+screens:
+  - type: intro
+    text: "Five sessions, one page. This is the first two of them, and only one goes well."
+
+  - type: story
+    character: retail-trader
+    text: "Monday, before the bell. The scan is done, the levels are drawn, and the page says two cards, 700 shares, three tickets and a limit at three units."
+
+  - type: scanner-pick
+    prompt: "Four names off the morning scan. Tap the one your page can actually trade today."
+    data:
+      rows:
+        - {ticker: KESTRA, price: 13.94, change_pct: 7.2, rvol: 5.6, float: "28M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: OSPREY, price: 24.60, change_pct: 6.4, rvol: 4.8, float: "40M", spread: 0.03, catalyst: "Guidance"}
+        - {ticker: BRACK, price: 11.80, change_pct: 1.1, rvol: 0.8, float: "120M", spread: 0.02, catalyst: "—"}
+        - {ticker: VENN, price: 9.40, change_pct: 8.6, rvol: 6.2, float: "6M", spread: 0.09, catalyst: "Offering"}
+    target: KESTRA
+    explanation: "700 of OSPREY is $17,220 against a $12,000 account. BRACK is at its own normal volume with nothing behind it, and VENN's nine-cent quote costs $63 a round trip before the chart has moved."
+
+  - type: chart-decision
+    scenario: "Monday, still in the opening window. KESTRA spent the first minutes building a box and the minute that just closed finished at $14.08, above the top of it on the heaviest bar since the bell. The stop goes back inside the box at $13.96. Your account is $12,000 and the page says 700 shares."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[13.86, 13.98, 13.82, 13.94], [13.94, 14.02, 13.88, 13.92], [13.92, 13.98, 13.86, 13.90], [13.90, 13.96, 13.86, 13.94], [13.94, 14.00, 13.90, 13.96], [13.96, 14.10, 13.94, 14.08], [14.08, 14.20, 14.04, 14.18], [14.18, 14.28, 14.14, 14.24], [14.24, 14.34, 14.20, 14.30], [14.30, 14.38, 14.26, 14.34]]
+      volume: [268000, 214000, 176000, 152000, 148000, 322000, 262000, 218000, 186000, 164000]
+      levels:
+        - {price: 14.02, label: "Box high"}
+      decision_index: 5
+    state: ["Day: 0R", "Trades: 0 of 3"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped up to $14.34 and the exit at $14.26 filled — $0.18 a share above the entry, +$126 on 700 shares."
+    explanation: "The box was drawn before the bell and the close through it came on the session's heaviest minute. That is the card's trigger, not a judgement about the day."
+
+  - type: numeric-input
+    prompt: "Monday's two rows came to +1.5R and +1R, and your 1R is $84. What did Monday make?"
+    answer: 210
+    tolerance: 1
+    unit: "$"
+    working: "1.5R + 1R = 2.5R; 2.5 × $84 = $210"
+    explanation: "Two rows, both from the opening window, both inside the cap. The R column is what Friday will read; the dollars are just today."
+
+  - type: visual
+    component: r-tracker
+    data:
+      trades: [1.5, 1.0]
+      limit: 3
+    caption: "Monday in units. Two of three tickets used and the floor never in the conversation."
+
+  - type: tf
+    statement: "Both of Monday's rows came from the opening window, which is enough to say that is where your edge sits."
+    answer: false
+    explanation: "Two rows on one morning is not a column. It is a reason to keep the hour in the sheet and read it when there are enough rows to read."
+
+  - type: story
+    character: retail-trader
+    text: "Tuesday. The same page, a thinner tape, and both names only offering anything once the opening window is well behind you."
+
+  - type: chart-decision
+    scenario: "Tuesday, deep in the middle stretch. LUMEN has stepped up for an hour and spent five flat minutes without giving the leg back, and the minute that just closed finished at $12.78 through the high of the stretch on double the volume of the minutes behind it. The quote is two cents and the stop goes under the pause at $12.66."
+    shares: 700
+    chart:
+      kind: candles
+      data: [[12.70, 12.76, 12.64, 12.66], [12.66, 12.72, 12.60, 12.64], [12.64, 12.70, 12.58, 12.62], [12.62, 12.68, 12.58, 12.66], [12.66, 12.70, 12.62, 12.68], [12.68, 12.80, 12.66, 12.78], [12.78, 12.82, 12.70, 12.72], [12.72, 12.74, 12.64, 12.66], [12.66, 12.68, 12.58, 12.60], [12.60, 12.64, 12.56, 12.58]]
+      volume: [62000, 58000, 54000, 48000, 46000, 118000, 96000, 84000, 72000, 66000]
+      levels:
+        - {price: 12.76, label: "High of the stretch"}
+      decision_index: 5
+    state: ["Day: 0R", "Trades: 0 of 3"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It turned inside two minutes and the stop at $12.66 filled — $0.12 a share against you, −$84 on 700 shares."
+    explanation: "A thin stretch asks for extra reasons and this minute brought them: double volume, a two-cent quote, the level taken. The card was right and the row is still red."
+
+  - type: branch
+    scenario: "Tuesday, later. Two stops behind you in the same stretch, the day at −2R, one unit of room and one ticket left on the cap."
+    shares: 700
+    steps:
+      - prompt: "Nothing on either name has set up for the last forty minutes. What now?"
+        options:
+          - {text: "Stay flat and keep marking levels", correct: true, next: 1}
+          - {text: "Loosen what counts as a card, to use the last ticket", next: 1}
+        explanation: "An unused ticket costs nothing. A card widened to fit the charts in front of you is how a −2R day becomes the day the limit was written for."
+      - prompt: "The last stretch runs out with nothing offered. How does Tuesday finish?"
+        options:
+          - {text: "Flat, down two units, with both rows graded", correct: true}
+          - {text: "One small ticket, to finish the day level"}
+        explanation: "The cap and the limit both still had room and neither of them is a reason to trade. Tuesday's job was to cost two units and it did exactly that."
+
+  - type: numeric-mc
+    prompt: "Monday made +2.5R and Tuesday lost 2R. Where do the two sessions stand together, at $84 a unit?"
+    options:
+      - {text: "$84"}
+      - {text: "$126"}
+      - {text: "$42", correct: true}
+      - {text: "$378"}
+    working: "2.5R − 2R = 0.5R; 0.5 × $84 = $42"
+    explanation: "Half a unit after two sessions, which is roughly what two sessions are worth. The week is being kept in units precisely so numbers this small stay readable."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The second stop of the stretch fills and Tuesday reaches −2R,"}
+      - {text: "so the next ticket goes in at half size to work back,", wrong: true}
+      - {text: "and both rows are graded before the screens go off."}
+    explanation: "Half size is still a ticket chosen by the last two rows rather than by a chart. A red day inside the limit is the page working, not a hole to fill."
+
+  - type: sort
+    prompt: "Two sessions in. Which of these does the week so far actually support, and which is already a conclusion?"
+    buckets: ["The week supports it", "It cannot support this yet"]
+    items:
+      - {text: "Both of Tuesday's rows came from the middle stretch", bucket: "The week supports it"}
+      - {text: "Both of Monday's winners closed in the opening window", bucket: "The week supports it"}
+      - {text: "The middle stretch is where your method leaks", bucket: "It cannot support this yet"}
+      - {text: "The opening window is the only hour worth trading", bucket: "It cannot support this yet"}
+    explanation: "Four rows can say what happened and cannot say why. Friday's read is where the hour column is allowed to mean something, and only if the rows keep pointing the same way."

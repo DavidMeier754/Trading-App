@@ -1,0 +1,117 @@
+id: "15-2"
+title: "Going Live, Carefully"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [psychology, tilt, stops, execution]
+learning_goal: "User names the three things that change when the money is real and holds the stop, the size and the next entry through all of them."
+purpose: "Nothing on the chart knows your money is real. Everything about how you read it does."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "15-1"
+xp: 25
+difficulty: 2
+sources: ["Douglas — Trading in the Zone", "Steenbarger — The Daily Trading Coach"]
+notes: "Chapter 6's tilt, reset routine and hard stop re-tested on a live 200-share position. Live account named at $6,000; the worked positions are 200 shares at $17.40 = $3,480 and 200 at $17.48 = $3,496."
+screens:
+  - type: intro
+    text: "The chart is the one you have read three hundred times. You are not the one who read it."
+
+  - type: story
+    character: retail-trader
+    text: "Third live session. Two hundred shares of ARDEN from $17.40, the stop at $17.26, and twenty-eight dollars of your own money on the other side of it."
+
+  - type: theory
+    title: "The same chart, a different reader"
+    body: "The bars arrive at the same speed and mean the same things. What changes is which of them you notice, and how long you let one sit before doing something about it."
+
+  - type: carousel
+    cards:
+      - {label: "Hesitation", text: "The entry you took instantly for a month now needs one more bar of proof, and the price is gone.", icon: retail-trader}
+      - {label: "The negotiable stop", text: "A stop that was obvious when you placed it starts looking two cents too tight the moment price nears it.", icon: bear}
+      - {label: "The early exit", text: "A winner is taken at half the target because being right feels safer than being right later.", icon: bull}
+
+  - type: mc
+    prompt: "The first live stop fills and your hand is already on the buy key. What is that?"
+    options:
+      - {text: "The re-entry card, which is a trade like any other"}
+      - {text: "The reset routine's first step, arriving early"}
+      - {text: "Tilt, three seconds after the fill", correct: true}
+    explanation: "Chapter 6 named it and it does not announce itself any louder live. The card may well fire again; what decides is whether you read a chart first or a fill."
+
+  - type: branch
+    scenario: "You are long 200 shares of ARDEN from $17.40 with the stop at $17.26, and the position is under water."
+    shares: 200
+    steps:
+      - prompt: "Price drifts to $17.28, two cents above the stop. What now?"
+        options:
+          - {text: "Leave the stop where the chart put it", correct: true, next: 1}
+          - {text: "Drop it four cents for a little room", next: 1}
+        explanation: "Nothing on the chart changed between placing it and nearing it. A stop moved while a position is open is a new trade you never sized."
+      - prompt: "It fills at $17.26 and turns straight back up. What now?"
+        options:
+          - {text: "Write the row, then read the chart again", correct: true, next: 2}
+          - {text: "Buy it back now, before it leaves without you"}
+        explanation: "The stop doing exactly what it was placed to do is the page working. Buying back inside ten seconds is a reaction to the fill, not to anything on the screen."
+      - prompt: "Twenty minutes later the card is complete again, on the same name. What now?"
+        options:
+          - {text: "Take it, at the same 200 shares", correct: true}
+          - {text: "Take it at double, so the stop is paid back"}
+        explanation: "A second entry gets whatever any other entry gets. Size chosen to repair a previous row is the clearest tell there is."
+
+  - type: tf
+    statement: "A stop you would never have moved on the simulator is a stop you will not move live."
+    answer: false
+    explanation: "That assumption is exactly what the first live month is testing, and it is the one most people lose. Practice makes the habit cheap, not automatic."
+
+  - type: chart-decision
+    scenario: "The same session, after the stop. ARDEN has come back above the price that stopped you and the minute that just closed finished at $17.48, through the high of the last stretch on the heaviest bar since the open. The stop belongs at $17.34. Your live account is $6,000 and you are on 200 shares."
+    shares: 200
+    chart:
+      kind: candles
+      data: [[17.30, 17.36, 17.26, 17.28], [17.28, 17.34, 17.24, 17.32], [17.32, 17.40, 17.28, 17.36], [17.36, 17.42, 17.32, 17.38], [17.38, 17.42, 17.34, 17.40], [17.40, 17.50, 17.38, 17.48], [17.48, 17.60, 17.44, 17.58], [17.58, 17.70, 17.54, 17.66], [17.66, 17.78, 17.62, 17.74], [17.74, 17.92, 17.70, 17.88]]
+      volume: [88000, 76000, 92000, 68000, 62000, 168000, 144000, 126000, 108000, 98000]
+      levels:
+        - {price: 17.42, label: "High of the stretch"}
+      decision_index: 5
+    state: ["Day: −1R", "Size: 200 live"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $17.88 — $0.40 a share above the decision, +$80 on 200 shares against $28 of risk."
+    explanation: "Twenty minutes of distance between the stop and this ticket is what makes it a trade rather than a reply. The card is complete either way; you were not."
+
+  - type: hotspot
+    component: plan-sheet
+    prompt: "Tap the line on your sheet that the last ten minutes tried to renegotiate."
+    data:
+      fields:
+        - {key: live_share_size, label: "Live share size", value: "200"}
+        - {key: stop_rule, label: "Where the stop goes", value: "Under the pause the chart left"}
+        - {key: daily_loss_limit, label: "Daily loss limit", value: "3R"}
+        - {key: trade_cap, label: "Trades a session", value: "3"}
+    target: stop_rule
+    explanation: "Nothing on the chart moved while you were in the position. A number that only looks wrong with money against it was never wrong."
+
+  - type: fill-tiles
+    sentence: "Live, the first rule to start bending is usually the ___."
+    answer: "stop"
+    explanation: "It is the only rule with a running cost attached to keeping it, which is why it gets argued with first and hardest."
+
+  - type: sort
+    prompt: "Your first live week. Which of these is your nerve talking, and which is the market?"
+    buckets: ["Your nerve", "The market"]
+    items:
+      - {text: "The stop suddenly looks two cents too tight", bucket: "Your nerve"}
+      - {text: "The winner is taken at half the target", bucket: "Your nerve"}
+      - {text: "The fill comes a cent worse than the simulator printed", bucket: "The market"}
+      - {text: "The quote widens as your order goes in", bucket: "The market"}
+    explanation: "Two of these you fix by following the page and two by sizing for the book. Treating the first pair as market conditions is how a plan quietly disappears."
+
+  - type: checklist-reveal
+    title: "When the money is real"
+    items:
+      - "Is the stop still where the chart put it?"
+      - "Is this ticket the same size as the last one?"
+      - "Has a chart been read since the previous fill?"
+      - "Would I take this if the last trade had won?"
