@@ -1,0 +1,113 @@
+id: "8-1"
+title: "The Close and the Review"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [close, flat, overnight, risk]
+learning_goal: "User finishes every session flat and can say what a position held past the close does to the risk they sized."
+purpose: "A scalp held overnight is not a scalp that went on longer. It is a different trade, with the stop switched off."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "7-3"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Elder — Trading for a Living"]
+notes: "Chapter 6's stop and R re-tested against the one risk a stop cannot cover. Account named at $16,000; the worked position is 1,200 shares at $12.86 = $15,432."
+screens:
+  - type: intro
+    text: "Every scalping session ends the same way, whatever the last chart is doing."
+
+  - type: theory
+    title: "Flat means flat"
+    body: "Your holding period is minutes. A position carried past the close is held for hours through a market that is shut, against a stop that cannot fill while it is."
+
+  - type: example
+    body: "1,100 shares held overnight on a twelve-cent stop, and the name opens nineteen cents lower. The stop did not fail — it was never in the market while the gap happened. $209 instead of $132."
+
+  - type: numeric-input
+    prompt: "900 shares, a ten-cent stop, and the name opens twenty-eight cents under your entry. What did the position actually cost?"
+    answer: 252
+    tolerance: 1
+    unit: "$"
+    working: "$0.28 a share × 900 shares = $252"
+    explanation: "Two and eight-tenths of the R you sized, on a move that happened while nobody could act. The stop was correct and irrelevant."
+
+  - type: tf
+    statement: "A resting stop order protects a position overnight."
+    answer: false
+    explanation: "It rests until the session it belongs to reopens. Whatever price the name opens at is where it becomes a market order."
+
+  - type: hotspot
+    component: hotkey-pad
+    prompt: "The last minutes of the session and you are still holding two names. Tap the key that ends the day."
+    data:
+      keys:
+        - {label: "Buy", action: "Buy your size at the ask"}
+        - {label: "Sell", action: "Sell your size at the bid"}
+        - {label: "Size", action: "Set the share count for the next order"}
+        - {label: "Flatten", action: "Close every open position now"}
+        - {label: "Cancel", action: "Cancel every working order"}
+    target: "Flatten"
+    explanation: "Sell closes one name at a time and needs you to be right about which one. Flatten is one key for a screen that has to be empty."
+
+  - type: theory
+    title: "The last stretch has its own crowd"
+    body: "Volume comes back before the bell, but a lot of it is orders that must be done today — closing, rebalancing, tidying. The moves are real; the reasons behind them are not the morning's."
+
+  - type: chart-decision
+    scenario: "The last half hour. NEVIN has held under its own average price since the middle of the session and has just closed a minute at $12.86, under the low it made an hour ago, on the heaviest bar since the open. Your account is $16,000 and your size is 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[13.06, 13.10, 13.00, 13.02], [13.02, 13.06, 12.98, 13.04], [13.04, 13.08, 12.96, 12.98], [12.98, 13.02, 12.94, 13.00], [13.00, 13.02, 12.92, 12.94], [12.94, 12.96, 12.82, 12.86], [12.86, 12.88, 12.74, 12.78], [12.78, 12.82, 12.68, 12.72], [12.72, 12.76, 12.64, 12.68], [12.68, 12.72, 12.58, 12.61]]
+      volume: [58000, 52000, 64000, 49000, 61000, 186000, 158000, 132000, 114000, 98000]
+      vwap: [13.12, 13.11, 13.10, 13.08, 13.07, 13.04, 13.01, 12.98, 12.95, 12.92]
+      levels:
+        - {price: 12.92, label: "Low of the middle stretch"}
+      decision_index: 5
+    state: ["Day: +1R", "Trades: 4 of 6"]
+    best: short
+    reasonable: [no-trade]
+    outcome: "It kept going to $12.61 — $0.25 a share below the decision, +$300 short on 1,200 shares."
+    explanation: "Real volume behind a break of a marked price is a trade whatever the hour is. What changes near the close is that this one has a deadline."
+
+  - type: mc
+    prompt: "The trade is working into the last minutes and you are tempted to hold it overnight. What does that decision actually change?"
+    options:
+      - {text: "The size of the risk you already agreed to", correct: true}
+      - {text: "The setup, which becomes a swing trade"}
+      - {text: "Nothing, as long as the stop stays where it is"}
+    explanation: "You sized 1,200 shares against twelve cents. Holding makes the same position carry a move nobody can measure in advance, and you never agreed to that number."
+
+  - type: sort
+    prompt: "Which of these is still the trade you planned, and which has quietly become a different one?"
+    buckets: ["Still the trade you planned", "A different trade"]
+    items:
+      - {text: "Taking the target the page named ten minutes before the bell", bucket: "Still the trade you planned"}
+      - {text: "Holding the winner overnight because it looks strong", bucket: "A different trade"}
+      - {text: "Closing at the bell for less than the target", bucket: "Still the trade you planned"}
+      - {text: "Keeping the loser so the stop has more time to be wrong", bucket: "A different trade"}
+    explanation: "Both of the second column keep a position past the point the plan covered. One of them feels like greed and the other like patience; they are the same decision."
+
+  - type: slider
+    prompt: "Roughly how much of a day's volume goes through in the last half hour of the session?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 15
+    tolerance: 10
+    explanation: "Around a seventh on an ordinary day — the second-busiest stretch after the open, and made of orders that have to be finished today."
+
+  - type: checklist-reveal
+    title: "Before the bell"
+    items:
+      - "Every position closed, winners and losers alike"
+      - "Every working order cancelled"
+      - "The day's result written down in R, not in dollars"
+      - "The charts you traded still open for the review"
+
+  - type: story
+    character: retail-trader
+    text: "Screen empty, four rows to write, and tomorrow's page starting from nothing rather than from a position you are already arguing with."

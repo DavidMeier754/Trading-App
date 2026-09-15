@@ -1,0 +1,108 @@
+id: "8-2"
+title: "The Close and the Review"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [review, process, journal, discipline]
+learning_goal: "User runs a short post-market review on the day's own charts and separates the trades the page allowed from the ones it did not."
+purpose: "The twenty minutes after the bell are the only time the charts and your reasons for them are both still available."
+terms_introduced: ["Post-market review"]
+reinforces: [6]
+prerequisite: "8-1"
+xp: 25
+difficulty: 2
+sources: ["Steenbarger — The Daily Trading Coach", "Bellafiore — One Good Trade"]
+notes: "Chapter 6's weekly review re-tested as a daily one, and its execution grade re-tested against a green day. No position is worked here, so no account is named."
+screens:
+  - type: intro
+    text: "The bell has gone, the screen is empty, and the most useful twenty minutes of the day have not started yet."
+
+  - type: theory
+    title: "The post-market review"
+    body: "The post-market review is the short stretch after the close spent on the charts you actually traded, while you can still remember why. Three questions, and it ends in one line."
+
+  - type: checklist-reveal
+    title: "The three questions"
+    items:
+      - "Did I take the trades the page allowed?"
+      - "Did I take any the page did not?"
+      - "Which of the two cost more today?"
+
+  - type: visual
+    component: stats-card
+    data:
+      rows:
+        - {label: "Trades taken", value: "5"}
+        - {label: "On the page", value: "3"}
+        - {label: "Not on the page", value: "2"}
+        - {label: "Result from the page trades", value: "+2.0R"}
+        - {label: "Result from the rest", value: "−1.4R"}
+    caption: "Two columns, one day. The day finished green, and one of the two columns is why."
+
+  - type: mc
+    prompt: "That day finished up 0.6R in all. Which line on the card matters most tomorrow?"
+    options:
+      - {text: "The total, because a green day means the process held"}
+      - {text: "The two trades that were not on the page", correct: true}
+      - {text: "The number of trades, because five is close to the cap"}
+    explanation: "Three planned trades made 2R between them and two unplanned ones gave most of it back. The habit is cheap today and expensive on the day the unplanned ones are bigger."
+
+  - type: chart-annotate
+    prompt: "This is the chart of your first trade. Drag the line to the price your entry was supposed to be triggered by."
+    chart:
+      kind: candles
+      data: [[19.02, 19.08, 18.96, 19.06], [19.06, 19.16, 19.02, 19.12], [19.12, 19.20, 19.08, 19.14], [19.14, 19.20, 19.06, 19.10], [19.10, 19.18, 19.06, 19.16], [19.16, 19.30, 19.14, 19.24], [19.24, 19.38, 19.20, 19.34], [19.34, 19.44, 19.30, 19.40], [19.40, 19.48, 19.36, 19.44]]
+      volume: [86000, 74000, 92000, 68000, 71000, 214000, 176000, 148000, 122000]
+    answer: 19.20
+    tolerance: 0.04
+    label: "The line on the page"
+    explanation: "$19.20, reached and refused twice before the minute that finally closed through it at $19.24. Redrawing it after the close is how you find out whether you waited for it."
+
+  - type: tf
+    statement: "A day that finished green can still be a day worth reviewing hard."
+    answer: true
+    explanation: "The result is one sample. The habits that produced it are the part that repeats, and a green day hides them better than a red one."
+
+  - type: sort
+    prompt: "The review asks about each trade. Which column does each of these belong in?"
+    buckets: ["The page allowed it", "The page did not"]
+    items:
+      - {text: "Entered on the close through the marked price, at the written size", bucket: "The page allowed it"}
+      - {text: "Bought the fourth name because it was the strongest chart on the board", bucket: "The page did not"}
+      - {text: "Stopped out at the price the line named", bucket: "The page allowed it"}
+      - {text: "Re-entered immediately after the stop, at double size", bucket: "The page did not"}
+    explanation: "The sorting is the review. Everything else is a note about how it felt, and you already know how it felt."
+
+  - type: order
+    prompt: "Put the post-market review in the order it is done."
+    items:
+      - "Close every position and cancel every order"
+      - "Open the charts of the trades you took"
+      - "Sort them into the ones the page allowed and the ones it did not"
+      - "Write the one line tomorrow starts from"
+    explanation: "The sorting only works on charts you can still see, and the one line only works if it comes out of the sorting rather than out of the result."
+
+  - type: mc
+    prompt: "One of your unplanned trades made 1.2R. What does the review do with it?"
+    options:
+      - {text: "Counts it as evidence for adding that setup to the page"}
+      - {text: "Leaves it out, because it worked"}
+      - {text: "Files it with the other one and grades both the same", correct: true}
+    explanation: "A setup joins the page from a sample, not from one winner. Graded on execution, a profitable trade you never planned is the same trade as the one that lost."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The review runs while the charts are still up,"}
+      - {text: "starts with the day's result,", wrong: true}
+      - {text: "and finishes with one line for tomorrow."}
+    explanation: "Start on the result and every trade gets read backwards from whether it paid. The sorting has to happen before the number does."
+
+  - type: fill-tiles
+    sentence: "A review that ends in an opinion changes nothing; a review that ends in one checkable ___ changes tomorrow."
+    answer: "rule"
+    explanation: "Chapter 6 asked a week of rows for one rule. A day is a smaller sample, so it gets a smaller rule — one you can answer before the click."
+
+  - type: example
+    body: "Five charts, two columns, twenty minutes, one line: today, do not take the fourth name unless it was on the page before the bell. That is a whole day's review."

@@ -1,0 +1,119 @@
+id: "9-1"
+title: "Full-Day Practice"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [practice, routine, capstone, open]
+learning_goal: "User runs one unseen session from the scanner to the first fill, using the page, the cards and the caps as one process rather than four."
+purpose: "Every part of this has been drilled on its own. A session is the part where they have to arrive in order."
+terms_introduced: []
+reinforces: [5, 6, 7]
+prerequisite: "8-3"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
+notes: "One narrated session, opened here and continued in 9-2 and 9-3. Account named at $16,000, day size 1,000 shares, 1R $120, limit 3R, cap 6 trades. The worked position is 1,000 shares at $15.00 = $15,000."
+screens:
+  - type: intro
+    text: "One session, start to finish, on a morning you have not seen before."
+
+  - type: story
+    character: retail-trader
+    text: "An hour before the bell. $16,000 in the account, a twelve-cent stop on most days, six trades allowed and three R of room. The scanner has just finished."
+
+  - type: scanner-pick
+    prompt: "Steps one and two of the hour. Tap the two rows that are worth a page."
+    data:
+      rows:
+        - {ticker: CASP, price: 14.80, change_pct: 7.6, rvol: 6.4, float: "48M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: THALE, price: 96.20, change_pct: 3.4, rvol: 3.1, float: "260M", spread: 0.09, catalyst: "Upgrade"}
+        - {ticker: ORRIN, price: 11.40, change_pct: 5.2, rvol: 4.7, float: "62M", spread: 0.03, catalyst: "Contract"}
+        - {ticker: VESK, price: 13.90, change_pct: 0.9, rvol: 0.7, float: "84M", spread: 0.03, catalyst: "None"}
+    targets: [CASP, ORRIN]
+    explanation: "CASP and ORRIN are both cheap enough to hold at a real size, tight enough to pay for, and busy enough to matter. THALE is 166 shares on this account and VESK is having an ordinary day."
+
+  - type: chart-annotate
+    prompt: "Step three on CASP. Drag the line to the price the pre-market has failed at twice."
+    chart:
+      kind: candles
+      data: [[14.62, 14.70, 14.58, 14.68], [14.68, 14.78, 14.64, 14.74], [14.74, 14.92, 14.70, 14.86], [14.86, 14.90, 14.76, 14.80], [14.80, 14.88, 14.76, 14.84], [14.84, 14.92, 14.80, 14.86], [14.86, 14.90, 14.78, 14.82], [14.82, 14.88, 14.78, 14.84], [14.84, 14.90, 14.80, 14.86]]
+      volume: [16000, 13000, 21000, 14000, 11000, 17000, 9000, 12000, 15000]
+    answer: 14.92
+    tolerance: 0.04
+    label: "Pre-market high"
+    explanation: "$14.92, reached twice and closed above neither time. It is the trigger the if-then line will be written around."
+
+  - type: theory
+    title: "What the page ends up saying"
+    body: "Two names, three lines each, one thousand shares, $120 a unit, three units of room and six trades. If CASP closes a minute above $14.92, buy 1,000, stop $14.88."
+
+  - type: chart-decision
+    scenario: "The bell went five minutes ago. CASP has pressed $14.92 twice without closing above it, and the minute that just closed finished at $15.00 on the heaviest bar since the open. Your account is $16,000 and the page says 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[14.84, 14.94, 14.78, 14.88], [14.88, 14.92, 14.80, 14.86], [14.86, 14.90, 14.80, 14.84], [14.84, 14.92, 14.82, 14.90], [14.90, 14.92, 14.84, 14.88], [14.88, 15.04, 14.86, 15.00], [15.00, 15.14, 14.96, 15.10], [15.10, 15.22, 15.06, 15.18], [15.18, 15.28, 15.12, 15.24], [15.24, 15.34, 15.18, 15.31]]
+      volume: [380000, 264000, 218000, 196000, 174000, 342000, 286000, 232000, 198000, 172000]
+      levels:
+        - {price: 14.92, label: "Pre-market high"}
+      decision_index: 5
+    state: ["Day: 0R", "Trade 1 of 6"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $15.31 — $0.31 a share above the decision, and the 2R exit at $15.24 was $240 of that on 1,000 shares."
+    explanation: "The line was drawn an hour before the bell and the stop goes four cents back under it. Everything the session added was which minute it happened in."
+
+  - type: numeric-input
+    prompt: "Filled at $15.00 with the stop at $14.88 on 1,000 shares, and your loss limit is 3R. In dollars, where does the day end?"
+    answer: 360
+    tolerance: 1
+    unit: "$"
+    working: "$15.00 − $14.88 = $0.12; $0.12 × 1,000 = $120 for 1R; 3 × $120 = $360"
+    explanation: "Two steps, both of them off numbers the page already carried. The limit only becomes money once the size is fixed."
+
+  - type: order-build
+    prompt: "The ask is $15.02 and your line allows three cents through it. Build the entry."
+    ticker: CASP
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [500, 1000, 1500]
+      price: [14.99, 15.02, 15.05]
+    answer: {side: buy, type: limit, qty: 1000, price: 15.05}
+    explanation: "1,000 × $15.05 is $15,050 of a $16,000 account. At 1,500 shares the ticket is $22,575 and the account cannot pay for it."
+
+  - type: depth-ladder
+    prompt: "That 1,000-share order crosses the quote. Where does the last share fill?"
+    data:
+      bids: [[15.00, 700], [14.99, 1100], [14.98, 2400]]
+      asks: [[15.02, 400], [15.03, 900], [15.04, 1500]]
+    target: ask-2
+    explanation: "400 at $15.02 leaves 600, and the second row has 900 to give. The $15.05 ceiling was never tested, which is what a ceiling is for."
+
+  - type: mc
+    prompt: "Your page named two cards for CASP. It opened and ran for twenty minutes without pausing, so no box ever formed. Which card is still live?"
+    options:
+      - {text: "Momentum continuation, once a pause actually forms", correct: true}
+      - {text: "The opening-range scalp, using the twenty minutes as the box"}
+      - {text: "Both of them, since the direction is the same"}
+    explanation: "A box is five minutes by definition, not however long the move happened to take. The continuation card is waiting on a pause that has not arrived."
+
+  - type: tf
+    statement: "Cutting the page from four names to two lets you carry a wider stop on each of them."
+    answer: false
+    explanation: "The stop comes off the chart, not off the length of the list. Chapter 5 cut the list to make the reads better, not to make the risk bigger."
+
+  - type: sort
+    prompt: "By the first fill, each of these has been settled by one of two things. Which?"
+    buckets: ["The page settled it", "The session settled it"]
+    items:
+      - {text: "Which two names you may trade at all", bucket: "The page settled it"}
+      - {text: "How many shares each of them gets", bucket: "The page settled it"}
+      - {text: "Which of the two cards actually fired", bucket: "The session settled it"}
+      - {text: "Whether today is a trend day or a range day", bucket: "The session settled it"}
+    explanation: "Everything in the left column was decided while nothing was moving. That is the whole reason the right column is only two items long."
+
+  - type: example
+    body: "Nine minutes of session, one fill, +2R banked, and five trades still allowed. The rest of the day is the harder half."

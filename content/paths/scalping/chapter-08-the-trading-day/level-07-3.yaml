@@ -1,0 +1,120 @@
+id: "7-3"
+title: "Mid-Session"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [midday, limits, tilt, discipline]
+learning_goal: "User stops on a cap rather than on a feeling, and sizes the last trade of a red session so a full stop cannot breach the limit."
+purpose: "The dead stretch is where a bad morning gets turned into a bad month, because there is nothing else to do."
+terms_introduced: []
+reinforces: [4, 6]
+prerequisite: "7-2"
+xp: 25
+difficulty: 3
+sources: ["Elder — Trading for a Living", "Steenbarger — Trading Psychology 2.0"]
+notes: "Closes Level 7 with a plan-card and a recap. Chapter 6's three caps and its post-stop checks re-tested in the lull; Chapter 4's stand-aside families supply the read. Account named at $16,000; the worked positions are 1,100 shares at $14.28 = $15,708 and 400 shares at $14.06 = $5,624."
+screens:
+  - type: intro
+    text: "The quiet stretch is not dangerous because of what it offers. It is dangerous because of what it leaves you time for."
+
+  - type: story
+    character: retail-trader
+    text: "Three stops since the one that paid, nothing on the page since, and forty minutes of a chart that has not moved. The fourth name has started to look interesting."
+
+  - type: theory
+    title: "The cap you wrote is the one that works"
+    body: "Three numbers came off the page this morning: how much you may lose, how many trades you may take, and when you stop taking new ones. None of them needs you to feel calm."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "Three stops in a row and the stretch is dead,"}
+      - {text: "so a third trade gets the morning back,", wrong: true}
+      - {text: "and the caps were written for exactly this minute."}
+    explanation: "A trade taken to undo the last two is Chapter 6's revenge trade wearing the clothes of a quiet hour."
+
+  - type: chart-decision
+    scenario: "The dead stretch. HALVERN has drifted to a price you marked before the open, but the last six minutes overlap each other and the quote is nine cents. Your account is $16,000 and your size is 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[14.40, 14.44, 14.32, 14.34], [14.34, 14.38, 14.28, 14.32], [14.32, 14.36, 14.26, 14.30], [14.30, 14.34, 14.24, 14.28], [14.28, 14.34, 14.24, 14.32], [14.32, 14.34, 14.24, 14.28], [14.28, 14.32, 14.22, 14.26], [14.26, 14.32, 14.22, 14.30], [14.30, 14.34, 14.24, 14.28], [14.28, 14.32, 14.22, 14.26]]
+      volume: [52000, 44000, 39000, 36000, 33000, 31000, 34000, 29000, 32000, 28000]
+      levels:
+        - {price: 14.24, label: "Yesterday's low"}
+      decision_index: 5
+    state: ["Day: −2.6R", "Limit: 3R", "Trades: 4 of 6"]
+    best: no-trade
+    outcome: "It sat on the line for another five minutes and finished the stretch at $14.26. Nine cents of quote on 1,100 shares is $99 to join it."
+    explanation: "The level is real and nothing is happening at it. Two stops behind you and a nine-cent quote in front is a combination that belongs to the page, not to the chart."
+
+  - type: visual
+    component: r-tracker
+    data:
+      trades: [0.4, -1.0, -1.0, -1.0]
+      limit: 3
+    caption: "One small winner and three full stops. Four-tenths of an R between the day as it stands and the number that ends it."
+
+  - type: sort
+    prompt: "Every reason to close the screen is one of two things. Which is each of these?"
+    buckets: ["A cap you wrote", "A read you made"]
+    items:
+      - {text: "Six trades taken", bucket: "A cap you wrote"}
+      - {text: "Minutes that all sit inside one another", bucket: "A read you made"}
+      - {text: "Down three R", bucket: "A cap you wrote"}
+      - {text: "The quote doubled an hour ago and stayed there", bucket: "A read you made"}
+    explanation: "The caps stop you whatever the chart says. The reads stop you before the caps have to, and only one of the two needs you to be thinking clearly."
+
+  - type: numeric-input
+    prompt: "Your 1R is $120 and your daily loss limit is 3R. You are down $312. How much room is left?"
+    answer: 48
+    tolerance: 0.5
+    unit: "$"
+    working: "3 × $120 = $360; $360 − $312 = $48"
+    explanation: "Less than half a stop. The number decides the size of the next trade, if there is one at all."
+
+  - type: mc
+    prompt: "With $48 of room left and a twelve-cent stop, what does the page allow the next trade to be?"
+    options:
+      - {text: "The usual 1,000 shares, because one more full stop is still inside the limit"}
+      - {text: "Nothing — a limit this close is already reached"}
+      - {text: "At most 400 shares, so a full stop cannot take you past the limit", correct: true}
+    explanation: "$48 ÷ $0.12 is 400 shares. Chapter 6 sized the last trade of a red day so that losing it does not need a second decision."
+
+  - type: chart-decision
+    scenario: "Minutes later HALVERN closes a minute under $14.24 on four times the volume of the drift, and the quote has come back to three cents. The page names this trade. Your account is $16,000 and $48 of the limit is left."
+    shares: 400
+    chart:
+      kind: candles
+      data: [[14.28, 14.32, 14.24, 14.26], [14.26, 14.30, 14.24, 14.28], [14.28, 14.30, 14.22, 14.24], [14.24, 14.28, 14.20, 14.26], [14.26, 14.30, 14.20, 14.24], [14.24, 14.26, 14.02, 14.06], [14.06, 14.10, 13.94, 13.98], [13.98, 14.02, 13.88, 13.92], [13.92, 13.96, 13.82, 13.86], [13.86, 13.90, 13.76, 13.79]]
+      volume: [34000, 31000, 38000, 42000, 56000, 168000, 142000, 116000, 98000, 84000]
+      levels:
+        - {price: 14.24, label: "Yesterday's low"}
+      decision_index: 5
+    state: ["Day: −2.6R", "Room: $48", "Trades: 5 of 6"]
+    best: short
+    reasonable: [no-trade]
+    outcome: "It ran down to $13.79 — $0.27 a share below the decision, +$108 short on 400 shares."
+    explanation: "The read earned a ticket and the limit decided the size. Four hundred shares is the largest position whose full stop still leaves the day inside the number."
+
+  - type: tf
+    statement: "A day that has to be cut to 400 shares should be finished instead, because a trade that small is not worth taking."
+    answer: false
+    explanation: "The size is small because the room is small, and both are correct. What the last trade is worth is never the reason to breach a limit."
+
+  - type: plan-card
+    title: "When your session ends"
+    intro: "The three numbers that close your screen, whatever the chart is doing."
+    fields:
+      - {key: daily_loss_limit, label: "Daily loss limit (in R)", kind: number, suggest: 3}
+      - {key: trade_cap, label: "Maximum trades a day", kind: number, suggest: 6}
+      - {key: new_trade_cutoff, label: "Minutes after the open you stop taking new trades", kind: number, suggest: 180}
+    note: "These sit beside the size and the 1R you wrote in Level 4. Together they are the page you trade the whole session from."
+
+  - type: recap
+    title: "Level 7 in three lines"
+    points:
+      - {text: "The lull is thinner, not slower — the quote widens as the bars shrink.", level: "7-1"}
+      - {text: "Raise the bar, cut the size, or close the screen. Drifting is not an answer.", level: "7-2"}
+      - {text: "Stop on a number you wrote, and size the last trade so a stop cannot breach it.", level: "7-3"}

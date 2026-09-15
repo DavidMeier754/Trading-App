@@ -1,0 +1,122 @@
+id: "9-3"
+title: "Full-Day Practice"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: repetition
+tags: [practice, close, review, journal]
+learning_goal: "User finishes the same session flat, adds up the day in R rather than in dollars, and turns four rows into one line for tomorrow."
+purpose: "A session is only finished when it has been written down, and that is the part nobody feels like doing."
+terms_introduced: []
+reinforces: [5, 6, 7]
+prerequisite: "9-2"
+xp: 30
+difficulty: 3
+sources: ["Steenbarger — The Daily Trading Coach", "Elder — Trading for a Living"]
+notes: "Closes Level 9 with a recap. The day from 9-1 and 9-2 finished: +2R, −1R, +1.5R across three trades. Account named at $16,000; the worked position is 1,000 shares at $11.72 = $11,720."
+screens:
+  - type: intro
+    text: "Two trades behind you, the last stretch in front, and a sheet with nothing on it yet."
+
+  - type: story
+    character: retail-trader
+    text: "Up a unit, two of six trades used, and ORRIN has spent the whole quiet stretch holding above the price that stopped you out."
+
+  - type: chart-decision
+    scenario: "The last half hour. ORRIN has held above $11.44 since the middle of the session and the minute that just closed finished at $11.72, through the high of the day on the heaviest bar since the open. The quote is three cents. Your account is $16,000 and the page says 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[11.52, 11.58, 11.48, 11.56], [11.56, 11.62, 11.52, 11.58], [11.58, 11.64, 11.54, 11.60], [11.60, 11.66, 11.56, 11.62], [11.62, 11.66, 11.58, 11.64], [11.64, 11.76, 11.62, 11.72], [11.72, 11.84, 11.68, 11.80], [11.80, 11.90, 11.76, 11.86], [11.86, 11.94, 11.82, 11.90], [11.90, 11.96, 11.84, 11.89]]
+      volume: [74000, 68000, 82000, 71000, 78000, 196000, 164000, 138000, 112000, 124000]
+      levels:
+        - {price: 11.66, label: "High of the day"}
+      decision_index: 5
+    state: ["Day: +1R", "Trades: 2 of 6"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $11.89 — $0.17 a share above the decision, and the exit at $11.90 into the bell made $180 on 1,000 shares."
+    explanation: "Same name, same card, and this time the level held before it went. The trade that stopped you out earlier is not evidence against the one the chart is offering now."
+
+  - type: visual
+    component: r-tracker
+    data:
+      trades: [2.0, -1.0, 1.5]
+      limit: 3
+    caption: "Three trades of the six allowed, and the running total never came near the number that ends the day."
+
+  - type: numeric-input
+    prompt: "The three trades came to +2R, −1R and +1.5R. Your 1R is $120. What did the day make in dollars?"
+    answer: 300
+    tolerance: 1
+    unit: "$"
+    working: "2 − 1 + 1.5 = 2.5R; 2.5 × $120 = $300"
+    explanation: "The R column adds up first and the dollars come out of it. Tomorrow's size may differ and the R column will still be comparable."
+
+  - type: journal-row
+    prompt: "The last trade of the day, 1,000 shares. Fill its row."
+    trade: {setup: "Momentum continuation", entry: 11.72, stop: 11.60, exit: 11.90, shares: 1000}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$108", "$120", "$180"]
+      r_made: ["+1R", "+1.5R", "+2R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$120", r_made: "+1.5R", grade: "A"}
+    explanation: "Twelve cents risked and eighteen made: one and a half units, on a card the page named before the bell."
+
+  - type: hotspot
+    component: stats-card
+    prompt: "Tap the row that decides whether today's method is worth running again tomorrow."
+    data:
+      rows:
+        - {label: "Result today", value: "+2.5R"}
+        - {label: "Trades taken", value: "3 of 6"}
+        - {label: "Rows graded A", value: "3 of 3"}
+        - {label: "Sessions in the sample", value: "1"}
+    target: "Sessions in the sample"
+    explanation: "One session decides nothing. A day that went well is one observation, and Chapter 6 measured methods over samples for exactly this reason."
+
+  - type: mc
+    prompt: "The day finished +2.5R with three A grades. What is the honest line to write for tomorrow?"
+    options:
+      - {text: "Raise the size, because the method is clearly working"}
+      - {text: "Take more trades, since three of six were used"}
+      - {text: "Nothing changes, and tomorrow runs the same page", correct: true}
+    explanation: "Nothing in one green day is evidence for anything. The line tomorrow starts from is the one the sheet gives you, and today's sheet gives you none."
+
+  - type: sort
+    prompt: "Four things happened today. Which of them belongs in the review, and which was already answered by the page?"
+    buckets: ["The review decides it", "The page already decided it"]
+    items:
+      - {text: "Whether the stop-out was taken correctly", bucket: "The review decides it"}
+      - {text: "How many shares each trade got", bucket: "The page already decided it"}
+      - {text: "Whether a fourth trade was allowed", bucket: "The page already decided it"}
+      - {text: "Whether the re-entry deserved its grade", bucket: "The review decides it"}
+    explanation: "The page settles the numbers and the review settles the habits. Neither of them is allowed to settle the other one's column."
+
+  - type: tf
+    statement: "A day with a losing trade in it can be a day where every row earns an A."
+    answer: true
+    explanation: "The grade is about what you did with the plan. A stop that filled where it was placed is the plan working, not failing."
+
+  - type: order
+    prompt: "Put the end of the session in order."
+    items:
+      - "Close the last position before the bell"
+      - "Cancel every working order"
+      - "Write the rows while the charts are still open"
+      - "Write the one line tomorrow starts from"
+    explanation: "Positions, then orders, then rows, then the line. Each step is cheap and the last one is the only one that changes anything."
+
+  - type: fill-choice
+    sentence: "A session is finished when it is ___, not when the bell goes."
+    options: ["written down", "profitable", "flat"]
+    answer: "written down"
+    explanation: "Flat at the bell is the minimum. The rows are what turns twenty sessions into something you can actually read."
+
+  - type: recap
+    title: "Level 9 in three lines"
+    points:
+      - {text: "One page, two names, and every number fixed before the bell.", level: "9-1"}
+      - {text: "Most of the middle is passing; a correct trade can still lose.", level: "9-2"}
+      - {text: "Flat, then the rows, then one line — and one green day proves nothing.", level: "9-3"}

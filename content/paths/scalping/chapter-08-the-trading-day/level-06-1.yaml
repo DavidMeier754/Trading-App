@@ -1,0 +1,126 @@
+id: "6-1"
+title: "The Open"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [open, opening-range, spread, process]
+learning_goal: "User spends the first minutes of the session marking rather than trading, and can name the three things the open decides that the page could not."
+purpose: "The page is finished before the bell. What the open adds is which of its lines the market intends to use."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "5-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "Chapter 2's opening range and Chapter 4's opening drive re-tested as the first five minutes of a planned session. Account named at $16,000; the worked position is 1,100 shares at $13.46 = $14,806."
+screens:
+  - type: intro
+    text: "Your page is written. The open does not read it — it decides which lines on it matter."
+
+  - type: story
+    character: retail-trader
+    text: "The bell. Four names, nine lines, and the first minute of LARK covering more ground than the whole hour before it did."
+
+  - type: theory
+    title: "Loudest, widest, fastest"
+    body: "Inside {{market.first_minutes}} {{market.timezone}} more shares change hands than in any other stretch. Everyone is acting on the same overnight news at the same second, and nobody knows the price yet."
+
+  - type: visual
+    component: quote-panel
+    data:
+      bid: 13.02
+      ask: 13.13
+      last: 13.08
+      animate_to: {bid: 13.28, ask: 13.31}
+    caption: "Eleven cents wide at the bell, three cents twenty minutes later. Same name, same screen, same read."
+
+  - type: numeric-mc
+    prompt: "You want 1,100 shares while the quote is eleven cents wide. What does the round trip cost in quote alone?"
+    options:
+      - {text: "$11"}
+      - {text: "$121", correct: true}
+      - {text: "$33"}
+      - {text: "$242"}
+    working: "$0.11 a share × 1,100 shares = $121"
+    explanation: "The width of the quote, paid once on the way in and out. Twenty minutes later the identical read costs $33."
+
+  - type: theory
+    title: "What the open decides"
+    body: "Three things your page could not: which of your marked prices price actually trades against, whether the name is in play at all, and where the first five minutes set their edges."
+
+  - type: chart-annotate
+    prompt: "LARK, the first nine minutes. Drag the line to the top edge of the opening range."
+    chart:
+      kind: candles
+      data: [[13.10, 13.28, 13.06, 13.24], [13.24, 13.36, 13.18, 13.20], [13.20, 13.42, 13.16, 13.38], [13.38, 13.40, 13.22, 13.26], [13.26, 13.34, 13.20, 13.30], [13.30, 13.38, 13.26, 13.36], [13.36, 13.58, 13.32, 13.54], [13.54, 13.62, 13.48, 13.56], [13.56, 13.60, 13.50, 13.54]]
+      volume: [420000, 310000, 286000, 232000, 208000, 164000, 198000, 152000, 134000]
+    answer: 13.42
+    tolerance: 0.04
+    label: "Opening-range high"
+    explanation: "$13.42, the highest price of the first five minutes. The $13.58 four minutes later is a break of that edge, not the edge itself."
+
+  - type: tf
+    statement: "The opening range is finished five minutes after the bell, even if price spends the next hour outside it."
+    answer: true
+    explanation: "It is two prices built on a fixed stretch of time. What price does afterwards is the trade, not the level."
+
+  - type: chart-decision
+    scenario: "Three minutes after the bell. TIDE has finished every minute near its high on the heaviest bars of the day, the quote is eleven cents wide, and nothing you marked is within thirty cents. Your account is $16,000 and your page says 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[12.90, 13.12, 12.86, 13.08], [13.08, 13.26, 13.04, 13.22], [13.22, 13.38, 13.18, 13.34], [13.34, 13.50, 13.30, 13.46], [13.46, 13.52, 13.34, 13.38], [13.38, 13.44, 13.24, 13.28], [13.28, 13.40, 13.22, 13.36], [13.36, 13.46, 13.30, 13.42], [13.42, 13.54, 13.38, 13.50], [13.50, 13.56, 13.44, 13.52]]
+      volume: [460000, 348000, 296000, 264000, 218000, 196000, 174000, 158000, 166000, 142000]
+      decision_index: 3
+    best: no-trade
+    reasonable: [long]
+    outcome: "It spent the next six minutes between $13.22 and $13.56 and finished the stretch at $13.52 — $0.06 a share above the decision, $66 on 1,100 shares."
+    explanation: "The read is right and there is nowhere to stand. The only stop on offer is under the minute that just closed, sixteen cents away, and the quote costs $121 to cross."
+
+  - type: mc
+    prompt: "The first five minutes are for watching. What are you watching for?"
+    options:
+      - {text: "Which of your marked prices the session uses", correct: true}
+      - {text: "A candle big enough to justify paying eleven cents of quote"}
+      - {text: "The first minute that finishes green"}
+    explanation: "The page named the prices. The open is where you find out which of them anyone else is using."
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "Tap the part of the panel that decides whether an eighteen-cent target is worth a ticket at all."
+    data: {bid: 13.02, ask: 13.13, last: 13.08}
+    target: spread
+    explanation: "Eleven cents of the eighteen are gone before the stock moves. The bid and the ask on their own say nothing until you read the gap between them."
+
+  - type: order
+    prompt: "Put the first stretch of a planned session in the order you do it."
+    items:
+      - "Let the first five minutes finish"
+      - "Mark both edges of the opening range"
+      - "Check which of your own lines price has traded through"
+      - "Take the first trade the page allows"
+    explanation: "Three pieces of marking, then one decision. Reversing any two of them is how a morning gets away from you."
+
+  - type: compare
+    prompt: "Two names, both a few minutes into the session. Which open has decided something?"
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[24.20, 24.46, 24.12, 24.40], [24.40, 24.48, 24.18, 24.22], [24.22, 24.44, 24.16, 24.38], [24.38, 24.46, 24.14, 24.20], [24.20, 24.42, 24.12, 24.36], [24.36, 24.44, 24.16, 24.22], [24.22, 24.40, 24.14, 24.34], [24.34, 24.42, 24.18, 24.24]]
+      - kind: candles
+        label: "B"
+        data: [[24.20, 24.38, 24.16, 24.34], [24.34, 24.52, 24.30, 24.48], [24.48, 24.64, 24.44, 24.60], [24.60, 24.74, 24.56, 24.70], [24.70, 24.86, 24.66, 24.82], [24.82, 24.94, 24.78, 24.90], [24.90, 25.04, 24.86, 25.00], [25.00, 25.10, 24.96, 25.06]]
+    answer: "B"
+    explanation: "A covers the same narrow band eight times and ends where it started. B finishes every minute above the last one — the same eight minutes, and only one of them has an answer in it."
+
+  - type: checklist-reveal
+    title: "In the first five minutes"
+    items:
+      - "Mark both edges of the opening range"
+      - "Note which of your lines price has already traded through"
+      - "Read the quote — is it three cents or eleven?"
+      - "Keep the share size the page wrote"
+
+  - type: example
+    body: "Five minutes of marking costs you the first move perhaps one morning a week. It removes the wide, unmarked entry that the other four mornings charge you for."

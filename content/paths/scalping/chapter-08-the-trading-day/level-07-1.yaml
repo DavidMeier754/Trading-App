@@ -1,0 +1,118 @@
+id: "7-1"
+title: "Mid-Session"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [midday, volume, spread, session]
+learning_goal: "User recognises the midday lull from volume, bar overlap and quote width, and can say what it does to a setup that worked at the open."
+purpose: "The middle of the session looks like the same market at half speed. It is a different one, and it charges more for the same trade."
+terms_introduced: ["Midday lull"]
+reinforces: [4, 6]
+prerequisite: "6-3"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "Chapter 4's volume read and Chapter 6's trade cap re-tested in the dead stretch. Account named at $16,000; the worked position is 1,200 shares at $12.94 = $15,528."
+screens:
+  - type: intro
+    text: "Same screen, same names, and a chart that has stopped saying anything."
+
+  - type: story
+    character: retail-trader
+    text: "An hour and a half after the bell. Two trades taken, both on the page, and the last twenty minutes have covered nine cents."
+
+  - type: theory
+    title: "The midday lull"
+    body: "The midday lull is the stretch after the first hour when volume thins, minutes overlap each other and the quote widens. Nothing is broken. There is simply less trading going on."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "First hour", value: 100}
+        - {label: "Second hour", value: 48}
+        - {label: "Middle of the session", value: 26}
+        - {label: "Last hour", value: 62}
+      unit: "% of the first hour"
+    caption: "The same stock, the same day. A quarter of the opening hour's shares, spread over the longest stretch of the session."
+
+  - type: numeric-mc
+    prompt: "Your name traded 480,000 shares in the first hour and 96,000 in the middle stretch. What fraction of its opening hour is the middle doing?"
+    options:
+      - {text: "48 %"}
+      - {text: "20 %", correct: true}
+      - {text: "5 %"}
+      - {text: "80 %"}
+    working: "96,000 ÷ 480,000 = 0.20"
+    explanation: "A fifth of the participation, and the same setup drawn on a fifth of the participation is a different setup."
+
+  - type: chart-decision
+    scenario: "The middle of the session. EDRIC has spent twenty minutes inside a ten-cent band, every minute overlapping the one before it, on bars a fifth the size of the opening hour's. The quote is seven cents. Your account is $16,000 and your size is 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[12.92, 12.98, 12.90, 12.94], [12.94, 12.98, 12.89, 12.92], [12.92, 12.97, 12.90, 12.96], [12.96, 12.99, 12.91, 12.93], [12.93, 12.98, 12.90, 12.95], [12.95, 12.99, 12.91, 12.94], [12.94, 12.98, 12.90, 12.92], [12.92, 12.97, 12.89, 12.95], [12.95, 12.98, 12.91, 12.93], [12.93, 12.97, 12.90, 12.94]]
+      volume: [46000, 38000, 41000, 34000, 37000, 31000, 36000, 33000, 29000, 35000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It finished the stretch at $12.94, exactly where the decision was. Seven cents of quote on 1,200 shares is $84 to enter a ten-cent band."
+    explanation: "Nothing is wrong with the chart. There is just no move in it big enough to pay for the quote that stands between you and it."
+
+  - type: tf
+    statement: "A quiet midday chart is the same market running slower, so the same setups work at the same size."
+    answer: false
+    explanation: "Thin bars mean fewer traders agreeing on anything. The shapes still appear; what has gone is the participation that used to carry them."
+
+  - type: compare
+    prompt: "The same name, two stretches of the same day. Which one is worth a ticket?"
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[12.90, 12.96, 12.88, 12.94], [12.94, 12.98, 12.90, 12.92], [12.92, 12.97, 12.89, 12.95], [12.95, 12.99, 12.91, 12.93], [12.93, 12.98, 12.90, 12.96], [12.96, 13.00, 12.92, 12.94], [12.94, 12.98, 12.90, 12.96], [12.96, 12.99, 12.92, 12.94]]
+      - kind: candles
+        label: "B"
+        data: [[12.80, 12.96, 12.76, 12.92], [12.92, 13.10, 12.88, 13.06], [13.06, 13.14, 12.98, 13.02], [13.02, 13.20, 13.00, 13.18], [13.18, 13.34, 13.14, 13.30], [13.30, 13.38, 13.20, 13.24], [13.24, 13.40, 13.22, 13.38], [13.38, 13.52, 13.34, 13.48]]
+    answer: "B"
+    explanation: "B's minutes finish well away from where they opened and the band it trades in keeps moving up. A's eight minutes all live inside the same twelve cents."
+
+  - type: slider
+    prompt: "At the open the quote was three cents against a twenty-cent target. In the lull the quote is seven and the chart offers fourteen. What share of the move does the round trip cost now?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 50
+    tolerance: 10
+    explanation: "Seven of fourteen. At the open the same arithmetic was three of twenty, and that is the whole difference between the two stretches."
+
+  - type: sort
+    prompt: "Two stretches of one session. Which of these belongs to which?"
+    buckets: ["The first hour", "The middle of the session"]
+    items:
+      - {text: "The heaviest bars of the day", bucket: "The first hour"}
+      - {text: "Minutes that sit inside the one before them", bucket: "The middle of the session"}
+      - {text: "A quote you re-read before you send anything", bucket: "The middle of the session"}
+      - {text: "Your marked lines being tested for the first time", bucket: "The first hour"}
+    explanation: "The names have not changed and the levels have not moved. What changed is how many people are trading against them."
+
+  - type: fill-choice
+    sentence: "Through the middle of the session the chart does not get slower — it gets ___."
+    options: ["thinner", "wider", "lower"]
+    answer: "thinner"
+    explanation: "Fewer shares behind each minute. That is what makes the bar small, the quote wide and the break unreliable, all at once."
+
+  - type: mc
+    prompt: "Your page's trade cap is six and you have taken two. The middle of the session offers nothing. What does the cap say?"
+    options:
+      - {text: "The remaining four are owed to the day"}
+      - {text: "The cap resets once the first hour is over"}
+      - {text: "It is a ceiling, not a quota", correct: true}
+    explanation: "Chapter 6 wrote it to stop a busy morning, not to fill a quiet one. Two trades and a dead stretch is a finished day that happens to be short."
+
+  - type: theory
+    title: "Nothing is broken"
+    body: "The lull is not the market failing. It is most of the people who were trading at the open having finished for the day, and the chart reporting that honestly."
+
+  - type: example
+    body: "Sixty minutes of a ten-cent band, a seven-cent quote, and one page that named none of it. The stretch cost nothing at all, which is the only thing it was ever going to be worth."

@@ -1,0 +1,151 @@
+id: "9-2"
+title: "Full-Day Practice"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: repetition
+tags: [practice, drills, midday, risk]
+learning_goal: "User runs the middle of the same session: passes the charts the page does not name, takes the one it does, and handles a correct trade that loses."
+purpose: "Most of a session is passing. The drill is the part where nothing is wrong and nothing is worth doing."
+terms_introduced: []
+reinforces: [5, 6, 7]
+prerequisite: "9-1"
+xp: 30
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Bellafiore — The PlayBook"]
+notes: "Drill sub: five swipe cards and two decisions with almost no theory. Same session as 9-1, day size 1,000 shares, 1R $120. Account named at $16,000; the worked positions are 1,000 shares at $15.22 = $15,220 and 1,000 at $11.46 = $11,460."
+screens:
+  - type: intro
+    text: "Trade one is closed and there are hours left. Five charts, and most of them are not yours."
+
+  - type: swipe-deck
+    prompt: "Your page holds CASP and ORRIN, two cards each. Does this chart get a ticket?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[11.60, 11.64, 11.52, 11.54], [11.54, 11.58, 11.46, 11.48], [11.48, 11.56, 11.44, 11.52], [11.52, 11.56, 11.46, 11.48], [11.48, 11.54, 11.42, 11.44], [11.44, 11.52, 11.40, 11.50], [11.50, 11.54, 11.44, 11.46], [11.46, 11.50, 11.38, 11.40]]
+          vwap: [11.66, 11.64, 11.62, 11.60, 11.58, 11.56, 11.55, 11.54]
+        answer: pass
+        note: "Under its own average price for the whole stretch and failing at it every time. That is the mirror image of the card, not the card."
+      - chart:
+          kind: candles
+          data: [[15.28, 15.32, 15.20, 15.22], [15.22, 15.26, 15.14, 15.16], [15.16, 15.20, 15.08, 15.10], [15.10, 15.14, 14.98, 15.02], [15.02, 15.08, 14.96, 15.06], [15.06, 15.20, 15.04, 15.18], [15.18, 15.28, 15.14, 15.24], [15.24, 15.34, 15.20, 15.30]]
+          levels: [14.92]
+        answer: take
+        note: "The pullback stops four cents above the line CASP broke this morning, and the first minute back up is the widest body in it."
+      - chart:
+          kind: candles
+          data: [[11.60, 11.76, 11.56, 11.74], [11.74, 11.92, 11.70, 11.88], [11.88, 11.96, 11.80, 11.84], [11.84, 12.06, 11.82, 12.02], [12.02, 12.20, 11.98, 12.16], [12.16, 12.24, 12.08, 12.12], [12.12, 12.34, 12.10, 12.30], [12.30, 12.62, 12.26, 12.34]]
+        answer: pass
+        note: "Three legs up, and the last minute hands back twenty-eight cents of its own range. Joining here buys the top of the third push."
+      - chart:
+          kind: candles
+          data: [[14.90, 14.96, 14.84, 14.86], [14.86, 14.90, 14.78, 14.80], [14.80, 14.86, 14.74, 14.84], [14.84, 14.88, 14.76, 14.78], [14.78, 14.84, 14.72, 14.82], [14.82, 14.86, 14.70, 14.74], [14.74, 14.80, 14.68, 14.78], [14.78, 14.82, 14.70, 14.72]]
+          levels: [14.92]
+        answer: pass
+        note: "CASP back under the line it broke, chopping either side of nothing. The card that fired this morning is finished, not repeating."
+      - chart:
+          kind: candles
+          data: [[11.52, 11.58, 11.48, 11.56], [11.56, 11.60, 11.50, 11.52], [11.52, 11.58, 11.48, 11.54], [11.54, 11.60, 11.50, 11.56], [11.56, 11.62, 11.52, 11.58], [11.58, 11.72, 11.56, 11.68], [11.68, 11.78, 11.64, 11.74], [11.74, 11.82, 11.70, 11.78]]
+          levels: [11.60]
+        answer: take
+        note: "A shallow pause against the line it just cleared, then the first close back in the direction. That is the continuation card, on a name the page holds."
+    explanation: "Three passes and two tickets, on five charts that were all worth looking at. The page is what made two of them different."
+
+  - type: chart-decision
+    scenario: "Deep into the middle of the session. CASP has spent ten minutes inside fourteen cents, the bars are a fifth of the opening hour's, and the quote has gone to six cents. Your account is $16,000 and the page says 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[15.24, 15.28, 15.18, 15.20], [15.20, 15.26, 15.16, 15.24], [15.24, 15.28, 15.18, 15.22], [15.22, 15.26, 15.16, 15.20], [15.20, 15.26, 15.16, 15.24], [15.24, 15.28, 15.18, 15.22], [15.22, 15.26, 15.16, 15.20], [15.20, 15.24, 15.14, 15.18], [15.18, 15.24, 15.16, 15.22], [15.22, 15.26, 15.16, 15.20]]
+      volume: [62000, 54000, 49000, 46000, 41000, 38000, 44000, 36000, 39000, 34000]
+      decision_index: 5
+    state: ["Day: +2R", "Trades: 1 of 6"]
+    best: no-trade
+    outcome: "It finished the stretch at $15.20, two cents under the decision. A six-cent quote on 1,000 shares is $60 to enter a fourteen-cent band."
+    explanation: "Being up 2R buys you nothing here. The chart is simply not paying enough to cover the quote across it, and no amount of room changes that arithmetic."
+
+  - type: chart-decision
+    scenario: "ORRIN has ground up all session and just closed a minute at $11.46 through the high it set this morning, on the heaviest bar since the open. The quote is three cents. Your account is $16,000 and the page says 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[11.30, 11.36, 11.26, 11.34], [11.34, 11.40, 11.30, 11.38], [11.38, 11.42, 11.34, 11.36], [11.36, 11.42, 11.32, 11.40], [11.40, 11.44, 11.36, 11.42], [11.42, 11.50, 11.40, 11.46], [11.46, 11.48, 11.36, 11.38], [11.38, 11.40, 11.30, 11.32], [11.32, 11.36, 11.26, 11.28], [11.28, 11.32, 11.24, 11.26]]
+      volume: [88000, 76000, 82000, 71000, 68000, 164000, 142000, 118000, 96000, 84000]
+      levels:
+        - {price: 11.44, label: "High of the morning"}
+      decision_index: 5
+    state: ["Day: +2R", "Trades: 1 of 6"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It turned at once and finished the stretch at $11.26 — $0.20 a share below the decision. The stop at $11.34 took $120 out on 1,000 shares."
+    explanation: "Every condition the card asks for was present and the trade lost anyway. That is a correct decision with a bad draw, and it is what one R is for."
+
+  - type: chart-tap
+    prompt: "Tap the minute your $11.34 stop filled."
+    chart:
+      kind: candles
+      data: [[11.30, 11.36, 11.26, 11.34], [11.34, 11.40, 11.30, 11.38], [11.38, 11.42, 11.34, 11.36], [11.36, 11.42, 11.32, 11.40], [11.40, 11.44, 11.36, 11.42], [11.42, 11.50, 11.40, 11.46], [11.46, 11.48, 11.36, 11.38], [11.38, 11.40, 11.30, 11.32], [11.32, 11.36, 11.26, 11.28], [11.28, 11.32, 11.24, 11.26]]
+    target: 7
+    explanation: "The minute after the entry only reached $11.36. The one after it traded to $11.30, and your stop became a market order on the way through."
+
+  - type: journal-row
+    prompt: "Write that one down while it is still on the screen. 1,000 shares."
+    trade: {setup: "Momentum continuation", entry: 11.46, stop: 11.34, exit: 11.34, shares: 1000}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$96", "$120", "$156"]
+      r_made: ["-1R", "0R", "+1R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$120", r_made: "-1R", grade: "A"}
+    explanation: "Twelve cents on 1,000 shares is $120, the stop filled where it was placed, and the grade is an A. The row is identical to a winner's except for one column."
+
+  - type: numeric-input
+    prompt: "Trade one made $240 and trade two lost $120. Your 1R is $120. Where does the day stand, in R?"
+    answer: 1
+    tolerance: 0.01
+    working: "$240 − $120 = $120; $120 ÷ $120 = 1"
+    explanation: "Up one unit, four trades left and the limit untouched. Nothing about the day needs a decision yet."
+
+  - type: branch
+    scenario: "The stop on ORRIN has just filled. You are flat, the day is +1R, and two trades of six are gone."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[11.42, 11.50, 11.40, 11.46], [11.46, 11.48, 11.36, 11.38], [11.38, 11.40, 11.30, 11.32], [11.32, 11.42, 11.30, 11.40], [11.40, 11.48, 11.38, 11.46], [11.46, 11.56, 11.44, 11.52], [11.52, 11.58, 11.48, 11.54], [11.54, 11.60, 11.50, 11.56]]
+      decision_index: 3
+    steps:
+      - prompt: "Two minutes later it is back through $11.44 and climbing. What now?"
+        options:
+          - {text: "Run the three checks the reset routine asks for before anything", correct: true, next: 1}
+          - {text: "Buy it straight back — the read was right and you were early", next: 1}
+        explanation: "The minute after a stop is the most expensive one of the session. Chapter 6 put three questions in front of it for exactly this chart."
+      - prompt: "The checks pass: the level is holding, the volume is there, and you are green for the day. What size does the re-entry get?"
+        options:
+          - {text: "The size on the page, if the card's conditions are back", correct: true}
+          - {text: "Double, so the first attempt is paid back by this one"}
+        explanation: "A re-entry is a trade, not a repair. Chapter 7 gave it the same size and the same conditions as any other card."
+
+  - type: mc
+    prompt: "By mid-session ORRIN has held one direction all day and given back no leg longer than two minutes. What does that say about which of your cards are live?"
+    options:
+      - {text: "The mean-reversion card, since it is stretched from its average"}
+      - {text: "The continuation cards, and not the ones that fade it", correct: true}
+      - {text: "All of them, because a strong name suits every setup"}
+    explanation: "Chapter 5 read the day type first and Chapter 7 let it decide the cards. A one-way session feeds continuation and starves the fades."
+
+  - type: compare
+    prompt: "Two charts after a stop-out on the same name. Which one is the re-entry your page allows?"
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[11.32, 11.42, 11.30, 11.40], [11.40, 11.48, 11.38, 11.46], [11.46, 11.50, 11.42, 11.48], [11.48, 11.52, 11.44, 11.50], [11.50, 11.60, 11.48, 11.58], [11.58, 11.64, 11.54, 11.62], [11.62, 11.70, 11.58, 11.68], [11.68, 11.74, 11.64, 11.70]]
+      - kind: candles
+        label: "B"
+        data: [[11.32, 11.36, 11.22, 11.24], [11.24, 11.28, 11.14, 11.18], [11.18, 11.22, 11.08, 11.12], [11.12, 11.18, 11.06, 11.16], [11.16, 11.20, 11.10, 11.14], [11.14, 11.18, 11.04, 11.08], [11.08, 11.12, 11.00, 11.04], [11.04, 11.08, 10.98, 11.02]]
+    answer: "A"
+    explanation: "A takes the level back and holds above it. B is the same name falling away from it, and buying that one is the first attempt again with worse evidence."
+
+  - type: story
+    character: retail-trader
+    text: "Two trades taken, three charts passed, one stop written down the way it happened. Up a unit, and the last stretch has not started."

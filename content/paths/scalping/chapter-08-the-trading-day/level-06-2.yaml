@@ -1,0 +1,126 @@
+id: "6-2"
+title: "The Open"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [open, opening-range, levels, execution]
+learning_goal: "User trades the opening range as a level: a minute that finishes outside it, a stop back inside it, and a size the account can hold."
+purpose: "It is the only level of the morning that every trader on the name built at the same moment, which is exactly why it gets tested."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "6-1"
+xp: 25
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
+notes: "Chapter 2's bounce-or-break verdict and Chapter 4's levels-as-zones re-tested on the day's first structure. Account named at $16,000; the worked positions are 1,100 shares at $13.50 = $14,850 and 800 shares at $18.56 = $14,848."
+screens:
+  - type: intro
+    text: "Two prices, built on the heaviest volume of the day, that everybody else on the name can also see."
+
+  - type: theory
+    title: "The box"
+    body: "The opening range is a level like any other. What makes it the loudest one of the morning is that every trader on the name marked it at the same moment, off the same five minutes."
+
+  - type: theory
+    title: "Finish outside, stop back inside"
+    body: "The trade is a minute that closes beyond the box, not a wick that visits it. The stop goes back inside, because inside the box the break has not happened."
+
+  - type: example
+    body: "LARK's box is $13.06 to $13.42. A minute closes at $13.50 and the stop goes to $13.38, four cents back inside. Twelve cents of risk on 1,100 shares is $132."
+
+  - type: chart-decision
+    scenario: "LARK's opening range is $13.06 to $13.42. It has spent the last five minutes underneath the top edge, and the minute that just closed finished at $13.50 on the heaviest bar since the bell. Your account is $16,000 and your page says 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[13.30, 13.36, 13.24, 13.28], [13.28, 13.34, 13.22, 13.32], [13.32, 13.40, 13.28, 13.36], [13.36, 13.42, 13.30, 13.34], [13.34, 13.42, 13.30, 13.40], [13.40, 13.54, 13.38, 13.50], [13.50, 13.62, 13.46, 13.58], [13.58, 13.70, 13.54, 13.66], [13.66, 13.76, 13.62, 13.72], [13.72, 13.80, 13.68, 13.76]]
+      volume: [186000, 164000, 172000, 158000, 166000, 318000, 262000, 224000, 196000, 172000]
+      levels:
+        - {price: 13.42, label: "Opening-range high"}
+        - {price: 13.06, label: "Opening-range low"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $13.80 and finished the stretch at $13.76 — $0.26 a share above the decision, +$286 long on 1,100 shares."
+    explanation: "A close eight cents through the edge on twice the volume of the five minutes that failed at it. The stop has somewhere to live, which is the part the box supplies."
+
+  - type: numeric-input
+    prompt: "The box is $13.06 to $13.42 and a common first target is the width of the box added to the break. Where does that land?"
+    answer: 13.78
+    tolerance: 0.01
+    unit: "$"
+    working: "$13.42 − $13.06 = $0.36 of box; $13.42 + $0.36 = $13.78"
+    explanation: "The same measured move Chapter 7 projects off a leg, taken off the only structure the day has built so far."
+
+  - type: tf
+    statement: "A wick through the top of the box is enough to put the trade on."
+    answer: false
+    explanation: "A wick is a price that was refused. The close is the price the minute agreed on, and the box is beaten by agreement, not by a visit."
+
+  - type: chart-decision
+    scenario: "WREN's opening range is $18.22 to $18.60. Three minutes in a row have reached above $18.60 and closed back under it, each on lighter volume than the one before. Your account is $16,000 and your page says 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[18.40, 18.48, 18.34, 18.44], [18.44, 18.52, 18.40, 18.48], [18.48, 18.58, 18.44, 18.50], [18.50, 18.62, 18.46, 18.52], [18.52, 18.63, 18.46, 18.54], [18.54, 18.64, 18.50, 18.56], [18.56, 18.60, 18.48, 18.50], [18.50, 18.54, 18.40, 18.42], [18.42, 18.46, 18.34, 18.38], [18.38, 18.44, 18.32, 18.40]]
+      volume: [142000, 128000, 136000, 118000, 104000, 96000, 88000, 92000, 84000, 78000]
+      levels:
+        - {price: 18.60, label: "Opening-range high"}
+        - {price: 18.22, label: "Opening-range low"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It slid back through the box and finished the stretch at $18.40 — $0.16 a share under the decision, and every long above $18.60 paid the quote to find that out."
+    explanation: "Three reaches and three refusals on falling volume. There is no close to trade and the box low is thirty-four cents away, so the short has nowhere near enough room either."
+
+  - type: slider
+    prompt: "The quote is eight cents and the box is thirty-six cents wide. What share of a full box-width move does the round trip cost?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 20
+    tolerance: 10
+    explanation: "Eight cents of thirty-six, a little over a fifth. On a fourteen-cent box the same quote would take more than half, and that box is not worth a ticket."
+
+  - type: mc
+    prompt: "Why does the stop go back inside the box rather than a fixed ten cents under the fill?"
+    options:
+      - {text: "A fixed distance is always too tight in the first half hour"}
+      - {text: "Because the box width and the risk you want are the same number"}
+      - {text: "Inside the box is where the break stops being a break", correct: true}
+    explanation: "The stop marks the price at which the idea is wrong, and the idea was that the box had been beaten. Back inside it, it has not."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The minute finished eight cents above the box at $13.50,"}
+      - {text: "so the stop goes eight cents under the fill,", wrong: true}
+      - {text: "which is why a stop is placed at a price and not at a distance."}
+    explanation: "Eight cents under $13.50 is $13.42 — the box edge itself, the one price the whole morning is arguing over."
+
+  - type: depth-ladder
+    prompt: "You send the 1,100-share buy as a market order two seconds after that close. Where does the last share fill?"
+    data:
+      bids: [[13.49, 600], [13.48, 900], [13.47, 2200]]
+      asks: [[13.50, 300], [13.51, 400], [13.52, 1800]]
+    target: ask-3
+    explanation: "300 at $13.50 and 400 at $13.51 leave 400 shares for $13.52. On a break the top rows are the thinnest part of the book."
+
+  - type: fill-choice
+    sentence: "A minute that ___ outside the box is the trade; a minute that only reaches outside it is not."
+    options: ["finishes", "opens", "trades"]
+    answer: "finishes"
+    explanation: "Every minute of a range trades outside it at some point. Only the close says which side won the minute."
+
+  - type: checklist-reveal
+    title: "Before you take a box break"
+    items:
+      - "The minute has closed outside, not just touched"
+      - "The quote is narrow enough for the move you are going for"
+      - "The stop sits back inside the box"
+      - "The size is the one the page wrote"
+
+  - type: example
+    body: "Two prices, one close, one stop. Most of what happens in the first half hour is noise around a box that took five minutes to build."

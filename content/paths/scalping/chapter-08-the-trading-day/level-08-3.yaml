@@ -1,0 +1,125 @@
+id: "8-3"
+title: "The Close and the Review"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [journal, review, execution, process]
+learning_goal: "User writes the day's rows the same evening, grades execution independently of the result, and can say which column of the row answers which question."
+purpose: "Everything the review found is gone by tomorrow unless it is in a row you can sort."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "8-2"
+xp: 30
+difficulty: 3
+sources: ["Elder — Trading for a Living", "Bellafiore — The PlayBook"]
+notes: "Closes Level 8 with a recap. Chapter 6's journal row and execution grade re-tested across a finished session rather than on one trade. The five rows sum to +0.6R and match the stats-card in 8-2. Worked sizes: 800 at $19.24 = $15,392 and 1,200 at $12.86 = $15,432, both inside the $16,000 the chapter has been sizing against."
+screens:
+  - type: intro
+    text: "Five charts, five rows, about six minutes. Tomorrow will not remember any of it for you."
+
+  - type: theory
+    title: "Write it while the chart is still up"
+    body: "The prices survive on your statement. Why you pressed the key, and what you were like when you pressed it, survive nowhere except in a row written tonight."
+
+  - type: journal-row
+    prompt: "Your first trade of the day, 800 shares. Fill its row."
+    trade: {setup: "Opening-range break", entry: 19.24, stop: 19.12, exit: 19.48, shares: 800}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$96", "$120", "$192"]
+      r_made: ["+1R", "+2R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$96", r_made: "+2R", grade: "A"}
+    explanation: "Twelve cents risked on 800 shares is $96, and twenty-four cents made is two of those. Entry, stop and size all came off the page, so the grade is an A."
+
+  - type: journal-row
+    prompt: "Your third trade, the short that stopped out on 1,200 shares. Fill its row."
+    trade: {setup: "Momentum continuation", entry: 12.86, stop: 12.98, exit: 12.98, shares: 1200}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$120", "$144", "$168"]
+      r_made: ["-1R", "0R", "+1R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$144", r_made: "-1R", grade: "A"}
+    explanation: "Twelve cents on 1,200 shares is $144, and the stop filled exactly where it was placed. This is the row that proves the grade is not the result."
+
+  - type: mc
+    prompt: "Your fourth trade was a name the page never listed, taken because it was moving, and it made 1.4R. What grade does its row carry?"
+    options:
+      - {text: "A low one, on the habit rather than the result", correct: true}
+      - {text: "A high one, since the read was good enough to pay"}
+      - {text: "None at all — no plan named this trade to compare it with"}
+    explanation: "There was a plan: the page, and this name was not on it. The grade records the habit, which is cheap today and expensive on its own schedule."
+
+  - type: numeric-input
+    prompt: "A row reads: 1,000 shares, entry $15.40, stop $15.25, exit $15.70. What is the result in R?"
+    answer: 2
+    tolerance: 0.01
+    working: "Gain $0.30 ÷ risk $0.15 = 2"
+    explanation: "The share count never reaches the R column, which is what lets a 1,000-share row and a 400-share row sit inside the same average."
+
+  - type: visual
+    component: journal-table
+    data:
+      columns: ["Setup", "Entry", "Stop", "Exit", "R", "Grade", "Note"]
+      rows:
+        - {Setup: "Opening-range break", Entry: 19.24, Stop: 19.12, Exit: 19.48, R: "+2.0", Grade: "A", Note: "On the page"}
+        - {Setup: "VWAP bounce", Entry: 19.66, Stop: 19.54, Exit: 19.78, R: "+1.0", Grade: "A", Note: "On the page"}
+        - {Setup: "Momentum continuation", Entry: 12.86, Stop: 12.98, Exit: 12.98, R: "−1.0", Grade: "A", Note: "On the page"}
+        - {Setup: "None", Entry: 24.10, Stop: 23.92, Exit: 24.35, R: "+1.4", Grade: "C", Note: "Not on the page"}
+        - {Setup: "None", Entry: 16.40, Stop: 16.28, Exit: 16.06, R: "−2.8", Grade: "C", Note: "Not on the page; stop moved"}
+    caption: "Five rows and +0.6R for the day. Both of the Cs are names the page never held, including the one that paid."
+
+  - type: mc
+    prompt: "Three rows are graded A and the day still ended near flat. What does the sheet actually say?"
+    options:
+      - {text: "The grading is too generous and needs a harder scale"}
+      - {text: "The method did its job and two ungraded habits ate it", correct: true}
+      - {text: "The setups need replacing, since three As came to +2R"}
+    explanation: "The page trades added +2R between them. What took the day back to +0.6R is in the two rows that no card was ever written for."
+
+  - type: sort
+    prompt: "The review asked three questions. Which column of the row answers each of these?"
+    buckets: ["The Grade column", "The R column"]
+    items:
+      - {text: "Did I take the trades the page allowed?", bucket: "The Grade column"}
+      - {text: "What did the method come to over the day?", bucket: "The R column"}
+      - {text: "Did I exit at the price I wrote?", bucket: "The Grade column"}
+      - {text: "Which setup is carrying the others?", bucket: "The R column"}
+    explanation: "One column records what you did and the other what it came to. Sorting by the first is how the second changes."
+
+  - type: tf
+    statement: "Two rows with the same R can carry different grades."
+    answer: true
+    explanation: "R measures the trade and the grade measures you. A 2R chased into and a 2R taken off the page are the same number and two different habits."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The rows get written the same evening,"}
+      - {text: "starting with the trades worth remembering,", wrong: true}
+      - {text: "because a missing row is usually the one the week needed."}
+    explanation: "The trades worth remembering are the ones you already remember. The pattern lives in the rows you would rather skip."
+
+  - type: match
+    prompt: "Four columns of a row, four things they are there to answer. Match them."
+    pairs:
+      - ["Setup", "Which of your cards is quietly paying for the others"]
+      - ["Stop", "Whether the price that ended it was the price you wrote"]
+      - ["R", "What the method comes to across a sample"]
+      - ["Note", "What the session was like while you were pressing keys"]
+    explanation: "Four columns, four different questions, and not one of them answerable from the dollar result on its own."
+
+  - type: fill-choice
+    sentence: "A row written the next morning is a record of the trade you ___, not the one you took."
+    options: ["remember", "planned", "wanted"]
+    answer: "remember"
+    explanation: "Memory tidies as it stores. The row written while the chart is still on the screen is the only one that has not been edited."
+
+  - type: recap
+    title: "Level 8 in three lines"
+    points:
+      - {text: "Flat at the bell; a stop cannot work in a market that is shut.", level: "8-1"}
+      - {text: "Sort the day into what the page allowed and what it did not.", level: "8-2"}
+      - {text: "Write the rows the same evening, and grade the execution, not the result.", level: "8-3"}

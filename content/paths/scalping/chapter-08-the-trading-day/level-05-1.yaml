@@ -1,0 +1,117 @@
+id: "5-1"
+title: "Checkpoint"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: test
+tags: [checkpoint]
+learning_goal: "Verify Levels 1–4: the panels of a platform, the ticket and the book behind a fill, the five keys, and the hour that ends on a page with sizes on it."
+purpose: "The session itself starts next. It only works if the screen and the page are already automatic."
+terms_introduced: []
+reinforces: [3, 5]
+prerequisite: "4-4"
+xp: 40
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "10 scored questions. Hearts apply. Pass mark 70 %. Four questions reach back: order-build, depth-ladder and the sort to Chapter 3, the scanner row and the relative-volume statement to Chapter 5. Account named at $12,000; the worked position is 900 shares at $13.21 = $11,889."
+screens:
+  - type: intro
+    text: "Checkpoint. Ten questions on the screen, the keys and the hour before the bell. Hearts are on."
+    counter: 10
+
+  - type: mc
+    prompt: "Your 900 shares filled across three rows of the book. Which panel tells you what you own them at?"
+    options:
+      - {text: "The ticket you sent"}
+      - {text: "The positions panel", correct: true}
+      - {text: "The chart you traded off"}
+    explanation: "The ticket holds what you asked for. The positions panel holds the average the fills actually came to."
+
+  - type: order-build
+    prompt: "MOBR's ask is $13.18 and your page says 900 shares, nothing worse than three cents through it. Build the entry."
+    ticker: MOBR
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [450, 900, 1350]
+      price: [13.15, 13.18, 13.21]
+    answer: {side: buy, type: limit, qty: 900, price: 13.21}
+    explanation: "A limit three cents through the ask crosses the quote like a market order and still refuses anything worse than $13.21."
+
+  - type: depth-ladder
+    prompt: "That 900-share buy goes in as a plain market order instead. Where does the last share fill?"
+    data:
+      bids: [[13.15, 500], [13.14, 700], [13.13, 1900]]
+      asks: [[13.18, 400], [13.19, 300], [13.20, 1600]]
+    target: ask-3
+    explanation: "400 at $13.18 and 300 at $13.19 leave 200 shares, and those take $13.20 — the third row."
+
+  - type: hotspot
+    component: hotkey-pad
+    prompt: "Three orders are working, you hold nothing, and the next setup is forming on a different name. Tap the key."
+    data:
+      keys:
+        - {label: "Buy", action: "Buy your size at the ask"}
+        - {label: "Sell", action: "Sell your size at the bid"}
+        - {label: "Size", action: "Set the share count for the next order"}
+        - {label: "Flatten", action: "Close every open position now"}
+        - {label: "Cancel", action: "Cancel every working order"}
+    target: "Cancel"
+    explanation: "Cancel clears working orders. Flatten closes positions, and you have none — pressing it here does nothing you needed."
+
+  - type: numeric-input
+    prompt: "Your size today is 900 shares and the stop on your page is nine cents. What is 1R in dollars?"
+    answer: 81
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.09 × 900 = $81"
+    explanation: "One unit of risk, in the money it is actually made of. Every limit on the page is a multiple of this number."
+
+  - type: scanner-pick
+    prompt: "Your account is $12,000 and your stop is ten cents. Tap the row your account cannot hold at a size worth trading."
+    data:
+      rows:
+        - {ticker: VANT, price: 11.80, change_pct: 8.4, rvol: 5.6, float: "40M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: QUIL, price: 62.40, change_pct: 4.1, rvol: 3.9, float: "180M", spread: 0.07, catalyst: "Upgrade"}
+        - {ticker: MOBR, price: 13.10, change_pct: 5.8, rvol: 4.2, float: "66M", spread: 0.03, catalyst: "Contract"}
+        - {ticker: LARK, price: 13.40, change_pct: 6.9, rvol: 5.1, float: "52M", spread: 0.02, catalyst: "Guidance"}
+    target: QUIL
+    explanation: "$12,000 buys 192 shares of QUIL. A ten-cent stop on 192 shares risks $19, and the quote alone is seven-tenths of that stop."
+
+  - type: tf
+    statement: "Relative volume compares a stock with its own normal day, so a name that usually trades 300,000 shares and one that usually trades 3 million can both read 5×."
+    answer: true
+    explanation: "That is the whole point of it. The absolute number tells you the size of the stock; the multiple tells you whether today is unusual for it."
+
+  - type: sort
+    prompt: "One of these two decides each of the following. Which one?"
+    buckets: ["The ticket decides it", "The book decides it"]
+    items:
+      - {text: "The highest price you are willing to pay", bucket: "The ticket decides it"}
+      - {text: "The average your 900 shares came to", bucket: "The book decides it"}
+      - {text: "Whether a resting limit fills at all", bucket: "The book decides it"}
+      - {text: "How many shares leave the platform", bucket: "The ticket decides it"}
+    explanation: "You choose the size and the ceiling. Everything about the fill itself is decided by what is resting on the other side."
+
+  - type: chart-annotate
+    prompt: "VANT, before the bell. Drag the line to the price this pre-market has stopped at."
+    chart:
+      kind: candles
+      data: [[11.62, 11.70, 11.58, 11.68], [11.68, 11.76, 11.64, 11.72], [11.72, 11.84, 11.70, 11.80], [11.80, 11.84, 11.72, 11.74], [11.74, 11.80, 11.70, 11.78], [11.78, 11.84, 11.74, 11.76], [11.76, 11.82, 11.72, 11.80], [11.80, 11.84, 11.76, 11.78], [11.78, 11.82, 11.74, 11.80]]
+      volume: [14000, 11000, 18000, 12000, 9000, 13000, 10000, 15000, 12000]
+    answer: 11.84
+    tolerance: 0.04
+    label: "Pre-market high"
+    explanation: "$11.84, reached four times and beaten none of them. That is the first line of the morning on this name."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The size key is still set to 1,400 from the last name,"}
+      - {text: "so the next buy hotkey sends the size your page wrote,", wrong: true}
+      - {text: "which is why the size key is reset before the name changes."}
+    explanation: "The keyboard remembers the last number you gave it, not your page. 1,400 shares at $13.18 is $18,452 on a $12,000 account."
+
+  - type: summary
+    total: 10

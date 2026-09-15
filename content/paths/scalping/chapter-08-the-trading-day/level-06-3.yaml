@@ -1,0 +1,143 @@
+id: "6-3"
+title: "The Open"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [open, plan, execution, discipline]
+learning_goal: "User runs the first half hour off the page: takes the triggers it named, skips the names it did not, and lets the quote settle instead of chasing it."
+purpose: "The page is only worth an hour of your morning if the loudest half hour of the day cannot rewrite it."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "6-2"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Volman — Understanding Price Action"]
+notes: "Closes Level 6 with a recap. Chapter 2's momentum-versus-exhaustion and Chapter 4's opening spreads re-tested against a written page. Account named at $16,000; the worked position is 1,100 shares at $13.66 = $15,026."
+screens:
+  - type: intro
+    text: "Twenty minutes of open, four names, and a page that named two of them."
+
+  - type: story
+    character: retail-trader
+    text: "Two of your four names have not been near a line. One is nine cents wide. The fourth has just closed through the price you wrote down an hour ago."
+
+  - type: theory
+    title: "The page names the trade, the open names the minute"
+    body: "Every trigger you take this half hour was written before the bell. What the session adds is which of them happen, and in what order."
+
+  - type: swipe-deck
+    prompt: "Your page marked the line on each of these. Does the open send the order?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[13.44, 13.50, 13.40, 13.48], [13.48, 13.54, 13.44, 13.50], [13.50, 13.56, 13.46, 13.52], [13.52, 13.58, 13.48, 13.54], [13.54, 13.60, 13.50, 13.56], [13.56, 13.62, 13.52, 13.58], [13.58, 13.74, 13.56, 13.70], [13.70, 13.80, 13.66, 13.76]]
+          levels: [13.62]
+        answer: take
+        note: "Eight cents through the marked price on the widest body since the bell. The line was written an hour ago and it has just been beaten."
+      - chart:
+          kind: candles
+          data: [[22.60, 23.10, 22.54, 23.04], [23.04, 23.56, 22.98, 23.50], [23.50, 24.02, 23.44, 23.96], [23.96, 24.48, 23.90, 24.42], [24.42, 24.94, 24.36, 24.88], [24.88, 25.40, 24.82, 25.34], [25.34, 25.86, 25.28, 25.80], [25.80, 26.32, 25.74, 26.26]]
+        answer: pass
+        note: "The strongest chart on the screen and not one price on it is yours. A name you did not prepare is a name you would be sizing in the moment."
+      - chart:
+          kind: candles
+          data: [[18.30, 18.36, 18.26, 18.32], [18.32, 18.38, 18.28, 18.34], [18.34, 18.40, 18.30, 18.36], [18.36, 18.42, 18.32, 18.38], [18.38, 18.44, 18.34, 18.40], [18.40, 18.46, 18.36, 18.42], [18.42, 18.48, 18.38, 18.44], [18.44, 18.50, 18.40, 18.46]]
+          levels: [18.60]
+        answer: pass
+        note: "Fourteen cents under the line for eight straight minutes. Nothing you wrote has happened yet, so there is nothing to send."
+      - chart:
+          kind: candles
+          data: [[15.90, 15.94, 15.78, 15.80], [15.80, 15.84, 15.70, 15.72], [15.72, 15.76, 15.64, 15.66], [15.66, 15.70, 15.60, 15.62], [15.62, 15.66, 15.58, 15.60], [15.60, 15.64, 15.46, 15.48], [15.48, 15.52, 15.36, 15.38], [15.38, 15.42, 15.28, 15.32]]
+          levels: [15.58]
+        answer: take
+        note: "Straight through the line your page drew underneath it, and the bodies widen as it goes. The page never said the trade had to be a long."
+    explanation: "Two sends and two passes. Neither pass was a bad chart; neither was a chart the page had a trade written on."
+
+  - type: theory
+    title: "Wide now is not wide all morning"
+    body: "The quote narrows as the session settles. A read that is not worth eleven cents at the bell is often worth three cents twenty minutes later, and it is the same read."
+
+  - type: chart-decision
+    scenario: "Twenty minutes in. LARK's quote is back to three cents, it has held above $13.42 since the break, and the minute that just closed finished at $13.66 on the heaviest bar of the pullback. Your account is $16,000 and your page says 1,100 shares."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[13.74, 13.78, 13.62, 13.64], [13.64, 13.70, 13.56, 13.58], [13.58, 13.64, 13.52, 13.54], [13.54, 13.60, 13.48, 13.56], [13.56, 13.62, 13.52, 13.58], [13.58, 13.70, 13.56, 13.66], [13.66, 13.78, 13.62, 13.74], [13.74, 13.86, 13.70, 13.82], [13.82, 13.92, 13.78, 13.88], [13.88, 14.00, 13.84, 13.96]]
+      volume: [104000, 92000, 78000, 66000, 72000, 158000, 134000, 118000, 96000, 88000]
+      levels:
+        - {price: 13.42, label: "Opening-range high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $13.96 — $0.30 a share above the decision, and the $13.84 target the page named was $198 of that on 1,100 shares."
+    explanation: "Volume fell through the pullback and doubled on the minute that turned it. The quote closing to three cents is what made an eighteen-cent target worth a ticket at all."
+
+  - type: numeric-input
+    prompt: "1,100 shares, a three-cent quote, and a fee of half a cent a share each way. What does the round trip cost in all?"
+    answer: 44
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.03 × 1,100 = $33 of quote; $0.005 × 1,100 × 2 = $11 of fees; $44 in all"
+    explanation: "Forty-four dollars of an eighteen-cent target worth $198. At the bell the quote alone would have been $121 of it."
+
+  - type: mc
+    prompt: "Two of your four names never came near a line all half hour. What does the page say about them?"
+    options:
+      - {text: "Move the trigger down to where price actually went"}
+      - {text: "Watch them instead for the rest of the session"}
+      - {text: "Nothing happened in them, and that is a result", correct: true}
+    explanation: "A line that is not reached is a question that got answered. Two quiet names out of four is a normal half hour, not a failure of the page."
+
+  - type: branch
+    scenario: "You are long 1,100 LARK from $13.66 with the stop at $13.54 and the target at $13.84."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[13.58, 13.70, 13.56, 13.66], [13.66, 13.78, 13.62, 13.74], [13.74, 13.82, 13.70, 13.78], [13.78, 13.82, 13.72, 13.74], [13.74, 13.80, 13.70, 13.76], [13.76, 13.88, 13.72, 13.86], [13.86, 13.94, 13.82, 13.90], [13.90, 13.96, 13.86, 13.92]]
+      decision_index: 3
+    steps:
+      - prompt: "Price stalls two cents under your target and the last two minutes overlap. What now?"
+        options:
+          - {text: "Hold — the target is on the page and the stop has not moved", correct: true, next: 1}
+          - {text: "Take it here before it comes back", next: 1}
+        explanation: "Two overlapping minutes inside a working trade is the normal shape of a pause. Nothing on the page has been hit yet."
+      - prompt: "It pushes through $13.84 and the next minute opens above it. What now?"
+        options:
+          - {text: "Sell the target the page named", correct: true}
+          - {text: "Move the target up — it is running"}
+        explanation: "Eighteen cents on 1,100 shares is $198, and it is the number the trade was sized for. A target moved while you are in the trade is a target chosen by the position."
+
+  - type: tf
+    statement: "If the open runs straight through every line on your page without pausing, the answer is to cross the quote and join it."
+    answer: false
+    explanation: "A line that price left behind at speed is a line with no stop near it any more. The trade that was planned is gone; what is left is a different, unsized one."
+
+  - type: chart-tap
+    prompt: "Tap the first minute that closed above the opening-range high of $13.42."
+    chart:
+      kind: candles
+      data: [[13.30, 13.36, 13.24, 13.28], [13.28, 13.34, 13.22, 13.32], [13.32, 13.44, 13.28, 13.38], [13.38, 13.42, 13.30, 13.34], [13.34, 13.42, 13.30, 13.40], [13.40, 13.54, 13.38, 13.50], [13.50, 13.62, 13.46, 13.58], [13.58, 13.70, 13.54, 13.66]]
+    target: 5
+    explanation: "The third minute reached $13.44 and closed at $13.38, back underneath. The sixth is the first one that finished above the edge."
+
+  - type: fill-tiles
+    sentence: "A quote that is nine cents wide at the bell is often three cents once the session has ___."
+    answer: "settled"
+    explanation: "The width is the market admitting it does not know the price yet. It narrows as the crowd agrees, and the read underneath it does not change."
+
+  - type: match
+    prompt: "Four things the first half hour can do to a name on your page. Match each to what it means for the trade."
+    pairs:
+      - ["It closes through your line", "The trade you wrote is live at the size you wrote"]
+      - ["It wicks through and closes back", "The line held; nothing on the page has fired"]
+      - ["It gaps past your line and runs", "The planned entry is gone and the stop is too far away"]
+      - ["It never comes near your line", "The name is answered for the morning"]
+    explanation: "Only the first of the four is a trade. The page is what lets you tell them apart in a second rather than a minute."
+
+  - type: recap
+    title: "Level 6 in three lines"
+    points:
+      - {text: "The first five minutes are for marking, not for tickets.", level: "6-1"}
+      - {text: "The box is beaten by a close, and the stop lives back inside it.", level: "6-2"}
+      - {text: "Take the triggers the page named; let the quote settle before you pay it.", level: "6-3"}
