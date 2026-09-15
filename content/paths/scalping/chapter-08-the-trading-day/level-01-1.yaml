@@ -1,0 +1,102 @@
+id: "1-1"
+title: "The Platform"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [platform, order-entry, execution]
+learning_goal: "User names the panels of an order-entry platform and knows that the software checks the order, never the reasoning behind it."
+purpose: "Seven chapters of decisions have to be typed into something, and the something has opinions about none of them."
+terms_introduced: ["Order-entry platform"]
+reinforces: [3]
+prerequisite: null
+xp: 20
+difficulty: 1
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Opens Chapter 8. Chapter 3's order types re-tested as keystrokes. Account named at $20,000; the worked position is 1,400 shares at $13.27 = $18,578."
+screens:
+  - type: intro
+    text: "Seven chapters of decisions. This one starts with the screen you make them on."
+
+  - type: theory
+    title: "The order-entry platform"
+    body: "The order-entry platform is the software that turns a decision into an order sitting on an exchange. Chart, quote, ticket, positions: four panels, one job."
+
+  - type: walkthrough
+    component: order-ticket
+    data: {ticker: XYZ, side: buy, qty: 1400, type: limit, price: 13.27}
+    steps:
+      - {spotlight: side, text: "Buy or sell. Nothing else on the ticket changes what this field does."}
+      - {spotlight: type, text: "Market, limit or stop. This is the field that decides what you are promised."}
+      - {spotlight: qty, text: "1,400 shares. That number came off the plan, not off this screen."}
+      - {spotlight: price, text: "$13.27, three cents through the ask. A ceiling, not a wish."}
+
+  - type: theory
+    title: "It has no opinion"
+    body: "The platform checks that the order is well formed and sends it. It does not check the size against your account, the stop against the chart, or the reason against your plan."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "This is the exit ticket for that long. Tap the field that fixes what being wrong costs you."
+    data: {ticker: XYZ, side: sell, qty: 1400, type: stop, stop_price: 13.13}
+    target: stop_price
+    explanation: "$13.13. Quantity sets the scale and the stop price sets the distance, and together they are a loss you decided on before the trade moved."
+
+  - type: mc
+    prompt: "You want to be long XYZ now and you will not pay more than three cents through the ask of $13.24. Which order does that?"
+    options:
+      - {text: "A limit to buy at $13.27", correct: true}
+      - {text: "A market order for 1,400 shares"}
+      - {text: "A limit to buy at $13.24"}
+    explanation: "Chapter 3 called it a marketable limit: it fills like a market order and still refuses anything worse than $13.27."
+
+  - type: order-build
+    prompt: "Build that entry. Your $20,000 account and a $13.24 ask, 1,400 shares, three cents of ceiling."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [700, 1400, 2100]
+      price: [13.21, 13.24, 13.27]
+    answer: {side: buy, type: limit, qty: 1400, price: 13.27}
+    explanation: "Buy, limit, 1,400, $13.27. The ticket is the plan retyped, and 1,400 × $13.27 is $18,578 of the $20,000."
+
+  - type: theory
+    title: "The positions panel is the honest one"
+    body: "Shares held, average price, open result. The ticket says what you asked for; the positions panel says what you own. Beginners watch the chart and forget the second one."
+
+  - type: sort
+    prompt: "Which panel answers each of these?"
+    buckets: ["The ticket", "The positions panel"]
+    items:
+      - {text: "How many shares am I actually long?", bucket: "The positions panel"}
+      - {text: "What price am I willing to pay?", bucket: "The ticket"}
+      - {text: "What did my order average out at?", bucket: "The positions panel"}
+      - {text: "Is this order a stop or a limit?", bucket: "The ticket"}
+    explanation: "One panel holds what you are asking for. The other holds what you already have."
+
+  - type: depth-ladder
+    prompt: "The order goes in as a market buy for 1,400 shares instead. Where does the last share fill?"
+    data:
+      bids: [[13.20, 900], [13.19, 1200], [13.18, 2000]]
+      asks: [[13.24, 500], [13.25, 700], [13.26, 1600]]
+    target: ask-3
+    explanation: "500 at $13.24 and 700 at $13.25 leave 200 shares, and those take $13.26 — the third row."
+
+  - type: fill-choice
+    sentence: "A platform sends orders; it never checks whether the ___ behind them is sound."
+    options: ["plan", "price", "ticket"]
+    answer: "plan"
+    explanation: "Every guard on that screen is one you put there. The software is a router with a keyboard attached."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The order for 1,400 shares filled,"}
+      - {text: "so the positions panel shows the price you typed,", wrong: true}
+      - {text: "and the stop still has to be sent separately."}
+    explanation: "A 1,400-share order can fill across three rows of the book. Your average price is whatever those fills came to."
+
+  - type: example
+    body: "Four panels, one loop: read the chart, check the quote, type the ticket, watch the position. The next three sub-levels take the middle two apart."

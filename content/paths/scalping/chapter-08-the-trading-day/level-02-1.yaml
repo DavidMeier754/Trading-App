@@ -1,0 +1,119 @@
+id: "2-1"
+title: "Hotkeys and Muscle Memory"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [hotkeys, execution, risk]
+learning_goal: "User can say why the exit key matters more than the entry key, and prices a few seconds of hesitation in dollars."
+purpose: "Speed is not a thrill. It is the difference between the stop you planned and the stop you got."
+terms_introduced: ["Hotkey", "Flatten"]
+reinforces: [3]
+prerequisite: "1-4"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Chapter 3's slippage re-tested as hesitation. Account named at $20,000; the worked position is 1,300 shares at $15.06 = $19,578."
+screens:
+  - type: intro
+    text: "Two seconds of hunting for a button is not a small problem when your stop is twelve cents away."
+
+  - type: theory
+    title: "A key with an order behind it"
+    body: "A hotkey is a keyboard key bound to a complete order: side, size and order type already filled in. You press it and the order goes."
+
+  - type: visual
+    component: hotkey-pad
+    data:
+      keys:
+        - {label: "Buy", action: "Buy your size at the ask"}
+        - {label: "Sell", action: "Sell your size at the bid"}
+        - {label: "Size", action: "Set the share count for the next order"}
+        - {label: "Flatten", action: "Close every open position now"}
+        - {label: "Cancel", action: "Cancel every working order"}
+    caption: "Five keys. Everything else on the platform is still there; these are the ones that need no thought."
+
+  - type: theory
+    title: "Speed is a risk control"
+    body: "Flatten is the key that closes every open position at once. Binding it is not about trading faster. It is that the exit you can reach in half a second is the exit you actually take."
+
+  - type: hotspot
+    component: hotkey-pad
+    prompt: "Your platform freezes mid-trade, comes back, and you are no longer sure what you are holding. Tap the key."
+    data:
+      keys:
+        - {label: "Buy", action: "Buy your size at the ask"}
+        - {label: "Sell", action: "Sell your size at the bid"}
+        - {label: "Size", action: "Set the share count for the next order"}
+        - {label: "Flatten", action: "Close every open position now"}
+        - {label: "Cancel", action: "Cancel every working order"}
+    target: "Flatten"
+    explanation: "Flatten first, look second. Not knowing what you are holding is itself the emergency."
+
+  - type: mc
+    prompt: "Why is the exit key worth binding before the entry key?"
+    options:
+      - {text: "Exit orders are rejected more often than entry orders"}
+      - {text: "Entries are the orders a platform charges extra for"}
+      - {text: "A missed entry costs a trade, a missed exit costs R", correct: true}
+    explanation: "There is always another entry. The exit you were late to is already sitting in the account."
+
+  - type: tf
+    statement: "Hotkeys are worth binding because they let you take more trades in a morning."
+    answer: false
+    explanation: "More trades is what they make easy, not what they are for. They exist so that the order you already decided on arrives while it is still the right order."
+
+  - type: numeric-mc
+    prompt: "1,400 shares. You mean to sell at $13.10, spend three seconds finding the button, and the bid is $13.04 when you get there. What did the delay cost?"
+    options:
+      - {text: "$0.06"}
+      - {text: "$84", correct: true}
+      - {text: "$840"}
+      - {text: "$6"}
+    working: "$13.10 − $13.04 = $0.06 a share; $0.06 × 1,400 = $84"
+    explanation: "Six cents is nothing until the share count is attached. It is also half of a twelve-cent stop."
+
+  - type: order
+    prompt: "Put the keystrokes for a planned long in the order you press them."
+    items:
+      - "Size: set today's share count"
+      - "Buy: the entry goes at the ask"
+      - "Stop: the exit is working before you look up"
+      - "Cancel: clear the stop once you are out"
+    explanation: "Size before entry, stop before anything else. The sequence is what makes it one motion instead of four decisions."
+
+  - type: example
+    body: "A scalp's whole edge can be twelve cents. Three seconds of hunting is six of them, and it happens on the losers more often than on the winners, because losers move first."
+
+  - type: fill-choice
+    sentence: "The key that closes every open position at once is the ___ key."
+    options: ["flatten", "cancel", "size"]
+    answer: "flatten"
+    explanation: "Cancel removes orders that have not filled. Flatten removes the shares themselves."
+
+  - type: chart-decision
+    scenario: "XYZ is running, the candles are thirty cents tall and the quote has opened to six cents wide. Your $20,000 account allows 1,300 shares here."
+    shares: 1300
+    state: ["Quote: 6 cents wide"]
+    chart:
+      kind: candles
+      data: [[13.80, 14.00, 13.76, 13.96], [13.96, 14.22, 13.92, 14.18], [14.18, 14.44, 14.12, 14.38], [14.38, 14.66, 14.32, 14.60], [14.60, 14.90, 14.54, 14.84], [14.84, 15.14, 14.78, 15.06], [15.06, 15.12, 14.72, 14.78], [14.78, 14.86, 14.46, 14.52], [14.52, 14.60, 14.24, 14.30], [14.30, 14.38, 14.06, 14.12]]
+      volume: [126000, 158000, 184000, 212000, 246000, 268000, 232000, 198000, 176000, 154000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It turned at $15.14 and was back at $14.12 nine minutes later — $0.94 a share against a long, $1,222 on 1,300 shares."
+    explanation: "Fast keys do not make a six-cent quote cheap. The speed you built is for leaving trades you chose, not for joining ones you did not."
+
+  - type: sort
+    prompt: "Cancel or flatten?"
+    buckets: ["Cancel", "Flatten"]
+    items:
+      - {text: "A stop still working after you already sold", bucket: "Cancel"}
+      - {text: "A position you are holding and no longer want", bucket: "Flatten"}
+      - {text: "A limit entry that never filled and is now stale", bucket: "Cancel"}
+      - {text: "Two positions open at once after a bad press", bucket: "Flatten"}
+    explanation: "Orders against shares. Mixing them up under pressure is how a closed trade quietly reopens."
+
+  - type: theory
+    title: "Built away from the market"
+    body: "None of this is learned during a session. The next two sub-levels are the key set itself, and the repetitions that put it in your hands."

@@ -1,0 +1,116 @@
+id: "1-4"
+title: "The Platform"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [simulator, practice, process]
+learning_goal: "User can say what a simulator trains and what it flatters, and uses one at the size they will actually trade."
+purpose: "Everything this chapter asks for is learned somewhere. The cheapest somewhere is a screen with no money behind it."
+terms_introduced: ["Simulator"]
+reinforces: [3]
+prerequisite: "1-3"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Steenbarger — The Daily Trading Coach"]
+notes: "Closes Level 1 with a recap. Chapter 3's spread and slippage re-tested as the difference between a sim fill and a live one. Account named at $20,000; the worked position is 1,400 shares at $12.92 = $18,088."
+screens:
+  - type: intro
+    text: "Every desk starts new traders on a screen where nothing is at stake, and it is not to be kind."
+
+  - type: theory
+    title: "The simulator"
+    body: "A simulator is the same platform running on live prices with no money behind it. Your orders are matched against the real quote and nothing you do reaches an exchange."
+
+  - type: theory
+    title: "Why it comes first"
+    body: "You are about to run a routine with eight cards, a loss limit and five keys. Learning where the buttons are while a position is open is the expensive way to do it."
+
+  - type: example
+    body: "Three weeks on a simulator costs you the mornings and nothing else. The same three weeks live, at 1,400 shares with a fourteen-cent stop, is $196 a mistake."
+
+  - type: chart-decision
+    scenario: "Second week on the simulator. XYZ has coiled under yesterday's high at $12.80 for twenty minutes, and this minute closed above it on the heaviest volume since the bell. Your simulated account is $20,000 and 1,400 shares is the size you are practising."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[12.62, 12.70, 12.58, 12.68], [12.68, 12.76, 12.64, 12.72], [12.72, 12.80, 12.68, 12.76], [12.76, 12.82, 12.72, 12.78], [12.78, 12.84, 12.74, 12.80], [12.80, 12.94, 12.78, 12.92], [12.92, 13.02, 12.88, 12.98], [12.98, 13.08, 12.94, 13.04], [13.04, 13.14, 13.00, 13.10], [13.10, 13.20, 13.06, 13.16]]
+      volume: [88000, 74000, 66000, 58000, 52000, 164000, 138000, 120000, 104000, 92000]
+      levels:
+        - {price: 12.80, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $13.16 — $0.24 a share above the decision, +$336 long on 1,400 shares, in an account that was never at risk."
+    explanation: "The decision is the one you would make live. What the simulator removes is the cost of getting the buttons wrong while you make it."
+
+  - type: journal-row
+    prompt: "Fill the row for the trade you just took."
+    trade: {setup: "Break of yesterday's high", entry: 12.92, stop: 12.78, exit: 13.16, shares: 1400}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$140", "$196", "$336"]
+      r_made: ["+1R", "+1.7R", "+2.5R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$196", r_made: "+1.7R", grade: "A"}
+    explanation: "Fourteen cents on 1,400 shares is $196 at risk; $336 made is 1.7 of it. The row is worth writing whether the money was real or not."
+
+  - type: numeric-input
+    prompt: "The simulator filled you at $12.92 the instant you clicked. Live, a two-cent spread and two cents of slippage would have cost four cents a share. On 1,400 shares, what did the sim quietly hand you?"
+    answer: 56
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.04 × 1,400 = $56"
+    explanation: "Sim fills are the best case. Subtract a realistic round trip from every simulated result before you believe the number."
+
+  - type: tf
+    statement: "A month of profitable simulator results proves the method has an edge."
+    answer: false
+    explanation: "It proves you can run the process. Fills are flattered and nothing is at stake, so the result is evidence about you rather than about the money."
+
+  - type: sort
+    prompt: "What does a simulator actually test?"
+    buckets: ["It tests this", "It cannot test this"]
+    items:
+      - {text: "Whether you place the stop in the same motion as the entry", bucket: "It tests this"}
+      - {text: "Whether you keep the loss limit when the money is yours", bucket: "It cannot test this"}
+      - {text: "Whether you run the routine every single morning", bucket: "It tests this"}
+      - {text: "What 1,400 shares do to a quote that is already thin", bucket: "It cannot test this"}
+    explanation: "Process, yes. Fills and nerves, no. Knowing which half you are training is the whole skill of using one."
+
+  - type: mc
+    prompt: "Your simulator lets you set the account to $500,000. Why is that a problem?"
+    options:
+      - {text: "It makes the platform slower to fill orders"}
+      - {text: "Simulated results are not recorded at that size"}
+      - {text: "You would practise a size you will never trade", correct: true}
+    explanation: "Set the simulator to the account you will actually have. Sizing is a habit, and a generous simulator ruins that one first."
+
+  - type: order
+    prompt: "Put the first week on the simulator in order."
+    items:
+      - "Set the account to the size you will actually trade"
+      - "Send ten orders with no setup in mind, just to find the keys"
+      - "Run the routine on one name and take what it produces"
+      - "Write every trade down, the fumbled ones included"
+    explanation: "Buttons first, process second, record third. Most beginners start at the third step and never fix the first."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The simulated trade filled at the price on the screen,"}
+      - {text: "so a live order of the same size would have too,", wrong: true}
+      - {text: "and the stop would still have been fourteen cents away."}
+    explanation: "A live 1,400-share order walks the book and pays the spread. The stop distance survives the switch; the fill price does not."
+
+  - type: story
+    character: retail-trader
+    text: "Fourth morning on the simulator. You reach for the sell key, catch the wrong one, and end up long twice your size instead of out. It costs nothing, and you never do it again."
+
+  - type: recap
+    title: "Level 1 in four lines"
+    points:
+      - {text: "The platform sends orders and checks nothing about your reasoning.", level: "1-1"}
+      - {text: "The ladder is an entry surface: one click is one order at that price.", level: "1-2"}
+      - {text: "Routing, dialogs, pricing and quote speed all end up in the fill.", level: "1-3"}
+      - {text: "The simulator trains process, flatters fills, and costs nothing to fumble on.", level: "1-4"}

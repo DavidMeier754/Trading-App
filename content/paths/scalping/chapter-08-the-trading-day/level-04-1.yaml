@@ -1,0 +1,109 @@
+id: "4-1"
+title: "The Pre-Market Hour"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [pre-market, routine, plan, process]
+learning_goal: "User knows what the hour before the bell has to produce, and that the page it ends on is written last because everything else feeds it."
+purpose: "Chapter 5 built a routine. This is the hour it lives in, and the document it leaves behind."
+terms_introduced: ["Pre-market plan"]
+reinforces: [5, 6]
+prerequisite: "3-2"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Chapter 5's routine and Chapter 6's limits re-tested as one hour with an output. Account named at $16,000; the worked position is 1,100 shares at $14.20 = $15,620."
+screens:
+  - type: intro
+    text: "Chapter 5 gave you a routine. This is the hour it lives in, and the page it has to end on."
+
+  - type: story
+    character: retail-trader
+    text: "An hour before the bell. An empty page, a saved scanner, and no position anywhere to argue with you."
+
+  - type: theory
+    title: "What the hour produces"
+    body: "Not a forecast. Four names with lines drawn on them, one sentence about the market, a guess at the day type, and three numbers you will trade by."
+
+  - type: order
+    prompt: "Put the last stretch of the hour, after the names are chosen, in the order you write it."
+    items:
+      - "Today's share size, from the account and the stop"
+      - "1R in dollars for that size"
+      - "The loss limit and the trade cap"
+      - "The trigger and the stop for each name"
+    explanation: "Each number depends on the one above it, which is why guessing the size last never works."
+
+  - type: theory
+    title: "The pre-market plan"
+    body: "The pre-market plan is the page the hour ends on: the names, the size, the numbers and the triggers, all written down while nothing is moving."
+
+  - type: scanner-pick
+    prompt: "Steps one and two. Your account is $16,000 and your stop is usually twelve cents. Which row can you trade at a size worth trading?"
+    data:
+      rows:
+        - {ticker: KORL, price: 14.20, change_pct: 7.4, rvol: 6.1, float: "58M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: BRAM, price: 46.80, change_pct: 5.2, rvol: 4.4, float: "210M", spread: 0.05, catalyst: "Upgrade"}
+        - {ticker: TEVN, price: 12.60, change_pct: 2.1, rvol: 1.1, float: "94M", spread: 0.03, catalyst: "None"}
+        - {ticker: OSPR, price: 9.40, change_pct: 22.6, rvol: 18.0, float: "4M", spread: 0.21, catalyst: "Trial data"}
+    target: KORL
+    explanation: "KORL is 1,100 shares on $16,000 and two cents wide. BRAM is 340 shares, TEVN is trading its own normal day, and OSPR's quote costs more than the whole stop."
+
+  - type: mc
+    prompt: "Why is the size written before the triggers?"
+    options:
+      - {text: "A trigger you cannot size is not a plan", correct: true}
+      - {text: "The platform needs a size before it accepts a stop"}
+      - {text: "Triggers change in the session and sizes do not"}
+    explanation: "The account and the price decide how much stock is possible at all. Chapter 3 called that the account ceiling, and no chart argues it away."
+
+  - type: tf
+    statement: "The pre-market plan is finished only when every name on it has a share size beside it."
+    answer: true
+    explanation: "A name with no size attached is a name you will size in the moment, and that is the one decision the hour exists to remove."
+
+  - type: numeric-input
+    prompt: "Account $16,000, KORL at $14.20, a twelve-cent stop, and you risk 1 % of the account per trade. What size do you trade?"
+    answer: 1100
+    tolerance: 30
+    unit: "shares"
+    working: "Risk: $160 ÷ $0.12 = 1,333 shares. Account: $16,000 ÷ $14.20 = 1,126 shares. The smaller one, rounded down: 1,100."
+    explanation: "Two ceilings, and here it is the account that binds. Chapter 3's rule, landing on a real morning."
+
+  - type: fill-choice
+    sentence: "The hour's last step is the ___, because every number in it depends on the steps before."
+    options: ["page", "scan", "chart"]
+    answer: "page"
+    explanation: "Scan, cut, draw, read, then write. The page is where the other four end up."
+
+  - type: sort
+    prompt: "Which of these belongs on the page, and which is a decision the session makes?"
+    buckets: ["On the page, before the bell", "Decided in the session"]
+    items:
+      - {text: "The share size for each name", bucket: "On the page, before the bell"}
+      - {text: "The loss limit for the day", bucket: "On the page, before the bell"}
+      - {text: "Whether this particular candle is the trigger", bucket: "Decided in the session"}
+      - {text: "Whether a second trade in the same name is worth it", bucket: "Decided in the session"}
+    explanation: "The page holds the numbers and the session holds the timing. Anything that moves from the right column to the left is a win."
+
+  - type: match
+    prompt: "Five steps of the hour, five things they leave behind. Match them."
+    pairs:
+      - ["Scan", "A list of rows that met conditions you set long ago"]
+      - ["Cut", "Four names instead of forty"]
+      - ["Draw", "Three prices marked on each name"]
+      - ["Market check", "One sentence about the day's tone"]
+      - ["Write", "A page with sizes and limits on it"]
+    explanation: "Each step hands the next one less work, and only the last output survives the open."
+
+  - type: checklist-reveal
+    title: "On the page before the bell"
+    items:
+      - "Four names, no more"
+      - "A share size beside each one"
+      - "1R in dollars for that size"
+      - "The loss limit and the trade cap"
+
+  - type: example
+    body: "Four names, 1,100 shares each, 1R of $132, a 3R limit of $396 and six trades. Nine minutes of writing, and none of it decided while something was moving."

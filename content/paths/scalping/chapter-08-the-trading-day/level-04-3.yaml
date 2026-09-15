@@ -1,0 +1,108 @@
+id: "4-3"
+title: "The Pre-Market Hour"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [pre-market, risk, if-then, plan]
+learning_goal: "User writes the day's three risk numbers and one if-then line per name, naming the trigger, the size and the price that ends it."
+purpose: "A sentence written an hour early is a rule; the same sentence written at the open is a justification."
+terms_introduced: ["If-then plan"]
+reinforces: [5, 6]
+prerequisite: "4-2"
+xp: 25
+difficulty: 3
+sources: ["Steenbarger — Trading Psychology 2.0", "Elder — Trading for a Living"]
+notes: "Chapter 6's R, loss limit and trade cap re-tested as the last part of the hour. Account named at $16,000; the worked position is 1,100 shares at $14.54 = $15,994."
+screens:
+  - type: intro
+    text: "Three numbers, then one line for each name. Neither part can be written while something is moving."
+
+  - type: theory
+    title: "Size, then 1R, then the caps"
+    body: "The size comes from the account and the stop. 1R is that size times that stop. The loss limit and the trade cap are multiples of 1R. Four numbers, in that order, every morning."
+
+  - type: numeric-input
+    prompt: "1,100 shares, a twelve-cent stop and a 3R daily loss limit. In dollars, where does the day end?"
+    answer: 396
+    tolerance: 1
+    unit: "$"
+    working: "$0.12 × 1,100 = $132 for 1R; 3 × $132 = $396"
+    explanation: "Chapter 6 wrote the limit in R so it would survive a change of size. This is the morning it becomes money again."
+
+  - type: theory
+    title: "An if-then plan"
+    body: "An if-then plan is one written line per name: the condition that puts you in, the size, and the price that says you were wrong. If KORL closes a minute above $14.46, 1,100 shares, stop $14.34."
+
+  - type: example
+    body: "Three lines on the page, about twenty words each. Written an hour early they are rules. Written at the open they are excuses with a price attached."
+
+  - type: match
+    prompt: "Four parts of an if-then line. Match each to what it settles."
+    pairs:
+      - ["The condition", "What has to happen before you touch the keyboard"]
+      - ["The size", "How much stock, from the account and the stop"]
+      - ["The stop price", "The price at which the idea is wrong"]
+      - ["The target", "Where the trade ends whether you like it or not"]
+    explanation: "Four decisions' worth of thinking, done while the only thing at stake is your handwriting."
+
+  - type: mc
+    prompt: "Why is the stop price written into the line rather than chosen at the entry?"
+    options:
+      - {text: "The platform needs it before it accepts the entry"}
+      - {text: "A stop chosen at the entry is usually far too tight"}
+      - {text: "The chart is more honest before you own it", correct: true}
+    explanation: "Once you are in, every line you draw has a position arguing for it. The distance was cheapest to measure while you were flat."
+
+  - type: sort
+    prompt: "Each of these is a line someone wrote before the bell. Which are plans and which are hopes?"
+    buckets: ["A plan", "A hope"]
+    items:
+      - {text: "Above $14.46 on a minute close, 1,100 shares, stop $14.34", bucket: "A plan"}
+      - {text: "KORL looks strong, watch it at the open", bucket: "A hope"}
+      - {text: "Below $14.12 on volume, 1,100 short, stop $14.24", bucket: "A plan"}
+      - {text: "If it dips I will buy some", bucket: "A hope"}
+    explanation: "A plan names a price, a size, and a price that ends it. Anything missing one of the three is a sentence about your mood."
+
+  - type: tf
+    statement: "Two lines on the same name, one long and one short, is a reasonable page."
+    answer: true
+    explanation: "A level names a price, not a direction. What is not reasonable is taking both of them within a few minutes of each other."
+
+  - type: order-build
+    prompt: "KORL closed a minute above $14.46 and the ask is $14.50. Your line says 1,100 shares and nothing worse than four cents through it."
+    ticker: KORL
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [550, 1100, 1650]
+      price: [14.46, 14.50, 14.54]
+    answer: {side: buy, type: limit, qty: 1100, price: 14.54}
+    explanation: "The line was written an hour ago and the ticket is it, retyped. 1,100 × $14.54 is $15,994, which the $16,000 account can pay for."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The line said 1,100 shares with the stop at $14.34,"}
+      - {text: "so with the ask ten cents higher you take 1,100 and keep that stop,", wrong: true}
+      - {text: "which is why the entry price belongs in the line as well."}
+    explanation: "Entering ten cents higher against the same stop is 22 cents of risk: $242 on 1,100 shares instead of $132."
+
+  - type: fill-choice
+    sentence: "A daily loss limit is written in R so that it survives a change of ___."
+    options: ["size", "stock", "mood"]
+    answer: "size"
+    explanation: "Three R is three R at 600 shares and at 1,100. In dollars it would need rewriting every time your names changed price."
+
+  - type: checklist-reveal
+    title: "The three numbers and the lines"
+    items:
+      - "Today's share size, from the account and the stop"
+      - "1R in dollars for that size"
+      - "The loss limit and the trade cap, as multiples of 1R"
+      - "One if-then line for every name on the page"
+
+  - type: theory
+    title: "None of it is a forecast"
+    body: "Not one of these lines says what the market will do. Each says what you will do if the market does something particular, which is the only kind of plan a session cannot argue with."

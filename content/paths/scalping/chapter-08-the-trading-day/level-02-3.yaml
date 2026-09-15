@@ -1,0 +1,115 @@
+id: "2-3"
+title: "Hotkeys and Muscle Memory"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [practice, hotkeys, review]
+learning_goal: "User builds key reps on a simulator away from the market, and treats a wrong press as an event worth recording."
+purpose: "The reps have to happen somewhere, and a live morning is the most expensive classroom there is."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "2-2"
+xp: 25
+difficulty: 3
+sources: ["Steenbarger — The Daily Trading Coach", "Bellafiore — One Good Trade"]
+notes: "Closes Level 2 with a recap. Chapter 3's sizing re-tested inside a mis-key. Account named at $20,000; the accidental position is 1,400 shares at $13.20 = $18,480, inside the account."
+screens:
+  - type: intro
+    text: "The repetitions happen on mornings where nothing is at stake. There is nowhere else they can happen."
+
+  - type: theory
+    title: "Reps, not sessions"
+    body: "Twenty minutes on a simulator sending orders with no setup in mind builds the sequence faster than a month of live mornings. There is nothing to be right about, so there is nothing to rush."
+
+  - type: example
+    body: "Ten entries with a stop behind each one. Ten exits. Five flattens from positions opened only to be closed. Fifty presses, no chart read, no money."
+
+  - type: checklist-reveal
+    title: "A twenty-minute drill"
+    items:
+      - "Set the size key and confirm it on the ticket"
+      - "Ten entries, each with its stop sent behind it"
+      - "Five flattens from positions opened for that purpose"
+      - "Two deliberate wrong presses, so you have cancelled one"
+
+  - type: branch
+    scenario: "Live morning. You meant to sell your 700 shares and pressed Buy. You are now long 1,400 of XYZ at around $13.20, with $20,000 in the account and a stop covering half of it."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.30, 13.36, 13.24, 13.26], [13.26, 13.30, 13.18, 13.20], [13.20, 13.28, 13.16, 13.24], [13.24, 13.30, 13.20, 13.22], [13.22, 13.26, 13.14, 13.18], [13.18, 13.24, 13.12, 13.20], [13.20, 13.28, 13.16, 13.26], [13.26, 13.32, 13.22, 13.28]]
+      volume: [72000, 66000, 58000, 62000, 84000, 96000, 78000, 70000]
+      decision_index: 5
+    steps:
+      - prompt: "What is the first press?"
+        options:
+          - {text: "Flatten, and work out what happened afterwards", correct: true, next: 1}
+          - {text: "Send a second stop to cover the extra 700 shares", next: 1}
+        explanation: "You are holding double your planned size by accident. The size is the emergency, not the price."
+      - prompt: "You are flat. The setup you originally wanted is still on the screen. What now?"
+        options:
+          - {text: "Stand down and check the size key first", correct: true, next: 2}
+          - {text: "Re-enter at your planned size straight away", next: 2}
+        explanation: "The key that betrayed you is still set the way it was. Two seconds of checking is cheaper than making the same mistake twice in a minute."
+      - prompt: "The morning is over. What goes in the journal?"
+        options:
+          - {text: "The mis-key, as its own row with a grade"}
+          - {text: "Nothing, since you never intended the trade"}
+          - {text: "The mis-key and what your hand was doing when it happened", correct: true}
+        explanation: "Chapter 6 graded execution separately from the result. A wrong press is an execution event, and it repeats until it is written down."
+
+  - type: mc
+    prompt: "Why practise the keys when there is no setup on the screen?"
+    options:
+      - {text: "Because a setup makes the practice harder to grade"}
+      - {text: "Because you are training the hand, not the read", correct: true}
+      - {text: "Because a simulator fills differently without one"}
+    explanation: "Two separate skills. Train them together and the morning you read badly is also the morning your hands are slow."
+
+  - type: journal-row
+    prompt: "The mis-key, as a row."
+    trade: {setup: "Wrong key, unintended long", entry: 13.20, stop: 13.06, exit: 13.18, shares: 1400}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$98", "$196", "$280"]
+      r_made: ["−0.1R", "0R", "+0.5R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$196", r_made: "−0.1R", grade: "C"}
+    explanation: "Fourteen cents on 1,400 shares is $196 at risk on stock you never meant to own, and $28 given back is about a tenth of it. The grade is C because the result was luck."
+
+  - type: tf
+    statement: "A wrong press that happens to make money does not need reviewing."
+    answer: false
+    explanation: "The press was wrong and the market covered for it. Reviewing only the expensive mistakes is how the cheap ones get expensive."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "You pressed the wrong key and opened a position,"}
+      - {text: "so you cancel the working orders to close it,", wrong: true}
+      - {text: "and then check the size key before anything else."}
+    explanation: "Cancelling clears orders, not shares. The position stays open until flatten or a sell closes it."
+
+  - type: order
+    prompt: "Put a twenty-minute drill in the order you run it."
+    items:
+      - "Check the size key against today's page"
+      - "Ten entries, each with its stop behind it"
+      - "Five flattens from positions opened to be closed"
+      - "Write down every press that came out wrong"
+    explanation: "It is deliberately boring. Boring is exactly what a live morning will not give you."
+
+  - type: numeric-input
+    prompt: "Fifty presses a morning, four mornings a week, for three weeks. How many repetitions is that?"
+    answer: 600
+    tolerance: 1
+    working: "50 × 4 × 3 = 600"
+    explanation: "Six hundred repetitions with nothing at stake, against the handful three weeks of live trading would have given you."
+
+  - type: recap
+    title: "Level 2 in three lines"
+    points:
+      - {text: "A hotkey is a whole order behind one press, and the exit is the press that matters.", level: "2-1"}
+      - {text: "Five keys, one sequence: size, entry, stop.", level: "2-2"}
+      - {text: "The repetitions are built where a wrong press costs nothing.", level: "2-3"}

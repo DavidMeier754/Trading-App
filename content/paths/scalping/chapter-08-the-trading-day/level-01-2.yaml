@@ -1,0 +1,106 @@
+id: "1-2"
+title: "The Platform"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [platform, ladder, order-entry]
+learning_goal: "User treats the ladder as an order-entry surface, not a picture, and knows what resting size does and does not promise."
+purpose: "Chapter 3 read the book. This is the panel a scalper clicks orders onto."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "1-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Chapter 3's Level 2 and walking-the-book re-tested as an entry surface. Account named at $20,000; the worked position is 1,400 shares at $13.51 = $18,914."
+screens:
+  - type: intro
+    text: "Chapter 3 read the order book. This is the same information with a keyboard attached to it."
+
+  - type: theory
+    title: "Prices in a column"
+    body: "The ladder stacks prices vertically with the resting size beside each one: bids below, asks above, the last trade marked between them."
+    visual: order-book
+    visual_data: {bids: [[13.44, 800], [13.43, 1000], [13.42, 2400]], asks: [[13.47, 500], [13.48, 900], [13.49, 3100]]}
+
+  - type: theory
+    title: "One click is one order"
+    body: "Clicking a price sends an order at that price. Your own working orders appear as marks in the column, and clicking them again takes them out."
+
+  - type: hotspot
+    component: order-book
+    prompt: "Tap the row where the most shares are waiting to sell."
+    data: {bids: [[13.44, 800], [13.43, 1000], [13.42, 2400]], asks: [[13.47, 500], [13.48, 900], [13.49, 3100]]}
+    target: ask-3
+    explanation: "3,100 shares at $13.49. Two thin rows sit in front of it, which is why price gets there quickly and then stops."
+
+  - type: depth-ladder
+    prompt: "Something goes wrong and you market-sell 2,000 shares into that book. Where does the last share fill?"
+    data:
+      bids: [[13.44, 800], [13.43, 1000], [13.42, 2400]]
+      asks: [[13.47, 500], [13.48, 900], [13.49, 3100]]
+    target: bid-3
+    explanation: "800 at $13.44 and 1,000 at $13.43 leave 200 shares, and those reach $13.42 — the third bid row."
+
+  - type: numeric-input
+    prompt: "What did that 2,000-share sell average out at?"
+    answer: 13.433
+    tolerance: 0.001
+    unit: "$"
+    working: "(800 × 13.44 + 1,000 × 13.43 + 200 × 13.42) ÷ 2,000 = 13.433"
+    explanation: "Seven-tenths of a cent below the top row. Small per share, and it is the number the positions panel will show you."
+
+  - type: tf
+    statement: "Size resting on the ladder has to trade before price can move past it."
+    answer: false
+    explanation: "It can be pulled in an instant. Resting size is the crowd's current intention, not a queue that must be served."
+
+  - type: mc
+    prompt: "Price is $13.47 and you click the ladder at $13.42. What have you sent?"
+    options:
+      - {text: "A market order that fills at $13.47"}
+      - {text: "A stop that triggers at $13.42"}
+      - {text: "A limit that waits at $13.42", correct: true}
+    explanation: "A click below the market is a resting buy. It may fill, and on a name that keeps running it may never be touched."
+
+  - type: chart-decision
+    scenario: "The ladder has shown 3,100 shares resting at $13.49 for ten minutes, and price has failed under them four times. This minute they were taken out and the candle closed above. Your $20,000 account allows 1,400 shares here."
+    shares: 1400
+    chart:
+      kind: candles
+      data: [[13.30, 13.36, 13.28, 13.34], [13.34, 13.40, 13.32, 13.38], [13.38, 13.44, 13.36, 13.42], [13.42, 13.47, 13.40, 13.44], [13.44, 13.48, 13.42, 13.45], [13.45, 13.52, 13.44, 13.51], [13.51, 13.60, 13.49, 13.58], [13.58, 13.66, 13.55, 13.63], [13.63, 13.70, 13.60, 13.68], [13.68, 13.76, 13.65, 13.72]]
+      volume: [72000, 66000, 58000, 62000, 54000, 168000, 142000, 124000, 108000, 96000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $13.72 — $0.21 a share above the decision, +$294 long on 1,400 shares."
+    explanation: "A wall is only information until it is gone. The ladder showed it leaving and the candle closed above where it had been."
+
+  - type: sort
+    prompt: "Which of these does the ladder tell you, and which does it not?"
+    buckets: ["The ladder shows it", "The ladder does not"]
+    items:
+      - {text: "How many shares rest at $13.49 right now", bucket: "The ladder shows it"}
+      - {text: "Which of your own orders are working", bucket: "The ladder shows it"}
+      - {text: "Whether that size is still there in ten seconds", bucket: "The ladder does not"}
+      - {text: "Why the seller is there at all", bucket: "The ladder does not"}
+    explanation: "A photograph of intentions, refreshed continuously. What it cannot photograph is the next ten seconds."
+
+  - type: match
+    prompt: "Four things on a ladder. Match each to what it is."
+    pairs:
+      - ["A number in the size column", "Shares resting at that price right now"]
+      - ["A mark in your own column", "An order of yours working there"]
+      - ["The highlighted pair of rows", "The best bid and the best ask"]
+      - ["A click on a price", "An order sent at that price"]
+    explanation: "The last one is the whole difference between Chapter 3's book and this chapter's ladder."
+
+  - type: fill-tiles
+    sentence: "Clicking a price on the ladder sends an ___ at that price."
+    answer: "order"
+    explanation: "No typing, no dialog. That is what the panel is for, and it is also why it is dangerous to lean on."
+
+  - type: story
+    character: retail-trader
+    text: "The ladder has been open ten minutes and nothing has happened. Twice your hand has drifted towards it just to see what a click would do. That is the panel working, and you nearly undoing it."

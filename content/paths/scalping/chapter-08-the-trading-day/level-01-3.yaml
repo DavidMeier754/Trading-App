@@ -1,0 +1,104 @@
+id: "1-3"
+title: "The Platform"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [platform, costs, routing, frequency]
+learning_goal: "User names what a screen built for frequency does differently, and prices that difference against their own trade count."
+purpose: "A screen cannot make a method good, and the wrong one can make a good method unaffordable."
+terms_introduced: []
+reinforces: [3]
+prerequisite: "1-2"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "Chapter 3's fees-at-frequency and slippage re-tested as a screen choice. No product is named anywhere. {{market.fee_note}} is not quoted here; it belongs to Chapter 3."
+screens:
+  - type: intro
+    text: "Your bank's app can buy the same stock. It just cannot do it the way forty orders a morning needs."
+
+  - type: theory
+    title: "Two different jobs"
+    body: "One screen is built for someone buying twice a month. The other is built for someone sending forty orders before lunch. The difference shows up in four places."
+
+  - type: carousel
+    cards:
+      - {label: "Routing", text: "A simple app sends your order wherever it always sends orders. A direct screen lets you choose, and the choice lands in the fill.", icon: institution}
+      - {label: "One click", text: "A confirmation step is a feature when you trade twice a month and a problem when your stop is twelve cents away.", icon: retail-trader}
+      - {label: "Pricing", text: "Per-order pricing suits a few large trades. Per-share pricing suits many small ones. Neither is cheaper in the abstract.", icon: market-maker}
+
+  - type: theory
+    title: "And the data behind it"
+    body: "A quote that refreshes every few seconds is fine for a chart you check at lunch. On a one-minute chart it is a picture of a market that has already moved."
+
+  - type: mc
+    prompt: "Your stop sits twelve cents below your entry and the screen asks you to confirm every order. What does that cost you?"
+    options:
+      - {text: "The spread, which widens while you are confirming"}
+      - {text: "The seconds in which the twelve cents happen", correct: true}
+      - {text: "Nothing, since the order still goes through"}
+    explanation: "A dialog guards against sending the wrong order. On a twelve-cent stop it also guards against sending the right one in time."
+
+  - type: numeric-input
+    prompt: "Twenty round trips a morning, 1,000 shares each, at $0.004 a share each way. What do the per-share charges come to for the morning?"
+    answer: 160
+    tolerance: 0.5
+    unit: "$"
+    working: "20 round trips = 40 fills; 40 × 1,000 shares × $0.004 = $160"
+    explanation: "Chapter 3 measured this one trade at a time. A morning's worth is the number that decides whether a method survives its own frequency."
+
+  - type: sort
+    prompt: "Which of these belongs on a screen built for frequency?"
+    buckets: ["Built for frequency", "Built for a few trades a month"]
+    items:
+      - {text: "A ladder you can click an order onto", bucket: "Built for frequency"}
+      - {text: "A confirmation step on every order", bucket: "Built for a few trades a month"}
+      - {text: "Per-share pricing", bucket: "Built for frequency"}
+      - {text: "A quote that refreshes every few seconds", bucket: "Built for a few trades a month"}
+    explanation: "None of these makes a trader good. They decide whether a method that needs forty orders can be run at all."
+
+  - type: tf
+    statement: "A faster screen changes what you can do with a decision, not whether the decision was any good."
+    answer: true
+    explanation: "It removes seconds between the read and the order. The read is still yours, and so is the reason behind it."
+
+  - type: slider
+    prompt: "A two-cent quote, 1,000 shares, and you are trading for a ten-cent move. How much of the move does the round trip hand back?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 20
+    tolerance: 10
+    explanation: "Two cents out of ten, before a single fee. That ratio is why the screen and the target have to be chosen together."
+
+  - type: example
+    body: "Forty orders, 1,000 shares each, a two-cent quote and $0.004 a share: $400 of spread and $160 of charges on the morning. The screen changes neither number. Your trade count does."
+
+  - type: fill-choice
+    sentence: "Choosing where an order is routed changes the ___, not the setup."
+    options: ["fill", "trend", "plan"]
+    answer: "fill"
+    explanation: "Routing is an execution decision. It can save you a cent and it cannot make a bad entry good."
+
+  - type: match
+    prompt: "Four differences between screens. Match each to what it decides."
+    pairs:
+      - ["Routing choice", "Where the order is sent"]
+      - ["One-click entry", "Whether anything sits between you and the order"]
+      - ["Per-share pricing", "A charge that grows with size"]
+      - ["Quote refresh rate", "How current the numbers you are reading are"]
+    explanation: "Four small things, and all four of them end up in the same place: the fill."
+
+  - type: checklist-reveal
+    title: "What a screen has to let you do"
+    items:
+      - "Send an order with nothing in the way"
+      - "Place a stop in the same motion as the entry"
+      - "See a quote that is current, not rounded off"
+      - "Know what one round trip costs before you take it"
+
+  - type: theory
+    title: "None of this names a product"
+    body: "This app recommends no platform and no broker. It tells you what to check, so that whatever you end up in front of, you know what you are checking it for."

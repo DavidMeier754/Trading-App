@@ -1,0 +1,133 @@
+id: "4-2"
+title: "The Pre-Market Hour"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [pre-market, levels, internals, market-check]
+learning_goal: "User draws the morning's lines before the bell and turns the market check into a single written sentence."
+purpose: "The two slowest steps of the hour are the two that a late start deletes, and they are the two that pay."
+terms_introduced: []
+reinforces: [5, 6]
+prerequisite: "4-1"
+xp: 25
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "Chapter 5's levels, internals and day type re-tested inside the hour. Account named at $16,000; the worked position is 1,100 shares at $14.52 = $15,972."
+screens:
+  - type: intro
+    text: "Two of the five steps carry most of the hour. One is slow, and nobody skips it twice."
+
+  - type: theory
+    title: "Three lines a name"
+    body: "Yesterday's high and low, the pre-market extreme, and the round number nearest to price. Three lines, drawn while the name is still cheap to look at."
+
+  - type: chart-annotate
+    prompt: "KORL, before the bell. Drag the line to the price this morning has failed at."
+    chart:
+      kind: candles
+      data: [[14.20, 14.28, 14.16, 14.26], [14.26, 14.34, 14.22, 14.30], [14.30, 14.46, 14.28, 14.42], [14.42, 14.44, 14.32, 14.34], [14.34, 14.40, 14.30, 14.38], [14.38, 14.46, 14.34, 14.40], [14.40, 14.42, 14.32, 14.36], [14.36, 14.44, 14.34, 14.42], [14.42, 14.46, 14.38, 14.40]]
+      volume: [18000, 14000, 22000, 16000, 12000, 15000, 11000, 13000, 17000]
+    answer: 14.46
+    tolerance: 0.04
+    label: "Pre-market high"
+    explanation: "$14.46, reached three times and beaten none of them. It is the first line on the name and the one the open will test."
+
+  - type: theory
+    title: "The market check is one sentence"
+    body: "The index direction, the sector, and whether money is being put on or taken off. One sentence, because a paragraph is a forecast and you are not making one."
+
+  - type: visual
+    component: internals-panel
+    data:
+      index: {label: "{{market.index_example}}", data: [100.0, 100.1, 100.3, 100.2, 100.5, 100.6, 100.5, 100.8]}
+      breadth: "1,940 up / 1,060 down"
+      sectors:
+        - {label: "Banks", value: 0.4}
+        - {label: "Miners", value: 1.6}
+        - {label: "Chipmakers", value: 0.9}
+    caption: "Green index, nearly two names up for every one down, and miners carrying it. That is the sentence, written in three readings."
+
+  - type: mc
+    prompt: "The index is up, breadth is close to two to one, and your name's sector is the strongest on the board. What does that change?"
+    options:
+      - {text: "The number of trades the day is likely to offer", correct: true}
+      - {text: "Which of your four names is worth watching first"}
+      - {text: "The share size you already worked out this morning"}
+    explanation: "A broad, one-way market hands out more clean pushes. It does not rewrite the shortlist, and it never rewrites the size."
+
+  - type: hotspot
+    component: internals-panel
+    prompt: "Your name is a miner and the whole board is green. Tap the reading that says whether miners came along."
+    data:
+      index: {label: "{{market.index_example}}", data: [100.0, 100.2, 100.1, 100.4, 100.3, 100.6, 100.5, 100.7]}
+      breadth: "1,700 up / 1,300 down"
+      sectors:
+        - {label: "Banks", value: 1.2}
+        - {label: "Miners", value: -0.4}
+        - {label: "Chipmakers", value: 0.6}
+    target: sectors
+    explanation: "Miners are down four-tenths under a green index. Your street did not come, and a name fighting its own sector needs a better reason than the rest."
+
+  - type: chart-annotate
+    prompt: "KORL opened and sold off. Drag the line to the price that has stopped the last two slides."
+    chart:
+      kind: candles
+      data: [[14.40, 14.44, 14.30, 14.32], [14.32, 14.36, 14.12, 14.16], [14.16, 14.26, 14.14, 14.24], [14.24, 14.28, 14.18, 14.20], [14.20, 14.24, 14.12, 14.18], [14.18, 14.30, 14.16, 14.28], [14.28, 14.36, 14.24, 14.34], [14.34, 14.40, 14.30, 14.38], [14.38, 14.44, 14.34, 14.42]]
+      volume: [96000, 142000, 88000, 74000, 118000, 92000, 78000, 68000, 62000]
+    answer: 14.12
+    tolerance: 0.04
+    label: "Support"
+    explanation: "$14.12, reached twice and bought both times. That is the second of the three lines, and it is where a stop can sit rather than float."
+
+  - type: tf
+    statement: "The market check is written before the open, but the day type is not."
+    answer: true
+    explanation: "You cannot read a session that has not started. Chapter 5 put the day type in the first half hour on purpose, and the hour before only guesses at it."
+
+  - type: sort
+    prompt: "Which of these can be finished before the bell, and which has to wait for it?"
+    buckets: ["Finished before the bell", "Has to wait"]
+    items:
+      - {text: "The three lines on each name", bucket: "Finished before the bell"}
+      - {text: "The index, the sector and the breadth reading", bucket: "Finished before the bell"}
+      - {text: "Whether today is a trend day or a range day", bucket: "Has to wait"}
+      - {text: "Which of your lines price actually respects", bucket: "Has to wait"}
+    explanation: "Preparation finishes early and evidence arrives late. Confusing the two is how a guess ends up on the page as a fact."
+
+  - type: chart-decision
+    scenario: "KORL opened, held the $14.12 line you drew, and this minute closed back above the pre-market high at $14.46 on the heaviest volume of the session. Your $16,000 account allows 1,100 shares here."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[14.16, 14.24, 14.12, 14.22], [14.22, 14.30, 14.18, 14.26], [14.26, 14.34, 14.22, 14.30], [14.30, 14.40, 14.26, 14.36], [14.36, 14.46, 14.32, 14.42], [14.42, 14.54, 14.40, 14.52], [14.52, 14.62, 14.48, 14.58], [14.58, 14.66, 14.54, 14.62], [14.62, 14.72, 14.58, 14.68], [14.68, 14.74, 14.64, 14.70]]
+      volume: [88000, 82000, 76000, 94000, 86000, 178000, 146000, 124000, 106000, 92000]
+      levels:
+        - {price: 14.46, label: "Pre-market high"}
+        - {price: 14.12, label: "Support"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $14.70 — $0.18 a share above the decision, +$198 long on 1,100 shares."
+    explanation: "Both lines were drawn an hour before the bell. All the open added was which of them price would use."
+
+  - type: compare
+    prompt: "Two mornings on the board. Which one is money being put on rather than taken off?"
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[100.00, 100.30, 99.94, 100.04], [100.04, 100.32, 99.98, 100.02], [100.02, 100.36, 99.96, 100.00], [100.00, 100.28, 99.90, 99.96], [99.96, 100.24, 99.88, 99.94], [99.94, 100.20, 99.84, 99.90], [99.90, 100.16, 99.80, 99.86], [99.86, 100.12, 99.76, 99.82]]
+      - kind: candles
+        label: "B"
+        data: [[100.00, 100.14, 99.96, 100.12], [100.12, 100.20, 100.08, 100.16], [100.16, 100.30, 100.12, 100.28], [100.28, 100.34, 100.24, 100.30], [100.30, 100.44, 100.26, 100.42], [100.42, 100.48, 100.38, 100.44], [100.44, 100.58, 100.40, 100.56], [100.56, 100.62, 100.52, 100.58]]
+    answer: "B"
+    explanation: "B climbs in steps and holds each one. A reaches higher than B does and gives every push back, which is a board unloading rather than buying."
+
+  - type: fill-tiles
+    sentence: "A line drawn an hour early is worth more than the same line drawn while price is ___ it."
+    answer: "testing"
+    explanation: "An hour early you are reading a chart. In the moment you are justifying a position you already want."
+
+  - type: story
+    character: retail-trader
+    text: "Nine lines across three names, one sentence about the room, and still time left before the bell. That is a normal hour, not a heroic one."
