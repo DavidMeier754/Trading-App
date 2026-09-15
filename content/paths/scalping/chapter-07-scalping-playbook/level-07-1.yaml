@@ -9,11 +9,11 @@ learning_goal: "User can recognise a break that fails, wait for the re-entry can
 purpose: "Most breaks of a level do not hold, and this card turns the most common disappointment on the chart into a plan."
 terms_introduced: ["Fade", "Re-entry candle", "Trapped traders"]
 reinforces: [2, 3, 4]
-prerequisite: "6-2"
+prerequisite: "6-4"
 xp: 20
 difficulty: 3
 sources: ["Volman — Understanding Price Action", "Bellafiore — One Good Trade"]
-notes: "Fifth and last card. Pairs with the failed test from Chapter 4. 7-2 drills it."
+notes: "Fifth card. Pairs with the failed test from Chapter 4. 7-2 drills it and 7-3 adds the target and the discrimination against card D."
 screens:
   - type: intro
     text: "Card five: the break that didn't."
@@ -110,7 +110,7 @@ screens:
     explanation: "Fading means taking the other side of what just happened — only ever with a level and a close to lean on."
 
   - type: checklist-reveal
-    title: "The playbook, complete"
+    title: "The cards so far"
     items:
       - "A — pullback to VWAP in a stock that has held it all session"
       - "B — a close beyond the opening range, on volume"

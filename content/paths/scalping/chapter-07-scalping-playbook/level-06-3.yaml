@@ -1,0 +1,145 @@
+id: "6-3"
+title: "Setup D — Mean Reversion at a Level"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [mean-reversion, setup-d, sizing, management, playbook]
+learning_goal: "User sizes the mean reversion card from half a risk budget and both ceilings, aims at VWAP as it stands at that minute, and exits on the card's invalidation rather than on the stop."
+purpose: "The card that fights the move is the one where a careless share count and a stale target cost the most."
+terms_introduced: []
+reinforces: [3, 4, 6]
+prerequisite: "6-2"
+xp: 25
+difficulty: 2
+sources: ["Volman — Understanding Price Action", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "Third sub of Level 6: the arithmetic and the management of card D. Account named at $30,000; half-budget is $150."
+screens:
+  - type: intro
+    text: "You can spot this card now. This is what it costs to trade one."
+
+  - type: theory
+    title: "Half the budget"
+    body: "Your other cards join a move. This one stands in front of one. Same stop rules, half the money at risk, because being early looks exactly like being wrong."
+
+  - type: example
+    body: "On a $30,000 account your usual risk is $300 a trade. On card D it is $150. Short at $24.90 with the stop at $25.10, twenty cents away, and $150 buys 750 shares."
+
+  - type: numeric-input
+    prompt: "Same card on a different name: you short at $18.44 and the stop sits $0.12 above. How many shares does the $150 allow?"
+    answer: 1250
+    tolerance: 0
+    unit: "shares"
+    working: "$150 ÷ $0.12 per share = 1,250 shares"
+    explanation: "The stop distance decides the share count, and on this card the budget it divides into is the smaller one."
+
+  - type: theory
+    title: "Then check the account"
+    body: "A tight stop can ask for more stock than you can pay for. You take the lower of the two: what the risk allows, and what the cash allows."
+
+  - type: mc
+    prompt: "Long at $16.70, stop $16.64. The $150 allows 2,500 shares; $30,000 buys 1,796. What do you trade?"
+    options:
+      - {text: "2,500 — the risk budget is what sizing means"}
+      - {text: "4,296 — the two ceilings added together"}
+      - {text: "1,750 — the lower of the two ceilings", correct: true}
+    explanation: "Rounded down to 1,750 shares, that is $29,225 of stock and $105 at risk — inside both."
+
+  - type: theory
+    title: "The target keeps moving"
+    body: "VWAP is an average of the whole session, and every new minute nudges it. The target on this card is where the line is now, not where it was when you got in."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price this short is aiming at."
+    chart:
+      kind: candles
+      data: [[21.28, 21.40, 21.26, 21.38], [21.38, 21.50, 21.36, 21.48], [21.48, 21.60, 21.46, 21.58], [21.58, 21.70, 21.56, 21.68], [21.68, 21.74, 21.66, 21.72], [21.72, 21.80, 21.60, 21.62], [21.62, 21.66, 21.52, 21.54], [21.54, 21.58, 21.44, 21.46]]
+      vwap: [21.26, 21.27, 21.28, 21.29, 21.30, 21.31, 21.31, 21.32]
+      levels:
+        - {price: 21.72, label: "Yesterday's high"}
+      volume: [68000, 82000, 96000, 118000, 144000, 162000, 104000, 92000]
+    answer: 21.32
+    tolerance: 0.04
+    label: "Target — VWAP"
+    explanation: "Not the level you shorted against and not the last low: the line the whole session is measured against, as it stands on this bar."
+
+  - type: theory
+    title: "Two ways out early"
+    body: "A close through the level says you were wrong about the level. Volume arriving against you says you were wrong about the turn. Either one and you are out, well above the stop."
+
+  - type: branch
+    scenario: "You are short 750 shares of XYZ from $24.90 with the stop at $25.10. VWAP was $24.60 when you entered."
+    shares: 750
+    chart:
+      kind: candles
+      data: [[24.42, 24.56, 24.40, 24.54], [24.54, 24.70, 24.52, 24.68], [24.68, 24.84, 24.66, 24.82], [24.82, 24.98, 24.80, 24.96], [24.96, 25.04, 24.94, 25.02], [25.02, 25.08, 24.88, 24.90], [24.90, 24.94, 24.78, 24.80], [24.80, 24.84, 24.72, 24.74], [24.74, 24.80, 24.66, 24.78], [24.78, 24.86, 24.74, 24.84]]
+      vwap: [24.52, 24.54, 24.56, 24.58, 24.59, 24.60, 24.62, 24.63, 24.64, 24.65]
+      levels:
+        - {price: 25.04, label: "Yesterday's high"}
+      volume: [72000, 84000, 98000, 118000, 142000, 164000, 96000, 82000, 128000, 112000]
+      decision_index: 5
+    steps:
+      - prompt: "Two minutes later price is $24.74 and the line has ticked up to $24.63. Where do you cover?"
+        options:
+          - {text: "$24.63 — the line as it stands now", correct: true, next: 1}
+          - {text: "$24.60 — the number you wrote at entry", next: 1}
+        explanation: "The average has been pulled up by two minutes of trading. Holding out for the old number is waiting for a price the target no longer sits at."
+      - prompt: "Price turns three cents short of it and the next minute closes back up at $24.78, on more volume than any bar since you entered."
+        options:
+          - {text: "Cover — buyers arriving against you is the invalidation", correct: true, next: 2}
+          - {text: "Hold; the stop is still thirty-two cents away", next: 2}
+        explanation: "The stop is the last line, not the first. Heavy trade against an open counter-trend position is the card telling you the turn is over."
+      - prompt: "You are out at $24.78 with $90 on 750 shares. Twelve minutes later price presses the same level again, never trades above it, and closes back down."
+        options:
+          - {text: "Pass — nothing was rejected, so there is no trigger", correct: true}
+          - {text: "Short it; the level already held once today"}
+        explanation: "The card needs a poke through the level and a close back on your side. A candle that stops short of the level has tested nobody."
+
+  - type: compare
+    prompt: "Which of these is the chart card D is written for?"
+    charts:
+      - kind: candles
+        data: [[18.10, 18.20, 18.08, 18.18], [18.18, 18.30, 18.16, 18.28], [18.28, 18.42, 18.26, 18.40], [18.40, 18.54, 18.38, 18.52], [18.52, 18.60, 18.50, 18.58], [18.58, 18.68, 18.46, 18.48], [18.48, 18.52, 18.38, 18.40], [18.40, 18.44, 18.30, 18.34]]
+        levels:
+          - {price: 18.60, label: "Yesterday's high"}
+        label: "A"
+      - kind: candles
+        data: [[18.10, 18.18, 18.06, 18.14], [18.14, 18.20, 18.08, 18.12], [18.12, 18.22, 18.10, 18.20], [18.20, 18.26, 18.14, 18.16], [18.16, 18.24, 18.12, 18.22], [18.22, 18.32, 18.16, 18.18], [18.18, 18.26, 18.14, 18.20], [18.20, 18.28, 18.14, 18.24]]
+        label: "B"
+    answer: "A"
+    explanation: "B has the wick and the close back down, but price never went anywhere and there is nothing marked for it to fail against."
+
+  - type: tf
+    statement: "Once you are short, the line drifting up toward your entry means the trade has more room than it did."
+    answer: false
+    explanation: "The line is the target, so it coming toward you takes room out of the trade — which is why this card is taken quickly or not at all."
+
+  - type: chart-decision
+    scenario: "XYZ has fallen five candles into yesterday's low at $12.44, twenty-four cents under VWAP, on the heaviest volume of the slide. This candle wicks to $12.38 and closes at $12.48. You have 1,250 shares ready and a $30,000 account."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[12.86, 12.88, 12.74, 12.76], [12.76, 12.78, 12.64, 12.66], [12.66, 12.68, 12.56, 12.58], [12.58, 12.60, 12.48, 12.50], [12.50, 12.52, 12.46, 12.48], [12.48, 12.52, 12.38, 12.48], [12.48, 12.58, 12.46, 12.56], [12.56, 12.66, 12.54, 12.64], [12.64, 12.74, 12.62, 12.72], [12.72, 12.76, 12.66, 12.70]]
+      vwap: [12.78, 12.76, 12.75, 12.74, 12.73, 12.72, 12.72, 12.72, 12.72, 12.72]
+      levels:
+        - {price: 12.44, label: "Yesterday's low"}
+      volume: [84000, 96000, 112000, 134000, 158000, 176000, 118000, 104000, 92000, 84000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It came back to the line at $12.72 — $0.24 per share, +$300 long on 1,250 shares from $12.48."
+    explanation: "Stop two cents under the wick at $12.36 is twelve cents of risk, so the $150 buys exactly the 1,250 shares in the scenario."
+
+  - type: fill-choice
+    sentence: "Volume arriving against an open position is an ___, not a reason to sit and wait for the stop."
+    options: ["invalidation", "entry", "average"]
+    answer: "invalidation"
+    explanation: "It is a condition rather than a price, and on this card it fires first almost every time."
+
+  - type: checklist-reveal
+    title: "Sizing and running card D"
+    items:
+      - "Half the usual risk budget, because the move is still moving"
+      - "Shares from the stop distance, then checked against what the account can hold"
+      - "Target the line as it stands this minute, not as it stood at entry"
+      - "Out on a close through the level, or on volume arriving against you"

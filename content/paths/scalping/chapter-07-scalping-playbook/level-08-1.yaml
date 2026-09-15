@@ -1,0 +1,134 @@
+id: "8-1"
+title: "Mixed Drill I"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [mixed, drill, recognition, playbook]
+learning_goal: "User runs the read before reaching for a card, names which of the five cards a chart is, and answers 'none' when the read comes back empty."
+purpose: "Knowing five cards one at a time is a different skill from meeting them in a random order, which is the only order the market uses."
+terms_introduced: []
+reinforces: [4]
+prerequisite: "7-3"
+xp: 25
+difficulty: 2
+sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
+notes: "First sub of the mixed level: the sorting procedure, then a deck and two decisions. 8-2 is the pure drill."
+screens:
+  - type: intro
+    text: "Five cards on the table. Every chart from here asks which one."
+
+  - type: theory
+    title: "One question, five answers and a sixth"
+    body: "Each card was drilled on its own. In a session they arrive in no order at all, so the question becomes: which of the five is this? The sixth answer is none, and it wins most minutes of the day."
+
+  - type: theory
+    title: "The read comes first"
+    body: "Do not start from the cards. Start where the map left you: the level, then which side of its own average the session is on, then what the last finished minute settled. The card is what those three add up to."
+
+  - type: order
+    prompt: "Put the four questions in the order you run them."
+    items:
+      - "Is price standing at a level you marked before the open?"
+      - "Which side of its own average has the session been on?"
+      - "What did the last finished minute settle?"
+      - "Which card, if any, do those three make?"
+    explanation: "Slowest first. The level was drawn an hour ago and the minute is sixty seconds old, and the card is never the thing you look at first."
+
+  - type: swipe-deck
+    prompt: "Any card at all — take it or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[18.42, 18.52, 18.40, 18.50], [18.50, 18.54, 18.42, 18.44], [18.44, 18.48, 18.36, 18.38], [18.38, 18.42, 18.32, 18.34], [18.34, 18.38, 18.30, 18.34], [18.34, 18.46, 18.32, 18.44], [18.44, 18.54, 18.42, 18.52], [18.52, 18.62, 18.50, 18.60]]
+          vwap: [18.30, 18.30, 18.31, 18.31, 18.32, 18.32, 18.33, 18.34]
+          volume: [78000, 66000, 58000, 49000, 42000, 104000, 92000, 84000]
+        answer: take
+        note: "Above the line since the open, a pullback that gets quieter every minute, and a reclaim close somebody paid for. Card A."
+      - chart:
+          kind: candles
+          data: [[12.44, 12.50, 12.40, 12.46], [12.46, 12.50, 12.42, 12.44], [12.44, 12.48, 12.40, 12.46], [12.46, 12.52, 12.42, 12.48], [12.48, 12.52, 12.42, 12.44], [12.44, 12.50, 12.40, 12.48], [12.48, 12.52, 12.44, 12.46], [12.46, 12.50, 12.42, 12.48]]
+          volume: [38000, 34000, 31000, 29000, 32000, 28000, 30000, 27000]
+        answer: pass
+        note: "Twelve cents from top to bottom and nothing marked inside it. The read stops at the first question."
+      - chart:
+          kind: candles
+          data: [[16.18, 16.32, 16.14, 16.28], [16.28, 16.40, 16.24, 16.36], [16.36, 16.40, 16.28, 16.32], [16.32, 16.38, 16.26, 16.34], [16.34, 16.40, 16.30, 16.36], [16.36, 16.52, 16.34, 16.50], [16.50, 16.62, 16.48, 16.60], [16.60, 16.70, 16.56, 16.66]]
+          levels: [{price: 16.40, label: "Opening-range high"}]
+          volume: [124000, 108000, 74000, 62000, 58000, 168000, 142000, 126000]
+        answer: take
+        note: "Four minutes coiling under the box on falling volume, then a close above it on the heaviest bar since the open. Card B."
+      - chart:
+          kind: candles
+          data: [[20.86, 20.90, 20.74, 20.76], [20.76, 20.88, 20.74, 20.86], [20.86, 20.96, 20.84, 20.94], [20.94, 21.04, 20.92, 21.02], [21.02, 21.10, 21.00, 21.08], [21.08, 21.14, 21.04, 21.10], [21.10, 21.14, 21.02, 21.04], [21.04, 21.08, 20.94, 20.96]]
+          vwap: [21.28, 21.26, 21.24, 21.22, 21.20, 21.18, 21.16, 21.14]
+          volume: [96000, 84000, 76000, 68000, 62000, 56000, 72000, 84000]
+        answer: pass
+        note: "Under the line all session and rallying into it. That is the mirror of card A, and the mirror is not on your table."
+      - chart:
+          kind: candles
+          data: [[14.06, 14.10, 13.96, 13.98], [13.98, 14.02, 13.88, 13.90], [13.90, 13.92, 13.78, 13.80], [13.80, 13.82, 13.72, 13.74], [13.74, 13.88, 13.72, 13.86], [13.86, 13.98, 13.84, 13.96], [13.96, 14.06, 13.94, 14.04], [14.04, 14.14, 14.02, 14.12]]
+          levels: [{price: 13.80, label: "Yesterday's low"}]
+          volume: [86000, 72000, 54000, 41000, 112000, 98000, 88000, 80000]
+        answer: take
+        note: "Under the marked low on the quietest bar of the hour, then a close back above it on nearly three times that. Card E."
+      - chart:
+          kind: candles
+          data: [[17.24, 17.38, 17.22, 17.36], [17.36, 17.40, 17.30, 17.32], [17.32, 17.48, 17.30, 17.46], [17.46, 17.50, 17.40, 17.42], [17.42, 17.58, 17.40, 17.56], [17.56, 17.60, 17.50, 17.52], [17.52, 17.66, 17.50, 17.54], [17.54, 17.58, 17.44, 17.46]]
+          volume: [146000, 72000, 158000, 66000, 172000, 78000, 196000, 148000]
+        answer: pass
+        note: "The fourth push in a row, and it gave twelve of its sixteen cents back before the minute closed."
+    explanation: "Three cards and three charts that borrow a feature from one. The passes are what the read is for."
+
+  - type: match
+    prompt: "Match each trigger to the card it belongs to."
+    pairs:
+      - ["First pullback into the line in a stock that has held it all session", "Card A"]
+      - ["A close beyond the first five minutes' box, on volume", "Card B"]
+      - ["A shallow quiet pause after a leg, then a close back in its direction", "Card C"]
+      - ["A rejection close at a marked level after a stretched run", "Card D"]
+      - ["The quietest break of the hour, then a close back inside", "Card E"]
+    explanation: "Five triggers, five cards. Anything that does not match one of these lines is the sixth answer."
+
+  - type: chart-decision
+    scenario: "XYZ pushed from $14.60 to $14.98, then paused for two quiet candles down to $14.86. This candle closes back up at $14.94. You have 2,000 shares ready and a $30,000 account."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[14.62, 14.72, 14.60, 14.70], [14.70, 14.84, 14.68, 14.82], [14.82, 14.98, 14.80, 14.96], [14.96, 14.98, 14.88, 14.90], [14.90, 14.94, 14.86, 14.88], [14.88, 14.96, 14.86, 14.94], [14.94, 15.06, 14.92, 15.04], [15.04, 15.16, 15.02, 15.14], [15.14, 15.26, 15.12, 15.24], [15.24, 15.34, 15.22, 15.32]]
+      volume: [64000, 148000, 172000, 58000, 46000, 156000, 138000, 122000, 108000, 96000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached the measured move at $15.32 — $0.38 per share, +$760 long on 2,000 shares from $14.94."
+    explanation: "Twelve cents given back out of a thirty-eight-cent leg, on the two quietest minutes, then a close back up: card C, with the stop two cents under the pause at $14.84."
+
+  - type: mc
+    prompt: "Price sits in the middle of the day's range, VWAP is flat, and the nearest level you marked is forty cents away. Which card is it?"
+    options:
+      - {text: "Card C — a quiet stretch is a pause"}
+      - {text: "None — the read came back empty", correct: true}
+      - {text: "Card A — flat VWAP means price is at the line"}
+    explanation: "No level, no side, nothing settled. There is no card written for a chart that answers none of the three questions."
+
+  - type: chart-decision
+    scenario: "XYZ has spent forty minutes inside a sixteen-cent band with VWAP running flat through the middle of it. You have 1,200 shares ready."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[23.44, 23.50, 23.40, 23.46], [23.46, 23.52, 23.42, 23.48], [23.48, 23.52, 23.40, 23.44], [23.44, 23.50, 23.38, 23.46], [23.46, 23.54, 23.42, 23.48], [23.48, 23.54, 23.40, 23.44], [23.44, 23.52, 23.40, 23.50], [23.50, 23.54, 23.42, 23.46], [23.46, 23.52, 23.38, 23.42], [23.42, 23.50, 23.38, 23.46]]
+      vwap: [23.45, 23.45, 23.45, 23.46, 23.46, 23.46, 23.46, 23.46, 23.46, 23.46]
+      volume: [42000, 38000, 34000, 31000, 29000, 27000, 30000, 28000, 26000, 25000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It was still inside the same band half an hour later. The biggest move on offer was $0.08 per share, and two round trips of spread would have taken most of it."
+    explanation: "Every card starts with something to lean on. A band with no level in it and a flat line through the middle offers nothing to lean on in either direction."
+
+  - type: fill-choice
+    sentence: "Run the read before the cards, because a chart with no ___ near it has no card on it at all."
+    options: ["level", "spread", "target"]
+    answer: "level"
+    explanation: "Four of the five cards are written at a price you drew before the open, and the fifth needs the line."
+
+  - type: example
+    body: "One name, forty minutes of screen time: card C fired once, card E once, and everything in between was the sixth answer. That is a normal morning, not a slow one."

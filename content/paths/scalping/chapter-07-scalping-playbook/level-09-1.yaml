@@ -1,0 +1,127 @@
+id: "9-1"
+title: "Checkpoint"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: test
+tags: [checkpoint]
+learning_goal: "Verify Levels 6–8: the mean reversion card with its half size, moving VWAP target and invalidation; the failed-breakout fade with its stop and its far-side target; and sorting an unseen chart into one of the five cards or none."
+purpose: "Three more cards are coming. Five that blur into each other are worse than three that do not."
+terms_introduced: []
+reinforces: [4, 6]
+prerequisite: "8-2"
+xp: 40
+difficulty: 2
+sources: ["Volman — Understanding Price Action", "Bellafiore — The PlayBook"]
+notes: "10 scored questions. Hearts apply. Pass mark 70 %. Three questions reach back to Chapters 4 and 6."
+screens:
+  - type: intro
+    text: "Checkpoint. Ten questions on cards D and E, and on telling all five apart. Hearts are on."
+    counter: 10
+
+  - type: mc
+    prompt: "You are short a mean reversion at a level. Which of these takes you out before the stop does?"
+    options:
+      - {text: "The spread widening by a cent on the quote"}
+      - {text: "A candle closing back through the level", correct: true}
+      - {text: "The share count being under what you planned"}
+    explanation: "A close through the level says the thing you were leaning on is gone, and that happens well before the stop is touched."
+
+  - type: chart-decision
+    scenario: "XYZ closed under the pre-market low at $16.80 on the lightest bar of the hour, reaching $16.68. This candle closes back above at $16.86 on nearly three times that volume. The band it came from tops out at $17.26. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.22, 17.26, 17.12, 17.14], [17.14, 17.18, 17.02, 17.04], [17.04, 17.08, 16.92, 16.94], [16.94, 16.98, 16.82, 16.84], [16.84, 16.86, 16.68, 16.74], [16.74, 16.88, 16.72, 16.86], [16.86, 16.96, 16.84, 16.94], [16.94, 17.06, 16.92, 17.04], [17.04, 17.16, 17.02, 17.14], [17.14, 17.28, 17.12, 17.26]]
+      levels:
+        - {price: 16.80, label: "Pre-market low"}
+      volume: [86000, 78000, 68000, 56000, 42000, 124000, 108000, 98000, 90000, 84000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried back to the top of the band at $17.26 — $0.40 per share, +$600 long on 1,500 shares from $16.86."
+    explanation: "A break nobody paid for and a return that was bought. Stop two cents under $16.68 is twenty cents; the far side of the band is forty."
+
+  - type: numeric-mc
+    prompt: "Card D on a $30,000 account: long at $12.60 with the stop at $12.55. What do you trade?"
+    options:
+      - {text: "3,000 shares"}
+      - {text: "1,500 shares"}
+      - {text: "2,350 shares", correct: true}
+      - {text: "5,350 shares"}
+    working: "$150 ÷ $0.05 = 3,000 shares; $30,000 ÷ $12.60 = 2,380 shares; take the lower and round down"
+    explanation: "Half the budget allows 3,000, but the account only pays for 2,380, so the cash ceiling is the one that sets the size."
+
+  - type: tf
+    statement: "The price you cover a mean reversion at is often not the one you wrote down when you entered."
+    answer: true
+    explanation: "VWAP is an average of the whole session, and every minute of trading moves it — usually toward your entry."
+
+  - type: chart-decision
+    scenario: "XYZ wicked through yesterday's high at $20.40 and closed back under it, then the next candle closed above it and the one after held there at $20.56. You have 750 shares ready."
+    shares: 750
+    chart:
+      kind: candles
+      data: [[19.90, 20.04, 19.88, 20.02], [20.02, 20.16, 20.00, 20.14], [20.14, 20.30, 20.12, 20.28], [20.28, 20.44, 20.26, 20.34], [20.34, 20.48, 20.32, 20.46], [20.46, 20.58, 20.44, 20.56], [20.56, 20.68, 20.54, 20.66], [20.66, 20.78, 20.62, 20.74], [20.74, 20.86, 20.72, 20.84], [20.84, 20.94, 20.80, 20.86]]
+      vwap: [19.96, 19.99, 20.03, 20.07, 20.11, 20.15, 20.19, 20.23, 20.27, 20.31]
+      levels:
+        - {price: 20.40, label: "Yesterday's high"}
+      volume: [78000, 92000, 112000, 136000, 148000, 132000, 124000, 116000, 108000, 98000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It ran on to $20.86 — $0.30 against a short from $20.56, $225 on 750 shares."
+    explanation: "The rejection was real for one minute and then two closes went through the level and stayed. Card D has already written that as its invalidation."
+
+  - type: match
+    prompt: "Match each card to what it is actually trading."
+    pairs:
+      - ["Card A", "A stock that has held its own average all session, coming back to it"]
+      - ["Card C", "A move that paused without giving much of itself back"]
+      - ["Card D", "The last buyer of a run arriving at a marked price"]
+      - ["Card E", "A level broken by people who could not hold it"]
+    explanation: "Four different things happening at a price. The chart tells you which, and the card tells you what to do about it."
+
+  - type: numeric-input
+    prompt: "Your loss limit is 3R and 1R is $250. The morning so far: −1R, +0.6R, −1R. How many dollars of room is left?"
+    answer: 400
+    tolerance: 0.5
+    unit: "$"
+    working: "−1R + 0.6R − 1R = −1.4R; 3R − 1.4R = 1.6R; 1.6 × $250 = $400"
+    explanation: "Less than two full stops left, which is a number worth knowing before the next card fires rather than after it."
+
+  - type: chart-decision
+    scenario: "The 5-minute has made lower highs and lower lows since the open. XYZ closed under the round number $13.00 on the lightest bar of the morning, and this candle closes back above it at $13.04. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[13.42, 13.46, 13.32, 13.34], [13.34, 13.38, 13.24, 13.26], [13.26, 13.30, 13.14, 13.16], [13.16, 13.20, 13.06, 13.08], [13.08, 13.10, 12.94, 12.96], [12.96, 13.06, 12.94, 13.04], [13.04, 13.08, 12.96, 12.98], [12.98, 13.02, 12.86, 12.88], [12.88, 12.92, 12.76, 12.78], [12.78, 12.82, 12.64, 12.66]]
+      levels:
+        - {price: 13.00, label: "Round number"}
+      volume: [92000, 84000, 76000, 64000, 48000, 96000, 88000, 104000, 116000, 124000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It closed back under the number the next minute and slid to $12.66 — $0.38 against a long, $760 on 2,000 shares."
+    explanation: "The break was quiet and the return closed back above, but the slower chart has pointed one way all morning, and a fade against it is the one that keeps going."
+
+  - type: fill-choice
+    sentence: "The stop on a failed-breakout fade sits two cents beyond the failed ___."
+    options: ["extreme", "close", "average"]
+    answer: "extreme"
+    explanation: "If price gets back to the furthest point the break reached, the break was real and there is nothing left to fade."
+
+  - type: order-build
+    prompt: "Build the exit for that 1,500-share long from $16.86, taken at the far side of the band."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [750, 1500, 2000]
+      price: [16.66, 17.26, 17.46]
+    answer: {side: sell, type: limit, qty: 1500, price: 17.26}
+    explanation: "A sell limit at $17.26. The target was decided on the card, so it goes in as a resting price rather than a decision to make later."
+
+  - type: summary
+    total: 10

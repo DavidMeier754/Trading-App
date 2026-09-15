@@ -1,0 +1,164 @@
+id: "8-2"
+title: "Mixed Drill I"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [mixed, drill, decisions, practice]
+learning_goal: "User names the card on an unseen chart or passes, at the speed a live session offers, and keeps the share count tied to the stop and the account rather than to how good the chart looks."
+purpose: "Cards drilled one at a time are recognised one at a time; a session hands them over shuffled."
+terms_introduced: []
+reinforces: [3, 4]
+prerequisite: "8-1"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Volman — Understanding Price Action"]
+notes: "Pure drill: three decisions across cards A, D and a near-miss E, a six-card deck, and the size trap. Account named at $30,000."
+screens:
+  - type: intro
+    text: "Nine charts, shuffled. Name the card or let it go."
+
+  - type: story
+    character: retail-trader
+    text: "Two names on the screen, levels drawn before the open, nothing taken yet this morning."
+
+  - type: chart-decision
+    scenario: "XYZ has held above VWAP since the open and eases into the line at $22.66 on shrinking volume. This candle closes at $22.72 on the heaviest volume in fifteen minutes. High of day $23.10. You have 1,300 shares ready and a $30,000 account."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[23.06, 23.10, 22.96, 22.98], [22.98, 23.00, 22.86, 22.88], [22.88, 22.90, 22.78, 22.80], [22.80, 22.82, 22.70, 22.72], [22.72, 22.74, 22.64, 22.66], [22.66, 22.74, 22.62, 22.72], [22.72, 22.82, 22.70, 22.80], [22.80, 22.90, 22.78, 22.88], [22.88, 22.98, 22.86, 22.96], [22.96, 23.10, 22.94, 23.08]]
+      vwap: [22.70, 22.69, 22.68, 22.67, 22.66, 22.66, 22.67, 22.68, 22.69, 22.70]
+      volume: [82000, 74000, 66000, 58000, 48000, 126000, 112000, 102000, 94000, 108000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran back to the high of day. Out at $23.08 — $0.36 per share, +$468 long on 1,300 shares from $22.72."
+    explanation: "Card A: the stop two cents under the reclaim low at $22.60 is twelve cents, and $30,000 is what capped the size at 1,300 shares."
+
+  - type: chart-decision
+    scenario: "XYZ closed under the opening-range low at $19.20 on the heaviest volume of the morning. This candle closes back above it at $19.22 on the lightest volume of the session. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[19.56, 19.60, 19.46, 19.48], [19.48, 19.52, 19.38, 19.40], [19.40, 19.44, 19.28, 19.30], [19.30, 19.34, 19.20, 19.22], [19.22, 19.24, 19.10, 19.14], [19.14, 19.24, 19.12, 19.22], [19.22, 19.26, 19.12, 19.14], [19.14, 19.18, 19.02, 19.04], [19.04, 19.08, 18.92, 18.96], [18.96, 19.00, 18.84, 18.88]]
+      levels:
+        - {price: 19.20, label: "Opening-range low"}
+      volume: [96000, 108000, 124000, 142000, 168000, 38000, 86000, 104000, 118000, 126000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It closed back under the level the next minute and slid to $18.88 — $0.34 against a long, $510 on 1,500 shares."
+    explanation: "Card E wants the break to be the quiet bar and the return to be the loud one. Here it is the other way round, so the break was real and the return was nobody."
+
+  - type: swipe-deck
+    prompt: "One of the five, or none of them — take it or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[11.86, 11.98, 11.84, 11.96], [11.96, 12.14, 11.94, 12.12], [12.12, 12.16, 12.06, 12.08], [12.08, 12.12, 12.04, 12.06], [12.06, 12.16, 12.04, 12.14], [12.14, 12.28, 12.12, 12.26], [12.26, 12.38, 12.24, 12.36], [12.36, 12.46, 12.32, 12.42]]
+          volume: [62000, 154000, 68000, 52000, 148000, 136000, 122000, 110000]
+        answer: take
+        note: "A thirty-two-cent push, a twelve-cent pause on the two quietest minutes, and a close back up at the high. Card C."
+      - chart:
+          kind: candles
+          data: [[27.42, 27.56, 27.40, 27.54], [27.54, 27.70, 27.52, 27.68], [27.68, 27.84, 27.66, 27.82], [27.82, 27.96, 27.80, 27.94], [27.94, 28.00, 27.92, 27.98], [27.98, 28.08, 27.86, 27.88], [27.88, 27.92, 27.78, 27.80], [27.80, 27.84, 27.70, 27.74]]
+          levels: [{price: 28.00, label: "Round number"}]
+          volume: [74000, 88000, 104000, 126000, 148000, 174000, 112000, 98000]
+        answer: take
+        note: "Five candles into the round number, the biggest bar of the run wicks through it, and the close is back under. Card D."
+      - chart:
+          kind: candles
+          data: [[16.72, 16.86, 16.70, 16.84], [16.84, 17.10, 16.82, 17.08], [17.08, 17.12, 16.88, 16.90], [16.90, 16.94, 16.84, 16.86], [16.86, 17.00, 16.84, 16.98], [16.98, 17.02, 16.88, 16.90], [16.90, 16.94, 16.78, 16.80], [16.80, 16.84, 16.70, 16.72]]
+          volume: [88000, 158000, 142000, 96000, 118000, 104000, 128000, 136000]
+        answer: pass
+        note: "Two thirds of a forty-two-cent push handed back, and the first bar back traded almost as much as the push. Unwinding, not pausing."
+      - chart:
+          kind: candles
+          data: [[13.44, 13.48, 13.36, 13.38], [13.38, 13.42, 13.28, 13.30], [13.30, 13.34, 13.22, 13.24], [13.24, 13.28, 13.16, 13.18], [13.18, 13.22, 13.10, 13.12], [13.12, 13.16, 13.04, 13.06], [13.06, 13.10, 12.98, 13.00], [13.00, 13.04, 12.92, 12.94]]
+          vwap: [13.46, 13.44, 13.42, 13.40, 13.38, 13.36, 13.34, 13.32]
+          volume: [104000, 96000, 88000, 82000, 76000, 70000, 66000, 62000]
+        answer: pass
+        note: "A straight slide under the line with no level in it and no pause worth joining. There is nothing on the table for this."
+      - chart:
+          kind: candles
+          data: [[18.62, 18.70, 18.58, 18.60], [18.60, 18.64, 18.50, 18.52], [18.52, 18.56, 18.44, 18.46], [18.46, 18.50, 18.38, 18.40], [18.40, 18.52, 18.36, 18.50], [18.50, 18.62, 18.48, 18.60], [18.60, 18.72, 18.58, 18.70], [18.70, 18.80, 18.66, 18.76]]
+          levels: [{price: 18.42, label: "Yesterday's low"}]
+          volume: [92000, 78000, 64000, 46000, 128000, 114000, 102000, 94000]
+        answer: take
+        note: "Under the marked low on the quietest bar, back above it on nearly three times the trade. Card E."
+      - chart:
+          kind: candles
+          data: [[21.86, 21.94, 21.84, 21.92], [21.92, 22.00, 21.90, 21.98], [21.98, 22.04, 21.94, 21.96], [21.96, 22.02, 21.92, 22.00], [22.00, 22.06, 21.96, 21.98], [21.98, 22.04, 21.94, 22.02], [22.02, 22.08, 21.98, 22.04], [22.04, 22.10, 22.00, 22.06]]
+          levels: [{price: 22.00, label: "Round number"}]
+          volume: [58000, 54000, 48000, 44000, 46000, 42000, 45000, 41000]
+        answer: pass
+        note: "Price is at a marked number and drifting across it on the smallest volume of the session. A level on its own is not a trigger."
+    explanation: "Three takes, three passes, and two of the passes are charts that went somewhere — which is exactly why they are not cards."
+
+  - type: chart-decision
+    scenario: "XYZ has run five candles into yesterday's high at $26.30, over fifty cents above VWAP, on the heaviest volume of the move. This candle wicks to $26.32 and closes at $26.14. You have 750 shares ready and a $30,000 account."
+    shares: 750
+    chart:
+      kind: candles
+      data: [[25.58, 25.74, 25.56, 25.72], [25.72, 25.88, 25.70, 25.86], [25.86, 26.02, 25.84, 26.00], [26.00, 26.16, 25.98, 26.14], [26.14, 26.30, 26.12, 26.28], [26.28, 26.32, 26.08, 26.14], [26.14, 26.18, 25.98, 26.00], [26.00, 26.04, 25.84, 25.86], [25.86, 25.90, 25.70, 25.72], [25.72, 25.76, 25.60, 25.62]]
+      vwap: [25.52, 25.54, 25.56, 25.58, 25.60, 25.61, 25.62, 25.62, 25.62, 25.62]
+      levels:
+        - {price: 26.30, label: "Yesterday's high"}
+      volume: [78000, 92000, 108000, 132000, 158000, 182000, 118000, 102000, 92000, 84000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It came back to the line at $25.62 — $0.52 per share, +$390 short on 750 shares from $26.14."
+    explanation: "Card D, so half the budget: a twenty-cent stop at $26.34 turns $150 into the 750 shares in the scenario."
+
+  - type: numeric-mc
+    prompt: "That short again: 750 shares from $26.14, stop $26.34, covered at $25.62. What did it make in R?"
+    options:
+      - {text: "About 0.8R"}
+      - {text: "About 1.6R"}
+      - {text: "About 3.5R"}
+      - {text: "About 2.6R", correct: true}
+    working: "Risk $0.20 × 750 = $150; made $0.52 × 750 = $390; $390 ÷ $150 = 2.6"
+    explanation: "The half-size budget does not change the R-multiple; it changes what one R is worth."
+
+  - type: slider
+    prompt: "The run climbed from $25.58 to $26.32 and you covered at $25.62. How much of it came back?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 95
+    tolerance: 10
+    explanation: "Seventy cents of a seventy-four-cent run. Stretched moves give back most of themselves when the last buyer has paid."
+
+  - type: compare
+    prompt: "One of these broke its opening range and one gave it straight back. Which is card B?"
+    charts:
+      - kind: candles
+        data: [[15.16, 15.30, 15.12, 15.28], [15.28, 15.40, 15.26, 15.36], [15.36, 15.40, 15.30, 15.34], [15.34, 15.38, 15.28, 15.32], [15.32, 15.40, 15.30, 15.38], [15.38, 15.54, 15.36, 15.52], [15.52, 15.64, 15.50, 15.62], [15.62, 15.74, 15.58, 15.70]]
+        levels: [{price: 15.40, label: "Opening-range high"}]
+        volume: [118000, 102000, 68000, 56000, 52000, 164000, 142000, 124000]
+        label: "A"
+      - kind: candles
+        data: [[24.36, 24.50, 24.34, 24.48], [24.48, 24.60, 24.46, 24.56], [24.56, 24.60, 24.50, 24.54], [24.54, 24.58, 24.48, 24.52], [24.52, 24.60, 24.50, 24.58], [24.58, 24.70, 24.56, 24.68], [24.68, 24.70, 24.52, 24.54], [24.54, 24.58, 24.42, 24.44]]
+        levels: [{price: 24.60, label: "Opening-range high"}]
+        volume: [112000, 96000, 64000, 52000, 48000, 58000, 132000, 116000]
+        label: "B"
+    answer: "A"
+    explanation: "A closed above the box on the heaviest bar of the chart and kept going. B closed above it on a quiet one and was back inside the next minute — which is card E, from the other side."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The read gives a level, the right side of the line and a reclaim close,"}
+      - {text: "so you take card A"}
+      - {text: "at double size because all three agree.", wrong: true}
+    explanation: "Reasons stacking up is why you take the trade. The share count still comes from the stop and the account, on every card, every time."
+
+  - type: recap
+    title: "Level 8 in three lines"
+    points:
+      - {text: "The read first and the card second, and none is a real answer.", level: "8-1"}
+      - {text: "A loud break with a quiet return belongs to nobody.", level: "8-2"}
+      - {text: "Agreement is a reason to take a trade, never a reason to add size.", level: "8-2"}

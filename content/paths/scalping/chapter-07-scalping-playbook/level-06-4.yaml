@@ -1,0 +1,164 @@
+id: "6-4"
+title: "Setup D — Mean Reversion at a Level"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [mean-reversion, setup-d, practice, decisions, drill]
+learning_goal: "User sorts stretched charts into card D and not-card-D at a glance, sizes and logs the ones taken, and stands aside when the level, the climax, the room or the day's risk budget is missing."
+purpose: "Counter-trend recognition only gets fast one way, and this is it."
+terms_introduced: []
+reinforces: [3, 4, 6]
+prerequisite: "6-3"
+xp: 30
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Bellafiore — The PlayBook"]
+notes: "Drill sub for Level 6. Six-card deck, three decisions, and the trade carried through to its journal row. Half-budget is $150 on a $30,000 account."
+screens:
+  - type: intro
+    text: "Six charts at a glance, then three decisions and one row to fill."
+
+  - type: story
+    character: retail-trader
+    text: "Levels marked before the open, VWAP on the chart, and half the usual budget written next to card D."
+
+  - type: swipe-deck
+    prompt: "Your card is the mean reversion at a level. Take it or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[26.86, 27.00, 26.84, 26.98], [26.98, 27.12, 26.96, 27.10], [27.10, 27.26, 27.08, 27.24], [27.24, 27.38, 27.22, 27.36], [27.36, 27.42, 27.34, 27.40], [27.40, 27.48, 27.28, 27.30], [27.30, 27.34, 27.20, 27.22], [27.22, 27.26, 27.12, 27.16]]
+          levels: [{price: 27.40, label: "Yesterday's high"}]
+          volume: [62000, 74000, 88000, 104000, 126000, 148000, 96000, 84000]
+        answer: take
+        note: "Four candles up into the marked high, the biggest bar of the move wicks through it, and the close is back under."
+      - chart:
+          kind: candles
+          data: [[21.40, 21.52, 21.38, 21.50], [21.50, 21.64, 21.48, 21.62], [21.62, 21.78, 21.60, 21.76], [21.76, 21.84, 21.70, 21.74], [21.74, 21.90, 21.72, 21.88], [21.88, 22.02, 21.86, 22.00], [22.00, 22.12, 21.98, 22.10], [22.10, 22.22, 22.08, 22.18]]
+          levels: [{price: 21.80, label: "Pre-market high"}]
+          volume: [68000, 82000, 96000, 112000, 134000, 126000, 118000, 108000]
+        answer: pass
+        note: "Two closes above the marked high and price never handed it back. That level is a floor now, not a wall."
+      - chart:
+          kind: candles
+          data: [[16.04, 16.06, 15.92, 15.94], [15.94, 15.96, 15.82, 15.84], [15.84, 15.86, 15.72, 15.74], [15.74, 15.76, 15.62, 15.64], [15.64, 15.66, 15.58, 15.62], [15.62, 15.72, 15.54, 15.70], [15.70, 15.80, 15.68, 15.78], [15.78, 15.88, 15.76, 15.86]]
+          levels: [{price: 15.60, label: "Pre-market low"}]
+          volume: [74000, 88000, 106000, 128000, 146000, 172000, 118000, 102000]
+        answer: take
+        note: "Five candles down into the marked low, the heaviest bar pokes under it, and the close is back above."
+      - chart:
+          kind: candles
+          data: [[18.92, 19.06, 18.90, 19.04], [19.04, 19.18, 19.02, 19.16], [19.16, 19.32, 19.14, 19.30], [19.30, 19.44, 19.28, 19.42], [19.42, 19.56, 19.40, 19.54], [19.54, 19.64, 19.46, 19.48], [19.48, 19.62, 19.46, 19.60], [19.60, 19.74, 19.58, 19.72]]
+          volume: [64000, 76000, 88000, 102000, 118000, 132000, 124000, 116000]
+        answer: pass
+        note: "The wick and the close back down are both there. Nothing is marked at $19.64 for the run to have failed against."
+      - chart:
+          kind: candles
+          data: [[24.66, 24.74, 24.64, 24.72], [24.72, 24.82, 24.70, 24.80], [24.80, 24.90, 24.78, 24.88], [24.88, 24.96, 24.86, 24.94], [24.94, 25.00, 24.92, 24.98], [24.98, 25.06, 24.88, 24.90], [24.90, 24.94, 24.84, 24.86], [24.86, 24.90, 24.82, 24.84]]
+          levels: [{price: 25.00, label: "Round number"}]
+          vwap: [24.72, 24.74, 24.76, 24.78, 24.80, 24.82, 24.83, 24.84]
+          volume: [58000, 68000, 82000, 96000, 114000, 128000, 86000, 74000]
+        answer: pass
+        note: "A clean rejection at the number, and the line is eight cents under the close. There is nothing left in it once the spread is paid."
+      - chart:
+          kind: candles
+          data: [[20.34, 20.46, 20.32, 20.44], [20.44, 20.56, 20.42, 20.54], [20.54, 20.66, 20.52, 20.64], [20.64, 20.74, 20.62, 20.72], [20.72, 20.80, 20.70, 20.78], [20.78, 20.84, 20.72, 20.74], [20.74, 20.86, 20.72, 20.84], [20.84, 20.96, 20.82, 20.94]]
+          levels: [{price: 20.80, label: "Yesterday's high"}]
+          volume: [128000, 112000, 96000, 84000, 68000, 54000, 88000, 102000]
+        answer: pass
+        note: "Interest fading every minute into the level, and the poke through trades the least of all. Nobody was used up, so nothing turned."
+    explanation: "Two takes and four passes, failing on four different things: a level already given up, no level at all, no room to the line, and no climax."
+
+  - type: chart-decision
+    scenario: "XYZ has run five candles into the pre-market high at $19.86, thirty-five cents above VWAP, on the heaviest volume of the move. This candle wicks to $19.92 and closes at $19.74. You have 750 shares ready and a $30,000 account."
+    shares: 750
+    chart:
+      kind: candles
+      data: [[19.24, 19.38, 19.22, 19.36], [19.36, 19.50, 19.34, 19.48], [19.48, 19.62, 19.46, 19.60], [19.60, 19.76, 19.58, 19.74], [19.74, 19.86, 19.72, 19.84], [19.84, 19.92, 19.72, 19.74], [19.74, 19.78, 19.62, 19.64], [19.64, 19.68, 19.52, 19.54], [19.54, 19.58, 19.42, 19.44], [19.44, 19.48, 19.38, 19.40]]
+      vwap: [19.30, 19.32, 19.34, 19.36, 19.38, 19.39, 19.40, 19.40, 19.40, 19.40]
+      levels:
+        - {price: 19.86, label: "Pre-market high"}
+      volume: [78000, 92000, 108000, 128000, 152000, 174000, 112000, 98000, 88000, 80000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It came back to the line at $19.40 — $0.34 per share, +$255 short on 750 shares from $19.74."
+    explanation: "Stop two cents over the wick at $19.94 is twenty cents, so the half budget of $150 pays for exactly the 750 shares in the scenario."
+
+  - type: numeric-input
+    prompt: "That short again: 750 shares from $19.74, stop $19.94, covered at $19.40. How many R?"
+    answer: 1.7
+    tolerance: 0.05
+    unit: "R"
+    working: "Risk $0.20 per share; gain $0.34 per share; $0.34 ÷ $0.20 = 1.7"
+    explanation: "Under 2R is the normal reach on this card, which is why the stop has to stay two cents from the wick."
+
+  - type: journal-row
+    prompt: "Fill the row for the trade you just covered."
+    trade: {setup: "Mean reversion", entry: 19.74, stop: 19.94, exit: 19.40, shares: 750}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$105", "$150", "$255"]
+      r_made: ["+1.2R", "+1.7R", "+2.5R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$150", r_made: "+1.7R", grade: "A"}
+    explanation: "Half the budget risked, 1.7R made, and an A because the card picked the entry, the stop and the exit — not you."
+
+  - type: chart-decision
+    scenario: "XYZ has run into yesterday's high at $23.60 on the biggest bar of the move and closed back under at $23.48. You have 750 shares ready. Your loss limit is 3R and the morning stands at −2.4R."
+    shares: 750
+    state: ["Day: −2.4R", "Limit: 3R", "Card: D"]
+    chart:
+      kind: candles
+      data: [[22.98, 23.12, 22.96, 23.10], [23.10, 23.24, 23.08, 23.22], [23.22, 23.36, 23.20, 23.34], [23.34, 23.50, 23.32, 23.48], [23.48, 23.60, 23.46, 23.58], [23.58, 23.66, 23.46, 23.48], [23.48, 23.52, 23.38, 23.40], [23.40, 23.44, 23.30, 23.32], [23.32, 23.36, 23.24, 23.26], [23.26, 23.30, 23.22, 23.26]]
+      vwap: [23.16, 23.18, 23.20, 23.22, 23.24, 23.25, 23.26, 23.26, 23.26, 23.26]
+      levels:
+        - {price: 23.60, label: "Yesterday's high"}
+      volume: [74000, 88000, 102000, 124000, 146000, 168000, 106000, 94000, 84000, 76000]
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It did reach the line at $23.26 — $0.22 per share, $165 on 750 shares, against a full stop that would have ended the session."
+    explanation: "The chart is the card. The account is not: six tenths of an R of room left is not enough to put a full unit into the hardest trade in the book."
+
+  - type: depth-ladder
+    prompt: "You market-buy 750 shares to cover the first short. Where does the last share fill?"
+    data:
+      bids: [[19.39, 600], [19.38, 1100], [19.37, 400]]
+      asks: [[19.41, 300], [19.42, 200], [19.43, 900]]
+    target: ask-3
+    explanation: "Three hundred shares then two hundred, so the last 250 come from $19.43 — two cents worse than the price on the screen."
+
+  - type: sort
+    prompt: "Which of these belong to card D?"
+    buckets: ["Card D", "Not this card"]
+    items:
+      - {text: "Climax volume arriving at a level marked before the open", bucket: "Card D"}
+      - {text: "A wick and a close back on your side, with nothing marked nearby", bucket: "Not this card"}
+      - {text: "The level gave way on a close and price held above it", bucket: "Not this card"}
+      - {text: "The line is four cents away and the spread is three", bucket: "Not this card"}
+      - {text: "A stretched slide into yesterday's low, heaviest bar of it, close back above", bucket: "Card D"}
+    explanation: "A level, a climax, a rejection close and somewhere to go. Four things, and the chart has to bring all of them."
+
+  - type: chart-decision
+    scenario: "XYZ has slid six candles into the round number $14.00, twenty cents under VWAP, on volume growing every minute. This candle wicks to $13.98 and closes at $14.06. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[14.46, 14.48, 14.36, 14.38], [14.38, 14.40, 14.28, 14.30], [14.30, 14.32, 14.20, 14.22], [14.22, 14.24, 14.10, 14.12], [14.12, 14.14, 14.02, 14.04], [14.04, 14.08, 13.98, 14.06], [14.06, 14.14, 14.04, 14.12], [14.12, 14.20, 14.10, 14.18], [14.18, 14.26, 14.16, 14.24], [14.24, 14.30, 14.22, 14.26]]
+      vwap: [14.34, 14.32, 14.30, 14.29, 14.28, 14.26, 14.26, 14.26, 14.26, 14.26]
+      levels:
+        - {price: 14.00, label: "Round number"}
+      volume: [92000, 106000, 124000, 148000, 172000, 196000, 128000, 112000, 98000, 90000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It came back to the line at $14.26 — $0.20 per share, +$300 long on 1,500 shares from $14.06."
+    explanation: "A ten-cent stop under the wick at $13.96 turns the $150 into 1,500 shares, and the line twenty cents up is 2R."
+
+  - type: recap
+    title: "Level 6 in three lines"
+    points:
+      - {text: "A stretched run into a marked level, a poke through it, and a close back on your side.", level: "6-1"}
+      - {text: "No level, a level already given up, or no room to the line — all passes.", level: "6-2"}
+      - {text: "Half the budget, the line as it stands now, and out on the invalidation.", level: "6-3"}

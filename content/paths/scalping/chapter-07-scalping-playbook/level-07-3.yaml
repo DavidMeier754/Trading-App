@@ -1,0 +1,127 @@
+id: "7-3"
+title: "Setup E — Failed-Breakout Fade"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [failed-breakout, setup-e, targets, playbook]
+learning_goal: "User targets a failed break at the far side of the range it came from, sizes it against the account as well as the stop, and tells card E apart from card D."
+purpose: "A fade with no target is a trade you will close on the first red candle, which is where most of this card's money goes."
+terms_introduced: []
+reinforces: [3, 4]
+prerequisite: "7-2"
+xp: 25
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Raschke & Connors — Street Smarts"]
+notes: "Third sub of Level 7: where the fade goes, and card D versus card E. Account named at $30,000."
+screens:
+  - type: intro
+    text: "You can spot the break that fails. Now: how far does it go?"
+
+  - type: theory
+    title: "Back through the range"
+    body: "A break that fails sends price back into the range it came from, and the traders who bought the break are the ones paying for the trip. The far side of that range is where it runs out."
+
+  - type: example
+    body: "XYZ ranged $17.22 to $17.60 for twenty minutes, pushed to $17.68 on the quietest bar of the hour, and closed back inside at $17.54. Stop $17.70. Target the far side, $17.22."
+
+  - type: chart-annotate
+    prompt: "The break above the range has just closed back inside. Drag the line to the price this short is aiming at."
+    chart:
+      kind: candles
+      data: [[17.34, 17.44, 17.30, 17.42], [17.42, 17.52, 17.38, 17.46], [17.46, 17.58, 17.24, 17.28], [17.28, 17.40, 17.22, 17.38], [17.38, 17.56, 17.34, 17.52], [17.52, 17.68, 17.50, 17.64], [17.64, 17.66, 17.52, 17.54], [17.54, 17.56, 17.44, 17.46]]
+      levels:
+        - {price: 17.60, label: "Range high"}
+      volume: [96000, 84000, 118000, 102000, 88000, 62000, 124000, 106000]
+    answer: 17.22
+    tolerance: 0.04
+    label: "Target — the far side of the range"
+    explanation: "Twice in twenty minutes buyers came in near $17.22. That is where the range ends, and a failed break is a trip across it."
+
+  - type: numeric-input
+    prompt: "On a $30,000 account you are short 1,700 shares at $17.54 with the stop at $17.70. What is 1R in money?"
+    answer: 272
+    tolerance: 0.5
+    unit: "$"
+    working: "$17.70 − $17.54 = $0.16 per share; $0.16 × 1,700 shares = $272"
+    explanation: "The $300 budget would have paid for 1,875 shares, but 1,875 × $17.54 is more stock than the account holds, so the cash ceiling set the size."
+
+  - type: theory
+    title: "Card D or card E?"
+    body: "Both fade a level. Card D fades a run that arrived at one and could not get through. Card E fades a break that got through and could not stay."
+
+  - type: compare
+    prompt: "Both of these fade a level. Which one is card E?"
+    charts:
+      - kind: candles
+        data: [[22.46, 22.58, 22.44, 22.56], [22.56, 22.62, 22.50, 22.54], [22.54, 22.60, 22.46, 22.58], [22.58, 22.72, 22.56, 22.70], [22.70, 22.74, 22.62, 22.64], [22.64, 22.68, 22.54, 22.56], [22.56, 22.60, 22.46, 22.48], [22.48, 22.52, 22.38, 22.42]]
+        levels: [{price: 22.60, label: "Range high"}]
+        label: "A"
+      - kind: candles
+        data: [[19.72, 19.86, 19.70, 19.84], [19.84, 19.98, 19.82, 19.96], [19.96, 20.12, 19.94, 20.10], [20.10, 20.24, 20.08, 20.22], [20.22, 20.30, 20.20, 20.28], [20.28, 20.36, 20.16, 20.18], [20.18, 20.22, 20.08, 20.10], [20.10, 20.14, 20.00, 20.04]]
+        levels: [{price: 20.30, label: "Yesterday's high"}]
+        label: "B"
+    answer: "A"
+    explanation: "B ran six candles into the level and was turned away at it — card D. A closed above the range, could not hold it, and closed back inside."
+
+  - type: sort
+    prompt: "Which card does each of these belong to?"
+    buckets: ["Card D", "Card E"]
+    items:
+      - {text: "The heaviest bar of a stretched run arrives at the level and closes back", bucket: "Card D"}
+      - {text: "The quietest bar of the hour closes through, and the next one closes back inside", bucket: "Card E"}
+      - {text: "The stop goes two cents beyond the extreme of the failed push", bucket: "Card E"}
+      - {text: "Half the usual budget, and the line is the target", bucket: "Card D"}
+    explanation: "One fades a move that could not reach through a level; the other fades a move that reached through and was not paid for."
+
+  - type: theory
+    title: "The slower chart still votes"
+    body: "A failed break is your reason. The 5-minute chart is your permission. Take the fade when the move it starts points the way the slower chart is already going."
+
+  - type: chart-decision
+    scenario: "The 5-minute has made higher highs and higher lows all session. XYZ closes under yesterday's close at $21.40 on the lightest volume in twenty minutes, then this candle closes back above at $21.48 on triple that. You have 1,350 shares ready and a $30,000 account."
+    shares: 1350
+    chart:
+      kind: candles
+      data: [[21.74, 21.80, 21.68, 21.70], [21.70, 21.74, 21.60, 21.62], [21.62, 21.66, 21.52, 21.54], [21.54, 21.58, 21.42, 21.44], [21.44, 21.46, 21.34, 21.36], [21.36, 21.50, 21.35, 21.48], [21.48, 21.58, 21.46, 21.56], [21.56, 21.66, 21.54, 21.64], [21.64, 21.74, 21.62, 21.72], [21.72, 21.82, 21.70, 21.80]]
+      vwap: [21.62, 21.60, 21.58, 21.56, 21.54, 21.53, 21.53, 21.54, 21.55, 21.57]
+      levels:
+        - {price: 21.40, label: "Yesterday's close"}
+      volume: [82000, 74000, 66000, 58000, 44000, 132000, 104000, 96000, 88000, 82000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried back to the top of the band at $21.80 — $0.32 per share, +$432 long on 1,350 shares from $21.48."
+    explanation: "Stop two cents under the failed low at $21.32 is sixteen cents, the far side of the band is thirty-two, and the slower chart was pointing that way the whole time."
+
+  - type: order-build
+    prompt: "Build that entry: a 1,350-share long, capped two cents over the ask of $21.48."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [1000, 1350, 1875]
+      price: [21.46, 21.48, 21.50]
+    answer: {side: buy, type: limit, qty: 1350, price: 21.50}
+    explanation: "A limit two cents through the ask fills like a market order but cannot chase; 1,875 is what the risk alone allowed, and the account could not pay for it."
+
+  - type: tf
+    statement: "When VWAP sits inside the range price came from, the line is the target rather than the far side."
+    answer: true
+    explanation: "Whichever comes first is the one you can actually get, and a target you cannot reach is not a plan."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The break failed and closed back inside the range,"}
+      - {text: "so you short the re-entry candle"}
+      - {text: "and put the stop just inside the range with it.", wrong: true}
+    explanation: "The stop belongs two cents beyond the failed extreme. Inside the range it sits where ordinary chop lives, and ordinary chop will take it."
+
+  - type: recap
+    title: "Level 7 in three lines"
+    points:
+      - {text: "A break nobody paid for, then a close back inside — that close is the trigger.", level: "7-1"}
+      - {text: "Heavy breaks and limp returns are both passes, and the 5-minute still votes.", level: "7-2"}
+      - {text: "The fade is going to the far side of the range, or the line if that comes first.", level: "7-3"}
