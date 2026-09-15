@@ -8,7 +8,7 @@ tags: [vwap, setup-a, practice, decisions]
 learning_goal: "User takes the VWAP bounce only when all five fields are filled, and passes when the context or the volume is wrong."
 purpose: "A card is worth nothing until you can spot the charts that almost look like it."
 terms_introduced: []
-reinforces: [3, 4]
+reinforces: [3, 4, 6]
 prerequisite: "2-1"
 xp: 30
 difficulty: 2

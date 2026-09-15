@@ -1,0 +1,137 @@
+id: "2-4"
+title: "Setup A — VWAP Bounce"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [vwap, setup-a, management, decisions]
+learning_goal: "User tells the bounce from its mirror image, holds a live bounce to the card's target without renegotiating it, and books the trade in R."
+purpose: "Most of what goes wrong with a good card goes wrong after the fill."
+terms_introduced: []
+reinforces: [4, 6]
+prerequisite: "2-3"
+xp: 30
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
+notes: "Chapter 4's side-of-the-line read and Chapter 6's R and journal row, both applied after the entry. Account named at $30,000."
+screens:
+  - type: intro
+    text: "Getting in was one decision. The next four are the ones that decide what the card is worth."
+
+  - type: story
+    character: retail-trader
+    text: "The reclaim filled. The position is on, the stop is in, and for the first time this morning you have nothing left to decide — if the card is written properly."
+
+  - type: compare
+    prompt: "One of these is your card. Which one?"
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[12.90, 12.96, 12.84, 12.86], [12.86, 12.94, 12.82, 12.92], [12.92, 13.00, 12.90, 12.98], [12.98, 13.06, 12.96, 13.04], [13.04, 13.10, 13.00, 13.06], [13.06, 13.08, 12.96, 12.98], [12.98, 13.02, 12.88, 12.90], [12.90, 12.94, 12.80, 12.84]]
+        volume: [58000, 62000, 54000, 48000, 44000, 72000, 80000, 86000]
+        vwap: [13.24, 13.22, 13.20, 13.18, 13.16, 13.14, 13.12, 13.10]
+      - kind: candles
+        label: "B"
+        data: [[20.44, 20.52, 20.40, 20.48], [20.48, 20.52, 20.36, 20.38], [20.38, 20.42, 20.28, 20.30], [20.30, 20.34, 20.20, 20.24], [20.24, 20.36, 20.22, 20.34], [20.34, 20.44, 20.32, 20.42], [20.42, 20.50, 20.40, 20.48], [20.48, 20.58, 20.46, 20.56]]
+        volume: [78000, 62000, 51000, 42000, 96000, 84000, 76000, 70000]
+        vwap: [20.26, 20.25, 20.24, 20.23, 20.23, 20.24, 20.25, 20.26]
+    answer: "B"
+    explanation: "Both charts touch the line and turn. Only B spent the session above it, and that is the first field on the card."
+
+  - type: mc
+    prompt: "What single fact rules chart A out of this card?"
+    options:
+      - {text: "Its pullback into the line was too shallow to be worth trading"}
+      - {text: "The line is falling instead of rising"}
+      - {text: "Price has been under the line all session", correct: true}
+    explanation: "Context is the first filter. Under the line, this card does not apply however good the rest of the chart looks."
+
+  - type: branch
+    scenario: "You are long 1,200 shares of XYZ from $20.34 with the stop at $20.18 and the high of day, $20.62, as the target. Your account is $30,000."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[20.52, 20.62, 20.48, 20.50], [20.50, 20.54, 20.36, 20.38], [20.38, 20.42, 20.28, 20.30], [20.30, 20.34, 20.20, 20.24], [20.24, 20.36, 20.22, 20.34], [20.34, 20.42, 20.30, 20.36], [20.36, 20.40, 20.28, 20.32], [20.32, 20.46, 20.30, 20.44], [20.44, 20.56, 20.42, 20.54], [20.54, 20.66, 20.50, 20.62]]
+      volume: [86000, 64000, 51000, 42000, 96000, 68000, 54000, 82000, 90000, 84000]
+      vwap: [20.26, 20.25, 20.24, 20.23, 20.23, 20.24, 20.25, 20.26, 20.27, 20.28]
+      decision_index: 5
+    steps:
+      - prompt: "Two minutes after the fill price is $20.32, two cents under your entry, on the quietest bar since the reclaim. The stop is fourteen cents lower. What now?"
+        options:
+          - {text: "Hold — nothing on the card has fired", correct: true, next: 1}
+          - {text: "Cut it, the trade is clearly not working", next: 1}
+        explanation: "The card's invalidation is a close back below the line, or volume swelling against you. A quiet two cents is neither."
+      - prompt: "It turns and runs to $20.54. The target on the card is $20.62. What does the card say?"
+        options:
+          - {text: "Take it here — twenty cents is plenty for a scalp", next: 2}
+          - {text: "Hold for the target the card named", correct: true, next: 2}
+        explanation: "Taking it early is a decision made by the open position. The target was chosen while you could still think clearly."
+      - prompt: "It prints $20.62 and the card is filled. What is left to do?"
+        options:
+          - {text: "Take the target and write the row", correct: true}
+          - {text: "Move the target up, it is obviously strong"}
+        explanation: "The trade ends where the card said it ends. A target moved mid-position was never really a target."
+
+  - type: depth-ladder
+    prompt: "You take the target with a market sell of 1,200 shares. Where does the last share fill?"
+    data:
+      bids: [[20.62, 500], [20.61, 400], [20.60, 2000]]
+      asks: [[20.64, 700], [20.65, 1500], [20.66, 900]]
+    target: bid-3
+    explanation: "Five hundred at $20.62 and four hundred at $20.61 is nine hundred shares; the last three hundred come out of the $20.60 bid."
+
+  - type: numeric-mc
+    prompt: "That trade again: long 1,200 shares at $20.34, stop $20.18, out at $20.62. What is the result as an R-multiple?"
+    options:
+      - {text: "+2.75R"}
+      - {text: "+0.75R"}
+      - {text: "+1.75R", correct: true}
+      - {text: "+1.2R"}
+    working: "Risk $0.16 per share, gain $0.28 per share; $0.28 ÷ $0.16 = 1.75"
+    explanation: "Sixteen cents risked, twenty-eight made — and the share count drops out of the division."
+
+  - type: journal-row
+    prompt: "Write the row for the bounce you just managed."
+    trade: {setup: "VWAP bounce", entry: 20.34, stop: 20.18, exit: 20.62, shares: 1200}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$168", "$192", "$336"]
+      r_made: ["+1R", "+1.75R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$192", r_made: "+1.75R", grade: "A"}
+    explanation: "Sixteen cents on 1,200 shares is $192 of risk, and the A is for exiting where the card said, not for the result."
+
+  - type: chart-decision
+    scenario: "XYZ has held above the line all morning. This is the fourth pullback into it in twenty-five minutes, and the next minute closes a cent above. You have 1,200 shares ready and a $30,000 account."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.44, 15.52, 15.38, 15.40], [15.40, 15.48, 15.34, 15.46], [15.46, 15.50, 15.36, 15.38], [15.38, 15.46, 15.34, 15.44], [15.44, 15.46, 15.32, 15.34], [15.34, 15.40, 15.32, 15.37], [15.37, 15.42, 15.28, 15.30], [15.30, 15.34, 15.20, 15.22], [15.22, 15.26, 15.12, 15.14], [15.14, 15.18, 15.04, 15.08]]
+      volume: [82000, 68000, 61000, 54000, 48000, 42000, 58000, 72000, 84000, 96000]
+      vwap: [15.36, 15.36, 15.36, 15.36, 15.36, 15.36, 15.35, 15.34, 15.32, 15.30]
+      decision_index: 5
+    best: no-trade
+    outcome: "It went straight through the line to $15.08 — $0.29 against a long, $348 on 1,200 shares."
+    explanation: "Fourth touch, and the minute meant to take the line back traded less than any minute before it. Two fields fail at once."
+
+  - type: tf
+    statement: "A stop that has not been touched is on its own a reason to stay in a trade."
+    answer: false
+    explanation: "The other fields on the card are still live. Distance from the stop is an absence of a reason to leave, not a reason to stay."
+
+  - type: sort
+    prompt: "The bounce is on and filled. Which of these keep you in, and which take you out?"
+    buckets: ["Stay in", "Get out"]
+    items:
+      - {text: "Price drifts two cents under the entry on the quietest bar since the reclaim", bucket: "Stay in"}
+      - {text: "A minute closes back below the line", bucket: "Get out"}
+      - {text: "Volume swells while price goes nowhere", bucket: "Get out"}
+      - {text: "Price reaches the high of day", bucket: "Get out"}
+    explanation: "Three of the four were written on the card before the session. The fourth is the one that feels worst and means least."
+
+  - type: recap
+    title: "Level 2 in three lines"
+    points:
+      - {text: "Above the line all session is the field that does most of the filtering.", level: "2-1"}
+      - {text: "The reclaim has to close above the line and has to be bought.", level: "2-3"}
+      - {text: "Stop under the entry minute, target the high of day, and nothing moves once you are filled.", level: "2-4"}

@@ -8,8 +8,8 @@ tags: [checkpoint]
 learning_goal: "Verify Levels 1–4: the five fields of a card, the VWAP bounce, the opening-range scalp, the momentum continuation, R and the measured move, and the cost check."
 purpose: "Two more cards are coming. They only help if the first three are already automatic."
 terms_introduced: []
-reinforces: [3, 6]
-prerequisite: "4-2"
+reinforces: [3, 4, 6]
+prerequisite: "4-4"
 xp: 40
 difficulty: 2
 sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]

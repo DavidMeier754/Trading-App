@@ -8,18 +8,19 @@ tags: [playbook, setups, process]
 learning_goal: "User can name the five fields of a playbook card and say why a short playbook beats a long one."
 purpose: "Everything after this chapter is one question: which card is this? Without cards there is no question, only guessing."
 terms_introduced: ["Playbook", "Playbook card", "Invalidation"]
+reinforces: [6]
 prerequisite: null
 xp: 20
 difficulty: 1
 sources: ["Bellafiore — The PlayBook", "Bellafiore — One Good Trade"]
-notes: "Opening sub of the chapter. Defines the card that Levels 2-7 fill in five times."
+notes: "Opening sub of the chapter. Defines the card that the setup levels fill in eight times."
 screens:
   - type: intro
-    text: "Five cards. That is the whole chapter."
+    text: "Eight cards. That is the whole chapter."
 
   - type: theory
-    title: "From one setup to five"
-    body: "You met the word in Chapter 6: a chart situation you know how to trade. This chapter turns that into five written ones, each with the same five fields."
+    title: "From one setup to eight"
+    body: "You met the word in Chapter 6: a chart situation you know how to trade. This chapter turns that into eight written ones, each with the same five fields."
 
   - type: theory
     title: "A playbook is your list of them"
@@ -100,4 +101,4 @@ screens:
 
   - type: theory
     title: "Now the cards"
-    body: "Five setups follow, one level each: the idea, the five fields, then drills until the chart tells you which card it is."
+    body: "Eight setups follow, one level each: the idea, the five fields, then drills until the chart tells you which card it is."

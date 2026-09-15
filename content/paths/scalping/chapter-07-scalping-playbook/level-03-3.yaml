@@ -1,0 +1,124 @@
+id: "3-3"
+title: "Setup B — Opening-Range Scalp"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [opening-range, setup-b, failure-mode]
+learning_goal: "User marks the box from the first five minutes, refuses a break that has not finished outside it, and leaves immediately when a taken break closes back inside."
+purpose: "The break that fails is more common than the break that runs, and it is the one that costs a full stop if you sit through it."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "3-2"
+xp: 25
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
+notes: "Chapter 2's close-versus-wick verdict and Chapter 4's opening-drive read, both aimed at the box. Account named at $30,000."
+screens:
+  - type: intro
+    text: "The box gets broken all morning. Most of those breaks do not last two minutes."
+
+  - type: story
+    character: retail-trader
+    text: "The minute finished eight cents above the line and you are long. The next one opens, trades down, and closes back where the box begins."
+
+  - type: theory
+    title: "The break that gives itself back"
+    body: "This card usually loses in one move, not a slow bleed. Price finishes outside the box, everybody watching the line joins, and the minute after closes back inside. Those buyers are the next sellers."
+
+  - type: chart-annotate
+    prompt: "The first five minutes are finished. Drag the line to the top of the box."
+    chart:
+      kind: candles
+      data: [[12.70, 12.88, 12.62, 12.80], [12.80, 12.94, 12.76, 12.84], [12.84, 12.90, 12.74, 12.78], [12.78, 12.86, 12.72, 12.82], [12.82, 12.88, 12.76, 12.86], [12.86, 12.88, 12.80, 12.84], [12.84, 12.90, 12.78, 12.88], [12.88, 12.90, 12.82, 12.86]]
+      volume: [468000, 312000, 246000, 198000, 174000, 152000, 138000, 126000]
+    answer: 12.94
+    tolerance: 0.03
+    label: "Opening-range high"
+    explanation: "The highest price the first five minutes reached, wick included. Three minutes on, nothing has got near it again."
+
+  - type: compare
+    prompt: "The range high is marked on both. Which one broke it?"
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[11.24, 11.32, 11.18, 11.28], [11.28, 11.40, 11.24, 11.34], [11.34, 11.38, 11.28, 11.32], [11.32, 11.38, 11.26, 11.36], [11.36, 11.40, 11.32, 11.38], [11.38, 11.50, 11.36, 11.48], [11.48, 11.58, 11.44, 11.56], [11.56, 11.64, 11.52, 11.62]]
+        volume: [312000, 248000, 196000, 168000, 152000, 386000, 298000, 244000]
+        levels:
+          - {price: 11.40, label: "Range high"}
+      - kind: candles
+        label: "B"
+        data: [[18.26, 18.34, 18.20, 18.30], [18.30, 18.44, 18.26, 18.36], [18.36, 18.42, 18.30, 18.34], [18.34, 18.40, 18.28, 18.38], [18.38, 18.44, 18.34, 18.42], [18.42, 18.52, 18.36, 18.40], [18.40, 18.44, 18.30, 18.32], [18.32, 18.36, 18.22, 18.26]]
+        volume: [288000, 226000, 184000, 162000, 148000, 264000, 218000, 196000]
+        levels:
+          - {price: 18.44, label: "Range high"}
+    answer: "A"
+    explanation: "B traded above the line and finished under it. Only A has a minute that finished outside the box at all."
+
+  - type: chart-decision
+    scenario: "The opening range is $19.10 to $19.50. One minute closed at $19.58, above the box, and this one has just finished back inside at $19.44. You have 1,500 shares ready and a $30,000 account."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[19.28, 19.38, 19.20, 19.34], [19.34, 19.44, 19.30, 19.40], [19.40, 19.50, 19.36, 19.46], [19.46, 19.50, 19.40, 19.44], [19.44, 19.60, 19.42, 19.58], [19.58, 19.60, 19.42, 19.44], [19.44, 19.48, 19.32, 19.34], [19.34, 19.38, 19.20, 19.22], [19.22, 19.26, 19.10, 19.14], [19.14, 19.18, 19.04, 19.08]]
+      volume: [268000, 224000, 196000, 178000, 312000, 208000, 236000, 262000, 288000, 306000]
+      levels:
+        - {price: 19.50, label: "Opening-range high"}
+        - {price: 19.10, label: "Opening-range low"}
+      decision_index: 5
+    best: no-trade
+    outcome: "It carried on down through the box to $19.08 — $0.36 against a long from $19.44, $540 on 1,500 shares."
+    explanation: "A minute that finishes back inside is this card's invalidation. Everyone who bought above $19.50 is now supply."
+
+  - type: mc
+    prompt: "You are long from the break and a minute finishes back inside the box. What does the card say?"
+    options:
+      - {text: "Leave now, at the market", correct: true}
+      - {text: "Hold — the stop inside the box has not been hit yet"}
+      - {text: "Add to the position at the better price"}
+    explanation: "Back inside is the invalidation, not the stop. Waiting for the stop hands the difference to the traders already selling."
+
+  - type: numeric-input
+    prompt: "The opening range runs from $13.10 to $13.44 and you buy the break at $13.48. Where does one box-height of target put you?"
+    answer: 13.82
+    tolerance: 0.01
+    unit: "$"
+    working: "Box height $13.44 − $13.10 = $0.34; $13.48 + $0.34 = $13.82"
+    explanation: "The box measures how far this stock has been travelling each minute today, which is why its own height is the usual reach."
+
+  - type: example
+    body: "Two breaks of the same box twelve minutes apart. The first finished above on triple the volume of the box's bars. The second finished above on half of it, and was back inside a minute later."
+
+  - type: tf
+    statement: "A break that closes back inside the box often travels further the other way than a chart that never broke out at all."
+    answer: true
+    explanation: "The traders who bought the break have to get out, and their exits are sales pushing it through the other side."
+
+  - type: chart-tap
+    prompt: "The opening-range high is $16.30. Tap the first minute that finished above it."
+    chart:
+      kind: candles
+      data: [[16.14, 16.22, 16.08, 16.18], [16.18, 16.30, 16.14, 16.24], [16.24, 16.32, 16.20, 16.26], [16.26, 16.30, 16.18, 16.22], [16.22, 16.34, 16.20, 16.28], [16.28, 16.40, 16.26, 16.38], [16.38, 16.46, 16.34, 16.44], [16.44, 16.52, 16.40, 16.48]]
+      volume: [286000, 224000, 246000, 188000, 212000, 364000, 292000, 248000]
+      levels:
+        - {price: 16.30, label: "Opening-range high"}
+    target: 5
+    explanation: "Two earlier minutes traded through the line and finished under it. Only the sixth finished above."
+
+  - type: sort
+    prompt: "Break, or not a break?"
+    buckets: ["A break the card takes", "Not a break"]
+    items:
+      - {text: "A minute finishes eight cents outside on the heaviest volume since the open", bucket: "A break the card takes"}
+      - {text: "A minute trades six cents outside and finishes two cents inside", bucket: "Not a break"}
+      - {text: "A minute finishes outside, then the next finishes back inside", bucket: "Not a break"}
+      - {text: "A minute finishes just outside on triple the volume of the box's own bars", bucket: "A break the card takes"}
+    explanation: "The close decides whether there was a break at all; the volume decides whether anybody bought it."
+
+  - type: checklist-reveal
+    title: "Before you take the break"
+    items:
+      - "Has a whole minute finished beyond the line?"
+      - "Did that minute trade more than the minutes that built the box?"
+      - "Is there room inside the box for the stop, and does the budget cover it?"
+      - "Am I still inside the half hour where the box means anything?"

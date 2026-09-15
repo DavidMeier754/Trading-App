@@ -1,0 +1,113 @@
+id: "1-2"
+title: "What a Playbook Is"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [playbook, invalidation, process]
+learning_goal: "User can separate the stop from the invalidation, act on the invalidation first, and say why a short playbook produces better numbers than a long one."
+purpose: "Most losing scalps announce themselves before the stop is reached, and most bad playbooks are just long ones."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "1-1"
+xp: 20
+difficulty: 1
+sources: ["Bellafiore — The PlayBook", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "Second sub of the opening level. Uses Chapter 6's R and expectancy to argue for a short card list."
+screens:
+  - type: intro
+    text: "Your stop is a price. A trade can be finished long before price gets there."
+
+  - type: story
+    character: retail-trader
+    text: "You are long from the card. Nothing has gone wrong yet — and nothing is going right either. The stop is nine cents away and the minutes are passing."
+
+  - type: theory
+    title: "Two ways out, two reasons"
+    body: "The stop ends the trade because price went against you. Invalidation ends it because the reason you entered has gone. One is a level in the market, the other is a condition you watch."
+
+  - type: example
+    body: "You joined a pullback because it was getting quieter. Four minutes later each bar is heavier than the one before and price has not moved. The stop is untouched. The reason is not."
+
+  - type: sort
+    prompt: "Which of these ends the trade at the stop, and which ends it before?"
+    buckets: ["The stop takes you out", "You take yourself out"]
+    items:
+      - {text: "Price trades through the price you chose in advance", bucket: "The stop takes you out"}
+      - {text: "A fast move against you fills your resting order", bucket: "The stop takes you out"}
+      - {text: "Eight minutes pass and the move never starts", bucket: "You take yourself out"}
+      - {text: "The 5-minute chart turns while you are still in front", bucket: "You take yourself out"}
+    explanation: "One is a price you left in the market; the other is a judgement you also made in advance, about the reason rather than the price."
+
+  - type: branch
+    scenario: "You are long 1,500 shares of XYZ from $18.36 with the stop at $18.22, in a $30,000 account. The card's last line reads: drop it if the pullback starts trading heavier than the push did."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.20, 18.30, 18.18, 18.28], [18.28, 18.40, 18.26, 18.38], [18.38, 18.42, 18.32, 18.34], [18.34, 18.38, 18.30, 18.32], [18.32, 18.40, 18.30, 18.36], [18.36, 18.40, 18.30, 18.34], [18.34, 18.36, 18.26, 18.28], [18.28, 18.32, 18.18, 18.20], [18.20, 18.24, 18.12, 18.14], [18.14, 18.18, 18.06, 18.10]]
+      volume: [96000, 118000, 62000, 48000, 84000, 126000, 138000, 152000, 134000, 120000]
+      decision_index: 5
+    steps:
+      - prompt: "Four minutes in, price is $18.34 and each bar is heavier than the last. The stop is twelve cents lower. What now?"
+        options:
+          - {text: "Close it — the condition on the card has fired", correct: true, next: 1}
+          - {text: "Hold — the stop is the only thing that ends a trade", next: 1}
+        explanation: "The card names a condition precisely so this is not a judgement call at the moment it matters."
+      - prompt: "You are out at $18.32. Two minutes later it prints $18.20. What did the invalidation line do?"
+        options:
+          - {text: "Turned a $210 loss into a $60 one", correct: true}
+          - {text: "Nothing — the stop would have exited at the same price"}
+        explanation: "Fourteen cents of risk on 1,500 shares is $210; leaving four cents down cost $60. Under a third of a full R."
+
+  - type: theory
+    title: "Why the list stays short"
+    body: "Every card you add divides your reps. Three cards seen hundreds of times a month each become automatic. Twelve cards seen a handful of times each stay guesses with names on them."
+
+  - type: mc
+    prompt: "One card has 200 finished trades behind it, another has 12. Both are near break-even. Which number tells you something?"
+    options:
+      - {text: "The 200-trade one", correct: true}
+      - {text: "The 12-trade one, because it is the newer method"}
+      - {text: "Neither, until one of them is clearly profitable"}
+    explanation: "Twelve trades cannot separate a working method from a broken one. Sample size is the whole argument for a short playbook."
+
+  - type: numeric-input
+    prompt: "One card's last 40 trades: 16 winners averaging $180 and 24 losers averaging $95. What is one average trade worth?"
+    answer: 15
+    tolerance: 0.01
+    unit: "$"
+    working: "(16 ÷ 40) × $180 = $72; (24 ÷ 40) × $95 = $57; $72 − $57 = $15"
+    explanation: "A card that wins four times in ten still pays, because its winners are nearly twice its losers."
+
+  - type: tf
+    statement: "A card with a stop but no invalidation line is missing nothing important."
+    answer: false
+    explanation: "Without it, every losing trade runs the full distance to the stop — including the ones that told you early."
+
+  - type: fill-choice
+    sentence: "The field that ends a trade because the reason has gone, not the price, is the ___."
+    options: ["invalidation", "stop", "target"]
+    answer: "invalidation"
+    explanation: "The stop is where the market proves you wrong; this is where you notice it first."
+
+  - type: chart-decision
+    scenario: "Your card's stop has to sit under a marked level. The nearest one is $20.84, thirty-eight cents below price, and your risk budget is $200 a trade. You have 1,000 shares ready and a $30,000 account."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[21.30, 21.38, 21.24, 21.28], [21.28, 21.34, 21.18, 21.22], [21.22, 21.32, 21.20, 21.30], [21.30, 21.36, 21.22, 21.24], [21.24, 21.30, 21.16, 21.20], [21.20, 21.28, 21.18, 21.22], [21.22, 21.30, 21.18, 21.26], [21.26, 21.32, 21.20, 21.24], [21.24, 21.28, 21.16, 21.20], [21.20, 21.26, 21.14, 21.18]]
+      volume: [58000, 52000, 48000, 45000, 43000, 41000, 40000, 38000, 37000, 36000]
+      levels:
+        - {price: 20.84, label: "Nearest marked level"}
+      decision_index: 5
+    best: no-trade
+    outcome: "It drifted in the same band for another twenty minutes. The thirty-eight-cent stop was never tested and never affordable."
+    explanation: "Thirty-eight cents on 1,000 shares is $380 against a $200 budget. The card says where the stop goes; the budget says whether that card is tradable today."
+
+  - type: checklist-reveal
+    title: "Before a card goes in the playbook"
+    items:
+      - "Does it name a chart I can recognise in three seconds?"
+      - "Does it say what makes the idea wrong, not only where the stop is?"
+      - "Have I seen it enough times to know how it behaves on a bad day?"
+      - "Is it doing something my other cards do not already do?"

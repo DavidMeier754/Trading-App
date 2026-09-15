@@ -1,0 +1,135 @@
+id: "4-4"
+title: "Setup C — Momentum Continuation"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [momentum, setup-c, practice, management]
+learning_goal: "User sorts continuations from unwinding pushes at a glance, manages one to its invalidation rather than its stop, and places the stop against the pause instead of the leg."
+purpose: "This card comes round more often than any other, so the cost of judging it slowly is paid several times a morning."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "4-3"
+xp: 30
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Bellafiore — The PlayBook"]
+notes: "Drill sub for Level 4: a six-card deck, two decisions in opposite directions, and one managed trade. Account named at $30,000."
+screens:
+  - type: intro
+    text: "Six charts at a glance, then two decisions and one trade to run."
+
+  - type: story
+    character: retail-trader
+    text: "Mid-morning, one name on the screen, $30,000 in the account. The push, the pause and the close are the only three things you are looking at."
+
+  - type: swipe-deck
+    prompt: "Your card is the momentum continuation. Take it or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[12.44, 12.48, 12.42, 12.46], [12.46, 12.58, 12.44, 12.56], [12.56, 12.70, 12.54, 12.68], [12.68, 12.70, 12.62, 12.64], [12.64, 12.68, 12.60, 12.62], [12.62, 12.70, 12.60, 12.68], [12.68, 12.80, 12.66, 12.78], [12.78, 12.88, 12.74, 12.86]]
+          volume: [48000, 118000, 164000, 62000, 44000, 152000, 134000, 118000]
+        answer: take
+        note: "One push, a ten-cent pause on the two quietest minutes, and a close back up on heavy trade."
+      - chart:
+          kind: candles
+          data: [[21.10, 21.14, 21.08, 21.12], [21.12, 21.30, 21.10, 21.28], [21.28, 21.46, 21.26, 21.44], [21.44, 21.46, 21.28, 21.30], [21.30, 21.32, 21.14, 21.16], [21.16, 21.26, 21.14, 21.24], [21.24, 21.28, 21.12, 21.14], [21.14, 21.18, 21.02, 21.06]]
+          volume: [52000, 128000, 162000, 96000, 118000, 74000, 86000, 98000]
+        answer: pass
+        note: "Five sixths of the push handed back. That is a move being unwound, not pausing."
+      - chart:
+          kind: candles
+          data: [[15.60, 15.64, 15.58, 15.62], [15.62, 15.76, 15.60, 15.74], [15.74, 15.88, 15.72, 15.86], [15.86, 15.88, 15.78, 15.80], [15.80, 15.82, 15.74, 15.76], [15.76, 15.84, 15.74, 15.82], [15.82, 15.86, 15.72, 15.74], [15.74, 15.78, 15.62, 15.66]]
+          volume: [46000, 104000, 122000, 146000, 158000, 88000, 96000, 112000]
+        answer: pass
+        note: "The pause traded more than the push did. Somebody was selling into it the whole way."
+      - chart:
+          kind: candles
+          data: [[26.80, 26.82, 26.66, 26.68], [26.68, 26.70, 26.52, 26.54], [26.54, 26.56, 26.40, 26.42], [26.42, 26.50, 26.40, 26.48], [26.48, 26.52, 26.46, 26.50], [26.50, 26.52, 26.40, 26.42], [26.42, 26.44, 26.28, 26.30], [26.30, 26.32, 26.16, 26.20]]
+          volume: [128000, 146000, 172000, 68000, 52000, 158000, 142000, 126000]
+        answer: take
+        note: "Upside down and otherwise unchanged: one push down, a shallow quiet bounce, a close back at the low."
+      - chart:
+          kind: candles
+          data: [[17.20, 17.34, 17.18, 17.32], [17.32, 17.36, 17.26, 17.28], [17.28, 17.44, 17.26, 17.42], [17.42, 17.46, 17.36, 17.38], [17.38, 17.54, 17.36, 17.52], [17.52, 17.56, 17.46, 17.48], [17.48, 17.64, 17.46, 17.52], [17.52, 17.56, 17.42, 17.44]]
+          volume: [142000, 68000, 166000, 62000, 186000, 74000, 214000, 158000]
+        answer: pass
+        note: "Three pushes are already behind this one, and the fourth finished twelve cents off its high."
+      - chart:
+          kind: candles
+          data: [[19.86, 19.92, 19.84, 19.90], [19.90, 20.04, 19.88, 20.02], [20.02, 20.06, 19.96, 19.98], [19.98, 20.14, 19.96, 20.12], [20.12, 20.14, 20.08, 20.10], [20.10, 20.12, 20.08, 20.10], [20.10, 20.20, 20.08, 20.18], [20.18, 20.28, 20.16, 20.26]]
+          volume: [58000, 132000, 76000, 164000, 54000, 46000, 148000, 126000]
+        answer: take
+        note: "Second push, a six-cent pause on the quietest minutes of the chart, and a close back up."
+    explanation: "Three takes and three passes, and every pass failed on one thing: the depth, the volume, or how many pushes had already gone."
+
+  - type: chart-decision
+    scenario: "XYZ fell from $16.84 to $16.42 on rising volume, then bounced for two quiet minutes. This minute closes back down at $16.46. You have 1,800 shares ready and a $30,000 account."
+    shares: 1800
+    chart:
+      kind: candles
+      data: [[16.82, 16.84, 16.70, 16.72], [16.72, 16.74, 16.58, 16.60], [16.60, 16.62, 16.42, 16.44], [16.44, 16.54, 16.42, 16.52], [16.52, 16.56, 16.48, 16.54], [16.54, 16.56, 16.44, 16.46], [16.46, 16.48, 16.32, 16.34], [16.34, 16.38, 16.20, 16.22], [16.22, 16.26, 16.10, 16.12], [16.12, 16.16, 16.00, 16.04]]
+      volume: [124000, 148000, 178000, 66000, 52000, 162000, 146000, 132000, 118000, 106000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It reached the measured move at $16.04: $0.42 per share, +$756 short on 1,800 shares from $16.46."
+    explanation: "One push down, a fourteen-cent bounce on the two quietest minutes, and a close back in the push's direction, with the stop two cents over the bounce at $16.58."
+
+  - type: numeric-input
+    prompt: "That short again: 1,800 shares from $16.46, stop $16.58, out at $16.04. How many R did it make?"
+    answer: 3.5
+    tolerance: 0.01
+    unit: "R"
+    working: "Risk $0.12 per share; gain $0.42 per share; $0.42 ÷ $0.12 = 3.5"
+    explanation: "The shallow bounce does it: a twelve-cent stop underneath a forty-two-cent reach."
+
+  - type: branch
+    scenario: "The push ran from $13.14 to $13.44. You are long 1,500 shares from $13.44 with the stop at $13.34 and the measured move at $13.74. Your account is $30,000."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[13.14, 13.24, 13.12, 13.22], [13.22, 13.38, 13.20, 13.36], [13.36, 13.44, 13.34, 13.42], [13.42, 13.44, 13.36, 13.38], [13.38, 13.40, 13.36, 13.38], [13.38, 13.46, 13.36, 13.44], [13.44, 13.56, 13.42, 13.54], [13.54, 13.62, 13.50, 13.56], [13.56, 13.58, 13.48, 13.50], [13.50, 13.54, 13.42, 13.46]]
+      volume: [96000, 168000, 184000, 64000, 48000, 158000, 142000, 96000, 164000, 148000]
+      decision_index: 5
+    steps:
+      - prompt: "Price reaches $13.62, twelve cents short of the measured move, and the minute closes back at $13.56 on falling volume. What now?"
+        options:
+          - {text: "Hold — nothing on the card has been broken", correct: true, next: 1}
+          - {text: "Pull the target down to $13.58 and take it there", next: 1}
+        explanation: "Volume falling near a target is not the invalidation; the card names volume rising against the position. A target moved on the way is a plan turning into a mood."
+      - prompt: "The next minute makes a lower high and closes at $13.50 on volume rising against you. What now?"
+        options:
+          - {text: "Take what is there — that is the invalidation", correct: true, next: 2}
+          - {text: "Hold for $13.74; the stop is still sixteen cents away", next: 2}
+        explanation: "A lower high with heavier trade against the position is the card's last line, and it fires long before the stop does."
+      - prompt: "You are out at $13.50, up $90 on 1,500 shares — six tenths of an R, with the target never filled. How does the row get graded?"
+        options:
+          - {text: "A — the card was followed from entry to invalidation", correct: true}
+          - {text: "C — the target was on the card and it was never reached"}
+        explanation: "The grade is for the execution, not the distance travelled. Grading on the result teaches you to sit through invalidations that happen to work out."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The pause was shallow and quiet,"}
+      - {text: "so you entered on the close back up"}
+      - {text: "and put the stop under the start of the push.", wrong: true}
+    explanation: "The stop belongs two cents beyond the pause, not beyond the whole push. Under the start of the push, a 3R card becomes a 1R one."
+
+  - type: sort
+    prompt: "Which of these do you join, and which do you let go?"
+    buckets: ["Join it", "Let it go"]
+    items:
+      - {text: "A first push, then a pause on the quietest minutes of the chart", bucket: "Join it"}
+      - {text: "A pause that trades more than the push did", bucket: "Let it go"}
+      - {text: "A fourth push after three dips", bucket: "Let it go"}
+      - {text: "A push down, a shallow quiet bounce, a close back at the low", bucket: "Join it"}
+    explanation: "Depth, volume and how many pushes have already gone. The direction never matters; the count always does."
+
+  - type: recap
+    title: "Level 4 in three lines"
+    points:
+      - {text: "A push, a shallow quiet pause, and the close back in its direction.", level: "4-1"}
+      - {text: "Depth past half, volume rising into the pause, or a move the spread eats — all passes.", level: "4-2"}
+      - {text: "The push's height is the reach, and the slower chart still picks the side.", level: "4-3"}

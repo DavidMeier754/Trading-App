@@ -1,0 +1,130 @@
+id: "2-3"
+title: "Setup A — VWAP Bounce"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [vwap, setup-a, touches, practice]
+learning_goal: "User counts the touches before taking the bounce, reads the target off the chart before entering, and sizes the card from its own stop distance."
+purpose: "The same chart shape is a good trade at the first touch of the line and a bad one at the fifth."
+terms_introduced: []
+reinforces: [4, 6]
+prerequisite: "2-2"
+xp: 25
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Chapter 4's close-versus-poke test at the line and Chapter 6's risk budget, both inside card A. Account named at $30,000."
+screens:
+  - type: intro
+    text: "Same shape, different trade — it depends how many times the line has already been asked."
+
+  - type: story
+    character: retail-trader
+    text: "XYZ has come back to the line three times this hour and held each time. It is coming back a fourth, and it looks easier than ever."
+
+  - type: theory
+    title: "Every test spends the line"
+    body: "Buyers leave orders at the line. The first pullback fills most of them, the second fills what is left, and by the fourth there is nothing there to stop price going through."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[16.60, 16.72, 16.56, 16.68], [16.68, 16.74, 16.52, 16.56], [16.56, 16.66, 16.50, 16.64], [16.64, 16.78, 16.62, 16.74], [16.74, 16.80, 16.58, 16.62], [16.62, 16.72, 16.56, 16.70], [16.70, 16.76, 16.54, 16.58], [16.58, 16.62, 16.44, 16.48]]
+      volume: [86000, 64000, 92000, 78000, 58000, 66000, 74000, 96000]
+      vwap: [16.52, 16.52, 16.53, 16.54, 16.55, 16.56, 16.56, 16.56]
+    caption: "First touch held, second held, and by the third the line was just a price on the way down."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price this card is aiming at."
+    chart:
+      kind: candles
+      data: [[16.62, 16.88, 16.60, 16.84], [16.84, 16.84, 16.70, 16.72], [16.72, 16.76, 16.62, 16.64], [16.64, 16.68, 16.56, 16.58], [16.58, 16.70, 16.56, 16.68], [16.68, 16.76, 16.66, 16.74], [16.74, 16.80, 16.70, 16.78], [16.78, 16.84, 16.74, 16.80]]
+      volume: [128000, 96000, 74000, 58000, 82000, 70000, 64000, 60000]
+    answer: 16.88
+    tolerance: 0.03
+    label: "High of day"
+    explanation: "$16.88 is the highest price printed since the open. The card's target is already on the chart before you enter."
+
+  - type: mc
+    prompt: "Price has pulled back to the line four times this hour and held every time. What does the card say about the fifth?"
+    options:
+      - {text: "Take it — four holds is four pieces of proof"}
+      - {text: "Leave it — the line has spent its buyers", correct: true}
+      - {text: "Take it at double size, since the line keeps working"}
+    explanation: "Each test fills the orders resting there. The card asks for the first or second touch because that is where most of them are still unfilled."
+
+  - type: numeric-input
+    prompt: "Your risk budget is $180 a trade. On this card the stop sits $0.12 under the entry. How many shares does the budget allow?"
+    answer: 1500
+    tolerance: 1
+    unit: "shares"
+    working: "$180 ÷ $0.12 per share = 1,500 shares"
+    explanation: "The stop distance decides the share count, so the card decides the size before the chart has finished moving."
+
+  - type: swipe-deck
+    prompt: "Your card is the VWAP bounce. Take it or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[14.30, 14.38, 14.26, 14.34], [14.34, 14.38, 14.24, 14.26], [14.26, 14.30, 14.18, 14.20], [14.20, 14.24, 14.12, 14.16], [14.16, 14.26, 14.14, 14.24], [14.24, 14.34, 14.22, 14.32], [14.32, 14.40, 14.30, 14.38], [14.38, 14.46, 14.34, 14.44]]
+          volume: [72000, 58000, 47000, 38000, 96000, 84000, 76000, 68000]
+          vwap: [14.16, 14.15, 14.14, 14.13, 14.13, 14.14, 14.15, 14.16]
+        answer: take
+        note: "Above the line all session, first touch, and the minute that took it back is the heaviest on the card."
+      - chart:
+          kind: candles
+          data: [[13.70, 13.76, 13.66, 13.74], [13.74, 13.84, 13.72, 13.82], [13.82, 13.92, 13.80, 13.90], [13.90, 13.98, 13.86, 13.96], [13.96, 14.02, 13.92, 13.98], [13.98, 14.02, 13.90, 13.92], [13.92, 13.96, 13.82, 13.84], [13.84, 13.88, 13.74, 13.78]]
+          volume: [64000, 58000, 52000, 47000, 43000, 56000, 62000, 68000]
+          vwap: [14.16, 14.14, 14.12, 14.10, 14.08, 14.06, 14.04, 14.02]
+        answer: pass
+        note: "Sellers have owned the line since the open. Coming up to it from underneath is a different card."
+      - chart:
+          kind: candles
+          data: [[19.40, 19.48, 19.36, 19.44], [19.44, 19.48, 19.32, 19.34], [19.34, 19.38, 19.24, 19.26], [19.26, 19.30, 19.12, 19.18], [19.18, 19.24, 19.14, 19.22], [19.22, 19.24, 19.12, 19.14], [19.14, 19.18, 19.04, 19.06], [19.06, 19.10, 18.96, 19.00]]
+          volume: [96000, 78000, 64000, 52000, 21000, 44000, 58000, 66000]
+          vwap: [19.16, 19.16, 19.15, 19.15, 19.14, 19.14, 19.13, 19.12]
+        answer: pass
+        note: "The close is back above the line on the thinnest bar of the deck. Price stopped falling; nobody bought it."
+      - chart:
+          kind: candles
+          data: [[22.60, 22.72, 22.56, 22.68], [22.68, 22.72, 22.52, 22.56], [22.56, 22.64, 22.50, 22.60], [22.60, 22.66, 22.46, 22.50], [22.50, 22.54, 22.40, 22.44], [22.44, 22.60, 22.42, 22.58], [22.58, 22.70, 22.56, 22.68], [22.68, 22.80, 22.64, 22.76]]
+          volume: [84000, 66000, 58000, 47000, 41000, 118000, 96000, 82000]
+          vwap: [22.46, 22.45, 22.45, 22.44, 22.43, 22.43, 22.44, 22.45]
+        answer: take
+        note: "Second touch, not the fifth, and the minute that took the line back traded more than any minute before it."
+      - chart:
+          kind: candles
+          data: [[17.86, 17.92, 17.80, 17.88], [17.88, 17.90, 17.76, 17.78], [17.78, 17.82, 17.68, 17.70], [17.70, 17.74, 17.58, 17.60], [17.60, 17.64, 17.48, 17.52], [17.52, 17.58, 17.44, 17.46], [17.46, 17.50, 17.36, 17.38], [17.38, 17.42, 17.28, 17.32]]
+          volume: [74000, 66000, 62000, 58000, 88000, 64000, 70000, 76000]
+          vwap: [17.56, 17.56, 17.56, 17.56, 17.56, 17.56, 17.55, 17.55]
+        answer: pass
+        note: "It traded back above the line inside the minute and finished under it. The card counts closes, not visits."
+    explanation: "Two takes out of five, and each pass failed on one field only: the side of the line, the weight of the reclaim, or the close."
+
+  - type: chart-decision
+    scenario: "XYZ has stayed above the line since the open. This is its second pullback into it, four quiet minutes down, and the next minute closes back above on the heaviest bar in twenty. The high of day is $16.92. You have 1,500 shares ready and a $30,000 account."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[16.86, 16.92, 16.78, 16.80], [16.80, 16.84, 16.70, 16.72], [16.72, 16.76, 16.62, 16.66], [16.66, 16.70, 16.58, 16.60], [16.60, 16.64, 16.52, 16.56], [16.56, 16.66, 16.54, 16.64], [16.64, 16.74, 16.62, 16.72], [16.72, 16.80, 16.68, 16.78], [16.78, 16.86, 16.74, 16.84], [16.84, 16.94, 16.80, 16.90]]
+      volume: [88000, 72000, 61000, 52000, 44000, 104000, 92000, 84000, 76000, 70000]
+      vwap: [16.58, 16.57, 16.56, 16.55, 16.54, 16.54, 16.55, 16.56, 16.57, 16.58]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked back to the high of day. Out at $16.90: $0.26 per share, +$390 long on 1,500 shares from $16.64."
+    explanation: "Second touch rather than fifth, quiet on the way down and bought on the way out, with $0.12 of stop under it — $180 of risk on 1,500 shares."
+
+  - type: tf
+    statement: "On this card the target is a price you can read off the chart before you enter."
+    answer: true
+    explanation: "The high of day is already printed. You are reading where to get out, not guessing it."
+
+  - type: fill-choice
+    sentence: "A pullback that keeps getting quieter is telling you that few shares are being ___ into it."
+    options: ["sold", "bought", "settled"]
+    answer: "sold"
+    explanation: "Shrinking volume on the way down is an absence of sellers, which is what makes the minute that takes the line back cheap to buy."
+
+  - type: example
+    body: "A morning with five pullbacks into the line. The card is interested in two of them. The other three belong to somebody else, and the card is what tells you which is which."

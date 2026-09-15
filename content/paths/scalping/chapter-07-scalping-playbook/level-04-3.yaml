@@ -1,0 +1,122 @@
+id: "4-3"
+title: "Setup C — Momentum Continuation"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [momentum, setup-c, measured-move, timeframes]
+learning_goal: "User counts which push they are joining, projects the measured move from the leg, and refuses a continuation the 5-minute disagrees with."
+purpose: "The shape repeats all morning; what changes is how much of the move is already behind it."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "4-2"
+xp: 25
+difficulty: 3
+sources: ["Volman — Understanding Price Action", "Raschke & Connors — Street Smarts"]
+notes: "Chapter 2's momentum-versus-exhaustion count and Chapter 4's two-timeframe rule, both applied to card C. Account named at $30,000."
+screens:
+  - type: intro
+    text: "Same shape, fourth time this morning. That is not the same trade."
+
+  - type: theory
+    title: "Which push is this?"
+    body: "The card does not ask for a push. It asks for an early one. Each push pulls in the traders who were not in yet, and by the fourth there are few left to pay you for joining."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[19.24, 19.42, 19.22, 19.40], [19.40, 19.46, 19.32, 19.34], [19.34, 19.58, 19.32, 19.56], [19.56, 19.60, 19.46, 19.50], [19.50, 19.72, 19.48, 19.70], [19.70, 19.74, 19.60, 19.64], [19.64, 19.84, 19.62, 19.68], [19.68, 19.72, 19.54, 19.56], [19.56, 19.60, 19.44, 19.48], [19.48, 19.52, 19.38, 19.42]]
+      volume: [164000, 82000, 198000, 76000, 224000, 92000, 246000, 178000, 152000, 134000]
+    caption: "Three pushes, each on heavier trade. The fourth traded the most of all and finished sixteen cents off its high."
+
+  - type: compare
+    prompt: "Both charts are pausing after a push. Which pause does this card want?"
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[16.40, 16.56, 16.38, 16.54], [16.54, 16.58, 16.46, 16.48], [16.48, 16.66, 16.46, 16.64], [16.64, 16.68, 16.56, 16.58], [16.58, 16.76, 16.56, 16.74], [16.74, 16.78, 16.66, 16.68], [16.68, 16.84, 16.66, 16.80], [16.80, 16.82, 16.72, 16.74]]
+        volume: [142000, 74000, 168000, 68000, 192000, 72000, 216000, 64000]
+      - kind: candles
+        label: "B"
+        data: [[13.86, 13.90, 13.82, 13.88], [13.88, 13.92, 13.84, 13.86], [13.86, 14.00, 13.84, 13.98], [13.98, 14.14, 13.96, 14.12], [14.12, 14.26, 14.10, 14.24], [14.24, 14.26, 14.16, 14.18], [14.18, 14.22, 14.14, 14.16], [14.16, 14.20, 14.12, 14.18]]
+        volume: [46000, 42000, 118000, 152000, 186000, 84000, 58000, 48000]
+    answer: "B"
+    explanation: "A has already made three pushes; its pause is the fourth queue for the same move. B is quiet, then one push, then the pause the card is written for."
+
+  - type: chart-annotate
+    prompt: "The leg ran from $14.02 to $14.32 and the card puts you in at $14.26. Drag the line to the measured move."
+    chart:
+      kind: candles
+      data: [[14.06, 14.10, 14.02, 14.08], [14.08, 14.18, 14.06, 14.16], [14.16, 14.32, 14.14, 14.30], [14.30, 14.32, 14.20, 14.22], [14.22, 14.28, 14.20, 14.26], [14.26, 14.36, 14.24, 14.34], [14.34, 14.44, 14.32, 14.42], [14.42, 14.50, 14.38, 14.48], [14.48, 14.52, 14.44, 14.46], [14.46, 14.50, 14.42, 14.44]]
+      volume: [82000, 124000, 168000, 76000, 58000, 142000, 128000, 116000, 96000, 84000]
+    answer: 14.56
+    tolerance: 0.03
+    label: "Measured move"
+    explanation: "Leg height $14.32 − $14.02 = $0.30; $14.26 + $0.30 = $14.56. This one stopped four cents short, which is what 'projection, not promise' looks like."
+
+  - type: numeric-input
+    prompt: "You take 1,800 shares at $14.26 with the stop at $14.18 and that measured move at $14.56. How many R is the target worth?"
+    answer: 3.75
+    tolerance: 0.01
+    unit: "R"
+    working: "Risk $14.26 − $14.18 = $0.08; reach $14.56 − $14.26 = $0.30; $0.30 ÷ $0.08 = 3.75"
+    explanation: "Eight cents of risk against thirty of reach. The shallow pause is what makes the numbers work, because the stop sits just under it."
+
+  - type: mc
+    prompt: "The 1-minute shows one push and a shallow quiet pause. The 5-minute is rolling over. What does that do to the card?"
+    options:
+      - {text: "It cancels it — the slower chart picks the side", correct: true}
+      - {text: "Nothing, because the entry is a 1-minute decision"}
+      - {text: "It halves the size, since only one chart disagrees"}
+    explanation: "A continuation taken against the 5-minute is a countertrend trade carrying a continuation's stop, which is the smallest stop you own."
+
+  - type: chart-decision
+    scenario: "XYZ has made three pushes this morning with a dip between each. A fourth starts, the pause was shallow and quiet, and this minute closes back up at $18.70. You have 1,500 shares ready and a $30,000 account."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[18.30, 18.48, 18.28, 18.46], [18.46, 18.50, 18.38, 18.40], [18.40, 18.62, 18.38, 18.60], [18.60, 18.64, 18.52, 18.54], [18.54, 18.76, 18.52, 18.74], [18.74, 18.78, 18.66, 18.70], [18.70, 18.88, 18.68, 18.74], [18.74, 18.78, 18.60, 18.62], [18.62, 18.66, 18.48, 18.52], [18.52, 18.56, 18.38, 18.42]]
+      volume: [158000, 76000, 186000, 72000, 212000, 88000, 234000, 178000, 154000, 136000]
+      decision_index: 5
+    best: no-trade
+    outcome: "The fourth push reached $18.88, finished that minute fourteen cents lower, then slid to $18.42 — $0.28 against a long from $18.70, $420 on 1,500 shares."
+    explanation: "The shape belongs to the card. The place in the morning does not: three pushes have already taken in the buyers this one needs."
+
+  - type: tf
+    statement: "You can read the measured move correctly and still not get filled at it."
+    answer: true
+    explanation: "It says how far this stock has been travelling per push. Plenty of pushes stop a few cents short, which is why it is a target and not a promise."
+
+  - type: theory
+    title: "The slower chart has a vote"
+    body: "Chapter 4's order has not changed. The 5-minute decides which side you are allowed to be on and the 1-minute decides which minute. This card only reads the second of those."
+
+  - type: chart-decision
+    scenario: "The 5-minute has made higher highs all morning. On the 1-minute the first push ran from $24.30 to $24.62, paused for two quiet minutes, and this one closes back up at $24.58. You have 1,200 shares ready and a $30,000 account."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[24.32, 24.42, 24.30, 24.40], [24.40, 24.52, 24.38, 24.50], [24.50, 24.62, 24.48, 24.60], [24.60, 24.62, 24.54, 24.56], [24.56, 24.58, 24.52, 24.54], [24.54, 24.60, 24.52, 24.58], [24.58, 24.70, 24.56, 24.68], [24.68, 24.80, 24.66, 24.78], [24.78, 24.88, 24.74, 24.86], [24.86, 24.94, 24.82, 24.90]]
+      volume: [96000, 124000, 168000, 62000, 48000, 146000, 132000, 118000, 104000, 92000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to the measured move at $24.90: $0.32 per share, +$384 long on 1,200 shares from $24.58."
+    explanation: "First push, a ten-cent pause on the two quietest minutes, a close back up, and the slower chart pointing the same way. The stop sits at $24.50."
+
+  - type: match
+    prompt: "Match each reading on that chart to the card field it settles."
+    pairs:
+      - ["The 5-minute making higher highs", "Context"]
+      - ["The close back up after the pause", "Entry"]
+      - ["Two cents beyond the pause's extreme", "Stop"]
+      - ["The height of the push, projected", "Target"]
+    explanation: "Four readings, four fields, and nothing left to work out once the position is on."
+
+  - type: example
+    body: "The same shape on two mornings. On the first the 5-minute was climbing and the push carried thirty-two cents. On the second the 5-minute was rolling over and it stalled inside four minutes."
+
+  - type: fill-tiles
+    sentence: "The pause this card wants is shallow, short and ___."
+    answer: "quiet"
+    explanation: "Quiet means few shares changing hands against the push. Loud means the push is being unwound."

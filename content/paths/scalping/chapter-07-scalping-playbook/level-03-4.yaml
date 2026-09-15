@@ -1,0 +1,139 @@
+id: "3-4"
+title: "Setup B — Opening-Range Scalp"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [opening-range, setup-b, practice, execution]
+learning_goal: "User takes box breaks in both directions, builds the ticket for one, leaves on the close back inside, and measures the target from the box's own height."
+purpose: "The opening range gives you a handful of chances a morning and then stops mattering, so the decisions have to be quick and already made."
+terms_introduced: []
+reinforces: [2, 4]
+prerequisite: "3-3"
+xp: 30
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Chapter 2's opening-range build and Chapter 4's wide-spread open, drilled with execution. Account named at $30,000."
+screens:
+  - type: intro
+    text: "The box, both ways, with the ticket and the exit attached."
+
+  - type: story
+    character: retail-trader
+    text: "The box is drawn, the stop distance is worked out, and the order is half-built before the minute that matters has finished. That is the whole preparation."
+
+  - type: chart-decision
+    scenario: "The opening range is $22.40 to $22.90. Five minutes press the floor of the box, then one finishes at $22.32 on the heaviest volume since the open. You have 1,200 shares ready and a $30,000 account."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[22.62, 22.70, 22.54, 22.58], [22.58, 22.64, 22.48, 22.52], [22.52, 22.58, 22.44, 22.48], [22.48, 22.54, 22.42, 22.46], [22.46, 22.50, 22.40, 22.44], [22.44, 22.46, 22.30, 22.32], [22.32, 22.36, 22.18, 22.20], [22.20, 22.24, 22.06, 22.10], [22.10, 22.14, 21.98, 22.02], [22.02, 22.06, 21.90, 21.94]]
+      volume: [212000, 186000, 164000, 148000, 136000, 398000, 316000, 274000, 238000, 208000]
+      levels:
+        - {price: 22.90, label: "Opening-range high"}
+        - {price: 22.40, label: "Opening-range low"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It ran to $21.94 and you took $21.98: $0.34 per share, +$408 short on 1,200 shares from $22.32."
+    explanation: "Coiling into the floor of the box, then a minute finishing under it on the day's heaviest trade. The stop goes two cents back above that minute, $0.16 away."
+
+  - type: order-build
+    prompt: "You are selling that break short. The bid is $22.31 and you will accept three cents of slip. Build the ticket."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [600, 1200, 2000]
+      price: [22.28, 22.31, 22.34]
+    answer: {side: sell, type: limit, qty: 1200, price: 22.28}
+    explanation: "A sell limit three cents under the bid takes what is resting there now and refuses anything worse than $22.28."
+
+  - type: chart-decision
+    scenario: "Forty minutes after the open, a minute finishes two cents above the opening-range high at $14.70, on the lightest volume of the morning. You have 1,800 shares ready and a $30,000 account."
+    shares: 1800
+    chart:
+      kind: candles
+      data: [[14.54, 14.60, 14.50, 14.56], [14.56, 14.62, 14.52, 14.58], [14.58, 14.64, 14.54, 14.60], [14.60, 14.66, 14.56, 14.62], [14.62, 14.68, 14.58, 14.64], [14.64, 14.72, 14.62, 14.70], [14.70, 14.72, 14.62, 14.64], [14.64, 14.68, 14.58, 14.60], [14.60, 14.64, 14.54, 14.56], [14.56, 14.60, 14.50, 14.52]]
+      volume: [86000, 74000, 68000, 62000, 56000, 38000, 52000, 58000, 64000, 70000]
+      levels:
+        - {price: 14.68, label: "Opening-range high"}
+      decision_index: 5
+    best: no-trade
+    outcome: "It drifted back into the box and finished the hour at $14.52 — $0.18 against a long from $14.70, $324 on 1,800 shares."
+    explanation: "Two cents beyond the line on the quietest minute of the morning, three quarters of an hour after the box stopped being the price anybody else was watching."
+
+  - type: branch
+    scenario: "The opening range is $16.74 to $17.20. You are long 1,500 shares from the break at $17.24, stop $17.08, target one box height at $17.70. Your account is $30,000."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.02, 17.10, 16.96, 17.06], [17.06, 17.14, 17.02, 17.10], [17.10, 17.16, 17.06, 17.12], [17.12, 17.18, 17.08, 17.14], [17.14, 17.20, 17.10, 17.16], [17.16, 17.26, 17.10, 17.24], [17.24, 17.26, 17.12, 17.14], [17.14, 17.30, 17.12, 17.28], [17.28, 17.48, 17.26, 17.44], [17.44, 17.72, 17.40, 17.68]]
+      volume: [168000, 146000, 132000, 124000, 118000, 342000, 196000, 264000, 318000, 286000]
+      levels:
+        - {price: 17.20, label: "Opening-range high"}
+      decision_index: 5
+    steps:
+      - prompt: "The minute after your fill closes at $17.14 — back inside the box, ten cents against you, with the stop six cents further down. What now?"
+        options:
+          - {text: "Get out now, back inside is the invalidation", correct: true, next: 1}
+          - {text: "Hold to the stop; six cents is not worth acting on", next: 1}
+        explanation: "The card ends the idea on the close back inside, not on the stop. Acting costs $0.10 a share instead of $0.16."
+      - prompt: "You are flat at $17.14, down $150 instead of $240. Ten minutes later the stock trades $17.68. What does that change?"
+        options:
+          - {text: "Nothing — the card made the call, and it saves the other four", correct: true}
+          - {text: "It shows the invalidation line is set too tight to use"}
+        explanation: "One outcome cannot grade a rule. This one is graded across the run of breaks that fail, which is most of them."
+
+  - type: depth-ladder
+    prompt: "A different break is running and you market-buy 1,800 shares. Where does the last share fill?"
+    data:
+      bids: [[17.22, 900], [17.21, 1400], [17.20, 2600]]
+      asks: [[17.24, 600], [17.25, 800], [17.26, 2400]]
+    target: ask-3
+    explanation: "Six hundred at $17.24 and eight hundred at $17.25 is fourteen hundred shares; the last four hundred pay $17.26."
+
+  - type: numeric-mc
+    prompt: "You take a box break with 1,500 shares at $17.24 and the stop at $17.08. What does a one-box-height target of $0.46 pay if it fills?"
+    options:
+      - {text: "$240"}
+      - {text: "$690", correct: true}
+      - {text: "$460"}
+      - {text: "$1,150"}
+    working: "$0.46 per share × 1,500 shares = $690"
+    explanation: "Sixteen cents risked and forty-six made, just under 3R — which is why the box is worth measuring before the break arrives."
+
+  - type: chart-decision
+    scenario: "The opening range is $11.60 to $11.92. Four shrinking minutes hold the top of the box, then one finishes at $11.98 on the heaviest volume since the open. You have 2,000 shares ready and a $30,000 account."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[11.74, 11.82, 11.70, 11.78], [11.78, 11.86, 11.74, 11.82], [11.82, 11.88, 11.78, 11.84], [11.84, 11.90, 11.82, 11.88], [11.88, 11.92, 11.84, 11.90], [11.90, 12.00, 11.88, 11.98], [11.98, 12.08, 11.96, 12.06], [12.06, 12.14, 12.02, 12.12], [12.12, 12.20, 12.08, 12.18], [12.18, 12.26, 12.14, 12.22]]
+      volume: [186000, 164000, 148000, 132000, 118000, 384000, 312000, 268000, 234000, 206000]
+      levels:
+        - {price: 11.92, label: "Opening-range high"}
+        - {price: 11.60, label: "Opening-range low"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It reached $12.22. Out there: $0.24 per share, +$480 long on 2,000 shares from $11.98."
+    explanation: "Four minutes squeezing the top of the box, then a minute finishing outside it on the day's heaviest trade, with the stop back inside twelve cents away."
+
+  - type: fill-choice
+    sentence: "This card measures its target from the height of the ___."
+    options: ["box", "spread", "stop"]
+    answer: "box"
+    explanation: "The first five minutes already measured how far this stock travels; the target just reuses that measurement."
+
+  - type: tf
+    statement: "A break of the box an hour after the open is worth as much as one in the first half hour."
+    answer: false
+    explanation: "The box is a level because the whole market is watching it early. By the second hour it is a line on your chart and nobody else's."
+
+  - type: recap
+    title: "Level 3 in three lines"
+    points:
+      - {text: "The box is the first five minutes, wicks included, and it breaks in both directions.", level: "3-1"}
+      - {text: "Only a finished minute outside it counts, and it has to be heavier than the box's own bars.", level: "3-3"}
+      - {text: "Back inside is the exit, not the stop, and the box's own height is the reach.", level: "3-4"}
