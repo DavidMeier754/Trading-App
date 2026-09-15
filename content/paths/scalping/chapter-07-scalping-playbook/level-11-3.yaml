@@ -1,0 +1,144 @@
+id: "11-3"
+title: "Setup G — Range Rotation"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [range, drill, decisions, setup-g]
+learning_goal: "User takes the rotation at both edges of an unseen band, refuses the edge that is being pressed, and grades the finished trade in R."
+purpose: "The difference between the rotation and the breakout is four cents of chart and about two hundred dollars, so it is drilled rather than explained twice."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "11-2"
+xp: 30
+difficulty: 3
+sources: ["Raschke & Connors — Street Smarts", "Volman — Understanding Price Action"]
+notes: "Drill sub. Same band twice, twenty minutes apart, to make the veto concrete. Account named at $24,000."
+screens:
+  - type: intro
+    text: "One band, one session, and two very different minutes inside it."
+
+  - type: story
+    character: retail-trader
+    text: "PLT has been between the same two prices since the first half hour. You have the edges drawn and nothing taken yet."
+
+  - type: swipe-deck
+    prompt: "A rotation you would take, or an edge you would leave?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[18.92, 19.06, 18.88, 19.02], [19.02, 19.14, 18.98, 19.06], [19.06, 19.14, 18.96, 19.00], [19.00, 19.08, 18.94, 19.04], [19.04, 19.14, 19.00, 19.06], [19.06, 19.10, 18.94, 18.96], [18.96, 19.00, 18.86, 18.88], [18.88, 18.94, 18.82, 18.86]]
+          levels: [{price: 19.14, label: "Range ceiling"}, {price: 18.82, label: "Range floor"}]
+          volume: [98000, 112000, 94000, 88000, 82000, 96000, 104000, 92000]
+        answer: take
+        note: "Third arrival at the same ceiling, each on less volume, and a close back inside. The middle is nine cents away."
+      - chart:
+          kind: candles
+          data: [[14.26, 14.38, 14.24, 14.34], [14.34, 14.44, 14.30, 14.40], [14.40, 14.44, 14.34, 14.38], [14.38, 14.44, 14.36, 14.42], [14.42, 14.44, 14.38, 14.40], [14.40, 14.52, 14.38, 14.50], [14.50, 14.64, 14.48, 14.62], [14.62, 14.74, 14.58, 14.70]]
+          levels: [{price: 14.44, label: "Range ceiling"}]
+          volume: [86000, 104000, 118000, 142000, 168000, 226000, 208000, 186000]
+        answer: pass
+        note: "Four arrivals from four higher lows on volume that kept building. That edge was being worked, not defended."
+      - chart:
+          kind: candles
+          data: [[21.66, 21.74, 21.58, 21.62], [21.62, 21.66, 21.52, 21.54], [21.54, 21.62, 21.50, 21.60], [21.60, 21.68, 21.56, 21.64], [21.64, 21.68, 21.52, 21.54], [21.54, 21.60, 21.50, 21.58], [21.58, 21.70, 21.56, 21.68], [21.68, 21.78, 21.64, 21.74]]
+          levels: [{price: 21.50, label: "Range floor"}, {price: 21.78, label: "Range ceiling"}]
+          volume: [94000, 108000, 86000, 78000, 96000, 112000, 98000, 88000]
+        answer: take
+        note: "The floor refused for the third time and the close came back inside it. Same card, taken from underneath."
+      - chart:
+          kind: candles
+          data: [[12.84, 12.92, 12.80, 12.88], [12.88, 12.94, 12.84, 12.90], [12.90, 12.94, 12.82, 12.86], [12.86, 12.92, 12.82, 12.90], [12.90, 12.94, 12.84, 12.88], [12.88, 12.94, 12.82, 12.86], [12.86, 12.92, 12.84, 12.90], [12.90, 12.94, 12.86, 12.92]]
+          levels: [{price: 12.94, label: "Range ceiling"}, {price: 12.82, label: "Range floor"}]
+          volume: [64000, 58000, 52000, 48000, 46000, 44000, 47000, 43000]
+        answer: pass
+        note: "Twelve cents from edge to edge. Half of that is six cents, and the round trip takes three of them."
+      - chart:
+          kind: candles
+          data: [[16.44, 16.58, 16.40, 16.54], [16.54, 16.66, 16.50, 16.58], [16.58, 16.66, 16.46, 16.50], [16.50, 16.58, 16.44, 16.56], [16.56, 16.66, 16.52, 16.62], [16.62, 16.68, 16.52, 16.54], [16.54, 16.58, 16.44, 16.46], [16.46, 16.52, 16.40, 16.44]]
+          levels: [{price: 16.66, label: "Range ceiling"}, {price: 16.40, label: "Range floor"}]
+          volume: [118000, 132000, 104000, 96000, 108000, 102000, 114000, 98000]
+        answer: take
+        note: "A poke two cents through the ceiling and a close eight cents back inside. The stop is two cents above the poke."
+      - chart:
+          kind: candles
+          data: [[23.40, 23.62, 23.36, 23.58], [23.58, 23.84, 23.54, 23.80], [23.80, 23.96, 23.74, 23.92], [23.92, 24.04, 23.86, 24.00], [24.00, 24.18, 23.96, 24.14], [24.14, 24.22, 24.06, 24.10], [24.10, 24.32, 24.06, 24.28], [24.28, 24.46, 24.24, 24.42]]
+          volume: [142000, 164000, 156000, 148000, 172000, 138000, 186000, 174000]
+        answer: pass
+        note: "Every give-back finishing above the last one. There is no band here, only a chart that has not paused yet."
+    explanation: "Three takes and three passes, and the three passes are the three reasons this card gets refused: the edge is being pressed, the band is too narrow, and the day is not a range day at all."
+
+  - type: chart-decision
+    scenario: "PLT has been between $11.62 and $11.94 for forty minutes with VWAP flat through the middle. This minute wicks to $11.96 and closes back inside at $11.88. You have 2,000 shares ready and a $24,000 account."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[11.70, 11.80, 11.66, 11.78], [11.78, 11.88, 11.74, 11.84], [11.84, 11.94, 11.80, 11.90], [11.90, 11.92, 11.82, 11.86], [11.86, 11.94, 11.84, 11.92], [11.92, 11.96, 11.84, 11.88], [11.88, 11.90, 11.78, 11.80], [11.80, 11.82, 11.70, 11.72], [11.72, 11.76, 11.66, 11.69], [11.69, 11.74, 11.62, 11.66]]
+      vwap: [11.78, 11.78, 11.79, 11.79, 11.79, 11.79, 11.79, 11.78, 11.78, 11.77]
+      volume: [124000, 138000, 152000, 96000, 108000, 92000, 116000, 134000, 142000, 128000]
+      levels:
+        - {price: 11.94, label: "Range ceiling"}
+        - {price: 11.62, label: "Range floor"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rotated through the middle and you covered at $11.69 — $0.19 per share, +$380 short on 2,000 shares from $11.88."
+    explanation: "The poke through the ceiling came on the lightest minute of the stretch. Stop $11.98, ten cents above the entry; the middle sits ten cents below it and the floor twenty-six."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the floor this session keeps coming back to."
+    chart:
+      kind: candles
+      data: [[15.34, 15.46, 15.30, 15.42], [15.42, 15.48, 15.26, 15.30], [15.30, 15.40, 15.26, 15.38], [15.38, 15.52, 15.34, 15.48], [15.48, 15.50, 15.28, 15.32], [15.32, 15.44, 15.26, 15.40], [15.40, 15.50, 15.36, 15.44], [15.44, 15.48, 15.30, 15.34], [15.34, 15.42, 15.26, 15.38], [15.38, 15.50, 15.34, 15.46]]
+      volume: [96000, 118000, 84000, 106000, 112000, 92000, 88000, 98000, 90000, 102000]
+    answer: 15.26
+    tolerance: 0.04
+    label: "Range floor"
+    explanation: "Four visits to $15.26 and not one close under it. The stop for a long here sits at $15.24, and the middle is about fourteen cents up."
+
+  - type: mc
+    prompt: "The band is eighteen cents wide and your round trip costs three cents a share. What does that do to the card?"
+    options:
+      - {text: "Nothing, because the stop is still only ten cents wide either way"}
+      - {text: "A third of the move you are playing for goes to costs", correct: true}
+      - {text: "It means you should double the size to earn the cost back"}
+    explanation: "Half an eighteen-cent band is nine cents, and three of those nine are spread and fees. A band has to be wide enough to pay for being in it twice."
+
+  - type: chart-decision
+    scenario: "The same band twenty minutes later. Every push into $11.94 has now started from a higher low and the volume into it is the heaviest of the session. This minute closes at $11.92, just under the edge. You have 2,000 shares ready."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[11.72, 11.80, 11.70, 11.78], [11.78, 11.86, 11.76, 11.84], [11.84, 11.92, 11.80, 11.86], [11.86, 11.94, 11.84, 11.90], [11.90, 11.94, 11.86, 11.88], [11.88, 11.94, 11.86, 11.92], [11.92, 12.06, 11.90, 12.04], [12.04, 12.16, 12.00, 12.14], [12.14, 12.24, 12.10, 12.20], [12.20, 12.28, 12.14, 12.23]]
+      volume: [86000, 104000, 128000, 152000, 168000, 186000, 264000, 232000, 208000, 192000]
+      levels:
+        - {price: 11.94, label: "Range ceiling"}
+        - {price: 11.62, label: "Range floor"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [long]
+    outcome: "It closed above the edge on the next minute and reached $12.23. A 2,000-share short from $11.92 was $620 down."
+    explanation: "Same price, same band, opposite answer. Four higher lows and rising volume are the edge being worked through rather than defended."
+
+  - type: tf
+    statement: "On a range day the third test of an edge is a better trade than the first."
+    answer: false
+    explanation: "Each test spends some of the order that made the edge. The first one has the most of it still sitting there."
+
+  - type: journal-row
+    prompt: "A rotation from earlier in the week is finished. Fill its row."
+    trade: {setup: "Range rotation", entry: 22.34, stop: 22.48, exit: 22.06, shares: 1000}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$140", "$220", "$280"]
+      r_made: ["+1R", "+2R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$140", r_made: "+2R", grade: "A"}
+    explanation: "Fourteen cents risked and twenty-eight made, and an A because the exit was the middle of the band rather than a hope of the far edge."
+
+  - type: recap
+    title: "Level 11 in three lines"
+    points:
+      - {text: "The edge is a trade only while the day keeps coming back to it.", level: "11-1"}
+      - {text: "Higher lows pressing the ceiling are the card leaving the table.", level: "11-2"}
+      - {text: "A band has to be wide enough to pay for being in it twice.", level: "11-3"}

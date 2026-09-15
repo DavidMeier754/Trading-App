@@ -1,0 +1,148 @@
+id: "13-2"
+title: "Mixed Drill II"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [mixed, drill, decisions, selection]
+learning_goal: "User picks the name the sheet can be used on at all, then takes or refuses the three newest cards on unseen charts with the session state in front of them."
+purpose: "A card is only as good as the stock it is read on, and the last three cards are the ones a learner has had the least screen time with."
+terms_introduced: []
+reinforces: [4, 5]
+prerequisite: "13-1"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
+notes: "Cards F, G and H drilled against selection and cost. Account named at $28,000 and all three decisions sized under it."
+screens:
+  - type: intro
+    text: "Pick the name first. Eight cards are worth nothing on the wrong one."
+
+  - type: scanner-pick
+    prompt: "Four names on the open. Which one can any of your eight cards actually be written on today?"
+    data:
+      rows:
+        - {ticker: MDR, price: 15.40, change_pct: -8.9, rvol: 6.1, float: "24M", spread: 0.02, catalyst: "Guidance cut"}
+        - {ticker: CRG, price: 62.40, change_pct: 1.2, rvol: 1.3, float: "180M", spread: 0.08, catalyst: "—"}
+        - {ticker: DRT, price: 4.20, change_pct: 22.4, rvol: 9.0, float: "2M", spread: 0.11, catalyst: "Offering"}
+        - {ticker: SNW, price: 19.80, change_pct: 0.4, rvol: 0.7, float: "320M", spread: 0.04, catalyst: "—"}
+    target: MDR
+    explanation: "DRT has the biggest move and a two-million float, which is the one your stop cannot survive. MDR has a reason, six times its normal volume and a two-cent spread."
+
+  - type: chart-decision
+    scenario: "You were long 1,400 shares of QVN from $19.24 with the stop at $19.10, two cents under the pre-market low, and it clipped you by a cent. That low has held since and this minute closes at $19.26 on the heaviest volume since the stop."
+    shares: 1400
+    state: ["Day: −1R", "Limit: 3R", "Trades: 2"]
+    chart:
+      kind: candles
+      data: [[19.24, 19.28, 19.16, 19.20], [19.20, 19.24, 19.09, 19.14], [19.14, 19.22, 19.12, 19.20], [19.20, 19.24, 19.14, 19.18], [19.18, 19.22, 19.14, 19.20], [19.20, 19.28, 19.14, 19.26], [19.26, 19.38, 19.24, 19.36], [19.36, 19.48, 19.34, 19.46], [19.46, 19.58, 19.42, 19.54], [19.54, 19.68, 19.52, 19.65], [19.65, 19.70, 19.58, 19.62]]
+      volume: [138000, 172000, 96000, 84000, 92000, 198000, 176000, 158000, 142000, 134000, 118000]
+      levels:
+        - {price: 19.12, label: "Pre-market low"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It made a new high of day and you took it at $19.65 — $0.39 per share, +$546 long on 1,400 shares from $19.26."
+    explanation: "Card H: the level survived the stop, a new minute closed the job, and one of the three units is gone. Stop $19.12, two cents under this minute's low."
+
+  - type: match
+    prompt: "Three newest cards, three triggers. Match them."
+    pairs:
+      - ["Card F", "The first quiet pullback that holds above the session's first print"]
+      - ["Card G", "The first close back inside an edge the day has already refused"]
+      - ["Card H", "A fresh close on a setup that stopped you out once, at the same size"]
+    explanation: "Three different first lines. Two of them are drawn on the chart and one of them is drawn on your own session."
+
+  - type: swipe-deck
+    prompt: "Card F, G or H, or none of them?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[18.10, 18.28, 18.08, 18.24], [18.24, 18.40, 18.20, 18.36], [18.36, 18.38, 18.26, 18.28], [18.28, 18.32, 18.20, 18.22], [18.22, 18.26, 18.18, 18.24], [18.24, 18.38, 18.22, 18.36], [18.36, 18.50, 18.34, 18.48], [18.48, 18.58, 18.44, 18.54]]
+          levels: [{price: 18.10, label: "Opening price"}]
+          volume: [402000, 238000, 124000, 96000, 78000, 176000, 158000, 144000]
+        answer: take
+        note: "Fourteen cents above the first print at its worst, and a close back up on twice the volume of the pause. Card F."
+      - chart:
+          kind: candles
+          data: [[25.44, 25.52, 25.40, 25.48], [25.48, 25.58, 25.44, 25.52], [25.52, 25.58, 25.46, 25.50], [25.50, 25.58, 25.48, 25.54], [25.54, 25.58, 25.50, 25.52], [25.52, 25.58, 25.48, 25.56], [25.56, 25.72, 25.54, 25.70], [25.70, 25.86, 25.66, 25.82]]
+          levels: [{price: 25.58, label: "Range ceiling"}]
+          volume: [92000, 118000, 132000, 158000, 184000, 212000, 268000, 244000]
+        answer: pass
+        note: "Six arrivals at the same ceiling from six higher lows, on volume that built every time. That edge was being worked through."
+      - chart:
+          kind: candles
+          data: [[14.72, 14.76, 14.58, 14.60], [14.60, 14.64, 14.46, 14.50], [14.50, 14.62, 14.48, 14.58], [14.58, 14.66, 14.54, 14.62], [14.62, 14.66, 14.52, 14.54], [14.54, 14.58, 14.42, 14.44], [14.44, 14.48, 14.32, 14.34], [14.34, 14.40, 14.24, 14.28]]
+          levels: [{price: 14.72, label: "Opening price"}]
+          volume: [468000, 282000, 136000, 104000, 88000, 172000, 162000, 148000]
+        answer: take
+        note: "A gap down that never closed back above its first print, and a bounce that died eight cents under it. Card F, short side."
+      - chart:
+          kind: candles
+          data: [[21.24, 21.30, 21.18, 21.26], [21.26, 21.32, 21.20, 21.24], [21.24, 21.30, 21.18, 21.28], [21.28, 21.32, 21.22, 21.26], [21.26, 21.32, 21.20, 21.24], [21.24, 21.30, 21.18, 21.28], [21.28, 21.32, 21.22, 21.26], [21.26, 21.30, 21.20, 21.24]]
+          levels: [{price: 21.32, label: "Range ceiling"}, {price: 21.18, label: "Range floor"}]
+          volume: [58000, 52000, 46000, 44000, 41000, 39000, 42000, 38000]
+        answer: pass
+        note: "Fourteen cents from edge to edge and the volume falling away all session. Half that band will not pay for the round trip."
+    explanation: "Two takes and two passes, and neither pass is a chart that stood still. Both went somewhere; neither went where a card said it would."
+
+  - type: chart-decision
+    scenario: "PVX has crossed the same two prices five times, but the band is only $13.74 to $13.86 and your round trip costs three cents a share. This minute pokes the ceiling and closes back inside at $13.82. You have 2,000 shares ready and a $28,000 account."
+    shares: 2000
+    chart:
+      kind: candles
+      data: [[13.78, 13.84, 13.76, 13.80], [13.80, 13.86, 13.78, 13.82], [13.82, 13.84, 13.74, 13.76], [13.76, 13.82, 13.74, 13.80], [13.80, 13.86, 13.78, 13.84], [13.84, 13.86, 13.78, 13.82], [13.82, 13.84, 13.76, 13.76], [13.76, 13.84, 13.74, 13.80], [13.80, 13.86, 13.78, 13.82], [13.82, 13.86, 13.76, 13.80]]
+      volume: [88000, 94000, 82000, 76000, 86000, 78000, 72000, 80000, 84000, 74000]
+      levels:
+        - {price: 13.86, label: "Range ceiling"}
+        - {price: 13.74, label: "Range floor"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It rotated to $13.76 exactly as advertised — $0.06 per share, and three cents of that went on the round trip."
+    explanation: "The shape is card G and the arithmetic is not. Half of a twelve-cent band is six cents, and the round trip takes half of what is left."
+
+  - type: fill-choice
+    sentence: "Eight cards on the sheet, and the answer to most minutes of a session is still ___."
+    options: ["none", "card A", "a smaller size"]
+    answer: "none"
+    explanation: "More cards means more mornings you can trade, not more trades in a morning."
+
+  - type: chart-decision
+    scenario: "MDR gapped down to $15.40 from yesterday's close of $16.90 on the guidance cut and has not closed above that first print. It bounced to $15.38 and this minute closes at $15.28 on rising volume. You have 1,500 shares ready."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[15.40, 15.44, 15.24, 15.28], [15.28, 15.32, 15.14, 15.18], [15.18, 15.24, 15.10, 15.14], [15.14, 15.30, 15.12, 15.28], [15.28, 15.38, 15.26, 15.34], [15.34, 15.38, 15.26, 15.28], [15.28, 15.30, 15.16, 15.18], [15.18, 15.22, 15.06, 15.08], [15.08, 15.12, 14.98, 15.01], [15.01, 15.06, 14.92, 14.96]]
+      volume: [486000, 264000, 218000, 112000, 96000, 168000, 182000, 196000, 174000, 158000]
+      levels:
+        - {price: 15.40, label: "Opening price"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It made a new low of day and you covered at $15.01 — $0.27 per share, +$405 short on 1,500 shares from $15.28."
+    explanation: "The bounce died two cents under the first print, so the stop sits at $15.40 — twelve cents of risk for a card the whole morning is behind."
+
+  - type: compare
+    prompt: "Both stocks are at a price they have already refused once today. Which one is the rotation?"
+    charts:
+      - kind: candles
+        data: [[17.20, 17.36, 17.16, 17.32], [17.32, 17.48, 17.28, 17.44], [17.44, 17.52, 17.38, 17.46], [17.46, 17.64, 17.42, 17.60], [17.60, 17.76, 17.56, 17.72], [17.72, 17.80, 17.66, 17.74], [17.74, 17.90, 17.70, 17.86], [17.86, 18.00, 17.82, 17.94]]
+        label: "A"
+      - kind: candles
+        data: [[21.44, 21.62, 21.40, 21.56], [21.56, 21.64, 21.38, 21.42], [21.42, 21.50, 21.34, 21.38], [21.38, 21.46, 21.32, 21.44], [21.44, 21.64, 21.40, 21.52], [21.52, 21.62, 21.44, 21.48], [21.48, 21.54, 21.34, 21.38], [21.38, 21.52, 21.36, 21.46]]
+        label: "B"
+    answer: "B"
+    explanation: "B has been to the same ceiling twice and the same floor twice. A stops every give-back higher than the last, so its refusals are pauses on the way up."
+
+  - type: tf
+    statement: "One stock can offer two different cards in the same session."
+    answer: true
+    explanation: "A gap that holds gives card F in the first half hour and card A once the line has caught up to price. The cards are read against the shape the session has now."
+
+  - type: recap
+    title: "Level 13 in three lines"
+    points:
+      - {text: "Four cards and four near misses, and the near miss is the more useful half.", level: "13-1"}
+      - {text: "A band too narrow to pay for the round trip is not a rotation.", level: "13-2"}
+      - {text: "Eight cards on the sheet, and most minutes are still none of them.", level: "13-2"}

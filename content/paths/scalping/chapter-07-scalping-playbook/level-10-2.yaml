@@ -1,0 +1,122 @@
+id: "10-2"
+title: "Setup F — Gap-and-Go Continuation"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [gap, extension, setup-f, playbook]
+learning_goal: "User can measure a gap against what the stock normally travels, refuse the one that has already spent a day's range, and drop the card the moment the first print is lost."
+purpose: "The gap that everyone talks about afterwards is usually the one that was already finished when the beginners arrived."
+terms_introduced: []
+reinforces: [2, 5]
+prerequisite: "10-1"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "The two ways card F dies: too far, and the line lost. Account named at $24,000 and both decisions sized under it."
+screens:
+  - type: intro
+    text: "Two ways this card dies, and both of them look like the card at first glance."
+
+  - type: theory
+    title: "How far is too far"
+    body: "A stock has a normal day's travel: the distance it usually covers between its high and its low. Count the gap and the run since the bell together, and compare that to it."
+
+  - type: example
+    body: "XYZ usually covers about 70 cents in a whole day. It gapped 90 cents and has added 50 more since the bell. The pullback you are waiting for is the size of everything you would be playing for."
+
+  - type: numeric-mc
+    prompt: "That stock again: 70 cents of normal travel, a 90-cent gap, 50 cents added since the bell. How much of a normal day has it done?"
+    options:
+      - {text: "About the same"}
+      - {text: "About half"}
+      - {text: "About four times"}
+      - {text: "About twice", correct: true}
+    working: "$0.90 + $0.50 = $1.40; $1.40 ÷ $0.70 = 2.0"
+    explanation: "Two normal days before your entry. Whatever is left is smaller than what the give-back will be."
+
+  - type: chart-decision
+    scenario: "XYZ gapped to $12.60 on a takeover rumour and has run to $13.52 in twenty minutes, without one pullback. It normally covers about 50 cents in a whole day. This minute closes at $13.44. You have 1,600 shares ready."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[12.60, 12.86, 12.58, 12.84], [12.84, 13.06, 12.80, 13.02], [13.02, 13.24, 12.98, 13.20], [13.20, 13.44, 13.16, 13.40], [13.40, 13.52, 13.36, 13.42], [13.42, 13.50, 13.38, 13.44], [13.44, 13.48, 13.26, 13.28], [13.28, 13.32, 13.08, 13.10], [13.10, 13.16, 12.94, 12.98], [12.98, 13.04, 12.84, 12.88]]
+      volume: [468000, 312000, 264000, 218000, 96000, 82000, 176000, 198000, 184000, 162000]
+      levels:
+        - {price: 12.60, label: "Opening price"}
+      decision_index: 5
+    best: no-trade
+    outcome: "It rolled straight back to $12.88 — $0.56 per share, and a 1,600-share long from $13.44 would have been $896 down."
+    explanation: "Nearly two normal days of travel and no pause yet. The first quiet minutes of a run like this are usually the top of it rather than the pause inside it."
+
+  - type: slider
+    prompt: "That run went from $12.58 to $13.52 and was back at $12.88 four minutes later. How much of it came back?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 70
+    tolerance: 10
+    explanation: "Sixty-four cents of a ninety-four-cent run. A move with nobody left to buy it unwinds at the speed it went up."
+
+  - type: theory
+    title: "The line, lost"
+    body: "The other way the card dies is quieter. Price closes back under the session's first print, the gap buyers are underwater, and every bounce from there is somebody getting out rather than somebody arriving."
+
+  - type: compare
+    prompt: "Two gaps, twenty minutes into the session. On which one is card F still alive?"
+    charts:
+      - kind: candles
+        data: [[16.40, 16.56, 16.38, 16.52], [16.52, 16.62, 16.46, 16.58], [16.58, 16.64, 16.50, 16.54], [16.54, 16.58, 16.46, 16.50], [16.50, 16.62, 16.48, 16.60], [16.60, 16.74, 16.58, 16.70], [16.70, 16.82, 16.66, 16.78], [16.78, 16.90, 16.74, 16.86]]
+        levels: [{price: 16.40, label: "Opening price"}]
+        label: "A"
+      - kind: candles
+        data: [[22.60, 22.72, 22.44, 22.48], [22.48, 22.54, 22.30, 22.34], [22.34, 22.46, 22.28, 22.42], [22.42, 22.50, 22.34, 22.38], [22.38, 22.42, 22.20, 22.24], [22.24, 22.34, 22.16, 22.20], [22.20, 22.26, 22.04, 22.08], [22.08, 22.14, 21.96, 22.00]]
+        levels: [{price: 22.60, label: "Opening price"}]
+        label: "B"
+    answer: "A"
+    explanation: "A has not printed a close under its first price all session. B lost it on the opening minute and has spent every minute since below it."
+
+  - type: chart-decision
+    scenario: "A different name. It gapped to $18.90 on a contract win, held the first pullback, ran to $19.40, and has come back to $19.14 on the two lightest minutes of the session. This one closes at $19.26. Your account is $24,000 and you have 1,200 shares ready."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[18.90, 19.10, 18.88, 19.06], [19.06, 19.26, 19.02, 19.22], [19.22, 19.40, 19.18, 19.36], [19.36, 19.38, 19.20, 19.22], [19.22, 19.26, 19.12, 19.14], [19.14, 19.28, 19.12, 19.26], [19.26, 19.42, 19.24, 19.40], [19.40, 19.56, 19.38, 19.54], [19.54, 19.66, 19.50, 19.63], [19.63, 19.68, 19.54, 19.58]]
+      volume: [342000, 226000, 198000, 88000, 72000, 164000, 148000, 136000, 122000, 104000]
+      levels:
+        - {price: 18.90, label: "Opening price"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It made a new high of day and you let it go at $19.63 — $0.37 per share, +$444 long on 1,200 shares from $19.26."
+    explanation: "A second pullback is still the card as long as it stops above the first print and gets quieter. The stop is $19.10, two cents under it."
+
+  - type: sort
+    prompt: "Card F on, or card F off?"
+    buckets: ["Card F is on", "Card F is off"]
+    items:
+      - {text: "A gap on news, above the first print, pulling back on falling volume", bucket: "Card F is on"}
+      - {text: "A gap that closed back under the first print in the opening minutes", bucket: "Card F is off"}
+      - {text: "A gap that has already travelled two normal days before your entry", bucket: "Card F is off"}
+      - {text: "A second pullback that stops well above the first print", bucket: "Card F is on"}
+    explanation: "Two conditions, and both of them are things you can see rather than things you have to predict."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The gap held and the pullback stopped above the opening price,"}
+      - {text: "so you buy the first minute that closes back up"}
+      - {text: "and put the stop under the opening price, forty cents away.", wrong: true}
+    explanation: "The stop belongs two cents under the pullback low. A stop at the opening price is a different trade with four times the risk and exactly the same target."
+
+  - type: mc
+    prompt: "Why does the card refuse a gap that has already covered two normal days before your entry?"
+    options:
+      - {text: "A gap that big has always filled by the end of the same morning"}
+      - {text: "The spread on a gap that big is too wide for any stop to pay for"}
+      - {text: "Little room is left, and the give-back is the size of the run", correct: true}
+    explanation: "The trade needs somewhere to go. When the run is already the whole day, what is left to take is smaller than what a normal pullback would cost you."
+
+  - type: example
+    body: "Two gaps on the same morning: one opened 4 % up and spent the session above its first print, the other opened 14 % up and gave half of it back before the first pullback finished. The card was written for the first one."

@@ -1,0 +1,94 @@
+id: "12-1"
+title: "Setup H — The Re-Entry"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [re-entry, discipline, setup-h, playbook]
+learning_goal: "User can name the three conditions that turn a second attempt into a card, and tell that card apart from the trade the last loss chose."
+purpose: "Being stopped out by a cent and then watching the trade work without you is the most common way a good read turns into a bad morning."
+terms_introduced: ["Re-entry trade"]
+reinforces: [6]
+prerequisite: "11-3"
+xp: 20
+difficulty: 2
+sources: ["Bellafiore — One Good Trade", "Elder — Trading for a Living"]
+notes: "Eighth card. Sits directly on Chapter 6's tilt level; the plan-card line joins the user's playbook sheet."
+screens:
+  - type: intro
+    text: "Card eight is the only one you take twice."
+
+  - type: story
+    character: retail-trader
+    text: "Your stop was two cents too close. You are flat, down one unit, and the setup you wrote the card for is still sitting there on the chart."
+
+  - type: theory
+    title: "The re-entry trade"
+    body: "A re-entry trade is going back into a setup that has already stopped you out once. It is a card of its own because the thing that decides it is not the chart you are looking at."
+
+  - type: carousel
+    cards:
+      - {label: "The context", text: "Everything the card's first line asked for is still on the chart. If that has changed, the setup is gone rather than paused.", icon: retail-trader}
+      - {label: "A fresh trigger", text: "A new minute has to do the job. The trigger that already failed does not get a second vote.", icon: mascot}
+      - {label: "The budget", text: "What is left of the day's risk has to pay for the same size again. If it cannot, the answer is no, whatever the chart is doing.", icon: institution}
+
+  - type: mc
+    prompt: "Two traders go back into the stock that just stopped them out. Which one is taking the re-entry trade?"
+    options:
+      - {text: "The one who doubled size because the first loss has to come back"}
+      - {text: "The one who bought at the stop price immediately, before anything closed"}
+      - {text: "The one who waited for a new close and kept the same size", correct: true}
+    explanation: "Speed and size are what the last result asks for. A new close and the same share count are what the card asks for."
+
+  - type: chart-decision
+    scenario: "You were long 1,200 shares of NRV from $18.36 with the stop at $18.22. It traded $18.20 and you were out for −1R. The level has held since, and this minute closes at $18.38 on the heaviest volume since the stop. Your account is $26,000."
+    shares: 1200
+    state: ["Day: −1R", "Limit: 3R", "Trades: 1"]
+    chart:
+      kind: candles
+      data: [[18.36, 18.40, 18.28, 18.30], [18.30, 18.34, 18.20, 18.24], [18.24, 18.30, 18.18, 18.28], [18.28, 18.34, 18.24, 18.30], [18.30, 18.36, 18.26, 18.32], [18.32, 18.40, 18.26, 18.38], [18.38, 18.50, 18.36, 18.48], [18.48, 18.60, 18.44, 18.56], [18.56, 18.68, 18.52, 18.64], [18.64, 18.76, 18.60, 18.73], [18.73, 18.78, 18.66, 18.70]]
+      vwap: [18.32, 18.32, 18.31, 18.31, 18.31, 18.31, 18.32, 18.33, 18.34, 18.36, 18.38]
+      volume: [124000, 158000, 96000, 82000, 88000, 186000, 164000, 148000, 136000, 128000, 112000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $18.73 and you took it there — $0.35 per share, +$420 long on 1,200 shares from $18.38."
+    explanation: "The context held, a new minute closed the job on the heaviest volume since the stop, and one unit of the three is gone. All three conditions are met."
+
+  - type: numeric-input
+    prompt: "That first attempt risked $0.14 on 1,200 shares, so one R is $168, and your daily loss limit is 3R. How many dollars of risk are left for the rest of the session?"
+    answer: 336
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.14 × 1,200 = $168; 3 × $168 = $504 of room; $504 − $168 = $336"
+    explanation: "Two attempts left at the card's size, and the number is decided before you look at the chart again."
+
+  - type: sort
+    prompt: "A re-entry, or the loss choosing the trade?"
+    buckets: ["Re-entry", "Revenge"]
+    items:
+      - {text: "The card's first line is still on the chart and a new minute has triggered it", bucket: "Re-entry"}
+      - {text: "The size is bigger than the first attempt, to get the loss back faster", bucket: "Revenge"}
+      - {text: "The entry is the price you were stopped at, taken before anything closed", bucket: "Revenge"}
+      - {text: "What is left of the day's budget pays for the same size again", bucket: "Re-entry"}
+    explanation: "Two of these are about the chart and two are about the last result. Only one kind belongs in a playbook."
+
+  - type: tf
+    statement: "A setup that has stopped you out twice is allowed a third attempt as long as the context still holds."
+    answer: false
+    explanation: "This card allows one re-entry. Past that, the chart has told you twice that your read of it was not as clean as it looked."
+
+  - type: fill-choice
+    sentence: "A re-entry trade needs a new ___, not the one that already failed."
+    options: ["trigger", "level", "stock"]
+    answer: "trigger"
+    explanation: "The level is what survived. The trigger is what did not, and it has to happen again before you are back in."
+
+  - type: plan-card
+    title: "Your re-entry rule"
+    intro: "Two numbers and one condition, written now rather than in the minute after a stop."
+    fields:
+      - {key: reentry_max, label: "Re-entries allowed per setup", kind: number, suggest: 1}
+      - {key: reentry_size, label: "Size relative to the first attempt, in percent", kind: number, suggest: 100}
+      - {key: reentry_condition, label: "The condition that must still be true", kind: text}
+    note: "This line joins your playbook sheet and applies to every card on it."

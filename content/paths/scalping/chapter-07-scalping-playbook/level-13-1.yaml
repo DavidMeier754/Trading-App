@@ -1,0 +1,146 @@
+id: "13-1"
+title: "Mixed Drill II"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [mixed, drill, recognition, playbook]
+learning_goal: "User sorts an unseen chart into one of the eight cards or into none, and can say which single feature makes a near miss a near miss."
+purpose: "Eight cards is more than anyone recognises one at a time, and a session hands them over shuffled and unlabelled."
+terms_introduced: []
+reinforces: [4, 5]
+prerequisite: "12-3"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Volman — Understanding Price Action"]
+notes: "Eight-card deck: four cards and four near misses, one per feature. Account named at $24,000."
+screens:
+  - type: intro
+    text: "Eight charts in a row. Four are a card and four borrow one feature from one."
+
+  - type: story
+    character: retail-trader
+    text: "Two names on the screen, levels drawn before the open, and eight cards on the sheet beside you. The read runs the same way it always did."
+
+  - type: swipe-deck
+    prompt: "One of the eight, or none of them?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[19.60, 19.78, 19.58, 19.74], [19.74, 19.90, 19.72, 19.86], [19.86, 19.88, 19.74, 19.76], [19.76, 19.80, 19.68, 19.70], [19.70, 19.74, 19.66, 19.72], [19.72, 19.86, 19.70, 19.84], [19.84, 19.98, 19.82, 19.96], [19.96, 20.08, 19.92, 20.04]]
+          levels: [{price: 19.60, label: "Opening price"}]
+          volume: [428000, 246000, 132000, 98000, 76000, 184000, 162000, 148000]
+        answer: take
+        note: "A gap that has never traded back at its first print and a pullback that got quieter. Card F."
+      - chart:
+          kind: candles
+          data: [[16.24, 16.38, 16.22, 16.36], [16.36, 16.44, 16.32, 16.40], [16.40, 16.44, 16.34, 16.38], [16.38, 16.42, 16.32, 16.36], [16.36, 16.44, 16.34, 16.42], [16.42, 16.50, 16.40, 16.48], [16.48, 16.50, 16.36, 16.38], [16.38, 16.42, 16.28, 16.32]]
+          levels: [{price: 16.44, label: "Opening-range high"}]
+          volume: [156000, 118000, 84000, 72000, 66000, 58000, 124000, 108000]
+        answer: pass
+        note: "The close above the box arrived on the quietest minute of the session and was back inside the next one. Card B needs somebody to pay for it."
+      - chart:
+          kind: candles
+          data: [[22.44, 22.58, 22.40, 22.54], [22.54, 22.68, 22.52, 22.60], [22.60, 22.68, 22.50, 22.54], [22.54, 22.62, 22.48, 22.58], [22.58, 22.68, 22.56, 22.62], [22.62, 22.70, 22.54, 22.58], [22.58, 22.62, 22.46, 22.48], [22.48, 22.54, 22.40, 22.44]]
+          levels: [{price: 22.68, label: "Range ceiling"}, {price: 22.40, label: "Range floor"}]
+          volume: [104000, 118000, 96000, 88000, 92000, 86000, 102000, 94000]
+        answer: take
+        note: "Third refusal at the same ceiling on less volume each time, then a close back inside. Card G."
+      - chart:
+          kind: candles
+          data: [[13.20, 13.28, 13.18, 13.26], [13.26, 13.52, 13.24, 13.50], [13.50, 13.54, 13.30, 13.32], [13.32, 13.38, 13.26, 13.28], [13.28, 13.36, 13.24, 13.34], [13.34, 13.38, 13.26, 13.30], [13.30, 13.34, 13.20, 13.22], [13.22, 13.28, 13.16, 13.20]]
+          volume: [92000, 186000, 164000, 118000, 96000, 88000, 104000, 98000]
+        answer: pass
+        note: "A thirty-six-cent leg with thirty of it handed back, on volume that stayed heavy. That is unwinding, not a pause."
+      - chart:
+          kind: candles
+          data: [[24.86, 24.94, 24.80, 24.84], [24.84, 24.88, 24.74, 24.76], [24.76, 24.80, 24.68, 24.70], [24.70, 24.74, 24.64, 24.66], [24.66, 24.70, 24.62, 24.64], [24.64, 24.76, 24.62, 24.74], [24.74, 24.86, 24.72, 24.84], [24.84, 24.96, 24.82, 24.94]]
+          vwap: [24.62, 24.62, 24.63, 24.63, 24.63, 24.63, 24.64, 24.65]
+          volume: [96000, 84000, 72000, 58000, 48000, 138000, 122000, 112000]
+        answer: take
+        note: "Above the line all session, the first trip back to it, and a reclaim close on three times the volume of the drift. Card A."
+      - chart:
+          kind: candles
+          data: [[15.86, 15.90, 15.74, 15.76], [15.76, 15.80, 15.66, 15.68], [15.68, 15.78, 15.66, 15.76], [15.76, 15.86, 15.74, 15.84], [15.84, 15.92, 15.82, 15.90], [15.90, 15.96, 15.86, 15.94], [15.94, 15.98, 15.88, 15.92], [15.92, 15.96, 15.84, 15.86]]
+          vwap: [16.06, 16.04, 16.02, 16.00, 15.99, 15.98, 15.97, 15.96]
+          volume: [124000, 108000, 92000, 104000, 96000, 88000, 82000, 76000]
+        answer: pass
+        note: "Under the line since the open and climbing into it. That is the seller's side of card A, and it is not on your sheet."
+      - chart:
+          kind: candles
+          data: [[17.34, 17.48, 17.32, 17.46], [17.46, 17.62, 17.44, 17.60], [17.60, 17.76, 17.58, 17.74], [17.74, 17.88, 17.72, 17.86], [17.86, 18.02, 17.84, 18.00], [18.00, 18.06, 17.86, 17.88], [17.88, 17.92, 17.76, 17.78], [17.78, 17.82, 17.66, 17.70]]
+          levels: [{price: 18.00, label: "Yesterday's high"}]
+          volume: [86000, 104000, 128000, 156000, 182000, 214000, 138000, 118000]
+        answer: take
+        note: "Five straight pushes into yesterday's high, then the biggest bar of the run wicked through and closed back under. Card D, at half size."
+      - chart:
+          kind: candles
+          data: [[12.96, 13.02, 12.94, 13.00], [13.00, 13.04, 12.96, 12.98], [12.98, 13.04, 12.96, 13.02], [13.02, 13.06, 12.98, 13.00], [13.00, 13.04, 12.96, 12.98], [12.98, 13.02, 12.94, 13.00], [13.00, 13.04, 12.98, 13.02], [13.02, 13.06, 12.98, 13.00]]
+          levels: [{price: 13.00, label: "Round number"}]
+          volume: [42000, 38000, 34000, 36000, 32000, 30000, 33000, 31000]
+        answer: pass
+        note: "A marked price with nothing happening at it, on the lightest volume of the session. A level is not a trigger."
+    explanation: "Four cards across four different pages of the sheet, and four charts that each borrow one feature from a card without being it."
+
+  - type: chart-decision
+    scenario: "LRK has held above VWAP since the open and eases back to the line at $20.44 over the three quietest minutes of the hour. This minute closes at $20.52 on the heaviest bar since the pullback began. High of day $20.86. You have 1,100 shares ready and a $24,000 account."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[20.78, 20.86, 20.72, 20.74], [20.74, 20.78, 20.62, 20.64], [20.64, 20.68, 20.54, 20.56], [20.56, 20.60, 20.48, 20.50], [20.50, 20.52, 20.42, 20.44], [20.44, 20.54, 20.42, 20.52], [20.52, 20.62, 20.50, 20.60], [20.60, 20.70, 20.58, 20.68], [20.68, 20.78, 20.66, 20.76], [20.76, 20.86, 20.74, 20.81]]
+      vwap: [20.46, 20.45, 20.45, 20.44, 20.44, 20.44, 20.45, 20.46, 20.47, 20.48]
+      volume: [92000, 78000, 64000, 52000, 44000, 128000, 114000, 104000, 96000, 88000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It came back to the high of day and you took it at $20.81 — $0.29 per share, +$319 long on 1,100 shares from $20.52."
+    explanation: "Card A: the line held on the quietest minutes of the hour and the reclaim close arrived on nearly three times that volume. Stop $20.40, two cents under it."
+
+  - type: sort
+    prompt: "A card, or one feature short of one?"
+    buckets: ["A card", "A near miss"]
+    items:
+      - {text: "A close beyond the opening range on the heaviest bar of the morning", bucket: "A card"}
+      - {text: "A close beyond the opening range on the lightest bar of the morning", bucket: "A near miss"}
+      - {text: "A break of a marked low on the quietest minute, then a heavy close back inside", bucket: "A card"}
+      - {text: "A break of a marked low on the heaviest minute, then a quiet close back inside", bucket: "A near miss"}
+    explanation: "Same two shapes, and the volume is the only thing that moves them from one bucket to the other."
+
+  - type: chart-decision
+    scenario: "WSP pushed 42 cents in three minutes with no level anywhere near it, then handed back 30 of them on volume as heavy as the push. This minute closes at $18.42. You have 1,300 shares ready."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[18.28, 18.38, 18.26, 18.36], [18.36, 18.54, 18.34, 18.52], [18.52, 18.68, 18.50, 18.66], [18.66, 18.68, 18.48, 18.50], [18.50, 18.54, 18.40, 18.42], [18.42, 18.48, 18.38, 18.42], [18.42, 18.46, 18.32, 18.34], [18.34, 18.38, 18.24, 18.26], [18.26, 18.34, 18.22, 18.30], [18.30, 18.36, 18.24, 18.28]]
+      volume: [96000, 168000, 192000, 174000, 156000, 148000, 132000, 124000, 108000, 96000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It drifted between $18.22 and $18.46 for another twenty minutes. A 1,300-share long from $18.42 was never more than $52 up."
+    explanation: "Card C wants a shallow pause on falling volume. Three quarters of the leg back, with the volume still heavy, is the leg being taken apart."
+
+  - type: compare
+    prompt: "Two gaps at the same point in the morning. Which one is card F?"
+    charts:
+      - kind: candles
+        data: [[11.80, 11.96, 11.78, 11.92], [11.92, 12.04, 11.88, 12.00], [12.00, 12.06, 11.94, 11.98], [11.98, 12.02, 11.90, 11.94], [11.94, 12.06, 11.92, 12.04], [12.04, 12.18, 12.02, 12.16], [12.16, 12.28, 12.12, 12.24], [12.24, 12.34, 12.20, 12.30]]
+        levels: [{price: 11.80, label: "Opening price"}]
+        label: "A"
+      - kind: candles
+        data: [[26.40, 26.48, 26.18, 26.22], [26.22, 26.28, 26.04, 26.08], [26.08, 26.22, 26.06, 26.18], [26.18, 26.30, 26.14, 26.26], [26.26, 26.36, 26.22, 26.30], [26.30, 26.34, 26.16, 26.20], [26.20, 26.24, 26.06, 26.10], [26.10, 26.16, 25.98, 26.02]]
+        levels: [{price: 26.40, label: "Opening price"}]
+        label: "B"
+    answer: "A"
+    explanation: "A has not printed one close under its first price. B lost that price on the opening minute, and every rally since is somebody getting out at a better one."
+
+  - type: numeric-mc
+    prompt: "The card-A long again: 1,100 shares from $20.52, stop $20.40, out at $20.81. What did it make in R?"
+    options:
+      - {text: "About 0.4R"}
+      - {text: "About 1.4R"}
+      - {text: "About 3.4R"}
+      - {text: "About 2.4R", correct: true}
+    working: "$20.52 − $20.40 = $0.12; $20.81 − $20.52 = $0.29; $0.29 ÷ $0.12 = 2.4"
+    explanation: "Twelve cents of risk and twenty-nine of reward. The narrow stop is what the quiet pullback bought you."
+
+  - type: example
+    body: "Eight charts, four cards and four near misses. The near misses are the more useful half: the cards are what you take, and everything else is what the session is mostly made of."

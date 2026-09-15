@@ -1,0 +1,109 @@
+id: "11-1"
+title: "Setup G — Range Rotation"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [range, rotation, setup-g, playbook]
+learning_goal: "User can mark the two edges of an established band, take the first close back inside one of them, and target the middle rather than a new extreme."
+purpose: "Most sessions spend most of their hours going nowhere, and a playbook with no card for that is a playbook that only works two mornings a week."
+terms_introduced: ["Range rotation"]
+reinforces: [5]
+prerequisite: "10-3"
+xp: 20
+difficulty: 2
+sources: ["Raschke & Connors — Street Smarts", "Volman — Understanding Price Action"]
+notes: "Seventh card. The day type from Chapter 5 is the permission slip; 11-2 makes the trend-day veto explicit."
+screens:
+  - type: intro
+    text: "Card seven, for the sessions that keep arriving back where they started."
+
+  - type: story
+    character: retail-trader
+    text: "An hour into the session and the stock has been to the same two prices three times. Nothing has broken and nothing is going anywhere."
+
+  - type: theory
+    title: "Range rotation"
+    body: "A range rotation is the trip from one edge of an established band to the other. You take it at an edge that has already refused price, against the push that just failed there."
+
+  - type: theory
+    title: "Why the edges hold"
+    body: "An edge holds because somebody sizeable is working an order there. Every time price arrives and leaves again, that order announces itself to everyone watching, and more of them lean on it."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[24.52, 24.66, 24.48, 24.62], [24.62, 24.78, 24.60, 24.74], [24.74, 24.86, 24.70, 24.80], [24.80, 24.84, 24.70, 24.74], [24.74, 24.86, 24.72, 24.82], [24.82, 24.88, 24.74, 24.78], [24.78, 24.80, 24.66, 24.68], [24.68, 24.72, 24.58, 24.60]]
+      volume: [92000, 108000, 124000, 76000, 96000, 88000, 74000, 82000]
+      levels:
+        - {price: 24.86, label: "Range ceiling"}
+        - {price: 24.44, label: "Range floor"}
+    caption: "Three arrivals at the same ceiling, each on less volume than the last, and each one finishing lower than it reached."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price that stopped the last two pushes."
+    chart:
+      kind: candles
+      data: [[13.44, 13.58, 13.40, 13.52], [13.52, 13.70, 13.50, 13.56], [13.56, 13.62, 13.44, 13.48], [13.48, 13.54, 13.38, 13.42], [13.42, 13.56, 13.40, 13.52], [13.52, 13.70, 13.50, 13.58], [13.58, 13.64, 13.46, 13.50], [13.50, 13.56, 13.40, 13.44], [13.44, 13.58, 13.42, 13.54], [13.54, 13.62, 13.48, 13.52]]
+      volume: [128000, 164000, 96000, 84000, 92000, 158000, 88000, 76000, 94000, 86000]
+    answer: 13.70
+    tolerance: 0.04
+    label: "Range ceiling"
+    explanation: "Two pushes reached $13.70 and neither one closed anywhere near it. That is the price the card is written against."
+
+  - type: theory
+    title: "The card"
+    body: "Entry: the first minute that closes back inside the edge. Stop: two cents beyond that push's extreme. Target: the middle of the band, and the far edge only while the day keeps rotating."
+
+  - type: mc
+    prompt: "The 5-minute chart has been stepping higher all session and price is now at the top of the last twenty minutes' band. What does that do to this card?"
+    options:
+      - {text: "It takes the card off the table", correct: true}
+      - {text: "Nothing, the band still has two edges"}
+      - {text: "It doubles the target, because a range inside a trend travels further"}
+    explanation: "The permission for this card is the shape of the day, not the shape of the last twenty minutes. On a session still making new highs, the edge you would be fading is the one about to go."
+
+  - type: chart-decision
+    scenario: "MDX has crossed the same two prices three times this hour: $24.86 at the top, $24.44 at the floor, with VWAP running flat between them. This minute pokes to $24.88 and closes back inside at $24.78. You have 900 shares ready and a $24,000 account."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[24.52, 24.66, 24.48, 24.62], [24.62, 24.78, 24.60, 24.74], [24.74, 24.86, 24.70, 24.80], [24.80, 24.84, 24.70, 24.74], [24.74, 24.86, 24.72, 24.82], [24.82, 24.88, 24.74, 24.78], [24.78, 24.80, 24.66, 24.68], [24.68, 24.72, 24.58, 24.60], [24.60, 24.64, 24.50, 24.54], [24.54, 24.58, 24.44, 24.48], [24.48, 24.56, 24.46, 24.52]]
+      vwap: [24.64, 24.64, 24.65, 24.65, 24.65, 24.65, 24.65, 24.65, 24.64, 24.64, 24.64]
+      volume: [92000, 108000, 124000, 76000, 96000, 88000, 74000, 82000, 94000, 102000, 86000]
+      levels:
+        - {price: 24.86, label: "Range ceiling"}
+        - {price: 24.44, label: "Range floor"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It rotated all the way back through the middle. Covered at $24.54 — $0.24 per share, +$216 short on 900 shares from $24.78."
+    explanation: "Third refusal at the same price, a close back inside, and a stop two cents above the poke at $24.90. Twelve cents of risk to reach a middle that is thirteen away."
+
+  - type: numeric-mc
+    prompt: "That short: 900 shares from $24.78 with the stop at $24.90. What does the stop have at risk?"
+    options:
+      - {text: "$216"}
+      - {text: "$1,080"}
+      - {text: "$108", correct: true}
+      - {text: "$132"}
+    working: "$24.90 − $24.78 = $0.12; $0.12 × 900 = $108"
+    explanation: "Twelve cents on nine hundred shares. The narrow stop is the whole reason a thirteen-cent target is worth taking at all."
+
+  - type: tf
+    statement: "This card is taken at an edge that is still holding, before anything has broken."
+    answer: true
+    explanation: "Card E waits for a break that failed. This one never lets the break happen, and that difference decides which of the two you are in."
+
+  - type: match
+    prompt: "Card G has five lines. Match each one to what it actually says."
+    pairs:
+      - ["Context", "A session that has crossed the same two prices more than twice"]
+      - ["Entry", "The first minute that closes back inside the edge"]
+      - ["Stop", "Two cents beyond the extreme of that push"]
+      - ["Target", "The middle of the band, and the far edge while the day keeps rotating"]
+      - ["Invalidation", "A close outside the edge on the heaviest volume of the session"]
+    explanation: "The last line is the one that saves you: a close outside on real volume is a breakout, and a breakout is somebody else's card."
+
+  - type: example
+    body: "Six rotations in a session sounds like six trades. In practice two of them are worth the spread: the ones where the edge had already refused twice and the middle was still twenty cents away."

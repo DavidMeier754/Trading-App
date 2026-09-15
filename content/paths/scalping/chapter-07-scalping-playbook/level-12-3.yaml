@@ -1,0 +1,127 @@
+id: "12-3"
+title: "Setup H — The Re-Entry"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [re-entry, limits, drill, setup-h]
+learning_goal: "User stops taking a card after its second stop-out, reads the session's remaining budget before the chart, and knows what a hurried fill costs in the book."
+purpose: "The third attempt is where a bad morning becomes a bad month, and it is always the one that feels most deserved."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "12-2"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Steenbarger — The Daily Trading Coach"]
+notes: "Closes level 12 on the session arithmetic. Account named at $24,000; one R is $196 throughout."
+screens:
+  - type: intro
+    text: "The re-entry stopped out too. This is the minute the card was written for."
+
+  - type: theory
+    title: "When the second one fails as well"
+    body: "Two stops on the same card is the chart saying your read of it was not as clean as it looked. The card is finished for the session, and so is the stock as far as today goes."
+
+  - type: chart-decision
+    scenario: "You have been stopped out of this card twice this morning. The level is still there and a third trigger has just closed at $16.74. You have 1,400 shares ready and a $24,000 account."
+    shares: 1400
+    state: ["Day: −2R", "Limit: 3R", "Trades: 4"]
+    chart:
+      kind: candles
+      data: [[16.86, 16.90, 16.72, 16.76], [16.76, 16.80, 16.64, 16.68], [16.68, 16.78, 16.66, 16.74], [16.74, 16.78, 16.64, 16.66], [16.66, 16.72, 16.62, 16.70], [16.70, 16.78, 16.66, 16.74], [16.74, 16.76, 16.62, 16.64], [16.64, 16.68, 16.54, 16.56], [16.56, 16.62, 16.50, 16.58], [16.58, 16.66, 16.54, 16.62]]
+      volume: [148000, 126000, 104000, 88000, 82000, 118000, 96000, 134000, 92000, 86000]
+      levels:
+        - {price: 16.62, label: "Marked level"}
+      decision_index: 5
+    best: no-trade
+    outcome: "It stopped out a third time at $16.60 — $0.14 against 1,400 shares, $196, which would have finished the day exactly on the limit."
+    explanation: "The chart is not the deciding input here. Two thirds of the day's room is gone and this card has already been wrong twice on it."
+
+  - type: visual
+    component: r-tracker
+    data:
+      trades: [-1, -1, 0.5, -0.5]
+      limit: 3
+    caption: "Four trades, two of them the same card twice. Two thirds of the day's room spent before the third attempt is even considered."
+
+  - type: numeric-input
+    prompt: "One R on this card is $196 and your limit is 3R. You are down 2R and the third attempt would risk another $196. What would the day stand at in dollars if it stopped out?"
+    answer: 588
+    tolerance: 0.5
+    unit: "$"
+    working: "2 × $196 = $392 already spent; $392 + $196 = $588, and 3 × $196 = $588"
+    explanation: "The third attempt is not one trade among several. It is the whole session resting on a card that has been wrong twice."
+
+  - type: swipe-deck
+    prompt: "Each of these stopped you out once. Go back in, or let it go?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[17.44, 17.48, 17.32, 17.36], [17.36, 17.40, 17.26, 17.30], [17.30, 17.38, 17.28, 17.36], [17.36, 17.42, 17.32, 17.38], [17.38, 17.42, 17.30, 17.34], [17.34, 17.46, 17.32, 17.44], [17.44, 17.56, 17.42, 17.54], [17.54, 17.64, 17.50, 17.60]]
+          levels: [{price: 17.26, label: "Marked level"}]
+          volume: [118000, 146000, 88000, 76000, 84000, 168000, 152000, 138000]
+        answer: take
+        note: "The level held after the stop and a new minute closed up on the heaviest volume since. Context, trigger, and the budget to pay for it."
+      - chart:
+          kind: candles
+          data: [[20.62, 20.66, 20.48, 20.50], [20.50, 20.54, 20.36, 20.38], [20.38, 20.42, 20.24, 20.26], [20.26, 20.34, 20.22, 20.30], [20.30, 20.38, 20.26, 20.34], [20.34, 20.40, 20.28, 20.32], [20.32, 20.36, 20.20, 20.22], [20.22, 20.28, 20.12, 20.16]]
+          levels: [{price: 20.48, label: "Marked level"}]
+          volume: [134000, 158000, 142000, 96000, 88000, 82000, 124000, 116000]
+        answer: pass
+        note: "The level that made the card is twenty cents overhead now. There is nothing left to re-enter."
+      - chart:
+          kind: candles
+          data: [[13.18, 13.24, 13.06, 13.08], [13.08, 13.12, 12.98, 13.02], [13.02, 13.14, 13.00, 13.12], [13.12, 13.18, 13.08, 13.14], [13.14, 13.18, 13.06, 13.10], [13.10, 13.22, 13.08, 13.20], [13.20, 13.32, 13.18, 13.30], [13.30, 13.40, 13.26, 13.36]]
+          levels: [{price: 12.98, label: "Marked level"}]
+          volume: [126000, 154000, 92000, 80000, 86000, 176000, 158000, 144000]
+        answer: take
+        note: "Stopped by a cent, the level never gave way, and the new close arrived on twice the volume of the drift."
+      - chart:
+          kind: candles
+          data: [[15.86, 15.92, 15.74, 15.76], [15.76, 15.80, 15.62, 15.66], [15.66, 15.74, 15.62, 15.70], [15.70, 15.78, 15.66, 15.74], [15.74, 15.82, 15.70, 15.78], [15.78, 15.86, 15.74, 15.82], [15.82, 15.88, 15.76, 15.80], [15.80, 15.86, 15.72, 15.76]]
+          levels: [{price: 15.62, label: "Marked level"}]
+          volume: [142000, 168000, 104000, 96000, 88000, 82000, 76000, 70000]
+        answer: pass
+        note: "The level held, but the volume has fallen away on every minute since. Nobody is arriving to pay for the second attempt."
+    explanation: "Two of these are the card and two are a chart that merely looks familiar. The level surviving is necessary; it is not sufficient."
+
+  - type: mc
+    prompt: "Your first two attempts at the same card both stopped out. What does the second stop-out most often tell you?"
+    options:
+      - {text: "The card's context was never as clean as you read it", correct: true}
+      - {text: "The third attempt has better odds, because two have cleared the sellers"}
+      - {text: "The stop is too tight and should be widened on the next attempt"}
+    explanation: "Two stops is evidence about the read, and the cheapest response to evidence is to stop paying for the same one."
+
+  - type: depth-ladder
+    prompt: "In a hurry to get back in, you send a market order for 1,500 shares. Where does the last share fill?"
+    data:
+      bids: [[14.28, 900], [14.27, 1400], [14.26, 2600]]
+      asks: [[14.30, 500], [14.31, 700], [14.32, 2100]]
+    target: ask-3
+    explanation: "Five hundred at the first price, seven hundred at the second, and the last three hundred pay two cents more than the first five hundred did."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The card stopped out twice and the context is still there,"}
+      - {text: "so you take the third attempt at half size"}
+      - {text: "and move the limit to 4R for the rest of the day.", wrong: true}
+    explanation: "Half size is at least an argument. Moving the limit is not an answer to anything, and a limit moved once stops being a limit."
+
+  - type: slider
+    prompt: "Your limit is 3R and you are down 2R. How much of the day's room is gone?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 65
+    tolerance: 10
+    explanation: "Two thirds. What matters is not what is lost but what is left: one attempt, at the card's size, on a card you still believe in."
+
+  - type: recap
+    title: "Level 12 in three lines"
+    points:
+      - {text: "A re-entry is the same trade again, never a bigger one.", level: "12-1"}
+      - {text: "The failed trigger does not get a second vote; a new close does.", level: "12-2"}
+      - {text: "What is left of the budget decides before the chart gets a say.", level: "12-3"}

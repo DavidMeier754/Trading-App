@@ -1,0 +1,113 @@
+id: "12-2"
+title: "Setup H — The Re-Entry"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [re-entry, sizing, management, setup-h]
+learning_goal: "User manages a stop-out into a re-entry step by step, sizes the second attempt from what is left of the budget, and drops the card when the context has gone with the first stop."
+purpose: "The minute after a stop is the one where every rule gets rewritten, so the rules have to be arithmetic rather than resolve."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "12-1"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — One Good Trade", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "The branch is the heart of this sub. One R is $210 throughout; account named at $26,000."
+screens:
+  - type: intro
+    text: "The stop fills. Three decisions happen in the next four minutes."
+
+  - type: story
+    character: retail-trader
+    text: "You are long HLX and the level you entered against is two cents below you. The next minute decides whether this is a card or a story you tell later."
+
+  - type: theory
+    title: "Same size, or less"
+    body: "The second attempt is never bigger than the first. One R is already gone, so a bigger second attempt puts more at risk on the read that has already been wrong once."
+
+  - type: branch
+    scenario: "You are long 1,500 shares of HLX from $14.28 with the stop at $14.14. One R is $210, your limit is 3R, and the day is otherwise flat."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[14.34, 14.38, 14.24, 14.28], [14.28, 14.32, 14.22, 14.26], [14.26, 14.30, 14.20, 14.24], [14.24, 14.28, 14.15, 14.18], [14.18, 14.22, 14.12, 14.16], [14.16, 14.24, 14.14, 14.22], [14.22, 14.34, 14.20, 14.30], [14.30, 14.42, 14.28, 14.40], [14.40, 14.50, 14.36, 14.46], [14.46, 14.56, 14.42, 14.52]]
+      volume: [96000, 84000, 78000, 112000, 138000, 92000, 196000, 172000, 154000, 142000]
+      decision_index: 5
+    steps:
+      - prompt: "Price trades down to $14.15, holds a minute, and closes at $14.18. What now?"
+        options:
+          - {text: "Leave the stop where the card put it", correct: true, next: 1}
+          - {text: "Drop the stop two cents to give it room", next: 1}
+        explanation: "A stop moved once is a stop you will move again. The card chose $14.14 while nothing was at stake, which is the only time that choice is clean."
+      - prompt: "The next minute takes out $14.14 and you are flat, down 1R. The level you entered against is still holding. What now?"
+        options:
+          - {text: "Wait for a new minute to close back up", correct: true, next: 2}
+          - {text: "Buy it straight back at $14.13, before it gets away"}
+        explanation: "Buying back inside the same minute is the failed trigger voting twice. A close is what turns a stop-out into a re-entry."
+      - prompt: "Two minutes later a candle closes at $14.30 on the heaviest volume since your stop, and $420 of the day's $630 is left. What size?"
+        options:
+          - {text: "1,500 shares again, with the stop still fourteen cents away", correct: true}
+          - {text: "3,000 shares, because one good fill gets the unit back"}
+        explanation: "Fourteen cents on 1,500 shares risks $210, and $420 is left. The budget allows the card's size, so the card's size is what you take."
+
+  - type: order-build
+    prompt: "That re-entry: 1,500 shares long, capped two cents over the ask of $14.31."
+    ticker: HLX
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [750, 1500, 3000]
+      price: [14.29, 14.31, 14.33]
+    answer: {side: buy, type: limit, qty: 1500, price: 14.33}
+    explanation: "A limit at the ask plus two takes the offer now and decides in advance how far the fill may run away from you."
+
+  - type: numeric-mc
+    prompt: "Your 1R is $210 and your limit is 3R. You are down 1R, and the re-entry's stop is 21 cents away. What is the biggest size the remaining budget allows?"
+    options:
+      - {text: "1,000 shares"}
+      - {text: "2,000 shares", correct: true}
+      - {text: "3,000 shares"}
+      - {text: "1,500 shares"}
+    working: "$630 − $210 = $420 left; $420 ÷ $0.21 = 2,000 shares"
+    explanation: "The budget allows 2,000 and the card caps you at the first attempt's size. The smaller of the two wins, every time."
+
+  - type: chart-decision
+    scenario: "You were stopped out of a long at KVN's opening-range high. Price has since closed under VWAP and under the box, and this minute bounces to $21.46. You have 1,200 shares ready and a $26,000 account."
+    shares: 1200
+    state: ["Day: −1R", "Limit: 3R", "Trades: 1"]
+    chart:
+      kind: candles
+      data: [[21.86, 21.92, 21.74, 21.78], [21.78, 21.82, 21.62, 21.66], [21.66, 21.70, 21.50, 21.54], [21.54, 21.58, 21.40, 21.44], [21.44, 21.48, 21.34, 21.38], [21.38, 21.50, 21.36, 21.46], [21.46, 21.50, 21.32, 21.34], [21.34, 21.38, 21.20, 21.24], [21.24, 21.28, 21.10, 21.14], [21.14, 21.20, 21.02, 21.06]]
+      vwap: [21.80, 21.78, 21.74, 21.70, 21.66, 21.62, 21.58, 21.54, 21.50, 21.46]
+      volume: [142000, 128000, 156000, 138000, 112000, 96000, 124000, 142000, 136000, 118000]
+      levels:
+        - {price: 21.90, label: "Opening-range high"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It kept going and traded at $21.06 — $0.40 against a 1,200-share long from $21.46, $480."
+    explanation: "The first condition is gone: price is under the box and under the line, so the card that stopped you out no longer exists to re-enter."
+
+  - type: tf
+    statement: "Once the context that made the card is gone, there is no re-entry left to take."
+    answer: true
+    explanation: "A re-entry is the same trade a second time. Without its first line it is a different trade wearing the card's name."
+
+  - type: match
+    prompt: "Four things get checked before a second attempt. Match each to the question it answers."
+    pairs:
+      - ["The context", "Is the card's first line still on the chart?"]
+      - ["The trigger", "Has a new minute done the job?"]
+      - ["The budget", "Can what is left of the day pay for this size?"]
+      - ["The size", "Is it the first attempt's, or smaller?"]
+    explanation: "Four questions, all of them answerable in about five seconds, and all four have to come back yes."
+
+  - type: fill-tiles
+    sentence: "Going back in bigger than the first attempt is not a re-entry, it is ___."
+    answer: "revenge"
+    explanation: "The size is the tell. Nothing on the chart asked you to double, so something else did."
+
+  - type: example
+    body: "Two attempts, fourteen cents of risk each. The first stopped out and the second paid 2.5R. Net for the morning: up 1.5R on a setup that was wrong the first time you took it."

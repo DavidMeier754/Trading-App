@@ -1,0 +1,112 @@
+id: "10-1"
+title: "Setup F — Gap-and-Go Continuation"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [gap, continuation, setup-f, playbook]
+learning_goal: "User can tell a gap that is being held from one that is being sold, and take the first quiet pullback above the session's first print with a stop under it."
+purpose: "A gap is the loudest thing on the chart at the open, and without a card the learner either buys it blind or watches the whole move from the sidelines."
+terms_introduced: ["Gap-and-go"]
+reinforces: [2, 5]
+prerequisite: "9-1"
+xp: 20
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
+notes: "Sixth card. The opening price as the line comes from Chapter 2; the scanner row is Chapter 5's selection test in playbook clothes. 10-2 adds extension, 10-3 drills both directions."
+screens:
+  - type: intro
+    text: "Card six: the morning that starts somewhere else and keeps going."
+
+  - type: story
+    character: retail-trader
+    text: "The bell goes and XYZ is already ninety cents above where it finished yesterday. Nothing on your chart from yesterday is where you left it."
+
+  - type: theory
+    title: "Gap-and-go"
+    body: "A gap-and-go is a gap that the session keeps paying for. Price opens away from yesterday, holds above the first print of the day, and continues in the gap's direction after a pause."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[17.40, 17.52, 17.38, 17.50], [17.50, 17.66, 17.48, 17.64], [17.64, 17.78, 17.62, 17.76], [17.76, 17.78, 17.62, 17.64], [17.64, 17.66, 17.54, 17.56], [17.56, 17.68, 17.55, 17.66], [17.66, 17.80, 17.64, 17.78], [17.78, 17.90, 17.76, 17.88]]
+      volume: [386000, 248000, 212000, 96000, 74000, 168000, 152000, 138000]
+      levels:
+        - {price: 17.40, label: "Opening price"}
+    caption: "Three pushes, a pause that traded a third of the volume, and not one minute back at the first print."
+
+  - type: mc
+    prompt: "XYZ gapped up and has spent twenty minutes above the first price of the session. What does holding above that price tell you?"
+    options:
+      - {text: "The gap has to fill back to yesterday's close"}
+      - {text: "Everyone who paid for the gap is still ahead", correct: true}
+      - {text: "Yesterday's high and low no longer apply to this chart"}
+    explanation: "The first print is the line the whole session shares. Above it, the traders who paid for the gap have no reason to hurry out of it."
+
+  - type: theory
+    title: "The card"
+    body: "Context: a gap with a reason and the volume to match, holding above the first print. Entry: the first minute that closes back up out of a quiet pullback. Stop: two cents under that pullback's low."
+
+  - type: scanner-pick
+    prompt: "Three gaps this morning. Which one can this card even be written on?"
+    data:
+      rows:
+        - {ticker: XYZ, price: 17.40, change_pct: 7.4, rvol: 5.2, float: "18M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: KRN, price: 24.80, change_pct: 6.8, rvol: 1.1, float: "410M", spread: 0.09, catalyst: "—"}
+        - {ticker: BLT, price: 11.20, change_pct: 8.1, rvol: 4.6, float: "3M", spread: 0.14, catalyst: "Offering"}
+    target: XYZ
+    explanation: "KRN has the gap but is trading a normal day's volume, so nobody is paying for it. BLT has a three-million float and a fourteen-cent spread, which your stop cannot afford."
+
+  - type: chart-decision
+    scenario: "XYZ gapped to $17.40 on earnings and ran to $17.78. It has eased back over two minutes to $17.56 on a third of the volume of the push, and this minute closes at $17.66. The pre-market high is $18.00. You have 1,500 shares ready and a $30,000 account."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[17.40, 17.52, 17.38, 17.50], [17.50, 17.66, 17.48, 17.64], [17.64, 17.78, 17.62, 17.76], [17.76, 17.78, 17.62, 17.64], [17.64, 17.66, 17.54, 17.56], [17.56, 17.68, 17.55, 17.66], [17.66, 17.80, 17.64, 17.78], [17.78, 17.90, 17.76, 17.88], [17.88, 18.00, 17.86, 17.98], [17.98, 18.04, 17.94, 17.99]]
+      volume: [386000, 248000, 212000, 96000, 74000, 168000, 152000, 138000, 124000, 110000]
+      levels:
+        - {price: 17.40, label: "Opening price"}
+        - {price: 18.00, label: "Pre-market high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried through to the pre-market high and you took it at $17.99 — $0.33 per share, +$495 long on 1,500 shares from $17.66."
+    explanation: "The pullback stopped twenty-six cents above the first print and traded a third of the push's volume, and the close back up is the card's entry."
+
+  - type: numeric-input
+    prompt: "Your risk budget is $210 a trade, the stop sits $0.14 under the entry at $17.66, and your account is $30,000. How many shares does the card allow?"
+    answer: 1500
+    tolerance: 1
+    unit: "shares"
+    working: "$210 ÷ $0.14 = 1,500 shares; $30,000 ÷ $17.66 = 1,699 shares, so the budget is the tighter of the two"
+    explanation: "Both ceilings get checked every time. Here the risk budget binds first, and the account has room to spare."
+
+  - type: tf
+    statement: "A gap that opens above yesterday's high is already too extended to trade."
+    answer: false
+    explanation: "Most gap-and-go mornings open above yesterday's high — that is what a gap of any size does. Extension is measured against what this stock normally travels, and that comes next."
+
+  - type: fill-choice
+    sentence: "The card is finished the minute price closes back under the ___ price."
+    options: ["opening", "average", "target"]
+    answer: "opening"
+    explanation: "Below the first print, everyone who bought the gap is losing, and their exits are what you would be holding against."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price this card measures everything against."
+    chart:
+      kind: candles
+      data: [[13.80, 13.94, 13.78, 13.90], [13.90, 14.02, 13.86, 13.98], [13.98, 14.06, 13.90, 13.94], [13.94, 13.98, 13.82, 13.86], [13.86, 13.90, 13.80, 13.88], [13.88, 14.00, 13.86, 13.98], [13.98, 14.10, 13.96, 14.08], [14.08, 14.18, 14.04, 14.14]]
+      volume: [412000, 268000, 186000, 118000, 92000, 174000, 156000, 142000]
+    answer: 13.80
+    tolerance: 0.04
+    label: "Opening price"
+    explanation: "The session's first print, which the pullback came down to and stopped on. Every other level on this chart belongs to yesterday."
+
+  - type: checklist-reveal
+    title: "Card F, in four lines"
+    items:
+      - "A gap with a reason behind it, and the volume to match"
+      - "Every minute so far finishing above the session's first print"
+      - "A pullback that gets quieter rather than deeper"
+      - "One minute closing back up, and the stop two cents under its low"

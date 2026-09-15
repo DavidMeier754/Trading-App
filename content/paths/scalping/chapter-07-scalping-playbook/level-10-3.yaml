@@ -1,0 +1,131 @@
+id: "10-3"
+title: "Setup F — Gap-and-Go Continuation"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [gap, drill, decisions, setup-f]
+learning_goal: "User takes card F in both directions on unseen charts, passes the gaps that have lost their line or their reason, and keeps the share count tied to the stop."
+purpose: "The gap down runs the same card upside down, and a learner who has only seen it one way stands still for half the mornings it appears on."
+terms_introduced: []
+reinforces: [2, 5]
+prerequisite: "10-2"
+xp: 30
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
+notes: "Drill sub. Six-card deck, a gap-down short and a gap that failed. Account named at $26,000 and both decisions sized under it."
+screens:
+  - type: intro
+    text: "Eight charts that opened somewhere else. Four of them are the card."
+
+  - type: story
+    character: retail-trader
+    text: "Four names gapped overnight. Two have a reason behind them, one has a spread your stop cannot pay, and one is already two normal days into its run."
+
+  - type: swipe-deck
+    prompt: "Card F, or let it go?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[19.60, 19.78, 19.58, 19.74], [19.74, 19.90, 19.72, 19.86], [19.86, 19.88, 19.74, 19.76], [19.76, 19.80, 19.68, 19.70], [19.70, 19.74, 19.66, 19.72], [19.72, 19.86, 19.70, 19.84], [19.84, 19.98, 19.82, 19.96], [19.96, 20.08, 19.92, 20.04]]
+          levels: [{price: 19.60, label: "Opening price"}]
+          volume: [428000, 246000, 132000, 98000, 76000, 184000, 162000, 148000]
+        answer: take
+        note: "Never back at the first print, and a pullback that traded a quarter of the push. The card as written."
+      - chart:
+          kind: candles
+          data: [[23.20, 23.28, 22.98, 23.02], [23.02, 23.10, 22.86, 22.90], [22.90, 23.02, 22.86, 22.98], [22.98, 23.08, 22.94, 23.04], [23.04, 23.10, 22.92, 22.96], [22.96, 23.00, 22.80, 22.84], [22.84, 22.88, 22.70, 22.74], [22.74, 22.80, 22.62, 22.66]]
+          levels: [{price: 23.20, label: "Opening price"}]
+          volume: [486000, 268000, 192000, 174000, 156000, 168000, 152000, 138000]
+        answer: pass
+        note: "It lost the first print on the opening minute. Everything since is the gap buyers finding a way out."
+      - chart:
+          kind: candles
+          data: [[21.30, 21.34, 21.10, 21.14], [21.14, 21.18, 20.96, 21.00], [21.00, 21.10, 20.98, 21.06], [21.06, 21.16, 21.02, 21.12], [21.12, 21.14, 21.02, 21.04], [21.04, 21.08, 20.90, 20.92], [20.92, 20.96, 20.78, 20.80], [20.80, 20.86, 20.68, 20.72]]
+          levels: [{price: 21.30, label: "Opening price"}]
+          volume: [442000, 286000, 118000, 94000, 82000, 176000, 164000, 152000]
+        answer: take
+        note: "A gap down that never traded back at the first print, a quiet bounce into it, and a close back down. Card F, upside down."
+      - chart:
+          kind: candles
+          data: [[12.60, 12.86, 12.58, 12.84], [12.84, 13.10, 12.82, 13.08], [13.08, 13.36, 13.04, 13.32], [13.32, 13.58, 13.28, 13.54], [13.54, 13.66, 13.48, 13.56], [13.56, 13.64, 13.50, 13.58], [13.58, 13.62, 13.38, 13.40], [13.40, 13.44, 13.20, 13.24]]
+          levels: [{price: 12.60, label: "Opening price"}]
+          volume: [512000, 386000, 324000, 268000, 104000, 88000, 212000, 196000]
+        answer: pass
+        note: "A dollar of travel in a stock that covers half of one on a normal day. The quiet minutes here are the top, not the pause."
+      - chart:
+          kind: candles
+          data: [[16.80, 16.96, 16.78, 16.92], [16.92, 17.06, 16.88, 17.02], [17.02, 17.08, 16.94, 16.98], [16.98, 17.02, 16.90, 16.94], [16.94, 17.04, 16.92, 17.02], [17.02, 17.16, 17.00, 17.14], [17.14, 17.26, 17.10, 17.22], [17.22, 17.32, 17.18, 17.28]]
+          levels: [{price: 16.80, label: "Opening price"}]
+          volume: [398000, 234000, 126000, 92000, 178000, 164000, 148000, 136000]
+        answer: take
+        note: "Second pullback, twelve cents above the first print, and the close back up on twice the volume of the drift."
+      - chart:
+          kind: candles
+          data: [[15.44, 15.52, 15.40, 15.48], [15.48, 15.54, 15.42, 15.46], [15.46, 15.52, 15.40, 15.50], [15.50, 15.56, 15.44, 15.48], [15.48, 15.54, 15.42, 15.46], [15.46, 15.52, 15.40, 15.50], [15.50, 15.56, 15.44, 15.52], [15.52, 15.58, 15.46, 15.50]]
+          levels: [{price: 15.44, label: "Opening price"}]
+          volume: [62000, 48000, 41000, 38000, 36000, 34000, 37000, 33000]
+        answer: pass
+        note: "A gap with nobody behind it. Sixteen cents of range in eight minutes and the volume falling away all session."
+    explanation: "Three takes, and the three passes are the three ways the card dies: the line lost, the move already spent, and nobody trading it."
+
+  - type: chart-decision
+    scenario: "MRQ gapped down to $20.90 from yesterday's close of $22.40 on a downgrade and has not closed above that first print. It has bounced to $20.82 over three minutes on falling volume, and this minute closes at $20.68. You have 1,200 shares ready and a $26,000 account."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[20.90, 20.94, 20.72, 20.76], [20.76, 20.80, 20.60, 20.64], [20.64, 20.70, 20.54, 20.58], [20.58, 20.76, 20.56, 20.72], [20.72, 20.82, 20.70, 20.78], [20.78, 20.80, 20.66, 20.68], [20.68, 20.72, 20.56, 20.58], [20.58, 20.62, 20.46, 20.48], [20.48, 20.52, 20.38, 20.41], [20.41, 20.46, 20.32, 20.36]]
+      volume: [456000, 288000, 214000, 104000, 86000, 178000, 164000, 148000, 132000, 118000]
+      levels:
+        - {price: 20.90, label: "Opening price"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It made a new low of day and you covered at $20.36 — $0.32 per share, +$384 short on 1,200 shares from $20.68."
+    explanation: "Same card, other side: the bounce stopped eight cents under the first print on the quietest minutes, and the stop goes two cents above its high at $20.84."
+
+  - type: numeric-input
+    prompt: "That short again: 1,200 shares from $20.68, stop $20.84, covered at $20.36. What did it make, in R?"
+    answer: 2
+    tolerance: 0.1
+    working: "Risk $20.84 − $20.68 = $0.16; made $20.68 − $20.36 = $0.32; $0.32 ÷ $0.16 = 2"
+    explanation: "Sixteen cents of risk and thirty-two of reward, which is two units whatever the share count happens to be."
+
+  - type: tf
+    statement: "A gap with no news behind it can still carry this card as long as the volume is there."
+    answer: false
+    explanation: "Volume with no reason behind it is usually one buyer finishing an order, and when they are done the bid leaves with them."
+
+  - type: hotspot
+    component: quote-card
+    prompt: "The gap is the distance between two numbers on this card. Tap the one that belongs to yesterday."
+    data: {ticker: MRQ, name: Marque Systems, price: 20.68, change: -1.72, change_pct: -7.7, volume: "8.4M", prev_close: 22.40}
+    target: prev_close
+    explanation: "Yesterday's close is one end of the gap; the session's first print is the other, and only the second one is a line you trade against."
+
+  - type: chart-decision
+    scenario: "KVT gapped to $14.80 on a partnership announcement, lost that price inside the first two minutes, and has spent every minute since below it. It is now bouncing back toward the line and this minute closes at $14.72. You have 1,600 shares ready."
+    shares: 1600
+    chart:
+      kind: candles
+      data: [[14.80, 14.86, 14.58, 14.62], [14.62, 14.68, 14.46, 14.50], [14.50, 14.56, 14.38, 14.42], [14.42, 14.58, 14.40, 14.56], [14.56, 14.68, 14.54, 14.64], [14.64, 14.76, 14.62, 14.72], [14.72, 14.78, 14.60, 14.62], [14.62, 14.66, 14.48, 14.50], [14.50, 14.54, 14.36, 14.38], [14.38, 14.44, 14.28, 14.32]]
+      volume: [512000, 286000, 224000, 118000, 96000, 142000, 156000, 168000, 152000, 134000]
+      levels:
+        - {price: 14.80, label: "Opening price"}
+      decision_index: 5
+    best: no-trade
+    reasonable: [short]
+    outcome: "It turned over eight cents under the line and traded at $14.32 — $0.40 against a 1,600-share long from $14.72, $640."
+    explanation: "The card needs the first print held, and this one lost it before the third minute. A long here is buying the bounce that the trapped gap buyers are selling into."
+
+  - type: fill-tiles
+    sentence: "A gap-and-go needs price to stay on the buyers' side of the session's first ___."
+    answer: "print"
+    explanation: "One price, shared by everyone who traded this morning, and the only line on the chart that today drew itself."
+
+  - type: recap
+    title: "Level 10 in three lines"
+    points:
+      - {text: "A gap is only a card while price holds the session's first print.", level: "10-1"}
+      - {text: "Two normal days of travel is not a pullback waiting to happen.", level: "10-2"}
+      - {text: "The gap down runs the same card upside down.", level: "10-3"}
