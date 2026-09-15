@@ -6,14 +6,14 @@ path: scalping
 category: new-theory
 tags: [conditions, selection, process]
 learning_goal: "User reads the day's condition first and picks the cards that condition can produce — or none."
-purpose: "The same five cards on the wrong day is how a good playbook still loses money."
-terms_introduced: ["Trend day", "Range day"]
-reinforces: [6]
-prerequisite: "7-2"
+purpose: "The same eight cards on the wrong day is how a good playbook still loses money."
+terms_introduced: []
+reinforces: [5, 6]
+prerequisite: "13-2"
 xp: 20
 difficulty: 2
 sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
-notes: "Single sub. Maps conditions to the five cards and to no trade. Uses the daily loss limit from Chapter 6."
+notes: "First sub of three. Maps conditions to the eight cards and to no trade. Day types come from Chapter 5; the loss limit from Chapter 6."
 screens:
   - type: intro
     text: "The cards are written. Now: which one is today even offering?"
@@ -30,7 +30,7 @@ screens:
 
   - type: theory
     title: "Conditions choose the card"
-    body: "Trend days feed the continuation and the VWAP bounce. Range days feed mean reversion and the failed-breakout fade. The opening-range scalp belongs to the first half hour of either."
+    body: "Trend days feed the continuation, the VWAP bounce and the gap-and-go. Range days feed mean reversion, the rotation and the failed-breakout fade. The opening-range scalp belongs to the first half hour of either."
 
   - type: checklist-reveal
     title: "Before you take anything"
@@ -38,7 +38,7 @@ screens:
       - "Which way is the 5-minute running?"
       - "Is price above VWAP, below it, or crossing it all morning?"
       - "Is today's volume bigger or smaller than this stock's normal?"
-      - "Which of my five cards can this day actually produce?"
+      - "Which of my eight cards can this day actually produce?"
 
   - type: sort
     prompt: "What kind of day is each of these?"
@@ -59,7 +59,7 @@ screens:
     explanation: "Fading a trend day is the fastest way to give a morning back. On those days the cards that go with the move are the ones on the table."
 
   - type: tf
-    statement: "If none of your five cards fits the day, the sensible move is to take the closest one with a smaller share count."
+    statement: "If none of your eight cards fits the day, the sensible move is to take the closest one with a smaller share count."
     answer: false
     explanation: "A smaller wrong trade is still a wrong trade. No card means no trade — that is what having cards is for."
 
@@ -99,7 +99,7 @@ screens:
       - ["The first pullback inside that trend", "VWAP bounce"]
       - ["A range day with clean edges", "Mean reversion at a level"]
       - ["A range boundary that breaks and immediately fails", "Failed-breakout fade"]
-    explanation: "Same five cards every day; the day decides which ones get dealt."
+    explanation: "Same eight cards every day; the day decides which ones get dealt."
 
   - type: numeric-input
     prompt: "Your daily loss limit is 3R and you risk $200 per trade. Two trades have hit their stops. How much risk is left for today?"
@@ -115,5 +115,5 @@ screens:
     explanation: "Rotation, not direction — and the cards that trade rotation are the ones that lean against the edges."
 
   - type: theory
-    title: "One session, start to finish"
-    body: "Last stop before the exam: a whole morning, with the cards, the costs and the limit all running at once."
+    title: "Two days, two shortlists"
+    body: "The next two subs take each day type apart: what a trending session keeps handing you, what a rotating one does, and what is left when it is neither."

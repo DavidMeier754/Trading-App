@@ -13,7 +13,7 @@ prerequisite: "17-1"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — The PlayBook", "Elder — Trading for a Living"]
-notes: "Second half of the capstone: four charts, one of them a correct trade that loses."
+notes: "Second third of the capstone: four charts, one of them a correct trade that loses. 17-3 closes the session."
 screens:
   - type: intro
     text: "Same stock, same account, four more charts."
@@ -39,12 +39,12 @@ screens:
     explanation: "The card fired correctly and the trade still lost. That is what the stop is for, and why it was decided before the entry."
 
   - type: numeric-input
-    prompt: "The morning is +$300 and +$400 gross from two winners and −$200 from the stop-out, with $0.03 per share of costs on each of the three 1,250-share round trips. What is the net?"
-    answer: 387.5
+    prompt: "The morning is +$300 and +$300 gross from the two winners and −$200 from the stop-out, with $0.03 per share of costs on each of the three 1,250-share round trips. What is the net?"
+    answer: 287.5
     tolerance: 0.5
     unit: "$"
-    working: "$300 + $400 − $200 = $500; costs $0.03 × 1,250 × 3 = $112.50; $500 − $112.50 = $387.50"
-    explanation: "Three round trips on 1,250 shares cost $112.50 — more than a quarter of what the winners made."
+    working: "$300 + $300 − $200 = $400; costs $0.03 × 1,250 × 3 = $112.50; $400 − $112.50 = $287.50"
+    explanation: "Three round trips on 1,250 shares cost $112.50 — nearly a fifth of the $600 the two winners made."
 
   - type: spot-mistake
     prompt: "Tap the mistake."
@@ -72,7 +72,7 @@ screens:
   - type: mc
     prompt: "The next chart offers a textbook rejection candle at a round number — on a day that has trended up since the open. What does the playbook say?"
     options:
-      - {text: "Take it small, since the morning can absorb a loss"}
+      - {text: "Take it small — the morning can absorb a loss"}
       - {text: "Pass — the card is right and the day is wrong for it", correct: true}
       - {text: "Take it full size, since the setup is textbook"}
     explanation: "Conditions come before cards. Mean reversion belongs to range days, not to a chart that has not seen VWAP since the open."
@@ -133,8 +133,8 @@ screens:
     explanation: "A single session sits far inside the range a positive expectancy produces. The average only means anything over hundreds of trades."
 
   - type: theory
-    title: "Where the morning ends"
-    body: "Four trades, one loss, two charts passed, and the loss limit never came close. The session ends because the plan says so, not because the screen goes quiet."
+    title: "Four trades in"
+    body: "Four trades, one loss, two charts passed, and the loss limit never came close. Two trades left on the cap, and the stretch of the morning that decides the session."
 
   - type: fill-choice
     sentence: "When the spread widens to several times its normal size, the honest answer is usually ___."
@@ -143,5 +143,5 @@ screens:
     explanation: "Smaller size and wider stops both leave you paying the same spread on every share you do trade."
 
   - type: theory
-    title: "One exam left"
-    body: "Five cards, the day read, the costs counted and the limit respected. Twelve questions and the chapter is yours."
+    title: "The last stretch"
+    body: "Two trades left on the cap, the spread back where it started, and a session to write down while the charts are still in front of you."

@@ -9,14 +9,14 @@ learning_goal: "User runs a session in order: plan, day read, cards as they appe
 purpose: "Setups are the easy half. Running them in sequence, with costs and a limit, is the job."
 terms_introduced: []
 reinforces: [3, 6]
-prerequisite: "14-1"
+prerequisite: "14-3"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
-notes: "First half of the capstone: the plan and the first three charts. 9-2 finishes the morning. Deviation from docs/curriculum.md, which lists 9-1 as a repetition sub: it is kept as new-theory because it teaches the session procedure (plan, day read, risk check between trades), and because 9-1/9-2/10-1 as three review-type subs in a row would break the interleaving rule in docs/agent.md 3.2."
+notes: "First third of the capstone: the plan and the first three charts; 17-2 and 17-3 finish the morning. Deviation from docs/curriculum.md, which lists Level 17 as repetition: this sub is kept as new-theory because it teaches the session procedure (plan, day read, risk check between trades), and because 17-1 through 19-1 as six review-type subs in a row would break the interleaving rule in docs/agent.md 3.2."
 screens:
   - type: intro
-    text: "One morning, one stock, five cards and $20,000."
+    text: "One morning, one stock, eight cards and $20,000."
 
   - type: story
     character: retail-trader
@@ -24,7 +24,7 @@ screens:
 
   - type: theory
     title: "The plan fits on one line"
-    body: "Risk $200 a trade — one per cent of the account — and never more stock than $20,000 can pay for. Daily loss limit 3R, so $600. Trade limit six. Five cards, nothing else."
+    body: "Risk $200 a trade — one per cent of the account — and never more stock than $20,000 can pay for. Daily loss limit 3R, so $600. Trade limit six. Eight cards, nothing else."
 
   - type: visual
     component: chart-candles
@@ -84,7 +84,7 @@ screens:
     prompt: "Two winners in, the morning is up about $525 net. What does the playbook say about the next chart?"
     options:
       - {text: "Nothing — the next chart is judged on its own card", correct: true}
-      - {text: "Size up, because the day is clearly working"}
+      - {text: "Size up — the day is clearly working"}
       - {text: "Stop for the day and protect what is there"}
     explanation: "The chart does not know what you made this morning. Sizing up on a good run is how a good morning turns into a flat one."
 
@@ -118,5 +118,5 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "Two cards taken, one chart passed, costs paid, +3R on the day. The second half is where it stops being easy."
+    text: "Two cards taken, one chart passed, costs paid, +3R on the day. The rest of it is where it stops being easy."
 

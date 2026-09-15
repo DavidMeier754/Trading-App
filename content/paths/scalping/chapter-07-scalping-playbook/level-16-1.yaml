@@ -1,0 +1,113 @@
+id: "16-1"
+title: "When Nothing Fits"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [discipline, no-trade, process]
+learning_goal: "User can say what a playbook costs in missed trades, and why that cost is the thing being bought rather than a side effect."
+purpose: "The sheet only does anything on the mornings it stops you, and those are the mornings it is hardest to keep."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "15-2"
+xp: 20
+difficulty: 2
+sources: ["Bellafiore — One Good Trade", "Elder — Trading for a Living"]
+notes: "The empty morning. Account named at $20,000; both decisions sized under it. Expectancy and overtrading are the Chapter 6 callbacks."
+screens:
+  - type: intro
+    text: "Eight cards, a full morning, and not one of them dealt."
+
+  - type: story
+    character: retail-trader
+    text: "Two hours in. Three names watched, twelve charts that half-looked like something, no position, and a $20,000 account exactly where it started."
+
+  - type: theory
+    title: "Most minutes are not a card"
+    body: "A session is four hours of price and perhaps three moments that match something on your sheet. On many days it is none. That is the normal shape of a morning, not a bad one."
+
+  - type: theory
+    title: "What the sheet costs"
+    body: "A playbook buys you a filter and charges you in missed moves. You will watch runs you could have caught. The price of not taking the ones that look like cards is not taking the ones that nearly are."
+
+  - type: numeric-input
+    prompt: "Your carded trades average +0.35R. Last month you also took 15 trades with no card behind them, averaging −0.4R each. How many R did those 15 give back?"
+    answer: 6
+    unit: "R"
+    working: "15 × 0.4R = 6R handed back"
+    explanation: "Six R is more than two weeks of what the carded trades produce, and it came from the trades that were never on the sheet."
+
+  - type: chart-decision
+    scenario: "ORV has run six straight minutes from $18.88 to $19.74 with no pause, and there is nothing marked above it. You have 900 shares ready."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[18.90, 19.04, 18.88, 19.02], [19.02, 19.18, 19.00, 19.16], [19.16, 19.32, 19.14, 19.30], [19.30, 19.46, 19.28, 19.44], [19.44, 19.60, 19.42, 19.58], [19.58, 19.74, 19.56, 19.72], [19.72, 19.76, 19.58, 19.60], [19.60, 19.66, 19.48, 19.50], [19.50, 19.56, 19.40, 19.44], [19.44, 19.50, 19.36, 19.42]]
+      volume: [186000, 178000, 164000, 158000, 146000, 138000, 182000, 168000, 154000, 142000]
+      decision_index: 5
+    best: no-trade
+    outcome: "The next minute took fourteen cents back and nearly half the run was gone inside four. A 900-share long from $19.72 was offside within two minutes."
+    explanation: "There is no card for a move that has already gone. Buying the sixth green minute is chasing with better manners, and the entry is the worst price of the run."
+
+  - type: mc
+    prompt: "Late morning, nothing has set up, and you have taken no trades. Where is the actual risk?"
+    options:
+      - {text: "Taking something so that the morning counts for something", correct: true}
+      - {text: "Missing the one card that fires later in the session"}
+      - {text: "Falling behind the number of trades the day should produce"}
+    explanation: "Overtrading clusters after empty stretches as reliably as it does after losses. The cost of the pass is felt; the cost of the filler trade is not, until the month is added up."
+
+  - type: slider
+    prompt: "Across last week you logged 48 charts that half-looked like a card and took 12 of them. What share did you pass?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 75
+    tolerance: 10
+    explanation: "Thirty-six passes out of forty-eight, and hardly any of them felt like a decision at the time. That ratio is what a playbook does for a living."
+
+  - type: tf
+    statement: "A morning with no trades in it can be a morning your playbook did its job."
+    answer: true
+    explanation: "On a session that offered nothing, keeping you out is the whole job. It does not prove the sheet is good — only that it was followed."
+
+  - type: chart-decision
+    scenario: "Two hours later. TVN has held above its average price all session, drifts through the line over four of the quietest minutes of the morning, and this minute closes back above it at $13.70 on three times that volume. You have 1,050 shares ready."
+    shares: 1050
+    chart:
+      kind: candles
+      data: [[13.86, 13.92, 13.78, 13.80], [13.80, 13.84, 13.70, 13.72], [13.72, 13.76, 13.64, 13.66], [13.66, 13.70, 13.60, 13.62], [13.62, 13.66, 13.56, 13.56], [13.56, 13.72, 13.56, 13.70], [13.70, 13.82, 13.68, 13.80], [13.80, 13.90, 13.76, 13.88], [13.88, 13.98, 13.84, 13.94], [13.94, 14.02, 13.90, 13.98]]
+      vwap: [13.58, 13.58, 13.57, 13.57, 13.57, 13.57, 13.58, 13.59, 13.60, 13.61]
+      volume: [84000, 72000, 60000, 48000, 38000, 124000, 110000, 98000, 88000, 80000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to a new high of day and you took it at $13.98 — $0.28 per share, +$294 long on 1,050 shares from $13.70."
+    explanation: "Card A, on the third hour of a morning that had offered nothing. Stop $13.54, two cents under the quiet pullback: sixteen cents risked for twenty-eight made."
+
+  - type: sort
+    prompt: "A card, or only a reason to want one?"
+    buckets: ["A card", "Only impatience"]
+    items:
+      - {text: "A close beyond a price you drew before the open, on volume", bucket: "A card"}
+      - {text: "A name that has run all morning without you in it", bucket: "Only impatience"}
+      - {text: "Two hours gone and the loss limit still untouched", bucket: "Only impatience"}
+      - {text: "A break of the morning's low nobody followed, then a close back inside", bucket: "A card"}
+    explanation: "Two of these describe a chart and two describe how the morning feels. Only one of those two things is written on the sheet."
+
+  - type: fill-tiles
+    sentence: "The price a playbook charges is the trades you ___."
+    answer: "skip"
+    explanation: "You cannot keep the filter and keep the near misses. Paying in missed moves is what buys the passes that save the account."
+
+  - type: checklist-reveal
+    title: "When the morning has offered nothing"
+    items:
+      - "Have I run the read on every name, or only on the loud one?"
+      - "Is price actually at something I drew before the open?"
+      - "Would I take this chart if I were already up on the day?"
+      - "Is my hand moving because the chart changed, or because the clock did?"
+
+  - type: example
+    body: "Three hours, twelve near misses, one card taken. The nine passes cost nothing, and they are the reason the one trade was still sized the way the sheet says."

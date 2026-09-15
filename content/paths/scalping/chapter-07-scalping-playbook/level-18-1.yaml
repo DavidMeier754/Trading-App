@@ -1,0 +1,107 @@
+id: "18-1"
+title: "Chapter Review"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [review, triggers, playbook]
+learning_goal: "User can state all eight cards by their trigger in one line each, and say which of them gets full size and which does not."
+purpose: "Eight cards learned one level at a time are eight separate things until they are laid out side by side."
+terms_introduced: []
+reinforces: [4, 6]
+prerequisite: "17-3"
+xp: 25
+difficulty: 2
+sources: ["Bellafiore — The PlayBook", "Volman — Understanding Price Action"]
+notes: "The sheet as one page. Deviation from docs/curriculum.md, which lists Level 18 as repetition: this sub is new-theory because it is the first place the eight triggers are set side by side, and because 17-2 through 19-1 as five review-type subs in a row would break docs/agent.md 3.2. Account named at $24,000."
+screens:
+  - type: intro
+    text: "Eight cards, eight lines. This is the page you would actually keep."
+
+  - type: theory
+    title: "One line each"
+    body: "A card you cannot say in a sentence is a card you will not recognise in a minute. Every one of these ends in a close: a finished candle, never a touch and never a wick."
+
+  - type: carousel
+    cards:
+      - {label: "Card A — VWAP bounce", text: "Above the line all session. In on the first close back above it after a quiet pullback, out at the high of day."}
+      - {label: "Card B — Opening-range scalp", text: "The first five minutes are the box. In on the close beyond one side of it on volume, stop back inside."}
+      - {label: "Card C — Momentum continuation", text: "A leg, then a shallow pause on falling volume. In on the first close back in the leg's direction."}
+      - {label: "Card D — Mean reversion at a level", text: "A stretched run into a price you drew, rejected on heavy volume. In on the rejection close, at half size."}
+
+  - type: match
+    prompt: "The other four cards. Match each one to the line that puts you in."
+    pairs:
+      - ["Card E", "The quietest break of the session, then a close back on the level's original side"]
+      - ["Card F", "A gap that has not traded back through its first print, and a pullback that goes quiet"]
+      - ["Card G", "A close back inside an edge the day has already refused more than once"]
+      - ["Card H", "A fresh close on a setup that stopped you out, with its level still intact"]
+    explanation: "Four triggers, and three of them are drawn on the chart. The fourth is drawn on your own session."
+
+  - type: mc
+    prompt: "Which card takes its target from the day's own average price rather than from a high or a low?"
+    options:
+      - {text: "Mean reversion at a level", correct: true}
+      - {text: "The opening-range scalp"}
+      - {text: "Gap-and-go continuation on a trend day"}
+    explanation: "It leans against a move that has stretched away from the average, so the average is the obvious place for the stretch to end."
+
+  - type: chart-tap
+    prompt: "Tap the candle that closes back above the line after the pullback."
+    chart:
+      kind: candles
+      data: [[14.62, 14.68, 14.54, 14.56], [14.56, 14.60, 14.48, 14.50], [14.50, 14.54, 14.44, 14.46], [14.46, 14.50, 14.42, 14.44], [14.44, 14.48, 14.40, 14.42], [14.42, 14.54, 14.40, 14.52], [14.52, 14.64, 14.50, 14.62], [14.62, 14.74, 14.60, 14.70]]
+      vwap: [14.46, 14.46, 14.45, 14.45, 14.44, 14.44, 14.45, 14.46]
+      volume: [82000, 68000, 56000, 46000, 38000, 126000, 112000, 98000]
+    target: 5
+    explanation: "Two candles settled under the line and the next one settled above it, on more than three times their volume. That candle is card A's trigger."
+
+  - type: sort
+    prompt: "Full size, or less?"
+    buckets: ["Full size", "Half size"]
+    items:
+      - {text: "Card C, in the direction the session has run all morning", bucket: "Full size"}
+      - {text: "Card D, leaning against a run that has not stopped yet", bucket: "Half size"}
+      - {text: "Card B, on the first close beyond the opening box", bucket: "Full size"}
+      - {text: "The first morning back after a session that reached its loss limit", bucket: "Half size"}
+    explanation: "Two things cut the size: a card that fights the move, and a result that says your judgement is not at its best."
+
+  - type: tf
+    statement: "A wick through a level and a close back under it say the same thing to the fade card."
+    answer: false
+    explanation: "A wick is a price somebody reached. A close is the price the minute settled on, and every trigger on the sheet is a close."
+
+  - type: chart-decision
+    scenario: "AVR gapped up to open at $20.20 and has not printed a close under it. It eased back over three minutes on the lightest volume of the session and this minute closes at $20.46. You have 900 shares ready and a $24,000 account."
+    shares: 900
+    chart:
+      kind: candles
+      data: [[20.20, 20.44, 20.18, 20.40], [20.40, 20.52, 20.36, 20.44], [20.44, 20.48, 20.34, 20.36], [20.36, 20.40, 20.30, 20.32], [20.32, 20.38, 20.28, 20.30], [20.30, 20.48, 20.28, 20.46], [20.46, 20.60, 20.44, 20.58], [20.58, 20.72, 20.54, 20.68], [20.68, 20.80, 20.64, 20.76], [20.76, 20.88, 20.72, 20.84]]
+      levels:
+        - {price: 20.20, label: "Opening price"}
+      volume: [462000, 268000, 148000, 96000, 74000, 196000, 174000, 158000, 142000, 128000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $20.84 — $0.38 per share, +$342 long on 900 shares from $20.46."
+    explanation: "Card F: the first print was never given back, the pullback went quiet, and the resumption close arrived on more than twice that volume. Stop $20.26."
+
+  - type: fill-choice
+    sentence: "Every trigger on the sheet is a ___, never a touch and never a wick."
+    options: ["close", "level", "spread"]
+    answer: "close"
+    explanation: "The candle has to finish before the card exists. That single rule throws out most of the charts that nearly qualify."
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "Card G plans on half a band. Tap the number that decides whether half is enough."
+    data: {bid: 20.44, ask: 20.50, last: 20.46}
+    target: spread
+    explanation: "Six cents to get in and out. Against a twelve-cent band that is the whole trade, and against a forty-cent one it is a rounding error."
+
+  - type: recap
+    title: "The sheet in three lines"
+    points:
+      - {text: "Four cards go with the move, three lean against one, and the eighth rides whichever card stopped you.", level: "18-1"}
+      - {text: "Every trigger is a finished candle, and most are at a price drawn before the open.", level: "18-1"}
+      - {text: "Full size is the default; fighting the move or a spent morning halves it.", level: "18-1"}

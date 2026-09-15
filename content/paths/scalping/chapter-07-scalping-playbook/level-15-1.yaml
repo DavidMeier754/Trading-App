@@ -1,0 +1,117 @@
+id: "15-1"
+title: "Chapters 5 & 6 Callback"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [callback, selection, sizing, playbook]
+learning_goal: "User refuses a textbook card because of the name it is printed on, and sizes the card it does take from the stop and the account together."
+purpose: "Right card, wrong stock is the most expensive mistake a finished playbook can still make."
+terms_introduced: []
+reinforces: [5, 6]
+prerequisite: "14-3"
+xp: 30
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
+notes: "First callback sub: Chapter 5's selection filters and Chapter 6's sizing rules applied to two identical-looking card shapes. Account named at $16,000."
+screens:
+  - type: intro
+    text: "The shape is perfect. That was never the whole question."
+
+  - type: story
+    character: retail-trader
+    text: "Four names on the scanner, $16,000 in the account, and eight cards you now know by their triggers. The first filter has nothing to do with any of them."
+
+  - type: scanner-pick
+    prompt: "Which of these can a card be written on at all today?"
+    data:
+      rows:
+        - {ticker: BLM, price: 16.00, change_pct: 5.4, rvol: 5.2, float: "26M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: TSK, price: 11.40, change_pct: 31.2, rvol: 12.0, float: "3M", spread: 0.14, catalyst: "Offering"}
+        - {ticker: RDL, price: 88.20, change_pct: 0.6, rvol: 1.1, float: "410M", spread: 0.09, catalyst: "—"}
+        - {ticker: ZEP, price: 15.05, change_pct: 0.2, rvol: 0.4, float: "95M", spread: 0.03, catalyst: "—"}
+    target: BLM
+    explanation: "TSK has the biggest move and the float your stop cannot survive. RDL and ZEP have no crowd in them. BLM has a reason, five times its own normal volume and a spread you can pay twice."
+
+  - type: chart-decision
+    scenario: "TSK held above its average price all morning, eased back over three quiet minutes, and this minute closes at $11.48 on the heaviest bar since the pullback started. Its spread is $0.14. You have 1,200 shares ready."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[11.72, 11.80, 11.62, 11.64], [11.64, 11.68, 11.50, 11.52], [11.52, 11.56, 11.40, 11.44], [11.44, 11.48, 11.34, 11.38], [11.38, 11.42, 11.32, 11.36], [11.36, 11.50, 11.34, 11.48], [11.48, 11.62, 11.40, 11.44], [11.44, 11.52, 11.26, 11.30], [11.30, 11.44, 11.18, 11.40], [11.40, 11.56, 11.30, 11.36]]
+      vwap: [11.36, 11.35, 11.35, 11.34, 11.34, 11.34, 11.35, 11.35, 11.35, 11.35]
+      volume: [268000, 214000, 176000, 142000, 118000, 286000, 324000, 298000, 276000, 254000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It swung between $11.18 and $11.62 for the next ten minutes. On 1,200 shares the round-trip spread alone was $168, before the trade moved at all."
+    explanation: "Every line of card A is satisfied and the name still fails the filter in front of it. A fourteen-cent spread is most of the move the card is aiming at."
+
+  - type: mc
+    prompt: "Same trigger, same shape, two different names. What decided it?"
+    options:
+      - {text: "The spread and the float, not the chart", correct: true}
+      - {text: "The size of the move, which had already gone too far to join"}
+      - {text: "The volume, which was heavier than this card wants to see"}
+    explanation: "The chart was the same on both. What differs is what it costs to get in, and how far price travels while you are getting out."
+
+  - type: compare
+    prompt: "Both names give you the same reclaim close. Which pullback is the one the card is written for?"
+    charts:
+      - kind: candles
+        data: [[16.44, 16.52, 16.36, 16.38], [16.38, 16.42, 16.28, 16.30], [16.30, 16.34, 16.22, 16.24], [16.24, 16.28, 16.18, 16.20], [16.20, 16.24, 16.16, 16.22], [16.22, 16.36, 16.20, 16.34], [16.34, 16.46, 16.32, 16.44], [16.44, 16.56, 16.42, 16.52]]
+        volume: [94000, 76000, 62000, 48000, 38000, 132000, 116000, 104000]
+        label: "A"
+      - kind: candles
+        data: [[24.40, 24.48, 24.32, 24.34], [24.34, 24.38, 24.24, 24.26], [24.26, 24.30, 24.18, 24.20], [24.20, 24.24, 24.14, 24.16], [24.16, 24.20, 24.12, 24.18], [24.18, 24.32, 24.16, 24.30], [24.30, 24.36, 24.20, 24.22], [24.22, 24.28, 24.10, 24.12]]
+        volume: [88000, 104000, 126000, 148000, 172000, 118000, 164000, 186000]
+        label: "B"
+    answer: "A"
+    explanation: "A's pullback got quieter every minute and the reclaim arrived on three times that volume. B's pullback got busier, which is selling, not resting."
+
+  - type: tf
+    statement: "After two stops in a row you halve your share size, and the list of cards you are allowed to take stays exactly the same."
+    answer: true
+    explanation: "Size is the one dial that moves in a losing run. Rewriting the cards at the same time turns a bad morning into a different method."
+
+  - type: numeric-input
+    prompt: "BLM is setting up card E: entry $15.90, stop $15.70 under the failed low. You risk $150 a trade and the account is $16,000. How many shares?"
+    answer: 750
+    unit: "shares"
+    working: "$15.90 − $15.70 = $0.20 risked per share; $150 ÷ $0.20 = 750 shares; $16,000 ÷ $15.90 = 1,006 the account could pay for; the smaller number wins"
+    explanation: "Two ceilings, every time. Here the stop is the binding one, and the account never gets a say."
+
+  - type: chart-decision
+    scenario: "BLM broke its opening-range low at $15.80 on the quietest minute of the morning, and this minute closes back above it at $15.90 on triple that volume. You have 750 shares ready and a $16,000 account."
+    shares: 750
+    chart:
+      kind: candles
+      data: [[16.06, 16.12, 15.98, 16.00], [16.00, 16.04, 15.88, 15.90], [15.90, 15.94, 15.80, 15.82], [15.82, 15.86, 15.72, 15.74], [15.74, 15.80, 15.72, 15.78], [15.78, 15.92, 15.76, 15.90], [15.90, 16.04, 15.88, 16.02], [16.02, 16.16, 16.00, 16.14], [16.14, 16.26, 16.10, 16.22], [16.22, 16.34, 16.18, 16.30]]
+      levels:
+        - {price: 15.80, label: "Opening-range low"}
+      volume: [124000, 108000, 86000, 52000, 96000, 182000, 164000, 148000, 132000, 118000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran back through the box to $16.30 — $0.40 per share, +$300 long on 750 shares from $15.90."
+    explanation: "Card E on the name that passed the filter: nobody paid for the break, and the close back inside leaves everyone short of the level wrong. Stop $15.70, under the failed low."
+
+  - type: sort
+    prompt: "Worth the screen this morning, or leave it alone?"
+    buckets: ["Worth the screen", "Leave it alone"]
+    items:
+      - {text: "Five times its own normal volume, a two-cent spread and a reason in the news", bucket: "Worth the screen"}
+      - {text: "Twelve times normal volume, a three-million-share float and a fourteen-cent spread", bucket: "Leave it alone"}
+      - {text: "A sixty-cent daily range, a two-cent spread and twice its normal volume", bucket: "Worth the screen"}
+      - {text: "Barely half its normal volume and nothing in the news", bucket: "Leave it alone"}
+    explanation: "A crowd, a reason, and a cost you can pay twice. Two out of three is where most expensive mornings start."
+
+  - type: depth-ladder
+    prompt: "TSK again. You market-buy 1,000 shares. Where does the last share fill?"
+    data:
+      bids: [[11.34, 300], [11.32, 200], [11.28, 900]]
+      asks: [[11.48, 200], [11.52, 300], [11.56, 1200]]
+    target: ask-3
+    explanation: "Two hundred, then three hundred, then five hundred from the third row — your last share pays eight cents more than the first, and that is before the trade has moved."
+
+  - type: example
+    body: "Two identical triggers, twenty minutes apart. One paid $300 on 750 shares; the other would have paid $168 in spread for the privilege of finding out."

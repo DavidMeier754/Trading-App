@@ -1,0 +1,128 @@
+id: "14-3"
+title: "Choosing the Setup for the Day"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [conditions, range-day, selection, plan]
+learning_goal: "User names the cards a rotating session deals, separates a range day from a day that is simply empty, and writes the day-type filter into their own plan."
+purpose: "A narrow band and a real range look alike for the first twenty minutes, and only one of them pays for the round trip."
+terms_introduced: []
+reinforces: [5, 6]
+prerequisite: "14-2"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Carter — Mastering the Trade"]
+notes: "Range days and empty days. Account named at $19,000; both decisions sized under it. Breadth and the trade cap are the Chapter 5 and Chapter 6 callbacks."
+screens:
+  - type: intro
+    text: "Two sessions that look the same from a distance. One of them is tradeable."
+
+  - type: theory
+    title: "What a range day keeps doing"
+    body: "It arrives at the same two prices over and over. Each arrival is refused, each refusal sends price back across the middle, and the middle is where most of the hours go."
+
+  - type: hotspot
+    component: internals-panel
+    prompt: "The index has gone nowhere since the open. Tap the reading that tells you whether the whole market is rotating rather than resting."
+    data:
+      index: {label: "{{market.index_example}}", data: [100.0, 100.2, 99.9, 100.1, 99.8, 100.1, 99.9, 100.0]}
+      breadth: "1,520 up / 1,480 down"
+      sectors:
+        - {label: "Banks", value: 0.3}
+        - {label: "Miners", value: -0.2}
+        - {label: "Chipmakers", value: 0.1}
+    target: breadth
+    explanation: "A flat index can hide a one-sided market. Fifteen hundred up against fifteen hundred down says the whole tape is crossing itself, which is the weather rotation cards trade in."
+
+  - type: match
+    prompt: "Four day shapes. Which card does each one deal?"
+    pairs:
+      - ["Price crossing the same two prices all morning", "Range rotation"]
+      - ["A stretched run into a price you marked before the open", "Mean reversion at a level"]
+      - ["A break of the range floor that nobody followed", "Failed-breakout fade"]
+      - ["A 5-minute still making higher lows after two hours", "Momentum continuation"]
+    explanation: "Three of these belong to a rotating session and one does not. Reading the day first is what keeps the fourth off your screen."
+
+  - type: chart-annotate
+    prompt: "Drag the line to the price VNT has been refused at five times this morning."
+    chart:
+      kind: candles
+      data: [[13.24, 13.36, 13.20, 13.34], [13.34, 13.38, 13.26, 13.28], [13.28, 13.38, 13.24, 13.36], [13.36, 13.38, 13.28, 13.30], [13.30, 13.36, 13.22, 13.26], [13.26, 13.38, 13.24, 13.34], [13.34, 13.38, 13.28, 13.30], [13.30, 13.36, 13.26, 13.32]]
+      volume: [86000, 78000, 82000, 74000, 88000, 80000, 76000, 72000]
+    answer: 13.38
+    tolerance: 0.03
+    label: "Range ceiling"
+    explanation: "Five highs at the same two decimals and not one close above it. That is the edge the rotation card sells into, not the wicks around it."
+
+  - type: chart-decision
+    scenario: "KPN has crossed between $21.30 and $21.72 all morning on its normal volume. This minute pokes to $21.74 and closes back inside at $21.60. You have 800 shares ready and a $19,000 account."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[21.44, 21.58, 21.42, 21.56], [21.56, 21.70, 21.54, 21.66], [21.66, 21.72, 21.60, 21.62], [21.62, 21.68, 21.52, 21.54], [21.54, 21.72, 21.50, 21.64], [21.64, 21.74, 21.58, 21.60], [21.60, 21.64, 21.48, 21.50], [21.50, 21.54, 21.40, 21.42], [21.42, 21.46, 21.32, 21.34], [21.34, 21.40, 21.30, 21.36]]
+      levels:
+        - {price: 21.72, label: "Range ceiling"}
+        - {price: 21.30, label: "Range floor"}
+      volume: [118000, 104000, 96000, 88000, 92000, 134000, 112000, 104000, 98000, 86000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It crossed to the floor and you covered at $21.36 — $0.24 per share, +$192 short on 800 shares from $21.60."
+    explanation: "Card G, at the edge the day has already refused three times. Stop $21.76, two cents over the poke, so sixteen cents of risk buys the trip across."
+
+  - type: numeric-input
+    prompt: "KPN's band is 42 cents. You plan on half of it and the round trip costs $0.03 per share. On 800 shares, what does that leave?"
+    answer: 144
+    unit: "$"
+    working: "$0.42 ÷ 2 = $0.21 per share; $0.21 − $0.03 = $0.18; $0.18 × 800 = $144"
+    explanation: "Half a band is the honest expectation for a rotation, and the round trip is charged against that half, not against the whole thing."
+
+  - type: mc
+    prompt: "The same range keeps rotating and offers six clean edges before lunch. Your written trade cap is four. What happens to the last two?"
+    options:
+      - {text: "They are taken at half size, since the cap is about risk rather than count"}
+      - {text: "The cap moves, because the day is plainly offering the card"}
+      - {text: "They are not taken, because the cap was written before the open", correct: true}
+    explanation: "A day that keeps dealing the same card is exactly the day a trade cap was written for. The fifth and sixth are where the edges usually stop holding."
+
+  - type: tf
+    statement: "A range day and an empty day differ only in how wide the band is."
+    answer: false
+    explanation: "Width is one difference and volume is the other. A range day is busy between its edges; an empty one is busy nowhere, and the spread eats whatever the band offers."
+
+  - type: chart-decision
+    scenario: "ZEP has spent the morning in a nine-cent band on about a third of the volume it normally trades by this point, with nothing marked inside forty cents. You have 1,200 shares ready."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[15.06, 15.10, 15.02, 15.08], [15.08, 15.10, 15.03, 15.05], [15.05, 15.10, 15.02, 15.07], [15.07, 15.10, 15.01, 15.04], [15.04, 15.09, 15.02, 15.06], [15.06, 15.10, 15.03, 15.05], [15.05, 15.09, 15.02, 15.07], [15.07, 15.10, 15.02, 15.04], [15.04, 15.08, 15.01, 15.06], [15.06, 15.10, 15.03, 15.05]]
+      volume: [19000, 17000, 15000, 14000, 13000, 12000, 14000, 13000, 11000, 12000]
+      decision_index: 5
+    best: no-trade
+    outcome: "Forty more minutes inside the same nine cents. Two round trips at a three-cent spread would have cost $72 on 1,200 shares and returned nothing."
+    explanation: "The shape says rotation and the arithmetic says no. Half of nine cents does not survive a three-cent round trip at any share count."
+
+  - type: sort
+    prompt: "Which session is each of these?"
+    buckets: ["Range day", "A day with nothing in it"]
+    items:
+      - {text: "Six crossings of a forty-cent band on this name's normal volume", bucket: "Range day"}
+      - {text: "Six crossings of a nine-cent band on a third of normal volume", bucket: "A day with nothing in it"}
+      - {text: "Edges that get poked and refused, with something marked at each one", bucket: "Range day"}
+      - {text: "A flat average price and nothing marked within thirty cents", bucket: "A day with nothing in it"}
+    explanation: "Crossing the same prices is not enough on its own. The band has to be wide enough to pay and busy enough to get there."
+
+  - type: fill-tiles
+    sentence: "A band too narrow to pay for the round trip is not a range, it is ___."
+    answer: "noise"
+    explanation: "The shape is free to look like anything. What decides is whether half the band survives the cost of getting in and out."
+
+  - type: plan-card
+    title: "Your day-type filter"
+    intro: "Three lines, written once, checked before the first trade of every session."
+    fields:
+      - {key: trend_day_cards, label: "Cards you take on a trend day", kind: text}
+      - {key: range_day_cards, label: "Cards you take on a range day", kind: text}
+      - {key: min_band, label: "Smallest band worth rotating, in cents", kind: number, suggest: 25}
+    note: "This sits on the same sheet as your eight cards and your session limits."

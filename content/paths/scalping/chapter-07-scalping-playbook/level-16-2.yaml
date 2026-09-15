@@ -1,0 +1,137 @@
+id: "16-2"
+title: "When Nothing Fits"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [discipline, near-miss, expectancy]
+learning_goal: "User refuses the chart that is one feature short of a card, and can show in R what happens to a card that gets widened to include those charts."
+purpose: "Playbooks are rarely abandoned. They are widened, one reasonable exception at a time, until there is nothing left to follow."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "16-1"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "Near misses and card drift. Account named at $21,000; both decisions sized under it. The expectancy arithmetic is the Chapter 6 callback."
+screens:
+  - type: intro
+    text: "Nobody deletes a playbook. They widen it until it stops saying no."
+
+  - type: theory
+    title: "One feature short"
+    body: "The dangerous chart is not the one that looks wrong. It is the one that has four of the five things the card asks for, and the missing one is usually the volume."
+
+  - type: swipe-deck
+    prompt: "A card, or one feature short of one?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[15.44, 15.56, 15.42, 15.54], [15.54, 15.60, 15.50, 15.56], [15.56, 15.60, 15.50, 15.52], [15.52, 15.58, 15.48, 15.54], [15.54, 15.60, 15.52, 15.56], [15.56, 15.72, 15.54, 15.70], [15.70, 15.82, 15.68, 15.80], [15.80, 15.90, 15.76, 15.86]]
+          levels: [{price: 15.60, label: "Opening-range high"}]
+          volume: [142000, 98000, 78000, 66000, 58000, 196000, 168000, 148000]
+        answer: take
+        note: "Four minutes coiling under the box on falling volume, then a close above it on the heaviest bar since the bell. Card B."
+      - chart:
+          kind: candles
+          data: [[18.22, 18.34, 18.20, 18.32], [18.32, 18.38, 18.28, 18.34], [18.34, 18.38, 18.26, 18.30], [18.30, 18.36, 18.26, 18.34], [18.34, 18.38, 18.30, 18.36], [18.36, 18.44, 18.34, 18.42], [18.42, 18.44, 18.32, 18.34], [18.34, 18.38, 18.24, 18.28]]
+          levels: [{price: 18.38, label: "Opening-range high"}]
+          volume: [124000, 96000, 74000, 62000, 54000, 46000, 88000, 96000]
+        answer: pass
+        note: "Same coil, same box, and the close above it arrived on the quietest minute of the session. Nobody paid for that break."
+      - chart:
+          kind: candles
+          data: [[12.86, 12.94, 12.84, 12.92], [12.92, 13.14, 12.90, 13.12], [13.12, 13.28, 13.10, 13.26], [13.26, 13.28, 13.02, 13.04], [13.04, 13.10, 12.96, 12.98], [12.98, 13.06, 12.94, 13.04], [13.04, 13.08, 12.92, 12.94], [12.94, 13.00, 12.86, 12.90]]
+          volume: [88000, 168000, 182000, 176000, 164000, 142000, 138000, 126000]
+        answer: pass
+        note: "Forty-four cents up and thirty-two of them back, on volume that never let up. The leg is being taken apart, not resting."
+      - chart:
+          kind: candles
+          data: [[21.40, 21.56, 21.38, 21.54], [21.54, 21.70, 21.52, 21.68], [21.68, 21.84, 21.66, 21.82], [21.82, 21.96, 21.80, 21.94], [21.94, 22.08, 21.90, 21.92], [21.92, 21.96, 21.82, 21.84], [21.84, 21.88, 21.72, 21.74], [21.74, 21.80, 21.64, 21.68]]
+          levels: [{price: 22.00, label: "Yesterday's high"}]
+          volume: [96000, 114000, 132000, 158000, 192000, 146000, 128000, 116000]
+        answer: take
+        note: "Four pushes without a rest into a price drawn before the open, and the heaviest bar of them closes below where it opened. Card D, half size."
+      - chart:
+          kind: candles
+          data: [[19.36, 19.42, 19.30, 19.32], [19.32, 19.36, 19.24, 19.26], [19.26, 19.30, 19.18, 19.20], [19.20, 19.24, 19.08, 19.10], [19.10, 19.22, 19.08, 19.20], [19.20, 19.24, 19.12, 19.14], [19.14, 19.18, 19.02, 19.04], [19.04, 19.10, 18.94, 18.98]]
+          levels: [{price: 19.16, label: "Morning low"}]
+          volume: [96000, 118000, 142000, 268000, 124000, 138000, 186000, 204000]
+        answer: pass
+        note: "The break of the low traded more than anything else all morning, and the push back inside came on half of it. Somebody bought that break deliberately."
+    explanation: "Two cards and three charts that each keep the shape and lose the volume. The shape is the part you notice first and the cheapest part to fake."
+
+  - type: mc
+    prompt: "What do the three passes in that deck have in common?"
+    options:
+      - {text: "Each is missing the level its card needs"}
+      - {text: "Each borrows the shape and gets the volume wrong", correct: true}
+      - {text: "Each is on a name that should not have been on the list"}
+    explanation: "Too little on one, too little on another, far too much on the third. Volume is what says whether anyone else agreed with the shape."
+
+  - type: chart-decision
+    scenario: "PLN held above its average price for the first hour, then traded through it and has closed under it four minutes running. This minute closes at $16.88, two cents under the line. You have 1,100 shares ready and a $21,000 account."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[17.14, 17.20, 17.06, 17.08], [17.08, 17.12, 16.96, 16.98], [16.98, 17.02, 16.86, 16.88], [16.88, 16.92, 16.74, 16.76], [16.76, 16.86, 16.72, 16.84], [16.84, 16.92, 16.80, 16.88], [16.88, 16.92, 16.74, 16.76], [16.76, 16.82, 16.64, 16.68], [16.68, 16.74, 16.56, 16.60], [16.60, 16.68, 16.54, 16.64]]
+      vwap: [16.94, 16.93, 16.92, 16.91, 16.90, 16.90, 16.89, 16.88, 16.87, 16.86]
+      volume: [92000, 104000, 118000, 132000, 96000, 124000, 142000, 158000, 146000, 134000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It never did close back above the line and slid to $16.54. A 1,100-share long from $16.88 was thirty-four cents offside at its worst."
+    explanation: "Card A asks for a close back above the line, not a candle that reaches up to it. Two cents under is the whole difference between the card and the near miss."
+
+  - type: numeric-mc
+    prompt: "Card A's 200 logged trades average +0.5R. You widen it to include second-hour touches: 60 of those, averaging −0.2R. What does the widened card average?"
+    options:
+      - {text: "+0.50R"}
+      - {text: "+0.15R"}
+      - {text: "+0.34R", correct: true}
+      - {text: "+0.30R"}
+    working: "(200 × 0.5) + (60 × −0.2) = 100 − 12 = 88R; 88 ÷ 260 = 0.34"
+    explanation: "Sixty trades you would not have taken cut a third off what the card pays, and nothing about the original 200 changed."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The break failed and closed back inside,"}
+      - {text: "so you hold for the whole day's range", wrong: true}
+      - {text: "instead of the far side or the average price, whichever comes first."}
+    explanation: "The card names where it gets out. Holding for something bigger than the card asked for is the same drift, aimed at the exit instead of the entry."
+
+  - type: chart-decision
+    scenario: "DKR pushed above the morning high of $24.40 on the quietest bar of the session, then this minute closes back under at $24.28 on the heaviest. You have 650 shares ready."
+    shares: 650
+    chart:
+      kind: candles
+      data: [[23.96, 24.10, 23.94, 24.08], [24.08, 24.20, 24.06, 24.18], [24.18, 24.32, 24.16, 24.30], [24.30, 24.48, 24.28, 24.46], [24.46, 24.50, 24.36, 24.42], [24.42, 24.44, 24.26, 24.28], [24.28, 24.32, 24.14, 24.16], [24.16, 24.20, 24.02, 24.04], [24.04, 24.08, 23.90, 23.94], [23.94, 24.00, 23.84, 23.88]]
+      levels:
+        - {price: 24.40, label: "Morning high"}
+      volume: [124000, 108000, 96000, 48000, 86000, 178000, 164000, 148000, 132000, 118000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It kept going and you covered at $23.92 — $0.36 per share, +$234 short on 650 shares from $24.28."
+    explanation: "Card E with every feature present: the quietest bar of the morning took the high, and the heaviest one took it back. Stop $24.52, over the failed extreme."
+
+  - type: tf
+    statement: "Widening a card so it catches the trades you keep missing improves it, because it fires more often."
+    answer: false
+    explanation: "More trades at a worse average is a worse card. What matters is what the average trade pays, not how many of them there are."
+
+  - type: order
+    prompt: "Put these in the order they happen when a card gets widened."
+    items:
+      - "One chart is nearly the card, so you take it"
+      - "It works, and the exception feels earned"
+      - "The exception gets written into the card"
+      - "The card's average trade drops, and you cannot say which trades did it"
+    explanation: "Every step is reasonable on its own, and the last one is invisible for months. This is why the card is rewritten at the weekly review, not during a session."
+
+  - type: recap
+    title: "Level 16 in three lines"
+    points:
+      - {text: "Most minutes are not a card, and that is the normal shape of a session.", level: "16-1"}
+      - {text: "A playbook is paid for in missed moves, not in missed money.", level: "16-1"}
+      - {text: "The near miss keeps the shape and loses the volume.", level: "16-2"}

@@ -1,0 +1,124 @@
+id: "15-2"
+title: "Chapters 5 & 6 Callback"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [callback, limits, day-type, playbook]
+learning_goal: "User passes a correct card because the session's budget is spent or the day type is wrong for it, and takes the next one at the size the rules give them."
+purpose: "The cards do not know what your morning has cost you, and that is the one thing the sheet cannot tell you."
+terms_introduced: []
+reinforces: [5, 6]
+prerequisite: "15-1"
+xp: 30
+difficulty: 3
+sources: ["Elder — Trading for a Living", "Bellafiore — The PlayBook"]
+notes: "Second callback sub: Chapter 6's limits and reset routine and Chapter 5's day type, both applied to cards the learner can now read. Account named at $18,000."
+screens:
+  - type: intro
+    text: "Right card, spent budget. The sheet has no line for that — your plan does."
+
+  - type: story
+    character: retail-trader
+    text: "Four trades in, three of them stops. The plan says 1R is $180 and the day ends at 3R. HRS is about to print the cleanest chart of the week."
+
+  - type: chart-decision
+    scenario: "HRS has crossed between $22.20 and $22.70 all morning. It wicks through the ceiling to $22.78 and closes at $22.60, and this minute settles at $22.52 on heavy volume. You have 700 shares ready and an $18,000 account."
+    shares: 700
+    state: ["Day: −3R", "Limit: 3R", "Trades: 4"]
+    chart:
+      kind: candles
+      data: [[22.28, 22.42, 22.26, 22.40], [22.40, 22.54, 22.38, 22.52], [22.52, 22.64, 22.50, 22.62], [22.62, 22.70, 22.58, 22.68], [22.68, 22.78, 22.56, 22.60], [22.60, 22.64, 22.50, 22.52], [22.52, 22.56, 22.40, 22.42], [22.42, 22.46, 22.30, 22.32], [22.32, 22.36, 22.22, 22.24], [22.24, 22.30, 22.18, 22.22]]
+      levels:
+        - {price: 22.70, label: "Range ceiling"}
+        - {price: 22.20, label: "Range floor"}
+      volume: [96000, 112000, 128000, 146000, 182000, 124000, 116000, 108000, 98000, 92000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It rotated to $22.22 — $0.30 per share, $210 on 700 shares. The session had already been closed by the number in the plan."
+    explanation: "A limit that bends for the best-looking chart of the day is not a limit. It was written before the open precisely so this minute would not get a vote."
+
+  - type: numeric-input
+    prompt: "Your 1R is $180 and your daily loss limit is 3R. This morning went −1R, −1R, +0.5R, −1.5R. In dollars, how much of the limit is left?"
+    answer: 0
+    unit: "$"
+    working: "−1 − 1 + 0.5 − 1.5 = −3R; the limit is 3R, so nothing is left"
+    explanation: "The half-R winner in the middle is what makes this one worth counting: it moves the total without moving it far enough to matter."
+
+  - type: tf
+    statement: "A session that has already reached its loss limit can still hand you the best card of the week."
+    answer: true
+    explanation: "It often does, and that is the whole reason the number is decided in advance, when nothing is at stake."
+
+  - type: branch
+    scenario: "Next morning. Yesterday finished at the limit, so your reset routine has you back at half size — 600 shares instead of 1,200. LTQ's opening range is $17.18 to $17.40."
+    shares: 600
+    chart:
+      kind: candles
+      data: [[17.20, 17.30, 17.18, 17.28], [17.28, 17.38, 17.26, 17.34], [17.34, 17.40, 17.30, 17.36], [17.36, 17.40, 17.32, 17.38], [17.38, 17.40, 17.34, 17.36], [17.36, 17.50, 17.34, 17.48], [17.48, 17.62, 17.46, 17.60], [17.60, 17.84, 17.58, 17.80]]
+      decision_index: 5
+    steps:
+      - prompt: "The first card of the day fires: a close above the box at $17.48 on triple the volume that built it. What size do you take?"
+        options:
+          - {text: "600 shares, as the routine says", correct: true, next: 1}
+          - {text: "1,200 shares — this chart owes nothing to yesterday", next: 1}
+        explanation: "The chart owes nothing to yesterday and the routine is not about the chart. Half size is the price of coming back the day after a limit was hit."
+      - prompt: "You are in at $17.48 with the stop at $17.32 and the target at $17.80. It runs to $17.78 and stalls. What now?"
+        options:
+          - {text: "Hold — the target was set before the entry", correct: true}
+          - {text: "Take it here before it gives the two cents back"}
+        explanation: "Two cents short of a target you chose in advance is not new information. Moving the exit because the move paused is how a card stops being a card."
+      - prompt: "It fills the target for +2R. Does size go back up tomorrow?"
+        options:
+          - {text: "No — one trade is not the evidence the rule asks for", correct: true}
+          - {text: "Yes — the routine has done its job and the day proved it"}
+        explanation: "The rule asks for a run of trades taken properly, not for one good one. A single result is the weakest evidence there is."
+
+  - type: journal-row
+    prompt: "Fill the row for the trade you just finished."
+    trade: {setup: "Opening-range scalp", entry: 17.48, stop: 17.32, exit: 17.80, shares: 600}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$96", "$128", "$192"]
+      r_made: ["+1R", "+2R", "+3R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$96", r_made: "+2R", grade: "A"}
+    explanation: "Sixteen cents on 600 shares is $96 of risk, and thirty-two cents made is twice that. The grade is for the execution, and this one followed the card to the letter."
+
+  - type: mc
+    prompt: "The rotation card fires at the top of a band — but the 5-minute has made higher lows all session and the band is forty minutes old. What does the sheet say?"
+    options:
+      - {text: "Take it at half size, since the day type is unclear"}
+      - {text: "Pass — a band inside a rising slower chart is a pause, not a range", correct: true}
+      - {text: "Take it — an edge is an edge, whatever the slower chart is doing"}
+    explanation: "Rotation cards need a session that has already refused both edges more than once. Forty minutes of quiet inside a climb is the raw material of a continuation instead."
+
+  - type: chart-decision
+    scenario: "MSA has rotated all morning and is stretched into yesterday's high at $20.60. It pokes to $20.64 and this minute closes at $20.46 on the heaviest volume of the run. You have 600 shares ready — half size, because this card leans against the move."
+    shares: 600
+    state: ["Day: +1R", "Limit: 3R", "Trades: 2 of 6"]
+    chart:
+      kind: candles
+      data: [[20.06, 20.20, 20.04, 20.18], [20.18, 20.32, 20.16, 20.30], [20.30, 20.44, 20.28, 20.42], [20.42, 20.56, 20.40, 20.54], [20.54, 20.64, 20.52, 20.58], [20.58, 20.62, 20.44, 20.46], [20.46, 20.50, 20.34, 20.36], [20.36, 20.40, 20.24, 20.26], [20.26, 20.32, 20.16, 20.18], [20.18, 20.24, 20.10, 20.14]]
+      vwap: [20.10, 20.12, 20.14, 20.16, 20.18, 20.18, 20.17, 20.16, 20.15, 20.14]
+      levels:
+        - {price: 20.60, label: "Yesterday's high"}
+      volume: [88000, 102000, 118000, 142000, 186000, 164000, 132000, 118000, 104000, 96000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid back to the average price and you covered at $20.16 — $0.30 per share, +$180 short on 600 shares from $20.46."
+    explanation: "Card D with the budget intact: a stretched run into a marked price, the heaviest bar of it rejected, stop $20.66 over the poke. Twenty cents risked for thirty made."
+
+  - type: fill-choice
+    sentence: "A limit you move for the best chart of the day is not a limit, it is a ___."
+    options: ["suggestion", "target", "routine"]
+    answer: "suggestion"
+    explanation: "The number only does anything on the day you least want it to. Every other day it costs you nothing at all."
+
+  - type: recap
+    title: "Level 15 in three lines"
+    points:
+      - {text: "Right card, wrong name: the spread and the float decide before the chart does.", level: "15-1"}
+      - {text: "Two ceilings on every size — the stop and what the account can pay for.", level: "15-1"}
+      - {text: "A spent budget closes the session, whatever the next chart looks like.", level: "15-2"}

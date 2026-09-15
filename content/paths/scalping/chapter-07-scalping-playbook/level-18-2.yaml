@@ -1,0 +1,161 @@
+id: "18-2"
+title: "Chapter Review"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: repetition
+tags: [review, discrimination, drill]
+learning_goal: "User separates a card from the chart that borrows its shape, across all eight cards and without being told which one is on offer."
+purpose: "Recognition is easy when you know which card you are looking for. A session never tells you."
+terms_introduced: []
+reinforces: [4, 5, 6]
+prerequisite: "18-1"
+xp: 30
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Volman — Understanding Price Action"]
+notes: "Mixed compare set plus a shuffled deck. Account named at $26,000; both decisions sized under it."
+screens:
+  - type: intro
+    text: "Pairs this time. Two charts, one card, and nothing telling you which."
+
+  - type: story
+    character: retail-trader
+    text: "The sheet is face down on the desk. Everything below is read the way a session hands it over: no label, no warning, and the volume bars doing most of the talking."
+
+  - type: compare
+    prompt: "Both names come back to their average price. Which one gives you card A?"
+    charts:
+      - kind: candles
+        data: [[17.44, 17.50, 17.36, 17.38], [17.38, 17.42, 17.30, 17.32], [17.32, 17.36, 17.26, 17.28], [17.28, 17.32, 17.24, 17.26], [17.26, 17.30, 17.22, 17.28], [17.28, 17.40, 17.26, 17.38], [17.38, 17.50, 17.36, 17.48], [17.48, 17.58, 17.44, 17.54]]
+        vwap: [17.24, 17.24, 17.24, 17.24, 17.24, 17.24, 17.25, 17.26]
+        volume: [88000, 74000, 62000, 50000, 40000, 132000, 118000, 106000]
+        label: "A"
+      - kind: candles
+        data: [[23.30, 23.36, 23.20, 23.22], [23.22, 23.26, 23.12, 23.14], [23.14, 23.18, 23.06, 23.08], [23.08, 23.14, 23.04, 23.10], [23.10, 23.16, 23.06, 23.08], [23.08, 23.18, 23.04, 23.12], [23.12, 23.16, 23.02, 23.04], [23.04, 23.10, 22.94, 22.98]]
+        vwap: [23.20, 23.19, 23.18, 23.17, 23.16, 23.16, 23.15, 23.14]
+        volume: [92000, 106000, 118000, 96000, 88000, 102000, 126000, 138000]
+        label: "B"
+    answer: "A"
+    allow_neither: true
+    explanation: "A settled above the line on triple the volume of its pullback. B reached the line four times and never closed above it, which is the card asking for something it never got."
+
+  - type: chart-decision
+    scenario: "GLW ran from $19.10 to $19.58, then gave back fourteen cents over the two quietest minutes of the hour. This minute closes at $19.52 on the heaviest bar since the leg started. You have 1,300 shares ready and a $26,000 account."
+    shares: 1300
+    chart:
+      kind: candles
+      data: [[19.12, 19.26, 19.10, 19.24], [19.24, 19.42, 19.22, 19.40], [19.40, 19.58, 19.38, 19.56], [19.56, 19.58, 19.46, 19.48], [19.48, 19.52, 19.44, 19.46], [19.46, 19.54, 19.44, 19.52], [19.52, 19.66, 19.50, 19.64], [19.64, 19.78, 19.62, 19.76], [19.76, 19.86, 19.72, 19.82], [19.82, 19.92, 19.78, 19.88]]
+      volume: [84000, 146000, 172000, 58000, 44000, 168000, 148000, 132000, 118000, 104000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran on to $19.88 — $0.36 per share, +$468 long on 1,300 shares from $19.52."
+    explanation: "Card C: a forty-eight-cent leg, fourteen back on the two quietest minutes, then a close in the leg's direction on four times that volume. Stop $19.42."
+
+  - type: compare
+    prompt: "Both names broke a marked low and closed back inside it. Which one is card E?"
+    charts:
+      - kind: candles
+        data: [[16.48, 16.54, 16.40, 16.42], [16.42, 16.46, 16.34, 16.36], [16.36, 16.40, 16.24, 16.26], [16.26, 16.34, 16.22, 16.32], [16.32, 16.38, 16.28, 16.36], [16.36, 16.42, 16.30, 16.34], [16.34, 16.38, 16.22, 16.24], [16.24, 16.30, 16.14, 16.18]]
+        levels: [{price: 16.30, label: "Morning low"}]
+        volume: [104000, 126000, 268000, 142000, 116000, 98000, 158000, 176000]
+        label: "A"
+      - kind: candles
+        data: [[22.16, 22.22, 22.08, 22.10], [22.10, 22.14, 22.02, 22.04], [22.04, 22.08, 21.94, 21.96], [21.96, 22.08, 21.94, 22.06], [22.06, 22.20, 22.04, 22.18], [22.18, 22.32, 22.16, 22.30], [22.30, 22.42, 22.26, 22.38], [22.38, 22.50, 22.34, 22.46]]
+        levels: [{price: 22.00, label: "Morning low"}]
+        volume: [112000, 86000, 48000, 164000, 148000, 136000, 124000, 112000]
+        label: "B"
+    answer: "B"
+    allow_neither: true
+    explanation: "B lost the low on the quietest bar of the session and took it back on three times that. A's break traded more than anything else all morning — somebody wanted out below that price."
+
+  - type: numeric-mc
+    prompt: "Four cards fired today: B made 2R, D lost 1R, A made 1.5R, G lost 1R. Your unit is $175. Where does the day stand before costs?"
+    options:
+      - {text: "+$437.50"}
+      - {text: "+$262.50", correct: true}
+      - {text: "+$175.00"}
+      - {text: "+$612.50"}
+    working: "2 − 1 + 1.5 − 1 = 1.5R; 1.5 × $175 = $262.50"
+    explanation: "Four different cards at four different share counts, and R turns the whole morning into one number."
+
+  - type: compare
+    prompt: "Same shape, same session time, two names. Which one is worth writing a card on today?"
+    charts:
+      - kind: candles
+        data: [[13.40, 13.52, 13.38, 13.50], [13.50, 13.58, 13.46, 13.52], [13.52, 13.56, 13.44, 13.46], [13.46, 13.52, 13.42, 13.50], [13.50, 13.64, 13.48, 13.62], [13.62, 13.76, 13.58, 13.72], [13.72, 13.86, 13.68, 13.84], [13.84, 13.96, 13.80, 13.92]]
+        volume: [128000, 142000, 156000, 164000, 198000, 226000, 248000, 264000]
+        label: "A"
+      - kind: candles
+        data: [[24.60, 24.72, 24.58, 24.70], [24.70, 24.78, 24.66, 24.72], [24.72, 24.76, 24.64, 24.66], [24.66, 24.72, 24.62, 24.70], [24.70, 24.84, 24.68, 24.82], [24.82, 24.96, 24.78, 24.92], [24.92, 25.06, 24.88, 25.04], [25.04, 25.16, 25.00, 25.12]]
+        volume: [96000, 78000, 64000, 52000, 46000, 38000, 34000, 29000]
+        label: "B"
+    answer: "A"
+    allow_neither: true
+    explanation: "Identical candles, opposite crowds. A's volume builds all session and B's drains away — and the card needs somebody on the other side when you leave."
+
+  - type: swipe-deck
+    prompt: "Shuffled, all eight cards in play. Take it or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[16.84, 17.02, 16.82, 17.00], [17.00, 17.10, 16.96, 17.04], [17.04, 17.08, 16.94, 16.96], [16.96, 17.00, 16.90, 16.92], [16.92, 16.98, 16.88, 16.96], [16.96, 17.10, 16.94, 17.08], [17.08, 17.22, 17.06, 17.20], [17.20, 17.32, 17.16, 17.28]]
+          levels: [{price: 16.84, label: "Opening price"}]
+          volume: [446000, 262000, 138000, 104000, 82000, 188000, 164000, 146000]
+        answer: take
+        note: "Not one close under the session's first print, a pullback that went quiet, and a resumption close on more than twice that volume. Card F."
+      - chart:
+          kind: candles
+          data: [[20.70, 20.76, 20.62, 20.64], [20.64, 20.70, 20.56, 20.58], [20.58, 20.64, 20.52, 20.62], [20.62, 20.68, 20.56, 20.58], [20.58, 20.64, 20.50, 20.52], [20.52, 20.58, 20.46, 20.48], [20.48, 20.54, 20.42, 20.44], [20.44, 20.50, 20.38, 20.40]]
+          levels: [{price: 20.56, label: "The low that stopped you"}]
+          volume: [118000, 104000, 96000, 88000, 112000, 98000, 92000, 86000]
+        answer: pass
+        note: "The level the first attempt leaned on has closed through four times since. A re-entry needs the thing it is built on to still be there."
+      - chart:
+          kind: candles
+          data: [[18.86, 18.98, 18.84, 18.96], [18.96, 19.04, 18.92, 18.94], [18.94, 19.04, 18.88, 18.92], [18.92, 19.02, 18.86, 19.00], [19.00, 19.04, 18.90, 18.92], [18.92, 19.04, 18.88, 18.90], [18.90, 18.96, 18.76, 18.78], [18.78, 18.84, 18.68, 18.72]]
+          levels: [{price: 19.04, label: "Range ceiling"}, {price: 18.66, label: "Range floor"}]
+          volume: [124000, 138000, 116000, 128000, 142000, 156000, 134000, 122000]
+        answer: take
+        note: "Fourth arrival at the same ceiling, refused again, and the close is back inside a thirty-eight-cent band. Card G."
+      - chart:
+          kind: candles
+          data: [[11.96, 12.00, 11.92, 11.98], [11.98, 12.02, 11.94, 11.96], [11.96, 12.00, 11.92, 11.98], [11.98, 12.02, 11.94, 12.00], [12.00, 12.02, 11.94, 11.96], [11.96, 12.00, 11.92, 11.98], [11.98, 12.02, 11.94, 11.96], [11.96, 12.00, 11.92, 11.98]]
+          levels: [{price: 12.00, label: "Round number"}]
+          volume: [34000, 31000, 28000, 26000, 24000, 23000, 25000, 22000]
+        answer: pass
+        note: "A marked price with a ten-cent band around it and the volume falling away. Nothing here pays for two crossings of the spread."
+    explanation: "Two cards from opposite ends of the sheet, and two charts that each hold on to a level while losing the only thing that makes a level matter."
+
+  - type: chart-decision
+    scenario: "PQT has rotated all morning and is stretched into the pre-market high at $24.90. It wicked to $24.98 last minute, and this one closes at $24.76 on the heaviest bar of the push. You have 500 shares ready — half size for this card."
+    shares: 500
+    chart:
+      kind: candles
+      data: [[24.30, 24.44, 24.28, 24.42], [24.42, 24.58, 24.40, 24.56], [24.56, 24.72, 24.54, 24.70], [24.70, 24.86, 24.68, 24.84], [24.84, 24.98, 24.82, 24.88], [24.88, 24.92, 24.72, 24.76], [24.76, 24.80, 24.64, 24.66], [24.66, 24.70, 24.54, 24.56], [24.56, 24.62, 24.46, 24.50], [24.50, 24.56, 24.42, 24.46]]
+      levels:
+        - {price: 24.90, label: "Pre-market high"}
+      vwap: [24.40, 24.42, 24.44, 24.46, 24.48, 24.48, 24.47, 24.47, 24.46, 24.46]
+      volume: [92000, 108000, 124000, 148000, 162000, 186000, 138000, 124000, 112000, 98000]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "It slid back toward the average price and you covered at $24.48 — $0.28 per share, +$140 short on 500 shares from $24.76."
+    explanation: "Card D: four pushes without a rest into a price drawn before the open, the biggest bar of them rejected. Stop $25.00, two cents over the wick, half size because it fights the day."
+
+  - type: match
+    prompt: "Four charts that nearly qualified. Match each to what it was missing."
+    pairs:
+      - ["A close beyond the box on the quietest bar", "Nobody paid for the break"]
+      - ["A pullback giving back three quarters of the leg", "The pause is an unwind"]
+      - ["A twelve-cent band on falling volume", "Half of it will not cover the round trip"]
+      - ["A re-entry after the level closed through", "The thing the card leans on is gone"]
+    explanation: "Volume, depth, width and the level. One of the four is missing on almost every chart that nearly works."
+
+  - type: tf
+    statement: "A card you have taken 200 times and a card you have taken twice deserve the same share size."
+    answer: false
+    explanation: "Size follows evidence, and two trades are not evidence of anything. A new card earns its full share count the same way an old one did."
+
+  - type: example
+    body: "Eight cards, four pairs, one deck. The half you passed is the half that decides what the other half is worth."

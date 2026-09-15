@@ -1,0 +1,120 @@
+id: "14-2"
+title: "Choosing the Setup for the Day"
+chapter: 7
+chapter_title: "Scalping Playbook"
+path: scalping
+category: new-theory
+tags: [conditions, trend-day, selection]
+learning_goal: "User names the cards a trending session keeps producing and the ones it quietly stops producing, and can say why from the shape of the day rather than from a list."
+purpose: "Most of a scalper's worst days are good cards taken against a session that was never going to turn."
+terms_introduced: []
+reinforces: [5]
+prerequisite: "14-1"
+xp: 20
+difficulty: 2
+sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
+notes: "Trend days. Account named at $22,000; both decisions sized under it. Day type read comes from Chapter 5, Level 13."
+screens:
+  - type: intro
+    text: "A day that only goes one way deals you four cards and takes two off the table."
+
+  - type: story
+    character: retail-trader
+    text: "An hour after the open, HLX has made four higher highs on the 5-minute and has not printed a single close under its own average price. Your account is $22,000."
+
+  - type: theory
+    title: "What a trend day keeps doing"
+    body: "It makes a new extreme, hands a little back, then goes again. Every give-back gets bought before it reaches the last one, so nothing is ever stretched far enough to be worth leaning against."
+
+  - type: visual
+    component: chart-candles
+    data:
+      data: [[15.90, 16.12, 15.86, 16.08], [16.08, 16.28, 16.02, 16.24], [16.24, 16.30, 16.14, 16.20], [16.20, 16.46, 16.18, 16.42], [16.42, 16.60, 16.36, 16.56]]
+      volume: [386000, 342000, 268000, 294000, 316000]
+    caption: "The same session on the 5-minute. Three pushes, and each give-back stopped above the one before it."
+
+  - type: sort
+    prompt: "On a session shaped like that, which of these are on the table?"
+    buckets: ["On the table", "Off the table"]
+    items:
+      - {text: "A shallow pause after a leg, then a close back in its direction", bucket: "On the table"}
+      - {text: "The first pullback into the line in a stock that has held it all session", bucket: "On the table"}
+      - {text: "A rejection close at the price the last push reached", bucket: "Off the table"}
+      - {text: "Selling the top edge of the morning's band back toward the middle", bucket: "Off the table"}
+    explanation: "Two cards go with the day and two lean against it. Nothing about the individual candles changes that."
+
+  - type: chart-decision
+    scenario: "HLX runs from $16.20 to $16.58, then gives back fourteen cents over two of the quietest minutes of the hour. This minute closes at $16.54 on more than three times that volume. You have 1,250 shares ready."
+    shares: 1250
+    chart:
+      kind: candles
+      data: [[16.20, 16.30, 16.18, 16.28], [16.28, 16.44, 16.26, 16.42], [16.42, 16.58, 16.40, 16.56], [16.56, 16.58, 16.46, 16.48], [16.48, 16.52, 16.44, 16.46], [16.46, 16.56, 16.44, 16.54], [16.54, 16.66, 16.52, 16.64], [16.64, 16.76, 16.62, 16.74], [16.74, 16.86, 16.70, 16.84], [16.84, 16.94, 16.80, 16.90]]
+      volume: [78000, 134000, 158000, 54000, 42000, 146000, 128000, 112000, 98000, 88000]
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $16.90 — $0.36 per share, +$450 long on 1,250 shares from $16.54."
+    explanation: "Card C, on the day type that produces it most often. Stop $16.42, two cents under the quiet pause."
+
+  - type: numeric-input
+    prompt: "Long 1,250 HLX from $16.54 with the stop at $16.42, and the target fills at $16.90. What is that in R?"
+    answer: 3
+    unit: "R"
+    working: "$16.54 − $16.42 = $0.12 risked; $16.90 − $16.54 = $0.36 made; $0.36 ÷ $0.12 = 3"
+    explanation: "Twelve cents of risk is what the quiet pause bought you, and it is what turns thirty-six cents into 3R."
+
+  - type: compare
+    prompt: "Two sessions at the same point in the morning. Which one is the continuation card's day?"
+    charts:
+      - kind: candles
+        data: [[14.20, 14.34, 14.18, 14.32], [14.32, 14.46, 14.28, 14.42], [14.42, 14.48, 14.36, 14.40], [14.40, 14.56, 14.38, 14.54], [14.54, 14.68, 14.50, 14.64], [14.64, 14.70, 14.58, 14.62], [14.62, 14.78, 14.60, 14.76], [14.76, 14.90, 14.72, 14.86]]
+        label: "A"
+      - kind: candles
+        data: [[21.06, 21.18, 21.02, 21.14], [21.14, 21.20, 21.04, 21.08], [21.08, 21.18, 21.02, 21.16], [21.16, 21.20, 21.06, 21.10], [21.10, 21.20, 21.04, 21.16], [21.16, 21.20, 21.06, 21.08], [21.08, 21.18, 21.02, 21.14], [21.14, 21.20, 21.04, 21.10]]
+        label: "B"
+    answer: "A"
+    explanation: "A's give-backs each stop above the last one. B has been to the same ceiling four times and the same floor four times, which is the other day and the other half of the sheet."
+
+  - type: mc
+    prompt: "Four higher highs on the 5-minute, and every give-back has stopped above the one before it. Which card does that shape keep producing?"
+    options:
+      - {text: "Range rotation"}
+      - {text: "Mean reversion at a level"}
+      - {text: "Momentum continuation", correct: true}
+    explanation: "Shallow pauses inside a run are the raw material of the continuation card, and a trend day makes one every twenty minutes."
+
+  - type: tf
+    statement: "A trend day still deals the opening-range card, even though the day type is not known yet when that card fires."
+    answer: true
+    explanation: "The box finishes inside the first five minutes, long before the session has shown what it is. That is why the card belongs to both day types."
+
+  - type: chart-decision
+    scenario: "ORB has climbed since the open and has not traded back to its own average price. It wicks through yesterday's high at $18.40 to $18.46 and closes at $18.28, and this minute settles at $18.30. You have 1,100 shares ready."
+    shares: 1100
+    chart:
+      kind: candles
+      data: [[17.70, 17.86, 17.68, 17.84], [17.84, 18.00, 17.82, 17.98], [17.98, 18.12, 17.96, 18.10], [18.10, 18.26, 18.08, 18.24], [18.24, 18.46, 18.22, 18.28], [18.28, 18.34, 18.20, 18.30], [18.30, 18.48, 18.28, 18.46], [18.46, 18.62, 18.44, 18.60], [18.60, 18.76, 18.56, 18.72], [18.72, 18.88, 18.68, 18.84]]
+      levels:
+        - {price: 18.40, label: "Yesterday's high"}
+      volume: [96000, 112000, 128000, 146000, 168000, 92000, 124000, 138000, 146000, 152000]
+      decision_index: 5
+    best: no-trade
+    outcome: "It took the level back on the next attempt and ran to $18.84 — $0.54 against a short, $594 on 1,100 shares."
+    explanation: "The rejection candle is real and the day it appeared on is wrong. On a session like this the marked price gets taken on the second or third try."
+
+  - type: fill-choice
+    sentence: "On a trending session the card you must not reach for is the one that ___ the move."
+    options: ["fades", "follows", "brackets"]
+    answer: "fades"
+    explanation: "Trend days punish the cards that lean against them, and they punish them at the exact moment the shape looks most convincing."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The 5-minute has trended up all session,"}
+      - {text: "so you short the third push into the high", wrong: true}
+      - {text: "and put the stop above it."}
+    explanation: "Nothing on the sheet says short a run because it has gone far. A well-placed stop does not make a card out of a chart that has none."
+
+  - type: example
+    body: "One trending morning, two cards taken, two cards never picked up. The sheet did not get shorter — the day just refused to deal half of it."
