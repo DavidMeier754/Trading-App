@@ -1,0 +1,111 @@
+id: "12-2"
+title: "When to Increase Size"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [sizing, execution, costs, risk]
+learning_goal: "User takes one step of size at a time, recomputes the unit and the caps behind it, and picks a name the bigger number can actually be filled in."
+purpose: "The step is arithmetic and a fill, not a feeling of promotion."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "12-1"
+xp: 25
+difficulty: 3
+sources: ["Aziz — How to Day Trade for a Living", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "The step from 12-1 taken: 1,200 to 1,500 shares, 1R from $144 to $180, limit 3R. Account named at $18,000; the worked positions are 1,500 shares at $11.60 = $17,400 and 1,500 at $11.65 = $17,475."
+screens:
+  - type: intro
+    text: "The rows said yes. The step is a quarter more shares, not twice as many."
+
+  - type: theory
+    title: "A quarter at a time"
+    body: "1,200 shares becomes 1,500, and stays there until the next thirty rows say otherwise. A step you can barely feel is a step you can undo without a story."
+
+  - type: numeric-input
+    prompt: "Your limit is still 3R and 1R is now $180. What does the daily loss limit come to in dollars?"
+    answer: 540
+    tolerance: 0.5
+    unit: "$"
+    working: "3 × $180 = $540"
+    explanation: "The same three units, worth a hundred and eight dollars more than they were last month. The limit in R never moved; the money behind it did."
+
+  - type: example
+    body: "An eighteen-cent winner on the same chart pays $270 at 1,500 shares and paid $216 at 1,200. An eighteen-cent loser costs the same way round."
+
+  - type: scanner-pick
+    prompt: "First morning at 1,500 shares, account $18,000. Which row can you actually hold at that size and pay for the round trip?"
+    data:
+      rows:
+        - {ticker: MALT, price: 14.80, change_pct: 7.1, rvol: 4.8, float: "52M", spread: 0.02, catalyst: "Earnings"}
+        - {ticker: RIDGE, price: 11.60, change_pct: 6.4, rvol: 5.2, float: "38M", spread: 0.02, catalyst: "Contract"}
+        - {ticker: KEDGE, price: 22.40, change_pct: 5.6, rvol: 3.9, float: "120M", spread: 0.05, catalyst: "Upgrade"}
+        - {ticker: PONT, price: 9.40, change_pct: 9.2, rvol: 6.1, float: "5M", spread: 0.11, catalyst: "Offering"}
+    target: RIDGE
+    explanation: "1,500 of MALT is $22,200 and of KEDGE $33,600. PONT is affordable and charges eleven cents a share to get in and out of. RIDGE is $17,400 and two cents wide."
+
+  - type: chart-decision
+    scenario: "RIDGE has turned at $11.48 three times this morning and the minute that just closed finished at $11.60, above every high behind it, on the heaviest bar since the bell. The stop belongs under the shelf. Your account is $18,000 and today's size is 1,500 shares."
+    shares: 1500
+    chart:
+      kind: candles
+      data: [[11.52, 11.58, 11.48, 11.54], [11.54, 11.58, 11.50, 11.56], [11.56, 11.58, 11.48, 11.52], [11.52, 11.56, 11.48, 11.54], [11.54, 11.58, 11.50, 11.56], [11.56, 11.66, 11.54, 11.60], [11.60, 11.72, 11.58, 11.70], [11.70, 11.80, 11.66, 11.76], [11.76, 11.88, 11.72, 11.84], [11.84, 11.92, 11.80, 11.89]]
+      volume: [104000, 92000, 86000, 78000, 88000, 218000, 186000, 158000, 132000, 118000]
+      levels:
+        - {price: 11.48, label: "Shelf"}
+      decision_index: 5
+    state: ["Size: first day at 1,500", "Day: 0R"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It ran to $11.89 — $0.29 a share above the decision, +$435 on 1,500 shares against $180 of risk."
+    explanation: "Twelve cents under a shelf that has held three times, on the name the account can hold at the new number. The step changed the size and nothing else."
+
+  - type: depth-ladder
+    prompt: "You send the 1,500 as a market order. Where does the last share fill?"
+    data:
+      bids: [[11.60, 900], [11.59, 1300], [11.58, 2200]]
+      asks: [[11.62, 500], [11.63, 700], [11.64, 1400]]
+    target: ask-3
+    explanation: "500 and 700 take 1,200 of them, and the last 300 reach the third row. The same order at 1,200 shares would have stopped one row earlier."
+
+  - type: tf
+    statement: "A step up can be undone in the same week it was taken."
+    answer: true
+    explanation: "Size is the one part of the method that moves in both directions cheaply. Nothing about the step is a rank you keep once the rows stop paying for it."
+
+  - type: order-build
+    prompt: "The same trade as a limit: 1,500 shares, nothing worse than three cents through the $11.62 ask."
+    ticker: RIDGE
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [750, 1200, 1500]
+      price: [11.59, 11.62, 11.65]
+    answer: {side: buy, type: limit, qty: 1500, price: 11.65}
+    explanation: "A ceiling three cents through the offer still crosses, and it is worth more at 1,500 shares than it was at 1,200 because the order now reaches further into the book."
+
+  - type: mc
+    prompt: "Your first week at the new size finishes down 0.4R. What decides whether the size stays?"
+    options:
+      - {text: "Whether the account is still above where it started the month"}
+      - {text: "Whether the rows still went in the way the card said", correct: true}
+      - {text: "Whether the week finished green at the bigger number"}
+    explanation: "One week cannot judge the step, but it can show hesitation: late entries, skipped triggers, early exits. Those appear in the grades long before they appear in the result."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The step is on, so the size key goes to 1,500"}
+      - {text: "and the stop moves two cents closer to hold the old dollar risk,", wrong: true}
+      - {text: "while the card keeps the trigger it has always had."}
+    explanation: "Two cents off the stop is a different trade with the same name on it. The unit is meant to grow with the size — that is what the step is."
+
+  - type: fill-choice
+    sentence: "The first sessions at a new size are judged on the ___ column, not on what they made."
+    options: ["grade", "win rate", "R"]
+    answer: "grade"
+    explanation: "The question the step asks is whether you still execute the same way with more money on the screen."
+
+  - type: example
+    body: "One step, one name it fits, the same twelve-cent stop and a ticket that reaches one row further into the book. Nothing else about the morning changed."

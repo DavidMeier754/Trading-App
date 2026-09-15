@@ -1,0 +1,100 @@
+id: "12-1"
+title: "When to Increase Size"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [sizing, stats, risk, process]
+learning_goal: "User names the evidence a size increase needs — a count of well-executed rows rather than a good stretch — and checks it against what the account can pay for."
+purpose: "Size is the fastest way to turn a working method into a frightening one, and a green week is the usual excuse."
+terms_introduced: ["Scaling up", "Grade-A trade"]
+reinforces: [6]
+prerequisite: "11-4"
+xp: 20
+difficulty: 2
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Bellafiore — One Good Trade"]
+notes: "Account named at $18,000, current size 1,200 shares on a twelve-cent stop ($144 a unit), proposed step 1,500 shares ($180 a unit, exactly 1 % of the account). No position is worked here."
+screens:
+  - type: intro
+    text: "Two green weeks, and a quiet voice suggesting the same method on half as many shares again."
+
+  - type: theory
+    title: "Scaling up"
+    body: "Scaling up is raising your share size in planned steps, each one paid for by evidence from your own rows. It is a decision made at the sheet, never at the screen."
+
+  - type: theory
+    title: "A grade-A trade"
+    body: "A grade-A trade is one where the execution matched the card: the trigger, the size, the stop, the exit. The result has no vote. A loss taken exactly as planned is an A."
+
+  - type: checklist-reveal
+    title: "Before the size moves"
+    items:
+      - "Thirty rows or more since the last change"
+      - "One average trade across them is positive"
+      - "Most of those rows are graded A"
+      - "The account can pay for the bigger number at the prices you trade"
+
+  - type: mc
+    prompt: "Two traders want the step. One has thirty-one rows and a positive average; the other has nine rows and the best fortnight of the year. What separates them?"
+    options:
+      - {text: "One of them has enough rows to be read", correct: true}
+      - {text: "One of them made more money over the stretch"}
+      - {text: "One of them has already traded a bigger size"}
+    explanation: "Nine rows is a streak, and a streak is what a positive method looks like some of the time and a losing one looks like occasionally."
+
+  - type: numeric-input
+    prompt: "Twenty-four of your last thirty rows are graded A. What share of the sample is that?"
+    answer: 80
+    tolerance: 0.5
+    unit: "%"
+    working: "24 ÷ 30 = 0.80"
+    explanation: "Four in five run the way the card said. That is the number the step is actually being paid for."
+
+  - type: tf
+    statement: "Five trades in a row, every one of them an A, is a streak rather than a sample."
+    answer: true
+    explanation: "Five rows cannot be read, let alone acted on. The count at the top of the card exists so that a hot stretch has to wait for company."
+
+  - type: numeric-mc
+    prompt: "Your account is $18,000 and the names you trade are around $15.00. What does the account allow you to hold?"
+    options:
+      - {text: "1,800 shares"}
+      - {text: "1,500 shares"}
+      - {text: "1,200 shares", correct: true}
+      - {text: "2,400 shares"}
+    working: "$18,000 ÷ $15.00 = 1,200 shares"
+    explanation: "The size you already trade is the size the account can pay for at those prices. The evidence is not the only thing that has to agree."
+
+  - type: mc
+    prompt: "So what does the account ceiling do to a step from 1,200 shares to 1,500?"
+    options:
+      - {text: "Nothing, because the stop decides the size and it has not changed"}
+      - {text: "It holds the step until the account grows or the name is cheaper", correct: true}
+      - {text: "It allows the step on the first half of the position only"}
+    explanation: "At $12.00 a share the account holds 1,500. At $15.00 it does not, and no amount of evidence will pay for stock you cannot afford."
+
+  - type: sort
+    prompt: "Two of these the rows can settle, and two of them only a feeling can. Which is which?"
+    buckets: ["The rows settle it", "Only a feeling says it"]
+    items:
+      - {text: "Most of the last thirty entries went in as written", bucket: "The rows settle it"}
+      - {text: "One average trade across them is positive", bucket: "The rows settle it"}
+      - {text: "You are reading the tape better than last month", bucket: "Only a feeling says it"}
+      - {text: "The method deserves more size after that week", bucket: "Only a feeling says it"}
+    explanation: "The first two are columns. The other two are impressions of the same fortnight, and they arrive loudest after it went well."
+
+  - type: numeric-input
+    prompt: "The step is 1,500 shares on the same twelve-cent stop. What is 1R in dollars at that size?"
+    answer: 180
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.12 × 1,500 = $180"
+    explanation: "Thirty-six dollars a unit more than the 1,200 shares cost you, and exactly one per cent of the $18,000 behind it."
+
+  - type: fill-tiles
+    sentence: "Size comes down on results and goes back up only on ___."
+    answer: "evidence"
+    explanation: "Chapter 6 made the cut cheap and quick. The step back up is the slow half, and it is the half that needs rows."
+
+  - type: example
+    body: "Thirty-one rows, twenty-four of them A, one average trade positive, and the step still waits for a name the account can hold at 1,500."

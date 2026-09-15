@@ -1,0 +1,161 @@
+id: "13-1"
+title: "Chapters 6 & 7 Callback"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: repetition
+tags: [limits, playbook, risk, session]
+learning_goal: "User sizes and passes trades against the room left on the page, and treats a complete card that arrives after the limit as a row for the review."
+purpose: "The hardest card to pass is the one that is perfect and arrives a trade too late."
+terms_introduced: []
+reinforces: [6, 7]
+prerequisite: "12-3"
+xp: 30
+difficulty: 3
+sources: ["Elder — Trading for a Living", "Bellafiore — The PlayBook"]
+notes: "Chapter 6's daily loss limit and Chapter 7's cards re-tested against each other inside one session. Account named at $15,000, size 1,000 shares, 1R $120, limit 3R. The worked positions are 1,000 shares at $13.90 = $13,900 and 1,000 at $12.60 = $12,600."
+screens:
+  - type: intro
+    text: "Two stops in, one unit of room left, and the best chart of the morning has not happened yet."
+
+  - type: story
+    character: retail-trader
+    text: "Your account is $15,000, the page says 1,000 shares, and two twelve-cent stops have already filled. The limit you wrote before the bell is three units."
+
+  - type: numeric-input
+    prompt: "Your limit is 3R, 1R is $120 and the day stands at −2R. How many dollars of loss are left?"
+    answer: 120
+    tolerance: 0.5
+    unit: "$"
+    working: "3 × $120 = $360; $360 − $240 = $120"
+    explanation: "Exactly one full stop at today's size. The next trade is allowed to be the last one whatever it does."
+
+  - type: swipe-deck
+    prompt: "One unit of room and 1,000 shares on the page. Does this one get the last ticket?"
+    cards:
+      - chart:
+          kind: candles
+          data: [[12.48, 12.54, 12.44, 12.50], [12.50, 12.54, 12.46, 12.48], [12.48, 12.52, 12.44, 12.50], [12.50, 12.54, 12.46, 12.48], [12.48, 12.52, 12.44, 12.50], [12.50, 12.58, 12.48, 12.56], [12.56, 12.62, 12.52, 12.60], [12.60, 12.66, 12.56, 12.64]]
+          levels: [12.44]
+        answer: take
+        note: "Four-cent bars and a shelf twelve cents under the close. One unit of room pays for exactly that stop at today's size."
+      - chart:
+          kind: candles
+          data: [[12.20, 12.46, 12.14, 12.42], [12.42, 12.58, 12.28, 12.32], [12.32, 12.54, 12.26, 12.50], [12.50, 12.62, 12.38, 12.44], [12.44, 12.66, 12.40, 12.62], [12.62, 12.74, 12.52, 12.58], [12.58, 12.70, 12.46, 12.66], [12.66, 12.78, 12.58, 12.62]]
+        answer: pass
+        note: "Twenty-cent bars, and the nearest place a stop belongs is twenty-six cents under. That is more risk than the move above it is worth."
+      - chart:
+          kind: candles
+          data: [[12.60, 12.64, 12.50, 12.52], [12.52, 12.58, 12.44, 12.46], [12.46, 12.52, 12.40, 12.42], [12.42, 12.48, 12.36, 12.38], [12.38, 12.44, 12.32, 12.34], [12.34, 12.40, 12.28, 12.30], [12.30, 12.36, 12.24, 12.26], [12.26, 12.32, 12.20, 12.22]]
+          vwap: [12.58, 12.55, 12.52, 12.49, 12.46, 12.43, 12.40, 12.38]
+        answer: pass
+        note: "Under its own average price all stretch and refused at it twice. There is no card on your page that buys this."
+      - chart:
+          kind: candles
+          data: [[12.34, 12.42, 12.32, 12.40], [12.40, 12.46, 12.36, 12.44], [12.44, 12.48, 12.36, 12.38], [12.38, 12.42, 12.32, 12.36], [12.36, 12.42, 12.34, 12.40], [12.40, 12.50, 12.38, 12.48], [12.48, 12.56, 12.44, 12.54], [12.54, 12.60, 12.50, 12.58]]
+          levels: [12.32]
+        answer: take
+        note: "Three lighter minutes back to the price it broke from, then the first close above them. The stop goes under the pause, eight cents away."
+    explanation: "Two tickets and two passes, and neither pass was about the limit: one asks for more risk than the move is worth and the other is nobody's card."
+
+  - type: chart-decision
+    scenario: "HAVEN has held $13.78 four times this morning and the minute that just closed finished at $13.90, above the minutes behind it on the heaviest bar of the stretch. The stop belongs under the shelf. Your account is $15,000 and the page says 1,000 shares."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[13.86, 13.92, 13.78, 13.82], [13.82, 13.88, 13.78, 13.86], [13.86, 13.90, 13.78, 13.84], [13.84, 13.90, 13.78, 13.88], [13.88, 13.92, 13.84, 13.86], [13.86, 13.96, 13.84, 13.90], [13.90, 13.92, 13.82, 13.84], [13.84, 13.86, 13.76, 13.78], [13.78, 13.82, 13.72, 13.76], [13.76, 13.80, 13.74, 13.76]]
+      volume: [78000, 84000, 72000, 88000, 76000, 168000, 124000, 132000, 108000, 92000]
+      levels:
+        - {price: 13.78, label: "Shelf"}
+      decision_index: 5
+    state: ["Day: −2R", "Room: 1R"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It turned at once and finished the stretch at $13.76 — $0.14 a share below the decision, and the stop at $13.78 took $120 out on 1,000 shares."
+    explanation: "One unit of room pays for exactly one full stop, and this card asked for exactly that. Taking it was right; what it returned was the draw."
+
+  - type: numeric-mc
+    prompt: "Suppose that card had needed a sixteen-cent stop instead. What size would the $120 of room have allowed?"
+    options:
+      - {text: "1,000 shares"}
+      - {text: "500 shares"}
+      - {text: "750 shares", correct: true}
+      - {text: "1,250 shares"}
+    working: "$120 ÷ $0.16 = 750 shares"
+    explanation: "The room is fixed and the stop comes off the chart, so the share count is the only part left to move."
+
+  - type: hotspot
+    component: plan-sheet
+    prompt: "The stop just filled and the day stands at −3R. Tap the field that has ended the session."
+    data:
+      fields:
+        - {key: share_size, label: "Share size", value: "1,000"}
+        - {key: r_dollars, label: "1R in dollars", value: "$120"}
+        - {key: daily_loss_limit, label: "Daily loss limit", value: "3R"}
+        - {key: trade_cap, label: "Trade cap", value: "6 trades"}
+    target: daily_loss_limit
+    explanation: "Three trades of the six are gone and the cap has room in it. The other number ran out first, and any one of them ending the day ends it."
+
+  - type: chart-decision
+    scenario: "Forty minutes later, on the other name on your page. MERSE has spent the morning stepping higher and the minute that just closed finished at $12.60, through the high of the last hour on triple the volume of the minutes before it. The day stands at −3R."
+    shares: 1000
+    chart:
+      kind: candles
+      data: [[12.46, 12.52, 12.42, 12.50], [12.50, 12.54, 12.44, 12.48], [12.48, 12.52, 12.44, 12.50], [12.50, 12.56, 12.46, 12.52], [12.52, 12.56, 12.48, 12.54], [12.54, 12.64, 12.52, 12.60], [12.60, 12.72, 12.58, 12.70], [12.70, 12.80, 12.66, 12.76], [12.76, 12.86, 12.72, 12.82], [12.82, 12.96, 12.80, 12.93]]
+      volume: [124000, 108000, 96000, 112000, 102000, 246000, 198000, 174000, 152000, 136000]
+      levels:
+        - {price: 12.56, label: "High of the hour"}
+      decision_index: 5
+    state: ["Day: −3R", "Trades: 3 of 6"]
+    best: no-trade
+    outcome: "It ran to $12.93 — $0.33 a share above the decision, $330 on 1,000 shares that the limit cost you."
+    explanation: "The card is complete and the answer is still no. A limit that only applies when nothing good is setting up is not a limit at all."
+
+  - type: compare
+    prompt: "Three charts from the same afternoon. Which one is the card your playbook actually names?"
+    charts:
+      - kind: candles
+        label: "A"
+        data: [[12.54, 12.58, 12.44, 12.46], [12.46, 12.50, 12.38, 12.40], [12.40, 12.46, 12.34, 12.44], [12.44, 12.48, 12.36, 12.38], [12.38, 12.42, 12.30, 12.32], [12.32, 12.40, 12.28, 12.36], [12.36, 12.38, 12.26, 12.28], [12.28, 12.34, 12.22, 12.24]]
+      - kind: candles
+        label: "B"
+        data: [[12.44, 12.50, 12.40, 12.48], [12.48, 12.54, 12.44, 12.52], [12.52, 12.56, 12.48, 12.50], [12.50, 12.54, 12.46, 12.52], [12.52, 12.58, 12.50, 12.56], [12.56, 12.66, 12.54, 12.64], [12.64, 12.72, 12.60, 12.70], [12.70, 12.78, 12.66, 12.74]]
+      - kind: candles
+        label: "C"
+        data: [[12.50, 12.62, 12.46, 12.58], [12.58, 12.60, 12.44, 12.46], [12.46, 12.58, 12.42, 12.56], [12.56, 12.60, 12.44, 12.48], [12.48, 12.60, 12.44, 12.58], [12.58, 12.62, 12.46, 12.50], [12.50, 12.60, 12.44, 12.56], [12.56, 12.62, 12.48, 12.52]]
+    answer: "B"
+    explanation: "B holds a shelf and closes through the highs behind it. A is the same shape upside down and C is twenty cents crossed and re-crossed, which no card on your page asks for."
+
+  - type: tf
+    statement: "A limit reached in the first hour is a limit for the rest of the session."
+    answer: true
+    explanation: "Nothing that happens afterwards adds room. A number that survives until it is inconvenient and then bends was never doing any work."
+
+  - type: sort
+    prompt: "Which of these puts room back on the page, and which only feels as though it should?"
+    buckets: ["It adds room", "It adds nothing"]
+    items:
+      - {text: "Tomorrow's session", bucket: "It adds room"}
+      - {text: "A winner taken before the limit was reached", bucket: "It adds room"}
+      - {text: "A card that sets up perfectly afterwards", bucket: "It adds nothing"}
+      - {text: "Halving the share size once the limit is gone", bucket: "It adds nothing"}
+    explanation: "Room is made of results that happened while you still had permission to trade. Everything after that is next session's business."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The third stop fills and the day reaches −3R,"}
+      - {text: "so the size halves and the page keeps running,", wrong: true}
+      - {text: "and the working orders are cancelled for the session."}
+    explanation: "Half size after the limit is still a trade the page does not allow. The cut belongs to the stretch before the limit, not after it."
+
+  - type: mc
+    prompt: "Two of your cards set up cleanly in the hour after the limit. What are they worth?"
+    options:
+      - {text: "One ticket at half size, since both cards were complete"}
+      - {text: "Two lines in the review and nothing else", correct: true}
+      - {text: "A ticket each, if the first one was passed on the limit"}
+    explanation: "They are evidence about the card and about the day type, which is what the review is for. Neither of them is permission."
+
+  - type: example
+    body: "Three trades, three stops, $360 gone and the screen shut by the middle of the session. The morning that follows a day like this is the one the limit was written for."

@@ -1,0 +1,120 @@
+id: "10-1"
+title: "Checkpoint"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: test
+tags: [checkpoint]
+learning_goal: "Verify Levels 6–9: the open marked before it is traded, the three answers to the lull, a session finished flat and written down, and a whole day run off one page."
+purpose: "The session is now one process. This is where it gets checked end to end before the numbers behind it are taught."
+terms_introduced: []
+reinforces: [6, 7]
+prerequisite: "9-3"
+xp: 40
+difficulty: 2
+sources: ["Aziz — How to Day Trade for a Living", "Steenbarger — The Daily Trading Coach"]
+notes: "10 scored questions. Hearts apply. Pass mark 70 %. Three questions reach back: the limit arithmetic and the journal row to Chapter 6, the re-entry card to Chapter 7. Account named at $14,000; the worked positions are 800 shares at $16.08 = $12,864, 800 at $16.24 = $12,992 and 800 at $16.12 = $12,896."
+screens:
+  - type: intro
+    text: "Checkpoint. Ten questions on the open, the dead stretch, the bell and the day that ran between them. Hearts are on."
+    counter: 10
+
+  - type: chart-annotate
+    prompt: "MARLO, the first nine minutes of the session. Drag the line to the bottom edge of the opening range."
+    chart:
+      kind: candles
+      data: [[15.94, 16.00, 15.86, 15.96], [15.96, 16.04, 15.92, 16.02], [16.02, 16.06, 15.88, 15.94], [15.94, 16.02, 15.90, 15.98], [15.98, 16.04, 15.94, 16.00], [16.00, 16.08, 15.96, 16.06], [16.06, 16.10, 16.00, 16.04], [16.04, 16.12, 16.02, 16.10], [16.10, 16.14, 16.06, 16.12]]
+      volume: [246000, 198000, 174000, 152000, 138000, 126000, 118000, 104000, 96000]
+    answer: 15.86
+    tolerance: 0.04
+    label: "Opening-range low"
+    explanation: "$15.86, printed in the first minute and never beaten in the five that make the box. The floor of the range is a line for the rest of the morning."
+
+  - type: numeric-input
+    prompt: "You want 800 shares while the quote is still nine cents wide. What does the round trip cost in quote alone?"
+    answer: 72
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.09 × 800 = $72"
+    explanation: "Seventy-two dollars handed over before the chart has done anything, which is why the first minutes are for marking."
+
+  - type: sort
+    prompt: "The middle of the session is thin. Which of these may the stretch change, and which stays exactly where it was?"
+    buckets: ["The lull may change it", "It stays where it was"]
+    items:
+      - {text: "How many shares the ticket gets", bucket: "The lull may change it"}
+      - {text: "How many reasons must line up before you send", bucket: "The lull may change it"}
+      - {text: "The distance the chart puts between entry and stop", bucket: "It stays where it was"}
+      - {text: "Which prices the card calls the target", bucket: "It stays where it was"}
+    explanation: "Size and the pass mark are yours to move. The moment the stops and the targets move with them, the method changed rather than the risk."
+
+  - type: numeric-input
+    prompt: "Your 1R is $96 and your daily loss limit is 3R. You are down $208. How many dollars of loss end the session?"
+    answer: 80
+    tolerance: 0.5
+    unit: "$"
+    working: "3 × $96 = $288; $288 − $208 = $80"
+    explanation: "Less than one full stop of room left, which is a number worth having before the next size is chosen rather than after."
+
+  - type: journal-row
+    prompt: "The box break you took at the open, 800 shares. Fill its row."
+    trade: {setup: "Opening-range break", entry: 16.08, stop: 15.96, exit: 16.32, shares: 800}
+    slots: [r_risked, r_made, grade]
+    chips:
+      r_risked: ["$72", "$96", "$120"]
+      r_made: ["+1R", "+1.5R", "+2R"]
+      grade: ["A", "B", "C"]
+    answer: {r_risked: "$96", r_made: "+2R", grade: "A"}
+    explanation: "Twelve cents risked on 800 shares is $96, and twenty-four cents made is two of them. The grade is about the execution, and this one followed the page."
+
+  - type: tf
+    statement: "A position still open at the bell is the trade you sized, only held a little longer."
+    answer: false
+    explanation: "It is a different trade: hours of exposure to a market you cannot reach, against a stop that nobody is watching."
+
+  - type: chart-decision
+    scenario: "Deep in the middle stretch. GRANE has held above its own average price since the open, the quote is two cents, and the minute that just closed finished at $16.24 through the high of the last hour on the heaviest bar of the stretch. Your account is $14,000 and you cut the size to 800 shares."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[16.02, 16.08, 15.98, 16.06], [16.06, 16.12, 16.02, 16.10], [16.10, 16.16, 16.06, 16.12], [16.12, 16.18, 16.08, 16.14], [16.14, 16.18, 16.10, 16.14], [16.14, 16.28, 16.12, 16.24], [16.24, 16.36, 16.20, 16.32], [16.32, 16.42, 16.28, 16.38], [16.38, 16.48, 16.34, 16.44], [16.44, 16.50, 16.40, 16.47]]
+      volume: [46000, 41000, 38000, 44000, 39000, 128000, 106000, 92000, 78000, 70000]
+      levels:
+        - {price: 16.18, label: "High of the stretch"}
+      decision_index: 5
+    state: ["Day: +1R", "Trades: 3 of 6"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried to $16.47 — $0.23 a share above the decision, +$184 on 800 shares."
+    explanation: "A thin stretch asks for more reasons, not for none at all. Every reason the card wants is at this price, and the smaller size is what pays for the thinner tape."
+
+  - type: order-build
+    prompt: "The minute closed outside the box at $16.08 and the ask is now $16.10. Your page allows four cents through the trigger on 800 shares. Build the entry."
+    ticker: MARLO
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [400, 800, 1200]
+      price: [16.08, 16.10, 16.12]
+    answer: {side: buy, type: limit, qty: 800, price: 16.12}
+    explanation: "A limit at $16.12 takes the offer now and still refuses a fill worse than the four cents the page allowed."
+
+  - type: mc
+    prompt: "The box break stopped you out. Ten minutes later MARLO closes a minute back above the box on heavier volume than the first attempt. What does your playbook say?"
+    options:
+      - {text: "A card of its own, and its conditions are met", correct: true}
+      - {text: "Double the size, so the first attempt is paid back by this one"}
+      - {text: "One attempt per name a day, whatever the chart does afterwards"}
+    explanation: "A second entry is a trade, not a repair. It gets the conditions and the size any other card gets, and it counts against the trade cap like any other."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The minute closes outside the box at $16.08,"}
+      - {text: "so you wait for a second close before sending,", wrong: true}
+      - {text: "which is the trigger the page wrote before the bell."}
+    explanation: "The page named one close, not two. A condition added while the move is running is the open rewriting your plan."
+
+  - type: summary
+    total: 10

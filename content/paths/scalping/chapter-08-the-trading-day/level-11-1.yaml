@@ -1,0 +1,110 @@
+id: "11-1"
+title: "Tracking Your Numbers"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [stats, expectancy, review, process]
+learning_goal: "User keeps six numbers off their own rows and can say what each one is for and which one the others exist to produce."
+purpose: "A journal nobody adds up is a diary. Six numbers turn the same rows into something that answers a question."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "10-1"
+xp: 20
+difficulty: 2
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Steenbarger — Trading Psychology 2.0"]
+notes: "Chapter 6's expectancy re-tested in R rather than dollars, off a card built from forty-two rows. No position is worked here, so no account is named."
+screens:
+  - type: intro
+    text: "Forty-two rows in the sheet, and six numbers in them worth reading."
+
+  - type: theory
+    title: "The short list"
+    body: "How many trades. How often they win. What the average winner and the average loser are worth in R. What one average trade comes to. And what share of the rows you graded A."
+
+  - type: visual
+    component: stats-card
+    data:
+      rows:
+        - {label: "Trades in the sample", value: "42"}
+        - {label: "Win rate", value: "46 %"}
+        - {label: "Average win", value: "+1.8R"}
+        - {label: "Average loss", value: "−0.9R"}
+        - {label: "One average trade", value: "+0.34R"}
+        - {label: "Rows graded A", value: "71 %"}
+    caption: "Six weeks of rows, added up once. Nothing here needed a number your journal did not already hold."
+
+  - type: numeric-input
+    prompt: "Forty-six per cent of the rows won, the average winner is +1.8R and the average loser −0.9R. What is one average trade worth in R?"
+    answer: 0.34
+    tolerance: 0.02
+    working: "(0.46 × 1.8) − (0.54 × 0.9) = 0.83 − 0.49 = +0.34R"
+    explanation: "Chapter 6 did this sum in dollars. In R it survives every size you will ever trade, which is why it belongs on the card."
+
+  - type: theory
+    title: "Why the card is in R"
+    body: "Your share size moves. A dollar column from a month at 600 shares cannot be added to one from a month at 1,200. An R column can, because a unit is a unit whatever it cost."
+
+  - type: tf
+    statement: "A sample that runs across a size change can still be read in one column, as long as that column is in R."
+    answer: true
+    explanation: "That is the whole reason for the unit. The dollars behind each row differ; what each row risked is one unit either way."
+
+  - type: hotspot
+    component: stats-card
+    prompt: "Tap the one row on the card you can multiply by a trade count."
+    data:
+      rows:
+        - {label: "Win rate", value: "46 %"}
+        - {label: "Average win", value: "+1.8R"}
+        - {label: "One average trade", value: "+0.34R"}
+        - {label: "Rows graded A", value: "71 %"}
+    target: "One average trade"
+    explanation: "It is the only row that is already a per-trade value. The other three are ingredients of it or a comment on how it was earned."
+
+  - type: numeric-mc
+    prompt: "One average trade is +0.34R and the sheet says you take about eight trades a week. What have four weeks of that record been worth?"
+    options:
+      - {text: "+2.7R"}
+      - {text: "+10.9R", correct: true}
+      - {text: "+32R"}
+      - {text: "+0.34R"}
+    working: "8 × 4 = 32 trades; 32 × 0.34R = 10.9R"
+    explanation: "Thirty-two decisions at the value the record gives an average one. It is what the sample has been worth, never a forecast of the next thirty-two."
+
+  - type: sort
+    prompt: "Which of these earns a line on the card, and which is a story about the sample?"
+    buckets: ["On the card", "Leave it off"]
+    items:
+      - {text: "The share of rows you graded A", bucket: "On the card"}
+      - {text: "What one average trade comes to", bucket: "On the card"}
+      - {text: "Your biggest single winner", bucket: "Leave it off"}
+      - {text: "The session that felt the smoothest", bucket: "Leave it off"}
+    explanation: "Two of them are totals of every row. The other two are one row and one memory, and neither can be multiplied by anything."
+
+  - type: mc
+    prompt: "Why does the trade count sit at the top of the card rather than at the bottom?"
+    options:
+      - {text: "Because it is the number the sheet fills in first"}
+      - {text: "Because the rest of the card depends on it", correct: true}
+      - {text: "Because taking more trades is what the card is for"}
+    explanation: "Six rows produce a win rate and an average win too. They just cannot be trusted, and the count is the warning label."
+
+  - type: fill-choice
+    sentence: "A win rate and an average win are ingredients; ___ is the answer they are ingredients of."
+    options: ["expectancy", "the grade", "the trade count"]
+    answer: "expectancy"
+    explanation: "One number, in R, per trade. Everything else on the card either feeds it or describes how it was earned."
+
+  - type: slider
+    prompt: "Thirty of the forty-two rows are graded A. What share of the sample is that?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 70
+    tolerance: 10
+    explanation: "Just over seven in ten. That row says nothing about what the month made — it says how much of it you actually ran on purpose."
+
+  - type: example
+    body: "Six numbers, one screen, twenty minutes a month. Every one of them was already sitting in the sheet, unadded."

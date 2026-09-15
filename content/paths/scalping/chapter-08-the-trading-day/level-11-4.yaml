@@ -1,0 +1,103 @@
+id: "11-4"
+title: "Tracking Your Numbers"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [stats, review, plan, process]
+learning_goal: "User turns a month of rows into exactly one change, and can say which number on the card is allowed to justify which change."
+purpose: "Reading the numbers is the easy half. Changing one thing at a time is what makes the next month readable."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "11-3"
+xp: 25
+difficulty: 3
+sources: ["Steenbarger — The Daily Trading Coach", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "Closes Level 11 with a plan-card and a recap. Chapter 6's weekly review extended to a monthly read; the +14.2R sample from 11-1 and 11-3 carries through. No position is worked here, so no account is named."
+screens:
+  - type: intro
+    text: "Six numbers read, one card demoted. Now the part where you are allowed to change exactly one thing."
+
+  - type: theory
+    title: "One change, then count again"
+    body: "Every change you make resets what the next sample means. Two at once on the same card, and the rows that follow cannot tell you which of them did the work."
+
+  - type: example
+    body: "You halve the fade's size and loosen its entry in the same month. Next month it comes to −0.4R. Smaller losses at smaller size, or a worse card taken more often — the sheet cannot say."
+
+  - type: mc
+    prompt: "So what does a month with two changes on one card actually cost you?"
+    options:
+      - {text: "The rows themselves, which no longer count towards the sample"}
+      - {text: "Nothing, as long as both changes were sensible ones"}
+      - {text: "The answer, because the next rows cannot separate them", correct: true}
+    explanation: "The rows still count. What is gone is the ability to say which change produced them, and that was the only reason to make one."
+
+  - type: order
+    prompt: "Put the monthly read in the order it is done."
+    items:
+      - "Add the month's rows to the sheet"
+      - "Split the sample by card"
+      - "Read the grade column of the card that leaks"
+      - "Change one thing and write the date beside it"
+    explanation: "The split comes before the diagnosis, and the date is what lets you find the boundary between two samples six months from now."
+
+  - type: match
+    prompt: "Four numbers, four decisions they are allowed to settle. Match them."
+    pairs:
+      - ["Trades in the sample", "Whether the card can be read at all yet"]
+      - ["The card's own R column", "Whether that card keeps its share size"]
+      - ["The grade column", "Whether the card or your execution is the problem"]
+      - ["One average trade", "Whether the method as a whole stays as it is"]
+    explanation: "Each number answers one question and no others. Most bad changes come from a number being asked something it cannot know."
+
+  - type: numeric-input
+    prompt: "You want thirty rows before you read a card again, and you average eight trades a week. How many full weeks is that, rounded up?"
+    answer: 4
+    tolerance: 0
+    working: "30 ÷ 8 = 3.75 weeks, so four"
+    explanation: "A month, near enough — which is why the read is monthly and the journal is daily."
+
+  - type: plan-card
+    title: "Your review rules"
+    intro: "Three numbers that decide when the sheet is allowed to change anything."
+    fields:
+      - {key: review_rows, label: "Rows before a card is read again", kind: number, suggest: 30}
+      - {key: reviews_per_month, label: "Full reads a month", kind: number, suggest: 1}
+      - {key: changes_per_review, label: "Changes allowed per read", kind: number, suggest: 1}
+    note: "These sit next to the limits you wrote in Chapter 6 and come back when your simulator plan is built."
+
+  - type: branch
+    scenario: "The read is done. The fade card is on half size with one extra condition, and the other three cards are untouched."
+    steps:
+      - prompt: "Two sessions later the fade appears with every condition present. What do you do?"
+        options:
+          - {text: "Take it, at the half size the read set", correct: true, next: 1}
+          - {text: "Pass — the card is suspended until the next read", next: 1}
+        explanation: "Half size is the demotion. A card you never take again produces no rows, and a card with no rows never earns its size back."
+      - prompt: "It works and makes +1.4R at that size. What goes in the sheet?"
+        options:
+          - {text: "The row as it happened, in R, at the size it was taken", correct: true}
+          - {text: "The R it would have made at the old size, so the column stays comparable"}
+        explanation: "R already handles the size, and a row you did not take is not evidence. A sheet with one invented number in it cannot be trusted anywhere."
+
+  - type: tf
+    statement: "Most monthly reads should end with nothing changed at all."
+    answer: true
+    explanation: "The read exists to catch the month that genuinely needs one change, not to produce one on demand. A sheet that changes every month never measures anything."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The month came to +6R across thirty-one rows,"}
+      - {text: "so the share size goes up and the fade returns to full size,", wrong: true}
+      - {text: "and the date of the read goes into the sheet."}
+    explanation: "Two changes off one green month, and one of them is the size. Both of the next month's questions have just been made unanswerable."
+
+  - type: recap
+    title: "Level 11 in four lines"
+    points:
+      - {text: "Six numbers, in R, off rows you already wrote.", level: "11-1"}
+      - {text: "Expectancy is read across the sample, never across the week.", level: "11-2"}
+      - {text: "Split by card, and read the grade column of the one that leaks.", level: "11-3"}
+      - {text: "One change a month, with the date written next to it.", level: "11-4"}

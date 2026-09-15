@@ -1,0 +1,116 @@
+id: "12-3"
+title: "When to Increase Size"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [sizing, drawdown, risk, stats]
+learning_goal: "User cuts size on results and climbs back on rows, and can say what the smaller unit does to the arithmetic of getting back."
+purpose: "The way down is a rule you wrote in advance. The way back up is the same ladder, taken one rung at a time."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "12-2"
+xp: 25
+difficulty: 3
+sources: ["Tharp — Trade Your Way to Financial Freedom", "Steenbarger — Trading Psychology 2.0"]
+notes: "Closes Level 12 with a recap. Chapter 6's drawdown asymmetry re-tested as the cost of the smaller unit on the way back. The account opened the stretch at $18,000 and stands at $16,920; the worked position is 800 shares at $13.44 = $10,752."
+screens:
+  - type: intro
+    text: "Six sessions, −6R, and a size that was raised three weeks ago."
+
+  - type: story
+    character: retail-trader
+    text: "Nothing dramatic happened. Six sessions, four of them red, one of them stopped by the daily limit, and the sheet is thirty rows longer than it was."
+
+  - type: theory
+    title: "The ladder is written first"
+    body: "Down a rung at −5R on the stretch, back up a rung after twenty rows that read well. Both rungs live on the plan sheet, written on a quiet evening rather than a bad one."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "Mon", value: -2.0}
+        - {label: "Tue", value: 0.5}
+        - {label: "Wed", value: -1.5}
+        - {label: "Thu", value: -1.0}
+        - {label: "Fri", value: 1.0}
+        - {label: "Mon", value: -3.0}
+      unit: "R"
+    caption: "Six sessions in R. The worst of them stopped where the daily limit said it would."
+
+  - type: numeric-input
+    prompt: "Those six sessions came to −6R and your 1R was $180. What did the stretch cost?"
+    answer: 1080
+    tolerance: 1
+    unit: "$"
+    working: "6 × $180 = $1,080"
+    explanation: "Six units at the size the rows had earned. An $18,000 account stands at $16,920 after it."
+
+  - type: mc
+    prompt: "The size came down the day the stretch reached −5R. What was that responding to?"
+    options:
+      - {text: "The result, which is all a cut ever needs", correct: true}
+      - {text: "The grade column, which had been slipping for a week"}
+      - {text: "One average trade across the last thirty rows"}
+    explanation: "Cuts are cheap, so they run on results and need no proof. The step back up is the expensive direction, and that is the one that needs rows."
+
+  - type: numeric-input
+    prompt: "The cut takes you to 800 shares on the same twelve-cent stop. What is 1R now?"
+    answer: 96
+    tolerance: 0.5
+    unit: "$"
+    working: "$0.12 × 800 = $96"
+    explanation: "A smaller unit, which is the point of the rung. Everything on the page that was written in R still means the same thing."
+
+  - type: chart-decision
+    scenario: "Second session at 800 shares. THORN has held above its own average price all morning, pulled back to it on three lighter minutes, and the minute that just closed finished at $13.44 back above it. The stop belongs under the pullback low at $13.32."
+    shares: 800
+    chart:
+      kind: candles
+      data: [[13.52, 13.56, 13.44, 13.46], [13.46, 13.50, 13.38, 13.42], [13.42, 13.46, 13.34, 13.36], [13.36, 13.42, 13.32, 13.38], [13.38, 13.42, 13.34, 13.36], [13.36, 13.46, 13.34, 13.44], [13.44, 13.52, 13.42, 13.50], [13.50, 13.58, 13.48, 13.54], [13.54, 13.60, 13.50, 13.58], [13.58, 13.62, 13.54, 13.59]]
+      volume: [118000, 96000, 84000, 72000, 68000, 164000, 142000, 118000, 104000, 92000]
+      vwap: [13.50, 13.48, 13.45, 13.43, 13.42, 13.41, 13.42, 13.43, 13.45, 13.46]
+      decision_index: 5
+    state: ["Stretch: −6R", "Size: 800 of 1,500"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked to $13.59 — $0.15 a share above the decision, +$120 on 800 shares against $96 of risk."
+    explanation: "The card is untouched and the pullback came on the lightest minutes of the morning. A smaller rung is not a reason to take a worse trade or to pass a good one."
+
+  - type: numeric-mc
+    prompt: "The hole is $1,080 and one unit is now $96. How many units is it, at this rung?"
+    options:
+      - {text: "6R"}
+      - {text: "3R"}
+      - {text: "11.3R", correct: true}
+      - {text: "18R"}
+    working: "$1,080 ÷ $96 = 11.3R"
+    explanation: "Six units made it and eleven are needed to undo it, because the unit itself got smaller on the way down."
+
+  - type: tf
+    statement: "Because the hole is worth more units at the smaller size, the sensible response is to keep the size until it is filled."
+    answer: false
+    explanation: "That is the trade that turns a bad fortnight into a bad quarter. More units is the price of a stretch that cannot get much worse."
+
+  - type: order
+    prompt: "Put the ladder back up in the order it happens."
+    items:
+      - "The stretch reaches −5R and the size halves that day"
+      - "Twenty rows are taken at the smaller size"
+      - "The card is read: positive, and mostly A grades"
+      - "The size steps back to the rung above"
+    explanation: "The rows come before the read and the read comes before the rung. Skipping the middle step is how a cut becomes a guess in both directions."
+
+  - type: fill-choice
+    sentence: "Size comes down on what happened and goes back up on what the ___ says."
+    options: ["sample", "session", "account"]
+    answer: "sample"
+    explanation: "One direction is a reflex and the other is a decision. They are deliberately not symmetrical."
+
+  - type: recap
+    title: "Level 12 in three lines"
+    points:
+      - {text: "Thirty well-run rows earn a step, and a green week earns nothing.", level: "12-1"}
+      - {text: "A quarter more shares, the same stop, and a name the account can hold.", level: "12-2"}
+      - {text: "Down a rung on results, back up a rung on rows.", level: "12-3"}

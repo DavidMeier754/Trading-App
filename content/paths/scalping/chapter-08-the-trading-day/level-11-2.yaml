@@ -1,0 +1,111 @@
+id: "11-2"
+title: "Tracking Your Numbers"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [stats, expectancy, sample, discipline]
+learning_goal: "User reads their expectancy across the whole sample rather than the last week, and lets a bad stretch change the size before it changes the method."
+purpose: "The week that makes you want to rebuild everything is almost always too small to have said anything."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "11-1"
+xp: 25
+difficulty: 2
+sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
+notes: "Chapter 6's sample size and expectancy re-tested as a running record rather than a worked sum. Account named at $18,000; the worked position is 1,200 shares at $14.30 = $17,160."
+screens:
+  - type: intro
+    text: "Four red sessions in a row, and a card that still says the same thing it said a month ago."
+
+  - type: story
+    character: retail-trader
+    text: "Twelve trades this week, −1.8R in all, and a notebook page of things to change. The record behind it holds sixty other trades."
+
+  - type: theory
+    title: "A week is a handful of draws"
+    body: "Twelve decisions cannot separate a method from its luck. A record of seventy can. The week you most want to act on is the one with the least in it."
+
+  - type: numeric-input
+    prompt: "Sixty rows came to +0.30R each. Twelve more came to −1.8R in total. What is one average trade worth across all seventy-two?"
+    answer: 0.23
+    tolerance: 0.02
+    working: "60 × 0.30 = 18R; 18 − 1.8 = 16.2R; 16.2 ÷ 72 = 0.23R"
+    explanation: "The worst week of the sample moved the number by seven hundredths of a unit. That is the whole weight twelve rows can carry."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars:
+        - {label: "After 10", value: 1.1}
+        - {label: "After 25", value: 0.05}
+        - {label: "After 50", value: 0.36}
+        - {label: "After 72", value: 0.23}
+      unit: "R"
+    caption: "The same running record, read at four points. The swings shrink as the rows pile up."
+
+  - type: mc
+    prompt: "What does the first of those four readings actually tell you?"
+    options:
+      - {text: "That ten rows can say anything at all", correct: true}
+      - {text: "That the early trades were the best ones of the sample"}
+      - {text: "That the method has been getting steadily worse since"}
+    explanation: "Ten rows sit wherever two or three big ones put them. The number only starts meaning something once no single row can move it much."
+
+  - type: tf
+    statement: "A losing week inside a seventy-trade record is evidence that the method has stopped working."
+    answer: false
+    explanation: "It is evidence that a losing week happened. Chapter 6 gave you the sample for exactly this moment, so the week is read inside it rather than instead of it."
+
+  - type: chart-decision
+    scenario: "Monday, after that week. TORVA has held $14.14 three times and the minute that just closed finished at $14.30, above every high behind it, on the heaviest bar since the bell. Your account is $18,000 and your page says 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[14.22, 14.28, 14.14, 14.18], [14.18, 14.26, 14.14, 14.22], [14.22, 14.28, 14.16, 14.20], [14.20, 14.26, 14.14, 14.24], [14.24, 14.28, 14.18, 14.22], [14.22, 14.34, 14.20, 14.30], [14.30, 14.40, 14.28, 14.38], [14.38, 14.46, 14.34, 14.44], [14.44, 14.50, 14.40, 14.47], [14.47, 14.52, 14.43, 14.49]]
+      volume: [96000, 84000, 78000, 88000, 74000, 182000, 156000, 132000, 114000, 98000]
+      levels:
+        - {price: 14.14, label: "Shelf"}
+        - {price: 14.28, label: "High of the morning"}
+      decision_index: 5
+    state: ["Last week: −1.8R", "Trade 1 of 6"]
+    best: long
+    reasonable: [no-trade]
+    outcome: "It worked up to $14.49 — $0.19 a share above the decision, +$228 on 1,200 shares."
+    explanation: "Last week is not on this chart. The card asks for a shelf that holds and a close through the highs, and both of them are here."
+
+  - type: sort
+    prompt: "Two of these are answered by the sample and two by the session in front of you. Which is which?"
+    buckets: ["The sample answers it", "This morning answers it"]
+    items:
+      - {text: "Whether this card is worth keeping at all", bucket: "The sample answers it"}
+      - {text: "Whether your size should come down for a while", bucket: "The sample answers it"}
+      - {text: "Whether the shelf held before the close through it", bucket: "This morning answers it"}
+      - {text: "Where the stop belongs on this chart", bucket: "This morning answers it"}
+    explanation: "The record decides what you trade and how big. The chart decides whether today's version of it is actually there."
+
+  - type: numeric-mc
+    prompt: "That bad week took 1.8R out of a record that stood at +18R before it. What share of the record went?"
+    options:
+      - {text: "1.8 %"}
+      - {text: "25 %"}
+      - {text: "10 %", correct: true}
+      - {text: "2.5 %"}
+    working: "1.8R ÷ 18R = 0.10"
+    explanation: "A tenth of what six weeks built, in the stretch that felt like the whole thing coming apart."
+
+  - type: spot-mistake
+    prompt: "Tap the mistake."
+    segments:
+      - {text: "The week ran −1.8R across twelve rows,"}
+      - {text: "so the two cards that lost come off the page", wrong: true}
+      - {text: "and the size comes down until the run is over."}
+    explanation: "Cutting size on a bad stretch is a control. Deleting cards on twelve rows throws away a card the other sixty may say is your best one."
+
+  - type: fill-tiles
+    sentence: "Expectancy is a number you read across a ___."
+    answer: "sample"
+    explanation: "Never across a session, and rarely across a week. The count at the top of the card is what makes the rest of it readable."
+
+  - type: example
+    body: "Same page, same cards, smaller size while the run lasts. The only thing the week earned was the right to be added to the other sixty rows."

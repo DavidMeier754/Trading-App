@@ -1,0 +1,105 @@
+id: "11-3"
+title: "Tracking Your Numbers"
+chapter: 8
+chapter_title: "The Trading Day"
+path: scalping
+category: new-theory
+tags: [stats, playbook, review, expectancy]
+learning_goal: "User splits the sample by card, finds the one that leaks, and reads the grade column to see whether the card or the execution is doing it."
+purpose: "A method rarely fails all at once. One card bleeds quietly and the good ones pay for it."
+terms_introduced: []
+reinforces: [6]
+prerequisite: "11-2"
+xp: 25
+difficulty: 3
+sources: ["Bellafiore — The PlayBook", "Steenbarger — Trading Psychology 2.0"]
+notes: "Same 42-row sample as 11-1, split four ways: +9.0R, +7.2R, −2.4R, +0.4R = +14.2R, which is the +0.34R average from 11-1. Chapter 6's execution grade re-tested as a diagnosis rather than a habit. Account named at $18,000; the worked position is 1,200 shares at $13.90 = $16,680."
+screens:
+  - type: intro
+    text: "The sample says +0.34R a trade. Split four ways, one quarter of it says something else."
+
+  - type: theory
+    title: "Split it by card"
+    body: "The card is the only split worth making first. It is the one thing you chose before the session, and the only one you can change tomorrow."
+
+  - type: visual
+    component: journal-table
+    data:
+      columns: ["Setup", "Trades", "R", "Win rate", "A grades"]
+      rows:
+        - {Setup: "VWAP bounce", Trades: 14, R: "+9.0", "Win rate": "57 %", "A grades": "12 of 14"}
+        - {Setup: "Opening-range break", Trades: 10, R: "+7.2", "Win rate": "60 %", "A grades": "8 of 10"}
+        - {Setup: "Failed-breakout fade", Trades: 14, R: "−2.4", "Win rate": "43 %", "A grades": "12 of 14"}
+        - {Setup: "Range rotation", Trades: 4, R: "+0.4", "Win rate": "50 %", "A grades": "3 of 4"}
+    caption: "Forty-two rows, four cards. The total is the same +14.2R the card in 11-1 was built from."
+
+  - type: numeric-input
+    prompt: "The fade card holds fourteen rows and −2.4R. What is one average trade on that card worth in R?"
+    answer: -0.17
+    tolerance: 0.02
+    working: "−2.4R ÷ 14 rows = −0.17R"
+    explanation: "A sixth of a unit a time. Nothing about that is dramatic enough to notice on the day it happens."
+
+  - type: mc
+    prompt: "Twelve of those fourteen fade rows are graded A. What does the grade column say about the leak?"
+    options:
+      - {text: "The card is what leaks, not the way you traded it", correct: true}
+      - {text: "The grading is too generous and needs tightening first"}
+      - {text: "Nothing — a grade and a result are unrelated"}
+    explanation: "You did what the card asked twelve times and the card handed back a loss. Grades are how you separate a bad idea from a bad morning."
+
+  - type: numeric-mc
+    prompt: "Take the fade out of the sample. What is one average trade worth across the twenty-eight rows that are left?"
+    options:
+      - {text: "+0.42R"}
+      - {text: "+0.34R"}
+      - {text: "+0.59R", correct: true}
+      - {text: "+1.20R"}
+    working: "14.2R + 2.4R = 16.6R; 16.6 ÷ 28 rows = +0.59R"
+    explanation: "One third of the decisions were dragging the other two thirds down by a quarter of a unit each."
+
+  - type: chart-decision
+    scenario: "BRACK pushed six cents through the $13.92 high of the morning, and the minute that just closed has come back under it at $13.90 with a three-cent body on 54,000 shares, against the 88,000 that made the push. Your account is $18,000 and your page says 1,200 shares."
+    shares: 1200
+    chart:
+      kind: candles
+      data: [[13.82, 13.88, 13.78, 13.86], [13.86, 13.92, 13.82, 13.90], [13.90, 13.94, 13.86, 13.88], [13.88, 13.92, 13.84, 13.90], [13.90, 13.98, 13.88, 13.94], [13.94, 13.96, 13.88, 13.90], [13.90, 13.96, 13.88, 13.94], [13.94, 13.96, 13.90, 13.92], [13.92, 13.96, 13.88, 13.90], [13.90, 13.98, 13.88, 13.94]]
+      volume: [88000, 94000, 76000, 68000, 72000, 54000, 58000, 49000, 52000, 61000]
+      levels:
+        - {price: 13.92, label: "High of the morning"}
+      decision_index: 5
+    state: ["Fade card: on probation", "Day: 0R"]
+    best: no-trade
+    reasonable: [short]
+    outcome: "It crossed the same eight cents for the rest of the stretch and finished at $13.94 — $0.04 a share the wrong way for a short, $48 on 1,200 shares, with a four-cent round trip on top."
+    explanation: "A card on probation gets the version with everything: a wide body back inside and a crowd behind it. This one has the shape and none of the weight."
+
+  - type: sort
+    prompt: "Fourteen rows say the fade leaks. Which of these does that support, and which does it not?"
+    buckets: ["The rows support it", "The rows do not"]
+    items:
+      - {text: "Take the card at half the usual size for a while", bucket: "The rows support it"}
+      - {text: "Take it only when every condition is present", bucket: "The rows support it"}
+      - {text: "Drop the card from the playbook for good", bucket: "The rows do not"}
+      - {text: "Trade the other three cards at double size", bucket: "The rows do not"}
+    explanation: "Fourteen rows are enough to demote a card and nowhere near enough to delete one, or to promote the cards that happened to be on the other side of it."
+
+  - type: tf
+    statement: "Size is cheap enough to cut on a suspicion and put back on evidence."
+    answer: true
+    explanation: "That asymmetry is what lets you act on fourteen rows at all. The rows keep accumulating either way, and each one now costs half of what it did."
+
+  - type: carousel
+    cards:
+      - {label: "Cut its size", text: "Same card, same conditions, half the shares. The rows keep coming in and each one costs less while you watch.", icon: retail-trader}
+      - {label: "Raise its bar", text: "Only the version with every condition present gets a ticket. Most of what was leaking was the half-formed version.", icon: chart-empty}
+      - {label: "Drill it", text: "Send the card to the practice deck and take fifty of them where nothing is at stake, to find out which half you keep misreading.", icon: mascot}
+
+  - type: fill-choice
+    sentence: "A card that loses slowly stays hidden inside the ___ that the other cards pay for."
+    options: ["average", "grade", "win rate"]
+    answer: "average"
+    explanation: "One number across every card is exactly where a quiet leak goes to hide. The split is what makes it visible."
+
+  - type: example
+    body: "Nothing was deleted, nothing was doubled. One card went to half size and gained a condition, and the sheet kept counting."
