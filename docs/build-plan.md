@@ -22,6 +22,10 @@ session's work and must not be attempted as one. The unit of work is a **block o
 
 ---
 
+> The path these stages build is now written. What the control pass found in it afterwards —
+> and the six stages that repair it — live in `docs/remediation-prompts.md`. Those stages are
+> numbered separately and are not the stages below.
+
 ## Stage order
 
 **Stages 0–2 are done** (see git history; the four defects the Stage 1–2 pass left behind were fixed in a follow-up). Stage 3 is next, starting with Scalping Chapter 2.

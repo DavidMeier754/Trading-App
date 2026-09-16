@@ -13,6 +13,7 @@ A finished path is ~144 levels and ~387 sub-levels: about 22 hours, or six month
 | `docs/UI.md` | Every screen archetype, interaction, animation, layout and gamification element. |
 | `docs/schema.md` | The YAML format of a lesson file and what the validator checks. |
 | `docs/build-plan.md` | How the v3 curriculum gets built: stage order, prompts, model per stage. |
+| `docs/remediation-prompts.md` | The six stages that finish the written path: one ready-to-run prompt each, with model, effort and session. |
 | `content/market_profiles.yaml` | Market-specific values (session times, currency, index, regulation notes) for `US` and `EU-DE`. |
 | `content/shared/` | Chapter 1 (all paths). |
 | `content/paths/<path>/` | Chapters 2–8 per path. |
@@ -79,4 +80,5 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    spaced repetition have no content.
 
 `python3 tools/validate_content.py` reports the phrasing items above as warnings. The rest are
-tracked here because no rule can see them.
+tracked here because no rule can see them. Each item has a filled-in prompt, a model and an
+effort setting in `docs/remediation-prompts.md` — work them in the order given there.
