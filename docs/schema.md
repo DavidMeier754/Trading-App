@@ -367,7 +367,7 @@ Warnings (review):
 - Folder chapter number differs from the `chapter` field.
 - Identical prompt text in two different files of the same chapter (prompt *and* answer content; a shared prompt over different content is caught by the chapter-level rule below).
 - Level without a visual/interactive screen in Chapter ≥2.
-- More than 2 review-type sub-levels in a row.
+- More than 5 `repetition` sub-levels in a row. A `test` or `final-exam` sub neither extends the run nor resets it; only a `new-theory` sub resets it (`docs/agent.md` §3.2).
 - **[v3]** `prerequisite` skips a sub-level — it must name the sub immediately before this one, so the path map cannot unlock a level over content the learner never saw. The first sub of a `fan-out:` strand is exempt: it reaches back to the last sub before the fan-out.
 - **[v3]** The same `tier-up` tier awarded twice to one learner. Two paths may share a tier name; the shared chapter (`path: all`) collides with every path.
 

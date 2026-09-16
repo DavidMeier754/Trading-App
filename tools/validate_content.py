@@ -47,6 +47,9 @@ SECONDS = {
     "chart-annotate": 15, "order-build": 15, "scanner-pick": 15,
     "compare": 15, "journal-row": 15, "depth-ladder": 15,
 }
+# agent.md §3.2: the longest run of consecutive `repetition` sub-levels docs/curriculum.md
+# demands of any path — Chapter 7's Capstone (3 subs) straight into the Chapter Review (2).
+MAX_REPETITION_RUN = 5
 REQUIRED = [
     "id", "title", "chapter", "chapter_title", "path", "category", "tags",
     "learning_goal", "purpose", "terms_introduced", "xp", "difficulty",
@@ -457,12 +460,22 @@ def validate_chapter(folder, files, rep, known_terms):
             if key in seen and seen[key] != d["id"]:
                 rep.warn(d["_file"], f"prompt also used in {seen[key]}: '{p[:60]}…'")
             seen.setdefault(key, d["id"])
-    # consecutive review subs
+    # consecutive repetition subs (agent.md §3.2). A test or final exam is a distinct,
+    # scored event, so it is not "more of the same": it neither lengthens a run nor
+    # clears one. Only new material resets the counter, which is what keeps a Checkpoint
+    # from being parked between two long review blocks to hide them from this rule.
     run = 0
     for d in ordered:
-        run = run + 1 if d["category"] != "new-theory" else 0
-        if run > 2:
-            rep.warn(d["_file"], "more than 2 review-type sub-levels in a row")
+        cat = d["category"]
+        if cat == "new-theory":
+            run = 0
+            continue
+        if cat != "repetition":
+            continue
+        run += 1
+        if run > MAX_REPETITION_RUN:
+            rep.warn(d["_file"], f"{run} repetition sub-levels in a row with no new material "
+                                 f"in between (agent.md §3.2 allows {MAX_REPETITION_RUN})")
 
 
 ACCOUNT_RE = [

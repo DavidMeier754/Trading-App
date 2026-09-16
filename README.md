@@ -57,10 +57,11 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
 
 ### Open work, in the order it should be done
 
-1. **Category labels.** 19 levels the curriculum marks `R` carry `category: new-theory` on their
-   first sub, to dodge the "no more than 2 review-type subs in a row" rule — which the curriculum's
-   own `2 R` → `1 T` layout makes impossible to satisfy. Fix the rule in `docs/agent.md` §3.2, then
-   put the categories back. Repetition currently runs at 10–23 % of subs against a ~30 % target.
+1. ~~**Category labels.**~~ **Done.** The review-run rule in `docs/agent.md` §3.2 now caps
+   consecutive `repetition` subs at five — the worst case the curriculum demands of any path
+   (Chapter 7's Capstone straight into the Chapter Review) — and a Checkpoint no longer counts as
+   more of the same. The 19 levels the curriculum marks `R` carry `category: repetition` again.
+   Repetition runs at 16–44 % of subs, against a ~30 % guide.
 2. **Plan sheet.** 16 `plan-card` screens use 47 different field keys, so nothing the learner writes
    is ever shown back. Chapter 7 writes one playbook card but Chapter 8 asks them to pick two of
    eight. Needs one key schema across all eight chapters.

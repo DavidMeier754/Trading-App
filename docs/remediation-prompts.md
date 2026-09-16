@@ -32,7 +32,7 @@ you commit to the expensive one.
 
 ---
 
-## ☐ Stage 2 — The category labels, and the rule that forced them
+## ☑ Stage 2 — The category labels, and the rule that forced them — **done**
 
 **Model: `claude-opus-5` · effort `high` · new session · ~1 session**
 

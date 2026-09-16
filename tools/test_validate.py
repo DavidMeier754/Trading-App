@@ -194,6 +194,34 @@ expect_no("chain: fan-out strand may reach back",
           "skips sub-level")
 
 
+def review_run(*categories):
+    """A chapter whose subs carry the given categories, in order."""
+    ids = [f"{i}-1" for i in range(1, len(categories) + 1)]
+    files = chained(*ids)
+    for d, cat in zip(files, categories):
+        d["category"] = cat
+    return check_chain(files)
+
+
+REP, NEW, TEST = "repetition", "test", "final-exam"
+# Six repetition subs with nothing new between them is one more than the curriculum's
+# own worst case (Chapter 7: Capstone 3 + Chapter Review 2).
+expect("review run: six repetition subs in a row",
+       review_run(NEW, *[REP] * 6, NEW),
+       "repetition sub-levels in a row")
+# A Checkpoint is a distinct event, not new material: it must not launder a long run.
+expect("review run: a test does not clear the counter",
+       review_run(NEW, *[REP] * 3, TEST, *[REP] * 3),
+       "repetition sub-levels in a row")
+# The curriculum's worst case must stay silent, exam tail included.
+expect_no("review run: Capstone (3) + Chapter Review (2) + Final Exam passes",
+          review_run(NEW, NEW, REP, REP, REP, REP, REP, TEST),
+          "repetition sub-levels in a row")
+expect_no("review run: Practice (2) then a Checkpoint passes",
+          review_run(NEW, REP, REP, TEST, NEW),
+          "repetition sub-levels in a row")
+
+
 def tier_chapters(*awards):
     """awards: (path, tier, filename) tuples, one tier-up screen each."""
     files = []
