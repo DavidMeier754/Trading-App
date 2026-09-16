@@ -104,10 +104,10 @@ screens:
     title: "Your screen"
     intro: "Write down the screen you will actually use, so that it is decided before any stock is."
     fields:
-      - {key: decision_timeframe, label: "Chart you decide on (minutes)", kind: number, suggest: 1}
-      - {key: context_timeframe, label: "Chart you check direction on (minutes)", kind: number, suggest: 5}
-      - {key: levels_marked, label: "Lines marked before the open", kind: number, suggest: 4}
-      - {key: names_watched, label: "Stocks on the screen at once", kind: number, suggest: 2}
+      - {key: setup_decision_timeframe, label: "Chart you decide on (minutes)", kind: number, suggest: 1}
+      - {key: setup_context_timeframe, label: "Chart you check direction on (minutes)", kind: number, suggest: 5}
+      - {key: setup_levels_marked, label: "Lines marked before the open", kind: number, suggest: 4}
+      - {key: setup_names_watched, label: "Stocks on the screen at once", kind: number, suggest: 2}
     note: "You can change these later in your plan."
 
   - type: recap

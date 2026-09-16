@@ -89,11 +89,11 @@ screens:
     prompt: "The stop just filled and the day stands at −3R. Tap the field that has ended the session."
     data:
       fields:
-        - {key: share_size, label: "Share size", value: "1,000"}
-        - {key: r_dollars, label: "1R in dollars", value: "$120"}
-        - {key: daily_loss_limit, label: "Daily loss limit", value: "3R"}
-        - {key: trade_cap, label: "Trade cap", value: "6 trades"}
-    target: daily_loss_limit
+        - {key: session_share_size, label: "Share size", value: "1,000"}
+        - {key: session_r_dollars, label: "1R in dollars", value: "$120"}
+        - {key: session_daily_loss_limit, label: "Daily loss limit", value: "3R"}
+        - {key: session_trade_cap, label: "Trade cap", value: "6 trades"}
+    target: session_daily_loss_limit
     explanation: "Three trades of the six are gone and the cap has room in it. The other number ran out first, and any one of them ending the day ends it."
 
   - type: chart-decision

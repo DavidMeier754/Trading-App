@@ -13,7 +13,7 @@ prerequisite: "1-2"
 xp: 25
 difficulty: 2
 sources: ["Bellafiore — The PlayBook", "Elder — Trading for a Living"]
-notes: "Ends on the plan-card that becomes the user's plan-sheet. The journal-row and the sizing question are Chapter 6 in playbook clothes."
+notes: "Ends on the plan-card that becomes the user's plan-sheet: the walkthrough specimen and the card write the same six row keys under slot draft, so the sheet the learner fills is the sheet they were just shown. The journal-row and the sizing question are Chapter 6 in playbook clothes."
 screens:
   - type: intro
     text: "Time to write one. The first card in a playbook that belongs to you."
@@ -25,6 +25,7 @@ screens:
   - type: walkthrough
     component: plan-sheet
     data:
+      slot: draft
       fields:
         - {key: name, label: "Card name", value: "Level bounce"}
         - {key: context, label: "Context", value: "5-minute climbing, a marked level just under price, first test of it today"}
@@ -116,11 +117,12 @@ screens:
   - type: plan-card
     title: "Your first card"
     intro: "Write the setup you already half-recognise. You will rewrite it as the chapter goes on."
+    slot: draft
     fields:
-      - {key: card_name, label: "Card name", kind: text}
-      - {key: card_context, label: "Context — what the chart must look like", kind: text}
-      - {key: card_entry, label: "Entry — the exact event", kind: text}
-      - {key: card_stop, label: "Stop — the price", kind: text}
-      - {key: card_target, label: "Target — where you take it", kind: text}
-      - {key: card_invalidation, label: "Invalidation — the condition", kind: text}
+      - {key: name, label: "Card name", kind: text}
+      - {key: context, label: "Context — what the chart must look like", kind: text}
+      - {key: entry, label: "Entry — the exact event", kind: text}
+      - {key: stop, label: "Stop — the price", kind: text}
+      - {key: target, label: "Target — where you take it", kind: text}
+      - {key: invalidation, label: "Invalidation — the condition", kind: text}
     note: "This sheet stays in your plan and fills up with every card in this chapter."

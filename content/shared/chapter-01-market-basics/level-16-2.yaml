@@ -72,10 +72,10 @@ screens:
     title: "Your first page"
     intro: "Four lines. You will come back to this page in every chapter that follows."
     fields:
-      - {key: practice_session, label: "Where in the day you will practise", kind: text}
-      - {key: practice_name, label: "The one name you will watch", kind: text}
-      - {key: max_account_pct, label: "Most of the account in one position (%)", kind: number, suggest: 50}
-      - {key: style_choice, label: "The holding period that fits your week", kind: text}
+      - {key: setup_session, label: "Where in the day you will practise", kind: text}
+      - {key: setup_name, label: "The one name you will watch", kind: text}
+      - {key: setup_max_account_pct, label: "Most of the account in one position (%)", kind: number, suggest: 50}
+      - {key: setup_style, label: "The holding period that fits your week", kind: text}
     note: "Nothing here is permanent. It is a starting position, and Chapter 3 will give you a better way to set the size."
 
   - type: tf
@@ -129,8 +129,8 @@ screens:
     component: plan-sheet
     data:
       fields:
-        - {key: practice_session, label: "Where you will practise", value: "An hour into the regular session"}
-        - {key: practice_name, label: "The name you will watch", value: "One liquid name, all month"}
-        - {key: max_account_pct, label: "Most of the account in one position", value: "50 %"}
-        - {key: style_choice, label: "Holding period", value: "Whatever fits your week"}
+        - {key: setup_session, label: "Where you will practise"}
+        - {key: setup_name, label: "The name you will watch"}
+        - {key: setup_max_account_pct, label: "Most of the account in one position"}
+        - {key: setup_style, label: "Holding period"}
     caption: "Your page as it stands. Every chapter from here adds a line to it."

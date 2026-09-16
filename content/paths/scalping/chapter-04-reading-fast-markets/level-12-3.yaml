@@ -107,8 +107,8 @@ screens:
     intro: "This is the read you will run on every chart for the rest of the path. Write it as you will use it."
     fields:
       - {key: read_order, label: "The order you run the four readings in", kind: text, suggest: "Level, side, candle, tape"}
-      - {key: minimum_agreeing, label: "How many must agree before you act", kind: number, suggest: 3}
-      - {key: never_without, label: "The reading you will never trade without", kind: text, suggest: "A level"}
+      - {key: read_min_agreeing, label: "How many must agree before you act", kind: number, suggest: 3}
+      - {key: read_never_without, label: "The reading you will never trade without", kind: text, suggest: "A level"}
     note: "You can change these later, and Chapter 7 will ask you for them again."
 
   - type: checklist-reveal

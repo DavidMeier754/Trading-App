@@ -131,6 +131,19 @@ screens:
     answer: false
     explanation: "The box is a level because the whole market is watching it early. By the second hour it is a line on your chart and nobody else's."
 
+  - type: plan-card
+    title: "Card B — the opening-range scalp"
+    intro: "The box, written down while nothing is open. Six lines, same shape as card A."
+    slot: b
+    fields:
+      - {key: name, label: "Card name", kind: text, suggest: "Opening-range scalp"}
+      - {key: context, label: "Context — what the chart must look like", kind: text, suggest: "The high and low of the first five minutes, inside the first half hour"}
+      - {key: entry, label: "Entry — the exact event", kind: text, suggest: "A minute that closes beyond one side, heavier than the box's own bars"}
+      - {key: stop, label: "Stop — the price", kind: text, suggest: "Two cents past that minute's far side, back inside the box"}
+      - {key: target, label: "Target — where you take it", kind: text, suggest: "The box's own height, measured from the break"}
+      - {key: invalidation, label: "Invalidation — the condition", kind: text, suggest: "A close back inside the box"}
+    note: "Card two of the eight. It breaks in both directions, and the card reads the same either way."
+
   - type: recap
     title: "Level 3 in three lines"
     points:

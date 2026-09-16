@@ -67,7 +67,7 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 | `checklist-reveal` | Checklist reveal | Checkbox items appear one per tap, forming a checklist the user later applies. |
 | `story` | Story frame | Short narrative ("9:31. You're watching XYZ…") with a character avatar. Used before decisions. |
 | `recap` **[v3]** | Level recap | End-of-level card: 2–4 one-line takeaways from the level's sub-levels, each tappable to re-open that card. Cheap, and it is what makes a 19-level chapter feel navigable. |
-| `plan-card` **[v3]** | Your plan | A card the **user fills in and keeps**: their daily loss limit, their share size, their playbook card. Persists to the profile, re-appears (pre-filled, editable) in later chapters, and is exportable. The single strongest engagement device in the app — the user is building their own document, not just answering. |
+| `plan-card` **[v3]** | Your plan | A card the **user fills in and keeps**: their daily loss limit, their share size, their playbook card. Persists to the profile, re-appears (pre-filled, editable) in later chapters, and is exportable. Every card writes keys from the one plan namespace in `docs/schema.md` ("The plan"), which is what makes the re-appearing real: revisiting a key opens the field on the learner's current value and overwrites it, keeping the old one in a dated history. The single strongest engagement device in the app — the user is building their own document, not just answering. |
 | `summary` | Score summary | "X/N correct", progress ring, per-question list with green/red dots (tap → one-line reminder + link to source level). Pass mark 70 %: pass → "Continue"; below → "Almost — review these" + "Retry". |
 | `badge` | Chapter complete | Badge unlock animation, chapter name, XP bonus, "Chapter N unlocked". |
 | `tier-up` **[v3]** | Tier unlocked | Fires at the tier boundaries in §7.5. Bigger than a badge: the tier name, what it means, what unlocks. |
@@ -210,7 +210,7 @@ Side toggle (Buy/Sell), order-type chips (Market / Limit / Stop), quantity, pric
 | `hotkey-pad` | A stylised key grid (buy, sell, size, cancel, flatten) that lights up as a sequence plays. | Chapter 8 execution levels |
 | `stats-card` | The learner's own numbers: decision accuracy by setup, best day type, weak concepts. | Stats screen, Chapter 8 |
 | `r-tracker` | A running R strip for a simulated session: each trade as +/− bars against the day's limit. | Chapters 6 and 8 capstones |
-| `plan-sheet` | The user's own saved plan (limits, size, playbook cards), editable. | `plan-card` |
+| `plan-sheet` | The user's own saved plan (limits, size, playbook cards), editable. A line with a literal value in the level file is a specimen; a line without one renders what the learner wrote, and may only name a key an earlier `plan-card` has already asked for. | `plan-card` |
 
 ### 6.9 Mascot & characters
 - **Mascot:** one recurring character (artwork to be provided). Poses needed: idle, nod (correct), hm (wrong), cheer (perfect / badge), point (spotlight on walkthroughs), sleep (streak reminder, outside lessons). Shown small in the reveal area and large on intro/complete screens. Never blocks content.

@@ -103,10 +103,10 @@ screens:
     title: "Your session limits"
     intro: "Four numbers. Write them as you would actually trade them, not as you would like to."
     fields:
-      - {key: r_in_dollars, label: "1R in dollars at your share size", kind: number, suggest: 150}
-      - {key: daily_loss_limit, label: "Daily loss limit (in R)", kind: number, suggest: 3}
-      - {key: trade_cap, label: "Maximum trades a day", kind: number, suggest: 6}
-      - {key: new_trade_cutoff, label: "Minutes after the open you stop taking new trades", kind: number, suggest: 90}
+      - {key: session_r_dollars, label: "1R in dollars at your share size", kind: number, suggest: 150}
+      - {key: session_daily_loss_limit, label: "Daily loss limit (in R)", kind: number, suggest: 3}
+      - {key: session_trade_cap, label: "Maximum trades a day", kind: number, suggest: 6}
+      - {key: session_new_trade_cutoff, label: "Minutes after the open you stop taking new trades", kind: number, suggest: 90}
     note: "These sit next to your watchlist from Chapter 5 and come back, filled in, in Chapter 8."
 
   - type: recap

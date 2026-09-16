@@ -123,6 +123,19 @@ screens:
     answer: "print"
     explanation: "One price, shared by everyone who traded this morning, and the only line on the chart that today drew itself."
 
+  - type: plan-card
+    title: "Card F — the gap-and-go continuation"
+    intro: "The morning that starts somewhere else. Six lines, and one of them is a line the session drew."
+    slot: f
+    fields:
+      - {key: name, label: "Card name", kind: text, suggest: "Gap-and-go continuation"}
+      - {key: context, label: "Context — what the chart must look like", kind: text, suggest: "A gap with a reason and the volume to match, every minute holding the session's first print"}
+      - {key: entry, label: "Entry — the exact event", kind: text, suggest: "The first minute that closes back out of a pullback that got quieter rather than deeper"}
+      - {key: stop, label: "Stop — the price", kind: text, suggest: "Two cents under that pullback's low"}
+      - {key: target, label: "Target — where you take it", kind: text, suggest: "What the gap has left of a normal day's travel"}
+      - {key: invalidation, label: "Invalidation — the condition", kind: text, suggest: "A minute that closes back under the session's first print"}
+    note: "Card six of the eight, and it runs upside down on a gap down without a word changing."
+
   - type: recap
     title: "Level 10 in three lines"
     points:

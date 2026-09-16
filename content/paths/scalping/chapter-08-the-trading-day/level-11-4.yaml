@@ -62,9 +62,9 @@ screens:
     title: "Your review rules"
     intro: "Three numbers that decide when the sheet is allowed to change anything."
     fields:
-      - {key: review_rows, label: "Rows before a card is read again", kind: number, suggest: 30}
-      - {key: reviews_per_month, label: "Full reads a month", kind: number, suggest: 1}
-      - {key: changes_per_review, label: "Changes allowed per read", kind: number, suggest: 1}
+      - {key: session_review_rows, label: "Rows before a card is read again", kind: number, suggest: 30}
+      - {key: session_reviews_per_month, label: "Full reads a month", kind: number, suggest: 1}
+      - {key: session_changes_per_review, label: "Changes allowed per read", kind: number, suggest: 1}
     note: "These sit next to the limits you wrote in Chapter 6 and come back when your simulator plan is built."
 
   - type: branch

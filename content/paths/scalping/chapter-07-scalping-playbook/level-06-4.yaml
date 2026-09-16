@@ -156,6 +156,19 @@ screens:
     outcome: "It came back to the line at $14.26 — $0.20 per share, +$300 long on 1,500 shares from $14.06."
     explanation: "A ten-cent stop under the wick at $13.96 turns the $150 into 1,500 shares, and the line twenty cents up is 2R."
 
+  - type: plan-card
+    title: "Card D — mean reversion at a level"
+    intro: "The card you trade against the move. Write the half size into the line that carries it."
+    slot: d
+    fields:
+      - {key: name, label: "Card name", kind: text, suggest: "Mean reversion at a level"}
+      - {key: context, label: "Context — what the chart must look like", kind: text, suggest: "A fast one-way run into a marked level, well away from VWAP, on the heaviest volume of the run"}
+      - {key: entry, label: "Entry — the exact event", kind: text, suggest: "The rejection minute that closes back on your side of the level"}
+      - {key: stop, label: "Stop — the price", kind: text, suggest: "Two cents beyond that minute's extreme"}
+      - {key: target, label: "Target — where you take it", kind: text, suggest: "VWAP as it stands at that minute, at half the usual budget"}
+      - {key: invalidation, label: "Invalidation — the condition", kind: text, suggest: "Any minute that closes through the level"}
+    note: "Card four of the eight, and the only one that gets half a risk budget rather than a whole one."
+
   - type: recap
     title: "Level 6 in three lines"
     points:

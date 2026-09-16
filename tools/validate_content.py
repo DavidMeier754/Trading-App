@@ -694,6 +694,80 @@ def validate_chapter_v3(folder, files, rep):
                                  f"outcomes ({n / n_outcomes:.0%}, want ≤25%)")
 
 
+def plan_card_keys(screen):
+    """The plan keys a `plan-card` screen writes, resolved through its optional `slot`.
+
+    A card with `slot: <id>` fills one playbook row, so its short field names resolve to
+    `card.<slot>.<field>` (schema.md, "The plan"). Every named slot but `draft` also puts a
+    row on the `cards` list the graduation sheet renders.
+    """
+    slot = screen.get("slot")
+    keys = []
+    for f in screen.get("fields") or []:
+        if isinstance(f, dict) and f.get("key"):
+            keys.append(f"card.{slot}.{f['key']}" if slot else str(f["key"]))
+    if slot and str(slot) != "draft":
+        keys.append("cards")
+    return keys
+
+
+def plan_sheet_fields(screen):
+    """(key, is_learner_line) for every field a `plan-sheet` renders.
+
+    A field carrying a literal `value` is a specimen line — a worked example, or the numbers the
+    scenario around it already gave. A field without one is a learner line: the renderer fills it
+    from the learner's own plan, so it may only name a key already written.
+    """
+    if (screen.get("component") or screen.get("visual")) != "plan-sheet":
+        return []
+    data = screen.get("data") or screen.get("visual_data") or {}
+    if not isinstance(data, dict):
+        return []
+    slot = data.get("slot")
+    out = []
+    for f in data.get("fields") or []:
+        if isinstance(f, dict) and f.get("key"):
+            key = f"card.{slot}.{f['key']}" if slot else str(f["key"])
+            out.append((key, "value" not in f))
+    return out
+
+
+def validate_plan(chapters, rep):
+    """schema.md "The plan": a plan-sheet may only render keys a plan-card writes.
+
+    The plan is one document the learner builds across all eight chapters, so this is computed
+    over a whole path rather than a chapter. The shared chapter (`path: all`) is part of every
+    path. A learner line must additionally be written *before* it is displayed — an earlier
+    sub-level, or an earlier screen of the same sub-level — or the sheet shows a blank the learner
+    was never asked to fill.
+    """
+    files = [d for cf in chapters.values() for d in cf]
+    paths = sorted({d.get("path") for d in files} - {"all", None})
+    for path in paths:
+        mine = [d for d in files if d.get("path") in (path, "all")]
+        mine.sort(key=lambda d: (d.get("chapter") or 0,) + level_key(d["id"]))
+        written = {}           # key -> (position, file, screen number)
+        sheets = []            # (position, file, screen number, key, is_learner_line)
+        for f_i, d in enumerate(mine):
+            for s_i, s in enumerate(d["screens"], 1):
+                pos = (f_i, s_i)
+                if s.get("type") == "plan-card":
+                    for key in plan_card_keys(s):
+                        written.setdefault(key, (pos, d["_file"], s_i))
+                for key, learner in plan_sheet_fields(s):
+                    sheets.append((pos, d["_file"], s_i, key, learner))
+        for pos, f, s_i, key, learner in sheets:
+            where = f"screen {s_i} (plan-sheet)"
+            if key not in written:
+                rep.err(f, f"{where}: renders plan key '{key}', which no plan-card "
+                           f"in the {path} path writes")
+                continue
+            wpos, wfile, w_i = written[key]
+            if learner and wpos >= pos:
+                rep.err(f, f"{where}: renders the learner's '{key}' before it is written "
+                           f"(written in {wfile} screen {w_i})")
+
+
 def validate_tiers(chapters, rep):
     """A tier is a milestone, so a learner may only reach it once (UI.md §7.5).
 
@@ -741,6 +815,7 @@ def main():
         validate_chapter(folder, files, rep, known)
         validate_chapter_v3(folder, files, rep)
     validate_tiers(chapters, rep)
+    validate_plan(chapters, rep)
     if status:
         print(f"{'chapter':60} {'levels':>6} {'subs':>5} {'screens':>7} {'questions':>9} {'minutes':>7}")
         for folder in sorted(chapters):

@@ -119,6 +119,19 @@ screens:
     tolerance: 10
     explanation: "Two thirds. What matters is not what is lost but what is left: one attempt, at the card's size, on a card you still believe in."
 
+  - type: plan-card
+    title: "Card H — the re-entry"
+    intro: "The last of the eight, and the only one whose context is another card."
+    slot: h
+    fields:
+      - {key: name, label: "Card name", kind: text, suggest: "The re-entry"}
+      - {key: context, label: "Context — what the chart must look like", kind: text, suggest: "A card that stopped out once, with its first line still true on the chart"}
+      - {key: entry, label: "Entry — the exact event", kind: text, suggest: "A new minute that triggers the original card; the failed trigger does not count"}
+      - {key: stop, label: "Stop — the price", kind: text, suggest: "Where the original card's stop belongs on this attempt"}
+      - {key: target, label: "Target — where you take it", kind: text, suggest: "The original card's target, at the original card's size"}
+      - {key: invalidation, label: "Invalidation — the condition", kind: text, suggest: "A second stop on the same card — it is finished for the session"}
+    note: "Card eight of the eight. Your sheet is now full, and Chapter 8 asks you to pick two of them."
+
   - type: recap
     title: "Level 12 in three lines"
     points:

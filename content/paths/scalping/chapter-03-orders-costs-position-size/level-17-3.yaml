@@ -108,9 +108,9 @@ screens:
     title: "Your cost limits"
     intro: "Three numbers you will trade by from here. You can change them later."
     fields:
-      - {key: max_cost_share, label: "Most of a target you will let costs take (%)", kind: number, suggest: 33}
-      - {key: max_spread_cents, label: "Widest gap you will pay, in cents", kind: number, suggest: 5}
-      - {key: risk_per_trade_pct, label: "Risk per trade (% of the account)", kind: number, suggest: 1}
+      - {key: cost_max_share_of_target, label: "Most of a target you will let costs take (%)", kind: number, suggest: 33}
+      - {key: cost_max_spread_cents, label: "Widest gap you will pay, in cents", kind: number, suggest: 5}
+      - {key: session_risk_pct, label: "Risk per trade (% of the account)", kind: number, suggest: 1}
     note: "Chapter 6 adds the daily limits that sit on top of these."
 
   - type: recap

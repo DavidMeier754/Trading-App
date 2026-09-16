@@ -282,6 +282,73 @@ expect("phrasing: one prompt dominates a question type",
        "uses the same prompt")
 
 
+print("\n— the plan (plan-card keys vs plan-sheet lines) —")
+
+
+def planfile(i, screens, chapter=7, path="scalping"):
+    return lesson(id=f"{i}-1", chapter=chapter, path=path, screens=screens)
+
+
+def card(*keys, slot=None):
+    s = {"type": "plan-card", "title": "t",
+         "fields": [{"key": k, "label": k, "kind": "text"} for k in keys]}
+    if slot:
+        s["slot"] = slot
+    return s
+
+
+def sheet(*fields, slot=None):
+    """fields are (key, value): a value makes it a specimen line, None a learner line."""
+    fl = []
+    for k, v in fields:
+        f = {"key": k, "label": k}
+        if v is not None:
+            f["value"] = v
+        fl.append(f)
+    data = {"fields": fl}
+    if slot:
+        data["slot"] = slot
+    return {"type": "visual", "component": "plan-sheet", "data": data, "caption": "c"}
+
+
+def plan(*files):
+    def run(rep):
+        for d in files:
+            d.setdefault("_file", f"level-{d['id']}.yaml")
+        V.validate_plan({CHAPTER: list(files)}, rep)
+    return run
+
+
+expect("plan: sheet renders a key no card writes",
+       plan(planfile(1, [card("session_trade_cap")]), planfile(2, [sheet(("made_up_line", None))])),
+       "no plan-card")
+expect("plan: learner line shown before its card",
+       plan(planfile(1, [sheet(("session_trade_cap", None))]), planfile(2, [card("session_trade_cap")])),
+       "before it is written")
+expect_no("plan: a specimen line may precede its card",
+          plan(planfile(1, [sheet(("session_trade_cap", "6"))]), planfile(2, [card("session_trade_cap")])),
+          "before it is written")
+expect_no("plan: a card earlier in the same sub-level counts",
+          plan(planfile(1, [card("setup_name"), sheet(("setup_name", None))])),
+          "setup_name")
+expect_no("plan: the shared chapter feeds every path",
+          plan(planfile(1, [card("setup_name")], chapter=1, path="all"),
+               planfile(2, [sheet(("setup_name", None))], chapter=2)),
+          "setup_name")
+expect("plan: a slotted sheet needs that slot's card",
+       plan(planfile(1, [card("stop", slot="a")]), planfile(2, [sheet(("stop", None), slot="b")])),
+       "card.b.stop")
+expect_no("plan: a slotted card feeds its own slotted sheet",
+          plan(planfile(1, [card("stop", slot="c")]), planfile(2, [sheet(("stop", None), slot="c")])),
+          "card.c.stop")
+expect("plan: the draft row does not fill the cards list",
+       plan(planfile(1, [card("name", slot="draft")]), planfile(2, [sheet(("cards", None))])),
+       "renders plan key 'cards'")
+expect_no("plan: a named card fills the cards list",
+          plan(planfile(1, [card("name", slot="a")]), planfile(2, [sheet(("cards", None))])),
+          "'cards'")
+
+
 print("\n— strict mode —")
 strict = V.Report(strict=True)
 check_chapter([sub(1)])(strict)

@@ -108,10 +108,10 @@ screens:
     title: "Your reset routine"
     intro: "Three numbers and one line, written now, while nothing is at stake."
     fields:
-      - {key: reset_trigger_stops, label: "Stops in a row that start your reset", kind: number, suggest: 2}
-      - {key: reset_minutes, label: "Minutes away from the screen", kind: number, suggest: 10}
-      - {key: return_size_pct, label: "Share size on the first trade back (% of normal)", kind: number, suggest: 50}
-      - {key: return_condition, label: "What has to happen before you go back to full size", kind: text, suggest: "Three trades taken exactly as written"}
+      - {key: session_reset_stops, label: "Stops in a row that start your reset", kind: number, suggest: 2}
+      - {key: session_reset_minutes, label: "Minutes away from the screen", kind: number, suggest: 10}
+      - {key: session_return_size_pct, label: "Share size on the first trade back (% of normal)", kind: number, suggest: 50}
+      - {key: session_return_condition, label: "What has to happen before you go back to full size", kind: text, suggest: "Three trades taken exactly as written"}
     note: "It sits under the session limits you wrote in Level 9, and both come back in Chapter 8."
 
   - type: example

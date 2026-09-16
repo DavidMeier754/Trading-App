@@ -87,10 +87,10 @@ screens:
     data:
       fields:
         - {key: live_share_size, label: "Live share size", value: "200"}
-        - {key: stop_rule, label: "Where the stop goes", value: "Under the pause the chart left"}
-        - {key: daily_loss_limit, label: "Daily loss limit", value: "3R"}
-        - {key: trade_cap, label: "Trades a session", value: "3"}
-    target: stop_rule
+        - {key: card.c.stop, label: "Where the stop goes", value: "Under the pause the chart left"}
+        - {key: session_daily_loss_limit, label: "Daily loss limit", value: "3R"}
+        - {key: session_trade_cap, label: "Trades a session", value: "3"}
+    target: card.c.stop
     explanation: "Nothing on the chart moved while you were in the position. A number that only looks wrong with money against it was never wrong."
 
   - type: fill-tiles

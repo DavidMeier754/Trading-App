@@ -129,6 +129,19 @@ screens:
       - {text: "Price reaches the high of day", bucket: "Get out"}
     explanation: "Three of the four were written on the card before the session. The fourth is the one that feels worst and means least."
 
+  - type: plan-card
+    title: "Card A — the VWAP bounce"
+    intro: "Write it in your own words. Six lines another trader could act on without asking you anything."
+    slot: a
+    fields:
+      - {key: name, label: "Card name", kind: text, suggest: "VWAP bounce"}
+      - {key: context, label: "Context — what the chart must look like", kind: text, suggest: "5-minute climbing, above the line all session, first or second touch"}
+      - {key: entry, label: "Entry — the exact event", kind: text, suggest: "The first minute that closes back above the line"}
+      - {key: stop, label: "Stop — the price", kind: text, suggest: "Two cents under that minute's low"}
+      - {key: target, label: "Target — where you take it", kind: text, suggest: "The high of day"}
+      - {key: invalidation, label: "Invalidation — the condition", kind: text, suggest: "A close back below the line, or volume rising on the way down"}
+    note: "Card one of the eight. Every setup in this chapter adds a row beside it."
+
   - type: recap
     title: "Level 2 in three lines"
     points:

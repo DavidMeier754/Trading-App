@@ -119,6 +119,19 @@ screens:
       - {text: "and put the stop just inside the range with it.", wrong: true}
     explanation: "The stop belongs two cents beyond the failed extreme. Inside the range it sits where ordinary chop lives, and ordinary chop will take it."
 
+  - type: plan-card
+    title: "Card E — the failed-breakout fade"
+    intro: "The break that could not stay, in six lines. Card D fades the arrival; this one fades the escape."
+    slot: e
+    fields:
+      - {key: name, label: "Card name", kind: text, suggest: "Failed-breakout fade"}
+      - {key: context, label: "Context — what the chart must look like", kind: text, suggest: "A push beyond a level on light volume, with the 5-minute pointing the other way"}
+      - {key: entry, label: "Entry — the exact event", kind: text, suggest: "The first minute that closes back on the level's original side"}
+      - {key: stop, label: "Stop — the price", kind: text, suggest: "Two cents beyond the failed break's extreme"}
+      - {key: target, label: "Target — where you take it", kind: text, suggest: "The far side of the range it came from, or the line if that comes first"}
+      - {key: invalidation, label: "Invalidation — the condition", kind: text, suggest: "A second push through the level that is bought"}
+    note: "Card five of the eight. Five cards is already more than most traders can name."
+
   - type: recap
     title: "Level 7 in three lines"
     points:

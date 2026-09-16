@@ -62,9 +62,12 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    (Chapter 7's Capstone straight into the Chapter Review) — and a Checkpoint no longer counts as
    more of the same. The 19 levels the curriculum marks `R` carry `category: repetition` again.
    Repetition runs at 16–44 % of subs, against a ~30 % guide.
-2. **Plan sheet.** 16 `plan-card` screens use 47 different field keys, so nothing the learner writes
-   is ever shown back. Chapter 7 writes one playbook card but Chapter 8 asks them to pick two of
-   eight. Needs one key schema across all eight chapters.
+2. ~~**Plan sheet.**~~ **Done.** `docs/schema.md` ("The plan") now holds one key namespace for the
+   whole path, grouped into practice setup, cost limits, the read, session limits, playbook cards
+   and the simulator/live plan, with revisiting a field defined as pre-filled and editable over one
+   live value. All 16 `plan-card` screens are re-keyed to it, the eight setup levels of Chapter 7
+   each write their own card, and a validator rule fails any `plan-sheet` line whose key no earlier
+   `plan-card` wrote.
 3. **Position sizes.** Simulated positions sit at 90–97 % of the stated account (all 89 of
    Chapter 2's decisions are over 50 %), which contradicts the 50 % cap the learner writes on their
    own plan card in Chapter 1 and makes Chapter 3's "account ceiling" the norm rather than the

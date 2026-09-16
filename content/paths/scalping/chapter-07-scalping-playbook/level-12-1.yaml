@@ -88,7 +88,7 @@ screens:
     title: "Your re-entry rule"
     intro: "Two numbers and one condition, written now rather than in the minute after a stop."
     fields:
-      - {key: reentry_max, label: "Re-entries allowed per setup", kind: number, suggest: 1}
-      - {key: reentry_size, label: "Size relative to the first attempt, in percent", kind: number, suggest: 100}
-      - {key: reentry_condition, label: "The condition that must still be true", kind: text}
+      - {key: card_reentry_max, label: "Re-entries allowed per setup", kind: number, suggest: 1}
+      - {key: card_reentry_size, label: "Size relative to the first attempt, in percent", kind: number, suggest: 100}
+      - {key: card_reentry_condition, label: "The condition that must still be true", kind: text}
     note: "This line joins your playbook sheet and applies to every card on it."

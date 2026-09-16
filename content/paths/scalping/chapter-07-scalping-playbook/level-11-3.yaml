@@ -136,6 +136,19 @@ screens:
     answer: {r_risked: "$140", r_made: "+2R", grade: "A"}
     explanation: "Fourteen cents risked and twenty-eight made, and an A because the exit was the middle of the band rather than a hope of the far edge."
 
+  - type: plan-card
+    title: "Card G — the range rotation"
+    intro: "The session that keeps arriving back where it started, written as six lines rather than a feeling."
+    slot: g
+    fields:
+      - {key: name, label: "Card name", kind: text, suggest: "Range rotation"}
+      - {key: context, label: "Context — what the chart must look like", kind: text, suggest: "A band the session keeps returning to, wide enough to pay for being in it twice"}
+      - {key: entry, label: "Entry — the exact event", kind: text, suggest: "The first minute that closes back inside an edge that has already refused price"}
+      - {key: stop, label: "Stop — the price", kind: text, suggest: "Two cents beyond the push that failed at that edge"}
+      - {key: target, label: "Target — where you take it", kind: text, suggest: "The middle of the band"}
+      - {key: invalidation, label: "Invalidation — the condition", kind: text, suggest: "Higher lows pressing the edge, or a close outside it"}
+    note: "Card seven of the eight. It is the one that stops being a card the moment the day starts stepping."
+
   - type: recap
     title: "Level 11 in three lines"
     points:

@@ -127,6 +127,19 @@ screens:
       - {text: "A push down, a shallow quiet bounce, a close back at the low", bucket: "Join it"}
     explanation: "Depth, volume and how many pushes have already gone. The direction never matters; the count always does."
 
+  - type: plan-card
+    title: "Card C — the momentum continuation"
+    intro: "The push, the pause and the restart, in lines you could hand to somebody else."
+    slot: c
+    fields:
+      - {key: name, label: "Card name", kind: text, suggest: "Momentum continuation"}
+      - {key: context, label: "Context — what the chart must look like", kind: text, suggest: "A leg of three or more minutes, then a shallow pause on shrinking volume"}
+      - {key: entry, label: "Entry — the exact event", kind: text, suggest: "The first minute that closes back in the leg's direction"}
+      - {key: stop, label: "Stop — the price", kind: text, suggest: "Two cents beyond the pause's extreme"}
+      - {key: target, label: "Target — where you take it", kind: text, suggest: "The leg's own height, projected from the entry"}
+      - {key: invalidation, label: "Invalidation — the condition", kind: text, suggest: "The pause trading more than the push did"}
+    note: "Card three of the eight, and the first one where the stop belongs to the pause rather than the run."
+
   - type: recap
     title: "Level 4 in three lines"
     points:

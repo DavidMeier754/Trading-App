@@ -140,11 +140,11 @@ screens:
     prompt: "Your finished plan. Tap the line the next ticket's share count is worked out from."
     data:
       fields:
-        - {key: cards, label: "Cards on the page", value: "VWAP bounce, Momentum continuation"}
-        - {key: risk_per_trade, label: "Risk per trade", value: "$96"}
-        - {key: daily_loss_limit, label: "Daily loss limit", value: "3R"}
-        - {key: trade_cap, label: "Trades a session", value: "6"}
-    target: risk_per_trade
+        - {key: cards, label: "Cards on the page"}
+        - {key: session_r_dollars, label: "Risk per trade"}
+        - {key: session_daily_loss_limit, label: "Daily loss limit"}
+        - {key: session_trade_cap, label: "Trades a session"}
+    target: session_r_dollars
     explanation: "That figure divided by the stop the chart asks for, then capped by what the account can pay for. The other three decide whether there is a ticket at all."
 
   - type: compare

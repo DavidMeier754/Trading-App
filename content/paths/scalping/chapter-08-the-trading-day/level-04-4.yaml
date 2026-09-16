@@ -48,10 +48,10 @@ screens:
     title: "Your pre-market page"
     intro: "The four numbers your hour ends on. You can change them later."
     fields:
-      - {key: share_size, label: "Today's share size", kind: number, suggest: 900}
-      - {key: r_dollars, label: "1R in dollars for that size", kind: number, suggest: 108}
-      - {key: daily_loss_limit, label: "Daily loss limit (in R)", kind: number, suggest: 3}
-      - {key: trade_cap, label: "Maximum trades today", kind: number, suggest: 6}
+      - {key: session_share_size, label: "Today's share size", kind: number, suggest: 900}
+      - {key: session_r_dollars, label: "1R in dollars for that size", kind: number, suggest: 108}
+      - {key: session_daily_loss_limit, label: "Daily loss limit (in R)", kind: number, suggest: 3}
+      - {key: session_trade_cap, label: "Maximum trades today", kind: number, suggest: 6}
     note: "Chapter 6 chose the limit. This page is where it becomes a number you can see before the bell, and it comes back when your simulator plan is built."
 
   - type: swipe-deck

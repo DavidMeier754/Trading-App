@@ -29,10 +29,10 @@ screens:
     title: "Your pre-market page"
     intro: "The four numbers you write before every bell. You can change them later."
     fields:
-      - {key: shortlist_size, label: "Names on the shortlist (maximum)", kind: number, suggest: 4}
-      - {key: lines_per_name, label: "Levels drawn per name", kind: number, suggest: 3}
-      - {key: share_size, label: "Your usual share size", kind: number, suggest: 1500}
-      - {key: start_minutes, label: "Minutes before the open you sit down", kind: number, suggest: 45}
+      - {key: read_shortlist_size, label: "Names on the shortlist (maximum)", kind: number, suggest: 4}
+      - {key: read_lines_per_name, label: "Levels drawn per name", kind: number, suggest: 3}
+      - {key: session_share_size, label: "Your usual share size", kind: number, suggest: 1500}
+      - {key: read_start_minutes, label: "Minutes before the open you sit down", kind: number, suggest: 45}
     note: "This page comes back, pre-filled, when Chapter 6 adds the limits to it."
 
   - type: spot-mistake

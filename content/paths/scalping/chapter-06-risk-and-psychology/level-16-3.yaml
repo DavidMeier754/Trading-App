@@ -102,9 +102,9 @@ screens:
     title: "Your rule for next week"
     intro: "Three numbers that decide what next Friday can tell you."
     fields:
-      - {key: min_rvol, label: "Lowest relative volume you will trade (×)", kind: number, suggest: 3}
-      - {key: rules_tested, label: "New rules you test at the same time", kind: number, suggest: 1}
-      - {key: rows_before_judging, label: "Rows before you judge the rule", kind: number, suggest: 20}
+      - {key: read_min_rvol, label: "Lowest relative volume you will trade (×)", kind: number, suggest: 3}
+      - {key: session_rules_tested, label: "New rules you test at the same time", kind: number, suggest: 1}
+      - {key: session_rows_before_judging, label: "Rows before you judge the rule", kind: number, suggest: 20}
     note: "It sits under your session limits, and both pages come back when the playbook is built."
 
   - type: example

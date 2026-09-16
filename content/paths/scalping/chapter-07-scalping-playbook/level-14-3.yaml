@@ -122,7 +122,7 @@ screens:
     title: "Your day-type filter"
     intro: "Three lines, written once, checked before the first trade of every session."
     fields:
-      - {key: trend_day_cards, label: "Cards you take on a trend day", kind: text}
-      - {key: range_day_cards, label: "Cards you take on a range day", kind: text}
-      - {key: min_band, label: "Smallest band worth rotating, in cents", kind: number, suggest: 25}
+      - {key: card_trend_day, label: "Cards you take on a trend day", kind: text}
+      - {key: card_range_day, label: "Cards you take on a range day", kind: text}
+      - {key: card_min_band, label: "Smallest band worth rotating, in cents", kind: number, suggest: 25}
     note: "This sits on the same sheet as your eight cards and your session limits."
