@@ -109,7 +109,7 @@ screens:
     explanation: "A second entry is a trade, not a repair. It gets the conditions and the size any other card gets, and it counts against the trade cap like any other."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "The minute closes outside the box at $16.08,"}
       - {text: "so you wait for a second close before sending,", wrong: true}

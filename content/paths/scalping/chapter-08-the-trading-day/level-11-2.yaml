@@ -95,7 +95,7 @@ screens:
     explanation: "A tenth of what six weeks built, in the stretch that felt like the whole thing coming apart."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "The week ran −1.8R across twelve rows,"}
       - {text: "so the two cards that lost come off the page", wrong: true}

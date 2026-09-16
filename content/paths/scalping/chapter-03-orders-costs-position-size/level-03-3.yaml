@@ -69,7 +69,7 @@ screens:
     explanation: "The chart looks better in the wide moments, and that is precisely when it is being sold to you at a markup."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "You checked the gap ten seconds ago,"}
       - {text: "so there is no need to look again,", wrong: true}

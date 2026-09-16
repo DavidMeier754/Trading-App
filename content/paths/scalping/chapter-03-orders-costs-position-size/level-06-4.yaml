@@ -101,7 +101,7 @@ screens:
     explanation: "The entry price was the one you chose and the exit price was the one you accepted, which is how most scalps end."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "To close a long in a hurry"}
       - {text: "you send a market buy,", wrong: true}

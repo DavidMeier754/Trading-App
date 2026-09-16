@@ -69,7 +69,7 @@ screens:
     body: "Fill the row while the chart is still on the screen. A day later you will remember the trade you want to remember, not the one you took."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "I log my winners in detail"}
       - {text: "and skip the losers", wrong: true}

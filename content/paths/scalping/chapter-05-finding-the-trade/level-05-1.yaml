@@ -12,7 +12,7 @@ reinforces: [1, 3]
 prerequisite: "4-2"
 xp: 40
 difficulty: 2
-sources: [consensus]
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
 notes: "Ten scored questions on Levels 1–4, fresh wordings and fresh numbers throughout. Three reach back: the account ceiling and the quote cost from Chapter 3, the two dials from Chapter 1. Account named at $18,000; both worked positions are 1,300 shares under $13.90."
 screens:
   - type: intro

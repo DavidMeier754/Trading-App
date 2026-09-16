@@ -79,7 +79,7 @@ screens:
     explanation: "Half the shares against the same stop, so half the unit — and the same chart decides both."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "My reset is ten minutes away from the screen,"}
       - {text: "unless the setup I am waiting for appears", wrong: true}

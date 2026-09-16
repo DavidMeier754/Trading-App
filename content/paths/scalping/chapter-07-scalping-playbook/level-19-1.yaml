@@ -125,7 +125,7 @@ screens:
     explanation: "Expectancy decides, not the win rate. X wins more often and gives it all back, one small win at a time."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The day has crossed the same two prices since the bell,"}
       - {text: "so you buy the break of the ceiling", wrong: true}

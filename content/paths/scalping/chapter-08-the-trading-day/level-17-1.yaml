@@ -122,7 +122,7 @@ screens:
     explanation: "Every condition the card names is present and the answer is still no. A limit that bends for a good chart has never once been tested."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "The minute closes through the level on the session's heaviest bar,"}
       - {text: "so the stop goes a few cents wider to survive the noise,", wrong: true}

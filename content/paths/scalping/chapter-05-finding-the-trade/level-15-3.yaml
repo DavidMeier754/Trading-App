@@ -36,7 +36,7 @@ screens:
     note: "This page comes back, pre-filled, when Chapter 6 adds the limits to it."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "The scan was done and the levels were drawn,"}
       - {text: "so the size could be settled once a name started moving,", wrong: true}

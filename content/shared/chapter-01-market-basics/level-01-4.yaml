@@ -86,7 +86,7 @@ screens:
     explanation: "Not until you sell. Until then it is a number on the screen that can still change."
 
   - type: spot-mistake
-    prompt: "Tap the part that does not work."
+    prompt: "Tap the mistake."
     segments:
       - {text: "XYZ has climbed steadily for ten minutes,"}
       - {text: "so you buy 500 shares at $14.00"}

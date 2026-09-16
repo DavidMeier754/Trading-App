@@ -95,7 +95,7 @@ screens:
     explanation: "One minute of crowd and nothing to keep it there. A burst with no reason behind it is usually one order, and that order has finished."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "ASHE is up 8 % on its results,"}
       - {text: "which tells you where it goes next,", wrong: true}

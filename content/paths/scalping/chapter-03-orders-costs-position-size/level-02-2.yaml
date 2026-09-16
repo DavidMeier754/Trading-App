@@ -75,7 +75,7 @@ screens:
     explanation: "The hole is six cents deep and the stock has not managed six cents in ten minutes. There is nothing here to win."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "You bought at the ask,"}
       - {text: "so you break even at the ask,", wrong: true}

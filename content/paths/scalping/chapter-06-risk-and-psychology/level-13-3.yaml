@@ -114,7 +114,7 @@ screens:
     explanation: "A quarter more risk on every trade, added at the point in the week when the method has told you the least."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "Four stops in a row, so I sit out"}
       - {text: "the next setup on the page", wrong: true}

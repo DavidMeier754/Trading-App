@@ -68,7 +68,7 @@ screens:
     explanation: "Chapter 2's volume row is the difference between somebody deciding and nobody being there."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "One minute finished under the line"}
       - {text: "on the thinnest bar of the morning,"}

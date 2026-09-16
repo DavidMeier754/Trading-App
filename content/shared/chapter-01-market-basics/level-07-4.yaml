@@ -69,7 +69,7 @@ screens:
     explanation: "The chart was fine. The stock was not, and a small gain does not begin to pay for what leaving 450 shares of RUSK would cost."
 
   - type: spot-mistake
-    prompt: "Tap the part that does not hold."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "RUSK trades 9,000 shares on a normal day"}
       - {text: "and you want 450 of them,"}

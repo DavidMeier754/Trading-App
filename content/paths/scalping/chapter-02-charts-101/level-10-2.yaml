@@ -70,7 +70,7 @@ screens:
     explanation: "Somebody was willing to trade on the other side and got overwhelmed before the minute was out. The line stays where it is."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "The candle traded under support"}
       - {text: "and finished back above it,"}

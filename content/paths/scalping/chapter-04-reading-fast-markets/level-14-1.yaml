@@ -9,7 +9,7 @@ learning_goal: "User checks the 5-minute chart for direction before taking a 1-m
 purpose: "The 1-minute chart will offer you a trade every few minutes; the 5-minute chart decides which of them are worth taking."
 terms_introduced: []
 reinforces: [2]
-prerequisite: "13-1"
+prerequisite: "13-2"
 xp: 20
 difficulty: 2
 sources: ["Murphy — Technical Analysis of the Financial Markets", "Aziz — How to Day Trade for a Living"]
@@ -94,7 +94,7 @@ screens:
     explanation: "The stop goes under the pullback low, because below it the 5-minute uptrend is in question."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "The 5-minute chart is in a downtrend,"}
       - {text: "so I will hold my 1-minute long longer", wrong: true}

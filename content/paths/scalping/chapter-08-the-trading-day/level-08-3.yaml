@@ -95,7 +95,7 @@ screens:
     explanation: "R measures the trade and the grade measures you. A 2R chased into and a 2R taken off the page are the same number and two different habits."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "The rows get written the same evening,"}
       - {text: "starting with the trades worth remembering,", wrong: true}

@@ -44,7 +44,7 @@ screens:
     body: "To fade a move is to trade against it. Here you fade the break, and the trigger is the re-entry candle: the first candle that closes back on the level's original side."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "Price broke the level and came back inside,"}
       - {text: "so you enter the second it trades back through", wrong: true}

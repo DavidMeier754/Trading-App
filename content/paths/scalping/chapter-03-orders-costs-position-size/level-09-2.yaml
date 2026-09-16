@@ -95,7 +95,7 @@ screens:
     explanation: "The floor everyone was leaning on has gone on triple volume. Anyone long from above $12.70 now has a decision to make, and their exits are on your side."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "A stop-market order triggers at your price"}
       - {text: "and always fills at it,", wrong: true}

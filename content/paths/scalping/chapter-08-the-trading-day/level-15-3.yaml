@@ -100,7 +100,7 @@ screens:
     explanation: "Each step is permission for the one after it. Skipping the third is how a first live week becomes a first live drawdown."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "The first live week finishes up three units,"}
       - {text: "so the size goes back to the one you practised,", wrong: true}

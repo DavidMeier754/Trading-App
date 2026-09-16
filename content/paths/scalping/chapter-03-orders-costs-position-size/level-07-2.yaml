@@ -103,7 +103,7 @@ screens:
     explanation: "Costing nothing and doing nothing, which is fine on a quiet morning and painful on a fast one."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the mistake."
     segments:
       - {text: "The stock ran past your ceiling,"}
       - {text: "so raise the ceiling until it trades,", wrong: true}

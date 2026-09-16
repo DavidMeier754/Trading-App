@@ -103,7 +103,7 @@ screens:
     explanation: "Eighteen cents is not a big move. On 1,400 shares it is more than one per cent of this account, paid for a dropped connection."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "The screen has frozen twice this hour,"}
       - {text: "so you trade half size until it settles down,", wrong: true}

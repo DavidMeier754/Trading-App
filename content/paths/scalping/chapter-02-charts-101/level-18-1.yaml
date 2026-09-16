@@ -132,7 +132,7 @@ screens:
     explanation: "A trades a quarter of a million shares a minute. B climbs in jumps on bars of a few thousand, where your 1,500 would be more than a whole minute of it, twice."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "The 5-minute chart decides which way you trade,"}
       - {text: "and stops mattering the moment you are in,", wrong: true}

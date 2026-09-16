@@ -58,7 +58,7 @@ screens:
     explanation: "Buying pays the higher price and selling takes the lower one, whichever direction you are trading."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the mistake."
     segments:
       - {text: "Closing a short means buying the shares back,"}
       - {text: "at the bid,", wrong: true}

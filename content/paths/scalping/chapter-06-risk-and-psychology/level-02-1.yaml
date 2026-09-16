@@ -9,7 +9,7 @@ learning_goal: "User expresses risk and result as R, rejects trades whose target
 purpose: "R is the unit every rule in this chapter is written in — it makes a $40 trade and a $400 trade comparable."
 terms_introduced: ["R", "R-multiple", "Break-even stop", "Partial exit"]
 reinforces: [3]
-prerequisite: "1-1"
+prerequisite: "1-4"
 xp: 20
 difficulty: 2
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Elder — Trading for a Living"]
@@ -101,13 +101,13 @@ screens:
     caption: "Five scalps in one morning: +1.5R in total, whatever the share size was."
 
   - type: numeric-mc
-    prompt: "A different morning: +2R, −1R, −1R, +1.5R, −1R. What is the net?"
+    prompt: "A different morning: +2R, −1R, −1R, +0.5R, −1R. What is the net?"
     options:
       - {text: "+0.5R"}
       - {text: "−1.5R"}
       - {text: "+2.5R"}
       - {text: "−0.5R", correct: true}
-    working: "2 − 1 − 1 + 1.5 − 1 = −0.5"
+    working: "2 − 1 − 1 + 0.5 − 1 = −0.5"
     explanation: "Three losers and two winners, and the morning is only half an R down — that is what the unit is for."
 
   - type: tf
@@ -122,4 +122,4 @@ screens:
 
   - type: theory
     title: "From here on, results are in R"
-    body: "Limits, targets, sizing, the Friday review — all of it is written in R. Next: what a whole series of R adds up to."
+    body: "Limits, targets, sizing, the Friday review — all of it is written in R. Next: the same unit on a short, and in names at four different prices."

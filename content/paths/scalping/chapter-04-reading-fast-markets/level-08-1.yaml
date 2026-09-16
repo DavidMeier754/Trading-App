@@ -12,7 +12,7 @@ reinforces: [2, 3]
 prerequisite: "7-3"
 xp: 40
 difficulty: 2
-sources: [consensus]
+sources: ["Volman — Understanding Price Action", "Nison — Japanese Candlestick Charting Techniques"]
 notes: "Ten scored questions on Levels 6 and 7 with fresh wordings and numbers. Three reach back: Chapter 2's climax volume at a level, and Chapter 3's order book and spread. Account named at $28,000."
 screens:
   - type: intro

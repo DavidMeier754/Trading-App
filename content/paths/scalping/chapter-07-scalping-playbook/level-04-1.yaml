@@ -95,7 +95,7 @@ screens:
     explanation: "The candles give you the shape; the volume tells you whether to believe it."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "The leg is running, so you buy"}
       - {text: "the third candle of the leg itself", wrong: true}

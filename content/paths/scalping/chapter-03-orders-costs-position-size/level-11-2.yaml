@@ -93,7 +93,7 @@ screens:
     explanation: "The stop sets the risk ceiling; the stock's own volume sets whether you can actually leave. Both get checked, every time."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "Account $12,000, one per cent rule,"}
       - {text: "so the risk budget is $1,200,", wrong: true}

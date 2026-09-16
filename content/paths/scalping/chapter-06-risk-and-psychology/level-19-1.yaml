@@ -94,7 +94,7 @@ screens:
     explanation: "Distance first, then the writing, then the plan — and only then a smaller position. Judgement is the broken tool at that moment, so nothing in the routine asks for it."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "The month is down four per cent,"}
       - {text: "so the size goes up until it is back", wrong: true}

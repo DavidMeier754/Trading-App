@@ -107,5 +107,5 @@ screens:
     explanation: "Imbalance moves price; balance doesn't."
 
   - type: theory
-    title: "Level 1 done"
-    body: "You can trade, and you know why prices move. Next: what exactly is this XYZ you keep buying?"
+    title: "One rule, twice over"
+    body: "You have now read the same engine from both sides: what moves a price, and what that move does to a position. Next comes the thing that tips it fastest — news."

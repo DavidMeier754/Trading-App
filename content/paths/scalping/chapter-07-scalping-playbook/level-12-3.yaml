@@ -102,7 +102,7 @@ screens:
     explanation: "Five hundred at the first price, seven hundred at the second, and the last three hundred pay two cents more than the first five hundred did."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "The card stopped out twice and the context is still there,"}
       - {text: "so you take the third attempt at half size"}

@@ -98,7 +98,7 @@ screens:
     explanation: "A sell limit three cents under the bid crosses the quote and still refuses anything below $17.55. Thin books are exactly where that floor earns its keep."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "You cut the size in half for the thin stretch"}
       - {text: "and drop the target to the eight cents the chart is offering,", wrong: true}

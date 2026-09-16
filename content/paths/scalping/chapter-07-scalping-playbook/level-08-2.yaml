@@ -149,7 +149,7 @@ screens:
     explanation: "A closed above the box on the heaviest bar of the chart and kept going. B closed above it on a quiet one and was back inside the next minute — which is card E, from the other side."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "The read gives a level, the right side of the line and a reclaim close,"}
       - {text: "so you take card A"}

@@ -100,7 +100,7 @@ screens:
     explanation: "Fourteen cents of risk, and the stop stayed there until the second green minute had cleared the highs it was leaning on."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The trade is three cents up,"}
       - {text: "so the stop goes to break-even now", wrong: true}

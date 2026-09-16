@@ -22,44 +22,43 @@ Chapter status: **written** = in the repo and validated · **expand** = v2 conte
 
 (Chapter 1 is shared, so a learner sees Chapter 1 once plus one path's Chapters 2–8. ~387 sub-levels ≈ 22 hours ≈ six months at two a day.)
 
-### Migration note — v2 chapters are renumbered
+### Migration note — v2 chapters are renumbered — **done**
 
-v3 inserts **Finding the Trade** at Chapter 5, which pushes the two chapters after it down by one. Before any v3 content is written, the existing scalping folders must be renamed and their `chapter:` fields updated:
-
-| v2 folder | v3 folder | `chapter:` |
-|---|---|---|
-| `chapter-05-risk-and-psychology` | `chapter-06-risk-and-psychology` | 5 → 6 |
-| `chapter-06-scalping-playbook` | `chapter-07-scalping-playbook` | 6 → 7 |
-| — | `chapter-05-finding-the-trade` (new) | 5 |
-| — | `chapter-08-the-trading-day` (new) | 8 |
-
-Chapters 1–4 keep their numbers and folders. `prerequisite` values are within-chapter and do not change; cross-chapter references in prose ("Chapter 5 covers…") do.
+v3 inserted **Finding the Trade** at Chapter 5, which pushed the two chapters after it down by one.
+The scalping folders were renamed and their `chapter:` fields updated; the mapping was
+`chapter-05-risk-and-psychology` → `chapter-06-risk-and-psychology`, `chapter-06-scalping-playbook` →
+`chapter-07-scalping-playbook`, with `chapter-05-finding-the-trade` and `chapter-08-the-trading-day`
+written new. Nothing here is outstanding — it is kept so cross-chapter references in older prose
+can be traced.
 
 ---
 
-## Chapter 1 — Market Basics (shared) — expand
+## Chapter 1 — Market Basics (shared) — written
 
-Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 47 subs · v2 has 12 levels / 19 subs
+Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 47 subs
 
 | Level | Title | Subs | Teaches | Reinforces |
 |---|---|---|---|---|
 | 1 | Your First Trade | 4 | Line chart, price, buy/sell, position, profit and loss; the first buy/wait decisions; move × shares; mixed practice | — |
-| 2 | Why Prices Move | 3 | Buyers vs sellers, demand and supply, the imbalance rule; news as the trigger that flips it | 1 |
-| 3 | What You're Actually Buying | 3 | Share = a fraction of a company, shareholder, ticker, exchange; why companies sell shares; your money goes to the seller | 1 |
-| 4 | The Quote Card | 4 | Price, previous close, daily change in $ and %, volume; reading a quote in two seconds; red days mean nothing alone; practice | 1 |
-| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 1 |
-| 6 | Who's On the Other Side | 3 | Retail traders, institutions, market makers; the two-sided quote and the spread as their income; reading footprints from volume | 1 |
-| 7 | Volume and Liquidity | 4 | Volume as activity; liquidity as ease of exit; volume as the liquidity clue; what a big order does in a thin stock; practice | 1 |
-| 8 | Volatility | 3 | Size and speed of moves; volatility is not liquidity; the two dials; picking a stock to learn on | 1 |
-| 9 | Two Dials Practice | 2 R | Classifying real-looking quotes on both dials; a buy/wait decision that turns on liquidity | 1 |
-| 10 | When the Market Is Open | 3 | Pre-market, regular session, after-hours from `{{market.*}}`; thin sessions are jumpy; where beginners practise | 1 |
-| 11 | Checkpoint | 1 T | 10 questions on Levels 6–10 | 1 |
-| 12 | Getting Access | 3 | Broker, brokerage account, order, paper trading, fees as a category, `{{market.regulation_note}}`; the order ticket | 1 |
-| 13 | Long and Short | 4 | Long, short, borrow, cover; computing each result; the risk asymmetry; first long / short / no-trade decisions | 1 |
-| 14 | Three Ways to Trade | 3 | Holding period; scalping / day / swing; trading vs investing; matching a style to a real life | 1 |
-| 15 | The Big Picture | 3 | Trend, bull and bear markets as context not signal; news versus expectations; where sudden volatility comes from | 1 |
-| 16 | Chapter Review | 2 R | One narrated trading day using every Chapter 1 idea; a `plan-card` where the user writes what kind of trader they want to be | 1 |
-| 17 | Final Exam | 1 F | 12 questions → badge → `tier-up` (Observer) → path choice | 1 |
+| 2 | Why Prices Move | 3 | Buyers vs sellers, demand and supply, the imbalance rule; news as the trigger that flips it | — |
+| 3 | What You're Actually Buying | 3 | Share = a fraction of a company, shareholder, ticker, exchange; why companies sell shares; your money goes to the seller | — |
+| 4 | The Quote Card | 4 | Price, previous close, daily change in $ and %, volume; reading a quote in two seconds; red days mean nothing alone; practice | — |
+| 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | — |
+| 6 | Who's On the Other Side | 3 | Retail traders, institutions, market makers; the two-sided quote and the spread as their income; reading footprints from volume | — |
+| 7 | Volume and Liquidity | 4 | Volume as activity; liquidity as ease of exit; volume as the liquidity clue; what a big order does in a thin stock; practice | — |
+| 8 | Volatility | 3 | Size and speed of moves; volatility is not liquidity; the two dials; picking a stock to learn on | — |
+| 9 | Two Dials Practice | 2 R | Classifying real-looking quotes on both dials; a buy/wait decision that turns on liquidity | — |
+| 10 | When the Market Is Open | 3 | Pre-market, regular session, after-hours from `{{market.*}}`; thin sessions are jumpy; where beginners practise | — |
+| 11 | Checkpoint | 1 T | 10 questions on Levels 6–10 | — |
+| 12 | Getting Access | 3 | Broker, brokerage account, order, paper trading, fees as a category, `{{market.regulation_note}}`; the order ticket | — |
+| 13 | Long and Short | 4 | Long, short, borrow, cover; computing each result; the risk asymmetry; first long / short / no-trade decisions | — |
+| 14 | Three Ways to Trade | 3 | Holding period; scalping / day / swing; trading vs investing; matching a style to a real life | — |
+| 15 | The Big Picture | 3 | Trend, bull and bear markets as context not signal; news versus expectations; where sudden volatility comes from | — |
+| 16 | Chapter Review | 2 R | One narrated trading day using every Chapter 1 idea; a `plan-card` where the user writes what kind of trader they want to be | — |
+| 17 | Final Exam | 1 F | 12 questions → badge → path choice. No tier here — Observer unlocks after Chapter 2 (`docs/UI.md` §7.5) | — |
+
+
+> Chapter 1's `reinforces` is empty in every file and the column reads `—` throughout: the field takes *earlier chapter* numbers (`docs/schema.md`) and Chapter 1 has none. Interleaving inside the chapter is still required — it is covered by the rule in `docs/agent.md` §3.2, not by this field.
 
 **Terms Chapter 1 introduces** (available to every later chapter): Price, Chart, Stock, Share, Buy, Sell, Position, Profit, Loss, Trade, Market, Buyer, Seller, Demand, Supply, Shareholder, Ticker, Exchange, Quote, Previous close, Daily change, Volume, Retail trader, Institution, Market maker, Spread, Liquidity, Liquid, Illiquid, Volatility, Volatile, Session, Pre-market, Regular session, After-hours, Broker, Brokerage account, Order, Paper trading, Fee, Long, Short, Borrow, Cover, No trade, Holding period, Scalping, Day trading, Swing trading, Investing, Trend, Bull market, Bear market.
 
@@ -69,9 +68,9 @@ Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 47 subs · v2 h
 
 Folder base: `content/paths/scalping/`. Timeframes: 1-minute with 5-minute context. Numbers: 500–2,000 shares, $0.05–$0.30 targets, $5,000–$30,000 accounts, drill prices $10–$30.
 
-### Chapter 2 — Charts 101 — expand
+### Chapter 2 — Charts 101 — written
 
-Folder: `chapter-02-charts-101` · 18 levels, 49 subs · v2 has 10 levels / 17 subs
+Folder: `chapter-02-charts-101` · 18 levels, 49 subs
 First candlestick charts of the app. Every level from 3 on has at least one `chart-decision`.
 
 | Level | Title | Subs | Teaches | Reinforces |
@@ -97,9 +96,9 @@ First candlestick charts of the app. Every level from 3 on has at least one `cha
 
 **New terms:** Candle, Open, High, Low, Close, Body, Wick, Timeframe, Volume bar, Climax volume, Uptrend, Downtrend, Range, Higher high, Higher low, Lower high, Lower low, Pullback, Support, Resistance, Breakout, Bounce, Gap, Opening range, Momentum, Exhaustion.
 
-### Chapter 3 — Orders, Costs & Position Size — expand
+### Chapter 3 — Orders, Costs & Position Size — written
 
-Folder: `chapter-03-orders-costs-position-size` · 19 levels, 50 subs · v2 has 10 levels / 17 subs
+Folder: `chapter-03-orders-costs-position-size` · 19 levels, 50 subs
 
 | Level | Title | Subs | Teaches | Reinforces |
 |---|---|---|---|---|
@@ -180,9 +179,9 @@ The chapter the v2 path was missing entirely: which stock, and what kind of day.
 
 **New terms:** Relative volume, Catalyst, In play, Scanner, Gapper, Watchlist, Float, Small float, Index, Sector, Breadth, Risk-on, Risk-off, Trend day, Range day, Pre-market routine.
 
-### Chapter 6 — Risk & Psychology — expand
+### Chapter 6 — Risk & Psychology — written
 
-Folder: `chapter-06-risk-and-psychology` · 19 levels, 51 subs · v2 has 10 levels / 15 subs
+Folder: `chapter-06-risk-and-psychology` · 19 levels, 51 subs
 The thinnest chapter in v2 and the one where retail traders actually fail, so it gets the largest expansion. Sources: Elder, Douglas, Tharp, Steenbarger, Bellafiore.
 
 | Level | Title | Subs | Teaches | Reinforces |
@@ -209,9 +208,9 @@ The thinnest chapter in v2 and the one where retail traders actually fail, so it
 
 **New terms:** Setup, Hard stop, Mental stop, R, R-multiple, Break-even stop, Partial exit, Trailing stop, Time stop, Win rate, Average win, Average loss, Expectancy, Edge, Daily loss limit, Trade limit, Overtrading, Revenge trade, FOMO, Chasing, Tilt, Reset routine, Sample size, Journal, Execution grade, Weekly review, Drawdown.
 
-### Chapter 7 — The Scalping Playbook — expand
+### Chapter 7 — The Scalping Playbook — written
 
-Folder: `chapter-07-scalping-playbook` · 19 levels, 50 subs · v2 has 10 levels / 16 subs
+Folder: `chapter-07-scalping-playbook` · 19 levels, 50 subs
 Eight setups instead of five. Every setup is a playbook card: context, entry, stop, target, invalidation. Each gets a theory sub and drill subs. Two named sources per setup claim.
 
 | Level | Title | Subs | Teaches | Reinforces |
@@ -236,9 +235,9 @@ Eight setups instead of five. Every setup is a playbook card: context, entry, st
 | 18 | Chapter Review | 2 R | The eight cards summarised by trigger, then a mixed `compare` set | 4, 5, 6 |
 | 19 | Final Exam | 1 F | 14 questions → badge | 4, 5, 6 |
 
-**New terms:** Playbook, Playbook card, Invalidation, VWAP bounce, High of day, Opening-range scalp, Momentum continuation, Leg, Measured move, Mean reversion, Fade, Re-entry candle, Trapped traders, Gap-and-go, Range rotation, Re-entry.
+**New terms:** Playbook, Playbook card, Invalidation, VWAP bounce, High of day, Opening-range scalp, Momentum continuation, Leg, Measured move, Mean reversion, Fade, Re-entry candle, Trapped traders, Gap-and-go, Range rotation, Re-entry trade.
 
-### Chapter 8 — The Trading Day — new
+### Chapter 8 — The Trading Day — written
 
 Folder: `chapter-08-the-trading-day` · 17 levels, 47 subs
 Execution, the full routine, and the honest handover to a simulator. Sources: Aziz (platform, hotkeys, routine), Bellafiore, Steenbarger, Elder.
@@ -263,7 +262,7 @@ Execution, the full routine, and the honest handover to a simulator. Sources: Az
 | 16 | Capstone — A Full Week | 3 R | Five sessions compressed: a green day, a red day inside the limit, a day with no trades, a tilt caught early, a weekly review that produces one rule | 5, 6, 7 |
 | 17 | Final Exam and Graduation | 1 F | 15 questions → badge → `tier-up` (Sim Trader) → the user's finished `plan-sheet` | 4, 5, 6, 7 |
 
-**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, Grade-A trade, Live trading.
+**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, Grade-A trade, Going live.
 
 ---
 

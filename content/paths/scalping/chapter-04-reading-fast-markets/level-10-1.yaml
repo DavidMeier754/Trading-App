@@ -101,7 +101,7 @@ screens:
     explanation: "Room is worth something and agreement is worth more. A line on its own is one reading, whatever the distance to the next one."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "Yesterday's low and the session's average price are both at $17.20,"}
       - {text: "and price has been under both of them all morning,"}

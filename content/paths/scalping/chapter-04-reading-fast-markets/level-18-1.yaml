@@ -67,7 +67,7 @@ screens:
     explanation: "Where, who, what, now — the same order on every chart."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "The stock prints about 5,000 shares a minute,"}
       - {text: "so a 2,000-share order is a small part of it,", wrong: true}

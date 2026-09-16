@@ -105,7 +105,7 @@ screens:
     explanation: "The evidence is in what the last twenty minutes traded, never in what the first two did."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "MESA did 9× normal volume in its first ten minutes,"}
       - {text: "so the crowd is still in it,", wrong: true}

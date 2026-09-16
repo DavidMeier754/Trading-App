@@ -85,7 +85,7 @@ screens:
     explanation: "The colour is a detail. What matters is that the wick is long, the body is small, and it is at the other end of the candle."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "The body covered the whole body before it"}
       - {text: "in the same direction,"}

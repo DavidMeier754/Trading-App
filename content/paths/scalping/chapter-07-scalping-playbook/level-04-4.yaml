@@ -110,7 +110,7 @@ screens:
         explanation: "The grade is for the execution, not the distance travelled. Grading on the result teaches you to sit through invalidations that happen to work out."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "The pause was shallow and quiet,"}
       - {text: "so you entered on the close back up"}

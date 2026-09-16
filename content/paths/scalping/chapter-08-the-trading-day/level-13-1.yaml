@@ -142,7 +142,7 @@ screens:
     explanation: "Room is made of results that happened while you still had permission to trade. Everything after that is next session's business."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "The third stop fills and the day reaches −3R,"}
       - {text: "so the size halves and the page keeps running,", wrong: true}

@@ -99,7 +99,7 @@ screens:
     explanation: "Nine cents you never agreed to, on a stock you were happy to own three cents higher at most."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "To get in now with a ceiling on the price,"}
       - {text: "post your limit under the bid,", wrong: true}

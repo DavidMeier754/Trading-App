@@ -51,7 +51,7 @@ screens:
     explanation: "It never traded, so it never had to be honoured. The only fact is that somebody no longer wants to be seen bidding."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The bid was stacked with 6,000 shares"}
       - {text: "and most of it vanished as price arrived,"}

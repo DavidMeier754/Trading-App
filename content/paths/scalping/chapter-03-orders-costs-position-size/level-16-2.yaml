@@ -110,7 +110,7 @@ screens:
     explanation: "The chart gets the two prices. You get the share count. Neither one is allowed to do the other's job."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "Two pushes failed at $23.60,"}
       - {text: "so the stop goes on $23.60 itself,", wrong: true}

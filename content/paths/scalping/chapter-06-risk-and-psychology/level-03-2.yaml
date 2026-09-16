@@ -96,7 +96,7 @@ screens:
     explanation: "It swaps some upside for a steadier result. Nothing about the second half became safer; only the amount riding on it changed."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "The trade is green and I am nervous,"}
       - {text: "so I take half off here", wrong: true}

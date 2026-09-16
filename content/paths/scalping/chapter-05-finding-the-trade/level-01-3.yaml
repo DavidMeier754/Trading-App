@@ -104,7 +104,7 @@ screens:
     explanation: "The price. Volume decides whether you can leave; the price decides how much you can hold."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "The budget allows 900 shares,"}
       - {text: "so the account's 631 can be rounded up,", wrong: true}

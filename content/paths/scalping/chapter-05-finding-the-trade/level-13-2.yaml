@@ -121,7 +121,7 @@ screens:
     body: "Two sessions left their opening range in the same minute. One never traded back inside it; the other was in the middle of it again six minutes later. Only the first was worth a second trade."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The opening range broke on heavy volume,"}
       - {text: "so the day type was settled at that minute,", wrong: true}

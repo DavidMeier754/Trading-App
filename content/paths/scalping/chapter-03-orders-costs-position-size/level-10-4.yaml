@@ -111,7 +111,7 @@ screens:
     explanation: "The tighter the stop, the larger the share of it the quote takes, and the more often you pay for a read that was never given time."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the mistake."
     segments:
       - {text: "You buy at the ask,"}
       - {text: "so the stop distance starts from the bid,", wrong: true}

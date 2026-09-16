@@ -54,6 +54,11 @@ REQUIRED = [
 ]
 
 
+# numbers, money and percentages collapse to "#" so two sentences that differ only
+# in their figures count as one shape
+TEMPLATE_RE = re.compile(r"[\d.,$%€]+")
+
+
 def screen_units(s):
     if s["type"] == "carousel":
         return len(s.get("cards", []))
@@ -409,12 +414,23 @@ def validate_chapter(folder, files, rep, known_terms):
     ids = {d["id"]: d for d in files}
     ordered = sorted(files, key=lambda d: level_key(d["id"]))
     _, folder_num = folder_info(folder)
-    for d in ordered:
+    for i, d in enumerate(ordered):
         p = d.get("prerequisite")
         if p is not None and p not in ids:
             rep.err(d["_file"], f"prerequisite '{p}' not found in chapter")
         if folder_num is not None and d.get("chapter") != folder_num:
             rep.warn(d["_file"], f"chapter field {d.get('chapter')} differs from folder chapter {folder_num}")
+        # the chain must not skip sub-levels: a level unlocked from the middle of the
+        # previous level lets the learner past subs they never saw.
+        expected = ordered[i - 1]["id"] if i else None
+        if p == expected or p not in ids:
+            continue
+        strand_start = (str(d.get("path_position") or "").startswith("fan-out:")
+                        and level_key(d["id"])[1] == 1
+                        and level_key(p) < level_key(d["id"]))
+        if not strand_start:
+            rep.warn(d["_file"], f"prerequisite '{p}' skips sub-level(s); "
+                                 f"the sub before this one is '{expected}'")
     # use-before-definition
     introduced_at = {}
     for d in ordered:
@@ -608,6 +624,52 @@ def validate_chapter_v3(folder, files, rep):
                     if not VOLUME_MIN <= median <= VOLUME_MAX:
                         rep.cwarn(d["_file"], f"screen {i}: typical bar volume {median:,.0f} outside "
                                               f"{VOLUME_MIN:,}–{VOLUME_MAX:,} per bar")
+    # --- scenario and outcome phrasing ----------------------------------
+    # The charts are all different; the sentences around them must not settle into
+    # one shape, or 90 decisions read like 90 copies of the same screen.
+    decisions = [s for d in ordered for s in d["screens"] if s.get("type") == "chart-decision"]
+    if len(decisions) >= 12:
+        exact_out = defaultdict(int)
+        shape_out = defaultdict(int)
+        shape_close = defaultdict(int)
+        for s in decisions:
+            out = str(s.get("outcome") or "").strip()
+            if out:
+                exact_out[out] += 1
+                shape_out[TEMPLATE_RE.sub("#", out.lower())] += 1
+            scen = str(s.get("scenario") or "").strip()
+            if scen:
+                closer = re.split(r"(?<=[.?]) +", scen)[-1]
+                shape_close[TEMPLATE_RE.sub("#", closer.lower())] += 1
+        for out, n in sorted(exact_out.items(), key=lambda kv: -kv[1]):
+            if n > 1:
+                rep.cwarn(where, f"chart-decision outcome used verbatim {n}x: '{out[:60]}…'")
+        if shape_out:
+            variety = len(shape_out) / sum(shape_out.values())
+            if variety < 0.60:
+                rep.cwarn(where, f"only {len(shape_out)} outcome sentence shapes for "
+                                 f"{sum(shape_out.values())} chart-decisions ({variety:.0%}, want ≥60%)")
+        if shape_close:
+            total = sum(shape_close.values())
+            shape, n = max(shape_close.items(), key=lambda kv: kv[1])
+            if n / total > 0.60:
+                rep.cwarn(where, f"{n}/{total} chart-decision scenarios ({n / total:.0%}) end on the same "
+                                 f"sentence shape: '{shape[:60]}…' — use state chips (UI.md §6.4) instead")
+
+    # --- prompt reuse within a question type -----------------------------
+    by_type = defaultdict(lambda: defaultdict(int))
+    for d in ordered:
+        for s in d["screens"]:
+            p = s.get("prompt")
+            if s.get("type") in QUESTION and isinstance(p, str) and p.strip():
+                by_type[s["type"]][p.strip()] += 1
+    for qtype, prompts in by_type.items():
+        total = sum(prompts.values())
+        prompt, n = max(prompts.items(), key=lambda kv: kv[1])
+        if n >= 5 and n / total > 0.25:
+            rep.cwarn(where, f"{qtype} uses the same prompt {n}/{total} times "
+                             f"({n / total:.0%}, want ≤25%): '{prompt[:50]}…'")
+
     if outcome_values:
         n_outcomes = sum(1 for d in ordered for s in d["screens"] if s.get("type") == "chart-decision")
         common = defaultdict(int)
@@ -617,6 +679,25 @@ def validate_chapter_v3(folder, files, rep):
             if n_outcomes and n / n_outcomes > 0.25:
                 rep.cwarn(where, f"per-share outcome {val} appears in {n}/{n_outcomes} chart-decision "
                                  f"outcomes ({n / n_outcomes:.0%}, want ≤25%)")
+
+
+def validate_tiers(chapters, rep):
+    """A tier is a milestone, so a learner may only reach it once (UI.md §7.5).
+
+    The shared chapter belongs to every path, so "all" collides with each of them;
+    two different paths awarding the same tier name do not collide with each other.
+    """
+    awards = []
+    for files in chapters.values():
+        for d in files:
+            for s in d["screens"]:
+                if s.get("type") == "tier-up" and s.get("tier"):
+                    awards.append((str(s["tier"]).strip(), d.get("path"), d["_file"]))
+    for i, (tier, path, f) in enumerate(awards):
+        clash = [g for other, opath, g in awards[i + 1:]
+                 if other == tier and (path == opath or "all" in (path, opath))]
+        if clash:
+            rep.warn(f, f"tier '{tier}' is also awarded in {', '.join(str(g) for g in clash)}")
 
 
 def main():
@@ -646,6 +727,7 @@ def main():
                     known.update(t.lower() for t in d.get("terms_introduced") or [])
         validate_chapter(folder, files, rep, known)
         validate_chapter_v3(folder, files, rep)
+    validate_tiers(chapters, rep)
     if status:
         print(f"{'chapter':60} {'levels':>6} {'subs':>5} {'screens':>7} {'questions':>9} {'minutes':>7}")
         for folder in sorted(chapters):

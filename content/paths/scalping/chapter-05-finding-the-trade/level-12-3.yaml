@@ -91,7 +91,7 @@ screens:
     explanation: "Under a third. Volume is what a move was worth to the people in it, and this one was worth a third as much."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "Three names stalled in the same minute,"}
       - {text: "so the stop needed more room to survive it,", wrong: true}

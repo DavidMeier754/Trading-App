@@ -102,7 +102,7 @@ screens:
     explanation: "Which is why every limit in this chapter is a number of units, not an amount of money."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "I finished the month up $2,000,"}
       - {text: "so the method is working", wrong: true}

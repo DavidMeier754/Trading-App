@@ -9,7 +9,7 @@ learning_goal: "User knows what a halt does to an open position and can name the
 purpose: "Standing aside for the first minutes costs nothing; being in the wrong stock at the wrong second costs a lot."
 terms_introduced: ["Halt"]
 reinforces: [3]
-prerequisite: "14-1"
+prerequisite: "14-3"
 xp: 20
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
@@ -80,7 +80,7 @@ screens:
     explanation: "$0.09 of $0.20 is 45 % of the move, before slippage and fees."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "The stock is halted,"}
       - {text: "so I will place my stop now", wrong: true}

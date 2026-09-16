@@ -114,7 +114,7 @@ screens:
     explanation: "Two of them stop a morning and two of them send you back to the plan. Nothing on the list is ever answered by carrying on and hoping."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "The third trade of the session fills and closes,"}
       - {text: "so the cap lifts for whatever the two cards offer next,", wrong: true}

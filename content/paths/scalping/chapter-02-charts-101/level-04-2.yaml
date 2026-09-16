@@ -104,7 +104,7 @@ screens:
     explanation: "Its price and its spread say nothing about whether this particular minute was busy."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "PQR printed 200,000 shares this minute"}
       - {text: "and STU printed 50,000,"}

@@ -96,7 +96,7 @@ screens:
     explanation: "Four different jobs, and only the first one is what the list is sorted by."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "NOVA is top of the list at 6× normal,"}
       - {text: "which is why it is the first name to trade,", wrong: true}

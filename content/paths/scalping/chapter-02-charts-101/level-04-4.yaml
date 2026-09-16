@@ -111,7 +111,7 @@ screens:
     explanation: "How many people had to trade for that minute to happen is the whole job of the lower row."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "Volume was heavy"}
       - {text: "on the minute price fell hardest,"}

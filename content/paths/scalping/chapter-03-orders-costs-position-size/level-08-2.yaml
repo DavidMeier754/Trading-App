@@ -100,7 +100,7 @@ screens:
     explanation: "The tickets are in the reverse order of a long, which is the only thing that makes shorting feel strange at first."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "To get short in a hurry you send a limit sell"}
       - {text: "a few cents above the ask,", wrong: true}

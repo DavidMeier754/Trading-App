@@ -94,7 +94,7 @@ screens:
     explanation: "Twenty-four dollars, which is the price of the condition being set where it is rather than at seventeen cents."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "The filters keep out names I could never trade,"}
       - {text: "so the rows that survive are the day's best trades,", wrong: true}

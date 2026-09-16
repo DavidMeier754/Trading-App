@@ -90,7 +90,7 @@ screens:
     explanation: "Selling hands shares to a buyer, so the bid sets the price however the ticket is filled in."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "A market buy is sent without a price,"}
       - {text: "so the broker holds it for a good one,", wrong: true}

@@ -90,7 +90,7 @@ screens:
     explanation: "Twenty decisions, and three units of risk is the whole story of the day."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "My win rate is 70 %,"}
       - {text: "so the method must be profitable,", wrong: true}

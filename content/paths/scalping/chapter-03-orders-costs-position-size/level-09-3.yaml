@@ -105,7 +105,7 @@ screens:
     explanation: "The chart sets the distance. Your budget then decides the size — never the other way round."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "Find the price that proves you wrong,"}
       - {text: "put the stop exactly on it,", wrong: true}

@@ -84,7 +84,7 @@ screens:
     explanation: "The press was wrong and the market covered for it. Reviewing only the expensive mistakes is how the cheap ones get expensive."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "You pressed the wrong key and opened a position,"}
       - {text: "so you cancel the working orders to close it,", wrong: true}

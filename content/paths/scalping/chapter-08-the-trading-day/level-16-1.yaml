@@ -115,7 +115,7 @@ screens:
     explanation: "Half a unit after two sessions, which is roughly what two sessions are worth. The week is being kept in units precisely so numbers this small stay readable."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The second stop of the stretch fills and Tuesday reaches −2R,"}
       - {text: "so the next ticket goes in at half size to work back,", wrong: true}

@@ -92,7 +92,7 @@ screens:
     explanation: "A setup joins the page from a sample, not from one winner. Graded on execution, a profitable trade you never planned is the same trade as the one that lost."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "The review runs while the charts are still up,"}
       - {text: "starts with the day's result,", wrong: true}

@@ -97,7 +97,7 @@ screens:
     explanation: "Every bar since the high is twice the size of the bars that made it. That is not a rest inside a climb; it is the climb being sold."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "The dip came on thin bars,"}
       - {text: "so few people were selling,"}

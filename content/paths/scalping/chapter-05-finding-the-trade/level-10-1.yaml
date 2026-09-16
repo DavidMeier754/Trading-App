@@ -12,7 +12,7 @@ reinforces: [1, 3]
 prerequisite: "9-2"
 xp: 40
 difficulty: 2
-sources: [consensus]
+sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
 notes: "Ten scored questions on Levels 6–9, fresh wordings and fresh numbers. Three reach back: the account ceiling and the book from Chapter 3, the two dials from Chapter 1. Account named at $21,000; both worked positions are 1,400 shares under $14.00."
 screens:
   - type: intro
@@ -90,7 +90,7 @@ screens:
     explanation: "Three hundred, then four hundred, then two hundred more at a price six cents above the one you saw. That walk is the third ceiling on size, and only the book knows it."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "Twelve names cleared the conditions,"}
       - {text: "so twelve names went on the watchlist", wrong: true}

@@ -91,7 +91,7 @@ screens:
     explanation: "$0.14 × 1,200 = $168, which is the band you are aiming at rather than a number to be exact about on a slider."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The position is 1,200 shares at $14.00,"}
       - {text: "so the trade risks $16,800,", wrong: true}

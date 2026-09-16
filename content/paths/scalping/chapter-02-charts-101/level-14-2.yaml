@@ -89,7 +89,7 @@ screens:
     explanation: "Thirty-two cents that somebody paid for and did not keep, printed on the biggest bar of the move."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "The biggest bar of the run has printed,"}
       - {text: "so the crowd is arriving,", wrong: true}

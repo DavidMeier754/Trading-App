@@ -99,7 +99,7 @@ screens:
     explanation: "It takes a 5-minute candle finishing green to change what the morning is doing."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "You trade the 1-minute chart,"}
       - {text: "so once the entry is on the screen"}

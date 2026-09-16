@@ -100,7 +100,7 @@ screens:
     explanation: "Two units down is not the limit, and the caps leave room for exactly this. Fourteen cents of risk against a ceiling that has refused it three times."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "A daily loss limit"}
       - {text: "is worth suspending on a strong day", wrong: true}

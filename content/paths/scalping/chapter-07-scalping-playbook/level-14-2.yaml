@@ -109,7 +109,7 @@ screens:
     explanation: "Trend days punish the cards that lean against them, and they punish them at the exact moment the shape looks most convincing."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "The 5-minute has trended up all session,"}
       - {text: "so you short the third push into the high", wrong: true}

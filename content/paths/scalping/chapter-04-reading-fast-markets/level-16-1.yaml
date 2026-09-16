@@ -125,7 +125,7 @@ screens:
     explanation: "Eight cents a share all in, on a move the chart said was fourteen."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The spread is six cents on a fourteen-cent move,"}
       - {text: "which is fine because the share price is high,", wrong: true}

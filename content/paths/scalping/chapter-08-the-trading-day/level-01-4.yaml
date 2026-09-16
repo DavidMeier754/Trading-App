@@ -96,7 +96,7 @@ screens:
     explanation: "Buttons first, process second, record third. Most beginners start at the third step and never fix the first."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "The simulated trade filled at the price on the screen,"}
       - {text: "so a live order of the same size would have too,", wrong: true}

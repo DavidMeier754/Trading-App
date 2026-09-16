@@ -90,7 +90,7 @@ screens:
     explanation: "Two cents of move left to the top of the band and three cents of cost to get there and back. The trade is negative before the first candle prints."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "My method makes $40 an average trade"}
       - {text: "before the spread and the fees,", wrong: true}

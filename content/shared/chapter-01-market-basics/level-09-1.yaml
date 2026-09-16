@@ -71,7 +71,7 @@ screens:
     explanation: "450 ÷ 1,500 is nearly a third of the day's trading, sitting in one position."
 
   - type: spot-mistake
-    prompt: "Tap the claim that does not hold."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "MOON is up 31 % today"}
       - {text: "on 26 M shares,"}

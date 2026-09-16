@@ -138,7 +138,7 @@ screens:
     explanation: "A is forty cents under its line and drifting sideways. B has closed three minutes above its line on bigger bodies. Only one of them is where a decision lives."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "CRAG was top of the list at 14× normal,"}
       - {text: "so the cut needed a reason from the chart,", wrong: true}

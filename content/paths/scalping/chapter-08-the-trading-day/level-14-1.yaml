@@ -94,7 +94,7 @@ screens:
     explanation: "The word comes from Chapter 6 and the arithmetic has not changed since. Thirty rows a card is the smallest thing worth reading."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "Thirty sessions, two cards and the same size throughout,"}
       - {text: "with any card that sets up cleanly added as you go,", wrong: true}

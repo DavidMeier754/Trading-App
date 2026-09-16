@@ -103,7 +103,7 @@ screens:
     explanation: "$30,000 × 0.01 = $300. Anything much above that and a normal run of four or five losses starts to hurt."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "Budget $300, stop twenty cents,"}
       - {text: "so take 3,000 shares", wrong: true}

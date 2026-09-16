@@ -77,7 +77,7 @@ screens:
     explanation: "The orders sit near it, spread over a few cents. Demanding the exact price is how you watch the move from the sidelines."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "Price turned two cents under $20.00"}
       - {text: "and again three cents over it,"}

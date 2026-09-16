@@ -86,7 +86,7 @@ screens:
     explanation: "A is thirty cents under its line and going nowhere near it. B has just closed two minutes through its line. Only one of them needs you this minute."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "I keep twelve names up so I miss less,"}
       - {text: "which means every one of them is marked,", wrong: true}

@@ -85,7 +85,7 @@ screens:
     explanation: "Twelve cents to the floor underneath, and a share count chosen so those twelve cents cost exactly $180. The two units came from leaving the target where the plan put it."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "I risked $450 on that one"}
       - {text: "because it was a much better read", wrong: true}

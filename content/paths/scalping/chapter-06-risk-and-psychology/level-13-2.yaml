@@ -92,7 +92,7 @@ screens:
     explanation: "You control one of them; the other is one draw from the series."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "I am up 4R today,"}
       - {text: "so I can risk 3R on this one", wrong: true}

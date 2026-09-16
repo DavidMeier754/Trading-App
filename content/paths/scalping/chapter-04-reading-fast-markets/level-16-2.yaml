@@ -115,7 +115,7 @@ screens:
     explanation: "Six hundred and nine hundred shares clear the first two rows and the last three hundred fill at $12.92 — exactly the two cents the limit was capped at."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "The stop is twice as far away as usual,"}
       - {text: "so the share count stays where it always is,", wrong: true}

@@ -106,7 +106,7 @@ screens:
     explanation: "The winner is twice the unit and the loser was meant to be one. Those are the two numbers the whole record is built from."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "My average loss is 1.5R,"}
       - {text: "which the winners will cover", wrong: true}

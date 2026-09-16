@@ -106,7 +106,7 @@ screens:
     explanation: "A fills in the space between prices. B travels twenty cents at a time because there is nobody in between — the same multiple, a completely different market."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "RIME is at 18× its normal volume,"}
       - {text: "and eighteen times normal is a lot of shares,", wrong: true}

@@ -70,7 +70,7 @@ screens:
     explanation: "Wanting in is not a setup. The move you missed is not the one you have to catch."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "I lost 1R on that stock,"}
       - {text: "so I will take the next entry at double size", wrong: true}

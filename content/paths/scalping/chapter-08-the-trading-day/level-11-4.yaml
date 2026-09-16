@@ -87,7 +87,7 @@ screens:
     explanation: "The read exists to catch the month that genuinely needs one change, not to produce one on demand. A sheet that changes every month never measures anything."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The month came to +6R across thirty-one rows,"}
       - {text: "so the share size goes up and the fade returns to full size,", wrong: true}

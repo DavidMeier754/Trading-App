@@ -92,7 +92,7 @@ screens:
     explanation: "One reading is where the coin flip starts, and Chapter 3 priced what a coin flip costs by the time you are in and out."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "The level and the candle both came back yes"}
       - {text: "and the session's average price agrees,"}

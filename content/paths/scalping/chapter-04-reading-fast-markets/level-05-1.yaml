@@ -12,7 +12,7 @@ reinforces: [2, 3]
 prerequisite: "4-2"
 xp: 40
 difficulty: 2
-sources: [consensus]
+sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
 notes: "Ten scored questions on Levels 1–4 with fresh wordings and fresh numbers. Four reach back: the quote panel, the gap in dollars and the gap against the move from Chapter 3, and the close-over-wick reading from Chapter 2. Account named at $25,000."
 screens:
   - type: intro

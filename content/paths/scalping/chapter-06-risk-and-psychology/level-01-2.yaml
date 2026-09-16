@@ -87,7 +87,7 @@ screens:
     explanation: "The budget allows 1,428 and the account can only pay for 1,215, so 1,200 it is."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "The floor is fourteen cents under your entry,"}
       - {text: "so you put the stop ten cents under instead", wrong: true}

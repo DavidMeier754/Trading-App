@@ -89,7 +89,7 @@ screens:
     explanation: "It is competing with itself for the shares on offer. Slowly costs it less."
 
   - type: spot-mistake
-    prompt: "Tap the part that does not follow."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "XYZ traded four times its normal volume today"}
       - {text: "and finished 6 % higher,"}

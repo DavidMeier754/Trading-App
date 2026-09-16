@@ -161,6 +161,99 @@ expect("chapter: difficulty run", check_chapter([sub(i, difficulty=2) for i in r
 expect("chapter: reinforcement quota", check_chapter([sub(i) for i in range(1, 20)]), "sit in subs declaring reinforces")
 expect("chapter: exam declares no reinforces", check_chapter([exam(10, "final-exam")]), "declares no reinforces")
 
+# --------------------------------------------------------------------------
+print("\n— chain, tiers and phrasing —")
+
+
+def check_chain(files):
+    def run(rep):
+        for d in files:
+            d.setdefault("_file", f"level-{d['id']}.yaml")
+        V.validate_chapter(CHAPTER, files, rep, set())
+    return run
+
+
+def chained(*ids, **over):
+    """Subs wired into a chain; `over` maps an id to header overrides."""
+    out = []
+    for i, lid in enumerate(ids):
+        d = lesson(id=lid, prerequisite=(ids[i - 1] if i else None))
+        d.update(over.get(lid, {}))
+        out.append(d)
+    return out
+
+
+expect("chain: prerequisite skips a sub",
+       check_chain(chained("1-1", "1-2", "2-1", **{"2-1": {"prerequisite": "1-1"}})),
+       "skips sub-level")
+expect_no("chain: straight chain is fine",
+          check_chain(chained("1-1", "1-2", "2-1")), "skips sub-level")
+expect_no("chain: fan-out strand may reach back",
+          check_chain(chained("8-1", "9-1", "10-1",
+                              **{"10-1": {"prerequisite": "8-1", "path_position": "fan-out:levels"}})),
+          "skips sub-level")
+
+
+def tier_chapters(*awards):
+    """awards: (path, tier, filename) tuples, one tier-up screen each."""
+    files = []
+    for path, tier, name in awards:
+        files.append({"path": path, "_file": name,
+                      "screens": [{"type": "tier-up", "tier": tier}]})
+    return {pathlib.Path(f["_file"]).parent: [f] for f in files}
+
+
+expect("tiers: same tier twice on one path",
+       lambda rep: V.validate_tiers(tier_chapters(("scalping", "Observer", "a/l.yaml"),
+                                                  ("scalping", "Observer", "b/l.yaml")), rep),
+       "also awarded in")
+expect("tiers: shared chapter collides with a path",
+       lambda rep: V.validate_tiers(tier_chapters(("all", "Observer", "a/l.yaml"),
+                                                  ("scalping", "Observer", "b/l.yaml")), rep),
+       "also awarded in")
+expect_no("tiers: two paths may share a tier name",
+          lambda rep: V.validate_tiers(tier_chapters(("scalping", "Observer", "a/l.yaml"),
+                                                     ("swing-trading", "Observer", "b/l.yaml")), rep),
+          "also awarded in")
+
+
+def decisions(n, outcome, scenario):
+    """One sub carrying `n` chart-decisions, plus filler to keep the shape legal."""
+    screens = [{"type": "intro", "text": "x"}]
+    for i in range(n):
+        screens.append({"type": "chart-decision", "explanation": "e", "best": "no-trade",
+                        "chart": CANDLES, "shares": 100,
+                        "outcome": outcome(i), "scenario": scenario(i)})
+    return [lesson(id="1-1", screens=screens)]
+
+
+expect("phrasing: outcome repeated verbatim",
+       check_chapter(decisions(12, lambda i: "It ran to $17.40 — +$120 on 800 shares.",
+                                   lambda i: f"Chart {i}. Long or short?")),
+       "used verbatim")
+expect("phrasing: too few outcome shapes",
+       check_chapter(decisions(12, lambda i: f"It ran to ${17 + i}.40 — +${100 + i} on 800 shares.",
+                                   lambda i: f"Chart {i} is a fresh one. Question {i}?")),
+       "outcome sentence shapes")
+expect("phrasing: scenarios end on one shape",
+       check_chapter(decisions(12, lambda i: f"Outcome number {i} phrased its own way entirely here.",
+                                   lambda i: f"Chart {i}. Your account is ${i} and you are sizing {i} shares.")),
+       "end on the same sentence shape")
+expect_no("phrasing: varied scenarios pass",
+          check_chapter(decisions(12,
+                                  lambda i: f"Outcome {i} phrased its own way entirely, differently again.",
+                                  lambda i: f"Chart {i}. " + ["Long or short?", "What now?", "Take it?",
+                                                              "Which side?"][i % 4])),
+          "end on the same sentence shape")
+
+expect("phrasing: one prompt dominates a question type",
+       check_chapter([lesson(id="1-1", screens=[{"type": "intro", "text": "x"}] +
+                             [{"type": "spot-mistake", "prompt": "Tap the mistake.",
+                               "segments": [{"text": "a"}, {"text": "b", "wrong": True}],
+                               "explanation": "e"}] * 12)]),
+       "uses the same prompt")
+
+
 print("\n— strict mode —")
 strict = V.Report(strict=True)
 check_chapter([sub(1)])(strict)

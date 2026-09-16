@@ -66,7 +66,7 @@ screens:
     explanation: "To close it you have to buy the shares back at whatever they cost that day, and nothing caps that price."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "You short 200 shares at $26.00,"}
       - {text: "the price falls to $25.40,"}

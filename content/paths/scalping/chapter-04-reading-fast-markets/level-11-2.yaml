@@ -101,7 +101,7 @@ screens:
     explanation: "It has tested the range. The close is the only part of that minute anybody will still be looking at in five minutes' time."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "Price traded eight cents above the range high"}
       - {text: "on the biggest bar of the morning,"}

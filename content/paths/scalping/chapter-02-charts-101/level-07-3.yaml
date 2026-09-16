@@ -98,7 +98,7 @@ screens:
     explanation: "Neither side is taking new ground, so neither side is worth joining."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "The stock has gone nowhere for half an hour,"}
       - {text: "so the next move has to be big"}

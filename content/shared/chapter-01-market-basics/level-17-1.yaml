@@ -13,7 +13,7 @@ xp: 80
 difficulty: 3
 reinforces: []
 sources: [consensus]
-notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with the badge, the Observer tier and the path choice, per the v3 level table. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with the badge and the path choice. No tier here: UI.md §7.5 unlocks Observer after Chapter 2, where the chart reading it names is actually taught. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
 screens:
   - type: intro
     text: "Final exam: Market Basics. Twelve questions, then your path."
@@ -117,9 +117,5 @@ screens:
   - type: badge
     name: "Market Basics — Complete"
     unlocks: "Your path"
-
-  - type: tier-up
-    tier: "Observer"
-    means: "You can read a price, a quote and a chart, and you know what you do not know yet."
 
   - type: path-choice

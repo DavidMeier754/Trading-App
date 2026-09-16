@@ -80,7 +80,7 @@ screens:
     explanation: "4.8 million by the middle of the morning, against an ordinary whole day of about 1.2 million. That is what a stock in play looks like on a quote card."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "You choose the stock by what it is trading,"}
       - {text: "and the chart decides the rest,"}

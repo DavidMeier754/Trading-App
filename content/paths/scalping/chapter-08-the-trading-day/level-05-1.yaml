@@ -106,7 +106,7 @@ screens:
     explanation: "$11.84, reached four times and beaten none of them. That is the first line of the morning on this name."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The size key is still set to 1,400 from the last name,"}
       - {text: "so the next buy hotkey sends the size your page wrote,", wrong: true}

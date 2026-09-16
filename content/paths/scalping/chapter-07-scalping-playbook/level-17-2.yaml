@@ -47,7 +47,7 @@ screens:
     explanation: "Three round trips on 1,250 shares cost $112.50 — nearly a fifth of the $600 the two winners made."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "The fade stopped out for 1R, so you take the same trade again"}
       - {text: "with double the share count", wrong: true}

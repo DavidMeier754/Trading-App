@@ -113,7 +113,7 @@ screens:
     explanation: "Six hundred because the budget said so, and a limit two cents through because speed still has to have a ceiling on it."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The $30,000 account can take 1,500 shares here,"}
       - {text: "so on $12,000 the same conviction earns 1,500 too,", wrong: true}

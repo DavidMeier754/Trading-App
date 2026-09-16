@@ -112,7 +112,7 @@ screens:
     explanation: "The slow chart's last lower high, a rally that could not finish through it, and a heavier bar on the minute that turned away: all three point the same way."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "The 5-minute chart turned while I was long,"}
       - {text: "so I gave the trade more room", wrong: true}

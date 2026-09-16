@@ -94,7 +94,7 @@ screens:
     explanation: "One week cannot judge the step, but it can show hesitation: late entries, skipped triggers, early exits. Those appear in the grades long before they appear in the result."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "The step is on, so the size key goes to 1,500"}
       - {text: "and the stop moves two cents closer to hold the old dollar risk,", wrong: true}

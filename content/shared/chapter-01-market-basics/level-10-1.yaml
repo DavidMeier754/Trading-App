@@ -85,7 +85,7 @@ screens:
     explanation: "The crowd is in the middle of the day. The edges are a few people with a great deal of room."
 
   - type: spot-mistake
-    prompt: "Tap the part that does not hold."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "XYZ is up 7 % before the open"}
       - {text: "on 30,000 shares,"}

@@ -123,7 +123,7 @@ screens:
     explanation: "A ten-cent spread on 1,250 shares is $125, and nothing on this chart has moved that far. The record this would join is the one being deleted."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "My last six trades all won,"}
       - {text: "so the setup is working again,", wrong: true}

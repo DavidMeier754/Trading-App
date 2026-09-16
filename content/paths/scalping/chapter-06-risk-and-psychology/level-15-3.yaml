@@ -84,7 +84,7 @@ screens:
     explanation: "Length was never the thing. The detail that decays fastest is the one the grade depends on."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "I write the row"}
       - {text: "once the week is finished,", wrong: true}

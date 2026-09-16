@@ -107,7 +107,7 @@ screens:
     explanation: "Under a third, on purpose. The gap is what you climb back through on evidence, once there are live rows to read."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "The first live morning opens on the card you drilled most,"}
       - {text: "so the ticket takes the size the simulator was set to,", wrong: true}

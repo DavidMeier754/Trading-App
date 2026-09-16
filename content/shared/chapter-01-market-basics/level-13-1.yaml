@@ -8,7 +8,7 @@ tags: [long-short]
 learning_goal: "User can explain long and short positions, compute the result of each, and knows why a short's loss has no ceiling."
 purpose: "Half of every chart is a falling price — without 'short' you can only ever use the other half."
 terms_introduced: ["Long", "Short", "Borrow", "Cover"]
-prerequisite: "12-1"
+prerequisite: "12-3"
 xp: 20
 difficulty: 2
 sources: [consensus]

@@ -26,7 +26,7 @@ screens:
     body: "LUMA was widely expected to report profits about 20 % higher. It reported 12 % higher — a good year — and the price fell 6 % on the day."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "LUMA reported profits 12 % higher than last year,"}
       - {text: "which is better than the year before,"}

@@ -82,7 +82,7 @@ screens:
     explanation: "The line was written an hour ago and the ticket is it, retyped. 1,100 × $14.54 is $15,994, which the $16,000 account can pay for."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "The line said 1,100 shares with the stop at $14.34,"}
       - {text: "so with the ask ten cents higher you take 1,100 and keep that stop,", wrong: true}

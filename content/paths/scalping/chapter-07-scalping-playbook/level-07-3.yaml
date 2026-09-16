@@ -112,7 +112,7 @@ screens:
     explanation: "Whichever comes first is the one you can actually get, and a target you cannot reach is not a plan."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The break failed and closed back inside the range,"}
       - {text: "so you short the re-entry candle"}

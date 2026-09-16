@@ -101,4 +101,4 @@ screens:
 
   - type: theory
     title: "The stop is the plan"
-    body: "Stop, then size, then entry — decided before you click. Next you'll measure every trade in one unit, so trades of different sizes can be compared."
+    body: "Stop, then size, then entry — decided before you click. Next: where on the chart that stop actually belongs, and what pays for the distance."

@@ -98,7 +98,7 @@ screens:
     explanation: "Nine cents at scalping size is not a toll any more. That is the quote where waiting starts to earn its keep."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "A limit order trades at your price or better,"}
       - {text: "so it cannot cost you anything,", wrong: true}

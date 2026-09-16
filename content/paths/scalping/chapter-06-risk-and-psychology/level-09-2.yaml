@@ -54,7 +54,7 @@ screens:
     body: "Chapter 5's pre-market page already holds the names, the levels and the share size. The three caps belong on it: written in the quiet, in the same handwriting, before anything is at stake."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "The page has four names and their levels,"}
       - {text: "and the caps get decided once trading starts", wrong: true}

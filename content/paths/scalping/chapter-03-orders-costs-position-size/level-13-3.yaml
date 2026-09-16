@@ -98,7 +98,7 @@ screens:
     explanation: "Seven cents, six hundred fifty shares."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "The fill came back four cents worse than planned,"}
       - {text: "so you move the stop out four cents to give the trade room,", wrong: true}

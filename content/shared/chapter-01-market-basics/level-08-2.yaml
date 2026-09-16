@@ -73,7 +73,7 @@ screens:
     explanation: "Two dials, one symptom and one bill."
 
   - type: spot-mistake
-    prompt: "Tap the part that does not hold."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "RUSK swings 8 % on most days"}
       - {text: "and trades 9,000 shares,"}

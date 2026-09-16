@@ -103,7 +103,7 @@ screens:
     explanation: "Which is the whole reason those prices stop the market — everybody arrived at the same number independently."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "Price stopped dead at $20.00,"}
       - {text: "which is where the sellers were,"}

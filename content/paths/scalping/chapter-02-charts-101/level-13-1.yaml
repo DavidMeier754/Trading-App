@@ -87,7 +87,7 @@ screens:
     explanation: "Three of them happen before there is anything worth trading, which is exactly why the first five minutes are for watching."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "Volume is at its highest in the first minutes,"}
       - {text: "so the direction is at its clearest,", wrong: true}

@@ -365,9 +365,11 @@ Warnings (review):
 - A glossary term used in a question before the sub-level that introduces it. Known terms = Chapter 1 terms plus terms from lower-numbered chapters of the same path.
 - A term re-introduced that a lower chapter already introduced.
 - Folder chapter number differs from the `chapter` field.
-- Identical prompt text in two different files of the same chapter.
+- Identical prompt text in two different files of the same chapter (prompt *and* answer content; a shared prompt over different content is caught by the chapter-level rule below).
 - Level without a visual/interactive screen in Chapter ≥2.
 - More than 2 review-type sub-levels in a row.
+- **[v3]** `prerequisite` skips a sub-level — it must name the sub immediately before this one, so the path map cannot unlock a level over content the learner never saw. The first sub of a `fan-out:` strand is exempt: it reaches back to the last sub before the fan-out.
+- **[v3]** The same `tier-up` tier awarded twice to one learner. Two paths may share a tier name; the shared chapter (`path: all`) collides with every path.
 
 Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - Fewer than 15 levels.
@@ -383,3 +385,7 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - More than five consecutive sub-levels at the same `difficulty`.
 - A `chart-decision` whose `shares` × decision price exceeds the account named in the same file.
 - The **typical** (median) bar of a chart's volume outside 4,000–500,000 (path chapters). Judged on the median, not every bar: an opening bar or a climax bar legitimately spikes above the band, and Chapter 2 teaches climax volume on purpose.
+- **[v3]** A `chart-decision` `outcome` used verbatim anywhere else in the chapter.
+- **[v3]** Fewer than 60 % distinct outcome sentence *shapes* across a chapter's `chart-decision` outcomes (numbers collapsed, so two sentences differing only in their figures count as one shape). Applies from 12 decisions up.
+- **[v3]** More than 60 % of a chapter's `chart-decision` scenarios ending on the same sentence shape. Session state belongs in `state` chips (UI.md §6.4), not in a sentence repeated after every chart.
+- **[v3]** One prompt used for more than 25 % of a question type's screens in a chapter (from 5 uses up).

@@ -97,7 +97,7 @@ screens:
     explanation: "The account ceiling is not a cost, it is a cash limit, and it sets the size whenever it comes out lower than the stop's number."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the mistake."
     segments:
       - {text: "The gap is two cents against a thirty-cent move,"}
       - {text: "so the costs are settled and the size can wait,", wrong: true}

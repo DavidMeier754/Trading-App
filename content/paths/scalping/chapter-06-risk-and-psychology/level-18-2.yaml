@@ -123,7 +123,7 @@ screens:
     explanation: "The two on the left are the ones a bad morning cannot argue with, which is why they are written while nothing is at stake."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "I take the same number of trades"}
       - {text: "whether or not anything is in play,", wrong: true}

@@ -90,7 +90,7 @@ screens:
     explanation: "Volume rising all the way down is sellers arriving, and that is the invalidation line on your card."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "Price touched VWAP,"}
       - {text: "so you buy the touch", wrong: true}

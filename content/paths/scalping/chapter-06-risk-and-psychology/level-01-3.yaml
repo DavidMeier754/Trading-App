@@ -81,7 +81,7 @@ screens:
     explanation: "It proves the minute was fast. The place was right; the fill is what speed charges."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "I keep my stop in my head"}
       - {text: "because a resting order gets picked off", wrong: true}

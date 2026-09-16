@@ -130,7 +130,7 @@ screens:
     explanation: "The budget gives one number and the account gives another; the smaller of them is the position."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "The nearest level is forty cents away"}
       - {text: "and the last minute is the lightest of the hour,"}

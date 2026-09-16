@@ -77,7 +77,7 @@ screens:
     explanation: "You decided once, calmly. In the moment you only execute."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "After three losses I close the platform for ten minutes,"}
       - {text: "then double my size", wrong: true}

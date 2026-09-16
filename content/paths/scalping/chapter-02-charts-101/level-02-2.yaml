@@ -102,7 +102,7 @@ screens:
     explanation: "Somebody was willing to sell every share the buyers wanted up there."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "The last three candles were long and green,"}
       - {text: "so the next one"}

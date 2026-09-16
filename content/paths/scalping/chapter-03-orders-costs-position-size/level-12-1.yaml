@@ -53,7 +53,7 @@ screens:
     explanation: "The account is the lower ceiling here, so 600 is the honest number."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "Long 600 at $22.00,"}
       - {text: "protective buy stop at $21.90.", wrong: true}

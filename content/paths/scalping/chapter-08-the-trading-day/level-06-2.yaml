@@ -93,7 +93,7 @@ screens:
     explanation: "The stop marks the price at which the idea is wrong, and the idea was that the box had been beaten. Back inside it, it has not."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "The minute finished eight cents above the box at $13.50,"}
       - {text: "so the stop goes eight cents under the fill,", wrong: true}

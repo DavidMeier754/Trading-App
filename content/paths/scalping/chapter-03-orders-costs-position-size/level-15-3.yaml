@@ -90,7 +90,7 @@ screens:
     explanation: "The level in four pieces."
 
   - type: spot-mistake
-    prompt: "Tap the part that is wrong."
+    prompt: "Tap the claim that does not survive a second look."
     segments:
       - {text: "3,000 shares are stacked on the bid,"}
       - {text: "which guarantees the price cannot trade below it,", wrong: true}

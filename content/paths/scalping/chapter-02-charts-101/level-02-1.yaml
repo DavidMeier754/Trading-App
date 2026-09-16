@@ -70,7 +70,7 @@ screens:
     explanation: "Green only compares the close with the open of that one minute; the hour before it can look like anything."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part that does not hold."
     segments:
       - {text: "A long upper wick"}
       - {text: "shows a price that was reached"}

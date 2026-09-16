@@ -103,7 +103,7 @@ screens:
     explanation: "Two conditions, and both of them are things you can see rather than things you have to predict."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "The gap held and the pullback stopped above the opening price,"}
       - {text: "so you buy the first minute that closes back up"}

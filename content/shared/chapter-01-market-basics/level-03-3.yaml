@@ -81,7 +81,7 @@ screens:
     explanation: "A finished 70 cents up and B 45 cents up, even though B covered far more ground getting there."
 
   - type: spot-mistake
-    prompt: "Tap the part that does not follow."
+    prompt: "Tap the part that is wrong."
     segments:
       - {text: "You hold 50 of a company's 5,000 shares,"}
       - {text: "so 1 % of the business is yours"}

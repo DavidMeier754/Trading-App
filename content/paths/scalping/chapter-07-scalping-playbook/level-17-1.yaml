@@ -9,7 +9,7 @@ learning_goal: "User runs a session in order: plan, day read, cards as they appe
 purpose: "Setups are the easy half. Running them in sequence, with costs and a limit, is the job."
 terms_introduced: []
 reinforces: [3, 6]
-prerequisite: "14-3"
+prerequisite: "16-2"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]

@@ -138,7 +138,7 @@ screens:
     explanation: "Two takes and two passes, and the passes fail the same dial in different ways: one never moved, the other moved once."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Tap the part a trader would have to unlearn."
     segments:
       - {text: "MOSS prints 130,000 shares a minute on a two-cent quote,"}
       - {text: "so the only thing left to check was the chart,", wrong: true}

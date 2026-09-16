@@ -100,7 +100,7 @@ screens:
     explanation: "You were paid to expect a move now. Without it, the position is just risk sitting on the screen."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One piece of this is false. Tap it."
     segments:
       - {text: "It has done nothing for ten minutes,"}
       - {text: "so I will leave it until the stop decides", wrong: true}

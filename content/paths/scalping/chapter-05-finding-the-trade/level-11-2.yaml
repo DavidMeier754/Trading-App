@@ -97,7 +97,7 @@ screens:
     explanation: "One reason carried four times over. If the reason goes, all four go, and the loss turns up as a single number."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "The index has slid since the bell,"}
       - {text: "so this is a short-only morning", wrong: true}

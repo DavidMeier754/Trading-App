@@ -8,7 +8,7 @@ tags: [trend, news]
 learning_goal: "User can name bull and bear markets, treat the trend as context rather than a signal, and explain news as the trigger of sudden supply/demand shifts."
 purpose: "Headlines say 'bull market' and 'bad news' all day — this tells you what they change and what they don't."
 terms_introduced: ["Trend", "Bull market", "Bear market"]
-prerequisite: "14-2"
+prerequisite: "14-3"
 xp: 20
 difficulty: 2
 sources: [consensus]
@@ -92,4 +92,4 @@ screens:
 
   - type: theory
     title: "Weather"
-    body: "Trend and news are the weather. Your trade is what you do in it. Next: one review, then the final exam and your path."
+    body: "Trend and news are the weather. Your trade is what you do in it. Next: why good news and a falling price turn up on the same morning."

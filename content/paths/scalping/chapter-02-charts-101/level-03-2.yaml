@@ -90,7 +90,7 @@ screens:
     explanation: "$15.28 to $15.84 is fifty-six cents; no other candle on the chart covers more than twenty."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "Read it through, then tap the part that is wrong."
     segments:
       - {text: "A 5-minute candle takes the open of the first minute"}
       - {text: "and the close of the last minute,"}

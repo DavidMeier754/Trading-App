@@ -93,7 +93,7 @@ screens:
     explanation: "Sixty trades you would not have taken cut a third off what the card pays, and nothing about the original 200 changed."
 
   - type: spot-mistake
-    prompt: "Tap the mistake."
+    prompt: "One of these does not follow. Tap it."
     segments:
       - {text: "The break failed and closed back inside,"}
       - {text: "so you hold for the whole day's range", wrong: true}
