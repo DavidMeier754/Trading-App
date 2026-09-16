@@ -525,7 +525,8 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - More than 70 % of sub-levels ending on a `theory` screen.
 - Any single per-share outcome value used in more than 25 % of `chart-decision` outcomes.
 - More than five consecutive sub-levels at the same `difficulty`.
-- A `chart-decision` whose `shares` × decision price exceeds the account named in the same file.
+- A `chart-decision` or `branch` whose `shares` × decision price exceeds the account named in the same file.
+- **[v3.1]** The same position over **95 %** of that account: one position at a time, and 5 % of the cash stays unspent so the fill is payable at the ask (`docs/agent.md` §3.6). `tools/check_sizing.py` reports every position in the corpus against this line, together with every other place in the file that names the same share count.
 - The **typical** (median) bar of a chart's volume outside 4,000–500,000 (path chapters). Judged on the median, not every bar: an opening bar or a climax bar legitimately spikes above the band, and Chapter 2 teaches climax volume on purpose.
 - **[v3]** A `chart-decision` `outcome` used verbatim anywhere else in the chapter.
 - **[v3]** Fewer than 60 % distinct outcome sentence *shapes* across a chapter's `chart-decision` outcomes (numbers collapsed, so two sentences differing only in their figures count as one shape). Applies from 12 decisions up.

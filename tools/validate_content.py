@@ -484,6 +484,10 @@ ACCOUNT_RE = [
 ]
 PER_SHARE_RE = re.compile(r"\$0\.\d\d")
 VOLUME_MIN, VOLUME_MAX = 4_000, 500_000
+# agent.md §3.6: one position at a time, and it may use at most this share of the account
+# named in the same file. The rest is the buffer a real fill needs — the learner pays the
+# ask, not the last price the drill quotes, and the fee comes out of the same cash.
+MAX_ACCOUNT_PCT = 0.95
 
 
 def file_text(d):
@@ -616,12 +620,17 @@ def validate_chapter_v3(folder, files, rep):
 
     # --- chart drills ----------------------------------------------------
     outcome_values = []
+    over_cap = []      # positions inside the account but above the concentration cap
+    sized = 0
     for d in ordered:
         account = stated_account(d)
         for i, s in enumerate(d["screens"], 1):
             if s.get("type") == "chart-decision":
                 vals = set(PER_SHARE_RE.findall(str(s.get("outcome") or "")))
                 outcome_values.extend(vals)
+            # A `branch` puts the learner in stock exactly as a `chart-decision` does, so the
+            # same two ceilings apply to it (agent.md §3.6).
+            if s.get("type") in ("chart-decision", "branch"):
                 shares = s.get("shares")
                 price = decision_price(s)
                 if account and isinstance(shares, (int, float)) and isinstance(price, (int, float)):
@@ -629,6 +638,9 @@ def validate_chapter_v3(folder, files, rep):
                     if value > account:
                         rep.cwarn(d["_file"], f"screen {i}: {shares:,} shares × ${price:.2f} = ${value:,.0f} "
                                               f"exceeds the ${account:,} account named in this file")
+                    elif value > MAX_ACCOUNT_PCT * account:
+                        over_cap.append((value / account, d["_file"], i, shares, price, value, account))
+                    sized += 1
             if is_path_chapter:
                 vol = sorted(v for v in ((s.get("chart") or {}).get("volume") or [])
                              if isinstance(v, (int, float)))
@@ -637,6 +649,17 @@ def validate_chapter_v3(folder, files, rep):
                     if not VOLUME_MIN <= median <= VOLUME_MAX:
                         rep.cwarn(d["_file"], f"screen {i}: typical bar volume {median:,.0f} outside "
                                               f"{VOLUME_MIN:,}–{VOLUME_MAX:,} per bar")
+    # agent.md §3.6 caps one position at MAX_ACCOUNT_PCT of the account named in the same
+    # file. Reported once per chapter rather than once per screen — at 45 % of the corpus
+    # this would otherwise bury every other finding. `tools/check_sizing.py --chapter N`
+    # prints each one with every other line in the file that names the same share count.
+    if over_cap:
+        pct, worst_file, worst_i, shares, price, value, account = max(over_cap)
+        rep.cwarn(where, f"{len(over_cap)}/{sized} positions are over the {MAX_ACCOUNT_PCT:.0%} cap on "
+                         f"one position (agent.md §3.6); worst is {worst_file} screen {worst_i}, "
+                         f"{shares:,} shares × ${price:.2f} = ${value:,.0f}, {pct:.1%} of the "
+                         f"${account:,} account. Run tools/check_sizing.py for the list.")
+
     # --- scenario and outcome phrasing ----------------------------------
     # The charts are all different; the sentences around them must not settle into
     # one shape, or 90 decisions read like 90 copies of the same screen.

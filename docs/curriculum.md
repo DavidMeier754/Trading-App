@@ -68,6 +68,8 @@ Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 47 subs
 
 Folder base: `content/paths/scalping/`. Timeframes: 1-minute with 5-minute context. Numbers: 500–2,000 shares, $0.05–$0.30 targets, $5,000–$30,000 accounts, drill prices $10–$30.
 
+**[v3.1] The three bands are not independent.** One position at a time, and `shares × price ≤ 0.95 × the account named in the file` (`docs/agent.md` §3.6, checked by `tools/validate_content.py` and reported by `tools/check_sizing.py`). A scalp on this path is meant to sit near that ceiling — 1 % of the account divided by a stop of well under 1 % of the price buys nearly all the cash — so the size is large and the risk is small, and the two are taught as different numbers. Write the account last: it is whatever carries the size, not a figure chosen first. The full 500–2,000 range only fits at the cheap end of the price band — a $30,000 account carries 2,850 shares at $10, 1,425 at $20 and 950 at $30 — so drills on dearer names size down rather than name an account the path does not have.
+
 ### Chapter 2 — Charts 101 — written
 
 Folder: `chapter-02-charts-101` · 18 levels, 49 subs

@@ -139,6 +139,30 @@ expect("chapter: position exceeds account", check_chapter([sub(1, screens=[
     {"type": "intro", "text": "You have a $5,000 account."},
     {"type": "chart-decision", "prompt": "p", "explanation": "e", "best": "no-trade",
      "outcome": "flat", "shares": 1000, "chart": CANDLES}])]), "exceeds the $5,000 account")
+# agent.md §3.6: one position, at most 95 % of the account named in the same file.
+expect("chapter: position over the 95 % cap", check_chapter([sub(1, screens=[
+    {"type": "intro", "text": "You have a $5,000 account."},
+    {"type": "chart-decision", "prompt": "p", "explanation": "e", "best": "no-trade",
+     "outcome": "flat", "shares": 240, "chart": CANDLES}])]),
+    "over the 95% cap on one position")
+expect_no("chapter: a position inside the cap passes", check_chapter([sub(1, screens=[
+    {"type": "intro", "text": "You have a $5,000 account."},
+    {"type": "chart-decision", "prompt": "p", "explanation": "e", "best": "no-trade",
+     "outcome": "flat", "shares": 230, "chart": CANDLES}])]),
+    "over the 95% cap on one position")
+# A branch puts the learner in stock too, so both ceilings reach it.
+expect("chapter: branch position exceeds the account", check_chapter([sub(1, screens=[
+    {"type": "intro", "text": "You have a $5,000 account."},
+    {"type": "branch", "scenario": "s", "shares": 1000, "chart": CANDLES,
+     "steps": [{"prompt": "p", "options": [{"text": "a", "correct": True}], "explanation": "e"},
+               {"prompt": "q", "options": [{"text": "b", "correct": True}], "explanation": "e"}]}])]),
+    "exceeds the $5,000 account")
+expect("chapter: branch position over the 95 % cap", check_chapter([sub(1, screens=[
+    {"type": "intro", "text": "You have a $5,000 account."},
+    {"type": "branch", "scenario": "s", "shares": 240, "chart": CANDLES,
+     "steps": [{"prompt": "p", "options": [{"text": "a", "correct": True}], "explanation": "e"},
+               {"prompt": "q", "options": [{"text": "b", "correct": True}], "explanation": "e"}]}])]),
+    "over the 95% cap on one position")
 expect("chapter: thin bar volume", check_chapter([sub(1, screens=[
     {"type": "chart-decision", "prompt": "p", "explanation": "e", "best": "no-trade", "outcome": "flat",
      "chart": dict(CANDLES, volume=[900] * 10)}])]), "typical bar volume")

@@ -19,6 +19,7 @@ A finished path is ~144 levels and ~387 sub-levels: about 22 hours, or six month
 | `content/paths/<path>/` | Chapters 2–8 per path. |
 | `tools/validate_content.py` | Validates all lesson files; `--status` prints chapter statistics. |
 | `tools/test_validate.py` | Self-test for the validator. Run it after changing `validate_content.py`. |
+| `tools/check_sizing.py` | Every simulated position against the 95 % concentration rule, with every other line in the file that names the same share count. |
 
 ## Validate content
 
@@ -27,6 +28,8 @@ python3 tools/validate_content.py            # errors and warnings
 python3 tools/validate_content.py --status   # levels, screens, minutes per chapter
 python3 tools/validate_content.py --strict   # chapter-level warnings become errors
 python3 tools/test_validate.py               # self-test: every validator rule still fires
+python3 tools/check_sizing.py --summary       # concentration by chapter
+python3 tools/check_sizing.py --chapter 2    # every position in one chapter, with its mentions
 ```
 
 Requires Python 3 and PyYAML (`pip install pyyaml`).
@@ -68,10 +71,17 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    live value. All 16 `plan-card` screens are re-keyed to it, the eight setup levels of Chapter 7
    each write their own card, and a validator rule fails any `plan-sheet` line whose key no earlier
    `plan-card` wrote.
-3. **Position sizes.** Simulated positions sit at 90–97 % of the stated account (all 89 of
-   Chapter 2's decisions are over 50 %), which contradicts the 50 % cap the learner writes on their
-   own plan card in Chapter 1 and makes Chapter 3's "account ceiling" the norm rather than the
-   exception it is taught as.
+3. **Position sizes.** **The rule is settled** (`docs/agent.md` §3.6): one position at a time, and
+   `shares × price ≤ 0.95 × the account named in the file`. The concentration stays and gets taught —
+   1 % of the account divided by a scalper's sub-1 % stop buys nearly all the cash whatever the
+   account is, so the size is large and the risk is small, and they are different numbers. What
+   still has to change is the content: Chapter 1's plan card must write `setup_max_account_pct` as
+   **95**, not 50; Chapter 3 Level 10 must teach the account ceiling as the usual answer and say
+   what a halt does to a position that size; and 250 of the 569 priced positions sit above the cap
+   and need re-sizing. `python3 tools/check_sizing.py --chapter N` lists them with every line that
+   names the same share count (3,360 corpus-wide). Current medians: ch1 90 %, ch2 97 %, ch3 91 %,
+   ch4 93 %, ch5 95 %, ch6 96 %, ch7 88 %, ch8 93 %. A further 97 positions name no account at all,
+   so no rule can see them.
 4. **Scenario phrasing.** Chapters 2, 4 and 5 end 89–100 % of their `chart-decision` scenarios on
    one sentence shape. Session state belongs in `state` chips (`docs/UI.md` §6.4), which Chapter 8
    already uses for 74 % of its decisions and Chapters 1–2 for none.

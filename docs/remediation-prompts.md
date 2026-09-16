@@ -189,6 +189,34 @@ $5,000–$30,000". Across that grid only **16 %** of (shares × price × account
 combinations keep a position at or under 50 % of the account. The numbers as specified
 force high concentration. There is no edit to the content alone that fixes this.
 
+**Session A is done — the rule is settled.** `docs/agent.md` §3.6 and the Scalping
+"Numbers:" line now read: **one position at a time, and `shares × price ≤ 0.95 × the
+account named in the file`.** Option (c): the concentration stays and gets taught.
+Position value ÷ account = risk-budget % × price ÷ stop distance, so 1 % of the account
+against a stop of well under 1 % of the price lands at 70–100 % whatever the account is —
+a bigger account cannot fix it, and a smaller position means abandoning either the 1 %
+rule or the tight stop that makes a scalp a scalp. What a scalp risks is the stop times
+the share count, not the position value, and the fact that one position uses nearly all
+the cash is exactly why only one is open at a time. The 5 % left unspent is the buffer
+the fill needs at the ask.
+
+Two content consequences sessions B–I must carry, on top of the re-sizing.
+**Chapter 1 Level 16-2** writes `setup_max_account_pct` as **95**, not 50 — and the rest
+of that file is built on the 50: the numeric-input that divides $6,000 by two to reach
+189 shares, the branch step that calls 189 "the ceiling you set" against 379 as
+"everything the account can pay for", and the chart-decision and plan-sheet that quote
+189 again. Re-work the file as one piece; at 95 % the ceiling is 359 shares and 379 is no
+longer the foil. **Chapter 3 Level 10** teaches the account ceiling as the usual answer
+rather than the exception — 10-3's "Two ceilings, take the lower" stays, but the
+"binds only on a dear name with a tight stop" framing goes — and says what a halt or a
+gap does to a position worth nearly the account, because a stop is an order, not a
+guarantee. Those two files are sessions B (chapter 1) and D (chapter 3); do not leave
+them to a later pass.
+
+`tools/check_sizing.py` and a chapter-level validator warning now enforce the line.
+250 of the 569 priced positions breach it; 97 more name no account at all, which makes
+them unchecked rather than exempt — name the account when you re-size them.
+
 ```
 Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
 content/shared/chapter-01-market-basics/level-16-2.yaml and
