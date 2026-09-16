@@ -10,9 +10,10 @@ docs) is already committed.
 
 **Before you paste, check four things:**
 
-1. **Push target.** Every prompt commits and pushes to `claude/project-control-level-test-ogjj1r`,
-   the branch carrying Stage 1. If you have merged that to `main`, branch from `main`
-   instead and change the branch name in the prompt.
+1. **Push target.** Every prompt commits and pushes straight to `main`, so you do not have
+   to move anything by hand. Each stage is validated before it is pushed; if you would
+   rather review a stage first, change `push to main` to your branch name in that one
+   prompt.
 2. **Model and effort.** Named per stage below, with the reason. Set them in the session
    before pasting — they are not part of the prompt body. Treat the model as a floor:
    bump a Sonnet stage to `claude-opus-5` if it fights you.
@@ -89,7 +90,7 @@ Then run `python3 tools/validate_content.py` and `python3 tools/test_validate.py
 0 errors, all self-tests pass, and the only remaining warnings are the four
 scenario-phrasing ones that Stage 5 owns. Commit as
 "fix: make the review-run rule satisfiable, restore the 19 practice categories"
-and push to claude/project-control-level-test-ogjj1r.
+and push to main.
 
 Report: the measured worst case per path, the rule you chose and why that number, the
 19 files, and the repetition share per chapter before and after.
@@ -158,8 +159,7 @@ hygiene per docs/agent.md §3.5, and no clock times written literally.
 
 Run `python3 tools/validate_content.py` and `python3 tools/test_validate.py`. 0 errors,
 self-tests pass, and no new warning names a file you touched. Commit as
-"fix: one plan sheet across all eight chapters" and push to
-claude/project-control-level-test-ogjj1r.
+"fix: one plan sheet across all eight chapters" and push to main.
 
 Report: the key schema as a table, which chapter writes and which re-reads each key,
 what you did about Chapter 7's eight cards, and anything you could not reconcile.
@@ -230,7 +230,7 @@ warning, with a self-test. The existing rule only catches positions over 100%.
 
 Do not change any content in this session. Commit the decision, the script and the
 validator rule as "docs: settle the position-sizing rule, add the sizing checker" and
-push to claude/project-control-level-test-ogjj1r.
+push to main.
 
 Report: the rule you chose and the argument for it, the 16% figure as you measured it,
 and a table of every chapter's current median concentration so the next sessions know
@@ -264,8 +264,7 @@ concentration you are fixing.
 
 Run `python3 tools/check_sizing.py` for this chapter and get it clean, then
 `python3 tools/validate_content.py` for 0 errors with no new warning naming a file you
-touched. Commit as "content: chapter <N> position sizes" and push to
-claude/project-control-level-test-ogjj1r.
+touched. Commit as "content: chapter <N> position sizes" and push to main.
 
 Report: how many decisions you re-sized, the chapter's concentration before and after,
 the spread of share counts you ended up with, and any file where the rule and the
@@ -323,8 +322,7 @@ change a number, stop — that is Stage 4's job and it may already have run.
 
 Run `python3 tools/validate_content.py`. The scenario-shape warning for this chapter
 must be gone, 0 errors, and no new warning naming a file you touched. Commit as
-"content: chapter <N> scenarios move session state into chips" and push to
-claude/project-control-level-test-ogjj1r.
+"content: chapter <N> scenarios move session state into chips" and push to main.
 
 Report: the chip vocabulary you settled on, the distinct-closing-sentence count before
 and after, and any decision where the chips could not carry what the scenario needed.
@@ -383,7 +381,7 @@ questions before you finish.
 
 Run `python3 tools/validate_content.py` for 0 errors with no new warning naming either
 file. Commit as "content: make the Chapter 1 and Chapter 3 exams test what was taught"
-and push to claude/project-control-level-test-ogjj1r.
+and push to main.
 
 Report: the type mix of each exam before and after, which learning goal each question
 now covers, and the answer-key distribution.
@@ -420,8 +418,7 @@ Add a chapter-level validator rule for the split, with a self-test, so this cann
 drift again in Day Trading and Swing Trading.
 
 Run `python3 tools/validate_content.py` and `python3 tools/test_validate.py`. Commit as
-"content: balance the long/short split across the path" and push to
-claude/project-control-level-test-ogjj1r.
+"content: balance the long/short split across the path" and push to main.
 
 Report: the split per chapter before and after, how many charts you replaced, and the
 threshold you put in the validator.
@@ -482,7 +479,7 @@ pack is the proof the format and the validator agree before you spend a batch ru
 the other thirteen.
 
 Commit as "drills: manifest, batch script, validator, and one hand-written pack" and
-push to claude/project-control-level-test-ogjj1r.
+push to main.
 
 Report: the manifest as a table, which exemplars you chose for each pack and why, the
 hand-written pack's validation output, and anything in the curriculum's drill table
