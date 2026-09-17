@@ -23,8 +23,9 @@ screens:
     body: "Run the four readings all morning and the ordinary answer is that one of them is missing. Two or three charts an hour answer all four, and a morning is judged by the reads you ran, not the trades you took."
 
   - type: chart-decision
-    scenario: "XYZ has held above its own average price all morning. The nearest price you marked is $16.90, and the minute that just closed is the lightest bar of the hour. Your account is $22,000 and you are sizing 1,200 shares."
+    scenario: "XYZ has held above its own average price all morning. The nearest price you marked is $16.90, and the minute that just closed is the lightest bar of the hour."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[16.30, 16.38, 16.28, 16.36], [16.36, 16.44, 16.34, 16.42], [16.42, 16.46, 16.36, 16.38], [16.38, 16.46, 16.36, 16.44], [16.44, 16.50, 16.42, 16.48], [16.48, 16.52, 16.44, 16.48], [16.48, 16.54, 16.44, 16.50], [16.50, 16.54, 16.44, 16.46], [16.46, 16.52, 16.42, 16.48], [16.48, 16.52, 16.44, 16.46], [16.46, 16.50, 16.42, 16.44]]
@@ -59,8 +60,9 @@ screens:
     explanation: "Identical candles and identical lines. B put nearly three times the morning's usual size through the minute that did it; A did it on the quietest bar of the eight."
 
   - type: chart-decision
-    scenario: "Yesterday's low is $13.60. XYZ has traded under its own average price since the first minute, and the minute that just closed finished five cents under the level on the heaviest bar of the morning. Your account is $22,000 and you are sizing 1,100 shares."
+    scenario: "Yesterday's low is $13.60. XYZ has traded under its own average price since the first minute, and the minute that just closed finished five cents under the level on the heaviest bar of the morning."
     shares: 1100
+    state: ["Size: 1,100 shares"]
     chart:
       kind: candles
       data: [[13.90, 13.94, 13.82, 13.84], [13.84, 13.88, 13.76, 13.78], [13.78, 13.84, 13.74, 13.80], [13.80, 13.84, 13.72, 13.74], [13.74, 13.78, 13.64, 13.66], [13.66, 13.68, 13.54, 13.55], [13.55, 13.58, 13.46, 13.48], [13.48, 13.52, 13.40, 13.42], [13.42, 13.46, 13.34, 13.36], [13.36, 13.40, 13.28, 13.30], [13.30, 13.34, 13.19, 13.21]]
@@ -103,8 +105,9 @@ screens:
     explanation: "Two of the five answered all four. The others were missing the price, the close or the agreement."
 
   - type: chart-decision
-    scenario: "Yesterday's close is $19.20. XYZ has traded under its own average price all session, and the minute that just closed finished three cents above the level on an ordinary bar. Your account is $22,000 and you are sizing 900 shares."
+    scenario: "Yesterday's close is $19.20. XYZ has traded under its own average price all session, and the minute that just closed finished three cents above the level on an ordinary bar."
     shares: 900
+    state: ["Size: 900 shares"]
     chart:
       kind: candles
       data: [[19.02, 19.08, 18.98, 19.06], [19.06, 19.12, 19.02, 19.08], [19.08, 19.14, 19.04, 19.10], [19.10, 19.16, 19.06, 19.12], [19.12, 19.20, 19.10, 19.18], [19.18, 19.26, 19.16, 19.23], [19.23, 19.26, 19.14, 19.16], [19.16, 19.20, 19.10, 19.12], [19.12, 19.16, 19.06, 19.08], [19.08, 19.12, 19.02, 19.05]]

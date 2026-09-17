@@ -27,9 +27,9 @@ screens:
     body: "The map tells you there is a trade. The arithmetic tells you whether it survives the cost and whether the account can pay for it. In that order, every time."
 
   - type: chart-decision
-    scenario: "XYZ has taken the line back with two closes above it, and the pre-market high at $12.72 is the first line overhead. Your account is $20,000 and you are sizing 1,500 shares."
+    scenario: "XYZ has taken the line back with two closes above it. The pre-market high at $12.72 is the first line overhead."
     shares: 1500
-    state: ["Costs $0.04 a share round trip"]
+    state: ["Size: 1,500 shares", "Costs: $0.04 a share round trip"]
     chart:
       kind: candles
       data: [[12.44, 12.46, 12.32, 12.34], [12.34, 12.36, 12.26, 12.28], [12.28, 12.34, 12.26, 12.32], [12.32, 12.38, 12.30, 12.36], [12.36, 12.38, 12.32, 12.34], [12.34, 12.44, 12.32, 12.42], [12.42, 12.50, 12.40, 12.48], [12.48, 12.56, 12.46, 12.54], [12.54, 12.60, 12.52, 12.58], [12.58, 12.66, 12.56, 12.64], [12.64, 12.70, 12.62, 12.69]]
@@ -62,9 +62,9 @@ screens:
     explanation: "$0.04 ÷ $0.24 is about 17 %, which leaves most of the move for the trade. Past a third, the read stops being worth taking."
 
   - type: chart-decision
-    scenario: "XYZ has finished every minute above the line and has just closed through yesterday's high at $26.40. Your account is $20,000, the risk budget is $200, and a stop under the breakout minute sits at $26.31."
+    scenario: "XYZ has finished every minute above the line and has just closed through yesterday's high at $26.40. A stop under the breakout minute sits at $26.31."
     shares: 700
-    state: ["Risk budget $200", "Stop $26.31"]
+    state: ["Size: 700 shares", "Account: $20,000", "Risk budget: $200"]
     chart:
       kind: candles
       data: [[26.10, 26.20, 26.08, 26.18], [26.18, 26.26, 26.16, 26.24], [26.24, 26.28, 26.20, 26.22], [26.22, 26.34, 26.20, 26.32], [26.32, 26.38, 26.30, 26.36], [26.36, 26.48, 26.34, 26.46], [26.46, 26.54, 26.44, 26.52], [26.52, 26.60, 26.50, 26.58], [26.58, 26.66, 26.56, 26.64], [26.64, 26.72, 26.62, 26.70], [26.70, 26.78, 26.68, 26.75]]
@@ -93,8 +93,9 @@ screens:
     explanation: "The account ceiling is not a cost you can weigh up — it is cash you either have or do not have."
 
   - type: chart-decision
-    scenario: "XYZ is stepping up above the line, the bars underneath are all near 10,000 shares, and the panel reads bid $18.09 / ask $18.23. Your account is $20,000 and you are sizing 1,000 shares."
+    scenario: "XYZ is stepping up above the line and the bars underneath are all near 10,000 shares."
     shares: 1000
+    state: ["Size: 1,000 shares", "Quote: $18.09 / $18.23"]
     chart:
       kind: candles
       data: [[17.96, 18.04, 17.94, 18.02], [18.02, 18.10, 18.00, 18.08], [18.08, 18.12, 18.04, 18.06], [18.06, 18.14, 18.04, 18.12], [18.12, 18.14, 18.08, 18.10], [18.10, 18.18, 18.08, 18.16], [18.16, 18.18, 18.10, 18.12], [18.12, 18.20, 18.10, 18.18], [18.18, 18.20, 18.12, 18.14], [18.14, 18.22, 18.12, 18.20]]

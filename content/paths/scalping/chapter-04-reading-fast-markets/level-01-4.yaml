@@ -47,8 +47,9 @@ screens:
     explanation: "Two of the five are the rule. The other three are a rule that has only half happened."
 
   - type: chart-decision
-    scenario: "XYZ has not closed above the line all session — the best it managed was six cents underneath — and the minute that just closed is the lowest of the morning. Your account is $22,000 and you are sizing 1,200 shares."
+    scenario: "Not one close above the line all session — the best XYZ managed was six cents underneath. The minute that just closed is the lowest of the morning."
     shares: 1200
+    state: ["Size: 1,200 shares", "Account: $22,000"]
     chart:
       kind: candles
       data: [[16.70, 16.74, 16.62, 16.64], [16.64, 16.70, 16.58, 16.60], [16.60, 16.72, 16.58, 16.70], [16.70, 16.72, 16.64, 16.66], [16.66, 16.72, 16.60, 16.62], [16.62, 16.66, 16.54, 16.56], [16.56, 16.60, 16.46, 16.48], [16.48, 16.52, 16.38, 16.40], [16.40, 16.44, 16.30, 16.32], [16.32, 16.36, 16.24, 16.27], [16.27, 16.30, 16.18, 16.19]]
@@ -88,9 +89,9 @@ screens:
     explanation: "It is a start. A morning of closes underneath does not get cancelled by a single minute."
 
   - type: chart-decision
-    scenario: "XYZ has spent ten minutes inside sixteen cents with closes landing on both sides of the line. Your account is $22,000 and you are sizing 1,300 shares."
+    scenario: "Ten minutes inside sixteen cents, with closes landing on both sides of the line."
     shares: 1300
-    state: ["Costs run $0.04 a share round trip"]
+    state: ["Size: 1,300 shares", "Costs: $0.04 a share round trip"]
     chart:
       kind: candles
       data: [[11.48, 11.54, 11.42, 11.46], [11.46, 11.52, 11.40, 11.50], [11.50, 11.55, 11.44, 11.47], [11.47, 11.53, 11.42, 11.51], [11.51, 11.56, 11.45, 11.48], [11.48, 11.54, 11.43, 11.50], [11.50, 11.55, 11.44, 11.47], [11.47, 11.52, 11.42, 11.49], [11.49, 11.54, 11.43, 11.48], [11.48, 11.53, 11.44, 11.52]]

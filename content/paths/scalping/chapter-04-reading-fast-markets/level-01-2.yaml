@@ -78,8 +78,9 @@ screens:
     explanation: "By then the line is dividing by millions of shares, so even a big minute is a small share of the total."
 
   - type: chart-decision
-    scenario: "XYZ has not finished a minute above the line since the open, and the last four closes are each lower than the one before. Your account is $20,000 and you are sizing 1,200 shares."
+    scenario: "XYZ has not finished a minute above the line since the open. The last four closes are each lower than the one before."
     shares: 1200
+    state: ["Size: 1,200 shares", "Account: $20,000"]
     chart:
       kind: candles
       data: [[14.70, 14.72, 14.60, 14.62], [14.62, 14.64, 14.52, 14.56], [14.56, 14.62, 14.54, 14.60], [14.60, 14.62, 14.50, 14.54], [14.54, 14.56, 14.46, 14.48], [14.48, 14.50, 14.40, 14.42], [14.42, 14.44, 14.32, 14.34], [14.34, 14.36, 14.26, 14.28], [14.28, 14.30, 14.20, 14.22], [14.22, 14.24, 14.16, 14.19], [14.19, 14.21, 14.11, 14.13]]

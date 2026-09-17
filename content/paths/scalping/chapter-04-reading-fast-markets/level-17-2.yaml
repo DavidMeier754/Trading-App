@@ -23,8 +23,9 @@ screens:
     text: "It gapped up and gave it back before you had finished drawing the lines. Since then every minute has traded under the session's own average price."
 
   - type: chart-decision
-    scenario: "XYZ has traded under its own average price since the third minute. It has just rallied into the line at $21.30, and the minute that closed there spent nine cents above it and finished at $21.18. Your account is $18,000 and you are sizing 800 shares."
+    scenario: "XYZ has traded under its own average price since the third minute. It has just rallied into the line at $21.30, and the minute that closed there spent nine cents above it and finished at $21.18."
     shares: 800
+    state: ["Size: 800 shares", "Account: $18,000"]
     chart:
       kind: candles
       data: [[21.60, 21.64, 21.40, 21.44], [21.44, 21.50, 21.26, 21.30], [21.30, 21.36, 21.18, 21.22], [21.22, 21.30, 21.16, 21.26], [21.26, 21.32, 21.20, 21.28], [21.28, 21.39, 21.16, 21.18], [21.18, 21.22, 21.06, 21.08], [21.08, 21.12, 20.96, 20.98], [20.98, 21.04, 20.88, 20.90], [20.90, 20.96, 20.80, 20.82], [20.82, 20.88, 20.74, 20.77]]
@@ -59,8 +60,9 @@ screens:
     explanation: "A has finished every one of its last five minutes above the line. B went twelve cents past it inside one minute and handed every one of them back before that minute closed."
 
   - type: chart-decision
-    scenario: "Yesterday's low is $20.80. Price has come back to it and the minute that just closed finished six cents under, on the heaviest bar since the rally. Your account is $18,000 and you are sizing 800 shares."
+    scenario: "Yesterday's low is $20.80. Price has come back to it and the minute that just closed finished six cents under, on the heaviest bar since the rally."
     shares: 800
+    state: ["Size: 800 shares"]
     chart:
       kind: candles
       data: [[21.00, 21.06, 20.92, 20.94], [20.94, 20.98, 20.86, 20.90], [20.90, 20.96, 20.84, 20.88], [20.88, 20.92, 20.80, 20.86], [20.86, 20.90, 20.78, 20.82], [20.82, 20.84, 20.70, 20.74], [20.74, 20.78, 20.64, 20.66], [20.66, 20.70, 20.56, 20.58], [20.58, 20.62, 20.48, 20.50], [20.50, 20.54, 20.40, 20.42], [20.42, 20.46, 20.34, 20.37]]
@@ -114,8 +116,9 @@ screens:
     explanation: "Four readings, four different jobs, and only the last one is not decided by the chart alone."
 
   - type: chart-decision
-    scenario: "Late in the first hour. Price has spent twelve minutes in a six-cent band, the bars are a third of what they were, and nothing you marked is within twenty cents. Your account is $18,000 and you are sizing 800 shares."
+    scenario: "Late in the first hour. Price has spent twelve minutes in a six-cent band, the bars are a third of what they were, and nothing you marked is within twenty cents."
     shares: 800
+    state: ["Size: 800 shares"]
     chart:
       kind: candles
       data: [[20.38, 20.42, 20.36, 20.40], [20.40, 20.43, 20.37, 20.39], [20.39, 20.42, 20.36, 20.41], [20.41, 20.43, 20.37, 20.38], [20.38, 20.42, 20.36, 20.40], [20.40, 20.43, 20.37, 20.39], [20.39, 20.42, 20.36, 20.41], [20.41, 20.42, 20.38, 20.40], [20.40, 20.43, 20.37, 20.39], [20.39, 20.42, 20.36, 20.40]]

@@ -31,8 +31,9 @@ screens:
     body: "XYZ opens at $16.40 and the first four minutes finish at $16.60, $16.76, $16.88 and $17.00. Sixty cents in four minutes, and not one minute closed below the one before it."
 
   - type: chart-decision
-    scenario: "The bell went four minutes ago. XYZ has finished every minute near its high on the heaviest bars of the day, and there is no line from yesterday within thirty cents. Your account is $24,000 and you are sizing 1,100 shares."
+    scenario: "The bell went four minutes ago. Every minute has finished near its high on the heaviest bars of the day, and there is no line from yesterday within thirty cents."
     shares: 1100
+    state: ["Size: 1,100 shares", "Account: $24,000"]
     chart:
       kind: candles
       data: [[16.40, 16.62, 16.38, 16.60], [16.60, 16.78, 16.58, 16.76], [16.76, 16.90, 16.72, 16.88], [16.88, 17.02, 16.86, 17.00], [17.00, 17.10, 16.96, 17.06], [17.06, 17.12, 16.98, 17.02], [17.02, 17.08, 16.94, 16.98], [16.98, 17.04, 16.90, 16.94], [16.94, 17.00, 16.88, 16.98], [16.98, 17.06, 16.94, 17.04], [17.04, 17.12, 17.00, 17.08]]
@@ -80,8 +81,9 @@ screens:
     explanation: "A drive keeps what it takes. Noise takes the same distance and hands it back before anybody can use it."
 
   - type: chart-decision
-    scenario: "The session opened and sold off for five minutes, has not finished a minute above its own average price, and the sixth minute has just closed under all five before it. Your account is $24,000 and you are sizing 1,000 shares."
+    scenario: "The session opened and sold off for five minutes without finishing one above its own average price. The sixth has just closed under all five."
     shares: 1000
+    state: ["Size: 1,000 shares"]
     chart:
       kind: candles
       data: [[21.60, 21.62, 21.30, 21.34], [21.34, 21.40, 21.16, 21.20], [21.20, 21.24, 21.04, 21.08], [21.08, 21.14, 20.96, 21.00], [21.00, 21.06, 20.90, 20.94], [20.94, 21.00, 20.86, 20.90], [20.90, 20.94, 20.76, 20.80], [20.80, 20.84, 20.66, 20.70], [20.70, 20.74, 20.58, 20.62], [20.62, 20.66, 20.52, 20.56], [20.56, 20.60, 20.46, 20.50]]

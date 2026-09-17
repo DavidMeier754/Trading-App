@@ -23,8 +23,9 @@ screens:
     text: "Mid-morning. Lines drawn, VWAP on the chart, tape open on the right, $30,000 in the account."
 
   - type: chart-decision
-    scenario: "XYZ is above VWAP all session. It pulls back to the line at $17.60, leaves a long lower wick and the tape starts printing at the ask again. You have 1,500 shares ready."
+    scenario: "XYZ is above VWAP all session. It pulls back to the line at $17.60, leaves a long lower wick, and the tape starts printing at the ask again."
     shares: 1500
+    state: ["Size: 1,500 shares"]
     chart:
       kind: candles
       data: [[17.90, 17.96, 17.80, 17.82], [17.82, 17.86, 17.72, 17.74], [17.74, 17.78, 17.66, 17.68], [17.68, 17.72, 17.62, 17.66], [17.66, 17.70, 17.58, 17.64], [17.64, 17.72, 17.56, 17.70], [17.70, 17.80, 17.68, 17.78], [17.78, 17.88, 17.74, 17.86], [17.86, 17.92, 17.82, 17.90], [17.90, 17.96, 17.86, 17.92]]
@@ -45,8 +46,9 @@ screens:
     explanation: "Nobody committed anything at the line, so the bounce has nothing holding it up."
 
   - type: chart-decision
-    scenario: "XYZ has been under VWAP all morning. It rallies into the line at $18.40, stalls for three candles and the tape starts printing at the bid. You have 1,500 shares ready."
+    scenario: "XYZ has been under VWAP all morning. It rallies into the line at $18.40, stalls for three candles, and the tape starts printing at the bid."
     shares: 1500
+    state: ["Size: 1,500 shares"]
     chart:
       kind: candles
       data: [[18.00, 18.10, 17.96, 18.08], [18.08, 18.18, 18.04, 18.16], [18.16, 18.26, 18.12, 18.24], [18.24, 18.34, 18.20, 18.32], [18.32, 18.38, 18.28, 18.34], [18.34, 18.40, 18.28, 18.30], [18.30, 18.34, 18.20, 18.22], [18.22, 18.26, 18.10, 18.12], [18.12, 18.16, 18.02, 18.04], [18.04, 18.08, 17.94, 17.98]]
@@ -104,8 +106,9 @@ screens:
     explanation: "It traded to $27.46 and closed at $27.58 — through the level and back inside within the minute."
 
   - type: chart-decision
-    scenario: "Mid-morning on XYZ. Your nearest marked level is thirty cents away and the tape has gone quiet. You have 1,000 shares ready."
+    scenario: "Mid-morning on XYZ. Your nearest marked level is thirty cents away and the tape has gone quiet."
     shares: 1000
+    state: ["Size: 1,000 shares"]
     chart:
       kind: candles
       data: [[27.20, 27.24, 27.18, 27.22], [27.22, 27.25, 27.18, 27.20], [27.20, 27.24, 27.17, 27.21], [27.21, 27.24, 27.18, 27.19], [27.19, 27.23, 27.17, 27.22], [27.22, 27.25, 27.19, 27.21], [27.21, 27.24, 27.18, 27.20], [27.20, 27.23, 27.17, 27.21], [27.21, 27.24, 27.18, 27.22], [27.22, 27.24, 27.19, 27.20]]

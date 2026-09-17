@@ -49,8 +49,9 @@ screens:
     explanation: "$21.60 on the third minute and again on the sixth, and neither of them finished above it."
 
   - type: chart-decision
-    scenario: "Two of your lines are here: the pre-market high at $15.42 and yesterday's close at $15.20. The minute that just closed finished through the upper one on the heaviest bar of the session. Your account is $26,000 and you are sizing 1,500 shares."
+    scenario: "Two of your lines are here: the pre-market high at $15.42 and yesterday's close at $15.20. The minute that just closed finished through the upper one on the heaviest bar of the session."
     shares: 1500
+    state: ["Size: 1,500 shares", "Account: $26,000"]
     chart:
       kind: candles
       data: [[15.30, 15.38, 15.28, 15.36], [15.36, 15.42, 15.34, 15.40], [15.40, 15.42, 15.34, 15.36], [15.36, 15.40, 15.32, 15.38], [15.38, 15.42, 15.36, 15.40], [15.40, 15.50, 15.38, 15.48], [15.48, 15.56, 15.46, 15.54], [15.54, 15.62, 15.52, 15.60], [15.60, 15.66, 15.56, 15.62], [15.62, 15.70, 15.60, 15.68], [15.68, 15.74, 15.66, 15.71]]

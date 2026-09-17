@@ -38,8 +38,9 @@ screens:
     explanation: "Level, line, candle and volume together — the other two are one reason or none."
 
   - type: chart-decision
-    scenario: "XYZ breaks the pre-market low at $17.40 by three cents on fading volume, then closes back above it. You have 1,500 shares ready."
+    scenario: "XYZ breaks the pre-market low at $17.40 by three cents on fading volume, then closes back above it."
     shares: 1500
+    state: ["Size: 1,500 shares"]
     chart:
       kind: candles
       data: [[17.80, 17.84, 17.68, 17.70], [17.70, 17.74, 17.58, 17.60], [17.60, 17.64, 17.48, 17.52], [17.52, 17.56, 17.44, 17.46], [17.46, 17.50, 17.37, 17.44], [17.44, 17.52, 17.40, 17.50], [17.50, 17.60, 17.48, 17.58], [17.58, 17.68, 17.54, 17.66], [17.66, 17.74, 17.62, 17.72], [17.72, 17.78, 17.68, 17.74]]

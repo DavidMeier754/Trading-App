@@ -75,8 +75,9 @@ screens:
     explanation: "Which is why the size resting underneath decides what it costs you."
 
   - type: chart-decision
-    scenario: "The round number at $16.30 has just been finished through and price is above its own average price. The bars underneath are all near 12,000 shares. Your account is $28,000 and you are sizing 1,500 shares."
+    scenario: "The round number at $16.30 has just been finished through and price is above its own average price. The bars underneath are all near 12,000 shares."
     shares: 1500
+    state: ["Size: 1,500 shares", "Account: $28,000"]
     chart:
       kind: candles
       data: [[16.10, 16.16, 16.06, 16.14], [16.14, 16.20, 16.10, 16.18], [16.18, 16.22, 16.14, 16.16], [16.16, 16.22, 16.12, 16.20], [16.20, 16.24, 16.16, 16.22], [16.22, 16.34, 16.20, 16.32], [16.32, 16.36, 16.26, 16.28], [16.28, 16.32, 16.22, 16.24], [16.24, 16.28, 16.18, 16.20], [16.20, 16.24, 16.14, 16.16], [16.16, 16.20, 16.10, 16.13]]

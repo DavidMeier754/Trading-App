@@ -49,8 +49,9 @@ screens:
     explanation: "A shape in open space cannot be priced. Everything after step one is about a price that step one has already found."
 
   - type: chart-decision
-    scenario: "Yesterday's high is $19.40. Price has been above its own average price all session, the minute that just closed finished six cents through the level on the heaviest bar of the morning, and the prints behind it were 1,000s and 1,500s at the ask. Your account is $26,000 and you are sizing 1,200 shares."
+    scenario: "Yesterday's high is $19.40. Price has been above its own average price all session, the minute that just closed finished six cents through the level, and the prints behind it were 1,000s and 1,500s at the ask."
     shares: 1200
+    state: ["Size: 1,200 shares", "Account: $26,000"]
     chart:
       kind: candles
       data: [[19.10, 19.18, 19.08, 19.16], [19.16, 19.24, 19.14, 19.22], [19.22, 19.28, 19.18, 19.20], [19.20, 19.28, 19.18, 19.26], [19.26, 19.32, 19.22, 19.30], [19.30, 19.48, 19.28, 19.46], [19.46, 19.54, 19.44, 19.52], [19.52, 19.60, 19.50, 19.58], [19.58, 19.64, 19.56, 19.62], [19.62, 19.70, 19.60, 19.68], [19.68, 19.74, 19.66, 19.71]]
@@ -84,8 +85,9 @@ screens:
     explanation: "Levels keep. Prints do not."
 
   - type: chart-decision
-    scenario: "The round number at $21.20 has just been finished through and price has been above its own average price all session. As it went through, the size resting on the bid was pulled and the prints thinned to 100s and 200s. Your account is $26,000 and you are sizing 1,100 shares."
+    scenario: "The round number at $21.20 has just been finished through with price above its own average price all session. As it went through, the size resting on the bid was pulled and the prints thinned to 100s and 200s."
     shares: 1100
+    state: ["Size: 1,100 shares"]
     chart:
       kind: candles
       data: [[21.00, 21.08, 20.98, 21.06], [21.06, 21.12, 21.02, 21.10], [21.10, 21.16, 21.06, 21.08], [21.08, 21.14, 21.06, 21.12], [21.12, 21.18, 21.10, 21.16], [21.16, 21.28, 21.14, 21.26], [21.26, 21.28, 21.18, 21.20], [21.20, 21.22, 21.12, 21.14], [21.14, 21.18, 21.08, 21.10], [21.10, 21.14, 21.04, 21.06], [21.06, 21.10, 21.00, 21.03]]

@@ -69,8 +69,9 @@ screens:
     explanation: "A stop is an instruction, and an instruction needs somebody on the other side to carry it out."
 
   - type: chart-decision
-    scenario: "XYZ has paused twice in the first half hour and is trading again. The spread is $0.11, the last five minutes have covered forty cents in both directions, and the nearest price you marked is thirty cents away. Your account is $20,000 and you are sizing 1,000 shares."
+    scenario: "XYZ has paused twice in the first half hour and is trading again. The last five minutes have covered forty cents in both directions, and the nearest price you marked is thirty cents away."
     shares: 1000
+    state: ["Size: 1,000 shares", "Quote: $0.11 wide"]
     chart:
       kind: candles
       data: [[14.20, 14.44, 14.10, 14.16], [14.16, 14.38, 14.06, 14.32], [14.32, 14.40, 14.02, 14.08], [14.08, 14.30, 14.04, 14.26], [14.26, 14.34, 13.98, 14.04], [14.04, 14.26, 14.00, 14.20], [14.20, 14.28, 13.94, 14.00], [14.00, 14.22, 13.96, 14.16], [14.16, 14.24, 13.90, 13.96], [13.96, 14.18, 13.92, 14.10]]
@@ -100,8 +101,9 @@ screens:
     explanation: "Only the last one was ever yours, which is why it is the only one worth arguing about beforehand."
 
   - type: chart-decision
-    scenario: "A different name, half an hour later. It has held above its own average price for twenty minutes, the spread is $0.02, and the minute that just closed finished six cents through yesterday's close at $16.40 on the heaviest bar of the stretch. Your account is $20,000 and you are sizing 1,100 shares."
+    scenario: "A different name, half an hour later. It has held above its own average price for twenty minutes, and the minute that just closed finished six cents through yesterday's close at $16.40 on the heaviest bar of the stretch."
     shares: 1100
+    state: ["Size: 1,100 shares", "Quote: $0.02 wide"]
     chart:
       kind: candles
       data: [[16.20, 16.26, 16.16, 16.24], [16.24, 16.30, 16.20, 16.26], [16.26, 16.32, 16.22, 16.28], [16.28, 16.34, 16.24, 16.32], [16.32, 16.40, 16.30, 16.38], [16.38, 16.48, 16.36, 16.46], [16.46, 16.52, 16.42, 16.50], [16.50, 16.58, 16.46, 16.56], [16.56, 16.62, 16.52, 16.60], [16.60, 16.66, 16.56, 16.64], [16.64, 16.70, 16.60, 16.67]]

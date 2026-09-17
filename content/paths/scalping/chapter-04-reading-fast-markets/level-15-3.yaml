@@ -29,8 +29,9 @@ screens:
       - {label: "You", text: "Two quick losses, or a minute you could not describe if somebody asked. Neither belongs to the stock, and both follow you to the next one.", icon: retail-trader}
 
   - type: chart-decision
-    scenario: "XYZ came out of a headline four minutes ago. The spread is $0.07, the minute that just closed covered twenty cents, and the nearest price you marked before the open is thirty-five cents away. Your account is $16,000 and you are sizing 1,000 shares."
+    scenario: "XYZ came out of a headline four minutes ago. The minute that just closed covered twenty cents, and the nearest price you marked before the open is thirty-five cents away."
     shares: 1000
+    state: ["Size: 1,000 shares", "Account: $16,000", "Quote: $0.07 wide"]
     chart:
       kind: candles
       data: [[13.20, 13.38, 13.14, 13.34], [13.34, 13.40, 13.16, 13.20], [13.20, 13.36, 13.16, 13.32], [13.32, 13.38, 13.14, 13.18], [13.18, 13.34, 13.12, 13.30], [13.30, 13.36, 13.16, 13.20], [13.20, 13.34, 13.14, 13.30], [13.30, 13.36, 13.12, 13.16], [13.16, 13.32, 13.10, 13.28], [13.28, 13.34, 13.14, 13.18]]
@@ -71,8 +72,9 @@ screens:
     explanation: "The reason you passed is a reading, and by the close it is right or wrong in exactly the way an entry would have been."
 
   - type: chart-decision
-    scenario: "The same name, twenty minutes on. The spread is back to $0.02, price has held above its own average price for twelve minutes, and the minute that just closed finished five cents through the high of the headline stretch at $13.40 on the heaviest bar since it. Your account is $16,000 and you are sizing 1,100 shares."
+    scenario: "The same name, twenty minutes on. Price has held above its own average price for twelve minutes, and the minute that just closed finished five cents through the high of the headline stretch at $13.40 on the heaviest bar since it."
     shares: 1100
+    state: ["Size: 1,100 shares", "Quote: $0.02 wide"]
     chart:
       kind: candles
       data: [[13.24, 13.30, 13.20, 13.28], [13.28, 13.34, 13.24, 13.30], [13.30, 13.36, 13.26, 13.32], [13.32, 13.38, 13.28, 13.36], [13.36, 13.40, 13.32, 13.38], [13.38, 13.48, 13.36, 13.45], [13.45, 13.52, 13.42, 13.50], [13.50, 13.56, 13.46, 13.54], [13.54, 13.60, 13.50, 13.58], [13.58, 13.64, 13.54, 13.62], [13.62, 13.68, 13.58, 13.65]]
