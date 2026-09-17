@@ -64,8 +64,8 @@ screens:
     explanation: "Three takes and three passes, and every pass failed on one thing: the depth, the volume, or how many pushes had already gone."
 
   - type: chart-decision
-    scenario: "XYZ fell from $16.84 to $16.42 on rising volume, then bounced for two quiet minutes. This minute closes back down at $16.46. You have 1,800 shares ready and a $30,000 account."
-    shares: 1800
+    scenario: "XYZ fell from $16.84 to $16.42 on rising volume, then bounced for two quiet minutes. This minute closes back down at $16.46. You have 1,700 shares ready and a $30,000 account."
+    shares: 1700
     chart:
       kind: candles
       data: [[16.82, 16.84, 16.70, 16.72], [16.72, 16.74, 16.58, 16.60], [16.60, 16.62, 16.42, 16.44], [16.44, 16.54, 16.42, 16.52], [16.52, 16.56, 16.48, 16.54], [16.54, 16.56, 16.44, 16.46], [16.46, 16.48, 16.32, 16.34], [16.34, 16.38, 16.20, 16.22], [16.22, 16.26, 16.10, 16.12], [16.12, 16.16, 16.00, 16.04]]
@@ -73,11 +73,11 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It reached the measured move at $16.04: $0.42 per share, +$756 short on 1,800 shares from $16.46."
+    outcome: "It reached the measured move at $16.04: $0.42 per share, +$714 short on 1,700 shares from $16.46."
     explanation: "One push down, a fourteen-cent bounce on the two quietest minutes, and a close back in the push's direction, with the stop two cents over the bounce at $16.58."
 
   - type: numeric-input
-    prompt: "That short again: 1,800 shares from $16.46, stop $16.58, out at $16.04. How many R did it make?"
+    prompt: "That short again: 1,700 shares from $16.46, stop $16.58, out at $16.04. How many R did it make?"
     answer: 3.5
     tolerance: 0.01
     unit: "R"

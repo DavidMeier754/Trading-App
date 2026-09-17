@@ -79,8 +79,8 @@ screens:
     explanation: "BZT moves most and its float and spread make the stop unaffordable. WLN and OKM have nobody new in them. FLV has a reason, five times its own normal volume and a three-cent spread."
 
   - type: chart-decision
-    scenario: "HMT has climbed since the open and has not traded back to its average price. It wicks through $24.00 to $24.02 and closes at $23.76 on the heaviest bar of the morning. You have 1,000 shares ready."
-    shares: 1000
+    scenario: "HMT has climbed since the open and has not traded back to its average price. It wicks through $24.00 to $24.02 and closes at $23.76 on the heaviest bar of the morning. You have 900 shares ready."
+    shares: 900
     chart:
       kind: candles
       data: [[22.90, 23.06, 22.88, 23.04], [23.04, 23.22, 23.02, 23.20], [23.20, 23.38, 23.18, 23.36], [23.36, 23.54, 23.34, 23.52], [23.52, 23.72, 23.50, 23.70], [23.70, 24.02, 23.68, 23.76], [23.76, 23.94, 23.72, 23.90], [23.90, 24.08, 23.86, 24.04], [24.04, 24.24, 24.00, 24.20], [24.20, 24.38, 24.16, 24.34]]
@@ -90,7 +90,7 @@ screens:
       volume: [98000, 116000, 134000, 158000, 186000, 224000, 148000, 166000, 182000, 196000]
       decision_index: 5
     best: no-trade
-    outcome: "It took the number on the second attempt and ran to $24.34 — $0.58 against a short, $580 on 1,000 shares."
+    outcome: "It took the number on the second attempt and ran to $24.34 — $0.58 against a short, $522 on 900 shares."
     explanation: "A rejection candle is card D's trigger and this session is not card D's day. A run that has not seen its average price all morning takes the marked price on the next try."
 
   - type: numeric-input

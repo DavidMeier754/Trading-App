@@ -92,15 +92,15 @@ screens:
     explanation: "Width is one difference and volume is the other. A range day is busy between its edges; an empty one is busy nowhere, and the spread eats whatever the band offers."
 
   - type: chart-decision
-    scenario: "ZEP has spent the morning in a nine-cent band on about a third of the volume it normally trades by this point, with nothing marked inside forty cents. You have 1,200 shares ready."
-    shares: 1200
+    scenario: "ZEP has spent the morning in a nine-cent band on about a third of the volume it normally trades by this point, with nothing marked inside forty cents. You have 1,100 shares ready."
+    shares: 1100
     chart:
       kind: candles
       data: [[15.06, 15.10, 15.02, 15.08], [15.08, 15.10, 15.03, 15.05], [15.05, 15.10, 15.02, 15.07], [15.07, 15.10, 15.01, 15.04], [15.04, 15.09, 15.02, 15.06], [15.06, 15.10, 15.03, 15.05], [15.05, 15.09, 15.02, 15.07], [15.07, 15.10, 15.02, 15.04], [15.04, 15.08, 15.01, 15.06], [15.06, 15.10, 15.03, 15.05]]
       volume: [19000, 17000, 15000, 14000, 13000, 12000, 14000, 13000, 11000, 12000]
       decision_index: 5
     best: no-trade
-    outcome: "Forty more minutes inside the same nine cents. Two round trips at a three-cent spread would have cost $72 on 1,200 shares and returned nothing."
+    outcome: "Forty more minutes inside the same nine cents. Two round trips at a three-cent spread would have cost $66 on 1,100 shares and returned nothing."
     explanation: "The shape says rotation and the arithmetic says no. Half of nine cents does not survive a three-cent round trip at any share count."
 
   - type: sort

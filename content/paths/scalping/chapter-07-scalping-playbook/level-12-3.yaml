@@ -13,7 +13,7 @@ prerequisite: "12-2"
 xp: 25
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Steenbarger — The Daily Trading Coach"]
-notes: "Closes level 12 on the session arithmetic. Account named at $24,000; one R is $196 throughout."
+notes: "Closes level 12 on the session arithmetic. Account named at $24,000; one R is $182 throughout."
 screens:
   - type: intro
     text: "The re-entry stopped out too. This is the minute the card was written for."
@@ -23,8 +23,8 @@ screens:
     body: "Two stops on the same card is the chart saying your read of it was not as clean as it looked. The card is finished for the session, and so is the stock as far as today goes."
 
   - type: chart-decision
-    scenario: "You have been stopped out of this card twice this morning. The level is still there and a third trigger has just closed at $16.74. You have 1,400 shares ready and a $24,000 account."
-    shares: 1400
+    scenario: "You have been stopped out of this card twice this morning. The level is still there and a third trigger has just closed at $16.74. You have 1,300 shares ready and a $24,000 account."
+    shares: 1300
     state: ["Day: −2R", "Limit: 3R", "Trades: 4"]
     chart:
       kind: candles
@@ -34,7 +34,7 @@ screens:
         - {price: 16.62, label: "Marked level"}
       decision_index: 5
     best: no-trade
-    outcome: "It stopped out a third time at $16.60 — $0.14 against 1,400 shares, $196, which would have finished the day exactly on the limit."
+    outcome: "It stopped out a third time at $16.60 — $0.14 against 1,300 shares, $182, which would have finished the day exactly on the limit."
     explanation: "The chart is not the deciding input here. Two thirds of the day's room is gone and this card has already been wrong twice on it."
 
   - type: visual
@@ -45,11 +45,11 @@ screens:
     caption: "Four trades, two of them the same card twice. Two thirds of the day's room spent before the third attempt is even considered."
 
   - type: numeric-input
-    prompt: "One R on this card is $196 and your limit is 3R. You are down 2R and the third attempt would risk another $196. What would the day stand at in dollars if it stopped out?"
-    answer: 588
+    prompt: "One R on this card is $182 and your limit is 3R. You are down 2R and the third attempt would risk another $182. What would the day stand at in dollars if it stopped out?"
+    answer: 546
     tolerance: 0.5
     unit: "$"
-    working: "2 × $196 = $392 already spent; $392 + $196 = $588, and 3 × $196 = $588"
+    working: "2 × $182 = $364 already spent; $364 + $182 = $546, and 3 × $182 = $546"
     explanation: "The third attempt is not one trade among several. It is the whole session resting on a card that has been wrong twice."
 
   - type: swipe-deck

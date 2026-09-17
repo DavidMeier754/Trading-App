@@ -56,8 +56,8 @@ screens:
     explanation: "B traded above the line and finished under it. Only A has a minute that finished outside the box at all."
 
   - type: chart-decision
-    scenario: "The opening range is $19.10 to $19.50. One minute closed at $19.58, above the box, and this one has just finished back inside at $19.44. You have 1,500 shares ready and a $30,000 account."
-    shares: 1500
+    scenario: "The opening range is $19.10 to $19.50. One minute closed at $19.58, above the box, and this one has just finished back inside at $19.44. You have 1,400 shares ready and a $30,000 account."
+    shares: 1400
     chart:
       kind: candles
       data: [[19.28, 19.38, 19.20, 19.34], [19.34, 19.44, 19.30, 19.40], [19.40, 19.50, 19.36, 19.46], [19.46, 19.50, 19.40, 19.44], [19.44, 19.60, 19.42, 19.58], [19.58, 19.60, 19.42, 19.44], [19.44, 19.48, 19.32, 19.34], [19.34, 19.38, 19.20, 19.22], [19.22, 19.26, 19.10, 19.14], [19.14, 19.18, 19.04, 19.08]]
@@ -67,7 +67,7 @@ screens:
         - {price: 19.10, label: "Opening-range low"}
       decision_index: 5
     best: no-trade
-    outcome: "It carried on down through the box to $19.08 — $0.36 against a long from $19.44, $540 on 1,500 shares."
+    outcome: "It carried on down through the box to $19.08 — $0.36 against a long from $19.44, $504 on 1,400 shares."
     explanation: "A minute that finishes back inside is this card's invalidation. Everyone who bought above $19.50 is now supply."
 
   - type: mc

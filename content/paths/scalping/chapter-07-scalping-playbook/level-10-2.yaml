@@ -78,8 +78,8 @@ screens:
     explanation: "A has not printed a close under its first price all session. B lost it on the opening minute and has spent every minute since below it."
 
   - type: chart-decision
-    scenario: "A different name. It gapped to $18.90 on a contract win, held the first pullback, ran to $19.40, and has come back to $19.14 on the two lightest minutes of the session. This one closes at $19.26. Your account is $24,000 and you have 1,200 shares ready."
-    shares: 1200
+    scenario: "A different name. It gapped to $18.90 on a contract win, held the first pullback, ran to $19.40, and has come back to $19.14 on the two lightest minutes of the session. This one closes at $19.26. Your account is $24,000 and you have 1,100 shares ready."
+    shares: 1100
     chart:
       kind: candles
       data: [[18.90, 19.10, 18.88, 19.06], [19.06, 19.26, 19.02, 19.22], [19.22, 19.40, 19.18, 19.36], [19.36, 19.38, 19.20, 19.22], [19.22, 19.26, 19.12, 19.14], [19.14, 19.28, 19.12, 19.26], [19.26, 19.42, 19.24, 19.40], [19.40, 19.56, 19.38, 19.54], [19.54, 19.66, 19.50, 19.63], [19.63, 19.68, 19.54, 19.58]]
@@ -89,7 +89,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It made a new high of day and you let it go at $19.63 — $0.37 per share, +$444 long on 1,200 shares from $19.26."
+    outcome: "It made a new high of day and you let it go at $19.63 — $0.37 per share, +$407 long on 1,100 shares from $19.26."
     explanation: "A second pullback is still the card as long as it stops above the first print and gets quieter. The stop is $19.10, two cents under it."
 
   - type: sort

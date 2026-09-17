@@ -79,8 +79,8 @@ screens:
     body: "A failed break is your reason. The 5-minute chart is your permission. Take the fade when the move it starts points the way the slower chart is already going."
 
   - type: chart-decision
-    scenario: "The 5-minute has made higher highs and higher lows all session. XYZ closes under yesterday's close at $21.40 on the lightest volume in twenty minutes, then this candle closes back above at $21.48 on triple that. You have 1,350 shares ready and a $30,000 account."
-    shares: 1350
+    scenario: "The 5-minute has made higher highs and higher lows all session. XYZ closes under yesterday's close at $21.40 on the lightest volume in twenty minutes, then this candle closes back above at $21.48 on triple that. You have 1,300 shares ready and a $30,000 account."
+    shares: 1300
     chart:
       kind: candles
       data: [[21.74, 21.80, 21.68, 21.70], [21.70, 21.74, 21.60, 21.62], [21.62, 21.66, 21.52, 21.54], [21.54, 21.58, 21.42, 21.44], [21.44, 21.46, 21.34, 21.36], [21.36, 21.50, 21.35, 21.48], [21.48, 21.58, 21.46, 21.56], [21.56, 21.66, 21.54, 21.64], [21.64, 21.74, 21.62, 21.72], [21.72, 21.82, 21.70, 21.80]]
@@ -91,19 +91,19 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried back to the top of the band at $21.80 — $0.32 per share, +$432 long on 1,350 shares from $21.48."
+    outcome: "It carried back to the top of the band at $21.80 — $0.32 per share, +$416 long on 1,300 shares from $21.48."
     explanation: "Stop two cents under the failed low at $21.32 is sixteen cents, the far side of the band is thirty-two, and the slower chart was pointing that way the whole time."
 
   - type: order-build
-    prompt: "Build that entry: a 1,350-share long, capped two cents over the ask of $21.48."
+    prompt: "Build that entry: a 1,300-share long, capped two cents over the ask of $21.48."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [1000, 1350, 1875]
+      qty: [1000, 1300, 1875]
       price: [21.46, 21.48, 21.50]
-    answer: {side: buy, type: limit, qty: 1350, price: 21.50}
+    answer: {side: buy, type: limit, qty: 1300, price: 21.50}
     explanation: "A limit two cents through the ask fills like a market order but cannot chase; 1,875 is what the risk alone allowed, and the account could not pay for it."
 
   - type: tf

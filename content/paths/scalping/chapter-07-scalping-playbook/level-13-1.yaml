@@ -107,15 +107,15 @@ screens:
     explanation: "Same two shapes, and the volume is the only thing that moves them from one bucket to the other."
 
   - type: chart-decision
-    scenario: "WSP pushed 42 cents in three minutes with no level anywhere near it, then handed back 30 of them on volume as heavy as the push. This minute closes at $18.42. You have 1,300 shares ready."
-    shares: 1300
+    scenario: "WSP pushed 42 cents in three minutes with no level anywhere near it, then handed back 30 of them on volume as heavy as the push. This minute closes at $18.42. You have 1,200 shares ready."
+    shares: 1200
     chart:
       kind: candles
       data: [[18.28, 18.38, 18.26, 18.36], [18.36, 18.54, 18.34, 18.52], [18.52, 18.68, 18.50, 18.66], [18.66, 18.68, 18.48, 18.50], [18.50, 18.54, 18.40, 18.42], [18.42, 18.48, 18.38, 18.42], [18.42, 18.46, 18.32, 18.34], [18.34, 18.38, 18.24, 18.26], [18.26, 18.34, 18.22, 18.30], [18.30, 18.36, 18.24, 18.28]]
       volume: [96000, 168000, 192000, 174000, 156000, 148000, 132000, 124000, 108000, 96000]
       decision_index: 5
     best: no-trade
-    outcome: "It drifted between $18.22 and $18.46 for another twenty minutes. A 1,300-share long from $18.42 was never more than $52 up."
+    outcome: "It drifted between $18.22 and $18.46 for another twenty minutes. A 1,200-share long from $18.42 was never more than $48 up."
     explanation: "Card C wants a shallow pause on falling volume. Three quarters of the leg back, with the volume still heavy, is the leg being taken apart."
 
   - type: compare

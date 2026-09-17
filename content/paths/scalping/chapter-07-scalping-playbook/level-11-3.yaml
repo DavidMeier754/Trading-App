@@ -69,8 +69,8 @@ screens:
     explanation: "Three takes and three passes, and the three passes are the three reasons this card gets refused: the edge is being pressed, the band is too narrow, and the day is not a range day at all."
 
   - type: chart-decision
-    scenario: "PLT has been between $11.62 and $11.94 for forty minutes with VWAP flat through the middle. This minute wicks to $11.96 and closes back inside at $11.88. You have 2,000 shares ready and a $24,000 account."
-    shares: 2000
+    scenario: "PLT has been between $11.62 and $11.94 for forty minutes with VWAP flat through the middle. This minute wicks to $11.96 and closes back inside at $11.88. You have 1,900 shares ready and a $24,000 account."
+    shares: 1900
     chart:
       kind: candles
       data: [[11.70, 11.80, 11.66, 11.78], [11.78, 11.88, 11.74, 11.84], [11.84, 11.94, 11.80, 11.90], [11.90, 11.92, 11.82, 11.86], [11.86, 11.94, 11.84, 11.92], [11.92, 11.96, 11.84, 11.88], [11.88, 11.90, 11.78, 11.80], [11.80, 11.82, 11.70, 11.72], [11.72, 11.76, 11.66, 11.69], [11.69, 11.74, 11.62, 11.66]]
@@ -82,7 +82,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It rotated through the middle and you covered at $11.69 — $0.19 per share, +$380 short on 2,000 shares from $11.88."
+    outcome: "It rotated through the middle and you covered at $11.69 — $0.19 per share, +$361 short on 1,900 shares from $11.88."
     explanation: "The poke through the ceiling came on the lightest minute of the stretch. Stop $11.98, ten cents above the entry; the middle sits ten cents below it and the floor twenty-six."
 
   - type: chart-annotate
@@ -105,8 +105,8 @@ screens:
     explanation: "Half an eighteen-cent band is nine cents, and three of those nine are spread and fees. A band has to be wide enough to pay for being in it twice."
 
   - type: chart-decision
-    scenario: "The same band twenty minutes later. Every push into $11.94 has now started from a higher low and the volume into it is the heaviest of the session. This minute closes at $11.92, just under the edge. You have 2,000 shares ready."
-    shares: 2000
+    scenario: "The same band twenty minutes later. Every push into $11.94 has now started from a higher low and the volume into it is the heaviest of the session. This minute closes at $11.92, just under the edge. You have 1,800 shares ready."
+    shares: 1800
     chart:
       kind: candles
       data: [[11.72, 11.80, 11.70, 11.78], [11.78, 11.86, 11.76, 11.84], [11.84, 11.92, 11.80, 11.86], [11.86, 11.94, 11.84, 11.90], [11.90, 11.94, 11.86, 11.88], [11.88, 11.94, 11.86, 11.92], [11.92, 12.06, 11.90, 12.04], [12.04, 12.16, 12.00, 12.14], [12.14, 12.24, 12.10, 12.20], [12.20, 12.28, 12.14, 12.23]]
@@ -117,7 +117,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It closed above the edge on the next minute and reached $12.23. A 2,000-share short from $11.92 was $620 down."
+    outcome: "It closed above the edge on the next minute and reached $12.23. A 1,800-share short from $11.92 was $558 down."
     explanation: "Same price, same band, opposite answer. Four higher lows and rising volume are the edge being worked through rather than defended."
 
   - type: tf
