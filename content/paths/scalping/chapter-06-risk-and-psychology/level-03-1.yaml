@@ -13,7 +13,7 @@ prerequisite: "2-4"
 xp: 20
 difficulty: 2
 sources: ["Bellafiore — One Good Trade", "Elder — Trading for a Living"]
-notes: "Account named at $18,000 with 1R at $175; worked positions are 1,250 shares at $13.70 and 1,250 at $14.30."
+notes: "Account named at $18,000; worked positions are 1,200 shares at $13.70 risking $168, and 1,100 at $14.30 risking $154."
 screens:
   - type: intro
     text: "The trade is in front. From here the mistakes change shape."
@@ -23,19 +23,19 @@ screens:
     body: "It removes the unit, not the risk of a poor outcome. A stop sitting exactly at your entry is parked at the busiest price on the chart — the one price everybody in the trade agrees on."
 
   - type: example
-    body: "SLOE: long 1,250 shares at $13.70, stop $13.56, so 1R is $175. Pull the stop to $13.70 and the worst case is no longer $175 — it is the spread and the fees, about $25."
+    body: "SLOE: long 1,200 shares at $13.70, stop $13.56, so the trade risks $168. Pull the stop to $13.70 and the worst case is no longer $168 — it is the spread and the fees, about $24."
     visual: chart-candles
     visual_data:
       data: [[13.80, 13.84, 13.70, 13.72], [13.72, 13.78, 13.62, 13.66], [13.66, 13.70, 13.56, 13.58], [13.58, 13.66, 13.56, 13.64], [13.64, 13.72, 13.62, 13.70], [13.70, 13.78, 13.68, 13.76], [13.76, 13.84, 13.74, 13.82], [13.82, 13.90, 13.80, 13.88], [13.88, 13.96, 13.84, 13.92]]
       levels: [{price: 13.84, label: "Morning high"}, {price: 13.56, label: "Floor"}]
 
   - type: numeric-input
-    prompt: "1,250 shares in at $13.70 and out at $13.70. Round-trip costs are $0.02 a share. What did the scratch cost?"
-    answer: 25
+    prompt: "1,200 shares in at $13.70 and out at $13.70. Round-trip costs are $0.02 a share. What did the scratch cost?"
+    answer: 24
     tolerance: 0.01
     unit: "$"
-    working: "$0.02 × 1,250 shares = $25"
-    explanation: "Twenty-five dollars to find out, which is what a scratch is actually worth."
+    working: "$0.02 × 1,200 shares = $24"
+    explanation: "Twenty-four dollars to find out, which is what a scratch is actually worth."
 
   - type: mc
     prompt: "When is a stop at your entry worth moving to?"
@@ -54,15 +54,15 @@ screens:
     explanation: "The one before it touched $13.84 and closed back under. A touch is an attempt; a close is a result."
 
   - type: order-build
-    prompt: "You are long 1,250 shares of SLOE from $13.70 and price has closed clear of that high. Build the order that parks the stop at your entry."
+    prompt: "You are long 1,200 shares of SLOE from $13.70 and price has closed clear of that high. Build the order that parks the stop at your entry."
     ticker: SLOE
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [625, 1250, 2000]
+      qty: [600, 1200, 2000]
       price: [13.56, 13.70, 13.84]
-    answer: {side: sell, type: stop, qty: 1250, price: 13.70}
+    answer: {side: sell, type: stop, qty: 1200, price: 13.70}
     explanation: "A sell stop for the whole position at the price you paid. Until it is sitting at the broker it is a plan, not a stop."
 
   - type: theory
@@ -70,7 +70,7 @@ screens:
     body: "Pull the stop up while price is still inside the range it broke from and the next ordinary pullback ends the trade. You have not protected anything; you have swapped a trade for a small bill."
 
   - type: slider
-    prompt: "A scratch costs $25 on a trade whose full stop was $175. What share of a unit is that?"
+    prompt: "A scratch costs $24 on a trade whose full stop was $168. What share of a unit is that?"
     min: 0
     max: 50
     step: 5
@@ -85,8 +85,8 @@ screens:
     explanation: "That is the whole trade it makes — and the cheaper outcome arrives far more often, because the entry price is where price keeps coming back."
 
   - type: chart-decision
-    scenario: "TARN has turned at $14.16 twice in the last five minutes and the minute that just closed finished at $14.30, above the highs behind it. Your account is $18,000, 1R is $175, and a stop under $14.16 is fourteen cents away."
-    shares: 1250
+    scenario: "TARN has turned at $14.16 twice in the last five minutes and the minute that just closed finished at $14.30, above the highs behind it. Your account is $18,000, which pays for 1,100 shares here, and a stop under $14.16 is fourteen cents away."
+    shares: 1100
     chart:
       kind: candles
       data: [[14.36, 14.40, 14.24, 14.28], [14.28, 14.34, 14.16, 14.20], [14.20, 14.28, 14.18, 14.26], [14.26, 14.30, 14.16, 14.20], [14.20, 14.28, 14.18, 14.24], [14.24, 14.32, 14.22, 14.30], [14.30, 14.42, 14.28, 14.40], [14.40, 14.50, 14.36, 14.48], [14.48, 14.58, 14.44, 14.54], [14.54, 14.60, 14.48, 14.52]]
@@ -96,7 +96,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $14.60 and the exit filled at $14.58 — 28 cents a share, +$350 on 1,250 shares against $175 of risk."
+    outcome: "It reached $14.60 and the exit filled at $14.58 — 28 cents a share, +$308 on 1,100 shares against $154 of risk."
     explanation: "Fourteen cents of risk, and the stop stayed there until the second green minute had cleared the highs it was leaning on."
 
   - type: spot-mistake

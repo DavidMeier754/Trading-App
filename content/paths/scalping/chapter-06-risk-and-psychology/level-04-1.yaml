@@ -13,7 +13,7 @@ prerequisite: "3-4"
 xp: 25
 difficulty: 3
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Bellafiore — One Good Trade"]
-notes: "Account named at $21,000 with 1R at $210; worked positions are 1,400 shares at $14.60, 1,150 at $17.50, 1,400 at $12.70 and 1,300 at $15.90."
+notes: "Account named at $21,000 with a $210 budget; worked positions are 1,300 shares at $14.60, 1,100 at $17.50, 1,400 at $12.70 and 1,200 at $15.90."
 screens:
   - type: intro
     text: "Five trades, one account of $21,000, and $210 a trade. Same three questions every time."
@@ -23,12 +23,12 @@ screens:
     body: "Where is the stop, what does that make the share count, and what did the trade return against the unit it risked. Nothing here is new; the point is doing it without stopping to think."
 
   - type: numeric-input
-    prompt: "Trade one. Long 1,400 shares of OAST at $14.60 with the stop at $14.45. What is 1R?"
-    answer: 210
+    prompt: "Trade one. Long 1,300 shares of OAST at $14.60 with the stop at $14.45. What does the trade risk?"
+    answer: 195
     tolerance: 0.01
     unit: "$"
-    working: "$14.60 − $14.45 = $0.15; $0.15 × 1,400 shares = $210"
-    explanation: "Fifteen cents on 1,400 shares is the whole budget, which is why the share count came out at 1,400 and not 1,500."
+    working: "$14.60 − $14.45 = $0.15; $0.15 × 1,300 shares = $195"
+    explanation: "Fifteen cents on 1,300 shares is $195, just inside the budget — at $14.60 the cash caps the count before the $210 does."
 
   - type: numeric-mc
     prompt: "That trade exits at $14.90. What did it return?"
@@ -38,17 +38,17 @@ screens:
       - {text: "+3R"}
       - {text: "+0.5R"}
     working: "$0.30 made ÷ $0.15 risked = 2"
-    explanation: "Thirty cents on fifteen. The dollars are $420, and the dollars are the part that changes when your account does."
+    explanation: "Thirty cents on fifteen. The dollars are $390, and the dollars are the part that changes when your account does."
 
   - type: journal-row
     prompt: "Trade two is finished. Fill in what it risked and what it returned."
-    trade: {setup: "Failed push at the morning high", entry: 17.50, stop: 17.64, exit: 17.22, shares: 1150}
+    trade: {setup: "Failed push at the morning high", entry: 17.50, stop: 17.64, exit: 17.22, shares: 1100}
     slots: [r_risked, r_made]
     chips:
-      r_risked: ["$161", "$210", "$322"]
+      r_risked: ["$154", "$210", "$308"]
       r_made: ["+1R", "+2R", "+3R"]
-    answer: {r_risked: "$161", r_made: "+2R"}
-    explanation: "Fourteen cents of stop on 1,150 shares is $161, and the twenty-eight cents it covered for is twice that."
+    answer: {r_risked: "$154", r_made: "+2R"}
+    explanation: "Fourteen cents of stop on 1,100 shares is $154, and the twenty-eight cents it covered for is twice that."
 
   - type: chart-annotate
     prompt: "Trade three. VOLE has turned at $12.57 twice and you are buying at $12.70. Drag the line to the stop."
@@ -65,12 +65,12 @@ screens:
     answer: 1400
     tolerance: 1
     unit: "shares"
-    working: "$210 ÷ $0.15 = 1,400 shares; $21,000 ÷ $12.70 = 1,653 shares"
-    explanation: "The budget allows 1,400 and the account could pay for 1,653, so the budget is the ceiling that binds here."
+    working: "$210 ÷ $0.15 = 1,400 shares; 95 % of $21,000 is $19,950, and $19,950 ÷ $12.70 = 1,570 shares"
+    explanation: "The budget allows 1,400 and the cash could pay for 1,570, so the budget is the ceiling that binds here."
 
   - type: branch
-    scenario: "Trade four. You are long 1,400 shares of OAST from $14.60 with the stop at $14.45, and two minutes later it is $14.50."
-    shares: 1400
+    scenario: "Trade four. You are long 1,300 shares of OAST from $14.60 with the stop at $14.45, and two minutes later it is $14.50."
+    shares: 1300
     chart:
       kind: candles
       data: [[14.44, 14.62, 14.42, 14.60], [14.60, 14.64, 14.54, 14.56], [14.56, 14.60, 14.50, 14.52], [14.52, 14.58, 14.48, 14.54], [14.54, 14.56, 14.48, 14.50], [14.50, 14.54, 14.44, 14.46], [14.46, 14.62, 14.44, 14.60], [14.60, 14.70, 14.56, 14.66], [14.66, 14.74, 14.62, 14.70]]
@@ -93,8 +93,8 @@ screens:
         explanation: "A second entry is a trade, not a repair. Same budget, and 1,166 shares this time because the distance changed."
 
   - type: chart-decision
-    scenario: "Trade five. YARN has made lower highs since the bell and the minute that just closed finished under the $15.92 floor at $15.90. Your account is $21,000, 1R is $210, and a stop at $16.04 is fourteen cents away."
-    shares: 1300
+    scenario: "Trade five. YARN has made lower highs since the bell and the minute that just closed finished under the $15.92 floor at $15.90. Your account is $21,000, which pays for 1,200 shares here, and a stop at $16.04 is fourteen cents away."
+    shares: 1200
     chart:
       kind: candles
       data: [[16.14, 16.18, 16.02, 16.06], [16.06, 16.10, 15.96, 15.98], [15.98, 16.04, 15.92, 16.00], [16.00, 16.02, 15.92, 15.94], [15.94, 15.98, 15.90, 15.96], [15.96, 15.98, 15.86, 15.90], [15.90, 15.92, 15.76, 15.78], [15.78, 15.82, 15.66, 15.68], [15.68, 15.74, 15.58, 15.62], [15.62, 15.68, 15.56, 15.60]]
@@ -104,17 +104,17 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked down to $15.56 and covered at $15.60 — 30 cents a share, +$390 on 1,300 shares against $182 of risk."
-    explanation: "Lower highs all morning and the floor given up on the heaviest minute of it. The 1,300 came from the fourteen-cent stop, not from how good it looked."
+    outcome: "It worked down to $15.56 and covered at $15.60 — 30 cents a share, +$360 on 1,200 shares against $168 of risk."
+    explanation: "Lower highs all morning and the floor given up on the heaviest minute of it. The 1,200 came from the fourteen-cent stop and the cash, not from how good it looked."
 
   - type: numeric-mc
     prompt: "A $26 name with an eight-cent stop. The $210 budget would allow 2,625 shares. What does the $21,000 account allow?"
     options:
       - {text: "2,625"}
       - {text: "1,050"}
-      - {text: "807", correct: true}
+      - {text: "767", correct: true}
       - {text: "525"}
-    working: "$21,000 ÷ $26 = 807 shares"
+    working: "95 % of $21,000 is $19,950; $19,950 ÷ $26 = 767 shares"
     explanation: "Under a third of what the budget would have permitted, and it is the smaller ceiling that decides."
 
   - type: tf
@@ -123,24 +123,24 @@ screens:
     explanation: "Two ceilings, and the budget is only one of them. An expensive share price empties the account long before $210 of risk is used up."
 
   - type: order-build
-    prompt: "You are short 1,300 shares of YARN from $15.90. Build the resting order that ends the trade at $16.04."
+    prompt: "You are short 1,200 shares of YARN from $15.90. Build the resting order that ends the trade at $16.04."
     ticker: YARN
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [650, 1300, 2000]
+      qty: [600, 1200, 2000]
       price: [15.90, 16.04, 16.20]
-    answer: {side: buy, type: stop, qty: 1300, price: 16.04}
+    answer: {side: buy, type: stop, qty: 1200, price: 16.04}
     explanation: "A short is closed by buying, so the protective order is a buy stop sitting above the entry."
 
   - type: spot-mistake
     prompt: "Tap the mistake."
     segments:
       - {text: "The stop is eighteen cents on this one,"}
-      - {text: "so I take the same 1,400 shares as last time", wrong: true}
+      - {text: "so I take the same 1,300 shares as last time", wrong: true}
       - {text: "and the risk stays where it was."}
-    explanation: "Eighteen cents on 1,400 shares is $252, not $210. The share count is recalculated every time the distance changes."
+    explanation: "Eighteen cents on 1,300 shares is $234, not $195. The share count is recalculated every time the distance changes."
 
   - type: example
     body: "Five trades, five different share counts, one unit at stake in every one of them. That is the whole arithmetic. The next lesson is almost nothing but charts."

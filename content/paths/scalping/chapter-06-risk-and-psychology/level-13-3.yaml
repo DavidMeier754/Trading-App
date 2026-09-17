@@ -13,7 +13,7 @@ prerequisite: "13-2"
 xp: 20
 difficulty: 3
 sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
-notes: "Account named at $24,000 with 1R at $240; the worked position is 1,200 shares at $19.78 = $23,736. Closes Level 13 with the recap."
+notes: "Account named at $24,000 with 1R at $240; the worked position is 1,100 shares at $19.78 = $21,758. Closes Level 13 with the recap."
 screens:
   - type: intro
     text: "A losing run and a winning run push you in opposite directions. Both of them push you off the page."
@@ -76,8 +76,8 @@ screens:
     explanation: "Two takes and three passes, decided on two features of the chart. A run of stops behind you would not have moved a single one of these cards."
 
   - type: chart-decision
-    scenario: "Five units up on the morning, four trades used of six. QUAR has been refused at $19.98 three times and the minute that just closed finished at $19.78, the lowest close of the session. Stop above the ceiling, 1,200 shares, $24,000 account."
-    shares: 1200
+    scenario: "Five units up on the morning, four trades used of six. QUAR has been refused at $19.98 three times and the minute that just closed finished at $19.78, the lowest close of the session. Stop above the ceiling, 1,100 shares, $24,000 account."
+    shares: 1100
     chart:
       kind: candles
       data: [[19.94, 19.98, 19.84, 19.86], [19.86, 19.92, 19.82, 19.90], [19.90, 19.98, 19.84, 19.88], [19.88, 19.94, 19.80, 19.84], [19.84, 19.98, 19.78, 19.86], [19.86, 19.88, 19.74, 19.78], [19.78, 19.82, 19.64, 19.66], [19.66, 19.70, 19.54, 19.56], [19.56, 19.62, 19.44, 19.48], [19.48, 19.54, 19.40, 19.44]]
@@ -88,7 +88,7 @@ screens:
     state: ["Day: +5R", "Trades: 4 of 6"]
     best: short
     reasonable: [no-trade]
-    outcome: "It worked down to $19.40 and the cover filled at $19.45 — 33 cents a share, $396 on 1,200 shares against $240 of risk."
+    outcome: "It worked down to $19.40 and the cover filled at $19.45 — 33 cents a share, $363 on 1,100 shares against $220 of risk."
     explanation: "Five units up is neither a reason nor a warning. Twenty cents of risk against a ceiling that has refused it three times, at the size the page allows — and the size is the part a good morning threatens."
 
   - type: sort

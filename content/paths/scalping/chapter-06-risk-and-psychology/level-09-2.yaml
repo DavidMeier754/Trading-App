@@ -13,7 +13,7 @@ prerequisite: "9-1"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Steenbarger — The Daily Trading Coach"]
-notes: "Account named at $24,000; worked positions are 1,400 shares at $16.90 and 1,400 at $16.40."
+notes: "Account named at $24,000; worked positions are 1,300 shares at $16.90 and 1,300 at $16.40."
 screens:
   - type: intro
     text: "Two caps stop a bad morning. The third one stops a bad afternoon."
@@ -31,7 +31,7 @@ screens:
     explanation: "Both of them exist to stop a decision being made by a version of you who has been staring at a screen for hours."
 
   - type: scanner-pick
-    prompt: "One trade left on today's cap of six. Your account is $24,000 and you trade 1,400 shares. Which name deserves it?"
+    prompt: "One trade left on today's cap of six. Your account is $24,000 and you trade 1,300 shares. Which name deserves it?"
     data:
       rows:
         - {ticker: VANE, price: 16.90, change_pct: 5.4, rvol: 4.6, float: "14M", spread: 0.02, catalyst: "Earnings"}
@@ -39,7 +39,7 @@ screens:
         - {ticker: REED, price: 12.40, change_pct: 0.4, rvol: 0.8, float: "220M", spread: 0.02, catalyst: "—"}
         - {ticker: LOOM, price: 15.60, change_pct: 7.8, rvol: 5.9, float: "6M", spread: 0.14, catalyst: "Halted, reopened"}
     target: VANE
-    explanation: "HULL is the better mover and 1,400 shares of it is $53,480 — the account cannot hold it. LOOM's spread is fourteen cents, REED has no reason to move, and VANE is the one you can actually trade."
+    explanation: "HULL is the better mover and 1,300 shares of it is $49,660 — the account cannot hold it. LOOM's spread is fourteen cents, REED has no reason to move, and VANE is the one you can actually trade."
 
   - type: mc
     prompt: "Your last trade of the day is the one the cap pays for. What does that change?"
@@ -63,7 +63,7 @@ screens:
 
   - type: chart-decision
     scenario: "VANE is holding above the $16.78 shelf and the minute that just closed is the highest of the last twenty at $16.90. You are past the time you wrote down for new trades."
-    shares: 1400
+    shares: 1300
     chart:
       kind: candles
       data: [[16.84, 16.88, 16.78, 16.80], [16.80, 16.86, 16.78, 16.84], [16.84, 16.88, 16.80, 16.82], [16.82, 16.86, 16.78, 16.84], [16.84, 16.88, 16.82, 16.86], [16.86, 16.94, 16.84, 16.90], [16.90, 17.00, 16.88, 16.98], [16.98, 17.06, 16.94, 17.02], [17.02, 17.08, 16.98, 17.04], [17.04, 17.08, 16.98, 17.00]]
@@ -73,7 +73,7 @@ screens:
       decision_index: 5
     state: ["Trades: 4 of 6", "Past the new-trade time"]
     best: no-trade
-    outcome: "It carried to $17.08. Fourteen cents on 1,400 shares is $196 the cap cost you, and the trade cap still had two left in it."
+    outcome: "It carried to $17.08. Fourteen cents on 1,300 shares is $182 the cap cost you, and the trade cap still had two left in it."
     explanation: "Two caps were fine and the third one was not. Any of the three ending the session ends it — that is what makes them worth writing."
 
   - type: numeric-input
@@ -85,7 +85,7 @@ screens:
     explanation: "Less than one and a half stops left, which is worth knowing before the next share size is chosen rather than after."
 
   - type: scanner-pick
-    prompt: "Two trades left and the same 1,400 shares. Which of these belongs on the page?"
+    prompt: "Two trades left and the same 1,300 shares. Which of these belongs on the page?"
     data:
       rows:
         - {ticker: SAGE, price: 22.40, change_pct: 4.8, rvol: 4.1, float: "18M", spread: 0.03, catalyst: "Upgrade"}
@@ -93,11 +93,11 @@ screens:
         - {ticker: PLUM, price: 9.80, change_pct: 11.2, rvol: 8.6, float: "4M", spread: 0.09, catalyst: "Share offering"}
         - {ticker: ONYX, price: 14.60, change_pct: 0.6, rvol: 1.1, float: "160M", spread: 0.02, catalyst: "—"}
     target: WREN
-    explanation: "1,400 shares of SAGE is $31,360, past what the account holds. PLUM has the biggest move, a four-million float and a nine-cent spread to pay twice. WREN is in play, liquid and affordable."
+    explanation: "1,300 shares of SAGE is $29,120, past what the account holds. PLUM has the biggest move, a four-million float and a nine-cent spread to pay twice. WREN is in play, liquid and affordable."
 
   - type: chart-decision
     scenario: "WREN has failed at $16.54 three times and the minute that just closed finished under the $16.44 shelf at $16.40. A stop above the ceiling is sixteen cents away. Your account is $24,000."
-    shares: 1400
+    shares: 1300
     chart:
       kind: candles
       data: [[16.52, 16.54, 16.44, 16.46], [16.46, 16.52, 16.44, 16.50], [16.50, 16.54, 16.46, 16.48], [16.48, 16.52, 16.44, 16.46], [16.46, 16.50, 16.42, 16.44], [16.44, 16.46, 16.36, 16.40], [16.40, 16.42, 16.28, 16.30], [16.30, 16.34, 16.20, 16.22], [16.22, 16.26, 16.12, 16.16], [16.16, 16.20, 16.08, 16.10]]
@@ -109,7 +109,7 @@ screens:
     state: ["Day: +1R", "Trades: 3 of 6"]
     best: short
     reasonable: [no-trade]
-    outcome: "It worked down to $16.08 and the cover filled at $16.14 — 26 cents a share, +$364 on 1,400 shares against $224 of risk."
+    outcome: "It worked down to $16.08 and the cover filled at $16.14 — 26 cents a share, +$338 on 1,300 shares against $208 of risk."
     explanation: "Inside every cap, on a name the page already carried. The limits are not there to stop this trade; they are there so this trade is the fourth and not the fourteenth."
 
   - type: fill-choice

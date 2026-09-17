@@ -13,7 +13,7 @@ prerequisite: "9-2"
 xp: 20
 difficulty: 3
 sources: ["Douglas — Trading in the Zone", "Steenbarger — Trading Psychology 2.0"]
-notes: "Account named at $19,000 with 1R at $150; worked positions are 1,150 shares at $16.40 and 1,100 at $16.60."
+notes: "Account named at $19,000 with 1R at $150; worked positions are 1,000 shares at $16.54 and 1,000 at $16.60."
 screens:
   - type: intro
     text: "Every limit is easy to keep until the morning it costs you something."
@@ -53,7 +53,7 @@ screens:
 
   - type: branch
     scenario: "You are down 2.5R with a 3R limit and two trades left on the cap. 1R is $150 and your account is $19,000."
-    shares: 1100
+    shares: 1000
     chart:
       kind: candles
       data: [[16.52, 16.56, 16.44, 16.46], [16.46, 16.54, 16.44, 16.52], [16.52, 16.56, 16.46, 16.48], [16.48, 16.54, 16.44, 16.46], [16.46, 16.52, 16.44, 16.50], [16.50, 16.58, 16.48, 16.54], [16.54, 16.56, 16.40, 16.42], [16.42, 16.46, 16.34, 16.36], [16.36, 16.44, 16.32, 16.40]]
@@ -73,7 +73,7 @@ screens:
 
   - type: chart-decision
     scenario: "You are at your 3R loss limit for the day. BRIG has held $16.48 four times and the minute that just closed finished at $16.60, above the highs behind it."
-    shares: 1100
+    shares: 1000
     chart:
       kind: candles
       data: [[16.54, 16.58, 16.48, 16.50], [16.50, 16.56, 16.48, 16.54], [16.54, 16.58, 16.50, 16.52], [16.52, 16.56, 16.48, 16.50], [16.50, 16.58, 16.48, 16.56], [16.56, 16.64, 16.54, 16.60], [16.60, 16.72, 16.58, 16.70], [16.70, 16.82, 16.66, 16.78], [16.78, 16.88, 16.74, 16.84], [16.84, 16.88, 16.78, 16.82]]
@@ -83,7 +83,7 @@ screens:
       decision_index: 5
     state: ["Day: −3R", "Limit: 3R"]
     best: no-trade
-    outcome: "It ran to $16.88. Twenty-two cents on 1,100 shares is $242 the limit cost you, and the account is still the size it was this morning."
+    outcome: "It ran to $16.88. Twenty-two cents on 1,000 shares is $220 the limit cost you, and the account is still the size it was this morning."
     explanation: "The chart is good and the answer is still no. A limit that only holds on the bad charts has never actually been tested."
 
   - type: numeric-input

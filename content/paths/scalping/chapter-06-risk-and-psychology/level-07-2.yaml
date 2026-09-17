@@ -13,10 +13,10 @@ prerequisite: "7-1"
 xp: 20
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
-notes: "Account named at $26,000 with a $260 risk budget; worked positions are 1,500 shares at $17.20 and 1,450 at $17.60."
+notes: "Account named at $26,000 with a $260 risk budget; worked positions are 1,400 shares at $17.20 and 1,300 at $17.60."
 screens:
   - type: intro
-    text: "A method that makes $33 a trade on paper and $3 a trade at the broker. Both numbers are real."
+    text: "A method that makes $33 a trade on paper and $5 a trade at the broker. Both numbers are real."
 
   - type: story
     character: retail-trader
@@ -35,25 +35,25 @@ screens:
     explanation: "Thirty-three dollars a trade, from numbers that have never met a broker."
 
   - type: numeric-input
-    prompt: "All in, the round trip costs two cents a share on 1,500 shares. Rerun it: net win $120, net loss $140, same 55 %."
-    answer: 3
+    prompt: "All in, the round trip costs two cents a share on 1,400 shares. Rerun it: net win $122, net loss $138, same 55 %."
+    answer: 5
     tolerance: 0.01
     unit: "$"
-    working: "(0.55 × $120) − (0.45 × $140) = $66 − $63 = $3"
+    working: "(0.55 × $122) − (0.45 × $138) = $67.10 − $62.10 = $5"
     explanation: "The same method, the same trades, and nine tenths of the edge belongs to somebody else."
 
   - type: theory
     title: "One subtraction, not two"
-    body: "Because the round trip is paid on every trade, net expectancy is just the gross number minus one round trip. $33 − $30 = $3, and you never have to rebuild both averages."
+    body: "Because the round trip is paid on every trade, net expectancy is just the gross number minus one round trip. $33 − $28 = $5, and you never have to rebuild both averages."
 
   - type: numeric-mc
-    prompt: "Gross expectancy is $46 a trade and the all-in cost runs $0.018 a share on 1,500 shares. Net?"
+    prompt: "Gross expectancy is $46 a trade and the all-in cost runs $0.015 a share on 1,400 shares. Net?"
     options:
       - {text: "$46"}
-      - {text: "$27"}
-      - {text: "$19", correct: true}
-      - {text: "−$19"}
-    working: "$0.018 × 1,500 shares = $27; $46 − $27 = $19"
+      - {text: "$21"}
+      - {text: "$25", correct: true}
+      - {text: "−$25"}
+    working: "$0.015 × 1,400 shares = $21; $46 − $21 = $25"
     explanation: "One subtraction. The size sets what the cost is worth in dollars, which is why the same cents hurt a big position more."
 
   - type: tf
@@ -70,26 +70,26 @@ screens:
     explanation: "A flat fee does not care how much stock moved. Both of the others are billed by the share and halve with the position."
 
   - type: slider
-    prompt: "That first method: $33 gross, $3 net. What share of the edge did the costs take?"
+    prompt: "That first method: $33 gross, $5 net. What share of the edge did the costs take?"
     min: 0
     max: 100
     step: 5
     unit: "%"
-    answer: 90
+    answer: 85
     tolerance: 10
-    explanation: "Thirty of thirty-three. The trades were fine; there was simply almost nothing left after the round trip."
+    explanation: "Twenty-eight of thirty-three. The trades were fine; there was simply almost nothing left after the round trip."
 
   - type: chart-decision
-    scenario: "GALE is quoted $17.14 by $17.20, and the level above it is at $17.34. Your account is $26,000 and you would take 1,500 shares."
-    shares: 1500
+    scenario: "GALE is quoted $17.14 by $17.20, and the level above it is at $17.34. Your account is $26,000 and you would take 1,400 shares."
+    shares: 1400
     chart:
       kind: candles
       data: [[17.16, 17.24, 17.12, 17.20], [17.20, 17.26, 17.14, 17.16], [17.16, 17.24, 17.12, 17.22], [17.22, 17.26, 17.14, 17.18], [17.18, 17.24, 17.14, 17.16], [17.16, 17.26, 17.14, 17.20], [17.20, 17.28, 17.14, 17.18], [17.18, 17.26, 17.12, 17.22], [17.22, 17.28, 17.16, 17.20], [17.20, 17.26, 17.14, 17.18]]
       volume: [26000, 22000, 18000, 24000, 20000, 28000, 19000, 23000, 21000, 25000]
       decision_index: 5
     best: no-trade
-    outcome: "It spent the next four minutes inside the same fourteen cents. A long at $17.20 out at $17.18 lost $30 on 1,500 shares, and the six-cent spread took $90 more."
-    explanation: "Six cents of spread on 1,500 shares is $90 before anything happens, and the whole move on offer is fourteen. The read was never the problem."
+    outcome: "It spent the next four minutes inside the same fourteen cents. A long at $17.20 out at $17.18 lost $28 on 1,400 shares, and the six-cent spread took $84 more."
+    explanation: "Six cents of spread on 1,400 shares is $84 before anything happens, and the whole move on offer is fourteen. The read was never the problem."
 
   - type: fill-tiles
     sentence: "Net expectancy is the gross number minus the cost of one round ___."
@@ -98,7 +98,7 @@ screens:
 
   - type: chart-decision
     scenario: "SILT has been refused at $17.74 four times since the bell and the minute that just closed is the lowest of the morning at $17.60. The stop goes above the ceiling, fourteen cents away, and the round trip costs two cents a share."
-    shares: 1450
+    shares: 1300
     chart:
       kind: candles
       data: [[17.68, 17.74, 17.62, 17.70], [17.70, 17.74, 17.64, 17.66], [17.66, 17.72, 17.62, 17.70], [17.70, 17.74, 17.64, 17.66], [17.66, 17.70, 17.62, 17.64], [17.64, 17.66, 17.58, 17.60], [17.60, 17.62, 17.48, 17.50], [17.50, 17.54, 17.40, 17.42], [17.42, 17.46, 17.32, 17.36], [17.36, 17.40, 17.28, 17.30]]
@@ -108,7 +108,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked down to $17.28 and the cover filled at $17.38 — 22 cents a share, $319 gross on 1,450 shares and $290 after the round trip."
+    outcome: "It worked down to $17.28 and the cover filled at $17.38 — 22 cents a share, $286 gross on 1,300 shares and $260 after the round trip."
     explanation: "Twenty-two cents of move against two cents of cost. A trade this size of move survives its costs without being asked twice."
 
   - type: sort
@@ -124,9 +124,9 @@ screens:
   - type: visual
     component: bar-chart
     data:
-      bars: [{label: "Gross edge", value: 33}, {label: "Round trip", value: -30}, {label: "What you keep", value: 3}]
+      bars: [{label: "Gross edge", value: 33}, {label: "Round trip", value: -28}, {label: "What you keep", value: 5}]
       unit: "$"
     caption: "The middle bar is the same on a good day and a bad one."
 
   - type: example
-    body: "Two hundred trades at $3 is $600. The same two hundred at $33 is $6,600. Nothing separates those months except a number nobody thought to subtract."
+    body: "Two hundred trades at $5 is $1,000. The same two hundred at $33 is $6,600. Nothing separates those months except a number nobody thought to subtract."

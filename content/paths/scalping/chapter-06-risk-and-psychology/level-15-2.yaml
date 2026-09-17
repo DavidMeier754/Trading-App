@@ -13,7 +13,7 @@ prerequisite: "15-1"
 xp: 20
 difficulty: 2
 sources: ["Bellafiore — One Good Trade", "Steenbarger — Trading Psychology 2.0"]
-notes: "Chapter 5's relative volume and day type return as journal columns. Account named at $17,000 with 1R at $170; worked positions are 1,100 shares at $15.40, 1,000 at $16.40 and 1,200 at $13.60."
+notes: "Chapter 5's relative volume and day type return as journal columns. Account named at $17,000 with 1R at $170; worked positions are 1,000 shares at $15.40, 900 at $16.40 and 1,100 at $13.60."
 screens:
   - type: intro
     text: "Six columns you already have, and two more that decide what the rows are worth. Your account here is $17,000."
@@ -38,13 +38,13 @@ screens:
 
   - type: journal-row
     prompt: "Fill the row for the trade you just closed."
-    trade: {setup: "Base reclaim", entry: 16.40, stop: 16.26, exit: 16.68, shares: 1000}
+    trade: {setup: "Base reclaim", entry: 16.40, stop: 16.26, exit: 16.68, shares: 900}
     slots: [r_risked, r_made, grade]
     chips:
-      r_risked: ["$140", "$170", "$280"]
+      r_risked: ["$126", "$170", "$252"]
       r_made: ["+1R", "+2R", "+3R"]
       grade: ["A", "B", "C"]
-    answer: {r_risked: "$140", r_made: "+2R", grade: "A"}
+    answer: {r_risked: "$126", r_made: "+2R", grade: "A"}
     explanation: "Fourteen cents risked and twenty-eight made on a setup that was on the page before the open: two units and an A."
 
   - type: mc
@@ -71,8 +71,8 @@ screens:
     explanation: "Different share counts and different stops. R is what makes a Tuesday at 600 shares comparable with a Thursday at 1,500."
 
   - type: chart-decision
-    scenario: "TERN is on your page at four times its own normal volume on an earnings morning. It has held $15.28 three times and the minute that just closed finished at $15.40, above the highs behind it. Stop three cents under the base, 1,100 shares."
-    shares: 1100
+    scenario: "TERN is on your page at four times its own normal volume on an earnings morning. It has held $15.28 three times and the minute that just closed finished at $15.40, above the highs behind it. Stop three cents under the base, 1,000 shares."
+    shares: 1000
     chart:
       kind: candles
       data: [[15.36, 15.40, 15.28, 15.32], [15.32, 15.38, 15.28, 15.36], [15.36, 15.40, 15.30, 15.34], [15.34, 15.38, 15.28, 15.32], [15.32, 15.40, 15.30, 15.38], [15.38, 15.44, 15.34, 15.40], [15.40, 15.52, 15.38, 15.50], [15.50, 15.62, 15.46, 15.58], [15.58, 15.70, 15.54, 15.66], [15.66, 15.72, 15.60, 15.64]]
@@ -82,26 +82,26 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $15.72 and the exit filled at $15.65 — 25 cents a share, $275 on 1,100 shares against $165 of risk. The row: base reclaim, 4.2x, trend, +1.7R, grade A."
+    outcome: "It ran to $15.72 and the exit filled at $15.65 — 25 cents a share, $250 on 1,000 shares against $150 of risk. The row: base reclaim, 4.2x, trend, +1.7R, grade A."
     explanation: "Fifteen cents of risk under a base that has held three times, in a name that was chosen before the bell. Nine columns, and every one of them was knowable at the moment you clicked."
 
   - type: numeric-input
-    prompt: "That row again: 1,100 shares, entry $15.40, stop $15.25. What goes in the R risked column?"
-    answer: 165
+    prompt: "That row again: 1,000 shares, entry $15.40, stop $15.25. What goes in the R risked column?"
+    answer: 150
     tolerance: 0.01
     unit: "$"
-    working: "$15.40 − $15.25 = $0.15; $0.15 × 1,100 shares = $165"
+    working: "$15.40 − $15.25 = $0.15; $0.15 × 1,000 shares = $150"
     explanation: "The dollar column is private to your account. The R column beside it is the one you can hold against anybody's."
 
   - type: journal-row
     prompt: "Now the next trade, which stopped out. Fill its row."
-    trade: {setup: "Base reclaim", entry: 13.60, stop: 13.46, exit: 13.46, shares: 1200}
+    trade: {setup: "Base reclaim", entry: 13.60, stop: 13.46, exit: 13.46, shares: 1100}
     slots: [r_risked, r_made, grade]
     chips:
-      r_risked: ["$168", "$120", "$210"]
+      r_risked: ["$154", "$110", "$210"]
       r_made: ["-1R", "0R", "+1R"]
       grade: ["A", "B", "C"]
-    answer: {r_risked: "$168", r_made: "-1R", grade: "A"}
+    answer: {r_risked: "$154", r_made: "-1R", grade: "A"}
     explanation: "The stop did exactly what it was placed to do. Minus one unit and an A, which is the row that proves the grade is not the result."
 
   - type: fill-choice

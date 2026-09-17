@@ -13,14 +13,14 @@ prerequisite: "6-2"
 xp: 20
 difficulty: 3
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Bellafiore — One Good Trade"]
-notes: "Account named at $25,000 with a $250 risk budget; the worked position is 1,400 shares at $17.16, 14-cent stop, 1R $196."
+notes: "Account named at $25,000 with a $250 risk budget; the worked position is 1,300 shares at $17.16, 14-cent stop, 1R $182."
 screens:
   - type: intro
     text: "Two columns, eight trades. The second column is the one nobody wants to add up."
 
   - type: theory
     title: "Two columns"
-    body: "Add the winners and divide by how many there were. Do the same for the losers. Keep both in R and a 900-share trade sits in the same column as a 1,400-share one."
+    body: "Add the winners and divide by how many there were. Do the same for the losers. Keep both in R and a 900-share trade sits in the same column as a 1,300-share one."
 
   - type: example
     body: "Eight trades, written in R: +1.6, −1.0, +2.0, −1.0, +1.8, −0.8, +2.6, −1.2. Four of each, so the win rate is exactly half."
@@ -57,20 +57,20 @@ screens:
     explanation: "That is what the unit means. Anything much above it is a fault in the exit, not bad luck in the entry."
 
   - type: depth-ladder
-    prompt: "Your stop on 1,400 shares of JUTE triggers at $17.02 into this book. Where does the last of them fill?"
+    prompt: "Your stop on 1,300 shares of JUTE triggers at $17.02 into this book. Where does the last of them fill?"
     data:
       bids: [[17.01, 400], [16.98, 500], [16.94, 1600]]
       asks: [[17.05, 700], [17.08, 900], [17.12, 1500]]
     target: bid-3
-    explanation: "Four hundred at the top, five hundred more three cents under, and the last five hundred eight cents below the trigger. Chapter 3 called that the difference between a guaranteed exit and a guaranteed price."
+    explanation: "Four hundred at the top, five hundred more three cents under, and the last four hundred eight cents below the trigger. Chapter 3 called that the difference between a guaranteed exit and a guaranteed price."
 
   - type: numeric-input
-    prompt: "You were long 1,400 from $17.16. Those fills average out at $16.97. What did the loss actually cost?"
-    answer: 260
+    prompt: "You were long 1,300 from $17.16. Those fills average out at $16.98. What did the loss actually cost?"
+    answer: 238
     tolerance: 1
     unit: "$"
-    working: "(400 × $17.01) + (500 × $16.98) + (500 × $16.94) = $23,764; $24,024 − $23,764 = $260"
-    explanation: "A planned 1R of $196 arrived as $260. That is 1.33R, and it lands in the average loss column for good."
+    working: "(400 × $17.01) + (500 × $16.98) + (400 × $16.94) = $22,070; $22,308 − $22,070 = $238"
+    explanation: "A planned 1R of $182 arrived as $238. That is 1.31R, and it lands in the average loss column for good."
 
   - type: mc
     prompt: "Fifty trades in, your average loss reads 1.4R. What are you looking for?"
@@ -82,17 +82,17 @@ screens:
 
   - type: journal-row
     prompt: "The same JUTE trade, but this one worked. Fill in what it risked and what it returned."
-    trade: {setup: "Reclaim of the morning floor", entry: 17.16, stop: 17.02, exit: 17.44, shares: 1400}
+    trade: {setup: "Reclaim of the morning floor", entry: 17.16, stop: 17.02, exit: 17.44, shares: 1300}
     slots: [r_risked, r_made]
     chips:
-      r_risked: ["$140", "$196", "$280"]
+      r_risked: ["$130", "$182", "$260"]
       r_made: ["+1R", "+2R", "+3R"]
-    answer: {r_risked: "$196", r_made: "+2R"}
-    explanation: "Fourteen cents on 1,400 shares is $196 of risk, and the twenty-eight cents it ran is exactly twice that."
+    answer: {r_risked: "$182", r_made: "+2R"}
+    explanation: "Fourteen cents on 1,300 shares is $182 of risk, and the twenty-eight cents it ran is exactly twice that."
 
   - type: chart-decision
     scenario: "JUTE has held $17.02 four times since the bell and the minute that just closed finished at $17.16, through the highs behind it. The stop goes under the floor. Your account is $25,000."
-    shares: 1400
+    shares: 1300
     chart:
       kind: candles
       data: [[17.10, 17.14, 17.02, 17.04], [17.04, 17.12, 17.02, 17.10], [17.10, 17.14, 17.04, 17.06], [17.06, 17.12, 17.02, 17.08], [17.08, 17.14, 17.06, 17.12], [17.12, 17.20, 17.10, 17.16], [17.16, 17.28, 17.14, 17.26], [17.26, 17.36, 17.22, 17.34], [17.34, 17.48, 17.30, 17.44], [17.44, 17.50, 17.38, 17.42]]
@@ -102,7 +102,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $17.50 and the exit filled at $17.44 — 28 cents a share, +$392 on 1,400 shares against $196 of risk."
+    outcome: "It reached $17.50 and the exit filled at $17.44 — 28 cents a share, +$364 on 1,300 shares against $182 of risk."
     explanation: "The winner is twice the unit and the loser was meant to be one. Those are the two numbers the whole record is built from."
 
   - type: spot-mistake
@@ -122,6 +122,6 @@ screens:
   - type: visual
     component: bar-chart
     data:
-      bars: [{label: "Average win", value: 2.0}, {label: "Average loss as planned", value: -1.0}, {label: "Average loss as filled", value: -1.33}]
+      bars: [{label: "Average win", value: 2.0}, {label: "Average loss as planned", value: -1.0}, {label: "Average loss as filled", value: -1.31}]
       unit: "R"
     caption: "The third bar is the one that decides whether the first two were worth the morning."

@@ -13,7 +13,7 @@ prerequisite: "6-3"
 xp: 20
 difficulty: 3
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Douglas — Trading in the Zone"]
-notes: "Account named at $18,000 with a $180 risk budget; worked positions are 1,100 shares at $16.20 and 1,050 at $16.80."
+notes: "Account named at $18,000 with a $180 risk budget; worked positions are 1,000 shares at $16.20 and 900 at $16.80."
 screens:
   - type: intro
     text: "Wrong six times out of ten, and the month is green. This is how that works."
@@ -82,25 +82,25 @@ screens:
 
   - type: numeric-input
     prompt: "Chapter 3's ceilings again: an $18,000 account, $180 of risk a trade, a twelve-cent stop on a $16.20 stock. How many shares?"
-    answer: 1111
+    answer: 1055
     tolerance: 12
     unit: "shares"
-    working: "$180 ÷ $0.12 = 1,500 shares; $18,000 ÷ $16.20 = 1,111 shares"
-    explanation: "The account binds first, so the position rounds down to 1,100 rather than the 1,500 the budget offered."
+    working: "$180 ÷ $0.12 = 1,500 shares; 95 % of $18,000 is $17,100, and $17,100 ÷ $16.20 = 1,055 shares"
+    explanation: "The cash binds first, so the position rounds down to 1,000 rather than the 1,500 the budget offered."
 
   - type: numeric-mc
-    prompt: "On those 1,100 shares with the twelve-cent stop, what is 1R?"
+    prompt: "On those 1,000 shares with the twelve-cent stop, what is 1R?"
     options:
       - {text: "$180"}
-      - {text: "$220"}
-      - {text: "$132", correct: true}
-      - {text: "$165"}
-    working: "1,100 shares × $0.12 = $132"
-    explanation: "Every R-multiple in this file is built on $132, not on the budget you wrote down before you saw the price."
+      - {text: "$150"}
+      - {text: "$120", correct: true}
+      - {text: "$132"}
+    working: "1,000 shares × $0.12 = $120"
+    explanation: "Every R-multiple in this file is built on $120, not on the budget you wrote down before you saw the price."
 
   - type: chart-decision
     scenario: "RAMP has bottomed at $16.08 four times this morning and the minute that just closed finished at $16.20, above the highs behind it. The stop goes under the floor, twelve cents away. Your account is $18,000."
-    shares: 1100
+    shares: 1000
     chart:
       kind: candles
       data: [[16.14, 16.18, 16.08, 16.10], [16.10, 16.16, 16.08, 16.14], [16.14, 16.18, 16.10, 16.12], [16.12, 16.16, 16.08, 16.10], [16.10, 16.16, 16.08, 16.14], [16.14, 16.24, 16.12, 16.20], [16.20, 16.32, 16.18, 16.30], [16.30, 16.42, 16.26, 16.40], [16.40, 16.56, 16.36, 16.52], [16.52, 16.58, 16.46, 16.50]]
@@ -110,7 +110,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $16.58 and the exit filled at $16.56 — 36 cents a share, +$396 on 1,100 shares against $132 of risk."
+    outcome: "It ran to $16.58 and the exit filled at $16.56 — 36 cents a share, +$360 on 1,000 shares against $120 of risk."
     explanation: "Three units from one trade. A method that produces this shape can be wrong twice for every time it is right and still add up."
 
   - type: fill-choice
@@ -121,7 +121,7 @@ screens:
 
   - type: chart-decision
     scenario: "TARN has failed at $16.94 three times since the bell and the minute that just closed is the lowest of the morning at $16.80. A stop above the ceiling is fourteen cents away."
-    shares: 1050
+    shares: 900
     chart:
       kind: candles
       data: [[16.86, 16.94, 16.84, 16.92], [16.92, 16.94, 16.86, 16.88], [16.88, 16.94, 16.84, 16.86], [16.86, 16.90, 16.82, 16.88], [16.88, 16.90, 16.82, 16.84], [16.84, 16.86, 16.78, 16.80], [16.80, 16.82, 16.68, 16.70], [16.70, 16.74, 16.58, 16.60], [16.60, 16.64, 16.50, 16.54], [16.54, 16.58, 16.44, 16.48]]
@@ -131,7 +131,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It slid to $16.44 and the cover filled at $16.50 — 30 cents a share, +$315 on 1,050 shares against $147 of risk."
+    outcome: "It slid to $16.44 and the cover filled at $16.50 — 30 cents a share, +$270 on 900 shares against $126 of risk."
     explanation: "Just over two units. Two of these a week cover four full stops and still leave the month green."
 
   - type: recap

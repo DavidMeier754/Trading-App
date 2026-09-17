@@ -13,7 +13,7 @@ prerequisite: "4-2"
 xp: 50
 difficulty: 2
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Elder — Trading for a Living"]
-notes: "10 scored questions. Hearts apply. Pass mark 70 %. Questions 3, 6 and 7 reach back into Chapter 3. Account named at $22,000 with 1R at $220; worked positions are 1,350 shares at $15.60, 1,100 at $19.40 and 1,200 at $16.90."
+notes: "10 scored questions. Hearts apply. Pass mark 70 %. Questions 3, 6 and 7 reach back into Chapter 3. Account named at $22,000 with a $220 budget; worked positions are 1,300 shares at $15.60, 1,000 at $19.40 and 1,200 at $16.90."
 screens:
   - type: intro
     text: "Checkpoint: Levels 1 to 4. Ten questions. Your account is $22,000 and you risk $220 a trade."
@@ -29,7 +29,7 @@ screens:
 
   - type: chart-decision
     scenario: "MERL has turned at $15.46 three times in the last six minutes and the minute that just closed finished at $15.60, above the highs behind it. A stop under $15.46 is sixteen cents away."
-    shares: 1350
+    shares: 1300
     chart:
       kind: candles
       data: [[15.54, 15.60, 15.46, 15.50], [15.50, 15.56, 15.46, 15.54], [15.54, 15.58, 15.48, 15.50], [15.50, 15.56, 15.48, 15.54], [15.54, 15.58, 15.50, 15.56], [15.56, 15.64, 15.54, 15.60], [15.60, 15.72, 15.58, 15.70], [15.70, 15.80, 15.66, 15.78], [15.78, 15.86, 15.74, 15.82], [15.82, 15.86, 15.76, 15.80]]
@@ -39,16 +39,16 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $15.86 and the exit filled at $15.82 — 22 cents a share, +$297 on 1,350 shares against $216 of risk."
-    explanation: "A floor that has held three times, a close through the highs above it, and a share count that makes sixteen cents cost $216 rather than $300."
+    outcome: "It reached $15.86 and the exit filled at $15.82 — 22 cents a share, +$286 on 1,300 shares against $208 of risk."
+    explanation: "A floor that has held three times, a close through the highs above it, and a share count that makes sixteen cents cost $208 rather than $300."
 
   - type: numeric-input
     prompt: "A $28 name with a ten-cent stop. How many shares does your account and your budget allow?"
-    answer: 785
+    answer: 746
     tolerance: 5
     unit: "shares"
-    working: "$220 ÷ $0.10 = 2,200 shares; $22,000 ÷ $28 = 785 shares"
-    explanation: "The budget would happily take 2,200. The account can pay for 785, and the smaller ceiling is the one that counts."
+    working: "$220 ÷ $0.10 = 2,200 shares; 95 % of $22,000 is $20,900, and $20,900 ÷ $28 = 746 shares"
+    explanation: "The budget would happily take 2,200. The cash can pay for 746, and the smaller ceiling is the one that counts."
 
   - type: tf
     statement: "A trade closed because nothing happened is a worse outcome than the same trade closed at its stop."
@@ -66,15 +66,15 @@ screens:
     explanation: "Two cents under the second higher low at $13.40. The first low at $13.24 stopped mattering the moment the second one formed."
 
   - type: order-build
-    prompt: "You are long 1,350 shares of MERL from $15.60 and the floor is $15.46. Build the resting order that ends the trade."
+    prompt: "You are long 1,300 shares of MERL from $15.60 and the floor is $15.46. Build the resting order that ends the trade."
     ticker: MERL
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [675, 1350, 2000]
+      qty: [650, 1300, 2000]
       price: [15.44, 15.60, 15.76]
-    answer: {side: sell, type: stop, qty: 1350, price: 15.44}
+    answer: {side: sell, type: stop, qty: 1300, price: 15.44}
     explanation: "A sell stop for the whole position, two cents under the floor. Until it is resting at the broker it is a number you are hoping to remember."
 
   - type: depth-ladder
@@ -87,13 +87,13 @@ screens:
 
   - type: journal-row
     prompt: "One finished trade from this morning. Fill in what it risked and what it returned."
-    trade: {setup: "Rejection at the morning high", entry: 19.40, stop: 19.60, exit: 19.00, shares: 1100}
+    trade: {setup: "Rejection at the morning high", entry: 19.40, stop: 19.60, exit: 19.00, shares: 1000}
     slots: [r_risked, r_made]
     chips:
-      r_risked: ["$110", "$220", "$440"]
+      r_risked: ["$100", "$200", "$400"]
       r_made: ["+1R", "+2R", "+3R"]
-    answer: {r_risked: "$220", r_made: "+2R"}
-    explanation: "The stop sits above the entry, so this one was a short: twenty cents of risk on 1,100 shares is $220, and the forty cents it covered for is twice that."
+    answer: {r_risked: "$200", r_made: "+2R"}
+    explanation: "The stop sits above the entry, so this one was a short: twenty cents of risk on 1,000 shares is $200, and the forty cents it covered for is twice that."
 
   - type: chart-decision
     scenario: "BRAN has been stopped at $17.00 twice this morning and has just closed a minute at $16.90. The floor underneath is $16.72."

@@ -13,7 +13,7 @@ prerequisite: "7-2"
 xp: 20
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
-notes: "Account named at $21,000; the worked position is 1,200 shares at $17.40. Fee schedule half a cent a share on each leg."
+notes: "Account named at $21,000; the worked position is 1,100 shares at $17.40. Fee schedule half a cent a share on each leg."
 screens:
   - type: intro
     text: "Thirty trades made $90 yesterday. Twelve of them would have made $360."
@@ -46,14 +46,14 @@ screens:
     body: "The round trip costs the same whether the setup was your best of the week or a way of filling ten quiet minutes. Only one of those has enough move in it to pay for it."
 
   - type: numeric-mc
-    prompt: "The fee is half a cent a share on each leg, and you trade 1,200 shares. What do those eighteen skipped round trips save?"
+    prompt: "The fee is half a cent a share on each leg, and you trade 1,100 shares. What do those eighteen skipped round trips save?"
     options:
-      - {text: "$108"}
-      - {text: "$216", correct: true}
-      - {text: "$432"}
-      - {text: "$54"}
-    working: "1,200 shares × $0.005 × 2 legs = $12 a round trip; 18 × $12 = $216"
-    explanation: "Two hundred and sixteen dollars of fees that never had to be earned back before the day started."
+      - {text: "$99"}
+      - {text: "$198", correct: true}
+      - {text: "$396"}
+      - {text: "$11"}
+    working: "1,100 shares × $0.005 × 2 legs = $11 a round trip; 18 × $11 = $198"
+    explanation: "A hundred and ninety-eight dollars of fees that never had to be earned back before the day started."
 
   - type: tf
     statement: "The way to make more from a method that pays is to take more trades."
@@ -61,12 +61,12 @@ screens:
     explanation: "The extra trades are the ones you were already skipping, and they are the ones the costs eat first."
 
   - type: numeric-input
-    prompt: "Chapter 3 asked for the monthly number. That $216 a day, over twenty trading days?"
-    answer: 4320
+    prompt: "Chapter 3 asked for the monthly number. That $198 a day, over twenty trading days?"
+    answer: 3960
     tolerance: 0.01
     unit: "$"
-    working: "$216 × 20 days = $4,320"
-    explanation: "Four thousand dollars a month in fees alone, paid for the privilege of taking the worst eighteen setups on the list."
+    working: "$198 × 20 days = $3,960"
+    explanation: "Nearly four thousand dollars a month in fees alone, paid for the privilege of taking the worst eighteen setups on the list."
 
   - type: swipe-deck
     prompt: "Five mornings. Is there enough move here to pay for a round trip, or not?"
@@ -100,7 +100,7 @@ screens:
 
   - type: chart-decision
     scenario: "DOVE has held $17.28 four times this morning and the minute that just closed finished at $17.40, above the highs behind it. The nearest level overhead is thirty-five cents higher. Your account is $21,000."
-    shares: 1200
+    shares: 1100
     chart:
       kind: candles
       data: [[17.34, 17.38, 17.28, 17.30], [17.30, 17.36, 17.28, 17.34], [17.34, 17.38, 17.30, 17.32], [17.32, 17.36, 17.28, 17.30], [17.30, 17.38, 17.30, 17.36], [17.36, 17.44, 17.34, 17.40], [17.40, 17.54, 17.38, 17.52], [17.52, 17.66, 17.48, 17.62], [17.62, 17.76, 17.58, 17.72], [17.72, 17.78, 17.66, 17.70]]
@@ -110,8 +110,8 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $17.78 and the exit filled at $17.72 — 32 cents a share, $384 on 1,200 shares and $372 after the $12 round trip."
-    explanation: "Twelve cents of risk, thirty of room and a bill of twelve dollars. One of these is worth eighteen of the trades that were taken to fill the time."
+    outcome: "It reached $17.78 and the exit filled at $17.72 — 32 cents a share, $352 on 1,100 shares and $341 after the $11 round trip."
+    explanation: "Twelve cents of risk, thirty of room and a bill of eleven dollars. One of these is worth eighteen of the trades that were taken to fill the time."
 
   - type: fill-choice
     sentence: "Trade count multiplies the average; it cannot ___ one."

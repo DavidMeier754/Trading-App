@@ -13,7 +13,7 @@ prerequisite: "3-2"
 xp: 20
 difficulty: 2
 sources: ["Volman — Understanding Price Action", "Raschke & Connors — Street Smarts"]
-notes: "Account named at $18,000 with 1R at $165; worked positions are 1,100 shares at $16.10 and 1,150 at $12.80."
+notes: "Account named at $18,000; worked positions are 1,000 shares at $16.10 risking $150, and 1,150 at $12.80 risking $161."
 screens:
   - type: intro
     text: "A target decides in advance where the move ends. There is another way to ask."
@@ -23,7 +23,7 @@ screens:
     body: "A stop you move up behind a working trade, hiding it under each new higher low the move makes. It only ever travels toward the trade, never away from it."
 
   - type: example
-    body: "Long 1,100 shares of WOLD at $16.10, stop $15.95, so 1R is $165. It makes a low at $16.18 and the stop goes to $16.16. It makes another at $16.34 and the stop goes to $16.32."
+    body: "Long 1,000 shares of WOLD at $16.10, stop $15.95, so 1R is $150. It makes a low at $16.18 and the stop goes to $16.16. It makes another at $16.34 and the stop goes to $16.32."
     visual: chart-candles
     visual_data:
       data: [[16.02, 16.12, 15.98, 16.10], [16.10, 16.26, 16.08, 16.24], [16.24, 16.28, 16.18, 16.22], [16.22, 16.40, 16.20, 16.38], [16.38, 16.44, 16.34, 16.40], [16.40, 16.52, 16.38, 16.50], [16.50, 16.52, 16.40, 16.42], [16.42, 16.46, 16.30, 16.32]]
@@ -40,21 +40,21 @@ screens:
     explanation: "Two cents under the second low. Each leg hands the stop a new place to hide, and the old place is never coming back."
 
   - type: numeric-input
-    prompt: "That stop at $16.32 takes you out. Long 1,100 shares from $16.10 — what did the trade make?"
-    answer: 242
+    prompt: "That stop at $16.32 takes you out. Long 1,000 shares from $16.10 — what did the trade make?"
+    answer: 220
     tolerance: 0.01
     unit: "$"
-    working: "$16.32 − $16.10 = $0.22; $0.22 × 1,100 shares = $242"
+    working: "$16.32 − $16.10 = $0.22; $0.22 × 1,000 shares = $220"
     explanation: "About one and a half units, from a trade nobody had to predict the end of."
 
   - type: numeric-mc
     prompt: "The move topped at $16.52. What did the trail hand back against selling that high?"
     options:
-      - {text: "$242"}
-      - {text: "$462"}
-      - {text: "$220", correct: true}
+      - {text: "$220"}
+      - {text: "$420"}
+      - {text: "$200", correct: true}
       - {text: "$20"}
-    working: "$16.52 − $16.32 = $0.20; $0.20 × 1,100 shares = $220"
+    working: "$16.52 − $16.32 = $0.20; $0.20 × 1,000 shares = $200"
     explanation: "Twenty cents a share, which is the last leg. A trail always pays for it, and selling the high was never on offer in advance."
 
   - type: theory
@@ -100,7 +100,7 @@ screens:
     explanation: "The one before it came down to $16.40 and held. This one traded through $16.32, and the order did the rest."
 
   - type: chart-decision
-    scenario: "THAW has made lower highs since the bell and the minute that just closed finished under the $12.82 floor at $12.80. Your account is $18,000, 1R is $165, and a stop at $12.94 is fourteen cents away."
+    scenario: "THAW has made lower highs since the bell and the minute that just closed finished under the $12.82 floor at $12.80. Your account is $18,000, you are trading 1,150 shares, and a stop at $12.94 is fourteen cents away."
     shares: 1150
     chart:
       kind: candles
@@ -131,7 +131,7 @@ screens:
   - type: visual
     component: bar-chart
     data:
-      bars: [{label: "Stopped at entry", value: 0}, {label: "Trailed out", value: 242}, {label: "Sold the high", value: 462}]
+      bars: [{label: "Stopped at entry", value: 0}, {label: "Trailed out", value: 220}, {label: "Sold the high", value: 420}]
       unit: "$"
     caption: "Three ways the same WOLD trade could have ended. Only the middle one needed no guessing."
 

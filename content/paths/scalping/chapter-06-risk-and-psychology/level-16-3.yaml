@@ -13,7 +13,7 @@ prerequisite: "16-2"
 xp: 20
 difficulty: 3
 sources: ["Steenbarger — The Daily Trading Coach", "Elder — Trading for a Living"]
-notes: "Closes Level 16 with the recap. Account named at $21,000 with 1R at $210; the worked position is 1,200 shares at $17.16 = $20,592."
+notes: "Closes Level 16 with the recap. Account named at $21,000 with 1R at $210; the worked position is 1,100 shares at $17.16 = $18,876."
 screens:
   - type: intro
     text: "Friday's rows have an answer in them. Getting it onto Monday's page is a separate skill. Your account here is $21,000."
@@ -81,8 +81,8 @@ screens:
     explanation: "Miss any one of them and Friday cannot tell you whether the rule did anything."
 
   - type: chart-decision
-    scenario: "The rule is on the page: names at 3× or better, on a session travelling one way. VANE is at 3.4× and its 5-minute chart has stepped up all morning. It has paused for three lighter minutes. Entry $17.16, stop $17.02, 1,200 shares."
-    shares: 1200
+    scenario: "The rule is on the page: names at 3× or better, on a session travelling one way. VANE is at 3.4× and its 5-minute chart has stepped up all morning. It has paused for three lighter minutes. Entry $17.16, stop $17.02, 1,100 shares."
+    shares: 1100
     chart:
       kind: candles
       data: [[16.94, 17.06, 16.90, 17.04], [17.04, 17.16, 17.00, 17.12], [17.12, 17.16, 17.06, 17.08], [17.08, 17.12, 17.04, 17.06], [17.06, 17.14, 17.04, 17.10], [17.10, 17.20, 17.08, 17.16], [17.16, 17.30, 17.14, 17.28], [17.28, 17.40, 17.24, 17.36], [17.36, 17.52, 17.32, 17.48], [17.48, 17.52, 17.42, 17.46]]
@@ -90,7 +90,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $17.52 and the exit filled at $17.46 — 30 cents a share, +$360 on 1,200 shares against $168 of risk."
+    outcome: "It carried to $17.52 and the exit filled at $17.46 — 30 cents a share, +$330 on 1,100 shares against $154 of risk."
     explanation: "Both halves of the rule answered before the click, and fourteen cents of risk under the pause that asked the question."
 
   - type: fill-tiles

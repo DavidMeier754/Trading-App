@@ -13,7 +13,7 @@ prerequisite: "4-1"
 xp: 25
 difficulty: 3
 sources: ["Volman — Understanding Price Action", "Bellafiore — One Good Trade"]
-notes: "Drill sub-level for the chapter. Account named at $21,000 with 1R at $210; worked positions are 1,300 shares at $15.70, 1,250 at $16.40, 1,200 at $17.30 and 1,150 at $14.20."
+notes: "Drill sub-level for the chapter. Account named at $21,000 with a $210 budget; worked positions are 1,200 shares at $15.70, 1,000 at $16.40, 1,100 at $17.30 and 1,150 at $14.20."
 screens:
   - type: intro
     text: "Almost no words in this one. Your account is $21,000 and you risk $210 a trade."
@@ -55,7 +55,7 @@ screens:
 
   - type: chart-decision
     scenario: "CLEG has turned at $15.56 three times in the last six minutes and the minute that just closed finished at $15.70, above the highs behind it."
-    shares: 1300
+    shares: 1200
     chart:
       kind: candles
       data: [[15.62, 15.68, 15.56, 15.60], [15.60, 15.66, 15.56, 15.64], [15.64, 15.68, 15.58, 15.60], [15.60, 15.66, 15.58, 15.64], [15.64, 15.68, 15.60, 15.66], [15.66, 15.74, 15.64, 15.70], [15.70, 15.82, 15.68, 15.80], [15.80, 15.90, 15.76, 15.88], [15.88, 15.98, 15.84, 15.94], [15.94, 15.98, 15.88, 15.92]]
@@ -65,8 +65,8 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $15.98 and the exit filled at $15.92 — 22 cents a share, +$286 on 1,300 shares against $208 of risk."
-    explanation: "Sixteen cents to a floor that has held three times, which is what makes 1,300 shares the right number rather than a guess."
+    outcome: "It carried to $15.98 and the exit filled at $15.92 — 22 cents a share, +$264 on 1,200 shares against $192 of risk."
+    explanation: "Sixteen cents to a floor that has held three times, and a count the cash can pay for at $15.70 rather than a guess."
 
   - type: chart-annotate
     prompt: "That CLEG long again, taken at $15.70. Drag the line to the stop."
@@ -76,23 +76,23 @@ screens:
     answer: 15.54
     tolerance: 0.04
     label: "Stop"
-    explanation: "Two cents under the floor. Sixteen cents from the entry, which is where the 1,300 came from."
+    explanation: "Two cents under the floor. Sixteen cents from the entry, which is where the 1,200 came from."
 
   - type: chart-decision
     scenario: "LARK has gone from $15.86 to $16.40 without a single pullback, and the minute that just closed is the sixth green one in a row. Your account is $21,000."
-    shares: 1250
+    shares: 1000
     chart:
       kind: candles
       data: [[15.86, 15.98, 15.84, 15.96], [15.96, 16.08, 15.94, 16.06], [16.06, 16.18, 16.04, 16.16], [16.16, 16.26, 16.12, 16.24], [16.24, 16.34, 16.20, 16.32], [16.32, 16.44, 16.30, 16.40], [16.40, 16.44, 16.26, 16.28], [16.28, 16.32, 16.14, 16.18], [16.18, 16.24, 16.08, 16.12], [16.12, 16.18, 16.06, 16.14]]
       volume: [138000, 126000, 112000, 98000, 92000, 104000, 118000, 96000, 84000, 78000]
       decision_index: 5
     best: no-trade
-    outcome: "It turned over at $16.44 and gave back to $16.06 — a long at $16.40 was 34 cents a share down at the worst of it, $425 on 1,250 shares."
+    outcome: "It turned over at $16.44 and gave back to $16.06 — a long at $16.40 was 34 cents a share down at the worst of it, $340 on 1,000 shares."
     explanation: "The direction was right and there was nowhere to be wrong. Fifty-four cents without a pause leaves no level to lean on, and a stop you invent is not a stop."
 
   - type: chart-decision
     scenario: "ZINC has been capped at $17.46 four times since the bell and the minute that just closed finished at $17.30, on the lowest close of the morning."
-    shares: 1200
+    shares: 1100
     chart:
       kind: candles
       data: [[17.20, 17.44, 17.18, 17.40], [17.40, 17.46, 17.34, 17.38], [17.38, 17.46, 17.32, 17.36], [17.36, 17.44, 17.30, 17.34], [17.34, 17.40, 17.28, 17.32], [17.32, 17.36, 17.26, 17.30], [17.30, 17.32, 17.16, 17.18], [17.18, 17.22, 17.06, 17.08], [17.08, 17.14, 16.98, 17.02], [17.02, 17.08, 16.92, 16.96]]
@@ -102,16 +102,16 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked down to $16.92 and covered at $16.94 — 36 cents a share, +$432 on 1,200 shares against $192 of risk."
-    explanation: "A ceiling that has refused it four times is a place to put a stop above, and sixteen cents of risk is why the size stops at 1,200."
+    outcome: "It worked down to $16.92 and covered at $16.94 — 36 cents a share, +$396 on 1,100 shares against $176 of risk."
+    explanation: "A ceiling that has refused it four times is a place to put a stop above, and at $17.30 the cash is what stops the size at 1,100."
 
   - type: numeric-input
-    prompt: "That ZINC short: 1,200 shares at $17.30 with the stop at $17.46. What is 1R?"
-    answer: 192
+    prompt: "That ZINC short: 1,100 shares at $17.30 with the stop at $17.46. What does the trade risk?"
+    answer: 176
     tolerance: 0.01
     unit: "$"
-    working: "$17.46 − $17.30 = $0.16; $0.16 × 1,200 shares = $192"
-    explanation: "Under the $210 budget, because the share count was rounded down rather than the stop pulled in."
+    working: "$17.46 − $17.30 = $0.16; $0.16 × 1,100 shares = $176"
+    explanation: "Under the $210 budget, because the share count was capped by the cash rather than the stop pulled in."
 
   - type: compare
     prompt: "Two shorts at $15.02. Which one has a ceiling close enough to hide a stop above?"

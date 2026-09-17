@@ -13,7 +13,7 @@ prerequisite: "3-3"
 xp: 20
 difficulty: 3
 sources: ["Volman — Forex Price Action Scalping", "Steenbarger — The Daily Trading Coach"]
-notes: "Account named at $18,000; worked positions are 1,200 shares at $14.60 and 1,200 at $14.88."
+notes: "Account named at $18,000; worked positions are 1,100 shares at $14.60 and 1,000 at $14.88."
 screens:
   - type: intro
     text: "Nothing has gone wrong. That is exactly the problem."
@@ -35,8 +35,8 @@ screens:
     explanation: "A dead trade holds a unit of risk and a screen you could be using elsewhere. The stop protects the account; the clock protects the rest of the session."
 
   - type: branch
-    scenario: "You are long 1,200 shares of CRAG from $14.60 with the stop at $14.46. Six minutes have passed and price has not been more than three cents from your entry."
-    shares: 1200
+    scenario: "You are long 1,100 shares of CRAG from $14.60 with the stop at $14.46. Six minutes have passed and price has not been more than three cents from your entry."
+    shares: 1100
     chart:
       kind: candles
       data: [[14.50, 14.62, 14.48, 14.60], [14.60, 14.64, 14.56, 14.58], [14.58, 14.62, 14.56, 14.60], [14.60, 14.62, 14.57, 14.59], [14.59, 14.62, 14.57, 14.61], [14.61, 14.62, 14.58, 14.60], [14.60, 14.62, 14.57, 14.58], [14.58, 14.61, 14.56, 14.60], [14.60, 14.62, 14.57, 14.59]]
@@ -52,19 +52,19 @@ screens:
           - {text: "Close CRAG and go and look at the other one", correct: true}
           - {text: "Wait for CRAG to pay for itself first"}
         explanation: "The cost of a dead trade is never only its stop. It is the risk it is holding and the setup you are not watching."
-      - prompt: "You are out for $24 of costs, and CRAG then breaks out without you. What does that change?"
+      - prompt: "You are out for $22 of costs, and CRAG then breaks out without you. What does that change?"
         options:
           - {text: "Nothing — the exit was right on what you knew", correct: true}
           - {text: "Next time, hold through the quiet patch"}
         explanation: "A rule you judge one trade at a time is not a rule. Quiet minutes lose more often than they pay, and this was one of the times they paid."
 
   - type: numeric-input
-    prompt: "Long 1,200 shares at $14.60 with the stop at $14.46. What was that trade risking while it sat there doing nothing?"
-    answer: 168
+    prompt: "Long 1,100 shares at $14.60 with the stop at $14.46. What was that trade risking while it sat there doing nothing?"
+    answer: 154
     tolerance: 0.01
     unit: "$"
-    working: "$14.60 − $14.46 = $0.14; $0.14 × 1,200 shares = $168"
-    explanation: "A hundred and sixty-eight dollars committed to an idea that had already stopped happening."
+    working: "$14.60 − $14.46 = $0.14; $0.14 × 1,100 shares = $154"
+    explanation: "A hundred and fifty-four dollars committed to an idea that had already stopped happening."
 
   - type: tf
     statement: "A trade that has not moved is costing you nothing, as long as the stop has not been hit."
@@ -83,14 +83,14 @@ screens:
 
   - type: chart-decision
     scenario: "BRIG cleared its morning high four minutes ago. Since then the bars have shrunk to two cents and the volume behind them has fallen to a fifth of what it was. Your account is $18,000."
-    shares: 1200
+    shares: 1000
     chart:
       kind: candles
       data: [[14.60, 14.76, 14.58, 14.74], [14.74, 14.86, 14.72, 14.84], [14.84, 14.90, 14.82, 14.88], [14.88, 14.92, 14.84, 14.86], [14.86, 14.90, 14.84, 14.88], [14.88, 14.90, 14.86, 14.88], [14.88, 14.90, 14.84, 14.86], [14.86, 14.88, 14.82, 14.84], [14.84, 14.88, 14.80, 14.82], [14.82, 14.86, 14.78, 14.80]]
       volume: [148000, 132000, 96000, 62000, 44000, 32000, 30000, 28000, 34000, 30000]
       decision_index: 5
     best: no-trade
-    outcome: "Over the next eight minutes it covered six cents in total and closed at $14.80 — a long at $14.88 would be 8 cents a share down, $96 on 1,200 shares."
+    outcome: "Over the next eight minutes it covered six cents in total and closed at $14.80 — a long at $14.88 would be 8 cents a share down, $80 on 1,000 shares."
     explanation: "The breakout is on the chart; the participation is not. Shrinking bars on draining volume are the same message a time stop gives you, arriving before you are in."
 
   - type: fill-choice

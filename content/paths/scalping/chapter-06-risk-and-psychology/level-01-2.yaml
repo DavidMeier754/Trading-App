@@ -13,7 +13,7 @@ prerequisite: "1-1"
 xp: 20
 difficulty: 1
 sources: ["Elder — Trading for a Living", "Volman — Understanding Price Action"]
-notes: "Account named at $20,000 with a $200 risk budget; worked positions are 1,200 shares at $16.46 and 1,200 at $13.96."
+notes: "Account named at $20,000 with a $200 risk budget; worked positions are 1,100 shares at $16.46 and 1,200 at $13.96."
 screens:
   - type: intro
     text: "Your stop has an address on the chart. It is not a number you like the look of."
@@ -80,11 +80,11 @@ screens:
     prompt: "Your account is $20,000 and you risk $200 a trade. At $16.46 with that fourteen-cent stop, how many shares?"
     options:
       - {text: "1,428"}
-      - {text: "1,200", correct: true}
+      - {text: "1,100", correct: true}
       - {text: "2,000"}
       - {text: "800"}
-    working: "$200 ÷ $0.14 = 1,428 shares; $20,000 ÷ $16.46 = 1,215 shares"
-    explanation: "The budget allows 1,428 and the account can only pay for 1,215, so 1,200 it is."
+    working: "$200 ÷ $0.14 = 1,428 shares; 95 % of $20,000 is $19,000, and $19,000 ÷ $16.46 = 1,154 shares"
+    explanation: "The budget allows 1,428 and the cash can only pay for 1,154, so 1,100 it is."
 
   - type: spot-mistake
     prompt: "Tap the part that is wrong."

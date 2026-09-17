@@ -13,7 +13,7 @@ prerequisite: "18-2"
 xp: 80
 difficulty: 3
 sources: ["Elder — Trading for a Living", "Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
-notes: "14 scored questions on Levels 1–18. Hearts apply. Pass mark 70 %. Questions 5, 6, 7, 10 and 11 reach back into Chapters 3, 4 and 5. Account named at $14,000; worked positions are 1,000 shares at $12.60 and $12.72, and 900 at $15.26."
+notes: "14 scored questions on Levels 1–18. Hearts apply. Pass mark 70 %. Questions 5, 6, 7, 10 and 11 reach back into Chapters 3, 4 and 5. Account named at $14,000; worked positions are 1,000 shares at $12.60 and $12.72, and 800 at $15.26."
 screens:
   - type: intro
     text: "Final exam: Risk & Psychology for Scalpers. Fourteen questions. Your account is $14,000."
@@ -61,8 +61,8 @@ screens:
     explanation: "Nearly three quarters of the edge goes to the spread, the slippage and the fees before you keep anything."
 
   - type: chart-decision
-    scenario: "You are forty minutes past the cut-off you wrote for new trades. HOLM has come back above the session's average price and held there for two minutes. 900 shares."
-    shares: 900
+    scenario: "You are forty minutes past the cut-off you wrote for new trades. HOLM has come back above the session's average price and held there for two minutes. 800 shares."
+    shares: 800
     chart:
       kind: candles
       data: [[15.24, 15.28, 15.14, 15.16], [15.16, 15.22, 15.10, 15.12], [15.12, 15.20, 15.08, 15.18], [15.18, 15.24, 15.14, 15.22], [15.22, 15.26, 15.16, 15.22], [15.22, 15.28, 15.18, 15.26], [15.26, 15.36, 15.24, 15.34], [15.34, 15.44, 15.30, 15.40], [15.40, 15.50, 15.36, 15.48], [15.48, 15.52, 15.44, 15.50]]
@@ -71,7 +71,7 @@ screens:
       decision_index: 5
     state: ["Day: +1R", "New trades: closed"]
     best: no-trade
-    outcome: "It carried to $15.52. Twenty-six cents on 900 shares is $234 the cut-off cost you, and the same cut-off is why the morning's +1R is still there at the close."
+    outcome: "It carried to $15.52. Twenty-six cents on 800 shares is $208 the cut-off cost you, and the same cut-off is why the morning's +1R is still there at the close."
     explanation: "A clean reclaim and the answer is still no. The third cap is the clock, and it does not wait for a bad chart to be obeyed."
 
   - type: scanner-pick

@@ -13,7 +13,7 @@ prerequisite: "6-4"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
-notes: "Account named at $22,000; worked positions are 1,300 shares at $16.80 and 1,300 at $16.78. All-in cost $0.03 a share round trip."
+notes: "Account named at $22,000; worked positions are 1,200 shares at $16.80 and 1,200 at $16.78. All-in cost $0.03 a share round trip."
 screens:
   - type: intro
     text: "The spread does not ask whether the read was any good. It is paid either way."
@@ -23,31 +23,31 @@ screens:
     body: "Chapter 3 added the spread, the slippage and the fees into one all-in cost per share. That number comes off every trade, so it makes the average winner smaller and the average loser bigger."
 
   - type: example
-    body: "1,300 shares, three cents all in on the round trip: $39 a trade. A twenty-cent winner is $260 gross and $221 net. A twelve-cent loser is $156 gross and $195 net."
+    body: "1,200 shares, three cents all in on the round trip: $36 a trade. A twenty-cent winner is $240 gross and $204 net. A twelve-cent loser is $144 gross and $180 net."
     visual: cost-stack
     visual_data:
-      shares: 1300
+      shares: 1200
       spread: 0.02
       slippage: 0.005
       fees: 0.005
       target: 0.20
 
   - type: numeric-input
-    prompt: "That twelve-cent loser on 1,300 shares, with $39 of costs on top. What does it actually cost?"
-    answer: 195
+    prompt: "That twelve-cent loser on 1,200 shares, with $36 of costs on top. What does it actually cost?"
+    answer: 180
     tolerance: 0.01
     unit: "$"
-    working: "$0.12 × 1,300 shares = $156; $156 + $39 = $195"
+    working: "$0.12 × 1,200 shares = $144; $144 + $36 = $180"
     explanation: "The stop was twelve cents. The trade was fifteen, because the round trip is paid on the way out of a loser too."
 
   - type: numeric-mc
-    prompt: "Half the trades win. Gross, that is $260 against $156. Net, it is $221 against $195. What happens to one average trade?"
+    prompt: "Half the trades win. Gross, that is $240 against $144. Net, it is $204 against $180. What happens to one average trade?"
     options:
-      - {text: "$52 gross becomes $13 net", correct: true}
-      - {text: "$52 gross becomes $39 net"}
-      - {text: "$52 gross becomes $26 net"}
+      - {text: "$48 gross becomes $12 net", correct: true}
+      - {text: "$48 gross becomes $36 net"}
+      - {text: "$48 gross becomes $24 net"}
       - {text: "It does not change"}
-    working: "Gross: (0.5 × $260) − (0.5 × $156) = $52. Net: (0.5 × $221) − (0.5 × $195) = $13"
+    working: "Gross: (0.5 × $240) − (0.5 × $144) = $48. Net: (0.5 × $204) − (0.5 × $180) = $12"
     explanation: "Three quarters of the edge, gone into a cost that looked like three cents."
 
   - type: theory
@@ -60,14 +60,14 @@ screens:
     explanation: "Three cents on a $16.80 stock is under two tenths of a per cent of it — and three quarters of what the method was worth."
 
   - type: slider
-    prompt: "Of that $52 gross edge, what share did the $39 of costs take?"
+    prompt: "Of that $48 gross edge, what share did the $36 of costs take?"
     min: 0
     max: 100
     step: 5
     unit: "%"
     answer: 75
     tolerance: 10
-    explanation: "Thirty-nine of fifty-two. The share price it sits next to has nothing to do with it."
+    explanation: "Thirty-six of forty-eight. The share price it sits next to has nothing to do with it."
 
   - type: numeric-input
     prompt: "Chapter 3's all-in check on a different name: a three-cent spread, a cent of slippage getting in, and fees of four tenths of a cent over the round trip. What is the all-in cost per share?"
@@ -78,15 +78,15 @@ screens:
     explanation: "Four cents and change before the trade has moved. On a fifteen-cent target that is nearly a third of it."
 
   - type: chart-decision
-    scenario: "MAST has spent the last five minutes between $16.72 and $16.80. Your target would be the top of that band, and the all-in cost on 1,300 shares is three cents a share. Your account is $22,000."
-    shares: 1300
+    scenario: "MAST has spent the last five minutes between $16.72 and $16.80. Your target would be the top of that band, and the all-in cost on 1,200 shares is three cents a share. Your account is $22,000."
+    shares: 1200
     chart:
       kind: candles
       data: [[16.74, 16.80, 16.72, 16.78], [16.78, 16.80, 16.72, 16.74], [16.74, 16.80, 16.72, 16.78], [16.78, 16.80, 16.72, 16.74], [16.74, 16.78, 16.72, 16.76], [16.76, 16.80, 16.72, 16.78], [16.78, 16.80, 16.72, 16.74], [16.74, 16.78, 16.70, 16.72], [16.72, 16.78, 16.70, 16.76], [16.76, 16.80, 16.72, 16.74]]
       volume: [62000, 54000, 48000, 52000, 46000, 58000, 50000, 44000, 48000, 52000]
       decision_index: 5
     best: no-trade
-    outcome: "It crossed the same eight cents four more times. A long at $16.78 out at $16.74 lost $52 on 1,300 shares, and the costs added $39 to that."
+    outcome: "It crossed the same eight cents four more times. A long at $16.78 out at $16.74 lost $48 on 1,200 shares, and the costs added $36 to that."
     explanation: "Two cents of move left to the top of the band and three cents of cost to get there and back. The trade is negative before the first candle prints."
 
   - type: spot-mistake
@@ -105,7 +105,7 @@ screens:
 
   - type: chart-decision
     scenario: "MOSS has held $16.68 four times this morning and the minute that just closed finished at $16.80, through the highs behind it. The stop goes under the floor, twelve cents away."
-    shares: 1300
+    shares: 1200
     chart:
       kind: candles
       data: [[16.74, 16.78, 16.68, 16.70], [16.70, 16.76, 16.68, 16.74], [16.74, 16.78, 16.70, 16.72], [16.72, 16.76, 16.68, 16.70], [16.70, 16.76, 16.68, 16.74], [16.74, 16.84, 16.72, 16.80], [16.80, 16.90, 16.78, 16.88], [16.88, 16.98, 16.84, 16.96], [16.96, 17.06, 16.92, 17.02], [17.02, 17.06, 16.96, 17.00]]
@@ -115,7 +115,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $17.06 and the exit filled at $17.00 — 20 cents a share, $260 gross on 1,300 shares and $221 after the round trip."
+    outcome: "It reached $17.06 and the exit filled at $17.00 — 20 cents a share, $240 gross on 1,200 shares and $204 after the round trip."
     explanation: "Twenty cents against twelve, and the three cents of cost still leaves it well clear. That is the size of move a cost of this size needs."
 
   - type: mc

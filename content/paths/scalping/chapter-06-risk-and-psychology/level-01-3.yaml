@@ -13,7 +13,7 @@ prerequisite: "1-2"
 xp: 20
 difficulty: 2
 sources: ["Elder — Trading for a Living", "Douglas — Trading in the Zone"]
-notes: "Same $20,000 account as 1-2; worked positions are 1,200 shares at $16.46 and 1,400 at $12.28."
+notes: "Same $20,000 account as 1-2; worked positions are 1,100 shares at $16.46 and 1,400 at $12.28."
 screens:
   - type: intro
     text: "Moving a stop is not free. Here is the bill."
@@ -27,12 +27,12 @@ screens:
     body: "One more chance at an idea that has already failed, paid for with every cent you add. The extra room does not change the answer, only the price of finding it out."
 
   - type: numeric-input
-    prompt: "Long 1,200 shares of KELP at $16.46 with the stop at $16.32. You slide the stop down to $16.16 instead. What does the planned loss become?"
-    answer: 360
+    prompt: "Long 1,100 shares of KELP at $16.46 with the stop at $16.32. You slide the stop down to $16.16 instead. What does the planned loss become?"
+    answer: 330
     tolerance: 0.01
     unit: "$"
-    working: "$16.46 − $16.16 = $0.30; $0.30 × 1,200 shares = $360"
-    explanation: "The plan was $168. Sixteen cents of room cost $192 more than the trade was ever allowed to lose."
+    working: "$16.46 − $16.16 = $0.30; $0.30 × 1,100 shares = $330"
+    explanation: "The plan was $154. Sixteen cents of room cost $176 more than the trade was ever allowed to lose."
 
   - type: order
     prompt: "Put these in the order they actually happen."
@@ -56,24 +56,24 @@ screens:
     explanation: "Both are a price. Only one of them is an order, and only one survives the ten seconds where you argue with yourself."
 
   - type: depth-ladder
-    prompt: "Your stop on 1,200 shares triggers and the book underneath it looks like this. Where does the last of them fill?"
+    prompt: "Your stop on 1,100 shares triggers and the book underneath it looks like this. Where does the last of them fill?"
     data:
       bids: [[16.30, 500], [16.27, 400], [16.22, 1500]]
       asks: [[16.34, 600], [16.38, 900], [16.44, 1200]]
     target: bid-3
-    explanation: "Five hundred at $16.30, four hundred more three cents lower, and the last three hundred at $16.22 — eight cents below the top of the book."
+    explanation: "Five hundred at $16.30, four hundred more three cents lower, and the last two hundred at $16.22 — eight cents below the top of the book."
 
   - type: theory
     title: "That gap is slippage, not failure"
     body: "A stop-market gets you out; it never promises where. On a fast minute the fill sits a few cents past the trigger, and that is a cost you budget for, the same way you budget for the spread."
 
   - type: numeric-input
-    prompt: "Your stop sat at $16.32 on 1,200 shares and the fill averaged $16.27 through that book. What did the trade lose from $16.46?"
-    answer: 228
+    prompt: "Your stop sat at $16.32 on 1,100 shares and the fill averaged $16.27 through that book. What did the trade lose from $16.46?"
+    answer: 209
     tolerance: 0.01
     unit: "$"
-    working: "$16.46 − $16.27 = $0.19; $0.19 × 1,200 shares = $228"
-    explanation: "$168 planned, $228 paid. Five cents of slippage is a cost of doing business in a thin book, not a sign the stop was wrong."
+    working: "$16.46 − $16.27 = $0.19; $0.19 × 1,100 shares = $209"
+    explanation: "$154 planned, $209 paid. Five cents of slippage is a cost of doing business in a thin book, not a sign the stop was wrong."
 
   - type: tf
     statement: "A stop that fills five cents past its trigger proves the stop was in the wrong place."

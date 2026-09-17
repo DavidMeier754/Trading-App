@@ -13,7 +13,7 @@ prerequisite: "8-1"
 xp: 25
 difficulty: 3
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Bellafiore — One Good Trade"]
-notes: "Drill sub-level. Account named at $23,000; worked positions are 1,300 shares at $17.60 and 1,250 at $17.20. All-in cost $0.02 a share round trip."
+notes: "Drill sub-level. Account named at $23,000; worked positions are 1,200 shares at $17.60 and 1,250 at $17.20. All-in cost $0.02 a share round trip."
 screens:
   - type: intro
     text: "Five records, a hundred trades each. Two of them should be deleted this week."
@@ -51,18 +51,18 @@ screens:
     explanation: "They come out at $1.00, $29.60, −$10.00 and $30.00. The two highest win rates are the two being deleted."
 
   - type: numeric-mc
-    prompt: "That 50 % record is worth $30 a trade gross, taken 1,300 shares at a time. At two cents a share round trip, what is left?"
+    prompt: "That 50 % record is worth $30 a trade gross, taken 1,200 shares at a time. At two cents a share round trip, what is left?"
     options:
-      - {text: "$4", correct: true}
+      - {text: "$6", correct: true}
       - {text: "$30"}
-      - {text: "$26"}
-      - {text: "−$4"}
-    working: "$0.02 × 1,300 shares = $26; $30 − $26 = $4"
-    explanation: "The best-looking record on the page survives its costs by four dollars, which is an argument for fewer shares or more room."
+      - {text: "$24"}
+      - {text: "−$6"}
+    working: "$0.02 × 1,200 shares = $24; $30 − $24 = $6"
+    explanation: "The best-looking record on the page survives its costs by six dollars, which is an argument for fewer shares or more room."
 
   - type: chart-decision
     scenario: "QUAY has turned at $17.46 four times since the bell and the minute that just closed finished at $17.60, above every high behind it. The stop goes under the floor, fourteen cents away. Your account is $23,000."
-    shares: 1300
+    shares: 1200
     chart:
       kind: candles
       data: [[17.54, 17.58, 17.46, 17.48], [17.48, 17.56, 17.46, 17.54], [17.54, 17.58, 17.50, 17.52], [17.52, 17.56, 17.46, 17.50], [17.50, 17.56, 17.48, 17.54], [17.54, 17.64, 17.52, 17.60], [17.60, 17.72, 17.58, 17.70], [17.70, 17.82, 17.66, 17.78], [17.78, 17.96, 17.74, 17.92], [17.92, 17.98, 17.86, 17.90]]
@@ -72,18 +72,18 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $17.98 and the exit filled at $17.90 — 30 cents a share, $390 on 1,300 shares against $182 of risk."
+    outcome: "It reached $17.98 and the exit filled at $17.90 — 30 cents a share, $360 on 1,200 shares against $168 of risk."
     explanation: "Two units and change from one trade. Records like the fourth one on this page are built out of these, not out of frequency."
 
   - type: journal-row
     prompt: "That QUAY trade, finished. Fill in what it risked and what it returned."
-    trade: {setup: "Reclaim of the morning floor", entry: 17.60, stop: 17.46, exit: 17.90, shares: 1300}
+    trade: {setup: "Reclaim of the morning floor", entry: 17.60, stop: 17.46, exit: 17.90, shares: 1200}
     slots: [r_risked, r_made]
     chips:
-      r_risked: ["$142", "$182", "$260"]
+      r_risked: ["$120", "$168", "$240"]
       r_made: ["+1R", "+2R", "+3R"]
-    answer: {r_risked: "$182", r_made: "+2R"}
-    explanation: "Fourteen cents on 1,300 shares is $182, and the thirty cents it ran is a little over twice that."
+    answer: {r_risked: "$168", r_made: "+2R"}
+    explanation: "Fourteen cents on 1,200 shares is $168, and the thirty cents it ran is a little over twice that."
 
   - type: tf
     statement: "A method worth a dollar a trade is worth trading if you take enough trades."

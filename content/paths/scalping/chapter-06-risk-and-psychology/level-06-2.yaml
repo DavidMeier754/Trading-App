@@ -13,7 +13,7 @@ prerequisite: "6-1"
 xp: 20
 difficulty: 2
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Douglas — Trading in the Zone"]
-notes: "Account named at $20,000 with a $200 risk budget; worked positions are 1,250 shares at $15.90 and 1,200 at $16.30."
+notes: "Account named at $20,000 with a $200 risk budget; worked positions are 1,100 shares at $15.90 and 1,000 at $16.30."
 screens:
   - type: intro
     text: "Nine winners out of ten, and the month still ends red. Here is the number that hides it."
@@ -86,25 +86,25 @@ screens:
 
   - type: numeric-input
     prompt: "Chapter 3's two ceilings, on a $20,000 account with $200 of risk a trade. The method needs a ten-cent stop on a $15.90 stock. How many shares?"
-    answer: 1257
+    answer: 1195
     tolerance: 5
     unit: "shares"
-    working: "$200 ÷ $0.10 = 2,000 shares; $20,000 ÷ $15.90 = 1,257 shares"
-    explanation: "The risk budget would take 2,000. The account can pay for 1,257, and the smaller ceiling is always the one that decides."
+    working: "$200 ÷ $0.10 = 2,000 shares; 95 % of $20,000 is $19,000, and $19,000 ÷ $15.90 = 1,195 shares"
+    explanation: "The risk budget would take 2,000. The cash can pay for 1,195, and the smaller ceiling is always the one that decides."
 
   - type: numeric-mc
-    prompt: "So on 1,250 shares with that ten-cent stop, what is one full loss worth?"
+    prompt: "You round that 1,195 down to 1,100. On the same ten-cent stop, what is one full loss worth?"
     options:
       - {text: "$200"}
       - {text: "$250"}
-      - {text: "$125", correct: true}
-      - {text: "$159"}
-    working: "1,250 shares × $0.10 = $125"
-    explanation: "The account ceiling cut the position, so it cut the unit too. Your average loss will be built out of $125, not the $200 you budgeted."
+      - {text: "$110", correct: true}
+      - {text: "$119"}
+    working: "1,100 shares × $0.10 = $110"
+    explanation: "The cash ceiling cut the position, so it cut the unit too. Your average loss will be built out of $110, not the $200 you budgeted."
 
   - type: chart-decision
     scenario: "VOSS has turned at $15.76 three times in the last six minutes and the minute that just closed finished at $15.90, above every high behind it. A stop under the floor is fourteen cents away. Your account is $20,000."
-    shares: 1250
+    shares: 1100
     chart:
       kind: candles
       data: [[15.84, 15.88, 15.76, 15.78], [15.78, 15.86, 15.76, 15.84], [15.84, 15.88, 15.78, 15.80], [15.80, 15.86, 15.76, 15.82], [15.82, 15.88, 15.80, 15.86], [15.86, 15.94, 15.84, 15.90], [15.90, 16.02, 15.88, 16.00], [16.00, 16.10, 15.96, 16.08], [16.08, 16.18, 16.04, 16.14], [16.14, 16.18, 16.08, 16.12]]
@@ -114,7 +114,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $16.18 and the exit filled at $16.14 — 24 cents a share, +$300 on 1,250 shares against $175 of risk."
+    outcome: "It carried to $16.18 and the exit filled at $16.14 — 24 cents a share, +$264 on 1,100 shares against $154 of risk."
     explanation: "Fourteen cents of risk for twenty-four of reward. Win that four times in ten and the average trade is still positive."
 
   - type: fill-tiles
@@ -124,7 +124,7 @@ screens:
 
   - type: chart-decision
     scenario: "KELP has been capped at $16.44 since the bell and the minute that just closed finished under the $16.34 floor at $16.30, on the heaviest volume of the morning. A stop above the ceiling is sixteen cents away."
-    shares: 1200
+    shares: 1000
     chart:
       kind: candles
       data: [[16.44, 16.48, 16.36, 16.38], [16.38, 16.44, 16.34, 16.36], [16.36, 16.42, 16.34, 16.40], [16.40, 16.44, 16.34, 16.36], [16.36, 16.40, 16.32, 16.38], [16.38, 16.40, 16.26, 16.30], [16.30, 16.32, 16.18, 16.20], [16.20, 16.24, 16.10, 16.12], [16.12, 16.16, 16.02, 16.06], [16.06, 16.10, 15.98, 16.02]]
@@ -135,7 +135,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked down to $15.98 and the cover filled at $16.04 — 26 cents a share, +$312 on 1,200 shares against $192 of risk."
+    outcome: "It worked down to $15.98 and the cover filled at $16.04 — 26 cents a share, +$260 on 1,000 shares against $160 of risk."
     explanation: "Sixteen cents risked against a level that has refused it all morning, for a move worth twenty-six. That shape is what keeps an average positive."
 
   - type: example

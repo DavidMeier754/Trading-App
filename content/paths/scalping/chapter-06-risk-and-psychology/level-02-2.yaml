@@ -13,7 +13,7 @@ prerequisite: "2-1"
 xp: 20
 difficulty: 2
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Aziz — How to Day Trade for a Living"]
-notes: "Account named at $24,000 with $180 a trade; worked positions are 1,500 shares at $15.80, 1,800 at $12.40, 600 at $28.60 and 900 at $24.00."
+notes: "Account named at $24,000 with $180 a trade; worked positions are 1,400 shares at $15.80, 1,800 at $12.40, 600 at $28.60 and 900 at $24.00."
 screens:
   - type: intro
     text: "A short in one name, a long in another, four times the share count. One unit at stake in all of them."
@@ -23,12 +23,12 @@ screens:
     body: "On a short the stop sits above the entry, because a short is wrong when price goes up. Entry to stop, times shares, is still exactly one unit of risk."
 
   - type: numeric-input
-    prompt: "Short 1,500 shares at $15.80 with the stop at $15.92. What is 1R?"
-    answer: 180
+    prompt: "Short 1,400 shares at $15.80 with the stop at $15.92. What does the trade risk?"
+    answer: 168
     tolerance: 0.01
     unit: "$"
-    working: "$15.92 − $15.80 = $0.12; $0.12 × 1,500 shares = $180"
-    explanation: "Twelve cents above the entry, because that is the direction that proves a short wrong."
+    working: "$15.92 − $15.80 = $0.12; $0.12 × 1,400 shares = $168"
+    explanation: "Twelve cents above the entry, because that is the direction that proves a short wrong — and $168 sits inside the $180 unit."
 
   - type: numeric-mc
     prompt: "That short covers at $15.56. What did it return?"
@@ -70,8 +70,8 @@ screens:
     explanation: "Same unit, longer stop, so the share count is what gives way."
 
   - type: chart-decision
-    scenario: "SPAR has turned at $15.68 twice in the last four minutes and the minute that just closed finished at $15.80, through the last small high. Your account is $24,000, 1R is $180, and a stop under $15.68 is twelve cents away."
-    shares: 1500
+    scenario: "SPAR has turned at $15.68 twice in the last four minutes and the minute that just closed finished at $15.80, through the last small high. Your account is $24,000, which pays for 1,400 shares here, and a stop under $15.68 is twelve cents away."
+    shares: 1400
     chart:
       kind: candles
       data: [[15.62, 15.72, 15.58, 15.68], [15.68, 15.76, 15.64, 15.72], [15.72, 15.78, 15.68, 15.70], [15.70, 15.78, 15.68, 15.76], [15.76, 15.78, 15.72, 15.74], [15.74, 15.84, 15.72, 15.80], [15.80, 15.92, 15.78, 15.90], [15.90, 15.98, 15.86, 15.96], [15.96, 16.06, 15.92, 16.04], [16.04, 16.06, 15.98, 16.02]]
@@ -81,8 +81,8 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $16.06 and the target filled at $16.04 — 24 cents a share, +$360 on 1,500 shares against $180 of risk."
-    explanation: "Twelve cents to the floor underneath, and a share count chosen so those twelve cents cost exactly $180. The two units came from leaving the target where the plan put it."
+    outcome: "It carried to $16.06 and the target filled at $16.04 — 24 cents a share, +$336 on 1,400 shares against $168 of risk."
+    explanation: "Twelve cents to the floor underneath, and a share count the cash can pay for at this price. The two units came from leaving the target where the plan put it."
 
   - type: spot-mistake
     prompt: "One of these does not follow. Tap it."
@@ -108,7 +108,7 @@ screens:
   - type: hotspot
     component: order-ticket
     prompt: "This long is about to go out. Tap the field you would change to risk less without moving your stop."
-    data: {ticker: SPAR, side: buy, qty: 1500, type: limit, price: 15.80, stop_price: 15.68}
+    data: {ticker: SPAR, side: buy, qty: 1400, type: limit, price: 15.80, stop_price: 15.68}
     target: qty
     explanation: "Distance belongs to the chart; the share count belongs to you. Halve the quantity and the unit halves with it."
 
