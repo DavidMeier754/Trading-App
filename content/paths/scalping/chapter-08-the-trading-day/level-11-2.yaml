@@ -13,7 +13,7 @@ prerequisite: "11-1"
 xp: 25
 difficulty: 2
 sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
-notes: "Chapter 6's sample size and expectancy re-tested as a running record rather than a worked sum. Account named at $18,000; the worked position is 1,200 shares at $14.30 = $17,160."
+notes: "Chapter 6's sample size and expectancy re-tested as a running record rather than a worked sum. Account named at $18,000; the worked position is 1,100 shares at $14.30 = $15,730."
 screens:
   - type: intro
     text: "Four red sessions in a row, and a card that still says the same thing it said a month ago."
@@ -58,8 +58,8 @@ screens:
     explanation: "It is evidence that a losing week happened. Chapter 6 gave you the sample for exactly this moment, so the week is read inside it rather than instead of it."
 
   - type: chart-decision
-    scenario: "Monday, after that week. TORVA has held $14.14 three times and the minute that just closed finished at $14.30, above every high behind it, on the heaviest bar since the bell. Your account is $18,000 and your page says 1,200 shares."
-    shares: 1200
+    scenario: "Monday, after that week. TORVA has held $14.14 three times and the minute that just closed finished at $14.30, above every high behind it, on the heaviest bar since the bell. Your account is $18,000 and your page says 1,100 shares."
+    shares: 1100
     chart:
       kind: candles
       data: [[14.22, 14.28, 14.14, 14.18], [14.18, 14.26, 14.14, 14.22], [14.22, 14.28, 14.16, 14.20], [14.20, 14.26, 14.14, 14.24], [14.24, 14.28, 14.18, 14.22], [14.22, 14.34, 14.20, 14.30], [14.30, 14.40, 14.28, 14.38], [14.38, 14.46, 14.34, 14.44], [14.44, 14.50, 14.40, 14.47], [14.47, 14.52, 14.43, 14.49]]
@@ -71,7 +71,7 @@ screens:
     state: ["Last week: −1.8R", "Trade 1 of 6"]
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $14.49 — $0.19 a share above the decision, +$228 on 1,200 shares."
+    outcome: "It worked up to $14.49 — $0.19 a share above the decision, +$209 on 1,100 shares."
     explanation: "Last week is not on this chart. The card asks for a shelf that holds and a close through the highs, and both of them are here."
 
   - type: sort

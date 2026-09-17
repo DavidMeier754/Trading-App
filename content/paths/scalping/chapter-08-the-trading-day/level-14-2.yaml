@@ -13,7 +13,7 @@ prerequisite: "14-1"
 xp: 25
 difficulty: 2
 sources: ["Elder — Trading for a Living", "Aziz — How to Day Trade for a Living"]
-notes: "Chapter 6's journal row extended with a fill haircut, and Chapter 7's card name as the column that sorts the sample. Simulator account named at $12,000; the worked position is 700 shares at $16.34 = $11,438."
+notes: "Chapter 6's journal row extended with a fill haircut, and Chapter 7's card name as the column that sorts the sample. Simulator account named at $12,000; the worked position is 600 shares at $16.34 = $9,804."
 screens:
   - type: intro
     text: "The row you already know how to write, plus the two columns a simulator makes necessary."
@@ -37,23 +37,23 @@ screens:
     caption: "Three rows from the first week. The last two columns are the ones a live sheet would not need."
 
   - type: journal-row
-    prompt: "The first of those trades, 700 shares against the $12,000 account. Fill its row."
-    trade: {setup: "VWAP bounce", entry: 16.34, stop: 16.22, exit: 16.58, shares: 700}
+    prompt: "The first of those trades, 600 shares against the $12,000 account. Fill its row."
+    trade: {setup: "VWAP bounce", entry: 16.34, stop: 16.22, exit: 16.58, shares: 600}
     slots: [r_risked, r_made, grade]
     chips:
-      r_risked: ["$84", "$96", "$168"]
+      r_risked: ["$72", "$96", "$168"]
       r_made: ["+1R", "+2R", "+3R"]
       grade: ["A", "B", "C"]
-    answer: {r_risked: "$84", r_made: "+2R", grade: "A"}
-    explanation: "Twelve cents on 700 shares is $84 at risk and twenty-four cents made is two of them. Simulated money is still written down in R."
+    answer: {r_risked: "$72", r_made: "+2R", grade: "A"}
+    explanation: "Twelve cents on 600 shares is $72 at risk and twenty-four cents made is two of them. Simulated money is still written down in R."
 
   - type: depth-ladder
-    prompt: "Live, that entry would have been a 700-share market buy into this book. Where does the last share fill?"
+    prompt: "Live, that entry would have been a 600-share market buy into this book. Where does the last share fill?"
     data:
       bids: [[16.32, 400], [16.31, 600], [16.30, 1100]]
       asks: [[16.34, 300], [16.35, 250], [16.36, 900]]
     target: ask-3
-    explanation: "Three hundred at $16.34 and two hundred and fifty at $16.35 leaves 150 shares, and those pay $16.36. The simulator printed the whole 700 at the inside price."
+    explanation: "Three hundred at $16.34 and two hundred and fifty at $16.35 leaves 50 shares, and those pay $16.36. The simulator printed the whole 600 at the inside price."
 
   - type: numeric-input
     prompt: "Your thirty days finished at +18R on the sheet. A realistic round trip costs about 0.15R that the simulator never charged. Across 60 trades, where does the month actually stand?"

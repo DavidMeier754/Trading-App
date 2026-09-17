@@ -13,7 +13,7 @@ prerequisite: "9-1"
 xp: 30
 difficulty: 3
 sources: ["Volman — Understanding Price Action", "Bellafiore — The PlayBook"]
-notes: "Drill sub: five swipe cards and two decisions with almost no theory. Same session as 9-1, day size 1,000 shares, 1R $120. Account named at $16,000; the worked positions are 1,000 shares at $15.22 = $15,220 and 1,000 at $11.46 = $11,460."
+notes: "Drill sub: five swipe cards and two decisions with almost no theory. Same session as 9-1, day size 900 shares, 1R $108. Account named at $16,000; the worked positions are 900 shares at $15.22 = $13,698 and 900 at $11.46 = $10,314."
 screens:
   - type: intro
     text: "Trade one is closed and there are hours left. Five charts, and most of them are not yours."
@@ -53,8 +53,8 @@ screens:
     explanation: "Three passes and two tickets, on five charts that were all worth looking at. The page is what made two of them different."
 
   - type: chart-decision
-    scenario: "Deep into the middle of the session. CASP has spent ten minutes inside fourteen cents, the bars are a fifth of the opening hour's, and the quote has gone to six cents. Your account is $16,000 and the page says 1,000 shares."
-    shares: 1000
+    scenario: "Deep into the middle of the session. CASP has spent ten minutes inside fourteen cents, the bars are a fifth of the opening hour's, and the quote has gone to six cents. Your account is $16,000 and the page says 900 shares."
+    shares: 900
     chart:
       kind: candles
       data: [[15.24, 15.28, 15.18, 15.20], [15.20, 15.26, 15.16, 15.24], [15.24, 15.28, 15.18, 15.22], [15.22, 15.26, 15.16, 15.20], [15.20, 15.26, 15.16, 15.24], [15.24, 15.28, 15.18, 15.22], [15.22, 15.26, 15.16, 15.20], [15.20, 15.24, 15.14, 15.18], [15.18, 15.24, 15.16, 15.22], [15.22, 15.26, 15.16, 15.20]]
@@ -62,12 +62,12 @@ screens:
       decision_index: 5
     state: ["Day: +2R", "Trades: 1 of 6"]
     best: no-trade
-    outcome: "It finished the stretch at $15.20, two cents under the decision. A six-cent quote on 1,000 shares is $60 to enter a fourteen-cent band."
+    outcome: "It finished the stretch at $15.20, two cents under the decision. A six-cent quote on 900 shares is $54 to enter a fourteen-cent band."
     explanation: "Being up 2R buys you nothing here. The chart is simply not paying enough to cover the quote across it, and no amount of room changes that arithmetic."
 
   - type: chart-decision
-    scenario: "ORRIN has ground up all session and just closed a minute at $11.46 through the high it set this morning, on the heaviest bar since the open. The quote is three cents. Your account is $16,000 and the page says 1,000 shares."
-    shares: 1000
+    scenario: "ORRIN has ground up all session and just closed a minute at $11.46 through the high it set this morning, on the heaviest bar since the open. The quote is three cents. Your account is $16,000 and the page says 900 shares."
+    shares: 900
     chart:
       kind: candles
       data: [[11.30, 11.36, 11.26, 11.34], [11.34, 11.40, 11.30, 11.38], [11.38, 11.42, 11.34, 11.36], [11.36, 11.42, 11.32, 11.40], [11.40, 11.44, 11.36, 11.42], [11.42, 11.50, 11.40, 11.46], [11.46, 11.48, 11.36, 11.38], [11.38, 11.40, 11.30, 11.32], [11.32, 11.36, 11.26, 11.28], [11.28, 11.32, 11.24, 11.26]]
@@ -78,7 +78,7 @@ screens:
     state: ["Day: +2R", "Trades: 1 of 6"]
     best: long
     reasonable: [no-trade]
-    outcome: "It turned at once and finished the stretch at $11.26 — $0.20 a share below the decision. The stop at $11.34 took $120 out on 1,000 shares."
+    outcome: "It turned at once and finished the stretch at $11.26 — $0.20 a share below the decision. The stop at $11.34 took $108 out on 900 shares."
     explanation: "Every condition the card asks for was present and the trade lost anyway. That is a correct decision with a bad draw, and it is what one R is for."
 
   - type: chart-tap
@@ -90,26 +90,26 @@ screens:
     explanation: "The minute after the entry only reached $11.36. The one after it traded to $11.30, and your stop became a market order on the way through."
 
   - type: journal-row
-    prompt: "Write that one down while it is still on the screen. 1,000 shares."
-    trade: {setup: "Momentum continuation", entry: 11.46, stop: 11.34, exit: 11.34, shares: 1000}
+    prompt: "Write that one down while it is still on the screen. 900 shares."
+    trade: {setup: "Momentum continuation", entry: 11.46, stop: 11.34, exit: 11.34, shares: 900}
     slots: [r_risked, r_made, grade]
     chips:
-      r_risked: ["$96", "$120", "$156"]
+      r_risked: ["$90", "$108", "$144"]
       r_made: ["-1R", "0R", "+1R"]
       grade: ["A", "B", "C"]
-    answer: {r_risked: "$120", r_made: "-1R", grade: "A"}
-    explanation: "Twelve cents on 1,000 shares is $120, the stop filled where it was placed, and the grade is an A. The row is identical to a winner's except for one column."
+    answer: {r_risked: "$108", r_made: "-1R", grade: "A"}
+    explanation: "Twelve cents on 900 shares is $108, the stop filled where it was placed, and the grade is an A. The row is identical to a winner's except for one column."
 
   - type: numeric-input
-    prompt: "Trade one made $240 and trade two lost $120. Your 1R is $120. Where does the day stand, in R?"
+    prompt: "Trade one made $216 and trade two lost $108. Your 1R is $108. Where does the day stand, in R?"
     answer: 1
     tolerance: 0.01
-    working: "$240 − $120 = $120; $120 ÷ $120 = 1"
+    working: "$216 − $108 = $108; $108 ÷ $108 = 1"
     explanation: "Up one unit, four trades left and the limit untouched. Nothing about the day needs a decision yet."
 
   - type: branch
     scenario: "The stop on ORRIN has just filled. You are flat, the day is +1R, and two trades of six are gone."
-    shares: 1000
+    shares: 900
     chart:
       kind: candles
       data: [[11.42, 11.50, 11.40, 11.46], [11.46, 11.48, 11.36, 11.38], [11.38, 11.40, 11.30, 11.32], [11.32, 11.42, 11.30, 11.40], [11.40, 11.48, 11.38, 11.46], [11.46, 11.56, 11.44, 11.52], [11.52, 11.58, 11.48, 11.54], [11.54, 11.60, 11.50, 11.56]]

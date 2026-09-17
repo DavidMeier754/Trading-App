@@ -13,7 +13,7 @@ prerequisite: "16-1"
 xp: 30
 difficulty: 3
 sources: ["Steenbarger — The Daily Trading Coach", "Bellafiore — The PlayBook"]
-notes: "Wednesday and Thursday of the capstone week. Chapter 6's reset routine and Chapter 7's passes re-tested inside the routine. Account named at $12,000, size 700 shares, 1R $84. The worked position is 700 shares at $13.14 = $9,198."
+notes: "Wednesday and Thursday of the capstone week. Chapter 6's reset routine and Chapter 7's passes re-tested inside the routine. Account named at $12,000, size 600 shares, 1R $72. The worked position is 600 shares at $13.14 = $7,884."
 screens:
   - type: intro
     text: "Wednesday offers nothing and Thursday starts badly. Both of them are sessions you have to be able to run."
@@ -69,8 +69,8 @@ screens:
     explanation: "An empty session costs nothing but the mornings. What it can cost is one widened card, and the four near misses are where that offer was made."
 
   - type: chart-decision
-    scenario: "Wednesday, the closest thing to a card all morning. TARN has crossed the same twenty cents since the bell and the minute that just closed finished at $13.14, two cents above the highest minute of the stretch — on volume no heavier than the minutes behind it. Your account is $12,000 and the page says 700 shares."
-    shares: 700
+    scenario: "Wednesday, the closest thing to a card all morning. TARN has crossed the same twenty cents since the bell and the minute that just closed finished at $13.14, two cents above the highest minute of the stretch — on volume no heavier than the minutes behind it. Your account is $12,000 and the page says 600 shares."
+    shares: 600
     chart:
       kind: candles
       data: [[13.02, 13.08, 12.96, 13.00], [13.00, 13.06, 12.94, 13.04], [13.04, 13.10, 12.98, 13.02], [13.02, 13.08, 12.96, 13.06], [13.06, 13.12, 13.00, 13.04], [13.04, 13.16, 13.02, 13.14], [13.14, 13.16, 13.04, 13.06], [13.06, 13.10, 12.98, 13.00], [13.00, 13.06, 12.94, 12.96], [12.96, 13.02, 12.92, 12.98]]
@@ -89,7 +89,7 @@ screens:
 
   - type: branch
     scenario: "One row, one stop, and forty minutes of session left. The day stands at −1R with two tickets still on the cap."
-    shares: 700
+    shares: 600
     steps:
       - prompt: "The same name sets up again four minutes later. What now?"
         options:

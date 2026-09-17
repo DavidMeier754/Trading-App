@@ -13,7 +13,7 @@ prerequisite: "3-1"
 xp: 30
 difficulty: 3
 sources: ["Volman — Understanding Price Action", "Bellafiore — The PlayBook"]
-notes: "Closes Level 3 with a recap. Chapter 4's range read re-tested as an execution problem. Account named at $18,000; the worked position is 800 shares at $21.48 = $17,184."
+notes: "Closes Level 3 with a recap. Chapter 4's range read re-tested as an execution problem. Account named at $18,000; the worked position is 700 shares at $21.48 = $15,036."
 screens:
   - type: intro
     text: "Eight more rounds, the short side, and one deck where the answer is to do nothing."
@@ -23,38 +23,38 @@ screens:
     body: "Nothing here is timed. What decides when the order goes is the candle closing, and your only job is that the order is already built when it does."
 
   - type: depth-ladder
-    prompt: "You market-buy 800 shares of XYZ. Where does the last share fill?"
+    prompt: "You market-buy 700 shares of XYZ. Where does the last share fill?"
     data:
       bids: [[21.41, 500], [21.40, 700], [21.39, 1600]]
-      asks: [[21.44, 400], [21.45, 800], [21.46, 1400]]
+      asks: [[21.44, 350], [21.45, 800], [21.46, 1400]]
     target: ask-2
-    explanation: "$21.45. The top row covered 400 of your 800, and the price you were reading was only ever the first half of the order."
+    explanation: "$21.45. The top row covered 350 of your 700, and the price you were reading was only ever the first half of the order."
 
   - type: numeric-mc
-    prompt: "What did those 800 shares average out at?"
+    prompt: "What did those 700 shares average out at?"
     options:
       - {text: "$21.44"}
       - {text: "$21.4475"}
       - {text: "$21.445", correct: true}
       - {text: "$21.46"}
-    working: "(400 × 21.44 + 400 × 21.45) ÷ 800 = 21.445"
+    working: "(350 × 21.44 + 350 × 21.45) ÷ 700 = 21.445"
     explanation: "Half a cent above the top row, which is $4 on this order. Small, and it is the same $4 on every trade you take."
 
   - type: order-build
-    prompt: "Long 800 from $21.45, and the chart invalidates the idea below $21.24. Build the protective order. Your account is $18,000."
+    prompt: "Long 700 from $21.45, and the chart invalidates the idea below $21.24. Build the protective order. Your account is $18,000."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [400, 800, 1200]
+      qty: [400, 700, 1000]
       price: [21.24, 21.45, 21.66]
-    answer: {side: sell, type: stop, qty: 800, price: 21.24}
-    explanation: "Twenty-one cents on 800 shares is $168 at risk, and that number was known before the entry was sent."
+    answer: {side: sell, type: stop, qty: 700, price: 21.24}
+    explanation: "Twenty-one cents on 700 shares is $147 at risk, and that number was known before the entry was sent."
 
   - type: chart-decision
-    scenario: "A different morning. XYZ has rotated between $21.20 and $21.60 for forty minutes. This minute poked $21.66 and closed back inside the band on the heaviest volume of the rotation. Your $18,000 account allows 800 shares here."
-    shares: 800
+    scenario: "A different morning. XYZ has rotated between $21.20 and $21.60 for forty minutes. This minute poked $21.66 and closed back inside the band on the heaviest volume of the rotation. Your $18,000 account allows 700 shares here."
+    shares: 700
     chart:
       kind: candles
       data: [[21.24, 21.34, 21.20, 21.32], [21.32, 21.44, 21.28, 21.40], [21.40, 21.52, 21.36, 21.48], [21.48, 21.58, 21.44, 21.54], [21.54, 21.60, 21.50, 21.58], [21.58, 21.66, 21.46, 21.48], [21.48, 21.52, 21.36, 21.38], [21.38, 21.42, 21.26, 21.28], [21.28, 21.32, 21.18, 21.20], [21.20, 21.24, 21.12, 21.16]]
@@ -66,23 +66,23 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It rotated back across to $21.16 — $0.32 a share below the decision, +$256 short on 800 shares."
+    outcome: "It rotated back across to $21.16 — $0.32 a share below the decision, +$224 short on 700 shares."
     explanation: "A poke through the band and a close back under it. The read is Chapter 4's; this level's part was having the sell ticket built before the candle finished."
 
   - type: order-build
-    prompt: "Build that short: 800 shares, nothing worse than three cents under the bid of $21.47."
+    prompt: "Build that short: 700 shares, nothing worse than three cents under the bid of $21.47."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [400, 800, 1200]
+      qty: [400, 700, 1000]
       price: [21.44, 21.47, 21.50]
-    answer: {side: sell, type: limit, qty: 800, price: 21.44}
+    answer: {side: sell, type: limit, qty: 700, price: 21.44}
     explanation: "A sell limit three cents under the bid crosses the quote like a market order and still refuses anything below $21.44."
 
   - type: depth-ladder
-    prompt: "That 800-share sell goes in. Where does the last share fill?"
+    prompt: "That 700-share sell goes in. Where does the last share fill?"
     data:
       bids: [[21.47, 300], [21.46, 200], [21.45, 1500]]
       asks: [[21.50, 600], [21.51, 800], [21.52, 1100]]

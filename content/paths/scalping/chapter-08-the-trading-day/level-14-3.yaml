@@ -13,7 +13,7 @@ prerequisite: "14-2"
 xp: 25
 difficulty: 3
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Elder — Trading for a Living"]
-notes: "Chapter 6's daily limit and trade cap extended to a monthly floor; Chapter 7's cards tested against the session cap. Simulator account named at $12,000, size 700 shares, 1R $84. The worked position is 700 shares at $13.58 = $9,506."
+notes: "Chapter 6's daily limit and trade cap extended to a monthly floor; Chapter 7's cards tested against the session cap. Simulator account named at $12,000, size 600 shares, 1R $72. The worked position is 600 shares at $13.58 = $8,148."
 screens:
   - type: intro
     text: "Three trades a session, three units a day, and one number underneath the whole month."
@@ -49,8 +49,8 @@ screens:
     explanation: "The point of the month is a readable sample, and a sample that has gone badly wrong stops being worth more rows. The floor is where you go back and change something."
 
   - type: chart-decision
-    scenario: "Eleventh session, third trade of the morning. HAVERN has held above its own average price all session, given back ten cents over three of the quietest minutes of the stretch, and the minute that just closed finished at $13.58 back above the line. The stop belongs under the pullback at $13.46. Your simulator account is $12,000 and the page says 700 shares."
-    shares: 700
+    scenario: "Eleventh session, third trade of the morning. HAVERN has held above its own average price all session, given back ten cents over three of the quietest minutes of the stretch, and the minute that just closed finished at $13.58 back above the line. The stop belongs under the pullback at $13.46. Your simulator account is $12,000 and the page says 600 shares."
+    shares: 600
     chart:
       kind: candles
       data: [[13.62, 13.70, 13.58, 13.60], [13.58, 13.64, 13.54, 13.56], [13.54, 13.58, 13.50, 13.52], [13.50, 13.54, 13.48, 13.50], [13.48, 13.52, 13.46, 13.50], [13.50, 13.60, 13.48, 13.58], [13.58, 13.70, 13.56, 13.68], [13.68, 13.80, 13.64, 13.76], [13.76, 13.88, 13.72, 13.84], [13.84, 13.98, 13.80, 13.94]]
@@ -60,12 +60,12 @@ screens:
     state: ["Day: +1R", "Trades: 2 of 3"]
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $13.94 — $0.36 a share above the decision, +$252 on 700 shares against $84 of risk."
+    outcome: "It carried to $13.94 — $0.36 a share above the decision, +$216 on 600 shares against $72 of risk."
     explanation: "The third trade is not the last trade grudgingly allowed; it is a trade the cap permits. A cap decides how many, never which ones."
 
   - type: branch
     scenario: "Same session, twenty minutes later. You are flat, the third trade is behind you, and one of your two cards is forming again on the other name."
-    shares: 700
+    shares: 600
     steps:
       - prompt: "The cap is three trades and this is a fourth card. What do you do?"
         options:
@@ -94,13 +94,13 @@ screens:
     explanation: "About two-thirds, which is what a ceiling should look like. A cap you reach every session is a target wearing a cap's name."
 
   - type: numeric-mc
-    prompt: "The month stops at −15R and your 1R on the simulator is $84. How many dollars is that?"
+    prompt: "The month stops at −15R and your 1R on the simulator is $72. How many dollars is that?"
     options:
-      - {text: "$840"}
-      - {text: "$1,260", correct: true}
-      - {text: "$1,680"}
-      - {text: "$1,050"}
-    working: "15 × $84 = $1,260"
+      - {text: "$720"}
+      - {text: "$1,080", correct: true}
+      - {text: "$1,440"}
+      - {text: "$900"}
+    working: "15 × $72 = $1,080"
     explanation: "About a tenth of the simulated account, which is deep enough to survive a bad fortnight and shallow enough to stop a bad method."
 
   - type: sort

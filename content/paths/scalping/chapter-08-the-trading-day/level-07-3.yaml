@@ -13,7 +13,7 @@ prerequisite: "7-2"
 xp: 25
 difficulty: 3
 sources: ["Elder — Trading for a Living", "Steenbarger — Trading Psychology 2.0"]
-notes: "Closes Level 7 with a plan-card and a recap. Chapter 6's three caps and its post-stop checks re-tested in the lull; Chapter 4's stand-aside families supply the read. Account named at $16,000; the worked positions are 1,100 shares at $14.28 = $15,708 and 400 shares at $14.06 = $5,624."
+notes: "Closes Level 7 with a plan-card and a recap. Chapter 6's three caps and its post-stop checks re-tested in the lull; Chapter 4's stand-aside families supply the read. Account named at $16,000; the worked positions are 1,000 shares at $14.28 = $14,280 and 400 shares at $14.06 = $5,624."
 screens:
   - type: intro
     text: "The quiet stretch is not dangerous because of what it offers. It is dangerous because of what it leaves you time for."
@@ -35,8 +35,8 @@ screens:
     explanation: "A trade taken to undo the last two is Chapter 6's revenge trade wearing the clothes of a quiet hour."
 
   - type: chart-decision
-    scenario: "The dead stretch. HALVERN has drifted to a price you marked before the open, but the last six minutes overlap each other and the quote is nine cents. Your account is $16,000 and your size is 1,100 shares."
-    shares: 1100
+    scenario: "The dead stretch. HALVERN has drifted to a price you marked before the open, but the last six minutes overlap each other and the quote is nine cents. Your account is $16,000 and your size is 1,000 shares."
+    shares: 1000
     chart:
       kind: candles
       data: [[14.40, 14.44, 14.32, 14.34], [14.34, 14.38, 14.28, 14.32], [14.32, 14.36, 14.26, 14.30], [14.30, 14.34, 14.24, 14.28], [14.28, 14.34, 14.24, 14.32], [14.32, 14.34, 14.24, 14.28], [14.28, 14.32, 14.22, 14.26], [14.26, 14.32, 14.22, 14.30], [14.30, 14.34, 14.24, 14.28], [14.28, 14.32, 14.22, 14.26]]
@@ -46,7 +46,7 @@ screens:
       decision_index: 5
     state: ["Day: −2.6R", "Limit: 3R", "Trades: 4 of 6"]
     best: no-trade
-    outcome: "It sat on the line for another five minutes and finished the stretch at $14.26. Nine cents of quote on 1,100 shares is $99 to join it."
+    outcome: "It sat on the line for another five minutes and finished the stretch at $14.26. Nine cents of quote on 1,000 shares is $90 to join it."
     explanation: "The level is real and nothing is happening at it. Two stops behind you and a nine-cent quote in front is a combination that belongs to the page, not to the chart."
 
   - type: visual

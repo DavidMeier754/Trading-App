@@ -13,7 +13,7 @@ prerequisite: "6-3"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
-notes: "Chapter 4's volume read and Chapter 6's trade cap re-tested in the dead stretch. Account named at $16,000; the worked position is 1,200 shares at $12.94 = $15,528."
+notes: "Chapter 4's volume read and Chapter 6's trade cap re-tested in the dead stretch. Account named at $16,000; the worked position is 1,100 shares at $12.94 = $14,234."
 screens:
   - type: intro
     text: "Same screen, same names, and a chart that has stopped saying anything."
@@ -48,15 +48,15 @@ screens:
     explanation: "A fifth of the participation, and the same setup drawn on a fifth of the participation is a different setup."
 
   - type: chart-decision
-    scenario: "The middle of the session. EDRIC has spent twenty minutes inside a ten-cent band, every minute overlapping the one before it, on bars a fifth the size of the opening hour's. The quote is seven cents. Your account is $16,000 and your size is 1,200 shares."
-    shares: 1200
+    scenario: "The middle of the session. EDRIC has spent twenty minutes inside a ten-cent band, every minute overlapping the one before it, on bars a fifth the size of the opening hour's. The quote is seven cents. Your account is $16,000 and your size is 1,100 shares."
+    shares: 1100
     chart:
       kind: candles
       data: [[12.92, 12.98, 12.90, 12.94], [12.94, 12.98, 12.89, 12.92], [12.92, 12.97, 12.90, 12.96], [12.96, 12.99, 12.91, 12.93], [12.93, 12.98, 12.90, 12.95], [12.95, 12.99, 12.91, 12.94], [12.94, 12.98, 12.90, 12.92], [12.92, 12.97, 12.89, 12.95], [12.95, 12.98, 12.91, 12.93], [12.93, 12.97, 12.90, 12.94]]
       volume: [46000, 38000, 41000, 34000, 37000, 31000, 36000, 33000, 29000, 35000]
       decision_index: 5
     best: no-trade
-    outcome: "It finished the stretch at $12.94, exactly where the decision was. Seven cents of quote on 1,200 shares is $84 to enter a ten-cent band."
+    outcome: "It finished the stretch at $12.94, exactly where the decision was. Seven cents of quote on 1,100 shares is $77 to enter a ten-cent band."
     explanation: "Nothing is wrong with the chart. There is just no move in it big enough to pay for the quote that stands between you and it."
 
   - type: tf

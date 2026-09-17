@@ -13,7 +13,7 @@ prerequisite: "7-1"
 xp: 25
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Steenbarger — The Daily Trading Coach"]
-notes: "Chapter 6's cut-size-keep-setups rule and its reject-a-trade-whose-target-is-under-its-stop rule re-tested in the lull; Chapter 4's confluence read supplies the bar to clear. Account named at $16,000; the worked position is 900 shares at $17.42 = $15,678."
+notes: "Chapter 6's cut-size-keep-setups rule and its reject-a-trade-whose-target-is-under-its-stop rule re-tested in the lull; Chapter 4's confluence read supplies the bar to clear. Account named at $16,000; the worked position is 800 shares at $17.42 = $13,936."
 screens:
   - type: intro
     text: "Three honest answers to a dead stretch, and one habit that is none of them."
@@ -45,8 +45,8 @@ screens:
     explanation: "Chapter 4's four-part read does not change; the pass mark does. Two out of four is a trade at the open and a pass in the dead stretch."
 
   - type: chart-decision
-    scenario: "The middle of the session, and BRIM has not been quiet. It has held above its own average price all stretch, the quote is two cents, and the minute that just closed finished at $17.42 through the high it set an hour ago on the heaviest bar since the open. Your account is $16,000 and you have cut your size to 900 shares."
-    shares: 900
+    scenario: "The middle of the session, and BRIM has not been quiet. It has held above its own average price all stretch, the quote is two cents, and the minute that just closed finished at $17.42 through the high it set an hour ago on the heaviest bar since the open. Your account is $16,000 and you have cut your size to 800 shares."
+    shares: 800
     chart:
       kind: candles
       data: [[17.20, 17.26, 17.16, 17.24], [17.24, 17.30, 17.20, 17.26], [17.26, 17.34, 17.22, 17.30], [17.30, 17.36, 17.26, 17.32], [17.32, 17.38, 17.28, 17.36], [17.36, 17.46, 17.34, 17.42], [17.42, 17.54, 17.40, 17.50], [17.50, 17.60, 17.46, 17.56], [17.56, 17.66, 17.52, 17.62], [17.62, 17.68, 17.58, 17.64]]
@@ -58,7 +58,7 @@ screens:
     state: ["Day: +1R", "Trades: 2 of 6"]
     best: long
     reasonable: [no-trade]
-    outcome: "It worked to $17.64 — $0.22 a share above the decision, +$198 long on 900 shares."
+    outcome: "It worked to $17.64 — $0.22 a share above the decision, +$176 long on 800 shares."
     explanation: "A thin stretch is a reason to demand more, not a reason to refuse everything. Every part of the read is here and the size is the part that got smaller."
 
   - type: tf
@@ -67,8 +67,8 @@ screens:
     explanation: "Size is the one control you can change without changing the method. The moment the cards or the stops move too, you are not cutting risk — you are lowering the bar."
 
   - type: branch
-    scenario: "You are long 900 BRIM from $17.42 with the stop at $17.32, on the size you cut for the stretch."
-    shares: 900
+    scenario: "You are long 800 BRIM from $17.42 with the stop at $17.32, on the size you cut for the stretch."
+    shares: 800
     chart:
       kind: candles
       data: [[17.36, 17.46, 17.34, 17.42], [17.42, 17.54, 17.40, 17.50], [17.50, 17.56, 17.44, 17.46], [17.46, 17.50, 17.40, 17.44], [17.44, 17.52, 17.42, 17.50], [17.50, 17.62, 17.48, 17.58], [17.58, 17.64, 17.54, 17.60], [17.60, 17.68, 17.56, 17.64]]
@@ -81,20 +81,20 @@ screens:
         explanation: "A stop tightened into small bars is a stop that gets hit by the noise the lull is made of. Nothing about the idea has changed."
       - prompt: "It pushes back up and your ten-cent target is reached. What does the smaller size change about the exit?"
         options:
-          - {text: "Nothing — the exit is a price, and $90 is what 900 shares of it is worth", correct: true}
+          - {text: "Nothing — the exit is a price, and $80 is what 800 shares of it is worth", correct: true}
           - {text: "Hold for more, because the smaller size makes the risk of holding smaller"}
-        explanation: "Ten cents on 900 shares is $90 instead of the $110 the same ten cents pays on 1,100. That is the trade you chose when you cut the size, and it is not renegotiated at the target."
+        explanation: "Ten cents on 800 shares is $80 instead of the $110 the same ten cents pays on 1,100. That is the trade you chose when you cut the size, and it is not renegotiated at the target."
 
   - type: order-build
-    prompt: "A second lull setup on BRIM: short 900 shares, nothing worse than three cents under the bid of $17.58."
+    prompt: "A second lull setup on BRIM: short 800 shares, nothing worse than three cents under the bid of $17.58."
     ticker: BRIM
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [450, 900, 1800]
+      qty: [400, 800, 1600]
       price: [17.55, 17.58, 17.61]
-    answer: {side: sell, type: limit, qty: 900, price: 17.55}
+    answer: {side: sell, type: limit, qty: 800, price: 17.55}
     explanation: "A sell limit three cents under the bid crosses the quote and still refuses anything below $17.55. Thin books are exactly where that floor earns its keep."
 
   - type: spot-mistake

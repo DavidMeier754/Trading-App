@@ -13,7 +13,7 @@ prerequisite: "1-4"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
-notes: "Chapter 3's slippage re-tested as hesitation. Account named at $20,000; the worked position is 1,300 shares at $15.06 = $19,578."
+notes: "Chapter 3's slippage re-tested as hesitation. Account named at $20,000; the worked position is 1,200 shares at $15.06 = $18,072."
 screens:
   - type: intro
     text: "Two seconds of hunting for a button is not a small problem when your stop is twelve cents away."
@@ -92,8 +92,8 @@ screens:
     explanation: "Cancel removes orders that have not filled. Flatten removes the shares themselves."
 
   - type: chart-decision
-    scenario: "XYZ is running, the candles are thirty cents tall and the quote has opened to six cents wide. Your $20,000 account allows 1,300 shares here."
-    shares: 1300
+    scenario: "XYZ is running, the candles are thirty cents tall and the quote has opened to six cents wide. Your $20,000 account allows 1,200 shares here."
+    shares: 1200
     state: ["Quote: 6 cents wide"]
     chart:
       kind: candles
@@ -101,7 +101,7 @@ screens:
       volume: [126000, 158000, 184000, 212000, 246000, 268000, 232000, 198000, 176000, 154000]
       decision_index: 5
     best: no-trade
-    outcome: "It turned at $15.14 and was back at $14.12 nine minutes later — $0.94 a share against a long, $1,222 on 1,300 shares."
+    outcome: "It turned at $15.14 and was back at $14.12 nine minutes later — $0.94 a share against a long, $1,128 on 1,200 shares."
     explanation: "Fast keys do not make a six-cent quote cheap. The speed you built is for leaving trades you chose, not for joining ones you did not."
 
   - type: sort

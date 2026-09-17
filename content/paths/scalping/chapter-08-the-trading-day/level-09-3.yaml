@@ -13,7 +13,7 @@ prerequisite: "9-2"
 xp: 30
 difficulty: 3
 sources: ["Steenbarger — The Daily Trading Coach", "Elder — Trading for a Living"]
-notes: "Closes Level 9 with a recap. The day from 9-1 and 9-2 finished: +2R, −1R, +1.5R across three trades. Account named at $16,000; the worked position is 1,000 shares at $11.72 = $11,720."
+notes: "Closes Level 9 with a recap. The day from 9-1 and 9-2 finished: +2R, −1R, +1.5R across three trades. Account named at $16,000; the worked position is 900 shares at $11.72 = $10,548."
 screens:
   - type: intro
     text: "Two trades behind you, the last stretch in front, and a sheet with nothing on it yet."
@@ -23,8 +23,8 @@ screens:
     text: "Up a unit, two of six trades used, and ORRIN has spent the whole quiet stretch holding above the price that stopped you out."
 
   - type: chart-decision
-    scenario: "The last half hour. ORRIN has held above $11.44 since the middle of the session and the minute that just closed finished at $11.72, through the high of the day on the heaviest bar since the open. The quote is three cents. Your account is $16,000 and the page says 1,000 shares."
-    shares: 1000
+    scenario: "The last half hour. ORRIN has held above $11.44 since the middle of the session and the minute that just closed finished at $11.72, through the high of the day on the heaviest bar since the open. The quote is three cents. Your account is $16,000 and the page says 900 shares."
+    shares: 900
     chart:
       kind: candles
       data: [[11.52, 11.58, 11.48, 11.56], [11.56, 11.62, 11.52, 11.58], [11.58, 11.64, 11.54, 11.60], [11.60, 11.66, 11.56, 11.62], [11.62, 11.66, 11.58, 11.64], [11.64, 11.76, 11.62, 11.72], [11.72, 11.84, 11.68, 11.80], [11.80, 11.90, 11.76, 11.86], [11.86, 11.94, 11.82, 11.90], [11.90, 11.96, 11.84, 11.89]]
@@ -35,7 +35,7 @@ screens:
     state: ["Day: +1R", "Trades: 2 of 6"]
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $11.89 — $0.17 a share above the decision, and the exit at $11.90 into the bell made $180 on 1,000 shares."
+    outcome: "It ran to $11.89 — $0.17 a share above the decision, and the exit at $11.90 into the bell made $162 on 900 shares."
     explanation: "Same name, same card, and this time the level held before it went. The trade that stopped you out earlier is not evidence against the one the chart is offering now."
 
   - type: visual
@@ -46,22 +46,22 @@ screens:
     caption: "Three trades of the six allowed, and the running total never came near the number that ends the day."
 
   - type: numeric-input
-    prompt: "The three trades came to +2R, −1R and +1.5R. Your 1R is $120. What did the day make in dollars?"
-    answer: 300
+    prompt: "The three trades came to +2R, −1R and +1.5R. Your 1R is $108. What did the day make in dollars?"
+    answer: 270
     tolerance: 1
     unit: "$"
-    working: "2 − 1 + 1.5 = 2.5R; 2.5 × $120 = $300"
+    working: "2 − 1 + 1.5 = 2.5R; 2.5 × $108 = $270"
     explanation: "The R column adds up first and the dollars come out of it. Tomorrow's size may differ and the R column will still be comparable."
 
   - type: journal-row
-    prompt: "The last trade of the day, 1,000 shares. Fill its row."
-    trade: {setup: "Momentum continuation", entry: 11.72, stop: 11.60, exit: 11.90, shares: 1000}
+    prompt: "The last trade of the day, 900 shares. Fill its row."
+    trade: {setup: "Momentum continuation", entry: 11.72, stop: 11.60, exit: 11.90, shares: 900}
     slots: [r_risked, r_made, grade]
     chips:
-      r_risked: ["$108", "$120", "$180"]
+      r_risked: ["$90", "$108", "$162"]
       r_made: ["+1R", "+1.5R", "+2R"]
       grade: ["A", "B", "C"]
-    answer: {r_risked: "$120", r_made: "+1.5R", grade: "A"}
+    answer: {r_risked: "$108", r_made: "+1.5R", grade: "A"}
     explanation: "Twelve cents risked and eighteen made: one and a half units, on a card the page named before the bell."
 
   - type: hotspot

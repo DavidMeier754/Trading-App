@@ -13,7 +13,7 @@ prerequisite: "13-1"
 xp: 30
 difficulty: 3
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Bellafiore — One Good Trade"]
-notes: "Closes Level 13 with a recap. Chapter 6's two ceilings and Chapter 7's cards re-tested against each other. Account named at $20,000, default page size 1,200 shares, risk budget $200. The worked positions are 800 shares at $24.50 = $19,600 and 800 at $24.55 = $19,640."
+notes: "Closes Level 13 with a recap. Chapter 6's two ceilings and Chapter 7's cards re-tested against each other. Account named at $20,000, default page size 1,200 shares, risk budget $200. The worked positions are 700 shares at $24.50 = $17,150 and 700 at $24.55 = $17,185."
 screens:
   - type: intro
     text: "The card is the one you have drilled forty times. The share size on the page belongs to a different stock."
@@ -35,33 +35,33 @@ screens:
 
   - type: numeric-input
     prompt: "The card fires on ORWELL at $24.50 instead. How many shares can a $20,000 account pay for?"
-    answer: 816
+    answer: 775
     tolerance: 5
     unit: "shares"
-    working: "$20,000 ÷ $24.50 = 816 shares"
-    explanation: "Eight hundred and change, against the 1,200 on the page. The card said nothing about share counts; the account did."
+    working: "$20,000 × 0.95 ÷ $24.50 = 775 shares"
+    explanation: "Seven hundred and change, against the 1,200 on the page. The card said nothing about share counts; the account did."
 
   - type: chart-decision
-    scenario: "ORWELL has held above its own average price all morning, given back fourteen cents over three lighter minutes, and the minute that just closed finished at $24.50 back above the line. The stop belongs under the pullback at $24.36. You have rounded the size down to 800 shares."
-    shares: 800
+    scenario: "ORWELL has held above its own average price all morning, given back fourteen cents over three lighter minutes, and the minute that just closed finished at $24.50 back above the line. The stop belongs under the pullback at $24.36. You have rounded the size down to 700 shares."
+    shares: 700
     chart:
       kind: candles
       data: [[24.62, 24.68, 24.50, 24.54], [24.54, 24.58, 24.42, 24.46], [24.46, 24.52, 24.38, 24.42], [24.42, 24.48, 24.36, 24.40], [24.40, 24.46, 24.36, 24.42], [24.42, 24.54, 24.40, 24.50], [24.50, 24.66, 24.48, 24.62], [24.62, 24.76, 24.58, 24.72], [24.72, 24.86, 24.68, 24.82], [24.82, 24.90, 24.78, 24.85]]
       volume: [96000, 88000, 74000, 68000, 72000, 186000, 158000, 134000, 116000, 104000]
       vwap: [24.56, 24.54, 24.51, 24.49, 24.47, 24.46, 24.47, 24.49, 24.52, 24.55]
       decision_index: 5
-    state: ["Size: 800, capped by the account", "Day: 0R"]
+    state: ["Size: 700, capped by the account", "Day: 0R"]
     best: long
     reasonable: [no-trade]
-    outcome: "It worked to $24.85 — $0.35 a share above the decision, +$280 on 800 shares against $112 of risk."
+    outcome: "It worked to $24.85 — $0.35 a share above the decision, +$245 on 700 shares against $98 of risk."
     explanation: "Every condition on the card is present and the only thing that changed is the number in the quantity box. A smaller position is still the trade."
 
   - type: numeric-input
-    prompt: "800 shares with the stop fourteen cents under the entry. What is 1R on this one?"
-    answer: 112
+    prompt: "700 shares with the stop fourteen cents under the entry. What is 1R on this one?"
+    answer: 98
     tolerance: 0.5
     unit: "$"
-    working: "$0.14 × 800 = $112"
+    working: "$0.14 × 700 = $98"
     explanation: "Under the $200 the budget allowed, because the account ran out first. Risking less than the budget costs you nothing at all."
 
   - type: order-build
@@ -71,10 +71,10 @@ screens:
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [800, 1200, 1600]
+      qty: [700, 1200, 1600]
       price: [24.49, 24.52, 24.55]
-    answer: {side: buy, type: limit, qty: 800, price: 24.55}
-    explanation: "800 × $24.55 is $19,640 of a $20,000 account. The same ticket at 1,200 asks for $29,460 that is not there."
+    answer: {side: buy, type: limit, qty: 700, price: 24.55}
+    explanation: "700 × $24.55 is $17,185 of a $20,000 account. The same ticket at 1,200 asks for $29,460 that is not there."
 
   - type: tf
     statement: "A card you can only take at two-thirds of your usual size is a card to pass."
@@ -83,13 +83,13 @@ screens:
 
   - type: journal-row
     prompt: "That trade closed at $24.78. Fill its row, at the size you actually took."
-    trade: {setup: "VWAP bounce", entry: 24.50, stop: 24.36, exit: 24.78, shares: 800}
+    trade: {setup: "VWAP bounce", entry: 24.50, stop: 24.36, exit: 24.78, shares: 700}
     slots: [r_risked, r_made, grade]
     chips:
-      r_risked: ["$112", "$168", "$200"]
+      r_risked: ["$70", "$98", "$140"]
       r_made: ["+1R", "+2R", "+3R"]
       grade: ["A", "B", "C"]
-    answer: {r_risked: "$112", r_made: "+2R", grade: "A"}
+    answer: {r_risked: "$98", r_made: "+2R", grade: "A"}
     explanation: "Fourteen cents risked and twenty-eight made, on the size the account allowed. The row records what was taken, never what a fuller position would have made."
 
   - type: spot-mistake

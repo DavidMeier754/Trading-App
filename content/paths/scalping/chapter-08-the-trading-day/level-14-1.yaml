@@ -13,7 +13,7 @@ prerequisite: "13-2"
 xp: 25
 difficulty: 2
 sources: ["Bellafiore — The PlayBook", "Steenbarger — The Daily Trading Coach"]
-notes: "Opens Level 14. Chapter 7's eight cards narrowed to two, and Chapter 6's sample size used as the reason. Simulator account named at $12,000; the worked position is 700 shares at $16.32 = $11,424."
+notes: "Opens Level 14. Chapter 7's eight cards narrowed to two, and Chapter 6's sample size used as the reason. Simulator account named at $12,000; the worked position is 600 shares at $16.32 = $9,792."
 screens:
   - type: intro
     text: "Thirty mornings, eight cards and one sheet. Two of those numbers are about to get much smaller."
@@ -49,8 +49,8 @@ screens:
     body: "The same sixty rows across eight cards gives you eight answers you cannot trust. Across two it gives you two you can."
 
   - type: chart-decision
-    scenario: "Second week of the thirty. RENO has run six minutes into the level you marked before the bell, the volume on the last minute is the heaviest of the session, and it closed back under the level. That is your fade card — which is not one of the two you are drilling. Your simulator account is $12,000 and the page says 700 shares."
-    shares: 700
+    scenario: "Second week of the thirty. RENO has run six minutes into the level you marked before the bell, the volume on the last minute is the heaviest of the session, and it closed back under the level. That is your fade card — which is not one of the two you are drilling. Your simulator account is $12,000 and the page says 600 shares."
+    shares: 600
     chart:
       kind: candles
       data: [[16.02, 16.14, 16.00, 16.12], [16.12, 16.24, 16.10, 16.22], [16.22, 16.32, 16.20, 16.30], [16.30, 16.38, 16.28, 16.36], [16.36, 16.42, 16.34, 16.40], [16.40, 16.46, 16.30, 16.32], [16.32, 16.34, 16.20, 16.22], [16.22, 16.26, 16.10, 16.12], [16.12, 16.16, 16.02, 16.04], [16.04, 16.08, 15.96, 15.98]]

@@ -13,7 +13,7 @@ prerequisite: "8-3"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
-notes: "One narrated session, opened here and continued in 9-2 and 9-3. Account named at $16,000, day size 1,000 shares, 1R $120, limit 3R, cap 6 trades. The worked position is 1,000 shares at $15.00 = $15,000."
+notes: "One narrated session, opened here and continued in 9-2 and 9-3. Account named at $16,000, day size 900 shares, 1R $108, limit 3R, cap 6 trades. The worked position is 900 shares at $15.00 = $13,500."
 screens:
   - type: intro
     text: "One session, start to finish, on a morning you have not seen before."
@@ -46,11 +46,11 @@ screens:
 
   - type: theory
     title: "What the page ends up saying"
-    body: "Two names, three lines each, one thousand shares, $120 a unit, three units of room and six trades. If CASP closes a minute above $14.92, buy 1,000, stop $14.88."
+    body: "Two names, three lines each, nine hundred shares, $108 a unit, three units of room and six trades. If CASP closes a minute above $14.92, buy 900, stop $14.88."
 
   - type: chart-decision
-    scenario: "The bell went five minutes ago. CASP has pressed $14.92 twice without closing above it, and the minute that just closed finished at $15.00 on the heaviest bar since the open. Your account is $16,000 and the page says 1,000 shares."
-    shares: 1000
+    scenario: "The bell went five minutes ago. CASP has pressed $14.92 twice without closing above it, and the minute that just closed finished at $15.00 on the heaviest bar since the open. Your account is $16,000 and the page says 900 shares."
+    shares: 900
     chart:
       kind: candles
       data: [[14.84, 14.94, 14.78, 14.88], [14.88, 14.92, 14.80, 14.86], [14.86, 14.90, 14.80, 14.84], [14.84, 14.92, 14.82, 14.90], [14.90, 14.92, 14.84, 14.88], [14.88, 15.04, 14.86, 15.00], [15.00, 15.14, 14.96, 15.10], [15.10, 15.22, 15.06, 15.18], [15.18, 15.28, 15.12, 15.24], [15.24, 15.34, 15.18, 15.31]]
@@ -61,15 +61,15 @@ screens:
     state: ["Day: 0R", "Trade 1 of 6"]
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $15.31 — $0.31 a share above the decision, and the 2R exit at $15.24 was $240 of that on 1,000 shares."
+    outcome: "It worked up to $15.31 — $0.31 a share above the decision, and the 2R exit at $15.24 was $216 of that on 900 shares."
     explanation: "The line was drawn an hour before the bell and the stop goes four cents back under it. Everything the session added was which minute it happened in."
 
   - type: numeric-input
-    prompt: "Filled at $15.00 with the stop at $14.88 on 1,000 shares, and your loss limit is 3R. In dollars, where does the day end?"
-    answer: 360
+    prompt: "Filled at $15.00 with the stop at $14.88 on 900 shares, and your loss limit is 3R. In dollars, where does the day end?"
+    answer: 324
     tolerance: 1
     unit: "$"
-    working: "$15.00 − $14.88 = $0.12; $0.12 × 1,000 = $120 for 1R; 3 × $120 = $360"
+    working: "$15.00 − $14.88 = $0.12; $0.12 × 900 = $108 for 1R; 3 × $108 = $324"
     explanation: "Two steps, both of them off numbers the page already carried. The limit only becomes money once the size is fixed."
 
   - type: order-build
@@ -79,18 +79,18 @@ screens:
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [500, 1000, 1500]
+      qty: [450, 900, 1200]
       price: [14.99, 15.02, 15.05]
-    answer: {side: buy, type: limit, qty: 1000, price: 15.05}
-    explanation: "1,000 × $15.05 is $15,050 of a $16,000 account. At 1,500 shares the ticket is $22,575 and the account cannot pay for it."
+    answer: {side: buy, type: limit, qty: 900, price: 15.05}
+    explanation: "900 × $15.05 is $13,545 of a $16,000 account. At 1,200 shares the ticket is $18,060 and the account cannot pay for it."
 
   - type: depth-ladder
-    prompt: "That 1,000-share order crosses the quote. Where does the last share fill?"
+    prompt: "That 900-share order crosses the quote. Where does the last share fill?"
     data:
       bids: [[15.00, 700], [14.99, 1100], [14.98, 2400]]
       asks: [[15.02, 400], [15.03, 900], [15.04, 1500]]
     target: ask-2
-    explanation: "400 at $15.02 leaves 600, and the second row has 900 to give. The $15.05 ceiling was never tested, which is what a ceiling is for."
+    explanation: "400 at $15.02 leaves 500, and the second row has 900 to give. The $15.05 ceiling was never tested, which is what a ceiling is for."
 
   - type: mc
     prompt: "Your page named two cards for CASP. It opened and ran for twenty minutes without pausing, so no box ever formed. Which card is still live?"

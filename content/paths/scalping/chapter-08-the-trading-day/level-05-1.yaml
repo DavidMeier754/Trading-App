@@ -13,14 +13,14 @@ prerequisite: "4-4"
 xp: 40
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
-notes: "10 scored questions. Hearts apply. Pass mark 70 %. Four questions reach back: order-build, depth-ladder and the sort to Chapter 3, the scanner row and the relative-volume statement to Chapter 5. Account named at $12,000; the worked position is 900 shares at $13.21 = $11,889."
+notes: "10 scored questions. Hearts apply. Pass mark 70 %. Four questions reach back: order-build, depth-ladder and the sort to Chapter 3, the scanner row and the relative-volume statement to Chapter 5. Account named at $12,000; the worked position is 800 shares at $13.21 = $10,568."
 screens:
   - type: intro
     text: "Checkpoint. Ten questions on the screen, the keys and the hour before the bell. Hearts are on."
     counter: 10
 
   - type: mc
-    prompt: "Your 900 shares filled across three rows of the book. Which panel tells you what you own them at?"
+    prompt: "Your 800 shares filled across three rows of the book. Which panel tells you what you own them at?"
     options:
       - {text: "The ticket you sent"}
       - {text: "The positions panel", correct: true}
@@ -28,24 +28,24 @@ screens:
     explanation: "The ticket holds what you asked for. The positions panel holds the average the fills actually came to."
 
   - type: order-build
-    prompt: "MOBR's ask is $13.18 and your page says 900 shares, nothing worse than three cents through it. Build the entry."
+    prompt: "MOBR's ask is $13.18 and your page says 800 shares, nothing worse than three cents through it. Build the entry."
     ticker: MOBR
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [450, 900, 1350]
+      qty: [400, 800, 1200]
       price: [13.15, 13.18, 13.21]
-    answer: {side: buy, type: limit, qty: 900, price: 13.21}
+    answer: {side: buy, type: limit, qty: 800, price: 13.21}
     explanation: "A limit three cents through the ask crosses the quote like a market order and still refuses anything worse than $13.21."
 
   - type: depth-ladder
-    prompt: "That 900-share buy goes in as a plain market order instead. Where does the last share fill?"
+    prompt: "That 800-share buy goes in as a plain market order instead. Where does the last share fill?"
     data:
       bids: [[13.15, 500], [13.14, 700], [13.13, 1900]]
       asks: [[13.18, 400], [13.19, 300], [13.20, 1600]]
     target: ask-3
-    explanation: "400 at $13.18 and 300 at $13.19 leave 200 shares, and those take $13.20 — the third row."
+    explanation: "400 at $13.18 and 300 at $13.19 leave 100 shares, and those take $13.20 — the third row."
 
   - type: hotspot
     component: hotkey-pad
@@ -61,11 +61,11 @@ screens:
     explanation: "Cancel clears working orders. Flatten closes positions, and you have none — pressing it here does nothing you needed."
 
   - type: numeric-input
-    prompt: "Your size today is 900 shares and the stop on your page is nine cents. What is 1R in dollars?"
-    answer: 81
+    prompt: "Your size today is 800 shares and the stop on your page is nine cents. What is 1R in dollars?"
+    answer: 72
     tolerance: 0.5
     unit: "$"
-    working: "$0.09 × 900 = $81"
+    working: "$0.09 × 800 = $72"
     explanation: "One unit of risk, in the money it is actually made of. Every limit on the page is a multiple of this number."
 
   - type: scanner-pick
@@ -89,7 +89,7 @@ screens:
     buckets: ["The ticket decides it", "The book decides it"]
     items:
       - {text: "The highest price you are willing to pay", bucket: "The ticket decides it"}
-      - {text: "The average your 900 shares came to", bucket: "The book decides it"}
+      - {text: "The average your 800 shares came to", bucket: "The book decides it"}
       - {text: "Whether a resting limit fills at all", bucket: "The book decides it"}
       - {text: "How many shares leave the platform", bucket: "The ticket decides it"}
     explanation: "You choose the size and the ceiling. Everything about the fill itself is decided by what is resting on the other side."

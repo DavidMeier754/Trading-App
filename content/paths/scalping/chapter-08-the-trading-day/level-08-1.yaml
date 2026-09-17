@@ -13,7 +13,7 @@ prerequisite: "7-3"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Elder — Trading for a Living"]
-notes: "Chapter 6's stop and R re-tested against the one risk a stop cannot cover. Account named at $16,000; the worked position is 1,200 shares at $12.86 = $15,432."
+notes: "Chapter 6's stop and R re-tested against the one risk a stop cannot cover. Account named at $16,000; the worked position is 1,100 shares at $12.86 = $14,146."
 screens:
   - type: intro
     text: "Every scalping session ends the same way, whatever the last chart is doing."
@@ -56,8 +56,8 @@ screens:
     body: "Volume comes back before the bell, but a lot of it is orders that must be done today — closing, rebalancing, tidying. The moves are real; the reasons behind them are not the morning's."
 
   - type: chart-decision
-    scenario: "The last half hour. NEVIN has held under its own average price since the middle of the session and has just closed a minute at $12.86, under the low it made an hour ago, on the heaviest bar since the open. Your account is $16,000 and your size is 1,200 shares."
-    shares: 1200
+    scenario: "The last half hour. NEVIN has held under its own average price since the middle of the session and has just closed a minute at $12.86, under the low it made an hour ago, on the heaviest bar since the open. Your account is $16,000 and your size is 1,100 shares."
+    shares: 1100
     chart:
       kind: candles
       data: [[13.06, 13.10, 13.00, 13.02], [13.02, 13.06, 12.98, 13.04], [13.04, 13.08, 12.96, 12.98], [12.98, 13.02, 12.94, 13.00], [13.00, 13.02, 12.92, 12.94], [12.94, 12.96, 12.82, 12.86], [12.86, 12.88, 12.74, 12.78], [12.78, 12.82, 12.68, 12.72], [12.72, 12.76, 12.64, 12.68], [12.68, 12.72, 12.58, 12.61]]
@@ -69,7 +69,7 @@ screens:
     state: ["Day: +1R", "Trades: 4 of 6"]
     best: short
     reasonable: [no-trade]
-    outcome: "It kept going to $12.61 — $0.25 a share below the decision, +$300 short on 1,200 shares."
+    outcome: "It kept going to $12.61 — $0.25 a share below the decision, +$275 short on 1,100 shares."
     explanation: "Real volume behind a break of a marked price is a trade whatever the hour is. What changes near the close is that this one has a deadline."
 
   - type: mc
@@ -78,7 +78,7 @@ screens:
       - {text: "The size of the risk you already agreed to", correct: true}
       - {text: "The setup, which becomes a swing trade"}
       - {text: "Nothing, as long as the stop stays where it is"}
-    explanation: "You sized 1,200 shares against twelve cents. Holding makes the same position carry a move nobody can measure in advance, and you never agreed to that number."
+    explanation: "You sized 1,100 shares against twelve cents. Holding makes the same position carry a move nobody can measure in advance, and you never agreed to that number."
 
   - type: sort
     prompt: "Which of these is still the trade you planned, and which has quietly become a different one?"

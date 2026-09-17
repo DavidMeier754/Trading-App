@@ -13,7 +13,7 @@ prerequisite: "12-2"
 xp: 25
 difficulty: 3
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Steenbarger — Trading Psychology 2.0"]
-notes: "Closes Level 12 with a recap. Chapter 6's drawdown asymmetry re-tested as the cost of the smaller unit on the way back. The account opened the stretch at $18,000 and stands at $16,920; the worked position is 800 shares at $13.44 = $10,752."
+notes: "Closes Level 12 with a recap. Chapter 6's drawdown asymmetry re-tested as the cost of the smaller unit on the way back. The account opened the stretch at $18,000 and stands at $16,992; the worked position is 800 shares at $13.44 = $10,752."
 screens:
   - type: intro
     text: "Six sessions, −6R, and a size that was raised three weeks ago."
@@ -40,12 +40,12 @@ screens:
     caption: "Six sessions in R. The worst of them stopped where the daily limit said it would."
 
   - type: numeric-input
-    prompt: "Those six sessions came to −6R and your 1R was $180. What did the stretch cost?"
-    answer: 1080
+    prompt: "Those six sessions came to −6R and your 1R was $168. What did the stretch cost?"
+    answer: 1008
     tolerance: 1
     unit: "$"
-    working: "6 × $180 = $1,080"
-    explanation: "Six units at the size the rows had earned. An $18,000 account stands at $16,920 after it."
+    working: "6 × $168 = $1,008"
+    explanation: "Six units at the size the rows had earned. An $18,000 account stands at $16,992 after it."
 
   - type: mc
     prompt: "The size came down the day the stretch reached −5R. What was that responding to?"
@@ -72,21 +72,21 @@ screens:
       volume: [118000, 96000, 84000, 72000, 68000, 164000, 142000, 118000, 104000, 92000]
       vwap: [13.50, 13.48, 13.45, 13.43, 13.42, 13.41, 13.42, 13.43, 13.45, 13.46]
       decision_index: 5
-    state: ["Stretch: −6R", "Size: 800 of 1,500"]
+    state: ["Stretch: −6R", "Size: 800 of 1,400"]
     best: long
     reasonable: [no-trade]
     outcome: "It worked to $13.59 — $0.15 a share above the decision, +$120 on 800 shares against $96 of risk."
     explanation: "The card is untouched and the pullback came on the lightest minutes of the morning. A smaller rung is not a reason to take a worse trade or to pass a good one."
 
   - type: numeric-mc
-    prompt: "The hole is $1,080 and one unit is now $96. How many units is it, at this rung?"
+    prompt: "The hole is $1,008 and one unit is now $96. How many units is it, at this rung?"
     options:
       - {text: "6R"}
       - {text: "3R"}
-      - {text: "11.3R", correct: true}
+      - {text: "10.5R", correct: true}
       - {text: "18R"}
-    working: "$1,080 ÷ $96 = 11.3R"
-    explanation: "Six units made it and eleven are needed to undo it, because the unit itself got smaller on the way down."
+    working: "$1,008 ÷ $96 = 10.5R"
+    explanation: "Six units made it and ten and a half are needed to undo it, because the unit itself got smaller on the way down."
 
   - type: tf
     statement: "Because the hole is worth more units at the smaller size, the sensible response is to keep the size until it is filled."

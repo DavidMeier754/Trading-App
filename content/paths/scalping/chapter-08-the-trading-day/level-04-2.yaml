@@ -13,7 +13,7 @@ prerequisite: "4-1"
 xp: 25
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
-notes: "Chapter 5's levels, internals and day type re-tested inside the hour. Account named at $16,000; the worked position is 1,100 shares at $14.52 = $15,972."
+notes: "Chapter 5's levels, internals and day type re-tested inside the hour. Account named at $16,000; the worked position is 1,000 shares at $14.52 = $14,520."
 screens:
   - type: intro
     text: "Two of the five steps carry most of the hour. One is slow, and nobody skips it twice."
@@ -96,8 +96,8 @@ screens:
     explanation: "Preparation finishes early and evidence arrives late. Confusing the two is how a guess ends up on the page as a fact."
 
   - type: chart-decision
-    scenario: "KORL opened, held the $14.12 line you drew, and this minute closed back above the pre-market high at $14.46 on the heaviest volume of the session. Your $16,000 account allows 1,100 shares here."
-    shares: 1100
+    scenario: "KORL opened, held the $14.12 line you drew, and this minute closed back above the pre-market high at $14.46 on the heaviest volume of the session. Your $16,000 account allows 1,000 shares here."
+    shares: 1000
     chart:
       kind: candles
       data: [[14.16, 14.24, 14.12, 14.22], [14.22, 14.30, 14.18, 14.26], [14.26, 14.34, 14.22, 14.30], [14.30, 14.40, 14.26, 14.36], [14.36, 14.46, 14.32, 14.42], [14.42, 14.54, 14.40, 14.52], [14.52, 14.62, 14.48, 14.58], [14.58, 14.66, 14.54, 14.62], [14.62, 14.72, 14.58, 14.68], [14.68, 14.74, 14.64, 14.70]]
@@ -108,7 +108,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $14.70 — $0.18 a share above the decision, +$198 long on 1,100 shares."
+    outcome: "It worked up to $14.70 — $0.18 a share above the decision, +$180 long on 1,000 shares."
     explanation: "Both lines were drawn an hour before the bell. All the open added was which of them price would use."
 
   - type: compare

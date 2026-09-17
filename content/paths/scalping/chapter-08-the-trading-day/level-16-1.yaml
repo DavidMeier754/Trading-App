@@ -13,14 +13,14 @@ prerequisite: "15-3"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Elder — Trading for a Living"]
-notes: "Monday and Tuesday of the capstone week, on the simulator month from Level 14. Account named at $12,000, size 700 shares, 1R $84, limit 3R, cap 3 tickets. The worked positions are 700 shares at $14.08 = $9,856 and 700 at $12.78 = $8,946."
+notes: "Monday and Tuesday of the capstone week, on the simulator month from Level 14. Account named at $12,000, size 600 shares, 1R $72, limit 3R, cap 3 tickets. The worked positions are 600 shares at $14.08 = $8,448 and 600 at $12.78 = $7,668."
 screens:
   - type: intro
     text: "Five sessions, one page. This is the first two of them, and only one goes well."
 
   - type: story
     character: retail-trader
-    text: "Monday, before the bell. The scan is done, the levels are drawn, and the page says two cards, 700 shares, three tickets and a limit at three units."
+    text: "Monday, before the bell. The scan is done, the levels are drawn, and the page says two cards, 600 shares, three tickets and a limit at three units."
 
   - type: scanner-pick
     prompt: "Four names off the morning scan. Tap the one your page can actually trade today."
@@ -31,11 +31,11 @@ screens:
         - {ticker: BRACK, price: 11.80, change_pct: 1.1, rvol: 0.8, float: "120M", spread: 0.02, catalyst: "—"}
         - {ticker: VENN, price: 9.40, change_pct: 8.6, rvol: 6.2, float: "6M", spread: 0.09, catalyst: "Offering"}
     target: KESTRA
-    explanation: "700 of OSPREY is $17,220 against a $12,000 account. BRACK is at its own normal volume with nothing behind it, and VENN's nine-cent quote costs $63 a round trip before the chart has moved."
+    explanation: "600 of OSPREY is $14,760 against a $12,000 account. BRACK is at its own normal volume with nothing behind it, and VENN's nine-cent quote costs $54 a round trip before the chart has moved."
 
   - type: chart-decision
-    scenario: "Monday, still in the opening window. KESTRA spent the first minutes building a box and the minute that just closed finished at $14.08, above the top of it on the heaviest bar since the bell. The stop goes back inside the box at $13.96. Your account is $12,000 and the page says 700 shares."
-    shares: 700
+    scenario: "Monday, still in the opening window. KESTRA spent the first minutes building a box and the minute that just closed finished at $14.08, above the top of it on the heaviest bar since the bell. The stop goes back inside the box at $13.96. Your account is $12,000 and the page says 600 shares."
+    shares: 600
     chart:
       kind: candles
       data: [[13.86, 13.98, 13.82, 13.94], [13.94, 14.02, 13.88, 13.92], [13.92, 13.98, 13.86, 13.90], [13.90, 13.96, 13.86, 13.94], [13.94, 14.00, 13.90, 13.96], [13.96, 14.10, 13.94, 14.08], [14.08, 14.20, 14.04, 14.18], [14.18, 14.28, 14.14, 14.24], [14.24, 14.34, 14.20, 14.30], [14.30, 14.38, 14.26, 14.34]]
@@ -46,15 +46,15 @@ screens:
     state: ["Day: 0R", "Trades: 0 of 3"]
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped up to $14.34 and the exit at $14.26 filled — $0.18 a share above the entry, +$126 on 700 shares."
+    outcome: "It stepped up to $14.34 and the exit at $14.26 filled — $0.18 a share above the entry, +$108 on 600 shares."
     explanation: "The box was drawn before the bell and the close through it came on the session's heaviest minute. That is the card's trigger, not a judgement about the day."
 
   - type: numeric-input
-    prompt: "Monday's two rows came to +1.5R and +1R, and your 1R is $84. What did Monday make?"
-    answer: 210
+    prompt: "Monday's two rows came to +1.5R and +1R, and your 1R is $72. What did Monday make?"
+    answer: 180
     tolerance: 1
     unit: "$"
-    working: "1.5R + 1R = 2.5R; 2.5 × $84 = $210"
+    working: "1.5R + 1R = 2.5R; 2.5 × $72 = $180"
     explanation: "Two rows, both from the opening window, both inside the cap. The R column is what Friday will read; the dollars are just today."
 
   - type: visual
@@ -75,7 +75,7 @@ screens:
 
   - type: chart-decision
     scenario: "Tuesday, deep in the middle stretch. LUMEN has stepped up for an hour and spent five flat minutes without giving the leg back, and the minute that just closed finished at $12.78 through the high of the stretch on double the volume of the minutes behind it. The quote is two cents and the stop goes under the pause at $12.66."
-    shares: 700
+    shares: 600
     chart:
       kind: candles
       data: [[12.70, 12.76, 12.64, 12.66], [12.66, 12.72, 12.60, 12.64], [12.64, 12.70, 12.58, 12.62], [12.62, 12.68, 12.58, 12.66], [12.66, 12.70, 12.62, 12.68], [12.68, 12.80, 12.66, 12.78], [12.78, 12.82, 12.70, 12.72], [12.72, 12.74, 12.64, 12.66], [12.66, 12.68, 12.58, 12.60], [12.60, 12.64, 12.56, 12.58]]
@@ -86,12 +86,12 @@ screens:
     state: ["Day: 0R", "Trades: 0 of 3"]
     best: long
     reasonable: [no-trade]
-    outcome: "It turned inside two minutes and the stop at $12.66 filled — $0.12 a share against you, −$84 on 700 shares."
+    outcome: "It turned inside two minutes and the stop at $12.66 filled — $0.12 a share against you, −$72 on 600 shares."
     explanation: "A thin stretch asks for extra reasons and this minute brought them: double volume, a two-cent quote, the level taken. The card was right and the row is still red."
 
   - type: branch
     scenario: "Tuesday, later. Two stops behind you in the same stretch, the day at −2R, one unit of room and one ticket left on the cap."
-    shares: 700
+    shares: 600
     steps:
       - prompt: "Nothing on either name has set up for the last forty minutes. What now?"
         options:
@@ -105,13 +105,13 @@ screens:
         explanation: "The cap and the limit both still had room and neither of them is a reason to trade. Tuesday's job was to cost two units and it did exactly that."
 
   - type: numeric-mc
-    prompt: "Monday made +2.5R and Tuesday lost 2R. Where do the two sessions stand together, at $84 a unit?"
+    prompt: "Monday made +2.5R and Tuesday lost 2R. Where do the two sessions stand together, at $72 a unit?"
     options:
-      - {text: "$84"}
-      - {text: "$126"}
-      - {text: "$42", correct: true}
-      - {text: "$378"}
-    working: "2.5R − 2R = 0.5R; 0.5 × $84 = $42"
+      - {text: "$72"}
+      - {text: "$108"}
+      - {text: "$36", correct: true}
+      - {text: "$324"}
+    working: "2.5R − 2R = 0.5R; 0.5 × $72 = $36"
     explanation: "Half a unit after two sessions, which is roughly what two sessions are worth. The week is being kept in units precisely so numbers this small stay readable."
 
   - type: spot-mistake

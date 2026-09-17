@@ -13,7 +13,7 @@ prerequisite: "8-2"
 xp: 30
 difficulty: 3
 sources: ["Elder — Trading for a Living", "Bellafiore — The PlayBook"]
-notes: "Closes Level 8 with a recap. Chapter 6's journal row and execution grade re-tested across a finished session rather than on one trade. The five rows sum to +0.6R and match the stats-card in 8-2. Worked sizes: 800 at $19.24 = $15,392 and 1,200 at $12.86 = $15,432, both inside the $16,000 the chapter has been sizing against."
+notes: "Closes Level 8 with a recap. Chapter 6's journal row and execution grade re-tested across a finished session rather than on one trade. The five rows sum to +0.6R and match the stats-card in 8-2. Worked sizes: 800 at $19.24 = $15,392 and 1,100 at $12.86 = $14,146, both inside the $16,000 the chapter has been sizing against."
 screens:
   - type: intro
     text: "Five charts, five rows, about six minutes. Tomorrow will not remember any of it for you."
@@ -34,15 +34,15 @@ screens:
     explanation: "Twelve cents risked on 800 shares is $96, and twenty-four cents made is two of those. Entry, stop and size all came off the page, so the grade is an A."
 
   - type: journal-row
-    prompt: "Your third trade, the short that stopped out on 1,200 shares. Fill its row."
-    trade: {setup: "Momentum continuation", entry: 12.86, stop: 12.98, exit: 12.98, shares: 1200}
+    prompt: "Your third trade, the short that stopped out on 1,100 shares. Fill its row."
+    trade: {setup: "Momentum continuation", entry: 12.86, stop: 12.98, exit: 12.98, shares: 1100}
     slots: [r_risked, r_made, grade]
     chips:
-      r_risked: ["$120", "$144", "$168"]
+      r_risked: ["$108", "$132", "$156"]
       r_made: ["-1R", "0R", "+1R"]
       grade: ["A", "B", "C"]
-    answer: {r_risked: "$144", r_made: "-1R", grade: "A"}
-    explanation: "Twelve cents on 1,200 shares is $144, and the stop filled exactly where it was placed. This is the row that proves the grade is not the result."
+    answer: {r_risked: "$132", r_made: "-1R", grade: "A"}
+    explanation: "Twelve cents on 1,100 shares is $132, and the stop filled exactly where it was placed. This is the row that proves the grade is not the result."
 
   - type: mc
     prompt: "Your fourth trade was a name the page never listed, taken because it was moving, and it made 1.4R. What grade does its row carry?"

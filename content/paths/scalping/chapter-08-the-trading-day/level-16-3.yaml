@@ -13,7 +13,7 @@ prerequisite: "16-2"
 xp: 30
 difficulty: 3
 sources: ["Steenbarger — Trading Psychology 2.0", "Elder — Trading for a Living"]
-notes: "Friday of the capstone week plus the weekly read. Chapter 6's weekly review applied to the chapter's own session routine. Account named at $12,000, size 700 shares, 1R $84. The worked position is 700 shares at $12.96 = $9,072."
+notes: "Friday of the capstone week plus the weekly read. Chapter 6's weekly review applied to the chapter's own session routine. Account named at $12,000, size 600 shares, 1R $72. The worked position is 600 shares at $12.96 = $7,776."
 screens:
   - type: intro
     text: "One session left, six rows in total, and a sheet that has started to point somewhere."
@@ -33,8 +33,8 @@ screens:
     explanation: "$12.84, held three times without a close under it. That is where the stop goes, which is what makes the rest of the arithmetic possible."
 
   - type: chart-decision
-    scenario: "Friday, still in the opening window. HOLLIS has drifted back to its own average price over three quiet minutes and the minute that just closed finished at $12.96 back above the line. The stop goes under the shelf at $12.84. Your account is $12,000 and the page says 700 shares."
-    shares: 700
+    scenario: "Friday, still in the opening window. HOLLIS has drifted back to its own average price over three quiet minutes and the minute that just closed finished at $12.96 back above the line. The stop goes under the shelf at $12.84. Your account is $12,000 and the page says 600 shares."
+    shares: 600
     chart:
       kind: candles
       data: [[12.88, 12.98, 12.84, 12.94], [12.94, 13.00, 12.88, 12.92], [12.92, 12.96, 12.86, 12.88], [12.88, 12.94, 12.84, 12.90], [12.90, 12.94, 12.86, 12.88], [12.88, 12.98, 12.86, 12.96], [12.96, 13.06, 12.94, 13.04], [13.04, 13.14, 13.00, 13.10], [13.10, 13.22, 13.06, 13.18], [13.18, 13.26, 13.14, 13.22]]
@@ -44,7 +44,7 @@ screens:
     state: ["Day: 0R", "Week: −0.5R"]
     best: long
     reasonable: [no-trade]
-    outcome: "The target at $13.20 filled before the window closed — $0.24 a share above the entry, +$168 on 700 shares."
+    outcome: "The target at $13.20 filled before the window closed — $0.24 a share above the entry, +$144 on 600 shares."
     explanation: "Twelve cents of risk for a target two of them away, on the heaviest minute of the morning. The week standing at −0.5R is a chip above the chart and not a condition on the card."
 
   - type: theory
@@ -68,7 +68,7 @@ screens:
     answer: 1.5
     tolerance: 0.1
     working: "2.5 − 2 + 0 − 1 + 2 = 1.5R"
-    explanation: "A unit and a half across five sessions, which at this size is $126. The week is kept in units so it can sit beside weeks traded at other sizes."
+    explanation: "A unit and a half across five sessions, which at this size is $108. The week is kept in units so it can sit beside weeks traded at other sizes."
 
   - type: slider
     prompt: "Your sheet held 54 rows before Monday and the week added six. What share of the sample is this week?"
@@ -81,15 +81,15 @@ screens:
     explanation: "A tenth of what you have. That is the honest weight to give it, and it is why the week produces a rule to test rather than a change to make."
 
   - type: journal-row
-    prompt: "Friday's row, 700 shares. Fill it."
-    trade: {setup: "VWAP bounce", entry: 12.96, stop: 12.84, exit: 13.20, shares: 700}
+    prompt: "Friday's row, 600 shares. Fill it."
+    trade: {setup: "VWAP bounce", entry: 12.96, stop: 12.84, exit: 13.20, shares: 600}
     slots: [r_risked, r_made, grade]
     chips:
-      r_risked: ["$84", "$120", "$168"]
+      r_risked: ["$72", "$120", "$144"]
       r_made: ["+1R", "+2R", "+3R"]
       grade: ["A", "B", "C"]
-    answer: {r_risked: "$84", r_made: "+2R", grade: "A"}
-    explanation: "Twelve cents risked and twenty-four made on 700 shares. The grade is an A because the stop, the size and the hour all came off the page rather than off the screen."
+    answer: {r_risked: "$72", r_made: "+2R", grade: "A"}
+    explanation: "Twelve cents risked and twenty-four made on 600 shares. The grade is an A because the stop, the size and the hour all came off the page rather than off the screen."
 
   - type: mc
     prompt: "Three red rows, all of them in the middle stretch. What is the week allowed to produce?"

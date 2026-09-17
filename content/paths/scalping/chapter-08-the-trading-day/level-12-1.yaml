@@ -13,7 +13,7 @@ prerequisite: "11-4"
 xp: 20
 difficulty: 2
 sources: ["Tharp — Trade Your Way to Financial Freedom", "Bellafiore — One Good Trade"]
-notes: "Account named at $18,000, current size 1,200 shares on a twelve-cent stop ($144 a unit), proposed step 1,500 shares ($180 a unit, exactly 1 % of the account). No position is worked here."
+notes: "Account named at $18,000, current size 1,200 shares on a twelve-cent stop ($144 a unit), proposed step 1,400 shares ($168 a unit, just under 1 % of the account). No position is worked here."
 screens:
   - type: intro
     text: "Two green weeks, and a quiet voice suggesting the same method on half as many shares again."
@@ -66,12 +66,12 @@ screens:
     explanation: "The size you already trade is the size the account can pay for at those prices. The evidence is not the only thing that has to agree."
 
   - type: mc
-    prompt: "So what does the account ceiling do to a step from 1,200 shares to 1,500?"
+    prompt: "So what does the account ceiling do to a step from 1,200 shares to 1,400?"
     options:
       - {text: "Nothing, because the stop decides the size and it has not changed"}
       - {text: "It holds the step until the account grows or the name is cheaper", correct: true}
       - {text: "It allows the step on the first half of the position only"}
-    explanation: "At $12.00 a share the account holds 1,500. At $15.00 it does not, and no amount of evidence will pay for stock you cannot afford."
+    explanation: "At $12.00 a share the account holds 1,400. At $15.00 it does not, and no amount of evidence will pay for stock you cannot afford."
 
   - type: sort
     prompt: "Two of these the rows can settle, and two of them only a feeling can. Which is which?"
@@ -84,12 +84,12 @@ screens:
     explanation: "The first two are columns. The other two are impressions of the same fortnight, and they arrive loudest after it went well."
 
   - type: numeric-input
-    prompt: "The step is 1,500 shares on the same twelve-cent stop. What is 1R in dollars at that size?"
-    answer: 180
+    prompt: "The step is 1,400 shares on the same twelve-cent stop. What is 1R in dollars at that size?"
+    answer: 168
     tolerance: 0.5
     unit: "$"
-    working: "$0.12 × 1,500 = $180"
-    explanation: "Thirty-six dollars a unit more than the 1,200 shares cost you, and exactly one per cent of the $18,000 behind it."
+    working: "$0.12 × 1,400 = $168"
+    explanation: "Twenty-four dollars a unit more than the 1,200 shares cost you, just under one per cent of the $18,000 behind it."
 
   - type: fill-tiles
     sentence: "Size comes down on results and goes back up only on ___."
@@ -97,4 +97,4 @@ screens:
     explanation: "Chapter 6 made the cut cheap and quick. The step back up is the slow half, and it is the half that needs rows."
 
   - type: example
-    body: "Thirty-one rows, twenty-four of them A, one average trade positive, and the step still waits for a name the account can hold at 1,500."
+    body: "Thirty-one rows, twenty-four of them A, one average trade positive, and the step still waits for a name the account can hold at 1,400."
