@@ -64,19 +64,19 @@ screens:
     explanation: "A smaller unit, which is the point of the rung. Everything on the page that was written in R still means the same thing."
 
   - type: chart-decision
-    scenario: "Second session at 800 shares. THORN has held above its own average price all morning, pulled back to it on three lighter minutes, and the minute that just closed finished at $13.44 back above it. The stop belongs under the pullback low at $13.32."
+    scenario: "Second session at 800 shares. THORN has held below its own average price all morning, climbed back to it on three lighter minutes, and the minute that just closed finished at $13.44 back under it. The stop belongs over the bounce high at $13.56."
     shares: 800
     chart:
       kind: candles
-      data: [[13.52, 13.56, 13.44, 13.46], [13.46, 13.50, 13.38, 13.42], [13.42, 13.46, 13.34, 13.36], [13.36, 13.42, 13.32, 13.38], [13.38, 13.42, 13.34, 13.36], [13.36, 13.46, 13.34, 13.44], [13.44, 13.52, 13.42, 13.50], [13.50, 13.58, 13.48, 13.54], [13.54, 13.60, 13.50, 13.58], [13.58, 13.62, 13.54, 13.59]]
+      data: [[13.34, 13.40, 13.30, 13.36], [13.36, 13.44, 13.34, 13.42], [13.42, 13.50, 13.40, 13.48], [13.48, 13.54, 13.44, 13.50], [13.50, 13.56, 13.46, 13.52], [13.52, 13.54, 13.42, 13.44], [13.44, 13.46, 13.34, 13.36], [13.36, 13.38, 13.28, 13.30], [13.30, 13.32, 13.22, 13.24], [13.24, 13.28, 13.16, 13.19]]
       volume: [118000, 96000, 84000, 72000, 68000, 164000, 142000, 118000, 104000, 92000]
-      vwap: [13.50, 13.48, 13.45, 13.43, 13.42, 13.41, 13.42, 13.43, 13.45, 13.46]
+      vwap: [13.58, 13.57, 13.56, 13.55, 13.54, 13.53, 13.52, 13.50, 13.48, 13.46]
       decision_index: 5
     state: ["Stretch: −6R", "Size: 800 of 1,400"]
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It worked to $13.59 — $0.15 a share above the decision, +$120 on 800 shares against $96 of risk."
-    explanation: "The card is untouched and the pullback came on the lightest minutes of the morning. A smaller rung is not a reason to take a worse trade or to pass a good one."
+    outcome: "It worked down to $13.19 — $0.25 a share below the decision, +$200 on 800 shares against $96 of risk."
+    explanation: "The card is untouched and the climb back to the line came on the lightest minutes of the morning. A smaller rung is not a reason to take a worse trade or to pass a good one."
 
   - type: numeric-mc
     prompt: "The hole is $1,008 and one unit is now $96. How many units is it, at this rung?"

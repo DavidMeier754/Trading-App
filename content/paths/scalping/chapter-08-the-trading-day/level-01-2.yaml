@@ -13,7 +13,7 @@ prerequisite: "1-1"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
-notes: "Chapter 3's Level 2 and walking-the-book re-tested as an entry surface. Account named at $20,000; the worked position is 1,400 shares at $13.51 = $18,914."
+notes: "Chapter 3's Level 2 and walking-the-book re-tested as an entry surface. Account named at $20,000; the worked position is 1,400 shares at $13.40 = $18,760."
 screens:
   - type: intro
     text: "Chapter 3 read the order book. This is the same information with a keyboard attached to it."
@@ -65,17 +65,19 @@ screens:
     explanation: "A click below the market is a resting buy. It may fill, and on a name that keeps running it may never be touched."
 
   - type: chart-decision
-    scenario: "The ladder has shown 3,100 shares resting at $13.49 for ten minutes, and price has failed under them four times. This minute they were taken out and the candle closed above. Your $20,000 account allows 1,400 shares here."
+    scenario: "The 2,400 shares on the $13.42 bid have been leaned on four times this morning. In the last twenty seconds the row emptied, and this minute closed underneath it. Your $20,000 account allows 1,400 shares here."
     shares: 1400
     chart:
       kind: candles
-      data: [[13.30, 13.36, 13.28, 13.34], [13.34, 13.40, 13.32, 13.38], [13.38, 13.44, 13.36, 13.42], [13.42, 13.47, 13.40, 13.44], [13.44, 13.48, 13.42, 13.45], [13.45, 13.52, 13.44, 13.51], [13.51, 13.60, 13.49, 13.58], [13.58, 13.66, 13.55, 13.63], [13.63, 13.70, 13.60, 13.68], [13.68, 13.76, 13.65, 13.72]]
-      volume: [72000, 66000, 58000, 62000, 54000, 168000, 142000, 124000, 108000, 96000]
+      data: [[13.56, 13.58, 13.48, 13.50], [13.50, 13.54, 13.42, 13.46], [13.46, 13.50, 13.42, 13.45], [13.45, 13.48, 13.42, 13.44], [13.44, 13.47, 13.42, 13.45], [13.45, 13.46, 13.38, 13.40], [13.40, 13.42, 13.32, 13.34], [13.34, 13.36, 13.26, 13.28], [13.28, 13.30, 13.20, 13.22], [13.22, 13.24, 13.14, 13.17]]
+      volume: [72000, 66000, 58000, 62000, 54000, 176000, 148000, 126000, 110000, 98000]
+      levels:
+        - {price: 13.42, label: "Bid that held four times"}
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It carried on to $13.72 — $0.21 a share above the decision, +$294 long on 1,400 shares."
-    explanation: "A wall is only information until it is gone. The ladder showed it leaving and the candle closed above where it had been."
+    outcome: "It kept going to $13.17 — $0.23 a share below the decision, +$322 short on 1,400 shares."
+    explanation: "That row was the reason price kept turning where it did. With it gone, the traders who had been leaning on it are the ones who need out."
 
   - type: sort
     prompt: "Which of these does the ladder tell you, and which does it not?"

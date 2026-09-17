@@ -13,7 +13,7 @@ prerequisite: "16-3"
 xp: 80
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook", "Steenbarger — Trading Psychology 2.0"]
-notes: "14 scored questions on Levels 1–16. Hearts apply. Pass mark 70 %. Questions 1, 3, 4, 7, 8, 9, 12 and 14 reach back into Chapters 4, 5, 6 and 7. Account named at $14,000; the worked positions are 800 shares at $15.62 = $12,496 and 800 at $13.20 = $10,560."
+notes: "14 scored questions on Levels 1–16. Hearts apply. Pass mark 70 %. Questions 1, 3, 4, 7, 8, 9, 12 and 14 reach back into Chapters 4, 5, 6 and 7. Account named at $14,000; the worked positions are 800 shares at $15.38 = $12,304 and 800 at $13.20 = $10,560."
 screens:
   - type: intro
     text: "Final exam: The Trading Day. Fourteen questions, one session's worth of decisions. Your account is $14,000."
@@ -54,20 +54,21 @@ screens:
     explanation: "The day type is read first precisely so it can shorten the list. A continuation card on a day that keeps coming back is a card being asked for something it does not do."
 
   - type: chart-decision
-    scenario: "ALDER has pushed into $15.60 three times without closing above it, and the minute that just closed finished at $15.62 through the line on the heaviest bar of the session. The stop goes back under the pushes at $15.50. Your account is $14,000 and the page says 800 shares."
+    scenario: "ALDER has pushed into $15.60 three times without closing above it, and the minute that just closed finished at $15.38, under the $15.44 shelf every pullback had been holding, on the heaviest bar of the session. The stop goes back above the shelf at $15.50. Your account is $14,000 and the page says 800 shares."
     shares: 800
     chart:
       kind: candles
-      data: [[15.44, 15.52, 15.40, 15.50], [15.50, 15.58, 15.46, 15.54], [15.54, 15.60, 15.50, 15.56], [15.56, 15.60, 15.52, 15.58], [15.58, 15.60, 15.54, 15.56], [15.56, 15.66, 15.54, 15.62], [15.62, 15.74, 15.58, 15.72], [15.72, 15.82, 15.68, 15.78], [15.78, 15.92, 15.74, 15.88], [15.88, 16.08, 15.84, 16.04]]
+      data: [[15.44, 15.52, 15.44, 15.50], [15.50, 15.58, 15.46, 15.54], [15.54, 15.60, 15.48, 15.52], [15.52, 15.60, 15.44, 15.46], [15.46, 15.60, 15.44, 15.48], [15.48, 15.50, 15.36, 15.38], [15.38, 15.40, 15.28, 15.30], [15.30, 15.32, 15.20, 15.22], [15.22, 15.24, 15.10, 15.12], [15.12, 15.14, 14.98, 15.00]]
       volume: [96000, 88000, 76000, 68000, 62000, 198000, 164000, 142000, 124000, 108000]
       levels:
-        - {price: 15.60, label: "Resistance"}
+        - {price: 15.60, label: "Refused three times"}
+        - {price: 15.44, label: "Shelf"}
       decision_index: 5
     state: ["Day: +1R", "Trades: 1 of 6"]
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It carried to $16.04 — $0.42 a share above the decision, +$336 on 800 shares against $96 of risk."
-    explanation: "Three refusals and then a close through on the session's heaviest minute. The stop has an obvious home, which is what makes the size arithmetic possible at all."
+    outcome: "It kept sliding to $15.00 — $0.38 a share below the decision, +$304 on 800 shares against $96 of risk."
+    explanation: "Three refusals above and then the shelf underneath giving way on the session's heaviest minute. The stop has an obvious home, which is what makes the size arithmetic possible at all."
 
   - type: mc
     prompt: "The same card fires on a $22.80 name and your page still says 800 shares against a $14,000 account. What changes?"
@@ -80,14 +81,14 @@ screens:
   - type: depth-ladder
     prompt: "You market-sell 1,200 shares into this book. Where does the last share fill?"
     data:
-      bids: [[15.60, 500], [15.59, 400], [15.58, 2000]]
-      asks: [[15.62, 700], [15.63, 900], [15.64, 1500]]
+      bids: [[15.38, 500], [15.37, 400], [15.36, 2000]]
+      asks: [[15.40, 700], [15.41, 900], [15.42, 1500]]
     target: bid-3
-    explanation: "Five hundred at $15.60 and four hundred at $15.59 leaves 300 shares, and those hit $15.58. Size walks the book whatever the top of it says."
+    explanation: "Five hundred at $15.38 and four hundred at $15.37 leaves 300 shares, and those hit $15.36. Size walks the book whatever the top of it says."
 
   - type: journal-row
-    prompt: "You took that ALDER trade and exited at $15.98 on 800 shares. Fill its row."
-    trade: {setup: "Break of resistance", entry: 15.62, stop: 15.50, exit: 15.98, shares: 800}
+    prompt: "You took that ALDER trade and covered at $15.02 on 800 shares. Fill its row."
+    trade: {setup: "Failed-breakout fade", entry: 15.38, stop: 15.50, exit: 15.02, shares: 800}
     slots: [r_risked, r_made, grade]
     chips:
       r_risked: ["$96", "$120", "$288"]

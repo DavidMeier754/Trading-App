@@ -13,7 +13,7 @@ prerequisite: "14-1"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
-notes: "Closes the callback level. The four-part read used for choosing. Account named at $22,000; the worked positions are 1,200 shares at $14.34, at $13.50 and at $12.82."
+notes: "Closes the callback level. The four-part read used for choosing. Account named at $22,000; the worked positions are 1,200 shares at $14.08, at $13.50 and at $12.82."
 screens:
   - type: intro
     text: "Four readings, one order. Your account is $22,000 and 1,200 shares is the size you trade."
@@ -47,21 +47,22 @@ screens:
     explanation: "$14.30, reached twice and given back both times. That is reading one of four, and the only one you can finish while the market is shut."
 
   - type: chart-decision
-    scenario: "KILN has held above its own average price since the bell and spent twenty minutes underneath the line you drew at $14.30. The minute that just closed finished four cents through it on the heaviest volume of the session, with 1,000s printing at the ask."
+    scenario: "KILN has been under its own average price since the bell and pressed the line you drew at $14.30 a third time without holding it. The minute that just closed finished four cents under the $14.12 every dip of the morning had held, on the heaviest volume of the session, with 1,000s printing at the bid."
     shares: 1200
     state: ["Size: 1,200 shares"]
     chart:
       kind: candles
-      data: [[14.16, 14.24, 14.12, 14.20], [14.20, 14.28, 14.16, 14.24], [14.24, 14.30, 14.20, 14.22], [14.22, 14.28, 14.18, 14.26], [14.26, 14.30, 14.22, 14.28], [14.28, 14.38, 14.26, 14.34], [14.34, 14.46, 14.30, 14.42], [14.42, 14.52, 14.38, 14.48], [14.48, 14.58, 14.44, 14.54], [14.54, 14.64, 14.50, 14.61], [14.61, 14.64, 14.54, 14.58]]
+      data: [[14.26, 14.30, 14.20, 14.22], [14.22, 14.28, 14.16, 14.18], [14.18, 14.24, 14.12, 14.20], [14.20, 14.26, 14.14, 14.16], [14.16, 14.22, 14.12, 14.14], [14.14, 14.16, 14.06, 14.08], [14.08, 14.10, 13.98, 14.00], [14.00, 14.04, 13.90, 13.92], [13.92, 13.96, 13.84, 13.86], [13.86, 13.90, 13.76, 13.79], [13.79, 13.82, 13.72, 13.76]]
       volume: [96000, 104000, 88000, 94000, 90000, 168000, 142000, 128000, 114000, 102000, 94000]
-      vwap: [14.14, 14.16, 14.18, 14.19, 14.21, 14.23, 14.26, 14.30, 14.34, 14.38, 14.41]
+      vwap: [14.34, 14.33, 14.31, 14.30, 14.28, 14.26, 14.23, 14.20, 14.16, 14.12, 14.08]
       levels:
         - {price: 14.30, label: "Resistance"}
+        - {price: 14.12, label: "Where the dips held"}
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It stepped on to $14.61 — $0.27 a share above the decision, +$324 long on 1,200 shares."
-    explanation: "All four, in order, on a name that earned its chart before the bell: a line already drawn, the session on the right side of its average, a minute that finished through, and size still paying the ask."
+    outcome: "It kept stepping down to $13.76 — $0.32 a share below the decision, +$384 short on 1,200 shares."
+    explanation: "All four, in order, on a name that earned its chart before the bell: a line already drawn and refused a third time, the session on the wrong side of its average, a minute that finished through, and size still hitting the bid."
 
   - type: fill-choice
     sentence: "The one reading you cannot run before the bell is the ___."

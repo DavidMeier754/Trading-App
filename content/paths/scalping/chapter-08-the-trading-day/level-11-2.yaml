@@ -13,7 +13,7 @@ prerequisite: "11-1"
 xp: 25
 difficulty: 2
 sources: ["Douglas — Trading in the Zone", "Tharp — Trade Your Way to Financial Freedom"]
-notes: "Chapter 6's sample size and expectancy re-tested as a running record rather than a worked sum. Account named at $18,000; the worked position is 1,100 shares at $14.30 = $15,730."
+notes: "Chapter 6's sample size and expectancy re-tested as a running record rather than a worked sum. Account named at $18,000; the worked position is 1,100 shares at $14.14 = $15,554."
 screens:
   - type: intro
     text: "Four red sessions in a row, and a card that still says the same thing it said a month ago."
@@ -58,21 +58,21 @@ screens:
     explanation: "It is evidence that a losing week happened. Chapter 6 gave you the sample for exactly this moment, so the week is read inside it rather than instead of it."
 
   - type: chart-decision
-    scenario: "Monday, after that week. TORVA has held $14.14 three times and the minute that just closed finished at $14.30, above every high behind it, on the heaviest bar since the bell. Your account is $18,000 and your page says 1,100 shares."
+    scenario: "Monday, after that week. TORVA has been turned back at $14.30 three times and the minute that just closed finished at $14.14, under every low behind it, on the heaviest bar since the bell. Your account is $18,000 and your page says 1,100 shares."
     shares: 1100
     chart:
       kind: candles
-      data: [[14.22, 14.28, 14.14, 14.18], [14.18, 14.26, 14.14, 14.22], [14.22, 14.28, 14.16, 14.20], [14.20, 14.26, 14.14, 14.24], [14.24, 14.28, 14.18, 14.22], [14.22, 14.34, 14.20, 14.30], [14.30, 14.40, 14.28, 14.38], [14.38, 14.46, 14.34, 14.44], [14.44, 14.50, 14.40, 14.47], [14.47, 14.52, 14.43, 14.49]]
+      data: [[14.26, 14.30, 14.20, 14.24], [14.24, 14.30, 14.18, 14.22], [14.22, 14.28, 14.16, 14.20], [14.20, 14.30, 14.16, 14.24], [14.24, 14.28, 14.18, 14.22], [14.22, 14.24, 14.12, 14.14], [14.14, 14.16, 14.04, 14.06], [14.06, 14.08, 13.98, 14.00], [14.00, 14.02, 13.92, 13.95], [13.95, 13.98, 13.88, 13.91]]
       volume: [96000, 84000, 78000, 88000, 74000, 182000, 156000, 132000, 114000, 98000]
       levels:
-        - {price: 14.14, label: "Shelf"}
-        - {price: 14.28, label: "High of the morning"}
+        - {price: 14.30, label: "Ceiling"}
+        - {price: 14.16, label: "Low of the morning"}
       decision_index: 5
     state: ["Last week: −1.8R", "Trade 1 of 6"]
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It worked up to $14.49 — $0.19 a share above the decision, +$209 on 1,100 shares."
-    explanation: "Last week is not on this chart. The card asks for a shelf that holds and a close through the highs, and both of them are here."
+    outcome: "It slipped away to $13.91 — $0.23 a share below the decision, +$253 on 1,100 shares."
+    explanation: "Last week is not on this chart. The card asks for a ceiling that holds three times and a close under the lows beneath it, and both of them are here."
 
   - type: sort
     prompt: "Two of these are answered by the sample and two by the session in front of you. Which is which?"
@@ -80,7 +80,7 @@ screens:
     items:
       - {text: "Whether this card is worth keeping at all", bucket: "The sample answers it"}
       - {text: "Whether your size should come down for a while", bucket: "The sample answers it"}
-      - {text: "Whether the shelf held before the close through it", bucket: "This morning answers it"}
+      - {text: "Whether the ceiling held before the close under the morning's lows", bucket: "This morning answers it"}
       - {text: "Where the stop belongs on this chart", bucket: "This morning answers it"}
     explanation: "The record decides what you trade and how big. The chart decides whether today's version of it is actually there."
 

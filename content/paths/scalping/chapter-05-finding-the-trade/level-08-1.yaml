@@ -71,19 +71,19 @@ screens:
     explanation: "MARL: $14,800 for 1,000 shares, two cents wide, a reason, and 6.8× its normal day. ORCA is 798 shares on this account and SALT is having an ordinary one."
 
   - type: chart-decision
-    scenario: "MARL is on 6.8× its normal volume with minutes of about 90,000 shares, and the minute that just closed finished four cents above the pre-market high of $14.76."
+    scenario: "MARL is on 6.8× its normal volume with minutes of about 90,000 shares, and the minute that just closed finished four cents under the pre-market low of $14.84."
     shares: 1000
     state: ["Size: 1,000 shares"]
     chart:
       kind: candles
-      data: [[14.30, 14.42, 14.24, 14.40], [14.40, 14.50, 14.34, 14.46], [14.46, 14.54, 14.40, 14.44], [14.44, 14.58, 14.38, 14.52], [14.52, 14.64, 14.46, 14.60], [14.60, 14.84, 14.56, 14.80], [14.80, 14.92, 14.74, 14.88], [14.88, 15.00, 14.82, 14.96], [14.96, 15.08, 14.90, 15.04], [15.04, 15.12, 14.98, 15.08], [15.08, 15.12, 15.00, 15.04]]
+      data: [[15.12, 15.18, 15.02, 15.04], [15.04, 15.08, 14.94, 14.96], [14.96, 15.02, 14.90, 14.98], [14.98, 15.02, 14.88, 14.90], [14.90, 14.94, 14.86, 14.88], [14.88, 14.90, 14.78, 14.80], [14.80, 14.82, 14.68, 14.70], [14.70, 14.74, 14.60, 14.62], [14.62, 14.66, 14.52, 14.54], [14.54, 14.58, 14.44, 14.48], [14.48, 14.52, 14.40, 14.44]]
       volume: [84000, 92000, 78000, 88000, 82000, 128000, 114000, 104000, 96000, 88000, 82000]
       levels:
-        - {price: 14.76, label: "Pre-market high"}
+        - {price: 14.84, label: "Pre-market low"}
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It stepped up to $15.08 — $0.28 a share above the decision, +$280 long on 1,000 shares."
+    outcome: "Thirty-six cents came out of it by the last bar — $14.44, and +$360 short on 1,000 shares."
     explanation: "A twelve-million float with ninety-thousand-share minutes has both readings a scalp needs: enough trading to leave, and few enough shares that a crowd shows up in the price."
 
   - type: tf

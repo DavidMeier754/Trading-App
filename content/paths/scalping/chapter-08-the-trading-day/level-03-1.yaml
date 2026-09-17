@@ -13,7 +13,7 @@ prerequisite: "2-3"
 xp: 30
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
-notes: "Drill sub: one position followed through ten rounds. Nothing here is timed. Account named at $20,000; the worked position is 1,100 shares at $16.66 = $18,326."
+notes: "Drill sub: one position followed through ten rounds. Nothing here is timed. Account named at $20,000; the worked short is 1,100 shares at $16.74 = $18,414."
 screens:
   - type: intro
     text: "Ten rounds on one position. No new ideas — just the orders."
@@ -71,31 +71,31 @@ screens:
     explanation: "$16.28, two cents below where the stop triggered. A stop names the trigger; the book names the fill."
 
   - type: chart-decision
-    scenario: "Round six, a fresh name. XYZ has held $16.60 twice and the minute that just closed finished above it on the heaviest volume since the bell. Your $20,000 account allows 1,100 shares here."
+    scenario: "Round six, a fresh name. XYZ has pushed at $16.90 twice this morning and come off it both times. This minute reached eight cents through it and closed back under at $16.74, on the heaviest volume since the bell. Your $20,000 account allows 1,100 shares here."
     shares: 1100
     chart:
       kind: candles
-      data: [[16.40, 16.48, 16.36, 16.44], [16.44, 16.56, 16.40, 16.50], [16.50, 16.60, 16.46, 16.52], [16.52, 16.60, 16.44, 16.48], [16.48, 16.58, 16.44, 16.56], [16.56, 16.70, 16.54, 16.66], [16.66, 16.78, 16.62, 16.74], [16.74, 16.86, 16.70, 16.82], [16.82, 16.92, 16.78, 16.88], [16.88, 16.98, 16.84, 16.94]]
-      volume: [78000, 86000, 74000, 68000, 62000, 172000, 148000, 126000, 110000, 96000]
+      data: [[16.72, 16.80, 16.68, 16.76], [16.76, 16.86, 16.72, 16.82], [16.82, 16.90, 16.78, 16.84], [16.84, 16.90, 16.78, 16.82], [16.82, 16.88, 16.78, 16.86], [16.86, 16.98, 16.72, 16.74], [16.74, 16.76, 16.64, 16.66], [16.66, 16.70, 16.58, 16.60], [16.60, 16.62, 16.50, 16.52], [16.52, 16.56, 16.38, 16.40]]
+      volume: [78000, 86000, 74000, 68000, 62000, 186000, 152000, 128000, 112000, 98000]
       levels:
-        - {price: 16.60, label: "Held twice"}
+        - {price: 16.90, label: "Pushed at twice"}
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It worked up to $16.94 — $0.28 a share above the decision, +$308 long on 1,100 shares."
-    explanation: "Chapter 4 did the reading two candles ago. What this level drills is having the ticket already built when the close prints."
+    outcome: "It slid on to $16.40 — $0.34 a share below the decision, +$374 short on 1,100 shares."
+    explanation: "The push through the line and the close back under it are one candle, and everybody who bought the push is offside inside it. This level is about having the sell ticket built before that candle finishes printing."
 
   - type: order-build
-    prompt: "Round seven. You are long 1,100 from $16.66 and your page puts the target at $16.94. Build the exit."
+    prompt: "Round seven. You are short 1,100 from $16.74 and your page puts the target at $16.40. Build the exit."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
       qty: [600, 1100, 1600]
-      price: [16.66, 16.80, 16.94]
-    answer: {side: sell, type: limit, qty: 1100, price: 16.94}
-    explanation: "A limit at the target is the exit that does not need you watching when price gets there."
+      price: [16.40, 16.58, 16.74]
+    answer: {side: buy, type: limit, qty: 1100, price: 16.40}
+    explanation: "A short is closed by buying it back, so the exit is a buy limit sitting at the target while you look elsewhere."
 
   - type: mc
     prompt: "Round eight. Your stop and your target are both working on 1,100 shares, and the target fills. What is the next press?"
@@ -103,7 +103,7 @@ screens:
       - {text: "Cancel, so the stop is not left working", correct: true}
       - {text: "Flatten, to be certain the position is closed"}
       - {text: "Nothing — the platform pairs the two orders"}
-    explanation: "A stop left working after the shares are gone becomes a fresh short the moment it triggers."
+    explanation: "A stop left working after the position is closed becomes a brand-new position the moment it triggers."
 
   - type: spot-mistake
     prompt: "Round nine. Tap the mistake."

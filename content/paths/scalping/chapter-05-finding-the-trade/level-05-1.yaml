@@ -62,20 +62,20 @@ screens:
     explanation: "Rounded down, because the 770th is a share you cannot pay for. The chart never gets a vote on this one."
 
   - type: chart-decision
-    scenario: "MESA has run at 6× its normal volume since the open on minutes of around 100,000 shares, and the minute that just closed finished three cents above the high of the first half hour at $13.41."
+    scenario: "MESA has run at 6× its normal volume since the open on minutes of around 100,000 shares, and the minute that just closed finished three cents under the low of the first half hour at $13.10."
     shares: 1200
     state: ["Size: 1,200 shares"]
     chart:
       kind: candles
-      data: [[13.02, 13.12, 12.98, 13.10], [13.10, 13.20, 13.06, 13.16], [13.16, 13.24, 13.10, 13.14], [13.14, 13.26, 13.08, 13.22], [13.22, 13.34, 13.18, 13.30], [13.30, 13.48, 13.26, 13.44], [13.44, 13.56, 13.40, 13.52], [13.52, 13.62, 13.46, 13.58], [13.58, 13.66, 13.52, 13.62], [13.62, 13.68, 13.56, 13.63], [13.63, 13.66, 13.56, 13.60]]
+      data: [[13.34, 13.40, 13.28, 13.30], [13.30, 13.34, 13.20, 13.22], [13.22, 13.28, 13.16, 13.26], [13.26, 13.30, 13.14, 13.16], [13.16, 13.22, 13.12, 13.14], [13.14, 13.16, 13.04, 13.07], [13.07, 13.10, 12.96, 12.98], [12.98, 13.02, 12.90, 12.92], [12.92, 12.96, 12.84, 12.86], [12.86, 12.90, 12.78, 12.82], [12.82, 12.86, 12.76, 12.80]]
       volume: [84000, 92000, 78000, 88000, 82000, 126000, 112000, 104000, 96000, 88000, 82000]
       levels:
-        - {price: 13.41, label: "High of the first half hour"}
+        - {price: 13.10, label: "Low of the first half hour"}
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It stepped on to $13.63 — $0.19 a share above the decision, +$228 long on 1,200 shares."
-    explanation: "Four filters cleared before the open, and the heaviest minute of the morning finishing clear of the marked price. $16,128 of an $18,000 account, so it is payable too."
+    outcome: "It slipped on to $12.80 — $0.27 a share below the decision, +$324 short on 1,200 shares."
+    explanation: "Four filters cleared before the open, and the heaviest minute of the morning finishing clear of the marked price. $15,684 of an $18,000 account, so it is payable too."
 
   - type: sort
     prompt: "One of these ends a name's morning on its own. Which, and which are only worth a second look?"

@@ -13,7 +13,7 @@ prerequisite: "15-3"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Elder — Trading for a Living"]
-notes: "Monday and Tuesday of the capstone week, on the simulator month from Level 14. Account named at $12,000, size 600 shares, 1R $72, limit 3R, cap 3 tickets. The worked positions are 600 shares at $14.08 = $8,448 and 600 at $12.78 = $7,668."
+notes: "Monday and Tuesday of the capstone week, on the simulator month from Level 14. Account named at $12,000, size 600 shares, 1R $72, limit 3R, cap 3 tickets. The worked positions are 600 shares at $14.08 = $8,448 and 600 at $12.66 = $7,596."
 screens:
   - type: intro
     text: "Five sessions, one page. This is the first two of them, and only one goes well."
@@ -74,19 +74,19 @@ screens:
     text: "Tuesday. The same page, a thinner tape, and both names only offering anything once the opening window is well behind you."
 
   - type: chart-decision
-    scenario: "Tuesday, deep in the middle stretch. LUMEN has stepped up for an hour and spent five flat minutes without giving the leg back, and the minute that just closed finished at $12.78 through the high of the stretch on double the volume of the minutes behind it. The quote is two cents and the stop goes under the pause at $12.66."
+    scenario: "Tuesday, deep in the middle stretch. LUMEN has stepped down for an hour and spent five flat minutes without taking the leg back, and the minute that just closed finished at $12.66 through the low of the stretch on double the volume of the minutes behind it. The quote is two cents and the stop goes over the pause at $12.78."
     shares: 600
     chart:
       kind: candles
-      data: [[12.70, 12.76, 12.64, 12.66], [12.66, 12.72, 12.60, 12.64], [12.64, 12.70, 12.58, 12.62], [12.62, 12.68, 12.58, 12.66], [12.66, 12.70, 12.62, 12.68], [12.68, 12.80, 12.66, 12.78], [12.78, 12.82, 12.70, 12.72], [12.72, 12.74, 12.64, 12.66], [12.66, 12.68, 12.58, 12.60], [12.60, 12.64, 12.56, 12.58]]
+      data: [[12.84, 12.90, 12.78, 12.80], [12.80, 12.86, 12.74, 12.76], [12.76, 12.80, 12.70, 12.72], [12.72, 12.78, 12.70, 12.74], [12.74, 12.78, 12.70, 12.72], [12.72, 12.74, 12.64, 12.66], [12.66, 12.76, 12.64, 12.74], [12.74, 12.80, 12.72, 12.78], [12.78, 12.86, 12.76, 12.84], [12.84, 12.88, 12.80, 12.86]]
       volume: [62000, 58000, 54000, 48000, 46000, 118000, 96000, 84000, 72000, 66000]
       levels:
-        - {price: 12.76, label: "High of the stretch"}
+        - {price: 12.70, label: "Low of the stretch"}
       decision_index: 5
     state: ["Day: 0R", "Trades: 0 of 3"]
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It turned inside two minutes and the stop at $12.66 filled — $0.12 a share against you, −$72 on 600 shares."
+    outcome: "It turned inside two minutes and the stop at $12.78 filled — $0.12 a share against you, −$72 on 600 shares."
     explanation: "A thin stretch asks for extra reasons and this minute brought them: double volume, a two-cent quote, the level taken. The card was right and the row is still red."
 
   - type: branch

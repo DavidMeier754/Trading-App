@@ -358,7 +358,7 @@ and after, and any decision where the chips could not carry what the scenario ne
 
 ---
 
-## ☐ Stage 6 — Exams, and the long/short balance
+## ☑ Stage 6 — Exams, and the long/short balance — **done**
 
 **Model: `claude-opus-5` · effort `high` · new session · 2 sessions**
 
@@ -415,7 +415,9 @@ Report: the type mix of each exam before and after, which learning goal each que
 now covers, and the answer-key distribution.
 ```
 
-**Session 2 — the long/short balance:**
+**Session 2 — the long/short balance — done.** 199 long / 123 short, worst chapter 1.85:1;
+the split is now a chapter-level validator rule (`MAX_DIRECTION_RATIO`, 2:1, from eight
+directional decisions up). Prompt kept for the Day Trading and Swing Trading paths:
 
 ```
 Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full.

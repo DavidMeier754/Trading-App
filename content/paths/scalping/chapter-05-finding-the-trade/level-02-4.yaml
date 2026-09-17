@@ -52,14 +52,14 @@ screens:
     state: ["Size: 1,400 shares"]
     chart:
       kind: candles
-      data: [[14.86, 14.96, 14.82, 14.94], [14.94, 15.04, 14.90, 15.00], [15.00, 15.08, 14.94, 14.98], [14.98, 15.10, 14.94, 15.06], [15.06, 15.16, 15.02, 15.12], [15.12, 15.32, 15.10, 15.28], [15.28, 15.40, 15.24, 15.36], [15.36, 15.48, 15.32, 15.44], [15.44, 15.56, 15.40, 15.52], [15.52, 15.60, 15.48, 15.57], [15.57, 15.60, 15.50, 15.54]]
+      data: [[15.42, 15.48, 15.34, 15.36], [15.36, 15.40, 15.26, 15.30], [15.30, 15.36, 15.24, 15.34], [15.34, 15.38, 15.22, 15.24], [15.24, 15.30, 15.16, 15.18], [15.18, 15.20, 15.04, 15.06], [15.06, 15.08, 14.94, 14.96], [14.96, 15.00, 14.86, 14.88], [14.88, 14.92, 14.78, 14.80], [14.80, 14.84, 14.70, 14.74], [14.74, 14.78, 14.66, 14.70]]
       volume: [86000, 94000, 82000, 90000, 88000, 112000, 104000, 98000, 92000, 86000, 80000]
       levels:
-        - {price: 15.24, label: "Pre-market high"}
+        - {price: 15.10, label: "Pre-market low"}
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It ran on to $15.57 — $0.29 a share above the decision, +$406 long on 1,400 shares."
+    outcome: "It rolled on down to $14.70 — $0.36 a share below the decision, +$504 short on 1,400 shares."
     explanation: "The multiple got it onto the screen before the open. The minute finishing clear of the marked price is what got the order in."
 
   - type: tf

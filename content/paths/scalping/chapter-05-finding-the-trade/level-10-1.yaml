@@ -67,20 +67,20 @@ screens:
     explanation: "$13.74, reached once and handed straight back. It is one of the three prices a watchlist name gets marked with while the screen is still quiet."
 
   - type: chart-decision
-    scenario: "KELP has held 6× its normal volume since the bell, and the minute that just closed finished five cents above the pre-market high you marked at $13.74."
+    scenario: "KELP has held 6× its normal volume since the bell. It opened over the pre-market high you marked at $13.74 and has made lower highs since, and the minute that just closed finished five cents under it."
     shares: 1400
     state: ["Size: 1,400 shares"]
     chart:
       kind: candles
-      data: [[13.52, 13.62, 13.46, 13.58], [13.58, 13.66, 13.52, 13.62], [13.62, 13.70, 13.56, 13.60], [13.60, 13.72, 13.54, 13.68], [13.68, 13.78, 13.62, 13.72], [13.72, 13.84, 13.68, 13.79], [13.79, 13.90, 13.74, 13.86], [13.86, 13.96, 13.80, 13.92], [13.92, 14.02, 13.86, 13.98], [13.98, 14.06, 13.92, 14.01], [14.01, 14.04, 13.94, 13.98]]
+      data: [[13.92, 13.98, 13.86, 13.90], [13.90, 13.94, 13.82, 13.84], [13.84, 13.90, 13.78, 13.86], [13.86, 13.88, 13.76, 13.78], [13.78, 13.84, 13.74, 13.80], [13.80, 13.82, 13.67, 13.69], [13.69, 13.72, 13.60, 13.62], [13.62, 13.66, 13.54, 13.56], [13.56, 13.58, 13.46, 13.48], [13.48, 13.52, 13.40, 13.44], [13.44, 13.46, 13.36, 13.39]]
       volume: [92000, 100000, 86000, 94000, 88000, 142000, 126000, 114000, 104000, 96000, 88000]
       levels:
         - {price: 13.74, label: "Pre-market high"}
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It worked up to $14.01 — $0.22 a share above the decision, +$308 long on 1,400 shares."
-    explanation: "The filters were all cleared before the bell, and then the heaviest minute of the morning finished clear of a price you had already drawn."
+    outcome: "Thirty cents left it over the next five minutes — $13.39, +$420 short on 1,400 shares."
+    explanation: "It is the same line either way. It held the open from above and then gave way on the heaviest minute of the morning, which is the second thing a marked price is for."
 
   - type: depth-ladder
     prompt: "SLOE's book, and you market-buy 900 shares of it. Where does the last of them fill?"

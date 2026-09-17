@@ -125,6 +125,7 @@ A learner must not be able to score well without knowing the material. These are
 - **True/false balance.** Between 40 % and 60 % of `tf` answers in a chapter are `true`. A learner who always answers "false" must fail.
 - **No length tell.** The correct option must not be the longest option in more than ~45 % of a chapter's `mc`/`numeric-mc` screens. Put the justification in the `explanation`, not in the option text. Options are short claims; the reveal carries the reasoning.
 - **No punctuation tell.** Do not make the correct option the only one containing an em-dash, a number, or a qualifier.
+- **Both directions are taught. [v3.1]** Across a chapter's directional `chart-decision` screens — the ones whose `best` is `long` or `short` — neither side may outnumber the other by more than about **2:1**. A learner who always answers "long" must not out-score one who always answers "short", any more than one who always answers "false" may. Checked from eight directional decisions up, below which the ratio says nothing. `no-trade` is not part of the count: how often standing aside is right is a curriculum decision, and the rule below is what protects it. A flipped decision is a **new chart**, not a mirrored one — a short setup reads differently from a long one (the failed push, the lower high, the break that traps buyers), so the scenario, the outcome and the explanation are rewritten with the setups that chapter actually taught.
 - **"No trade" is never punished.** On any `chart-decision` whose `best` is `long` or `short`, `no-trade` must appear in `reasonable`. Standing aside is amber at worst, in lessons and in exams alike. This is a promise Chapter 1 makes explicitly and every later chapter must keep.
 
 ### 3.6 Numbers and realism
@@ -245,7 +246,7 @@ A v3 chapter is 45–52 sub-levels — too much for one clean pass. Write it in 
 2. Chapter 1 (shared) — **done: 17 levels / 47 subs**.
 3. Scalping Chapters 2–8 — **done: 18/19/18/17/19/19/17 levels, 340 subs**.
 4. Open work on the written path — **see the list in `README.md`**: category labels, the plan sheet,
-   position sizes, scenario phrasing, exam interactivity, long/short balance.
+   position sizes, scenario phrasing, exam interactivity.
 5. Drill bank (`content/drills/`) — **not started**.
 6. Day Trading Chapters 2–8 — planned.
 7. Swing Trading Chapters 2–8 — planned.

@@ -88,7 +88,11 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
 5. **Exams.** Tests and final exams run 35 % interactive screens against 64–68 % in the lessons.
    Chapter 1's final exam has no `chart-decision` at all; Chapter 3's second checkpoint has no
    chart interaction of any kind.
-6. **Long/short balance.** 214 long against 105 short across the path (Chapter 8 is 25:3).
+6. **Long/short balance** — **done.** The path runs 199 long against 123 short; no chapter is
+   worse than 1.85:1 among its directional decisions (Chapter 2, the closest to the line).
+   Sixteen charts were rewritten as shorts in Chapters 3, 5 and 8, and
+   `tools/validate_content.py` now checks the ratio per chapter, from eight directional
+   decisions up.
 7. **Drill bank** (`content/drills/`) — not started. `docs/curriculum.md` and `docs/UI.md` §7.3 size
    it at ~350 screens; without it the Practice hub, daily mix, setup drills, weekly challenge and
    spaced repetition have no content.

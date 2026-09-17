@@ -68,17 +68,19 @@ screens:
     explanation: "Seven per cent and five per cent on the left; seventy and sixty-seven on the right. The twelve-cent gap is the cheapest trade on the list."
 
   - type: chart-decision
-    scenario: "XYZ has stepped up for five minutes and the bar under the last candle is nearly twice anything before it. Bid $13.25 / ask $13.27, and your $25,000 account allows 1,400 shares here."
+    scenario: "XYZ held a base at $13.10 for ten minutes and the minute that just closed finished under it on nearly twice the volume of anything before it. Bid $12.99 / ask $13.01, and your $25,000 account allows 1,400 shares here."
     shares: 1400
     chart:
       kind: candles
-      data: [[12.90, 12.98, 12.86, 12.96], [12.96, 13.04, 12.92, 13.01], [13.01, 13.06, 12.97, 13.03], [13.03, 13.12, 13.00, 13.10], [13.10, 13.18, 13.06, 13.15], [13.15, 13.28, 13.13, 13.26], [13.26, 13.38, 13.23, 13.35], [13.35, 13.46, 13.31, 13.43], [13.43, 13.52, 13.39, 13.48], [13.48, 13.62, 13.44, 13.57]]
+      data: [[13.30, 13.34, 13.22, 13.24], [13.24, 13.28, 13.16, 13.18], [13.18, 13.22, 13.10, 13.14], [13.14, 13.18, 13.10, 13.12], [13.12, 13.16, 13.10, 13.14], [13.14, 13.16, 12.98, 13.00], [13.00, 13.02, 12.88, 12.90], [12.90, 12.94, 12.80, 12.82], [12.82, 12.86, 12.72, 12.75], [12.75, 12.78, 12.66, 12.69]]
       volume: [54000, 66000, 58000, 72000, 88000, 164000, 146000, 128000, 110000, 94000]
+      levels:
+        - {price: 13.10, label: "Base"}
       decision_index: 5
-    best: long
+    best: short
     reasonable: [no-trade]
-    outcome: "It ran to $13.57 — $0.31 a share above the decision, +$434 long on 1,400 shares, of which the two-cent gap took $28."
-    explanation: "Two cents against eleven-cent minutes, on double the volume, with 1,400 shares a small slice of that bar. All three questions come back clean."
+    outcome: "It slid to $12.69 — $0.31 a share below the decision, +$434 short on 1,400 shares, of which the two-cent gap took $28."
+    explanation: "Two cents of gap against a minute that travelled fourteen, on double the volume, with 1,400 shares a small slice of that bar. All three questions come back clean."
 
   - type: match
     prompt: "Chapter 1 described every stock on two dials. Match each kind of stock to the quote it usually shows."

@@ -488,6 +488,11 @@ VOLUME_MIN, VOLUME_MAX = 4_000, 500_000
 # named in the same file. The rest is the buffer a real fill needs — the learner pays the
 # ask, not the last price the drill quotes, and the fee comes out of the same cash.
 MAX_ACCOUNT_PCT = 0.95
+# agent.md §3.5: inside a chapter's directional chart-decisions, neither side may outnumber
+# the other by more than this. Judged from MIN_DIRECTIONAL decisions up; under that the ratio
+# is noise rather than a tell.
+MAX_DIRECTION_RATIO = 2.0
+MIN_DIRECTIONAL = 8
 
 
 def file_text(d):
@@ -662,6 +667,25 @@ def validate_chapter_v3(folder, files, rep):
                          f"one position (agent.md §3.6); worst is {worst_file} screen {worst_i}, "
                          f"{shares:,} shares × ${price:.2f} = ${value:,.0f}, {pct:.1%} of the "
                          f"${account:,} account. Run tools/check_sizing.py for the list.")
+
+    # --- long/short balance ---------------------------------------------
+    # The same answer-key tell as a run of first-position answers, in the one place the
+    # learner can act on it: if a chapter's directional charts lean one way, "always long"
+    # scores without a chart being read. `no-trade` is deliberately not counted — how often
+    # standing aside is right is a curriculum decision, and the reasonable-answer rule above
+    # is what keeps it from being punished.
+    sides = defaultdict(int)
+    for d in ordered:
+        for s in d["screens"]:
+            if s.get("type") == "chart-decision" and s.get("best") in ("long", "short"):
+                sides[s["best"]] += 1
+    directional = sides["long"] + sides["short"]
+    if directional >= MIN_DIRECTIONAL:
+        hi, lo = max(sides["long"], sides["short"]), min(sides["long"], sides["short"])
+        if lo == 0 or hi / lo > MAX_DIRECTION_RATIO:
+            how = "one side only" if lo == 0 else f"{hi / lo:.1f}:1"
+            rep.cwarn(where, f"chart-decisions resolve {sides['long']} long to {sides['short']} short "
+                             f"({how}, want no worse than {MAX_DIRECTION_RATIO:.0f}:1 either way)")
 
     # --- scenario and outcome phrasing ----------------------------------
     # The charts are all different; the sentences around them must not settle into

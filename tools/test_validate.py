@@ -180,6 +180,32 @@ expect("chapter: longest-is-correct tell", check_chapter([sub(i, screens=[
 expect("chapter: outcome value clustering", check_chapter([sub(i, screens=[
     {"type": "chart-decision", "prompt": "p", "explanation": "e", "best": "no-trade",
      "outcome": "You make $0.28 a share.", "chart": CANDLES}]) for i in range(1, 11)]), "per-share outcome $0.28")
+
+
+def split(longs, shorts, notrades=0):
+    """A chapter whose chart-decisions resolve to the given long/short/no-trade split."""
+    bests = ["long"] * longs + ["short"] * shorts + ["no-trade"] * notrades
+    screens = [{"type": "intro", "text": "x"}]
+    for i, best in enumerate(bests):
+        screens.append({"type": "chart-decision", "explanation": "e", "best": best,
+                        "reasonable": ["no-trade"], "shares": 100, "chart": CANDLES,
+                        "outcome": f"Outcome {i}, phrased entirely its own way here.",
+                        "scenario": f"Chart {i}. " + ["Long or short?", "What now?",
+                                                      "Take it?", "Which side?"][i % 4]})
+    return [lesson(id="1-1", screens=screens)]
+
+
+expect("chapter: long/short split skewed", check_chapter(split(9, 1)),
+       "resolve 9 long to 1 short")
+expect("chapter: only one direction taught", check_chapter(split(8, 0)),
+       "one side only")
+expect_no("chapter: an even 2:1 split passes", check_chapter(split(8, 4)),
+          "want no worse than 2:1")
+expect_no("chapter: no-trade is not part of the split", check_chapter(split(8, 4, notrades=20)),
+          "want no worse than 2:1")
+expect_no("chapter: too few directional decisions to judge", check_chapter(split(6, 0)),
+          "want no worse than 2:1")
+
 expect("chapter: no callback level", check_chapter([sub(i) for i in range(1, 20)]), "no Callback level")
 expect("chapter: difficulty run", check_chapter([sub(i, difficulty=2) for i in range(1, 20)]), "consecutive sub-levels at difficulty 2")
 expect("chapter: reinforcement quota", check_chapter([sub(i) for i in range(1, 20)]), "sit in subs declaring reinforces")
