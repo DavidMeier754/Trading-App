@@ -17,7 +17,10 @@ A finished path is ~144 levels and ~387 sub-levels: about 22 hours, or six month
 | `content/market_profiles.yaml` | Market-specific values (session times, currency, index, regulation notes) for `US` and `EU-DE`. |
 | `content/shared/` | Chapter 1 (all paths). |
 | `content/paths/<path>/` | Chapters 2–8 per path. |
-| `tools/validate_content.py` | Validates all lesson files; `--status` prints chapter statistics. |
+| `content/drills/packs.yaml` | The drill-pack manifest: one entry per Practice-hub pack, with its unlock, size, concepts and the three exemplars the batch run is built from. |
+| `content/drills/<path>/` | The drill packs themselves — flat banks of question screens, no lesson structure. |
+| `tools/validate_content.py` | Validates all lesson files and drill packs; `--status` prints chapter and pack statistics. |
+| `tools/build_drill_batch.py` | Stage 4: builds one Batch API request per drill pack from the manifest, and writes the results back into `content/drills/`. |
 | `tools/test_validate.py` | Self-test for the validator. Run it after changing `validate_content.py`. |
 | `tools/check_sizing.py` | Every simulated position against the 95 % concentration rule, with every other line in the file that names the same share count. |
 
@@ -30,6 +33,7 @@ python3 tools/validate_content.py --strict   # chapter-level warnings become err
 python3 tools/test_validate.py               # self-test: every validator rule still fires
 python3 tools/check_sizing.py --summary       # concentration by chapter
 python3 tools/check_sizing.py --chapter 2    # every position in one chapter, with its mentions
+python3 tools/build_drill_batch.py --check   # the drill manifest and its exemplars resolve
 ```
 
 Requires Python 3 and PyYAML (`pip install pyyaml`).
@@ -93,9 +97,13 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    Sixteen charts were rewritten as shorts in Chapters 3, 5 and 8, and
    `tools/validate_content.py` now checks the ratio per chapter, from eight directional
    decisions up.
-7. **Drill bank** (`content/drills/`) — not started. `docs/curriculum.md` and `docs/UI.md` §7.3 size
-   it at ~350 screens; without it the Practice hub, daily mix, setup drills, weekly challenge and
-   spaced repetition have no content.
+7. **Drill bank** (`content/drills/`) — **designed, 1 of 15 packs written.** `content/drills/packs.yaml`
+   is the manifest: fifteen packs, 370 screens, each with its unlock sub-level, concept list and the
+   three exemplars its batch request carries. `tools/build_drill_batch.py` builds the Stage 4 batch
+   from it and `tools/validate_content.py` now validates packs (question screens only, 10–40 per
+   pack, a real `unlocked_by`, answer-key hygiene and the §3.6 ceilings over the whole pack).
+   `content/drills/scalping/cost-check.yaml` is hand-written and clean, as the proof the format and
+   the validator agree; the other fourteen are the batch run.
 
 `python3 tools/validate_content.py` reports the phrasing items above as warnings. The rest are
 tracked here because no rule can see them. Each item has a filled-in prompt, a model and an

@@ -474,10 +474,11 @@ The Practice hub is fed by drill packs, not by lesson files: `content/drills/<pa
 A pack is a flat bank of scored screens with no lesson structure — no intro, no theory, no ordering.
 
 ```yaml
-id: "scalping-vwap-bounce"
-path: scalping
+id: "scalping-setup-a-vwap-bounce"   # <path>-<slug>; the file is <slug>.yaml
+path: scalping                       # one real path — never `all` (see below)
 title: "VWAP bounce drills"
-unlocked_by: "7-2"            # the sub-level that must be completed first
+unlocked_by: "2-4"            # the sub-level that must be completed first
+unlocked_by_chapter: 7        # the chapter that sub-level lives in
 tags: [vwap, setup-a]
 concepts: ["VWAP bounce", "Reclaim", "First touch"]   # what wrong answers mark weak
 screens:                      # any question type; chart-decision / swipe-deck / compare preferred
@@ -485,7 +486,52 @@ screens:                      # any question type; chart-decision / swipe-deck /
     ...
 ```
 
-Rules: every screen is a question screen; 10–40 screens per pack; `unlocked_by` must name an existing sub-level; packs never cost hearts and are never timed. Packs are drawn from by the daily mix and by setup drills, weighted by the learner's weak concepts.
+**`unlocked_by` takes two fields.** A sub-level id is `<level>-<sub>` and is only unique
+*inside a chapter* — every chapter has a `2-4`. So a pack names the chapter as well, and the
+pair resolves to one file: `content/<scope>/chapter-NN-*/level-LL-S.yaml` in the pack's own
+path, or in the shared chapter when `unlocked_by_chapter` is 1.
+
+**A pack belongs to one path.** Chapters 2–8 differ per path, so the same pack shape is
+written once per path with that path's charts, prices and setups; `path: all` is not
+allowed on a pack, whatever the table in `docs/curriculum.md` says in its Path column.
+
+Rules: every screen is a question screen (no `intro`, `theory`, `summary`, `recap` or any
+other lesson archetype); 10–40 screens per pack; `id` is `<path>-<slug>` and the file is
+`content/drills/<path>/<slug>.yaml`; `unlocked_by` + `unlocked_by_chapter` must name an
+existing sub-level; `tags` and `concepts` are non-empty; packs never cost hearts and are never
+timed. Packs are drawn from by the daily mix and by setup drills, weighted by the learner's
+weak concepts.
+
+Each screen carries the same shape rules as it does inside a lesson (options, answers, chart
+conventions, and `no-trade` in `reasonable` whenever `best` is directional). The rules that
+belong to a *lesson* do not apply: there is no screen budget, no time estimate, no first or
+last screen, and no "2 `mc` in a row" — the Practice hub draws in its own order.
+
+### The manifest — `content/drills/packs.yaml`
+
+One entry per pack in the drill table of `docs/curriculum.md`, and the thing the batch run
+(`tools/build_drill_batch.py`, `docs/build-plan.md` Stage 4) is built from. An entry carries
+the pack's header fields plus `slug`, `file`, the commissioned `screens` count, and three
+`exemplars` — screens from the linear chapter the pack unlocks from, by file and 1-based
+screen index, one `straightforward`, one `near-miss` whose answer is pass or no trade, one
+`arithmetic`. A pack on disk must have an entry, and must agree with it.
+
+### Validator rules for packs
+
+Errors: the header fields above; `id`/`path`/folder agreement; 10–40 question screens with no
+lesson archetype among them; every screen's own shape; `unlocked_by` resolving to a real
+sub-level; a pack with no manifest entry, or one contradicting its entry's `path` or unlock.
+Manifest errors: a duplicate id, a commissioned size outside 10–40, an unlock that does not
+resolve, an exemplar whose file, screen index or screen type does not exist.
+
+Pack-level warnings (errors under `--strict`, like the chapter-level ones — batch output is
+not exempt): answer-key hygiene from `docs/agent.md` §3.5 computed over the whole pack
+(correct-option position, the length tell, the 40–60 % true/false split, the punctuation tell,
+the 2:1 long/short ratio from eight directional decisions up), the §3.6 ceilings (a position
+over the account behind it, or over 95 % of it — a screen that names no account is measured
+against the smallest account the pack names), bar volume outside 4,000–500,000, fewer than
+four question types in a pack, a pack whose size differs from the commissioned one, and a pack
+of eight or more `chart-decision` screens with no `no-trade` among them.
 
 ## Validator rules (tools/validate_content.py)
 

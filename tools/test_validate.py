@@ -399,6 +399,194 @@ expect_no("plan: a named card fills the cards list",
           "'cards'")
 
 
+print("\n— drill packs —")
+
+# The sub-level index a pack's `unlocked_by` is resolved against, as main() builds it.
+DRILL_IDX = {("scalping", 3): {"19-1", "18-2"}, ("all", 1): {"17-1"}}
+
+
+def q(i=0, **over):
+    """One valid drill screen: a true/false, alternating so a pack's split stays even."""
+    d = {"type": "tf", "statement": f"s{i}", "answer": i % 2 == 0, "explanation": "e"}
+    d.update(over)
+    return d
+
+
+def pack(screens=None, **over):
+    d = {
+        "id": "scalping-cost-check", "path": "scalping", "title": "Cost and size drills",
+        "unlocked_by": "19-1", "unlocked_by_chapter": 3, "tags": ["costs"],
+        "concepts": ["Spread"],
+        "screens": screens if screens is not None else [
+            [q(i),
+             {"type": "numeric-input", "prompt": f"p{i}", "answer": i, "explanation": "e"},
+             {"type": "fill-choice", "sentence": f"a ___ {i}", "options": ["limit", "market"],
+              "answer": "limit", "explanation": "e"},
+             {"type": "chart-decision", "explanation": "e", "best": "long",
+              "reasonable": ["no-trade"], "outcome": f"o{i}", "scenario": f"c{i}",
+              "chart": CANDLES}][i % 4]
+            for i in range(12)
+        ],
+    }
+    d.update(over)
+    return d
+
+
+PACKFILE = pathlib.Path(V.ROOT) / "content/drills/scalping/cost-check.yaml"
+
+
+def check_pack(data, name=PACKFILE):
+    def run(rep):
+        V.validate_drill_pack(pathlib.Path(name), data, rep, DRILL_IDX)
+    return run
+
+
+def check_hygiene(data):
+    def run(rep):
+        d = V.validate_drill_pack(PACKFILE, data, rep, DRILL_IDX)
+        if d:
+            V.validate_drill_hygiene(d, rep)
+    return run
+
+
+expect("pack: a lesson screen in a drill pack",
+       check_pack(pack(screens=[{"type": "intro", "text": "x"}] + [q(i) for i in range(11)])),
+       "a drill pack holds question screens only")
+expect("pack: a theory screen in a drill pack",
+       check_pack(pack(screens=[q(i) for i in range(11)] + [{"type": "theory", "body": "b"}])),
+       "is a lesson screen")
+expect("pack: too few screens", check_pack(pack(screens=[q(i) for i in range(9)])),
+       "9 screens (a pack holds 10–40)")
+expect("pack: too many screens", check_pack(pack(screens=[q(i) for i in range(41)])),
+       "41 screens (a pack holds 10–40)")
+expect("pack: unlocked_by names no sub-level",
+       check_pack(pack(unlocked_by="42-9")), "is not a sub-level of chapter 3")
+expect("pack: unlocked_by in the wrong chapter",
+       check_pack(pack(unlocked_by_chapter=2)), "is not a sub-level of chapter 2")
+expect("pack: unlocked_by malformed", check_pack(pack(unlocked_by="Ch3 exam")),
+       "must be a sub-level id")
+expect_no("pack: the shared chapter unlocks every path",
+          check_pack(pack(unlocked_by="17-1", unlocked_by_chapter=1)), "unlocked_by")
+expect("pack: id is not <path>-<slug>", check_pack(pack(id="cost-check")),
+       "is not '<path>-<slug>'")
+expect("pack: a pack may not be for every path", check_pack(pack(path="all")),
+       "a drill pack belongs to one path")
+expect("pack: wrong folder for its path",
+       check_pack(pack(), name=pathlib.Path(V.ROOT) / "content/drills/day-trading/cost-check.yaml"),
+       "belongs in content/drills/scalping/")
+expect("pack: empty concept list", check_pack(pack(concepts=[])),
+       "concepts must be a non-empty list")
+expect("pack: a screen's own shape is still checked",
+       check_pack(pack(screens=[q(i) for i in range(11)] +
+                       [{"type": "mc", "prompt": "p", "options": [{"text": "a"}], "explanation": "e"}])),
+       "needs exactly one correct option")
+expect("pack: no-trade punished inside a pack",
+       check_pack(pack(screens=[q(i) for i in range(11)] +
+                       [{"type": "chart-decision", "explanation": "e", "best": "long",
+                         "reasonable": ["short"], "outcome": "o", "shares": 100, "chart": CANDLES}])),
+       "must contain 'no-trade'")
+expect("pack: too few question types",
+       check_pack(pack(screens=[q(i) for i in range(12)])), "question type(s) in the pack")
+expect_no("pack: a valid pack passes", check_pack(pack()), "cost-check.yaml")
+
+print("\n— drill pack hygiene (agent.md §3.5, §3.6) —")
+MC = {"type": "mc", "prompt": "p", "options": [{"text": "a", "correct": True}, {"text": "b"},
+                                               {"text": "c"}], "explanation": "e"}
+expect("pack: correct-option position skew",
+       check_hygiene(pack(screens=[dict(MC, prompt=f"p{i}") for i in range(12)])),
+       "correct option is at position 1")
+expect("pack: tf answers skewed",
+       check_hygiene(pack(screens=[q(i, answer=False, statement=f"s{i}") for i in range(12)])),
+       "tf answers are true")
+expect("pack: the number-only-in-the-answer tell",
+       check_hygiene(pack(screens=[
+           {"type": "mc", "prompt": f"p{i}",
+            "options": [{"text": "wait for it"}, {"text": "$0.04 a share", "correct": True},
+                        {"text": "nothing at all"}], "explanation": "e"} for i in range(12)])),
+       "the only one carrying a number")
+expect("pack: long/short balance", check_hygiene(pack(screens=[
+    {"type": "chart-decision", "explanation": "e", "best": "long", "reasonable": ["no-trade"],
+     "outcome": f"o{i}", "shares": 100, "chart": CANDLES, "scenario": f"c{i}"} for i in range(9)] +
+    [q(i) for i in range(3)])), "one side only")
+expect("pack: position over the 95 % cap", check_hygiene(pack(screens=[q(i) for i in range(11)] + [
+    {"type": "chart-decision", "explanation": "e", "best": "no-trade", "outcome": "flat",
+     "scenario": "You have a $5,000 account.", "shares": 240, "chart": CANDLES}])),
+    "over the 95% cap on one position")
+# A screen that names no account is measured against the smallest the pack names, so a
+# drill cannot borrow a bigger account from three screens away.
+expect("pack: a screen that names no account falls back to the pack's smallest",
+       check_hygiene(pack(screens=[
+           {"type": "chart-decision", "explanation": "e", "best": "no-trade", "outcome": "flat",
+            "scenario": "A $5,000 account. Nothing to do here.", "shares": 100, "chart": CANDLES},
+           {"type": "chart-decision", "explanation": "e", "best": "no-trade", "outcome": "flat",
+            "scenario": "1,400 shares ready.", "shares": 1400, "chart": CANDLES}] +
+           [q(i) for i in range(10)])),
+       "exceeds the $5,000 account behind it")
+expect("pack: thin bar volume", check_hygiene(pack(screens=[q(i) for i in range(11)] + [
+    {"type": "chart-decision", "explanation": "e", "best": "no-trade", "outcome": "flat",
+     "chart": dict(CANDLES, volume=[900] * 10)}])), "typical bar volume")
+expect("pack: no near-misses at all", check_hygiene(pack(screens=[
+    {"type": "chart-decision", "explanation": "e", "best": "long" if i % 2 else "short",
+     "reasonable": ["no-trade"], "outcome": f"o{i}", "shares": 100, "chart": CANDLES,
+     "scenario": f"c{i}"} for i in range(10)] + [q(i) for i in range(2)])),
+    "resolve to no-trade")
+expect("pack: the same drill twice", check_hygiene(pack(screens=[
+    q(i, type="numeric-input", prompt="What is the spread?", answer=i, statement=None)
+    for i in range(2)] + [q(i) for i in range(10)])), "repeats screen")
+
+print("\n— drill manifest —")
+ENTRY = {
+    "id": "scalping-cost-check", "slug": "cost-check",
+    "file": "content/drills/scalping/cost-check.yaml", "path": "scalping",
+    "title": "Cost and size drills", "unlocked_by": "19-1", "unlocked_by_chapter": 3,
+    "screens": 20, "tags": ["costs"], "concepts": ["Spread"], "exemplars": [],
+}
+
+
+def manifest(entries, written=()):
+    def run(rep):
+        V.validate_drill_manifest(rep, entries, list(written), DRILL_IDX)
+    return run
+
+
+expect("manifest: missing field", manifest([{k: v for k, v in ENTRY.items() if k != "title"}]),
+       "missing title")
+expect("manifest: duplicate pack id", manifest([ENTRY, ENTRY]), "duplicate pack id")
+expect("manifest: unlocked_by does not exist",
+       manifest([dict(ENTRY, unlocked_by="99-1")]), "is not a sub-level of chapter 3")
+expect("manifest: commissioned size out of range",
+       manifest([dict(ENTRY, screens=60)]), "60 screens")
+expect("manifest: exemplar file missing",
+       manifest([dict(ENTRY, exemplars=[{"file": "content/paths/scalping/nope.yaml",
+                                         "screen": 1, "role": "straightforward"}])]),
+       "does not exist")
+expect("manifest: exemplar screen out of range",
+       manifest([dict(ENTRY, exemplars=[
+           {"file": "content/paths/scalping/chapter-03-orders-costs-position-size/level-03-1.yaml",
+            "screen": 999, "role": "straightforward"}])]), "has no screen 999")
+expect("manifest: exemplar is not a question screen",
+       manifest([dict(ENTRY, exemplars=[
+           {"file": "content/paths/scalping/chapter-03-orders-costs-position-size/level-03-1.yaml",
+            "screen": 1, "role": "straightforward"}])]), "not a question")
+expect("manifest: a pack nobody commissioned",
+       manifest([], written=[dict(pack(), _file="cost-check.yaml", _screens=[])]),
+       "has no entry in")
+expect("manifest: written pack contradicts its entry",
+       manifest([ENTRY], written=[dict(pack(unlocked_by="18-2"), _file="cost-check.yaml",
+                                       _screens=[])]),
+       "the manifest commissioned '19-1'"),
+expect("manifest: written pack is the wrong size",
+       manifest([ENTRY], written=[dict(pack(), _file="cost-check.yaml", _screens=[1] * 12)]),
+       "the manifest commissioned 20")
+expect("manifest: written pack drops a concept",
+       manifest([dict(ENTRY, concepts=["Spread", "Slippage"])],
+                written=[dict(pack(), _file="cost-check.yaml", _screens=[])]),
+       "drops concept(s)")
+expect_no("manifest: a matching pair passes",
+          manifest([ENTRY], written=[dict(pack(), _file="cost-check.yaml", _screens=[1] * 20)]),
+          "manifest")
+
+
 print("\n— strict mode —")
 strict = V.Report(strict=True)
 check_chapter([sub(1)])(strict)

@@ -247,7 +247,7 @@ A v3 chapter is 45–52 sub-levels — too much for one clean pass. Write it in 
 3. Scalping Chapters 2–8 — **done: 18/19/18/17/19/19/17 levels, 340 subs**.
 4. Open work on the written path — **see the list in `README.md`**: category labels, the plan sheet,
    position sizes, scenario phrasing, exam interactivity.
-5. Drill bank (`content/drills/`) — **not started**.
+5. Drill bank (`content/drills/`) — **manifest, batch script and validator done; 1 of 15 packs written** (`content/drills/packs.yaml`, `tools/build_drill_batch.py`).
 6. Day Trading Chapters 2–8 — planned.
 7. Swing Trading Chapters 2–8 — planned.
 

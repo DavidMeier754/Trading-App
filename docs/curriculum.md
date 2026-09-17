@@ -497,6 +497,8 @@ Same spine, swing-specific: 1 The Stop Is Not Optional (4) · 2 R — The Unit (
 
 Folder: `content/drills/<path>/<slug>.yaml` · format in `docs/schema.md`. These feed the Practice hub (UI.md §7.3), not the path map. They are the rep volume that turns recognition into reflex, and they are written **after** the chapter they unlock from.
 
+The table below is the plan; `content/drills/packs.yaml` is the manifest built from it, and it is what `tools/build_drill_batch.py` (build-plan.md Stage 4) and `tools/validate_content.py` both read. **Path `all` means every path gets a pack of this shape, not that one file serves three paths:** chapters 2–8 differ per path, so each pack is written once per path against that path's charts, prices and setups, and `unlocked_by` resolves inside that path. The "Unlocked by" column names a chapter's exam or a setup's level; the manifest turns each into the sub-level id that actually exists (a chapter's final exam, or the last sub of the setup's level — the one that writes its playbook card).
+
 | Pack | Path | Unlocked by | Size | Contents |
 |---|---|---|---|---|
 | `charts-structure` | all | Ch2 exam | 30 | Trend / range / pullback naming, `swipe-deck` and `chart-tap` |
@@ -508,7 +510,7 @@ Folder: `content/drills/<path>/<slug>.yaml` · format in `docs/schema.md`. These
 | `setup-a` … `setup-h` | all | each setup's level | 20 each | One `swipe-deck` bank per playbook card |
 | `mixed-daily` | all | Ch7 exam | 40 | Everything, weighted by the learner's weak concepts |
 
-Target at launch of a path: **~350 drill screens**, roughly the same volume again as the linear path's own questions.
+Target at launch of a path: **~350 drill screens**, roughly the same volume again as the linear path's own questions. The sizes above add up to 370 across the fifteen packs; the manifest carries that figure.
 
 ---
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Validate lesson YAML files against docs/schema.md. Usage:
+"""Validate lesson files and drill packs against docs/schema.md. Usage:
   python3 tools/validate_content.py            # errors + warnings, exit 1 on errors
-  python3 tools/validate_content.py --status   # chapter statistics
+  python3 tools/validate_content.py --status   # chapter and drill-pack statistics
   python3 tools/validate_content.py --strict   # chapter-level warnings become errors
 """
 import re
@@ -240,6 +240,97 @@ def validate_new_question(f, i, s, rep):
             rep.err(f, f"{where}: target '{tg}' is not in the book ({side}s has {len(levels)} levels)")
 
 
+def validate_question_screen(f, i, s, rep):
+    """Shape checks for one question screen.
+
+    Shared by lesson files and by drill packs (schema.md, "Drill packs"), which hold the
+    same question screens with no lesson around them. Rules that depend on a screen's
+    neighbours — no more than 2 mc in a row — stay with the caller.
+    """
+    t = s["type"]
+    if not s.get("explanation") and t not in NO_SCREEN_EXPLANATION:
+        rep.err(f, f"screen {i} ({t}): missing explanation")
+    if t in ("mc", "numeric-mc"):
+        opts = s.get("options") or []
+        if not 2 <= len(opts) <= 4:
+            rep.err(f, f"screen {i}: mc needs 2–4 options")
+        texts = [o.get("text") if isinstance(o, dict) else o for o in opts]
+        if len(set(texts)) != len(texts):
+            rep.err(f, f"screen {i}: duplicate option text")
+        ncorrect = sum(1 for o in opts if isinstance(o, dict) and o.get("correct"))
+        if ncorrect != 1:
+            rep.err(f, f"screen {i}: needs exactly one correct option (has {ncorrect})")
+    if t == "tf" and not isinstance(s.get("answer"), bool):
+        rep.err(f, f"screen {i}: tf.answer must be true/false")
+    if t == "fill-tiles":
+        a = str(s.get("answer", ""))
+        if not re.fullmatch(r"[A-Za-z]+", a):
+            rep.err(f, f"screen {i}: fill-tiles.answer must be one word of letters ('{a}')")
+    if t == "fill-choice":
+        if s.get("answer") not in (s.get("options") or []):
+            rep.err(f, f"screen {i}: fill-choice.answer not in options")
+    if t == "match":
+        pairs = s.get("pairs") or []
+        if not 2 <= len(pairs) <= 5:
+            rep.err(f, f"screen {i}: match needs 2–5 pairs")
+        left = [p[0] for p in pairs]
+        right = [p[1] for p in pairs]
+        if len(set(left)) != len(left) or len(set(right)) != len(right):
+            rep.err(f, f"screen {i}: match terms/definitions must be unique")
+    if t == "sort":
+        buckets = set(s.get("buckets") or [])
+        for it in s.get("items") or []:
+            if it.get("bucket") not in buckets:
+                rep.err(f, f"screen {i}: sort item '{it.get('text')}' has unknown bucket")
+    if t == "order" and len(s.get("items") or []) < 3:
+        rep.err(f, f"screen {i}: order needs ≥3 items")
+    if t == "hotspot" and not (s.get("target") or s.get("targets")):
+        rep.err(f, f"screen {i}: hotspot needs target(s)")
+    if t == "chart-decision":
+        buttons = s.get("buttons") or ["long", "short", "no-trade"]
+        if s.get("best") not in buttons:
+            rep.err(f, f"screen {i}: chart-decision.best '{s.get('best')}' not in buttons")
+        if not s.get("outcome"):
+            rep.err(f, f"screen {i}: chart-decision needs outcome")
+        if s.get("best") in ("long", "short") and "no-trade" in buttons:
+            if "no-trade" not in (s.get("reasonable") or []):
+                rep.err(f, f"screen {i}: best is '{s['best']}' so reasonable must contain 'no-trade'")
+    if t in ("chart-decision", "chart-tap"):
+        chart = s.get("chart") or {}
+        bars = chart.get("data") or []
+        kind = chart.get("kind")
+        if kind not in ("line", "candles"):
+            rep.err(f, f"screen {i}: chart.kind must be line or candles")
+        if t == "chart-decision" and not 8 <= len(bars) <= 12:
+            rep.warn(f, f"screen {i}: chart has {len(bars)} bars (expected 8–12)")
+        if kind == "candles":
+            for b_i, bar in enumerate(bars):
+                if not (isinstance(bar, list) and len(bar) == 4 and all(isinstance(x, (int, float)) for x in bar)):
+                    rep.err(f, f"screen {i}: candle {b_i} must be [open, high, low, close]")
+                    break
+                o, h, l, c = bar
+                if h < max(o, c) or l > min(o, c):
+                    rep.err(f, f"screen {i}: candle {b_i} high/low inconsistent with open/close")
+        if kind == "line" and not all(isinstance(x, (int, float)) for x in bars):
+            rep.err(f, f"screen {i}: line data must be numbers")
+        if t == "chart-decision":
+            di = chart.get("decision_index")
+            if not isinstance(di, int) or not 3 <= di <= len(bars) - 3:
+                rep.warn(f, f"screen {i}: decision_index {di} should leave bars before and after the decision")
+        if t == "chart-tap":
+            tg = s.get("target")
+            if not isinstance(tg, int) or not 0 <= tg < len(bars):
+                rep.err(f, f"screen {i}: chart-tap.target must be a bar index")
+    if t == "numeric-input" and not isinstance(s.get("answer"), (int, float)):
+        rep.err(f, f"screen {i}: numeric-input.answer must be a number")
+    if t == "spot-mistake":
+        segs = s.get("segments") or []
+        if sum(1 for x in segs if x.get("wrong")) != 1:
+            rep.err(f, f"screen {i}: spot-mistake needs exactly one wrong segment")
+    if t in NEW_QUESTION:
+        validate_new_question(f, i, s, rep)
+
+
 def validate_file(path, data, rep):
     f = path.relative_to(ROOT)
     for k in REQUIRED:
@@ -285,94 +376,13 @@ def validate_file(path, data, rep):
         seconds += screen_seconds(s)
         if t in QUESTION:
             qtypes.append(t)
-            if not s.get("explanation") and t not in NO_SCREEN_EXPLANATION:
-                rep.err(f, f"screen {i} ({t}): missing explanation")
+            validate_question_screen(f, i, s, rep)
         if t in ("mc", "numeric-mc"):
             mc_run += 1
             if mc_run > 2:
                 rep.err(f, f"screen {i}: more than 2 multiple-choice screens in a row")
-            opts = s.get("options") or []
-            if not 2 <= len(opts) <= 4:
-                rep.err(f, f"screen {i}: mc needs 2–4 options")
-            texts = [o.get("text") if isinstance(o, dict) else o for o in opts]
-            if len(set(texts)) != len(texts):
-                rep.err(f, f"screen {i}: duplicate option text")
-            ncorrect = sum(1 for o in opts if isinstance(o, dict) and o.get("correct"))
-            if ncorrect != 1:
-                rep.err(f, f"screen {i}: needs exactly one correct option (has {ncorrect})")
-        elif t in QUESTION:
-            mc_run = 0
         else:
             mc_run = 0
-        if t == "tf" and not isinstance(s.get("answer"), bool):
-            rep.err(f, f"screen {i}: tf.answer must be true/false")
-        if t == "fill-tiles":
-            a = str(s.get("answer", ""))
-            if not re.fullmatch(r"[A-Za-z]+", a):
-                rep.err(f, f"screen {i}: fill-tiles.answer must be one word of letters ('{a}')")
-        if t == "fill-choice":
-            if s.get("answer") not in (s.get("options") or []):
-                rep.err(f, f"screen {i}: fill-choice.answer not in options")
-        if t == "match":
-            pairs = s.get("pairs") or []
-            if not 2 <= len(pairs) <= 5:
-                rep.err(f, f"screen {i}: match needs 2–5 pairs")
-            left = [p[0] for p in pairs]
-            right = [p[1] for p in pairs]
-            if len(set(left)) != len(left) or len(set(right)) != len(right):
-                rep.err(f, f"screen {i}: match terms/definitions must be unique")
-        if t == "sort":
-            buckets = set(s.get("buckets") or [])
-            for it in s.get("items") or []:
-                if it.get("bucket") not in buckets:
-                    rep.err(f, f"screen {i}: sort item '{it.get('text')}' has unknown bucket")
-        if t == "order" and len(s.get("items") or []) < 3:
-            rep.err(f, f"screen {i}: order needs ≥3 items")
-        if t == "hotspot" and not (s.get("target") or s.get("targets")):
-            rep.err(f, f"screen {i}: hotspot needs target(s)")
-        if t == "chart-decision":
-            buttons = s.get("buttons") or ["long", "short", "no-trade"]
-            if s.get("best") not in buttons:
-                rep.err(f, f"screen {i}: chart-decision.best '{s.get('best')}' not in buttons")
-            if not s.get("outcome"):
-                rep.err(f, f"screen {i}: chart-decision needs outcome")
-            if s.get("best") in ("long", "short") and "no-trade" in buttons:
-                if "no-trade" not in (s.get("reasonable") or []):
-                    rep.err(f, f"screen {i}: best is '{s['best']}' so reasonable must contain 'no-trade'")
-        if t in ("chart-decision", "chart-tap"):
-            chart = s.get("chart") or {}
-            bars = chart.get("data") or []
-            kind = chart.get("kind")
-            if kind not in ("line", "candles"):
-                rep.err(f, f"screen {i}: chart.kind must be line or candles")
-            if t == "chart-decision" and not 8 <= len(bars) <= 12:
-                rep.warn(f, f"screen {i}: chart has {len(bars)} bars (expected 8–12)")
-            if kind == "candles":
-                for b_i, bar in enumerate(bars):
-                    if not (isinstance(bar, list) and len(bar) == 4 and all(isinstance(x, (int, float)) for x in bar)):
-                        rep.err(f, f"screen {i}: candle {b_i} must be [open, high, low, close]")
-                        break
-                    o, h, l, c = bar
-                    if h < max(o, c) or l > min(o, c):
-                        rep.err(f, f"screen {i}: candle {b_i} high/low inconsistent with open/close")
-            if kind == "line" and not all(isinstance(x, (int, float)) for x in bars):
-                rep.err(f, f"screen {i}: line data must be numbers")
-            if t == "chart-decision":
-                di = chart.get("decision_index")
-                if not isinstance(di, int) or not 3 <= di <= len(bars) - 3:
-                    rep.warn(f, f"screen {i}: decision_index {di} should leave bars before and after the decision")
-            if t == "chart-tap":
-                tg = s.get("target")
-                if not isinstance(tg, int) or not 0 <= tg < len(bars):
-                    rep.err(f, f"screen {i}: chart-tap.target must be a bar index")
-        if t == "numeric-input" and not isinstance(s.get("answer"), (int, float)):
-            rep.err(f, f"screen {i}: numeric-input.answer must be a number")
-        if t == "spot-mistake":
-            segs = s.get("segments") or []
-            if sum(1 for x in segs if x.get("wrong")) != 1:
-                rep.err(f, f"screen {i}: spot-mistake needs exactly one wrong segment")
-        if t in NEW_QUESTION:
-            validate_new_question(f, i, s, rep)
     if screens[0].get("type") != "intro":
         rep.err(f, "first screen must be intro")
     nq = len(qtypes)
@@ -495,21 +505,22 @@ MAX_DIRECTION_RATIO = 2.0
 MIN_DIRECTIONAL = 8
 
 
+# `state` counts: once session state moves from the scenario into chips
+# (UI.md 6.4), the account a drill is sized against is named there.
+TEXT_KEYS = ("text", "body", "prompt", "statement", "scenario", "outcome",
+             "explanation", "working", "state")
+
+
+def screen_text(s):
+    return " ".join(str(s.get(k)) for k in TEXT_KEYS if s.get(k))
+
+
 def file_text(d):
-    return " ".join(
-        str(s.get(k))
-        for s in d["screens"]
-        # `state` counts: once session state moves from the scenario into chips
-        # (UI.md 6.4), the account a drill is sized against is named there.
-        for k in ("text", "body", "prompt", "statement", "scenario", "outcome",
-                  "explanation", "working", "state")
-        if s.get(k)
-    )
+    return " ".join(screen_text(s) for s in d["screens"])
 
 
-def stated_account(d):
-    """Largest account size named anywhere in the file, or None."""
-    text = file_text(d)
+def accounts_in(text):
+    """Every account size named in a piece of text."""
     found = []
     for rx in ACCOUNT_RE:
         for m in rx.finditer(text):
@@ -517,6 +528,12 @@ def stated_account(d):
                 found.append(int(m.group(1).replace(",", "")))
             except ValueError:
                 pass
+    return found
+
+
+def stated_account(d):
+    """Largest account size named anywhere in the file, or None."""
+    found = accounts_in(file_text(d))
     return max(found) if found else None
 
 
@@ -530,6 +547,75 @@ def decision_price(s):
     if isinstance(bar, list) and len(bar) == 4:
         return bar[3]
     return bar if isinstance(bar, (int, float)) else None
+
+
+def answer_key_hygiene(where, screens, rep, digit_tell=False):
+    """agent.md §3.5 over a set of screens: a chapter's, or a drill pack's.
+
+    Position rotation, the length tell and the true/false split are properties of the
+    bank a learner meets, so they are computed over the whole of it. `digit_tell` adds
+    §3.5's punctuation tell, which only drill packs are checked for so far.
+    """
+    positions = defaultdict(int)
+    longest_correct = 0
+    digit_only_correct = 0
+    mc_total = 0
+    tf_true = tf_total = 0
+    for s in screens:
+        ty = s.get("type")
+        if ty in ("mc", "numeric-mc"):
+            opts = s.get("options") or []
+            texts = [o.get("text") if isinstance(o, dict) else str(o) for o in opts]
+            idx = next((n for n, o in enumerate(opts) if isinstance(o, dict) and o.get("correct")), None)
+            if idx is None:
+                continue
+            mc_total += 1
+            positions[idx] += 1
+            lens = [len(str(x)) for x in texts]
+            if lens and lens[idx] == max(lens) and lens.count(max(lens)) == 1:
+                longest_correct += 1
+            marked = [n for n, x in enumerate(texts) if re.search(r"\d|—", str(x))]
+            if marked == [idx] and len(texts) > 1:
+                digit_only_correct += 1
+        elif ty == "tf" and isinstance(s.get("answer"), bool):
+            tf_total += 1
+            tf_true += 1 if s["answer"] else 0
+    if mc_total:
+        for pos, n in sorted(positions.items()):
+            if n / mc_total > 0.50:
+                rep.cwarn(where, f"correct option is at position {pos + 1} in {n}/{mc_total} "
+                                 f"mc screens ({n / mc_total:.0%}, want ≤50%)")
+        if longest_correct / mc_total > 0.45:
+            rep.cwarn(where, f"correct option is the longest in {longest_correct}/{mc_total} "
+                             f"mc screens ({longest_correct / mc_total:.0%}, want ≤45%)")
+        if digit_tell and digit_only_correct / mc_total > 0.25:
+            rep.cwarn(where, f"correct option is the only one carrying a number or an em-dash in "
+                             f"{digit_only_correct}/{mc_total} mc screens "
+                             f"({digit_only_correct / mc_total:.0%}, want ≤25%)")
+    if tf_total and not 0.40 <= tf_true / tf_total <= 0.60:
+        rep.cwarn(where, f"{tf_true}/{tf_total} tf answers are true ({tf_true / tf_total:.0%}, want 40–60%)")
+
+
+def direction_balance(where, screens, rep):
+    """agent.md §3.5: neither side of a directional chart-decision may dominate.
+
+    The same answer-key tell as a run of first-position answers, in the one place the
+    learner can act on it: if the charts lean one way, "always long" scores without a
+    chart being read. `no-trade` is deliberately not counted — how often standing aside
+    is right is a curriculum decision, and the reasonable-answer rule is what keeps it
+    from being punished.
+    """
+    sides = defaultdict(int)
+    for s in screens:
+        if s.get("type") == "chart-decision" and s.get("best") in ("long", "short"):
+            sides[s["best"]] += 1
+    directional = sides["long"] + sides["short"]
+    if directional >= MIN_DIRECTIONAL:
+        hi, lo = max(sides["long"], sides["short"]), min(sides["long"], sides["short"])
+        if lo == 0 or hi / lo > MAX_DIRECTION_RATIO:
+            how = "one side only" if lo == 0 else f"{hi / lo:.1f}:1"
+            rep.cwarn(where, f"chart-decisions resolve {sides['long']} long to {sides['short']} short "
+                             f"({how}, want no worse than {MAX_DIRECTION_RATIO:.0f}:1 either way)")
 
 
 def validate_chapter_v3(folder, files, rep):
@@ -582,37 +668,7 @@ def validate_chapter_v3(folder, files, rep):
                                       f"(agent.md §3.3 wants ≥{want} of its questions reaching back)")
 
     # --- answer-key hygiene ---------------------------------------------
-    positions = defaultdict(int)
-    longest_correct = 0
-    mc_total = 0
-    tf_true = tf_total = 0
-    for d in ordered:
-        for s in d["screens"]:
-            ty = s.get("type")
-            if ty in ("mc", "numeric-mc"):
-                opts = s.get("options") or []
-                texts = [o.get("text") if isinstance(o, dict) else str(o) for o in opts]
-                idx = next((n for n, o in enumerate(opts) if isinstance(o, dict) and o.get("correct")), None)
-                if idx is None:
-                    continue
-                mc_total += 1
-                positions[idx] += 1
-                lens = [len(str(x)) for x in texts]
-                if lens and lens[idx] == max(lens) and lens.count(max(lens)) == 1:
-                    longest_correct += 1
-            elif ty == "tf" and isinstance(s.get("answer"), bool):
-                tf_total += 1
-                tf_true += 1 if s["answer"] else 0
-    if mc_total:
-        for pos, n in sorted(positions.items()):
-            if n / mc_total > 0.50:
-                rep.cwarn(where, f"correct option is at position {pos + 1} in {n}/{mc_total} "
-                                 f"mc screens ({n / mc_total:.0%}, want ≤50%)")
-        if longest_correct / mc_total > 0.45:
-            rep.cwarn(where, f"correct option is the longest in {longest_correct}/{mc_total} "
-                             f"mc screens ({longest_correct / mc_total:.0%}, want ≤45%)")
-    if tf_total and not 0.40 <= tf_true / tf_total <= 0.60:
-        rep.cwarn(where, f"{tf_true}/{tf_total} tf answers are true ({tf_true / tf_total:.0%}, want 40–60%)")
+    answer_key_hygiene(where, [s for d in ordered for s in d["screens"]], rep)
 
     # --- rhythm ----------------------------------------------------------
     ending_theory = sum(1 for d in ordered if d["screens"][-1].get("type") == "theory")
@@ -669,23 +725,7 @@ def validate_chapter_v3(folder, files, rep):
                          f"${account:,} account. Run tools/check_sizing.py for the list.")
 
     # --- long/short balance ---------------------------------------------
-    # The same answer-key tell as a run of first-position answers, in the one place the
-    # learner can act on it: if a chapter's directional charts lean one way, "always long"
-    # scores without a chart being read. `no-trade` is deliberately not counted — how often
-    # standing aside is right is a curriculum decision, and the reasonable-answer rule above
-    # is what keeps it from being punished.
-    sides = defaultdict(int)
-    for d in ordered:
-        for s in d["screens"]:
-            if s.get("type") == "chart-decision" and s.get("best") in ("long", "short"):
-                sides[s["best"]] += 1
-    directional = sides["long"] + sides["short"]
-    if directional >= MIN_DIRECTIONAL:
-        hi, lo = max(sides["long"], sides["short"]), min(sides["long"], sides["short"])
-        if lo == 0 or hi / lo > MAX_DIRECTION_RATIO:
-            how = "one side only" if lo == 0 else f"{hi / lo:.1f}:1"
-            rep.cwarn(where, f"chart-decisions resolve {sides['long']} long to {sides['short']} short "
-                             f"({how}, want no worse than {MAX_DIRECTION_RATIO:.0f}:1 either way)")
+    direction_balance(where, [s for d in ordered for s in d["screens"]], rep)
 
     # --- scenario and outcome phrasing ----------------------------------
     # The charts are all different; the sentences around them must not settle into
@@ -837,6 +877,243 @@ def validate_tiers(chapters, rep):
             rep.warn(f, f"tier '{tier}' is also awarded in {', '.join(str(g) for g in clash)}")
 
 
+# ---------------------------------------------------------------------------
+# Drill packs (docs/schema.md, "Drill packs")
+# ---------------------------------------------------------------------------
+# A pack is a flat bank of scored screens with no lesson around them: the Practice hub
+# draws from it in its own order, weighted by the learner's weak concepts. So the rules
+# that belong to a *lesson* — screen budget, intro/summary, the run of mc screens, the
+# time estimate — do not apply, and the rules that belong to a *bank* do: every screen
+# stands alone, and the answer key of the whole pack must not be guessable (agent.md §3.5).
+DRILLS = CONTENT / "drills"
+DRILL_MANIFEST = DRILLS / "packs.yaml"
+DRILL_REQUIRED = ["id", "path", "title", "unlocked_by", "unlocked_by_chapter",
+                  "tags", "concepts", "screens"]
+MANIFEST_REQUIRED = ["id", "slug", "file", "path", "title", "unlocked_by",
+                     "unlocked_by_chapter", "screens", "tags", "concepts", "exemplars"]
+DRILL_MIN_SCREENS, DRILL_MAX_SCREENS = 10, 40
+# build-plan.md Stage 4 asks for the interaction to vary across a pack; four types in
+# 10–40 screens is the floor that keeps a pack from being 30 chart-decisions in a row.
+DRILL_MIN_TYPES = 4
+
+
+def drill_files():
+    """Every written pack: content/drills/<path>/<slug>.yaml (packs.yaml is the manifest)."""
+    return sorted(DRILLS.glob("*/*.yaml")) if DRILLS.exists() else []
+
+
+def sublevel_index(chapters):
+    """{(path, chapter): {sub-level id}} — what a pack's `unlocked_by` may name."""
+    idx = defaultdict(set)
+    for files in chapters.values():
+        for d in files:
+            idx[(d.get("path"), d.get("chapter"))].add(d["id"])
+    return idx
+
+
+def unlock_target(path, chapter, sub_id, idx):
+    """True if `sub_id` is a sub-level of that chapter. The shared chapter is every path's."""
+    return sub_id in (idx.get((path, chapter), set()) | idx.get(("all", chapter), set()))
+
+
+def check_unlocked_by(f, data, rep, idx):
+    chapter = data.get("unlocked_by_chapter")
+    sub = data.get("unlocked_by")
+    if not isinstance(chapter, int) or isinstance(chapter, bool):
+        rep.err(f, f"unlocked_by_chapter must be a chapter number (got {chapter!r})")
+        return
+    if not isinstance(sub, str) or not re.fullmatch(r"\d+-\d+", sub):
+        rep.err(f, f"unlocked_by must be a sub-level id like '12-3' (got {sub!r})")
+        return
+    if not unlock_target(data.get("path"), chapter, sub, idx):
+        rep.err(f, f"unlocked_by '{sub}' is not a sub-level of chapter {chapter} "
+                   f"of the {data.get('path')} path")
+
+
+def validate_drill_pack(path_file, data, rep, idx):
+    """One pack file. Returns the data (with `_file`) or None if it is unusable."""
+    f = path_file.relative_to(ROOT)
+    if not isinstance(data, dict):
+        rep.err(f, "a drill pack must be a YAML mapping")
+        return None
+    missing = [k for k in DRILL_REQUIRED if k not in data]
+    if missing:
+        for k in missing:
+            rep.err(f, f"missing field '{k}'")
+        return None
+    slug = path_file.stem
+    pack_path = data["path"]
+    if pack_path not in PATHS or pack_path == "all":
+        rep.err(f, f"bad path '{pack_path}' — a drill pack belongs to one path, because its "
+                   f"charts and its unlocked_by are that path's")
+    else:
+        if path_file.parent != DRILLS / pack_path:
+            rep.err(f, f"a {pack_path} pack belongs in content/drills/{pack_path}/")
+        if data["id"] != f"{pack_path}-{slug}":
+            rep.err(f, f"id '{data['id']}' is not '<path>-<slug>' ('{pack_path}-{slug}')")
+    check_unlocked_by(f, data, rep, idx)
+    for k in ("tags", "concepts"):
+        v = data.get(k)
+        if not isinstance(v, list) or not v or not all(isinstance(x, str) and x.strip() for x in v):
+            rep.err(f, f"{k} must be a non-empty list of strings")
+
+    screens = data["screens"]
+    if not isinstance(screens, list) or not screens:
+        rep.err(f, "no screens")
+        return None
+    if not DRILL_MIN_SCREENS <= len(screens) <= DRILL_MAX_SCREENS:
+        rep.err(f, f"{len(screens)} screens (a pack holds "
+                   f"{DRILL_MIN_SCREENS}–{DRILL_MAX_SCREENS})")
+    types = set()
+    for i, s in enumerate(screens, 1):
+        if not isinstance(s, dict):
+            rep.err(f, f"screen {i}: must be a mapping")
+            continue
+        t = s.get("type")
+        if t in NON_QUESTION:
+            rep.err(f, f"screen {i}: '{t}' is a lesson screen — a drill pack holds question "
+                       f"screens only, each one standing alone")
+            continue
+        if t not in QUESTION:
+            rep.err(f, f"screen {i}: unknown type '{t}'")
+            continue
+        types.add(t)
+        validate_question_screen(f, i, s, rep)
+    if types and len(types) < DRILL_MIN_TYPES:
+        rep.cwarn(f, f"only {len(types)} question type(s) in the pack "
+                     f"(want ≥{DRILL_MIN_TYPES}): {', '.join(sorted(types))}")
+    data["_file"] = f
+    data["_screens"] = screens
+    return data
+
+
+def validate_drill_hygiene(data, rep):
+    """The whole-pack rules: agent.md §3.5 on the answer key, §3.6 on size and volume."""
+    f = data["_file"]
+    screens = data["_screens"]
+    answer_key_hygiene(f, screens, rep, digit_tell=True)
+    direction_balance(f, screens, rep)
+
+    # --- §3.6, per screen ------------------------------------------------
+    # A pack's screens are independent, so each one is sized against the account *it*
+    # names. Where a screen names none, the smallest account the pack names is used:
+    # a drill may never put the learner in more stock than the account behind it can pay
+    # for, and the conservative reading is the one that cannot let an oversized position
+    # through on a bigger account quoted three screens away.
+    named = accounts_in(" ".join(screen_text(s) for s in screens))
+    fallback = min(named) if named else None
+    over_cap = []
+    sized = 0
+    for i, s in enumerate(screens, 1):
+        if s.get("type") in ("chart-decision", "branch"):
+            own = accounts_in(screen_text(s))
+            account = max(own) if own else fallback
+            shares = s.get("shares")
+            price = decision_price(s)
+            if account and isinstance(shares, (int, float)) and isinstance(price, (int, float)):
+                value = shares * price
+                sized += 1
+                if value > account:
+                    rep.cwarn(f, f"screen {i}: {shares:,} shares × ${price:.2f} = ${value:,.0f} "
+                                 f"exceeds the ${account:,} account behind it")
+                elif value > MAX_ACCOUNT_PCT * account:
+                    over_cap.append((value / account, i, shares, price, value, account))
+        vol = sorted(v for v in ((s.get("chart") or {}).get("volume") or [])
+                     if isinstance(v, (int, float)))
+        if vol:
+            median = vol[len(vol) // 2]
+            if not VOLUME_MIN <= median <= VOLUME_MAX:
+                rep.cwarn(f, f"screen {i}: typical bar volume {median:,.0f} outside "
+                             f"{VOLUME_MIN:,}–{VOLUME_MAX:,} per bar")
+    if over_cap:
+        pct, i, shares, price, value, account = max(over_cap)
+        rep.cwarn(f, f"{len(over_cap)}/{sized} positions are over the {MAX_ACCOUNT_PCT:.0%} cap on "
+                     f"one position (agent.md §3.6); worst is screen {i}, {shares:,} shares × "
+                     f"${price:.2f} = ${value:,.0f}, {pct:.1%} of the ${account:,} account")
+
+    # --- the pack must contain the near-misses it was commissioned for ----
+    decisions = [s for s in screens if s.get("type") == "chart-decision"]
+    if len(decisions) >= MIN_DIRECTIONAL and not any(s.get("best") == "no-trade" for s in decisions):
+        rep.warn(f, f"none of the pack's {len(decisions)} chart-decisions resolve to no-trade "
+                    f"(build-plan.md Stage 4 asks for about a third near-misses)")
+
+    # --- one drill, one question ----------------------------------------
+    seen = {}
+    for i, s in enumerate(screens, 1):
+        key = str(s.get("prompt") or s.get("scenario") or s.get("statement") or "").strip().lower()
+        if not key:
+            continue
+        if key in seen:
+            rep.warn(f, f"screen {i} repeats screen {seen[key]}'s wording: '{key[:60]}…'")
+        seen[key] = i
+
+
+def validate_drill_manifest(rep, packs, written, idx):
+    """content/drills/packs.yaml against the packs on disk (schema.md, "Drill packs").
+
+    The manifest is what the batch run is built from, so it is checked whether or not the
+    pack has been written yet: a wrong `unlocked_by` or a missing exemplar is cheaper to
+    find now than in 14 generated files.
+    """
+    m = DRILL_MANIFEST.relative_to(ROOT)
+    seen = {}
+    for n, entry in enumerate(packs, 1):
+        missing = [k for k in MANIFEST_REQUIRED if k not in entry]
+        if missing:
+            rep.err(m, f"pack {n}: missing {', '.join(missing)}")
+            continue
+        pid = entry["id"]
+        if pid in seen:
+            rep.err(m, f"duplicate pack id '{pid}'")
+        seen[pid] = entry
+        if pid != f"{entry['path']}-{entry['slug']}":
+            rep.err(m, f"{pid}: id is not '<path>-<slug>'")
+        if entry["file"] != f"content/drills/{entry['path']}/{entry['slug']}.yaml":
+            rep.err(m, f"{pid}: file is not content/drills/<path>/<slug>.yaml")
+        if not isinstance(entry["screens"], int) or not (
+                DRILL_MIN_SCREENS <= entry["screens"] <= DRILL_MAX_SCREENS):
+            rep.err(m, f"{pid}: commissioned for {entry['screens']} screens "
+                       f"({DRILL_MIN_SCREENS}–{DRILL_MAX_SCREENS} allowed)")
+        check_unlocked_by(m, entry, rep, idx)
+        for ex in entry["exemplars"] or []:
+            ef = ROOT / str(ex.get("file", ""))
+            if not ef.exists():
+                rep.err(m, f"{pid}: exemplar file {ex.get('file')} does not exist")
+                continue
+            try:
+                ed = yaml.safe_load(ef.read_text(encoding="utf-8"))
+            except yaml.YAMLError as e:
+                rep.err(m, f"{pid}: exemplar file {ex.get('file')} does not parse: {e}")
+                continue
+            n_screens = len(ed.get("screens") or [])
+            if not isinstance(ex.get("screen"), int) or not 1 <= ex["screen"] <= n_screens:
+                rep.err(m, f"{pid}: {ex.get('file')} has no screen {ex.get('screen')}")
+            elif ed["screens"][ex["screen"] - 1].get("type") not in QUESTION:
+                rep.err(m, f"{pid}: exemplar {ex.get('file')} screen {ex['screen']} is a "
+                           f"{ed['screens'][ex['screen'] - 1].get('type')} screen, not a question")
+
+    # what is on disk against what was commissioned
+    for data in written:
+        pid = data.get("id")
+        entry = seen.get(pid)
+        if entry is None:
+            rep.err(data["_file"], f"pack '{pid}' has no entry in {m}")
+            continue
+        for k in ("path", "unlocked_by", "unlocked_by_chapter"):
+            if data.get(k) != entry.get(k):
+                rep.err(data["_file"], f"{k} is {data.get(k)!r}; the manifest commissioned "
+                                       f"{entry.get(k)!r}")
+        if data.get("title") != entry.get("title"):
+            rep.cwarn(data["_file"], f"title '{data.get('title')}' differs from the manifest's "
+                                     f"'{entry.get('title')}'")
+        n = len(data.get("_screens") or [])
+        if n != entry["screens"]:
+            rep.cwarn(data["_file"], f"{n} screens; the manifest commissioned {entry['screens']}")
+        gone = [c for c in entry["concepts"] if c not in (data.get("concepts") or [])]
+        if gone:
+            rep.warn(data["_file"], f"drops concept(s) the manifest lists: {', '.join(gone)}")
+
+
 def main():
     status = "--status" in sys.argv
     strict = "--strict" in sys.argv
@@ -866,6 +1143,30 @@ def main():
         validate_chapter_v3(folder, files, rep)
     validate_tiers(chapters, rep)
     validate_plan(chapters, rep)
+
+    # drill packs (schema.md, "Drill packs"): the Practice hub's bank, validated against
+    # the manifest that commissioned it. Batch output is not exempt from --strict.
+    idx = sublevel_index(chapters)
+    written = []
+    for path in drill_files():
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        except yaml.YAMLError as e:
+            rep.err(path.relative_to(ROOT), f"YAML error: {e}")
+            continue
+        data = validate_drill_pack(path, data, rep, idx)
+        if data:
+            validate_drill_hygiene(data, rep)
+            written.append(data)
+    manifest_packs = []
+    if DRILL_MANIFEST.exists():
+        try:
+            manifest_packs = (yaml.safe_load(DRILL_MANIFEST.read_text(encoding="utf-8")) or {}).get("packs") or []
+        except yaml.YAMLError as e:
+            rep.err(DRILL_MANIFEST.relative_to(ROOT), f"YAML error: {e}")
+        validate_drill_manifest(rep, manifest_packs, written, idx)
+    elif written:
+        rep.err(DRILLS.relative_to(ROOT), "drill packs exist but content/drills/packs.yaml does not")
     if status:
         print(f"{'chapter':60} {'levels':>6} {'subs':>5} {'screens':>7} {'questions':>9} {'minutes':>7}")
         for folder in sorted(chapters):
@@ -876,13 +1177,29 @@ def main():
             minutes = sum(d["_seconds"] for d in files) / 60
             print(f"{str(folder.relative_to(ROOT)):60} {levels:>6} {len(files):>5} {screens:>7} {qs:>9} {minutes:>7.1f}")
         print()
+        if manifest_packs:
+            by_id = {d.get("id"): d for d in written}
+            print(f"{'drill pack':40} {'unlocks at':>12} {'screens':>8} {'of':>4}  state")
+            for entry in manifest_packs:
+                d = by_id.get(entry.get("id"))
+                have = len(d.get("_screens") or []) if d else 0
+                state = "written" if d else "not written"
+                unlock = f"{entry.get('unlocked_by_chapter')}·{entry.get('unlocked_by')}"
+                print(f"{str(entry.get('id')):40} {unlock:>12} {have:>8} "
+                      f"{entry.get('screens'):>4}  {state}")
+            done = sum(len(d.get("_screens") or []) for d in written)
+            want = sum(e.get("screens", 0) for e in manifest_packs)
+            print(f"{'':40} {'':>12} {done:>8} {want:>4}  "
+                  f"{len(written)}/{len(manifest_packs)} packs")
+            print()
     for w in rep.warnings:
         print("WARN ", w)
     for e in rep.errors:
         print("ERROR", e)
     mode = " (--strict: chapter-level warnings are errors)" if rep.strict else ""
+    packs = (f"{len(written)}/{len(manifest_packs)} drill packs, " if manifest_packs else "")
     print(f"\n{len(chapters)} chapters, {sum(len(v) for v in chapters.values())} files, "
-          f"{len(rep.errors)} errors, {len(rep.warnings)} warnings{mode}")
+          f"{packs}{len(rep.errors)} errors, {len(rep.warnings)} warnings{mode}")
     if not rep.strict and rep.chapter_warnings:
         print(f"{rep.chapter_warnings} of those are chapter-level v3 warnings; "
               f"run with --strict to fail on them.")

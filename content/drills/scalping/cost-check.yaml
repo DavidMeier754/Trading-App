@@ -1,0 +1,350 @@
+id: scalping-cost-check
+path: scalping
+title: Cost and size drills
+unlocked_by: "19-1"
+unlocked_by_chapter: 3
+tags: [costs, spread, sizing, risk]
+concepts:
+  - "Spread"
+  - "Expected move"
+  - "Round trip"
+  - "Slippage"
+  - "Per-share fee"
+  - "All-in cost"
+  - "Risk per trade"
+  - "1 % rule"
+  - "Stop distance"
+  - "Account ceiling"
+  - "Position size"
+screens:
+  - type: numeric-input
+    prompt: "The bid is $17.42, the ask is $17.46, and the move you are trading for is twenty cents. What share of that move does crossing the quote take?"
+    answer: 20
+    tolerance: 0.5
+    unit: "%"
+    working: "17.46 − 17.42 = 0.04; 0.04 ÷ 0.20 = 20 %"
+    explanation: "A spread is judged against the move you expect, not against the share price."
+
+  - type: chart-decision
+    scenario: "Your account is $22,000 and you have 1,400 shares ready. The quote has been two cents wide all morning and the minute that just closed finished above the shelf the last six have been pressing."
+    shares: 1400
+    chart:
+      kind: candles
+      data:
+        - [14.30, 14.38, 14.28, 14.36]
+        - [14.36, 14.42, 14.32, 14.40]
+        - [14.40, 14.46, 14.36, 14.42]
+        - [14.42, 14.48, 14.38, 14.44]
+        - [14.44, 14.50, 14.40, 14.46]
+        - [14.46, 14.52, 14.42, 14.48]
+        - [14.48, 14.62, 14.46, 14.60]
+        - [14.60, 14.72, 14.56, 14.70]
+        - [14.70, 14.80, 14.66, 14.78]
+        - [14.78, 14.84, 14.72, 14.80]
+      volume: [96000, 88000, 74000, 70000, 82000, 90000, 180000, 150000, 130000, 120000]
+      decision_index: 6
+    best: long
+    reasonable: [no-trade]
+    outcome: "Price finished at $14.80 — 20 cents a share, $280 on 1,400 shares before costs, and the quote took $28 of it."
+    explanation: "Two cents against a twenty-cent move is a tenth of the trade; at $14.60 the 1,400 shares also sit inside what $22,000 can pay for."
+
+  - type: numeric-mc
+    prompt: "An $18,000 account, one per cent a trade, and the stop sits twelve cents under the entry. How many shares does the risk budget allow?"
+    options:
+      - {text: "1,500 shares", correct: true}
+      - {text: "150 shares"}
+      - {text: "2,160 shares"}
+    working: "18,000 × 1 % = $180; 180 ÷ 0.12 = 1,500 shares"
+    explanation: "The risk budget divided by the stop distance is the first of the two ceilings."
+
+  - type: tf
+    statement: "A four-cent spread is cheap on a $40 stock and expensive on a $12 stock."
+    answer: false
+    explanation: "The share price says nothing about it — four cents is cheap against a forty-cent move and dear against a ten-cent one."
+
+  - type: swipe-deck
+    prompt: "Every one of these costs four cents a share to get in and back out. Take it, or pass?"
+    cards:
+      - chart:
+          kind: candles
+          data:
+            - [12.20, 12.28, 12.16, 12.26]
+            - [12.26, 12.38, 12.24, 12.36]
+            - [12.36, 12.50, 12.32, 12.48]
+            - [12.48, 12.60, 12.44, 12.58]
+            - [12.58, 12.72, 12.54, 12.70]
+            - [12.70, 12.84, 12.66, 12.80]
+            - [12.80, 12.92, 12.74, 12.88]
+            - [12.88, 13.02, 12.84, 12.98]
+        answer: take
+        note: "Nearly eighty cents of travel in eight minutes — four cents is a rounding error against that."
+      - chart:
+          kind: candles
+          data:
+            - [19.40, 19.44, 19.38, 19.42]
+            - [19.42, 19.46, 19.40, 19.44]
+            - [19.44, 19.46, 19.40, 19.42]
+            - [19.42, 19.48, 19.40, 19.46]
+            - [19.46, 19.48, 19.42, 19.44]
+            - [19.44, 19.48, 19.40, 19.42]
+            - [19.42, 19.46, 19.38, 19.44]
+            - [19.44, 19.48, 19.40, 19.46]
+        answer: pass
+        note: "Eight minutes inside ten cents. Four of them are yours before the trade starts."
+      - chart:
+          kind: candles
+          data:
+            - [23.10, 23.24, 23.06, 23.20]
+            - [23.20, 23.38, 23.16, 23.34]
+            - [23.34, 23.46, 23.28, 23.42]
+            - [23.42, 23.44, 23.30, 23.34]
+            - [23.34, 23.52, 23.30, 23.48]
+            - [23.48, 23.66, 23.44, 23.62]
+            - [23.62, 23.74, 23.56, 23.70]
+            - [23.70, 23.86, 23.66, 23.82]
+        answer: take
+        note: "Eighty cents of range and the pullback held — the four cents buys a move worth having."
+      - chart:
+          kind: candles
+          data:
+            - [11.02, 11.10, 10.98, 11.06]
+            - [11.06, 11.12, 11.00, 11.04]
+            - [11.04, 11.10, 10.98, 11.02]
+            - [11.02, 11.08, 10.96, 11.00]
+            - [11.00, 11.06, 10.94, 11.04]
+            - [11.04, 11.08, 10.98, 11.02]
+            - [11.02, 11.06, 10.96, 11.00]
+            - [11.00, 11.04, 10.94, 10.98]
+        answer: pass
+        note: "Eighteen cents from floor to ceiling, crossed six times. A quarter of any trade in here is the quote."
+      - chart:
+          kind: candles
+          data:
+            - [16.80, 16.86, 16.74, 16.78]
+            - [16.78, 16.82, 16.68, 16.72]
+            - [16.72, 16.76, 16.60, 16.64]
+            - [16.64, 16.68, 16.52, 16.56]
+            - [16.56, 16.60, 16.44, 16.48]
+            - [16.48, 16.52, 16.36, 16.40]
+            - [16.40, 16.44, 16.28, 16.32]
+            - [16.32, 16.36, 16.20, 16.24]
+        answer: take
+        note: "Fifty-six cents down in eight minutes: a short here has room to pay for the crossing."
+      - chart:
+          kind: candles
+          data:
+            - [27.60, 27.68, 27.54, 27.64]
+            - [27.64, 27.70, 27.58, 27.62]
+            - [27.62, 27.68, 27.56, 27.60]
+            - [27.60, 27.66, 27.54, 27.58]
+            - [27.58, 27.64, 27.52, 27.62]
+            - [27.62, 27.66, 27.56, 27.60]
+            - [27.60, 27.64, 27.54, 27.58]
+            - [27.58, 27.62, 27.52, 27.56]
+        answer: pass
+        note: "A dear share price and an eighteen-cent day. Price does not make a spread cheap; travel does."
+    explanation: "Four cents is worth paying where the chart travels and not where it does not — the share price never enters it."
+
+  - type: numeric-input
+    prompt: "The quote is eleven cents wide and you are sizing 1,200 shares. What does crossing it and coming back cost you?"
+    answer: 132
+    tolerance: 0.5
+    unit: "$"
+    working: "0.11 × 1,200 = $132"
+    explanation: "You are down the spread on the whole position the instant you are filled."
+
+  - type: chart-decision
+    scenario: "Your account is $20,000 and 1,300 shares are ready. The chart has stepped up for six minutes; the quote reads $14.43 by $14.57, and the shelf above is twenty-five cents away."
+    shares: 1300
+    chart:
+      kind: candles
+      data:
+        - [14.22, 14.30, 14.18, 14.28]
+        - [14.28, 14.36, 14.24, 14.32]
+        - [14.32, 14.40, 14.28, 14.38]
+        - [14.38, 14.44, 14.34, 14.42]
+        - [14.42, 14.48, 14.38, 14.46]
+        - [14.46, 14.54, 14.42, 14.50]
+        - [14.50, 14.58, 14.44, 14.52]
+        - [14.52, 14.60, 14.48, 14.56]
+        - [14.56, 14.62, 14.50, 14.54]
+        - [14.54, 14.60, 14.48, 14.58]
+      volume: [110000, 96000, 88000, 104000, 92000, 86000, 78000, 74000, 68000, 72000]
+      decision_index: 5
+    best: no-trade
+    reasonable: []
+    outcome: "Price added eight cents to $14.58. On 1,300 shares that is $104, against $182 of quote to get in and out."
+    explanation: "Fourteen cents of quote against twenty-five cents of expected move leaves nothing; the chart was never the problem."
+
+  - type: numeric-input
+    prompt: "Spread six cents, round-trip slippage three cents, fees one cent. How far does one share have to travel before you are even?"
+    answer: 0.10
+    tolerance: 0.001
+    unit: "$"
+    working: "0.06 + 0.03 + 0.01 = $0.10 a share"
+    explanation: "The all-in cost is every cent between the price you saw and the money in the account."
+
+  - type: compare
+    prompt: "Costs run five cents a share on both of these. In which one is there enough move to pay for them?"
+    charts:
+      - kind: candles
+        label: "A"
+        data:
+          - [21.40, 21.46, 21.36, 21.44]
+          - [21.44, 21.48, 21.38, 21.42]
+          - [21.42, 21.48, 21.36, 21.40]
+          - [21.40, 21.46, 21.34, 21.44]
+          - [21.44, 21.50, 21.38, 21.42]
+          - [21.42, 21.46, 21.36, 21.40]
+          - [21.40, 21.44, 21.34, 21.38]
+          - [21.38, 21.44, 21.32, 21.42]
+          - [21.42, 21.46, 21.36, 21.40]
+      - kind: candles
+        label: "B"
+        data:
+          - [15.20, 15.30, 15.16, 15.28]
+          - [15.28, 15.44, 15.24, 15.40]
+          - [15.40, 15.56, 15.36, 15.52]
+          - [15.52, 15.58, 15.42, 15.46]
+          - [15.46, 15.62, 15.42, 15.58]
+          - [15.58, 15.76, 15.54, 15.72]
+          - [15.72, 15.88, 15.68, 15.84]
+          - [15.84, 15.94, 15.76, 15.90]
+          - [15.90, 16.06, 15.86, 16.02]
+    answer: "B"
+    explanation: "B travels ninety cents from its low while A works inside eighteen; the same five cents is a small fraction of one trade and more than a quarter of the other."
+
+  - type: numeric-input
+    prompt: "A $14,000 account and a name trading at $19.50. What is the account ceiling?"
+    answer: 717
+    tolerance: 1
+    unit: "shares"
+    working: "14,000 ÷ 19.50 = 717 shares"
+    explanation: "The second ceiling is the cash itself: the account has to be able to pay for the stock."
+
+  - type: mc
+    prompt: "A $25,000 account, one per cent a trade, a $12.00 share price and a six-cent stop. Which number decides the size you send?"
+    options:
+      - {text: "The risk budget"}
+      - {text: "The account ceiling", correct: true}
+      - {text: "The spread"}
+    explanation: "The budget would allow 4,166 shares and the account can pay for 2,083 — with a stop this tight the cash runs out first."
+
+  - type: chart-decision
+    scenario: "A $16,000 account and 1,200 shares. Three pushes have stalled under $12.00, the minute that just closed finished below the last two lows, and the quote is two cents wide."
+    shares: 1200
+    chart:
+      kind: candles
+      data:
+        - [12.10, 12.14, 12.02, 12.04]
+        - [12.04, 12.08, 11.96, 11.98]
+        - [11.98, 12.02, 11.92, 11.96]
+        - [11.96, 12.00, 11.88, 11.90]
+        - [11.90, 11.96, 11.84, 11.92]
+        - [11.92, 11.98, 11.86, 11.88]
+        - [11.88, 11.92, 11.76, 11.80]
+        - [11.80, 11.84, 11.68, 11.70]
+        - [11.70, 11.74, 11.60, 11.62]
+        - [11.62, 11.66, 11.56, 11.58]
+      volume: [84000, 92000, 78000, 88000, 74000, 82000, 164000, 140000, 112000, 98000]
+      decision_index: 6
+    best: short
+    reasonable: [no-trade]
+    outcome: "Price finished at $11.58 — 22 cents a share, $264 on 1,200 shares, less $24 of quote."
+    explanation: "Two cents of quote against twenty-two cents of travel, and $14,160 of stock against a $16,000 account: both ceilings hold."
+
+  - type: slider
+    prompt: "All-in cost six cents, target twenty-four cents. What share of the move is gone before the trade starts?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 25
+    tolerance: 5
+    explanation: "0.06 ÷ 0.24 — a quarter of the move, which is why the target has to be the first thing you check."
+
+  - type: order-build
+    prompt: "Build the entry for a 900-share long, paying no more than three cents over the ask of $15.40."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [600, 900, 1200]
+      price: [15.37, 15.40, 15.43]
+    answer: {side: buy, type: limit, qty: 900, price: 15.43}
+    explanation: "A limit at $15.43 fills like a market order while the ask is under it, and caps what slippage can take."
+
+  - type: numeric-input
+    prompt: "You are long 1,100 shares from $13.28 and sell at $13.52, with all-in costs of five cents a share. What does the trade actually return?"
+    answer: 209
+    tolerance: 0.5
+    unit: "$"
+    working: "13.52 − 13.28 = 0.24; 0.24 − 0.05 = 0.19; 0.19 × 1,100 = $209"
+    explanation: "Costs come off per share before the share count goes on, never after."
+
+  - type: tf
+    statement: "A limit order sent at or above the ask fills straight away while the ask stays under it, and never fills worse than the price you set."
+    answer: true
+    explanation: "That is the marketable limit: the speed of a market order with a ceiling on what it can cost you."
+
+  - type: chart-decision
+    scenario: "A $12,000 account and 430 shares of a $26 name. The minutes have been printing between 5,000 and 8,000 shares each, and the quote reads $26.36 by $26.44."
+    shares: 430
+    chart:
+      kind: candles
+      data:
+        - [26.10, 26.22, 26.06, 26.18]
+        - [26.18, 26.28, 26.12, 26.24]
+        - [26.24, 26.34, 26.18, 26.30]
+        - [26.30, 26.40, 26.24, 26.36]
+        - [26.36, 26.46, 26.30, 26.40]
+        - [26.40, 26.52, 26.34, 26.48]
+        - [26.48, 26.56, 26.38, 26.42]
+        - [26.42, 26.50, 26.32, 26.36]
+        - [26.36, 26.44, 26.28, 26.40]
+        - [26.40, 26.48, 26.30, 26.44]
+      volume: [6000, 5400, 7200, 6600, 5800, 8000, 6200, 5600, 7400, 6800]
+      decision_index: 4
+    best: no-trade
+    reasonable: []
+    outcome: "Price drifted to $26.44 — four cents, $17 on 430 shares, against $34 of quote for the round trip."
+    explanation: "Eight cents of quote in a name printing 6,000 shares a minute: the size you can afford here cannot pay for the crossing."
+
+  - type: numeric-mc
+    prompt: "Fees run $0.004 a share, charged going in and coming out. You take twenty round trips of 1,200 shares in a morning. What have the fees cost?"
+    options:
+      - {text: "$96"}
+      - {text: "$9.60"}
+      - {text: "$192", correct: true}
+    working: "0.004 × 1,200 = $4.80 a side; $9.60 the round trip; × 20 = $192"
+    explanation: "Per-share fees are small once and large at frequency, which is the argument for fewer, better trades."
+
+  - type: chart-decision
+    scenario: "A $26,000 account and 1,350 shares. Five quiet minutes have held above the morning's shelf, the minute that just closed finished through it on the heaviest bar so far, and you have counted five cents a share of cost."
+    shares: 1350
+    chart:
+      kind: candles
+      data:
+        - [17.86, 17.94, 17.82, 17.90]
+        - [17.90, 17.98, 17.86, 17.94]
+        - [17.94, 18.02, 17.88, 17.92]
+        - [17.92, 18.00, 17.86, 17.96]
+        - [17.96, 18.06, 17.92, 18.04]
+        - [18.04, 18.12, 18.00, 18.08]
+        - [18.08, 18.24, 18.06, 18.20]
+        - [18.20, 18.32, 18.16, 18.30]
+        - [18.30, 18.38, 18.24, 18.34]
+        - [18.34, 18.42, 18.28, 18.38]
+      volume: [72000, 66000, 58000, 62000, 70000, 84000, 195000, 160000, 128000, 116000]
+      decision_index: 6
+    best: long
+    reasonable: [no-trade]
+    outcome: "Price finished at $18.38 — 18 cents a share, $243 on 1,350 shares, $175 after the five cents of cost."
+    explanation: "Five cents against eighteen leaves most of the move, and $24,570 of stock is inside what $26,000 can pay for."
+
+  - type: fill-choice
+    sentence: "A ___ order crosses the spread the moment you send it."
+    options: ["market", "limit", "stop"]
+    answer: "market"
+    explanation: "It takes the other side's price, which is exactly what the spread costs you."

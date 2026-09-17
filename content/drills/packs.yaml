@@ -1,0 +1,368 @@
+# packs.yaml — the drill-pack manifest
+#
+# One entry per pack in the drill table of docs/curriculum.md. It is the single source
+# of truth for what the Practice hub is fed: the batch script (tools/build_drill_batch.py)
+# builds one request per entry, and tools/validate_content.py checks every written pack
+# against the entry that commissioned it.
+#
+# Format of a pack file: docs/schema.md, "Drill packs".
+#
+#   id                  <path>-<slug>, and the file is content/drills/<path>/<slug>.yaml
+#   unlocked_by         the sub-level id ("<level>-<sub>") that must be completed first
+#   unlocked_by_chapter the chapter that id lives in — sub-level ids are only unique
+#                       inside a chapter, so the pair is what resolves to a file
+#   screens             how many drill screens the pack is commissioned for
+#   concepts            what a wrong answer marks weak (feeds spaced repetition)
+#   exemplars           three screens from the linear chapter this pack unlocks from,
+#                       sent with the batch request as the voice and difficulty reference:
+#                       one straightforward, one near-miss whose answer is pass or no
+#                       trade, one that needs arithmetic. `screen` is 1-based.
+#
+# The curriculum table says `all` in its Path column: it means every path gets a pack of
+# this shape, not that one file serves three paths. A pack's charts, prices and setups
+# are the path's own, and `unlocked_by` resolves inside the path's own chapters, so the
+# bank is written once per path. This file is the scalping bank.
+
+version: 1
+path: scalping
+
+packs:
+  - id: scalping-charts-structure
+    slug: charts-structure
+    file: content/drills/scalping/charts-structure.yaml
+    path: scalping
+    title: "Structure drills"
+    unlocked_by: "18-1"
+    unlocked_by_chapter: 2
+    screens: 30
+    tags: [structure, trend, range, pullback]
+    concepts:
+      - "Uptrend"
+      - "Downtrend"
+      - "Range"
+      - "Higher high"
+      - "Higher low"
+      - "Lower high"
+      - "Lower low"
+      - "Pullback"
+      - "Momentum"
+      - "Exhaustion"
+      - "Climax volume"
+    exemplars:
+      - {file: content/paths/scalping/chapter-02-charts-101/level-07-1.yaml, screen: 8, role: straightforward}
+      - {file: content/paths/scalping/chapter-02-charts-101/level-07-3.yaml, screen: 7, role: near-miss}
+      - {file: content/paths/scalping/chapter-02-charts-101/level-08-1.yaml, screen: 9, role: arithmetic}
+
+  - id: scalping-levels-and-breaks
+    slug: levels-and-breaks
+    file: content/drills/scalping/levels-and-breaks.yaml
+    path: scalping
+    title: "Level drills — bounce or break"
+    unlocked_by: "18-1"
+    unlocked_by_chapter: 2
+    screens: 30
+    tags: [levels, support, resistance, breakout]
+    concepts:
+      - "Support"
+      - "Resistance"
+      - "Bounce"
+      - "Breakout"
+      - "Wick"
+      - "Close"
+      - "Round number"
+      - "Opening range"
+      - "Gap"
+    exemplars:
+      - {file: content/paths/scalping/chapter-02-charts-101/level-10-1.yaml, screen: 5, role: straightforward}
+      - {file: content/paths/scalping/chapter-02-charts-101/level-10-2.yaml, screen: 10, role: near-miss}
+      - {file: content/paths/scalping/chapter-02-charts-101/level-10-3.yaml, screen: 10, role: arithmetic}
+
+  - id: scalping-cost-check
+    slug: cost-check
+    file: content/drills/scalping/cost-check.yaml
+    path: scalping
+    title: "Cost and size drills"
+    unlocked_by: "19-1"
+    unlocked_by_chapter: 3
+    screens: 20
+    tags: [costs, spread, sizing, risk]
+    concepts:
+      - "Spread"
+      - "Expected move"
+      - "Round trip"
+      - "Slippage"
+      - "Per-share fee"
+      - "All-in cost"
+      - "Risk per trade"
+      - "1 % rule"
+      - "Stop distance"
+      - "Account ceiling"
+      - "Position size"
+    exemplars:
+      - {file: content/paths/scalping/chapter-03-orders-costs-position-size/level-03-1.yaml, screen: 11, role: straightforward}
+      - {file: content/paths/scalping/chapter-03-orders-costs-position-size/level-03-2.yaml, screen: 10, role: near-miss}
+      - {file: content/paths/scalping/chapter-03-orders-costs-position-size/level-11-1.yaml, screen: 4, role: arithmetic}
+
+  - id: scalping-the-read
+    slug: the-read
+    file: content/drills/scalping/the-read.yaml
+    path: scalping
+    title: "The four-part read"
+    unlocked_by: "18-1"
+    unlocked_by_chapter: 4
+    screens: 40
+    tags: [vwap, levels, confluence, tape]
+    concepts:
+      - "VWAP"
+      - "Reclaim"
+      - "Rejection"
+      - "Confluence"
+      - "Failed test"
+      - "Doji"
+      - "Engulfing candle"
+      - "Print"
+      - "Stacking"
+      - "Pulling"
+      - "Halt"
+    exemplars:
+      - {file: content/paths/scalping/chapter-04-reading-fast-markets/level-13-1.yaml, screen: 3, role: straightforward}
+      - {file: content/paths/scalping/chapter-04-reading-fast-markets/level-13-2.yaml, screen: 3, role: near-miss}
+      - {file: content/paths/scalping/chapter-04-reading-fast-markets/level-13-2.yaml, screen: 6, role: arithmetic}
+
+  - id: scalping-selection
+    slug: selection
+    file: content/drills/scalping/selection.yaml
+    path: scalping
+    title: "Selection drills"
+    unlocked_by: "17-1"
+    unlocked_by_chapter: 5
+    screens: 25
+    tags: [selection, scanner, watchlist, relative-volume]
+    concepts:
+      - "Relative volume"
+      - "Catalyst"
+      - "In play"
+      - "Scanner"
+      - "Gapper"
+      - "Watchlist"
+      - "Float"
+      - "Small float"
+      - "Trend day"
+      - "Range day"
+    exemplars:
+      - {file: content/paths/scalping/chapter-05-finding-the-trade/level-04-2.yaml, screen: 2, role: straightforward}
+      - {file: content/paths/scalping/chapter-05-finding-the-trade/level-06-3.yaml, screen: 9, role: near-miss}
+      - {file: content/paths/scalping/chapter-05-finding-the-trade/level-09-2.yaml, screen: 6, role: arithmetic}
+
+  - id: scalping-risk-calls
+    slug: risk-calls
+    file: content/drills/scalping/risk-calls.yaml
+    path: scalping
+    title: "Risk calls"
+    unlocked_by: "19-1"
+    unlocked_by_chapter: 6
+    screens: 25
+    tags: [risk, r-multiple, expectancy, limits]
+    concepts:
+      - "R"
+      - "R-multiple"
+      - "Break-even stop"
+      - "Partial exit"
+      - "Trailing stop"
+      - "Time stop"
+      - "Win rate"
+      - "Expectancy"
+      - "Daily loss limit"
+      - "Trade limit"
+      - "Tilt"
+      - "Revenge trade"
+      - "Drawdown"
+    exemplars:
+      - {file: content/paths/scalping/chapter-06-risk-and-psychology/level-04-1.yaml, screen: 8, role: straightforward}
+      - {file: content/paths/scalping/chapter-06-risk-and-psychology/level-08-1.yaml, screen: 7, role: near-miss}
+      - {file: content/paths/scalping/chapter-06-risk-and-psychology/level-08-2.yaml, screen: 4, role: arithmetic}
+
+  - id: scalping-setup-a-vwap-bounce
+    slug: setup-a-vwap-bounce
+    file: content/drills/scalping/setup-a-vwap-bounce.yaml
+    path: scalping
+    title: "VWAP bounce drills"
+    unlocked_by: "2-4"
+    unlocked_by_chapter: 7
+    screens: 20
+    tags: [vwap, setup-a]
+    concepts:
+      - "VWAP bounce"
+      - "First touch"
+      - "Reclaim"
+      - "High of day"
+      - "Invalidation"
+    exemplars:
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-02-2.yaml, screen: 3, role: straightforward}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-02-2.yaml, screen: 10, role: near-miss}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-02-3.yaml, screen: 7, role: arithmetic}
+
+  - id: scalping-setup-b-opening-range
+    slug: setup-b-opening-range
+    file: content/drills/scalping/setup-b-opening-range.yaml
+    path: scalping
+    title: "Opening-range scalp drills"
+    unlocked_by: "3-4"
+    unlocked_by_chapter: 7
+    screens: 20
+    tags: [opening-range, setup-b]
+    concepts:
+      - "Opening-range scalp"
+      - "Opening range"
+      - "Breakout"
+      - "Failed test"
+      - "Invalidation"
+    exemplars:
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-03-2.yaml, screen: 3, role: straightforward}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-03-2.yaml, screen: 5, role: near-miss}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-03-3.yaml, screen: 8, role: arithmetic}
+
+  - id: scalping-setup-c-momentum-continuation
+    slug: setup-c-momentum-continuation
+    file: content/drills/scalping/setup-c-momentum-continuation.yaml
+    path: scalping
+    title: "Momentum continuation drills"
+    unlocked_by: "4-4"
+    unlocked_by_chapter: 7
+    screens: 20
+    tags: [momentum, setup-c]
+    concepts:
+      - "Momentum continuation"
+      - "Leg"
+      - "Measured move"
+      - "Pullback"
+      - "Invalidation"
+    exemplars:
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-04-1.yaml, screen: 11, role: straightforward}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-04-2.yaml, screen: 5, role: near-miss}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-04-1.yaml, screen: 8, role: arithmetic}
+
+  - id: scalping-setup-d-mean-reversion
+    slug: setup-d-mean-reversion
+    file: content/drills/scalping/setup-d-mean-reversion.yaml
+    path: scalping
+    title: "Mean reversion drills"
+    unlocked_by: "6-4"
+    unlocked_by_chapter: 7
+    screens: 20
+    tags: [mean-reversion, setup-d]
+    concepts:
+      - "Mean reversion"
+      - "Climax volume"
+      - "Rejection"
+      - "VWAP"
+      - "Invalidation"
+    exemplars:
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-06-2.yaml, screen: 3, role: straightforward}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-06-2.yaml, screen: 5, role: near-miss}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-06-3.yaml, screen: 4, role: arithmetic}
+
+  - id: scalping-setup-e-failed-breakout-fade
+    slug: setup-e-failed-breakout-fade
+    file: content/drills/scalping/setup-e-failed-breakout-fade.yaml
+    path: scalping
+    title: "Failed-breakout fade drills"
+    unlocked_by: "7-3"
+    unlocked_by_chapter: 7
+    screens: 20
+    tags: [fade, setup-e]
+    concepts:
+      - "Fade"
+      - "Re-entry candle"
+      - "Trapped traders"
+      - "Breakout"
+      - "Invalidation"
+    exemplars:
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-07-2.yaml, screen: 3, role: straightforward}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-07-2.yaml, screen: 11, role: near-miss}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-07-3.yaml, screen: 5, role: arithmetic}
+
+  - id: scalping-setup-f-gap-and-go
+    slug: setup-f-gap-and-go
+    file: content/drills/scalping/setup-f-gap-and-go.yaml
+    path: scalping
+    title: "Gap-and-go drills"
+    unlocked_by: "10-3"
+    unlocked_by_chapter: 7
+    screens: 20
+    tags: [gap, setup-f]
+    concepts:
+      - "Gap-and-go"
+      - "Gap"
+      - "Pullback"
+      - "Catalyst"
+      - "Invalidation"
+    exemplars:
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-10-2.yaml, screen: 9, role: straightforward}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-10-2.yaml, screen: 5, role: near-miss}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-10-1.yaml, screen: 9, role: arithmetic}
+
+  - id: scalping-setup-g-range-rotation
+    slug: setup-g-range-rotation
+    file: content/drills/scalping/setup-g-range-rotation.yaml
+    path: scalping
+    title: "Range rotation drills"
+    unlocked_by: "11-3"
+    unlocked_by_chapter: 7
+    screens: 20
+    tags: [range, setup-g]
+    concepts:
+      - "Range rotation"
+      - "Range day"
+      - "Trend day"
+      - "Range"
+      - "Invalidation"
+    exemplars:
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-11-2.yaml, screen: 7, role: straightforward}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-11-2.yaml, screen: 4, role: near-miss}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-11-2.yaml, screen: 8, role: arithmetic}
+
+  - id: scalping-setup-h-re-entry
+    slug: setup-h-re-entry
+    file: content/drills/scalping/setup-h-re-entry.yaml
+    path: scalping
+    title: "Re-entry drills"
+    unlocked_by: "12-3"
+    unlocked_by_chapter: 7
+    screens: 20
+    tags: [re-entry, setup-h]
+    concepts:
+      - "Re-entry trade"
+      - "Revenge trade"
+      - "Daily loss limit"
+      - "R-multiple"
+      - "Invalidation"
+    exemplars:
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-12-1.yaml, screen: 6, role: straightforward}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-12-3.yaml, screen: 3, role: near-miss}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-12-3.yaml, screen: 5, role: arithmetic}
+
+  - id: scalping-mixed-daily
+    slug: mixed-daily
+    file: content/drills/scalping/mixed-daily.yaml
+    path: scalping
+    title: "Daily mix"
+    unlocked_by: "19-1"
+    unlocked_by_chapter: 7
+    screens: 40
+    tags: [mixed, playbook, daily]
+    concepts:
+      - "VWAP bounce"
+      - "Opening-range scalp"
+      - "Momentum continuation"
+      - "Mean reversion"
+      - "Fade"
+      - "Gap-and-go"
+      - "Range rotation"
+      - "Re-entry trade"
+      - "Trend day"
+      - "Range day"
+    exemplars:
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-13-1.yaml, screen: 4, role: straightforward}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-13-1.yaml, screen: 6, role: near-miss}
+      - {file: content/paths/scalping/chapter-07-scalping-playbook/level-13-1.yaml, screen: 8, role: arithmetic}
