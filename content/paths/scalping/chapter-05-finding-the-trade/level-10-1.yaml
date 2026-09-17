@@ -67,8 +67,9 @@ screens:
     explanation: "$13.74, reached once and handed straight back. It is one of the three prices a watchlist name gets marked with while the screen is still quiet."
 
   - type: chart-decision
-    scenario: "KELP has held 6× its normal volume since the bell, and the minute that just closed finished five cents above the pre-market high you marked at $13.74. Your account is $21,000 and 1,400 shares is the size you trade."
+    scenario: "KELP has held 6× its normal volume since the bell, and the minute that just closed finished five cents above the pre-market high you marked at $13.74."
     shares: 1400
+    state: ["Size: 1,400 shares"]
     chart:
       kind: candles
       data: [[13.52, 13.62, 13.46, 13.58], [13.58, 13.66, 13.52, 13.62], [13.62, 13.70, 13.56, 13.60], [13.60, 13.72, 13.54, 13.68], [13.68, 13.78, 13.62, 13.72], [13.72, 13.84, 13.68, 13.79], [13.79, 13.90, 13.74, 13.86], [13.86, 13.96, 13.80, 13.92], [13.92, 14.02, 13.86, 13.98], [13.98, 14.06, 13.92, 14.01], [14.01, 14.04, 13.94, 13.98]]
@@ -98,8 +99,9 @@ screens:
     explanation: "Three lines a name at about forty seconds a line is eight minutes for four names. Twelve is a list that never gets marked, and an unmarked name gets read while it is moving."
 
   - type: chart-decision
-    scenario: "PRAM has a 5 M float and is stepping higher on 9× its normal volume. The panel reads $13.09 bid, $13.20 ask, with 400 shares showing at the ask. Your account is $21,000 and 1,400 shares is the size you trade."
+    scenario: "PRAM has a 5 M float and is stepping higher on 9× its normal volume. The panel reads $13.09 bid, $13.20 ask, with 400 shares showing at the ask."
     shares: 1400
+    state: ["Size: 1,400 shares"]
     chart:
       kind: candles
       data: [[12.70, 12.80, 12.64, 12.78], [12.78, 12.88, 12.72, 12.84], [12.84, 12.92, 12.78, 12.88], [12.88, 13.00, 12.82, 12.96], [12.96, 13.06, 12.90, 13.02], [13.02, 13.16, 12.98, 13.10], [13.10, 13.22, 13.06, 13.18], [13.18, 13.28, 13.12, 13.24], [13.24, 13.34, 13.18, 13.29], [13.29, 13.32, 13.20, 13.25]]

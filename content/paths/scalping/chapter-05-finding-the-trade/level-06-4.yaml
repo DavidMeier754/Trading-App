@@ -77,8 +77,9 @@ screens:
     explanation: "Two onto the list and three off it. One pass is the range, one is the shape of the range, and one is simply nothing happening."
 
   - type: chart-decision
-    scenario: "MARL made the shortlist before the bell and has held 4.5× its normal volume since the open. The minute that just closed finished three cents above the high of the morning at $15.87. Your account is $26,000 and 1,500 shares is the size you trade."
+    scenario: "MARL made the shortlist before the bell and has held 4.5× its normal volume since the open. The minute that just closed finished three cents above the high of the morning at $15.87."
     shares: 1500
+    state: ["Size: 1,500 shares"]
     chart:
       kind: candles
       data: [[15.44, 15.54, 15.38, 15.52], [15.52, 15.62, 15.46, 15.58], [15.58, 15.66, 15.52, 15.56], [15.56, 15.68, 15.50, 15.64], [15.64, 15.74, 15.58, 15.70], [15.70, 15.94, 15.66, 15.90], [15.90, 16.02, 15.86, 15.98], [15.98, 16.08, 15.92, 16.04], [16.04, 16.14, 15.98, 16.10], [16.10, 16.18, 16.04, 16.13], [16.13, 16.16, 16.04, 16.08]]

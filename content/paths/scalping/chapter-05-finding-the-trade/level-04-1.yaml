@@ -79,8 +79,9 @@ screens:
     explanation: "Four different noes, each of them a whole sentence, and each one enough on its own."
 
   - type: chart-decision
-    scenario: "BRIM held 6× normal volume through the first half hour, and the minute that just closed finished five cents above the pre-market high of $14.07 on the heaviest bar since the open. Your account is $25,000 and 1,400 shares is the size you trade."
+    scenario: "BRIM held 6× normal volume through the first half hour, and the minute that just closed finished five cents above the pre-market high of $14.07 on the heaviest bar since the open."
     shares: 1400
+    state: ["Size: 1,400 shares"]
     chart:
       kind: candles
       data: [[13.70, 13.80, 13.64, 13.78], [13.78, 13.88, 13.72, 13.84], [13.84, 13.92, 13.78, 13.82], [13.82, 13.94, 13.76, 13.90], [13.90, 14.00, 13.84, 13.96], [13.96, 14.16, 13.94, 14.12], [14.12, 14.24, 14.08, 14.20], [14.20, 14.30, 14.16, 14.26], [14.26, 14.38, 14.22, 14.34], [14.34, 14.42, 14.30, 14.39], [14.39, 14.42, 14.32, 14.36]]

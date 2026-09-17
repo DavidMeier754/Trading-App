@@ -51,8 +51,9 @@ screens:
     explanation: "A buy limit at $14.24 crosses the spread like a market order and still refuses anything four cents worse than the price you saw."
 
   - type: chart-decision
-    scenario: "FELL turned at the pre-market low you drew at $14.06 and has made higher lows for six minutes. The minute that just closed finished above the high of the first minute at $14.26, on the heaviest bar of the morning. Your account is $18,000 and 1,100 shares is the size you trade."
+    scenario: "FELL turned at the pre-market low you drew at $14.06 and has made higher lows for six minutes. The minute that just closed finished above the high of the first minute at $14.26, on the heaviest bar of the morning."
     shares: 1100
+    state: ["Size: 1,100 shares", "Account: $18,000"]
     chart:
       kind: candles
       data: [[14.20, 14.26, 14.06, 14.14], [14.14, 14.22, 14.10, 14.20], [14.20, 14.26, 14.16, 14.22], [14.22, 14.28, 14.18, 14.24], [14.24, 14.28, 14.20, 14.26], [14.26, 14.34, 14.24, 14.30], [14.30, 14.40, 14.26, 14.36], [14.36, 14.46, 14.32, 14.42], [14.42, 14.52, 14.38, 14.48], [14.48, 14.56, 14.44, 14.52], [14.52, 14.56, 14.46, 14.50]]
@@ -110,8 +111,9 @@ screens:
     explanation: "The page says which stocks are allowed, not how many the account can hold. At 1,100 shares of a $14 name, $18,000 holds one of them."
 
   - type: chart-decision
-    scenario: "WELD is top of the movers list and was never on your page: 11× normal, a nine-cent quote, a 4 M float, trading at $13.90. The minute that just closed is the biggest of its day. Your account is $18,000 and 1,100 shares is the size you trade."
+    scenario: "WELD is top of the movers list: 11× normal, a nine-cent quote, a 4 M float, trading at $13.90. The minute that just closed is the biggest of its day."
     shares: 1100
+    state: ["Size: 1,100 shares", "Your page: FELL, IRIS"]
     chart:
       kind: candles
       data: [[13.40, 13.52, 13.36, 13.48], [13.48, 13.60, 13.44, 13.56], [13.56, 13.66, 13.50, 13.60], [13.60, 13.74, 13.56, 13.70], [13.70, 13.82, 13.64, 13.76], [13.76, 13.96, 13.72, 13.90], [13.90, 14.04, 13.84, 13.98], [13.98, 14.10, 13.92, 14.06], [14.06, 14.16, 14.00, 14.10], [14.10, 14.14, 14.02, 14.08]]

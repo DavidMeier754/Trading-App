@@ -62,8 +62,9 @@ screens:
     explanation: "Rounded down, because the 770th is a share you cannot pay for. The chart never gets a vote on this one."
 
   - type: chart-decision
-    scenario: "MESA has run at 6× its normal volume since the open on minutes of around 100,000 shares, and the minute that just closed finished three cents above the high of the first half hour at $13.41. Your account is $18,000 and 1,200 shares is the size you trade."
+    scenario: "MESA has run at 6× its normal volume since the open on minutes of around 100,000 shares, and the minute that just closed finished three cents above the high of the first half hour at $13.41."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[13.02, 13.12, 12.98, 13.10], [13.10, 13.20, 13.06, 13.16], [13.16, 13.24, 13.10, 13.14], [13.14, 13.26, 13.08, 13.22], [13.22, 13.34, 13.18, 13.30], [13.30, 13.48, 13.26, 13.44], [13.44, 13.56, 13.40, 13.52], [13.52, 13.62, 13.46, 13.58], [13.58, 13.66, 13.52, 13.62], [13.62, 13.68, 13.56, 13.63], [13.63, 13.66, 13.56, 13.60]]
@@ -87,8 +88,9 @@ screens:
     explanation: "The first two are no answers. The other two are work you have not done yet, and the work often ends in a yes."
 
   - type: chart-decision
-    scenario: "PEAT is stepping higher on minutes of about 9,000 shares and the panel reads $12.56 bid, $12.67 ask. Your account is $18,000 and 1,200 shares is the size you trade."
+    scenario: "PEAT is stepping higher on minutes of about 9,000 shares and the panel reads $12.56 bid, $12.67 ask."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[12.20, 12.30, 12.16, 12.28], [12.28, 12.38, 12.24, 12.34], [12.34, 12.42, 12.28, 12.38], [12.38, 12.50, 12.34, 12.46], [12.46, 12.56, 12.42, 12.52], [12.52, 12.66, 12.48, 12.62], [12.62, 12.74, 12.58, 12.70], [12.70, 12.80, 12.64, 12.76], [12.76, 12.84, 12.70, 12.79], [12.79, 12.82, 12.72, 12.76]]

@@ -71,9 +71,9 @@ screens:
     explanation: "Two of them exist while the market is shut. The other two need a session to have happened, which is why the day type is the one step the routine cannot finish early."
 
   - type: chart-decision
-    scenario: "The check came back heavy: the index is down since the bell and more names are falling than rising. KNOT is up on results of its own and has held above its average price the whole time. The minute that just closed finished through the morning's high at $14.22. Your account is $24,000 and 1,500 shares is the size you trade."
+    scenario: "The check came back heavy: the index is down since the bell and more names are falling than rising. KNOT is up on results of its own and has held above its average price the whole time. The minute that just closed finished through the morning's high at $14.22."
     shares: 1500
-    state: ["Room: risk-off", "Names on the list: 2"]
+    state: ["Room: risk-off", "Names on the list: 2", "Size: 1,500 shares"]
     chart:
       kind: candles
       data: [[14.02, 14.10, 13.98, 14.08], [14.08, 14.16, 14.04, 14.12], [14.12, 14.18, 14.06, 14.10], [14.10, 14.22, 14.06, 14.18], [14.18, 14.22, 14.12, 14.16], [14.16, 14.32, 14.14, 14.28], [14.28, 14.40, 14.24, 14.36], [14.36, 14.46, 14.32, 14.42], [14.42, 14.52, 14.38, 14.48], [14.48, 14.54, 14.44, 14.51], [14.51, 14.54, 14.44, 14.48]]
@@ -118,9 +118,9 @@ screens:
     explanation: "Somewhere around a third to a half. The check does not stop you trading; it lowers a number you would otherwise have been disappointed not to reach."
 
   - type: chart-decision
-    scenario: "Same heavy room, and REED sits in the same sector as the index's worst. It has made lower highs since the bell and the minute that just closed gave up the low of the morning at $13.60 on the heaviest bar yet. Your account is $24,000 and 1,500 shares is the size you trade."
+    scenario: "REED sits in the same sector as the index's worst. It has made lower highs since the bell, and the minute that just closed gave up the low of the morning at $13.60 on the heaviest bar yet."
     shares: 1500
-    state: ["Room: risk-off", "Sector: worst on the board"]
+    state: ["Room: risk-off", "Sector: worst on the board", "Size: 1,500 shares"]
     chart:
       kind: candles
       data: [[13.96, 14.00, 13.84, 13.88], [13.88, 13.92, 13.76, 13.80], [13.80, 13.86, 13.70, 13.74], [13.74, 13.80, 13.60, 13.66], [13.66, 13.72, 13.60, 13.64], [13.64, 13.68, 13.52, 13.54], [13.54, 13.58, 13.42, 13.46], [13.46, 13.52, 13.36, 13.40], [13.40, 13.44, 13.28, 13.32], [13.32, 13.38, 13.24, 13.29], [13.29, 13.34, 13.22, 13.26]]

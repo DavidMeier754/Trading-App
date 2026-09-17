@@ -74,7 +74,7 @@ screens:
     explanation: "A has given up a dollar and a half in eight minutes; B has moved twelve cents in the same stretch. Risk-off is money leaving the first kind of name for the second."
 
   - type: chart-decision
-    scenario: "WREN has failed twice at $14.10, and the minute that just closed finished four cents under $14.00, the price its dips had been holding all morning. Your account is $26,000 and 1,700 shares is the size you trade."
+    scenario: "WREN has failed twice at $14.10, and the minute that just closed finished four cents under $14.00, the price its dips had been holding all morning."
     shares: 1700
     state: ["Tone: risk-off", "Size: 1,700 shares"]
     chart:

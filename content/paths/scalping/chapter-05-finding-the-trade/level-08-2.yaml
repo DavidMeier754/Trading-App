@@ -66,8 +66,9 @@ screens:
     explanation: "Thin stock between prices. Read one way it is a move worth having; read the other it is three cents off every entry."
 
   - type: chart-decision
-    scenario: "A 9 M-float name, up 8 % this morning. It has jumped about a quarter of a dollar at a time and then sat still, on landing minutes of about 20,000 shares. Your account is $15,000 and 800 shares is the size you trade."
+    scenario: "A 9 M-float name on a $15,000 account, up 8 % this morning. It jumps about a quarter of a dollar at a time and then sits still, on landing minutes of about 20,000 shares."
     shares: 800
+    state: ["Size: 800 shares"]
     chart:
       kind: candles
       data: [[15.60, 15.64, 15.56, 15.62], [15.62, 15.90, 15.60, 15.88], [15.88, 15.92, 15.84, 15.86], [15.86, 15.90, 15.82, 15.88], [15.88, 16.16, 15.86, 16.12], [16.12, 16.16, 16.06, 16.10], [16.10, 16.14, 16.04, 16.08], [16.08, 16.40, 16.06, 16.36], [16.36, 16.40, 16.30, 16.34], [16.34, 16.38, 16.26, 16.30]]

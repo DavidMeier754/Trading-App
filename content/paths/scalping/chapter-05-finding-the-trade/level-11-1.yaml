@@ -68,8 +68,9 @@ screens:
     explanation: "On B every long is asking a falling room to change its mind. That is not a reason to refuse, but it is a reason to want more from the chart."
 
   - type: chart-decision
-    scenario: "The index has climbed since the bell and HOLT, a miner, is up with the rest of its street on 6× its normal volume. The minute that just closed finished four cents above yesterday's high at $14.06. Your account is $19,000 and 1,100 shares is the size you trade."
+    scenario: "A $19,000 account, and the index has climbed since the bell. HOLT, a miner, is up with the rest of its street on 6× its normal volume; the minute that just closed finished four cents above yesterday's high at $14.06."
     shares: 1100
+    state: ["Size: 1,100 shares"]
     chart:
       kind: candles
       data: [[13.80, 13.90, 13.74, 13.86], [13.86, 13.94, 13.80, 13.90], [13.90, 13.98, 13.84, 13.88], [13.88, 14.00, 13.82, 13.96], [13.96, 14.06, 13.90, 14.00], [14.00, 14.14, 13.96, 14.10], [14.10, 14.22, 14.06, 14.18], [14.18, 14.28, 14.12, 14.24], [14.24, 14.34, 14.18, 14.30], [14.30, 14.36, 14.24, 14.33], [14.33, 14.36, 14.26, 14.30]]

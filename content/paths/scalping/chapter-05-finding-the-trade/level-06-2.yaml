@@ -79,8 +79,9 @@ screens:
     explanation: "A gap says a re-pricing happened while you were asleep. Which way it travels from here is this morning's argument, and this morning it is going the other way."
 
   - type: chart-decision
-    scenario: "GLEN gapped up on results and has made lower highs since the bell on minutes of about 120,000 shares. The minute that just closed finished six cents under the low of the first half hour at $13.44. Your account is $24,000 and 1,700 shares is the size you trade."
+    scenario: "GLEN gapped up on results and has made lower highs since the bell on minutes of about 120,000 shares. The minute that just closed finished six cents under the low of the first half hour at $13.44."
     shares: 1700
+    state: ["Size: 1,700 shares"]
     chart:
       kind: candles
       data: [[13.90, 13.96, 13.76, 13.80], [13.80, 13.86, 13.66, 13.70], [13.70, 13.78, 13.60, 13.66], [13.66, 13.72, 13.54, 13.58], [13.58, 13.64, 13.46, 13.50], [13.50, 13.54, 13.34, 13.38], [13.38, 13.44, 13.28, 13.32], [13.32, 13.38, 13.22, 13.26], [13.26, 13.30, 13.14, 13.18], [13.18, 13.24, 13.10, 13.14], [13.14, 13.20, 13.08, 13.12]]

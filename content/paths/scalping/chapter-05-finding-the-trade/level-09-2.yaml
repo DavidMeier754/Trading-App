@@ -90,8 +90,9 @@ screens:
     explanation: "A sell stop at $21.46 on all 700 shares. A limit here would refuse the fill on exactly the day you need it."
 
   - type: chart-decision
-    scenario: "WREN, the name you cut, is stepping higher on 12× normal volume. The panel reads $14.15 bid, $14.28 ask. Your account is $16,000 and 1,000 shares is the size you trade."
+    scenario: "WREN is stepping higher on 12× normal volume. The panel reads $14.15 bid, $14.28 ask."
     shares: 1000
+    state: ["Size: 1,000 shares", "WREN: cut before the bell"]
     chart:
       kind: candles
       data: [[13.70, 13.82, 13.64, 13.80], [13.80, 13.92, 13.74, 13.88], [13.88, 13.98, 13.82, 13.92], [13.92, 14.06, 13.86, 14.02], [14.02, 14.14, 13.96, 14.10], [14.10, 14.26, 14.06, 14.22], [14.22, 14.34, 14.16, 14.30], [14.30, 14.40, 14.24, 14.36], [14.36, 14.46, 14.30, 14.41], [14.41, 14.44, 14.34, 14.38]]

@@ -99,9 +99,9 @@ screens:
     explanation: "Two cuts and two lines. The cuts were arithmetic and cost seconds; the lines are what the shortlist was kept short in order to pay for."
 
   - type: chart-decision
-    scenario: "BOLE opened, spent twenty minutes under the round number you drew at $14.50, and the minute that just closed finished five cents through it on the heaviest bar since the bell. The room is mixed and BOLE is not on the street carrying it. Your account is $25,000 and 1,600 shares is the size you trade."
+    scenario: "BOLE opened, spent twenty minutes under the round number you drew at $14.50, and the minute that just closed finished five cents through it on the heaviest bar since the bell. BOLE is not on the street the room is carrying."
     shares: 1600
-    state: ["Room: mixed", "Tries expected: 2"]
+    state: ["Room: mixed", "Tries expected: 2", "Size: 1,600 shares"]
     chart:
       kind: candles
       data: [[14.34, 14.42, 14.30, 14.40], [14.40, 14.46, 14.36, 14.42], [14.42, 14.50, 14.38, 14.44], [14.44, 14.48, 14.40, 14.46], [14.46, 14.50, 14.42, 14.48], [14.48, 14.58, 14.46, 14.55], [14.55, 14.66, 14.52, 14.62], [14.62, 14.72, 14.58, 14.68], [14.68, 14.78, 14.64, 14.74], [14.74, 14.84, 14.70, 14.79], [14.79, 14.82, 14.72, 14.76]]

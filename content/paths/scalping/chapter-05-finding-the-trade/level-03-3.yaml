@@ -42,8 +42,9 @@ screens:
     explanation: "The move happened before you arrived. What matters is whether the name is still travelling now."
 
   - type: chart-decision
-    scenario: "QUIL is up 24 % on a takeover offer of $18.50 and has traded between $18.38 and $18.44 for the last half hour on minutes of 40,000 shares. Your account is $30,000 and 1,500 shares is the size you trade."
+    scenario: "QUIL is up 24 % on a takeover offer of $18.50. For the last half hour it has traded between $18.38 and $18.44 on minutes of 40,000 shares."
     shares: 1500
+    state: ["Size: 1,500 shares"]
     chart:
       kind: candles
       data: [[18.40, 18.43, 18.38, 18.41], [18.41, 18.44, 18.39, 18.42], [18.42, 18.44, 18.38, 18.40], [18.40, 18.43, 18.38, 18.42], [18.42, 18.44, 18.39, 18.41], [18.41, 18.44, 18.38, 18.42], [18.42, 18.44, 18.39, 18.40], [18.40, 18.43, 18.38, 18.42], [18.42, 18.44, 18.38, 18.41], [18.41, 18.44, 18.39, 18.42]]
@@ -69,8 +70,9 @@ screens:
     explanation: "The reason costs you fifteen seconds and it is the cheapest way to drop a name that cannot travel."
 
   - type: chart-decision
-    scenario: "LOOM reported weak results, opened below yesterday's close and has made lower highs and lower lows for twenty minutes on 130,000-share minutes against a normal 25,000. The minute that just closed finished four cents under the low of the morning at $17.56. Your account is $30,000 and 1,600 shares is the size you trade."
+    scenario: "A $30,000 account, and a name that reported weak results. LOOM opened below yesterday's close and has made lower highs and lower lows for twenty minutes on 130,000-share bars against a normal 25,000. The minute that just closed finished four cents under the low of the morning at $17.56."
     shares: 1600
+    state: ["Size: 1,600 shares"]
     chart:
       kind: candles
       data: [[18.00, 18.06, 17.88, 17.92], [17.92, 17.98, 17.80, 17.84], [17.84, 17.90, 17.72, 17.78], [17.78, 17.84, 17.64, 17.68], [17.68, 17.74, 17.56, 17.60], [17.60, 17.64, 17.48, 17.52], [17.52, 17.56, 17.40, 17.44], [17.44, 17.48, 17.32, 17.36], [17.36, 17.40, 17.26, 17.30], [17.30, 17.34, 17.20, 17.24], [17.24, 17.30, 17.20, 17.26]]

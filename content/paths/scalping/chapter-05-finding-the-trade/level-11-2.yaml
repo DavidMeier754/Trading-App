@@ -67,9 +67,9 @@ screens:
     explanation: "Four readings and four different questions. Answering the last one first is how a morning gets expensive."
 
   - type: chart-decision
-    scenario: "You are already long 1,600 shares of BRAY, a bank, on this morning's rate decision. KEEL is a bank too, and its minute just closed two cents above the round number at $11.90. Your account is $24,000 and 1,600 shares is the size you trade."
+    scenario: "KEEL is a bank, like the BRAY you are already long, and both of them moved on this morning's rate decision. Its minute just closed two cents above the round number at $11.90."
     shares: 1600
-    state: ["Long 1,600 BRAY", "Size: 1,600 shares"]
+    state: ["Long 1,600 BRAY", "Size: 1,600 shares", "Account: $24,000"]
     chart:
       kind: candles
       data: [[11.60, 11.70, 11.54, 11.66], [11.66, 11.74, 11.60, 11.70], [11.70, 11.78, 11.64, 11.68], [11.68, 11.80, 11.62, 11.76], [11.76, 11.86, 11.70, 11.80], [11.80, 11.96, 11.76, 11.92], [11.92, 12.02, 11.86, 11.98], [11.98, 12.08, 11.92, 12.04], [12.04, 12.14, 11.98, 12.09], [12.09, 12.12, 12.00, 12.05]]

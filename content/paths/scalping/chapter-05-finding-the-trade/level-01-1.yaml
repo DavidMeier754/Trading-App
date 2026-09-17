@@ -58,8 +58,9 @@ screens:
     explanation: "Distance is not access. If your own order is a sixth of the minute, the distance is visible rather than reachable."
 
   - type: chart-decision
-    scenario: "RIME has stepped up for five straight minutes. Every bar underneath is between 5,000 and 8,000 shares, and the panel reads $16.18 bid, $16.31 ask. Your account is $20,000 and 1,000 shares is the size you trade."
+    scenario: "You are trading a $20,000 account. RIME has stepped up for five straight minutes, every bar underneath it between 5,000 and 8,000 shares, and the panel reads $16.18 bid, $16.31 ask."
     shares: 1000
+    state: ["Size: 1,000 shares"]
     chart:
       kind: candles
       data: [[15.82, 15.94, 15.78, 15.90], [15.90, 16.02, 15.86, 15.98], [15.98, 16.06, 15.92, 16.00], [16.00, 16.14, 15.96, 16.10], [16.10, 16.22, 16.06, 16.18], [16.18, 16.34, 16.14, 16.28], [16.28, 16.44, 16.24, 16.40], [16.40, 16.52, 16.34, 16.48], [16.48, 16.54, 16.42, 16.50], [16.50, 16.56, 16.44, 16.52], [16.52, 16.56, 16.46, 16.48]]
@@ -87,8 +88,9 @@ screens:
     explanation: "Getting in is never the problem. The exit is what a thin minute takes away."
 
   - type: chart-decision
-    scenario: "KELP has printed between 120,000 and 160,000 shares a minute since the open and the panel has stayed two cents wide throughout. The minute that just closed is the longest body of the morning. Your account is $20,000 and 1,000 shares is the size you trade."
+    scenario: "KELP has printed between 120,000 and 160,000 shares a minute since the open and the panel has stayed two cents wide throughout. The minute that just closed is the longest body of the morning."
     shares: 1000
+    state: ["Size: 1,000 shares"]
     chart:
       kind: candles
       data: [[15.20, 15.28, 15.16, 15.26], [15.26, 15.34, 15.22, 15.31], [15.31, 15.38, 15.27, 15.33], [15.33, 15.42, 15.29, 15.39], [15.39, 15.48, 15.35, 15.45], [15.45, 15.70, 15.43, 15.67], [15.67, 15.80, 15.63, 15.76], [15.76, 15.88, 15.72, 15.84], [15.84, 15.94, 15.80, 15.90], [15.90, 16.02, 15.86, 15.98], [15.98, 16.04, 15.92, 15.96]]

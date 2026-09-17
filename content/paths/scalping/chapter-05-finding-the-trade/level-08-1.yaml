@@ -71,8 +71,9 @@ screens:
     explanation: "MARL: $14,800 for 1,000 shares, two cents wide, a reason, and 6.8× its normal day. ORCA is 798 shares on this account and SALT is having an ordinary one."
 
   - type: chart-decision
-    scenario: "MARL is on 6.8× its normal volume with minutes of about 90,000 shares, and the minute that just closed finished four cents above the pre-market high of $14.76. Your account is $17,000 and 1,000 shares is the size you trade."
+    scenario: "MARL is on 6.8× its normal volume with minutes of about 90,000 shares, and the minute that just closed finished four cents above the pre-market high of $14.76."
     shares: 1000
+    state: ["Size: 1,000 shares"]
     chart:
       kind: candles
       data: [[14.30, 14.42, 14.24, 14.40], [14.40, 14.50, 14.34, 14.46], [14.46, 14.54, 14.40, 14.44], [14.44, 14.58, 14.38, 14.52], [14.52, 14.64, 14.46, 14.60], [14.60, 14.84, 14.56, 14.80], [14.80, 14.92, 14.74, 14.88], [14.88, 15.00, 14.82, 14.96], [14.96, 15.08, 14.90, 15.04], [15.04, 15.12, 14.98, 15.08], [15.08, 15.12, 15.00, 15.04]]
