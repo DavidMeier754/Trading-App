@@ -13,103 +13,115 @@ xp: 80
 difficulty: 3
 reinforces: []
 sources: [consensus]
-notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with the badge and the path choice. No tier here: UI.md §7.5 unlocks Observer after Chapter 2, where the chart reading it names is actually taught. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with the badge and the path choice. No tier here: UI.md §7.5 unlocks Observer after Chapter 2, where the chart reading it names is actually taught. Six of the twelve are interactive and three are chart decisions — two Buy/Wait (Levels 1 and 9) and one Long/Short/No-trade (Level 13), all on line charts. No account is named anywhere, so the share counts are the small ones Chapter 1 has used throughout. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
 screens:
   - type: intro
     text: "Final exam: Market Basics. Twelve questions, then your path."
     counter: 12
 
-  - type: numeric-mc
-    prompt: "You short 150 shares at $40.00 and cover at $38.50. Result?"
-    options:
-      - {text: "+$225", correct: true}
-      - {text: "−$225"}
-      - {text: "+$150"}
-      - {text: "+$1.50"}
-    working: "(40.00 − 38.50) × 150 = +$225"
-    explanation: "Sold high, covered lower."
-
-  - type: mc
-    prompt: "XYZ's price rises while nothing at the company changed. Most likely reason?"
-    options:
-      - {text: "More demand than supply", correct: true}
-      - {text: "The exchange raised the price"}
-      - {text: "New shares were issued"}
-    explanation: "Buyers versus sellers is the only thing that moves a price."
-
-  - type: tf
-    statement: "Owning 10 of a company's 1,000 shares means you own 10 % of it."
-    answer: false
-    explanation: "10 ÷ 1,000 = 1 %."
-
   - type: hotspot
     component: quote-card
-    prompt: "Tap the number that says how many shares have changed hands today."
-    data: {ticker: VELA, name: Vela Motors, price: 66.30, change: 1.20, change_pct: 1.8, volume: "900K"}
-    target: volume
-    explanation: "900,000 shares traded today."
+    prompt: "Tap the number today's change is measured against."
+    data: {ticker: VELA, name: Vela Motors, price: 28.40, change: 0.90, change_pct: 3.3, volume: "1.4M", prev_close: 27.50}
+    target: prev_close
+    explanation: "$27.50 is where it finished yesterday. Both the change and the percentage are the distance from that line, not from anything that happened today."
 
   - type: mc
-    prompt: "A stock trades 1,200 shares a day. You hold 900. Main problem?"
+    prompt: "A company reports results better than anyone expected, and the price falls all day. What has to be true?"
     options:
-      - {text: "It's too volatile to hold"}
-      - {text: "Fees are higher on low-volume stocks"}
-      - {text: "Selling will push the price down a lot", correct: true}
-    explanation: "You'd be most of the day's volume."
-
-  - type: sort
-    prompt: "Ease of trading, or size of the moves?"
-    buckets: ["Liquidity", "Volatility"]
-    items:
-      - {text: "Whether your trade moves the price", bucket: "Liquidity"}
-      - {text: "A 12 % swing in an hour", bucket: "Volatility"}
-      - {text: "Shares traded per day", bucket: "Liquidity"}
-      - {text: "How far the price moves", bucket: "Volatility"}
-    explanation: "Ease versus movement."
-
-  - type: mc
-    prompt: "Who most likely stands behind a sudden wave of very large trades?"
-    options:
-      - {text: "An institution", correct: true}
-      - {text: "Many retail traders at once"}
-      - {text: "The market maker"}
-    explanation: "Size is the institution's footprint."
-
-  - type: mc
-    prompt: "Why are pre-market prices less reliable?"
-    options:
-      - {text: "They're set by the exchange, not by trades"}
-      - {text: "Few participants — thin liquidity", correct: true}
-      - {text: "Only market makers trade then"}
-    explanation: "Thin sessions are jumpy."
+      - {text: "The exchange corrected the price after the report"}
+      - {text: "More people wanted out at those prices than in", correct: true}
+      - {text: "The results must have been misreported"}
+    explanation: "Only an imbalance moves a price. Good news everybody had already counted on leaves the sellers as the ones in a hurry."
 
   - type: numeric-input
-    prompt: "Fee $1 per order. You open and close 12 positions in a day. Total fees?"
-    answer: 24
+    prompt: "You short 250 shares at $18.60 and cover at $17.92. What is the result?"
+    answer: 170
+    tolerance: 0.01
     unit: "$"
-    working: "12 positions × 2 orders × $1 = $24"
-    explanation: "Every open and every close is an order."
+    working: "($18.60 − $17.92) × 250 = $0.68 × 250 = $170"
+    explanation: "Sold first at the higher price and bought back lower, so the difference per share times the size is what is left."
 
-  - type: mc
-    prompt: "A trader holds positions for days and checks charts each evening."
-    options:
-      - {text: "Day trading"}
-      - {text: "Swing trading", correct: true}
-      - {text: "Scalping"}
-    explanation: "Days to weeks, daily check-ins."
+  - type: chart-decision
+    scenario: "SABLE trades about 2 M shares on a normal day. It has stepped higher for six minutes, each step a little above the last, and is at $12.68. You are looking at 200 shares. Buy, or wait?"
+    shares: 200
+    chart:
+      kind: line
+      data: [12.40, 12.46, 12.44, 12.52, 12.60, 12.68, 12.76, 12.84, 12.90, 12.96, 13.02]
+      decision_index: 5
+    buttons: [buy, wait]
+    best: buy
+    reasonable: [wait]
+    outcome: "Six more minutes and it was $13.02 — 34 cents above the pause, +$68 on 200 shares."
+    explanation: "A direction already under way is the clearest reason a beginner has to buy, and 200 shares is nothing to a stock this size."
 
   - type: tf
-    statement: "A short position's possible loss has no fixed limit."
-    answer: true
-    explanation: "A price can rise without limit; a short must buy back at whatever it is."
+    statement: "When you buy a share on an exchange, your money goes to the company that issued it."
+    answer: false
+    explanation: "It goes to whoever sold you the share. The company was paid once, by the first buyer, and has not been part of the trade since."
+
+  - type: sort
+    prompt: "Ease of getting out, or size of the moves?"
+    buckets: ["Liquidity", "Volatility"]
+    items:
+      - {text: "Millions of shares changing hands every day", bucket: "Liquidity"}
+      - {text: "A 9 % swing on an ordinary day", bucket: "Volatility"}
+      - {text: "400 shares leaving without a mark", bucket: "Liquidity"}
+      - {text: "A price that barely moves for an hour", bucket: "Volatility"}
+    explanation: "One dial is whether you can get out. The other is whether there was anything to get out of."
+
+  - type: chart-decision
+    scenario: "The same shape on WREN, which trades about 6,000 shares on a normal day. It has climbed for six minutes to $10.06 and you are looking at 250 shares. Buy, or wait?"
+    shares: 250
+    chart:
+      kind: line
+      data: [9.86, 9.90, 9.88, 9.94, 10.00, 10.06, 10.10, 10.14, 10.16, 10.18]
+      decision_index: 5
+    buttons: [buy, wait]
+    best: wait
+    reasonable: [buy]
+    outcome: "It did drift up to $10.18, worth $30 on 250 shares — and 250 is a twenty-fourth of everything WREN trades in a day."
+    explanation: "The chart said what SABLE's chart said. What is different is the stock underneath it, and that is the half of the decision a chart never shows."
 
   - type: mc
-    prompt: "A company reports better-than-expected results, yet the stock falls. Best explanation?"
+    prompt: "One firm quotes a price it will buy at and a price it will sell at, all day, in the same stock. Who is that?"
     options:
-      - {text: "Good news always sells off"}
-      - {text: "The results must have been wrong"}
-      - {text: "Expectations were even higher", correct: true}
-    explanation: "Price reacts to news versus expectations, not to news alone."
+      - {text: "A market maker", correct: true}
+      - {text: "An institution buying in size"}
+      - {text: "A retail trader with a large order"}
+    explanation: "Standing on both sides all day is the job, and the gap between the two prices is what pays for it."
+
+  - type: numeric-mc
+    prompt: "Your broker charges $1 an order. You open and close eight positions on Monday and five on Tuesday. What have the fees come to?"
+    options:
+      - {text: "$13"}
+      - {text: "$16"}
+      - {text: "$26", correct: true}
+      - {text: "$52"}
+    working: "8 + 5 = 13 positions × 2 orders × $1 = $26"
+    explanation: "Every position is two orders, one in and one out, and that is the count a per-order fee is charged on."
+
+  - type: chart-decision
+    scenario: "CAIRN trades about 3 M shares on a normal day. It has made a lower high every couple of minutes and the last step down was the largest so far. It is at $20.86 and you are looking at 200 shares."
+    shares: 200
+    chart:
+      kind: line
+      data: [21.60, 21.44, 21.50, 21.26, 21.04, 20.86, 20.70, 20.58, 20.42, 20.34, 20.28]
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "Sellers kept the upper hand down to $20.28: 58 cents, $116 on a 200-share short."
+    explanation: "Every bounce ends lower than the one before it and the way back out stays open. Standing aside costs nothing here, but the pressure has a side."
+
+  - type: tf
+    statement: "Prices in the pre-market move more easily than they do once the regular session is open."
+    answer: true
+    explanation: "Far fewer people are trading, so it takes far less to move a price. Thin and jumpy is the normal state of a session before the bell."
+
+  - type: order
+    prompt: "Put the three styles in order, shortest holding period first."
+    items: ["Scalping", "Day trading", "Swing trading"]
+    explanation: "Seconds to minutes, then minutes to hours inside one day, then days to weeks. The holding period is the whole of the difference."
 
   - type: summary
     total: 12

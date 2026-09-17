@@ -13,90 +13,110 @@ prerequisite: "11-2"
 xp: 40
 difficulty: 2
 sources: [consensus]
-notes: "10 scored questions on Levels 6–11. Three reach back — one to Chapter 1's volatility dial, one to Chapter 2's climax volume, one to Chapter 1's session structure. Hearts apply. Pass mark 70 %."
+notes: "10 scored questions on Levels 6–11. Hearts apply. Pass mark 70 %. Account named at $18,000 throughout; the worked positions are 750 shares at $20.62 = $15,465 and 750 at $16.26 = $12,195, both inside the 95 % cap, and both sized off a $180 budget. Five questions are interactive, two of them chart decisions. Three reach back — two to Chapter 2 (the level a stop hangs off, lower highs) and one to Chapter 1's volatility dial. No depth-ladder here: the book is taught at Level 15, so a Level 12 checkpoint cannot test it."
 screens:
   - type: intro
-    text: "Checkpoint. Ten questions, nothing new. Hearts are on."
+    text: "Checkpoint. Ten questions on an $18,000 account, nothing new. Hearts are on."
     counter: 10
 
-  - type: mc
-    prompt: "Ask $10.20. You send a limit buy at $10.23 while sellers are still at $10.20. You pay:"
-    options:
-      - {text: "$10.23"}
-      - {text: "$10.215"}
-      - {text: "$10.20", correct: true}
-    explanation: "Marketable limit: fills at the ask, capped at your limit."
-
-  - type: tf
-    statement: "A stop-limit guarantees you get out when the stop price is touched."
-    answer: false
-    explanation: "Only a stop-market guarantees the exit."
-
-  - type: sort
-    prompt: "Which order type?"
-    buckets: ["Market order", "Limit order", "Stop order"]
-    items:
-      - {text: "Now, at the best price", bucket: "Market order"}
-      - {text: "Only at my price or better", bucket: "Limit order"}
-      - {text: "Idle until a price is touched", bucket: "Stop order"}
-      - {text: "Marketable when placed at or above the ask", bucket: "Limit order"}
-    explanation: "Three tools, three behaviors."
+  - type: order-build
+    prompt: "The offer is $20.62 and the page says 750 shares. Build the entry that takes it now but pays no more than three cents over it."
+    ticker: XYZ
+    slots: [side, type, qty, price]
+    chips:
+      side: [buy, sell]
+      type: [market, limit, stop]
+      qty: [500, 750, 1200]
+      price: [20.59, 20.62, 20.65]
+    answer: {side: buy, type: limit, qty: 750, price: 20.65}
+    explanation: "Buy, limit, 750, $20.65. Priced through the offer it trades at once and at $20.62 — the three cents is a ceiling on a fast-moving offer, not a price you have agreed to pay."
 
   - type: numeric-mc
-    prompt: "Account $15,000, 1 % rule, stop $0.15, stock at $25.00. Shares?"
+    prompt: "A $26.00 stock, one per cent of the $18,000, and the chart is offering an eleven-cent stop. How many shares?"
     options:
-      - {text: "1,000"}
-      - {text: "600", correct: true}
-      - {text: "150"}
-      - {text: "2,500"}
-    working: "Risk: $150 ÷ $0.15 = 1,000. Account: $15,000 ÷ $25.00 = 600. Take the smaller."
-    explanation: "The account is the lower ceiling here, so 600 is the honest number."
+      - {text: "1,636 shares"}
+      - {text: "692 shares", correct: true}
+      - {text: "1,164 shares"}
+      - {text: "164 shares"}
+    working: "Risk: $180 ÷ $0.11 = 1,636. Account: $18,000 ÷ $26.00 = 692. Take the smaller."
+    explanation: "Near the top of the price band the cash runs out long before the stop does, and 692 shares on an eleven-cent stop risks $76 rather than the whole budget."
+
+  - type: chart-annotate
+    prompt: "XYZ has been turned back from the same floor twice this morning. Drag the line to where the stop for a long belongs."
+    chart:
+      kind: candles
+      data: [[20.62, 20.68, 20.54, 20.58], [20.58, 20.62, 20.44, 20.48], [20.48, 20.60, 20.46, 20.56], [20.56, 20.62, 20.50, 20.52], [20.52, 20.56, 20.44, 20.50], [20.50, 20.64, 20.48, 20.60], [20.60, 20.68, 20.56, 20.64], [20.64, 20.70, 20.58, 20.66]]
+      volume: [112000, 164000, 96000, 84000, 148000, 108000, 92000, 86000]
+    answer: 20.38
+    tolerance: 0.04
+    label: "Stop"
+    explanation: "Buyers turned it at $20.44 twice, so the stop goes a few cents under that price — beyond the level, not on it, where the ordinary wobble cannot reach it."
+
+  - type: chart-decision
+    scenario: "XYZ again. The candle that just closed pushed up off the $20.44 floor on the heaviest bar of the session, and the quote is two cents wide."
+    shares: 750
+    state: ["Account: $18,000", "Stop: $20.38", "Size: 750 shares"]
+    chart:
+      kind: candles
+      data: [[20.56, 20.62, 20.50, 20.54], [20.54, 20.58, 20.44, 20.48], [20.48, 20.58, 20.46, 20.52], [20.52, 20.58, 20.48, 20.50], [20.50, 20.54, 20.44, 20.52], [20.52, 20.66, 20.50, 20.62], [20.62, 20.74, 20.58, 20.70], [20.70, 20.80, 20.66, 20.76], [20.76, 20.86, 20.72, 20.82], [20.82, 20.94, 20.78, 20.90]]
+      volume: [92000, 134000, 78000, 70000, 126000, 192000, 158000, 136000, 118000, 104000]
+      levels:
+        - {price: 20.44, label: "Floor"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It stepped on to $20.90 — 28 cents a share above the decision, +$210 long on 750 shares against $180 of risk."
+    explanation: "A floor that has held twice, a close up off it on the session's heaviest minute, and a stop with an obvious home. The stop is what made 750 the number rather than a guess."
+
+  - type: tf
+    statement: "A stop-limit can leave you still holding the position after your stop price has already traded."
+    answer: true
+    explanation: "Once triggered it is only a limit order, and a price that fell straight through it never comes back to fill you. A stop-market takes whatever is there, which is the point of it."
 
   - type: spot-mistake
-    prompt: "One of these does not follow. Tap it."
+    prompt: "Three lines about one short. Tap the one that is wrong."
     segments:
-      - {text: "Long 600 at $22.00,"}
-      - {text: "protective buy stop at $21.90.", wrong: true}
-      - {text: "Risk $60."}
-    explanation: "A long needs a sell stop below the entry."
-
-  - type: numeric-mc
-    prompt: "$16,000 account, 1 % rule, stock at $29.00, stop nine cents away. Which ceiling wins?"
-    options:
-      - {text: "1,777 shares — the stop sets the size"}
-      - {text: "551 shares — the account is what binds here", correct: true}
-      - {text: "1,164, splitting the two"}
-      - {text: "3,555, doubling the risk ceiling"}
-    working: "Risk: $160 ÷ $0.09 = 1,777. Account: $16,000 ÷ $29.00 = 551. Take the smaller."
-    explanation: "A stock this close to the top of the price band eats the account long before the stop does."
-
-  - type: numeric-input
-    prompt: "800 shares, stop distance $0.09. Risk per trade?"
-    answer: 72
-    unit: "$"
-    working: "$0.09 × 800 = $72"
-    explanation: "Stop distance times shares."
-
-  - type: mc
-    prompt: "Chapter 1 gave every stock two dials. Which one decides how far away a stop has to sit?"
-    options:
-      - {text: "Liquidity — thin stocks always need wider stops"}
-      - {text: "Volatility — the more a stock swings, the more room the stop needs", correct: true}
-      - {text: "Volume — heavier bars always mean wider stops"}
-    explanation: "Volatility is the size of the moves. A calmer stock lets the stop sit closer without ordinary noise touching it off."
-
-  - type: mc
-    prompt: "Chapter 2 called the single heaviest bar of a run climax volume — the whole crowd trading in one minute. Why does that make it an easy minute to get an order filled in?"
-    options:
-      - {text: "It isn't — heavy bars are the most dangerous ones to trade into"}
-      - {text: "Buyers and sellers are both there in size, in the same sixty seconds", correct: true}
-      - {text: "Climax bars only happen once the spread has already gone to zero"}
-    explanation: "Maximum participation is maximum liquidity for that minute — the opposite of the thin bar nobody is behind."
+      - {text: "You are short 750 shares from $16.26"}
+      - {text: "with the stop resting at $16.50,"}
+      - {text: "and it is a sell order.", wrong: true}
+    explanation: "A short is closed by buying the shares back, so its stop is a buy stop. The price was right and the side was not — a sell order there would double the position instead of closing it."
 
   - type: tf
-    statement: "A quote that jumps from two cents wide to twelve right at {{market.regular_open}} means the quote is thin and unsettled, not that momentum has arrived."
-    answer: true
-    explanation: "Chapter 1 called the opening minutes the jumpiest of the session. A wide, unstable quote right then is the session being thin — not a signal to chase."
+    statement: "A market order tells the broker which price to pay."
+    answer: false
+    explanation: "It tells the broker to trade now. The price is whatever the other side happens to be showing when the order arrives, which is why it is the order for when getting in matters more than the cent."
+
+  - type: numeric-input
+    prompt: "Long 700 shares with the stop nineteen cents under the entry. What does the trade risk?"
+    answer: 133
+    tolerance: 0.01
+    unit: "$"
+    working: "$0.19 × 700 = $133"
+    explanation: "Stop distance times the share count. It is the only number in the trade the one per cent budget has an opinion about."
+
+  - type: chart-decision
+    scenario: "A different name, later in the same session. It has made a lower high every couple of minutes, and the candle that just closed gave up the $16.30 floor on the heaviest bar since the open."
+    shares: 750
+    state: ["Account: $18,000", "Stop: $16.50", "Size: 750 shares"]
+    chart:
+      kind: candles
+      data: [[16.62, 16.66, 16.52, 16.56], [16.56, 16.60, 16.44, 16.48], [16.48, 16.54, 16.40, 16.44], [16.44, 16.48, 16.36, 16.40], [16.40, 16.44, 16.30, 16.34], [16.34, 16.36, 16.22, 16.26], [16.26, 16.30, 16.14, 16.18], [16.18, 16.22, 16.06, 16.10], [16.10, 16.14, 15.98, 16.02], [16.02, 16.08, 15.92, 15.96]]
+      volume: [88000, 96000, 84000, 78000, 92000, 186000, 154000, 130000, 114000, 100000]
+      levels:
+        - {price: 16.30, label: "Floor"}
+      decision_index: 5
+    best: short
+    reasonable: [no-trade]
+    outcome: "Sellers stayed in front of it to $15.96 — thirty cents a share under the decision, +$225 on a 750-share short."
+    explanation: "Lower highs the whole way and the floor given up on the heaviest minute. Twenty-four cents to the stop above the last lower high is what fixed the size at 750, not the account."
+
+  - type: mc
+    prompt: "Two names at $10, the same $18,000 and the same one per cent. The calm one lets the stop sit twelve cents away; the jumpy one needs thirty-six. Which of Chapter 1's two dials just cut your size from 1,500 shares to 500?"
+    options:
+      - {text: "Liquidity, the ease of getting out"}
+      - {text: "Volume, the shares changing hands"}
+      - {text: "Volatility, the size of the moves", correct: true}
+    explanation: "The stop has to clear the ordinary swing, and the stop is what divides the budget. A name that travels three times as far buys you a third of the shares for the same $180."
 
   - type: summary
     total: 10
