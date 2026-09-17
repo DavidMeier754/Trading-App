@@ -40,8 +40,9 @@ screens:
     explanation: "Run one of them on its own and you are guessing at whatever it is silent about."
 
   - type: chart-decision
-    scenario: "Yesterday's close at $15.60 has been overhead all session and price has not finished a minute above its own average price. The minute that just closed pushed into the level and finished six cents back under it on the heaviest bar of the morning, with the prints going off at the bid. Your account is $28,000 and you are sizing 1,500 shares."
+    scenario: "Yesterday's close at $15.60 has been overhead all session and price has not finished a minute above its own average price. The minute that just closed pushed into the level and finished six cents back under it on the heaviest bar of the morning, with the prints going off at the bid."
     shares: 1500
+    state: ["Size: 1,500 shares", "Account: $28,000"]
     chart:
       kind: candles
       data: [[15.30, 15.38, 15.28, 15.36], [15.36, 15.44, 15.34, 15.42], [15.42, 15.50, 15.40, 15.48], [15.48, 15.56, 15.46, 15.54], [15.54, 15.60, 15.52, 15.58], [15.58, 15.64, 15.52, 15.54], [15.54, 15.56, 15.44, 15.46], [15.46, 15.48, 15.36, 15.38], [15.38, 15.40, 15.28, 15.30], [15.30, 15.32, 15.22, 15.24], [15.24, 15.26, 15.16, 15.18]]
@@ -97,8 +98,9 @@ screens:
     explanation: "Two of them were true an hour ago and will be true in an hour. The other two are only true right now."
 
   - type: chart-decision
-    scenario: "Yesterday's high at $12.60 is two cents above price and the session has been above its own average since the open. The minute that just closed opened and finished at the same price, on the quietest bar of the stretch. Your account is $28,000 and you are sizing 1,600 shares."
+    scenario: "Yesterday's high at $12.60 is two cents above price and the session has been above its own average since the open. The minute that just closed opened and finished at the same price, on the quietest bar of the stretch."
     shares: 1600
+    state: ["Size: 1,600 shares", "Costs: $0.04 a share round trip"]
     chart:
       kind: candles
       data: [[12.30, 12.38, 12.28, 12.36], [12.36, 12.44, 12.34, 12.42], [12.42, 12.50, 12.40, 12.48], [12.48, 12.56, 12.46, 12.54], [12.54, 12.60, 12.52, 12.58], [12.58, 12.62, 12.56, 12.58], [12.58, 12.62, 12.54, 12.56], [12.56, 12.60, 12.52, 12.58], [12.58, 12.62, 12.54, 12.60], [12.60, 12.66, 12.58, 12.64], [12.64, 12.70, 12.62, 12.67]]

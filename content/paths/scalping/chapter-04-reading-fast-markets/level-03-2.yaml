@@ -69,8 +69,9 @@ screens:
     explanation: "$18.44, the left edge of the first candle. Eight of the nine minutes have finished above it."
 
   - type: chart-decision
-    scenario: "The low of {{market.premarket}} is $16.90. XYZ sold into it, traded two cents through, and the minute that just closed finished back above it on the heaviest bar since the open. Your account is $25,000 and you are sizing 1,400 shares."
+    scenario: "The low of {{market.premarket}} is $16.90. XYZ sold into it, traded two cents through, and the minute that just closed finished back above it on the heaviest bar since the open."
     shares: 1400
+    state: ["Size: 1,400 shares", "Account: $25,000"]
     chart:
       kind: candles
       data: [[17.30, 17.34, 17.20, 17.22], [17.22, 17.26, 17.10, 17.12], [17.12, 17.16, 17.02, 17.04], [17.04, 17.08, 16.96, 16.98], [16.98, 17.00, 16.88, 16.96], [16.96, 17.06, 16.94, 17.04], [17.04, 17.12, 17.02, 17.10], [17.10, 17.18, 17.08, 17.16], [17.16, 17.22, 17.12, 17.20], [17.20, 17.28, 17.18, 17.26], [17.26, 17.30, 17.22, 17.27]]

@@ -34,8 +34,9 @@ screens:
     explanation: "$15.24, set in the second minute. The seventh and eighth reached it again and neither finished through."
 
   - type: chart-decision
-    scenario: "The ninth minute traded two cents above the box at $15.26 and finished at $15.18, back inside. The bar under it was the lightest since the open. Your account is $22,000 and you are sizing 1,300 shares."
+    scenario: "The ninth minute traded two cents above the box at $15.26 and finished at $15.18, back inside. The bar under it was the lightest since the open."
     shares: 1300
+    state: ["Size: 1,300 shares"]
     chart:
       kind: candles
       data: [[15.00, 15.18, 14.96, 15.12], [15.12, 15.24, 15.08, 15.16], [15.16, 15.20, 15.04, 15.08], [15.08, 15.18, 15.02, 15.14], [15.14, 15.22, 15.10, 15.18], [15.18, 15.26, 15.14, 15.18], [15.18, 15.22, 15.10, 15.12], [15.12, 15.16, 15.04, 15.06], [15.06, 15.12, 15.00, 15.02], [15.02, 15.08, 14.96, 14.98]]
@@ -58,8 +59,9 @@ screens:
     explanation: "The high is worth more after the test than before it: it has been argued over once, and some of what was resting on it has been spent."
 
   - type: chart-decision
-    scenario: "Twenty minutes later. Price has climbed back and the minute that just closed finished seven cents above the box high on the heaviest bar since the opening minute, with the session above its own average price throughout the climb. Your account is $22,000 and you are sizing 1,300 shares."
+    scenario: "Twenty minutes later. Price has climbed back, and the minute that just closed finished seven cents above the box high on the heaviest bar since the opening minute, with the session above its own average price throughout the climb."
     shares: 1300
+    state: ["Size: 1,300 shares"]
     chart:
       kind: candles
       data: [[15.02, 15.08, 14.98, 15.06], [15.06, 15.12, 15.02, 15.10], [15.10, 15.16, 15.06, 15.14], [15.14, 15.20, 15.10, 15.18], [15.18, 15.24, 15.14, 15.22], [15.22, 15.34, 15.20, 15.31], [15.31, 15.38, 15.28, 15.36], [15.36, 15.44, 15.32, 15.42], [15.42, 15.48, 15.38, 15.46], [15.46, 15.54, 15.42, 15.52], [15.52, 15.58, 15.48, 15.55]]
@@ -120,8 +122,9 @@ screens:
     explanation: "Two ceilings, and on a cheap stock with a tight stop it is almost always the account that binds first."
 
   - type: chart-decision
-    scenario: "An hour after the open. Price has settled into a nine-cent band, the bars are half what they were, and the nearest price you marked is twenty-two cents away. Your account is $22,000 and you are sizing 1,300 shares."
+    scenario: "An hour after the open. Price has settled into a nine-cent band, the bars are half what they were, and the nearest price you marked is twenty-two cents away."
     shares: 1300
+    state: ["Size: 1,300 shares"]
     chart:
       kind: candles
       data: [[15.50, 15.54, 15.47, 15.52], [15.52, 15.56, 15.48, 15.50], [15.50, 15.55, 15.47, 15.53], [15.53, 15.56, 15.48, 15.49], [15.49, 15.54, 15.47, 15.52], [15.52, 15.56, 15.48, 15.50], [15.50, 15.55, 15.47, 15.51], [15.51, 15.55, 15.48, 15.53], [15.53, 15.56, 15.49, 15.50], [15.50, 15.54, 15.47, 15.52]]

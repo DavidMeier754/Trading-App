@@ -47,8 +47,9 @@ screens:
     explanation: "Three hundred and thirty-six, and a twenty-cent move on them is $67 before the quote takes its share."
 
   - type: chart-decision
-    scenario: "KELP has held 5× its normal volume all morning on minutes of 80,000 to 110,000 shares, and the minute that just closed finished four cents through the price you marked before the open. Your account is $25,000 and 1,400 shares is the size you trade."
+    scenario: "KELP has held 5× its normal volume all morning on minutes of 80,000 to 110,000 shares, and the minute that just closed finished four cents through the price you marked before the open."
     shares: 1400
+    state: ["Size: 1,400 shares"]
     chart:
       kind: candles
       data: [[14.86, 14.96, 14.82, 14.94], [14.94, 15.04, 14.90, 15.00], [15.00, 15.08, 14.94, 14.98], [14.98, 15.10, 14.94, 15.06], [15.06, 15.16, 15.02, 15.12], [15.12, 15.32, 15.10, 15.28], [15.28, 15.40, 15.24, 15.36], [15.36, 15.48, 15.32, 15.44], [15.44, 15.56, 15.40, 15.52], [15.52, 15.60, 15.48, 15.57], [15.57, 15.60, 15.50, 15.54]]
@@ -86,8 +87,9 @@ screens:
     explanation: "ASHE: 7× normal, three cents wide, and 1,400 shares at $16.40 is $22,960 of the account. DUNE is having a normal day, PEAT quotes eleven cents and SLAT is 783 shares at this price."
 
   - type: chart-decision
-    scenario: "PEAT is the biggest mover on that list at 9× normal and it is stepping higher on 66,000-share minutes. The quote has been eleven cents wide all morning and the price you marked is fourteen cents above. Your account is $25,000 and 1,400 shares is the size you trade."
+    scenario: "PEAT is the biggest mover on that list at 9× normal, stepping higher on 66,000-share minutes. The price you marked is fourteen cents above."
     shares: 1400
+    state: ["Size: 1,400 shares", "Quote: 11 cents"]
     chart:
       kind: candles
       data: [[11.32, 11.42, 11.28, 11.40], [11.40, 11.50, 11.36, 11.46], [11.46, 11.56, 11.42, 11.52], [11.52, 11.64, 11.48, 11.60], [11.60, 11.70, 11.56, 11.66], [11.66, 11.78, 11.62, 11.74], [11.74, 11.84, 11.70, 11.80], [11.80, 11.90, 11.76, 11.86], [11.86, 11.92, 11.80, 11.88], [11.88, 11.90, 11.78, 11.82]]

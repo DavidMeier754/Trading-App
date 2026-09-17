@@ -56,8 +56,9 @@ screens:
     explanation: "A limit four cents through the ask fills like a market order and still refuses anything worse than $14.90."
 
   - type: chart-decision
-    scenario: "PIER is one of the two names on the page you wrote before the bell, with $14.80 marked as yesterday's high. The minute that just closed finished six cents above it on the heaviest volume of the session. Your account is $26,000 and 1,600 shares is the size you trade."
+    scenario: "PIER carries $14.80 as yesterday's high. The minute that just closed finished six cents above it on the heaviest volume of the session."
     shares: 1600
+    state: ["Size: 1,600 shares", "Page: 2 names, marked"]
     chart:
       kind: candles
       data: [[14.56, 14.64, 14.52, 14.62], [14.62, 14.70, 14.58, 14.66], [14.66, 14.74, 14.62, 14.68], [14.68, 14.78, 14.64, 14.74], [14.74, 14.80, 14.70, 14.76], [14.76, 14.90, 14.72, 14.86], [14.86, 14.98, 14.82, 14.94], [14.94, 15.04, 14.90, 15.00], [15.00, 15.10, 14.96, 15.06], [15.06, 15.18, 15.02, 15.16], [15.16, 15.18, 15.08, 15.12]]

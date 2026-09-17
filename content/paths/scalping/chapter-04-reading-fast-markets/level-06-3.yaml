@@ -43,8 +43,9 @@ screens:
     explanation: "The candles are identical. In A the wick was refused at a line the whole market can see; in B it was refused eighty-six cents short of anything."
 
   - type: chart-decision
-    scenario: "XYZ has made a higher close in each of the last five minutes above the line, and the minute that just closed opened and finished at the same price on the lightest bar of the run. Your account is $26,000 and you are sizing 1,300 shares."
+    scenario: "Five higher closes in a row above the line. The minute that just closed opened and finished at the same price, on the lightest bar of the run."
     shares: 1300
+    state: ["Size: 1,300 shares", "Account: $26,000"]
     chart:
       kind: candles
       data: [[15.10, 15.20, 15.08, 15.18], [15.18, 15.30, 15.16, 15.28], [15.28, 15.38, 15.26, 15.36], [15.36, 15.46, 15.34, 15.44], [15.44, 15.50, 15.42, 15.48], [15.48, 15.54, 15.42, 15.48], [15.48, 15.58, 15.46, 15.56], [15.56, 15.64, 15.54, 15.62], [15.62, 15.70, 15.60, 15.68], [15.68, 15.76, 15.66, 15.74], [15.74, 15.82, 15.72, 15.79]]
@@ -70,8 +71,9 @@ screens:
     explanation: "The shape tells you what happened in the minute. Where it happened is what makes that worth knowing."
 
   - type: chart-decision
-    scenario: "The pre-market high is $20.40. XYZ has run into it three times in five minutes, and the minute that just closed opened and finished at the same price. Your account is $26,000 and you are sizing 1,200 shares."
+    scenario: "The pre-market high is $20.40. XYZ has run into it three times in five minutes, and the minute that just closed opened and finished at the same price."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[20.08, 20.18, 20.06, 20.16], [20.16, 20.28, 20.14, 20.26], [20.26, 20.36, 20.24, 20.34], [20.34, 20.40, 20.32, 20.38], [20.38, 20.40, 20.34, 20.36], [20.36, 20.40, 20.32, 20.36], [20.36, 20.38, 20.28, 20.30], [20.30, 20.32, 20.22, 20.24], [20.24, 20.26, 20.16, 20.18], [20.18, 20.20, 20.12, 20.14], [20.14, 20.16, 20.08, 20.10]]

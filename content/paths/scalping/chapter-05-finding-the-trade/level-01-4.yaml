@@ -68,8 +68,9 @@ screens:
     explanation: "Seven hundred and fifty, so a plan built on 1,100 was never available in this name."
 
   - type: chart-decision
-    scenario: "TARN is up 9 % and stepping higher. The bars underneath are between 6,000 and 11,000 shares and the panel reads $17.30 bid, $17.44 ask. Your account is $18,000 and 900 shares is the size you trade."
+    scenario: "Up 9 % and stepping higher, TARN prints bars of 6,000 to 11,000 shares. The panel reads $17.30 bid, $17.44 ask."
     shares: 900
+    state: ["Size: 900 shares"]
     chart:
       kind: candles
       data: [[16.86, 17.00, 16.82, 16.96], [16.96, 17.10, 16.90, 17.06], [17.06, 17.18, 17.00, 17.14], [17.14, 17.28, 17.08, 17.24], [17.24, 17.36, 17.18, 17.32], [17.32, 17.46, 17.26, 17.40], [17.40, 17.56, 17.34, 17.52], [17.52, 17.66, 17.46, 17.62], [17.62, 17.76, 17.56, 17.73], [17.73, 17.78, 17.66, 17.70]]
@@ -95,8 +96,9 @@ screens:
     explanation: "Cheapest first. The price is one glance and it settles the name before a single bar has been read."
 
   - type: chart-decision
-    scenario: "CLAY has printed over 115,000-share minutes since the open, quotes two cents wide and has been travelling fourteen to eighteen cents a minute. Your account is $18,000 and 1,100 shares is the size you trade."
+    scenario: "CLAY prints over 115,000-share minutes, quotes two cents wide, and has been travelling fourteen to eighteen cents a minute since the open."
     shares: 1100
+    state: ["Size: 1,100 shares"]
     chart:
       kind: candles
       data: [[14.10, 14.20, 14.06, 14.18], [14.18, 14.28, 14.12, 14.24], [14.24, 14.32, 14.18, 14.22], [14.22, 14.34, 14.16, 14.30], [14.30, 14.42, 14.26, 14.38], [14.38, 14.66, 14.36, 14.62], [14.62, 14.76, 14.58, 14.72], [14.72, 14.84, 14.68, 14.80], [14.80, 14.90, 14.74, 14.86], [14.86, 14.92, 14.80, 14.88], [14.88, 14.92, 14.82, 14.84]]

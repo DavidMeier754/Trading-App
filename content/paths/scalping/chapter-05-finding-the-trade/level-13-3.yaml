@@ -39,8 +39,9 @@ screens:
     explanation: "Same trader and the same setups. What changes is the set of rules for what to do once you are in."
 
   - type: chart-decision
-    scenario: "PELT has turned away from $15.20 twice this hour, and $14.84 has held every dip this morning. The minute that just closed reached $15.19 and finished eleven cents lower. Your account is $23,000 and 1,300 shares is the size you trade."
+    scenario: "PELT has turned away from $15.20 twice this hour, and $14.84 has held every dip this morning. The minute that just closed reached $15.19 and finished eleven cents lower."
     shares: 1300
+    state: ["Size: 1,300 shares"]
     chart:
       kind: candles
       data: [[14.90, 14.98, 14.84, 14.94], [14.94, 15.20, 14.90, 15.02], [15.02, 15.20, 14.98, 15.12], [15.12, 15.16, 15.00, 15.04], [15.04, 15.12, 14.98, 15.08], [15.08, 15.19, 15.04, 15.08], [15.08, 15.10, 14.98, 15.00], [15.00, 15.04, 14.92, 14.94], [14.94, 14.98, 14.86, 14.88], [14.88, 14.92, 14.82, 14.84], [14.84, 14.94, 14.82, 14.90]]
@@ -83,8 +84,9 @@ screens:
     explanation: "About half is a fair expectation. You are never in at the floor or out at the ceiling, and the quote takes a slice of what is left between them."
 
   - type: chart-decision
-    scenario: "SWIFT left its opening range behind early and every give-back since has stopped higher than the last. The minute that just closed ended a three-minute pause of nine cents, the lightest stretch of the session. Your account is $23,000 and 1,300 shares is the size you trade."
+    scenario: "SWIFT left its opening range behind early and every give-back since has stopped higher than the last. The minute that just closed ended a three-minute pause of nine cents, the lightest stretch of the session."
     shares: 1300
+    state: ["Size: 1,300 shares"]
     chart:
       kind: candles
       data: [[14.80, 14.94, 14.76, 14.90], [14.90, 15.06, 14.86, 15.02], [15.02, 15.18, 14.98, 15.14], [15.14, 15.16, 15.09, 15.10], [15.10, 15.13, 15.09, 15.11], [15.11, 15.16, 15.09, 15.12], [15.12, 15.26, 15.10, 15.22], [15.22, 15.36, 15.18, 15.32], [15.32, 15.44, 15.28, 15.40], [15.40, 15.50, 15.36, 15.45], [15.45, 15.48, 15.38, 15.42]]

@@ -52,8 +52,9 @@ screens:
     explanation: "About a seventh of everything that trades in the minute is you arriving, and the same again leaving. The exit dial has answered before a chart is opened."
 
   - type: chart-decision
-    scenario: "LOAM has run at 6.4× its normal volume since the bell and the panel has stayed two cents wide throughout. The minute that just closed is the heaviest of the morning and finished above the pre-market high at $13.94. Your account is $19,000 and 1,200 shares is the size you trade."
+    scenario: "LOAM has run at 6.4× its normal volume since the bell and the panel has stayed two cents wide throughout. The minute that just closed is the heaviest of the morning and finished above the pre-market high at $13.94."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[13.62, 13.72, 13.58, 13.70], [13.70, 13.80, 13.66, 13.76], [13.76, 13.84, 13.70, 13.74], [13.74, 13.88, 13.70, 13.84], [13.84, 13.94, 13.80, 13.90], [13.90, 14.06, 13.86, 14.02], [14.02, 14.14, 13.98, 14.10], [14.10, 14.20, 14.06, 14.16], [14.16, 14.28, 14.12, 14.24], [14.24, 14.32, 14.18, 14.27], [14.27, 14.30, 14.20, 14.24]]
@@ -100,8 +101,9 @@ screens:
     explanation: "Four hundred, then five hundred, then three hundred more at a price nine cents above the one on the screen. The exit dial has a third reading and only the book carries it."
 
   - type: chart-decision
-    scenario: "MOSS prints about 130,000 shares a minute and has never been more than two cents wide. Since the bell the whole name has covered nine cents, and the minute that just closed has the biggest body of its morning at three. Your account is $19,000 and 1,200 shares is the size you trade."
+    scenario: "MOSS prints about 130,000 shares a minute and has never been more than two cents wide. Since the bell the whole name has covered nine cents, and the minute that just closed has the biggest body of its morning at three."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[13.42, 13.44, 13.40, 13.43], [13.43, 13.45, 13.41, 13.42], [13.42, 13.45, 13.40, 13.44], [13.44, 13.46, 13.42, 13.43], [13.43, 13.46, 13.41, 13.45], [13.45, 13.48, 13.44, 13.48], [13.48, 13.49, 13.45, 13.46], [13.46, 13.48, 13.43, 13.47], [13.47, 13.49, 13.44, 13.45], [13.45, 13.47, 13.42, 13.46]]

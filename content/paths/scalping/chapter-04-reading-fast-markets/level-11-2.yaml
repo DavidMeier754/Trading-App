@@ -39,8 +39,9 @@ screens:
     body: "A minute finishing beyond the edge, with a bar heavier than the ones that drew the box. Trading through it is price visiting; finishing through it is price leaving."
 
   - type: chart-decision
-    scenario: "The first five minutes topped out at $14.86. The minute that just closed finished eight cents above it on the heaviest bar since the opening minute, with price above its own average price throughout. Your account is $24,000 and you are sizing 1,500 shares."
+    scenario: "The first five minutes topped out at $14.86. The minute that just closed finished eight cents above it on the heaviest bar since the opening minute, with price above its own average price throughout."
     shares: 1500
+    state: ["Size: 1,500 shares", "Account: $24,000"]
     chart:
       kind: candles
       data: [[14.60, 14.76, 14.58, 14.72], [14.72, 14.86, 14.70, 14.80], [14.80, 14.84, 14.68, 14.72], [14.72, 14.82, 14.70, 14.78], [14.78, 14.84, 14.74, 14.80], [14.80, 14.96, 14.78, 14.94], [14.94, 15.02, 14.92, 15.00], [15.00, 15.08, 14.98, 15.06], [15.06, 15.14, 15.04, 15.12], [15.12, 15.18, 15.08, 15.14], [15.14, 15.22, 15.12, 15.19]]
@@ -109,8 +110,9 @@ screens:
     explanation: "Heavy and brief is still brief. Without a close beyond the edge there is nothing to lean the stop against."
 
   - type: chart-decision
-    scenario: "The first five minutes bottomed at $22.40. The minute before last finished two cents under it, and the one that just closed is back inside the box. Your account is $24,000 and you are sizing 1,000 shares."
+    scenario: "The first five minutes bottomed at $22.40. The minute before last finished two cents under it, and the one that just closed is back inside the box."
     shares: 1000
+    state: ["Size: 1,000 shares", "Costs: $0.04 a share round trip"]
     chart:
       kind: candles
       data: [[22.70, 22.76, 22.56, 22.60], [22.60, 22.66, 22.40, 22.44], [22.44, 22.58, 22.42, 22.54], [22.54, 22.60, 22.46, 22.50], [22.50, 22.54, 22.44, 22.48], [22.48, 22.52, 22.36, 22.38], [22.38, 22.52, 22.36, 22.50], [22.50, 22.56, 22.44, 22.48], [22.48, 22.54, 22.42, 22.46], [22.46, 22.52, 22.40, 22.44], [22.44, 22.54, 22.40, 22.52]]

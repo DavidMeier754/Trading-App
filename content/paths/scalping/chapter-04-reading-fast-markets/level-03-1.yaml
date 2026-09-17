@@ -61,8 +61,9 @@ screens:
     explanation: "Every screen in the market measures the day from it, so it collects orders like any other line does."
 
   - type: chart-decision
-    scenario: "Yesterday's high is $16.80. XYZ has finished every minute of the session above the line, and the minute that just closed went through the level on the heaviest bar of the morning. Your account is $22,000 and you are sizing 1,200 shares."
+    scenario: "Yesterday's high is $16.80. XYZ has finished every minute of the session above the line, and the minute that just closed went through the level on the heaviest bar of the morning."
     shares: 1200
+    state: ["Size: 1,200 shares", "Account: $22,000"]
     chart:
       kind: candles
       data: [[16.40, 16.50, 16.38, 16.48], [16.48, 16.58, 16.46, 16.56], [16.56, 16.60, 16.52, 16.54], [16.54, 16.64, 16.52, 16.62], [16.62, 16.72, 16.60, 16.70], [16.70, 16.86, 16.68, 16.84], [16.84, 16.92, 16.82, 16.90], [16.90, 16.98, 16.88, 16.96], [16.96, 17.04, 16.94, 17.02], [17.02, 17.10, 17.00, 17.08], [17.08, 17.14, 17.05, 17.11]]

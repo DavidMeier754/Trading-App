@@ -28,8 +28,9 @@ screens:
     body: "Two readings pointing opposite ways do not average into a smaller trade. They are the chart telling you that the people on each side of this price have not finished arguing."
 
   - type: chart-decision
-    scenario: "Yesterday's low at $16.80 has just held for the first time and the minute that closed finished twelve cents above it. Price has not traded above its own average price all session, and the prints are still going off at the bid. Your account is $26,000 and you are sizing 1,400 shares."
+    scenario: "Yesterday's low at $16.80 has just held for the first time and the minute that closed finished twelve cents above it. Price has not traded above its own average price all session, and the prints are still going off at the bid."
     shares: 1400
+    state: ["Size: 1,400 shares"]
     chart:
       kind: candles
       data: [[17.10, 17.14, 17.00, 17.02], [17.02, 17.06, 16.92, 16.94], [16.94, 16.98, 16.84, 16.86], [16.86, 16.90, 16.78, 16.82], [16.82, 16.86, 16.76, 16.84], [16.84, 16.94, 16.82, 16.92], [16.92, 16.96, 16.84, 16.86], [16.86, 16.90, 16.78, 16.80], [16.80, 16.84, 16.72, 16.74], [16.74, 16.78, 16.66, 16.68], [16.68, 16.72, 16.60, 16.63]]

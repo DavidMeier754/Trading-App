@@ -81,8 +81,9 @@ screens:
     explanation: "Multiples on the left, absolute size on the right. The biggest name on a list is usually just the biggest name."
 
   - type: chart-decision
-    scenario: "KELP has held 4× its normal volume all morning, its minutes are printing over 90,000 shares against a usual 20,000, and the minute that just closed is the longest body since the open. Your account is $20,000 and 1,200 shares is the size you trade."
+    scenario: "A $20,000 account, and one name at the top of the multiple column. KELP has held 4× its normal volume all morning, minutes over 90,000 shares against a usual 20,000, and the one that just closed is the longest body since the open."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[14.70, 14.80, 14.66, 14.78], [14.78, 14.88, 14.74, 14.84], [14.84, 14.92, 14.78, 14.82], [14.82, 14.94, 14.78, 14.90], [14.90, 15.00, 14.86, 14.96], [14.96, 15.16, 14.94, 15.12], [15.12, 15.24, 15.08, 15.20], [15.20, 15.32, 15.16, 15.28], [15.28, 15.40, 15.24, 15.36], [15.36, 15.44, 15.32, 15.40], [15.40, 15.44, 15.34, 15.38]]

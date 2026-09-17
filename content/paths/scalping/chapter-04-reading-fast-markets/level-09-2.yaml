@@ -59,8 +59,9 @@ screens:
     explanation: "Filled size shows up as prints. Size that disappears without a print was withdrawn, not traded."
 
   - type: chart-decision
-    scenario: "Yesterday's low is $15.40. XYZ has traded under its own average price all session, the bid that held the last two pushes was pulled as price came back to it, and the minute that just closed finished four cents under the level on the heaviest bar of the morning. Your account is $28,000 and you are sizing 1,500 shares."
+    scenario: "Yesterday's low is $15.40. XYZ has traded under its own average price all session, the bid that held the last two pushes was pulled as price came back to it, and the minute that just closed finished four cents under the level on the heaviest bar of the morning."
     shares: 1500
+    state: ["Size: 1,500 shares"]
     chart:
       kind: candles
       data: [[15.66, 15.70, 15.58, 15.60], [15.60, 15.64, 15.52, 15.54], [15.54, 15.58, 15.48, 15.56], [15.56, 15.60, 15.50, 15.52], [15.52, 15.54, 15.44, 15.46], [15.46, 15.48, 15.34, 15.36], [15.36, 15.38, 15.26, 15.28], [15.28, 15.30, 15.18, 15.20], [15.20, 15.22, 15.12, 15.14], [15.14, 15.16, 15.06, 15.08], [15.08, 15.10, 15.00, 15.03]]

@@ -65,8 +65,9 @@ screens:
     explanation: "Five thousand shares taken at the seller's price in a few seconds, which is the kind of number that moves a quote."
 
   - type: chart-decision
-    scenario: "The round number at $20.00 is the first line above. Price is above its own average price, the minute that just closed finished six cents through the level, and the prints behind it were 800s and 1,200s at the ask. Your account is $26,000 and you are sizing 1,200 shares."
+    scenario: "The round number at $20.00 is the first line above. Price is above its own average price, the minute that just closed finished six cents through the level, and the prints behind it were 800s and 1,200s at the ask."
     shares: 1200
+    state: ["Size: 1,200 shares", "Account: $26,000"]
     chart:
       kind: candles
       data: [[19.76, 19.82, 19.74, 19.80], [19.80, 19.86, 19.78, 19.84], [19.84, 19.90, 19.80, 19.82], [19.82, 19.90, 19.80, 19.88], [19.88, 19.94, 19.86, 19.92], [19.92, 20.08, 19.90, 20.06], [20.06, 20.14, 20.04, 20.12], [20.12, 20.18, 20.10, 20.16], [20.16, 20.22, 20.14, 20.20], [20.20, 20.26, 20.18, 20.24], [20.24, 20.30, 20.22, 20.28]]

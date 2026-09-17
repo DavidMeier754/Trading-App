@@ -494,7 +494,10 @@ def file_text(d):
     return " ".join(
         str(s.get(k))
         for s in d["screens"]
-        for k in ("text", "body", "prompt", "statement", "scenario", "outcome", "explanation", "working")
+        # `state` counts: once session state moves from the scenario into chips
+        # (UI.md 6.4), the account a drill is sized against is named there.
+        for k in ("text", "body", "prompt", "statement", "scenario", "outcome",
+                  "explanation", "working", "state")
         if s.get(k)
     )
 

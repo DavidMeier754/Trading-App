@@ -74,8 +74,9 @@ screens:
     explanation: "Every row is a name you could trade in principle. Whether there is anything in it today is the reading, and the reading has not happened yet."
 
   - type: chart-decision
-    scenario: "YARN cleared every condition: inside the band, two cents wide, and minutes of about 88,000 shares. It has held between $15.32 and $15.46 for the last ten minutes. Your account is $20,000 and 1,200 shares is the size you trade."
+    scenario: "YARN cleared every condition you set: inside the price band, on minutes of about 88,000 shares. It has held between $15.32 and $15.46 for the last ten minutes."
     shares: 1200
+    state: ["Size: 1,200 shares", "Quote: 2 cents"]
     chart:
       kind: candles
       data: [[15.36, 15.44, 15.32, 15.40], [15.40, 15.46, 15.34, 15.38], [15.38, 15.44, 15.32, 15.42], [15.42, 15.46, 15.34, 15.36], [15.36, 15.44, 15.32, 15.41], [15.41, 15.46, 15.34, 15.38], [15.38, 15.44, 15.33, 15.42], [15.42, 15.46, 15.32, 15.36], [15.36, 15.45, 15.34, 15.40], [15.40, 15.44, 15.33, 15.37]]

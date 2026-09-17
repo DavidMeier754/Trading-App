@@ -30,8 +30,9 @@ screens:
       - {label: "The bar", text: "Whether anybody paid for what the candle says. A shape on a thin bar is a price that drifted.", icon: volume-bar}
 
   - type: chart-decision
-    scenario: "Yesterday's low at $14.72 has been overhead since the open. XYZ pushed six cents through it and finished eight cents back underneath, on the heaviest bar of the morning. Your account is $26,000 and you are sizing 1,600 shares."
+    scenario: "Yesterday's low at $14.72 has been overhead since the open. XYZ pushed six cents through it and finished eight cents back underneath, on the heaviest bar of the morning."
     shares: 1600
+    state: ["Size: 1,600 shares", "Account: $26,000"]
     chart:
       kind: candles
       data: [[14.70, 14.74, 14.60, 14.62], [14.62, 14.66, 14.52, 14.54], [14.54, 14.60, 14.50, 14.58], [14.58, 14.64, 14.54, 14.62], [14.62, 14.68, 14.58, 14.66], [14.66, 14.78, 14.62, 14.64], [14.64, 14.66, 14.54, 14.56], [14.56, 14.58, 14.46, 14.48], [14.48, 14.50, 14.38, 14.40], [14.40, 14.42, 14.32, 14.34], [14.34, 14.36, 14.26, 14.29]]
@@ -63,8 +64,9 @@ screens:
     explanation: "Four different kinds of evidence, which is exactly why counting them is worth anything."
 
   - type: chart-decision
-    scenario: "The pre-market low at $19.16 was overhead all session until the minute that just closed. The minute that just closed covers the whole body of the one before it and finished four cents above the level, on the thinnest bar of the morning. Your account is $26,000 and you are sizing 1,200 shares."
+    scenario: "The pre-market low at $19.16 was overhead all session until now. The minute that just closed covers the whole body of the one before it and finished four cents above the level, on the thinnest bar of the morning."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[19.14, 19.16, 19.04, 19.06], [19.06, 19.10, 18.98, 19.00], [19.00, 19.06, 18.96, 19.04], [19.04, 19.08, 18.98, 19.00], [19.00, 19.04, 18.94, 18.96], [18.94, 19.22, 18.92, 19.20], [19.20, 19.22, 19.10, 19.12], [19.12, 19.14, 19.02, 19.04], [19.04, 19.06, 18.94, 18.96], [18.96, 18.98, 18.86, 18.88], [18.88, 18.90, 18.80, 18.83]]

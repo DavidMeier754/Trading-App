@@ -66,9 +66,9 @@ screens:
     explanation: "$17.98. The last trade is history and the bid is where you would be leaving, not arriving."
 
   - type: chart-decision
-    scenario: "The opening-range high is $17.86 and the minute that just closed finished eight cents above it on a heavy bar. The quote is twelve cents wide. Your account is $22,000 and you are sizing 1,000 shares."
+    scenario: "The opening-range high is $17.86, and the minute that just closed finished eight cents above it on a heavy bar."
     shares: 1000
-    state: ["Bid $17.86 / ask $17.98"]
+    state: ["Size: 1,000 shares", "Quote: $17.86 / $17.98"]
     chart:
       kind: candles
       data: [[17.60, 17.78, 17.58, 17.74], [17.74, 17.86, 17.70, 17.80], [17.80, 17.84, 17.68, 17.72], [17.72, 17.82, 17.70, 17.78], [17.78, 17.84, 17.76, 17.82], [17.82, 17.98, 17.80, 17.94], [17.94, 18.00, 17.88, 17.92], [17.92, 17.98, 17.86, 17.90], [17.90, 17.96, 17.84, 17.88], [17.88, 17.94, 17.82, 17.86], [17.86, 17.92, 17.80, 17.84]]
@@ -98,9 +98,9 @@ screens:
     explanation: "The trade-off is the part of the move that goes past while you wait, which is why the box and the level matter more than the first tick."
 
   - type: chart-decision
-    scenario: "Twenty minutes later the same stock is three cents wide. Yesterday's high at $18.10 has just been finished through on the heaviest bar of the last ten minutes, with price above its own average price. Your account is $22,000 and you are sizing 1,100 shares."
+    scenario: "Twenty minutes on, the same stock. Yesterday's high at $18.10 has just been finished through on the heaviest bar of the last ten minutes, with price above its own average price."
     shares: 1100
-    state: ["Bid $18.13 / ask $18.16"]
+    state: ["Size: 1,100 shares", "Account: $22,000", "Quote: $18.13 / $18.16"]
     chart:
       kind: candles
       data: [[17.90, 17.98, 17.88, 17.96], [17.96, 18.02, 17.92, 17.98], [17.98, 18.04, 17.94, 18.00], [18.00, 18.06, 17.98, 18.04], [18.04, 18.08, 18.00, 18.06], [18.06, 18.18, 18.04, 18.16], [18.16, 18.22, 18.14, 18.20], [18.20, 18.26, 18.18, 18.24], [18.24, 18.30, 18.22, 18.28], [18.28, 18.34, 18.26, 18.32], [18.32, 18.38, 18.30, 18.35]]

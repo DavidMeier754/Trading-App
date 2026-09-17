@@ -45,8 +45,9 @@ screens:
     explanation: "On a $22,000 account that is the morning's costs alone, and the coin has not been asked to land yet."
 
   - type: chart-decision
-    scenario: "Yesterday's high at $12.94 is the only line on the chart. XYZ has traded under its own average price since the open, and the minute that just closed opened and finished at the same price on an ordinary bar. Your account is $22,000 and you are sizing 1,400 shares."
+    scenario: "Yesterday's high at $12.94 is the only line on the chart. XYZ has traded under its own average price since the open, and the minute that just closed opened and finished at the same price on an ordinary bar."
     shares: 1400
+    state: ["Size: 1,400 shares", "Costs: $0.04 a share round trip"]
     chart:
       kind: candles
       data: [[12.84, 12.88, 12.78, 12.80], [12.80, 12.86, 12.76, 12.84], [12.84, 12.90, 12.80, 12.86], [12.86, 12.90, 12.82, 12.84], [12.84, 12.92, 12.82, 12.90], [12.90, 12.94, 12.88, 12.90], [12.90, 12.92, 12.84, 12.86], [12.86, 12.90, 12.82, 12.88], [12.88, 12.92, 12.84, 12.86], [12.86, 12.90, 12.82, 12.84], [12.84, 12.88, 12.80, 12.85]]
@@ -89,8 +90,9 @@ screens:
     explanation: "Nobody knows the first, and the third depends on the chart. The cost is the part that is certain before the trade even starts."
 
   - type: chart-decision
-    scenario: "The round number at $18.00 and the session's average price have arrived at the same cent. XYZ has finished every minute above the line, and the give-back into $18.00 just stopped there on the heaviest bar of the stretch. Your account is $22,000 and you are sizing 1,100 shares."
+    scenario: "The round number at $18.00 and the session's average price have arrived at the same cent. Every minute has finished above the line, and the give-back into $18.00 just stopped there on the heaviest bar of the stretch."
     shares: 1100
+    state: ["Size: 1,100 shares"]
     chart:
       kind: candles
       data: [[18.16, 18.24, 18.14, 18.22], [18.22, 18.28, 18.18, 18.20], [18.20, 18.22, 18.10, 18.12], [18.12, 18.14, 18.04, 18.06], [18.06, 18.08, 17.98, 18.02], [18.02, 18.14, 18.00, 18.12], [18.12, 18.20, 18.10, 18.18], [18.18, 18.26, 18.16, 18.24], [18.24, 18.32, 18.22, 18.30], [18.30, 18.36, 18.28, 18.34], [18.34, 18.44, 18.32, 18.41]]

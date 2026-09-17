@@ -57,8 +57,9 @@ screens:
     explanation: "It takes preparation away from the five you had. The time before the bell does not grow because the list did."
 
   - type: chart-decision
-    scenario: "This is the name you drew that line on. It has come back up to $14.86 and the minute that just closed finished four cents through it on the heaviest bar since the open. Your account is $21,000 and 1,300 shares is the size you trade."
+    scenario: "This is the name you drew that line on, on a $21,000 account. Price has come back up to $14.86 and the minute that just closed finished four cents through the line on the heaviest bar since the open."
     shares: 1300
+    state: ["Size: 1,300 shares"]
     chart:
       kind: candles
       data: [[14.52, 14.62, 14.48, 14.58], [14.58, 14.68, 14.54, 14.64], [14.64, 14.72, 14.58, 14.62], [14.62, 14.74, 14.56, 14.70], [14.70, 14.80, 14.64, 14.76], [14.76, 14.94, 14.72, 14.90], [14.90, 15.02, 14.86, 14.98], [14.98, 15.08, 14.92, 15.04], [15.04, 15.14, 14.98, 15.10], [15.10, 15.22, 15.04, 15.19], [15.19, 15.22, 15.10, 15.14]]

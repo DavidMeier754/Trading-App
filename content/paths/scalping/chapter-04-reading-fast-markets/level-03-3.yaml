@@ -38,8 +38,9 @@ screens:
     explanation: "200 and 300 shares go first, and the last 300 hit the 9,000 sitting on $20.00 — the pile that makes the round number a level in the first place."
 
   - type: chart-decision
-    scenario: "$18.00 is the round number above. XYZ has not finished a minute above the line all session, and the push into $18.00 traded four cents through it and gave every cent back. Your account is $30,000 and you are sizing 1,500 shares."
+    scenario: "$18.00 is the round number above. XYZ has not finished a minute above the line all session, and the push into $18.00 traded four cents through and gave every cent back."
     shares: 1500
+    state: ["Size: 1,500 shares", "Account: $30,000"]
     chart:
       kind: candles
       data: [[17.80, 17.88, 17.78, 17.86], [17.86, 17.92, 17.84, 17.90], [17.90, 17.96, 17.88, 17.94], [17.94, 18.00, 17.92, 17.98], [17.98, 18.04, 17.94, 17.96], [17.96, 17.98, 17.88, 17.90], [17.90, 17.92, 17.84, 17.86], [17.86, 17.88, 17.78, 17.80], [17.80, 17.82, 17.74, 17.76], [17.76, 17.78, 17.70, 17.72], [17.72, 17.74, 17.68, 17.71]]

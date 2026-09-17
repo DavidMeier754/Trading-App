@@ -36,8 +36,9 @@ screens:
       - {label: "Rejection", text: "Price pushes into the line from the wrong side, cannot finish a minute through it, and snaps back. Whoever tried just failed in public.", icon: level-reject}
 
   - type: chart-decision
-    scenario: "XYZ has held above the line all session, and the give-back into it has come on bars shrinking every minute. Your account is $26,000 and you are sizing 1,400 shares."
+    scenario: "XYZ has held above the line all session. The give-back into it has come on bars shrinking every minute."
     shares: 1400
+    state: ["Size: 1,400 shares", "Account: $26,000"]
     chart:
       kind: candles
       data: [[17.06, 17.20, 17.04, 17.18], [17.18, 17.32, 17.16, 17.30], [17.30, 17.38, 17.26, 17.28], [17.28, 17.30, 17.18, 17.20], [17.20, 17.22, 17.15, 17.18], [17.18, 17.28, 17.16, 17.26], [17.26, 17.38, 17.24, 17.36], [17.36, 17.46, 17.34, 17.44], [17.44, 17.52, 17.42, 17.50], [17.50, 17.58, 17.48, 17.56], [17.56, 17.64, 17.54, 17.62]]
@@ -58,8 +59,9 @@ screens:
     explanation: "Somebody was happy to sell at the session's average price again. Until a minute finishes above it, that has not changed."
 
   - type: chart-decision
-    scenario: "XYZ has not finished a minute above the line today. It has just traded five cents through it and closed eight cents back underneath. Your account is $26,000 and you are sizing 1,400 shares."
+    scenario: "No minute has finished above the line today. XYZ has just traded five cents through it and closed eight cents back underneath."
     shares: 1400
+    state: ["Size: 1,400 shares"]
     chart:
       kind: candles
       data: [[14.52, 14.54, 14.40, 14.42], [14.42, 14.44, 14.32, 14.34], [14.34, 14.42, 14.32, 14.40], [14.40, 14.46, 14.38, 14.44], [14.44, 14.48, 14.42, 14.46], [14.46, 14.54, 14.38, 14.40], [14.40, 14.42, 14.28, 14.30], [14.30, 14.32, 14.20, 14.22], [14.22, 14.24, 14.12, 14.14], [14.14, 14.16, 14.06, 14.08], [14.08, 14.10, 14.00, 14.02]]

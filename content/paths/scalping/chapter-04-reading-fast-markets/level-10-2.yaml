@@ -33,8 +33,9 @@ screens:
       - {label: "Third and after", text: "Price keeps coming back because it is being allowed to. Each return is a hint that one side has run out of patience, not that the level is strong.", icon: level-third}
 
   - type: chart-decision
-    scenario: "Yesterday's high at $13.60 was taken twenty minutes ago. XYZ has been above its own average price since the open and has just come back to the level for the first time, finishing the minute ten cents above it on the heaviest bar of the stretch. Your account is $28,000 and you are sizing 1,700 shares."
+    scenario: "Yesterday's high at $13.60 was taken twenty minutes ago. XYZ has been above its own average price since the open and has just come back to the level for the first time, finishing the minute ten cents above it on the heaviest bar of the stretch."
     shares: 1700
+    state: ["Size: 1,700 shares", "Account: $28,000"]
     chart:
       kind: candles
       data: [[13.72, 13.78, 13.68, 13.70], [13.70, 13.74, 13.64, 13.66], [13.66, 13.68, 13.60, 13.62], [13.62, 13.66, 13.58, 13.60], [13.60, 13.64, 13.56, 13.62], [13.62, 13.72, 13.60, 13.70], [13.70, 13.78, 13.68, 13.76], [13.76, 13.84, 13.74, 13.82], [13.82, 13.88, 13.80, 13.86], [13.86, 13.92, 13.84, 13.90], [13.90, 13.98, 13.88, 13.95]]

@@ -46,8 +46,9 @@ screens:
     explanation: "Price finished at $15.50, the line reached $15.50, and the last full session closed there. Three sessions' worth of opinion on one cent."
 
   - type: chart-decision
-    scenario: "Yesterday's low at $17.20 has been overhead since the open and the session's average price has fallen to a cent above it. XYZ rallied into both, traded four cents through, and finished the minute back underneath on the heaviest bar of the morning. Your account is $26,000 and you are sizing 1,400 shares."
+    scenario: "Yesterday's low at $17.20 has been overhead since the open and the session's average price has fallen to a cent above it. XYZ rallied into both, traded four cents through, and finished the minute back underneath on the heaviest bar of the morning."
     shares: 1400
+    state: ["Size: 1,400 shares", "Account: $26,000"]
     chart:
       kind: candles
       data: [[16.90, 16.98, 16.86, 16.96], [16.96, 17.04, 16.94, 17.02], [17.02, 17.10, 17.00, 17.08], [17.08, 17.16, 17.06, 17.14], [17.14, 17.20, 17.12, 17.18], [17.18, 17.24, 17.14, 17.16], [17.16, 17.18, 17.08, 17.10], [17.10, 17.12, 17.02, 17.04], [17.04, 17.06, 16.96, 16.98], [16.98, 17.00, 16.90, 16.92], [16.92, 16.94, 16.84, 16.87]]
@@ -109,8 +110,9 @@ screens:
     explanation: "Two lines overhead are two reasons the rally stops, not two reasons to join it."
 
   - type: chart-decision
-    scenario: "The round number at $19.00 and yesterday's close at $18.98 sit together above. XYZ has been above its own average price all session, and the last six minutes have gone nowhere twenty-six cents under the pair. Your account is $26,000 and you are sizing 1,300 shares."
+    scenario: "The round number at $19.00 and yesterday's close at $18.98 sit together above. Price has been above its own average price all session, and the last six minutes have gone nowhere twenty-six cents under the pair."
     shares: 1300
+    state: ["Size: 1,300 shares", "Costs: $0.04 a share round trip"]
     chart:
       kind: candles
       data: [[18.66, 18.72, 18.62, 18.70], [18.70, 18.74, 18.66, 18.68], [18.68, 18.74, 18.64, 18.72], [18.72, 18.76, 18.68, 18.70], [18.70, 18.76, 18.66, 18.74], [18.74, 18.78, 18.70, 18.72], [18.72, 18.78, 18.68, 18.76], [18.76, 18.80, 18.72, 18.74], [18.74, 18.80, 18.70, 18.78], [18.78, 18.82, 18.74, 18.76], [18.76, 18.82, 18.72, 18.79]]

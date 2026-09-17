@@ -64,8 +64,9 @@ screens:
     explanation: "That is the whole argument for doing it early. A line drawn during a push is a line the push chose for you."
 
   - type: chart-decision
-    scenario: "Your line at $14.20 is yesterday's low. The name has come down to it all morning and the minute that just closed finished ten cents under it on the heaviest bar since the open. Your account is $19,000 and 1,200 shares is the size you trade."
+    scenario: "Your line at $14.20 is yesterday's low, and the account behind it is $19,000. The name has come down to the line all morning, and the minute that just closed finished ten cents under it on the heaviest bar since the open."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[14.62, 14.68, 14.50, 14.54], [14.54, 14.60, 14.42, 14.46], [14.46, 14.52, 14.34, 14.38], [14.38, 14.44, 14.26, 14.30], [14.30, 14.36, 14.18, 14.22], [14.22, 14.26, 14.06, 14.10], [14.10, 14.16, 14.00, 14.04], [14.04, 14.10, 13.94, 13.98], [13.98, 14.04, 13.88, 13.92], [13.92, 13.98, 13.76, 13.79], [13.79, 13.86, 13.74, 13.82]]

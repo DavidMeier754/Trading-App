@@ -37,8 +37,9 @@ screens:
     explanation: "The first two are one price with a second name on it. A price from the last full session and a number people type into orders are two different habits agreeing."
 
   - type: chart-decision
-    scenario: "Yesterday's high is $24.98 and the round number above it is $25.00. XYZ has finished every minute above its own average price, and the minute that just closed took both lines on the heaviest bar of the morning. Your account is $28,000 and you are sizing 1,000 shares."
+    scenario: "Yesterday's high is $24.98 and the round number above it is $25.00. XYZ has finished every minute above its own average price, and the minute that just closed took both lines on the heaviest bar of the morning."
     shares: 1000
+    state: ["Size: 1,000 shares", "Account: $28,000"]
     chart:
       kind: candles
       data: [[24.60, 24.68, 24.58, 24.66], [24.66, 24.74, 24.64, 24.72], [24.72, 24.78, 24.68, 24.70], [24.70, 24.78, 24.68, 24.76], [24.76, 24.82, 24.72, 24.78], [24.78, 25.06, 24.76, 25.04], [25.04, 25.12, 25.02, 25.10], [25.10, 25.18, 25.08, 25.16], [25.16, 25.24, 25.14, 25.22], [25.22, 25.28, 25.20, 25.26], [25.26, 25.38, 25.24, 25.35]]
@@ -113,8 +114,9 @@ screens:
     explanation: "Paid once across the open and the close, and taken straight out of the distance to your next line."
 
   - type: chart-decision
-    scenario: "XYZ has finished every minute above its own average price, there is no line within twenty cents in either direction, and the bars have been the same size for ten minutes. Your account is $28,000 and you are sizing 1,400 shares."
+    scenario: "Price is above its own average price, there is no line within twenty cents in either direction, and the bars have been the same size for ten minutes."
     shares: 1400
+    state: ["Size: 1,400 shares", "Costs: $0.04 a share round trip"]
     chart:
       kind: candles
       data: [[13.40, 13.46, 13.36, 13.44], [13.44, 13.48, 13.40, 13.42], [13.42, 13.48, 13.38, 13.46], [13.46, 13.50, 13.42, 13.44], [13.44, 13.50, 13.40, 13.48], [13.48, 13.52, 13.44, 13.50], [13.50, 13.54, 13.46, 13.48], [13.48, 13.52, 13.44, 13.50], [13.50, 13.54, 13.46, 13.52], [13.52, 13.56, 13.48, 13.50], [13.50, 13.54, 13.46, 13.52]]

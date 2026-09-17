@@ -71,8 +71,9 @@ screens:
     explanation: "A round number or yesterday's high is a place to look. It becomes a level the first time the name arrives there and cannot get through."
 
   - type: chart-decision
-    scenario: "PIKE is on your watchlist with $15.00 marked: yesterday's high, and a round number. It has come back to that price and the minute that just closed finished twenty cents above it on the heaviest bar of the morning. Your account is $28,000 and 1,700 shares is the size you trade."
+    scenario: "PIKE is on your watchlist with $15.00 marked: yesterday's high, and a round number. It has come back to that price, and the minute that just closed finished twenty cents above it on the heaviest bar of the morning."
     shares: 1700
+    state: ["Size: 1,700 shares"]
     chart:
       kind: candles
       data: [[15.32, 15.40, 15.26, 15.30], [15.30, 15.34, 15.16, 15.20], [15.20, 15.24, 15.06, 15.10], [15.10, 15.16, 14.98, 15.04], [15.04, 15.08, 14.96, 14.99], [14.99, 15.24, 14.97, 15.20], [15.20, 15.32, 15.16, 15.28], [15.28, 15.38, 15.22, 15.34], [15.34, 15.44, 15.28, 15.40], [15.40, 15.48, 15.34, 15.45], [15.45, 15.48, 15.38, 15.42]]

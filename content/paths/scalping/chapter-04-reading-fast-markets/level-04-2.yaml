@@ -39,8 +39,9 @@ screens:
     explanation: "Two of the five have both halves. The other three have the side of the line and nothing else."
 
   - type: chart-decision
-    scenario: "Yesterday's low is $14.70. XYZ has not finished a minute above the line today, and the minute that just closed finished six cents under the level on the heaviest bar of the session. Your account is $24,000 and you are sizing 1,500 shares."
+    scenario: "Yesterday's low is $14.70. XYZ has not finished a minute above the line today, and the minute that just closed finished six cents under the level on the heaviest bar of the session."
     shares: 1500
+    state: ["Size: 1,500 shares", "Account: $24,000"]
     chart:
       kind: candles
       data: [[14.90, 14.92, 14.84, 14.86], [14.86, 14.88, 14.78, 14.80], [14.80, 14.86, 14.78, 14.84], [14.84, 14.86, 14.76, 14.78], [14.78, 14.80, 14.70, 14.72], [14.72, 14.74, 14.62, 14.64], [14.64, 14.66, 14.56, 14.58], [14.58, 14.60, 14.50, 14.52], [14.52, 14.54, 14.44, 14.46], [14.46, 14.48, 14.40, 14.42], [14.42, 14.44, 14.37, 14.39]]
@@ -72,9 +73,9 @@ screens:
     explanation: "Six cents of room in each. Four cents of cost against six cents of room is a trade that needs everything to go right just to get back to flat."
 
   - type: chart-decision
-    scenario: "Yesterday's high is $19.34 and XYZ has finished every minute above the line. Your account is $24,000 and you are sizing 1,100 shares."
+    scenario: "Yesterday's high is $19.34 and XYZ has finished every minute above the line."
     shares: 1100
-    state: ["Costs $0.04 a share round trip"]
+    state: ["Size: 1,100 shares", "Costs: $0.04 a share round trip"]
     chart:
       kind: candles
       data: [[19.14, 19.22, 19.12, 19.20], [19.20, 19.26, 19.18, 19.24], [19.24, 19.28, 19.20, 19.22], [19.22, 19.28, 19.20, 19.26], [19.26, 19.28, 19.22, 19.24], [19.24, 19.30, 19.22, 19.28], [19.28, 19.30, 19.24, 19.26], [19.26, 19.32, 19.24, 19.30], [19.30, 19.32, 19.26, 19.28], [19.28, 19.34, 19.26, 19.31]]
@@ -118,8 +119,9 @@ screens:
     explanation: "And 1,200 × $16.34 is $19,608, so the $24,000 account can hold the whole position it is risking $144 on."
 
   - type: chart-decision
-    scenario: "The pre-market high is $13.20. XYZ has held above the line all session and the minute that just closed finished four cents through the level on the biggest bar of the morning. Your account is $24,000 and you are sizing 1,400 shares."
+    scenario: "The pre-market high is $13.20. XYZ has held above the line all session and the minute that just closed finished four cents through the level on the biggest bar of the morning."
     shares: 1400
+    state: ["Size: 1,400 shares"]
     chart:
       kind: candles
       data: [[13.02, 13.10, 13.00, 13.08], [13.08, 13.16, 13.06, 13.14], [13.14, 13.18, 13.10, 13.12], [13.12, 13.20, 13.10, 13.18], [13.18, 13.20, 13.14, 13.16], [13.16, 13.26, 13.14, 13.24], [13.24, 13.30, 13.22, 13.28], [13.28, 13.34, 13.26, 13.32], [13.32, 13.38, 13.30, 13.36], [13.36, 13.40, 13.34, 13.38], [13.38, 13.44, 13.36, 13.41]]

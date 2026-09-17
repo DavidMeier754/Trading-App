@@ -57,8 +57,9 @@ screens:
     explanation: "Nothing was given back at any point, which is what makes the shape worth noticing at all."
 
   - type: chart-decision
-    scenario: "XYZ has spent five minutes inside four cents above the line, and the minute that just closed is a sixteen-cent body with barely any wick. Your account is $22,000 and you are sizing 1,400 shares."
+    scenario: "Five minutes inside four cents above the line, and then a sixteen-cent body with barely any wick."
     shares: 1400
+    state: ["Size: 1,400 shares", "Account: $22,000"]
     chart:
       kind: candles
       data: [[14.28, 14.34, 14.26, 14.32], [14.32, 14.38, 14.30, 14.36], [14.36, 14.38, 14.32, 14.34], [14.34, 14.38, 14.32, 14.36], [14.36, 14.38, 14.32, 14.34], [14.34, 14.52, 14.33, 14.50], [14.50, 14.56, 14.48, 14.54], [14.54, 14.60, 14.52, 14.58], [14.58, 14.64, 14.56, 14.62], [14.62, 14.68, 14.60, 14.66], [14.66, 14.72, 14.64, 14.69]]

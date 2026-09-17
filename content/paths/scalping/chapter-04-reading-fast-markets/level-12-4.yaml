@@ -20,8 +20,9 @@ screens:
     text: "No new ideas. Four readings, unseen charts, and an answer that is often nothing at all."
 
   - type: chart-decision
-    scenario: "The round number at $24.00 broke three minutes ago and price is back underneath it and under its own average price. As it came back the bids two cents below were pulled without trading. Your account is $24,000 and you are sizing 900 shares."
+    scenario: "The round number at $24.00 broke three minutes ago and price is back underneath it and under its own average price. As it came back, the bids two cents below were pulled without trading."
     shares: 900
+    state: ["Size: 900 shares"]
     chart:
       kind: candles
       data: [[23.80, 23.88, 23.78, 23.86], [23.86, 23.94, 23.84, 23.92], [23.92, 24.12, 23.90, 24.08], [24.08, 24.12, 24.00, 24.02], [24.02, 24.04, 23.92, 23.94], [23.94, 23.96, 23.84, 23.86], [23.86, 23.88, 23.76, 23.78], [23.78, 23.80, 23.68, 23.70], [23.70, 23.72, 23.60, 23.62], [23.62, 23.64, 23.54, 23.56], [23.56, 23.60, 23.48, 23.51]]
@@ -36,8 +37,9 @@ screens:
     explanation: "A break handed back, the session under its own average again, two minutes finishing below the level, and the size that might have caught it leaving before it was asked to."
 
   - type: chart-decision
-    scenario: "The pre-market high is $11.36. The minute that just closed finished four cents above it and back above the session's average price, with 2,000-share prints going off at the ask and the bid refilling behind them. Your account is $24,000 and you are sizing 1,900 shares."
+    scenario: "The pre-market high is $11.36. The minute that just closed finished four cents above it and back above the session's average price, with 2,000-share prints going off at the ask and the bid refilling behind them."
     shares: 1900
+    state: ["Size: 1,900 shares"]
     chart:
       kind: candles
       data: [[11.30, 11.34, 11.22, 11.24], [11.24, 11.28, 11.16, 11.18], [11.18, 11.24, 11.14, 11.22], [11.22, 11.28, 11.20, 11.26], [11.26, 11.32, 11.24, 11.30], [11.30, 11.42, 11.28, 11.40], [11.40, 11.46, 11.38, 11.44], [11.44, 11.50, 11.42, 11.48], [11.48, 11.54, 11.46, 11.52], [11.52, 11.58, 11.50, 11.56], [11.56, 11.62, 11.54, 11.59]]
@@ -82,8 +84,9 @@ screens:
     explanation: "Identical candles and identical lines under them. B has finished the stretch at the price its level was drawn at; A is sixty cents short of anything."
 
   - type: chart-decision
-    scenario: "The level at $17.70 has stopped price twice already this morning and the minute that just closed is its third arrival, two cents underneath, on the quietest bar of the stretch. Your account is $24,000 and you are sizing 1,200 shares."
+    scenario: "The level at $17.70 has stopped price twice this morning. The minute that just closed is its third arrival, two cents underneath, on the quietest bar of the stretch."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[17.60, 17.70, 17.58, 17.68], [17.68, 17.70, 17.60, 17.62], [17.62, 17.68, 17.58, 17.66], [17.66, 17.70, 17.62, 17.64], [17.64, 17.68, 17.60, 17.66], [17.66, 17.70, 17.64, 17.68], [17.68, 17.70, 17.62, 17.64], [17.64, 17.68, 17.60, 17.62], [17.62, 17.66, 17.58, 17.60], [17.60, 17.64, 17.56, 17.58], [17.58, 17.62, 17.54, 17.56]]
@@ -118,8 +121,9 @@ screens:
     explanation: "Two of the five answer all four readings. The other three are missing the bar, the moment, or the agreement."
 
   - type: chart-decision
-    scenario: "The first five minutes bottomed at $20.24. The minute that just closed finished eight cents under it on a bar heavier than the four before it, with the prints going off at the bid. Your account is $24,000 and you are sizing 1,100 shares."
+    scenario: "The first five minutes bottomed at $20.24. The minute that just closed finished eight cents under it on a bar heavier than the four before it, with the prints going off at the bid."
     shares: 1100
+    state: ["Size: 1,100 shares"]
     chart:
       kind: candles
       data: [[20.40, 20.52, 20.34, 20.38], [20.38, 20.44, 20.26, 20.30], [20.30, 20.38, 20.28, 20.36], [20.36, 20.40, 20.28, 20.32], [20.32, 20.36, 20.24, 20.26], [20.26, 20.28, 20.14, 20.16], [20.16, 20.20, 20.06, 20.08], [20.08, 20.12, 19.98, 20.00], [20.00, 20.04, 19.90, 19.92], [19.92, 19.96, 19.84, 19.86], [19.86, 19.90, 19.76, 19.79]]

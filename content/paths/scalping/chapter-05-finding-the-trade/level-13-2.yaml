@@ -50,8 +50,9 @@ screens:
     explanation: "Out of the range, never back inside, and the pauses getting shallower. Three readings that agree are what a label is made of."
 
   - type: chart-decision
-    scenario: "BROOK has crossed the same two prices three times since the bell. The minute that just closed pushed two cents through the ceiling at $13.90 and finished back under it. Your account is $25,000 and 1,600 shares is the size you trade."
+    scenario: "BROOK has crossed the same two prices three times since the bell. The minute that just closed pushed two cents through the ceiling at $13.90 and finished back under it."
     shares: 1600
+    state: ["Size: 1,600 shares"]
     chart:
       kind: candles
       data: [[13.64, 13.70, 13.62, 13.66], [13.66, 13.88, 13.62, 13.84], [13.84, 13.90, 13.70, 13.74], [13.74, 13.80, 13.62, 13.66], [13.66, 13.84, 13.64, 13.80], [13.80, 13.92, 13.76, 13.88], [13.88, 13.90, 13.74, 13.78], [13.78, 13.84, 13.68, 13.72], [13.72, 13.78, 13.64, 13.68], [13.68, 13.80, 13.66, 13.76], [13.76, 13.86, 13.70, 13.80]]

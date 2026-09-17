@@ -47,8 +47,9 @@ screens:
     explanation: "$14.30, reached twice and given back both times. That is reading one of four, and the only one you can finish while the market is shut."
 
   - type: chart-decision
-    scenario: "KILN has held above its own average price since the bell and spent twenty minutes underneath the line you drew at $14.30. The minute that just closed finished four cents through it on the heaviest volume of the session, with 1,000s printing at the ask. Your account is $22,000 and 1,200 shares is the size you trade."
+    scenario: "KILN has held above its own average price since the bell and spent twenty minutes underneath the line you drew at $14.30. The minute that just closed finished four cents through it on the heaviest volume of the session, with 1,000s printing at the ask."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[14.16, 14.24, 14.12, 14.20], [14.20, 14.28, 14.16, 14.24], [14.24, 14.30, 14.20, 14.22], [14.22, 14.28, 14.18, 14.26], [14.26, 14.30, 14.22, 14.28], [14.28, 14.38, 14.26, 14.34], [14.34, 14.46, 14.30, 14.42], [14.42, 14.52, 14.38, 14.48], [14.48, 14.58, 14.44, 14.54], [14.54, 14.64, 14.50, 14.61], [14.61, 14.64, 14.54, 14.58]]
@@ -127,8 +128,9 @@ screens:
     explanation: "It changes fastest, which is why it is checked last and never before the bell. A shortlist is built out of the readings that keep."
 
   - type: chart-decision
-    scenario: "MERE has stalled three times at $12.80 and the minute that just closed finished two cents through it on ordinary volume. It has been under its own average price since the bell and the prints going through were 100s and 200s. Your account is $22,000 and 1,200 shares is the size you trade."
+    scenario: "MERE has stalled three times at $12.80 and the minute that just closed finished two cents through it on ordinary volume. It has been under its own average price since the bell, and the prints going through were 100s and 200s."
     shares: 1200
+    state: ["Size: 1,200 shares"]
     chart:
       kind: candles
       data: [[12.72, 12.80, 12.68, 12.76], [12.76, 12.80, 12.70, 12.72], [12.72, 12.78, 12.66, 12.74], [12.74, 12.80, 12.70, 12.76], [12.76, 12.78, 12.70, 12.72], [12.72, 12.84, 12.70, 12.82], [12.82, 12.84, 12.74, 12.76], [12.76, 12.80, 12.68, 12.70], [12.70, 12.74, 12.62, 12.64], [12.64, 12.70, 12.60, 12.66], [12.66, 12.70, 12.58, 12.62]]

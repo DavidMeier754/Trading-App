@@ -70,8 +70,9 @@ screens:
     explanation: "$14.60 twice, and both times the candle finished back in the middle of the day. A third test is worth watching; it is not worth assuming."
 
   - type: chart-decision
-    scenario: "TALL has stepped higher on the 5-minute chart since the first half hour. On the 1-minute it has handed back eight cents over three quiet minutes, and the one that just closed finished green. Your account is $18,000 and 1,100 shares is the size you trade."
+    scenario: "An $18,000 account. TALL has stepped higher on the 5-minute chart since the first half hour; on the 1-minute it has handed back eight cents over three quiet minutes, and the one that just closed finished green."
     shares: 1100
+    state: ["Size: 1,100 shares"]
     chart:
       kind: candles
       data: [[14.20, 14.32, 14.16, 14.28], [14.28, 14.40, 14.24, 14.36], [14.36, 14.48, 14.32, 14.44], [14.44, 14.46, 14.36, 14.38], [14.38, 14.42, 14.34, 14.36], [14.36, 14.44, 14.34, 14.42], [14.42, 14.54, 14.38, 14.50], [14.50, 14.62, 14.46, 14.58], [14.58, 14.70, 14.54, 14.66], [14.66, 14.76, 14.62, 14.71], [14.71, 14.74, 14.64, 14.68]]

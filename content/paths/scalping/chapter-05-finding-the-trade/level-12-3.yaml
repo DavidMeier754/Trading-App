@@ -68,8 +68,9 @@ screens:
     explanation: "One name stalling is that name's own business. Three at once is the room speaking, and the room decides how far the next move in any of them gets."
 
   - type: chart-decision
-    scenario: "Ten minutes on, MOOR is back under $14.12, the price the turn came from, and the minute that just closed finished six cents below it on about a third of the volume the turn printed. Your account is $20,000 and 1,300 shares is the size you trade."
+    scenario: "Ten minutes on, MOOR is back under $14.12, the price the turn came from, and the minute that just closed finished six cents below it on about a third of the volume the turn printed."
     shares: 1300
+    state: ["Size: 1,300 shares"]
     chart:
       kind: candles
       data: [[13.80, 13.88, 13.74, 13.86], [13.86, 13.94, 13.82, 13.90], [13.90, 13.98, 13.86, 13.94], [13.94, 14.02, 13.90, 13.98], [13.98, 14.06, 13.94, 14.02], [14.02, 14.10, 13.98, 14.06], [14.06, 14.10, 14.00, 14.02], [14.02, 14.08, 13.96, 13.98], [13.98, 14.02, 13.90, 13.94], [13.94, 13.98, 13.88, 13.92]]

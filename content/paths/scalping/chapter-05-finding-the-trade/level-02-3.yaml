@@ -66,8 +66,9 @@ screens:
     explanation: "Sorting by today's percentage move gives you a different list, and mostly a worse one."
 
   - type: chart-decision
-    scenario: "SLAT came up the list on a later morning at 7× normal, quotes two cents wide and has printed twenty-cent minutes since the open. It trades at $24.18, so your $15,000 account pays for 619 shares and you are taking 500."
+    scenario: "SLAT came up the list on a later morning at 7× normal. It quotes two cents wide, prints twenty-cent minutes, and trades at $24.18."
     shares: 500
+    state: ["Size: 500 shares", "Account pays for 619"]
     chart:
       kind: candles
       data: [[23.66, 23.80, 23.60, 23.76], [23.76, 23.92, 23.70, 23.88], [23.88, 24.00, 23.82, 23.94], [23.94, 24.10, 23.88, 24.06], [24.06, 24.18, 24.00, 24.12], [24.12, 24.26, 24.06, 24.18], [24.18, 24.34, 24.12, 24.30], [24.30, 24.46, 24.24, 24.42], [24.42, 24.58, 24.36, 24.54], [24.54, 24.60, 24.46, 24.50]]

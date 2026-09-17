@@ -62,7 +62,7 @@ screens:
     explanation: "$13.62, turned away twice while the room outside was printing new lows. That price is what the whole read hangs on."
 
   - type: chart-decision
-    scenario: "The index has made new lows all morning. HALE has held $13.62 twice, and the minute that just closed finished at the top of its own range. Your account is $17,000 and 1,100 shares is the size you trade."
+    scenario: "HALE has held $13.62 twice, and the minute that just closed finished at the top of its own range."
     shares: 1100
     state: ["Index: new lows", "Size: 1,100 shares"]
     chart:

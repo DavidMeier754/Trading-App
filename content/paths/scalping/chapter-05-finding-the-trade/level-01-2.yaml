@@ -75,8 +75,9 @@ screens:
     explanation: "A has spent eight minutes inside seven cents, so two cents is most of anything it offers. One of B's minutes is fourteen."
 
   - type: chart-decision
-    scenario: "QUIL is stepping up cleanly on 60,000-share minutes. The bars have been running about eight cents, the panel reads $12.44 bid, $12.50 ask, and the next price you marked is eleven cents above. Your account is $25,000 and 1,600 shares is the size you trade."
+    scenario: "QUIL is stepping up cleanly on 60,000-share minutes. The bars have been running about eight cents, the panel reads $12.44 bid, $12.50 ask, and the next price you marked is eleven cents above."
     shares: 1600
+    state: ["Size: 1,600 shares"]
     chart:
       kind: candles
       data: [[12.14, 12.22, 12.10, 12.20], [12.20, 12.28, 12.16, 12.26], [12.26, 12.34, 12.22, 12.32], [12.32, 12.40, 12.28, 12.38], [12.38, 12.46, 12.34, 12.44], [12.44, 12.52, 12.40, 12.48], [12.48, 12.56, 12.44, 12.52], [12.52, 12.60, 12.48, 12.59], [12.59, 12.60, 12.50, 12.54], [12.54, 12.58, 12.46, 12.50]]
@@ -98,8 +99,9 @@ screens:
     explanation: "Ninety-six dollars, out of the $176 that eleven cents on 1,600 shares was worth at best."
 
   - type: chart-decision
-    scenario: "LOOM has printed twenty-cent minutes low to high since the open on 90,000-share bars, the panel reads $21.62 bid, $21.64 ask, and the price you marked is thirty cents above. Your account is $25,000 and 1,000 shares is the size you trade."
+    scenario: "LOOM has printed twenty-cent minutes low to high since the open on 90,000-share bars. The panel reads $21.62 bid, $21.64 ask, and at that price the $25,000 account covers the whole size. The price you marked is thirty cents above."
     shares: 1000
+    state: ["Size: 1,000 shares"]
     chart:
       kind: candles
       data: [[20.86, 21.02, 20.80, 20.98], [20.98, 21.16, 20.92, 21.12], [21.12, 21.30, 21.06, 21.26], [21.26, 21.44, 21.20, 21.40], [21.40, 21.56, 21.34, 21.50], [21.50, 21.70, 21.46, 21.63], [21.63, 21.82, 21.58, 21.78], [21.78, 21.94, 21.72, 21.90], [21.90, 22.02, 21.84, 21.98], [21.98, 22.04, 21.90, 21.94]]

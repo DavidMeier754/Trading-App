@@ -40,8 +40,9 @@ screens:
     explanation: "The 1-minute signal is real, but it is fighting the direction the day has, so it needs a shorter leash."
 
   - type: chart-decision
-    scenario: "On the 5-minute XYZ has made lower highs all morning. On this 1-minute chart it bounces off a round number with a decent candle. You have 1,000 shares ready."
+    scenario: "On the 5-minute XYZ has made lower highs all morning. On this 1-minute chart it bounces off a round number with a decent candle."
     shares: 1000
+    state: ["Size: 1,000 shares"]
     chart:
       kind: candles
       data: [[29.30, 29.34, 29.18, 29.20], [29.20, 29.24, 29.10, 29.12], [29.12, 29.16, 29.00, 29.04], [29.04, 29.10, 28.98, 29.08], [29.08, 29.14, 29.04, 29.12], [29.12, 29.20, 29.08, 29.18], [29.18, 29.22, 29.06, 29.08], [29.08, 29.12, 28.96, 28.98], [28.98, 29.02, 28.88, 28.90], [28.90, 28.94, 28.80, 28.84]]
@@ -63,8 +64,9 @@ screens:
     explanation: "More of what happens on the 1-minute means nothing at all, which is why the 5-minute sets the direction."
 
   - type: chart-decision
-    scenario: "The 5-minute chart is making higher highs and higher lows. On the 1-minute, price pulls back into VWAP at $17.80 and holds it. You have 1,500 shares ready."
+    scenario: "The 5-minute chart is making higher highs and higher lows. On the 1-minute, price pulls back into VWAP at $17.80 and holds it."
     shares: 1500
+    state: ["Size: 1,500 shares"]
     chart:
       kind: candles
       data: [[18.10, 18.14, 18.00, 18.02], [18.02, 18.06, 17.92, 17.94], [17.94, 17.98, 17.86, 17.88], [17.88, 17.92, 17.80, 17.84], [17.84, 17.88, 17.78, 17.82], [17.82, 17.90, 17.78, 17.88], [17.88, 17.98, 17.86, 17.96], [17.96, 18.06, 17.92, 18.04], [18.04, 18.12, 18.00, 18.10], [18.10, 18.16, 18.06, 18.12]]
