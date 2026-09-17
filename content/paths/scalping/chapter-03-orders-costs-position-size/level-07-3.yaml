@@ -13,7 +13,7 @@ prerequisite: "7-2"
 xp: 20
 difficulty: 3
 sources: [consensus]
-notes: "Account named at $20,000; the chart decision is 1,200 shares near $16. Closes Level 7 with the exit half of the kit."
+notes: "Account named at $20,000; the chart decision is 1,100 shares near $16. Closes Level 7 with the exit half of the kit."
 screens:
   - type: intro
     text: "You paid the gap to get in. On the way out, you can make somebody else pay it."
@@ -23,29 +23,29 @@ screens:
     body: "The moment your entry fills, put a limit sell at your target. It trades the instant an impatient buyer reaches up for your shares, whether or not you are looking at the screen."
 
   - type: example
-    body: "Long 1,200 shares from $16.14 out of a $20,000 account, target eighteen cents up. A limit sell goes out at $16.32 and the trade is now finished in advance."
+    body: "Long 1,100 shares from $16.14 out of a $20,000 account, target eighteen cents up. A limit sell goes out at $16.32 and the trade is now finished in advance."
     visual: order-ticket
-    visual_data: {ticker: XYZ, side: sell, qty: 1200, type: limit, price: 16.32}
+    visual_data: {ticker: XYZ, side: sell, qty: 1100, type: limit, price: 16.32}
 
   - type: numeric-input
-    prompt: "In at $16.14, resting sell at $16.32, 1,200 shares. What is the trade worth if that order trades?"
-    answer: 216
+    prompt: "In at $16.14, resting sell at $16.32, 1,100 shares. What is the trade worth if that order trades?"
+    answer: 198
     tolerance: 0.01
     unit: "$"
-    working: "$16.32 − $16.14 = $0.18 per share; $0.18 × 1,200 = $216"
-    explanation: "Eighteen cents times twelve hundred shares, decided before the position was a minute old."
+    working: "$16.32 − $16.14 = $0.18 per share; $0.18 × 1,100 = $198"
+    explanation: "Eighteen cents times eleven hundred shares, decided before the position was a minute old."
 
   - type: order-build
-    prompt: "Build the exit for that position: the whole 1,200 shares, sold at $16.32 and nowhere lower."
+    prompt: "Build the exit for that position: the whole 1,100 shares, sold at $16.32 and nowhere lower."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit]
-      qty: [600, 1200, 2400]
+      qty: [600, 1100, 2200]
       price: [16.14, 16.26, 16.32]
-    answer: {side: sell, type: limit, qty: 1200, price: 16.32}
-    explanation: "Sell, limit, 1,200, $16.32. A limit sell accepts your price or better, so nobody is buying your shares below it."
+    answer: {side: sell, type: limit, qty: 1100, price: 16.32}
+    explanation: "Sell, limit, 1,100, $16.32. A limit sell accepts your price or better, so nobody is buying your shares below it."
 
   - type: mc
     prompt: "The stock prints $16.32 and comes straight back down. Where are you?"
@@ -71,8 +71,8 @@ screens:
     explanation: "$16.14 + $0.18 = $16.32. The target is arithmetic, not a feeling about how far it might go."
 
   - type: chart-decision
-    scenario: "XYZ has climbed, paused for three quiet minutes and the candle that just closed pushed back up out of the pause on rising volume. The quote is two cents wide and your $20,000 account allows 1,200 shares here."
-    shares: 1200
+    scenario: "XYZ has climbed, paused for three quiet minutes and the candle that just closed pushed back up out of the pause on rising volume. The quote is two cents wide and your $20,000 account allows 1,100 shares here."
+    shares: 1100
     chart:
       kind: candles
       data: [[15.86, 15.98, 15.84, 15.96], [15.96, 16.10, 15.94, 16.08], [16.08, 16.16, 16.02, 16.06], [16.06, 16.12, 16.00, 16.04], [16.04, 16.14, 16.02, 16.12], [16.12, 16.22, 16.10, 16.20], [16.20, 16.34, 16.18, 16.32], [16.32, 16.42, 16.28, 16.38], [16.38, 16.48, 16.34, 16.44], [16.44, 16.56, 16.40, 16.55]]
@@ -80,7 +80,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It went on to $16.55 — $0.35 a share above the decision, +$420 long on 1,200 shares, and a sell resting eighteen cents up was taken two minutes in."
+    outcome: "It went on to $16.55 — $0.35 a share above the decision, +$385 long on 1,100 shares, and a sell resting eighteen cents up was taken two minutes in."
     explanation: "The quiet minutes were the pause and the heavy one is the push. Rest the exit at the target and the rest of the move is somebody else's problem."
 
   - type: mc
@@ -88,7 +88,7 @@ screens:
     options:
       - {text: "Twenty-eight cents a share"}
       - {text: "Nothing at all", correct: true}
-      - {text: "$336 of the move"}
+      - {text: "$308 of the move"}
     explanation: "The target was chosen when the trade was, and the move beyond it belongs to a trade you did not take."
 
   - type: sort

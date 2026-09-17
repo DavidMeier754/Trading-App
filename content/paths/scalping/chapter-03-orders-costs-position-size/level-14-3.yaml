@@ -48,8 +48,8 @@ screens:
     explanation: "Every layer of cost scales with the trade count. Fewer trades touches all three at once."
 
   - type: chart-decision
-    scenario: "XYZ has chopped inside a four-cent range for ten minutes on ordinary volume. Spread, slippage and fees together run about three cents a share here. Your $15,000 account allows 1,200 shares here."
-    shares: 1200
+    scenario: "XYZ has chopped inside a four-cent range for ten minutes on ordinary volume. Spread, slippage and fees together run about three cents a share here. Your $15,000 account allows 1,100 shares here."
+    shares: 1100
     chart:
       kind: candles
       data: [[12.00, 12.04, 11.97, 12.02], [12.02, 12.05, 11.99, 12.01], [12.01, 12.04, 11.98, 12.03], [12.03, 12.06, 12.00, 12.02], [12.02, 12.05, 11.99, 12.04], [12.04, 12.07, 12.01, 12.03], [12.03, 12.06, 12.00, 12.02], [12.02, 12.05, 11.99, 12.01], [12.01, 12.04, 11.98, 12.03], [12.03, 12.06, 12.00, 12.02]]
@@ -69,10 +69,10 @@ screens:
     explanation: "Chapter 1's borrow and cover aren't just vocabulary here — no borrow means fewer trades that day, and fewer trades means a smaller bill."
 
   - type: numeric-input
-    prompt: "That chop cost about $0.03 a share all-in. On the 1,200 shares you passed on, what did skipping it save?"
-    answer: 36
+    prompt: "That chop cost about $0.03 a share all-in. On the 1,100 shares you passed on, what did skipping it save?"
+    answer: 33
     unit: "$"
-    working: "$0.03 × 1,200 = $36"
+    working: "$0.03 × 1,100 = $33"
     explanation: "Not trading has a value too, and it's exactly the cost you didn't pay."
 
   - type: sort

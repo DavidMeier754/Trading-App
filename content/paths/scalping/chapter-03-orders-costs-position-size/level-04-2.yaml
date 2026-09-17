@@ -75,8 +75,8 @@ screens:
     explanation: "Seven per cent of a clean win handed over, on the cheapest quote in the chapter."
 
   - type: chart-decision
-    scenario: "XYZ pushed to $12.90 twice, failed both times, and the candle that just closed is red on the heaviest bar of the session. Bid $12.65 / ask $12.67, and your $25,000 account allows 1,900 shares here."
-    shares: 1900
+    scenario: "XYZ pushed to $12.90 twice, failed both times, and the candle that just closed is red on the heaviest bar of the session. Bid $12.65 / ask $12.67, and your $25,000 account allows 1,800 shares here."
+    shares: 1800
     chart:
       kind: candles
       data: [[12.48, 12.60, 12.44, 12.56], [12.56, 12.70, 12.52, 12.66], [12.66, 12.82, 12.62, 12.78], [12.78, 12.90, 12.74, 12.80], [12.80, 12.90, 12.72, 12.76], [12.76, 12.80, 12.62, 12.66], [12.66, 12.70, 12.52, 12.56], [12.56, 12.62, 12.44, 12.48], [12.48, 12.54, 12.38, 12.42], [12.42, 12.46, 12.32, 12.34]]
@@ -84,7 +84,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It slid to $12.34 — $0.32 a share, +$608 short on 1,900 shares, with $38 of gap paid."
+    outcome: "It slid to $12.34 — $0.32 a share, +$576 short on 1,800 shares, with $36 of gap paid."
     explanation: "Two refusals at one price, a heavy red body, and a two-cent quote in a busy name. All three questions come back clean."
 
   - type: tf

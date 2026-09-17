@@ -23,7 +23,7 @@ screens:
     body: "Whether you can leave is the volume row. What leaving costs is the quote. How much stock you can hold is the account. The three of them decide one number together."
 
   - type: scanner-pick
-    prompt: "You want 1,200 shares in and out inside two minutes, and your $22,000 account has to pay for them. Which name is the one?"
+    prompt: "You want 1,100 shares in and out inside two minutes, and your $22,000 account has to pay for them. Which name is the one?"
     data:
       rows:
         - {ticker: ORN, price: 17.40, change_pct: 4.6, spread: 0.02}
@@ -31,23 +31,23 @@ screens:
         - {ticker: RDN, price: 13.90, change_pct: 3.8, spread: 0.14}
         - {ticker: TQP, price: 11.20, change_pct: 0.3, spread: 0.03}
     target: ORN
-    explanation: "ORN is the only row where all three answers come back clean: a two-cent gap, a day that is actually moving, and 1,200 shares the account can cover."
+    explanation: "ORN is the only row where all three answers come back clean: a two-cent gap, a day that is actually moving, and 1,100 shares the account can cover."
 
   - type: numeric-input
-    prompt: "1,200 shares of ORN at $17.40. What does the position tie up?"
-    answer: 20880
+    prompt: "1,100 shares of ORN at $17.40. What does the position tie up?"
+    answer: 19140
     tolerance: 1
     unit: "$"
-    working: "1,200 × $17.40 = $20,880"
+    working: "1,100 × $17.40 = $19,140"
     explanation: "Inside the account, with room left over. That is the only question the second ceiling ever asks."
 
   - type: mc
     prompt: "KLM showed the biggest day's move on that list. Why was it never a candidate?"
     options:
-      - {text: "The account cannot pay for 1,200 shares at $26.80", correct: true}
+      - {text: "The account cannot pay for 1,100 shares at $26.80", correct: true}
       - {text: "Its gap is $0.14, too wide to pay on a round trip"}
       - {text: "A stock that has already moved five per cent has nothing left"}
-    explanation: "1,200 × $26.80 is $32,160, and there is $22,000. KLM quotes two cents like ORN does; it is the price tag, not the gap, that rules it out."
+    explanation: "1,100 × $26.80 is $29,480, and there is $22,000. KLM quotes two cents like ORN does; it is the price tag, not the gap, that rules it out."
 
   - type: tf
     statement: "A two-cent gap is reason enough to trade a name, whatever its day's move has been."
@@ -67,12 +67,12 @@ screens:
     explanation: "A has spent eight minutes inside nine cents, so twelve cents is not on offer at any price. B is making twelve cents every two minutes."
 
   - type: numeric-input
-    prompt: "ORN's quieter minutes print about 60,000 shares. What share of one of those minutes is a 1,200-share order?"
-    answer: 2
+    prompt: "ORN's quieter minutes print about 60,000 shares. What share of one of those minutes is a 1,100-share order?"
+    answer: 1.8
     tolerance: 0.1
     unit: "%"
-    working: "1,200 ÷ 60,000 = 0.02"
-    explanation: "Chapter 1 called liquidity the ease of getting out, and two per cent of a minute is a door you can walk straight through."
+    working: "1,100 ÷ 60,000 = 0.018"
+    explanation: "Chapter 1 called liquidity the ease of getting out, and under two per cent of a minute is a door you can walk straight through."
 
   - type: sort
     prompt: "Three questions, three places to look. Which one answers each?"
@@ -85,8 +85,8 @@ screens:
     explanation: "Chapter 2's bottom row, this chapter's quote, and your own bank. Each one answers exactly one of the three."
 
   - type: chart-decision
-    scenario: "ORN has held a floor at $17.30 for five minutes and the minute that just closed pushed out of the top of the base on the biggest bar since the session opened. The panel reads bid $17.44 / ask $17.46, and your $22,000 account allows 1,200 shares here."
-    shares: 1200
+    scenario: "ORN has held a floor at $17.30 for five minutes and the minute that just closed pushed out of the top of the base on the biggest bar since the session opened. The panel reads bid $17.44 / ask $17.46, and your $22,000 account allows 1,100 shares here."
+    shares: 1100
     state: ["Stop would sit at $17.28"]
     chart:
       kind: candles
@@ -95,18 +95,18 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped on to $17.67 — $0.21 a share above the decision, +$252 long on 1,200 shares."
-    explanation: "A floor the base has not broken, a push out of it on the heaviest bar of the session, two cents of quote, and 1,200 shares the stock and the account both allow."
+    outcome: "It stepped on to $17.67 — $0.21 a share above the decision, +$231 long on 1,100 shares."
+    explanation: "A floor the base has not broken, a push out of it on the heaviest bar of the session, two cents of quote, and 1,100 shares the stock and the account both allow."
 
   - type: numeric-mc
-    prompt: "In at $17.46 with the stop at $17.28, 1,200 shares. What was the planned loss?"
+    prompt: "In at $17.46 with the stop at $17.28, 1,100 shares. What was the planned loss?"
     options:
-      - {text: "$21.60"}
-      - {text: "$216", correct: true}
-      - {text: "$2,160"}
+      - {text: "$19.80"}
+      - {text: "$198", correct: true}
+      - {text: "$1,980"}
       - {text: "$18"}
-    working: "$17.46 − $17.28 = $0.18; $0.18 × 1,200 = $216"
-    explanation: "Just inside the $220 that one per cent of this account allows, which is why 1,200 was a size and not a guess."
+    working: "$17.46 − $17.28 = $0.18; $0.18 × 1,100 = $198"
+    explanation: "Inside the $220 that one per cent of this account allows, and inside what $22,000 can pay for at $17.46 — which is why 1,100 was a size and not a guess."
 
   - type: fill-choice
     sentence: "The volume row says whether you can leave; the quote says what leaving ___."

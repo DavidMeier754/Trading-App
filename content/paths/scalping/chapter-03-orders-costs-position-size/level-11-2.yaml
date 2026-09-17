@@ -101,8 +101,8 @@ screens:
     explanation: "One per cent of $12,000 is $120, not $1,200 — a slipped decimal here sizes every trade ten times too big."
 
   - type: chart-decision
-    scenario: "XYZ has made three lower highs against $14.40 and the candle that just closed broke the base at $14.18 on the heaviest bar of the morning. Your $12,000 account allows 845 shares here."
-    shares: 845
+    scenario: "XYZ has made three lower highs against $14.40 and the candle that just closed broke the base at $14.18 on the heaviest bar of the morning. Your $12,000 account allows 800 shares here."
+    shares: 800
     state: ["Stop would sit at $14.32"]
     chart:
       kind: candles
@@ -111,15 +111,15 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It broke down to $14.00 — $0.20 a share below the decision, +$169 short on 845 shares."
-    explanation: "Lower highs into a heavier and heavier bar down is sellers pressing. The stop would have allowed 1,000 shares; the account only 845, so 845 is the trade."
+    outcome: "It broke down to $14.00 — $0.20 a share below the decision, +$160 short on 800 shares."
+    explanation: "Lower highs into a heavier and heavier bar down is sellers pressing. The stop would have allowed 1,000 shares and the account only 845, so 800 is the trade — a share count gets rounded down, never up."
 
   - type: numeric-input
-    prompt: "Short at $14.20, stop at $14.32, 845 shares. What was the planned loss?"
-    answer: 101.4
+    prompt: "Short at $14.20, stop at $14.32, 800 shares. What was the planned loss?"
+    answer: 96
     tolerance: 1
     unit: "$"
-    working: "$14.32 − $14.20 = $0.12; $0.12 × 845 = $101.40"
+    working: "$14.32 − $14.20 = $0.12; $0.12 × 800 = $96"
     explanation: "Twelve cents of structure, and the account — not the stop — is what decided how many shares carried it."
 
   - type: recap

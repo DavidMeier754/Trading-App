@@ -42,9 +42,9 @@ screens:
     explanation: "Three charts hand you a price within fifteen cents and three do not. The ones that do not are not cheaper trades with wider stops — they are trades for somebody else's timeframe."
 
   - type: chart-decision
-    scenario: "XYZ based between $16.34 and $16.46 for three minutes and the candle that just closed pushed out of the top of it on rising volume. The quote is two cents wide and your $20,000 account allows 1,200 shares here."
-    shares: 1200
-    state: ["Size: 1,200 shares", "Stop would sit at $16.32"]
+    scenario: "XYZ based between $16.34 and $16.46 for three minutes and the candle that just closed pushed out of the top of it on rising volume. The quote is two cents wide and your $20,000 account allows 1,000 shares here."
+    shares: 1000
+    state: ["Size: 1,000 shares", "Stop would sit at $16.32"]
     chart:
       kind: candles
       data: [[16.18, 16.30, 16.16, 16.28], [16.28, 16.40, 16.26, 16.38], [16.38, 16.44, 16.34, 16.36], [16.36, 16.42, 16.34, 16.40], [16.40, 16.46, 16.36, 16.44], [16.44, 16.52, 16.42, 16.50], [16.50, 16.62, 16.48, 16.60], [16.60, 16.70, 16.56, 16.66], [16.66, 16.76, 16.62, 16.72], [16.72, 16.80, 16.68, 16.77]]
@@ -52,28 +52,28 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran on to $16.77 — $0.27 a share above the decision, +$324 long on 1,200 shares."
+    outcome: "It ran on to $16.77 — $0.27 a share above the decision, +$270 long on 1,000 shares."
     explanation: "The base gives you the stop at $16.32 and the push gives you the entry, which is the order those two decisions belong in."
 
   - type: numeric-input
-    prompt: "In at $16.50 with the stop at $16.32, 1,200 shares. What is the planned loss on that trade?"
-    answer: 216
+    prompt: "In at $16.50 with the stop at $16.32, 1,000 shares. What is the planned loss on that trade?"
+    answer: 180
     tolerance: 0.01
     unit: "$"
-    working: "$16.50 − $16.32 = $0.18 per share; $0.18 × 1,200 = $216"
-    explanation: "Eighteen cents of structure, twelve hundred shares, and a number you had before you pressed anything."
+    working: "$16.50 − $16.32 = $0.18 per share; $0.18 × 1,000 = $180"
+    explanation: "Eighteen cents of structure, one thousand shares, and a number you had before you pressed anything."
 
   - type: order-build
-    prompt: "Send the protection: sell all 1,200 shares if $16.32 trades, and take whatever price is there."
+    prompt: "Send the protection: sell all 1,000 shares if $16.32 trades, and take whatever price is there."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [600, 1200, 2400]
+      qty: [600, 1000, 2000]
       price: [16.32, 16.50, 16.68]
-    answer: {side: sell, type: stop, qty: 1200, price: 16.32}
-    explanation: "Sell, stop, 1,200 at $16.32 — and no limit attached to it, because on this ticket being out is the point."
+    answer: {side: sell, type: stop, qty: 1000, price: 16.32}
+    explanation: "Sell, stop, 1,000 at $16.32 — and no limit attached to it, because on this ticket being out is the point."
 
   - type: branch
     scenario: "A different trade: you are long 1,200 shares from $14.86 and your stop was sent as a stop-limit at $14.74."

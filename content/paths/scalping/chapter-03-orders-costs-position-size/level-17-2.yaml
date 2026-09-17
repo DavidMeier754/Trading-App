@@ -82,8 +82,8 @@ screens:
     explanation: "A plan is a route out when the screen is dark. Nothing you do inside the platform helps once the platform is the thing that failed."
 
   - type: chart-decision
-    scenario: "A different name has based for six minutes and the minute that just closed pushed out of the top of it on the biggest bar since the open. The quote is two cents wide. Your screen has frozen twice in the last half hour, and your $21,000 account allows 1,300 shares here."
-    shares: 1300
+    scenario: "A different name has based for six minutes and the minute that just closed pushed out of the top of it on the biggest bar since the open. The quote is two cents wide. Your screen has frozen twice in the last half hour, and your $21,000 account allows 1,200 shares here."
+    shares: 1200
     state: ["Screen froze twice this hour"]
     chart:
       kind: candles
@@ -91,7 +91,7 @@ screens:
       volume: [66000, 72000, 59000, 64000, 57000, 158000, 134000, 118000, 102000, 88000]
       decision_index: 5
     best: no-trade
-    outcome: "It ran to $15.79, so the trade was there: $0.33 a share, $429 on 1,300 shares. It was also 1,300 shares to manage on a screen that goes dark twice an hour."
+    outcome: "It ran to $15.79, so the trade was there: $0.33 a share, $396 on 1,200 shares. It was also 1,200 shares to manage on a screen that goes dark twice an hour."
     explanation: "The chart passes and the costs pass. A failed check still ends it, and this is what that honestly costs — a good setup, left alone, because the tools could not be trusted to carry it."
 
   - type: numeric-input

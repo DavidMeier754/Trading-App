@@ -13,7 +13,7 @@ prerequisite: "2-3"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Account named at $25,000; the chart decision is 1,100 shares near $22."
+notes: "Account named at $25,000; the chart decision is 1,000 shares near $22."
 screens:
   - type: intro
     text: "Five cents is nothing to a swing trader and most of the trade to you."
@@ -74,11 +74,11 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "XYZ has been stepping up for six minutes in twelve-cent bodies. Bid $22.25 / ask $22.27, and your $25,000 account allows 1,100 shares here."
+    text: "XYZ has been stepping up for six minutes in twelve-cent bodies. Bid $22.25 / ask $22.27, and your $25,000 account allows 1,000 shares here."
 
   - type: chart-decision
-    scenario: "The panel has been two cents wide through the whole climb and each minute is printing over 90,000 shares. You have 1,100 shares ready."
-    shares: 1100
+    scenario: "The panel has been two cents wide through the whole climb and each minute is printing over 90,000 shares. You have 1,000 shares ready."
+    shares: 1000
     chart:
       kind: candles
       data: [[21.70, 21.82, 21.66, 21.78], [21.78, 21.94, 21.74, 21.90], [21.90, 22.02, 21.86, 21.96], [21.96, 22.10, 21.92, 22.06], [22.06, 22.18, 22.02, 22.14], [22.14, 22.30, 22.10, 22.26], [22.26, 22.42, 22.22, 22.38], [22.38, 22.52, 22.34, 22.48], [22.48, 22.60, 22.42, 22.54], [22.54, 22.66, 22.48, 22.60]]
@@ -86,8 +86,8 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $22.60 — $0.34 a share above the decision, +$374 long on 1,100 shares, against $22 of gap."
-    explanation: "Two cents is nothing against a stock that has travelled twelve a minute for six minutes, and the volume says 1,100 shares can get back out."
+    outcome: "It carried to $22.60 — $0.34 a share above the decision, +$340 long on 1,000 shares, against $20 of gap."
+    explanation: "Two cents is nothing against a stock that has travelled twelve a minute for six minutes, and the volume says 1,000 shares can get back out."
 
   - type: fill-choice
     sentence: "Judge a gap against the ___ you expect, never against the share price."

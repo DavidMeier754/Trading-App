@@ -58,15 +58,15 @@ screens:
     explanation: "It caps the worst case. It doesn't remove the risk of the price moving before the fill arrives."
 
   - type: order-build
-    prompt: "Build the entry: a marketable limit to buy 900 shares, capped two cents over the ask of $19.40."
+    prompt: "Build the entry: a marketable limit to buy 700 shares, capped two cents over the ask of $19.40."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [500, 900, 1400]
+      qty: [500, 700, 1400]
       price: [19.40, 19.42, 19.46]
-    answer: {side: buy, type: limit, qty: 900, price: 19.42}
+    answer: {side: buy, type: limit, qty: 700, price: 19.42}
     explanation: "A limit at $19.42 fills like a market order against a normal quote, and refuses to chase past two cents if it isn't."
 
   - type: sort

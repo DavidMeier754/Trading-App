@@ -27,12 +27,12 @@ screens:
     explanation: "You leave at the bid, so break-even arrives when the bid reaches what you paid, not when the last print does."
 
   - type: numeric-input
-    prompt: "Bid $31.08, ask $31.13, 1,300 shares, one complete position. What has the gap taken?"
-    answer: 65
+    prompt: "Bid $31.08, ask $31.13, 700 shares, one complete position. What has the gap taken?"
+    answer: 35
     tolerance: 1
     unit: "$"
-    working: "$31.13 − $31.08 = $0.05; $0.05 × 1,300 = $65"
-    explanation: "Five cents across thirteen hundred shares, paid once for the open and the close together."
+    working: "$31.13 − $31.08 = $0.05; $0.05 × 700 = $35"
+    explanation: "Five cents across seven hundred shares, paid once for the open and the close together."
 
   - type: mc
     prompt: "One name quotes nine cents wide and has been making forty-cent minutes; another quotes two cents and has been making five-cent minutes. Which is the cheaper scalp?"
@@ -43,15 +43,15 @@ screens:
     explanation: "Nine out of forty is 23 %; two out of five is 40 %. The wider quote is the cheaper trade, and the share price never came into it."
 
   - type: order-build
-    prompt: "Rest the exit for that 1,300-share long: out at the target of $31.48 and nowhere lower."
+    prompt: "Rest the exit for that 700-share long: out at the target of $31.48 and nowhere lower."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [700, 1300, 2000]
+      qty: [400, 700, 1400]
       price: [31.08, 31.13, 31.48]
-    answer: {side: sell, type: limit, qty: 1300, price: 31.48}
+    answer: {side: sell, type: limit, qty: 700, price: 31.48}
     explanation: "A resting limit sell at the target collects the gap from whoever takes it, instead of paying it to get out."
 
   - type: tf
@@ -117,16 +117,16 @@ screens:
     explanation: "A price that has turned the market back twice, a close through it on the biggest bar of the session, and two cents of gap against a move worth far more. Chapter 2 found the level; this chapter priced it."
 
   - type: chart-decision
-    scenario: "A different name has stepped up for six minutes and closed at $19.80, but every bar under it is around 7,000 shares and the panel reads bid $19.66 / ask $19.80. Your $26,000 account allows 1,300 shares here."
-    shares: 1300
+    scenario: "A different name has stepped up for six minutes and closed at $19.80, but every bar under it is around 7,000 shares and the panel reads bid $19.66 / ask $19.80. Your $26,000 account allows 1,200 shares here."
+    shares: 1200
     chart:
       kind: candles
       data: [[19.30, 19.40, 19.26, 19.38], [19.38, 19.48, 19.34, 19.46], [19.46, 19.56, 19.42, 19.54], [19.54, 19.64, 19.50, 19.62], [19.62, 19.74, 19.58, 19.70], [19.70, 19.84, 19.66, 19.80], [19.80, 19.84, 19.62, 19.66], [19.66, 19.70, 19.48, 19.52], [19.52, 19.58, 19.38, 19.44], [19.44, 19.50, 19.34, 19.39]]
       volume: [8000, 6000, 9000, 7000, 5000, 11000, 9000, 7000, 8000, 6000]
       decision_index: 5
     best: no-trade
-    outcome: "It turned and gave back $0.41 a share to $19.39 — $533 against a long on 1,300 shares, before the $182 a fourteen-cent round trip would have taken."
-    explanation: "A fourteen-cent quote is the stock telling you what leaving costs, and 7,000-share minutes mean your 1,300 are nearly a fifth of one. Chapter 1's liquidity dial, priced twice over."
+    outcome: "It turned and gave back $0.41 a share to $19.39 — $492 against a long on 1,200 shares, before the $168 a fourteen-cent round trip would have taken."
+    explanation: "A fourteen-cent quote is the stock telling you what leaving costs, and 7,000-share minutes mean your 1,200 are well over a sixth of one. Chapter 1's liquidity dial, priced twice over."
 
   - type: mc
     prompt: "Chapter 2 called a stretch of flat highs and flat lows a range. Put a five-cent round trip inside a twelve-cent one. What have you got?"

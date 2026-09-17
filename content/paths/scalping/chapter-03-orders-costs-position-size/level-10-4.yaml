@@ -13,7 +13,7 @@ prerequisite: "10-3"
 xp: 30
 difficulty: 3
 sources: [consensus]
-notes: "Account named at $25,000; the chart decision is 1,800 shares near $13. Closes Level 10 by tying Level 2's gap to Level 9's stop."
+notes: "Account named at $25,000; the chart decision is 1,700 shares near $13. Closes Level 10 by tying Level 2's gap to Level 9's stop."
 screens:
   - type: intro
     text: "One last check before the share count: how much of your stop has the quote already eaten?"
@@ -83,8 +83,8 @@ screens:
     explanation: "The tight stop asks for more stock than the account owns, so the cash decides — and at eight cents you would want a very tight quote before taking it at all."
 
   - type: chart-decision
-    scenario: "XYZ has ticked along in a tight base for five minutes. The lowest price in that base is $13.13, and the panel reads bid $13.17 / ask $13.22. Your $25,000 account allows 1,800 shares here."
-    shares: 1800
+    scenario: "XYZ has ticked along in a tight base for five minutes. The lowest price in that base is $13.13, and the panel reads bid $13.17 / ask $13.22. Your $25,000 account allows 1,700 shares here."
+    shares: 1700
     state: ["Quote: 5 cents wide", "Stop would sit at $13.11"]
     chart:
       kind: candles
@@ -92,7 +92,7 @@ screens:
       volume: [64000, 58000, 72000, 66000, 80000, 124000, 96000, 88000, 76000, 70000]
       decision_index: 5
     best: no-trade
-    outcome: "It drifted back to $13.09 — $0.13 a share under the decision, and the quote alone would have taken $90 of 1,800 shares on the way through."
+    outcome: "It drifted back to $13.09 — $0.13 a share under the decision, and the quote alone would have taken $85 of 1,700 shares on the way through."
     explanation: "Eleven cents from the ask down to the stop, five of them spent on the quote. There is not enough room in this trade to be right slowly."
 
   - type: sort

@@ -23,9 +23,9 @@ screens:
     body: "A limit order names a price. A limit buy trades at your price or lower, a limit sell at your price or higher, and neither one will cross to the other side to find you a fill."
 
   - type: example
-    body: "Bid $18.30, ask $18.34. Out of a $15,000 account you post a limit buy for 800 shares at $18.30. You are now standing with the buyers, waiting for a seller to come to you."
+    body: "Bid $18.30, ask $18.34. Out of a $15,000 account you post a limit buy for 700 shares at $18.30. You are now standing with the buyers, waiting for a seller to come to you."
     visual: order-ticket
-    visual_data: {ticker: XYZ, side: buy, qty: 800, type: limit, price: 18.30}
+    visual_data: {ticker: XYZ, side: buy, qty: 700, type: limit, price: 18.30}
 
   - type: mc
     prompt: "The ask is $18.34 and your limit buy sits at $18.30. What happens the second it is sent?"
@@ -41,32 +41,32 @@ screens:
     explanation: "Your price or better. If a seller dumps into the bids while your order is there, the better price is yours."
 
   - type: order-build
-    prompt: "Build that resting order: 800 shares of XYZ, bought at $18.30 and not a cent higher."
+    prompt: "Build that resting order: 700 shares of XYZ, bought at $18.30 and not a cent higher."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit]
-      qty: [400, 800, 1200]
+      qty: [400, 700, 1000]
       price: [18.26, 18.30, 18.34]
-    answer: {side: buy, type: limit, qty: 800, price: 18.30}
-    explanation: "Buy, limit, 800, $18.30 — and the price box is the whole difference between this ticket and the last one."
+    answer: {side: buy, type: limit, qty: 700, price: 18.30}
+    explanation: "Buy, limit, 700, $18.30 — and the price box is the whole difference between this ticket and the last one."
 
   - type: theory
     title: "It can wait for ever"
     body: "The market owes you nothing at your number. If the price never comes back down to it, your order is still sitting there at the end of the day, having done nothing at all."
 
   - type: numeric-input
-    prompt: "The ask is $18.34 and your limit is at $18.30. If a seller does come to you, what do 800 shares save against taking the ask?"
-    answer: 32
+    prompt: "The ask is $18.34 and your limit is at $18.30. If a seller does come to you, what do 700 shares save against taking the ask?"
+    answer: 28
     tolerance: 0.01
     unit: "$"
-    working: "$18.34 − $18.30 = $0.04 per share; $0.04 × 800 = $32"
-    explanation: "Four cents times eight hundred shares, kept rather than handed across the gap."
+    working: "$18.34 − $18.30 = $0.04 per share; $0.04 × 700 = $28"
+    explanation: "Four cents times seven hundred shares, kept rather than handed across the gap."
 
   - type: story
     character: retail-trader
-    text: "You wanted those 800 shares at $18.30. The bid never traded below $18.31, and a few minutes later the stock is $18.62."
+    text: "You wanted those 700 shares at $18.30. The bid never traded below $18.31, and a few minutes later the stock is $18.62."
 
   - type: mc
     prompt: "What did that limit order cost you?"
@@ -92,7 +92,7 @@ screens:
   - type: hotspot
     component: order-ticket
     prompt: "Tap the box a market order leaves empty."
-    data: {ticker: XYZ, side: buy, qty: 800, type: limit, price: 18.30}
+    data: {ticker: XYZ, side: buy, qty: 700, type: limit, price: 18.30}
     target: price
     explanation: "The limit price. Fill that box in and your order stops chasing the market and starts waiting for it."
 

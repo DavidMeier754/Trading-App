@@ -46,18 +46,18 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "XYZ gapped on an overnight headline. It is minutes into the session, the bars are enormous, and the panel is showing bid $19.77 / ask $19.99. Your $25,000 account allows 1,200 shares here."
+    text: "XYZ gapped on an overnight headline. It is minutes into the session, the bars are enormous, and the panel is showing bid $19.77 / ask $19.99. Your $25,000 account allows 900 shares here."
 
   - type: chart-decision
-    scenario: "Price has swung through a forty-cent range twice in six minutes and the panel is twenty-two cents wide. You have 1,200 shares ready."
-    shares: 1200
+    scenario: "Price has swung through a forty-cent range twice in six minutes and the panel is twenty-two cents wide. You have 900 shares ready."
+    shares: 900
     chart:
       kind: candles
       data: [[19.40, 19.86, 19.32, 19.74], [19.74, 19.92, 19.50, 19.58], [19.58, 19.96, 19.54, 19.90], [19.90, 20.10, 19.72, 19.80], [19.80, 20.04, 19.66, 19.98], [19.98, 20.16, 19.80, 19.88], [19.88, 20.06, 19.60, 19.66], [19.66, 19.90, 19.52, 19.84], [19.84, 20.00, 19.70, 19.76], [19.76, 19.94, 19.58, 19.64]]
       volume: [480000, 320000, 260000, 210000, 180000, 160000, 190000, 150000, 140000, 130000]
       decision_index: 5
     best: no-trade
-    outcome: "Four minutes on it was $19.64 — $0.24 a share below the decision, so $288 down on 1,200 shares long, with $264 of gap paid on top."
+    outcome: "Four minutes on it was $19.64 — $0.24 a share below the decision, so $216 down on 900 shares long, with $198 of gap paid on top."
     explanation: "The move is there and so is the volume. What is missing is a price you can enter and leave at without handing over a quarter of a dollar a share."
 
   - type: numeric-input

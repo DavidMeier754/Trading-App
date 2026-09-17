@@ -44,10 +44,10 @@ screens:
     prompt: "Your $26,000 account at one per cent, that nineteen-cent stop, the stock at $23.44. How many shares, and which ceiling bound it?"
     options:
       - {text: "1,368 shares, because the stop is what sizing is for"}
-      - {text: "1,109 shares, and the account is what bound it", correct: true}
+      - {text: "1,000 shares, and the account is what bound it", correct: true}
       - {text: "1,238 shares, splitting the two"}
       - {text: "2,736 shares, doubling the stop's number"}
-    working: "Risk: $260 ÷ $0.19 = 1,368. Account: $26,000 ÷ $23.44 = 1,109. The smaller is 1,109."
+    working: "Risk: $260 ÷ $0.19 = 1,368. Account: $26,000 ÷ $23.44 = 1,109, rounded down to 1,000. The smaller ceiling is the one you send."
     explanation: "A $23 share price is high enough that the cash runs out before the risk does, even on a stop this wide."
 
   - type: mc
@@ -64,15 +64,15 @@ screens:
     explanation: "Chapter 1 called the open the jumpiest part of the day, and Level 3 showed the quote at its widest there. A four-cent stop with an eight-cent gap inside it is not a stop at all."
 
   - type: order-build
-    prompt: "Send the protection for that short: buy back all 1,109 shares if $23.63 trades, at whatever price is there."
+    prompt: "Send the protection for that short: buy back all 1,000 shares if $23.63 trades, at whatever price is there."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [900, 1109, 1368]
+      qty: [900, 1000, 1368]
       price: [23.44, 23.63, 23.80]
-    answer: {side: buy, type: stop, qty: 1109, price: 23.63}
+    answer: {side: buy, type: stop, qty: 1000, price: 23.63}
     explanation: "A short is closed with a buy, and taking whatever price is there makes it the stop-market — the one that guarantees the exit rather than the price."
 
   - type: chart-decision

@@ -20,37 +20,37 @@ screens:
 
   - type: story
     character: retail-trader
-    text: "Three names on the list have given up a level this morning and you have one short to place. $19,000 in the account, one per cent to risk, and 1,000 shares is the size you want."
+    text: "Three names on the list have given up a level this morning and you have one short to place. $19,000 in the account, one per cent to risk, and 900 shares is the size you want."
 
   - type: scanner-pick
-    prompt: "One short, three candidates, 1,000 shares to place. Which row can carry it?"
+    prompt: "One short, three candidates, 900 shares to place. Which row can carry it?"
     data:
       rows:
         - {ticker: HVN, price: 18.60, change_pct: -4.2, spread: 0.03}
         - {ticker: ORC, price: 24.10, change_pct: -5.6, spread: 0.02}
         - {ticker: PLT, price: 14.80, change_pct: -3.9, spread: 0.16}
     target: HVN
-    explanation: "ORC is the biggest faller and 1,000 of it costs $24,100, which the account does not have. PLT's sixteen-cent gap takes $160 of the trade before it starts. HVN is the only row left standing."
+    explanation: "ORC is the biggest faller and 900 of it costs $21,690, which the account does not have. PLT's sixteen-cent gap takes $144 of the trade before it starts. HVN is the only row left standing."
 
   - type: numeric-input
-    prompt: "Short HVN from $18.58 with the stop four cents above the broken level at $18.70, so $18.74. What does the trade risk on 1,000 shares?"
-    answer: 160
+    prompt: "Short HVN from $18.58 with the stop four cents above the broken level at $18.70, so $18.74. What does the trade risk on 900 shares?"
+    answer: 144
     tolerance: 1
     unit: "$"
-    working: "$18.74 − $18.58 = $0.16; $0.16 × 1,000 = $160"
-    explanation: "Inside the $190 that one per cent of this account allows, so 1,000 shares is a size the stop can actually justify."
+    working: "$18.74 − $18.58 = $0.16; $0.16 × 900 = $144"
+    explanation: "Inside the $190 that one per cent of this account allows, so 900 shares is a size the stop can actually justify."
 
   - type: depth-ladder
-    prompt: "Your cover will be a market buy for all 1,000 shares. With the book at your target looking like this, where does the last share fill?"
+    prompt: "Your cover will be a market buy for all 900 shares. With the book at your target looking like this, where does the last share fill?"
     data:
       bids: [[18.41, 500], [18.40, 700], [18.39, 900]]
       asks: [[18.43, 400], [18.44, 700], [18.45, 800]]
     target: ask-2
-    explanation: "Covering is a buy, so it climbs the asks: 400 go off at $18.43 and the remaining 600 at $18.44, which is where your last share fills."
+    explanation: "Covering is a buy, so it climbs the asks: 400 go off at $18.43 and the remaining 500 at $18.44, which is where your last share fills."
 
   - type: chart-decision
-    scenario: "Setup 3, live. HVN has leaned on $18.70 three times and the minute that just closed cut through it on the biggest bar since the open. Bid $18.58 / ask $18.60, and your $19,000 account allows 1,000 shares here."
-    shares: 1000
+    scenario: "Setup 3, live. HVN has leaned on $18.70 three times and the minute that just closed cut through it on the biggest bar since the open. Bid $18.58 / ask $18.60, and your $19,000 account allows 900 shares here."
+    shares: 900
     state: ["Stop would sit at $18.74", "Cost $0.03 a share"]
     chart:
       kind: candles
@@ -59,19 +59,19 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked down to $18.43 — $0.15 a share below the decision, +$150 short on 1,000 shares before the $30 the round trip cost."
+    outcome: "It worked down to $18.43 — $0.15 a share below the decision, +$135 short on 900 shares before the $27 the round trip cost."
     explanation: "Three failures at the same price, a close well under it on the heaviest bar of the session, and a three-cent quote against a move worth fifteen. The arithmetic of a short runs in exactly the same direction."
 
   - type: journal-row
     prompt: "Fill the record for the short you just covered."
-    trade: {setup: "Level gave way", entry: 18.58, stop: 18.74, exit: 18.43, shares: 1000}
+    trade: {setup: "Level gave way", entry: 18.58, stop: 18.74, exit: 18.43, shares: 900}
     slots: [risk, gross, net]
     chips:
-      risk: ["$120", "$160", "$190"]
-      gross: ["$100", "$150", "$180"]
-      net: ["$90", "$120", "$150"]
-    answer: {risk: "$160", gross: "$150", net: "$120"}
-    explanation: "Sixteen cents of stop on 1,000 shares is $160 at risk, fifteen cents made is $150 gross, and three cents all-in leave $120."
+      risk: ["$108", "$144", "$190"]
+      gross: ["$90", "$135", "$162"]
+      net: ["$81", "$108", "$126"]
+    answer: {risk: "$144", gross: "$135", net: "$108"}
+    explanation: "Sixteen cents of stop on 900 shares is $144 at risk, fifteen cents made is $135 gross, and three cents all-in leave $108."
 
   - type: mc
     prompt: "You go to place Setup 3 and the broker has no HVN to lend. Chapter 1 called the shares you sell in a short borrowed. What does that leave you?"
