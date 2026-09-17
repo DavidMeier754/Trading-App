@@ -92,8 +92,8 @@ screens:
     body: "Chapter 4's order has not changed. The 5-minute decides which side you are allowed to be on and the 1-minute decides which minute. This card only reads the second of those."
 
   - type: chart-decision
-    scenario: "The 5-minute has made higher highs all morning. On the 1-minute the first push ran from $24.30 to $24.62, paused for two quiet minutes, and this one closes back up at $24.58. You have 1,200 shares ready and a $30,000 account."
-    shares: 1200
+    scenario: "The 5-minute has made higher highs all morning. On the 1-minute the first push ran from $24.30 to $24.62, paused for two quiet minutes, and this one closes back up at $24.58. You have 1,100 shares ready and a $30,000 account."
+    shares: 1100
     chart:
       kind: candles
       data: [[24.32, 24.42, 24.30, 24.40], [24.40, 24.52, 24.38, 24.50], [24.50, 24.62, 24.48, 24.60], [24.60, 24.62, 24.54, 24.56], [24.56, 24.58, 24.52, 24.54], [24.54, 24.60, 24.52, 24.58], [24.58, 24.70, 24.56, 24.68], [24.68, 24.80, 24.66, 24.78], [24.78, 24.88, 24.74, 24.86], [24.86, 24.94, 24.82, 24.90]]
@@ -101,7 +101,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to the measured move at $24.90: $0.32 per share, +$384 long on 1,200 shares from $24.58."
+    outcome: "It carried to the measured move at $24.90: $0.32 per share, +$352 long on 1,100 shares from $24.58."
     explanation: "First push, a ten-cent pause on the two quietest minutes, a close back up, and the slower chart pointing the same way. The stop sits at $24.50."
 
   - type: match

@@ -23,8 +23,8 @@ screens:
     text: "Two names on the screen, levels drawn before the open, nothing taken yet this morning."
 
   - type: chart-decision
-    scenario: "XYZ has held above VWAP since the open and eases into the line at $22.66 on shrinking volume. This candle closes at $22.72 on the heaviest volume in fifteen minutes. High of day $23.10. You have 1,300 shares ready and a $30,000 account."
-    shares: 1300
+    scenario: "XYZ has held above VWAP since the open and eases into the line at $22.66 on shrinking volume. This candle closes at $22.72 on the heaviest volume in fifteen minutes. High of day $23.10. You have 1,200 shares ready and a $30,000 account."
+    shares: 1200
     chart:
       kind: candles
       data: [[23.06, 23.10, 22.96, 22.98], [22.98, 23.00, 22.86, 22.88], [22.88, 22.90, 22.78, 22.80], [22.80, 22.82, 22.70, 22.72], [22.72, 22.74, 22.64, 22.66], [22.66, 22.74, 22.62, 22.72], [22.72, 22.82, 22.70, 22.80], [22.80, 22.90, 22.78, 22.88], [22.88, 22.98, 22.86, 22.96], [22.96, 23.10, 22.94, 23.08]]
@@ -33,12 +33,12 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran back to the high of day. Out at $23.08 — $0.36 per share, +$468 long on 1,300 shares from $22.72."
-    explanation: "Card A: the stop two cents under the reclaim low at $22.60 is twelve cents, and $30,000 is what capped the size at 1,300 shares."
+    outcome: "It ran back to the high of day. Out at $23.08 — $0.36 per share, +$432 long on 1,200 shares from $22.72."
+    explanation: "Card A: the stop two cents under the reclaim low at $22.60 is twelve cents, and $30,000 is what capped the size at 1,200 shares."
 
   - type: chart-decision
-    scenario: "XYZ closed under the opening-range low at $19.20 on the heaviest volume of the morning. This candle closes back above it at $19.22 on the lightest volume of the session. You have 1,500 shares ready."
-    shares: 1500
+    scenario: "XYZ closed under the opening-range low at $19.20 on the heaviest volume of the morning. This candle closes back above it at $19.22 on the lightest volume of the session. You have 1,400 shares ready."
+    shares: 1400
     chart:
       kind: candles
       data: [[19.56, 19.60, 19.46, 19.48], [19.48, 19.52, 19.38, 19.40], [19.40, 19.44, 19.28, 19.30], [19.30, 19.34, 19.20, 19.22], [19.22, 19.24, 19.10, 19.14], [19.14, 19.24, 19.12, 19.22], [19.22, 19.26, 19.12, 19.14], [19.14, 19.18, 19.02, 19.04], [19.04, 19.08, 18.92, 18.96], [18.96, 19.00, 18.84, 18.88]]
@@ -48,7 +48,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [short]
-    outcome: "It closed back under the level the next minute and slid to $18.88 — $0.34 against a long, $510 on 1,500 shares."
+    outcome: "It closed back under the level the next minute and slid to $18.88 — $0.34 against a long, $476 on 1,400 shares."
     explanation: "Card E wants the break to be the quiet bar and the return to be the loud one. Here it is the other way round, so the break was real and the return was nobody."
 
   - type: swipe-deck

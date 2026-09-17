@@ -74,8 +74,8 @@ screens:
     explanation: "The budget allows 2,000 and the card caps you at the first attempt's size. The smaller of the two wins, every time."
 
   - type: chart-decision
-    scenario: "You were stopped out of a long at KVN's opening-range high. Price has since closed under VWAP and under the box, and this minute bounces to $21.46. You have 1,200 shares ready and a $26,000 account."
-    shares: 1200
+    scenario: "You were stopped out of a long at KVN's opening-range high. Price has since closed under VWAP and under the box, and this minute bounces to $21.46. You have 1,100 shares ready and a $26,000 account."
+    shares: 1100
     state: ["Day: −1R", "Limit: 3R", "Trades: 1"]
     chart:
       kind: candles
@@ -87,7 +87,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [short]
-    outcome: "It kept going and traded at $21.06 — $0.40 against a 1,200-share long from $21.46, $480."
+    outcome: "It kept going and traded at $21.06 — $0.40 against a 1,100-share long from $21.46, $440."
     explanation: "The first condition is gone: price is under the box and under the line, so the card that stopped you out no longer exists to re-enter."
 
   - type: tf

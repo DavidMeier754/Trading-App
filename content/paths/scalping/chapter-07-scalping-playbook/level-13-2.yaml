@@ -30,8 +30,8 @@ screens:
     explanation: "DRT has the biggest move and a two-million float, which is the one your stop cannot survive. MDR has a reason, six times its normal volume and a two-cent spread."
 
   - type: chart-decision
-    scenario: "You were long 1,400 shares of QVN from $19.24 with the stop at $19.10, two cents under the pre-market low, and it clipped you by a cent. That low has held since and this minute closes at $19.26 on the heaviest volume since the stop."
-    shares: 1400
+    scenario: "You were long 1,300 shares of QVN from $19.24 with the stop at $19.10, two cents under the pre-market low, and it clipped you by a cent. That low has held since and this minute closes at $19.26 on the heaviest volume since the stop."
+    shares: 1300
     state: ["Day: −1R", "Limit: 3R", "Trades: 2"]
     chart:
       kind: candles
@@ -42,7 +42,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It made a new high of day and you took it at $19.65 — $0.39 per share, +$546 long on 1,400 shares from $19.26."
+    outcome: "It made a new high of day and you took it at $19.65 — $0.39 per share, +$507 long on 1,300 shares from $19.26."
     explanation: "Card H: the level survived the stop, a new minute closed the job, and one of the three units is gone. Stop $19.12, two cents under this minute's low."
 
   - type: match
@@ -87,8 +87,8 @@ screens:
     explanation: "Two takes and two passes, and neither pass is a chart that stood still. Both went somewhere; neither went where a card said it would."
 
   - type: chart-decision
-    scenario: "PVX has crossed the same two prices five times, but the band is only $13.74 to $13.86 and your round trip costs three cents a share. This minute pokes the ceiling and closes back inside at $13.82. You have 2,000 shares ready and a $28,000 account."
-    shares: 2000
+    scenario: "PVX has crossed the same two prices five times, but the band is only $13.74 to $13.86 and your round trip costs three cents a share. This minute pokes the ceiling and closes back inside at $13.82. You have 1,900 shares ready and a $28,000 account."
+    shares: 1900
     chart:
       kind: candles
       data: [[13.78, 13.84, 13.76, 13.80], [13.80, 13.86, 13.78, 13.82], [13.82, 13.84, 13.74, 13.76], [13.76, 13.82, 13.74, 13.80], [13.80, 13.86, 13.78, 13.84], [13.84, 13.86, 13.78, 13.82], [13.82, 13.84, 13.76, 13.76], [13.76, 13.84, 13.74, 13.80], [13.80, 13.86, 13.78, 13.82], [13.82, 13.86, 13.76, 13.80]]

@@ -91,8 +91,8 @@ screens:
     explanation: "Five triggers, five cards. Anything that does not match one of these lines is the sixth answer."
 
   - type: chart-decision
-    scenario: "XYZ pushed from $14.60 to $14.98, then paused for two quiet candles down to $14.86. This candle closes back up at $14.94. You have 2,000 shares ready and a $30,000 account."
-    shares: 2000
+    scenario: "XYZ pushed from $14.60 to $14.98, then paused for two quiet candles down to $14.86. This candle closes back up at $14.94. You have 1,900 shares ready and a $30,000 account."
+    shares: 1900
     chart:
       kind: candles
       data: [[14.62, 14.72, 14.60, 14.70], [14.70, 14.84, 14.68, 14.82], [14.82, 14.98, 14.80, 14.96], [14.96, 14.98, 14.88, 14.90], [14.90, 14.94, 14.86, 14.88], [14.88, 14.96, 14.86, 14.94], [14.94, 15.06, 14.92, 15.04], [15.04, 15.16, 15.02, 15.14], [15.14, 15.26, 15.12, 15.24], [15.24, 15.34, 15.22, 15.32]]
@@ -100,7 +100,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It reached the measured move at $15.32 — $0.38 per share, +$760 long on 2,000 shares from $14.94."
+    outcome: "It reached the measured move at $15.32 — $0.38 per share, +$722 long on 1,900 shares from $14.94."
     explanation: "Twelve cents given back out of a thirty-eight-cent leg, on the two quietest minutes, then a close back up: card C, with the stop two cents under the pause at $14.84."
 
   - type: mc

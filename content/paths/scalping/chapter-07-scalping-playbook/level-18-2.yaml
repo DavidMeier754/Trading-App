@@ -40,8 +40,8 @@ screens:
     explanation: "A settled above the line on triple the volume of its pullback. B reached the line four times and never closed above it, which is the card asking for something it never got."
 
   - type: chart-decision
-    scenario: "GLW ran from $19.10 to $19.58, then gave back fourteen cents over the two quietest minutes of the hour. This minute closes at $19.52 on the heaviest bar since the leg started. You have 1,300 shares ready and a $26,000 account."
-    shares: 1300
+    scenario: "GLW ran from $19.10 to $19.58, then gave back fourteen cents over the two quietest minutes of the hour. This minute closes at $19.52 on the heaviest bar since the leg started. You have 1,200 shares ready and a $26,000 account."
+    shares: 1200
     chart:
       kind: candles
       data: [[19.12, 19.26, 19.10, 19.24], [19.24, 19.42, 19.22, 19.40], [19.40, 19.58, 19.38, 19.56], [19.56, 19.58, 19.46, 19.48], [19.48, 19.52, 19.44, 19.46], [19.46, 19.54, 19.44, 19.52], [19.52, 19.66, 19.50, 19.64], [19.64, 19.78, 19.62, 19.76], [19.76, 19.86, 19.72, 19.82], [19.82, 19.92, 19.78, 19.88]]
@@ -49,7 +49,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran on to $19.88 — $0.36 per share, +$468 long on 1,300 shares from $19.52."
+    outcome: "It ran on to $19.88 — $0.36 per share, +$432 long on 1,200 shares from $19.52."
     explanation: "Card C: a forty-eight-cent leg, fourteen back on the two quietest minutes, then a close in the leg's direction on four times that volume. Stop $19.42."
 
   - type: compare

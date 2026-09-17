@@ -35,8 +35,8 @@ screens:
     explanation: "A has been to the same ceiling twice and the same floor twice. B stops every give-back higher than the last one, and an edge on that chart is a pause on the way up."
 
   - type: chart-decision
-    scenario: "TKR has made a new high of day every twenty minutes since the bell. On the 1-minute it is pressing the top of the last half hour at $19.46 for the third time in ten minutes. This minute closes at $19.44. You have 1,200 shares ready and a $24,000 account."
-    shares: 1200
+    scenario: "TKR has made a new high of day every twenty minutes since the bell. On the 1-minute it is pressing the top of the last half hour at $19.46 for the third time in ten minutes. This minute closes at $19.44. You have 1,100 shares ready and a $24,000 account."
+    shares: 1100
     chart:
       kind: candles
       data: [[19.28, 19.38, 19.26, 19.36], [19.36, 19.46, 19.32, 19.42], [19.42, 19.44, 19.34, 19.38], [19.38, 19.46, 19.36, 19.44], [19.44, 19.46, 19.38, 19.40], [19.40, 19.48, 19.38, 19.44], [19.44, 19.62, 19.42, 19.60], [19.60, 19.76, 19.56, 19.72], [19.72, 19.88, 19.68, 19.84], [19.84, 19.96, 19.80, 19.92]]
@@ -46,7 +46,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It closed above the band on the next minute and ran to $19.92. A 1,200-share short from $19.44 was $576 down."
+    outcome: "It closed above the band on the next minute and ran to $19.92. A 1,100-share short from $19.44 was $528 down."
     explanation: "Three attempts from three higher lows on a session making new highs. Waiting for the close beyond the band is card C; fading it is nothing at all."
 
   - type: theory
@@ -64,8 +64,8 @@ screens:
     explanation: "Price at the edge tells you nothing on its own. What price had to do to get there tells you most of it."
 
   - type: chart-decision
-    scenario: "BRC has crossed the same two prices four times this session: $16.84 at the floor, $17.18 at the ceiling, VWAP flat between them. This minute wicks to $16.82 and closes back inside at $16.92. You have 1,400 shares ready."
-    shares: 1400
+    scenario: "BRC has crossed the same two prices four times this session: $16.84 at the floor, $17.18 at the ceiling, VWAP flat between them. This minute wicks to $16.82 and closes back inside at $16.92. You have 1,300 shares ready."
+    shares: 1300
     chart:
       kind: candles
       data: [[17.10, 17.16, 17.02, 17.06], [17.06, 17.10, 16.96, 16.98], [16.98, 17.02, 16.88, 16.90], [16.90, 16.94, 16.84, 16.88], [16.88, 16.92, 16.84, 16.86], [16.86, 16.94, 16.82, 16.92], [16.92, 17.00, 16.90, 16.98], [16.98, 17.06, 16.94, 17.04], [17.04, 17.12, 17.00, 17.10], [17.10, 17.18, 17.06, 17.13], [17.13, 17.16, 17.04, 17.08]]
@@ -77,16 +77,16 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It rotated back to the ceiling and you let it go at $17.13 — $0.21 per share, +$294 long on 1,400 shares from $16.92."
+    outcome: "It rotated back to the ceiling and you let it go at $17.13 — $0.21 per share, +$273 long on 1,300 shares from $16.92."
     explanation: "The push under the floor arrived on the lightest volume of the hour and closed back inside on the heaviest. Stop $16.80, two cents under the wick."
 
   - type: numeric-input
-    prompt: "That trade took 21 cents out of a 34-cent band, on 1,400 shares. Spread and fees take $0.03 per share on the round trip. What is left?"
-    answer: 252
+    prompt: "That trade took 21 cents out of a 34-cent band, on 1,300 shares. Spread and fees take $0.03 per share on the round trip. What is left?"
+    answer: 234
     tolerance: 0.5
     unit: "$"
-    working: "$0.21 × 1,400 = $294; $0.03 × 1,400 = $42; $294 − $42 = $252"
-    explanation: "Forty-two dollars of a two-hundred-and-ninety-four-dollar move. A narrow band pays the same costs as a wide one."
+    working: "$0.21 × 1,300 = $273; $0.03 × 1,300 = $39; $273 − $39 = $234"
+    explanation: "Thirty-nine dollars of a two-hundred-and-seventy-three-dollar move. A narrow band pays the same costs as a wide one."
 
   - type: fill-choice
     sentence: "This card is on the table only while the slower chart is ___ rather than stepping."
