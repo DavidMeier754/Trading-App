@@ -36,8 +36,8 @@ screens:
     explanation: "A break handed back, the session under its own average again, two minutes finishing below the level, and the size that might have caught it leaving before it was asked to."
 
   - type: chart-decision
-    scenario: "The pre-market high is $11.36. The minute that just closed finished four cents above it and back above the session's average price, with 2,000-share prints going off at the ask and the bid refilling behind them. Your account is $24,000 and you are sizing 2,000 shares."
-    shares: 2000
+    scenario: "The pre-market high is $11.36. The minute that just closed finished four cents above it and back above the session's average price, with 2,000-share prints going off at the ask and the bid refilling behind them. Your account is $24,000 and you are sizing 1,900 shares."
+    shares: 1900
     chart:
       kind: candles
       data: [[11.30, 11.34, 11.22, 11.24], [11.24, 11.28, 11.16, 11.18], [11.18, 11.24, 11.14, 11.22], [11.22, 11.28, 11.20, 11.26], [11.26, 11.32, 11.24, 11.30], [11.30, 11.42, 11.28, 11.40], [11.40, 11.46, 11.38, 11.44], [11.44, 11.50, 11.42, 11.48], [11.48, 11.54, 11.46, 11.52], [11.52, 11.58, 11.50, 11.56], [11.56, 11.62, 11.54, 11.59]]
@@ -48,20 +48,20 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $11.59 — $0.19 a share past the decision, +$380 long on 2,000 shares."
+    outcome: "It worked up to $11.59 — $0.19 a share past the decision, +$361 long on 1,900 shares."
     explanation: "All four: the level, the side taken back on the same minute, a body that finished clear of both, and size still paying the ask behind it."
 
   - type: order-build
-    prompt: "Take that long: 2,000 shares, and you will pay up to two cents over the ask of $11.42 and no further."
+    prompt: "Take that long: 1,900 shares, and you will pay up to two cents over the ask of $11.42 and no further."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [1000, 1500, 2000]
+      qty: [900, 1400, 1900]
       price: [11.40, 11.42, 11.44]
-    answer: {side: buy, type: limit, qty: 2000, price: 11.44}
-    explanation: "Two thousand shares at $11.44 is $22,880, which the $24,000 account can pay for, and the limit refuses anything worse."
+    answer: {side: buy, type: limit, qty: 1900, price: 11.44}
+    explanation: "Nineteen hundred shares at $11.44 is $21,736, which the $24,000 account can pay for with room to spare, and the limit refuses anything worse."
 
   - type: compare
     prompt: "Both sessions have been above their own average price throughout. In which one is price standing at a level?"
@@ -82,8 +82,8 @@ screens:
     explanation: "Identical candles and identical lines under them. B has finished the stretch at the price its level was drawn at; A is sixty cents short of anything."
 
   - type: chart-decision
-    scenario: "The level at $17.70 has stopped price twice already this morning and the minute that just closed is its third arrival, two cents underneath, on the quietest bar of the stretch. Your account is $24,000 and you are sizing 1,300 shares."
-    shares: 1300
+    scenario: "The level at $17.70 has stopped price twice already this morning and the minute that just closed is its third arrival, two cents underneath, on the quietest bar of the stretch. Your account is $24,000 and you are sizing 1,200 shares."
+    shares: 1200
     chart:
       kind: candles
       data: [[17.60, 17.70, 17.58, 17.68], [17.68, 17.70, 17.60, 17.62], [17.62, 17.68, 17.58, 17.66], [17.66, 17.70, 17.62, 17.64], [17.64, 17.68, 17.60, 17.66], [17.66, 17.70, 17.64, 17.68], [17.68, 17.70, 17.62, 17.64], [17.64, 17.68, 17.60, 17.62], [17.62, 17.66, 17.58, 17.60], [17.60, 17.64, 17.56, 17.58], [17.58, 17.62, 17.54, 17.56]]
@@ -94,7 +94,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It never finished above the level and drifted to $17.56 — $0.12 a share against a long, $156 on 1,300 shares."
+    outcome: "It never finished above the level and drifted to $17.56 — $0.12 a share against a long, $144 on 1,200 shares."
     explanation: "Third arrival, lightest bar of the stretch, and nothing has finished through the level all morning. Two readings answered and the two that decide the moment did not."
 
   - type: swipe-deck

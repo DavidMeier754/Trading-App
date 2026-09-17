@@ -27,8 +27,8 @@ screens:
     body: "The map tells you there is a trade. The arithmetic tells you whether it survives the cost and whether the account can pay for it. In that order, every time."
 
   - type: chart-decision
-    scenario: "XYZ has taken the line back with two closes above it, and the pre-market high at $12.72 is the first line overhead. Your account is $20,000 and you are sizing 1,600 shares."
-    shares: 1600
+    scenario: "XYZ has taken the line back with two closes above it, and the pre-market high at $12.72 is the first line overhead. Your account is $20,000 and you are sizing 1,500 shares."
+    shares: 1500
     state: ["Costs $0.04 a share round trip"]
     chart:
       kind: candles
@@ -40,16 +40,16 @@ screens:
       decision_index: 6
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $12.69, three cents short of the line — $0.21 a share past the decision, +$336 long on 1,600 shares."
+    outcome: "It ran to $12.69, three cents short of the line — $0.21 a share past the decision, +$315 long on 1,500 shares."
     explanation: "Two closes back above the line, twenty-four cents of room to the next one, and four cents of cost to get there and back. The read and the price agree."
 
   - type: numeric-input
-    prompt: "Costs run four cents a share on that trade and you took 1,600 shares. What does the round trip hand over?"
-    answer: 64
+    prompt: "Costs run four cents a share on that trade and you took 1,500 shares. What does the round trip hand over?"
+    answer: 60
     tolerance: 0.01
     unit: "$"
-    working: "$0.04 a share × 1,600 shares = $64"
-    explanation: "A per-share number means nothing until the share count is attached, and $64 is what the trip costs whether it works or not."
+    working: "$0.04 a share × 1,500 shares = $60"
+    explanation: "A per-share number means nothing until the share count is attached, and $60 is what the trip costs whether it works or not."
 
   - type: slider
     prompt: "Costs four cents a share, and the line above is twenty-four cents away. How much of that target goes to costs?"
@@ -93,8 +93,8 @@ screens:
     explanation: "The account ceiling is not a cost you can weigh up — it is cash you either have or do not have."
 
   - type: chart-decision
-    scenario: "XYZ is stepping up above the line, the bars underneath are all near 10,000 shares, and the panel reads bid $18.09 / ask $18.23. Your account is $20,000 and you are sizing 1,100 shares."
-    shares: 1100
+    scenario: "XYZ is stepping up above the line, the bars underneath are all near 10,000 shares, and the panel reads bid $18.09 / ask $18.23. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
     chart:
       kind: candles
       data: [[17.96, 18.04, 17.94, 18.02], [18.02, 18.10, 18.00, 18.08], [18.08, 18.12, 18.04, 18.06], [18.06, 18.14, 18.04, 18.12], [18.12, 18.14, 18.08, 18.10], [18.10, 18.18, 18.08, 18.16], [18.16, 18.18, 18.10, 18.12], [18.12, 18.20, 18.10, 18.18], [18.18, 18.20, 18.12, 18.14], [18.14, 18.22, 18.12, 18.20]]
@@ -103,8 +103,8 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: []
-    outcome: "Four minutes later it was $18.20 — $0.04 a share past the decision, $44 on 1,100 shares against the $154 the gap would have taken."
-    explanation: "Fourteen cents wide against minutes that travel ten, and 1,100 shares is a tenth of everything this stock trades in a minute. The read is the least of the problems."
+    outcome: "Four minutes later it was $18.20 — $0.04 a share past the decision, $40 on 1,000 shares against the $140 the gap would have taken."
+    explanation: "Fourteen cents wide against minutes that travel ten, and 1,000 shares is a tenth of everything this stock trades in a minute. The read is the least of the problems."
 
   - type: fill-choice
     sentence: "The read says a trade is there; the ___ says whether you may take it."

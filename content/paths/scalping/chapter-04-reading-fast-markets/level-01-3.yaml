@@ -62,8 +62,8 @@ screens:
     explanation: "Eight cents is nothing on one share and a bonus on four hundred thousand. That is why the desk is patient at the line."
 
   - type: chart-decision
-    scenario: "XYZ has finished every minute of the session above the line. The minute that just closed took out the high of the morning on the heaviest bar since the open. Your account is $25,000 and you are sizing 1,400 shares."
-    shares: 1400
+    scenario: "XYZ has finished every minute of the session above the line. The minute that just closed took out the high of the morning on the heaviest bar since the open. Your account is $25,000 and you are sizing 1,300 shares."
+    shares: 1300
     chart:
       kind: candles
       data: [[17.02, 17.12, 17.00, 17.10], [17.10, 17.20, 17.08, 17.18], [17.18, 17.22, 17.12, 17.14], [17.14, 17.28, 17.12, 17.26], [17.26, 17.36, 17.24, 17.34], [17.34, 17.48, 17.32, 17.46], [17.46, 17.58, 17.44, 17.56], [17.56, 17.66, 17.54, 17.62], [17.62, 17.74, 17.60, 17.70], [17.70, 17.80, 17.68, 17.76], [17.76, 17.86, 17.74, 17.81]]
@@ -72,7 +72,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped up to $17.81 — $0.35 a share past the decision, +$490 long on 1,400 shares."
+    outcome: "It stepped up to $17.81 — $0.35 a share past the decision, +$455 long on 1,300 shares."
     explanation: "Nobody who bought this session is behind, and the biggest buyer of the morning arrived on the minute that made a new high."
 
   - type: tf

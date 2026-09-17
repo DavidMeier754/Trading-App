@@ -28,14 +28,14 @@ screens:
     body: "A stop-market turns into a market order the instant it triggers, and takes whatever size is resting underneath. If the rows below were pulled on the way down, your order is the one that finds out."
 
   - type: example
-    body: "1,500 shares stopped at $18.04 and filled at $17.97. Seven cents of it was not in the plan, and on 1,500 shares that is $105 of loss nobody chose."
+    body: "1,400 shares stopped at $18.04 and filled at $17.97. Seven cents of it was not in the plan, and on 1,400 shares that is $98 of loss nobody chose."
 
   - type: numeric-input
-    prompt: "Your stop was $18.04, the fill came back at $17.97, and the position was 1,500 shares. What did the difference cost?"
-    answer: 105
+    prompt: "Your stop was $18.04, the fill came back at $17.97, and the position was 1,400 shares. What did the difference cost?"
+    answer: 98
     tolerance: 0.01
     unit: "$"
-    working: "$18.04 − $17.97 = $0.07 a share; $0.07 × 1,500 shares = $105"
+    working: "$18.04 − $17.97 = $0.07 a share; $0.07 × 1,400 shares = $98"
     explanation: "Seven cents that never appeared in the plan, on a stop that was supposed to settle the question at $18.04."
 
   - type: slider
@@ -57,15 +57,15 @@ screens:
     explanation: "They trigger together and then part company: one accepts any price, the other accepts a price and risks staying in the trade."
 
   - type: order-build
-    prompt: "Place the stop for a 1,500-share long: you are out at $18.04, and you will take whatever the market gives you there."
+    prompt: "Place the stop for a 1,400-share long: you are out at $18.04, and you will take whatever the market gives you there."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [500, 1000, 1500]
+      qty: [600, 1000, 1400]
       price: [17.98, 18.04, 18.10]
-    answer: {side: sell, type: stop, qty: 1500, price: 18.04}
+    answer: {side: sell, type: stop, qty: 1400, price: 18.04}
     explanation: "Selling closes the long, and a stop at $18.04 is the price that triggers it rather than the price it is promised."
 
   - type: fill-choice

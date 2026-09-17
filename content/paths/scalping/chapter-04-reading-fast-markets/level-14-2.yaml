@@ -70,8 +70,8 @@ screens:
     explanation: "The slow one was made by five times as much trading, and five times as many traders are watching it."
 
   - type: chart-decision
-    scenario: "The 5-minute chart has been sideways between $19.18 and $19.44 all morning. On the 1-minute, price has just pushed up through its own average price on a slightly heavier bar. Your account is $18,000 and you are sizing 900 shares."
-    shares: 900
+    scenario: "The 5-minute chart has been sideways between $19.18 and $19.44 all morning. On the 1-minute, price has just pushed up through its own average price on a slightly heavier bar. Your account is $18,000 and you are sizing 800 shares."
+    shares: 800
     chart:
       kind: candles
       data: [[19.26, 19.30, 19.22, 19.24], [19.24, 19.28, 19.20, 19.26], [19.26, 19.32, 19.24, 19.30], [19.30, 19.34, 19.26, 19.28], [19.28, 19.34, 19.26, 19.32], [19.32, 19.38, 19.30, 19.36], [19.36, 19.38, 19.30, 19.32], [19.32, 19.36, 19.28, 19.30], [19.30, 19.34, 19.26, 19.28], [19.28, 19.32, 19.24, 19.26]]
@@ -80,7 +80,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It reached $19.38 and came back to $19.26 — $0.10 a share against a long, $90 on 900 shares."
+    outcome: "It reached $19.38 and came back to $19.26 — $0.10 a share against a long, $80 on 800 shares."
     explanation: "The trigger is real and the room above it is eight cents. Inside a 5-minute range the trades are at the edges, and this is the middle."
 
   - type: match
@@ -102,8 +102,8 @@ screens:
     explanation: "One slow bar is five fast ones with the middle thrown away — the first open, the last close, and the extremes of all five."
 
   - type: chart-decision
-    scenario: "The 5-minute chart has made three higher highs and three higher lows since the open, and its last higher low is $14.40. On the 1-minute, price has pulled back into that price and the minute that just closed finished twelve cents above it on a heavier bar. Your account is $18,000 and you are sizing 1,200 shares."
-    shares: 1200
+    scenario: "The 5-minute chart has made three higher highs and three higher lows since the open, and its last higher low is $14.40. On the 1-minute, price has pulled back into that price and the minute that just closed finished twelve cents above it on a heavier bar. Your account is $18,000 and you are sizing 1,100 shares."
+    shares: 1100
     chart:
       kind: candles
       data: [[14.62, 14.66, 14.56, 14.58], [14.58, 14.62, 14.52, 14.54], [14.54, 14.58, 14.48, 14.50], [14.50, 14.54, 14.44, 14.46], [14.46, 14.50, 14.40, 14.44], [14.44, 14.54, 14.42, 14.52], [14.52, 14.60, 14.50, 14.58], [14.58, 14.66, 14.56, 14.64], [14.64, 14.70, 14.60, 14.68], [14.68, 14.74, 14.64, 14.72], [14.72, 14.78, 14.68, 14.75]]
@@ -114,7 +114,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried on to $14.75 — $0.23 a share past the decision, +$276 long on 1,200 shares."
+    outcome: "It carried on to $14.75 — $0.23 a share past the decision, +$253 long on 1,100 shares."
     explanation: "The slow chart says the day is long, the give-back stopped at the price the slow chart last turned from, and the minute that left it was the heaviest in six."
 
   - type: fill-tiles

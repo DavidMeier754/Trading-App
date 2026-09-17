@@ -100,8 +100,8 @@ screens:
     explanation: "Only the last one was ever yours, which is why it is the only one worth arguing about beforehand."
 
   - type: chart-decision
-    scenario: "A different name, half an hour later. It has held above its own average price for twenty minutes, the spread is $0.02, and the minute that just closed finished six cents through yesterday's close at $16.40 on the heaviest bar of the stretch. Your account is $20,000 and you are sizing 1,200 shares."
-    shares: 1200
+    scenario: "A different name, half an hour later. It has held above its own average price for twenty minutes, the spread is $0.02, and the minute that just closed finished six cents through yesterday's close at $16.40 on the heaviest bar of the stretch. Your account is $20,000 and you are sizing 1,100 shares."
+    shares: 1100
     chart:
       kind: candles
       data: [[16.20, 16.26, 16.16, 16.24], [16.24, 16.30, 16.20, 16.26], [16.26, 16.32, 16.22, 16.28], [16.28, 16.34, 16.24, 16.32], [16.32, 16.40, 16.30, 16.38], [16.38, 16.48, 16.36, 16.46], [16.46, 16.52, 16.42, 16.50], [16.50, 16.58, 16.46, 16.56], [16.56, 16.62, 16.52, 16.60], [16.60, 16.66, 16.56, 16.64], [16.64, 16.70, 16.60, 16.67]]
@@ -112,7 +112,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped up to $16.67 — $0.21 a share past the decision, +$252 long on 1,200 shares."
+    outcome: "It stepped up to $16.67 — $0.21 a share past the decision, +$231 long on 1,100 shares."
     explanation: "Twenty quiet minutes on one side of the line, a two-cent quote and a level finished through on the heaviest minute: everything the other name could not offer."
 
   - type: example

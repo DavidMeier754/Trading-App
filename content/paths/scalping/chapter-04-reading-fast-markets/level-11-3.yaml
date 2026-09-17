@@ -33,11 +33,11 @@ screens:
     caption: "Twelve cents wide in the first minutes, three cents wide once the session settles. Same stock, same screen."
 
   - type: numeric-input
-    prompt: "Bid $17.86 / ask $17.98 and you want 1,200 shares in and back out. What does the gap alone take?"
-    answer: 144
+    prompt: "Bid $17.86 / ask $17.98 and you want 1,000 shares in and back out. What does the gap alone take?"
+    answer: 120
     tolerance: 0.01
     unit: "$"
-    working: "$17.98 − $17.86 = $0.12 a share; $0.12 × 1,200 shares = $144"
+    working: "$17.98 − $17.86 = $0.12 a share; $0.12 × 1,000 shares = $120"
     explanation: "Paid once across the open and the close, and paid before the read is asked to be right about anything."
 
   - type: slider
@@ -60,14 +60,14 @@ screens:
 
   - type: hotspot
     component: quote-panel
-    prompt: "You are taking 1,500 shares at the market in the first minutes. Tap the number that decides your fill."
+    prompt: "You are taking 1,100 shares at the market in the first minutes. Tap the number that decides your fill."
     data: {bid: 17.86, ask: 17.98, last: 17.92}
     target: ask
     explanation: "$17.98. The last trade is history and the bid is where you would be leaving, not arriving."
 
   - type: chart-decision
-    scenario: "The opening-range high is $17.86 and the minute that just closed finished eight cents above it on a heavy bar. The quote is twelve cents wide. Your account is $22,000 and you are sizing 1,200 shares."
-    shares: 1200
+    scenario: "The opening-range high is $17.86 and the minute that just closed finished eight cents above it on a heavy bar. The quote is twelve cents wide. Your account is $22,000 and you are sizing 1,000 shares."
+    shares: 1000
     state: ["Bid $17.86 / ask $17.98"]
     chart:
       kind: candles
@@ -79,7 +79,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It faded back to $17.84 — $0.10 a share against a long, $120 on 1,200 shares, on top of the $144 the gap alone would have taken."
+    outcome: "It faded back to $17.84 — $0.10 a share against a long, $100 on 1,000 shares, on top of the $120 the gap alone would have taken."
     explanation: "There is nothing wrong with the read. Twelve cents of gap against a move of this size is what is wrong, and the quote is the part you can wait out."
 
   - type: sort

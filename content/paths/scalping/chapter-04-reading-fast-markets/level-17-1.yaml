@@ -34,8 +34,8 @@ screens:
     explanation: "$15.24, set in the second minute. The seventh and eighth reached it again and neither finished through."
 
   - type: chart-decision
-    scenario: "The ninth minute traded two cents above the box at $15.26 and finished at $15.18, back inside. The bar under it was the lightest since the open. Your account is $22,000 and you are sizing 1,400 shares."
-    shares: 1400
+    scenario: "The ninth minute traded two cents above the box at $15.26 and finished at $15.18, back inside. The bar under it was the lightest since the open. Your account is $22,000 and you are sizing 1,300 shares."
+    shares: 1300
     chart:
       kind: candles
       data: [[15.00, 15.18, 14.96, 15.12], [15.12, 15.24, 15.08, 15.16], [15.16, 15.20, 15.04, 15.08], [15.08, 15.18, 15.02, 15.14], [15.14, 15.22, 15.10, 15.18], [15.18, 15.26, 15.14, 15.18], [15.18, 15.22, 15.10, 15.12], [15.12, 15.16, 15.04, 15.06], [15.06, 15.12, 15.00, 15.02], [15.02, 15.08, 14.96, 14.98]]
@@ -46,7 +46,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It rolled back through the box and finished at $14.98 — $0.20 a share against a long from $15.18, $280 on 1,400 shares."
+    outcome: "It rolled back through the box and finished at $14.98 — $0.20 a share against a long from $15.18, $260 on 1,300 shares."
     explanation: "A minute that finishes back inside on the lightest bar of the morning has answered the edge's question, and the answer was no."
 
   - type: mc
@@ -58,8 +58,8 @@ screens:
     explanation: "The high is worth more after the test than before it: it has been argued over once, and some of what was resting on it has been spent."
 
   - type: chart-decision
-    scenario: "Twenty minutes later. Price has climbed back and the minute that just closed finished seven cents above the box high on the heaviest bar since the opening minute, with the session above its own average price throughout the climb. Your account is $22,000 and you are sizing 1,400 shares."
-    shares: 1400
+    scenario: "Twenty minutes later. Price has climbed back and the minute that just closed finished seven cents above the box high on the heaviest bar since the opening minute, with the session above its own average price throughout the climb. Your account is $22,000 and you are sizing 1,300 shares."
+    shares: 1300
     chart:
       kind: candles
       data: [[15.02, 15.08, 14.98, 15.06], [15.06, 15.12, 15.02, 15.10], [15.10, 15.16, 15.06, 15.14], [15.14, 15.20, 15.10, 15.18], [15.18, 15.24, 15.14, 15.22], [15.22, 15.34, 15.20, 15.31], [15.31, 15.38, 15.28, 15.36], [15.36, 15.44, 15.32, 15.42], [15.42, 15.48, 15.38, 15.46], [15.46, 15.54, 15.42, 15.52], [15.52, 15.58, 15.48, 15.55]]
@@ -70,32 +70,32 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped up to $15.55 — $0.24 a share past the decision, +$336 long on 1,400 shares."
+    outcome: "It stepped up to $15.55 — $0.24 a share past the decision, +$312 long on 1,300 shares."
     explanation: "The same edge, the second attempt, and this time the minute finished clear of it with the biggest bar since the open underneath."
 
   - type: numeric-input
-    prompt: "You are in at $15.31 with the stop back inside the box at $15.19. What is at risk on 1,400 shares?"
-    answer: 168
+    prompt: "You are in at $15.31 with the stop back inside the box at $15.19. What is at risk on 1,300 shares?"
+    answer: 156
     tolerance: 0.01
     unit: "$"
-    working: "$15.31 − $15.19 = $0.12 a share; $0.12 × 1,400 shares = $168"
+    working: "$15.31 − $15.19 = $0.12 a share; $0.12 × 1,300 shares = $156"
     explanation: "Back inside the box is the break being taken back, so that is the only price the stop is worth putting at."
 
   - type: order-build
-    prompt: "Build the entry: 1,400 shares, paying up to two cents over the ask of $15.32 and no further."
+    prompt: "Build the entry: 1,300 shares, paying up to two cents over the ask of $15.32 and no further."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [1000, 1400, 1800]
+      qty: [900, 1300, 1700]
       price: [15.30, 15.32, 15.34]
-    answer: {side: buy, type: limit, qty: 1400, price: 15.34}
-    explanation: "Fourteen hundred at $15.34 is $21,476, inside the $22,000 account, and the cap refuses anything above it."
+    answer: {side: buy, type: limit, qty: 1300, price: 15.34}
+    explanation: "Thirteen hundred at $15.34 is $19,942, inside the $22,000 account, and the cap refuses anything above it."
 
   - type: branch
-    scenario: "You are long 1,400 shares from $15.31 with the stop at $15.19 and the next price you marked twenty-eight cents above."
-    shares: 1400
+    scenario: "You are long 1,300 shares from $15.31 with the stop at $15.19 and the next price you marked twenty-eight cents above."
+    shares: 1300
     chart:
       kind: candles
       data: [[15.22, 15.34, 15.20, 15.31], [15.31, 15.38, 15.28, 15.36], [15.36, 15.44, 15.32, 15.42], [15.42, 15.48, 15.38, 15.46], [15.46, 15.54, 15.42, 15.52], [15.52, 15.58, 15.48, 15.50], [15.50, 15.56, 15.44, 15.46], [15.46, 15.62, 15.44, 15.60], [15.60, 15.68, 15.56, 15.64], [15.64, 15.70, 15.60, 15.66]]
@@ -120,8 +120,8 @@ screens:
     explanation: "Two ceilings, and on a cheap stock with a tight stop it is almost always the account that binds first."
 
   - type: chart-decision
-    scenario: "An hour after the open. Price has settled into a nine-cent band, the bars are half what they were, and the nearest price you marked is twenty-two cents away. Your account is $22,000 and you are sizing 1,400 shares."
-    shares: 1400
+    scenario: "An hour after the open. Price has settled into a nine-cent band, the bars are half what they were, and the nearest price you marked is twenty-two cents away. Your account is $22,000 and you are sizing 1,300 shares."
+    shares: 1300
     chart:
       kind: candles
       data: [[15.50, 15.54, 15.47, 15.52], [15.52, 15.56, 15.48, 15.50], [15.50, 15.55, 15.47, 15.53], [15.53, 15.56, 15.48, 15.49], [15.49, 15.54, 15.47, 15.52], [15.52, 15.56, 15.48, 15.50], [15.50, 15.55, 15.47, 15.51], [15.51, 15.55, 15.48, 15.53], [15.53, 15.56, 15.49, 15.50], [15.50, 15.54, 15.47, 15.52]]

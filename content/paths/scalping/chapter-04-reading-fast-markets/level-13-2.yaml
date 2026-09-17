@@ -23,8 +23,8 @@ screens:
     body: "Run the four readings all morning and the ordinary answer is that one of them is missing. Two or three charts an hour answer all four, and a morning is judged by the reads you ran, not the trades you took."
 
   - type: chart-decision
-    scenario: "XYZ has held above its own average price all morning. The nearest price you marked is $16.90, and the minute that just closed is the lightest bar of the hour. Your account is $22,000 and you are sizing 1,300 shares."
-    shares: 1300
+    scenario: "XYZ has held above its own average price all morning. The nearest price you marked is $16.90, and the minute that just closed is the lightest bar of the hour. Your account is $22,000 and you are sizing 1,200 shares."
+    shares: 1200
     chart:
       kind: candles
       data: [[16.30, 16.38, 16.28, 16.36], [16.36, 16.44, 16.34, 16.42], [16.42, 16.46, 16.36, 16.38], [16.38, 16.46, 16.36, 16.44], [16.44, 16.50, 16.42, 16.48], [16.48, 16.52, 16.44, 16.48], [16.48, 16.54, 16.44, 16.50], [16.50, 16.54, 16.44, 16.46], [16.46, 16.52, 16.42, 16.48], [16.48, 16.52, 16.44, 16.46], [16.46, 16.50, 16.42, 16.44]]
@@ -35,7 +35,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It drifted between $16.44 and $16.54 for the rest of the stretch and finished at $16.44 — $0.04 a share against a long, $52 on 1,300 shares."
+    outcome: "It drifted between $16.44 and $16.54 for the rest of the stretch and finished at $16.44 — $0.04 a share against a long, $48 on 1,200 shares."
     explanation: "The side of the line is the only reading that answered. Forty-two cents of empty chart above price is not a level you are standing at."
 
   - type: compare

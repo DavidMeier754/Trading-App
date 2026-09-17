@@ -48,8 +48,8 @@ screens:
     explanation: "One close is a claim, two is an answer, and only then is there anything to buy."
 
   - type: chart-decision
-    scenario: "XYZ traded under the line for the first part of the session. The last two minutes have both finished above it, the first of them on the heaviest bar of the morning. Your account is $24,000 and you are sizing 1,500 shares."
-    shares: 1500
+    scenario: "XYZ traded under the line for the first part of the session. The last two minutes have both finished above it, the first of them on the heaviest bar of the morning. Your account is $24,000 and you are sizing 1,400 shares."
+    shares: 1400
     chart:
       kind: candles
       data: [[15.66, 15.68, 15.54, 15.56], [15.56, 15.58, 15.46, 15.48], [15.48, 15.54, 15.46, 15.52], [15.52, 15.58, 15.50, 15.56], [15.56, 15.62, 15.54, 15.60], [15.60, 15.68, 15.58, 15.66], [15.66, 15.72, 15.64, 15.70], [15.70, 15.78, 15.68, 15.76], [15.76, 15.84, 15.74, 15.82], [15.82, 15.90, 15.80, 15.88], [15.88, 15.96, 15.86, 15.94], [15.94, 16.02, 15.92, 16.00]]
@@ -58,7 +58,7 @@ screens:
       decision_index: 6
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped on to $16.00 — $0.30 a share past the decision, +$450 long on 1,500 shares."
+    outcome: "It stepped on to $16.00 — $0.30 a share past the decision, +$420 long on 1,400 shares."
     explanation: "A close above the line with weight behind it, and a second close that stayed there. Both halves happened before the entry."
 
   - type: compare
@@ -89,12 +89,12 @@ screens:
     explanation: "Heavy and brief is still brief. Everything that traded up there was sold back before the minute finished."
 
   - type: numeric-input
-    prompt: "You are long 1,500 shares from $15.70 with the stop two cents under the low of the minute that took the line back, at $15.56. What is at risk?"
-    answer: 210
+    prompt: "You are long 1,400 shares from $15.70 with the stop two cents under the low of the minute that took the line back, at $15.56. What is at risk?"
+    answer: 196
     tolerance: 0.01
     unit: "$"
-    working: "$15.70 − $15.56 = $0.14 a share; $0.14 × 1,500 shares = $210"
-    explanation: "The low that had to hold gives you the stop, and 1,500 × $15.70 is $23,550 — the account can carry it."
+    working: "$15.70 − $15.56 = $0.14 a share; $0.14 × 1,400 shares = $196"
+    explanation: "The low that had to hold gives you the stop, and 1,400 × $15.70 is $21,980 — the account can carry it."
 
   - type: checklist-reveal
     title: "Before you call the line taken back"

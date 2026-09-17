@@ -81,8 +81,8 @@ screens:
     explanation: "The shape passes the first question and fails the second, and the second one is what tells you somebody was actually there."
 
   - type: chart-decision
-    scenario: "XYZ has spent eleven minutes inside sixteen cents with the line running through the middle of them. The minute that just closed covers the whole body of the one before it. Your account is $28,000 and you are sizing 1,400 shares."
-    shares: 1400
+    scenario: "XYZ has spent eleven minutes inside sixteen cents with the line running through the middle of them. The minute that just closed covers the whole body of the one before it. Your account is $28,000 and you are sizing 1,300 shares."
+    shares: 1300
     chart:
       kind: candles
       data: [[19.08, 19.18, 19.04, 19.14], [19.14, 19.16, 19.04, 19.08], [19.08, 19.16, 19.04, 19.12], [19.12, 19.14, 19.02, 19.06], [19.06, 19.12, 19.04, 19.10], [19.04, 19.18, 19.02, 19.16], [19.16, 19.18, 19.06, 19.10], [19.10, 19.16, 19.06, 19.14], [19.14, 19.16, 19.04, 19.08], [19.08, 19.16, 19.04, 19.12], [19.12, 19.14, 19.04, 19.09]]
@@ -91,7 +91,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: []
-    outcome: "It was $19.09 six minutes later — $0.07 a share against a long, $98 on 1,400 shares before a single cost."
+    outcome: "It was $19.09 six minutes later — $0.07 a share against a long, $91 on 1,300 shares before a single cost."
     explanation: "The shape is real and there is nowhere for it to matter: no line within reach, the session's average price in the middle of the band, and the lightest bar of the eleven underneath it."
 
   - type: numeric-input

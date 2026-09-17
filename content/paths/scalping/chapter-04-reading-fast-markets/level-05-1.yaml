@@ -54,8 +54,8 @@ screens:
     explanation: "Price was available below the line and it was taken back inside the minute. The close is the only part of that minute that counts."
 
   - type: chart-decision
-    scenario: "XYZ has finished every minute above the line, and the give-back into it came on the three quietest bars of the session. Your account is $25,000 and you are sizing 1,400 shares."
-    shares: 1400
+    scenario: "XYZ has finished every minute above the line, and the give-back into it came on the three quietest bars of the session. Your account is $25,000 and you are sizing 1,300 shares."
+    shares: 1300
     chart:
       kind: candles
       data: [[17.44, 17.54, 17.42, 17.52], [17.52, 17.62, 17.50, 17.60], [17.60, 17.64, 17.56, 17.58], [17.58, 17.60, 17.52, 17.54], [17.54, 17.56, 17.48, 17.52], [17.52, 17.64, 17.50, 17.62], [17.62, 17.72, 17.60, 17.70], [17.70, 17.78, 17.68, 17.76], [17.76, 17.84, 17.74, 17.82], [17.82, 17.90, 17.80, 17.88], [17.88, 18.02, 17.86, 17.99]]
@@ -64,19 +64,19 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran on to $17.99 — $0.37 a share past the decision, +$518 long on 1,400 shares."
-    explanation: "Sellers ran out at the line and the minute that turned it was the heaviest of the session. 1,400 × $17.62 is $24,668, so the account can hold it."
+    outcome: "It ran on to $17.99 — $0.37 a share past the decision, +$481 long on 1,300 shares."
+    explanation: "Sellers ran out at the line and the minute that turned it was the heaviest of the session. 1,300 × $17.62 is $22,906, so the account can hold it."
 
   - type: order-build
-    prompt: "Take that long: 1,400 shares, and you will pay no more than two cents over the ask of $17.64."
+    prompt: "Take that long: 1,300 shares, and you will pay no more than two cents over the ask of $17.64."
     ticker: XYZ
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [700, 1400, 2100]
+      qty: [900, 1300, 1900]
       price: [17.62, 17.64, 17.66]
-    answer: {side: buy, type: limit, qty: 1400, price: 17.66}
+    answer: {side: buy, type: limit, qty: 1300, price: 17.66}
     explanation: "A limit two cents through the ask fills like a market order and still refuses anything worse than $17.66."
 
   - type: sort

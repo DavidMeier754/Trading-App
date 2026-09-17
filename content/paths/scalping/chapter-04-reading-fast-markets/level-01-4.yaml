@@ -47,8 +47,8 @@ screens:
     explanation: "Two of the five are the rule. The other three are a rule that has only half happened."
 
   - type: chart-decision
-    scenario: "XYZ has not closed above the line all session — the best it managed was six cents underneath — and the minute that just closed is the lowest of the morning. Your account is $22,000 and you are sizing 1,300 shares."
-    shares: 1300
+    scenario: "XYZ has not closed above the line all session — the best it managed was six cents underneath — and the minute that just closed is the lowest of the morning. Your account is $22,000 and you are sizing 1,200 shares."
+    shares: 1200
     chart:
       kind: candles
       data: [[16.70, 16.74, 16.62, 16.64], [16.64, 16.70, 16.58, 16.60], [16.60, 16.72, 16.58, 16.70], [16.70, 16.72, 16.64, 16.66], [16.66, 16.72, 16.60, 16.62], [16.62, 16.66, 16.54, 16.56], [16.56, 16.60, 16.46, 16.48], [16.48, 16.52, 16.38, 16.40], [16.40, 16.44, 16.30, 16.32], [16.32, 16.36, 16.24, 16.27], [16.27, 16.30, 16.18, 16.19]]
@@ -57,16 +57,16 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It ran down to $16.19 — $0.37 a share under the decision, +$481 short on 1,300 shares."
+    outcome: "It ran down to $16.19 — $0.37 a share under the decision, +$444 short on 1,200 shares."
     explanation: "The filter allows one side here, and the lowest close of the morning is the session agreeing with it."
 
   - type: numeric-input
-    prompt: "That short went on at $16.56 with the stop at $16.68, 1,300 shares. What was the planned loss?"
-    answer: 156
+    prompt: "That short went on at $16.56 with the stop at $16.68, 1,200 shares. What was the planned loss?"
+    answer: 144
     tolerance: 0.01
     unit: "$"
-    working: "$16.68 − $16.56 = $0.12 a share; $0.12 × 1,300 shares = $156"
-    explanation: "Twelve cents of stop on thirteen hundred shares, and 1,300 × $16.56 is $21,528 — inside the account with room left."
+    working: "$16.68 − $16.56 = $0.12 a share; $0.12 × 1,200 shares = $144"
+    explanation: "Twelve cents of stop on twelve hundred shares, and 1,200 × $16.56 is $19,872 — inside the account with room left."
 
   - type: compare
     prompt: "In which of these has the average share of the session been in front all morning?"

@@ -64,12 +64,12 @@ screens:
     explanation: "Direction without a price is not a position, and resting size is not a stop. The level is where both numbers come from."
 
   - type: depth-ladder
-    prompt: "You market-buy 2,000 shares to take that level back. Where does your last share fill?"
+    prompt: "You market-buy 1,600 shares to take that level back. Where does your last share fill?"
     data:
       bids: [[15.60, 800], [15.59, 600], [15.58, 1200]]
       asks: [[15.62, 600], [15.63, 500], [15.64, 1500]]
     target: ask-3
-    explanation: "600 shares at $15.62 and 500 at $15.63 leave 900 to come out of the 1,500 resting at $15.64."
+    explanation: "600 shares at $15.62 and 500 at $15.63 leave 500 to come out of the 1,500 resting at $15.64."
 
   - type: numeric-mc
     prompt: "Those 2,000 shares filled 600 at $15.62, 500 at $15.63 and 900 at $15.64. What did they cost on average?"

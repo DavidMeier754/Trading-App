@@ -27,8 +27,8 @@ screens:
     body: "Three higher highs do not promise a fourth. The first stretch that tops below the last one is the earliest thing the slow chart says, and it says it while you are still in."
 
   - type: chart-decision
-    scenario: "Since the open the 5-minute chart has made higher highs, but the stretch that just finished topped out four cents below the one before it. On the 1-minute, price is bouncing off its own average price. Your account is $20,000 and you are sizing 1,100 shares."
-    shares: 1100
+    scenario: "Since the open the 5-minute chart has made higher highs, but the stretch that just finished topped out four cents below the one before it. On the 1-minute, price is bouncing off its own average price. Your account is $20,000 and you are sizing 1,000 shares."
+    shares: 1000
     chart:
       kind: candles
       data: [[17.30, 17.36, 17.24, 17.26], [17.26, 17.30, 17.18, 17.20], [17.20, 17.26, 17.16, 17.24], [17.24, 17.28, 17.18, 17.20], [17.20, 17.24, 17.14, 17.16], [17.16, 17.26, 17.14, 17.24], [17.24, 17.28, 17.18, 17.20], [17.20, 17.24, 17.12, 17.14], [17.14, 17.18, 17.06, 17.08], [17.08, 17.12, 17.00, 17.02], [17.02, 17.06, 16.94, 16.97]]
@@ -37,12 +37,12 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "The bounce stopped at $17.28 and the session rolled to $16.97 — $0.27 a share against a long, $297 on 1,100 shares."
+    outcome: "The bounce stopped at $17.28 and the session rolled to $16.97 — $0.27 a share against a long, $270 on 1,000 shares."
     explanation: "The first lower high on the slow chart is the day changing its mind. A 1-minute bounce into that is the trade the old direction keeps offering after it has stopped paying."
 
   - type: branch
-    scenario: "You are long 1,100 shares of XYZ from $17.24 with the stop at $17.10, and your account is $20,000."
-    shares: 1100
+    scenario: "You are long 1,000 shares of XYZ from $17.24 with the stop at $17.10, and your account is $20,000."
+    shares: 1000
     chart:
       kind: candles
       data: [[17.10, 17.18, 17.08, 17.16], [17.16, 17.24, 17.14, 17.22], [17.22, 17.28, 17.18, 17.24], [17.24, 17.34, 17.22, 17.32], [17.32, 17.34, 17.26, 17.28], [17.28, 17.30, 17.18, 17.20], [17.20, 17.22, 17.08, 17.10], [17.10, 17.12, 17.00, 17.02], [17.02, 17.06, 16.96, 16.98], [16.98, 17.02, 16.92, 16.95]]

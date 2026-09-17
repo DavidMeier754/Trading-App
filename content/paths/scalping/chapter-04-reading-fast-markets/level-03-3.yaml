@@ -38,8 +38,8 @@ screens:
     explanation: "200 and 300 shares go first, and the last 300 hit the 9,000 sitting on $20.00 — the pile that makes the round number a level in the first place."
 
   - type: chart-decision
-    scenario: "$18.00 is the round number above. XYZ has not finished a minute above the line all session, and the push into $18.00 traded four cents through it and gave every cent back. Your account is $30,000 and you are sizing 1,600 shares."
-    shares: 1600
+    scenario: "$18.00 is the round number above. XYZ has not finished a minute above the line all session, and the push into $18.00 traded four cents through it and gave every cent back. Your account is $30,000 and you are sizing 1,500 shares."
+    shares: 1500
     chart:
       kind: candles
       data: [[17.80, 17.88, 17.78, 17.86], [17.86, 17.92, 17.84, 17.90], [17.90, 17.96, 17.88, 17.94], [17.94, 18.00, 17.92, 17.98], [17.98, 18.04, 17.94, 17.96], [17.96, 17.98, 17.88, 17.90], [17.90, 17.92, 17.84, 17.86], [17.86, 17.88, 17.78, 17.80], [17.80, 17.82, 17.74, 17.76], [17.76, 17.78, 17.70, 17.72], [17.72, 17.74, 17.68, 17.71]]
@@ -50,7 +50,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It leaked down to $17.71 — $0.19 a share under the decision, +$304 short on 1,600 shares."
+    outcome: "It leaked down to $17.71 — $0.19 a share under the decision, +$285 short on 1,500 shares."
     explanation: "The heaviest minute of the session was spent inside the band and finished under it, with the session's average price still overhead. Both lines point the same way."
 
   - type: mc
@@ -85,11 +85,11 @@ screens:
     explanation: "Both of them were. Five cents of scatter around a whole dollar is what the level looks like every time."
 
   - type: numeric-input
-    prompt: "You short 1,600 shares at $17.90 with the stop three cents above the round number, at $18.03. What is at risk?"
-    answer: 208
+    prompt: "You short 1,500 shares at $17.90 with the stop three cents above the round number, at $18.03. What is at risk?"
+    answer: 195
     tolerance: 0.01
     unit: "$"
-    working: "$18.03 − $17.90 = $0.13 a share; $0.13 × 1,600 shares = $208"
+    working: "$18.03 − $17.90 = $0.13 a share; $0.13 × 1,500 shares = $195"
     explanation: "The stop goes outside the band, not on the line, or the scatter takes you out before the level has answered."
 
   - type: fill-choice

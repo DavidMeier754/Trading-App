@@ -35,12 +35,12 @@ screens:
     caption: "Four thousand shares on the bid. Whether that is a floor depends entirely on what happens to it when price gets there."
 
   - type: depth-ladder
-    prompt: "The 2,400 at $20.03 has been taken twice and refilled twice. You market-buy 1,500 shares. Where does your last share fill?"
+    prompt: "The 2,400 at $20.03 has been taken twice and refilled twice. You market-buy 1,200 shares. Where does your last share fill?"
     data:
       bids: [[20.00, 900], [19.99, 600], [19.98, 1400]]
       asks: [[20.02, 300], [20.03, 2400], [20.04, 800]]
     target: ask-2
-    explanation: "300 shares clear the first row and the remaining 1,200 sit inside the 2,400 at $20.03, so the whole rest of the order fills there."
+    explanation: "300 shares clear the first row and the remaining 900 sit inside the 2,400 at $20.03, so the whole rest of the order fills there."
 
   - type: mc
     prompt: "A 6,000-share bid two cents under price vanishes without a single trade going off at it. What have you learned?"
@@ -99,8 +99,8 @@ screens:
     explanation: "Two of them are intentions, one is a fact, and one is the thing that turns an intention into a fact."
 
   - type: branch
-    scenario: "You are long 1,500 shares of XYZ from $18.16, leaning on 4,000 shares showing on the bid at $18.10. Your stop is at $18.04 and your account is $28,000."
-    shares: 1500
+    scenario: "You are long 1,400 shares of XYZ from $18.16, leaning on 4,000 shares showing on the bid at $18.10. Your stop is at $18.04 and your account is $28,000."
+    shares: 1400
     chart:
       kind: candles
       data: [[18.04, 18.12, 18.02, 18.10], [18.10, 18.20, 18.08, 18.18], [18.18, 18.22, 18.14, 18.16], [18.16, 18.24, 18.14, 18.22], [18.22, 18.24, 18.12, 18.14], [18.14, 18.16, 18.04, 18.06], [18.06, 18.08, 17.96, 17.98], [17.98, 18.02, 17.92, 17.94], [17.94, 17.98, 17.88, 17.90], [17.90, 17.94, 17.84, 17.86]]

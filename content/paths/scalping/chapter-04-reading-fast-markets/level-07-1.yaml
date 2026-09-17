@@ -48,8 +48,8 @@ screens:
     explanation: "The left-hand pair were drawn from different sessions and different habits. The right-hand pair are one price with two names on it."
 
   - type: chart-decision
-    scenario: "Yesterday's high is $20.98 and the round number above it is $21.00. XYZ has finished every minute above the line, and the minute that just closed finished through both of them on the heaviest bar of the morning. Your account is $24,000 and you are sizing 1,100 shares."
-    shares: 1100
+    scenario: "Yesterday's high is $20.98 and the round number above it is $21.00. XYZ has finished every minute above the line, and the minute that just closed finished through both of them on the heaviest bar of the morning. Your account is $24,000 and you are sizing 1,000 shares."
+    shares: 1000
     chart:
       kind: candles
       data: [[20.70, 20.78, 20.68, 20.76], [20.76, 20.84, 20.74, 20.82], [20.82, 20.86, 20.78, 20.80], [20.80, 20.88, 20.78, 20.86], [20.86, 20.90, 20.82, 20.88], [20.88, 21.08, 20.86, 21.06], [21.06, 21.14, 21.04, 21.12], [21.12, 21.20, 21.10, 21.18], [21.18, 21.26, 21.16, 21.24], [21.24, 21.30, 21.22, 21.28], [21.28, 21.36, 21.26, 21.33]]
@@ -61,15 +61,15 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $21.33 — $0.27 a share past the decision, +$297 long on 1,100 shares."
+    outcome: "It carried to $21.33 — $0.27 a share past the decision, +$270 long on 1,000 shares."
     explanation: "Three separate readings at one price: the last full session's ceiling, the number people type into orders, and a session that has never traded under its own average."
 
   - type: numeric-input
-    prompt: "Costs run four cents a share on that trade and you took 1,100 shares. What does the round trip hand over?"
-    answer: 44
+    prompt: "Costs run four cents a share on that trade and you took 1,000 shares. What does the round trip hand over?"
+    answer: 40
     tolerance: 0.01
     unit: "$"
-    working: "$0.04 a share × 1,100 shares = $44"
+    working: "$0.04 a share × 1,000 shares = $40"
     explanation: "Twenty-seven cents of move against four cents of cost is what a stack of reasons is supposed to buy you."
 
   - type: mc

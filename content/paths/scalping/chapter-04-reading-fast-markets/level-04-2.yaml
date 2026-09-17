@@ -72,8 +72,8 @@ screens:
     explanation: "Six cents of room in each. Four cents of cost against six cents of room is a trade that needs everything to go right just to get back to flat."
 
   - type: chart-decision
-    scenario: "Yesterday's high is $19.34 and XYZ has finished every minute above the line. Your account is $24,000 and you are sizing 1,200 shares."
-    shares: 1200
+    scenario: "Yesterday's high is $19.34 and XYZ has finished every minute above the line. Your account is $24,000 and you are sizing 1,100 shares."
+    shares: 1100
     state: ["Costs $0.04 a share round trip"]
     chart:
       kind: candles
@@ -85,7 +85,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: []
-    outcome: "Four minutes later it was $19.31 — $0.03 a share past the decision, $36 on 1,200 shares against $48 of costs."
+    outcome: "Four minutes later it was $19.31 — $0.03 a share past the decision, $33 on 1,100 shares against $44 of costs."
     explanation: "The side of the line is right and there is nothing behind it: six cents of room, four cents of cost, and a level that has capped every minute so far."
 
   - type: branch
