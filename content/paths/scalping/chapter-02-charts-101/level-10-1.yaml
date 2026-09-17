@@ -36,13 +36,14 @@ screens:
     explanation: "A finished four minutes in a row above $24.00 and never came back. B reached the same price twice and spent the rest of the stretch walking away from it."
 
   - type: chart-decision
-    scenario: "XYZ has pushed at $18.00 for three minutes without closing above it. The minute that just closed finished at $18.12 on 268,000 shares, twice the biggest bar before it. Your account is $20,000 and you are sizing 1,100 shares."
+    scenario: "Three minutes of pushing at $18.00 without a close above it. The minute that just closed finished at $18.12 on 268,000 shares, twice the biggest bar before it."
     shares: 1100
     chart:
       kind: candles
       data: [[17.72, 17.80, 17.68, 17.78], [17.78, 17.88, 17.76, 17.86], [17.86, 18.00, 17.84, 17.92], [17.92, 18.00, 17.88, 17.96], [17.96, 18.00, 17.92, 17.98], [17.98, 18.14, 17.96, 18.12], [18.12, 18.26, 18.10, 18.22], [18.22, 18.28, 18.16, 18.18], [18.18, 18.36, 18.16, 18.32], [18.32, 18.38, 18.26, 18.30], [18.30, 18.46, 18.28, 18.42]]
       volume: [96000, 108000, 142000, 128000, 136000, 268000, 210000, 128000, 176000, 104000, 168000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,100 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It carried on to $18.46 and finished at $18.42 — $0.30 a share above the decision, +$330 long on 1,100 shares."
@@ -81,13 +82,14 @@ screens:
     explanation: "Where the minute finished, and whether the ones after it agreed. Nothing else on the screen votes."
 
   - type: chart-decision
-    scenario: "XYZ has climbed into $21.00 and stopped. The minute that just closed is a two-cent body sitting right underneath it, on the thinnest bar of the last half hour. Your account is $20,000 and you are sizing 950 shares."
+    scenario: "Price climbed into $21.00 and stopped, and the minute that just closed is a two-cent body underneath it on the thinnest bar of the last half hour."
     shares: 950
     chart:
       kind: candles
       data: [[20.60, 20.70, 20.56, 20.68], [20.68, 20.80, 20.66, 20.78], [20.78, 20.90, 20.76, 20.86], [20.86, 21.00, 20.84, 20.92], [20.92, 21.00, 20.88, 20.96], [20.96, 21.02, 20.94, 20.98], [20.98, 21.04, 20.92, 20.96], [20.96, 21.02, 20.90, 20.94], [20.94, 21.00, 20.88, 20.98], [20.98, 21.02, 20.92, 20.96], [20.96, 21.00, 20.90, 20.94]]
       volume: [92000, 104000, 112000, 128000, 96000, 88000, 84000, 80000, 76000, 72000, 70000]
       decision_index: 5
+    state: ["Size: 950 shares"]
     best: no-trade
     outcome: "Six minutes later price was $20.94 — four cents under the decision, $38 down on 950 shares before a single cost."
     explanation: "Neither answer has arrived. Price is standing on the level on shrinking bars, which is the market saying 'not yet' in the only language it has."

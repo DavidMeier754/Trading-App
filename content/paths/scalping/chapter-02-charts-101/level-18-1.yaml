@@ -62,13 +62,14 @@ screens:
     explanation: "A close and a crowd make a reason. Movement on its own is just movement."
 
   - type: chart-decision
-    scenario: "XYZ has fallen five minutes straight into $13.00, a round number that stopped it earlier. The minute that just closed dipped to $13.00, finished at $13.16, and traded the heaviest bar of the fall. Your account is $20,000 and you are sizing 1,500 shares."
+    scenario: "XYZ has fallen five minutes straight into $13.00, a round number that stopped it earlier. The minute that just closed dipped to $13.00, finished at $13.16, and traded the heaviest bar of the fall."
     shares: 1500
     chart:
       kind: candles
       data: [[13.40, 13.44, 13.32, 13.34], [13.34, 13.38, 13.24, 13.26], [13.26, 13.30, 13.16, 13.18], [13.18, 13.22, 13.08, 13.12], [13.12, 13.16, 13.02, 13.06], [13.06, 13.18, 13.00, 13.16], [13.16, 13.26, 13.14, 13.24], [13.24, 13.32, 13.20, 13.28], [13.28, 13.36, 13.24, 13.32], [13.32, 13.38, 13.28, 13.34], [13.34, 13.42, 13.30, 13.38]]
       volume: [118000, 126000, 138000, 152000, 168000, 264000, 218000, 186000, 164000, 142000, 156000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,500 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "Buyers held the level and price reached $13.42, finishing at $13.38 — $0.22 a share above the decision, +$330 long on 1,500 shares."
@@ -102,13 +103,14 @@ screens:
     explanation: "The change is measured against yesterday's close, and it tells you how much of today's move has already been taken."
 
   - type: chart-decision
-    scenario: "XYZ has made lower highs and lower lows all morning. It has rallied back into $22.40, the last lower high, and the minute that just closed was refused there and finished at $22.28 on the heaviest bar of the rally. Your account is $20,000 and you are sizing 850 shares."
+    scenario: "XYZ has made lower highs and lower lows all morning. It has rallied back into $22.40, the last lower high. The minute that just closed was refused there and finished at $22.28 on the heaviest bar of the rally."
     shares: 850
     chart:
       kind: candles
       data: [[22.40, 22.52, 22.36, 22.38], [22.38, 22.44, 22.20, 22.24], [22.24, 22.30, 22.10, 22.14], [22.14, 22.36, 22.12, 22.32], [22.32, 22.40, 22.28, 22.36], [22.36, 22.41, 22.26, 22.28], [22.28, 22.33, 22.12, 22.14], [22.14, 22.19, 21.98, 22.03], [22.03, 22.10, 21.91, 21.96], [21.96, 22.03, 21.89, 21.94], [21.94, 22.01, 21.87, 21.96]]
       volume: [174000, 188000, 196000, 142000, 128000, 246000, 232000, 214000, 198000, 182000, 168000]
       decision_index: 5
+    state: ["Size: 850 shares"]
     best: short
     reasonable: [no-trade]
     outcome: "It rolled away to $21.87 and finished at $21.96 — $0.32 a share, +$272 short on 850 shares."

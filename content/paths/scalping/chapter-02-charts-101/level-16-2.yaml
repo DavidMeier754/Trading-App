@@ -72,13 +72,14 @@ screens:
     explanation: "Five minutes of the morning being handed back on the heaviest bar of the eight. Every long idea on the 1-minute after that is fighting this candle."
 
   - type: chart-decision
-    scenario: "The 5-minute has made higher highs and higher lows all morning. On the 1-minute, XYZ has just closed at $19.72, twelve cents above the pre-market high you marked, on the heaviest bar of the session. Your account is $20,000 and you are sizing 1,000 shares."
+    scenario: "The 5-minute has made higher highs and higher lows all morning. On the 1-minute, XYZ has just closed at $19.72, twelve cents above the pre-market high you marked, on the heaviest bar of the session."
     shares: 1000
     chart:
       kind: candles
       data: [[19.30, 19.40, 19.26, 19.38], [19.38, 19.48, 19.34, 19.44], [19.44, 19.60, 19.42, 19.52], [19.52, 19.58, 19.46, 19.50], [19.50, 19.60, 19.46, 19.56], [19.56, 19.74, 19.54, 19.72], [19.72, 19.84, 19.68, 19.80], [19.80, 19.90, 19.74, 19.86], [19.86, 19.96, 19.82, 19.92], [19.92, 20.00, 19.88, 19.96], [19.96, 20.08, 19.94, 20.04]]
       volume: [168000, 194000, 246000, 142000, 176000, 328000, 286000, 248000, 212000, 184000, 206000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,000 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It worked up to $20.08 and finished at $20.04 — $0.32 a share above the decision, +$320 long on 1,000 shares."
@@ -104,13 +105,14 @@ screens:
     explanation: "It holds five times as much of the session in the same space, so it changes its mind five times less often."
 
   - type: chart-decision
-    scenario: "The 5-minute has made lower highs and lower lows all morning. On the 1-minute, XYZ has just closed green at $12.86 on the best bar in ten minutes. Your account is $20,000 and you are sizing 1,500 shares."
+    scenario: "Lower highs and lower lows on the 5-minute all morning, and on the 1-minute XYZ has just closed green at $12.86 on the best bar in ten minutes."
     shares: 1500
     chart:
       kind: candles
       data: [[12.60, 12.66, 12.54, 12.58], [12.58, 12.64, 12.52, 12.62], [12.62, 12.70, 12.58, 12.66], [12.66, 12.72, 12.60, 12.64], [12.64, 12.78, 12.62, 12.76], [12.76, 12.90, 12.74, 12.86], [12.86, 12.90, 12.72, 12.74], [12.74, 12.78, 12.60, 12.62], [12.62, 12.68, 12.52, 12.56], [12.56, 12.62, 12.46, 12.50], [12.50, 12.56, 12.42, 12.46]]
       volume: [132000, 142000, 156000, 168000, 186000, 224000, 208000, 232000, 218000, 196000, 184000]
       decision_index: 5
+    state: ["Size: 1,500 shares"]
     best: no-trade
     outcome: "It rolled back over to $12.42 and finished at $12.46 — a long at the decision would be $0.40 a share offside, $600 down on 1,500 shares."
     explanation: "One good minute inside a morning of bad ones. The 1-minute chart is allowed to be excited; the 5-minute is the one you have to get past."

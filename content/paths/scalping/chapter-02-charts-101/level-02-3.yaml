@@ -43,12 +43,13 @@ screens:
     explanation: "Take when the last minutes kept what they took. Pass when they handed it back, or when both sides keep swapping the same few cents."
 
   - type: chart-decision
-    scenario: "XYZ has fallen five minutes with small red bodies. The candle that just closed is green, longer than any of them, and it finished at the top of its own minute. Your account is $20,000 and you are sizing 1,500 shares."
+    scenario: "Five minutes of small red bodies. The candle that just closed is green, longer than any of them, and it finished at the top of its own minute."
     shares: 1500
     chart:
       kind: candles
       data: [[12.94, 12.98, 12.86, 12.88], [12.88, 12.90, 12.78, 12.80], [12.80, 12.84, 12.70, 12.72], [12.72, 12.76, 12.62, 12.64], [12.64, 12.68, 12.58, 12.62], [12.62, 12.84, 12.61, 12.83], [12.83, 12.92, 12.80, 12.90], [12.90, 12.99, 12.87, 12.97], [12.97, 13.04, 12.93, 13.01], [13.01, 13.08, 12.98, 13.05], [13.05, 13.10, 13.01, 13.07]]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,500 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It carried to $13.10 and finished at $13.07 — $0.24 a share above the decision, +$360 long on 1,500 shares."
@@ -65,12 +66,13 @@ screens:
     explanation: "That is the length of the upper wick, and it is the size of the refusal."
 
   - type: chart-decision
-    scenario: "XYZ climbed three minutes, then twice reached above $21.20 and was pushed straight back. The candle that just closed is a long red body finishing at its own low. Your account is $20,000 and you are sizing 900 shares."
+    scenario: "XYZ climbed three minutes, then reached above $21.20 twice and was pushed straight back both times. A long red body has just closed at its own low."
     shares: 900
     chart:
       kind: candles
       data: [[20.60, 20.72, 20.58, 20.70], [20.70, 20.86, 20.68, 20.84], [20.84, 21.02, 20.82, 21.00], [21.00, 21.26, 20.98, 21.04], [21.04, 21.24, 21.00, 21.06], [21.06, 21.08, 20.86, 20.87], [20.87, 20.90, 20.70, 20.72], [20.72, 20.76, 20.58, 20.60], [20.60, 20.66, 20.50, 20.53], [20.53, 20.58, 20.44, 20.47], [20.47, 20.52, 20.40, 20.43]]
       decision_index: 5
+    state: ["Size: 900 shares"]
     best: short
     reasonable: [no-trade]
     outcome: "It slid to $20.40 and finished the run at $20.43 — $0.44 a share, +$396 short on 900 shares."
@@ -91,12 +93,13 @@ screens:
     explanation: "Read the body against the whole candle, and you have measured the refusal without doing any arithmetic."
 
   - type: chart-decision
-    scenario: "XYZ has spent six minutes with small bodies and threads out both sides, none of them finishing more than four cents from where it started. Your account is $20,000 and you are sizing 700 shares."
+    scenario: "Six minutes of small bodies and threads out both sides, none of them finishing more than four cents from where it started."
     shares: 700
     chart:
       kind: candles
       data: [[26.90, 26.98, 26.82, 26.92], [26.92, 27.00, 26.84, 26.88], [26.88, 26.96, 26.80, 26.94], [26.94, 27.02, 26.86, 26.90], [26.90, 26.98, 26.82, 26.95], [26.95, 27.01, 26.87, 26.91], [26.91, 26.99, 26.83, 26.96], [26.96, 27.02, 26.88, 26.90], [26.90, 26.98, 26.84, 26.95], [26.95, 27.00, 26.86, 26.89], [26.89, 26.97, 26.83, 26.93]]
       decision_index: 5
+    state: ["Size: 700 shares"]
     best: no-trade
     outcome: "Five minutes on, price was $26.93 — two cents above the decision, $14 on 700 shares before a single cost."
     explanation: "Neither side has kept anything for six minutes running, so there is no push to join in either direction."

@@ -45,13 +45,14 @@ screens:
     explanation: "Sold high, bought back thirty cents lower, and the share count turns the thirty cents into the number that matters."
 
   - type: chart-decision
-    scenario: "XYZ pushed from $15.16 to $15.52 on bars near 145,000, then handed back three minutes on 64,000, 48,000 and 42,000 that stopped at $15.30. The minute that just closed finished at $15.48 on 164,000. Your account is $20,000 and you are sizing 1,250 shares."
+    scenario: "XYZ pushed from $15.16 to $15.52 on bars near 145,000. Three minutes came back on 64,000, 48,000 and 42,000, stopping at $15.30. The minute that just closed finished at $15.48 on 164,000."
     shares: 1250
     chart:
       kind: candles
       data: [[15.20, 15.34, 15.16, 15.32], [15.32, 15.48, 15.30, 15.46], [15.46, 15.52, 15.36, 15.38], [15.38, 15.42, 15.32, 15.34], [15.34, 15.38, 15.30, 15.32], [15.32, 15.50, 15.30, 15.48], [15.48, 15.62, 15.46, 15.58], [15.58, 15.64, 15.52, 15.54], [15.54, 15.72, 15.52, 15.68], [15.68, 15.74, 15.62, 15.66], [15.66, 15.82, 15.64, 15.78]]
       volume: [138000, 152000, 64000, 48000, 42000, 164000, 148000, 92000, 140000, 88000, 134000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,250 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It carried on to $15.82 and finished at $15.78 — $0.30 a share above the decision, +$375 long on 1,250 shares."
@@ -84,13 +85,14 @@ screens:
     explanation: "Two tests: is the last floor still under price, and is the dip quieter than the push that made it."
 
   - type: chart-decision
-    scenario: "XYZ was turned away at $19.80 eight minutes ago. The minute that just closed reached it again and finished at $19.54, on 186,000 shares — the heaviest of the morning. Your account is $20,000 and you are sizing 1,000 shares."
+    scenario: "XYZ was turned away at $19.80 eight minutes ago. The minute that just closed reached it again and finished at $19.54, on 186,000 shares — the heaviest of the morning."
     shares: 1000
     chart:
       kind: candles
       data: [[19.30, 19.40, 19.26, 19.38], [19.38, 19.50, 19.36, 19.48], [19.48, 19.80, 19.46, 19.58], [19.58, 19.64, 19.52, 19.54], [19.54, 19.66, 19.50, 19.64], [19.64, 19.80, 19.52, 19.54], [19.54, 19.58, 19.42, 19.44], [19.44, 19.50, 19.34, 19.36], [19.36, 19.42, 19.26, 19.30], [19.30, 19.36, 19.22, 19.26], [19.26, 19.32, 19.14, 19.18]]
       volume: [96000, 108000, 172000, 88000, 102000, 186000, 154000, 138000, 132000, 116000, 124000]
       decision_index: 5
+    state: ["Size: 1,000 shares"]
     best: short
     reasonable: [no-trade]
     outcome: "It rolled away to $19.14 and finished at $19.18 — $0.36 a share, +$360 short on 1,000 shares."

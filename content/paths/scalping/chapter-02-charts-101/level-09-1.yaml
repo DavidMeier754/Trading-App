@@ -69,13 +69,14 @@ screens:
     explanation: "Levels are areas a few cents wide. People remember the number, not the tick, so treat the last two cents as part of the same price."
 
   - type: chart-decision
-    scenario: "XYZ was turned away at $19.60 ten minutes ago. It has come back up and the minute that just closed reached $19.60 again, finished fourteen cents below it, and printed the heaviest bar of the morning. Your account is $20,000 and you are sizing 1,000 shares."
+    scenario: "XYZ was turned away at $19.60 ten minutes ago. It has come back up. The minute that just closed reached $19.60 again, finished fourteen cents below it, and printed the heaviest bar of the morning."
     shares: 1000
     chart:
       kind: candles
       data: [[19.20, 19.34, 19.16, 19.32], [19.32, 19.48, 19.30, 19.44], [19.44, 19.60, 19.42, 19.48], [19.48, 19.54, 19.38, 19.40], [19.40, 19.52, 19.36, 19.50], [19.50, 19.60, 19.44, 19.46], [19.46, 19.50, 19.34, 19.36], [19.36, 19.40, 19.24, 19.26], [19.26, 19.32, 19.16, 19.18], [19.18, 19.24, 19.10, 19.14], [19.14, 19.20, 19.04, 19.08]]
       volume: [104000, 118000, 146000, 88000, 96000, 152000, 128000, 134000, 122000, 110000, 102000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,000 shares"]
     best: short
     reasonable: [no-trade]
     outcome: "It fell away to $19.04 and finished at $19.08 — $0.38 a share, +$380 short on 1,000 shares."

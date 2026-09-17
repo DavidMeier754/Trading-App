@@ -85,13 +85,14 @@ screens:
     explanation: "The same number lands in either bucket. What decides it is the stock beside it."
 
   - type: chart-decision
-    scenario: "XYZ has traded between 36,000 and 44,000 shares a minute all morning. The candle that just closed is a long green body on 182,000. Your account is $20,000 and you are sizing 1,200 shares."
+    scenario: "All morning XYZ has traded between 36,000 and 44,000 shares a minute, and the candle that just closed is a long green body on 182,000."
     shares: 1200
     chart:
       kind: candles
       data: [[15.86, 15.92, 15.82, 15.90], [15.90, 15.96, 15.87, 15.93], [15.93, 15.98, 15.89, 15.95], [15.95, 16.00, 15.92, 15.97], [15.97, 16.02, 15.94, 15.99], [15.99, 16.16, 15.98, 16.14], [16.14, 16.26, 16.11, 16.24], [16.24, 16.34, 16.20, 16.31], [16.31, 16.40, 16.28, 16.37], [16.37, 16.44, 16.33, 16.41], [16.41, 16.48, 16.38, 16.45]]
       volume: [38000, 42000, 36000, 40000, 44000, 182000, 164000, 140000, 118000, 96000, 82000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,200 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It kept going to $16.48 and finished at $16.45 — $0.31 a share above the decision, +$372 long on 1,200 shares."

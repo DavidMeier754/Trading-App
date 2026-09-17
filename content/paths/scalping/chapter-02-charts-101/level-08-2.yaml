@@ -58,13 +58,14 @@ screens:
     explanation: "A's dip ran at a third of the push's traffic. B's dip printed twice it — the busiest minutes of B's morning happened on the way down."
 
   - type: chart-decision
-    scenario: "XYZ pushed from $26.16 to $26.72 on bars near 170,000, then gave back two minutes on 66,000 and 48,000 that stopped at $26.48. The minute that just closed is green on 176,000. Your account is $20,000 and you are sizing 700 shares."
+    scenario: "A push from $26.16 to $26.72 on bars near 170,000, then two minutes back on 66,000 and 48,000 that stopped at $26.48. The minute that just closed is green on 176,000."
     shares: 700
     chart:
       kind: candles
       data: [[26.20, 26.40, 26.16, 26.36], [26.36, 26.58, 26.34, 26.54], [26.54, 26.72, 26.52, 26.68], [26.68, 26.72, 26.54, 26.56], [26.56, 26.60, 26.48, 26.50], [26.50, 26.74, 26.48, 26.72], [26.72, 26.92, 26.70, 26.88], [26.88, 26.94, 26.80, 26.84], [26.84, 27.06, 26.82, 27.02], [27.02, 27.08, 26.94, 26.98], [26.98, 27.18, 26.96, 27.14]]
       volume: [154000, 168000, 182000, 66000, 48000, 176000, 190000, 120000, 174000, 110000, 166000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 700 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It worked up to $27.18 and finished at $27.14 — $0.42 a share above the decision, +$294 long on 700 shares."
@@ -84,13 +85,14 @@ screens:
     explanation: "You are always comparing the dip to the push that came before it, never to a fixed number of shares."
 
   - type: chart-decision
-    scenario: "XYZ pushed to $15.48 on bars near 105,000. The three minutes since have all been red, on 218,000, 246,000 and 232,000, and the last one finished at $15.14. Your account is $20,000 and you are sizing 1,300 shares."
+    scenario: "XYZ pushed to $15.48 on bars near 105,000. The three minutes since have all been red — 218,000, 246,000 and 232,000 — and the last of them finished at $15.14."
     shares: 1300
     chart:
       kind: candles
       data: [[15.10, 15.24, 15.06, 15.22], [15.22, 15.36, 15.20, 15.34], [15.34, 15.48, 15.32, 15.44], [15.44, 15.46, 15.28, 15.30], [15.30, 15.34, 15.16, 15.18], [15.18, 15.24, 15.12, 15.14], [15.14, 15.18, 15.02, 15.04], [15.04, 15.10, 14.94, 14.96], [14.96, 15.02, 14.86, 14.90], [14.90, 14.96, 14.82, 14.86], [14.86, 14.92, 14.78, 14.82]]
       volume: [92000, 104000, 116000, 218000, 246000, 232000, 208000, 190000, 168000, 150000, 140000]
       decision_index: 5
+    state: ["Size: 1,300 shares"]
     best: no-trade
     reasonable: [short]
     outcome: "It carried on to $14.78 and finished at $14.82. Buying that dip would have been $0.32 a share underwater — $416 on 1,300 shares."

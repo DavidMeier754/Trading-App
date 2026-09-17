@@ -46,13 +46,14 @@ screens:
     explanation: "A break needs a finished minute outside the range, a bar heavy enough to mean a crowd, and a stock that can carry your size back out again."
 
   - type: chart-decision
-    scenario: "XYZ gapped down from $19.40 to $18.60 and has not finished a single minute back above the opening price. Your account is $20,000 and you are sizing 1,000 shares."
+    scenario: "A gap down from $19.40 to $18.60, and not one minute since has finished back above the opening price."
     shares: 1000
     chart:
       kind: candles
       data: [[18.60, 18.66, 18.42, 18.48], [18.48, 18.56, 18.40, 18.44], [18.44, 18.58, 18.38, 18.52], [18.52, 18.56, 18.36, 18.40], [18.40, 18.48, 18.32, 18.36], [18.36, 18.40, 18.20, 18.22], [18.22, 18.26, 18.10, 18.12], [18.12, 18.18, 18.00, 18.04], [18.04, 18.10, 17.92, 17.94], [17.94, 17.98, 17.82, 17.86], [17.86, 17.90, 17.74, 17.78]]
       volume: [452000, 318000, 286000, 264000, 242000, 308000, 286000, 262000, 238000, 214000, 202000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,000 shares"]
     best: short
     reasonable: [no-trade]
     outcome: "It ran down to $17.74 and finished at $17.78 — $0.44 a share, +$440 short on 1,000 shares."
@@ -67,13 +68,14 @@ screens:
     explanation: "Eighteen cents is an ordinary opening scalp, and at that price the account can still pay for the shares."
 
   - type: chart-decision
-    scenario: "XYZ has spent six minutes inside the same forty cents, crossing its opening price of $24.20 on almost every one of them. Your account is $20,000 and you are sizing 800 shares."
+    scenario: "Six minutes inside the same forty cents, and almost every one of them crossed the opening price of $24.20."
     shares: 800
     chart:
       kind: candles
       data: [[24.20, 24.52, 24.06, 24.40], [24.40, 24.48, 24.14, 24.20], [24.20, 24.46, 24.12, 24.38], [24.38, 24.50, 24.18, 24.24], [24.24, 24.44, 24.16, 24.36], [24.36, 24.46, 24.14, 24.22], [24.22, 24.44, 24.18, 24.38], [24.38, 24.48, 24.20, 24.26], [24.26, 24.42, 24.16, 24.34], [24.34, 24.46, 24.22, 24.28], [24.28, 24.40, 24.20, 24.32]]
       volume: [486000, 372000, 336000, 318000, 294000, 286000, 272000, 264000, 252000, 244000, 238000]
       decision_index: 5
+    state: ["Size: 800 shares"]
     best: no-trade
     outcome: "Five minutes later price was $24.32, ten cents above the decision and still inside the same range — $80 on 800 shares before costs."
     explanation: "Both edges are being visited and neither is being kept. This is the shape the first minutes make when the argument is not settled."
@@ -84,13 +86,14 @@ screens:
     explanation: "The chart is identical and the exit is not. In the thin one your own order is most of the minute, going in and coming out."
 
   - type: chart-decision
-    scenario: "XYZ gapped up and held it. The opening range is $11.34 to $11.62, and the minute that just closed finished at $11.72 on 364,000 shares. Your account is $20,000 and you are sizing 1,700 shares."
+    scenario: "XYZ gapped up and held it. The opening range is $11.34 to $11.62, and the minute that just closed finished at $11.72 on 364,000 shares."
     shares: 1700
     chart:
       kind: candles
       data: [[11.40, 11.62, 11.34, 11.56], [11.56, 11.60, 11.44, 11.48], [11.48, 11.58, 11.42, 11.54], [11.54, 11.60, 11.48, 11.52], [11.52, 11.62, 11.46, 11.58], [11.58, 11.74, 11.56, 11.72], [11.72, 11.80, 11.68, 11.78], [11.78, 11.84, 11.72, 11.74], [11.74, 11.88, 11.72, 11.86], [11.86, 11.92, 11.80, 11.84], [11.84, 11.96, 11.82, 11.92]]
       volume: [446000, 312000, 268000, 232000, 214000, 364000, 296000, 238000, 272000, 224000, 246000]
       decision_index: 5
+    state: ["Size: 1,700 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It worked up to $11.96 and finished at $11.92 — $0.20 a share above the decision, +$340 long on 1,700 shares."

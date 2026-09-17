@@ -64,13 +64,14 @@ screens:
     explanation: "The day's colour is not the shape. Once the last floor breaks, the higher lows are over whatever the stock did since the open."
 
   - type: chart-decision
-    scenario: "XYZ pushed from $12.20 to $12.62, handed back two minutes on shrinking bars that stopped at $12.44, and the minute that just closed is green again on 152,000 shares. Your account is $20,000 and you are sizing 1,500 shares."
+    scenario: "XYZ pushed from $12.20 to $12.62, handed back two minutes on shrinking bars that stopped at $12.44, and the minute that just closed is green again on 152,000 shares."
     shares: 1500
     chart:
       kind: candles
       data: [[12.20, 12.34, 12.16, 12.32], [12.32, 12.48, 12.30, 12.46], [12.46, 12.62, 12.44, 12.58], [12.58, 12.62, 12.48, 12.50], [12.50, 12.54, 12.44, 12.46], [12.46, 12.64, 12.44, 12.62], [12.62, 12.78, 12.60, 12.74], [12.74, 12.80, 12.68, 12.70], [12.70, 12.90, 12.68, 12.86], [12.86, 12.92, 12.80, 12.84], [12.84, 13.00, 12.82, 12.96]]
       volume: [132000, 146000, 158000, 62000, 48000, 152000, 140000, 66000, 148000, 60000, 144000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,500 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It went on to $13.00 and finished at $12.96 — $0.34 a share above the decision, +$510 long on 1,500 shares."

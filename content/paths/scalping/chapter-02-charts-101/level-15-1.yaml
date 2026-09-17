@@ -51,13 +51,14 @@ screens:
     explanation: "Fifteen per cent of a minute going in, and the same again coming out. At that size you are not reading the chart, you are part of it."
 
   - type: chart-decision
-    scenario: "XYZ trades around 190,000 shares a minute all morning and has spent the last six minutes inside nine cents. Your account is $20,000 and you are sizing 1,000 shares."
+    scenario: "Around 190,000 shares a minute all morning, and the last six minutes have stayed inside nine cents."
     shares: 1000
     chart:
       kind: candles
       data: [[19.40, 19.44, 19.38, 19.42], [19.42, 19.45, 19.39, 19.41], [19.41, 19.44, 19.38, 19.43], [19.43, 19.46, 19.40, 19.42], [19.42, 19.45, 19.39, 19.44], [19.44, 19.47, 19.41, 19.43], [19.43, 19.46, 19.40, 19.42], [19.42, 19.45, 19.39, 19.44], [19.44, 19.47, 19.41, 19.45], [19.45, 19.48, 19.42, 19.44], [19.44, 19.47, 19.41, 19.46]]
       volume: [212000, 196000, 184000, 202000, 178000, 190000, 186000, 174000, 192000, 168000, 182000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,000 shares"]
     best: no-trade
     outcome: "Five minutes later price was $19.46, three cents above the decision — $30 on 1,000 shares, before a spread that would take most of it."
     explanation: "You could get in and out of this all day, and there is nothing in it to get. Easy to trade and worth trading are two different dials."
@@ -78,13 +79,14 @@ screens:
     explanation: "That is the whole left-hand column of this sub-level: heavy bars, tiny candles, nothing to pay for the costs of being there."
 
   - type: chart-decision
-    scenario: "XYZ trades near 200,000 shares a minute and moves in ten-cent candles. $14.20 has turned it back twice, and the minute that just closed finished at $14.32 on 312,000 shares. Your account is $20,000 and you are sizing 1,350 shares."
+    scenario: "XYZ trades near 200,000 shares a minute and moves in ten-cent candles. $14.20 has turned it back twice. The minute that just closed finished at $14.32 on 312,000 shares."
     shares: 1350
     chart:
       kind: candles
       data: [[13.86, 13.96, 13.82, 13.94], [13.94, 14.06, 13.90, 14.02], [14.02, 14.20, 13.98, 14.10], [14.10, 14.20, 14.04, 14.08], [14.08, 14.16, 14.02, 14.12], [14.12, 14.34, 14.10, 14.32], [14.32, 14.44, 14.28, 14.40], [14.40, 14.50, 14.34, 14.46], [14.46, 14.58, 14.42, 14.54], [14.54, 14.60, 14.48, 14.52], [14.52, 14.64, 14.50, 14.60]]
       volume: [142000, 168000, 224000, 138000, 156000, 312000, 268000, 232000, 206000, 178000, 194000]
       decision_index: 5
+    state: ["Size: 1,350 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It worked up to $14.64 and finished at $14.60 — $0.28 a share above the decision, +$378 long on 1,350 shares."

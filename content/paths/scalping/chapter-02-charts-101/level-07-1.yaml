@@ -57,13 +57,14 @@ screens:
     explanation: "Deeper dips mean the sellers take more ground each time. Whatever the highs do, the floor is dropping."
 
   - type: chart-decision
-    scenario: "XYZ has stepped up for five minutes. The last two dips stopped at $13.24 and then $13.38, and the minute that just closed is another shallow dip that held at $13.38. Your account is $20,000 and you are sizing 1,400 shares."
+    scenario: "Five minutes of stepping up. The last two dips stopped at $13.24 and then $13.38, and the minute that just closed is another shallow dip that held at $13.38."
     shares: 1400
     chart:
       kind: candles
       data: [[13.10, 13.22, 13.06, 13.20], [13.20, 13.24, 13.12, 13.14], [13.14, 13.36, 13.12, 13.32], [13.32, 13.38, 13.24, 13.26], [13.26, 13.50, 13.24, 13.46], [13.46, 13.52, 13.38, 13.42], [13.42, 13.66, 13.40, 13.62], [13.62, 13.70, 13.56, 13.60], [13.60, 13.84, 13.58, 13.80], [13.80, 13.88, 13.74, 13.78], [13.78, 13.94, 13.72, 13.90]]
       volume: [92000, 58000, 110000, 54000, 128000, 62000, 136000, 70000, 150000, 74000, 158000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,400 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It kept stepping up to $13.94 and finished at $13.90 — $0.48 a share above the decision, +$672 long on 1,400 shares."

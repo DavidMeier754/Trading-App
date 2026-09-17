@@ -47,13 +47,14 @@ screens:
       - "A next minute that cannot make a new high"
 
   - type: chart-decision
-    scenario: "XYZ has climbed six minutes. The minute that just closed reached $21.86, finished at $21.52 and traded 468,000 shares, more than any bar of the run. Your account is $20,000 and you are sizing 900 shares."
+    scenario: "The run is six minutes old. The minute that just closed reached $21.86, finished at $21.52, and traded 468,000 shares — more than any bar of it."
     shares: 900
     chart:
       kind: candles
       data: [[20.60, 20.72, 20.56, 20.70], [20.70, 20.90, 20.68, 20.88], [20.88, 21.12, 20.86, 21.10], [21.10, 21.36, 21.06, 21.34], [21.34, 21.52, 21.30, 21.48], [21.48, 21.86, 21.40, 21.52], [21.52, 21.58, 21.34, 21.38], [21.38, 21.44, 21.22, 21.26], [21.26, 21.34, 21.18, 21.30], [21.30, 21.36, 21.20, 21.24], [21.24, 21.30, 21.14, 21.18]]
       volume: [94000, 138000, 186000, 242000, 286000, 468000, 322000, 286000, 214000, 178000, 156000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 900 shares"]
     best: no-trade
     reasonable: [short]
     outcome: "Price drifted to $21.14 and finished at $21.18 — a long at the decision would be $0.34 a share offside, $306 down on 900 shares."
@@ -97,13 +98,14 @@ screens:
     explanation: "The crowd has arrived. That is the problem: the buying is behind you, not in front of you."
 
   - type: chart-decision
-    scenario: "The climax bar printed three minutes ago at $18.34. Since then XYZ has not made a new high, and the minute that just closed finished at $17.76, under the low of that bar, on 296,000 shares. Your account is $20,000 and you are sizing 1,100 shares."
+    scenario: "The climax bar printed three minutes ago at $18.34. XYZ has made no new high since, and the minute that just closed finished at $17.76 — under the low of that bar, on 296,000 shares."
     shares: 1100
     chart:
       kind: candles
       data: [[17.60, 17.78, 17.58, 17.76], [17.76, 17.98, 17.74, 17.96], [17.96, 18.34, 17.90, 18.02], [18.02, 18.12, 17.94, 17.98], [17.98, 18.06, 17.88, 17.90], [17.90, 17.94, 17.74, 17.76], [17.76, 17.80, 17.62, 17.64], [17.64, 17.70, 17.52, 17.56], [17.56, 17.62, 17.44, 17.48], [17.48, 17.54, 17.38, 17.42], [17.42, 17.48, 17.30, 17.34]]
       volume: [128000, 182000, 462000, 268000, 232000, 296000, 264000, 238000, 212000, 186000, 168000]
       decision_index: 5
+    state: ["Size: 1,100 shares"]
     best: short
     reasonable: [no-trade]
     outcome: "It slid to $17.30 and finished at $17.34 — $0.42 a share, +$462 short on 1,100 shares."

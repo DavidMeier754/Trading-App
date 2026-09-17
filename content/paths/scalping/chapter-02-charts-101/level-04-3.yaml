@@ -59,13 +59,14 @@ screens:
     explanation: "Liquidity is other people trading, and that is the minute there are most of them — a climax bar fills the sellers as readily as the buyers."
 
   - type: chart-decision
-    scenario: "XYZ has run for five minutes. The candle that just closed reached $23.46, finished back at $23.06 and traded more than twice the shares of any minute before it. Your account is $20,000 and you are sizing 800 shares."
+    scenario: "Five minutes of running, and then this: a candle that reached $23.46, finished back at $23.06, and traded more than twice the shares of any minute before it."
     shares: 800
     chart:
       kind: candles
       data: [[22.20, 22.34, 22.16, 22.32], [22.32, 22.50, 22.30, 22.48], [22.48, 22.70, 22.44, 22.66], [22.66, 22.88, 22.62, 22.84], [22.84, 23.02, 22.80, 22.98], [22.98, 23.46, 22.94, 23.06], [23.06, 23.12, 22.88, 22.92], [22.92, 22.98, 22.74, 22.78], [22.78, 22.86, 22.66, 22.82], [22.82, 22.88, 22.70, 22.74], [22.74, 22.82, 22.64, 22.70]]
       volume: [70000, 96000, 132000, 168000, 204000, 460000, 300000, 250000, 190000, 150000, 130000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 800 shares"]
     best: no-trade
     reasonable: [short]
     outcome: "Price drifted back to $22.70. Buying there would have been $0.36 a share underwater — $288 on 800 shares."
@@ -104,13 +105,14 @@ screens:
     explanation: "The bar gives you the size of the audience; the candle tells you what they did."
 
   - type: chart-decision
-    scenario: "XYZ has been quiet for five minutes on bars around 40,000 shares. The candle that just closed is a long green body on 196,000, the first heavy minute of the morning. Your account is $20,000 and you are sizing 1,700 shares."
+    scenario: "Bars around 40,000 shares for five quiet minutes. The candle that just closed is a long green body on 196,000, the first heavy minute of the morning."
     shares: 1700
     chart:
       kind: candles
       data: [[10.82, 10.86, 10.78, 10.80], [10.80, 10.84, 10.76, 10.82], [10.82, 10.88, 10.80, 10.86], [10.86, 10.90, 10.82, 10.88], [10.88, 10.94, 10.86, 10.92], [10.92, 11.10, 10.90, 11.08], [11.08, 11.20, 11.05, 11.18], [11.18, 11.28, 11.14, 11.25], [11.25, 11.34, 11.22, 11.32], [11.32, 11.40, 11.28, 11.37], [11.37, 11.44, 11.34, 11.41]]
       volume: [44000, 38000, 42000, 40000, 46000, 196000, 178000, 156000, 132000, 110000, 94000]
       decision_index: 5
+    state: ["Size: 1,700 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It worked up to $11.44 and finished at $11.41 — $0.33 a share above the decision, +$561 long on 1,700 shares."

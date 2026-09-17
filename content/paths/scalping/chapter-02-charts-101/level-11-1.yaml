@@ -31,13 +31,14 @@ screens:
     explanation: "A finished four minutes running above $19.50. B reached it twice and spent the rest of the stretch making lower closes underneath it."
 
   - type: chart-decision
-    scenario: "XYZ has reached $14.00 twice without closing above it. The minute that just closed finished at $14.10 on 254,000 shares, more than any bar this morning. Your account is $20,000 and you are sizing 1,400 shares."
+    scenario: "$14.00 has turned XYZ back twice without a close above it. The minute that just closed finished at $14.10 on 254,000 shares, more than any bar this morning."
     shares: 1400
     chart:
       kind: candles
       data: [[13.62, 13.70, 13.58, 13.68], [13.68, 13.78, 13.66, 13.76], [13.76, 13.90, 13.74, 13.86], [13.86, 14.00, 13.84, 13.94], [13.94, 14.00, 13.90, 13.96], [13.96, 14.12, 13.94, 14.10], [14.10, 14.24, 14.08, 14.20], [14.20, 14.26, 14.14, 14.16], [14.16, 14.34, 14.14, 14.30], [14.30, 14.36, 14.24, 14.28], [14.28, 14.44, 14.26, 14.40]]
       volume: [96000, 104000, 118000, 146000, 128000, 254000, 196000, 118000, 168000, 102000, 158000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,400 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It worked up to $14.44 and finished at $14.40 — $0.30 a share above the decision, +$420 long on 1,400 shares."
@@ -52,13 +53,14 @@ screens:
     explanation: "A handful of traders set that price. The whole session is voting on it now, and this is the vote that moves real size."
 
   - type: chart-decision
-    scenario: "XYZ has run into $26.50 twice in eight minutes. The minute that just closed reached it again and finished eighteen cents below, on the heaviest bar of the morning. Your account is $20,000 and you are sizing 750 shares."
+    scenario: "Two runs into $26.50 in eight minutes. The minute that just closed reached it again and finished eighteen cents below, on the heaviest bar of the morning."
     shares: 750
     chart:
       kind: candles
       data: [[26.10, 26.20, 26.06, 26.18], [26.18, 26.30, 26.16, 26.28], [26.28, 26.50, 26.26, 26.36], [26.36, 26.42, 26.30, 26.32], [26.32, 26.44, 26.28, 26.42], [26.42, 26.50, 26.30, 26.32], [26.32, 26.36, 26.20, 26.22], [26.22, 26.28, 26.10, 26.12], [26.12, 26.18, 26.00, 26.04], [26.04, 26.10, 25.94, 25.98], [25.98, 26.04, 25.88, 25.92]]
       volume: [104000, 112000, 168000, 96000, 108000, 176000, 148000, 136000, 142000, 122000, 116000]
       decision_index: 5
+    state: ["Size: 750 shares"]
     best: short
     reasonable: [no-trade]
     outcome: "It slid away to $25.88 and finished at $25.92 — $0.40 a share, +$300 short on 750 shares."
@@ -73,13 +75,14 @@ screens:
     explanation: "Twenty-eight cents of the forty the move eventually gave, which is what taking the middle of a move looks like."
 
   - type: chart-decision
-    scenario: "The level above is $11.80. XYZ has come within eight cents of it and spent five minutes there, on bars shrinking from 82,000 to 46,000. Your account is $20,000 and you are sizing 1,700 shares."
+    scenario: "The level above is $11.80. XYZ has come within eight cents of it and spent five minutes there, on bars shrinking from 82,000 to 46,000."
     shares: 1700
     chart:
       kind: candles
       data: [[11.60, 11.66, 11.56, 11.64], [11.64, 11.70, 11.60, 11.68], [11.68, 11.74, 11.64, 11.72], [11.72, 11.76, 11.68, 11.70], [11.70, 11.75, 11.67, 11.73], [11.73, 11.76, 11.70, 11.72], [11.72, 11.77, 11.69, 11.74], [11.74, 11.78, 11.70, 11.72], [11.72, 11.76, 11.68, 11.70], [11.70, 11.75, 11.67, 11.73], [11.73, 11.78, 11.69, 11.74]]
       volume: [82000, 88000, 76000, 62000, 54000, 46000, 44000, 42000, 40000, 44000, 42000]
       decision_index: 5
+    state: ["Size: 1,700 shares"]
     best: no-trade
     outcome: "Five minutes on price was $11.74, two cents above the decision and still short of the level — $34 on 1,700 shares before costs."
     explanation: "The level has not been asked a question yet, and the bars say nobody is in a hurry to ask one. There is no answer to trade."
@@ -94,13 +97,14 @@ screens:
     explanation: "Two of these are trades, one is a warning and one is a waiting room. Telling them apart is the whole level."
 
   - type: chart-decision
-    scenario: "XYZ has fallen into $20.50 and held it twice. The minute that just closed opened on the level and finished at $20.66 on 188,000 shares, the heaviest since the fall began. Your account is $20,000 and you are sizing 950 shares."
+    scenario: "Two holds at $20.50 on the way down. The minute that just closed opened on the level and finished at $20.66 on 188,000 shares, the heaviest since the fall began."
     shares: 950
     chart:
       kind: candles
       data: [[20.98, 21.02, 20.86, 20.88], [20.88, 20.92, 20.74, 20.76], [20.76, 20.80, 20.62, 20.66], [20.66, 20.70, 20.50, 20.56], [20.56, 20.62, 20.50, 20.52], [20.52, 20.66, 20.50, 20.66], [20.66, 20.80, 20.64, 20.78], [20.78, 20.84, 20.72, 20.74], [20.74, 20.92, 20.72, 20.88], [20.88, 20.94, 20.82, 20.86], [20.86, 21.04, 20.84, 21.00]]
       volume: [118000, 126000, 138000, 156000, 132000, 188000, 172000, 108000, 158000, 96000, 146000]
       decision_index: 5
+    state: ["Size: 950 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It climbed to $21.04 and finished at $21.00 — $0.34 a share above the decision, +$323 long on 950 shares."

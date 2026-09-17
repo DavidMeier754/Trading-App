@@ -47,13 +47,14 @@ screens:
     explanation: "Price only rises because somebody pays more than the last person did. When nobody new turns up, the shape stops meaning anything."
 
   - type: chart-decision
-    scenario: "XYZ has run six minutes. The bodies have grown every minute, the bars underneath have grown with them, and no candle has closed more than two cents off its high. Your account is $20,000 and you are sizing 1,100 shares."
+    scenario: "Six minutes of running. The bodies have grown every minute, the bars underneath have grown with them, and no candle has closed more than two cents off its high."
     shares: 1100
     chart:
       kind: candles
       data: [[17.10, 17.16, 17.06, 17.14], [17.14, 17.24, 17.12, 17.22], [17.22, 17.36, 17.20, 17.34], [17.34, 17.52, 17.32, 17.50], [17.50, 17.72, 17.48, 17.70], [17.70, 17.96, 17.68, 17.94], [17.94, 18.14, 17.90, 18.10], [18.10, 18.28, 18.06, 18.24], [18.24, 18.36, 18.18, 18.32], [18.32, 18.40, 18.26, 18.36], [18.36, 18.44, 18.30, 18.40]]
       volume: [86000, 124000, 168000, 214000, 268000, 326000, 298000, 262000, 208000, 164000, 142000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,100 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It carried to $18.44 and finished at $18.40 — $0.46 a share above the decision, +$506 long on 1,100 shares."
@@ -95,13 +96,14 @@ screens:
     body: "The bars have to be big for this stock, and big enough for your size. A perfect run in something trading a few thousand shares a minute is a picture, not a trade."
 
   - type: chart-decision
-    scenario: "Textbook run: growing bodies, growing bars, no wicks. The whole stock is trading about 14,000 shares a minute. Your account is $20,000 and you are sizing 1,400 shares."
+    scenario: "Growing bodies, growing bars, no wicks — and the whole stock trading about 14,000 shares a minute."
     shares: 1400
     chart:
       kind: candles
       data: [[13.10, 13.16, 13.06, 13.14], [13.14, 13.26, 13.12, 13.24], [13.24, 13.40, 13.22, 13.38], [13.38, 13.58, 13.36, 13.56], [13.56, 13.78, 13.54, 13.76], [13.76, 14.02, 13.74, 14.00], [14.00, 14.06, 13.78, 13.82], [13.82, 13.90, 13.66, 13.70], [13.70, 13.78, 13.58, 13.62], [13.62, 13.70, 13.54, 13.66], [13.66, 13.72, 13.56, 13.60]]
       volume: [9000, 12000, 14000, 16000, 19000, 24000, 18000, 15000, 13000, 11000, 10000]
       decision_index: 5
+    state: ["Size: 1,400 shares"]
     best: no-trade
     outcome: "It fell back to $13.56 and finished at $13.60 — buying that minute would be $0.40 a share offside, $560 down on 1,400 shares."
     explanation: "Your 1,400 shares are a tenth of an entire minute going in, and the same again coming out. The stock cannot pay for a shape this good."

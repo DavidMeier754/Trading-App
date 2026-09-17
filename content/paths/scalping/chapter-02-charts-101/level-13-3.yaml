@@ -60,13 +60,14 @@ screens:
     explanation: "They are printed on every screen and built on the busiest minutes of the day. A level nobody else can see is not a level."
 
   - type: chart-decision
-    scenario: "The first five minutes ran from $22.40 to $22.86. The minute that just closed finished at $22.98 on 386,000 shares, the heaviest bar since the opening minute. Your account is $20,000 and you are sizing 800 shares."
+    scenario: "The first five minutes ran from $22.40 to $22.86. The minute that just closed finished at $22.98 on 386,000 shares, the heaviest bar since the opening minute."
     shares: 800
     chart:
       kind: candles
       data: [[22.60, 22.86, 22.40, 22.72], [22.72, 22.80, 22.52, 22.58], [22.58, 22.78, 22.54, 22.74], [22.74, 22.84, 22.62, 22.66], [22.66, 22.82, 22.60, 22.78], [22.78, 23.00, 22.76, 22.98], [22.98, 23.10, 22.94, 23.06], [23.06, 23.16, 23.00, 23.12], [23.12, 23.24, 23.08, 23.20], [23.20, 23.26, 23.14, 23.18], [23.18, 23.32, 23.16, 23.28]]
       volume: [478000, 342000, 296000, 264000, 238000, 386000, 312000, 286000, 262000, 234000, 248000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 800 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It kept going to $23.32 and finished at $23.28 — $0.30 a share above the decision, +$240 long on 800 shares."
@@ -78,13 +79,14 @@ screens:
     explanation: "That is what makes it usable: two prices that are fixed for the rest of the morning while everything else keeps moving."
 
   - type: chart-decision
-    scenario: "The opening range is $15.30 to $15.66. The minute that just closed reached $15.72, finished back at $15.60, and traded 178,000 shares — the lightest bar since the bell. Your account is $20,000 and you are sizing 1,250 shares."
+    scenario: "The opening range is $15.30 to $15.66. The minute that just closed reached $15.72, finished back at $15.60, and traded 178,000 shares — the lightest bar since the bell."
     shares: 1250
     chart:
       kind: candles
       data: [[15.44, 15.66, 15.30, 15.58], [15.58, 15.64, 15.36, 15.40], [15.40, 15.62, 15.38, 15.56], [15.56, 15.64, 15.44, 15.48], [15.48, 15.60, 15.42, 15.54], [15.54, 15.72, 15.52, 15.60], [15.60, 15.66, 15.50, 15.54], [15.54, 15.62, 15.46, 15.50], [15.50, 15.58, 15.44, 15.52], [15.52, 15.60, 15.46, 15.56], [15.56, 15.62, 15.48, 15.52]]
       volume: [462000, 306000, 268000, 232000, 214000, 178000, 196000, 184000, 172000, 166000, 158000]
       decision_index: 5
+    state: ["Size: 1,250 shares"]
     best: no-trade
     reasonable: [short]
     outcome: "Five minutes later price was $15.52, eight cents under the decision — buying that poke would be $100 down on 1,250 shares before costs."

@@ -59,13 +59,14 @@ screens:
     explanation: "The round number above you is what the trade is worth if it works, and you can know that before you take it."
 
   - type: chart-decision
-    scenario: "XYZ has fallen all morning and stopped twice at $15.50. The minute that just closed came off that price again and finished at $15.68 on the heaviest bar since the fall started. Your account is $20,000 and you are sizing 1,200 shares."
+    scenario: "Twice this morning $15.50 has stopped the fall. The minute that just closed came off that price again and finished at $15.68 on the heaviest bar since the fall started."
     shares: 1200
     chart:
       kind: candles
       data: [[15.92, 15.96, 15.80, 15.82], [15.82, 15.86, 15.66, 15.70], [15.70, 15.74, 15.50, 15.56], [15.56, 15.68, 15.54, 15.64], [15.64, 15.66, 15.50, 15.52], [15.52, 15.70, 15.50, 15.68], [15.68, 15.84, 15.66, 15.80], [15.80, 15.86, 15.74, 15.76], [15.76, 15.94, 15.74, 15.90], [15.90, 15.96, 15.84, 15.88], [15.88, 16.04, 15.86, 16.00]]
       volume: [96000, 108000, 142000, 88000, 118000, 164000, 152000, 96000, 140000, 92000, 134000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,200 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It worked up to $16.04 and finished at $16.00 — $0.32 a share above the decision, +$384 long on 1,200 shares."

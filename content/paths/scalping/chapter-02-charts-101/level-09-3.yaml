@@ -52,13 +52,14 @@ screens:
     explanation: "Very few people made that price, but every trader watching the stock has it on their chart, and that is what turns a thin high into a level."
 
   - type: chart-decision
-    scenario: "Yesterday XYZ bottomed at $12.90. It has fallen towards that price all morning, touched it twice, and the minute that just closed came back to $13.08 on 196,000 shares. Your account is $20,000 and you are sizing 1,500 shares."
+    scenario: "Yesterday XYZ bottomed at $12.90. It has fallen towards that price all morning, touched it twice, and the minute that just closed came back to $13.08 on 196,000 shares."
     shares: 1500
     chart:
       kind: candles
       data: [[13.40, 13.44, 13.28, 13.30], [13.30, 13.34, 13.12, 13.16], [13.16, 13.20, 12.98, 13.02], [13.02, 13.08, 12.90, 12.94], [12.94, 13.00, 12.90, 12.92], [12.92, 13.08, 12.90, 13.08], [13.08, 13.22, 13.06, 13.20], [13.20, 13.26, 13.14, 13.16], [13.16, 13.34, 13.14, 13.30], [13.30, 13.36, 13.24, 13.28], [13.28, 13.48, 13.26, 13.44]]
       volume: [128000, 142000, 156000, 178000, 132000, 196000, 174000, 108000, 162000, 96000, 148000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 1,500 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It worked back to $13.48 and finished at $13.44 — $0.36 a share above the decision, +$540 long on 1,500 shares."
@@ -96,13 +97,14 @@ screens:
     explanation: "Three numbers, five seconds of homework, and they decide most of what happens in the first hour."
 
   - type: chart-decision
-    scenario: "XYZ is trading between yesterday's low at $25.60 and yesterday's high at $26.40. Eleven minutes have gone by between $25.92 and $26.10 on bars near 52,000. Your account is $20,000 and you are sizing 700 shares."
+    scenario: "Yesterday's low is $25.60 and yesterday's high is $26.40. Eleven minutes have gone by between $25.92 and $26.10, on bars near 52,000."
     shares: 700
     chart:
       kind: candles
       data: [[26.00, 26.08, 25.94, 26.04], [26.04, 26.10, 25.96, 25.98], [25.98, 26.06, 25.92, 26.02], [26.02, 26.09, 25.95, 25.97], [25.97, 26.05, 25.93, 26.01], [26.01, 26.07, 25.95, 25.99], [25.99, 26.06, 25.93, 26.03], [26.03, 26.10, 25.97, 26.00], [26.00, 26.08, 25.94, 26.04], [26.04, 26.09, 25.96, 25.98], [25.98, 26.06, 25.94, 26.02]]
       volume: [62000, 54000, 58000, 50000, 56000, 52000, 48000, 54000, 50000, 46000, 52000]
       decision_index: 5
+    state: ["Size: 700 shares"]
     best: no-trade
     outcome: "Five minutes on price was $26.02 — three cents above the decision, $21 on 700 shares before a single cost."
     explanation: "Both levels are forty cents away and price is doing nothing in between. Levels are worth trading at, not halfway between."

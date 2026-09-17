@@ -46,13 +46,14 @@ screens:
     explanation: "Take when the body kept its ground and the bar says a crowd was behind it. Pass when either half is missing."
 
   - type: chart-decision
-    scenario: "XYZ has been selling all morning. A small green candle on the thinnest bar of the move lifted it back to $20.60, and the candle that just closed is a long red body on 158,000 shares, the heaviest bar since the open. Your account is $20,000 and you are sizing 950 shares."
+    scenario: "Selling all morning. A small green candle on the thinnest bar of the move lifted XYZ back to $20.60. The candle that just closed is a long red body on 158,000 — the heaviest bar since the open."
     shares: 950
     chart:
       kind: candles
       data: [[20.60, 20.66, 20.52, 20.56], [20.56, 20.62, 20.48, 20.52], [20.52, 20.58, 20.44, 20.48], [20.48, 20.60, 20.46, 20.58], [20.58, 20.62, 20.44, 20.46], [20.46, 20.50, 20.32, 20.34], [20.34, 20.38, 20.22, 20.24], [20.24, 20.30, 20.14, 20.16], [20.16, 20.22, 20.06, 20.10], [20.10, 20.16, 20.02, 20.06], [20.06, 20.12, 19.98, 20.02]]
       volume: [88000, 96000, 104000, 62000, 84000, 158000, 146000, 132000, 118000, 102000, 90000]
       decision_index: 5
+    state: ["Account: $20,000", "Size: 950 shares"]
     best: short
     reasonable: [no-trade]
     outcome: "It slid to $19.98 and finished the run at $20.02 — $0.32 a share, +$304 short on 950 shares."
@@ -67,13 +68,14 @@ screens:
     explanation: "A short makes the move in reverse: sold high, bought back lower, and the share count does the rest."
 
   - type: chart-decision
-    scenario: "XYZ has been flat for five minutes on bars around 45,000 shares. The candle that just closed is a $0.16 green body on 204,000, more than four times any bar before it. Your account is $20,000 and you are sizing 1,300 shares."
+    scenario: "Five flat minutes on bars around 45,000 shares. The candle that just closed is a $0.16 green body on 204,000, more than four times any bar before it."
     shares: 1300
     chart:
       kind: candles
       data: [[14.90, 14.96, 14.86, 14.94], [14.94, 15.00, 14.91, 14.97], [14.97, 15.02, 14.93, 14.99], [14.99, 15.04, 14.96, 15.02], [15.02, 15.08, 15.00, 15.06], [15.06, 15.24, 15.04, 15.22], [15.22, 15.34, 15.19, 15.32], [15.32, 15.42, 15.28, 15.39], [15.39, 15.48, 15.35, 15.45], [15.45, 15.54, 15.41, 15.51], [15.51, 15.62, 15.47, 15.59]]
       volume: [42000, 38000, 46000, 40000, 50000, 204000, 178000, 152000, 130000, 112000, 96000]
       decision_index: 5
+    state: ["Size: 1,300 shares"]
     best: long
     reasonable: [no-trade]
     outcome: "It kept going to $15.62 and finished at $15.59 — $0.37 a share above the decision, +$481 long on 1,300 shares."
@@ -91,13 +93,14 @@ screens:
     explanation: "246,000 shares changed hands and the minute finished at $13.68. That is where the crowd agreed to leave it."
 
   - type: chart-decision
-    scenario: "XYZ has run for five minutes. The candle that just closed reached $27.48, finished at $27.08 and traded 520,000 shares against 214,000 the minute before. Your account is $20,000 and you are sizing 700 shares."
+    scenario: "The candle that just closed ended a five-minute run: up to $27.48, back to $27.08, on 520,000 shares against 214,000 the minute before."
     shares: 700
     chart:
       kind: candles
       data: [[26.20, 26.36, 26.16, 26.34], [26.34, 26.54, 26.30, 26.50], [26.50, 26.72, 26.46, 26.68], [26.68, 26.90, 26.64, 26.86], [26.86, 27.04, 26.82, 27.00], [27.00, 27.48, 26.96, 27.08], [27.08, 27.14, 26.90, 26.94], [26.94, 27.00, 26.76, 26.80], [26.80, 26.88, 26.68, 26.84], [26.84, 26.90, 26.72, 26.76], [26.76, 26.82, 26.62, 26.66]]
       volume: [82000, 110000, 146000, 182000, 214000, 520000, 340000, 280000, 216000, 170000, 144000]
       decision_index: 5
+    state: ["Size: 700 shares"]
     best: no-trade
     reasonable: [short]
     outcome: "Price worked back to $26.66. Buying there would have been $0.42 a share underwater — $294 on 700 shares."
