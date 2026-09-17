@@ -13,10 +13,10 @@ prerequisite: "4-1"
 xp: 30
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
-notes: "The chapter's first drill sub: four chart decisions, two rounds on the list and a deck, with almost no theory. Account named at $16,000; 900 shares throughout except where the price binds."
+notes: "The chapter's first drill sub: four chart decisions, two rounds on the list and a deck, with almost no theory. Account named at $16,000; 800 shares throughout except where the price binds — CRES at $26.38 is 500."
 screens:
   - type: intro
-    text: "Six rounds, no teaching. Your account is $16,000 and 900 shares is the size you trade."
+    text: "Six rounds, no teaching. Your account is $16,000 and 800 shares is the size you trade."
 
   - type: scanner-pick
     prompt: "Round one. Which row is worth the screen?"
@@ -27,11 +27,11 @@ screens:
         - {ticker: SLAT, price: 29.80, change_pct: 4.2, rvol: 3.9, spread: 0.03, catalyst: "Upgrade"}
         - {ticker: DUNE, price: 11.40, change_pct: 1.1, rvol: 1.0, spread: 0.02, catalyst: "—"}
     target: WREN
-    explanation: "WREN: 5× normal, two cents wide, $15,480 for 900 shares. RIME charges twenty-one cents, SLAT is 536 shares on this account, DUNE is having an ordinary day."
+    explanation: "WREN: 5× normal, two cents wide, $13,760 for 800 shares. RIME charges twenty-one cents, SLAT is 536 shares on this account, DUNE is having an ordinary day."
 
   - type: chart-decision
-    scenario: "Round two. WREN has printed 5× normal volume all morning on minutes of about 100,000 shares, and the minute that just closed finished three cents above the high of the first half hour at $17.39. Your account is $16,000 and 900 shares is the size you trade."
-    shares: 900
+    scenario: "Round two. WREN has printed 5× normal volume all morning on minutes of about 100,000 shares, and the minute that just closed finished three cents above the high of the first half hour at $17.39. Your account is $16,000 and 800 shares is the size you trade."
+    shares: 800
     chart:
       kind: candles
       data: [[16.96, 17.06, 16.90, 17.04], [17.04, 17.14, 16.98, 17.10], [17.10, 17.18, 17.04, 17.08], [17.08, 17.20, 17.02, 17.16], [17.16, 17.28, 17.10, 17.24], [17.24, 17.46, 17.20, 17.42], [17.42, 17.56, 17.38, 17.52], [17.52, 17.66, 17.46, 17.62], [17.62, 17.76, 17.56, 17.72], [17.72, 17.82, 17.66, 17.78], [17.78, 17.82, 17.70, 17.74]]
@@ -41,12 +41,12 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $17.78 — $0.36 a share above the decision, +$324 long on 900 shares."
+    outcome: "It carried to $17.78 — $0.36 a share above the decision, +$288 long on 800 shares."
     explanation: "Four filters clear before the open, a reason that has held the crowd all morning, and a minute finishing above the price you marked."
 
   - type: chart-decision
-    scenario: "Round three. RIME is up 18 % on a trial result. Its minutes have run between 8,000 and 14,000 shares and the panel reads $14.20 bid, $14.41 ask. Your account is $16,000 and 900 shares is the size you trade."
-    shares: 900
+    scenario: "Round three. RIME is up 18 % on a trial result. Its minutes have run between 8,000 and 14,000 shares and the panel reads $14.20 bid, $14.41 ask. Your account is $16,000 and 800 shares is the size you trade."
+    shares: 800
     chart:
       kind: candles
       data: [[13.72, 13.90, 13.66, 13.86], [13.86, 14.04, 13.80, 14.00], [14.00, 14.14, 13.94, 14.08], [14.08, 14.26, 14.02, 14.20], [14.20, 14.34, 14.14, 14.28], [14.28, 14.44, 14.22, 14.32], [14.32, 14.52, 14.26, 14.48], [14.48, 14.66, 14.42, 14.60], [14.60, 14.82, 14.54, 14.77], [14.77, 14.84, 14.68, 14.72]]
@@ -58,12 +58,12 @@ screens:
     explanation: "The biggest multiple on the list and the one name on it you cannot leave. Both readings are true, and only one of them decides."
 
   - type: numeric-input
-    prompt: "900 shares and a twenty-one-cent quote. What would one complete position have handed over?"
-    answer: 189
+    prompt: "800 shares and a twenty-one-cent quote. What would one complete position have handed over?"
+    answer: 168
     tolerance: 0.01
     unit: "$"
-    working: "$0.21 a share × 900 shares = $189"
-    explanation: "A hundred and eighty-nine dollars, out of the $405 that the whole move was worth on this size."
+    working: "$0.21 a share × 800 shares = $168"
+    explanation: "A hundred and sixty-eight dollars, out of the $360 that the whole move was worth on this size."
 
   - type: swipe-deck
     prompt: "Round four. Take the name onto the screen, or pass?"
@@ -77,7 +77,7 @@ screens:
           kind: candles
           data: [[15.10, 15.22, 15.06, 15.20], [15.20, 15.32, 15.16, 15.28], [15.28, 15.40, 15.24, 15.36], [15.36, 15.50, 15.32, 15.46], [15.46, 15.58, 15.42, 15.54], [15.54, 15.66, 15.50, 15.62], [15.62, 15.74, 15.58, 15.70], [15.70, 15.84, 15.66, 15.80]]
         answer: take
-        note: "A step every minute with no holes, and 900 shares at $15 is $13,500 of the account."
+        note: "A step every minute with no holes, and 800 shares at $15 is $12,000 of the account."
       - chart:
           kind: candles
           data: [[12.20, 12.22, 12.18, 12.20], [12.20, 12.40, 12.19, 12.38], [12.38, 12.40, 12.36, 12.38], [12.38, 12.39, 12.35, 12.37], [12.37, 12.58, 12.36, 12.56], [12.56, 12.58, 12.53, 12.55], [12.55, 12.57, 12.52, 12.54], [12.54, 12.74, 12.53, 12.72]]
@@ -87,7 +87,7 @@ screens:
           kind: candles
           data: [[26.90, 27.04, 26.84, 27.00], [27.00, 27.16, 26.94, 27.12], [27.12, 27.26, 27.06, 27.22], [27.22, 27.36, 27.16, 27.32], [27.32, 27.44, 27.26, 27.40], [27.40, 27.54, 27.34, 27.50], [27.50, 27.64, 27.44, 27.60], [27.60, 27.72, 27.54, 27.68]]
         answer: pass
-        note: "A good chart at $27. This account pays for 592 shares, not 900."
+        note: "A good chart at $27. This account pays for 592 shares, not 800."
       - chart:
           kind: candles
           data: [[16.40, 16.44, 16.28, 16.32], [16.32, 16.36, 16.20, 16.24], [16.24, 16.28, 16.12, 16.16], [16.16, 16.20, 16.04, 16.08], [16.08, 16.12, 15.96, 16.00], [16.00, 16.04, 15.88, 15.92], [15.92, 15.96, 15.80, 15.84], [15.84, 15.88, 15.72, 15.76]]
@@ -107,8 +107,8 @@ screens:
     explanation: "HALO and CLAY. VELA is 233 shares on this account and pinned under an offer; PEAT is having an ordinary day."
 
   - type: chart-decision
-    scenario: "Round six. CLAY has given back the whole of its opening push and made three lower highs on rising volume. The minute that just closed finished five cents under the low of the last twenty at $15.87. Your account is $16,000 and 900 shares is the size you trade."
-    shares: 900
+    scenario: "Round six. CLAY has given back the whole of its opening push and made three lower highs on rising volume. The minute that just closed finished five cents under the low of the last twenty at $15.87. Your account is $16,000 and 800 shares is the size you trade."
+    shares: 800
     chart:
       kind: candles
       data: [[16.30, 16.36, 16.18, 16.22], [16.22, 16.30, 16.12, 16.16], [16.16, 16.24, 16.06, 16.10], [16.10, 16.18, 16.00, 16.04], [16.04, 16.10, 15.92, 15.96], [15.96, 16.00, 15.78, 15.82], [15.82, 15.88, 15.72, 15.76], [15.76, 15.82, 15.66, 15.70], [15.70, 15.74, 15.58, 15.62], [15.62, 15.68, 15.52, 15.56], [15.56, 15.62, 15.50, 15.52]]
@@ -118,12 +118,12 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It slid to $15.52 — $0.30 a share below the decision, +$270 short on 900 shares."
+    outcome: "It slid to $15.52 — $0.30 a share below the decision, +$240 short on 800 shares."
     explanation: "Rising volume into lower highs is the crowd arriving on the sell side, and the minute finished below the price the range was resting on."
 
   - type: chart-decision
-    scenario: "One more. CRES is at 4× normal volume, quotes three cents wide and has just finished a minute two cents above the high of the morning at $26.36. It trades at $26.38, so your $16,000 account pays for 606 shares and you are taking 600."
-    shares: 600
+    scenario: "One more. CRES is at 4× normal volume, quotes three cents wide and has just finished a minute two cents above the high of the morning at $26.36. It trades at $26.38, so your $16,000 account pays for 606 shares and you are taking 500."
+    shares: 500
     chart:
       kind: candles
       data: [[25.90, 26.04, 25.84, 26.00], [26.00, 26.14, 25.94, 26.10], [26.10, 26.22, 26.04, 26.16], [26.16, 26.30, 26.10, 26.24], [26.24, 26.36, 26.18, 26.30], [26.30, 26.42, 26.26, 26.38], [26.38, 26.50, 26.34, 26.46], [26.46, 26.58, 26.40, 26.52], [26.52, 26.64, 26.46, 26.60], [26.60, 26.64, 26.52, 26.56]]
@@ -133,8 +133,8 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $26.60 — $0.22 a share above the decision, +$132 long on 600 shares."
-    explanation: "The account ceiling set the size rather than cutting the name. Six hundred shares of a clean read beats 900 of a name you cannot leave."
+    outcome: "It worked up to $26.60 — $0.22 a share above the decision, +$110 long on 500 shares."
+    explanation: "The account ceiling set the size rather than cutting the name. Five hundred shares of a clean read beats 800 of a name you cannot leave."
 
   - type: recap
     title: "Level 4 in three lines"

@@ -13,7 +13,7 @@ prerequisite: "2-4"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
-notes: "Chapter 1's 'news works through people' arriving as a selection tool. Account named at $20,000."
+notes: "Chapter 1's 'news works through people' arriving as a selection tool. Account named at $20,000; ASHE is worked at 1,100 shares and DUNE at 1,300."
 screens:
   - type: intro
     text: "A name at 6× its normal volume is at 6× for a reason, and the reason has a name."
@@ -55,8 +55,8 @@ screens:
     body: "A catalyst is what keeps the crowd there all session. Without one, a burst of volume fades inside ten minutes and the name goes back to drifting — and drifting is where a scalp dies."
 
   - type: chart-decision
-    scenario: "ASHE reported before the open, opened above yesterday's close and has spent the last half hour stepping higher on minutes of over 110,000 shares against a normal 22,000. Your account is $20,000 and 1,200 shares is the size you trade."
-    shares: 1200
+    scenario: "ASHE reported before the open, opened above yesterday's close and has spent the last half hour stepping higher on minutes of over 110,000 shares against a normal 22,000. Your account is $20,000 and 1,100 shares is the size you trade."
+    shares: 1100
     chart:
       kind: candles
       data: [[15.70, 15.82, 15.64, 15.78], [15.78, 15.90, 15.72, 15.86], [15.86, 15.96, 15.80, 15.90], [15.90, 16.04, 15.84, 16.00], [16.00, 16.14, 15.94, 16.10], [16.10, 16.28, 16.06, 16.24], [16.24, 16.38, 16.18, 16.34], [16.34, 16.48, 16.28, 16.44], [16.44, 16.58, 16.38, 16.54], [16.54, 16.62, 16.48, 16.57], [16.57, 16.60, 16.50, 16.54]]
@@ -64,7 +64,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $16.57 — $0.33 a share above the decision, +$396 long on 1,200 shares."
+    outcome: "It worked up to $16.57 — $0.33 a share above the decision, +$363 long on 1,100 shares."
     explanation: "A reason the crowd is here, a crowd that has stayed half an hour, and a chart still stepping. The reason chose the name; the chart chose the moment."
 
   - type: sort

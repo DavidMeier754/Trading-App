@@ -13,7 +13,7 @@ prerequisite: "1-4"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
-notes: "Defines the term and the sum. Chapter 2 judged one bar against recent minutes; this judges the whole day against the name's own normal day. Account named at $20,000."
+notes: "Defines the term and the sum. Chapter 2 judged one bar against recent minutes; this judges the whole day against the name's own normal day. Account named at $20,000; the worked position is 1,200 shares near $15."
 screens:
   - type: intro
     text: "Every name on your screen is there for one reason: today it is trading far more than it usually does."
@@ -81,8 +81,8 @@ screens:
     explanation: "Multiples on the left, absolute size on the right. The biggest name on a list is usually just the biggest name."
 
   - type: chart-decision
-    scenario: "KELP has held 4× its normal volume all morning, its minutes are printing over 90,000 shares against a usual 20,000, and the minute that just closed is the longest body since the open. Your account is $20,000 and 1,300 shares is the size you trade."
-    shares: 1300
+    scenario: "KELP has held 4× its normal volume all morning, its minutes are printing over 90,000 shares against a usual 20,000, and the minute that just closed is the longest body since the open. Your account is $20,000 and 1,200 shares is the size you trade."
+    shares: 1200
     chart:
       kind: candles
       data: [[14.70, 14.80, 14.66, 14.78], [14.78, 14.88, 14.74, 14.84], [14.84, 14.92, 14.78, 14.82], [14.82, 14.94, 14.78, 14.90], [14.90, 15.00, 14.86, 14.96], [14.96, 15.16, 14.94, 15.12], [15.12, 15.24, 15.08, 15.20], [15.20, 15.32, 15.16, 15.28], [15.28, 15.40, 15.24, 15.36], [15.36, 15.44, 15.32, 15.40], [15.40, 15.44, 15.34, 15.38]]
@@ -90,8 +90,8 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped on to $15.40 — $0.28 a share above the decision, +$364 long on 1,300 shares."
-    explanation: "Four times the usual crowd, and 1,300 shares is under a hundredth of the minute it closed on, so the way out is there."
+    outcome: "It stepped on to $15.40 — $0.28 a share above the decision, +$336 long on 1,200 shares."
+    explanation: "Four times the usual crowd, and 1,200 shares is under a hundredth of the minute it closed on, so the way out is there."
 
   - type: fill-choice
     sentence: "Relative volume compares today's volume with this name's own ___."

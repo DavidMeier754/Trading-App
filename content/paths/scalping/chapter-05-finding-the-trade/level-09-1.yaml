@@ -13,10 +13,10 @@ prerequisite: "8-3"
 xp: 30
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
-notes: "First of the two practice subs. One morning, run end to end. Account named at $23,000; both worked positions are 1,500 shares under $15."
+notes: "First of the two practice subs. One morning, run end to end. Account named at $23,000; both worked positions are 1,400 shares under $15."
 screens:
   - type: intro
-    text: "One morning, start to finish. Your account is $23,000 and 1,500 shares is the size you trade."
+    text: "One morning, start to finish. Your account is $23,000 and 1,400 shares is the size you trade."
 
   - type: scanner-pick
     prompt: "The list, sorted. Two of these five go on the watchlist."
@@ -28,25 +28,25 @@ screens:
         - {ticker: PIKE, price: 13.90, change_pct: 9.4, rvol: 8.1, float: "72M", spread: 0.02, catalyst: "Guidance cut"}
         - {ticker: YARN, price: 11.70, change_pct: 1.9, rvol: 1.1, float: "120M", spread: 0.02, catalyst: "—"}
     targets: [ROAN, PIKE]
-    explanation: "ROAN at $22,350 and PIKE at $20,850 for 1,500 shares. CRAG has the biggest multiple and a sixteen-cent quote, ORCA is 839 shares here, YARN is having an ordinary day."
+    explanation: "ROAN at $20,860 and PIKE at $19,460 for 1,400 shares. CRAG has the biggest multiple and a sixteen-cent quote, ORCA is 839 shares here, YARN is having an ordinary day."
 
   - type: mc
     prompt: "CRAG is top of the list at 14× normal. Say the cut in one sentence."
     options:
       - {text: "Six million shares is too small a float to trade at all"}
-      - {text: "Sixteen cents on the round trip is $240 of my size", correct: true}
+      - {text: "Sixteen cents on the round trip is $224 of my size", correct: true}
       - {text: "A trial result is not a reason the crowd stays"}
     explanation: "The float is workable at a smaller size and the reason is real. The quote is the part that ends it, and it ends it in dollars."
 
   - type: numeric-mc
-    prompt: "1,500 shares in and back out of CRAG, on its sixteen-cent quote. What does the quote take?"
+    prompt: "1,400 shares in and back out of CRAG, on its sixteen-cent quote. What does the quote take?"
     options:
-      - {text: "$24"}
-      - {text: "$2,400"}
-      - {text: "$240", correct: true}
-      - {text: "$96"}
-    working: "$0.16 a share × 1,500 shares = $240"
-    explanation: "Two hundred and forty dollars. ROAN's two-cent quote takes $30 for the same size, and that gap is the whole of the cut."
+      - {text: "$22.40"}
+      - {text: "$2,240"}
+      - {text: "$224", correct: true}
+      - {text: "$28"}
+    working: "$0.16 a share × 1,400 shares = $224"
+    explanation: "Two hundred and twenty-four dollars. ROAN's two-cent quote takes $28 for the same size, and that gap is the whole of the cut."
 
   - type: chart-annotate
     prompt: "ROAN, before the bell. Drag the line to the price its last two pushes stopped at."
@@ -60,8 +60,8 @@ screens:
     explanation: "$14.88, reached twice and closed through neither time. That is the line the morning gets watched against."
 
   - type: chart-decision
-    scenario: "ROAN has run at 6.6× its normal volume since the open. The minute that just closed finished four cents above the line you drew, on the heaviest bar of the morning. Your account is $23,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "ROAN has run at 6.6× its normal volume since the open. The minute that just closed finished four cents above the line you drew, on the heaviest bar of the morning. Your account is $23,000 and 1,400 shares is the size you trade."
+    shares: 1400
     chart:
       kind: candles
       data: [[14.56, 14.66, 14.50, 14.62], [14.62, 14.72, 14.56, 14.68], [14.68, 14.76, 14.62, 14.66], [14.66, 14.78, 14.60, 14.74], [14.74, 14.84, 14.68, 14.80], [14.80, 14.96, 14.76, 14.92], [14.92, 15.04, 14.88, 15.00], [15.00, 15.10, 14.94, 15.06], [15.06, 15.16, 15.00, 15.12], [15.12, 15.22, 15.06, 15.17], [15.17, 15.20, 15.08, 15.12]]
@@ -71,27 +71,27 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $15.17 — $0.25 a share above the decision, +$375 long on 1,500 shares."
+    outcome: "It worked up to $15.17 — $0.25 a share above the decision, +$350 long on 1,400 shares."
     explanation: "The price that turned it twice before the bell was given up on more volume than either of those pushes had."
 
   - type: order-build
-    prompt: "Take it. 1,500 shares, the ask is $14.94, and you refuse to pay more than three cents through it."
+    prompt: "Take it. 1,400 shares, the ask is $14.94, and you refuse to pay more than three cents through it."
     ticker: ROAN
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [750, 1500, 2250]
+      qty: [700, 1400, 2100]
       price: [14.91, 14.94, 14.97]
-    answer: {side: buy, type: limit, qty: 1500, price: 14.97}
+    answer: {side: buy, type: limit, qty: 1400, price: 14.97}
     explanation: "A limit three cents through the ask goes through like a market order and still refuses anything worse than $14.97."
 
   - type: numeric-input
-    prompt: "Filled at $14.92 on 1,500 shares. How much of the $23,000 is standing in it?"
-    answer: 22380
+    prompt: "Filled at $14.92 on 1,400 shares. How much of the $23,000 is standing in it?"
+    answer: 20888
     tolerance: 1
     unit: "$"
-    working: "1,500 shares × $14.92 = $22,380"
+    working: "1,400 shares × $14.92 = $20,888"
     explanation: "Nearly the whole account in one name, which is why the second watchlist name will not be traded at the same time."
 
   - type: tf
@@ -100,8 +100,8 @@ screens:
     explanation: "A cut to guidance is a reason the crowd is here, and the name is up on it. The reason chooses the name; the chart chooses the side."
 
   - type: chart-decision
-    scenario: "PIKE gave back its opening push and has made lower highs for twenty minutes on rising volume. The minute that just closed finished six cents under the low of the morning at $13.56. Your account is $23,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "PIKE gave back its opening push and has made lower highs for twenty minutes on rising volume. The minute that just closed finished six cents under the low of the morning at $13.56. Your account is $23,000 and 1,400 shares is the size you trade."
+    shares: 1400
     chart:
       kind: candles
       data: [[14.00, 14.06, 13.86, 13.90], [13.90, 13.96, 13.78, 13.82], [13.82, 13.90, 13.72, 13.78], [13.78, 13.84, 13.66, 13.70], [13.70, 13.76, 13.58, 13.62], [13.62, 13.66, 13.46, 13.50], [13.50, 13.56, 13.40, 13.44], [13.44, 13.50, 13.34, 13.38], [13.38, 13.44, 13.26, 13.30], [13.30, 13.36, 13.18, 13.21], [13.21, 13.28, 13.16, 13.24]]
@@ -111,14 +111,14 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It carried down to $13.21 — $0.29 a share below the decision, +$435 short on 1,500 shares."
+    outcome: "It carried down to $13.21 — $0.29 a share below the decision, +$406 short on 1,400 shares."
     explanation: "Rising volume into lower highs, and then the price the morning had been resting on given up. Both watchlist names paid, and neither of them on the side the list suggested."
 
   - type: match
     prompt: "Four rows from this morning. Which sentence did each one earn?"
     pairs:
-      - ["CRAG", "The quote takes $210 of my size"]
-      - ["ORCA", "The account pays for 839 of the 1,500"]
+      - ["CRAG", "The quote takes $224 of my size"]
+      - ["ORCA", "The account pays for 839 of the 1,400"]
       - ["YARN", "Nothing unusual is happening in it"]
       - ["PIKE", "A reason, a crowd, and a chart that chose the side"]
     explanation: "Three of them are one-sentence cuts, and the fourth is the sentence you want to be able to write."
@@ -142,5 +142,5 @@ screens:
     segments:
       - {text: "CRAG was top of the list at 14× normal,"}
       - {text: "so the cut needed a reason from the chart,", wrong: true}
-      - {text: "and sixteen cents on 1,500 shares was reason enough."}
+      - {text: "and sixteen cents on 1,400 shares was reason enough."}
     explanation: "The chart was never opened, and did not need to be. Three of the four questions are answered off the row."

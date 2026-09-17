@@ -13,7 +13,7 @@ prerequisite: "12-3"
 xp: 20
 difficulty: 2
 sources: ["Raschke & Connors — Street Smarts", "Aziz — How to Day Trade for a Living"]
-notes: "Chapter 2's trend and range shapes read across a whole session, on Chapter 4's slower chart. Account named at $18,000; the worked position is 1,200 shares at $14.42 = $17,304."
+notes: "Chapter 2's trend and range shapes read across a whole session, on Chapter 4's slower chart. Account named at $18,000; the worked position is 1,100 shares at $14.42 = $15,862."
 screens:
   - type: intro
     text: "Sessions come in two rough shapes, and which one you are in decides what your 1-minute signals are worth."
@@ -70,8 +70,8 @@ screens:
     explanation: "$14.60 twice, and both times the candle finished back in the middle of the day. A third test is worth watching; it is not worth assuming."
 
   - type: chart-decision
-    scenario: "TALL has stepped higher on the 5-minute chart since the first half hour. On the 1-minute it has handed back eight cents over three quiet minutes, and the one that just closed finished green. Your account is $18,000 and 1,200 shares is the size you trade."
-    shares: 1200
+    scenario: "TALL has stepped higher on the 5-minute chart since the first half hour. On the 1-minute it has handed back eight cents over three quiet minutes, and the one that just closed finished green. Your account is $18,000 and 1,100 shares is the size you trade."
+    shares: 1100
     chart:
       kind: candles
       data: [[14.20, 14.32, 14.16, 14.28], [14.28, 14.40, 14.24, 14.36], [14.36, 14.48, 14.32, 14.44], [14.44, 14.46, 14.36, 14.38], [14.38, 14.42, 14.34, 14.36], [14.36, 14.44, 14.34, 14.42], [14.42, 14.54, 14.38, 14.50], [14.50, 14.62, 14.46, 14.58], [14.58, 14.70, 14.54, 14.66], [14.66, 14.76, 14.62, 14.71], [14.71, 14.74, 14.64, 14.68]]
@@ -79,7 +79,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried up to $14.71 — $0.29 a share above the decision, +$348 long on 1,200 shares."
+    outcome: "It carried up to $14.71 — $0.29 a share above the decision, +$319 long on 1,100 shares."
     explanation: "The slower chart had been stepping all session and the give-back arrived on its lightest minutes. On a day with this shape, the pause is the offer."
 
   - type: sort

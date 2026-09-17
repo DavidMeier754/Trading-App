@@ -13,10 +13,10 @@ prerequisite: "16-2"
 xp: 80
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade", "Carter — Mastering the Trade"]
-notes: "13 scored questions. Hearts apply. Pass mark 70 %. Questions 1, 7, 9, 10, 11 and 13 reach back into Chapters 1–4. Account named at $22,000; the worked positions are 1,500 shares at $13.94, at $13.94 and at $13.34."
+notes: "13 scored questions. Hearts apply. Pass mark 70 %. Questions 1, 7, 9, 10, 11 and 13 reach back into Chapters 1–4. Account named at $22,000; the worked positions are 1,400 shares at $13.94, at $13.94 and at $13.34."
 screens:
   - type: intro
-    text: "Final exam: Finding the Trade. Thirteen questions. Your account is $22,000 and 1,500 shares is the size you trade."
+    text: "Final exam: Finding the Trade. Thirteen questions. Your account is $22,000 and 1,400 shares is the size you trade."
     counter: 13
 
   - type: scanner-pick
@@ -28,7 +28,7 @@ screens:
         - {ticker: SILT, price: 12.20, change_pct: 16.2, rvol: 14.8, float: "4M", spread: 0.18, catalyst: "Trial result"}
         - {ticker: ELMS, price: 13.90, change_pct: 1.6, rvol: 1.0, float: "130M", spread: 0.02, catalyst: "—"}
     target: QUAY
-    explanation: "QUAY is $20,550 for 1,500 shares on a two-cent quote. BRAC is 833 shares on this account, SILT's quote is $270 of round trip, ELMS is having an ordinary day."
+    explanation: "QUAY is $19,180 for 1,400 shares on a two-cent quote. BRAC is 833 shares on this account, SILT's quote is $252 of round trip, ELMS is having an ordinary day."
 
   - type: numeric-mc
     prompt: "By this point yesterday QUAY had traded 250,000 shares. Today it has traded 1.9 M. What is its relative volume?"
@@ -46,8 +46,8 @@ screens:
     explanation: "The reason explains why a crowd turned up, never which way it leaves. The chart picks the side, and sometimes it picks against the headline."
 
   - type: chart-decision
-    scenario: "QUAY has held above its average price since the bell and spent fifteen minutes under yesterday's high at $13.90. The minute that just closed finished four cents through it on the heaviest bar of the session. Your account is $22,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "QUAY has held above its average price since the bell and spent fifteen minutes under yesterday's high at $13.90. The minute that just closed finished four cents through it on the heaviest bar of the session. Your account is $22,000 and 1,400 shares is the size you trade."
+    shares: 1400
     chart:
       kind: candles
       data: [[13.70, 13.78, 13.66, 13.76], [13.76, 13.84, 13.72, 13.80], [13.80, 13.88, 13.76, 13.82], [13.82, 13.90, 13.78, 13.86], [13.86, 13.90, 13.82, 13.88], [13.88, 13.98, 13.86, 13.94], [13.94, 14.06, 13.90, 14.02], [14.02, 14.12, 13.98, 14.08], [14.08, 14.18, 14.04, 14.14], [14.14, 14.22, 14.10, 14.18], [14.18, 14.22, 14.12, 14.16]]
@@ -58,7 +58,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped on to $14.18 — $0.24 a share above the decision, +$360 long on 1,500 shares."
+    outcome: "It stepped on to $14.18 — $0.24 a share above the decision, +$336 long on 1,400 shares."
     explanation: "A line drawn before the bell, the session on the right side of its own average, and the heaviest minute of the morning finishing through it."
 
   - type: mc
@@ -91,8 +91,8 @@ screens:
     explanation: "$14.18. Everything the session does from here gets measured against it and against the low sitting under it."
 
   - type: chart-decision
-    scenario: "TERN has crossed the same two prices three times since the bell. The minute that just closed pushed two cents through the ceiling at $13.96 and finished back underneath it. Your account is $22,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "TERN has crossed the same two prices three times since the bell. The minute that just closed pushed two cents through the ceiling at $13.96 and finished back underneath it. Your account is $22,000 and 1,400 shares is the size you trade."
+    shares: 1400
     chart:
       kind: candles
       data: [[13.72, 13.78, 13.70, 13.74], [13.74, 13.96, 13.70, 13.92], [13.92, 13.96, 13.78, 13.82], [13.82, 13.88, 13.70, 13.74], [13.74, 13.92, 13.72, 13.88], [13.88, 13.98, 13.84, 13.94], [13.94, 13.96, 13.82, 13.86], [13.86, 13.92, 13.76, 13.80], [13.80, 13.86, 13.72, 13.76], [13.76, 13.88, 13.74, 13.84], [13.84, 13.94, 13.78, 13.88]]
@@ -123,16 +123,16 @@ screens:
     explanation: "It is as easy to leave as a stock gets and there is nothing to leave with. Access and movement are separate readings, and a name needs both of them."
 
   - type: numeric-input
-    prompt: "SILT is eighteen cents wide and you were going to trade 1,500 shares of it. What does the quote alone take on the round trip?"
-    answer: 270
+    prompt: "SILT is eighteen cents wide and you were going to trade 1,400 shares of it. What does the quote alone take on the round trip?"
+    answer: 252
     tolerance: 1
     unit: "$"
-    working: "$0.18 a share × 1,500 shares = $270"
-    explanation: "Two hundred and seventy dollars before the name has moved at all. QUAY's two-cent quote takes $30 for the same size, and that gap is the whole of the cut."
+    working: "$0.18 a share × 1,400 shares = $252"
+    explanation: "Two hundred and fifty-two dollars before the name has moved at all. QUAY's two-cent quote takes $28 for the same size, and that gap is the whole of the cut."
 
   - type: chart-decision
-    scenario: "The room is heavy: the index is down since the bell and more names are falling than rising. LODE sits in the sector doing worst of all and has made lower highs all morning. The minute that just closed gave up the low of the day at $13.40 on the heaviest bar yet. Your account is $22,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "The room is heavy: the index is down since the bell and more names are falling than rising. LODE sits in the sector doing worst of all and has made lower highs all morning. The minute that just closed gave up the low of the day at $13.40 on the heaviest bar yet. Your account is $22,000 and 1,400 shares is the size you trade."
+    shares: 1400
     state: ["Room: risk-off", "Sector: worst on the board"]
     chart:
       kind: candles
@@ -143,7 +143,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked down to $13.08 — $0.26 a share below the decision, +$390 short on 1,500 shares."
+    outcome: "It worked down to $13.08 — $0.26 a share below the decision, +$364 short on 1,400 shares."
     explanation: "Lower highs all morning, the day's low given up on the heaviest minute, and a whole room pushing the same way. The check is what told you this name sat inside the argument."
 
   - type: tf

@@ -13,7 +13,7 @@ prerequisite: "3-1"
 xp: 25
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
-notes: "The fade. Chapter 1 said today's crowd can come for one headline and leave; here it is priced. Account named at $22,000."
+notes: "The fade. Chapter 1 said today's crowd can come for one headline and leave; here it is priced. Account named at $22,000; both worked positions are 1,300 shares."
 screens:
   - type: intro
     text: "Same multiple, same percentage on the day, and only one of them will still be moving in an hour."
@@ -58,20 +58,20 @@ screens:
     explanation: "Six thousand a minute. Whatever the first two minutes were, this is the name you would be trading now."
 
   - type: chart-decision
-    scenario: "MESA is still up 8 % on the day and its last twenty minutes have averaged 6,000 shares. The quote has widened to seven cents. Your account is $22,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "MESA is still up 8 % on the day and its last twenty minutes have averaged 6,000 shares. The quote has widened to seven cents. Your account is $22,000 and 1,300 shares is the size you trade."
+    shares: 1300
     chart:
       kind: candles
       data: [[13.50, 13.56, 13.44, 13.48], [13.48, 13.54, 13.42, 13.46], [13.46, 13.52, 13.40, 13.44], [13.44, 13.50, 13.38, 13.46], [13.46, 13.52, 13.40, 13.44], [13.44, 13.50, 13.38, 13.42], [13.42, 13.46, 13.34, 13.38], [13.38, 13.44, 13.32, 13.36], [13.36, 13.40, 13.28, 13.32], [13.32, 13.36, 13.24, 13.28], [13.28, 13.32, 13.22, 13.26]]
       volume: [6000, 7000, 5000, 6000, 8000, 6000, 5000, 7000, 6000, 5000, 6000]
       decision_index: 5
     best: no-trade
-    outcome: "It slid to $13.26 — $0.16 a share below the decision, which on a long would have been $240 on 1,500 shares."
+    outcome: "It slid to $13.26 — $0.16 a share below the decision, which on a long would have been $208 on 1,300 shares."
     explanation: "Eight per cent up and 6,000 shares a minute is a chart of something that has already happened."
 
   - type: chart-decision
-    scenario: "ORCA reported before the open and has held 4× normal volume for thirty minutes. The minute that just closed is the heaviest of the last ten and finished three cents above yesterday's high. Your account is $22,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "ORCA reported before the open and has held 4× normal volume for thirty minutes. The minute that just closed is the heaviest of the last ten and finished three cents above yesterday's high. Your account is $22,000 and 1,300 shares is the size you trade."
+    shares: 1300
     chart:
       kind: candles
       data: [[14.02, 14.14, 13.98, 14.10], [14.10, 14.20, 14.04, 14.16], [14.16, 14.24, 14.10, 14.14], [14.14, 14.26, 14.08, 14.22], [14.22, 14.34, 14.16, 14.30], [14.30, 14.48, 14.26, 14.44], [14.44, 14.56, 14.40, 14.52], [14.52, 14.62, 14.46, 14.58], [14.58, 14.70, 14.52, 14.66], [14.66, 14.72, 14.60, 14.68], [14.68, 14.72, 14.62, 14.66]]
@@ -81,7 +81,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped on to $14.68 — $0.24 a share above the decision, +$360 long on 1,500 shares."
+    outcome: "It stepped on to $14.68 — $0.24 a share above the decision, +$312 long on 1,300 shares."
     explanation: "Thirty minutes of crowd, the heaviest bar of the last ten, and a minute finishing clear of a price from yesterday."
 
   - type: slider

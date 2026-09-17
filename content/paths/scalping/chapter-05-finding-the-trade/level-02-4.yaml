@@ -36,15 +36,15 @@ screens:
         - {ticker: CLAY, price: 17.30, change_pct: 6.1, rvol: 5.6, spread: 0.03}
         - {ticker: VELA, price: 74.20, change_pct: 4.8, rvol: 6.2, spread: 0.05}
     targets: [KELP, CLAY]
-    explanation: "KELP and CLAY: multiples near 5, quotes of two and three cents, and 1,400 shares the account can pay for. RIME quotes fifteen cents, GRAN is having an ordinary day and VELA is 337 shares here."
+    explanation: "KELP and CLAY: multiples near 5, quotes of two and three cents, and 1,400 shares the account can pay for. RIME quotes fifteen cents, GRAN is having an ordinary day and VELA is 336 shares here."
 
   - type: numeric-input
     prompt: "VELA trades at $74.20 and your account is $25,000. How many shares can it pay for?"
-    answer: 337
+    answer: 336
     tolerance: 1
     unit: "shares"
-    working: "$25,000 ÷ $74.20 = 337 shares"
-    explanation: "Three hundred and thirty-seven, and a twenty-cent move on them is $67 before the quote takes its share."
+    working: "$25,000 ÷ $74.20 = 336 shares"
+    explanation: "Three hundred and thirty-six, and a twenty-cent move on them is $67 before the quote takes its share."
 
   - type: chart-decision
     scenario: "KELP has held 5× its normal volume all morning on minutes of 80,000 to 110,000 shares, and the minute that just closed finished four cents through the price you marked before the open. Your account is $25,000 and 1,400 shares is the size you trade."

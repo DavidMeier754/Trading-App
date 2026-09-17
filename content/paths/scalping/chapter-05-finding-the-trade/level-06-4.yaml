@@ -13,7 +13,7 @@ prerequisite: "6-3"
 xp: 25
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
-notes: "Closes Level 6. Mostly reps: a pick, a deck and a decision. Account named at $26,000; the worked position is 1,600 shares at $15.90 = $25,440."
+notes: "Closes Level 6. Mostly reps: a pick, a deck and a decision. Account named at $26,000; the worked position is 1,500 shares at $15.90 = $23,850."
 screens:
   - type: intro
     text: "The conditions removed the impossible. Now you decide which charts are worth your eyes."
@@ -27,7 +27,7 @@ screens:
     body: "A filtered list is every name that could be traded. The shortlist is the few you will actually watch. Cutting from one to the other is the last thing the scanner routine does, and you do it by hand."
 
   - type: scanner-pick
-    prompt: "Your account is $26,000 and you trade 1,600 shares. Two of these five make the shortlist."
+    prompt: "Your account is $26,000 and you trade 1,500 shares. Two of these five make the shortlist."
     data:
       rows:
         - {ticker: MARL, price: 14.60, change_pct: 8.4, rvol: 4.5, spread: 0.02, catalyst: "Results"}
@@ -36,14 +36,14 @@ screens:
         - {ticker: YARN, price: 12.40, change_pct: 2.2, rvol: 1.3, spread: 0.02, catalyst: "—"}
         - {ticker: CRAG, price: 11.80, change_pct: 16.4, rvol: 12.6, spread: 0.19, catalyst: "Trial result"}
     targets: [MARL, VEIN]
-    explanation: "MARL at $23,360 and VEIN at $20,960 for 1,600 shares, both two cents wide, both with a reason. ORCA is 1,313 shares here, YARN is ordinary, CRAG charges nineteen cents."
+    explanation: "MARL at $21,900 and VEIN at $19,650 for 1,500 shares, both two cents wide, both with a reason. ORCA is 1,313 shares here, YARN is ordinary, CRAG charges nineteen cents."
 
   - type: numeric-input
-    prompt: "MARL's ordinary minute is 22,000 shares and its multiple reads 4.5. Your 1,600 shares are what share of a minute today?"
-    answer: 1.6
+    prompt: "MARL's ordinary minute is 22,000 shares and its multiple reads 4.5. Your 1,500 shares are what share of a minute today?"
+    answer: 1.5
     tolerance: 0.2
     unit: "%"
-    working: "22,000 × 4.5 = 99,000 shares a minute; 1,600 ÷ 99,000 = 0.016 = 1.6 %"
+    working: "22,000 × 4.5 = 99,000 shares a minute; 1,500 ÷ 99,000 = 0.015 = 1.5 %"
     explanation: "The multiple is what turned a thin minute into one you can hide in. On an ordinary day the same size would be 7 % of it."
 
   - type: swipe-deck
@@ -77,8 +77,8 @@ screens:
     explanation: "Two onto the list and three off it. One pass is the range, one is the shape of the range, and one is simply nothing happening."
 
   - type: chart-decision
-    scenario: "MARL made the shortlist before the bell and has held 4.5× its normal volume since the open. The minute that just closed finished three cents above the high of the morning at $15.87. Your account is $26,000 and 1,600 shares is the size you trade."
-    shares: 1600
+    scenario: "MARL made the shortlist before the bell and has held 4.5× its normal volume since the open. The minute that just closed finished three cents above the high of the morning at $15.87. Your account is $26,000 and 1,500 shares is the size you trade."
+    shares: 1500
     chart:
       kind: candles
       data: [[15.44, 15.54, 15.38, 15.52], [15.52, 15.62, 15.46, 15.58], [15.58, 15.66, 15.52, 15.56], [15.56, 15.68, 15.50, 15.64], [15.64, 15.74, 15.58, 15.70], [15.70, 15.94, 15.66, 15.90], [15.90, 16.02, 15.86, 15.98], [15.98, 16.08, 15.92, 16.04], [16.04, 16.14, 15.98, 16.10], [16.10, 16.18, 16.04, 16.13], [16.13, 16.16, 16.04, 16.08]]
@@ -88,7 +88,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried on to $16.13 — $0.23 a share above the decision, +$368 long on 1,600 shares."
+    outcome: "It carried on to $16.13 — $0.23 a share above the decision, +$345 long on 1,500 shares."
     explanation: "The shortlist meant this chart was open and marked when the minute arrived. That is the only thing a shortlist ever buys you."
 
   - type: mc

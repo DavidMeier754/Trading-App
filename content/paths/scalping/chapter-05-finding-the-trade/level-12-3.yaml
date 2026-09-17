@@ -13,10 +13,10 @@ prerequisite: "12-2"
 xp: 25
 difficulty: 3
 sources: ["Carter — Mastering the Trade", "Bellafiore — One Good Trade"]
-notes: "Closes Level 12. Chapter 1's imbalance rule arriving in hundreds of names at the same moment. Account named at $20,000; the worked positions are 1,400 shares at $13.98 and $14.06."
+notes: "Closes Level 12. Chapter 1's imbalance rule arriving in hundreds of names at the same moment. Account named at $20,000; the worked positions are 1,300 shares at $13.98 and $14.06."
 screens:
   - type: intro
-    text: "Now and then a single minute stops everything on the screen at the same time. Your account is $20,000 and 1,400 shares is the size you trade."
+    text: "Now and then a single minute stops everything on the screen at the same time. Your account is $20,000 and 1,300 shares is the size you trade."
 
   - type: theory
     title: "When everything turns in the same minute"
@@ -26,8 +26,8 @@ screens:
     body: "You are long one name and watching two others. All three print a long upper wick on the same minute, on more volume than any of them had before it. Nothing happened inside any of the three companies."
 
   - type: branch
-    scenario: "You are long 1,400 shares of MOOR from $13.86 with the stop at $13.70. The minute that just closed stalled MOOR and both watchlist names together, on the heaviest volume of the morning."
-    shares: 1400
+    scenario: "You are long 1,300 shares of MOOR from $13.86 with the stop at $13.70. The minute that just closed stalled MOOR and both watchlist names together, on the heaviest volume of the morning."
+    shares: 1300
     chart:
       kind: candles
       data: [[13.70, 13.80, 13.66, 13.78], [13.78, 13.88, 13.74, 13.84], [13.84, 13.94, 13.80, 13.90], [13.90, 14.00, 13.86, 13.96], [13.96, 14.06, 13.92, 14.02], [14.02, 14.12, 13.96, 13.98], [13.98, 14.02, 13.88, 13.90], [13.90, 13.94, 13.80, 13.82], [13.82, 13.88, 13.74, 13.78], [13.78, 13.84, 13.72, 13.80]]
@@ -68,8 +68,8 @@ screens:
     explanation: "One name stalling is that name's own business. Three at once is the room speaking, and the room decides how far the next move in any of them gets."
 
   - type: chart-decision
-    scenario: "Ten minutes on, MOOR is back under $14.12, the price the turn came from, and the minute that just closed finished six cents below it on about a third of the volume the turn printed. Your account is $20,000 and 1,400 shares is the size you trade."
-    shares: 1400
+    scenario: "Ten minutes on, MOOR is back under $14.12, the price the turn came from, and the minute that just closed finished six cents below it on about a third of the volume the turn printed. Your account is $20,000 and 1,300 shares is the size you trade."
+    shares: 1300
     chart:
       kind: candles
       data: [[13.80, 13.88, 13.74, 13.86], [13.86, 13.94, 13.82, 13.90], [13.90, 13.98, 13.86, 13.94], [13.94, 14.02, 13.90, 13.98], [13.98, 14.06, 13.94, 14.02], [14.02, 14.10, 13.98, 14.06], [14.06, 14.10, 14.00, 14.02], [14.02, 14.08, 13.96, 13.98], [13.98, 14.02, 13.90, 13.94], [13.94, 13.98, 13.88, 13.92]]
@@ -79,7 +79,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It slid back to $13.92 — $0.14 a share under the decision, which is $196 on 1,400 shares you never had to lose."
+    outcome: "It slid back to $13.92 — $0.14 a share under the decision, which is $182 on 1,300 shares you never had to lose."
     explanation: "The price came back and the interest behind it did not. A minute that stopped the whole room is not overturned on a third of the volume."
 
   - type: numeric-input

@@ -13,10 +13,10 @@ prerequisite: "15-1"
 xp: 25
 difficulty: 2
 sources: ["Carter — Mastering the Trade", "Aziz — How to Day Trade for a Living"]
-notes: "Step four of the routine, with step five deliberately left open. Account named at $24,000; the worked positions are 1,600 shares at $14.28 and at $13.54."
+notes: "Step four of the routine, with step five deliberately left open. Account named at $24,000; the worked positions are 1,500 shares at $14.28 and at $13.54."
 screens:
   - type: intro
-    text: "Step four. Your account is $24,000 and 1,600 shares is the size you trade."
+    text: "Step four. Your account is $24,000 and 1,500 shares is the size you trade."
 
   - type: story
     character: mascot
@@ -71,8 +71,8 @@ screens:
     explanation: "Two of them exist while the market is shut. The other two need a session to have happened, which is why the day type is the one step the routine cannot finish early."
 
   - type: chart-decision
-    scenario: "The check came back heavy: the index is down since the bell and more names are falling than rising. KNOT is up on results of its own and has held above its average price the whole time. The minute that just closed finished through the morning's high at $14.22. Your account is $24,000 and 1,600 shares is the size you trade."
-    shares: 1600
+    scenario: "The check came back heavy: the index is down since the bell and more names are falling than rising. KNOT is up on results of its own and has held above its average price the whole time. The minute that just closed finished through the morning's high at $14.22. Your account is $24,000 and 1,500 shares is the size you trade."
+    shares: 1500
     state: ["Room: risk-off", "Names on the list: 2"]
     chart:
       kind: candles
@@ -83,18 +83,18 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $14.51 — $0.23 a share above the decision, +$368 long on 1,600 shares."
+    outcome: "It carried to $14.51 — $0.23 a share above the decision, +$345 long on 1,500 shares."
     explanation: "The room was heavy and this name was not part of the room's argument. The check told you to expect one or two tries today, and this was one of them."
 
   - type: numeric-mc
-    prompt: "KNOT is filled at $14.30 with the stop under the morning's high at $14.18, on 1,600 shares. What is at risk?"
+    prompt: "KNOT is filled at $14.30 with the stop under the morning's high at $14.18, on 1,500 shares. What is at risk?"
     options:
-      - {text: "$192", correct: true}
-      - {text: "$19.20"}
+      - {text: "$180", correct: true}
+      - {text: "$18"}
       - {text: "$120"}
-      - {text: "$1,920"}
-    working: "$14.30 − $14.18 = $0.12 a share × 1,600 shares = $192"
-    explanation: "A hundred and ninety-two dollars, under 1 % of a $24,000 account. The line the routine drew is what makes the stop twelve cents instead of a guess."
+      - {text: "$1,800"}
+    working: "$14.30 − $14.18 = $0.12 a share × 1,500 shares = $180"
+    explanation: "A hundred and eighty dollars, under 1 % of a $24,000 account. The line the routine drew is what makes the stop twelve cents instead of a guess."
 
   - type: journal-row
     prompt: "Fill the morning's own row, the one written before any trade goes under it."
@@ -118,8 +118,8 @@ screens:
     explanation: "Somewhere around a third to a half. The check does not stop you trading; it lowers a number you would otherwise have been disappointed not to reach."
 
   - type: chart-decision
-    scenario: "Same heavy room, and REED sits in the same sector as the index's worst. It has made lower highs since the bell and the minute that just closed gave up the low of the morning at $13.60 on the heaviest bar yet. Your account is $24,000 and 1,600 shares is the size you trade."
-    shares: 1600
+    scenario: "Same heavy room, and REED sits in the same sector as the index's worst. It has made lower highs since the bell and the minute that just closed gave up the low of the morning at $13.60 on the heaviest bar yet. Your account is $24,000 and 1,500 shares is the size you trade."
+    shares: 1500
     state: ["Room: risk-off", "Sector: worst on the board"]
     chart:
       kind: candles
@@ -130,7 +130,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked down to $13.26 — $0.28 a share below the decision, +$448 short on 1,600 shares."
+    outcome: "It worked down to $13.26 — $0.28 a share below the decision, +$420 short on 1,500 shares."
     explanation: "This one sat inside the room's argument rather than outside it, and the check is what told you which of the two names that was."
 
   - type: checklist-reveal

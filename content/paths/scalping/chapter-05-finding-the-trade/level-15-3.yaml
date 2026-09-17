@@ -13,17 +13,17 @@ prerequisite: "15-2"
 xp: 25
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Raschke & Connors — Street Smarts"]
-notes: "Closes Level 15 with the chapter's plan-card. Account named at $26,000; the worked position is 1,700 shares at $14.86 = $25,262."
+notes: "Closes Level 15 with the chapter's plan-card. Account named at $26,000; the worked position is 1,600 shares at $14.86 = $23,776."
 screens:
   - type: intro
-    text: "Step six. Your account is $26,000 and 1,700 shares is the size you trade."
+    text: "Step six. Your account is $26,000 and 1,600 shares is the size you trade."
 
   - type: theory
     title: "The page is the last step"
     body: "Everything before it produced information. The page turns that into a few numbers and a short list of names, written down while nothing is moving and nothing is at stake."
 
   - type: example
-    body: "Two names, 1,700 shares each, a stop no wider than fifteen cents and three lines drawn on both. Four sentences, written before the bell, and every one of them harder to write afterwards."
+    body: "Two names, 1,600 shares each, a stop no wider than fifteen cents and three lines drawn on both. Four sentences, written before the bell, and every one of them harder to write afterwards."
 
   - type: plan-card
     title: "Your pre-market page"
@@ -44,20 +44,20 @@ screens:
     explanation: "Size is arithmetic, and arithmetic is cheap while nothing is moving. Left until the name is live it becomes a guess wearing a number."
 
   - type: order-build
-    prompt: "The page says 1,700 shares of PIER and nothing worse than four cents through the ask of $14.86."
+    prompt: "The page says 1,600 shares of PIER and nothing worse than four cents through the ask of $14.86."
     ticker: PIER
     slots: [side, type, qty, price]
     chips:
       side: [buy, sell]
       type: [market, limit, stop]
-      qty: [850, 1700, 2550]
+      qty: [800, 1600, 2400]
       price: [14.82, 14.86, 14.90]
-    answer: {side: buy, type: limit, qty: 1700, price: 14.90}
+    answer: {side: buy, type: limit, qty: 1600, price: 14.90}
     explanation: "A limit four cents through the ask fills like a market order and still refuses anything worse than $14.90."
 
   - type: chart-decision
-    scenario: "PIER is one of the two names on the page you wrote before the bell, with $14.80 marked as yesterday's high. The minute that just closed finished six cents above it on the heaviest volume of the session. Your account is $26,000 and 1,700 shares is the size you trade."
-    shares: 1700
+    scenario: "PIER is one of the two names on the page you wrote before the bell, with $14.80 marked as yesterday's high. The minute that just closed finished six cents above it on the heaviest volume of the session. Your account is $26,000 and 1,600 shares is the size you trade."
+    shares: 1600
     chart:
       kind: candles
       data: [[14.56, 14.64, 14.52, 14.62], [14.62, 14.70, 14.58, 14.66], [14.66, 14.74, 14.62, 14.68], [14.68, 14.78, 14.64, 14.74], [14.74, 14.80, 14.70, 14.76], [14.76, 14.90, 14.72, 14.86], [14.86, 14.98, 14.82, 14.94], [14.94, 15.04, 14.90, 15.00], [15.00, 15.10, 14.96, 15.06], [15.06, 15.18, 15.02, 15.16], [15.16, 15.18, 15.08, 15.12]]
@@ -67,16 +67,16 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped on to $15.16 — $0.30 a share above the decision, +$510 long on 1,700 shares."
+    outcome: "It stepped on to $15.16 — $0.30 a share above the decision, +$480 long on 1,600 shares."
     explanation: "Nothing on this screen was decided in this minute. The name, the size and the line were all on a page written while the market was shut."
 
   - type: numeric-input
-    prompt: "Filled at $14.90 with the stop under the line at $14.76, on 1,700 shares. What is at risk?"
-    answer: 238
+    prompt: "Filled at $14.90 with the stop under the line at $14.76, on 1,600 shares. What is at risk?"
+    answer: 224
     tolerance: 1
     unit: "$"
-    working: "$14.90 − $14.76 = $0.14 a share × 1,700 shares = $238"
-    explanation: "Two hundred and thirty-eight dollars, a little under 1 % of the $26,000. The page set the size and the line set the distance."
+    working: "$14.90 − $14.76 = $0.14 a share × 1,600 shares = $224"
+    explanation: "Two hundred and twenty-four dollars, a little under 1 % of the $26,000. The page set the size and the line set the distance."
 
   - type: tf
     statement: "A page written before the bell is worth rewriting the moment a better-looking name appears."

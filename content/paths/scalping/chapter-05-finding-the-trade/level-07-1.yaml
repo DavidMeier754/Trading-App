@@ -13,7 +13,7 @@ prerequisite: "6-4"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
-notes: "Chapter 2's marked levels arriving as a selection discipline. Account named at $28,000; the worked position is 1,800 shares at $15.20 = $27,360."
+notes: "Chapter 2's marked levels arriving as a selection discipline. Account named at $28,000; the worked position is 1,700 shares at $15.20 = $25,840."
 screens:
   - type: intro
     text: "Four names, each with its prices already drawn. That is the whole product of a pre-market."
@@ -27,7 +27,7 @@ screens:
     text: "Eight names survived the reading. Four charts fit on the screen with levels drawn on them, so four is what the day gets."
 
   - type: scanner-pick
-    prompt: "Your shortlist, your $28,000 account, 1,800 shares. Two of these go on the watchlist."
+    prompt: "Your shortlist, your $28,000 account, 1,700 shares. Two of these go on the watchlist."
     data:
       rows:
         - {ticker: PIKE, price: 15.20, change_pct: 7.8, rvol: 6.4, spread: 0.02, catalyst: "Results"}
@@ -35,14 +35,14 @@ screens:
         - {ticker: ROAN, price: 13.40, change_pct: 9.1, rvol: 7.2, spread: 0.02, catalyst: "Guidance raised"}
         - {ticker: SALT, price: 12.90, change_pct: 2.6, rvol: 1.4, spread: 0.02, catalyst: "—"}
     targets: [PIKE, ROAN]
-    explanation: "PIKE and ROAN: both payable at 1,800 shares, both two cents wide, both with a reason. ORCA is 1,238 shares on this account and SALT is having an ordinary day."
+    explanation: "PIKE and ROAN: both payable at 1,700 shares, both two cents wide, both with a reason. ORCA is 1,238 shares on this account and SALT is having an ordinary day."
 
   - type: numeric-input
-    prompt: "One full position in PIKE at $15.20, 1,800 shares. How much of the $28,000 is standing in it?"
-    answer: 27360
+    prompt: "One full position in PIKE at $15.20, 1,700 shares. How much of the $28,000 is standing in it?"
+    answer: 25840
     tolerance: 1
     unit: "$"
-    working: "1,800 shares × $15.20 = $27,360"
+    working: "1,700 shares × $15.20 = $25,840"
     explanation: "Almost all of it, which is why the watchlist holds four names and never four positions."
 
   - type: mc
@@ -71,8 +71,8 @@ screens:
     explanation: "A round number or yesterday's high is a place to look. It becomes a level the first time the name arrives there and cannot get through."
 
   - type: chart-decision
-    scenario: "PIKE is on your watchlist with $15.00 marked: yesterday's high, and a round number. It has come back to that price and the minute that just closed finished twenty cents above it on the heaviest bar of the morning. Your account is $28,000 and 1,800 shares is the size you trade."
-    shares: 1800
+    scenario: "PIKE is on your watchlist with $15.00 marked: yesterday's high, and a round number. It has come back to that price and the minute that just closed finished twenty cents above it on the heaviest bar of the morning. Your account is $28,000 and 1,700 shares is the size you trade."
+    shares: 1700
     chart:
       kind: candles
       data: [[15.32, 15.40, 15.26, 15.30], [15.30, 15.34, 15.16, 15.20], [15.20, 15.24, 15.06, 15.10], [15.10, 15.16, 14.98, 15.04], [15.04, 15.08, 14.96, 14.99], [14.99, 15.24, 14.97, 15.20], [15.20, 15.32, 15.16, 15.28], [15.28, 15.38, 15.22, 15.34], [15.34, 15.44, 15.28, 15.40], [15.40, 15.48, 15.34, 15.45], [15.45, 15.48, 15.38, 15.42]]
@@ -82,7 +82,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It worked back up to $15.45 — $0.25 a share above the decision, +$450 long on 1,800 shares."
+    outcome: "It worked back up to $15.45 — $0.25 a share above the decision, +$425 long on 1,700 shares."
     explanation: "Price was available under the marked price for one minute and was taken back inside it. The line was drawn before the bell, which is the only reason it was there to read."
 
   - type: sort

@@ -13,10 +13,10 @@ prerequisite: "14-1"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
-notes: "Closes the callback level. The four-part read used for choosing. Account named at $22,000; the worked positions are 1,500 shares at $14.34, at $13.50 and at $12.82."
+notes: "Closes the callback level. The four-part read used for choosing. Account named at $22,000; the worked positions are 1,200 shares at $14.34, at $13.50 and at $12.82."
 screens:
   - type: intro
-    text: "Four readings, one order. Your account is $22,000 and 1,500 shares is the size you trade."
+    text: "Four readings, one order. Your account is $22,000 and 1,200 shares is the size you trade."
 
   - type: story
     character: retail-trader
@@ -47,8 +47,8 @@ screens:
     explanation: "$14.30, reached twice and given back both times. That is reading one of four, and the only one you can finish while the market is shut."
 
   - type: chart-decision
-    scenario: "KILN has held above its own average price since the bell and spent twenty minutes underneath the line you drew at $14.30. The minute that just closed finished four cents through it on the heaviest volume of the session, with 1,000s printing at the ask. Your account is $22,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "KILN has held above its own average price since the bell and spent twenty minutes underneath the line you drew at $14.30. The minute that just closed finished four cents through it on the heaviest volume of the session, with 1,000s printing at the ask. Your account is $22,000 and 1,200 shares is the size you trade."
+    shares: 1200
     chart:
       kind: candles
       data: [[14.16, 14.24, 14.12, 14.20], [14.20, 14.28, 14.16, 14.24], [14.24, 14.30, 14.20, 14.22], [14.22, 14.28, 14.18, 14.26], [14.26, 14.30, 14.22, 14.28], [14.28, 14.38, 14.26, 14.34], [14.34, 14.46, 14.30, 14.42], [14.42, 14.52, 14.38, 14.48], [14.48, 14.58, 14.44, 14.54], [14.54, 14.64, 14.50, 14.61], [14.61, 14.64, 14.54, 14.58]]
@@ -59,7 +59,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped on to $14.61 — $0.27 a share above the decision, +$405 long on 1,500 shares."
+    outcome: "It stepped on to $14.61 — $0.27 a share above the decision, +$324 long on 1,200 shares."
     explanation: "All four, in order, on a name that earned its chart before the bell: a line already drawn, the session on the right side of its average, a minute that finished through, and size still paying the ask."
 
   - type: fill-choice
@@ -87,7 +87,7 @@ screens:
 
   - type: branch
     scenario: "Ten minutes after the bell, HAWK is top of the movers list at 9× normal, two cents wide, trading at $13.40 with results behind it. Nothing is drawn on it. Your account is $22,000."
-    shares: 1500
+    shares: 1200
     chart:
       kind: candles
       data: [[13.16, 13.26, 13.12, 13.24], [13.24, 13.34, 13.20, 13.30], [13.30, 13.40, 13.26, 13.36], [13.36, 13.44, 13.32, 13.38], [13.38, 13.46, 13.34, 13.42], [13.42, 13.54, 13.38, 13.50], [13.50, 13.58, 13.46, 13.54], [13.54, 13.62, 13.50, 13.58], [13.58, 13.66, 13.54, 13.62], [13.62, 13.68, 13.56, 13.64]]
@@ -106,12 +106,12 @@ screens:
           - {text: "Step one has an answer now, so the read can run", correct: true}
           - {text: "The stall is the entry, so the rest of the read can be skipped"}
         explanation: "Two refusals at one price is a level the market drew rather than you. Now there is something to lean on and something to put a stop behind."
-      - prompt: "The read comes back clean and you want your usual 1,500 shares, filled at $13.70 with the stop under $13.60. What gets checked last?"
+      - prompt: "The read comes back clean and you want your usual 1,200 shares, filled at $13.70 with the stop under $13.60. What gets checked last?"
         options:
           - {text: "The tape, because it is the fastest of the four readings"}
           - {text: "Nothing: the read is clean, so the usual size applies"}
           - {text: "Both ceilings — what $22,000 buys, and what the stop allows", correct: true}
-        explanation: "$22,000 buys 1,605 shares, so the account is not the binding one here. Ten cents on 1,500 shares is $150, and that is the number the size gets built from."
+        explanation: "$22,000 buys 1,605 shares, so the account is not the binding one here. Ten cents on 1,200 shares is $120, and that is the number the size gets built from."
 
   - type: numeric-input
     prompt: "Confirm the account ceiling on HAWK: $22,000, and a fill at $13.70."
@@ -119,7 +119,7 @@ screens:
     tolerance: 1
     unit: "shares"
     working: "$22,000 ÷ $13.70 = 1,605 shares"
-    explanation: "Sixteen hundred and five, so 1,500 fits. On a $24 name the same account would have stopped you at 916, and no reading of the chart changes that."
+    explanation: "Sixteen hundred and five, so 1,200 fits. On a $24 name the same account would have stopped you at 916, and no reading of the chart changes that."
 
   - type: tf
     statement: "Because the tape changes fastest, it is the reading a shortlist gets built on."
@@ -127,8 +127,8 @@ screens:
     explanation: "It changes fastest, which is why it is checked last and never before the bell. A shortlist is built out of the readings that keep."
 
   - type: chart-decision
-    scenario: "MERE has stalled three times at $12.80 and the minute that just closed finished two cents through it on ordinary volume. It has been under its own average price since the bell and the prints going through were 100s and 200s. Your account is $22,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "MERE has stalled three times at $12.80 and the minute that just closed finished two cents through it on ordinary volume. It has been under its own average price since the bell and the prints going through were 100s and 200s. Your account is $22,000 and 1,200 shares is the size you trade."
+    shares: 1200
     chart:
       kind: candles
       data: [[12.72, 12.80, 12.68, 12.76], [12.76, 12.80, 12.70, 12.72], [12.72, 12.78, 12.66, 12.74], [12.74, 12.80, 12.70, 12.76], [12.76, 12.78, 12.70, 12.72], [12.72, 12.84, 12.70, 12.82], [12.82, 12.84, 12.74, 12.76], [12.76, 12.80, 12.68, 12.70], [12.70, 12.74, 12.62, 12.64], [12.64, 12.70, 12.60, 12.66], [12.66, 12.70, 12.58, 12.62]]

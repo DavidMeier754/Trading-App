@@ -13,10 +13,10 @@ prerequisite: "11-2"
 xp: 25
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Raschke & Connors — Street Smarts"]
-notes: "Closes Level 11. Chapter 1's buyers-and-sellers reading applied to a name against its room. Account named at $17,000; the worked position is 1,200 shares at $14.02 = $16,824."
+notes: "Closes Level 11. Chapter 1's buyers-and-sellers reading applied to a name against its room. Account named at $17,000; the worked position is 1,100 shares at $14.02 = $15,422."
 screens:
   - type: intro
-    text: "A red morning. Your account is $17,000 and 1,200 shares is the size you trade. One name on the list is not going down."
+    text: "A red morning. Your account is $17,000 and 1,100 shares is the size you trade. One name on the list is not going down."
 
   - type: theory
     title: "The name that refuses"
@@ -62,9 +62,9 @@ screens:
     explanation: "$13.62, turned away twice while the room outside was printing new lows. That price is what the whole read hangs on."
 
   - type: chart-decision
-    scenario: "The index has made new lows all morning. HALE has held $13.62 twice, and the minute that just closed finished at the top of its own range. Your account is $17,000 and 1,200 shares is the size you trade."
-    shares: 1200
-    state: ["Index: new lows", "Size: 1,200 shares"]
+    scenario: "The index has made new lows all morning. HALE has held $13.62 twice, and the minute that just closed finished at the top of its own range. Your account is $17,000 and 1,100 shares is the size you trade."
+    shares: 1100
+    state: ["Index: new lows", "Size: 1,100 shares"]
     chart:
       kind: candles
       data: [[13.76, 13.84, 13.70, 13.80], [13.80, 13.88, 13.74, 13.84], [13.84, 13.90, 13.76, 13.82], [13.82, 13.94, 13.78, 13.90], [13.90, 13.98, 13.84, 13.94], [13.94, 14.06, 13.90, 14.02], [14.02, 14.12, 13.98, 14.08], [14.08, 14.18, 14.04, 14.14], [14.14, 14.24, 14.08, 14.20], [14.20, 14.26, 14.14, 14.23], [14.23, 14.26, 14.16, 14.20]]
@@ -74,19 +74,19 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $14.23 — $0.21 a share above the decision, +$252 long on 1,200 shares."
+    outcome: "It worked up to $14.23 — $0.21 a share above the decision, +$231 long on 1,100 shares."
     explanation: "A name that would not go down while everything around it did, and then a minute finishing at the top of its own morning. The room is still leaning the other way, so the stop stays where the chart put it."
 
   - type: journal-row
     prompt: "Fill the morning's note for the trade you just closed."
-    trade: {ticker: HALE, entry: 14.04, exit: 14.23, shares: 1200}
+    trade: {ticker: HALE, entry: 14.04, exit: 14.23, shares: 1100}
     slots: [market, name, gross]
     chips:
       market: ["Rising", "Flat", "Falling"]
       name: ["With the market", "Against the market", "Not moving"]
-      gross: ["$168", "$228", "$304"]
-    answer: {market: "Falling", name: "Against the market", gross: "$228"}
-    explanation: "Nineteen cents on 1,200 shares is $228 before costs, and the two words beside it are the reason the trade existed at all."
+      gross: ["$152", "$209", "$266"]
+    answer: {market: "Falling", name: "Against the market", gross: "$209"}
+    explanation: "Nineteen cents on 1,100 shares is $209 before costs, and the two words beside it are the reason the trade existed at all."
 
   - type: tf
     statement: "A name that will not fall while the index does is telling you something about who owns it."

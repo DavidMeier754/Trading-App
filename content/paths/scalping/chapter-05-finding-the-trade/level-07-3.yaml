@@ -13,7 +13,7 @@ prerequisite: "7-2"
 xp: 25
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Raschke & Connors — Street Smarts"]
-notes: "Closes Level 7. Same name carried across three screens: tap yesterday's low, draw the pre-market high, then trade the level. Account named at $19,000; the worked position is 1,300 shares at $14.10 = $18,330."
+notes: "Closes Level 7. Same name carried across three screens: tap yesterday's low, draw the pre-market high, then trade the level. Account named at $19,000; the worked position is 1,200 shares at $14.10 = $16,920."
 screens:
   - type: intro
     text: "Three prices a name, and all three of them exist before anything has traded today."
@@ -64,8 +64,8 @@ screens:
     explanation: "That is the whole argument for doing it early. A line drawn during a push is a line the push chose for you."
 
   - type: chart-decision
-    scenario: "Your line at $14.20 is yesterday's low. The name has come down to it all morning and the minute that just closed finished ten cents under it on the heaviest bar since the open. Your account is $19,000 and 1,300 shares is the size you trade."
-    shares: 1300
+    scenario: "Your line at $14.20 is yesterday's low. The name has come down to it all morning and the minute that just closed finished ten cents under it on the heaviest bar since the open. Your account is $19,000 and 1,200 shares is the size you trade."
+    shares: 1200
     chart:
       kind: candles
       data: [[14.62, 14.68, 14.50, 14.54], [14.54, 14.60, 14.42, 14.46], [14.46, 14.52, 14.34, 14.38], [14.38, 14.44, 14.26, 14.30], [14.30, 14.36, 14.18, 14.22], [14.22, 14.26, 14.06, 14.10], [14.10, 14.16, 14.00, 14.04], [14.04, 14.10, 13.94, 13.98], [13.98, 14.04, 13.88, 13.92], [13.92, 13.98, 13.76, 13.79], [13.79, 13.86, 13.74, 13.82]]
@@ -75,15 +75,15 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It carried down to $13.79 — $0.31 a share below the decision, +$403 short on 1,300 shares."
+    outcome: "It carried down to $13.79 — $0.31 a share below the decision, +$372 short on 1,200 shares."
     explanation: "A price a whole session argued over yesterday, given up today on the heaviest minute of the morning. The line was on the chart an hour before it mattered."
 
   - type: numeric-input
-    prompt: "Short 1,300 shares from $14.10, stop two cents back above the broken line at $14.22. What is at risk?"
-    answer: 156
+    prompt: "Short 1,200 shares from $14.10, stop two cents back above the broken line at $14.22. What is at risk?"
+    answer: 144
     tolerance: 0.01
     unit: "$"
-    working: "$14.22 − $14.10 = $0.12 a share; $0.12 × 1,300 shares = $156"
+    working: "$14.22 − $14.10 = $0.12 a share; $0.12 × 1,200 shares = $144"
     explanation: "Under one per cent of the account, and the stop sits just the far side of the price the trade is about."
 
   - type: mc

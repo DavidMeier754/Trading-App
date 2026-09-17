@@ -13,10 +13,10 @@ prerequisite: "13-2"
 xp: 25
 difficulty: 3
 sources: ["Raschke & Connors — Street Smarts", "Bellafiore — One Good Trade"]
-notes: "Both worked positions are 1,500 shares against a $23,000 account, at $15.08 and $15.12. Chapter 2's range edges and Chapter 4's slower chart, used for management rather than entry."
+notes: "Both worked positions are 1,300 shares against a $23,000 account, at $15.08 and $15.12. Chapter 2's range edges and Chapter 4's slower chart, used for management rather than entry."
 screens:
   - type: intro
-    text: "Your account is $23,000 and 1,500 shares is the size you trade. Same setups today — different rules for what happens after the fill."
+    text: "Your account is $23,000 and 1,300 shares is the size you trade. Same setups today — different rules for what happens after the fill."
 
   - type: theory
     title: "Each day offers one thing and refuses another"
@@ -39,8 +39,8 @@ screens:
     explanation: "Same trader and the same setups. What changes is the set of rules for what to do once you are in."
 
   - type: chart-decision
-    scenario: "PELT has turned away from $15.20 twice this hour, and $14.84 has held every dip this morning. The minute that just closed reached $15.19 and finished eleven cents lower. Your account is $23,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "PELT has turned away from $15.20 twice this hour, and $14.84 has held every dip this morning. The minute that just closed reached $15.19 and finished eleven cents lower. Your account is $23,000 and 1,300 shares is the size you trade."
+    shares: 1300
     chart:
       kind: candles
       data: [[14.90, 14.98, 14.84, 14.94], [14.94, 15.20, 14.90, 15.02], [15.02, 15.20, 14.98, 15.12], [15.12, 15.16, 15.00, 15.04], [15.04, 15.12, 14.98, 15.08], [15.08, 15.19, 15.04, 15.08], [15.08, 15.10, 14.98, 15.00], [15.00, 15.04, 14.92, 14.94], [14.94, 14.98, 14.86, 14.88], [14.88, 14.92, 14.82, 14.84], [14.84, 14.94, 14.82, 14.90]]
@@ -51,7 +51,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It worked back down to $14.84 — $0.24 a share below the decision, +$360 short on 1,500 shares, and stopped where it stopped this morning."
+    outcome: "It worked back down to $14.84 — $0.24 a share below the decision, +$312 short on 1,300 shares, and stopped where it stopped this morning."
     explanation: "A third refusal at one price, on a session that has not left this range all day. The far edge is the target, and the day is what says so."
 
   - type: mc
@@ -63,14 +63,14 @@ screens:
     explanation: "A session that travels tends to go past the obvious price. Taking some off keeps the trade a winner while the rest finds out."
 
   - type: numeric-mc
-    prompt: "PELT's range runs from $14.84 to $15.20 and you trade 1,500 shares. What is one full crossing of it worth?"
+    prompt: "PELT's range runs from $14.84 to $15.20 and you trade 1,300 shares. What is one full crossing of it worth?"
     options:
-      - {text: "$540", correct: true}
-      - {text: "$360"}
-      - {text: "$54"}
-      - {text: "$5,400"}
-    working: "$15.20 − $14.84 = $0.36 a share × 1,500 shares = $540"
-    explanation: "Five hundred and forty for the whole width, and nobody gets the whole width. Half of it, twice, is the honest version."
+      - {text: "$468", correct: true}
+      - {text: "$312"}
+      - {text: "$46.80"}
+      - {text: "$4,680"}
+    working: "$15.20 − $14.84 = $0.36 a share × 1,300 shares = $468"
+    explanation: "Four hundred and sixty-eight for the whole width, and nobody gets the whole width. Half of it, twice, is the honest version."
 
   - type: slider
     prompt: "On a session that keeps returning, how much of the range does a realistic scalp actually take out of it?"
@@ -83,8 +83,8 @@ screens:
     explanation: "About half is a fair expectation. You are never in at the floor or out at the ceiling, and the quote takes a slice of what is left between them."
 
   - type: chart-decision
-    scenario: "SWIFT left its opening range behind early and every give-back since has stopped higher than the last. The minute that just closed ended a three-minute pause of nine cents, the lightest stretch of the session. Your account is $23,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "SWIFT left its opening range behind early and every give-back since has stopped higher than the last. The minute that just closed ended a three-minute pause of nine cents, the lightest stretch of the session. Your account is $23,000 and 1,300 shares is the size you trade."
+    shares: 1300
     chart:
       kind: candles
       data: [[14.80, 14.94, 14.76, 14.90], [14.90, 15.06, 14.86, 15.02], [15.02, 15.18, 14.98, 15.14], [15.14, 15.16, 15.09, 15.10], [15.10, 15.13, 15.09, 15.11], [15.11, 15.16, 15.09, 15.12], [15.12, 15.26, 15.10, 15.22], [15.22, 15.36, 15.18, 15.32], [15.32, 15.44, 15.28, 15.40], [15.40, 15.50, 15.36, 15.45], [15.45, 15.48, 15.38, 15.42]]
@@ -92,7 +92,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped on to $15.45 — $0.33 a share above the decision, +$495 long on 1,500 shares."
+    outcome: "It stepped on to $15.45 — $0.33 a share above the decision, +$429 long on 1,300 shares."
     explanation: "A shallow pause on the lightest minutes of a session that has not come back once. This is the entry a travelling day hands out, and it is the only cheap one it offers."
 
   - type: match

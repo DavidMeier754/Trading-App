@@ -13,7 +13,7 @@ prerequisite: "1-2"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Tharp — Trade Your Way to Financial Freedom"]
-notes: "Filter four. Chapter 3's account ceiling arriving as a selection tool. Account named at $12,000; every position in the file is payable at the price quoted."
+notes: "Filter four. Chapter 3's account ceiling arriving as a selection tool. Account named at $12,000; the two worked positions are 400 shares at $27 and 800 at $13.20, both inside the cash the account can actually put up."
 screens:
   - type: intro
     text: "The cheapest reason to cross a name off is the one printed next to its ticker."
@@ -63,8 +63,8 @@ screens:
     explanation: "The account pays for 857 of the first and 38 of the last. A clean chart you can hold 38 shares of is somebody else's trade."
 
   - type: chart-decision
-    scenario: "WREN travels about eighteen cents a minute on 80,000-share bars and quotes five cents wide. It trades at $27, so your $12,000 account pays for 444 shares and you are taking 440."
-    shares: 440
+    scenario: "WREN travels about eighteen cents a minute on 80,000-share bars and quotes five cents wide. It trades at $27, so your $12,000 account pays for 444 shares and you are taking 400."
+    shares: 400
     chart:
       kind: candles
       data: [[26.62, 26.74, 26.56, 26.70], [26.70, 26.84, 26.64, 26.80], [26.80, 26.92, 26.74, 26.86], [26.86, 27.00, 26.80, 26.96], [26.96, 27.06, 26.90, 27.00], [27.00, 27.12, 26.94, 27.02], [27.02, 27.18, 26.98, 27.14], [27.14, 27.26, 27.08, 27.22], [27.22, 27.34, 27.16, 27.29], [27.29, 27.32, 27.20, 27.24]]
@@ -72,8 +72,8 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It went on to $27.29 — $0.27 a share past the decision, $119 on 440 shares, of which the quote would have taken $22."
-    explanation: "Not a bad chart, an unreachable one. Four hundred and forty shares is all this account can pay for at $27, and the quote takes a fifth of what they make."
+    outcome: "It went on to $27.29 — $0.27 a share past the decision, $108 on 400 shares, of which the quote would have taken $20."
+    explanation: "Not a bad chart, an unreachable one. Four hundred shares is what $12,000 stretches to at $27 once the cash for the fill is kept back, and the quote takes a fifth of what they make."
 
   - type: mc
     prompt: "Same account, the same eighteen-cent minutes, and a name at $13.50 instead of $27. What changes?"
@@ -84,8 +84,8 @@ screens:
     explanation: "888 shares instead of 444, so the same eighteen cents is worth twice as much to you."
 
   - type: chart-decision
-    scenario: "FERN prints over 90,000-share minutes, quotes two cents wide and the minute that just closed is the heaviest since the open. It trades at $13.20, so your $12,000 account pays for 909 shares and you are taking 900."
-    shares: 900
+    scenario: "FERN prints over 90,000-share minutes, quotes two cents wide and the minute that just closed is the heaviest since the open. It trades at $13.20, so your $12,000 account pays for 909 shares and you are taking 800."
+    shares: 800
     chart:
       kind: candles
       data: [[12.98, 13.06, 12.94, 13.04], [13.04, 13.10, 13.00, 13.08], [13.08, 13.14, 13.03, 13.06], [13.06, 13.16, 13.02, 13.12], [13.12, 13.20, 13.08, 13.16], [13.16, 13.32, 13.14, 13.28], [13.28, 13.40, 13.24, 13.36], [13.36, 13.46, 13.32, 13.42], [13.42, 13.52, 13.38, 13.48], [13.48, 13.54, 13.44, 13.50], [13.50, 13.54, 13.44, 13.46]]
@@ -93,8 +93,8 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped up to $13.50 — $0.22 a share above the decision, +$198 long on 900 shares."
-    explanation: "Nine hundred shares at $13.20 is $11,880, just inside the 909 the account would stretch to, and a position worth having."
+    outcome: "It stepped up to $13.50 — $0.22 a share above the decision, +$176 long on 800 shares."
+    explanation: "Eight hundred shares at $13.20 is $10,560, inside the 909 the account would stretch to with the cash for the fill still there, and a position worth having."
 
   - type: hotspot
     component: quote-card

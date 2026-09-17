@@ -13,7 +13,7 @@ prerequisite: "5-1"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — One Good Trade"]
-notes: "Opens Level 6 by naming the tool the chapter has been using since Level 2. Account named at $22,000; the worked position is 1,500 shares at $14.20 = $21,300."
+notes: "Opens Level 6 by naming the tool the chapter has been using since Level 2. Account named at $22,000; the worked position is 1,400 shares at $14.20 = $19,880."
 screens:
   - type: intro
     text: "You have been reading these rows for four levels. This is what the thing is called, and what each column is actually for."
@@ -56,14 +56,14 @@ screens:
 
   - type: hotspot
     component: scanner-table
-    prompt: "Tap the row your $22,000 account cannot hold 1,500 shares of."
+    prompt: "Tap the row your $22,000 account cannot hold 1,400 shares of."
     data:
       rows:
         - {ticker: FERN, price: 14.06, change_pct: 7.1, rvol: 5.0, spread: 0.02, catalyst: "Results"}
         - {ticker: ORCA, price: 26.80, change_pct: 5.4, rvol: 4.1, spread: 0.03, catalyst: "Upgrade"}
         - {ticker: MARL, price: 11.90, change_pct: 12.8, rvol: 9.7, spread: 0.14, catalyst: "Court ruling"}
     target: ORCA
-    explanation: "1,500 × $26.80 is $40,200. The account pays for 820 shares of it, and the row never gets as far as the chart."
+    explanation: "1,400 × $26.80 is $37,520. The account pays for 820 shares of it, and the row never gets as far as the chart."
 
   - type: tf
     statement: "A scanner set up well enough will eventually hand you rows you can trade without checking them."
@@ -71,7 +71,7 @@ screens:
     explanation: "It applies the conditions you gave it and nothing else. The reason, the minute volume and the chart are still yours to read."
 
   - type: scanner-pick
-    prompt: "Same $22,000 account, same 1,500 shares. Which row is worth the screen?"
+    prompt: "Same $22,000 account, same 1,400 shares. Which row is worth the screen?"
     data:
       rows:
         - {ticker: MARL, price: 11.90, change_pct: 12.8, rvol: 9.7, spread: 0.14, catalyst: "Court ruling"}
@@ -81,8 +81,8 @@ screens:
     explanation: "FERN answers all four. MARL has the biggest number in the multiple column and charges fourteen cents for it; SALT is having an ordinary day."
 
   - type: chart-decision
-    scenario: "FERN reported before the open and has held 5× its normal volume since. The minute that just closed finished three cents above the pre-market high of $14.17. Your account is $22,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "FERN reported before the open and has held 5× its normal volume since. The minute that just closed finished three cents above the pre-market high of $14.17. Your account is $22,000 and 1,400 shares is the size you trade."
+    shares: 1400
     chart:
       kind: candles
       data: [[13.80, 13.90, 13.74, 13.88], [13.88, 13.98, 13.82, 13.94], [13.94, 14.02, 13.88, 13.92], [13.92, 14.04, 13.86, 14.00], [14.00, 14.10, 13.94, 14.06], [14.06, 14.24, 14.02, 14.20], [14.20, 14.32, 14.16, 14.28], [14.28, 14.38, 14.22, 14.34], [14.34, 14.44, 14.28, 14.40], [14.40, 14.46, 14.34, 14.41], [14.41, 14.44, 14.34, 14.38]]
@@ -92,7 +92,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $14.41 — $0.21 a share above the decision, +$315 long on 1,500 shares."
+    outcome: "It worked up to $14.41 — $0.21 a share above the decision, +$294 long on 1,400 shares."
     explanation: "The row got FERN onto the screen. The minute finishing clear of the marked price is the part the row could never tell you."
 
   - type: mc

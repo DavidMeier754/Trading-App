@@ -13,7 +13,7 @@ prerequisite: "10-1"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Murphy — Technical Analysis of the Financial Markets"]
-notes: "Opens the market-context half of the chapter. Chapter 1 taught the trend as context rather than signal; here the same idea arrives on a morning timescale. Account named at $19,000; the worked position is 1,300 shares at $14.10 = $18,330."
+notes: "Opens the market-context half of the chapter. Chapter 1 taught the trend as context rather than signal; here the same idea arrives on a morning timescale. Account named at $19,000; the worked position is 1,100 shares at $14.10 = $15,510."
 screens:
   - type: intro
     text: "Your name is not the only thing on the screen. Two bigger things sit behind it, and reading both takes about ten seconds."
@@ -68,8 +68,8 @@ screens:
     explanation: "On B every long is asking a falling room to change its mind. That is not a reason to refuse, but it is a reason to want more from the chart."
 
   - type: chart-decision
-    scenario: "The index has climbed since the bell and HOLT, a miner, is up with the rest of its street on 6× its normal volume. The minute that just closed finished four cents above yesterday's high at $14.06. Your account is $19,000 and 1,300 shares is the size you trade."
-    shares: 1300
+    scenario: "The index has climbed since the bell and HOLT, a miner, is up with the rest of its street on 6× its normal volume. The minute that just closed finished four cents above yesterday's high at $14.06. Your account is $19,000 and 1,100 shares is the size you trade."
+    shares: 1100
     chart:
       kind: candles
       data: [[13.80, 13.90, 13.74, 13.86], [13.86, 13.94, 13.80, 13.90], [13.90, 13.98, 13.84, 13.88], [13.88, 14.00, 13.82, 13.96], [13.96, 14.06, 13.90, 14.00], [14.00, 14.14, 13.96, 14.10], [14.10, 14.22, 14.06, 14.18], [14.18, 14.28, 14.12, 14.24], [14.24, 14.34, 14.18, 14.30], [14.30, 14.36, 14.24, 14.33], [14.33, 14.36, 14.26, 14.30]]
@@ -79,7 +79,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped on to $14.33 — $0.23 a share above the decision, +$299 long on 1,300 shares."
+    outcome: "It stepped on to $14.33 — $0.23 a share above the decision, +$253 long on 1,100 shares."
     explanation: "The name cleared its own marked price on the heaviest minute of the morning, and the weather and the street were both pushing that way while it did."
 
   - type: sort

@@ -13,7 +13,7 @@ prerequisite: "2-1"
 xp: 25
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Volman — Understanding Price Action"]
-notes: "The 20×-of-nothing trap. Account named at $30,000; the worked position is 1,500 shares near $19."
+notes: "The 20×-of-nothing trap. Account named at $30,000; the worked position is 1,400 shares near $19."
 screens:
   - type: intro
     text: "Two numbers, two different questions, and they are constantly asked to do each other's job."
@@ -26,7 +26,7 @@ screens:
     body: "SPUR is at 20× its normal volume. Normal for SPUR is 400 shares a minute, so 20× is 8,000. Twenty times almost nothing is still almost nothing."
 
   - type: tf
-    statement: "A very high relative volume reading means you can get 1,500 shares back out quickly."
+    statement: "A very high relative volume reading means you can get 1,400 shares back out quickly."
     answer: false
     explanation: "It is a multiple of that name's own normal. When normal is tiny, so is twenty times normal."
 
@@ -44,7 +44,7 @@ screens:
     tolerance: 1
     unit: "shares"
     working: "15,000 × 4 = 60,000 shares a minute"
-    explanation: "Sixty thousand a minute is a market you can put 1,500 shares into and take them back out of."
+    explanation: "Sixty thousand a minute is a market you can put 1,400 shares into and take them back out of."
 
   - type: theory
     title: "Why people use four"
@@ -71,8 +71,8 @@ screens:
     explanation: "Absolute size is the way out. The multiple is the reason to look at the name at all."
 
   - type: chart-decision
-    scenario: "RIME is running at 18× its own normal volume and is up 12 %. Its minutes are printing between 7,000 and 12,000 shares and the panel reads $19.10 bid, $19.26 ask. Your account is $30,000 and 1,500 shares is the size you trade."
-    shares: 1500
+    scenario: "RIME is running at 18× its own normal volume and is up 12 %. Its minutes are printing between 7,000 and 12,000 shares and the panel reads $19.10 bid, $19.26 ask. Your account is $30,000 and 1,400 shares is the size you trade."
+    shares: 1400
     chart:
       kind: candles
       data: [[18.62, 18.78, 18.56, 18.74], [18.74, 18.90, 18.68, 18.86], [18.86, 19.00, 18.80, 18.94], [18.94, 19.10, 18.88, 19.06], [19.06, 19.20, 19.00, 19.14], [19.14, 19.28, 19.08, 19.20], [19.20, 19.38, 19.14, 19.34], [19.34, 19.50, 19.28, 19.46], [19.46, 19.62, 19.40, 19.58], [19.58, 19.64, 19.50, 19.54]]
@@ -81,7 +81,7 @@ screens:
     best: no-trade
     reasonable: [long]
     outcome: "It ran to $19.58 — $0.38 a share past the decision, in minutes of 9,000 shares with sixteen cents between the two sides."
-    explanation: "The multiple is real and it is a multiple of almost nothing. 1,500 shares is a sixth of a whole minute of this name, each way."
+    explanation: "The multiple is real and it is a multiple of almost nothing. 1,400 shares is about a sixth of a whole minute of this name, each way."
 
   - type: numeric-mc
     prompt: "RIME normally trades 600 shares a minute. At 18× normal, what is one minute?"
@@ -94,7 +94,7 @@ screens:
     explanation: "An eighteenfold crowd in a name nobody trades is still a name nobody trades."
 
   - type: compare
-    prompt: "Both names are at 5× their own normal volume this morning. In which one can 1,500 shares get back out?"
+    prompt: "Both names are at 5× their own normal volume this morning. In which one can 1,400 shares get back out?"
     charts:
       - kind: candles
         data: [[16.20, 16.26, 16.16, 16.24], [16.24, 16.30, 16.20, 16.28], [16.28, 16.34, 16.24, 16.32], [16.32, 16.38, 16.28, 16.36], [16.36, 16.42, 16.32, 16.40], [16.40, 16.46, 16.36, 16.44], [16.44, 16.50, 16.40, 16.48], [16.48, 16.54, 16.44, 16.52]]

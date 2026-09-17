@@ -13,7 +13,7 @@ prerequisite: "3-2"
 xp: 25
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
-notes: "Closes Level 3. Carries the block's short-side decision. Account named at $30,000; the short is 1,700 shares near $17.50 with $238 at risk, inside 1 % of the account."
+notes: "Closes Level 3. Carries the block's short-side decision. Account named at $30,000; QUIL is worked at 1,500 shares and the short is 1,600 shares near $17.50 with $224 at risk, inside 1 % of the account."
 screens:
   - type: intro
     text: "The percentage in the column is not the reason. Read the reason before you read the chart."
@@ -42,8 +42,8 @@ screens:
     explanation: "The move happened before you arrived. What matters is whether the name is still travelling now."
 
   - type: chart-decision
-    scenario: "QUIL is up 24 % on a takeover offer of $18.50 and has traded between $18.38 and $18.44 for the last half hour on minutes of 40,000 shares. Your account is $30,000 and 1,600 shares is the size you trade."
-    shares: 1600
+    scenario: "QUIL is up 24 % on a takeover offer of $18.50 and has traded between $18.38 and $18.44 for the last half hour on minutes of 40,000 shares. Your account is $30,000 and 1,500 shares is the size you trade."
+    shares: 1500
     chart:
       kind: candles
       data: [[18.40, 18.43, 18.38, 18.41], [18.41, 18.44, 18.39, 18.42], [18.42, 18.44, 18.38, 18.40], [18.40, 18.43, 18.38, 18.42], [18.42, 18.44, 18.39, 18.41], [18.41, 18.44, 18.38, 18.42], [18.42, 18.44, 18.39, 18.40], [18.40, 18.43, 18.38, 18.42], [18.42, 18.44, 18.38, 18.41], [18.41, 18.44, 18.39, 18.42]]
@@ -69,8 +69,8 @@ screens:
     explanation: "The reason costs you fifteen seconds and it is the cheapest way to drop a name that cannot travel."
 
   - type: chart-decision
-    scenario: "LOOM reported weak results, opened below yesterday's close and has made lower highs and lower lows for twenty minutes on 130,000-share minutes against a normal 25,000. The minute that just closed finished four cents under the low of the morning at $17.56. Your account is $30,000 and 1,700 shares is the size you trade."
-    shares: 1700
+    scenario: "LOOM reported weak results, opened below yesterday's close and has made lower highs and lower lows for twenty minutes on 130,000-share minutes against a normal 25,000. The minute that just closed finished four cents under the low of the morning at $17.56. Your account is $30,000 and 1,600 shares is the size you trade."
+    shares: 1600
     chart:
       kind: candles
       data: [[18.00, 18.06, 17.88, 17.92], [17.92, 17.98, 17.80, 17.84], [17.84, 17.90, 17.72, 17.78], [17.78, 17.84, 17.64, 17.68], [17.68, 17.74, 17.56, 17.60], [17.60, 17.64, 17.48, 17.52], [17.52, 17.56, 17.40, 17.44], [17.44, 17.48, 17.32, 17.36], [17.36, 17.40, 17.26, 17.30], [17.30, 17.34, 17.20, 17.24], [17.24, 17.30, 17.20, 17.26]]
@@ -80,15 +80,15 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It carried down to $17.24 — $0.28 a share below the decision, +$476 short on 1,700 shares."
+    outcome: "It carried down to $17.24 — $0.28 a share below the decision, +$448 short on 1,600 shares."
     explanation: "A reason, a crowd that stayed, and a chart making lower lows. The reason said which name; the chart said which side."
 
   - type: numeric-input
-    prompt: "You are short 1,700 shares from $17.52, with the stop two cents above the high of the minute you entered on, $17.66. What is at risk?"
-    answer: 238
+    prompt: "You are short 1,600 shares from $17.52, with the stop two cents above the high of the minute you entered on, $17.66. What is at risk?"
+    answer: 224
     tolerance: 0.01
     unit: "$"
-    working: "$17.66 − $17.52 = $0.14 a share; $0.14 × 1,700 shares = $238"
+    working: "$17.66 − $17.52 = $0.14 a share; $0.14 × 1,600 shares = $224"
     explanation: "Under one per cent of the account, which is what the stop distance and the share count were chosen together to do."
 
   - type: fill-choice

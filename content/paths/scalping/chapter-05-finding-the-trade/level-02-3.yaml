@@ -13,7 +13,7 @@ prerequisite: "2-2"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Carter — Mastering the Trade"]
-notes: "First list screens of the chapter. The tool itself is named in Level 6; here it is just the morning list. Account named at $15,000."
+notes: "First list screens of the chapter. The tool itself is named in Level 6; here it is just the morning list. Account named at $15,000; the list size is 900 shares and SLAT at $24.18 is worked at 500."
 screens:
   - type: intro
     text: "You never work this out yourself. It is a column, and it is the one you sort by."
@@ -33,7 +33,7 @@ screens:
     caption: "The multiple column is what lifted RIME and NOVA to the top. It is not what decides which of them you trade."
 
   - type: scanner-pick
-    prompt: "Your account is $15,000 and you trade 1,000 shares. Which row is worth the screen?"
+    prompt: "Your account is $15,000 and you trade 900 shares. Which row is worth the screen?"
     data:
       rows:
         - {ticker: RIME, price: 19.20, change_pct: 12.4, rvol: 18.0, spread: 0.16}
@@ -66,8 +66,8 @@ screens:
     explanation: "Sorting by today's percentage move gives you a different list, and mostly a worse one."
 
   - type: chart-decision
-    scenario: "SLAT came up the list on a later morning at 7× normal, quotes two cents wide and has printed twenty-cent minutes since the open. It trades at $24.18, so your $15,000 account pays for 619 shares and you are taking 600."
-    shares: 600
+    scenario: "SLAT came up the list on a later morning at 7× normal, quotes two cents wide and has printed twenty-cent minutes since the open. It trades at $24.18, so your $15,000 account pays for 619 shares and you are taking 500."
+    shares: 500
     chart:
       kind: candles
       data: [[23.66, 23.80, 23.60, 23.76], [23.76, 23.92, 23.70, 23.88], [23.88, 24.00, 23.82, 23.94], [23.94, 24.10, 23.88, 24.06], [24.06, 24.18, 24.00, 24.12], [24.12, 24.26, 24.06, 24.18], [24.18, 24.34, 24.12, 24.30], [24.30, 24.46, 24.24, 24.42], [24.42, 24.58, 24.36, 24.54], [24.54, 24.60, 24.46, 24.50]]
@@ -75,8 +75,8 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $24.54 — $0.36 a share above the decision, +$216 long on 600 shares."
-    explanation: "The multiple put it on the screen and the price set the size. Six hundred shares is what the account pays for, and the trade is still worth taking."
+    outcome: "It carried to $24.54 — $0.36 a share above the decision, +$180 long on 500 shares."
+    explanation: "The multiple put it on the screen and the price set the size. Five hundred shares at $24.18 is $12,090, inside what the account can put up, and the trade is still worth taking."
 
   - type: numeric-input
     prompt: "Your account is $15,000 and SLAT trades at $24.20. How many shares can the account pay for?"

@@ -13,7 +13,7 @@ prerequisite: "7-3"
 xp: 20
 difficulty: 2
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
-notes: "Introduces the one scanner column the chapter has deliberately left alone until now. Account named at $17,000; the worked position is 1,100 shares at $14.80 = $16,280."
+notes: "Introduces the one scanner column the chapter has deliberately left alone until now. Account named at $17,000; the worked position is 1,000 shares at $14.80 = $14,800."
 screens:
   - type: intro
     text: "There is one column on that row you have never used. This is what it is for."
@@ -61,18 +61,18 @@ screens:
     text: "A fund holds nine million of MARL's forty-eight and has held them for four years. Those shares are on the register and they are not in the morning's argument."
 
   - type: scanner-pick
-    prompt: "Your account is $17,000 and you trade 1,100 shares. Which row survives?"
+    prompt: "Your account is $17,000 and you trade 1,000 shares. Which row survives?"
     data:
       rows:
         - {ticker: ORCA, price: 21.30, change_pct: 5.8, rvol: 4.9, float: "740M", spread: 0.03, catalyst: "Upgrade"}
         - {ticker: MARL, price: 14.80, change_pct: 8.6, rvol: 6.8, float: "12M", spread: 0.02, catalyst: "Results"}
         - {ticker: SALT, price: 13.60, change_pct: 2.1, rvol: 1.2, float: "84M", spread: 0.02, catalyst: "—"}
     target: MARL
-    explanation: "MARL: $16,280 for 1,100 shares, two cents wide, a reason, and 6.8× its normal day. ORCA is 798 shares on this account and SALT is having an ordinary one."
+    explanation: "MARL: $14,800 for 1,000 shares, two cents wide, a reason, and 6.8× its normal day. ORCA is 798 shares on this account and SALT is having an ordinary one."
 
   - type: chart-decision
-    scenario: "MARL is on 6.8× its normal volume with minutes of about 90,000 shares, and the minute that just closed finished four cents above the pre-market high of $14.76. Your account is $17,000 and 1,100 shares is the size you trade."
-    shares: 1100
+    scenario: "MARL is on 6.8× its normal volume with minutes of about 90,000 shares, and the minute that just closed finished four cents above the pre-market high of $14.76. Your account is $17,000 and 1,000 shares is the size you trade."
+    shares: 1000
     chart:
       kind: candles
       data: [[14.30, 14.42, 14.24, 14.40], [14.40, 14.50, 14.34, 14.46], [14.46, 14.54, 14.40, 14.44], [14.44, 14.58, 14.38, 14.52], [14.52, 14.64, 14.46, 14.60], [14.60, 14.84, 14.56, 14.80], [14.80, 14.92, 14.74, 14.88], [14.88, 15.00, 14.82, 14.96], [14.96, 15.08, 14.90, 15.04], [15.04, 15.12, 14.98, 15.08], [15.08, 15.12, 15.00, 15.04]]
@@ -82,7 +82,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It stepped up to $15.08 — $0.28 a share above the decision, +$308 long on 1,100 shares."
+    outcome: "It stepped up to $15.08 — $0.28 a share above the decision, +$280 long on 1,000 shares."
     explanation: "A twelve-million float with ninety-thousand-share minutes has both readings a scalp needs: enough trading to leave, and few enough shares that a crowd shows up in the price."
 
   - type: tf

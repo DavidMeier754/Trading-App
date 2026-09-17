@@ -13,7 +13,7 @@ prerequisite: "7-1"
 xp: 25
 difficulty: 3
 sources: ["Bellafiore — One Good Trade", "Aziz — How to Day Trade for a Living"]
-notes: "The cost of a long list, measured in minutes of pre-market. Account named at $21,000; the worked position is 1,400 shares at $14.90 = $20,860."
+notes: "The cost of a long list, measured in minutes of pre-market. Account named at $21,000; the worked position is 1,300 shares at $14.90 = $19,370."
 screens:
   - type: intro
     text: "Twelve names looks like more chances. Count what it costs before the bell and it stops looking like that."
@@ -57,8 +57,8 @@ screens:
     explanation: "It takes preparation away from the five you had. The time before the bell does not grow because the list did."
 
   - type: chart-decision
-    scenario: "This is the name you drew that line on. It has come back up to $14.86 and the minute that just closed finished four cents through it on the heaviest bar since the open. Your account is $21,000 and 1,400 shares is the size you trade."
-    shares: 1400
+    scenario: "This is the name you drew that line on. It has come back up to $14.86 and the minute that just closed finished four cents through it on the heaviest bar since the open. Your account is $21,000 and 1,300 shares is the size you trade."
+    shares: 1300
     chart:
       kind: candles
       data: [[14.52, 14.62, 14.48, 14.58], [14.58, 14.68, 14.54, 14.64], [14.64, 14.72, 14.58, 14.62], [14.62, 14.74, 14.56, 14.70], [14.70, 14.80, 14.64, 14.76], [14.76, 14.94, 14.72, 14.90], [14.90, 15.02, 14.86, 14.98], [14.98, 15.08, 14.92, 15.04], [15.04, 15.14, 14.98, 15.10], [15.10, 15.22, 15.04, 15.19], [15.19, 15.22, 15.10, 15.14]]
@@ -68,7 +68,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran on to $15.19 — $0.29 a share above the decision, +$406 long on 1,400 shares."
+    outcome: "It ran on to $15.19 — $0.29 a share above the decision, +$377 long on 1,300 shares."
     explanation: "The price that turned it twice was given up on a heavier minute than either of those. You were looking, because there were only four charts to look at."
 
   - type: compare
