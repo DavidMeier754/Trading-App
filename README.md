@@ -75,23 +75,35 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    live value. All 16 `plan-card` screens are re-keyed to it, the eight setup levels of Chapter 7
    each write their own card, and a validator rule fails any `plan-sheet` line whose key no earlier
    `plan-card` wrote.
-3. **Position sizes.** **The rule is settled** (`docs/agent.md` §3.6): one position at a time, and
+3. **Position sizes** — **mostly done; Chapters 1 and 2 left.** The rule is settled
+   (`docs/agent.md` §3.6): one position at a time, and
    `shares × price ≤ 0.95 × the account named in the file`. The concentration stays and gets taught —
    1 % of the account divided by a scalper's sub-1 % stop buys nearly all the cash whatever the
-   account is, so the size is large and the risk is small, and they are different numbers. What
-   still has to change is the content: Chapter 1's plan card must write `setup_max_account_pct` as
-   **95**, not 50; Chapter 3 Level 10 must teach the account ceiling as the usual answer and say
-   what a halt does to a position that size; and 250 of the 569 priced positions sit above the cap
-   and need re-sizing. `python3 tools/check_sizing.py --chapter N` lists them with every line that
-   names the same share count (3,360 corpus-wide). Current medians: ch1 90 %, ch2 97 %, ch3 91 %,
-   ch4 93 %, ch5 95 %, ch6 96 %, ch7 88 %, ch8 93 %. A further 97 positions name no account at all,
-   so no rule can see them.
-4. **Scenario phrasing.** Chapters 2, 4 and 5 end 89–100 % of their `chart-decision` scenarios on
-   one sentence shape. Session state belongs in `state` chips (`docs/UI.md` §6.4), which Chapter 8
-   already uses for 74 % of its decisions and Chapters 1–2 for none.
-5. **Exams.** Tests and final exams run 35 % interactive screens against 64–68 % in the lessons.
-   Chapter 1's final exam has no `chart-decision` at all; Chapter 3's second checkpoint has no
-   chart interaction of any kind.
+   account is, so the size is large and the risk is small, and they are different numbers.
+   Chapter 3 Level 10 now teaches both ceilings and takes the lower one (10-3, 10-4), and
+   Chapters 3–8 are clean against the cap. What is left:
+   **66 of 572 priced positions still breach it** — 60 in Chapter 2, 6 in Chapter 1, and one
+   Chapter 1 position that is more stock than the stated account can pay for:
+   `chapter-01-market-basics/level-09-2.yaml` screen 4, 500 shares × $12.80 = $6,400 against a
+   $6,000 account (106.7 %). That one is the hard error in the set and should go first. Chapter 1's plan card
+   (`level-16-2.yaml`) also still suggests `setup_max_account_pct: 50`, which contradicts the rule
+   it is meant to record — it should suggest **95**.
+   `python3 tools/check_sizing.py --chapter N` lists the breaches with every line that names the
+   same share count (3,332 corpus-wide). Medians now: ch1 90 %, ch2 97 %, ch3 87 %, ch4 90 %,
+   ch5 88 %, ch6 89 %, ch7 87 %, ch8 86 %. A further 100 positions name no account at all, so no
+   rule can see them — unchecked, not exempt.
+4. **Scenario phrasing** — **the three named chapters are done; four others sit lower.**
+   Session state belongs in `state` chips (`docs/UI.md` §6.4), not in a sentence tacked onto the
+   scenario. Chapters 2, 4 and 5 were the complaint and are now at **100 %** of their
+   `chart-decision` screens. The spread across the path: ch1 0 %, ch2 100 %, ch3 37 %, ch4 100 %,
+   ch5 100 %, ch6 38 %, ch7 16 %, ch8 74 %. Chapter 7 is the one worth doing next — 102 decisions,
+   the most of any chapter, at 16 %. Chapter 1's 0 % may be correct rather than a gap: it runs line
+   charts and buy/wait decisions with no session state to put in a chip, so check before changing it.
+5. ~~**Exams.**~~ **Done.** Every test and final exam now carries at least one chart question —
+   Chapter 1's final exam has three, Chapter 3's second checkpoint three. Interactivity is at
+   parity with the lessons: **50 %** of exam question screens are interactive against **49 %** in
+   the lessons (the old "35 % against 64–68 %" compared two different denominators and overstated
+   the gap).
 6. **Long/short balance** — **done.** The path runs 199 long against 123 short; no chapter is
    worse than 1.85:1 among its directional decisions (Chapter 2, the closest to the line).
    Sixteen charts were rewritten as shorts in Chapters 3, 5 and 8, and
@@ -104,6 +116,13 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    pack, a real `unlocked_by`, answer-key hygiene and the §3.6 ceilings over the whole pack).
    `content/drills/scalping/cost-check.yaml` is hand-written and clean, as the proof the format and
    the validator agree; the other fourteen are the batch run.
+
+8. **Sub-level distribution** — **a rule/plan disagreement, not a content defect.** Chapters 3, 5
+   and 7 sit at 58–59 % of levels with three or more sub-levels, against the ≥60 % in
+   `docs/agent.md` §3.1, so the validator warns on all three. Each is one level short, and each
+   matches its `docs/curriculum.md` table exactly — the plan itself does not reach 60 % in those
+   chapters. Decide once which side moves: relax the rule to 55 %, or add a sub-level to one level
+   in each of the three chapters. Do not "fix" it by drifting from the curriculum.
 
 `python3 tools/validate_content.py` reports the phrasing items above as warnings. The rest are
 tracked here because no rule can see them. Each item has a filled-in prompt, a model and an

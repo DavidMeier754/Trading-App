@@ -1,4 +1,11 @@
 # Stage 3 — ready-to-run authoring prompts
+
+> **Stage 3 is finished — all 29 blocks are written.** The Scalping path is complete: 8
+> chapters, 387 sub-levels, 0 validator errors. This file is kept for two reasons: Stage 5
+> runs the same 29-block shape again for Day Trading and then for Swing Trading (swap the
+> chapter folders and add the one clause in `docs/build-plan.md` § Stage 5), and the prompts
+> record how the path was actually authored. What the control pass found afterwards is in
+> `docs/remediation-prompts.md`, and the open items are listed in `README.md`.
 One filled-in prompt per level block, in the writing order from `docs/curriculum.md`. Copy the next un-done block's prompt verbatim into a fresh session and run it. The prompt body is byte-identical to the template in `docs/build-plan.md`; only the five variables are filled.
 **Before you paste, check two things:**
 1. **Push target.** Every prompt commits and pushes straight to `main`, so you do not have to move anything by hand. Each block is validated before it is pushed; if you would rather review a block first, change `push to main` to your branch name in that one prompt.
@@ -10,7 +17,7 @@ Work top to bottom: a block's callbacks reach into earlier chapters, which must 
 ## 1. Chapter 2 — Charts 101
 Folder `content/paths/scalping/chapter-02-charts-101` · 18 levels · ~49 sub-levels · 3 blocks
 
-### ☐ Block 1 — levels 1–6
+### ☑ Block 1 — levels 1–6
 Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_  
 **New:** 6 (Checkpoint).  
 **Expand:** 1, 2, 3, 4, 5.
@@ -75,7 +82,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 2 — levels 7–12
+### ☑ Block 2 — levels 7–12
 Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or Final Exam here_  
 **Expand:** 7, 8, 9, 10, 11.  
 **Revise to v3** (already 1 sub from retrofit): 12 (Checkpoint).
@@ -140,7 +147,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 3 — levels 13–18
+### ☑ Block 3 — levels 13–18
 Model: `claude-opus-5` · _Opus — holds a Callback level; holds the Final Exam_  
 **New:** 15 (Chapter 1 Callback).  
 **Expand:** 13, 14, 16, 17.  
@@ -209,7 +216,7 @@ curriculum table you could not honour and why.
 ## 2. Chapter 3 — Orders, Costs & Position Size
 Folder `content/paths/scalping/chapter-03-orders-costs-position-size` · 19 levels · ~50 sub-levels · 4 blocks
 
-### ☐ Block 1 — levels 1–5
+### ☑ Block 1 — levels 1–5
 Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_  
 **New:** 5 (Checkpoint).  
 **Expand:** 1, 2, 3, 4.
@@ -274,7 +281,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 2 — levels 6–10
+### ☑ Block 2 — levels 6–10
 Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or Final Exam here_  
 **Expand:** 6, 7, 8, 9, 10.
 
@@ -338,7 +345,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 3 — levels 11–15
+### ☑ Block 3 — levels 11–15
 Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or Final Exam here_  
 **New:** 11 (Sizing Practice).  
 **Expand:** 13, 14, 15.  
@@ -404,7 +411,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 4 — levels 16–19
+### ☑ Block 4 — levels 16–19
 Model: `claude-opus-5` · _Opus — holds a Callback level; holds the Final Exam_  
 **New:** 16 (Chapters 1–2 Callback).  
 **Expand:** 17, 18.  
@@ -473,7 +480,7 @@ curriculum table you could not honour and why.
 ## 3. Chapter 4 — Reading Fast Markets
 Folder `content/paths/scalping/chapter-04-reading-fast-markets` · 18 levels · ~48 sub-levels · 3 blocks
 
-### ☐ Block 1 — levels 1–6
+### ☑ Block 1 — levels 1–6
 Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_  
 **New:** 5 (Checkpoint).  
 **Expand:** 1, 2, 3, 4, 6.
@@ -538,7 +545,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 2 — levels 7–12
+### ☑ Block 2 — levels 7–12
 Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or Final Exam here_  
 **Expand:** 7, 9, 10, 11, 12.  
 **Revise to v3** (already 1 sub from retrofit): 8 (Checkpoint).
@@ -603,7 +610,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 3 — levels 13–18
+### ☑ Block 3 — levels 13–18
 Model: `claude-opus-5` · _Opus — holds a Callback level; holds the Final Exam_  
 **New:** 16 (Chapters 2–3 Callback), 17 (Chapter Review).  
 **Expand:** 13, 14, 15.  
@@ -672,7 +679,7 @@ curriculum table you could not honour and why.
 ## 4. Chapter 1 — Market Basics (shared)
 Folder `content/shared/chapter-01-market-basics` · 17 levels · ~47 sub-levels · 3 blocks
 
-### ☐ Block 1 — levels 1–5
+### ☑ Block 1 — levels 1–5
 Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_  
 **New:** 5 (Checkpoint).  
 **Expand:** 1, 2, 3, 4.
@@ -737,7 +744,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 2 — levels 6–11
+### ☑ Block 2 — levels 6–11
 Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or Final Exam here_  
 **Expand:** 6, 7, 8, 9, 10.  
 **Revise to v3** (already 1 sub from retrofit): 11 (Checkpoint).
@@ -802,7 +809,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 3 — levels 12–17
+### ☑ Block 3 — levels 12–17
 Model: `claude-opus-5` · _Opus — holds the Final Exam_  
 **Expand:** 12, 13, 14, 15, 16.  
 **Revise to v3** (already 1 sub from retrofit): 17 (Final Exam).
@@ -870,7 +877,7 @@ curriculum table you could not honour and why.
 ## 5. Chapter 5 — Finding the Trade
 Folder `content/paths/scalping/chapter-05-finding-the-trade` · 17 levels · ~45 sub-levels · 4 blocks
 
-### ☐ Block 1 — levels 1–4
+### ☑ Block 1 — levels 1–4
 Model: `claude-opus-5` · _Opus — first block, sets the chapter voice; new chapter, no v2 base to expand_  
 **New:** 1 (Not Every Stock), 2 (Relative Volume), 3 (The Catalyst), 4 (Selection Practice).
 
@@ -934,7 +941,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 2 — levels 5–9
+### ☑ Block 2 — levels 5–9
 Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand_  
 **New:** 5 (Checkpoint), 6 (Reading a Scanner), 7 (Building the Watchlist), 8 (Float and Share Structure), 9 (Watchlist Practice).
 
@@ -998,7 +1005,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 3 — levels 10–13
+### ☑ Block 3 — levels 10–13
 Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand_  
 **New:** 10 (Checkpoint), 11 (The Market Behind the Stock), 12 (Market Internals), 13 (Trend Day or Range Day).
 
@@ -1062,7 +1069,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 4 — levels 14–17
+### ☑ Block 4 — levels 14–17
 Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand; holds a Callback level; holds the Final Exam_  
 **New:** 14 (Chapters 1 & 4 Callback), 15 (The Pre-Market Routine), 16 (Chapter Review), 17 (Final Exam).
 
@@ -1129,7 +1136,7 @@ curriculum table you could not honour and why.
 ## 6. Chapter 6 — Risk & Psychology
 Folder `content/paths/scalping/chapter-06-risk-and-psychology` · 19 levels · ~51 sub-levels · 4 blocks
 
-### ☐ Block 1 — levels 1–5
+### ☑ Block 1 — levels 1–5
 Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_  
 **New:** 3 (Managing the Trade), 4 (Stops and R Practice), 5 (Checkpoint).  
 **Expand:** 1, 2.
@@ -1194,7 +1201,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 2 — levels 6–10
+### ☑ Block 2 — levels 6–10
 Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or Final Exam here_  
 **New:** 7 (Costs Inside Expectancy).  
 **Expand:** 6, 8, 9.  
@@ -1260,7 +1267,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 3 — levels 11–15
+### ☑ Block 3 — levels 11–15
 Model: `claude-opus-5` · _Opus — holds a Callback level_  
 **New:** 14 (Chapter 3 Callback).  
 **Expand:** 11, 12, 13, 15.
@@ -1325,7 +1332,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 4 — levels 16–19
+### ☑ Block 4 — levels 16–19
 Model: `claude-opus-5` · _Opus — holds the Final Exam_  
 **Expand:** 16, 17, 18.  
 **Revise to v3** (already 1 sub from retrofit): 19 (Final Exam).
@@ -1393,7 +1400,7 @@ curriculum table you could not honour and why.
 ## 7. Chapter 7 — The Scalping Playbook
 Folder `content/paths/scalping/chapter-07-scalping-playbook` · 19 levels · ~50 sub-levels · 4 blocks
 
-### ☐ Block 1 — levels 1–5
+### ☑ Block 1 — levels 1–5
 Model: `claude-opus-5` · _Opus — first block, sets the chapter voice_  
 **Expand:** 1, 2, 3, 4.  
 **Revise to v3** (already 1 sub from retrofit): 5 (Checkpoint).
@@ -1458,7 +1465,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 2 — levels 6–9
+### ☑ Block 2 — levels 6–9
 Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or Final Exam here_  
 **New:** 8 (Mixed Drill I), 9 (Checkpoint).  
 **Expand:** 6, 7.
@@ -1523,7 +1530,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 3 — levels 10–13
+### ☑ Block 3 — levels 10–13
 Model: `claude-sonnet-5` · _Sonnet — not the first block, and no Callback or Final Exam here_  
 **New:** 10 (Setup F — Gap-and-Go Continuation), 11 (Setup G — Range Rotation), 12 (Setup H — The Re-Entry), 13 (Mixed Drill II).
 
@@ -1587,7 +1594,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 4 — levels 14–19
+### ☑ Block 4 — levels 14–19
 Model: `claude-opus-5` · _Opus — holds a Callback level; holds the Final Exam_  
 **New:** 15 (Chapters 5 & 6 Callback), 16 (When Nothing Fits), 18 (Chapter Review).  
 **Expand:** 14, 17.  
@@ -1656,7 +1663,7 @@ curriculum table you could not honour and why.
 ## 8. Chapter 8 — The Trading Day
 Folder `content/paths/scalping/chapter-08-the-trading-day` · 17 levels · ~47 sub-levels · 4 blocks
 
-### ☐ Block 1 — levels 1–4
+### ☑ Block 1 — levels 1–4
 Model: `claude-opus-5` · _Opus — first block, sets the chapter voice; new chapter, no v2 base to expand_  
 **New:** 1 (The Platform), 2 (Hotkeys and Muscle Memory), 3 (Execution Drills), 4 (The Pre-Market Hour).
 
@@ -1720,7 +1727,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 2 — levels 5–9
+### ☑ Block 2 — levels 5–9
 Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand_  
 **New:** 5 (Checkpoint), 6 (The Open), 7 (Mid-Session), 8 (The Close and the Review), 9 (Full-Day Practice).
 
@@ -1784,7 +1791,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 3 — levels 10–13
+### ☑ Block 3 — levels 10–13
 Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand; holds a Callback level_  
 **New:** 10 (Checkpoint), 11 (Tracking Your Numbers), 12 (When to Increase Size), 13 (Chapters 6 & 7 Callback).
 
@@ -1848,7 +1855,7 @@ mix as a table, which earlier chapters you reinforced and how, and anything in t
 curriculum table you could not honour and why.
 ```
 
-### ☐ Block 4 — levels 14–17
+### ☑ Block 4 — levels 14–17
 Model: `claude-opus-5` · _Opus — new chapter, no v2 base to expand; holds the Final Exam_  
 **New:** 14 (Your First 30 Days on Sim), 15 (Going Live, Carefully), 16 (Capstone — A Full Week), 17 (Final Exam and Graduation).
 

@@ -245,8 +245,10 @@ A v3 chapter is 45–52 sub-levels — too much for one clean pass. Write it in 
 1. Structure, rules, schema, validator, UI reference — **done**.
 2. Chapter 1 (shared) — **done: 17 levels / 47 subs**.
 3. Scalping Chapters 2–8 — **done: 18/19/18/17/19/19/17 levels, 340 subs**.
-4. Open work on the written path — **see the list in `README.md`**: category labels, the plan sheet,
-   position sizes, scenario phrasing, exam interactivity.
+4. Open work on the written path — **see the list in `README.md`**. Category labels, the plan
+   sheet, the long/short split and exam interactivity are **done**. Left: position sizes
+   (66 breaches of the §3.6 cap, 60 of them in Chapter 2, plus Chapter 1's plan card still
+   suggesting 50 %) and scenario phrasing (`state` chips at 16–38 % in Chapters 3, 6 and 7).
 5. Drill bank (`content/drills/`) — **manifest, batch script and validator done; 1 of 15 packs written** (`content/drills/packs.yaml`, `tools/build_drill_batch.py`).
 6. Day Trading Chapters 2–8 — planned.
 7. Swing Trading Chapters 2–8 — planned.

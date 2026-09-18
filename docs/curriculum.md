@@ -516,10 +516,10 @@ Target at launch of a path: **~350 drill screens**, roughly the same volume agai
 
 ## Writing order
 
-1. Scalping Chapters 2 → 3 → 4 (expand v2 content to the v3 level plan)
-2. Chapter 1 (expand — done after Scalping 2–4 so the callbacks are known)
-3. Scalping Chapters 5 → 6 → 7 → 8 (5 and 8 are new)
-4. Scalping drill packs
+1. ✅ Scalping Chapters 2 → 3 → 4 (expand v2 content to the v3 level plan)
+2. ✅ Chapter 1 (expand — done after Scalping 2–4 so the callbacks are known)
+3. ✅ Scalping Chapters 5 → 6 → 7 → 8 (5 and 8 are new)
+4. ◐ Scalping drill packs — manifest and tooling done, 1 of 15 packs written
 5. Day Trading Chapters 2 → 8
 6. Swing Trading Chapters 2 → 8
 

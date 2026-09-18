@@ -1,20 +1,27 @@
 # Build plan — v2 content → v3 curriculum
 
-How to get from what is in `content/` today (101 sub-levels, 6 chapters, one path)
-to what `docs/curriculum.md` describes (387 sub-levels, 8 chapters, three paths).
+How the Scalping path got from 101 sub-levels in 6 chapters to the 387 in 8 that
+`docs/curriculum.md` describes — and what the same stages still have to do for Day
+Trading and Swing Trading.
+
+**Stages 0–3 are done.** The Scalping path is written: 8 chapters, 387 sub-levels,
+0 validator errors. Stage 4 is under way (1 of 15 drill packs). Stages 5 and 6 are
+untouched. The gap table below is the job as it stood before Stage 3 — kept because
+the per-stage prompts still read against it, and because Stages 5 and 6 face the same
+shape twice more.
 
 Read this with `docs/curriculum.md` open. That file is the *what*; this file is the
 *how, in what order, with which model*.
 
-## The gap
+## The gap Stage 3 closed
 
-| | Now | Target (Scalping) | To write |
+| | Before Stage 3 | Target | Now |
 |---|---|---|---|
-| Chapters | 6 | 8 | +2 new (Ch5 Finding the Trade, Ch8 The Trading Day) |
-| Levels | 62 | 144 | +82 |
-| Sub-levels | 101 | ~387 | ~286 new, ~101 to retrofit |
-| Screens | ~1,400 | ~5,800 | ~4,400 new |
-| Drill screens | 0 | ~350 | all |
+| Chapters | 6 | 8 | **8** ✅ |
+| Levels | 62 | 144 | **144** ✅ |
+| Sub-levels | 101 | ~387 | **387** ✅ |
+| Screens | ~1,400 | ~5,800 | **5,589** ✅ |
+| Drill screens | 0 | ~370 | 20 (1 of 15 packs) |
 
 At ~5.6 KB per sub-level file that is roughly **1.6 MB of new YAML**. It is not one
 session's work and must not be attempted as one. The unit of work is a **block of
@@ -28,19 +35,23 @@ session's work and must not be attempted as one. The unit of work is a **block o
 
 ## Stage order
 
-**Stages 0–2 are done** (see git history; the four defects the Stage 1–2 pass left behind were fixed in a follow-up). Stage 3 is next, starting with Scalping Chapter 2.
+**Stages 0–3 are done for Scalping. Stage 4 is next**, and its manifest and tooling
+already exist — `content/drills/packs.yaml`, `tools/build_drill_batch.py`, and one
+hand-written pack as the proof the format and the validator agree.
 
-Stages 0–2 are prerequisites and are cheap. Do not start Stage 3 until 0–2 are done
-and the validator is clean, because Stage 3 produces 286 files that would all inherit
-any mistake.
+Stages 0–2 are prerequisites and are cheap. They run once per *path*, not once per
+project: Stage 5 repeats Stage 3's shape for Day Trading and Swing Trading, so the
+ordering rule below still binds there — do not start authoring until the validator is
+clean, because a stage that produces hundreds of files spreads any mistake into all
+of them.
 
 | Stage | What | Model | Surface | Rough size |
 |---|---|---|---|---|
 | 0 ✅ | Teach the validator the v3 rules | `claude-opus-5` | Claude Code | 1 session |
 | 1 ✅ | Renumber chapter folders 5→6, 6→7 | `claude-haiku-4-5` | Claude Code | 20 min |
 | 2 ✅ | Retrofit the 101 existing subs (`reinforces:`, level remap) | `claude-sonnet-5` | Claude Code | 2–3 sessions |
-| 3 | Author the new content, chapter by chapter | `claude-opus-5` / `claude-sonnet-5` | Claude Code | ~20 sessions |
-| 4 | Drill packs | `claude-sonnet-5` | **Batch API** | 1 script run |
+| 3 ✅ | Author the new content, chapter by chapter | `claude-opus-5` / `claude-sonnet-5` | Claude Code | ~20 sessions |
+| 4 ◐ | Drill packs (1 of 15 packs) | `claude-sonnet-5` | **Batch API** | 1 script run |
 | 5 | Day Trading + Swing paths | `claude-sonnet-5` | Claude Code | ~30 sessions |
 | 6 | Zero-knowledge review pass per path | `claude-opus-5` | Claude Code | 1 session/path |
 
