@@ -45,7 +45,8 @@ that is the point. Plain runs must stay at 0 errors at all times.
 
 ## Status
 
-The scalping path is complete: all eight chapters written, 387 sub-levels, 0 validator errors.
+The scalping path is written: all eight chapters, 387 sub-levels, 0 validator errors. It is not
+complete — Chapter 8 gained a Level 15 that has no content yet (item 10).
 Chapter 1 is shared, so a learner sees 47 + 340 = 387 sub-levels — about 20 hours, or six
 months at two a day. Day Trading and Swing Trading are outlined level by level in
 `docs/curriculum.md`; no content written.
@@ -59,7 +60,7 @@ months at two a day. Day Trading and Swing Trading are outlined level by level i
 | Scalping 5 Finding the Trade | 17 | 45 | 17 / 45 |
 | Scalping 6 Risk & Psychology | 19 | 51 | 19 / 51 |
 | Scalping 7 Scalping Playbook | 19 | 50 | 19 / 50 |
-| Scalping 8 The Trading Day | 17 | 47 | 17 / 47 |
+| Scalping 8 The Trading Day | 17 | 47 | **18 / 50** ← Level 15 added, not written |
 
 Level titles, sub counts, `reinforces` values and glossary terms match `docs/curriculum.md` exactly.
 
@@ -143,6 +144,30 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    the card field it fails**, because a near-miss you cannot explain is noise, and a scored coin
    flip teaches superstition instead of expectancy. Start with **Stage 7a**, one hand-authored
    replay plus its validator rules, before anything scales.
+
+10. **Chapter 8 Level 15, "What You'll Actually Be Offered"** — **specified, not written, and it is
+    a promise the docs have always made.** `docs/agent.md` §1 fixes that where a path is traded in
+    other instruments in Europe (scalping → futures/CFDs) *one lesson says so explicitly*, and §7
+    refers to it. **That lesson does not exist**: across the 387 written sub-levels, "leverage"
+    appears once and financial "margin" **zero** times — the five `margin` hits are the English word
+    *marginal*. The whole regulatory reality is two `{{market.regulation_note}}` tokens used in one
+    level of Chapter 1, before the learner has even chosen a path. Meanwhile a graduate meets
+    margin, settlement, the PDT rule and Germany's leveraged wrappers the day they open an account,
+    and a European retail scalper realistically cannot scalp cash stocks at all. The level is
+    **orientation, not instruction** — what you will be offered, what leverage does to the R and
+    ruin arithmetic already taught, why this path chose cash stocks — with no product named and no
+    mechanics taught, so §7 stands. Specified in `docs/curriculum.md` for all three paths; inserting
+    it renumbers Chapter 8's Levels 15–17 to 16–18. Prompt in `docs/remediation-prompts.md`.
+
+11. **The six-trade session does not reconcile with a cash account** — **a product decision, not an
+    authoring one.** Chapters 6 and 8 teach a six-trade session; `docs/agent.md` §3.6 insists on no
+    margin and 95 % of cash per position; and the app's own US `regulation_note` says a cash account
+    "must wait for funds to settle". Under T+1 those three cannot all be true — six same-day round
+    trips need either much smaller positions or a margin account, and a margin account is what
+    triggers the PDT rule the same note describes. §3.6 records the three ways out (smaller
+    positions / say margin is required / reframe the cap as per-settled-day) and none is free. This
+    belongs with the outstanding BaFin wording in §7, not to a content session. Until it is decided,
+    no drill may imply six same-day round trips are free.
 
 `python3 tools/validate_content.py` reports items 3, 4 and 8 as warnings. The rest are tracked
 here because no rule can see them. Prompts live in two places: the repair items (1–6, 8) have a

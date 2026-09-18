@@ -16,11 +16,11 @@ Chapter status: **written** = in the repo and validated · **expand** = v2 conte
 
 | Path | Ch1 | Ch2 | Ch3 | Ch4 | Ch5 | Ch6 | Ch7 | Ch8 | Levels | Subs |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Scalping | 17 | 18 | 19 | 18 | 17 | 19 | 19 | 17 | 144 | ~387 |
-| Day Trading | 17 | 18 | 19 | 18 | 17 | 19 | 19 | 17 | 144 | ~385 |
-| Swing Trading | 17 | 18 | 18 | 18 | 17 | 19 | 19 | 17 | 143 | ~382 |
+| Scalping | 17 | 18 | 19 | 18 | 17 | 19 | 19 | **18** | **145** | **~390** |
+| Day Trading | 17 | 18 | 19 | 18 | 17 | 19 | 19 | **18** | **145** | **~388** |
+| Swing Trading | 17 | 18 | 18 | 18 | 17 | 19 | 19 | **18** | **144** | **~385** |
 
-(Chapter 1 is shared, so a learner sees Chapter 1 once plus one path's Chapters 2–8. ~387 sub-levels ≈ 22 hours ≈ six months at two a day.)
+(Chapter 1 is shared, so a learner sees Chapter 1 once plus one path's Chapters 2–8. ~390 sub-levels ≈ 22 hours ≈ six months at two a day. Scalping Chapter 8 gained Level 15 — see the chapter's own note; 387 sub-levels are written, the three new ones are not.)
 
 ### Migration note — v2 chapters are renumbered — **done**
 
@@ -241,8 +241,12 @@ Eight setups instead of five. Every setup is a playbook card: context, entry, st
 
 ### Chapter 8 — The Trading Day — written
 
-Folder: `chapter-08-the-trading-day` · 17 levels, 47 subs
+Folder: `chapter-08-the-trading-day` · 18 levels, 50 subs · **47 written; Level 15 is new and Levels 15–17 renumber to 16–18**
 Execution, the full routine, and the honest handover to a simulator. Sources: Aziz (platform, hotkeys, routine), Bellafiore, Steenbarger, Elder.
+
+> **Level 15 is the lesson `docs/agent.md` §1 and §7 have always promised and the path never had.** The fixed product decision says that where a path is traded in other instruments in Europe (scalping → futures/CFDs) *one lesson says so explicitly*; no such lesson exists in the 387 written sub-levels, where financial margin appears zero times. It goes here because this is where the learner is about to open an account. It is **orientation, not instruction**: it names what they will be offered and what it does to arithmetic they already own, and teaches no CFD, forex or leverage mechanics (§7 stands).
+>
+> **The renumber.** Inserting it pushes Going Live, Carefully 15→16, Capstone 16→17, Final Exam 17→18, with the sub-level ids and the `prerequisite` chain moving with them — the same migration Chapter 5's insertion needed, and the prompt for it is in `docs/remediation-prompts.md`.
 
 | Level | Title | Subs | Teaches | Reinforces |
 |---|---|---|---|---|
@@ -260,11 +264,12 @@ Execution, the full routine, and the honest handover to a simulator. Sources: Az
 | 12 | When to Increase Size | 3 | Evidence-based scaling: a number of grade-A trades, not a good week; what to do after a drawdown | 6 |
 | 13 | Chapters 6 & 7 Callback | 2 R | Risk and playbook re-tested inside a live session: the card fires but the limit is nearly gone; the setup is right but the size is wrong | 6, 7 |
 | 14 | Your First 30 Days on Sim | 4 | A concrete simulator plan: which cards, how many trades, what to record, what "ready" would look like; the honest statement that the app cannot make you profitable | 6, 7 |
-| 15 | Going Live, Carefully | 3 | The smallest size that is still real; what changes psychologically when money is live; the rules that must survive the switch | 6 |
-| 16 | Capstone — A Full Week | 3 R | Five sessions compressed: a green day, a red day inside the limit, a day with no trades, a tilt caught early, a weekly review that produces one rule | 5, 6, 7 |
-| 17 | Final Exam and Graduation | 1 F | 15 questions → badge → `tier-up` (Sim Trader) → the user's finished `plan-sheet` | 4, 5, 6, 7 |
+| **15** | **What You'll Actually Be Offered** | **3** | **[new]** What a broker actually puts in front of a retail scalper: a cash stock account, a margin stock account, and — in Europe — the leveraged wrappers this path deliberately did not teach. `{{market.regulation_note}}` in place. What leverage does to numbers the learner already owns: R is unchanged, the ruin arithmetic is not, and a deposit that survives six stop-outs on cash does not survive six on 5:1. Why the path taught cash stocks, and what changes if they choose otherwise. **No product named, no mechanics taught, nothing here is a recommendation** | 3, 6 |
+| 16 | Going Live, Carefully | 3 | The smallest size that is still real; what changes psychologically when money is live; the rules that must survive the switch | 6 |
+| 17 | Capstone — A Full Week | 3 R | Five sessions compressed: a green day, a red day inside the limit, a day with no trades, a tilt caught early, a weekly review that produces one rule | 5, 6, 7 |
+| 18 | Final Exam and Graduation | 1 F | 15 questions → badge → `tier-up` (Sim Trader) → the user's finished `plan-sheet` | 4, 5, 6, 7 |
 
-**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, Grade-A trade, Going live.
+**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, Grade-A trade, Going live, **Cash account, Margin account, Settlement, Leverage**.
 
 ---
 
@@ -394,9 +399,9 @@ Same nineteen-level spine as scalping Chapter 6, with day-trading numbers (wider
 | 18 | Chapter Review | 2 R | Eight cards by trigger, then a mixed `compare` set | 4, 5, 6 |
 | 19 | Final Exam | 1 F | 14 questions → badge | 4, 5, 6 |
 
-### Chapter 8 — The Trading Day — planned (`chapter-08-the-trading-day`) · 17 levels, ~46 subs
+### Chapter 8 — The Trading Day — planned (`chapter-08-the-trading-day`) · 18 levels, ~49 subs
 
-Same seventeen-level spine as scalping Chapter 8, retuned for 5–10 trades a day: 1 The Platform (4) · 2 Order Entry and Brackets (3) · 3 Execution Drills (2 R) · 4 The Pre-Market Hour (4) · 5 Checkpoint (1 T) · 6 The Open (3) · 7 The Midday Lull (3) · 8 The Last Hour and the Close (3) · 9 Full-Day Practice (3 R) · 10 Checkpoint (1 T) · 11 Tracking Your Numbers (4) · 12 When to Increase Size (3) · 13 Chapters 6 & 7 Callback (2 R) · 14 Your First 30 Days on Sim (4) · 15 Going Live, Carefully (3) · 16 Capstone — A Full Week (3 R) · 17 Final Exam and Graduation (1 F → `tier-up` Sim Trader).
+Same seventeen-level spine as scalping Chapter 8, retuned for 5–10 trades a day: 1 The Platform (4) · 2 Order Entry and Brackets (3) · 3 Execution Drills (2 R) · 4 The Pre-Market Hour (4) · 5 Checkpoint (1 T) · 6 The Open (3) · 7 The Midday Lull (3) · 8 The Last Hour and the Close (3) · 9 Full-Day Practice (3 R) · 10 Checkpoint (1 T) · 11 Tracking Your Numbers (4) · 12 When to Increase Size (3) · 13 Chapters 6 & 7 Callback (2 R) · 14 Your First 30 Days on Sim (4) · **15 What You'll Actually Be Offered (3)** · 16 Going Live, Carefully (3) · 17 Capstone — A Full Week (3 R) · 18 Final Exam and Graduation (1 F → `tier-up` Sim Trader). Level 15 carries this path's own instruments and `{{market.regulation_note}}`; the PDT rule bites a day trader hardest, so it is named there rather than implied.
 
 ---
 
@@ -487,9 +492,9 @@ Same spine, swing-specific: 1 The Stop Is Not Optional (4) · 2 R — The Unit (
 
 1 What a Playbook Is (3) · 2 Setup A — VCP Breakout (4) · 3 Setup B — Pullback to the Moving Average (4) · 4 Setup C — Base Breakout (4) · 5 Checkpoint (1 T) · 6 Setup D — Gap and Go on Earnings (4) · 7 Setup E — Failed Breakdown (3) · 8 Mixed Drill I (2 R) · 9 Checkpoint (1 T) · 10 Setup F — Pullback to Prior Breakout (3) · 11 Setup G — Range Rotation on the Daily (3) · 12 Setup H — The Re-Entry (3) · 13 Mixed Drill II (2 R) · 14 Choosing Setups for the Week (3) · 15 Chapters 5 & 6 Callback (2 R) · 16 When Nothing Fits (2) · 17 Capstone — A Full Month (3 R) · 18 Chapter Review (2 R) · 19 Final Exam (1 F).
 
-### Chapter 8 — The Trading Week — planned (`chapter-08-the-trading-week`) · 17 levels, ~46 subs
+### Chapter 8 — The Trading Week — planned (`chapter-08-the-trading-week`) · 18 levels, ~49 subs
 
-1 The Platform (4) · 2 Orders That Live for Days (3) · 3 Execution Drills (2 R) · 4 The Weekend Plan (4) · 5 Checkpoint (1 T) · 6 The Trading Week (3) · 7 Managing Open Positions (3) · 8 The Nightly Review (3) · 9 Full-Week Practice (3 R) · 10 Checkpoint (1 T) · 11 Tracking Your Numbers (4) · 12 When to Increase Size (3) · 13 Chapters 6 & 7 Callback (2 R) · 14 Your First 90 Days on Sim (4) · 15 Going Live, Carefully (3) · 16 Capstone — A Full Quarter (3 R) · 17 Final Exam and Graduation (1 F → `tier-up` Sim Trader).
+1 The Platform (4) · 2 Orders That Live for Days (3) · 3 Execution Drills (2 R) · 4 The Weekend Plan (4) · 5 Checkpoint (1 T) · 6 The Trading Week (3) · 7 Managing Open Positions (3) · 8 The Nightly Review (3) · 9 Full-Week Practice (3 R) · 10 Checkpoint (1 T) · 11 Tracking Your Numbers (4) · 12 When to Increase Size (3) · 13 Chapters 6 & 7 Callback (2 R) · 14 Your First 90 Days on Sim (4) · **15 What You'll Actually Be Offered (3)** · 16 Going Live, Carefully (3) · 17 Capstone — A Full Quarter (3 R) · 18 Final Exam and Graduation (1 F → `tier-up` Sim Trader). Level 15 matters most on this path in Europe, where the leveraged wrappers are what a retail swing trader is actually shown — and where several positions open at once (Chapter 3 Level 7) makes total exposure, not one position, the number that can ruin an account.
 
 ---
 

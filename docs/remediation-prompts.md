@@ -536,6 +536,90 @@ that did not survive contact with the existing sub-levels.
 
 ---
 
+## ☐ Stage 8 — Chapter 8 Level 15, and the renumber it forces
+
+**Model: `claude-opus-5`, effort `high`.** One session. This is the lesson `docs/agent.md` §1
+and §7 have referred to since v3 and the path has never had — and it is the most
+compliance-sensitive content in the app, so it is not a Sonnet job.
+
+**What is actually missing.** Across the 387 written sub-levels, "leverage" appears once and
+financial "margin" **zero** times (the five `margin` matches are the English word *marginal*).
+The entire regulatory reality of trading is two `{{market.regulation_note}}` tokens, used in
+Chapter 1 Level 12 — before the learner has chosen a path. A graduate meets margin,
+settlement, the pattern-day-trader rule and, in Germany, the leveraged wrappers on the day
+they open an account, and a European retail scalper realistically cannot scalp cash stocks at
+all. The level is specified in `docs/curriculum.md` § Chapter 8 for all three paths.
+
+**The line this level must not cross.** Orientation, never instruction. It names what a broker
+offers and what leverage does to arithmetic the learner already owns; it teaches no CFD, forex
+or margin mechanics, names no product, compares no provider and recommends nothing (§7). If a
+screen would help someone *use* leverage rather than *recognise* it, it is out of scope.
+
+**Do the renumber first, in its own commit**, so the content session writes into a settled
+chapter. It is the same migration Chapter 5's insertion needed.
+
+```
+Read CLAUDE.md, then docs/agent.md §1, §3.6 and §7, docs/schema.md and docs/UI.md in
+full, then the Chapter 8 section of docs/curriculum.md — find it with
+`grep -n 'Chapter 8 —' docs/curriculum.md` and read that range; the first match is the
+scalping one.
+
+Part 1 — the renumber, committed on its own.
+In content/paths/scalping/chapter-08-the-trading-day/, Levels 15-17 become 16-18:
+git mv each level-15-*.yaml to level-16-*.yaml, 16 to 17, 17 to 18. Do the highest
+first so nothing collides. Update each file's `id`, and repair the `prerequisite`
+chain so it reads straight through with Level 15 absent for now (14's last sub ->
+16-1). Grep the whole repo for anything naming those ids or the old titles and fix it.
+Run `python3 tools/validate_content.py`; 0 errors. Commit as "content: renumber
+chapter 8 levels 15-17 to 16-18" and push to main.
+
+Part 2 — write Level 15, "What You'll Actually Be Offered", 3 sub-levels, per the
+curriculum table. Read Chapter 3 Level 10 (the two ceilings) and Chapter 6 Levels 1-2
+(the stop, R) first: this level reuses their arithmetic and must not contradict it.
+
+The three subs, in order:
+  15-1  What a broker actually offers a retail trader: a cash stock account, a margin
+        stock account, and - in Europe - the leveraged wrappers this path did not
+        teach. {{market.regulation_note}} in place. Why this path chose cash stocks.
+  15-2  What leverage does to numbers they already own. R is unchanged - the stop is
+        still the stop. The ruin arithmetic is not: a deposit that survives six
+        stop-outs on cash does not survive six at 5:1. Work it with the same account
+        sizes Chapter 3 uses.
+  15-3  Practice: choosing the account that fits the plan they wrote, including what
+        settlement and the trade cap do to a six-trade session (see below).
+
+Non-negotiable:
+- No product, platform or provider named. No mechanics for opening or using a
+  leveraged account. Nothing phrased as a recommendation. §7 governs every screen.
+- Every number obeys docs/agent.md §3.6, including the ceilings and the account cap.
+- {{market.*}} tokens for every session time, index and regulation note - never a
+  literal clock time, and never a jurisdiction-specific claim written in prose.
+- Set `reinforces: [3, 6]` per the curriculum table.
+- The risk note and the honest framing of §1.1 hold: this level does not bring the
+  learner closer to being ready to risk money, it tells them what they will see.
+
+One thing you will hit: item 11 in README.md - the six-trade session does not
+reconcile with a cash account under T+1. That is an open product decision and it is
+NOT yours to settle in content. Write 15-3 so it holds under any of the three
+resolutions in docs/agent.md §3.6, and say in your report which screens would need to
+change once it is decided.
+
+Run `python3 tools/validate_content.py --strict`, `tools/test_validate.py` and
+`tools/check_sizing.py`; 0 errors, no warning naming a file you wrote. Commit as
+"content: chapter 8 level 15" and push to main.
+
+Report: the three subs with their screen mix, every place you relied on a
+{{market.*}} token instead of a jurisdiction claim, and any sentence you were unsure
+sits on the right side of the §7 line - flag those rather than deciding them.
+```
+
+Day Trading and Swing carry the same level (`docs/curriculum.md`), with their own
+instruments: the PDT rule bites a day trader hardest, and in Europe the leveraged wrappers
+are what a retail swing trader is actually shown. Those are written with their paths in
+Stage 5, not here.
+
+---
+
 ## Cost, honestly
 
 The whole remediation is in the low tens of dollars of API spend at
