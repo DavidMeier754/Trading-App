@@ -512,7 +512,37 @@ The table below is the plan; `content/drills/packs.yaml` is the manifest built f
 
 Target at launch of a path: **~350 drill screens**, roughly the same volume again as the linear path's own questions. The sizes above add up to 370 across the fifteen packs; the manifest carries that figure.
 
+**[v3] Twelve of the fifteen packs are on hold.** `chart-replay` (§ Replays) does the chart-recognition job better than a frozen drill screen can, and that is what `charts-structure`, `levels-and-breaks`, `the-read`, `mixed-daily` and the eight setup packs are — 300 of the 370 screens. Only `cost-check` (written), `selection` and `risk-calls` are unaffected: all-in cost arithmetic, scanner reading and trade management are not chart timing, and no replay reaches them. Decide the twelve after the Stage 7 pilot, not before.
+
 ---
+
+## Replays **[v3]**
+
+The Spot-it tab (`docs/UI.md` §7.7) is fed from `content/replays/<path>/<slug>.yaml`, one
+replay per file, format in `docs/schema.md` § Replays and authoring rules in `docs/agent.md`
+§3.10. Replays are not a chapter: they are a bank the tab draws from, gated by reading level
+against the tiers.
+
+**Where they sit in the linear path.** A `chart-replay` screen also appears inside lessons, and
+only where the learner has just been given the card it needs:
+
+| Chapter | Level | Reading level | Why here |
+|---|---|---|---|
+| 7 | each setup level (2, 3, 4, 6, 7, 10, 11, 12) | 1 | The card is on the screen; the replay is the card applied once, in motion |
+| 7 | 8 Mixed Drill I, 13 Mixed Drill II | 2 | Setup named, card from memory |
+| 7 | 14 Choosing the Setup for the Day | 3 | Any of the eight — that is the level's whole question |
+| 7 | 17 Capstone — A Full Session | 3 | One session, several moments, decoys included |
+| 8 | 9 Full-Day Practice, 16 Capstone — A Full Week | 3 | Includes a session that offers nothing (`allow_none`) |
+
+**The bank at launch.** Two replays per Chapter 7 setup card (16), four mixed level-3 replays,
+and two `allow_none` sessions — **22 replays per path**, ~1,300 bars authored. That is a
+smaller number of files than the drill bank and considerably more work per file; see
+`docs/build-plan.md` Stage 7.
+
+**Replays and drills are not the same job.** Drills build recognition at volume with spaced
+repetition; a replay tests whether recognition survives when the outcome is hidden and the
+learner has to choose a moment. Both feed the same weak-concept list: a `Phantom` whose decoy
+fails on volume marks *volume* weak exactly as a wrong drill answer would.
 
 ## Writing order
 

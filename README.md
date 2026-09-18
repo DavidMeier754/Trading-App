@@ -19,6 +19,7 @@ A finished path is ~144 levels and ~387 sub-levels: about 22 hours, or six month
 | `content/paths/<path>/` | Chapters 2–8 per path. |
 | `content/drills/packs.yaml` | The drill-pack manifest: one entry per Practice-hub pack, with its unlock, size, concepts and the three exemplars the batch run is built from. |
 | `content/drills/<path>/` | The drill packs themselves — flat banks of question screens, no lesson structure. |
+| `content/replays/<path>/` | The replay bank for the Spot-it tab — one bar-by-bar session per file, with its setups and decoys marked. Format in `docs/schema.md` § Replays. |
 | `tools/validate_content.py` | Validates all lesson files and drill packs; `--status` prints chapter and pack statistics. |
 | `tools/build_drill_batch.py` | Stage 4: builds one Batch API request per drill pack from the manifest, and writes the results back into `content/drills/`. |
 | `tools/test_validate.py` | Self-test for the validator. Run it after changing `validate_content.py`. |
@@ -109,13 +110,16 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    Sixteen charts were rewritten as shorts in Chapters 3, 5 and 8, and
    `tools/validate_content.py` now checks the ratio per chapter, from eight directional
    decisions up.
-7. **Drill bank** (`content/drills/`) — **designed, 1 of 15 packs written.** `content/drills/packs.yaml`
-   is the manifest: fifteen packs, 370 screens, each with its unlock sub-level, concept list and the
-   three exemplars its batch request carries. `tools/build_drill_batch.py` builds the Stage 4 batch
-   from it and `tools/validate_content.py` now validates packs (question screens only, 10–40 per
-   pack, a real `unlocked_by`, answer-key hygiene and the §3.6 ceilings over the whole pack).
-   `content/drills/scalping/cost-check.yaml` is hand-written and clean, as the proof the format and
-   the validator agree; the other fourteen are the batch run.
+7. **Drill bank** (`content/drills/`) — **narrowed to 3 of 15 packs; the other 12 are on hold.**
+   The manifest (`content/drills/packs.yaml`), the batch builder (`tools/build_drill_batch.py`) and
+   the pack rules in the validator all stand, and `content/drills/scalping/cost-check.yaml` is
+   hand-written and clean as the proof the format and the validator agree. But twelve of the packs
+   are chart recognition — `charts-structure`, `levels-and-breaks`, `the-read`, `mixed-daily` and
+   the eight setup packs, **300 of the 370 screens** — and `chart-replay` (item 9) does that job
+   better than a frozen drill screen can. Commissioning them now would author what the replay bank
+   replaces. **Commission `selection` and `risk-calls` only** (two batch requests): all-in cost
+   arithmetic, scanner reading and trade management are not chart timing, so no replay reaches them.
+   The twelve are decided by the replay pilot, not before it.
 
 8. **Sub-level distribution** — **a rule/plan disagreement, not a content defect.** Chapters 3, 5
    and 7 sit at 58–59 % of levels with three or more sub-levels, against the ≥60 % in
@@ -124,6 +128,21 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    chapters. Decide once which side moves: relax the rule to 55 %, or add a sub-level to one level
    in each of the three chapters. Do not "fix" it by drifting from the curriculum.
 
-`python3 tools/validate_content.py` reports the phrasing items above as warnings. The rest are
-tracked here because no rule can see them. Each item has a filled-in prompt, a model and an
-effort setting in `docs/remediation-prompts.md` — work them in the order given there.
+9. **Replay bank** (`content/replays/`) — **specified, nothing written.** The Spot-it tab
+   (`docs/UI.md` §7.7) serves `chart-replay` screens (§4.4): a chart the learner advances bar by
+   bar, watching for a setup to form, graded Textbook / Early / Late / Missed / Phantom / Passed
+   from the bar index alone. It is the only content that tests **timing** and **restraint** — every
+   other screen freezes a chart, and this one can measure the trade the learner took that was never
+   there. Format in `docs/schema.md` § Replays, authoring rules in `docs/agent.md` §3.10, placement
+   and the 22-per-path target in `docs/curriculum.md` § Replays, build in `docs/build-plan.md`
+   Stage 7. Two things about it are load-bearing and easy to lose: **no autoplay** (the learner taps
+   for each bar — section 1's no-timer rule binds here like everywhere), and **every decoy must name
+   the card field it fails**, because a near-miss you cannot explain is noise, and a scored coin
+   flip teaches superstition instead of expectancy. Start with **Stage 7a**, one hand-authored
+   replay plus its validator rules, before anything scales.
+
+`python3 tools/validate_content.py` reports items 3, 4 and 8 as warnings. The rest are tracked
+here because no rule can see them. Prompts live in two places: the repair items (1–6, 8) have a
+filled-in prompt, a model and an effort setting in `docs/remediation-prompts.md`; the two build
+items (7 drills, 9 replays) are Stages 4 and 7 of `docs/build-plan.md`. Work the repairs in the
+order given there, and start the replay bank at Stage 7a.

@@ -5,10 +5,11 @@ How the Scalping path got from 101 sub-levels in 6 chapters to the 387 in 8 that
 Trading and Swing Trading.
 
 **Stages 0–3 are done.** The Scalping path is written: 8 chapters, 387 sub-levels,
-0 validator errors. Stage 4 is under way (1 of 15 drill packs). Stages 5 and 6 are
-untouched. The gap table below is the job as it stood before Stage 3 — kept because
-the per-stage prompts still read against it, and because Stages 5 and 6 face the same
-shape twice more.
+0 validator errors. Stage 4 is **narrowed to three packs** and Stage 7 is new — the
+replay bank (`chart-replay`) supersedes the twelve chart-recognition drill packs, so
+those are on hold rather than commissioned. Stages 5 and 6 are untouched. The gap table
+below is the job as it stood before Stage 3 — kept because the per-stage prompts still
+read against it, and because Stages 5 and 6 face the same shape twice more.
 
 Read this with `docs/curriculum.md` open. That file is the *what*; this file is the
 *how, in what order, with which model*.
@@ -51,9 +52,16 @@ of them.
 | 1 ✅ | Renumber chapter folders 5→6, 6→7 | `claude-haiku-4-5` | Claude Code | 20 min |
 | 2 ✅ | Retrofit the 101 existing subs (`reinforces:`, level remap) | `claude-sonnet-5` | Claude Code | 2–3 sessions |
 | 3 ✅ | Author the new content, chapter by chapter | `claude-opus-5` / `claude-sonnet-5` | Claude Code | ~20 sessions |
-| 4 ◐ | Drill packs (1 of 15 packs) | `claude-sonnet-5` | **Batch API** | 1 script run |
+| 4 ◐ | Drill packs — **3 of 15 only** (`cost-check` ✅, `selection`, `risk-calls`) | `claude-sonnet-5` | **Batch API** | 1 script run |
+| 7a | Replay pilot — one hand-authored replay + validator rules | `claude-opus-5` | Claude Code | 1 session |
+| 7b | Replay bank — 22 replays per path | `claude-opus-5` | Claude Code | ~8 sessions |
 | 5 | Day Trading + Swing paths | `claude-sonnet-5` | Claude Code | ~30 sessions |
 | 6 | Zero-knowledge review pass per path | `claude-opus-5` | Claude Code | 1 session/path |
+
+Stage 7 is numbered after 6 but **runs before 5**: the replay format has to be proven on the
+path that exists before two more paths are written against it. The twelve held drill packs are
+decided by 7a's outcome — if the pilot shows the format does not carry, they get commissioned
+after all.
 
 ---
 
@@ -282,7 +290,10 @@ screen is invented rather than expanded, which is where a cheaper model shows.
 
 ### The authoring prompt
 
-Every block's copy is pre-filled in **`docs/stage-3-prompts.md`** — 29 ready-to-run prompts in writing order, each with its recommended model. Copy the next un-done block instead of filling the template by hand.
+Stage 3 ran as 29 pre-filled blocks, three to four per chapter, in the writing order from
+`docs/curriculum.md`. That prompt file has been deleted now the stage is finished — the template
+below is the thing to refill, and Stage 5 refills it twice more (Day Trading, then Swing
+Trading) against those paths' own curriculum tables and folders.
 
 This is the one you will run twenty times. Keep the first paragraph byte-identical
 every time so the docs cache; change only the bracketed parts.
@@ -361,15 +372,30 @@ real damage:
 
 ---
 
-## Stage 4 — Drill packs
+## Stage 4 — Drill packs (three of fifteen)
 
-~350 drill screens per path, in `content/drills/`, in the format at the end of
-`docs/schema.md`. Drills are independent of one another, have no lesson structure and
-no cross-file consistency requirement beyond a concept list — which makes them the one
-part of this build that suits bulk generation.
+**Narrowed.** `chart-replay` (Stage 7) does the chart-recognition job better than a frozen
+drill screen, and twelve of the fifteen packs are exactly that job — `charts-structure`,
+`levels-and-breaks`, `the-read`, `mixed-daily` and the eight setup packs, 300 of the 370
+commissioned screens. Those are **on hold**: authoring them now would build what Stage 7
+replaces.
+
+Three packs are unaffected, because no replay reaches them — all-in cost arithmetic, scanner
+reading and trade management are not chart timing:
+
+| Pack | Screens | Status |
+|---|---|---|
+| `scalping-cost-check` | 20 | ✅ hand-written, clean |
+| `scalping-selection` | 25 | commission now |
+| `scalping-risk-calls` | 25 | commission now |
+
+So Stage 4 is now **two batch requests**, not fourteen. Everything below still applies to them;
+the format is at `docs/schema.md` § Drill packs. Drills are independent of one another, have no
+lesson structure and no cross-file consistency requirement beyond a concept list — which makes
+them the one part of this build that suits bulk generation.
 
 **Model: `claude-sonnet-5` via the Batch API** (50% of list price; results return in
-any order, keyed by `custom_id`). One request per pack, ~14 packs per path.
+any order, keyed by `custom_id`). One request per pack.
 
 Write a small script that, for each pack in the drill table in `docs/curriculum.md`,
 sends: the docs prefix, the pack's concept list, three exemplar screens pulled from
@@ -396,6 +422,97 @@ finish. Price and volume bands per §3.6. Every number must be arithmetically so
 
 Do this stage **after** the linear chapters, not alongside them: the drills quote the
 lessons, so the lessons have to exist and be final first.
+
+---
+
+## Stage 7 — The replay bank
+
+The Spot-it tab (`docs/UI.md` §7.7). Format in `docs/schema.md` § Replays, authoring rules in
+`docs/agent.md` §3.10, placement in `docs/curriculum.md` § Replays. **Runs before Stage 5** —
+two more paths must not be written against an unproven format.
+
+**Model: `claude-opus-5`, effort `high`, throughout.** This is the most arithmetic-dense content
+in the project: 40–80 candles, a volume series, a VWAP series and several stated positions per
+file, with §3.6's ceilings applying to all of it. And **never in a batch** — one replay per
+request, each verified. A drill is 8–12 bars with one answer; a replay is not that shape, and
+the Phase-2 review found its errors in exactly this kind of spread-out arithmetic.
+
+### 7a — the pilot (one session, do this first)
+
+One replay, hand-authored, plus the validator rules that check it. Nothing scales until this
+proves the format carries and the arithmetic holds over 60 bars. Same lesson as
+`cost-check.yaml`: one written exemplar before any volume.
+
+```
+Read CLAUDE.md, then docs/agent.md §3.10, docs/schema.md § Replays and docs/UI.md §4.4
+and §7.7 in full. Then read content/paths/scalping/chapter-07-scalping-playbook/
+level-02-1.yaml and level-02-2.yaml — the VWAP bounce card and its five fields are the
+thing this replay is an instance of.
+
+Write one replay to content/replays/scalping/vwap-bounce-01.yaml:
+reading level 2 (setup named, card hidden), ~60 bars, one clean VWAP bounce and two
+decoys that each fail exactly one named field of the same card.
+
+Then extend tools/validate_content.py with the replay rules from docs/schema.md
+§ Replays — every error and warning listed there — and add cases to
+tools/test_validate.py proving each one fires, in the style already there.
+
+Non-negotiable, and check each by hand before you report:
+- trigger_bar equals the highest filled_at of that setup's own fields. If it does not,
+  the replay is ungradeable.
+- Each decoy's `fails` names a field of its card, and that field either never fills or
+  fills after the decoy's bar.
+- Every stated shares × price is inside the 95% account ceiling (docs/agent.md §3.6),
+  and tools/check_sizing.py sees the file.
+- Candle high ≥ max(open, close) and low ≤ min(open, close) on all ~60 bars.
+- Prices in the scalping band ($10–$30) and the median bar volume in 4,000–500,000.
+- At most two fields marked `marginal`.
+
+Run `python3 tools/validate_content.py`, `--strict`, `python3 tools/test_validate.py`
+and `python3 tools/check_sizing.py`. Commit as "replays: pilot VWAP bounce plus
+validator rules" and push to main.
+
+Then report: the bar series with each marked moment and what fills at it, the three
+grades a learner would get for acting at bars trigger-1, trigger and trigger+2, and
+your honest read on whether 60 hand-authored bars is sustainable 22 times per path.
+```
+
+### 7b — the bank (~8 sessions)
+
+22 replays per path, per the table in `docs/curriculum.md` § Replays: two per Chapter 7 setup
+card (16), four mixed level-3, two `allow_none` sessions. Three replays per session, grouped by
+card so the five fields stay in mind.
+
+```
+Read CLAUDE.md, then docs/agent.md §3.10, docs/schema.md § Replays and docs/UI.md §4.4.
+Read content/replays/scalping/vwap-bounce-01.yaml — the pilot — and the last replays you
+wrote, so the bar rhythm and decoy style continue rather than restart. Read the Chapter 7
+level that teaches [card], for the five fields.
+
+Write [3] replays for [card] to content/replays/scalping/, at reading level [1/2/3] per
+the table in docs/curriculum.md § Replays.
+
+Every rule in docs/agent.md §3.10 binds. The two that go wrong silently:
+- A decoy you cannot explain is noise, not difficulty. Each one fails exactly one named
+  field, and the note says which. If you cannot name it, cut the decoy.
+- The arithmetic spreads across 60 bars and no single screen shows it all. Recompute
+  every stop distance, share count, R-multiple and filled_at from the bars as written.
+
+After each file, verify it alone before writing the next. Run
+`python3 tools/validate_content.py --strict`, `tools/test_validate.py` and
+`tools/check_sizing.py`; get to 0 errors with no warning naming a file you wrote.
+Commit as "replays: [card] levels [n]" and push to main.
+
+Report: per replay, the marked moments and their labels, which field each decoy fails,
+and anything in the placement table you could not honour and why.
+```
+
+### After 7a, decide the twelve held packs
+
+If the pilot shows replays carry recognition as well as the design claims, the twelve chart
+drill packs stay cancelled and the 300 screens are never written. If it shows the format is too
+expensive to author at volume, commission them as originally planned — the manifest and
+`tools/build_drill_batch.py` are still there and still work. Do not decide this before 7a.
 
 ---
 

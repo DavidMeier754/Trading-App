@@ -100,7 +100,7 @@ Shared behaviour: prompt on top, answer area in the middle, `Check` CTA (disable
 
 ### 4.2 New types **[v3]**
 
-Eight additions. They exist to carry the rep volume of the expanded path without the app feeling like a quiz.
+Nine additions. They exist to carry the rep volume of the expanded path without the app feeling like a quiz.
 
 | type | Interaction | Why it earns a slot |
 |---|---|---|
@@ -112,6 +112,7 @@ Eight additions. They exist to carry the rep volume of the expanded path without
 | `branch` | A multi-step scenario: choose, see the consequence, choose again, 2–4 steps deep. Each step carries its own reveal; the final screen shows the path taken. Counts as one screen per step. | The only way to teach *management* — trade goes against you, now what? — rather than entry alone. |
 | `journal-row` | Fill the fields of one journal row for a finished trade (setup, entry, stop, exit, R, grade) from chips and a keypad. | Makes Chapter 6's journal a thing the user does, not reads about. |
 | `depth-ladder` | An interactive Level 2 ladder: answer where a given order fills, or which side is stacked. | Chapter 4's tape strand needs a native interaction, not a hotspot on a static image. |
+| `chart-replay` | A chart the learner advances bar by bar, watching for a setup to form and acting when it triggers. Full spec in 4.4. Counts as one screen per marked moment (setup or decoy), minimum 4. | The only type that tests *timing* and *restraint*. Every other type shows a frozen moment; this one asks "is it now?" — and can measure the trade you took that was never there. |
 
 **Selection rules.** ≥3 different question types per sub-level; ≥10 different types per chapter; every type used at least twice per chapter; max 2 `mc` in a row; every Chapter ≥2 sub-level has at least one visual/interactive screen. `tf` never asks what the prompt gives away.
 
@@ -123,6 +124,39 @@ The chart plays to a decision point and pauses. Three buttons: **Long**, **Short
 - **"No trade" is never red when the best answer is directional.** Standing aside is at worst amber, in lessons and in exams. The app promises this in Chapter 1 and must keep it for 385 sub-levels.
 - Session state (day in R, limit, trades taken, size) shows as chips above the chart (6.4).
 - The outcome strip reports the move in points and %, with the share count from the scenario. Never as a prediction.
+
+### 4.4 `chart-replay` — the spot-it engine **[v3]**
+
+Every other interaction shows a frozen chart. Real scalping is recognising a setup *while it forms* and acting within a bar or two of its trigger — and, far more often, not acting at all. `chart-replay` is the only type that can test either.
+
+**The interaction.** A chart opens showing the first few bars of a session and nothing else. The learner taps **Next bar** to advance one candle at a time. At any bar they may act — **Long**, **Short**, or keep advancing. They may also mark **Nothing here** and end the replay early. When the replay ends, a post-mortem walks the marked moments and grades what the learner did at each.
+
+**No autoplay, no clock.** The learner controls the pace completely: there is no timer, no countdown, and the chart never advances on its own. This is not a compromise, it is section 1's fixed rule — *no timers, no quick-fire, no countdowns anywhere* — and it applies here like everywhere else. Nothing of value is lost: you still decide at bar N without seeing bar N+1, which is the whole skill. What is deliberately absent is adrenaline. Chapter 6 teaches not trading under pressure; manufacturing pressure to practise would teach the state the curriculum tells you to avoid.
+
+**Playback is not new.** 4.3 already runs the chart candle by candle to show the outcome. `chart-replay` is the same playback engine placed *before* the decision instead of after it, with the tap under the learner's thumb.
+
+**Grades.** Each marked moment resolves to exactly one label, and the label comes from arithmetic on the bar index, never from an opinion:
+
+| Label | Means | Shown as |
+|---|---|---|
+| **Textbook** | Acted on the trigger bar, ±1 | green |
+| **Early** | Acted before the card's last field filled | amber |
+| **Late** | Acted more than one bar after the trigger | amber |
+| **Missed** | The setup formed and triggered; no action | amber |
+| **Phantom** | Acted at a decoy, or where nothing was marked | amber |
+| **Passed** | Correctly took nothing at a decoy | green |
+
+**Nothing here is red.** As with `chart-decision`, restraint is never punished: `Missed` and `Phantom` are amber, and a replay whose honest answer is "no setup all session" scores green for advancing to the end without acting. A learner who always passes scores badly on `Missed`, never on discipline.
+
+**The post-mortem is the lesson.** Each moment reveals which of the setup card's five fields were filled at that bar and which were not — so `Phantom` reads *"the card wants the third field; at this bar only the first two were filled"*, not *"wrong"*. The learner leaves knowing which field they stopped checking.
+
+**Difficulty is a property, not a claim.** How hard a replay is to *read* is separate from `difficulty` (which grades arithmetic). It is derived from the file: how many decoys it carries, how many card fields are marked `marginal`, whether the setup is named to the learner, and whether "no setup at all" is a possible answer. `docs/schema.md` fixes the thresholds and the validator checks that a replay labelled hard has the properties of a hard one. The ramp the curriculum uses:
+
+| Reading level | Card shown | Setup named | Decoys |
+|---|---|---|---|
+| 1 | yes, all five fields beside the chart | yes | 0–1 |
+| 2 | no | yes | 1–2 |
+| 3 | no | no — any of the eight, or none | 2–4 |
 
 ---
 
@@ -238,6 +272,7 @@ Lists weak concepts (from wrong answers) and offers an untimed 3-minute review m
 - Spaced repetition schedules terms and setups automatically; a concept the learner keeps missing surfaces sooner.
 - **Setup drills:** pick one playbook setup and get a `swipe-deck` of fresh charts for it.
 - **Daily mix:** one tap, ~3 minutes, mixed across everything unlocked.
+- **[v3] Spot it** (7.7) is the second practice surface and feeds the same weak-concept list: a `Phantom` at a decoy that fails on volume marks *volume* weak, exactly as a wrong answer would.
 
 ### 7.4 Stats / profile
 Total XP, chapters completed, accuracy per tag, scenario record (Long/Short/No-trade decisions and "good decision" rate — never "profit").
@@ -255,6 +290,17 @@ Four tiers per path, unlocked by chapter, shown on the Trader Card and the path 
 
 ### 7.6 Weekly challenge **[v3]**
 One untimed, optional mixed set per week (8–12 questions drawn from everything unlocked), worth bonus XP and a streak freeze. No leaderboard. Exists to give lapsed users a low-friction way back in.
+
+### 7.7 Spot it — the replay tab **[v3]**
+
+The second practice surface, beside the Practice hub (7.3), and the home of `chart-replay` (4.4). One tap opens a replay the learner has not seen, drawn from the bank in `content/replays/` and filtered by what they have unlocked.
+
+- **What it is for.** The linear path teaches recognition one frozen chart at a time. This is where the learner finds out whether they can spot a setup with the outcome still hidden — and whether they can sit through a session that offers them nothing.
+- **Picked, not random.** The next replay is chosen by the weak-concept list, the same one the Practice hub reads: two `Phantom`s on volume and the tab starts serving replays whose decoys fail on volume.
+- **Tier-gated by reading level.** Level 1 replays open at **Observer**, level 2 at **Student**, level 3 at **Planner** (7.5). A level-3 replay in front of a learner who has not finished Chapter 6 is a coin flip, not a lesson.
+- **Session view.** A run of replays ends on a strip: how many Textbook, how many Missed, how many Phantom, and the **discipline line** — moments correctly passed as a share of decoys met. That number, not a win rate, is what the tab is scored on.
+- **Never costs hearts, never timed.** Same as every practice surface.
+- **What it does not do.** It does not replace the simulator plan Chapter 8 ends on. A replay you can pause teaches recognition; it does not teach a live market, and the copy must not imply otherwise.
 
 ---
 
