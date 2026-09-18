@@ -227,10 +227,13 @@ one of those over 100 % (`chapter-01/level-09-2.yaml` screen 4, $6,400 of stock 
 $6,000 account). Chapters 3–8 are clean. 100 more name no account at all, which makes them
 unchecked rather than exempt — name the account when you re-size them.
 
-Both tools check the **ceiling only**, which has teeth on scalping because that is the
-binding constraint there. On day trading and swing the risk budget binds instead and
-nothing checks it (`docs/agent.md` §3.6, last bullet) — that second check has to exist
-before Stage 5 writes either path.
+Both tools check the **single-position ceiling only**, which has teeth on scalping because
+that is the binding constraint there. On day trading and swing it is not, and two checks
+are missing (`docs/agent.md` §3.6, last bullet): **per-trade risk**
+(`shares × stop distance ÷ account`, roughly 0.5–2 %), and **total open exposure and risk**
+for any file showing several positions at once — which swing does by design, so four
+holdings at 25 % each currently breach nothing while deploying the whole account. Both have
+to exist before Stage 5 writes either path.
 
 ```
 Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read

@@ -143,19 +143,26 @@ A learner must not be able to score well without knowing the material. These are
 
   *The 95 % is a ceiling, not a target, and only scalping lives against it.* Which of the two ceilings binds follows from the stop, and the stop is what separates the paths. From the same formula:
 
-  | Path | Typical stop | Position value ÷ account | Which ceiling binds |
-  |---|---|---|---|
-  | Scalping | 6–20 ¢ on a $10–$30 name (0.3–1 % of price) | raw 100–330 %, clamped to **70–95 %** | the account, always |
-  | Day trading | 0.5–2 % of price | **50–95 %** | either, depending on the name |
-  | Swing | 4–10 % of price | **10–25 %** | the risk budget, always |
+  | Path | Typical stop | Position value ÷ account | Which ceiling binds | Positions open |
+  |---|---|---|---|---|
+  | Scalping | 6–20 ¢ on a $10–$30 name (0.3–1 % of price) | raw 100–330 %, clamped to **70–95 %** | the account, always | one |
+  | Day trading | 0.5–2 % of price | **50–95 %** | either, depending on the name | one, occasionally two |
+  | Swing | 4–10 % of price | **10–50 %** | the risk budget, always | **several at once** |
 
-  So the concentration *teaching* — one position at a time, nearly all the cash at work, the halt caveat — is **scalping's, and Chapter 7 and 8 of the scalping path are where it belongs.** On swing it would be false: a swing position at 95 % of the account with an 8 % stop risks **7.6 %** of the account on one trade, eight times the 1 % Chapter 3 teaches. On those paths a position near the cap is not compliance, it is a defect — it means the risk budget was abandoned to reach the ceiling. The cap still applies everywhere (nothing may exceed the cash), it simply stops being the number that decides.
+  The ranges span a risk budget of 1–2 %. The app teaches **1 %** everywhere and never writes 2 %; that is a deliberate beginner's choice, not the only defensible number — Elder, a shared source (§4), sets 2 % as a *ceiling*, and the swing curriculum's Chapter 3 Level 7 says "the 1 % rule" explicitly. Keep 1 % as the taught number on every path, and do not let a drill quietly size at 2 % because the arithmetic came out nicer.
+
+  So the concentration *teaching* — one position at a time, nearly all the cash at work, the halt caveat — is **scalping's, and Chapters 7 and 8 of the scalping path are where it belongs.** On swing it would be false twice over. A single swing position at 95 % of the account behind an 8 % stop risks **7.6 %** on one trade, eight times the taught 1 %: near the cap is not compliance there, it is a defect, and it means the risk budget was abandoned to reach the ceiling. And swing **runs several positions at the same time** — its own curriculum says so — so the per-position cap is close to meaningless on that path. What binds instead is the pair the single-position rule cannot see: **total exposure** across everything open, and **total risk** across it. Four swing positions at 25 % each is the whole account deployed and 4 % at risk, and neither number appears in a rule written about one position.
+
+  The cap still applies everywhere — nothing may exceed the cash — it simply stops being the number that decides.
 
   *What this binds in content.* Chapter 3 Level 10 of the **scalping** path teaches the account ceiling as the usual answer rather than the exception: with a stop under 1 % of the price, the cash runs out before the risk budget does. Its day-trading and swing counterparts teach the opposite emphasis — the risk budget decides, and the account ceiling is the sanity check you still run.
 
   **`setup_max_account_pct` is not 95, and must not be.** Chapter 1 is shared by all three paths and `path-choice` fires *after* its badge — the plan card in Level 16-2 sits two sub-levels before the learner has a path. Prescribing a scalper's 95 there hands a future swing trader a rule that risks eight times what the app teaches. Chapter 1 keeps a **conservative, path-neutral number** (50 is fine, and the file's arithmetic is already built on it), and the **path's own Chapter 3 revises it with the reason** — which the plan schema already supports, since revisiting a field is defined as pre-filled and editable. A learner watching their own ceiling move from 50 to 95 *because they now understand why a scalp is different* is the lesson; being handed 95 in Chapter 1 is not.
 
-  *Not yet enforced.* `tools/validate_content.py` and `tools/check_sizing.py` check the 95 % ceiling only. On scalping that is the binding constraint, so the check has teeth. On day trading and swing the binding constraint is the risk budget, and **nothing checks it** — a swing drill risking 8 % of the account per trade would pass today. Before Stage 5 writes either path, add the second check: `shares × stop distance ÷ account` within roughly 0.5–2 % wherever a file names an account and a stop.
+  *Not yet enforced.* `tools/validate_content.py` and `tools/check_sizing.py` check the 95 % single-position ceiling only. On scalping that is the binding constraint, so the check has teeth. On day trading and swing it is not, and **nothing checks what actually binds there.** Two rules are missing, and both have to exist before Stage 5 writes either path:
+
+  1. **Per-trade risk.** `shares × stop distance ÷ account` within roughly 0.5–2 % wherever a file names an account and a stop. A swing drill risking 8 % per trade passes today.
+  2. **Total open exposure and risk**, for any file that shows more than one position at once: the sum of position values against the account, and the sum of `shares × stop distance` against it. A swing chapter teaching several concurrent holdings has no rule at all right now, and the single-position cap cannot be extended to cover it — four positions at 25 % each breaches nothing while deploying the entire account.
 - Examples use realistic scale for a retail beginner (accounts of $5,000–$30,000).
 - **[v3] Price bands.** Keep drill prices in a band where the path's share counts fit the account: scalping and day trading $10–$30, swing $20–$80. Illustrative (non-drill) charts may use $10–$200.
 - **[v3] Volume magnitudes.** A 1-minute bar on a liquid scalping/day-trading stock is **40,000–500,000 shares**; a deliberately thin bar is 4,000–20,000; a 5-minute bar is 150,000–500,000; a daily bar for swing is 1–20 M. Never let a drill have the learner trade 1,500 shares in a stock printing 4,000 a minute — the app teaches the opposite.
