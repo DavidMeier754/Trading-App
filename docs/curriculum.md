@@ -16,11 +16,11 @@ Chapter status: **written** = in the repo and validated · **expand** = v2 conte
 
 | Path | Ch1 | Ch2 | Ch3 | Ch4 | Ch5 | Ch6 | Ch7 | Ch8 | Levels | Subs |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Scalping | 17 | 18 | 19 | 18 | 17 | 19 | 19 | **18** | **145** | **~390** |
+| Scalping | 17 | 18 | 19 | 18 | 17 | 19 | 19 | **18** | **145** | **~391** |
 | Day Trading | 17 | 18 | 19 | 18 | 17 | 19 | 19 | **18** | **145** | **~388** |
 | Swing Trading | 17 | 18 | 18 | 18 | 17 | 19 | 19 | **18** | **144** | **~385** |
 
-(Chapter 1 is shared, so a learner sees Chapter 1 once plus one path's Chapters 2–8. ~390 sub-levels ≈ 22 hours ≈ six months at two a day. Scalping Chapter 8 gained Level 15 — see the chapter's own note; 387 sub-levels are written, the three new ones are not.)
+(Chapter 1 is shared, so a learner sees Chapter 1 once plus one path's Chapters 2–8. ~391 sub-levels ≈ 22 hours ≈ six months at two a day. Scalping Chapter 8 gained Level 15 — see the chapter's own note; 387 sub-levels are written, the four new ones are not.)
 
 ### Migration note — v2 chapters are renumbered — **done**
 
@@ -241,7 +241,7 @@ Eight setups instead of five. Every setup is a playbook card: context, entry, st
 
 ### Chapter 8 — The Trading Day — written
 
-Folder: `chapter-08-the-trading-day` · 18 levels, 50 subs · **47 written; Level 15 is new and Levels 15–17 renumber to 16–18**
+Folder: `chapter-08-the-trading-day` · 18 levels, 51 subs · **47 written; Level 15 is new (4 subs) and Levels 15–17 renumber to 16–18**
 Execution, the full routine, and the honest handover to a simulator. Sources: Aziz (platform, hotkeys, routine), Bellafiore, Steenbarger, Elder.
 
 > **Level 15 is the lesson `docs/agent.md` §1 and §7 have always promised and the path never had.** The fixed product decision says that where a path is traded in other instruments in Europe (scalping → futures/CFDs) *one lesson says so explicitly*; no such lesson exists in the 387 written sub-levels, where financial margin appears zero times. It goes here because this is where the learner is about to open an account. It is **orientation, not instruction**: it names what they will be offered and what it does to arithmetic they already own, and teaches no CFD, forex or leverage mechanics (§7 stands).
@@ -264,12 +264,12 @@ Execution, the full routine, and the honest handover to a simulator. Sources: Az
 | 12 | When to Increase Size | 3 | Evidence-based scaling: a number of grade-A trades, not a good week; what to do after a drawdown | 6 |
 | 13 | Chapters 6 & 7 Callback | 2 R | Risk and playbook re-tested inside a live session: the card fires but the limit is nearly gone; the setup is right but the size is wrong | 6, 7 |
 | 14 | Your First 30 Days on Sim | 4 | A concrete simulator plan: which cards, how many trades, what to record, what "ready" would look like; the honest statement that the app cannot make you profitable | 6, 7 |
-| **15** | **What You'll Actually Be Offered** | **3** | **[new]** What a broker actually puts in front of a retail scalper: a cash stock account, a margin stock account, and — in Europe — the leveraged wrappers this path deliberately did not teach. `{{market.regulation_note}}` in place. What leverage does to numbers the learner already owns: R is unchanged, the ruin arithmetic is not, and a deposit that survives six stop-outs on cash does not survive six on 5:1. Why the path taught cash stocks, and what changes if they choose otherwise. **No product named, no mechanics taught, nothing here is a recommendation** | 3, 6 |
+| **15** | **What You'll Actually Be Offered** | **4** | **[new]** 15-1 the two account types and what each one allows — **a cash account cannot short at all**, which is why 38 % of this path's decisions need the other one; in Europe, the leveraged wrappers this path deliberately did not teach, building on `{{market.scalping_note}}` rather than repeating it. 15-2 what leverage does to numbers the learner already owns: R is unchanged, the ruin arithmetic is not — a deposit that survives six stop-outs on cash does not survive six at 5:1. 15-3 what the rules do to the plan they wrote: `{{market.regulation_note}}` in place, the pattern-day-trader threshold against a six-trade session, settled funds against the same, and tax named once as a question for an adviser and never answered. 15-4 practice: choosing the account that fits their own plan sheet. **No product named, no mechanics taught, nothing here is a recommendation (§7)** | 3, 6 |
 | 16 | Going Live, Carefully | 3 | The smallest size that is still real; what changes psychologically when money is live; the rules that must survive the switch | 6 |
 | 17 | Capstone — A Full Week | 3 R | Five sessions compressed: a green day, a red day inside the limit, a day with no trades, a tilt caught early, a weekly review that produces one rule | 5, 6, 7 |
 | 18 | Final Exam and Graduation | 1 F | 15 questions → badge → `tier-up` (Sim Trader) → the user's finished `plan-sheet` | 4, 5, 6, 7 |
 
-**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, Grade-A trade, Going live, **Cash account, Margin account, Settlement, Leverage**.
+**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, Grade-A trade, Going live, **Cash account, Margin account, Settlement, Leverage, Day-trade limit**.
 
 ---
 

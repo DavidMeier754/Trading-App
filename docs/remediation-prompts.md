@@ -542,9 +542,14 @@ that did not survive contact with the existing sub-levels.
 and §7 have referred to since v3 and the path has never had — and it is the most
 compliance-sensitive content in the app, so it is not a Sonnet job.
 
-**What is actually missing.** Across the 387 written sub-levels, "leverage" appears once and
-financial "margin" **zero** times (the five `margin` matches are the English word *marginal*).
-The entire regulatory reality of trading is two `{{market.regulation_note}}` tokens, used in
+**What is actually missing.** One piece already exists and must not be duplicated:
+`{{market.scalping_note}}` says where retail scalping is really done and why this path chose
+stocks — but it is a single theory screen inside a fees lesson (Chapter 3 Level 14-1, screen 12),
+six levels before anyone opens an account. Read it first and build on it rather than repeating it.
+Everything around it is absent: financial "margin" appears **zero** times across the 387 written
+sub-levels (the five `margin` matches are the English word *marginal*), and so do the
+pattern-day-trader rule, settlement, tax, starting capital, data access and broker choice. The
+entire regulatory reality of trading is two `{{market.regulation_note}}` tokens, used in
 Chapter 1 Level 12 — before the learner has chosen a path. A graduate meets margin,
 settlement, the pattern-day-trader rule and, in Germany, the leveraged wrappers on the day
 they open an account, and a European retail scalper realistically cannot scalp cash stocks at
@@ -573,20 +578,28 @@ chain so it reads straight through with Level 15 absent for now (14's last sub -
 Run `python3 tools/validate_content.py`; 0 errors. Commit as "content: renumber
 chapter 8 levels 15-17 to 16-18" and push to main.
 
-Part 2 — write Level 15, "What You'll Actually Be Offered", 3 sub-levels, per the
-curriculum table. Read Chapter 3 Level 10 (the two ceilings) and Chapter 6 Levels 1-2
-(the stop, R) first: this level reuses their arithmetic and must not contradict it.
+Part 2 - write Level 15, "What You'll Actually Be Offered", 4 sub-levels, per the
+curriculum table. Read first, and do not contradict: Chapter 3 Level 10 (the two
+ceilings), Chapter 6 Levels 1-2 (the stop, R), Chapter 3 Level 14-1 (borrow
+availability, and screen 12's {{market.scalping_note}} - build on it, never repeat it),
+and Chapter 1 Level 12 (what it currently says a brokerage account is).
 
-The three subs, in order:
-  15-1  What a broker actually offers a retail trader: a cash stock account, a margin
-        stock account, and - in Europe - the leveraged wrappers this path did not
-        teach. {{market.regulation_note}} in place. Why this path chose cash stocks.
+The four subs, in order:
+  15-1  The two account types and what each allows. The one that matters: a cash
+        account cannot borrow, so it cannot short at all - and 38% of this path's
+        decisions are shorts. Say which account the path has been assuming, per the
+        decision recorded in docs/agent.md 3.6 (README item 12). In Europe, the
+        leveraged wrappers this path did not teach.
   15-2  What leverage does to numbers they already own. R is unchanged - the stop is
         still the stop. The ruin arithmetic is not: a deposit that survives six
-        stop-outs on cash does not survive six at 5:1. Work it with the same account
-        sizes Chapter 3 uses.
-  15-3  Practice: choosing the account that fits the plan they wrote, including what
-        settlement and the trade cap do to a six-trade session (see below).
+        stop-outs on cash does not survive six at 5:1. Use the account sizes Chapter 3
+        uses.
+  15-3  What the rules do to the plan they wrote. {{market.regulation_note}} in place;
+        the pattern-day-trader threshold against the six-trade session Chapters 6 and 8
+        teach; settled funds against the same. Tax gets exactly one screen: profits are
+        taxed, treatment differs by country and holding period, ask an adviser - no
+        rate, no jurisdiction rule, no worked example (7).
+  15-4  Practice: choosing the account that fits their own plan sheet.
 
 Non-negotiable:
 - No product, platform or provider named. No mechanics for opening or using a
@@ -598,11 +611,15 @@ Non-negotiable:
 - The risk note and the honest framing of §1.1 hold: this level does not bring the
   learner closer to being ready to risk money, it tells them what they will see.
 
-One thing you will hit: item 11 in README.md - the six-trade session does not
-reconcile with a cash account under T+1. That is an open product decision and it is
-NOT yours to settle in content. Write 15-3 so it holds under any of the three
-resolutions in docs/agent.md §3.6, and say in your report which screens would need to
-change once it is decided.
+Two open product decisions sit inside this level, and NEITHER is yours to settle:
+README item 11 (the six-trade session does not reconcile with a cash account under
+T+1) and README item 12 (123 shorts that a cash account cannot place). Both have their
+options written out in docs/agent.md 3.6. Write 15-1 and 15-3 so they hold under any
+of those options - describe what each account type allows and what each rule does,
+without asserting which one this path assumes - and list in your report every screen
+that would need a second pass once the decisions are made. If you find yourself
+needing the answer to write a sentence, that sentence is the report's, not the
+content's.
 
 Run `python3 tools/validate_content.py --strict`, `tools/test_validate.py` and
 `tools/check_sizing.py`; 0 errors, no warning naming a file you wrote. Commit as

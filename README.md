@@ -146,11 +146,14 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    replay plus its validator rules, before anything scales.
 
 10. **Chapter 8 Level 15, "What You'll Actually Be Offered"** — **specified, not written, and it is
-    a promise the docs have always made.** `docs/agent.md` §1 fixes that where a path is traded in
+    a promise the docs keep only partly.** `docs/agent.md` §1 fixes that where a path is traded in
     other instruments in Europe (scalping → futures/CFDs) *one lesson says so explicitly*, and §7
-    refers to it. **That lesson does not exist**: across the 387 written sub-levels, "leverage"
-    appears once and financial "margin" **zero** times — the five `margin` hits are the English word
-    *marginal*. The whole regulatory reality is two `{{market.regulation_note}}` tokens used in one
+    refers to it. What exists is `{{market.scalping_note}}` — which says the right thing — carried by
+    **one theory screen inside a fees lesson** (Chapter 3 Level 14-1, screen 12), not a lesson, and
+    six levels before the learner opens an account. What is genuinely absent is the rest: financial
+    "margin" appears **zero** times across the 387 written sub-levels (the five `margin` hits are the
+    English word *marginal*), and so do the pattern-day-trader rule, settlement, tax, starting
+    capital, where real-time data comes from and how to choose a broker. The whole regulatory reality is two `{{market.regulation_note}}` tokens used in one
     level of Chapter 1, before the learner has even chosen a path. Meanwhile a graduate meets
     margin, settlement, the PDT rule and Germany's leveraged wrappers the day they open an account,
     and a European retail scalper realistically cannot scalp cash stocks at all. The level is
@@ -168,6 +171,31 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
     positions / say margin is required / reframe the cap as per-settled-day) and none is free. This
     belongs with the outstanding BaFin wording in §7, not to a content session. Until it is decided,
     no drill may imply six same-day round trips are free.
+
+12. **123 shorts, and the path never says they need a different account** — **the largest content
+    gap found, and a product decision.** A short is only possible in a margin-enabled account; a cash
+    account cannot borrow and so cannot short at all. The corpus runs **123 short decisions against
+    199 longs — 38 % of every directional call** — and Chapter 1 Level 13-1 introduces the trade as
+    "you borrow 100 shares of XYZ from your broker and sell them", which reads as if it were simply
+    available. Borrow *availability* is taught well (Chapter 3 Level 14-1: hard-to-borrow, borrow
+    fees, no borrow no short); the **account type is named nowhere in 387 sub-levels**, and Chapter 1
+    Level 12 teaches "a brokerage account" without types. A learner opens the account the app
+    describes and a third of the path is not executable. `docs/agent.md` §3.6 carries the three ways
+    out — name the account and keep the content (cheapest), assume margin throughout, or cut the
+    shorts (which would gut Chapter 7 and undo item 6). Until it is decided, no content may imply a
+    short is available on the account Chapter 1 describes.
+
+13. **What a graduate needs in order to start, and the path never covers** — **fold into Chapter 8
+    Level 15 (item 10) rather than new levels.** Verified absent across all 387 sub-levels, with
+    strict patterns: the **pattern-day-trader rule** (0 — and Chapters 4 and 5 use $25,000 accounts
+    throughout, exactly the PDT threshold, without ever saying why that number exists, while the
+    path teaches a six-trade session); **settlement** (0 in lesson text — the 60 "settle" matches are
+    all the English verb, as in "the candle settles the argument"); **tax** (0); **starting capital**
+    (0); **where real-time data comes from** (0); **choosing a broker** (0). `docs/agent.md` §7 now
+    fixes the boundaries for the last three — tax is named as a question for an adviser and never
+    answered, access is described generically and never as a recommendation — so Level 15 can carry
+    all of it without crossing the line. The US learner is the sharp case: follow the path, open a
+    margin account for the shorts in item 12, take six trades, and be restricted inside a week.
 
 `python3 tools/validate_content.py` reports items 3, 4 and 8 as warnings. The rest are tracked
 here because no rule can see them. Prompts live in two places: the repair items (1–6, 8) have a
