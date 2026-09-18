@@ -87,8 +87,11 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
    Chapter 1 position that is more stock than the stated account can pay for:
    `chapter-01-market-basics/level-09-2.yaml` screen 4, 500 shares × $12.80 = $6,400 against a
    $6,000 account (106.7 %). That one is the hard error in the set and should go first. Chapter 1's plan card
-   (`level-16-2.yaml`) also still suggests `setup_max_account_pct: 50`, which contradicts the rule
-   it is meant to record — it should suggest **95**.
+   (`level-16-2.yaml`) keeps its `setup_max_account_pct: 50` and needs **no** change — an earlier
+   version of this list called for 95, which was wrong: Chapter 1 is shared and `path-choice` fires
+   after its badge, so a scalper's 95 there would hand a future swing trader a rule risking eight
+   times what the app teaches. The scalping path's own Chapter 3 raises the field instead
+   (`docs/agent.md` §3.6).
    `python3 tools/check_sizing.py --chapter N` lists the breaches with every line that names the
    same share count (3,332 corpus-wide). Medians now: ch1 90 %, ch2 97 %, ch3 87 %, ch4 90 %,
    ch5 88 %, ch6 89 %, ch7 87 %, ch8 86 %. A further 100 positions name no account at all, so no

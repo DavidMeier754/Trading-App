@@ -201,21 +201,36 @@ the cash is exactly why only one is open at a time. The 5 % left unspent is the 
 the fill needs at the ask.
 
 Two content consequences sessions B–I must carry, on top of the re-sizing.
-**Chapter 1 Level 16-2** writes `setup_max_account_pct` as **95**, not 50 — and the rest
-of that file is built on the 50: the numeric-input that divides $6,000 by two to reach
-189 shares, the branch step that calls 189 "the ceiling you set" against 379 as
-"everything the account can pay for", and the chart-decision and plan-sheet that quote
-189 again. Re-work the file as one piece; at 95 % the ceiling is 359 shares and 379 is no
-longer the foil. **Chapter 3 Level 10** teaches the account ceiling as the usual answer
-rather than the exception — 10-3's "Two ceilings, take the lower" stays, but the
-"binds only on a dear name with a tight stop" framing goes — and says what a halt or a
-gap does to a position worth nearly the account, because a stop is an order, not a
-guarantee. Those two files are sessions B (chapter 1) and D (chapter 3); do not leave
-them to a later pass.
+
+**Chapter 1 Level 16-2 stays at 50 — corrected.** An earlier version of this file told
+sessions B–I to re-work that plan card to 95 %. That was wrong, and doing it would have
+been a defect: Chapter 1 is shared by all three paths and `path-choice` fires *after* its
+badge, so Level 16-2 sits two sub-levels before the learner has a path. A scalper's 95 %
+handed to a future swing trader is a rule that risks about 7.6 % of the account per trade,
+eight times the 1 % Chapter 3 teaches (`docs/agent.md` §3.6, the per-path table). So the
+card keeps its conservative, path-neutral 50, **the file needs no re-work at all**, and the
+189-share arithmetic built on it stays correct. The scalping path's own Chapter 3 raises the
+field to 95 with the reason — revisiting a plan field is already defined as pre-filled and
+editable, and a learner watching their own ceiling move *because they now understand why a
+scalp is different* is the lesson.
+
+**Chapter 3 Level 10 (scalping)** teaches the account ceiling as the usual answer rather
+than the exception — 10-3's "Two ceilings, take the lower" stays, but the "binds only on a
+dear name with a tight stop" framing goes — and says what a halt or a gap does to a
+position worth nearly the account, because a stop is an order, not a guarantee. That is
+session D, and it is the file that now carries the 50 → 95 revision. Do not leave it to a
+later pass.
 
 `tools/check_sizing.py` and a chapter-level validator warning now enforce the line.
-250 of the 569 priced positions breach it; 97 more name no account at all, which makes
-them unchecked rather than exempt — name the account when you re-size them.
+**As measured now: 66 of 572 priced positions breach it** — 60 in Chapter 2, 6 in Chapter 1,
+one of those over 100 % (`chapter-01/level-09-2.yaml` screen 4, $6,400 of stock against a
+$6,000 account). Chapters 3–8 are clean. 100 more name no account at all, which makes them
+unchecked rather than exempt — name the account when you re-size them.
+
+Both tools check the **ceiling only**, which has teeth on scalping because that is the
+binding constraint there. On day trading and swing the risk budget binds instead and
+nothing checks it (`docs/agent.md` §3.6, last bullet) — that second check has to exist
+before Stage 5 writes either path.
 
 ```
 Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
