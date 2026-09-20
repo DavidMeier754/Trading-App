@@ -1,225 +1,215 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, Image, StyleSheet, View } from 'react-native';
-import Svg, { Circle, Ellipse, G, Path, Polygon, Rect } from 'react-native-svg';
+import { SvgXml } from 'react-native-svg';
 
 import { useReduceMotion } from '../lesson/useReduceMotion';
+import {
+  MASCOT_ART,
+  MASCOT_ASPECT,
+  MASCOT_SPARKLES,
+  MASCOT_VIEWBOX,
+} from '../mascots/art';
 import { artFor, Character, Pose } from '../mascots/registry';
-import { colors } from '../theme';
 
 export type { Character, Pose };
 
 /**
- * docs/UI.md §6.9 — the mascot slot.
+ * docs/UI.md §6.9 — the mascot and the recurring characters.
  *
- * The drawings below are PLACEHOLDERS: flat, one accent colour plus neutrals,
- * enough to judge size, placement and pose switching. They are replaced by
- * dropping real artwork into `src/mascots/registry.ts`; no screen changes.
+ * Each character is three SVG layers (tail, body, head) sharing one viewBox and
+ * stacked absolutely, so they register exactly and each can move on its own.
+ * That is the whole reason the art is vector rather than a flat PNG: a single
+ * image can only be slid around, while this can breathe, sway and nod.
+ *
+ * `src/mascots/registry.ts` overrides any character/pose with real artwork; when
+ * it does, the image replaces the whole stack and only the outer bob applies.
  */
 
-type Palette = { fur: string; dark: string; light: string };
-
-const PALETTE: Record<Character, Palette> = {
-  foxy: { fur: '#E8763A', dark: '#B4551F', light: '#F7EFE6' },
-  bull: { fur: colors.up, dark: '#189263', light: '#F7EFE6' },
-  bear: { fur: colors.down, dark: '#B23B35', light: '#F7EFE6' },
-  'retail-trader': { fur: colors.accent, dark: '#2E63C0', light: '#F7EFE6' },
-  'market-maker': { fur: '#8C7BD8', dark: '#5F4FA8', light: '#F7EFE6' },
-  institution: { fur: '#7C8899', dark: '#55606E', light: '#F7EFE6' },
+type Spec = {
+  /** Degrees the tail swings, and how long one sway takes. */
+  tail: [number, number];
+  /** Pixels the body squashes, and the breathing period. */
+  breathe: [number, number];
+  /** Head: [dip px, tilt deg, period ms] */
+  head: [number, number, number];
+  /** Whole-body lift and scale, played once on arrival. */
+  pop: [number, number];
+  sparkles: boolean;
 };
 
-/** Eyes and mouth carry the pose; the head shape carries the character. */
-function Face({ pose, p }: { pose: Pose; p: Palette }) {
-  const eye = (cxv: number) => {
-    if (pose === 'nod' || pose === 'cheer') {
-      // happy arcs
-      return (
-        <Path
-          key={cxv}
-          d={`M${cxv - 5},52 q5,-6 10,0`}
-          stroke={p.dark}
-          strokeWidth={3}
-          strokeLinecap="round"
-          fill="none"
-        />
-      );
-    }
-    if (pose === 'sleep') {
-      return (
-        <Path
-          key={cxv}
-          d={`M${cxv - 5},52 q5,4 10,0`}
-          stroke={p.dark}
-          strokeWidth={3}
-          strokeLinecap="round"
-          fill="none"
-        />
-      );
-    }
-    return <Circle key={cxv} cx={cxv} cy={51} r={4} fill={p.dark} />;
-  };
+const POSE: Record<Pose, Spec> = {
+  // Alive but not busy: a slow breath and a lazy tail.
+  idle: { tail: [5, 2600], breathe: [1.5, 2800], head: [0.8, 0, 3200], pop: [0, 1], sparkles: false },
+  // Correct: a quick double dip, the way a person actually nods.
+  nod: { tail: [11, 620], breathe: [2, 900], head: [5, 0, 560], pop: [3, 1.03], sparkles: false },
+  // Wrong: a slow head tilt. Puzzled, not scolding.
+  hm: { tail: [3, 3000], breathe: [1, 2600], head: [0, 7, 1500], pop: [0, 1], sparkles: false },
+  // Perfect run: a bounce and a fast tail.
+  cheer: { tail: [16, 420], breathe: [3, 700], head: [3, 0, 700], pop: [12, 1.06], sparkles: true },
+  // Walkthrough: leaning in at whatever is spotlighted.
+  point: { tail: [7, 2000], breathe: [1.5, 2400], head: [0, -5, 2400], pop: [2, 1.02], sparkles: false },
+  sleep: { tail: [2, 4200], breathe: [2.5, 3800], head: [2, 9, 4200], pop: [0, 1], sparkles: false },
+};
 
-  const mouth =
-    pose === 'cheer' ? (
-      <Path d="M42,66 q8,9 16,0" stroke={p.dark} strokeWidth={3} strokeLinecap="round" fill="none" />
-    ) : pose === 'nod' ? (
-      <Path d="M43,66 q7,6 14,0" stroke={p.dark} strokeWidth={3} strokeLinecap="round" fill="none" />
-    ) : pose === 'hm' ? (
-      <Path d="M43,68 q7,-5 14,0" stroke={p.dark} strokeWidth={3} strokeLinecap="round" fill="none" />
-    ) : (
-      <Path d="M44,67 h12" stroke={p.dark} strokeWidth={3} strokeLinecap="round" fill="none" />
+/** A 0 -> 1 -> 0 loop, the base for every sway and breath. */
+function useLoop(period: number, enabled: boolean) {
+  const v = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    if (!enabled) {
+      v.setValue(0);
+      return;
+    }
+    v.setValue(0);
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(v, {
+          toValue: 1,
+          duration: period / 2,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: true,
+        }),
+        Animated.timing(v, {
+          toValue: 0,
+          duration: period / 2,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: true,
+        }),
+      ])
     );
-
-  return (
-    <G>
-      {[40, 60].map(eye)}
-      {mouth}
-      {pose === 'hm' ? (
-        // a raised brow, so "not quite" reads as thinking rather than scolding
-        <Path
-          d="M34,41 q6,-4 12,-1"
-          stroke={p.dark}
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          fill="none"
-        />
-      ) : null}
-    </G>
-  );
-}
-
-function Body({ character, pose }: { character: Character; pose: Pose }) {
-  const p = PALETTE[character];
-
-  const ears = () => {
-    switch (character) {
-      case 'foxy':
-        return (
-          <G>
-            <Polygon points="26,34 30,10 46,26" fill={p.fur} />
-            <Polygon points="74,34 70,10 54,26" fill={p.fur} />
-            <Polygon points="31,30 33,18 41,26" fill={p.dark} />
-            <Polygon points="69,30 67,18 59,26" fill={p.dark} />
-          </G>
-        );
-      case 'bull':
-        return (
-          <G>
-            <Path d="M26,32 q-14,-10 -18,2 q10,2 14,10" fill={p.light} />
-            <Path d="M74,32 q14,-10 18,2 q-10,2 -14,10" fill={p.light} />
-          </G>
-        );
-      case 'bear':
-        return (
-          <G>
-            <Circle cx={28} cy={24} r={11} fill={p.fur} />
-            <Circle cx={72} cy={24} r={11} fill={p.fur} />
-            <Circle cx={28} cy={24} r={5} fill={p.dark} />
-            <Circle cx={72} cy={24} r={5} fill={p.dark} />
-          </G>
-        );
-      case 'institution':
-        // a roof, for the big calm one
-        return <Polygon points="50,12 86,32 14,32" fill={p.dark} />;
-      case 'market-maker':
-        return (
-          <G>
-            <Rect x={22} y={18} width={56} height={8} rx={4} fill={p.dark} />
-          </G>
-        );
-      default:
-        return <Path d="M30,28 q20,-16 40,0" fill={p.dark} />;
-    }
-  };
-
-  return (
-    <G>
-      {ears()}
-      {/* head */}
-      <Ellipse cx={50} cy={54} rx={30} ry={28} fill={p.fur} />
-      {character === 'market-maker' ? (
-        // two-faced: buy side and sell side (docs/UI.md §6.9)
-        <Path d="M50,26 a30,28 0 0 1 0,56 z" fill={colors.down} opacity={0.75} />
-      ) : null}
-      {/* muzzle */}
-      <Ellipse cx={50} cy={64} rx={15} ry={11} fill={p.light} />
-      <Face pose={pose} p={p} />
-      {pose === 'point' ? (
-        <G>
-          <Circle cx={84} cy={70} r={7} fill={p.fur} />
-          <Path
-            d="M84,64 v-14"
-            stroke={p.fur}
-            strokeWidth={6}
-            strokeLinecap="round"
-          />
-        </G>
-      ) : null}
-      {pose === 'cheer' ? (
-        <G>
-          <Path d="M16,36 l4,-9 4,9 9,4 -9,4 -4,9 -4,-9 -9,-4 z" fill={colors.warning} />
-          <Path d="M84,30 l3,-7 3,7 7,3 -7,3 -3,7 -3,-7 -7,-3 z" fill={colors.warning} />
-        </G>
-      ) : null}
-    </G>
-  );
+    loop.start();
+    return () => loop.stop();
+  }, [period, enabled, v]);
+  return v;
 }
 
 export default function Mascot({
   character = 'foxy',
   pose = 'idle',
   size = 44,
-  /** A small bob on mount, so the reveal slot has a heartbeat. */
   animate = true,
 }: {
   character?: Character;
   pose?: Pose;
+  /** Height in points; width follows the 200x240 viewBox. */
   size?: number;
   animate?: boolean;
 }) {
   const reduced = useReduceMotion();
-  const bob = useRef(new Animated.Value(0)).current;
-  const art = artFor(character, pose);
+  const moving = animate && !reduced;
+  const spec = POSE[pose] ?? POSE.idle;
+  const art = MASCOT_ART[character] ?? MASCOT_ART.foxy;
+  const override = artFor(character, pose);
 
+  const width = size * MASCOT_ASPECT;
+  const wrap = (body: string) =>
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${MASCOT_VIEWBOX}">${body}</svg>`;
+
+  const tail = useLoop(spec.tail[1], moving && art.back.length > 0);
+  const breath = useLoop(spec.breathe[1], moving);
+  const headLoop = useLoop(spec.head[2], moving);
+
+  // The arrival pop: played once whenever the pose changes.
+  const pop = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    if (!animate || reduced) {
-      bob.setValue(0);
+    if (!moving) {
+      pop.setValue(0);
       return;
     }
-    bob.setValue(0);
+    pop.setValue(0);
     const run = Animated.sequence([
-      Animated.timing(bob, {
+      Animated.timing(pop, {
         toValue: 1,
-        duration: 260,
-        easing: Easing.out(Easing.back(2)),
+        duration: 300,
+        easing: Easing.out(Easing.back(2.4)),
         useNativeDriver: true,
       }),
-      Animated.timing(bob, {
+      Animated.timing(pop, {
         toValue: 0,
-        duration: 220,
+        duration: 260,
         easing: Easing.inOut(Easing.quad),
         useNativeDriver: true,
       }),
     ]);
     run.start();
     return () => run.stop();
-  }, [pose, character, animate, reduced, bob]);
+  }, [pose, character, moving, pop]);
 
-  const style = {
+  // Build both endpoints numerically: a negative amount used to render "--5deg".
+  const deg = (v: Animated.Value, amount: number) =>
+    v.interpolate({ inputRange: [0, 1], outputRange: [`${-amount}deg`, `${amount}deg`] });
+  const px = (v: Animated.Value, amount: number) =>
+    v.interpolate({ inputRange: [0, 1], outputRange: [0, amount] });
+
+  const outer = {
     transform: [
-      { translateY: bob.interpolate({ inputRange: [0, 1], outputRange: [0, -5] }) },
-      { scale: bob.interpolate({ inputRange: [0, 1], outputRange: [1, 1.06] }) },
+      { translateY: px(pop, -spec.pop[0]) },
+      { scale: pop.interpolate({ inputRange: [0, 1], outputRange: [1, spec.pop[1]] }) },
     ],
   };
 
+  const box = { position: 'absolute' as const, width: '100%' as const, height: '100%' as const };
+
+  if (override) {
+    return (
+      <Animated.View style={[{ width, height: size }, outer]}>
+        <Image source={override} style={styles.art} resizeMode="contain" />
+      </Animated.View>
+    );
+  }
+
   return (
-    <Animated.View style={[{ width: size, height: size }, style]}>
-      {art ? (
-        <Image source={art} style={styles.art} resizeMode="contain" />
-      ) : (
-        <Svg width={size} height={size} viewBox="0 0 100 100">
-          <Body character={character} pose={pose} />
-        </Svg>
-      )}
+    <Animated.View style={[{ width, height: size }, outer]}>
+      {/* shadow: still, so the character moves against something */}
+      <View style={box}>
+        <SvgXml xml={wrap(art.shadow)} width="100%" height="100%" />
+      </View>
+
+      {/* tail, swinging from where it meets the hip */}
+      {art.back ? (
+        <Animated.View
+          style={[
+            box,
+            { transformOrigin: '62% 85%', transform: [{ rotate: deg(tail, spec.tail[0]) }] },
+          ]}
+        >
+          <SvgXml xml={wrap(art.back)} width="100%" height="100%" />
+        </Animated.View>
+      ) : null}
+
+      {/* body, breathing from the feet up */}
+      <Animated.View
+        style={[
+          box,
+          {
+            transformOrigin: '50% 100%',
+            transform: [{ translateY: px(breath, spec.breathe[0] * (size / 240)) }],
+          },
+        ]}
+      >
+        <SvgXml xml={wrap(art.body)} width="100%" height="100%" />
+      </Animated.View>
+
+      {/* head, dipping and tilting on the neck */}
+      <Animated.View
+        style={[
+          box,
+          {
+            transformOrigin: '50% 52%',
+            transform: [
+              { translateY: px(headLoop, spec.head[0] * (size / 240)) },
+              { rotate: deg(headLoop, spec.head[1]) },
+            ],
+          },
+        ]}
+      >
+        <SvgXml xml={wrap(art.head)} width="100%" height="100%" />
+      </Animated.View>
+
+      {spec.sparkles ? (
+        <Animated.View style={[box, { opacity: pop }]}>
+          <SvgXml xml={wrap(MASCOT_SPARKLES)} width="100%" height="100%" />
+        </Animated.View>
+      ) : null}
     </Animated.View>
   );
 }
@@ -234,5 +224,3 @@ export function poseForGrade(grade: 'correct' | 'amber' | 'wrong'): Pose {
 const styles = StyleSheet.create({
   art: { width: '100%', height: '100%' },
 });
-
-export const CHARACTER_VIEW = View;
