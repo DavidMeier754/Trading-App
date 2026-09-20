@@ -197,6 +197,17 @@ Level titles, sub counts, `reinforces` values and glossary terms match `docs/cur
     all of it without crossing the line. The US learner is the sharp case: follow the path, open a
     margin account for the shorts in item 12, take six trades, and be restricted inside a week.
 
+14. **The one decision items 10, 12 and 13 all wait on** — **does the path finish at a process,
+    or at a person who can start?** `docs/agent.md` §1.1 promises *"ready to paper-trade with a real
+    process"*, and the path delivers exactly that: all eight capabilities it names are covered.
+    Paper trading needs no broker, no account type, no data subscription and no configured platform,
+    so the path covers none of those — **zero** mentions across every `learning_goal`. That is
+    consistent with the promise, not a defect against it. But it means a graduate who follows the
+    app's own closing instruction meets four things it never mentioned. Answer this and items 10, 12
+    and 13 collapse into one piece of work; leave it open and Level 15 cannot be finished, because
+    two of its four sub-levels depend on it. Whichever way it goes, §1.1's standing constraint
+    applies now: the app must never imply it prepared the learner for a step it did not cover.
+
 `python3 tools/validate_content.py` reports items 3, 4 and 8 as warnings. The rest are tracked
 here because no rule can see them. Prompts live in two places: the repair items (1–6, 8) have a
 filled-in prompt, a model and an effort setting in `docs/remediation-prompts.md`; the two build

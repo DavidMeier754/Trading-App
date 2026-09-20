@@ -538,15 +538,53 @@ than padding the level.
 
 ## Stage 6 — Zero-knowledge review, per path
 
-The same review that produced the Phase-2 findings, run once per completed path:
-terms before definition, callbacks to things not yet taught, difficulty curve, repeated
-prompts, distractors that give it away, chart answers that do not follow, worked numbers,
-playbook setups against the sources in `docs/agent.md` §4, `{{market.*}}` tokens, and
-whether a beginner would be bored, patronised or confused.
+Two passes, not one. The first is pedagogical, the second is the one this plan was
+missing.
 
-**Model: `claude-opus-5`, high effort.** This pass found 28 real problems in 101 files;
-across 387 it is the difference between a course and a pile of lessons. Run it as a
-findings list first, approve, then fix — never as one combined pass.
+**Pass A — does it teach?** The review that produced the Phase-2 findings, run once per
+completed path: terms before definition, callbacks to things not yet taught, difficulty
+curve, repeated prompts, distractors that give it away, chart answers that do not follow,
+worked numbers, playbook setups against the sources in `docs/agent.md` §4, `{{market.*}}`
+tokens, and whether a beginner would be bored, patronised or confused.
+
+**Pass B — does it survive contact with reality? [v3.1]** Everything above checks the
+course against *itself*. Four findings on the written scalping path were of a different
+kind entirely — the leverage lesson §1 promised and the path never had, 123 shorts that
+the account the app describes cannot place, the pattern-day-trader rule that ends a
+six-trade session, settlement against 95 %-of-cash positions — and **not one of Pass A's
+items would have surfaced any of them.** All four came from a human asking "but could
+someone actually do that?". Pass B is that question, made systematic:
+
+- **Every fixed decision in §1 and every rule in §7, checked against the corpus.** Not
+  "is it stated" — "is it delivered, in the right place, at the right weight".
+- **Every trade the content teaches, against the account the content describes.** Can the
+  learner place it? With what type of account, how much capital, which permissions?
+- **Every rule the content teaches, against the rules that actually bind** in each market
+  profile — position limits, trade limits, settlement, borrow, and what the app promises
+  in `{{market.regulation_note}}`.
+- **The handover.** At the last screen, what does the graduate still not know that stands
+  between them and the first thing the path tells them to do?
+
+Two method notes, learned the hard way and worth more than the list:
+
+1. **Match counts lie; read the hits.** A scan reported `margin` and `settle` as covered
+   across the corpus. Every match was the English word *marginal* and the verb *settles*
+   ("the candle settles the argument"). Financial margin and settlement appear zero times.
+   A grep result is a place to look, never an answer.
+2. **Grep the concept, not the word.** The same scan reported the instruments lesson as
+   absent; it exists, inside `{{market.scalping_note}}`, which contains neither "leverage"
+   nor "CFD" in the search that was run. Before concluding something is missing, ask what
+   it would be *called* in this corpus — tokens, synonyms, the curriculum's own vocabulary.
+
+**Model: `claude-opus-5`, high effort, one pass per session.** Pass A found 28 real
+problems in 101 files; across 387 it is the difference between a course and a pile of
+lessons. Pass B found four in a single afternoon of someone asking awkward questions.
+Run each as a findings list first, approve, then fix — never as one combined pass.
+
+**Pass B is also the one a model is worst at**, because it requires knowing what happens
+outside the repository. Treat its output as a shortlist for a human who has actually
+placed these trades, not as a verdict. Where it cannot decide, it should say so and name
+the decision — as `docs/agent.md` §3.6 does for the margin and settlement conflicts.
 
 ---
 

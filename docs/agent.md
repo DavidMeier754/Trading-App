@@ -21,6 +21,12 @@ A graduate must be able to: pick which stocks are worth watching today, read the
 
 A graduate is **not** a profitable trader, and the app never suggests otherwise. The honest promise is: *ready to paper-trade with a real process, and able to improve from their own record.* Competence past that comes from screen time the app cannot supply. Chapter 8 of every path ends by handing the user a concrete 30-day simulator plan rather than a certificate.
 
+**[v3.1] Where the promise stops, and the decision nobody has taken.** Read the sentence above carefully: it ends at *paper-trade*. Paper trading needs no broker, no account type, no market-data subscription and no configured platform — which is exactly why the path covers none of them, and why that went unnoticed for eight chapters. Verified against every `learning_goal` in the written path: opening an account or choosing its type, platform settings, and getting real-time data appear **zero** times, while all eight capabilities above are covered across the chapters that should carry them.
+
+That is not yet a defect, because §1.1 never promised it. It is an **open product decision**: does this app finish at *a process you can paper-trade with*, or at *a person who can start*? Chapter 8 Level 15 (`docs/curriculum.md`, README items 10, 12 and 13) is drafted for the second answer and cannot be fully written until the first one is given, because two of its four sub-levels depend on decisions recorded in §3.6.
+
+One constraint holds under either answer and binds today: **the app must never imply it has prepared the learner for a step it did not cover.** A graduation screen that reads as "you are ready to go" while the path has not said which account can even place the trades it taught is the same failure as a profitability claim, in a quieter register.
+
 ### Product decisions (fixed)
 
 | Topic | Decision |
