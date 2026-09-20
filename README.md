@@ -64,6 +64,22 @@ months at two a day. Day Trading and Swing Trading are outlined level by level i
 
 Level titles, sub counts, `reinforces` values and glossary terms match `docs/curriculum.md` exactly.
 
+### Next: render one lesson on a phone
+
+Before any item below. 387 sub-levels and 5,095 screens exist and **none of them has ever been
+rendered** — every quality signal so far comes from a validator that checks structure and
+arithmetic, and from reading YAML. Neither can say whether a lesson is legible at phone width or
+whether it is any fun. `docs/build-plan.md` § Stage V has the scope and the prompt: an Expo app
+that plays `chapter-01-market-basics/level-01-1.yaml` end to end and nothing else.
+
+The reason it comes first is the cost asymmetry, not impatience. Content is data and stays
+changeable forever — a sentence, a number or a chart is **one file**. A screen type's schema is
+**327 files** for `chart-decision` and **387** for `intro`. Prose is cheap forever; the schema is
+not. Freezing it early is what stops the corpus being rewritten, and it can only be tested by
+rendering. The `state` chips are the worked example: session state written into sentences, three
+chapters rewritten once it became a field — a small schema question nobody saw, because nobody
+had seen a screen.
+
 ### Open work, in the order it should be done
 
 1. ~~**Category labels.**~~ **Done.** The review-run rule in `docs/agent.md` §3.2 now caps

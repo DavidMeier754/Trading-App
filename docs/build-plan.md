@@ -4,10 +4,13 @@ How the Scalping path got from 101 sub-levels in 6 chapters to the 387 in 8 that
 `docs/curriculum.md` describes — and what the same stages still have to do for Day
 Trading and Swing Trading.
 
-**Stages 0–3 are done.** The Scalping path is written: 8 chapters, 387 sub-levels,
-0 validator errors. Stage 4 is **narrowed to three packs** and Stage 7 is new — the
+**Stages 0–3 are done; Stage V is next.** The Scalping path is written — 8 chapters,
+387 sub-levels, 5,095 screens, 0 validator errors — and **not one of those screens has
+ever been rendered.** Stage V fixes that before anything else is written, because the
+schema is the only part of this project that is expensive to change, and rendering is
+the only way to test it. Stage 4 is **narrowed to three packs** and Stage 7 is new — the
 replay bank (`chart-replay`) supersedes the twelve chart-recognition drill packs, so
-those are on hold rather than commissioned. Stages 5 and 6 are untouched. The gap table
+those are on hold rather than commissioned. Stage 5 is last and gated. The gap table
 below is the job as it stood before Stage 3 — kept because the per-stage prompts still
 read against it, and because Stages 5 and 6 face the same shape twice more.
 
@@ -46,22 +49,30 @@ ordering rule below still binds there — do not start authoring until the valid
 clean, because a stage that produces hundreds of files spreads any mistake into all
 of them.
 
-| Stage | What | Model | Surface | Rough size |
-|---|---|---|---|---|
-| 0 ✅ | Teach the validator the v3 rules | `claude-opus-5` | Claude Code | 1 session |
-| 1 ✅ | Renumber chapter folders 5→6, 6→7 | `claude-haiku-4-5` | Claude Code | 20 min |
-| 2 ✅ | Retrofit the 101 existing subs (`reinforces:`, level remap) | `claude-sonnet-5` | Claude Code | 2–3 sessions |
-| 3 ✅ | Author the new content, chapter by chapter | `claude-opus-5` / `claude-sonnet-5` | Claude Code | ~20 sessions |
-| 4 ◐ | Drill packs — **3 of 15 only** (`cost-check` ✅, `selection`, `risk-calls`) | `claude-sonnet-5` | **Batch API** | 1 script run |
-| 7a | Replay pilot — one hand-authored replay + validator rules | `claude-opus-5` | Claude Code | 1 session |
-| 7b | Replay bank — 22 replays per path | `claude-opus-5` | Claude Code | ~8 sessions |
-| 5 | Day Trading + Swing paths | `claude-sonnet-5` | Claude Code | ~30 sessions |
-| 6 | Zero-knowledge review pass per path | `claude-opus-5` | Claude Code | 1 session/path |
+**The numbers are identifiers, not an order.** They were assigned as the stages were written
+and they no longer sort. This table is the order. Read it top to bottom; never infer "next"
+from a number.
 
-Stage 7 is numbered after 6 but **runs before 5**: the replay format has to be proven on the
-path that exists before two more paths are written against it. The twelve held drill packs are
-decided by 7a's outcome — if the pilot shows the format does not carry, they get commissioned
-after all.
+| Run | ID | What | Model | Surface | Rough size |
+|---|---|---|---|---|---|
+| ✅ | 0 | Teach the validator the v3 rules | `claude-opus-5` | Claude Code | 1 session |
+| ✅ | 1 | Renumber chapter folders 5→6, 6→7 | `claude-haiku-4-5` | Claude Code | 20 min |
+| ✅ | 2 | Retrofit the 101 existing subs (`reinforces:`, level remap) | `claude-sonnet-5` | Claude Code | 2–3 sessions |
+| ✅ | 3 | Author the new content, chapter by chapter | `claude-opus-5` / `claude-sonnet-5` | Claude Code | ~20 sessions |
+| **NEXT** | **V** | **The vertical slice — render lesson one on a phone** | `claude-opus-5` | Claude Code | 1–2 sessions |
+| then | 8 | Chapter 8 Level 15 + its renumber | `claude-opus-5` | Claude Code | 1 session |
+| then | 3′,4′ | The content repairs (README items 3 and 4) | `claude-sonnet-5` | Claude Code | 2–3 sessions |
+| then | 7a | Replay pilot — one hand-authored replay + validator rules | `claude-opus-5` | Claude Code | 1 session |
+| then | 4 ◐ | Drill packs — **3 of 15 only** (`cost-check` ✅, `selection`, `risk-calls`) | `claude-sonnet-5` | **Batch API** | 1 script run |
+| then | 7b | Replay bank — 22 replays per path | `claude-opus-5` | Claude Code | ~8 sessions |
+| then | 6 | Zero-knowledge review, both passes | `claude-opus-5` | Claude Code | 2 sessions/path |
+| **last** | 5 | Day Trading + Swing paths | `claude-sonnet-5` | Claude Code | ~30 sessions |
+
+**Stage 5 is last, and it is gated.** Writing 770 more sub-levels against a contract nothing has
+ever rendered is the most expensive mistake available on this project: a schema change after
+Stage 5 costs three times what it costs today. Do not start it until Stage V has run and the
+schema survived. This is also why Stage 7a comes before 7b, and why the twelve held drill packs
+wait on 7a's outcome.
 
 ---
 
@@ -108,6 +119,102 @@ belongs in an interactive session.
 **Cost.** The whole Scalping expansion (Stages 0–4) lands in the low tens of dollars
 of API spend at these prices — the constraint is review attention, not tokens. Do not
 economise on model choice here; economise on how many blocks you accept without reading.
+
+---
+
+## Stage V — The vertical slice
+
+**Run this next.** 387 sub-levels and 5,095 screens exist, and nobody has ever seen one. Every
+quality signal so far comes from a validator that checks structure and arithmetic, and from
+reading the YAML. Neither can tell you whether a lesson is legible on a phone or whether it is
+any fun.
+
+**What it is.** An Expo app that plays **one real sub-level end to end on a real device**:
+`content/shared/chapter-01-market-basics/level-01-1.yaml`, "Your First Trade" — the first
+lesson any learner will ever see. Nothing else. No Supabase, no RevenueCat, no path map, no
+hearts economy, no streaks, no login.
+
+**Why that file.** It needs **10 screen types** — `intro`, `theory`, `example`, `mc`, `tf`,
+`fill-tiles`, `match`, `numeric-input`, `numeric-mc`, `chart-decision` — which is the cheapest
+complete lesson in the corpus, and it still exercises `chart-decision`, the type that appears
+in 327 of 387 files. Measured across the corpus, a renderer needs ~12 types before *any*
+sub-level plays at all and ~20 before a fifth of them do; the content is type-dense by design
+(`docs/agent.md` §3.4). So a smaller slice than this does not exist.
+
+**What it must answer.** These are the questions no amount of YAML review can settle:
+
+- Is a `chart-decision` readable at phone width with 8–12 candles and a volume strip?
+- Is 12–18 screens the right length for one sitting, or a slog?
+- Does the reveal rhythm (§5 of `docs/UI.md`) carry, or does it get in the way?
+- Are two sub-levels really ten minutes?
+- **Is lesson one fun?** If the answer is no, that outranks every open item in `README.md`.
+- And the structural one: does any screen type need a field the schema does not have?
+
+### Why this comes before the other two paths
+
+Content is data and stays changeable forever — that is what `CLAUDE.md` means by content never
+being hard-coded, and this repo has proved it: chapters have been renumbered, positions
+re-sized corpus-wide, levels inserted, scenarios rewritten, all with the validator as the net.
+But the cost is not uniform, and the asymmetry is the whole argument:
+
+| Change | Files touched |
+|---|---|
+| A sentence, a number, a chart | **1** |
+| Screens added, removed or reordered | 1 |
+| A whole level or chapter | ~4 |
+| **A screen type's schema** — `chart-decision` | **327** (84 %) |
+| **A screen type's schema** — `intro` | **387** (100 %) |
+
+Prose is cheap forever. The schema is not. The way to avoid rewriting the corpus is therefore
+not to perfect the prose first — it is to freeze the schema early, and a schema can only be
+tested by rendering it. Stage V does not lock the content down; it validates the one thing that
+would be expensive to get wrong. After Stage 5 the same mistake costs three times as much.
+
+There is already a worked example of the failure mode: the `state` chips. Session state was
+written into scenario sentences, and Chapters 2, 4 and 5 had to be rewritten once it became a
+field instead. That is a small schema question that cost three chapters — and nobody saw it,
+because nobody had seen a screen.
+
+### Prompt
+
+```
+Read CLAUDE.md, then docs/UI.md in full and the header and screen sections of
+docs/schema.md. Then read content/shared/chapter-01-market-basics/level-01-1.yaml,
+which is the one file this slice has to play.
+
+Build an Expo + TypeScript app at the repo root that plays that sub-level end to end on
+a phone, and nothing else. Ten screen types: intro, theory, example, mc, tf, fill-tiles,
+match, numeric-input, numeric-mc, chart-decision. Plus the lesson shell around them -
+progress, the Check button, the inline reveal from docs/UI.md 5.1, and the summary at
+the end.
+
+Scope, held hard:
+- No backend, no auth, no Supabase, no RevenueCat, no analytics.
+- No path map, no hearts, no streaks, no XP animation. A lesson player, nothing more.
+- Read the YAML from the repo at build time. Do not transform the content, do not
+  create a second copy of it, and do not edit any file under content/.
+- Theme per docs/UI.md 10: dark default. Do not invent visual language the doc does not
+  have - where the doc is silent, choose the plainest thing and list it in your report.
+
+The chart is the risky part. chart-decision appears in 327 of 387 files, so its
+renderer decides the schema for most of the corpus: 8-12 candles, a volume strip, the
+decision index, the level and VWAP overlays, and the outcome played candle by candle
+after the choice. Build that one properly; the rest can be plain.
+
+Then run it, on a real device or a simulator, and play the lesson through twice.
+
+Report - and this is the deliverable, more than the code:
+1. Every place the schema did not carry: a field a screen needed and did not have, a
+   field that turned out ambiguous, anything you had to guess. This is what the slice
+   is for. Be specific enough that docs/schema.md could be changed from your report.
+2. Screenshots or a recording of the chart-decision screen and two others.
+3. Your honest read on length: does 14 screens feel right, short, or long?
+4. Anything in docs/UI.md that could not be built as written.
+Do not change docs/ or content/ in this session - report first, decide after.
+```
+
+**Model: `claude-opus-5`, effort `high`.** Not because the app is hard, but because the
+report is the point and it takes judgement to notice a schema that *almost* fits.
 
 ---
 
@@ -517,6 +624,12 @@ expensive to author at volume, commission them as originally planned — the man
 ---
 
 ## Stage 5 — Day Trading and Swing Trading
+
+> **Gated. Do not start this until Stage V has run and the schema has survived it.** This
+> stage triples the corpus — ~770 further sub-levels — and every one of them is written
+> against a screen contract nothing has ever rendered. A schema fix costs 327 files today
+> and roughly 980 afterwards. Nothing in this stage becomes cheaper by being started early,
+> and one thing becomes three times dearer.
 
 Chapters 2–8 of each, following the tables already in `docs/curriculum.md`. Structurally
 these mirror Scalping, which makes them tempting to generate mechanically. Resist it:
