@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Lesson Player",
+    "slug": "lesson-player",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "backgroundColor": "#0E1116",
+    "ios": {
+      "supportsTablet": false
+    },
+    "android": {
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-status-bar"
+    ]
+  }
+}

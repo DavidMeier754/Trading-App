@@ -1,2 +1,9 @@
 __pycache__/
 *.py[cod]
+
+# Expo / node
+node_modules/
+.expo/
+dist/
+web-build/
+*.log
