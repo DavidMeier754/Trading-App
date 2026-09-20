@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { level } from './content';
+import { LessonEntry, LESSONS } from './content';
 import LessonPlayer from './lesson/LessonPlayer';
+import LessonPicker from './LessonPicker';
 import { colors, space } from './theme';
 
 /** docs/UI.md §2 is portrait-only, so the player is capped at a phone width. */
@@ -15,12 +16,23 @@ export default function App() {
   const frameWidth = Math.min(width, MAX_WIDTH);
   const contentWidth = frameWidth - space.lg * 2;
 
+  const [entry, setEntry] = useState<LessonEntry | null>(null);
+
   return (
     <SafeAreaProvider>
       <StatusBar style="light" />
       <View style={styles.root}>
         <View style={[styles.frame, { width: frameWidth }]}>
-          <LessonPlayer level={level} contentWidth={contentWidth} />
+          {entry ? (
+            <LessonPlayer
+              key={entry.id}
+              level={entry.level}
+              contentWidth={contentWidth}
+              onQuit={() => setEntry(null)}
+            />
+          ) : (
+            <LessonPicker lessons={LESSONS} onPick={setEntry} />
+          )}
         </View>
       </View>
     </SafeAreaProvider>

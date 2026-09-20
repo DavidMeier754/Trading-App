@@ -3,7 +3,6 @@ import {
   Animated,
   Easing,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -14,7 +13,37 @@ import DecisionButtons, { DECISION_LABEL } from '../components/DecisionButtons';
 import ChartDecisionScreen, {
   DecisionPhase,
 } from '../screens/ChartDecisionScreen';
+import ChartAnnotateScreen from '../screens/ChartAnnotateScreen';
+import ChartReplayScreen from '../screens/ChartReplayScreen';
+import {
+  FillChoiceScreen,
+  OrderScreen,
+  SortScreen,
+  SpotMistakeScreen,
+} from '../screens/ChoiceScreens';
+import { BranchScreen, JournalRowScreen, OrderBuildScreen } from '../screens/BuildScreens';
+import { CompareScreen, SwipeDeckScreen } from '../screens/DeckScreens';
 import ExampleScreen from '../screens/ExampleScreen';
+import PlanCardScreen from '../screens/PlanCardScreen';
+import {
+  BadgeScreen,
+  CarouselScreen,
+  ChecklistRevealScreen,
+  PathChoiceScreen,
+  RecapScreen,
+  StoryScreen,
+  TierUpScreen,
+  VisualScreen,
+  WalkthroughScreen,
+} from '../screens/StaticScreens';
+import Summary from './Summary';
+import {
+  ChartTapScreen,
+  DepthLadderScreen,
+  HotspotScreen,
+  ScannerPickScreen,
+  SliderScreen,
+} from '../screens/TapScreens';
 import FillTilesScreen from '../screens/FillTilesScreen';
 import IntroScreen from '../screens/IntroScreen';
 import MatchScreen from '../screens/MatchScreen';
@@ -26,21 +55,33 @@ import { colors, space, type } from '../theme';
 import type { Level, QuestionScreen, Screen } from '../types';
 import { isQuestion } from '../types';
 import type { AnswerValue, Grade } from './answers';
-import { canCheck, decisionButtons, emptyValue, grade as gradeAnswer } from './answers';
+import {
+  canCheck,
+  commitsOnTap,
+  decisionButtons,
+  emptyValue,
+  grade as gradeAnswer,
+} from './answers';
 import Cta from './Cta';
-import { revealHaptic } from './haptics';
+import { commitHaptic, revealHaptic } from './haptics';
 import ProgressBar from './ProgressBar';
 import QuitSheet from './QuitSheet';
 import Reveal from './Reveal';
-import Summary from './Summary';
+import LessonComplete from './LessonComplete';
 import { useReduceMotion } from './useReduceMotion';
+
+/** Gentle deceleration; the same curve everywhere a screen or panel arrives. */
+const EASE_OUT = Easing.bezier(0.16, 1, 0.3, 1);
 
 export default function LessonPlayer({
   level,
   contentWidth,
+  onQuit,
 }: {
   level: Level;
   contentWidth: number;
+  /** docs/UI.md §2: the close ✕ leaves the lesson. */
+  onQuit?: () => void;
 }) {
   const insets = useSafeAreaInsets();
   const reducedMotion = useReduceMotion();
@@ -55,6 +96,12 @@ export default function LessonPlayer({
   const [decisionPhase, setDecisionPhase] = useState<DecisionPhase>('deciding');
   const [quitOpen, setQuitOpen] = useState(false);
   const [runKey, setRunKey] = useState(0);
+  // `carousel`, `walkthrough` and `checklist-reveal` count as several screens
+  // (docs/schema.md), so they hold a cursor the CTA advances before the index does.
+  const [cursor, setCursor] = useState(0);
+  // The learner's own plan, for this run (docs/schema.md, "The plan").
+  const [plan, setPlan] = useState<Record<string, string>>({});
+  const [pathChoice, setPathChoice] = useState<string | null>(null);
 
   // A screen change is a beat, not a cut: the outgoing screen fades and slides
   // left, the incoming one arrives from the right while the progress bar fills.
@@ -75,6 +122,9 @@ export default function LessonPlayer({
     setRevealed(screens.map(() => false));
     setGrades(screens.map(() => null));
     setDecisionPhase('deciding');
+    setCursor(0);
+    setPlan({});
+    setPathChoice(null);
     setRunKey((k) => k + 1);
     fade.setValue(1);
     slide.setValue(0);
@@ -90,13 +140,16 @@ export default function LessonPlayer({
     revealHaptic(g);
   }, [screen, value, index]);
 
-  // docs/UI.md §4.1: `tf` reveals instantly on tap, with no Check step.
+  // Types that commit on the tap itself reveal as soon as an answer exists, with
+  // no Check step in between (see COMMITS_ON_TAP). `chart-decision` is the one
+  // exception: it commits on tap too, but its reveal waits for the chart to
+  // finish playing out (docs/UI.md §4.3).
   useEffect(() => {
-    if (!screen || screen.type !== 'tf' || isRevealed) return;
-    if (value?.kind === 'bool' && value.value !== null) doReveal();
+    if (!screen || isRevealed) return;
+    if (!commitsOnTap(screen) || screen.type === 'chart-decision') return;
+    if (value && canCheck(screen as QuestionScreen, value)) doReveal();
   }, [screen, value, isRevealed, doReveal]);
 
-  // docs/UI.md §4.3: the reveal for a chart-decision waits for the playback to finish.
   useEffect(() => {
     if (!screen || screen.type !== 'chart-decision' || isRevealed) return;
     if (decisionPhase === 'done') doReveal();
@@ -104,6 +157,7 @@ export default function LessonPlayer({
 
   useEffect(() => {
     setDecisionPhase('deciding');
+    setCursor(0);
   }, [index]);
 
   const setValue = (next: AnswerValue) =>
@@ -114,18 +168,18 @@ export default function LessonPlayer({
   // screen out first would buy nothing but a blank frame between two screens.
   useEffect(() => {
     fade.setValue(reducedMotion ? 1 : 0);
-    slide.setValue(reducedMotion ? 0 : 22);
+    slide.setValue(reducedMotion ? 0 : 28);
     Animated.parallel([
       Animated.timing(fade, {
         toValue: 1,
-        duration: reducedMotion ? 0 : 260,
-        easing: Easing.out(Easing.cubic),
+        duration: reducedMotion ? 0 : 300,
+        easing: EASE_OUT,
         useNativeDriver: true,
       }),
       Animated.timing(slide, {
         toValue: 0,
-        duration: reducedMotion ? 0 : 300,
-        easing: Easing.out(Easing.cubic),
+        duration: reducedMotion ? 0 : 420,
+        easing: EASE_OUT,
         useNativeDriver: true,
       }),
     ]).start();
@@ -141,10 +195,18 @@ export default function LessonPlayer({
 
   const ctaLabel = useMemo(() => {
     if (!screen) return 'Play again';
+    if (screen.type === 'checklist-reveal' && cursor < screen.items.length) {
+      return cursor === 0 ? 'Start the list' : 'Next item';
+    }
     if (!isQuestion(screen)) return isLast ? 'Finish' : 'Continue';
     if (!isRevealed) return 'Check';
     return isLast ? 'Finish' : 'Got it';
-  }, [screen, isLast, isRevealed]);
+  }, [screen, isLast, isRevealed, cursor]);
+
+  // A type that commits on tap has no Check state, so before the reveal there is
+  // simply no CTA to show — the answer itself is the button.
+  const ctaHiddenBeforeReveal =
+    !!screen && isQuestion(screen) && commitsOnTap(screen) && !isRevealed;
 
   // docs/UI.md §6.4: the decision buttons occupy the CTA slot until the outcome lands.
   const showDecisionButtons =
@@ -153,18 +215,34 @@ export default function LessonPlayer({
     decisionPhase === 'deciding' &&
     !isRevealed;
 
-  const ctaHidden =
-    !!screen && screen.type === 'chart-decision' && !isRevealed;
+  const ctaHidden = ctaHiddenBeforeReveal;
 
   const ctaDisabled =
-    !!screen &&
-    isQuestion(screen) &&
-    !isRevealed &&
-    !(value && canCheck(screen as QuestionScreen, value));
+    (!!screen &&
+      isQuestion(screen) &&
+      !isRevealed &&
+      !(value && canCheck(screen as QuestionScreen, value))) ||
+    (screen?.type === 'path-choice' && pathChoice === null);
+
+  /** How many sub-steps a screen has, for the types that count as several. */
+  const stepCount = (s: Screen | null): number => {
+    if (!s) return 1;
+    if (s.type === 'carousel') return s.cards.length;
+    if (s.type === 'walkthrough') return s.steps.length;
+    // One CTA press per item, plus the press that moves on.
+    if (s.type === 'checklist-reveal') return s.items.length + 1;
+    return 1;
+  };
 
   const onCta = () => {
     if (!screen) {
       reset();
+      return;
+    }
+    // A multi-step screen walks its own cursor first; only the last step moves on.
+    const steps = stepCount(screen);
+    if (steps > 1 && cursor < steps - 1) {
+      setCursor((c) => c + 1);
       return;
     }
     if (isQuestion(screen) && !isRevealed) {
@@ -189,7 +267,10 @@ export default function LessonPlayer({
       ? screen.working
       : undefined;
 
-  const progress = atSummary ? 1 : index / screens.length;
+  const progress = atSummary
+    ? 1
+    : (index + (stepCount(screen) > 1 ? cursor / stepCount(screen) : 0)) /
+      screens.length;
 
   return (
     <View style={styles.root}>
@@ -217,14 +298,16 @@ export default function LessonPlayer({
       <Animated.View
         style={[styles.scroll, { opacity: fade, transform: [{ translateX: slide }] }]}
       >
-        <ScrollView
-          key={`${runKey}-${index}`}
-          style={styles.scroll}
-          contentContainerStyle={styles.content}
-          showsVerticalScrollIndicator={false}
-        >
+        {/* Screens do not scroll: one idea per screen means one screenful.
+            See the docs/UI.md §2 / §10 patch in the build report. */}
+        <View key={`${runKey}-${index}`} style={styles.content}>
         {atSummary ? (
-          <Summary screens={screens} grades={grades} levelTitle={level.title} />
+          <LessonComplete
+            screens={screens}
+            grades={grades}
+            levelTitle={level.title}
+            xp={level.xp}
+          />
         ) : (
           renderScreen({
             screen: screen as Screen,
@@ -234,9 +317,15 @@ export default function LessonPlayer({
             contentWidth,
             level,
             onPhaseChange: setDecisionPhase,
+            cursor,
+            setCursor,
+            plan,
+            setPlanValue: (key, v) => setPlan((prev) => ({ ...prev, [key]: v })),
+            pathChoice,
+            setPathChoice,
           })
         )}
-        </ScrollView>
+        </View>
       </Animated.View>
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg }]}>
@@ -251,7 +340,11 @@ export default function LessonPlayer({
         {showDecisionButtons ? (
           <DecisionButtons
             buttons={decisionButtons(screen as any)}
-            onChoose={(button) => setValue({ kind: 'decision', choice: button })}
+            onChoose={(button) => {
+              // The feel has to land on the tap, not when the chart stops playing.
+              commitHaptic();
+              setValue({ kind: 'decision', choice: button });
+            }}
           />
         ) : ctaHidden ? null : (
           <Cta label={ctaLabel} disabled={ctaDisabled} onPress={onCta} />
@@ -263,7 +356,8 @@ export default function LessonPlayer({
         onCancel={() => setQuitOpen(false)}
         onQuit={() => {
           setQuitOpen(false);
-          reset();
+          if (onQuit) onQuit();
+          else reset();
         }}
       />
     </View>
@@ -278,9 +372,30 @@ function renderScreen(props: {
   contentWidth: number;
   level: Level;
   onPhaseChange: (p: DecisionPhase) => void;
+  cursor: number;
+  setCursor: (n: number) => void;
+  plan: Record<string, string>;
+  setPlanValue: (key: string, value: string) => void;
+  pathChoice: string | null;
+  setPathChoice: (id: string) => void;
 }) {
-  const { screen, value, setValue, isRevealed, contentWidth, level, onPhaseChange } =
-    props;
+  const {
+    screen,
+    value,
+    setValue,
+    isRevealed,
+    contentWidth,
+    level,
+    onPhaseChange,
+    cursor,
+    setCursor,
+    plan,
+    setPlanValue,
+    pathChoice,
+    setPathChoice,
+  } = props;
+
+  const q = { value, onChange: setValue, revealed: isRevealed };
 
   switch (screen.type) {
     case 'intro':
@@ -350,6 +465,71 @@ function renderScreen(props: {
           onPhaseChange={onPhaseChange}
         />
       );
+    // --- docs/UI.md §3, the remaining non-question archetypes ---
+    case 'carousel':
+      return <CarouselScreen screen={screen} cursor={cursor} onCursor={setCursor} />;
+    case 'walkthrough':
+      return <WalkthroughScreen screen={screen} cursor={cursor} width={contentWidth} />;
+    case 'visual':
+      return <VisualScreen screen={screen} width={contentWidth} />;
+    case 'checklist-reveal':
+      return <ChecklistRevealScreen screen={screen} cursor={cursor} />;
+    case 'story':
+      return <StoryScreen screen={screen} />;
+    case 'recap':
+      return <RecapScreen screen={screen} />;
+    case 'plan-card':
+      return <PlanCardScreen screen={screen} values={plan} onChange={setPlanValue} />;
+    case 'badge':
+      return <BadgeScreen screen={screen} />;
+    case 'tier-up':
+      return <TierUpScreen screen={screen} />;
+    case 'path-choice':
+      return (
+        <PathChoiceScreen screen={screen} value={pathChoice} onChange={setPathChoice} />
+      );
+    case 'summary':
+      // docs/schema.md keeps `summary` for tests and final exams, where a pass
+      // mark and a retry make the per-question list mean something. A lesson
+      // ends on LessonComplete instead.
+      return <Summary screens={[]} grades={[]} levelTitle={level.title} />;
+
+    // --- docs/UI.md §4.1, the remaining v2 question types ---
+    case 'fill-choice':
+      return <FillChoiceScreen screen={screen} {...q} />;
+    case 'sort':
+      return <SortScreen screen={screen} {...q} />;
+    case 'order':
+      return <OrderScreen screen={screen} {...q} />;
+    case 'hotspot':
+      return <HotspotScreen screen={screen} {...q} width={contentWidth} />;
+    case 'slider':
+      return <SliderScreen screen={screen} {...q} width={contentWidth} />;
+    case 'chart-tap':
+      return <ChartTapScreen screen={screen} {...q} width={contentWidth} />;
+    case 'spot-mistake':
+      return <SpotMistakeScreen screen={screen} {...q} />;
+
+    // --- docs/UI.md §4.2, the v3 question types ---
+    case 'swipe-deck':
+      return <SwipeDeckScreen screen={screen} {...q} width={contentWidth} />;
+    case 'chart-annotate':
+      return <ChartAnnotateScreen screen={screen} {...q} width={contentWidth} />;
+    case 'order-build':
+      return <OrderBuildScreen screen={screen} {...q} />;
+    case 'scanner-pick':
+      return <ScannerPickScreen screen={screen} {...q} />;
+    case 'compare':
+      return <CompareScreen screen={screen} {...q} width={contentWidth} />;
+    case 'branch':
+      return <BranchScreen screen={screen} {...q} />;
+    case 'journal-row':
+      return <JournalRowScreen screen={screen} {...q} />;
+    case 'depth-ladder':
+      return <DepthLadderScreen screen={screen} {...q} />;
+    case 'chart-replay':
+      return <ChartReplayScreen screen={screen} {...q} width={contentWidth} />;
+
     default:
       return null;
   }
@@ -368,7 +548,7 @@ const styles = StyleSheet.create({
   closeText: { ...type.title, color: colors.textMuted },
   heartSlot: { width: 32 },
   scroll: { flex: 1 },
-  content: { flexGrow: 1, paddingHorizontal: space.lg, paddingBottom: space.lg },
+  content: { flex: 1, paddingHorizontal: space.lg, paddingBottom: space.lg },
   footer: {
     paddingHorizontal: space.lg,
     paddingTop: space.md,

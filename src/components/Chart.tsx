@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 import Svg, {
   Circle,
   Defs,
@@ -15,6 +15,9 @@ import Svg, {
 import { axisPrice, volume as fmtVolume } from '../format';
 import { colors, type } from '../theme';
 import type { ChartSpec } from '../types';
+
+const AnimatedPath = Animated.createAnimatedComponent(Path);
+const AnimatedG = Animated.createAnimatedComponent(G);
 
 export type Candle = { o: number; h: number; l: number; c: number };
 
@@ -48,6 +51,12 @@ type Props = {
   height: number;
   /** Draw the dashed marker at `decision_index`. Off for plain theory visuals. */
   showDecisionMarker?: boolean;
+  /**
+   * 0 -> 1 draw-on for a line chart (docs/UI.md §6.4). The whole path is drawn
+   * and revealed with a dash mask, so the line grows continuously instead of
+   * jumping from data point to data point.
+   */
+  draw?: Animated.Value;
 };
 
 const AXIS_W = 44;
@@ -63,6 +72,7 @@ export default function Chart({
   width,
   height,
   showDecisionMarker = true,
+  draw,
 }: Props) {
   const bars = useMemo(() => toCandles(spec), [spec]);
   const n = bars.length;
@@ -129,6 +139,17 @@ export default function Chart({
       .join(' ');
   }, [spec.kind, shown, bars, lo, hi, plotW, priceH]);
 
+  const linePathLength = useMemo(() => {
+    if (spec.kind !== 'line' || shown < 2) return 0;
+    let total = 0;
+    for (let i = 1; i < shown; i++) {
+      const dx = cx(i) - cx(i - 1);
+      const dy = y(bars[i].c) - y(bars[i - 1].c);
+      total += Math.hypot(dx, dy);
+    }
+    return total;
+  }, [spec.kind, shown, bars, lo, hi, plotW, priceH]);
+
   const lineFill = useMemo(() => {
     if (!linePath) return '';
     const last = cx(shown - 1);
@@ -148,9 +169,13 @@ export default function Chart({
       .join(' ');
   }, [spec.vwap, shown, lo, hi, plotW, priceH]);
 
-  // The marker sits at the *close* of the decision bar rather than through its
-  // middle: the decision is made once that bar has finished printing.
-  const decisionX = cx(spec.decision_index) + slot / 2;
+  // A line chart decides *at* its last visible point, so the marker sits on it.
+  // A candle has width, so the marker clears the body by a hair instead of
+  // cutting through it -- but stays attached to the bar, not half a slot away.
+  const decisionX =
+    spec.kind === 'line'
+      ? cx(spec.decision_index)
+      : cx(spec.decision_index) + bodyW / 2 + 3;
   const lastVisible = shown > 0 ? bars[shown - 1] : null;
 
   return (
@@ -229,26 +254,68 @@ export default function Chart({
         {/* bars */}
         {spec.kind === 'line' ? (
           <G>
-            {lineFill ? <Path d={lineFill} fill="url(#lineFill)" /> : null}
+            {lineFill ? (
+              draw ? (
+                <AnimatedG opacity={draw}>
+                  <Path d={lineFill} fill="url(#lineFill)" />
+                </AnimatedG>
+              ) : (
+                <Path d={lineFill} fill="url(#lineFill)" />
+              )
+            ) : null}
             {linePath ? (
-              <Path
-                d={linePath}
-                stroke={colors.accent}
-                strokeWidth={2.25}
-                fill="none"
-                strokeLinejoin="round"
-                strokeLinecap="round"
-              />
+              draw && linePathLength > 0 ? (
+                <AnimatedPath
+                  d={linePath}
+                  stroke={colors.accent}
+                  strokeWidth={2.25}
+                  fill="none"
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                  strokeDasharray={`${linePathLength} ${linePathLength}`}
+                  strokeDashoffset={draw.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [linePathLength, 0],
+                  })}
+                />
+              ) : (
+                <Path
+                  d={linePath}
+                  stroke={colors.accent}
+                  strokeWidth={2.25}
+                  fill="none"
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                />
+              )
             ) : null}
             {lastVisible ? (
-              <Circle
-                cx={cx(shown - 1)}
-                cy={y(lastVisible.c)}
-                r={4}
-                fill={colors.accent}
-                stroke={colors.background}
-                strokeWidth={2}
-              />
+              draw ? (
+                <AnimatedG
+                  opacity={draw.interpolate({
+                    inputRange: [0, 0.92, 1],
+                    outputRange: [0, 0, 1],
+                  })}
+                >
+                  <Circle
+                    cx={cx(shown - 1)}
+                    cy={y(lastVisible.c)}
+                    r={4}
+                    fill={colors.accent}
+                    stroke={colors.background}
+                    strokeWidth={2}
+                  />
+                </AnimatedG>
+              ) : (
+                <Circle
+                  cx={cx(shown - 1)}
+                  cy={y(lastVisible.c)}
+                  r={4}
+                  fill={colors.accent}
+                  stroke={colors.background}
+                  strokeWidth={2}
+                />
+              )
             ) : null}
           </G>
         ) : (

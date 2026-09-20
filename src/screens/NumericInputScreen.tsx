@@ -4,6 +4,7 @@ import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import type { AnswerValue } from '../lesson/answers';
 import { signedPrice } from '../format';
 import { parseNumeric } from '../lesson/answers';
+import { selectHaptic } from '../lesson/haptics';
 import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
 import { useReduceMotion } from '../lesson/useReduceMotion';
@@ -35,6 +36,7 @@ export default function NumericInputScreen({
 
   const press = (key: string) => {
     if (revealed) return;
+    selectHaptic();
     if (key === '−') {
       onChange({
         kind: 'numeric',
@@ -47,10 +49,11 @@ export default function NumericInputScreen({
   };
 
   const unitIsPrefix = screen.unit === '$' || screen.unit === '€';
-  const shown = text.replace('-', '−') || '—';
-  const display = unitIsPrefix
-    ? `${screen.unit ?? ''}${shown}`
-    : `${shown}${screen.unit ? ` ${screen.unit}` : ''}`;
+  const typed = text.replace('-', '−');
+  const isEmpty = typed.length === 0;
+  // An empty field used to read "$—", which looks like a value rather than a gap.
+  // It now shows a faint 0.00 the first keypress replaces.
+  const shown = isEmpty ? '0.00' : typed;
 
   const fieldColor = !revealed ? colors.accent : isRight ? colors.success : colors.down;
 
@@ -60,7 +63,23 @@ export default function NumericInputScreen({
 
   const field = (
     <Animated.View style={[styles.field, { borderColor: animatedBorder }]}>
-      <Text style={[styles.fieldText, revealed && { color: fieldColor }]}>{display}</Text>
+      <View style={styles.fieldRow}>
+        {unitIsPrefix && screen.unit ? (
+          <Text style={[styles.unit, isEmpty && styles.faint]}>{screen.unit}</Text>
+        ) : null}
+        <Text
+          style={[
+            styles.fieldText,
+            isEmpty && styles.faint,
+            revealed && !isEmpty && { color: fieldColor },
+          ]}
+        >
+          {shown}
+        </Text>
+        {!unitIsPrefix && screen.unit ? (
+          <Text style={[styles.unit, isEmpty && styles.faint]}>{screen.unit}</Text>
+        ) : null}
+      </View>
     </Animated.View>
   );
 
@@ -121,7 +140,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.lg,
     alignItems: 'center',
   },
+  fieldRow: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center', gap: 3 },
   fieldText: { ...type.display, color: colors.text },
+  unit: { ...type.title, color: colors.textMuted },
+  faint: { color: colors.textFaint },
   answerLine: { ...type.body, color: colors.textMuted },
   pad: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   key: {

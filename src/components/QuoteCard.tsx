@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { price, signedPercent, signedPrice } from '../format';
 import { colors, radius, space, type } from '../theme';
@@ -15,18 +15,37 @@ type Data = {
 };
 
 /** docs/UI.md §6.2 — quote card. */
-export default function QuoteCard({ data }: { data: Data }) {
+export default function QuoteCard({
+  data,
+  onTapTarget,
+  highlight,
+}: {
+  data: Data;
+  onTapTarget?: (id: string) => void;
+  highlight?: Record<string, string>;
+}) {
   const up = (data.change ?? 0) >= 0;
   const changeColor = up ? colors.up : colors.down;
   const hasChange = data.change !== undefined || data.change_pct !== undefined;
 
+  const wrap = (id: string, node: React.ReactNode) => (
+    <Pressable
+      key={id}
+      disabled={!onTapTarget}
+      onPress={() => onTapTarget?.(id)}
+      style={[styles.target, highlight?.[id] ? { borderColor: highlight[id] } : null]}
+    >
+      {node}
+    </Pressable>
+  );
+
   return (
     <View style={styles.card}>
       <View style={styles.headRow}>
-        <Text style={styles.ticker}>{data.ticker}</Text>
-        {data.name ? <Text style={styles.name}>{data.name}</Text> : null}
+        {wrap('ticker', <Text style={styles.ticker}>{data.ticker}</Text>)}
+        {data.name ? wrap('name', <Text style={styles.name}>{data.name}</Text>) : null}
       </View>
-      <Text style={styles.price}>{price(data.price)}</Text>
+      {wrap('price', <Text style={styles.price}>{price(data.price)}</Text>)}
       {hasChange ? (
         <Text style={[styles.change, { color: changeColor }]}>
           {/* docs/UI.md §6: up/down always paired with an arrow or sign. */}
@@ -35,7 +54,9 @@ export default function QuoteCard({ data }: { data: Data }) {
           {data.change_pct !== undefined ? ` (${signedPercent(data.change_pct)})` : ''}
         </Text>
       ) : null}
-      {data.volume ? <Text style={styles.volume}>Vol {data.volume}</Text> : null}
+      {data.volume
+        ? wrap('volume', <Text style={styles.volume}>Vol {data.volume}</Text>)
+        : null}
       {data.prev_close !== undefined ? (
         <Text style={styles.volume}>Prev close {price(data.prev_close)}</Text>
       ) : null}
@@ -58,4 +79,11 @@ const styles = StyleSheet.create({
   price: { ...type.display, color: colors.text },
   change: { ...type.answer },
   volume: { ...type.small, color: colors.textMuted },
+  target: {
+    borderWidth: 1.5,
+    borderColor: 'transparent',
+    borderRadius: radius.sm,
+    alignSelf: 'flex-start',
+    paddingHorizontal: 2,
+  },
 });

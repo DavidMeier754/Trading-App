@@ -4,28 +4,89 @@ import { StyleSheet, Text, View } from 'react-native';
 import { colors, radius, space, type } from '../theme';
 import type { ChartSpec, ComponentId } from '../types';
 import Chart from './Chart';
+import BarChart from './data/BarChart';
+import CostStack from './data/CostStack';
+import JournalTable from './data/JournalTable';
+import {
+  HotkeyPad,
+  InternalsPanel,
+  PlanSheet,
+  RTracker,
+  StatsCard,
+} from './data/MiscPanels';
+import OrderBook from './data/OrderBook';
+import OrderTicket from './data/OrderTicket';
+import OwnershipPie from './data/OwnershipPie';
+import QuotePanel from './data/QuotePanel';
+import ScannerTable from './data/ScannerTable';
+import SessionRibbon from './data/SessionRibbon';
 import DrawOnChart from './DrawOnChart';
 import QuoteCard from './QuoteCard';
 
 /**
- * Renders a `visual` / `component` id from docs/UI.md §6 with its `visual_data`.
- * This player implements only the two ids level-01-1 uses; anything else says so
- * rather than pretending.
+ * Renders a component id from docs/UI.md §6 with its `data` / `visual_data`.
+ *
+ * `onTapTarget` and `highlight` are what make the same component serve a plain
+ * `visual` screen, a `walkthrough` spotlight and a `hotspot` question without
+ * three copies of it existing.
  */
 export default function Visual({
   component,
   data,
   width,
+  onTapTarget,
+  highlight,
+  planValues,
 }: {
   component: ComponentId;
   data: Record<string, any> | undefined;
   width: number;
+  onTapTarget?: (id: string) => void;
+  highlight?: Record<string, string>;
+  planValues?: Record<string, string>;
 }) {
   if (!data) return null;
 
   switch (component) {
     case 'quote-card':
-      return <QuoteCard data={data as any} />;
+      return <QuoteCard data={data as any} highlight={highlight} onTapTarget={onTapTarget} />;
+    case 'quote-panel':
+      return <QuotePanel data={data as any} highlight={highlight} onTapTarget={onTapTarget} />;
+    case 'order-ticket':
+      return <OrderTicket data={data as any} highlight={highlight} onTapTarget={onTapTarget} />;
+    case 'order-book':
+      return (
+        <OrderBook
+          bids={data.bids ?? []}
+          asks={data.asks ?? []}
+          onTapRow={onTapTarget}
+          resolved={highlight}
+        />
+      );
+    case 'ownership-pie':
+      return <OwnershipPie data={data as any} />;
+    case 'bar-chart':
+      return <BarChart data={data as any} />;
+    case 'session-ribbon':
+      return <SessionRibbon data={data as any} />;
+    case 'cost-stack':
+      return <CostStack data={data as any} />;
+    case 'scanner-table':
+      return (
+        <ScannerTable rows={data.rows ?? []} onTapRow={onTapTarget} resolved={highlight} />
+      );
+    case 'journal-table':
+      return <JournalTable columns={data.columns ?? []} rows={data.rows ?? []} />;
+    case 'internals-panel':
+      return <InternalsPanel data={data as any} />;
+    case 'hotkey-pad':
+      return <HotkeyPad data={data as any} />;
+    case 'stats-card':
+      return <StatsCard data={data as any} />;
+    case 'r-tracker':
+      return <RTracker data={data as any} />;
+    case 'plan-sheet':
+      return <PlanSheet data={data as any} values={planValues} />;
     case 'chart-line':
     case 'chart-candles': {
       const spec: ChartSpec = {
@@ -39,13 +100,14 @@ export default function Visual({
       const bars = Array.isArray(spec.data) ? spec.data.length : 0;
       return (
         <DrawOnChart bars={bars}>
-          {(visibleCount) => (
+          {(visibleCount, draw) => (
             <Chart
               spec={spec}
               visibleCount={visibleCount}
               width={width}
               height={200}
               showDecisionMarker={false}
+              draw={spec.kind === 'line' ? draw : undefined}
             />
           )}
         </DrawOnChart>
@@ -55,7 +117,7 @@ export default function Visual({
       return (
         <View style={styles.placeholder}>
           <Text style={styles.placeholderText}>
-            {`Component "${component}" is not part of this slice.`}
+            {`No renderer for component "${component}".`}
           </Text>
         </View>
       );

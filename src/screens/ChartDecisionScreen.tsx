@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import Chart, { closeAt } from '../components/Chart';
-import { DECISION_LABEL } from '../components/DecisionButtons';
 import StateChips from '../components/StateChips';
-import { copy, count, price, signedPercent, signedPrice } from '../format';
+import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, type } from '../theme';
@@ -102,27 +101,22 @@ export default function ChartDecisionScreen({
       ) : null}
 
       {phase === 'done' ? (
+        // One line of numbers, one line of prose. The card used to repeat the
+        // decision and final prices, which the chart already shows, and to
+        // restate the choice the learner had just made.
         <View style={styles.outcome}>
           <View style={styles.outcomeRow}>
-            <Text style={styles.outcomeLabel}>Move</Text>
             <Text
               style={[
-                styles.outcomeValue,
+                styles.outcomeMove,
                 { color: move >= 0 ? colors.up : colors.down },
               ]}
             >
-              {`${move >= 0 ? '▲' : '▼'} ${signedPrice(move)}  ${signedPercent(
-                movePct
-              )}`}
-            </Text>
-          </View>
-          <View style={styles.outcomeRow}>
-            <Text style={styles.outcomeLabel}>
-              {direction === 0 ? 'You stood aside' : `${count(screen.shares)} shares`}
+              {`${move >= 0 ? '▲' : '▼'} ${signedPrice(move)} ${signedPercent(movePct)}`}
             </Text>
             <Text
               style={[
-                styles.outcomeValue,
+                styles.outcomePnl,
                 {
                   color:
                     direction === 0
@@ -133,20 +127,15 @@ export default function ChartDecisionScreen({
                 },
               ]}
             >
-              {direction === 0 ? 'flat' : signedPrice(pnl)}
+              {direction === 0
+                ? 'you stood aside'
+                : `${signedPrice(pnl)} · ${count(screen.shares)}`}
             </Text>
           </View>
           <Text style={styles.outcomeText}>{copy(screen.outcome)}</Text>
-          <Text style={styles.outcomeFoot}>
-            {`${price(decisionPrice)} at the decision → ${price(finalPrice)} at the last bar. Not a prediction.`}
-          </Text>
-        </View>
-      ) : null}
-
-      {choice !== null ? (
-        <View style={styles.chosenRow}>
-          <Text style={styles.chosenLabel}>You chose</Text>
-          <Text style={styles.chosenValue}>{DECISION_LABEL[choice]}</Text>
+          {/* docs/UI.md §11.6 wants the risk note on every scenario result; this
+              is the smallest form that still says it. */}
+          <Text style={styles.outcomeFoot}>Not a prediction.</Text>
         </View>
       ) : null}
     </View>
@@ -165,12 +154,14 @@ const styles = StyleSheet.create({
     padding: space.md,
     gap: space.xs,
   },
-  outcomeRow: { flexDirection: 'row', justifyContent: 'space-between' },
-  outcomeLabel: { ...type.label, color: colors.textMuted },
-  outcomeValue: { ...type.answer },
-  outcomeText: { ...type.body, color: colors.text, marginTop: space.xs },
-  outcomeFoot: { ...type.small, color: colors.textFaint },
-  chosenRow: { flexDirection: 'row', alignItems: 'baseline', gap: space.sm },
-  chosenLabel: { ...type.small, color: colors.textMuted },
-  chosenValue: { ...type.answer, color: colors.text },
+  outcomeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    gap: space.sm,
+  },
+  outcomeMove: { ...type.answer },
+  outcomePnl: { ...type.answer },
+  outcomeText: { ...type.body, color: colors.text },
+  outcomeFoot: { ...type.small, fontSize: 11, color: colors.textFaint },
 });

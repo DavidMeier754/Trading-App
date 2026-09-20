@@ -1,12 +1,39 @@
-// The one sub-level this player plays, plus the market profile used for §9 tokens.
-// Both are the repo's own YAML, parsed at build time by metro/yaml-transformer.js.
-// Nothing under content/ is copied or rewritten.
-import levelYaml from '../content/shared/chapter-01-market-basics/level-01-1.yaml';
+// The lessons this player can open, plus the market profile used for §9 tokens.
+// All of it is YAML parsed at build time by metro/yaml-transformer.js.
+//
+// level-01-1 is the repo's own content and is never copied or rewritten.
+// all-screens is a throwaway test bench that lives in demo/, deliberately
+// outside content/, so tools/validate_content.py never sees it.
+import realLevel from '../content/shared/chapter-01-market-basics/level-01-1.yaml';
 import profilesYaml from '../content/market_profiles.yaml';
+import demoLevel from '../demo/all-screens.yaml';
 
 import type { Level, MarketProfile } from './types';
 
-export const level = levelYaml as unknown as Level;
+export type LessonEntry = {
+  id: string;
+  title: string;
+  subtitle: string;
+  level: Level;
+};
+
+export const LESSONS: LessonEntry[] = [
+  {
+    id: 'level-01-1',
+    title: 'Your First Trade',
+    subtitle: 'The real Chapter 1 lesson, 14 screens',
+    level: realLevel as unknown as Level,
+  },
+  {
+    id: 'all-screens',
+    title: 'Every Screen Type',
+    subtitle: 'Test bench: all 36 archetypes back to back',
+    level: demoLevel as unknown as Level,
+  },
+];
+
+/** Kept for anything that just wants the real lesson. */
+export const level = LESSONS[0].level;
 
 const profiles = profilesYaml as unknown as Record<string, MarketProfile>;
 

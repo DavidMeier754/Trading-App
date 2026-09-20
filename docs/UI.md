@@ -32,7 +32,7 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 │ ✕   ▓▓▓▓▓▓▓▓░░░░░░░░░░░   ♥♥♥♥♥      │  top bar: close, sub-level progress, hearts (tests/exams only)
 ├──────────────────────────────────────┤
 │                                      │
-│           CONTENT AREA               │  visual above text; body text max ~3 lines; scroll only if needed
+│           CONTENT AREA               │  visual above text; body text max ~3 lines; never scrolls
 │      (card / visual / question)      │
 │                                      │
 ├──────────────────────────────────────┤
@@ -47,6 +47,8 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 - **Close ✕** → sheet "Quit lesson? Progress in this sub-level is lost."
 - No back button inside a lesson; theory cards can be re-read from the level sheet ("Review cards") afterwards.
 - **CTA states:** `Continue` (theory), `Check` (question, disabled until an answer is selected), `Got it` (after reveal), `Finish` (last screen).
+- **One screen, one screenful.** A screen never scrolls. Section 1's "one idea per screen" is a layout rule as much as a content one: if a screen does not fit, it is two screens. This is what keeps the CTA in the same place under the thumb on every screen of a 385-sub-level path. The exception is dynamic type (section 10).
+- **Tap-commit types.** `mc`, `numeric-mc`, `match` and `chart-decision` have no `Check` step: choosing *is* answering, and the reveal follows the tap. The CTA is absent until the reveal, then reads `Got it`. Every other question type keeps `Check`, because its answer is assembled from several taps and is not finished until the learner says so.
 - Portrait only; charts may offer an expand button (section 6.4).
 - Mascot slot: bottom-left of the reveal area, small; reacts to correct/wrong (section 6.8).
 
@@ -77,19 +79,24 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 
 ## 4. Question interaction types
 
-Shared behaviour: prompt on top, answer area in the middle, `Check` CTA (disabled until an answer is chosen), then **inline reveal** (5.1). Chosen wrong answer turns red in place, the correct one turns green, the explanation slides in. `Check` becomes `Got it`.
+Shared behaviour: prompt on top, answer area in the middle, then **inline reveal** (5.1). Chosen wrong answer turns red in place, the correct one turns green, the explanation slides in.
+
+Whether a `Check` step sits in between depends on how the answer is made:
+
+- **One tap is the whole answer** (`mc`, `numeric-mc`, `match`, `chart-decision`): no `Check`. The tap commits and the reveal follows it. Asking a learner to pick an answer and then confirm it is two taps for one decision, several hundred times over a path this long. For `match` there is nothing left to confirm — each pair locks green as it is made.
+- **The answer is assembled** (`numeric-input`, `fill-tiles`, `fill-choice`, `tf`, `sort`, `order`, and everything in 4.2 built from slots or chips): `Check` CTA, disabled until an answer exists, then `Got it`. `tf` belongs here despite being a single tap: two thumb-sized buttons are the easiest thing in the app to hit by accident, and an unconfirmed mis-tap is a wrong answer the learner never gave.
 
 ### 4.1 Core types (v2, unchanged)
 
 | type | Interaction | Rules |
 |---|---|---|
 | `mc` | 2–4 tappable answer cards, single select. | Distractors must be plausible. Max 2 in a row. |
-| `tf` | Two large side-by-side buttons; reveal instantly on tap. | For misconceptions and single facts. |
+| `tf` | Two large side-by-side buttons; the choice is confirmed with `Check`. | For misconceptions and single facts. The confirm step is deliberate: the buttons are large and close to the thumb. |
 | `numeric-mc` | Like `mc` with number options; reveal shows the working. | |
 | `numeric-input` | Custom keypad (digits, `.`, `−`); tolerance configurable; reveal shows the working. | Preferred once a calculation has been practiced once. |
 | `fill-tiles` | Sentence with a blank; letter tiles below (with 2–4 distractor letters); tap tiles into the blank. | Exactly one accepted word. |
 | `fill-choice` | Sentence with a blank; 3–4 word chips. | Use when synonyms exist or the word is long. |
-| `match` | Terms left, definitions right; tap term then definition (line connects) or drag; correct pairs lock green, wrong pairs flash red and reset. | Max 5 pairs; every target unique. Prompt must be specific to the content, never a generic "Match each word to its meaning." |
+| `match` | Terms left, definitions right; tap term then definition (line connects) or drag; correct pairs lock green, wrong pairs flash red and reset. The last pair resolves the screen — there is no `Check`. | Max 5 pairs; every target unique. Prompt must be specific to the content, never a generic "Match each word to its meaning." Scored on whether the learner got there without a wrong tap. |
 | `sort` | 2–3 labeled buckets; chips are dragged (or tap chip, tap bucket). | |
 | `order` | Drag cards into the right sequence. | 3–5 items. |
 | `hotspot` | A mock component (quote card, quote panel, order ticket, chart); tap the right region. | 1–2 targets. |
@@ -324,7 +331,7 @@ Every defined term is rendered with a subtle dotted underline. Tap → bottom sh
 
 - **Dark mode default**; full light theme. Tokens: background, surface, text, accent, up-green, down-red, warning, success.
 - Color-blind safe: up/down always with arrow/sign; alternative palette (blue/orange) toggle applies to charts too.
-- Dynamic type to 130 % without truncation (cards scroll instead).
+- Dynamic type to 130 % without truncation. Screens do not scroll (section 2), so a screen must be authored to fit at 130 %: shorter body, or split in two. Scrolling is the fallback only past 130 %, where nothing else will do.
 - Haptics and sounds each have a toggle. Reduce-motion removes confetti, flicker and auto-playback (candles then appear on tap).
 - Min tap target 48 × 48 pt; drag interactions all have tap-tap alternatives. **[v3]** This includes `swipe-deck` (buttons underneath), `chart-annotate` (tap-to-place then nudge) and `order-build` (tap chip, tap slot).
 

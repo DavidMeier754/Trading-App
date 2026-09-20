@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import Mascot, { poseForGrade } from '../components/Mascot';
 import { copy } from '../format';
 import { colors, radius, space, type } from '../theme';
 import type { Grade } from './answers';
@@ -59,8 +60,8 @@ export default function Reveal({
       ]}
     >
       <View style={styles.headRow}>
-        {/* docs/UI.md §6 asks for a mascot slot bottom-left of the reveal area.
-            No artwork exists yet, so the slot carries the verdict word instead. */}
+        {/* docs/UI.md §2 / §6.9: the mascot sits in the reveal area and reacts. */}
+        <Mascot pose={poseForGrade(grade)} size={34} />
         <Text style={[styles.head, { color: tone.accent }]}>{tone.label}</Text>
       </View>
       {lead ? <Text style={[styles.lead, { color: tone.accent }]}>{copy(lead)}</Text> : null}
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     padding: space.lg,
     gap: space.sm,
   },
-  headRow: { flexDirection: 'row', alignItems: 'center' },
+  headRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   head: { ...type.label, textTransform: 'uppercase', letterSpacing: 0.6 },
   lead: { ...type.answer },
   body: { ...type.body, color: colors.text },

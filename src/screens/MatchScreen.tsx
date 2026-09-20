@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
+import { matchHitHaptic, matchMissHaptic } from '../lesson/haptics';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { MatchScreen as S } from '../types';
 import { Prompt } from './common';
@@ -58,12 +59,17 @@ export default function MatchScreen({
     setPendingLeft((prev) => (prev === i ? null : i));
   };
 
+  // The last pair finishes the screen. There is no Check step, because by this
+  // point every pair on screen is already green.
+
   const tapRight = (rightIndex: number) => {
     if (revealed || pendingLeft === null) return;
     const takenBy = Object.entries(linked).find(([, r]) => r === rightIndex);
     if (takenBy) return;
 
     if (rightIndex === pendingLeft) {
+      // Every pair lands with its own feel, right or wrong, the moment it lands.
+      matchHitHaptic();
       onChange({
         kind: 'match',
         linked: { ...linked, [pendingLeft]: rightIndex },
@@ -71,6 +77,7 @@ export default function MatchScreen({
       });
       setPendingLeft(null);
     } else {
+      matchMissHaptic();
       setFlash({ left: pendingLeft, right: rightIndex });
       onChange({ kind: 'match', linked, misses: misses + 1 });
       if (timer.current) clearTimeout(timer.current);

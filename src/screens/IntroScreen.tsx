@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import Mascot from '../components/Mascot';
 import { copy } from '../format';
 import { colors, space, type } from '../theme';
 import type { IntroScreen as S } from '../types';
@@ -17,6 +18,8 @@ export default function IntroScreen({
 }) {
   return (
     <View style={styles.wrap}>
+      {/* docs/UI.md §6.9: the mascot is large on intro and complete screens. */}
+      <Mascot pose="idle" size={112} />
       <Text style={styles.kicker}>{copy(chapterTitle)}</Text>
       <Text style={styles.headline}>{copy(screen.text)}</Text>
       <Text style={styles.subline}>{copy(levelTitle)}</Text>

@@ -4,6 +4,7 @@ import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { tilePool } from '../lesson/answers';
+import { selectHaptic } from '../lesson/haptics';
 import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
 import { useReduceMotion } from '../lesson/useReduceMotion';
@@ -87,9 +88,10 @@ export default function FillTilesScreen({
               accessibilityRole="button"
               accessibilityLabel={used ? 'Used tile' : `Letter ${letter}`}
               disabled={revealed || used}
-              onPress={() =>
-                onChange({ kind: 'tiles', placed: [...placed, i] })
-              }
+              onPress={() => {
+                selectHaptic();
+                onChange({ kind: 'tiles', placed: [...placed, i] });
+              }}
               style={[styles.tile, used && styles.tileUsed]}
             >
               {/* A used tile keeps its footprint but drops the glyph, so the letter
@@ -103,7 +105,10 @@ export default function FillTilesScreen({
       <Pressable
         accessibilityRole="button"
         disabled={revealed || placed.length === 0}
-        onPress={() => onChange({ kind: 'tiles', placed: placed.slice(0, -1) })}
+        onPress={() => {
+          selectHaptic();
+          onChange({ kind: 'tiles', placed: placed.slice(0, -1) });
+        }}
         hitSlop={8}
       >
         <Text
