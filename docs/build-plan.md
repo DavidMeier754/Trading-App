@@ -105,6 +105,17 @@ cheapest complete lesson in the corpus. That floor is measured, not guessed: a r
 content is type-dense by design (`docs/agent.md` §3.4 requires ≥3 types per sub-level). A
 smaller slice does not exist.
 
+**Run this one locally, not in a remote session.** The deliverable is you looking at a phone.
+A remote container can write the code but cannot put a QR code in front of you — so run it from
+Claude Code on your own machine, where the agent can start Expo and react to what you report.
+Running it remotely means pulling the branch and starting Expo yourself afterwards, which works
+but costs you the iteration loop.
+
+**How it reaches the phone.** `npx expo start`, then scan the QR code with the **Expo Go** app.
+No build, no Xcode, no store. Phone and computer on the same wifi, or `npx expo start --tunnel`
+if the network is awkward. Everything this slice needs — `react-native-svg` for the chart,
+`expo-haptics` for the reveal — runs inside Expo Go, so no development build is required.
+
 **Why before everything else.** Content is data and stays changeable forever — this repo has
 renumbered chapters, re-sized positions corpus-wide and inserted levels, all with the validator
 as the net. But the cost is not uniform:
@@ -144,12 +155,28 @@ Scope, held hard:
 - Theme per docs/UI.md 10: dark default. Do not invent visual language the doc does not
   have - where it is silent, choose the plainest thing and list it in your report.
 
+Motion: build docs/UI.md 5.1 in full and nothing above it. The inline reveal fires on
+every one of the corpus's 5,095 question screens, so it is the loop, and it is where the
+schema gets tested - the explanation field, the amber state on chart-decision, the "show
+working" toggle on numeric reveals. Build the green at 200 ms, the 3x4px shake at 250 ms,
+the explanation sliding up, and the haptics.
+
+Do NOT build 5.2 hearts (this file is new-theory, they never appear), 5.3 XP count-up,
+accuracy ring, confetti or streak flame, 5.4 badge or 5.5 tier-up. Those fire once per
+lesson or once per chapter; they are cheap to get wrong later and they are where scope
+creep lives. But do make screen-to-screen transitions feel deliberate rather than
+instant - a flat build invites the verdict "boring" when the honest answer would have
+been "unpolished", and that would waste the whole exercise.
+
 The chart is the risky part. chart-decision appears in 327 of 387 files, so its renderer
 decides the schema for most of the corpus: 8-12 candles, a volume strip, the decision
 index, the level and VWAP overlays, and the outcome played candle by candle after the
 choice. Build that one properly; the rest can be plain.
 
-Then run it and play the lesson through twice.
+Then start it with `npx expo start` and play the lesson through twice on a real phone
+via Expo Go. If you cannot reach a phone from where you are running, say so in the
+report rather than substituting a web preview - the whole question is how this reads at
+phone width in someone's hand.
 
 Report - this is the deliverable, more than the code:
 1. Every place the schema did not carry: a field a screen needed and did not have, a
