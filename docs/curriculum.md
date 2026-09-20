@@ -246,7 +246,7 @@ Execution, the full routine, and the honest handover to a simulator. Sources: Az
 
 > **Level 15 is the lesson `docs/agent.md` §1 and §7 have always promised and the path never had.** The fixed product decision says that where a path is traded in other instruments in Europe (scalping → futures/CFDs) *one lesson says so explicitly*; no such lesson exists in the 387 written sub-levels, where financial margin appears zero times. It goes here because this is where the learner is about to open an account. It is **orientation, not instruction**: it names what they will be offered and what it does to arithmetic they already own, and teaches no CFD, forex or leverage mechanics (§7 stands).
 >
-> **The renumber.** Inserting it pushes Going Live, Carefully 15→16, Capstone 16→17, Final Exam 17→18, with the sub-level ids and the `prerequisite` chain moving with them — the same migration Chapter 5's insertion needed, and the prompt for it is in `docs/remediation-prompts.md`.
+> **The renumber.** Inserting it pushes Going Live, Carefully 15→16, Capstone 16→17, Final Exam 17→18, with the sub-level ids and the `prerequisite` chain moving with them — the same migration Chapter 5's insertion needed, and the prompt for it is in `docs/build-plan.md` § OFFER.
 
 | Level | Title | Subs | Teaches | Reinforces |
 |---|---|---|---|---|

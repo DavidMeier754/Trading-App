@@ -13,7 +13,7 @@ A finished path is ~144 levels and ~387 sub-levels: about 22 hours, or six month
 | `docs/UI.md` | Every screen archetype, interaction, animation, layout and gamification element. |
 | `docs/schema.md` | The YAML format of a lesson file and what the validator checks. |
 | `docs/build-plan.md` | How the v3 curriculum gets built: stage order, prompts, model per stage. |
-| `docs/remediation-prompts.md` | The six stages that finish the written path: one ready-to-run prompt each, with model, effort and session. |
+| `docs/build-plan.md` | The order of work and a ready-to-run prompt for every stage, with model and effort. |
 | `content/market_profiles.yaml` | Market-specific values (session times, currency, index, regulation notes) for `US` and `EU-DE`. |
 | `content/shared/` | Chapter 1 (all paths). |
 | `content/paths/<path>/` | Chapters 2–8 per path. |
@@ -176,7 +176,7 @@ had seen a screen.
     **orientation, not instruction** — what you will be offered, what leverage does to the R and
     ruin arithmetic already taught, why this path chose cash stocks — with no product named and no
     mechanics taught, so §7 stands. Specified in `docs/curriculum.md` for all three paths; inserting
-    it renumbers Chapter 8's Levels 15–17 to 16–18. Prompt in `docs/remediation-prompts.md`.
+    it renumbers Chapter 8's Levels 15–17 to 16–18. Prompt in `docs/build-plan.md` § OFFER.
 
 11. **The six-trade session does not reconcile with a cash account** — **a product decision, not an
     authoring one.** Chapters 6 and 8 teach a six-trade session; `docs/agent.md` §3.6 insists on no
@@ -225,7 +225,6 @@ had seen a screen.
     applies now: the app must never imply it prepared the learner for a step it did not cover.
 
 `python3 tools/validate_content.py` reports items 3, 4 and 8 as warnings. The rest are tracked
-here because no rule can see them. Prompts live in two places: the repair items (1–6, 8) have a
-filled-in prompt, a model and an effort setting in `docs/remediation-prompts.md`; the two build
-items (7 drills, 9 replays) are Stages 4 and 7 of `docs/build-plan.md`. Work the repairs in the
-order given there, and start the replay bank at Stage 7a.
+here because no rule can see them. Every open item has a named stage with a ready-to-run prompt in
+`docs/build-plan.md` — SIZING for item 3, PHRASING for 4, DRILLS for 7, REPLAY-PILOT and
+REPLAY-BANK for 9, OFFER for 10, 12 and 13. That file's order is the order; start with SLICE.

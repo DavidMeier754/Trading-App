@@ -1,179 +1,128 @@
-# Build plan — v2 content → v3 curriculum
+# Build plan
 
-How the Scalping path got from 101 sub-levels in 6 chapters to the 387 in 8 that
-`docs/curriculum.md` describes — and what the same stages still have to do for Day
-Trading and Swing Trading.
+The order of work, and a ready prompt for every piece of it.
 
-**Stages 0–3 are done; Stage V is next.** The Scalping path is written — 8 chapters,
-387 sub-levels, 5,095 screens, 0 validator errors — and **not one of those screens has
-ever been rendered.** Stage V fixes that before anything else is written, because the
-schema is the only part of this project that is expensive to change, and rendering is
-the only way to test it. Stage 4 is **narrowed to three packs** and Stage 7 is new — the
-replay bank (`chart-replay`) supersedes the twelve chart-recognition drill packs, so
-those are on hold rather than commissioned. Stage 5 is last and gated. The gap table
-below is the job as it stood before Stage 3 — kept because the per-stage prompts still
-read against it, and because Stages 5 and 6 face the same shape twice more.
-
-Read this with `docs/curriculum.md` open. That file is the *what*; this file is the
-*how, in what order, with which model*.
-
-## The gap Stage 3 closed
-
-| | Before Stage 3 | Target | Now |
-|---|---|---|---|
-| Chapters | 6 | 8 | **8** ✅ |
-| Levels | 62 | 144 | **144** ✅ |
-| Sub-levels | 101 | ~387 | **387** ✅ |
-| Screens | ~1,400 | ~5,800 | **5,589** ✅ |
-| Drill screens | 0 | ~370 | 20 (1 of 15 packs) |
-
-At ~5.6 KB per sub-level file that is roughly **1.6 MB of new YAML**. It is not one
-session's work and must not be attempted as one. The unit of work is a **block of
-4–6 levels** (`docs/agent.md` §6): write, validate, commit, push, stop.
+**One rule: this file's order is the order.** Stages have names, not numbers, because numbers
+drifted before — two files each had a "Stage 4" meaning different things, and a reader who
+inferred "next" from an integer was sent to the most expensive task on the list. Read the table
+top to bottom.
 
 ---
 
-> The path these stages build is now written. What the control pass found in it afterwards —
-> and the six stages that repair it — live in `docs/remediation-prompts.md`. Those stages are
-> numbered separately and are not the stages below.
+## Where the project stands
 
-## Stage order
+Measured, not remembered — re-run the commands and the numbers should match.
 
-**Stages 0–3 are done for Scalping. Stage 4 is next**, and its manifest and tooling
-already exist — `content/drills/packs.yaml`, `tools/build_drill_batch.py`, and one
-hand-written pack as the proof the format and the validator agree.
+| | |
+|---|---|
+| Scalping path | 8 chapters, 144 levels, **387 sub-levels**, 5,095 screens |
+| Validator | 0 errors, 6 warnings (`python3 tools/validate_content.py`) |
+| Self-test | 110/110 (`python3 tools/test_validate.py`) |
+| Sizing | 66 of 572 priced positions over the §3.6 cap (`python3 tools/check_sizing.py`) |
+| Drill bank | 1 of 15 packs written; 12 of the other 14 on hold |
+| Replay bank | specified, nothing written |
+| Day Trading, Swing | outlined level by level, no content |
+| **Application code** | **none — 5,095 screens have never been rendered** |
 
-Stages 0–2 are prerequisites and are cheap. They run once per *path*, not once per
-project: Stage 5 repeats Stage 3's shape for Day Trading and Swing Trading, so the
-ordering rule below still binds there — do not start authoring until the validator is
-clean, because a stage that produces hundreds of files spreads any mistake into all
-of them.
-
-**The numbers are identifiers, not an order.** They were assigned as the stages were written
-and they no longer sort. This table is the order. Read it top to bottom; never infer "next"
-from a number.
-
-| Run | ID | What | Model | Surface | Rough size |
-|---|---|---|---|---|---|
-| ✅ | 0 | Teach the validator the v3 rules | `claude-opus-5` | Claude Code | 1 session |
-| ✅ | 1 | Renumber chapter folders 5→6, 6→7 | `claude-haiku-4-5` | Claude Code | 20 min |
-| ✅ | 2 | Retrofit the 101 existing subs (`reinforces:`, level remap) | `claude-sonnet-5` | Claude Code | 2–3 sessions |
-| ✅ | 3 | Author the new content, chapter by chapter | `claude-opus-5` / `claude-sonnet-5` | Claude Code | ~20 sessions |
-| **NEXT** | **V** | **The vertical slice — render lesson one on a phone** | `claude-opus-5` | Claude Code | 1–2 sessions |
-| then | 8 | Chapter 8 Level 15 + its renumber | `claude-opus-5` | Claude Code | 1 session |
-| then | 3′,4′ | The content repairs (README items 3 and 4) | `claude-sonnet-5` | Claude Code | 2–3 sessions |
-| then | 7a | Replay pilot — one hand-authored replay + validator rules | `claude-opus-5` | Claude Code | 1 session |
-| then | 4 ◐ | Drill packs — **3 of 15 only** (`cost-check` ✅, `selection`, `risk-calls`) | `claude-sonnet-5` | **Batch API** | 1 script run |
-| then | 7b | Replay bank — 22 replays per path | `claude-opus-5` | Claude Code | ~8 sessions |
-| then | 6 | Zero-knowledge review, both passes | `claude-opus-5` | Claude Code | 2 sessions/path |
-| **last** | 5 | Day Trading + Swing paths | `claude-sonnet-5` | Claude Code | ~30 sessions |
-
-**Stage 5 is last, and it is gated.** Writing 770 more sub-levels against a contract nothing has
-ever rendered is the most expensive mistake available on this project: a schema change after
-Stage 5 costs three times what it costs today. Do not start it until Stage V has run and the
-schema survived. This is also why Stage 7a comes before 7b, and why the twelve held drill packs
-wait on 7a's outcome.
+The last row is the reason the order below starts where it does.
 
 ---
 
-## Model choices, and why
+## The order of work
 
-| Model | Context | $/MTok in / out | Use it for |
-|---|---|---|---|
-| `claude-opus-5` | 1M | $5 / $25 | The validator, the two brand-new chapters, the first block of every chapter, all review passes |
-| `claude-sonnet-5` | 1M | $2 / $10 | Blocks 2+ of a chapter whose voice is already set, the mechanical retrofit, the mirrored paths |
-| `claude-haiku-4-5` | 200K | $1 / $5 | Renames, sed passes, counting, anything with a right answer you can check by eye |
-| `claude-fable-5-1` | 1M | $10 / $50 | Optional. The most capable widely released model — worth it only for Ch5 and Ch8, which have no v2 content to imitate |
+| Run | Stage | What | Model | Sessions |
+|---|---|---|---|---|
+| **NEXT** | **SLICE** | Render lesson one on a phone | `claude-opus-5` | 1–2 |
+| then | OFFER | Chapter 8 Level 15 + its renumber | `claude-opus-5` | 1 |
+| then | SIZING | The 66 positions over the cap | `claude-sonnet-5` | 2 |
+| then | PHRASING | `state` chips in Chapters 3, 6, 7 | `claude-sonnet-5` | 1–2 |
+| then | REPLAY-PILOT | One hand-authored replay + validator rules | `claude-opus-5` | 1 |
+| then | DRILLS | The 2 remaining unaffected packs | `claude-sonnet-5` | 1 batch run |
+| then | REPLAY-BANK | 22 replays | `claude-opus-5` | ~8 |
+| then | REVIEW | Both review passes | `claude-opus-5` | 2 |
+| **last** | PATHS | Day Trading + Swing Trading | `claude-sonnet-5` | ~30 |
 
-The split that matters is **first block vs. later blocks**. The first block of a
-chapter decides voice, difficulty ramp, screen mix and how the callbacks are phrased;
-every later block copies it. Pay Opus prices for the block that sets the pattern and
-Sonnet prices for the blocks that follow it. Getting this backwards is the expensive
-mistake — a cheap first block makes twelve expensive ones wrong.
+**PATHS is last and gated.** It triples the corpus. A screen-type schema change costs 327 files
+today and roughly 980 after it — so nothing in that stage gets cheaper by starting early, and
+one thing gets three times dearer. Do not start it until SLICE has run and the schema survived.
 
-**Do not use Haiku for anything with a `chart-decision` in it.** The Phase-2 review
-found 147 chart drills whose arithmetic had to be right to the cent and whose "best"
-answer had to follow from the lesson. That is not a Haiku task.
+### Already done
 
-**Effort and thinking.** Always `thinking: {type: "adaptive"}`; never pass
-`budget_tokens` — it returns a 400 on current models. Use
-`output_config: {effort: "high"}` for Stage 0, Stage 6, and every **Opus** block in
-Stage 3 — those are the blocks that set a chapter's voice, invent Ch5/Ch8 from
-nothing, or carry a Callback or Final Exam, and they are where deliberation buys
-fewer arithmetic and answer-key errors. `effort: "medium"` is enough for the
-**Sonnet** blocks, which mostly expand existing subs against a voice already set.
-Higher than `high` is not worth it here: this is careful writing plus cent-level
-arithmetic, not deep problem-solving.
+Their prompts are dead instructions now; the work is in git history and the rules they produced
+are in `docs/agent.md` and `docs/schema.md`.
 
-**Prompt caching.** Every authoring prompt starts with the same ~18K tokens of
-`docs/agent.md` + `docs/schema.md` + `docs/UI.md`. Keep that block byte-identical and
-first in the prompt so it caches; cached input reads at 10% of list price. Check
-`usage.cache_read_input_tokens` on the second call of a session — if it is 0, something
-above the docs block is varying and you are paying full price on every call.
-
-**Batch API for Stage 4 only.** Drill screens are independent, order does not matter,
-and nothing downstream blocks on them — exactly the shape the Batch API is for, at 50%
-of list price. Everything else needs to read files, run the validator and react, so it
-belongs in an interactive session.
-
-**Cost.** The whole Scalping expansion (Stages 0–4) lands in the low tens of dollars
-of API spend at these prices — the constraint is review attention, not tokens. Do not
-economise on model choice here; economise on how many blocks you accept without reading.
+- **The v2 → v3 migration** — validator taught the v3 rules, chapter folders renumbered, the 101
+  v2 sub-levels retrofitted onto the v3 level plan.
+- **Authoring** — all eight Scalping chapters, 29 blocks, 387 sub-levels.
+- **Repairs** — category labels; the plan sheet as one key namespace (24 `plan-card` screens,
+  50 keys, all in `docs/schema.md`, with validator rules); exam interactivity; the long/short
+  balance.
 
 ---
 
-## Stage V — The vertical slice
+## How to run a stage
 
-**Run this next.** 387 sub-levels and 5,095 screens exist, and nobody has ever seen one. Every
-quality signal so far comes from a validator that checks structure and arithmetic, and from
-reading the YAML. Neither can tell you whether a lesson is legible on a phone or whether it is
-any fun.
+**Models.** `claude-opus-5` where judgement decides the outcome — a schema, a chapter's voice,
+anything invented rather than expanded, any review. `claude-sonnet-5` for work that follows an
+established pattern. `claude-haiku-4-5` only for mechanical passes with a checkable result, and
+never near a `chart-decision`: 327 files carry one and their arithmetic has to be right to the
+cent.
 
-**What it is.** An Expo app that plays **one real sub-level end to end on a real device**:
-`content/shared/chapter-01-market-basics/level-01-1.yaml`, "Your First Trade" — the first
-lesson any learner will ever see. Nothing else. No Supabase, no RevenueCat, no path map, no
-hearts economy, no streaks, no login.
+**Effort.** `high` for Opus stages, `medium` for Sonnet ones. Always
+`thinking: {type: "adaptive"}`. Never pass `budget_tokens` — it returns a 400 on current models.
+Above `high` is not worth it here: this is careful writing plus cent-level arithmetic, not deep
+problem-solving.
 
-**Why that file.** It needs **10 screen types** — `intro`, `theory`, `example`, `mc`, `tf`,
-`fill-tiles`, `match`, `numeric-input`, `numeric-mc`, `chart-decision` — which is the cheapest
-complete lesson in the corpus, and it still exercises `chart-decision`, the type that appears
-in 327 of 387 files. Measured across the corpus, a renderer needs ~12 types before *any*
-sub-level plays at all and ~20 before a fifth of them do; the content is type-dense by design
-(`docs/agent.md` §3.4). So a smaller slice than this does not exist.
+**Reading, and what it costs.** Every stage is a fresh session that pays for everything it
+reads. Keep the rule docs (`agent.md`, `schema.md`, `UI.md`) — those are the rules — and scope
+the rest: the chapter's own section of `curriculum.md` found with `grep`, not the whole file;
+the block you last wrote plus a few samples, not every sub-level in the chapter; the sub-levels
+that teach a called-back concept, not the chapters containing them. Unscoped, a late session
+reads ~380K tokens to write ~28K.
 
-**What it must answer.** These are the questions no amount of YAML review can settle:
+**Validation, honestly.** Plain `validate_content.py` must reach 0 errors with no warning naming
+a file you touched. `--strict` will still report chapter-wide counts for levels outside your
+block; those clear when the chapter is finished. Never edit content outside your scope to
+silence a warning.
 
-- Is a `chart-decision` readable at phone width with 8–12 candles and a volume strip?
-- Is 12–18 screens the right length for one sitting, or a slog?
-- Does the reveal rhythm (§5 of `docs/UI.md`) carry, or does it get in the way?
-- Are two sub-levels really ten minutes?
-- **Is lesson one fun?** If the answer is no, that outranks every open item in `README.md`.
-- And the structural one: does any screen type need a field the schema does not have?
+**After every content stage, check three things by hand.** The validator cannot see any of
+them, and they are where real damage has been found: recompute one chart drill's arithmetic end
+to end; check one callback against the lesson it claims to reinforce; and read one sub-level as
+a beginner. Boredom does not raise a warning.
 
-### Why this comes before the other two paths
+---
 
-Content is data and stays changeable forever — that is what `CLAUDE.md` means by content never
-being hard-coded, and this repo has proved it: chapters have been renumbered, positions
-re-sized corpus-wide, levels inserted, scenarios rewritten, all with the validator as the net.
-But the cost is not uniform, and the asymmetry is the whole argument:
+## SLICE — render lesson one on a phone
+
+387 sub-levels and 5,095 screens exist, and **not one has ever been rendered.** Every quality
+signal on this project comes from a validator that checks structure and arithmetic, and from
+reading YAML. Neither can say whether a lesson is legible at phone width or whether it is fun.
+
+**Scope: one file.** `content/shared/chapter-01-market-basics/level-01-1.yaml`, "Your First
+Trade" — the first lesson any learner will ever see. It needs **10 screen types** and is the
+cheapest complete lesson in the corpus. That floor is measured, not guessed: a renderer needs
+~12 types before *any* sub-level plays through, and ~20 before a fifth of them do, because the
+content is type-dense by design (`docs/agent.md` §3.4 requires ≥3 types per sub-level). A
+smaller slice does not exist.
+
+**Why before everything else.** Content is data and stays changeable forever — this repo has
+renumbered chapters, re-sized positions corpus-wide and inserted levels, all with the validator
+as the net. But the cost is not uniform:
 
 | Change | Files touched |
 |---|---|
 | A sentence, a number, a chart | **1** |
-| Screens added, removed or reordered | 1 |
+| Screens added, removed, reordered | 1 |
 | A whole level or chapter | ~4 |
-| **A screen type's schema** — `chart-decision` | **327** (84 %) |
-| **A screen type's schema** — `intro` | **387** (100 %) |
+| A screen type's schema — `chart-decision` | **327** (84 %) |
+| A screen type's schema — `intro` | **387** (100 %) |
 
-Prose is cheap forever. The schema is not. The way to avoid rewriting the corpus is therefore
-not to perfect the prose first — it is to freeze the schema early, and a schema can only be
-tested by rendering it. Stage V does not lock the content down; it validates the one thing that
-would be expensive to get wrong. After Stage 5 the same mistake costs three times as much.
-
-There is already a worked example of the failure mode: the `state` chips. Session state was
-written into scenario sentences, and Chapters 2, 4 and 5 had to be rewritten once it became a
-field instead. That is a small schema question that cost three chapters — and nobody saw it,
-because nobody had seen a screen.
+Prose is cheap forever; the schema is not. So the way to avoid rewriting the corpus is not to
+perfect the prose first — it is to freeze the schema early, and a schema can only be tested by
+rendering it. There is already a worked example of the failure: session state was written into
+scenario sentences, and Chapters 2, 4 and 5 had to be rewritten once it became a `state` field.
+A small schema question that cost three chapters, and nobody saw it because nobody had seen a
+screen.
 
 ### Prompt
 
@@ -185,383 +134,242 @@ which is the one file this slice has to play.
 Build an Expo + TypeScript app at the repo root that plays that sub-level end to end on
 a phone, and nothing else. Ten screen types: intro, theory, example, mc, tf, fill-tiles,
 match, numeric-input, numeric-mc, chart-decision. Plus the lesson shell around them -
-progress, the Check button, the inline reveal from docs/UI.md 5.1, and the summary at
-the end.
+progress, the Check button, the inline reveal from docs/UI.md 5.1, and the summary.
 
 Scope, held hard:
 - No backend, no auth, no Supabase, no RevenueCat, no analytics.
 - No path map, no hearts, no streaks, no XP animation. A lesson player, nothing more.
-- Read the YAML from the repo at build time. Do not transform the content, do not
-  create a second copy of it, and do not edit any file under content/.
+- Read the YAML from the repo at build time. Do not transform the content, do not make
+  a second copy of it, and do not edit any file under content/.
 - Theme per docs/UI.md 10: dark default. Do not invent visual language the doc does not
-  have - where the doc is silent, choose the plainest thing and list it in your report.
+  have - where it is silent, choose the plainest thing and list it in your report.
 
-The chart is the risky part. chart-decision appears in 327 of 387 files, so its
-renderer decides the schema for most of the corpus: 8-12 candles, a volume strip, the
-decision index, the level and VWAP overlays, and the outcome played candle by candle
-after the choice. Build that one properly; the rest can be plain.
+The chart is the risky part. chart-decision appears in 327 of 387 files, so its renderer
+decides the schema for most of the corpus: 8-12 candles, a volume strip, the decision
+index, the level and VWAP overlays, and the outcome played candle by candle after the
+choice. Build that one properly; the rest can be plain.
 
-Then run it, on a real device or a simulator, and play the lesson through twice.
+Then run it and play the lesson through twice.
 
-Report - and this is the deliverable, more than the code:
+Report - this is the deliverable, more than the code:
 1. Every place the schema did not carry: a field a screen needed and did not have, a
-   field that turned out ambiguous, anything you had to guess. This is what the slice
-   is for. Be specific enough that docs/schema.md could be changed from your report.
-2. Screenshots or a recording of the chart-decision screen and two others.
+   field that turned out ambiguous, anything you had to guess. Be specific enough that
+   docs/schema.md could be edited from your report.
+2. Screenshots of the chart-decision screen and two others.
 3. Your honest read on length: does 14 screens feel right, short, or long?
 4. Anything in docs/UI.md that could not be built as written.
-Do not change docs/ or content/ in this session - report first, decide after.
+Do not change docs/ or content/ in this session. Report first, decide after.
 ```
 
-**Model: `claude-opus-5`, effort `high`.** Not because the app is hard, but because the
-report is the point and it takes judgement to notice a schema that *almost* fits.
+**What to do with the report.** Schema changes go into `docs/schema.md` and `docs/UI.md` before
+any further content is written — that is the entire point of running this first.
 
 ---
 
-## Stage 0 — Teach the validator the v3 rules
+## OFFER — Chapter 8 Level 15, and the renumber it forces
 
-`tools/validate_content.py` currently enforces the v2 schema and reports 0/0 on the
-existing content. It knows nothing about `reinforces:`, the 8 new question types, the
-new archetypes, the level-count floors, or the answer-key hygiene rules that the
-Phase-2 review had to enforce by hand. Until it does, every rule in the rewritten docs
-is a suggestion, and 286 new files will drift.
+The lesson `docs/agent.md` §1 and §7 have referred to since v3 and the path has never had.
+Specified in `docs/curriculum.md` for all three paths, 4 sub-levels, not written.
 
-**Model: `claude-opus-5`, high effort.** This is the file that catches everyone else's
-mistakes; it is worth one careful session.
+**What is missing, precisely.** One piece exists and must not be duplicated:
+`{{market.scalping_note}}` says where retail scalping is really done and why this path chose
+stocks — but it is a single theory screen inside a fees lesson (Chapter 3 Level 14-1, screen
+12), six levels before anyone opens an account. Everything around it is absent: financial
+"margin" appears **zero** times across the 387 written sub-levels, and so do the
+pattern-day-trader rule, settlement, tax, starting capital, data access and broker choice. The
+whole regulatory reality is two `{{market.regulation_note}}` tokens used in Chapter 1 Level 12,
+before the learner has picked a path.
+
+**The line it must not cross.** Orientation, never instruction. It names what a broker offers
+and what leverage does to arithmetic the learner already owns; it teaches no CFD, forex or
+margin *mechanics*, names no product, compares no provider and recommends nothing (§7). If a
+screen would help someone *use* leverage rather than *recognise* it, it is out of scope.
+
+**Two open decisions sit inside this stage** — see "Decisions that gate work" below. The prompt
+is written so the content holds under either answer.
 
 ### Prompt
 
 ```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full.
-These were rewritten to v3 and tools/validate_content.py has not caught up.
+Read CLAUDE.md, then docs/agent.md §1, §3.6 and §7, docs/schema.md and docs/UI.md in
+full, then the Chapter 8 section of docs/curriculum.md - find it with
+`grep -n 'Chapter 8 —' docs/curriculum.md` and read that range; the first match is the
+scalping one.
 
-Update tools/validate_content.py to enforce the v3 schema. Specifically:
+Part 1 - the renumber, committed on its own.
+In content/paths/scalping/chapter-08-the-trading-day/, Levels 15-17 become 16-18:
+git mv each level-15-*.yaml to level-16-*.yaml, 16 to 17, 17 to 18. Highest first so
+nothing collides. Update each file's `id`, and repair the `prerequisite` chain so it
+reads straight through with Level 15 absent for now (14's last sub -> 16-1). Grep the
+repo for anything naming those ids or the old titles and fix it. Run
+`python3 tools/validate_content.py`; 0 errors. Commit as "content: renumber chapter 8
+levels 15-17 to 16-18" and push to main.
 
-1. Header: accept and validate the new optional `reinforces:` field (list of ints,
-   each a chapter number lower than this file's own `chapter`, no duplicates).
-2. Screen types: add the 8 new question types (swipe-deck, chart-annotate,
-   order-build, scanner-pick, compare, branch, journal-row, depth-ladder) and the
-   3 new archetypes (recap, plan-card, tier-up) to the type tables, with per-type
-   required-field validation exactly as specified in docs/schema.md, and per-type
-   entries in the SECONDS estimate table.
-3. Add the chapter-level warnings block specified at the end of docs/schema.md:
-   level count, sub-level distribution, screen-type variety, callback quota,
-   correct-option position skew, true/false split, longest-option-is-correct tell,
-   percentage of subs ending on a theory screen, outcome-value clustering,
-   difficulty runs, position value vs. account size, and volume magnitude.
-4. Add a --strict flag that promotes the chapter-level warnings to errors, so CI
-   can gate on them while a chapter is still being written.
+Part 2 - write Level 15, "What You'll Actually Be Offered", 4 sub-levels, per the
+curriculum table. Read first, and do not contradict: Chapter 3 Level 10 (the two
+ceilings), Chapter 6 Levels 1-2 (the stop, R), Chapter 3 Level 14-1 (borrow
+availability, and screen 12's {{market.scalping_note}} - build on it, never repeat it),
+and Chapter 1 Level 12 (what it currently says a brokerage account is).
 
-Rules:
-- Warnings must name the file and, where a screen is at fault, its index.
-- Do not change any content file. If a new check fires on existing v2 content,
-  report it in your summary rather than editing content to silence it.
-- Keep the existing v2 checks working; this is an extension, not a rewrite.
+  15-1  The two account types and what each allows. The one that matters: a cash
+        account cannot borrow, so it cannot short at all - and 38% of this path's
+        decisions are shorts. In Europe, the leveraged wrappers this path did not teach.
+  15-2  What leverage does to numbers they already own. R is unchanged - the stop is
+        still the stop. The ruin arithmetic is not: a deposit that survives six
+        stop-outs on cash does not survive six at 5:1. Use Chapter 3's account sizes.
+  15-3  What the rules do to the plan they wrote. {{market.regulation_note}} in place;
+        the pattern-day-trader threshold against the six-trade session Chapters 6 and 8
+        teach; settled funds against the same. Tax gets exactly one screen: profits are
+        taxed, treatment differs by country and holding period, ask an adviser - no
+        rate, no jurisdiction rule, no worked example (§7).
+  15-4  Practice: choosing the account that fits their own plan sheet.
 
-Then run `python3 tools/validate_content.py` and `--strict`, and give me:
-the new check list, the counts each one fires on today's content, and which of
-those are real problems versus expected v2-vs-v3 gaps.
-Do not commit until I have read that summary.
+Non-negotiable:
+- No product, platform or provider named. No mechanics for opening or using a
+  leveraged account. Nothing phrased as a recommendation. §7 governs every screen.
+- Every number obeys docs/agent.md §3.6, including both ceilings and the account cap.
+- {{market.*}} tokens for every session time, index and regulation note - never a
+  literal clock time, never a jurisdiction claim written in prose.
+- Set `reinforces: [3, 6]` per the curriculum table.
+
+Two open product decisions sit inside this level and NEITHER is yours to settle: the
+six-trade session against a cash account under T+1, and the 123 shorts a cash account
+cannot place. Both have their options written out in docs/agent.md §3.6. Write 15-1 and
+15-3 so they hold under any of those options - describe what each account type allows
+and what each rule does, without asserting which this path assumes - and list in your
+report every screen that would need a second pass once the decisions are made. If you
+need the answer to write a sentence, that sentence belongs in the report, not the
+content.
+
+Run `python3 tools/validate_content.py --strict`, `tools/test_validate.py` and
+`tools/check_sizing.py`; 0 errors, no warning naming a file you wrote. Commit as
+"content: chapter 8 level 15" and push to main.
+
+Report: the four subs with their screen mix, every place you used a {{market.*}} token
+instead of a jurisdiction claim, and any sentence you were unsure sits on the right side
+of the §7 line - flag those rather than deciding them.
 ```
-
-Expect this run to light up: 0 files have `reinforces:`, every chapter is below the
-15-level floor, and no chapter has a Callback level. Those are Stages 2 and 3, not
-bugs. What you are looking for in the summary is anything *else*.
 
 ---
 
-## Stage 1 — Renumber the chapter folders
+## SIZING — the 66 positions over the cap
 
-Chapter 5 (Finding the Trade) is inserted before the existing Risk chapter, so two
-folders shift up. Chapters 1–4 keep their numbers. This is documented in
-`docs/curriculum.md` under the migration note; doing it before any authoring means new
-files are written into their final home.
+`docs/agent.md` §3.6 caps one position at 95 % of the account named in its own file. Chapters
+3–8 are clean. **66 of 572 priced positions still breach it: 60 in Chapter 2, 6 in Chapter 1**,
+and one of those is a hard error — `chapter-01-market-basics/level-09-2.yaml` screen 4 holds
+500 shares × $12.80 = $6,400 against a $6,000 account. That one goes first.
+
+`python3 tools/check_sizing.py --chapter N` lists every breach with each line elsewhere in the
+file that names the same share count — 3,332 corpus-wide, which is why this is a script and not
+a reading task.
+
+### Prompt (run once for Chapter 2, once for Chapter 1)
 
 ```
-content/paths/scalping/chapter-05-risk-and-psychology  → chapter-06-risk-and-psychology
-content/paths/scalping/chapter-06-scalping-playbook    → chapter-07-scalping-playbook
+Read CLAUDE.md and docs/agent.md §3.6 in full - the two ceilings, the account cap, the
+per-path table and the price bands.
+
+Run `python3 tools/check_sizing.py --chapter N` and re-size every position it lists so
+that shares × decision price <= 0.95 × the account named in that file.
+
+How to re-size, in this order of preference:
+1. Lower the share count. Check what the new count does to every other line in the same
+   file - check_sizing.py prints them, and a stale share count in a follow-up question
+   is the failure mode this tool exists to catch.
+2. Shift the whole screen's prices by a constant. Subtracting the same amount from every
+   price in a chart preserves every cent-level distance, so stop distances, R-multiples
+   and dollar totals stay exactly correct while the position value falls. Keep the
+   result inside the path's price band (§3.6).
+3. Raise the account named in the file, but only within $5,000-30,000 (§3.6) and only if
+   the file's own narrative allows it.
+
+Never change a stop distance to make the arithmetic work - that changes what the lesson
+teaches.
+
+After each file, recompute by hand: stop distance, share count, risk in dollars,
+R-multiple, and every total the screens quote. Then run
+`python3 tools/validate_content.py`, `tools/check_sizing.py --chapter N` and
+`tools/test_validate.py`. 0 errors, 0 breaches in your chapter, no warning naming a file
+you touched.
+
+Commit as "content: chapter N position sizes" and push to main.
+
+Report: the breach count before and after, which of the three methods you used where,
+and every place a share count appeared in prose that you had to update with it.
 ```
 
-**Model: `claude-haiku-4-5`.** Pure mechanics with a checkable result.
+---
+
+## PHRASING — `state` chips in Chapters 3, 6 and 7
+
+Session state belongs in `state` chips (`docs/UI.md` §6.4), not in a sentence bolted onto the
+scenario. Chapters 2, 4 and 5 were the original complaint and are now at 100 %. The spread now:
+
+| ch1 | ch2 | ch3 | ch4 | ch5 | ch6 | ch7 | ch8 |
+|---|---|---|---|---|---|---|---|
+| 0 % | 100 % | 37 % | 100 % | 100 % | 38 % | **16 %** | 74 % |
+
+**Chapter 7 first** — 102 chart decisions, the most of any chapter, at 16 %. Then 6, then 3.
+Chapter 1's 0 % is probably correct rather than a gap: it runs line charts and buy/wait
+decisions with no session state to put in a chip. Check before changing it.
+
+### Prompt (run once per chapter: 7, then 6, then 3)
+
+```
+Read CLAUDE.md, docs/UI.md §6.4 and §4.3, and docs/agent.md §3.4.
+
+In content/paths/scalping/chapter-NN-*/, move session state out of chart-decision
+scenario prose and into the screen's `state` chips: day in R, the limit, trades taken,
+size, account. Chapters 2, 4 and 5 are already at 100% - read one of their files first
+and match how they phrase what is left behind.
+
+What stays in the scenario: what the chart shows and what the learner is looking at.
+What moves to chips: the numbers describing the learner's own session.
+
+Two rules from §3.4 that this work exists to serve, and that it is easy to break:
+- A scenario describes, it does not conclude. Do not let the shortened sentence become
+  three verdict words that answer the question before the chart is read.
+- No two consecutive sub-levels may end up with the same sentence shape. Moving state
+  out makes scenarios shorter and more alike; vary what remains.
+
+Do not change any chart, price, share count or answer. `git diff` should touch scenario
+text and add `state` blocks, nothing else.
+
+Run `python3 tools/validate_content.py` and `tools/check_sizing.py`; 0 errors and no
+warning naming a file you touched. Commit as "content: chapter NN scenarios move session
+state into chips" and push to main.
+
+Report: the percentage before and after, and any scenario where the state genuinely
+belonged in the sentence - those are legitimate and should be listed, not forced.
+```
+
+---
+
+## REPLAY-PILOT — one replay, by hand, with its validator rules
+
+The Spot-it tab (`docs/UI.md` §7.7) and the `chart-replay` type (§4.4) are specified; nothing
+is written. Format in `docs/schema.md` § Replays, authoring rules in `docs/agent.md` §3.10.
+
+**One replay first, and nothing scales until it holds.** A replay is 40–80 candles, a volume
+series, a VWAP series and several stated positions per file — five to eight times the numbers of
+a `chart-decision`, with every §3.6 rule still applying to all of them. That is where errors
+hide, because no single screen shows them all. Same lesson as `cost-check.yaml`: one written
+exemplar before any volume. **Never in a batch.**
 
 ### Prompt
-
-```
-In content/paths/scalping/, rename two chapter folders with `git mv`:
-  chapter-05-risk-and-psychology → chapter-06-risk-and-psychology
-  chapter-06-scalping-playbook   → chapter-07-scalping-playbook
-Do the playbook one first so nothing collides.
-
-Then in every level-*.yaml inside those two folders, update the header `chapter:`
-field (5→6 in the risk folder, 6→7 in the playbook folder) and any `chapter_title:`
-that names a number. Leave `id:` values alone — ids are level-scoped, not chapter-
-scoped; confirm that is true before you rely on it.
-
-Then grep the whole repo (content/, src/, tools/, docs/) for any other reference to
-the old folder names or to "chapter 5"/"chapter 6" meaning risk/playbook, and fix
-the ones that are now wrong. Report anything ambiguous instead of guessing.
-
-Run `python3 tools/validate_content.py`. It must be 0 errors. Then create the two
-new empty folders chapter-05-finding-the-trade and chapter-08-the-trading-day.
-Commit as "content: renumber scalping chapters for v3 (insert Ch5, append Ch8)".
-```
-
-Verify by eye afterwards: `ls content/paths/scalping/` should show eight folders
-numbered 02–08 with no gaps and no duplicates.
-
----
-
-## Stage 2 — Retrofit the 101 existing sub-levels
-
-The existing content is good — it survived a 28-finding review — but it was written
-against v2. Before it can sit next to v3 content it needs:
-
-- a `reinforces:` header wherever the sub-level genuinely reaches back,
-- its level/sub numbering remapped onto the v3 level tables in `docs/curriculum.md`,
-- nothing else. **This stage does not rewrite lessons.**
-
-The remap is the fiddly part: v2 Chapter 2 has 10 levels and v3 Chapter 2 has 18, so
-existing files move (v2 `level-07-1` may become v3 `level-11-1`), and `prerequisite:`
-fields move with them. Get it wrong and every cross-reference in the chapter breaks.
-
-**Model: `claude-sonnet-5`.** Mechanical, but it needs the whole chapter in context at
-once — 50 files is ~80K tokens, comfortable in a 1M window. One session per chapter.
-
-### Prompt (run once per chapter, 1–4 and 6–7)
-
-```
-Read CLAUDE.md, docs/agent.md, docs/schema.md, and the Chapter N table in
-docs/curriculum.md.
-
-Retrofit content/<path>/chapter-NN-<slug>/ onto the v3 level plan. Two jobs only:
-
-1. RENUMBER. The v3 table in docs/curriculum.md gives this chapter's final level
-   list. Map each existing sub-level onto the v3 level whose "Teaches" column it
-   already covers. Rename files with `git mv` to their v3 level-LL-S.yaml name,
-   update each file's `id:` and `prerequisite:` to match, and keep the within-level
-   sub order. Levels in the v3 table with no existing file stay empty for now —
-   Stage 3 fills them. Print the full old→new mapping table before you touch
-   anything and stop for my go.
-
-2. REINFORCES. Add the `reinforces:` header field to every sub-level that actually
-   reaches back to an earlier chapter — judged by what the screens do, not by what
-   would be nice. Do not add screens, do not reword anything, do not add the field
-   to files that do not earn it.
-
-Do not change screen content in this stage at all. `git diff --stat` should show
-only header lines changing, plus renames.
-
-Run `python3 tools/validate_content.py --strict` and report which chapter-level
-warnings remain (level count and callback-quota warnings are expected — Stage 3
-fixes those). Commit as "content: retrofit chapter N onto v3 level plan".
-```
-
-The "print the mapping and stop" instruction is load-bearing. A wrong remap is much
-cheaper to catch in a table than after 17 renames.
-
----
-
-## Stage 3 — Author the new content
-
-~286 new sub-levels for the Scalping path. This is the bulk of the work and the only
-stage where quality is at risk from going fast.
-
-### Order
-
-Follow the writing order at the end of `docs/curriculum.md`:
-
-1. Scalping Ch2 → Ch3 → Ch4 (expand around retrofitted v2 content)
-2. Chapter 1 (expanded last of the early chapters, so its callbacks are known)
-3. Scalping Ch5 → Ch6 → Ch7 → Ch8 (5 and 8 are new from nothing)
-
-Ch2 first, not Ch1, on purpose: Ch2 is the chapter with the most existing content to
-pattern-match against, so it is where the v3 voice gets established most cheaply.
-
-### Blocks
-
-One session per block of 4–6 levels — 15–20 sub-levels, ~250 KB of YAML. Roughly four
-blocks per chapter, ~20 sessions for the path. Never run two blocks in one session:
-the second one drifts, and the validator only catches the mechanical half of drift.
-
-### Model per block
-
-| Block | Model |
-|---|---|
-| Chapter's first block | `claude-opus-5` |
-| Chapter's later blocks | `claude-sonnet-5` |
-| Any block in Ch5 or Ch8 | `claude-opus-5` (or `claude-fable-5-1`) |
-| Any block containing a Callback level or the Final Exam | `claude-opus-5` |
-
-Ch5 and Ch8 get Opus throughout because there is no v2 content underneath them — every
-screen is invented rather than expanded, which is where a cheaper model shows.
-
-### The authoring prompt
-
-Stage 3 ran as 29 pre-filled blocks, three to four per chapter, in the writing order from
-`docs/curriculum.md`. That prompt file has been deleted now the stage is finished — the template
-below is the thing to refill, and Stage 5 refills it twice more (Day Trading, then Swing
-Trading) against those paths' own curriculum tables and folders.
-
-This is the one you will run twenty times. Keep the first paragraph byte-identical
-every time so the docs cache; change only the bracketed parts.
-
-```
-Read CLAUDE.md, then docs/agent.md, docs/schema.md and docs/UI.md in full. Then read
-the Chapter [N] section of docs/curriculum.md and only that section — find it with
-`grep -n 'Chapter [N] —' docs/curriculum.md` and read that range; the first match is this
-path's. Do not read the file whole: it carries all three paths and the rest is not
-yours. These are the rules; where this prompt and those docs disagree, the docs win.
-
-Write levels [7–11] of Chapter [N] ([chapter title]) in
-content/[folder]/, following the v3 level table exactly: the level titles, the
-sub-level counts, the "Teaches" column and the "Reinforces" column are all fixed.
-
-Before writing, read three things and stop there. One: the existing sub-levels of the
-levels in this block — you are adding siblings to them, so they fix the level's terms,
-numbers and voice. Two: the most recently written block, in this chapter if it has one
-and otherwise the previous chapter's last, so voice, difficulty and screen mix continue
-rather than restart. Three: three or four further sub-levels sampled across the
-chapter's range. Do not read every sub-level in the chapter — by the later blocks that
-is tens of thousands of tokens for no added signal.
-
-For the Reinforces column, do not read those chapters end to end either. Look up in
-docs/curriculum.md which level teaches the concept you are calling back to, and read
-only those sub-levels. The callback has to match what was actually taught there, and a
-handful of files decides that, not a whole chapter.
-
-Then write each sub-level as its own level-LL-S.yaml. Non-negotiable:
-- 12–18 screens, 160–260 estimated seconds, per docs/agent.md §3.1.
-- The answer-key hygiene rules in docs/agent.md §3.5. Correct options spread evenly
-  across positions, true/false near 50/50, correct option not systematically the
-  longest, no em-dash tell, no "no trade" scored red when the best answer is
-  directional.
-- The two sizing ceilings and the price/volume bands in docs/agent.md §3.6. Every
-  worked position must fit the account in the file. Never write a clock time
-  literally — use the {{market.*}} tokens.
-- Reinforce in context, never verbatim: a callback re-uses the concept inside a new
-  situation, it never re-uses the earlier screen's wording or numbers.
-- Every chart-decision must be arithmetically checkable and its best answer must
-  follow from the lesson the learner has just had, not from hindsight.
-- Screen-type variety: no sub-level may be more than half one question type, and the
-  new interaction types in docs/UI.md exist to be used — this chapter should not read
-  as multiple-choice with occasional charts.
-
-Set `reinforces:` on every file per the curriculum table.
-
-After each sub-level, check your own arithmetic: recompute every stop distance,
-R-multiple, share count and dollar total from the numbers as written in the file.
-Fix rather than report.
-
-Run `python3 tools/validate_content.py` and get to 0 errors, with no warning
-naming any file you wrote or touched. Then run it with `--strict` and confirm every
-remaining finding names a level outside this block — those are the chapter-wide
-counts, and they clear only when the whole chapter is written, so do not try to
-force them to zero and never edit content outside this block to silence them.
-Then commit as
-"content: chapter [N] levels [7–11]" and push to main.
-
-Finally, report: the levels written, sub-level and screen counts, the screen-type
-mix as a table, which earlier chapters you reinforced and how, and anything in the
-curriculum table you could not honour and why.
-```
-
-### After every block, spot-check three things by hand
-
-The validator cannot see these, and they are exactly where the Phase-2 review found
-real damage:
-
-1. **One chart drill's arithmetic**, fully, on paper. Entry, stop, distance, shares,
-   risk, target, R. If it is right, the rest of the block probably is.
-2. **One callback**, against the lesson it claims to reinforce. Does the earlier
-   chapter actually teach that, in those words?
-3. **Read one sub-level as a beginner.** Not skim — read. If you are bored, so is the
-   learner, and boredom does not raise a validator warning.
-
----
-
-## Stage 4 — Drill packs (three of fifteen)
-
-**Narrowed.** `chart-replay` (Stage 7) does the chart-recognition job better than a frozen
-drill screen, and twelve of the fifteen packs are exactly that job — `charts-structure`,
-`levels-and-breaks`, `the-read`, `mixed-daily` and the eight setup packs, 300 of the 370
-commissioned screens. Those are **on hold**: authoring them now would build what Stage 7
-replaces.
-
-Three packs are unaffected, because no replay reaches them — all-in cost arithmetic, scanner
-reading and trade management are not chart timing:
-
-| Pack | Screens | Status |
-|---|---|---|
-| `scalping-cost-check` | 20 | ✅ hand-written, clean |
-| `scalping-selection` | 25 | commission now |
-| `scalping-risk-calls` | 25 | commission now |
-
-So Stage 4 is now **two batch requests**, not fourteen. Everything below still applies to them;
-the format is at `docs/schema.md` § Drill packs. Drills are independent of one another, have no
-lesson structure and no cross-file consistency requirement beyond a concept list — which makes
-them the one part of this build that suits bulk generation.
-
-**Model: `claude-sonnet-5` via the Batch API** (50% of list price; results return in
-any order, keyed by `custom_id`). One request per pack.
-
-Write a small script that, for each pack in the drill table in `docs/curriculum.md`,
-sends: the docs prefix, the pack's concept list, three exemplar screens pulled from
-the linear chapter it unlocks from, and the instruction below. Key each request by
-`custom_id = pack id`. Then validate everything that comes back before it is committed
-— batch output is not exempt from `--strict`.
-
-### Per-request instruction
-
-```
-Write [25] drill screens for the pack "[pack id]", covering these concepts:
-[concept list]. Format per the drill-pack spec in docs/schema.md.
-
-These are drills, not a lesson: no intro, no theory, no summary — question screens
-only, each one standing alone. The learner has already been taught this material in
-[chapter/level]; assume it and test it.
-
-Vary the interaction across the pack (swipe-deck, chart-decision, numeric-input,
-compare, branch) and vary the difficulty: about a third should be near-misses where
-the right answer is "pass" or "no trade". Answer-key hygiene per docs/agent.md §3.5
-applies to the pack as a whole — check the distribution across all 25 before you
-finish. Price and volume bands per §3.6. Every number must be arithmetically sound.
-```
-
-Do this stage **after** the linear chapters, not alongside them: the drills quote the
-lessons, so the lessons have to exist and be final first.
-
----
-
-## Stage 7 — The replay bank
-
-The Spot-it tab (`docs/UI.md` §7.7). Format in `docs/schema.md` § Replays, authoring rules in
-`docs/agent.md` §3.10, placement in `docs/curriculum.md` § Replays. **Runs before Stage 5** —
-two more paths must not be written against an unproven format.
-
-**Model: `claude-opus-5`, effort `high`, throughout.** This is the most arithmetic-dense content
-in the project: 40–80 candles, a volume series, a VWAP series and several stated positions per
-file, with §3.6's ceilings applying to all of it. And **never in a batch** — one replay per
-request, each verified. A drill is 8–12 bars with one answer; a replay is not that shape, and
-the Phase-2 review found its errors in exactly this kind of spread-out arithmetic.
-
-### 7a — the pilot (one session, do this first)
-
-One replay, hand-authored, plus the validator rules that check it. Nothing scales until this
-proves the format carries and the arithmetic holds over 60 bars. Same lesson as
-`cost-check.yaml`: one written exemplar before any volume.
 
 ```
 Read CLAUDE.md, then docs/agent.md §3.10, docs/schema.md § Replays and docs/UI.md §4.4
 and §7.7 in full. Then read content/paths/scalping/chapter-07-scalping-playbook/
-level-02-1.yaml and level-02-2.yaml — the VWAP bounce card and its five fields are the
+level-02-1.yaml and level-02-2.yaml - the VWAP bounce card and its five fields are the
 thing this replay is an instance of.
 
-Write one replay to content/replays/scalping/vwap-bounce-01.yaml:
-reading level 2 (setup named, card hidden), ~60 bars, one clean VWAP bounce and two
-decoys that each fail exactly one named field of the same card.
+Write one replay to content/replays/scalping/vwap-bounce-01.yaml: reading level 2
+(setup named, card hidden), ~60 bars, one clean VWAP bounce and two decoys that each
+fail exactly one named field of the same card.
 
 Then extend tools/validate_content.py with the replay rules from docs/schema.md
-§ Replays — every error and warning listed there — and add cases to
+§ Replays - every error and warning listed there - and add cases to
 tools/test_validate.py proving each one fires, in the style already there.
 
 Non-negotiable, and check each by hand before you report:
@@ -569,142 +377,286 @@ Non-negotiable, and check each by hand before you report:
   the replay is ungradeable.
 - Each decoy's `fails` names a field of its card, and that field either never fills or
   fills after the decoy's bar.
-- Every stated shares × price is inside the 95% account ceiling (docs/agent.md §3.6),
-  and tools/check_sizing.py sees the file.
-- Candle high ≥ max(open, close) and low ≤ min(open, close) on all ~60 bars.
-- Prices in the scalping band ($10–$30) and the median bar volume in 4,000–500,000.
+- Every stated shares × price is inside the 95% account ceiling, and
+  tools/check_sizing.py sees the file.
+- Candle high >= max(open, close) and low <= min(open, close) on all ~60 bars.
+- Prices in the scalping band ($10-$30), median bar volume in 4,000-500,000.
 - At most two fields marked `marginal`.
 
-Run `python3 tools/validate_content.py`, `--strict`, `python3 tools/test_validate.py`
-and `python3 tools/check_sizing.py`. Commit as "replays: pilot VWAP bounce plus
-validator rules" and push to main.
+Run `python3 tools/validate_content.py`, `--strict`, `tools/test_validate.py` and
+`tools/check_sizing.py`. Commit as "replays: pilot VWAP bounce plus validator rules"
+and push to main.
 
-Then report: the bar series with each marked moment and what fills at it, the three
-grades a learner would get for acting at bars trigger-1, trigger and trigger+2, and
-your honest read on whether 60 hand-authored bars is sustainable 22 times per path.
+Report: the bar series with each marked moment and what fills at it, the three grades a
+learner would get for acting at bars trigger-1, trigger and trigger+2, and your honest
+read on whether 60 hand-authored bars is sustainable 22 times per path.
 ```
 
-### 7b — the bank (~8 sessions)
+**That last question decides the next two stages.** If the format carries, the twelve held drill
+packs stay cancelled and REPLAY-BANK proceeds. If authoring proves too expensive at volume,
+commission the twelve packs instead — the manifest and `tools/build_drill_batch.py` still work.
 
-22 replays per path, per the table in `docs/curriculum.md` § Replays: two per Chapter 7 setup
-card (16), four mixed level-3, two `allow_none` sessions. Three replays per session, grouped by
-card so the five fields stay in mind.
+---
+
+## DRILLS — the two packs nothing supersedes
+
+Twelve of the fifteen packs are chart recognition — `charts-structure`, `levels-and-breaks`,
+`the-read`, `mixed-daily` and the eight setup packs, **300 of the 370 screens** — and
+`chart-replay` does that job better than a frozen drill screen. They are on hold, decided by
+REPLAY-PILOT's outcome.
+
+Three are unaffected, because no replay reaches them: all-in cost arithmetic, scanner reading
+and trade management are not chart timing.
+
+| Pack | Screens | Status |
+|---|---|---|
+| `scalping-cost-check` | 20 | ✅ hand-written, clean |
+| `scalping-selection` | 25 | commission |
+| `scalping-risk-calls` | 25 | commission |
+
+So this is **two Batch API requests**, not fourteen. Drills are independent, order-free and have
+no cross-file consistency requirement beyond a concept list — the one part of this build that
+suits bulk generation, at 50 % of list price. Build the requests from
+`content/drills/packs.yaml` with `tools/build_drill_batch.py`, and validate everything that
+comes back: batch output is not exempt from `--strict`.
+
+### Per-request instruction
+
+```
+Write [25] drill screens for the pack "[pack id]", covering these concepts:
+[concept list]. Format per the drill-pack spec in docs/schema.md.
+
+These are drills, not a lesson: no intro, no theory, no summary - question screens only,
+each standing alone. The learner has already been taught this in [chapter/level];
+assume it and test it.
+
+Vary the interaction across the pack and vary the difficulty: about a third should be
+near-misses where the right answer is "pass" or "no trade". Answer-key hygiene per
+docs/agent.md §3.5 applies to the pack as a whole - check the distribution across all 25
+before you finish. Price and volume bands per §3.6. Every number arithmetically sound.
+```
+
+---
+
+## REPLAY-BANK — 22 replays
+
+Per the table in `docs/curriculum.md` § Replays: two per Chapter 7 setup card (16), four mixed
+level-3, two `allow_none` sessions. Three per session, grouped by card so the five fields stay
+in mind. **Only after REPLAY-PILOT says the format carries.**
+
+### Prompt
 
 ```
 Read CLAUDE.md, then docs/agent.md §3.10, docs/schema.md § Replays and docs/UI.md §4.4.
-Read content/replays/scalping/vwap-bounce-01.yaml — the pilot — and the last replays you
-wrote, so the bar rhythm and decoy style continue rather than restart. Read the Chapter 7
+Read content/replays/scalping/vwap-bounce-01.yaml - the pilot - and the last replays you
+wrote, so bar rhythm and decoy style continue rather than restart. Read the Chapter 7
 level that teaches [card], for the five fields.
 
 Write [3] replays for [card] to content/replays/scalping/, at reading level [1/2/3] per
 the table in docs/curriculum.md § Replays.
 
 Every rule in docs/agent.md §3.10 binds. The two that go wrong silently:
-- A decoy you cannot explain is noise, not difficulty. Each one fails exactly one named
+- A decoy you cannot explain is noise, not difficulty. Each fails exactly one named
   field, and the note says which. If you cannot name it, cut the decoy.
 - The arithmetic spreads across 60 bars and no single screen shows it all. Recompute
   every stop distance, share count, R-multiple and filled_at from the bars as written.
 
-After each file, verify it alone before writing the next. Run
-`python3 tools/validate_content.py --strict`, `tools/test_validate.py` and
-`tools/check_sizing.py`; get to 0 errors with no warning naming a file you wrote.
+Verify each file alone before writing the next. Run `validate_content.py --strict`,
+`test_validate.py` and `check_sizing.py`; 0 errors, no warning naming a file you wrote.
 Commit as "replays: [card] levels [n]" and push to main.
 
 Report: per replay, the marked moments and their labels, which field each decoy fails,
 and anything in the placement table you could not honour and why.
 ```
 
-### After 7a, decide the twelve held packs
+---
 
-If the pilot shows replays carry recognition as well as the design claims, the twelve chart
-drill packs stay cancelled and the 300 screens are never written. If it shows the format is too
-expensive to author at volume, commission them as originally planned — the manifest and
-`tools/build_drill_batch.py` are still there and still work. Do not decide this before 7a.
+## REVIEW — two passes, per path
+
+**Pass A — does it teach?** The review that produced the original 28 findings: terms before
+definition, callbacks to things not yet taught, difficulty curve, repeated prompts, distractors
+that give it away, chart answers that do not follow, worked numbers, playbook setups against the
+sources in `docs/agent.md` §4, `{{market.*}}` tokens, and whether a beginner would be bored,
+patronised or confused.
+
+**Pass B — does it survive contact with reality?** Everything in Pass A checks the course
+against *itself*. Four findings on this path were of a different kind — the leverage lesson §1
+promised, 123 shorts the described account cannot place, the pattern-day-trader rule against a
+six-trade session, settlement against 95 %-of-cash positions — and **not one Pass A item would
+have surfaced any of them.** All four came from a human asking "but could someone actually do
+that?". Pass B is that question, made systematic:
+
+- Every fixed decision in §1 and rule in §7, checked against the corpus. Not "is it stated" —
+  "is it delivered, in the right place, at the right weight".
+- Every trade the content teaches, against the account the content describes. Can the learner
+  place it? With which account, how much capital, which permissions?
+- Every rule taught, against the rules that actually bind in each market profile.
+- The handover: at the last screen, what does the graduate still not know that stands between
+  them and the first thing the path tells them to do?
+
+Two method notes, learned by getting them wrong:
+
+1. **Match counts lie; read the hits.** A scan reported `margin` and `settle` as covered. Every
+   match was the word *marginal* and the verb *settles* ("the candle settles the argument").
+   Both appear zero times in the financial sense. A grep result is a place to look, never an
+   answer.
+2. **Grep the concept, not the word.** The same scan reported the instruments lesson absent; it
+   exists inside `{{market.scalping_note}}`, which contains neither "leverage" nor "CFD". Before
+   concluding something is missing, ask what it would be *called* in this corpus.
+
+**Run each pass as a findings list first, approve, then fix — never as one combined pass.** And
+Pass B is the one a model is worst at, because it needs knowledge from outside the repository:
+treat its output as a shortlist for someone who has actually placed these trades, not a verdict.
+Where it cannot decide, it should name the decision, as `docs/agent.md` §3.6 does.
+
+### Prompt — Pass A
+
+```
+Read CLAUDE.md and the docs it names. Then read the complete [path] path in path order:
+content/shared/chapter-01-market-basics/, then content/paths/[path]/ chapters 2-8, every
+sub-level, as a learner with zero prior knowledge.
+
+Check: terms used before definition across chapters; callbacks to things not yet taught;
+the difficulty curve, and whether any level jumps or stalls; question types and prompts
+repeated across chapters; distractors that give the answer away; chart-decision "best"
+answers that do not follow from the lesson just given; worked numbers; the Chapter 7
+playbook setups against the sources named in docs/agent.md §4; {{market.*}} tokens used
+where required; anything a beginner would find boring, patronising or confusing; whether
+anything is repeated enough to stick; and whether the questions are answerable by someone
+who genuinely understood the lesson and nothing more.
+
+Run `python3 tools/validate_content.py`, `--strict`, `tools/check_sizing.py` and
+`tools/test_validate.py` first, so you do not re-report what a tool already catches.
+
+Then give a numbered findings list, most important first, naming the file and screen for
+each. Change nothing. Wait for approval before any fix.
+```
+
+### Prompt — Pass B
+
+```
+Read CLAUDE.md, then docs/agent.md §1, §3.6 and §7 in full, and content/market_profiles.yaml.
+
+This pass does not check whether the course teaches well - Pass A does that. It checks
+whether the course survives contact with reality. Work these four questions across the
+whole [path] path:
+
+1. Every fixed product decision in §1 and every rule in §7: is it *delivered* - in the
+   right place, at the right weight - not merely stated in the docs? Name the file and
+   screen where each is delivered, or report it as unmet.
+2. Every trade the content teaches, against the account the content describes. Can a
+   learner actually place it? With which account type, how much capital, which
+   permissions? Name any trade the described account cannot execute.
+3. Every rule the content teaches, against the rules that actually bind in each market
+   profile: position limits, trade limits, settlement, borrow, and whatever
+   {{market.regulation_note}} promises.
+4. The handover. At the last screen of the path, what does the graduate still not know
+   that stands between them and the first thing the path tells them to do?
+
+Two method rules, and ignoring them is how this pass fails:
+- Match counts lie. Read the hits. A previous scan reported `margin` and `settle` as
+  covered; every match was the word "marginal" and the verb "settles". Both appear zero
+  times in the financial sense. A grep result is a place to look, never an answer.
+- Grep the concept, not the word. The same scan reported the instruments lesson absent;
+  it exists inside {{market.scalping_note}}, which contains neither "leverage" nor
+  "CFD". Before concluding something is missing, ask what it would be called here -
+  tokens, synonyms, the curriculum's own vocabulary.
+
+You are worst at this pass, because it needs knowledge from outside this repository.
+Where you cannot decide, say so and name the decision rather than guessing - the way
+docs/agent.md §3.6 records the margin and settlement conflicts.
+
+Numbered findings list, most important first, file and screen for each. Change nothing.
+```
 
 ---
 
-## Stage 5 — Day Trading and Swing Trading
+## PATHS — Day Trading and Swing Trading
 
-> **Gated. Do not start this until Stage V has run and the schema has survived it.** This
-> stage triples the corpus — ~770 further sub-levels — and every one of them is written
-> against a screen contract nothing has ever rendered. A schema fix costs 327 files today
-> and roughly 980 afterwards. Nothing in this stage becomes cheaper by being started early,
-> and one thing becomes three times dearer.
+> **Gated. Do not start until SLICE has run and the schema survived it.** This stage triples the
+> corpus — ~770 further sub-levels — every one written against a screen contract nothing has
+> rendered. A schema fix costs 327 files today and roughly 980 afterwards.
 
-Chapters 2–8 of each, following the tables already in `docs/curriculum.md`. Structurally
-these mirror Scalping, which makes them tempting to generate mechanically. Resist it:
-the timeframes, the holding periods, the price bands and the entire psychology chapter
-differ, and a swing lesson that reads like a scalping lesson with the word "swing"
-substituted is worse than no lesson.
+Chapters 2–8 of each, following the tables in `docs/curriculum.md`. Structurally they mirror
+Scalping, which makes mechanical generation tempting. Resist it: the timeframes, holding
+periods, price bands and the entire psychology chapter differ, and a swing lesson that reads
+like a scalping lesson with the word swapped is worse than no lesson.
 
-**Model: `claude-sonnet-5`**, same block prompt as Stage 3 with one clause added:
+Run it as SLICE-validated blocks of 4–6 levels, one session each, same shape the Scalping path
+used. Add this clause to every block prompt:
 
 ```
-The Scalping path's Chapter [N] covers the same ground for a different holding
-period. Read it for structure, pacing and screen mix — and then write for this path's
-timeframe from scratch. Do not port examples across. Where the honest answer is that
-this path does the same thing scalping does, say so in one screen and move on rather
-than padding the level.
+The Scalping path's Chapter [N] covers the same ground for a different holding period.
+Read it for structure, pacing and screen mix - then write for this path's timeframe from
+scratch. Do not port examples across. Where the honest answer is that this path does the
+same thing scalping does, say so in one screen and move on rather than padding the level.
 ```
+
+**One rule changes for these paths.** §3.6's concentration teaching is scalping's: on swing the
+risk budget binds, not the account ceiling, positions run 10–50 % of the account, and **several
+are open at once** — so total exposure and total open risk are what matter, and a per-position
+cap barely binds. Neither is checked by any tool yet; see the decisions below.
 
 ---
 
-## Stage 6 — Zero-knowledge review, per path
+## Decisions that gate work
 
-Two passes, not one. The first is pedagogical, the second is the one this plan was
-missing.
+These are product and compliance calls, not authoring ones. Each is recorded in full in
+`docs/agent.md` §3.6 or §7 with its options; none can be settled by a content session, and
+OFFER cannot be finished while the first two are open.
 
-**Pass A — does it teach?** The review that produced the Phase-2 findings, run once per
-completed path: terms before definition, callbacks to things not yet taught, difficulty
-curve, repeated prompts, distractors that give it away, chart answers that do not follow,
-worked numbers, playbook setups against the sources in `docs/agent.md` §4, `{{market.*}}`
-tokens, and whether a beginner would be bored, patronised or confused.
+| # | Decision | Blocks |
+|---|---|---|
+| A | **Does the path finish at a process, or at a person who can start?** §1.1 promises "ready to paper-trade with a real process" and delivers it; account setup, platform settings and data access appear zero times, consistent with that promise. Answer this and B, C and OFFER become one piece of work. | OFFER, and README items 10, 12, 13 |
+| B | **123 shorts need a margin-enabled account and the path never says so.** A cash account cannot borrow. Three options in §3.6; the cheapest keeps every drill and costs §3.6 its no-margin claim. | OFFER 15-1 |
+| C | **The six-trade session does not reconcile with a cash account under T+1.** Three options in §3.6, none free. | OFFER 15-3 |
 
-**Pass B — does it survive contact with reality? [v3.1]** Everything above checks the
-course against *itself*. Four findings on the written scalping path were of a different
-kind entirely — the leverage lesson §1 promised and the path never had, 123 shorts that
-the account the app describes cannot place, the pattern-day-trader rule that ends a
-six-trade session, settlement against 95 %-of-cash positions — and **not one of Pass A's
-items would have surfaced any of them.** All four came from a human asking "but could
-someone actually do that?". Pass B is that question, made systematic:
+One constraint binds today under every answer: **the app must never imply it prepared the
+learner for a step it did not cover.**
 
-- **Every fixed decision in §1 and every rule in §7, checked against the corpus.** Not
-  "is it stated" — "is it delivered, in the right place, at the right weight".
-- **Every trade the content teaches, against the account the content describes.** Can the
-  learner place it? With what type of account, how much capital, which permissions?
-- **Every rule the content teaches, against the rules that actually bind** in each market
-  profile — position limits, trade limits, settlement, borrow, and what the app promises
-  in `{{market.regulation_note}}`.
-- **The handover.** At the last screen, what does the graduate still not know that stands
-  between them and the first thing the path tells them to do?
+### Two validator rules that do not exist yet
 
-Two method notes, learned the hard way and worth more than the list:
+`validate_content.py` and `check_sizing.py` check the single-position ceiling only. That is the
+binding constraint on scalping, so the check has teeth there. On day trading and swing it is
+not, and nothing checks what does. **Both must exist before PATHS:**
 
-1. **Match counts lie; read the hits.** A scan reported `margin` and `settle` as covered
-   across the corpus. Every match was the English word *marginal* and the verb *settles*
-   ("the candle settles the argument"). Financial margin and settlement appear zero times.
-   A grep result is a place to look, never an answer.
-2. **Grep the concept, not the word.** The same scan reported the instruments lesson as
-   absent; it exists, inside `{{market.scalping_note}}`, which contains neither "leverage"
-   nor "CFD" in the search that was run. Before concluding something is missing, ask what
-   it would be *called* in this corpus — tokens, synonyms, the curriculum's own vocabulary.
-
-**Model: `claude-opus-5`, high effort, one pass per session.** Pass A found 28 real
-problems in 101 files; across 387 it is the difference between a course and a pile of
-lessons. Pass B found four in a single afternoon of someone asking awkward questions.
-Run each as a findings list first, approve, then fix — never as one combined pass.
-
-**Pass B is also the one a model is worst at**, because it requires knowing what happens
-outside the repository. Treat its output as a shortlist for a human who has actually
-placed these trades, not as a verdict. Where it cannot decide, it should say so and name
-the decision — as `docs/agent.md` §3.6 does for the margin and settlement conflicts.
+1. **Per-trade risk** — `shares × stop distance ÷ account` within roughly 0.5–2 % wherever a
+   file names an account and a stop. A swing drill risking 8 % per trade passes today.
+2. **Total open exposure and risk** — for any file showing more than one position at once, the
+   sums against the account. Swing runs several holdings by design; four at 25 % each breaches
+   nothing while deploying the whole account.
 
 ---
 
 ## What "done" means
 
-Per `docs/agent.md` §1.1, the graduate can pick stocks, read context, recognise setups,
-size from risk *and* account, place entry, stop and target, follow their limits, journal,
-and judge themselves by expectancy. They are **not** a profitable trader — Chapter 8
-ends with a 30-day simulator plan, not a certificate. Any screen that promises otherwise
-is a bug, and it is the one bug the validator will never catch.
+Per `docs/agent.md` §1.1, the graduate can pick stocks, read context, recognise setups, size
+from risk *and* account, place entry, stop and target, follow their limits, journal, and judge
+themselves by expectancy. They are **not** a profitable trader — Chapter 8 ends with a 30-day
+simulator plan, not a certificate. Any screen that promises otherwise is a bug, and it is the
+one bug the validator will never catch.
+
+Where the promise stops is decision A above, and until it is answered the honest statement of
+scope is: *a process you can paper-trade with*, not *a person ready to open an account*.
+
+---
+
+## Cost, honestly
+
+The whole remaining content programme is in the low tens of dollars of API spend at the model
+prices above. Nothing here is worth downgrading a model over, and SLICE is the only stage whose
+cost is mostly *your* time rather than tokens.
+
+The real budget is review attention, and the stages differ sharply in how much they need:
+
+- **Readable end to end:** PHRASING, DRILLS, OFFER. Diffs you can check by eye.
+- **Not readable end to end:** SIZING changes hundreds of numbers across two chapters, and the
+  only honest check is `tools/check_sizing.py` plus spot-reading. REPLAY-BANK spreads
+  arithmetic over 60 bars per file, which is why REPLAY-PILOT exists before it.
+- **Cheapest visible improvement:** PHRASING. One or two sessions, no arithmetic risk, and it
+  fixes something a learner actually notices. SIZING fixes something they would notice only by
+  doing the sums.
+
+If the budget is attention rather than money, the order in the table is already sorted for it —
+with one exception you should make knowingly: SLICE is first because of what it *de-risks*, not
+because it is cheap.
