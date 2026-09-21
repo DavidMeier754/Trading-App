@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated from 'react-native-reanimated';
+import Animated, { cubicBezier } from 'react-native-reanimated';
 
 import type { AnswerValue } from '../lesson/answers';
 import { signedPrice } from '../format';
@@ -22,9 +22,12 @@ const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '−'];
  */
 const KEY_TRANSITION = {
   transform: [{ scale: 1 }],
-  transitionProperty: 'transform, backgroundColor',
+  // An array, not a comma-separated string: react-native-web forwards the string
+  // to CSS so it appears to work, but Reanimated's own parser takes a list.
+  transitionProperty: ['transform', 'backgroundColor'],
   transitionDuration: `${DURATION.press}ms`,
-  transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
+  // Reanimated's easing object, not the CSS string: the string only works on web.
+  transitionTimingFunction: cubicBezier(0.23, 1, 0.32, 1),
 } as const;
 
 /**

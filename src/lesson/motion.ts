@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Easing, useReducedMotion } from 'react-native-reanimated';
+import { cubicBezier, Easing, useReducedMotion } from 'react-native-reanimated';
 
 import { selectHaptic } from './haptics';
 
@@ -71,13 +71,21 @@ export function usePressFeedback(enabled = true) {
   };
 }
 
+/**
+ * The same strong ease-out EASE_OUT encodes, for a CSS transition.
+ *
+ * It has to be Reanimated's own easing object, not the `cubic-bezier(...)`
+ * string CSS takes: react-native-web hands the string straight to the browser,
+ * so the string works on web and throws on a device -- "Invalid predefined
+ * timing function". `cubicBezier` is correct on both.
+ */
+const PRESS_EASE = cubicBezier(0.23, 1, 0.32, 1);
+
 const PRESS_BASE = {
   transform: [{ scale: 1 }],
   transitionProperty: 'transform',
   transitionDuration: `${DURATION.press}ms`,
-  // Reanimated's built-in easings are as weak as CSS's; this is the same strong
-  // ease-out EASE_OUT encodes, in the string form the CSS transition takes.
-  transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
+  transitionTimingFunction: PRESS_EASE,
 } as const;
 
 const PRESS_DOWN = { transform: [{ scale: 0.97 }] } as const;
