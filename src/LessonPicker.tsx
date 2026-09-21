@@ -43,7 +43,6 @@ export default function LessonPicker({
 const styles = StyleSheet.create({
   wrap: {
     flex: 1,
-    backgroundColor: colors.background,
     paddingHorizontal: space.lg,
     gap: space.lg,
     justifyContent: 'center',

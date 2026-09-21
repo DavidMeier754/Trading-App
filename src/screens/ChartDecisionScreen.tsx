@@ -1,12 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import Chart, { closeAt } from '../components/Chart';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
+import { EASE_OUT } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, radius, space, type } from '../theme';
+import { colors, GRID, radius, space, type } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
 
 /** Which way a choice faces, for the P/L side of the outcome strip. */
@@ -38,37 +41,78 @@ export default function ChartDecisionScreen({
   const start = screen.chart.decision_index + 1;
 
   const choice = value.kind === 'decision' ? value.choice : null;
-  const [visible, setVisible] = useState(start);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [done, setDone] = useState(false);
 
-  const playing = choice !== null && visible < bars;
+  // docs/UI.md §4.3: after the choice the chart continues. It used to do that by
+  // raising a React state one bar at a time on a 120ms interval -- and since the
+  // price axis is derived from the bars in view, every one of those steps
+  // re-scaled and re-rendered the whole chart. Now a single shared value runs
+  // 0 -> 1 on the UI thread and the chart derives the line, its fill, the leading
+  // dot and the axis from it, so the replay is continuous and costs no renders.
+  const progress = useSharedValue(0);
+  const playing = choice !== null && !done;
   const phase: DecisionPhase =
-    choice === null ? 'deciding' : visible < bars ? 'playing' : 'done';
+    choice === null ? 'deciding' : done ? 'done' : 'playing';
 
   useEffect(() => {
     onPhaseChange(phase);
   }, [phase, onPhaseChange]);
 
-  // docs/UI.md §4.3: after the choice the chart continues candle by candle.
-  // §10: reduce motion turns auto-playback off; the candles then appear on tap.
-  useEffect(() => {
-    if (choice === null || reduced || visible >= bars) return;
-    timer.current = setInterval(() => {
-      setVisible((v) => {
-        if (v + 1 >= bars && timer.current) clearInterval(timer.current);
-        return Math.min(v + 1, bars);
-      });
-    }, PLAYBACK_MS);
-    return () => {
-      if (timer.current) clearInterval(timer.current);
-    };
-  }, [choice, reduced, bars, visible >= bars]);
+  const finish = useCallback(() => setDone(true), []);
 
-  const onChartPress = () => {
+  useEffect(() => {
     if (choice === null) return;
-    // Tap to skip; under reduce motion, tap advances one bar.
-    setVisible((v) => (reduced ? Math.min(v + 1, bars) : bars));
+    // §10: reduce motion keeps the outcome, drops the travel.
+    if (reduced) {
+      progress.set(1);
+      setDone(true);
+      return;
+    }
+    progress.set(0);
+    progress.set(
+      withTiming(
+        1,
+        { duration: PLAYBACK_MS * Math.max(1, bars - start), easing: Easing.linear },
+        (finished) => {
+          'worklet';
+          if (finished) scheduleOnRN(finish);
+        }
+      )
+    );
+  }, [choice, reduced, bars, start, progress, finish]);
+
+  // Tap to skip: the rest of the replay in one short sweep, not a jump cut.
+  const onChartPress = () => {
+    if (choice === null || done) return;
+    progress.set(
+      withTiming(1, { duration: 220, easing: EASE_OUT }, (finished) => {
+        'worklet';
+        if (finished) scheduleOnRN(finish);
+      })
+    );
   };
+
+  // The chart's price gridlines are snapped onto the backdrop grid, which needs
+  // the chart's y on screen. It is measured once, after layout.
+  const chartBox = useRef<View>(null);
+  const [gridAnchor, setGridAnchor] = useState<number | undefined>(undefined);
+  const measureAnchor = useCallback(() => {
+    chartBox.current?.measureInWindow((_x, y) => {
+      setGridAnchor((prev) =>
+        prev !== undefined && Math.abs(prev - y) < 0.5 ? prev : y
+      );
+    });
+  }, []);
+  // `onLayout` alone is not enough: the outcome card re-centres the column, so
+  // the chart moves without changing size, and on web `onLayout` is a resize
+  // observer that never fires for a move. Re-measure whenever the phase changes
+  // -- and again a beat later, because the player's reveal panel mounts below
+  // this screen in response to the same phase change and shifts it once more.
+  useEffect(() => {
+    measureAnchor();
+    const settle = setTimeout(measureAnchor, 160);
+    return () => clearTimeout(settle);
+  }, [measureAnchor, phase, width]);
 
   const decisionPrice = closeAt(screen.chart, screen.chart.decision_index);
   const finalPrice = closeAt(screen.chart, bars - 1);
@@ -77,7 +121,9 @@ export default function ChartDecisionScreen({
   const direction = choice ? DIRECTION[choice] : 0;
   const pnl = direction * move * screen.shares;
 
-  const chartHeight = screen.chart.volume ? 252 : 220;
+  // Without a volume strip the plot is a fixed, grid-aligned box; the extra cell
+  // is the slack the top padding needs to shift into when it snaps to the grid.
+  const chartHeight = screen.chart.volume ? 252 : 10 + GRID + 168 + 18;
 
   return (
     <View style={styles.wrap}>
@@ -85,20 +131,22 @@ export default function ChartDecisionScreen({
 
       {screen.state?.length ? <StateChips state={screen.state} /> : null}
 
-      <Pressable onPress={onChartPress} disabled={choice === null}>
-        <Chart
-          spec={screen.chart}
-          visibleCount={visible}
-          width={width}
-          height={chartHeight}
-        />
-      </Pressable>
+      <View ref={chartBox} onLayout={measureAnchor}>
+        <Pressable onPress={onChartPress} disabled={choice === null}>
+          <Chart
+            spec={screen.chart}
+            visibleCount={done ? bars : start}
+            playback={playing ? progress : undefined}
+            gridAnchor={gridAnchor}
+            width={width}
+            height={chartHeight}
+          />
+        </Pressable>
+      </View>
 
-      {playing ? (
-        <Text style={styles.playHint}>
-          {reduced ? 'Tap the chart for the next bar' : 'Tap the chart to skip'}
-        </Text>
-      ) : null}
+      <Text style={[styles.playHint, !playing && styles.playHintHidden]}>
+        Tap the chart to skip
+      </Text>
 
       {phase === 'done' ? (
         // One line of numbers, one line of prose. The card used to repeat the
@@ -146,6 +194,9 @@ const styles = StyleSheet.create({
   wrap: { flex: 1, justifyContent: 'center', gap: space.md },
   scenario: { ...type.body, color: colors.text },
   playHint: { ...type.small, color: colors.textFaint, textAlign: 'center' },
+  // Kept in the layout at all times: appearing mid-replay would shift the chart
+  // under the line that is still drawing.
+  playHintHidden: { opacity: 0 },
   outcome: {
     backgroundColor: colors.surface,
     borderColor: colors.border,

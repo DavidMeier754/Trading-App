@@ -58,7 +58,7 @@ function DecisionButton({
             button === 'long' || button === 'buy' ? styles.up : null,
             button === 'short' ? styles.down : null,
             press.style,
-            { transform: [{ scale: pressed ? press.pressedScale : 1 }] },
+            pressed && press.pressedStyle,
           ]}
         >
           <Text style={styles.text}>{DECISION_LABEL[button]}</Text>

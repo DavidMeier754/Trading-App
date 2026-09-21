@@ -7,6 +7,8 @@ export const colors = {
   surface: '#171C23',
   surfaceAlt: '#1F2630',
   border: '#2A323D',
+  /** The backdrop grid. Well below text contrast: a surface, not content. */
+  gridLine: 'rgba(255, 255, 255, 0.04)',
   borderStrong: '#3A4553',
 
   text: '#E8ECF1',
@@ -59,3 +61,13 @@ export const type = {
 
 /** docs/UI.md §1.3 / §10: minimum tap target. */
 export const TAP_TARGET = 48;
+
+/**
+ * The backdrop grid cell, in points. The chart's price gridlines are snapped to
+ * multiples of it so the two grids read as one grid rather than as two that
+ * nearly line up.
+ */
+export const GRID = 28;
+/** Price gridlines sit every second cell; four lines make three gaps. */
+export const CHART_GRID_STEP = GRID * 2;
+export const CHART_PLOT_H = CHART_GRID_STEP * 3;

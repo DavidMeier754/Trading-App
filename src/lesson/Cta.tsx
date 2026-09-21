@@ -33,7 +33,7 @@ export default function Cta({
             styles.button,
             disabled && styles.disabled,
             press.style,
-            { transform: [{ scale: pressed ? press.pressedScale : 1 }] },
+            pressed && press.pressedStyle,
           ]}
         >
           <Text style={[styles.label, disabled && styles.labelDisabled]}>{label}</Text>

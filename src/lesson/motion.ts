@@ -52,15 +52,35 @@ export function usePressFeedback(enabled = true) {
     selectHaptic();
   }, [enabled]);
 
+  const animates = enabled && !reduced;
+
   return {
     onPressIn,
-    /** Reanimated CSS transition: a two-state change needs no shared value. */
-    style: enabled && !reduced
-      ? { transitionProperty: 'transform' as const, transitionDuration: DURATION.press }
-      : undefined,
-    pressedScale: enabled && !reduced ? 0.97 : 1,
+    /**
+     * Reanimated CSS transition: a two-state change needs no shared value.
+     *
+     * The resting `transform` has to be declared here. A transition animates
+     * between two *declared* values, and this style used to declare none -- the
+     * pressed style introduced the first `transform` the view had ever had, so
+     * there was nothing to interpolate from and every press snapped. That snap
+     * is what read as a stutter on the decision buttons.
+     */
+    style: animates ? PRESS_BASE : undefined,
+    /** The pressed end state. Spread after `style`, never instead of it. */
+    pressedStyle: animates ? PRESS_DOWN : undefined,
   };
 }
+
+const PRESS_BASE = {
+  transform: [{ scale: 1 }],
+  transitionProperty: 'transform',
+  transitionDuration: `${DURATION.press}ms`,
+  // Reanimated's built-in easings are as weak as CSS's; this is the same strong
+  // ease-out EASE_OUT encodes, in the string form the CSS transition takes.
+  transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
+} as const;
+
+const PRESS_DOWN = { transform: [{ scale: 0.97 }] } as const;
 
 /** Reduced motion means gentler, not none: colour stays, movement goes. */
 export function useMotion() {

@@ -528,7 +528,8 @@ function renderScreen(props: {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: colors.background },
+  // The backdrop paints the ground now; every container above it is glass.
+  root: { flex: 1, backgroundColor: 'transparent' },
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -547,6 +548,5 @@ const styles = StyleSheet.create({
     gap: space.md,
     borderTopColor: colors.border,
     borderTopWidth: StyleSheet.hairlineWidth,
-    backgroundColor: colors.background,
   },
 });

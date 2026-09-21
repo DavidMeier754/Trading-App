@@ -59,7 +59,7 @@ export function ToneSurface({
             style,
             animated,
             press.style,
-            { transform: [{ scale: pressed ? press.pressedScale : 1 }] },
+            pressed && press.pressedStyle,
           ]}
         >
           {children}

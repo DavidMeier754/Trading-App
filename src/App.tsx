@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import Backdrop from './components/Backdrop';
 import { LessonEntry, LESSONS } from './content';
 import LessonPlayer from './lesson/LessonPlayer';
 import LessonPicker from './LessonPicker';
@@ -12,7 +13,7 @@ import { colors, space } from './theme';
 const MAX_WIDTH = 480;
 
 export default function App() {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const frameWidth = Math.min(width, MAX_WIDTH);
   const contentWidth = frameWidth - space.lg * 2;
 
@@ -23,6 +24,7 @@ export default function App() {
       <StatusBar style="light" />
       <View style={styles.root}>
         <View style={[styles.frame, { width: frameWidth }]}>
+          <Backdrop width={frameWidth} height={height} />
           {entry ? (
             <LessonPlayer
               key={entry.id}

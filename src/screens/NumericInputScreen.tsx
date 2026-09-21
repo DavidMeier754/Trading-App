@@ -8,11 +8,24 @@ import { parseNumeric } from '../lesson/answers';
 import { selectHaptic } from '../lesson/haptics';
 import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
+import { DURATION } from '../lesson/motion';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { NumericInputScreen as S } from '../types';
 import { Prompt } from './common';
 
 const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '−'];
+
+/**
+ * The resting transform has to be declared for the transition to have somewhere
+ * to start from; StyleSheet.create does not type the CSS-transition props, so
+ * this rides alongside the stylesheet entry rather than inside it.
+ */
+const KEY_TRANSITION = {
+  transform: [{ scale: 1 }],
+  transitionProperty: 'transform, backgroundColor',
+  transitionDuration: `${DURATION.press}ms`,
+  transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
+} as const;
 
 /**
  * docs/UI.md §4.1 `numeric-input`: a custom keypad (digits, `.`, `−`) — not the
@@ -104,9 +117,15 @@ export default function NumericInputScreen({
             accessibilityRole="button"
             disabled={revealed}
             onPress={() => press(key)}
-            style={({ pressed }) => [styles.key, pressed && !revealed && styles.keyDown]}
+            pressRetentionOffset={12}
           >
-            <Text style={styles.keyText}>{key}</Text>
+            {({ pressed }) => (
+              <Animated.View
+                style={[styles.key, KEY_TRANSITION, pressed && !revealed && styles.keyDown]}
+              >
+                <Text style={styles.keyText}>{key}</Text>
+              </Animated.View>
+            )}
           </Pressable>
         ))}
       </View>
@@ -155,7 +174,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  keyDown: { backgroundColor: colors.surfaceAlt },
+  keyDown: { backgroundColor: colors.surfaceAlt, transform: [{ scale: 0.96 }] },
   keyText: { ...type.prompt, color: colors.text },
   clear: { ...type.label, color: colors.accent },
 });
