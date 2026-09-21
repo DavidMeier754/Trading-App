@@ -7,8 +7,16 @@ export const colors = {
   surface: '#171C23',
   surfaceAlt: '#1F2630',
   border: '#2A323D',
-  /** The backdrop grid. Well below text contrast: a surface, not content. */
-  gridLine: 'rgba(255, 255, 255, 0.04)',
+  /**
+   * The backdrop grid. Two weights: a cell line every GRID, and a heavier one
+   * every fourth cell so the grid has a rhythm instead of one flat texture.
+   *
+   * These were far weaker at first -- 4% white, which measures fine in a
+   * screenshot on a large display and is invisible on a phone at arm's length.
+   * Read on the device, not in a capture.
+   */
+  gridLine: 'rgba(255, 255, 255, 0.075)',
+  gridLineMajor: 'rgba(255, 255, 255, 0.15)',
   borderStrong: '#3A4553',
 
   text: '#E8ECF1',

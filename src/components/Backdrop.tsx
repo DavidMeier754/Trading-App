@@ -59,6 +59,32 @@ export default function Backdrop({
             />
           </Pattern>
 
+          {/* Every fourth cell, heavier. A single-weight grid reads as noise;
+              the second weight is what makes it read as a measured surface. */}
+          <Pattern
+            id="gridMajor"
+            width={GRID * 4}
+            height={GRID * 4}
+            patternUnits="userSpaceOnUse"
+          >
+            <Line
+              x1={GRID * 4}
+              y1={0}
+              x2={GRID * 4}
+              y2={GRID * 4}
+              stroke={colors.gridLineMajor}
+              strokeWidth={1}
+            />
+            <Line
+              x1={0}
+              y1={GRID * 4}
+              x2={GRID * 4}
+              y2={GRID * 4}
+              stroke={colors.gridLineMajor}
+              strokeWidth={1}
+            />
+          </Pattern>
+
           <RadialGradient id="glow" cx="50%" cy="0%" rx="115%" ry="52%">
             <Stop offset="0" stopColor={colors.accent} stopOpacity="0.15" />
             <Stop offset="0.45" stopColor={colors.accent} stopOpacity="0.04" />
@@ -68,6 +94,7 @@ export default function Backdrop({
 
         <Rect x={0} y={0} width={width} height={height} fill={colors.background} />
         <Rect x={0} y={0} width={width} height={height} fill="url(#grid)" />
+        <Rect x={0} y={0} width={width} height={height} fill="url(#gridMajor)" />
         <Rect x={0} y={0} width={width} height={height} fill="url(#glow)" />
       </Svg>
     </View>
