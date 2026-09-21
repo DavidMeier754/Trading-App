@@ -1,30 +1,40 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import Animated, {
+  SharedValue,
+  useAnimatedProps,
+  useAnimatedReaction,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import Svg, { Circle } from 'react-native-svg';
 
 import { colors, radius, space, type } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
+import Confetti from './Confetti';
 import { celebrateHaptic } from './haptics';
-import { DURATION, EASE_OUT, motionFor } from './motion';
-import { useReduceMotion } from './useReduceMotion';
+import { DURATION, EASE_OUT, SPRING_POP, useMotion } from './motion';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+
+const RING = 132;
+const STROKE = 10;
+const R = (RING - STROKE) / 2;
+const CIRC = 2 * Math.PI * R;
 
 /**
  * docs/UI.md §5.3 — sub-level complete.
  *
- * This replaces the per-question score list that used to end a lesson. That list
- * is the `summary` archetype, which docs/schema.md defines for tests and final
- * exams, where a pass mark and a retry make it mean something. At the end of a
- * lesson it was a verdict nobody asked for. A lesson ends on what was earned.
- *
- * XP count-up and the accuracy ring are in. Streak flame and confetti are not:
- * they belong to the home screen and the badge moment, neither of which exists
- * in this slice.
+ * Rare tier, so this is where the delight budget goes: a confetti burst, a ring
+ * that draws, XP counting up off that same ring, and three blocks arriving on a
+ * stagger. Everything is transform and opacity except the ring's dash offset.
  */
 export default function LessonComplete({
-  screens,
   grades,
   levelTitle,
   xp,
@@ -34,7 +44,8 @@ export default function LessonComplete({
   levelTitle: string;
   xp: number;
 }) {
-  const reduced = useReduceMotion();
+  const m = useMotion();
+  const { width } = useWindowDimensions();
 
   const answered = grades.filter((g) => g !== null && g !== undefined) as Grade[];
   const clean = answered.filter((g) => g === 'correct' || g === 'amber').length;
@@ -42,143 +53,95 @@ export default function LessonComplete({
   const accuracy = total === 0 ? 1 : clean / total;
   const perfect = total > 0 && answered.every((g) => g === 'correct');
 
-  // A perfect run is worth more than a scraped pass, and the number has to be
-  // legible as "why": base XP, plus a bonus the card names.
   const bonus = perfect ? Math.round(xp * 0.5) : 0;
   const earned = xp + bonus;
 
-  const [shownXp, setShownXp] = useState(reduced ? earned : 0);
-  const ring = useRef(new Animated.Value(reduced ? 1 : 0)).current;
-
-  // The entrance is staggered rather than all-at-once: mascotless, this screen
-  // is a ring, a headline and a three-row card, and 40 ms between them reads as
-  // one arrival instead of a pop.
-  const tiers = [useRef(new Animated.Value(0)).current, useRef(new Animated.Value(0)).current, useRef(new Animated.Value(0)).current];
+  const ring = useSharedValue(m.reduced ? 1 : 0);
+  const t0 = useSharedValue(m.reduced ? 1 : 0);
+  const t1 = useSharedValue(m.reduced ? 1 : 0);
+  const t2 = useSharedValue(m.reduced ? 1 : 0);
+  const [shownXp, setShownXp] = useState(m.reduced ? earned : 0);
 
   useEffect(() => {
     celebrateHaptic();
-    const m = motionFor(reduced);
+    if (m.reduced) return;
+    // A spring per block, 70 ms apart: one arrival, not a pop.
+    [t0, t1, t2].forEach((v, i) => v.set(withDelay(i * 70, withSpring(1, SPRING_POP))));
+    ring.set(withDelay(180, withTiming(1, { duration: DURATION.celebrate, easing: EASE_OUT })));
+  }, [m.reduced, ring, t0, t1, t2]);
 
-    Animated.parallel([
-      ...tiers.map((v, i) =>
-        Animated.timing(v, {
-          toValue: 1,
-          duration: m.fade(320),
-          delay: m.move(i * 40),
-          easing: EASE_OUT,
-          useNativeDriver: true,
-        })
-      ),
-      Animated.timing(ring, {
-        toValue: 1,
-        duration: m.fade(DURATION.celebrate),
-        delay: m.move(180),
-        easing: EASE_OUT,
-        // strokeDashoffset cannot be driven natively.
-        useNativeDriver: false,
-      }),
-    ]).start();
-  }, [reduced, ring]);
-
-  // The counter reads off the ring's own value instead of a parallel timer.
-  // It used to run on a 32 ms setInterval, which re-rendered this whole screen
-  // nineteen times in 600 ms while two animations were already running.
-  useEffect(() => {
-    if (reduced) {
-      setShownXp(earned);
-      return;
+  // The counter reads off the ring rather than a parallel timer, so the number
+  // and the arc can never drift apart. It crosses to the RN runtime only when
+  // the displayed integer actually changes -- roughly 30 times, not every frame.
+  useAnimatedReaction(
+    () => Math.round(earned * Math.min(1, ring.get() * 1.5)),
+    (value, previous) => {
+      if (value !== previous) scheduleOnRN(setShownXp, value);
     }
-    const id = ring.addListener(({ value }) => {
-      setShownXp(Math.round(earned * Math.min(1, value * 1.5)));
-    });
-    return () => ring.removeListener(id);
-  }, [earned, reduced, ring]);
+  );
 
-  const size = 132;
-  const stroke = 10;
-  const r = (size - stroke) / 2;
-  const circumference = 2 * Math.PI * r;
+  const ringProps = useAnimatedProps(() => ({
+    strokeDashoffset: CIRC * (1 - accuracy * ring.get()),
+  }));
+
+  const travel = m.travel(16);
+  const s0 = useTierStyle(t0, travel);
+  const s1 = useTierStyle(t1, travel);
+  const s2 = useTierStyle(t2, travel);
 
   return (
     <View style={styles.wrap}>
-      <Tier v={tiers[0]} reduced={reduced} style={styles.ringWrap}>
-        <Svg width={size} height={size}>
+      {!m.reduced ? <Confetti width={width} height={620} /> : null}
+
+      <Animated.View style={[styles.ringWrap, s0]}>
+        <Svg width={RING} height={RING}>
           <Circle
-            cx={size / 2}
-            cy={size / 2}
-            r={r}
+            cx={RING / 2}
+            cy={RING / 2}
+            r={R}
             stroke={colors.surfaceAlt}
-            strokeWidth={stroke}
+            strokeWidth={STROKE}
             fill="none"
           />
           <AnimatedCircle
-            cx={size / 2}
-            cy={size / 2}
-            r={r}
+            cx={RING / 2}
+            cy={RING / 2}
+            r={R}
             stroke={perfect ? colors.warning : colors.success}
-            strokeWidth={stroke}
+            strokeWidth={STROKE}
             strokeLinecap="round"
             fill="none"
-            strokeDasharray={`${circumference} ${circumference}`}
-            strokeDashoffset={ring.interpolate({
-              inputRange: [0, 1],
-              outputRange: [circumference, circumference * (1 - accuracy)],
-            })}
-            transform={`rotate(-90 ${size / 2} ${size / 2})`}
+            strokeDasharray={`${CIRC} ${CIRC}`}
+            animatedProps={ringProps}
+            transform={`rotate(-90 ${RING / 2} ${RING / 2})`}
           />
         </Svg>
         <View style={styles.ringCenter}>
           <Text style={styles.xp}>{`+${shownXp}`}</Text>
           <Text style={styles.xpLabel}>XP</Text>
         </View>
-      </Tier>
+      </Animated.View>
 
-      <Tier v={tiers[1]} reduced={reduced} style={styles.textBlock}>
+      <Animated.View style={[styles.textBlock, s1]}>
         <Text style={styles.title}>{perfect ? 'Perfect run' : 'Lesson complete'}</Text>
         <Text style={styles.subtitle}>{levelTitle}</Text>
-      </Tier>
+      </Animated.View>
 
-      <Tier v={tiers[2]} reduced={reduced} style={styles.rows}>
+      <Animated.View style={[styles.rows, s2]}>
         <Row label="Lesson" value={`+${xp} XP`} />
         {bonus > 0 ? <Row label="Perfect bonus" value={`+${bonus} XP`} accent /> : null}
-        <Row
-          label="Answers"
-          value={`${clean} of ${total}`}
-          accent={accuracy === 1}
-        />
-      </Tier>
+        <Row label="Answers" value={`${clean} of ${total}`} accent={accuracy === 1} />
+      </Animated.View>
     </View>
   );
 }
 
 /** One staggered block of the entrance. */
-function Tier({
-  v,
-  reduced,
-  children,
-  style,
-}: {
-  v: Animated.Value;
-  reduced: boolean;
-  children: React.ReactNode;
-  style?: any;
-}) {
-  const travel = motionFor(reduced).travel(14);
-  return (
-    <Animated.View
-      style={[
-        style,
-        {
-          opacity: v,
-          transform: [
-            { translateY: v.interpolate({ inputRange: [0, 1], outputRange: [travel, 0] }) },
-          ],
-        },
-      ]}
-    >
-      {children}
-    </Animated.View>
-  );
+function useTierStyle(v: SharedValue<number>, travel: number) {
+  return useAnimatedStyle(() => ({
+    opacity: v.get(),
+    transform: [{ translateY: (1 - v.get()) * travel }],
+  }));
 }
 
 function Row({
@@ -201,17 +164,9 @@ function Row({
 const styles = StyleSheet.create({
   wrap: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.lg },
   ringWrap: { alignItems: 'center', justifyContent: 'center' },
-  ringCenter: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  ringCenter: { position: 'absolute', alignItems: 'center', justifyContent: 'center' },
   xp: { ...type.display, fontSize: 32, color: colors.text },
-  xpLabel: {
-    ...type.label,
-    color: colors.textMuted,
-    letterSpacing: 1.5,
-  },
+  xpLabel: { ...type.label, color: colors.textMuted, letterSpacing: 1.5 },
   textBlock: { alignItems: 'center', gap: space.xs },
   title: { ...type.title, color: colors.text },
   subtitle: { ...type.body, color: colors.textMuted },

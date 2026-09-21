@@ -1,11 +1,11 @@
 import React from 'react';
-import { Animated, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import { copy } from '../format';
 import Shake from '../lesson/Shake';
-import { usePressScale } from '../lesson/motion';
+import { usePressFeedback } from '../lesson/motion';
 import { Tone, useToneTransition } from '../lesson/toneTransition';
-import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 
 export function Prompt({ children }: { children: string }) {
@@ -39,9 +39,8 @@ export function ToneSurface({
   accessibilityLabel?: string;
   children: React.ReactNode;
 }) {
-  const reduced = useReduceMotion();
-  const animated = useToneTransition(tone, reduced);
-  const press = usePressScale(!disabled);
+  const animated = useToneTransition(tone);
+  const press = usePressFeedback(!disabled);
 
   const surface = (
     <Pressable
@@ -51,11 +50,21 @@ export function ToneSurface({
       disabled={disabled}
       onPress={onPress}
       onPressIn={press.onPressIn}
-      onPressOut={press.onPressOut}
+      pressRetentionOffset={16}
     >
-      <Animated.View style={[styles.surface, style, animated, press.style]}>
-        {children}
-      </Animated.View>
+      {({ pressed }) => (
+        <Animated.View
+          style={[
+            styles.surface,
+            style,
+            animated,
+            press.style,
+            { transform: [{ scale: pressed ? press.pressedScale : 1 }] },
+          ]}
+        >
+          {children}
+        </Animated.View>
+      )}
     </Pressable>
   );
 

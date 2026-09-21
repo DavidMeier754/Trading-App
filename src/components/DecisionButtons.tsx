@@ -1,7 +1,8 @@
 import React from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 
-import { usePressScale } from '../lesson/motion';
+import { usePressFeedback } from '../lesson/motion';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { DecisionButton } from '../types';
 
@@ -41,25 +42,28 @@ function DecisionButton({
   button: DecisionButton;
   onChoose: (button: DecisionButton) => void;
 }) {
-  const press = usePressScale();
+  const press = usePressFeedback();
   return (
     <Pressable
       accessibilityRole="button"
       onPress={() => onChoose(button)}
       onPressIn={press.onPressIn}
-      onPressOut={press.onPressOut}
+      pressRetentionOffset={16}
       style={styles.flex}
     >
-      <Animated.View
-        style={[
-          styles.button,
-          button === 'long' || button === 'buy' ? styles.up : null,
-          button === 'short' ? styles.down : null,
-          press.style,
-        ]}
-      >
-        <Text style={styles.text}>{DECISION_LABEL[button]}</Text>
-      </Animated.View>
+      {({ pressed }) => (
+        <Animated.View
+          style={[
+            styles.button,
+            button === 'long' || button === 'buy' ? styles.up : null,
+            button === 'short' ? styles.down : null,
+            press.style,
+            { transform: [{ scale: pressed ? press.pressedScale : 1 }] },
+          ]}
+        >
+          <Text style={styles.text}>{DECISION_LABEL[button]}</Text>
+        </Animated.View>
+      )}
     </Pressable>
   );
 }

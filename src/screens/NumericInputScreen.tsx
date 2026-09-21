@@ -1,5 +1,6 @@
 import React from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import type { AnswerValue } from '../lesson/answers';
 import { signedPrice } from '../format';
@@ -7,7 +8,6 @@ import { parseNumeric } from '../lesson/answers';
 import { selectHaptic } from '../lesson/haptics';
 import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
-import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { NumericInputScreen as S } from '../types';
 import { Prompt } from './common';
@@ -58,11 +58,10 @@ export default function NumericInputScreen({
   const fieldColor = !revealed ? colors.accent : isRight ? colors.success : colors.down;
 
   // docs/UI.md §5.1: the field ramps to its verdict colour over 200 ms.
-  const reduced = useReduceMotion();
-  const animatedBorder = useBorderTransition(fieldColor, revealed, reduced);
+  const animatedBorder = useBorderTransition(fieldColor, revealed);
 
   const field = (
-    <Animated.View style={[styles.field, { borderColor: animatedBorder }]}>
+    <Animated.View style={[styles.field, animatedBorder]}>
       <View style={styles.fieldRow}>
         {unitIsPrefix && screen.unit ? (
           <Text style={[styles.unit, isEmpty && styles.faint]}>{screen.unit}</Text>

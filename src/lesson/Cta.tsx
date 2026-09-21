@@ -1,8 +1,9 @@
 import React from 'react';
-import { Animated, Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import { colors, radius, TAP_TARGET, type } from '../theme';
-import { usePressScale } from './motion';
+import { usePressFeedback } from './motion';
 
 /** docs/UI.md §2: single primary CTA, full width, bottom safe area. */
 export default function Cta({
@@ -14,9 +15,7 @@ export default function Cta({
   disabled?: boolean;
   onPress: () => void;
 }) {
-  // scale(0.97) over 160 ms. An opacity flick is the weakest press feedback
-  // there is, and Pressable's style callback is an instant cut either way.
-  const press = usePressScale(!disabled);
+  const press = usePressFeedback(!disabled);
 
   return (
     <Pressable
@@ -25,13 +24,21 @@ export default function Cta({
       disabled={disabled}
       onPress={onPress}
       onPressIn={press.onPressIn}
-      onPressOut={press.onPressOut}
+      // A finger drifting a few pixels should not cancel a press the user meant.
+      pressRetentionOffset={16}
     >
-      <Animated.View
-        style={[styles.button, disabled && styles.disabled, press.style]}
-      >
-        <Text style={[styles.label, disabled && styles.labelDisabled]}>{label}</Text>
-      </Animated.View>
+      {({ pressed }) => (
+        <Animated.View
+          style={[
+            styles.button,
+            disabled && styles.disabled,
+            press.style,
+            { transform: [{ scale: pressed ? press.pressedScale : 1 }] },
+          ]}
+        >
+          <Text style={[styles.label, disabled && styles.labelDisabled]}>{label}</Text>
+        </Animated.View>
+      )}
     </Pressable>
   );
 }

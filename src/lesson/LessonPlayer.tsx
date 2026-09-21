@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Animated,
-  Easing,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import DecisionButtons, { DECISION_LABEL } from '../components/DecisionButtons';
@@ -68,8 +67,7 @@ import ProgressBar from './ProgressBar';
 import QuitSheet from './QuitSheet';
 import Reveal from './Reveal';
 import LessonComplete from './LessonComplete';
-import { DURATION, EASE_OUT, motionFor } from './motion';
-import { useReduceMotion } from './useReduceMotion';
+import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
 
 export default function LessonPlayer({
   level,
@@ -82,7 +80,6 @@ export default function LessonPlayer({
   onQuit?: () => void;
 }) {
   const insets = useSafeAreaInsets();
-  const reducedMotion = useReduceMotion();
   const screens = level.screens;
 
   const [index, setIndex] = useState(0);
@@ -103,9 +100,10 @@ export default function LessonPlayer({
 
   // A screen change is a beat, not a cut: the outgoing screen fades and slides
   // left, the incoming one arrives from the right while the progress bar fills.
-  const fade = useRef(new Animated.Value(1)).current;
-  const slide = useRef(new Animated.Value(0)).current;
+  const fade = useSharedValue(1);
+  const slide = useSharedValue(0);
   const lastAdvance = useRef(0);
+  const m = useMotion();
 
 
   const atSummary = index >= screens.length;
@@ -124,8 +122,8 @@ export default function LessonPlayer({
     setPlan({});
     setPathChoice(null);
     setRunKey((k) => k + 1);
-    fade.setValue(1);
-    slide.setValue(0);
+    fade.set(1);
+    slide.set(0);
     lastAdvance.current = 0;
   }, [screens, fade, slide]);
 
@@ -165,32 +163,26 @@ export default function LessonPlayer({
   // fades up while the progress bar fills underneath it. Fading the outgoing
   // screen out first would buy nothing but a blank frame between two screens.
   useEffect(() => {
-    const m = motionFor(reducedMotion);
-    fade.setValue(0);
-    slide.setValue(m.travel(24));
-    Animated.parallel([
-      // One duration for both properties. They used to run 300 ms and 420 ms,
-      // so the screen sat fully opaque for the last 120 ms while still creeping
-      // into place -- which reads as lag rather than polish.
-      Animated.timing(fade, {
-        toValue: 1,
-        duration: m.fade(DURATION.screen),
-        easing: EASE_OUT,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slide, {
-        toValue: 0,
-        duration: m.move(DURATION.screen),
-        easing: EASE_OUT,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [index, runKey, reducedMotion, fade, slide]);
+    // The fade is a timing curve; the slide is a no-overshoot spring that keeps
+    // settling after the fade is done. That reads smoother than two timings,
+    // which either land together (abrupt) or drift apart (laggy).
+    fade.set(0);
+    slide.set(m.travel(26));
+    fade.set(withTiming(1, { duration: m.fade(DURATION.screen), easing: EASE_OUT }));
+    slide.set(m.reduced ? 0 : withSpring(0, SPRING_SETTLE));
+  }, [index, runKey, fade, slide, m]);
+
+  const screenStyle = useAnimatedStyle(() => ({
+    opacity: fade.get(),
+    transform: [{ translateX: slide.get() }],
+  }));
 
   const advance = () => {
-    // A double tap on the CTA should not skip a screen.
+    // Only swallow a true double-fire. This used to block for the whole length
+    // of the transition, which ate deliberate fast taps and made the CTA feel
+    // like it needed pressing twice.
     const now = Date.now();
-    if (now - lastAdvance.current < DURATION.screen) return;
+    if (now - lastAdvance.current < 90) return;
     lastAdvance.current = now;
     setIndex((i) => i + 1);
   };
@@ -297,9 +289,7 @@ export default function LessonPlayer({
           incoming screen stays at the outgoing screen's last value. The keyed
           ScrollView inside gives each screen a fresh scroll offset and fresh
           component state; the wrapper around it stays put. */}
-      <Animated.View
-        style={[styles.scroll, { opacity: fade, transform: [{ translateX: slide }] }]}
-      >
+      <Animated.View style={[styles.scroll, screenStyle]}>
         {/* Screens do not scroll: one idea per screen means one screenful.
             See the docs/UI.md §2 / §10 patch in the build report. */}
         <View key={`${runKey}-${index}`} style={styles.content}>

@@ -56,11 +56,16 @@ export function commitHaptic(): void {
   impact(Haptics.ImpactFeedbackStyle.Soft);
 }
 
-/** The lesson-complete screen. */
+/**
+ * The lesson-complete screen: a success notification, then two light taps as
+ * the XP lands. One per moment, never per frame.
+ */
 export function celebrateHaptic(): void {
   if (Platform.OS === 'web') return;
   try {
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    setTimeout(() => impact(Haptics.ImpactFeedbackStyle.Light), 320);
+    setTimeout(() => impact(Haptics.ImpactFeedbackStyle.Light), 520);
   } catch {
     // ignored
   }

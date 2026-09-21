@@ -1,11 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { copy } from '../format';
 import { colors, radius, space, type } from '../theme';
 import type { Grade } from './answers';
-import { DURATION, EASE_OUT, motionFor } from './motion';
-import { useReduceMotion } from './useReduceMotion';
+import { DURATION, EASE_OUT, useMotion } from './motion';
 
 const TONE = {
   correct: { accent: colors.success, tint: colors.successTint, label: 'Correct' },
@@ -32,40 +36,27 @@ export default function Reveal({
   extra?: React.ReactNode;
 }) {
   const tone = TONE[grade];
-  const anim = useRef(new Animated.Value(0)).current;
-  const reduced = useReduceMotion();
+  const anim = useSharedValue(0);
+  const m = useMotion();
   const [showWorking, setShowWorking] = useState(false);
 
-  const m = motionFor(reduced);
-
   useEffect(() => {
-    Animated.timing(anim, {
-      toValue: 1,
-      // Reduced motion keeps a short fade; only the slide-up goes away, via
-      // the interpolation below.
-      duration: m.fade(DURATION.reveal),
-      easing: EASE_OUT,
-      useNativeDriver: true,
-    }).start();
+    // Reduced motion keeps a short fade; only the slide-up goes away.
+    anim.set(withTiming(1, { duration: m.fade(DURATION.reveal), easing: EASE_OUT }));
   }, [anim, m]);
+
+  const travel = m.travel(16);
+  const panel = useAnimatedStyle(() => ({
+    opacity: anim.get(),
+    transform: [{ translateY: (1 - anim.get()) * travel }],
+  }));
 
   return (
     <Animated.View
       style={[
         styles.wrap,
-        {
-          backgroundColor: tone.tint,
-          borderColor: tone.accent,
-          opacity: anim,
-          transform: [
-            {
-              translateY: anim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [m.travel(16), 0],
-              }),
-            },
-          ],
-        },
+        { backgroundColor: tone.tint, borderColor: tone.accent },
+        panel,
       ]}
     >
       <View style={styles.headRow}>

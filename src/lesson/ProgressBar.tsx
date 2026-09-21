@@ -1,40 +1,31 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { colors } from '../theme';
-import { DURATION, EASE_OUT } from './motion';
-import { useReduceMotion } from './useReduceMotion';
+import { DURATION, EASE_OUT, useMotion } from './motion';
 
 /**
  * docs/UI.md §2 — screens completed in this sub-level.
  *
- * Driven by `scaleX` on a full-width fill rather than by an animated `width`.
- * An animated width runs layout on the JS thread every frame, and this bar
- * fills at exactly the moment the screen transition is also running, so it was
- * competing for the busiest thread in the app. `scaleX` is native-driven.
+ * The fill animates `width`, which is normally a layout pass per frame. It is
+ * the documented exception: an absolutely positioned element with no children
+ * lays out nothing else, and `width` keeps the 4 px corner radius that a scaleX
+ * would smear flat at low progress.
  */
 export default function ProgressBar({ progress }: { progress: number }) {
-  const anim = useRef(new Animated.Value(progress)).current;
-  const reduced = useReduceMotion();
+  const m = useMotion();
 
-  useEffect(() => {
-    Animated.timing(anim, {
-      toValue: progress,
-      duration: reduced ? 0 : DURATION.screen,
+  const fill = useAnimatedStyle(() => ({
+    width: withTiming(`${Math.max(0, Math.min(1, progress)) * 100}%`, {
+      duration: m.fade(DURATION.screen),
       easing: EASE_OUT,
-      useNativeDriver: true,
-    }).start();
-  }, [progress, reduced, anim]);
+    }),
+  }));
 
   return (
     <View style={styles.track} accessibilityRole="progressbar">
-      <Animated.View
-        style={[
-          styles.fill,
-          // Anchored left so it grows from the start of the bar, not the middle.
-          { transform: [{ scaleX: anim }] },
-        ]}
-      />
+      <Animated.View style={[styles.fill, fill]} />
     </View>
   );
 }
@@ -52,9 +43,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     bottom: 0,
-    width: '100%',
     borderRadius: 4,
     backgroundColor: colors.accent,
-    transformOrigin: 'left',
   },
 });

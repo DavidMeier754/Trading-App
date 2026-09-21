@@ -1,8 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
+import {
+  interpolateColor,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { colors } from '../theme';
-import { DURATION, motionFor } from './motion';
+import { DURATION, EASE_OUT } from './motion';
 
 /** How an answer surface currently reads. */
 export type Tone = 'idle' | 'selected' | 'correct' | 'wrong' | 'amber' | 'dimmed';
@@ -35,14 +41,19 @@ export function tonePalette(tone: Tone): {
 }
 
 /**
- * docs/UI.md §5.1: "the element turns green (200 ms)". The colour is animated from
- * whatever the surface looked like the instant before Check — idle or selected —
- * to its verdict colour, so the reveal reads as a change of state rather than a
- * repaint. Selection changes before the reveal snap, as a tap should.
+ * docs/UI.md §5.1: "the element turns green (200 ms)", ramping from whatever it
+ * looked like the instant before.
+ *
+ * On Reanimated this runs on the UI thread. Core `Animated` cannot drive colour
+ * natively, so this used to be the one animation stuck on the JS thread — and
+ * it fires at the same moment as the shake, which was native. Two halves of one
+ * piece of feedback, on two threads.
  */
-export function useToneTransition(tone: Tone, reduced: boolean) {
-  const anim = useRef(new Animated.Value(isRevealTone(tone) ? 1 : 0)).current;
+export function useToneTransition(tone: Tone) {
+  const reduced = useReducedMotion();
+  const progress = useSharedValue(isRevealTone(tone) ? 1 : 0);
   const from = useRef(tonePalette(tone));
+  const to = useRef(tonePalette(tone));
   const previous = useRef<Tone>(tone);
 
   useEffect(() => {
@@ -51,66 +62,62 @@ export function useToneTransition(tone: Tone, reduced: boolean) {
 
     if (isReveal && !wasReveal) {
       from.current = tonePalette(previous.current);
-      anim.setValue(0);
-      Animated.timing(anim, {
-        toValue: 1,
-        // A colour ramp is a state change, not movement, so reduced motion
-        // shortens it rather than removing it.
-        duration: motionFor(reduced).fade(DURATION.reveal),
-        // Colour cannot be driven natively by React Native's Animated; this is
-        // the one animation in the app that has to run on the JS thread.
-        useNativeDriver: false,
-      }).start();
-    } else if (!isReveal) {
+      to.current = tonePalette(tone);
+      progress.set(0);
+      progress.set(
+        withTiming(1, {
+          // A colour ramp is a state change, not movement, so reduced motion
+          // shortens it rather than removing it.
+          duration: reduced ? 140 : DURATION.reveal,
+          easing: EASE_OUT,
+        })
+      );
+    } else {
       from.current = tonePalette(tone);
-      anim.setValue(0);
+      to.current = tonePalette(tone);
+      progress.set(0);
     }
     previous.current = tone;
-  }, [tone, reduced, anim]);
+  }, [tone, reduced, progress]);
 
-  const to = tonePalette(tone);
-  const start = from.current;
-
-  return {
-    borderColor: anim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [start.border, to.border],
-    }),
-    backgroundColor: anim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [start.background, to.background],
-    }),
-    opacity: anim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [start.opacity, to.opacity],
-    }),
-  };
+  return useAnimatedStyle(() => {
+    const t = progress.get();
+    return {
+      borderColor: interpolateColor(t, [0, 1], [from.current.border, to.current.border]),
+      backgroundColor: interpolateColor(
+        t,
+        [0, 1],
+        [from.current.background, to.current.background]
+      ),
+      opacity: from.current.opacity + (to.current.opacity - from.current.opacity) * t,
+    };
+  });
 }
 
-/** The same 200 ms ramp for a surface that only changes one colour (a border). */
-export function useBorderTransition(
-  target: string,
-  active: boolean,
-  reduced: boolean
-) {
-  const anim = useRef(new Animated.Value(active ? 1 : 0)).current;
+/** The same ramp for a surface that only changes one colour (a border). */
+export function useBorderTransition(target: string, active: boolean) {
+  const reduced = useReducedMotion();
+  const progress = useSharedValue(active ? 1 : 0);
   const from = useRef(target);
+  const to = useRef(target);
   const wasActive = useRef(active);
 
   useEffect(() => {
     if (active && !wasActive.current) {
-      anim.setValue(0);
-      Animated.timing(anim, {
-        toValue: 1,
-        duration: motionFor(reduced).fade(DURATION.reveal),
-        useNativeDriver: false,
-      }).start();
+      to.current = target;
+      progress.set(0);
+      progress.set(
+        withTiming(1, { duration: reduced ? 140 : DURATION.reveal, easing: EASE_OUT })
+      );
     } else if (!active) {
       from.current = target;
-      anim.setValue(0);
+      to.current = target;
+      progress.set(0);
     }
     wasActive.current = active;
-  }, [active, reduced, anim, target]);
+  }, [active, reduced, progress, target]);
 
-  return anim.interpolate({ inputRange: [0, 1], outputRange: [from.current, target] });
+  return useAnimatedStyle(() => ({
+    borderColor: interpolateColor(progress.get(), [0, 1], [from.current, to.current]),
+  }));
 }

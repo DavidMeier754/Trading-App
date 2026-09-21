@@ -1,5 +1,10 @@
 import React, { useMemo, useRef } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  SharedValue,
+  useAnimatedProps,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import Svg, {
   Circle,
   Defs,
@@ -17,9 +22,74 @@ import { colors, type } from '../theme';
 import type { ChartSpec } from '../types';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedG = Animated.createAnimatedComponent(G);
 
 export type Candle = { o: number; h: number; l: number; c: number };
+
+/** The stroke, revealed by sweeping a dash mask along the finished path. */
+function AnimatedStroke({
+  d,
+  length,
+  draw,
+}: {
+  d: string;
+  length: number;
+  draw: SharedValue<number>;
+}) {
+  const props = useAnimatedProps(() => ({
+    strokeDashoffset: length * (1 - draw.get()),
+  }));
+  return (
+    <AnimatedPath
+      d={d}
+      stroke={colors.accent}
+      strokeWidth={2.25}
+      fill="none"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+      strokeDasharray={`${length} ${length}`}
+      animatedProps={props}
+    />
+  );
+}
+
+function AnimatedFill({ d, draw }: { d: string; draw: SharedValue<number> }) {
+  const props = useAnimatedProps(() => ({
+    opacity: Math.max(0, (draw.get() - 0.8) / 0.2),
+  }));
+  return (
+    <AnimatedG animatedProps={props}>
+      <Path d={d} fill="url(#lineFill)" />
+    </AnimatedG>
+  );
+}
+
+function AnimatedDot({
+  cx,
+  cy,
+  draw,
+}: {
+  cx: number;
+  cy: number;
+  draw: SharedValue<number>;
+}) {
+  const props = useAnimatedProps(() => ({
+    opacity: draw.get() > 0.92 ? (draw.get() - 0.92) / 0.08 : 0,
+  }));
+  return (
+    <AnimatedCircle
+      cx={cx}
+      cy={cy}
+      r={4}
+      fill={colors.accent}
+      stroke={colors.background}
+      strokeWidth={2}
+      animatedProps={props}
+    />
+  );
+}
 
 /** Both chart kinds reduce to a candle list; a line bar is a flat candle at its close. */
 export function toCandles(spec: ChartSpec): Candle[] {
@@ -56,7 +126,7 @@ type Props = {
    * and revealed with a dash mask, so the line grows continuously instead of
    * jumping from data point to data point.
    */
-  draw?: Animated.Value;
+  draw?: SharedValue<number>;
 };
 
 const AXIS_W = 44;
@@ -259,33 +329,14 @@ export default function Chart({
                 // The fill covers the whole plot from the first frame, so it
                 // cannot fade in alongside the stroke -- it would sit out to the
                 // right of a line that has not arrived yet. It follows instead.
-                <AnimatedG
-                  opacity={draw.interpolate({
-                    inputRange: [0, 0.8, 1],
-                    outputRange: [0, 0, 1],
-                  })}
-                >
-                  <Path d={lineFill} fill="url(#lineFill)" />
-                </AnimatedG>
+                <AnimatedFill d={lineFill} draw={draw} />
               ) : (
                 <Path d={lineFill} fill="url(#lineFill)" />
               )
             ) : null}
             {linePath ? (
               draw && linePathLength > 0 ? (
-                <AnimatedPath
-                  d={linePath}
-                  stroke={colors.accent}
-                  strokeWidth={2.25}
-                  fill="none"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeDasharray={`${linePathLength} ${linePathLength}`}
-                  strokeDashoffset={draw.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [linePathLength, 0],
-                  })}
-                />
+                <AnimatedStroke d={linePath} length={linePathLength} draw={draw} />
               ) : (
                 <Path
                   d={linePath}
@@ -299,21 +350,11 @@ export default function Chart({
             ) : null}
             {lastVisible ? (
               draw ? (
-                <AnimatedG
-                  opacity={draw.interpolate({
-                    inputRange: [0, 0.92, 1],
-                    outputRange: [0, 0, 1],
-                  })}
-                >
-                  <Circle
-                    cx={cx(shown - 1)}
-                    cy={y(lastVisible.c)}
-                    r={4}
-                    fill={colors.accent}
-                    stroke={colors.background}
-                    strokeWidth={2}
-                  />
-                </AnimatedG>
+                <AnimatedDot
+                  cx={cx(shown - 1)}
+                  cy={y(lastVisible.c)}
+                  draw={draw}
+                />
               ) : (
                 <Circle
                   cx={cx(shown - 1)}

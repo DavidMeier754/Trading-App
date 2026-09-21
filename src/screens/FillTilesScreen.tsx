@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
@@ -7,7 +8,6 @@ import { tilePool } from '../lesson/answers';
 import { selectHaptic } from '../lesson/haptics';
 import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
-import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { FillTilesScreen as S } from '../types';
 
@@ -41,11 +41,10 @@ export default function FillTilesScreen({
       : colors.down;
 
   // docs/UI.md §5.1: the blank ramps to its verdict colour over 200 ms.
-  const reduced = useReduceMotion();
-  const animatedSlot = useBorderTransition(slotColor, revealed, reduced);
+  const animatedSlot = useBorderTransition(slotColor, revealed);
 
   const blank = (
-    <Animated.View style={[styles.blank, { borderColor: animatedSlot }]}>
+    <Animated.View style={[styles.blank, animatedSlot]}>
       <Text style={[styles.blankText, { color: revealed ? slotColor : colors.text }]}>
         {word || ' '}
       </Text>

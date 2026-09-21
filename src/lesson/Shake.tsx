@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing } from 'react-native';
-
-import { useReduceMotion } from './useReduceMotion';
+import Animated, {
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
 /** docs/UI.md §5.1: a wrong element shakes 3 x 4 px over 250 ms. */
 export default function Shake({
@@ -11,8 +15,8 @@ export default function Shake({
   trigger: number;
   children: React.ReactNode;
 }) {
-  const x = useRef(new Animated.Value(0)).current;
-  const reduced = useReduceMotion();
+  const x = useSharedValue(0);
+  const reduced = useReducedMotion();
   const first = useRef(true);
 
   useEffect(() => {
@@ -21,26 +25,12 @@ export default function Shake({
       return;
     }
     if (reduced) return;
-    const leg = (to: number) =>
-      Animated.timing(x, {
-        toValue: to,
-        duration: 250 / 6,
-        // Linear: a shake is a jolt. The default inOut curve eased each of the
-        // six legs in and out, which turned it to mush.
-        easing: Easing.linear,
-        useNativeDriver: true,
-      });
-    Animated.sequence([
-      leg(-4),
-      leg(4),
-      leg(-4),
-      leg(4),
-      leg(-4),
-      leg(0),
-    ]).start();
+    // Linear: a shake is a jolt. An eased curve on each of six legs is mush.
+    const leg = (to: number) => withTiming(to, { duration: 250 / 6 });
+    x.set(withSequence(leg(-4), leg(4), leg(-4), leg(4), leg(-4), leg(0)));
   }, [trigger, reduced, x]);
 
-  return (
-    <Animated.View style={{ transform: [{ translateX: x }] }}>{children}</Animated.View>
-  );
+  const style = useAnimatedStyle(() => ({ transform: [{ translateX: x.get() }] }));
+
+  return <Animated.View style={style}>{children}</Animated.View>;
 }

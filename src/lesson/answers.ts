@@ -8,21 +8,18 @@ import type {
 } from '../types';
 
 /**
- * Which question types commit on the tap itself instead of waiting for Check.
+ * Which question types resolve on the tap itself instead of waiting for Check.
  *
- * docs/UI.md §4 gave every question a Check step and §4.1 exempted `tf`.
- * Play-testing reversed both: picking one of four answer cards and then
- * confirming is two taps for one decision, while `tf`'s two big thumb-sized
- * buttons are easy to hit by accident and want the confirm. `match` locks each
- * pair as it is made, so by the time every pair is green there is nothing left
- * for Check to do. See the docs/UI.md §4 patch in the build report.
+ * Only `chart-decision`, and only because its Long / Short / No-trade buttons
+ * *are* the CTA -- they rise into the CTA slot (docs/UI.md §6.4), the chart then
+ * plays the outcome, and "Got it" follows. There is no place to put a Check.
+ *
+ * Everything else asks for Check, then Got it. Play-testing went back and forth
+ * on this: committing on tap saves a tap, but it also means a mis-tap is a wrong
+ * answer you never got to take back, and the inconsistency between screens was
+ * worse than the extra tap.
  */
-export const COMMITS_ON_TAP: ScreenType[] = [
-  'mc',
-  'numeric-mc',
-  'match',
-  'chart-decision',
-];
+export const COMMITS_ON_TAP: ScreenType[] = ['chart-decision'];
 
 export function commitsOnTap(screen: Screen): boolean {
   return COMMITS_ON_TAP.includes(screen.type);
