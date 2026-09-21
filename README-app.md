@@ -12,6 +12,17 @@ npm run web        # browser preview
 npm run typecheck
 ```
 
+## Put it on the web
+
+`npm run build:web` writes a plain static site to `dist/` — `index.html` plus one JS
+bundle, no server of its own. Upload that folder to any static host (Netlify drop,
+Vercel, Cloudflare Pages, GitHub Pages) and the lesson player opens in a phone browser
+with no Expo Go install.
+
+Two things the web build cannot show you: haptics (no browser API worth using, so every
+`expo-haptics` call is a silent no-op) and native-driver animation smoothness. Those
+still need Expo Go on a real device.
+
 ## How the content is read
 
 `metro/yaml-transformer.js` parses `.yaml` at bundle time and re-emits it as a plain JS
