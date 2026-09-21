@@ -50,21 +50,12 @@ export function ToneSurface({
       disabled={disabled}
       onPress={onPress}
       onPressIn={press.onPressIn}
+      onPressOut={press.onPressOut}
       pressRetentionOffset={16}
     >
-      {({ pressed }) => (
-        <Animated.View
-          style={[
-            styles.surface,
-            style,
-            animated,
-            press.style,
-            pressed && press.pressedStyle,
-          ]}
-        >
-          {children}
-        </Animated.View>
-      )}
+      <Animated.View style={[styles.surface, style, animated, press.style]}>
+        {children}
+      </Animated.View>
     </Pressable>
   );
 

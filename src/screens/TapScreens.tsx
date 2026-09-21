@@ -1,12 +1,10 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Svg, { Line, Rect } from 'react-native-svg';
 
 import Chart from '../components/Chart';
 import OrderBook from '../components/data/OrderBook';
 import ScannerTable from '../components/data/ScannerTable';
 import Visual from '../components/Visual';
-import { price } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { selectHaptic } from '../lesson/haptics';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';

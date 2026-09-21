@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+
 import {
   interpolateColor,
   useAnimatedStyle,
@@ -52,8 +53,13 @@ export function tonePalette(tone: Tone): {
 export function useToneTransition(tone: Tone) {
   const reduced = useReducedMotion();
   const progress = useSharedValue(isRevealTone(tone) ? 1 : 0);
-  const from = useRef(tonePalette(tone));
-  const to = useRef(tonePalette(tone));
+  // The endpoints are shared values, not refs. A worklet captures a plain
+  // object by copying it into the UI runtime, so a ref mutated later on the
+  // React side never reaches the running animation: the colours would be one
+  // render stale. On web that goes unnoticed, because there the worklet closes
+  // over the very same object.
+  const from = useSharedValue(tonePalette(tone));
+  const to = useSharedValue(tonePalette(tone));
   const previous = useRef<Tone>(tone);
 
   useEffect(() => {
@@ -61,8 +67,8 @@ export function useToneTransition(tone: Tone) {
     const isReveal = isRevealTone(tone);
 
     if (isReveal && !wasReveal) {
-      from.current = tonePalette(previous.current);
-      to.current = tonePalette(tone);
+      from.set(tonePalette(previous.current));
+      to.set(tonePalette(tone));
       progress.set(0);
       progress.set(
         withTiming(1, {
@@ -73,23 +79,21 @@ export function useToneTransition(tone: Tone) {
         })
       );
     } else {
-      from.current = tonePalette(tone);
-      to.current = tonePalette(tone);
+      from.set(tonePalette(tone));
+      to.set(tonePalette(tone));
       progress.set(0);
     }
     previous.current = tone;
-  }, [tone, reduced, progress]);
+  }, [tone, reduced, progress, from, to]);
 
   return useAnimatedStyle(() => {
     const t = progress.get();
+    const a = from.get();
+    const b = to.get();
     return {
-      borderColor: interpolateColor(t, [0, 1], [from.current.border, to.current.border]),
-      backgroundColor: interpolateColor(
-        t,
-        [0, 1],
-        [from.current.background, to.current.background]
-      ),
-      opacity: from.current.opacity + (to.current.opacity - from.current.opacity) * t,
+      borderColor: interpolateColor(t, [0, 1], [a.border, b.border]),
+      backgroundColor: interpolateColor(t, [0, 1], [a.background, b.background]),
+      opacity: a.opacity + (b.opacity - a.opacity) * t,
     };
   });
 }
@@ -98,26 +102,27 @@ export function useToneTransition(tone: Tone) {
 export function useBorderTransition(target: string, active: boolean) {
   const reduced = useReducedMotion();
   const progress = useSharedValue(active ? 1 : 0);
-  const from = useRef(target);
-  const to = useRef(target);
+  // Shared values for the same reason as above.
+  const from = useSharedValue(target);
+  const to = useSharedValue(target);
   const wasActive = useRef(active);
 
   useEffect(() => {
     if (active && !wasActive.current) {
-      to.current = target;
+      to.set(target);
       progress.set(0);
       progress.set(
         withTiming(1, { duration: reduced ? 140 : DURATION.reveal, easing: EASE_OUT })
       );
     } else if (!active) {
-      from.current = target;
-      to.current = target;
+      from.set(target);
+      to.set(target);
       progress.set(0);
     }
     wasActive.current = active;
-  }, [active, reduced, progress, target]);
+  }, [active, reduced, progress, target, from, to]);
 
   return useAnimatedStyle(() => ({
-    borderColor: interpolateColor(progress.get(), [0, 1], [from.current, to.current]),
+    borderColor: interpolateColor(progress.get(), [0, 1], [from.get(), to.get()]),
   }));
 }

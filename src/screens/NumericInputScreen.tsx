@@ -1,14 +1,13 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, { cubicBezier } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import type { AnswerValue } from '../lesson/answers';
 import { signedPrice } from '../format';
 import { parseNumeric } from '../lesson/answers';
-import { selectHaptic } from '../lesson/haptics';
 import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
-import { DURATION } from '../lesson/motion';
+import { usePressFeedback } from '../lesson/motion';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { NumericInputScreen as S } from '../types';
 import { Prompt } from './common';
@@ -16,19 +15,44 @@ import { Prompt } from './common';
 const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '−'];
 
 /**
- * The resting transform has to be declared for the transition to have somewhere
- * to start from; StyleSheet.create does not type the CSS-transition props, so
- * this rides alongside the stylesheet entry rather than inside it.
+ * One key. It owns its own press feedback, which is why it is a component and
+ * not a branch inside the map: `usePressFeedback` is a hook.
  */
-const KEY_TRANSITION = {
-  transform: [{ scale: 1 }],
-  // An array, not a comma-separated string: react-native-web forwards the string
-  // to CSS so it appears to work, but Reanimated's own parser takes a list.
-  transitionProperty: ['transform', 'backgroundColor'],
-  transitionDuration: `${DURATION.press}ms`,
-  // Reanimated's easing object, not the CSS string: the string only works on web.
-  transitionTimingFunction: cubicBezier(0.23, 1, 0.32, 1),
-} as const;
+function Key({
+  label,
+  disabled,
+  onPress,
+}: {
+  label: string;
+  disabled: boolean;
+  onPress: () => void;
+}) {
+  const press = usePressFeedback(!disabled);
+  const [down, setDown] = React.useState(false);
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      disabled={disabled}
+      onPress={onPress}
+      onPressIn={() => {
+        setDown(true);
+        press.onPressIn();
+      }}
+      onPressOut={() => {
+        setDown(false);
+        press.onPressOut();
+      }}
+      pressRetentionOffset={12}
+    >
+      <Animated.View
+        style={[styles.key, press.style, down && !disabled && styles.keyDown]}
+      >
+        <Text style={styles.keyText}>{label}</Text>
+      </Animated.View>
+    </Pressable>
+  );
+}
 
 /**
  * docs/UI.md §4.1 `numeric-input`: a custom keypad (digits, `.`, `−`) — not the
@@ -52,7 +76,6 @@ export default function NumericInputScreen({
 
   const press = (key: string) => {
     if (revealed) return;
-    selectHaptic();
     if (key === '−') {
       onChange({
         kind: 'numeric',
@@ -115,21 +138,7 @@ export default function NumericInputScreen({
 
       <View style={styles.pad}>
         {KEYS.map((key) => (
-          <Pressable
-            key={key}
-            accessibilityRole="button"
-            disabled={revealed}
-            onPress={() => press(key)}
-            pressRetentionOffset={12}
-          >
-            {({ pressed }) => (
-              <Animated.View
-                style={[styles.key, KEY_TRANSITION, pressed && !revealed && styles.keyDown]}
-              >
-                <Text style={styles.keyText}>{key}</Text>
-              </Animated.View>
-            )}
-          </Pressable>
+          <Key key={key} label={key} disabled={revealed} onPress={() => press(key)} />
         ))}
       </View>
 

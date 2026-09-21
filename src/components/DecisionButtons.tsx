@@ -48,22 +48,20 @@ function DecisionButton({
       accessibilityRole="button"
       onPress={() => onChoose(button)}
       onPressIn={press.onPressIn}
+      onPressOut={press.onPressOut}
       pressRetentionOffset={16}
       style={styles.flex}
     >
-      {({ pressed }) => (
-        <Animated.View
-          style={[
-            styles.button,
-            button === 'long' || button === 'buy' ? styles.up : null,
-            button === 'short' ? styles.down : null,
-            press.style,
-            pressed && press.pressedStyle,
-          ]}
-        >
-          <Text style={styles.text}>{DECISION_LABEL[button]}</Text>
-        </Animated.View>
-      )}
+      <Animated.View
+        style={[
+          styles.button,
+          button === 'long' || button === 'buy' ? styles.up : null,
+          button === 'short' ? styles.down : null,
+          press.style,
+        ]}
+      >
+        <Text style={styles.text}>{DECISION_LABEL[button]}</Text>
+      </Animated.View>
     </Pressable>
   );
 }

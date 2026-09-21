@@ -24,21 +24,13 @@ export default function Cta({
       disabled={disabled}
       onPress={onPress}
       onPressIn={press.onPressIn}
+      onPressOut={press.onPressOut}
       // A finger drifting a few pixels should not cancel a press the user meant.
       pressRetentionOffset={16}
     >
-      {({ pressed }) => (
-        <Animated.View
-          style={[
-            styles.button,
-            disabled && styles.disabled,
-            press.style,
-            pressed && press.pressedStyle,
-          ]}
-        >
-          <Text style={[styles.label, disabled && styles.labelDisabled]}>{label}</Text>
-        </Animated.View>
-      )}
+      <Animated.View style={[styles.button, disabled && styles.disabled, press.style]}>
+        <Text style={[styles.label, disabled && styles.labelDisabled]}>{label}</Text>
+      </Animated.View>
     </Pressable>
   );
 }

@@ -1,10 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, {
-  SharedValue,
-  useAnimatedProps,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
+import Animated, { SharedValue, useAnimatedProps } from 'react-native-reanimated';
 import Svg, {
   Circle,
   Defs,

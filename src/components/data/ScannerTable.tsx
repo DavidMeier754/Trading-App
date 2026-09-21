@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { price, signedPercent } from '../../format';
+import { signedPercent } from '../../format';
 import { colors, radius, space, type } from '../../theme';
 import type { ScannerRow } from '../../types';
 

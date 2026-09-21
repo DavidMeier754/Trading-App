@@ -1,5 +1,11 @@
 import { useCallback } from 'react';
-import { cubicBezier, Easing, useReducedMotion } from 'react-native-reanimated';
+import {
+  Easing,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { selectHaptic } from './haptics';
 
@@ -43,52 +49,42 @@ export const SPRING_POP = { duration: 520, dampingRatio: 0.62 } as const;
  * Waiting for the tap to complete before showing anything is the latency the
  * user actually perceives, so the visual and the haptic both fire on press-in,
  * at the causal moment.
+ *
+ * This is a shared value rather than a Reanimated CSS transition. The CSS
+ * transition reads better -- a two-state change wants no shared value -- but it
+ * is the newest part of Reanimated and it was rejecting this config on device
+ * while working in the web build. A shared value driving `useAnimatedStyle` is
+ * the oldest path in the library, it is what the charts and the tone
+ * transitions in this app already use, and it has the better thread behaviour
+ * anyway: no React render on press at all, where the transition needed two.
  */
 export function usePressFeedback(enabled = true) {
   const reduced = useReducedMotion();
+  const animates = enabled && !reduced;
+  const scale = useSharedValue(1);
 
   const onPressIn = useCallback(() => {
     if (!enabled) return;
     selectHaptic();
-  }, [enabled]);
+    if (animates) scale.set(withTiming(PRESSED_SCALE, PRESS_IN));
+  }, [enabled, animates, scale]);
 
-  const animates = enabled && !reduced;
+  // Coming back up is given a touch longer than going down: the press itself
+  // should feel immediate, the release should not snap.
+  const onPressOut = useCallback(() => {
+    if (animates) scale.set(withTiming(1, PRESS_OUT));
+  }, [animates, scale]);
 
-  return {
-    onPressIn,
-    /**
-     * Reanimated CSS transition: a two-state change needs no shared value.
-     *
-     * The resting `transform` has to be declared here. A transition animates
-     * between two *declared* values, and this style used to declare none -- the
-     * pressed style introduced the first `transform` the view had ever had, so
-     * there was nothing to interpolate from and every press snapped. That snap
-     * is what read as a stutter on the decision buttons.
-     */
-    style: animates ? PRESS_BASE : undefined,
-    /** The pressed end state. Spread after `style`, never instead of it. */
-    pressedStyle: animates ? PRESS_DOWN : undefined,
-  };
+  const style = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.get() }],
+  }));
+
+  return { onPressIn, onPressOut, style };
 }
 
-/**
- * The same strong ease-out EASE_OUT encodes, for a CSS transition.
- *
- * It has to be Reanimated's own easing object, not the `cubic-bezier(...)`
- * string CSS takes: react-native-web hands the string straight to the browser,
- * so the string works on web and throws on a device -- "Invalid predefined
- * timing function". `cubicBezier` is correct on both.
- */
-const PRESS_EASE = cubicBezier(0.23, 1, 0.32, 1);
-
-const PRESS_BASE = {
-  transform: [{ scale: 1 }],
-  transitionProperty: 'transform',
-  transitionDuration: `${DURATION.press}ms`,
-  transitionTimingFunction: PRESS_EASE,
-} as const;
-
-const PRESS_DOWN = { transform: [{ scale: 0.97 }] } as const;
+const PRESSED_SCALE = 0.97;
+const PRESS_IN = { duration: DURATION.press, easing: EASE_OUT } as const;
+const PRESS_OUT = { duration: DURATION.press + 50, easing: EASE_OUT } as const;
 
 /** Reduced motion means gentler, not none: colour stays, movement goes. */
 export function useMotion() {

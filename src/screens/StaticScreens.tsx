@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Visual from '../components/Visual';
 import { copy } from '../format';
 import { selectHaptic } from '../lesson/haptics';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, type } from '../theme';
 import type {
   BadgeScreen as Badge,
   CarouselScreen as Carousel,
