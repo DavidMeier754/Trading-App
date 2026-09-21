@@ -24,6 +24,7 @@ export default function LessonPicker({
       <View style={styles.list}>
         {lessons.map((entry) => (
           <Pressable
+            accessibilityRole="button"
             key={entry.id}
             onPress={() => onPick(entry)}
             style={({ pressed }) => [styles.card, pressed && { opacity: 0.85 }]}

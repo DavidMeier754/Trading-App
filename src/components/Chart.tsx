@@ -155,6 +155,44 @@ function playLine(g: PlayGeom, t: number) {
   return d;
 }
 
+/**
+ * The same two functions again, without the worklet directive, for computing the
+ * first frame on the React side. Animated props are applied after the first
+ * commit, and the native SVG views want a real `d` and a real centre from the
+ * very first frame -- react-native-web tolerates undefined, a device does not.
+ */
+function playHeadPointAt(g: PlayGeom, t: number) {
+  const head = g.from - 1 + t * (g.n - g.from);
+  const whole = Math.floor(head);
+  const frac = head - whole;
+  const yOf = (price: number) => {
+    const lo = g.lo0 + (g.lo1 - g.lo0) * t;
+    const hi = g.hi0 + (g.hi1 - g.hi0) * t;
+    return g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
+  };
+  if (frac <= 0.0001 || whole + 1 >= g.n) {
+    const i = Math.min(whole, g.n - 1);
+    return { x: g.xs[i], y: yOf(g.closes[i]) };
+  }
+  const price = g.closes[whole] + (g.closes[whole + 1] - g.closes[whole]) * frac;
+  return { x: g.xs[whole] + (g.xs[whole + 1] - g.xs[whole]) * frac, y: yOf(price) };
+}
+
+function playLineAt(g: PlayGeom, t: number) {
+  const head = g.from - 1 + t * (g.n - g.from);
+  const whole = Math.floor(head);
+  const lo = g.lo0 + (g.lo1 - g.lo0) * t;
+  const hi = g.hi0 + (g.hi1 - g.hi0) * t;
+  const yOf = (price: number) =>
+    g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
+  let d = `M${g.xs[0].toFixed(2)},${yOf(g.closes[0]).toFixed(2)}`;
+  for (let i = 1; i <= whole; i++) {
+    d += ` L${g.xs[i].toFixed(2)},${yOf(g.closes[i]).toFixed(2)}`;
+  }
+  const tip = playHeadPointAt(g, t);
+  return `${d} L${tip.x.toFixed(2)},${tip.y.toFixed(2)}`;
+}
+
 function PlaybackLine({
   g,
   progress,
@@ -176,10 +214,20 @@ function PlaybackLine({
     return { cx: tip.x, cy: tip.y };
   });
 
+  const first = playLineAt(g, 0);
+  const firstTip = playHeadPointAt(g, 0);
+
   return (
     <G>
-      <AnimatedPath animatedProps={fill} fill="url(#lineFill)" />
       <AnimatedPath
+        d={`${first} L${firstTip.x.toFixed(2)},${g.baseline.toFixed(2)} L${g.xs[0].toFixed(
+          2
+        )},${g.baseline.toFixed(2)} Z`}
+        animatedProps={fill}
+        fill="url(#lineFill)"
+      />
+      <AnimatedPath
+        d={first}
         animatedProps={stroke}
         stroke={colors.accent}
         strokeWidth={2.25}
@@ -188,6 +236,8 @@ function PlaybackLine({
         strokeLinecap="round"
       />
       <AnimatedCircle
+        cx={firstTip.x}
+        cy={firstTip.y}
         animatedProps={dot}
         r={4}
         fill={colors.accent}

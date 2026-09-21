@@ -186,6 +186,7 @@ export function ChartTapScreen({
                     : 'transparent';
             return (
               <Pressable
+                accessibilityRole="button"
                 key={i}
                 disabled={revealed}
                 onPress={() => {
@@ -267,10 +268,10 @@ export function SliderScreen({
 
       {/* docs/UI.md §10: every drag has a tap alternative. */}
       <View style={styles.nudgeRow}>
-        <Pressable disabled={revealed} onPress={() => nudge(-step)} style={styles.nudge}>
+        <Pressable accessibilityRole="button" disabled={revealed} onPress={() => nudge(-step)} style={styles.nudge}>
           <Text style={styles.nudgeText}>{'−'}</Text>
         </Pressable>
-        <Pressable disabled={revealed} onPress={() => nudge(step)} style={styles.nudge}>
+        <Pressable accessibilityRole="button" disabled={revealed} onPress={() => nudge(step)} style={styles.nudge}>
           <Text style={styles.nudgeText}>+</Text>
         </Pressable>
       </View>

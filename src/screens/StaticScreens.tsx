@@ -49,6 +49,7 @@ export function CarouselScreen({
       <View style={styles.dots}>
         {screen.cards.map((_, i) => (
           <Pressable
+            accessibilityRole="button"
             key={i}
             onPress={() => {
               selectHaptic();
@@ -214,6 +215,7 @@ export function PathChoiceScreen({
       <View style={styles.pathList}>
         {PATHS.map((p) => (
           <Pressable
+            accessibilityRole="button"
             key={p.id}
             onPress={() => {
               selectHaptic();

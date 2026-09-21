@@ -64,6 +64,7 @@ export default function ChartAnnotateScreen({
       <Prompt>{screen.prompt}</Prompt>
 
       <Pressable
+        accessibilityRole="button"
         disabled={revealed}
         onPress={(e) => {
           selectHaptic();
@@ -150,10 +151,10 @@ export default function ChartAnnotateScreen({
 
       {!revealed ? (
         <View style={styles.nudgeRow}>
-          <Pressable onPress={() => nudge(-0.01)} style={styles.nudge}>
+          <Pressable accessibilityRole="button" onPress={() => nudge(-0.01)} style={styles.nudge}>
             <Text style={styles.nudgeText}>{'− 1¢'}</Text>
           </Pressable>
-          <Pressable onPress={() => nudge(0.01)} style={styles.nudge}>
+          <Pressable accessibilityRole="button" onPress={() => nudge(0.01)} style={styles.nudge}>
             <Text style={styles.nudgeText}>{'+ 1¢'}</Text>
           </Pressable>
         </View>

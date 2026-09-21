@@ -120,6 +120,7 @@ export function SortScreen({
       <View style={styles.buckets}>
         {screen.buckets.map((bucket) => (
           <Pressable
+            accessibilityRole="button"
             key={bucket}
             disabled={revealed || pending === null}
             onPress={() => {

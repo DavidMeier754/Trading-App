@@ -27,6 +27,7 @@ export default function ScannerTable({
       </View>
       {rows.map((row) => (
         <Pressable
+          accessibilityRole="button"
           key={row.ticker}
           disabled={!onTapRow}
           onPress={() => onTapRow?.(row.ticker)}

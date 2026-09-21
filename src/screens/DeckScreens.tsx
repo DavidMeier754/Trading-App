@@ -87,10 +87,10 @@ export function SwipeDeckScreen({
         </Text>
       ) : null}
       <View style={styles.deckButtons}>
-        <Pressable onPress={() => answer('pass')} style={[styles.deckButton, styles.pass]}>
+        <Pressable accessibilityRole="button" onPress={() => answer('pass')} style={[styles.deckButton, styles.pass]}>
           <Text style={styles.deckButtonText}>Pass</Text>
         </Pressable>
-        <Pressable onPress={() => answer('take')} style={[styles.deckButton, styles.take]}>
+        <Pressable accessibilityRole="button" onPress={() => answer('take')} style={[styles.deckButton, styles.take]}>
           <Text style={styles.deckButtonText}>Take it</Text>
         </Pressable>
       </View>

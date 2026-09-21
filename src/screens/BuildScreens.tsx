@@ -76,6 +76,7 @@ function SlotBuilder({
           <View style={styles.chips}>
             {(chips[active] ?? []).map((chip) => (
               <Pressable
+                accessibilityRole="button"
                 key={chip}
                 onPress={() => {
                   selectHaptic();

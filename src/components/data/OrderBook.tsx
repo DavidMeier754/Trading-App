@@ -35,6 +35,7 @@ export default function OrderBook({
         const tint = kind === 'bid' ? colors.up : colors.down;
         return (
           <Pressable
+            accessibilityRole="button"
             key={id}
             disabled={!onTapRow}
             onPress={() => onTapRow?.(id)}

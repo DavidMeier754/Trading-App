@@ -30,6 +30,7 @@ export default function QuoteCard({
 
   const wrap = (id: string, node: React.ReactNode) => (
     <Pressable
+      accessibilityRole="button"
       key={id}
       disabled={!onTapTarget}
       onPress={() => onTapTarget?.(id)}

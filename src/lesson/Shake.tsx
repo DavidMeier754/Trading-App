@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import Animated, {
   useAnimatedStyle,
   useReducedMotion,
@@ -9,21 +9,17 @@ import Animated, {
 
 /** docs/UI.md §5.1: a wrong element shakes 3 x 4 px over 250 ms. */
 export default function Shake({
-  trigger,
+  trigger = 0,
   children,
 }: {
-  trigger: number;
+  /** Bump this to shake again while mounted. Mounting shakes on its own. */
+  trigger?: number;
   children: React.ReactNode;
 }) {
   const x = useSharedValue(0);
   const reduced = useReducedMotion();
-  const first = useRef(true);
 
   useEffect(() => {
-    if (first.current) {
-      first.current = false;
-      return;
-    }
     if (reduced) return;
     // Linear: a shake is a jolt. An eased curve on each of six legs is mush.
     const leg = (to: number) => withTiming(to, { duration: 250 / 6 });

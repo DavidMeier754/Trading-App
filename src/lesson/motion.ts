@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   Easing,
   useAnimatedStyle,
@@ -86,13 +86,25 @@ const PRESSED_SCALE = 0.97;
 const PRESS_IN = { duration: DURATION.press, easing: EASE_OUT } as const;
 const PRESS_OUT = { duration: DURATION.press + 50, easing: EASE_OUT } as const;
 
-/** Reduced motion means gentler, not none: colour stays, movement goes. */
+/**
+ * Reduced motion means gentler, not none: colour stays, movement goes.
+ *
+ * Memoised on `reduced`, and that is not a micro-optimisation. Callers put this
+ * object in the dependency array of the effect that plays a screen's entrance.
+ * Returning a fresh object each render made every one of those effects re-run
+ * on every render, so the screen replayed its entrance animation on each answer
+ * tap, each keypad press and each reveal -- motion firing on input that had
+ * nothing to do with arriving on a screen.
+ */
 export function useMotion() {
   const reduced = useReducedMotion();
-  return {
-    reduced,
-    travel: (px: number) => (reduced ? 0 : px),
-    fade: (ms: number) => (reduced ? Math.min(ms, 140) : ms),
-    move: (ms: number) => (reduced ? 0 : ms),
-  };
+  return useMemo(
+    () => ({
+      reduced,
+      travel: (px: number) => (reduced ? 0 : px),
+      fade: (ms: number) => (reduced ? Math.min(ms, 140) : ms),
+      move: (ms: number) => (reduced ? 0 : ms),
+    }),
+    [reduced]
+  );
 }

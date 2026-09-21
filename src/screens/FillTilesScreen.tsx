@@ -63,7 +63,7 @@ export default function FillTilesScreen({
             {word}
           </Text>
         ))}
-        {revealed && !isRight ? <Shake trigger={1}>{blank}</Shake> : blank}
+        {revealed && !isRight ? <Shake>{blank}</Shake> : blank}
         {words(after).map((word, i) => (
           <Text key={`a${i}`} style={styles.sentenceText}>
             {word}

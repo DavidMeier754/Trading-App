@@ -45,6 +45,7 @@ export default function PlanCardScreen({
                 </Text>
                 {suggestion ? (
                   <Pressable
+                    accessibilityRole="button"
                     onPress={() => {
                       selectHaptic();
                       onChange(key, suggestion);
@@ -62,6 +63,7 @@ export default function PlanCardScreen({
                 <View style={styles.stepper}>
                   {['−', '+'].map((sign) => (
                     <Pressable
+                      accessibilityRole="button"
                       key={sign}
                       onPress={() => {
                         selectHaptic();

@@ -59,7 +59,7 @@ export function ToneSurface({
     </Pressable>
   );
 
-  return tone === 'wrong' ? <Shake trigger={1}>{surface}</Shake> : surface;
+  return tone === 'wrong' ? <Shake>{surface}</Shake> : surface;
 }
 
 /** A single answer card (docs/UI.md §4.1 `mc` / `numeric-mc`). */

@@ -132,7 +132,7 @@ export default function ChartDecisionScreen({
       {screen.state?.length ? <StateChips state={screen.state} /> : null}
 
       <View ref={chartBox} onLayout={measureAnchor}>
-        <Pressable onPress={onChartPress} disabled={choice === null}>
+        <Pressable accessibilityRole="button" onPress={onChartPress} disabled={choice === null}>
           <Chart
             spec={screen.chart}
             visibleCount={done ? bars : start}

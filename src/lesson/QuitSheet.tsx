@@ -15,7 +15,7 @@ export default function QuitSheet({
 }) {
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onCancel}>
-      <Pressable style={styles.scrim} onPress={onCancel} />
+      <Pressable accessibilityRole="button" style={styles.scrim} onPress={onCancel} />
       <View style={styles.sheet}>
         <Text style={styles.title}>Quit lesson?</Text>
         <Text style={styles.body}>Progress in this sub-level is lost.</Text>

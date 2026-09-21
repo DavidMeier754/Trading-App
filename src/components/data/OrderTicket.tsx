@@ -23,6 +23,7 @@ export default function OrderTicket({
 }) {
   const field = (id: string, label: string, value: React.ReactNode) => (
     <Pressable
+      accessibilityRole="button"
       key={id}
       disabled={!onTapTarget}
       onPress={() => onTapTarget?.(id)}
@@ -56,6 +57,7 @@ export default function OrderTicket({
           : null}
       </View>
       <Pressable
+        accessibilityRole="button"
         disabled={!onTapTarget}
         onPress={() => onTapTarget?.('submit')}
         style={[styles.submit, highlight?.submit ? { borderColor: highlight.submit } : null]}

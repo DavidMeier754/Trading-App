@@ -138,16 +138,17 @@ export default function ChartReplayScreen({
       </Text>
 
       <View style={styles.actions}>
-        <Pressable onPress={() => act('long')} style={[styles.action, { borderColor: colors.up }]}>
+        <Pressable accessibilityRole="button" onPress={() => act('long')} style={[styles.action, { borderColor: colors.up }]}>
           <Text style={styles.actionText}>Long</Text>
         </Pressable>
-        <Pressable onPress={() => act('short')} style={[styles.action, { borderColor: colors.down }]}>
+        <Pressable accessibilityRole="button" onPress={() => act('short')} style={[styles.action, { borderColor: colors.down }]}>
           <Text style={styles.actionText}>Short</Text>
         </Pressable>
       </View>
 
       <View style={styles.actions}>
         <Pressable
+          accessibilityRole="button"
           disabled={atEnd}
           onPress={() => {
             selectHaptic();
@@ -157,7 +158,7 @@ export default function ChartReplayScreen({
         >
           <Text style={styles.actionText}>{atEnd ? 'End of session' : 'Next bar'}</Text>
         </Pressable>
-        <Pressable onPress={end} style={styles.action}>
+        <Pressable accessibilityRole="button" onPress={end} style={styles.action}>
           <Text style={styles.actionText}>Nothing here</Text>
         </Pressable>
       </View>

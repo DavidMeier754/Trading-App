@@ -4,6 +4,7 @@ import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Backdrop from './components/Backdrop';
+import ErrorBoundary from './ErrorBoundary';
 import { LessonEntry, LESSONS } from './content';
 import LessonPlayer from './lesson/LessonPlayer';
 import LessonPicker from './LessonPicker';
@@ -25,16 +26,18 @@ export default function App() {
       <View style={styles.root}>
         <View style={[styles.frame, { width: frameWidth }]}>
           <Backdrop width={frameWidth} height={height} />
-          {entry ? (
-            <LessonPlayer
-              key={entry.id}
-              level={entry.level}
-              contentWidth={contentWidth}
-              onQuit={() => setEntry(null)}
-            />
-          ) : (
-            <LessonPicker lessons={LESSONS} onPick={setEntry} />
-          )}
+          <ErrorBoundary>
+            {entry ? (
+              <LessonPlayer
+                key={entry.id}
+                level={entry.level}
+                contentWidth={contentWidth}
+                onQuit={() => setEntry(null)}
+              />
+            ) : (
+              <LessonPicker lessons={LESSONS} onPick={setEntry} />
+            )}
+          </ErrorBoundary>
         </View>
       </View>
     </SafeAreaProvider>

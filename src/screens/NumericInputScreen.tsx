@@ -124,7 +124,7 @@ export default function NumericInputScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      {revealed && !isRight ? <Shake trigger={1}>{field}</Shake> : field}
+      {revealed && !isRight ? <Shake>{field}</Shake> : field}
       {revealed && !isRight ? (
         <Text style={styles.answerLine}>
           {'Answer: '}
