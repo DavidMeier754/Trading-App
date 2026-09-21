@@ -1,10 +1,18 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 
 import { colors } from '../theme';
+import { DURATION, EASE_OUT } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
-/** docs/UI.md §2: screens completed in this sub-level, 300 ms ease-out per advance. */
+/**
+ * docs/UI.md §2 — screens completed in this sub-level.
+ *
+ * Driven by `scaleX` on a full-width fill rather than by an animated `width`.
+ * An animated width runs layout on the JS thread every frame, and this bar
+ * fills at exactly the moment the screen transition is also running, so it was
+ * competing for the busiest thread in the app. `scaleX` is native-driven.
+ */
 export default function ProgressBar({ progress }: { progress: number }) {
   const anim = useRef(new Animated.Value(progress)).current;
   const reduced = useReduceMotion();
@@ -12,20 +20,21 @@ export default function ProgressBar({ progress }: { progress: number }) {
   useEffect(() => {
     Animated.timing(anim, {
       toValue: progress,
-      duration: reduced ? 0 : 300,
-      easing: Easing.out(Easing.cubic),
-      useNativeDriver: false,
+      duration: reduced ? 0 : DURATION.screen,
+      easing: EASE_OUT,
+      useNativeDriver: true,
     }).start();
   }, [progress, reduced, anim]);
 
-  const width = anim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0%', '100%'],
-  });
-
   return (
     <View style={styles.track} accessibilityRole="progressbar">
-      <Animated.View style={[styles.fill, { width }]} />
+      <Animated.View
+        style={[
+          styles.fill,
+          // Anchored left so it grows from the start of the bar, not the middle.
+          { transform: [{ scaleX: anim }] },
+        ]}
+      />
     </View>
   );
 }
@@ -39,8 +48,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   fill: {
-    height: '100%',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: '100%',
     borderRadius: 4,
     backgroundColor: colors.accent,
+    transformOrigin: 'left',
   },
 });

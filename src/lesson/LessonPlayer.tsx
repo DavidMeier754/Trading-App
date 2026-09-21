@@ -68,10 +68,8 @@ import ProgressBar from './ProgressBar';
 import QuitSheet from './QuitSheet';
 import Reveal from './Reveal';
 import LessonComplete from './LessonComplete';
+import { DURATION, EASE_OUT, motionFor } from './motion';
 import { useReduceMotion } from './useReduceMotion';
-
-/** Gentle deceleration; the same curve everywhere a screen or panel arrives. */
-const EASE_OUT = Easing.bezier(0.16, 1, 0.3, 1);
 
 export default function LessonPlayer({
   level,
@@ -167,18 +165,22 @@ export default function LessonPlayer({
   // fades up while the progress bar fills underneath it. Fading the outgoing
   // screen out first would buy nothing but a blank frame between two screens.
   useEffect(() => {
-    fade.setValue(reducedMotion ? 1 : 0);
-    slide.setValue(reducedMotion ? 0 : 28);
+    const m = motionFor(reducedMotion);
+    fade.setValue(0);
+    slide.setValue(m.travel(24));
     Animated.parallel([
+      // One duration for both properties. They used to run 300 ms and 420 ms,
+      // so the screen sat fully opaque for the last 120 ms while still creeping
+      // into place -- which reads as lag rather than polish.
       Animated.timing(fade, {
         toValue: 1,
-        duration: reducedMotion ? 0 : 300,
+        duration: m.fade(DURATION.screen),
         easing: EASE_OUT,
         useNativeDriver: true,
       }),
       Animated.timing(slide, {
         toValue: 0,
-        duration: reducedMotion ? 0 : 420,
+        duration: m.move(DURATION.screen),
         easing: EASE_OUT,
         useNativeDriver: true,
       }),
@@ -188,7 +190,7 @@ export default function LessonPlayer({
   const advance = () => {
     // A double tap on the CTA should not skip a screen.
     const now = Date.now();
-    if (now - lastAdvance.current < 280) return;
+    if (now - lastAdvance.current < DURATION.screen) return;
     lastAdvance.current = now;
     setIndex((i) => i + 1);
   };

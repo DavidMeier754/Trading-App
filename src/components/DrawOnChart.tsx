@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing } from 'react-native';
+import { Animated } from 'react-native';
 
+import { DURATION, EASE_OUT } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 
 /**
@@ -27,8 +28,11 @@ export default function DrawOnChart({
     draw.setValue(0);
     const animation = Animated.timing(draw, {
       toValue: 1,
-      duration: 900,
-      easing: Easing.inOut(Easing.cubic),
+      duration: DURATION.draw,
+      // A line drawing itself is an *entering* element, so it eases out. The
+      // old inOut curve was ease-in for its first half, which held the line
+      // back through exactly the frames the learner is watching.
+      easing: EASE_OUT,
       // strokeDashoffset is not a transform, so this one stays on the JS driver.
       useNativeDriver: false,
     });

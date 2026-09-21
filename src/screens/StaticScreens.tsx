@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import Mascot from '../components/Mascot';
 import Visual from '../components/Visual';
 import { copy } from '../format';
 import { selectHaptic } from '../lesson/haptics';
@@ -85,7 +84,6 @@ export function WalkthroughScreen({
         highlight={{ [step.spotlight]: colors.accent }}
       />
       <View style={styles.spotlightRow}>
-        <Mascot pose="point" size={40} />
         <Text style={styles.spotlightText}>{copy(step.text)}</Text>
       </View>
     </View>
@@ -142,7 +140,8 @@ export function StoryScreen({ screen }: { screen: Story }) {
   const character = screen.character === 'mascot' ? 'foxy' : screen.character;
   return (
     <View style={styles.centered}>
-      <Mascot character={character as any} pose="idle" size={96} />
+      {/* The character avatar docs/UI.md §3 asks for went with the mascot; the
+          story now carries its speaker in the copy alone. */}
       <Card style={styles.storyCard}>
         <Text style={styles.storyText}>{copy(screen.text)}</Text>
       </Card>
@@ -173,7 +172,7 @@ export function BadgeScreen({ screen }: { screen: Badge }) {
   return (
     <View style={styles.centered}>
       <View style={styles.badgeRing}>
-        <Mascot pose="cheer" size={92} />
+        <Text style={styles.badgeMark}>{'\u2605'}</Text>
       </View>
       <Text style={styles.bigTitle}>{copy(screen.name)}</Text>
       {screen.unlocks ? (
@@ -190,7 +189,6 @@ export function TierUpScreen({ screen }: { screen: TierUp }) {
       <Text style={styles.tierKicker}>Tier unlocked</Text>
       <Text style={styles.tierName}>{copy(screen.tier)}</Text>
       <Text style={styles.tierMeans}>{copy(screen.means)}</Text>
-      <Mascot pose="cheer" size={88} />
     </View>
   );
 }
@@ -302,6 +300,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
+  badgeMark: { fontSize: 56, color: colors.warning },
   bigTitle: { ...type.display, color: colors.text, textAlign: 'center' },
   unlocks: { ...type.body, color: colors.warning, textAlign: 'center' },
   tierKicker: {

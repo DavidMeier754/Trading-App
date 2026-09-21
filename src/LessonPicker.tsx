@@ -2,7 +2,6 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import Mascot from './components/Mascot';
 import { LessonEntry } from './content';
 import { colors, radius, space, type } from './theme';
 
@@ -21,7 +20,6 @@ export default function LessonPicker({
   const insets = useSafeAreaInsets();
   return (
     <View style={[styles.wrap, { paddingTop: insets.top + space.xxl, paddingBottom: insets.bottom + space.xl }]}>
-      <Mascot pose="idle" size={96} />
       <Text style={styles.title}>Pick a lesson</Text>
       <View style={styles.list}>
         {lessons.map((entry) => (

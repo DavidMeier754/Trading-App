@@ -256,7 +256,15 @@ export default function Chart({
           <G>
             {lineFill ? (
               draw ? (
-                <AnimatedG opacity={draw}>
+                // The fill covers the whole plot from the first frame, so it
+                // cannot fade in alongside the stroke -- it would sit out to the
+                // right of a line that has not arrived yet. It follows instead.
+                <AnimatedG
+                  opacity={draw.interpolate({
+                    inputRange: [0, 0.8, 1],
+                    outputRange: [0, 0, 1],
+                  })}
+                >
                   <Path d={lineFill} fill="url(#lineFill)" />
                 </AnimatedG>
               ) : (

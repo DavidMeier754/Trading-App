@@ -3,6 +3,7 @@ import { Animated, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-na
 
 import { copy } from '../format';
 import Shake from '../lesson/Shake';
+import { usePressScale } from '../lesson/motion';
 import { Tone, useToneTransition } from '../lesson/toneTransition';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
@@ -40,6 +41,7 @@ export function ToneSurface({
 }) {
   const reduced = useReduceMotion();
   const animated = useToneTransition(tone, reduced);
+  const press = usePressScale(!disabled);
 
   const surface = (
     <Pressable
@@ -48,9 +50,12 @@ export function ToneSurface({
       accessibilityState={{ disabled: !!disabled, selected: tone === 'selected' }}
       disabled={disabled}
       onPress={onPress}
-      style={({ pressed }) => [pressed && !disabled ? styles.pressed : null]}
+      onPressIn={press.onPressIn}
+      onPressOut={press.onPressOut}
     >
-      <Animated.View style={[styles.surface, style, animated]}>{children}</Animated.View>
+      <Animated.View style={[styles.surface, style, animated, press.style]}>
+        {children}
+      </Animated.View>
     </Pressable>
   );
 
@@ -86,7 +91,6 @@ const styles = StyleSheet.create({
   prompt: { ...type.prompt, color: colors.text },
   title: { ...type.title, color: colors.text },
   body: { ...type.body, color: colors.textMuted },
-  pressed: { opacity: 0.85 },
   surface: { borderWidth: 1.5, borderRadius: radius.md },
   answerCard: {
     minHeight: TAP_TARGET,

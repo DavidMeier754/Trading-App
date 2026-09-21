@@ -80,11 +80,14 @@ export default function MatchScreen({
       matchMissHaptic();
       setFlash({ left: pendingLeft, right: rightIndex });
       onChange({ kind: 'match', linked, misses: misses + 1 });
+      // Asymmetric: the red is the system's answer, so it lands at once and
+      // is held only briefly; the recovery is the gentle half. 450 ms of hard
+      // red followed by a hard cut back was both edges snapping.
       if (timer.current) clearTimeout(timer.current);
       timer.current = setTimeout(() => {
         setFlash(null);
         setPendingLeft(null);
-      }, 450);
+      }, 260);
     }
   };
 

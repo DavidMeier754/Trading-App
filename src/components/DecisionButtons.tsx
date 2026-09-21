@@ -1,6 +1,7 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { usePressScale } from '../lesson/motion';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { DecisionButton } from '../types';
 
@@ -27,26 +28,45 @@ export default function DecisionButtons({
   return (
     <View style={styles.row}>
       {buttons.map((button) => (
-        <Pressable
-          key={button}
-          accessibilityRole="button"
-          onPress={() => onChoose(button)}
-          style={({ pressed }) => [
-            styles.button,
-            button === 'long' || button === 'buy' ? styles.up : null,
-            button === 'short' ? styles.down : null,
-            pressed && { opacity: 0.85 },
-          ]}
-        >
-          <Text style={styles.text}>{DECISION_LABEL[button]}</Text>
-        </Pressable>
+        <DecisionButton key={button} button={button} onChoose={onChoose} />
       ))}
     </View>
   );
 }
 
+function DecisionButton({
+  button,
+  onChoose,
+}: {
+  button: DecisionButton;
+  onChoose: (button: DecisionButton) => void;
+}) {
+  const press = usePressScale();
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={() => onChoose(button)}
+      onPressIn={press.onPressIn}
+      onPressOut={press.onPressOut}
+      style={styles.flex}
+    >
+      <Animated.View
+        style={[
+          styles.button,
+          button === 'long' || button === 'buy' ? styles.up : null,
+          button === 'short' ? styles.down : null,
+          press.style,
+        ]}
+      >
+        <Text style={styles.text}>{DECISION_LABEL[button]}</Text>
+      </Animated.View>
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', gap: space.sm },
+  flex: { flex: 1 },
   button: {
     flex: 1,
     minHeight: TAP_TARGET + 4,

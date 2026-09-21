@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 
 import { colors } from '../theme';
+import { DURATION, motionFor } from './motion';
 
 /** How an answer surface currently reads. */
 export type Tone = 'idle' | 'selected' | 'correct' | 'wrong' | 'amber' | 'dimmed';
@@ -53,7 +54,11 @@ export function useToneTransition(tone: Tone, reduced: boolean) {
       anim.setValue(0);
       Animated.timing(anim, {
         toValue: 1,
-        duration: reduced ? 0 : 200,
+        // A colour ramp is a state change, not movement, so reduced motion
+        // shortens it rather than removing it.
+        duration: motionFor(reduced).fade(DURATION.reveal),
+        // Colour cannot be driven natively by React Native's Animated; this is
+        // the one animation in the app that has to run on the JS thread.
         useNativeDriver: false,
       }).start();
     } else if (!isReveal) {
@@ -97,7 +102,7 @@ export function useBorderTransition(
       anim.setValue(0);
       Animated.timing(anim, {
         toValue: 1,
-        duration: reduced ? 0 : 200,
+        duration: motionFor(reduced).fade(DURATION.reveal),
         useNativeDriver: false,
       }).start();
     } else if (!active) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Easing } from 'react-native';
 
 import { useReduceMotion } from './useReduceMotion';
 
@@ -22,7 +22,14 @@ export default function Shake({
     }
     if (reduced) return;
     const leg = (to: number) =>
-      Animated.timing(x, { toValue: to, duration: 250 / 6, useNativeDriver: true });
+      Animated.timing(x, {
+        toValue: to,
+        duration: 250 / 6,
+        // Linear: a shake is a jolt. The default inOut curve eased each of the
+        // six legs in and out, which turned it to mush.
+        easing: Easing.linear,
+        useNativeDriver: true,
+      });
     Animated.sequence([
       leg(-4),
       leg(4),

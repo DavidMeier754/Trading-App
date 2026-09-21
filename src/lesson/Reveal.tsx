@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import Mascot, { poseForGrade } from '../components/Mascot';
 import { copy } from '../format';
 import { colors, radius, space, type } from '../theme';
 import type { Grade } from './answers';
+import { DURATION, EASE_OUT, motionFor } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
 const TONE = {
@@ -36,14 +36,18 @@ export default function Reveal({
   const reduced = useReduceMotion();
   const [showWorking, setShowWorking] = useState(false);
 
+  const m = motionFor(reduced);
+
   useEffect(() => {
     Animated.timing(anim, {
       toValue: 1,
-      duration: reduced ? 0 : 200,
-      easing: Easing.out(Easing.cubic),
+      // Reduced motion keeps a short fade; only the slide-up goes away, via
+      // the interpolation below.
+      duration: m.fade(DURATION.reveal),
+      easing: EASE_OUT,
       useNativeDriver: true,
     }).start();
-  }, [anim, reduced]);
+  }, [anim, m]);
 
   return (
     <Animated.View
@@ -54,14 +58,17 @@ export default function Reveal({
           borderColor: tone.accent,
           opacity: anim,
           transform: [
-            { translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [16, 0] }) },
+            {
+              translateY: anim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [m.travel(16), 0],
+              }),
+            },
           ],
         },
       ]}
     >
       <View style={styles.headRow}>
-        {/* docs/UI.md §2 / §6.9: the mascot sits in the reveal area and reacts. */}
-        <Mascot pose={poseForGrade(grade)} size={34} />
         <Text style={[styles.head, { color: tone.accent }]}>{tone.label}</Text>
       </View>
       {lead ? <Text style={[styles.lead, { color: tone.accent }]}>{copy(lead)}</Text> : null}

@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
-import Mascot from '../components/Mascot';
 import { colors, radius, space, type } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
 import { celebrateHaptic } from './haptics';
+import { DURATION, EASE_OUT, motionFor } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -49,40 +49,50 @@ export default function LessonComplete({
 
   const [shownXp, setShownXp] = useState(reduced ? earned : 0);
   const ring = useRef(new Animated.Value(reduced ? 1 : 0)).current;
-  const card = useRef(new Animated.Value(reduced ? 1 : 0)).current;
+
+  // The entrance is staggered rather than all-at-once: mascotless, this screen
+  // is a ring, a headline and a three-row card, and 40 ms between them reads as
+  // one arrival instead of a pop.
+  const tiers = [useRef(new Animated.Value(0)).current, useRef(new Animated.Value(0)).current, useRef(new Animated.Value(0)).current];
 
   useEffect(() => {
     celebrateHaptic();
+    const m = motionFor(reduced);
+
+    Animated.parallel([
+      ...tiers.map((v, i) =>
+        Animated.timing(v, {
+          toValue: 1,
+          duration: m.fade(320),
+          delay: m.move(i * 40),
+          easing: EASE_OUT,
+          useNativeDriver: true,
+        })
+      ),
+      Animated.timing(ring, {
+        toValue: 1,
+        duration: m.fade(DURATION.celebrate),
+        delay: m.move(180),
+        easing: EASE_OUT,
+        // strokeDashoffset cannot be driven natively.
+        useNativeDriver: false,
+      }),
+    ]).start();
+  }, [reduced, ring]);
+
+  // The counter reads off the ring's own value instead of a parallel timer.
+  // It used to run on a 32 ms setInterval, which re-rendered this whole screen
+  // nineteen times in 600 ms while two animations were already running.
+  useEffect(() => {
     if (reduced) {
       setShownXp(earned);
       return;
     }
-
-    Animated.parallel([
-      Animated.timing(card, {
-        toValue: 1,
-        duration: 420,
-        easing: Easing.bezier(0.16, 1, 0.3, 1),
-        useNativeDriver: true,
-      }),
-      Animated.timing(ring, {
-        toValue: 1,
-        duration: 900,
-        delay: 180,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: false,
-      }),
-    ]).start();
-
-    // docs/UI.md §5.3: XP counts up from 0 over 600 ms.
-    const start = Date.now();
-    const id = setInterval(() => {
-      const t = Math.min(1, (Date.now() - start) / 600);
-      setShownXp(Math.round(earned * (1 - Math.pow(1 - t, 3))));
-      if (t >= 1) clearInterval(id);
-    }, 32);
-    return () => clearInterval(id);
-  }, [earned, reduced, ring, card]);
+    const id = ring.addListener(({ value }) => {
+      setShownXp(Math.round(earned * Math.min(1, value * 1.5)));
+    });
+    return () => ring.removeListener(id);
+  }, [earned, reduced, ring]);
 
   const size = 132;
   const stroke = 10;
@@ -90,20 +100,8 @@ export default function LessonComplete({
   const circumference = 2 * Math.PI * r;
 
   return (
-    <Animated.View
-      style={[
-        styles.wrap,
-        {
-          opacity: card,
-          transform: [
-            { translateY: card.interpolate({ inputRange: [0, 1], outputRange: [18, 0] }) },
-          ],
-        },
-      ]}
-    >
-      <Mascot pose="cheer" size={104} />
-
-      <View style={styles.ringWrap}>
+    <View style={styles.wrap}>
+      <Tier v={tiers[0]} reduced={reduced} style={styles.ringWrap}>
         <Svg width={size} height={size}>
           <Circle
             cx={size / 2}
@@ -133,14 +131,14 @@ export default function LessonComplete({
           <Text style={styles.xp}>{`+${shownXp}`}</Text>
           <Text style={styles.xpLabel}>XP</Text>
         </View>
-      </View>
+      </Tier>
 
-      <View style={styles.textBlock}>
+      <Tier v={tiers[1]} reduced={reduced} style={styles.textBlock}>
         <Text style={styles.title}>{perfect ? 'Perfect run' : 'Lesson complete'}</Text>
         <Text style={styles.subtitle}>{levelTitle}</Text>
-      </View>
+      </Tier>
 
-      <View style={styles.rows}>
+      <Tier v={tiers[2]} reduced={reduced} style={styles.rows}>
         <Row label="Lesson" value={`+${xp} XP`} />
         {bonus > 0 ? <Row label="Perfect bonus" value={`+${bonus} XP`} accent /> : null}
         <Row
@@ -148,7 +146,37 @@ export default function LessonComplete({
           value={`${clean} of ${total}`}
           accent={accuracy === 1}
         />
-      </View>
+      </Tier>
+    </View>
+  );
+}
+
+/** One staggered block of the entrance. */
+function Tier({
+  v,
+  reduced,
+  children,
+  style,
+}: {
+  v: Animated.Value;
+  reduced: boolean;
+  children: React.ReactNode;
+  style?: any;
+}) {
+  const travel = motionFor(reduced).travel(14);
+  return (
+    <Animated.View
+      style={[
+        style,
+        {
+          opacity: v,
+          transform: [
+            { translateY: v.interpolate({ inputRange: [0, 1], outputRange: [travel, 0] }) },
+          ],
+        },
+      ]}
+    >
+      {children}
     </Animated.View>
   );
 }
