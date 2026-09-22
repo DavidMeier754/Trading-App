@@ -650,20 +650,11 @@ export default function Chart({
     return { lo: Math.min(lo, next.lo), hi: Math.max(hi, next.hi) };
   }, [bars, spec.vwap, spec.levels, n, lo, hi]);
 
-  const {
-    padTop,
-    priceH,
-    plotW,
-    bodyW,
-    volTop,
-    volH,
-    gaps,
-    y,
-    cx,
-  } = useMemo(
+  const layout = useMemo(
     () => chartLayout({ width, height, bars: n, lo, hi, hasVolume, gridAnchor }),
     [width, height, n, lo, hi, hasVolume, gridAnchor]
   );
+  const { padTop, priceH, plotW, bodyW, volTop, volH, gaps, y, cx } = layout;
 
   const maxVol = hasVolume ? Math.max(...(spec.volume as number[])) : 1;
   const volY = (v: number) => volTop + volH - (v / maxVol) * volH;
@@ -702,7 +693,7 @@ export default function Chart({
       lo1: full.lo,
       hi1: full.hi,
     };
-  }, [playback, spec.kind, bars, n, shown, padTop, priceH, plotW, lo, hi, full.lo, full.hi]);
+  }, [playback, spec.kind, bars, n, shown, layout, lo, hi, full.lo, full.hi]);
 
   const linePath = useMemo(() => {
     if (spec.kind !== 'line' || shown === 0) return '';
@@ -710,7 +701,7 @@ export default function Chart({
       .slice(0, shown)
       .map((b, i) => `${i === 0 ? 'M' : 'L'}${cx(i).toFixed(2)},${y(b.c).toFixed(2)}`)
       .join(' ');
-  }, [spec.kind, shown, bars, lo, hi, plotW, priceH]);
+  }, [spec.kind, shown, bars, lo, hi, layout]);
 
   const linePathLength = useMemo(() => {
     if (spec.kind !== 'line' || shown < 2) return 0;
@@ -721,7 +712,7 @@ export default function Chart({
       total += Math.hypot(dx, dy);
     }
     return total;
-  }, [spec.kind, shown, bars, lo, hi, plotW, priceH]);
+  }, [spec.kind, shown, bars, lo, hi, layout]);
 
   const lineFill = useMemo(() => {
     if (!linePath) return '';
@@ -731,7 +722,7 @@ export default function Chart({
     return `${linePath} L${last.toFixed(2)},${base.toFixed(2)} L${first.toFixed(
       2
     )},${base.toFixed(2)} Z`;
-  }, [linePath, shown, priceH]);
+  }, [linePath, shown, layout]);
 
   const vwapPath = useMemo(() => {
     const vwap = spec.vwap;
@@ -740,7 +731,7 @@ export default function Chart({
       .slice(0, shown)
       .map((v, i) => `${i === 0 ? 'M' : 'L'}${cx(i).toFixed(2)},${y(v).toFixed(2)}`)
       .join(' ');
-  }, [spec.vwap, shown, lo, hi, plotW, priceH]);
+  }, [spec.vwap, shown, lo, hi, layout]);
 
   // A line chart decides *at* its last visible point, so the marker sits on it.
   // A candle has width, so the marker clears the body by a hair instead of
@@ -1034,7 +1025,12 @@ export default function Chart({
       </Svg>
 
       {showDecisionMarker ? (
-        <View style={[styles.decisionTag, { left: Math.max(0, decisionX - 26) }]}>
+        <View
+          style={[
+            styles.decisionTag,
+            { left: Math.max(0, decisionX - 26), top: Math.max(0, padTop - 15) },
+          ]}
+        >
           <Text style={styles.decisionTagText}>
             {shown > spec.decision_index + 1 ? 'decision' : 'you are here'}
           </Text>
@@ -1055,7 +1051,6 @@ const styles = StyleSheet.create({
   decisionTag: {
     pointerEvents: 'none',
     position: 'absolute',
-    top: -2,
     backgroundColor: colors.surfaceAlt,
     borderColor: colors.border,
     borderWidth: StyleSheet.hairlineWidth,

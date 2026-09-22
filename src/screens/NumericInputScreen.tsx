@@ -44,6 +44,12 @@ function Key({
         press.onPressOut();
       }}
       pressRetentionOffset={12}
+      // The slot carries the size, the view inside it carries the look. The
+      // other way round -- a percentage width on the inner view -- measures
+      // against a parent that is itself sized by its content, so every key
+      // collapsed to the width of its digit and the pad rendered as one row of
+      // slivers instead of a 3x4 grid.
+      style={styles.keySlot}
     >
       <Animated.View
         style={[styles.key, press.style, down && !disabled && styles.keyDown]}
@@ -176,8 +182,9 @@ const styles = StyleSheet.create({
   faint: { color: colors.textFaint },
   answerLine: { ...type.body, color: colors.textMuted },
   pad: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
+  keySlot: { width: '31.5%', minHeight: TAP_TARGET },
   key: {
-    width: '31.5%',
+    flex: 1,
     minHeight: TAP_TARGET,
     borderRadius: radius.sm,
     backgroundColor: colors.surface,
@@ -186,7 +193,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  keyDown: { backgroundColor: colors.surfaceAlt, transform: [{ scale: 0.96 }] },
+  keyDown: { backgroundColor: colors.surfaceAlt },
   keyText: { ...type.prompt, color: colors.text },
   clear: { ...type.label, color: colors.accent },
 });
