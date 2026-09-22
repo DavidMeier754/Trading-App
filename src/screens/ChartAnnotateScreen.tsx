@@ -2,7 +2,14 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Line, Text as SvgText } from 'react-native-svg';
 
-import Chart from '../components/Chart';
+import Chart, {
+  AXIS_W,
+  chartHeightFor,
+  chartLayout,
+  domainOf,
+  toCandles,
+} from '../components/Chart';
+import { useGridAnchor } from '../components/gridAlign';
 import { price } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { selectHaptic } from '../lesson/haptics';
@@ -32,31 +39,42 @@ export default function ChartAnnotateScreen({
   revealed: boolean;
   width: number;
 }) {
-  const height = 240;
   const placed = value.kind === 'slider' ? value.value : null;
 
   const rows = screen.chart.data as any[];
-  const isCandles = screen.chart.kind === 'candles';
-  const highs = isCandles ? rows.map((r) => r[1]) : (rows as number[]);
-  const lows = isCandles ? rows.map((r) => r[2]) : (rows as number[]);
-  let lo = Math.min(...lows, screen.answer);
-  let hi = Math.max(...highs, screen.answer);
-  const span = hi - lo || 1;
-  lo -= span * 0.1;
-  hi += span * 0.12;
+  const hasVolume = Array.isArray(screen.chart.volume) && screen.chart.volume.length > 0;
+  const height = chartHeightFor(hasVolume);
+  const grid = useGridAnchor(placed === null ? 'empty' : 'placed');
 
-  // Mirrors Chart's own geometry so the line lands where the learner tapped.
-  const PAD_TOP = 10;
-  const PAD_BOTTOM = 18;
-  const plotH = height - PAD_TOP - PAD_BOTTOM;
-  const toY = (p: number) => PAD_TOP + plotH - ((p - lo) / (hi - lo)) * plotH;
+  // The overlay has to agree with the chart to the pixel, so it asks the chart
+  // for its geometry instead of rebuilding it. The old copy had its own padding
+  // and a domain that left out `levels` and `vwap`, so on any chart carrying a
+  // marked level the placed line sat at a different price from the one the
+  // reveal drew underneath it.
+  const bars = toCandles(screen.chart);
+  const base = domainOf(bars, screen.chart, bars.length);
+  const lo = Math.min(base.lo, screen.answer);
+  const hi = Math.max(base.hi, screen.answer);
+  const layout = chartLayout({
+    width,
+    height,
+    bars: bars.length,
+    lo,
+    hi,
+    hasVolume,
+    gridAnchor: grid.gridAnchor,
+  });
+  const toY = layout.y;
+  // A tap can land in the padding or, on a chart with volume, in the strip
+  // below the plot. Clamping keeps the placed line on the chart instead of
+  // letting it run off the top or bottom of the price axis.
   const toPrice = (y: number) =>
-    Math.round((lo + ((PAD_TOP + plotH - y) / plotH) * (hi - lo)) * 100) / 100;
+    Math.round(Math.min(hi, Math.max(lo, layout.priceAt(y))) * 100) / 100;
 
   const nudge = (delta: number) => {
     selectHaptic();
-    const base = placed ?? (lo + hi) / 2;
-    onChange({ kind: 'slider', value: Math.round((base + delta) * 100) / 100 });
+    const from = placed ?? (lo + hi) / 2;
+    onChange({ kind: 'slider', value: Math.round((from + delta) * 100) / 100 });
   };
 
   return (
@@ -64,11 +82,21 @@ export default function ChartAnnotateScreen({
       <Prompt>{screen.prompt}</Prompt>
 
       <Pressable
+        ref={grid.ref}
+        onLayout={grid.onLayout}
         accessibilityRole="button"
         disabled={revealed}
         onPress={(e) => {
           selectHaptic();
-          const y = (e.nativeEvent as any).locationY ?? plotH / 2;
+          // `pageY` against the chart's own measured top, never `locationY`:
+          // on the web that is relative to whichever SVG child took the event —
+          // a candle, a gridline — so a tap on a candle landed tens of points
+          // above where the finger was.
+          const native = e.nativeEvent as any;
+          const y =
+            grid.windowY !== undefined && Number.isFinite(native.pageY)
+              ? native.pageY - grid.windowY
+              : (native.locationY ?? layout.padTop + layout.priceH / 2);
           onChange({ kind: 'slider', value: toPrice(y) });
         }}
         style={{ width, height }}
@@ -79,6 +107,7 @@ export default function ChartAnnotateScreen({
           width={width}
           height={height}
           showDecisionMarker={false}
+          gridAnchor={grid.gridAnchor}
         />
         <View style={styles.overlay} pointerEvents="none">
           <Svg width={width} height={height}>
@@ -86,7 +115,7 @@ export default function ChartAnnotateScreen({
               <>
                 <Line
                   x1={0}
-                  x2={width - 44}
+                  x2={width - AXIS_W}
                   y1={toY(screen.answer)}
                   y2={toY(screen.answer)}
                   stroke={colors.success}
@@ -94,7 +123,7 @@ export default function ChartAnnotateScreen({
                 />
                 <Line
                   x1={0}
-                  x2={width - 44}
+                  x2={width - AXIS_W}
                   y1={toY(screen.answer + screen.tolerance)}
                   y2={toY(screen.answer + screen.tolerance)}
                   stroke={colors.success}
@@ -104,7 +133,7 @@ export default function ChartAnnotateScreen({
                 />
                 <Line
                   x1={0}
-                  x2={width - 44}
+                  x2={width - AXIS_W}
                   y1={toY(screen.answer - screen.tolerance)}
                   y2={toY(screen.answer - screen.tolerance)}
                   stroke={colors.success}
@@ -118,7 +147,7 @@ export default function ChartAnnotateScreen({
               <>
                 <Line
                   x1={0}
-                  x2={width - 44}
+                  x2={width - AXIS_W}
                   y1={toY(placed)}
                   y2={toY(placed)}
                   stroke={

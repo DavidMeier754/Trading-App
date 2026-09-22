@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,6 +9,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import DecisionButtons, { DECISION_LABEL } from '../components/DecisionButtons';
+import { nudgeGrid } from '../components/gridAlign';
 import ChartDecisionScreen, {
   DecisionPhase,
 } from '../screens/ChartDecisionScreen';
@@ -290,9 +291,21 @@ export default function LessonPlayer({
           ScrollView inside gives each screen a fresh scroll offset and fresh
           component state; the wrapper around it stays put. */}
       <Animated.View style={[styles.scroll, screenStyle]}>
-        {/* Screens do not scroll: one idea per screen means one screenful.
-            See the docs/UI.md §2 / §10 patch in the build report. */}
-        <View key={`${runKey}-${index}`} style={styles.content}>
+        {/* docs/UI.md §2: a screen is one screenful and does not scroll. The
+            container is a ScrollView anyway, with `flexGrow: 1` on its content:
+            anything that fits is centred and cannot be dragged, exactly as
+            before. What changes is the case §10 names as the fallback — a
+            window too short for the screen, or type past 130% — where the old
+            plain View clipped whatever did not fit, silently and usually the
+            CTA. */}
+        <ScrollView
+          key={`${runKey}-${index}`}
+          style={styles.scrollView}
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+          onScrollEndDrag={nudgeGrid}
+          onMomentumScrollEnd={nudgeGrid}
+        >
         {atSummary ? (
           <LessonComplete
             screens={screens}
@@ -317,7 +330,7 @@ export default function LessonPlayer({
             setPathChoice,
           })
         )}
-        </View>
+        </ScrollView>
       </Animated.View>
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg }]}>
@@ -541,7 +554,8 @@ const styles = StyleSheet.create({
   closeText: { ...type.title, color: colors.textMuted },
   heartSlot: { width: 32 },
   scroll: { flex: 1 },
-  content: { flex: 1, paddingHorizontal: space.lg, paddingBottom: space.lg },
+  scrollView: { flex: 1 },
+  content: { flexGrow: 1, paddingHorizontal: space.lg, paddingBottom: space.lg },
   footer: {
     paddingHorizontal: space.lg,
     paddingTop: space.md,

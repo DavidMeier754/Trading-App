@@ -1,7 +1,8 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import Chart from '../components/Chart';
+import Chart, { chartHeightFor } from '../components/Chart';
+import { useGridAnchor } from '../components/gridAlign';
 import type { AnswerValue } from '../lesson/answers';
 import { replayLabels } from '../lesson/answers';
 import { commitHaptic, selectHaptic } from '../lesson/haptics';
@@ -46,8 +47,12 @@ export default function ChartReplayScreen({
   const startBar = screen.start_bar ?? 4;
   const [bar, setBar] = React.useState(startBar);
 
-  const height = screen.chart.volume ? 250 : 220;
+  const hasVolume = Array.isArray(screen.chart.volume) && screen.chart.volume.length > 0;
+  const height = chartHeightFor(hasVolume);
   const atEnd = bar >= total;
+  // The bar counter and the action rows below the chart change height as the
+  // replay runs, which moves the chart, so the anchor follows the bar.
+  const grid = useGridAnchor(bar);
 
   const act = (side: 'long' | 'short') => {
     commitHaptic();
@@ -125,13 +130,16 @@ export default function ChartReplayScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
-      <Chart
-        spec={{ ...screen.chart, decision_index: -1 }}
-        visibleCount={bar}
-        width={width}
-        height={height}
-        showDecisionMarker={false}
-      />
+      <View ref={grid.ref} onLayout={grid.onLayout}>
+        <Chart
+          spec={{ ...screen.chart, decision_index: -1 }}
+          visibleCount={bar}
+          width={width}
+          height={height}
+          showDecisionMarker={false}
+          gridAnchor={grid.gridAnchor}
+        />
+      </View>
 
       <Text style={styles.barCount}>
         {`Bar ${Math.min(bar, total)} of ${total}${state.acted.length ? ` · ${state.acted.length} taken` : ''}`}

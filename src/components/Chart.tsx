@@ -14,7 +14,7 @@ import Svg, {
 } from 'react-native-svg';
 
 import { axisPrice, volume as fmtVolume } from '../format';
-import { CHART_PLOT_H, colors, GRID, type } from '../theme';
+import { CHART_GRID_STEP, colors, GRID, type } from '../theme';
 import type { ChartSpec } from '../types';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -443,7 +443,7 @@ export function toCandles(spec: ChartSpec): Candle[] {
  * exactly where the price is about to go and give a decision away before it is
  * made, so the caller passes only what the learner can see.
  */
-function domainOf(bars: Candle[], spec: ChartSpec, count: number) {
+export function domainOf(bars: Candle[], spec: ChartSpec, count: number) {
   let min = Infinity;
   let max = -Infinity;
   for (const b of bars.slice(0, Math.max(1, count))) {
@@ -496,12 +496,121 @@ type Props = {
   gridAnchor?: number;
 };
 
-const AXIS_W = 44;
-const PAD_LEFT = 6;
+export const AXIS_W = 44;
+export const PAD_LEFT = 6;
 const PAD_TOP = 10;
 const PAD_BOTTOM = 18; // leaves room for the legend strip under the plot
-const VOLUME_SHARE = 0.2; // of the plot height
+// The gap and the strip together are one backdrop cell pair, so the line under
+// the volume strip lands on the grid as well. Picked as a pair for that reason:
+// 16 + 46 left it 6 points off, which is exactly the kind of near-miss that
+// reads worse than no grid at all.
 const VOLUME_GAP = 16;
+const VOLUME_H = CHART_GRID_STEP - VOLUME_GAP;
+
+/**
+ * The plot heights that can line up with the backdrop, tallest first, as a
+ * count of CHART_GRID_STEP gaps.
+ *
+ * A gridline only lands on a backdrop line if the gaps between them are whole
+ * backdrop cells, and the plot's lines sit at fixed fractions of its height —
+ * so the height itself has to be a whole number of gaps. Offering two sizes is
+ * what lets a chart stay aligned in a short window instead of falling back to
+ * an arbitrary height: it drops from four lines to three rather than from
+ * aligned to not.
+ */
+const PLOT_GAPS = [3, 2];
+
+/** The height a chart needs for a grid-aligned plot, with or without volume. */
+export function chartHeightFor(hasVolume: boolean, gaps?: number): number {
+  const chosen = gaps ?? (hasVolume ? 2 : 3);
+  return (
+    PAD_TOP +
+    GRID + // slack the snap shifts into; 0-27 points depending on where it sits
+    chosen * CHART_GRID_STEP +
+    (hasVolume ? VOLUME_GAP + VOLUME_H : 0) +
+    PAD_BOTTOM
+  );
+}
+
+export type ChartLayout = {
+  aligns: boolean;
+  padTop: number;
+  priceH: number;
+  plotW: number;
+  slot: number;
+  bodyW: number;
+  volTop: number;
+  volH: number;
+  /** Number of gaps between price gridlines; there is one more line than gaps. */
+  gaps: number;
+  y: (price: number) => number;
+  priceAt: (y: number) => number;
+  cx: (i: number) => number;
+};
+
+/**
+ * One source for where everything lands, so an overlay drawn on top of a chart
+ * cannot disagree with the chart underneath it.
+ *
+ * `chart-annotate` used to recompute all of this itself, with its own padding
+ * and a domain that left out `levels` and `vwap` — so on any chart carrying a
+ * marked level, the line the learner placed sat at a different price from the
+ * line the reveal drew. `chart-tap` hard-coded the plot's left and right insets
+ * as literals. Both now ask here.
+ */
+export function chartLayout({
+  width,
+  height,
+  bars,
+  lo,
+  hi,
+  hasVolume,
+  gridAnchor,
+}: {
+  width: number;
+  height: number;
+  bars: number;
+  lo: number;
+  hi: number;
+  hasVolume: boolean;
+  gridAnchor?: number;
+}): ChartLayout {
+  const plotW = width - PAD_LEFT - AXIS_W;
+  const volH = hasVolume ? VOLUME_H : 0;
+  const fixed = PAD_TOP + PAD_BOTTOM + (hasVolume ? VOLUME_GAP + volH : 0);
+
+  // The tallest grid-locked plot that still fits, leaving GRID for the snap.
+  const fitted = PLOT_GAPS.map((g) => g * CHART_GRID_STEP).find(
+    (h) => fixed + GRID + h <= height
+  );
+  const aligns = gridAnchor !== undefined && fitted !== undefined;
+
+  const priceH = aligns ? (fitted as number) : Math.max(GRID, height - fixed);
+  // priceH is a whole number of backdrop cells when aligning, so shifting the
+  // top by the remainder puts every line on one.
+  const padTop = aligns
+    ? PAD_TOP + ((GRID - (((gridAnchor as number) + PAD_TOP) % GRID)) % GRID)
+    : PAD_TOP;
+  const gaps = aligns ? priceH / CHART_GRID_STEP : 3;
+
+  const slot = plotW / Math.max(1, bars);
+  const span = hi - lo || 1;
+
+  return {
+    aligns,
+    padTop,
+    priceH,
+    plotW,
+    slot,
+    bodyW: Math.max(3, Math.min(slot * 0.62, 22)),
+    volTop: padTop + priceH + VOLUME_GAP,
+    volH,
+    gaps,
+    y: (price: number) => padTop + priceH - ((price - lo) / span) * priceH,
+    priceAt: (yPx: number) => lo + ((padTop + priceH - yPx) / priceH) * span,
+    cx: (i: number) => PAD_LEFT + slot * (i + 0.5),
+  };
+}
 
 export default function Chart({
   spec,
@@ -517,21 +626,6 @@ export default function Chart({
   const n = bars.length;
   const shown = Math.max(0, Math.min(visibleCount, n));
   const hasVolume = Array.isArray(spec.volume) && spec.volume.length > 0;
-
-  const plotW = width - PAD_LEFT - AXIS_W;
-  const volH = hasVolume ? (height - PAD_TOP - PAD_BOTTOM) * VOLUME_SHARE : 0;
-
-  // Four gridlines make three gaps, so a plot of CHART_PLOT_H puts a line every
-  // second backdrop cell. Shifting the top by the remainder lands all four on
-  // the backdrop's own lines; without the shift they sit a few pixels off it,
-  // which reads worse than no grid at all.
-  const aligns = gridAnchor !== undefined && !hasVolume;
-  const priceH = aligns
-    ? CHART_PLOT_H
-    : height - PAD_TOP - PAD_BOTTOM - volH - (hasVolume ? VOLUME_GAP : 0);
-  const padTop = aligns
-    ? PAD_TOP + ((GRID - ((gridAnchor + PAD_TOP + priceH) % GRID)) % GRID)
-    : PAD_TOP;
 
   // The domain is built from the bars the learner can actually see, plus the
   // annotation levels (which are drawn from the start). Scaling to every bar up
@@ -556,36 +650,44 @@ export default function Chart({
     return { lo: Math.min(lo, next.lo), hi: Math.max(hi, next.hi) };
   }, [bars, spec.vwap, spec.levels, n, lo, hi]);
 
-  const y = (price: number) =>
-    padTop + priceH - ((price - lo) / (hi - lo)) * priceH;
-
-  const slot = plotW / n;
-  const cx = (i: number) => PAD_LEFT + slot * (i + 0.5);
-  const bodyW = Math.max(3, Math.min(slot * 0.62, 22));
+  const {
+    padTop,
+    priceH,
+    plotW,
+    bodyW,
+    volTop,
+    volH,
+    gaps,
+    y,
+    cx,
+  } = useMemo(
+    () => chartLayout({ width, height, bars: n, lo, hi, hasVolume, gridAnchor }),
+    [width, height, n, lo, hi, hasVolume, gridAnchor]
+  );
 
   const maxVol = hasVolume ? Math.max(...(spec.volume as number[])) : 1;
-  const volTop = padTop + priceH + VOLUME_GAP;
   const volY = (v: number) => volTop + volH - (v / maxVol) * volH;
 
   const ticks = useMemo(() => {
     const out: number[] = [];
-    for (let i = 0; i <= 3; i++) out.push(lo + ((hi - lo) * i) / 3);
+    for (let i = 0; i <= gaps; i++) out.push(lo + ((hi - lo) * i) / gaps);
     return out;
-  }, [lo, hi]);
+  }, [lo, hi, gaps]);
 
   // The same four lines read against the domain the replay ends on. The lines
   // themselves never move -- they are fixed fractions of the plot height -- so
   // only these labels change, and they cross-fade rather than re-render.
   const fullTicks = useMemo(() => {
     const out: number[] = [];
-    for (let i = 0; i <= 3; i++) out.push(full.lo + ((full.hi - full.lo) * i) / 3);
+    for (let i = 0; i <= gaps; i++)
+      out.push(full.lo + ((full.hi - full.lo) * i) / gaps);
     return out;
-  }, [full.lo, full.hi]);
+  }, [full.lo, full.hi, gaps]);
 
   const playGeom = useMemo<PlayGeom | null>(() => {
     if (!playback || shown < 1) return null;
     return {
-      xs: bars.map((_, i) => PAD_LEFT + (plotW / n) * (i + 0.5)),
+      xs: bars.map((_, i) => cx(i)),
       closes: bars.map((b) => b.c),
       opens: bars.map((b) => b.o),
       highs: bars.map((b) => b.h),

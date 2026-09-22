@@ -3,7 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { colors, radius, space, type } from '../theme';
 import type { ChartSpec, ComponentId } from '../types';
-import Chart from './Chart';
+import Chart, { chartHeightFor } from './Chart';
+import { useGridAnchor } from './gridAlign';
 import BarChart from './data/BarChart';
 import CostStack from './data/CostStack';
 import JournalTable from './data/JournalTable';
@@ -45,6 +46,11 @@ export default function Visual({
   highlight?: Record<string, string>;
   planValues?: Record<string, string>;
 }) {
+  // Hooks run before the early return. Every chart in the app snaps to the
+  // backdrop, not just the one inside a `chart-decision` -- a theory card whose
+  // chart ignored the grid was the most visible half of "sometimes aligned".
+  const grid = useGridAnchor(component);
+
   if (!data) return null;
 
   switch (component) {
@@ -98,19 +104,23 @@ export default function Visual({
         vwap: data.vwap,
       };
       const bars = Array.isArray(spec.data) ? spec.data.length : 0;
+      const hasVolume = Array.isArray(spec.volume) && spec.volume.length > 0;
       return (
-        <DrawOnChart bars={bars}>
-          {(visibleCount, draw) => (
-            <Chart
-              spec={spec}
-              visibleCount={visibleCount}
-              width={width}
-              height={200}
-              showDecisionMarker={false}
-              draw={spec.kind === 'line' ? draw : undefined}
-            />
-          )}
-        </DrawOnChart>
+        <View ref={grid.ref} onLayout={grid.onLayout}>
+          <DrawOnChart bars={bars}>
+            {(visibleCount, draw) => (
+              <Chart
+                spec={spec}
+                visibleCount={visibleCount}
+                width={width}
+                height={chartHeightFor(hasVolume)}
+                showDecisionMarker={false}
+                draw={spec.kind === 'line' ? draw : undefined}
+                gridAnchor={grid.gridAnchor}
+              />
+            )}
+          </DrawOnChart>
+        </View>
       );
     }
     default:

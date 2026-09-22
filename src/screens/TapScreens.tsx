@@ -1,7 +1,13 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import Chart from '../components/Chart';
+import Chart, {
+  chartHeightFor,
+  chartLayout,
+  domainOf,
+  toCandles,
+} from '../components/Chart';
+import { useGridAnchor } from '../components/gridAlign';
 import OrderBook from '../components/data/OrderBook';
 import ScannerTable from '../components/data/ScannerTable';
 import Visual from '../components/Visual';
@@ -152,21 +158,44 @@ export function ChartTapScreen({
 }) {
   const picked = value.kind === 'index' ? value.index : null;
   const bars = screen.chart.data.length;
-  const height = 220;
   const spec: ChartSpec = {
     kind: screen.chart.kind,
     data: screen.chart.data as any,
     decision_index: -1,
   };
+  const height = chartHeightFor(false);
+  const grid = useGridAnchor(picked);
+
+  // The columns are placed from the chart's own geometry. They used to be a
+  // flex row inset by the literals 6 and 44 -- the chart's padding and axis
+  // width copied by hand -- which put every target half a bar off centre.
+  const candles = toCandles(spec);
+  const domain = domainOf(candles, spec, candles.length);
+  const layout = chartLayout({
+    width,
+    height,
+    bars,
+    lo: domain.lo,
+    hi: domain.hi,
+    hasVolume: false,
+    gridAnchor: grid.gridAnchor,
+  });
 
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <View style={{ width, height }}>
-        <Chart spec={spec} visibleCount={bars} width={width} height={height} showDecisionMarker={false} />
+      <View ref={grid.ref} onLayout={grid.onLayout} style={{ width, height }}>
+        <Chart
+          spec={spec}
+          visibleCount={bars}
+          width={width}
+          height={height}
+          showDecisionMarker={false}
+          gridAnchor={grid.gridAnchor}
+        />
         {/* An invisible column per bar: a candle is far too small a tap target
             on its own (docs/UI.md §10, 48 pt minimum). */}
-        <View style={styles.tapRow}>
+        <View style={styles.tapRow} pointerEvents="box-none">
           {Array.from({ length: bars }, (_, i) => {
             const tint =
               revealed && i === screen.target
@@ -193,7 +222,17 @@ export function ChartTapScreen({
                   selectHaptic();
                   onChange({ kind: 'index', index: i });
                 }}
-                style={[styles.tapCol, { backgroundColor: tint, borderColor: border }]}
+                style={[
+                  styles.tapCol,
+                  {
+                    left: layout.cx(i) - layout.slot / 2 + 1,
+                    width: Math.max(1, layout.slot - 2),
+                    top: layout.padTop,
+                    height: layout.priceH,
+                    backgroundColor: tint,
+                    borderColor: border,
+                  },
+                ]}
               />
             );
           })}
@@ -287,8 +326,8 @@ export function SliderScreen({
 
 const styles = StyleSheet.create({
   wrap: { flex: 1, justifyContent: 'center', gap: space.lg },
-  tapRow: { position: 'absolute', top: 0, bottom: 0, left: 6, right: 44, flexDirection: 'row' },
-  tapCol: { flex: 1, borderRadius: radius.sm, borderWidth: 1.5, marginHorizontal: 1 },
+  tapRow: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 },
+  tapCol: { position: 'absolute', borderRadius: radius.sm, borderWidth: 1.5 },
   sliderValue: { ...type.display, color: colors.text, textAlign: 'center' },
   track: {
     height: 10,

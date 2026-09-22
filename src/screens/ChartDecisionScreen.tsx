@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import Chart, { closeAt } from '../components/Chart';
+import Chart, { chartHeightFor, closeAt } from '../components/Chart';
+import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { EASE_OUT } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, GRID, radius, space, type } from '../theme';
+import { colors, radius, space, type } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
 
 /** Which way a choice faces, for the P/L side of the outcome strip. */
@@ -92,27 +93,11 @@ export default function ChartDecisionScreen({
     );
   };
 
-  // The chart's price gridlines are snapped onto the backdrop grid, which needs
-  // the chart's y on screen. It is measured once, after layout.
-  const chartBox = useRef<View>(null);
-  const [gridAnchor, setGridAnchor] = useState<number | undefined>(undefined);
-  const measureAnchor = useCallback(() => {
-    chartBox.current?.measureInWindow((_x, y) => {
-      setGridAnchor((prev) =>
-        prev !== undefined && Math.abs(prev - y) < 0.5 ? prev : y
-      );
-    });
-  }, []);
-  // `onLayout` alone is not enough: the outcome card re-centres the column, so
-  // the chart moves without changing size, and on web `onLayout` is a resize
-  // observer that never fires for a move. Re-measure whenever the phase changes
-  // -- and again a beat later, because the player's reveal panel mounts below
-  // this screen in response to the same phase change and shifts it once more.
-  useEffect(() => {
-    measureAnchor();
-    const settle = setTimeout(measureAnchor, 160);
-    return () => clearTimeout(settle);
-  }, [measureAnchor, phase, width]);
+  // The chart's price gridlines snap onto the backdrop grid, which needs to know
+  // how far down the grid the chart sits. `phase` is passed because the outcome
+  // card re-centres the column: the chart moves without resizing, and on web
+  // `onLayout` is a resize observer that never fires for a move.
+  const grid = useGridAnchor(phase);
 
   const decisionPrice = closeAt(screen.chart, screen.chart.decision_index);
   const finalPrice = closeAt(screen.chart, bars - 1);
@@ -121,9 +106,9 @@ export default function ChartDecisionScreen({
   const direction = choice ? DIRECTION[choice] : 0;
   const pnl = direction * move * screen.shares;
 
-  // Without a volume strip the plot is a fixed, grid-aligned box; the extra cell
-  // is the slack the top padding needs to shift into when it snaps to the grid.
-  const chartHeight = screen.chart.volume ? 252 : 10 + GRID + 168 + 18;
+  // Sized from the chart's own geometry, so the grid-aligned plot, the volume
+  // strip and the slack the snap shifts into all fit exactly.
+  const chartHeight = chartHeightFor(!!screen.chart.volume);
 
   return (
     <View style={styles.wrap}>
@@ -131,13 +116,13 @@ export default function ChartDecisionScreen({
 
       {screen.state?.length ? <StateChips state={screen.state} /> : null}
 
-      <View ref={chartBox} onLayout={measureAnchor}>
+      <View ref={grid.ref} onLayout={grid.onLayout}>
         <Pressable accessibilityRole="button" onPress={onChartPress} disabled={choice === null}>
           <Chart
             spec={screen.chart}
             visibleCount={done ? bars : start}
             playback={playing ? progress : undefined}
-            gridAnchor={gridAnchor}
+            gridAnchor={grid.gridAnchor}
             width={width}
             height={chartHeight}
           />
