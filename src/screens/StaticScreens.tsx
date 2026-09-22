@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import Visual from '../components/Visual';
 import { copy } from '../format';
-import { selectHaptic } from '../lesson/haptics';
+import { tapFeedback } from '../lesson/feedback';
 import { colors, radius, space, type } from '../theme';
 import type {
   BadgeScreen as Badge,
@@ -52,7 +52,7 @@ export function CarouselScreen({
             accessibilityRole="button"
             key={i}
             onPress={() => {
-              selectHaptic();
+              tapFeedback();
               onCursor(i);
             }}
             hitSlop={8}
@@ -218,7 +218,7 @@ export function PathChoiceScreen({
             accessibilityRole="button"
             key={p.id}
             onPress={() => {
-              selectHaptic();
+              tapFeedback();
               onChange(p.id);
             }}
             style={[styles.pathCard, value === p.id && styles.pathCardOn]}

@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import Chart, { chartHeightFor, closeAt } from '../components/Chart';
+import Chart, { chartHeightFor, chartWidthFor, closeAt } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
@@ -109,6 +109,7 @@ export default function ChartDecisionScreen({
   // Sized from the chart's own geometry, so the grid-aligned plot, the volume
   // strip and the slack the snap shifts into all fit exactly.
   const chartHeight = chartHeightFor(!!screen.chart.volume);
+  const chartWidth = chartWidthFor(width, !!screen.chart.volume);
 
   return (
     <View style={styles.wrap}>
@@ -116,14 +117,14 @@ export default function ChartDecisionScreen({
 
       {screen.state?.length ? <StateChips state={screen.state} /> : null}
 
-      <View ref={grid.ref} onLayout={grid.onLayout}>
+      <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
         <Pressable accessibilityRole="button" onPress={onChartPress} disabled={choice === null}>
           <Chart
             spec={screen.chart}
             visibleCount={done ? bars : start}
             playback={playing ? progress : undefined}
             gridAnchor={grid.gridAnchor}
-            width={width}
+            width={chartWidth}
             height={chartHeight}
           />
         </Pressable>
@@ -177,6 +178,7 @@ export default function ChartDecisionScreen({
 
 const styles = StyleSheet.create({
   wrap: { flex: 1, justifyContent: 'center', gap: space.md },
+  chartBox: { alignSelf: 'center' },
   scenario: { ...type.body, color: colors.text },
   playHint: { ...type.small, color: colors.textFaint, textAlign: 'center' },
   // Kept in the layout at all times: appearing mid-replay would shift the chart

@@ -15,7 +15,7 @@ export default function Cta({
   disabled?: boolean;
   onPress: () => void;
 }) {
-  const press = usePressFeedback(!disabled);
+  const press = usePressFeedback(!disabled, { sound: true });
 
   return (
     <Pressable

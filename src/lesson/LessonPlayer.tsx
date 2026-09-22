@@ -63,7 +63,7 @@ import {
   grade as gradeAnswer,
 } from './answers';
 import Cta from './Cta';
-import { commitHaptic, revealHaptic } from './haptics';
+import { commitFeedback, revealFeedback } from './feedback';
 import ProgressBar from './ProgressBar';
 import QuitSheet from './QuitSheet';
 import Reveal from './Reveal';
@@ -134,7 +134,7 @@ export default function LessonPlayer({
     setGrades((prev) => prev.map((x, i) => (i === index ? g : x)));
     setRevealed((prev) => prev.map((x, i) => (i === index ? true : x)));
     // docs/UI.md §5.1: light haptic on correct and amber, medium on wrong.
-    revealHaptic(g);
+    revealFeedback(g);
   }, [screen, value, index]);
 
   // Types that commit on the tap itself reveal as soon as an answer exists, with
@@ -347,7 +347,7 @@ export default function LessonPlayer({
             buttons={decisionButtons(screen as any)}
             onChoose={(button) => {
               // The feel has to land on the tap, not when the chart stops playing.
-              commitHaptic();
+              commitFeedback();
               setValue({ kind: 'decision', choice: button });
             }}
           />

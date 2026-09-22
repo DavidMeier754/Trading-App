@@ -27,7 +27,7 @@ function Key({
   disabled: boolean;
   onPress: () => void;
 }) {
-  const press = usePressFeedback(!disabled);
+  const press = usePressFeedback(!disabled, { sound: true });
   const [down, setDown] = React.useState(false);
 
   return (

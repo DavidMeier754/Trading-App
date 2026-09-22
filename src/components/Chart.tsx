@@ -520,6 +520,24 @@ const VOLUME_H = CHART_GRID_STEP - VOLUME_GAP;
  */
 const PLOT_GAPS = [3, 2];
 
+/** Widest the plot may be against the height of its ink. */
+const MAX_PLOT_ASPECT = 2;
+
+/**
+ * How wide a chart may be drawn in `available` points.
+ *
+ * Its height is fixed by the grid, so letting the width follow the container
+ * stretches the same eight points across 208 points on a small phone and 348 on
+ * a wide one -- the identical chart reading as two different shapes. The plot is
+ * capped at twice the height of its ink and the chart is centred in whatever is
+ * left, so a chart keeps one shape and simply stops growing.
+ */
+export function chartWidthFor(available: number, hasVolume: boolean, gaps?: number): number {
+  const chosen = gaps ?? (hasVolume ? 2 : 3);
+  const ink = chosen * CHART_GRID_STEP + (hasVolume ? VOLUME_GAP + VOLUME_H : 0);
+  return Math.min(available, ink * MAX_PLOT_ASPECT + PAD_LEFT + AXIS_W);
+}
+
 /** The height a chart needs for a grid-aligned plot, with or without volume. */
 export function chartHeightFor(hasVolume: boolean, gaps?: number): number {
   const chosen = gaps ?? (hasVolume ? 2 : 3);

@@ -6,13 +6,14 @@ import Chart, {
   AXIS_W,
   chartHeightFor,
   chartLayout,
+  chartWidthFor,
   domainOf,
   toCandles,
 } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import { price } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { selectHaptic } from '../lesson/haptics';
+import { tapFeedback } from '../lesson/feedback';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { ChartAnnotateScreen as S } from '../types';
 import { Prompt } from './common';
@@ -44,6 +45,7 @@ export default function ChartAnnotateScreen({
   const rows = screen.chart.data as any[];
   const hasVolume = Array.isArray(screen.chart.volume) && screen.chart.volume.length > 0;
   const height = chartHeightFor(hasVolume);
+  const chartWidth = chartWidthFor(width, hasVolume);
   const grid = useGridAnchor(placed === null ? 'empty' : 'placed');
 
   // The overlay has to agree with the chart to the pixel, so it asks the chart
@@ -56,7 +58,7 @@ export default function ChartAnnotateScreen({
   const lo = Math.min(base.lo, screen.answer);
   const hi = Math.max(base.hi, screen.answer);
   const layout = chartLayout({
-    width,
+    width: chartWidth,
     height,
     bars: bars.length,
     lo,
@@ -72,7 +74,7 @@ export default function ChartAnnotateScreen({
     Math.round(Math.min(hi, Math.max(lo, layout.priceAt(y))) * 100) / 100;
 
   const nudge = (delta: number) => {
-    selectHaptic();
+    tapFeedback();
     const from = placed ?? (lo + hi) / 2;
     onChange({ kind: 'slider', value: Math.round((from + delta) * 100) / 100 });
   };
@@ -87,7 +89,7 @@ export default function ChartAnnotateScreen({
         accessibilityRole="button"
         disabled={revealed}
         onPress={(e) => {
-          selectHaptic();
+          tapFeedback();
           // `pageY` against the chart's own measured top, never `locationY`:
           // on the web that is relative to whichever SVG child took the event —
           // a candle, a gridline — so a tap on a candle landed tens of points
@@ -99,23 +101,23 @@ export default function ChartAnnotateScreen({
               : (native.locationY ?? layout.padTop + layout.priceH / 2);
           onChange({ kind: 'slider', value: toPrice(y) });
         }}
-        style={{ width, height }}
+        style={{ width: chartWidth, height, alignSelf: 'center' }}
       >
         <Chart
           spec={{ ...screen.chart, decision_index: -1 }}
           visibleCount={rows.length}
-          width={width}
+          width={chartWidth}
           height={height}
           showDecisionMarker={false}
           gridAnchor={grid.gridAnchor}
         />
         <View style={styles.overlay} pointerEvents="none">
-          <Svg width={width} height={height}>
+          <Svg width={chartWidth} height={height}>
             {revealed ? (
               <>
                 <Line
                   x1={0}
-                  x2={width - AXIS_W}
+                  x2={chartWidth - AXIS_W}
                   y1={toY(screen.answer)}
                   y2={toY(screen.answer)}
                   stroke={colors.success}
@@ -123,7 +125,7 @@ export default function ChartAnnotateScreen({
                 />
                 <Line
                   x1={0}
-                  x2={width - AXIS_W}
+                  x2={chartWidth - AXIS_W}
                   y1={toY(screen.answer + screen.tolerance)}
                   y2={toY(screen.answer + screen.tolerance)}
                   stroke={colors.success}
@@ -133,7 +135,7 @@ export default function ChartAnnotateScreen({
                 />
                 <Line
                   x1={0}
-                  x2={width - AXIS_W}
+                  x2={chartWidth - AXIS_W}
                   y1={toY(screen.answer - screen.tolerance)}
                   y2={toY(screen.answer - screen.tolerance)}
                   stroke={colors.success}
@@ -147,7 +149,7 @@ export default function ChartAnnotateScreen({
               <>
                 <Line
                   x1={0}
-                  x2={width - AXIS_W}
+                  x2={chartWidth - AXIS_W}
                   y1={toY(placed)}
                   y2={toY(placed)}
                   stroke={

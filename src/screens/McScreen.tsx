@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { AnswerValue } from '../lesson/answers';
 import { correctOptionIndex } from '../lesson/answers';
-import { selectHaptic } from '../lesson/haptics';
+import { tapFeedback } from '../lesson/feedback';
 import type { Tone } from '../lesson/toneTransition';
 import { space } from '../theme';
 import type { McScreen as Mc, NumericMcScreen as NumMc } from '../types';
@@ -43,7 +43,7 @@ export default function McScreen({
             disabled={revealed}
             onPress={() => {
               // One tap is the whole answer; there is no Check to confirm it.
-              selectHaptic();
+              tapFeedback();
               onChange({ kind: 'option', index: i });
             }}
           />

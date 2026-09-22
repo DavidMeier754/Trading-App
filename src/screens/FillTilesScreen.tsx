@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated';
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { tilePool } from '../lesson/answers';
-import { selectHaptic } from '../lesson/haptics';
+import { tapFeedback } from '../lesson/feedback';
 import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
@@ -88,7 +88,7 @@ export default function FillTilesScreen({
               accessibilityLabel={used ? 'Used tile' : `Letter ${letter}`}
               disabled={revealed || used}
               onPress={() => {
-                selectHaptic();
+                tapFeedback();
                 onChange({ kind: 'tiles', placed: [...placed, i] });
               }}
               style={[styles.tile, used && styles.tileUsed]}
@@ -105,7 +105,7 @@ export default function FillTilesScreen({
         accessibilityRole="button"
         disabled={revealed || placed.length === 0}
         onPress={() => {
-          selectHaptic();
+          tapFeedback();
           onChange({ kind: 'tiles', placed: placed.slice(0, -1) });
         }}
         hitSlop={8}

@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LessonEntry } from './content';
+import { setSoundEnabled, useSoundEnabled } from './lesson/sound';
 import {
   MotionSetting,
   setMotionSetting,
@@ -30,6 +31,7 @@ export default function LessonPicker({
 }) {
   const insets = useSafeAreaInsets();
   const motion = useMotionSetting();
+  const sound = useSoundEnabled();
   return (
     <View style={[styles.wrap, { paddingTop: insets.top + space.xxl, paddingBottom: insets.bottom + space.xl }]}>
       <Text style={styles.title}>Pick a lesson</Text>
@@ -68,6 +70,34 @@ export default function LessonPicker({
               style={[
                 styles.motionChipText,
                 motion === option.id && styles.motionChipTextOn,
+              ]}
+            >
+              {option.label}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+
+      {/* docs/UI.md §10 gives sounds their own toggle; there is no Settings
+          screen yet, so it sits here beside the motion one. */}
+      <View style={styles.motionRow}>
+        <Text style={styles.motionLabel}>Sound</Text>
+        {[
+          { on: true, label: 'On' },
+          { on: false, label: 'Off' },
+        ].map((option) => (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ selected: sound === option.on }}
+            key={option.label}
+            onPress={() => setSoundEnabled(option.on)}
+            hitSlop={6}
+            style={[styles.motionChip, sound === option.on && styles.motionChipOn]}
+          >
+            <Text
+              style={[
+                styles.motionChipText,
+                sound === option.on && styles.motionChipTextOn,
               ]}
             >
               {option.label}

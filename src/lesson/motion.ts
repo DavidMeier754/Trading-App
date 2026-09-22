@@ -9,6 +9,7 @@ import {
 import { useReduceMotion } from './useReduceMotion';
 
 import { selectHaptic } from './haptics';
+import { playCue } from './sound';
 
 /**
  * The app's motion tokens, on Reanimated.
@@ -59,16 +60,24 @@ export const SPRING_POP = { duration: 520, dampingRatio: 0.62 } as const;
  * transitions in this app already use, and it has the better thread behaviour
  * anyway: no React render on press at all, where the transition needed two.
  */
-export function usePressFeedback(enabled = true) {
+export function usePressFeedback(
+  enabled = true,
+  { sound = false }: { sound?: boolean } = {}
+) {
   const reduced = useReduceMotion();
   const animates = enabled && !reduced;
   const scale = useSharedValue(1);
 
   const onPressIn = useCallback(() => {
     if (!enabled) return;
+    // The haptic is the press itself and always fires. The sound is opt-in:
+    // most surfaces that use this hook are answers, and an answer already
+    // sounds when it resolves -- ticking on the way down as well would play two
+    // cues for one tap.
     selectHaptic();
+    if (sound) playCue('tap');
     if (animates) scale.set(withTiming(PRESSED_SCALE, PRESS_IN));
-  }, [enabled, animates, scale]);
+  }, [enabled, animates, sound, scale]);
 
   // Coming back up is given a touch longer than going down: the press itself
   // should feel immediate, the release should not snap.

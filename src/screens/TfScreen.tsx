@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
+import { tapFeedback } from '../lesson/feedback';
 import type { AnswerValue } from '../lesson/answers';
 import type { Tone } from '../lesson/toneTransition';
 import { colors, space, type } from '../theme';
@@ -43,7 +44,10 @@ export default function TfScreen({
             <ToneSurface
               tone={toneFor(option)}
               disabled={revealed}
-              onPress={() => onChange({ kind: 'bool', value: option })}
+              onPress={() => {
+                tapFeedback();
+                onChange({ kind: 'bool', value: option });
+              }}
               style={styles.button}
             >
               <Text style={styles.buttonText}>{option ? 'True' : 'False'}</Text>

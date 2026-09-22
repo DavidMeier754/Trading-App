@@ -17,7 +17,7 @@ import { colors, radius, space, type } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
 import Confetti from './Confetti';
-import { celebrateHaptic } from './haptics';
+import { celebrateFeedback } from './feedback';
 import { DURATION, EASE_OUT, SPRING_POP, useMotion } from './motion';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -63,7 +63,7 @@ export default function LessonComplete({
   const [shownXp, setShownXp] = useState(m.reduced ? earned : 0);
 
   useEffect(() => {
-    celebrateHaptic();
+    celebrateFeedback();
     if (m.reduced) return;
     // A spring per block, 70 ms apart: one arrival, not a pop.
     [t0, t1, t2].forEach((v, i) => v.set(withDelay(i * 70, withSpring(1, SPRING_POP))));

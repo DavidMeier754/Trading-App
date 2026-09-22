@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { selectHaptic } from '../lesson/haptics';
+import { tapFeedback } from '../lesson/feedback';
 import type { Tone } from '../lesson/toneTransition';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type {
@@ -59,7 +59,7 @@ export function FillChoiceScreen({
             tone={toneFor(i)}
             disabled={revealed}
             onPress={() => {
-              selectHaptic();
+              tapFeedback();
               onChange({ kind: 'option', index: i });
             }}
             style={styles.chip}
@@ -107,7 +107,7 @@ export function SortScreen({
             tone={pending === i ? 'selected' : 'idle'}
             disabled={revealed}
             onPress={() => {
-              selectHaptic();
+              tapFeedback();
               setPending((p) => (p === i ? null : i));
             }}
             style={styles.chip}
@@ -125,7 +125,7 @@ export function SortScreen({
             disabled={revealed || pending === null}
             onPress={() => {
               if (pending === null) return;
-              selectHaptic();
+              tapFeedback();
               onChange({
                 kind: 'buckets',
                 placed: { ...placed, [pending]: bucket },
@@ -184,7 +184,7 @@ export function OrderScreen({
             tone={revealed ? (itemIndex === position ? 'correct' : 'wrong') : 'selected'}
             disabled={revealed}
             onPress={() => {
-              selectHaptic();
+              tapFeedback();
               onChange({
                 kind: 'sequence',
                 order: order.filter((x) => x !== itemIndex),
@@ -210,7 +210,7 @@ export function OrderScreen({
             tone="idle"
             disabled={revealed}
             onPress={() => {
-              selectHaptic();
+              tapFeedback();
               onChange({ kind: 'sequence', order: [...order, i] });
             }}
             style={styles.chip}
@@ -255,7 +255,7 @@ export function SpotMistakeScreen({
             tone={toneFor(i)}
             disabled={revealed}
             onPress={() => {
-              selectHaptic();
+              tapFeedback();
               onChange({ kind: 'index', index: i });
             }}
             style={styles.segment}

@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import MiniChart from '../components/MiniChart';
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { selectHaptic } from '../lesson/haptics';
+import { tapFeedback } from '../lesson/feedback';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type {
   CompareScreen as Compare,
@@ -40,7 +40,7 @@ export function SwipeDeckScreen({
   const lastCard = picks.length > 0 ? screen.cards[picks.length - 1] : null;
 
   const answer = (pick: 'take' | 'pass') => {
-    selectHaptic();
+    tapFeedback();
     onChange({ kind: 'deck', picks: [...picks, pick] });
   };
 
@@ -135,7 +135,7 @@ export function CompareScreen({
               tone={toneFor(id) as any}
               disabled={revealed}
               onPress={() => {
-                selectHaptic();
+                tapFeedback();
                 onChange({ kind: 'target', id });
               }}
               style={styles.compareCard}
@@ -151,7 +151,7 @@ export function CompareScreen({
           tone={toneFor('neither') as any}
           disabled={revealed}
           onPress={() => {
-            selectHaptic();
+            tapFeedback();
             onChange({ kind: 'target', id: 'neither' });
           }}
           style={styles.neither}

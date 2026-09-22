@@ -1,11 +1,11 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import Chart, { chartHeightFor } from '../components/Chart';
+import Chart, { chartHeightFor, chartWidthFor } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import type { AnswerValue } from '../lesson/answers';
 import { replayLabels } from '../lesson/answers';
-import { commitHaptic, selectHaptic } from '../lesson/haptics';
+import { commitFeedback, tapFeedback } from '../lesson/feedback';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { ChartReplayScreen as S } from '../types';
 import { Prompt } from './common';
@@ -49,18 +49,19 @@ export default function ChartReplayScreen({
 
   const hasVolume = Array.isArray(screen.chart.volume) && screen.chart.volume.length > 0;
   const height = chartHeightFor(hasVolume);
+  const chartWidth = chartWidthFor(width, hasVolume);
   const atEnd = bar >= total;
   // The bar counter and the action rows below the chart change height as the
   // replay runs, which moves the chart, so the anchor follows the bar.
   const grid = useGridAnchor(bar);
 
   const act = (side: 'long' | 'short') => {
-    commitHaptic();
+    commitFeedback();
     onChange({ ...state, acted: [...state.acted, { bar: bar - 1, side }] });
   };
 
   const end = () => {
-    commitHaptic();
+    commitFeedback();
     onChange({ ...state, ended: true });
   };
 
@@ -130,11 +131,11 @@ export default function ChartReplayScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
-      <View ref={grid.ref} onLayout={grid.onLayout}>
+      <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
         <Chart
           spec={{ ...screen.chart, decision_index: -1 }}
           visibleCount={bar}
-          width={width}
+          width={chartWidth}
           height={height}
           showDecisionMarker={false}
           gridAnchor={grid.gridAnchor}
@@ -159,7 +160,7 @@ export default function ChartReplayScreen({
           accessibilityRole="button"
           disabled={atEnd}
           onPress={() => {
-            selectHaptic();
+            tapFeedback();
             setBar((b) => Math.min(b + 1, total));
           }}
           style={[styles.action, styles.next, atEnd && styles.actionOff]}
@@ -176,6 +177,7 @@ export default function ChartReplayScreen({
 
 const styles = StyleSheet.create({
   wrap: { flex: 1, justifyContent: 'center', gap: space.sm },
+  chartBox: { alignSelf: 'center' },
   barCount: { ...type.small, color: colors.textMuted, textAlign: 'center' },
   actions: { flexDirection: 'row', gap: space.sm },
   action: {

@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Chart, {
   chartHeightFor,
   chartLayout,
+  chartWidthFor,
   domainOf,
   toCandles,
 } from '../components/Chart';
@@ -12,7 +13,7 @@ import OrderBook from '../components/data/OrderBook';
 import ScannerTable from '../components/data/ScannerTable';
 import Visual from '../components/Visual';
 import type { AnswerValue } from '../lesson/answers';
-import { selectHaptic } from '../lesson/haptics';
+import { tapFeedback } from '../lesson/feedback';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type {
   ChartSpec,
@@ -65,7 +66,7 @@ export function HotspotScreen({
           revealed
             ? undefined
             : (id) => {
-                selectHaptic();
+                tapFeedback();
                 onChange({ kind: 'target', id });
               }
         }
@@ -98,7 +99,7 @@ export function ScannerPickScreen({
           revealed
             ? undefined
             : (ticker) => {
-                selectHaptic();
+                tapFeedback();
                 onChange({ kind: 'target', id: ticker });
               }
         }
@@ -132,7 +133,7 @@ export function DepthLadderScreen({
           revealed
             ? undefined
             : (id) => {
-                selectHaptic();
+                tapFeedback();
                 onChange({ kind: 'target', id });
               }
         }
@@ -164,6 +165,7 @@ export function ChartTapScreen({
     decision_index: -1,
   };
   const height = chartHeightFor(false);
+  const chartWidth = chartWidthFor(width, false);
   const grid = useGridAnchor(picked);
 
   // The columns are placed from the chart's own geometry. They used to be a
@@ -172,7 +174,7 @@ export function ChartTapScreen({
   const candles = toCandles(spec);
   const domain = domainOf(candles, spec, candles.length);
   const layout = chartLayout({
-    width,
+    width: chartWidth,
     height,
     bars,
     lo: domain.lo,
@@ -184,11 +186,15 @@ export function ChartTapScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <View ref={grid.ref} onLayout={grid.onLayout} style={{ width, height }}>
+      <View
+        ref={grid.ref}
+        onLayout={grid.onLayout}
+        style={{ width: chartWidth, height, alignSelf: 'center' }}
+      >
         <Chart
           spec={spec}
           visibleCount={bars}
-          width={width}
+          width={chartWidth}
           height={height}
           showDecisionMarker={false}
           gridAnchor={grid.gridAnchor}
@@ -219,7 +225,7 @@ export function ChartTapScreen({
                 key={i}
                 disabled={revealed}
                 onPress={() => {
-                  selectHaptic();
+                  tapFeedback();
                   onChange({ kind: 'index', index: i });
                 }}
                 style={[
@@ -266,7 +272,7 @@ export function SliderScreen({
       screen.max,
       Math.max(screen.min, (current ?? (screen.min + screen.max) / 2) + delta)
     );
-    selectHaptic();
+    tapFeedback();
     onChange({ kind: 'slider', value: Number(next.toFixed(4)) });
   };
 

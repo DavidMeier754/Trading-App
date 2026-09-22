@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { selectHaptic } from '../lesson/haptics';
+import { tapFeedback } from '../lesson/feedback';
 import type { Tone } from '../lesson/toneTransition';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type {
@@ -57,7 +57,7 @@ function SlotBuilder({
             tone={toneFor(slot)}
             disabled={revealed}
             onPress={() => {
-              selectHaptic();
+              tapFeedback();
               setActive(slot);
             }}
             style={styles.slot}
@@ -79,7 +79,7 @@ function SlotBuilder({
                 accessibilityRole="button"
                 key={chip}
                 onPress={() => {
-                  selectHaptic();
+                  tapFeedback();
                   const next = { ...filled, [active]: chip };
                   onChange({ kind: 'slots', filled: next });
                   const remaining = slots.find((s) => next[s] === undefined);
@@ -217,7 +217,7 @@ export function BranchScreen({
             key={option.text}
             tone="idle"
             onPress={() => {
-              selectHaptic();
+              tapFeedback();
               onChange({ kind: 'branch', picks: [...picks, i] });
             }}
             style={styles.option}

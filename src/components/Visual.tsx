@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { colors, radius, space, type } from '../theme';
 import type { ChartSpec, ComponentId } from '../types';
-import Chart, { chartHeightFor } from './Chart';
+import Chart, { chartHeightFor, chartWidthFor } from './Chart';
 import { useGridAnchor } from './gridAlign';
 import BarChart from './data/BarChart';
 import CostStack from './data/CostStack';
@@ -105,14 +105,15 @@ export default function Visual({
       };
       const bars = Array.isArray(spec.data) ? spec.data.length : 0;
       const hasVolume = Array.isArray(spec.volume) && spec.volume.length > 0;
+      const chartWidth = chartWidthFor(width, hasVolume);
       return (
-        <View ref={grid.ref} onLayout={grid.onLayout}>
+        <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
           <DrawOnChart bars={bars}>
             {(visibleCount, draw) => (
               <Chart
                 spec={spec}
                 visibleCount={visibleCount}
-                width={width}
+                width={chartWidth}
                 height={chartHeightFor(hasVolume)}
                 showDecisionMarker={false}
                 draw={spec.kind === 'line' ? draw : undefined}
@@ -135,6 +136,7 @@ export default function Visual({
 }
 
 const styles = StyleSheet.create({
+  chartBox: { alignSelf: 'center' },
   placeholder: {
     borderColor: colors.border,
     borderWidth: 1,

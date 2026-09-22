@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
-import { selectHaptic } from '../lesson/haptics';
+import { tapFeedback } from '../lesson/feedback';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { PlanCardScreen as S } from '../types';
 import { Body, ScreenTitle } from './common';
@@ -47,7 +47,7 @@ export default function PlanCardScreen({
                   <Pressable
                     accessibilityRole="button"
                     onPress={() => {
-                      selectHaptic();
+                      tapFeedback();
                       onChange(key, suggestion);
                     }}
                     style={[
@@ -66,7 +66,7 @@ export default function PlanCardScreen({
                       accessibilityRole="button"
                       key={sign}
                       onPress={() => {
-                        selectHaptic();
+                        tapFeedback();
                         const base = Number(current ?? suggestion ?? 0);
                         const next = sign === '+' ? base + 1 : Math.max(0, base - 1);
                         onChange(key, String(next));

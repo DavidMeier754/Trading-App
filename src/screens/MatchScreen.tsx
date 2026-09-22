@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { matchHitHaptic, matchMissHaptic } from '../lesson/haptics';
+import { matchHitFeedback, matchMissFeedback } from '../lesson/feedback';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { MatchScreen as S } from '../types';
 import { Prompt } from './common';
@@ -69,7 +69,7 @@ export default function MatchScreen({
 
     if (rightIndex === pendingLeft) {
       // Every pair lands with its own feel, right or wrong, the moment it lands.
-      matchHitHaptic();
+      matchHitFeedback();
       onChange({
         kind: 'match',
         linked: { ...linked, [pendingLeft]: rightIndex },
@@ -77,7 +77,7 @@ export default function MatchScreen({
       });
       setPendingLeft(null);
     } else {
-      matchMissHaptic();
+      matchMissFeedback();
       setFlash({ left: pendingLeft, right: rightIndex });
       onChange({ kind: 'match', linked, misses: misses + 1 });
       // Asymmetric: the red is the system's answer, so it lands at once and
