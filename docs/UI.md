@@ -50,7 +50,6 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 - **One screen, one screenful.** A screen never scrolls. Section 1's "one idea per screen" is a layout rule as much as a content one: if a screen does not fit, it is two screens. This is what keeps the CTA in the same place under the thumb on every screen of a 385-sub-level path. The exception is dynamic type (section 10).
 - **Tap-commit types.** `mc`, `numeric-mc`, `match` and `chart-decision` have no `Check` step: choosing *is* answering, and the reveal follows the tap. The CTA is absent until the reveal, then reads `Got it`. Every other question type keeps `Check`, because its answer is assembled from several taps and is not finished until the learner says so.
 - Portrait only; charts may offer an expand button (section 6.4).
-- Mascot slot: bottom-left of the reveal area, small; reacts to correct/wrong (section 6.8).
 
 ---
 
@@ -60,14 +59,14 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 
 | type | Name | What it is |
 |---|---|---|
-| `intro` | Intro card | Big headline (one sentence), optional subline, mascot. First screen of every sub-level. For tests/exams it shows the scored-question counter ("0/10"). |
+| `intro` | Intro card | Big headline (one sentence), optional subline. First screen of every sub-level. For tests/exams it shows the scored-question counter ("0/10"). |
 | `theory` | Theory card | Title + body (max 3 lines) + optional visual component. The main teaching screen. |
 | `example` | Example card | A concrete number or mini story + visual, often animated. Follows a theory card. |
 | `carousel` | Concept carousel | 2–4 sibling cards shown one after another with a "1/3" indicator and a Next arrow (swipe also works). Each card = icon + label + 1–2 sentences. Counts as one screen per card. |
 | `walkthrough` | UI walkthrough | A mock UI component with one field spotlighted per step (dimmed background, highlight box, arrow, label). Counts as one screen per step. |
 | `visual` | Info visual | A chart/diagram component with a one-line caption. |
 | `checklist-reveal` | Checklist reveal | Checkbox items appear one per tap, forming a checklist the user later applies. |
-| `story` | Story frame | Short narrative ("9:31. You're watching XYZ…") with a character avatar. Used before decisions. |
+| `story` | Story frame | Short narrative ("9:31. You're watching XYZ…"). The speaker is named in the copy, not drawn — there is no character cast (§6.9). Used before decisions. |
 | `recap` **[v3]** | Level recap | End-of-level card: 2–4 one-line takeaways from the level's sub-levels, each tappable to re-open that card. Cheap, and it is what makes a 19-level chapter feel navigable. |
 | `plan-card` **[v3]** | Your plan | A card the **user fills in and keeps**: their daily loss limit, their share size, their playbook card. Persists to the profile, re-appears (pre-filled, editable) in later chapters, and is exportable. Every card writes keys from the one plan namespace in `docs/schema.md` ("The plan"), which is what makes the re-appearing real: revisiting a key opens the field on the learner's current value and overwrites it, keeping the old one in a dated history. The single strongest engagement device in the app — the user is building their own document, not just answering. |
 | `summary` | Score summary | "X/N correct", progress ring, per-question list with green/red dots (tap → one-line reminder + link to source level). Pass mark 70 %: pass → "Continue"; below → "Almost — review these" + "Retry". |
@@ -170,8 +169,8 @@ Every other interaction shows a frozen chart. Real scalping is recognising a set
 ## 5. Feedback, reveal and reward
 
 ### 5.1 Inline reveal (every question)
-- Correct: element turns green (200 ms), soft "ding", light haptic, explanation slides up, mascot nods.
-- Wrong: element shakes (3 × 4 px, 250 ms) and turns red; the correct element turns green; explanation slides up; medium haptic; mascot "hm" pose. The explanation always states the correct idea.
+- Correct: element turns green (200 ms), soft "ding", light haptic, explanation slides up.
+- Wrong: element shakes (3 × 4 px, 250 ms) and turns red; the correct element turns green; explanation slides up; medium haptic. The explanation always states the correct idea.
 - Amber (reasonable answer on a `chart-decision`): element turns amber, no shake, no heart lost, and the reveal opens with what was right about the choice before what was better.
 - "Show working" toggle on numeric reveals: expands a 1–3 line calculation.
 
@@ -253,10 +252,21 @@ Side toggle (Buy/Sell), order-type chips (Market / Limit / Stop), quantity, pric
 | `r-tracker` | A running R strip for a simulated session: each trade as +/− bars against the day's limit. | Chapters 6 and 8 capstones |
 | `plan-sheet` | The user's own saved plan (limits, size, playbook cards), editable. A line with a literal value in the level file is a specimen; a line without one renders what the learner wrote, and may only name a key an earlier `plan-card` has already asked for. | `plan-card` |
 
-### 6.9 Mascot & characters
-- **Mascot:** one recurring character (artwork to be provided). Poses needed: idle, nod (correct), hm (wrong), cheer (perfect / badge), point (spotlight on walkthroughs), sleep (streak reminder, outside lessons). Shown small in the reveal area and large on intro/complete screens. Never blocks content.
-- **Characters:** Retail trader (the user's stand-in), Market maker (two-faced buy/sell figure), Institution (large, calm), Bull, Bear. Reused across chapters so concepts get a face.
-- Illustration style: flat, friendly, one accent color + neutrals.
+### 6.9 Illustration
+**There is no mascot and no character cast.** v2 and v3 up to this point specified one
+recurring mascot with six poses, plus five recurring characters — retail trader, market
+maker, institution, bull, bear — that gave concepts a face across chapters. That is
+withdrawn, and with it the `story` screen's `character` field, which was the only place the
+cast was ever named (198 sub-levels carried it; none of them do now). Nothing in the app
+renders a character, and no new screen type should introduce one without reopening the
+decision in `docs/agent.md` §1.
+
+What a screen has instead: its own copy, its data component (§6) and the verdict colour of
+the reveal (§5.1). A `story` frame carries its speaker in the sentence — *"9:31. You're
+watching XYZ"* needs no avatar to say who is watching.
+
+- Illustration style, where a screen does illustrate something: flat, friendly, one accent
+  color + neutrals.
 
 ---
 

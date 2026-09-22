@@ -73,7 +73,6 @@ screens:
     explanation: "It depends entirely on what the stock travels. Chapter 1's volatility dial is what decides which of the two you are looking at."
 
   - type: story
-    character: retail-trader
     text: "XYZ has been stepping up for six minutes in twelve-cent bodies. Bid $22.25 / ask $22.27, and your $25,000 account allows 1,000 shares here."
 
   - type: chart-decision

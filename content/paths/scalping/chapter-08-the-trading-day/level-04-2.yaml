@@ -129,5 +129,4 @@ screens:
     explanation: "An hour early you are reading a chart. In the moment you are justifying a position you already want."
 
   - type: story
-    character: retail-trader
     text: "Nine lines across three names, one sentence about the room, and still time left before the bell. That is a normal hour, not a heroic one."

@@ -19,7 +19,6 @@ screens:
     text: "Six charts at a glance, then three decisions and one row to fill."
 
   - type: story
-    character: retail-trader
     text: "Levels marked before the open, VWAP on the chart, and half the usual budget written next to card D."
 
   - type: swipe-deck

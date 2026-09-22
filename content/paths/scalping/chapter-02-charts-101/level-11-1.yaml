@@ -19,7 +19,6 @@ screens:
     text: "Four levels, four minutes that have just closed. Say what happened, then take the side it gave you."
 
   - type: story
-    character: retail-trader
     text: "$20,000 in the account, one screen, and a line drawn on every chart before the first candle of the day."
 
   - type: compare

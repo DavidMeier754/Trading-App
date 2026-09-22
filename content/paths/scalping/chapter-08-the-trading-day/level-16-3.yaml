@@ -19,7 +19,6 @@ screens:
     text: "One session left, six rows in total, and a sheet that has started to point somewhere."
 
   - type: story
-    character: retail-trader
     text: "Friday, in the opening window. HOLLIS gapped up on its earnings, has held above its own average price since the bell, and has refused one price three times already."
 
   - type: chart-annotate

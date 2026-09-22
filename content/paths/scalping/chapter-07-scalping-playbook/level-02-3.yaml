@@ -19,7 +19,6 @@ screens:
     text: "Same shape, different trade — it depends how many times the line has already been asked."
 
   - type: story
-    character: retail-trader
     text: "XYZ has come back to the line three times this hour and held each time. It is coming back a fourth, and it looks easier than ever."
 
   - type: theory

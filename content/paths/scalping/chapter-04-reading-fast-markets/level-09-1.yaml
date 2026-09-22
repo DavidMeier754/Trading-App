@@ -99,5 +99,4 @@ screens:
     explanation: "Price and size, done, and on the tape a fraction of a second later."
 
   - type: story
-    character: market-maker
     text: "The size going off at my ask is not slowing down. I can keep offering at this price, or I can move up and let them come to me."

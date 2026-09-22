@@ -119,5 +119,4 @@ screens:
       - "Flatten and cancel where your hand already goes"
 
   - type: story
-    character: retail-trader
     text: "Size, Buy, Stop, and only then you look up at the chart. For a fortnight it feels slow. After that you stop noticing that you did it."

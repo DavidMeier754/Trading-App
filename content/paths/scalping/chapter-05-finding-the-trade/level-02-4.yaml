@@ -19,7 +19,6 @@ screens:
     text: "First thing, every morning: the multiple column, sorted, and a pen through most of it."
 
   - type: story
-    character: retail-trader
     text: "The list is sorted long before {{market.regular_open}}. Four thousand names, and it is about to hand you eight."
 
   - type: theory

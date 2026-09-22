@@ -19,7 +19,6 @@ screens:
     text: "Thirty mornings, eight cards and one sheet. Two of those numbers are about to get much smaller."
 
   - type: story
-    character: retail-trader
     text: "The simulator is set to the $12,000 account you will actually have. The page has eight cards on it, and you have thirty sessions before anything is decided."
 
   - type: theory

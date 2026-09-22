@@ -19,7 +19,6 @@ screens:
     text: "Ten charts, one line drawn on each. No explanations this time — just the answer the minute gave you."
 
   - type: story
-    character: retail-trader
     text: "Same $20,000, same single screen. Half of these are trades and half are somebody else's lesson."
 
   - type: swipe-deck

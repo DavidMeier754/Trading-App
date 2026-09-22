@@ -19,7 +19,6 @@ screens:
     text: "Chapter 5 gave you a routine. This is the hour it lives in, and the page it has to end on."
 
   - type: story
-    character: retail-trader
     text: "An hour before the bell. An empty page, a saved scanner, and no position anywhere to argue with you."
 
   - type: theory

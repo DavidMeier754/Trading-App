@@ -19,7 +19,6 @@ screens:
     text: "The same candle, twice, meaning two different things."
 
   - type: story
-    character: retail-trader
     text: "You have started noticing the shapes everywhere, and you have started taking them everywhere. That is the part that costs money."
 
   - type: theory

@@ -19,7 +19,6 @@ screens:
     text: "One morning, one stock, eight cards and $20,000."
 
   - type: story
-    character: retail-trader
     text: "Thirty minutes before {{market.regular_open}} {{market.timezone}}. Yesterday's high and low are drawn, the pre-market high and low are drawn, the round numbers are marked."
 
   - type: theory
@@ -62,7 +61,6 @@ screens:
     explanation: "Three cents of a twenty-four-cent move. That ratio is the reason the card needs a target worth taking."
 
   - type: story
-    character: retail-trader
     text: "An hour later. XYZ has stayed above VWAP the whole time and the 5-minute is still climbing. Now it eases back toward the line."
 
   - type: chart-decision
@@ -117,6 +115,5 @@ screens:
     explanation: "Plan, wait, trade, count. The counting step is the one beginners drop first."
 
   - type: story
-    character: retail-trader
     text: "Two cards taken, one chart passed, costs paid, +3R on the day. The rest of it is where it stops being easy."
 

@@ -107,5 +107,4 @@ screens:
     explanation: "One direction, from the first trade, with the day's volume behind it."
 
   - type: story
-    character: retail-trader
     text: "Four minutes in you wanted it badly. Six minutes in you had the same trade with a stop you could actually place."

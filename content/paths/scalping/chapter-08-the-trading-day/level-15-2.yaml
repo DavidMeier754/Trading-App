@@ -19,7 +19,6 @@ screens:
     text: "The chart is the one you have read three hundred times. You are not the one who read it."
 
   - type: story
-    character: retail-trader
     text: "Third live session. Two hundred shares of ARDEN from $17.40, the stop at $17.26, and twenty-eight dollars of your own money on the other side of it."
 
   - type: theory

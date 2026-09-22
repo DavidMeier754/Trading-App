@@ -19,7 +19,6 @@ screens:
     text: "Eight charts in a row. Four are a card and four borrow one feature from one."
 
   - type: story
-    character: retail-trader
     text: "Two names on the screen, levels drawn before the open, and eight cards on the sheet beside you. The read runs the same way it always did."
 
   - type: swipe-deck

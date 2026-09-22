@@ -19,7 +19,6 @@ screens:
     text: "Setup 3 is a short. One of the two after it is not a trade at all."
 
   - type: story
-    character: retail-trader
     text: "Three names on the list have given up a level this morning and you have one short to place. $19,000 in the account, one per cent to risk, and 900 shares is the size you want."
 
   - type: scanner-pick

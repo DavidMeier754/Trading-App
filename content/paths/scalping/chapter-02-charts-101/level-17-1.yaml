@@ -19,7 +19,6 @@ screens:
     text: "One stock, one morning, six moments. Here are the first three."
 
   - type: story
-    character: retail-trader
     text: "XYZ closed yesterday at $18.60 and pushed to $19.10 before the bell on thin volume. Both lines are on your chart, the account is $20,000, and you are sizing 1,000 shares."
 
   - type: chart-decision

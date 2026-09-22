@@ -19,7 +19,6 @@ screens:
     text: "Card five: the break that didn't."
 
   - type: story
-    character: retail-trader
     text: "XYZ pushes three cents through yesterday's low. Nothing happens. Two minutes later it is back above it."
 
   - type: theory

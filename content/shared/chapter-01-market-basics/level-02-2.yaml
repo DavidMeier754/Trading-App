@@ -17,7 +17,6 @@ screens:
     text: "Let's trade again — this time you explain the moves."
 
   - type: story
-    character: retail-trader
     text: "Monday, mid-morning. XYZ trades at $22.00. You have $2,200 and want 100 shares."
 
   - type: chart-decision

@@ -32,7 +32,6 @@ screens:
     body: "The state where your next trade is about the last one instead of about the chart. The signs: bigger size, no written stop, a stock you don't normally trade, a heartbeat you can feel."
 
   - type: story
-    character: retail-trader
     text: "Twenty minutes in, down 2R. XYZ is running and you are not in it. Your hand is already on the buy key."
 
   - type: mc

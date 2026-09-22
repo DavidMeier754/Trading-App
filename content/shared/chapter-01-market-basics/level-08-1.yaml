@@ -79,7 +79,6 @@ screens:
     explanation: "Distance and speed, in whichever direction."
 
   - type: story
-    character: retail-trader
     text: "You buy 300 shares of a very calm stock and look again an hour later. It has moved four cents. Nothing has gone wrong; that is simply what a calm stock does."
 
   - type: mc

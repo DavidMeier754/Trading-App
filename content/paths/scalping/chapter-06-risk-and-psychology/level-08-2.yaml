@@ -19,7 +19,6 @@ screens:
     text: "Five records, a hundred trades each. Two of them should be deleted this week."
 
   - type: story
-    character: retail-trader
     text: "Same trader, five setups, one spreadsheet. Nothing here needs a chart — just the three numbers each of them produced."
 
   - type: numeric-mc

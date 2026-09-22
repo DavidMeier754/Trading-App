@@ -110,5 +110,4 @@ screens:
     explanation: "The move is per share. What you keep depends on how many of them you held."
 
   - type: story
-    character: mascot
     text: "The move is the market's half of the trade. The share count is yours, and it is the half you decide."

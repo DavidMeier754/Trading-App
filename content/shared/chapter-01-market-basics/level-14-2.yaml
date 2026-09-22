@@ -48,7 +48,6 @@ screens:
     explanation: "Holding period tells you the style."
 
   - type: story
-    character: retail-trader
     text: "You're a student. Two free hours every morning during the regular session, then classes all day."
 
   - type: mc

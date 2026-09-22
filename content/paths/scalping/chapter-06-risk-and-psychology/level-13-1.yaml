@@ -40,7 +40,6 @@ screens:
     body: "After a run of losses: skipping the setup that was next in line. After a run of wins: sizing up because you feel sharp. Both replace the method with the last result."
 
   - type: story
-    character: retail-trader
     text: "Four stops before the opening window is over. The fifth setup is textbook and your finger hesitates."
 
   - type: mc

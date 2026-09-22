@@ -19,7 +19,6 @@ screens:
     text: "Bodies and threads, nothing else. Eight charts — four are a trade and four are not."
 
   - type: story
-    character: retail-trader
     text: "No lines, no numbers, no tools yet. Just the shapes — and they are already enough to leave half of these charts alone."
 
   - type: swipe-deck

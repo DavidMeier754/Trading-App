@@ -106,5 +106,4 @@ screens:
     explanation: "The news alone is only half of the pair."
 
   - type: story
-    character: institution
     text: "The institution never asks whether the news is good. It asks whether the news is better than the price is already saying."

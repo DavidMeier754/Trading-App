@@ -102,5 +102,4 @@ screens:
     explanation: "Dollars are not comparable between two stocks at different prices."
 
   - type: story
-    character: mascot
     text: "Two numbers, two jobs. One tells you about the stock, the other tells you about your cash."

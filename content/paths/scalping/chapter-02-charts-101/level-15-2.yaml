@@ -19,7 +19,6 @@ screens:
     text: "Six charts, and the volume bars underneath tell you which of them are real."
 
   - type: story
-    character: retail-trader
     text: "A stock is up 6 % before the bell and you have not been able to stop looking at it. The bars under those candles are 8,000 shares each."
 
   - type: visual

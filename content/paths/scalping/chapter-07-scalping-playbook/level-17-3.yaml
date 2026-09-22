@@ -19,7 +19,6 @@ screens:
     text: "Two trades left on the cap, and the part of the morning nobody practises."
 
   - type: story
-    character: retail-trader
     text: "The news spread is back to two cents and the $20,000 account is up 3R. Trade 5 was card A, long from $15.22 with the stop at $15.06, and it filled the stop by a penny."
 
   - type: chart-decision

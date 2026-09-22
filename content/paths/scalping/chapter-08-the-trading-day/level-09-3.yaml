@@ -19,7 +19,6 @@ screens:
     text: "Two trades behind you, the last stretch in front, and a sheet with nothing on it yet."
 
   - type: story
-    character: retail-trader
     text: "Up a unit, two of six trades used, and ORRIN has spent the whole quiet stretch holding above the price that stopped you out."
 
   - type: chart-decision

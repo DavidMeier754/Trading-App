@@ -19,7 +19,6 @@ screens:
     text: "The trade that looks safest is usually the one everybody else has already taken."
 
   - type: story
-    character: retail-trader
     text: "Three pushes have gone past while you were reading the chart. The fourth one is starting and it is the first that has felt obvious."
 
   - type: theory

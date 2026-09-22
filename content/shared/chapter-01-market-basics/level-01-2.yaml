@@ -100,5 +100,4 @@ screens:
     explanation: "You are paid by the move. No move, no payment."
 
   - type: story
-    character: mascot
     text: "Three buys out of seven charts. That ratio will feel wrong for a while, and then it will feel normal."

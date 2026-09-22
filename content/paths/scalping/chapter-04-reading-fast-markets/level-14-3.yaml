@@ -19,7 +19,6 @@ screens:
     text: "The slow chart is not homework you do once at the open."
 
   - type: story
-    character: retail-trader
     text: "You are long, eight cents ahead, and the stretch that just finished on the 5-minute topped out below the one before it."
 
   - type: theory

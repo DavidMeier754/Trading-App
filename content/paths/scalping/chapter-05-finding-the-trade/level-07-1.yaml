@@ -23,7 +23,6 @@ screens:
     body: "The watchlist is the three to five names you will actually watch today, each with its levels already marked. It is shorter than the shortlist, and it is the last cut you make before the bell."
 
   - type: story
-    character: retail-trader
     text: "Eight names survived the reading. Four charts fit on the screen with levels drawn on them, so four is what the day gets."
 
   - type: scanner-pick

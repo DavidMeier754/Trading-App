@@ -23,7 +23,6 @@ screens:
     body: "Nearly everybody learning starts in the regular session, and most of them stay out of its first few minutes. More participants, steadier prices, fewer moves that come from nowhere."
 
   - type: story
-    character: mascot
     text: "The edges of the day are not forbidden. They are the part where the fewest people are watching and the most can go wrong at once."
 
   - type: mc

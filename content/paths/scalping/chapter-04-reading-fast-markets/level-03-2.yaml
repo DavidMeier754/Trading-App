@@ -105,5 +105,4 @@ screens:
     explanation: "It is fixed by the first trade and stays where it is for the rest of the day."
 
   - type: story
-    character: retail-trader
     text: "Five lines drawn and not one candle read: yesterday's high, low and close, and the two extremes of {{market.premarket}}. The opening price makes six, a minute from now."

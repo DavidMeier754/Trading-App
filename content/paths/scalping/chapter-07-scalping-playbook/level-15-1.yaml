@@ -19,7 +19,6 @@ screens:
     text: "The shape is perfect. That was never the whole question."
 
   - type: story
-    character: retail-trader
     text: "Four names on the scanner, $16,000 in the account, and eight cards you now know by their triggers. The first filter has nothing to do with any of them."
 
   - type: scanner-pick

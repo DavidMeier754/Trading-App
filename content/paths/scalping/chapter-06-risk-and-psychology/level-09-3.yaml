@@ -19,7 +19,6 @@ screens:
     text: "Every limit is easy to keep until the morning it costs you something."
 
   - type: story
-    character: retail-trader
     text: "Down two and a half units, one trade left on the cap, and the best-looking chart of the week just printed on the second name on the page."
 
   - type: theory

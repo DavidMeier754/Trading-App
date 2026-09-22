@@ -66,7 +66,6 @@ screens:
     explanation: "The style is defined by the holding period, not by what you call yourself."
 
   - type: story
-    character: mascot
     text: "You have a full-time job, can look at charts in the evening, and hate staring at screens."
 
   - type: mc

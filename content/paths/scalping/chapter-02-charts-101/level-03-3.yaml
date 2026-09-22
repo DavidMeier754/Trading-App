@@ -23,7 +23,6 @@ screens:
     body: "Four green minutes inside a morning that has been selling all the way down is a pause in the selling. The 1-minute is right about the minute and wrong about the trade."
 
   - type: story
-    character: retail-trader
     text: "Your 5-minute chart has been red since the session opened. Your 1-minute has just turned green four candles in a row, and it looks like the start of something."
 
   - type: chart-decision

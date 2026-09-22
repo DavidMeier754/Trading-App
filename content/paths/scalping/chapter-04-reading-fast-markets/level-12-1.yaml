@@ -20,7 +20,6 @@ screens:
     text: "Four readings, one order, every single time."
 
   - type: story
-    character: retail-trader
     text: "Before the three strands you had one thing to look at. Now you have four, the minute is still sixty seconds long, and you need them in an order."
 
   - type: theory

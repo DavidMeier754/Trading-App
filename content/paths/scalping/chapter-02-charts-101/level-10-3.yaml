@@ -19,7 +19,6 @@ screens:
     text: "The candle you are staring at is not finished. Everything it is telling you can still be taken back."
 
   - type: story
-    character: retail-trader
     text: "$19.00 has turned XYZ away twice. Price is trading above it right now, the bar is growing, and the minute has forty seconds left."
 
   - type: theory

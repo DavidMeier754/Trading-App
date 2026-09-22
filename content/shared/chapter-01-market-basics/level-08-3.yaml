@@ -23,7 +23,6 @@ screens:
     body: "Enough volume that you can leave whenever you like. Enough movement that a decision has a result. Not so much movement that one wrong minute undoes a week."
 
   - type: story
-    character: mascot
     text: "Nobody learns to drive on a race track or in an empty car park. You want an ordinary road with ordinary traffic on it."
 
   - type: compare

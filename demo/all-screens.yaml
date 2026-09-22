@@ -132,7 +132,6 @@ screens:
       - "Do I know where I am wrong?"
 
   - type: story
-    character: retail-trader
     text: "The bell has just gone. XYZ gapped up and you have not touched it yet."
 
   - type: plan-card

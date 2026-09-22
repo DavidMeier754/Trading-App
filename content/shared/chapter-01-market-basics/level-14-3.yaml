@@ -61,7 +61,6 @@ screens:
     explanation: "Cost only means something next to the size of the move you are after."
 
   - type: story
-    character: retail-trader
     text: "You have $6,000, about an hour free in the middle of the regular session, and a broker that charges $1 an order."
 
   - type: mc

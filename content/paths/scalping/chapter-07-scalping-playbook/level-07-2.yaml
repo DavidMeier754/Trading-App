@@ -19,7 +19,6 @@ screens:
     text: "Five breaks. Only two of them broke."
 
   - type: story
-    character: retail-trader
     text: "Levels marked, VWAP on the chart, 5-minute chart open beside the 1-minute. $30,000 in the account."
 
   - type: chart-decision

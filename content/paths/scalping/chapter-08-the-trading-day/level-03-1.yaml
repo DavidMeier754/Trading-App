@@ -19,7 +19,6 @@ screens:
     text: "Ten rounds on one position. No new ideas — just the orders."
 
   - type: story
-    character: retail-trader
     text: "The chart sets the pace here. There is no clock on this screen and there never will be one."
 
   - type: order-build

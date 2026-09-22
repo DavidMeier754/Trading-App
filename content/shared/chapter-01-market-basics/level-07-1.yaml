@@ -55,7 +55,6 @@ screens:
     explanation: "1,800 ÷ 9,000 is a fifth of everything RUSK normally does in a day, all of it from one seller."
 
   - type: story
-    character: retail-trader
     text: "You hold 400 shares of a small company. A headline hits, you want out now, and the buyers waiting at the price on your screen add up to 50 shares."
 
   - type: mc

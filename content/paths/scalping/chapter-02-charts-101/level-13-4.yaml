@@ -19,7 +19,6 @@ screens:
     text: "Same open, nine charts. Most of them are somebody else's morning."
 
   - type: story
-    character: retail-trader
     text: "$20,000 in the account, yesterday's high and low already drawn, and the first five minutes about to finish. You have not touched anything yet."
 
   - type: swipe-deck

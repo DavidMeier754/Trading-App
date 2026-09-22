@@ -19,7 +19,6 @@ screens:
     text: "Four red sessions in a row, and a card that still says the same thing it said a month ago."
 
   - type: story
-    character: retail-trader
     text: "Twelve trades this week, −1.8R in all, and a notebook page of things to change. The record behind it holds sixty other trades."
 
   - type: theory

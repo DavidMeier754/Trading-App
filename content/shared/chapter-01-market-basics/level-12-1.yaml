@@ -52,7 +52,6 @@ screens:
       - {spotlight: submit, text: "Send it — the broker routes the order to the exchange in a fraction of a second."}
 
   - type: story
-    character: retail-trader
     text: "You open an account, deposit $1,000, and see a button: 'Practice with virtual $10,000'."
 
   - type: mc

@@ -19,7 +19,6 @@ screens:
     text: "Your stop is a price. A trade can be finished long before price gets there."
 
   - type: story
-    character: retail-trader
     text: "You are long from the card. Nothing has gone wrong yet — and nothing is going right either. The stop is nine cents away and the minutes are passing."
 
   - type: theory

@@ -19,7 +19,6 @@ screens:
     text: "Real prices, real buttons, virtual money. Let's use one properly."
 
   - type: story
-    character: retail-trader
     text: "Your broker opens a practice account with $6,000 in it and the same ticket as the real one. Nothing you do in here can cost you anything."
 
   - type: theory

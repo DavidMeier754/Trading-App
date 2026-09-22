@@ -19,7 +19,6 @@ screens:
     text: "Mark the price, then decide from it. Six charts, and the line comes first every time."
 
   - type: story
-    character: retail-trader
     text: "$20,000 in the account. Every chart here is a stock you have never seen, and each one has exactly one price worth drawing."
 
   - type: chart-annotate

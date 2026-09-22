@@ -176,22 +176,8 @@ export type ChecklistRevealScreen = {
   items: string[];
 };
 
-/**
- * Who a `story` screen names as its speaker. Nothing renders these any more —
- * the mascot and the recurring characters were taken out of the app — but 17
- * written sub-levels carry the field, so the type still describes the data.
- */
-export type StoryCharacter =
-  | 'retail-trader'
-  | 'market-maker'
-  | 'institution'
-  | 'bull'
-  | 'bear'
-  | 'mascot';
-
 export type StoryScreen = {
   type: 'story';
-  character: StoryCharacter;
   text: string;
 };
 

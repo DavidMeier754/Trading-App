@@ -19,7 +19,6 @@ screens:
     text: "The quiet stretch is not dangerous because of what it offers. It is dangerous because of what it leaves you time for."
 
   - type: story
-    character: retail-trader
     text: "Three stops since the one that paid, nothing on the page since, and forty minutes of a chart that has not moved. The fourth name has started to look interesting."
 
   - type: theory

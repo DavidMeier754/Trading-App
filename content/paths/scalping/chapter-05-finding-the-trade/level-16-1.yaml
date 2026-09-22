@@ -19,7 +19,6 @@ screens:
     text: "An empty screen, the market shut. Your account is $25,000 and 1,600 shares is the size you trade."
 
   - type: story
-    character: retail-trader
     text: "Nobody is going to tell you which step comes next this morning. In twenty minutes there should be two names on the screen with three prices drawn on each."
 
   - type: scanner-pick

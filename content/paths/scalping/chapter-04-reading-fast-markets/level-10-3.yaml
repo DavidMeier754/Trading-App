@@ -20,7 +20,6 @@ screens:
     text: "A level goes. Two minutes later price is back inside it. Somebody is now in the wrong place."
 
   - type: story
-    character: retail-trader
     text: "You watched the break, you did not take it, and now price is back under the level. Everyone who did take it is watching the same thing you are."
 
   - type: theory

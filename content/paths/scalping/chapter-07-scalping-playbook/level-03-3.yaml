@@ -19,7 +19,6 @@ screens:
     text: "The box gets broken all morning. Most of those breaks do not last two minutes."
 
   - type: story
-    character: retail-trader
     text: "The minute finished eight cents above the line and you are long. The next one opens, trades down, and closes back where the box begins."
 
   - type: theory

@@ -19,7 +19,6 @@ screens:
     text: "Card four is the awkward one: you trade against the move."
 
   - type: story
-    character: retail-trader
     text: "XYZ has run six straight green candles and is now thirty cents above VWAP, right at yesterday's high."
 
   - type: theory

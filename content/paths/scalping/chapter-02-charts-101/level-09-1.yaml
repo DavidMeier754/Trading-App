@@ -19,7 +19,6 @@ screens:
     text: "Some prices stop the market twice in a morning. Those are the only prices worth drawing."
 
   - type: story
-    character: retail-trader
     text: "XYZ has tried to get through $24.40 twice in ten minutes. Both times it got there and came straight back."
 
   - type: theory

@@ -19,7 +19,6 @@ screens:
     text: "The card is the one you have drilled forty times. The share size on the page belongs to a different stock."
 
   - type: story
-    character: retail-trader
     text: "A $20,000 account, 1,200 shares written on the page this morning, and a budget of $200 a trade. Two names are live and only one of them is cheap."
 
   - type: scanner-pick

@@ -19,7 +19,6 @@ screens:
     text: "No new ideas. Just charts, decisions and arithmetic."
 
   - type: story
-    character: retail-trader
     text: "You sit down with a $5,000 account and six charts in front of you. Nobody tells you which ones matter."
 
   - type: chart-annotate

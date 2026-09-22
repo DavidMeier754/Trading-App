@@ -19,7 +19,6 @@ screens:
     text: "One chart. Two accounts, $12,000 and $30,000. Two share counts, and one identical decision."
 
   - type: story
-    character: retail-trader
     text: "The same base on the same name, on two screens in two different rooms. One trader buys 600 shares and the other buys 1,500, and neither of them is being braver than the other."
 
   - type: theory

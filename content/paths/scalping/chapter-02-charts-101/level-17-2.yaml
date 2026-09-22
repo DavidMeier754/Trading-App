@@ -19,7 +19,6 @@ screens:
     text: "Same stock, same morning, three moments left. Two of them are traps."
 
   - type: story
-    character: retail-trader
     text: "Two trades done and $500 in front of you before costs. The run is still going and it has never looked better than it does right now."
 
   - type: chart-decision

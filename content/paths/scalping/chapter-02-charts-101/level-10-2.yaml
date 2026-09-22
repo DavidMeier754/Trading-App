@@ -19,7 +19,6 @@ screens:
     text: "Price traded through the level. That is not the same as the level going."
 
   - type: story
-    character: retail-trader
     text: "You are watching $16.00 hold up XYZ for the third time. The minute prints down to $15.92, and your finger moves before the candle has finished."
 
   - type: theory

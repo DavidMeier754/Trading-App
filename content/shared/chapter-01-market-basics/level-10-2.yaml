@@ -75,7 +75,6 @@ screens:
     explanation: "The number of people behind a price is what makes it worth something."
 
   - type: story
-    character: retail-trader
     text: "You see a stock up 9 % before the open and decide it is going to be a great day. It opens up 2 % and spends the next hour handing that back too."
 
   - type: mc

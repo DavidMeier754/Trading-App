@@ -19,7 +19,6 @@ screens:
     text: "Six lines, one pass, and then you leave the chart alone."
 
   - type: story
-    character: retail-trader
     text: "An hour before the bell the chart has no candles on it yet. You draw yesterday's three prices, then the two from {{market.premarket}}, then the round numbers between them."
 
   - type: theory

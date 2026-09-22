@@ -115,5 +115,4 @@ screens:
     explanation: "That is the practised size, not the starting one. The first live month is bought by making each stop small, and this ticket spends the whole budget on one."
 
   - type: story
-    character: retail-trader
     text: "First live fill. Two hundred shares, twenty-eight dollars at risk, and a pulse that belongs to a far larger position. That gap is the thing you are here to measure."

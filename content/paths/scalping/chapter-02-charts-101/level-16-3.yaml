@@ -19,7 +19,6 @@ screens:
     text: "The most useful ten minutes of a scalper's day happen before anything moves."
 
   - type: story
-    character: retail-trader
     text: "The bell is still a while away. Nothing on the screen is doing anything, which is exactly why this is when the work gets done."
 
   - type: theory

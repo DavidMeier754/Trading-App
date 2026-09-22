@@ -19,7 +19,6 @@ screens:
     text: "Six stocks, two dials each, and no explanations until you have answered."
 
   - type: story
-    character: mascot
     text: "Nothing new in this level. Read the numbers, place the stock on both dials, and go."
 
   - type: hotspot
@@ -112,5 +111,4 @@ screens:
     explanation: "A covered eight cents across the whole stretch. B covered ninety, in steps large enough to act on."
 
   - type: story
-    character: mascot
     text: "Both dials, off a card, in a couple of seconds. Now the same two dials with decisions attached to them."

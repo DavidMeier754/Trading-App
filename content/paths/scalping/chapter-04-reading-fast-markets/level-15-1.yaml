@@ -94,7 +94,6 @@ screens:
     explanation: "Nothing fills while it lasts, and the reopening price can be far away."
 
   - type: story
-    character: retail-trader
     text: "Ten minutes later. The wild stock is still wild; a second one has settled into a clean range above VWAP."
 
   - type: chart-decision

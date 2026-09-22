@@ -19,7 +19,6 @@ screens:
     text: "Right card, spent budget. The sheet has no line for that — your plan does."
 
   - type: story
-    character: retail-trader
     text: "Four trades in, three of them stops. The plan says 1R is $180 and the day ends at 3R. HRS is about to print the cleanest chart of the week."
 
   - type: chart-decision

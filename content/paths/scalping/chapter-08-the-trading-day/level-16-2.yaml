@@ -19,7 +19,6 @@ screens:
     text: "Wednesday offers nothing and Thursday starts badly. Both of them are sessions you have to be able to run."
 
   - type: story
-    character: retail-trader
     text: "Wednesday. Two names on the page, both of them at their own ordinary volume, and the levels you drew before the bell going untested all morning."
 
   - type: swipe-deck
@@ -84,7 +83,6 @@ screens:
     explanation: "A cent through a level on ordinary volume is the range doing what ranges do. Your card asks for a reason behind the close, and there is not one on this screen."
 
   - type: story
-    character: retail-trader
     text: "Thursday. The first ticket of the morning stops out in the middle stretch, and the next thing you notice is your hand moving faster than the chart is."
 
   - type: branch

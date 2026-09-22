@@ -95,7 +95,6 @@ screens:
     explanation: "It is the only number on the card that counts participation."
 
   - type: story
-    character: mascot
     text: "Two stocks, both around $20, both up 2 %. One does 5 M shares on a normal day and the other 12,000. They are not the same stock at all."
 
   - type: theory

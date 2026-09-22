@@ -63,7 +63,6 @@ screens:
     explanation: "Most volume, most participants, steadiest prices."
 
   - type: story
-    character: retail-trader
     text: "An hour before the open, XYZ announces results well above what anyone expected. The regular session starts at {{market.regular_open}} {{market.timezone}}."
 
   - type: mc

@@ -19,7 +19,6 @@ screens:
     text: "Some of today's most important prices were made before today started."
 
   - type: story
-    character: retail-trader
     text: "An hour before the bell. XYZ has pushed to $18.16 in {{market.premarket}} trading and stopped, on bars a tenth the size of a normal minute."
 
   - type: theory

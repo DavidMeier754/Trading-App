@@ -37,7 +37,6 @@ screens:
     explanation: "The news waited for the people. Nothing traded, so nothing moved."
 
   - type: story
-    character: retail-trader
     text: "A rumour goes round that XYZ is about to be bought by a bigger company. Nothing is confirmed, and the price is already somewhere else."
 
   - type: chart-decision
@@ -102,5 +101,4 @@ screens:
     body: "XYZ is up 4 % today and there is no news anywhere. A pension fund simply wanted 200,000 shares this morning. Plenty of moves have no story at all."
 
   - type: story
-    character: mascot
     text: "You now have the engine and the trigger. Next: what XYZ actually is."

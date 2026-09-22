@@ -19,7 +19,6 @@ screens:
     text: "Two traders finish the week. One made $1,400, the other $600. One of them had the better week."
 
   - type: story
-    character: retail-trader
     text: "Same setups, same screens, same hours. The only thing they did differently was how much they put on each time."
 
   - type: theory

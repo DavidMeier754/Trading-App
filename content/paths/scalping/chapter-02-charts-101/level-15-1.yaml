@@ -19,7 +19,6 @@ screens:
     text: "Two questions from Chapter 1, asked again in a language you did not have then."
 
   - type: story
-    character: retail-trader
     text: "Four charts on the screen and the same $20,000 behind all of them. Two of these stocks cannot take your size, and neither of them says so in words."
 
   - type: theory

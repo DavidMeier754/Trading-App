@@ -44,7 +44,6 @@ screens:
     body: "What flips supply and demand in seconds? News. Results, deals, recalls, rumors — anything that changes what people expect. That's where sudden volatility comes from."
 
   - type: story
-    character: institution
     text: "Wednesday, before the open. XYZ reports profits far above what anyone expected."
 
   - type: mc

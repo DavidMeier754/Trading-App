@@ -19,7 +19,6 @@ screens:
     text: "You have the shape and you have the dip. Now the only question left: which minute do you join?"
 
   - type: story
-    character: retail-trader
     text: "XYZ has climbed for six minutes and handed back three on shrinking bars. Your finger is over the button and every red candle makes it heavier."
 
   - type: theory

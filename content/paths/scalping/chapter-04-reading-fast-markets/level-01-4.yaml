@@ -19,7 +19,6 @@ screens:
     text: "One line, one filter, and most of the morning's charts gone."
 
   - type: story
-    character: retail-trader
     text: "The first half hour is behind you. One stock on the screen, $22,000 in the account, and one rule for the rest of the morning."
 
   - type: theory

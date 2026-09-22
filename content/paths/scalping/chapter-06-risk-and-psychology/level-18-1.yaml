@@ -18,7 +18,6 @@ screens:
     text: "One losing morning, handled well — from the first stop to the reset."
 
   - type: story
-    character: retail-trader
     text: "Before the open: 1R is $120 on 1,000 shares. Daily loss limit 3R. Maximum eight trades. All of it written down."
 
   - type: chart-decision
@@ -43,7 +42,6 @@ screens:
     explanation: "The resting order did the work at the price you chose while you were calm."
 
   - type: story
-    character: retail-trader
     text: "Half an hour in: one more stop, taken straight from the plan. Down 2R with a 3R limit."
 
   - type: mc
@@ -75,7 +73,6 @@ screens:
     explanation: "Half size halves the win too — and it also halved what the next mistake could have cost."
 
   - type: story
-    character: retail-trader
     text: "Ten minutes away from the screen, the rows written up, back at 500 shares."
 
   - type: chart-decision

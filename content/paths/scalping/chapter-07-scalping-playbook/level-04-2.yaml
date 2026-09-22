@@ -19,7 +19,6 @@ screens:
     text: "Leg, pause, restart. Five times — and three of them are traps."
 
   - type: story
-    character: retail-trader
     text: "Late morning. VWAP on the chart, $30,000 in the account, spread showing on the quote panel."
 
   - type: chart-decision

@@ -75,7 +75,6 @@ screens:
     explanation: "Both layers, times shares."
 
   - type: story
-    character: retail-trader
     text: "Two scalpers tap buy at the same instant. One fills in 40 milliseconds at $18.10, the other in 600 milliseconds at $18.16."
 
   - type: mc
@@ -112,6 +111,5 @@ screens:
     explanation: "Maximum participation is also maximum speed. Tapping into that minute is tapping into the exact moment the price is hardest to catch."
 
   - type: story
-    character: retail-trader
     text: "Spread, then slippage. One more layer to go — and it is the only one that arrives as an actual bill."
 

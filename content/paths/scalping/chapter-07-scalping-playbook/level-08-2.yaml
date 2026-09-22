@@ -19,7 +19,6 @@ screens:
     text: "Nine charts, shuffled. Name the card or let it go."
 
   - type: story
-    character: retail-trader
     text: "Two names on the screen, levels drawn before the open, nothing taken yet this morning."
 
   - type: chart-decision

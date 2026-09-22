@@ -23,7 +23,6 @@ screens:
     body: "Price the trade first, because a cost you cannot clear ends it before sizing is worth doing. Then the share count. Then the tickets. The decision comes last, and by then it is almost made."
 
   - type: story
-    character: retail-trader
     text: "Setup 1. XYZ has turned up twice off the same price this morning. Bid $16.44 / ask $16.46, its minutes have been travelling about twenty cents, fees run a cent a share and slippage about two."
 
   - type: numeric-input
@@ -92,7 +91,6 @@ screens:
     explanation: "Twenty cents of stop on 1,200 shares is $240 at risk; forty-three cents made is $516 before costs; the five cents all-in took $60 of it."
 
   - type: story
-    character: retail-trader
     text: "Setup 2. A different name, bid $12.38 / ask $12.46, and the best any minute has managed all morning is twelve cents. Fees a cent a share, slippage about a cent."
 
   - type: slider

@@ -19,7 +19,6 @@ screens:
     text: "Ten charts. No new ideas — just the read, over and over, until it stops feeling like work."
 
   - type: story
-    character: retail-trader
     text: "You have $20,000 in the account and no position. Every chart is a fresh stock, and most of them are somebody else's trade."
 
   - type: swipe-deck

@@ -19,7 +19,6 @@ screens:
     text: "Two rows on the screen, two questions. Which way, and did anybody mean it?"
 
   - type: story
-    character: retail-trader
     text: "Both rows are switched on now. The candles you already read; the bars underneath are the half you have been missing."
 
   - type: theory

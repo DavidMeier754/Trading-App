@@ -74,7 +74,6 @@ screens:
     explanation: "Two numbers, multiplied. A $9 stock and a $90 stock with the same gap and the same size cost you the same."
 
   - type: story
-    character: retail-trader
     text: "XYZ has based for five minutes and just pushed up on the heaviest bar of the morning. Bid $12.11 / ask $12.13, and your $25,000 account allows 1,900 shares here."
 
   - type: chart-decision

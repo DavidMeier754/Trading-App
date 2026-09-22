@@ -20,7 +20,6 @@ screens:
     text: "You do not choose the price your stop gets. You choose the crowd it lands in."
 
   - type: story
-    character: retail-trader
     text: "The stop was at $18.04, which is where you decided to be wrong. The fill came back at $17.97, which is where the market decided it for you."
 
   - type: theory

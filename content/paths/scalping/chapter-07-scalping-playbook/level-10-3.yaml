@@ -19,7 +19,6 @@ screens:
     text: "Eight charts that opened somewhere else. Four of them are the card."
 
   - type: story
-    character: retail-trader
     text: "Four names gapped overnight. Two have a reason behind them, one has a spread your stop cannot pay, and one is already two normal days into its run."
 
   - type: swipe-deck

@@ -58,6 +58,8 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
 - type: carousel               # counts as one screen per card
   cards:
     - {label: "Retail trader", text: "Individuals trading their own money.", icon: retail-trader}
+  # `icon` is a free-form hint at what the card is about, for whoever draws it.
+  # It is not a character reference — there is no character cast (UI.md §6.9).
 
 - type: walkthrough            # counts as one screen per step
   component: quote-card
@@ -74,8 +76,7 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
   title: "Before every scalp"
   items: ["Is the spread tight for the move I expect?", "..."]
 
-- type: story
-  character: retail-trader     # retail-trader | market-maker | institution | bull | bear | mascot
+- type: story                  # no `character`: there is no character cast (UI.md §6.9)
   text: "9:31. You're watching XYZ."
 
 - type: recap                  # [v3] end-of-level takeaways

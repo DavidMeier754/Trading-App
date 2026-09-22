@@ -59,7 +59,6 @@ screens:
     explanation: "A climb that this many shares are taking part in has somebody behind it, and 300 shares is a position the account covers."
 
   - type: story
-    character: retail-trader
     text: "You watch 60,000 shares go through in a single print while you are buying 200. Somebody just did three hundred times what you are doing, and you will never learn their name."
 
   - type: sort

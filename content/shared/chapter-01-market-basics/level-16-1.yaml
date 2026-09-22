@@ -17,7 +17,6 @@ screens:
     text: "One trading day, start to finish. Everything you've learned."
 
   - type: story
-    character: retail-trader
     text: "Before the open. Coffee. News: XYZ lands a huge contract, and {{market.premarket}} {{market.timezone}} trading shows +7 % on 30,000 shares."
 
   - type: mc
@@ -29,7 +28,6 @@ screens:
     explanation: "Thin session, few participants, jumpy price."
 
   - type: story
-    character: retail-trader
     text: "{{market.regular_open}}. The session opens. XYZ trades 4 million shares in the first ten minutes and holds +6 %."
 
   - type: mc
@@ -57,7 +55,6 @@ screens:
     explanation: "Fees come off every round, win or lose."
 
   - type: story
-    character: market-maker
     text: "Meanwhile the market maker keeps quoting XYZ all day: buy at $52.78, sell at $52.80."
 
   - type: tf
@@ -66,7 +63,6 @@ screens:
     explanation: "Two cents, thousands of times — that's the spread."
 
   - type: story
-    character: retail-trader
     text: "Late morning. A rumor: the contract may be smaller than reported. XYZ drops 3 % in two minutes on heavy selling."
 
   - type: chart-decision

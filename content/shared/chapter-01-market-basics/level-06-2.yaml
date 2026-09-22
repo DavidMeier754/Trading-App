@@ -81,7 +81,6 @@ screens:
     explanation: "The more competition there is to trade with you, the less the market maker can get away with."
 
   - type: story
-    character: market-maker
     text: "Both sides of forty stocks on one screen, and no opinion about any of them. It only wants the gap, many times over."
 
   - type: fill-tiles

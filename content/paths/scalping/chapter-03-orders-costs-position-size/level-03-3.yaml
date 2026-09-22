@@ -45,7 +45,6 @@ screens:
     body: "When something is announced, the traders posting prices step back until they can work out what it means. The gap opens and stays open until the crowd comes back to argue over it."
 
   - type: story
-    character: retail-trader
     text: "XYZ gapped on an overnight headline. It is minutes into the session, the bars are enormous, and the panel is showing bid $19.77 / ask $19.99. Your $25,000 account allows 900 shares here."
 
   - type: chart-decision

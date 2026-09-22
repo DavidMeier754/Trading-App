@@ -19,7 +19,6 @@ screens:
     text: "One candle, read in under two seconds. That is the whole skill here."
 
   - type: story
-    character: retail-trader
     text: "The minute is over. Whatever happened inside it, this one shape is everything the chart kept."
 
   - type: theory

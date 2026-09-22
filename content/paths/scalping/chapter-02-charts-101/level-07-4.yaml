@@ -19,7 +19,6 @@ screens:
     text: "Eight charts, one question each: what shape is this, and does it allow you anything?"
 
   - type: story
-    character: retail-trader
     text: "$20,000 in the account, no position, and a fresh stock on every screen. Most of them are somebody else's trade."
 
   - type: swipe-deck

@@ -41,7 +41,6 @@ screens:
     explanation: "189 × $15.80 = $2,986.20. A ceiling you set in advance is the one you can still respect at the wrong moment."
 
   - type: story
-    character: retail-trader
     text: "An hour into the regular session. LUMA is the name you have watched for a week, and it has just stepped higher for six minutes on volume well above its usual."
 
   - type: branch

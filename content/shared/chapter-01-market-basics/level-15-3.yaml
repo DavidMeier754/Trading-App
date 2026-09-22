@@ -19,7 +19,6 @@ screens:
     text: "Three decisions, all of them inside the same rising market."
 
   - type: story
-    character: bull
     text: "The bull has had three good months. It has no opinion whatsoever about the next six minutes in your stock."
 
   - type: theory

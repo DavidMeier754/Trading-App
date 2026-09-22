@@ -57,7 +57,6 @@ screens:
     explanation: "Not the same as how many exist, and not the same as how many trade today."
 
   - type: story
-    character: institution
     text: "A fund holds nine million of MARL's forty-eight and has held them for four years. Those shares are on the register and they are not in the morning's argument."
 
   - type: scanner-pick

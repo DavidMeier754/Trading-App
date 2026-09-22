@@ -137,12 +137,8 @@ export function ChecklistRevealScreen({
 }
 
 /**
- * docs/UI.md §3 `story` — a short narrative.
- *
- * The doc also asks for a character avatar, drawn from §6.9's cast. There is no
- * cast: the mascot and the five recurring characters were taken out of the app,
- * so the story carries its speaker in the copy alone. `screen.character` is
- * still read from the file and still ignored here.
+ * docs/UI.md §3 `story` — a short narrative. It carries its speaker in the copy;
+ * there is no character cast to draw (§6.9).
  */
 export function StoryScreen({ screen }: { screen: Story }) {
   return (

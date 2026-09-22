@@ -88,7 +88,6 @@ screens:
     explanation: "0.06 ÷ 0.15 = 40 %. You are playing for the remaining nine cents."
 
   - type: story
-    character: retail-trader
     text: "You bought 1,200 shares at the ask of $17.02. The panel now reads bid $17.10 / ask $17.14, and you want to be out."
 
   - type: numeric-input

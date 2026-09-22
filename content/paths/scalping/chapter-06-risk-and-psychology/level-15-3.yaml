@@ -19,7 +19,6 @@ screens:
     text: "The row costs forty seconds while the chart is still up, and it is unrecoverable by tomorrow. Your account here is $23,000."
 
   - type: story
-    character: retail-trader
     text: "Flat on the last trade of the morning, the chart still on the screen, a message waiting on your phone. The row takes forty seconds now and will not exist at all in ten minutes."
 
   - type: theory

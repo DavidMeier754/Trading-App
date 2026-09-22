@@ -93,7 +93,7 @@ screens:
     cards:
       - {label: "Cut its size", text: "Same card, same conditions, half the shares. The rows keep coming in and each one costs less while you watch.", icon: retail-trader}
       - {label: "Raise its bar", text: "Only the version with every condition present gets a ticket. Most of what was leaking was the half-formed version.", icon: chart-empty}
-      - {label: "Drill it", text: "Send the card to the practice deck and take fifty of them where nothing is at stake, to find out which half you keep misreading.", icon: mascot}
+      - {label: "Drill it", text: "Send the card to the practice deck and take fifty of them where nothing is at stake, to find out which half you keep misreading."}
 
   - type: fill-choice
     sentence: "A card that loses slowly stays hidden inside the ___ that the other cards pay for."

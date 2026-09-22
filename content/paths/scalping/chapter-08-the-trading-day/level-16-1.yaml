@@ -19,7 +19,6 @@ screens:
     text: "Five sessions, one page. This is the first two of them, and only one goes well."
 
   - type: story
-    character: retail-trader
     text: "Monday, before the bell. The scan is done, the levels are drawn, and the page says two cards, 600 shares, three tickets and a limit at three units."
 
   - type: scanner-pick
@@ -70,7 +69,6 @@ screens:
     explanation: "Two rows on one morning is not a column. It is a reason to keep the hour in the sheet and read it when there are enough rows to read."
 
   - type: story
-    character: retail-trader
     text: "Tuesday. The same page, a thinner tape, and both names only offering anything once the opening window is well behind you."
 
   - type: chart-decision

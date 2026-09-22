@@ -38,7 +38,7 @@ One constraint holds under either answer and binds today: **the app must never i
 | Daily target **[v3]** | Two sub-levels ≈ 10 minutes. A path is ~385 sub-levels ≈ 22 hours ≈ 6 months at that pace. |
 | Hearts | 5 hearts. A wrong answer in a Test or Final Exam costs one heart; theory and repetition lessons never cost hearts. Each lost heart refills after 4 hours. |
 | Pressure | No timers, no quick-fire, no countdowns anywhere. Repetition is untimed. This applies to every new interaction type too. |
-| Mascot | Yes — one recurring mascot (artwork provided later). Plus recurring characters (retail trader, market maker, institution, bull, bear). |
+| Mascot | **No.** **[v3.1 — reversed]** v2 and v3 specified one recurring mascot plus five recurring characters (retail trader, market maker, institution, bull, bear), and the placeholder art, the poses and the `story` screen's `character` field were all built. All of it is withdrawn: the cast is out of the app, out of `docs/UI.md` §6.9 and out of all 198 sub-levels that named it. A screen carries its meaning in its copy, its data component and the reveal's verdict colour. Reopening this means reopening this row first. |
 | Theme | Dark mode default, full light theme available. |
 | Chart decisions | Scored on reasoning; "No trade" can be the best answer. Never framed as prediction or profit. |
 | Guarantees | No profitability or success claims anywhere. |

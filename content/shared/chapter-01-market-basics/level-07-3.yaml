@@ -91,7 +91,6 @@ screens:
     explanation: "Your size against the stock, and how much time you are willing to allow yourself."
 
   - type: story
-    character: retail-trader
     text: "The chart was right. The stock did exactly what you thought it would. You still finished behind, because 900 shares was more than RUSK could hand back."
 
   - type: mc
@@ -108,5 +107,4 @@ screens:
     explanation: "Every extra share has to come from a worse price than the one before."
 
   - type: story
-    character: mascot
     text: "Liquidity is never a property of the stock alone. It is the stock and your size, together."

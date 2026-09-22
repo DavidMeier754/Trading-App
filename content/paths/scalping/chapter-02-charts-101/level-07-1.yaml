@@ -19,7 +19,6 @@ screens:
     text: "You can read one candle. Now read the shape a dozen of them make together."
 
   - type: story
-    character: retail-trader
     text: "Eight minutes of XYZ on your screen. Three pushes up, two give-backs, and the second give-back stopped above the first."
 
   - type: theory

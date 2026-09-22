@@ -19,7 +19,6 @@ screens:
     text: "A second losing morning, and this one was decided before the bell. Your account here is $12,000 and 1R is $120."
 
   - type: story
-    character: retail-trader
     text: "One name on the page, because the scan was run in a hurry and it was the only thing already familiar. It is trading at about its own ordinary pace, and the morning has not started yet."
 
   - type: scanner-pick

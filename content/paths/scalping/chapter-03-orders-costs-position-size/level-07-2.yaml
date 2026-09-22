@@ -23,7 +23,6 @@ screens:
     body: "An order that has not traded is unfilled. It is live, it is visible, it has cost you nothing — and you own no shares, which on a fast morning is the expensive part."
 
   - type: story
-    character: retail-trader
     text: "XYZ is running. The ask goes $21.40, then $21.48, then $21.56, faster than you can read it. Your capped buy for 1,000 shares went out at $21.46, out of a $25,000 account."
 
   - type: mc
