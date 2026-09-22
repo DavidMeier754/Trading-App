@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import Mascot from '../components/Mascot';
 import Visual from '../components/Visual';
 import { copy } from '../format';
 import { selectHaptic } from '../lesson/haptics';
@@ -85,6 +86,8 @@ export function WalkthroughScreen({
         highlight={{ [step.spotlight]: colors.accent }}
       />
       <View style={styles.spotlightRow}>
+        {/* docs/UI.md §6.9: the `point` pose is the walkthrough pose. */}
+        <Mascot pose="point" size={40} />
         <Text style={styles.spotlightText}>{copy(step.text)}</Text>
       </View>
     </View>
@@ -141,8 +144,11 @@ export function StoryScreen({ screen }: { screen: Story }) {
   const character = screen.character === 'mascot' ? 'foxy' : screen.character;
   return (
     <View style={styles.centered}>
-      {/* The character avatar docs/UI.md §3 asks for went with the mascot; the
-          story now carries its speaker in the copy alone. */}
+      {/* docs/UI.md §3: a story frame carries its speaker as an avatar. §6.9's
+          recurring characters are exactly this cast. */}
+      <View style={styles.storyAvatar}>
+        <Mascot character={character} size={88} />
+      </View>
       <Card style={styles.storyCard}>
         <Text style={styles.storyText}>{copy(screen.text)}</Text>
       </Card>
@@ -175,6 +181,9 @@ export function BadgeScreen({ screen }: { screen: Badge }) {
       <View style={styles.badgeRing}>
         <Text style={styles.badgeMark}>{'\u2605'}</Text>
       </View>
+      <View style={styles.celebrate}>
+        <Mascot pose="cheer" size={92} />
+      </View>
       <Text style={styles.bigTitle}>{copy(screen.name)}</Text>
       {screen.unlocks ? (
         <Text style={styles.unlocks}>{`${copy(screen.unlocks)} unlocked`}</Text>
@@ -187,6 +196,9 @@ export function BadgeScreen({ screen }: { screen: Badge }) {
 export function TierUpScreen({ screen }: { screen: TierUp }) {
   return (
     <View style={styles.centered}>
+      <View style={styles.celebrate}>
+        <Mascot pose="cheer" size={92} />
+      </View>
       <Text style={styles.tierKicker}>Tier unlocked</Text>
       <Text style={styles.tierName}>{copy(screen.tier)}</Text>
       <Text style={styles.tierMeans}>{copy(screen.means)}</Text>
@@ -279,6 +291,8 @@ const styles = StyleSheet.create({
   checkMark: { ...type.small, color: colors.success },
   checkText: { ...type.body, color: colors.text, flex: 1 },
   checkHint: { ...type.small, color: colors.textFaint },
+  storyAvatar: { alignSelf: 'flex-start' },
+  celebrate: { alignSelf: 'center' },
   storyCard: { gap: space.sm },
   storyText: { ...type.prompt, color: colors.text },
   recapList: { gap: space.md },

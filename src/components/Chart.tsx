@@ -21,6 +21,8 @@ const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedG = Animated.createAnimatedComponent(G);
+const AnimatedLine = Animated.createAnimatedComponent(Line);
+const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
 export type Candle = { o: number; h: number; l: number; c: number };
 
@@ -100,6 +102,10 @@ function AnimatedDot({
 export type PlayGeom = {
   xs: number[];
   closes: number[];
+  /** The other three series, for the candle replay. Empty on a line chart. */
+  opens: number[];
+  highs: number[];
+  lows: number[];
   /** Bars visible at the decision. */
   from: number;
   n: number;
@@ -124,6 +130,36 @@ function playY(g: PlayGeom, t: number, price: number) {
 function playHead(g: PlayGeom, t: number) {
   'worklet';
   return g.from - 1 + t * (g.n - g.from);
+}
+
+/**
+ * How present bar `i` is at replay position `t`.
+ *
+ * A candle cannot grow out of the axis the way a line extends, so it fades in
+ * over the one bar-width the playhead takes to reach it: 0 while the head is a
+ * bar away, 1 once it arrives. Bars the learner could already see start at 1 and
+ * stay there.
+ */
+function barAlpha(g: PlayGeom, t: number, i: number) {
+  'worklet';
+  const head = g.from - 1 + t * (g.n - g.from);
+  return Math.max(0, Math.min(1, head - i + 1));
+}
+
+/**
+ * The same two functions without the worklet directive, for the first frame.
+ * Animated props are applied after the first commit, and a native SVG view wants
+ * a real number from the start — the same reason `playLineAt` exists below.
+ */
+function playYAt(g: PlayGeom, t: number, price: number) {
+  const lo = g.lo0 + (g.lo1 - g.lo0) * t;
+  const hi = g.hi0 + (g.hi1 - g.hi0) * t;
+  return g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
+}
+
+function barAlphaAt(g: PlayGeom, t: number, i: number) {
+  const head = g.from - 1 + t * (g.n - g.from);
+  return Math.max(0, Math.min(1, head - i + 1));
 }
 
 function playHeadPoint(g: PlayGeom, t: number) {
@@ -245,6 +281,121 @@ function PlaybackLine({
         strokeWidth={2}
       />
     </G>
+  );
+}
+
+/**
+ * One candle during the replay.
+ *
+ * Every bar of the series is mounted from the start — the future ones simply sit
+ * at zero opacity — so the replay never mounts a view mid-flight. Both the wick
+ * and the body take their y from the interpolating domain, which is what makes
+ * the axis grow under the bars already on screen instead of snapping between
+ * scales. Line charts have had this since the first build; 496 of the corpus's
+ * 544 chart decisions are candles and had a jump cut instead.
+ */
+function PlaybackCandle({
+  g,
+  i,
+  bar,
+  bodyW,
+  progress,
+}: {
+  g: PlayGeom;
+  i: number;
+  bar: Candle;
+  bodyW: number;
+  progress: SharedValue<number>;
+}) {
+  const up = bar.c >= bar.o;
+  const stroke = up ? colors.up : colors.down;
+
+  const wick = useAnimatedProps(() => {
+    const t = progress.get();
+    return {
+      y1: playY(g, t, g.highs[i]),
+      y2: playY(g, t, g.lows[i]),
+      opacity: barAlpha(g, t, i),
+    };
+  });
+
+  const body = useAnimatedProps(() => {
+    const t = progress.get();
+    const top = playY(g, t, Math.max(g.opens[i], g.closes[i]));
+    const bottom = playY(g, t, Math.min(g.opens[i], g.closes[i]));
+    return {
+      y: top,
+      height: Math.max(1.5, bottom - top),
+      opacity: barAlpha(g, t, i),
+    };
+  });
+
+  const alpha0 = barAlphaAt(g, 0, i);
+  const top0 = playYAt(g, 0, Math.max(bar.o, bar.c));
+  const bottom0 = playYAt(g, 0, Math.min(bar.o, bar.c));
+
+  return (
+    <G>
+      <AnimatedLine
+        x1={g.xs[i]}
+        x2={g.xs[i]}
+        y1={playYAt(g, 0, bar.h)}
+        y2={playYAt(g, 0, bar.l)}
+        opacity={alpha0}
+        stroke={stroke}
+        strokeWidth={1.25}
+        animatedProps={wick}
+      />
+      <AnimatedRect
+        x={g.xs[i] - bodyW / 2}
+        y={top0}
+        width={bodyW}
+        height={Math.max(1.5, bottom0 - top0)}
+        opacity={alpha0}
+        fill={up ? stroke : colors.background}
+        stroke={stroke}
+        strokeWidth={1.25}
+        rx={1}
+        animatedProps={body}
+      />
+    </G>
+  );
+}
+
+/** A volume bar during the replay. Its height is fixed — only its presence moves. */
+function PlaybackVolumeBar({
+  g,
+  i,
+  x,
+  y,
+  width,
+  height,
+  fill,
+  progress,
+}: {
+  g: PlayGeom;
+  i: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  fill: string;
+  progress: SharedValue<number>;
+}) {
+  const props = useAnimatedProps(() => ({
+    opacity: 0.45 * barAlpha(g, progress.get(), i),
+  }));
+  return (
+    <AnimatedRect
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      rx={1}
+      fill={fill}
+      opacity={0.45 * barAlphaAt(g, 0, i)}
+      animatedProps={props}
+    />
   );
 }
 
@@ -432,10 +583,13 @@ export default function Chart({
   }, [full.lo, full.hi]);
 
   const playGeom = useMemo<PlayGeom | null>(() => {
-    if (!playback || spec.kind !== 'line' || shown < 1) return null;
+    if (!playback || shown < 1) return null;
     return {
       xs: bars.map((_, i) => PAD_LEFT + (plotW / n) * (i + 0.5)),
       closes: bars.map((b) => b.c),
+      opens: bars.map((b) => b.o),
+      highs: bars.map((b) => b.h),
+      lows: bars.map((b) => b.l),
       from: shown,
       n,
       padTop,
@@ -652,6 +806,19 @@ export default function Chart({
               )
             ) : null}
           </G>
+        ) : playGeom && playback ? (
+          <G>
+            {bars.map((b, i) => (
+              <PlaybackCandle
+                key={`pc${i}`}
+                g={playGeom}
+                i={i}
+                bar={b}
+                bodyW={bodyW}
+                progress={playback}
+              />
+            ))}
+          </G>
         ) : (
           <G>
             {bars.slice(0, shown).map((b, i) => {
@@ -687,22 +854,39 @@ export default function Chart({
 
         {/* volume strip */}
         {hasVolume
-          ? (spec.volume as number[]).slice(0, shown).map((v, i) => {
-              const b = bars[i];
-              const upBar = b.c >= b.o;
-              return (
-                <Rect
-                  key={`v${i}`}
-                  x={cx(i) - bodyW / 2}
-                  y={volY(v)}
-                  width={bodyW}
-                  height={Math.max(1, volTop + volH - volY(v))}
-                  fill={upBar ? colors.up : colors.down}
-                  opacity={0.45}
-                  rx={1}
-                />
-              );
-            })
+          ? (spec.volume as number[])
+              .slice(0, playGeom && playback ? n : shown)
+              .map((v, i) => {
+                const b = bars[i];
+                const upBar = b.c >= b.o;
+                const fill = upBar ? colors.up : colors.down;
+                const barY = volY(v);
+                const barH = Math.max(1, volTop + volH - barY);
+                return playGeom && playback ? (
+                  <PlaybackVolumeBar
+                    key={`v${i}`}
+                    g={playGeom}
+                    i={i}
+                    x={cx(i) - bodyW / 2}
+                    y={barY}
+                    width={bodyW}
+                    height={barH}
+                    fill={fill}
+                    progress={playback}
+                  />
+                ) : (
+                  <Rect
+                    key={`v${i}`}
+                    x={cx(i) - bodyW / 2}
+                    y={barY}
+                    width={bodyW}
+                    height={barH}
+                    fill={fill}
+                    opacity={0.45}
+                    rx={1}
+                  />
+                );
+              })
           : null}
         {hasVolume ? (
           <Line

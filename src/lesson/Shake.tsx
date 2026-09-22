@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import Animated, {
   useAnimatedStyle,
-  useReducedMotion,
   useSharedValue,
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+
+import { useReduceMotion } from './useReduceMotion';
 
 /** docs/UI.md §5.1: a wrong element shakes 3 x 4 px over 250 ms. */
 export default function Shake({
@@ -17,7 +18,7 @@ export default function Shake({
   children: React.ReactNode;
 }) {
   const x = useSharedValue(0);
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
 
   useEffect(() => {
     if (reduced) return;

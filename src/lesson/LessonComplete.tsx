@@ -13,6 +13,7 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 import Svg, { Circle } from 'react-native-svg';
 
+import Mascot from '../components/Mascot';
 import { colors, radius, space, type } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
@@ -123,6 +124,8 @@ export default function LessonComplete({
       </Animated.View>
 
       <Animated.View style={[styles.textBlock, s1]}>
+        {/* docs/UI.md §6.9: `cheer` is the perfect-run and badge pose. */}
+        <Mascot pose={perfect ? 'cheer' : 'nod'} size={76} />
         <Text style={styles.title}>{perfect ? 'Perfect run' : 'Lesson complete'}</Text>
         <Text style={styles.subtitle}>{levelTitle}</Text>
       </Animated.View>

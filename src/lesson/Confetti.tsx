@@ -3,11 +3,12 @@ import { StyleSheet, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
-  useReducedMotion,
   useSharedValue,
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
+
+import { useReduceMotion } from './useReduceMotion';
 
 import { colors } from '../theme';
 
@@ -22,7 +23,7 @@ const PALETTE = [colors.accent, colors.up, colors.warning, colors.down, '#FA742D
  * decoration is exactly what reduced motion is asking to be spared.
  */
 export default function Confetti({ width, height }: { width: number; height: number }) {
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
   if (reduced) return null;
   return (
     <View pointerEvents="none" style={[styles.layer, { overflow: 'hidden' }]}>

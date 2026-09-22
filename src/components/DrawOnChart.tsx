@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import {
   SharedValue,
-  useReducedMotion,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 
+import { useReduceMotion } from '../lesson/useReduceMotion';
 import { DURATION, EASE_OUT } from '../lesson/motion';
 
 /**
@@ -24,7 +24,7 @@ export default function DrawOnChart({
   bars: number;
   children: (visibleCount: number, draw: SharedValue<number>) => React.ReactNode;
 }) {
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
   const draw = useSharedValue(0);
 
   useEffect(() => {

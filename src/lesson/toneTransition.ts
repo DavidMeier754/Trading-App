@@ -3,13 +3,13 @@ import { useEffect, useRef } from 'react';
 import {
   interpolateColor,
   useAnimatedStyle,
-  useReducedMotion,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 
 import { colors } from '../theme';
 import { DURATION, EASE_OUT } from './motion';
+import { useReduceMotion } from './useReduceMotion';
 
 /** How an answer surface currently reads. */
 export type Tone = 'idle' | 'selected' | 'correct' | 'wrong' | 'amber' | 'dimmed';
@@ -51,7 +51,7 @@ export function tonePalette(tone: Tone): {
  * piece of feedback, on two threads.
  */
 export function useToneTransition(tone: Tone) {
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
   const progress = useSharedValue(isRevealTone(tone) ? 1 : 0);
   // The endpoints are shared values, not refs. A worklet captures a plain
   // object by copying it into the UI runtime, so a ref mutated later on the
@@ -100,7 +100,7 @@ export function useToneTransition(tone: Tone) {
 
 /** The same ramp for a surface that only changes one colour (a border). */
 export function useBorderTransition(target: string, active: boolean) {
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
   const progress = useSharedValue(active ? 1 : 0);
   // Shared values for the same reason as above.
   const from = useSharedValue(target);

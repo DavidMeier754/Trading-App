@@ -3,7 +3,18 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LessonEntry } from './content';
+import {
+  MotionSetting,
+  setMotionSetting,
+  useMotionSetting,
+} from './lesson/useReduceMotion';
 import { colors, radius, space, type } from './theme';
+
+const MOTION_OPTIONS: { id: MotionSetting; label: string }[] = [
+  { id: 'system', label: 'System' },
+  { id: 'full', label: 'Full' },
+  { id: 'reduced', label: 'Reduced' },
+];
 
 /**
  * Not part of the app: the lesson player proper has no home screen. This exists
@@ -18,6 +29,7 @@ export default function LessonPicker({
   onPick: (entry: LessonEntry) => void;
 }) {
   const insets = useSafeAreaInsets();
+  const motion = useMotionSetting();
   return (
     <View style={[styles.wrap, { paddingTop: insets.top + space.xxl, paddingBottom: insets.bottom + space.xl }]}>
       <Text style={styles.title}>Pick a lesson</Text>
@@ -33,6 +45,32 @@ export default function LessonPicker({
             <Text style={styles.cardSub}>{entry.subtitle}</Text>
             <Text style={styles.cardMeta}>
               {`${entry.level.screens.length} screens`}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+
+      {/* docs/UI.md §10 follows the OS setting; the app has no Settings screen
+          yet, and the reduced-motion branches are the least-played paths in it.
+          Forcing either side from here is how they get looked at. */}
+      <View style={styles.motionRow}>
+        <Text style={styles.motionLabel}>Motion</Text>
+        {MOTION_OPTIONS.map((option) => (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ selected: motion === option.id }}
+            key={option.id}
+            onPress={() => setMotionSetting(option.id)}
+            hitSlop={6}
+            style={[styles.motionChip, motion === option.id && styles.motionChipOn]}
+          >
+            <Text
+              style={[
+                styles.motionChipText,
+                motion === option.id && styles.motionChipTextOn,
+              ]}
+            >
+              {option.label}
             </Text>
           </Pressable>
         ))}
@@ -61,4 +99,16 @@ const styles = StyleSheet.create({
   cardTitle: { ...type.title, color: colors.text },
   cardSub: { ...type.body, color: colors.textMuted },
   cardMeta: { ...type.small, color: colors.accent },
+  motionRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
+  motionLabel: { ...type.small, color: colors.textFaint, marginRight: space.xs },
+  motionChip: {
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: space.md,
+    paddingVertical: 6,
+  },
+  motionChipOn: { borderColor: colors.accent, backgroundColor: colors.accentTint },
+  motionChipText: { ...type.small, color: colors.textMuted },
+  motionChipTextOn: { color: colors.text },
 });

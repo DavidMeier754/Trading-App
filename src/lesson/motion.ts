@@ -2,10 +2,11 @@ import { useCallback, useMemo } from 'react';
 import {
   Easing,
   useAnimatedStyle,
-  useReducedMotion,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+
+import { useReduceMotion } from './useReduceMotion';
 
 import { selectHaptic } from './haptics';
 
@@ -59,7 +60,7 @@ export const SPRING_POP = { duration: 520, dampingRatio: 0.62 } as const;
  * anyway: no React render on press at all, where the transition needed two.
  */
 export function usePressFeedback(enabled = true) {
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
   const animates = enabled && !reduced;
   const scale = useSharedValue(1);
 
@@ -97,7 +98,7 @@ const PRESS_OUT = { duration: DURATION.press + 50, easing: EASE_OUT } as const;
  * nothing to do with arriving on a screen.
  */
 export function useMotion() {
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
   return useMemo(
     () => ({
       reduced,
