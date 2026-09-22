@@ -8,7 +8,7 @@ import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { EASE_OUT, EASE_REVEAL } from '../lesson/motion';
+import { EASE_OUT, REVEAL_RAMP_MS, rampEasing } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, type } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
@@ -70,13 +70,14 @@ export default function ChartDecisionScreen({
       return;
     }
     progress.set(0);
+    // §4.3's 120 ms a candle stays the speed through the middle; the ramp is
+    // bought on top of it, so the first bar and the last both take their time
+    // however many bars there are to reveal.
+    const duration = REVEAL_RAMP_MS + PLAYBACK_MS * Math.max(1, bars - start);
     progress.set(
       withTiming(
         1,
-        // Eased, not linear: the first and last bars take their time and the
-        // middle keeps moving. docs/UI.md §4.3's ~120 ms a candle is the
-        // average now rather than every gap.
-        { duration: PLAYBACK_MS * Math.max(1, bars - start), easing: EASE_REVEAL },
+        { duration, easing: rampEasing(REVEAL_RAMP_MS / duration) },
         (finished) => {
           'worklet';
           if (finished) scheduleOnRN(finish);

@@ -25,22 +25,59 @@ export const EASE_OUT = Easing.bezier(0.23, 1, 0.32, 1);
 /** Strong ease-in-out, for something already on screen that moves. */
 export const EASE_IN_OUT = Easing.bezier(0.77, 0, 0.175, 1);
 /**
- * The gentlest ease-in-out there is -- a sine curve -- for a reveal that lands
- * one thing after another.
+ * How long the reveal after a decision spends getting up to speed, and coming
+ * back down again, at each end. It is a fixed number of milliseconds rather
+ * than a share of the animation, which is the whole point of `rampEasing`
+ * below: a twelve-bar chart gets the same unhurried start as a five-bar one
+ * instead of a ramp two and a half times as long.
+ */
+export const REVEAL_RAMP_MS = 450;
+
+/**
+ * Slow in, constant, slow out -- for a reveal that lands one thing after
+ * another. `ramp` is the share of the run spent at each end, and is clamped at
+ * a half, where the two ramps meet and there is no constant stretch left.
  *
- * `EASE_IN_OUT` above is right for a single element travelling, and wrong here.
- * A `chart-decision` replay is five separate arrivals, and each one is its own
- * event, so what the curve really controls is the gap between them. Measured
- * over the 600 ms of Chapter 1's first decision:
+ * Neither bezier above does this job. They are shaped for a single element
+ * travelling, and a `chart-decision` replay is a row of separate arrivals, so
+ * what the curve really controls is the gap between them. A bezier sets those
+ * gaps as a ratio, which means the middle has to be starved to pay for the
+ * ends: `EASE_IN_OUT` over the 600 ms of Chapter 1's first decision leaves the
+ * middle bars 25 ms apart, and 25 ms is a bar and a half at 60fps -- it does
+ * not read as fast, it reads as dropped. A bezier's ramp also scales with the
+ * duration, so the longer the chart, the longer the pause before anything
+ * happens.
+ *
+ * This curve buys the ends with time instead. The bars in the middle keep the
+ * 120 ms a candle of docs/UI.md §4.3 at every length, and the ramp costs a flat
+ * 450 ms on top. Measured on Chapter 1's first decision, five bars:
  *
  *   linear                 120 120 120 120 120 ms   flat, no shape at all
  *   EASE_IN_OUT            235  40  25  44 255 ms   10x spread: a stutter
- *   this curve             178  84  76  84 178 ms   2.3x: ends breathe
+ *   sine bezier            178  84  76  84 178 ms   2.3x, and paid for by the middle
+ *   this, ramp 450         340 125 120 125 340 ms   2.8x, and the middle is untouched
  *
- * Twenty-five milliseconds is a bar and a half at 60fps -- the middle of a
- * strong ease-in-out does not read as fast, it reads as dropped.
+ * The velocity is zero at both ends and rises as a half-cosine, so the first
+ * bar creeps out rather than starting mid-stride.
  */
-export const EASE_REVEAL = Easing.bezier(0.37, 0, 0.63, 1);
+export function rampEasing(ramp: number) {
+  const r = Math.min(0.5, Math.max(0, ramp));
+  // the constant-speed stretch, set so the area under the velocity curve is 1
+  const v = 1 / (1 - r);
+  const k = r / (2 * Math.PI);
+  return (u: number) => {
+    'worklet';
+    if (u <= 0) return 0;
+    if (u >= 1) return 1;
+    if (r <= 0) return u;
+    if (u < r) return v * (u / 2 - k * Math.sin((Math.PI * u) / r));
+    if (u > 1 - r) {
+      const w = 1 - u;
+      return 1 - v * (w / 2 - k * Math.sin((Math.PI * w) / r));
+    }
+    return v * (r / 2 + (u - r));
+  };
+}
 
 export const DURATION = {
   /** Press feedback. Kept inside the 100-150 ms band; anything slower lags the finger. */
