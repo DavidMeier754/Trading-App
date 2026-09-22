@@ -118,11 +118,47 @@ export type PlayGeom = {
   hi1: number;
 };
 
-/** Price -> y at replay position `t`, against the interpolating domain. */
+/**
+ * How far the price axis has travelled from the decision to its final range, at
+ * replay position `t`.
+ *
+ * The axis has to widen: at the decision it fits six bars and by the end it
+ * fits eleven, and the plot's height is fixed by the grid, so everything
+ * already drawn must compress. Measured on Chapter 1's first decision, the six
+ * bars the learner studied go from 137.7 points tall to 55.1.
+ *
+ * That is unavoidable. What is avoidable is doing it *linearly across the whole
+ * replay*, which is what this used to do: the line sagged continuously under the
+ * pen while it was being drawn, and the compression read as the chart going
+ * flat rather than as the view making room.
+ *
+ * So the whole widening happens in the first quarter, on an ease-out, before
+ * most of the line exists -- the chart takes one quick step back -- and the rest
+ * of the replay draws at a scale that does not move at all. Same start, same
+ * end, and nothing distorts while the eye is following the line.
+ */
+const ZOOM_OUT = 0.3;
+
+function domainProgress(t: number) {
+  'worklet';
+  const u = Math.min(1, t / ZOOM_OUT);
+  // Smoothstep rather than an ease-out: an ease-out put nine tenths of the
+  // widening into the first 80 ms, which reads as a jolt, not a camera move.
+  return u * u * (3 - 2 * u);
+}
+
+/** The same curve off the worklet, for the first frame. */
+function domainProgressAt(t: number) {
+  const u = Math.min(1, t / ZOOM_OUT);
+  return u * u * (3 - 2 * u);
+}
+
+/** Price -> y at replay position `t`, against the widening domain. */
 function playY(g: PlayGeom, t: number, price: number) {
   'worklet';
-  const lo = g.lo0 + (g.lo1 - g.lo0) * t;
-  const hi = g.hi0 + (g.hi1 - g.hi0) * t;
+  const d = domainProgress(t);
+  const lo = g.lo0 + (g.lo1 - g.lo0) * d;
+  const hi = g.hi0 + (g.hi1 - g.hi0) * d;
   return g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
 }
 
@@ -152,8 +188,9 @@ function barAlpha(g: PlayGeom, t: number, i: number) {
  * a real number from the start — the same reason `playLineAt` exists below.
  */
 function playYAt(g: PlayGeom, t: number, price: number) {
-  const lo = g.lo0 + (g.lo1 - g.lo0) * t;
-  const hi = g.hi0 + (g.hi1 - g.hi0) * t;
+  const d = domainProgressAt(t);
+  const lo = g.lo0 + (g.lo1 - g.lo0) * d;
+  const hi = g.hi0 + (g.hi1 - g.hi0) * d;
   return g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
 }
 
@@ -202,8 +239,9 @@ function playHeadPointAt(g: PlayGeom, t: number) {
   const whole = Math.floor(head);
   const frac = head - whole;
   const yOf = (price: number) => {
-    const lo = g.lo0 + (g.lo1 - g.lo0) * t;
-    const hi = g.hi0 + (g.hi1 - g.hi0) * t;
+    const d = domainProgressAt(t);
+    const lo = g.lo0 + (g.lo1 - g.lo0) * d;
+    const hi = g.hi0 + (g.hi1 - g.hi0) * d;
     return g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
   };
   if (frac <= 0.0001 || whole + 1 >= g.n) {
@@ -217,8 +255,9 @@ function playHeadPointAt(g: PlayGeom, t: number) {
 function playLineAt(g: PlayGeom, t: number) {
   const head = g.from - 1 + t * (g.n - g.from);
   const whole = Math.floor(head);
-  const lo = g.lo0 + (g.lo1 - g.lo0) * t;
-  const hi = g.hi0 + (g.hi1 - g.hi0) * t;
+  const dp = domainProgressAt(t);
+  const lo = g.lo0 + (g.lo1 - g.lo0) * dp;
+  const hi = g.hi0 + (g.hi1 - g.hi0) * dp;
   const yOf = (price: number) =>
     g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
   let d = `M${g.xs[0].toFixed(2)},${yOf(g.closes[0]).toFixed(2)}`;
@@ -412,9 +451,13 @@ function PlaybackAxis({
 }) {
   const props = useAnimatedProps(() => {
     const t = progress.get();
+    // The labels belong to the scale, so they change with it: the old set is
+    // gone before the zoom is half done and the final set is in by the time it
+    // settles. Fading them across the whole replay left stale prices beside a
+    // scale that had already stopped moving.
     const opacity = fadeOut
-      ? Math.max(0, 1 - t / 0.22)
-      : Math.max(0, Math.min(1, (t - 0.45) / 0.45));
+      ? Math.max(0, 1 - t / (ZOOM_OUT * 0.5))
+      : Math.max(0, Math.min(1, (t - ZOOM_OUT * 0.5) / (ZOOM_OUT * 0.7)));
     return { opacity };
   });
   return <AnimatedG animatedProps={props}>{children}</AnimatedG>;
