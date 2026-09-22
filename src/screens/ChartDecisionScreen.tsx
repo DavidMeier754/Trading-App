@@ -122,6 +122,7 @@ export default function ChartDecisionScreen({
           <Chart
             spec={screen.chart}
             visibleCount={done ? bars : start}
+            revealFrom={start}
             playback={playing ? progress : undefined}
             gridAnchor={grid.gridAnchor}
             width={chartWidth}

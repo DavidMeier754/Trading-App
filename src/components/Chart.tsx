@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { SharedValue, useAnimatedProps } from 'react-native-reanimated';
 import Svg, {
@@ -116,50 +116,56 @@ export type PlayGeom = {
   hi0: number;
   lo1: number;
   hi1: number;
+  /** Running extremes over bars 0..i, so the window can follow the data. */
+  runHi: number[];
+  runLo: number[];
+  /** 1 when the reserve held and the axis only slides; 0 when it must widen. */
+  panOnly: number;
 };
 
 /**
- * How far the price axis has travelled from the decision to its final range, at
- * replay position `t`.
+ * The price window at replay position `t`.
  *
- * The axis has to widen: at the decision it fits six bars and by the end it
- * fits eleven, and the plot's height is fixed by the grid, so everything
- * already drawn must compress. Measured on Chapter 1's first decision, the six
- * bars the learner studied go from 137.7 points tall to 55.1.
+ * Normally the window's height never changes: REVEAL_RESERVE has already made
+ * the axis tall enough for the bars that are coming, so the window only slides,
+ * and it slides only as far as the revealed bars require. Nothing already drawn
+ * is ever rescaled, which is the whole point -- a line that climbs while its
+ * frame shrinks around it goes nowhere, and that is what read as flat.
  *
- * That is unavoidable. What is avoidable is doing it *linearly across the whole
- * replay*, which is what this used to do: the line sagged continuously under the
- * pen while it was being drawn, and the compression read as the chart going
- * flat rather than as the view making room.
- *
- * So the whole widening happens in the first quarter, on an ease-out, before
- * most of the line exists -- the chart takes one quick step back -- and the rest
- * of the replay draws at a scale that does not move at all. Same start, same
- * end, and nothing distorts while the eye is following the line.
+ * The fallback, for the ~5.5% of charts whose move outruns the reserve, is the
+ * old widening: done on a smoothstep over the first 30% of the replay, before
+ * most of the line exists, rather than linearly under the pen.
  */
 const ZOOM_OUT = 0.3;
 
-function domainProgress(t: number) {
+function windowAt(g: PlayGeom, t: number) {
   'worklet';
-  const u = Math.min(1, t / ZOOM_OUT);
-  // Smoothstep rather than an ease-out: an ease-out put nine tenths of the
-  // widening into the first 80 ms, which reads as a jolt, not a camera move.
-  return u * u * (3 - 2 * u);
+  if (!g.panOnly) {
+    const u = Math.min(1, t / ZOOM_OUT);
+    const d = u * u * (3 - 2 * u);
+    return { lo: g.lo0 + (g.lo1 - g.lo0) * d, hi: g.hi0 + (g.hi1 - g.hi0) * d };
+  }
+  const span = g.hi0 - g.lo0;
+  const head = g.from - 1 + t * (g.n - g.from);
+  const i = Math.max(0, Math.min(g.n - 1, Math.floor(head)));
+  const j = Math.min(g.n - 1, i + 1);
+  const f = Math.max(0, Math.min(1, head - i));
+  const needHi = g.runHi[i] + (g.runHi[j] - g.runHi[i]) * f;
+  const needLo = g.runLo[i] + (g.runLo[j] - g.runLo[i]) * f;
+  const reach = needHi - needLo || 1;
+  let lo = g.lo0;
+  let hi = g.hi0;
+  // The same padding domainOf uses, so t=1 lands exactly on the static frame.
+  if (needHi + reach * 0.12 > hi) { hi = needHi + reach * 0.12; lo = hi - span; }
+  if (needLo - reach * 0.1 < lo) { lo = needLo - reach * 0.1; hi = lo + span; }
+  return { lo, hi };
 }
 
-/** The same curve off the worklet, for the first frame. */
-function domainProgressAt(t: number) {
-  const u = Math.min(1, t / ZOOM_OUT);
-  return u * u * (3 - 2 * u);
-}
-
-/** Price -> y at replay position `t`, against the widening domain. */
+/** Price -> y at replay position `t`. */
 function playY(g: PlayGeom, t: number, price: number) {
   'worklet';
-  const d = domainProgress(t);
-  const lo = g.lo0 + (g.lo1 - g.lo0) * d;
-  const hi = g.hi0 + (g.hi1 - g.hi0) * d;
-  return g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
+  const w = windowAt(g, t);
+  return g.padTop + g.priceH - ((price - w.lo) / (w.hi - w.lo)) * g.priceH;
 }
 
 /** The fractional index of the leading edge: from-1 at t=0, n-1 at t=1. */
@@ -188,10 +194,8 @@ function barAlpha(g: PlayGeom, t: number, i: number) {
  * a real number from the start — the same reason `playLineAt` exists below.
  */
 function playYAt(g: PlayGeom, t: number, price: number) {
-  const d = domainProgressAt(t);
-  const lo = g.lo0 + (g.lo1 - g.lo0) * d;
-  const hi = g.hi0 + (g.hi1 - g.hi0) * d;
-  return g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
+  const w = windowAt(g, t);
+  return g.padTop + g.priceH - ((price - w.lo) / (w.hi - w.lo)) * g.priceH;
 }
 
 function barAlphaAt(g: PlayGeom, t: number, i: number) {
@@ -238,12 +242,7 @@ function playHeadPointAt(g: PlayGeom, t: number) {
   const head = g.from - 1 + t * (g.n - g.from);
   const whole = Math.floor(head);
   const frac = head - whole;
-  const yOf = (price: number) => {
-    const d = domainProgressAt(t);
-    const lo = g.lo0 + (g.lo1 - g.lo0) * d;
-    const hi = g.hi0 + (g.hi1 - g.hi0) * d;
-    return g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
-  };
+  const yOf = (price: number) => playYAt(g, t, price);
   if (frac <= 0.0001 || whole + 1 >= g.n) {
     const i = Math.min(whole, g.n - 1);
     return { x: g.xs[i], y: yOf(g.closes[i]) };
@@ -255,11 +254,7 @@ function playHeadPointAt(g: PlayGeom, t: number) {
 function playLineAt(g: PlayGeom, t: number) {
   const head = g.from - 1 + t * (g.n - g.from);
   const whole = Math.floor(head);
-  const dp = domainProgressAt(t);
-  const lo = g.lo0 + (g.lo1 - g.lo0) * dp;
-  const hi = g.hi0 + (g.hi1 - g.hi0) * dp;
-  const yOf = (price: number) =>
-    g.padTop + g.priceH - ((price - lo) / (hi - lo)) * g.priceH;
+  const yOf = (price: number) => playYAt(g, t, price);
   let d = `M${g.xs[0].toFixed(2)},${yOf(g.closes[0]).toFixed(2)}`;
   for (let i = 1; i <= whole; i++) {
     d += ` L${g.xs[i].toFixed(2)},${yOf(g.closes[i]).toFixed(2)}`;
@@ -505,6 +500,49 @@ export function domainOf(bars: Candle[], spec: ChartSpec, count: number) {
   return { lo: min - span * 0.1, hi: max + span * 0.12 };
 }
 
+/**
+ * How much taller than its data a decision chart's axis is drawn.
+ *
+ * The axis has to end up holding the bars that arrive after the decision, and
+ * the plot's height is fixed by the grid. Widening it *during* the replay is
+ * what made the line look flat: it climbed while the frame shrank around it, so
+ * it went nowhere. Reserving the room up front instead means the scale never
+ * changes and the price visibly travels.
+ *
+ * 2.5 is measured, not chosen: across the 544 `chart-decision` screens in the
+ * corpus the final axis is a median 1.53x the axis at the decision, 2.25x at the
+ * 90th percentile and 3.25x at the worst. A fixed 2.5x covers 94.5% of them with
+ * no change of scale at all, and the rest widen by only the excess.
+ *
+ * The room is centred, so it is the same above and below and says nothing about
+ * which way the price is going -- and the factor is the same on every chart, so
+ * it says nothing about how far, either. Both were the reason the domain was
+ * built from the visible bars alone in the first place.
+ */
+export const REVEAL_RESERVE = 2.5;
+
+type Window = { lo: number; hi: number };
+
+function expand({ lo, hi }: Window, factor: number): Window {
+  const mid = (lo + hi) / 2;
+  const half = ((hi - lo) * factor) / 2;
+  return { lo: mid - half, hi: mid + half };
+}
+
+/**
+ * Slide `win` until it holds `need`, keeping its height. Only if `need` is
+ * taller than the window does it grow -- the 5.5% of charts whose move outruns
+ * the reserve.
+ */
+function slideToContain(win: Window, need: Window): Window {
+  const span = win.hi - win.lo;
+  if (need.hi - need.lo > span) return need;
+  let { lo, hi } = win;
+  if (need.hi > hi) { hi = need.hi; lo = hi - span; }
+  if (need.lo < lo) { lo = need.lo; hi = lo + span; }
+  return { lo, hi };
+}
+
 export function closeAt(spec: ChartSpec, index: number): number {
   const bars = toCandles(spec);
   return bars[Math.max(0, Math.min(index, bars.length - 1))].c;
@@ -537,6 +575,12 @@ type Props = {
    * up. Line charts without a volume strip only.
    */
   gridAnchor?: number;
+  /**
+   * How many bars were on screen at the decision. Its presence says this chart
+   * will replay an outcome, so the axis reserves room for it up front and never
+   * rescales afterwards (REVEAL_RESERVE).
+   */
+  revealFrom?: number;
 };
 
 export const AXIS_W = 44;
@@ -682,40 +726,53 @@ export default function Chart({
   draw,
   playback,
   gridAnchor,
+  revealFrom,
 }: Props) {
   const bars = useMemo(() => toCandles(spec), [spec]);
   const n = bars.length;
   const shown = Math.max(0, Math.min(visibleCount, n));
   const hasVolume = Array.isArray(spec.volume) && spec.volume.length > 0;
 
-  // The domain is built from the bars the learner can actually see, plus the
-  // annotation levels (which are drawn from the start). Scaling to every bar up
-  // front would reserve headroom exactly where the price is about to go and give
-  // the decision away before it is made. The domain only ever grows, so the axis
-  // never snaps back during playback.
-  const domainRef = useRef<{ lo: number; hi: number } | null>(null);
-  const { lo, hi } = useMemo(() => {
-    const next = domainOf(bars, spec, Math.max(1, shown));
-    const prev = domainRef.current;
-    const merged = prev
-      ? { lo: Math.min(prev.lo, next.lo), hi: Math.max(prev.hi, next.hi) }
-      : next;
-    domainRef.current = merged;
-    return merged;
-  }, [bars, shown, spec.vwap, spec.levels]);
+  // The window the axis shows.
+  //
+  // A chart that will replay an outcome (`revealFrom`) reserves its room up
+  // front: the axis is REVEAL_RESERVE times the height its visible bars need,
+  // centred on them, and from then on it only ever *slides*. That is what lets
+  // the price travel on screen instead of the frame closing in around it.
+  //
+  // Everything else -- a theory card, a `chart-tap` -- keeps the plain domain of
+  // the bars it is showing.
+  const anchor = useMemo(() => {
+    const base = domainOf(bars, spec, Math.max(1, revealFrom ?? shown));
+    return revealFrom === undefined ? base : expand(base, REVEAL_RESERVE);
+  }, [bars, spec.vwap, spec.levels, revealFrom, shown]);
 
-  // Where the axis ends up once every bar is in. The replay interpolates
-  // towards it; it is never used before a decision has been made.
+  const { lo, hi } = useMemo(
+    () =>
+      revealFrom === undefined
+        ? domainOf(bars, spec, Math.max(1, shown))
+        : slideToContain(anchor, domainOf(bars, spec, Math.max(1, shown))),
+    [bars, spec.vwap, spec.levels, shown, revealFrom, anchor]
+  );
+
+  // Where the axis ends up once every bar is in.
   const full = useMemo(() => {
-    const next = domainOf(bars, spec, n);
-    return { lo: Math.min(lo, next.lo), hi: Math.max(hi, next.hi) };
-  }, [bars, spec.vwap, spec.levels, n, lo, hi]);
+    const need = domainOf(bars, spec, n);
+    if (revealFrom === undefined) {
+      return { lo: Math.min(lo, need.lo), hi: Math.max(hi, need.hi) };
+    }
+    return slideToContain(anchor, need);
+  }, [bars, spec.vwap, spec.levels, n, lo, hi, revealFrom, anchor]);
 
   const layout = useMemo(
     () => chartLayout({ width, height, bars: n, lo, hi, hasVolume, gridAnchor }),
     [width, height, n, lo, hi, hasVolume, gridAnchor]
   );
   const { padTop, priceH, plotW, bodyW, volTop, volH, gaps, y, cx } = layout;
+
+  // With the room reserved up front the window usually never moves, so the
+  // labels are the same before and after and swapping them is a flicker.
+  const axisMoves = Math.abs(full.lo - lo) > 1e-9 || Math.abs(full.hi - hi) > 1e-9;
 
   const maxVol = hasVolume ? Math.max(...(spec.volume as number[])) : 1;
   const volY = (v: number) => volTop + volH - (v / maxVol) * volH;
@@ -738,6 +795,23 @@ export default function Chart({
 
   const playGeom = useMemo<PlayGeom | null>(() => {
     if (!playback || shown < 1) return null;
+    // Running extremes, so the window can follow what has actually been
+    // revealed rather than run ahead of it. Levels and VWAP are folded in
+    // because domainOf counts them too, and the last frame has to land exactly
+    // on the static one.
+    const levelHi = Math.max(...(spec.levels ?? []).map((l) => l.price), -Infinity);
+    const levelLo = Math.min(...(spec.levels ?? []).map((l) => l.price), Infinity);
+    const runHi: number[] = [];
+    const runLo: number[] = [];
+    let mh = levelHi;
+    let ml = levelLo;
+    bars.forEach((b, i) => {
+      mh = Math.max(mh, b.h, spec.vwap?.[i] ?? -Infinity);
+      ml = Math.min(ml, b.l, spec.vwap?.[i] ?? Infinity);
+      runHi.push(mh);
+      runLo.push(ml);
+    });
+    const span0 = hi - lo;
     return {
       xs: bars.map((_, i) => cx(i)),
       closes: bars.map((b) => b.c),
@@ -753,8 +827,11 @@ export default function Chart({
       hi0: hi,
       lo1: full.lo,
       hi1: full.hi,
+      runHi,
+      runLo,
+      panOnly: Math.abs(full.hi - full.lo - span0) < span0 * 1e-6 ? 1 : 0,
     };
-  }, [playback, spec.kind, bars, n, shown, layout, lo, hi, full.lo, full.hi]);
+  }, [playback, spec, bars, n, shown, layout, lo, hi, full.lo, full.hi]);
 
   const linePath = useMemo(() => {
     if (spec.kind !== 'line' || shown === 0) return '';
@@ -828,7 +905,7 @@ export default function Chart({
           ))}
         </G>
 
-        {playGeom && playback ? (
+        {playGeom && playback && axisMoves ? (
           <G>
             <PlaybackAxis progress={playback} fadeOut>
               {ticks.map((t, i) => (
