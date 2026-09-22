@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import Chart, { chartHeightFor, chartWidthFor, closeAt } from '../components/Chart';
@@ -8,7 +8,7 @@ import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { EASE_OUT } from '../lesson/motion';
+import { EASE_OUT, EASE_REVEAL } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, type } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
@@ -73,7 +73,10 @@ export default function ChartDecisionScreen({
     progress.set(
       withTiming(
         1,
-        { duration: PLAYBACK_MS * Math.max(1, bars - start), easing: Easing.linear },
+        // Eased, not linear: the first and last bars take their time and the
+        // middle keeps moving. docs/UI.md §4.3's ~120 ms a candle is the
+        // average now rather than every gap.
+        { duration: PLAYBACK_MS * Math.max(1, bars - start), easing: EASE_REVEAL },
         (finished) => {
           'worklet';
           if (finished) scheduleOnRN(finish);

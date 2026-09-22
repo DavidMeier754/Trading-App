@@ -24,6 +24,23 @@ import { playCue } from './sound';
 export const EASE_OUT = Easing.bezier(0.23, 1, 0.32, 1);
 /** Strong ease-in-out, for something already on screen that moves. */
 export const EASE_IN_OUT = Easing.bezier(0.77, 0, 0.175, 1);
+/**
+ * The gentlest ease-in-out there is -- a sine curve -- for a reveal that lands
+ * one thing after another.
+ *
+ * `EASE_IN_OUT` above is right for a single element travelling, and wrong here.
+ * A `chart-decision` replay is five separate arrivals, and each one is its own
+ * event, so what the curve really controls is the gap between them. Measured
+ * over the 600 ms of Chapter 1's first decision:
+ *
+ *   linear                 120 120 120 120 120 ms   flat, no shape at all
+ *   EASE_IN_OUT            235  40  25  44 255 ms   10x spread: a stutter
+ *   this curve             178  84  76  84 178 ms   2.3x: ends breathe
+ *
+ * Twenty-five milliseconds is a bar and a half at 60fps -- the middle of a
+ * strong ease-in-out does not read as fast, it reads as dropped.
+ */
+export const EASE_REVEAL = Easing.bezier(0.37, 0, 0.63, 1);
 
 export const DURATION = {
   /** Press feedback. Kept inside the 100-150 ms band; anything slower lags the finger. */
