@@ -1,12 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import Mascot from '../components/Mascot';
 import { copy } from '../format';
 import { colors, space, type } from '../theme';
 import type { IntroScreen as S } from '../types';
 
-/** docs/UI.md §3 `intro`: big headline, optional subline, mascot slot. */
+/** docs/UI.md §3 `intro`: big headline, optional subline. */
 export default function IntroScreen({
   screen,
   levelTitle,
@@ -18,9 +17,6 @@ export default function IntroScreen({
 }) {
   return (
     <View style={styles.wrap}>
-      {/* docs/UI.md §3: headline, optional subline, mascot. Large here, small in
-          the reveal slot. */}
-      <Mascot size={104} />
       <Text style={styles.kicker}>{copy(chapterTitle)}</Text>
       <Text style={styles.headline}>{copy(screen.text)}</Text>
       <Text style={styles.subline}>{copy(levelTitle)}</Text>

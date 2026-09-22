@@ -6,7 +6,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import Mascot, { poseForGrade } from '../components/Mascot';
 import { copy } from '../format';
 import { colors, radius, space, type } from '../theme';
 import type { Grade } from './answers';
@@ -60,34 +59,26 @@ export default function Reveal({
         panel,
       ]}
     >
-      {/* docs/UI.md §2: the mascot slot is bottom-left of the reveal area, small,
-          and it reacts to the verdict (§5.1 — nod on correct, "hm" on wrong). */}
-      <View style={styles.mascotSlot}>
-        <Mascot pose={poseForGrade(grade)} size={34} />
+      <View style={styles.headRow}>
+        <Text style={[styles.head, { color: tone.accent }]}>{tone.label}</Text>
       </View>
-
-      <View style={styles.content}>
-        <View style={styles.headRow}>
-          <Text style={[styles.head, { color: tone.accent }]}>{tone.label}</Text>
+      {lead ? <Text style={[styles.lead, { color: tone.accent }]}>{copy(lead)}</Text> : null}
+      <Text style={styles.body}>{copy(explanation)}</Text>
+      {extra}
+      {working ? (
+        <View style={styles.workingWrap}>
+          <Pressable
+            onPress={() => setShowWorking((v) => !v)}
+            hitSlop={10}
+            accessibilityRole="button"
+          >
+            <Text style={[styles.toggle, { color: tone.accent }]}>
+              {showWorking ? 'Hide working' : 'Show working'}
+            </Text>
+          </Pressable>
+          {showWorking ? <Text style={styles.working}>{copy(working)}</Text> : null}
         </View>
-        {lead ? <Text style={[styles.lead, { color: tone.accent }]}>{copy(lead)}</Text> : null}
-        <Text style={styles.body}>{copy(explanation)}</Text>
-        {extra}
-        {working ? (
-          <View style={styles.workingWrap}>
-            <Pressable
-              onPress={() => setShowWorking((v) => !v)}
-              hitSlop={10}
-              accessibilityRole="button"
-            >
-              <Text style={[styles.toggle, { color: tone.accent }]}>
-                {showWorking ? 'Hide working' : 'Show working'}
-              </Text>
-            </Pressable>
-            {showWorking ? <Text style={styles.working}>{copy(working)}</Text> : null}
-          </View>
-        ) : null}
-      </View>
+      ) : null}
     </Animated.View>
   );
 }
@@ -97,14 +88,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: radius.md,
     padding: space.lg,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    gap: space.md,
+    gap: space.sm,
   },
-  // Bottom-aligned so the mascot stands on the floor of the panel however many
-  // lines the explanation runs to.
-  mascotSlot: { width: 34 * (200 / 240), alignItems: 'center' },
-  content: { flex: 1, gap: space.sm },
   headRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   head: { ...type.label, textTransform: 'uppercase', letterSpacing: 0.6 },
   lead: { ...type.answer },
