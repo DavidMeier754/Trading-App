@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useAnimatedReaction, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
@@ -10,9 +10,11 @@ import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { Arrive } from '../lesson/Celebrate';
 import { NOTE_STEPS, noteFeedback } from '../lesson/feedback';
+import { startRumble, stopRumble } from '../lesson/haptics';
 import { EASE_OUT, revealTiming } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, radius, space, type } from '../theme';
+import { colors, glass, radius, space, type } from '../theme';
+import { useLook } from '../lesson/look';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
 
 /** Which way a choice faces, for the P/L side of the outcome strip. */
@@ -38,6 +40,7 @@ export default function ChartDecisionScreen({
   onPhaseChange: (phase: DecisionPhase) => void;
 }) {
   const reduced = useReduceMotion();
+  const neo = useLook() === 'neo';
   const bars = Array.isArray(screen.chart.data) ? screen.chart.data.length : 0;
   const start = screen.chart.decision_index + 1;
 
@@ -59,26 +62,61 @@ export default function ChartDecisionScreen({
     onPhaseChange(phase);
   }, [phase, onPhaseChange]);
 
-  const finish = useCallback(() => setDone(true), []);
+  const finish = useCallback(() => {
+    stopRumble();
+    setDone(true);
+  }, []);
 
   // The slow reveal: every bar after the decision lands on a tick you can feel
   // and hear, pitched by where it closes -- a climb sounds like one. The last
   // bar gets no tick of its own, because the verdict lands with it.
   const legs = Math.max(1, bars - start);
-  const pitch = useMemo(() => {
-    const closes: number[] = [];
-    for (let i = start - 1; i < bars; i++) closes.push(closeAt(screen.chart, i));
-    const lo = Math.min(...closes);
-    const hi = Math.max(...closes);
-    const mid = (lo + hi) / 2;
+  // The decision bar and every bar after it.
+  const { closes, span } = useMemo(() => {
+    const c: number[] = [];
+    for (let i = start - 1; i < bars; i++) c.push(closeAt(screen.chart, i));
+    const lo = Math.min(...c);
+    const hi = Math.max(...c);
     // A near-flat replay hums around the middle of the scale instead of leaping
     // two octaves for a cent.
-    const span = Math.max(hi - lo, Math.abs(mid) * 0.02, 1e-9);
+    return { closes: c, span: Math.max(hi - lo, Math.abs((lo + hi) / 2) * 0.02, 1e-9) };
+  }, [screen.chart, start, bars]);
+  const pitch = useMemo(() => {
+    const mid = (Math.min(...closes) + Math.max(...closes)) / 2;
     return closes.map((c) =>
       Math.round((NOTE_STEPS - 1) / 2 + ((c - mid) / span) * (NOTE_STEPS - 3))
     );
-  }, [screen.chart, start, bars]);
-  const onBar = useCallback((k: number) => noteFeedback(pitch[k] ?? 4), [pitch]);
+  }, [closes, span]);
+
+  // While the line is climbing, the phone rumbles -- continuously, not bar by
+  // bar -- and a steeper leg rumbles harder. Segment `j` runs from bar j-1 to
+  // bar j after the decision; it begins as bar j-1 lands. A leg that falls or
+  // goes flat is quiet, so the hand feels the climbs and only the climbs.
+  const segment = useCallback(
+    (j: number) => {
+      if (j < 1 || j > legs) return stopRumble();
+      const rise = closes[j] - closes[j - 1];
+      if (rise > 0) startRumble(0.25 + (rise / span) * 2.2);
+      else stopRumble();
+    },
+    [legs, closes, span]
+  );
+  const onBar = useCallback(
+    (k: number) => {
+      noteFeedback(pitch[k] ?? 4);
+      segment(k + 1);
+    },
+    [pitch, segment]
+  );
+  // The first leg begins as the decision commits, but the line only creeps out
+  // of it (the slow start), so its rumble waits until the movement shows.
+  const firstLeg = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const quiet = useCallback(() => {
+    if (firstLeg.current) clearTimeout(firstLeg.current);
+    firstLeg.current = null;
+    stopRumble();
+  }, []);
+  useEffect(() => quiet, [quiet]);
 
   // Ticks only while the replay plays on its own. A skip, or reduced motion,
   // goes straight to the verdict without a drum-roll in between.
@@ -103,6 +141,8 @@ export default function ChartDecisionScreen({
     }
     armed.set(true);
     progress.set(0);
+    quiet();
+    firstLeg.current = setTimeout(() => segment(1), 180);
     // docs/UI.md §4.3 plays the outcome candle by candle; how slowly, and why
     // the end takes longest, is in lesson/motion.ts.
     progress.set(
@@ -111,12 +151,13 @@ export default function ChartDecisionScreen({
         if (finished) scheduleOnRN(finish);
       })
     );
-  }, [choice, reduced, legs, progress, armed, finish]);
+  }, [choice, reduced, legs, progress, armed, finish, quiet, segment]);
 
   // Tap to skip: the rest of the replay in one short sweep, not a jump cut.
   const onChartPress = () => {
     if (choice === null || done) return;
     armed.set(false);
+    quiet();
     progress.set(
       withTiming(1, { duration: 220, easing: EASE_OUT }, (finished) => {
         'worklet';
@@ -171,7 +212,7 @@ export default function ChartDecisionScreen({
         // One line of numbers, one line of prose. The card used to repeat the
         // decision and final prices, which the chart already shows, and to
         // restate the choice the learner had just made.
-        <Arrive style={styles.outcome}>
+        <Arrive style={neo ? [styles.outcome, glass] : styles.outcome}>
           <View style={styles.outcomeRow}>
             <Text
               style={[

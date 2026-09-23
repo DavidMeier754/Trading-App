@@ -14,11 +14,12 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 import Svg, { Circle } from 'react-native-svg';
 
-import { colors, radius, space, type } from '../theme';
+import { colors, glass, radius, space, type } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
 import Confetti from './Confetti';
 import { celebrateFeedback, coinFeedback, noteFeedback } from './feedback';
+import { emitMood, useLook } from './look';
 import { EASE_OUT, EASE_SINE, SPRING_POP, useMotion } from './motion';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -90,8 +91,10 @@ export default function LessonComplete({
 
   const land = useCallback(() => {
     celebrateFeedback(perfect);
+    emitMood('complete');
     setLanded(true);
   }, [perfect]);
+  const neo = useLook() === 'neo';
 
   const onStep = useCallback((step: number) => noteFeedback(step), []);
 
@@ -232,7 +235,7 @@ export default function LessonComplete({
         </Animated.View>
       </View>
 
-      <Animated.View style={[styles.rows, rowsStyle]}>
+      <Animated.View style={[styles.rows, neo && glass, rowsStyle]}>
         <Row label="Lesson" value={`+${xp} XP`} />
         {bonus > 0 ? <Row label="Perfect bonus" value={`+${bonus} XP`} accent /> : null}
         <Row label="Answers" value={`${clean} of ${total}`} accent={accuracy === 1} />

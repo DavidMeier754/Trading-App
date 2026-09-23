@@ -102,7 +102,14 @@ export function useGridAnchor(token?: unknown): {
     // response to the same change and shift it once more, so take a second
     // reading once the layout has settled.
     const settle = setTimeout(measure, 160);
-    return () => clearTimeout(settle);
+    // And once more after the screen transition has finished moving: the new
+    // look brings a screen up from 96.5% scale, and a reading taken while it
+    // is still scaled lands the chart a fraction of a point off the grid.
+    const rest = setTimeout(measure, 720);
+    return () => {
+      clearTimeout(settle);
+      clearTimeout(rest);
+    };
   }, [measure, width, height, token]);
 
   useEffect(() => {

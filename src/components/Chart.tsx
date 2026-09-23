@@ -21,6 +21,7 @@ import Svg, {
 } from 'react-native-svg';
 
 import { axisPrice, volume as fmtVolume } from '../format';
+import { useLook } from '../lesson/look';
 import { CHART_GRID_STEP, colors, GRID, type } from '../theme';
 import type { ChartSpec } from '../types';
 
@@ -38,15 +39,34 @@ function AnimatedStroke({
   d,
   length,
   draw,
+  neo = false,
 }: {
   d: string;
   length: number;
   draw: SharedValue<number>;
+  neo?: boolean;
 }) {
   const props = useAnimatedProps(() => ({
     strokeDashoffset: length * (1 - draw.get()),
   }));
+  const glow = useAnimatedProps(() => ({
+    strokeDashoffset: length * (1 - draw.get()),
+  }));
   return (
+    <G>
+      {neo ? (
+        <AnimatedPath
+          d={d}
+          stroke={colors.accent}
+          strokeWidth={GLOW_W}
+          strokeOpacity={GLOW_OPACITY}
+          fill="none"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeDasharray={`${length} ${length}`}
+          animatedProps={glow}
+        />
+      ) : null}
     <AnimatedPath
       d={d}
       stroke={colors.accent}
@@ -57,8 +77,17 @@ function AnimatedStroke({
       strokeDasharray={`${length} ${length}`}
       animatedProps={props}
     />
+    </G>
   );
 }
+
+/**
+ * The experimental look's neon: a wide, faint copy of the line under it, which
+ * reads as the line glowing on the dark ground. Two strokes, no filter -- an
+ * SVG blur is the one effect react-native-svg renders differently everywhere.
+ */
+const GLOW_W = 8;
+const GLOW_OPACITY = 0.2;
 
 function AnimatedFill({ d, draw }: { d: string; draw: SharedValue<number> }) {
   const props = useAnimatedProps(() => ({
@@ -273,10 +302,18 @@ function playLineAt(g: PlayGeom, t: number) {
 function PlaybackLine({
   g,
   progress,
+  neo,
 }: {
   g: PlayGeom;
   progress: SharedValue<number>;
+  /** The experimental look: a glow under the line and a halo round the pen. */
+  neo: boolean;
 }) {
+  const glow = useAnimatedProps(() => ({ d: playLine(g, progress.get()) }));
+  const halo = useAnimatedProps(() => {
+    const tip = playHeadPoint(g, progress.get());
+    return { cx: tip.x, cy: tip.y };
+  });
   const fill = useAnimatedProps(() => {
     const t = progress.get();
     const tip = playHeadPoint(g, t);
@@ -303,6 +340,28 @@ function PlaybackLine({
         animatedProps={fill}
         fill="url(#lineFill)"
       />
+      {neo ? (
+        <AnimatedPath
+          d={first}
+          animatedProps={glow}
+          stroke={colors.accent}
+          strokeWidth={GLOW_W}
+          strokeOpacity={GLOW_OPACITY}
+          fill="none"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+      ) : null}
+      {neo ? (
+        <AnimatedCircle
+          cx={firstTip.x}
+          cy={firstTip.y}
+          animatedProps={halo}
+          r={10}
+          fill={colors.accent}
+          opacity={0.25}
+        />
+      ) : null}
       <AnimatedPath
         d={first}
         animatedProps={stroke}
@@ -794,6 +853,7 @@ export default function Chart({
   gridAnchor,
   revealFrom,
 }: Props) {
+  const neo = useLook() === 'neo';
   const bars = useMemo(() => toCandles(spec), [spec]);
   const n = bars.length;
   const shown = Math.max(0, Math.min(visibleCount, n));
@@ -1058,7 +1118,7 @@ export default function Chart({
         {/* bars */}
         {spec.kind === 'line' && playGeom && playback ? (
           <G>
-            <PlaybackLine g={playGeom} progress={playback} />
+            <PlaybackLine g={playGeom} progress={playback} neo={neo} />
             <PlaybackPing g={playGeom} progress={playback} />
           </G>
         ) : spec.kind === 'line' ? (
@@ -1075,8 +1135,20 @@ export default function Chart({
             ) : null}
             {linePath ? (
               draw && linePathLength > 0 ? (
-                <AnimatedStroke d={linePath} length={linePathLength} draw={draw} />
+                <AnimatedStroke d={linePath} length={linePathLength} draw={draw} neo={neo} />
               ) : (
+                <G>
+                {neo ? (
+                  <Path
+                    d={linePath}
+                    stroke={colors.accent}
+                    strokeWidth={GLOW_W}
+                    strokeOpacity={GLOW_OPACITY}
+                    fill="none"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                  />
+                ) : null}
                 <Path
                   d={linePath}
                   stroke={colors.accent}
@@ -1085,7 +1157,11 @@ export default function Chart({
                   strokeLinejoin="round"
                   strokeLinecap="round"
                 />
+                </G>
               )
+            ) : null}
+            {lastVisible && neo && !draw ? (
+              <Circle cx={cx(shown - 1)} cy={y(lastVisible.c)} r={10} fill={colors.accent} opacity={0.22} />
             ) : null}
             {lastVisible ? (
               draw ? (

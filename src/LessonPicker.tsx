@@ -3,8 +3,10 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LessonEntry } from './content';
+import { Arrive } from './lesson/Celebrate';
 import { tapFeedback } from './lesson/feedback';
-import { setHapticsEnabled, useHapticsEnabled } from './lesson/haptics';
+import { HapticsSetting, setHapticsSetting, useHapticsSetting } from './lesson/haptics';
+import { Look, setLook, useLook } from './lesson/look';
 import { setSoundEnabled, useSoundEnabled } from './lesson/sound';
 import {
   MotionSetting,
@@ -13,16 +15,12 @@ import {
 } from './lesson/useReduceMotion';
 import { colors, radius, space, type } from './theme';
 
-const MOTION_OPTIONS: { id: MotionSetting; label: string }[] = [
-  { id: 'system', label: 'System' },
-  { id: 'full', label: 'Full' },
-  { id: 'reduced', label: 'Reduced' },
-];
-
 /**
  * Not part of the app: the lesson player proper has no home screen. This exists
  * so the real lesson and the renderer test bench are both reachable from one
- * build while the screen types are being reviewed.
+ * build while the screen types are being reviewed -- and, since there is no
+ * Settings screen yet (docs/UI.md §11), it is where the settings live that
+ * decide how the next lesson looks, sounds and feels.
  */
 export default function LessonPicker({
   lessons,
@@ -32,93 +30,123 @@ export default function LessonPicker({
   onPick: (entry: LessonEntry) => void;
 }) {
   const insets = useSafeAreaInsets();
-  const motion = useMotionSetting();
+  const look = useLook();
+  const haptics = useHapticsSetting();
   const sound = useSoundEnabled();
-  const haptics = useHapticsEnabled();
+  const motion = useMotionSetting();
+
   return (
     <View style={[styles.wrap, { paddingTop: insets.top + space.xxl, paddingBottom: insets.bottom + space.xl }]}>
-      <Text style={styles.title}>Pick a lesson</Text>
+      <Arrive>
+        <Text style={styles.title}>Pick a lesson</Text>
+      </Arrive>
       <View style={styles.list}>
-        {lessons.map((entry) => (
-          <Pressable
-            accessibilityRole="button"
-            key={entry.id}
-            onPressIn={tapFeedback}
-            onPress={() => onPick(entry)}
-            style={({ pressed }) => [styles.card, pressed && { opacity: 0.85 }]}
-          >
-            <Text style={styles.cardTitle}>{entry.title}</Text>
-            <Text style={styles.cardSub}>{entry.subtitle}</Text>
-            <Text style={styles.cardMeta}>
-              {`${entry.level.screens.length} screens`}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
-
-      {/* docs/UI.md §10 follows the OS setting; the app has no Settings screen
-          yet, and the reduced-motion branches are the least-played paths in it.
-          Forcing either side from here is how they get looked at. */}
-      <View style={styles.motionRow}>
-        <Text style={styles.motionLabel}>Motion</Text>
-        {MOTION_OPTIONS.map((option) => (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityState={{ selected: motion === option.id }}
-            key={option.id}
-            onPress={() => setMotionSetting(option.id)}
-            hitSlop={6}
-            style={[styles.motionChip, motion === option.id && styles.motionChipOn]}
-          >
-            <Text
-              style={[
-                styles.motionChipText,
-                motion === option.id && styles.motionChipTextOn,
+        {lessons.map((entry, i) => (
+          <Arrive key={entry.id} delay={80 + i * 70}>
+            <Pressable
+              accessibilityRole="button"
+              onPressIn={tapFeedback}
+              onPress={() => onPick(entry)}
+              style={({ pressed }) => [
+                styles.card,
+                look === 'neo' && styles.cardNeo,
+                pressed && { opacity: 0.85, transform: [{ scale: 0.985 }] },
               ]}
             >
-              {option.label}
-            </Text>
-          </Pressable>
+              <Text style={styles.cardTitle}>{entry.title}</Text>
+              <Text style={styles.cardSub}>{entry.subtitle}</Text>
+              <Text style={styles.cardMeta}>{`${entry.level.screens.length} screens`}</Text>
+            </Pressable>
+          </Arrive>
         ))}
       </View>
 
-      {/* docs/UI.md §10 gives sounds and haptics a toggle each; there is no
-          Settings screen yet, so they sit here beside the motion one. */}
-      <OnOff label="Sound" value={sound} onChange={setSoundEnabled} />
-      <OnOff label="Haptics" value={haptics} onChange={setHapticsEnabled} />
+      <Arrive delay={260}>
+        <View style={[styles.panel, look === 'neo' && styles.cardNeo]}>
+          <Text style={styles.panelTitle}>Before you start</Text>
+          {/* The experimental layer: aurora, glow, sparks, glass. Classic is
+              the lesson without any of it. */}
+          <Choice<Look>
+            label="Look"
+            value={look}
+            onChange={setLook}
+            options={[
+              { id: 'neo', text: 'Neo' },
+              { id: 'classic', text: 'Classic' },
+            ]}
+          />
+          {/* docs/UI.md §10 gives haptics and sounds a toggle each. Strong is
+              the harder, rounder set; Classic is one light tap per beat. */}
+          <Choice<HapticsSetting>
+            label="Haptics"
+            value={haptics}
+            onChange={setHapticsSetting}
+            options={[
+              { id: 'strong', text: 'Strong' },
+              { id: 'classic', text: 'Classic' },
+              { id: 'off', text: 'Off' },
+            ]}
+          />
+          <Choice<boolean>
+            label="Sound"
+            value={sound}
+            onChange={setSoundEnabled}
+            options={[
+              { id: true, text: 'On' },
+              { id: false, text: 'Off' },
+            ]}
+          />
+          {/* docs/UI.md §10 follows the OS setting; the reduced-motion branches
+              are the least-played paths in the app, and forcing either side
+              from here is how they get looked at. */}
+          <Choice<MotionSetting>
+            label="Motion"
+            value={motion}
+            onChange={setMotionSetting}
+            options={[
+              { id: 'system', text: 'System' },
+              { id: 'full', text: 'Full' },
+              { id: 'reduced', text: 'Reduced' },
+            ]}
+          />
+        </View>
+      </Arrive>
     </View>
   );
 }
 
-function OnOff({
+function Choice<T>({
   label,
   value,
+  options,
   onChange,
 }: {
   label: string;
-  value: boolean;
-  onChange: (next: boolean) => void;
+  value: T;
+  options: { id: T; text: string }[];
+  onChange: (next: T) => void;
 }) {
   return (
-    <View style={styles.motionRow}>
-      <Text style={styles.motionLabel}>{label}</Text>
-      {[
-        { on: true, text: 'On' },
-        { on: false, text: 'Off' },
-      ].map((option) => (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityState={{ selected: value === option.on }}
-          key={option.text}
-          onPress={() => onChange(option.on)}
-          hitSlop={6}
-          style={[styles.motionChip, value === option.on && styles.motionChipOn]}
-        >
-          <Text style={[styles.motionChipText, value === option.on && styles.motionChipTextOn]}>
-            {option.text}
-          </Text>
-        </Pressable>
-      ))}
+    <View style={styles.row}>
+      <Text style={styles.rowLabel}>{label}</Text>
+      <View style={styles.chips}>
+        {options.map((option) => {
+          const on = option.id === value;
+          return (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityState={{ selected: on }}
+              key={option.text}
+              onPressIn={tapFeedback}
+              onPress={() => onChange(option.id)}
+              hitSlop={6}
+              style={[styles.chip, on && styles.chipOn]}
+            >
+              <Text style={[styles.chipText, on && styles.chipTextOn]}>{option.text}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
     </View>
   );
 }
@@ -140,19 +168,35 @@ const styles = StyleSheet.create({
     padding: space.lg,
     gap: 4,
   },
+  // Glass: the aurora behind shows through, and the top edge catches light.
+  cardNeo: {
+    backgroundColor: 'rgba(23, 28, 35, 0.66)',
+    borderColor: 'rgba(255, 255, 255, 0.10)',
+    borderTopColor: 'rgba(255, 255, 255, 0.22)',
+  },
   cardTitle: { ...type.title, color: colors.text },
   cardSub: { ...type.body, color: colors.textMuted },
   cardMeta: { ...type.small, color: colors.accent },
-  motionRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
-  motionLabel: { ...type.small, color: colors.textFaint, marginRight: space.xs },
-  motionChip: {
+  panel: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: radius.lg,
+    padding: space.lg,
+    gap: space.md,
+  },
+  panelTitle: { ...type.label, color: colors.textMuted, textTransform: 'uppercase', letterSpacing: 1.2 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
+  rowLabel: { ...type.small, color: colors.textFaint, width: 62 },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm, flex: 1 },
+  chip: {
     borderRadius: radius.pill,
     borderWidth: 1,
     borderColor: colors.border,
     paddingHorizontal: space.md,
     paddingVertical: 6,
   },
-  motionChipOn: { borderColor: colors.accent, backgroundColor: colors.accentTint },
-  motionChipText: { ...type.small, color: colors.textMuted },
-  motionChipTextOn: { color: colors.text },
+  chipOn: { borderColor: colors.accent, backgroundColor: colors.accentTint },
+  chipText: { ...type.small, color: colors.textMuted },
+  chipTextOn: { color: colors.text },
 });

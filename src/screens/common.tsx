@@ -8,7 +8,8 @@ import Shake from '../lesson/Shake';
 import { usePressFeedback } from '../lesson/motion';
 import { Tone, useToneTransition } from '../lesson/toneTransition';
 import { useVerdict } from '../lesson/verdict';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, glass, radius, space, TAP_TARGET, type } from '../theme';
+import { useLook } from '../lesson/look';
 
 export function Prompt({ children }: { children: string }) {
   return <Text style={styles.prompt}>{copy(children)}</Text>;
@@ -99,7 +100,8 @@ export function AnswerCard({
 }
 
 export function Card({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
-  return <View style={[styles.card, style]}>{children}</View>;
+  const neo = useLook() === 'neo';
+  return <View style={[styles.card, neo && glass, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({

@@ -69,7 +69,9 @@ import QuitSheet from './QuitSheet';
 import Reveal from './Reveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
+import { emitMood, useLook } from './look';
 import { preloadCues } from './sound';
+import StreakMeter from './StreakMeter';
 import { VerdictProvider } from './verdict';
 
 export default function LessonPlayer({
@@ -113,10 +115,15 @@ export default function LessonPlayer({
   const lastAdvance = useRef(0);
   const m = useMotion();
 
+  const neo = useLook() === 'neo';
+
   // Every cue's player is built when the lesson opens, so none of them loads on
   // its first play -- the first play is the one whose lag you would hear.
+  // Leaving the lesson settles the room's light (components/Aurora.tsx).
   useEffect(() => {
     preloadCues();
+    emitMood('calm');
+    return () => emitMood('calm');
   }, []);
 
   const atSummary = index >= screens.length;
@@ -137,6 +144,7 @@ export default function LessonPlayer({
     setPathChoice(null);
     setRunKey((k) => k + 1);
     setSettledAt(-1);
+    emitMood('calm');
     fade.set(1);
     slide.set(0);
     lastAdvance.current = 0;
@@ -152,6 +160,7 @@ export default function LessonPlayer({
     // docs/UI.md §5.1: the verdict lands the instant it is known. A run of right
     // answers climbs the chime a step at a time.
     revealFeedback(g, streak);
+    emitMood(g === 'correct' ? (streak >= 3 ? 'streak' : 'correct') : g, streak);
   }, [screen, value, index, grades]);
 
   // Types that commit on the tap itself reveal as soon as an answer exists, with
@@ -190,9 +199,15 @@ export default function LessonPlayer({
     slide.set(m.reduced ? 0 : withSpring(0, SPRING_SETTLE));
   }, [index, runKey, fade, slide, m]);
 
+  // The new look adds depth to the same beat: the incoming screen also comes
+  // up from slightly further back, so it arrives rather than slides.
+  const depth = neo && !m.reduced ? 0.035 : 0;
   const screenStyle = useAnimatedStyle(() => ({
     opacity: fade.get(),
-    transform: [{ translateX: slide.get() }],
+    transform: [
+      { translateX: slide.get() },
+      { scale: 1 - depth * (1 - fade.get()) },
+    ],
   }));
 
   const advance = () => {
@@ -320,8 +335,11 @@ export default function LessonPlayer({
         </Pressable>
         <ProgressBar progress={progress} hot={onRun} />
         {/* docs/UI.md §2: hearts live in the top bar for tests and exams only.
-            This sub-level's category is new-theory, so the slot stays empty. */}
-        <View style={styles.heartSlot} />
+            A lesson has none, so in the new look the slot carries the run of
+            right answers instead. */}
+        <View style={styles.heartSlot}>
+          {neo ? <StreakMeter run={runBefore(grades, atSummary ? grades.length : index + 1)} /> : null}
+        </View>
       </View>
 
       {/* The animated wrapper must outlive the screen swap: if the node carrying
@@ -392,6 +410,7 @@ export default function LessonPlayer({
             onChoose={(button) => {
               // The feel has to land on the tap, not when the chart stops playing.
               commitFeedback();
+              emitMood('commit', runBefore(grades, index));
               setValue({ kind: 'decision', choice: button });
             }}
           />
@@ -605,7 +624,7 @@ const styles = StyleSheet.create({
   },
   close: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
   closeText: { ...type.title, color: colors.textMuted },
-  heartSlot: { width: 32 },
+  heartSlot: { minWidth: 32, alignItems: 'flex-end' },
   scroll: { flex: 1 },
   scrollView: { flex: 1 },
   content: { flexGrow: 1, paddingHorizontal: space.lg, paddingBottom: space.lg },

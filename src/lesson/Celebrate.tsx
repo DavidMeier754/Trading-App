@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import Animated, {
   SharedValue,
@@ -12,6 +12,7 @@ import Animated, {
 
 import { colors, radius as radii } from '../theme';
 import { pulseAt } from './feedback';
+import { useLook } from './look';
 import { EASE_OUT, SPRING_POP } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
@@ -64,14 +65,97 @@ export function Celebrate({
   const r2 = useRingStyle(ring2, radius, 0.55);
   const body = useAnimatedStyle(() => ({ transform: [{ scale: swell.get() }] }));
 
+  // The new look throws sparks off the edge as well, in two waves on the same
+  // two pulses as the rings.
+  const neo = useLook() === 'neo';
+  const [box, setBox] = useState({ w: 0, h: 0 });
+
   return (
-    <View>
+    <View onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}>
       <Animated.View pointerEvents="none" style={[styles.ring, { borderColor: color }, r1]} />
       {rings === 2 ? (
         <Animated.View pointerEvents="none" style={[styles.ring, { borderColor: color }, r2]} />
       ) : null}
       <Animated.View style={body}>{children}</Animated.View>
+      {neo && !reduced && box.w > 0 ? (
+        <Sparks w={box.w} h={box.h} color={color} waves={rings} />
+      ) : null}
     </View>
+  );
+}
+
+const SPARKS_PER_WAVE = 9;
+const SPARK_COLORS = ['#FFFFFF', colors.warning];
+
+/**
+ * Sparks thrown off a surface's edge: each leaves from the border at its own
+ * angle and flies out, shrinking and fading. The second wave leaves on the
+ * cue's second pulse, offset by half a step so the two do not overlap.
+ */
+function Sparks({ w, h, color, waves }: { w: number; h: number; color: string; waves: 1 | 2 }) {
+  const second = pulseAt('correct0', 1);
+  const all = [];
+  for (let wave = 0; wave < waves; wave++) {
+    for (let i = 0; i < SPARKS_PER_WAVE; i++) {
+      const angle = ((i + wave * 0.5) / SPARKS_PER_WAVE) * Math.PI * 2 + 0.3;
+      const seed = Math.abs(Math.sin((i + 1) * 12.9898 + wave * 78.233)) % 1;
+      all.push(
+        <Spark
+          key={`${wave}-${i}`}
+          x={w / 2 + (w / 2) * Math.cos(angle)}
+          y={h / 2 + (h / 2) * Math.sin(angle)}
+          dx={Math.cos(angle) * (22 + 30 * seed)}
+          dy={Math.sin(angle) * (22 + 30 * seed)}
+          delay={wave === 0 ? 0 : second}
+          size={3 + 3 * seed}
+          color={i % 3 === 0 ? SPARK_COLORS[wave % 2] : color}
+        />
+      );
+    }
+  }
+  return <View pointerEvents="none" style={styles.ring}>{all}</View>;
+}
+
+function Spark({
+  x,
+  y,
+  dx,
+  dy,
+  delay,
+  size,
+  color,
+}: {
+  x: number;
+  y: number;
+  dx: number;
+  dy: number;
+  delay: number;
+  size: number;
+  color: string;
+}) {
+  const t = useSharedValue(0);
+  useEffect(() => {
+    t.set(withDelay(delay, withTiming(1, { duration: 640, easing: EASE_OUT })));
+  }, [delay, t]);
+  const style = useAnimatedStyle(() => {
+    const v = t.get();
+    return {
+      opacity: v <= 0 || v >= 1 ? 0 : 1 - v * v,
+      transform: [
+        { translateX: x - size / 2 + dx * v },
+        { translateY: y - size / 2 + dy * v },
+        { scale: 1.2 - 0.9 * v },
+      ],
+    };
+  });
+  return (
+    <Animated.View
+      style={[
+        styles.spark,
+        { width: size, height: size, borderRadius: size / 2, backgroundColor: color },
+        style,
+      ]}
+    />
   );
 }
 
@@ -160,4 +244,5 @@ const ARRIVE = { duration: 620, dampingRatio: 0.86 } as const;
 
 const styles = StyleSheet.create({
   ring: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
+  spark: { position: 'absolute', top: 0, left: 0 },
 });

@@ -16,7 +16,7 @@ export const CUES = {
   },
   advance: {
     file: require('../../assets/sounds/advance.wav'),
-    pulses: [[0, 'light']] as readonly Pulse[],
+    pulses: [[0, 'light'], [50, 'selection']] as readonly Pulse[],
   },
   commit: {
     file: require('../../assets/sounds/commit.wav'),

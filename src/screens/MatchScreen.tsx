@@ -6,7 +6,8 @@ import type { AnswerValue } from '../lesson/answers';
 import { Celebrate, PopIn } from '../lesson/Celebrate';
 import { matchHitFeedback, matchMissFeedback, tapFeedback } from '../lesson/feedback';
 import Shake from '../lesson/Shake';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, glass, radius, space, TAP_TARGET, type } from '../theme';
+import { useLook } from '../lesson/look';
 import type { MatchScreen as S } from '../types';
 import { Prompt } from './common';
 
@@ -107,18 +108,19 @@ export default function MatchScreen({
     }
   };
 
+  const idle = useLook() === 'neo' ? [styles.idle, glass] : styles.idle;
   const leftStyle = (i: number) => {
     if (flash?.left === i) return styles.wrong;
     if (linked[i] !== undefined) return styles.locked;
     if (pendingLeft === i) return styles.pending;
-    return styles.idle;
+    return idle;
   };
 
   const rightStyle = (i: number) => {
     if (flash?.right === i) return styles.wrong;
     const isLinked = Object.values(linked).includes(i);
     if (isLinked) return styles.locked;
-    return styles.idle;
+    return idle;
   };
 
   return (

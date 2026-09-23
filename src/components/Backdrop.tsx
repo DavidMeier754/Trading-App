@@ -2,6 +2,9 @@ import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Defs, Line, RadialGradient, Rect, Stop } from 'react-native-svg';
 
+import { useLook } from '../lesson/look';
+import Aurora from './Aurora';
+
 import { colors, GRID } from '../theme';
 
 /** Every fourth cell line is the heavier one. */
@@ -48,18 +51,28 @@ export default function Backdrop({
     return out;
   }, [width, height]);
 
+  const neo = useLook() === 'neo';
+
   return (
     <View style={styles.fill} pointerEvents="none">
-      <Svg width={width} height={height}>
+      {/* The ground, then the light, then the grid over both: the aurora glows
+          through the lines rather than washing them out. */}
+      <View style={[styles.fill, { backgroundColor: colors.background }]} />
+      {neo ? <Aurora width={width} height={height} /> : null}
+      <Svg width={width} height={height} style={styles.fill}>
         <Defs>
           <RadialGradient id="backdropGlow" cx="50%" cy="0%" r="80%">
             <Stop offset="0" stopColor={colors.accent} stopOpacity="0.16" />
             <Stop offset="0.45" stopColor={colors.accent} stopOpacity="0.05" />
             <Stop offset="1" stopColor={colors.accent} stopOpacity="0" />
           </RadialGradient>
+          {/* The new look's lens: the edges fall off into the dark, so the
+              eye lands in the middle where the lesson is. */}
+          <RadialGradient id="backdropVignette" cx="50%" cy="45%" r="75%">
+            <Stop offset="0.55" stopColor="#000000" stopOpacity="0" />
+            <Stop offset="1" stopColor="#000000" stopOpacity="0.55" />
+          </RadialGradient>
         </Defs>
-
-        <Rect x={0} y={0} width={width} height={height} fill={colors.background} />
 
         {lines.map((l) => (
           <Line
@@ -74,6 +87,9 @@ export default function Backdrop({
         ))}
 
         <Rect x={0} y={0} width={width} height={height} fill="url(#backdropGlow)" />
+        {neo ? (
+          <Rect x={0} y={0} width={width} height={height} fill="url(#backdropVignette)" />
+        ) : null}
       </Svg>
     </View>
   );

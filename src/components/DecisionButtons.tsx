@@ -8,7 +8,8 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { EASE_OUT, usePressFeedback } from '../lesson/motion';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, glass, radius, space, TAP_TARGET, type } from '../theme';
+import { useLook } from '../lesson/look';
 import type { DecisionButton } from '../types';
 
 export const DECISION_LABEL: Record<DecisionButton, string> = {
@@ -64,9 +65,10 @@ function DecisionButton({
   }, [locked, chosen, button, dim, lit]);
 
   const tone = button === 'long' || button === 'buy' ? colors.up : button === 'short' ? colors.down : colors.accent;
+  const rest = useLook() === 'neo' ? glass.backgroundColor : colors.surface;
   const state = useAnimatedStyle(() => ({
     opacity: 1 - 0.7 * dim.get(),
-    backgroundColor: interpolateColor(lit.get(), [0, 1], [colors.surface, `${tone}33`]),
+    backgroundColor: interpolateColor(lit.get(), [0, 1], [rest, `${tone}33`]),
     borderColor: interpolateColor(lit.get(), [0, 1], [BORDER[button], tone]),
   }));
 

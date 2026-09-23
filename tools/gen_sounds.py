@@ -269,16 +269,23 @@ def P(t, haptic, notes):
 
 
 def correct(root, fifth, top=None, sparkle=False):
-    """A rising fifth, crisp on both pulses; the combo levels climb the scale."""
+    """
+    A rising fifth, crisp on both pulses; the combo levels climb the scale.
+
+    From the third level on, a third note lifts one step past the fifth rather
+    than jumping the octave: a run grows richer as it climbs, not shriller. The
+    first ladder topped out at G7 -- over 3 kHz, a dog whistle on a phone
+    speaker -- and this one tops out at C7.
+    """
     pulses = [
-        P(0, "light", [N("bell", root, 420, 0.78)]),
-        P(120, "rigid", [N("bell", fifth, 620, 1.0), N("tick", fifth, 20, 0.25)]),
+        P(0, "light", [N("bell", root, 420, 0.78), N("bell", hz(root) / 2, 380, 0.22)]),
+        P(120, "rigid", [N("bell", fifth, 620, 1.0), N("tick", fifth, 20, 0.2)]),
     ]
     if top:
-        pulses.append(P(240, "light", [N("bell", top, 560, 0.55)]))
+        pulses.append(P(240, "light", [N("bell", top, 560, 0.5)]))
     if sparkle:
-        pulses.append(P(380, "selection", [N("bell", "G7", 240, 0.30), N("shimmer", "C7", 700, 0.45)]))
-        pulses.append(P(470, "selection", [N("bell", "C8", 260, 0.24)]))
+        pulses.append(P(380, "selection", [N("bell", "G6", 300, 0.34), N("shimmer", "E6", 700, 0.40)]))
+        pulses.append(P(470, "selection", [N("bell", "C7", 320, 0.26)]))
     return pulses
 
 
@@ -287,9 +294,16 @@ CUES = {
     # The lightest pair there is: a finger landing on an option, a tile, a key.
     "tick": dict(pulses=[P(0, "selection", [N("tick", "E7", 26)])], peak=0.15, wet=0.0),
     # Continue / Got it: a soft wooden step, heard fifteen times a lesson.
+    # Continue / Got it: heard fifteen times a lesson, so it has to be a lift, not
+    # a thud. A bubble that rises into C6 and a bell a major third above it,
+    # 50 ms later: up, bright and over in a blink. (The first version was a low
+    # wooden G4, and it sounded like a door closing on every screen.)
     "advance": dict(
-        pulses=[P(0, "light", [N("marimba", "G4", 130), N("marimba", "D5", 110, 0.28)])],
-        peak=0.19, wet=0.10,
+        pulses=[
+            P(0, "light", [N("pop", "C6", 170, 0.9), N("bell", "C5", 240, 0.25)]),
+            P(50, "selection", [N("bell", "E6", 320, 0.62)]),
+        ],
+        peak=0.2, wet=0.16,
     ),
     # Committing a trade call: a latch -- a bright click, then the bolt landing.
     "commit": dict(
@@ -301,13 +315,13 @@ CUES = {
     ),
     # -- verdicts ----------------------------------------------------------
     # Combo levels 0-4: consecutive correct answers climb the key.
-    "correct0": dict(pulses=correct("A5", "E6"), peak=0.28, wet=0.22),
-    "correct1": dict(pulses=correct("C6", "G6"), peak=0.28, wet=0.22),
-    "correct2": dict(pulses=correct("D6", "A6", top="D7"), peak=0.29, wet=0.22),
-    "correct3": dict(pulses=correct("E6", "B6", top="E7"), peak=0.29, wet=0.22),
-    "correct4": dict(pulses=correct("G6", "D7", top="G7"), peak=0.30, wet=0.22),
+    "correct0": dict(pulses=correct("G5", "D6"), peak=0.28, wet=0.22),
+    "correct1": dict(pulses=correct("A5", "E6"), peak=0.28, wet=0.22),
+    "correct2": dict(pulses=correct("C6", "G6", top="A6"), peak=0.29, wet=0.22),
+    "correct3": dict(pulses=correct("D6", "A6", top="B6"), peak=0.29, wet=0.22),
+    "correct4": dict(pulses=correct("E6", "B6", top="C7"), peak=0.30, wet=0.22),
     # A milestone in a run (3, 5, 10 ...): the top level plus a sparkle.
-    "streak": dict(pulses=correct("G6", "D7", top="G7", sparkle=True), peak=0.31, wet=0.25),
+    "streak": dict(pulses=correct("E6", "B6", top="C7", sparkle=True), peak=0.31, wet=0.25),
     # Reasonable: one soft, level note. Neither the rise nor the fall.
     "amber": dict(pulses=[P(0, "soft", [N("bell", "E5", 460)])], peak=0.24, wet=0.2),
     # Not quite: a falling third, dull and quiet. The two pulses sit on the two
@@ -339,7 +353,7 @@ CUES = {
     },
     # -- celebration -----------------------------------------------------------
     # XP counting up: a coin. Tiny, because it fires a dozen times in a second.
-    "coin": dict(pulses=[P(0, "selection", [N("bell", "E7", 110), N("tick", "B7", 14, 0.35)])],
+    "coin": dict(pulses=[P(0, "selection", [N("bell", "C7", 110), N("tick", "G7", 14, 0.3)])],
                  peak=0.13, wet=0.10),
     # The ring closing: a C major chord landing on a heavy pulse, and two light
     # echoes above it.
