@@ -3,7 +3,9 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { matchHitFeedback, matchMissFeedback } from '../lesson/feedback';
+import { Celebrate, PopIn } from '../lesson/Celebrate';
+import { matchHitFeedback, matchMissFeedback, tapFeedback } from '../lesson/feedback';
+import Shake from '../lesson/Shake';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { MatchScreen as S } from '../types';
 import { Prompt } from './common';
@@ -52,10 +54,18 @@ export default function MatchScreen({
 
   const [pendingLeft, setPendingLeft] = useState<number | null>(null);
   const [flash, setFlash] = useState<{ left: number; right: number } | null>(null);
+  // Per chip, how many times it has bounced back: bumping it wobbles that chip
+  // and no other (lesson/Shake.tsx).
+  const [bounces, setBounces] = useState<{ left: number[]; right: number[] }>(() => ({
+    left: screen.pairs.map(() => 0),
+    right: screen.pairs.map(() => 0),
+  }));
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const tapLeft = (i: number) => {
     if (revealed || linked[i] !== undefined) return;
+    // Picking a term is a choice like any other: it ticks.
+    tapFeedback();
     setPendingLeft((prev) => (prev === i ? null : i));
   };
 
@@ -69,7 +79,8 @@ export default function MatchScreen({
 
     if (rightIndex === pendingLeft) {
       // Every pair lands with its own feel, right or wrong, the moment it lands.
-      matchHitFeedback();
+      // Each pair on the screen pops a step higher than the last.
+      matchHitFeedback(Object.keys(linked).length);
       onChange({
         kind: 'match',
         linked: { ...linked, [pendingLeft]: rightIndex },
@@ -79,6 +90,11 @@ export default function MatchScreen({
     } else {
       matchMissFeedback();
       setFlash({ left: pendingLeft, right: rightIndex });
+      const missedLeft = pendingLeft;
+      setBounces((b) => ({
+        left: b.left.map((n, i) => (i === missedLeft ? n + 1 : n)),
+        right: b.right.map((n, i) => (i === rightIndex ? n + 1 : n)),
+      }));
       onChange({ kind: 'match', linked, misses: misses + 1 });
       // Asymmetric: the red is the system's answer, so it lands at once and
       // is held only briefly; the recovery is the gentle half. 450 ms of hard
@@ -110,31 +126,46 @@ export default function MatchScreen({
       <Prompt>{screen.prompt}</Prompt>
       <View style={styles.columns}>
         <View style={styles.leftCol}>
-          {screen.pairs.map(([term], i) => (
-            <Pressable
-              key={term}
-              accessibilityRole="button"
-              onPress={() => tapLeft(i)}
-              style={[styles.chip, leftStyle(i)]}
-            >
-              <Text style={styles.term}>{copy(term)}</Text>
-              {linked[i] !== undefined ? (
-                <Text style={styles.check}>{'✓'}</Text>
-              ) : null}
-            </Pressable>
-          ))}
+          {screen.pairs.map(([term], i) => {
+            const chip = (
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => tapLeft(i)}
+                style={[styles.chip, leftStyle(i)]}
+              >
+                <Text style={styles.term}>{copy(term)}</Text>
+                {linked[i] !== undefined ? (
+                  <PopIn>
+                    <Text style={styles.check}>{'✓'}</Text>
+                  </PopIn>
+                ) : null}
+              </Pressable>
+            );
+            return (
+              <Shake key={term} onMount={false} trigger={bounces.left[i]}>
+                {linked[i] !== undefined ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
+              </Shake>
+            );
+          })}
         </View>
         <View style={styles.rightCol}>
-          {rightOrder.map((i) => (
-            <Pressable
-              key={screen.pairs[i][1]}
-              accessibilityRole="button"
-              onPress={() => tapRight(i)}
-              style={[styles.chip, rightStyle(i)]}
-            >
-              <Text style={styles.definition}>{copy(screen.pairs[i][1])}</Text>
-            </Pressable>
-          ))}
+          {rightOrder.map((i) => {
+            const chip = (
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => tapRight(i)}
+                style={[styles.chip, rightStyle(i)]}
+              >
+                <Text style={styles.definition}>{copy(screen.pairs[i][1])}</Text>
+              </Pressable>
+            );
+            const isLinked = Object.values(linked).includes(i);
+            return (
+              <Shake key={screen.pairs[i][1]} onMount={false} trigger={bounces.right[i]}>
+                {isLinked ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
+              </Shake>
+            );
+          })}
         </View>
       </View>
       <Text style={styles.hint}>

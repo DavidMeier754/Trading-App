@@ -1,33 +1,24 @@
 import { useSyncExternalStore } from 'react';
 import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
 
+import { CUES, type CueName } from './cues.generated';
+
 /**
- * docs/UI.md §5.1 — the soft "ding" on a correct answer, and the rest of the
- * cues around it. §10 gives sounds their own toggle, separate from haptics.
+ * The speaker half of a cue. The files are rendered by `tools/gen_sounds.py`
+ * from the same table as the haptic pulses (see `cues.generated.ts`), so this
+ * module plays a file and nothing else: when its notes land is already baked in.
  *
- * The files are synthesised by `tools/gen_sounds.py` rather than sourced: six
- * short tones need no library and no licence, and a generator can be re-run
- * when the palette changes. Every one is under 250 ms except the end-of-lesson
- * flourish — a sound the learner meets several hundred times over a path has to
- * be over before it is noticed.
+ * docs/UI.md §10 gives sounds their own toggle, separate from haptics.
  *
- * Players are created on first use, not at import: building an audio graph for
- * a lesson that may never make a sound is work for nothing, and on the web it
- * would open an AudioContext before any user gesture has happened.
+ * Players are made once and kept. `preloadCues` builds them when a lesson opens
+ * rather than on first use, for two reasons. A player's first play on a device
+ * has to load and decode its file, and that first play is exactly the one whose
+ * lag the learner feels as sound arriving after the haptic. And on the web the
+ * replay fires its bar ticks from the animation, not from a tap; a player that
+ * already exists plays there without a gesture of its own.
  */
 
-const FILES = {
-  correct: require('../../assets/sounds/correct.wav'),
-  amber: require('../../assets/sounds/amber.wav'),
-  wrong: require('../../assets/sounds/wrong.wav'),
-  tap: require('../../assets/sounds/tap.wav'),
-  commit: require('../../assets/sounds/commit.wav'),
-  complete: require('../../assets/sounds/complete.wav'),
-} as const;
-
-export type Cue = keyof typeof FILES;
-
-const players: Partial<Record<Cue, AudioPlayer>> = {};
+const players: Partial<Record<CueName, AudioPlayer>> = {};
 
 let enabled = true;
 const listeners = new Set<() => void>();
@@ -55,19 +46,33 @@ export function useSoundEnabled(): boolean {
   );
 }
 
-export function playCue(cue: Cue): void {
-  if (!enabled) return;
+function playerFor(name: CueName): AudioPlayer | null {
   try {
-    let player = players[cue];
+    let player = players[name];
     if (!player) {
-      player = createAudioPlayer(FILES[cue]);
-      players[cue] = player;
+      player = createAudioPlayer(CUES[name].file);
+      players[name] = player;
     }
+    return player;
+  } catch {
+    return null;
+  }
+}
+
+/** Builds every player up front, so no cue pays for loading on its first play. */
+export function preloadCues(): void {
+  (Object.keys(CUES) as CueName[]).forEach(playerFor);
+}
+
+export function playSound(name: CueName): void {
+  if (!enabled) return;
+  const player = playerFor(name);
+  if (!player) return;
+  try {
     // Rewind first: the same cue fires again long before a lesson ends, and a
     // player left at the end of its buffer plays nothing at all.
-    const p = player;
-    Promise.resolve(p.seekTo(0))
-      .then(() => p.play())
+    Promise.resolve(player.seekTo(0))
+      .then(() => player.play())
       .catch(() => {});
   } catch {
     // A platform without audio, or a browser that has not been gestured at

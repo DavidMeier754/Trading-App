@@ -1,6 +1,13 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { SharedValue, useAnimatedProps } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  SharedValue,
+  useAnimatedProps,
+  useAnimatedReaction,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, {
   Circle,
   Defs,
@@ -317,6 +324,65 @@ function PlaybackLine({
     </G>
   );
 }
+
+/**
+ * A ring that goes out from each bar as it lands, on the beat of the tick the
+ * learner feels and hears for it (ChartDecisionScreen fires those from the same
+ * playhead). It is timed in milliseconds, not in playhead distance, so a bar
+ * landing during the slow opening rings exactly as long as one in the middle.
+ *
+ * All of it is on the UI thread: the reaction notices the playhead crossing a
+ * bar and restarts the ring there, and React never hears about it.
+ */
+function PlaybackPing({ g, progress }: { g: PlayGeom; progress: SharedValue<number> }) {
+  const bar = useSharedValue(-1);
+  const ring = useSharedValue(1);
+
+  useAnimatedReaction(
+    () => Math.floor(playHead(g, progress.get()) + 1e-6),
+    (landed, previous) => {
+      if (previous === null || landed <= previous || landed < g.from) return;
+      bar.set(landed);
+      ring.set(0);
+      ring.set(withTiming(1, { duration: PING_MS, easing: Easing.out(Easing.cubic) }));
+    }
+  );
+
+  const props = useAnimatedProps(() => {
+    const i = bar.get();
+    const r = ring.get();
+    if (i < 0) return { cx: 0, cy: 0, r: 0, opacity: 0, strokeWidth: 0 };
+    const t = progress.get();
+    return {
+      cx: g.xs[i],
+      cy: playY(g, t, g.closes[i]),
+      r: 4 + 14 * r,
+      opacity: 0.7 * (1 - r),
+      strokeWidth: 2.5 - 1.5 * r,
+    };
+  });
+
+  // The line's own colour on a line chart; on candles, which are green and red
+  // bar by bar, a neutral ring that reads as neither.
+  const stroke = g.opens.length && g.opens.some((o, i) => o !== g.closes[i])
+    ? colors.text
+    : colors.accent;
+
+  return (
+    <AnimatedCircle
+      cx={0}
+      cy={0}
+      r={0}
+      opacity={0}
+      fill="none"
+      stroke={stroke}
+      strokeWidth={2}
+      animatedProps={props}
+    />
+  );
+}
+
+const PING_MS = 520;
 
 /**
  * One candle during the replay.
@@ -991,7 +1057,10 @@ export default function Chart({
 
         {/* bars */}
         {spec.kind === 'line' && playGeom && playback ? (
-          <PlaybackLine g={playGeom} progress={playback} />
+          <G>
+            <PlaybackLine g={playGeom} progress={playback} />
+            <PlaybackPing g={playGeom} progress={playback} />
+          </G>
         ) : spec.kind === 'line' ? (
           <G>
             {lineFill ? (
@@ -1049,6 +1118,7 @@ export default function Chart({
                 progress={playback}
               />
             ))}
+            <PlaybackPing g={playGeom} progress={playback} />
           </G>
         ) : (
           <G>

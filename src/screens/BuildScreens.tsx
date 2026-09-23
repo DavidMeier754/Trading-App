@@ -57,7 +57,6 @@ function SlotBuilder({
             tone={toneFor(slot)}
             disabled={revealed}
             onPress={() => {
-              tapFeedback();
               setActive(slot);
             }}
             style={styles.slot}
@@ -217,7 +216,6 @@ export function BranchScreen({
             key={option.text}
             tone="idle"
             onPress={() => {
-              tapFeedback();
               onChange({ kind: 'branch', picks: [...picks, i] });
             }}
             style={styles.option}

@@ -135,7 +135,6 @@ export function CompareScreen({
               tone={toneFor(id) as any}
               disabled={revealed}
               onPress={() => {
-                tapFeedback();
                 onChange({ kind: 'target', id });
               }}
               style={styles.compareCard}
@@ -151,7 +150,6 @@ export function CompareScreen({
           tone={toneFor('neither') as any}
           disabled={revealed}
           onPress={() => {
-            tapFeedback();
             onChange({ kind: 'target', id: 'neither' });
           }}
           style={styles.neither}

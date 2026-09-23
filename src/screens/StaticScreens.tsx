@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 
 import Visual from '../components/Visual';
 import { copy } from '../format';
-import { tapFeedback } from '../lesson/feedback';
+import { Arrive } from '../lesson/Celebrate';
+import { NOTE_STEPS, noteFeedback, tapFeedback } from '../lesson/feedback';
+import { SPRING_POP, useMotion } from '../lesson/motion';
 import { colors, radius, space, type } from '../theme';
 import type {
-  BadgeScreen as Badge,
   CarouselScreen as Carousel,
   ChecklistRevealScreen as Checklist,
   PathChoiceScreen as PathChoice,
   RecapScreen as Recap,
   StoryScreen as Story,
-  TierUpScreen as TierUp,
   VisualScreen as VisualS,
   WalkthroughScreen as Walkthrough,
 } from '../types';
@@ -39,13 +45,17 @@ export function CarouselScreen({
   return (
     <View style={styles.centered}>
       <Text style={styles.counter}>{`${cursor + 1}/${screen.cards.length}`}</Text>
-      <Card style={styles.carouselCard}>
-        <View style={styles.iconBubble}>
-          <Text style={styles.iconText}>{(card.label ?? '?').slice(0, 1)}</Text>
-        </View>
-        <ScreenTitle>{card.label}</ScreenTitle>
-        <Body>{card.text}</Body>
-      </Card>
+      {/* Keyed by the cursor: each card slides in from the right as the one
+          before it is done, the direction the reading goes. */}
+      <Arrive key={cursor} from="right">
+        <Card style={styles.carouselCard}>
+          <View style={styles.iconBubble}>
+            <Text style={styles.iconText}>{(card.label ?? '?').slice(0, 1)}</Text>
+          </View>
+          <ScreenTitle>{card.label}</ScreenTitle>
+          <Body>{card.text}</Body>
+        </Card>
+      </Arrive>
       <View style={styles.dots}>
         {screen.cards.map((_, i) => (
           <Pressable
@@ -116,15 +126,7 @@ export function ChecklistRevealScreen({
       <ScreenTitle>{screen.title}</ScreenTitle>
       <View style={styles.checklist}>
         {screen.items.map((item, i) => (
-          <View
-            key={item}
-            style={[styles.checkRow, i >= shown && styles.checkRowHidden]}
-          >
-            <View style={styles.checkBox}>
-              <Text style={styles.checkMark}>{'✓'}</Text>
-            </View>
-            <Text style={styles.checkText}>{copy(item)}</Text>
-          </View>
+          <ChecklistRow key={item} text={item} index={i} shown={i < shown} />
         ))}
       </View>
       {!done ? (
@@ -133,6 +135,42 @@ export function ChecklistRevealScreen({
         </Text>
       ) : null}
     </View>
+  );
+}
+
+/**
+ * One item of a checklist. It is checked off with a pop and a note, and the notes
+ * climb the scale item by item, so a list being completed sounds like it.
+ */
+function ChecklistRow({ text, index, shown }: { text: string; index: number; shown: boolean }) {
+  const m = useMotion();
+  const v = useSharedValue(shown ? 1 : 0);
+  const was = useRef(shown);
+
+  useEffect(() => {
+    if (shown && !was.current) {
+      noteFeedback(Math.min(NOTE_STEPS - 1, 2 + index));
+      v.set(m.reduced ? withTiming(1, { duration: 140 }) : withSpring(1, SPRING_POP));
+    } else if (!shown) {
+      v.set(0);
+    }
+    was.current = shown;
+  }, [shown, index, m.reduced, v]);
+
+  const rowStyle = useAnimatedStyle(() => ({
+    opacity: 0.18 + 0.82 * Math.min(1, v.get()),
+    transform: [{ translateX: m.reduced ? 0 : -8 * (1 - Math.min(1, v.get())) }],
+  }));
+  const boxStyle = useAnimatedStyle(() => ({ transform: [{ scale: 0.55 + 0.45 * v.get() }] }));
+  const markStyle = useAnimatedStyle(() => ({ opacity: Math.min(1, v.get() * 1.6) }));
+
+  return (
+    <Animated.View style={[styles.checkRow, rowStyle]}>
+      <Animated.View style={[styles.checkBox, boxStyle]}>
+        <Animated.Text style={[styles.checkMark, markStyle]}>{'✓'}</Animated.Text>
+      </Animated.View>
+      <Text style={styles.checkText}>{copy(text)}</Text>
+    </Animated.View>
   );
 }
 
@@ -164,32 +202,6 @@ export function RecapScreen({ screen }: { screen: Recap }) {
           </View>
         ))}
       </View>
-    </View>
-  );
-}
-
-/** docs/UI.md §3 `badge` — chapter complete. */
-export function BadgeScreen({ screen }: { screen: Badge }) {
-  return (
-    <View style={styles.centered}>
-      <View style={styles.badgeRing}>
-        <Text style={styles.badgeMark}>{'\u2605'}</Text>
-      </View>
-      <Text style={styles.bigTitle}>{copy(screen.name)}</Text>
-      {screen.unlocks ? (
-        <Text style={styles.unlocks}>{`${copy(screen.unlocks)} unlocked`}</Text>
-      ) : null}
-    </View>
-  );
-}
-
-/** docs/UI.md §3 `tier-up` — rarer and louder than a badge. */
-export function TierUpScreen({ screen }: { screen: TierUp }) {
-  return (
-    <View style={styles.centered}>
-      <Text style={styles.tierKicker}>Tier unlocked</Text>
-      <Text style={styles.tierName}>{copy(screen.tier)}</Text>
-      <Text style={styles.tierMeans}>{copy(screen.means)}</Text>
     </View>
   );
 }
@@ -265,7 +277,6 @@ const styles = StyleSheet.create({
   caption: { ...type.small, color: colors.textMuted, textAlign: 'center' },
   checklist: { gap: space.sm },
   checkRow: { flexDirection: 'row', alignItems: 'center', gap: space.md },
-  checkRowHidden: { opacity: 0.18 },
   checkBox: {
     width: 26,
     height: 26,
@@ -291,29 +302,6 @@ const styles = StyleSheet.create({
   },
   recapText: { ...type.body, color: colors.text, flex: 1 },
   recapLevel: { ...type.small, color: colors.textFaint },
-  badgeRing: {
-    width: 152,
-    height: 152,
-    borderRadius: 76,
-    borderWidth: 3,
-    borderColor: colors.warning,
-    backgroundColor: colors.warningTint,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-  },
-  badgeMark: { fontSize: 56, color: colors.warning },
-  bigTitle: { ...type.display, color: colors.text, textAlign: 'center' },
-  unlocks: { ...type.body, color: colors.warning, textAlign: 'center' },
-  tierKicker: {
-    ...type.label,
-    color: colors.warning,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
-    textAlign: 'center',
-  },
-  tierName: { ...type.display, fontSize: 34, color: colors.text, textAlign: 'center' },
-  tierMeans: { ...type.body, color: colors.textMuted, textAlign: 'center' },
   pathList: { gap: space.md },
   pathCard: {
     borderWidth: 1.5,

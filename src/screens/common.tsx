@@ -3,9 +3,11 @@ import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { copy } from '../format';
+import { Celebrate, PopIn } from '../lesson/Celebrate';
 import Shake from '../lesson/Shake';
 import { usePressFeedback } from '../lesson/motion';
 import { Tone, useToneTransition } from '../lesson/toneTransition';
+import { useVerdict } from '../lesson/verdict';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 
 export function Prompt({ children }: { children: string }) {
@@ -21,8 +23,10 @@ export function Body({ children }: { children: string }) {
 }
 
 /**
- * A tappable answer surface that ramps to its verdict colour over 200 ms
- * (docs/UI.md §5.1) and shakes when the verdict is wrong.
+ * A tappable answer surface: ticks on press-in, ramps to its verdict colour
+ * (docs/UI.md §5.1), wobbles when the verdict is wrong, and rings out when the
+ * learner got it right -- only then: after a wrong pick the right option turns
+ * green too, and it does not get the celebration the learner did not earn.
  */
 export function ToneSurface({
   tone,
@@ -41,6 +45,7 @@ export function ToneSurface({
 }) {
   const animated = useToneTransition(tone);
   const press = usePressFeedback(!disabled);
+  const verdict = useVerdict();
 
   const surface = (
     <Pressable
@@ -59,7 +64,9 @@ export function ToneSurface({
     </Pressable>
   );
 
-  return tone === 'wrong' ? <Shake>{surface}</Shake> : surface;
+  if (tone === 'wrong') return <Shake>{surface}</Shake>;
+  if (tone === 'correct' && verdict?.grade === 'correct') return <Celebrate>{surface}</Celebrate>;
+  return surface;
 }
 
 /** A single answer card (docs/UI.md §4.1 `mc` / `numeric-mc`). */
@@ -77,8 +84,16 @@ export function AnswerCard({
   return (
     <ToneSurface tone={tone} onPress={onPress} disabled={disabled} style={styles.answerCard}>
       <Text style={styles.answerText}>{copy(label)}</Text>
-      {tone === 'correct' ? <Text style={styles.markCorrect}>{'✓'}</Text> : null}
-      {tone === 'wrong' ? <Text style={styles.markWrong}>{'✕'}</Text> : null}
+      {tone === 'correct' ? (
+        <PopIn delay={60}>
+          <Text style={styles.markCorrect}>{'✓'}</Text>
+        </PopIn>
+      ) : null}
+      {tone === 'wrong' ? (
+        <PopIn>
+          <Text style={styles.markWrong}>{'✕'}</Text>
+        </PopIn>
+      ) : null}
     </ToneSurface>
   );
 }

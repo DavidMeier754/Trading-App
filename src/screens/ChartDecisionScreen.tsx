@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useSharedValue, withTiming } from 'react-native-reanimated';
+import { useAnimatedReaction, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import Chart, { chartHeightFor, chartWidthFor, closeAt } from '../components/Chart';
@@ -8,7 +8,9 @@ import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { EASE_OUT, REVEAL_RAMP_MS, rampEasing } from '../lesson/motion';
+import { Arrive } from '../lesson/Celebrate';
+import { NOTE_STEPS, noteFeedback } from '../lesson/feedback';
+import { EASE_OUT, revealTiming } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, type } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
@@ -21,8 +23,6 @@ const DIRECTION: Record<DecisionButton, 1 | -1 | 0> = {
   'no-trade': 0,
   wait: 0,
 };
-
-const PLAYBACK_MS = 120; // docs/UI.md §4.3
 
 export type DecisionPhase = 'deciding' | 'playing' | 'done';
 
@@ -61,34 +61,62 @@ export default function ChartDecisionScreen({
 
   const finish = useCallback(() => setDone(true), []);
 
+  // The slow reveal: every bar after the decision lands on a tick you can feel
+  // and hear, pitched by where it closes -- a climb sounds like one. The last
+  // bar gets no tick of its own, because the verdict lands with it.
+  const legs = Math.max(1, bars - start);
+  const pitch = useMemo(() => {
+    const closes: number[] = [];
+    for (let i = start - 1; i < bars; i++) closes.push(closeAt(screen.chart, i));
+    const lo = Math.min(...closes);
+    const hi = Math.max(...closes);
+    const mid = (lo + hi) / 2;
+    // A near-flat replay hums around the middle of the scale instead of leaping
+    // two octaves for a cent.
+    const span = Math.max(hi - lo, Math.abs(mid) * 0.02, 1e-9);
+    return closes.map((c) =>
+      Math.round((NOTE_STEPS - 1) / 2 + ((c - mid) / span) * (NOTE_STEPS - 3))
+    );
+  }, [screen.chart, start, bars]);
+  const onBar = useCallback((k: number) => noteFeedback(pitch[k] ?? 4), [pitch]);
+
+  // Ticks only while the replay plays on its own. A skip, or reduced motion,
+  // goes straight to the verdict without a drum-roll in between.
+  const armed = useSharedValue(false);
+  useAnimatedReaction(
+    () => (armed.get() ? Math.floor(progress.get() * legs + 1e-6) : -1),
+    (landed, previous) => {
+      if (previous === null || landed <= previous || landed < 1 || landed >= legs) return;
+      scheduleOnRN(onBar, landed);
+    },
+    [legs, onBar]
+  );
+
   useEffect(() => {
     if (choice === null) return;
     // §10: reduce motion keeps the outcome, drops the travel.
     if (reduced) {
+      armed.set(false);
       progress.set(1);
       setDone(true);
       return;
     }
+    armed.set(true);
     progress.set(0);
-    // §4.3's 120 ms a candle stays the speed through the middle; the ramp is
-    // bought on top of it, so the first bar and the last both take their time
-    // however many bars there are to reveal.
-    const duration = REVEAL_RAMP_MS + PLAYBACK_MS * Math.max(1, bars - start);
+    // docs/UI.md §4.3 plays the outcome candle by candle; how slowly, and why
+    // the end takes longest, is in lesson/motion.ts.
     progress.set(
-      withTiming(
-        1,
-        { duration, easing: rampEasing(REVEAL_RAMP_MS / duration) },
-        (finished) => {
-          'worklet';
-          if (finished) scheduleOnRN(finish);
-        }
-      )
+      withTiming(1, revealTiming(legs), (finished) => {
+        'worklet';
+        if (finished) scheduleOnRN(finish);
+      })
     );
-  }, [choice, reduced, bars, start, progress, finish]);
+  }, [choice, reduced, legs, progress, armed, finish]);
 
   // Tap to skip: the rest of the replay in one short sweep, not a jump cut.
   const onChartPress = () => {
     if (choice === null || done) return;
+    armed.set(false);
     progress.set(
       withTiming(1, { duration: 220, easing: EASE_OUT }, (finished) => {
         'worklet';
@@ -143,7 +171,7 @@ export default function ChartDecisionScreen({
         // One line of numbers, one line of prose. The card used to repeat the
         // decision and final prices, which the chart already shows, and to
         // restate the choice the learner had just made.
-        <View style={styles.outcome}>
+        <Arrive style={styles.outcome}>
           <View style={styles.outcomeRow}>
             <Text
               style={[
@@ -175,7 +203,7 @@ export default function ChartDecisionScreen({
           {/* docs/UI.md §11.6 wants the risk note on every scenario result; this
               is the smallest form that still says it. */}
           <Text style={styles.outcomeFoot}>Not a prediction.</Text>
-        </View>
+        </Arrive>
       ) : null}
     </View>
   );

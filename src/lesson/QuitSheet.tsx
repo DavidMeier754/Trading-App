@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { tapFeedback } from './feedback';
 
 /** docs/UI.md §2: close ✕ opens "Quit lesson? Progress in this sub-level is lost." */
 export default function QuitSheet({
@@ -19,10 +20,10 @@ export default function QuitSheet({
       <View style={styles.sheet}>
         <Text style={styles.title}>Quit lesson?</Text>
         <Text style={styles.body}>Progress in this sub-level is lost.</Text>
-        <Pressable accessibilityRole="button" onPress={onQuit} style={styles.quit}>
+        <Pressable accessibilityRole="button" onPressIn={tapFeedback} onPress={onQuit} style={styles.quit}>
           <Text style={styles.quitText}>Quit</Text>
         </Pressable>
-        <Pressable accessibilityRole="button" onPress={onCancel} style={styles.stay}>
+        <Pressable accessibilityRole="button" onPressIn={tapFeedback} onPress={onCancel} style={styles.stay}>
           <Text style={styles.stayText}>Keep learning</Text>
         </Pressable>
       </View>

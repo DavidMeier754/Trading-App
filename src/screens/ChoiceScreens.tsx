@@ -59,7 +59,6 @@ export function FillChoiceScreen({
             tone={toneFor(i)}
             disabled={revealed}
             onPress={() => {
-              tapFeedback();
               onChange({ kind: 'option', index: i });
             }}
             style={styles.chip}
@@ -107,7 +106,6 @@ export function SortScreen({
             tone={pending === i ? 'selected' : 'idle'}
             disabled={revealed}
             onPress={() => {
-              tapFeedback();
               setPending((p) => (p === i ? null : i));
             }}
             style={styles.chip}
@@ -184,7 +182,6 @@ export function OrderScreen({
             tone={revealed ? (itemIndex === position ? 'correct' : 'wrong') : 'selected'}
             disabled={revealed}
             onPress={() => {
-              tapFeedback();
               onChange({
                 kind: 'sequence',
                 order: order.filter((x) => x !== itemIndex),
@@ -210,7 +207,6 @@ export function OrderScreen({
             tone="idle"
             disabled={revealed}
             onPress={() => {
-              tapFeedback();
               onChange({ kind: 'sequence', order: [...order, i] });
             }}
             style={styles.chip}
@@ -255,7 +251,6 @@ export function SpotMistakeScreen({
             tone={toneFor(i)}
             disabled={revealed}
             onPress={() => {
-              tapFeedback();
               onChange({ kind: 'index', index: i });
             }}
             style={styles.segment}

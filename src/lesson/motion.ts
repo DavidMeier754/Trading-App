@@ -6,10 +6,9 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
+import type { CueName } from './cues.generated';
+import { cue as fireCue } from './feedback';
 import { useReduceMotion } from './useReduceMotion';
-
-import { selectHaptic } from './haptics';
-import { playCue } from './sound';
 
 /**
  * The app's motion tokens, on Reanimated.
@@ -18,93 +17,135 @@ import { playCue } from './sound';
  * core `Animated` only gets that for transform and opacity, and never for
  * colour. Since the reveal animates a colour and a shake at the same moment,
  * core Animated had them on two different threads.
+ *
+ * Two speeds, on purpose. What answers the finger -- the press, the colour
+ * the instant an answer is judged -- stays fast, because a slow press reads as
+ * lag, not luxury. Everything that *arrives* afterwards -- the reveal panel,
+ * the next screen, the chart, the celebration -- takes its time, and those are
+ * the numbers below that grew.
  */
 
 /** Strong ease-out. Everything that enters or exits uses this. */
 export const EASE_OUT = Easing.bezier(0.23, 1, 0.32, 1);
 /** Strong ease-in-out, for something already on screen that moves. */
 export const EASE_IN_OUT = Easing.bezier(0.77, 0, 0.175, 1);
-/**
- * How long the reveal after a decision spends getting up to speed, and coming
- * back down again, at each end. It is a fixed number of milliseconds rather
- * than a share of the animation, which is the whole point of `rampEasing`
- * below: a twelve-bar chart gets the same unhurried start as a five-bar one
- * instead of a ramp two and a half times as long.
- */
-export const REVEAL_RAMP_MS = 450;
-
-/**
- * Slow in, constant, slow out -- for a reveal that lands one thing after
- * another. `ramp` is the share of the run spent at each end, and is clamped at
- * a half, where the two ramps meet and there is no constant stretch left.
- *
- * Neither bezier above does this job. They are shaped for a single element
- * travelling, and a `chart-decision` replay is a row of separate arrivals, so
- * what the curve really controls is the gap between them. A bezier sets those
- * gaps as a ratio, which means the middle has to be starved to pay for the
- * ends: `EASE_IN_OUT` over the 600 ms of Chapter 1's first decision leaves the
- * middle bars 25 ms apart, and 25 ms is a bar and a half at 60fps -- it does
- * not read as fast, it reads as dropped. A bezier's ramp also scales with the
- * duration, so the longer the chart, the longer the pause before anything
- * happens.
- *
- * This curve buys the ends with time instead. The bars in the middle keep the
- * 120 ms a candle of docs/UI.md §4.3 at every length, and the ramp costs a flat
- * 450 ms on top. Measured on Chapter 1's first decision, five bars:
- *
- *   linear                 120 120 120 120 120 ms   flat, no shape at all
- *   EASE_IN_OUT            235  40  25  44 255 ms   10x spread: a stutter
- *   sine bezier            178  84  76  84 178 ms   2.3x, and paid for by the middle
- *   this, ramp 450         340 125 120 125 340 ms   2.8x, and the middle is untouched
- *
- * The velocity is zero at both ends and rises as a half-cosine, so the first
- * bar creeps out rather than starting mid-stride.
- */
-export function rampEasing(ramp: number) {
-  const r = Math.min(0.5, Math.max(0, ramp));
-  // the constant-speed stretch, set so the area under the velocity curve is 1
-  const v = 1 / (1 - r);
-  const k = r / (2 * Math.PI);
-  return (u: number) => {
-    'worklet';
-    if (u <= 0) return 0;
-    if (u >= 1) return 1;
-    if (r <= 0) return u;
-    if (u < r) return v * (u / 2 - k * Math.sin((Math.PI * u) / r));
-    if (u > 1 - r) {
-      const w = 1 - u;
-      return 1 - v * (w / 2 - k * Math.sin((Math.PI * w) / r));
-    }
-    return v * (r / 2 + (u - r));
-  };
-}
+/** A gentle ease-in-out (a sine), for a value sweeping across a range. */
+export const EASE_SINE = Easing.bezier(0.37, 0, 0.63, 1);
 
 export const DURATION = {
   /** Press feedback. Kept inside the 100-150 ms band; anything slower lags the finger. */
   press: 140,
-  /** The inline reveal panel. */
-  reveal: 260,
+  /** An answer taking its verdict colour. Starts at once (UI.md §1.4), settles slowly. */
+  reveal: 380,
   /** Screen to screen. */
-  screen: 300,
+  screen: 420,
   /** How long the screen's slide takes to settle. Longer than the fade on purpose. */
-  screenSettle: 450,
+  screenSettle: 640,
   /** A chart drawing itself. Explanatory, so it is allowed past the UI budget. */
-  draw: 700,
-  /** The end-of-lesson celebration. Rare tier, so it gets the delight budget. */
-  celebrate: 900,
+  draw: 1200,
+  /** The end-of-lesson ring filling. Rare tier, so it gets the delight budget. */
+  celebrate: 1500,
 };
 
 /** No-overshoot settle, for the screen slide. */
 export const SPRING_SETTLE = { duration: DURATION.screenSettle, dampingRatio: 1 } as const;
-/** A little life, for the celebration only. */
-export const SPRING_POP = { duration: 520, dampingRatio: 0.62 } as const;
+/** The reveal panel after a right answer: it arrives with a little lift. */
+export const SPRING_PANEL = { duration: 620, dampingRatio: 0.74 } as const;
+/** The reveal panel after anything else: the same arrival, without the bounce. */
+export const SPRING_PANEL_CALM = { duration: 620, dampingRatio: 1 } as const;
+/** A little life, for marks and badges popping in. */
+export const SPRING_POP = { duration: 520, dampingRatio: 0.55 } as const;
+/** Something with weight landing: a badge, a tier. */
+export const SPRING_LAND = { duration: 900, dampingRatio: 0.6 } as const;
 
 /**
- * Press feedback: scale to 0.97 with a tick, on press-*in*.
+ * The replay after a `chart-decision`: a slow reveal.
+ *
+ * Every bar lands on a tick you can feel and hear, so the curve is really
+ * setting the gaps between ticks. It starts from rest, runs at one bar per
+ * `REVEAL_BAR_MS` through the middle, and spends longer coming to rest than it
+ * spent getting going -- the last bar is the one the learner is waiting on, so
+ * that is where the wait goes. The ramps are fixed lengths bought on top of the
+ * run, not shares of it, so every chart gets the same unhurried start and the
+ * same long glide into its final bar however many bars it has.
+ *
+ * Measured in the browser on Chapter 1's first decision (five bars), the gap
+ * before each bar lands, and the whole run:
+ *
+ *   linear, 120 ms a bar         117 117 117 117 117 ms    600 ms
+ *   ramp 450 / 450, 120 a bar    340 125 120 125 340 ms   1050 ms
+ *   this, 700 / 1200, 260 a bar  630 266 250 284 ~770 ms  2220 ms
+ *
+ * The first bar lands six tenths of a second in, the middle ones a quarter of
+ * a second apart, and the last glides in over three quarters of a second: the
+ * playhead moves at 15% of its average speed in the first eighth of the run
+ * and 13% in the last.
+ */
+export const REVEAL_IN_MS = 700;
+export const REVEAL_OUT_MS = 1200;
+export const REVEAL_BAR_MS = 260;
+
+export function revealTiming(bars: number) {
+  const legs = Math.max(1, bars);
+  let duration = REVEAL_BAR_MS * legs + (REVEAL_IN_MS + REVEAL_OUT_MS) / 2;
+  // Too few bars for both ramps and a middle: the ramps meet, and the run is
+  // pure slow-in, slow-out.
+  if ((REVEAL_IN_MS + REVEAL_OUT_MS) / (2 * REVEAL_BAR_MS) > legs) {
+    duration = REVEAL_IN_MS + REVEAL_OUT_MS;
+  }
+  return {
+    duration,
+    easing: rampEasing(REVEAL_IN_MS / duration, REVEAL_OUT_MS / duration),
+  };
+}
+
+/**
+ * Slow in, constant, slow out, with the two ends set separately.
+ *
+ * `rampIn` and `rampOut` are the shares of the run spent getting up to speed
+ * and coming back to rest. The velocity rises and falls as half-cosines, so it
+ * is zero at both ends -- the first bar creeps out rather than starting
+ * mid-stride, and the last one settles instead of stopping dead.
+ *
+ * Not a bezier: a bezier sets the gaps between bars as a ratio, so the middle
+ * has to be starved to pay for slow ends, and its ramps stretch with the
+ * duration. This one buys the ends with time and leaves the middle alone.
+ */
+export function rampEasing(rampIn: number, rampOut: number) {
+  let a = Math.max(0, rampIn);
+  let b = Math.max(0, rampOut);
+  if (a + b > 1) {
+    const s = 1 / (a + b);
+    a *= s;
+    b *= s;
+  }
+  // the constant-speed stretch, set so the area under the velocity curve is 1
+  const v = 1 / (1 - (a + b) / 2);
+  const ka = a / (2 * Math.PI);
+  const kb = b / (2 * Math.PI);
+  return (u: number) => {
+    'worklet';
+    if (u <= 0) return 0;
+    if (u >= 1) return 1;
+    if (a > 0 && u < a) return v * (u / 2 - ka * Math.sin((Math.PI * u) / a));
+    if (b > 0 && u > 1 - b) {
+      const w = 1 - u;
+      return 1 - v * (w / 2 - kb * Math.sin((Math.PI * w) / b));
+    }
+    return v * (a / 2 + (u - a));
+  };
+}
+
+/**
+ * Press feedback: scale to 0.97 on press-*in*, and the press's cue with it.
  *
  * Waiting for the tap to complete before showing anything is the latency the
- * user actually perceives, so the visual and the haptic both fire on press-in,
- * at the causal moment.
+ * user actually perceives, so the visual, the haptic and the sound all start on
+ * press-in, in the same frame. `cue` is `'tick'` for something being chosen and
+ * `null` for a press whose meaning only exists on release -- Check, a trade
+ * call -- which fires its own verdict or commit cue then. One press, one cue:
+ * a surface that ticked on the way down and again on the way up was two
+ * haptics for one tap.
  *
  * This is a shared value rather than a Reanimated CSS transition. The CSS
  * transition reads better -- a two-state change wants no shared value -- but it
@@ -116,34 +157,31 @@ export const SPRING_POP = { duration: 520, dampingRatio: 0.62 } as const;
  */
 export function usePressFeedback(
   enabled = true,
-  { sound = false }: { sound?: boolean } = {}
+  { cue = 'tick' }: { cue?: CueName | null } = {}
 ) {
   const reduced = useReduceMotion();
   const animates = enabled && !reduced;
-  const scale = useSharedValue(1);
+  // 0 at rest, 1 fully pressed. Exposed so a surface can build its own press
+  // (the CTA sinks into its edge) on the same timing as everything else.
+  const pressed = useSharedValue(0);
 
   const onPressIn = useCallback(() => {
     if (!enabled) return;
-    // The haptic is the press itself and always fires. The sound is opt-in:
-    // most surfaces that use this hook are answers, and an answer already
-    // sounds when it resolves -- ticking on the way down as well would play two
-    // cues for one tap.
-    selectHaptic();
-    if (sound) playCue('tap');
-    if (animates) scale.set(withTiming(PRESSED_SCALE, PRESS_IN));
-  }, [enabled, animates, sound, scale]);
+    if (cue) fireCue(cue);
+    if (animates) pressed.set(withTiming(1, PRESS_IN));
+  }, [enabled, animates, cue, pressed]);
 
   // Coming back up is given a touch longer than going down: the press itself
   // should feel immediate, the release should not snap.
   const onPressOut = useCallback(() => {
-    if (animates) scale.set(withTiming(1, PRESS_OUT));
-  }, [animates, scale]);
+    if (animates) pressed.set(withTiming(0, PRESS_OUT));
+  }, [animates, pressed]);
 
   const style = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.get() }],
+    transform: [{ scale: 1 - (1 - PRESSED_SCALE) * pressed.get() }],
   }));
 
-  return { onPressIn, onPressOut, style };
+  return { onPressIn, onPressOut, style, pressed };
 }
 
 const PRESSED_SCALE = 0.97;

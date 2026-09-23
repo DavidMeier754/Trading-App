@@ -3,6 +3,8 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LessonEntry } from './content';
+import { tapFeedback } from './lesson/feedback';
+import { setHapticsEnabled, useHapticsEnabled } from './lesson/haptics';
 import { setSoundEnabled, useSoundEnabled } from './lesson/sound';
 import {
   MotionSetting,
@@ -32,6 +34,7 @@ export default function LessonPicker({
   const insets = useSafeAreaInsets();
   const motion = useMotionSetting();
   const sound = useSoundEnabled();
+  const haptics = useHapticsEnabled();
   return (
     <View style={[styles.wrap, { paddingTop: insets.top + space.xxl, paddingBottom: insets.bottom + space.xl }]}>
       <Text style={styles.title}>Pick a lesson</Text>
@@ -40,6 +43,7 @@ export default function LessonPicker({
           <Pressable
             accessibilityRole="button"
             key={entry.id}
+            onPressIn={tapFeedback}
             onPress={() => onPick(entry)}
             style={({ pressed }) => [styles.card, pressed && { opacity: 0.85 }]}
           >
@@ -78,33 +82,43 @@ export default function LessonPicker({
         ))}
       </View>
 
-      {/* docs/UI.md §10 gives sounds their own toggle; there is no Settings
-          screen yet, so it sits here beside the motion one. */}
-      <View style={styles.motionRow}>
-        <Text style={styles.motionLabel}>Sound</Text>
-        {[
-          { on: true, label: 'On' },
-          { on: false, label: 'Off' },
-        ].map((option) => (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityState={{ selected: sound === option.on }}
-            key={option.label}
-            onPress={() => setSoundEnabled(option.on)}
-            hitSlop={6}
-            style={[styles.motionChip, sound === option.on && styles.motionChipOn]}
-          >
-            <Text
-              style={[
-                styles.motionChipText,
-                sound === option.on && styles.motionChipTextOn,
-              ]}
-            >
-              {option.label}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
+      {/* docs/UI.md §10 gives sounds and haptics a toggle each; there is no
+          Settings screen yet, so they sit here beside the motion one. */}
+      <OnOff label="Sound" value={sound} onChange={setSoundEnabled} />
+      <OnOff label="Haptics" value={haptics} onChange={setHapticsEnabled} />
+    </View>
+  );
+}
+
+function OnOff({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: boolean;
+  onChange: (next: boolean) => void;
+}) {
+  return (
+    <View style={styles.motionRow}>
+      <Text style={styles.motionLabel}>{label}</Text>
+      {[
+        { on: true, text: 'On' },
+        { on: false, text: 'Off' },
+      ].map((option) => (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ selected: value === option.on }}
+          key={option.text}
+          onPress={() => onChange(option.on)}
+          hitSlop={6}
+          style={[styles.motionChip, value === option.on && styles.motionChipOn]}
+        >
+          <Text style={[styles.motionChipText, value === option.on && styles.motionChipTextOn]}>
+            {option.text}
+          </Text>
+        </Pressable>
+      ))}
     </View>
   );
 }

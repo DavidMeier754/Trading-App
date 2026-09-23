@@ -1,72 +1,78 @@
-import { Platform } from 'react-native';
+import { useSyncExternalStore } from 'react';
 import * as Haptics from 'expo-haptics';
 
-import type { Grade } from './answers';
+import type { HapticStyle, Pulse } from './cues.generated';
 
 /**
- * docs/UI.md §5.1 asks for a light haptic on correct and a medium one on wrong.
- * Everything here uses the softest style that still registers: a verdict should
- * feel like a tap on the shoulder, not a buzz.
+ * The motor half of a cue. Which pulses fire, and when, is not decided here: it
+ * comes from `cues.generated.ts`, the same table the sounds are rendered from,
+ * so a pattern and its sound share their timings by construction. This module
+ * only knows how to make one pulse of each weight, and whether it may.
  *
- * §10 asks for a haptics toggle; there is no Settings screen yet, so haptics are
- * always on where the platform has a motor. Web has none, and every call is
- * guarded, so a device without one is a silent no-op rather than an error.
+ * docs/UI.md §10 gives haptics a toggle of their own, separate from sounds.
+ *
+ * The web is left to expo-haptics rather than skipped: on a phone browser it
+ * vibrates on Android and uses the switch-control tap on iOS, and on a desktop
+ * it does nothing. Every call is guarded either way, so a device without a
+ * motor is a silent no-op, never an error.
  */
 
-function impact(style: Haptics.ImpactFeedbackStyle): void {
-  if (Platform.OS === 'web') return;
+let enabled = true;
+const listeners = new Set<() => void>();
+
+export function setHapticsEnabled(next: boolean): void {
+  if (next === enabled) return;
+  enabled = next;
+  listeners.forEach((listener) => listener());
+}
+
+export function isHapticsEnabled(): boolean {
+  return enabled;
+}
+
+export function useHapticsEnabled(): boolean {
+  return useSyncExternalStore(
+    (listener) => {
+      listeners.add(listener);
+      return () => {
+        listeners.delete(listener);
+      };
+    },
+    isHapticsEnabled,
+    isHapticsEnabled
+  );
+}
+
+const ignore = () => {};
+
+const IMPACT: Record<Exclude<HapticStyle, 'selection'>, Haptics.ImpactFeedbackStyle> = {
+  soft: Haptics.ImpactFeedbackStyle.Soft,
+  light: Haptics.ImpactFeedbackStyle.Light,
+  medium: Haptics.ImpactFeedbackStyle.Medium,
+  rigid: Haptics.ImpactFeedbackStyle.Rigid,
+  heavy: Haptics.ImpactFeedbackStyle.Heavy,
+};
+
+function pulse(style: HapticStyle): void {
   try {
-    void Haptics.impactAsync(style);
+    const done =
+      style === 'selection' ? Haptics.selectionAsync() : Haptics.impactAsync(IMPACT[style]);
+    void Promise.resolve(done).catch(ignore);
   } catch {
     // A device without haptics is not an error.
   }
 }
 
-/** The verdict on a question. Fired the instant the answer is committed. */
-export function revealHaptic(grade: Grade): void {
-  impact(
-    grade === 'wrong'
-      ? Haptics.ImpactFeedbackStyle.Medium
-      : Haptics.ImpactFeedbackStyle.Soft
-  );
-}
-
-/** A letter tile, a keypad key, an option being picked: the lightest tick there is. */
-export function selectHaptic(): void {
-  if (Platform.OS === 'web') return;
-  try {
-    void Haptics.selectionAsync();
-  } catch {
-    // ignored
-  }
-}
-
-/** A pair locking green in `match`. */
-export function matchHitHaptic(): void {
-  impact(Haptics.ImpactFeedbackStyle.Soft);
-}
-
-/** A pair bouncing back in `match`. Firmer than a hit, softer than a verdict. */
-export function matchMissHaptic(): void {
-  impact(Haptics.ImpactFeedbackStyle.Rigid);
-}
-
-/** Committing a Long / Short / No-trade call, before the chart plays out. */
-export function commitHaptic(): void {
-  impact(Haptics.ImpactFeedbackStyle.Soft);
-}
-
 /**
- * The lesson-complete screen: a success notification, then two light taps as
- * the XP lands. One per moment, never per frame.
+ * Plays a cue's pulses at their offsets. The first is fired synchronously, in
+ * the same frame as the visual and the sound that start with it; the rest are
+ * timers, and each re-checks the toggle so switching haptics off mid-pattern
+ * stops it at once.
  */
-export function celebrateHaptic(): void {
-  if (Platform.OS === 'web') return;
-  try {
-    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    setTimeout(() => impact(Haptics.ImpactFeedbackStyle.Light), 320);
-    setTimeout(() => impact(Haptics.ImpactFeedbackStyle.Light), 520);
-  } catch {
-    // ignored
+export function playPulses(pulses: readonly Pulse[]): void {
+  if (!enabled) return;
+  for (const [ms, style] of pulses) {
+    if (ms <= 0) pulse(style);
+    else setTimeout(() => enabled && pulse(style), ms);
   }
 }

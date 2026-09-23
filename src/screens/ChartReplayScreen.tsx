@@ -5,7 +5,7 @@ import Chart, { chartHeightFor, chartWidthFor } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import type { AnswerValue } from '../lesson/answers';
 import { replayLabels } from '../lesson/answers';
-import { commitFeedback, tapFeedback } from '../lesson/feedback';
+import { commitFeedback, NOTE_STEPS, noteFeedback } from '../lesson/feedback';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { ChartReplayScreen as S } from '../types';
 import { Prompt } from './common';
@@ -63,6 +63,23 @@ export default function ChartReplayScreen({
   const end = () => {
     commitFeedback();
     onChange({ ...state, ended: true });
+  };
+
+  // A bar arriving sounds like its price, as it does in a `chart-decision`
+  // replay -- but pitched only against the bars already on screen. Scaling it to
+  // the whole session would leak the bars still to come: a close that sounds
+  // mid-range while it sits at the top of the chart says the session goes higher.
+  const nextBar = () => {
+    const next = Math.min(bar + 1, total);
+    // A replay is always candles: [open, high, low, close].
+    const closes = screen.chart.data.slice(0, next).map((bar) => bar[3]);
+    const lo = Math.min(...closes);
+    const hi = Math.max(...closes);
+    const mid = (lo + hi) / 2;
+    const span = Math.max(hi - lo, Math.abs(mid) * 0.02, 1e-9);
+    const c = closes[closes.length - 1];
+    noteFeedback((NOTE_STEPS - 1) / 2 + ((c - mid) / span) * (NOTE_STEPS - 3));
+    setBar(next);
   };
 
   if (state.ended || revealed) {
@@ -159,10 +176,7 @@ export default function ChartReplayScreen({
         <Pressable
           accessibilityRole="button"
           disabled={atEnd}
-          onPress={() => {
-            tapFeedback();
-            setBar((b) => Math.min(b + 1, total));
-          }}
+          onPress={nextBar}
           style={[styles.action, styles.next, atEnd && styles.actionOff]}
         >
           <Text style={styles.actionText}>{atEnd ? 'End of session' : 'Next bar'}</Text>

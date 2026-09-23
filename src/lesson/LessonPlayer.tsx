@@ -26,16 +26,15 @@ import { CompareScreen, SwipeDeckScreen } from '../screens/DeckScreens';
 import ExampleScreen from '../screens/ExampleScreen';
 import PlanCardScreen from '../screens/PlanCardScreen';
 import {
-  BadgeScreen,
   CarouselScreen,
   ChecklistRevealScreen,
   PathChoiceScreen,
   RecapScreen,
   StoryScreen,
-  TierUpScreen,
   VisualScreen,
   WalkthroughScreen,
 } from '../screens/StaticScreens';
+import { BadgeScreen, TierUpScreen } from '../screens/RewardScreens';
 import Summary from './Summary';
 import {
   ChartTapScreen,
@@ -62,13 +61,16 @@ import {
   emptyValue,
   grade as gradeAnswer,
 } from './answers';
+import type { CueName } from './cues.generated';
 import Cta from './Cta';
-import { commitFeedback, revealFeedback } from './feedback';
+import { commitFeedback, revealFeedback, runBefore, streakAfter, tapFeedback } from './feedback';
 import ProgressBar from './ProgressBar';
 import QuitSheet from './QuitSheet';
 import Reveal from './Reveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
+import { preloadCues } from './sound';
+import { VerdictProvider } from './verdict';
 
 export default function LessonPlayer({
   level,
@@ -89,9 +91,14 @@ export default function LessonPlayer({
   );
   const [revealed, setRevealed] = useState<boolean[]>(() => screens.map(() => false));
   const [grades, setGrades] = useState<(Grade | null)[]>(() => screens.map(() => null));
+  // The run of right answers each reveal ended on (feedback.ts, streakAfter).
+  const [streaks, setStreaks] = useState<number[]>(() => screens.map(() => 0));
   const [decisionPhase, setDecisionPhase] = useState<DecisionPhase>('deciding');
   const [quitOpen, setQuitOpen] = useState(false);
   const [runKey, setRunKey] = useState(0);
+  // docs/UI.md §5.4: on a badge or a tier the CTA comes last. The screen says
+  // when its sequence is done, and the CTA is held until then.
+  const [settledAt, setSettledAt] = useState(-1);
   // `carousel`, `walkthrough` and `checklist-reveal` count as several screens
   // (docs/schema.md), so they hold a cursor the CTA advances before the index does.
   const [cursor, setCursor] = useState(0);
@@ -106,6 +113,11 @@ export default function LessonPlayer({
   const lastAdvance = useRef(0);
   const m = useMotion();
 
+  // Every cue's player is built when the lesson opens, so none of them loads on
+  // its first play -- the first play is the one whose lag you would hear.
+  useEffect(() => {
+    preloadCues();
+  }, []);
 
   const atSummary = index >= screens.length;
   const screen = atSummary ? null : screens[index];
@@ -118,11 +130,13 @@ export default function LessonPlayer({
     setValues(screens.map(emptyValue));
     setRevealed(screens.map(() => false));
     setGrades(screens.map(() => null));
+    setStreaks(screens.map(() => 0));
     setDecisionPhase('deciding');
     setCursor(0);
     setPlan({});
     setPathChoice(null);
     setRunKey((k) => k + 1);
+    setSettledAt(-1);
     fade.set(1);
     slide.set(0);
     lastAdvance.current = 0;
@@ -131,11 +145,14 @@ export default function LessonPlayer({
   const doReveal = useCallback(() => {
     if (!screen || !isQuestion(screen) || !value) return;
     const g = gradeAnswer(screen as QuestionScreen, value);
+    const streak = streakAfter(grades, index, g);
     setGrades((prev) => prev.map((x, i) => (i === index ? g : x)));
+    setStreaks((prev) => prev.map((x, i) => (i === index ? streak : x)));
     setRevealed((prev) => prev.map((x, i) => (i === index ? true : x)));
-    // docs/UI.md §5.1: light haptic on correct and amber, medium on wrong.
-    revealFeedback(g);
-  }, [screen, value, index]);
+    // docs/UI.md §5.1: the verdict lands the instant it is known. A run of right
+    // answers climbs the chime a step at a time.
+    revealFeedback(g, streak);
+  }, [screen, value, index, grades]);
 
   // Types that commit on the tap itself reveal as soon as an answer exists, with
   // no Check step in between (see COMMITS_ON_TAP). `chart-decision` is the one
@@ -168,7 +185,7 @@ export default function LessonPlayer({
     // settling after the fade is done. That reads smoother than two timings,
     // which either land together (abrupt) or drift apart (laggy).
     fade.set(0);
-    slide.set(m.travel(26));
+    slide.set(m.travel(36));
     fade.set(withTiming(1, { duration: m.fade(DURATION.screen), easing: EASE_OUT }));
     slide.set(m.reduced ? 0 : withSpring(0, SPRING_SETTLE));
   }, [index, runKey, fade, slide, m]);
@@ -203,14 +220,31 @@ export default function LessonPlayer({
   const ctaHiddenBeforeReveal =
     !!screen && isQuestion(screen) && commitsOnTap(screen) && !isRevealed;
 
-  // docs/UI.md §6.4: the decision buttons occupy the CTA slot until the outcome lands.
+  // docs/UI.md §6.4: the decision buttons occupy the CTA slot until the outcome
+  // lands. They stay there through the replay, the chosen one lit and the rest
+  // stepped back: the learner watches the outcome of *that* call, and the slot
+  // keeping its height means the chart does not drop the moment it starts.
   const showDecisionButtons =
-    !!screen &&
-    screen.type === 'chart-decision' &&
-    decisionPhase === 'deciding' &&
-    !isRevealed;
+    !!screen && screen.type === 'chart-decision' && !isRevealed;
+  const chosenDecision =
+    value && value.kind === 'decision' ? value.choice : null;
+
+  const onSettled = useCallback(() => setSettledAt(index), [index]);
+  const held =
+    !!screen && (screen.type === 'badge' || screen.type === 'tier-up') && settledAt !== index;
 
   const ctaHidden = ctaHiddenBeforeReveal;
+
+  // One press, one cue. Check fires nothing on the way down: the verdict is its
+  // sound, on release. A checklist's CTA reveals the next item, which rings its
+  // own note. Everything else that moves the lesson on steps forward.
+  const ctaCue: CueName | null = !screen
+    ? 'advance'
+    : screen.type === 'checklist-reveal' && cursor < screen.items.length
+      ? null
+      : isQuestion(screen) && !isRevealed
+        ? null
+        : 'advance';
 
   const ctaDisabled =
     (!!screen &&
@@ -248,6 +282,10 @@ export default function LessonPlayer({
   };
 
   const g = atSummary ? null : grades[index];
+  const streak = atSummary ? 0 : streaks[index];
+  const verdict = useMemo(() => (g ? { grade: g, streak } : null), [g, streak]);
+  // A run of three or more warms the progress bar (ProgressBar).
+  const onRun = runBefore(grades, index + 1) >= 3;
 
   const revealLead = useMemo(() => {
     if (!screen || screen.type !== 'chart-decision' || !g || g === 'correct') return undefined;
@@ -273,13 +311,14 @@ export default function LessonPlayer({
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Close lesson"
+          onPressIn={tapFeedback}
           onPress={() => setQuitOpen(true)}
           hitSlop={12}
           style={styles.close}
         >
           <Text style={styles.closeText}>{'✕'}</Text>
         </Pressable>
-        <ProgressBar progress={progress} />
+        <ProgressBar progress={progress} hot={onRun} />
         {/* docs/UI.md §2: hearts live in the top bar for tests and exams only.
             This sub-level's category is new-theory, so the slot stays empty. */}
         <View style={styles.heartSlot} />
@@ -306,6 +345,7 @@ export default function LessonPlayer({
           onScrollEndDrag={nudgeGrid}
           onMomentumScrollEnd={nudgeGrid}
         >
+        <VerdictProvider value={verdict}>
         {atSummary ? (
           <LessonComplete
             screens={screens}
@@ -328,8 +368,10 @@ export default function LessonPlayer({
             setPlanValue: (key, v) => setPlan((prev) => ({ ...prev, [key]: v })),
             pathChoice,
             setPathChoice,
+            onSettled,
           })
         )}
+        </VerdictProvider>
         </ScrollView>
       </Animated.View>
 
@@ -340,11 +382,13 @@ export default function LessonPlayer({
             lead={revealLead}
             explanation={(screen as QuestionScreen).explanation}
             working={working}
+            streak={streak}
           />
         ) : null}
         {showDecisionButtons ? (
           <DecisionButtons
             buttons={decisionButtons(screen as any)}
+            chosen={chosenDecision}
             onChoose={(button) => {
               // The feel has to land on the tap, not when the chart stops playing.
               commitFeedback();
@@ -352,7 +396,14 @@ export default function LessonPlayer({
             }}
           />
         ) : ctaHidden ? null : (
-          <Cta label={ctaLabel} disabled={ctaDisabled} onPress={onCta} />
+          <Cta
+            label={ctaLabel}
+            disabled={ctaDisabled}
+            onPress={onCta}
+            cue={ctaCue}
+            good={!!screen && isQuestion(screen) && isRevealed && g === 'correct'}
+            hidden={held}
+          />
         )}
       </View>
 
@@ -383,6 +434,7 @@ function renderScreen(props: {
   setPlanValue: (key: string, value: string) => void;
   pathChoice: string | null;
   setPathChoice: (id: string) => void;
+  onSettled: () => void;
 }) {
   const {
     screen,
@@ -398,6 +450,7 @@ function renderScreen(props: {
     setPlanValue,
     pathChoice,
     setPathChoice,
+    onSettled,
   } = props;
 
   const q = { value, onChange: setValue, revealed: isRevealed };
@@ -486,9 +539,9 @@ function renderScreen(props: {
     case 'plan-card':
       return <PlanCardScreen screen={screen} values={plan} onChange={setPlanValue} />;
     case 'badge':
-      return <BadgeScreen screen={screen} />;
+      return <BadgeScreen screen={screen} onSettled={onSettled} />;
     case 'tier-up':
-      return <TierUpScreen screen={screen} />;
+      return <TierUpScreen screen={screen} onSettled={onSettled} />;
     case 'path-choice':
       return (
         <PathChoiceScreen screen={screen} value={pathChoice} onChange={setPathChoice} />

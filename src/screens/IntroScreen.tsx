@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
+import { Arrive } from '../lesson/Celebrate';
 import { colors, space, type } from '../theme';
 import type { IntroScreen as S } from '../types';
 
@@ -17,11 +18,21 @@ export default function IntroScreen({
 }) {
   return (
     <View style={styles.wrap}>
-      <Text style={styles.kicker}>{copy(chapterTitle)}</Text>
-      <Text style={styles.headline}>{copy(screen.text)}</Text>
-      <Text style={styles.subline}>{copy(levelTitle)}</Text>
+      {/* The first screen of a lesson arrives in beats: where you are, what
+          this is, which lesson. */}
+      <Arrive delay={80}>
+        <Text style={styles.kicker}>{copy(chapterTitle)}</Text>
+      </Arrive>
+      <Arrive delay={200}>
+        <Text style={styles.headline}>{copy(screen.text)}</Text>
+      </Arrive>
+      <Arrive delay={330}>
+        <Text style={styles.subline}>{copy(levelTitle)}</Text>
+      </Arrive>
       {screen.counter !== undefined ? (
-        <Text style={styles.counter}>{`0/${screen.counter}`}</Text>
+        <Arrive delay={440}>
+          <Text style={styles.counter}>{`0/${screen.counter}`}</Text>
+        </Arrive>
       ) : null}
     </View>
   );
