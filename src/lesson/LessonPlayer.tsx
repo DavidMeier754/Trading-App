@@ -80,7 +80,7 @@ export default function LessonPlayer({
   contentWidth,
   onQuit,
   startAt = 0,
-  pageNumbers = false,
+  testBench = false,
 }: {
   level: Level;
   contentWidth: number;
@@ -88,8 +88,11 @@ export default function LessonPlayer({
   onQuit?: () => void;
   /** Open on this screen instead of the first (the test bench's deep links). */
   startAt?: number;
-  /** Show the page number in the top bar (the test bench, content.ts). */
-  pageNumbers?: boolean;
+  /**
+   * A test level (content.ts): page numbers in the top bar and a back button.
+   * A real lesson has neither -- docs/UI.md §2, no back button in a lesson.
+   */
+  testBench?: boolean;
 }) {
   const insets = useSafeAreaInsets();
   const [runKey, setRunKey] = useState(0);
@@ -236,11 +239,11 @@ export default function LessonPlayer({
     setIndex((i) => i + 1);
   };
 
-  // Back: a card within a carousel or walkthrough first, then the screen
-  // before. Nothing is undone -- an answered screen comes back answered, its
-  // reveal showing and its Continue waiting, so going back is for looking,
-  // not for a second try.
-  const canGoBack = index > 0 || cursor > 0;
+  // Back, on a test level only (docs/UI.md §2 keeps it out of lessons): a card
+  // within a carousel or walkthrough first, then the screen before. Nothing is
+  // undone -- an answered screen comes back answered, its reveal showing and
+  // its Continue waiting, so going back is for looking, not for a second try.
+  const canGoBack = testBench && (index > 0 || cursor > 0);
   const goBack = () => {
     tapFeedback();
     if (cursor > 0) {
@@ -365,19 +368,21 @@ export default function LessonPlayer({
         >
           <Text style={styles.closeText}>{'✕'}</Text>
         </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Previous screen"
-          accessibilityState={{ disabled: !canGoBack }}
-          disabled={!canGoBack}
-          onPress={goBack}
-          hitSlop={10}
-          style={[styles.close, !canGoBack && styles.backOff]}
-        >
-          <Text style={styles.backText}>{'‹'}</Text>
-        </Pressable>
+        {testBench ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Previous screen"
+            accessibilityState={{ disabled: !canGoBack }}
+            disabled={!canGoBack}
+            onPress={goBack}
+            hitSlop={10}
+            style={[styles.close, !canGoBack && styles.backOff]}
+          >
+            <Text style={styles.backText}>{'‹'}</Text>
+          </Pressable>
+        ) : null}
         <ProgressBar progress={progress} steps={screens.length} hot={onRun} />
-        {pageNumbers && !atSummary ? (
+        {testBench && !atSummary ? (
           <Text style={styles.page} accessibilityLabel={`Page ${index + 1} of ${screens.length}`}>
             {`${index + 1}/${screens.length}`}
           </Text>

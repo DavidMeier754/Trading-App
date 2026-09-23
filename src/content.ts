@@ -16,10 +16,12 @@ export type LessonEntry = {
   subtitle: string;
   level: Level;
   /**
-   * Show "12/49" in the top bar. The test bench is reviewed screen by screen,
-   * and a page number is what makes "screen 34 looks off" findable.
+   * A test level, not a lesson. It is reviewed screen by screen, so it shows
+   * "12/49" in the top bar -- what makes "screen 34 looks off" findable -- and
+   * a back button to look at the screen before again. Real lessons keep
+   * docs/UI.md §2's rule: no back button inside a lesson.
    */
-  pageNumbers?: boolean;
+  testBench?: boolean;
 };
 
 export const LESSONS: LessonEntry[] = [
@@ -34,7 +36,7 @@ export const LESSONS: LessonEntry[] = [
     title: 'Every Screen Type',
     subtitle: 'Test bench: all 36 archetypes back to back',
     level: demoLevel as unknown as Level,
-    pageNumbers: true,
+    testBench: true,
   },
 ];
 

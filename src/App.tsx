@@ -66,7 +66,7 @@ export default function App() {
                   key={entry.id}
                   level={entry.level}
                   startAt={link && link.entry === entry ? link.screen : 0}
-                  pageNumbers={entry.pageNumbers}
+                  testBench={entry.testBench}
                   contentWidth={contentWidth}
                   onQuit={() => setEntry(null)}
                 />
