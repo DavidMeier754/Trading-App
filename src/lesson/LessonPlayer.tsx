@@ -79,6 +79,7 @@ export default function LessonPlayer({
   contentWidth,
   onQuit,
   startAt = 0,
+  pageNumbers = false,
 }: {
   level: Level;
   contentWidth: number;
@@ -86,6 +87,8 @@ export default function LessonPlayer({
   onQuit?: () => void;
   /** Open on this screen instead of the first (the test bench's deep links). */
   startAt?: number;
+  /** Show the page number in the top bar (the test bench, content.ts). */
+  pageNumbers?: boolean;
 }) {
   const insets = useSafeAreaInsets();
   const screens = level.screens;
@@ -337,6 +340,11 @@ export default function LessonPlayer({
           <Text style={styles.closeText}>{'✕'}</Text>
         </Pressable>
         <ProgressBar progress={progress} steps={screens.length} hot={onRun} />
+        {pageNumbers && !atSummary ? (
+          <Text style={styles.page} accessibilityLabel={`Page ${index + 1} of ${screens.length}`}>
+            {`${index + 1}/${screens.length}`}
+          </Text>
+        ) : null}
         {/* docs/UI.md §2: hearts live in the top bar for tests and exams only.
             A lesson has none, so in the new look the slot carries the run of
             right answers instead. */}
@@ -619,6 +627,8 @@ const styles = StyleSheet.create({
   close: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
   closeText: { ...type.title, color: colors.textMuted },
   heartSlot: { minWidth: 32, alignItems: 'flex-end' },
+  // Tabular figures, so "9/49" to "10/49" does not nudge the bar.
+  page: { ...type.label, color: colors.textMuted, fontVariant: ['tabular-nums'] },
   scroll: { flex: 1 },
   content: { flexGrow: 1, paddingHorizontal: space.lg, paddingBottom: space.lg },
   footer: {

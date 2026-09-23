@@ -15,6 +15,11 @@ export type LessonEntry = {
   title: string;
   subtitle: string;
   level: Level;
+  /**
+   * Show "12/49" in the top bar. The test bench is reviewed screen by screen,
+   * and a page number is what makes "screen 34 looks off" findable.
+   */
+  pageNumbers?: boolean;
 };
 
 export const LESSONS: LessonEntry[] = [
@@ -29,6 +34,7 @@ export const LESSONS: LessonEntry[] = [
     title: 'Every Screen Type',
     subtitle: 'Test bench: all 36 archetypes back to back',
     level: demoLevel as unknown as Level,
+    pageNumbers: true,
   },
 ];
 

@@ -473,7 +473,9 @@ function Dots({ target, steps, hot, spec }: { target: number; steps: number; hot
                 width: size,
                 height: size,
                 borderRadius: size / 2,
-                backgroundColor: i < done ? on : colors.surfaceAlt,
+                // The dots still to come have to read on the ground itself;
+                // the surface colour vanished into it.
+                backgroundColor: i < done ? on : 'rgba(255, 255, 255, 0.16)',
               }}
             />
           ))}

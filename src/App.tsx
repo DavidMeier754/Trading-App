@@ -20,9 +20,9 @@ export default function App() {
   const frameWidth = Math.min(width, MAX_WIDTH);
   const contentWidth = frameWidth - space.lg * 2;
 
-  // A web deep link, `#all-screens/34`, opens a lesson on a given screen. It is
-  // how the test bench's 49 screens get looked at one by one; the app proper
-  // has no URLs.
+  // A web deep link, `#all-screens/34`, opens a lesson on page 34 -- the number
+  // the test bench shows in its top bar. It is how the bench's 49 screens get
+  // looked at one by one; the app proper has no URLs.
   const [link] = useState(() => readDeepLink());
   const [entry, setEntry] = useState<LessonEntry | null>(link?.entry ?? null);
 
@@ -62,6 +62,7 @@ export default function App() {
                   key={entry.id}
                   level={entry.level}
                   startAt={link && link.entry === entry ? link.screen : 0}
+                  pageNumbers={entry.pageNumbers}
                   contentWidth={contentWidth}
                   onQuit={() => setEntry(null)}
                 />
@@ -111,7 +112,8 @@ function readDeepLink(): { entry: LessonEntry; screen: number } | null {
   if (look && look in LOOKS) setLook(look as Look);
   const [id, screen] = path.split('/');
   const entry = LESSONS.find((l) => l.id === id);
-  return entry ? { entry, screen: Number(screen) || 0 } : null;
+  // Pages count from 1, as they are shown; the player counts from 0.
+  return entry ? { entry, screen: Math.max(1, Number(screen) || 1) - 1 } : null;
 }
 
 const styles = StyleSheet.create({
