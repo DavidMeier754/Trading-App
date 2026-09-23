@@ -14,9 +14,13 @@ export const CUES = {
     file: require('../../assets/sounds/tick.wav'),
     pulses: [[0, 'selection']] as readonly Pulse[],
   },
+  detent: {
+    file: require('../../assets/sounds/detent.wav'),
+    pulses: [[0, 'selection']] as readonly Pulse[],
+  },
   advance: {
     file: require('../../assets/sounds/advance.wav'),
-    pulses: [[0, 'light'], [50, 'selection']] as readonly Pulse[],
+    pulses: [[0, 'light']] as readonly Pulse[],
   },
   commit: {
     file: require('../../assets/sounds/commit.wav'),
@@ -32,19 +36,19 @@ export const CUES = {
   },
   correct2: {
     file: require('../../assets/sounds/correct2.wav'),
-    pulses: [[0, 'light'], [120, 'rigid'], [240, 'light']] as readonly Pulse[],
+    pulses: [[0, 'light'], [120, 'rigid']] as readonly Pulse[],
   },
   correct3: {
     file: require('../../assets/sounds/correct3.wav'),
-    pulses: [[0, 'light'], [120, 'rigid'], [240, 'light']] as readonly Pulse[],
+    pulses: [[0, 'light'], [120, 'rigid']] as readonly Pulse[],
   },
   correct4: {
     file: require('../../assets/sounds/correct4.wav'),
-    pulses: [[0, 'light'], [120, 'rigid'], [240, 'light']] as readonly Pulse[],
+    pulses: [[0, 'light'], [120, 'rigid']] as readonly Pulse[],
   },
   streak: {
     file: require('../../assets/sounds/streak.wav'),
-    pulses: [[0, 'light'], [120, 'rigid'], [240, 'light'], [380, 'selection'], [470, 'selection']] as readonly Pulse[],
+    pulses: [[0, 'soft'], [190, 'medium'], [340, 'light']] as readonly Pulse[],
   },
   amber: {
     file: require('../../assets/sounds/amber.wav'),

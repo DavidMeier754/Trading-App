@@ -87,10 +87,10 @@ export default function ChartReplayScreen({
     onChange({ ...state, ended: true });
   };
 
-  // A bar arriving sounds like its price, as it does in a `chart-decision`
-  // replay -- but pitched only against the bars already on screen. Scaling it to
-  // the whole session would leak the bars still to come: a close that sounds
-  // mid-range while it sits at the top of the chart says the session goes higher.
+  // A bar the learner steps to sounds like its price -- pitched only against
+  // the bars already on screen. Scaling it to the whole session would leak the
+  // bars still to come: a close that sounds mid-range while it sits at the top
+  // of the chart says the session goes higher.
   const nextBar = () => {
     const next = Math.min(bar + 1, total);
     // A replay is always candles: [open, high, low, close].

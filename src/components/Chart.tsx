@@ -1,14 +1,12 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
-  Easing,
   SharedValue,
   useAnimatedProps,
   useAnimatedReaction,
   useAnimatedStyle,
-  useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import Svg, {
   Circle,
   Defs,
@@ -242,32 +240,82 @@ function playHead(g: PlayGeom, t: number) {
 }
 
 /**
- * How present bar `i` is at replay position `t`.
- *
- * A candle cannot grow out of the axis the way a line extends, so it fades in
- * over the one bar-width the playhead takes to reach it: 0 while the head is a
- * bar away, 1 once it arrives. Bars the learner could already see start at 1 and
- * stay there.
+ * How far through its own time bar `i` is at replay position `t`: 0 before
+ * the playhead reaches it, 1 once it has closed, and in between while it forms.
+ * Bars the learner could already see are at 1 from the start.
  */
-function barAlpha(g: PlayGeom, t: number, i: number) {
+function barProgress(g: PlayGeom, t: number, i: number) {
   'worklet';
   const head = g.from - 1 + Math.max(0, t) * (g.n - g.from);
-  return Math.max(0, Math.min(1, head - i + 1));
+  return Math.max(0, Math.min(1, head - (i - 1)));
+}
+
+function smooth(x: number) {
+  'worklet';
+  const k = Math.max(0, Math.min(1, x));
+  return k * k * (3 - 2 * k);
+}
+
+/** Where a forming candle's path turns: the first extreme, then the second. */
+const LEG_A = 0.3;
+const LEG_B = 0.74;
+
+/**
+ * A candle `u` of the way through its time: the price, and the highest and
+ * lowest it has been so far.
+ *
+ * It travels open, then the extreme on the far side of where it will close,
+ * then the other extreme, then its close -- the order a market draws a candle
+ * of that shape in: an up bar dips first and rallies, a down bar pops first
+ * and sells off. So the body grows and shrinks and can change colour while it
+ * forms, the wicks reach out as the extremes are set, and it comes to rest as
+ * the bar it is in the data.
+ */
+function formAt(o: number, h: number, l: number, c: number, u: number) {
+  'worklet';
+  const up = c >= o;
+  const a = up ? l : h;
+  const b = up ? h : l;
+  let p;
+  if (u <= LEG_A) p = o + (a - o) * smooth(u / LEG_A);
+  else if (u <= LEG_B) p = a + (b - a) * smooth((u - LEG_A) / (LEG_B - LEG_A));
+  else p = b + (c - b) * smooth((u - LEG_B) / (1 - LEG_B));
+  let hi = Math.max(o, p);
+  let lo = Math.min(o, p);
+  if (u > LEG_A) {
+    hi = Math.max(hi, a);
+    lo = Math.min(lo, a);
+  }
+  if (u > LEG_B) {
+    hi = Math.max(hi, b);
+    lo = Math.min(lo, b);
+  }
+  return { p, hi, lo };
+}
+
+/** The live price at replay position `t`, and whether its bar is up so far. */
+function liveAt(g: PlayGeom, t: number) {
+  'worklet';
+  const head = g.from - 1 + Math.max(0, t) * (g.n - g.from);
+  const k = Math.floor(head);
+  const u = head - k;
+  if (u < 1e-6 || k + 1 >= g.n) {
+    const j = Math.max(0, Math.min(g.n - 1, k));
+    return { p: g.closes[j], up: g.closes[j] >= g.opens[j] };
+  }
+  const i = k + 1;
+  const s = formAt(g.opens[i], g.highs[i], g.lows[i], g.closes[i], u);
+  return { p: s.p, up: s.p >= g.opens[i] };
 }
 
 /**
- * The same two functions without the worklet directive, for the first frame.
+ * playY without the worklet directive, for the first frame.
  * Animated props are applied after the first commit, and a native SVG view wants
  * a real number from the start — the same reason `playLineAt` exists below.
  */
 function playYAt(g: PlayGeom, t: number, price: number) {
   const w = windowAt(g, t);
   return g.padTop + g.priceH - ((price - w.lo) / (w.hi - w.lo)) * g.priceH;
-}
-
-function barAlphaAt(g: PlayGeom, t: number, i: number) {
-  const head = g.from - 1 + Math.max(0, t) * (g.n - g.from);
-  return Math.max(0, Math.min(1, head - i + 1));
 }
 
 function playHeadPoint(g: PlayGeom, t: number) {
@@ -417,74 +465,23 @@ function PlaybackLine({
 }
 
 /**
- * A ring that goes out from each bar as it lands, on the beat of the tick the
- * learner feels and hears for it (ChartDecisionScreen fires those from the same
- * playhead). It is timed in milliseconds, not in playhead distance, so a bar
- * landing during the slow opening rings exactly as long as one in the middle.
- *
- * All of it is on the UI thread: the reaction notices the playhead crossing a
- * bar and restarts the ring there, and React never hears about it.
- */
-function PlaybackPing({ g, progress }: { g: PlayGeom; progress: SharedValue<number> }) {
-  const lineColor = useLookSpec().chartLine;
-  const bar = useSharedValue(-1);
-  const ring = useSharedValue(1);
-
-  useAnimatedReaction(
-    () => Math.floor(playHead(g, progress.get()) + 1e-6),
-    (landed, previous) => {
-      if (previous === null || landed <= previous || landed < g.from) return;
-      bar.set(landed);
-      ring.set(0);
-      ring.set(withTiming(1, { duration: PING_MS, easing: Easing.out(Easing.cubic) }));
-    }
-  );
-
-  const props = useAnimatedProps(() => {
-    const i = bar.get();
-    const r = ring.get();
-    if (i < 0) return { cx: 0, cy: 0, r: 0, opacity: 0, strokeWidth: 0 };
-    const t = progress.get();
-    return {
-      cx: g.xs[i],
-      cy: playY(g, t, g.closes[i]),
-      r: 4 + 14 * r,
-      opacity: 0.7 * (1 - r),
-      strokeWidth: 2.5 - 1.5 * r,
-    };
-  });
-
-  // The line's own colour on a line chart; on candles, which are green and red
-  // bar by bar, a neutral ring that reads as neither.
-  const stroke = g.opens.length && g.opens.some((o, i) => o !== g.closes[i])
-    ? colors.text
-    : lineColor;
-
-  return (
-    <AnimatedCircle
-      cx={0}
-      cy={0}
-      r={0}
-      opacity={0}
-      fill="none"
-      stroke={stroke}
-      strokeWidth={2}
-      animatedProps={props}
-    />
-  );
-}
-
-const PING_MS = 520;
-
-/**
  * One candle during the replay.
  *
- * Every bar of the series is mounted from the start — the future ones simply sit
- * at zero opacity — so the replay never mounts a view mid-flight. Both the wick
- * and the body take their y from the interpolating domain, which is what makes
- * the axis grow under the bars already on screen instead of snapping between
- * scales. Line charts have had this since the first build; 496 of the corpus's
- * 544 chart decisions are candles and had a jump cut instead.
+ * A bar the learner could already see is simply drawn, riding the frame as it
+ * pulls back and slides. A bar still to come is not faded in -- it *forms*:
+ * from the moment the playhead reaches its slot it opens as a hairline at its
+ * open, then its body and wicks follow the price along formAt's path, taking
+ * the colour of wherever the price is against the open, until it settles into
+ * the candle in the data as the playhead leaves. That is how a candle is born
+ * on a live chart, and it is the part of the replay worth watching.
+ *
+ * The two colours are two drawings of the same candle, one shown at a time,
+ * rather than one drawing whose colour is animated: a colour set from the UI
+ * thread does not reach an SVG shape on every platform, an opacity does.
+ *
+ * Every bar of the series is mounted from the start -- the future ones sit
+ * invisible -- so the replay never mounts a view mid-flight, and all of it is
+ * worked out on the UI thread from the one progress value.
  */
 function PlaybackCandle({
   g,
@@ -500,61 +497,89 @@ function PlaybackCandle({
   progress: SharedValue<number>;
 }) {
   const up = bar.c >= bar.o;
-  const stroke = up ? colors.up : colors.down;
+  const shown0 = i < g.from;
 
-  const wick = useAnimatedProps(() => {
-    const t = progress.get();
+  // Where the candle is at replay position t: its wick ends, its body's two
+  // edges and whether it is above its open, or null before it has begun.
+  const state = (t: number) => {
+    'worklet';
+    const u = barProgress(g, t, i);
+    if (u <= 0) return null;
+    const s = u >= 1
+      ? { p: g.closes[i], hi: g.highs[i], lo: g.lows[i] }
+      : formAt(g.opens[i], g.highs[i], g.lows[i], g.closes[i], u);
+    const yo = playY(g, t, g.opens[i]);
+    const yp = playY(g, t, s.p);
     return {
-      y1: playY(g, t, g.highs[i]),
-      y2: playY(g, t, g.lows[i]),
-      opacity: barAlpha(g, t, i),
+      y1: playY(g, t, s.hi),
+      y2: playY(g, t, s.lo),
+      top: Math.min(yo, yp),
+      height: Math.max(1.5, Math.abs(yp - yo)),
+      rising: s.p >= g.opens[i],
     };
-  });
+  };
+  const wick = (t: number, rising: boolean) => {
+    'worklet';
+    const k = state(t);
+    if (!k) return { y1: 0, y2: 0, opacity: 0 };
+    return { y1: k.y1, y2: k.y2, opacity: k.rising === rising ? 1 : 0 };
+  };
+  const body = (t: number, rising: boolean) => {
+    'worklet';
+    const k = state(t);
+    if (!k) return { y: 0, height: 1.5, opacity: 0 };
+    return { y: k.top, height: k.height, opacity: k.rising === rising ? 1 : 0 };
+  };
+  // Each reads `progress` itself: an animated-props worklet only re-runs for a
+  // shared value it reads directly, not for one read inside a helper it calls.
+  const wickUp = useAnimatedProps(() => wick(progress.get(), true));
+  const wickDown = useAnimatedProps(() => wick(progress.get(), false));
+  const bodyUp = useAnimatedProps(() => body(progress.get(), true));
+  const bodyDown = useAnimatedProps(() => body(progress.get(), false));
 
-  const body = useAnimatedProps(() => {
-    const t = progress.get();
-    const top = playY(g, t, Math.max(g.opens[i], g.closes[i]));
-    const bottom = playY(g, t, Math.min(g.opens[i], g.closes[i]));
-    return {
-      y: top,
-      height: Math.max(1.5, bottom - top),
-      opacity: barAlpha(g, t, i),
-    };
-  });
-
-  const alpha0 = barAlphaAt(g, PLAY_START, i);
   const top0 = playYAt(g, PLAY_START, Math.max(bar.o, bar.c));
   const bottom0 = playYAt(g, PLAY_START, Math.min(bar.o, bar.c));
+  const layer = (rising: boolean) => {
+    const color = rising ? colors.up : colors.down;
+    const visible = shown0 && up === rising ? 1 : 0;
+    return (
+      <G key={rising ? 'up' : 'down'}>
+        <AnimatedLine
+          x1={g.xs[i]}
+          x2={g.xs[i]}
+          y1={playYAt(g, PLAY_START, bar.h)}
+          y2={playYAt(g, PLAY_START, bar.l)}
+          opacity={visible}
+          stroke={color}
+          strokeWidth={1.25}
+          animatedProps={rising ? wickUp : wickDown}
+        />
+        <AnimatedRect
+          x={g.xs[i] - bodyW / 2}
+          y={top0}
+          width={bodyW}
+          height={Math.max(1.5, bottom0 - top0)}
+          opacity={visible}
+          fill={rising ? color : colors.background}
+          stroke={color}
+          strokeWidth={1.25}
+          rx={1}
+          animatedProps={rising ? bodyUp : bodyDown}
+        />
+      </G>
+    );
+  };
 
-  return (
-    <G>
-      <AnimatedLine
-        x1={g.xs[i]}
-        x2={g.xs[i]}
-        y1={playYAt(g, PLAY_START, bar.h)}
-        y2={playYAt(g, PLAY_START, bar.l)}
-        opacity={alpha0}
-        stroke={stroke}
-        strokeWidth={1.25}
-        animatedProps={wick}
-      />
-      <AnimatedRect
-        x={g.xs[i] - bodyW / 2}
-        y={top0}
-        width={bodyW}
-        height={Math.max(1.5, bottom0 - top0)}
-        opacity={alpha0}
-        fill={up ? stroke : colors.background}
-        stroke={stroke}
-        strokeWidth={1.25}
-        rx={1}
-        animatedProps={body}
-      />
-    </G>
-  );
+  // A bar that was already on the chart keeps its colour, so it needs only the
+  // one drawing; a bar still to come can change colour as it forms.
+  return <G>{shown0 ? layer(up) : [layer(false), layer(true)]}</G>;
 }
 
-/** A volume bar during the replay. Its height is fixed — only its presence moves. */
+/**
+ * A volume bar during the replay. A bar still to come fills up while its
+ * candle forms -- volume is what trades during the bar -- in the colour the
+ * candle has so far, so it never tells the close before the candle does.
+ */
 function PlaybackVolumeBar({
   g,
   i,
@@ -562,7 +587,6 @@ function PlaybackVolumeBar({
   y,
   width,
   height,
-  fill,
   progress,
 }: {
   g: PlayGeom;
@@ -571,23 +595,119 @@ function PlaybackVolumeBar({
   y: number;
   width: number;
   height: number;
-  fill: string;
   progress: SharedValue<number>;
 }) {
-  const props = useAnimatedProps(() => ({
-    opacity: 0.45 * barAlpha(g, progress.get(), i),
-  }));
+  const floor = y + height;
+  const shown0 = i < g.from;
+  const up = g.closes[i] >= g.opens[i];
+  const fillFor = (t: number, rising: boolean) => {
+    'worklet';
+    const u = barProgress(g, t, i);
+    if (u <= 0) return { y: floor - 1, height: 1, opacity: 0 };
+    const h = Math.max(1, height * u);
+    const p = u >= 1 ? g.closes[i] : formAt(g.opens[i], g.highs[i], g.lows[i], g.closes[i], u).p;
+    return { y: floor - h, height: h, opacity: (p >= g.opens[i]) === rising ? 0.45 : 0 };
+  };
+  const upProps = useAnimatedProps(() => fillFor(progress.get(), true));
+  const downProps = useAnimatedProps(() => fillFor(progress.get(), false));
   return (
-    <AnimatedRect
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-      rx={1}
-      fill={fill}
-      opacity={0.45 * barAlphaAt(g, PLAY_START, i)}
-      animatedProps={props}
-    />
+    <G>
+      {(shown0 ? [up] : [false, true]).map((rising) => (
+        <AnimatedRect
+          key={rising ? 'up' : 'down'}
+          x={x}
+          y={y}
+          width={width}
+          height={height}
+          rx={1}
+          fill={rising ? colors.up : colors.down}
+          opacity={shown0 && up === rising ? 0.45 : 0}
+          animatedProps={rising ? upProps : downProps}
+        />
+      ))}
+    </G>
+  );
+}
+
+/**
+ * The last price, while a candle replay plays: a fine line across the plot at
+ * wherever the price is right now, ending in a lit point at the plot's edge in
+ * the colour of the forming bar. It is what a live chart shows beside a candle
+ * being made, and it carries the eye along the price between one candle and
+ * the next.
+ *
+ * It is also where the hand feels the replay: each time the price crosses one
+ * of the chart's price lines, `onCross` fires -- the screen answers with a
+ * soft detent. Worked out per frame on the UI thread; React hears about a
+ * crossing only.
+ */
+function PlaybackLivePrice({
+  g,
+  progress,
+  x0,
+  x1,
+  step,
+  onCross,
+}: {
+  g: PlayGeom;
+  progress: SharedValue<number>;
+  x0: number;
+  x1: number;
+  /** The distance between the chart's price lines. */
+  step: number;
+  onCross?: () => void;
+}) {
+  const visible = (t: number) => {
+    'worklet';
+    if (t <= 0 || t >= 1) return 0;
+    return Math.min(1, t / 0.03) * Math.min(1, (1 - t) / 0.03);
+  };
+  const line = useAnimatedProps(() => {
+    const t = progress.get();
+    const yy = playY(g, t, liveAt(g, t).p);
+    return { y1: yy, y2: yy, opacity: 0.55 * visible(t) };
+  });
+  const point = (t: number, rising: boolean, alpha: number) => {
+    'worklet';
+    const live = liveAt(g, t);
+    return { cy: playY(g, t, live.p), opacity: live.up === rising ? alpha * visible(t) : 0 };
+  };
+  const dotUp = useAnimatedProps(() => point(progress.get(), true, 1));
+  const dotDown = useAnimatedProps(() => point(progress.get(), false, 1));
+  const haloUp = useAnimatedProps(() => point(progress.get(), true, 0.22));
+  const haloDown = useAnimatedProps(() => point(progress.get(), false, 0.22));
+
+  useAnimatedReaction(
+    () => {
+      const t = progress.get();
+      if (t <= 0 || t >= 1) return -1;
+      return Math.floor((playY(g, t, liveAt(g, t).p) - g.padTop) / step);
+    },
+    (cell, previous) => {
+      if (previous === null || previous < 0 || cell < 0 || cell === previous || !onCross) return;
+      scheduleOnRN(onCross);
+    },
+    [step, onCross]
+  );
+
+  return (
+    <G>
+      <AnimatedLine
+        x1={x0}
+        x2={x1}
+        y1={0}
+        y2={0}
+        stroke={colors.textMuted}
+        strokeWidth={1}
+        strokeDasharray="2 3"
+        opacity={0}
+        animatedProps={line}
+      />
+      <AnimatedCircle cx={x1} cy={0} r={8} fill={colors.up} opacity={0} animatedProps={haloUp} />
+      <AnimatedCircle cx={x1} cy={0} r={8} fill={colors.down} opacity={0} animatedProps={haloDown} />
+      <AnimatedCircle cx={x1} cy={0} r={3.5} fill={colors.up} opacity={0} animatedProps={dotUp} />
+      <AnimatedCircle cx={x1} cy={0} r={3.5} fill={colors.down} opacity={0} animatedProps={dotDown} />
+    </G>
   );
 }
 
@@ -875,6 +995,11 @@ type Props = {
   marks?: { bar: number; label: string; color: string }[];
   /** Trades the learner took, as an arrow under (long) or over (short) the bar. */
   trades?: { bar: number; side: 'long' | 'short' }[];
+  /**
+   * A candle replay's live price crossing one of the chart's price lines
+   * (PlaybackLivePrice). Called from the UI thread at the crossing only.
+   */
+  onCross?: () => void;
 };
 
 export const AXIS_W = 44;
@@ -1048,6 +1173,7 @@ function Chart({
   marks,
   trades,
   emphasis = false,
+  onCross,
 }: Props) {
   const lookSpec = useLookSpec();
   const neo = lookSpec.chartGlow || emphasis;
@@ -1368,7 +1494,6 @@ function Chart({
         {spec.kind === 'line' && playGeom && playback ? (
           <G>
             <PlaybackLine g={playGeom} progress={playback} neo={neo} />
-            <PlaybackPing g={playGeom} progress={playback} />
           </G>
         ) : spec.kind === 'line' ? (
           <G>
@@ -1432,7 +1557,14 @@ function Chart({
                 progress={playback}
               />
             ))}
-            <PlaybackPing g={playGeom} progress={playback} />
+            <PlaybackLivePrice
+              g={playGeom}
+              progress={playback}
+              x0={PAD_LEFT}
+              x1={PAD_LEFT + plotW}
+              step={priceH / gaps}
+              onCross={onCross}
+            />
           </G>
         ) : (
           <G>
@@ -1472,7 +1604,6 @@ function Chart({
                     y={barY}
                     width={bodyW}
                     height={barH}
-                    fill={fill}
                     progress={playback}
                   />
                 ) : (

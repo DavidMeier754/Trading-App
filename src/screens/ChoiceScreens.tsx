@@ -14,7 +14,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { tapFeedback } from '../lesson/feedback';
+import { detentFeedback, tapFeedback } from '../lesson/feedback';
 import { fitScale } from '../lesson/fitState';
 import { tint, useLookSpec } from '../lesson/look';
 import type { Tone } from '../lesson/toneTransition';
@@ -230,7 +230,7 @@ function DragChip({
   const lift = useSharedValue(0);
   const onLift = useCallback(() => {
     dragging.current = true;
-    tapFeedback();
+    detentFeedback();
   }, [dragging]);
   // Cleared a moment after the release, once the Pressable has had its say.
   const onLand = useCallback(() => {

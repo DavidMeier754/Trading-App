@@ -17,7 +17,7 @@ import Chart, {
 import { useGridAnchor } from '../components/gridAlign';
 import { price } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { tapFeedback } from '../lesson/feedback';
+import { detentFeedback, tapFeedback } from '../lesson/feedback';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { ChartAnnotateScreen as S } from '../types';
@@ -87,9 +87,12 @@ export default function ChartAnnotateScreen({
   // React only when the cent changes.
   const hit = useAnimatedRef<Animated.View>();
   const lastCent = useSharedValue(Number.NaN);
+  // The touch that drops the line is a tap; the notches a drag passes after
+  // it are only detents.
   const onDrag = useCallback(
-    (price: number, detent: boolean) => {
-      if (detent) tapFeedback();
+    (price: number, first: boolean, detent: boolean) => {
+      if (first) tapFeedback();
+      else if (detent) detentFeedback();
       onChange({ kind: 'slider', value: price });
     },
     [onChange]
@@ -109,8 +112,8 @@ export default function ChartAnnotateScreen({
     const prev = lastCent.get();
     if (cent === prev) return;
     lastCent.set(cent);
-    const detent = first || Math.floor(cent / 5) !== Math.floor(prev / 5);
-    scheduleOnRN(onDrag, cent / 100, detent);
+    const detent = Math.floor(cent / 5) !== Math.floor(prev / 5);
+    scheduleOnRN(onDrag, cent / 100, first, detent);
   };
   const pan = Gesture.Pan()
     .minDistance(0)

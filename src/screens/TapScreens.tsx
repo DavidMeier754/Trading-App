@@ -23,7 +23,7 @@ import OrderBook from '../components/data/OrderBook';
 import ScannerTable from '../components/data/ScannerTable';
 import Visual from '../components/Visual';
 import type { AnswerValue } from '../lesson/answers';
-import { tapFeedback } from '../lesson/feedback';
+import { detentFeedback, tapFeedback } from '../lesson/feedback';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import { useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
@@ -311,7 +311,7 @@ export function SliderScreen({
 
   const onStep = useCallback(
     (v: number) => {
-      tapFeedback();
+      detentFeedback();
       onChange({ kind: 'slider', value: v });
     },
     [onChange]

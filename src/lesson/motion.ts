@@ -61,13 +61,12 @@ export const SPRING_LAND = { duration: 900, dampingRatio: 0.6 } as const;
 /**
  * The replay after a `chart-decision`: a slow reveal.
  *
- * Every bar lands on a tick you can feel and hear, so the curve is really
- * setting the gaps between ticks. It starts from rest, runs at one bar per
- * `REVEAL_BAR_MS` through the middle, and spends longer coming to rest than it
- * spent getting going -- the last bar is the one the learner is waiting on, so
- * that is where the wait goes. The ramps are fixed lengths bought on top of the
- * run, not shares of it, so every chart gets the same unhurried start and the
- * same long glide into its final bar however many bars it has.
+ * It starts from rest, runs at one bar per `REVEAL_BAR_MS` through the middle,
+ * and spends longer coming to rest than it spent getting going -- the last bar
+ * is the one the learner is waiting on, so that is where the wait goes. The
+ * ramps are fixed lengths bought on top of the run, not shares of it, so every
+ * chart gets the same unhurried start and the same long glide into its final
+ * bar however many bars it has.
  *
  * Measured in the browser on Chapter 1's first decision (five bars), the gap
  * before each bar lands, and the whole run:
@@ -85,12 +84,19 @@ export const REVEAL_IN_MS = 700;
 export const REVEAL_OUT_MS = 1200;
 export const REVEAL_BAR_MS = 260;
 
-export function revealTiming(bars: number) {
+/**
+ * A candle replay forms each candle as it goes (components/Chart.tsx), open to
+ * its extremes to its close, so a bar there carries more to watch than a step
+ * of a line and gets longer.
+ */
+export const REVEAL_CANDLE_MS = 420;
+
+export function revealTiming(bars: number, barMs: number = REVEAL_BAR_MS) {
   const legs = Math.max(1, bars);
-  let duration = REVEAL_BAR_MS * legs + (REVEAL_IN_MS + REVEAL_OUT_MS) / 2;
+  let duration = barMs * legs + (REVEAL_IN_MS + REVEAL_OUT_MS) / 2;
   // Too few bars for both ramps and a middle: the ramps meet, and the run is
   // pure slow-in, slow-out.
-  if ((REVEAL_IN_MS + REVEAL_OUT_MS) / (2 * REVEAL_BAR_MS) > legs) {
+  if ((REVEAL_IN_MS + REVEAL_OUT_MS) / (2 * barMs) > legs) {
     duration = REVEAL_IN_MS + REVEAL_OUT_MS;
   }
   return {

@@ -31,6 +31,15 @@ export function tapFeedback(): void {
   cue('tick');
 }
 
+/**
+ * A drag passing a step: a slider's notch, a dragged line's fifth cent, a chip
+ * lifted, a replayed price crossing a gridline. It can come several times a
+ * second, so it is barely there -- a fraction of a tap, felt more than heard.
+ */
+export function detentFeedback(): void {
+  cue('detent');
+}
+
 /** Moving on: Continue, Got it, Finish. */
 export function advanceFeedback(): void {
   cue('advance');
@@ -42,8 +51,10 @@ export function commitFeedback(): void {
 }
 
 /**
- * A run of correct answers climbs the key; the chime is a step higher each time,
- * up to five steps. Milestones (3, 5, 10, 15 ...) get a sparkle on top.
+ * A run of correct answers climbs the key: the same chime, a step higher each
+ * time, up to five steps. A milestone (3, 5, 10, 15 ...) plays the streak
+ * sound instead -- a different sound, and always the same one, so reaching a
+ * streak is an arrival rather than the climb getting shriller.
  *
  * Amber holds a run and wrong ends it -- quietly. docs/UI.md §1 says a wrong
  * answer in a lesson costs nothing but a second look, and "No trade" is never
@@ -72,7 +83,12 @@ export function isStreakMilestone(streak: number): boolean {
 
 function correctCue(streak: number): CueName {
   if (isStreakMilestone(streak)) return 'streak';
-  const level = Math.max(0, Math.min(4, streak - 1));
+  // One step per right answer, not counting the milestones before it -- they
+  // played the streak sound, not a step -- so the climb never skips a note.
+  // A run of ten: correct0 1 streak 2 streak 3 4 4 4 streak.
+  let milestones = 0;
+  for (let k = 1; k < streak; k++) if (isStreakMilestone(k)) milestones += 1;
+  const level = Math.max(0, Math.min(4, streak - 1 - milestones));
   return `correct${level}` as CueName;
 }
 

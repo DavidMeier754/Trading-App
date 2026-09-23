@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import {
-  useAnimatedReaction,
-  useSharedValue,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated';
+import { useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import Chart, {
@@ -19,10 +14,16 @@ import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { NOTE_STEPS, noteFeedback } from '../lesson/feedback';
+import { detentFeedback } from '../lesson/feedback';
 import { startRumble, stopRumble } from '../lesson/haptics';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
-import { EASE_IN_OUT, EASE_OUT, revealTiming } from '../lesson/motion';
+import {
+  EASE_IN_OUT,
+  EASE_OUT,
+  REVEAL_BAR_MS,
+  REVEAL_CANDLE_MS,
+  revealTiming,
+} from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, type } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
@@ -40,6 +41,9 @@ export type DecisionPhase = 'deciding' | 'playing' | 'done';
 
 /** The frame stepping back once the call is made, before the first new bar. */
 const PULL_BACK_MS = 520;
+
+/** The line replay's one vibration: steady, and present without buzzing. */
+const LINE_RUMBLE = 0.5;
 
 export default function ChartDecisionScreen({
   screen,
@@ -61,7 +65,7 @@ export default function ChartDecisionScreen({
 
   const choice = value.kind === 'decision' ? value.choice : null;
   // A screen come back to (the back button) opens on its finished chart; the
-  // replay, its ticks and its rumble belong to the first time only.
+  // replay and what it plays on the hand belong to the first time only.
   const [revisit] = useState(revealed && choice !== null);
   const [done, setDone] = useState(revisit);
 
@@ -80,105 +84,73 @@ export default function ChartDecisionScreen({
     onPhaseChange(phase);
   }, [phase, onPhaseChange]);
 
-  const finish = useCallback(() => {
-    stopRumble();
-    setDone(true);
-  }, []);
-
-  // The slow reveal: every bar after the decision lands on a tick you can feel
-  // and hear, pitched by where it closes -- a climb sounds like one. The last
-  // bar gets no tick of its own, because the verdict lands with it.
+  // What the hand feels while the outcome plays, by chart kind:
+  //
+  // - A line is one movement, so it is one vibration: it starts when the line
+  //   starts to move (after the frame's pull-back) and runs, steady, until it
+  //   stops. No bar-by-bar ticks, no rings -- the earlier replay ticked and
+  //   rang on every bar and read as a toy.
+  // - Candles form one by one, each drawing its own open, extremes and close
+  //   (components/Chart.tsx), so a steady buzz would say nothing about them.
+  //   Instead the hand feels the price cross the chart's price lines: a soft
+  //   detent each time the live price passes one, which is sparse, and tells
+  //   you how far it is travelling.
+  //
+  // A skip, reduced motion or leaving the screen silences both at once.
+  const isLine = screen.chart.kind === 'line';
   const legs = Math.max(1, bars - start);
-  // The decision bar and every bar after it.
-  const { closes, span } = useMemo(() => {
-    const c: number[] = [];
-    for (let i = start - 1; i < bars; i++) c.push(closeAt(screen.chart, i));
-    const lo = Math.min(...c);
-    const hi = Math.max(...c);
-    // A near-flat replay hums around the middle of the scale instead of leaping
-    // two octaves for a cent.
-    return { closes: c, span: Math.max(hi - lo, Math.abs((lo + hi) / 2) * 0.02, 1e-9) };
-  }, [screen.chart, start, bars]);
-  const pitch = useMemo(() => {
-    const mid = (Math.min(...closes) + Math.max(...closes)) / 2;
-    return closes.map((c) =>
-      Math.round((NOTE_STEPS - 1) / 2 + ((c - mid) / span) * (NOTE_STEPS - 3))
-    );
-  }, [closes, span]);
-
-  // While the line is climbing, the phone rumbles -- continuously, not bar by
-  // bar -- and a steeper leg rumbles harder. Segment `j` runs from bar j-1 to
-  // bar j after the decision; it begins as bar j-1 lands. A leg that falls or
-  // goes flat is quiet, so the hand feels the climbs and only the climbs.
-  const segment = useCallback(
-    (j: number) => {
-      if (j < 1 || j > legs) return stopRumble();
-      const rise = closes[j] - closes[j - 1];
-      if (rise > 0) startRumble(0.25 + (rise / span) * 2.2);
-      else stopRumble();
-    },
-    [legs, closes, span]
-  );
-  const onBar = useCallback(
-    (k: number) => {
-      noteFeedback(pitch[k] ?? 4);
-      segment(k + 1);
-    },
-    [pitch, segment]
-  );
-  // The first leg begins as the decision commits, but the line only creeps out
-  // of it (the slow start), so its rumble waits until the movement shows.
-  const firstLeg = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const armed = useRef(false);
+  const rumbleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const quiet = useCallback(() => {
-    if (firstLeg.current) clearTimeout(firstLeg.current);
-    firstLeg.current = null;
+    armed.current = false;
+    if (rumbleTimer.current) clearTimeout(rumbleTimer.current);
+    rumbleTimer.current = null;
     stopRumble();
   }, []);
   useEffect(() => quiet, [quiet]);
 
-  // Ticks only while the replay plays on its own. A skip, or reduced motion,
-  // goes straight to the verdict without a drum-roll in between.
-  const armed = useSharedValue(false);
-  useAnimatedReaction(
-    () => (armed.get() ? Math.floor(progress.get() * legs + 1e-6) : -1),
-    (landed, previous) => {
-      if (previous === null || landed <= previous || landed < 1 || landed >= legs) return;
-      scheduleOnRN(onBar, landed);
-    },
-    [legs, onBar]
-  );
+  const finish = useCallback(() => {
+    quiet();
+    setDone(true);
+  }, [quiet]);
+
+  const onCross = useCallback(() => {
+    if (armed.current) detentFeedback();
+  }, []);
 
   useEffect(() => {
     if (choice === null || revisit) return;
     // §10: reduce motion keeps the outcome, drops the travel.
     if (reduced) {
-      armed.set(false);
+      quiet();
       progress.set(1);
       setDone(true);
       return;
     }
-    armed.set(true);
-    progress.set(PLAY_START);
     quiet();
-    firstLeg.current = setTimeout(() => segment(1), PULL_BACK_MS + 180);
+    armed.current = true;
+    if (isLine) {
+      rumbleTimer.current = setTimeout(() => startRumble(LINE_RUMBLE), PULL_BACK_MS);
+    }
     // First the frame pulls back to the height the session needs (Chart's
-    // windowAt), then docs/UI.md §4.3 plays the outcome candle by candle; how
-    // slowly, and why the end takes longest, is in lesson/motion.ts.
+    // windowAt), then docs/UI.md §4.3 plays the outcome bar by bar; how slowly,
+    // and why the end takes longest, is in lesson/motion.ts. Candles take
+    // longer per bar than a line, because each one forms as it goes.
+    progress.set(PLAY_START);
     progress.set(
       withSequence(
         withTiming(0, { duration: PULL_BACK_MS, easing: EASE_IN_OUT }),
-        withTiming(1, revealTiming(legs), (finished) => {
+        withTiming(1, revealTiming(legs, isLine ? REVEAL_BAR_MS : REVEAL_CANDLE_MS), (finished) => {
           'worklet';
           if (finished) scheduleOnRN(finish);
         })
       )
     );
-  }, [choice, reduced, revisit, legs, progress, armed, finish, quiet, segment]);
+  }, [choice, reduced, revisit, isLine, legs, progress, finish, quiet]);
 
   // Tap to skip: the rest of the replay in one short sweep, not a jump cut.
   const onChartPress = () => {
     if (choice === null || done) return;
-    armed.set(false);
     quiet();
     progress.set(
       withTiming(1, { duration: 220, easing: EASE_OUT }, (finished) => {
@@ -250,6 +222,7 @@ export default function ChartDecisionScreen({
             width={chartWidth}
             height={chartHeight}
             outcome={phase === 'done' ? outcome : undefined}
+            onCross={isLine ? undefined : onCross}
           />
         </Pressable>
         {/* In the strip under the plot, opposite the VWAP key: a line of its
