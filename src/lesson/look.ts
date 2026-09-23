@@ -3,8 +3,8 @@ import { useSyncExternalStore } from 'react';
 /**
  * Which visual layer the lesson wears.
  *
- * `neo` is the experimental one, and the default: an aurora that drifts behind
- * the grid and answers the lesson's mood, glowing chart lines, sparks off a
+ * `neo` is the experimental one, and the default: a grained, lit ground whose
+ * bottom edge answers the lesson's mood, glowing chart lines, sparks off a
  * right answer, glass surfaces, a streak meter in the top bar. `classic` is the
  * lesson as it was, flat panels on the grid, for anyone who would rather have
  * the numbers without the light show. Set from the picker before a lesson.
@@ -45,11 +45,11 @@ export function useLook(): Look {
 // ---------------------------------------------------------------------------
 
 /**
- * The lesson's last beat, broadcast. The backdrop listens and colours the room
- * with it -- green light rising from the bottom on a right answer, a dull red
- * dip on a wrong one, warm gold while a run is on. It is an event bus rather
- * than a prop because the backdrop sits in App, under the player, and the
- * player is the one that knows.
+ * The lesson's last beat, broadcast. The backdrop listens and lights the
+ * bottom edge with it -- green on a right answer, a dull red dip on a wrong
+ * one, warm gold while a run is on (components/Atmosphere.tsx). It is an event
+ * bus rather than a prop because the backdrop sits in App, under the player,
+ * and the player is the one that knows.
  */
 export type Mood = 'correct' | 'amber' | 'wrong' | 'streak' | 'calm' | 'complete' | 'commit';
 

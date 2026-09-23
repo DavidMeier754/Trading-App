@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Svg, { Defs, Line, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { useLook } from '../lesson/look';
-import Aurora from './Aurora';
+import Atmosphere, { Grain } from './Atmosphere';
 
 import { colors, GRID } from '../theme';
 
@@ -55,10 +55,11 @@ export default function Backdrop({
 
   return (
     <View style={styles.fill} pointerEvents="none">
-      {/* The ground, then the light, then the grid over both: the aurora glows
-          through the lines rather than washing them out. */}
+      {/* The ground, then the light, then the grid over both: the light falls
+          through the lines rather than washing them out. The grain goes on
+          last, over all of it, the way it sits in a print. */}
       <View style={[styles.fill, { backgroundColor: colors.background }]} />
-      {neo ? <Aurora width={width} height={height} /> : null}
+      {neo ? <Atmosphere width={width} height={height} /> : null}
       <Svg width={width} height={height} style={styles.fill}>
         <Defs>
           <RadialGradient id="backdropGlow" cx="50%" cy="0%" r="80%">
@@ -70,7 +71,7 @@ export default function Backdrop({
               eye lands in the middle where the lesson is. */}
           <RadialGradient id="backdropVignette" cx="50%" cy="45%" r="75%">
             <Stop offset="0.55" stopColor="#000000" stopOpacity="0" />
-            <Stop offset="1" stopColor="#000000" stopOpacity="0.55" />
+            <Stop offset="1" stopColor="#000000" stopOpacity="0.4" />
           </RadialGradient>
         </Defs>
 
@@ -91,6 +92,7 @@ export default function Backdrop({
           <Rect x={0} y={0} width={width} height={height} fill="url(#backdropVignette)" />
         ) : null}
       </Svg>
+      {neo ? <Grain /> : null}
     </View>
   );
 }

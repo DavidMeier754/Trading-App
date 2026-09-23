@@ -119,7 +119,7 @@ export default function LessonPlayer({
 
   // Every cue's player is built when the lesson opens, so none of them loads on
   // its first play -- the first play is the one whose lag you would hear.
-  // Leaving the lesson settles the room's light (components/Aurora.tsx).
+  // Leaving the lesson settles the edge light (components/Atmosphere.tsx).
   useEffect(() => {
     preloadCues();
     emitMood('calm');
