@@ -10,7 +10,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import Svg, { Line, Path } from 'react-native-svg';
+import Svg, { Defs, Line, LinearGradient, Path, Rect, Stop } from 'react-native-svg';
 
 import { colors } from '../theme';
 import { LookSpec, tint, useLookSpec } from './look';
@@ -33,6 +33,13 @@ import { EASE_IN_OUT, EASE_OUT, useMotion } from './motion';
  *   that slides along it.
  * - `chunky` (Arcade): the fat glossy bar that springs and gets a highlight
  *   sweep on every advance -- the Duolingo bar, where it belongs.
+ * - `bead` (Neo Mono): a hairline with a bead of white light at its head,
+ *   which breathes while it waits and flares on every advance.
+ * - `beam` (Neo Violet): a beam of light that brightens toward its head, like
+ *   a comet's tail, with a lit point where it ends.
+ * - `dots` (Classic Soft): a dot per screen; the current one is a ring that
+ *   springs along to the next.
+ * - `bold` (Classic Contrast): a tall outlined bar notched per screen.
  *
  * Every variant animates a width, an offset or an opacity on the UI thread;
  * the widths are on absolutely positioned elements that lay out nothing else.
@@ -59,6 +66,14 @@ export default function ProgressBar({
       return <Ruler target={target} steps={n} spec={spec} />;
     case 'chunky':
       return <Chunky target={target} hot={hot} spec={spec} />;
+    case 'bead':
+      return <Bead target={target} hot={hot} spec={spec} />;
+    case 'beam':
+      return <Beam target={target} hot={hot} spec={spec} />;
+    case 'dots':
+      return <Dots target={target} steps={n} hot={hot} spec={spec} />;
+    case 'bold':
+      return <Bold target={target} steps={n} hot={hot} spec={spec} />;
     default:
       return <Plain target={target} hot={hot} spec={spec} />;
   }
@@ -323,7 +338,239 @@ function Chunky({ target, hot, spec }: { target: number; hot: boolean; spec: Loo
   );
 }
 
+// ---------------------------------------------------------------------------
+// Neo Mono: a hairline with a bead of light
+// ---------------------------------------------------------------------------
+
+const BEAD = 8;
+
+function Bead({ target, hot, spec }: { target: number; hot: boolean; spec: LookSpec }) {
+  const m = useMotion();
+  const p = useFill(target, 620);
+  const warm = useWarm(hot);
+  const breathe = useSharedValue(0);
+  const flare = useSharedValue(0);
+  const last = useRef(target);
+  const { w, onLayout } = useTrackWidth();
+
+  useEffect(() => {
+    if (m.reduced) {
+      breathe.set(0);
+      return;
+    }
+    breathe.set(withRepeat(withTiming(1, { duration: 1400, easing: EASE_IN_OUT }), -1, true));
+  }, [m.reduced, breathe]);
+
+  useEffect(() => {
+    if (!m.reduced && target > last.current + 1e-6) {
+      flare.set(1);
+      flare.set(withTiming(0, { duration: 700, easing: EASE_OUT }));
+    }
+    last.current = target;
+  }, [target, m.reduced, flare]);
+
+  const lit = useAnimatedStyle(() => ({
+    width: `${p.get() * 100}%`,
+    backgroundColor: interpolateColor(warm.get(), [0, 1], [spec.accent, colors.warning]),
+  }));
+  const bead = useAnimatedStyle(() => {
+    const k = 1 + 0.18 * breathe.get() + 0.7 * flare.get();
+    return {
+      opacity: p.get() > 0.001 ? 1 : 0,
+      backgroundColor: interpolateColor(warm.get(), [0, 1], ['#FFFFFF', colors.warning]),
+      shadowOpacity: 0.55 + 0.35 * breathe.get() + 0.4 * flare.get(),
+      transform: [{ translateX: w * p.get() - BEAD / 2 }, { scale: k }],
+    };
+  });
+
+  return (
+    <View style={styles.beadTrack} onLayout={onLayout} accessibilityRole="progressbar">
+      <View style={styles.beadLine} />
+      <Animated.View style={[styles.beadLit, lit]} />
+      <Animated.View pointerEvents="none" style={[styles.beadDot, bead]} />
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Neo Violet: a beam of light
+// ---------------------------------------------------------------------------
+
+const BEAM_H = 4;
+
+function Beam({ target, hot, spec }: { target: number; hot: boolean; spec: LookSpec }) {
+  const p = useFill(target, 700);
+  const warm = useWarm(hot);
+  const { w, onLayout } = useTrackWidth();
+
+  const fill = useAnimatedStyle(() => ({ width: w * p.get() }));
+  const head = useAnimatedStyle(() => ({
+    opacity: p.get() > 0.001 ? 1 : 0,
+    backgroundColor: interpolateColor(warm.get(), [0, 1], ['#FFFFFF', colors.warning]),
+    shadowColor: interpolateColor(warm.get(), [0, 1], [spec.accent, colors.warning]),
+    transform: [{ translateX: w * p.get() - 3 }],
+  }));
+
+  return (
+    <View style={styles.beamTrack} onLayout={onLayout} accessibilityRole="progressbar">
+      <Animated.View style={[styles.beamFill, fill]}>
+        {/* The tail: faint where the lesson began, full at the head. The
+            gradient stretches with the fill, so it is always the whole beam. */}
+        <Svg width="100%" height={BEAM_H} preserveAspectRatio="none">
+          <Defs>
+            <LinearGradient id="beamTail" x1="0" y1="0" x2="1" y2="0">
+              <Stop offset="0" stopColor={spec.accent} stopOpacity="0.12" />
+              <Stop offset="0.7" stopColor={spec.accent} stopOpacity="0.7" />
+              <Stop offset="1" stopColor={spec.accent} stopOpacity="1" />
+            </LinearGradient>
+          </Defs>
+          <Rect x="0" y="0" width="100%" height={BEAM_H} rx={BEAM_H / 2} fill="url(#beamTail)" />
+        </Svg>
+      </Animated.View>
+      <Animated.View pointerEvents="none" style={[styles.beamHead, head]} />
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Classic Soft: a dot per screen
+// ---------------------------------------------------------------------------
+
+const DOTS_H = 10;
+
+function Dots({ target, steps, hot, spec }: { target: number; steps: number; hot: boolean; spec: LookSpec }) {
+  const m = useMotion();
+  const { w, onLayout } = useTrackWidth();
+  const done = Math.min(steps, Math.floor(target * steps + 1e-6));
+  const gap = steps > 30 ? 2 : 4;
+  const size = w > 0 ? Math.max(3, Math.min(9, (w - gap * (steps - 1)) / steps)) : 0;
+  const pitch = size + gap;
+  const x = useSharedValue(done * pitch);
+  const warm = useWarm(hot);
+
+  useEffect(() => {
+    x.set(
+      m.reduced
+        ? withTiming(done * pitch, { duration: 140 })
+        : withSpring(done * pitch, { duration: 520, dampingRatio: 0.7 })
+    );
+  }, [done, pitch, m.reduced, x]);
+
+  const ring = useAnimatedStyle(() => ({
+    borderColor: interpolateColor(warm.get(), [0, 1], [spec.accent, colors.warning]),
+    transform: [{ translateX: x.get() - 3 }],
+  }));
+  const on = hot ? colors.warning : spec.accent;
+
+  return (
+    <View style={styles.dotsTrack} onLayout={onLayout} accessibilityRole="progressbar">
+      {size > 0 ? (
+        <View style={[styles.dotsRow, { gap }]}>
+          {Array.from({ length: steps }, (_, i) => (
+            <View
+              key={i}
+              style={{
+                width: size,
+                height: size,
+                borderRadius: size / 2,
+                backgroundColor: i < done ? on : colors.surfaceAlt,
+              }}
+            />
+          ))}
+        </View>
+      ) : null}
+      {size > 0 && done < steps ? (
+        <Animated.View
+          pointerEvents="none"
+          style={[
+            styles.dotRing,
+            {
+              width: size + 6,
+              height: size + 6,
+              borderRadius: (size + 6) / 2,
+              top: (DOTS_H - size - 6) / 2,
+            },
+            ring,
+          ]}
+        />
+      ) : null}
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Classic Contrast: a bold, notched bar
+// ---------------------------------------------------------------------------
+
+const BOLD_H = 12;
+
+function Bold({ target, steps, hot, spec }: { target: number; steps: number; hot: boolean; spec: LookSpec }) {
+  const p = useFill(target, 420);
+  const { w, onLayout } = useTrackWidth();
+  const fill = useAnimatedStyle(() => ({ width: `${p.get() * 100}%` }));
+  const notches = steps <= 40 && w > 0 ? steps - 1 : 0;
+  return (
+    <View style={styles.boldTrack} onLayout={onLayout} accessibilityRole="progressbar">
+      <Animated.View
+        style={[styles.boldFill, { backgroundColor: hot ? colors.warning : spec.accent }, fill]}
+      />
+      {Array.from({ length: notches }, (_, i) => (
+        <View key={i} style={[styles.boldNotch, { left: ((i + 1) / steps) * (w - 3) }]} />
+      ))}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  // bead
+  beadTrack: { flex: 1, height: BEAD + 8, justifyContent: 'center' },
+  beadLine: { height: 2, borderRadius: 1, backgroundColor: 'rgba(255, 255, 255, 0.12)' },
+  beadLit: { position: 'absolute', left: 0, height: 2, borderRadius: 1 },
+  beadDot: {
+    position: 'absolute',
+    left: 0,
+    width: BEAD,
+    height: BEAD,
+    borderRadius: BEAD / 2,
+    shadowColor: '#FFFFFF',
+    shadowRadius: 7,
+    shadowOffset: { width: 0, height: 0 },
+  },
+  // beam
+  beamTrack: {
+    flex: 1,
+    height: BEAM_H,
+    borderRadius: BEAM_H / 2,
+    backgroundColor: 'rgba(190, 170, 255, 0.10)',
+  },
+  beamFill: { position: 'absolute', left: 0, top: 0, bottom: 0, overflow: 'hidden', borderRadius: BEAM_H / 2 },
+  beamHead: {
+    position: 'absolute',
+    left: 0,
+    top: -1,
+    width: 6,
+    height: BEAM_H + 2,
+    borderRadius: 3,
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 0 },
+  },
+  // dots
+  dotsTrack: { flex: 1, height: DOTS_H, justifyContent: 'center' },
+  dotsRow: { flexDirection: 'row', alignItems: 'center' },
+  dotRing: { position: 'absolute', left: 0, borderWidth: 2 },
+  // bold
+  boldTrack: {
+    flex: 1,
+    height: BOLD_H,
+    borderRadius: 3,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: '#000000',
+    overflow: 'hidden',
+  },
+  boldFill: { position: 'absolute', left: 0, top: 0, bottom: 0 },
+  boldNotch: { position: 'absolute', top: 0, bottom: 0, width: 1.5, backgroundColor: '#000000' },
   // tape
   tapeTrack: { flex: 1, height: TAPE_H, justifyContent: 'center' },
   tapeRow: { flexDirection: 'row', gap: TAPE_GAP, height: TAPE_H },

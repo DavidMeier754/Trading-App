@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
 import { colors, radius, space, type } from '../theme';
@@ -82,7 +82,10 @@ export default function Summary({
   const ratio = total === 0 ? 0 : (correct + amber) / total;
 
   return (
-    <ScrollView contentContainerStyle={styles.wrap} showsVerticalScrollIndicator={false}>
+    // No scroll box of its own: the lesson's content area fits a long list to
+    // the screen (lesson/fit.tsx), and a scroller inside it would be the one
+    // place a lesson still scrolled.
+    <View style={styles.wrap}>
       <Text style={styles.kicker}>{levelTitle}</Text>
       <View style={styles.scoreRow}>
         <Ring value={ratio} />
@@ -107,7 +110,7 @@ export default function Summary({
           </View>
         ))}
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

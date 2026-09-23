@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Svg, { G, Line, Path, Rect } from 'react-native-svg';
+import Animated, { useAnimatedProps } from 'react-native-reanimated';
+import Svg, { G, Line, Path } from 'react-native-svg';
 
+import { surfaceStyle, useLookSpec } from '../lesson/look';
+import { DURATION } from '../lesson/motion';
 import { colors } from '../theme';
 import type { MiniChart as Spec } from '../types';
+import { BuildCandle, buildStagger, useEntrance } from './ChartBuild';
+
+const AnimatedPath = Animated.createAnimatedComponent(Path);
+const AnimatedG = Animated.createAnimatedComponent(G);
+
+/** The card is still arriving when the bars start. */
+const ENTRY_DELAY = 140;
 
 /**
  * docs/UI.md §6.4 "[v3] Mini variant" — no axes, no volume, 8-10 bars, one
  * optional level line. Readable at a glance at half height, for `swipe-deck`
  * and `compare`.
+ *
+ * It builds in like the full chart (components/ChartBuild.tsx): candles grow
+ * left to right, a line draws itself on, and the level is ruled in after. A
+ * deck card mounts as it comes up, so every card arrives this way.
  */
 export default function MiniChart({
   spec,
@@ -19,6 +33,7 @@ export default function MiniChart({
   width: number;
   height?: number;
 }) {
+  const look = useLookSpec();
   const isCandles = spec.kind === 'candles';
   const rows = spec.data as any[];
   const n = rows.length;
@@ -39,56 +54,79 @@ export default function MiniChart({
   const y = (p: number) => pad + plotH - ((p - lo) / (hi - lo)) * plotH;
   const slot = plotW / n;
   const cx = (i: number) => pad + slot * (i + 0.5);
-  const bodyW = Math.max(3, Math.min(slot * 0.6, 14));
+  const bodyW = Math.max(3, Math.min(slot * 0.66, 16));
+
+  const stagger = buildStagger(n);
+  const draw = useEntrance(!isCandles, ENTRY_DELAY, DURATION.draw);
+  const overlay = useEntrance(true, ENTRY_DELAY + n * stagger * 0.7, 480);
+
+  const line = useMemo(() => {
+    if (isCandles) return { d: '', length: 0 };
+    let d = '';
+    let length = 0;
+    (rows as number[]).forEach((v, i) => {
+      d += `${i === 0 ? 'M' : 'L'}${cx(i).toFixed(2)},${y(v).toFixed(2)} `;
+      if (i > 0) length += Math.hypot(cx(i) - cx(i - 1), y(v) - y(rows[i - 1]));
+    });
+    return { d, length };
+    // cx and y are derived from the same inputs
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows, width, height, isCandles, lo, hi]);
+
+  const lineProps = useAnimatedProps(() => ({
+    strokeDashoffset: line.length * (1 - draw.get()),
+  }));
+  const levelProps = useAnimatedProps(() => ({ opacity: overlay.get() }));
 
   return (
-    <View style={[styles.wrap, { width, height }]}>
+    <View style={[styles.wrap, surfaceStyle(look), { width, height }]}>
       <Svg width={width} height={height}>
-        {levels.map((lvl, i) => (
-          <Line
-            key={i}
-            x1={pad}
-            x2={pad + plotW}
-            y1={y(lvl.price)}
-            y2={y(lvl.price)}
-            stroke={colors.warning}
-            strokeWidth={1}
-            strokeDasharray="4 3"
-          />
-        ))}
+        <AnimatedG animatedProps={levelProps}>
+          {levels.map((lvl, i) => (
+            <Line
+              key={i}
+              x1={pad}
+              x2={pad + plotW}
+              y1={y(lvl.price)}
+              y2={y(lvl.price)}
+              stroke={colors.warning}
+              strokeWidth={1}
+              strokeDasharray="4 3"
+            />
+          ))}
+        </AnimatedG>
         {isCandles ? (
           <G>
             {rows.map((r, i) => {
               const [o, h, l, c] = r as number[];
-              const up = c >= o;
-              const stroke = up ? colors.up : colors.down;
-              const top = y(Math.max(o, c));
-              const bottom = y(Math.min(o, c));
               return (
-                <G key={i}>
-                  <Line x1={cx(i)} x2={cx(i)} y1={y(h)} y2={y(l)} stroke={stroke} strokeWidth={1} />
-                  <Rect
-                    x={cx(i) - bodyW / 2}
-                    y={top}
-                    width={bodyW}
-                    height={Math.max(1.5, bottom - top)}
-                    fill={up ? stroke : colors.background}
-                    stroke={stroke}
-                    strokeWidth={1}
-                  />
-                </G>
+                <BuildCandle
+                  key={i}
+                  x={cx(i)}
+                  bodyW={bodyW}
+                  yOpen={y(o)}
+                  yClose={y(c)}
+                  yHigh={y(h)}
+                  yLow={y(l)}
+                  up={c >= o}
+                  play
+                  delay={ENTRY_DELAY + i * stagger}
+                  strokeWidth={1}
+                  rx={0}
+                />
               );
             })}
           </G>
         ) : (
-          <Path
-            d={(rows as number[])
-              .map((v, i) => `${i === 0 ? 'M' : 'L'}${cx(i)},${y(v)}`)
-              .join(' ')}
-            stroke={colors.accent}
+          <AnimatedPath
+            d={line.d}
+            stroke={look.chartLine}
             strokeWidth={2}
             fill="none"
             strokeLinejoin="round"
+            strokeLinecap="round"
+            strokeDasharray={`${line.length} ${line.length}`}
+            animatedProps={lineProps}
           />
         )}
       </Svg>

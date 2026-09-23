@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,7 +9,6 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import DecisionButtons, { DECISION_LABEL } from '../components/DecisionButtons';
-import { nudgeGrid } from '../components/gridAlign';
 import ChartDecisionScreen, {
   DecisionPhase,
 } from '../screens/ChartDecisionScreen';
@@ -69,6 +68,7 @@ import QuitSheet from './QuitSheet';
 import Reveal from './Reveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
+import { FitScreen } from './fit';
 import { emitMood, useLookSpec } from './look';
 import { preloadCues } from './sound';
 import StreakMeter from './StreakMeter';
@@ -78,16 +78,19 @@ export default function LessonPlayer({
   level,
   contentWidth,
   onQuit,
+  startAt = 0,
 }: {
   level: Level;
   contentWidth: number;
   /** docs/UI.md §2: the close ✕ leaves the lesson. */
   onQuit?: () => void;
+  /** Open on this screen instead of the first (the test bench's deep links). */
+  startAt?: number;
 }) {
   const insets = useSafeAreaInsets();
   const screens = level.screens;
 
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(() => Math.max(0, Math.min(startAt, screens.length - 1)));
   const [values, setValues] = useState<(AnswerValue | null)[]>(() =>
     screens.map(emptyValue)
   );
@@ -347,24 +350,13 @@ export default function LessonPlayer({
       {/* The animated wrapper must outlive the screen swap: if the node carrying
           the opacity is the one that remounts, Animated loses its host and the
           incoming screen stays at the outgoing screen's last value. The keyed
-          ScrollView inside gives each screen a fresh scroll offset and fresh
-          component state; the wrapper around it stays put. */}
+          content area inside gives each screen fresh component state; the
+          wrapper around it stays put. */}
       <Animated.View style={[styles.scroll, screenStyle]}>
-        {/* docs/UI.md §2: a screen is one screenful and does not scroll. The
-            container is a ScrollView anyway, with `flexGrow: 1` on its content:
-            anything that fits is centred and cannot be dragged, exactly as
-            before. What changes is the case §10 names as the fallback — a
-            window too short for the screen, or type past 130% — where the old
-            plain View clipped whatever did not fit, silently and usually the
-            CTA. */}
-        <ScrollView
-          key={`${runKey}-${index}`}
-          style={styles.scrollView}
-          contentContainerStyle={styles.content}
-          showsVerticalScrollIndicator={false}
-          onScrollEndDrag={nudgeGrid}
-          onMomentumScrollEnd={nudgeGrid}
-        >
+        {/* docs/UI.md §2: a screen is one screenful and does not scroll. One
+            that does not fit -- a short window, a long reveal, type past 130% --
+            is scaled down until it does (lesson/fit.tsx), never scrolled. */}
+        <FitScreen key={`${runKey}-${index}`} contentStyle={styles.content} bottomPad={space.lg}>
         <VerdictProvider value={verdict}>
         {atSummary ? (
           <LessonComplete
@@ -392,7 +384,7 @@ export default function LessonPlayer({
           })
         )}
         </VerdictProvider>
-        </ScrollView>
+        </FitScreen>
       </Animated.View>
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg }]}>
@@ -628,7 +620,6 @@ const styles = StyleSheet.create({
   closeText: { ...type.title, color: colors.textMuted },
   heartSlot: { minWidth: 32, alignItems: 'flex-end' },
   scroll: { flex: 1 },
-  scrollView: { flex: 1 },
   content: { flexGrow: 1, paddingHorizontal: space.lg, paddingBottom: space.lg },
   footer: {
     paddingHorizontal: space.lg,

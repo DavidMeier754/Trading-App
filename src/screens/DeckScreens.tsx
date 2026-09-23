@@ -75,7 +75,8 @@ export function SwipeDeckScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
       <Text style={styles.counter}>{`${index + 1}/${screen.cards.length}`}</Text>
-      <MiniChart spec={card.chart} width={width} height={150} />
+      {/* Keyed by card, so each one builds itself in as it comes up. */}
+      <MiniChart key={index} spec={card.chart} width={width} height={180} />
       {lastCard && lastPick ? (
         <Text
           style={[

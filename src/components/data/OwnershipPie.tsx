@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedProps,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 
+import { useLookSpec } from '../../lesson/look';
+import { EASE_OUT } from '../../lesson/motion';
+import { useReduceMotion } from '../../lesson/useReduceMotion';
 import { colors, space, type } from '../../theme';
+import { GROW_DELAY } from './GrowBar';
+
+const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 /** docs/UI.md §6.1 — a circle of N equal slices, `owned` of them filled. */
 export default function OwnershipPie({
@@ -27,6 +39,11 @@ export default function OwnershipPie({
     return `M${cx},${cy} L${x0},${y0} A${r},${r} 0 0 1 ${x1},${y1} Z`;
   };
 
+  const accent = useLookSpec().accent;
+  // The owned slices light one after another, clockwise from twelve: the
+  // count is the lesson, so it is counted out rather than shown at once.
+  const step = Math.min(90, 520 / Math.max(1, owned));
+
   return (
     <View style={styles.wrap}>
       <Svg width={size} height={size}>
@@ -34,16 +51,39 @@ export default function OwnershipPie({
           <Path
             key={i}
             d={slice(i)}
-            fill={i < owned ? colors.accent : colors.surfaceAlt}
+            fill={colors.surfaceAlt}
             stroke={colors.background}
             strokeWidth={1}
           />
+        ))}
+        {Array.from({ length: owned }, (_, i) => (
+          <OwnedSlice key={`o${i}`} d={slice(i)} fill={accent} delay={GROW_DELAY + i * step} />
         ))}
       </Svg>
       <Text style={styles.caption}>
         {`${owned} of ${total} = ${((owned / total) * 100).toFixed(0)} %`}
       </Text>
     </View>
+  );
+}
+
+function OwnedSlice({ d, fill, delay }: { d: string; fill: string; delay: number }) {
+  const reduced = useReduceMotion();
+  const v = useSharedValue(reduced ? 1 : 0);
+  useEffect(() => {
+    if (!reduced) v.set(withDelay(delay, withTiming(1, { duration: 260, easing: EASE_OUT })));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const props = useAnimatedProps(() => ({ fillOpacity: v.get() }));
+  return (
+    <AnimatedPath
+      d={d}
+      fill={fill}
+      fillOpacity={reduced ? 1 : 0}
+      stroke={colors.background}
+      strokeWidth={1}
+      animatedProps={props}
+    />
   );
 }
 

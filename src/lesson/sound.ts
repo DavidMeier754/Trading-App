@@ -2,6 +2,7 @@ import { useSyncExternalStore } from 'react';
 import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
 
 import { CUES, type CueName } from './cues.generated';
+import { beforeFirstTap } from './gesture';
 
 /**
  * The speaker half of a cue. The files are rendered by `tools/gen_sounds.py`
@@ -65,7 +66,7 @@ export function preloadCues(): void {
 }
 
 export function playSound(name: CueName): void {
-  if (!enabled) return;
+  if (!enabled || beforeFirstTap()) return;
   const player = playerFor(name);
   if (!player) return;
   try {

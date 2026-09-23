@@ -5,6 +5,7 @@ import Chart, {
   chartHeightFor,
   chartLayout,
   chartWidthFor,
+  DEFAULT_GAPS,
   domainOf,
   toCandles,
 } from '../components/Chart';
@@ -14,6 +15,7 @@ import ScannerTable from '../components/data/ScannerTable';
 import Visual from '../components/Visual';
 import type { AnswerValue } from '../lesson/answers';
 import { tapFeedback } from '../lesson/feedback';
+import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type {
   ChartSpec,
@@ -164,8 +166,13 @@ export function ChartTapScreen({
     data: screen.chart.data as any,
     decision_index: -1,
   };
-  const height = chartHeightFor(false);
-  const chartWidth = chartWidthFor(width, false);
+  const fit = useChartGaps({
+    preferred: DEFAULT_GAPS,
+    growth: REVEAL_GROWTH,
+    locked: picked !== null || revealed,
+  });
+  const height = chartHeightFor(false, fit.gaps);
+  const chartWidth = chartWidthFor(width, false, fit.gaps);
   const grid = useGridAnchor(picked);
 
   // The columns are placed from the chart's own geometry. They used to be a
@@ -185,6 +192,7 @@ export function ChartTapScreen({
 
   return (
     <View style={styles.wrap}>
+      <View style={styles.column} onLayout={fit.onLayout}>
       <Prompt>{screen.prompt}</Prompt>
       <View
         ref={grid.ref}
@@ -243,6 +251,7 @@ export function ChartTapScreen({
             );
           })}
         </View>
+      </View>
       </View>
     </View>
   );
@@ -332,6 +341,7 @@ export function SliderScreen({
 
 const styles = StyleSheet.create({
   wrap: { flex: 1, justifyContent: 'center', gap: space.lg },
+  column: { gap: space.lg },
   tapRow: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 },
   tapCol: { position: 'absolute', borderRadius: radius.sm, borderWidth: 1.5 },
   sliderValue: { ...type.display, color: colors.text, textAlign: 'center' },

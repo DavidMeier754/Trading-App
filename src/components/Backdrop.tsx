@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import Svg, { Defs, Line, RadialGradient, Rect, Stop } from 'react-native-svg';
 
+import { fitScale, fitTop } from '../lesson/fitState';
 import { useLookSpec } from '../lesson/look';
 import Atmosphere, { Texture } from './Atmosphere';
 
@@ -20,11 +22,11 @@ const MAJOR_EVERY = 4;
  *
  * Drawn as plain `Line`s rather than an SVG `Pattern`. A pattern is the tidier
  * description, but it is one of the less-travelled corners of react-native-svg,
- * and a phone-sized grid is only ~45 lines. Lines and gradients are the parts
- * every renderer has always supported.
+ * and a phone-sized grid is only ~130 lines even drawn past the frame. Lines
+ * and gradients are the parts every renderer has always supported.
  *
- * One static SVG behind everything, `pointerEvents="none"`: one draw, and it
- * never takes a touch.
+ * Static SVGs behind everything, `pointerEvents="none"`: one draw each, and
+ * they never take a touch. The grid layer's only movement is a transform.
  */
 export default function Backdrop({
   width,
@@ -33,6 +35,11 @@ export default function Backdrop({
   width: number;
   height: number;
 }) {
+  // The grid is drawn past the frame on every side: when a screen too tall for
+  // the window is scaled down to fit (lesson/fit.tsx), the grid is scaled with
+  // it about the same point, and has to still reach the edges when it is.
+  const extX = width / 2;
+  const extY = height;
   const lines = useMemo(() => {
     const out: {
       key: string;
@@ -42,14 +49,30 @@ export default function Backdrop({
       y2: number;
       major: boolean;
     }[] = [];
-    for (let i = 1, x = GRID; x < width; i++, x += GRID) {
-      out.push({ key: `v${i}`, x1: x, y1: 0, x2: x, y2: height, major: i % MAJOR_EVERY === 0 });
+    // Frame coordinates, shifted into the oversized layer. Line k sits where
+    // it always did; the extension only adds lines beyond the frame.
+    const w = width + 2 * extX;
+    const h = height + 2 * extY;
+    const first = (ext: number) => -Math.floor(ext / GRID);
+    for (let i = first(extX); i * GRID < width + extX; i++) {
+      if (i === 0) continue;
+      const x = i * GRID + extX;
+      out.push({ key: `v${i}`, x1: x, y1: 0, x2: x, y2: h, major: i % MAJOR_EVERY === 0 });
     }
-    for (let i = 1, y = GRID; y < height; i++, y += GRID) {
-      out.push({ key: `h${i}`, x1: 0, y1: y, x2: width, y2: y, major: i % MAJOR_EVERY === 0 });
+    for (let i = first(extY); i * GRID < height + extY; i++) {
+      if (i === 0) continue;
+      const y = i * GRID + extY;
+      out.push({ key: `h${i}`, x1: 0, y1: y, x2: w, y2: y, major: i % MAJOR_EVERY === 0 });
     }
     return out;
-  }, [width, height]);
+  }, [width, height, extX, extY]);
+
+  // Scale about (width / 2, fitTop) in frame coordinates. The layer's own
+  // centre is the frame's centre, so only the vertical offset needs undoing.
+  const pullBack = useAnimatedStyle(() => {
+    const s = fitScale.get();
+    return { transform: [{ translateY: (fitTop.get() - height / 2) * (1 - s) }, { scale: s }] };
+  });
 
   const spec = useLookSpec();
   const g = spec.ground;
@@ -70,23 +93,16 @@ export default function Backdrop({
           the look's choice (lesson/look.ts). */}
       <View style={[styles.fill, { backgroundColor: g.color }]} />
       {g.edgeLight ? <Atmosphere width={width} height={height} /> : null}
-      <Svg width={width} height={height} style={styles.fill}>
-        <Defs>
-          <RadialGradient id="backdropGlow" cx="50%" cy="0%" r="80%">
-            <Stop offset="0" stopColor={colors.accent} stopOpacity="0.16" />
-            <Stop offset="0.45" stopColor={colors.accent} stopOpacity="0.05" />
-            <Stop offset="1" stopColor={colors.accent} stopOpacity="0" />
-          </RadialGradient>
-          {/* A lens: the edges fall off into the dark, so the eye lands in the
-              middle where the lesson is. */}
-          <RadialGradient id="backdropVignette" cx="50%" cy="45%" r="75%">
-            <Stop offset="0.55" stopColor="#000000" stopOpacity="0" />
-            <Stop offset="1" stopColor="#000000" stopOpacity="0.4" />
-          </RadialGradient>
-        </Defs>
-
-        {g.grid !== 'none'
-          ? lines.map((l) => (
+      {g.grid !== 'none' ? (
+        <Animated.View
+          style={[
+            styles.gridLayer,
+            { left: -extX, top: -extY, width: width + 2 * extX, height: height + 2 * extY },
+            pullBack,
+          ]}
+        >
+          <Svg width={width + 2 * extX} height={height + 2 * extY}>
+            {lines.map((l) => (
               <Line
                 key={l.key}
                 x1={l.x1}
@@ -96,8 +112,24 @@ export default function Backdrop({
                 stroke={lineColor(l.major)}
                 strokeWidth={1}
               />
-            ))
-          : null}
+            ))}
+          </Svg>
+        </Animated.View>
+      ) : null}
+      <Svg width={width} height={height} style={styles.fill}>
+        <Defs>
+          <RadialGradient id="backdropGlow" cx="50%" cy="0%" r="80%">
+            <Stop offset="0" stopColor={spec.accent} stopOpacity="0.16" />
+            <Stop offset="0.45" stopColor={spec.accent} stopOpacity="0.05" />
+            <Stop offset="1" stopColor={spec.accent} stopOpacity="0" />
+          </RadialGradient>
+          {/* A lens: the edges fall off into the dark, so the eye lands in the
+              middle where the lesson is. */}
+          <RadialGradient id="backdropVignette" cx="50%" cy="45%" r="75%">
+            <Stop offset="0.55" stopColor="#000000" stopOpacity="0" />
+            <Stop offset="1" stopColor="#000000" stopOpacity="0.4" />
+          </RadialGradient>
+        </Defs>
 
         {g.topGlow ? (
           <Rect x={0} y={0} width={width} height={height} fill="url(#backdropGlow)" />
@@ -113,4 +145,5 @@ export default function Backdrop({
 
 const styles = StyleSheet.create({
   fill: { position: 'absolute', left: 0, top: 0, right: 0, bottom: 0 },
+  gridLayer: { position: 'absolute' },
 });

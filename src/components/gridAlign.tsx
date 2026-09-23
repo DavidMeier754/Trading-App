@@ -8,6 +8,8 @@ import React, {
 } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
+import { fitScale, fitTop, useFit } from '../lesson/fitState';
+
 /**
  * Snapping a chart's price gridlines onto the backdrop's grid (Backdrop.tsx).
  *
@@ -48,21 +50,6 @@ export function useGridOrigin(): number {
 }
 
 /**
- * Ask every mounted chart to re-measure.
- *
- * For the movements no dependency can see: a screen that overflows and is
- * scrolled (docs/UI.md §10's fallback), where the chart travels under a
- * backdrop that stays put. Called on scroll end rather than per frame — a
- * measurement every frame is 60 state updates a second to chase something the
- * learner is actively dragging.
- */
-const nudgeListeners = new Set<() => void>();
-
-export function nudgeGrid(): void {
-  nudgeListeners.forEach((listener) => listener());
-}
-
-/**
  * Spread the result onto the `View` that wraps a chart:
  *
  *   const grid = useGridAnchor(phase);
@@ -77,24 +64,39 @@ export function useGridAnchor(token?: unknown): {
   onLayout: () => void;
   gridAnchor: number | undefined;
   /** The same measurement in window coordinates, for turning a touch's `pageY`
-   *  into a position inside the chart. */
+   *  into a position inside the chart (`toLocalY`). */
   windowY: number | undefined;
+  /** A touch's `pageY` as a y inside the chart, scale undone. */
+  toLocalY: (pageY: number) => number | undefined;
 } {
   const originY = useGridOrigin();
+  const { settled } = useFit();
   const { width, height } = useWindowDimensions();
   const ref = useRef<View | null>(null);
   const [windowY, setWindowY] = useState<number | undefined>(undefined);
+  const [scale, setScale] = useState(1);
 
   const measure = useCallback(() => {
     const node = ref.current;
     if (!node) return;
     node.measureInWindow((_x, measured) => {
       if (!Number.isFinite(measured)) return;
+      // A screen too tall for its window is drawn scaled down about the top of
+      // the content area (lesson/fit.tsx), and a measurement sees the scaled
+      // position. The grid is scaled about the same point, so the snap is
+      // worked out where both are unscaled: undo the scale, snap there.
+      const s = fitScale.get();
+      const top = originY + fitTop.get();
+      const unscaled = s === 1 ? measured : top + (measured - top) / s;
+      // Readings at rest agree to the hundredth, so anything past that is a
+      // real move. The old half-point dead band let a first reading taken
+      // mid-transition (a third of a point off) stand for good.
       setWindowY((prev) =>
-        prev !== undefined && Math.abs(prev - measured) < 0.5 ? prev : measured
+        prev !== undefined && Math.abs(prev - unscaled) < 0.05 ? prev : unscaled
       );
+      setScale((prev) => (Math.abs(prev - s) < 1e-3 ? prev : s));
     });
-  }, []);
+  }, [originY]);
 
   useEffect(() => {
     measure();
@@ -106,23 +108,33 @@ export function useGridAnchor(token?: unknown): {
     // look brings a screen up from 96.5% scale, and a reading taken while it
     // is still scaled lands the chart a fraction of a point off the grid.
     const rest = setTimeout(measure, 720);
+    // That arrival is a spring, and a spring's `duration` is how long it looks
+    // like it takes, not how long it runs: its last fraction of a percent is
+    // still moving at 720 ms, a quarter of a point on a chart near the bottom.
+    const still = setTimeout(measure, 1400);
     return () => {
       clearTimeout(settle);
       clearTimeout(rest);
+      clearTimeout(still);
     };
-  }, [measure, width, height, token]);
+  }, [measure, width, height, token, settled]);
 
-  useEffect(() => {
-    nudgeListeners.add(measure);
-    return () => {
-      nudgeListeners.delete(measure);
-    };
-  }, [measure]);
+  const toLocalY = useCallback(
+    (pageY: number) => {
+      if (windowY === undefined || !Number.isFinite(pageY)) return undefined;
+      // `windowY` is unscaled; the touch is where the scaled chart was drawn.
+      const top = originY + fitTop.get();
+      const drawnAt = top + (windowY - top) * scale;
+      return (pageY - drawnAt) / scale;
+    },
+    [windowY, originY, scale]
+  );
 
   return {
     ref,
     onLayout: measure,
     gridAnchor: windowY === undefined ? undefined : windowY - originY,
     windowY,
+    toLocalY,
   };
 }

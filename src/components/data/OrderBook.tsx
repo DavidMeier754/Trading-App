@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { count, price } from '../../format';
 import { colors, radius, space, type } from '../../theme';
+import GrowBar from './GrowBar';
 
 type Level = [number, number];
 
@@ -46,16 +47,12 @@ export default function OrderBook({
               resolved?.[id] ? { borderColor: resolved[id] } : null,
             ]}
           >
-            <View
-              style={[
-                styles.sizeBar,
-                {
-                  width: `${(size / maxSize) * 100}%`,
-                  backgroundColor: tint,
-                  opacity: 0.16,
-                  [kind === 'bid' ? 'right' : 'left']: 0,
-                },
-              ]}
+            {/* Depth grows out from the spread, level by level. */}
+            <GrowBar
+              to={(size / maxSize) * 100}
+              from={kind === 'bid' ? 'right' : 'left'}
+              delay={i * 70}
+              style={[styles.sizeBar, { backgroundColor: tint, opacity: 0.16 }]}
             />
             <Text style={[styles.price, { color: tint }]}>{price(p)}</Text>
             <Text style={styles.size}>{count(size)}</Text>

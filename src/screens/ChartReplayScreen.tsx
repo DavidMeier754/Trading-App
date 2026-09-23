@@ -1,11 +1,13 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import Chart, { chartHeightFor, chartWidthFor } from '../components/Chart';
+import Chart, { chartHeightFor, chartWidthFor, DEFAULT_GAPS } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import type { AnswerValue } from '../lesson/answers';
 import { replayLabels } from '../lesson/answers';
 import { commitFeedback, NOTE_STEPS, noteFeedback } from '../lesson/feedback';
+import { useChartGaps } from '../lesson/fit';
+import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { ChartReplayScreen as S } from '../types';
 import { Prompt } from './common';
@@ -48,8 +50,13 @@ export default function ChartReplayScreen({
   const [bar, setBar] = React.useState(startBar);
 
   const hasVolume = Array.isArray(screen.chart.volume) && screen.chart.volume.length > 0;
-  const height = chartHeightFor(hasVolume);
-  const chartWidth = chartWidthFor(width, hasVolume);
+  const look = useLookSpec();
+  // Nothing grows under this chart while it plays -- the post-mortem replaces
+  // the whole screen -- so it takes all the room there is from the start and
+  // keeps it once the first bar is asked for.
+  const fit = useChartGaps({ preferred: DEFAULT_GAPS, growth: 0, locked: bar > startBar });
+  const height = chartHeightFor(hasVolume, fit.gaps);
+  const chartWidth = chartWidthFor(width, hasVolume, fit.gaps);
   const atEnd = bar >= total;
   // The bar counter and the action rows below the chart change height as the
   // replay runs, which moves the chart, so the anchor follows the bar.
@@ -146,6 +153,7 @@ export default function ChartReplayScreen({
 
   return (
     <View style={styles.wrap}>
+      <View style={styles.column} onLayout={fit.onLayout}>
       <Prompt>{screen.prompt}</Prompt>
 
       <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
@@ -155,6 +163,7 @@ export default function ChartReplayScreen({
           width={chartWidth}
           height={height}
           showDecisionMarker={false}
+          showFuture
           gridAnchor={grid.gridAnchor}
         />
       </View>
@@ -164,10 +173,10 @@ export default function ChartReplayScreen({
       </Text>
 
       <View style={styles.actions}>
-        <Pressable accessibilityRole="button" onPress={() => act('long')} style={[styles.action, { borderColor: colors.up }]}>
+        <Pressable accessibilityRole="button" onPress={() => act('long')} style={[styles.action, surfaceStyle(look), { borderColor: colors.up }]}>
           <Text style={styles.actionText}>Long</Text>
         </Pressable>
-        <Pressable accessibilityRole="button" onPress={() => act('short')} style={[styles.action, { borderColor: colors.down }]}>
+        <Pressable accessibilityRole="button" onPress={() => act('short')} style={[styles.action, surfaceStyle(look), { borderColor: colors.down }]}>
           <Text style={styles.actionText}>Short</Text>
         </Pressable>
       </View>
@@ -177,13 +186,19 @@ export default function ChartReplayScreen({
           accessibilityRole="button"
           disabled={atEnd}
           onPress={nextBar}
-          style={[styles.action, styles.next, atEnd && styles.actionOff]}
+          style={[
+            styles.action,
+            surfaceStyle(look),
+            { borderColor: look.accent, backgroundColor: tint(look.accent, 0.14) },
+            atEnd && styles.actionOff,
+          ]}
         >
           <Text style={styles.actionText}>{atEnd ? 'End of session' : 'Next bar'}</Text>
         </Pressable>
-        <Pressable accessibilityRole="button" onPress={end} style={styles.action}>
+        <Pressable accessibilityRole="button" onPress={end} style={[styles.action, surfaceStyle(look)]}>
           <Text style={styles.actionText}>Nothing here</Text>
         </Pressable>
+      </View>
       </View>
     </View>
   );
@@ -191,6 +206,7 @@ export default function ChartReplayScreen({
 
 const styles = StyleSheet.create({
   wrap: { flex: 1, justifyContent: 'center', gap: space.sm },
+  column: { gap: space.sm },
   chartBox: { alignSelf: 'center' },
   barCount: { ...type.small, color: colors.textMuted, textAlign: 'center' },
   actions: { flexDirection: 'row', gap: space.sm },
@@ -204,7 +220,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  next: { borderColor: colors.accent, backgroundColor: colors.accentTint },
   actionOff: { opacity: 0.45 },
   actionText: { ...type.answer, color: colors.text },
   postTitle: { ...type.title, color: colors.text },

@@ -3,6 +3,7 @@ import { Platform, Vibration } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
 import type { HapticStyle, Pulse } from './cues.generated';
+import { beforeFirstTap } from './gesture';
 
 /**
  * The motor half of a cue. Which pulses fire, and when, is not decided here: it
@@ -89,6 +90,7 @@ const STRONG: Record<HapticStyle, readonly (readonly [number, Motor])[]> = {
 };
 
 function motor(m: Motor): void {
+  if (beforeFirstTap()) return;
   try {
     const done = m === 'selection' ? Haptics.selectionAsync() : Haptics.impactAsync(m);
     void Promise.resolve(done).catch(ignore);
@@ -148,6 +150,7 @@ const webVibrate =
   Platform.OS === 'web' && typeof navigator !== 'undefined' && 'vibrate' in navigator;
 
 export function startRumble(level: number): void {
+  if (beforeFirstTap()) return;
   if (setting === 'off') return;
   const strength = Math.max(0, Math.min(1, level));
   stopRumble();

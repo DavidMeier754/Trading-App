@@ -6,7 +6,8 @@ import { LessonEntry } from './content';
 import { Arrive } from './lesson/Celebrate';
 import { tapFeedback } from './lesson/feedback';
 import { HapticsSetting, setHapticsSetting, useHapticsSetting } from './lesson/haptics';
-import { Look, LOOKS, setLook, surfaceStyle, tint, useLook } from './lesson/look';
+import { FitScreen } from './lesson/fit';
+import { Look, LookFamily, LOOKS, setLook, surfaceStyle, tint, useLook } from './lesson/look';
 import { setSoundEnabled, useSoundEnabled } from './lesson/sound';
 import {
   MotionSetting,
@@ -36,8 +37,11 @@ export default function LessonPicker({
   const sound = useSoundEnabled();
   const motion = useMotionSetting();
 
+  // Nothing scrolls here either (lesson/fit.tsx): on a short window the
+  // picker scales down to fit rather than hiding its settings below the fold.
   return (
-    <View style={[styles.wrap, { paddingTop: insets.top + space.xxl, paddingBottom: insets.bottom + space.xl }]}>
+    <View style={[styles.outer, { paddingTop: insets.top + space.lg, paddingBottom: insets.bottom + space.md }]}>
+    <FitScreen contentStyle={styles.wrap} bottomPad={0}>
       <Arrive>
         <Text style={styles.title}>Pick a lesson</Text>
       </Arrive>
@@ -67,16 +71,22 @@ export default function LessonPicker({
       <Arrive delay={260}>
         <View style={[styles.panel, surfaceStyle(spec)]}>
           <Text style={styles.panelTitle}>Before you start</Text>
-          {/* Five whole designs, not colour swaps (lesson/look.ts). The line
-              under the chips says what the picked one is. */}
-          <Choice<Look>
-            label="Look"
-            value={look}
-            onChange={setLook}
-            accent={spec.accent}
-            options={(Object.keys(LOOKS) as Look[]).map((id) => ({ id, text: LOOKS[id].name }))}
-          />
-          <Text style={styles.blurb}>{spec.blurb}</Text>
+          {/* Whole designs, not colour swaps (lesson/look.ts), grouped by the
+              idea they vary. The line under the chips says what the picked
+              one is. */}
+          {FAMILIES.map((family) => (
+            <Choice<Look>
+              key={family.id}
+              label={family.label}
+              value={look}
+              onChange={setLook}
+              accent={spec.accent}
+              options={(Object.keys(LOOKS) as Look[])
+                .filter((id) => LOOKS[id].family === family.id)
+                .map((id) => ({ id, text: LOOKS[id].chip }))}
+            />
+          ))}
+          <Text style={styles.blurb}>{`${spec.name}. ${spec.blurb}`}</Text>
           {/* docs/UI.md §10 gives haptics and sounds a toggle each. Strong is
               the harder, rounder set; Classic is one light tap per beat. */}
           <Choice<HapticsSetting>
@@ -116,9 +126,16 @@ export default function LessonPicker({
           />
         </View>
       </Arrive>
+    </FitScreen>
     </View>
   );
 }
+
+const FAMILIES: { id: LookFamily; label: string }[] = [
+  { id: 'neo', label: 'Neo' },
+  { id: 'classic', label: 'Classic' },
+  { id: 'more', label: 'More' },
+];
 
 function Choice<T>({
   label,
@@ -159,8 +176,9 @@ function Choice<T>({
 }
 
 const styles = StyleSheet.create({
+  outer: { flex: 1 },
   wrap: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: space.lg,
     gap: space.lg,
     justifyContent: 'center',

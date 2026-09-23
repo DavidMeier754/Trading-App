@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
   Easing,
   SharedValue,
   useAnimatedProps,
   useAnimatedReaction,
+  useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
@@ -22,6 +23,8 @@ import Svg, {
 
 import { axisPrice, volume as fmtVolume } from '../format';
 import { useLookSpec } from '../lesson/look';
+import { DURATION } from '../lesson/motion';
+import { BuildCandle, buildStagger, BuildVolume, useEntrance } from './ChartBuild';
 import { CHART_GRID_STEP, colors, GRID, type } from '../theme';
 import type { ChartSpec } from '../types';
 
@@ -105,25 +108,30 @@ function AnimatedDot({
   cx,
   cy,
   draw,
+  halo = false,
 }: {
   cx: number;
   cy: number;
   draw: SharedValue<number>;
+  /** The neon look's soft ring round the pen. */
+  halo?: boolean;
 }) {
   const lineColor = useLookSpec().chartLine;
   const props = useAnimatedProps(() => ({
     opacity: draw.get() > 0.92 ? (draw.get() - 0.92) / 0.08 : 0,
   }));
   return (
-    <AnimatedCircle
-      cx={cx}
-      cy={cy}
-      r={4}
-      fill={lineColor}
-      stroke={colors.background}
-      strokeWidth={2}
-      animatedProps={props}
-    />
+    <AnimatedG animatedProps={props}>
+      {halo ? <Circle cx={cx} cy={cy} r={10} fill={lineColor} opacity={0.22} /> : null}
+      <Circle
+        cx={cx}
+        cy={cy}
+        r={4}
+        fill={lineColor}
+        stroke={colors.background}
+        strokeWidth={2}
+      />
+    </AnimatedG>
   );
 }
 
@@ -170,7 +178,7 @@ export type PlayGeom = {
  * is ever rescaled, which is the whole point -- a line that climbs while its
  * frame shrinks around it goes nowhere, and that is what read as flat.
  *
- * The fallback, for the ~5.5% of charts whose move outruns the reserve, is the
+ * The fallback, for the ~11% of charts whose move outruns the reserve, is the
  * old widening: done on a smoothstep over the first 30% of the replay, before
  * most of the line exists, rather than linearly under the pen.
  */
@@ -587,6 +595,157 @@ function PlaybackAxis({
   return <AnimatedG animatedProps={props}>{children}</AnimatedG>;
 }
 
+/** How long after mount a chart starts building: the screen is still fading in. */
+const ENTRY_DELAY = 160;
+/** Levels, VWAP and the markers, once the bars are in. */
+const OVERLAY_MS = 520;
+
+/** A marked level, ruled in from the left edge; its label follows the pen. */
+function DrawnLevel({
+  x1,
+  x2,
+  y,
+  label,
+  enter,
+}: {
+  x1: number;
+  x2: number;
+  y: number;
+  label?: string;
+  enter: SharedValue<number>;
+}) {
+  const line = useAnimatedProps(() => ({ x2: x1 + (x2 - x1) * enter.get() }));
+  const text = useAnimatedProps(() => ({ opacity: Math.max(0, (enter.get() - 0.35) / 0.65) }));
+  return (
+    <G>
+      <AnimatedLine
+        x1={x1}
+        x2={x2}
+        y1={y}
+        y2={y}
+        stroke={colors.warning}
+        strokeWidth={1.25}
+        strokeDasharray="5 4"
+        opacity={0.85}
+        animatedProps={line}
+      />
+      {label ? (
+        <AnimatedG animatedProps={text}>
+          <SvgText x={x1 + 4} y={y - 5} fill={colors.warning} fontSize={10} fontWeight="600">
+            {label}
+          </SvgText>
+        </AnimatedG>
+      ) : null}
+    </G>
+  );
+}
+
+/** The part of a decision chart the replay will fill. */
+type Zone = { x0: number; x1: number; y0: number; y1: number; midY: number; label: string };
+
+/** Diagonal hatching clipped to the zone by hand -- no clip path, which some
+ *  react-native-svg renderers drop. */
+function hatchPath({ x0, x1, y0, y1 }: Zone, step = 9): string {
+  let d = '';
+  for (let c = x0 - y1; c < x1 - y0; c += step) {
+    // The line x = y + c, from where it enters the zone to where it leaves.
+    const ya = Math.max(y0, x0 - c);
+    const yb = Math.min(y1, x1 - c);
+    if (yb - ya < 1) continue;
+    d += `M${(ya + c).toFixed(1)},${ya.toFixed(1)} L${(yb + c).toFixed(1)},${yb.toFixed(1)} `;
+  }
+  return d;
+}
+
+/** Roughly how wide the zone's label draws, for the pill behind it. */
+const LABEL_CHAR_W = 6.6;
+
+function FutureZone({ zone }: { zone: Zone }) {
+  const w = zone.x1 - zone.x0;
+  if (w < 12) return null;
+  const labelW = zone.label.length * LABEL_CHAR_W + 14;
+  const cx = (zone.x0 + zone.x1) / 2;
+  return (
+    <G>
+      <Rect
+        x={zone.x0}
+        y={zone.y0}
+        width={w}
+        height={zone.y1 - zone.y0}
+        rx={3}
+        fill={colors.text}
+        opacity={0.025}
+      />
+      <Path d={hatchPath(zone)} stroke={colors.text} strokeOpacity={0.055} strokeWidth={1} />
+      {zone.label && w >= labelW + 8 ? (
+        <G>
+          <Rect
+            x={cx - labelW / 2}
+            y={zone.midY - 9}
+            width={labelW}
+            height={18}
+            rx={9}
+            fill={colors.background}
+            opacity={0.85}
+          />
+          <SvgText
+            x={cx}
+            y={zone.midY + 3.5}
+            fill={colors.textFaint}
+            fontSize={10}
+            fontWeight="700"
+            letterSpacing={0.8}
+            textAnchor="middle"
+          >
+            {zone.label.toUpperCase()}
+          </SvgText>
+        </G>
+      ) : null}
+    </G>
+  );
+}
+
+/**
+ * The zone during the replay: the shade draws back from the left as each bar
+ * lands in it, and the hatching and its label clear out of the way as the
+ * first bar leaves the decision.
+ */
+function PlaybackFuture({
+  g,
+  progress,
+  zone,
+  slot,
+}: {
+  g: PlayGeom;
+  progress: SharedValue<number>;
+  zone: Zone;
+  slot: number;
+}) {
+  const shade = useAnimatedProps(() => {
+    const head = playHead(g, progress.get());
+    const x = Math.min(zone.x1, Math.max(zone.x0, PAD_LEFT + slot * (head + 1)));
+    return { x, width: Math.max(0, zone.x1 - x) };
+  });
+  const marks = useAnimatedProps(() => ({ opacity: Math.max(0, 1 - progress.get() * 6) }));
+  return (
+    <G>
+      <AnimatedRect
+        x={zone.x0}
+        y={zone.y0}
+        width={zone.x1 - zone.x0}
+        height={zone.y1 - zone.y0}
+        rx={3}
+        fill={colors.text}
+        opacity={0.025}
+        animatedProps={shade}
+      />
+      <AnimatedG animatedProps={marks}>
+        <FutureZone zone={zone} />
+      </AnimatedG>
+    </G>
+  );
+}
+
 /** Both chart kinds reduce to a candle list; a line bar is a flat candle at its close. */
 export function toCandles(spec: ChartSpec): Candle[] {
   if (spec.kind === 'candles') {
@@ -638,17 +797,20 @@ export function domainOf(bars: Candle[], spec: ChartSpec, count: number) {
  * it went nowhere. Reserving the room up front instead means the scale never
  * changes and the price visibly travels.
  *
- * 2.5 is measured, not chosen: across the 544 `chart-decision` screens in the
- * corpus the final axis is a median 1.53x the axis at the decision, 2.25x at the
- * 90th percentile and 3.25x at the worst. A fixed 2.5x covers 94.5% of them with
- * no change of scale at all, and the rest widen by only the excess.
+ * 2.2 is measured, not chosen: across the 544 `chart-decision` screens in the
+ * corpus the final axis is a median 1.53x the axis at the decision, 1.83x at
+ * the 75th percentile and 3.25x at the worst. The axis may slide to follow the
+ * price, so only the height has to be reserved: 2.2x holds 88.6% of them with
+ * no change of scale at all, and the rest widen by at most 1.48x. It used to be
+ * 2.5x, which held a few more and paid for it on every chart -- the bars the
+ * learner decides on squeezed into the middle 40% of the plot, flat.
  *
  * The room is centred, so it is the same above and below and says nothing about
  * which way the price is going -- and the factor is the same on every chart, so
  * it says nothing about how far, either. Both were the reason the domain was
  * built from the visible bars alone in the first place.
  */
-export const REVEAL_RESERVE = 2.5;
+export const REVEAL_RESERVE = 2.2;
 
 type Window = { lo: number; hi: number };
 
@@ -710,6 +872,11 @@ type Props = {
    * rescales afterwards (REVEAL_RESERVE).
    */
   revealFrom?: number;
+  /**
+   * Hatch the slots of the bars not shown yet, for a chart that fills in as
+   * the learner goes (`chart-replay`). A decision chart does this on its own.
+   */
+  showFuture?: boolean;
 };
 
 export const AXIS_W = 44;
@@ -731,10 +898,18 @@ const VOLUME_H = CHART_GRID_STEP - VOLUME_GAP;
  * backdrop cells, and the plot's lines sit at fixed fractions of its height —
  * so the height itself has to be a whole number of gaps. Offering two sizes is
  * what lets a chart stay aligned in a short window instead of falling back to
- * an arbitrary height: it drops from four lines to three rather than from
- * aligned to not.
+ * an arbitrary height: it drops from five lines to four to three rather than
+ * from aligned to not. Which one a screen gets is decided by the room it has
+ * (lesson/fit.tsx, useChartGaps).
  */
-const PLOT_GAPS = [3, 2];
+const PLOT_GAPS = [4, 3, 2];
+
+/**
+ * A chart's plot when nothing decides otherwise. Candle charts with volume
+ * used to get two gaps to the line chart's three, to leave room for the strip
+ * -- which left their price plot 112 points tall and every candle a dash.
+ */
+export const DEFAULT_GAPS = 3;
 
 /** Widest the plot may be against the height of its ink. */
 const MAX_PLOT_ASPECT = 2;
@@ -749,14 +924,14 @@ const MAX_PLOT_ASPECT = 2;
  * left, so a chart keeps one shape and simply stops growing.
  */
 export function chartWidthFor(available: number, hasVolume: boolean, gaps?: number): number {
-  const chosen = gaps ?? (hasVolume ? 2 : 3);
+  const chosen = gaps ?? DEFAULT_GAPS;
   const ink = chosen * CHART_GRID_STEP + (hasVolume ? VOLUME_GAP + VOLUME_H : 0);
   return Math.min(available, ink * MAX_PLOT_ASPECT + PAD_LEFT + AXIS_W);
 }
 
 /** The height a chart needs for a grid-aligned plot, with or without volume. */
 export function chartHeightFor(hasVolume: boolean, gaps?: number): number {
-  const chosen = gaps ?? (hasVolume ? 2 : 3);
+  const chosen = gaps ?? DEFAULT_GAPS;
   return (
     PAD_TOP +
     GRID + // slack the snap shifts into; 0-27 points depending on where it sits
@@ -819,13 +994,18 @@ export function chartLayout({
   );
   const aligns = gridAnchor !== undefined && fitted !== undefined;
 
-  const priceH = aligns ? (fitted as number) : Math.max(GRID, height - fixed);
+  // Before the chart has been measured it already takes its grid-locked
+  // size, centred in the snap's slack, so the snap when the measurement lands
+  // is a shift of at most half a cell -- not a change in the number of lines
+  // under a chart that is still building itself in.
+  const priceH =
+    fitted !== undefined ? fitted : Math.max(GRID, height - fixed);
   // priceH is a whole number of backdrop cells when aligning, so shifting the
   // top by the remainder puts every line on one.
   const padTop = aligns
     ? PAD_TOP + ((GRID - (((gridAnchor as number) + PAD_TOP) % GRID)) % GRID)
-    : PAD_TOP;
-  const gaps = aligns ? priceH / CHART_GRID_STEP : 3;
+    : PAD_TOP + (fitted !== undefined ? GRID / 2 : 0);
+  const gaps = fitted !== undefined ? fitted / CHART_GRID_STEP : 3;
 
   const slot = plotW / Math.max(1, bars);
   const span = hi - lo || 1;
@@ -836,7 +1016,9 @@ export function chartLayout({
     priceH,
     plotW,
     slot,
-    bodyW: Math.max(3, Math.min(slot * 0.62, 22)),
+    // Wide enough to read as bodies rather than ticks. At 0.62 of the slot the
+    // gaps between candles were nearly as wide as the candles.
+    bodyW: Math.max(3, Math.min(slot * 0.7, 24)),
     volTop: padTop + priceH + VOLUME_GAP,
     volH,
     gaps,
@@ -856,6 +1038,7 @@ export default function Chart({
   playback,
   gridAnchor,
   revealFrom,
+  showFuture = false,
 }: Props) {
   const lookSpec = useLookSpec();
   const neo = lookSpec.chartGlow;
@@ -864,6 +1047,30 @@ export default function Chart({
   const n = bars.length;
   const shown = Math.max(0, Math.min(visibleCount, n));
   const hasVolume = Array.isArray(spec.volume) && spec.volume.length > 0;
+
+  // The entrance (components/ChartBuild.tsx). Bars on screen at the first
+  // commit build in a row, left to right; a bar that appears later -- the next
+  // bar of a `chart-replay` -- builds on its own, at once. A bar the replay
+  // has already shown is never built again, so the static chart a
+  // `chart-decision` settles into after its playback just stays.
+  const entering = useRef(true);
+  const seen = useRef(new Set<number>());
+  const stagger = useRef(buildStagger(shown)).current;
+  const buildDelay = (i: number) => (entering.current ? ENTRY_DELAY + i * stagger : 0);
+  const builds = (i: number) => !seen.current.has(i);
+  useEffect(() => {
+    entering.current = false;
+    const upTo = playback ? n : shown;
+    for (let i = 0; i < upTo; i++) seen.current.add(i);
+  });
+  // What is drawn over the bars -- levels, VWAP, the decision marker, the zone
+  // still to come -- lands once most of the row is in.
+  const overlay = useEntrance(true, ENTRY_DELAY + shown * stagger * 0.7, OVERLAY_MS);
+  // A line chart draws itself on when nothing else is drawing it.
+  const selfDraw = useEntrance(spec.kind === 'line' && !draw && !playback, ENTRY_DELAY, DURATION.draw);
+  const lineDraw = draw ?? selfDraw;
+  const overlayProps = useAnimatedProps(() => ({ opacity: overlay.get() }));
+  const overlayStyle = useAnimatedStyle(() => ({ opacity: overlay.get() }));
 
   // The window the axis shows.
   //
@@ -1012,6 +1219,22 @@ export default function Chart({
       : cx(spec.decision_index) + bodyW / 2 + 3;
   const lastVisible = shown > 0 ? bars[shown - 1] : null;
 
+  const decisionZone = showDecisionMarker && revealFrom !== undefined;
+  const future: Zone | null =
+    (decisionZone || showFuture) && shown < n
+      ? {
+          // A decision chart's zone starts at its marker; a replay's at the
+          // edge of the last bar it has shown, and it carries no label -- the
+          // count is already under the chart, and nothing here is waiting.
+          x0: decisionZone ? decisionX + 4 : PAD_LEFT + layout.slot * shown + 2,
+          x1: PAD_LEFT + plotW,
+          y0: padTop,
+          y1: padTop + priceH + (hasVolume ? VOLUME_GAP + volH : 0),
+          midY: padTop + priceH / 2,
+          label: decisionZone ? `next ${n - shown} bars` : '',
+        }
+      : null;
+
   return (
     <View style={{ width, height }}>
       <Svg width={width} height={height}>
@@ -1082,43 +1305,47 @@ export default function Chart({
           </G>
         )}
 
-        {/* annotation levels */}
+        {/* annotation levels: ruled in from the left once the bars are in
+            (docs/UI.md §6.4, "animate in") */}
         {(spec.levels ?? []).map((lvl, i) => (
-          <G key={`lvl${i}`}>
-            <Line
-              x1={PAD_LEFT}
-              x2={PAD_LEFT + plotW}
-              y1={y(lvl.price)}
-              y2={y(lvl.price)}
-              stroke={colors.warning}
-              strokeWidth={1.25}
-              strokeDasharray="5 4"
-              opacity={0.85}
-            />
-            {lvl.label ? (
-              <SvgText
-                x={PAD_LEFT + 4}
-                y={y(lvl.price) - 5}
-                fill={colors.warning}
-                fontSize={10}
-                fontWeight="600"
-              >
-                {`${lvl.label} ${axisPrice(lvl.price)}`}
-              </SvgText>
-            ) : null}
-          </G>
+          <DrawnLevel
+            key={`lvl${i}`}
+            x1={PAD_LEFT}
+            x2={PAD_LEFT + plotW}
+            y={y(lvl.price)}
+            label={lvl.label ? `${lvl.label} ${axisPrice(lvl.price)}` : undefined}
+            enter={overlay}
+          />
         ))}
 
         {/* VWAP overlay */}
         {vwapPath ? (
-          <Path
-            d={vwapPath}
-            stroke={colors.accent}
-            strokeWidth={1.5}
-            strokeDasharray="4 3"
-            fill="none"
-            opacity={0.9}
+          <AnimatedG animatedProps={overlayProps}>
+            <Path
+              d={vwapPath}
+              stroke={colors.accent}
+              strokeWidth={1.5}
+              strokeDasharray="4 3"
+              fill="none"
+              opacity={0.9}
+            />
+          </AnimatedG>
+        ) : null}
+
+        {/* The bars still to come, before and during the replay: a hatched
+            zone right of the decision, so the empty half of the chart reads as
+            "not yet" rather than as nothing. */}
+        {future && playGeom && playback ? (
+          <PlaybackFuture
+            g={playGeom}
+            progress={playback}
+            zone={future}
+            slot={layout.slot}
           />
+        ) : future ? (
+          <AnimatedG animatedProps={overlayProps}>
+            <FutureZone zone={future} />
+          </AnimatedG>
         ) : null}
 
         {/* bars */}
@@ -1130,18 +1357,14 @@ export default function Chart({
         ) : spec.kind === 'line' ? (
           <G>
             {lineFill ? (
-              draw ? (
-                // The fill covers the whole plot from the first frame, so it
-                // cannot fade in alongside the stroke -- it would sit out to the
-                // right of a line that has not arrived yet. It follows instead.
-                <AnimatedFill d={lineFill} draw={draw} />
-              ) : (
-                <Path d={lineFill} fill="url(#lineFill)" />
-              )
+              // The fill covers the whole plot from the first frame, so it
+              // cannot fade in alongside the stroke -- it would sit out to the
+              // right of a line that has not arrived yet. It follows instead.
+              <AnimatedFill d={lineFill} draw={lineDraw} />
             ) : null}
             {linePath ? (
-              draw && linePathLength > 0 ? (
-                <AnimatedStroke d={linePath} length={linePathLength} draw={draw} neo={neo} />
+              linePathLength > 0 ? (
+                <AnimatedStroke d={linePath} length={linePathLength} draw={lineDraw} neo={neo} />
               ) : (
                 <G>
                 {neo ? (
@@ -1166,26 +1389,13 @@ export default function Chart({
                 </G>
               )
             ) : null}
-            {lastVisible && neo && !draw ? (
-              <Circle cx={cx(shown - 1)} cy={y(lastVisible.c)} r={10} fill={lineColor} opacity={0.22} />
-            ) : null}
             {lastVisible ? (
-              draw ? (
-                <AnimatedDot
-                  cx={cx(shown - 1)}
-                  cy={y(lastVisible.c)}
-                  draw={draw}
-                />
-              ) : (
-                <Circle
-                  cx={cx(shown - 1)}
-                  cy={y(lastVisible.c)}
-                  r={4}
-                  fill={lineColor}
-                  stroke={colors.background}
-                  strokeWidth={2}
-                />
-              )
+              <AnimatedDot
+                cx={cx(shown - 1)}
+                cy={y(lastVisible.c)}
+                draw={lineDraw}
+                halo={neo}
+              />
             ) : null}
           </G>
         ) : playGeom && playback ? (
@@ -1204,34 +1414,20 @@ export default function Chart({
           </G>
         ) : (
           <G>
-            {bars.slice(0, shown).map((b, i) => {
-              const upBar = b.c >= b.o;
-              const stroke = upBar ? colors.up : colors.down;
-              const top = y(Math.max(b.o, b.c));
-              const bottom = y(Math.min(b.o, b.c));
-              return (
-                <G key={`c${i}`}>
-                  <Line
-                    x1={cx(i)}
-                    x2={cx(i)}
-                    y1={y(b.h)}
-                    y2={y(b.l)}
-                    stroke={stroke}
-                    strokeWidth={1.25}
-                  />
-                  <Rect
-                    x={cx(i) - bodyW / 2}
-                    y={top}
-                    width={bodyW}
-                    height={Math.max(1.5, bottom - top)}
-                    fill={upBar ? stroke : colors.background}
-                    stroke={stroke}
-                    strokeWidth={1.25}
-                    rx={1}
-                  />
-                </G>
-              );
-            })}
+            {bars.slice(0, shown).map((b, i) => (
+              <BuildCandle
+                key={`c${i}`}
+                x={cx(i)}
+                bodyW={bodyW}
+                yOpen={y(b.o)}
+                yClose={y(b.c)}
+                yHigh={y(b.h)}
+                yLow={y(b.l)}
+                up={b.c >= b.o}
+                play={builds(i)}
+                delay={buildDelay(i)}
+              />
+            ))}
           </G>
         )}
 
@@ -1258,15 +1454,15 @@ export default function Chart({
                     progress={playback}
                   />
                 ) : (
-                  <Rect
+                  <BuildVolume
                     key={`v${i}`}
                     x={cx(i) - bodyW / 2}
-                    y={barY}
                     width={bodyW}
+                    floor={volTop + volH}
                     height={barH}
                     fill={fill}
-                    opacity={0.45}
-                    rx={1}
+                    play={builds(i)}
+                    delay={buildDelay(i)}
                   />
                 );
               })
@@ -1294,7 +1490,7 @@ export default function Chart({
 
         {/* decision marker */}
         {showDecisionMarker ? (
-          <G>
+          <AnimatedG animatedProps={overlayProps}>
             <Line
               x1={decisionX}
               x2={decisionX}
@@ -1310,21 +1506,22 @@ export default function Chart({
               r={3}
               fill={colors.textMuted}
             />
-          </G>
+          </AnimatedG>
         ) : null}
       </Svg>
 
       {showDecisionMarker ? (
-        <View
+        <Animated.View
           style={[
             styles.decisionTag,
             { left: Math.max(0, decisionX - 26), top: Math.max(0, padTop - 15) },
+            overlayStyle,
           ]}
         >
           <Text style={styles.decisionTagText}>
             {shown > spec.decision_index + 1 ? 'decision' : 'you are here'}
           </Text>
-        </View>
+        </Animated.View>
       ) : null}
 
       {spec.vwap ? (

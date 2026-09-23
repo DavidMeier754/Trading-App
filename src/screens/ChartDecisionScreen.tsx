@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useAnimatedReaction, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import Chart, { chartHeightFor, chartWidthFor, closeAt } from '../components/Chart';
+import Chart, { chartHeightFor, chartWidthFor, closeAt, DEFAULT_GAPS } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
@@ -11,6 +11,7 @@ import type { AnswerValue } from '../lesson/answers';
 import { Arrive } from '../lesson/Celebrate';
 import { NOTE_STEPS, noteFeedback } from '../lesson/feedback';
 import { startRumble, stopRumble } from '../lesson/haptics';
+import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import { EASE_OUT, revealTiming } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, type } from '../theme';
@@ -179,13 +180,21 @@ export default function ChartDecisionScreen({
   const direction = choice ? DIRECTION[choice] : 0;
   const pnl = direction * move * screen.shares;
 
-  // Sized from the chart's own geometry, so the grid-aligned plot, the volume
-  // strip and the slack the snap shifts into all fit exactly.
-  const chartHeight = chartHeightFor(!!screen.chart.volume);
-  const chartWidth = chartWidthFor(width, !!screen.chart.volume);
+  // As tall as the screen has room for, counting the outcome card and the
+  // reveal still to come (lesson/fit.tsx), and sized from the chart's own
+  // geometry, so the grid-aligned plot, the volume strip and the slack the
+  // snap shifts into all fit exactly.
+  const fit = useChartGaps({
+    preferred: DEFAULT_GAPS,
+    growth: REVEAL_GROWTH + OUTCOME_H + space.md,
+    locked: phase !== 'deciding',
+  });
+  const chartHeight = chartHeightFor(!!screen.chart.volume, fit.gaps);
+  const chartWidth = chartWidthFor(width, !!screen.chart.volume, fit.gaps);
 
   return (
     <View style={styles.wrap}>
+      <View style={styles.column} onLayout={fit.onLayout}>
       <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
 
       {screen.state?.length ? <StateChips state={screen.state} /> : null}
@@ -202,16 +211,20 @@ export default function ChartDecisionScreen({
             height={chartHeight}
           />
         </Pressable>
+        {/* In the strip under the plot, opposite the VWAP key: a line of its
+            own cost the screen a row for a hint shown only while it plays. */}
+        <Text
+          pointerEvents="none"
+          style={[styles.playHint, !playing && styles.playHintHidden]}
+        >
+          Tap to skip
+        </Text>
       </View>
 
-      <Text style={[styles.playHint, !playing && styles.playHintHidden]}>
-        Tap the chart to skip
-      </Text>
-
       {phase === 'done' ? (
-        // One line of numbers, one line of prose. The card used to repeat the
-        // decision and final prices, which the chart already shows, and to
-        // restate the choice the learner had just made.
+        // The outcome strip (docs/UI.md §4.3): the move and what it did to
+        // this position on one line, then one line of prose. The chart already
+        // shows the prices, and the learner knows what they chose.
         <Arrive style={[styles.outcome, surfaceStyle(spec)]}>
           <View style={styles.outcomeRow}>
             <Text
@@ -240,21 +253,35 @@ export default function ChartDecisionScreen({
                 : `${signedPrice(pnl)} · ${count(screen.shares)}`}
             </Text>
           </View>
-          <Text style={styles.outcomeText}>{copy(screen.outcome)}</Text>
-          {/* docs/UI.md §11.6 wants the risk note on every scenario result; this
-              is the smallest form that still says it. */}
-          <Text style={styles.outcomeFoot}>Not a prediction.</Text>
+          <Text style={styles.outcomeText}>
+            {copy(screen.outcome)}
+            {/* docs/UI.md §11.6 wants the risk note on every scenario result;
+                this is the smallest form that still says it. */}
+            <Text style={styles.outcomeFoot}>{'  Not a prediction.'}</Text>
+          </Text>
         </Arrive>
       ) : null}
+      </View>
     </View>
   );
 }
 
+/** The outcome card's height, give or take a line, for the room it needs. */
+const OUTCOME_H = 84;
+
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.md },
+  wrap: { flex: 1, justifyContent: 'center' },
+  column: { gap: space.md },
   chartBox: { alignSelf: 'center' },
   scenario: { ...type.body, color: colors.text },
-  playHint: { ...type.small, color: colors.textFaint, textAlign: 'center' },
+  playHint: {
+    ...type.small,
+    fontSize: 11,
+    color: colors.textFaint,
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+  },
   // Kept in the layout at all times: appearing mid-replay would shift the chart
   // under the line that is still drawing.
   playHintHidden: { opacity: 0 },
@@ -263,8 +290,9 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     borderWidth: 1,
     borderRadius: radius.md,
-    padding: space.md,
-    gap: space.xs,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+    gap: 2,
   },
   outcomeRow: {
     flexDirection: 'row',
@@ -274,6 +302,6 @@ const styles = StyleSheet.create({
   },
   outcomeMove: { ...type.answer },
   outcomePnl: { ...type.answer },
-  outcomeText: { ...type.body, color: colors.text },
+  outcomeText: { ...type.small, color: colors.text },
   outcomeFoot: { ...type.small, fontSize: 11, color: colors.textFaint },
 });

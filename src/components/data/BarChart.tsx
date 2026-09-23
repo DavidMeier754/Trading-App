@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { useLookSpec } from '../../lesson/look';
 import { colors, radius, space, type } from '../../theme';
+import GrowBar from './GrowBar';
 
 /** docs/UI.md §6.5 — a horizontal bar chart. */
 export default function BarChart({
@@ -9,14 +11,19 @@ export default function BarChart({
 }: {
   data: { bars: { label: string; value: number }[]; unit?: string };
 }) {
+  const accent = useLookSpec().accent;
   const max = Math.max(...data.bars.map((b) => b.value), 1);
   return (
     <View style={styles.wrap}>
-      {data.bars.map((bar) => (
+      {data.bars.map((bar, i) => (
         <View key={bar.label} style={styles.row}>
           <Text style={styles.label}>{bar.label}</Text>
           <View style={styles.track}>
-            <View style={[styles.fill, { width: `${(bar.value / max) * 100}%` }]} />
+            <GrowBar
+              to={(bar.value / max) * 100}
+              delay={i * 80}
+              style={[styles.fill, { backgroundColor: accent }]}
+            />
           </View>
           <Text style={styles.value}>
             {`${bar.value}${data.unit ? ` ${data.unit}` : ''}`}
@@ -38,6 +45,6 @@ const styles = StyleSheet.create({
     borderRadius: radius.sm,
     overflow: 'hidden',
   },
-  fill: { height: '100%', backgroundColor: colors.accent, borderRadius: radius.sm },
+  fill: { borderRadius: radius.sm },
   value: { ...type.small, color: colors.text, width: 52, textAlign: 'right' },
 });

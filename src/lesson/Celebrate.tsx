@@ -12,7 +12,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Defs, Ellipse, Path, RadialGradient, Stop } from 'react-native-svg';
 
 import { colors, radius as radii } from '../theme';
 import { pulseAt } from './feedback';
@@ -52,7 +52,8 @@ export function Celebrate({
   const reduced = useReduceMotion();
   // Each look celebrates in its own way (lesson/look.ts): rings and sparks in
   // Neo, rings alone in Classic, a square outline stepping out like a cursor
-  // box in Terminal, a pencil circle in Blueprint, a burst of stars in Arcade.
+  // box in Terminal, a pencil circle in Blueprint, a burst of stars in Arcade,
+  // a bloom of light behind the answer in Neo Violet.
   const kind = useLookSpec().celebrate;
   const hasRings = kind !== 'pencil';
   const square = kind === 'box';
@@ -87,6 +88,7 @@ export function Celebrate({
 
   return (
     <View onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}>
+      {measured && kind === 'bloom' ? <Bloom w={box.w} h={box.h} color={color} /> : null}
       {hasRings ? (
         <Animated.View pointerEvents="none" style={[styles.ring, { borderColor: color }, r1]} />
       ) : null}
@@ -163,6 +165,50 @@ function PencilCircle({ w, h, instant }: { w: number; h: number; instant: boolea
         />
       </Svg>
     </View>
+  );
+}
+
+/**
+ * Neo Violet's verdict: light blooming out from behind the surface -- a soft
+ * glow that swells past its edges on the cue's second pulse and fades as it
+ * goes, as if the answer had been lit from underneath.
+ */
+function Bloom({ w, h, color }: { w: number; h: number; color: string }) {
+  const PAD = 36;
+  const t = useSharedValue(0);
+  useEffect(() => {
+    t.set(
+      withDelay(
+        Math.max(0, pulseAt('correct0', 1) - 60),
+        withTiming(1, { duration: 1100, easing: EASE_OUT })
+      )
+    );
+  }, [t]);
+  const style = useAnimatedStyle(() => {
+    const v = t.get();
+    return {
+      opacity: v <= 0 ? 0 : Math.min(1, v * 5) * (1 - v) * 0.9,
+      transform: [{ scaleX: 0.85 + 0.25 * v }, { scaleY: 0.7 + 0.5 * v }],
+    };
+  });
+  const W = w + PAD * 2;
+  const H = h + PAD * 2;
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[styles.pencil, { left: -PAD, top: -PAD, width: W, height: H }, style]}
+    >
+      <Svg width={W} height={H}>
+        <Defs>
+          <RadialGradient id="bloom" cx="50%" cy="50%" rx="50%" ry="50%">
+            <Stop offset="0" stopColor={color} stopOpacity="0.55" />
+            <Stop offset="0.6" stopColor={color} stopOpacity="0.18" />
+            <Stop offset="1" stopColor={color} stopOpacity="0" />
+          </RadialGradient>
+        </Defs>
+        <Ellipse cx={W / 2} cy={H / 2} rx={W / 2} ry={H / 2} fill="url(#bloom)" />
+      </Svg>
+    </Animated.View>
   );
 }
 

@@ -7,6 +7,7 @@ import Chart, {
   chartHeightFor,
   chartLayout,
   chartWidthFor,
+  DEFAULT_GAPS,
   domainOf,
   toCandles,
 } from '../components/Chart';
@@ -14,6 +15,7 @@ import { useGridAnchor } from '../components/gridAlign';
 import { price } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { tapFeedback } from '../lesson/feedback';
+import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { ChartAnnotateScreen as S } from '../types';
 import { Prompt } from './common';
@@ -44,8 +46,15 @@ export default function ChartAnnotateScreen({
 
   const rows = screen.chart.data as any[];
   const hasVolume = Array.isArray(screen.chart.volume) && screen.chart.volume.length > 0;
-  const height = chartHeightFor(hasVolume);
-  const chartWidth = chartWidthFor(width, hasVolume);
+  // The chart takes the room the screen has (lesson/fit.tsx); it stops
+  // choosing once a line is on it, so it never resizes under a placed line.
+  const fit = useChartGaps({
+    preferred: DEFAULT_GAPS,
+    growth: REVEAL_GROWTH,
+    locked: placed !== null || revealed,
+  });
+  const height = chartHeightFor(hasVolume, fit.gaps);
+  const chartWidth = chartWidthFor(width, hasVolume, fit.gaps);
   const grid = useGridAnchor(placed === null ? 'empty' : 'placed');
 
   // The overlay has to agree with the chart to the pixel, so it asks the chart
@@ -81,6 +90,7 @@ export default function ChartAnnotateScreen({
 
   return (
     <View style={styles.wrap}>
+      <View style={styles.column} onLayout={fit.onLayout}>
       <Prompt>{screen.prompt}</Prompt>
 
       <Pressable
@@ -96,9 +106,9 @@ export default function ChartAnnotateScreen({
           // above where the finger was.
           const native = e.nativeEvent as any;
           const y =
-            grid.windowY !== undefined && Number.isFinite(native.pageY)
-              ? native.pageY - grid.windowY
-              : (native.locationY ?? layout.padTop + layout.priceH / 2);
+            grid.toLocalY(native.pageY) ??
+            native.locationY ??
+            layout.padTop + layout.priceH / 2;
           onChange({ kind: 'slider', value: toPrice(y) });
         }}
         style={{ width: chartWidth, height, alignSelf: 'center' }}
@@ -194,12 +204,14 @@ export default function ChartAnnotateScreen({
           {`Intended: ${price(screen.answer)} (±${screen.tolerance.toFixed(2)})`}
         </Text>
       )}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.md },
+  wrap: { flex: 1, justifyContent: 'center' },
+  column: { gap: space.md },
   overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
   hint: { ...type.small, color: colors.textMuted, textAlign: 'center' },
   nudgeRow: { flexDirection: 'row', gap: space.md },

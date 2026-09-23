@@ -55,8 +55,9 @@ export const radius = {
 };
 
 export const type = {
-  // docs/UI.md §10 asks for dynamic type to 130% without truncation; every text
-  // block here is inside a ScrollView and nothing is height-clamped.
+  // docs/UI.md §10 asks for dynamic type to 130% without truncation; nothing is
+  // height-clamped, and a screen that grows past its window is scaled to fit
+  // it (lesson/fit.tsx) rather than cut off.
   display: { fontSize: 28, lineHeight: 36, fontWeight: '700' as const },
   title: { fontSize: 22, lineHeight: 29, fontWeight: '700' as const },
   prompt: { fontSize: 19, lineHeight: 26, fontWeight: '600' as const },

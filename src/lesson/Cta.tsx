@@ -89,6 +89,11 @@ export default function Cta({
     green.set(withTiming(good ? 1 : 0, { duration: 320, easing: EASE_OUT }));
   }, [good, green]);
 
+  // Neo Violet's key casts its own light, and only while it can be pressed.
+  const glow = useAnimatedStyle(() => ({
+    opacity: on.get() * (1 - 0.4 * green.get()),
+  }));
+
   const keyStyle = useAnimatedStyle(() => ({
     opacity: enter.get(),
     transform: [{ translateY: 14 * (1 - enter.get()) }, { scale: pop.get() }],
@@ -132,6 +137,16 @@ export default function Cta({
           covers all of it but the bottom strip, and all of it once pressed.
           Nothing moves in layout: the footprint is the same either way. */}
       <Animated.View style={[{ paddingBottom: EDGE }, keyStyle]}>
+        {spec.cta.glow ? (
+          <Animated.View
+            pointerEvents="none"
+            style={[
+              styles.glow,
+              { borderRadius: spec.cta.radius, backgroundColor: face0, shadowColor: face0 },
+              glow,
+            ]}
+          />
+        ) : null}
         <Animated.View
           pointerEvents="none"
           style={[styles.rim, { top: EDGE, borderRadius: spec.cta.radius }, rim]}
@@ -156,6 +171,16 @@ export default function Cta({
 }
 
 const styles = StyleSheet.create({
+  glow: {
+    position: 'absolute',
+    left: 6,
+    right: 6,
+    top: 8,
+    bottom: 0,
+    shadowOpacity: 0.75,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 6 },
+  },
   rim: {
     position: 'absolute',
     left: 0,
