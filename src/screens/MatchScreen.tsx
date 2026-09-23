@@ -6,8 +6,8 @@ import type { AnswerValue } from '../lesson/answers';
 import { Celebrate, PopIn } from '../lesson/Celebrate';
 import { matchHitFeedback, matchMissFeedback, tapFeedback } from '../lesson/feedback';
 import Shake from '../lesson/Shake';
-import { colors, glass, radius, space, TAP_TARGET, type } from '../theme';
-import { useLook } from '../lesson/look';
+import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import type { MatchScreen as S } from '../types';
 import { Prompt } from './common';
 
@@ -108,11 +108,13 @@ export default function MatchScreen({
     }
   };
 
-  const idle = useLook() === 'neo' ? [styles.idle, glass] : styles.idle;
+  const spec = useLookSpec();
+  const idle = [styles.idle, surfaceStyle(spec)];
+  const shape = { borderRadius: spec.surface.radius };
   const leftStyle = (i: number) => {
     if (flash?.left === i) return styles.wrong;
     if (linked[i] !== undefined) return styles.locked;
-    if (pendingLeft === i) return styles.pending;
+    if (pendingLeft === i) return { borderColor: spec.accent, backgroundColor: tint(spec.accent, 0.14) };
     return idle;
   };
 
@@ -133,7 +135,7 @@ export default function MatchScreen({
               <Pressable
                 accessibilityRole="button"
                 onPress={() => tapLeft(i)}
-                style={[styles.chip, leftStyle(i)]}
+                style={[styles.chip, shape, leftStyle(i)]}
               >
                 <Text style={styles.term}>{copy(term)}</Text>
                 {linked[i] !== undefined ? (
@@ -156,7 +158,7 @@ export default function MatchScreen({
               <Pressable
                 accessibilityRole="button"
                 onPress={() => tapRight(i)}
-                style={[styles.chip, rightStyle(i)]}
+                style={[styles.chip, shape, rightStyle(i)]}
               >
                 <Text style={styles.definition}>{copy(screen.pairs[i][1])}</Text>
               </Pressable>

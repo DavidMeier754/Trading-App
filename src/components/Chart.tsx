@@ -21,7 +21,7 @@ import Svg, {
 } from 'react-native-svg';
 
 import { axisPrice, volume as fmtVolume } from '../format';
-import { useLook } from '../lesson/look';
+import { useLookSpec } from '../lesson/look';
 import { CHART_GRID_STEP, colors, GRID, type } from '../theme';
 import type { ChartSpec } from '../types';
 
@@ -46,6 +46,7 @@ function AnimatedStroke({
   draw: SharedValue<number>;
   neo?: boolean;
 }) {
+  const lineColor = useLookSpec().chartLine;
   const props = useAnimatedProps(() => ({
     strokeDashoffset: length * (1 - draw.get()),
   }));
@@ -57,7 +58,7 @@ function AnimatedStroke({
       {neo ? (
         <AnimatedPath
           d={d}
-          stroke={colors.accent}
+          stroke={lineColor}
           strokeWidth={GLOW_W}
           strokeOpacity={GLOW_OPACITY}
           fill="none"
@@ -69,7 +70,7 @@ function AnimatedStroke({
       ) : null}
     <AnimatedPath
       d={d}
-      stroke={colors.accent}
+      stroke={lineColor}
       strokeWidth={2.25}
       fill="none"
       strokeLinejoin="round"
@@ -109,6 +110,7 @@ function AnimatedDot({
   cy: number;
   draw: SharedValue<number>;
 }) {
+  const lineColor = useLookSpec().chartLine;
   const props = useAnimatedProps(() => ({
     opacity: draw.get() > 0.92 ? (draw.get() - 0.92) / 0.08 : 0,
   }));
@@ -117,7 +119,7 @@ function AnimatedDot({
       cx={cx}
       cy={cy}
       r={4}
-      fill={colors.accent}
+      fill={lineColor}
       stroke={colors.background}
       strokeWidth={2}
       animatedProps={props}
@@ -309,6 +311,7 @@ function PlaybackLine({
   /** The experimental look: a glow under the line and a halo round the pen. */
   neo: boolean;
 }) {
+  const lineColor = useLookSpec().chartLine;
   const glow = useAnimatedProps(() => ({ d: playLine(g, progress.get()) }));
   const halo = useAnimatedProps(() => {
     const tip = playHeadPoint(g, progress.get());
@@ -344,7 +347,7 @@ function PlaybackLine({
         <AnimatedPath
           d={first}
           animatedProps={glow}
-          stroke={colors.accent}
+          stroke={lineColor}
           strokeWidth={GLOW_W}
           strokeOpacity={GLOW_OPACITY}
           fill="none"
@@ -358,14 +361,14 @@ function PlaybackLine({
           cy={firstTip.y}
           animatedProps={halo}
           r={10}
-          fill={colors.accent}
+          fill={lineColor}
           opacity={0.25}
         />
       ) : null}
       <AnimatedPath
         d={first}
         animatedProps={stroke}
-        stroke={colors.accent}
+        stroke={lineColor}
         strokeWidth={2.25}
         fill="none"
         strokeLinejoin="round"
@@ -376,7 +379,7 @@ function PlaybackLine({
         cy={firstTip.y}
         animatedProps={dot}
         r={4}
-        fill={colors.accent}
+        fill={lineColor}
         stroke={colors.background}
         strokeWidth={2}
       />
@@ -394,6 +397,7 @@ function PlaybackLine({
  * bar and restarts the ring there, and React never hears about it.
  */
 function PlaybackPing({ g, progress }: { g: PlayGeom; progress: SharedValue<number> }) {
+  const lineColor = useLookSpec().chartLine;
   const bar = useSharedValue(-1);
   const ring = useSharedValue(1);
 
@@ -425,7 +429,7 @@ function PlaybackPing({ g, progress }: { g: PlayGeom; progress: SharedValue<numb
   // bar by bar, a neutral ring that reads as neither.
   const stroke = g.opens.length && g.opens.some((o, i) => o !== g.closes[i])
     ? colors.text
-    : colors.accent;
+    : lineColor;
 
   return (
     <AnimatedCircle
@@ -853,7 +857,9 @@ export default function Chart({
   gridAnchor,
   revealFrom,
 }: Props) {
-  const neo = useLook() === 'neo';
+  const lookSpec = useLookSpec();
+  const neo = lookSpec.chartGlow;
+  const lineColor = lookSpec.chartLine;
   const bars = useMemo(() => toCandles(spec), [spec]);
   const n = bars.length;
   const shown = Math.max(0, Math.min(visibleCount, n));
@@ -1011,8 +1017,8 @@ export default function Chart({
       <Svg width={width} height={height}>
         <Defs>
           <LinearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={colors.accent} stopOpacity="0.28" />
-            <Stop offset="1" stopColor={colors.accent} stopOpacity="0" />
+            <Stop offset="0" stopColor={lineColor} stopOpacity="0.28" />
+            <Stop offset="1" stopColor={lineColor} stopOpacity="0" />
           </LinearGradient>
         </Defs>
 
@@ -1141,7 +1147,7 @@ export default function Chart({
                 {neo ? (
                   <Path
                     d={linePath}
-                    stroke={colors.accent}
+                    stroke={lineColor}
                     strokeWidth={GLOW_W}
                     strokeOpacity={GLOW_OPACITY}
                     fill="none"
@@ -1151,7 +1157,7 @@ export default function Chart({
                 ) : null}
                 <Path
                   d={linePath}
-                  stroke={colors.accent}
+                  stroke={lineColor}
                   strokeWidth={2.25}
                   fill="none"
                   strokeLinejoin="round"
@@ -1161,7 +1167,7 @@ export default function Chart({
               )
             ) : null}
             {lastVisible && neo && !draw ? (
-              <Circle cx={cx(shown - 1)} cy={y(lastVisible.c)} r={10} fill={colors.accent} opacity={0.22} />
+              <Circle cx={cx(shown - 1)} cy={y(lastVisible.c)} r={10} fill={lineColor} opacity={0.22} />
             ) : null}
             {lastVisible ? (
               draw ? (
@@ -1175,7 +1181,7 @@ export default function Chart({
                   cx={cx(shown - 1)}
                   cy={y(lastVisible.c)}
                   r={4}
-                  fill={colors.accent}
+                  fill={lineColor}
                   stroke={colors.background}
                   strokeWidth={2}
                 />

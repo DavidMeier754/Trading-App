@@ -69,7 +69,7 @@ import QuitSheet from './QuitSheet';
 import Reveal from './Reveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
-import { emitMood, useLook } from './look';
+import { emitMood, useLookSpec } from './look';
 import { preloadCues } from './sound';
 import StreakMeter from './StreakMeter';
 import { VerdictProvider } from './verdict';
@@ -115,7 +115,7 @@ export default function LessonPlayer({
   const lastAdvance = useRef(0);
   const m = useMotion();
 
-  const neo = useLook() === 'neo';
+  const spec = useLookSpec();
 
   // Every cue's player is built when the lesson opens, so none of them loads on
   // its first play -- the first play is the one whose lag you would hear.
@@ -201,7 +201,7 @@ export default function LessonPlayer({
 
   // The new look adds depth to the same beat: the incoming screen also comes
   // up from slightly further back, so it arrives rather than slides.
-  const depth = neo && !m.reduced ? 0.035 : 0;
+  const depth = spec.depth && !m.reduced ? 0.035 : 0;
   const screenStyle = useAnimatedStyle(() => ({
     opacity: fade.get(),
     transform: [
@@ -333,12 +333,14 @@ export default function LessonPlayer({
         >
           <Text style={styles.closeText}>{'✕'}</Text>
         </Pressable>
-        <ProgressBar progress={progress} hot={onRun} />
+        <ProgressBar progress={progress} steps={screens.length} hot={onRun} />
         {/* docs/UI.md §2: hearts live in the top bar for tests and exams only.
             A lesson has none, so in the new look the slot carries the run of
             right answers instead. */}
         <View style={styles.heartSlot}>
-          {neo ? <StreakMeter run={runBefore(grades, atSummary ? grades.length : index + 1)} /> : null}
+          {spec.streak !== 'none' ? (
+            <StreakMeter run={runBefore(grades, atSummary ? grades.length : index + 1)} />
+          ) : null}
         </View>
       </View>
 

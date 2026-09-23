@@ -7,8 +7,8 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
-import { colors, glass } from '../theme';
-import { useLook } from './look';
+import { colors } from '../theme';
+import { LOOKS, LookSpec, tint, useLookSpec } from './look';
 import { DURATION, EASE_OUT } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
@@ -23,23 +23,19 @@ export function isRevealTone(tone: Tone): boolean {
 
 export function tonePalette(
   tone: Tone,
-  neo = false
+  spec: LookSpec = LOOKS.classic
 ): {
   border: string;
   background: string;
   opacity: number;
 } {
-  // The new look's resting surfaces are glass (theme.ts); verdict tints are
-  // translucent in both looks already.
-  if (neo && tone === 'idle') {
-    return { border: 'rgba(255, 255, 255, 0.16)', background: glass.backgroundColor, opacity: 1 };
-  }
-  if (neo && tone === 'dimmed') {
-    return { border: glass.borderColor, background: glass.backgroundColor, opacity: 0.45 };
-  }
+  // Rest and selection belong to the look (lesson/look.ts); the verdicts are
+  // the same in every look, because green, red and amber are the content.
   switch (tone) {
+    case 'idle':
+      return { border: spec.surface.border, background: spec.surface.background, opacity: 1 };
     case 'selected':
-      return { border: colors.accent, background: colors.accentTint, opacity: 1 };
+      return { border: spec.accent, background: tint(spec.accent, 0.14), opacity: 1 };
     case 'correct':
       return { border: colors.success, background: colors.successTint, opacity: 1 };
     case 'wrong':
@@ -47,9 +43,9 @@ export function tonePalette(
     case 'amber':
       return { border: colors.warning, background: colors.warningTint, opacity: 1 };
     case 'dimmed':
-      return { border: colors.border, background: colors.surface, opacity: 0.45 };
+      return { border: spec.surface.border, background: spec.surface.background, opacity: 0.45 };
     default:
-      return { border: colors.borderStrong, background: colors.surface, opacity: 1 };
+      return { border: spec.surface.border, background: spec.surface.background, opacity: 1 };
   }
 }
 
@@ -64,15 +60,15 @@ export function tonePalette(
  */
 export function useToneTransition(tone: Tone) {
   const reduced = useReduceMotion();
-  const neo = useLook() === 'neo';
+  const spec = useLookSpec();
   const progress = useSharedValue(isRevealTone(tone) ? 1 : 0);
   // The endpoints are shared values, not refs. A worklet captures a plain
   // object by copying it into the UI runtime, so a ref mutated later on the
   // React side never reaches the running animation: the colours would be one
   // render stale. On web that goes unnoticed, because there the worklet closes
   // over the very same object.
-  const from = useSharedValue(tonePalette(tone, neo));
-  const to = useSharedValue(tonePalette(tone, neo));
+  const from = useSharedValue(tonePalette(tone, spec));
+  const to = useSharedValue(tonePalette(tone, spec));
   const previous = useRef<Tone>(tone);
 
   useEffect(() => {
@@ -80,8 +76,8 @@ export function useToneTransition(tone: Tone) {
     const isReveal = isRevealTone(tone);
 
     if (isReveal && !wasReveal) {
-      from.set(tonePalette(previous.current, neo));
-      to.set(tonePalette(tone, neo));
+      from.set(tonePalette(previous.current, spec));
+      to.set(tonePalette(tone, spec));
       progress.set(0);
       progress.set(
         withTiming(1, {
@@ -92,12 +88,12 @@ export function useToneTransition(tone: Tone) {
         })
       );
     } else {
-      from.set(tonePalette(tone, neo));
-      to.set(tonePalette(tone, neo));
+      from.set(tonePalette(tone, spec));
+      to.set(tonePalette(tone, spec));
       progress.set(0);
     }
     previous.current = tone;
-  }, [tone, reduced, neo, progress, from, to]);
+  }, [tone, reduced, spec, progress, from, to]);
 
   return useAnimatedStyle(() => {
     const t = progress.get();

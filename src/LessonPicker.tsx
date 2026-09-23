@@ -6,7 +6,7 @@ import { LessonEntry } from './content';
 import { Arrive } from './lesson/Celebrate';
 import { tapFeedback } from './lesson/feedback';
 import { HapticsSetting, setHapticsSetting, useHapticsSetting } from './lesson/haptics';
-import { Look, setLook, useLook } from './lesson/look';
+import { Look, LOOKS, setLook, surfaceStyle, tint, useLook } from './lesson/look';
 import { setSoundEnabled, useSoundEnabled } from './lesson/sound';
 import {
   MotionSetting,
@@ -31,6 +31,7 @@ export default function LessonPicker({
 }) {
   const insets = useSafeAreaInsets();
   const look = useLook();
+  const spec = LOOKS[look];
   const haptics = useHapticsSetting();
   const sound = useSoundEnabled();
   const motion = useMotionSetting();
@@ -49,36 +50,38 @@ export default function LessonPicker({
               onPress={() => onPick(entry)}
               style={({ pressed }) => [
                 styles.card,
-                look === 'neo' && styles.cardNeo,
+                surfaceStyle(spec),
                 pressed && { opacity: 0.85, transform: [{ scale: 0.985 }] },
               ]}
             >
               <Text style={styles.cardTitle}>{entry.title}</Text>
               <Text style={styles.cardSub}>{entry.subtitle}</Text>
-              <Text style={styles.cardMeta}>{`${entry.level.screens.length} screens`}</Text>
+              <Text style={[styles.cardMeta, { color: spec.accent }]}>
+                {`${entry.level.screens.length} screens`}
+              </Text>
             </Pressable>
           </Arrive>
         ))}
       </View>
 
       <Arrive delay={260}>
-        <View style={[styles.panel, look === 'neo' && styles.cardNeo]}>
+        <View style={[styles.panel, surfaceStyle(spec)]}>
           <Text style={styles.panelTitle}>Before you start</Text>
-          {/* The experimental layer: aurora, glow, sparks, glass. Classic is
-              the lesson without any of it. */}
+          {/* Five whole designs, not colour swaps (lesson/look.ts). The line
+              under the chips says what the picked one is. */}
           <Choice<Look>
             label="Look"
             value={look}
             onChange={setLook}
-            options={[
-              { id: 'neo', text: 'Neo' },
-              { id: 'classic', text: 'Classic' },
-            ]}
+            accent={spec.accent}
+            options={(Object.keys(LOOKS) as Look[]).map((id) => ({ id, text: LOOKS[id].name }))}
           />
+          <Text style={styles.blurb}>{spec.blurb}</Text>
           {/* docs/UI.md §10 gives haptics and sounds a toggle each. Strong is
               the harder, rounder set; Classic is one light tap per beat. */}
           <Choice<HapticsSetting>
             label="Haptics"
+            accent={spec.accent}
             value={haptics}
             onChange={setHapticsSetting}
             options={[
@@ -89,6 +92,7 @@ export default function LessonPicker({
           />
           <Choice<boolean>
             label="Sound"
+            accent={spec.accent}
             value={sound}
             onChange={setSoundEnabled}
             options={[
@@ -101,6 +105,7 @@ export default function LessonPicker({
               from here is how they get looked at. */}
           <Choice<MotionSetting>
             label="Motion"
+            accent={spec.accent}
             value={motion}
             onChange={setMotionSetting}
             options={[
@@ -120,11 +125,13 @@ function Choice<T>({
   value,
   options,
   onChange,
+  accent,
 }: {
   label: string;
   value: T;
   options: { id: T; text: string }[];
   onChange: (next: T) => void;
+  accent: string;
 }) {
   return (
     <View style={styles.row}>
@@ -140,7 +147,7 @@ function Choice<T>({
               onPressIn={tapFeedback}
               onPress={() => onChange(option.id)}
               hitSlop={6}
-              style={[styles.chip, on && styles.chipOn]}
+              style={[styles.chip, on && { borderColor: accent, backgroundColor: tint(accent, 0.16) }]}
             >
               <Text style={[styles.chipText, on && styles.chipTextOn]}>{option.text}</Text>
             </Pressable>
@@ -168,12 +175,6 @@ const styles = StyleSheet.create({
     padding: space.lg,
     gap: 4,
   },
-  // Glass: the aurora behind shows through, and the top edge catches light.
-  cardNeo: {
-    backgroundColor: 'rgba(23, 28, 35, 0.66)',
-    borderColor: 'rgba(255, 255, 255, 0.10)',
-    borderTopColor: 'rgba(255, 255, 255, 0.22)',
-  },
   cardTitle: { ...type.title, color: colors.text },
   cardSub: { ...type.body, color: colors.textMuted },
   cardMeta: { ...type.small, color: colors.accent },
@@ -185,6 +186,7 @@ const styles = StyleSheet.create({
     padding: space.lg,
     gap: space.md,
   },
+  blurb: { ...type.small, color: colors.textMuted, marginTop: -space.xs, marginLeft: 62 + space.sm },
   panelTitle: { ...type.label, color: colors.textMuted, textTransform: 'uppercase', letterSpacing: 1.2 },
   row: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   rowLabel: { ...type.small, color: colors.textFaint, width: 62 },
@@ -196,7 +198,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.md,
     paddingVertical: 6,
   },
-  chipOn: { borderColor: colors.accent, backgroundColor: colors.accentTint },
   chipText: { ...type.small, color: colors.textMuted },
   chipTextOn: { color: colors.text },
 });

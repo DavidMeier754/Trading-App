@@ -13,7 +13,11 @@ import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { Mood, onMood } from '../lesson/look';
 import { colors } from '../theme';
 
-const GRAIN = require('../../assets/textures/grain.png');
+const TEXTURES = {
+  grain: require('../../assets/textures/grain.png'),
+  scanlines: require('../../assets/textures/scanlines.png'),
+  dots: require('../../assets/textures/dots.png'),
+} as const;
 
 /**
  * The new look's ground: a lit surface, not a colour field.
@@ -30,7 +34,7 @@ const GRAIN = require('../../assets/textures/grain.png');
  * warms it gold and holds, and a finished lesson floods it.
  *
  * One hue at a time, from the app's own tokens, and never more than a fifth
- * opaque. The grain is a 46 KB static tile (tools/gen_grain.py), repeated.
+ * opaque. The grain is a 46 KB static tile (tools/gen_textures.py), repeated.
  */
 export default function Atmosphere({ width, height }: { width: number; height: number }) {
   const flash = useSharedValue(0);
@@ -64,11 +68,14 @@ export default function Atmosphere({ width, height }: { width: number; height: n
   );
 }
 
-/** The grain, over the ground and the grid, under everything else. */
-export function Grain() {
+/**
+ * A look's texture (tools/gen_textures.py): grain, scanlines or a dot grid,
+ * one small tile repeated over the ground and under everything else.
+ */
+export function Texture({ kind }: { kind: keyof typeof TEXTURES }) {
   return (
     <View style={styles.fill} pointerEvents="none">
-      <Image source={GRAIN} resizeMode="repeat" style={styles.grain} />
+      <Image source={TEXTURES[kind]} resizeMode="repeat" style={styles.grain} />
     </View>
   );
 }

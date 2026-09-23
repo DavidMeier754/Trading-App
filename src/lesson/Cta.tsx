@@ -9,16 +9,14 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { colors, radius, TAP_TARGET, type } from '../theme';
+import { colors, TAP_TARGET, type } from '../theme';
+import { useLookSpec } from './look';
 import type { CueName } from './cues.generated';
 import { EASE_OUT, SPRING_POP, usePressFeedback } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
-/** How deep the button sinks when pressed: the height of its edge. */
-const EDGE = 4;
-
-const FACE = { off: colors.surfaceAlt, on: colors.accent, good: colors.success };
-const RIM = { off: '#151A21', on: '#2E66CC', good: '#1B8F5E' };
+const OFF = { face: colors.surfaceAlt, rim: '#151A21' };
+const GOOD = { face: colors.success, rim: '#1B8F5E' };
 
 /**
  * docs/UI.md §2: single primary CTA, full width, bottom safe area.
@@ -57,6 +55,13 @@ export default function Cta({
   hidden?: boolean;
 }) {
   const reduced = useReduceMotion();
+  // Colour, corners, depth and lettering are the look's (lesson/look.ts): a
+  // sunken key in Neo, a flat cyan bar in Terminal, a fat yellow one in Arcade.
+  const spec = useLookSpec();
+  const EDGE = spec.cta.edge;
+  const face0 = spec.cta.face;
+  const rim0 = spec.cta.rim;
+  const darkLabel = spec.accentText !== '#FFFFFF';
   const inert = disabled || hidden;
   const press = usePressFeedback(!inert, { cue });
   const on = useSharedValue(disabled ? 0 : 1);
@@ -93,7 +98,7 @@ export default function Cta({
     backgroundColor: interpolateColor(
       on.get(),
       [0, 1],
-      [RIM.off, interpolateColor(green.get(), [0, 1], [RIM.on, RIM.good])]
+      [OFF.rim, interpolateColor(green.get(), [0, 1], [rim0, GOOD.rim])]
     ),
   }));
 
@@ -101,9 +106,13 @@ export default function Cta({
     backgroundColor: interpolateColor(
       on.get(),
       [0, 1],
-      [FACE.off, interpolateColor(green.get(), [0, 1], [FACE.on, FACE.good])]
+      [OFF.face, interpolateColor(green.get(), [0, 1], [face0, GOOD.face])]
     ),
-    transform: [{ translateY: EDGE * press.pressed.get() }],
+    // A key sinks into its edge; a flat button (no edge) gives a little instead.
+    transform:
+      EDGE > 0
+        ? [{ translateY: EDGE * press.pressed.get() }]
+        : [{ scale: 1 - 0.03 * press.pressed.get() }],
   }));
 
   return (
@@ -122,10 +131,24 @@ export default function Cta({
       {/* The edge is the key's side, offset down by its own depth; the face
           covers all of it but the bottom strip, and all of it once pressed.
           Nothing moves in layout: the footprint is the same either way. */}
-      <Animated.View style={[styles.key, keyStyle]}>
-        <Animated.View pointerEvents="none" style={[styles.rim, rim]} />
-        <Animated.View style={[styles.face, face]}>
-          <Text style={[styles.label, disabled && styles.labelDisabled]}>{label}</Text>
+      <Animated.View style={[{ paddingBottom: EDGE }, keyStyle]}>
+        <Animated.View
+          pointerEvents="none"
+          style={[styles.rim, { top: EDGE, borderRadius: spec.cta.radius }, rim]}
+        />
+        <Animated.View style={[styles.face, { borderRadius: spec.cta.radius }, face]}>
+          <Text
+            style={[
+              styles.label,
+              {
+                color: good ? (darkLabel ? '#06200F' : '#FFFFFF') : spec.accentText,
+              },
+              spec.cta.uppercase && styles.upper,
+              disabled && styles.labelDisabled,
+            ]}
+          >
+            {label}
+          </Text>
         </Animated.View>
       </Animated.View>
     </Pressable>
@@ -133,21 +156,18 @@ export default function Cta({
 }
 
 const styles = StyleSheet.create({
-  key: { paddingBottom: EDGE },
   rim: {
     position: 'absolute',
     left: 0,
     right: 0,
-    top: EDGE,
     bottom: 0,
-    borderRadius: radius.md + 2,
   },
   face: {
     minHeight: TAP_TARGET + 4,
-    borderRadius: radius.md + 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  upper: { textTransform: 'uppercase', letterSpacing: 2, fontWeight: '800' },
   label: { ...type.prompt, color: colors.accentText, letterSpacing: 0.2 },
   labelDisabled: { color: colors.textFaint },
 });

@@ -15,6 +15,7 @@ import { colors, radius, space, type } from '../theme';
 import type { Grade } from './answers';
 import { Celebrate, PopIn } from './Celebrate';
 import { isStreakMilestone, pulseAt } from './feedback';
+import { useLookSpec } from './look';
 import { EASE_OUT, SPRING_PANEL, SPRING_PANEL_CALM, useMotion } from './motion';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -65,6 +66,7 @@ export default function Reveal({
 }) {
   const tone = TONE[grade];
   const m = useMotion();
+  const spec = useLookSpec();
   const [showWorking, setShowWorking] = useState(false);
 
   const fade = useSharedValue(0);
@@ -111,7 +113,11 @@ export default function Reveal({
     <Animated.View
       style={[
         styles.wrap,
-        { backgroundColor: tone.tint, borderColor: tone.accent },
+        {
+          backgroundColor: tone.tint,
+          borderColor: tone.accent,
+          borderRadius: Math.max(2, spec.surface.radius),
+        },
         panel,
       ]}
     >

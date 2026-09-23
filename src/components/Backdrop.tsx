@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Defs, Line, RadialGradient, Rect, Stop } from 'react-native-svg';
 
-import { useLook } from '../lesson/look';
-import Atmosphere, { Grain } from './Atmosphere';
+import { useLookSpec } from '../lesson/look';
+import Atmosphere, { Texture } from './Atmosphere';
 
 import { colors, GRID } from '../theme';
 
@@ -51,15 +51,25 @@ export default function Backdrop({
     return out;
   }, [width, height]);
 
-  const neo = useLook() === 'neo';
+  const spec = useLookSpec();
+  const g = spec.ground;
+  const lineColor = (major: boolean) =>
+    g.grid === 'blueprint'
+      ? major
+        ? 'rgba(170, 205, 255, 0.26)'
+        : 'rgba(170, 205, 255, 0.11)'
+      : major
+        ? colors.gridLineMajor
+        : colors.gridLine;
 
   return (
     <View style={styles.fill} pointerEvents="none">
       {/* The ground, then the light, then the grid over both: the light falls
-          through the lines rather than washing them out. The grain goes on
-          last, over all of it, the way it sits in a print. */}
-      <View style={[styles.fill, { backgroundColor: colors.background }]} />
-      {neo ? <Atmosphere width={width} height={height} /> : null}
+          through the lines rather than washing them out. The texture goes on
+          last, over all of it, the way grain sits in a print. Every layer is
+          the look's choice (lesson/look.ts). */}
+      <View style={[styles.fill, { backgroundColor: g.color }]} />
+      {g.edgeLight ? <Atmosphere width={width} height={height} /> : null}
       <Svg width={width} height={height} style={styles.fill}>
         <Defs>
           <RadialGradient id="backdropGlow" cx="50%" cy="0%" r="80%">
@@ -67,32 +77,36 @@ export default function Backdrop({
             <Stop offset="0.45" stopColor={colors.accent} stopOpacity="0.05" />
             <Stop offset="1" stopColor={colors.accent} stopOpacity="0" />
           </RadialGradient>
-          {/* The new look's lens: the edges fall off into the dark, so the
-              eye lands in the middle where the lesson is. */}
+          {/* A lens: the edges fall off into the dark, so the eye lands in the
+              middle where the lesson is. */}
           <RadialGradient id="backdropVignette" cx="50%" cy="45%" r="75%">
             <Stop offset="0.55" stopColor="#000000" stopOpacity="0" />
             <Stop offset="1" stopColor="#000000" stopOpacity="0.4" />
           </RadialGradient>
         </Defs>
 
-        {lines.map((l) => (
-          <Line
-            key={l.key}
-            x1={l.x1}
-            y1={l.y1}
-            x2={l.x2}
-            y2={l.y2}
-            stroke={l.major ? colors.gridLineMajor : colors.gridLine}
-            strokeWidth={1}
-          />
-        ))}
+        {g.grid !== 'none'
+          ? lines.map((l) => (
+              <Line
+                key={l.key}
+                x1={l.x1}
+                y1={l.y1}
+                x2={l.x2}
+                y2={l.y2}
+                stroke={lineColor(l.major)}
+                strokeWidth={1}
+              />
+            ))
+          : null}
 
-        <Rect x={0} y={0} width={width} height={height} fill="url(#backdropGlow)" />
-        {neo ? (
+        {g.topGlow ? (
+          <Rect x={0} y={0} width={width} height={height} fill="url(#backdropGlow)" />
+        ) : null}
+        {g.vignette ? (
           <Rect x={0} y={0} width={width} height={height} fill="url(#backdropVignette)" />
         ) : null}
       </Svg>
-      {neo ? <Grain /> : null}
+      {g.texture !== 'none' ? <Texture kind={g.texture} /> : null}
     </View>
   );
 }

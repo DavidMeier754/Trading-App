@@ -13,8 +13,8 @@ import { NOTE_STEPS, noteFeedback } from '../lesson/feedback';
 import { startRumble, stopRumble } from '../lesson/haptics';
 import { EASE_OUT, revealTiming } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, glass, radius, space, type } from '../theme';
-import { useLook } from '../lesson/look';
+import { colors, radius, space, type } from '../theme';
+import { surfaceStyle, useLookSpec } from '../lesson/look';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
 
 /** Which way a choice faces, for the P/L side of the outcome strip. */
@@ -40,7 +40,7 @@ export default function ChartDecisionScreen({
   onPhaseChange: (phase: DecisionPhase) => void;
 }) {
   const reduced = useReduceMotion();
-  const neo = useLook() === 'neo';
+  const spec = useLookSpec();
   const bars = Array.isArray(screen.chart.data) ? screen.chart.data.length : 0;
   const start = screen.chart.decision_index + 1;
 
@@ -212,7 +212,7 @@ export default function ChartDecisionScreen({
         // One line of numbers, one line of prose. The card used to repeat the
         // decision and final prices, which the chart already shows, and to
         // restate the choice the learner had just made.
-        <Arrive style={neo ? [styles.outcome, glass] : styles.outcome}>
+        <Arrive style={[styles.outcome, surfaceStyle(spec)]}>
           <View style={styles.outcomeRow}>
             <Text
               style={[

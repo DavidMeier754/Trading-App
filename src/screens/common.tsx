@@ -8,8 +8,8 @@ import Shake from '../lesson/Shake';
 import { usePressFeedback } from '../lesson/motion';
 import { Tone, useToneTransition } from '../lesson/toneTransition';
 import { useVerdict } from '../lesson/verdict';
-import { colors, glass, radius, space, TAP_TARGET, type } from '../theme';
-import { useLook } from '../lesson/look';
+import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { surfaceStyle, useLookSpec } from '../lesson/look';
 
 export function Prompt({ children }: { children: string }) {
   return <Text style={styles.prompt}>{copy(children)}</Text>;
@@ -47,6 +47,13 @@ export function ToneSurface({
   const animated = useToneTransition(tone);
   const press = usePressFeedback(!disabled);
   const verdict = useVerdict();
+  const spec = useLookSpec();
+  const shape = {
+    borderRadius: spec.surface.radius,
+    borderWidth: spec.surface.borderWidth,
+    ...(spec.surface.edge ? { borderBottomWidth: spec.surface.edge } : null),
+    ...(spec.surface.borderTop && tone === 'idle' ? { borderTopColor: spec.surface.borderTop } : null),
+  };
 
   const surface = (
     <Pressable
@@ -59,14 +66,16 @@ export function ToneSurface({
       onPressOut={press.onPressOut}
       pressRetentionOffset={16}
     >
-      <Animated.View style={[styles.surface, style, animated, press.style]}>
+      <Animated.View style={[styles.surface, shape, style, animated, press.style]}>
         {children}
       </Animated.View>
     </Pressable>
   );
 
   if (tone === 'wrong') return <Shake>{surface}</Shake>;
-  if (tone === 'correct' && verdict?.grade === 'correct') return <Celebrate>{surface}</Celebrate>;
+  if (tone === 'correct' && verdict?.grade === 'correct') {
+    return <Celebrate radius={spec.surface.radius}>{surface}</Celebrate>;
+  }
   return surface;
 }
 
@@ -100,8 +109,8 @@ export function AnswerCard({
 }
 
 export function Card({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
-  const neo = useLook() === 'neo';
-  return <View style={[styles.card, neo && glass, style]}>{children}</View>;
+  const spec = useLookSpec();
+  return <View style={[styles.card, surfaceStyle(spec), style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({

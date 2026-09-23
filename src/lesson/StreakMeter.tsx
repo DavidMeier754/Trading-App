@@ -10,6 +10,7 @@ import Animated, {
 import Svg, { Path } from 'react-native-svg';
 
 import { colors, type } from '../theme';
+import { useLookSpec } from './look';
 import { EASE_OUT, SPRING_POP } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
@@ -23,6 +24,7 @@ import { useReduceMotion } from './useReduceMotion';
  */
 export default function StreakMeter({ run }: { run: number }) {
   const reduced = useReduceMotion();
+  const spec = useLookSpec();
   const shown = run >= 2;
   const on = useSharedValue(shown ? 1 : 0);
   const kick = useSharedValue(1);
@@ -42,16 +44,27 @@ export default function StreakMeter({ run }: { run: number }) {
   }));
 
   const hot = run >= 3;
-  const tint = hot ? colors.warning : colors.textMuted;
+  if (spec.streak === 'count') {
+    // Terminal: a readout, not an icon.
+    return (
+      <Animated.View style={[styles.wrap, style]} accessibilityLabel={`${run} in a row`}>
+        <Text style={[styles.readout, { color: hot ? spec.accent : colors.textMuted }]}>
+          {`x${Math.max(run, 2)}`}
+        </Text>
+      </Animated.View>
+    );
+  }
+  const big = spec.id === 'arcade';
+  const tint = hot ? (big ? '#FF7A2F' : colors.warning) : colors.textMuted;
   return (
     <Animated.View style={[styles.wrap, style]} accessibilityLabel={`${run} in a row`}>
-      <Svg width={12} height={15} viewBox="0 0 12 15">
+      <Svg width={big ? 16 : 12} height={big ? 20 : 15} viewBox="0 0 12 15">
         <Path
           d="M6 0.6 C6.6 3.4 10.8 5.2 10.8 9.6 C10.8 12.5 8.6 14.4 6 14.4 C3.4 14.4 1.2 12.5 1.2 9.8 C1.2 7.6 2.6 6.3 3.6 5.2 C3.7 6.8 4.3 7.6 5.1 8 C4.9 5.4 5.3 2.6 6 0.6 Z"
           fill={tint}
         />
       </Svg>
-      <Text style={[styles.count, { color: tint }]}>{Math.max(run, 2)}</Text>
+      <Text style={[styles.count, big && styles.countBig, { color: tint }]}>{Math.max(run, 2)}</Text>
     </Animated.View>
   );
 }
@@ -59,4 +72,6 @@ export default function StreakMeter({ run }: { run: number }) {
 const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   count: { ...type.label, fontWeight: '800' },
+  countBig: { fontSize: 16, lineHeight: 20 },
+  readout: { ...type.mono, fontFamily: 'monospace', fontWeight: '700', letterSpacing: 1 },
 });

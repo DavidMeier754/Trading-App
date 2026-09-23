@@ -38,17 +38,6 @@ export const colors = {
   accentTint: 'rgba(76, 141, 255, 0.14)',
 };
 
-/**
- * The new look's surfaces (lesson/look.ts): the aurora shows through, and the
- * top edge catches the light, which is what reads as glass without a blur --
- * a real backdrop blur is a native module, and slow on the web.
- */
-export const glass = {
-  backgroundColor: 'rgba(23, 28, 35, 0.62)',
-  borderColor: 'rgba(255, 255, 255, 0.11)',
-  borderTopColor: 'rgba(255, 255, 255, 0.24)',
-};
-
 export const space = {
   xs: 4,
   sm: 8,
