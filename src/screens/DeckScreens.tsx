@@ -166,7 +166,7 @@ export function CompareScreen({
               tone={toneFor(id) as any}
               disabled={revealed}
               onPress={() => {
-                onChange({ kind: 'target', id });
+                onChange({ kind: 'target', id: picked === id ? null : id });
               }}
               style={styles.compareCard}
             >
@@ -181,7 +181,7 @@ export function CompareScreen({
           tone={toneFor('neither') as any}
           disabled={revealed}
           onPress={() => {
-            onChange({ kind: 'target', id: 'neither' });
+            onChange({ kind: 'target', id: picked === 'neither' ? null : 'neither' });
           }}
           style={styles.neither}
         >

@@ -12,6 +12,9 @@ import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { ChartReplayScreen as S } from '../types';
 import { Prompt } from './common';
 
+/** Trades one replay allows. */
+const TRADE_CAP = 3;
+
 const LABEL_COLOR: Record<string, string> = {
   Textbook: colors.success,
   Passed: colors.success,
@@ -65,7 +68,16 @@ export default function ChartReplayScreen({
   // replay runs, which moves the chart, so the anchor follows the bar.
   const grid = useGridAnchor(`${bar}:${pmView}:${state.ended || revealed}`);
 
+  // A session has a trade cap, as a real plan does (the plan card's
+  // `session_trade_cap`), and a bar takes one trade: acting is a decision, so
+  // it cannot be tapped out five times on the same candle. At the cap the
+  // buttons stand down and the rest of the session is for watching -- which is
+  // most of what this screen teaches anyway.
+  const tradesLeft = TRADE_CAP - state.acted.length;
+  const tradedHere = state.acted.some((a) => a.bar === bar - 1);
+  const canAct = tradesLeft > 0 && !tradedHere;
   const act = (side: 'long' | 'short') => {
+    if (!canAct) return;
     commitFeedback();
     onChange({ ...state, acted: [...state.acted, { bar: bar - 1, side }] });
   };
@@ -225,15 +237,53 @@ export default function ChartReplayScreen({
         />
       </View>
 
-      <Text style={styles.barCount}>
-        {`Bar ${Math.min(bar, total)} of ${total}${state.acted.length ? ` · ${state.acted.length} taken` : ''}`}
+      <View style={styles.statusRow}>
+        <Text style={styles.barCount}>{`Bar ${Math.min(bar, total)} of ${total}`}</Text>
+        {/* One pip per trade the session allows; a taken one fills. */}
+        <View style={styles.capRow} accessibilityLabel={`${state.acted.length} of ${TRADE_CAP} trades taken`}>
+          <Text style={styles.barCount}>Trades</Text>
+          {Array.from({ length: TRADE_CAP }, (_, i) => {
+            const taken = state.acted[i];
+            return (
+              <View
+                key={i}
+                style={[
+                  styles.capPip,
+                  taken && {
+                    backgroundColor: taken.side === 'short' ? colors.down : colors.up,
+                    borderColor: taken.side === 'short' ? colors.down : colors.up,
+                  },
+                ]}
+              />
+            );
+          })}
+        </View>
+      </View>
+      {/* Always in the layout, shown only when it has something to say, so the
+          chart above does not jump when it does. */}
+      <Text style={[styles.capNote, canAct && styles.capNoteHidden]}>
+        {tradesLeft <= 0
+          ? 'Trade limit reached. Watch the rest, or end the session.'
+          : 'One trade per bar. Advance to act again.'}
       </Text>
 
       <View style={styles.actions}>
-        <Pressable accessibilityRole="button" onPress={() => act('long')} style={[styles.action, surfaceStyle(look), { borderColor: colors.up }]}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ disabled: !canAct }}
+          disabled={!canAct}
+          onPress={() => act('long')}
+          style={[styles.action, surfaceStyle(look), { borderColor: colors.up }, !canAct && styles.actionOff]}
+        >
           <Text style={styles.actionText}>Long</Text>
         </Pressable>
-        <Pressable accessibilityRole="button" onPress={() => act('short')} style={[styles.action, surfaceStyle(look), { borderColor: colors.down }]}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ disabled: !canAct }}
+          disabled={!canAct}
+          onPress={() => act('short')}
+          style={[styles.action, surfaceStyle(look), { borderColor: colors.down }, !canAct && styles.actionOff]}
+        >
           <Text style={styles.actionText}>Short</Text>
         </Pressable>
       </View>
@@ -266,6 +316,17 @@ const styles = StyleSheet.create({
   column: { gap: space.sm },
   chartBox: { alignSelf: 'center' },
   barCount: { ...type.small, color: colors.textMuted, textAlign: 'center' },
+  statusRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  capRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  capPip: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    borderWidth: 1.5,
+    borderColor: colors.borderStrong,
+  },
+  capNote: { ...type.small, color: colors.warning, textAlign: 'center' },
+  capNoteHidden: { opacity: 0 },
   actions: { flexDirection: 'row', gap: space.sm },
   action: {
     flex: 1,

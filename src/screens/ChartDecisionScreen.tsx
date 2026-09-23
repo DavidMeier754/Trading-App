@@ -1,9 +1,20 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useAnimatedReaction, useSharedValue, withTiming } from 'react-native-reanimated';
+import {
+  useAnimatedReaction,
+  useSharedValue,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import Chart, { chartHeightFor, chartWidthFor, closeAt, DEFAULT_GAPS } from '../components/Chart';
+import Chart, {
+  chartHeightFor,
+  chartWidthFor,
+  closeAt,
+  DEFAULT_GAPS,
+  PLAY_START,
+} from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
@@ -11,7 +22,7 @@ import type { AnswerValue } from '../lesson/answers';
 import { NOTE_STEPS, noteFeedback } from '../lesson/feedback';
 import { startRumble, stopRumble } from '../lesson/haptics';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
-import { EASE_OUT, revealTiming } from '../lesson/motion';
+import { EASE_IN_OUT, EASE_OUT, revealTiming } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, type } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
@@ -27,23 +38,32 @@ const DIRECTION: Record<DecisionButton, 1 | -1 | 0> = {
 
 export type DecisionPhase = 'deciding' | 'playing' | 'done';
 
+/** The frame stepping back once the call is made, before the first new bar. */
+const PULL_BACK_MS = 520;
+
 export default function ChartDecisionScreen({
   screen,
   value,
   width,
   onPhaseChange,
+  revealed = false,
 }: {
   screen: S;
   value: AnswerValue;
   width: number;
   onPhaseChange: (phase: DecisionPhase) => void;
+  /** Already answered: a screen come back to, which shows its end state. */
+  revealed?: boolean;
 }) {
   const reduced = useReduceMotion();
   const bars = Array.isArray(screen.chart.data) ? screen.chart.data.length : 0;
   const start = screen.chart.decision_index + 1;
 
   const choice = value.kind === 'decision' ? value.choice : null;
-  const [done, setDone] = useState(false);
+  // A screen come back to (the back button) opens on its finished chart; the
+  // replay, its ticks and its rumble belong to the first time only.
+  const [revisit] = useState(revealed && choice !== null);
+  const [done, setDone] = useState(revisit);
 
   // docs/UI.md §4.3: after the choice the chart continues. It used to do that by
   // raising a React state one bar at a time on a 120ms interval -- and since the
@@ -51,7 +71,7 @@ export default function ChartDecisionScreen({
   // re-scaled and re-rendered the whole chart. Now a single shared value runs
   // 0 -> 1 on the UI thread and the chart derives the line, its fill, the leading
   // dot and the axis from it, so the replay is continuous and costs no renders.
-  const progress = useSharedValue(0);
+  const progress = useSharedValue(revisit ? 1 : PLAY_START);
   const playing = choice !== null && !done;
   const phase: DecisionPhase =
     choice === null ? 'deciding' : done ? 'done' : 'playing';
@@ -129,7 +149,7 @@ export default function ChartDecisionScreen({
   );
 
   useEffect(() => {
-    if (choice === null) return;
+    if (choice === null || revisit) return;
     // §10: reduce motion keeps the outcome, drops the travel.
     if (reduced) {
       armed.set(false);
@@ -138,18 +158,22 @@ export default function ChartDecisionScreen({
       return;
     }
     armed.set(true);
-    progress.set(0);
+    progress.set(PLAY_START);
     quiet();
-    firstLeg.current = setTimeout(() => segment(1), 180);
-    // docs/UI.md §4.3 plays the outcome candle by candle; how slowly, and why
-    // the end takes longest, is in lesson/motion.ts.
+    firstLeg.current = setTimeout(() => segment(1), PULL_BACK_MS + 180);
+    // First the frame pulls back to the height the session needs (Chart's
+    // windowAt), then docs/UI.md §4.3 plays the outcome candle by candle; how
+    // slowly, and why the end takes longest, is in lesson/motion.ts.
     progress.set(
-      withTiming(1, revealTiming(legs), (finished) => {
-        'worklet';
-        if (finished) scheduleOnRN(finish);
-      })
+      withSequence(
+        withTiming(0, { duration: PULL_BACK_MS, easing: EASE_IN_OUT }),
+        withTiming(1, revealTiming(legs), (finished) => {
+          'worklet';
+          if (finished) scheduleOnRN(finish);
+        })
+      )
     );
-  }, [choice, reduced, legs, progress, armed, finish, quiet, segment]);
+  }, [choice, reduced, revisit, legs, progress, armed, finish, quiet, segment]);
 
   // Tap to skip: the rest of the replay in one short sweep, not a jump cut.
   const onChartPress = () => {
@@ -184,8 +208,10 @@ export default function ChartDecisionScreen({
   // is drawn on the chart, so the chart can have that room too.
   const fit = useChartGaps({
     preferred: DEFAULT_GAPS,
-    growth: REVEAL_GROWTH,
-    locked: phase !== 'deciding',
+    // Come back to, the reveal is already under the screen and the room
+    // measured already allows for it.
+    growth: revisit ? 0 : REVEAL_GROWTH,
+    locked: phase !== 'deciding' && !revisit,
   });
 
   // docs/UI.md §4.3's outcome strip, as a tag on the chart: the move in

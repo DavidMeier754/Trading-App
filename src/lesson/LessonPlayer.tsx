@@ -126,6 +126,8 @@ export default function LessonPlayer({
   const fade = useSharedValue(1);
   const slide = useSharedValue(0);
   const lastAdvance = useRef(0);
+  // Which way the last screen change went: a step back arrives from the left.
+  const direction = useRef<1 | -1>(1);
   const m = useMotion();
 
   const spec = useLookSpec();
@@ -207,7 +209,7 @@ export default function LessonPlayer({
     // settling after the fade is done. That reads smoother than two timings,
     // which either land together (abrupt) or drift apart (laggy).
     fade.set(0);
-    slide.set(m.travel(36));
+    slide.set(m.travel(36) * direction.current);
     fade.set(withTiming(1, { duration: m.fade(DURATION.screen), easing: EASE_OUT }));
     slide.set(m.reduced ? 0 : withSpring(0, SPRING_SETTLE));
   }, [index, runKey, fade, slide, m]);
@@ -230,7 +232,24 @@ export default function LessonPlayer({
     const now = Date.now();
     if (now - lastAdvance.current < 90) return;
     lastAdvance.current = now;
+    direction.current = 1;
     setIndex((i) => i + 1);
+  };
+
+  // Back: a card within a carousel or walkthrough first, then the screen
+  // before. Nothing is undone -- an answered screen comes back answered, its
+  // reveal showing and its Continue waiting, so going back is for looking,
+  // not for a second try.
+  const canGoBack = index > 0 || cursor > 0;
+  const goBack = () => {
+    tapFeedback();
+    if (cursor > 0) {
+      setCursor((c) => c - 1);
+      return;
+    }
+    if (index === 0) return;
+    direction.current = -1;
+    setIndex((i) => Math.max(0, i - 1));
   };
 
   const ctaLabel = useMemo(() => {
@@ -345,6 +364,17 @@ export default function LessonPlayer({
           style={styles.close}
         >
           <Text style={styles.closeText}>{'✕'}</Text>
+        </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Previous screen"
+          accessibilityState={{ disabled: !canGoBack }}
+          disabled={!canGoBack}
+          onPress={goBack}
+          hitSlop={10}
+          style={[styles.close, !canGoBack && styles.backOff]}
+        >
+          <Text style={styles.backText}>{'‹'}</Text>
         </Pressable>
         <ProgressBar progress={progress} steps={screens.length} hot={onRun} />
         {pageNumbers && !atSummary ? (
@@ -549,6 +579,7 @@ function renderScreen(props: {
           value={value}
           width={contentWidth}
           onPhaseChange={onPhaseChange}
+          revealed={isRevealed}
         />
       );
     // --- docs/UI.md §3, the remaining non-question archetypes ---
@@ -633,6 +664,8 @@ const styles = StyleSheet.create({
   },
   close: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
   closeText: { ...type.title, color: colors.textMuted },
+  backText: { fontSize: 30, lineHeight: 32, fontWeight: '500', color: colors.textMuted, marginTop: -3 },
+  backOff: { opacity: 0.25 },
   heartSlot: { minWidth: 32, alignItems: 'flex-end' },
   // Tabular figures, so "9/49" to "10/49" does not nudge the bar.
   page: { ...type.label, color: colors.textMuted, fontVariant: ['tabular-nums'] },

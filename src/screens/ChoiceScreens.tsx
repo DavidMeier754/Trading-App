@@ -72,7 +72,7 @@ export function FillChoiceScreen({
             tone={toneFor(i)}
             disabled={revealed}
             onPress={() => {
-              onChange({ kind: 'option', index: i });
+              onChange({ kind: 'option', index: selected === i ? null : i });
             }}
             style={styles.chip}
           >
@@ -161,24 +161,34 @@ export function SortScreen({
       <View style={styles.buckets}>
         {screen.buckets.map((bucket, b) => (
           <Animated.View key={bucket} ref={bucketRefs[b]} style={styles.bucketSlot} collapsable={false}>
-            <Pressable
-              accessibilityRole="button"
-              disabled={revealed || pending === null}
-              onPress={() => {
-                if (pending === null) return;
-                put(pending, bucket);
-              }}
-              style={[styles.bucket, pending !== null && !revealed && styles.bucketOpen]}
-            >
+            <View style={[styles.bucket, pending !== null && !revealed && styles.bucketOpen]}>
+              {/* The whole bucket takes a pending chip; the chips already in
+                  it sit above that and take a tap of their own. */}
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`Put it in ${bucket}`}
+                disabled={revealed || pending === null}
+                onPress={() => {
+                  if (pending === null) return;
+                  put(pending, bucket);
+                }}
+                style={StyleSheet.absoluteFill}
+              />
               <BucketGlow index={b} hover={hover} color={accent} />
-              <Text style={styles.bucketTitle}>{copy(bucket)}</Text>
-              <View style={styles.bucketItems}>
+              <Text style={styles.bucketTitle} pointerEvents="none">{copy(bucket)}</Text>
+              <View style={styles.bucketItems} pointerEvents="box-none">
                 {screen.items.map((item, i) =>
                   placed[i] === bucket ? (
+                    // Tap a sorted chip to take it back out of the bucket.
                     <ToneSurface
                       key={item.text}
                       tone={toneFor(i)}
-                      disabled
+                      disabled={revealed}
+                      onPress={() => {
+                        const next = { ...placed };
+                        delete next[i];
+                        onChange({ kind: 'buckets', placed: next });
+                      }}
                       style={styles.chipSmall}
                     >
                       <Text style={styles.chipSmallText}>{copy(item.text)}</Text>
@@ -186,7 +196,7 @@ export function SortScreen({
                   ) : null
                 )}
               </View>
-            </Pressable>
+            </View>
           </Animated.View>
         ))}
       </View>
@@ -393,7 +403,7 @@ export function SpotMistakeScreen({
             tone={toneFor(i)}
             disabled={revealed}
             onPress={() => {
-              onChange({ kind: 'index', index: i });
+              onChange({ kind: 'index', index: picked === i ? null : i });
             }}
             style={styles.segment}
           >

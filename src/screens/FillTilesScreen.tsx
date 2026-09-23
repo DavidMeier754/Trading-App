@@ -85,17 +85,20 @@ export default function FillTilesScreen({
             <Pressable
               key={`${letter}-${i}`}
               accessibilityRole="button"
-              accessibilityLabel={used ? 'Used tile' : `Letter ${letter}`}
-              disabled={revealed || used}
+              accessibilityLabel={used ? `Take back ${letter}` : `Letter ${letter}`}
+              disabled={revealed}
               onPress={() => {
                 tapFeedback();
-                onChange({ kind: 'tiles', placed: [...placed, i] });
+                // A used tile is still there, faded: tap it to take its letter
+                // back out of the word.
+                onChange({
+                  kind: 'tiles',
+                  placed: used ? placed.filter((p) => p !== i) : [...placed, i],
+                });
               }}
               style={[styles.tile, used && styles.tileUsed]}
             >
-              {/* A used tile keeps its footprint but drops the glyph, so the letter
-                  is not read out twice or tapped a second time. */}
-              <Text style={styles.tileText}>{used ? '' : letter}</Text>
+              <Text style={[styles.tileText, used && styles.tileTextUsed]}>{letter}</Text>
             </Pressable>
           );
         })}
@@ -154,7 +157,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  tileUsed: { backgroundColor: colors.surfaceAlt, borderColor: colors.border },
+  tileUsed: { backgroundColor: colors.surfaceAlt, borderColor: colors.border, borderStyle: 'dashed' },
+  tileTextUsed: { color: colors.textFaint },
   tileText: { ...type.prompt, color: colors.text },
   undo: { ...type.label, color: colors.accent },
 });

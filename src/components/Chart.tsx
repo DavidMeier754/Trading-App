@@ -164,41 +164,52 @@ export type PlayGeom = {
   padTop: number;
   priceH: number;
   baseline: number;
+  /** The frame at the decision: the visible bars, filling the plot. */
+  tlo: number;
+  thi: number;
+  /** The frame the replay plays in: as tall as the finished session needs,
+   *  centred where the decision frame was. */
   lo0: number;
   hi0: number;
+  /** The frame it ends on: every bar, filling the plot. */
   lo1: number;
   hi1: number;
   /** Running extremes over bars 0..i, so the window can follow the data. */
   runHi: number[];
   runLo: number[];
-  /** 1 when the reserve held and the axis only slides; 0 when it must widen. */
-  panOnly: number;
 };
 
 /**
- * The price window at replay position `t`.
+ * The price window at replay position `t`, which runs from -1 to 1.
  *
- * Normally the window's height never changes: REVEAL_RESERVE has already made
- * the axis tall enough for the bars that are coming, so the window only slides,
- * and it slides only as far as the revealed bars require. Nothing already drawn
- * is ever rescaled, which is the whole point -- a line that climbs while its
- * frame shrinks around it goes nowhere, and that is what read as flat.
+ * A decision chart is framed three ways, and the price is never rescaled while
+ * it moves:
  *
- * The fallback, for the ~11% of charts whose move outruns the reserve, is the
- * old widening: done on a smoothstep over the first 30% of the replay, before
- * most of the line exists, rather than linearly under the pen.
+ * 1. **Deciding** (t = -1, and the static chart before the tap): the visible
+ *    bars fill the plot. Nothing on screen says where the price goes next, so
+ *    the frame can be as tight as the bars allow, and the candles are tall.
+ * 2. **Pulling back** (-1 < t < 0): the moment the call is made, the frame
+ *    grows -- evenly above and below, so it still says nothing about which way
+ *    -- to exactly the height the whole session will need. The bars shrink
+ *    into it before anything new is drawn: a camera stepping back, not a
+ *    chart squashing a move that is under way.
+ * 3. **Playing** (0 <= t <= 1): the height stays; the frame only slides, and
+ *    only as far as the revealed bars require. At t = 1 it sits exactly on the
+ *    finished session, every bar filling the plot, which is the static frame
+ *    the chart settles into.
+ *
+ * The first version reserved 2.5x the room up front instead, before the
+ * decision -- which was the same on every chart, so it gave nothing away, but
+ * left the bars the learner had to judge squeezed into the middle third.
  */
-const ZOOM_OUT = 0.3;
-
 function windowAt(g: PlayGeom, t: number) {
   'worklet';
-  if (!g.panOnly) {
-    const u = Math.min(1, t / ZOOM_OUT);
-    const d = u * u * (3 - 2 * u);
-    return { lo: g.lo0 + (g.lo1 - g.lo0) * d, hi: g.hi0 + (g.hi1 - g.hi0) * d };
+  if (t < 0) {
+    const u = t + 1;
+    return { lo: g.tlo + (g.lo0 - g.tlo) * u, hi: g.thi + (g.hi0 - g.thi) * u };
   }
   const span = g.hi0 - g.lo0;
-  const head = g.from - 1 + t * (g.n - g.from);
+  const head = g.from - 1 + Math.max(0, t) * (g.n - g.from);
   const i = Math.max(0, Math.min(g.n - 1, Math.floor(head)));
   const j = Math.min(g.n - 1, i + 1);
   const f = Math.max(0, Math.min(1, head - i));
@@ -213,6 +224,9 @@ function windowAt(g: PlayGeom, t: number) {
   return { lo, hi };
 }
 
+/** Where the replay's progress starts: the decision frame, before the pull-back. */
+export const PLAY_START = -1;
+
 /** Price -> y at replay position `t`. */
 function playY(g: PlayGeom, t: number, price: number) {
   'worklet';
@@ -223,7 +237,8 @@ function playY(g: PlayGeom, t: number, price: number) {
 /** The fractional index of the leading edge: from-1 at t=0, n-1 at t=1. */
 function playHead(g: PlayGeom, t: number) {
   'worklet';
-  return g.from - 1 + t * (g.n - g.from);
+  // Nothing new is drawn while the frame is still pulling back (t < 0).
+  return g.from - 1 + Math.max(0, t) * (g.n - g.from);
 }
 
 /**
@@ -236,7 +251,7 @@ function playHead(g: PlayGeom, t: number) {
  */
 function barAlpha(g: PlayGeom, t: number, i: number) {
   'worklet';
-  const head = g.from - 1 + t * (g.n - g.from);
+  const head = g.from - 1 + Math.max(0, t) * (g.n - g.from);
   return Math.max(0, Math.min(1, head - i + 1));
 }
 
@@ -251,7 +266,7 @@ function playYAt(g: PlayGeom, t: number, price: number) {
 }
 
 function barAlphaAt(g: PlayGeom, t: number, i: number) {
-  const head = g.from - 1 + t * (g.n - g.from);
+  const head = g.from - 1 + Math.max(0, t) * (g.n - g.from);
   return Math.max(0, Math.min(1, head - i + 1));
 }
 
@@ -291,7 +306,7 @@ function playLine(g: PlayGeom, t: number) {
  * very first frame -- react-native-web tolerates undefined, a device does not.
  */
 function playHeadPointAt(g: PlayGeom, t: number) {
-  const head = g.from - 1 + t * (g.n - g.from);
+  const head = g.from - 1 + Math.max(0, t) * (g.n - g.from);
   const whole = Math.floor(head);
   const frac = head - whole;
   const yOf = (price: number) => playYAt(g, t, price);
@@ -304,7 +319,7 @@ function playHeadPointAt(g: PlayGeom, t: number) {
 }
 
 function playLineAt(g: PlayGeom, t: number) {
-  const head = g.from - 1 + t * (g.n - g.from);
+  const head = g.from - 1 + Math.max(0, t) * (g.n - g.from);
   const whole = Math.floor(head);
   const yOf = (price: number) => playYAt(g, t, price);
   let d = `M${g.xs[0].toFixed(2)},${yOf(g.closes[0]).toFixed(2)}`;
@@ -345,8 +360,8 @@ function PlaybackLine({
     return { cx: tip.x, cy: tip.y };
   });
 
-  const first = playLineAt(g, 0);
-  const firstTip = playHeadPointAt(g, 0);
+  const first = playLineAt(g, PLAY_START);
+  const firstTip = playHeadPointAt(g, PLAY_START);
 
   return (
     <G>
@@ -507,17 +522,17 @@ function PlaybackCandle({
     };
   });
 
-  const alpha0 = barAlphaAt(g, 0, i);
-  const top0 = playYAt(g, 0, Math.max(bar.o, bar.c));
-  const bottom0 = playYAt(g, 0, Math.min(bar.o, bar.c));
+  const alpha0 = barAlphaAt(g, PLAY_START, i);
+  const top0 = playYAt(g, PLAY_START, Math.max(bar.o, bar.c));
+  const bottom0 = playYAt(g, PLAY_START, Math.min(bar.o, bar.c));
 
   return (
     <G>
       <AnimatedLine
         x1={g.xs[i]}
         x2={g.xs[i]}
-        y1={playYAt(g, 0, bar.h)}
-        y2={playYAt(g, 0, bar.l)}
+        y1={playYAt(g, PLAY_START, bar.h)}
+        y2={playYAt(g, PLAY_START, bar.l)}
         opacity={alpha0}
         stroke={stroke}
         strokeWidth={1.25}
@@ -570,7 +585,7 @@ function PlaybackVolumeBar({
       height={height}
       rx={1}
       fill={fill}
-      opacity={0.45 * barAlphaAt(g, 0, i)}
+      opacity={0.45 * barAlphaAt(g, PLAY_START, i)}
       animatedProps={props}
     />
   );
@@ -589,13 +604,13 @@ function PlaybackAxis({
 }) {
   const props = useAnimatedProps(() => {
     const t = progress.get();
-    // The labels belong to the scale, so they change with it: the old set is
-    // gone before the zoom is half done and the final set is in by the time it
-    // settles. Fading them across the whole replay left stale prices beside a
-    // scale that had already stopped moving.
+    // The labels belong to the frame, so they follow it: the decision's set
+    // leaves in the first half of the pull-back, and the finished session's
+    // set arrives as the frame comes to rest on it. In between the frame is
+    // moving and any printed price would be a stale one.
     const opacity = fadeOut
-      ? Math.max(0, 1 - t / (ZOOM_OUT * 0.5))
-      : Math.max(0, Math.min(1, (t - ZOOM_OUT * 0.5) / (ZOOM_OUT * 0.7)));
+      ? Math.max(0, Math.min(1, (-0.5 - t) / 0.5))
+      : Math.max(0, Math.min(1, (t - 0.85) / 0.15));
     return { opacity };
   });
   return <AnimatedG animatedProps={props}>{children}</AnimatedG>;
@@ -797,52 +812,6 @@ export function domainOf(bars: Candle[], spec: ChartSpec, count: number) {
   return { lo: min - span * 0.1, hi: max + span * 0.12 };
 }
 
-/**
- * How much taller than its data a decision chart's axis is drawn.
- *
- * The axis has to end up holding the bars that arrive after the decision, and
- * the plot's height is fixed by the grid. Widening it *during* the replay is
- * what made the line look flat: it climbed while the frame shrank around it, so
- * it went nowhere. Reserving the room up front instead means the scale never
- * changes and the price visibly travels.
- *
- * 2.2 is measured, not chosen: across the 544 `chart-decision` screens in the
- * corpus the final axis is a median 1.53x the axis at the decision, 1.83x at
- * the 75th percentile and 3.25x at the worst. The axis may slide to follow the
- * price, so only the height has to be reserved: 2.2x holds 88.6% of them with
- * no change of scale at all, and the rest widen by at most 1.48x. It used to be
- * 2.5x, which held a few more and paid for it on every chart -- the bars the
- * learner decides on squeezed into the middle 40% of the plot, flat.
- *
- * The room is centred, so it is the same above and below and says nothing about
- * which way the price is going -- and the factor is the same on every chart, so
- * it says nothing about how far, either. Both were the reason the domain was
- * built from the visible bars alone in the first place.
- */
-export const REVEAL_RESERVE = 2.2;
-
-type Window = { lo: number; hi: number };
-
-function expand({ lo, hi }: Window, factor: number): Window {
-  const mid = (lo + hi) / 2;
-  const half = ((hi - lo) * factor) / 2;
-  return { lo: mid - half, hi: mid + half };
-}
-
-/**
- * Slide `win` until it holds `need`, keeping its height. Only if `need` is
- * taller than the window does it grow -- the 5.5% of charts whose move outruns
- * the reserve.
- */
-function slideToContain(win: Window, need: Window): Window {
-  const span = win.hi - win.lo;
-  if (need.hi - need.lo > span) return need;
-  let { lo, hi } = win;
-  if (need.hi > hi) { hi = need.hi; lo = hi - span; }
-  if (need.lo < lo) { lo = need.lo; hi = lo + span; }
-  return { lo, hi };
-}
-
 export function closeAt(spec: ChartSpec, index: number): number {
   const bars = toCandles(spec);
   return bars[Math.max(0, Math.min(index, bars.length - 1))].c;
@@ -877,8 +846,8 @@ type Props = {
   gridAnchor?: number;
   /**
    * How many bars were on screen at the decision. Its presence says this chart
-   * will replay an outcome, so the axis reserves room for it up front and never
-   * rescales afterwards (REVEAL_RESERVE).
+   * will replay an outcome: the slots still to come are hatched until they
+   * fill, and the replay frames itself as windowAt describes.
    */
   revealFrom?: number;
   /**
@@ -1113,36 +1082,19 @@ function Chart({
   const overlayProps = useAnimatedProps(() => ({ opacity: overlay.get() }));
   const overlayStyle = useAnimatedStyle(() => ({ opacity: overlay.get() }));
 
-  // The window the axis shows.
-  //
-  // A chart that will replay an outcome (`revealFrom`) reserves its room up
-  // front: the axis is REVEAL_RESERVE times the height its visible bars need,
-  // centred on them, and from then on it only ever *slides*. That is what lets
-  // the price travel on screen instead of the frame closing in around it.
-  //
-  // Everything else -- a theory card, a `chart-tap` -- keeps the plain domain of
-  // the bars it is showing.
-  const anchor = useMemo(() => {
-    const base = domainOf(bars, spec, Math.max(1, revealFrom ?? shown));
-    return revealFrom === undefined ? base : expand(base, REVEAL_RESERVE);
-  }, [bars, spec.vwap, spec.levels, revealFrom, shown]);
-
+  // The window the axis shows: the bars on screen, filling the plot. For a
+  // chart that replays an outcome that is the decision frame; how it moves
+  // from there is windowAt's.
   const { lo, hi } = useMemo(
-    () =>
-      revealFrom === undefined
-        ? domainOf(bars, spec, Math.max(1, shown))
-        : slideToContain(anchor, domainOf(bars, spec, Math.max(1, shown))),
-    [bars, spec.vwap, spec.levels, shown, revealFrom, anchor]
+    () => domainOf(bars, spec, Math.max(1, shown)),
+    [bars, spec.vwap, spec.levels, shown]
   );
 
   // Where the axis ends up once every bar is in.
-  const full = useMemo(() => {
-    const need = domainOf(bars, spec, n);
-    if (revealFrom === undefined) {
-      return { lo: Math.min(lo, need.lo), hi: Math.max(hi, need.hi) };
-    }
-    return slideToContain(anchor, need);
-  }, [bars, spec.vwap, spec.levels, n, lo, hi, revealFrom, anchor]);
+  const full = useMemo(
+    () => domainOf(bars, spec, n),
+    [bars, spec.vwap, spec.levels, n]
+  );
 
   const layout = useMemo(
     () => chartLayout({ width, height, bars: n, lo, hi, hasVolume, gridAnchor }),
@@ -1191,7 +1143,10 @@ function Chart({
       runHi.push(mh);
       runLo.push(ml);
     });
-    const span0 = hi - lo;
+    // The replay's frame: the finished session's height, centred where the
+    // decision frame was.
+    const mid = (lo + hi) / 2;
+    const half = (full.hi - full.lo) / 2;
     return {
       xs: bars.map((_, i) => cx(i)),
       closes: bars.map((b) => b.c),
@@ -1203,13 +1158,14 @@ function Chart({
       padTop,
       priceH,
       baseline: padTop + priceH,
-      lo0: lo,
-      hi0: hi,
+      tlo: lo,
+      thi: hi,
+      lo0: mid - half,
+      hi0: mid + half,
       lo1: full.lo,
       hi1: full.hi,
       runHi,
       runLo,
-      panOnly: Math.abs(full.hi - full.lo - span0) < span0 * 1e-6 ? 1 : 0,
     };
   }, [playback, spec, bars, n, shown, layout, lo, hi, full.lo, full.hi]);
 

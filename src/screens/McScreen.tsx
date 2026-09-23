@@ -41,8 +41,9 @@ export default function McScreen({
             tone={toneFor(i)}
             disabled={revealed}
             onPress={() => {
-              // A choice, not an answer yet: Check commits it (lesson/answers.ts).
-              onChange({ kind: 'option', index: i });
+              // A choice, not an answer yet: Check commits it (lesson/answers.ts),
+              // so a second tap on the same one takes it back.
+              onChange({ kind: 'option', index: selected === i ? null : i });
             }}
           />
         ))}

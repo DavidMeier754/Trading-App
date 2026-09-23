@@ -91,6 +91,13 @@ function SlotBuilder({
                     accessibilityState={{ selected: on }}
                     onPress={() => {
                       tapFeedback();
+                      // The chip already in the field takes it back out.
+                      if (on) {
+                        const next = { ...filled };
+                        delete next[active];
+                        onChange({ kind: 'slots', filled: next });
+                        return;
+                      }
                       const next = { ...filled, [active]: chip };
                       onChange({ kind: 'slots', filled: next });
                       const remaining = slots.find((s) => next[s] === undefined);

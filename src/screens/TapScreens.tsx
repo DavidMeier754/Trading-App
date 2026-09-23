@@ -79,7 +79,7 @@ export function HotspotScreen({
             ? undefined
             : (id) => {
                 tapFeedback();
-                onChange({ kind: 'target', id });
+                onChange({ kind: 'target', id: picked === id ? null : id });
               }
         }
         highlight={resolveHighlight(revealed, picked, targets)}
@@ -112,7 +112,7 @@ export function ScannerPickScreen({
             ? undefined
             : (ticker) => {
                 tapFeedback();
-                onChange({ kind: 'target', id: ticker });
+                onChange({ kind: 'target', id: picked === ticker ? null : ticker });
               }
         }
         resolved={resolveHighlight(revealed, picked, [screen.target])}
@@ -146,7 +146,7 @@ export function DepthLadderScreen({
             ? undefined
             : (id) => {
                 tapFeedback();
-                onChange({ kind: 'target', id });
+                onChange({ kind: 'target', id: picked === id ? null : id });
               }
         }
         resolved={resolveHighlight(revealed, picked, [screen.target])}
@@ -244,7 +244,7 @@ export function ChartTapScreen({
                 disabled={revealed}
                 onPress={() => {
                   tapFeedback();
-                  onChange({ kind: 'index', index: i });
+                  onChange({ kind: 'index', index: picked === i ? null : i });
                 }}
                 style={[
                   styles.tapCol,

@@ -44,7 +44,8 @@ export default function TfScreen({
               tone={toneFor(option)}
               disabled={revealed}
               onPress={() => {
-                onChange({ kind: 'bool', value: option });
+                // Tapped again, the choice is taken back.
+                onChange({ kind: 'bool', value: chosen === option ? null : option });
               }}
               style={styles.button}
             >
