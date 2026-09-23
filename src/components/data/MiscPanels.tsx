@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedProps,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from 'react-native-reanimated';
+import Svg, { Circle, G, Line, Path, Rect, Text as SvgText } from 'react-native-svg';
 
-import { colors, radius, space, TAP_TARGET, type } from '../../theme';
+import { PopIn } from '../../lesson/Celebrate';
+import { surfaceStyle, useLookSpec } from '../../lesson/look';
+import { EASE_OUT } from '../../lesson/motion';
+import { useReduceMotion } from '../../lesson/useReduceMotion';
+import { colors, radius, space, type } from '../../theme';
+import { GROW_DELAY } from './GrowBar';
+
+const AnimatedRect = Animated.createAnimatedComponent(Rect);
+const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 /**
  * The four small [v3] panels from docs/UI.md §6.8 that are read-only surfaces
@@ -61,19 +76,46 @@ export function HotkeyPad({
   data: { keys: { label: string; action: string }[] };
   active?: string;
 }) {
+  // Laid out like the keys they are: raised caps, two to a row, the key's name
+  // large and what it does under it in the colour of the action -- green buys,
+  // red sells -- so the pad reads as a keyboard, not a list of labels.
+  const look = useLookSpec();
   return (
     <View style={styles.pad}>
-      {data.keys.map((k) => (
-        <View
-          key={k.label}
-          style={[styles.key, active === k.label && styles.keyActive]}
-        >
-          <Text style={styles.keyLabel}>{k.label}</Text>
-          <Text style={styles.keyAction}>{k.action}</Text>
-        </View>
-      ))}
+      {data.keys.map((k, i) => {
+        const tone = keyTone(k.action, look.accent);
+        return (
+          <PopIn key={k.label} delay={GROW_DELAY + i * 70} style={styles.keySlot}>
+            <View
+              style={[
+                styles.key,
+                { borderBottomColor: tone.edge, borderRadius: Math.max(6, look.surface.radius) },
+                active === k.label && { borderColor: look.accent },
+              ]}
+            >
+              <Text style={styles.keyLabel}>{k.label}</Text>
+              <View style={styles.keyActionRow}>
+                <Text style={[styles.keyGlyph, { color: tone.color }]}>{tone.glyph}</Text>
+                <Text style={[styles.keyAction, { color: tone.color }]}>{capitalise(k.action)}</Text>
+              </View>
+            </View>
+          </PopIn>
+        );
+      })}
     </View>
   );
+}
+
+function keyTone(action: string, accent: string): { color: string; edge: string; glyph: string } {
+  const a = action.toLowerCase();
+  if (a.includes('buy') || a.includes('long')) return { color: colors.up, edge: '#1B7A53', glyph: '▲' };
+  if (a.includes('sell') || a.includes('short')) return { color: colors.down, edge: '#8E2F2C', glyph: '▼' };
+  if (a.includes('flat') || a.includes('cancel')) return { color: colors.warning, edge: '#8A6A1E', glyph: '✕' };
+  return { color: accent, edge: '#2E4A7A', glyph: '⇅' };
+}
+
+function capitalise(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 /** docs/UI.md §6.8 `stats-card`. */
@@ -91,52 +133,175 @@ export function StatsCard({
   );
 }
 
-/** docs/UI.md §6.8 `r-tracker` — each trade as a bar against the day's limit. */
+/**
+ * docs/UI.md §6.8 `r-tracker` — the session in R, against the day's limit.
+ *
+ * The total leads, because it is the number that decides whether the day goes
+ * on. Under it, each trade is a bar up or down from zero, labelled with its R,
+ * and a line runs through them with the day's running total -- so the shape of
+ * the day is there, not only its sum. The limit is drawn where it bites, and
+ * the room left to it is said in words underneath.
+ */
 export function RTracker({
   data,
 }: {
   data: { trades: number[]; limit: number };
 }) {
-  const scale = Math.max(...data.trades.map(Math.abs), data.limit, 1);
-  const total = data.trades.reduce((a, b) => a + b, 0);
+  const look = useLookSpec();
+  const reduced = useReduceMotion();
+  const [w, setW] = useState(0);
+  const trades = data.trades;
+  const total = trades.reduce((a, b) => a + b, 0);
+  const running = trades.reduce<number[]>((out, r) => [...out, (out[out.length - 1] ?? 0) + r], []);
+  const hi = Math.max(0.5, ...trades, ...running);
+  const lo = Math.min(-data.limit, ...trades, ...running);
+  const H = 132;
+  const padT = 16;
+  const padB = 14;
+  const labelW = 34;
+  const plotW = Math.max(1, w - labelW);
+  const y = (r: number) => padT + ((hi - r) / (hi - lo)) * (H - padT - padB);
+  const slot = plotW / Math.max(1, trades.length);
+  const barW = Math.min(28, slot * 0.56);
+  const cx = (i: number) => slot * (i + 0.5);
+  const zero = y(0);
+  const limitY = y(-data.limit);
+  const room = total + data.limit;
+
+  const line = running.map((r, i) => `${i === 0 ? 'M' : 'L'}${cx(i).toFixed(1)},${y(r).toFixed(1)}`).join(' ');
+  const lineLen = running.reduce(
+    (len, r, i) => (i === 0 ? 0 : len + Math.hypot(slot, y(r) - y(running[i - 1]))),
+    0
+  );
+  const draw = useSharedValue(reduced ? 1 : 0);
+  useEffect(() => {
+    if (!reduced && w > 0) {
+      draw.set(withDelay(GROW_DELAY + trades.length * 90 + 200, withTiming(1, { duration: 700, easing: EASE_OUT })));
+    }
+    // once the width is known
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [w > 0]);
+  const lineProps = useAnimatedProps(() => ({ strokeDashoffset: lineLen * (1 - draw.get()) }));
+
   return (
-    <View style={styles.card}>
-      <View style={styles.rRow}>
-        {data.trades.map((r, i) => (
-          <View key={i} style={styles.rSlot}>
-            <View style={styles.rUp}>
-              {r > 0 ? (
-                <View
-                  style={[
-                    styles.rBar,
-                    { height: `${(r / scale) * 100}%`, backgroundColor: colors.up },
-                  ]}
-                />
-              ) : null}
-            </View>
-            <View style={styles.rAxis} />
-            <View style={styles.rDown}>
-              {r < 0 ? (
-                <View
-                  style={[
-                    styles.rBar,
-                    {
-                      height: `${(Math.abs(r) / scale) * 100}%`,
-                      backgroundColor: colors.down,
-                    },
-                  ]}
-                />
-              ) : null}
-            </View>
-          </View>
-        ))}
+    <View style={[styles.card, surfaceStyle(look), styles.rCard]}>
+      <View style={styles.rHead}>
+        <View>
+          <Text style={styles.rKicker}>Day so far</Text>
+          <Text style={[styles.rTotal, { color: total >= 0 ? colors.up : colors.down }]}>
+            {`${total > 0 ? '+' : ''}${total.toFixed(1)}R`}
+          </Text>
+        </View>
+        <View style={[styles.tag, { borderColor: colors.down }]}>
+          <Text style={[styles.tagText, { color: colors.down }]}>{`limit −${data.limit}R`}</Text>
+        </View>
       </View>
-      <Row
-        label={`Day (limit ${data.limit}R)`}
-        value={`${total > 0 ? '+' : ''}${total.toFixed(1)}R`}
-        tint={total >= 0 ? colors.up : colors.down}
-      />
+      <View onLayout={(e) => setW(e.nativeEvent.layout.width)} style={{ height: H }}>
+        {w > 0 ? (
+          <Svg width={w} height={H}>
+            <Line x1={0} x2={plotW} y1={zero} y2={zero} stroke={colors.borderStrong} strokeWidth={1} />
+            <SvgText x={plotW + 6} y={zero + 4} fill={colors.textFaint} fontSize={10}>0R</SvgText>
+            <Line
+              x1={0}
+              x2={plotW}
+              y1={limitY}
+              y2={limitY}
+              stroke={colors.down}
+              strokeWidth={1.25}
+              strokeDasharray="4 3"
+              opacity={0.8}
+            />
+            <SvgText x={plotW + 6} y={limitY + 4} fill={colors.down} fontSize={10}>
+              {`−${data.limit}R`}
+            </SvgText>
+            {trades.map((r, i) => (
+              <RBar
+                key={i}
+                x={cx(i) - barW / 2}
+                width={barW}
+                zero={zero}
+                to={y(r)}
+                color={r >= 0 ? colors.up : colors.down}
+                delay={GROW_DELAY + i * 90}
+                label={`${r > 0 ? '+' : ''}${r.toFixed(1)}`}
+                cx={cx(i)}
+              />
+            ))}
+            <AnimatedPath
+              d={line}
+              stroke={colors.text}
+              strokeWidth={1.75}
+              fill="none"
+              strokeLinejoin="round"
+              strokeDasharray={`${lineLen} ${lineLen}`}
+              animatedProps={lineProps}
+              opacity={0.85}
+            />
+            <Circle cx={cx(trades.length - 1)} cy={y(total)} r={3.5} fill={colors.text} />
+          </Svg>
+        ) : null}
+      </View>
+      <Text style={styles.rFoot}>
+        {`${trades.length} trades · the line is the running total · ${room.toFixed(1)}R left before the limit`}
+      </Text>
     </View>
+  );
+}
+
+/** One trade's bar, growing out of the zero line, its R written at its end. */
+function RBar({
+  x,
+  width,
+  zero,
+  to,
+  color,
+  delay,
+  label,
+  cx,
+}: {
+  x: number;
+  width: number;
+  zero: number;
+  to: number;
+  color: string;
+  delay: number;
+  label: string;
+  cx: number;
+}) {
+  const reduced = useReduceMotion();
+  const t = useSharedValue(reduced ? 1 : 0);
+  useEffect(() => {
+    if (!reduced) t.set(withDelay(delay, withTiming(1, { duration: 420, easing: EASE_OUT })));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const up = to < zero;
+  const props = useAnimatedProps(() => {
+    const end = zero + (to - zero) * t.get();
+    return { y: Math.min(zero, end), height: Math.max(0.5, Math.abs(end - zero)) };
+  });
+  return (
+    <G>
+      <AnimatedRect
+        x={x}
+        y={reduced ? Math.min(zero, to) : zero}
+        width={width}
+        height={reduced ? Math.abs(to - zero) : 0.5}
+        rx={2}
+        fill={color}
+        opacity={0.85}
+        animatedProps={props}
+      />
+      <SvgText
+        x={cx}
+        y={up ? to - 4 : to + 11}
+        fill={color}
+        fontSize={10}
+        fontWeight="700"
+        textAnchor="middle"
+      >
+        {label}
+      </SvgText>
+    </G>
   );
 }
 
@@ -213,24 +378,24 @@ const styles = StyleSheet.create({
   rowLabel: { ...type.small, color: colors.textMuted, flexShrink: 1 },
   rowValue: { ...type.answer, color: colors.text },
   pad: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
+  keySlot: { width: '48%', flexGrow: 1 },
   key: {
-    minWidth: TAP_TARGET + 18,
-    minHeight: TAP_TARGET,
-    paddingHorizontal: space.sm,
-    borderRadius: radius.sm,
+    minHeight: 72,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
     borderWidth: 1.5,
+    borderBottomWidth: 5,
     borderColor: colors.borderStrong,
     backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
-  keyActive: { borderColor: colors.accent, backgroundColor: colors.accentTint },
-  keyLabel: { ...type.answer, color: colors.text },
-  keyAction: { ...type.small, fontSize: 10, color: colors.textFaint },
-  rRow: { flexDirection: 'row', gap: space.xs, height: 92, paddingVertical: space.sm },
-  rSlot: { flex: 1 },
-  rUp: { flex: 1, justifyContent: 'flex-end' },
-  rDown: { flex: 1 },
-  rAxis: { height: 1, backgroundColor: colors.border },
-  rBar: { width: '100%', borderRadius: 2 },
+  keyLabel: { ...type.title, fontFamily: 'monospace', color: colors.text },
+  keyActionRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  keyGlyph: { fontSize: 11, lineHeight: 14, fontWeight: '800' },
+  keyAction: { ...type.label },
+  rCard: { paddingVertical: space.md, gap: space.sm },
+  rHead: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
+  rKicker: { ...type.small, color: colors.textMuted },
+  rTotal: { ...type.display },
+  rFoot: { ...type.small, color: colors.textMuted },
 });

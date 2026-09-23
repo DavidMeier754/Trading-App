@@ -1,5 +1,14 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+  measure,
+  useAnimatedRef,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import Chart, {
   chartHeightFor,
@@ -16,6 +25,7 @@ import Visual from '../components/Visual';
 import type { AnswerValue } from '../lesson/answers';
 import { tapFeedback } from '../lesson/feedback';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
+import { useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type {
   ChartSpec,
@@ -275,6 +285,7 @@ export function SliderScreen({
   const current = value.kind === 'slider' ? value.value : null;
   const shown = current ?? (screen.min + screen.max) / 2;
   const pct = (v: number) => ((v - screen.min) / (screen.max - screen.min)) * 100;
+  const accent = useLookSpec().accent;
 
   const nudge = (delta: number) => {
     const next = Math.min(
@@ -285,6 +296,55 @@ export function SliderScreen({
     onChange({ kind: 'slider', value: Number(next.toFixed(4)) });
   };
 
+  // Drag anywhere on the track. The value moves in the screen's steps, and
+  // each step it lands on clicks -- a tick you hear and feel, like a detent --
+  // so the hand counts the 5s the eye is reading. The reaction to a step is on
+  // the React side, but only when the step changes, never per frame.
+  const hit = useAnimatedRef<View>();
+  const landed = useSharedValue(Number.NaN);
+  const knob = useSharedValue(pct(shown));
+  useEffect(() => {
+    knob.set(withSpring(pct(shown), { duration: 220, dampingRatio: 0.9 }));
+    // pct depends only on the screen's range
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shown, knob]);
+
+  const onStep = useCallback(
+    (v: number) => {
+      tapFeedback();
+      onChange({ kind: 'slider', value: v });
+    },
+    [onChange]
+  );
+  const { min, max } = screen;
+  const pan = Gesture.Pan()
+    .minDistance(0)
+    .enabled(!revealed)
+    .onBegin((e) => {
+      landed.set(Number.NaN);
+      const box = measure(hit);
+      if (!box || box.width <= 0) return;
+      const frac = Math.min(1, Math.max(0, (e.absoluteX - box.pageX) / box.width));
+      const v = Math.round((min + frac * (max - min)) / step) * step;
+      landed.set(v);
+      scheduleOnRN(onStep, v);
+    })
+    .onUpdate((e) => {
+      // Both the touch and the box are where the track is drawn, so a screen
+      // scaled to fit (lesson/fit.tsx) needs no correction here.
+      const box = measure(hit);
+      if (!box || box.width <= 0) return;
+      const frac = Math.min(1, Math.max(0, (e.absoluteX - box.pageX) / box.width));
+      const v = Math.round((min + frac * (max - min)) / step) * step;
+      if (v !== landed.get()) {
+        landed.set(v);
+        scheduleOnRN(onStep, v);
+      }
+    });
+
+  const fillStyle = useAnimatedStyle(() => ({ width: `${knob.get()}%` }));
+  const knobStyle = useAnimatedStyle(() => ({ left: `${knob.get()}%` }));
+
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
@@ -293,32 +353,37 @@ export function SliderScreen({
         {`${shown}${screen.unit ? ` ${screen.unit}` : ''}`}
       </Text>
 
-      <View style={styles.track}>
-        {revealed ? (
-          <View
-            style={[
-              styles.band,
-              {
-                left: `${pct(screen.answer - (screen.tolerance ?? 0))}%`,
-                width: `${(((screen.tolerance ?? 0) * 2) / (screen.max - screen.min)) * 100}%`,
-              },
-            ]}
-          />
-        ) : null}
-        <View style={[styles.fill, { width: `${pct(shown)}%` }]} />
-        <View
-          style={[
-            styles.knob,
-            { left: `${pct(shown)}%` },
-            revealed && {
-              borderColor:
-                Math.abs(shown - screen.answer) <= (screen.tolerance ?? 0)
-                  ? colors.success
-                  : colors.down,
-            },
-          ]}
-        />
-      </View>
+      <GestureDetector gesture={pan}>
+        <Animated.View ref={hit} style={styles.trackHit} collapsable={false}>
+          <View style={styles.track}>
+            {revealed ? (
+              <View
+                style={[
+                  styles.band,
+                  {
+                    left: `${pct(screen.answer - (screen.tolerance ?? 0))}%`,
+                    width: `${(((screen.tolerance ?? 0) * 2) / (screen.max - screen.min)) * 100}%`,
+                  },
+                ]}
+              />
+            ) : null}
+            <Animated.View style={[styles.fill, { backgroundColor: accent }, fillStyle]} />
+            <Animated.View
+              style={[
+                styles.knob,
+                { borderColor: accent },
+                knobStyle,
+                revealed && {
+                  borderColor:
+                    Math.abs(shown - screen.answer) <= (screen.tolerance ?? 0)
+                      ? colors.success
+                      : colors.down,
+                },
+              ]}
+            />
+          </View>
+        </Animated.View>
+      </GestureDetector>
 
       {/* docs/UI.md §10: every drag has a tap alternative. */}
       <View style={styles.nudgeRow}>
@@ -360,7 +425,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.success,
   },
-  fill: { height: '100%', backgroundColor: colors.accent, borderRadius: 5 },
+  fill: { position: 'absolute', left: 0, top: 0, bottom: 0, borderRadius: 5 },
+  // The finger's target: the whole row, not the 10-point track inside it.
+  trackHit: { height: 48, justifyContent: 'center' },
   knob: {
     position: 'absolute',
     width: 26,

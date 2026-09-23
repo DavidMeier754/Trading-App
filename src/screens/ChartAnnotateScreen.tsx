@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, { measure, useAnimatedRef, useSharedValue } from 'react-native-reanimated';
 import Svg, { Line, Text as SvgText } from 'react-native-svg';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import Chart, {
   AXIS_W,
@@ -76,11 +79,51 @@ export default function ChartAnnotateScreen({
     gridAnchor: grid.gridAnchor,
   });
   const toY = layout.y;
-  // A tap can land in the padding or, on a chart with volume, in the strip
-  // below the plot. Clamping keeps the placed line on the chart instead of
-  // letting it run off the top or bottom of the price axis.
-  const toPrice = (y: number) =>
-    Math.round(Math.min(hi, Math.max(lo, layout.priceAt(y))) * 100) / 100;
+
+  // Tap to drop the line, or drag it (docs/UI.md §4.2: "drag a horizontal line
+  // onto a chart"). It snaps to cents, and every fifth cent clicks under the
+  // finger, so a drag across the chart is felt as well as seen. The price is
+  // worked out on the UI thread from the chart's own geometry and handed to
+  // React only when the cent changes.
+  const hit = useAnimatedRef<Animated.View>();
+  const lastCent = useSharedValue(Number.NaN);
+  const onDrag = useCallback(
+    (price: number, detent: boolean) => {
+      if (detent) tapFeedback();
+      onChange({ kind: 'slider', value: price });
+    },
+    [onChange]
+  );
+  const { padTop, priceH } = layout;
+  const place = (absoluteY: number, first: boolean) => {
+    'worklet';
+    const box = measure(hit);
+    if (!box || box.height <= 0) return;
+    // Touch and box are both where the chart is drawn; the ratio turns the
+    // distance into the chart's own units even on a screen scaled to fit.
+    const y = ((absoluteY - box.pageY) * height) / box.height;
+    // A touch in the padding or the volume strip clamps to the price axis
+    // rather than letting the line run off the chart.
+    const price = Math.min(hi, Math.max(lo, lo + ((padTop + priceH - y) / priceH) * (hi - lo)));
+    const cent = Math.round(price * 100);
+    const prev = lastCent.get();
+    if (cent === prev) return;
+    lastCent.set(cent);
+    const detent = first || Math.floor(cent / 5) !== Math.floor(prev / 5);
+    scheduleOnRN(onDrag, cent / 100, detent);
+  };
+  const pan = Gesture.Pan()
+    .minDistance(0)
+    .enabled(!revealed)
+    .onBegin((e) => {
+      lastCent.set(Number.NaN);
+      place(e.absoluteY, true);
+    })
+    .onUpdate((e) => place(e.absoluteY, false));
+
+  // The chart does not change while the line moves; keeping its props stable
+  // lets it skip those renders entirely.
+  const chartSpec = useMemo(() => ({ ...screen.chart, decision_index: -1 }), [screen.chart]);
 
   const nudge = (delta: number) => {
     tapFeedback();
@@ -93,28 +136,21 @@ export default function ChartAnnotateScreen({
       <View style={styles.column} onLayout={fit.onLayout}>
       <Prompt>{screen.prompt}</Prompt>
 
-      <Pressable
+      <View
         ref={grid.ref}
         onLayout={grid.onLayout}
-        accessibilityRole="button"
-        disabled={revealed}
-        onPress={(e) => {
-          tapFeedback();
-          // `pageY` against the chart's own measured top, never `locationY`:
-          // on the web that is relative to whichever SVG child took the event —
-          // a candle, a gridline — so a tap on a candle landed tens of points
-          // above where the finger was.
-          const native = e.nativeEvent as any;
-          const y =
-            grid.toLocalY(native.pageY) ??
-            native.locationY ??
-            layout.padTop + layout.priceH / 2;
-          onChange({ kind: 'slider', value: toPrice(y) });
-        }}
         style={{ width: chartWidth, height, alignSelf: 'center' }}
       >
+      <GestureDetector gesture={pan}>
+      <Animated.View
+        ref={hit}
+        collapsable={false}
+        accessibilityRole="adjustable"
+        accessibilityLabel="Chart. Tap or drag to place the line; the buttons below move it a cent."
+        style={{ width: chartWidth, height }}
+      >
         <Chart
-          spec={{ ...screen.chart, decision_index: -1 }}
+          spec={chartSpec}
           visibleCount={rows.length}
           width={chartWidth}
           height={height}
@@ -184,10 +220,12 @@ export default function ChartAnnotateScreen({
             ) : null}
           </Svg>
         </View>
-      </Pressable>
+      </Animated.View>
+      </GestureDetector>
+      </View>
 
       {placed === null && !revealed ? (
-        <Text style={styles.hint}>Tap the chart to place your line.</Text>
+        <Text style={styles.hint}>Tap or drag on the chart to place your line.</Text>
       ) : null}
 
       {!revealed ? (

@@ -92,14 +92,17 @@ const styles = StyleSheet.create({
   },
   label: { ...type.small, color: colors.textMuted },
   value: { ...type.answer, color: colors.text },
+  // Part of the mock, not the screen's call to action: drawn as quietly as the
+  // fields, so it stops pulling the eye away from them. It is still a target
+  // (docs/schema.md lists `submit`) and lights like any field when picked.
   submit: {
-    minHeight: TAP_TARGET,
-    borderRadius: radius.md,
+    minHeight: TAP_TARGET - 4,
+    borderRadius: radius.sm,
     borderWidth: 1.5,
-    borderColor: colors.accent,
-    backgroundColor: colors.accentTint,
+    borderColor: colors.border,
+    borderStyle: 'dashed',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  submitText: { ...type.answer, color: colors.text },
+  submitText: { ...type.small, color: colors.textFaint, letterSpacing: 0.4 },
 });

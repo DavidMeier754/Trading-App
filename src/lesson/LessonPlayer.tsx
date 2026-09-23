@@ -69,6 +69,7 @@ import Reveal from './Reveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
 import { FitScreen } from './fit';
+import { dealScreen } from './shuffle';
 import { emitMood, useLookSpec } from './look';
 import { preloadCues } from './sound';
 import StreakMeter from './StreakMeter';
@@ -91,7 +92,14 @@ export default function LessonPlayer({
   pageNumbers?: boolean;
 }) {
   const insets = useSafeAreaInsets();
-  const screens = level.screens;
+  const [runKey, setRunKey] = useState(0);
+  // Every list of choices is dealt afresh each run (lesson/shuffle.ts), and the
+  // dealt screens are the ones shown and graded.
+  const [deckSeed] = useState(() => Math.floor(Math.random() * 2 ** 31));
+  const screens = useMemo(
+    () => level.screens.map((s, i) => dealScreen(s, deckSeed + runKey * 7919 + i * 104729)),
+    [level.screens, deckSeed, runKey]
+  );
 
   const [index, setIndex] = useState(() => Math.max(0, Math.min(startAt, screens.length - 1)));
   const [values, setValues] = useState<(AnswerValue | null)[]>(() =>
@@ -103,7 +111,6 @@ export default function LessonPlayer({
   const [streaks, setStreaks] = useState<number[]>(() => screens.map(() => 0));
   const [decisionPhase, setDecisionPhase] = useState<DecisionPhase>('deciding');
   const [quitOpen, setQuitOpen] = useState(false);
-  const [runKey, setRunKey] = useState(0);
   // docs/UI.md §5.4: on a badge or a tier the CTA comes last. The screen says
   // when its sequence is done, and the CTA is held until then.
   const [settledAt, setSettledAt] = useState(-1);

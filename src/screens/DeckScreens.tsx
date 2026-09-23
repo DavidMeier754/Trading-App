@@ -4,7 +4,9 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import MiniChart from '../components/MiniChart';
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { tapFeedback } from '../lesson/feedback';
+import { PopIn } from '../lesson/Celebrate';
+import { matchHitFeedback, matchMissFeedback, tapFeedback } from '../lesson/feedback';
+import { useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type {
   CompareScreen as Compare,
@@ -39,8 +41,14 @@ export function SwipeDeckScreen({
   const lastPick = picks.length > 0 ? picks[picks.length - 1] : null;
   const lastCard = picks.length > 0 ? screen.cards[picks.length - 1] : null;
 
+  const accent = useLookSpec().accent;
+  // Each card is its own call, so each one says at once whether it was right
+  // -- the way a pair locks in `match`: a rising pop for a right read, the
+  // soft miss for one that was not. The run keeps count in the strip above.
   const answer = (pick: 'take' | 'pass') => {
-    tapFeedback();
+    const hits = screen.cards.filter((c, i) => picks[i] === c.answer).length;
+    if (pick === card.answer) matchHitFeedback(Math.min(3, hits));
+    else matchMissFeedback();
     onChange({ kind: 'deck', picks: [...picks, pick] });
   };
 
@@ -71,21 +79,43 @@ export function SwipeDeckScreen({
     );
   }
 
+  const lastRight = lastCard && lastPick ? lastPick === lastCard.answer : null;
+
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <Text style={styles.counter}>{`${index + 1}/${screen.cards.length}`}</Text>
+      {/* The run so far: a mark for every card read, a ring on this one. */}
+      <View style={styles.pips} accessibilityLabel={`Card ${index + 1} of ${screen.cards.length}`}>
+        {screen.cards.map((c, i) => {
+          if (i < picks.length) {
+            const right = picks[i] === c.answer;
+            return (
+              <PopIn key={i}>
+                <View style={[styles.pip, { backgroundColor: right ? colors.success : colors.down }]}>
+                  <Text style={styles.pipMark}>{right ? '✓' : '✕'}</Text>
+                </View>
+              </PopIn>
+            );
+          }
+          return (
+            <View
+              key={i}
+              style={[styles.pip, i === index ? { borderColor: accent, borderWidth: 2 } : styles.pipAhead]}
+            />
+          );
+        })}
+      </View>
       {/* Keyed by card, so each one builds itself in as it comes up. */}
       <MiniChart key={index} spec={card.chart} width={width} height={180} />
-      {lastCard && lastPick ? (
-        <Text
-          style={[
-            styles.verdictSmall,
-            { color: lastPick === lastCard.answer ? colors.success : colors.warning },
-          ]}
-        >
-          {copy(lastCard.verdict)}
-        </Text>
+      {lastCard && lastRight !== null ? (
+        <PopIn key={`v${picks.length}`}>
+          <View style={styles.verdictRow}>
+            <Text style={[styles.verdictHead, { color: lastRight ? colors.success : colors.warning }]}>
+              {`${lastRight ? '✓ Right' : '✕ Not this one'} · card ${picks.length}`}
+            </Text>
+            <Text style={styles.verdictSmall}>{copy(lastCard.verdict)}</Text>
+          </View>
+        </PopIn>
       ) : null}
       <View style={styles.deckButtons}>
         <Pressable accessibilityRole="button" onPress={() => answer('pass')} style={[styles.deckButton, styles.pass]}>
@@ -164,7 +194,18 @@ export function CompareScreen({
 
 const styles = StyleSheet.create({
   wrap: { flex: 1, justifyContent: 'center', gap: space.md },
-  counter: { ...type.label, color: colors.textMuted, alignSelf: 'center' },
+  pips: { flexDirection: 'row', gap: space.sm, justifyContent: 'center', alignItems: 'center' },
+  pip: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pipAhead: { borderWidth: 1.5, borderColor: colors.borderStrong },
+  pipMark: { fontSize: 12, lineHeight: 14, fontWeight: '800', color: colors.background },
+  verdictRow: { alignItems: 'center', gap: 2 },
+  verdictHead: { ...type.label },
   deckButtons: { flexDirection: 'row', gap: space.md },
   deckButton: {
     flex: 1,
@@ -179,7 +220,7 @@ const styles = StyleSheet.create({
   take: { borderColor: colors.up },
   deckButtonText: { ...type.answer, color: colors.text },
   verdict: { ...type.body, color: colors.text, textAlign: 'center' },
-  verdictSmall: { ...type.small, textAlign: 'center' },
+  verdictSmall: { ...type.small, color: colors.textMuted, textAlign: 'center' },
   runLine: { ...type.title, color: colors.text, textAlign: 'center' },
   runStrip: { flexDirection: 'row', gap: space.xs, justifyContent: 'center' },
   runPip: {

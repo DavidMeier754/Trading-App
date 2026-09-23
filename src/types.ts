@@ -235,6 +235,11 @@ export type OrderScreen = {
   /** In the correct order. */
   items: string[];
   explanation: string;
+  /**
+   * The order the cards are dealt in to pick from, as indices into `items`.
+   * Not authored: the player deals it each run (lesson/shuffle.ts).
+   */
+  deal?: number[];
 };
 
 export type HotspotScreen = {

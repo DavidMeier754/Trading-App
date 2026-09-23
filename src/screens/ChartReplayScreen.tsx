@@ -5,7 +5,7 @@ import Chart, { chartHeightFor, chartWidthFor, DEFAULT_GAPS } from '../component
 import { useGridAnchor } from '../components/gridAlign';
 import type { AnswerValue } from '../lesson/answers';
 import { replayLabels } from '../lesson/answers';
-import { commitFeedback, NOTE_STEPS, noteFeedback } from '../lesson/feedback';
+import { commitFeedback, NOTE_STEPS, noteFeedback, tapFeedback } from '../lesson/feedback';
 import { useChartGaps } from '../lesson/fit';
 import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
@@ -48,6 +48,9 @@ export default function ChartReplayScreen({
   const total = screen.chart.data.length;
   const startBar = screen.start_bar ?? 4;
   const [bar, setBar] = React.useState(startBar);
+  // The post-mortem reads as a list; the chart is one tap away, with every
+  // moment numbered on it the same as in the list.
+  const [pmView, setPmView] = React.useState<'list' | 'chart'>('list');
 
   const hasVolume = Array.isArray(screen.chart.volume) && screen.chart.volume.length > 0;
   const look = useLookSpec();
@@ -60,7 +63,7 @@ export default function ChartReplayScreen({
   const atEnd = bar >= total;
   // The bar counter and the action rows below the chart change height as the
   // replay runs, which moves the chart, so the anchor follows the bar.
-  const grid = useGridAnchor(bar);
+  const grid = useGridAnchor(`${bar}:${pmView}:${state.ended || revealed}`);
 
   const act = (side: 'long' | 'short') => {
     commitFeedback();
@@ -94,18 +97,71 @@ export default function ChartReplayScreen({
     const decoys = labels.filter((l) => l.moment?.kind === 'decoy');
     const passed = decoys.filter((l) => l.label === 'Passed').length;
 
+    const marks = labels.map((l, i) => ({
+      bar: Math.min(total - 1, l.bar),
+      label: String(i + 1),
+      color: LABEL_COLOR[l.label],
+    }));
+    const trades = state.acted.map((a) => ({
+      bar: Math.min(total - 1, a.bar),
+      side: a.side === 'short' ? ('short' as const) : ('long' as const),
+    }));
+
     return (
       <View style={styles.wrap}>
-        <Text style={styles.postTitle}>Post-mortem</Text>
-        {labels.length === 0 ? (
-          <Text style={styles.cleanRun}>
-            Nothing formed and you took nothing. That is the run.
-          </Text>
-        ) : null}
+        <View style={styles.pmHead}>
+          <Text style={styles.postTitle}>Post-mortem</Text>
+          <View style={styles.pmToggle}>
+            {(['list', 'chart'] as const).map((v) => (
+              <Pressable
+                key={v}
+                accessibilityRole="button"
+                accessibilityState={{ selected: pmView === v }}
+                onPress={() => {
+                  tapFeedback();
+                  setPmView(v);
+                }}
+                style={[
+                  styles.pmChip,
+                  pmView === v && { borderColor: look.accent, backgroundColor: tint(look.accent, 0.16) },
+                ]}
+              >
+                <Text style={[styles.pmChipText, pmView === v && { color: colors.text }]}>
+                  {v === 'list' ? 'Moments' : 'Chart'}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+        <Text style={styles.pmLead}>
+          {labels.length === 0
+            ? 'Nothing formed and you took nothing. That is the run.'
+            : pmView === 'list'
+              ? 'Each moment the card marked, and what you did there. The numbers are on the chart.'
+              : 'The whole session. Numbers are the moments; arrows are your trades.'}
+        </Text>
+
+        {pmView === 'chart' ? (
+          <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
+            <Chart
+              spec={{ ...screen.chart, decision_index: -1 }}
+              visibleCount={total}
+              width={chartWidth}
+              height={height}
+              showDecisionMarker={false}
+              gridAnchor={grid.gridAnchor}
+              marks={marks}
+              trades={trades}
+            />
+          </View>
+        ) : (
         <View style={styles.momentList}>
           {labels.map((l, i) => (
-            <View key={i} style={styles.moment}>
+            <View key={i} style={[styles.moment, surfaceStyle(look)]}>
               <View style={styles.momentHead}>
+                <View style={[styles.momentNum, { backgroundColor: LABEL_COLOR[l.label] }]}>
+                  <Text style={styles.momentNumText}>{i + 1}</Text>
+                </View>
                 <Text style={[styles.momentLabel, { color: LABEL_COLOR[l.label] }]}>
                   {l.label}
                 </Text>
@@ -142,6 +198,7 @@ export default function ChartReplayScreen({
             </View>
           ))}
         </View>
+        )}
         {decoys.length > 0 ? (
           <Text style={styles.discipline}>
             {`Discipline: ${passed} of ${decoys.length} decoys passed.`}
@@ -223,7 +280,25 @@ const styles = StyleSheet.create({
   actionOff: { opacity: 0.45 },
   actionText: { ...type.answer, color: colors.text },
   postTitle: { ...type.title, color: colors.text },
-  cleanRun: { ...type.body, color: colors.success },
+  pmHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
+  pmToggle: { flexDirection: 'row', gap: space.xs },
+  pmChip: {
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: space.md,
+    paddingVertical: 6,
+  },
+  pmChipText: { ...type.small, color: colors.textMuted, fontWeight: '600' },
+  pmLead: { ...type.small, color: colors.textMuted },
+  momentNum: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  momentNumText: { fontSize: 11, lineHeight: 13, fontWeight: '800', color: colors.background },
   momentList: { gap: space.md },
   moment: {
     backgroundColor: colors.surface,
@@ -233,9 +308,9 @@ const styles = StyleSheet.create({
     padding: space.md,
     gap: space.xs,
   },
-  momentHead: { flexDirection: 'row', justifyContent: 'space-between' },
+  momentHead: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   momentLabel: { ...type.answer, fontWeight: '700' },
-  momentBar: { ...type.small, color: colors.textFaint },
+  momentBar: { ...type.small, color: colors.textFaint, marginLeft: 'auto' },
   momentNote: { ...type.small, color: colors.text },
   fieldRow: { flexDirection: 'row', flexWrap: 'wrap', gap: space.xs, marginTop: space.xs },
   fieldPip: {

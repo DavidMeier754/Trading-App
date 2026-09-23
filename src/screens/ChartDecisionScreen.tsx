@@ -8,14 +8,12 @@ import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { Arrive } from '../lesson/Celebrate';
 import { NOTE_STEPS, noteFeedback } from '../lesson/feedback';
 import { startRumble, stopRumble } from '../lesson/haptics';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import { EASE_OUT, revealTiming } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, type } from '../theme';
-import { surfaceStyle, useLookSpec } from '../lesson/look';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
 
 /** Which way a choice faces, for the P/L side of the outcome strip. */
@@ -41,7 +39,6 @@ export default function ChartDecisionScreen({
   onPhaseChange: (phase: DecisionPhase) => void;
 }) {
   const reduced = useReduceMotion();
-  const spec = useLookSpec();
   const bars = Array.isArray(screen.chart.data) ? screen.chart.data.length : 0;
   const start = screen.chart.decision_index + 1;
 
@@ -180,15 +177,32 @@ export default function ChartDecisionScreen({
   const direction = choice ? DIRECTION[choice] : 0;
   const pnl = direction * move * screen.shares;
 
-  // As tall as the screen has room for, counting the outcome card and the
-  // reveal still to come (lesson/fit.tsx), and sized from the chart's own
-  // geometry, so the grid-aligned plot, the volume strip and the slack the
-  // snap shifts into all fit exactly.
+  // As tall as the screen has room for, counting the reveal still to come
+  // (lesson/fit.tsx), and sized from the chart's own geometry, so the
+  // grid-aligned plot, the volume strip and the slack the snap shifts into all
+  // fit exactly. Nothing else joins the screen after the replay: the outcome
+  // is drawn on the chart, so the chart can have that room too.
   const fit = useChartGaps({
     preferred: DEFAULT_GAPS,
-    growth: REVEAL_GROWTH + OUTCOME_H + space.md,
+    growth: REVEAL_GROWTH,
     locked: phase !== 'deciding',
   });
+
+  // docs/UI.md §4.3's outcome strip, as a tag on the chart: the move in
+  // points and percent, and what it did to this position at the scenario's
+  // share count.
+  const outcome = useMemo(
+    () => ({
+      move: `${move >= 0 ? '▲' : '▼'} ${signedPrice(move)}  ${signedPercent(movePct)}`,
+      position:
+        direction === 0
+          ? `you stood aside · ${count(screen.shares)}`
+          : `${signedPrice(pnl)} on ${count(screen.shares)}`,
+      up: move >= 0,
+      flat: Math.abs(move) < 1e-9,
+    }),
+    [move, movePct, direction, pnl, screen.shares]
+  );
   const chartHeight = chartHeightFor(!!screen.chart.volume, fit.gaps);
   const chartWidth = chartWidthFor(width, !!screen.chart.volume, fit.gaps);
 
@@ -209,65 +223,26 @@ export default function ChartDecisionScreen({
             gridAnchor={grid.gridAnchor}
             width={chartWidth}
             height={chartHeight}
+            outcome={phase === 'done' ? outcome : undefined}
           />
         </Pressable>
         {/* In the strip under the plot, opposite the VWAP key: a line of its
-            own cost the screen a row for a hint shown only while it plays. */}
+            own cost the screen a row. While the replay plays it says how to
+            skip it; once it is over it carries the risk note docs/UI.md §11.6
+            wants on every scenario result. */}
         <Text
           pointerEvents="none"
-          style={[styles.playHint, !playing && styles.playHintHidden]}
+          accessibilityLabel={phase === 'done' ? `${copy(screen.outcome)} Not a prediction.` : undefined}
+          style={[styles.playHint, phase === 'deciding' && styles.playHintHidden]}
         >
-          Tap to skip
+          {phase === 'done' ? 'Not a prediction' : 'Tap to skip'}
         </Text>
       </View>
 
-      {phase === 'done' ? (
-        // The outcome strip (docs/UI.md §4.3): the move and what it did to
-        // this position on one line, then one line of prose. The chart already
-        // shows the prices, and the learner knows what they chose.
-        <Arrive style={[styles.outcome, surfaceStyle(spec)]}>
-          <View style={styles.outcomeRow}>
-            <Text
-              style={[
-                styles.outcomeMove,
-                { color: move >= 0 ? colors.up : colors.down },
-              ]}
-            >
-              {`${move >= 0 ? '▲' : '▼'} ${signedPrice(move)} ${signedPercent(movePct)}`}
-            </Text>
-            <Text
-              style={[
-                styles.outcomePnl,
-                {
-                  color:
-                    direction === 0
-                      ? colors.textMuted
-                      : pnl >= 0
-                        ? colors.up
-                        : colors.down,
-                },
-              ]}
-            >
-              {direction === 0
-                ? 'you stood aside'
-                : `${signedPrice(pnl)} · ${count(screen.shares)}`}
-            </Text>
-          </View>
-          <Text style={styles.outcomeText}>
-            {copy(screen.outcome)}
-            {/* docs/UI.md §11.6 wants the risk note on every scenario result;
-                this is the smallest form that still says it. */}
-            <Text style={styles.outcomeFoot}>{'  Not a prediction.'}</Text>
-          </Text>
-        </Arrive>
-      ) : null}
       </View>
     </View>
   );
 }
-
-/** The outcome card's height, give or take a line, for the room it needs. */
-const OUTCOME_H = 84;
 
 const styles = StyleSheet.create({
   wrap: { flex: 1, justifyContent: 'center' },
@@ -285,23 +260,4 @@ const styles = StyleSheet.create({
   // Kept in the layout at all times: appearing mid-replay would shift the chart
   // under the line that is still drawing.
   playHintHidden: { opacity: 0 },
-  outcome: {
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
-    borderRadius: radius.md,
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    gap: 2,
-  },
-  outcomeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
-    gap: space.sm,
-  },
-  outcomeMove: { ...type.answer },
-  outcomePnl: { ...type.answer },
-  outcomeText: { ...type.small, color: colors.text },
-  outcomeFoot: { ...type.small, fontSize: 11, color: colors.textFaint },
 });

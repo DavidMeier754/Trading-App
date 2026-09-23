@@ -11,6 +11,7 @@ import Visual from '../components/Visual';
 import { copy } from '../format';
 import { Arrive } from '../lesson/Celebrate';
 import { NOTE_STEPS, noteFeedback, tapFeedback } from '../lesson/feedback';
+import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import { SPRING_POP, useMotion } from '../lesson/motion';
 import { colors, radius, space, type } from '../theme';
 import type {
@@ -189,17 +190,31 @@ export function StoryScreen({ screen }: { screen: Story }) {
 }
 
 /** docs/UI.md §3 `recap` — 2-4 one-line takeaways. */
+/**
+ * docs/UI.md §3 `recap` — the end of a level in two to four lines: what it
+ * taught, each tagged with the sub-level it came from so it can be found
+ * again. It is the closing card of a long level, the one that makes nineteen
+ * of them in a chapter feel like a path rather than a pile.
+ */
 export function RecapScreen({ screen }: { screen: Recap }) {
+  const look = useLookSpec();
   return (
     <View style={styles.centered}>
-      <ScreenTitle>{screen.title}</ScreenTitle>
+      <Arrive>
+        <Text style={[styles.recapKicker, { color: look.accent }]}>Recap</Text>
+        <ScreenTitle>{screen.title}</ScreenTitle>
+      </Arrive>
       <View style={styles.recapList}>
-        {screen.points.map((p) => (
-          <View key={p.text} style={styles.recapRow}>
-            <View style={styles.recapBullet} />
-            <Text style={styles.recapText}>{copy(p.text)}</Text>
-            {p.level ? <Text style={styles.recapLevel}>{p.level}</Text> : null}
-          </View>
+        {screen.points.map((p, i) => (
+          <Arrive key={p.text} delay={160 + i * 110}>
+            <View style={[styles.recapRow, surfaceStyle(look)]}>
+              <View style={[styles.recapNum, { backgroundColor: tint(look.accent, 0.18) }]}>
+                <Text style={[styles.recapNumText, { color: look.accent }]}>{i + 1}</Text>
+              </View>
+              <Text style={styles.recapText}>{copy(p.text)}</Text>
+              {p.level ? <Text style={styles.recapLevel}>{`Level ${p.level}`}</Text> : null}
+            </View>
+          </Arrive>
         ))}
       </View>
     </View>
@@ -292,16 +307,19 @@ const styles = StyleSheet.create({
   checkHint: { ...type.small, color: colors.textFaint },
   storyCard: { gap: space.sm },
   storyText: { ...type.prompt, color: colors.text },
-  recapList: { gap: space.md },
-  recapRow: { flexDirection: 'row', alignItems: 'center', gap: space.md },
-  recapBullet: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.accent,
+  recapKicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.2, marginBottom: space.xs },
+  recapList: { gap: space.sm },
+  recapRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.md,
+    paddingVertical: space.md,
+    paddingHorizontal: space.md,
   },
+  recapNum: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  recapNumText: { ...type.label, fontWeight: '800' },
   recapText: { ...type.body, color: colors.text, flex: 1 },
-  recapLevel: { ...type.small, color: colors.textFaint },
+  recapLevel: { ...type.small, fontSize: 11, color: colors.textFaint },
   pathList: { gap: space.md },
   pathCard: {
     borderWidth: 1.5,

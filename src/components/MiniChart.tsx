@@ -54,7 +54,9 @@ export default function MiniChart({
   const y = (p: number) => pad + plotH - ((p - lo) / (hi - lo)) * plotH;
   const slot = plotW / n;
   const cx = (i: number) => pad + slot * (i + 0.5);
-  const bodyW = Math.max(3, Math.min(slot * 0.66, 16));
+  // Bodies most of their slot wide: at two-thirds, capped at 16, a full-width
+  // deck card read as a few candles lost in a lot of gap.
+  const bodyW = Math.max(3, Math.min(slot * 0.74, 26));
 
   const stagger = buildStagger(n);
   const draw = useEntrance(!isCandles, ENTRY_DELAY, DURATION.draw);

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Backdrop from './components/Backdrop';
@@ -46,6 +47,9 @@ export default function App() {
   useEffect(pinPage, []);
 
   return (
+    // Drags (a slider, a line on a chart, a chip into a bucket) run through
+    // react-native-gesture-handler, which needs its root at the top.
+    <GestureHandlerRootView style={styles.gestures}>
     <SafeAreaProvider>
       <StatusBar style="light" />
       <View style={styles.root}>
@@ -74,6 +78,7 @@ export default function App() {
         </View>
       </View>
     </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
@@ -117,6 +122,7 @@ function readDeepLink(): { entry: LessonEntry; screen: number } | null {
 }
 
 const styles = StyleSheet.create({
+  gestures: { flex: 1 },
   root: { flex: 1, backgroundColor: '#000', alignItems: 'center' },
   frame: { flex: 1, backgroundColor: colors.background, overflow: 'hidden' },
 });

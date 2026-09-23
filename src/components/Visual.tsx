@@ -118,6 +118,7 @@ export default function Visual({
                 showDecisionMarker={false}
                 draw={spec.kind === 'line' ? draw : undefined}
                 gridAnchor={grid.gridAnchor}
+                emphasis
               />
             )}
           </DrawOnChart>

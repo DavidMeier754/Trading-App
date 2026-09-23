@@ -177,7 +177,7 @@ export function useChartGaps({
 }
 
 export const MIN_GAPS = 2;
-export const MAX_GAPS = 4;
+export const MAX_GAPS = 5;
 
 /** What a reveal adds below the content, give or take its length. */
 export const REVEAL_GROWTH = 132;

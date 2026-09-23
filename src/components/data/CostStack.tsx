@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { count, price } from '../../format';
+import { surfaceStyle, useLookSpec } from '../../lesson/look';
 import { colors, radius, space, type } from '../../theme';
 import GrowBar from './GrowBar';
 
@@ -27,16 +28,39 @@ export default function CostStack({
     { key: 'Fees', value: data.fees ?? 0, color: colors.textMuted },
   ].filter((p) => p.value > 0);
 
+  const look = useLookSpec();
   const cost = parts.reduce((a, p) => a + p.value, 0);
   const pct = data.target > 0 ? (cost / data.target) * 100 : 0;
   const scale = Math.max(data.target, cost);
   const width = (v: number) => (v / scale) * 100;
 
+  // What it means first, then the picture of it, then the detail: the share of
+  // the target the costs take, big; the target and the costs as two bars on one
+  // scale, so the cost bar is visibly a slice of the target; the parts named
+  // under the bar they make up; the per-share sum and the share count last.
   return (
-    <View style={styles.wrap}>
+    <View style={[styles.wrap, styles.card, surfaceStyle(look)]}>
+      <View style={styles.head}>
+        <Text style={[styles.pct, { color: pct >= 50 ? colors.down : colors.warning }]}>
+          {`${pct.toFixed(0)}%`}
+        </Text>
+        <Text style={styles.headText}>{`of a ${price(data.target)} target goes to costs`}</Text>
+      </View>
+
       <View style={styles.bars}>
         <View style={styles.barRow}>
-          <Text style={styles.barLabel}>Cost</Text>
+          <Text style={styles.barLabel}>Target</Text>
+          <View style={styles.track}>
+            <GrowBar
+              to={width(data.target)}
+              duration={TARGET_MS}
+              style={{ backgroundColor: colors.up }}
+            />
+          </View>
+          <Text style={styles.barValue}>{price(data.target)}</Text>
+        </View>
+        <View style={styles.barRow}>
+          <Text style={styles.barLabel}>Costs</Text>
           <View style={styles.track}>
             {parts.map((p, i) => (
               <GrowBar
@@ -49,16 +73,7 @@ export default function CostStack({
               />
             ))}
           </View>
-        </View>
-        <View style={styles.barRow}>
-          <Text style={styles.barLabel}>Target</Text>
-          <View style={styles.track}>
-            <GrowBar
-              to={width(data.target)}
-              duration={TARGET_MS}
-              style={{ backgroundColor: colors.up }}
-            />
-          </View>
+          <Text style={styles.barValue}>{price(cost)}</Text>
         </View>
       </View>
 
@@ -73,7 +88,7 @@ export default function CostStack({
 
       {/* docs/UI.md §9: cost math always shows a share count. */}
       <Text style={styles.summary}>
-        {`${price(cost)} per share on ${count(data.shares)} shares eats ${pct.toFixed(0)} % of the target.`}
+        {`${price(cost)} a share, on every one of ${count(data.shares)} shares.`}
       </Text>
     </View>
   );
@@ -81,9 +96,14 @@ export default function CostStack({
 
 const styles = StyleSheet.create({
   wrap: { gap: space.md },
+  card: { padding: space.md },
+  head: { flexDirection: 'row', alignItems: 'baseline', gap: space.sm, flexWrap: 'wrap' },
+  pct: { ...type.display },
+  headText: { ...type.body, color: colors.textMuted, flexShrink: 1 },
   bars: { gap: space.sm },
   barRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   barLabel: { ...type.small, color: colors.textMuted, width: 48 },
+  barValue: { ...type.small, color: colors.text, width: 44, textAlign: 'right' },
   track: {
     flex: 1,
     height: 22,
@@ -92,9 +112,9 @@ const styles = StyleSheet.create({
     borderRadius: radius.sm,
     overflow: 'hidden',
   },
-  legend: { flexDirection: 'row', flexWrap: 'wrap', gap: space.md },
+  legend: { flexDirection: 'row', flexWrap: 'wrap', gap: space.md, marginLeft: 48 + space.sm },
   legendItem: { flexDirection: 'row', alignItems: 'center', gap: space.xs },
   dot: { width: 8, height: 8, borderRadius: 4 },
   legendText: { ...type.small, color: colors.textMuted },
-  summary: { ...type.small, color: colors.text },
+  summary: { ...type.small, color: colors.textFaint },
 });

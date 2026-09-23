@@ -23,6 +23,7 @@ import Svg, {
 
 import { axisPrice, volume as fmtVolume } from '../format';
 import { useLookSpec } from '../lesson/look';
+import { Arrive } from '../lesson/Celebrate';
 import { DURATION } from '../lesson/motion';
 import { BuildCandle, buildStagger, BuildVolume, useEntrance } from './ChartBuild';
 import { CHART_GRID_STEP, colors, GRID, type } from '../theme';
@@ -43,11 +44,13 @@ function AnimatedStroke({
   length,
   draw,
   neo = false,
+  width = LINE_W,
 }: {
   d: string;
   length: number;
   draw: SharedValue<number>;
   neo?: boolean;
+  width?: number;
 }) {
   const lineColor = useLookSpec().chartLine;
   const props = useAnimatedProps(() => ({
@@ -62,7 +65,7 @@ function AnimatedStroke({
         <AnimatedPath
           d={d}
           stroke={lineColor}
-          strokeWidth={GLOW_W}
+          strokeWidth={GLOW_W + (width - LINE_W) * 2}
           strokeOpacity={GLOW_OPACITY}
           fill="none"
           strokeLinejoin="round"
@@ -74,7 +77,7 @@ function AnimatedStroke({
     <AnimatedPath
       d={d}
       stroke={lineColor}
-      strokeWidth={2.25}
+      strokeWidth={width}
       fill="none"
       strokeLinejoin="round"
       strokeLinecap="round"
@@ -91,6 +94,9 @@ function AnimatedStroke({
  * SVG blur is the one effect react-native-svg renders differently everywhere.
  */
 const GLOW_W = 8;
+/** The price line's weight, and its weight where the chart is the lesson. */
+const LINE_W = 2.25;
+const LINE_W_EMPHASIS = 3;
 const GLOW_OPACITY = 0.2;
 
 function AnimatedFill({ d, draw }: { d: string; draw: SharedValue<number> }) {
@@ -595,6 +601,9 @@ function PlaybackAxis({
   return <AnimatedG animatedProps={props}>{children}</AnimatedG>;
 }
 
+/** The outcome tag's height: two short lines. */
+const OUTCOME_TAG_H = 40;
+
 /** How long after mount a chart starts building: the screen is still fading in. */
 const ENTRY_DELAY = 160;
 /** Levels, VWAP and the markers, once the bars are in. */
@@ -877,6 +886,26 @@ type Props = {
    * the learner goes (`chart-replay`). A decision chart does this on its own.
    */
   showFuture?: boolean;
+  /**
+   * What the replay came to, once every bar is in (docs/UI.md §4.3's outcome
+   * strip), drawn on the chart itself: a line at the decision price and a tag
+   * with the move and what it did to the position, in whichever corner the
+   * bars before the decision leave free.
+   */
+  outcome?: { move: string; position: string; up: boolean; flat: boolean };
+  /**
+   * The chart is what the screen teaches (a theory card's visual): the line
+   * draws heavier, glows in every look and lays a deeper fill under itself.
+   * Nothing moves off the grid -- only ink is added.
+   */
+  emphasis?: boolean;
+  /**
+   * Numbered markers on bars, for a post-mortem that points back at the chart:
+   * a dashed line through the bar and its number in a dot under the plot.
+   */
+  marks?: { bar: number; label: string; color: string }[];
+  /** Trades the learner took, as an arrow under (long) or over (short) the bar. */
+  trades?: { bar: number; side: 'long' | 'short' }[];
 };
 
 export const AXIS_W = 44;
@@ -902,7 +931,7 @@ const VOLUME_H = CHART_GRID_STEP - VOLUME_GAP;
  * from aligned to not. Which one a screen gets is decided by the room it has
  * (lesson/fit.tsx, useChartGaps).
  */
-const PLOT_GAPS = [4, 3, 2];
+const PLOT_GAPS = [5, 4, 3, 2];
 
 /**
  * A chart's plot when nothing decides otherwise. Candle charts with volume
@@ -1028,7 +1057,14 @@ export function chartLayout({
   };
 }
 
-export default function Chart({
+/**
+ * Memoised: a chart is the heaviest thing on its screen, and the screens
+ * around it re-render for things that do not touch it -- a line being dragged
+ * over it, a pick in the row under it.
+ */
+export default React.memo(Chart);
+
+function Chart({
   spec,
   visibleCount,
   width,
@@ -1039,9 +1075,14 @@ export default function Chart({
   gridAnchor,
   revealFrom,
   showFuture = false,
+  outcome,
+  marks,
+  trades,
+  emphasis = false,
 }: Props) {
   const lookSpec = useLookSpec();
-  const neo = lookSpec.chartGlow;
+  const neo = lookSpec.chartGlow || emphasis;
+  const lineW = emphasis ? LINE_W_EMPHASIS : LINE_W;
   const lineColor = lookSpec.chartLine;
   const bars = useMemo(() => toCandles(spec), [spec]);
   const n = bars.length;
@@ -1235,12 +1276,31 @@ export default function Chart({
         }
       : null;
 
+  // The outcome tag goes where the bars before the decision are not: above
+  // them or below, whichever gap is taller, at the left of the plot.
+  const showOutcome = !!outcome && shown >= n && !playback && spec.decision_index >= 0;
+  const entryY = spec.decision_index >= 0 ? y(bars[Math.min(spec.decision_index, n - 1)].c) : 0;
+  const outcomeTop = useMemo(() => {
+    if (!showOutcome) return 0;
+    let top = Infinity;
+    let bottom = -Infinity;
+    for (let i = 0; i <= spec.decision_index && i < n; i++) {
+      top = Math.min(top, y(bars[i].h));
+      bottom = Math.max(bottom, y(bars[i].l));
+    }
+    const above = top - padTop;
+    const below = padTop + priceH - bottom;
+    return below >= above
+      ? Math.min(padTop + priceH - OUTCOME_TAG_H - 4, bottom + (below - OUTCOME_TAG_H) / 2)
+      : Math.max(padTop + 4, padTop + (above - OUTCOME_TAG_H) / 2);
+  }, [showOutcome, spec.decision_index, n, bars, layout, padTop, priceH]);
+
   return (
     <View style={{ width, height }}>
       <Svg width={width} height={height}>
         <Defs>
           <LinearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={lineColor} stopOpacity="0.28" />
+            <Stop offset="0" stopColor={lineColor} stopOpacity={emphasis ? '0.4' : '0.28'} />
             <Stop offset="1" stopColor={lineColor} stopOpacity="0" />
           </LinearGradient>
         </Defs>
@@ -1364,7 +1424,13 @@ export default function Chart({
             ) : null}
             {linePath ? (
               linePathLength > 0 ? (
-                <AnimatedStroke d={linePath} length={linePathLength} draw={lineDraw} neo={neo} />
+                <AnimatedStroke
+                  d={linePath}
+                  length={linePathLength}
+                  draw={lineDraw}
+                  neo={neo}
+                  width={lineW}
+                />
               ) : (
                 <G>
                 {neo ? (
@@ -1488,6 +1554,63 @@ export default function Chart({
           </SvgText>
         ) : null}
 
+        {/* post-mortem markers and the learner's own trades */}
+        {(marks ?? []).map((m, i) => (
+          <G key={`mk${i}`}>
+            <Line
+              x1={cx(m.bar)}
+              x2={cx(m.bar)}
+              y1={padTop}
+              y2={padTop + priceH}
+              stroke={m.color}
+              strokeWidth={1.25}
+              strokeDasharray="3 3"
+              opacity={0.8}
+            />
+            {/* In the gap under the plot, which every chart has. */}
+            <Circle cx={cx(m.bar)} cy={padTop + priceH + 8} r={7} fill={m.color} />
+            <SvgText
+              x={cx(m.bar)}
+              y={padTop + priceH + 11.5}
+              fill={colors.background}
+              fontSize={10}
+              fontWeight="800"
+              textAnchor="middle"
+            >
+              {m.label}
+            </SvgText>
+          </G>
+        ))}
+        {(trades ?? []).map((t, i) => {
+          const b = bars[Math.min(n - 1, Math.max(0, t.bar))];
+          const x = cx(t.bar);
+          const long = t.side === 'long';
+          const tip = long ? y(b.l) + 5 : y(b.h) - 5;
+          const base = long ? tip + 8 : tip - 8;
+          return (
+            <Path
+              key={`tr${i}`}
+              d={`M${x},${tip} L${x - 5},${base} L${x + 5},${base} Z`}
+              fill={long ? colors.up : colors.down}
+            />
+          );
+        })}
+
+        {/* The decision price, carried across to where the replay ended, so
+            the move reads as a distance from it. */}
+        {showOutcome ? (
+          <Line
+            x1={decisionX}
+            x2={PAD_LEFT + plotW}
+            y1={entryY}
+            y2={entryY}
+            stroke={colors.textMuted}
+            strokeWidth={1}
+            strokeDasharray="2 3"
+            opacity={0.8}
+          />
+        ) : null}
+
         {/* decision marker */}
         {showDecisionMarker ? (
           <AnimatedG animatedProps={overlayProps}>
@@ -1522,6 +1645,20 @@ export default function Chart({
             {shown > spec.decision_index + 1 ? 'decision' : 'you are here'}
           </Text>
         </Animated.View>
+      ) : null}
+
+      {showOutcome && outcome ? (
+        <Arrive style={[styles.outcomeTag, { left: PAD_LEFT + 4, top: outcomeTop }]}>
+          <Text
+            style={[
+              styles.outcomeMove,
+              { color: outcome.flat ? colors.textMuted : outcome.up ? colors.up : colors.down },
+            ]}
+          >
+            {outcome.move}
+          </Text>
+          <Text style={styles.outcomePosition}>{outcome.position}</Text>
+        </Arrive>
       ) : null}
 
       {spec.vwap ? (
@@ -1569,4 +1706,17 @@ const styles = StyleSheet.create({
     borderColor: colors.accent,
   },
   legendText: { ...type.small, fontSize: 10, color: colors.accent },
+  outcomeTag: {
+    pointerEvents: 'none',
+    position: 'absolute',
+    height: OUTCOME_TAG_H,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(14, 17, 22, 0.88)',
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  outcomeMove: { ...type.label, fontWeight: '700' },
+  outcomePosition: { ...type.small, fontSize: 11, lineHeight: 14, color: colors.textMuted },
 });

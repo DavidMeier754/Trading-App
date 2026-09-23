@@ -425,11 +425,11 @@ screens:
     explanation: "The setup was bar 7. Bar 4 looked like it but never had the volume."
 
   - type: recap
-    title: "The bench in three lines"
+    title: "What this level taught"
     points:
-      - {text: "Every archetype in docs/UI.md renders here.", level: "0-0"}
-      - {text: "Interactions are the point; the words are filler.", level: "0-0"}
-      - {text: "Tell me which ones feel wrong.", level: "0-0"}
+      - {text: "A trade has a result only once it is closed.", level: "1-1"}
+      - {text: "The spread is paid on every round trip, win or lose.", level: "2-3"}
+      - {text: "A breakout on thin volume is a question, not an answer.", level: "4-2"}
 
   - type: tier-up
     tier: "Observer"

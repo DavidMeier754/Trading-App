@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+  AnimatedRef,
+  measure,
+  SharedValue,
+  useAnimatedRef,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { tapFeedback } from '../lesson/feedback';
+import { fitScale } from '../lesson/fitState';
+import { tint, useLookSpec } from '../lesson/look';
 import type { Tone } from '../lesson/toneTransition';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type {
@@ -71,7 +84,7 @@ export function FillChoiceScreen({
   );
 }
 
-/** docs/UI.md §4.1 `sort` — 2-3 buckets, chips tapped into them. */
+/** docs/UI.md §4.1 `sort` — 2-3 buckets, chips tapped or dragged into them. */
 export function SortScreen({
   screen,
   value,
@@ -85,6 +98,19 @@ export function SortScreen({
 }) {
   const placed = value.kind === 'buckets' ? value.placed : {};
   const [pending, setPending] = React.useState<number | null>(null);
+  const accent = useLookSpec().accent;
+
+  // Up to four buckets, each measured on the UI thread while a chip is being
+  // dragged, so the one under the finger can light up without React.
+  const b0 = useAnimatedRef<Animated.View>();
+  const b1 = useAnimatedRef<Animated.View>();
+  const b2 = useAnimatedRef<Animated.View>();
+  const b3 = useAnimatedRef<Animated.View>();
+  const bucketRefs = [b0, b1, b2, b3].slice(0, screen.buckets.length);
+  const hover = useSharedValue(-1);
+  // A drag ends on the chip it started on, which its Pressable reads as a
+  // tap; this keeps that release from also selecting the chip.
+  const dragging = useRef(false);
 
   const unplaced = screen.items
     .map((item, i) => ({ item, i }))
@@ -95,62 +121,176 @@ export function SortScreen({
     return placed[i] === screen.items[i].bucket ? 'correct' : 'wrong';
   };
 
+  const put = (item: number, bucket: string) => {
+    tapFeedback();
+    onChange({ kind: 'buckets', placed: { ...placed, [item]: bucket } });
+    setPending(null);
+  };
+
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
-      <View style={styles.chips}>
+      {/* Above the buckets in the stacking order, so a chip dragged down
+          passes over them rather than under. */}
+      <View style={[styles.chips, styles.chipsOver]}>
         {unplaced.map(({ item, i }) => (
-          <ToneSurface
+          <DragChip
             key={item.text}
-            tone={pending === i ? 'selected' : 'idle'}
             disabled={revealed}
-            onPress={() => {
-              setPending((p) => (p === i ? null : i));
-            }}
-            style={styles.chip}
+            bucketRefs={bucketRefs}
+            hover={hover}
+            dragging={dragging}
+            onDrop={(b) => put(i, screen.buckets[b])}
           >
-            <Text style={styles.chipText}>{copy(item.text)}</Text>
-          </ToneSurface>
+            <ToneSurface
+              tone={pending === i ? 'selected' : 'idle'}
+              disabled={revealed}
+              onPress={() => {
+                if (dragging.current) return;
+                setPending((p) => (p === i ? null : i));
+              }}
+              style={styles.chip}
+            >
+              <Text style={styles.chipText}>{copy(item.text)}</Text>
+            </ToneSurface>
+          </DragChip>
         ))}
       </View>
 
       <View style={styles.buckets}>
-        {screen.buckets.map((bucket) => (
-          <Pressable
-            accessibilityRole="button"
-            key={bucket}
-            disabled={revealed || pending === null}
-            onPress={() => {
-              if (pending === null) return;
-              tapFeedback();
-              onChange({
-                kind: 'buckets',
-                placed: { ...placed, [pending]: bucket },
-              });
-              setPending(null);
-            }}
-            style={[styles.bucket, pending !== null && !revealed && styles.bucketOpen]}
-          >
-            <Text style={styles.bucketTitle}>{copy(bucket)}</Text>
-            <View style={styles.bucketItems}>
-              {screen.items.map((item, i) =>
-                placed[i] === bucket ? (
-                  <ToneSurface
-                    key={item.text}
-                    tone={toneFor(i)}
-                    disabled
-                    style={styles.chipSmall}
-                  >
-                    <Text style={styles.chipSmallText}>{copy(item.text)}</Text>
-                  </ToneSurface>
-                ) : null
-              )}
-            </View>
-          </Pressable>
+        {screen.buckets.map((bucket, b) => (
+          <Animated.View key={bucket} ref={bucketRefs[b]} style={styles.bucketSlot} collapsable={false}>
+            <Pressable
+              accessibilityRole="button"
+              disabled={revealed || pending === null}
+              onPress={() => {
+                if (pending === null) return;
+                put(pending, bucket);
+              }}
+              style={[styles.bucket, pending !== null && !revealed && styles.bucketOpen]}
+            >
+              <BucketGlow index={b} hover={hover} color={accent} />
+              <Text style={styles.bucketTitle}>{copy(bucket)}</Text>
+              <View style={styles.bucketItems}>
+                {screen.items.map((item, i) =>
+                  placed[i] === bucket ? (
+                    <ToneSurface
+                      key={item.text}
+                      tone={toneFor(i)}
+                      disabled
+                      style={styles.chipSmall}
+                    >
+                      <Text style={styles.chipSmallText}>{copy(item.text)}</Text>
+                    </ToneSurface>
+                  ) : null
+                )}
+              </View>
+            </Pressable>
+          </Animated.View>
         ))}
       </View>
     </View>
+  );
+}
+
+/**
+ * A chip that can be picked up. It follows the finger on the UI thread, and
+ * the bucket under the finger lights; let go over one and the chip goes in,
+ * let go anywhere else and it springs home. A tap still selects it, for the
+ * tap-then-bucket path docs/UI.md §10 requires alongside every drag.
+ */
+function DragChip({
+  children,
+  disabled,
+  bucketRefs,
+  hover,
+  dragging,
+  onDrop,
+}: {
+  children: React.ReactNode;
+  disabled: boolean;
+  bucketRefs: AnimatedRef<Animated.View>[];
+  hover: SharedValue<number>;
+  dragging: React.MutableRefObject<boolean>;
+  onDrop: (bucket: number) => void;
+}) {
+  const x = useSharedValue(0);
+  const y = useSharedValue(0);
+  const lift = useSharedValue(0);
+  const onLift = useCallback(() => {
+    dragging.current = true;
+    tapFeedback();
+  }, [dragging]);
+  // Cleared a moment after the release, once the Pressable has had its say.
+  const onLand = useCallback(() => {
+    setTimeout(() => {
+      dragging.current = false;
+    }, 60);
+  }, [dragging]);
+  const count = bucketRefs.length;
+
+  const pan = Gesture.Pan()
+    .enabled(!disabled)
+    .minDistance(6)
+    .onStart(() => {
+      lift.set(withSpring(1, { duration: 220, dampingRatio: 0.7 }));
+      scheduleOnRN(onLift);
+    })
+    .onUpdate((e) => {
+      // Translation is in drawn points; the chip moves in layout points, which
+      // differ on a screen scaled to fit (lesson/fit.tsx).
+      const s = fitScale.get();
+      x.set(e.translationX / s);
+      y.set(e.translationY / s);
+      let over = -1;
+      for (let b = 0; b < count; b++) {
+        const m = measure(bucketRefs[b]);
+        if (
+          m &&
+          e.absoluteX >= m.pageX &&
+          e.absoluteX <= m.pageX + m.width &&
+          e.absoluteY >= m.pageY &&
+          e.absoluteY <= m.pageY + m.height
+        ) {
+          over = b;
+        }
+      }
+      hover.set(over);
+    })
+    .onEnd(() => {
+      const over = hover.get();
+      hover.set(-1);
+      scheduleOnRN(onLand);
+      lift.set(withSpring(0, { duration: 260, dampingRatio: 0.9 }));
+      if (over >= 0) {
+        scheduleOnRN(onDrop, over);
+      } else {
+        x.set(withSpring(0, { duration: 420, dampingRatio: 0.75 }));
+        y.set(withSpring(0, { duration: 420, dampingRatio: 0.75 }));
+      }
+    });
+
+  const style = useAnimatedStyle(() => ({
+    zIndex: lift.get() > 0.01 ? 10 : 0,
+    transform: [{ translateX: x.get() }, { translateY: y.get() }, { scale: 1 + 0.06 * lift.get() }],
+  }));
+
+  return (
+    <GestureDetector gesture={pan}>
+      <Animated.View style={style}>{children}</Animated.View>
+    </GestureDetector>
+  );
+}
+
+/** The bucket under a dragged chip, lit. */
+function BucketGlow({ index, hover, color }: { index: number; hover: SharedValue<number>; color: string }) {
+  const style = useAnimatedStyle(() => ({ opacity: hover.get() === index ? 1 : 0 }));
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[styles.bucketGlow, { borderColor: color, backgroundColor: tint(color, 0.12) }, style]}
+    />
   );
 }
 
@@ -167,8 +307,10 @@ export function OrderScreen({
   revealed: boolean;
 }) {
   const order = value.kind === 'sequence' ? value.order : [];
-  const remaining = screen.items
-    .map((text, i) => ({ text, i }))
+  // Dealt, never in the answer's order (lesson/shuffle.ts).
+  const deal = screen.deal ?? screen.items.map((_, i) => i);
+  const remaining = deal
+    .map((i) => ({ text: screen.items[i], i }))
     .filter(({ i }) => !order.includes(i));
 
   return (
@@ -289,7 +431,18 @@ const styles = StyleSheet.create({
   chipText: { ...type.answer, color: colors.text },
   chipSmall: { paddingHorizontal: space.sm, paddingVertical: 6 },
   chipSmallText: { ...type.small, color: colors.text },
-  buckets: { flexDirection: 'row', gap: space.sm },
+  chipsOver: { zIndex: 2 },
+  buckets: { flexDirection: 'row', gap: space.sm, zIndex: 1 },
+  bucketSlot: { flex: 1 },
+  bucketGlow: {
+    position: 'absolute',
+    top: -1.5,
+    left: -1.5,
+    right: -1.5,
+    bottom: -1.5,
+    borderRadius: radius.md,
+    borderWidth: 2,
+  },
   bucket: {
     flex: 1,
     minHeight: 120,

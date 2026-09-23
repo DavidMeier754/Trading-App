@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
 import { tapFeedback } from '../lesson/feedback';
+import { surfaceStyle, useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type { PlanCardScreen as S } from '../types';
 import { Body, ScreenTitle } from './common';
@@ -24,6 +25,7 @@ export default function PlanCardScreen({
   values: Record<string, string>;
   onChange: (key: string, value: string) => void;
 }) {
+  const look = useLookSpec();
   const scopedKey = (key: string) => (screen.slot ? `card.${screen.slot}.${key}` : key);
 
   return (
@@ -37,11 +39,14 @@ export default function PlanCardScreen({
           const current = values[key];
           const suggestion = field.suggest !== undefined ? String(field.suggest) : null;
           return (
-            <View key={key} style={styles.field}>
+            <View key={key} style={[styles.field, surfaceStyle(look)]}>
               <Text style={styles.label}>{copy(field.label)}</Text>
               <View style={styles.valueRow}>
+                {/* An empty number reads as 0, in the value's own size and
+                    place: it is plainly a number waiting to be set, where "not
+                    set" read as a status to leave alone. */}
                 <Text style={[styles.value, !current && styles.valueEmpty]}>
-                  {current ?? 'not set'}
+                  {current ?? (field.kind === 'text' ? '—' : '0')}
                 </Text>
                 {suggestion ? (
                   <Pressable
@@ -67,7 +72,8 @@ export default function PlanCardScreen({
                       key={sign}
                       onPress={() => {
                         tapFeedback();
-                        const base = Number(current ?? suggestion ?? 0);
+                        // From what is shown: an empty field is 0, so + makes 1.
+                        const base = Number(current ?? 0);
                         const next = sign === '+' ? base + 1 : Math.max(0, base - 1);
                         onChange(key, String(next));
                       }}
@@ -102,7 +108,7 @@ const styles = StyleSheet.create({
   label: { ...type.small, color: colors.textMuted },
   valueRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
   value: { ...type.title, color: colors.text },
-  valueEmpty: { color: colors.textFaint, fontSize: 18 },
+  valueEmpty: { color: colors.textFaint },
   suggest: {
     borderRadius: radius.pill,
     borderWidth: 1.5,
