@@ -17,7 +17,7 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 3. **Thumb-first.** Primary action always at the bottom, full-width, reachable one-handed. Answers are big tap targets (min 48 pt).
 4. **Instant feedback, never a dead end.** Every answer reveals right/wrong in place within 100 ms. No separate feedback screen. The user always sees the correct answer before moving on.
 5. **Show, then ask.** A concept is shown (card, visual, animation) before it is asked. Every defined term is tappable (Glossary popover, section 8).
-6. **No pressure.** No timers, countdowns or quick-fire rounds anywhere — **including the new rapid types in §4**. Hearts exist only in Tests and Final Exams. Wrong answers in lessons cost nothing but a second look.
+6. **No pressure.** No timers, countdowns or quick-fire rounds anywhere — **including the new rapid types in §4**. Hearts are spent in lessons, Tests and Final Exams; practice never costs one.
 7. **Motion has a purpose.** Animations explain (a slice filling, a spread widening) or reward (badge unlock). Respect the OS "reduce motion" setting.
 8. **Numbers are real.** Prices, spreads and costs use one format everywhere (section 9). Cost math always shows a share count.
 9. **Confident tone, tiny caveats.** The card says the simple true thing in one sentence; nuance goes into the reveal note or glossary.

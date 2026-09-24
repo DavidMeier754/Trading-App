@@ -36,7 +36,7 @@ One constraint holds under either answer and binds today: **the app must never i
 | Markets | Two market profiles at launch: `US` and `EU-DE` (`content/market_profiles.yaml`). Session times, currency symbol, index examples and regulation notes are tokens rendered per profile. |
 | Path choice | After Chapter 1 (Chapter 1 is shared by all paths). Onboarding does not ask for a path. |
 | Daily target **[v3]** | Two sub-levels ≈ 10 minutes. A path is ~385 sub-levels ≈ 22 hours ≈ 6 months at that pace. |
-| Hearts | 5 hearts. A wrong answer in a Test or Final Exam costs one heart; theory and repetition lessons never cost hearts. Each lost heart refills after 4 hours. |
+| Hearts | 5 hearts. A wrong answer in any lesson, Test or Final Exam costs one heart; practice never does. At 0 hearts the sub-level stops. Each lost heart refills after 4 hours. |
 | Pressure | No timers, no quick-fire, no countdowns anywhere. Repetition is untimed. This applies to every new interaction type too. |
 | Mascot | **No.** **[v3.1 — reversed]** v2 and v3 specified one recurring mascot plus five recurring characters (retail trader, market maker, institution, bull, bear), and the placeholder art, the poses and the `story` screen's `character` field were all built. All of it is withdrawn: the cast is out of the app, out of `docs/UI.md` §6.9 and out of all 198 sub-levels that named it. A screen carries its meaning in its copy, its data component and the reveal's verdict colour. Reopening this means reopening this row first. |
 | Theme | Dark mode default, full light theme available. |
@@ -190,7 +190,7 @@ A learner must not be able to score well without knowing the material. These are
 - Every concept named in the Learning Goal is tested by at least one question.
 - **[v3]** Tests and Final Exams reach back into earlier chapters per §3.3.
 - Pass mark 70 %. Below that: "Almost — review these levels" with the per-question list and links; the user can retry immediately (hearts apply).
-- Hearts are lost only in Tests and Final Exams.
+- Hearts are lost in lessons, Tests and Final Exams (not in practice).
 
 ### 3.8 Consistency across sessions
 
