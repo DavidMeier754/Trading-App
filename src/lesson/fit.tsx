@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LayoutChangeEvent, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
@@ -81,6 +81,10 @@ export function FitScreen({
   );
 
   const style = useAnimatedStyle(() => ({ transform: [{ scale: fitScale.get() }] }));
+  // Held steady across content size changes, which can come every frame while
+  // something folds; the screens reading it only care about room and settling.
+  const room = view > 0 ? view - bottomPad : undefined;
+  const fitValue = useMemo(() => ({ room, settled }), [room, settled]);
 
   return (
     <ScrollView
@@ -101,7 +105,7 @@ export function FitScreen({
       }}
     >
       <Animated.View style={[{ flexGrow: 1, transformOrigin: 'top' }, contentStyle, style]}>
-        <FitContext.Provider value={{ room: view > 0 ? view - bottomPad : undefined, settled }}>
+        <FitContext.Provider value={fitValue}>
           {children}
         </FitContext.Provider>
       </Animated.View>
@@ -130,11 +134,17 @@ export function useChartGaps({
   preferred,
   growth,
   locked,
+  max = MAX_GAPS,
+  tolerance = 0.04,
 }: {
   preferred: number;
   growth: number;
   /** Once the learner has acted the size holds; the scale covers the rest. */
   locked: boolean;
+  /** The tallest plot this screen may take, in gaps. */
+  max?: number;
+  /** How far past the room, as a share of it, the screen may run and be scaled. */
+  tolerance?: number;
 }): { gaps: number; onLayout: (e: LayoutChangeEvent) => void } {
   const { room } = useFit();
   const [gaps, setGaps] = useState(preferred);
@@ -149,19 +159,21 @@ export function useChartGaps({
     const at = natural.current;
     if (locked || room === undefined || at === undefined) return;
     // A little scale is invisible; a chart a step shorter is not. Let a few
-    // percent through before giving up a gap.
-    let spare = room - at.height - growth + room * 0.04;
+    // percent through before giving up a gap -- and never less than the
+    // overflow FitScreen lets run into the bottom padding without scaling at
+    // all, which is all a screen that must not scale gets.
+    let spare = room - at.height - growth + Math.max(room * tolerance, OVERFLOW_SLACK);
     let next = at.gaps;
     while (spare < 0 && next > MIN_GAPS) {
       next -= 1;
       spare += CHART_GRID_STEP;
     }
-    while (spare >= CHART_GRID_STEP && next < MAX_GAPS) {
+    while (spare >= CHART_GRID_STEP && next < max) {
       next += 1;
       spare -= CHART_GRID_STEP;
     }
     setGaps(next);
-  }, [locked, room, growth]);
+  }, [locked, room, growth, max, tolerance]);
 
   useEffect(decide, [decide]);
 

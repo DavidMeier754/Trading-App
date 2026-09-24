@@ -34,21 +34,9 @@ export const CUES = {
     file: require('../../assets/sounds/correct1.wav'),
     pulses: [[0, 'light'], [120, 'rigid']] as readonly Pulse[],
   },
-  correct2: {
-    file: require('../../assets/sounds/correct2.wav'),
-    pulses: [[0, 'light'], [120, 'rigid']] as readonly Pulse[],
-  },
-  correct3: {
-    file: require('../../assets/sounds/correct3.wav'),
-    pulses: [[0, 'light'], [120, 'rigid']] as readonly Pulse[],
-  },
-  correct4: {
-    file: require('../../assets/sounds/correct4.wav'),
-    pulses: [[0, 'light'], [120, 'rigid']] as readonly Pulse[],
-  },
   streak: {
     file: require('../../assets/sounds/streak.wav'),
-    pulses: [[0, 'soft'], [190, 'medium'], [340, 'light']] as readonly Pulse[],
+    pulses: [[0, 'light'], [75, 'light'], [150, 'medium']] as readonly Pulse[],
   },
   amber: {
     file: require('../../assets/sounds/amber.wav'),

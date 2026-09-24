@@ -997,13 +997,15 @@ const VOLUME_H = CHART_GRID_STEP - VOLUME_GAP;
  *
  * A gridline only lands on a backdrop line if the gaps between them are whole
  * backdrop cells, and the plot's lines sit at fixed fractions of its height —
- * so the height itself has to be a whole number of gaps. Offering two sizes is
- * what lets a chart stay aligned in a short window instead of falling back to
- * an arbitrary height: it drops from five lines to four to three rather than
+ * so the height itself has to be a whole number of gaps. Offering several sizes
+ * is what lets a chart stay aligned in a short window instead of falling back
+ * to an arbitrary height: it drops from five lines to four to three rather than
  * from aligned to not. Which one a screen gets is decided by the room it has
- * (lesson/fit.tsx, useChartGaps).
+ * (lesson/fit.tsx, useChartGaps); most screens stop at five gaps, and a
+ * `chart-decision`, whose chart is the whole screen once the call is made, may
+ * take seven.
  */
-const PLOT_GAPS = [5, 4, 3, 2];
+const PLOT_GAPS = [7, 6, 5, 4, 3, 2];
 
 /**
  * A chart's plot when nothing decides otherwise. Candle charts with volume

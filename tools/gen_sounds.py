@@ -215,32 +215,8 @@ def felt(freq, ms, gain=1.0):
     return _fade_tail(_render(n, f), 0.25)
 
 
-def whoosh(freq, ms, gain=1.0):
-    """
-    Air rushing up: noise through a resonance that climbs into `freq`, swelling
-    and then letting go. It has a direction but no note, so it can sit under any
-    chord. Normalised to `gain` at its peak, since a resonator's level depends
-    on its sharpness and the mix should not.
-    """
-    n = int(RATE * ms / 1000)
-    rnd = random.Random(11)
-    r = 0.97
-    y1 = y2 = 0.0
-    out = []
-    for i in range(n):
-        u = i / max(1, n - 1)
-        w = 2 * math.pi * freq * (0.3 + 0.7 * u * u) / RATE
-        y = rnd.uniform(-1, 1) * (1 - r) + 2 * r * math.cos(w) * y1 - r * r * y2
-        y2, y1 = y1, y
-        env = math.sin(math.pi / 2 * min(1.0, u / 0.78)) * (1 - max(0.0, (u - 0.78) / 0.22))
-        out.append(y * env)
-    peak = max(1e-9, max(abs(v) for v in out))
-    return _fade_tail([gain * v / peak for v in out], 0.1)
-
-
 VOICES = {
     "felt": felt,
-    "whoosh": whoosh,
     "bell": bell,
     "marimba": marimba,
     "tick": tick,
@@ -312,12 +288,9 @@ def P(t, haptic, notes):
 
 def correct(root, fifth):
     """
-    A rising fifth, crisp on both pulses. Every level is this same chime moved
-    up the scale, nothing added: a run is heard as the same "yes" climbing, one
-    step per right answer. (The earlier ladder stacked a third note onto the
-    upper levels, so a run changed timbre as it climbed and read as a different
-    sound each time.) It tops out at E6-B6, under the C7 the first ladder
-    squealed at.
+    A rising fifth, crisp on both pulses. The second right answer in a row is
+    this same chime moved up a fourth, nothing added, so the climb is heard as
+    the same "yes" getting higher.
     """
     return [
         P(0, "light", [N("bell", root, 420, 0.78), N("bell", hz(root) / 2, 380, 0.22)]),
@@ -352,27 +325,26 @@ CUES = {
         peak=0.30, wet=0.12,
     ),
     # -- verdicts ----------------------------------------------------------
-    # Combo levels 0-4: the same chime, a step up the scale per right answer.
+    # A run of right answers is three sounds, no more (lesson/feedback.ts):
+    # the chime for the first, the same chime a fourth higher for the second,
+    # and from the third on the streak sound, the same every time.
     "correct0": dict(pulses=correct("G5", "D6"), peak=0.28, wet=0.22),
-    "correct1": dict(pulses=correct("A5", "E6"), peak=0.28, wet=0.22),
-    "correct2": dict(pulses=correct("C6", "G6"), peak=0.28, wet=0.22),
-    "correct3": dict(pulses=correct("D6", "A6"), peak=0.28, wet=0.22),
-    "correct4": dict(pulses=correct("E6", "B6"), peak=0.28, wet=0.22),
-    # A milestone in a run (3, 5, 10 ...): not a higher chime but a different
-    # sound, and always the same one. Air rushing up into a warm C major chord
-    # that blooms under a shimmer, pitched below the ladder rather than above
-    # it, so reaching a streak feels like arriving somewhere, not like the
-    # climb getting shriller. (It used to be the top chime with a sparkle on
-    # it -- the highest thing in the app, jumping above the level before.)
+    "correct1": dict(pulses=correct("C6", "G6"), peak=0.28, wet=0.22),
+    # Streak mode, three or more in a row: not a higher chime but a different
+    # sound that stays put. The same glass bells rolling up a C major chord,
+    # E5 G5 into C6, with a low C under the top note and a little sparkle on
+    # it -- an arrival, heard as many times as the run lasts, so nothing in it
+    # is shrill and nothing is noise. (The version before rushed in on a
+    # filtered-noise swell over a low felt thud, and next to the chimes it
+    # sounded like a different app.)
     "streak": dict(
         pulses=[
-            P(0, "soft", [N("whoosh", 1400, 260, 0.5)]),
-            P(190, "medium", [N("felt", "C4", 520, 0.5), N("bell", "C5", 820, 0.5),
-                              N("bell", "E5", 820, 0.46), N("bell", "G5", 820, 0.46),
-                              N("shimmer", "G5", 900, 0.42)]),
-            P(340, "light", [N("bell", "C6", 640, 0.34)]),
+            P(0, "light", [N("bell", "E5", 620, 0.6)]),
+            P(75, "light", [N("bell", "G5", 640, 0.66)]),
+            P(150, "medium", [N("bell", "C6", 900, 0.92), N("bell", "C5", 760, 0.32),
+                              N("shimmer", "C6", 820, 0.26)]),
         ],
-        peak=0.3, wet=0.26,
+        peak=0.29, wet=0.24,
     ),
     # Reasonable: one soft, level note. Neither the rise nor the fall.
     "amber": dict(pulses=[P(0, "soft", [N("bell", "E5", 460)])], peak=0.24, wet=0.2),

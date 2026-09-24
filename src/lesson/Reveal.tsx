@@ -14,7 +14,7 @@ import { copy } from '../format';
 import { colors, radius, space, type } from '../theme';
 import type { Grade } from './answers';
 import { Celebrate, PopIn } from './Celebrate';
-import { isStreakMilestone, pulseAt } from './feedback';
+import { isStreakMilestone, pulseAt, STREAK_FROM } from './feedback';
 import { useLookSpec } from './look';
 import { EASE_OUT, SPRING_PANEL, SPRING_PANEL_CALM, useMotion } from './motion';
 
@@ -101,7 +101,7 @@ export default function Reveal({
     strokeDashoffset: MARK_LEN[grade] * (1 - mark.get()),
   }));
 
-  const showStreak = grade === 'correct' && streak >= 3;
+  const showStreak = grade === 'correct' && streak >= STREAK_FROM;
   const milestone = showStreak && isStreakMilestone(streak);
   const pill = (
     <View style={styles.pill}>
@@ -173,6 +173,39 @@ export default function Reveal({
   );
 }
 
+/**
+ * How tall a verdict card will be, before there is a verdict: the card's own
+ * padding, head row and words, laid out once and invisibly. For a screen that
+ * has to keep room for a verdict it has not had yet (ChartDecisionScreen) --
+ * a guess at it was a correct answer's card, and a wrong answer's, a lead line
+ * taller, then overflowed the screen the moment it landed.
+ */
+export function RevealProbe({
+  lead,
+  explanation,
+  onHeight,
+}: {
+  lead?: string;
+  explanation: string;
+  onHeight: (height: number) => void;
+}) {
+  return (
+    <View
+      pointerEvents="none"
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+      style={[styles.wrap, styles.probe]}
+      onLayout={(e) => onHeight(e.nativeEvent.layout.height)}
+    >
+      <View style={styles.probeHead} />
+      <View style={styles.words}>
+        {lead ? <Text style={styles.lead}>{copy(lead)}</Text> : null}
+        <Text style={styles.body}>{copy(explanation)}</Text>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   wrap: {
     borderWidth: 1,
@@ -204,6 +237,8 @@ const styles = StyleSheet.create({
   body: { ...type.body, color: colors.text },
   workingWrap: { gap: space.xs },
   toggle: { ...type.label },
+  probe: { position: 'absolute', left: 0, right: 0, top: 0, opacity: 0 },
+  probeHead: { height: 24 },
   working: {
     ...type.mono,
     color: colors.textMuted,

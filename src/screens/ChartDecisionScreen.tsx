@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
+import { LayoutChangeEvent, Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import Chart, {
@@ -10,12 +15,15 @@ import Chart, {
   DEFAULT_GAPS,
   PLAY_START,
 } from '../components/Chart';
+import { DECISION_LABEL } from '../components/DecisionButtons';
 import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
+import { useFit } from '../lesson/fitState';
+import { RevealProbe } from '../lesson/Reveal';
 import {
   EASE_IN_OUT,
   EASE_OUT,
@@ -25,7 +33,7 @@ import {
   revealTiming,
 } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, radius, space, type } from '../theme';
+import { colors, GRID, radius, space, type } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
 
 /** Which way a choice faces, for the P/L side of the outcome strip. */
@@ -44,6 +52,12 @@ const PULL_BACK_MS = 520;
 
 /** Tap to skip: the rest of the replay in one short sweep. */
 const SKIP_MS = 220;
+
+/** The brief folding away once the call is made, as the frame pulls back. */
+const FOLD_MS = 460;
+
+/** The tallest plot this screen may take (lesson/fit.tsx, useChartGaps). */
+const MAX_DECISION_GAPS = 7;
 
 export default function ChartDecisionScreen({
   screen,
@@ -145,11 +159,44 @@ export default function ChartDecisionScreen({
     );
   };
 
+  // Once the call is made the brief -- the scenario and its chips -- has done
+  // its job, so it folds away while the frame pulls back: the chart glides up
+  // into its place, and the verdict, when it lands, takes the room the brief
+  // gave up. That is what lets the chart be sized for the whole screen instead
+  // of for what is left of it after the verdict -- it was the verdict's room,
+  // kept empty under the chart from the start, that squeezed it.
+  //
+  // The brief's height is rounded up to whole backdrop cells, so the chart ends
+  // its glide exactly as far down the grid as it started and nothing has to
+  // snap into line after it.
+  const [briefText, setBriefText] = useState(0);
+  const briefH = briefText > 0 ? Math.ceil((briefText + space.md) / GRID) * GRID : 0;
+  const fold = useSharedValue(revisit ? 1 : 0);
+  const [folded, setFolded] = useState(revisit);
+  useEffect(() => {
+    if (choice === null || revisit) return;
+    const done = () => setFolded(true);
+    fold.set(
+      withTiming(1, { duration: reduced ? 0 : FOLD_MS, easing: EASE_IN_OUT }, (finished) => {
+        'worklet';
+        if (finished) scheduleOnRN(done);
+      })
+    );
+  }, [choice, revisit, reduced, fold]);
+  const briefStyle = useAnimatedStyle(() => {
+    const f = fold.get();
+    return {
+      // Its own height until it folds, then down to nothing.
+      maxHeight: f <= 0 ? 10000 : briefH * (1 - f),
+      opacity: 1 - Math.min(1, f * 1.8),
+    };
+  });
+
   // The chart's price gridlines snap onto the backdrop grid, which needs to know
-  // how far down the grid the chart sits. `phase` is passed because the outcome
-  // card re-centres the column: the chart moves without resizing, and on web
-  // `onLayout` is a resize observer that never fires for a move.
-  const grid = useGridAnchor(phase);
+  // how far down the grid the chart sits. It is measured again once the brief
+  // has folded and once the verdict is in -- at rest, never mid-glide, when a
+  // reading would snap the lines to a place the chart is only passing through.
+  const grid = useGridAnchor(`${phase === 'done'}-${folded}`);
 
   const decisionPrice = closeAt(screen.chart, screen.chart.decision_index);
   const finalPrice = closeAt(screen.chart, bars - 1);
@@ -158,6 +205,17 @@ export default function ChartDecisionScreen({
   const direction = choice ? DIRECTION[choice] : 0;
   const pnl = direction * move * screen.shares;
 
+  // The verdict this screen keeps room for, measured rather than guessed: the
+  // card laid out invisibly (Reveal.tsx, RevealProbe) with this screen's
+  // explanation and the longest lead a decision can get. Sized for less, a
+  // wrong answer's card overflowed and the whole screen was scaled down to
+  // fit it the moment it landed -- the chart squeezed at the very end.
+  const [probeH, setProbeH] = useState(0);
+  const verdictH = probeH > 0 ? probeH + space.md : REVEAL_GROWTH;
+  const longestLead = `Standing aside costs nothing here. The better call was ${
+    DECISION_LABEL[screen.best] ?? screen.best
+  }.`;
+
   // As tall as the screen has room for, counting the reveal still to come
   // (lesson/fit.tsx), and sized from the chart's own geometry, so the
   // grid-aligned plot, the volume strip and the slack the snap shifts into all
@@ -165,10 +223,17 @@ export default function ChartDecisionScreen({
   // is drawn on the chart, so the chart can have that room too.
   const fit = useChartGaps({
     preferred: DEFAULT_GAPS,
-    // Come back to, the reveal is already under the screen and the room
-    // measured already allows for it.
-    growth: revisit ? 0 : REVEAL_GROWTH,
+    // The verdict moves into the room the brief folds out of, so only what it
+    // needs past that has to be kept free. Come back to, the reveal is already
+    // under the screen and the room measured already allows for it.
+    growth: revisit ? 0 : Math.max(0, verdictH - briefH),
     locked: phase !== 'deciding' && !revisit,
+    max: MAX_DECISION_GAPS,
+    // With the verdict's room measured, only a sliver past it is let through:
+    // at worst -- the longest lead, on a phone where the chart just fits -- a
+    // scale of about one in a hundred, too little to see. Guessing the room
+    // instead scaled the screen by up to a fifth.
+    tolerance: 0.03,
   });
 
   // docs/UI.md §4.3's outcome strip, as a tag on the chart: the move in
@@ -189,12 +254,55 @@ export default function ChartDecisionScreen({
   const chartHeight = chartHeightFor(!!screen.chart.volume, fit.gaps);
   const chartWidth = chartWidthFor(width, !!screen.chart.volume, fit.gaps);
 
+  // Centred while there is room to centre in -- in whole backdrop cells, so
+  // the grid still lines up -- but never lower than the finished screen, chart
+  // and verdict with the brief gone, can afford. Worked out while deciding and
+  // then held, so the chart does not move again when the verdict lands.
+  const { room } = useFit();
+  const [columnH, setColumnH] = useState(0);
+  const [spacer, setSpacer] = useState(0);
+  const measuring = phase === 'deciding' || revisit;
+  const onColumnLayout = useCallback(
+    (e: LayoutChangeEvent) => {
+      if (measuring) setColumnH(e.nativeEvent.layout.height);
+      fit.onLayout(e);
+    },
+    [measuring, fit.onLayout]
+  );
+  useEffect(() => {
+    if (!measuring || room === undefined || columnH <= 0) return;
+    const centred = (room - columnH) / 2;
+    const finished = room - (revisit ? 0 : verdictH) - chartHeight;
+    setSpacer(Math.max(0, Math.floor(Math.min(centred, finished) / GRID) * GRID));
+  }, [measuring, revisit, room, columnH, chartHeight, verdictH]);
+
   return (
     <View style={styles.wrap}>
-      <View style={styles.column} onLayout={fit.onLayout}>
-      <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
-
-      {screen.state?.length ? <StateChips state={screen.state} /> : null}
+      {revisit ? null : (
+        <RevealProbe
+          lead={longestLead}
+          explanation={screen.explanation}
+          onHeight={setProbeH}
+        />
+      )}
+      <View style={{ height: spacer }} />
+      <View style={styles.column} onLayout={onColumnLayout}>
+      {revisit ? null : (
+        <Animated.View
+          style={[styles.brief, briefStyle]}
+          accessibilityElementsHidden={folded}
+          importantForAccessibility={folded ? 'no-hide-descendants' : 'auto'}
+        >
+          <View
+            style={styles.briefText}
+            onLayout={(e) => setBriefText(e.nativeEvent.layout.height)}
+          >
+            <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
+            {screen.state?.length ? <StateChips state={screen.state} /> : null}
+          </View>
+          <View style={{ height: briefH > 0 ? briefH - briefText : space.md }} />
+        </Animated.View>
+      )}
 
       <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
         <Pressable accessibilityRole="button" onPress={onChartPress} disabled={choice === null}>
@@ -228,8 +336,10 @@ export default function ChartDecisionScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center' },
-  column: { gap: space.md },
+  wrap: { flex: 1 },
+  column: {},
+  brief: { overflow: 'hidden' },
+  briefText: { gap: space.md },
   chartBox: { alignSelf: 'center' },
   scenario: { ...type.body, color: colors.text },
   playHint: {

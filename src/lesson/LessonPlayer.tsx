@@ -62,7 +62,14 @@ import {
 } from './answers';
 import type { CueName } from './cues.generated';
 import Cta from './Cta';
-import { commitFeedback, revealFeedback, runBefore, streakAfter, tapFeedback } from './feedback';
+import {
+  commitFeedback,
+  revealFeedback,
+  runBefore,
+  STREAK_FROM,
+  streakAfter,
+  tapFeedback,
+} from './feedback';
 import ProgressBar from './ProgressBar';
 import QuitSheet from './QuitSheet';
 import Reveal from './Reveal';
@@ -178,7 +185,7 @@ export default function LessonPlayer({
     // docs/UI.md §5.1: the verdict lands the instant it is known. A run of right
     // answers climbs the chime a step at a time.
     revealFeedback(g, streak);
-    emitMood(g === 'correct' ? (streak >= 3 ? 'streak' : 'correct') : g, streak);
+    emitMood(g === 'correct' ? (streak >= STREAK_FROM ? 'streak' : 'correct') : g, streak);
   }, [screen, value, index, grades]);
 
   // Types that commit on the tap itself reveal as soon as an answer exists, with
