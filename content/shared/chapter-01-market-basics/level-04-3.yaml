@@ -30,9 +30,9 @@ screens:
   - type: hotspot
     component: quote-card
     prompt: "Tap the count of shares traded today."
-    data: {ticker: LUMA, name: Luma Health, price: 15.80, change: 0.42, change_pct: 2.7, volume: "6.4M"}
+    data: {ticker: LUMA, name: Luma Health, price: 15.80, change: 0.42, change_pct: 2.7, volume: "7.2M"}
     target: volume
-    explanation: "6.4 M shares have changed hands so far today."
+    explanation: "7.2 M shares have changed hands so far today."
 
   - type: numeric-mc
     prompt: "LUMA normally trades about 1.6 M shares in a day. Today it has done 7.2 M. How many times its normal day is that?"

@@ -7,6 +7,7 @@ import type {
   Screen,
   ScreenType,
 } from '../types';
+import { scannerTargetsOf } from '../types';
 
 /**
  * Which question types resolve on the tap itself instead of waiting for Check.
@@ -278,7 +279,7 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
     }
     case 'scanner-pick': {
       if (value.kind !== 'target' || value.id === null) return 'wrong';
-      return value.id === screen.target ? 'correct' : 'wrong';
+      return scannerTargetsOf(screen).includes(value.id) ? 'correct' : 'wrong';
     }
     case 'compare': {
       if (value.kind !== 'target' || value.id === null) return 'wrong';

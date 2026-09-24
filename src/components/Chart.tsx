@@ -912,6 +912,10 @@ export function domainOf(bars: Candle[], spec: ChartSpec, count: number) {
     min = Math.min(min, lvl.price);
     max = Math.max(max, lvl.price);
   }
+  if (spec.range) {
+    min = Math.min(min, spec.range[0]);
+    max = Math.max(max, spec.range[1]);
+  }
   ({ lo: min, hi: max } = floorSpan(spec.kind, min, max));
   const span = max - min || Math.max(max * 0.01, 0.1);
   return { lo: min - span * 0.1, hi: max + span * 0.12 };

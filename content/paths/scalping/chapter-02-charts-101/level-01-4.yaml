@@ -59,11 +59,11 @@ screens:
     body: "Every example from now on uses the same $20,000 practice account, so share counts stay comparable from chart to chart. It is a teaching number — what size actually belongs on a trade is Chapter 3's job."
 
   - type: chart-decision
-    scenario: "Four green candles in a row. Each one opened where the last one closed, and each one finished within a cent of its own high."
+    scenario: "Six green candles in a row. Each one opened where the last one closed, and each one finished within a cent of its own high."
     shares: 800
     chart:
       kind: candles
-      data: [[16.92, 17.00, 16.90, 16.98], [16.98, 17.06, 16.96, 17.05], [17.05, 17.12, 17.03, 17.11], [17.11, 17.19, 17.09, 17.18], [17.18, 17.26, 17.16, 17.25], [17.25, 17.33, 17.23, 17.32], [17.32, 17.41, 17.30, 17.40], [17.40, 17.47, 17.37, 17.45], [17.45, 17.52, 17.43, 17.50], [17.50, 17.55, 17.47, 17.53], [17.53, 17.58, 17.50, 17.55]]
+      data: [[16.92, 17.00, 16.90, 16.99], [16.99, 17.06, 16.96, 17.05], [17.05, 17.12, 17.03, 17.11], [17.11, 17.19, 17.09, 17.18], [17.18, 17.26, 17.16, 17.25], [17.25, 17.33, 17.23, 17.32], [17.32, 17.41, 17.30, 17.40], [17.40, 17.47, 17.37, 17.45], [17.45, 17.52, 17.43, 17.50], [17.50, 17.55, 17.47, 17.53], [17.53, 17.58, 17.50, 17.55]]
       decision_index: 5
     state: ["Account: $20,000", "Size: 800 shares"]
     best: long
@@ -109,7 +109,7 @@ screens:
     explanation: "Four measurements, and every one of them is a subtraction you can do in your head."
 
   - type: chart-decision
-    scenario: "Tiny bodies, threads out both sides, five minutes of them. Every minute ended within a cent or two of where it began."
+    scenario: "Tiny bodies, threads out both sides, six minutes of them. Every minute ended within a few cents of where it began."
     shares: 1200
     chart:
       kind: candles

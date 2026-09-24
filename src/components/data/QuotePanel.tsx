@@ -19,6 +19,7 @@ export default function QuotePanel({
   const cell = (id: string, label: string, value: string, tint?: string) => (
     <Pressable
       accessibilityRole="button"
+      testID={`target-${id}`}
       disabled={!onTapTarget}
       onPress={() => onTapTarget?.(id)}
       style={[

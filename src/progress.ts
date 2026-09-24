@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
-import { PATH } from './content';
+import { CHAPTER_ONE, Chapter, PATH, PATH_CHOICE_ID, TradingPath, chaptersFor, levelsOf } from './content';
 import {
   getHapticsSetting,
   HapticsSetting,
@@ -39,6 +39,13 @@ export type Progress = {
   today: { date: string; count: number };
   /** Every XP the summaries have handed out, replays included. */
   xp: number;
+  /** docs/UI.md §11.4: the path picked after Chapter 1, or null before that. */
+  path: TradingPath | null;
+  /**
+   * The learner's plan (docs/schema.md "The plan"): every plan-card field they
+   * have filled, by key. A card that asks for a key again opens on this value.
+   */
+  plan: Record<string, string>;
   /** Hearts as last written; `heartsNow` adds the ones that have come back since. */
   hearts: number;
   /** When the next missing heart started coming back (ms since 1970), or null when full. */
@@ -59,6 +66,8 @@ const fresh = (): Progress => ({
   streak: { days: 0, last: null },
   today: { date: dayOf(new Date()), count: 0 },
   xp: 0,
+  path: null,
+  plan: {},
   hearts: MAX_HEARTS,
   heartsAt: null,
 });
@@ -146,6 +155,50 @@ export function completeLesson(
 
 export function resetProgress(): void {
   publish(fresh());
+}
+
+/**
+ * docs/UI.md §11.4: the path, chosen once after Chapter 1 and changeable in
+ * Settings. Choosing counts the path-choice node as done. Changing it later
+ * keeps what was finished on the old path -- ids carry their path -- so going
+ * back to it picks up where it was left.
+ */
+export function choosePath(path: TradingPath): void {
+  const p = progress;
+  publish({ ...p, path, done: { ...p.done, [PATH_CHOICE_ID]: { perfect: true } } });
+}
+
+/** A plan card was filled in: its keys join the plan, over any older values. */
+export function savePlan(values: Record<string, string>): void {
+  if (Object.keys(values).length === 0) return;
+  publish({ ...progress, plan: { ...progress.plan, ...values } });
+}
+
+/**
+ * Temporary, for testing from Settings: jump to the start of level `key`
+ * (`1-9`, `2-1`) as if everything before it had been played. Earlier lessons
+ * count as done, with their XP; nothing at or after it is touched, so what was
+ * already played there stays. Past Chapter 1 the path is chosen for you as
+ * Scalping, the one with chapters written.
+ */
+export function skipTo(key: string): void {
+  const p = progress;
+  const onScalping = key.split('-')[0] !== '1' || key === '1-path';
+  const path: TradingPath | null = p.path ?? (onScalping ? 'scalping' : null);
+  const chapters: Chapter[] = path ? chaptersFor(path) : [CHAPTER_ONE];
+  const levels = levelsOf(chapters);
+  const at = levels.findIndex((l) => l.key === key);
+  if (at === -1) return;
+  const done = { ...p.done };
+  let xp = p.xp;
+  for (const level of levels.slice(0, at)) {
+    for (const entry of level.subs) {
+      if (done[entry.id]) continue;
+      done[entry.id] = { perfect: false };
+      xp += entry.level.xp;
+    }
+  }
+  publish({ ...p, done, xp, path: at > levels.findIndex((l) => l.kind === 'path') ? path : p.path });
 }
 
 // ---------------------------------------------------------------------------

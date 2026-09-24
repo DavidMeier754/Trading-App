@@ -337,10 +337,11 @@ screens:
 
   - type: scanner-pick
     prompt: "Which one has real volume behind the move?"
-    rows:
-      - {ticker: AAA, price: 12.40, change_pct: 8.2, rvol: 4.1, spread: 0.02, catalyst: "earnings"}
-      - {ticker: BBB, price: 3.10, change_pct: 22.5, rvol: 1.2, spread: 0.09, catalyst: "no news"}
-      - {ticker: CCC, price: 44.80, change_pct: 3.1, rvol: 0.8, spread: 0.03, catalyst: "upgrade"}
+    data:
+      rows:
+        - {ticker: AAA, price: 12.40, change_pct: 8.2, rvol: 4.1, spread: 0.02, catalyst: "earnings"}
+        - {ticker: BBB, price: 3.10, change_pct: 22.5, rvol: 1.2, spread: 0.09, catalyst: "no news"}
+        - {ticker: CCC, price: 44.80, change_pct: 3.1, rvol: 0.8, spread: 0.03, catalyst: "upgrade"}
     target: AAA
     explanation: "Relative volume of 4.1 with a two-cent spread is the only tradable one."
 

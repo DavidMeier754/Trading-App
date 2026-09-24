@@ -32,6 +32,7 @@ export default function QuoteCard({
     <Pressable
       accessibilityRole="button"
       key={id}
+      testID={`target-${id}`}
       disabled={!onTapTarget}
       onPress={() => onTapTarget?.(id)}
       style={[styles.target, highlight?.[id] ? { borderColor: highlight[id] } : null]}
@@ -47,20 +48,25 @@ export default function QuoteCard({
         {data.name ? wrap('name', <Text style={styles.name}>{data.name}</Text>) : null}
       </View>
       {wrap('price', <Text style={styles.price}>{price(data.price)}</Text>)}
-      {hasChange ? (
-        <Text style={[styles.change, { color: changeColor }]}>
-          {/* docs/UI.md §6: up/down always paired with an arrow or sign. */}
-          {up ? '▲' : '▼'}{' '}
-          {data.change !== undefined ? signedPrice(data.change) : ''}
-          {data.change_pct !== undefined ? ` (${signedPercent(data.change_pct)})` : ''}
-        </Text>
-      ) : null}
+      {/* docs/schema.md: every field of the card is a hotspot target --
+          the change and the previous close as much as the price. */}
+      {hasChange
+        ? wrap(
+            'change',
+            <Text style={[styles.change, { color: changeColor }]}>
+              {/* docs/UI.md §6: up/down always paired with an arrow or sign. */}
+              {up ? '▲' : '▼'}{' '}
+              {data.change !== undefined ? signedPrice(data.change) : ''}
+              {data.change_pct !== undefined ? ` (${signedPercent(data.change_pct)})` : ''}
+            </Text>
+          )
+        : null}
       {data.volume
         ? wrap('volume', <Text style={styles.volume}>Vol {data.volume}</Text>)
         : null}
-      {data.prev_close !== undefined ? (
-        <Text style={styles.volume}>Prev close {price(data.prev_close)}</Text>
-      ) : null}
+      {data.prev_close !== undefined
+        ? wrap('prev_close', <Text style={styles.volume}>Prev close {price(data.prev_close)}</Text>)
+        : null}
     </View>
   );
 }

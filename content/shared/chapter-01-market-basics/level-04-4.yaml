@@ -38,7 +38,7 @@ screens:
         note: "One jump, then five steps giving it back. The move happened without you."
       - chart: {kind: line, data: [8.20, 8.22, 8.21, 8.26, 8.30, 8.34, 8.38, 8.43]}
         answer: take
-        note: "Two cents at a time is still a direction. Twenty-three cents across the stretch."
+        note: "A few cents at a time is still a direction. Twenty-three cents across the stretch."
     explanation: "Three takes and three passes, and in every case the deciding thing was which way it was going at the right-hand edge."
 
   - type: chart-decision
@@ -49,7 +49,7 @@ screens:
     best: buy
     reasonable: [wait]
     outcome: "It reached $14.58 — 38 cents a share, +$114 on 300 shares."
-    explanation: "A direction that is already on the chart, and a position the account can pay for twice over."
+    explanation: "A direction that is already on the chart, and a position the account can comfortably pay for."
 
   - type: chart-decision
     scenario: "NOVA trades at $28.50 and has not moved more than six cents either way in twelve minutes. You are looking at 200 shares. Buy, or wait?"

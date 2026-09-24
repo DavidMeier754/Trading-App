@@ -96,7 +96,7 @@ screens:
   - type: mc
     prompt: "Two traders take the same view on the same thin stock. One buys 200 shares, the other 4,000. What separates their results?"
     options:
-      - {text: "It pays more getting in and gets less getting out", correct: true}
+      - {text: "The larger one pays more getting in and gets less getting out", correct: true}
       - {text: "It pays a higher charge per trade on a larger position"}
       - {text: "Nothing, since they own the same stock at the same time"}
     explanation: "Same idea, different size, and the size is what the stock charges for."

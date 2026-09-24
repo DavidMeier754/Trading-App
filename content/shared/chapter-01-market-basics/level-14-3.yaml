@@ -46,7 +46,7 @@ screens:
     explanation: "Two cents out of six is a third of the target, gone before the price has moved at all."
 
   - type: numeric-mc
-    prompt: "A swing trader is playing for $2.00 a share with the same three cents of cost. What share of that target is the cost?"
+    prompt: "A swing trader is playing for $2.00 a share, and pays three cents of cost: the two-cent gap and a cent of charges. What share of that target is the cost?"
     options:
       - {text: "15 %"}
       - {text: "50 %"}

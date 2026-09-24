@@ -22,6 +22,7 @@ import QuotePanel from './data/QuotePanel';
 import ScannerTable from './data/ScannerTable';
 import SessionRibbon from './data/SessionRibbon';
 import DrawOnChart from './DrawOnChart';
+import MiniChart from './MiniChart';
 import QuoteCard from './QuoteCard';
 
 /**
@@ -95,6 +96,9 @@ export default function Visual({
       return <PlanSheet data={data as any} values={planValues} />;
     case 'chart-line':
     case 'chart-candles': {
+      if (component === 'chart-line' && Array.isArray(data.series)) {
+        return <SeriesPair series={data.series} width={width} />;
+      }
       const spec: ChartSpec = {
         kind: component === 'chart-line' ? 'line' : 'candles',
         data: data.data,
@@ -136,8 +140,39 @@ export default function Visual({
   }
 }
 
+/**
+ * docs/schema.md `chart-line` with `series: [{label, data}]`: the lines side by
+ * side, each labelled, on one shared price scale -- so a calm line stays flat
+ * next to a volatile one instead of each being stretched to fill its frame.
+ */
+function SeriesPair({
+  series,
+  width,
+}: {
+  series: { label?: string; data: number[] }[];
+  width: number;
+}) {
+  const all = series.flatMap((s) => s.data ?? []);
+  const range: [number, number] = [Math.min(...all), Math.max(...all)];
+  const cols = Math.max(1, series.length);
+  const cardWidth = (width - space.sm * (cols - 1)) / cols;
+  return (
+    <View style={styles.seriesRow}>
+      {series.map((s, i) => (
+        <View key={s.label ?? i} style={styles.seriesCard}>
+          <Text style={styles.seriesLabel}>{s.label ?? ''}</Text>
+          <MiniChart spec={{ kind: 'line', data: s.data ?? [], range }} width={cardWidth} height={120} />
+        </View>
+      ))}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   chartBox: { alignSelf: 'center' },
+  seriesRow: { flexDirection: 'row', gap: space.sm, alignSelf: 'stretch' },
+  seriesCard: { flex: 1, gap: 4, alignItems: 'center' },
+  seriesLabel: { ...type.small, color: colors.textMuted },
   placeholder: {
     borderColor: colors.border,
     borderWidth: 1,

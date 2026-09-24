@@ -53,10 +53,11 @@ export default function MiniChart({
   const lows = isCandles ? rows.map((r) => r[2]) : (rows as number[]);
   const levels = spec.levels ?? [];
 
+  const range = spec.range ?? [];
   let { lo, hi } = floorSpan(
     spec.kind,
-    Math.min(...lows, ...levels.map((l) => l.price)),
-    Math.max(...highs, ...levels.map((l) => l.price))
+    Math.min(...lows, ...levels.map((l) => l.price), ...range),
+    Math.max(...highs, ...levels.map((l) => l.price), ...range)
   );
   const span = hi - lo || 1;
   lo -= span * 0.12;

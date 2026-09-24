@@ -7,11 +7,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Backdrop from './components/Backdrop';
 import { GridOriginProvider } from './components/gridAlign';
 import ErrorBoundary from './ErrorBoundary';
-import { LessonEntry, LESSONS, TEST_BENCH } from './content';
+import { LessonEntry, LESSONS, nodeOf, TEST_BENCH } from './content';
 import Home from './home/Home';
 import { Look, LOOKS, setLook } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
-import { completeLesson, loadSaved } from './progress';
+import { choosePath, completeLesson, getProgress, loadSaved } from './progress';
 import { colors, space } from './theme';
 
 /** docs/UI.md §2 is portrait-only, so the player is capped at a phone width. */
@@ -78,6 +78,9 @@ export default function App() {
                   level={entry.level}
                   startAt={link && link.entry === entry ? link.screen : 0}
                   testBench={entry.testBench}
+                  kind={entry.testBench ? 'lesson' : (nodeOf(entry.id)?.kind ?? 'lesson')}
+                  initialPath={getProgress().path}
+                  onChoosePath={choosePath}
                   contentWidth={contentWidth}
                   onQuit={() => setEntry(null)}
                   // A lesson on the path counts once its summary is reached; the

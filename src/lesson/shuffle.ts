@@ -1,4 +1,5 @@
 import type { Screen } from '../types';
+import { scannerRowsOf } from '../types';
 
 /**
  * Where an answer sits must never be the answer. Authors tend to write the
@@ -39,8 +40,10 @@ export function dealScreen(screen: Screen, seed: number): Screen {
       for (const [slot, list] of Object.entries(screen.chips)) chips[slot] = shuffle(list, rand);
       return { ...screen, chips };
     }
-    case 'scanner-pick':
-      return { ...screen, rows: shuffle(screen.rows, rand) };
+    case 'scanner-pick': {
+      const rows = shuffle(scannerRowsOf(screen), rand);
+      return screen.data ? { ...screen, data: { ...screen.data, rows } } : { ...screen, rows };
+    }
     default:
       return screen;
   }

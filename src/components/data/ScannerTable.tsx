@@ -1,10 +1,34 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { signedPercent } from '../../format';
+import { price, signedPercent } from '../../format';
 import { surfaceStyle, tint, useLookSpec } from '../../lesson/look';
 import { colors, radius, space, type } from '../../theme';
 import type { ScannerRow } from '../../types';
+
+type Column = {
+  key: keyof ScannerRow;
+  head: string;
+  cell: (row: ScannerRow) => string;
+  color?: (row: ScannerRow) => string;
+};
+
+/**
+ * Every column the schema allows, in reading order. A table shows the ones its
+ * rows actually carry: a column of dashes is noise the learner has to read past.
+ */
+const COLUMNS: Column[] = [
+  { key: 'price', head: 'Price', cell: (r) => (r.price !== undefined ? price(r.price) : '—') },
+  {
+    key: 'change_pct',
+    head: '%',
+    cell: (r) => (r.change_pct !== undefined ? signedPercent(r.change_pct) : '—'),
+    color: (r) => ((r.change_pct ?? 0) >= 0 ? colors.up : colors.down),
+  },
+  { key: 'rvol', head: 'RVol', cell: (r) => (r.rvol !== undefined ? `${r.rvol.toFixed(1)}x` : '—') },
+  { key: 'float', head: 'Float', cell: (r) => r.float ?? '—' },
+  { key: 'spread', head: 'Spread', cell: (r) => (r.spread !== undefined ? r.spread.toFixed(2) : '—') },
+];
 
 /** docs/UI.md §6.8 — the mock scanner / watchlist table. */
 export default function ScannerTable({
@@ -23,18 +47,22 @@ export default function ScannerTable({
   // in the look's own surface, with a radio mark that fills when picked. Read
   // only, they stay a table.
   const tappable = !!onTapRow;
+  const columns = COLUMNS.filter((c) => rows.some((r) => r[c.key] !== undefined));
   return (
     <View style={[styles.wrap, tappable && styles.wrapCards]}>
       <View style={[styles.headRow, tappable && styles.headRowCards]}>
         <Text style={[styles.head, styles.cTicker]}>Ticker</Text>
-        <Text style={[styles.head, styles.cNum]}>%</Text>
-        <Text style={[styles.head, styles.cNum]}>RVol</Text>
-        <Text style={[styles.head, styles.cNum]}>Spread</Text>
+        {columns.map((c) => (
+          <Text key={c.key} style={[styles.head, styles.cNum]}>
+            {c.head}
+          </Text>
+        ))}
       </View>
       {rows.map((row) => (
         <Pressable
           accessibilityRole="button"
           key={row.ticker}
+          testID={`row-${row.ticker}`}
           disabled={!onTapRow}
           onPress={() => onTapRow?.(row.ticker)}
           style={({ pressed }) => [
@@ -70,21 +98,14 @@ export default function ScannerTable({
             <Text style={styles.ticker}>{row.ticker}</Text>
             {row.catalyst ? <Text style={styles.catalyst}>{row.catalyst}</Text> : null}
           </View>
-          <Text
-            style={[
-              styles.cell,
-              styles.cNum,
-              { color: (row.change_pct ?? 0) >= 0 ? colors.up : colors.down },
-            ]}
-          >
-            {row.change_pct !== undefined ? signedPercent(row.change_pct) : '—'}
-          </Text>
-          <Text style={[styles.cell, styles.cNum]}>
-            {row.rvol !== undefined ? `${row.rvol.toFixed(1)}x` : '—'}
-          </Text>
-          <Text style={[styles.cell, styles.cNum]}>
-            {row.spread !== undefined ? row.spread.toFixed(2) : '—'}
-          </Text>
+          {columns.map((c) => (
+            <Text
+              key={c.key}
+              style={[styles.cell, styles.cNum, c.color ? { color: c.color(row) } : null]}
+            >
+              {c.cell(row)}
+            </Text>
+          ))}
         </Pressable>
       ))}
     </View>

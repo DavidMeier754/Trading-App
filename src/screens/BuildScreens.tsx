@@ -21,8 +21,29 @@ import { Prompt, ToneSurface } from './common';
  * different labels: a row of named slots, a chip tray per slot, and a reveal
  * that grades each slot on its own. One component serves both.
  */
+/** The fields' names as a person reads them; the schema's keys are terse. */
+const SLOT_LABEL: Record<string, string> = {
+  side: 'Side',
+  type: 'Order type',
+  qty: 'Share count',
+  price: 'Price',
+  stop: 'Stop',
+  target: 'Target',
+  tif: 'Time in force',
+  r_risked: 'R risked',
+  r_made: 'R made',
+};
+
+function slotLabel(slot: string): string {
+  const known = SLOT_LABEL[slot];
+  if (known) return known;
+  const words = copy(slot).replace(/_/g, ' ');
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 function SlotBuilder({
   prompt,
+  heading,
   slots,
   chips,
   answer,
@@ -31,6 +52,8 @@ function SlotBuilder({
   revealed,
 }: {
   prompt: string;
+  /** A line over the fields: whose ticket this is. */
+  heading?: string;
   slots: string[];
   chips: Record<string, string[]>;
   answer: Record<string, string>;
@@ -55,6 +78,7 @@ function SlotBuilder({
       <Prompt>{prompt}</Prompt>
 
       <View style={styles.slotList}>
+        {heading ? <Text style={styles.heading}>{heading}</Text> : null}
         {slots.map((slot) => (
           <ToneSurface
             key={slot}
@@ -65,7 +89,7 @@ function SlotBuilder({
             }}
             style={styles.slot}
           >
-            <Text style={styles.slotLabel}>{copy(slot)}</Text>
+            <Text style={styles.slotLabel}>{slotLabel(slot)}</Text>
             <Text style={[styles.slotValue, !filled[slot] && styles.slotEmpty]}>
               {filled[slot] ?? 'tap to fill'}
             </Text>
@@ -80,7 +104,7 @@ function SlotBuilder({
         <View style={[styles.tray, surfaceStyle(look)]}>
           <Text style={styles.trayLabel}>
             {'Pick the '}
-            <Text style={{ color: look.accent }}>{copy(active).toLowerCase()}</Text>
+            <Text style={{ color: look.accent }}>{slotLabel(active).toLowerCase()}</Text>
           </Text>
           <View key={active} style={styles.chips}>
             {(chips[active] ?? []).map((chip, i) => {
@@ -123,14 +147,14 @@ function SlotBuilder({
             })}
           </View>
         </View>
-      ) : (
+      ) : slots.every((slot) => filled[slot] === answer[slot]) ? null : (
         <View style={styles.tray}>
           <Text style={styles.trayLabel}>Intended</Text>
           {slots
             .filter((slot) => filled[slot] !== answer[slot])
             .map((slot) => (
               <Text key={slot} style={styles.fixLine}>
-                {`${copy(slot)}: `}
+                {`${slotLabel(slot)}: `}
                 <Text style={{ color: colors.success }}>{answer[slot]}</Text>
               </Text>
             ))}
@@ -149,6 +173,7 @@ export function OrderBuildScreen(props: {
   return (
     <SlotBuilder
       prompt={props.screen.prompt}
+      heading={props.screen.ticker ? `Order ticket · ${props.screen.ticker}` : undefined}
       slots={props.screen.slots}
       chips={props.screen.chips}
       answer={props.screen.answer}
@@ -317,6 +342,7 @@ export function BranchScreen({
 const styles = StyleSheet.create({
   wrap: { flex: 1, justifyContent: 'center', gap: space.lg },
   slotList: { gap: space.sm },
+  heading: { ...type.label, color: colors.textMuted, textTransform: 'uppercase', letterSpacing: 1 },
   slot: {
     minHeight: TAP_TARGET,
     paddingHorizontal: space.md,

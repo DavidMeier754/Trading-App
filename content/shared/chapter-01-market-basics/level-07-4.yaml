@@ -13,7 +13,7 @@ prerequisite: "7-3"
 xp: 25
 difficulty: 2
 sources: [consensus]
-notes: "Drill sub for this block: nine decisions and no teaching. Account named at $6,000; the largest position worked here is 450 × $12.80 = $5,760."
+notes: "Drill sub for this block: nine decisions and no teaching. Account named at $6,000; the largest position worked here is 250 × $21.60 = $5,400."
 screens:
   - type: intro
     text: "No teaching in this one. Decide first, read afterwards."
@@ -59,13 +59,13 @@ screens:
     explanation: "A fifth of everything the stock normally does in a day, sitting in one position."
 
   - type: chart-decision
-    scenario: "RUSK trades 9,000 shares on a normal day. It has climbed for six minutes to $12.80 and you are looking at 450 shares, a twentieth of a normal day. Buy, or wait?"
+    scenario: "RUSK trades 9,000 shares on a normal day. It has climbed for six minutes to $11.80 and you are looking at 450 shares, a twentieth of a normal day. Buy, or wait?"
     shares: 450
-    chart: {kind: line, data: [12.30, 12.36, 12.34, 12.50, 12.66, 12.80, 12.88, 12.84, 12.90, 12.86], decision_index: 5}
+    chart: {kind: line, data: [11.30, 11.36, 11.34, 11.50, 11.66, 11.80, 11.88, 11.84, 11.90, 11.86], decision_index: 5}
     buttons: [buy, wait]
     best: wait
     reasonable: [buy]
-    outcome: "It edged up to $12.86: six cents, or +$27 on 450 shares, and the last of those 450 would have needed three prices to sell."
+    outcome: "It edged up to $11.86: six cents, or +$27 on 450 shares, and the last of those 450 would have needed three prices to sell."
     explanation: "The chart was fine. The stock was not, and a small gain does not begin to pay for what leaving 450 shares of RUSK would cost."
 
   - type: spot-mistake

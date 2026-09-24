@@ -13,19 +13,19 @@ prerequisite: "9-1"
 xp: 25
 difficulty: 3
 sources: [consensus]
-notes: "Drill sub: three decisions, a managed exit and a deck, with no teaching screens. Account named at $6,000; the largest position worked here is 250 × $23.20 = $5,800."
+notes: "Drill sub: three decisions, a managed exit and a deck, with no teaching screens. Account named at $6,000; the largest position worked here is 250 × $22.20 = $5,550."
 screens:
   - type: intro
     text: "The same charts you have been reading. This time the stock behind them decides the answer."
 
   - type: chart-decision
-    scenario: "TIDE trades 4.2 M shares on a normal day. It has stepped higher for six minutes to $23.20. You have a $6,000 account and are looking at 250 shares. Buy, or wait?"
+    scenario: "TIDE trades 4.2 M shares on a normal day. It has stepped higher for six minutes to $22.20. You have a $6,000 account and are looking at 250 shares. Buy, or wait?"
     shares: 250
-    chart: {kind: line, data: [22.70, 22.76, 22.74, 22.90, 23.06, 23.20, 23.32, 23.44, 23.52, 23.58], decision_index: 5}
+    chart: {kind: line, data: [21.70, 21.76, 21.74, 21.90, 22.06, 22.20, 22.32, 22.44, 22.52, 22.58], decision_index: 5}
     buttons: [buy, wait]
     best: buy
     reasonable: [wait]
-    outcome: "It reached $23.58 — 38 cents a share, +$95 on 250 shares."
+    outcome: "It reached $22.58 — 38 cents a share, +$95 on 250 shares."
     explanation: "A direction on the chart, and a stock in which 250 shares is nothing at all."
 
   - type: chart-decision
@@ -39,37 +39,37 @@ screens:
     explanation: "The chart said the same thing both times. 250 shares is a thirty-sixth of everything RUSK does in a day, and that is what makes it a different trade."
 
   - type: branch
-    scenario: "You are holding 500 shares of RUSK, bought at $12.90. It trades about 9,000 shares on a normal day."
-    shares: 500
+    scenario: "You are holding 400 shares of RUSK, bought at $12.90. It trades about 9,000 shares on a normal day."
+    shares: 400
     chart:
       kind: line
       data: [12.90, 12.96, 13.02, 12.94, 12.80, 12.66, 12.58, 12.62, 12.55, 12.50]
       decision_index: 4
     steps:
-      - prompt: "The price has turned and is back through your entry at $12.80. You would like out. What is the first thing to check?"
+      - prompt: "The price has turned and is back below your entry, at $12.80. You would like out. What is the first thing to check?"
         options:
           - {text: "How many shares are wanted near this price", correct: true, next: 1}
           - {text: "What the company announced this morning", next: 1}
         explanation: "In a stock this thin the question is never what the price is. It is how much of it there is at that price."
-      - prompt: "There are 120 shares wanted at $12.80 and the next buyers sit at $12.68. What does selling all 500 now look like?"
+      - prompt: "There are 120 shares wanted at $12.80 and the next buyers sit at $12.68. What does selling all 400 now look like?"
         options:
-          - {text: "120 at $12.80 and 380 of them lower down", correct: true}
-          - {text: "All 500 at $12.80"}
-        explanation: "You take what is there and then walk down to the next buyers, and 380 shares is far past 120."
+          - {text: "120 at $12.80 and 280 of them lower down", correct: true}
+          - {text: "All 400 at $12.80"}
+        explanation: "You take what is there and then walk down to the next buyers, and 280 shares is far past 120."
       - prompt: "What would have prevented most of that?"
         options:
           - {text: "A position RUSK could take back in one go", correct: true}
           - {text: "Buying at a slightly better price"}
-        explanation: "Two cents on the entry would not have mattered. 500 shares in a stock that trades 9,000 a day is what did."
+        explanation: "Two cents on the entry would not have mattered. 400 shares in a stock that trades 9,000 a day is what did."
 
   - type: numeric-mc
-    prompt: "You sell those 500 shares and the average comes out 14 cents below the price you were looking at. What did that cost?"
+    prompt: "You sell those 400 shares and the average comes out 14 cents below the price you were looking at. What did that cost?"
     options:
-      - {text: "$7"}
+      - {text: "$5.60"}
       - {text: "$14"}
-      - {text: "$70", correct: true}
-      - {text: "$700"}
-    working: "$0.14 × 500 shares = $70"
+      - {text: "$56", correct: true}
+      - {text: "$560"}
+    working: "$0.14 × 400 shares = $56"
     explanation: "Paid for size, not for being wrong about the direction."
 
   - type: chart-decision

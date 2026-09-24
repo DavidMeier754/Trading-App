@@ -131,6 +131,12 @@ export type ChartSpec = {
   volume?: number[];
   levels?: ChartLevel[];
   vwap?: number[];
+  /**
+   * Not authored: a price range the frame must at least cover. The renderer
+   * sets it so the lines of a `series` share one scale and a calm line stays
+   * flat next to a volatile one.
+   */
+  range?: [number, number];
 };
 
 export type DecisionButton = 'long' | 'short' | 'no-trade' | 'buy' | 'wait';
@@ -286,6 +292,8 @@ export type MiniChart = {
   kind?: 'line' | 'candles';
   data: any[];
   levels?: ChartLevel[];
+  /** Not authored: see ChartSpec.range. */
+  range?: [number, number];
 };
 
 export type SwipeDeckScreen = {
@@ -310,6 +318,7 @@ export type ChartAnnotateScreen = {
 export type OrderBuildScreen = {
   type: 'order-build';
   prompt: string;
+  ticker?: string;
   slots: string[];
   chips: Record<string, string[]>;
   answer: Record<string, string>;
@@ -329,10 +338,23 @@ export type ScannerRow = {
 export type ScannerPickScreen = {
   type: 'scanner-pick';
   prompt: string;
-  rows: ScannerRow[];
-  target: string;
+  /** docs/schema.md: the rows sit under `data`, like a visual's. */
+  data?: { rows: ScannerRow[] };
+  /** The older, flat form (the test bench). */
+  rows?: ScannerRow[];
+  target?: string;
+  /** docs/schema.md: "or targets: [XYZ, DEF]" -- any one of them is right. */
+  targets?: string[];
   explanation: string;
 };
+
+export function scannerRowsOf(screen: ScannerPickScreen): ScannerRow[] {
+  return screen.data?.rows ?? screen.rows ?? [];
+}
+
+export function scannerTargetsOf(screen: ScannerPickScreen): string[] {
+  return screen.targets ?? (screen.target ? [screen.target] : []);
+}
 
 export type CompareScreen = {
   type: 'compare';

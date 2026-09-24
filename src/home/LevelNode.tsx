@@ -10,7 +10,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import Svg, { Circle } from 'react-native-svg';
+import Svg, { Circle, Path } from 'react-native-svg';
 
 import { unlockFeedback } from '../lesson/feedback';
 import { EASE_OUT, EASE_SINE, SPRING_POP, usePressFeedback } from '../lesson/motion';
@@ -37,8 +37,8 @@ const GOLD = colors.warning;
  * pops its lock. The first time the path is drawn nothing moves -- there is no
  * "before" to move from.
  */
-const shownFill = new Map<number, number>();
-const shownStatus = new Map<number, LevelStatus>();
+const shownFill = new Map<string, number>();
+const shownStatus = new Map<string, LevelStatus>();
 
 /** After a reset the path is drawn fresh, not drained ring by ring. */
 export function forgetShownPath(): void {
@@ -73,8 +73,8 @@ export const UNLOCK = {
 } as const;
 
 /** What a level showed the last time the path was drawn, if it has been. */
-export function shownStatusOf(n: number): LevelStatus | undefined {
-  return shownStatus.get(n);
+export function shownStatusOf(key: string): LevelStatus | undefined {
+  return shownStatus.get(key);
 }
 
 export default function LevelNode({
@@ -88,7 +88,8 @@ export default function LevelNode({
   unlocking?: boolean;
 }) {
   const reduced = useReduceMotion();
-  const n = view.level.number;
+  const n = view.level.key;
+  const kind = view.level.kind;
   const target = view.done / view.total;
   const before = shownFill.get(n);
   const beforeStatus = shownStatus.get(n);
@@ -178,6 +179,20 @@ export default function LevelNode({
   const complete = view.status === 'complete';
   const face = locked ? colors.surfaceAlt : complete ? colors.success : colors.accent;
   const ringColor = view.perfect ? GOLD : complete ? colors.success : colors.accent;
+  // docs/UI.md §7.1: Checkpoints are shields and the Final Exam a trophy, so a
+  // scored level reads as one from across the map; the path choice is a
+  // signpost. Ordinary levels are round.
+  const round = kind !== 'test';
+  const what =
+    kind === 'test' ? 'Checkpoint' : kind === 'final' ? 'Final Exam' : kind === 'path' ? 'Path choice' : 'Level';
+  const glyph =
+    kind === 'final' ? (
+      <Icon name="trophy" size={34} color="#FFFFFF" />
+    ) : kind === 'path' ? (
+      <Icon name="signpost" size={34} color="#FFFFFF" />
+    ) : (
+      <Text style={[styles.number, kind === 'test' && styles.numberShield]}>{view.level.number}</Text>
+    );
 
   const tagDelay = unlocking ? (reduced ? 400 : UNLOCK.tag) : 0;
   return (
@@ -211,8 +226,8 @@ export default function LevelNode({
       <Animated.View style={[styles.nodeWrap, press.style, popStyle]}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`Level ${n}: ${view.level.title}. ${
-            locked ? 'Locked' : `${view.done} of ${view.total} lessons done`
+          accessibilityLabel={`${what}${view.level.number ? ` ${view.level.number}` : ''}: ${view.level.title}. ${
+            locked ? 'Locked' : complete ? 'Done' : kind === 'lesson' ? `${view.done} of ${view.total} lessons done` : 'Open'
           }`}
           onPressIn={press.onPressIn}
           onPressOut={press.onPressOut}
@@ -220,19 +235,27 @@ export default function LevelNode({
           hitSlop={8}
           style={[
             styles.node,
-            { backgroundColor: face },
-            locked && styles.nodeLocked,
+            round && { backgroundColor: face },
+            round && locked && styles.nodeLocked,
           ]}
         >
+          {round ? null : <ShieldFace color={face} locked={locked} />}
           {/* The level keeps its number for good; a finished one wears a
               check beside it rather than in place of it. */}
+          {/* Above the shield, which is drawn absolutely and would otherwise cover it. */}
           {locked ? (
-            <Icon name="lock" size={26} color={colors.textFaint} />
+            <View style={styles.glyph}>
+              <Icon name="lock" size={26} color={colors.textFaint} />
+            </View>
           ) : (
-            <Animated.Text style={[styles.number, digitStyle]}>{n}</Animated.Text>
+            <Animated.View style={[styles.glyph, digitStyle]}>{glyph}</Animated.View>
           )}
           {unlocking ? (
-            <Animated.View pointerEvents="none" style={[styles.cover, coverStyle]}>
+            <Animated.View
+              pointerEvents="none"
+              style={[styles.cover, !round && styles.coverShield, coverStyle]}
+            >
+              {round ? null : <ShieldFace color={colors.surfaceAlt} locked />}
               <Animated.View style={lockStyle}>
                 <Icon name="lock" size={26} color={colors.textFaint} />
               </Animated.View>
@@ -250,6 +273,20 @@ export default function LevelNode({
       </Animated.View>
       {current ? <Bubble label={view.done === 0 ? 'START' : 'CONTINUE'} delay={tagDelay} /> : null}
     </View>
+  );
+}
+
+/** A Checkpoint's face: a shield filling the button, drawn so it keeps its outline at any size. */
+function ShieldFace({ color, locked }: { color: string; locked: boolean }) {
+  return (
+    <Svg width={NODE} height={NODE} viewBox="0 0 72 72" style={StyleSheet.absoluteFill}>
+      <Path
+        d="M36 3 8 13v20c0 17 11.5 30.5 28 36 16.5-5.5 28-19 28-36V13z"
+        fill={color}
+        stroke={locked ? '#3A4553' : 'none'}
+        strokeWidth={1.5}
+      />
+    </Svg>
   );
 }
 
@@ -357,6 +394,10 @@ const styles = StyleSheet.create({
     borderColor: colors.accent,
   },
   number: { fontSize: 28, lineHeight: 32, fontWeight: '800', color: '#FFFFFF' },
+  // A shield is narrower at the foot: its number sits a touch high.
+  numberShield: { marginTop: -6 },
+  glyph: { zIndex: 1 },
+  coverShield: { backgroundColor: 'transparent', borderWidth: 0 },
   halo: {
     position: 'absolute',
     width: NODE,

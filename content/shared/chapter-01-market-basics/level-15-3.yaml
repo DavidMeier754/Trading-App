@@ -13,7 +13,7 @@ prerequisite: "15-2"
 xp: 25
 difficulty: 3
 sources: [consensus]
-notes: "Account named at $5,000; the largest position worked here is 300 × $16.10 = $4,830 in LUMA. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+notes: "Account named at $5,000; the largest position worked here is 250 × $18.95 = $4,737.50 in PINE. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
 screens:
   - type: intro
     text: "Three decisions, all of them inside the same rising market."
@@ -26,18 +26,18 @@ screens:
     body: "In a rising market more stocks rise than fall on an average day. The one in front of you is still settled by the buyers and sellers in it, today. You have $5,000 in the account for all three of these."
 
   - type: chart-decision
-    scenario: "The broad market has risen for three months. LUMA, which trades about 1.6 M shares a day, has stepped higher for six minutes on volume well above its usual. It is at $16.10 and you are looking at 300 shares."
-    shares: 300
+    scenario: "The broad market has risen for three months. LUMA, which trades about 1.6 M shares a day, has stepped higher for six minutes on volume well above its usual. It is at $16.10 and you are looking at 250 shares."
+    shares: 250
     chart: {kind: line, data: [15.70, 15.76, 15.74, 15.88, 16.00, 16.10, 16.18, 16.28, 16.34, 16.42], decision_index: 5}
     best: long
     reasonable: [no-trade]
-    outcome: "It carried on to $16.42 — 32 cents a share, +$96 on 300 shares."
+    outcome: "It carried on to $16.42 — 32 cents a share, +$80 on 250 shares."
     explanation: "The weather and the stock point the same way, and the position is one the account can pay for."
 
   - type: chart-decision
     scenario: "The same rising market, the same morning. PINE has made a lower high every two minutes and the last step down was the largest of them. It is at $18.95 and you are looking at 250 shares."
     shares: 250
-    chart: {kind: line, data: [19.60, 19.48, 19.52, 19.30, 19.12, 18.95, 18.88, 18.72, 18.64, 18.58], decision_index: 5}
+    chart: {kind: line, data: [19.60, 19.48, 19.52, 19.36, 19.20, 18.95, 18.88, 18.72, 18.64, 18.58], decision_index: 5}
     best: short
     reasonable: [no-trade]
     outcome: "It finished at $18.58 — 37 cents of ground, $92.50 on a 250-share short."

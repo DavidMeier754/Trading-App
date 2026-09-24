@@ -25,6 +25,7 @@ export default function OrderTicket({
     <Pressable
       accessibilityRole="button"
       key={id}
+      testID={`target-${id}`}
       disabled={!onTapTarget}
       onPress={() => onTapTarget?.(id)}
       style={[styles.field, highlight?.[id] ? { borderColor: highlight[id] } : null]}

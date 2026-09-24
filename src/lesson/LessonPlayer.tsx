@@ -35,7 +35,8 @@ import {
   WalkthroughScreen,
 } from '../screens/StaticScreens';
 import { BadgeScreen, TierUpScreen } from '../screens/RewardScreens';
-import Summary from './Summary';
+import Summary, { scoreOf } from './Summary';
+import { NodeKind, PATHS, TradingPath } from '../content';
 import {
   ChartTapScreen,
   DepthLadderScreen,
@@ -84,7 +85,7 @@ import { emitMood, useLookSpec } from './look';
 import { preloadCues } from './sound';
 import HeartMeter from './HeartMeter';
 import OutOfHearts from './OutOfHearts';
-import { getProgress, heartsNow, loseHeart } from '../progress';
+import { getProgress, heartsNow, loseHeart, savePlan } from '../progress';
 import StreakMeter from './StreakMeter';
 import { VerdictProvider } from './verdict';
 
@@ -95,6 +96,9 @@ export default function LessonPlayer({
   onComplete,
   startAt = 0,
   testBench = false,
+  kind = 'lesson',
+  onChoosePath,
+  initialPath = null,
 }: {
   level: Level;
   contentWidth: number;
@@ -113,8 +117,19 @@ export default function LessonPlayer({
    * A real lesson has neither -- docs/UI.md §2, no back button in a lesson.
    */
   testBench?: boolean;
+  /**
+   * What the node on the path is (content.ts). A Checkpoint or Final Exam is
+   * scored at its `summary` screen: a pass counts it, a miss offers a retry
+   * and counts nothing. The path choice ends the moment a path is picked.
+   */
+  kind?: NodeKind;
+  /** The path choice was made (kind `path`). */
+  onChoosePath?: (path: TradingPath) => void;
+  /** The path already chosen, pre-selected when the choice is made again. */
+  initialPath?: string | null;
 }) {
   const insets = useSafeAreaInsets();
+  const scored = kind === 'test' || kind === 'final';
   const [runKey, setRunKey] = useState(0);
   // Every list of choices is dealt afresh each run (lesson/shuffle.ts), and the
   // dealt screens are the ones shown and graded.
@@ -153,8 +168,11 @@ export default function LessonPlayer({
   // (docs/schema.md), so they hold a cursor the CTA advances before the index does.
   const [cursor, setCursor] = useState(0);
   // The learner's own plan, for this run (docs/schema.md, "The plan").
-  const [plan, setPlan] = useState<Record<string, string>>({});
-  const [pathChoice, setPathChoice] = useState<string | null>(null);
+  // docs/UI.md §3 `plan-card`: the learner's plan is theirs to keep. A card
+  // opens on what they wrote before, and what they write is saved as they go.
+  const [plan, setPlan] = useState<Record<string, string>>(() => ({ ...getProgress().plan }));
+  // Changing a path opens on the one already chosen.
+  const [pathChoice, setPathChoice] = useState<string | null>(initialPath);
 
   // A screen change is a beat, not a cut: the outgoing screen fades and slides
   // left, the incoming one arrives from the right while the progress bar fills.
@@ -216,11 +234,13 @@ export default function LessonPlayer({
   // §5.3). Perfect is the summary's own rule: every graded answer right.
   const reported = useRef(-1);
   useEffect(() => {
+    // Scored levels and the path choice report on their own terms (onCta).
+    if (kind !== 'lesson') return;
     if (!atSummary || !onComplete || reported.current === runKey) return;
     reported.current = runKey;
     const answered = grades.filter((g) => g !== null);
     onComplete({ perfect: answered.length > 0 && answered.every((g) => g === 'correct') });
-  }, [atSummary, onComplete, runKey, grades]);
+  }, [atSummary, onComplete, runKey, grades, kind]);
   const screen = atSummary ? null : screens[index];
   const decisionPhase: DecisionPhase = phaseAt.index === index ? phaseAt.phase : 'deciding';
   const setDecisionPhase = useCallback(
@@ -239,8 +259,8 @@ export default function LessonPlayer({
     setStreaks(screens.map(() => 0));
     setPhaseAt({ index: -1, phase: 'deciding' });
     setCursor(0);
-    setPlan({});
-    setPathChoice(null);
+    setPlan({ ...getProgress().plan });
+    setPathChoice(initialPath);
     setRunKey((k) => k + 1);
     setSettledAt(-1);
     setOutOfHearts(false);
@@ -340,16 +360,26 @@ export default function LessonPlayer({
     setIndex((i) => Math.max(0, i - 1));
   };
 
+  // A test's score, for its summary screen's button (Summary.tsx).
+  const score = useMemo(() => scoreOf(screens, grades), [screens, grades]);
+  const failedTest = scored && screen?.type === 'summary' && !score.passed;
+  const pathName = PATHS.find((p) => p.id === pathChoice)?.name;
+
   const ctaLabel = useMemo(() => {
     if (outOfHearts) return 'Back to path';
     if (!screen) return onComplete ? 'Continue' : 'Play again';
+    if (failedTest) return 'Retry';
+    if (scored && screen.type === 'summary') return 'Continue';
+    if (kind === 'path' && screen.type === 'path-choice') {
+      return pathName ? `Start ${pathName}` : 'Pick a path';
+    }
     if (screen.type === 'checklist-reveal' && cursor < screen.items.length) {
       return cursor === 0 ? 'Start the list' : 'Next item';
     }
     if (!isQuestion(screen)) return isLast ? 'Finish' : 'Continue';
     if (!isRevealed) return 'Check';
     return isLast ? 'Finish' : 'Got it';
-  }, [screen, isLast, isRevealed, cursor, onComplete, outOfHearts]);
+  }, [screen, isLast, isRevealed, cursor, onComplete, outOfHearts, failedTest, kind, pathName, scored]);
 
   // A type that commits on tap has no Check state, so before the reveal there is
   // simply no CTA to show — the answer itself is the button.
@@ -427,6 +457,24 @@ export default function LessonPlayer({
       direction.current = 1;
       emitMood('calm');
       setOutOfHearts(true);
+      return;
+    }
+    // docs/UI.md §3 `summary`: below the pass mark the button retries, from
+    // the top, with the questions dealt afresh.
+    if (failedTest) {
+      reset();
+      return;
+    }
+    if (kind === 'path' && screen.type === 'path-choice') {
+      if (pathChoice) onChoosePath?.(pathChoice as TradingPath);
+      leave();
+      return;
+    }
+    // A passed test ends on its last screen -- the summary, or the badge after
+    // a Final Exam -- and goes back to the path, where the next level opens.
+    if (scored && isLast) {
+      if (score.passed) onComplete?.({ perfect: score.perfect });
+      leave();
       return;
     }
     advance();
@@ -525,10 +573,15 @@ export default function LessonPlayer({
             cursor,
             setCursor,
             plan,
-            setPlanValue: (key, v) => setPlan((prev) => ({ ...prev, [key]: v })),
+            setPlanValue: (key, v) => {
+              setPlan((prev) => ({ ...prev, [key]: v }));
+              if (spendsHearts) savePlan({ [key]: v });
+            },
             pathChoice,
             setPathChoice,
             onSettled,
+            allScreens: screens,
+            grades,
           })
         )}
         </VerdictProvider>
@@ -572,6 +625,17 @@ export default function LessonPlayer({
             hidden={held && !outOfHearts}
           />
         )}
+        {failedTest && !outOfHearts ? (
+          <Pressable
+            accessibilityRole="button"
+            onPressIn={tapFeedback}
+            onPress={() => (onQuit ? leave() : reset())}
+            hitSlop={8}
+            style={styles.secondary}
+          >
+            <Text style={styles.secondaryText}>Back to path</Text>
+          </Pressable>
+        ) : null}
       </View>
 
       <QuitSheet
@@ -602,6 +666,9 @@ function renderScreen(props: {
   pathChoice: string | null;
   setPathChoice: (id: string) => void;
   onSettled: () => void;
+  /** Every screen of the run and its grade, for a test's `summary`. */
+  allScreens: Screen[];
+  grades: (Grade | null)[];
 }) {
   const {
     screen,
@@ -618,6 +685,8 @@ function renderScreen(props: {
     pathChoice,
     setPathChoice,
     onSettled,
+    allScreens,
+    grades,
   } = props;
 
   const q = { value, onChange: setValue, revealed: isRevealed };
@@ -718,7 +787,7 @@ function renderScreen(props: {
       // docs/schema.md keeps `summary` for tests and final exams, where a pass
       // mark and a retry make the per-question list mean something. A lesson
       // ends on LessonComplete instead.
-      return <Summary screens={[]} grades={[]} levelTitle={level.title} />;
+      return <Summary screens={allScreens} grades={grades} levelTitle={level.title} xp={level.xp} />;
 
     // --- docs/UI.md §4.1, the remaining v2 question types ---
     case 'fill-choice':
@@ -779,6 +848,8 @@ const styles = StyleSheet.create({
   page: { ...type.label, color: colors.textMuted, fontVariant: ['tabular-nums'] },
   scroll: { flex: 1 },
   content: { flexGrow: 1, paddingHorizontal: space.lg, paddingBottom: space.lg },
+  secondary: { alignSelf: 'center', paddingVertical: space.xs, paddingHorizontal: space.md },
+  secondaryText: { ...type.label, color: colors.textMuted },
   footer: {
     paddingHorizontal: space.lg,
     paddingTop: space.md,

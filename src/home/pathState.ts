@@ -1,4 +1,4 @@
-import { LessonEntry, PATH, PathLevel } from '../content';
+import { Chapter, chaptersFor, LessonEntry, PathLevel } from '../content';
 import type { Progress } from '../progress';
 
 /**
@@ -6,8 +6,10 @@ import type { Progress } from '../progress';
  *
  * A level opens once every level before it is finished -- the files chain each
  * sub-level to the one before through `prerequisite`, so this is the same
- * order, read a level at a time. Within a level, Start opens the first lesson
- * not yet done; a finished level offers its first lesson again for review.
+ * order, read a level at a time, across chapters: Chapter 1, the path choice
+ * that closes it, then the chosen path's chapters. Within a level, Start opens
+ * the first lesson not yet done; a finished level offers its first lesson
+ * again for review.
  */
 export type LevelStatus = 'locked' | 'current' | 'complete';
 
@@ -26,28 +28,66 @@ export type LevelView = {
   nextIndex: number;
 };
 
-export function pathView(progress: Progress, path: PathLevel[] = PATH): LevelView[] {
+export type ChapterView = {
+  chapter: Chapter;
+  levels: LevelView[];
+  /** Levels finished, of all of them: the header's "7/17". */
+  done: number;
+  total: number;
+  status: LevelStatus;
+};
+
+/** The map for this learner: Chapter 1, and their path's chapters once one is chosen. */
+export function chapterViews(progress: Progress): ChapterView[] {
   let open = true;
-  return path.map((level) => {
-    const doneFlags = level.subs.map((entry) => !!progress.done[entry.id]);
-    const done = doneFlags.filter(Boolean).length;
-    const total = level.subs.length;
-    const complete = done === total;
-    const status: LevelStatus = complete ? 'complete' : open ? 'current' : 'locked';
-    if (!complete) open = false;
-    const firstOpen = doneFlags.indexOf(false);
-    const nextIndex = firstOpen === -1 ? 0 : firstOpen;
+  return chaptersFor(progress.path).map((chapter) => {
+    const levels = chapter.levels.map((level) => {
+      const view = levelView(progress, level, open);
+      if (view.status !== 'complete') open = false;
+      return view;
+    });
+    // Counted in levels as docs/curriculum.md numbers them: the path choice is
+    // a step of its own, not one of Chapter 1's 17.
+    const counted = levels.filter((v) => v.level.kind !== 'path');
+    const done = counted.filter((v) => v.status === 'complete').length;
     return {
-      level,
-      status,
+      chapter,
+      levels,
       done,
-      doneFlags,
-      total,
-      perfect: complete && level.subs.every((entry) => progress.done[entry.id]?.perfect),
-      next: level.subs[nextIndex],
-      nextIndex,
+      total: Math.max(chapter.planned, counted.length),
+      status: levels.every((v) => v.status === 'complete')
+        ? 'complete'
+        : levels.some((v) => v.status !== 'locked')
+          ? 'current'
+          : 'locked',
     };
   });
+}
+
+/** Every node of the map, in order. */
+export function pathView(progress: Progress): LevelView[] {
+  return chapterViews(progress).flatMap((c) => c.levels);
+}
+
+function levelView(progress: Progress, level: PathLevel, open: boolean): LevelView {
+  const doneFlags = level.subs.map((entry) => !!progress.done[entry.id]);
+  const done = doneFlags.filter(Boolean).length;
+  const total = level.subs.length;
+  const complete = done === total;
+  const status: LevelStatus = complete ? 'complete' : open ? 'current' : 'locked';
+  const firstOpen = doneFlags.indexOf(false);
+  const nextIndex = firstOpen === -1 ? 0 : firstOpen;
+  return {
+    level,
+    status,
+    done,
+    doneFlags,
+    total,
+    perfect:
+      complete && level.kind !== 'path' && level.subs.every((entry) => progress.done[entry.id]?.perfect),
+    next: level.subs[nextIndex],
+    nextIndex,
+  };
 }
 
 /** The level the learner is on: the first not finished, or the last when all are. */

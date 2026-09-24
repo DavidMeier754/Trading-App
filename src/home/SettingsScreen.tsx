@@ -20,12 +20,15 @@ import { Look, LOOKS, setLook, useLook } from '../lesson/look';
 import { EASE_OUT, SPRING_POP, usePressFeedback } from '../lesson/motion';
 import { setSoundEnabled, useSoundEnabled } from '../lesson/sound';
 import { MotionSetting, setMotionSetting, useMotionSetting, useReduceMotion } from '../lesson/useReduceMotion';
+import { chaptersFor, PathLevel, PATHS } from '../content';
 import {
+  choosePath,
   doneToday,
   heartsNow,
   MAX_HEARTS,
   refillHearts,
   resetProgress,
+  skipTo,
   streakDays,
   useHearts,
   useProgress,
@@ -35,7 +38,7 @@ import { colors, radius, space, type } from '../theme';
 import Icon from './icons';
 import { forgetShownPath } from './LevelNode';
 import LookPreview from './LookPreview';
-import { totalXp } from './pathState';
+import { pathView, totalXp } from './pathState';
 
 const ORDER = Object.keys(LOOKS) as Look[];
 const IS_WEB = Platform.OS === 'web';
@@ -136,11 +139,15 @@ export default function SettingsScreen({
           />
         </View>
 
+        <Text style={styles.section}>Your path</Text>
+        <PathRow />
+
         <Text style={styles.section}>Progress</Text>
         <ResetRow />
 
         <Text style={styles.section}>Testing</Text>
         <HeartsRow />
+        <SkipRow />
         <RowButton
           icon="flask"
           title="Every screen type"
@@ -402,6 +409,145 @@ function RowButton({
 }
 
 /**
+ * docs/UI.md §11.4: the path chosen after Chapter 1, changeable here. Before
+ * Chapter 1 is finished there is nothing to change yet, and it says so.
+ */
+function PathRow() {
+  const progress = useProgress();
+  const chosen = progress.path;
+  return (
+    <View style={styles.panel}>
+      {chosen ? (
+        <View style={styles.seg} accessibilityRole="radiogroup">
+          {PATHS.map((p) => {
+            const on = p.id === chosen;
+            return (
+              <Pressable
+                key={p.id}
+                accessibilityRole="radio"
+                accessibilityState={{ checked: on, disabled: !p.written }}
+                disabled={!p.written}
+                onPressIn={on ? undefined : tapFeedback}
+                onPress={() => choosePath(p.id)}
+                style={[styles.segItem, on && styles.segItemOn, !p.written && { opacity: 0.45 }]}
+              >
+                <Text style={[styles.segText, on && styles.segTextOn]} numberOfLines={1}>
+                  {p.name}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      ) : null}
+      <Text style={styles.rowSub}>
+        {chosen
+          ? 'Day Trading and Swing Trading are being written. What you finish on one path stays when you switch.'
+          : 'You choose your path at the end of Chapter 1. It can be changed here after that.'}
+      </Text>
+    </View>
+  );
+}
+
+/**
+ * Temporary, for testing: jump ahead to any level. Everything before it counts
+ * as done, with its XP; the level itself and what comes after are left as they
+ * are. Past Chapter 1 the path is set to Scalping, the one that is written.
+ */
+function SkipRow() {
+  const progress = useProgress();
+  const [open, setOpen] = useState(false);
+  const [landed, setLanded] = useState<string | null>(null);
+  const chapters = chaptersFor(progress.path ?? 'scalping');
+  const press = usePressFeedback(true, { cue: 'tick' });
+  const views = pathView(progress);
+  const here = views.find((v) => v.status === 'current');
+  const turn = useSharedValue(0);
+  useEffect(() => {
+    turn.set(withTiming(open ? 1 : 0, { duration: 200, easing: EASE_OUT }));
+  }, [open, turn]);
+  const chevron = useAnimatedStyle(() => ({ transform: [{ rotate: `${180 * turn.get()}deg` }] }));
+
+  return (
+    <View style={styles.skipCard}>
+      <Animated.View style={press.style}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ expanded: open }}
+          onPressIn={press.onPressIn}
+          onPressOut={press.onPressOut}
+          onPress={() => setOpen((o) => !o)}
+          style={styles.resetHead}
+        >
+          <View style={styles.rowIcon}>
+            <Icon name="next" size={22} color={colors.accent} />
+          </View>
+          <View style={styles.rowText}>
+            <Text style={styles.rowTitle}>Skip ahead</Text>
+            <Text style={styles.rowSub}>
+              {landed ?? (here ? `You are on ${labelOf(here.level)}. Pick a level to jump to.` : 'Pick a level to jump to.')}
+            </Text>
+          </View>
+          <Animated.View style={chevron}>
+            <Icon name="chevron-down" size={20} color={colors.textMuted} strokeWidth={2.4} />
+          </Animated.View>
+        </Pressable>
+      </Animated.View>
+      {open ? (
+        <Animated.View entering={FadeIn.duration(180)} style={styles.skipList}>
+          {chapters.map((chapter) => (
+            <View key={chapter.number} style={styles.skipChapter}>
+              <Text style={styles.skipChapterTitle}>{`Chapter ${chapter.number} · ${chapter.title}`}</Text>
+              {chapter.levels.map((level) => {
+                const view = views.find((v) => v.level.key === level.key);
+                const status = view?.status ?? 'locked';
+                return (
+                  <Pressable
+                    key={level.key}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Skip to ${labelOf(level)}: ${level.title}`}
+                    onPressIn={tapFeedback}
+                    onPress={() => {
+                      skipTo(level.key);
+                      forgetShownPath();
+                      setLanded(`Jumped to ${labelOf(level)}. Everything before it counts as done.`);
+                      setOpen(false);
+                    }}
+                    style={({ pressed }) => [styles.skipItem, pressed && styles.skipItemPressed]}
+                  >
+                    <Text style={styles.skipNum}>
+                      {level.kind === 'path' ? '→' : String(level.number)}
+                    </Text>
+                    <Text style={styles.skipTitle} numberOfLines={1}>
+                      {level.title}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.skipState,
+                        status === 'complete' && { color: colors.success },
+                        status === 'current' && { color: colors.accent },
+                      ]}
+                    >
+                      {status === 'complete' ? 'Done' : status === 'current' ? 'Here' : ''}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          ))}
+        </Animated.View>
+      ) : null}
+    </View>
+  );
+}
+
+/** "Level 4", "Checkpoint 5", "the path choice" -- a level named in a sentence. */
+function labelOf(level: PathLevel): string {
+  if (level.kind === 'path') return 'the path choice';
+  const where = level.chapter > 1 ? `Chapter ${level.chapter}, ` : '';
+  return `${where}Level ${level.number}`;
+}
+
+/**
  * Temporary, while hearts are being tried out: every heart back in one tap,
  * without waiting out the four hours. Goes when the refill rules settle.
  */
@@ -648,6 +794,35 @@ const styles = StyleSheet.create({
   },
   rowText: { flex: 1, gap: 2 },
 
+  skipCard: {
+    backgroundColor: colors.surface,
+    borderColor: '#3A4553',
+    borderWidth: 1.5,
+    borderRadius: radius.lg,
+    overflow: 'hidden',
+  },
+  skipList: { paddingHorizontal: space.md, paddingBottom: space.md, gap: space.md },
+  skipChapter: { gap: 2 },
+  skipChapterTitle: {
+    ...type.small,
+    color: colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: space.xs,
+    marginLeft: space.sm,
+  },
+  skipItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.md,
+    minHeight: 44,
+    paddingHorizontal: space.sm,
+    borderRadius: radius.md,
+  },
+  skipItemPressed: { backgroundColor: colors.surfaceAlt },
+  skipNum: { ...type.label, color: colors.textFaint, width: 22, textAlign: 'right', fontVariant: ['tabular-nums'] },
+  skipTitle: { ...type.answer, color: colors.text, flex: 1 },
+  skipState: { ...type.small, color: colors.textFaint, width: 40, textAlign: 'right' },
   resetCard: {
     backgroundColor: colors.surface,
     borderColor: '#3A4553',

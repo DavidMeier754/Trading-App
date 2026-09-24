@@ -24,6 +24,7 @@ import type {
   WalkthroughScreen as Walkthrough,
 } from '../types';
 import Icon, { IconName } from '../home/icons';
+import { PATHS, TradingPath } from '../content';
 import { Body, Card, ScreenTitle } from './common';
 
 /**
@@ -237,13 +238,28 @@ export function RecapScreen({ screen }: { screen: Recap }) {
   );
 }
 
-const PATHS = [
-  { id: 'scalping', name: 'Scalping', hold: 'Seconds to minutes', feel: 'Fast, focused, few minutes at a time.' },
-  { id: 'day-trading', name: 'Day Trading', hold: 'Minutes to hours', feel: 'One session, flat by the close.' },
-  { id: 'swing-trading', name: 'Swing Trading', hold: 'Days to weeks', feel: 'Check in once a day.' },
+/**
+ * The three paths as the learner meets them (docs/UI.md §3 `path-choice`):
+ * holding period, screen time and the feel of it. The screen-time figures are
+ * Level 14-1's own rough ones, so the choice repeats what was just taught.
+ */
+const PATH_CARDS: {
+  id: TradingPath;
+  icon: IconName;
+  hold: string;
+  screen: string;
+  feel: string;
+}[] = [
+  { id: 'scalping', icon: 'bolt', hold: 'Seconds to minutes', screen: '~90 min a day', feel: '1-minute charts. Many small, fast trades, all attention while it runs.' },
+  { id: 'day-trading', icon: 'clock', hold: 'Minutes to hours', screen: '~60 min a day', feel: '5- and 15-minute charts. A few trades, flat by the close.' },
+  { id: 'swing-trading', icon: 'calendar', hold: 'Days to weeks', screen: '~15 min a day', feel: 'Daily charts. Check in once a day, hold through the nights.' },
 ];
 
-/** docs/UI.md §3 `path-choice` — shown once, after Chapter 1's badge. */
+/**
+ * docs/UI.md §3 `path-choice`, played as its own level after Chapter 1. One
+ * card per path; a path whose chapters are not written yet says so and cannot
+ * be picked, rather than leading to an empty map.
+ */
 export function PathChoiceScreen({
   value,
   onChange,
@@ -252,27 +268,58 @@ export function PathChoiceScreen({
   value: string | null;
   onChange: (id: string) => void;
 }) {
+  const look = useLookSpec();
   return (
     <View style={styles.centered}>
-      <ScreenTitle>Pick how you want to trade</ScreenTitle>
-      <View style={styles.pathList}>
-        {PATHS.map((p) => (
-          <Pressable
-            accessibilityRole="button"
-            key={p.id}
-            onPress={() => {
-              tapFeedback();
-              onChange(p.id);
-            }}
-            style={[styles.pathCard, value === p.id && styles.pathCardOn]}
-          >
-            <Text style={styles.pathName}>{p.name}</Text>
-            <Text style={styles.pathHold}>{p.hold}</Text>
-            <Text style={styles.pathFeel}>{p.feel}</Text>
-          </Pressable>
-        ))}
+      <View style={styles.pathHead}>
+        <ScreenTitle>Choose your path</ScreenTitle>
+        <Body>Chapter 1 was the same for everyone. From Chapter 2 on, the lessons follow how you want to trade.</Body>
       </View>
-      <Text style={styles.caption}>You can change this anytime in Settings.</Text>
+      <View style={styles.pathList}>
+        {PATH_CARDS.map((card) => {
+          const path = PATHS.find((p) => p.id === card.id);
+          const open = !!path?.written;
+          const on = value === card.id;
+          return (
+            <Pressable
+              accessibilityRole="radio"
+              accessibilityState={{ checked: on, disabled: !open }}
+              accessibilityLabel={`${path?.name}. ${card.hold}, ${card.screen}. ${card.feel}${open ? '' : ' Being written.'}`}
+              key={card.id}
+              disabled={!open}
+              onPress={() => {
+                tapFeedback();
+                onChange(card.id);
+              }}
+              style={[
+                styles.pathCard,
+                surfaceStyle(look),
+                on && { borderColor: look.accent, backgroundColor: tint(look.accent, 0.12) },
+                !open && styles.pathCardShut,
+              ]}
+            >
+              <View style={[styles.pathIcon, { backgroundColor: tint(look.accent, open ? 0.16 : 0.06) }]}>
+                <Icon name={card.icon} size={20} color={open ? look.accent : colors.textFaint} />
+              </View>
+              <View style={styles.pathBody}>
+                <View style={styles.pathTop}>
+                  <Text style={[styles.pathName, !open && { color: colors.textMuted }]}>{path?.name}</Text>
+                  {open ? (
+                    on ? <Icon name="check" size={18} color={look.accent} strokeWidth={3} /> : null
+                  ) : (
+                    <Text style={styles.pathSoon}>Being written</Text>
+                  )}
+                </View>
+                <Text style={[styles.pathHold, { color: open ? look.accent : colors.textFaint }]}>
+                  {`${card.hold} · ${card.screen}`}
+                </Text>
+                <Text style={styles.pathFeel}>{card.feel}</Text>
+              </View>
+            </Pressable>
+          );
+        })}
+      </View>
+      <Text style={styles.caption}>You can change this any time in Settings.</Text>
     </View>
   );
 }
@@ -336,17 +383,20 @@ const styles = StyleSheet.create({
   recapNumText: { ...type.label, fontWeight: '800' },
   recapText: { ...type.body, color: colors.text, flex: 1 },
   recapLevel: { ...type.small, fontSize: 11, color: colors.textFaint },
+  pathHead: { gap: space.sm },
   pathList: { gap: space.md },
   pathCard: {
-    borderWidth: 1.5,
-    borderColor: colors.borderStrong,
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    padding: space.lg,
-    gap: 2,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: space.md,
+    padding: space.md,
   },
-  pathCardOn: { borderColor: colors.accent, backgroundColor: colors.accentTint },
+  pathCardShut: { opacity: 0.6 },
+  pathIcon: { width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
+  pathBody: { flex: 1, gap: 2 },
+  pathTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
   pathName: { ...type.prompt, color: colors.text },
-  pathHold: { ...type.small, color: colors.accent },
-  pathFeel: { ...type.small, color: colors.textMuted },
+  pathSoon: { ...type.small, color: colors.textFaint, textTransform: 'uppercase', letterSpacing: 0.8 },
+  pathHold: { ...type.small, fontWeight: '700' },
+  pathFeel: { ...type.small, fontSize: 13, lineHeight: 18, color: colors.textMuted },
 });

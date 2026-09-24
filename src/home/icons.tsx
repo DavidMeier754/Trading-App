@@ -26,7 +26,14 @@ export type IconName =
   | 'reset'
   | 'news'
   | 'globe'
-  | 'bank';
+  | 'bank'
+  | 'trophy'
+  | 'signpost'
+  | 'shield'
+  | 'chevron-down'
+  | 'target'
+  | 'clock'
+  | 'calendar';
 
 export default function Icon({
   name,
@@ -103,6 +110,56 @@ export default function Icon({
     }
     case 'back':
       body = <Path d="M15 5l-7 7 7 7" fill="none" {...stroke} />;
+      break;
+    case 'trophy':
+      body = (
+        <>
+          <Path d="M7.5 3.5h9v5.5a4.5 4.5 0 0 1-9 0z" fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
+          <Path d="M7.5 5.5H4.5V7a3 3 0 0 0 3 3M16.5 5.5h3V7a3 3 0 0 1-3 3" fill="none" {...stroke} />
+          <Path d="M12 13.5v4M8 20.5h8" fill="none" {...stroke} />
+        </>
+      );
+      break;
+    case 'signpost':
+      // Two boards pointing different ways from one post: a choice of road.
+      body = (
+        <>
+          <Path d="M12 3v18" fill="none" {...stroke} />
+          <Path d="M12 5h6.5l2 2-2 2H12z" fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
+          <Path d="M12 11H5.5l-2 2 2 2H12z" fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
+        </>
+      );
+      break;
+    case 'shield':
+      body = <Path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.3 7.5 9.5 4.3-1.2 7.5-4.9 7.5-9.5V6z" fill={fill} {...stroke} />;
+      break;
+    case 'chevron-down':
+      body = <Path d="M6 9.5l6 6 6-6" fill="none" {...stroke} />;
+      break;
+    case 'clock':
+      body = (
+        <>
+          <Circle cx={12} cy={12} r={8.5} fill="none" {...stroke} />
+          <Path d="M12 7.5V12l3 2" fill="none" {...stroke} />
+        </>
+      );
+      break;
+    case 'calendar':
+      body = (
+        <>
+          <Rect x={4} y={5.5} width={16} height={14.5} rx={2.5} fill="none" {...stroke} />
+          <Path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" {...stroke} />
+        </>
+      );
+      break;
+    case 'target':
+      body = (
+        <>
+          <Circle cx={12} cy={12} r={8.5} fill="none" {...stroke} />
+          <Circle cx={12} cy={12} r={4.5} fill="none" {...stroke} />
+          <Circle cx={12} cy={12} r={1.4} fill={color} />
+        </>
+      );
       break;
     case 'news':
       // A folded newspaper.

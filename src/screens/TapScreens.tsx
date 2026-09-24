@@ -19,6 +19,7 @@ import Chart, {
   toCandles,
 } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
+import { copy } from '../format';
 import OrderBook from '../components/data/OrderBook';
 import ScannerTable from '../components/data/ScannerTable';
 import Visual from '../components/Visual';
@@ -35,6 +36,7 @@ import type {
   ScannerPickScreen as ScannerPick,
   SliderScreen as SliderS,
 } from '../types';
+import { scannerRowsOf, scannerTargetsOf } from '../types';
 import { Prompt } from './common';
 
 /** Green for the right target, red for a wrong pick: the same key everywhere. */
@@ -105,7 +107,7 @@ export function ScannerPickScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
       <ScannerTable
-        rows={screen.rows}
+        rows={scannerRowsOf(screen)}
         selected={picked}
         onTapRow={
           revealed
@@ -115,7 +117,7 @@ export function ScannerPickScreen({
                 onChange({ kind: 'target', id: picked === ticker ? null : ticker });
               }
         }
-        resolved={resolveHighlight(revealed, picked, [screen.target])}
+        resolved={resolveHighlight(revealed, picked, scannerTargetsOf(screen))}
       />
     </View>
   );
@@ -240,7 +242,9 @@ export function ChartTapScreen({
             return (
               <Pressable
                 accessibilityRole="button"
+                accessibilityLabel={`Candle ${i + 1} of ${bars}`}
                 key={i}
+                testID={`candle-${i}`}
                 disabled={revealed}
                 onPress={() => {
                   tapFeedback();
@@ -267,6 +271,41 @@ export function ChartTapScreen({
   );
 }
 
+/** Decimals a step needs: 5 -> 0, 0.5 -> 1, 0.01 -> 2. */
+function decimalsOf(step: number): number {
+  const text = String(step);
+  return text.includes('.') ? text.split('.')[1].length : 0;
+}
+
+/** A slider value as it is read: "$36", "$0.40", "25 %", "12 min". */
+function sliderText(v: number, unit: string | undefined, step: number): string {
+  if (unit === '$') {
+    const dp = Number.isInteger(v) && step >= 1 ? 0 : 2;
+    return `${v < 0 ? '−' : ''}${copy('$')}${Math.abs(v).toFixed(dp)}`;
+  }
+  const n = v.toFixed(decimalsOf(step));
+  return unit ? `${n} ${unit}` : n;
+}
+
+/**
+ * Where the knob waits before the first touch. The middle of the range, unless
+ * the middle is already right -- a slider that opens on its answer is a freebie
+ * -- in which case a quarter of the way in from the end further from it.
+ */
+function restOf(screen: SliderS): number {
+  const { min, max, answer } = screen;
+  const step = screen.step ?? 1;
+  const tolerance = screen.tolerance ?? 0;
+  const snap = (x: number) => Number((min + Math.round((x - min) / step) * step).toFixed(4));
+  const mid = snap((min + max) / 2);
+  if (Math.abs(mid - answer) > tolerance) return mid;
+  const low = snap(min + (max - min) * 0.25);
+  const high = snap(max - (max - min) * 0.25);
+  const pick = Math.abs(low - answer) >= Math.abs(high - answer) ? low : high;
+  if (Math.abs(pick - answer) > tolerance) return pick;
+  return Math.abs(min - answer) >= Math.abs(max - answer) ? min : max;
+}
+
 /** docs/UI.md §4.1 `slider` — set a value with a tolerance band. */
 export function SliderScreen({
   screen,
@@ -283,14 +322,15 @@ export function SliderScreen({
 }) {
   const step = screen.step ?? 1;
   const current = value.kind === 'slider' ? value.value : null;
-  const shown = current ?? (screen.min + screen.max) / 2;
+  const rest = restOf(screen);
+  const shown = current ?? rest;
   const pct = (v: number) => ((v - screen.min) / (screen.max - screen.min)) * 100;
   const accent = useLookSpec().accent;
 
   const nudge = (delta: number) => {
     const next = Math.min(
       screen.max,
-      Math.max(screen.min, (current ?? (screen.min + screen.max) / 2) + delta)
+      Math.max(screen.min, (current ?? rest) + delta)
     );
     tapFeedback();
     onChange({ kind: 'slider', value: Number(next.toFixed(4)) });
@@ -350,7 +390,7 @@ export function SliderScreen({
       <Prompt>{screen.prompt}</Prompt>
 
       <Text style={styles.sliderValue}>
-        {`${shown}${screen.unit ? ` ${screen.unit}` : ''}`}
+        {sliderText(shown, screen.unit, step)}
       </Text>
 
       <GestureDetector gesture={pan}>
@@ -397,7 +437,12 @@ export function SliderScreen({
 
       {revealed ? (
         <Text style={styles.sliderAnswer}>
-          {`Intended: ${screen.answer}${screen.unit ? ` ${screen.unit}` : ''} (±${screen.tolerance ?? 0})`}
+          {`Intended: ${sliderText(screen.answer, screen.unit, step)} (±${sliderText(
+            screen.tolerance ?? 0,
+            // The band is a distance: it keeps a currency or a percent, not a long label.
+            screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
+            step
+          )})`}
         </Text>
       ) : null}
     </View>
