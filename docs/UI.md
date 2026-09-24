@@ -275,13 +275,16 @@ watching XYZ"* needs no avatar to say who is watching.
 ### 7.1 Path map (home)
 - Vertical scrollable path of level nodes, gently winding. Chapters are sections with a header card (name, "7/17", badge slot).
 - Node states: locked (grey, lock), available (accent, pulsing halo), in progress (ring partly filled = subs done), completed (filled, check), perfect (gold ring).
-- Tapping a node opens a sheet: level title, sub-level dots with states, XP, "~3 min", "Start" / "Review cards" / "Practice".
+- A banner at the top names the chapter, the level the learner is on and its title, with the sub-level they are up to ("2/4 lesson"). The map opens scrolled to that level.
+- Each level is one round button inside a ring that fills one sub-level at a time. The level number, title and sub-level count sit beside it. The available node carries a START / CONTINUE tag.
+- Coming back from a sub-level, the ring fills by the part just finished, and a level that has just opened pops its lock. The first draw of the map moves nothing.
+- Tapping a node opens a card under it, pointing at it (not a bottom sheet): level title, the sub-levels as segments with their states, the next lesson with its XP and "about 3 min", and "Start" / "Continue" / "Review" (later also "Review cards" / "Practice"). A locked level's card says which level opens it.
 - Fan-outs: the path splits into up to 3 side-by-side strands and merges into one node; all strands must be completed, any order.
 - Test and Final Exam nodes use a distinct shape (shield / trophy) and show the heart requirement.
 - **[v3] The map must survive 8 chapters.** Collapsed chapter sections by default, with the current one expanded; a sticky chapter header while scrolling; a "jump to current" button; and a zoomed-out overview showing all eight chapters as tiers.
 
 ### 7.2 Persistent HUD
-Streak flame with day count, daily XP goal ring (two sub-levels = full), hearts. No league/rank at launch.
+Streak flame with day count and the XP total inside the daily goal ring (two sub-levels = full) on the left; hearts on the right. No league or rank inside lessons: ranking lives on its own Leaderboard tab (§11).
 
 ### 7.3 Practice hub **[v3 — expanded]**
 Lists weak concepts (from wrong answers) and offers an untimed 3-minute review mix. Never costs hearts.
@@ -306,7 +309,7 @@ Four tiers per path, unlocked by chapter, shown on the Trader Card and the path 
 | Sim Trader | Chapter 8 | Has a playbook and a 30-day simulator plan |
 
 ### 7.6 Weekly challenge **[v3]**
-One untimed, optional mixed set per week (8–12 questions drawn from everything unlocked), worth bonus XP and a streak freeze. No leaderboard. Exists to give lapsed users a low-friction way back in.
+One untimed, optional mixed set per week (8–12 questions drawn from everything unlocked), worth bonus XP and a streak freeze. Not ranked on its own; the Leaderboard tab (§11) is where learners compare. Exists to give lapsed users a low-friction way back in.
 
 ### 7.7 Spot it — the replay tab **[v3]**
 
@@ -340,6 +343,7 @@ Every defined term is rendered with a subtle dotted underline. Tap → bottom sh
 ## 10. Theming & accessibility
 
 - **Dark mode default**; full light theme. Tokens: background, surface, text, accent, up-green, down-red, warning, success.
+- **Lesson designs.** A lesson wears one of nine designs, picked in Settings (§11): **Neo** (the default), **Neo Mono**, **Neo Violet**, **Classic**, **Classic Soft**, **Classic Contrast**, **Terminal**, **Blueprint** and **Arcade**. A design changes the ground, the surfaces, the progress bar, the key, the ink of a chart line and the right-answer flourish. It never changes text colours that carry meaning or the up/down colours of chart data. The home screen and its tabs always wear Classic.
 - Color-blind safe: up/down always with arrow/sign; alternative palette (blue/orange) toggle applies to charts too.
 - Dynamic type to 130 % without truncation. Screens do not scroll (section 2), so a screen must be authored to fit at 130 %: shorter body, or split in two. Scrolling is the fallback only past 130 %, where nothing else will do.
 - Haptics and sounds each have a toggle. Reduce-motion removes confetti, flicker and auto-playback (candles then appear on tap).
@@ -350,10 +354,10 @@ Every defined term is rendered with a subtle dotted underline. Tap → bottom sh
 ## 11. Navigation & app flow
 
 1. **Onboarding:** 3 screens (what the app is, one-line risk note, notification opt-in) → straight into Chapter 1, Level 1. No path question.
-2. **Home** = path map.
+2. **Home** = a tab bar along the bottom: **Learn** (the path map, 7.1), **Practice** (7.3), **Leaderboard** and **Account** (stats and profile, 7.4). Tabs are peers: switching is instant, never a slide.
 3. **Lesson player** (section 2).
 4. **Path choice** appears once, after the Chapter 1 badge (`path-choice`), and is editable in Settings.
-5. **Practice**, **Stats**, **Settings** (market profile, theme, sounds/haptics, reduce motion, legal).
+5. **Settings** opens from a button on Account: lesson design (swipe left and right through a live preview of each design; one press applies it, §10), market profile, theme, sounds/haptics, reduce motion, legal, and a button that opens the all-screens test bench.
 6. The one-line risk note appears on first launch, on every scenario result and on the stats screen; the full disclaimer lives in Settings → Legal.
 
 ---

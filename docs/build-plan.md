@@ -22,9 +22,10 @@ Measured, not remembered — re-run the commands and the numbers should match.
 | Drill bank | 1 of 15 packs written; 12 of the other 14 on hold |
 | Replay bank | specified, nothing written |
 | Day Trading, Swing | outlined level by level, no content |
-| **Application code** | **none — 5,095 screens have never been rendered** |
+| Application code | Expo app (SLICE + HOME, below): plays Chapter 1 Levels 1–3 — 10 sub-levels, 135 screens — and the 49-screen test bench in `demo/all-screens.yaml` |
+| Rendered | 135 of 5,095 screens; the other 4,960 have never been drawn |
 
-The last row is the reason the order below starts where it does.
+The last row is why no stage below grows the corpus before its screen types have been seen.
 
 ---
 
@@ -32,8 +33,7 @@ The last row is the reason the order below starts where it does.
 
 | Run | Stage | What | Model | Sessions |
 |---|---|---|---|---|
-| **NEXT** | **SLICE** | Render lesson one on a phone | `claude-opus-5` | 1–2 |
-| then | OFFER | Chapter 8 Level 15 + its renumber | `claude-opus-5` | 1 |
+| **NEXT** | **OFFER** | Chapter 8 Level 15 + its renumber | `claude-opus-5` | 1 |
 | then | SIZING | The 66 positions over the cap | `claude-sonnet-5` | 2 |
 | then | PHRASING | `state` chips in Chapters 3, 6, 7 | `claude-sonnet-5` | 1–2 |
 | then | REPLAY-PILOT | One hand-authored replay + validator rules | `claude-opus-5` | 1 |
@@ -44,7 +44,8 @@ The last row is the reason the order below starts where it does.
 
 **PATHS is last and gated.** It triples the corpus. A screen-type schema change costs 327 files
 today and roughly 980 after it — so nothing in that stage gets cheaper by starting early, and
-one thing gets three times dearer. Do not start it until SLICE has run and the schema survived.
+one thing gets three times dearer. SLICE has run; do not start PATHS until the schema has also
+survived a render of every screen type it uses.
 
 ### Already done
 
@@ -57,6 +58,16 @@ are in `docs/agent.md` and `docs/schema.md`.
 - **Repairs** — category labels; the plan sheet as one key namespace (24 `plan-card` screens,
   50 keys, all in `docs/schema.md`, with validator rules); exam interactivity; the long/short
   balance.
+- **SLICE** (section kept below for its reasoning) — an Expo SDK 57 app at the repo root that
+  plays lessons from the YAML as written. It went past one lesson: every screen type on the
+  test bench, the looks in `docs/UI.md` §10, sounds and haptics. Where a renderer disagreed with
+  `docs/schema.md` (`swipe-deck` cards, `branch` steps, `chart-annotate` labels), the renderer
+  was changed, not the schema.
+- **HOME** — the home screen of `docs/UI.md` §7.1, §7.2 and §11: the path for Chapter 1 Levels
+  1–3 with one ring node per level, the level banner, the HUD (streak, daily XP ring, hearts),
+  the tab bar (Learn, Practice, Leaderboard, Account; the last three are placeholders), and
+  Settings behind Account with the design picker and the test bench. Progress, streak, hearts
+  and settings are kept on the device with AsyncStorage; there is still no backend.
 
 ---
 
@@ -93,6 +104,9 @@ a beginner. Boredom does not raise a warning.
 ---
 
 ## SLICE — render lesson one on a phone
+
+> **Done** — see *Already done*. Its scope line "No path map, no hearts, no streaks, no XP
+> animation" is superseded by HOME. The reasoning below still holds and is why the app exists.
 
 387 sub-levels and 5,095 screens exist, and **not one has ever been rendered.** Every quality
 signal on this project comes from a validator that checks structure and arithmetic, and from
@@ -573,9 +587,9 @@ Numbered findings list, most important first, file and screen for each. Change n
 
 ## PATHS — Day Trading and Swing Trading
 
-> **Gated. Do not start until SLICE has run and the schema survived it.** This stage triples the
-> corpus — ~770 further sub-levels — every one written against a screen contract nothing has
-> rendered. A schema fix costs 327 files today and roughly 980 afterwards.
+> **Gated. Do not start until the schema has survived a render of every screen type it uses.**
+> SLICE has run, but only Chapter 1 Levels 1–3 play in the app so far. This stage triples the
+> corpus — ~770 further sub-levels — written against a screen contract mostly never rendered. A schema fix costs 327 files today and roughly 980 afterwards.
 
 Chapters 2–8 of each, following the tables in `docs/curriculum.md`. Structurally they mirror
 Scalping, which makes mechanical generation tempting. Resist it: the timeframes, holding
@@ -658,5 +672,5 @@ The real budget is review attention, and the stages differ sharply in how much t
   doing the sums.
 
 If the budget is attention rather than money, the order in the table is already sorted for it —
-with one exception you should make knowingly: SLICE is first because of what it *de-risks*, not
-because it is cheap.
+with one exception you made knowingly: SLICE ran first because of what it *de-risks*, not
+because it was cheap.
