@@ -182,6 +182,7 @@ Every other interaction shows a frozen chart. Real scalping is recognising a set
 
 ### 5.3 Sub-level complete
 - XP counts up from 0 (600 ms); the path-map XP bar fills on return.
+- The XP total on the home HUD is the sum of what the summaries showed: the lesson's XP plus the perfect bonus, replayed sub-levels included.
 - Accuracy ring animates. Perfect run → gold ring + confetti (1 s, respects reduce-motion).
 - Streak flame shows the day count; when today's goal is just met, the flame ignites (scale + glow). No streak-loss warnings inside lessons.
 - **[v3] Daily goal is two sub-levels (~10 min).** The ring on the home screen fills in halves, so finishing one lesson visibly leaves the day half-done.
@@ -275,10 +276,11 @@ watching XYZ"* needs no avatar to say who is watching.
 
 ### 7.1 Path map (home)
 - Vertical scrollable path of level nodes, gently winding. Chapters are sections with a header card (name, "7/17", badge slot).
-- Node states: locked (grey, lock), available (accent, pulsing halo), in progress (ring partly filled = subs done), completed (filled, check), perfect (gold ring).
+- Node states: locked (grey, lock), available (accent, pulsing halo), in progress (ring partly filled = subs done), completed (filled, keeps its number, with a check badge), perfect (gold ring and a gold check badge).
 - A banner at the top names the chapter, the level the learner is on and its title, with the sub-level they are up to ("2/4 lesson"). The map opens scrolled to that level.
 - Each level is one round button inside a ring that fills one sub-level at a time. The level number, title and sub-level count sit beside it. The available node carries a START / CONTINUE tag.
-- Coming back from a sub-level, the ring fills by the part just finished, and a level that has just opened pops its lock. The first draw of the map moves nothing.
+- Coming back from a sub-level, the ring fills by the part just finished. The first draw of the map moves nothing.
+- **Moving on to the next level** is one sequence, about 2.5 s, after the last sub-level of a level: the finished level's ring completes and its check badge pops on; the map scrolls down to the next level; the dotted path between them lights up top to bottom; the lock shakes and bursts off with rings and the unlock sound, and the level's number pops in; the banner names the new level; the START tag drops in and the halo begins. Under reduced motion the steps swap in place without movement.
 - Tapping a node opens a card under it, pointing at it (not a bottom sheet): level title, the sub-levels as segments with their states, the next lesson with its XP and "about 3 min", and "Start" / "Continue" / "Review" (later also "Review cards" / "Practice"). A locked level's card says which level opens it.
 - Fan-outs: the path splits into up to 3 side-by-side strands and merges into one node; all strands must be completed, any order.
 - Test and Final Exam nodes use a distinct shape (shield / trophy) and show the heart requirement.
