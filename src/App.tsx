@@ -67,7 +67,9 @@ export default function App() {
           onLayout={measureFrame}
           style={[styles.frame, { width: frameWidth }]}
         >
-          <Backdrop width={frameWidth} height={height} look={entry ? undefined : 'classic'} />
+          {/* One ground for the whole app: the design picked in Settings is the
+              one the home screen stands on too, so a change shows at once. */}
+          <Backdrop width={frameWidth} height={height} />
           <GridOriginProvider originY={gridOrigin}>
             <ErrorBoundary>
               {entry ? (

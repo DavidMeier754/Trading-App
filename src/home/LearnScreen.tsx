@@ -31,8 +31,8 @@ const BOTTOM_PAD = 300;
 const WIND = [0, -1, 0, 1];
 
 /**
- * The home screen's path (docs/UI.md §7.1), in the Classic design: flat panels
- * on the grid.
+ * The home screen's path (docs/UI.md §7.1): Classic's flat panels, on the
+ * ground of whichever design is picked.
  *
  * - The HUD (§7.2): the streak, the XP with the day's goal as a ring round it,
  *   and the hearts, top right.

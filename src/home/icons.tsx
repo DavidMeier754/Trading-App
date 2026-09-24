@@ -22,7 +22,8 @@ export type IconName =
   | 'leaderboard'
   | 'account'
   | 'play'
-  | 'flask';
+  | 'flask'
+  | 'reset';
 
 export default function Icon({
   name,
@@ -99,6 +100,15 @@ export default function Icon({
     }
     case 'back':
       body = <Path d="M15 5l-7 7 7 7" fill="none" {...stroke} />;
+      break;
+    case 'reset':
+      // Round and back to the start.
+      body = (
+        <>
+          <Path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3" fill="none" {...stroke} />
+          <Path d="M5 3.5v4h4" fill="none" {...stroke} />
+        </>
+      );
       break;
     case 'next':
       body = <Path d="M9 5l7 7-7 7" fill="none" {...stroke} />;

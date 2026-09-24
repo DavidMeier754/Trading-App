@@ -39,6 +39,12 @@ const GOLD = colors.warning;
 const shownFill = new Map<number, number>();
 const shownStatus = new Map<number, LevelStatus>();
 
+/** After a reset the path is drawn fresh, not drained ring by ring. */
+export function forgetShownPath(): void {
+  shownFill.clear();
+  shownStatus.clear();
+}
+
 /** The ring fills a beat after the path appears, so the eye is there for it. */
 const FILL_DELAY = 420;
 const FILL_MS = 900;

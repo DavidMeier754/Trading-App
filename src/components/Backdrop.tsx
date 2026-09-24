@@ -4,7 +4,7 @@ import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import Svg, { Defs, Line, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { fitScale, fitTop } from '../lesson/fitState';
-import { Look, LOOKS, useLookSpec } from '../lesson/look';
+import { useLookSpec } from '../lesson/look';
 import Atmosphere, { Texture } from './Atmosphere';
 
 import { colors, GRID } from '../theme';
@@ -28,16 +28,7 @@ const MAJOR_EVERY = 4;
  * Static SVGs behind everything, `pointerEvents="none"`: one draw each, and
  * they never take a touch. The grid layer's only movement is a transform.
  */
-export default function Backdrop({
-  width,
-  height,
-  look,
-}: {
-  width: number;
-  height: number;
-  /** Draw this look's ground instead of the picked one (the home is always Classic). */
-  look?: Look;
-}) {
+export default function Backdrop({ width, height }: { width: number; height: number }) {
   // The grid is drawn past the frame on every side: when a screen too tall for
   // the window is scaled down to fit (lesson/fit.tsx), the grid is scaled with
   // it about the same point, and has to still reach the edges when it is.
@@ -77,8 +68,7 @@ export default function Backdrop({
     return { transform: [{ translateY: (fitTop.get() - height / 2) * (1 - s) }, { scale: s }] };
   });
 
-  const picked = useLookSpec();
-  const spec = look ? LOOKS[look] : picked;
+  const spec = useLookSpec();
   const g = spec.ground;
   const lineColor = (major: boolean) =>
     g.grid === 'blueprint'

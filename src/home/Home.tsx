@@ -19,8 +19,9 @@ let lastSettings = false;
 
 /**
  * The home screen (docs/UI.md §11.2): the path, and the tabs along the bottom.
- * It wears the Classic design whatever look the lessons are set to -- the look
- * is a choice about lessons, made from here.
+ * Its panels are Classic's whatever look is picked; the ground under them is
+ * the picked look's (components/Backdrop.tsx), so a new design shows here the
+ * moment it is chosen.
  */
 export default function Home({
   width,

@@ -77,9 +77,11 @@ import Reveal from './Reveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
 import { FitScreen } from './fit';
+import { fitScale, fitTop } from './fitState';
 import { dealScreen } from './shuffle';
 import { emitMood, useLookSpec } from './look';
 import { preloadCues } from './sound';
+import HeartMeter from './HeartMeter';
 import StreakMeter from './StreakMeter';
 import { VerdictProvider } from './verdict';
 
@@ -152,11 +154,16 @@ export default function LessonPlayer({
 
   // Every cue's player is built when the lesson opens, so none of them loads on
   // its first play -- the first play is the one whose lag you would hear.
-  // Leaving the lesson settles the edge light (components/Atmosphere.tsx).
+  // Leaving the lesson settles the edge light (components/Atmosphere.tsx) and
+  // lets go of a screen's fit, so the home screen's grid is drawn full size.
   useEffect(() => {
     preloadCues();
     emitMood('calm');
-    return () => emitMood('calm');
+    return () => {
+      emitMood('calm');
+      fitScale.set(1);
+      fitTop.set(0);
+    };
   }, []);
 
   const atSummary = index >= screens.length;
@@ -412,14 +419,14 @@ export default function LessonPlayer({
             {`${index + 1}/${screens.length}`}
           </Text>
         ) : null}
-        {/* docs/UI.md §2: hearts live in the top bar for tests and exams only.
-            A lesson has none, so in the new look the slot carries the run of
-            right answers instead. */}
-        <View style={styles.heartSlot}>
-          {spec.streak !== 'none' ? (
+        {/* The run of right answers, in the looks that count it: a fixed slot,
+            so the bar keeps its length as the flame comes and goes. */}
+        {spec.streak !== 'none' ? (
+          <View style={styles.streakSlot}>
             <StreakMeter run={runBefore(grades, atSummary ? grades.length : index + 1)} />
-          ) : null}
-        </View>
+          </View>
+        ) : null}
+        <HeartMeter />
       </View>
 
       {/* The animated wrapper must outlive the screen swap: if the node carrying
@@ -702,7 +709,7 @@ const styles = StyleSheet.create({
   closeText: { ...type.title, color: colors.textMuted },
   backText: { fontSize: 30, lineHeight: 32, fontWeight: '500', color: colors.textMuted, marginTop: -3 },
   backOff: { opacity: 0.25 },
-  heartSlot: { minWidth: 32, alignItems: 'flex-end' },
+  streakSlot: { minWidth: 32, alignItems: 'flex-end' },
   // Tabular figures, so "9/49" to "10/49" does not nudge the bar.
   page: { ...type.label, color: colors.textMuted, fontVariant: ['tabular-nums'] },
   scroll: { flex: 1 },

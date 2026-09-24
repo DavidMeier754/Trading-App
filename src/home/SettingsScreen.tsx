@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { BackHandler, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, {
+  FadeIn,
   SharedValue,
   useAnimatedReaction,
   useAnimatedScrollHandler,
@@ -17,10 +18,12 @@ import { Look, LOOKS, setLook, useLook } from '../lesson/look';
 import { EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { setSoundEnabled, useSoundEnabled } from '../lesson/sound';
 import { MotionSetting, setMotionSetting, useMotionSetting, useReduceMotion } from '../lesson/useReduceMotion';
-import { resetProgress } from '../progress';
+import { doneToday, resetProgress, streakDays, useProgress } from '../progress';
 import { colors, radius, space, type } from '../theme';
 import Icon from './icons';
+import { forgetShownPath } from './LevelNode';
 import LookPreview from './LookPreview';
+import { totalXp } from './pathState';
 
 const ORDER = Object.keys(LOOKS) as Look[];
 const IS_WEB = Platform.OS === 'web';
@@ -28,7 +31,8 @@ const IS_WEB = Platform.OS === 'web';
 /**
  * Settings (docs/UI.md §11.5), opened from Account. The lesson's design is
  * picked by swiping through previews of each one; the rest are the toggles the
- * lesson already reads -- haptics, sound, motion -- and the test bench.
+ * lesson already reads -- haptics, sound, motion -- starting over, and the
+ * test bench.
  */
 export default function SettingsScreen({
   width,
@@ -120,6 +124,9 @@ export default function SettingsScreen({
           />
         </View>
 
+        <Text style={styles.section}>Progress</Text>
+        <ResetRow />
+
         <Text style={styles.section}>Test bench</Text>
         <RowButton
           icon="flask"
@@ -127,9 +134,6 @@ export default function SettingsScreen({
           sub="Open the all-screens test level"
           onPress={onOpenBench}
         />
-
-        <Text style={styles.section}>Progress</Text>
-        <ResetRow />
       </ScrollView>
     </Animated.View>
   );
@@ -384,40 +388,94 @@ function RowButton({
   );
 }
 
-/** Two taps, so a stray one never wipes the path. */
+/**
+ * Starting over. The row says what there is to lose; a press asks once more,
+ * in words, with the way out beside the way through -- so a stray tap never
+ * wipes the path. The settings on this page are not progress and stay.
+ */
 function ResetRow() {
-  const [armed, setArmed] = useState(false);
-  const [done, setDone] = useState(false);
-  useEffect(() => {
-    if (!armed) return;
-    const t = setTimeout(() => setArmed(false), 3000);
-    return () => clearTimeout(t);
-  }, [armed]);
+  const progress = useProgress();
+  const lessons = Object.keys(progress.done).length;
+  const xp = totalXp(progress);
+  const streak = streakDays(progress);
+  const empty = lessons === 0 && streak === 0 && doneToday(progress) === 0;
+  const [stage, setStage] = useState<'idle' | 'confirm' | 'done'>('idle');
+  const press = usePressFeedback(!empty && stage === 'idle', { cue: 'tick' });
+
+  const had = [
+    `${lessons} ${lessons === 1 ? 'lesson' : 'lessons'} done`,
+    `${xp} XP`,
+    streak > 0 ? `${streak}-day streak` : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+
+  const lost = [
+    `${lessons} finished ${lessons === 1 ? 'lesson' : 'lessons'}`,
+    `${xp} XP`,
+    streak > 0 ? `your ${streak}-day streak` : null,
+  ]
+    .filter(Boolean)
+    .join(', ')
+    .replace(/, ([^,]*)$/, ' and $1');
+
+  const reset = () => {
+    resetProgress();
+    forgetShownPath();
+    setStage('done');
+  };
+
+  const confirming = stage === 'confirm';
   return (
-    <Pressable
-      accessibilityRole="button"
-      onPressIn={tapFeedback}
-      onPress={() => {
-        if (!armed) {
-          setArmed(true);
-          setDone(false);
-          return;
-        }
-        resetProgress();
-        setArmed(false);
-        setDone(true);
-      }}
-      style={[styles.row, armed && { borderColor: colors.down }]}
-    >
-      <View style={styles.rowText}>
-        <Text style={[styles.rowTitle, { color: colors.down }]}>
-          {armed ? 'Tap again to reset' : 'Reset progress'}
-        </Text>
-        <Text style={styles.rowSub}>
-          {done ? 'Progress reset. The path starts again at Level 1.' : 'Clears finished lessons, streak and XP.'}
-        </Text>
-      </View>
-    </Pressable>
+    <Animated.View style={[styles.resetCard, confirming && styles.resetCardArmed, press.style]}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityState={{ disabled: empty || confirming }}
+        disabled={empty || confirming}
+        onPressIn={press.onPressIn}
+        onPressOut={press.onPressOut}
+        onPress={() => setStage('confirm')}
+        style={styles.resetHead}
+      >
+        <View style={[styles.rowIcon, { backgroundColor: empty ? colors.surfaceAlt : colors.downTint }]}>
+          <Icon name="reset" size={22} color={empty ? colors.textFaint : colors.down} />
+        </View>
+        <View style={styles.rowText}>
+          <Text style={[styles.rowTitle, { color: empty ? colors.textMuted : colors.down }]}>
+            {confirming ? 'Start over from Level 1?' : 'Reset progress'}
+          </Text>
+          <Text style={styles.rowSub}>
+            {confirming
+              ? `This clears ${lost}. Your settings stay.`
+              : stage === 'done'
+                ? 'Progress reset. The path starts again at Level 1.'
+                : empty
+                  ? 'Nothing to reset yet.'
+                  : had}
+          </Text>
+        </View>
+      </Pressable>
+      {confirming ? (
+        <Animated.View entering={FadeIn.duration(180)} style={styles.confirmRow}>
+          <Pressable
+            accessibilityRole="button"
+            onPressIn={tapFeedback}
+            onPress={() => setStage('idle')}
+            style={[styles.confirmButton, styles.keepButton]}
+          >
+            <Text style={styles.keepText}>Keep progress</Text>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            onPressIn={tapFeedback}
+            onPress={reset}
+            style={[styles.confirmButton, styles.resetButton]}
+          >
+            <Text style={styles.resetText}>Reset</Text>
+          </Pressable>
+        </Animated.View>
+      ) : null}
+    </Animated.View>
   );
 }
 
@@ -529,6 +587,39 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   rowText: { flex: 1, gap: 2 },
+
+  resetCard: {
+    backgroundColor: colors.surface,
+    borderColor: '#3A4553',
+    borderWidth: 1.5,
+    borderRadius: radius.lg,
+  },
+  resetCardArmed: { borderColor: colors.down },
+  resetHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.md,
+    minHeight: 60,
+    paddingHorizontal: space.lg,
+    paddingVertical: space.md,
+  },
+  confirmRow: {
+    flexDirection: 'row',
+    gap: space.sm,
+    paddingHorizontal: space.lg,
+    paddingBottom: space.lg,
+  },
+  confirmButton: {
+    flex: 1,
+    height: 46,
+    borderRadius: radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  keepButton: { backgroundColor: colors.surfaceAlt, borderWidth: 1, borderColor: '#3A4553' },
+  keepText: { ...type.prompt, fontSize: 16, color: colors.text },
+  resetButton: { backgroundColor: colors.down },
+  resetText: { ...type.prompt, fontSize: 16, color: '#FFFFFF' },
   rowTitle: { ...type.answer, color: colors.text, fontWeight: '700' },
   rowSub: { ...type.small, color: colors.textMuted },
 });
