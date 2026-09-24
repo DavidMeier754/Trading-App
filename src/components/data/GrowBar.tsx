@@ -13,6 +13,9 @@ import { useReduceMotion } from '../../lesson/useReduceMotion';
 /** The screen is still fading in when the first bar starts. */
 export const GROW_DELAY = 160;
 
+/** One bar's growth. */
+export const GROW_MS = 400;
+
 /**
  * docs/UI.md §6.5: bars grow from 0 (400 ms, staggered 80 ms).
  *
@@ -26,7 +29,7 @@ export default function GrowBar({
   offset = 0,
   from = 'left',
   delay = 0,
-  duration = 400,
+  duration = GROW_MS,
   style,
 }: {
   /** Final width, in percent of the track. */

@@ -14,12 +14,12 @@ import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { copy, count, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { detentFeedback } from '../lesson/feedback';
-import { startRumble, stopRumble } from '../lesson/haptics';
+import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import {
   EASE_IN_OUT,
   EASE_OUT,
+  EASE_OUT_SETTLE,
   REVEAL_BAR_MS,
   REVEAL_CANDLE_MS,
   revealTiming,
@@ -42,8 +42,8 @@ export type DecisionPhase = 'deciding' | 'playing' | 'done';
 /** The frame stepping back once the call is made, before the first new bar. */
 const PULL_BACK_MS = 520;
 
-/** The line replay's one vibration: steady, and present without buzzing. */
-const LINE_RUMBLE = 0.5;
+/** Tap to skip: the rest of the replay in one short sweep. */
+const SKIP_MS = 220;
 
 export default function ChartDecisionScreen({
   screen,
@@ -84,38 +84,25 @@ export default function ChartDecisionScreen({
     onPhaseChange(phase);
   }, [phase, onPhaseChange]);
 
-  // What the hand feels while the outcome plays, by chart kind:
-  //
-  // - A line is one movement, so it is one vibration: it starts when the line
-  //   starts to move (after the frame's pull-back) and runs, steady, until it
-  //   stops. No bar-by-bar ticks, no rings -- the earlier replay ticked and
-  //   rang on every bar and read as a toy.
-  // - Candles form one by one, each drawing its own open, extremes and close
-  //   (components/Chart.tsx), so a steady buzz would say nothing about them.
-  //   Instead the hand feels the price cross the chart's price lines: a soft
-  //   detent each time the live price passes one, which is sparse, and tells
-  //   you how far it is travelling.
-  //
-  // A skip, reduced motion or leaving the screen silences both at once.
+  // What the hand feels while the outcome plays, line or candles alike: one
+  // steady vibration from the moment the call is made -- the frame pulling
+  // back is the chart moving too -- until the last bar settles, and then one
+  // firm landing (lesson/haptics.ts, startChartMove). The verdict lands with
+  // it. A skip brings the landing forward to the end of the sweep; leaving
+  // the screen stops the vibration without one.
   const isLine = screen.chart.kind === 'line';
   const legs = Math.max(1, bars - start);
-  const armed = useRef(false);
-  const rumbleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const motion = useRef<ChartMove | null>(null);
   const quiet = useCallback(() => {
-    armed.current = false;
-    if (rumbleTimer.current) clearTimeout(rumbleTimer.current);
-    rumbleTimer.current = null;
-    stopRumble();
+    motion.current?.cancel();
+    motion.current = null;
   }, []);
   useEffect(() => quiet, [quiet]);
 
   const finish = useCallback(() => {
-    quiet();
+    motion.current?.land();
+    motion.current = null;
     setDone(true);
-  }, [quiet]);
-
-  const onCross = useCallback(() => {
-    if (armed.current) detentFeedback();
   }, []);
 
   useEffect(() => {
@@ -127,20 +114,18 @@ export default function ChartDecisionScreen({
       setDone(true);
       return;
     }
-    quiet();
-    armed.current = true;
-    if (isLine) {
-      rumbleTimer.current = setTimeout(() => startRumble(LINE_RUMBLE), PULL_BACK_MS);
-    }
     // First the frame pulls back to the height the session needs (Chart's
     // windowAt), then docs/UI.md §4.3 plays the outcome bar by bar; how slowly,
     // and why the end takes longest, is in lesson/motion.ts. Candles take
     // longer per bar than a line, because each one forms as it goes.
+    const reveal = revealTiming(legs, isLine ? REVEAL_BAR_MS : REVEAL_CANDLE_MS);
+    quiet();
+    motion.current = startChartMove(PULL_BACK_MS + reveal.duration);
     progress.set(PLAY_START);
     progress.set(
       withSequence(
         withTiming(0, { duration: PULL_BACK_MS, easing: EASE_IN_OUT }),
-        withTiming(1, revealTiming(legs, isLine ? REVEAL_BAR_MS : REVEAL_CANDLE_MS), (finished) => {
+        withTiming(1, reveal, (finished) => {
           'worklet';
           if (finished) scheduleOnRN(finish);
         })
@@ -151,9 +136,9 @@ export default function ChartDecisionScreen({
   // Tap to skip: the rest of the replay in one short sweep, not a jump cut.
   const onChartPress = () => {
     if (choice === null || done) return;
-    quiet();
+    motion.current?.retime(SKIP_MS * EASE_OUT_SETTLE);
     progress.set(
-      withTiming(1, { duration: 220, easing: EASE_OUT }, (finished) => {
+      withTiming(1, { duration: SKIP_MS, easing: EASE_OUT }, (finished) => {
         'worklet';
         if (finished) scheduleOnRN(finish);
       })
@@ -222,7 +207,6 @@ export default function ChartDecisionScreen({
             width={chartWidth}
             height={chartHeight}
             outcome={phase === 'done' ? outcome : undefined}
-            onCross={isLine ? undefined : onCross}
           />
         </Pressable>
         {/* In the strip under the plot, opposite the VWAP key: a line of its

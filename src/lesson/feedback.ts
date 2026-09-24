@@ -33,8 +33,8 @@ export function tapFeedback(): void {
 
 /**
  * A drag passing a step: a slider's notch, a dragged line's fifth cent, a chip
- * lifted, a replayed price crossing a gridline. It can come several times a
- * second, so it is barely there -- a fraction of a tap, felt more than heard.
+ * lifted. It can come several times a second, so it is barely there -- a
+ * fraction of a tap, felt more than heard.
  */
 export function detentFeedback(): void {
   cue('detent');

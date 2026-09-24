@@ -3,11 +3,13 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedProps } from 'react-native-reanimated';
 import Svg, { G, Line, Path } from 'react-native-svg';
 
+import { useChartMove } from '../lesson/haptics';
 import { surfaceStyle, useLookSpec } from '../lesson/look';
-import { DURATION } from '../lesson/motion';
+import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
+import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors } from '../theme';
 import type { MiniChart as Spec } from '../types';
-import { BuildCandle, buildStagger, useEntrance } from './ChartBuild';
+import { BUILD_MS, BuildCandle, buildStagger, useEntrance } from './ChartBuild';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedG = Animated.createAnimatedComponent(G);
@@ -60,6 +62,15 @@ export default function MiniChart({
 
   const stagger = buildStagger(n);
   const draw = useEntrance(!isCandles, ENTRY_DELAY, DURATION.draw);
+  // Like every chart, it vibrates while it builds and lands when it settles
+  // (lesson/haptics.ts, startChartMove). Two side by side on a `compare`
+  // screen are one move to the hand.
+  const reduced = useReduceMotion();
+  useChartMove(
+    ENTRY_DELAY +
+      (isCandles ? (n - 1) * stagger + BUILD_MS * EASE_OUT_SETTLE : DURATION.draw * EASE_OUT_SETTLE),
+    !reduced && n > 0
+  );
   const overlay = useEntrance(true, ENTRY_DELAY + n * stagger * 0.7, 480);
 
   const line = useMemo(() => {

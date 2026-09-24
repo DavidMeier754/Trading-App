@@ -55,6 +55,15 @@ export const SPRING_PANEL = { duration: 620, dampingRatio: 0.74 } as const;
 export const SPRING_PANEL_CALM = { duration: 620, dampingRatio: 1 } as const;
 /** A little life, for marks and badges popping in. */
 export const SPRING_POP = { duration: 520, dampingRatio: 0.55 } as const;
+/**
+ * When an EASE_OUT move looks finished. The curve covers 99% of its way in the
+ * first 64% of its time; the rest is a creep the eye no longer follows. A
+ * haptic that marks a move coming to rest (lesson/haptics.ts, startChartMove)
+ * lands here: at the nominal end it would come a beat after the stop the
+ * learner saw.
+ */
+export const EASE_OUT_SETTLE = 0.64;
+
 /** Something with weight landing: a badge, a tier. */
 export const SPRING_LAND = { duration: 900, dampingRatio: 0.6 } as const;
 

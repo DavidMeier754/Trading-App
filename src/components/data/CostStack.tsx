@@ -2,9 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { count, price } from '../../format';
+import { useChartMove } from '../../lesson/haptics';
 import { surfaceStyle, useLookSpec } from '../../lesson/look';
+import { EASE_OUT_SETTLE } from '../../lesson/motion';
+import { useReduceMotion } from '../../lesson/useReduceMotion';
 import { colors, radius, space, type } from '../../theme';
-import GrowBar from './GrowBar';
+import GrowBar, { GROW_DELAY } from './GrowBar';
 
 /** The target lands first, then the costs eat into it one at a time. */
 const TARGET_MS = 420;
@@ -33,6 +36,14 @@ export default function CostStack({
   const pct = data.target > 0 ? (cost / data.target) * 100 : 0;
   const scale = Math.max(data.target, cost);
   const width = (v: number) => (v / scale) * 100;
+
+  // Like every chart, it vibrates while it moves and lands when it settles
+  // (lesson/haptics.ts, startChartMove): the target, then each cost in turn.
+  const reduced = useReduceMotion();
+  const settled = parts.length
+    ? TARGET_MS + (parts.length - 1) * PART_MS + PART_MS * EASE_OUT_SETTLE
+    : TARGET_MS * EASE_OUT_SETTLE;
+  useChartMove(GROW_DELAY + settled, !reduced);
 
   // What it means first, then the picture of it, then the detail: the share of
   // the target the costs take, big; the target and the costs as two bars on one

@@ -3,10 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
   SharedValue,
   useAnimatedProps,
-  useAnimatedReaction,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
 import Svg, {
   Circle,
   Defs,
@@ -20,10 +18,18 @@ import Svg, {
 } from 'react-native-svg';
 
 import { axisPrice, volume as fmtVolume } from '../format';
+import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { useLookSpec } from '../lesson/look';
 import { Arrive } from '../lesson/Celebrate';
-import { DURATION } from '../lesson/motion';
-import { BuildCandle, buildStagger, BuildVolume, useEntrance } from './ChartBuild';
+import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
+import { useReduceMotion } from '../lesson/useReduceMotion';
+import {
+  BUILD_MS,
+  BuildCandle,
+  buildStagger,
+  BuildVolume,
+  useEntrance,
+} from './ChartBuild';
 import { CHART_GRID_STEP, colors, GRID, type } from '../theme';
 import type { ChartSpec } from '../types';
 
@@ -634,28 +640,18 @@ function PlaybackVolumeBar({
  * wherever the price is right now, ending in a lit point at the plot's edge in
  * the colour of the forming bar. It is what a live chart shows beside a candle
  * being made, and it carries the eye along the price between one candle and
- * the next.
- *
- * It is also where the hand feels the replay: each time the price crosses one
- * of the chart's price lines, `onCross` fires -- the screen answers with a
- * soft detent. Worked out per frame on the UI thread; React hears about a
- * crossing only.
+ * the next. Worked out per frame on the UI thread.
  */
 function PlaybackLivePrice({
   g,
   progress,
   x0,
   x1,
-  step,
-  onCross,
 }: {
   g: PlayGeom;
   progress: SharedValue<number>;
   x0: number;
   x1: number;
-  /** The distance between the chart's price lines. */
-  step: number;
-  onCross?: () => void;
 }) {
   const visible = (t: number) => {
     'worklet';
@@ -676,19 +672,6 @@ function PlaybackLivePrice({
   const dotDown = useAnimatedProps(() => point(progress.get(), false, 1));
   const haloUp = useAnimatedProps(() => point(progress.get(), true, 0.22));
   const haloDown = useAnimatedProps(() => point(progress.get(), false, 0.22));
-
-  useAnimatedReaction(
-    () => {
-      const t = progress.get();
-      if (t <= 0 || t >= 1) return -1;
-      return Math.floor((playY(g, t, liveAt(g, t).p) - g.padTop) / step);
-    },
-    (cell, previous) => {
-      if (previous === null || previous < 0 || cell < 0 || cell === previous || !onCross) return;
-      scheduleOnRN(onCross);
-    },
-    [step, onCross]
-  );
 
   return (
     <G>
@@ -995,11 +978,6 @@ type Props = {
   marks?: { bar: number; label: string; color: string }[];
   /** Trades the learner took, as an arrow under (long) or over (short) the bar. */
   trades?: { bar: number; side: 'long' | 'short' }[];
-  /**
-   * A candle replay's live price crossing one of the chart's price lines
-   * (PlaybackLivePrice). Called from the UI thread at the crossing only.
-   */
-  onCross?: () => void;
 };
 
 export const AXIS_W = 44;
@@ -1173,7 +1151,6 @@ function Chart({
   marks,
   trades,
   emphasis = false,
-  onCross,
 }: Props) {
   const lookSpec = useLookSpec();
   const neo = lookSpec.chartGlow || emphasis;
@@ -1194,6 +1171,32 @@ function Chart({
   const stagger = useRef(buildStagger(shown)).current;
   const buildDelay = (i: number) => (entering.current ? ENTRY_DELAY + i * stagger : 0);
   const builds = (i: number) => !seen.current.has(i);
+  // The hand feels the chart move (lesson/haptics.ts, startChartMove): one
+  // steady vibration while the bars build in and the line draws on, and one
+  // landing as the last of them settles. Worked out before `seen` is updated
+  // below, so it knows which bars this commit builds. A bar that joins later
+  // -- the next bar of a `chart-replay` -- is a short move of its own. A
+  // replay's move is ChartDecisionScreen's, which knows its timing.
+  const reduced = useReduceMotion();
+  let moveMs = 0;
+  if (!reduced && !playback) {
+    if (spec.kind !== 'line' || hasVolume) {
+      for (let i = 0; i < shown; i++) {
+        if (builds(i)) moveMs = Math.max(moveMs, buildDelay(i) + BUILD_MS * EASE_OUT_SETTLE);
+      }
+    }
+    // A line draws on over DURATION.draw: by itself after the entry delay, or
+    // from mount when the DrawOnChart around it is doing the drawing.
+    if (spec.kind === 'line' && entering.current && n > 1) {
+      moveMs = Math.max(moveMs, (draw ? 0 : ENTRY_DELAY) + DURATION.draw * EASE_OUT_SETTLE);
+    }
+  }
+  const moving = useRef<ChartMove[]>([]);
+  useEffect(() => {
+    if (moveMs > 0) moving.current.push(startChartMove(moveMs));
+  });
+  useEffect(() => () => moving.current.forEach((m) => m.cancel()), []);
+
   useEffect(() => {
     entering.current = false;
     const upTo = playback ? n : shown;
@@ -1562,8 +1565,6 @@ function Chart({
               progress={playback}
               x0={PAD_LEFT}
               x1={PAD_LEFT + plotW}
-              step={priceH / gaps}
-              onCross={onCross}
             />
           </G>
         ) : (

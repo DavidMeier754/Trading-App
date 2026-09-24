@@ -8,13 +8,17 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 
+import { useChartMove } from '../../lesson/haptics';
 import { useLookSpec } from '../../lesson/look';
-import { EASE_OUT } from '../../lesson/motion';
+import { EASE_OUT, EASE_OUT_SETTLE } from '../../lesson/motion';
 import { useReduceMotion } from '../../lesson/useReduceMotion';
 import { colors, space, type } from '../../theme';
 import { GROW_DELAY } from './GrowBar';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
+
+/** One slice lighting. */
+const SLICE_MS = 260;
 
 /** docs/UI.md §6.1 — a circle of N equal slices, `owned` of them filled. */
 export default function OwnershipPie({
@@ -43,6 +47,10 @@ export default function OwnershipPie({
   // The owned slices light one after another, clockwise from twelve: the
   // count is the lesson, so it is counted out rather than shown at once.
   const step = Math.min(90, 520 / Math.max(1, owned));
+  // Like every chart, it vibrates while it moves and lands when it settles
+  // (lesson/haptics.ts, startChartMove): here, while the slices light.
+  const reduced = useReduceMotion();
+  useChartMove(GROW_DELAY + (owned - 1) * step + SLICE_MS * EASE_OUT_SETTLE, !reduced && owned > 0);
 
   return (
     <View style={styles.wrap}>
@@ -71,7 +79,7 @@ function OwnedSlice({ d, fill, delay }: { d: string; fill: string; delay: number
   const reduced = useReduceMotion();
   const v = useSharedValue(reduced ? 1 : 0);
   useEffect(() => {
-    if (!reduced) v.set(withDelay(delay, withTiming(1, { duration: 260, easing: EASE_OUT })));
+    if (!reduced) v.set(withDelay(delay, withTiming(1, { duration: SLICE_MS, easing: EASE_OUT })));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const props = useAnimatedProps(() => ({ fillOpacity: v.get() }));
