@@ -54,7 +54,7 @@ screens:
     explanation: "200 ÷ 4,000 = 5 %. Moving the decimal point is the commonest slip here."
 
   - type: chart-decision
-    scenario: "NOVA has stepped lower for six minutes straight and trades at $26.40. You have a $5,000 account and are looking at 150 shares. Buy, or wait?"
+    scenario: "XYZ has stepped lower for six minutes straight and trades at $26.40. You have a $5,000 account and are looking at 150 shares. Buy, or wait?"
     shares: 150
     chart: {kind: line, data: [27.60, 27.40, 27.20, 26.90, 26.70, 26.40, 26.20, 26.05, 25.90, 25.80], decision_index: 5}
     buttons: [buy, wait]

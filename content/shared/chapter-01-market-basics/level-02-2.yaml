@@ -17,7 +17,7 @@ screens:
     text: "Let's trade again — this time you explain the moves."
 
   - type: story
-    text: "Monday, mid-morning. XYZ trades at $22.00. You have $2,200 and want 100 shares."
+    text: "Monday, mid-morning. XYZ trades at $22.00. You have $2,500 and want 100 shares."
 
   - type: chart-decision
     scenario: "XYZ has drifted sideways around $22.00 for ten minutes. Buyers and sellers look balanced. Buy, or wait?"

@@ -7,6 +7,8 @@ import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
+  withSequence,
+  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,16 +17,19 @@ import { scheduleOnRN } from 'react-native-worklets';
 import { detentFeedback, tapFeedback } from '../lesson/feedback';
 import { HapticsSetting, setHapticsSetting, useHapticsSetting } from '../lesson/haptics';
 import { Look, LOOKS, setLook, useLook } from '../lesson/look';
-import { EASE_OUT, usePressFeedback } from '../lesson/motion';
+import { EASE_OUT, SPRING_POP, usePressFeedback } from '../lesson/motion';
 import { setSoundEnabled, useSoundEnabled } from '../lesson/sound';
 import { MotionSetting, setMotionSetting, useMotionSetting, useReduceMotion } from '../lesson/useReduceMotion';
 import {
   doneToday,
   heartsNow,
   MAX_HEARTS,
+  refillHearts,
   resetProgress,
   streakDays,
+  useHearts,
   useProgress,
+  waitText,
 } from '../progress';
 import { colors, radius, space, type } from '../theme';
 import Icon from './icons';
@@ -134,7 +139,8 @@ export default function SettingsScreen({
         <Text style={styles.section}>Progress</Text>
         <ResetRow />
 
-        <Text style={styles.section}>Test bench</Text>
+        <Text style={styles.section}>Testing</Text>
+        <HeartsRow />
         <RowButton
           icon="flask"
           title="Every screen type"
@@ -390,6 +396,46 @@ function RowButton({
           <Text style={styles.rowSub}>{sub}</Text>
         </View>
         <Icon name="next" size={20} color={colors.textFaint} />
+      </Pressable>
+    </Animated.View>
+  );
+}
+
+/**
+ * Temporary, while hearts are being tried out: every heart back in one tap,
+ * without waiting out the four hours. Goes when the refill rules settle.
+ */
+function HeartsRow() {
+  const { hearts, nextAt } = useHearts();
+  const full = hearts >= MAX_HEARTS;
+  const press = usePressFeedback(!full, { cue: 'tick' });
+  const pop = useSharedValue(1);
+  const popStyle = useAnimatedStyle(() => ({ transform: [{ scale: pop.get() }] }));
+  return (
+    <Animated.View style={press.style}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityState={{ disabled: full }}
+        disabled={full}
+        onPressIn={press.onPressIn}
+        onPressOut={press.onPressOut}
+        onPress={() => {
+          refillHearts();
+          pop.set(withSequence(withTiming(1.3, { duration: 120, easing: EASE_OUT }), withSpring(1, SPRING_POP)));
+        }}
+        style={styles.row}
+      >
+        <Animated.View style={[styles.rowIcon, { backgroundColor: colors.downTint }, popStyle]}>
+          <Icon name="heart" size={22} color={colors.down} />
+        </Animated.View>
+        <View style={styles.rowText}>
+          <Text style={[styles.rowTitle, full && { color: colors.textMuted }]}>Refill hearts</Text>
+          <Text style={styles.rowSub}>
+            {full
+              ? `All ${MAX_HEARTS} hearts are here. Temporary, for testing.`
+              : `${hearts} of ${MAX_HEARTS}${nextAt ? ` · next one in ${waitText(nextAt)}` : ''}. Tap to fill them now.`}
+          </Text>
+        </View>
       </Pressable>
     </Animated.View>
   );

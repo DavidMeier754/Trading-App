@@ -10,6 +10,7 @@ import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors } from '../theme';
 import type { MiniChart as Spec } from '../types';
 import { BUILD_MS, BuildCandle, buildStagger, useEntrance } from './ChartBuild';
+import { floorSpan } from './chartScale';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedG = Animated.createAnimatedComponent(G);
@@ -52,8 +53,11 @@ export default function MiniChart({
   const lows = isCandles ? rows.map((r) => r[2]) : (rows as number[]);
   const levels = spec.levels ?? [];
 
-  let lo = Math.min(...lows, ...levels.map((l) => l.price));
-  let hi = Math.max(...highs, ...levels.map((l) => l.price));
+  let { lo, hi } = floorSpan(
+    spec.kind,
+    Math.min(...lows, ...levels.map((l) => l.price)),
+    Math.max(...highs, ...levels.map((l) => l.price))
+  );
   const span = hi - lo || 1;
   lo -= span * 0.12;
   hi += span * 0.12;

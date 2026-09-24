@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
+import { PATH } from './content';
 import {
   getHapticsSetting,
   HapticsSetting,
@@ -36,6 +37,8 @@ export type Progress = {
   streak: { days: number; last: string | null };
   /** Lessons finished today, towards the daily goal. */
   today: { date: string; count: number };
+  /** Every XP the summaries have handed out, replays included. */
+  xp: number;
   /** Hearts as last written; `heartsNow` adds the ones that have come back since. */
   hearts: number;
   /** When the next missing heart started coming back (ms since 1970), or null when full. */
@@ -55,6 +58,7 @@ const fresh = (): Progress => ({
   done: {},
   streak: { days: 0, last: null },
   today: { date: dayOf(new Date()), count: 0 },
+  xp: 0,
   hearts: MAX_HEARTS,
   heartsAt: null,
 });
@@ -109,8 +113,20 @@ export function doneToday(p: Progress, now = new Date()): number {
   return p.today.date === dayOf(now) ? p.today.count : 0;
 }
 
-/** A sub-level reached its summary. A replay keeps a perfect run it already had. */
-export function completeLesson(id: string, { perfect }: { perfect: boolean }): void {
+/** docs/UI.md §5.3: what a summary hands out -- the lesson's XP, and half again for a perfect run. */
+export function earnedXp(base: number, perfect: boolean): number {
+  return base + (perfect ? Math.round(base * 0.5) : 0);
+}
+
+/**
+ * A sub-level reached its summary: the XP it showed goes on the total, replays
+ * included, so the number on the home screen is the sum of the summaries seen.
+ * A replay keeps a perfect run it already had.
+ */
+export function completeLesson(
+  id: string,
+  { perfect, xp }: { perfect: boolean; xp: number }
+): void {
   const today = dayOf(new Date());
   const p = progress;
   const days =
@@ -122,6 +138,7 @@ export function completeLesson(id: string, { perfect }: { perfect: boolean }): v
   publish({
     ...p,
     done: { ...p.done, [id]: { perfect: perfect || !!p.done[id]?.perfect } },
+    xp: p.xp + earnedXp(xp, perfect),
     streak: { days, last: today },
     today: { date: today, count: (p.today.date === today ? p.today.count : 0) + 1 },
   });
@@ -155,6 +172,11 @@ export function heartsNow(p: Progress, now = Date.now()): Hearts & { clock: numb
   if (hearts >= MAX_HEARTS) return { hearts, nextAt: null, clock: null };
   const clock = p.heartsAt + back * HEART_REFILL_MS;
   return { hearts, nextAt: clock + HEART_REFILL_MS, clock };
+}
+
+/** Temporary, for testing from Settings: every heart back at once. */
+export function refillHearts(): void {
+  publish({ ...progress, hearts: MAX_HEARTS, heartsAt: null });
 }
 
 /** A wrong answer (§5.2). A heart already on its way back keeps its place in the queue. */
@@ -237,6 +259,13 @@ export function loadSaved({ restoreLook = true }: { restoreLook?: boolean } = {}
       progress = { ...fresh(), ...savedProgress };
       // Saved before hearts could be lost in a lesson: start the clock now.
       if (progress.hearts < MAX_HEARTS && progress.heartsAt === null) progress.heartsAt = Date.now();
+      // Saved before XP was kept: each finished lesson once, as its summary showed it.
+      if (typeof savedProgress.xp !== 'number') {
+        progress.xp = PATH.flatMap((level) => level.subs).reduce((sum, entry) => {
+          const done = progress.done[entry.id];
+          return sum + (done ? earnedXp(entry.level.xp, done.perfect) : 0);
+        }, 0);
+      }
       listeners.forEach((listener) => listener());
     }
     if (settings) {

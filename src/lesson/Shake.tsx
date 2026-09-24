@@ -59,5 +59,5 @@ export default function Shake({
 
   const style = useAnimatedStyle(() => ({ transform: [{ translateX: x.get() }] }));
 
-  return <Animated.View style={style}>{children}</Animated.View>;
+  return <Animated.View style={[{ maxWidth: '100%' }, style]}>{children}</Animated.View>;
 }

@@ -65,6 +65,9 @@ export function ToneSurface({
       onPressIn={press.onPressIn}
       onPressOut={press.onPressOut}
       pressRetentionOffset={16}
+      // The Pressable is what sits in a row of chips: capped at the row, so a
+      // long label wraps rather than widening the screen.
+      style={styles.cap}
     >
       <Animated.View style={[styles.surface, shape, style, animated, press.style]}>
         {children}
@@ -114,6 +117,7 @@ export function Card({ children, style }: { children: React.ReactNode; style?: V
 }
 
 const styles = StyleSheet.create({
+  cap: { maxWidth: '100%' },
   prompt: { ...type.prompt, color: colors.text },
   title: { ...type.title, color: colors.text },
   body: { ...type.body, color: colors.textMuted },

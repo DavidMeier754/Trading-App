@@ -19,7 +19,7 @@ screens:
     text: "No new ideas. Just charts, decisions and arithmetic."
 
   - type: story
-    text: "You sit down with a $5,000 account and six charts in front of you. Nobody tells you which ones matter."
+    text: "You sit down with a $5,000 account and a stack of charts in front of you. Nobody tells you which ones matter."
 
   - type: chart-annotate
     prompt: "You bought 100 shares at $9.80. Drag the line to the price at which this position would be $40 ahead."

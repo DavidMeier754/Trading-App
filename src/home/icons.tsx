@@ -23,7 +23,10 @@ export type IconName =
   | 'account'
   | 'play'
   | 'flask'
-  | 'reset';
+  | 'reset'
+  | 'news'
+  | 'globe'
+  | 'bank';
 
 export default function Icon({
   name,
@@ -100,6 +103,37 @@ export default function Icon({
     }
     case 'back':
       body = <Path d="M15 5l-7 7 7 7" fill="none" {...stroke} />;
+      break;
+    case 'news':
+      // A folded newspaper.
+      body = (
+        <>
+          <Rect x={3} y={5} width={14.5} height={14} rx={2} fill={fill} {...stroke} />
+          <Path d="M17.5 8.5H21v8.5a2 2 0 0 1-2 2h-1.5" fill="none" {...stroke} />
+          <Path d="M6.5 9.5h7.5M6.5 12.5h7.5M6.5 15.5h4.5" fill="none" {...stroke} />
+        </>
+      );
+      break;
+    case 'globe':
+      body = (
+        <>
+          <Circle cx={12} cy={12} r={8.5} fill={fill} {...stroke} />
+          <Path
+            d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.3 3.8 8.5s-1.2 6.1-3.8 8.5M12 3.5C9.4 5.9 8.2 8.8 8.2 12s1.2 6.1 3.8 8.5"
+            fill="none"
+            {...stroke}
+          />
+        </>
+      );
+      break;
+    case 'bank':
+      // A roof, four columns and a step: an institution.
+      body = (
+        <>
+          <Path d="M3.5 9.5 12 4.5l8.5 5z" fill={fill} {...stroke} />
+          <Path d="M6.5 12v5.5M10.2 12v5.5M13.8 12v5.5M17.5 12v5.5M4 20h16" fill="none" {...stroke} />
+        </>
+      );
       break;
     case 'reset':
       // Round and back to the start.

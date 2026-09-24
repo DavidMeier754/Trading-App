@@ -132,7 +132,13 @@ export default function LessonPlayer({
   const [grades, setGrades] = useState<(Grade | null)[]>(() => screens.map(() => null));
   // The run of right answers each reveal ended on (feedback.ts, streakAfter).
   const [streaks, setStreaks] = useState<number[]>(() => screens.map(() => 0));
-  const [decisionPhase, setDecisionPhase] = useState<DecisionPhase>('deciding');
+  // A trade call's phase belongs to the screen that reported it. Kept with its
+  // index, so a second chart-decision straight after a first never inherits the
+  // first one's 'done' -- which revealed it, graded wrong, before any choice.
+  const [phaseAt, setPhaseAt] = useState<{ index: number; phase: DecisionPhase }>({
+    index: -1,
+    phase: 'deciding',
+  });
   const [quitOpen, setQuitOpen] = useState(false);
   // docs/UI.md §5.2: a wrong answer costs a heart, and a lesson stops once the
   // last one is gone. The test bench is not on the path and spends none.
@@ -216,6 +222,11 @@ export default function LessonPlayer({
     onComplete({ perfect: answered.length > 0 && answered.every((g) => g === 'correct') });
   }, [atSummary, onComplete, runKey, grades]);
   const screen = atSummary ? null : screens[index];
+  const decisionPhase: DecisionPhase = phaseAt.index === index ? phaseAt.phase : 'deciding';
+  const setDecisionPhase = useCallback(
+    (phase: DecisionPhase) => setPhaseAt({ index, phase }),
+    [index]
+  );
   const value = atSummary ? null : values[index];
   const isRevealed = atSummary ? false : revealed[index];
   const isLast = index === screens.length - 1;
@@ -226,7 +237,7 @@ export default function LessonPlayer({
     setRevealed(screens.map(() => false));
     setGrades(screens.map(() => null));
     setStreaks(screens.map(() => 0));
-    setDecisionPhase('deciding');
+    setPhaseAt({ index: -1, phase: 'deciding' });
     setCursor(0);
     setPlan({});
     setPathChoice(null);
@@ -241,6 +252,8 @@ export default function LessonPlayer({
 
   const doReveal = useCallback(() => {
     if (!screen || !isQuestion(screen) || !value) return;
+    // Nothing chosen is nothing to grade.
+    if (!canCheck(screen as QuestionScreen, value)) return;
     const g = gradeAnswer(screen as QuestionScreen, value);
     const streak = streakAfter(grades, index, g);
     setGrades((prev) => prev.map((x, i) => (i === index ? g : x)));
@@ -270,7 +283,6 @@ export default function LessonPlayer({
   }, [screen, decisionPhase, isRevealed, doReveal]);
 
   useEffect(() => {
-    setDecisionPhase('deciding');
     setCursor(0);
   }, [index]);
 

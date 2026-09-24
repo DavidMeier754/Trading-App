@@ -56,8 +56,7 @@ export function currentLevel(views: LevelView[]): LevelView {
 }
 
 /** XP earned on the path: each finished lesson's `xp`. */
-export function totalXp(progress: Progress, path: PathLevel[] = PATH): number {
-  return path
-    .flatMap((level) => level.subs)
-    .reduce((sum, entry) => sum + (progress.done[entry.id] ? entry.level.xp : 0), 0);
+/** The XP total: what the summaries handed out (progress.ts, completeLesson). */
+export function totalXp(progress: Progress): number {
+  return progress.xp;
 }

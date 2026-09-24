@@ -9,17 +9,23 @@ import {
   Text,
   View,
 } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
 import type { LessonEntry } from '../content';
-import { EASE_OUT, usePressFeedback } from '../lesson/motion';
+import { EASE_IN_OUT, EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { DAILY_GOAL, doneToday, Hearts, streakDays, useHearts, useProgress, waitText } from '../progress';
 import { colors, radius, space, type } from '../theme';
 import Icon from './icons';
-import LevelNode, { RING } from './LevelNode';
+import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
 import { currentLevel, LevelView, pathView, totalXp } from './pathState';
 
 /** Vertical distance between two nodes' centres, and room above the first for its tag. */
@@ -68,6 +74,19 @@ export default function LearnScreen({
 
   const [open, setOpen] = useState<number | null>(null);
 
+  // Moving on (LevelNode, UNLOCK): the level whose lock the lesson just broke,
+  // read once as the path first draws -- the nodes record what they showed as
+  // soon as they mount, so a later render would no longer see the change.
+  const reduced = useReduceMotion();
+  const [unlocking] = useState(() => {
+    const i = views.findIndex(
+      (v) => v.status === 'current' && shownStatusOf(v.level.number) === 'locked'
+    );
+    return i > 0 ? i : null;
+  });
+  // The banner keeps naming the level just finished until the next one opens.
+  const [bannerAt, setBannerAt] = useState(unlocking !== null ? unlocking - 1 : null);
+
   // "The current path in focus": the path opens scrolled to the level the
   // learner is on, and a card opened low on the screen is scrolled into view.
   const scroll = useRef<ScrollView | null>(null);
@@ -79,14 +98,30 @@ export default function LearnScreen({
       viewport.current = e.nativeEvent.layout.height;
       if (focused.current) return;
       focused.current = true;
-      const i = views.indexOf(here);
-      const y = Math.max(0, cy(i) - viewport.current * 0.38);
-      scroll.current?.scrollTo({ y, animated: false });
+      const at = (i: number) => Math.max(0, cy(i) - viewport.current * 0.38);
+      if (unlocking === null) {
+        scroll.current?.scrollTo({ y: at(views.indexOf(here)), animated: false });
+        return;
+      }
+      // Open on the level just finished, then travel down to the one it opened.
+      scroll.current?.scrollTo({ y: at(unlocking - 1), animated: false });
+      setTimeout(
+        () => scroll.current?.scrollTo({ y: at(unlocking), animated: !reduced }),
+        reduced ? 0 : UNLOCK.scroll
+      );
     },
     // cy is derived from constants and the width
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [views, here]
+    [views, here, unlocking, reduced]
   );
+
+  useEffect(() => {
+    if (bannerAt === null) return;
+    const t = setTimeout(() => setBannerAt(null), reduced ? 400 : UNLOCK.open);
+    return () => clearTimeout(t);
+    // once, on arrival
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     scrollY.current = e.nativeEvent.contentOffset.y;
   };
@@ -106,7 +141,10 @@ export default function LearnScreen({
         today={doneToday(progress)}
         hearts={hearts}
       />
-      <Banner view={here} allDone={views.every((v) => v.status === 'complete')} />
+      <Banner
+        view={bannerAt !== null ? views[bannerAt] : here}
+        allDone={bannerAt === null && views.every((v) => v.status === 'complete')}
+      />
       <ScrollView
         ref={scroll}
         style={styles.scroll}
@@ -116,13 +154,20 @@ export default function LearnScreen({
         onScroll={onScroll}
         scrollEventThrottle={32}
       >
-        <Connectors views={views} cx={cx} cy={cy} width={width} height={contentH} />
+        <Connectors
+          views={views}
+          cx={cx}
+          cy={cy}
+          width={width}
+          height={contentH}
+          drawing={unlocking}
+        />
         {views.map((view, i) => (
           <View
             key={view.level.number}
             style={[styles.nodeSlot, { left: cx(i) - RING / 2, top: cy(i) - RING / 2 }]}
           >
-            <LevelNode view={view} onPress={() => openCard(i)} />
+            <LevelNode view={view} onPress={() => openCard(i)} unlocking={i === unlocking} />
             <NodeLabel
               view={view}
               side={WIND[i % WIND.length] > 0 ? 'left' : 'right'}
@@ -237,9 +282,28 @@ function Hud({
 /** The level the learner is on, named at the top of the path. */
 function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
   const lesson = Math.min(view.done + 1, view.total);
+  // When it comes to name a new level, the words rise into place and the
+  // banner gives a small swell -- the last beat of moving on (LevelNode, UNLOCK).
+  const reduced = useReduceMotion();
+  const t = useSharedValue(1);
+  const swell = useSharedValue(0);
+  const named = useRef(view.level.number);
+  useEffect(() => {
+    if (named.current === view.level.number) return;
+    named.current = view.level.number;
+    if (reduced) return;
+    t.set(0);
+    t.set(withTiming(1, { duration: 420, easing: EASE_OUT }));
+    swell.set(withSequence(withTiming(1, { duration: 140, easing: EASE_OUT }), withTiming(0, { duration: 420, easing: EASE_OUT })));
+  }, [view.level.number, reduced, t, swell]);
+  const words = useAnimatedStyle(() => ({
+    opacity: t.get(),
+    transform: [{ translateY: 14 * (1 - t.get()) }],
+  }));
+  const whole = useAnimatedStyle(() => ({ transform: [{ scale: 1 + 0.035 * swell.get() }] }));
   return (
-    <View style={styles.banner} accessibilityRole="header">
-      <View style={styles.bannerText}>
+    <Animated.View style={[styles.banner, whole]} accessibilityRole="header">
+      <Animated.View style={[styles.bannerText, words]}>
         <Text style={styles.bannerKicker}>
           {allDone
             ? `Chapter ${view.level.chapter} · ${view.level.chapterTitle}`
@@ -248,8 +312,8 @@ function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
         <Text style={styles.bannerTitle} numberOfLines={2}>
           {allDone ? 'Every level here is done' : view.level.title}
         </Text>
-      </View>
-      <View style={styles.bannerBadge}>
+      </Animated.View>
+      <Animated.View style={[styles.bannerBadge, words]}>
         {allDone ? (
           <Icon name="check" size={22} color="#FFFFFF" strokeWidth={3} />
         ) : (
@@ -258,8 +322,8 @@ function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
             <Text style={styles.bannerBadgeLabel}>lesson</Text>
           </>
         )}
-      </View>
-    </View>
+      </Animated.View>
+    </Animated.View>
   );
 }
 
@@ -321,14 +385,28 @@ function Connectors({
   cy,
   width,
   height,
+  drawing,
 }: {
   views: LevelView[];
   cx: (i: number) => number;
   cy: (i: number) => number;
   width: number;
   height: number;
+  /** The level being unlocked: the path into it lights up top to bottom (UNLOCK). */
+  drawing: number | null;
 }) {
-  const dots: { x: number; y: number; lit: boolean }[] = [];
+  const reduced = useReduceMotion();
+  const draw = useSharedValue(drawing !== null && !reduced ? 0 : 1);
+  useEffect(() => {
+    if (drawing === null || reduced) return;
+    draw.set(withDelay(UNLOCK.draw, withTiming(1, { duration: UNLOCK.drawMs, easing: EASE_IN_OUT })));
+  }, [drawing, reduced, draw]);
+  // The lit copy of that one stretch sits in a window that opens downwards.
+  const top = drawing !== null ? cy(drawing - 1) : 0;
+  const span = drawing !== null ? cy(drawing) - top : 0;
+  const reveal = useAnimatedStyle(() => ({ height: span * draw.get() }));
+
+  const dots: { x: number; y: number; lit: boolean; seg: number }[] = [];
   const segment = (i: number, endY: number, lit: boolean) => {
     const x0 = cx(i);
     const y0 = cy(i);
@@ -343,26 +421,45 @@ function Connectors({
       const y = y0 + (y1 - y0) * t;
       const clear = RING / 2 + 8;
       if (Math.hypot(x - x0, y - y0) < clear || Math.hypot(x - x1, y - y1) < clear) continue;
-      dots.push({ x, y, lit });
+      dots.push({ x, y, lit, seg: i });
     }
   };
   for (let i = 0; i < views.length - 1; i++) {
     segment(i, cy(i + 1), views[i + 1].status !== 'locked');
   }
   segment(views.length - 1, cy(views.length - 1) + STEP_Y * 0.72, false);
+  // While it draws, that stretch starts dim underneath its lit copy.
+  const drawn = (d: (typeof dots)[number]) => drawing !== null && d.seg === drawing - 1;
   return (
-    <Svg width={width} height={height} style={StyleSheet.absoluteFill} pointerEvents="none">
-      {dots.map((d, k) => (
-        <Circle
-          key={k}
-          cx={d.x}
-          cy={d.y}
-          r={3.4}
-          fill={d.lit ? colors.accent : colors.surfaceAlt}
-          opacity={d.lit ? 0.75 : 1}
-        />
-      ))}
-    </Svg>
+    <>
+      <Svg width={width} height={height} style={StyleSheet.absoluteFill} pointerEvents="none">
+        {dots.map((d, k) => {
+          const lit = d.lit && !drawn(d);
+          return (
+            <Circle
+              key={k}
+              cx={d.x}
+              cy={d.y}
+              r={3.4}
+              fill={lit ? colors.accent : colors.surfaceAlt}
+              opacity={lit ? 0.75 : 1}
+            />
+          );
+        })}
+      </Svg>
+      {drawing !== null ? (
+        <Animated.View
+          pointerEvents="none"
+          style={[{ position: 'absolute', left: 0, top, width, overflow: 'hidden' }, reveal]}
+        >
+          <Svg width={width} height={span} style={{ position: 'absolute', left: 0, top: 0 }}>
+            {dots.filter(drawn).map((d, k) => (
+              <Circle key={k} cx={d.x} cy={d.y - top} r={3.4} fill={colors.accent} opacity={0.75} />
+            ))}
+          </Svg>
+        </Animated.View>
+      ) : null}
+    </>
   );
 }
 

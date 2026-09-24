@@ -162,8 +162,10 @@ export function SortScreen({
         {screen.buckets.map((bucket, b) => (
           <Animated.View key={bucket} ref={bucketRefs[b]} style={styles.bucketSlot} collapsable={false}>
             <View style={[styles.bucket, pending !== null && !revealed && styles.bucketOpen]}>
-              {/* The whole bucket takes a pending chip; the chips already in
-                  it sit above that and take a tap of their own. */}
+              {/* The whole bucket takes a pending chip -- a tap on a chip
+                  already in it included, or a full bucket would have no room
+                  left to aim at. With nothing pending, a sorted chip takes
+                  its own tap and comes back out. */}
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={`Put it in ${bucket}`}
@@ -179,12 +181,15 @@ export function SortScreen({
               <View style={styles.bucketItems} pointerEvents="box-none">
                 {screen.items.map((item, i) =>
                   placed[i] === bucket ? (
-                    // Tap a sorted chip to take it back out of the bucket.
                     <ToneSurface
                       key={item.text}
                       tone={toneFor(i)}
                       disabled={revealed}
                       onPress={() => {
+                        if (pending !== null) {
+                          put(pending, bucket);
+                          return;
+                        }
                         const next = { ...placed };
                         delete next[i];
                         onChange({ kind: 'buckets', placed: next });
@@ -288,7 +293,7 @@ function DragChip({
 
   return (
     <GestureDetector gesture={pan}>
-      <Animated.View style={style}>{children}</Animated.View>
+      <Animated.View style={[styles.dragCap, style]}>{children}</Animated.View>
     </GestureDetector>
   );
 }
@@ -433,15 +438,20 @@ const styles = StyleSheet.create({
   blankFilled: { borderBottomColor: colors.accent },
   blankText: { ...type.prompt, color: colors.text },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
+  // A chip is as wide as its words, up to the row: a long one wraps onto a
+  // second line instead of pushing the screen wider than the phone.
   chip: {
     minHeight: TAP_TARGET,
+    maxWidth: '100%',
     paddingHorizontal: space.lg,
+    paddingVertical: space.sm,
     justifyContent: 'center',
   },
-  chipText: { ...type.answer, color: colors.text },
+  chipText: { ...type.answer, color: colors.text, flexShrink: 1 },
   chipSmall: { paddingHorizontal: space.sm, paddingVertical: 6 },
   chipSmallText: { ...type.small, color: colors.text },
   chipsOver: { zIndex: 2 },
+  dragCap: { maxWidth: '100%' },
   buckets: { flexDirection: 'row', gap: space.sm, zIndex: 1 },
   bucketSlot: { flex: 1 },
   bucketGlow: {
@@ -481,6 +491,11 @@ const styles = StyleSheet.create({
   },
   slotHint: { ...type.small, color: colors.textFaint },
   segments: { gap: space.sm },
-  segment: { minHeight: TAP_TARGET, paddingHorizontal: space.lg, justifyContent: 'center' },
+  segment: {
+    minHeight: TAP_TARGET,
+    paddingHorizontal: space.lg,
+    paddingVertical: space.sm,
+    justifyContent: 'center',
+  },
   segmentText: { ...type.answer, color: colors.text },
 });

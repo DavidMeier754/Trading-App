@@ -23,7 +23,19 @@ import type {
   VisualScreen as VisualS,
   WalkthroughScreen as Walkthrough,
 } from '../types';
+import Icon, { IconName } from '../home/icons';
 import { Body, Card, ScreenTitle } from './common';
+
+/**
+ * A carousel card's `icon` (docs/schema.md), drawn where there is a drawing.
+ * The rest still show their label's first letter -- three cards in a row whose
+ * labels all began with N all read "N", which is why these came first.
+ */
+const CARD_ICON: Record<string, IconName> = {
+  news: 'news',
+  'market-wide': 'globe',
+  institution: 'bank',
+};
 
 /**
  * The non-question archetypes from docs/UI.md §3 that are not intro / theory /
@@ -51,7 +63,11 @@ export function CarouselScreen({
       <Arrive key={cursor} from="right">
         <Card style={styles.carouselCard}>
           <View style={styles.iconBubble}>
-            <Text style={styles.iconText}>{(card.label ?? '?').slice(0, 1)}</Text>
+            {CARD_ICON[card.icon ?? ''] ? (
+              <Icon name={CARD_ICON[card.icon ?? '']} size={22} color={colors.accent} />
+            ) : (
+              <Text style={styles.iconText}>{(card.label ?? '?').slice(0, 1)}</Text>
+            )}
           </View>
           <ScreenTitle>{card.label}</ScreenTitle>
           <Body>{card.text}</Body>

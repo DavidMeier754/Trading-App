@@ -87,7 +87,10 @@ export function Celebrate({
   const measured = !reduced && box.w > 0;
 
   return (
-    <View onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}>
+    <View
+      style={{ maxWidth: '100%' }}
+      onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
+    >
       {measured && kind === 'bloom' ? <Bloom w={box.w} h={box.h} color={color} /> : null}
       {hasRings ? (
         <Animated.View pointerEvents="none" style={[styles.ring, { borderColor: color }, r1]} />

@@ -74,7 +74,7 @@ screens:
       - prompt: "It stalls, then slips back to $11.74 and you close there. What did the trade make?"
         options:
           - {text: "+$8, four cents a share on 200 shares", correct: true}
-          - {text: "−$52, because it gave back 26 cents from the high"}
+          - {text: "−$56, because it gave back 28 cents from the high"}
         explanation: "Your result is measured from $11.70, where you bought. The high it touched on the way is not a price you ever had."
 
   - type: chart-decision

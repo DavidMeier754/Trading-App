@@ -83,7 +83,9 @@ export default function App() {
                   // A lesson on the path counts once its summary is reached; the
                   // test bench is not on the path and just plays again.
                   onComplete={
-                    entry.testBench ? undefined : (result) => completeLesson(entry.id, result)
+                    entry.testBench
+                      ? undefined
+                      : (result) => completeLesson(entry.id, { ...result, xp: entry.level.xp })
                   }
                 />
               ) : ready ? (

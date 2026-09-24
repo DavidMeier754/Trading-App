@@ -17,6 +17,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { colors, radius, space, type } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
+import { earnedXp } from '../progress';
 import Confetti from './Confetti';
 import { celebrateFeedback, coinFeedback, noteFeedback } from './feedback';
 import { emitMood, surfaceStyle, useLookSpec } from './look';
@@ -70,8 +71,8 @@ export default function LessonComplete({
   const accuracy = total === 0 ? 1 : clean / total;
   const perfect = total > 0 && answered.every((g) => g === 'correct');
 
-  const bonus = perfect ? Math.round(xp * 0.5) : 0;
-  const earned = xp + bonus;
+  const earned = earnedXp(xp, perfect);
+  const bonus = earned - xp;
   const tone = perfect ? colors.warning : colors.success;
 
   const title = useSharedValue(m.reduced ? 1 : 0);

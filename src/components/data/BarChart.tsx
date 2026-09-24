@@ -36,7 +36,8 @@ export default function BarChart({
             />
           </View>
           <Text style={styles.value}>
-            {`${bar.value}${data.unit ? ` ${data.unit}` : ''}`}
+            {/* A currency leads its number ($25); anything else follows it (80 %). */}
+            {data.unit === '$' ? `$${bar.value}` : `${bar.value}${data.unit ? ` ${data.unit}` : ''}`}
           </Text>
         </View>
       ))}
