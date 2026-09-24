@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSyncExternalStore } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 
 import {
   getHapticsSetting,
@@ -22,8 +22,8 @@ import {
  * Progress is what the path map draws (docs/UI.md §7.1): which sub-levels are
  * finished and whether every answer in one was right (a perfect run earns the
  * gold ring). The HUD reads the rest (§7.2): the streak in days, the daily
- * goal of two sub-levels (§5.3), and the hearts, which only tests and exams
- * spend (§5.2) -- so on a path with neither they stay full.
+ * goal of two sub-levels (§5.3), and the hearts (§5.2): a wrong answer costs
+ * one, and each comes back four hours after it was lost.
  *
  * Saved with AsyncStorage (localStorage on the web). A storage that fails or
  * is missing is not an error: the app runs on what is in memory, and simply
@@ -36,12 +36,17 @@ export type Progress = {
   streak: { days: number; last: string | null };
   /** Lessons finished today, towards the daily goal. */
   today: { date: string; count: number };
+  /** Hearts as last written; `heartsNow` adds the ones that have come back since. */
   hearts: number;
+  /** When the next missing heart started coming back (ms since 1970), or null when full. */
+  heartsAt: number | null;
 };
 
 export const MAX_HEARTS = 5;
 /** docs/UI.md §5.3: the daily goal is two sub-levels. */
 export const DAILY_GOAL = 2;
+/** docs/UI.md §5.2: each lost heart returns after four hours. */
+export const HEART_REFILL_MS = 4 * 60 * 60 * 1000;
 
 const PROGRESS_KEY = 'progress.v1';
 const SETTINGS_KEY = 'settings.v1';
@@ -51,6 +56,7 @@ const fresh = (): Progress => ({
   streak: { days: 0, last: null },
   today: { date: dayOf(new Date()), count: 0 },
   hearts: MAX_HEARTS,
+  heartsAt: null,
 });
 
 let progress: Progress = fresh();
@@ -126,6 +132,66 @@ export function resetProgress(): void {
 }
 
 // ---------------------------------------------------------------------------
+// Hearts.
+// ---------------------------------------------------------------------------
+
+export type Hearts = {
+  hearts: number;
+  /** When the next heart is back (ms), or null when they are all here. */
+  nextAt: number | null;
+};
+
+/**
+ * The hearts as they stand at `now`. Nothing ticks in the background: the
+ * store keeps the count and when its refill clock started, and every four
+ * hours since then is a heart back -- so a phone left in a drawer overnight
+ * comes back full without having run a timer.
+ */
+export function heartsNow(p: Progress, now = Date.now()): Hearts & { clock: number | null } {
+  const held = Math.min(p.hearts, MAX_HEARTS);
+  if (held >= MAX_HEARTS || p.heartsAt === null) return { hearts: held, nextAt: null, clock: null };
+  const back = Math.max(0, Math.floor((now - p.heartsAt) / HEART_REFILL_MS));
+  const hearts = Math.min(MAX_HEARTS, held + back);
+  if (hearts >= MAX_HEARTS) return { hearts, nextAt: null, clock: null };
+  const clock = p.heartsAt + back * HEART_REFILL_MS;
+  return { hearts, nextAt: clock + HEART_REFILL_MS, clock };
+}
+
+/** A wrong answer (§5.2). A heart already on its way back keeps its place in the queue. */
+export function loseHeart(): void {
+  const now = Date.now();
+  const { hearts, clock } = heartsNow(progress, now);
+  if (hearts <= 0) return;
+  publish({ ...progress, hearts: hearts - 1, heartsAt: clock ?? now });
+}
+
+/**
+ * The hearts, kept current on screen: it re-renders when the next heart is
+ * back, and once a minute in between so a countdown beside them moves.
+ */
+export function useHearts(): Hearts {
+  const p = useProgress();
+  const [tick, setTick] = useState(0);
+  const { hearts, nextAt } = heartsNow(p);
+  useEffect(() => {
+    if (nextAt === null) return;
+    const wait = Math.min(60_000, Math.max(1_000, nextAt - Date.now() + 50));
+    const t = setTimeout(() => setTick((n) => n + 1), wait);
+    return () => clearTimeout(t);
+  }, [nextAt, tick]);
+  return { hearts, nextAt };
+}
+
+/** "3h 59m", "12m", "under a minute": how long until `at`. */
+export function waitText(at: number, now = Date.now()): string {
+  const minutes = Math.ceil((at - now) / 60_000);
+  if (minutes <= 1) return 'under a minute';
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return h > 0 ? `${h}h ${String(m).padStart(2, '0')}m` : `${m}m`;
+}
+
+// ---------------------------------------------------------------------------
 // Loading and saving.
 // ---------------------------------------------------------------------------
 
@@ -169,6 +235,8 @@ export function loadSaved({ restoreLook = true }: { restoreLook?: boolean } = {}
     ]);
     if (savedProgress) {
       progress = { ...fresh(), ...savedProgress };
+      // Saved before hearts could be lost in a lesson: start the clock now.
+      if (progress.hearts < MAX_HEARTS && progress.heartsAt === null) progress.heartsAt = Date.now();
       listeners.forEach((listener) => listener());
     }
     if (settings) {

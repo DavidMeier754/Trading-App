@@ -16,7 +16,7 @@ import Svg, { Circle } from 'react-native-svg';
 import type { LessonEntry } from '../content';
 import { EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { DAILY_GOAL, doneToday, streakDays, useProgress } from '../progress';
+import { DAILY_GOAL, doneToday, Hearts, streakDays, useHearts, useProgress, waitText } from '../progress';
 import { colors, radius, space, type } from '../theme';
 import Icon from './icons';
 import LevelNode, { RING } from './LevelNode';
@@ -53,6 +53,7 @@ export default function LearnScreen({
   const views = useMemo(() => pathView(progress), [progress]);
   const here = currentLevel(views);
   const xp = useMemo(() => totalXp(progress), [progress]);
+  const hearts = useHearts();
 
   const amp = Math.min(76, width * 0.2);
   const cx = (i: number) => width / 2 + WIND[i % WIND.length] * amp;
@@ -103,7 +104,7 @@ export default function LearnScreen({
         streak={streakDays(progress)}
         xp={xp}
         today={doneToday(progress)}
-        hearts={progress.hearts}
+        hearts={hearts}
       />
       <Banner view={here} allDone={views.every((v) => v.status === 'complete')} />
       <ScrollView
@@ -144,6 +145,7 @@ export default function LearnScreen({
               top={cy(open) + RING / 2 + 16}
               arrowX={cx(open)}
               width={width}
+              hearts={hearts}
               onStart={(entry) => {
                 setOpen(null);
                 onStart(entry);
@@ -176,7 +178,7 @@ function Hud({
   streak: number;
   xp: number;
   today: number;
-  hearts: number;
+  hearts: Hearts;
 }) {
   const goal = Math.min(1, today / DAILY_GOAL);
   const r = 11;
@@ -215,9 +217,18 @@ function Hud({
         <Text style={[styles.hudValue, { color: colors.accent }]}>{xp}</Text>
       </View>
       <View style={styles.hudSpacer} />
-      <View style={styles.hudItem} accessibilityLabel={`${hearts} hearts`}>
-        <Icon name="heart" size={22} color={colors.down} />
-        <Text style={[styles.hudValue, { color: colors.down }]}>{hearts}</Text>
+      {/* docs/UI.md §5.2: while one is on its way back, the wait sits beside them. */}
+      <View
+        style={styles.hudItem}
+        accessibilityLabel={`${hearts.hearts} hearts${
+          hearts.nextAt ? `, the next one back in ${waitText(hearts.nextAt)}` : ''
+        }`}
+      >
+        {hearts.nextAt ? <Text style={styles.hudWait}>{waitText(hearts.nextAt)}</Text> : null}
+        <Icon name="heart" size={22} color={hearts.hearts > 0 ? colors.down : colors.textFaint} />
+        <Text style={[styles.hudValue, { color: hearts.hearts > 0 ? colors.down : colors.textFaint }]}>
+          {hearts.hearts}
+        </Text>
       </View>
     </View>
   );
@@ -382,6 +393,7 @@ function LevelCard({
   top,
   arrowX,
   width,
+  hearts,
   onStart,
 }: {
   view: LevelView;
@@ -389,6 +401,7 @@ function LevelCard({
   top: number;
   arrowX: number;
   width: number;
+  hearts: Hearts;
   onStart: (entry: LessonEntry) => void;
 }) {
   const reduced = useReduceMotion();
@@ -408,12 +421,19 @@ function LevelCard({
   const xp = view.next.level.xp;
   const tone = locked ? colors.textFaint : complete ? colors.success : colors.accent;
 
-  const press = usePressFeedback(!locked, { cue: 'advance' });
-  const label = complete
-    ? 'Review lesson 1'
-    : view.done === 0
-      ? 'Start'
-      : `Continue: lesson ${view.nextIndex + 1}`;
+  // docs/UI.md §5.2: with no hearts left a lesson cannot start; the button
+  // says when it can instead.
+  const empty = hearts.hearts === 0;
+  const press = usePressFeedback(!locked && !empty, { cue: 'advance' });
+  const label = empty
+    ? hearts.nextAt
+      ? `Next heart in ${waitText(hearts.nextAt)}`
+      : 'Out of hearts'
+    : complete
+      ? 'Review lesson 1'
+      : view.done === 0
+        ? 'Start'
+        : `Continue: lesson ${view.nextIndex + 1}`;
 
   return (
     <Animated.View style={[styles.card, { top, left, width: cardW, transformOrigin: 'top' }, enter]}>
@@ -451,13 +471,31 @@ function LevelCard({
         <Animated.View style={press.style}>
           <Pressable
             accessibilityRole="button"
+            accessibilityState={{ disabled: empty }}
+            disabled={empty}
             onPressIn={press.onPressIn}
             onPressOut={press.onPressOut}
             onPress={() => onStart(view.next)}
-            style={[styles.cardButton, complete && styles.cardButtonQuiet]}
+            style={[
+              styles.cardButton,
+              complete && styles.cardButtonQuiet,
+              empty && styles.cardButtonEmpty,
+            ]}
           >
-            {complete ? null : <Icon name="play" size={16} color="#FFFFFF" />}
-            <Text style={[styles.cardButtonText, complete && { color: colors.text }]}>{label}</Text>
+            {empty ? (
+              <Icon name="heart" size={16} color={colors.textFaint} />
+            ) : complete ? null : (
+              <Icon name="play" size={16} color="#FFFFFF" />
+            )}
+            <Text
+              style={[
+                styles.cardButtonText,
+                complete && { color: colors.text },
+                empty && { color: colors.textMuted },
+              ]}
+            >
+              {label}
+            </Text>
           </Pressable>
         </Animated.View>
       )}
@@ -477,6 +515,7 @@ const styles = StyleSheet.create({
   hudItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   hudValue: { fontSize: 17, lineHeight: 22, fontWeight: '800' },
   hudSpacer: { flex: 1 },
+  hudWait: { ...type.small, color: colors.textMuted, fontVariant: ['tabular-nums'], marginRight: 2 },
   goal: { width: 26, height: 26, alignItems: 'center', justifyContent: 'center' },
 
   banner: {
@@ -571,5 +610,6 @@ const styles = StyleSheet.create({
     gap: space.sm,
   },
   cardButtonQuiet: { backgroundColor: colors.surfaceAlt, borderWidth: 1.5, borderColor: '#3A4553' },
+  cardButtonEmpty: { backgroundColor: colors.surfaceAlt, borderWidth: 1.5, borderColor: colors.border },
   cardButtonText: { ...type.prompt, fontSize: 17, color: '#FFFFFF' },
 });

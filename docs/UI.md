@@ -29,7 +29,7 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 
 ```
 ┌──────────────────────────────────────┐
-│ ✕   ▓▓▓▓▓▓▓▓░░░░░░░░░░░   ♥♥♥♥♥      │  top bar: close, sub-level progress, hearts (tests/exams only)
+│ ✕   ▓▓▓▓▓▓▓▓░░░░░░░░░░░   ♥ 5        │  top bar: close, sub-level progress, hearts
 ├──────────────────────────────────────┤
 │                                      │
 │           CONTENT AREA               │  visual above text; body text max ~3 lines; never scrolls
@@ -174,9 +174,10 @@ Every other interaction shows a frozen chart. Real scalping is recognising a set
 - Amber (reasonable answer on a `chart-decision`): element turns amber, no shake, no heart lost, and the reveal opens with what was right about the choice before what was better.
 - "Show working" toggle on numeric reveals: expands a 1–3 line calculation.
 
-### 5.2 Hearts (Tests and Final Exams only)
-- 5 hearts shown in the top bar only during tests/exams. A wrong answer removes one (heart shrinks and greys out, 300 ms). Amber answers never cost a heart.
-- Each lost heart returns after 4 hours (timer shown on the heart icon on the path map). At 0 hearts the test cannot be started; lessons and repetition remain fully playable.
+### 5.2 Hearts
+- 5 hearts, always shown at the right end of the top bar (section 2) and on the home HUD (7.2). A wrong answer in a lesson, a Test or a Final Exam removes one (the heart breaks, shrinks and greys out, 300 ms). Amber answers never cost a heart, and neither does practice (7.3, 7.7).
+- Each lost heart returns after 4 hours; the time until the next one is shown beside the hearts on the path map.
+- Losing the last heart stops the sub-level on an "Out of hearts" screen that leads back to the path; the sub-level does not count as finished. A lesson or test cannot be started again until a heart is back.
 - Optional later: refill by completing a practice session.
 
 ### 5.3 Sub-level complete
@@ -343,7 +344,7 @@ Every defined term is rendered with a subtle dotted underline. Tap → bottom sh
 ## 10. Theming & accessibility
 
 - **Dark mode default**; full light theme. Tokens: background, surface, text, accent, up-green, down-red, warning, success.
-- **Lesson designs.** A lesson wears one of nine designs, picked in Settings (§11): **Neo** (the default), **Neo Mono**, **Neo Violet**, **Classic**, **Classic Soft**, **Classic Contrast**, **Terminal**, **Blueprint** and **Arcade**. A design changes the ground, the surfaces, the progress bar, the key, the ink of a chart line and the right-answer flourish. It never changes text colours that carry meaning or the up/down colours of chart data. The home screen and its tabs always wear Classic.
+- **Lesson designs.** A lesson wears one of nine designs, picked in Settings (§11): **Neo** (the default), **Neo Mono**, **Neo Violet**, **Classic**, **Classic Soft**, **Classic Contrast**, **Terminal**, **Blueprint** and **Arcade**. A design changes the ground, the surfaces, the progress bar, the key, the ink of a chart line and the right-answer flourish. It never changes text colours that carry meaning or the up/down colours of chart data. The home screen's panels stay Classic; the ground under them is the picked design's, so a new design shows there the moment it is chosen.
 - Color-blind safe: up/down always with arrow/sign; alternative palette (blue/orange) toggle applies to charts too.
 - Dynamic type to 130 % without truncation. Screens do not scroll (section 2), so a screen must be authored to fit at 130 %: shorter body, or split in two. Scrolling is the fallback only past 130 %, where nothing else will do.
 - Haptics and sounds each have a toggle. Reduce-motion removes confetti, flicker and auto-playback (candles then appear on tap).
@@ -357,7 +358,7 @@ Every defined term is rendered with a subtle dotted underline. Tap → bottom sh
 2. **Home** = a tab bar along the bottom: **Learn** (the path map, 7.1), **Practice** (7.3), **Leaderboard** and **Account** (stats and profile, 7.4). Tabs are peers: switching is instant, never a slide.
 3. **Lesson player** (section 2).
 4. **Path choice** appears once, after the Chapter 1 badge (`path-choice`), and is editable in Settings.
-5. **Settings** opens from a button on Account: lesson design (swipe left and right through a live preview of each design; one press applies it, §10), market profile, theme, sounds/haptics, reduce motion, legal, and a button that opens the all-screens test bench.
+5. **Settings** opens from a button on Account: lesson design (swipe left and right through a live preview of each design; one press applies it, §10), market profile, theme, sounds/haptics, reduce motion, reset progress (asks once more; the settings stay), legal, and a button that opens the all-screens test bench.
 6. The one-line risk note appears on first launch, on every scenario result and on the stats screen; the full disclaimer lives in Settings → Legal.
 
 ---

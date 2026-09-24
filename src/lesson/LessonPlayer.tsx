@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,6 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import DecisionButtons, { DECISION_LABEL } from '../components/DecisionButtons';
 import ChartDecisionScreen, {
@@ -72,7 +73,7 @@ import {
   tapFeedback,
 } from './feedback';
 import ProgressBar from './ProgressBar';
-import QuitSheet from './QuitSheet';
+import QuitSheet, { QuitButton } from './QuitSheet';
 import Reveal from './Reveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
@@ -82,6 +83,8 @@ import { dealScreen } from './shuffle';
 import { emitMood, useLookSpec } from './look';
 import { preloadCues } from './sound';
 import HeartMeter from './HeartMeter';
+import OutOfHearts from './OutOfHearts';
+import { getProgress, heartsNow, loseHeart } from '../progress';
 import StreakMeter from './StreakMeter';
 import { VerdictProvider } from './verdict';
 
@@ -131,6 +134,12 @@ export default function LessonPlayer({
   const [streaks, setStreaks] = useState<number[]>(() => screens.map(() => 0));
   const [decisionPhase, setDecisionPhase] = useState<DecisionPhase>('deciding');
   const [quitOpen, setQuitOpen] = useState(false);
+  // docs/UI.md §5.2: a wrong answer costs a heart, and a lesson stops once the
+  // last one is gone. The test bench is not on the path and spends none.
+  const spendsHearts = !testBench;
+  const [outOfHearts, setOutOfHearts] = useState(
+    () => spendsHearts && heartsNow(getProgress()).hearts === 0
+  );
   // docs/UI.md §5.4: on a badge or a tier the CTA comes last. The screen says
   // when its sequence is done, and the CTA is held until then.
   const [settledAt, setSettledAt] = useState(-1);
@@ -166,6 +175,36 @@ export default function LessonPlayer({
     };
   }, []);
 
+  // Leaving is a beat too: the lesson sinks and fades off the ground before
+  // the path appears, whichever way out was taken.
+  const exit = useSharedValue(0);
+  const leaving = useRef(false);
+  const leave = useCallback(() => {
+    if (!onQuit || leaving.current) return;
+    leaving.current = true;
+    exit.set(
+      withTiming(1, { duration: m.reduced ? 180 : 260, easing: EASE_OUT }, (done) => {
+        if (done) scheduleOnRN(onQuit);
+      })
+    );
+  }, [onQuit, exit, m.reduced]);
+  const exitStyle = useAnimatedStyle(() => ({
+    opacity: 1 - exit.get(),
+    transform: m.reduced
+      ? []
+      : [{ translateY: 18 * exit.get() }, { scale: 1 - 0.03 * exit.get() }],
+  }));
+
+  // Android's back button asks before leaving, as the ✕ does, and closes the
+  // question again if it is already asked.
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      setQuitOpen((o) => !o);
+      return true;
+    });
+    return () => sub.remove();
+  }, []);
+
   const atSummary = index >= screens.length;
   // Reported once per run, the moment the summary is reached (docs/UI.md
   // §5.3). Perfect is the summary's own rule: every graded answer right.
@@ -193,6 +232,7 @@ export default function LessonPlayer({
     setPathChoice(null);
     setRunKey((k) => k + 1);
     setSettledAt(-1);
+    setOutOfHearts(false);
     emitMood('calm');
     fade.set(1);
     slide.set(0);
@@ -210,7 +250,9 @@ export default function LessonPlayer({
     // answers climbs the chime a step at a time.
     revealFeedback(g, streak);
     emitMood(g === 'correct' ? (streak >= STREAK_FROM ? 'streak' : 'correct') : g, streak);
-  }, [screen, value, index, grades]);
+    // The heart goes with the verdict, in the same frame (HeartMeter).
+    if (g === 'wrong' && spendsHearts) loseHeart();
+  }, [screen, value, index, grades, spendsHearts]);
 
   // Types that commit on the tap itself reveal as soon as an answer exists, with
   // no Check step in between (see COMMITS_ON_TAP). `chart-decision` is the one
@@ -246,7 +288,7 @@ export default function LessonPlayer({
     slide.set(m.travel(36) * direction.current);
     fade.set(withTiming(1, { duration: m.fade(DURATION.screen), easing: EASE_OUT }));
     slide.set(m.reduced ? 0 : withSpring(0, SPRING_SETTLE));
-  }, [index, runKey, fade, slide, m]);
+  }, [index, runKey, outOfHearts, fade, slide, m]);
 
   // The new look adds depth to the same beat: the incoming screen also comes
   // up from slightly further back, so it arrives rather than slides.
@@ -287,6 +329,7 @@ export default function LessonPlayer({
   };
 
   const ctaLabel = useMemo(() => {
+    if (outOfHearts) return 'Back to path';
     if (!screen) return onComplete ? 'Continue' : 'Play again';
     if (screen.type === 'checklist-reveal' && cursor < screen.items.length) {
       return cursor === 0 ? 'Start the list' : 'Next item';
@@ -294,7 +337,7 @@ export default function LessonPlayer({
     if (!isQuestion(screen)) return isLast ? 'Finish' : 'Continue';
     if (!isRevealed) return 'Check';
     return isLast ? 'Finish' : 'Got it';
-  }, [screen, isLast, isRevealed, cursor, onComplete]);
+  }, [screen, isLast, isRevealed, cursor, onComplete, outOfHearts]);
 
   // A type that commits on tap has no Check state, so before the reveal there is
   // simply no CTA to show — the answer itself is the button.
@@ -306,7 +349,7 @@ export default function LessonPlayer({
   // stepped back: the learner watches the outcome of *that* call, and the slot
   // keeping its height means the chart does not drop the moment it starts.
   const showDecisionButtons =
-    !!screen && screen.type === 'chart-decision' && !isRevealed;
+    !outOfHearts && !!screen && screen.type === 'chart-decision' && !isRevealed;
   const chosenDecision =
     value && value.kind === 'decision' ? value.choice : null;
 
@@ -314,12 +357,12 @@ export default function LessonPlayer({
   const held =
     !!screen && (screen.type === 'badge' || screen.type === 'tier-up') && settledAt !== index;
 
-  const ctaHidden = ctaHiddenBeforeReveal;
+  const ctaHidden = ctaHiddenBeforeReveal && !outOfHearts;
 
   // One press, one cue. Check fires nothing on the way down: the verdict is its
   // sound, on release. A checklist's CTA reveals the next item, which rings its
   // own note. Everything else that moves the lesson on steps forward.
-  const ctaCue: CueName | null = !screen
+  const ctaCue: CueName | null = !screen || outOfHearts
     ? 'advance'
     : screen.type === 'checklist-reveal' && cursor < screen.items.length
       ? null
@@ -328,11 +371,12 @@ export default function LessonPlayer({
         : 'advance';
 
   const ctaDisabled =
-    (!!screen &&
+    !outOfHearts &&
+    ((!!screen &&
       isQuestion(screen) &&
       !isRevealed &&
       !(value && canCheck(screen as QuestionScreen, value))) ||
-    (screen?.type === 'path-choice' && pathChoice === null);
+    (screen?.type === 'path-choice' && pathChoice === null));
 
   /** How many sub-steps a screen has, for the types that count as several. */
   const stepCount = (s: Screen | null): number => {
@@ -345,8 +389,13 @@ export default function LessonPlayer({
   };
 
   const onCta = () => {
+    if (outOfHearts) {
+      if (onQuit) leave();
+      else reset();
+      return;
+    }
     if (!screen) {
-      if (onComplete && onQuit) onQuit();
+      if (onComplete && onQuit) leave();
       else reset();
       return;
     }
@@ -358,6 +407,14 @@ export default function LessonPlayer({
     }
     if (isQuestion(screen) && !isRevealed) {
       doReveal();
+      return;
+    }
+    // The last heart went on this screen: the lesson ends here, not at the
+    // next screen or the summary.
+    if (spendsHearts && heartsNow(getProgress()).hearts === 0) {
+      direction.current = 1;
+      emitMood('calm');
+      setOutOfHearts(true);
       return;
     }
     advance();
@@ -388,18 +445,9 @@ export default function LessonPlayer({
       screens.length;
 
   return (
-    <View style={styles.root}>
+    <Animated.View style={[styles.root, exitStyle]}>
       <View style={[styles.topBar, { paddingTop: insets.top + space.sm }]}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Close lesson"
-          onPressIn={tapFeedback}
-          onPress={() => setQuitOpen(true)}
-          hitSlop={12}
-          style={styles.close}
-        >
-          <Text style={styles.closeText}>{'✕'}</Text>
-        </Pressable>
+        <QuitButton open={quitOpen} onPress={() => setQuitOpen(true)} />
         {testBench ? (
           <Pressable
             accessibilityRole="button"
@@ -438,9 +486,15 @@ export default function LessonPlayer({
         {/* docs/UI.md §2: a screen is one screenful and does not scroll. One
             that does not fit -- a short window, a long reveal, type past 130% --
             is scaled down until it does (lesson/fit.tsx), never scrolled. */}
-        <FitScreen key={`${runKey}-${index}`} contentStyle={styles.content} bottomPad={space.lg}>
+        <FitScreen
+          key={`${runKey}-${index}-${outOfHearts}`}
+          contentStyle={styles.content}
+          bottomPad={space.lg}
+        >
         <VerdictProvider value={verdict}>
-        {atSummary ? (
+        {outOfHearts ? (
+          <OutOfHearts />
+        ) : atSummary ? (
           <LessonComplete
             screens={screens}
             grades={grades}
@@ -470,7 +524,7 @@ export default function LessonPlayer({
       </Animated.View>
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg }]}>
-        {screen && isQuestion(screen) && isRevealed && g ? (
+        {!outOfHearts && screen && isQuestion(screen) && isRevealed && g ? (
           <Reveal
             grade={g}
             lead={revealLead}
@@ -502,8 +556,8 @@ export default function LessonPlayer({
             disabled={ctaDisabled}
             onPress={onCta}
             cue={ctaCue}
-            good={!!screen && isQuestion(screen) && isRevealed && g === 'correct'}
-            hidden={held}
+            good={!outOfHearts && !!screen && isQuestion(screen) && isRevealed && g === 'correct'}
+            hidden={held && !outOfHearts}
           />
         )}
       </View>
@@ -513,11 +567,11 @@ export default function LessonPlayer({
         onCancel={() => setQuitOpen(false)}
         onQuit={() => {
           setQuitOpen(false);
-          if (onQuit) onQuit();
+          if (onQuit) leave();
           else reset();
         }}
       />
-    </View>
+    </Animated.View>
   );
 }
 
@@ -706,7 +760,6 @@ const styles = StyleSheet.create({
     paddingBottom: space.md,
   },
   close: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
-  closeText: { ...type.title, color: colors.textMuted },
   backText: { fontSize: 30, lineHeight: 32, fontWeight: '500', color: colors.textMuted, marginTop: -3 },
   backOff: { opacity: 0.25 },
   streakSlot: { minWidth: 32, alignItems: 'flex-end' },

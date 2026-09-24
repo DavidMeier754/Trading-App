@@ -18,7 +18,14 @@ import { Look, LOOKS, setLook, useLook } from '../lesson/look';
 import { EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { setSoundEnabled, useSoundEnabled } from '../lesson/sound';
 import { MotionSetting, setMotionSetting, useMotionSetting, useReduceMotion } from '../lesson/useReduceMotion';
-import { doneToday, resetProgress, streakDays, useProgress } from '../progress';
+import {
+  doneToday,
+  heartsNow,
+  MAX_HEARTS,
+  resetProgress,
+  streakDays,
+  useProgress,
+} from '../progress';
 import { colors, radius, space, type } from '../theme';
 import Icon from './icons';
 import { forgetShownPath } from './LevelNode';
@@ -398,7 +405,9 @@ function ResetRow() {
   const lessons = Object.keys(progress.done).length;
   const xp = totalXp(progress);
   const streak = streakDays(progress);
-  const empty = lessons === 0 && streak === 0 && doneToday(progress) === 0;
+  const hearts = heartsNow(progress).hearts;
+  const empty =
+    lessons === 0 && streak === 0 && doneToday(progress) === 0 && hearts === MAX_HEARTS;
   const [stage, setStage] = useState<'idle' | 'confirm' | 'done'>('idle');
   const press = usePressFeedback(!empty && stage === 'idle', { cue: 'tick' });
 
@@ -406,18 +415,23 @@ function ResetRow() {
     `${lessons} ${lessons === 1 ? 'lesson' : 'lessons'} done`,
     `${xp} XP`,
     streak > 0 ? `${streak}-day streak` : null,
+    hearts < MAX_HEARTS ? `${hearts} of ${MAX_HEARTS} hearts` : null,
   ]
     .filter(Boolean)
     .join(' · ');
 
-  const lost = [
-    `${lessons} finished ${lessons === 1 ? 'lesson' : 'lessons'}`,
-    `${xp} XP`,
+  const cleared = [
+    lessons > 0 ? `${lessons} finished ${lessons === 1 ? 'lesson' : 'lessons'}` : null,
+    xp > 0 ? `${xp} XP` : null,
     streak > 0 ? `your ${streak}-day streak` : null,
   ]
     .filter(Boolean)
     .join(', ')
     .replace(/, ([^,]*)$/, ' and $1');
+  const refill = hearts < MAX_HEARTS ? 'refills your hearts' : null;
+  const lost = cleared
+    ? `This clears ${cleared}${refill ? ` and ${refill}` : ''}.`
+    : `This ${refill ?? 'starts the path again'}.`;
 
   const reset = () => {
     resetProgress();
@@ -446,7 +460,7 @@ function ResetRow() {
           </Text>
           <Text style={styles.rowSub}>
             {confirming
-              ? `This clears ${lost}. Your settings stay.`
+              ? `${lost} Your settings stay.`
               : stage === 'done'
                 ? 'Progress reset. The path starts again at Level 1.'
                 : empty
