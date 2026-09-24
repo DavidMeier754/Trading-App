@@ -48,17 +48,16 @@ export function isHapticsEnabled(): boolean {
   return setting !== 'off';
 }
 
+/** Called whenever the setting changes (the settings are saved from here). */
+export function subscribeHaptics(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
 export function useHapticsSetting(): HapticsSetting {
-  return useSyncExternalStore(
-    (listener) => {
-      listeners.add(listener);
-      return () => {
-        listeners.delete(listener);
-      };
-    },
-    getHapticsSetting,
-    getHapticsSetting
-  );
+  return useSyncExternalStore(subscribeHaptics, getHapticsSetting, getHapticsSetting);
 }
 
 const ignore = () => {};

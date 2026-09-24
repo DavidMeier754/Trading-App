@@ -1,4 +1,5 @@
 import type {
+  BranchScreen,
   ChartReplayScreen,
   DecisionButton,
   QuestionScreen,
@@ -132,7 +133,7 @@ export function canCheck(screen: QuestionScreen, value: AnswerValue): boolean {
     case 'deck':
       return screen.type === 'swipe-deck' && value.picks.length === screen.cards.length;
     case 'branch':
-      return screen.type === 'branch' && value.picks.length === screen.steps.length;
+      return screen.type === 'branch' && branchPath(screen, value.picks).done;
     case 'replay':
       return value.ended;
   }
@@ -289,12 +290,13 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
     }
     case 'branch': {
       if (value.kind !== 'branch') return 'wrong';
-      const right = screen.steps.filter(
-        (step, i) => step.options[value.picks[i]]?.correct === true
+      const { visited } = branchPath(screen, value.picks);
+      const right = visited.filter(
+        (step, k) => screen.steps[step].options[value.picks[k]]?.correct === true
       ).length;
-      if (right === screen.steps.length) return 'correct';
+      if (right === visited.length) return 'correct';
       // Managing a trade is a sequence; one wrong turn is not the whole run.
-      return right >= screen.steps.length - 1 ? 'amber' : 'wrong';
+      return right >= visited.length - 1 ? 'amber' : 'wrong';
     }
     case 'chart-replay':
       return gradeReplay(screen, value);
@@ -370,4 +372,37 @@ function gradeReplay(
   // §4.4: Missed and Phantom are amber, never red. Only a run that is mostly
   // mistimed drops out of amber.
   return green >= Math.ceil(labels.length / 2) ? 'amber' : 'wrong';
+}
+
+/**
+ * docs/schema.md `branch`: the steps a run of picks has walked. Every run starts
+ * at step 0; each pick's option names the step it leads to in `next`, and one
+ * without a `next` ends the path -- so a path can be shorter than the list of
+ * steps, and can skip one.
+ */
+export function branchPath(
+  screen: BranchScreen,
+  picks: number[]
+): { visited: number[]; current: number | null; done: boolean } {
+  const visited: number[] = [];
+  let at: number | undefined = 0;
+  for (const pick of picks) {
+    if (at === undefined || at >= screen.steps.length) break;
+    visited.push(at);
+    at = screen.steps[at].options[pick]?.next;
+  }
+  const ended = at === undefined || at >= screen.steps.length;
+  return { visited, current: ended ? null : (at as number), done: picks.length > 0 && ended };
+}
+
+/**
+ * What the verdict panel says after a branch: the explanation of the first
+ * step that went the other way, since that is the turn worth reading about --
+ * or, for a clean run, the last step's.
+ */
+export function branchExplanation(screen: BranchScreen, picks: number[]): string {
+  const { visited } = branchPath(screen, picks);
+  const missed = visited.find((step, k) => screen.steps[step].options[picks[k]]?.correct !== true);
+  const step = missed ?? visited[visited.length - 1] ?? 0;
+  return screen.steps[step]?.explanation ?? '';
 }

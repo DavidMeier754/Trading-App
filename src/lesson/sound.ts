@@ -34,17 +34,16 @@ export function isSoundEnabled(): boolean {
   return enabled;
 }
 
+/** Called whenever the toggle changes (the settings are saved from here). */
+export function subscribeSound(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
 export function useSoundEnabled(): boolean {
-  return useSyncExternalStore(
-    (listener) => {
-      listeners.add(listener);
-      return () => {
-        listeners.delete(listener);
-      };
-    },
-    isSoundEnabled,
-    isSoundEnabled
-  );
+  return useSyncExternalStore(subscribeSound, isSoundEnabled, isSoundEnabled);
 }
 
 function playerFor(name: CueName): AudioPlayer | null {

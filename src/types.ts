@@ -291,7 +291,8 @@ export type MiniChart = {
 export type SwipeDeckScreen = {
   type: 'swipe-deck';
   prompt: string;
-  cards: { chart: MiniChart; answer: 'take' | 'pass'; verdict: string }[];
+  /** docs/schema.md: `note` is the card's one-line verdict as it flies off. */
+  cards: { chart: MiniChart; answer: 'take' | 'pass'; note: string }[];
   explanation: string;
 };
 
@@ -301,6 +302,8 @@ export type ChartAnnotateScreen = {
   chart: ChartSpec;
   answer: number;
   tolerance: number;
+  /** What the placed line is called in the reveal: "Resistance", "The stop". */
+  label?: string;
   explanation: string;
 };
 
@@ -340,14 +343,22 @@ export type CompareScreen = {
   explanation: string;
 };
 
+/**
+ * docs/schema.md `branch`: a scenario, its chart, and 2-4 steps. An option's
+ * `next` is the step it leads to; an option without one ends the path. Each
+ * step carries its own explanation -- its reveal -- so the screen has none of
+ * its own.
+ */
 export type BranchScreen = {
   type: 'branch';
-  prompt: string;
+  scenario: string;
+  shares?: number;
+  chart?: MiniChart & { decision_index?: number };
   steps: {
-    text: string;
-    options: { text: string; correct?: boolean; consequence: string }[];
+    prompt: string;
+    options: { text: string; correct?: boolean; next?: number }[];
+    explanation: string;
   }[];
-  explanation: string;
 };
 
 export type JournalRowScreen = {

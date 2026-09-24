@@ -7,10 +7,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Backdrop from './components/Backdrop';
 import { GridOriginProvider } from './components/gridAlign';
 import ErrorBoundary from './ErrorBoundary';
-import { LessonEntry, LESSONS } from './content';
+import { LessonEntry, LESSONS, TEST_BENCH } from './content';
+import Home from './home/Home';
 import { Look, LOOKS, setLook } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
-import LessonPicker from './LessonPicker';
+import { completeLesson, loadSaved } from './progress';
 import { colors, space } from './theme';
 
 /** docs/UI.md §2 is portrait-only, so the player is capped at a phone width. */
@@ -26,6 +27,14 @@ export default function App() {
   // looked at one by one; the app proper has no URLs.
   const [link] = useState(() => readDeepLink());
   const [entry, setEntry] = useState<LessonEntry | null>(link?.entry ?? null);
+
+  // Saved progress and settings come back before the home screen is drawn, so
+  // the path never flashes empty first. A deep link opens its lesson at once,
+  // and a look it names wins over the saved one.
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    loadSaved({ restoreLook: !link?.look }).finally(() => setReady(true));
+  }, [link]);
 
   // Where the backdrop's grid starts. Charts subtract it from their own measured
   // y to find how far down the grid they sit (components/gridAlign.tsx). It is
@@ -58,7 +67,7 @@ export default function App() {
           onLayout={measureFrame}
           style={[styles.frame, { width: frameWidth }]}
         >
-          <Backdrop width={frameWidth} height={height} />
+          <Backdrop width={frameWidth} height={height} look={entry ? undefined : 'classic'} />
           <GridOriginProvider originY={gridOrigin}>
             <ErrorBoundary>
               {entry ? (
@@ -69,10 +78,19 @@ export default function App() {
                   testBench={entry.testBench}
                   contentWidth={contentWidth}
                   onQuit={() => setEntry(null)}
+                  // A lesson on the path counts once its summary is reached; the
+                  // test bench is not on the path and just plays again.
+                  onComplete={
+                    entry.testBench ? undefined : (result) => completeLesson(entry.id, result)
+                  }
                 />
-              ) : (
-                <LessonPicker lessons={LESSONS} onPick={setEntry} />
-              )}
+              ) : ready ? (
+                <Home
+                  width={frameWidth}
+                  onStart={setEntry}
+                  onOpenBench={() => setEntry(TEST_BENCH)}
+                />
+              ) : null}
             </ErrorBoundary>
           </GridOriginProvider>
         </View>
@@ -109,16 +127,18 @@ function pinPage() {
   };
 }
 
-function readDeepLink(): { entry: LessonEntry; screen: number } | null {
+function readDeepLink(): { entry: LessonEntry | null; screen: number; look: boolean } | null {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return null;
   const [path, query = ''] = window.location.hash.replace(/^#/, '').split('?');
   // `?look=neoMono` opens it in a given look, for comparing them screen by screen.
   const look = new URLSearchParams(query).get('look');
-  if (look && look in LOOKS) setLook(look as Look);
+  const named = !!look && look in LOOKS;
+  if (named) setLook(look as Look);
   const [id, screen] = path.split('/');
-  const entry = LESSONS.find((l) => l.id === id);
+  const entry = LESSONS.find((l) => l.id === id) ?? null;
+  if (!entry && !named) return null;
   // Pages count from 1, as they are shown; the player counts from 0.
-  return entry ? { entry, screen: Math.max(1, Number(screen) || 1) - 1 } : null;
+  return { entry, screen: Math.max(1, Number(screen) || 1) - 1, look: named };
 }
 
 const styles = StyleSheet.create({

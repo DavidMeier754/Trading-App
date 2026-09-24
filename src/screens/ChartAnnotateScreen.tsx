@@ -242,7 +242,7 @@ export default function ChartAnnotateScreen({
         </View>
       ) : (
         <Text style={styles.hint}>
-          {`Intended: ${price(screen.answer)} (±${screen.tolerance.toFixed(2)})`}
+          {`${screen.label ?? 'Intended'}: ${price(screen.answer)} (±${screen.tolerance.toFixed(2)})`}
         </Text>
       )}
       </View>

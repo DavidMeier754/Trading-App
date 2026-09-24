@@ -298,17 +298,16 @@ export function getLook(): Look {
   return look;
 }
 
+/** Called whenever the look changes (the settings are saved from here). */
+export function subscribeLook(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
 export function useLook(): Look {
-  return useSyncExternalStore(
-    (listener) => {
-      listeners.add(listener);
-      return () => {
-        listeners.delete(listener);
-      };
-    },
-    getLook,
-    getLook
-  );
+  return useSyncExternalStore(subscribeLook, getLook, getLook);
 }
 
 export function useLookSpec(): LookSpec {

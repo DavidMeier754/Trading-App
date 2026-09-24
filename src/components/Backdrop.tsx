@@ -4,7 +4,7 @@ import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import Svg, { Defs, Line, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { fitScale, fitTop } from '../lesson/fitState';
-import { useLookSpec } from '../lesson/look';
+import { Look, LOOKS, useLookSpec } from '../lesson/look';
 import Atmosphere, { Texture } from './Atmosphere';
 
 import { colors, GRID } from '../theme';
@@ -31,9 +31,12 @@ const MAJOR_EVERY = 4;
 export default function Backdrop({
   width,
   height,
+  look,
 }: {
   width: number;
   height: number;
+  /** Draw this look's ground instead of the picked one (the home is always Classic). */
+  look?: Look;
 }) {
   // The grid is drawn past the frame on every side: when a screen too tall for
   // the window is scaled down to fit (lesson/fit.tsx), the grid is scaled with
@@ -74,7 +77,8 @@ export default function Backdrop({
     return { transform: [{ translateY: (fitTop.get() - height / 2) * (1 - s) }, { scale: s }] };
   });
 
-  const spec = useLookSpec();
+  const picked = useLookSpec();
+  const spec = look ? LOOKS[look] : picked;
   const g = spec.ground;
   const lineColor = (major: boolean) =>
     g.grid === 'blueprint'

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import MiniChart from '../components/MiniChart';
 import { copy } from '../format';
-import type { AnswerValue } from '../lesson/answers';
+import { type AnswerValue, branchPath } from '../lesson/answers';
 import { Arrive, PopIn } from '../lesson/Celebrate';
 import { tapFeedback } from '../lesson/feedback';
 import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
@@ -178,47 +179,63 @@ export function JournalRowScreen(props: {
 }
 
 /**
- * docs/UI.md §4.2 `branch` — choose, see the consequence, choose again. Each
- * step carries its own reveal; the last screen shows the path taken. Counts as
- * one screen per step, so the cursor lives here.
+ * docs/UI.md §4.2 `branch` — choose, see what it meant, choose again. The
+ * scenario and its chart stay on screen the whole way: by the second step the
+ * learner still needs to see the position they are managing, and the chart
+ * walks on a little with each step, on the scale of the whole session so the
+ * frame never jumps. Each step carries its own reveal (docs/schema.md: the
+ * step's `explanation`), shown as the next step arrives; an option's `next`
+ * says which step that is, and the last screen shows the path taken.
  */
 export function BranchScreen({
   screen,
   value,
   onChange,
   revealed,
+  width,
 }: {
   screen: Branch;
   value: AnswerValue;
   onChange: (v: AnswerValue) => void;
   revealed: boolean;
+  width: number;
 }) {
   const picks = value.kind === 'branch' ? value.picks : [];
   const look = useLookSpec();
-  const stepIndex = Math.min(picks.length, screen.steps.length - 1);
-  const step = screen.steps[stepIndex];
-  const done = picks.length >= screen.steps.length;
+  const { visited, current, done } = branchPath(screen, picks);
+  const total = screen.steps.length;
+
+  // The chart shows the session up to the decision, then walks on towards
+  // its end a share at a time as the steps go by; the path shown in full.
+  const chart = screen.chart;
+  const n = chart ? chart.data.length : 0;
+  const at = chart?.decision_index ?? n - 1;
+  const shown =
+    done || revealed
+      ? n
+      : Math.min(n, at + 1 + Math.round((visited.length * (n - at - 1)) / Math.max(1, total - 1)));
+  const chartView = chart ? (
+    <MiniChart spec={chart} width={width} height={104} visible={shown} />
+  ) : null;
 
   if (done || revealed) {
     return (
       <View style={styles.wrap}>
-        <Prompt>{screen.prompt}</Prompt>
+        <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
+        {chartView}
         <View style={styles.pathList}>
-          {screen.steps.map((s, i) => {
-            const option = s.options[picks[i]];
+          {visited.map((step, k) => {
+            const option = screen.steps[step].options[picks[k]];
             const right = option?.correct === true;
             return (
               <View
-                key={i}
-                style={[
-                  styles.pathStep,
-                  { borderColor: right ? colors.success : colors.warning },
-                ]}
+                key={k}
+                style={[styles.pathStep, { borderColor: right ? colors.success : colors.warning }]}
               >
-                <Text style={styles.pathStepNum}>{`Step ${i + 1}`}</Text>
+                <Text style={styles.pathStepNum}>{`Step ${k + 1}`}</Text>
                 <Text style={styles.pathStepChoice}>{copy(option?.text ?? '—')}</Text>
                 <Text style={styles.pathStepConsequence}>
-                  {copy(option?.consequence ?? '')}
+                  {copy(screen.steps[step].explanation)}
                 </Text>
               </View>
             );
@@ -228,12 +245,15 @@ export function BranchScreen({
     );
   }
 
-  const previous = picks.length > 0 ? screen.steps[picks.length - 1].options[picks[picks.length - 1]] : null;
+  const step = screen.steps[current ?? 0];
+  const lastStep = visited.length > 0 ? visited[visited.length - 1] : null;
+  const lastRight =
+    lastStep !== null && screen.steps[lastStep].options[picks[picks.length - 1]]?.correct === true;
 
   // A step is a new question, and it has to look like one: the step pill
-  // moves on, what your last choice led to arrives as its own card, and the
-  // new question slides in from the side -- keyed by step, so it re-enters
-  // rather than silently swapping its text.
+  // moves on, the last step's reveal arrives as its own card, and the new
+  // question slides in from the side -- keyed by step, so it re-enters rather
+  // than silently swapping its text.
   return (
     <View style={styles.wrap}>
       <View style={styles.stepRow}>
@@ -242,26 +262,39 @@ export function BranchScreen({
             key={i}
             style={[
               styles.stepPip,
-              i < stepIndex && { backgroundColor: tint(look.accent, 0.5) },
-              i === stepIndex && { backgroundColor: look.accent, width: 28 },
+              i < visited.length && { backgroundColor: tint(look.accent, 0.5) },
+              i === visited.length && { backgroundColor: look.accent, width: 28 },
             ]}
           />
         ))}
-        <Text style={styles.counter}>{`Step ${stepIndex + 1} of ${screen.steps.length}`}</Text>
+        <Text style={styles.counter}>{`Step ${visited.length + 1} of ${total}`}</Text>
       </View>
-      {/* The scenario has to stay on screen: by step 2 the learner still needs to
-          know what position they are managing. */}
-      <Text style={styles.scenario}>{copy(screen.prompt)}</Text>
-      <Arrive key={stepIndex} from="right" style={styles.stepBody}>
-        {previous ? (
+      <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
+      {chartView}
+      <Arrive key={visited.length} from="right" style={styles.stepBody}>
+        {lastStep !== null ? (
           <PopIn>
-            <View style={[styles.consequence, { borderLeftColor: look.accent }]}>
-              <Text style={styles.consequenceKicker}>What happened</Text>
-              <Text style={styles.consequenceText}>{copy(previous.consequence)}</Text>
+            <View
+              style={[
+                styles.consequence,
+                { borderLeftColor: lastRight ? colors.success : colors.warning },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.consequenceKicker,
+                  { color: lastRight ? colors.success : colors.warning },
+                ]}
+              >
+                {lastRight ? 'Right call' : 'Not quite'}
+              </Text>
+              <Text style={styles.consequenceText}>
+                {copy(screen.steps[lastStep].explanation)}
+              </Text>
             </View>
           </PopIn>
         ) : null}
-        <Prompt>{step.text}</Prompt>
+        <Prompt>{step.prompt}</Prompt>
         <View style={styles.options}>
           {step.options.map((option, i) => (
             <ToneSurface

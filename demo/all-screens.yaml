@@ -294,16 +294,16 @@ screens:
     cards:
       - chart: {kind: candles, label: "1", data: [[14.00,14.10,13.96,14.08],[14.08,14.16,14.04,14.06],[14.06,14.10,13.98,14.02],[14.02,14.18,14.00,14.16],[14.16,14.28,14.14,14.26],[14.26,14.36,14.22,14.34],[14.34,14.44,14.32,14.42],[14.42,14.50,14.38,14.48]], levels: [{price: 14.02, label: "VWAP"}]}
         answer: take
-        verdict: "Held the line and turned on the heaviest bar."
+        note: "Held the line and turned on the heaviest bar."
       - chart: {kind: candles, label: "2", data: [[9.80,9.86,9.70,9.72],[9.72,9.76,9.58,9.60],[9.60,9.64,9.48,9.50],[9.50,9.56,9.40,9.42],[9.42,9.46,9.30,9.32],[9.32,9.38,9.22,9.24],[9.24,9.30,9.14,9.16],[9.16,9.22,9.06,9.08]], levels: [{price: 9.60, label: "VWAP"}]}
         answer: pass
-        verdict: "Straight through the line and never looked back."
+        note: "Straight through the line and never looked back."
       - chart: {kind: candles, label: "3", data: [[21.00,21.10,20.96,21.06],[21.06,21.14,21.02,21.04],[21.04,21.08,20.98,21.02],[21.02,21.12,21.00,21.10],[21.10,21.18,21.06,21.16],[21.16,21.22,21.12,21.20],[21.20,21.28,21.18,21.26],[21.26,21.32,21.22,21.30]], levels: [{price: 21.02, label: "VWAP"}]}
         answer: take
-        verdict: "Three touches, three bounces."
+        note: "Three touches, three bounces."
       - chart: {kind: candles, label: "4", data: [[5.40,5.44,5.36,5.38],[5.38,5.42,5.34,5.40],[5.40,5.44,5.36,5.38],[5.38,5.42,5.34,5.36],[5.36,5.40,5.32,5.38],[5.38,5.42,5.34,5.36],[5.36,5.40,5.32,5.34],[5.34,5.38,5.30,5.36]], levels: [{price: 5.37, label: "VWAP"}]}
         answer: pass
-        verdict: "Nothing is happening. There is no trade in chop."
+        note: "Nothing is happening. There is no trade in chop."
     explanation: "The bounce needs the line to hold and the next bar to be busier."
 
   - type: chart-annotate
@@ -353,18 +353,21 @@ screens:
     explanation: "A tested the line three times and closed higher each time."
 
   - type: branch
-    prompt: "You are long 200 shares from $30.00 and it has gone against you."
+    scenario: "You are long 200 shares from $30.00 and it has gone against you."
+    shares: 200
+    chart: {kind: line, data: [30.0, 29.94, 29.86, 29.78, 29.7, 29.64, 29.66, 29.82, 30.02, 30.2], decision_index: 4}
     steps:
-      - text: "It is $29.70 and your stop is $29.60. What now?"
+      - prompt: "It is $29.70 and your stop is $29.60. What now?"
         options:
-          - {text: "Hold the stop", correct: true, consequence: "It bottoms at $29.62 and turns back up."}
-          - {text: "Move the stop lower", consequence: "It keeps going and your loss doubles."}
-          - {text: "Add more", consequence: "Now you are twice the size in a losing trade."}
-      - text: "It is back at $30.20. What now?"
+          - {text: "Hold the stop", correct: true, next: 1}
+          - {text: "Move the stop lower", next: 1}
+          - {text: "Add more", next: 1}
+        explanation: "The stop is the plan. It bottoms at $29.62 and turns back up without touching it."
+      - prompt: "It is back at $30.20. What now?"
         options:
-          - {text: "Move the stop to break even", correct: true, consequence: "The trade can no longer hurt you."}
-          - {text: "Take it all off", consequence: "You made $40 and left the move behind."}
-    explanation: "Let the stop do its job, then take the risk off once it pays you."
+          - {text: "Move the stop to break even", correct: true}
+          - {text: "Take it all off"}
+        explanation: "Once it pays you, take the risk off: at break even the trade can no longer hurt you."
 
   - type: journal-row
     prompt: "Write up yesterday's trade."

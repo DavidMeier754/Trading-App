@@ -74,7 +74,7 @@ export function SwipeDeckScreen({
             </View>
           ))}
         </View>
-        {lastCard ? <Text style={styles.verdict}>{copy(lastCard.verdict)}</Text> : null}
+        {lastCard ? <Text style={styles.verdict}>{copy(lastCard.note)}</Text> : null}
       </View>
     );
   }
@@ -113,7 +113,7 @@ export function SwipeDeckScreen({
             <Text style={[styles.verdictHead, { color: lastRight ? colors.success : colors.warning }]}>
               {`${lastRight ? '✓ Right' : '✕ Not this one'} · card ${picks.length}`}
             </Text>
-            <Text style={styles.verdictSmall}>{copy(lastCard.verdict)}</Text>
+            <Text style={styles.verdictSmall}>{copy(lastCard.note)}</Text>
           </View>
         </PopIn>
       ) : null}

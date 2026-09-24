@@ -30,15 +30,23 @@ export default function MiniChart({
   spec,
   width,
   height = 130,
+  visible,
 }: {
   spec: Spec;
   width: number;
   height?: number;
+  /**
+   * Draw only the first this-many bars, on the scale of all of them: a chart
+   * that moves on as a story does (`branch`) keeps its frame still while the
+   * price walks into it.
+   */
+  visible?: number;
 }) {
   const look = useLookSpec();
   const isCandles = spec.kind === 'candles';
   const rows = spec.data as any[];
   const n = rows.length;
+  const shown = visible === undefined ? n : Math.max(1, Math.min(n, visible));
 
   const highs = isCandles ? rows.map((r) => r[1]) : (rows as number[]);
   const lows = isCandles ? rows.map((r) => r[2]) : (rows as number[]);
@@ -77,14 +85,14 @@ export default function MiniChart({
     if (isCandles) return { d: '', length: 0 };
     let d = '';
     let length = 0;
-    (rows as number[]).forEach((v, i) => {
+    (rows as number[]).slice(0, shown).forEach((v, i) => {
       d += `${i === 0 ? 'M' : 'L'}${cx(i).toFixed(2)},${y(v).toFixed(2)} `;
       if (i > 0) length += Math.hypot(cx(i) - cx(i - 1), y(v) - y(rows[i - 1]));
     });
     return { d, length };
     // cx and y are derived from the same inputs
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rows, width, height, isCandles, lo, hi]);
+  }, [rows, width, height, isCandles, lo, hi, shown]);
 
   const lineProps = useAnimatedProps(() => ({
     strokeDashoffset: line.length * (1 - draw.get()),
@@ -110,7 +118,7 @@ export default function MiniChart({
         </AnimatedG>
         {isCandles ? (
           <G>
-            {rows.map((r, i) => {
+            {rows.slice(0, shown).map((r, i) => {
               const [o, h, l, c] = r as number[];
               return (
                 <BuildCandle

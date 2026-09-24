@@ -51,7 +51,8 @@ function start() {
   }
 }
 
-function subscribe(listener: () => void): () => void {
+/** Called whenever the override or the OS setting changes. */
+export function subscribeMotion(listener: () => void): () => void {
   listeners.add(listener);
   start();
   return () => {
@@ -77,10 +78,10 @@ export function getMotionSetting(): MotionSetting {
 
 /** True when motion should be reduced, from the OS or from the override. */
 export function useReduceMotion(): boolean {
-  return useSyncExternalStore(subscribe, resolve, resolve);
+  return useSyncExternalStore(subscribeMotion, resolve, resolve);
 }
 
 /** The current override, re-rendering the caller when it changes. */
 export function useMotionSetting(): MotionSetting {
-  return useSyncExternalStore(subscribe, getMotionSetting, getMotionSetting);
+  return useSyncExternalStore(subscribeMotion, getMotionSetting, getMotionSetting);
 }

@@ -54,6 +54,7 @@ import type { Level, QuestionScreen, Screen } from '../types';
 import { isQuestion } from '../types';
 import type { AnswerValue, Grade } from './answers';
 import {
+  branchExplanation,
   canCheck,
   commitsOnTap,
   decisionButtons,
@@ -86,6 +87,7 @@ export default function LessonPlayer({
   level,
   contentWidth,
   onQuit,
+  onComplete,
   startAt = 0,
   testBench = false,
 }: {
@@ -93,6 +95,12 @@ export default function LessonPlayer({
   contentWidth: number;
   /** docs/UI.md §2: the close ✕ leaves the lesson. */
   onQuit?: () => void;
+  /**
+   * The sub-level reached its summary: it counts as finished from there, so
+   * leaving by the ✕ on the summary still keeps it. Given this, the summary's
+   * button goes back to the path instead of playing the lesson again.
+   */
+  onComplete?: (result: { perfect: boolean }) => void;
   /** Open on this screen instead of the first (the test bench's deep links). */
   startAt?: number;
   /**
@@ -152,6 +160,15 @@ export default function LessonPlayer({
   }, []);
 
   const atSummary = index >= screens.length;
+  // Reported once per run, the moment the summary is reached (docs/UI.md
+  // §5.3). Perfect is the summary's own rule: every graded answer right.
+  const reported = useRef(-1);
+  useEffect(() => {
+    if (!atSummary || !onComplete || reported.current === runKey) return;
+    reported.current = runKey;
+    const answered = grades.filter((g) => g !== null);
+    onComplete({ perfect: answered.length > 0 && answered.every((g) => g === 'correct') });
+  }, [atSummary, onComplete, runKey, grades]);
   const screen = atSummary ? null : screens[index];
   const value = atSummary ? null : values[index];
   const isRevealed = atSummary ? false : revealed[index];
@@ -263,14 +280,14 @@ export default function LessonPlayer({
   };
 
   const ctaLabel = useMemo(() => {
-    if (!screen) return 'Play again';
+    if (!screen) return onComplete ? 'Continue' : 'Play again';
     if (screen.type === 'checklist-reveal' && cursor < screen.items.length) {
       return cursor === 0 ? 'Start the list' : 'Next item';
     }
     if (!isQuestion(screen)) return isLast ? 'Finish' : 'Continue';
     if (!isRevealed) return 'Check';
     return isLast ? 'Finish' : 'Got it';
-  }, [screen, isLast, isRevealed, cursor]);
+  }, [screen, isLast, isRevealed, cursor, onComplete]);
 
   // A type that commits on tap has no Check state, so before the reveal there is
   // simply no CTA to show — the answer itself is the button.
@@ -322,7 +339,8 @@ export default function LessonPlayer({
 
   const onCta = () => {
     if (!screen) {
-      reset();
+      if (onComplete && onQuit) onQuit();
+      else reset();
       return;
     }
     // A multi-step screen walks its own cursor first; only the last step moves on.
@@ -449,7 +467,13 @@ export default function LessonPlayer({
           <Reveal
             grade={g}
             lead={revealLead}
-            explanation={(screen as QuestionScreen).explanation}
+            explanation={
+              // A branch's reveals live on its steps (docs/schema.md); the panel
+              // gives the one that matters most for the path taken.
+              screen.type === 'branch'
+                ? branchExplanation(screen, value?.kind === 'branch' ? value.picks : [])
+                : (screen as Exclude<QuestionScreen, { type: 'branch' }>).explanation
+            }
             working={working}
             streak={streak}
           />
@@ -651,7 +675,7 @@ function renderScreen(props: {
     case 'compare':
       return <CompareScreen screen={screen} {...q} width={contentWidth} />;
     case 'branch':
-      return <BranchScreen screen={screen} {...q} />;
+      return <BranchScreen screen={screen} {...q} width={contentWidth} />;
     case 'journal-row':
       return <JournalRowScreen screen={screen} {...q} />;
     case 'depth-ladder':
