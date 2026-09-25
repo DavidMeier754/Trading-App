@@ -140,10 +140,55 @@ export function canCheck(screen: QuestionScreen, value: AnswerValue): boolean {
   }
 }
 
+/**
+ * The value of what is in a `numeric-input` field: a number, or a sum worked
+ * on the keypad -- "0.03/0.6", "500*0.04+2" -- with × and ÷ before + and −,
+ * as on paper. Null while it is not a whole sum yet ("5*", "-") or divides by
+ * zero, which keeps Check unavailable. Rounded to 1e-9, so 0.03 ÷ 0.6 is 0.05
+ * and not 0.049999999999999996.
+ */
 export function parseNumeric(text: string): number | null {
-  if (!text || text === '-' || text === '.' || text === '-.') return null;
-  const n = Number(text.replace('−', '-'));
-  return Number.isFinite(n) ? n : null;
+  const t = text.replace(/−/g, '-').replace(/×/g, '*').replace(/÷/g, '/');
+  const terms: number[] = [];
+  const ops: string[] = [];
+  let i = 0;
+  while (i < t.length) {
+    const num = /^-?(\d+\.?\d*|\.\d+)/.exec(t.slice(i));
+    if (!num) return null;
+    terms.push(Number(num[0]));
+    i += num[0].length;
+    if (i === t.length) break;
+    if (!'+-*/'.includes(t[i])) return null;
+    ops.push(t[i]);
+    i += 1;
+    if (i === t.length) return null;
+  }
+  if (terms.length === 0) return null;
+  // × and ÷ fold into the term before them; + and − are left for last.
+  const sums = [terms[0]];
+  const signs: string[] = [];
+  for (let k = 0; k < ops.length; k += 1) {
+    const n = terms[k + 1];
+    if (ops[k] === '*' || ops[k] === '/') {
+      if (ops[k] === '/' && n === 0) return null;
+      const a = sums.pop() as number;
+      sums.push(ops[k] === '*' ? a * n : a / n);
+    } else {
+      signs.push(ops[k]);
+      sums.push(n);
+    }
+  }
+  let total = sums[0];
+  signs.forEach((sign, k) => {
+    total = sign === '+' ? total + sums[k + 1] : total - sums[k + 1];
+  });
+  if (!Number.isFinite(total)) return null;
+  return Math.round(total * 1e9) / 1e9;
+}
+
+/** True when the field holds a sum rather than a single number. */
+export function isSum(text: string): boolean {
+  return /[\d.][-+*/]/.test(text);
 }
 
 export function tilePool(answer: string): string[] {
@@ -210,7 +255,7 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
       if (value.kind !== 'numeric') return 'wrong';
       const n = parseNumeric(value.text);
       if (n === null) return 'wrong';
-      return Math.abs(n - screen.answer) <= (screen.tolerance ?? 0)
+      return Math.abs(n - screen.answer) <= (screen.tolerance ?? 0) + 1e-9
         ? 'correct'
         : 'wrong';
     }

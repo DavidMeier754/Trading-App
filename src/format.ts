@@ -15,7 +15,7 @@ export function copy(input: string): string {
 
 const THIN_SPACE = ' ';
 
-function groupThousands(intPart: string): string {
+export function groupThousands(intPart: string): string {
   return intPart.replace(/\B(?=(\d{3})+(?!\d))/g, THIN_SPACE);
 }
 
