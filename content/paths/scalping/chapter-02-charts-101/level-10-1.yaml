@@ -38,16 +38,16 @@ screens:
 
   - type: chart-decision
     scenario: "Three minutes of pushing at $18.00 without a close above it. The minute that just closed finished at $18.12 on 268,000 shares, twice the biggest bar before it."
-    shares: 1100
+    shares: 1000
     chart:
       kind: candles
       data: [[17.72, 17.80, 17.68, 17.78], [17.78, 17.88, 17.76, 17.86], [17.86, 18.00, 17.84, 17.92], [17.92, 18.00, 17.88, 17.96], [17.96, 18.00, 17.92, 17.98], [17.98, 18.14, 17.96, 18.12], [18.12, 18.26, 18.10, 18.22], [18.22, 18.28, 18.16, 18.18], [18.18, 18.36, 18.16, 18.32], [18.32, 18.38, 18.26, 18.30], [18.30, 18.46, 18.28, 18.42]]
       volume: [96000, 108000, 142000, 128000, 136000, 268000, 210000, 128000, 176000, 104000, 168000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,100 shares"]
+    state: ["Account: $20,000", "Size: 1,000 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It carried on to $18.46 and finished at $18.42 — $0.30 a share above the decision, +$330 long on 1,100 shares."
+    outcome: "It carried on to $18.46 and finished at $18.42 — $0.30 a share above the decision, +$300 long on 1,000 shares."
     explanation: "Three minutes of being refused, then one minute that finished twelve cents through on twice the volume. The market answered, and the answer was the second one."
 
   - type: chart-tap
@@ -84,15 +84,15 @@ screens:
 
   - type: chart-decision
     scenario: "Price climbed into $21.00 and stopped, and the minute that just closed is a two-cent body underneath it on the thinnest bar of the last half hour."
-    shares: 950
+    shares: 700
     chart:
       kind: candles
       data: [[20.60, 20.70, 20.56, 20.68], [20.68, 20.80, 20.66, 20.78], [20.78, 20.90, 20.76, 20.86], [20.86, 21.00, 20.84, 20.92], [20.92, 21.00, 20.88, 20.96], [20.96, 21.02, 20.94, 20.98], [20.98, 21.04, 20.92, 20.96], [20.96, 21.02, 20.90, 20.94], [20.94, 21.00, 20.88, 20.98], [20.98, 21.02, 20.92, 20.96], [20.96, 21.00, 20.90, 20.94]]
       volume: [92000, 104000, 112000, 128000, 96000, 88000, 84000, 80000, 76000, 72000, 70000]
       decision_index: 5
-    state: ["Size: 950 shares"]
+    state: ["Size: 700 shares"]
     best: no-trade
-    outcome: "Six minutes later price was $20.94 — four cents under the decision, $38 down on 950 shares before a single cost."
+    outcome: "Six minutes later price was $20.94 — four cents under the decision, $28 down on 700 shares before a single cost."
     explanation: "Neither answer has arrived. Price is standing on the level on shrinking bars, which is the market saying 'not yet' in the only language it has."
 
   - type: fill-choice
@@ -102,11 +102,11 @@ screens:
     explanation: "Through and staying through. If it comes straight back the next minute, the level did its job after all."
 
   - type: numeric-input
-    prompt: "You joined that minute through $18.00 at $18.12 with 1,100 shares and sold at $18.36. What is the result before costs?"
-    answer: 264
+    prompt: "You joined that minute through $18.00 at $18.12 with 1,000 shares and sold at $18.36. What is the result before costs?"
+    answer: 240
     tolerance: 0.01
     unit: "$"
-    working: "$0.24 a share × 1,100 shares = $264"
+    working: "$0.24 a share × 1,000 shares = $240"
     explanation: "Twenty-four cents for reacting to a close rather than guessing at one, which is the whole difference between the two habits."
 
   - type: example

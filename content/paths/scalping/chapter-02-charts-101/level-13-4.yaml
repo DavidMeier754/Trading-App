@@ -60,24 +60,24 @@ screens:
     explanation: "Six minutes, six closes under the opening price, and the heaviest bar since the bell was the one that took out the morning's low."
 
   - type: numeric-input
-    prompt: "You are long 1,700 shares from a range break at $11.72 and sell at $11.90. What is the result before costs?"
-    answer: 306
+    prompt: "You are long 1,600 shares from a range break at $11.72 and sell at $11.90. What is the result before costs?"
+    answer: 288
     tolerance: 0.01
     unit: "$"
-    working: "$0.18 a share × 1,700 shares = $306"
+    working: "$0.18 a share × 1,600 shares = $288"
     explanation: "Eighteen cents is an ordinary opening scalp, and at that price the account can still pay for the shares."
 
   - type: chart-decision
     scenario: "Six minutes inside the same forty cents, and almost every one of them crossed the opening price of $24.20."
-    shares: 800
+    shares: 600
     chart:
       kind: candles
       data: [[24.20, 24.52, 24.06, 24.40], [24.40, 24.48, 24.14, 24.20], [24.20, 24.46, 24.12, 24.38], [24.38, 24.50, 24.18, 24.24], [24.24, 24.44, 24.16, 24.36], [24.36, 24.46, 24.14, 24.22], [24.22, 24.44, 24.18, 24.38], [24.38, 24.48, 24.20, 24.26], [24.26, 24.42, 24.16, 24.34], [24.34, 24.46, 24.22, 24.28], [24.28, 24.40, 24.20, 24.32]]
       volume: [486000, 372000, 336000, 318000, 294000, 286000, 272000, 264000, 252000, 244000, 238000]
       decision_index: 5
-    state: ["Size: 800 shares"]
+    state: ["Size: 600 shares"]
     best: no-trade
-    outcome: "Five minutes later price was $24.32, ten cents above the decision and still inside the same range — $80 on 800 shares before costs."
+    outcome: "Five minutes later price was $24.32, ten cents above the decision and still inside the same range — $60 on 600 shares before costs."
     explanation: "Both edges are being visited and neither is being kept. This is the shape the first minutes make when the argument is not settled."
 
   - type: tf
@@ -87,16 +87,16 @@ screens:
 
   - type: chart-decision
     scenario: "XYZ gapped up and held it. The opening range is $11.34 to $11.62, and the minute that just closed finished at $11.72 on 364,000 shares."
-    shares: 1700
+    shares: 1600
     chart:
       kind: candles
       data: [[11.40, 11.62, 11.34, 11.56], [11.56, 11.60, 11.44, 11.48], [11.48, 11.58, 11.42, 11.54], [11.54, 11.60, 11.48, 11.52], [11.52, 11.62, 11.46, 11.58], [11.58, 11.74, 11.56, 11.72], [11.72, 11.80, 11.68, 11.78], [11.78, 11.84, 11.72, 11.74], [11.74, 11.88, 11.72, 11.86], [11.86, 11.92, 11.80, 11.84], [11.84, 11.96, 11.82, 11.92]]
       volume: [446000, 312000, 268000, 232000, 214000, 364000, 296000, 238000, 272000, 224000, 246000]
       decision_index: 5
-    state: ["Size: 1,700 shares"]
+    state: ["Size: 1,600 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $11.96 and finished at $11.92 — $0.20 a share above the decision, +$340 long on 1,700 shares."
+    outcome: "It worked up to $11.96 and finished at $11.92 — $0.20 a share above the decision, +$320 long on 1,600 shares."
     explanation: "Ten cents clear of the range high on the busiest minute since the first one, in a stock cheap enough for the account to hold the whole position."
 
   - type: sort

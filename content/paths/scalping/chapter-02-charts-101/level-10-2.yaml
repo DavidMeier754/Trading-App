@@ -45,16 +45,16 @@ screens:
 
   - type: chart-decision
     scenario: "XYZ has been falling towards $13.50 all morning. The minute before last traded down to $13.44 on 232,000 shares — the heaviest bar of the fall — and finished at $13.54. The one that just closed is green at $13.64."
-    shares: 1400
+    shares: 1300
     chart:
       kind: candles
       data: [[13.86, 13.90, 13.74, 13.76], [13.76, 13.80, 13.64, 13.66], [13.66, 13.70, 13.54, 13.58], [13.58, 13.62, 13.50, 13.52], [13.52, 13.56, 13.44, 13.54], [13.54, 13.66, 13.52, 13.64], [13.64, 13.78, 13.62, 13.76], [13.76, 13.82, 13.70, 13.72], [13.72, 13.90, 13.70, 13.86], [13.86, 13.92, 13.80, 13.84], [13.84, 14.00, 13.82, 13.96]]
       volume: [116000, 128000, 142000, 154000, 232000, 198000, 176000, 108000, 164000, 96000, 152000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,400 shares"]
+    state: ["Account: $20,000", "Size: 1,300 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It worked up to $14.00 and finished at $13.96 — $0.32 a share above the decision, +$448 long on 1,400 shares."
+    outcome: "It worked up to $14.00 and finished at $13.96 — $0.32 a share above the decision, +$416 long on 1,300 shares."
     explanation: "The heaviest minute of the fall was spent below the level and finished above it. Everyone who sold under $13.50 was bought out inside sixty seconds."
 
   - type: tf

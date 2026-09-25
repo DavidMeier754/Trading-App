@@ -60,15 +60,15 @@ screens:
 
   - type: chart-decision
     scenario: "Ten crossings of the same eighteen cents in eleven minutes, on bars steady near 50,000 shares. The candle that just closed finished in the middle of them."
-    shares: 800
+    shares: 600
     chart:
       kind: candles
       data: [[24.20, 24.30, 24.16, 24.26], [24.26, 24.32, 24.18, 24.20], [24.20, 24.28, 24.14, 24.24], [24.24, 24.31, 24.17, 24.19], [24.19, 24.29, 24.15, 24.25], [24.25, 24.30, 24.16, 24.18], [24.18, 24.28, 24.14, 24.24], [24.24, 24.32, 24.18, 24.20], [24.20, 24.29, 24.15, 24.23], [24.23, 24.30, 24.16, 24.19], [24.19, 24.28, 24.14, 24.22]]
       volume: [62000, 48000, 56000, 44000, 58000, 46000, 54000, 42000, 52000, 44000, 50000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 800 shares"]
+    state: ["Account: $20,000", "Size: 600 shares"]
     best: no-trade
-    outcome: "Five minutes later price was $24.22 — four cents above the decision, $32 on 800 shares before a single cost."
+    outcome: "Five minutes later price was $24.22 — four cents above the decision, $24 on 600 shares before a single cost."
     explanation: "Nothing here is broken; there is simply nothing to take. A shape that hands back everything it gives is not a trade, it is a waiting room."
 
   - type: tf

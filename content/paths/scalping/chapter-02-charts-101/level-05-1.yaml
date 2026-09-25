@@ -41,17 +41,17 @@ screens:
 
   - type: chart-decision
     scenario: "Sideways drift on bars near 45,000 shares. The candle that just closed is the longest green body of the morning, on 168,000."
-    shares: 900
+    shares: 800
     chart:
       kind: candles
       data: [[21.90, 21.96, 21.86, 21.94], [21.94, 22.02, 21.92, 22.00], [22.00, 22.06, 21.96, 21.99], [21.99, 22.04, 21.95, 22.02], [22.02, 22.08, 22.00, 22.06], [22.06, 22.22, 22.04, 22.20], [22.20, 22.32, 22.17, 22.30], [22.30, 22.40, 22.26, 22.37], [22.37, 22.46, 22.33, 22.43], [22.43, 22.54, 22.39, 22.51], [22.51, 22.62, 22.47, 22.59]]
       volume: [46000, 52000, 40000, 44000, 58000, 168000, 152000, 134000, 118000, 100000, 86000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 900 shares"]
+    state: ["Account: $20,000", "Size: 800 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It kept going to $22.62 and finished at $22.59 — $0.39 a share above the decision, +$351 long on 900 shares."
-    explanation: "Longest body of the morning on nearly four times the recent bars, in a stock busy enough to sell 900 shares back into."
+    outcome: "It kept going to $22.62 and finished at $22.59 — $0.39 a share above the decision, +$312 long on 800 shares."
+    explanation: "Longest body of the morning on nearly four times the recent bars, in a stock busy enough to sell 800 shares back into."
 
   - type: numeric-mc
     prompt: "A stock is printing 6,000 shares a minute. Your 1,500-share order would be what share of that minute?"

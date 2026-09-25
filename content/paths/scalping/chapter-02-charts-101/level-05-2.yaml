@@ -47,38 +47,38 @@ screens:
 
   - type: chart-decision
     scenario: "Selling all morning. A small green candle on the thinnest bar of the move lifted XYZ back to $20.60. The candle that just closed is a long red body on 158,000 — the heaviest bar since the open."
-    shares: 950
+    shares: 900
     chart:
       kind: candles
       data: [[20.60, 20.66, 20.52, 20.56], [20.56, 20.62, 20.48, 20.52], [20.52, 20.58, 20.44, 20.48], [20.48, 20.60, 20.46, 20.58], [20.58, 20.62, 20.44, 20.46], [20.46, 20.50, 20.32, 20.34], [20.34, 20.38, 20.22, 20.24], [20.24, 20.30, 20.14, 20.16], [20.16, 20.22, 20.06, 20.10], [20.10, 20.16, 20.02, 20.06], [20.06, 20.12, 19.98, 20.02]]
       volume: [88000, 96000, 104000, 62000, 84000, 158000, 146000, 132000, 118000, 102000, 90000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 950 shares"]
+    state: ["Account: $20,000", "Size: 900 shares"]
     best: short
     reasonable: [no-trade]
-    outcome: "It slid to $19.98 and finished the run at $20.02 — $0.32 a share, +$304 short on 950 shares."
+    outcome: "It slid to $19.98 and finished the run at $20.02 — $0.32 a share, +$288 short on 900 shares."
     explanation: "The lift back came on the thinnest bar of the move and the selling returned on the heaviest one. Both rows say the same thing."
 
   - type: numeric-input
-    prompt: "You were short 950 shares from $20.34 and covered at $20.02. What is the result before costs?"
-    answer: 304
+    prompt: "You were short 900 shares from $20.34 and covered at $20.02. What is the result before costs?"
+    answer: 288
     tolerance: 0.01
     unit: "$"
-    working: "$0.32 a share × 950 shares = $304"
+    working: "$0.32 a share × 900 shares = $288"
     explanation: "A short makes the move in reverse: sold high, bought back lower, and the share count does the rest."
 
   - type: chart-decision
     scenario: "Five flat minutes on bars around 45,000 shares. The candle that just closed is a $0.16 green body on 204,000, more than four times any bar before it."
-    shares: 1300
+    shares: 1100
     chart:
       kind: candles
       data: [[14.90, 14.96, 14.86, 14.94], [14.94, 15.00, 14.91, 14.97], [14.97, 15.02, 14.93, 14.99], [14.99, 15.04, 14.96, 15.02], [15.02, 15.08, 15.00, 15.06], [15.06, 15.24, 15.04, 15.22], [15.22, 15.34, 15.19, 15.32], [15.32, 15.42, 15.28, 15.39], [15.39, 15.48, 15.35, 15.45], [15.45, 15.54, 15.41, 15.51], [15.51, 15.62, 15.47, 15.59]]
       volume: [42000, 38000, 46000, 40000, 50000, 204000, 178000, 152000, 130000, 112000, 96000]
       decision_index: 5
-    state: ["Size: 1,300 shares"]
+    state: ["Size: 1,100 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It kept going to $15.62 and finished at $15.59 — $0.37 a share above the decision, +$481 long on 1,300 shares."
+    outcome: "It kept going to $15.62 and finished at $15.59 — $0.37 a share above the decision, +$407 long on 1,100 shares."
     explanation: "A stock nobody was trading suddenly took four times its normal minute, and the body says which side wanted it."
 
   - type: chart-annotate

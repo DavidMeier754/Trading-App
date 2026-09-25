@@ -20,20 +20,20 @@ screens:
     text: "Same stock, same morning, three moments left. Two of them are traps."
 
   - type: story
-    text: "Two trades done and $500 in front of you before costs. The run is still going and it has never looked better than it does right now."
+    text: "Two trades done and $450 in front of you before costs. The run is still going and it has never looked better than it does right now."
 
   - type: chart-decision
     scenario: "The climb has run eleven minutes. The minute that just closed reached $19.86, finished at $19.72, and traded 486,000 shares — more than any bar since the opening one."
-    shares: 1000
+    shares: 900
     chart:
       kind: candles
       data: [[19.36, 19.48, 19.34, 19.46], [19.46, 19.56, 19.42, 19.52], [19.52, 19.62, 19.48, 19.58], [19.58, 19.64, 19.52, 19.60], [19.60, 19.72, 19.58, 19.68], [19.68, 19.86, 19.64, 19.72], [19.72, 19.76, 19.58, 19.60], [19.60, 19.66, 19.52, 19.56], [19.56, 19.62, 19.48, 19.52], [19.52, 19.58, 19.44, 19.48], [19.48, 19.54, 19.42, 19.46]]
       volume: [262000, 238000, 224000, 196000, 212000, 486000, 338000, 286000, 248000, 224000, 206000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,000 shares", "Moment 4 of 6"]
+    state: ["Account: $20,000", "Size: 900 shares", "Moment 4 of 6"]
     best: no-trade
     reasonable: [short]
-    outcome: "Price slid to $19.42 and finished at $19.46 — a long at the decision would be $0.26 a share offside, $260 down on 1,000 shares."
+    outcome: "Price slid to $19.42 and finished at $19.46 — a long at the decision would be $0.26 a share offside, $234 down on 900 shares."
     explanation: "The busiest minute since the bell, fourteen cents handed back inside it. That bar is everyone who was still going to buy, buying."
 
   - type: mc
@@ -46,16 +46,16 @@ screens:
 
   - type: chart-decision
     scenario: "XYZ has worked back up to $19.72, where the run died, and been turned away twice. The minute that just closed finished at $19.52, at the low of its own move, on 288,000 shares."
-    shares: 1000
+    shares: 900
     chart:
       kind: candles
       data: [[19.46, 19.54, 19.42, 19.52], [19.52, 19.62, 19.48, 19.58], [19.58, 19.72, 19.54, 19.62], [19.62, 19.68, 19.56, 19.58], [19.58, 19.72, 19.54, 19.64], [19.64, 19.68, 19.50, 19.52], [19.52, 19.56, 19.40, 19.42], [19.42, 19.48, 19.32, 19.34], [19.34, 19.40, 19.24, 19.28], [19.28, 19.34, 19.20, 19.22], [19.22, 19.28, 19.14, 19.18]]
       volume: [206000, 218000, 246000, 182000, 232000, 288000, 264000, 242000, 226000, 204000, 192000]
       decision_index: 5
-    state: ["Size: 1,000 shares", "Moment 5 of 6"]
+    state: ["Size: 900 shares", "Moment 5 of 6"]
     best: short
     reasonable: [no-trade]
-    outcome: "It rolled down to $19.14 and finished at $19.18 — $0.34 a share, +$340 short on 1,000 shares."
+    outcome: "It rolled down to $19.14 and finished at $19.18 — $0.34 a share, +$306 short on 900 shares."
     explanation: "The price that ended the run became the ceiling, it held twice, and the third try finished at its own low on the heaviest bar of the stretch."
 
   - type: compare
@@ -67,11 +67,11 @@ screens:
     explanation: "A goes quiet and stops above the last dip. B breaks it on bars heavier than the push that made it, which is the difference between a rest and an ending."
 
   - type: numeric-input
-    prompt: "Three trades, 1,000 shares each: long $19.14 out at $19.36, long $19.36 out at $19.64, short $19.52 covered at $19.24. What is the morning worth before costs?"
-    answer: 780
+    prompt: "Three trades, 900 shares each: long $19.14 out at $19.36, long $19.36 out at $19.64, short $19.52 covered at $19.24. What is the morning worth before costs?"
+    answer: 702
     tolerance: 0.01
     unit: "$"
-    working: "$220 + $280 + $280 = $780"
+    working: "$198 + $252 + $252 = $702"
     explanation: "Three moves of under thirty cents each. The share count is what turns cents into a morning."
 
   - type: tf
@@ -81,15 +81,15 @@ screens:
 
   - type: chart-decision
     scenario: "Late in the morning, XYZ is turning down from about $19.22 and up from about $19.13, on the thinnest bars since the bell."
-    shares: 1000
+    shares: 900
     chart:
       kind: candles
       data: [[19.18, 19.24, 19.12, 19.20], [19.20, 19.24, 19.14, 19.16], [19.16, 19.22, 19.12, 19.20], [19.20, 19.23, 19.13, 19.15], [19.15, 19.22, 19.12, 19.19], [19.19, 19.22, 19.13, 19.16], [19.16, 19.21, 19.12, 19.19], [19.19, 19.23, 19.14, 19.16], [19.16, 19.20, 19.12, 19.18], [19.18, 19.22, 19.13, 19.15], [19.15, 19.20, 19.12, 19.17]]
       volume: [96000, 84000, 76000, 68000, 62000, 56000, 52000, 48000, 46000, 44000, 42000]
       decision_index: 5
-    state: ["Size: 1,000 shares", "Moment 6 of 6"]
+    state: ["Size: 900 shares", "Moment 6 of 6"]
     best: no-trade
-    outcome: "Five minutes later price was $19.17, one cent above the decision — $10 on 1,000 shares, and the spread would take several times that."
+    outcome: "Five minutes later price was $19.17, one cent above the decision — $9 on 900 shares, and the spread would take several times that."
     explanation: "Nine cents of range on bars a fifth of the size of the open. This is the chart that gives a good morning back."
 
   - type: match

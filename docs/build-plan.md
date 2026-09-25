@@ -16,9 +16,9 @@ Measured, not remembered — re-run the commands and the numbers should match.
 | | |
 |---|---|
 | Scalping path | 8 chapters, 144 levels, **388 sub-levels** (Chapter 1's shared 48 included), 5,109 screens |
-| Validator | 0 errors, 4 warnings (`python3 tools/validate_content.py`) |
+| Validator | 0 errors, 3 warnings (`python3 tools/validate_content.py`) |
 | Self-test | 110/110 (`python3 tools/test_validate.py`) |
-| Sizing | 57 of 572 priced positions over the §3.6 cap, all in Scalping Chapter 2 Levels 4–18 (`python3 tools/check_sizing.py`) |
+| Sizing | 0 of 572 priced positions over the §3.6 cap (`python3 tools/check_sizing.py`) |
 | Drill bank | 1 of 15 packs written; 12 of the other 14 on hold |
 | Replay bank | specified, nothing written |
 | Day Trading, Swing | outlined level by level, no content |
@@ -273,19 +273,25 @@ of the §7 line - flag those rather than deciding them.
 
 ---
 
-## SIZING — the 57 positions over the cap
+## SIZING — done
 
-`docs/agent.md` §3.6 caps one position at 95 % of the account named in its own file. Chapters
-3–8 are clean, and so are Chapter 1 and Scalping Chapter 2 Levels 1–3, which were re-sized when
+`docs/agent.md` §3.6 caps one position at 95 % of the account named in its own file. **All 572
+priced positions are within it.** Chapter 1 and Scalping Chapter 2 Levels 1–3 were re-sized when
 they were wired into the app (the hard error in `chapter-01-market-basics/level-09-2.yaml` —
-500 shares × $12.80 against a $6,000 account — is gone with them). **57 of 572 priced positions
-still breach it, all in Scalping Chapter 2 Levels 4–18.** Run the prompt below for Chapter 2.
+500 shares × $12.80 against a $6,000 account — went with them). Scalping Chapter 2 Levels 4–18
+took the re-sizing written on the `chapter-2-position-sizing` branch (commit 268ddb4), carried
+over onto the state chips the scenarios have used since: every share count lowered, and every
+outcome total, numeric question, working line and size-relative sentence that quoted it moved
+with it. Chapter 2 now sits at a median of 90.5 % and a maximum of 94.8 % of the account.
+
+The prompt below stays for any chapter written later: run it whenever `check_sizing.py` lists a
+breach.
 
 `python3 tools/check_sizing.py --chapter N` lists every breach with each line elsewhere in the
 file that names the same share count — 3,332 corpus-wide, which is why this is a script and not
 a reading task.
 
-### Prompt (run once for Chapter 2, once for Chapter 1)
+### Prompt (for a chapter that breaches)
 
 ```
 Read CLAUDE.md and docs/agent.md §3.6 in full - the two ceilings, the account cap, the

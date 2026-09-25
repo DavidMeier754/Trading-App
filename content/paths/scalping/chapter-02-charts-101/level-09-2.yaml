@@ -50,13 +50,13 @@ screens:
     explanation: "Retail traders, institutions and market makers all place orders at numbers they can say out loud, so that is where the queue forms."
 
   - type: numeric-mc
-    prompt: "You are long 1,100 shares from $17.66. If price stops at the next whole dollar, what is the trade worth before costs?"
+    prompt: "You are long 1,000 shares from $17.66. If price stops at the next whole dollar, what is the trade worth before costs?"
     options:
       - {text: "$34"}
-      - {text: "$374", correct: true}
-      - {text: "$3,740"}
-      - {text: "$37.40"}
-    working: "$18.00 − $17.66 = $0.34 a share × 1,100 shares = $374"
+      - {text: "$340", correct: true}
+      - {text: "$3,400"}
+      - {text: "$0.34"}
+    working: "$18.00 − $17.66 = $0.34 a share × 1,000 shares = $340"
     explanation: "The round number above you is what the trade is worth if it works, and you can know that before you take it."
 
   - type: chart-decision

@@ -44,16 +44,16 @@ screens:
 
   - type: chart-decision
     scenario: "Five minutes of falling. The attempts back up stopped at $28.38, then $28.24, and the one that just closed stopped at $28.08."
-    shares: 700
+    shares: 600
     chart:
       kind: candles
       data: [[28.40, 28.48, 28.24, 28.28], [28.28, 28.38, 28.26, 28.34], [28.34, 28.36, 28.08, 28.12], [28.12, 28.24, 28.10, 28.20], [28.20, 28.22, 27.94, 27.98], [27.98, 28.08, 27.96, 28.04], [28.04, 28.06, 27.78, 27.82], [27.82, 27.92, 27.80, 27.88], [27.88, 27.90, 27.62, 27.66], [27.66, 27.74, 27.64, 27.70], [27.70, 27.72, 27.48, 27.52]]
       volume: [98000, 54000, 112000, 58000, 124000, 60000, 132000, 64000, 140000, 68000, 146000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 700 shares"]
+    state: ["Account: $20,000", "Size: 600 shares"]
     best: short
     reasonable: [no-trade]
-    outcome: "It kept stepping down to $27.48 and finished at $27.52 — $0.52 a share, +$364 short on 700 shares."
+    outcome: "It kept stepping down to $27.48 and finished at $27.52 — $0.52 a share, +$312 short on 600 shares."
     explanation: "Three stalls, each lower than the last, and the red candles are carrying the heavy bars. The shape is telling you which side it allows."
 
   - type: mc
@@ -65,25 +65,25 @@ screens:
     explanation: "Thin sessions make clean-looking shapes out of very few trades, and the crowd that arrives at the open has not voted yet."
 
   - type: numeric-input
-    prompt: "You joined at $19.44 with 1,000 shares and sold into the third push at $19.76. What is the result before costs?"
-    answer: 320
+    prompt: "You joined at $19.44 with 900 shares and sold into the third push at $19.76. What is the result before costs?"
+    answer: 288
     tolerance: 0.01
     unit: "$"
-    working: "$0.32 a share × 1,000 shares = $320"
+    working: "$0.32 a share × 900 shares = $288"
     explanation: "Two steps of that staircase, and the share count turns them into something worth the screen time."
 
   - type: chart-decision
     scenario: "Three dips, each one stopping higher than the last: $10.42, $10.52 and now $10.64. The bars under the green candles are the heavy ones."
-    shares: 1800
+    shares: 1700
     chart:
       kind: candles
       data: [[10.40, 10.50, 10.36, 10.48], [10.48, 10.52, 10.42, 10.44], [10.44, 10.62, 10.42, 10.58], [10.58, 10.64, 10.52, 10.54], [10.54, 10.74, 10.52, 10.70], [10.70, 10.76, 10.64, 10.66], [10.66, 10.88, 10.64, 10.84], [10.84, 10.90, 10.78, 10.80], [10.80, 11.02, 10.78, 10.98], [10.98, 11.04, 10.92, 10.94], [10.94, 11.12, 10.92, 11.08]]
       volume: [96000, 58000, 112000, 54000, 126000, 62000, 138000, 66000, 152000, 70000, 160000]
       decision_index: 5
-    state: ["Size: 1,800 shares"]
+    state: ["Size: 1,700 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $11.12 and finished at $11.08 — $0.42 a share above the decision, +$756 long on 1,800 shares."
+    outcome: "It carried to $11.12 and finished at $11.08 — $0.42 a share above the decision, +$714 long on 1,700 shares."
     explanation: "Both halves rising for five minutes and the weight sitting under the pushes. The dip you are buying is the third one that has held higher."
 
   - type: sort

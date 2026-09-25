@@ -81,16 +81,16 @@ screens:
 
   - type: chart-decision
     scenario: "The opening range is $15.30 to $15.66. The minute that just closed reached $15.72, finished back at $15.60, and traded 178,000 shares — the lightest bar since the bell."
-    shares: 1250
+    shares: 1200
     chart:
       kind: candles
       data: [[15.44, 15.66, 15.30, 15.58], [15.58, 15.64, 15.36, 15.40], [15.40, 15.62, 15.38, 15.56], [15.56, 15.64, 15.44, 15.48], [15.48, 15.60, 15.42, 15.54], [15.54, 15.72, 15.52, 15.60], [15.60, 15.66, 15.50, 15.54], [15.54, 15.62, 15.46, 15.50], [15.50, 15.58, 15.44, 15.52], [15.52, 15.60, 15.46, 15.56], [15.56, 15.62, 15.48, 15.52]]
       volume: [462000, 306000, 268000, 232000, 214000, 178000, 196000, 184000, 172000, 166000, 158000]
       decision_index: 5
-    state: ["Size: 1,250 shares"]
+    state: ["Size: 1,200 shares"]
     best: no-trade
     reasonable: [short]
-    outcome: "Five minutes later price was $15.52, eight cents under the decision — buying that poke would be $100 down on 1,250 shares before costs."
+    outcome: "Five minutes later price was $15.52, eight cents under the decision — buying that poke would be $96 down on 1,200 shares before costs."
     explanation: "Six cents above the line for part of a minute, on the thinnest bar of the session, and a close back inside. The range is still the range."
 
   - type: match

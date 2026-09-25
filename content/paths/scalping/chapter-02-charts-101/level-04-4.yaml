@@ -28,16 +28,16 @@ screens:
 
   - type: chart-decision
     scenario: "Four minutes of selling, on the heaviest bars since the open. One small green candle paused it, on the thinnest bar of the move. The minute after that finished at its own low."
-    shares: 700
+    shares: 600
     chart:
       kind: candles
       data: [[28.60, 28.66, 28.52, 28.56], [28.56, 28.60, 28.40, 28.44], [28.44, 28.48, 28.28, 28.32], [28.32, 28.36, 28.18, 28.22], [28.22, 28.30, 28.20, 28.28], [28.28, 28.32, 28.14, 28.16], [28.16, 28.20, 28.02, 28.04], [28.04, 28.08, 27.90, 27.94], [27.94, 27.98, 27.82, 27.86], [27.86, 27.90, 27.76, 27.80], [27.80, 27.86, 27.74, 27.82]]
       volume: [60000, 98000, 126000, 140000, 70000, 132000, 150000, 144000, 128000, 96000, 84000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 700 shares"]
+    state: ["Account: $20,000", "Size: 600 shares"]
     best: short
     reasonable: [no-trade]
-    outcome: "It fell to $27.74 and finished the run at $27.82 — $0.34 a share, +$238 short on 700 shares."
+    outcome: "It fell to $27.74 and finished the run at $27.82 — $0.34 a share, +$204 short on 600 shares."
     explanation: "The pause came on the thinnest bar of the move and the selling came back on a heavy one. Shape and weight agree."
 
   - type: numeric-input
@@ -50,16 +50,16 @@ screens:
 
   - type: chart-decision
     scenario: "Five minutes down on growing bars. The candle that just closed took back the whole of the previous minute, finished at $13.18, and traded 240,000 shares — the heaviest bar of the fall."
-    shares: 1500
+    shares: 1400
     chart:
       kind: candles
       data: [[13.44, 13.48, 13.34, 13.36], [13.36, 13.40, 13.24, 13.26], [13.26, 13.30, 13.14, 13.18], [13.18, 13.22, 13.06, 13.10], [13.10, 13.14, 12.98, 13.02], [13.02, 13.20, 12.96, 13.18], [13.18, 13.28, 13.14, 13.26], [13.26, 13.36, 13.22, 13.34], [13.34, 13.42, 13.30, 13.40], [13.40, 13.50, 13.36, 13.48], [13.48, 13.56, 13.44, 13.53]]
       volume: [80000, 92000, 104000, 118000, 126000, 240000, 180000, 150000, 124000, 102000, 88000]
       decision_index: 5
-    state: ["Size: 1,500 shares"]
+    state: ["Size: 1,400 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It worked back up to $13.56 and finished at $13.53 — $0.35 a share above the decision, +$525 long on 1,500 shares."
+    outcome: "It worked back up to $13.56 and finished at $13.53 — $0.35 a share above the decision, +$490 long on 1,400 shares."
     explanation: "One minute undid five, and the heaviest bar of the fall printed while it happened. That is buyers arriving in size, not drift."
 
   - type: tf
@@ -96,15 +96,15 @@ screens:
 
   - type: chart-decision
     scenario: "330,000 shares in the minute that just closed, five times any bar before it. The candle on top of it reached $24.44, fell to $24.06 and finished within two cents of its open."
-    shares: 800
+    shares: 700
     chart:
       kind: candles
       data: [[24.10, 24.18, 24.04, 24.16], [24.16, 24.24, 24.12, 24.20], [24.20, 24.28, 24.14, 24.18], [24.18, 24.26, 24.12, 24.22], [24.22, 24.30, 24.16, 24.24], [24.24, 24.44, 24.06, 24.22], [24.22, 24.30, 24.14, 24.18], [24.18, 24.28, 24.12, 24.24], [24.24, 24.32, 24.16, 24.20], [24.20, 24.28, 24.14, 24.25], [24.25, 24.32, 24.18, 24.21]]
       volume: [64000, 58000, 71000, 66000, 74000, 330000, 180000, 140000, 120000, 104000, 96000]
       decision_index: 5
-    state: ["Size: 800 shares"]
+    state: ["Size: 700 shares"]
     best: no-trade
-    outcome: "Five minutes on, price was $24.21 — a cent below the decision, and $8 down on 800 shares before a single cost."
+    outcome: "Five minutes on, price was $24.21 — a cent below the decision, and $7 down on 700 shares before a single cost."
     explanation: "The biggest crowd of the morning turned up and finished exactly where it started. Nothing was settled, so there is nothing to join."
 
   - type: fill-choice

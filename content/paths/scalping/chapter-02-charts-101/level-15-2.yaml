@@ -75,15 +75,15 @@ screens:
 
   - type: chart-decision
     scenario: "The same stock, well into the late morning: bars shrunk to about 42,000 and six minutes spent inside ten cents."
-    shares: 850
+    shares: 800
     chart:
       kind: candles
       data: [[23.40, 23.46, 23.36, 23.44], [23.44, 23.48, 23.38, 23.40], [23.40, 23.46, 23.36, 23.44], [23.44, 23.50, 23.40, 23.42], [23.42, 23.48, 23.38, 23.46], [23.46, 23.50, 23.40, 23.42], [23.42, 23.48, 23.38, 23.46], [23.46, 23.50, 23.40, 23.44], [23.44, 23.48, 23.38, 23.42], [23.42, 23.46, 23.38, 23.44], [23.44, 23.48, 23.40, 23.46]]
       volume: [64000, 58000, 52000, 48000, 44000, 42000, 40000, 38000, 36000, 38000, 34000]
       decision_index: 5
-    state: ["Size: 850 shares"]
+    state: ["Size: 800 shares"]
     best: no-trade
-    outcome: "Five minutes later price was $23.46, four cents above the decision — $34 on 850 shares, and the spread would take more than that."
+    outcome: "Five minutes later price was $23.46, four cents above the decision — $32 on 800 shares, and the spread would take more than that."
     explanation: "The crowd that made the open has gone. What is left is a stock that can be traded easily and has nowhere to go."
 
   - type: tf

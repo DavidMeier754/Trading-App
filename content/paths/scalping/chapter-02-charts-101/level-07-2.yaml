@@ -50,16 +50,16 @@ screens:
 
   - type: chart-decision
     scenario: "A five-minute slide, with the attempts back up stalling at $26.38, then $26.24, then $26.10 on the minute that just closed."
-    shares: 750
+    shares: 600
     chart:
       kind: candles
       data: [[26.40, 26.48, 26.24, 26.28], [26.28, 26.38, 26.26, 26.34], [26.34, 26.36, 26.10, 26.14], [26.14, 26.24, 26.12, 26.20], [26.20, 26.22, 25.96, 26.00], [26.00, 26.10, 25.98, 26.06], [26.06, 26.08, 25.82, 25.86], [25.86, 25.94, 25.84, 25.90], [25.90, 25.92, 25.68, 25.72], [25.72, 25.80, 25.70, 25.76], [25.76, 25.78, 25.56, 25.60]]
       volume: [104000, 56000, 118000, 60000, 126000, 58000, 134000, 62000, 142000, 66000, 148000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 750 shares"]
+    state: ["Account: $20,000", "Size: 600 shares"]
     best: short
     reasonable: [no-trade]
-    outcome: "It stepped down to $25.56 and finished the run at $25.60 — $0.46 a share, +$345 short on 750 shares."
+    outcome: "It stepped down to $25.56 and finished the run at $25.60 — $0.46 a share, +$276 short on 600 shares."
     explanation: "Three stalls in a row, each one lower, and the heavy bars are all on the red candles. You are joining the sellers, not guessing at a floor."
 
   - type: mc
@@ -68,7 +68,7 @@ screens:
       - {text: "the exit, not the shape", correct: true}
       - {text: "the shape, not the exit"}
       - {text: "nothing, a trend is a trend"}
-    explanation: "The staircase looks identical at any size. What changes is whether 750 shares can be bought back inside a 7,000-share minute without you paying for the privilege."
+    explanation: "The staircase looks identical at any size. What changes is whether 600 shares can be bought back inside a 7,000-share minute without you paying for the privilege."
 
   - type: tf
     statement: "A stock can be stepping down on the 1-minute chart while the 5-minute chart is still stepping up."
@@ -100,16 +100,16 @@ screens:
 
   - type: chart-decision
     scenario: "XYZ has fallen all morning, and the last two attempts back up stopped at $11.54 and $11.52. The minute that just closed is a green candle that reached $11.62 on the heaviest bar since the fall began."
-    shares: 1700
+    shares: 1600
     chart:
       kind: candles
       data: [[11.80, 11.84, 11.62, 11.66], [11.66, 11.72, 11.44, 11.46], [11.46, 11.48, 11.30, 11.34], [11.34, 11.54, 11.32, 11.50], [11.50, 11.52, 11.26, 11.28], [11.28, 11.62, 11.26, 11.60], [11.60, 11.70, 11.56, 11.68], [11.68, 11.78, 11.64, 11.74], [11.74, 11.84, 11.70, 11.80], [11.80, 11.90, 11.76, 11.86], [11.86, 11.94, 11.82, 11.90]]
       volume: [92000, 106000, 118000, 64000, 124000, 268000, 196000, 164000, 140000, 118000, 102000]
       decision_index: 5
-    state: ["Size: 1,700 shares"]
+    state: ["Size: 1,600 shares"]
     best: no-trade
     reasonable: [long]
-    outcome: "Price worked up to $11.94 and finished at $11.90. A short there would have been $0.30 a share underwater — $510 on 1,700 shares."
+    outcome: "Price worked up to $11.94 and finished at $11.90. A short there would have been $0.30 a share underwater — $480 on 1,600 shares."
     explanation: "The lower highs stopped being lower. Shorting a shape the moment it breaks its own rule is the most expensive habit in this chapter."
 
   - type: checklist-reveal

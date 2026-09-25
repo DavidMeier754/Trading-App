@@ -53,16 +53,16 @@ screens:
 
   - type: chart-decision
     scenario: "Yesterday XYZ bottomed at $12.90. It has fallen towards that price all morning, touched it twice, and the minute that just closed came back to $13.08 on 196,000 shares."
-    shares: 1500
+    shares: 1400
     chart:
       kind: candles
       data: [[13.40, 13.44, 13.28, 13.30], [13.30, 13.34, 13.12, 13.16], [13.16, 13.20, 12.98, 13.02], [13.02, 13.08, 12.90, 12.94], [12.94, 13.00, 12.90, 12.92], [12.92, 13.08, 12.90, 13.08], [13.08, 13.22, 13.06, 13.20], [13.20, 13.26, 13.14, 13.16], [13.16, 13.34, 13.14, 13.30], [13.30, 13.36, 13.24, 13.28], [13.28, 13.48, 13.26, 13.44]]
       volume: [128000, 142000, 156000, 178000, 132000, 196000, 174000, 108000, 162000, 96000, 148000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,500 shares"]
+    state: ["Account: $20,000", "Size: 1,400 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It worked back to $13.48 and finished at $13.44 — $0.36 a share above the decision, +$540 long on 1,500 shares."
+    outcome: "It worked back to $13.48 and finished at $13.44 — $0.36 a share above the decision, +$504 long on 1,400 shares."
     explanation: "Yesterday's low held twice and the third minute there was the heaviest of the morning, closing at its high. The buyers who missed that price yesterday were waiting for it."
 
   - type: tf

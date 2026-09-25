@@ -52,16 +52,16 @@ screens:
 
   - type: chart-decision
     scenario: "XYZ is trading about four times its normal volume after results. It pushed, gave three minutes back on a third of the volume, and the minute that just closed finished at $16.44 on 286,000 shares."
-    shares: 1200
+    shares: 1100
     chart:
       kind: candles
       data: [[16.10, 16.24, 16.06, 16.22], [16.22, 16.38, 16.20, 16.36], [16.36, 16.42, 16.26, 16.28], [16.28, 16.34, 16.22, 16.26], [16.26, 16.32, 16.24, 16.30], [16.30, 16.46, 16.28, 16.44], [16.44, 16.56, 16.40, 16.52], [16.52, 16.62, 16.48, 16.58], [16.58, 16.68, 16.54, 16.64], [16.64, 16.70, 16.58, 16.62], [16.62, 16.74, 16.60, 16.70]]
       volume: [268000, 302000, 118000, 96000, 88000, 286000, 264000, 232000, 208000, 176000, 194000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,200 shares"]
+    state: ["Account: $20,000", "Size: 1,100 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $16.74 and finished at $16.70 — $0.26 a share above the decision, +$312 long on 1,200 shares."
+    outcome: "It carried to $16.74 and finished at $16.70 — $0.26 a share above the decision, +$286 long on 1,100 shares."
     explanation: "The right stock and then the right minute, in that order. The dip was quiet, it held above the last low, and one heavy minute took the whole of it back."
 
   - type: sort

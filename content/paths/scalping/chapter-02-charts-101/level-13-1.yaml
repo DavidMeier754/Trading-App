@@ -56,15 +56,15 @@ screens:
 
   - type: chart-decision
     scenario: "The bell has just gone. XYZ opened at $16.20 and every minute since has overlapped the one before it, on the heaviest bars of the day."
-    shares: 1200
+    shares: 1100
     chart:
       kind: candles
       data: [[16.20, 16.44, 16.06, 16.34], [16.34, 16.40, 16.12, 16.16], [16.16, 16.38, 16.10, 16.32], [16.32, 16.36, 16.08, 16.14], [16.14, 16.34, 16.10, 16.30], [16.30, 16.36, 16.12, 16.18], [16.18, 16.38, 16.14, 16.32], [16.32, 16.36, 16.10, 16.16], [16.16, 16.34, 16.12, 16.28], [16.28, 16.32, 16.10, 16.14], [16.14, 16.30, 16.12, 16.24]]
       volume: [468000, 386000, 342000, 318000, 296000, 274000, 262000, 248000, 236000, 224000, 218000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,200 shares"]
+    state: ["Account: $20,000", "Size: 1,100 shares"]
     best: no-trade
-    outcome: "Five minutes on, price was $16.24 — six cents above the decision, $72 on 1,200 shares before a single cost."
+    outcome: "Five minutes on, price was $16.24 — six cents above the decision, $66 on 1,100 shares before a single cost."
     explanation: "Six minutes and nothing has been kept: every candle overlaps the one before it and the whole stretch is thirty-eight cents wide. Volume this big with no progress is two crowds paying each other."
 
   - type: tf
