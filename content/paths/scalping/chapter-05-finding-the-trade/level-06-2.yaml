@@ -19,7 +19,6 @@ screens:
     text: "Two lists. One of them is finished before the bell, and the other has not started."
 
   - type: story
-    character: retail-trader
     text: "An hour before {{market.regular_open}}. Nothing has traded yet in most of these names, and the first list is already complete."
 
   - type: theory

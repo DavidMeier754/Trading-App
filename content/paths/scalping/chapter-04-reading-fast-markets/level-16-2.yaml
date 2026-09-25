@@ -19,7 +19,6 @@ screens:
     text: "The level picks the stop. The stop and the account pick the size."
 
   - type: story
-    character: retail-trader
     text: "Two reads left. On one of them the account has the final word, and on the other the stop does."
 
   - type: chart-decision

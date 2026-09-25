@@ -23,7 +23,6 @@ screens:
     body: "Spread, slippage and fees all come out in cents. The app, the connection and the broker do not, and they fail at the worst possible moment: while you are holding stock."
 
   - type: story
-    character: retail-trader
     text: "You are long 1,400 shares and the chart stops updating. The quote freezes. You cannot tell whether you are still in the position or already out of it."
 
   - type: branch

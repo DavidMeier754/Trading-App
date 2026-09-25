@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [routine, levels, plan]
+icon: monitor
 learning_goal: "User marks yesterday's extremes, the pre-market extremes and the round numbers before the session starts, and keeps their own screen as a written plan."
 purpose: "Lines drawn during a move are drawn by the move, which is the one thing a level must never be."
 terms_introduced: []
@@ -19,7 +20,6 @@ screens:
     text: "The most useful ten minutes of a scalper's day happen before anything moves."
 
   - type: story
-    character: retail-trader
     text: "The bell is still a while away. Nothing on the screen is doing anything, which is exactly why this is when the work gets done."
 
   - type: theory
@@ -64,26 +64,26 @@ screens:
 
   - type: chart-decision
     scenario: "The pre-market high at $17.50 has been on your chart since before the bell. XYZ reached it, backed off, came again. The minute that just closed finished at $17.62 on 342,000 shares."
-    shares: 1100
+    shares: 1000
     chart:
       kind: candles
       data: [[17.20, 17.28, 17.16, 17.26], [17.26, 17.36, 17.22, 17.32], [17.32, 17.50, 17.30, 17.40], [17.40, 17.46, 17.34, 17.38], [17.38, 17.50, 17.36, 17.46], [17.46, 17.64, 17.44, 17.62], [17.62, 17.74, 17.58, 17.70], [17.70, 17.80, 17.66, 17.76], [17.76, 17.86, 17.72, 17.82], [17.82, 17.88, 17.78, 17.86], [17.86, 17.90, 17.82, 17.88]]
       volume: [186000, 214000, 268000, 148000, 176000, 342000, 296000, 258000, 224000, 198000, 212000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,100 shares"]
+    state: ["Account: $20,000", "Size: 1,000 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It ran up to yesterday's high at $17.90 and finished at $17.88 — $0.26 a share above the decision, +$286 long on 1,100 shares."
+    outcome: "It ran up to yesterday's high at $17.90 and finished at $17.88 — $0.26 a share above the decision, +$260 long on 1,000 shares."
     explanation: "Twice stopped at a line you drew in the quiet, then a close twelve cents through it on the heaviest bar of the morning. The preparation is most of the trade."
 
   - type: numeric-mc
-    prompt: "You are long 1,100 shares from $17.62 and the next line on your chart is yesterday's high at $17.90. What is the space between them worth?"
+    prompt: "You are long 1,000 shares from $17.62 and the next line on your chart is yesterday's high at $17.90. What is the space between them worth?"
     options:
       - {text: "$28"}
-      - {text: "$308", correct: true}
-      - {text: "$3,080"}
-      - {text: "$30.80"}
-    working: "$17.90 − $17.62 = $0.28 a share × 1,100 shares = $308"
+      - {text: "$280", correct: true}
+      - {text: "$2,800"}
+      - {text: "$0.28"}
+    working: "$17.90 − $17.62 = $0.28 a share × 1,000 shares = $280"
     explanation: "One line got you in and the next one says what the trade can pay, and both were drawn before the session existed."
 
   - type: tf

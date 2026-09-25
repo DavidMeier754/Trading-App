@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, chart-reading]
+icon: candles
 learning_goal: "User can read conviction, refusal and indecision from the way a candle's body and wicks are shared out."
 purpose: "A scalper decides in seconds, and the shape of the last few candles is the fastest honest information on the screen."
 terms_introduced: []
@@ -35,7 +36,7 @@ screens:
     caption: "Three minutes of one stock, in order: conviction, refusal, indecision."
 
   - type: chart-tap
-    prompt: "Tap the minute where price ran up and handed the whole push back before it ended."
+    prompt: "Tap the minute where price ran up and handed nearly all of it back before it ended."
     chart:
       kind: candles
       data: [[26.10, 26.18, 26.06, 26.15], [26.15, 26.24, 26.12, 26.22], [26.22, 26.31, 26.20, 26.29], [26.29, 26.38, 26.26, 26.35], [26.35, 26.62, 26.33, 26.37], [26.37, 26.41, 26.28, 26.31], [26.31, 26.36, 26.24, 26.27], [26.27, 26.33, 26.22, 26.30], [26.30, 26.35, 26.25, 26.28]]

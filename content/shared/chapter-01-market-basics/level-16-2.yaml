@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: repetition
 tags: [review, plan, practice]
+icon: book
 learning_goal: "User writes down the session, the name, the size and the style they will practise with, and uses those numbers to take one decision."
 purpose: "Decisions made before anything is at stake are the only ones you get to make calmly, and this is the first page of the plan you will carry for eight chapters."
 terms_introduced: []
@@ -13,7 +14,7 @@ prerequisite: "16-1"
 xp: 30
 difficulty: 3
 sources: [consensus]
-notes: "Categorised new-theory rather than repetition: 16-1 plus this sub plus the 17-1 exam would otherwise be three review-type subs in a row (agent.md §3.2). Content is review plus the plan-card. Practice account named at $6,000; the worked position is 189 × $16.05 = $3,033. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+notes: "Categorised new-theory rather than repetition: 16-1 plus this sub plus the 17-1 exam would otherwise be three review-type subs in a row (agent.md §3.2). Content is review plus the plan-card. Practice account named at $6,000; the worked position is 189 × $15.80 = $2,986.20. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
 screens:
   - type: intro
     text: "One page, in your words, before the exam. You will still be using it in Chapter 8."
@@ -41,7 +42,6 @@ screens:
     explanation: "189 × $15.80 = $2,986.20. A ceiling you set in advance is the one you can still respect at the wrong moment."
 
   - type: story
-    character: retail-trader
     text: "An hour into the regular session. LUMA is the name you have watched for a week, and it has just stepped higher for six minutes on volume well above its usual."
 
   - type: branch
@@ -101,12 +101,12 @@ screens:
     explanation: "A count, an ease, a distance, and a reference point."
 
   - type: chart-decision
-    scenario: "Your own page, your own name: LUMA, an hour into the regular session, stepping higher for six minutes on volume above its usual. It is at $16.05 and your ceiling is 189 shares."
+    scenario: "Your own page, your own name: LUMA, an hour into the regular session, stepping higher for six minutes on volume above its usual. It is at $15.80 and your ceiling is 189 shares."
     shares: 189
-    chart: {kind: line, data: [15.64, 15.70, 15.68, 15.82, 15.94, 16.05, 16.14, 16.22, 16.29, 16.35], decision_index: 5}
+    chart: {kind: line, data: [15.39, 15.45, 15.43, 15.57, 15.69, 15.80, 15.89, 15.97, 16.04, 16.10], decision_index: 5}
     best: long
     reasonable: [no-trade]
-    outcome: "It reached $16.35 — thirty cents a share, +$56.70 on 189 shares."
+    outcome: "It reached $16.10 — thirty cents a share, +$56.70 on 189 shares."
     explanation: "Everything on the page agrees: the session, the name, the size, and a stock deep enough to leave."
 
   - type: numeric-mc

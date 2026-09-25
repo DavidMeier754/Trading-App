@@ -19,7 +19,6 @@ screens:
     text: "Step four. Your account is $24,000 and 1,500 shares is the size you trade."
 
   - type: story
-    character: mascot
     text: "This is the step that changes no names and gets skipped for exactly that reason. It changes what you expect the names to do."
 
   - type: theory

@@ -29,7 +29,6 @@ screens:
       - {label: "A stop you did not place", text: "You know roughly where you would get out. You have not typed it anywhere.", icon: bear}
 
   - type: story
-    character: retail-trader
     text: "Fourth order in nine minutes, and you could not name the setup on any of them if somebody asked."
 
   - type: mc

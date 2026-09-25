@@ -19,7 +19,6 @@ screens:
     text: "Friday's rows have an answer in them. Getting it onto Monday's page is a separate skill. Your account here is $21,000."
 
   - type: story
-    character: retail-trader
     text: "The week is sorted, the bleeding column is obvious, and the temptation is to write six rules about it. Six rules is the same as none, because by Wednesday you will not know which one was working."
 
   - type: theory

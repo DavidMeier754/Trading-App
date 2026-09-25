@@ -19,7 +19,6 @@ screens:
     text: "Card six: the morning that starts somewhere else and keeps going."
 
   - type: story
-    character: retail-trader
     text: "The bell goes and XYZ is already ninety cents above where it finished yesterday. Nothing on your chart from yesterday is where you left it."
 
   - type: theory

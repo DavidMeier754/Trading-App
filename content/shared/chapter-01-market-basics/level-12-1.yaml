@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [broker, fees]
+icon: key
 learning_goal: "User knows what a broker and a brokerage account do, what an order is, why paper trading comes first, and that fees apply to every trade."
 purpose: "Before a single real trade you need this piece — and knowing fees exist now saves painful surprises later."
 terms_introduced: ["Broker", "Brokerage account", "Order", "Paper trading", "Fee"]
@@ -52,7 +53,6 @@ screens:
       - {spotlight: submit, text: "Send it — the broker routes the order to the exchange in a fraction of a second."}
 
   - type: story
-    character: retail-trader
     text: "You open an account, deposit $1,000, and see a button: 'Practice with virtual $10,000'."
 
   - type: mc

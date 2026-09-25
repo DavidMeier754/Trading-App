@@ -19,7 +19,6 @@ screens:
     text: "Three reads. Each one priced before a single share is sent."
 
   - type: story
-    character: retail-trader
     text: "Three names on the screen, $20,000 in the account, and the lines already drawn. Nothing new today except the candles."
 
   - type: theory

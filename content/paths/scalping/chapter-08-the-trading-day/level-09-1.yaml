@@ -19,7 +19,6 @@ screens:
     text: "One session, start to finish, on a morning you have not seen before."
 
   - type: story
-    character: retail-trader
     text: "An hour before the bell. $16,000 in the account, a twelve-cent stop on most days, six trades allowed and three R of room. The scanner has just finished."
 
   - type: scanner-pick

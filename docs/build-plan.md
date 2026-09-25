@@ -15,16 +15,17 @@ Measured, not remembered — re-run the commands and the numbers should match.
 
 | | |
 |---|---|
-| Scalping path | 8 chapters, 144 levels, **387 sub-levels**, 5,095 screens |
-| Validator | 0 errors, 6 warnings (`python3 tools/validate_content.py`) |
+| Scalping path | 8 chapters, 144 levels, **388 sub-levels** (Chapter 1's shared 48 included), 5,109 screens |
+| Validator | 0 errors, 3 warnings (`python3 tools/validate_content.py`) |
 | Self-test | 110/110 (`python3 tools/test_validate.py`) |
-| Sizing | 66 of 572 priced positions over the §3.6 cap (`python3 tools/check_sizing.py`) |
+| Sizing | 0 of 572 priced positions over the §3.6 cap (`python3 tools/check_sizing.py`) |
 | Drill bank | 1 of 15 packs written; 12 of the other 14 on hold |
 | Replay bank | specified, nothing written |
 | Day Trading, Swing | outlined level by level, no content |
-| **Application code** | **none — 5,095 screens have never been rendered** |
+| Application code | Expo app (SLICE + HOME, below): plays all of Chapter 1 — 17 levels, 48 sub-levels with the path-choice lesson — and Scalping Chapter 2 Levels 1–3 (10 sub-levels): 783 screens, every one played end to end in the browser; plus the 49-screen test bench in `demo/all-screens.yaml` |
+| Rendered | 783 of 5,109 screens; the other 4,326 have never been drawn |
 
-The last row is the reason the order below starts where it does.
+The last row is why no stage below grows the corpus before its screen types have been seen.
 
 ---
 
@@ -32,8 +33,7 @@ The last row is the reason the order below starts where it does.
 
 | Run | Stage | What | Model | Sessions |
 |---|---|---|---|---|
-| **NEXT** | **SLICE** | Render lesson one on a phone | `claude-opus-5` | 1–2 |
-| then | OFFER | Chapter 8 Level 15 + its renumber | `claude-opus-5` | 1 |
+| **NEXT** | **OFFER** | Chapter 8 Level 15 + its renumber | `claude-opus-5` | 1 |
 | then | SIZING | The 66 positions over the cap | `claude-sonnet-5` | 2 |
 | then | PHRASING | `state` chips in Chapters 3, 6, 7 | `claude-sonnet-5` | 1–2 |
 | then | REPLAY-PILOT | One hand-authored replay + validator rules | `claude-opus-5` | 1 |
@@ -44,7 +44,8 @@ The last row is the reason the order below starts where it does.
 
 **PATHS is last and gated.** It triples the corpus. A screen-type schema change costs 327 files
 today and roughly 980 after it — so nothing in that stage gets cheaper by starting early, and
-one thing gets three times dearer. Do not start it until SLICE has run and the schema survived.
+one thing gets three times dearer. SLICE has run; do not start PATHS until the schema has also
+survived a render of every screen type it uses.
 
 ### Already done
 
@@ -57,6 +58,23 @@ are in `docs/agent.md` and `docs/schema.md`.
 - **Repairs** — category labels; the plan sheet as one key namespace (24 `plan-card` screens,
   50 keys, all in `docs/schema.md`, with validator rules); exam interactivity; the long/short
   balance.
+- **SLICE** (section kept below for its reasoning) — an Expo SDK 57 app at the repo root that
+  plays lessons from the YAML as written. It went past one lesson: every screen type on the
+  test bench, the looks in `docs/UI.md` §10, sounds and haptics. Where a renderer disagreed with
+  `docs/schema.md` (`swipe-deck` cards, `branch` steps, `chart-annotate` labels), the renderer
+  was changed, not the schema.
+- **HOME** — the home screen of `docs/UI.md` §7.1, §7.2 and §11: the path for Chapter 1 Levels
+  1–3 with one ring node per level, the level banner, the HUD (streak, daily XP ring, hearts),
+  the tab bar (Learn, Practice, Leaderboard, Account; the last three are placeholders), and
+  Settings behind Account with the design picker and the test bench. Progress, streak, hearts
+  and settings are kept on the device with AsyncStorage; there is still no backend.
+- **PATH** — the map for everything written that plays: all of Chapter 1, the path-choice
+  lesson (Level 17-2) as its own node, and Scalping Chapter 2 Levels 1–3. Chapters are folding
+  sections with a "Jump to" button; each node shows a symbol for its kind of level; Checkpoints and
+  the Final Exam are scored (70 %, Retry / Back to path). Settings has the path row and, for
+  testing only, refill hearts and skip ahead. The lesson player holds its content still: a
+  screen is centred once and then only moves when the reveal would otherwise cover it
+  (`docs/UI.md` §2).
 
 ---
 
@@ -93,6 +111,9 @@ a beginner. Boredom does not raise a warning.
 ---
 
 ## SLICE — render lesson one on a phone
+
+> **Done** — see *Already done*. Its scope line "No path map, no hearts, no streaks, no XP
+> animation" is superseded by HOME. The reasoning below still holds and is why the app exists.
 
 387 sub-levels and 5,095 screens exist, and **not one has ever been rendered.** Every quality
 signal on this project comes from a validator that checks structure and arithmetic, and from
@@ -279,18 +300,25 @@ of the §7 line - flag those rather than deciding them.
 
 ---
 
-## SIZING — the 66 positions over the cap
+## SIZING — done
 
-`docs/agent.md` §3.6 caps one position at 95 % of the account named in its own file. Chapters
-3–8 are clean. **66 of 572 priced positions still breach it: 60 in Chapter 2, 6 in Chapter 1**,
-and one of those is a hard error — `chapter-01-market-basics/level-09-2.yaml` screen 4 holds
-500 shares × $12.80 = $6,400 against a $6,000 account. That one goes first.
+`docs/agent.md` §3.6 caps one position at 95 % of the account named in its own file. **All 572
+priced positions are within it.** Chapter 1 and Scalping Chapter 2 Levels 1–3 were re-sized when
+they were wired into the app (the hard error in `chapter-01-market-basics/level-09-2.yaml` —
+500 shares × $12.80 against a $6,000 account — went with them). Scalping Chapter 2 Levels 4–18
+took the re-sizing written on the `chapter-2-position-sizing` branch (commit 268ddb4), carried
+over onto the state chips the scenarios have used since: every share count lowered, and every
+outcome total, numeric question, working line and size-relative sentence that quoted it moved
+with it. Chapter 2 now sits at a median of 90.5 % and a maximum of 94.8 % of the account.
+
+The prompt below stays for any chapter written later: run it whenever `check_sizing.py` lists a
+breach.
 
 `python3 tools/check_sizing.py --chapter N` lists every breach with each line elsewhere in the
 file that names the same share count — 3,332 corpus-wide, which is why this is a script and not
 a reading task.
 
-### Prompt (run once for Chapter 2, once for Chapter 1)
+### Prompt (for a chapter that breaches)
 
 ```
 Read CLAUDE.md and docs/agent.md §3.6 in full - the two ceilings, the account cap, the
@@ -600,9 +628,9 @@ Numbered findings list, most important first, file and screen for each. Change n
 
 ## PATHS — Day Trading and Swing Trading
 
-> **Gated. Do not start until SLICE has run and the schema survived it.** This stage triples the
-> corpus — ~770 further sub-levels — every one written against a screen contract nothing has
-> rendered. A schema fix costs 327 files today and roughly 980 afterwards.
+> **Gated. Do not start until the schema has survived a render of every screen type it uses.**
+> SLICE has run; Chapter 1 and Scalping Chapter 2 Levels 1–3 play in the app so far. This stage triples the
+> corpus — ~770 further sub-levels — written against a screen contract mostly never rendered. A schema fix costs 327 files today and roughly 980 afterwards.
 
 Chapters 2–8 of each, following the tables in `docs/curriculum.md`. Structurally they mirror
 Scalping, which makes mechanical generation tempting. Resist it: the timeframes, holding
@@ -685,5 +713,5 @@ The real budget is review attention, and the stages differ sharply in how much t
   doing the sums.
 
 If the budget is attention rather than money, the order in the table is already sorted for it —
-with one exception you should make knowingly: SLICE is first because of what it *de-risks*, not
-because it is cheap.
+with one exception you made knowingly: SLICE ran first because of what it *de-risks*, not
+because it was cheap.

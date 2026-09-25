@@ -20,7 +20,6 @@ screens:
     text: "Three readings say yes. The fourth says no. That is the whole lesson."
 
   - type: story
-    character: retail-trader
     text: "The level is exactly where you wanted it and the session has been leaning the other way since the first trade. You can feel yourself deciding to ignore one of them."
 
   - type: theory

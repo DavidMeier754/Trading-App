@@ -1,0 +1,446 @@
+# A throwaway lesson that exercises every screen type in docs/UI.md §3, §4.1 and §4.2,
+# one after another, so each renderer can be judged on a phone.
+#
+# It lives in demo/ and NOT in content/: it is not curriculum, it breaks the
+# 12-18 screen rule on purpose, and tools/validate_content.py must never see it.
+# The content is filler. The interactions are the point.
+id: "0-0"
+title: "Every Screen Type"
+chapter: 0
+chapter_title: "Renderer Test Bench"
+path: all
+category: new-theory
+tags: [demo]
+learning_goal: "Reviewer can judge every screen archetype on a device."
+purpose: "A test bench, not a lesson."
+terms_introduced: []
+prerequisite: null
+xp: 50
+difficulty: 1
+sources: [consensus]
+screens:
+  - type: intro
+    text: "Every screen type, one after another."
+
+  - type: theory
+    title: "Theory card"
+    body: "Title, up to three lines of body, and an optional visual above it."
+    visual: chart-line
+    visual_data: {data: [10.00, 10.02, 9.98, 10.05, 10.10, 10.08, 10.15, 10.20]}
+
+  - type: example
+    body: "Example card. A concrete number or a mini story, with a visual."
+    visual: quote-card
+    visual_data: {ticker: XYZ, name: Example Corp, price: 10.00, change: 0.20, change_pct: 2.0, volume: "3.2M"}
+
+  - type: carousel
+    cards:
+      - {label: "Retail trader", text: "Individuals trading their own money."}
+      - {label: "Market maker", text: "Always quotes both sides and earns the spread."}
+      - {label: "Institution", text: "Moves size slowly, over hours or days."}
+
+  - type: walkthrough
+    component: quote-card
+    data: {ticker: XYZ, name: Example Corp, price: 142.50, change: 2.10, change_pct: 1.5, volume: "3.2M"}
+    steps:
+      - {spotlight: price, text: "This is the current price."}
+      - {spotlight: volume, text: "And this is how much traded today."}
+
+  - type: visual
+    component: ownership-pie
+    data: {total: 50, owned: 5}
+    caption: "Five shares of fifty is ten percent of the company."
+
+  - type: visual
+    component: quote-panel
+    data: {bid: 45.20, ask: 45.24, last: 45.22}
+    caption: "Bid, ask and the spread between them."
+
+  - type: visual
+    component: order-book
+    data:
+      bids: [[45.20, 1200], [45.19, 800], [45.18, 2400]]
+      asks: [[45.24, 900], [45.25, 1600], [45.26, 700]]
+    caption: "The ladder: price levels with the size resting at each."
+
+  - type: visual
+    component: cost-stack
+    data: {shares: 500, spread: 0.04, slippage: 0.02, fees: 0.01, target: 0.20}
+    caption: "What the round trip costs against what you are playing for."
+
+  - type: visual
+    component: session-ribbon
+    data: {premarket: "{{market.premarket}}", regular: "{{market.regular}}", afterhours: "{{market.afterhours}}", timezone: "{{market.timezone}}"}
+    caption: "The trading day, with times from the market profile."
+
+  - type: visual
+    component: bar-chart
+    data:
+      bars: [{label: "Mon", value: 12}, {label: "Tue", value: 31}, {label: "Wed", value: 22}, {label: "Thu", value: 44}]
+      unit: "M"
+    caption: "Volume by day."
+
+  - type: visual
+    component: internals-panel
+    data:
+      index: {label: "S&P 500", data: [1, 2, 3]}
+      breadth: "3:1 advancing"
+      sectors: [{label: "Tech", value: 1.4}, {label: "Energy", value: -0.6}]
+      tone: "risk-on"
+    caption: "The market around the stock."
+
+  - type: visual
+    component: scanner-table
+    data:
+      rows:
+        - {ticker: AAA, price: 12.40, change_pct: 8.2, rvol: 4.1, spread: 0.02, catalyst: "earnings"}
+        - {ticker: BBB, price: 3.10, change_pct: 22.5, rvol: 1.2, spread: 0.09, catalyst: "no news"}
+        - {ticker: CCC, price: 44.80, change_pct: 3.1, rvol: 2.8, spread: 0.03, catalyst: "upgrade"}
+    caption: "The morning list."
+
+  - type: visual
+    component: journal-table
+    data:
+      columns: [setup, entry, exit, R]
+      rows:
+        - {setup: "VWAP", entry: "14.20", exit: "14.46", R: "+1.3"}
+        - {setup: "Break", entry: "9.80", exit: "9.68", R: "-1.0"}
+    caption: "Yesterday, written down."
+
+  - type: visual
+    component: hotkey-pad
+    data:
+      keys: [{label: "F1", action: "buy"}, {label: "F2", action: "sell"}, {label: "F3", action: "size"}, {label: "ESC", action: "flatten"}]
+    caption: "The keys, so your hands stop thinking."
+
+  - type: visual
+    component: r-tracker
+    data: {trades: [1.2, -1.0, 0.4, -0.6, 1.8], limit: 3}
+    caption: "The session in R."
+
+  - type: visual
+    component: stats-card
+    data:
+      rows: [{label: "Best setup", value: "VWAP bounce"}, {label: "Decision accuracy", value: "74%"}, {label: "Scenarios traded", value: 128}]
+    caption: "Your own numbers."
+
+  - type: checklist-reveal
+    title: "Before every scalp"
+    items:
+      - "Is the spread tight for the move I expect?"
+      - "Is volume behind it?"
+      - "Do I know where I am wrong?"
+
+  - type: story
+    text: "The bell has just gone. XYZ gapped up and you have not touched it yet."
+
+  - type: plan-card
+    title: "Your session limits"
+    intro: "Write the two numbers you will trade by."
+    fields:
+      - {key: session_daily_loss_limit, label: "Daily loss limit (in R)", kind: number, suggest: 3}
+      - {key: session_trade_cap, label: "Maximum trades a day", kind: number, suggest: 6}
+    note: "You can change these later in your plan."
+
+  - type: visual
+    component: plan-sheet
+    data:
+      fields:
+        - {key: session_daily_loss_limit, label: "Daily loss limit"}
+        - {key: session_trade_cap, label: "Maximum trades a day"}
+    caption: "The same plan, read back."
+
+  - type: mc
+    prompt: "Which of these is a finished profit?"
+    options:
+      - {text: "Buy at $8.00, sell at $8.50", correct: true}
+      - {text: "Buy at $8.50, sell at $8.00"}
+      - {text: "Buy at $8.00 and keep holding at $8.50"}
+    explanation: "Only a closed trade has a result."
+
+  - type: tf
+    statement: "A gain on a position you still hold can disappear before you sell."
+    answer: true
+    explanation: "Until you close it, it is only a paper gain."
+
+  - type: numeric-mc
+    prompt: "100 shares bought at $10.00, sold at $10.30. What is the profit?"
+    options:
+      - {text: "$3"}
+      - {text: "$30", correct: true}
+      - {text: "$300"}
+    working: "$0.30 per share x 100 shares = $30"
+    explanation: "Profit per share times the number of shares."
+
+  - type: numeric-input
+    prompt: "You buy 50 shares at $20.00 and sell at $19.60. Result per share?"
+    answer: -0.4
+    tolerance: 0.001
+    unit: "$"
+    working: "19.60 - 20.00 = -0.40"
+    explanation: "Selling below your buy price is a loss."
+
+  - type: fill-tiles
+    sentence: "Buying opens a position; selling ___ it."
+    answer: "closes"
+    explanation: "A position stays open until you sell what you bought."
+
+  - type: fill-choice
+    sentence: "A ___ order waits for your price."
+    options: ["limit", "market", "stop"]
+    answer: "limit"
+    explanation: "A limit order sets the worst price you will accept."
+
+  - type: match
+    prompt: "Which word describes which part of a trade?"
+    pairs:
+      - ["Buy", "Open a position"]
+      - ["Sell", "Close a position"]
+      - ["Position", "Shares you currently hold"]
+      - ["Profit", "Sold higher than you bought"]
+    explanation: "Buy opens, sell closes, and the difference is the result."
+
+  - type: sort
+    prompt: "Which of these comes out of your pocket on every trade?"
+    buckets: ["Costs you", "Doesn't cost you"]
+    items:
+      - {text: "Spread", bucket: "Costs you"}
+      - {text: "Slippage", bucket: "Costs you"}
+      - {text: "Watching the chart", bucket: "Doesn't cost you"}
+    explanation: "Spread and slippage are paid on every round trip."
+
+  - type: order
+    prompt: "Put the trading day in order."
+    items: ["Pre-market", "The open", "Midday", "The close"]
+    explanation: "Pre-market, open, midday, close."
+
+  - type: hotspot
+    component: quote-panel
+    prompt: "Tap the price you would pay to buy right now."
+    data: {bid: 45.20, ask: 45.24, last: 45.22}
+    target: ask
+    explanation: "You buy at the ask and sell at the bid."
+
+  - type: hotspot
+    component: order-ticket
+    prompt: "Tap the field that decides how many shares you get."
+    data: {ticker: XYZ, side: buy, qty: 200, type: limit, price: 45.22}
+    target: qty
+    explanation: "Quantity is your size, and size is your risk."
+
+  - type: slider
+    prompt: "How much of a $0.10 target does a $0.04 spread eat?"
+    min: 0
+    max: 100
+    step: 5
+    unit: "%"
+    answer: 40
+    tolerance: 10
+    explanation: "Four cents of a ten-cent target is forty percent."
+
+  - type: chart-tap
+    prompt: "Tap the candle with the highest close."
+    chart:
+      kind: candles
+      data:
+        - [10.00, 10.12, 9.96, 10.08]
+        - [10.08, 10.20, 10.04, 10.18]
+        - [10.18, 10.44, 10.16, 10.40]
+        - [10.40, 10.42, 10.24, 10.28]
+        - [10.28, 10.32, 10.14, 10.18]
+        - [10.18, 10.26, 10.12, 10.22]
+        - [10.22, 10.30, 10.18, 10.26]
+        - [10.26, 10.34, 10.22, 10.30]
+    target: 2
+    explanation: "The third candle closed at $10.40, higher than any other."
+
+  - type: chart-decision
+    scenario: "XYZ has held above the line all session and the pullback came on shrinking bars."
+    shares: 1200
+    state: ["Size: 1,200 shares", "Account: $22,000"]
+    chart:
+      kind: candles
+      data:
+        - [16.40, 16.50, 16.38, 16.48]
+        - [16.48, 16.58, 16.46, 16.56]
+        - [16.56, 16.60, 16.52, 16.54]
+        - [16.54, 16.64, 16.52, 16.62]
+        - [16.62, 16.72, 16.60, 16.70]
+        - [16.70, 16.86, 16.68, 16.84]
+        - [16.84, 16.92, 16.82, 16.90]
+        - [16.90, 16.98, 16.88, 16.96]
+        - [16.96, 17.04, 16.94, 17.02]
+        - [17.02, 17.10, 17.00, 17.08]
+        - [17.08, 17.14, 17.05, 17.11]
+      volume: [72000, 86000, 58000, 68000, 94000, 164000, 142000, 124000, 108000, 92000, 84000]
+      vwap: [16.40, 16.43, 16.46, 16.49, 16.52, 16.55, 16.58, 16.61, 16.64, 16.67, 16.70]
+      levels:
+        - {price: 16.80, label: "Yesterday's high"}
+      decision_index: 5
+    best: long
+    reasonable: [no-trade]
+    outcome: "It carried on to $17.11 - $0.27 a share past the decision."
+    explanation: "Two lines agree and the heaviest bar of the morning went through the level."
+
+  - type: spot-mistake
+    prompt: "Tap the part that is wrong."
+    segments:
+      - {text: "A market sell order"}
+      - {text: "fills at the ask.", wrong: true}
+    explanation: "A market sell fills at the bid, not the ask."
+
+  - type: swipe-deck
+    prompt: "Your card is the VWAP bounce. Take it or pass?"
+    cards:
+      - chart: {kind: candles, label: "1", data: [[14.00,14.10,13.96,14.08],[14.08,14.16,14.04,14.06],[14.06,14.10,13.98,14.02],[14.02,14.18,14.00,14.16],[14.16,14.28,14.14,14.26],[14.26,14.36,14.22,14.34],[14.34,14.44,14.32,14.42],[14.42,14.50,14.38,14.48]], levels: [{price: 14.02, label: "VWAP"}]}
+        answer: take
+        note: "Held the line and turned on the heaviest bar."
+      - chart: {kind: candles, label: "2", data: [[9.80,9.86,9.70,9.72],[9.72,9.76,9.58,9.60],[9.60,9.64,9.48,9.50],[9.50,9.56,9.40,9.42],[9.42,9.46,9.30,9.32],[9.32,9.38,9.22,9.24],[9.24,9.30,9.14,9.16],[9.16,9.22,9.06,9.08]], levels: [{price: 9.60, label: "VWAP"}]}
+        answer: pass
+        note: "Straight through the line and never looked back."
+      - chart: {kind: candles, label: "3", data: [[21.00,21.10,20.96,21.06],[21.06,21.14,21.02,21.04],[21.04,21.08,20.98,21.02],[21.02,21.12,21.00,21.10],[21.10,21.18,21.06,21.16],[21.16,21.22,21.12,21.20],[21.20,21.28,21.18,21.26],[21.26,21.32,21.22,21.30]], levels: [{price: 21.02, label: "VWAP"}]}
+        answer: take
+        note: "Three touches, three bounces."
+      - chart: {kind: candles, label: "4", data: [[5.40,5.44,5.36,5.38],[5.38,5.42,5.34,5.40],[5.40,5.44,5.36,5.38],[5.38,5.42,5.34,5.36],[5.36,5.40,5.32,5.38],[5.38,5.42,5.34,5.36],[5.36,5.40,5.32,5.34],[5.34,5.38,5.30,5.36]], levels: [{price: 5.37, label: "VWAP"}]}
+        answer: pass
+        note: "Nothing is happening. There is no trade in chop."
+    explanation: "The bounce needs the line to hold and the next bar to be busier."
+
+  - type: chart-annotate
+    prompt: "Draw the line the sellers keep defending."
+    chart:
+      kind: candles
+      data:
+        - [12.20, 12.40, 12.16, 12.36]
+        - [12.36, 12.48, 12.32, 12.44]
+        - [12.44, 12.50, 12.38, 12.40]
+        - [12.40, 12.50, 12.34, 12.48]
+        - [12.48, 12.50, 12.40, 12.42]
+        - [12.42, 12.50, 12.36, 12.44]
+        - [12.44, 12.48, 12.30, 12.32]
+        - [12.32, 12.38, 12.22, 12.24]
+      decision_index: -1
+    answer: 12.50
+    tolerance: 0.03
+    explanation: "Four bars topped out within a cent of $12.50."
+
+  - type: order-build
+    prompt: "Build the ticket: buy 200 shares, but never above $45.25."
+    slots: [side, type, quantity, price]
+    chips:
+      side: ["Buy", "Sell"]
+      type: ["Market", "Limit", "Stop"]
+      quantity: ["100", "200", "500"]
+      price: ["45.20", "45.25", "45.30"]
+    answer: {side: "Buy", type: "Limit", quantity: "200", price: "45.25"}
+    explanation: "A limit order is the only one that caps what you pay."
+
+  - type: scanner-pick
+    prompt: "Which one has real volume behind the move?"
+    data:
+      rows:
+        - {ticker: AAA, price: 12.40, change_pct: 8.2, rvol: 4.1, spread: 0.02, catalyst: "earnings"}
+        - {ticker: BBB, price: 3.10, change_pct: 22.5, rvol: 1.2, spread: 0.09, catalyst: "no news"}
+        - {ticker: CCC, price: 44.80, change_pct: 3.1, rvol: 0.8, spread: 0.03, catalyst: "upgrade"}
+    target: AAA
+    explanation: "Relative volume of 4.1 with a two-cent spread is the only tradable one."
+
+  - type: compare
+    prompt: "Which one is holding its level?"
+    charts:
+      - {label: "A", kind: candles, data: [[14.00,14.10,13.96,14.08],[14.08,14.16,14.04,14.06],[14.06,14.10,13.98,14.02],[14.02,14.18,14.00,14.16],[14.16,14.28,14.14,14.26],[14.26,14.36,14.22,14.34],[14.34,14.44,14.32,14.42],[14.42,14.50,14.38,14.48]], levels: [{price: 14.00}]}
+      - {label: "B", kind: candles, data: [[9.80,9.86,9.70,9.72],[9.72,9.76,9.58,9.60],[9.60,9.64,9.48,9.50],[9.50,9.56,9.40,9.42],[9.42,9.46,9.30,9.32],[9.32,9.38,9.22,9.24],[9.24,9.30,9.14,9.16],[9.16,9.22,9.06,9.08]], levels: [{price: 9.60}]}
+    answer: "A"
+    explanation: "A tested the line three times and closed higher each time."
+
+  - type: branch
+    scenario: "You are long 200 shares from $30.00 and it has gone against you."
+    shares: 200
+    chart: {kind: line, data: [30.0, 29.94, 29.86, 29.78, 29.7, 29.64, 29.66, 29.82, 30.02, 30.2], decision_index: 4, levels: [{price: 29.60, label: "Stop"}]}
+    steps:
+      - prompt: "It is $29.70 and your stop is $29.60. What now?"
+        options:
+          - {text: "Hold the stop", correct: true, next: 1}
+          - {text: "Move the stop lower", next: 1}
+          - {text: "Add more", next: 1}
+        explanation: "The stop is the plan. It bottoms at $29.62 and turns back up without touching it."
+      - prompt: "It is back at $30.20. What now?"
+        options:
+          - {text: "Move the stop to break even", correct: true}
+          - {text: "Take it all off"}
+        explanation: "Once it pays you, take the risk off: at break even the trade can no longer hurt you."
+
+  - type: journal-row
+    prompt: "Write up yesterday's trade."
+    slots: [setup, entry, exit, grade]
+    chips:
+      setup: ["VWAP bounce", "Opening range", "Gap fill"]
+      entry: ["14.20", "14.46"]
+      exit: ["14.20", "14.46"]
+      grade: ["A", "B", "C"]
+    answer: {setup: "VWAP bounce", entry: "14.20", exit: "14.46", grade: "A"}
+    explanation: "Entry below exit on a long, and it followed the plan."
+
+  - type: depth-ladder
+    prompt: "You send a market buy for 1,000 shares. Where does the last of it fill?"
+    bids: [[45.20, 1200], [45.19, 800], [45.18, 2400]]
+    asks: [[45.24, 400], [45.25, 900], [45.26, 700]]
+    target: "ask-2"
+    explanation: "400 at $45.24 leaves 600, which comes out of the 900 resting at $45.25."
+
+  - type: chart-replay
+    prompt: "Advance bar by bar. Act only when the card is filled."
+    chart:
+      kind: candles
+      data:
+        - [20.00, 20.10, 19.96, 20.06]
+        - [20.06, 20.14, 20.02, 20.04]
+        - [20.04, 20.08, 19.94, 19.98]
+        - [19.98, 20.06, 19.96, 20.04]
+        - [20.04, 20.12, 20.00, 20.10]
+        - [20.10, 20.16, 20.06, 20.08]
+        - [20.08, 20.34, 20.06, 20.30]
+        - [20.30, 20.44, 20.26, 20.40]
+        - [20.40, 20.48, 20.34, 20.38]
+        - [20.38, 20.46, 20.32, 20.44]
+        - [20.44, 20.60, 20.42, 20.58]
+        - [20.58, 20.66, 20.52, 20.62]
+      volume: [40000, 36000, 52000, 44000, 48000, 42000, 168000, 132000, 88000, 76000, 124000, 96000]
+    start_bar: 4
+    moments:
+      - bar: 6
+        kind: setup
+        fields:
+          - {label: "level", filled: true}
+          - {label: "volume", filled: true}
+          - {label: "trend", filled: true}
+          - {label: "spread", filled: true}
+          - {label: "time", filled: true}
+        note: "The break came on four times the average bar. Everything the card asks for was there."
+      - bar: 3
+        kind: decoy
+        fields:
+          - {label: "level", filled: true}
+          - {label: "volume", filled: false}
+          - {label: "trend", filled: false}
+          - {label: "spread", filled: true}
+          - {label: "time", filled: true}
+        note: "It touched the level, but on the quietest bar of the morning. The card wants volume."
+    explanation: "The setup was bar 7. Bar 4 looked like it but never had the volume."
+
+  - type: recap
+    title: "What this level taught"
+    points:
+      - {text: "A trade has a result only once it is closed.", level: "1-1"}
+      - {text: "The spread is paid on every round trip, win or lose.", level: "2-3"}
+      - {text: "A breakout on thin volume is a question, not an answer.", level: "4-2"}
+
+  - type: tier-up
+    tier: "Observer"
+    means: "You can read a chart."
+
+  - type: badge
+    name: "Renderer Test Bench"
+    unlocks: "Your feedback"
+
+  - type: path-choice

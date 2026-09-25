@@ -19,7 +19,6 @@ screens:
     text: "Moving a stop is not free. Here is the bill."
 
   - type: story
-    character: retail-trader
     text: "Your stop is a cent away. It has been a cent away for what feels like a long time, and nothing on the chart has changed except that you are watching it."
 
   - type: theory

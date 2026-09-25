@@ -19,7 +19,6 @@ screens:
     text: "Eight cards, a full morning, and not one of them dealt."
 
   - type: story
-    character: retail-trader
     text: "Two hours in. Three names watched, twelve charts that half-looked like something, no position, and a $20,000 account exactly where it started."
 
   - type: theory

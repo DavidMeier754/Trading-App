@@ -19,7 +19,6 @@ screens:
     text: "Three trades a session, three units a day, and one number underneath the whole month."
 
   - type: story
-    character: retail-trader
     text: "Nothing in a simulator stops you. No fill is refused, no balance runs out, and the thirtieth session will happen whatever the first twenty-nine did."
 
   - type: theory

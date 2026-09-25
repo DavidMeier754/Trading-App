@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [supply-demand, price]
+icon: scale
 learning_goal: "User can explain a price move as the balance of buyers and sellers, and predict the direction from a described imbalance."
 purpose: "Every jump and dip you will ever see is buyers versus sellers — knowing that turns a chart from noise into a story."
 terms_introduced: ["Market", "Buyer", "Seller", "Demand", "Supply"]
@@ -44,7 +45,6 @@ screens:
     explanation: "Buyers compete by paying more; the higher price draws out sellers."
 
   - type: story
-    character: retail-trader
     text: "Breaking news: XYZ's biggest product is being recalled. Suddenly everyone who owns it wants out."
 
   - type: mc
@@ -98,6 +98,5 @@ screens:
     explanation: "The price moves as far as it must to find the other side. Few buyers, bigger drop."
 
   - type: story
-    character: mascot
     text: "Buyers versus sellers. That is the whole engine — and you can already read it."
 

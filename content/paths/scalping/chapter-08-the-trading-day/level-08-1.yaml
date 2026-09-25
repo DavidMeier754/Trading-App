@@ -109,5 +109,4 @@ screens:
       - "The charts you traded still open for the review"
 
   - type: story
-    character: retail-trader
     text: "Screen empty, four rows to write, and tomorrow's page starting from nothing rather than from a position you are already arguing with."

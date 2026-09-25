@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [styles, holding-period]
+icon: hourglass
 learning_goal: "User can distinguish scalping, day trading and swing trading by holding period and screen time, and separate trading from investing."
 purpose: "After this chapter you pick a path — this is what the three paths actually mean."
 terms_introduced: ["Holding period", "Scalping", "Day trading", "Swing trading", "Investing"]
@@ -66,7 +67,6 @@ screens:
     explanation: "The style is defined by the holding period, not by what you call yourself."
 
   - type: story
-    character: mascot
     text: "You have a full-time job, can look at charts in the evening, and hate staring at screens."
 
   - type: mc

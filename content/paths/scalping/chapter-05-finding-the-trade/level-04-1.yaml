@@ -19,7 +19,6 @@ screens:
     text: "Six rounds across this level, and the same four questions in all of them."
 
   - type: story
-    character: retail-trader
     text: "Twenty minutes before the open. The list is sorted, and the pen is more use to you than the chart."
 
   - type: theory

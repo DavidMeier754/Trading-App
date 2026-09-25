@@ -19,7 +19,6 @@ screens:
     text: "Five stretched charts. Two of them are your card."
 
   - type: story
-    character: retail-trader
     text: "Levels marked before the open, VWAP on the chart, $30,000 in the account. Size down for these."
 
   - type: chart-decision

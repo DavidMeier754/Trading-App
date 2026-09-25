@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [liquidity, position-size, exits]
+icon: drop
 learning_goal: "User can describe what a large order does to a thin stock, and work out what walking the price costs on a given share count."
 purpose: "Most of what beginners call bad luck is a position that was too large for the stock long before the trade went wrong."
 terms_introduced: []
@@ -91,13 +92,12 @@ screens:
     explanation: "Your size against the stock, and how much time you are willing to allow yourself."
 
   - type: story
-    character: retail-trader
     text: "The chart was right. The stock did exactly what you thought it would. You still finished behind, because 900 shares was more than RUSK could hand back."
 
   - type: mc
     prompt: "Two traders take the same view on the same thin stock. One buys 200 shares, the other 4,000. What separates their results?"
     options:
-      - {text: "It pays more getting in and gets less getting out", correct: true}
+      - {text: "The larger one pays more getting in and gets less getting out", correct: true}
       - {text: "It pays a higher charge per trade on a larger position"}
       - {text: "Nothing, since they own the same stock at the same time"}
     explanation: "Same idea, different size, and the size is what the stock charges for."
@@ -108,5 +108,4 @@ screens:
     explanation: "Every extra share has to come from a worse price than the one before."
 
   - type: story
-    character: mascot
     text: "Liquidity is never a property of the stock alone. It is the stock and your size, together."

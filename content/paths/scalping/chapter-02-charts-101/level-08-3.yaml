@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [pullback, entry, decisions]
+icon: pullback
 learning_goal: "User waits for the first candle that takes ground back and joins the trend there rather than inside the falling dip."
 purpose: "This is the entry a scalper uses more than any other, and it is decided by one candle."
 terms_introduced: []
@@ -19,7 +20,6 @@ screens:
     text: "You have the shape and you have the dip. Now the only question left: which minute do you join?"
 
   - type: story
-    character: retail-trader
     text: "XYZ has climbed for six minutes and handed back three on shrinking bars. Your finger is over the button and every red candle makes it heavier."
 
   - type: theory
@@ -36,8 +36,8 @@ screens:
     explanation: "Three red minutes on thinning bars, then a green body straight back through all three on 154,000 shares. That is the minute the sellers ran out."
 
   - type: branch
-    scenario: "XYZ climbed from $19.10 to $19.50 on heavy bars and has handed back four minutes on 68,000, 52,000, 44,000 and 40,000. You have $20,000 in the account and 1,000 shares in mind."
-    shares: 1000
+    scenario: "XYZ climbed from $19.10 to $19.50 on heavy bars and has handed back four minutes on 68,000, 52,000, 44,000 and 40,000. You have $20,000 in the account and 900 shares in mind."
+    shares: 900
     chart:
       kind: candles
       data: [[19.10, 19.30, 19.06, 19.28], [19.28, 19.48, 19.26, 19.44], [19.44, 19.50, 19.34, 19.36], [19.36, 19.40, 19.28, 19.30], [19.30, 19.34, 19.24, 19.26], [19.26, 19.30, 19.20, 19.22], [19.22, 19.42, 19.20, 19.40], [19.40, 19.44, 19.30, 19.32], [19.32, 19.34, 19.16, 19.18], [19.18, 19.24, 19.12, 19.16]]
@@ -91,16 +91,16 @@ screens:
 
   - type: chart-decision
     scenario: "Four red minutes since the push topped at $13.52. Each bar is bigger than the last, and the minute that just closed made a new low at $13.12."
-    shares: 1500
+    shares: 1400
     chart:
       kind: candles
       data: [[13.20, 13.38, 13.16, 13.36], [13.36, 13.52, 13.34, 13.48], [13.48, 13.52, 13.36, 13.38], [13.38, 13.42, 13.28, 13.30], [13.30, 13.34, 13.20, 13.22], [13.22, 13.26, 13.12, 13.14], [13.14, 13.18, 13.04, 13.06], [13.06, 13.12, 12.98, 13.00], [13.00, 13.06, 12.92, 12.96], [12.96, 13.02, 12.90, 12.94], [12.94, 13.00, 12.88, 12.92]]
       volume: [142000, 156000, 88000, 96000, 104000, 118000, 126000, 132000, 120000, 108000, 100000]
       decision_index: 5
-    state: ["Size: 1,500 shares"]
+    state: ["Size: 1,400 shares"]
     best: no-trade
     reasonable: [short]
-    outcome: "It slid on to $12.88 and finished at $12.92. Buying that give-back would have been $0.22 a share underwater — $330 on 1,500 shares."
+    outcome: "It slid on to $12.88 and finished at $12.92. Buying that give-back would have been $0.22 a share underwater — $308 on 1,400 shares."
     explanation: "No minute has taken any ground back yet, and the bars are growing rather than thinning. There is nothing here to join, only something to watch."
 
   - type: order

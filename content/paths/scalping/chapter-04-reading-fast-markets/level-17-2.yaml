@@ -19,7 +19,6 @@ screens:
     text: "A second morning, the same four readings, and sellers in charge from the third minute."
 
   - type: story
-    character: retail-trader
     text: "It gapped up and gave it back before you had finished drawing the lines. Since then every minute has traded under the session's own average price."
 
   - type: chart-decision

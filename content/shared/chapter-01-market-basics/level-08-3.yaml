@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [volatility, liquidity, stock-selection]
+icon: zigzag
 learning_goal: "User can pick a stock to learn on by putting both dials in the middle, and say why each extreme is a poor teacher."
 purpose: "The stock you practise on decides how much you learn per hour, and beginners almost always pick one of the two extremes."
 terms_introduced: []
@@ -23,7 +24,6 @@ screens:
     body: "Enough volume that you can leave whenever you like. Enough movement that a decision has a result. Not so much movement that one wrong minute undoes a week."
 
   - type: story
-    character: mascot
     text: "Nobody learns to drive on a race track or in an empty car park. You want an ordinary road with ordinary traffic on it."
 
   - type: compare

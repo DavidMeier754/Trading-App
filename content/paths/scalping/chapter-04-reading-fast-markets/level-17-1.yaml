@@ -19,7 +19,6 @@ screens:
     text: "One morning, start to finish, with the read written out at every decision."
 
   - type: story
-    character: retail-trader
     text: "The first five minutes have finished. Yesterday's prices are already on the chart and nothing has been taken yet."
 
   - type: chart-annotate

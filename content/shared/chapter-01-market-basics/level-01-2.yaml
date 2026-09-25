@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [decisions, price, chart]
+icon: coin
 learning_goal: "User decides to buy or to wait from a line chart, and treats waiting as a full answer rather than a failure."
 purpose: "Most charts you look at are not trades — learning that on day one saves you from the habit of trading everything."
 terms_introduced: []
@@ -25,7 +26,7 @@ screens:
   - type: chart-decision
     scenario: "XYZ has ticked higher for six minutes straight, each step a little above the last. It trades at $11.62. Buy 100 shares, or wait?"
     shares: 100
-    chart: {kind: line, data: [11.40, 11.44, 11.42, 11.50, 11.56, 11.62, 11.70, 11.76, 11.84, 11.90], decision_index: 5}
+    chart: {kind: line, data: [11.40, 11.44, 11.47, 11.50, 11.56, 11.62, 11.70, 11.76, 11.84, 11.90], decision_index: 5}
     buttons: [buy, wait]
     best: buy
     reasonable: [wait]
@@ -35,7 +36,7 @@ screens:
   - type: chart-decision
     scenario: "XYZ has dropped from $16.20 to $14.90 in five minutes and the last step down was the biggest yet. Buy 100 shares, or wait?"
     shares: 100
-    chart: {kind: line, data: [16.20, 16.00, 15.70, 15.40, 15.10, 14.90, 14.70, 14.55, 14.45, 14.40], decision_index: 5}
+    chart: {kind: line, data: [16.20, 16.05, 15.85, 15.60, 15.30, 14.90, 14.70, 14.55, 14.45, 14.40], decision_index: 5}
     buttons: [buy, wait]
     best: wait
     outcome: "It slid on to $14.40 — 50 cents a share lower, which would have been −$50 on 100 shares."
@@ -100,5 +101,4 @@ screens:
     explanation: "You are paid by the move. No move, no payment."
 
   - type: story
-    character: mascot
     text: "Three buys out of seven charts. That ratio will feel wrong for a while, and then it will feel normal."

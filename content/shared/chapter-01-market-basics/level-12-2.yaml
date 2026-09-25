@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [broker, fees, orders]
+icon: key
 learning_goal: "User can assemble the order that opens and closes a position, and work out what each of the three kinds of broker charge takes out of a round trip."
 purpose: "The charge is the one number in a trade that is certain before you start, and the only one you can decide in advance."
 terms_introduced: []

@@ -19,7 +19,6 @@ screens:
     text: "Card one: the pullback that everybody above the line is waiting for."
 
   - type: story
-    character: retail-trader
     text: "XYZ has been above VWAP since {{market.regular_open}} {{market.timezone}}. Now it is drifting back down toward the line, candle by candle."
 
   - type: theory

@@ -65,7 +65,6 @@ screens:
     explanation: "Four cents times seven hundred shares, kept rather than handed across the gap."
 
   - type: story
-    character: retail-trader
     text: "You wanted those 700 shares at $18.30. The bid never traded below $18.31, and a few minutes later the stock is $18.62."
 
   - type: mc

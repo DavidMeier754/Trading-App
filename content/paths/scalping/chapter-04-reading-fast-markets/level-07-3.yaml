@@ -19,7 +19,6 @@ screens:
     text: "One reason is not a small edge. It is a flip you pay to take."
 
   - type: story
-    character: retail-trader
     text: "By the middle of the morning you have taken nine trades. Each one had something behind it. None of them had two things behind it."
 
   - type: theory

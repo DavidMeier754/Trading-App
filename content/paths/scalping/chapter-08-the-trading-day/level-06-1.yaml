@@ -19,7 +19,6 @@ screens:
     text: "Your page is written. The open does not read it — it decides which lines on it matter."
 
   - type: story
-    character: retail-trader
     text: "The bell. Four names, nine lines, and the first minute of LARK covering more ground than the whole hour before it did."
 
   - type: theory

@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: repetition
 tags: [drill, long-short, decisions]
+icon: updown
 learning_goal: "User reaches long, short or no trade on charts where the direction and the stock behind it both have a say."
 purpose: "Three buttons only become useful when picking between them is automatic, and that is built by repetition, not by explanation."
 terms_introduced: []
@@ -24,13 +25,13 @@ screens:
     chart: {kind: line, data: [15.42, 15.48, 15.46, 15.58, 15.70, 15.80, 15.88, 15.96, 16.04, 16.10], decision_index: 5}
     best: long
     reasonable: [no-trade]
-    outcome: "It carried on to $16.10, thirty cents above where it paused — +$105 on 350 shares."
+    outcome: "It carried on to $16.10, thirty cents above where you decided — +$105 on 350 shares."
     explanation: "Demand in charge in a stock deep enough that 350 shares is nothing to it."
 
   - type: chart-decision
     scenario: "VANE trades 3 M shares a day. It has made a lower high every two minutes and the last step down was the largest so far. It is at $18.90 and you are looking at 300 shares."
     shares: 300
-    chart: {kind: line, data: [19.80, 19.66, 19.70, 19.42, 19.14, 18.90, 18.74, 18.60, 18.44, 18.36], decision_index: 5}
+    chart: {kind: line, data: [19.80, 19.66, 19.70, 19.46, 19.22, 18.90, 18.74, 18.60, 18.44, 18.36], decision_index: 5}
     best: short
     reasonable: [no-trade]
     outcome: "It gave up another 54 cents to $18.36 — $162 on a 300-share short."

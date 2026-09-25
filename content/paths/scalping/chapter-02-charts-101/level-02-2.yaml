@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, chart-reading, decisions]
+icon: candles
 learning_goal: "User can read a run of candles as one story and knows what shape alone does not settle."
 purpose: "One candle is sixty seconds of evidence; the reason to act comes from what the last few have done together."
 terms_introduced: []
@@ -26,10 +27,10 @@ screens:
     body: "Three long green bodies in a row is three minutes of buyers keeping what they took. Read together they are a reason to look. They are not a promise of a fourth."
 
   - type: compare
-    prompt: "One of these is three minutes of one side keeping everything it took. Which?"
+    prompt: "Both climb for eight minutes. Which one kept what it took?"
     charts:
       - {kind: candles, data: [[15.20, 15.29, 15.18, 15.28], [15.28, 15.41, 15.26, 15.40], [15.40, 15.56, 15.38, 15.54], [15.54, 15.60, 15.50, 15.58], [15.58, 15.66, 15.55, 15.64], [15.64, 15.70, 15.61, 15.68], [15.68, 15.74, 15.65, 15.72], [15.72, 15.78, 15.69, 15.76]], label: "A"}
-      - {kind: candles, data: [[15.20, 15.38, 15.18, 15.24], [15.24, 15.44, 15.22, 15.28], [15.28, 15.50, 15.26, 15.32], [15.32, 15.40, 15.28, 15.36], [15.36, 15.46, 15.33, 15.38], [15.38, 15.48, 15.35, 15.40], [15.40, 15.50, 15.37, 15.42], [15.42, 15.52, 15.39, 15.44]], label: "B"}
+      - {kind: candles, data: [[15.20, 15.38, 15.18, 15.24], [15.24, 15.44, 15.22, 15.28], [15.28, 15.50, 15.26, 15.32], [15.32, 15.48, 15.28, 15.36], [15.36, 15.46, 15.33, 15.38], [15.38, 15.48, 15.35, 15.40], [15.40, 15.50, 15.37, 15.42], [15.42, 15.52, 15.39, 15.44]], label: "B"}
     answer: "A"
     explanation: "B climbs too, but every minute reaches far above its close. A keeps what it takes; B keeps about a fifth of it."
 
@@ -86,16 +87,16 @@ screens:
     explanation: "Shape is a complete record of one minute and no evidence at all about the next."
 
   - type: chart-decision
-    scenario: "Six minutes of climbing, then two candles that spiked higher and finished back near their opens. Both left long threads on top."
-    shares: 1400
+    scenario: "Four minutes of climbing, then two candles that spiked higher and finished back near their opens. Both left long threads on top."
+    shares: 1300
     chart:
       kind: candles
       data: [[13.42, 13.50, 13.40, 13.48], [13.48, 13.60, 13.47, 13.58], [13.58, 13.72, 13.56, 13.70], [13.70, 13.86, 13.68, 13.84], [13.84, 13.98, 13.82, 13.86], [13.86, 13.97, 13.83, 13.85], [13.85, 13.88, 13.74, 13.76], [13.76, 13.79, 13.66, 13.68], [13.68, 13.72, 13.60, 13.63], [13.63, 13.67, 13.57, 13.59], [13.59, 13.62, 13.52, 13.55]]
       decision_index: 5
-    state: ["Size: 1,400 shares"]
+    state: ["Size: 1,300 shares"]
     best: no-trade
     reasonable: [short]
-    outcome: "Price slid to $13.55. Buying there would have cost $0.30 a share — $420 on 1,400 shares. Standing aside cost nothing."
+    outcome: "Price slid to $13.55. Buying there would have cost $0.30 a share — $390 on 1,300 shares. Standing aside cost nothing."
     explanation: "Two refusals in a row are reason enough to stop buying. Selling a stock that has risen all morning needs more than shape, and that comes later."
 
   - type: fill-tiles

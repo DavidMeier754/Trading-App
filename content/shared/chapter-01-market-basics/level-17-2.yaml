@@ -1,0 +1,117 @@
+id: "17-2"
+title: "Choose Your Path"
+chapter: 1
+chapter_title: "Market Basics"
+path: all
+category: new-theory
+tags: [styles, holding-period, path-choice]
+learning_goal: "User can compare scalping, day trading and swing trading on chart, holding period, target, exit distance, positions, overnight exposure and screen time, and pick the path that fits the day they actually have."
+purpose: "Every lesson after Chapter 1 follows this choice, so it should rest on what each path asks of a day, not on which one sounds fastest."
+terms_introduced: []
+reinforces: []
+prerequisite: "17-1"
+xp: 20
+difficulty: 2
+sources: [consensus]
+notes: "The path-choice lesson, played from its own node after the Final Exam (docs/UI.md §7.1) and replayable to change path. Ranges are the curriculum's own: charts, targets and holding periods from docs/curriculum.md, exit distances from docs/agent.md §3.6, screen time from Level 14-1. No account is named and no position is sized. 'Stop' is not a Chapter 1 term, so the table says how far away the exit sits."
+screens:
+  - type: intro
+    text: "Three paths from here. Same market, three very different days."
+
+  - type: theory
+    title: "One choice, everything after it"
+    body: "From Chapter 2 on, every lesson follows your path. The holding period sets the rest: the chart you read, what you play for, where you get out and how many hours it takes."
+
+  - type: carousel
+    cards:
+      - {label: "A scalper's day", text: "The busiest hour or two of the session, one stock at a time on the 1-minute chart. Each trade is over in seconds or minutes and plays for a few cents a share.", icon: style-scalp}
+      - {label: "A day trader's day", text: "A few hours of the session on 5- and 15-minute charts. A handful of trades held minutes to hours, playing for tens of cents to a couple of dollars. Flat before the close.", icon: style-day}
+      - {label: "A swing trader's day", text: "A short look at the daily chart in the evening. A few positions held for days or weeks, playing for dollars a share, kept through nights and weekends.", icon: style-swing}
+
+  - type: visual
+    component: journal-table
+    data:
+      columns: ["", Scalping, Day, Swing]
+      rows:
+        - {"": "Chart", Scalping: "1-min", Day: "5- & 15-min", Swing: "Daily"}
+        - {"": "Holds for", Scalping: "Seconds to minutes", Day: "Minutes to hours", Swing: "Days to weeks"}
+        - {"": "Plays for", Scalping: "$0.05–$0.30 a share", Day: "$0.30–$2 a share", Swing: "$2–$20 a share"}
+        - {"": "Out if wrong", Scalping: "0.3–1 % away", Day: "0.5–2 % away", Swing: "4–10 % away"}
+        - {"": "Open at once", Scalping: "One", Day: "One, rarely two", Swing: "Several"}
+        - {"": "Overnight", Scalping: "Never", Day: "Never", Swing: "Always"}
+        - {"": "Screen time", Scalping: "~90 min", Day: "~60 min", Swing: "~15 min"}
+    caption: "Side by side. Rough ranges: the ones each path's own chapters use."
+
+  - type: theory
+    title: "Nights and weekends"
+    body: "Scalpers and day traders end every session flat: nothing is held once the market closes. A swing trade stays open while the market is shut, so news can open the stock tomorrow far from where it closed tonight."
+
+  - type: mc
+    prompt: "A stock closes at $40.00 and opens the next morning at $37.20 on news. Whose position does that move hit?"
+    options:
+      - {text: "A swing trader who held it overnight", correct: true}
+      - {text: "A day trader who was flat at the close"}
+      - {text: "A scalper who traded it yesterday morning"}
+    explanation: "Only a position held through the night meets the morning's price. The other two had closed before the news came out."
+
+  - type: example
+    body: "The same three cents of cost, a two-cent gap and a cent of charges, take a third of a scalper's nine-cent target. Out of a swing trader's $2.00 target they take one and a half per cent."
+    visual: cost-stack
+    visual_data: {shares: 1000, spread: 0.02, slippage: 0.0, fees: 0.01, target: 0.09}
+
+  - type: numeric-mc
+    prompt: "A day trader plays for $0.60 a share and pays three cents to get in and back out. What share of the target is that?"
+    options:
+      - {text: "0.5 %"}
+      - {text: "5 %", correct: true}
+      - {text: "20 %"}
+      - {text: "50 %"}
+    working: "$0.03 ÷ $0.60 = 0.05 = 5 %"
+    explanation: "Between the scalper's third and the swing trader's one and a half per cent: the more a trade plays for, the less its costs weigh."
+
+  - type: match
+    prompt: "Match each style to what it reads to decide."
+    pairs:
+      - ["Scalping", "The 1-minute chart"]
+      - ["Day trading", "5- and 15-minute charts"]
+      - ["Swing trading", "The daily chart, the weekly for context"]
+      - ["Investing", "The company's business, not the chart"]
+    explanation: "The holding period decides how much time one candle has to cover."
+
+  - type: sort
+    prompt: "Which path is this?"
+    buckets: ["Scalping", "Day trading", "Swing trading"]
+    items:
+      - {text: "Plays for ten cents", bucket: "Scalping"}
+      - {text: "Fifteen trades by lunch", bucket: "Scalping"}
+      - {text: "Reads the 15-minute chart", bucket: "Day trading"}
+      - {text: "Three trades, held for hours", bucket: "Day trading"}
+      - {text: "Charts after dinner", bucket: "Swing trading"}
+      - {text: "Plays for $5 a share", bucket: "Swing trading"}
+    explanation: "How long the trade lives and how far it has to go tell the three apart."
+
+  - type: tf
+    statement: "A swing trader has to watch the screen while the market is open."
+    answer: false
+    explanation: "Swing decisions come from the daily chart, which is finished once the session ends. The evening look is where the next day's plan is made."
+
+  - type: story
+    text: "Most mornings you have two quiet hours while the market is open. You like deciding fast, you want every trade finished within minutes, and a closed loss does not follow you around."
+
+  - type: mc
+    prompt: "Which style fits that day best?"
+    options:
+      - {text: "Scalping", correct: true}
+      - {text: "Swing trading"}
+      - {text: "Investing"}
+    explanation: "Short, fast, fully watched and finished within minutes is the scalper's day. Swing trading and investing both hold for far longer than those two hours."
+
+  - type: checklist-reveal
+    title: "Before you choose"
+    items:
+      - "Which hours of the session can I really be at a screen, in an ordinary week?"
+      - "Do I want my decisions in seconds, or over an evening?"
+      - "Can I leave a position open overnight and still sleep?"
+      - "It is not final: the path can be changed any time in Settings."
+
+  - type: path-choice

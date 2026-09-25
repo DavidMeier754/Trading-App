@@ -47,12 +47,12 @@ screens:
     shares: 200
     chart:
       kind: line
-      data: [12.40, 12.46, 12.44, 12.52, 12.60, 12.68, 12.76, 12.84, 12.90, 12.96, 13.02]
+      data: [12.40, 12.45, 12.49, 12.54, 12.60, 12.68, 12.76, 12.84, 12.90, 12.96, 13.02]
       decision_index: 5
     buttons: [buy, wait]
     best: buy
     reasonable: [wait]
-    outcome: "Six more minutes and it was $13.02 — 34 cents above the pause, +$68 on 200 shares."
+    outcome: "Six more minutes and it was $13.02 — 34 cents above where you decided, +$68 on 200 shares."
     explanation: "A direction already under way is the clearest reason a beginner has to buy, and 200 shares is nothing to a stock this size."
 
   - type: tf
@@ -106,7 +106,7 @@ screens:
     shares: 200
     chart:
       kind: line
-      data: [21.60, 21.44, 21.50, 21.26, 21.04, 20.86, 20.70, 20.58, 20.42, 20.34, 20.28]
+      data: [21.60, 21.44, 21.50, 21.32, 21.12, 20.86, 20.70, 20.58, 20.42, 20.34, 20.28]
       decision_index: 5
     best: short
     reasonable: [no-trade]
@@ -129,5 +129,3 @@ screens:
   - type: badge
     name: "Market Basics — Complete"
     unlocks: "Your path"
-
-  - type: path-choice

@@ -19,7 +19,6 @@ screens:
     text: "Three decisions, no hints. Level, line, candle, tape."
 
   - type: story
-    character: retail-trader
     text: "Mid-morning. Lines drawn, VWAP on the chart, tape open on the right, $30,000 in the account."
 
   - type: chart-decision

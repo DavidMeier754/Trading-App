@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [levels, liquidity, decisions, practice]
+icon: levels
 learning_goal: "User marks the level that matters on a fresh chart and decides from where price is standing relative to it."
 purpose: "Marking a level is a physical habit, and it is worth nothing until a decision is taken at one."
 terms_introduced: []
@@ -19,7 +20,6 @@ screens:
     text: "Mark the price, then decide from it. Six charts, and the line comes first every time."
 
   - type: story
-    character: retail-trader
     text: "$20,000 in the account. Every chart here is a stock you have never seen, and each one has exactly one price worth drawing."
 
   - type: chart-annotate
@@ -78,15 +78,15 @@ screens:
 
   - type: chart-decision
     scenario: "The nearest levels are yesterday's low at $20.80 and the round number at $21.50, and XYZ has spent eleven minutes between $21.08 and $21.32 on bars near 54,000."
-    shares: 900
+    shares: 800
     chart:
       kind: candles
       data: [[21.20, 21.28, 21.14, 21.24], [21.24, 21.30, 21.16, 21.18], [21.18, 21.26, 21.12, 21.22], [21.22, 21.29, 21.15, 21.17], [21.17, 21.25, 21.13, 21.21], [21.21, 21.27, 21.15, 21.19], [21.19, 21.24, 21.12, 21.16], [21.16, 21.22, 21.10, 21.20], [21.20, 21.26, 21.12, 21.14], [21.14, 21.20, 21.08, 21.18], [21.18, 21.22, 21.10, 21.14]]
       volume: [64000, 58000, 60000, 54000, 56000, 52000, 50000, 56000, 52000, 48000, 54000]
       decision_index: 5
-    state: ["Size: 900 shares"]
+    state: ["Size: 800 shares"]
     best: no-trade
-    outcome: "Five minutes on it was $21.14 — five cents under the decision, $45 down on 900 shares before a single cost."
+    outcome: "Five minutes on it was $21.14 — five cents under the decision, $40 down on 800 shares before a single cost."
     explanation: "Thirty-one cents up to the round number, thirty-nine down to yesterday's low, and nothing happening in between. You take trades at levels, not in the space between them."
 
   - type: compare
@@ -110,16 +110,16 @@ screens:
 
   - type: chart-decision
     scenario: "Yesterday XYZ topped at $16.40. It got above that price early and has now come back to it: two minutes touched $16.40 and turned. The one that just closed finished at $16.54 on 178,000 shares."
-    shares: 1200
+    shares: 1100
     chart:
       kind: candles
       data: [[16.60, 16.66, 16.52, 16.54], [16.54, 16.58, 16.44, 16.46], [16.46, 16.50, 16.40, 16.42], [16.42, 16.52, 16.40, 16.48], [16.48, 16.50, 16.40, 16.42], [16.42, 16.56, 16.40, 16.54], [16.54, 16.68, 16.52, 16.66], [16.66, 16.72, 16.60, 16.62], [16.62, 16.80, 16.60, 16.76], [16.76, 16.82, 16.70, 16.74], [16.74, 16.92, 16.72, 16.88]]
       volume: [124000, 132000, 148000, 96000, 126000, 178000, 164000, 104000, 152000, 98000, 142000]
       decision_index: 5
-    state: ["Size: 1,200 shares"]
+    state: ["Size: 1,100 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It climbed to $16.92 and finished at $16.88 — $0.34 a share above the decision, +$408 long on 1,200 shares."
+    outcome: "It climbed to $16.92 and finished at $16.88 — $0.34 a share above the decision, +$374 long on 1,100 shares."
     explanation: "Yesterday's ceiling has become today's floor: three visits, no close below it, and the heaviest bar of the morning spent holding it."
 
   - type: recap

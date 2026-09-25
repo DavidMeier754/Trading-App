@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [news, expectations, volatility]
+icon: globe
 learning_goal: "User can explain why a price reacts to the gap between news and what was expected, and can say where a stock's biggest single days come from."
 purpose: "Every beginner loses an argument with the market the first time good news and a falling price arrive together."
 terms_introduced: []
@@ -106,5 +107,4 @@ screens:
     explanation: "The news alone is only half of the pair."
 
   - type: story
-    character: institution
     text: "The institution never asks whether the news is good. It asks whether the news is better than the price is already saying."

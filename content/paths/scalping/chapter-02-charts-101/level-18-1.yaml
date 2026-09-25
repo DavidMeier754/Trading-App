@@ -39,11 +39,11 @@ screens:
     explanation: "The earlier minute reached $20.02 and closed back at $19.90. That is a visit; the one you tapped is a verdict."
 
   - type: numeric-input
-    prompt: "You are short 1,200 shares from $16.48 and cover at $16.19. What is the result before costs?"
-    answer: 348
+    prompt: "You are short 1,100 shares from $16.48 and cover at $16.19. What is the result before costs?"
+    answer: 319
     tolerance: 0.01
     unit: "$"
-    working: "$16.48 − $16.19 = $0.29 a share × 1,200 shares = $348"
+    working: "$16.48 − $16.19 = $0.29 a share × 1,100 shares = $319"
     explanation: "Sold first, bought back lower, and the share count turns twenty-nine cents into the number that matters."
 
   - type: tf
@@ -63,16 +63,16 @@ screens:
 
   - type: chart-decision
     scenario: "XYZ has fallen five minutes straight into $13.00, a round number that stopped it earlier. The minute that just closed dipped to $13.00, finished at $13.16, and traded the heaviest bar of the fall."
-    shares: 1500
+    shares: 1400
     chart:
       kind: candles
       data: [[13.40, 13.44, 13.32, 13.34], [13.34, 13.38, 13.24, 13.26], [13.26, 13.30, 13.16, 13.18], [13.18, 13.22, 13.08, 13.12], [13.12, 13.16, 13.02, 13.06], [13.06, 13.18, 13.00, 13.16], [13.16, 13.26, 13.14, 13.24], [13.24, 13.32, 13.20, 13.28], [13.28, 13.36, 13.24, 13.32], [13.32, 13.38, 13.28, 13.34], [13.34, 13.42, 13.30, 13.38]]
       volume: [118000, 126000, 138000, 152000, 168000, 264000, 218000, 186000, 164000, 142000, 156000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,500 shares"]
+    state: ["Account: $20,000", "Size: 1,400 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "Buyers held the level and price reached $13.42, finishing at $13.38 — $0.22 a share above the decision, +$330 long on 1,500 shares."
+    outcome: "Buyers held the level and price reached $13.42, finishing at $13.38 — $0.22 a share above the decision, +$308 long on 1,400 shares."
     explanation: "A long lower wick into a round number, on the busiest bar of the fall, is buyers defending a price where everyone can see them do it."
 
   - type: fill-choice
@@ -126,12 +126,12 @@ screens:
     explanation: "Four words that between them describe most of what a scalper's morning is made of."
 
   - type: compare
-    prompt: "Both stocks climbed this stretch. In which one could 1,500 shares be bought and sold without moving the price?"
+    prompt: "Both stocks climbed this stretch. In which one could 1,400 shares be bought and sold without moving the price?"
     charts:
       - {kind: candles, data: [[15.40, 15.52, 15.36, 15.50], [15.50, 15.60, 15.46, 15.56], [15.56, 15.68, 15.52, 15.64], [15.64, 15.72, 15.58, 15.62], [15.62, 15.76, 15.60, 15.74], [15.74, 15.84, 15.70, 15.80], [15.80, 15.88, 15.74, 15.84], [15.84, 15.94, 15.80, 15.90]], volume: [224000, 268000, 246000, 182000, 286000, 252000, 218000, 234000], label: "A"}
       - {kind: candles, data: [[15.40, 15.66, 15.38, 15.62], [15.62, 15.66, 15.36, 15.40], [15.40, 15.46, 15.38, 15.44], [15.44, 15.74, 15.42, 15.70], [15.70, 15.74, 15.44, 15.48], [15.48, 15.54, 15.46, 15.52], [15.52, 15.80, 15.50, 15.76], [15.76, 15.82, 15.52, 15.56]], volume: [9000, 14000, 6000, 12000, 7000, 5000, 16000, 8000], label: "B"}
     answer: "A"
-    explanation: "A trades a quarter of a million shares a minute. B climbs in jumps on bars of a few thousand, where your 1,500 would be more than a whole minute of it, twice."
+    explanation: "A trades a quarter of a million shares a minute. B climbs in jumps on bars of a few thousand, where your 1,400 would be a sixth of a whole minute of it, twice."
 
   - type: spot-mistake
     prompt: "Tap the part that is wrong."

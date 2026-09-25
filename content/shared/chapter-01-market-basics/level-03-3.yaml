@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: repetition
 tags: [ownership, practice, profit-loss]
+icon: pie
 learning_goal: "User moves between ownership arithmetic and trade arithmetic without losing track of which is which."
 purpose: "The fraction you own and the money you make are two different sums, and mixing them up is how beginners misjudge a position."
 terms_introduced: []
@@ -19,7 +20,6 @@ screens:
     text: "Two kinds of arithmetic, mixed together on purpose."
 
   - type: story
-    character: mascot
     text: "One set of numbers tells you what slice of a business you hold. The other tells you what the day did to your cash."
 
   - type: numeric-mc
@@ -55,7 +55,7 @@ screens:
     explanation: "200 ÷ 4,000 = 5 %. Moving the decimal point is the commonest slip here."
 
   - type: chart-decision
-    scenario: "NOVA has stepped lower for six minutes straight and trades at $26.40. You have a $5,000 account and are looking at 150 shares. Buy, or wait?"
+    scenario: "XYZ has stepped lower for six minutes straight and trades at $26.40. You have a $5,000 account and are looking at 150 shares. Buy, or wait?"
     shares: 150
     chart: {kind: line, data: [27.60, 27.40, 27.20, 26.90, 26.70, 26.40, 26.20, 26.05, 25.90, 25.80], decision_index: 5}
     buttons: [buy, wait]

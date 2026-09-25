@@ -19,7 +19,6 @@ screens:
     text: "The chart says there is a move. The quote says how much of it reaches you."
 
   - type: story
-    character: retail-trader
     text: "Two names, the same reading on both, and the only difference is four cents between the bid and the ask."
 
   - type: chart-decision

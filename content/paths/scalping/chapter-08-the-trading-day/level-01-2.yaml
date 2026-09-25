@@ -104,5 +104,4 @@ screens:
     explanation: "No typing, no dialog. That is what the panel is for, and it is also why it is dangerous to lean on."
 
   - type: story
-    character: retail-trader
     text: "The ladder has been open ten minutes and nothing has happened. Twice your hand has drifted towards it just to see what a click would do. That is the panel working, and you nearly undoing it."

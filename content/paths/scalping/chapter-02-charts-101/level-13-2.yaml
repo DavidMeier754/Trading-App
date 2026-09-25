@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [open, gaps, decisions]
+icon: bell
 learning_goal: "User can read a gap up or down against yesterday's close and tell a gap that is being paid for from one that is being sold."
 purpose: "A gap is the first thing on the chart every morning, and half the crowd misreads it as a discount."
 terms_introduced: ["Gap"]
@@ -59,16 +60,16 @@ screens:
 
   - type: chart-decision
     scenario: "XYZ gapped up from $20.00 to $20.90. Six minutes in, every minute has finished above the opening price and each dip has stopped higher than the last."
-    shares: 900
+    shares: 700
     chart:
       kind: candles
       data: [[20.90, 21.06, 20.84, 21.00], [21.00, 21.08, 20.92, 20.96], [20.96, 21.10, 20.94, 21.06], [21.06, 21.12, 20.98, 21.02], [21.02, 21.14, 21.00, 21.10], [21.10, 21.18, 21.04, 21.16], [21.16, 21.28, 21.14, 21.26], [21.26, 21.34, 21.22, 21.30], [21.30, 21.40, 21.26, 21.38], [21.38, 21.44, 21.32, 21.36], [21.36, 21.48, 21.34, 21.44]]
       volume: [412000, 286000, 232000, 208000, 196000, 224000, 246000, 218000, 232000, 196000, 214000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 900 shares"]
+    state: ["Account: $20,000", "Size: 700 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It carried on to $21.48 and finished at $21.44 — $0.28 a share above the decision, +$252 long on 900 shares."
+    outcome: "It carried on to $21.48 and finished at $21.44 — $0.28 a share above the decision, +$196 long on 700 shares."
     explanation: "Six minutes of buyers defending the price they gapped to. Nothing is being handed back, so the gap is being paid for rather than sold into."
 
   - type: sort
@@ -95,12 +96,12 @@ screens:
     explanation: "A has not closed a single minute under its opening price. B lost it on the first one and has made a lower high every minute since."
 
   - type: numeric-input
-    prompt: "You bought the gap at $20.94 with 900 shares and it is now $20.72. Where do you stand before costs?"
-    answer: -198
+    prompt: "You bought the gap at $20.94 with 700 shares and it is now $20.72. Where do you stand before costs?"
+    answer: -154
     tolerance: 0.01
     unit: "$"
-    working: "($20.72 − $20.94) × 900 shares = −$198"
-    explanation: "Twenty-two cents against you on 900 shares, and the arithmetic of a loss is the arithmetic of a win with the sign turned round."
+    working: "($20.72 − $20.94) × 700 shares = −$154"
+    explanation: "Twenty-two cents against you on 700 shares, and the arithmetic of a loss is the arithmetic of a win with the sign turned round."
 
   - type: chart-decision
     scenario: "The gap took XYZ from $13.80 to $14.60, and the very first minute lost the opening price. Every push since has topped out lower."

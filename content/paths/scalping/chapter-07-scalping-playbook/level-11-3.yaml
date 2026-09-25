@@ -19,7 +19,6 @@ screens:
     text: "One band, one session, and two very different minutes inside it."
 
   - type: story
-    character: retail-trader
     text: "PLT has been between the same two prices since the first half hour. You have the edges drawn and nothing taken yet."
 
   - type: swipe-deck

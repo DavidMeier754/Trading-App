@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [sessions, market-hours]
+icon: clock
 learning_goal: "User can name and order the three sessions of a trading day and say which one carries nearly all of the volume."
 purpose: "The same stock behaves like three different stocks across a day, and knowing which block you are looking at explains most of the moves that look wrong."
 terms_introduced: ["Session", "Pre-market", "Regular session", "After-hours"]
@@ -63,7 +64,6 @@ screens:
     explanation: "Most volume, most participants, steadiest prices."
 
   - type: story
-    character: retail-trader
     text: "An hour before the open, XYZ announces results well above what anyone expected. The regular session starts at {{market.regular_open}} {{market.timezone}}."
 
   - type: mc

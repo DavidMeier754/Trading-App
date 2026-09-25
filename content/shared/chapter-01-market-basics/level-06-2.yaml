@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [market-maker, spread, costs]
+icon: people
 learning_goal: "User can explain the two prices a market maker quotes, name the gap between them as the spread, and work out what that gap costs on a given share count."
 purpose: "The spread is the first cost a trader ever pays, it is paid on every single trade, and most beginners never notice it."
 terms_introduced: ["Spread"]
@@ -81,7 +82,6 @@ screens:
     explanation: "The more competition there is to trade with you, the less the market maker can get away with."
 
   - type: story
-    character: market-maker
     text: "Both sides of forty stocks on one screen, and no opinion about any of them. It only wants the gap, many times over."
 
   - type: fill-tiles

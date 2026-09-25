@@ -59,7 +59,6 @@ screens:
     explanation: "Seventy-two dollars that the trade has to make back before it has made anything."
 
   - type: story
-    character: retail-trader
     text: "XYZ has gone nowhere for ten minutes. Bid $18.02 / ask $18.08. Your account is $30,000 and you are sizing 1,400 shares."
 
   - type: chart-decision

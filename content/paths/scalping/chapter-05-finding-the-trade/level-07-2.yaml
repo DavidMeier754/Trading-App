@@ -110,7 +110,6 @@ screens:
     explanation: "Each step is cheaper than the one after it, which is why they run in that order and not the other way round."
 
   - type: story
-    character: retail-trader
     text: "Four charts, twelve lines, and eight minutes still left before the bell. The last of those minutes is for reading the reasons again, not for adding a fifth name."
 
   - type: visual

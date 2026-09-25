@@ -19,7 +19,6 @@ screens:
     text: "The minute after a stop is the most expensive minute of your morning."
 
   - type: story
-    character: retail-trader
     text: "The stop fills. The number in the corner turns red, and the same chart is still sitting there, still looking like it wants to go."
 
   - type: theory

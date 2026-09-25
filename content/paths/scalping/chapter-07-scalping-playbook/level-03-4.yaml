@@ -19,7 +19,6 @@ screens:
     text: "The box, both ways, with the ticket and the exit attached."
 
   - type: story
-    character: retail-trader
     text: "The box is drawn, the stop distance is worked out, and the order is half-built before the minute that matters has finished. That is the whole preparation."
 
   - type: chart-decision

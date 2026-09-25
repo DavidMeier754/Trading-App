@@ -19,7 +19,6 @@ screens:
     text: "Four readings, one order. Your account is $22,000 and 1,200 shares is the size you trade."
 
   - type: story
-    character: retail-trader
     text: "The read you built in Chapter 4 was for a name already on your screen. This morning there are nine names and the bell has not gone yet."
 
   - type: theory

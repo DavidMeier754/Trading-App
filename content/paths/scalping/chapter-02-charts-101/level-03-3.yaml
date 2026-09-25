@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [timeframes, decisions]
+icon: zoom
 learning_goal: "User takes the 1-minute trigger only when the 5-minute agrees, and stands aside when the two charts point different ways."
 purpose: "Most beginner scalps are good 1-minute ideas taken against a 5-minute chart nobody looked at."
 terms_introduced: []
@@ -23,7 +24,6 @@ screens:
     body: "Four green minutes inside a morning that has been selling all the way down is a pause in the selling. The 1-minute is right about the minute and wrong about the trade."
 
   - type: story
-    character: retail-trader
     text: "Your 5-minute chart has been red since the session opened. Your 1-minute has just turned green four candles in a row, and it looks like the start of something."
 
   - type: chart-decision
@@ -49,23 +49,23 @@ screens:
 
   - type: chart-decision
     scenario: "The 5-minute has closed higher every five minutes since the open. On the 1-minute, XYZ eased back two candles and the one that just closed is green again."
-    shares: 1100
+    shares: 1000
     chart:
       kind: candles
       data: [[17.02, 17.12, 16.98, 17.10], [17.10, 17.22, 17.06, 17.18], [17.18, 17.30, 17.15, 17.28], [17.28, 17.34, 17.20, 17.24], [17.24, 17.28, 17.16, 17.19], [17.19, 17.32, 17.17, 17.30], [17.30, 17.42, 17.27, 17.40], [17.40, 17.50, 17.36, 17.47], [17.47, 17.56, 17.44, 17.54], [17.54, 17.62, 17.50, 17.58], [17.58, 17.66, 17.54, 17.62]]
       decision_index: 5
-    state: ["Size: 1,100 shares"]
+    state: ["Size: 1,000 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $17.66 and finished at $17.62 — $0.32 a share above the decision, +$352 long on 1,100 shares."
+    outcome: "It carried to $17.66 and finished at $17.62 — $0.32 a share above the decision, +$320 long on 1,000 shares."
     explanation: "Both charts point the same way, so the fast one is only being asked for timing, which is the job it is good at."
 
   - type: numeric-input
-    prompt: "That trade ran from $17.30 to $17.62 on 1,100 shares. What is the result before costs?"
-    answer: 352
+    prompt: "That trade ran from $17.30 to $17.62 on 1,000 shares. What is the result before costs?"
+    answer: 320
     tolerance: 0.01
     unit: "$"
-    working: "$0.32 a share × 1,100 shares = $352"
+    working: "$0.32 a share × 1,000 shares = $320"
     explanation: "Thirty-two cents is a normal scalp; the share count is what turns it into a number worth the screen time."
 
   - type: tf

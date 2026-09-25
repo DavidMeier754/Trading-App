@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [liquidity, volume, quote]
+icon: drop
 learning_goal: "User uses volume on an ordinary day as the clue to liquidity, and can say where that clue misleads."
 purpose: "Nobody publishes a liquidity number, so volume is the reading you actually get — as long as you read the ordinary day and not today's crowd."
 terms_introduced: []
@@ -13,7 +14,7 @@ prerequisite: "7-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Introduces the shape clue (a thin stock's line is a staircase) which the 7-4 drill then tests. Account named at $6,000; the worked position is 300 × $19.40 = $5,820."
+notes: "Introduces the shape clue (a thin stock's line is a staircase) which the 7-4 drill then tests. Account named at $6,000; the worked position is 250 × $19.40 = $4,850."
 screens:
   - type: intro
     text: "Liquidity is printed nowhere. Volume is printed everywhere, and it is the clue you get."
@@ -79,14 +80,14 @@ screens:
     explanation: "Activity and the shape of the move. Not direction, and certainly not the name."
 
   - type: chart-decision
-    scenario: "PINE trades 640,000 shares on a normal day and has climbed for six minutes to $19.40. You have a $6,000 account and are looking at 300 shares. Buy, or wait?"
-    shares: 300
+    scenario: "PINE trades 640,000 shares on a normal day and has climbed for six minutes to $19.40. You have a $6,000 account and are looking at 250 shares. Buy, or wait?"
+    shares: 250
     chart: {kind: line, data: [18.98, 19.04, 19.00, 19.14, 19.28, 19.40, 19.50, 19.58, 19.64, 19.68], decision_index: 5}
     buttons: [buy, wait]
     best: buy
     reasonable: [wait]
-    outcome: "It carried on to $19.68: 28 cents a share, which on 300 shares is +$84."
-    explanation: "The direction is on the chart and 300 shares is nothing to a stock that trades 640,000 of them a day."
+    outcome: "It carried on to $19.68: 28 cents a share, which on 250 shares is +$70."
+    explanation: "The direction is on the chart and 250 shares is nothing to a stock that trades 640,000 of them a day."
 
   - type: fill-choice
     sentence: "The quickest clue to how easily a stock trades is its ___."
@@ -95,7 +96,6 @@ screens:
     explanation: "It is the only number on the card that counts participation."
 
   - type: story
-    character: mascot
     text: "Two stocks, both around $20, both up 2 %. One does 5 M shares on a normal day and the other 12,000. They are not the same stock at all."
 
   - type: theory

@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: repetition
 tags: [paper-trading, broker, practice]
+icon: key
 learning_goal: "User runs one practice trade from picking the name to counting what the decision cost, and sizes it to what the account can pay for."
 purpose: "The practice account is the only place where a habit can be built for free, and most people waste it by treating the money as fake."
 terms_introduced: []
@@ -19,7 +20,6 @@ screens:
     text: "Real prices, real buttons, virtual money. Let's use one properly."
 
   - type: story
-    character: retail-trader
     text: "Your broker opens a practice account with $6,000 in it and the same ticket as the real one. Nothing you do in here can cost you anything."
 
   - type: theory

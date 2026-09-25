@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [quote, percent, price]
+icon: ticket
 learning_goal: "User converts between a change in dollars and a change in percent, and uses percent to compare two stocks at different prices."
 purpose: "Dollars tell you what a move paid you; percent tells you whether the move was unusual. Beginners who only read one of them mis-rank every stock they look at."
 terms_introduced: []
@@ -102,5 +103,4 @@ screens:
     explanation: "Dollars are not comparable between two stocks at different prices."
 
   - type: story
-    character: mascot
     text: "Two numbers, two jobs. One tells you about the stock, the other tells you about your cash."

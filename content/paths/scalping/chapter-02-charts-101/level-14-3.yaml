@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [momentum, exhaustion, patience, decisions]
+icon: battery
 learning_goal: "User stops joining the third and fourth leg of a move and can say what the first leg has that the late ones do not."
 purpose: "Almost every beginner's worst trade of the morning is a late one, taken because the earlier legs looked easy."
 terms_introduced: []
@@ -19,7 +20,6 @@ screens:
     text: "The trade that looks safest is usually the one everybody else has already taken."
 
   - type: story
-    character: retail-trader
     text: "Three pushes have gone past while you were reading the chart. The fourth one is starting and it is the first that has felt obvious."
 
   - type: theory
@@ -85,16 +85,16 @@ screens:
 
   - type: chart-decision
     scenario: "The lightest bars of the morning, and five minutes of nothing. The minute that just closed finished at $12.36 on 246,000 shares, four times any bar before it."
-    shares: 1600
+    shares: 1500
     chart:
       kind: candles
       data: [[12.10, 12.14, 12.06, 12.12], [12.12, 12.16, 12.08, 12.10], [12.10, 12.15, 12.07, 12.13], [12.13, 12.18, 12.10, 12.14], [12.14, 12.20, 12.12, 12.18], [12.18, 12.38, 12.16, 12.36], [12.36, 12.52, 12.34, 12.50], [12.50, 12.62, 12.46, 12.58], [12.58, 12.68, 12.54, 12.64], [12.64, 12.72, 12.60, 12.68], [12.68, 12.76, 12.64, 12.72]]
       volume: [62000, 58000, 54000, 66000, 88000, 246000, 268000, 238000, 196000, 172000, 158000]
       decision_index: 5
-    state: ["Size: 1,600 shares"]
+    state: ["Size: 1,500 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $12.76 and finished at $12.72 — $0.36 a share above the decision, +$576 long on 1,600 shares."
+    outcome: "It ran to $12.76 and finished at $12.72 — $0.36 a share above the decision, +$540 long on 1,500 shares."
     explanation: "Five quiet minutes and then one bar four times their size. This is the first leg, and none of the buyers have been used up yet."
 
   - type: tf

@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [sessions, practice, decisions]
+icon: clock
 learning_goal: "User can say which part of the trading day to learn in and what to do with a price printed in a thin one."
 purpose: "Choosing where in the day to practise is the last piece of the beginner's setup, and it costs nothing to get right."
 terms_introduced: []
@@ -13,7 +14,7 @@ prerequisite: "10-2"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Closes Level 10 and the block. Account named at $6,000; the worked position is 250 × $23.60 = $5,900."
+notes: "Closes Level 10 and the block. Account named at $6,000; the worked position is 250 × $22.60 = $5,650."
 screens:
   - type: intro
     text: "So which part of the day is yours?"
@@ -23,7 +24,6 @@ screens:
     body: "Nearly everybody learning starts in the regular session, and most of them stay out of its first few minutes. More participants, steadier prices, fewer moves that come from nowhere."
 
   - type: story
-    character: mascot
     text: "The edges of the day are not forbidden. They are the part where the fewest people are watching and the most can go wrong at once."
 
   - type: mc
@@ -40,13 +40,13 @@ screens:
     explanation: "Same percentage, far fewer people behind it, and the number of participants is what gives a move its weight."
 
   - type: chart-decision
-    scenario: "TIDE has traded steadily higher for six minutes into the regular session, on 900,000 shares so far against 4.2 M on a normal day. It is at $23.60. You have a $6,000 account and are looking at 250 shares. Buy, or wait?"
+    scenario: "TIDE has traded steadily higher for six minutes into the regular session, on 900,000 shares so far against 4.2 M on a normal day. It is at $22.60. You have a $6,000 account and are looking at 250 shares. Buy, or wait?"
     shares: 250
-    chart: {kind: line, data: [23.10, 23.16, 23.14, 23.30, 23.46, 23.60, 23.72, 23.80, 23.88, 23.96], decision_index: 5}
+    chart: {kind: line, data: [22.10, 22.16, 22.14, 22.30, 22.46, 22.60, 22.72, 22.80, 22.88, 22.96], decision_index: 5}
     buttons: [buy, wait]
     best: buy
     reasonable: [wait]
-    outcome: "It reached $23.96, 36 cents higher, +$90 on 250 shares."
+    outcome: "It reached $22.96, 36 cents higher, +$90 on 250 shares."
     explanation: "The busiest part of the day, a stock with a crowd in it, and a position the account covers."
 
   - type: branch

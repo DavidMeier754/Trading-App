@@ -147,5 +147,4 @@ screens:
     explanation: "A takes the level back and holds above it. B is the same name falling away from it, and buying that one is the first attempt again with worse evidence."
 
   - type: story
-    character: retail-trader
     text: "Two trades taken, three charts passed, one stop written down the way it happened. Up a unit, and the last stretch has not started."

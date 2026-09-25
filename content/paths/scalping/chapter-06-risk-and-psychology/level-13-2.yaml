@@ -17,7 +17,6 @@ screens:
     text: "Same method, opposite mornings. Grade the decision, not the day."
 
   - type: story
-    character: retail-trader
     text: "Monday: +3R before the opening window closed. Tuesday: −3R in the same half hour. Same setups, same size."
 
   - type: mc

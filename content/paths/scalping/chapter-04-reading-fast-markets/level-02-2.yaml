@@ -19,7 +19,6 @@ screens:
     text: "Sometimes the line does not hold. That is the third trade."
 
   - type: story
-    character: retail-trader
     text: "XYZ has been under the line since the open and you have left it alone. Then a minute finishes above it, and your hand moves to the keyboard."
 
   - type: theory

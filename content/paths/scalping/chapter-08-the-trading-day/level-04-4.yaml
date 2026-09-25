@@ -19,7 +19,6 @@ screens:
     text: "One hour, start to finish, on a morning you have not seen before."
 
   - type: story
-    character: retail-trader
     text: "An hour before the bell. $16,000 in the account, an empty page, and four conditions saved in the scanner."
 
   - type: scanner-pick

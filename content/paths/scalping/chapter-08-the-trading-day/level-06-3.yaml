@@ -19,7 +19,6 @@ screens:
     text: "Twenty minutes of open, four names, and a page that named two of them."
 
   - type: story
-    character: retail-trader
     text: "Two of your four names have not been near a line. One is nine cents wide. The fourth has just closed through the price you wrote down an hour ago."
 
   - type: theory

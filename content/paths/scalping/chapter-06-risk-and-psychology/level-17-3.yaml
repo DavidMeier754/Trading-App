@@ -19,7 +19,6 @@ screens:
     text: "The account is back over $16,400 and the smaller size has started to feel like a punishment. This is the part people get wrong."
 
   - type: story
-    character: retail-trader
     text: "Two clean sessions at 600 shares, and the thought arrives on its own: the bad run is over, put the size back. The thought arrives on its own every single time, including the times it is wrong."
 
   - type: theory

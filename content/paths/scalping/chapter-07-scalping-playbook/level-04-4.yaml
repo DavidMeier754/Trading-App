@@ -19,7 +19,6 @@ screens:
     text: "Six charts at a glance, then two decisions and one trade to run."
 
   - type: story
-    character: retail-trader
     text: "Mid-morning, one name on the screen, $30,000 in the account. The push, the pause and the close are the only three things you are looking at."
 
   - type: swipe-deck

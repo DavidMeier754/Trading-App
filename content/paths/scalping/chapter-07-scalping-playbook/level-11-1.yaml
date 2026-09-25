@@ -19,7 +19,6 @@ screens:
     text: "Card seven, for the sessions that keep arriving back where they started."
 
   - type: story
-    character: retail-trader
     text: "An hour into the session and the stock has been to the same two prices three times. Nothing has broken and nothing is going anywhere."
 
   - type: theory

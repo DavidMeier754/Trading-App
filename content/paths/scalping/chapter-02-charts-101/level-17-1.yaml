@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: repetition
 tags: [practice, open, levels, pullback, decisions]
+icon: book
 learning_goal: "User reads the first half of one morning — the open, the break of the range and the first give-back — and decides at each of the three."
 purpose: "Every idea in this chapter was built for six ordinary moments, and these are the first three of them."
 terms_introduced: []
@@ -19,20 +20,19 @@ screens:
     text: "One stock, one morning, six moments. Here are the first three."
 
   - type: story
-    character: retail-trader
-    text: "XYZ closed yesterday at $18.60 and pushed to $19.10 before the bell on thin volume. Both lines are on your chart, the account is $20,000, and you are sizing 1,000 shares."
+    text: "XYZ closed yesterday at $18.60 and pushed to $19.10 before the bell on thin volume. Both lines are on your chart, the account is $20,000, and you are sizing 900 shares."
 
   - type: chart-decision
     scenario: "The session has opened at $18.92. Six minutes in, every candle has crossed the opening price and none has finished outside the first minute's range."
-    shares: 1000
+    shares: 900
     chart:
       kind: candles
       data: [[18.92, 19.06, 18.78, 18.98], [18.98, 19.04, 18.80, 18.84], [18.84, 19.02, 18.82, 18.96], [18.96, 19.04, 18.84, 18.88], [18.88, 19.00, 18.82, 18.94], [18.94, 19.02, 18.84, 18.90], [18.90, 19.00, 18.86, 18.96], [18.96, 19.04, 18.88, 18.92], [18.92, 19.00, 18.86, 18.98], [18.98, 19.02, 18.88, 18.94], [18.94, 19.02, 18.90, 18.98]]
       volume: [462000, 386000, 328000, 302000, 286000, 268000, 252000, 238000, 226000, 214000, 208000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,000 shares", "Moment 1 of 6"]
+    state: ["Account: $20,000", "Size: 900 shares", "Moment 1 of 6"]
     best: no-trade
-    outcome: "Five minutes later price was $18.98, eight cents above the decision and still inside the opening range — $80 on 1,000 shares before costs."
+    outcome: "Five minutes later price was $18.98, eight cents above the decision and still inside the opening range — $72 on 900 shares before costs."
     explanation: "The biggest bars of the day and nothing kept. Until a minute finishes outside $18.78 or $19.06, the morning has not said anything."
 
   - type: slider
@@ -58,24 +58,24 @@ screens:
 
   - type: chart-decision
     scenario: "The minute that just closed finished at $19.14, clear of both the range high at $19.06 and the pre-market high at $19.10, on 428,000 shares."
-    shares: 1000
+    shares: 900
     chart:
       kind: candles
       data: [[18.92, 19.00, 18.86, 18.98], [18.98, 19.02, 18.88, 18.94], [18.94, 19.02, 18.90, 18.98], [18.98, 19.06, 18.94, 19.00], [19.00, 19.06, 18.96, 19.02], [19.02, 19.16, 19.00, 19.14], [19.14, 19.26, 19.10, 19.22], [19.22, 19.32, 19.18, 19.28], [19.28, 19.38, 19.24, 19.34], [19.34, 19.40, 19.28, 19.32], [19.32, 19.42, 19.30, 19.38]]
       volume: [226000, 214000, 208000, 246000, 232000, 428000, 362000, 316000, 282000, 248000, 264000]
       decision_index: 5
-    state: ["Size: 1,000 shares", "Moment 2 of 6"]
+    state: ["Size: 900 shares", "Moment 2 of 6"]
     best: long
     reasonable: [no-trade]
-    outcome: "It carried up to $19.42 and finished at $19.38 — $0.24 a share above the decision, +$240 long on 1,000 shares."
+    outcome: "It carried up to $19.42 and finished at $19.38 — $0.24 a share above the decision, +$216 long on 900 shares."
     explanation: "One close past two lines at once, on the heaviest bar since the opening minute. That is the first thing this morning has actually decided."
 
   - type: numeric-input
-    prompt: "You took 1,000 shares at $19.14 and sold at $19.36. What is the result before costs?"
-    answer: 220
+    prompt: "You took 900 shares at $19.14 and sold at $19.36. What is the result before costs?"
+    answer: 198
     tolerance: 0.01
     unit: "$"
-    working: "$0.22 a share × 1,000 shares = $220"
+    working: "$0.22 a share × 900 shares = $198"
     explanation: "Twenty-two cents of a twenty-eight cent move, which is what taking the middle of a push looks like."
 
   - type: mc
@@ -88,16 +88,16 @@ screens:
 
   - type: chart-decision
     scenario: "After the break XYZ ran to $19.42. Three minutes came back on shrinking bars and stopped at $19.26. The minute that just closed finished green at $19.36 on 284,000 shares."
-    shares: 1000
+    shares: 900
     chart:
       kind: candles
       data: [[19.14, 19.26, 19.10, 19.22], [19.22, 19.32, 19.18, 19.28], [19.28, 19.42, 19.24, 19.38], [19.38, 19.40, 19.28, 19.30], [19.30, 19.34, 19.26, 19.28], [19.28, 19.38, 19.26, 19.36], [19.36, 19.48, 19.34, 19.46], [19.46, 19.56, 19.42, 19.52], [19.52, 19.62, 19.48, 19.58], [19.58, 19.64, 19.52, 19.60], [19.60, 19.72, 19.58, 19.68]]
       volume: [362000, 316000, 288000, 118000, 96000, 284000, 262000, 238000, 224000, 196000, 212000]
       decision_index: 5
-    state: ["Size: 1,000 shares", "Moment 3 of 6"]
+    state: ["Size: 900 shares", "Moment 3 of 6"]
     best: long
     reasonable: [no-trade]
-    outcome: "The climb carried on to $19.72 and finished at $19.68 — $0.32 a share above the decision, +$320 long on 1,000 shares."
+    outcome: "The climb carried on to $19.72 and finished at $19.68 — $0.32 a share above the decision, +$288 long on 900 shares."
     explanation: "The give-back was quiet, it stopped above the last dip, and one heavy minute took all three of them back. Same trade as the break, one level higher."
 
   - type: tf
@@ -122,7 +122,7 @@ screens:
     explanation: "Everyone who bought the break wants to defend it, which is exactly what a floor is made of."
 
   - type: example
-    body: "Three moments, two trades: twenty-two cents and twenty-eight cents on 1,000 shares, $500 before costs. Neither one needed anything the first sixteen levels had not already given you."
+    body: "Three moments, two trades: twenty-two cents and twenty-eight cents on 900 shares, $450 before costs. Neither one needed anything the first sixteen levels had not already given you."
     visual: chart-candles
     visual_data:
       data: [[19.02, 19.16, 19.00, 19.14], [19.14, 19.26, 19.10, 19.22], [19.28, 19.38, 19.26, 19.36], [19.36, 19.48, 19.34, 19.46]]

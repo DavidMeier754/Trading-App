@@ -19,7 +19,6 @@ screens:
     text: "Same screen, same names, and a chart that has stopped saying anything."
 
   - type: story
-    character: retail-trader
     text: "An hour and a half after the bell. Two trades taken, both on the page, and the last twenty minutes have covered nine cents."
 
   - type: theory

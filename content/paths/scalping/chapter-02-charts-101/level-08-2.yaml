@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [pullback, volume, trend]
+icon: pullback
 learning_goal: "User reads the volume bars under a give-back and separates owners resting from a crowd changing sides."
 purpose: "The shape of a pullback is easy to fake; the weight underneath it is what says whether the trend still has owners."
 terms_introduced: []
@@ -86,16 +87,16 @@ screens:
 
   - type: chart-decision
     scenario: "XYZ pushed to $15.48 on bars near 105,000. The three minutes since have all been red — 218,000, 246,000 and 232,000 — and the last of them finished at $15.14."
-    shares: 1300
+    shares: 1200
     chart:
       kind: candles
       data: [[15.10, 15.24, 15.06, 15.22], [15.22, 15.36, 15.20, 15.34], [15.34, 15.48, 15.32, 15.44], [15.44, 15.46, 15.28, 15.30], [15.30, 15.34, 15.16, 15.18], [15.18, 15.24, 15.12, 15.14], [15.14, 15.18, 15.02, 15.04], [15.04, 15.10, 14.94, 14.96], [14.96, 15.02, 14.86, 14.90], [14.90, 14.96, 14.82, 14.86], [14.86, 14.92, 14.78, 14.82]]
       volume: [92000, 104000, 116000, 218000, 246000, 232000, 208000, 190000, 168000, 150000, 140000]
       decision_index: 5
-    state: ["Size: 1,300 shares"]
+    state: ["Size: 1,200 shares"]
     best: no-trade
     reasonable: [short]
-    outcome: "It carried on to $14.78 and finished at $14.82. Buying that dip would have been $0.32 a share underwater — $416 on 1,300 shares."
+    outcome: "It carried on to $14.78 and finished at $14.82. Buying that dip would have been $0.32 a share underwater — $384 on 1,200 shares."
     explanation: "Every bar since the high is twice the size of the bars that made it. That is not a rest inside a climb; it is the climb being sold."
 
   - type: spot-mistake

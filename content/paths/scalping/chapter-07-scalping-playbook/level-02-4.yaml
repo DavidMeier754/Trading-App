@@ -19,7 +19,6 @@ screens:
     text: "Getting in was one decision. The next four are the ones that decide what the card is worth."
 
   - type: story
-    character: retail-trader
     text: "The reclaim filled. The position is on, the stop is in, and for the first time this morning you have nothing left to decide — if the card is written properly."
 
   - type: compare

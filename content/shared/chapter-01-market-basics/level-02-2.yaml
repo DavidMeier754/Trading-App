@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: repetition
 tags: [price, supply-demand, profit-loss]
+icon: scale
 learning_goal: "User combines buy/wait decisions, profit math and the buyers-versus-sellers rule in one simulated morning."
 purpose: "Doing it a second time with your own explanations is what makes the first two lessons stick."
 terms_introduced: []
@@ -17,8 +18,7 @@ screens:
     text: "Let's trade again — this time you explain the moves."
 
   - type: story
-    character: retail-trader
-    text: "Monday, mid-morning. XYZ trades at $22.00. You have $2,200 and want 100 shares."
+    text: "Monday, mid-morning. XYZ trades at $22.00. You have $2,500 and want 100 shares."
 
   - type: chart-decision
     scenario: "XYZ has drifted sideways around $22.00 for ten minutes. Buyers and sellers look balanced. Buy, or wait?"

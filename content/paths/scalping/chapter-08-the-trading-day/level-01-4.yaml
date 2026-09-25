@@ -104,7 +104,6 @@ screens:
     explanation: "A live 1,400-share order walks the book and pays the spread. The stop distance survives the switch; the fill price does not."
 
   - type: story
-    character: retail-trader
     text: "Fourth morning on the simulator. You reach for the sell key, catch the wrong one, and end up long twice your size instead of out. It costs nothing, and you never do it again."
 
   - type: recap

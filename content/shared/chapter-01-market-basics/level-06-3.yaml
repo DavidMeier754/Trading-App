@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [participants, volume, footprints]
+icon: people
 learning_goal: "User can read unusual volume and large price steps as the footprint of a big participant, and knows what that footprint does not tell them."
 purpose: "You will never see who is trading, so the whole skill is reading what they leave behind on the only two numbers you have."
 terms_introduced: []
@@ -59,7 +60,6 @@ screens:
     explanation: "A climb that this many shares are taking part in has somebody behind it, and 300 shares is a position the account covers."
 
   - type: story
-    character: retail-trader
     text: "You watch 60,000 shares go through in a single print while you are buying 200. Somebody just did three hundred times what you are doing, and you will never learn their name."
 
   - type: sort

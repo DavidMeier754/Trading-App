@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, chart-reading]
+icon: candle
 learning_goal: "User can name the four prices a single candle records and read each of them off a 1-minute chart."
 purpose: "Every chart from here to the end of the path is drawn out of these four numbers."
 terms_introduced: ["Candle", "Open", "High", "Low", "Close"]

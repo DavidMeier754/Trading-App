@@ -86,7 +86,6 @@ screens:
     explanation: "Two of these have the smallest gaps on the list and both are skips. The ratio decides, and the size question can still veto it."
 
   - type: story
-    character: retail-trader
     text: "XYZ ran all morning and has now stalled twice at $27.04. Bid $26.73 / ask $26.76, 150,000 shares a minute, and your $30,000 account allows 1,000 shares here."
 
   - type: chart-decision

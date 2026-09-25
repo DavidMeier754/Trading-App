@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [stocks, ownership, exchange]
+icon: pie
 learning_goal: "User can say who receives the money when shares are bought, and why the company is paid only once for a share."
 purpose: "Beginners assume they are funding the company. Knowing they are buying from a stranger changes how they think about every trade they make."
 terms_introduced: []
@@ -94,4 +95,4 @@ screens:
     explanation: "Somebody had to be giving those shares up for you to get them."
 
   - type: example
-    body: "So: a fraction of a real business, bought from a stranger, found by a four-letter code. Next you put those sums beside your own profit and loss, and keep the two apart."
+    body: "So: a fraction of a real business, bought from a stranger, found by a short code. Next you put those sums beside your own profit and loss, and keep the two apart."

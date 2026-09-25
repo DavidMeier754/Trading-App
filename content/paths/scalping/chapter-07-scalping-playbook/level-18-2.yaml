@@ -19,7 +19,6 @@ screens:
     text: "Pairs this time. Two charts, one card, and nothing telling you which."
 
   - type: story
-    character: retail-trader
     text: "The sheet is face down on the desk. Everything below is read the way a session hands it over: no label, no warning, and the volume bars doing most of the talking."
 
   - type: compare

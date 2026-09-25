@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [sessions, liquidity, volatility]
+icon: clock
 learning_goal: "User explains why prices in the thin parts of the day move further on the same order size, and weighs a move by the number of participants behind it."
 purpose: "The biggest-looking moves on any chart happen where the fewest people are trading, and reading them as news is how beginners get caught."
 terms_introduced: []
@@ -75,7 +76,6 @@ screens:
     explanation: "The number of people behind a price is what makes it worth something."
 
   - type: story
-    character: retail-trader
     text: "You see a stock up 9 % before the open and decide it is going to be a great day. It opens up 2 % and spends the next hour handing that back too."
 
   - type: mc

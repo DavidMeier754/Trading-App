@@ -19,7 +19,6 @@ screens:
     text: "Three kinds of reason to pass, and only one of them is about the stock."
 
   - type: story
-    character: retail-trader
     text: "Four minutes after a headline. The chart is moving, the quote is wide, and you have not taken a trade yet today."
 
   - type: carousel

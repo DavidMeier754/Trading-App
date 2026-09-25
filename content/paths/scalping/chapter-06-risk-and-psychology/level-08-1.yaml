@@ -18,7 +18,6 @@ screens:
     text: "Five sets of numbers. Which method pays?"
 
   - type: story
-    character: retail-trader
     text: "Two weeks of records: 100 trades, 1,000 shares each, all on the 1-minute chart."
 
   - type: numeric-mc

@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [position-size, profit-loss, price]
+icon: coin
 learning_goal: "User computes a result from the price move and the share count, and knows that the cash they hold limits how many shares they can buy."
 purpose: "Two traders can take the same move and end up with results ten times apart — the difference is the share count, and it is the part you control."
 terms_introduced: []
@@ -74,7 +75,7 @@ screens:
       - prompt: "It stalls, then slips back to $11.74 and you close there. What did the trade make?"
         options:
           - {text: "+$8, four cents a share on 200 shares", correct: true}
-          - {text: "−$52, because it gave back 26 cents from the high"}
+          - {text: "−$56, because it gave back 28 cents from the high"}
         explanation: "Your result is measured from $11.70, where you bought. The high it touched on the way is not a price you ever had."
 
   - type: chart-decision
@@ -110,5 +111,4 @@ screens:
     explanation: "The move is per share. What you keep depends on how many of them you held."
 
   - type: story
-    character: mascot
     text: "The move is the market's half of the trade. The share count is yours, and it is the half you decide."

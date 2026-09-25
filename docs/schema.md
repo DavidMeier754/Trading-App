@@ -15,6 +15,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping            # all | scalping | day-trading | swing-trading
 category: new-theory      # new-theory | repetition | test | final-exam
 tags: [orders, execution] # free tags, used for stats and practice
+icon: ticket              # optional: the level's symbol on the map, what it teaches (see below)
 learning_goal: "User can choose between a market and a limit order for a given situation."
 purpose: "One sentence on why this matters in real trading."
 terms_introduced: ["Market order", "Limit order"]   # new glossary terms defined in this sub
@@ -27,6 +28,8 @@ sources: [consensus]      # Chapters 1–3: [consensus]; Chapter 4+: ≥2 named 
 notes: "Author notes, optional."
 screens: [...]
 ```
+
+**`icon`.** Optional. The symbol on the level's map node, standing for what the level teaches or, for a practice level, what it practises: `candle`, `bell` for the open, `levels` for support and resistance. Every lesson of one level names the same icon, or leaves it out; the first one named is used. The names are the ones `src/home/icons.tsx` draws (its `ICON_NAMES`), and the validator rejects any other. Checkpoints, the Final Exam and the path choice ignore it and keep their own symbols (docs/UI.md §7.1). A level without one shows a bulb (new ideas) or round arrows (practice).
 
 **`reinforces` [v3].** A list of chapter numbers (not level ids). It is a claim that this sub-level re-tests that chapter's material *in this chapter's context*. The validator uses it for the reinforcement quotas in `docs/agent.md` §3.3, so do not declare it decoratively — a sub with `reinforces: [1]` must contain at least one question that genuinely needs Chapter 1 knowledge.
 
@@ -58,6 +61,8 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
 - type: carousel               # counts as one screen per card
   cards:
     - {label: "Retail trader", text: "Individuals trading their own money.", icon: retail-trader}
+  # `icon` is a free-form hint at what the card is about, for whoever draws it.
+  # It is not a character reference — there is no character cast (UI.md §6.9).
 
 - type: walkthrough            # counts as one screen per step
   component: quote-card
@@ -74,8 +79,7 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
   title: "Before every scalp"
   items: ["Is the spread tight for the move I expect?", "..."]
 
-- type: story
-  character: retail-trader     # retail-trader | market-maker | institution | bull | bear | mascot
+- type: story                  # no `character`: there is no character cast (UI.md §6.9)
   text: "9:31. You're watching XYZ."
 
 - type: recap                  # [v3] end-of-level takeaways
@@ -105,7 +109,7 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
   tier: "Observer"
   means: "You can read a chart."
 
-- type: path-choice             # once, end of Chapter 1
+- type: path-choice             # once: the last screen of the path-choice lesson, Chapter 1 Level 17-2
 ```
 
 ### Question screens (v2, unchanged)
@@ -268,7 +272,7 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
 - type: branch                # counts as one screen per step
   scenario: "You are long 1,500 shares from $18.16 with the stop at $18.02."
   shares: 1500
-  chart: {kind: candles, data: [[o,h,l,c], …], decision_index: 5}
+  chart: {kind: candles, data: [[o,h,l,c], …], decision_index: 5}   # optional levels: [{price, label}] -- a stop, drawn and labelled
   steps:
     - prompt: "Price stalls two cents under your target. What now?"
       options:
@@ -318,7 +322,7 @@ Use only these component ids and target ids (UI.md §6 defines how they look).
 | `cost-stack` | `shares`, `spread`, `slippage`, `fees`, `target` (per share) or `rows`, `targets` | — |
 | `ownership-pie` | `total`, `owned` | — |
 | `scanner-table` **[v3]** | `rows: [{ticker, price, change_pct, rvol, float, spread, catalyst}]` | a `ticker` value |
-| `journal-table` **[v3]** | `columns: [...]`, `rows: [{...}]` | a column key |
+| `journal-table` **[v3]** | `columns: [...]`, `rows: [{...}]`; a column keyed `""` is a row label | a column key |
 | `internals-panel` **[v3]** | `index: {label, data}`, `breadth`, `sectors: [{label, value}]`, `tone` (risk-on/risk-off) | `index`, `breadth`, `sectors`, `tone` |
 | `hotkey-pad` **[v3]** | `keys: [{label, action}]`, optional `sequence: [...]` | a key `label` |
 | `stats-card` **[v3]** | `rows: [{label, value}]` | a row `label` |
@@ -340,7 +344,8 @@ chapter wrote** — the validator enforces it.
 
 - A `plan-card` field writes `fields[].key`. `kind` is `number` or `text`. `suggest` is the
   placeholder shown **only while the key is still empty**; once the learner has saved a value,
-  `suggest` is ignored.
+  `suggest` is ignored. A `number` field steps with − / + or takes its suggestion in one tap; a
+  `text` field is typed. The card's button waits until every field is filled (a number above 0).
 - A `plan-sheet` field with a literal `value` is a **specimen line**: a worked example or the
   given numbers of the scenario around it. It shows what it says and nothing is read from the
   profile.

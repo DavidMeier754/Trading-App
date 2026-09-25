@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [news, supply-demand, price]
+icon: scale
 learning_goal: "User explains a news-driven move as a change in what people are willing to pay, and knows a move can happen with no news at all."
 purpose: "Headlines are the thing beginners chase, and understanding what a headline actually does is what stops the chasing."
 terms_introduced: []
@@ -37,11 +38,10 @@ screens:
     explanation: "The news waited for the people. Nothing traded, so nothing moved."
 
   - type: story
-    character: retail-trader
     text: "A rumour goes round that XYZ is about to be bought by a bigger company. Nothing is confirmed, and the price is already somewhere else."
 
   - type: chart-decision
-    scenario: "XYZ jumped from $18.02 to $19.40 the moment the rumour broke and has traded between $19.36 and $19.44 since. It sits at $19.42. Buy 100 shares, or wait?"
+    scenario: "XYZ jumped from $18.02 to $19.40 the moment the rumour broke and has traded between $19.36 and $19.42 since. It sits at $19.42. Buy 100 shares, or wait?"
     shares: 100
     chart: {kind: line, data: [18.00, 18.04, 18.02, 19.40, 19.36, 19.42, 19.38, 19.44, 19.36, 19.34], decision_index: 5}
     buttons: [buy, wait]
@@ -68,7 +68,7 @@ screens:
           - {text: "Watch, and see where the selling stops", correct: true, next: 1}
           - {text: "Buy — it is 5 % cheaper than it was an hour ago", next: 1}
         explanation: "Cheaper than an hour ago is not the same thing as cheap. While far more people want out than in, the price keeps going."
-      - prompt: "The fall stops at $22.70 and the price has stepped up three times since. What changed?"
+      - prompt: "The fall stops at $22.70 and the price has stepped up four times since. What changed?"
         options:
           - {text: "The rush to get out ran out of people", correct: true}
           - {text: "The headline must have been withdrawn"}
@@ -102,5 +102,4 @@ screens:
     body: "XYZ is up 4 % today and there is no news anywhere. A pension fund simply wanted 200,000 shares this morning. Plenty of moves have no story at all."
 
   - type: story
-    character: mascot
     text: "You now have the engine and the trigger. Next: what XYZ actually is."

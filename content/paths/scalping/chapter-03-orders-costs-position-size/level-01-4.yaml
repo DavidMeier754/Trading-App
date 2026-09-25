@@ -19,7 +19,6 @@ screens:
     text: "Somebody is on the other side of every trade you make. This is what they are charging you."
 
   - type: story
-    character: market-maker
     text: "Someone has to be willing to buy when you want out and sell when you want in. That someone would like to be paid for it."
 
   - type: theory

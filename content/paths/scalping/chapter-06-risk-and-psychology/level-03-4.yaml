@@ -19,7 +19,6 @@ screens:
     text: "Nothing has gone wrong. That is exactly the problem."
 
   - type: story
-    character: retail-trader
     text: "Six minutes in. The bars have gone small, the volume has drained away, and price is within three cents of where you bought it."
 
   - type: theory

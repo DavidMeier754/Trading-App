@@ -19,7 +19,6 @@ screens:
     text: "Two stops in, one unit of room left, and the best chart of the morning has not happened yet."
 
   - type: story
-    character: retail-trader
     text: "Your account is $15,000, the page says 1,000 shares, and two twelve-cent stops have already filled. The limit you wrote before the bell is three units."
 
   - type: numeric-input

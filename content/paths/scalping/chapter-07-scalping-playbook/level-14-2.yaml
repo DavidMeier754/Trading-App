@@ -19,7 +19,6 @@ screens:
     text: "A day that only goes one way deals you four cards and takes two off the table."
 
   - type: story
-    character: retail-trader
     text: "An hour after the open, HLX has made four higher highs on the 5-minute and has not printed a single close under its own average price. Your account is $22,000."
 
   - type: theory

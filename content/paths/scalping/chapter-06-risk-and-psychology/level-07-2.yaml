@@ -19,7 +19,6 @@ screens:
     text: "A method that makes $33 a trade on paper and $5 a trade at the broker. Both numbers are real."
 
   - type: story
-    character: retail-trader
     text: "Two hundred trades in a spreadsheet, typed from the chart: the price you clicked and the price you aimed at. Nothing in there has been paid for yet."
 
   - type: theory

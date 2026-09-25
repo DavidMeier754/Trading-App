@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [volatility, liquidity, two-dials]
+icon: zigzag
 learning_goal: "User keeps liquidity and volatility apart and can place a stock on both dials from its volume and its daily range."
 purpose: "Mixing up the two dials is the most common beginner error there is, and the pairing that hurts most is the one it hides."
 terms_introduced: []
@@ -13,7 +14,7 @@ prerequisite: "8-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "Account named at $6,000; the worked position is 300 × $19.20 = $5,760."
+notes: "Account named at $6,000; the worked position is 250 × $19.20 = $4,800."
 screens:
   - type: intro
     text: "Two dials, and almost everybody confuses them."
@@ -95,13 +96,13 @@ screens:
     explanation: "Easy to trade, with very little to trade for."
 
   - type: chart-decision
-    scenario: "VANE trades 3 M shares a day and moves about 8 % on an ordinary one. It has stepped higher for six minutes to $19.20 and you are looking at 300 shares. You have a $6,000 account. Buy, or wait?"
-    shares: 300
+    scenario: "VANE trades 3 M shares a day and moves about 8 % on an ordinary one. It has stepped higher for six minutes to $19.20 and you are looking at 250 shares. You have a $6,000 account. Buy, or wait?"
+    shares: 250
     chart: {kind: line, data: [18.40, 18.50, 18.46, 18.70, 18.96, 19.20, 19.44, 19.60, 19.78, 19.90], decision_index: 5}
     buttons: [buy, wait]
     best: buy
     reasonable: [wait]
-    outcome: "By the end of the stretch it was $19.90: 70 cents a share, +$210 on 300 shares."
+    outcome: "By the end of the stretch it was $19.90: 70 cents a share, +$175 on 250 shares."
     explanation: "Volatile enough to be worth the trade and liquid enough to leave. Two separate checks, and this stock passes both."
 
   - type: visual

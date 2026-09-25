@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, chart-reading, practice]
+icon: candle
 learning_goal: "User can read all four prices off one candle at a glance and mark the price a candle closed at."
 purpose: "In a sixty-second decision you read the last candle once, and it has to be right the first time."
 terms_introduced: []
@@ -19,7 +20,6 @@ screens:
     text: "One candle, read in under two seconds. That is the whole skill here."
 
   - type: story
-    character: retail-trader
     text: "The minute is over. Whatever happened inside it, this one shape is everything the chart kept."
 
   - type: theory

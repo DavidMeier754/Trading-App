@@ -19,7 +19,6 @@ screens:
     text: "Same stock, same account, four more charts."
 
   - type: story
-    character: retail-trader
     text: "The high of day is $13.22. Price pushes through it on quiet volume, and one minute later it is back underneath."
 
   - type: chart-decision

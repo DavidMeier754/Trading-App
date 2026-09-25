@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [volume, liquidity, chart-reading]
+icon: volume
 learning_goal: "User judges a volume bar against this stock's own recent minutes rather than against a fixed number or another stock."
 purpose: "Heavy and thin are relative words, and a scalper who forgets that will call an empty minute busy."
 terms_introduced: []
@@ -86,16 +87,16 @@ screens:
 
   - type: chart-decision
     scenario: "All morning XYZ has traded between 36,000 and 44,000 shares a minute, and the candle that just closed is a long green body on 182,000."
-    shares: 1200
+    shares: 1100
     chart:
       kind: candles
       data: [[15.86, 15.92, 15.82, 15.90], [15.90, 15.96, 15.87, 15.93], [15.93, 15.98, 15.89, 15.95], [15.95, 16.00, 15.92, 15.97], [15.97, 16.02, 15.94, 15.99], [15.99, 16.16, 15.98, 16.14], [16.14, 16.26, 16.11, 16.24], [16.24, 16.34, 16.20, 16.31], [16.31, 16.40, 16.28, 16.37], [16.37, 16.44, 16.33, 16.41], [16.41, 16.48, 16.38, 16.45]]
       volume: [38000, 42000, 36000, 40000, 44000, 182000, 164000, 140000, 118000, 96000, 82000]
       decision_index: 5
-    state: ["Account: $20,000", "Size: 1,200 shares"]
+    state: ["Account: $20,000", "Size: 1,100 shares"]
     best: long
     reasonable: [no-trade]
-    outcome: "It kept going to $16.48 and finished at $16.45 — $0.31 a share above the decision, +$372 long on 1,200 shares."
+    outcome: "It kept going to $16.48 and finished at $16.45 — $0.31 a share above the decision, +$341 long on 1,100 shares."
     explanation: "More than four times its own normal minute, on a long body: a crowd arrived, and they arrived buying."
 
   - type: fill-choice

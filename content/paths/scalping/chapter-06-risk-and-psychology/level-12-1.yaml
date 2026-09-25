@@ -34,7 +34,6 @@ screens:
     body: "Half size makes the next mistake cost half as much and lets the market show you the state has passed. Full size comes back after a few trades taken exactly by the plan."
 
   - type: story
-    character: retail-trader
     text: "Two stops in ten minutes and your hands are quick. You close the platform and stand up."
 
   - type: mc

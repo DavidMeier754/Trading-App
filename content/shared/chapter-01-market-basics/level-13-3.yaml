@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [long-short, arithmetic, risk]
+icon: updown
 learning_goal: "User computes the result of a long and of a short with the same subtraction, and can say why only one of the two has a worst case you can write down."
 purpose: "Both directions use one piece of arithmetic, and the moment you believe they are mirror images is the moment a short can hurt you."
 terms_introduced: []
@@ -13,7 +14,7 @@ prerequisite: "13-2"
 xp: 25
 difficulty: 3
 sources: [consensus]
-notes: "Account named at $8,000; the largest position worked here is 400 × $19.40 = $7,760 in PINE. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+notes: "Account named at $8,000; the largest position worked here is 350 × $19.40 = $6,790 in PINE. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
 screens:
   - type: intro
     text: "Two directions, one subtraction. Then the part where they stop being mirror images."
@@ -28,11 +29,11 @@ screens:
     visual_data: {data: [18.40, 18.32, 18.36, 18.18, 18.02, 17.94, 17.90], markers: [{index: 0, label: "Sell short"}, {index: 6, label: "Cover"}]}
 
   - type: numeric-input
-    prompt: "You are long 400 shares of PINE from $19.40 and you sell at $19.05. What is the result in dollars?"
-    answer: -140
+    prompt: "You are long 350 shares of PINE from $19.40 and you sell at $19.05. What is the result in dollars?"
+    answer: -122.5
     tolerance: 0.01
     unit: "$"
-    working: "$19.05 − $19.40 = −$0.35; −$0.35 × 400 = −$140"
+    working: "$19.05 − $19.40 = −$0.35; −$0.35 × 350 = −$122.50"
     explanation: "Sold below what you paid, so the subtraction comes out negative and the share count multiplies it."
 
   - type: numeric-mc
@@ -80,10 +81,10 @@ screens:
       - {kind: line, data: [24.00, 24.18, 24.10, 24.42, 24.66, 24.58, 24.86, 25.04, 25.20], label: "A"}
       - {kind: line, data: [24.00, 24.22, 24.36, 24.60, 24.90, 24.74, 24.86, 24.62, 24.70], label: "B"}
     answer: "A"
-    explanation: "A ends $1.20 above your sale, which is $240 on 200 shares. B travelled further on the way but ends 70 cents up, $140."
+    explanation: "A ends $1.20 above your sale, which is $240 on 200 shares. B rose and then gave some of it back, ending 70 cents up: $140."
 
   - type: slider
-    prompt: "You are short 200 shares from $26.00 with $8,000 in the account. How far can the price rise before the loss reaches a quarter of that account?"
+    prompt: "You are short 200 shares from $26.00 with $8,000 in the account. How high can the price go before the loss reaches a quarter of that account?"
     min: 26
     max: 46
     step: 1

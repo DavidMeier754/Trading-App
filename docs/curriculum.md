@@ -35,7 +35,7 @@ can be traced.
 
 ## Chapter 1 — Market Basics (shared) — written
 
-Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 47 subs
+Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 48 subs
 
 | Level | Title | Subs | Teaches | Reinforces |
 |---|---|---|---|---|
@@ -55,7 +55,7 @@ Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 47 subs
 | 14 | Three Ways to Trade | 3 | Holding period; scalping / day / swing; trading vs investing; matching a style to a real life | — |
 | 15 | The Big Picture | 3 | Trend, bull and bear markets as context not signal; news versus expectations; where sudden volatility comes from | — |
 | 16 | Chapter Review | 2 R | One narrated trading day using every Chapter 1 idea; a `plan-card` where the user writes what kind of trader they want to be | — |
-| 17 | Final Exam | 1 F | 12 questions → badge → path choice. No tier here — Observer unlocks after Chapter 2 (`docs/UI.md` §7.5) | — |
+| 17 | Final Exam | 1 F + 1 | 17-1: 12 questions → badge. No tier here — Observer unlocks after Chapter 2 (`docs/UI.md` §7.5). 17-2, **Choose Your Path**: the three paths side by side — chart, holding period, target per share, how far away the exit sits, positions open at once, overnight exposure, screen time — the costs each target carries, and which day fits which path; ends on the `path-choice` screen. It is its own node on the map after the exam (`docs/UI.md` §7.1), replayable to change path, and costs no hearts | — |
 
 
 > Chapter 1's `reinforces` is empty in every file and the column reads `—` throughout: the field takes *earlier chapter* numbers (`docs/schema.md`) and Chapter 1 has none. Interleaving inside the chapter is still required — it is covered by the rule in `docs/agent.md` §3.2, not by this field.

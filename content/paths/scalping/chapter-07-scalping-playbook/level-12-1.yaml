@@ -19,7 +19,6 @@ screens:
     text: "Card eight is the only one you take twice."
 
   - type: story
-    character: retail-trader
     text: "Your stop was two cents too close. You are flat, down one unit, and the setup you wrote the card for is still sitting there on the chart."
 
   - type: theory
@@ -29,7 +28,7 @@ screens:
   - type: carousel
     cards:
       - {label: "The context", text: "Everything the card's first line asked for is still on the chart. If that has changed, the setup is gone rather than paused.", icon: retail-trader}
-      - {label: "A fresh trigger", text: "A new minute has to do the job. The trigger that already failed does not get a second vote.", icon: mascot}
+      - {label: "A fresh trigger", text: "A new minute has to do the job. The trigger that already failed does not get a second vote."}
       - {label: "The budget", text: "What is left of the day's risk has to pay for the same size again. If it cannot, the answer is no, whatever the chart is doing.", icon: institution}
 
   - type: mc

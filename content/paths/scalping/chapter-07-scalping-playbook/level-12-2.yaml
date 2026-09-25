@@ -19,7 +19,6 @@ screens:
     text: "The stop fills. Three decisions happen in the next four minutes."
 
   - type: story
-    character: retail-trader
     text: "You are long HLX and the level you entered against is two cents below you. The next minute decides whether this is a card or a story you tell later."
 
   - type: theory

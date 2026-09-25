@@ -19,7 +19,6 @@ screens:
     text: "The conditions removed the impossible. Now you decide which charts are worth your eyes."
 
   - type: story
-    character: retail-trader
     text: "Twelve rows left, and time enough to read maybe five charts properly before the bell. The other seven are somebody else's morning."
 
   - type: theory

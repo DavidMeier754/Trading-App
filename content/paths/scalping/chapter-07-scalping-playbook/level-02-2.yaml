@@ -19,7 +19,6 @@ screens:
     text: "Five charts. Only some of them are your card."
 
   - type: story
-    character: retail-trader
     text: "Mid-morning. VWAP on the chart, $30,000 in the account, the card open beside you."
 
   - type: chart-decision

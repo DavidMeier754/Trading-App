@@ -19,7 +19,6 @@ screens:
     text: "Three moments, three tickets. Build each one before you read what it did."
 
   - type: story
-    character: retail-trader
     text: "XYZ: bid $23.86 / ask $23.90. You have decided to be long 700 shares and you have decided it now."
 
   - type: order-build
@@ -50,7 +49,6 @@ screens:
     explanation: "The last is a trade somebody else did. Yours was done against the sellers, and $23.90 is where they were."
 
   - type: story
-    character: retail-trader
     text: "A different name: bid $19.00 / ask $19.04. You want 500 shares, but only at $19.00 — the four cents is more than this slow little stock is worth."
 
   - type: order-build
@@ -78,7 +76,6 @@ screens:
     explanation: "Move the price up to where the sellers already are and the same ticket stops waiting. That is the whole of the next level."
 
   - type: story
-    character: retail-trader
     text: "You got the 500 at $19.00. The stock has run and the panel now reads bid $19.34 / ask $19.36. You want the position closed before it comes back."
 
   - type: order-build

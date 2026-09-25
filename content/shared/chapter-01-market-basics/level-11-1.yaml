@@ -50,7 +50,7 @@ screens:
     items:
       - {text: "4 M shares on a normal day", bucket: "Counts for it"}
       - {text: "Moves about 0.2 % on a normal day", bucket: "Counts against it"}
-      - {text: "Your 300-share position would be 4 % of a normal day", bucket: "Counts against it"}
+      - {text: "Your 300-share position would be a fifth of a normal day", bucket: "Counts against it"}
       - {text: "Moves about 3 % on a normal day", bucket: "Counts for it"}
     explanation: "Busy enough to leave, lively enough to learn from, and small enough that your own size is not the story."
 

@@ -19,7 +19,6 @@ screens:
     text: "The first half hour. Five boxes, five decisions."
 
   - type: story
-    character: retail-trader
     text: "{{market.regular_open}} {{market.timezone}} plus five minutes. The box is drawn, $30,000 in the account, finger off the mouse."
 
   - type: chart-decision

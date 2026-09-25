@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [participants, institutions, market-maker]
+icon: people
 learning_goal: "User can name the three kinds of participant on the other side of a trade and say what each one is doing there."
 purpose: "Big moves that seem to come from nowhere usually have somebody large behind them, and knowing who is out there is what stops them feeling like magic."
 terms_introduced: ["Retail trader", "Institution", "Market maker"]
@@ -42,7 +43,6 @@ screens:
     explanation: "Institutions and market makers do the bulk of it. Retail is a small slice of a busy day."
 
   - type: story
-    character: institution
     text: "A pension fund decides it wants 900,000 shares of XYZ before the week is out."
 
   - type: mc

@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [styles, costs, holding-period]
+icon: hourglass
 learning_goal: "User can say how a style multiplies what trading costs, and pick the style that fits the time and the account they actually have."
 purpose: "The three styles are not three tastes; they are three different bills, and the smaller your target the bigger a share of it the bill takes."
 terms_introduced: []
@@ -46,7 +47,7 @@ screens:
     explanation: "Two cents out of six is a third of the target, gone before the price has moved at all."
 
   - type: numeric-mc
-    prompt: "A swing trader is playing for $2.00 a share with the same three cents of cost. What share of that target is the cost?"
+    prompt: "A swing trader is playing for $2.00 a share, and pays three cents of cost: the two-cent gap and a cent of charges. What share of that target is the cost?"
     options:
       - {text: "15 %"}
       - {text: "50 %"}
@@ -61,7 +62,6 @@ screens:
     explanation: "Cost only means something next to the size of the move you are after."
 
   - type: story
-    character: retail-trader
     text: "You have $6,000, about an hour free in the middle of the regular session, and a broker that charges $1 an order."
 
   - type: mc

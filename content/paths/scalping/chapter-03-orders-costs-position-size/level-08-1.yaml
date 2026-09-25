@@ -19,7 +19,6 @@ screens:
     text: "Three situations. Read the chart first, then decide what to send."
 
   - type: story
-    character: retail-trader
     text: "XYZ has pressed at $24.00 twice this morning. The minute that just closed finished at $24.06 on the heaviest bar of the session, and the panel reads bid $24.03 / ask $24.06."
 
   - type: chart-tap
@@ -54,7 +53,6 @@ screens:
     explanation: "The minute a level breaks is the minute the ask moves fastest. That is the one moment a ceiling earns its keep."
 
   - type: story
-    character: retail-trader
     text: "You are long 1,000 from $24.06. Four minutes later the stock has closed back under $24.00, and the bar underneath that candle is the biggest since your entry."
 
   - type: mc
@@ -78,7 +76,6 @@ screens:
     explanation: "It reaches the buyers, so there is something to trade against — the marketable trick, used to get out rather than in."
 
   - type: story
-    character: retail-trader
     text: "A third name has spent twenty minutes between $13.42 and $13.50. Bid $13.44 / ask $13.46, and you would be happy to own 1,800 shares at the bottom of that box."
 
   - type: order-build
