@@ -82,12 +82,12 @@ screens:
     prompt: "Which path is this?"
     buckets: ["Scalping", "Day trading", "Swing trading"]
     items:
-      - {text: "Plays for ten cents a share", bucket: "Scalping"}
-      - {text: "Fifteen trades before lunch, each a minute long", bucket: "Scalping"}
-      - {text: "Flat before the close, reading the 15-minute chart", bucket: "Day trading"}
-      - {text: "Three trades today, each held a couple of hours", bucket: "Day trading"}
-      - {text: "Looks at the daily chart after dinner", bucket: "Swing trading"}
-      - {text: "Holds through the weekend for a $5 move", bucket: "Swing trading"}
+      - {text: "Plays for ten cents", bucket: "Scalping"}
+      - {text: "Fifteen trades by lunch", bucket: "Scalping"}
+      - {text: "Reads the 15-minute chart", bucket: "Day trading"}
+      - {text: "Three trades, held for hours", bucket: "Day trading"}
+      - {text: "Charts after dinner", bucket: "Swing trading"}
+      - {text: "Plays for $5 a share", bucket: "Swing trading"}
     explanation: "How long the trade lives and how far it has to go tell the three apart."
 
   - type: tf
