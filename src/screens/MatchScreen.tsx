@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { Celebrate, PopIn } from '../lesson/Celebrate';
+import { Celebrate } from '../lesson/Celebrate';
 import { matchHitFeedback, matchMissFeedback, tapFeedback } from '../lesson/feedback';
 import Shake from '../lesson/Shake';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
@@ -135,22 +135,9 @@ export default function MatchScreen({
               <Pressable
                 accessibilityRole="button"
                 onPress={() => tapLeft(i)}
-                style={[styles.chip, styles.termChip, shape, leftStyle(i)]}
+                style={[styles.chip, shape, leftStyle(i)]}
               >
                 <Text style={styles.term}>{copy(term)}</Text>
-                {/* A locked pair carries one number on both of its halves, so
-                    "Sell" is seen to belong with "Close a position" even when
-                    the two sit in different rows. Pinned to the edge, not in
-                    the text's flow, so the word does not shift when it lands. */}
-                {linked[i] !== undefined ? (
-                  <View style={[styles.pairTag, styles.pairTagRight]} pointerEvents="none">
-                    <PopIn>
-                      <View style={styles.pairDot}>
-                        <Text style={styles.pairNum}>{i + 1}</Text>
-                      </View>
-                    </PopIn>
-                  </View>
-                ) : null}
               </Pressable>
             );
             return (
@@ -163,23 +150,13 @@ export default function MatchScreen({
         <View style={styles.rightCol}>
           {rightOrder.map((i) => {
             const isLinked = Object.values(linked).includes(i);
-            const owner = Object.entries(linked).find(([, r]) => r === i)?.[0];
             const chip = (
               <Pressable
                 accessibilityRole="button"
                 onPress={() => tapRight(i)}
-                style={[styles.chip, styles.definitionChip, shape, rightStyle(i)]}
+                style={[styles.chip, shape, rightStyle(i)]}
               >
                 <Text style={styles.definition}>{copy(screen.pairs[i][1])}</Text>
-                {owner !== undefined ? (
-                  <View style={[styles.pairTag, styles.pairTagLeft]} pointerEvents="none">
-                    <PopIn>
-                      <View style={styles.pairDot}>
-                        <Text style={styles.pairNum}>{Number(owner) + 1}</Text>
-                      </View>
-                    </PopIn>
-                  </View>
-                ) : null}
               </Pressable>
             );
             return (
@@ -223,20 +200,5 @@ const styles = StyleSheet.create({
   wrong: { borderColor: colors.down, backgroundColor: colors.downTint },
   term: { ...type.answer, color: colors.text, flexShrink: 1 },
   definition: { ...type.small, color: colors.text, flexShrink: 1 },
-  // Room at the definition's left edge for its pair number.
-  definitionChip: { paddingLeft: space.md + 10 },
-  termChip: { paddingHorizontal: space.md + 10 },
-  pairTag: { position: 'absolute', top: 0, bottom: 0, justifyContent: 'center' },
-  pairTagRight: { right: 6 },
-  pairTagLeft: { left: 5 },
-  pairDot: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    backgroundColor: colors.success,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  pairNum: { fontSize: 11, lineHeight: 13, fontWeight: '800', color: '#FFFFFF' },
   hint: { ...type.small, color: colors.textMuted },
 });
