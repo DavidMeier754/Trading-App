@@ -97,16 +97,22 @@ export function AnswerCard({
   return (
     <ToneSurface tone={tone} onPress={onPress} disabled={disabled} style={styles.answerCard}>
       <Text style={styles.answerText}>{copy(label)}</Text>
-      {tone === 'correct' ? (
-        <PopIn delay={60}>
-          <Text style={styles.markCorrect}>{'✓'}</Text>
-        </PopIn>
-      ) : null}
-      {tone === 'wrong' ? (
-        <PopIn>
-          <Text style={styles.markWrong}>{'✕'}</Text>
-        </PopIn>
-      ) : null}
+      {/* The mark's room is kept on every card from the start, so a long
+          answer is wrapped the same before and after the check: a mark that
+          took its room only when it arrived would push the words onto a new
+          line, and every card below down with them. */}
+      <View style={styles.markSlot}>
+        {tone === 'correct' ? (
+          <PopIn delay={60}>
+            <Text style={styles.markCorrect}>{'✓'}</Text>
+          </PopIn>
+        ) : null}
+        {tone === 'wrong' ? (
+          <PopIn>
+            <Text style={styles.markWrong}>{'✕'}</Text>
+          </PopIn>
+        ) : null}
+      </View>
     </ToneSurface>
   );
 }
@@ -181,6 +187,7 @@ const styles = StyleSheet.create({
     gap: space.sm,
   },
   answerText: { ...type.answer, color: colors.text, flexShrink: 1 },
+  markSlot: { width: 18, alignItems: 'center' },
   markCorrect: { ...type.answer, color: colors.success },
   markWrong: { ...type.answer, color: colors.down },
   card: {
