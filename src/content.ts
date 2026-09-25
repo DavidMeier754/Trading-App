@@ -104,6 +104,11 @@ export type PathLevel = {
   subs: LessonEntry[];
 };
 
+/** What a level teaches, as its node draws it: the first `icon` among its lessons. */
+export function levelIconOf(level: PathLevel): string | undefined {
+  return level.subs.find((s) => s.level.icon)?.level.icon;
+}
+
 /**
  * docs/UI.md §7.1: what kind of level a node is, which its button shows as a
  * symbol instead of a number. A level with any new-theory lesson in it teaches

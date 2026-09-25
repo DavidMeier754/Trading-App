@@ -57,6 +57,10 @@ REQUIRED = [
 ]
 
 
+# docs/schema.md `icon`: the names src/home/icons.tsx can draw, read from its
+# ICON_NAMES list so the two cannot drift apart.
+ICON_NAMES = set(re.findall(r"^  '([a-z-]+)',$", (ROOT / "src/home/icons.tsx").read_text().split("] as const")[0].split("ICON_NAMES = [")[1], re.M))
+
 # numbers, money and percentages collapse to "#" so two sentences that differ only
 # in their figures count as one shape
 TEMPLATE_RE = re.compile(r"[\d.,$%€]+")
@@ -343,6 +347,8 @@ def validate_file(path, data, rep):
         rep.err(f, f"id '{data['id']}' does not match filename")
     if data["category"] not in CATEGORIES:
         rep.err(f, f"bad category '{data['category']}'")
+    if "icon" in data and data["icon"] not in ICON_NAMES:
+        rep.err(f, f"icon '{data['icon']}' is not one src/home/icons.tsx draws")
     if data["path"] not in PATHS:
         rep.err(f, f"bad path '{data['path']}'")
     if "reinforces" in data and data["reinforces"] is not None:
@@ -427,6 +433,14 @@ def validate_chapter(folder, files, rep, known_terms):
     ids = {d["id"]: d for d in files}
     ordered = sorted(files, key=lambda d: level_key(d["id"]))
     _, folder_num = folder_info(folder)
+    # One level, one symbol on the map: its lessons may not name different icons.
+    icons = defaultdict(set)
+    for d in files:
+        if "icon" in d:
+            icons[level_key(d["id"])[0]].add(d["icon"])
+    for lvl, names in icons.items():
+        if len(names) > 1:
+            rep.err(folder, f"level {lvl} names more than one icon: {sorted(names)}")
     for i, d in enumerate(ordered):
         p = d.get("prerequisite")
         if p is not None and p not in ids:

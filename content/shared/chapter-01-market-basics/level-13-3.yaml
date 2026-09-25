@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [long-short, arithmetic, risk]
+icon: updown
 learning_goal: "User computes the result of a long and of a short with the same subtraction, and can say why only one of the two has a worst case you can write down."
 purpose: "Both directions use one piece of arithmetic, and the moment you believe they are mirror images is the moment a short can hurt you."
 terms_introduced: []

@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: repetition
 tags: [liquidity, volatility, quote, drill]
+icon: gauge
 learning_goal: "User places a stock on both dials from a quote card or a pair of numbers, quickly and without prompting."
 purpose: "Reading the two dials has to be automatic before charts and orders start competing for the same attention."
 terms_introduced: []

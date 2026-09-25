@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [open, gaps, decisions]
+icon: bell
 learning_goal: "User can read a gap up or down against yesterday's close and tell a gap that is being paid for from one that is being sold."
 purpose: "A gap is the first thing on the chart every morning, and half the crowd misreads it as a discount."
 terms_introduced: ["Gap"]

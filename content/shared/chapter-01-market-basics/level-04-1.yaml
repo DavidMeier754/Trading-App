@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [quote, volume]
+icon: ticket
 learning_goal: "User can read a quote card: price, change versus previous close in dollars and percent, and volume."
 purpose: "Every stock you'll ever look at starts as this card — reading it instantly is the first real skill."
 terms_introduced: ["Quote", "Previous close", "Daily change", "Volume"]

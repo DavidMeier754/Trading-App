@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, chart-reading, decisions]
+icon: candle
 learning_goal: "User can measure a body and a wick to the cent and make a first decision from a run of candles."
 purpose: "A scalp is won or lost in a few cents, so reading a candle has to be exact rather than roughly right."
 terms_introduced: []

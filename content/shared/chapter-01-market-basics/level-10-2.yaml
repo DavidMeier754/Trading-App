@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [sessions, liquidity, volatility]
+icon: clock
 learning_goal: "User explains why prices in the thin parts of the day move further on the same order size, and weighs a move by the number of participants behind it."
 purpose: "The biggest-looking moves on any chart happen where the fewest people are trading, and reading them as news is how beginners get caught."
 terms_introduced: []

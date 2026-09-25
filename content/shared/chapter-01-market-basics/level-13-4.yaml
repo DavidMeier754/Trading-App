@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: repetition
 tags: [drill, long-short, decisions]
+icon: updown
 learning_goal: "User reaches long, short or no trade on charts where the direction and the stock behind it both have a say."
 purpose: "Three buttons only become useful when picking between them is automatic, and that is built by repetition, not by explanation."
 terms_introduced: []

@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [trend, structure, decisions]
+icon: trend
 learning_goal: "User can name an uptrend from its higher highs and higher lows, and reads the last dip as the thing that has to hold."
 purpose: "Every scalp is taken with the shape of the last twenty minutes or against it, and the shape has a name."
 terms_introduced: ["Uptrend", "Higher high", "Higher low"]

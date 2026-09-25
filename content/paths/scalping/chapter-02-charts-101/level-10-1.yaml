@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [levels, breakout, bounce, decisions]
+icon: breakout
 learning_goal: "User knows a level has exactly two answers and waits for the market to give one before choosing a side."
 purpose: "Beginners lose money guessing which way a level will go; the whole job is reacting a minute later."
 terms_introduced: ["Breakout", "Bounce"]

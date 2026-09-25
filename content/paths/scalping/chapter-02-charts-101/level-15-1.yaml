@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: repetition
 tags: [callback, liquidity, volatility, decisions]
+icon: rewind
 learning_goal: "User reads liquidity and volatility straight off a candlestick chart and rejects the shapes their size cannot be traded in."
 purpose: "Chapter 1 taught the two dials in words. On a 1-minute chart they are the difference between a trade and a trap."
 terms_introduced: []

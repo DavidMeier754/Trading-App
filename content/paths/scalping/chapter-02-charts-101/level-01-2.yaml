@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, chart-reading]
+icon: candle
 learning_goal: "User can name the body and the wicks of a candle, tell green from red, and measure both parts."
 purpose: "The block and the threads are two different pieces of information, and a scalper reads them separately."
 terms_introduced: ["Body", "Wick"]

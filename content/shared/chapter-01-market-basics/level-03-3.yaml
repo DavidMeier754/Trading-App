@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: repetition
 tags: [ownership, practice, profit-loss]
+icon: pie
 learning_goal: "User moves between ownership arithmetic and trade arithmetic without losing track of which is which."
 purpose: "The fraction you own and the money you make are two different sums, and mixing them up is how beginners misjudge a position."
 terms_introduced: []

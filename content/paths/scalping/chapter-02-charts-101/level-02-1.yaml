@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, chart-reading]
+icon: candles
 learning_goal: "User can read conviction, refusal and indecision from the way a candle's body and wicks are shared out."
 purpose: "A scalper decides in seconds, and the shape of the last few candles is the fastest honest information on the screen."
 terms_introduced: []

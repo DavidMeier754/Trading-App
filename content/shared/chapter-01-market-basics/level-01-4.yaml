@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: repetition
 tags: [drill, decisions, profit-loss, position-size]
+icon: coin
 learning_goal: "User runs buy-or-wait decisions and result arithmetic back to back without being told which is which."
 purpose: "Recognising a chart and pricing a position have to be one motion, not two lessons."
 terms_introduced: []

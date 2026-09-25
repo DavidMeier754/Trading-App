@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [volatility, liquidity, two-dials]
+icon: zigzag
 learning_goal: "User keeps liquidity and volatility apart and can place a stock on both dials from its volume and its daily range."
 purpose: "Mixing up the two dials is the most common beginner error there is, and the pairing that hurts most is the one it hides."
 terms_introduced: []

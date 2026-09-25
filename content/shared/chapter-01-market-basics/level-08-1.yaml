@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [volatility, movement]
+icon: zigzag
 learning_goal: "User can define volatility as the size and speed of a stock's moves, measure a move in percent, and knows volatility has no direction."
 purpose: "How far a stock travels in a day decides whether a decision in it is worth anything at all, and how quickly a wrong one costs."
 terms_introduced: ["Volatility", "Volatile"]

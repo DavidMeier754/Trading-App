@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [decisions, price, chart]
+icon: coin
 learning_goal: "User decides to buy or to wait from a line chart, and treats waiting as a full answer rather than a failure."
 purpose: "Most charts you look at are not trades — learning that on day one saves you from the habit of trading everything."
 terms_introduced: []

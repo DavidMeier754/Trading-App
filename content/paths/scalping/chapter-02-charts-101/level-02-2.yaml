@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, chart-reading, decisions]
+icon: candles
 learning_goal: "User can read a run of candles as one story and knows what shape alone does not settle."
 purpose: "One candle is sixty seconds of evidence; the reason to act comes from what the last few have done together."
 terms_introduced: []

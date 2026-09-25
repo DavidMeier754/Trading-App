@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [levels, support, resistance, structure]
+icon: levels
 learning_goal: "User can find the price that has turned the last pushes and name it support or resistance."
 purpose: "A scalper trades to and from levels; without them a chart is just a wiggling line."
 terms_introduced: ["Support", "Resistance"]

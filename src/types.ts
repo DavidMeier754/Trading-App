@@ -490,6 +490,8 @@ export type Level = {
   path: string;
   category: string;
   tags: string[];
+  /** The node's symbol: what the level teaches (docs/schema.md, src/home/icons.tsx). */
+  icon?: string;
   learning_goal: string;
   purpose: string;
   terms_introduced?: string[];

@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [trend, structure, liquidity, decisions]
+icon: trend
 learning_goal: "User can name a downtrend from its lower highs and lower lows and take the short side of it."
 purpose: "Half of a scalper's day is on the short side, and beginners keep buying the dips of a shape that has none."
 terms_introduced: ["Downtrend", "Lower high", "Lower low"]

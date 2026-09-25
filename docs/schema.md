@@ -15,6 +15,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping            # all | scalping | day-trading | swing-trading
 category: new-theory      # new-theory | repetition | test | final-exam
 tags: [orders, execution] # free tags, used for stats and practice
+icon: ticket              # optional: the level's symbol on the map, what it teaches (see below)
 learning_goal: "User can choose between a market and a limit order for a given situation."
 purpose: "One sentence on why this matters in real trading."
 terms_introduced: ["Market order", "Limit order"]   # new glossary terms defined in this sub
@@ -27,6 +28,8 @@ sources: [consensus]      # Chapters 1–3: [consensus]; Chapter 4+: ≥2 named 
 notes: "Author notes, optional."
 screens: [...]
 ```
+
+**`icon`.** Optional. The symbol on the level's map node, standing for what the level teaches or, for a practice level, what it practises: `candle`, `bell` for the open, `levels` for support and resistance. Every lesson of one level names the same icon, or leaves it out; the first one named is used. The names are the ones `src/home/icons.tsx` draws (its `ICON_NAMES`), and the validator rejects any other. Checkpoints, the Final Exam and the path choice ignore it and keep their own symbols (docs/UI.md §7.1). A level without one shows a bulb (new ideas) or round arrows (practice).
 
 **`reinforces` [v3].** A list of chapter numbers (not level ids). It is a claim that this sub-level re-tests that chapter's material *in this chapter's context*. The validator uses it for the reinforcement quotas in `docs/agent.md` §3.3, so do not declare it decoratively — a sub with `reinforces: [1]` must contain at least one question that genuinely needs Chapter 1 knowledge.
 

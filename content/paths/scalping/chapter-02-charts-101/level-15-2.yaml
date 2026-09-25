@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: repetition
 tags: [callback, sessions, liquidity, drill]
+icon: rewind
 learning_goal: "User tells a move made by the whole market from one made by a handful of traders in a thin session, using the volume bars alone."
 purpose: "Half the charts a beginner gets excited about were printed when almost nobody was trading."
 terms_introduced: []

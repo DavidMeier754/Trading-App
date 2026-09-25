@@ -16,8 +16,8 @@ import { unlockFeedback } from '../lesson/feedback';
 import { EASE_OUT, EASE_SINE, SPRING_POP, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, type } from '../theme';
-import { LEVEL_TYPE_NAME, LevelType, levelTypeOf } from '../content';
-import Icon, { IconName } from './icons';
+import { LEVEL_TYPE_NAME, LevelType, levelIconOf, levelTypeOf } from '../content';
+import Icon, { IconName, isIconName } from './icons';
 import type { LevelStatus, LevelView } from './pathState';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -195,12 +195,15 @@ export default function LevelNode({
   const round = kind !== 'test';
   const what =
     kind === 'test' ? 'Checkpoint' : kind === 'final' ? 'Final Exam' : kind === 'path' ? 'Path choice' : 'Level';
-  // docs/UI.md §7.1: every button shows what kind of level it is -- a bulb for
-  // new ideas, round arrows for practice, a ticked clipboard for a Checkpoint,
-  // the trophy, the signpost -- locked or not. The number is in the label.
+  // docs/UI.md §7.1: a lesson level's button shows what it teaches or
+  // practises -- a candle, a bell for the open -- from its files' `icon`; a
+  // Checkpoint shows a ticked clipboard, the Final Exam a trophy, the path
+  // choice a signpost. Locked or not. The number and kind are in the label.
   const type = levelTypeOf(view.level);
+  const topic = type === 'new' || type === 'practice' ? levelIconOf(view.level) : undefined;
+  const name = topic && isIconName(topic) ? topic : SYMBOL[type];
   const symbol = (color: string) => (
-    <Icon name={SYMBOL[type]} size={type === 'test' ? 28 : 32} color={color} strokeWidth={2.4} />
+    <Icon name={name} size={type === 'test' ? 28 : 32} color={color} strokeWidth={2.4} />
   );
 
   const tagDelay = unlocking ? (reduced ? 400 : UNLOCK.tag) : 0;

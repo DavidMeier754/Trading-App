@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [volatility, liquidity, stock-selection]
+icon: zigzag
 learning_goal: "User can pick a stock to learn on by putting both dials in the middle, and say why each extreme is a poor teacher."
 purpose: "The stock you practise on decides how much you learn per hour, and beginners almost always pick one of the two extremes."
 terms_introduced: []

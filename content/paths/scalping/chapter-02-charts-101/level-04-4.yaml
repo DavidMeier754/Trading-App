@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [volume, candles, decisions]
+icon: volume
 learning_goal: "User reads candle shape and volume as one reading and decides long, short or no trade from the pair."
 purpose: "Neither row of the chart is worth much alone, and from here on every read in this app uses both at once."
 terms_introduced: []

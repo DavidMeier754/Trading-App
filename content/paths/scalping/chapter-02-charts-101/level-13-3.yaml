@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [open, opening-range, levels]
+icon: bell
 learning_goal: "User can build the opening range from the first five minutes, mark both edges, and tell a close beyond one of them from a poke through it."
 purpose: "The opening range is the first structure of the day, and for the next hour it is the level everybody trades against."
 terms_introduced: ["Opening range"]

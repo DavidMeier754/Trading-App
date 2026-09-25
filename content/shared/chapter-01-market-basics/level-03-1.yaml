@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [stocks, ownership]
+icon: pie
 learning_goal: "User can explain a share as a fraction of a company, read a ticker, and knows where stocks trade."
 purpose: "Knowing that a stock is a piece of a real business — with a code and a marketplace — keeps trading from feeling like a lottery."
 terms_introduced: ["Shareholder", "Ticker", "Exchange"]

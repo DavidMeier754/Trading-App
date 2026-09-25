@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [candles, decisions, practice]
+icon: candles
 learning_goal: "User decides long, short or no trade from candle shape alone, and passes when the shapes disagree with each other."
 purpose: "Shape is the first filter a scalper applies, and most charts do not get past it."
 terms_introduced: []

@@ -5,6 +5,7 @@ chapter_title: "Market Basics"
 path: all
 category: new-theory
 tags: [liquidity, position-size, exits]
+icon: drop
 learning_goal: "User can describe what a large order does to a thin stock, and work out what walking the price costs on a given share count."
 purpose: "Most of what beginners call bad luck is a position that was too large for the stock long before the trade went wrong."
 terms_introduced: []

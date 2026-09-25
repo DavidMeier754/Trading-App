@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [volume, liquidity, chart-reading]
+icon: volume
 learning_goal: "User judges a volume bar against this stock's own recent minutes rather than against a fixed number or another stock."
 purpose: "Heavy and thin are relative words, and a scalper who forgets that will call an empty minute busy."
 terms_introduced: []

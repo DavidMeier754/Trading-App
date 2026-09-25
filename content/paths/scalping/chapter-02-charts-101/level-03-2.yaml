@@ -5,6 +5,7 @@ chapter_title: "Charts 101"
 path: scalping
 category: new-theory
 tags: [timeframes, chart-reading]
+icon: zoom
 learning_goal: "User can build one 5-minute candle out of five 1-minute candles and read the bigger candle back onto the smaller ones."
 purpose: "Knowing how the bigger candle is made is what stops the two charts from ever contradicting each other in your head."
 terms_introduced: []
