@@ -149,7 +149,7 @@ All of this must hold at the same time:
   - The risk note in every place listed in `docs/agent.md` §7.
   - Legal page, imprint, privacy policy and terms of use, reviewed by a lawyer.
 - **Store:**
-  - Name, icon, screenshots, texts in German and English, privacy details, age rating.
+  - Name, icon, screenshots, texts in English, privacy details, age rating. (German comes after the release, stage `GERMAN`.)
   - TestFlight and the Google Play closed test (≥ 12 testers, ≥ 14 days) passed.
 - **You have accepted every stage.**
 
@@ -307,7 +307,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates.
 | | `TECH` | Clean-up backed by measurements: bundle, start time, Chart.tsx | Opus 5.5 · high | 1–2 | 10 min |
 | J Release | `A11Y-PERF` | Accessibility and speed on real devices | Opus 5.5 · high | 1 | 30 min |
 | | `LEGAL-FINAL` | Review by a lawyer, final texts | – (a human) | – | organize |
-| | `STORE-LISTING` | Screenshots, texts in German and English, privacy details, age rating | Sonnet 5 · high | 1 | 30 min |
+| | `STORE-LISTING` | Screenshots, texts in English, privacy details, age rating | Sonnet 5 · high | 1 | 30 min |
 | | `BETA-2` | Release candidate, closed test ≥ 12 testers × 14 days | Opus 5.5 · high per round | 1–3 | 2–4 weeks |
 | | `RELEASE` | Submission, review, launch, watching the first week | Opus 5.5 · high | 1–2 | launch |
 | K After | `DAY-TRADING`, `GERMAN`, `FRIENDS`, … | See Phase K | – | – | – |
@@ -369,7 +369,7 @@ Roughly 70–100 sessions in total. The total depends mostly on decision E (Swin
 | I | Payment model: subscription, freemium, one-time purchase? What is free? | Chapters 1 + 2 free, then a subscription. **Never** sell hearts or streak repairs: in a trading app that looks like gambling mechanics. | `MONEY` |
 | K | Account/login in v1.0? | **No.** Store progress locally, back up via the phone (iCloud/Android backup). Login + sync from v1.1. That saves a lot of GDPR work. | `BACKEND` |
 | L | Name and brand | You decide in `BRAND` | `BRAND` |
-| M | Target markets and store languages (DE? EU? US?) | Start with DE/AT/CH + EU, store texts in German + English | `STORE-LISTING` |
+| M | Target markets (DE? EU? US?) | Start with DE/AT/CH + EU. **Language settled:** v1.0 is English only (app, store texts, legal texts); German follows as the first stage after the release (`GERMAN`). | `STORE-LISTING` |
 | N | Who does the expert review and the legal review? | An experienced trader, and a law firm focused on IT/financial law | `EXPERT`, `LEGAL-FINAL` |
 | O | Beta testers: who and how many? | ≥ 12 (a Google requirement for new personal developer accounts), at least 3 of them without trading knowledge | `BETA-1` |
 | P | Who is the provider in the imprint (private person or business)? Taxes? | Clarify with a tax adviser. This is not a question for Claude. | `LEGAL-DRAFT` |
@@ -1531,7 +1531,7 @@ The goal of this phase: real people test the finished scalping course before Swi
 
 **Goal.** Legal texts as drafts, so the beta and the store entries become possible.
 
-**Scope** (German and English)
+**Scope** (in English; the German versions come with `GERMAN`)
 1. **Imprint** under the DDG.
 2. **Privacy policy.** It covers:
    - local storage;
@@ -1547,7 +1547,7 @@ The goal of this phase: real people test the finished scalping course before Swi
 6. **A simple web page** with these texts, e.g. as a second Cloudflare Pages project. The stores require a privacy policy URL.
 7. **Settings → Legal** shows the texts.
 
-**Important.** These are drafts, not legal advice. A lawyer reviews them before the release (`LEGAL-FINAL`).
+**Important.** These are drafts, not legal advice. A lawyer reviews them before the release (`LEGAL-FINAL`). Ask the lawyer whether an English-only app offered in Germany needs German legal texts at launch; if yes, those texts are the one German piece of v1.0.
 
 **You prepare.** The provider details: name, address, contact (decision P).
 
@@ -1559,7 +1559,7 @@ Stage LEGAL-DRAFT from docs/build-plan.md.
 
 Read CLAUDE.md, then §1 and the "LEGAL-DRAFT" section of docs/build-plan.md in full, plus docs/agent.md §7.
 Provider details: [name, address, email].
-Write drafts in German and English; flag every place a lawyer has to decide. No text may promise profit or read as investment advice.
+Write the drafts in English; flag every place a lawyer has to decide, including whether German versions are needed at launch. No text may promise profit or read as investment advice.
 
 Open a PR against main and get every check green.
 Report: texts (links) · places flagged for the lawyer · my test checklist · open questions. Then stop.
@@ -1950,7 +1950,7 @@ Afterwards a session applies the changes: Opus 5.5 · high.
 
 **Scope**
 - **Screenshots** in the currently required sizes.
-- **Texts** in German and English: title, subtitle, description, keywords.
+- **Texts** in English: title, subtitle, description, keywords. German store texts come with `GERMAN`.
 - **Category:** education.
 - **Mandatory details:** the age-rating questionnaire, the privacy details (Apple) and "Data safety" (Google), support and privacy URLs.
 - **Review note:** synthetic data, no real trading, no account needed.
@@ -2008,8 +2008,12 @@ Stage RELEASE from docs/build-plan.md. Read CLAUDE.md, §0 (definition of done) 
 
 Not part of v1.0. Every idea here gets a stage of its own in this plan before it starts.
 
+- **`GERMAN`** (the first stage after the release): the app in German, built on the i18n keys that exist from `ONBOARDING` on.
+  1. Interface: `de.json` next to `en.json`, a language setting (default: the phone's language), German number and date formats.
+  2. Content: all lessons of Chapter 1 and the released paths, chapter by chapter, with the validator and the render test per chapter. Terms follow one glossary (e.g. "Stop-Loss", "Spread" stay English where German traders use them).
+  3. Store texts and legal texts in German.
+  4. A professional human review of the translation, and a German beta round before it ships.
 - **`DAY-TRADING`:** Chapters 2–8 following `docs/curriculum.md`, like Phase H.
-- **`GERMAN`:** a German app interface (the i18n keys exist from `ONBOARDING` on) and then the content. The translation needs a professional human review.
 - **`FRIENDS`:** an opt-in friends league instead of a global leaderboard (W7). Scored on decisions, not on the amount of XP.
 - **`AI-EXPLAINER`:** "Explain it differently" after a wrong answer, via the Claude API (K9). Only with hard guardrails: no signals, no investment advice, only the lesson's material.
 - **Replays and drills for Swing.**

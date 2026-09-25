@@ -35,7 +35,7 @@ One constraint holds under either answer and binds today: **the app must never i
 
 | Topic | Decision |
 |---|---|
-| Content language | English. (i18n later via keys; never mix languages inside content.) **[v4]** Every UI string goes through an i18n key from stage ONBOARDING on; German is planned as the second language after release. |
+| Content language | English. (i18n later via keys; never mix languages inside content.) **[v4]** Every UI string goes through an i18n key from stage ONBOARDING on; v1.0 ships in English only; German is the second language, added as the first stage after the release (`docs/build-plan.md`, `GERMAN`). |
 | Asset class | Stocks are the teaching vehicle. Where a path is typically traded in other instruments in Europe (scalping → futures/CFDs), one lesson says so explicitly; no CFD/forex content is taught. **[v3]** Partly kept, in the wrong place: `{{market.scalping_note}}` says exactly this ("In Europe, retail scalpers often trade futures or CFDs… this app teaches scalping with stocks because the mechanics are the same") — but as **one theory screen inside a fees lesson**, Chapter 3 Level 14-1, rather than as the lesson this row describes, and nowhere near the point where a learner opens an account. **Chapter 8 Level 15, "What You'll Actually Be Offered"** (`docs/curriculum.md`) is that lesson, specified and not yet written. Financial margin still appears zero times in the 387 written sub-levels. |
 | Markets | Two market profiles at launch: `US` and `EU-DE` (`content/market_profiles.yaml`). Session times, currency symbol, index examples and regulation notes are tokens rendered per profile. |
 | Path choice | After Chapter 1 (Chapter 1 is shared by all paths). Onboarding does not ask for a path. |
