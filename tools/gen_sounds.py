@@ -215,6 +215,73 @@ def felt(freq, ms, gain=1.0):
     return _fade_tail(_render(n, f), 0.25)
 
 
+def kalimba(freq, ms, gain=1.0):
+    """
+    A tine under a thumb: a round fundamental, a soft octave that fades first,
+    and a faint high tine partial gone within a few milliseconds. No noise and
+    a 3 ms attack, so it starts smoothly -- the warm voice of the new palette.
+    """
+    n = int(RATE * ms / 1000)
+    tau = ms / 1000 * 0.32
+    a = max(1, int(RATE * 0.003))
+
+    def f(i, t):
+        v = math.sin(2 * math.pi * freq * t)
+        v += 0.20 * math.sin(4 * math.pi * freq * t) * math.exp(-t / (tau * 0.35))
+        if freq * 5.4 < RATE * 0.45:
+            v += 0.05 * math.sin(2 * math.pi * freq * 5.4 * t) * math.exp(-t / 0.006)
+        return gain * v * math.exp(-t / tau) * _attack(i, a) / 1.2
+
+    return _fade_tail(_render(n, f), 0.2)
+
+
+def softtap(freq, ms, gain=1.0):
+    """
+    A fingertip on wood, felt more than heard: a sine that settles a little
+    down onto its pitch, a 1.5 ms attack and a quick round decay. It replaces
+    the old tick, whose high E7 and burst of noise were what made it sharp.
+    """
+    n = int(RATE * ms / 1000)
+    a = max(1, int(RATE * 0.0015))
+    phase = [0.0]
+
+    def f(i, t):
+        glide = 1.0 + 0.12 * math.exp(-t / 0.004)
+        phase[0] += 2 * math.pi * freq * glide / RATE
+        return gain * math.sin(phase[0]) * math.exp(-t / 0.011) * _attack(i, a)
+
+    return _fade_tail(_render(n, f), 0.35)
+
+
+def pad(freq, ms, gain=1.0):
+    """A soft swell under a chord: fundamental, octave and a quiet twelfth, slow in and out."""
+    n = int(RATE * ms / 1000)
+    a = max(1, int(RATE * 0.05))
+
+    def f(i, t):
+        u = i / max(1, n - 1)
+        v = math.sin(2 * math.pi * freq * t) + 0.3 * math.sin(4 * math.pi * freq * t)
+        v += 0.12 * math.sin(6 * math.pi * freq * t)
+        return gain * v * _attack(i, a) * (1 - u) ** 1.8 / 1.42
+
+    return _render(n, f)
+
+
+def glide(freq, ms, gain=1.0):
+    """A soft pluck that slides up a fourth into its note: moving on, not arriving."""
+    n = int(RATE * ms / 1000)
+    a = max(1, int(RATE * 0.004))
+    phase = [0.0]
+
+    def f(i, t):
+        slide = 0.75 + 0.25 * min(1.0, t / 0.05)
+        phase[0] += 2 * math.pi * freq * slide / RATE
+        v = math.sin(phase[0]) + 0.12 * math.sin(2 * phase[0])
+        return gain * v * math.exp(-t / (ms / 1000 * 0.3)) * _attack(i, a) / 1.12
+
+    return _fade_tail(_render(n, f), 0.25)
+
+
 VOICES = {
     "felt": felt,
     "bell": bell,
@@ -224,6 +291,10 @@ VOICES = {
     "pop": pop,
     "thud": thud,
     "shimmer": shimmer,
+    "kalimba": kalimba,
+    "softtap": softtap,
+    "pad": pad,
+    "glide": glide,
 }
 
 
@@ -286,68 +357,64 @@ def P(t, haptic, notes):
     return {"t": t, "haptic": haptic, "notes": notes}
 
 
-def correct(root, fifth):
+def chime(low, high):
     """
-    A rising fifth, crisp on both pulses. The second right answer in a row is
-    this same chime moved up a fourth, nothing added, so the climb is heard as
+    A right answer: two kalimba notes rising, the second landing on a light
+    pulse, over a quiet pad on the lower one. The three steps of a run are
+    this same shape moved up (lesson/feedback.ts), so the climb is heard as
     the same "yes" getting higher.
     """
     return [
-        P(0, "light", [N("bell", root, 420, 0.78), N("bell", hz(root) / 2, 380, 0.22)]),
-        P(120, "rigid", [N("bell", fifth, 620, 1.0), N("tick", fifth, 20, 0.2)]),
+        P(0, "light", [N("kalimba", low, 420, 0.75), N("pad", hz(low) / 2, 520, 0.16)]),
+        P(95, "rigid", [N("kalimba", high, 640, 1.0)]),
     ]
 
 
 CUES = {
     # -- choosing and moving on -------------------------------------------
-    # The lightest pair there is: a finger landing on an option, a tile, a key.
-    "tick": dict(pulses=[P(0, "selection", [N("tick", "E7", 26)])], peak=0.15, wet=0.0),
-    # A drag passing a step -- a slider's 5, a line's fifth cent, a chip
-    # picked up. It comes many times a second under a moving finger, so it is
-    # barely there: a breath of a felt note, a third of a tick's level, and no
-    # click in it at all.
-    "detent": dict(pulses=[P(0, "selection", [N("felt", "E5", 30)])], peak=0.05, wet=0.0),
-    # Continue / Got it: heard fifteen times a lesson and more, so it is the
-    # softest thing a screen change can be -- one round felt note, low in the
-    # middle of the range, with a faint fifth over it and a little room. The
-    # bubble-and-bell before it was bright enough to grate by the tenth screen;
-    # the wooden G4 before that sounded like a door closing.
+    # A finger landing on an option, a tile, a key. Heard more than anything
+    # else, so it is the smoothest sound in the app: a soft tap on wood around
+    # A5, no noise, no edge. (The old one was a 26 ms E7 with a burst of noise.)
+    "tick": dict(pulses=[P(0, "selection", [N("softtap", "A5", 55)])], peak=0.12, wet=0.0),
+    # A drag passing a step. Many a second under a moving finger: the same tap,
+    # lower and at a third of the level.
+    "detent": dict(pulses=[P(0, "selection", [N("softtap", "E5", 40)])], peak=0.045, wet=0.0),
+    # Continue / Got it: a soft pluck sliding up into G5 -- the page moving on.
     "advance": dict(
-        pulses=[P(0, "light", [N("felt", "E5", 300, 0.9), N("felt", "B5", 220, 0.14)])],
-        peak=0.13, wet=0.2,
+        pulses=[P(0, "light", [N("glide", "G5", 260, 0.9), N("pad", "C5", 300, 0.12)])],
+        peak=0.11, wet=0.18,
     ),
-    # Committing a trade call: a latch -- a bright click, then the bolt landing.
+    # Committing a trade call: a low wooden thock and a kalimba fifth on it --
+    # decided, with no click in it.
     "commit": dict(
         pulses=[
-            P(0, "rigid", [N("tick", "C7", 22, 0.8), N("marimba", "C5", 140, 0.7)]),
-            P(70, "medium", [N("knock", "G3", 220, 1.0)]),
+            P(0, "rigid", [N("softtap", "C5", 60, 0.8), N("kalimba", "G4", 260, 0.7)]),
+            P(70, "medium", [N("kalimba", "C4", 380, 0.9), N("pad", "C3", 400, 0.25)]),
         ],
-        peak=0.30, wet=0.12,
+        peak=0.27, wet=0.14,
     ),
     # -- verdicts ----------------------------------------------------------
-    # A run of right answers is three sounds, no more (lesson/feedback.ts):
-    # the chime for the first, the same chime a fourth higher for the second,
-    # and from the third on the streak sound, the same every time.
-    "correct0": dict(pulses=correct("G5", "D6"), peak=0.28, wet=0.22),
-    "correct1": dict(pulses=correct("C6", "G6"), peak=0.28, wet=0.22),
-    # Streak mode, three or more in a row: not a higher chime but a different
-    # sound that stays put. The same glass bells rolling up a C major chord,
-    # E5 G5 into C6, with a low C under the top note and a little sparkle on
-    # it -- an arrival, heard as many times as the run lasts, so nothing in it
-    # is shrill and nothing is noise. (The version before rushed in on a
-    # filtered-noise swell over a low felt thud, and next to the chimes it
-    # sounded like a different app.)
+    # A run of right answers climbs three steps (lesson/feedback.ts). Each is
+    # higher than the last and none goes shrill: the first tops out on G5, the
+    # second on C6, and the third -- the streak, the same from then on --
+    # rolls a whole C major chord up to G6 over a swelling pad, with a
+    # sparkle on top. It is the only verdict with three notes and a chord
+    # under it, so it is told apart at once.
+    "correct0": dict(pulses=chime("E5", "G5"), peak=0.27, wet=0.2),
+    "correct1": dict(pulses=chime("G5", "C6"), peak=0.27, wet=0.2),
     "streak": dict(
         pulses=[
-            P(0, "light", [N("bell", "E5", 620, 0.6)]),
-            P(75, "light", [N("bell", "G5", 640, 0.66)]),
-            P(150, "medium", [N("bell", "C6", 900, 0.92), N("bell", "C5", 760, 0.32),
-                              N("shimmer", "C6", 820, 0.26)]),
+            P(0, "light", [N("kalimba", "C6", 520, 0.7), N("pad", "C4", 1100, 0.22),
+                           N("pad", "G4", 1100, 0.14)]),
+            P(80, "light", [N("kalimba", "E6", 560, 0.75)]),
+            P(160, "medium", [N("kalimba", "G6", 900, 0.95), N("kalimba", "C5", 700, 0.3),
+                              N("shimmer", "G6", 700, 0.14)]),
         ],
-        peak=0.29, wet=0.24,
+        peak=0.29, wet=0.26,
     ),
     # Reasonable: one soft, level note. Neither the rise nor the fall.
-    "amber": dict(pulses=[P(0, "soft", [N("bell", "E5", 460)])], peak=0.24, wet=0.2),
+    "amber": dict(pulses=[P(0, "soft", [N("kalimba", "E5", 480), N("pad", "C4", 500, 0.14)])],
+                  peak=0.22, wet=0.2),
     # Not quite: a falling third, dull and quiet. The two pulses sit on the two
     # peaks of the wobble (lesson/Shake.tsx reads them from here).
     "wrong": dict(
@@ -357,7 +424,7 @@ CUES = {
         ],
         peak=0.25, wet=0.12,
     ),
-    # -- match ---------------------------------------------------------------
+    # -- match (unchanged) ---------------------------------------------------------------
     # A pair locking in. Each hit on a screen pops a step higher.
     **{
         "pop%d" % i: dict(pulses=[P(0, "light", [N("pop", note, 150)])], peak=0.25, wet=0.12)
@@ -366,71 +433,68 @@ CUES = {
     # A pair bouncing back: one dry knock, no scolding.
     "miss": dict(pulses=[P(0, "rigid", [N("knock", "D4", 200)])], peak=0.22, wet=0.08),
     # -- notes: replay bars, the ring, the checklist ---------------------------
-    # One per pentatonic step, low to high. The replay picks by price, the ring
-    # and the checklist climb them in order.
+    # One per pentatonic step, low to high: a kalimba, round and clickless.
     **{
         "note%d" % i: dict(
-            pulses=[P(0, "selection", [N("marimba", note, 200), N("bell", hz(note) * 2, 140, 0.10)])],
-            peak=0.21, wet=0.16,
+            pulses=[P(0, "selection", [N("kalimba", note, 260)])],
+            peak=0.19, wet=0.16,
         )
         for i, note in enumerate(PENTATONIC)
     },
     # -- celebration -----------------------------------------------------------
-    # XP counting up: a coin. Tiny, because it fires a dozen times in a second.
-    "coin": dict(pulses=[P(0, "selection", [N("bell", "C7", 110), N("tick", "G7", 14, 0.3)])],
-                 peak=0.13, wet=0.10),
-    # The ring closing: a C major chord landing on a heavy pulse, and two light
-    # echoes above it.
+    # XP counting up. A dozen a second, so tiny and round: a soft tap on C6.
+    "coin": dict(pulses=[P(0, "selection", [N("kalimba", "C6", 120, 0.8), N("softtap", "G6", 40, 0.3)])],
+                 peak=0.10, wet=0.10),
+    # The ring closing: a warm C major chord on a pad, a kalimba arpeggio over it.
     "complete": dict(
         pulses=[
-            P(0, "heavy", [N("thud", "C3", 240, 0.55), N("bell", "C5", 1000, 0.55),
-                           N("bell", "E5", 1000, 0.5), N("bell", "G5", 1000, 0.5),
-                           N("bell", "C6", 1100, 0.6)]),
-            P(150, "light", [N("bell", "E6", 700, 0.36)]),
-            P(300, "light", [N("bell", "G6", 700, 0.32), N("shimmer", "C7", 900, 0.35)]),
+            P(0, "heavy", [N("pad", "C3", 1300, 0.45), N("pad", "E4", 1300, 0.3),
+                           N("pad", "G4", 1300, 0.3), N("kalimba", "C5", 900, 0.7)]),
+            P(110, "light", [N("kalimba", "E5", 800, 0.6)]),
+            P(220, "light", [N("kalimba", "G5", 800, 0.6)]),
+            P(330, "light", [N("kalimba", "C6", 1000, 0.7), N("shimmer", "C6", 900, 0.16)]),
         ],
-        peak=0.33, wet=0.28,
+        peak=0.31, wet=0.28,
     ),
-    # A perfect run: the same chord, and a run up the octave on top of it.
+    # A perfect run: the same, one more step up and a little more sparkle.
     "perfect": dict(
         pulses=[
-            P(0, "heavy", [N("thud", "C3", 260, 0.6), N("bell", "C5", 1300, 0.55),
-                           N("bell", "E5", 1300, 0.5), N("bell", "G5", 1300, 0.5),
-                           N("bell", "C6", 1400, 0.6)]),
-            P(120, "light", [N("bell", "E6", 700, 0.40)]),
-            P(240, "light", [N("bell", "G6", 700, 0.38)]),
-            P(360, "rigid", [N("bell", "C7", 900, 0.42), N("shimmer", "E7", 1200, 0.40)]),
-            P(520, "selection", [N("bell", "G7", 500, 0.22)]),
+            P(0, "heavy", [N("pad", "C3", 1600, 0.45), N("pad", "E4", 1600, 0.3),
+                           N("pad", "G4", 1600, 0.3), N("kalimba", "C5", 900, 0.7)]),
+            P(100, "light", [N("kalimba", "E5", 800, 0.6)]),
+            P(200, "light", [N("kalimba", "G5", 800, 0.6)]),
+            P(300, "light", [N("kalimba", "C6", 900, 0.65)]),
+            P(420, "rigid", [N("kalimba", "E6", 1100, 0.7), N("shimmer", "G6", 1100, 0.22)]),
         ],
-        peak=0.34, wet=0.30,
+        peak=0.32, wet=0.3,
     ),
-    # A chapter badge landing: weight first, then the light around it.
+    # A chapter badge landing: a low pad under a kalimba fifth, then light.
     "badge": dict(
         pulses=[
-            P(0, "heavy", [N("thud", "C2", 320, 0.9), N("bell", "C5", 1200, 0.45),
-                           N("bell", "G5", 1200, 0.35)]),
-            P(180, "light", [N("shimmer", "C7", 1000, 0.55), N("bell", "E6", 800, 0.3)]),
+            P(0, "heavy", [N("pad", "C3", 1400, 0.55), N("kalimba", "C5", 1000, 0.7),
+                           N("kalimba", "G5", 1000, 0.5)]),
+            P(180, "light", [N("kalimba", "E6", 900, 0.5), N("shimmer", "C6", 1000, 0.2)]),
         ],
-        peak=0.34, wet=0.30,
+        peak=0.32, wet=0.3,
     ),
-    # "Chapter N unlocked": the correct chime's shape, a fourth lower, softer.
+    # "Level unlocked": the chime's shape, soft.
     "unlock": dict(
-        pulses=[P(0, "light", [N("bell", "G5", 380, 0.7)]),
-                P(110, "rigid", [N("bell", "C6", 700, 0.9)])],
-        peak=0.25, wet=0.25,
+        pulses=[P(0, "light", [N("kalimba", "G5", 420, 0.7)]),
+                P(110, "rigid", [N("kalimba", "C6", 760, 0.9), N("pad", "C4", 700, 0.15)])],
+        peak=0.23, wet=0.24,
     ),
-    # A tier: rarer and louder than a badge (UI.md 5.5). A pickup, then the chord.
+    # A tier: rarer and fuller than a badge (UI.md 5.5). A pickup, then the chord.
     "tier": dict(
         pulses=[
-            P(0, "light", [N("bell", "G4", 260, 0.6)]),
-            P(140, "light", [N("bell", "C5", 260, 0.65)]),
-            P(280, "medium", [N("bell", "E5", 300, 0.7)]),
-            P(460, "heavy", [N("thud", "C2", 360, 0.9), N("bell", "C5", 1500, 0.55),
-                             N("bell", "E5", 1500, 0.5), N("bell", "G5", 1500, 0.5),
-                             N("bell", "C6", 1600, 0.6)]),
-            P(640, "light", [N("shimmer", "C7", 1300, 0.5), N("bell", "G6", 900, 0.3)]),
+            P(0, "light", [N("kalimba", "G4", 300, 0.6)]),
+            P(140, "light", [N("kalimba", "C5", 300, 0.65)]),
+            P(280, "medium", [N("kalimba", "E5", 340, 0.7)]),
+            P(440, "heavy", [N("pad", "C3", 1800, 0.5), N("pad", "E4", 1800, 0.3),
+                             N("pad", "G4", 1800, 0.3), N("kalimba", "C5", 1200, 0.7),
+                             N("kalimba", "G5", 1200, 0.55)]),
+            P(620, "light", [N("kalimba", "C6", 1100, 0.6), N("shimmer", "E6", 1200, 0.2)]),
         ],
-        peak=0.35, wet=0.30,
+        peak=0.33, wet=0.3,
     ),
 }
 

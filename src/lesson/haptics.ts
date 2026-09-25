@@ -1,5 +1,4 @@
 import { useEffect, useSyncExternalStore } from 'react';
-import { Platform, Vibration } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
 import type { HapticStyle, Pulse } from './cues.generated';
@@ -96,7 +95,6 @@ function motor(m: Motor): void {
   } catch {
     // A device without haptics is not an error.
   }
-  rehold();
 }
 
 function pulse(style: HapticStyle): void {
@@ -125,59 +123,24 @@ export function playPulses(pulses: readonly Pulse[]): void {
 }
 
 // ---------------------------------------------------------------------------
-// A chart moving: one steady vibration, then one landing.
+// A chart moving: one haptic as it starts, one as it lands, nothing between.
 // ---------------------------------------------------------------------------
 
 /**
  * Whenever a chart moves -- builds in, draws on, plays out an outcome -- the
- * phone vibrates, steadily, for as long as it moves, and gives one firm haptic
- * the moment it comes to rest. Every chart, every kind.
- *
- * Steady means a vibration, not a run of taps. Android and the web hold the
- * motor on for the length of the move. iOS offers nothing continuous that
- * Expo Go can reach -- an impact is an event, and a texture of light impacts
- * every 34 ms, which is what this used to be, was too faint to feel at all --
- * so there it is the system vibration, the one a silenced phone rings with,
- * chained back to back. Each of those runs ~400 ms and cannot be cut short, so
- * the chain is laid out ahead of time to finish just before the chart does,
- * and never runs over the landing. What does not divide into whole buzzes is
- * left at the start, where the tap that set the chart moving has just played
- * its own haptic -- never at the end, where it would be a silence between the
- * vibration and the landing it leads into.
+ * phone gives one light haptic the moment it starts and one firm haptic the
+ * moment it comes to rest. Nothing while it moves: the steady vibration that
+ * used to run under every move was more than the hand wanted, on every chart.
  *
  * Moves are counted. Two charts building on one screen, or a replay begun
- * while the entrance is still building, are one movement to the hand: the
- * vibration runs until the last of them ends, and lands once.
+ * while the entrance is still building, are one movement to the hand: it
+ * starts once and lands once, when the last of them ends.
  */
-
-/** One iOS system vibration. Fixed by the system; it cannot be cut short. */
-const BUZZ_MS = 400;
-/** Chained this far apart: back to back, never one over the last. */
-const BUZZ_EVERY_MS = 420;
-/**
- * The vibration stops this long before the landing: a beat of stillness is
- * what makes the landing its own event, not the last of the vibration.
- */
-const CLEAR_MS = 70;
-/** The landing on Android and the web: one short, full-strength pulse. */
-const LAND_MS = 40;
-/** How long a tap's own pulse holds the motor before the move takes it back. */
-const REHOLD_MS = 90;
-
-const isIOS = Platform.OS === 'ios';
-const hasContinuousMotor = Platform.OS === 'android';
-const webVibrate =
-  Platform.OS === 'web' && typeof navigator !== 'undefined' && 'vibrate' in navigator;
 
 let moveSeq = 0;
 /** The moves under way, and when each one ends (ms since the epoch). */
 const moves = new Map<number, number>();
 let moveTimer: ReturnType<typeof setTimeout> | null = null;
-let reholdTimer: ReturnType<typeof setTimeout> | null = null;
-let buzzTimers: ReturnType<typeof setTimeout>[] = [];
-/** When the iOS buzz fired last runs out. */
-let buzzEnds = 0;
-let motorHeld = false;
 
 function lastEnd(): number {
   let end = 0;
@@ -187,117 +150,23 @@ function lastEnd(): number {
   return end;
 }
 
-function buzz(): void {
-  if (setting === 'off') return;
-  try {
-    Vibration.vibrate(BUZZ_MS);
-    buzzEnds = Date.now() + BUZZ_MS;
-  } catch {
-    // no motor: nothing to hold
-  }
-}
-
-function clearBuzzes(): void {
-  buzzTimers.forEach(clearTimeout);
-  buzzTimers = [];
-}
-
-/**
- * Keep the motor running from now until just short of the landing at `end`.
- * Called again whenever `end` moves.
- */
-function hold(end: number): void {
-  const now = Date.now();
-  const until = end - CLEAR_MS;
-  const left = Math.round(until - now);
-  if (left <= 0) return;
-  try {
-    if (hasContinuousMotor) {
-      Vibration.vibrate(left);
-      motorHeld = true;
-      return;
-    }
-    if (webVibrate) {
-      navigator.vibrate(left);
-      motorHeld = true;
-      return;
-    }
-  } catch {
-    return;
-  }
-  if (!isIOS) return;
-  // A buzz still running is left to finish, and the chain goes on from it
-  // back to back; a fresh chain starts late by whatever is left over, so that
-  // it ends on time.
-  clearBuzzes();
-  const running = buzzEnds > now;
-  const from = running ? buzzEnds + (BUZZ_EVERY_MS - BUZZ_MS) : now;
-  const room = until - from;
-  if (room < BUZZ_MS) return;
-  const count = Math.floor((room - BUZZ_MS) / BUZZ_EVERY_MS) + 1;
-  const lead = running ? 0 : room - ((count - 1) * BUZZ_EVERY_MS + BUZZ_MS);
-  for (let k = 0; k < count; k++) {
-    buzzTimers.push(setTimeout(buzz, from - now + lead + k * BUZZ_EVERY_MS));
-  }
-  motorHeld = true;
-}
-
-/** Stop the motor now, without a landing. */
-function release(): void {
-  clearBuzzes();
-  if (reholdTimer) clearTimeout(reholdTimer);
-  reholdTimer = null;
-  if (!motorHeld) return;
-  motorHeld = false;
-  try {
-    if (hasContinuousMotor) Vibration.cancel();
-    else if (webVibrate) navigator.vibrate(0);
-  } catch {
-    // ignored
-  }
-}
-
-/**
- * Android and the web have one motor, and each new effect replaces the one
- * running: a tap's pulse during a move would end the move's vibration. So once
- * the pulse has played, the move takes the motor back. (On iOS a tap and the
- * system vibration play side by side.)
- */
-function rehold(): void {
-  if (isIOS || !motorHeld || moves.size === 0) return;
-  if (reholdTimer) clearTimeout(reholdTimer);
-  reholdTimer = setTimeout(() => {
-    reholdTimer = null;
-    if (moves.size > 0) hold(lastEnd());
-  }, REHOLD_MS);
+/** The start: a light haptic, on the frame the chart starts to move. */
+function departure(): void {
+  if (setting === 'off' || beforeFirstTap()) return;
+  pulse('light');
 }
 
 /** The landing: one firm haptic, on the frame the chart comes to rest. */
 function landing(): void {
   if (setting === 'off' || beforeFirstTap()) return;
-  try {
-    if (hasContinuousMotor) {
-      Vibration.vibrate(LAND_MS);
-      return;
-    }
-    if (webVibrate) {
-      navigator.vibrate(LAND_MS);
-      return;
-    }
-  } catch {
-    return;
-  }
-  // iOS: a heavy impact -- in `strong`, with the heavy tail that rounds it.
-  pulse('heavy');
+  pulse('medium');
 }
 
 function plan(): void {
   if (moveTimer) clearTimeout(moveTimer);
   moveTimer = null;
   if (moves.size === 0) return;
-  const end = lastEnd();
-  hold(end);
-  moveTimer = setTimeout(settle, Math.max(0, end - Date.now()));
+  moveTimer = setTimeout(settle, Math.max(0, lastEnd() - Date.now()));
 }
 
 /** Moves whose time is up are over; when the last one is, the chart lands. */
@@ -313,7 +182,6 @@ function settle(): void {
     plan();
     return;
   }
-  release();
   landing();
 }
 
@@ -321,7 +189,6 @@ function stopChartMoves(): void {
   moves.clear();
   if (moveTimer) clearTimeout(moveTimer);
   moveTimer = null;
-  release();
 }
 
 export type ChartMove = {
@@ -334,13 +201,14 @@ export type ChartMove = {
 };
 
 /**
- * A chart has started a move that will take `ms`: vibrate until it ends, then
- * land. `ms` is when it *looks* finished -- lesson/motion.ts, EASE_OUT_SETTLE
+ * A chart has started a move that will take `ms`: a haptic now, unless another
+ * chart is already moving, and one when it lands. `ms` is when it *looks* finished -- lesson/motion.ts, EASE_OUT_SETTLE
  * -- not the tail of a curve the eye no longer follows.
  */
 export function startChartMove(ms: number): ChartMove {
   const id = ++moveSeq;
   if (ms > 0 && setting !== 'off' && !beforeFirstTap()) {
+    if (moves.size === 0) departure();
     moves.set(id, Date.now() + ms);
     plan();
   }

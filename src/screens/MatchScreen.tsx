@@ -23,7 +23,7 @@ function shuffled<T>(items: T[], seed: number): T[] {
 }
 
 /**
- * docs/UI.md §4.1 `match`: tap a term, then a definition. Correct pairs lock green,
+ * docs/UI.md §4.1 `match`: tap a term and a definition, either first. Correct pairs lock green,
  * wrong pairs flash red and reset. Drag is the alternative the doc also allows;
  * §10 requires the tap-tap path, which is what this builds.
  *
@@ -53,7 +53,12 @@ export default function MatchScreen({
     [screen.pairs, seed]
   );
 
+  // Either side can be picked first: a definition tapped first waits for its
+  // term, just as a term waits for its definition. (A definition tapped first
+  // used to do nothing at all -- no highlight and no sound -- which read as
+  // the screen not responding.)
   const [pendingLeft, setPendingLeft] = useState<number | null>(null);
+  const [pendingRight, setPendingRight] = useState<number | null>(null);
   const [flash, setFlash] = useState<{ left: number; right: number } | null>(null);
   // Per chip, how many times it has bounced back: bumping it wobbles that chip
   // and no other (lesson/Shake.tsx).
@@ -63,49 +68,56 @@ export default function MatchScreen({
   }));
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Every chip is as tall as the tallest one, so the two columns line up row
+  // by row and no card stands taller than its neighbour. Only ever grows, so
+  // it settles on the first layout and cannot flip back and forth.
+  const [tallest, setTallest] = useState(0);
+  const measure = (h: number) => setTallest((t) => (h > t + 0.5 ? h : t));
+
+  const isRightLinked = (r: number) => Object.values(linked).includes(r);
+
+  const pair = (left: number, right: number) => {
+    setPendingLeft(null);
+    setPendingRight(null);
+    if (left === right) {
+      // Every pair lands with its own feel the moment it lands, each a step
+      // higher than the last.
+      matchHitFeedback(Object.keys(linked).length);
+      onChange({ kind: 'match', linked: { ...linked, [left]: right }, misses });
+      return;
+    }
+    matchMissFeedback();
+    setFlash({ left, right });
+    setBounces((b) => ({
+      left: b.left.map((n, i) => (i === left ? n + 1 : n)),
+      right: b.right.map((n, i) => (i === right ? n + 1 : n)),
+    }));
+    onChange({ kind: 'match', linked, misses: misses + 1 });
+    // Asymmetric: the red is the system's answer, so it lands at once and is
+    // held only briefly; the recovery is the gentle half.
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => setFlash(null), 260);
+  };
+
   const tapLeft = (i: number) => {
     if (revealed || linked[i] !== undefined) return;
+    if (pendingRight !== null) {
+      pair(i, pendingRight);
+      return;
+    }
     // Picking a term is a choice like any other: it ticks.
     tapFeedback();
     setPendingLeft((prev) => (prev === i ? null : i));
   };
 
-  // The last pair finishes the screen. There is no Check step, because by this
-  // point every pair on screen is already green.
-
-  const tapRight = (rightIndex: number) => {
-    if (revealed || pendingLeft === null) return;
-    const takenBy = Object.entries(linked).find(([, r]) => r === rightIndex);
-    if (takenBy) return;
-
-    if (rightIndex === pendingLeft) {
-      // Every pair lands with its own feel, right or wrong, the moment it lands.
-      // Each pair on the screen pops a step higher than the last.
-      matchHitFeedback(Object.keys(linked).length);
-      onChange({
-        kind: 'match',
-        linked: { ...linked, [pendingLeft]: rightIndex },
-        misses,
-      });
-      setPendingLeft(null);
-    } else {
-      matchMissFeedback();
-      setFlash({ left: pendingLeft, right: rightIndex });
-      const missedLeft = pendingLeft;
-      setBounces((b) => ({
-        left: b.left.map((n, i) => (i === missedLeft ? n + 1 : n)),
-        right: b.right.map((n, i) => (i === rightIndex ? n + 1 : n)),
-      }));
-      onChange({ kind: 'match', linked, misses: misses + 1 });
-      // Asymmetric: the red is the system's answer, so it lands at once and
-      // is held only briefly; the recovery is the gentle half. 450 ms of hard
-      // red followed by a hard cut back was both edges snapping.
-      if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => {
-        setFlash(null);
-        setPendingLeft(null);
-      }, 260);
+  const tapRight = (r: number) => {
+    if (revealed || isRightLinked(r)) return;
+    if (pendingLeft !== null) {
+      pair(pendingLeft, r);
+      return;
     }
+    tapFeedback();
+    setPendingRight((prev) => (prev === r ? null : r));
   };
 
   const spec = useLookSpec();
@@ -120,8 +132,8 @@ export default function MatchScreen({
 
   const rightStyle = (i: number) => {
     if (flash?.right === i) return styles.wrong;
-    const isLinked = Object.values(linked).includes(i);
-    if (isLinked) return styles.locked;
+    if (isRightLinked(i)) return styles.locked;
+    if (pendingRight === i) return { borderColor: spec.accent, backgroundColor: tint(spec.accent, 0.14) };
     return idle;
   };
 
@@ -135,7 +147,8 @@ export default function MatchScreen({
               <Pressable
                 accessibilityRole="button"
                 onPress={() => tapLeft(i)}
-                style={[styles.chip, shape, leftStyle(i)]}
+                onLayout={(e) => measure(e.nativeEvent.layout.height)}
+                style={[styles.chip, shape, { minHeight: Math.max(TAP_TARGET, tallest) }, leftStyle(i)]}
               >
                 <Text style={styles.term}>{copy(term)}</Text>
               </Pressable>
@@ -149,12 +162,13 @@ export default function MatchScreen({
         </View>
         <View style={styles.rightCol}>
           {rightOrder.map((i) => {
-            const isLinked = Object.values(linked).includes(i);
+            const isLinked = isRightLinked(i);
             const chip = (
               <Pressable
                 accessibilityRole="button"
                 onPress={() => tapRight(i)}
-                style={[styles.chip, shape, rightStyle(i)]}
+                onLayout={(e) => measure(e.nativeEvent.layout.height)}
+                style={[styles.chip, shape, { minHeight: Math.max(TAP_TARGET, tallest) }, rightStyle(i)]}
               >
                 <Text style={styles.definition}>{copy(screen.pairs[i][1])}</Text>
               </Pressable>

@@ -28,15 +28,15 @@ export const CUES = {
   },
   correct0: {
     file: require('../../assets/sounds/correct0.wav'),
-    pulses: [[0, 'light'], [120, 'rigid']] as readonly Pulse[],
+    pulses: [[0, 'light'], [95, 'rigid']] as readonly Pulse[],
   },
   correct1: {
     file: require('../../assets/sounds/correct1.wav'),
-    pulses: [[0, 'light'], [120, 'rigid']] as readonly Pulse[],
+    pulses: [[0, 'light'], [95, 'rigid']] as readonly Pulse[],
   },
   streak: {
     file: require('../../assets/sounds/streak.wav'),
-    pulses: [[0, 'light'], [75, 'light'], [150, 'medium']] as readonly Pulse[],
+    pulses: [[0, 'light'], [80, 'light'], [160, 'medium']] as readonly Pulse[],
   },
   amber: {
     file: require('../../assets/sounds/amber.wav'),
@@ -112,11 +112,11 @@ export const CUES = {
   },
   complete: {
     file: require('../../assets/sounds/complete.wav'),
-    pulses: [[0, 'heavy'], [150, 'light'], [300, 'light']] as readonly Pulse[],
+    pulses: [[0, 'heavy'], [110, 'light'], [220, 'light'], [330, 'light']] as readonly Pulse[],
   },
   perfect: {
     file: require('../../assets/sounds/perfect.wav'),
-    pulses: [[0, 'heavy'], [120, 'light'], [240, 'light'], [360, 'rigid'], [520, 'selection']] as readonly Pulse[],
+    pulses: [[0, 'heavy'], [100, 'light'], [200, 'light'], [300, 'light'], [420, 'rigid']] as readonly Pulse[],
   },
   badge: {
     file: require('../../assets/sounds/badge.wav'),
@@ -128,7 +128,7 @@ export const CUES = {
   },
   tier: {
     file: require('../../assets/sounds/tier.wav'),
-    pulses: [[0, 'light'], [140, 'light'], [280, 'medium'], [460, 'heavy'], [640, 'light']] as readonly Pulse[],
+    pulses: [[0, 'light'], [140, 'light'], [280, 'medium'], [440, 'heavy'], [620, 'light']] as readonly Pulse[],
   },
 } as const;
 
