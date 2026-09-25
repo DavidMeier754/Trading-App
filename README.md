@@ -8,8 +8,8 @@ The course has three paths — Scalping, Day Trading and Swing Trading — with 
 
 - **Content:** Chapter 1 and the whole Scalping path are written: 388 sub-levels, 5,109 screens, 0 validator errors. Two pieces are planned: Chapter 1 Level 2-4 (variance) and Chapter 8 Level 15 (accounts and rules). Swing Trading and Day Trading are outlined level by level.
 - **App:** an Expo app at the repo root (`README-app.md`). It plays Chapter 1 and Scalping Chapter 2 Levels 1–3. The rest of the written content is not wired in yet.
-- **The plan to release:** `docs/build-plan.md` (in German). About 45 named stages. Each one has a copy-ready prompt, a model and effort, automatic checks, and the test David runs before the next stage starts.
-- **The review it is built on:** `docs/review-2026-09-25.md` (in German): a full play-through, a render of every screen, and every doc read. Each finding is assigned to a stage in appendix F of the plan.
+- **The plan to release:** `docs/build-plan.md`. About 45 named stages. Each one has a copy-ready prompt, a model and effort, automatic checks, and the test David runs before the next stage starts.
+- **The review it is built on:** `docs/review-2026-09-25.md`: a full play-through, a render of every screen, and every doc read. Each finding is assigned to a stage in appendix F of the plan.
 
 ## Start here
 
@@ -67,7 +67,7 @@ Requires Python 3 and PyYAML (`pip install pyyaml`).
 1. Pick the next stage in `docs/build-plan.md`: the first one without ✅.
 2. Open a Claude Code session and set the model and effort the stage names.
 3. Paste its prompt.
-4. The session works on its own branch, opens a PR, gets the checks green and reports in German with a test checklist.
+4. The session works on its own branch, opens a PR, gets the checks green and reports with a test checklist.
 5. David tests the preview on his phone and answers `OK <STAGE> – merge`, or lists what is wrong.
 
 Nothing is pushed to `main` directly.

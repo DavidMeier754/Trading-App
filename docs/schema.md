@@ -357,7 +357,7 @@ Use only these component ids and target ids (UI.md §6 defines how they look).
 
 `state` holds 1–3 short strings; use it whenever the right answer depends on where the trader stands (day result in R, the limit, the trade count, the current size) rather than on the chart alone.
 
-**[v4] Two shapes that went wrong in the render test (2026-09-25).** `levels` is always a list of objects, `[{price: 24.40, label: "High of day"}]` — never bare numbers, which rendered as missing lines on 15 screens. A `depth-ladder`'s book sits under `data:` exactly as the example above shows; the renderer read it from the top level and all 40 screens crashed. Stage STABIL-DATA fixes both and makes the validator check every component's data against this table.
+**[v4] Two shapes that went wrong in the render test (2026-09-25).** `levels` is always a list of objects, `[{price: 24.40, label: "High of day"}]` — never bare numbers, which rendered as missing lines on 15 screens. A `depth-ladder`'s book sits under `data:` exactly as the example above shows; the renderer read it from the top level and all 40 screens crashed. Stage STABLE-DATA fixes both and makes the validator check every component's data against this table.
 
 Chart conventions: 8–12 bars; `decision_index` between 4 and 7; prices with two decimals; candle `high` ≥ max(open, close) and `low` ≤ min(open, close); outcome visible in the bars after the decision. Chapter 1 uses `chart-line`; path chapters use `chart-candles`. **[v3]** `swipe-deck` and `compare` mini-charts may use 8–10 bars and omit volume.
 
@@ -738,4 +738,4 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - Visual quota (§3.4): fewer than 40 % of a chapter's `theory`/`example` screens with a visual.
 - The plan-aware cap (§3.6): a position above the `setup_max_account_pct` the learner has written by that point in the path (its latest `suggest`).
 - Per-trade risk and total exposure (§3.6): `shares × stop distance ÷ account` outside 0.5–2 % where a file names an account and a stop; for several open positions, the sums of position value and of risk against the account.
-- `variance-sim` ranges and positive expectancy; `glossary.yaml` coverage and length; component data against the table above (stage STABIL-DATA); `demo/all-screens.yaml` validated like content.
+- `variance-sim` ranges and positive expectancy; `glossary.yaml` coverage and length; component data against the table above (stage STABLE-DATA); `demo/all-screens.yaml` validated like content.

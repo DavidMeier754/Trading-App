@@ -5,14 +5,14 @@ Run `python3 tools/validate_content.py` before finishing any content step.
 
 ## How the work is organised
 
-- The order of all work, from today to the store release, is `docs/build-plan.md`. It is in German, because David runs it.
+- The order of all work, from today to the store release, is `docs/build-plan.md`.
 - A session does exactly **one stage**:
-  - Read the plan's §1 ("So arbeitest du mit diesem Plan") and the stage's own section.
+  - Read the plan's §1 ("How to work with this plan") and the stage's own section.
   - Build that scope and nothing from a later stage. Note anything else you find in the report.
   - Stop at the stage's gate.
 - Findings carry ids (M…, S…, K…, W…) from `docs/review-2026-09-25.md`.
 - Work on the session's branch and open a PR against `main`. Never push to `main` directly unless David says so explicitly.
-- Code, content, commits and PR texts are in English.
+- Everything is in English: code, content, docs, commits, PR texts and reports.
 
 ## Before every report
 
@@ -22,7 +22,7 @@ Run `python3 tools/validate_content.py` before finishing any content step.
 
 ## The report
 
-Write it in German, for David:
+Write it for David:
 1. What was built.
 2. Check results.
 3. His test checklist, with real preview links.

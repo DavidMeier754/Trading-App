@@ -2,7 +2,7 @@
 
 The app plays the lesson YAML in `content/` exactly as written, on phones and in the browser. It is on `main` since PR #13 (2026-09-25).
 
-What comes next, stage by stage, is in `docs/build-plan.md`. Its known issues are in `docs/review-2026-09-25.md`, items M1–M7; stages STABIL-APP and STABIL-DATA fix them.
+What comes next, stage by stage, is in `docs/build-plan.md`. Its known issues are in `docs/review-2026-09-25.md`, items M1–M7; stages STABLE-APP and STABLE-DATA fix them.
 
 ## What it does today
 
