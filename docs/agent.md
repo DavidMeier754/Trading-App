@@ -5,25 +5,29 @@ If a rule here conflicts with what seems better for the learner, say so and ask 
 
 Status: **v3** — expanded curriculum. The path is now eight chapters and ~385 sub-levels per path, sized so a learner doing ~10 minutes a day (two sub-levels) finishes in roughly six months and comes out able to trade a plan, not just recognise vocabulary. v2 rules that still hold are unchanged; everything new is marked **[v3]**.
 
+**[v4] (2026-09-25)** — the release plan. David's goal: learners enjoy the course, and afterwards only practice is missing. The decisions that follow from it (`docs/build-plan.md` §4.1, from the review in `docs/review-2026-09-25.md`) are marked **[v4]**: hearts only in tests, variance taught and shown (§3.11), a sign rule for typed numbers (§3.12), decisions A–C made (§1.1, §3.6), US spelling, shorter body text. The order of all remaining work, with a prompt per stage, is `docs/build-plan.md`.
+
 ---
 
 ## 1. What we are building
 
 A "Duolingo for traders" mobile app. Users learn to trade through short daily lessons (3–4 minutes each), interactive chart scenarios (Long / Short / No trade on historical charts), gamification (XP, streak, hearts, levels, badges, tiers) and spaced repetition. No video course, no PDF. Theory and practice are tightly interleaved: the user "trades" (simulated) within the first five minutes of the app.
 
-Tech stack: React Native + Expo + TypeScript, Supabase (auth + DB), RevenueCat (subscriptions). Content is data (YAML, see `docs/schema.md`), never hard-coded.
+Tech stack: React Native + Expo + TypeScript, Supabase (auth + DB), RevenueCat (subscriptions). Content is data (YAML, see `docs/schema.md`), never hard-coded. **[v4]** The Expo app is on `main` (since PR #13); Supabase and RevenueCat are planned, not built — whether v1.0 has accounts at all is decision K in `docs/build-plan.md` §4.2.
 
-Concept document: `docs/Trading_Learning_App_Konzept.pdf` is the original vision document (gamification, monetization). Add it to `docs/` if available; until then this file is the source of truth.
+Concept document: the original vision document (`Trading_Learning_App_Konzept.pdf`, gamification and monetization) is not in the repository. Add it to `docs/` if it turns up; where it and these docs differ, these docs win.
 
 ### 1.1 What "finished the path" has to mean **[v3]**
 
 A graduate must be able to: pick which stocks are worth watching today, read the day's context, recognise every setup in their playbook on sight, size a position from risk **and** from what the account can pay for, place entry, stop and target correctly, follow session limits, keep a journal, and judge their own method by expectancy over a sample.
 
-A graduate is **not** a profitable trader, and the app never suggests otherwise. The honest promise is: *ready to paper-trade with a real process, and able to improve from their own record.* Competence past that comes from screen time the app cannot supply. Chapter 8 of every path ends by handing the user a concrete 30-day simulator plan rather than a certificate.
+A graduate is **not** a profitable trader, and the app never suggests otherwise. The honest promise is: *ready to paper-trade with a real process, knowing what a real account will require of them, and able to improve from their own record* (**[v4]** — the middle clause is decision A below). Competence past that comes from screen time the app cannot supply. Chapter 8 of every path ends by handing the user a concrete 30-day simulator plan rather than a certificate.
 
 **[v3.1] Where the promise stops, and the decision nobody has taken.** Read the sentence above carefully: it ends at *paper-trade*. Paper trading needs no broker, no account type, no market-data subscription and no configured platform — which is exactly why the path covers none of them, and why that went unnoticed for eight chapters. Verified against every `learning_goal` in the written path: opening an account or choosing its type, platform settings, and getting real-time data appear **zero** times, while all eight capabilities above are covered across the chapters that should carry them.
 
-That is not yet a defect, because §1.1 never promised it. It is an **open product decision**: does this app finish at *a process you can paper-trade with*, or at *a person who can start*? Chapter 8 Level 15 (`docs/curriculum.md`, README items 10, 12 and 13) is drafted for the second answer and cannot be fully written until the first one is given, because two of its four sub-levels depend on decisions recorded in §3.6.
+That was not yet a defect, because §1.1 never promised it. It was an open product decision: does this app finish at *a process you can paper-trade with*, or at *a person who can start*?
+
+**[v4] Decided (2026-09-25, decision A): a person who can start.** David's goal is that after the course only practice is missing. So the graduate also knows everything between the paper trade and the first real one: which account type allows what (cash, margin), what a short and several same-day trades require, settlement, the pattern-day-trader rule, what real-time data and an order platform are for, how to judge a broker, that trading profits are taxed and whom to ask, and the warning signs a beginner meets first. All of it generically — no product named, nothing recommended, §7 unchanged. The full list is the graduate profile in `docs/build-plan.md` §0, and stage KNOWLEDGE checks every path against it. Chapter 8 Level 15 carries most of it (`docs/curriculum.md`); nothing in that level waits on a decision any more.
 
 One constraint holds under either answer and binds today: **the app must never imply it has prepared the learner for a step it did not cover.** A graduation screen that reads as "you are ready to go" while the path has not said which account can even place the trades it taught is the same failure as a profitability claim, in a quieter register.
 
@@ -31,16 +35,19 @@ One constraint holds under either answer and binds today: **the app must never i
 
 | Topic | Decision |
 |---|---|
-| Content language | English. (i18n later via keys; never mix languages inside content.) |
+| Content language | English. (i18n later via keys; never mix languages inside content.) **[v4]** Every UI string goes through an i18n key from stage ONBOARDING on; German is planned as the second language after release. |
 | Asset class | Stocks are the teaching vehicle. Where a path is typically traded in other instruments in Europe (scalping → futures/CFDs), one lesson says so explicitly; no CFD/forex content is taught. **[v3]** Partly kept, in the wrong place: `{{market.scalping_note}}` says exactly this ("In Europe, retail scalpers often trade futures or CFDs… this app teaches scalping with stocks because the mechanics are the same") — but as **one theory screen inside a fees lesson**, Chapter 3 Level 14-1, rather than as the lesson this row describes, and nowhere near the point where a learner opens an account. **Chapter 8 Level 15, "What You'll Actually Be Offered"** (`docs/curriculum.md`) is that lesson, specified and not yet written. Financial margin still appears zero times in the 387 written sub-levels. |
 | Markets | Two market profiles at launch: `US` and `EU-DE` (`content/market_profiles.yaml`). Session times, currency symbol, index examples and regulation notes are tokens rendered per profile. |
 | Path choice | After Chapter 1 (Chapter 1 is shared by all paths). Onboarding does not ask for a path. |
-| Daily target **[v3]** | Two sub-levels ≈ 10 minutes. A path is ~385 sub-levels ≈ 22 hours ≈ 6 months at that pace. |
-| Hearts | 5 hearts. A wrong answer in any lesson, Test or Final Exam costs one heart; practice never does, and neither does the path-choice lesson (Chapter 1 Level 17-2). At 0 hearts the sub-level stops. Each lost heart refills after 4 hours. |
+| Daily target **[v4 — changed]** | The learner picks 1, 2 or 3 sub-levels a day; the default is two ≈ 10 minutes. The streak counts the days on which that goal was met. A path is ~390 sub-levels ≈ 22 hours ≈ 6 months at the default pace. |
+| Hearts **[v4 — changed]** | 5 hearts, spent **only in Tests and Final Exams**: a wrong answer there costs one, and at 0 hearts the Test stops. Lessons never cost a heart — a wrong answer in a lesson comes back once at its end (the mistakes round, `docs/UI.md` §4.5) — and neither does practice; finishing a practice session returns one. Each lost heart refills after 4 hours. (v3 spent hearts in lessons too; the review found it punished exactly what a lesson is for.) |
 | Pressure | No timers, no quick-fire, no countdowns anywhere. Repetition is untimed. This applies to every new interaction type too. |
-| Mascot | **No.** **[v3.1 — reversed]** v2 and v3 specified one recurring mascot plus five recurring characters (retail trader, market maker, institution, bull, bear), and the placeholder art, the poses and the `story` screen's `character` field were all built. All of it is withdrawn: the cast is out of the app, out of `docs/UI.md` §6.9 and out of all 198 sub-levels that named it. A screen carries its meaning in its copy, its data component and the reveal's verdict colour. Reopening this means reopening this row first. |
-| Theme | Dark mode default, full light theme available. |
-| Chart decisions | Scored on reasoning; "No trade" can be the best answer. Never framed as prediction or profit. |
+| Mascot | **No.** **[v3.1 — reversed]** v2 and v3 specified one recurring mascot plus five recurring characters (retail trader, market maker, institution, bull, bear), and the placeholder art, the poses and the `story` screen's `character` field were all built. All of it is withdrawn: the cast is out of the app, out of `docs/UI.md` §6.9 and out of all 198 sub-levels that named it. A screen carries its meaning in its copy, its data component and the reveal's verdict colour. Reopening this means reopening this row first. **[v4]** Reconsidered on 2026-09-25 (review W20) and kept at No. |
+| Theme | Dark mode default, full light theme available. **[v4]** Light, dark and system; at most three lesson looks, chosen in stage LOOK-BRIEF (`docs/UI.md` §10). |
+| Chart decisions | Scored on reasoning; "No trade" can be the best answer. Never framed as prediction or profit. **[v4]** A correct decision can lose, and 30–40 % of them do (§3.11): the reveal grades the decision and reports the outcome separately. |
+| XP **[v4]** | The sub-level's XP, plus 50 % on the first perfect run. A replayed sub-level earns a quarter and no bonus; testing tools earn nothing. |
+| Leaderboard **[v4]** | None in v1.0. Later at most an opt-in friends league, scored on decisions, never on XP volume. |
+| Spelling **[v4]** | US English everywhere: color, favor, rumor, practice (noun and verb). |
 | Guarantees | No profitability or success claims anywhere. |
 
 ---
@@ -121,6 +128,11 @@ The single biggest risk of a 385-sub-level path is that Chapter 2 is forgotten b
 - **Plausible distractors only.** Every wrong option must be something a half-informed beginner could believe. If only one tempting alternative exists, use `tf`, `fill-*` or `numeric-input` instead of `mc`. Three options are fine.
 - **No verbatim reuse.** A question may not appear with the same wording in a lesson, a Test and a Final Exam. Re-test the concept with a new situation or new numbers.
 - Reveal notes: one sentence (two for numeric working). Say the correct idea, never just "wrong".
+- **[v4] Why each wrong option is wrong.** An `mc` option may carry `why` (`docs/schema.md`): the one line shown when that exact option was picked. Write it for the misconceptions worth correcting, not for every option.
+- **[v4] No gestures or mechanics in prompts.** "Drag", "tap", "swipe" and game mechanics ("Hearts are on") belong to the UI. A prompt names the task ("Put these in order"), never the gesture; hearts are for the UI to show.
+- **[v4] Closing takeaways are labelled.** A `story` screen that sums a lesson up carries `label: takeaway`; "The scene" is for scenes.
+- **[v4] Every sub-level has a `subtitle`**, its own short name, shown on the lesson-complete screen and the level card.
+- **[v4] Visual quota.** At least 40 % of a chapter's `theory` and `example` screens carry a visual component — *show, then ask* (`docs/UI.md` §1).
 - Hedges ("generally", "though it varies") go into reveal notes, never into headlines or answer options.
 
 ### 3.5 Answer-key hygiene **[v3 — new section]**
@@ -129,8 +141,8 @@ A learner must not be able to score well without knowing the material. These are
 
 - **Correct-option position rotates.** Across a chapter, the correct option must be roughly evenly spread over the available positions. Never author a run of screens whose answer is the first option.
 - **True/false balance.** Between 40 % and 60 % of `tf` answers in a chapter are `true`. A learner who always answers "false" must fail.
-- **No length tell.** The correct option must not be the longest option in more than ~45 % of a chapter's `mc`/`numeric-mc` screens. Put the justification in the `explanation`, not in the option text. Options are short claims; the reveal carries the reasoning.
-- **No punctuation tell.** Do not make the correct option the only one containing an em-dash, a number, or a qualifier.
+- **No length tell.** The correct option must not be the longest option in more than ~45 % of a chapter's `mc`/`numeric-mc` screens. Put the justification in the `explanation`, not in the option text. Options are short claims; the reveal carries the reasoning. **[v4]** Nor in fewer than ~15 %: a correct option that is never the longest is a tell as well (Chapter 8 sat at 2 %).
+- **No punctuation tell.** Do not make the correct option the only one containing an em-dash, a number, or a qualifier. **[v4]** Checked per chapter as well as per drill pack.
 - **Both directions are taught. [v3.1]** Across a chapter's directional `chart-decision` screens — the ones whose `best` is `long` or `short` — neither side may outnumber the other by more than about **2:1**. A learner who always answers "long" must not out-score one who always answers "short", any more than one who always answers "false" may. Checked from eight directional decisions up, below which the ratio says nothing. `no-trade` is not part of the count: how often standing aside is right is a curriculum decision, and the rule below is what protects it. A flipped decision is a **new chart**, not a mirrored one — a short setup reads differently from a long one (the failed push, the lower high, the break that traps buyers), so the scenario, the outcome and the explanation are rewritten with the setups that chapter actually taught.
 - **"No trade" is never punished.** On any `chart-decision` whose `best` is `long` or `short`, `no-trade` must appear in `reasonable`. Standing aside is amber at worst, in lessons and in exams alike. This is a promise Chapter 1 makes explicitly and every later chapter must keep.
 
@@ -143,17 +155,19 @@ A learner must not be able to score well without knowing the material. These are
 
   *Why the position is nearly the whole account.* The concentration is not an authoring accident, it is what the two ceilings produce. Position value ÷ account = risk-budget % × price ÷ stop distance. At 1 % of the account and a scalper's stop — six to twenty cents on a $10–$30 stock, well under 1 % of the price — that ratio lands between 70 % and 100 % every time, whatever the account is: it does not depend on the account at all, so a bigger account cannot fix it. Lowering it means lowering the risk budget below the 1 % Chapter 3 teaches, widening the stop past what a scalp is, or naming an account the learner does not have. The path keeps the concentration and teaches it instead: **a cash-account scalp puts nearly all the cash to work for sixty seconds, which is exactly why only one scalp is open at a time.** What the trade risks is the stop times the share count — a fraction of a per cent of the account — and not the position value. Those are two different numbers (Chapter 3, Level 10-1), and this is the one place the app has to say so out loud.
 
-  *No margin, and no margin smuggled.* 95 % of the cash is still cash, so nothing here needs a margin account (§7). It is also the ceiling: a chapter that runs several scalps in one session (Chapters 6 and 8) states that they are sequential and the account is flat between them, and the day's trade cap is a discipline limit, never a claim about funding — `{{market.regulation_note}}` already tells the learner that cash has to settle.
+  *No margin, and no margin smuggled.* 95 % of the cash is still cash, so the **sizing** never needs margin (§7). It is also the ceiling: a chapter that runs several scalps in one session (Chapters 6 and 8) states that they are sequential and the account is flat between them, and the day's trade cap is a discipline limit, never a claim about funding. **[v4]** What the account must *allow* is a separate question, decided below (B and C): shorting and several same-day round trips both need a margin-enabled account, and the content now says so.
 
   *A second one, larger: the path teaches 123 shorts and never says they need a different account.* A short is only possible in a margin-enabled account — a cash account cannot borrow, so it cannot short at all. The corpus has **123 short decisions against 199 longs**, 38 % of every directional call, and Chapter 1 Level 13-1 introduces the trade as "you borrow 100 shares of XYZ from your broker and sell them", which reads as though it were simply available. Chapter 3 Level 14-1 does teach borrow *availability* (hard-to-borrow, borrow fees, no borrow no short) — that part is sound — but **the account type is named nowhere in 387 sub-levels**, and Chapter 1 Level 12 teaches "a brokerage account" without types. So a learner opens the account the app describes and a third of the path is not executable for them. Three ways out, and the cheapest is probably right:
 
   - **(a) Name the account, keep the content.** One passage in Chapter 1 Level 12 and one in Chapter 8 Level 15: shorting needs a margin-enabled account, and in the US that account is what brings the pattern-day-trader rule with it. No drill changes. But then this section stops being able to say *nothing here needs a margin account*, and §7 needs one sentence on why holding a margin-enabled account for the borrow is not leverage *content*.
   - **(b) Assume a margin account throughout** and rework §3.6's cash framing around it. Larger, and it walks straight into §7.
-  - **(c) Cut the shorts to a handful** and teach the rest as "this is what a short is, and why you cannot do it yet". This one is worse than it sounds: it guts the Chapter 7 playbook, where the failed-breakout fade, the mean reversion and the range rotation are short setups, and it undoes the long/short balance work already finished (README item 6, which deliberately *raised* the short count to fix a 1.85:1 skew).
+  - **(c) Cut the shorts to a handful** and teach the rest as "this is what a short is, and why you cannot do it yet". This one is worse than it sounds: it guts the Chapter 7 playbook, where the failed-breakout fade, the mean reversion and the range rotation are short setups, and it undoes the long/short balance work already finished, which deliberately *raised* the short count to fix a 1.85:1 skew.
 
-  Whichever is chosen, it is a product decision like the one below and belongs in the same pass. Until then, no content may imply that a short is available to anyone holding the account Chapter 1 describes.
+  **[v4] Decided (2026-09-25, decision B): option (a).** Name the account, keep the content. Chapter 1 Level 12 says in one sentence that there are cash and margin accounts; Level 13 says in one sentence that a short needs a margin-enabled account; Chapter 8 Level 15 explains both. No drill changes. §7 carries the line that makes this orientation rather than leverage content.
 
-  *An unresolved conflict, recorded rather than papered over.* Those two sentences do not actually reconcile. Chapters 6 and 8 teach a **six-trade** session; the app's own US `regulation_note` says a cash account "must wait for funds to settle"; and 95 % of the cash sits in each position. Six same-day round trips on a cash account do not work under T+1 — the proceeds of trade one are unsettled when trade two is placed — and doing them on a margin account is exactly what triggers the pattern-day-trader rule the same note describes. So the model is internally inconsistent, and it resolves in one of three ways, none free: **(a)** smaller positions, so several settled-cash cycles fit — which breaks the concentration §3.6 spent this section justifying; **(b)** say plainly that several day trades a session need a margin account, which brings the PDT threshold and §7 into the content; or **(c)** reframe the trade cap as a per-*day-with-settled-funds* limit rather than a per-session one. This is a product and compliance decision, not an authoring one; §7 already lists the BaFin wording as outstanding, and this belongs in the same pass. Until it is decided, do not let a drill imply that six same-day round trips are free.
+  *A conflict, recorded rather than papered over — resolved on 2026-09-25 (decision C, below).* Those two sentences do not actually reconcile. Chapters 6 and 8 teach a **six-trade** session; the app's own US `regulation_note` says a cash account "must wait for funds to settle"; and 95 % of the cash sits in each position. Six same-day round trips on a cash account do not work under T+1 — the proceeds of trade one are unsettled when trade two is placed — and doing them on a margin account is exactly what triggers the pattern-day-trader rule the same note describes. So the model is internally inconsistent, and it resolves in one of three ways, none free: **(a)** smaller positions, so several settled-cash cycles fit — which breaks the concentration §3.6 spent this section justifying; **(b)** say plainly that several day trades a session need a margin account, which brings the PDT threshold and §7 into the content; or **(c)** reframe the trade cap as a per-*day-with-settled-funds* limit rather than a per-session one. This is a product and compliance decision, not an authoring one; §7 already lists the BaFin wording as outstanding, and this belongs in the same pass.
+
+  **[v4] Decided (decision C): option (b), say it plainly.** Several same-day round trips need a margin account, because cash does not settle in time; and in the US a margin account below the pattern-day-trader equity threshold allows only a few day trades in a rolling week (the rule is under reform — `{{market.regulation_note}}` carries the current wording and its `checked:` date). Chapter 6 Level 9, where the trade cap is taught, says so in one screen; Chapter 8 Level 15 sets it against the learner's own plan. EU-DE has no pattern-day-trader rule, and broker rules on settled funds differ — said as such, never as advice. No drill may imply that six same-day round trips are free on a cash account.
 
   *And the caveat that has to travel with it.* A position this size is only survivable because the stop is small and the name is liquid. Wherever the account ceiling is taught, say plainly what a halt or a gap does to a position worth nearly the account: a stop is an order, not a guarantee. Teaching the concentration without that sentence would be teaching the wrong half of it.
 
@@ -173,9 +187,11 @@ A learner must not be able to score well without knowing the material. These are
 
   *What this binds in content.* Chapter 3 Level 10 of the **scalping** path teaches the account ceiling as the usual answer rather than the exception: with a stop under 1 % of the price, the cash runs out before the risk budget does. Its day-trading and swing counterparts teach the opposite emphasis — the risk budget decides, and the account ceiling is the sanity check you still run.
 
-  **`setup_max_account_pct` is not 95, and must not be.** Chapter 1 is shared by all three paths and `path-choice` fires *after* its badge — the plan card in Level 16-2 sits two sub-levels before the learner has a path. Prescribing a scalper's 95 there hands a future swing trader a rule that risks eight times what the app teaches. Chapter 1 keeps a **conservative, path-neutral number** (50 is fine, and the file's arithmetic is already built on it), and the **path's own Chapter 3 revises it with the reason** — which the plan schema already supports, since revisiting a field is defined as pre-filled and editable. A learner watching their own ceiling move from 50 to 95 *because they now understand why a scalp is different* is the lesson; being handed 95 in Chapter 1 is not.
+  **`setup_max_account_pct` is not 95, and must not be.** Chapter 1 is shared by all three paths and `path-choice` fires *after* its badge — the plan card in Level 16-2 sits two sub-levels before the learner has a path. Prescribing a scalper's 95 there hands a future swing trader a rule that risks eight times what the app teaches. Chapter 1 keeps a **conservative, path-neutral number** (50 is fine, and the file's arithmetic is already built on it), and the **path revises it with the reason** — which the plan schema already supports, since revisiting a field is defined as pre-filled and editable. A learner watching their own ceiling move from 50 to 95 *because they now understand why a scalp is different* is the lesson; being handed 95 in Chapter 1 is not.
 
-  *Not yet enforced.* `tools/validate_content.py` and `tools/check_sizing.py` check the 95 % single-position ceiling only. On scalping that is the binding constraint, so the check has teeth. On day trading and swing it is not, and **nothing checks what actually binds there.** Two rules are missing, and both have to exist before Stage 5 writes either path:
+  **[v4] Where the revision happens (decision W3).** Until 2026-09-25 this paragraph said the path's Chapter 3 revises the key. No chapter did: `setup_max_account_pct` was written once, in 1 · 16-2, and never again — while Scalping Chapter 2 ran every position near 90 % of its $20,000 account against the learner's own 50 % (review M15). The scalping revision now sits in **Chapter 2 Level 1-4**, right after the screen that introduces the $20,000 practice account: the ceiling moves from 50 to 95 with the short reason (a scalp's move is cents, so the size is large and the stop small), and Chapter 3 Level 10 proves it with the arithmetic. The swing path revises the key in its own Chapter 3, with its own reason. The validator checks every position against the ceiling the learner has written by that point (plan-aware cap, stage RULES).
+
+  *Not yet enforced* (**[v4]**: both rules below are built in stage RULES, before the swing path). `tools/validate_content.py` and `tools/check_sizing.py` check the 95 % single-position ceiling only. On scalping that is the binding constraint, so the check has teeth. On day trading and swing it is not, and **nothing checks what actually binds there.** Two rules are missing, and both have to exist before the swing or day-trading path is written:
 
   1. **Per-trade risk.** `shares × stop distance ÷ account` within roughly 0.5–2 % wherever a file names an account and a stop. A swing drill risking 8 % per trade passes today.
   2. **Total open exposure and risk**, for any file that shows more than one position at once: the sum of position values against the account, and the sum of `shares × stop distance` against it. A swing chapter teaching several concurrent holdings has no rule at all right now, and the single-position cap cannot be extended to cover it — four positions at 25 % each breaches nothing while deploying the entire account.
@@ -189,8 +205,8 @@ A learner must not be able to score well without knowing the material. These are
 - Test (there are two per chapter) 8–10 scored questions; Final Exam 12–15. `intro.counter` and `summary.total` must equal the number of question screens (validator-enforced).
 - Every concept named in the Learning Goal is tested by at least one question.
 - **[v3]** Tests and Final Exams reach back into earlier chapters per §3.3.
-- Pass mark 70 %. Below that: "Almost — review these levels" with the per-question list and links; the user can retry immediately (hearts apply).
-- Hearts are lost in lessons, Tests and Final Exams (not in practice).
+- Pass mark 70 %. Below that: "Almost — review these levels" with the per-question list and links; the user can retry immediately (hearts apply). **[v4]** The list shows each missed question's correct answer and links to the card that taught it.
+- **[v4]** Hearts are lost only in Tests and Final Exams — never in lessons, never in practice.
 
 ### 3.8 Consistency across sessions
 
@@ -199,7 +215,7 @@ Chapters are written by different sessions and models. To keep them indistinguis
 - **Reference files.** Before writing, read `content/shared/chapter-01-market-basics/level-01-1.yaml`, `content/paths/scalping/chapter-03-orders-costs-position-size/level-05-1.yaml` and `content/paths/scalping/chapter-07-scalping-playbook/level-02-2.yaml`. Match their tone (short, direct, second person), difficulty curve and screen rhythm exactly.
 - **Outline is binding.** Write the chapter as laid out in `docs/curriculum.md` (levels, titles, subs, what each sub teaches, new terms, what it reinforces). If the material truly needs a different split, do it and list the deviation in the session report.
 - **Terms.** A chapter may use terms introduced in Chapter 1 and in lower-numbered chapters of the same path (listed in `docs/curriculum.md`); the validator warns about anything else and about re-introducing a known term. New terms go into `terms_introduced` of the sub that defines them, defined in plain words on a theory/example/carousel screen first.
-- **Charts.** `chart-decision` and `chart-tap` use synthetic data: 8–12 bars, `[open, high, low, close]` per candle, realistic tick sizes, `decision_index` between bar 4 and bar 7, the outcome visible in the remaining bars. Chapter 1 uses `kind: line`; every path chapter uses `kind: candles`. State the share count in the scenario and the P/L in the outcome.
+- **Charts.** `chart-decision` and `chart-tap` use synthetic data: 8–12 bars, `[open, high, low, close]` per candle, realistic tick sizes, `decision_index` between bar 4 and bar 7, the outcome visible in the remaining bars. Chapter 1 uses `kind: line`; every path chapter uses `kind: candles`. State the share count in the scenario and the P/L in the outcome. **[v4]** From Chapter 3 on, every decision whose `best` is `long` or `short` carries `stop` and `target`, and the outcome follows the first one the bars touch (§3.11).
 - **[v3] Outcome variety.** Within a chapter, the per-share move quoted in `chart-decision` outcomes must span a real range. No single value may account for more than a quarter of them, and the outcome sentence must not use one template every time.
 - **Component ids and hotspot targets** are fixed in `docs/schema.md`; never invent new ones — if a screen needs a component that doesn't exist, use the closest existing one and note it in the report.
 - **Tokens.** Session times, currency notes, index names and regulation notes always come from `{{market.*}}`; never write "9:30 ET" or "the S&P 500" literally in a path chapter.
@@ -207,7 +223,9 @@ Chapters are written by different sessions and models. To keep them indistinguis
 
 ### 3.9 Copy
 
-- Second person, present tense, one idea per screen, body text max 3 lines (≈220 characters).
+- Second person, present tense, one idea per screen. **[v4]** Body text at most **150 characters** — three lines at phone width. (It said ≈220 until 2026-09-25; at 16 pt on a 358 pt column a line holds 45–50 characters, so 220 rendered as four or five lines.)
+- **[v4] US English** throughout (color, favor, rumor, practice as noun and verb). The validator lists the British forms it rejects.
+- **[v4] One practice account at a time.** When the account a lesson names changes, that lesson says why in one sentence.
 - Confident simple statements; nuance in the reveal note.
 - Define every new term in plain words on its first appearance and add it to `terms_introduced` (feeds the glossary popover).
 - No profitability or success language ("you'll make money", "this works"). Use "improves the odds", "a well-structured trade".
@@ -256,7 +274,7 @@ keep it teachable.
   single screen displays them all.
 - **Never generate a replay in a batch.** One at a time, each verified — recompute every stated
   stop distance, share count and R, and re-read the bar series against every `filled_at` you
-  claimed. The Stage 4 drill batch works because a drill is 8–12 bars with one answer; a replay
+  claimed. The drill batch (stage DRILLS) works because a drill is 8–12 bars with one answer; a replay
   is not that shape.
 - **Reading level is a property, not a label.** It follows from `shows_card`, `names_setup` and
   the decoy count (table in `docs/schema.md`). Do not write `reading_level: 3` on a replay that
@@ -264,6 +282,34 @@ keep it teachable.
 - **A replay is not a simulator.** It teaches recognition, not live execution, and the copy
   never implies otherwise. Chapter 8 still ends on the 30-day simulator plan (§7); a replay is
   practice on the way there.
+
+### 3.11 Decisions and outcomes (variance) **[v4 — new section]**
+
+A correct decision can lose, and the course has to teach that before it happens — not let the learner discover it as a contradiction. Until 2026-09-25, only 12 of the 338 correct directional decisions in the scalping path ended in a loss, and Chapters 1–4 had none at all. That teaches "right = profit", the most dangerous belief a trading course can leave behind, and it contradicts Chapter 6, where a 40 % win rate can pay.
+
+- **Teach it first.** Chapter 1 Level 2-4 ("Good Call, Bad Luck") introduces variance with the `variance-sim` screen (`docs/UI.md` §6.10) before any correct decision in the course loses.
+- **Then show it at a realistic rate.** Among a chapter's `chart-decision` screens whose `best` is `long`, `short` or `buy`, the share that ends in a loss is:
+
+  | Where | Correct decisions that lose |
+  |---|---|
+  | Chapter 1 before Level 2-4 | 0 % |
+  | Chapter 1 from Level 2-4 on | 20–30 %, never two in a row |
+  | Chapters 2–8 of every path, every drill pack | 30–40 % |
+
+  The validator checks it from eight such decisions up.
+- **Grade the decision, report the outcome.** The reveal grades the decision (green, amber, red) and reports the outcome underneath, smaller (`docs/UI.md` §5.1b). A correct decision that loses is green, earns full XP and keeps a perfect run; its reveal says in one line that it was the right call, the trade lost anyway, and roughly how often that happens for this setup. A reasonable (amber) decision that happened to win is still amber, and says why.
+- **Make the exit visible.** From Chapter 3 on, every directional decision carries `stop` and `target` (`docs/schema.md`); playback ends at the first one the bars touch, so "stopped out" is something the learner watches happen.
+- **The outcome sentence matches the chart,** in plain terms: "It dipped through $18.02 and the stop took you out: −$84 on 600 shares, −1R." Never "unlucky", never an excuse, never a hint that the decision was wrong when it was not.
+- **Variance is never an alibi.** A wrong decision that happened to win is graded wrong, and its reveal says what was wrong with it.
+- **Reinforce it.** Lesson summaries count decisions and results separately (`docs/UI.md` §5.3); the stats screen measures decision quality, never profit (`docs/UI.md` §7.4); Chapter 6 Levels 6 and 13 run the simulator again with the learner's own numbers.
+
+### 3.12 Numbers the learner types **[v4 — new section]**
+
+A learner who understood the lesson must never lose a point to a sign. Until 2026-09-25 the same kind of question expected −0.40 in one lesson and +30 in the next (review M10).
+
+- A `numeric-input` whose answer is a loss or a fall does one of three things: asks for the amount ("How much did you lose?" — the answer is positive); asks for the signed result and says so ("the result with its sign, e.g. −0.40"); or sets `sign: any`, so both are accepted.
+- Ask for a signed answer only where the lesson has just taught the sign — a P/L, an R-multiple — and then the same way across the whole chapter.
+- The `working` line shows the sign the answer expects.
 
 ## 4. Sources (binding)
 
@@ -309,7 +355,7 @@ Never use influencers, YouTube or forum content as a source.
 4. Hook first. Every chapter's first level does something, not just explains something.
 5. Simple first exposure, depth through repetition and scenarios.
 6. **[v3]** Reps beat prose. When a choice exists between one more explanation and one more drill, write the drill.
-7. Stop after each step and wait for explicit approval before the next (section 6).
+7. Stop after each step and wait for explicit approval before the next (section 6). **[v4]** In the release plan every stage ends at a gate: a report in German with David's test checklist, then nothing until his "OK" (`docs/build-plan.md` §1).
 8. Run `python3 tools/validate_content.py` and fix every error and warning before declaring a step done, then do a zero-knowledge read-through of the whole chapter (typos, jargon before definition, absolute claims, coverage gaps, boredom).
 
 ---
@@ -325,21 +371,17 @@ A v3 chapter is 45–52 sub-levels — too much for one clean pass. Write it in 
 3. Run `python3 tools/validate_content.py` after every block. Fix every error and every warning before moving on.
 4. Do the zero-knowledge read-through (section 5, item 8) on the whole chapter and fix what you find.
 5. Tick the chapter's status in `docs/curriculum.md` and in the step list below. Update the status lines in `README.md`.
-6. Commit with a message that names the chapter and its level/sub counts; push.
+6. Commit with a message that names the chapter and its level/sub counts; open a PR against `main` (**[v4]**: never push to `main` directly).
 7. Report back **only**: the `--status` table, deviations from the outline (with reasons), and questions that need a human decision. Then stop — the next chapter is a new session.
 
 ### Steps
 
 1. Structure, rules, schema, validator, UI reference — **done**.
-2. Chapter 1 (shared) — **done: 17 levels / 47 subs**.
-3. Scalping Chapters 2–8 — **done: 18/19/18/17/19/19/17 levels, 340 subs**.
-4. Open work on the written path — **see the list in `README.md`**. Category labels, the plan
-   sheet, the long/short split and exam interactivity are **done**. Left: position sizes
-   (66 breaches of the §3.6 cap, 60 of them in Chapter 2, plus Chapter 1's plan card still
-   suggesting 50 %) and scenario phrasing (`state` chips at 16–38 % in Chapters 3, 6 and 7).
-5. Drill bank (`content/drills/`) — **manifest, batch script and validator done; 1 of 15 packs written** (`content/drills/packs.yaml`, `tools/build_drill_batch.py`).
-6. Day Trading Chapters 2–8 — planned.
-7. Swing Trading Chapters 2–8 — planned.
+2. Chapter 1 (shared) — **done: 17 levels / 48 subs** (path choice included). **[v4]** Level 2-4 (variance) planned, stage VARIANCE.
+3. Scalping Chapters 2–8 — **done: 18/19/18/17/19/19/17 levels, 340 subs**. Chapter 8 Level 15 planned, stage OFFER.
+4. Position sizes — **done**: 0 of 572 priced positions over the §3.6 cap.
+5. The app — **on `main` since 2026-09-25** (PR #13): Chapter 1 and Scalping Chapter 2 Levels 1–3 playable.
+6. **[v4] Everything else** — the order is `docs/build-plan.md`, the findings behind it `docs/review-2026-09-25.md`. Drill bank: 1 of 15 packs written. Swing Trading Chapters 2–8 come before Day Trading (decision W2); Day Trading follows the release.
 
 Live status (levels, screens, minutes per chapter) is generated, not hand-written:
 
@@ -347,11 +389,16 @@ Live status (levels, screens, minutes per chapter) is generated, not hand-writte
 python3 tools/validate_content.py --status
 ```
 
+**[v4] After release, ids are stable.** A sub-level id that learners have progress on is never renumbered without a migration entry (stage UPDATES). Inserting a level before release — as Chapter 8 Level 15 does — renumbers freely; after release, new levels are appended or carried by a migration.
+
 ---
 
 ## 7. Legal and safety
 
-- First launch, every scenario result and the stats screen show the one-line risk note ("Trading involves risk of loss. This app teaches concepts, not signals."). The full disclaimer lives in Settings → Legal (EU/BaFin-compliant wording to be provided).
+- First launch, every scenario result and the stats screen show the one-line risk note ("Trading involves risk of loss. This app teaches concepts, not signals."). The full disclaimer lives in Settings → Legal (EU/BaFin-compliant wording to be provided). **[v4]** Not built as of 2026-09-25: stage ONBOARDING builds the placements, LEGAL-DRAFT the texts, and a lawyer reviews them in LEGAL-FINAL. No store text, notification or share card may promise profit either.
+- **[v4] Account types may be named; providers may not.** Since decisions B and C the content says what a cash and a margin account allow, what the pattern-day-trader rule does and what settlement means — as facts about account types, never as advice to open one, never naming a broker.
+- **[v4] Regulatory facts carry a date.** Every regulation note in `content/market_profiles.yaml` has a `checked:` date and is re-verified before each release; the rules move (the US pattern-day-trader rule is under reform as of 2026). Fee notes name categories, never prices — in market profiles too.
+- **[v4] Warning signs are content.** The path names the red flags a beginner meets first — signal groups, paid "gurus", pump-and-dump schemes, guaranteed returns — without naming anyone.
 - No broker, platform, device or provider recommendations. Fees are explained as a category, not as a price list. **[v3]** Chapter 8 teaches platform *concepts* (order entry, hotkeys, a simulator) generically and names no product.
 - No content about leverage products beyond the one explanatory lesson noted in section 1 — **Chapter 8 Level 15**, which is orientation and not instruction: it names what a broker will offer and what leverage does to arithmetic the learner already owns, and teaches no CFD, forex or margin *mechanics*, names no product and recommends nothing. **[v3]** This is why §3.6's account ceiling matters: a sizing rule that quietly requires margin is leverage content by the back door.
 - **[v3] Saying nothing is its own failure.** The learner meets margin, settlement, the pattern-day-trader rule and — in Germany — the leveraged wrappers the moment they open an account, and a European retail scalper realistically cannot scalp cash stocks at all. Leaving that unsaid is not caution; it is sending a graduate into the one conversation this app prepared them least for. The answer is the orientation lesson, not silence and not a how-to.

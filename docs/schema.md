@@ -4,12 +4,14 @@ Every sub-level is one YAML file: `content/<scope>/chapter-NN-<slug>/level-LL-S.
 (`LL` = zero-padded level, `S` = sub). Validate with `python3 tools/validate_content.py`.
 
 Status: **v3** — fields, screen types and validator rules for the eight-chapter curriculum. New items are marked **[v3]**. Everything unmarked is unchanged from v2 and existing content stays valid.
+**[v4] (2026-09-25)** — new optional fields and types for the release plan (`docs/build-plan.md`). Every one of them is optional or new, so existing files stay valid; the validator rules that use them arrive in stage RULES and start as warnings.
 
 ## Header
 
 ```yaml
 id: "3-2"                 # "<level>-<sub>", must match the filename
 title: "Market or Limit?" # shown on the path map (level title; subs share the level title)
+subtitle: "When Speed Wins" # [v4] this sub-level's own short name: lesson-complete screen, level card
 chapter: 3
 chapter_title: "Orders, Costs & Position Size"
 path: scalping            # all | scalping | day-trading | swing-trading
@@ -38,7 +40,8 @@ screens: [...]
 Common: every screen has `type`. Question screens have `explanation` (one sentence shown in the reveal).
 `visual`/`component` values are component ids from UI.md §6: `ownership-pie`, `quote-card`, `quote-panel`,
 `chart-line`, `chart-candles`, `bar-chart`, `session-ribbon`, `cost-stack`, `order-book`, `order-ticket`,
-and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, `stats-card`, `r-tracker`, `plan-sheet`.
+**[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, `stats-card`, `r-tracker`, `plan-sheet`,
+and **[v4]** `candle-anatomy`, `trade-plan` (built in stage VISUALS).
 
 ### Non-question screens
 
@@ -81,12 +84,26 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
 
 - type: story                  # no `character`: there is no character cast (UI.md §6.9)
   text: "9:31. You're watching XYZ."
+  label: scene                 # [v4] optional: scene (default) | takeaway — a closing summary is a takeaway
 
 - type: recap                  # [v3] end-of-level takeaways
   title: "Level 4 in three lines"
   points:
-    - {text: "Volume confirms a move; thin bars are drift.", level: "4-1"}
-    - {text: "Climax volume marks the end of a run more often than the start.", level: "4-2"}
+    - {text: "Volume confirms a move; thin bars are drift.", level: "4-1", card: 3}
+    - {text: "Climax volume marks the end of a run more often than the start.", level: "4-2", card: 5}
+  # [v4] card: the 1-based screen index, in that sub-level, of the theory/example card the point
+  # opens. Without it the app has to guess, and until 2026-09-25 it always opened the first card.
+
+- type: variance-sim           # [v4] ungraded; counts as one screen (UI.md §6.10, agent.md §3.11)
+  title: "Ten trades of one good setup"
+  win_rate: 0.55               # this example's hit rate, 0.30–0.70
+  win_r: 2                     # what a winner pays, in R
+  loss_r: 1                    # what a loser costs, in R
+  trades: 10                   # per run, 5–20; a "100 trades" run is always offered as well
+  seed: 7                      # fixes the sequence of runs for tests; every tap still shows a new run
+  caption: "Same setup, same rules. Run it again."
+  # The validator checks the ranges and that the example has a positive expectancy
+  # (win_rate × win_r > (1 − win_rate) × loss_r): the screen shows a good setup losing, never a bad one.
 
 - type: plan-card              # [v3] the user writes and keeps this
   title: "Your session limits"
@@ -94,7 +111,9 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
   slot: a                     # optional: this card fills one playbook row (see "The plan")
   fields:
     - {key: session_daily_loss_limit, label: "Daily loss limit (in R)", kind: number, suggest: 3}
-    - {key: session_trade_cap, label: "Maximum trades a day", kind: number, suggest: 6}
+    - {key: session_trade_cap, label: "Maximum trades a day", kind: number, suggest: 6, min: 1, max: 20}
+    # [v4] a number may carry min/max; kind: choice takes options, e.g.
+    # {key: setup_style, label: "Your style", kind: choice, options: ["Scalping", "Day trading", "Swing trading"]}
   note: "You can change these later in your plan."
   # keys come from the one namespace in "The plan" below; never invent one
 
@@ -119,7 +138,7 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
   prompt: "…?"
   options:
     - {text: "…", correct: true}
-    - {text: "…"}
+    - {text: "…", why: "One line on why this exact choice is wrong."}   # [v4] optional, shown if picked
     - {text: "…"}
   explanation: "…"
 
@@ -139,6 +158,7 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
   answer: 0.04
   tolerance: 0.001            # optional, default 0
   unit: "$"                   # optional: "$", "%", "shares"
+  sign: exact                 # [v4] optional: exact (default) | any — any accepts ±answer (agent.md §3.12)
   working: "…"
   explanation: "…"
 
@@ -206,8 +226,12 @@ and **[v3]** `scanner-table`, `journal-table`, `internals-panel`, `hotkey-pad`, 
   buttons: [buy, wait]        # Chapter 1 variant; default [long, short, no-trade]
   best: buy
   reasonable: [wait]          # answers marked amber, not red
+  stop: 9.90                  # [v4] optional; required from Chapter 3 on when best is long/short
+  target: 10.40               # [v4] optional, as stop; playback ends at the first one the bars touch
   outcome: "Price kept rising to 10.40 — +$40 on 100 shares."
   explanation: "…"
+  # [v4] The outcome sentence must agree with the bars (and with stop/target when present): a
+  # loss reads as a loss. How often a correct decision loses is a chapter-level rule (agent.md §3.11).
 
 - type: spot-mistake
   prompt: "Tap the mistake."
@@ -317,6 +341,8 @@ Use only these component ids and target ids (UI.md §6 defines how they look).
 | `order-book` | `bids: [[price, size], …]`, `asks: [[price, size], …]` (best first) | `best`, `depth`, `size`, `bid-1`…`bid-3`, `ask-1`…`ask-3` |
 | `chart-line` | `data: [close, …]` or `series: [{label, data}]`; optional `markers`, `levels` | (use `chart-tap` with a bar index) |
 | `chart-candles` | `data: [[open, high, low, close], …]`; optional `volume: [n, …]`, `levels`, `markers`, `vwap: [v, …]` | (use `chart-tap` with a bar index) |
+| `candle-anatomy` **[v4]** | `candle: [open, high, low, close]`; optional `labels: [open, high, low, close, body, upper-wick, lower-wick]` (default all) | a label name |
+| `trade-plan` **[v4]** | `entry`, `stop`, `target`, `shares`; optional `chart: [[o,h,l,c], …]` drawn behind the lines | `entry`, `stop`, `target` |
 | `bar-chart` | `bars: [{label, value}]`, optional `unit` | — |
 | `session-ribbon` | `premarket`, `regular`, `afterhours`, `timezone` (tokens) | — |
 | `cost-stack` | `shares`, `spread`, `slippage`, `fees`, `target` (per share) or `rows`, `targets` | — |
@@ -330,6 +356,8 @@ Use only these component ids and target ids (UI.md §6 defines how they look).
 | `plan-sheet` **[v3]** | `fields: [{key, label, value?}]`, optional `slot`; keys come from "The plan" below. A field with `value` is a specimen line; without it the renderer fills it from the learner's own plan | a field `key` |
 
 `state` holds 1–3 short strings; use it whenever the right answer depends on where the trader stands (day result in R, the limit, the trade count, the current size) rather than on the chart alone.
+
+**[v4] Two shapes that went wrong in the render test (2026-09-25).** `levels` is always a list of objects, `[{price: 24.40, label: "High of day"}]` — never bare numbers, which rendered as missing lines on 15 screens. A `depth-ladder`'s book sits under `data:` exactly as the example above shows; the renderer read it from the top level and all 40 screens crashed. Stage STABIL-DATA fixes both and makes the validator check every component's data against this table.
 
 Chart conventions: 8–12 bars; `decision_index` between 4 and 7; prices with two decimals; candle `high` ≥ max(open, close) and `low` ≤ min(open, close); outcome visible in the bars after the decision. Chapter 1 uses `chart-line`; path chapters use `chart-candles`. **[v3]** `swipe-deck` and `compare` mini-charts may use 8–10 bars and omit volume.
 
@@ -378,7 +406,7 @@ are listed, the second revisits the key under the rule above.
 |---|---|---|---|
 | `setup_session` | text | 1 · 16-2 | 1 · 16-2 sheet |
 | `setup_name` | text | 1 · 16-2 | 1 · 16-2 sheet |
-| `setup_max_account_pct` | number | 1 · 16-2 | 1 · 16-2 sheet |
+| `setup_max_account_pct` | number | 1 · 16-2; **[v4]** revisited in scalping 2 · 1-4 (50 → 95, `docs/agent.md` §3.6) and in the swing path's Chapter 3 | 1 · 16-2 sheet |
 | `setup_style` | text | 1 · 16-2 | 1 · 16-2 sheet |
 | `setup_decision_timeframe` | number | 2 · 16-3 | — |
 | `setup_context_timeframe` | number | 2 · 16-3 | — |
@@ -473,6 +501,26 @@ is not one of them.
 Never invent a key. If a screen needs a line the plan does not have, either render a key that
 exists or add the key to this table and to the `plan-card` that writes it, in that order.
 
+**[v4] Choices and ranges.** A field may be `kind: choice` with `options: [...]` (the learner picks one), and a `number` may carry `min` and `max`; an answer outside them is refused with a one-line reason. The history of every key (above) is what the plan screen shows under "changes".
+
+## Glossary **[v4]**
+
+`content/glossary.yaml` holds one definition per term, and it is where the glossary popover (`docs/UI.md` §8) reads from.
+
+```yaml
+- term: "Spread"
+  definition: "The gap between the highest bid and the lowest ask — what you pay to get in and out at once."
+  taught_in: {chapter: 1, level: "6-2"}       # the sub-level whose terms_introduced lists it
+  aliases: ["bid-ask spread"]                 # optional: other spellings the underline should catch
+  path: all                                   # all | scalping | day-trading | swing-trading
+```
+
+Rules (stage GLOSSARY): every term in any `terms_introduced` has exactly one entry for its path; `definition` is one sentence of at most 160 characters and agrees with the screen that defines the term; `taught_in` resolves to that sub-level.
+
+## Market profiles **[v4]**
+
+`content/market_profiles.yaml` carries, per profile, the `{{market.*}}` values (session times, currency, index, notes). **[v4]** Every profile has `checked: YYYY-MM-DD` — the date its regulation, fee and scalping notes were last verified against the rules in force — and the notes follow `docs/agent.md` §7: fee notes name categories, never prices; regulation notes say precisely what a rule covers.
+
 ## Drill packs **[v3]**
 
 The Practice hub is fed by drill packs, not by lesson files: `content/drills/<path>/<slug>.yaml`.
@@ -515,7 +563,7 @@ last screen, and no "2 `mc` in a row" — the Practice hub draws in its own orde
 ### The manifest — `content/drills/packs.yaml`
 
 One entry per pack in the drill table of `docs/curriculum.md`, and the thing the batch run
-(`tools/build_drill_batch.py`, `docs/build-plan.md` Stage 4) is built from. An entry carries
+(`tools/build_drill_batch.py`, stage DRILLS in `docs/build-plan.md`) is built from. An entry carries
 the pack's header fields plus `slug`, `file`, the commissioned `screens` count, and three
 `exemplars` — screens from the linear chapter the pack unlocks from, by file and 1-based
 screen index, one `straightforward`, one `near-miss` whose answer is pass or no trade, one
@@ -680,3 +728,14 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - **[v3]** Fewer than 60 % distinct outcome sentence *shapes* across a chapter's `chart-decision` outcomes (numbers collapsed, so two sentences differing only in their figures count as one shape). Applies from 12 decisions up.
 - **[v3]** More than 60 % of a chapter's `chart-decision` scenarios ending on the same sentence shape. Session state belongs in `state` chips (UI.md §6.4), not in a sentence repeated after every chart.
 - **[v3]** One prompt used for more than 25 % of a question type's screens in a chapter (from 5 uses up).
+
+**[v4] Rules added in stage RULES** (warnings first, errors under `--strict`; each with a case in `tools/test_validate.py`):
+- Variance (`docs/agent.md` §3.11): the share of correct directional decisions that lose, per chapter (0 % in Chapter 1 before Level 2-4, 20–30 % after it with no two in a row, 30–40 % from Chapter 2 on and in drill packs), from eight such decisions up; `stop` and `target` present on directional decisions from Chapter 3 on; the `outcome` sentence agreeing with the bars (win or loss, and the stop or target touched first).
+- Signs (§3.12): a `numeric-input` with a negative `answer` either sets `sign: any` or states the sign in its prompt.
+- `recap` points carry `card:`, and it names a `theory`/`example` screen of that sub-level; a lesson's closing `story` carries `label: takeaway`.
+- Copy (§3.9): body text over 150 characters; British spellings (listed in the validator); gesture words and mechanics in prompts ("drag", "tap", "swipe", "hearts are on").
+- Answer keys (§3.5): the correct option the longest in fewer than ~15 % of `mc`/`numeric-mc` screens; the punctuation tell per chapter.
+- Visual quota (§3.4): fewer than 40 % of a chapter's `theory`/`example` screens with a visual.
+- The plan-aware cap (§3.6): a position above the `setup_max_account_pct` the learner has written by that point in the path (its latest `suggest`).
+- Per-trade risk and total exposure (§3.6): `shares × stop distance ÷ account` outside 0.5–2 % where a file names an account and a stop; for several open positions, the sums of position value and of risk against the account.
+- `variance-sim` ranges and positive expectancy; `glossary.yaml` coverage and length; component data against the table above (stage STABIL-DATA); `demo/all-screens.yaml` validated like content.

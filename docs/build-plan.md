@@ -97,7 +97,7 @@ Künftig verlieren **30–40 %** der richtigen Richtungsentscheidungen, wie im e
    - Neue Lektion **1·2-4 „Good Call, Bad Luck“** mit einem Varianz-Simulator (Stufe `VARIANCE`).
    - Der Lernende „handelt“ 10 Trades eines guten Setups, sieht Gewinner und Verlierer durcheinander, spielt es mehrmals und sieht dann 100 Trades.
    - Botschaft: Ein Trade sagt fast nichts; die Entscheidung zählt, das Ergebnis schwankt.
-2. **In jeder Auflösung trennen** (`docs/UI.md` §5.1).
+2. **In jeder Auflösung trennen** (`docs/UI.md` §5.1b).
    - Oben die Bewertung der *Entscheidung*: grün, amber oder rot.
    - Darunter, kleiner, das *Ergebnis dieses Mal*: +/− $.
    - Bei „richtig, aber verloren“ zusätzlich ein Satz wie: „Richtige Entscheidung – dieser Trade hat trotzdem verloren. Das passiert bei diesem Setup etwa 4 von 10 Mal.“ Dazu ein Link „Warum?“ zur Karte aus 1·2-4.
@@ -553,13 +553,13 @@ Bericht auf Deutsch: gebaut · Check-Ergebnisse (inkl. Render-Zahlen) · meine T
    - Der Renderer nutzt `points[].card` (neues Feld, `docs/schema.md`).
    - Fehlt es, nimmt er die Karte der Lektion, deren Text am besten passt.
    - Die `card:`-Angaben im Content ergänzt `CONTENT-FIX`.
-3. **Auflösung nach `docs/UI.md` §5.1** (M5, M7):
+3. **Auflösung nach `docs/UI.md` §5.1b** (M5, M7):
    - Oben die Bewertung der Entscheidung (grün, amber, rot).
    - Der Einleitungssatz passt zur *gewählten* Option: nie „Standing aside costs nothing“ nach einem Kauf.
    - Der `outcome`-Satz aus der YAML wird angezeigt.
    - Das Ergebnis „dieses Mal“ steht klein darunter, mit Aktienzahl („+$45.00 on 250 shares“).
    - Hast du abgewartet, steht es grau und hypothetisch da („Had you bought: …“).
-   - Neuer Zustand „richtig, aber verloren“ mit dem Varianz-Satz aus §5.1. Der Link „Warum?“ folgt in `VARIANCE`.
+   - Neuer Zustand „richtig, aber verloren“ mit dem Varianz-Satz aus §5.1b. Der Link „Warum?“ folgt in `VARIANCE`.
    - Einzige Content-Änderung dieser Stufe: Die Erklärung in 1·1-1 S6 passt künftig zu beiden Wahlen.
 4. **Web-Barrierefreiheit** (M6):
    - Screenreader lesen die Lösung nicht mehr vorab (Mess-Kopie mit `aria-hidden` oder außerhalb des Baums).
@@ -577,7 +577,7 @@ Bericht auf Deutsch: gebaut · Check-Ergebnisse (inkl. Render-Zahlen) · meine T
 ```
 Stufe STABIL-APP aus docs/build-plan.md.
 
-Lies CLAUDE.md und in docs/build-plan.md Abschnitt 1, Abschnitt 0 „Varianz“ und den Abschnitt „STABIL-APP“ vollständig, dazu docs/UI.md §5.1 und in docs/review-2026-09-25.md die Punkte M1, M4–M7 und S23.
+Lies CLAUDE.md und in docs/build-plan.md Abschnitt 1, Abschnitt 0 „Varianz“ und den Abschnitt „STABIL-APP“ vollständig, dazu docs/UI.md §5.1 und §5.1b und in docs/review-2026-09-25.md die Punkte M1, M4–M7 und S23.
 Setze genau diesen Umfang um – nichts aus späteren Stufen.
 
 Besonders wichtig:
@@ -1278,7 +1278,7 @@ Bericht auf Deutsch: neue Regeln · Warnungen je Kapitel (Tabelle) · Link zu de
 **Ziel.** Der Lernende versteht, dass richtige Entscheidungen verlieren können, bevor es ihm passiert (Abschnitt 0, „Varianz“).
 
 **Umfang**
-1. **Neuer Screen-Typ `variance-sim`** (`docs/UI.md` §4.2, `docs/schema.md`):
+1. **Neuer Screen-Typ `variance-sim`** (`docs/UI.md` §3 und §6.10, `docs/schema.md`):
    - Der Lernende tippt auf „10 Trades“ und sieht Gewinner und Verlierer als Reihe, dazu eine Kurve in R.
    - Mehrmals spielbar, jedes Mal eine andere Reihe.
    - „100 Trades“ zeigt, wie sich das Ergebnis dem Erwartungswert nähert.
@@ -1297,7 +1297,7 @@ Bericht auf Deutsch: neue Regeln · Warnungen je Kapitel (Tabelle) · Link zu de
 ```
 Stufe VARIANCE aus docs/build-plan.md.
 
-Lies CLAUDE.md und in docs/build-plan.md Abschnitt 0 („Varianz“), Abschnitt 1 und den Abschnitt „VARIANCE“ vollständig, dazu docs/agent.md §3.11, docs/UI.md §4.2, §5.1, §5.3, docs/schema.md (variance-sim) und die Referenzdateien aus docs/agent.md §3.8.
+Lies CLAUDE.md und in docs/build-plan.md Abschnitt 0 („Varianz“), Abschnitt 1 und den Abschnitt „VARIANCE“ vollständig, dazu docs/agent.md §3.11, docs/UI.md §3, §5.1b, §5.3, §6.10, docs/schema.md (variance-sim) und die Referenzdateien aus docs/agent.md §3.8.
 Lies content/shared/chapter-01-market-basics/level-02-1.yaml bis level-02-3.yaml, bevor du 2-4 schreibst – Ton und Rhythmus müssen passen.
 
 Besonders wichtig:

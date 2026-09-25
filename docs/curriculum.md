@@ -4,6 +4,7 @@ Authority for *what* is taught where. Rules live in `docs/agent.md`, UI in `docs
 Every path has **8 chapters**. Chapter 1 is shared and ends with the path choice.
 
 Status: **v3**. The path is sized so a learner doing two sub-levels a day (~10 minutes) finishes in about six months and comes out able to run a plan: pick the stock, read the day, recognise the setup, size it, manage it, and review it. See `docs/agent.md` §1.1 for what "finished" is allowed to claim.
+**[v4] (2026-09-25):** one new sub-level in Chapter 1 (2-4, variance), the scalping plan revision moved to Chapter 2 Level 1-4, the account facts that decisions B and C require, and Swing written before Day Trading. The order of all work is `docs/build-plan.md`.
 
 Legend: `T` = test, `F` = final exam, `R` = repetition sub. Subs listed as a count; files are `level-LL-S.yaml`.
 The **Reinforces** column lists earlier chapters the level deliberately re-tests — it becomes the `reinforces:` header field (`docs/schema.md`). Every chapter from 3 on has one explicit **Callback** level.
@@ -16,11 +17,11 @@ Chapter status: **written** = in the repo and validated · **expand** = v2 conte
 
 | Path | Ch1 | Ch2 | Ch3 | Ch4 | Ch5 | Ch6 | Ch7 | Ch8 | Levels | Subs |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Scalping | 17 | 18 | 19 | 18 | 17 | 19 | 19 | **18** | **145** | **~391** |
-| Day Trading | 17 | 18 | 19 | 18 | 17 | 19 | 19 | **18** | **145** | **~388** |
-| Swing Trading | 17 | 18 | 18 | 18 | 17 | 19 | 19 | **18** | **144** | **~385** |
+| Scalping | 17 | 18 | 19 | 18 | 17 | 19 | 19 | **18** | **145** | **~393** |
+| Day Trading | 17 | 18 | 19 | 18 | 17 | 19 | 19 | **18** | **145** | **~389** |
+| Swing Trading | 17 | 18 | 18 | 18 | 17 | 19 | 19 | **18** | **144** | **~386** |
 
-(Chapter 1 is shared, so a learner sees Chapter 1 once plus one path's Chapters 2–8. ~391 sub-levels ≈ 22 hours ≈ six months at two a day. Scalping Chapter 8 gained Level 15 — see the chapter's own note; 387 sub-levels are written, the four new ones are not.)
+(Chapter 1 is shared, so a learner sees Chapter 1 once plus one path's Chapters 2–8. ~393 sub-levels ≈ 22 hours ≈ six months at two a day. **[v4]** 388 scalping sub-levels are written (Chapter 1's 48 with the path choice, plus 340); five are planned: Chapter 8 Level 15 (four, stage OFFER) and Chapter 1 Level 2-4 (one, stage VARIANCE).)
 
 ### Migration note — v2 chapters are renumbered — **done**
 
@@ -35,12 +36,12 @@ can be traced.
 
 ## Chapter 1 — Market Basics (shared) — written
 
-Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 48 subs
+Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 48 subs written · **[v4]** 49 with Level 2-4
 
 | Level | Title | Subs | Teaches | Reinforces |
 |---|---|---|---|---|
 | 1 | Your First Trade | 4 | Line chart, price, buy/sell, position, profit and loss; the first buy/wait decisions; move × shares; mixed practice | — |
-| 2 | Why Prices Move | 3 | Buyers vs sellers, demand and supply, the imbalance rule; news as the trigger that flips it | — |
+| 2 | Why Prices Move | **4** | Buyers vs sellers, demand and supply, the imbalance rule; news as the trigger that flips it. **[v4] 2-4 Good Call, Bad Luck (new):** a good read can still lose — the next buyer, seller or headline cannot be known; the `variance-sim` screen (ten trades of one good setup, run again and again, then a hundred); the first correct decision in the course that loses, with its reveal; judge the decision, not the result (`docs/agent.md` §3.11) | — |
 | 3 | What You're Actually Buying | 3 | Share = a fraction of a company, shareholder, ticker, exchange; why companies sell shares; your money goes to the seller | — |
 | 4 | The Quote Card | 4 | Price, previous close, daily change in $ and %, volume; reading a quote in two seconds; red days mean nothing alone; practice | — |
 | 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | — |
@@ -50,17 +51,17 @@ Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 48 subs
 | 9 | Two Dials Practice | 2 R | Classifying real-looking quotes on both dials; a buy/wait decision that turns on liquidity | — |
 | 10 | When the Market Is Open | 3 | Pre-market, regular session, after-hours from `{{market.*}}`; thin sessions are jumpy; where beginners practise | — |
 | 11 | Checkpoint | 1 T | 10 questions on Levels 6–10 | — |
-| 12 | Getting Access | 3 | Broker, brokerage account, order, paper trading, fees as a category, `{{market.regulation_note}}`; the order ticket | — |
-| 13 | Long and Short | 4 | Long, short, borrow, cover; computing each result; the risk asymmetry; first long / short / no-trade decisions | — |
+| 12 | Getting Access | 3 | Broker, brokerage account, order, paper trading, fees as a category, `{{market.regulation_note}}`; the order ticket. **[v4]** One sentence: there are cash accounts and margin accounts, and they allow different things (decision B) | — |
+| 13 | Long and Short | 4 | Long, short, borrow, cover; computing each result; the risk asymmetry; first long / short / no-trade decisions. **[v4]** One sentence: a short needs a margin-enabled account (decision B) | — |
 | 14 | Three Ways to Trade | 3 | Holding period; scalping / day / swing; trading vs investing; matching a style to a real life | — |
 | 15 | The Big Picture | 3 | Trend, bull and bear markets as context not signal; news versus expectations; where sudden volatility comes from | — |
-| 16 | Chapter Review | 2 R | One narrated trading day using every Chapter 1 idea; a `plan-card` where the user writes what kind of trader they want to be | — |
+| 16 | Chapter Review | 2 R | One narrated trading day using every Chapter 1 idea; a `plan-card` where the user writes what kind of trader they want to be. **[v4]** One sentence on why the plan's position ceiling (50 %) sits below the examples so far | — |
 | 17 | Final Exam | 1 F + 1 | 17-1: 12 questions → badge. No tier here — Observer unlocks after Chapter 2 (`docs/UI.md` §7.5). 17-2, **Choose Your Path**: the three paths side by side — chart, holding period, target per share, how far away the exit sits, positions open at once, overnight exposure, screen time — the costs each target carries, and which day fits which path; ends on the `path-choice` screen. It is its own node on the map after the exam (`docs/UI.md` §7.1), replayable to change path, and costs no hearts | — |
 
 
 > Chapter 1's `reinforces` is empty in every file and the column reads `—` throughout: the field takes *earlier chapter* numbers (`docs/schema.md`) and Chapter 1 has none. Interleaving inside the chapter is still required — it is covered by the rule in `docs/agent.md` §3.2, not by this field.
 
-**Terms Chapter 1 introduces** (available to every later chapter): Price, Chart, Stock, Share, Buy, Sell, Position, Profit, Loss, Trade, Market, Buyer, Seller, Demand, Supply, Shareholder, Ticker, Exchange, Quote, Previous close, Daily change, Volume, Retail trader, Institution, Market maker, Spread, Liquidity, Liquid, Illiquid, Volatility, Volatile, Session, Pre-market, Regular session, After-hours, Broker, Brokerage account, Order, Paper trading, Fee, Long, Short, Borrow, Cover, No trade, Holding period, Scalping, Day trading, Swing trading, Investing, Trend, Bull market, Bear market.
+**Terms Chapter 1 introduces** (available to every later chapter): Price, Chart, Stock, Share, Buy, Sell, Position, Profit, Loss, Trade, Market, Buyer, Seller, Demand, Supply, **[v4]** Variance, Shareholder, Ticker, Exchange, Quote, Previous close, Daily change, Volume, Retail trader, Institution, Market maker, Spread, Liquidity, Liquid, Illiquid, Volatility, Volatile, Session, Pre-market, Regular session, After-hours, Broker, Brokerage account, Order, Paper trading, Fee, Long, Short, Borrow, Cover, No trade, Holding period, Scalping, Day trading, Swing trading, Investing, Trend, Bull market, Bear market.
 
 ---
 
@@ -77,7 +78,7 @@ First candlestick charts of the app. Every level from 3 on has at least one `cha
 
 | Level | Title | Subs | Teaches | Reinforces |
 |---|---|---|---|---|
-| 1 | The Candle | 4 | Open, high, low, close; body and wick; green and red; reading one candle with `hotspot` and `chart-tap`; measuring a body | — |
+| 1 | The Candle | 4 | Open, high, low, close; body and wick; green and red; reading one candle with `hotspot` and `chart-tap`; measuring a body. **[v4]** 1-1 shows the labelled `candle-anatomy`; 1-4, after the screen that introduces the $20,000 practice account: the **plan revision** — `setup_max_account_pct` from 50 to 95, with the short reason (a scalp's move is cents, so the size is large and the stop small; Chapter 3 Level 10 proves it) (`docs/agent.md` §3.6) | — |
 | 2 | What a Candle Says | 3 | Long body = conviction, long wick = refusal, tiny body = indecision; shape-only decisions | — |
 | 3 | Timeframes | 3 | A candle is a time slice; building one 5-minute candle from five 1-minute candles; act on the 1-min, read context on the 5-min | — |
 | 4 | Volume Bars | 4 | One bar per candle; volume confirms, thin bars are drift; relative to this stock's own minutes; climax volume; `chart-annotate` on the heaviest bar | 1 |
@@ -113,7 +114,7 @@ Folder: `chapter-03-orders-costs-position-size` · 19 levels, 50 subs
 | 7 | The Marketable Limit | 3 | A limit at or above the ask: speed with a ceiling; unfilled risk; limit exits at the target | — |
 | 8 | Ticket Practice | 2 R | Choosing the right order for six situations, on tickets | 2 |
 | 9 | The Stop Order | 4 | Stop-loss, stop-market vs stop-limit, which side of the entry, stop distance; where a stop belongs on the chart | 2 |
-| 10 | How Many Shares? | 4 | Position value, risk per trade, the 1 % rule, **and the account ceiling** — shares = min(risk ÷ stop, account ÷ price); spread versus stop | 1 |
+| 10 | How Many Shares? | 4 | Position value, risk per trade, the 1 % rule, **and the account ceiling** — shares = min(risk ÷ stop, account ÷ price); spread versus stop. **[v4]** Proves the learner's revised plan ceiling (Chapter 2 Level 1-4) with the arithmetic | 1 |
 | 11 | Sizing Practice | 2 R | Five setups sized from both ceilings; the one where the account binds | 1 |
 | 12 | Checkpoint | 1 T | 10 questions on Levels 6–11 | 1, 2 |
 | 13 | Slippage and Speed | 3 | The gap between the price you saw and the fill; execution speed; capping slippage with a marketable limit | 2 |
@@ -193,14 +194,14 @@ The thinnest chapter in v2 and the one where retail traders actually fail, so it
 | 3 | Managing the Trade | 4 | The break-even stop and what it really removes; partial exits and the trade they make; trailing a stop; the time stop when nothing happens | 3 |
 | 4 | Stops and R Practice | 2 R | Five trades sized, stopped and graded in R; one `branch` where the trade goes against you | 3 |
 | 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 3 |
-| 6 | Win Rate and Expectancy | 4 | Win rate alone tells you nothing; average win and average loss; expectancy as the value of one average trade; a 40 % win rate that pays | 3 |
+| 6 | Win Rate and Expectancy | 4 | Win rate alone tells you nothing; average win and average loss; expectancy as the value of one average trade; a 40 % win rate that pays. **[v4]** The `variance-sim` again, with this chapter's numbers | 3 |
 | 7 | Costs Inside Expectancy | 3 | Spread, slippage and fees inside the average; measuring expectancy after costs; what halving frequency does to it | 3 |
 | 8 | Expectancy Practice | 2 R | Five sets of real-looking numbers; which method to keep and which to delete | 3 |
-| 9 | Session Limits | 3 | The daily loss limit in R, the trade cap, the time cap; written before the open; a limit broken once is not a limit; a `plan-card` | 5 |
+| 9 | Session Limits | 3 | The daily loss limit in R, the trade cap, the time cap; written before the open; a limit broken once is not a limit; a `plan-card`. **[v4]** One screen on what the trade cap needs from the account: several same-day round trips need a margin account, and `{{market.regulation_note}}` (the pattern-day-trader rule, settlement) — decision C | 5 |
 | 10 | Checkpoint | 1 T | 10 questions on Levels 6–9 | 3 |
 | 11 | Overtrading and Tilt | 3 | Revenge trading, FOMO, chasing; the signs of tilt in yourself; the trade right after the loss | 5 |
 | 12 | The Reset Routine | 3 | Why a routine beats willpower; the written steps; coming back at half size and what that proves | — |
-| 13 | Thinking in Probabilities | 3 | One trade is close to random; sample size; the two mistakes a losing run and a winning run each cause | — |
+| 13 | Thinking in Probabilities | 3 | One trade is close to random; sample size; the two mistakes a losing run and a winning run each cause. **[v4]** A hundred runs of the `variance-sim`: what a losing streak inside a good method looks like | — |
 | 14 | Chapter 3 Callback | 2 R | Sizing and costs re-tested as risk: the same trade at two share counts, the same method with two cost structures | 3 |
 | 15 | The Journal | 3 | One row per trade; the execution grade, independent of the result; `journal-row` on a finished trade; writing it the same day | 5 |
 | 16 | The Weekly Review | 3 | Sorting rows by setup and by hour; finding the column that bleeds; one rule for next week | 5 |
@@ -244,6 +245,8 @@ Eight setups instead of five. Every setup is a playbook card: context, entry, st
 Folder: `chapter-08-the-trading-day` · 18 levels, 51 subs · **47 written; Level 15 is new (4 subs) and Levels 15–17 renumber to 16–18**
 Execution, the full routine, and the honest handover to a simulator. Sources: Aziz (platform, hotkeys, routine), Bellafiore, Steenbarger, Elder.
 
+> **[v4]** Decisions A, B and C are made (`docs/agent.md` §1.1, §3.6): the path ends at a person who can start, a short needs a margin-enabled account, and several same-day round trips need a margin account and meet the pattern-day-trader rule. Nothing in Level 15 waits on a decision any more; stage OFFER writes it.
+>
 > **Level 15 is the lesson `docs/agent.md` §1 and §7 have always promised and the path never had.** The fixed product decision says that where a path is traded in other instruments in Europe (scalping → futures/CFDs) *one lesson says so explicitly*; no such lesson exists in the 387 written sub-levels, where financial margin appears zero times. It goes here because this is where the learner is about to open an account. It is **orientation, not instruction**: it names what they will be offered and what it does to arithmetic they already own, and teaches no CFD, forex or leverage mechanics (§7 stands).
 >
 > **The renumber.** Inserting it pushes Going Live, Carefully 15→16, Capstone 16→17, Final Exam 17→18, with the sub-level ids and the `prerequisite` chain moving with them — the same migration Chapter 5's insertion needed, and the prompt for it is in `docs/build-plan.md` § OFFER.
@@ -264,8 +267,8 @@ Execution, the full routine, and the honest handover to a simulator. Sources: Az
 | 12 | When to Increase Size | 3 | Evidence-based scaling: a number of grade-A trades, not a good week; what to do after a drawdown | 6 |
 | 13 | Chapters 6 & 7 Callback | 2 R | Risk and playbook re-tested inside a live session: the card fires but the limit is nearly gone; the setup is right but the size is wrong | 6, 7 |
 | 14 | Your First 30 Days on Sim | 4 | A concrete simulator plan: which cards, how many trades, what to record, what "ready" would look like; the honest statement that the app cannot make you profitable | 6, 7 |
-| **15** | **What You'll Actually Be Offered** | **4** | **[new]** 15-1 the two account types and what each one allows — **a cash account cannot short at all**, which is why 38 % of this path's decisions need the other one; in Europe, the leveraged wrappers this path deliberately did not teach, building on `{{market.scalping_note}}` rather than repeating it. 15-2 what leverage does to numbers the learner already owns: R is unchanged, the ruin arithmetic is not — a deposit that survives six stop-outs on cash does not survive six at 5:1. 15-3 what the rules do to the plan they wrote: `{{market.regulation_note}}` in place, the pattern-day-trader threshold against a six-trade session, settled funds against the same, and tax named once as a question for an adviser and never answered. 15-4 practice: choosing the account that fits their own plan sheet. **No product named, no mechanics taught, nothing here is a recommendation (§7)** | 3, 6 |
-| 16 | Going Live, Carefully | 3 | The smallest size that is still real; what changes psychologically when money is live; the rules that must survive the switch | 6 |
+| **15** | **What You'll Actually Be Offered** | **4** | **[new]** 15-1 the two account types and what each one allows — **a cash account cannot short at all**, which is why 38 % of this path's decisions need the other one; in Europe, the leveraged wrappers this path deliberately did not teach, building on `{{market.scalping_note}}` rather than repeating it. 15-2 what leverage does to numbers the learner already owns: R is unchanged, the ruin arithmetic is not — a deposit that survives six stop-outs on cash does not survive six at 5:1. 15-3 what the rules do to the plan they wrote: `{{market.regulation_note}}` in place, the pattern-day-trader threshold against a six-trade session, settled funds against the same, and tax named once as a question for an adviser and never answered. 15-4 practice: choosing the account that fits their own plan sheet, **[v4]** and the criteria for judging a broker — regulation, deposit protection, cost structure, order types, borrow — never a name. **No product named, no mechanics taught, nothing here is a recommendation (§7)** | 3, 6 |
+| 16 | Going Live, Carefully | 3 | The smallest size that is still real; what changes psychologically when money is live; the rules that must survive the switch. **[v4]** The warning signs a beginner meets first: signal groups, paid "gurus", pump-and-dump, guaranteed returns (`docs/agent.md` §7) | 6 |
 | 17 | Capstone — A Full Week | 3 R | Five sessions compressed: a green day, a red day inside the limit, a day with no trades, a tilt caught early, a weekly review that produces one rule | 5, 6, 7 |
 | 18 | Final Exam and Graduation | 1 F | 15 questions → badge → `tier-up` (Sim Trader) → the user's finished `plan-sheet` | 4, 5, 6, 7 |
 
@@ -442,7 +445,7 @@ Folder base: `content/paths/swing-trading/`. Timeframes: daily with weekly conte
 | 4 | The Stop Order and the Gap | 4 | Stop-market versus stop-limit; stops jumped overnight; why size, not the stop alone, protects you | 2 |
 | 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 1, 2 |
 | 6 | Bracket and Good-Till-Cancelled | 3 | Orders that live for days; entry + stop + target; reviewing them nightly | — |
-| 7 | How Many Shares? | 4 | Position value, risk per trade with wider stops, the 1 % rule, **and the account ceiling**; several open positions at once | 1 |
+| 7 | How Many Shares? | 4 | Position value, risk per trade with wider stops, the 1 % rule, **and the account ceiling**; several open positions at once. **[v4]** Revises the learner's `setup_max_account_pct` with this path's reason (the risk budget binds, not the account) | 1 |
 | 8 | Sizing Practice | 2 R | Five setups sized from both ceilings | 1 |
 | 9 | Checkpoint | 1 T | 10 questions on Levels 6–8 | 1, 2 |
 | 10 | Costs Over Days | 3 | Fees are minor; slippage on the open; what actually costs a swing trader | 1 |
@@ -502,7 +505,7 @@ Same spine, swing-specific: 1 The Stop Is Not Optional (4) · 2 R — The Unit (
 
 Folder: `content/drills/<path>/<slug>.yaml` · format in `docs/schema.md`. These feed the Practice hub (UI.md §7.3), not the path map. They are the rep volume that turns recognition into reflex, and they are written **after** the chapter they unlock from.
 
-The table below is the plan; `content/drills/packs.yaml` is the manifest built from it, and it is what `tools/build_drill_batch.py` (build-plan.md Stage 4) and `tools/validate_content.py` both read. **Path `all` means every path gets a pack of this shape, not that one file serves three paths:** chapters 2–8 differ per path, so each pack is written once per path against that path's charts, prices and setups, and `unlocked_by` resolves inside that path. The "Unlocked by" column names a chapter's exam or a setup's level; the manifest turns each into the sub-level id that actually exists (a chapter's final exam, or the last sub of the setup's level — the one that writes its playbook card).
+The table below is the plan; `content/drills/packs.yaml` is the manifest built from it, and it is what `tools/build_drill_batch.py` (**[v4]** stage DRILLS in `docs/build-plan.md`) and `tools/validate_content.py` both read. **Path `all` means every path gets a pack of this shape, not that one file serves three paths:** chapters 2–8 differ per path, so each pack is written once per path against that path's charts, prices and setups, and `unlocked_by` resolves inside that path. The "Unlocked by" column names a chapter's exam or a setup's level; the manifest turns each into the sub-level id that actually exists (a chapter's final exam, or the last sub of the setup's level — the one that writes its playbook card).
 
 | Pack | Path | Unlocked by | Size | Contents |
 |---|---|---|---|---|
@@ -517,7 +520,7 @@ The table below is the plan; `content/drills/packs.yaml` is the manifest built f
 
 Target at launch of a path: **~350 drill screens**, roughly the same volume again as the linear path's own questions. The sizes above add up to 370 across the fifteen packs; the manifest carries that figure.
 
-**[v3] Twelve of the fifteen packs are on hold.** `chart-replay` (§ Replays) does the chart-recognition job better than a frozen drill screen can, and that is what `charts-structure`, `levels-and-breaks`, `the-read`, `mixed-daily` and the eight setup packs are — 300 of the 370 screens. Only `cost-check` (written), `selection` and `risk-calls` are unaffected: all-in cost arithmetic, scanner reading and trade management are not chart timing, and no replay reaches them. Decide the twelve after the Stage 7 pilot, not before.
+**[v3] Twelve of the fifteen packs are on hold.** `chart-replay` (§ Replays) does the chart-recognition job better than a frozen drill screen can, and that is what `charts-structure`, `levels-and-breaks`, `the-read`, `mixed-daily` and the eight setup packs are — 300 of the 370 screens. Only `cost-check` (written), `selection` and `risk-calls` are unaffected: all-in cost arithmetic, scanner reading and trade management are not chart timing, and no replay reaches them. Decide the twelve after the replay pilot (stage REPLAY-PILOT), not before.
 
 ---
 
@@ -542,7 +545,7 @@ only where the learner has just been given the card it needs:
 **The bank at launch.** Two replays per Chapter 7 setup card (16), four mixed level-3 replays,
 and two `allow_none` sessions — **22 replays per path**, ~1,300 bars authored. That is a
 smaller number of files than the drill bank and considerably more work per file; see
-`docs/build-plan.md` Stage 7.
+`docs/build-plan.md`, stages REPLAY-PILOT and REPLAY-BANK.
 
 **Replays and drills are not the same job.** Drills build recognition at volume with spaced
 repetition; a replay tests whether recognition survives when the outcome is hidden and the
@@ -555,9 +558,10 @@ fails on volume marks *volume* weak exactly as a wrong drill answer would.
 2. ✅ Chapter 1 (expand — done after Scalping 2–4 so the callbacks are known)
 3. ✅ Scalping Chapters 5 → 6 → 7 → 8 (5 and 8 are new)
 4. ◐ Scalping drill packs — manifest and tooling done, 1 of 15 packs written
-5. Day Trading Chapters 2 → 8
-6. Swing Trading Chapters 2 → 8
+5. **[v4]** Chapter 1 Level 2-4 and Scalping Chapter 8 Level 15, then one correction pass per chapter (`docs/build-plan.md` Phase E)
+6. **[v4]** Swing Trading Chapters 2 → 8 — before Day Trading (decision W2: Chapter 1 sends working people to swing, and EU retail traders can hardly scalp cash stocks)
+7. Day Trading Chapters 2 → 8 — after the release
 
-One chapter per session, written in blocks of 4–6 levels (`docs/agent.md` §6). After each: validator clean, commit, push, short report, stop.
+One chapter per session, written in blocks of 4–6 levels (`docs/agent.md` §6). After each: validator clean, commit, open a PR, short report, stop.
 
-Stage order, per-stage prompts and model choices for the v2 → v3 build: `docs/build-plan.md`.
+The order of all work — app, content and release — with a prompt, model and effort per stage: `docs/build-plan.md`.
