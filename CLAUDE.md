@@ -12,7 +12,7 @@ Run `python3 tools/validate_content.py` before finishing any content step.
   - Stop at the stage's gate.
 - Findings carry ids (M…, S…, K…, W…) from `docs/review-2026-09-25.md`.
 - Work on the session's branch and open a PR against `main`. Never push to `main` directly unless David says so explicitly.
-- Everything is in English: code, content, docs, commits, PR texts and reports.
+- Everything is in English: code, content, docs, commits, PR texts and reports. English is the source language; the other app languages are generated from it in Phase J of the plan and never edited by hand.
 
 ## Before every report
 

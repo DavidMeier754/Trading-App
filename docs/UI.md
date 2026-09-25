@@ -11,6 +11,9 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 tests, the mistakes round, the reveal that grades a decision apart from its outcome, answers in the
 thumb zone, a scroll fallback instead of illegible shrinking, at most three looks plus light and dark,
 no leaderboard in v1.0. Marked **[v4]**.
+**[v4.1] (2026-09-25)** — David's answers to the open decisions: calm, high-quality motion (H), the
+practice arena and Tradle Plus with ads in the free tier (I), accounts (K), every launch language
+(M). Marked **[v4.1]**.
 
 ---
 
@@ -22,7 +25,7 @@ no leaderboard in v1.0. Marked **[v4]**.
 4. **Instant feedback, never a dead end.** Every answer reveals right/wrong in place within 100 ms. No separate feedback screen. The user always sees the correct answer before moving on.
 5. **Show, then ask.** A concept is shown (card, visual, animation) before it is asked. Every defined term is tappable (Glossary popover, section 8).
 6. **No pressure.** No timers, countdowns or quick-fire rounds anywhere — **including the new rapid types in §4**. **[v4]** Hearts are spent only in Tests and Final Exams; lessons and practice never cost one (§5.2).
-7. **Motion has a purpose.** Animations explain (a slice filling, a spread widening) or reward (badge unlock). Respect the OS "reduce motion" setting.
+7. **Motion has a purpose.** Animations explain (a slice filling, a spread widening) or reward (badge unlock). Respect the OS "reduce motion" setting. **[v4.1]** Motion is calm and high quality (decision H): unhurried, smooth at the display's frame rate on cheap phones too, and never in the way — the response to a tap starts at once, and a tap finishes or skips any running motion.
 8. **Numbers are real.** Prices, spreads and costs use one format everywhere (section 9). Cost math always shows a share count.
 9. **Confident tone, tiny caveats.** The card says the simple true thing in one sentence; nuance goes into the reveal note or glossary.
 10. **[v3] Variety is a feature, not a decoration.** The path is ~385 sub-levels. A learner meets the same archetype hundreds of times, so every archetype must be worth meeting again, and no chapter may lean on three of them.
@@ -40,7 +43,7 @@ no leaderboard in v1.0. Marked **[v4]**.
 │      (card / visual / question)      │
 │                                      │
 ├──────────────────────────────────────┤
-│  [ inline reveal / explanation ]     │  slides up in place after answering (200 ms)
+│  [ inline reveal / explanation ]     │  slides up in place after answering (calm, §5.1)
 │  ┌──────────────────────────────┐    │
 │  │        CONTINUE / CHECK      │    │  single primary CTA, full width, bottom safe-area
 │  └──────────────────────────────┘    │
@@ -182,7 +185,7 @@ Lessons do not cost hearts (§5.2); a wrong answer in a lesson costs a repeat in
 - "Show working" toggle on numeric reveals: expands a 1–3 line calculation.
 - A run of right answers climbs three sounds, each a step higher: the first right answer, the second, and from the third on the streak sound (a three-note chord roll, the same for the rest of the run). A wrong answer starts the climb again.
 - A chart that moves (builds in, draws on, plays out) gives one light haptic as it starts and one firm haptic as it comes to rest, and nothing in between.
-- **[v4] Timing.** The reveal slides in within 250 ms and a screen change takes at most 300 ms — unless decision H in `docs/build-plan.md` §4.2 sets the slower feel the app has now.
+- **[v4.1] Timing (decision H).** Calm and high quality: the reveal and screen changes are slower and more deliberate than the quick 200–300 ms v4 proposed — at least the pace the app has today. How calm exactly, David chooses in stage LOOK-BRIEF; stage LOOK-SYSTEM sets the durations and curves on real phones and records them in §10. The millisecond values elsewhere in this file are starting points. The response to a tap starts within 100 ms, and a tap during a motion finishes or skips it, so no one ever waits for an animation.
 
 ### 5.1b Decision and outcome on `chart-decision` **[v4]**
 
@@ -198,6 +201,7 @@ The reveal grades the **decision** and reports the **outcome** separately (`docs
 - 5 hearts, always shown at the right end of the top bar (section 2) and on the home HUD (7.2). **[v4]** A wrong answer in a Test or a Final Exam removes one (the heart breaks, shrinks and greys out, 300 ms). Lessons never cost a heart — their wrong answers come back in the mistakes round (§4.5). Amber answers never cost a heart, and neither does practice (7.3, 7.7).
 - Each lost heart returns after 4 hours; the time until the next one is shown beside the hearts on the path map.
 - **[v4]** Finishing a practice session returns one heart.
+- **[v4.1] Tradle Plus** removes the limit: the hearts show ∞ and a Test never stops for them, but the pass mark stays. For a free learner, the Out-of-hearts screen lists the free ways first (Review the cards, Practice for a heart, wait) and Plus after them (§7.8).
 - Losing the last heart stops the Test on an "Out of hearts" screen; the Test does not count as passed. **[v4]** The screen is not a dead end: it offers **Review the cards** (the tested levels' theory cards) and **Practice for a heart**, with **Back to path** under them. A Test cannot be started again until a heart is back; lessons always can.
 
 ### 5.3 Sub-level complete
@@ -349,6 +353,7 @@ Lists weak concepts (from wrong answers) and offers an untimed 3-minute review m
 - **[v3] Spot it** (7.7) is the second practice surface and feeds the same weak-concept list: a `Phantom` at a decoy that fails on volume marks *volume* weak, exactly as a wrong answer would.
 - **[v4] Spaced repetition, concretely:** a question answered right moves to the next interval (1 → 3 → 7 → 16 → 35 days); a wrong answer sends it back to day 1. A question from a lesson not yet played is never drawn.
 - **[v4]** Finishing a practice session returns one heart (§5.2).
+- **[v4.1]** The Practice hub stays free for everyone. Unlimited generated charts, replays and the practice account are the arena (7.7), part of Tradle Plus.
 
 ### 7.4 Stats / profile
 Total XP, chapters completed, accuracy per tag, scenario record (Long/Short/No-trade decisions and "good decision" rate — never "profit").
@@ -370,6 +375,11 @@ One untimed, optional mixed set per week (8–12 questions drawn from everything
 
 ### 7.7 Spot it — the replay tab **[v3]**
 
+**[v4.1] This tab grows into the arena** (decision I, `docs/build-plan.md` Phase G). Stage ARENA-DESIGN rewrites this section; the rules below stay.
+- **For everyone:** the **Daily Tradle** — one chart a day, the same for everyone on a path, played bar by bar, with a share card that shows decisions and never money — and a taste of each arena part.
+- **With Tradle Plus:** replays of whole sessions, unlimited setup drills from the chart generator, the practice account with its journal and statistics, and scenario packs.
+- **Synthetic charts only.** Their odds are a training model, and the app says so (`docs/agent.md` §7).
+
 The second practice surface, beside the Practice hub (7.3), and the home of `chart-replay` (4.4). One tap opens a replay the learner has not seen, drawn from the bank in `content/replays/` and filtered by what they have unlocked.
 
 - **What it is for.** The linear path teaches recognition one frozen chart at a time. This is where the learner finds out whether they can spot a setup with the outcome still hidden — and whether they can sit through a session that offers them nothing.
@@ -379,6 +389,15 @@ The second practice surface, beside the Practice hub (7.3), and the home of `cha
 - **Never costs hearts, never timed.** Same as every practice surface.
 - **What it does not do.** It does not replace the simulator plan Chapter 8 ends on. A replay you can pause teaches recognition; it does not teach a live market, and the copy must not imply otherwise.
 
+### 7.8 Tradle Plus, the paywall and ads **[v4.1]**
+
+Decision I (`docs/build-plan.md` §4.1). Stages ARENA-DESIGN, MONEY and ADS fill in the details and record them here.
+
+- **Free:** every lesson of every path, the checkpoints and final exams, the Practice hub (7.3), the glossary, the statistics, the Daily Tradle and a taste of the arena (7.7); 5 hearts in tests (§5.2); ads between lessons.
+- **Tradle Plus:** unlimited hearts (∞ in the HUD), no ads, the full arena.
+- **The paywall** appears only at natural points: when the free part of the arena is used up, on the Out-of-hearts screen below the free ways, and in Account and Settings. Never inside a lesson, over a reveal or at app start. It states the price per period, how it renews and how to cancel; a trial names its end date. No countdowns, no pre-selected expensive option without its price.
+- **Ads** come only after a finished lesson, once its result has been shown, and not after every lesson. Never inside a lesson, test, reveal, the arena or onboarding, and never on the first day. No ads for financial products, trading, crypto, gambling or get-rich-quick (`docs/agent.md` §7). Personalized ads only with consent.
+- **Nothing is sold one at a time:** no hearts, no streak freezes, no passes.
 ---
 
 ## 8. Glossary popover
@@ -396,6 +415,7 @@ Every defined term is rendered with a subtle dotted underline. Tap → bottom sh
 - Session times, index examples and regulation notes come from `content/market_profiles.yaml` via `{{market.*}}` tokens. **[v3]** Clock times are never written literally, even inside a story.
 - **[v4] Locale.** Numbers follow the market profile: "$1,234.50" for US, "1.234,50 €" for EU-DE. Clock times show in the learner's own time zone ("US market: 15:30–22:00 German time") — the market a learner trades and the time zone they live in are two settings.
 - **[v4] UI strings go through i18n keys** (`en.json` first). Content stays English (`docs/agent.md` §1).
+- **[v4.1] Languages (decision M).** The app is built in English and translated into every launch language before the release (`docs/build-plan.md` Phase J). The language follows the phone and can be changed in Settings. Number formats follow the language (a German reader sees "1.234,50 $" for a US stock); the currency follows the market. Translated content is generated from the English files and never edited by hand, and every screen must also fit in the longest launch language.
 
 ---
 
@@ -407,17 +427,18 @@ Every defined term is rendered with a subtle dotted underline. Tap → bottom sh
 - Color-blind safe: up/down always with arrow/sign; alternative palette (blue/orange) toggle applies to charts too.
 - Dynamic type to 130 % without truncation. Screens do not scroll (section 2), so a screen must be authored to fit at 130 %: shorter body, or split in two. Scrolling is the fallback only past 130 %, where nothing else will do. **[v4]** And wherever the fitter would have to shrink a screen below 85 % (§2).
 - Haptics and sounds each have a toggle. Reduce-motion removes confetti, flicker and auto-playback (candles then appear on tap).
+- **[v4.1] Motion tokens** (durations, easing curves, springs) for decision H are recorded here by stage LOOK-SYSTEM. Motion runs on the UI thread and holds the display's frame rate on a cheap Android phone; under reduce motion, movement becomes a short fade.
 - Min tap target 48 × 48 pt; drag interactions all have tap-tap alternatives. **[v3]** This includes `swipe-deck` (buttons underneath), `chart-annotate` (tap-to-place then nudge) and `order-build` (tap chip, tap slot).
 
 ---
 
 ## 11. Navigation & app flow
 
-1. **Onboarding [v4]:** five short steps — what the app is · the one-line risk note · the daily goal (1, 2 or 3) · reminders yes/no · the market profile ("Where will you trade later?") — then straight into Chapter 1, Level 1. No path question. (v3 had three screens: what the app is, the risk note, the notification opt-in.)
-2. **Home [v4]** = a tab bar along the bottom: **Learn** (the path map, 7.1), **Practice** (7.3) and **Account** (stats and profile, 7.4); **Spot it** (7.7) joins when the replay bank exists. Tabs are peers: switching is instant, never a slide. There is no Leaderboard in v1.0 (`docs/agent.md` §1) — v3 had one, and an opt-in friends league may follow the release.
+1. **Onboarding [v4]:** five short steps — what the app is · the one-line risk note · the daily goal (1, 2 or 3) · reminders yes/no · the market profile ("Where will you trade later?") — then straight into Chapter 1, Level 1. No path question. (v3 had three screens: what the app is, the risk note, the notification opt-in.) **[v4.1]** The language comes from the phone. Where the law requires consent for analytics or ads, it is asked before the first lesson. Sign-in is not part of onboarding: it is offered after the first lessons, in Account and before a purchase, and never forced.
+2. **Home [v4]** = a tab bar along the bottom: **Learn** (the path map, 7.1), **Practice** (7.3) and **Account** (stats and profile, 7.4); **Spot it** (7.7) joins when the replay bank exists. **[v4.1]** Spot it becomes the **Arena** tab (7.7): Learn, Practice, Arena, Account. Tabs are peers: switching is instant, never a slide. There is no Leaderboard in v1.0 (`docs/agent.md` §1) — v3 had one, and an opt-in friends league may follow the release.
 3. **Lesson player** (section 2).
 4. **Path choice** is a lesson of its own after the Chapter 1 Final Exam (Level 17-2), played from its own node on the map. The path can be changed in Settings (Your path) or by playing the node again. A path whose chapters are not written yet reads "Being written" and cannot be picked.
-5. **Settings** opens from a button on Account: lesson design (swipe left and right through a live preview of each design; one press applies it, §10), market profile, theme, sounds/haptics, reduce motion, your path, reset progress (asks once more; the settings stay), legal, and a button that opens the all-screens test bench. While the app is being tested, Settings also refills the hearts and skips ahead to any level (everything before it counts as played); both go before release. **[v4]** Settings also holds the daily goal, reminders, the market profile and time zone, light/dark/system, the colour-blind palette and Legal. The testing tools exist only in test builds (`EXPO_PUBLIC_TEST_TOOLS=1`) and never earn XP.
+5. **Settings** opens from a button on Account: lesson design (swipe left and right through a live preview of each design; one press applies it, §10), market profile, theme, sounds/haptics, reduce motion, your path, reset progress (asks once more; the settings stay), legal, and a button that opens the all-screens test bench. While the app is being tested, Settings also refills the hearts and skips ahead to any level (everything before it counts as played); both go before release. **[v4]** Settings also holds the daily goal, reminders, the market profile and time zone, light/dark/system, the colour-blind palette and Legal. The testing tools exist only in test builds (`EXPO_PUBLIC_TEST_TOOLS=1`) and never earn XP. **[v4.1]** Settings also holds the language, the account (sign in, sign out, export your data, delete your account), Tradle Plus (manage, restore purchases) and the privacy choices for analytics and ads.
 6. The one-line risk note appears on first launch, on every scenario result and on the stats screen; the full disclaimer lives in Settings → Legal.
 
 ---

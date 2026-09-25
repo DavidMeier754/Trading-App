@@ -6,6 +6,8 @@ Every path has **8 chapters**. Chapter 1 is shared and ends with the path choice
 Status: **v3**. The path is sized so a learner doing two sub-levels a day (~10 minutes) finishes in about six months and comes out able to run a plan: pick the stock, read the day, recognise the setup, size it, manage it, and review it. See `docs/agent.md` §1.1 for what "finished" is allowed to claim.
 **[v4] (2026-09-25):** one new sub-level in Chapter 1 (2-4, variance), the scalping plan revision moved to Chapter 2 Level 1-4, the account facts that decisions B and C require, and Swing written before Day Trading. The order of all work is `docs/build-plan.md`.
 
+**[v4.1] (2026-09-25):** all three paths ship in v1.0 (decision E), so Day Trading is written before the release too, right after Swing. The practice arena (`docs/build-plan.md` Phase G) adds hands-on charts beyond the paths; it does not change this outline.
+
 Legend: `T` = test, `F` = final exam, `R` = repetition sub. Subs listed as a count; files are `level-LL-S.yaml`.
 The **Reinforces** column lists earlier chapters the level deliberately re-tests — it becomes the `reinforces:` header field (`docs/schema.md`). Every chapter from 3 on has one explicit **Callback** level.
 
@@ -545,7 +547,9 @@ only where the learner has just been given the card it needs:
 **The bank at launch.** Two replays per Chapter 7 setup card (16), four mixed level-3 replays,
 and two `allow_none` sessions — **22 replays per path**, ~1,300 bars authored. That is a
 smaller number of files than the drill bank and considerably more work per file; see
-`docs/build-plan.md`, stages REPLAY-PILOT and REPLAY-BANK.
+`docs/build-plan.md`, stages REPLAY-PILOT and REPLAY-BANK. **[v4.1]** All three paths get
+their bank before the release (REPLAY-BANK, ARENA-PATHS); the chart generator proposes the
+candidates, and each replay is picked and annotated by hand.
 
 **Replays and drills are not the same job.** Drills build recognition at volume with spaced
 repetition; a replay tests whether recognition survives when the outcome is hidden and the
@@ -560,7 +564,7 @@ fails on volume marks *volume* weak exactly as a wrong drill answer would.
 4. ◐ Scalping drill packs — manifest and tooling done, 1 of 15 packs written
 5. **[v4]** Chapter 1 Level 2-4 and Scalping Chapter 8 Level 15, then one correction pass per chapter (`docs/build-plan.md` Phase E)
 6. **[v4]** Swing Trading Chapters 2 → 8 — before Day Trading (decision W2: Chapter 1 sends working people to swing, and EU retail traders can hardly scalp cash stocks)
-7. Day Trading Chapters 2 → 8 — after the release
+7. **[v4.1]** Day Trading Chapters 2 → 8 — after Swing, before the release (decision E)
 
 One chapter per session, written in blocks of 4–6 levels (`docs/agent.md` §6). After each: validator clean, commit, open a PR, short report, stop.
 

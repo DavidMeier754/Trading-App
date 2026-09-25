@@ -4,11 +4,13 @@ A "Duolingo for traders": short daily lessons (3–4 min), interactive chart sce
 
 The course has three paths — Scalping, Day Trading and Swing Trading — with eight chapters each; Chapter 1 is shared. A finished path is ~145 levels and ~390 sub-levels: about 22 hours, or six months at two sub-levels a day. The goal for the course is that learners enjoy it, and that afterwards only practice is missing. What a graduate can do, and what the app never claims, is defined in `docs/agent.md` §1.1.
 
+The app is called **Tradle** (decision L in `docs/build-plan.md` §4.1; stage BRAND checks the trademark first). Version 1.0 ships all three paths, a practice arena with the subscription Tradle Plus, accounts, and every launch language.
+
 ## Where things stand (2026-09-25)
 
-- **Content:** Chapter 1 and the whole Scalping path are written: 388 sub-levels, 5,109 screens, 0 validator errors. Two pieces are planned: Chapter 1 Level 2-4 (variance) and Chapter 8 Level 15 (accounts and rules). Swing Trading and Day Trading are outlined level by level.
+- **Content:** Chapter 1 and the whole Scalping path are written: 388 sub-levels, 5,109 screens, 0 validator errors. Two pieces are planned: Chapter 1 Level 2-4 (variance) and Chapter 8 Level 15 (accounts and rules). Swing Trading and Day Trading are outlined level by level; both are written before the release.
 - **App:** an Expo app at the repo root (`README-app.md`). It plays Chapter 1 and Scalping Chapter 2 Levels 1–3. The rest of the written content is not wired in yet.
-- **The plan to release:** `docs/build-plan.md`. About 45 named stages. Each one has a copy-ready prompt, a model and effort, automatic checks, and the test David runs before the next stage starts.
+- **The plan to release:** `docs/build-plan.md`. About 60 named stages. Each one has a copy-ready prompt, a model and effort, automatic checks, and the test David runs before the next stage starts.
 - **The review it is built on:** `docs/review-2026-09-25.md`: a full play-through, a render of every screen, and every doc read. Each finding is assigned to a stage in appendix F of the plan.
 
 ## Start here

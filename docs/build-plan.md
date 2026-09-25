@@ -2,6 +2,8 @@
 
 Status: 2026-09-25. This plan replaces the previous `docs/build-plan.md`, which ordered only the content work. Its proven content prompts are kept in **Appendix E**, unchanged or updated.
 
+Updated the same day with David's answers to the open decisions (§4.1): all three paths, calm motion, the practice arena with Tradle Plus, accounts, every launch language, and a German business as the provider.
+
 **One rule first: this file's order is the order.**
 - Stages have names (`CI`, `STABLE-APP`, …), not numbers, because numbers drifted apart before.
 - To find what comes next, read the table in section 2 from top to bottom. The first stage without ✅ is the next one.
@@ -18,12 +20,13 @@ Status: 2026-09-25. This plan replaces the previous `docs/build-plan.md`, which 
 8. Phase D – Learning loop and fun
 9. Phase E – Scalping content: correct, honest, complete
 10. Phase F – Beta 1
-11. Phase G – Practice content
-12. Phase H – Swing path
-13. Phase I – Platform
-14. Phase J – Release
-15. Phase K – After the release
-16. Appendix A–F: templates, prompts, mapping of the review items
+11. Phase G – The practice arena (Tradle Plus)
+12. Phase H – Swing and Day Trading paths
+13. Phase I – Platform: account, subscription, ads
+14. Phase J – Languages
+15. Phase K – Release
+16. Phase L – After the release
+17. Appendix A–F: templates, prompts, mapping of the review items
 
 ---
 
@@ -80,7 +83,7 @@ A graduate can do or knows everything below. Stage `KNOWLEDGE` checks the whole 
 13. How to judge a broker: regulation, deposit protection, cost structure, order types, short selling. No recommendation.
 14. Profits are taxable, and the rules differ by country. The question belongs to a tax adviser; the app names neither rules nor rates.
 15. The way into practice:
-    - 30 (scalping) or 90 (swing) days on a simulator, following a plan;
+    - 30 (scalping, day trading) or 90 (swing) days on a simulator, following a plan;
     - then the smallest real size;
     - size up only with evidence from the journal.
 16. Warning signs: signal groups, "gurus", pump-and-dump, promises of guaranteed returns.
@@ -118,7 +121,7 @@ Checked in the stages of Phase C, Phase D and in the beta:
 
 - **Pace:**
   - A lesson takes 3–4 minutes, and no screen asks for more than ~20 s without interaction.
-  - Feedback is instant (< 100 ms), transitions are crisp (target ≤ 250 ms, decision H).
+  - Feedback starts at once (< 100 ms). The motion itself is calm and high quality (decision H): unhurried, smooth on cheap phones, and never in the way, because a tap finishes or skips it.
 - **No dead ends:** mistakes lead to repetition, not to lockouts. Hearts only exist in tests.
 - **Every lesson ends with a small win:** a recap, a checklist, your own plan, the streak.
 - **Variety:** ≥ 3 question types per lesson, pictures instead of text slides.
@@ -133,11 +136,12 @@ Checked in the stages of Phase C, Phase D and in the beta:
 All of this must hold at the same time:
 
 - **Content:**
-  - Chapter 1, Scalping and (decision E) Swing are complete.
+  - Chapter 1 and all three paths, Scalping, Swing Trading and Day Trading, are complete (decision E).
   - The validator is green with `--strict`.
-  - The `KNOWLEDGE` and `REVIEW-A` reviews are worked through, and the expert review (`EXPERT`) is done.
+  - The reviews are worked through: `KNOWLEDGE` and `REVIEW-A` for scalping, `SWING-REVIEW`, `DAY-REVIEW`, and the expert review (`EXPERT`).
+- **Practice arena:** the Daily Tradle, replays, setup drills and the practice account, for all three paths (Phase G, `ARENA-PATHS`).
 - **App:**
-  - 0 crashes in the render test of all screens.
+  - 0 crashes in the render test of all screens, in every launch language.
   - Crash-free ≥ 99.5 % in the beta.
   - All must-fix items of the review (`docs/review-2026-09-25.md`) are done.
 - **Learning loop:**
@@ -145,12 +149,17 @@ All of this must hold at the same time:
   - Practice tab with heart refill, review cards and glossary.
   - Daily goal, streak and reminders.
   - Statistics with decision quality.
+- **Account and money:**
+  - Sign-in and sync, account deletion and data export inside the app (decision K).
+  - Tradle Plus: unlimited hearts, no ads, the full arena (decision I). The free app is complete without it.
+  - Ads only where `ADS` allows them, and never for financial products or gambling.
+- **Languages:** every launch language passes the automatic checks and the native speakers' check of its key texts (decision M, Phase J).
 - **Legal:**
   - The risk note in every place listed in `docs/agent.md` §7.
-  - Legal page, imprint, privacy policy and terms of use, reviewed by a lawyer.
+  - Legal page, the business's imprint (decision P), privacy policy (account, analytics, ads, subscription) and terms of use, reviewed by a lawyer.
 - **Store:**
-  - Name, icon, screenshots, texts in English, privacy details, age rating. (German comes after the release, stage `GERMAN`.)
-  - TestFlight and the Google Play closed test (≥ 12 testers, ≥ 14 days) passed.
+  - Name and icon after the conflict check (decision L), screenshots and texts in every launch language, privacy details, age rating.
+  - TestFlight passed, and Google's closed test where the account type requires it.
 - **You have accepted every stage.**
 
 ---
@@ -271,19 +280,19 @@ Column "Test" = your time for the acceptance test. Session counts are estimates.
 | | `WIRE` | Content index instead of hand-written imports, all written chapters playable, render test of every screen | Opus 5.5 · high | 1 | 20 min |
 | B Stable | `STABLE-APP` | Plan overview, recap, reveal (decision vs. outcome), screen-reader leak, error page | Opus 5.5 · high | 1 | 20 min |
 | | `STABLE-DATA` | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
-| C Look & feel | `LOOK-BRIEF` | Your critique + three design directions as clickable prototypes | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
-| | `BRAND` | Name, logo, colors, icon draft, trademark pre-check | Opus 5.5 · xhigh | 1 | 20 min + choice |
-| | `LOOK-SYSTEM` | Colors, type, light/dark, ≤ 3 looks, thumb zone, minimum type size, pace, tap targets | Opus 5.5 · high, plan mode | 1–2 | 30 min |
+| C Look & feel | `LOOK-BRIEF` | Your critique + three design directions as clickable prototypes, with calm, high-quality motion | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
+| | `BRAND` | "Tradle": conflict and trademark check, logo, icon draft, store title, tone of voice | Opus 5.5 · xhigh | 1 | 20 min + choice |
+| | `LOOK-SYSTEM` | Colors, type, light/dark, ≤ 3 looks, thumb zone, minimum type size, motion system, tap targets | Opus 5.5 · high, plan mode | 1–2 | 30 min |
 | | `LOOK-COMPONENTS` | Charts, match, lesson-complete screen, icons, visuals, badge | Opus 5.5 · high | 2 | 30 min |
 | | `VISUALS` | New teaching graphics: candle anatomy, trade plan | Opus 5.5 · high | 1 | 15 min |
 | D Learning loop | `LOOP-HEARTS` | Hearts only in tests, mistakes round, review cards, test summary, XP rules | Opus 5.5 · high, plan mode | 1–2 | 30 min |
 | | `LOOP-DAILY` | Choosable daily goal, streak with states, freeze, weekly challenge, reminders | Opus 5.5 · high | 1–2 | 20 min + 3 days |
-| | `ONBOARDING` | First run, risk note, legal scaffold, market profile + number format, plan card, i18n | Opus 5.5 · high | 1–2 | 20 min |
+| | `ONBOARDING` | First run, risk note, legal scaffold, market profile + number format, plan card, i18n keys | Opus 5.5 · high | 1–2 | 20 min |
 | | `PRACTICE` | Practice tab with spaced repetition, weak concepts, heart refill | Opus 5.5 · xhigh, plan mode | 2 | 30 min + 1 week |
 | | `GLOSSARY` | Glossary content (every term), popover, list | Opus 5.5 · high | 1–2 | 15 min |
 | | `STATS` | Profile, statistics, Trader Card v1, decision quality | Opus 5.5 · high | 1 | 15 min |
 | | `FUN-PASS` | Fun audit with a newcomer test, then polish | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 45 min |
-| E Scalping content | `RULES` | New validator rules + a worklist per chapter | Opus 5.5 · high | 1–2 | 10 min |
+| E Scalping content | `RULES` | Your content critique, new validator rules, a worklist per chapter | Opus 5.5 · high | 1–2 | 30 min critique + 10 min |
 | | `VARIANCE` | Variance simulator, lesson 1·2-4, summary "decision vs. outcome" | Opus 5.5 · xhigh | 1–2 | 30 min + newcomer test |
 | | `OFFER` | Chapter 8 Level 15 (account types, margin, PDT, settlement, tax note) + renumbering + market profiles | Opus 5.5 · xhigh | 1–2 | 20 min |
 | | `CONTENT-FIX-1` … `-8` | All content corrections, one chapter per stage | Opus 5.5 · high | 8–12 | 20 min each |
@@ -291,33 +300,48 @@ Column "Test" = your time for the acceptance test. Session counts are estimates.
 | | `KNOWLEDGE-FIX` | Add the missing knowledge | Opus 5.5 · high | 1–3 | 20 min |
 | | `REVIEW-A` | Didactic review of the whole path, then corrections | Fable 5.1 · high (else Opus 5.5 · max) | 1 + 1–3 | decide findings |
 | | `EXPERT` | Expert review by an experienced trader (a human) | – | – | organize |
-| F Beta 1 | `LEGAL-DRAFT` | Drafts: imprint, privacy policy, terms of use, disclaimer + a web page for them | Opus 5.5 · high | 1 | read + details |
-| | `STORE-SETUP` | Developer accounts, EAS builds, TestFlight, Play internal testing | Sonnet 5 · high | 1 | 30 min setup |
+| F Beta 1 | `LEGAL-DRAFT` | Drafts in English and German: the business's imprint, privacy policy, terms of use, disclaimer + a web page | Opus 5.5 · high | 1 | read + details |
+| | `STORE-SETUP` | Developer accounts in the business's name, EAS builds, TestFlight, Play internal testing | Sonnet 5 · high | 1 | 30 min setup |
 | | `ANALYTICS` | Crash reports, data-minimal learning analytics (opt-in), "Report a problem" | Opus 5.5 · high | 1 | 10 min |
-| | `BETA-1` | 10–30 testers, 2–4 weeks, weekly evaluation and fixes | Opus 5.5 · high per round | 2–4 | look after testers |
-| G Practice | `REPLAY-PILOT` | One replay by hand + validator rules | Opus 5.5 · high | 1 | 10 min |
-| | `SPOT-IT` | The replay tab in the app | Opus 5.5 · high | 1 | 20 min |
-| | `DRILLS` | The two packs `selection`, `risk-calls` | Opus 5.5 · high | 1 | 10 min |
-| | `REPLAY-BANK` | 22 replays for scalping | Opus 5.5 · high | ~8 | 10 min each |
-| H Swing | `SWING-2` … `SWING-8` | Swing Chapters 2–8 | Opus 5.5 · high | 7–14 | 20 min each |
+| | `BETA-1` | Your testers, 2–4 weeks, weekly evaluation and fixes | Opus 5.5 · high per round | 2–4 | look after testers |
+| G Practice arena | `ARENA-DESIGN` | How the arena, the Daily Tradle and Tradle Plus work: docs and clickable screens | Fable 5.1 · high (else Opus 5.5 · xhigh), plan mode | 1 | 30 min + choice |
+| | `REPLAY-PILOT` | One replay by hand + validator rules | Opus 5.5 · high | 1 | 10 min |
+| | `CHART-GEN` | The chart generator: sessions and setups from seeds, checked by code | Opus 5.5 · xhigh, plan mode | 2–3 | 20 min |
+| | `ARENA-TAB` | The arena tab and the Daily Tradle | Opus 5.5 · high | 1–2 | 20 min + 1 week |
+| | `SIM-ACCOUNT` | The practice account: orders, costs, journal, statistics, daily limit | Opus 5.5 · high, plan mode | 2 | 30 min |
+| | `DRILLS` | The packs `selection` and `risk-calls`, plus generated setup drills | Opus 5.5 · high | 1–2 | 15 min |
+| | `REPLAY-BANK` | 22 replays for scalping, from generator candidates, annotated by hand | Opus 5.5 · high | ~4 | 10 min each |
+| H Swing + Day | `SWING-2` … `SWING-8` | Swing Chapters 2–8 | Opus 5.5 · high | 7–14 | 20 min each |
 | | `SWING-REVIEW` | Reviews A + B for swing, then corrections | Fable 5.1 · high/max | 2–4 | decide findings |
-| I Platform | `BACKEND` | Account + sync (decision K) | Opus 5.5 · xhigh, plan mode | 2–3 | 20 min |
-| | `MONEY` | Payment model (decision I) | Opus 5.5 · high | 1–2 | 20 min |
+| | `DAY-2` … `DAY-8` | Day Trading Chapters 2–8 | Opus 5.5 · high | 7–14 | 20 min each |
+| | `DAY-REVIEW` | Reviews A + B for Day Trading, then corrections | Fable 5.1 · high/max | 2–4 | decide findings |
+| | `ARENA-PATHS` | Arena content for swing and Day Trading: templates, drills, replays | Opus 5.5 · high | 4–6 | 20 min per path |
+| I Platform | `BACKEND` | Accounts and sync: Apple, Google, email; deletion and export (decision K) | Opus 5.5 · xhigh, plan mode | 2–3 | 30 min |
+| | `MONEY` | Tradle Plus: subscription, paywall, unlimited hearts, arena access (decision I) | Opus 5.5 · high, plan mode | 1–2 | 20 min |
+| | `ADS` | Ads in the free tier: placement, consent, blocked categories | Opus 5.5 · high | 1 | 20 min |
 | | `UPDATES` | Content without store updates, progress migration, lazy loading | Opus 5.5 · high | 1 | 15 min |
 | | `TECH` | Clean-up backed by measurements: bundle, start time, Chart.tsx | Opus 5.5 · high | 1–2 | 10 min |
-| J Release | `A11Y-PERF` | Accessibility and speed on real devices | Opus 5.5 · high | 1 | 30 min |
+| J Languages | `I18N-PIPELINE` | Language switch, locale formats, the translation pipeline and its checks; the German pilot | Opus 5.5 · xhigh, plan mode | 2 | 45 min |
+| | `MARKETS` | Market profiles for the launch markets | Opus 5.5 · high | 1 | 15 min |
+| | `TRANSLATE-1` … `-n` | The launch languages, one batch per stage | Opus 5.5 · high | 3–8 | 15 min per batch |
+| | `RTL` | Right-to-left layout, if Arabic or Hebrew are on the list | Opus 5.5 · high | 1 | 15 min |
+| | `LANG-REVIEW` | Native speakers check the key texts; the findings flow back | Opus 5.5 · high | 1–2 | organize |
+| K Release | `A11Y-PERF` | Accessibility and speed on real devices | Opus 5.5 · high | 1 | 30 min |
 | | `LEGAL-FINAL` | Review by a lawyer, final texts | – (a human) | – | organize |
-| | `STORE-LISTING` | Screenshots, texts in English, privacy details, age rating | Sonnet 5 · high | 1 | 30 min |
-| | `BETA-2` | Release candidate, closed test ≥ 12 testers × 14 days | Opus 5.5 · high per round | 1–3 | 2–4 weeks |
+| | `STORE-LISTING` | Screenshots and texts in every launch language, privacy details, age rating | Sonnet 5 · high | 1–2 | 30 min |
+| | `BETA-2` | The release candidate with everything in; Google's closed test where required | Opus 5.5 · high per round | 1–3 | 2–4 weeks |
 | | `RELEASE` | Submission, review, launch, watching the first week | Opus 5.5 · high | 1–2 | launch |
-| K After | `DAY-TRADING`, `GERMAN`, `FRIENDS`, … | See Phase K | – | – | – |
+| L After | `FRIENDS`, `AI-EXPLAINER`, … | See Phase L | – | – | – |
 
 **Milestones**
 - After Phase E: a complete, honest scalping course.
 - After `BETA-1`: real feedback from strangers.
+- After Phase G: the arena works, for scalping.
+- After Phase H: all three paths, each with its arena content.
+- After Phase J: every launch language.
 - After `RELEASE`: v1.0 in the stores.
 
-Roughly 70–100 sessions in total. The total depends mostly on decision E (Swing before or after v1.0).
+Roughly 90–150 sessions in total. Most of them are content: the scalping pass (Phase E), the two new paths (Phase H) and the translations (Phase J).
 
 ---
 
@@ -332,6 +356,7 @@ Roughly 70–100 sessions in total. The total depends mostly on decision E (Swin
 | Tools | Validator: 0 errors, 3 warnings. Self-test 110/110. Sizing: 0 of 572 positions over the cap. |
 | Missing entirely | CI, app tests, onboarding, risk note, legal texts, glossary, practice tab, statistics, backend, store setup, branding |
 | Review | `docs/review-2026-09-25.md`: 17 must-fix, 54 should-fix, 14 could-do items, 25 doc items (W). Appendix F assigns every item to a stage. |
+| Decisions | A–C, E, H, I, K, L, M, O and P are made; N and Q–T are open (§4). |
 
 ---
 
@@ -344,8 +369,16 @@ Roughly 70–100 sessions in total. The total depends mostly on decision E (Swin
 | A | **The course ends with a person who can start, not just with a paper process.** From your goal "after the course only practical experience is missing": the course teaches all knowledge up to the first real trade (graduate profile, points 11–16). Still: no product names, no recommendation, no profit promises, the simulator comes first. | `docs/agent.md` §1.1 |
 | B | **123 shorts, option (a):** we name the account and keep the content. Short selling needs a margin-enabled account; 1·12, 1·13 and 8·15 say so. | `docs/agent.md` §3.6 |
 | C | **Six trades per session, option (b): we say it plainly.** Several day trades per session need a margin account, and in the US the pattern-day-trader rule applies below $25,000 (check before release, the rule is being reformed). EU-DE has no PDT rule, but broker rules differ. Said in 6·9 and 8·15. | `docs/agent.md` §3.6 |
+| E | **All three paths in v1.0:** Scalping, Swing Trading and Day Trading (David). Swing is written first, then Day Trading (Phase H). Every path gets the same reviews and its own arena content. | agent.md §1, curriculum.md |
+| H | **Motion: calm and high quality** (David). Slower than a typical game, smooth on cheap phones, and never in the way: feedback starts at once, and a tap finishes or skips any motion. How calm, you choose in `LOOK-BRIEF`; the exact durations and curves come from `LOOK-SYSTEM`. | UI.md §1, §5.1, §10 |
+| I | **Money: Tradle Plus** (David), a subscription with unlimited hearts, no ads and the practice arena: hands-on charts beyond the paths (the concept is in Phase G). Free: every lesson of every path, the Practice tab, glossary, statistics, the Daily Tradle and a taste of the arena, with ads between lessons and 5 hearts in tests. Guardrails: nothing is sold one at a time (no hearts, no streak freezes), no pay-to-pass, no fake urgency. | agent.md §1, UI.md §7.7, §7.8 |
+| K | **Accounts in v1.0** (David): sign-in with Apple, Google or email, sync across devices, account deletion and data export inside the app. The app works before sign-in, and a purchase never needs an account. | agent.md §1, `BACKEND` |
+| L | **The name is Tradle** (David). The name is already in use: a daily geography game by the OEC is called "Tradle", and so is a day-trading journal app (tradleapp.com). `BRAND` checks trademarks and conflicts first; if the name is blocked, `BRAND` proposes close alternatives and you decide. | agent.md §1, `BRAND` |
+| M | **Every launch language in v1.0** (David): built in English first, then translated before the release by a checked AI pipeline, with the key texts read by native speakers (Phase J). More languages, more markets. The language never decides the market (`MARKETS`). | agent.md §1, UI.md §9 |
+| O | **You find the testers** (David): at least 12 if your Google account is a personal one (Google's closed test), at least 3 without trading knowledge, and for `BETA-2` native speakers of the launch languages. | `BETA-1`, `BETA-2` |
+| P | **The provider is a business registered in Germany** (David), before publishing. Recommended: register it **before `STORE-SETUP`**, so the developer accounts are opened once, in the business's name. The legal form (decision Q) decides how you enroll: a sole proprietorship enrolls with Apple as an individual and sells under your own name; a legal entity (e.g. UG or GmbH) enrolls as an organization and needs a D-U-N-S number (free, can take up to 30 days). A Google organization account needs one too, and is exempt from Google's 12-tester rule. | `LEGAL-DRAFT`, `STORE-SETUP` |
 | W1 | **Hearts only in checkpoints and final exams.** Lessons are for practicing: wrong answers come back in the mistakes round at the end (W25). | agent.md, UI.md §5.2 |
-| W2 | **This order:** the app stable and good-looking before new content, Swing before replays/drills. | this plan |
+| W2 | **This order:** the app stable and good-looking before new content. W2b (Swing before replays and drills) no longer sets a priority: since decisions E and I, Swing, Day Trading and the arena all ship in v1.0. The arena engine comes first (Phase G), so each new path gets its arena content right after its chapters. | this plan |
 | W3 | **The 50 % plan value, option (a):** Chapter 1 stays at 50. The scalping path revises the value to 95 in **2·1-4**, with the reason (the revision was meant for Chapter 3, but never existed in the content). | agent.md §3.6, curriculum.md |
 | W4–W6 | **Layout and looks:** answers in the thumb zone. A minimum type size, scrolling if needed. At most 3 looks plus light/dark/system. | UI.md §2, §10 |
 | W7 | **No leaderboard in v1.0.** Later at most an opt-in friends league. | UI.md §7.2, §11 |
@@ -356,7 +389,7 @@ Roughly 70–100 sessions in total. The total depends mostly on decision E (Swin
 | W12–W14 | **Variance rule, sign rule, recap reference.** | agent.md §3.11/§3.12, schema.md |
 | W15 | **Match:** one wrong tap gives amber (counts as correct), two or more are wrong. | UI.md §4.1 |
 | W16–W18 | **US English.** The label "Takeaway" for closing screens. Skills cleaned up; `docs/` win over skills. | agent.md, schema.md, CLAUDE.md |
-| W19 | **Every UI string through i18n keys** (from `ONBOARDING`). German as a second app language after the release. | agent.md §1 |
+| W19 | **Every UI string through i18n keys** (from `ONBOARDING`); every launch language before the release (decision M, Phase J). | agent.md §1, UI.md §9 |
 | W20 | **The mascot stays dropped.** Not recommended; can be decided again at any time. | agent.md §1 |
 | W21–W25 | **Content and checks:** an explanation per wrong option. New validator rules (tells, formats). A visual quota. App checks in CLAUDE.md. The mistakes round. | schema.md, agent.md, CLAUDE.md, UI.md §4.5 |
 
@@ -364,16 +397,11 @@ Roughly 70–100 sessions in total. The total depends mostly on decision E (Swin
 
 | # | Question | My recommendation | Latest before |
 |---|---|---|---|
-| E | Release scope: v1.0 with Scalping **and** Swing, or Scalping only? | **With Swing.** Chapter 1 itself sends working people to swing, and for EU retail traders scalping cash stocks is hardly feasible (`docs/agent.md` §7). | Phase H (after `BETA-1`) |
-| H | Animation pace: the docs (≤ 250 ms) or today's slower feel? | ≤ 250 ms | `LOOK-BRIEF` shows both |
-| I | Payment model: subscription, freemium, one-time purchase? What is free? | Chapters 1 + 2 free, then a subscription. **Never** sell hearts or streak repairs: in a trading app that looks like gambling mechanics. | `MONEY` |
-| K | Account/login in v1.0? | **No.** Store progress locally, back up via the phone (iCloud/Android backup). Login + sync from v1.1. That saves a lot of GDPR work. | `BACKEND` |
-| L | Name and brand | You decide in `BRAND` | `BRAND` |
-| M | Target markets (DE? EU? US?) | Start with DE/AT/CH + EU. **Language settled:** v1.0 is English only (app, store texts, legal texts); German follows as the first stage after the release (`GERMAN`). | `STORE-LISTING` |
-| N | Who does the expert review and the legal review? | An experienced trader, and a law firm focused on IT/financial law | `EXPERT`, `LEGAL-FINAL` |
-| O | Beta testers: who and how many? | ≥ 12 (a Google requirement for new personal developer accounts), at least 3 of them without trading knowledge | `BETA-1` |
-| P | Who is the provider in the imprint (private person or business)? Taxes? | Clarify with a tax adviser. This is not a question for Claude. | `LEGAL-DRAFT` |
-
+| N | Who does the expert review and the legal review? | Still open, as you said. Affordable ways to find and pay both are in `EXPERT` and `LEGAL-FINAL`. | `EXPERT`, `LEGAL-FINAL` |
+| Q | The business's legal form (sole proprietorship, UG, GmbH) and taxes | A question for a tax advisor, not for Claude. It decides how you enroll with Apple and Google (decision P). | `STORE-SETUP` |
+| R | Prices for Tradle Plus: monthly, yearly, trial | `MONEY` proposes prices per region; you decide. | `MONEY` |
+| S | Personalized ads? | **No** in v1.0: no tracking prompt at first launch and a simpler consent. Look again with real numbers. | `ADS` |
+| T | The list of launch languages | `I18N-PIPELINE` proposes it (store markets, effort, script); you decide. | `I18N-PIPELINE` |
 
 ---
 
@@ -491,7 +519,7 @@ Report: what you built · check results · my test checklist with real links · 
    - `src/content.ts` uses it.
    - CI checks that the index is up to date.
 2. **All Scalping Chapters 2–8 on the map.** Chapter 8 Level 15 comes with `OFFER`.
-3. **Make the path choice honest** (S27): Day and Swing still show "Being written", now with one honest sentence.
+3. **Make the path choice honest** (S27): Day and Swing still show "Being written", now with one honest sentence. Both come before the release (decision E).
    - Scalping needs time at the market open.
    - Whoever does not have that time can flag interest in Swing. That is a local flag; the reminder comes with `LOOP-DAILY`.
 4. **Design the end of the content** (S26): no "soon" without context, but an honest sentence and, later, the way to practice.
@@ -685,8 +713,9 @@ Absolutely not:
      - lesson complete;
      - the map with the HUD.
    - Each direction in light and dark.
+   - The name "Tradle" as text; the logo follows in `BRAND`.
    - Reachable under `#prototype/<direction>/<screen>`.
-3. **Pace comparison** (decision H): the same screen at ≤ 250 ms and at today's pace.
+3. **Motion** (decision H: calm and high quality): every direction shows its motion on the six screens — the reveal, a screen change, a chart playing out, lesson complete. Calm but never sluggish: a tap finishes or skips any motion.
 4. **Layout variants:** answers in the thumb zone versus today; a proposal for the type scale.
 
 **Not in this stage:** rebuilding the real screens. That is `LOOK-SYSTEM`.
@@ -719,26 +748,26 @@ Report: the three directions in three sentences each · links to every variant �
    - trust;
    - "I would open this every day".
 2. Choose. Mixing is allowed, e.g. "colors from A, type from B".
-3. Decide the pace (decision H).
+3. Rate the motion: calm and polished, or sluggish? (Decision H is made; this sets how calm.)
 
 **Done when** Claude has recorded your choice in `docs/UI.md` §10. That happens in the same PR, after your answer.
 
-### `BRAND` – name and face
+### `BRAND` – Tradle: the name check and a face
 
-**Goal.** A name and a face before store accounts, icons and texts are created.
+**Goal.** The name is safe to use, and the app has a face before store accounts, icons and texts are created.
 
 **Scope**
-1. **10–15 name proposals:**
-   - short;
-   - pronounceable in German and English;
-   - **without profit promises**: no "profit", "rich", "signal" (`docs/agent.md` §1, §7 and the store guidelines).
-2. **Checked for each proposal:**
-   - app store search;
-   - domain (.app, .de, .com);
-   - a first trademark search on the web (DPMA, EUIPO). That does not replace a legal review.
-3. **2–3 logo and icon concepts** as SVG, matching the direction from `LOOK-BRIEF`. Optionally image concepts with the `brandkit` skill.
-4. **Tone of voice in five sentences:** sober, friendly, honest.
-5. **After your choice, recorded in:**
+1. **The conflict and trademark check for "Tradle"** (decision L), first:
+   - Known uses: the OEC's daily geography game "Tradle" (games.oec.world) and a day-trading journal app (tradleapp.com). Find out what else exists in the app stores, as domains and as registered trademarks.
+   - Trademark registers: DPMA (Germany), EUIPO (EU, e.g. via TMview), WIPO (international) and USPTO (US). Nice classes 9 (apps) and 41 (education), and 36 (finance) as a precaution.
+   - The app-store search in the launch markets; domains (.app, .com, .de); social handles.
+   - The result as a traffic light: green (free), amber (risks, with reasons), red (blocked). If amber or red: 5–10 close alternatives with the same checks. You decide.
+   - This does not replace the lawyer's trademark check in `LEGAL-FINAL`. Registering the name early is worth it; you do that.
+2. **How the name reads in the launch languages:** no unfortunate meaning, easy to say (decision M).
+3. **A store title,** e.g. "Tradle – Learn to Trade". Neither title nor subtitle promises profit (`docs/agent.md` §1, §7 and the store guidelines).
+4. **2–3 logo and icon concepts** as SVG, matching the direction from `LOOK-BRIEF`. Optionally image concepts with the `brandkit` skill.
+5. **Tone of voice in five sentences:** sober, friendly, honest.
+6. **After your choice, recorded in:**
    - `app.json` (name, slug);
    - the web title;
    - placeholders for icon and splash.
@@ -749,15 +778,15 @@ Report: the three directions in three sentences each · links to every variant �
 ```
 Stage BRAND from docs/build-plan.md.
 
-Read CLAUDE.md, §1 and the "BRAND" section of docs/build-plan.md, docs/agent.md §1 and §7, and the direction chosen in LOOK-BRIEF in docs/UI.md §10.
-Research on the web (app stores, domains, DPMA/EUIPO search) and state for every name what you checked and what you did not.
-No name may promise profit, wealth or signals.
+Read CLAUDE.md, §1, §4.1 (decision L) and the "BRAND" section of docs/build-plan.md, docs/agent.md §1 and §7, and the direction chosen in LOOK-BRIEF in docs/UI.md §10.
+Check the name "Tradle" first: research on the web (trademark registers, app stores, domains) and state what you checked and what you could not check. Give a traffic light with reasons. Only if it is amber or red, propose close alternatives with the same checks.
+No name, title or subtitle may promise profit, wealth or signals.
 
 Open a PR against main with the drafts (SVG) under assets/brand/.
-Report: the name list with check results · logo concepts (links) · tone of voice · open questions. Then stop and wait for my choice.
+Report: the name check · logo concepts (links) · store title · tone of voice · open questions. Then stop and wait for my choice.
 ```
 
-**You decide:** the name and the icon direction. Have the trademark checked by a lawyer before the release (`LEGAL-FINAL`).
+**You decide:** whether "Tradle" stays after the check, and the icon direction. Register the trademark early; the lawyer checks it before the release (`LEGAL-FINAL`).
 
 ### `LOOK-SYSTEM` – the chosen direction as a system
 
@@ -775,7 +804,11 @@ Report: the name list with check results · logo concepts (links) · tone of voi
    - Answers in the thumb zone.
    - `FitScreen` shrinks to 85 % at most; if it still does not fit, the screen scrolls.
    - Content no longer sticks to the top.
-4. **Pace** according to decision H (S5).
+4. **Motion system** (decision H, S5):
+   - Calm, high-quality motion tokens: durations, easing curves and springs, tuned on real phones and recorded in `docs/UI.md` §10.
+   - A tap never waits for motion: it finishes or skips the running animation.
+   - Everything runs on the UI thread (Reanimated) at the display's frame rate, also on a cheap Android phone.
+   - Reduce motion replaces movement with short fades.
 5. **Controls** (S13, S12):
    - Tap targets ≥ 48 pt.
    - Quit dialog: "Keep learning" is the main button, and the text says "lesson" instead of "sub-level".
@@ -811,7 +844,7 @@ Report: what you built · check results · contact sheets before/after · my tes
 2. Play one-handed: can you reach every answer with your thumb?
 3. Simulate a small display: Chrome on your computer → developer tools → "iPhone SE" and 320 px width. Expected: nothing below ~13 px, nothing cut off.
 4. Switch the look in Settings and turn on the color-blind palette.
-5. Fun question (1–5): does it feel faster and more polished?
+5. Fun question (1–5): does the motion feel calm and polished, and never sluggish?
 
 **Done when** the contact sheets are right and you are happy.
 
@@ -930,7 +963,8 @@ Report: what you built · check results · my test checklist with real links · 
    - One wrong tap gives amber: counts as correct, costs no heart.
    - From two wrong taps on, the task is wrong.
 9. **An explanation per wrong option** (`why`, W21) is shown where the content has one.
-10. **Unit tests** for every rule.
+10. **One switch for unlimited hearts,** read from a single place, for Tradle Plus (`MONEY`, decision I).
+11. **Unit tests** for every rule.
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 
@@ -1038,7 +1072,7 @@ Report: what you built · check results · every reminder text · my test checkl
    - Choice fields (`kind: choice`) and number ranges (`min`/`max`).
    - A dated plan history (`docs/schema.md`, "The plan").
    - Export as an image or text to share.
-6. **i18n foundation** (W19): every UI string goes through keys (`t('…')`) with one `en.json` file. Content stays English.
+6. **i18n foundation** (W19, decision M): every UI string goes through keys (`t('…')`) with one `en.json` file, and numbers, currencies and dates are formatted through the locale (`Intl`), never by hand. The content stays English until Phase J.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
@@ -1182,7 +1216,7 @@ Report: what you built · check results · my test checklist with real links · 
    - Claude plays Chapter 1 and Scalping Chapter 2 through automatically (Playwright, screenshots, time per screen).
    - Measures lesson length and interaction density.
    - Finds boredom, repetition and weak rewards.
-   - Checks the animations with the `review-animations` and `improve-animations` skills against `docs/UI.md`: "Nothing moves unless the learner moved it".
+   - Checks the animations with the `review-animations` and `improve-animations` skills against `docs/UI.md`: "Nothing moves unless the learner moved it", and decision H (calm, high quality, never in the way).
 2. **Newcomer test by you:** 2–3 people without trading knowledge play Levels 1–4 (guide in Appendix C).
 3. **Implementation:**
    - Audit and newcomer test become a prioritized list. You choose from it.
@@ -1218,7 +1252,7 @@ Open a PR against main and get every check green. Report with a test checklist. 
 ## 9. Phase E – Scalping content: correct, honest, complete
 
 The order is deliberate:
-1. First the validator checks the new rules (`RULES`).
+1. First your critique is collected, and the validator checks the new rules (`RULES`).
 2. Then the new building blocks are made (`VARIANCE`, `OFFER`).
 3. Then every chapter is touched **once** (`CONTENT-FIX`).
 4. Only then come the big reviews.
@@ -1228,10 +1262,21 @@ That way no file is rewritten twice.
 ### `RULES` – new rules and worklists
 
 **Goal.**
+- Your own critique of the lessons is captured, so every chapter pass works on it.
 - The new content rules are checked automatically.
 - Every content session gets a ready-made worklist.
 
+**You prepare (~30 min).** Play a few lessons from Chapter 1 and Scalping Chapters 2–3, then write down what bothers you, like the look critique in `LOOK-BRIEF`. Paste it under the prompt:
+```
+What bothers me in the lessons (screen link + one sentence):
+- …
+Too long / too short / too easy / too hard:
+What I miss:
+Lessons I liked, and why:
+```
+
 **Scope** (the rules are in `docs/agent.md` and `docs/schema.md`, marked [v4] there)
+0. **Your critique** goes into this plan, into the chapter-specific items of `CONTENT-FIX`: a part for every chapter, plus the chapter it names. So every chapter pass reads it.
 1. **Validator rules:** warnings first, errors under `--strict`.
    - **Variance** (§3.11):
      - the share per chapter;
@@ -1250,7 +1295,7 @@ That way no file is rewritten twice.
    - **Per-trade risk and total exposure** (`docs/agent.md` §3.6):
      - risk per trade between 0.5 and 2 %;
      - with several positions at once: the sum of position values and the sum of the risks against the account;
-     - required before swing.
+     - required before the swing and day-trading paths.
 2. **`tools/test_validate.py`:** one case per new rule.
 3. **`tools/content_report.py --chapter N`:** a worklist per chapter (Markdown) with every finding, each with file and screen.
 4. **`tools/export_readable.py --chapter N`:** a chapter as readable text, for you, for `EXPERT` and for the reviews.
@@ -1264,6 +1309,9 @@ Stage RULES from docs/build-plan.md.
 Read CLAUDE.md, then §1 and the "RULES" section of docs/build-plan.md in full, plus docs/agent.md and docs/schema.md in full (every rule marked [v4]).
 New rules start as warnings; a plain `validate_content.py` stays at 0 errors. No content changes in this stage.
 
+My critique of the lessons:
+[paste your template here]
+
 Open a PR against main and get every check green.
 Report: new rules · warnings per chapter (table) · link to the worklists · my test checklist · open questions. Then stop.
 ```
@@ -1271,6 +1319,7 @@ Report: new rules · warnings per chapter (table) · link to the worklists · my
 **You test (~10 min)**
 1. Read the worklists for Chapters 1 and 7: are the numbers plausible? The variance share today is e.g. 0 %.
 2. Open a chapter export: is it easy to read?
+3. Find your critique in the `CONTENT-FIX` section: is every point there, in the right chapter?
 
 ### `VARIANCE` – decided right, lost anyway
 
@@ -1386,8 +1435,9 @@ Report: what you built · check results · sources · sentences you are unsure a
    - Learning goals, level structure and ids.
    - Share counts only with the arithmetic redone (`docs/agent.md` §3.6).
 
-**Chapter-specific items** (from `docs/review-2026-09-25.md`)
+**Chapter-specific items** (from `docs/review-2026-09-25.md`, and from your critique once `RULES` has added it)
 
+- **Every chapter:** your critique's general points (added by `RULES`).
 - **Chapter 1:**
   - Scenarios that already draw the conclusion: 13-2, 16-1.
   - A contradiction about rumors: 13-2 S9 ↔ 16-1 S11.
@@ -1515,9 +1565,15 @@ Stage REVIEW-A (corrections) from docs/build-plan.md. Read CLAUDE.md, docs/agent
 Claude provides the exports (`tools/export_readable.py`) and a list of the places where Claude was unsure.
 
 **You:**
-1. Find the person: an experienced trader, ideally with training or teaching experience.
-2. Agree on scope and fee.
+1. Find the person: an experienced trader, ideally with training or teaching experience. Decision N is still open; ways that do not cost much:
+   - **Keep the job small.** Claude's own reviews (`KNOWLEDGE`, `REVIEW-A`) come first, so the expert only checks the risky parts above and Claude's list of doubts. That is hours, not weeks.
+   - **Where to look:** student investment and trading clubs at universities; former professional traders on LinkedIn or XING; lecturers who teach investing at adult education centers (Volkshochschule) or business schools; experienced traders among your beta testers; freelance platforms (e.g. Malt, Upwork) with a fixed price per chapter.
+   - **How to pay:** a fixed price per chapter instead of an hourly budget; or, instead of money, lifetime Tradle Plus and a credit in the app (only with their consent, and never worded as an endorsement).
+   - **If possible, two views:** a practitioner (does it work like that?) and a teacher (is it taught well?).
+2. Agree on scope and fee in writing.
 3. Bring the result back as a list.
+
+The same person, if possible, checks the same risky parts of Swing and Day Trading later (`SWING-REVIEW`, `DAY-REVIEW`).
 
 The corrections are made in a session of their own (Opus 5.5 · high, prompt as for the `REVIEW-A` corrections).
 
@@ -1525,19 +1581,21 @@ The corrections are made in a session of their own (Opus 5.5 · high, prompt as 
 
 ## 10. Phase F – Beta 1 (closed, scalping)
 
-The goal of this phase: real people test the finished scalping course before Swing is written.
+The goal of this phase: real people test the finished scalping course before the arena, Swing and Day Trading are built.
 
 ### `LEGAL-DRAFT` – legal texts as drafts
 
 **Goal.** Legal texts as drafts, so the beta and the store entries become possible.
 
-**Scope** (in English; the German versions come with `GERMAN`)
-1. **Imprint** under the DDG.
-2. **Privacy policy.** It covers:
+**Scope** (in English and German, because the provider is a business in Germany; the other languages follow in Phase J)
+1. **Imprint** under the DDG, with the business's details (decision P).
+2. **Privacy policy.** It covers what exists at the beta:
    - local storage;
    - notifications;
    - crash reports and analytics, only with consent;
    - the store providers.
+
+   The stages that add data processing later (`BACKEND`, `MONEY`, `ADS`, `I18N-PIPELINE`) extend it, and `LEGAL-FINAL` reviews the full set.
 3. **Terms of use.**
 4. **Risk note and disclaimer:**
    - no investment advice;
@@ -1547,9 +1605,9 @@ The goal of this phase: real people test the finished scalping course before Swi
 6. **A simple web page** with these texts, e.g. as a second Cloudflare Pages project. The stores require a privacy policy URL.
 7. **Settings → Legal** shows the texts.
 
-**Important.** These are drafts, not legal advice. A lawyer reviews them before the release (`LEGAL-FINAL`). Ask the lawyer whether an English-only app offered in Germany needs German legal texts at launch; if yes, those texts are the one German piece of v1.0.
+**Important.** These are drafts, not legal advice. A lawyer reviews them before the release (`LEGAL-FINAL`). Flag for the lawyer which language version is binding and whether a launch country needs texts of its own.
 
-**You prepare.** The provider details: name, address, contact (decision P).
+**You prepare.** The business's details: name, legal form, address, contact, and the register entry and VAT ID if there are any (decisions P and Q). Placeholders until the business is registered.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
@@ -1558,8 +1616,8 @@ The goal of this phase: real people test the finished scalping course before Swi
 Stage LEGAL-DRAFT from docs/build-plan.md.
 
 Read CLAUDE.md, then §1 and the "LEGAL-DRAFT" section of docs/build-plan.md in full, plus docs/agent.md §7.
-Provider details: [name, address, email].
-Write the drafts in English; flag every place a lawyer has to decide, including whether German versions are needed at launch. No text may promise profit or read as investment advice.
+Business details: [name, legal form, address, email, register entry, VAT ID].
+Write the drafts in English and German; flag every place a lawyer has to decide, including which language version is binding. No text may promise profit or read as investment advice.
 
 Open a PR against main and get every check green.
 Report: texts (links) · places flagged for the lawyer · my test checklist · open questions. Then stop.
@@ -1575,9 +1633,10 @@ Report: texts (links) · places flagged for the lawyer · my test checklist · o
 **Goal.** The app runs as a real app on real devices: TestFlight (iPhone) and Play "internal testing" (Android).
 
 **Scope**
-1. **Accounts** (you create them, Claude gives you the steps):
-   - **Apple Developer Program:** €99/year. As a private person or as a company; a company needs a D-U-N-S number.
-   - **Google Play Console:** $25 one-time. **New personal accounts** must run a closed test with **at least 12 testers for 14 days in a row** before their first release. As of 2025; check the current state before you plan around it.
+1. **Accounts** (you create them, Claude gives you the steps), in the business's name (decision P):
+   - **Apple Developer Program:** €99/year. A sole proprietorship enrolls as an individual and sells under your own name; a legal entity (e.g. UG or GmbH) enrolls as an organization and needs a D-U-N-S number.
+   - **Google Play Console:** $25 one-time. An organization account needs a D-U-N-S number and is exempt from the closed-test rule. A personal account created after November 2023 must run a closed test with **at least 12 testers for 14 days in a row** before its first release. Check the current rules before you plan around them.
+   - **The D-U-N-S number** is free but can take up to 30 days: request it as soon as the business exists.
    - **An Expo/EAS account.**
 2. **Project configuration:**
    - `eas.json` with the profiles development, preview and production.
@@ -1587,6 +1646,7 @@ Report: texts (links) · places flagged for the lawyer · my test checklist · o
 3. **First builds:** TestFlight internal and Play "internal testing".
 
 **You prepare.**
+- Register the business first (decision P); the legal form is decision Q.
 - Create and pay for the accounts.
 - Store the tokens as GitHub secrets.
 - Register the test devices.
@@ -1647,9 +1707,9 @@ Report: what you built · which data goes where (table) · my test checklist · 
 **Goal.** Real people, real feedback, before Swing is written.
 
 **Scope**
-1. **Testers:**
+1. **Testers** — you find them (decision O):
    - 10–30 people.
-   - At least 12 if the test should also count as Google's required test.
+   - At least 12 if your Google account is a personal one, so the test also counts as Google's required test.
    - At least 3 of them without trading knowledge.
 2. **Duration and channels:** 2–4 weeks via TestFlight and the Play closed test.
 3. **Questionnaire:** Appendix D.
@@ -1677,17 +1737,113 @@ First the prioritized list (impact × effort), then wait for my choice, then imp
 PR, every check green, report with a test checklist. Then stop.
 ```
 
-**Afterwards:** make decision E (Swing before v1.0?) with the beta numbers.
+**Afterwards:** the arena (Phase G), then Swing and Day Trading (Phase H).
 
 ---
 
-## 11. Phase G – Practice content
+## 11. Phase G – The practice arena (Tradle Plus)
 
-The detailed prompts are in Appendix E; they were taken over from the previous plan and updated.
+**Why this phase exists.** The course promises that afterwards only practice is missing. The arena is where that practice starts, inside the app: charts you trade bar by bar, drills without end, and a practice account whose numbers behave like a trader's. It is also what Tradle Plus sells (decision I), so it has to be worth paying for.
+
+### The idea
+
+David asked for the concept; `ARENA-DESIGN` turns it into the docs and the screens.
+
+**Free for everyone**
+- Every lesson of every path, the checkpoints and the final exams.
+- The Practice tab: mistakes, weak concepts, scheduled review, the daily mix.
+- Glossary, statistics, streak and daily goal.
+- 5 hearts in tests: one back every 4 hours, or one per finished practice round.
+- **The Daily Tradle:** one chart a day, the same for everyone on the same path, played bar by bar. You pick your moment or stand aside, set stop and target, then see what happened. The result can be shared as a small grid that shows your decisions, never money. It is a reason to open the app every day, and the arena's shop window.
+- **A taste of the arena**, e.g. one replay and ten drills, so you know what Plus contains.
+- Ads between lessons (`ADS`).
+
+**Tradle Plus (subscription)**
+- **Unlimited hearts.** A test still needs its pass mark.
+- **No ads.**
+- **The full arena:**
+  1. **Replays.** Whole sessions, bar by bar, at your own pace: a scalping morning in 1-minute bars, a day-trading session in 5-minute bars, a swing month in daily bars with one decision each evening. You choose the stock from a small watchlist with context (gap, news, relative volume) and write your plan (entry, stop, target, size) before the trigger. Then you manage the trade, or pass.
+  2. **Setup drills.** Short, unlimited reps from your path's playbook cards: a valid setup or not? Where does the stop go? How many shares for 1 %? Trade or pass? Your weak spots from the Practice tab come first.
+  3. **The practice account.** A paper account per path that carries across the arena:
+     - every trade posts to it with spread, fees and slippage;
+     - the journal fills itself;
+     - the statistics are the ones Chapter 6 teaches: expectancy, win rate against average R, the R distribution, rule breaks, results by setup and time of day;
+     - your plan's daily loss limit ends the session when it is hit;
+     - a reset starts a new season, and old seasons stay readable.
+  4. **Scenario packs.** Themed sets beyond the paths, e.g. gap days, choppy days, trend days, news spikes, fake breakouts, the last hour, earnings weeks, a losing streak.
+
+**Rules that carry over from the docs**
+- **No timer and no autoplay:** the chart moves only when you tap (`docs/UI.md` §1, §4.4).
+- **The decision is graded, the result is shown apart** (§5.1b). Standing aside is never punished.
+- **The arena never costs hearts.**
+- **Only synthetic charts**, labeled as practice. No real tickers.
+- **Money in the arena is practice money**, never framed as income. The statistics screen carries the risk note.
+- **Honest odds.**
+  - The generator gives clean setups a small positive edge and poor ones a negative edge, with realistic variance: 30–40 % of right calls still lose.
+  - Over 50 trades the practice account then shows what Chapter 6 teaches: the process decides the curve.
+  - The app says plainly that real markets guarantee no edge. The arena's odds are a training model.
+- **The arena does not replace paper trading on real-time data** before real money (graduate profile, point 15). The copy never implies otherwise.
+- **Lessons never advertise Plus.** The paywall appears only at natural points: when the free part of the arena is used up, when hearts run out in a test (next to the free ways: wait, or practice for a heart), and in Account and Settings (`MONEY`).
+
+**How the charts are made.**
+- A chart generator (`CHART-GEN`) produces sessions from a seed: trend and range phases, volatility clusters, the intraday volume curve, gaps, a wider spread at the open, realistic ticks and volumes (`docs/agent.md` §3.6).
+- The playbook's setups are planted as templates in three qualities: clean, marginal and failed. Some sessions contain nothing worth trading.
+- Code checks every chart: valid candles, the planted setup is really there, the right answers can be computed.
+- Hand-written replays stay for teaching; the generator makes the volume.
+- Synthetic data avoids the license costs of real market data and cannot be mistaken for a signal. Real historical data can be looked at after the release (Phase L).
+
+**Order in this phase:** the design → one replay by hand → the generator → the tab with the Daily Tradle → the practice account → drills → the scalping replay bank. Swing and Day Trading get their arena content right after their chapters (`ARENA-PATHS`).
+
+### `ARENA-DESIGN` – the arena on paper
+
+**Goal.** The arena, the Daily Tradle and the line between free and Plus are designed and written into the docs before anything is built.
+
+**Scope**
+1. **Docs:**
+   - a new arena section in `docs/UI.md`, replacing §7.7 "Spot it";
+   - the formats in `docs/schema.md`: generator templates, seeds, arena sessions, practice-account records;
+   - the honesty rules in `docs/agent.md` §7: synthetic data, the training model's odds.
+2. **Screens as clickable prototypes** (skill `prototype`), in the look from `LOOK-SYSTEM`:
+   - the arena home;
+   - a replay in progress: plan, management, pass;
+   - the end of a replay with the process grade;
+   - the practice account: statistics and journal;
+   - the Daily Tradle and its share card;
+   - the paywall.
+3. **The generator's model on one page:** which properties and parameters per path, how "clean", "marginal" and "failed" are defined, how the odds are set, how a chart is checked.
+4. **Free vs. Plus** in one table, with the paywall's places and its texts: a clear price, a clear renewal, a clear way to cancel.
+5. **A short spec each** for what `CHART-GEN`, `ARENA-TAB` and `SIM-ACCOUNT` build.
+
+**Not in this stage:** code outside the prototypes.
+
+**Model · effort · sessions:** Fable 5.1 · high (else Opus 5.5 · xhigh) · plan mode · 1
+
+**Prompt**
+```
+Stage ARENA-DESIGN from docs/build-plan.md.
+
+Read CLAUDE.md, then §0, §1, §4.1 (decision I) and all of Phase G of docs/build-plan.md, docs/UI.md in full, docs/agent.md §1, §3.6, §3.10, §3.11 and §7, and docs/schema.md § Replays.
+Show me your plan first and wait for my approval. Use the "prototype" skill for the screens.
+
+Especially important:
+- Nothing in the arena may read as a signal or a promise of profit; the training odds are disclosed.
+- No timer, no autoplay: the chart moves only when the learner taps.
+- The free part stays genuinely useful, and the paywall never interrupts a lesson.
+
+Open a PR against main.
+Report: the design in ten sentences · links to every prototype screen · the free/Plus table · open questions. Then stop and wait for my choice.
+```
+
+**You test (~30 min)**
+1. Click through the prototypes on your phone: would you pay for this? What is missing?
+2. Is the free part still worth using without paying?
+3. Read the free/Plus table and the paywall texts.
+
+**Done when** you have approved the design and it is recorded in the docs.
 
 ### `REPLAY-PILOT` – one replay, by hand
 
-**Goal.** One replay first, then decide.
+**Goal.** One replay first, to test the format the arena and the lessons' replay screens are built on.
 - If it shows that the format carries, the twelve postponed drill packs stay canceled.
 - If not, those packs get written instead.
 
@@ -1704,61 +1860,183 @@ Stage REPLAY-PILOT from docs/build-plan.md. Read CLAUDE.md and §1 of docs/build
 - Is the "is it now?" feeling there?
 - Are the grades (textbook, early, late, phantom) fair?
 
-### `SPOT-IT` – the replay tab
+### `CHART-GEN` – the chart generator
 
-**Goal.** The replay tab from `docs/UI.md` §7.7 is in the app.
+**Goal.** An endless supply of realistic, checked practice charts.
 
 **Scope**
-- Selection by weak concepts.
-- Tier gating by reading level.
-- The strip at the end of a session.
-- Never costs hearts, never has a timer.
+1. **The market model** from `ARENA-DESIGN`:
+   - bars from a seed, per timeframe (1-minute, 5-minute, daily);
+   - trend and range phases, volatility clusters, the intraday volume curve, gaps, a wider spread at the open;
+   - realistic ticks and volumes (`docs/agent.md` §3.6: price bands, volume magnitudes).
+2. **Setup templates** for the scalping playbook cards (Chapter 7), each in three qualities (clean, marginal, failed), plus sessions without a setup. Swing and Day Trading templates follow in `ARENA-PATHS`.
+3. **Outcomes with honest odds:** the edge per quality is a parameter. Over large samples, the share of right calls that lose stays within 30–40 % (§3.11).
+4. **Checks by code:**
+   - valid candles, ticks and volumes;
+   - a detector confirms the planted setup, and finds nothing in a session without one;
+   - the correct answers (entry, stop, size for 1 %, R) are computed, never set by hand;
+   - property tests over at least 10,000 seeds, with the odds measured over the sample;
+   - a render test over a sample of seeds.
+5. **Deterministic:** the same seed gives the same chart on every device. The model carries a version number, so old seeds (a shared Daily Tradle, a bug report) still open the same chart.
+6. **Fast:** a session is generated on the phone in well under a second, on a cheap Android device too.
 
-**Model · effort · sessions:** Opus 5.5 · high · 1
-
-**Prompt**
-```
-Stage SPOT-IT from docs/build-plan.md. Read CLAUDE.md, docs/UI.md §4.4 and §7.7, docs/schema.md § Replays and §1 of docs/build-plan.md. Build the tab as in §7.7. PR, every check green, report with a test checklist. Then stop.
-```
-
-**You test.** Open the tab and play two replays. Is the strip at the end right?
-
-### `DRILLS` – two packs
-
-**Goal.** The two packs `selection` and `risk-calls`, which no replay replaces.
-
-**Scope:** both packs are written in the session; the Batch API is not needed for this.
-
-**Model · effort · sessions:** Opus 5.5 · high · 1
+**Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2–3
 
 **Prompt**
 ```
-Stage DRILLS from docs/build-plan.md. Read CLAUDE.md, docs/schema.md § Drill packs and §1 of docs/build-plan.md. Write scalping-selection (25) and scalping-risk-calls (25) following Appendix E.4, validated under --strict. PR, report with a test checklist. Then stop.
+Stage CHART-GEN from docs/build-plan.md.
+
+Read CLAUDE.md, then §1, Phase G and the "CHART-GEN" section of docs/build-plan.md in full, plus the generator spec from ARENA-DESIGN (docs/UI.md, docs/schema.md), docs/agent.md §3.6 and §3.11, and the scalping Chapter 7 cards in docs/curriculum.md.
+Show me your plan first (model, templates, checks) and wait for my approval.
+
+Especially important:
+- Every correct answer is computed by code, never written by hand.
+- Measure the odds over at least 10,000 seeds and put the table in the report.
+- The same seed gives the same chart everywhere; test it.
+
+Open a PR against main and get every check green.
+Report: what you built · the odds table · 12 sample charts (links: clean, marginal, failed, none) · the timing on a cheap device · my test checklist · open questions. Then stop.
 ```
 
-**You test.** In the practice tab, play five questions from each pack.
+**You test (~20 min)**
+1. Look at the 12 sample charts: do they look like real charts, or like computer charts?
+2. Can you see the setup in the clean ones? Is the marginal one really borderline?
+3. Is there really nothing worth trading in the sessions without a setup?
 
-### `REPLAY-BANK` – 22 replays
+### `ARENA-TAB` – the arena tab and the Daily Tradle
 
-**Goal.** 22 replays for scalping, only if `REPLAY-PILOT` has shown that the format carries.
+**Goal.** The arena is in the app, and everyone gets one chart a day.
 
-**Scope:** three replays per session, grouped by setup card.
+**Scope**
+1. **The tab** as designed in `ARENA-DESIGN`. It replaces "Spot it" (`docs/UI.md` §7.7):
+   - replays chosen by weak concepts;
+   - tier-gated by reading level;
+   - the strip at the end of a session.
+2. **The Daily Tradle:**
+   - one chart per day and path, from a date seed, the same on every device;
+   - the result grid;
+   - sharing as an image or as text.
+3. **The Plus gate:** every arena part asks one function whether it is unlocked. Until `MONEY`, test builds unlock everything.
+4. **Never costs hearts, never timed.**
 
-**Model · effort · sessions:** Opus 5.5 · high · ~8
+**Model · effort · sessions:** Opus 5.5 · high · 1–2
+
+**Prompt**
+```
+Stage ARENA-TAB from docs/build-plan.md.
+
+Read CLAUDE.md, then §1 and the "ARENA-TAB" section of docs/build-plan.md in full, plus the arena section of docs/UI.md, §4.4, and docs/schema.md § Replays.
+Build exactly that scope.
+
+Especially important:
+- The Daily Tradle is the same chart for everyone on the same path and day, and the same on every device (date seed).
+- The share card shows decisions, never money or profit.
+- Every Plus gate goes through one function; until MONEY, test builds unlock everything.
+
+Open a PR against main and get every check green.
+Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+```
+
+**You test (~20 min + 1 week)**
+1. Open the arena tab and play two replays: is the strip at the end right?
+2. Play the Daily Tradle on two devices on the same day: it is the same chart.
+3. Share your result: does the card look good, and does it show no money?
+4. Play the Daily Tradle every day for a week: would you come back for it?
+
+### `SIM-ACCOUNT` – the practice account
+
+**Goal.** A practice account whose numbers behave like a trader's. This is where Chapter 6 becomes your own statistics.
+
+**Scope**
+1. **One paper account per path.** The starting balance comes from your plan card.
+2. **Orders as the course teaches them:**
+   - market, limit, stop, bracket (entry, stop and target at once);
+   - fills with spread, slippage and fees as categories, never a real broker's price list.
+3. **Your plan applies:**
+   - risk per trade, the trade cap, and the daily loss limit, which ends the arena session when hit;
+   - a rule break is recorded, never silently blocked.
+4. **The journal fills itself:** setup, entry, stop, exit, R, grade, your note.
+5. **Statistics** as in Chapter 6:
+   - expectancy, win rate against average R, the R distribution, rule breaks;
+   - results by setup and by time of day, the equity curve in R;
+   - every number shows its sample size ("after 12 trades this says little").
+6. **Seasons:** a reset starts a new season; old seasons stay readable.
+7. **Stored locally;** `BACKEND` syncs it.
+8. **Unit tests** for fills, P/L, R and every statistic, using the course's own worked examples.
+
+**Model · effort · sessions:** Opus 5.5 · high · plan mode · 2
+
+**Prompt**
+```
+Stage SIM-ACCOUNT from docs/build-plan.md.
+
+Read CLAUDE.md, then §1, Phase G and the "SIM-ACCOUNT" section of docs/build-plan.md in full, plus the arena section of docs/UI.md, docs/agent.md §3.6, §3.11 and §7, and the scalping Chapter 6 outline in docs/curriculum.md.
+Show me your plan first and wait for my approval.
+
+Especially important:
+- Every number is computed the way the course teaches it; the unit tests use the course's own worked examples.
+- Every statistic shows its sample size, and nothing reads as a promise.
+
+Open a PR against main and get every check green.
+Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+```
+
+**You test (~30 min)**
+1. Trade ten arena replays: does the journal fill itself correctly?
+2. Break your own daily loss limit on purpose: the session ends, and the break is recorded.
+3. Check two results by hand, in $ and in R.
+4. Look at the statistics: are they understandable, and does the sample-size note show?
+
+### `DRILLS` – two packs and generated drills
+
+**Goal.**
+- The two packs `selection` and `risk-calls`, which no replay replaces.
+- The arena's unlimited setup drills for scalping.
+
+**Scope**
+1. Both packs are written in the session, following Appendix E.4. The Batch API is not needed for this.
+2. Generated setup drills for the scalping cards, from the `CHART-GEN` templates:
+   - valid setup or not, the stop, the size, trade or pass;
+   - weak concepts first.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1–2
+
+**Prompt**
+```
+Stage DRILLS from docs/build-plan.md. Read CLAUDE.md, docs/schema.md § Drill packs, the arena section of docs/UI.md and §1 and the "DRILLS" section of docs/build-plan.md. Write scalping-selection (25) and scalping-risk-calls (25) following Appendix E.4, validated under --strict, and build the generated setup drills for the scalping cards from the CHART-GEN templates. PR, report with a test checklist. Then stop.
+```
+
+**You test.**
+1. In the Practice tab, play five questions from each pack.
+2. In the arena, play twenty generated drills: are they fair, and do they vary?
+
+### `REPLAY-BANK` – 22 replays for scalping
+
+**Goal.** The 22 replays per path that `docs/curriculum.md` (§ Replays) plans, here for scalping. Only if `REPLAY-PILOT` has shown that the format carries.
+
+**Scope**
+- The generator proposes candidate sessions for each setup card and reading level.
+- Claude picks them, annotates them (the moments, the decoys, the explanation for each decision) and checks them against Appendix E.2.
+- A replay is written from scratch only where the generator cannot produce the case.
+
+**Model · effort · sessions:** Opus 5.5 · high · ~4 (about six replays per session)
 
 **Prompt** (per session)
 ```
-Stage REPLAY-BANK from docs/build-plan.md. Read CLAUDE.md and §1 of docs/build-plan.md, then follow Appendix E.2 (bank) for the card [card] at reading level [1/2/3]. PR, report with a test checklist. Then stop.
+Stage REPLAY-BANK from docs/build-plan.md. Read CLAUDE.md, §1 and the "REPLAY-BANK" section of docs/build-plan.md, then follow Appendix E.2 (bank) for the cards [cards] at reading level [1/2/3], starting from CHART-GEN candidates. PR, report with a test checklist. Then stop.
 ```
 
-**You test.** Play one replay per session in the tab.
+**You test.** Play two replays per session in the arena.
 
 ---
 
-## 12. Phase H – Swing path (decision E)
+## 12. Phase H – Swing and Day Trading paths (decision E)
+
+All three paths ship in v1.0. Swing comes first, because Chapter 1 sends people with a full-time job there; Day Trading follows. Each path gets its chapters, its reviews, then its arena content.
 
 **Prerequisites**
 - `RULES` has the rules "per-trade risk" and "total exposure" (required, `docs/agent.md` §3.6).
+- `REPLAY-PILOT` has fixed the replay format; Chapters 7 and 8 of every path contain replay screens.
 - Every rule from Phase E applies from the start:
   - variance from Chapter 2;
   - `stop`/`target` from Chapter 3;
@@ -1770,9 +2048,16 @@ Stage REPLAY-BANK from docs/build-plan.md. Read CLAUDE.md and §1 of docs/build-
 - Overnight and weekend risk.
 - 90 days on the simulator instead of 30.
 
-In swing Chapter 3, the plan card revises `setup_max_account_pct` with the swing reason.
+**Day trading is different from scalping**
+- 5- and 15-minute charts, with the daily chart as context.
+- 5–10 trades a day, flat by the close.
+- Wider stops: the 1 % risk budget usually decides the size, and the account ceiling is the check that still runs. Positions are typically 50–95 % of the account (`docs/agent.md` §3.6).
+- The pattern-day-trader rule bites a day trader hardest. Chapter 6 Level 9 (the daily limits, where the trade cap is taught) and Chapter 8 Level 15 say it plainly, with the current wording from the market profile (decisions B and C).
+- 30 days on the simulator, as for scalping.
 
-**For EU-DE** the path points out: swing with cash stocks works without the PDT rule and without leverage. That is exactly the audience Chapter 1 sends to swing.
+In each path's Chapter 3, the plan card revises `setup_max_account_pct` with that path's reason.
+
+**For EU-DE** the swing path points out: swing with cash stocks works without the PDT rule and without leverage. That is exactly the audience Chapter 1 sends to swing.
 
 ### `SWING-2` … `SWING-8`
 
@@ -1802,69 +2087,205 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 
 **Goal.** Both reviews for swing: Appendix E.5 (pass A) and E.6 (pass B, with the graduate profile).
 
-**Scope:** findings first, then you decide, then the corrections follow.
+**Scope**
+- Findings first, then you decide, then the corrections follow.
+- The expert from `EXPERT` checks the same risky parts here if possible: Chapters 3, 6 and 7, and Chapter 8 Level 15.
 
 **Model · effort · sessions:**
 - Reviews: Fable 5.1 · high (pass A) and max (pass B).
 - Corrections: Opus 5.5 · high.
 - 2–4 sessions in total.
 
+### `DAY-2` … `DAY-8`
+
+**Goal.** Day Trading Chapters 2–8 following `docs/curriculum.md`.
+
+**Scope:** one chapter per stage, in blocks of 4–6 levels, following every rule from Phase E.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1–2 per chapter
+
+**Prompt** (`[N]` = chapter)
+```
+Stage DAY-[N] from docs/build-plan.md.
+
+Read CLAUDE.md, docs/agent.md, docs/schema.md and docs/UI.md in full, the day-trading section for Chapter [N] in docs/curriculum.md (find it with grep), §0 ("Variance"), §1 and §12 of docs/build-plan.md, and the reference files from docs/agent.md §3.8.
+Also follow the clause in Appendix E.7.
+Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
+Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
+```
+
+**You test (~20 min per chapter)**
+1. Play two lessons and the checkpoint.
+2. Read one lesson as a beginner would.
+
+**After `DAY-8`:** the path choice unlocks Day Trading; no path says "Being written" any more.
+
+### `DAY-REVIEW`
+
+**Goal.** Both reviews for Day Trading, as in `SWING-REVIEW`.
+
+**Scope**
+- Findings first, then you decide, then the corrections follow.
+- Special attention: the pattern-day-trader rule and the margin account in Chapter 6 Level 9 and Chapter 8 Level 15 (decisions B and C).
+- The expert checks the same risky parts as for swing if possible.
+
+**Model · effort · sessions:** as in `SWING-REVIEW` · 2–4 in total.
+
+### `ARENA-PATHS` – the arena for Swing and Day Trading
+
+**Goal.** At the release, the arena serves all three paths.
+
+**Scope** (per path, after its review)
+1. **Generator templates** for the path's Chapter 7 playbook cards, three qualities each, on the path's timeframe: daily bars and evening decisions for swing, 5-minute bars for Day Trading.
+2. **Generated setup drills** for these cards.
+3. **The replay bank:** 22 replays per path, made as in `REPLAY-BANK`.
+4. **Scenario packs** for the path, e.g. earnings weeks for swing, gap days for Day Trading.
+5. **The Daily Tradle** for the path.
+
+**Model · effort · sessions:** Opus 5.5 · high · per path 2–3 (templates and drills, then replays)
+
+**Prompt** (per session)
+```
+Stage ARENA-PATHS, path [swing|day-trading], session [templates|replays], from docs/build-plan.md.
+Read CLAUDE.md, then §1, Phase G and the "ARENA-PATHS" section of docs/build-plan.md, the arena section of docs/UI.md, the path's Chapter 7 in docs/curriculum.md and Appendix E.2.
+PR, every check green, report with 12 sample charts (templates session) or the replay list (replays session) and a test checklist. Then stop.
+```
+
+**You test.** Per path: the 12 sample charts, five drills and two replays.
+
 ---
 
-## 13. Phase I – Platform
+## 13. Phase I – Platform: account, subscription, ads
 
-### `BACKEND` – account and backup (decision K)
+### `BACKEND` – accounts and sync (decision K)
 
-**Goal.** Learners' progress is never lost.
+**Goal.** Progress lives in an account: safe when a phone is lost, the same on every device, and the base for Tradle Plus.
 
-**Scope, depending on decision K**
-- **K = no (recommended for v1.0): backup without an account.**
-  - Check that the system backups (iCloud, Android Auto Backup) include the progress.
-  - Add "Export/import progress" as a file.
-- **K = yes: Supabase.**
-  - Sign-in with Apple, Google and email. If the app offers social logins, Apple requires an equivalent privacy-friendly option; in practice that is "Sign in with Apple".
-  - Sync of progress and plan (with history).
-  - Account deletion inside the app (a store requirement).
-  - Data export (GDPR Art. 20).
-  - EU hosting and access rules (RLS).
+**Scope**
+1. **Supabase in the EU** (Frankfurt), with access rules (RLS) on every table, tested.
+2. **Sign-in with Apple, Google and email** (a one-time code). Apple's rule: an app that offers third-party logins must also offer an equivalent privacy-friendly one; Sign in with Apple covers it.
+3. **No sign-in wall:**
+   - the app works from the first second;
+   - sign-in is offered after the first lessons, in Account and before a purchase, never forced;
+   - local progress moves into the account on sign-in, without loss.
+4. **What syncs:** progress, hearts, XP, streak and freezes, daily goal, the plan with its history, the practice schedule, the practice account and journal, settings. The conflict rules between two devices are designed in plan mode and tested.
+5. **Offline first:** everything works offline, and the sync catches up.
+6. **Account deletion** inside the app and on a web page (both stores require it), and a **data export** (GDPR Art. 15 and 20).
+7. **Privacy:** a data-processing agreement with Supabase, the privacy policy extended, the record of processing activities.
+
+**You prepare.**
+- A Supabase account. The free plan is enough to start; the paid plan before the release.
+- The keys for Sign in with Apple and Google from the developer accounts. Claude gives you the steps.
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2–3
 
 **Prompt**
 ```
-Stage BACKEND from docs/build-plan.md. Decision K: [yes/no].
-Read CLAUDE.md, then §1 and the "BACKEND" section of docs/build-plan.md in full. Show me your plan first (data model, conflicts between two devices, privacy) and wait for my approval.
-PR, every check green, report with a test checklist. Then stop.
+Stage BACKEND from docs/build-plan.md.
+
+Read CLAUDE.md, then §1, §4.1 (decision K) and the "BACKEND" section of docs/build-plan.md in full, plus docs/agent.md §1 and §7.
+Show me your plan first (data model, conflicts between two devices, moving local progress into the account, privacy) and wait for my approval.
+
+Especially important:
+- No progress may be lost: local to account, two devices, offline and back.
+- Deleting the account removes everything, and a test proves it.
+
+Open a PR against main and get every check green.
+Report: what you built · check results · my test checklist · open questions. Then stop.
 ```
 
-**You test.**
-- Export the progress and import it in a new browser or on a new device.
-- With K = yes: two devices, one account; both show the same state.
+**You test (~30 min)**
+1. Play three lessons without an account, then sign in: nothing is lost.
+2. Sign in on a second device: the same state.
+3. Play offline on one device, then go online: both devices agree.
+4. Export your data, then delete the account: you are signed out, and the data is gone.
 
-### `MONEY` – payment model (decision I)
+### `MONEY` – Tradle Plus (decision I)
 
-**Goal.** The payment model from decision I is built in, honest and within the store rules.
+**Goal.** Tradle Plus is built in: honest, within the store rules, and worth its price.
 
 **Scope**
-- RevenueCat (`docs/agent.md` §1).
-- A paywall without dark patterns; the free part as decided.
-- "Restore purchases".
-- Store products created.
-- Terms and the cancellation policy for digital content extended.
-- **Never** sell hearts, streak repairs or "profit" promises.
+1. **RevenueCat** (`docs/agent.md` §1) with one entitlement, `plus`, and two products: monthly and yearly, optionally with a free trial.
+2. **What Plus unlocks,** all through one check:
+   - unlimited hearts (the switch from `LOOP-HEARTS`);
+   - no ads (`ADS`);
+   - the full arena (Phase G).
+3. **The paywall,** as designed in `ARENA-DESIGN` (`docs/UI.md` §7.8):
+   - only at natural points: the free part of the arena used up; out of hearts in a test, next to the free ways (wait, practice for a heart); Account and Settings;
+   - never in a lesson, never at app start, never over a reveal;
+   - a clear price per period, a clear renewal, a clear way to cancel; a trial names its end date, and a reminder comes the day before it ends;
+   - no fake urgency, no pre-selected expensive option without its price.
+4. **A purchase never needs an account.** "Restore purchases" works without one; with an account, Plus follows you to other devices.
+5. **Prices per region** from the stores' price tiers: `MONEY` proposes, you decide (decision R).
+6. **Terms:** the subscription terms, the EU right of withdrawal for digital content, cancellation.
+7. **Never:** single purchases of hearts or streak freezes, pay-to-pass, "profit" promises.
+8. **Tests:** sandbox purchase, renewal, expiry, refund, restore, offline.
 
-**Model · effort · sessions:** Opus 5.5 · high · 1–2
+**You prepare.**
+- The paid-apps agreements with Apple and Google, with the business's tax and bank details (decision P).
+- A RevenueCat account.
+
+**Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 
 **Prompt**
 ```
-Stage MONEY from docs/build-plan.md. Decision I: [model, prices, what is free].
-Read CLAUDE.md, docs/agent.md §1 and §7, and §1 and the "MONEY" section of docs/build-plan.md. PR, every check green, report with a test checklist (sandbox purchases). Then stop.
+Stage MONEY from docs/build-plan.md. Prices: [monthly, yearly, trial – or "propose"].
+
+Read CLAUDE.md, docs/agent.md §1 and §7, docs/UI.md §5.2, §7.7 and §7.8, and §1, §4.1 (decision I) and the "MONEY" section of docs/build-plan.md in full.
+Show me your plan first and wait for my approval.
+
+Open a PR against main and get every check green.
+Report: what you built · every paywall text · my test checklist (sandbox purchases) · open questions. Then stop.
 ```
 
 **You test.**
-- A sandbox purchase on iPhone and Android.
-- Restore.
-- The free parts are playable without a purchase.
+1. A sandbox purchase on iPhone and on Android; restore; cancel.
+2. With Plus: the hearts show ∞, there are no ads, the whole arena is open.
+3. Without Plus: every lesson is playable, the Daily Tradle and the taste of the arena work, and the paywall appears only where it should.
+
+### `ADS` – ads in the free tier
+
+**Goal.** Ads that pay a little and never harm learning or trust.
+
+**Scope**
+1. **Google AdMob** via `react-native-google-mobile-ads` (an Expo config plugin). Ads work in development and store builds, not in Expo Go or the web preview.
+2. **Consent:**
+   - Google's consent tool (UMP, a certified consent platform) wherever the law requires consent (EEA, UK, Switzerland);
+   - personalized ads only with consent;
+   - recommendation for v1.0: no personalized ads at all, so there is no tracking prompt on the iPhone (decision S).
+3. **Placement:**
+   - at most one full-screen ad after a finished lesson, once its result has been shown, and not after every lesson; the caps per day are set here;
+   - never inside a lesson, test, reveal, the arena or onboarding; never on the first day; never at app start;
+   - no banners and no rewarded ads in v1.0.
+4. **Blocked content:**
+   - every category of financial products and services the network offers (brokers, trading and investing apps, crypto, forex and CFDs, loans), gambling and betting, get-rich-quick, and age-restricted content;
+   - the reason: an ad for a broker inside a trading course reads like a recommendation (`docs/agent.md` §7);
+   - blocking is best effort, so there is a "Report this ad" link, and after the release the served advertisers get a look once a month.
+5. **Plus users see no ads.** A test proves it.
+6. **Privacy:** the privacy policy, the store privacy details and the consent texts are extended, and the age rating is checked again.
+
+**You prepare.** An AdMob account, in the business's name.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1
+
+**Prompt**
+```
+Stage ADS from docs/build-plan.md.
+
+Read CLAUDE.md, docs/agent.md §1 and §7, docs/UI.md §7.8, and §1, §4.1 (decision I) and the "ADS" section of docs/build-plan.md in full.
+Research the current AdMob and consent requirements and name your sources with their date.
+
+Especially important:
+- No ad inside a lesson, test, reveal or the arena; financial and gambling categories blocked; no ads for Plus.
+
+Open a PR against main and get every check green.
+Report: every place an ad can appear · the blocked categories · my test checklist · open questions. Then stop.
+```
+
+**You test.**
+1. Play five lessons in a test build: ads only where planned.
+2. Decline consent: the app still works.
+3. With Plus: no ad anywhere.
 
 ### `UPDATES` – content without store updates
 
@@ -1872,9 +2293,9 @@ Read CLAUDE.md, docs/agent.md §1 and §7, and §1 and the "MONEY" section of do
 
 **Scope**
 - `expo-updates` with channels (preview, production).
-- Content versions.
+- Content versions, per language (Phase J).
 - **Progress migration:** if a lesson id changes after the release, a migration table makes sure no progress is lost. The rule for it is in `docs/agent.md` §6.
-- Chapters are loaded on demand instead of everything in the first bundle.
+- Chapters and languages are loaded on demand instead of everything in the first bundle.
 - Offline behavior.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
@@ -1910,17 +2331,148 @@ Stage TECH from docs/build-plan.md. Read CLAUDE.md and §1 and the "TECH" sectio
 
 ---
 
-## 14. Phase J – Release
+## 14. Phase J – Languages (decision M)
+
+**The principle.**
+- English is the source. Every other language is generated from it by a checked pipeline and never edited by hand.
+- Native speakers read the key texts.
+- The phase starts when the English content is final, after the path reviews and `EXPERT`. A later change to an English file re-translates just that file (its source hash changes).
+
+**The language does not decide the market.** A Spanish speaker in Mexico may trade US stocks, so the market profile stays a setting of its own (`MARKETS`).
+
+### `I18N-PIPELINE` – how a language is added
+
+**Goal.** Adding a language becomes a repeatable, checked process. It is proven on German first, because you can judge German yourself.
+
+**Scope**
+1. **The app:**
+   - the language follows the phone and can be changed in Settings;
+   - numbers, currencies and dates go through the locale (`Intl`): a German reader sees "1.234,50 $" for a US stock; plurals go through the i18n library;
+   - the number keypad and the parser accept a decimal comma;
+   - fonts for every planned script; the layout survives longer text (German runs about 30 % longer than English).
+2. **The content:**
+   - translations live apart from the source, e.g. `content/i18n/<lang>/…`, with the same ids and structure, and a source hash per file;
+   - the translator is `tools/translate.py` via the Claude API, or Claude Code sessions: the stage measures cost and quality on one chapter and proposes one;
+   - per language: a glossary (termbase), a style sheet (tone, formal or informal address, which terms stay English, e.g. "Stop-Loss") and a do-not-translate list (`{{market.*}}` tokens, ids, tickers);
+   - screens that play with English words (letter tiles, word order) are adapted, not translated literally, and flagged.
+3. **Checks per language** (`validate_content.py --lang xx`):
+   - the same structure and ids as English, the tokens intact;
+   - every number keeps its value (only the format may change), and the answer keys stay the same;
+   - length limits per language, and no English left over;
+   - the render test per language, and a contact sheet for the longest language.
+4. **Store texts and legal texts** go through the same pipeline. Which legal versions are binding is the lawyer's call (`LEGAL-FINAL`).
+5. **The German pilot:** the whole UI and Chapter 1 in German. You read it.
+6. **The list of launch languages** (decision T): the stage proposes it, with store markets, effort and script. You decide. Right-to-left languages (Arabic, Hebrew) need the stage `RTL`.
+
+**Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2
+
+**Prompt**
+```
+Stage I18N-PIPELINE from docs/build-plan.md.
+
+Read CLAUDE.md, then §1, §4.1 (decision M), Phase J and the "I18N-PIPELINE" section of docs/build-plan.md in full, plus docs/UI.md §9, docs/agent.md §1 and §3.9, and docs/schema.md.
+Show me your plan first (file layout, translator, checks, costs) and wait for my approval.
+
+Especially important:
+- No translated file is ever edited by hand; everything is regenerated from English plus glossary and style sheet.
+- A number that changes its value in translation is an error, not a warning.
+- Measure cost and time for one chapter before proposing the full run.
+
+Open a PR against main and get every check green.
+Report: what you built · cost and quality of the pilot · the proposed language list · my test checklist with real links · open questions. Then stop.
+```
+
+**You test (~45 min)**
+1. Switch the app to German: the whole UI is German, and the numbers look German.
+2. Play Chapter 1 Levels 1–4 in German: does it read like a German app, or like a translation?
+3. Note every term that sounds wrong; they go into the German glossary.
+4. Choose the launch languages.
+
+### `MARKETS` – market profiles for the launch markets
+
+**Goal.** Learners in every launch market get correct local facts.
+
+**Scope**
+1. The market stays a setting of its own ("the market I trade").
+2. Profiles for the launch markets where the rules differ (e.g. the UK), or a generic "international" profile that explains the concept and says that the rules differ by country.
+3. Every profile has sessions, currency, regulation notes with a `checked:` date and a source, and tax as "ask a tax advisor where you live".
+4. The validator checks that every profile fills every token. Chapter 8 Level 15 of every path renders with every profile.
+5. Sentences a lawyer or the expert should check are listed.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1
+
+**Prompt**
+```
+Stage MARKETS from docs/build-plan.md. Launch markets: [list].
+Read CLAUDE.md, docs/agent.md §7, content/market_profiles.yaml and §1 and the "MARKETS" section of docs/build-plan.md. Research every rule on the web and name every source with its date. No advice, no provider names, no tax rules.
+PR, every check green, report: sources · sentences for the lawyer · my test checklist. Then stop.
+```
+
+**You test.** Play Chapter 8 Level 15 with two of the new profiles.
+
+### `TRANSLATE-1` … `TRANSLATE-n` – the launch languages
+
+**Goal.** Every launch language, one batch at a time.
+
+**Scope per stage:** one batch of 3–5 languages: glossary and style sheet, UI, content, store texts. Every check green, contact sheets.
+
+**Suggested batches** (the list itself is decision T):
+1. Western Europe and Latin America, e.g. Spanish, French, Italian, Portuguese (Brazil), Dutch.
+2. Central and Eastern Europe and Turkey, e.g. Polish, Czech, Romanian, Turkish.
+3. Asia, e.g. Japanese, Korean, Chinese (simplified), Hindi, Indonesian, Vietnamese.
+4. Right to left, after `RTL`, e.g. Arabic, Hebrew.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1–2 per batch
+
+**Prompt**
+```
+Stage TRANSLATE-[n] from docs/build-plan.md. Languages: [list].
+Read CLAUDE.md, §1, Phase J and the "I18N-PIPELINE" and "TRANSLATE" sections of docs/build-plan.md. Run the pipeline for these languages. Fix every failed check through the glossary or the style sheet — never by editing a translation by hand — and report the numbers per language.
+PR, every check green, report with contact sheets and a test checklist. Then stop.
+```
+
+**You test (~15 min per batch).** Switch the app to each language and play one lesson. You don't need to understand it: look for cut-off text, English leftovers and broken numbers.
+
+### `RTL` – right-to-left languages
+
+Only if Arabic, Hebrew or another right-to-left language is on the list.
+
+**Scope**
+- The layout mirrors: the path map, buttons, the direction of "back".
+- Charts keep time running left to right, and numbers stay left to right.
+- Text alignment.
+- Tests with a right-to-left language on every screen type.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1
+
+**You test.** One lesson and the arena in Arabic or Hebrew: nothing overlaps, and the charts read left to right.
+
+### `LANG-REVIEW` – native speakers
+
+**Goal.** No launch language embarrasses the app.
+
+**Scope**
+1. **What a native speaker reads in every language:** the risk note and the disclaimer, onboarding, the paywall and the Plus texts, the store texts, and one full lesson.
+2. **Who:** testers from `BETA-1`, friends, or freelance proofreaders at a fixed price per language.
+3. **Their findings** go into the glossary and the style sheet, and the pipeline runs again.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1–2 (applying the findings)
+
+**You:** find the readers, send each one the links Claude prepares, and bring the findings back.
+
+---
+
+## 15. Phase K – Release
 
 ### `A11Y-PERF` – accessibility and speed on real devices
 
 **Goal.** The app works for everyone and runs smoothly on cheap devices too.
 
 **Scope**
-- **Screen readers:** a whole lesson and a checkpoint with VoiceOver (iPhone) and TalkBack (Android).
-- **Large text:** Dynamic Type up to 130 %.
+- **Screen readers:** a whole lesson, a checkpoint and an arena replay with VoiceOver (iPhone) and TalkBack (Android).
+- **Large text:** Dynamic Type up to 130 %, also in the longest launch language.
 - **Reduce motion, the color-blind palette, contrast.**
-- **Cheap devices:** a small iPhone (SE) and a cheap Android device.
+- **Cheap devices:** a small iPhone (SE) and a cheap Android device; the motion stays smooth (decision H), and the generator stays fast.
 - **Offline:** flight mode.
 - **Battery.**
 
@@ -1935,35 +2487,43 @@ Stage A11Y-PERF from docs/build-plan.md. Read CLAUDE.md, docs/UI.md §10 and §1
 
 ### `LEGAL-FINAL` – review by a lawyer
 
-**You:** a lawyer or law firm (IT and financial law) reviews:
-- all legal texts;
-- the risk note and the wording in Chapter 8 Level 15 and in the market profiles, especially the line against investment advice;
-- the trademark (the name);
-- the terms and the cancellation policy for the payment model;
-- privacy and analytics.
+**You:** a lawyer for IT and financial law reviews (who, is decision N; see below for affordable ways):
+- all legal texts, and which language versions are binding;
+- the risk note and the wording in Chapter 8 Level 15 of every path and in the market profiles, especially the line against investment advice;
+- the arena's honesty rules: synthetic data, the training odds;
+- the name and its trademark (`BRAND`);
+- the subscription terms and the right of withdrawal (`MONEY`);
+- ads: the consent and the blocked categories (`ADS`);
+- privacy: account, analytics, ads.
+
+**Keeping it affordable**
+- **Prepare the questions.** Claude writes a short question list with the exact texts, e.g. "Is this financial education and not investment advice?", "Is this disclaimer enough?", "Which language version is binding?". A lawyer answers a focused list in hours, not days. Ask for a fixed price up front.
+- **Legal-text services for apps** with an update service (e.g. IT-Recht Kanzlei, eRecht24): imprint, privacy policy and terms for a monthly fee, kept current when the law changes. Compare the current offers; the lawyer then only checks what is specific to Tradle.
+- **The IHK:** once your business is registered, you are usually a member of your local chamber of commerce. Many IHKs offer free advice for founders and general legal information.
+- **Student law clinics:** some universities offer free, supervised legal advice, some of it for founders. Ask locally.
 
 Afterwards a session applies the changes: Opus 5.5 · high.
 
 ### `STORE-LISTING` – the store entry
 
-**Goal.** The store entry is complete and promises nothing the app does not deliver.
+**Goal.** The store entry is complete in every launch language and promises nothing the app does not deliver.
 
 **Scope**
-- **Screenshots** in the currently required sizes.
-- **Texts** in English: title, subtitle, description, keywords. German store texts come with `GERMAN`.
+- **Screenshots** in the currently required sizes, for every launch language, generated by a script from the web build (deep links, `?lang=`), not by hand.
+- **Texts** in every launch language: title, subtitle, description, keywords. They go through the pipeline and are adapted per market: keywords are researched, not only translated. You read the German texts.
 - **Category:** education.
-- **Mandatory details:** the age-rating questionnaire, the privacy details (Apple) and "Data safety" (Google), support and privacy URLs.
-- **Review note:** synthetic data, no real trading, no account needed.
+- **Mandatory details:** the age-rating questionnaire, the privacy details (Apple) and "Data safety" (Google), now with account, subscription and ads, plus support and privacy URLs.
+- **Review note:** synthetic data, no real trading, sign-in optional, how to test Plus (a test account).
 - **No words like "profit", "gain" or "earn money"** (`docs/agent.md` §1, §7 and the store rules).
 
-**Model · effort · sessions:** Sonnet 5 · high · 1
+**Model · effort · sessions:** Sonnet 5 · high · 1–2
 
 **Prompt**
 ```
-Stage STORE-LISTING from docs/build-plan.md. Read CLAUDE.md, docs/agent.md §1 and §7, and §1 and the "STORE-LISTING" section of docs/build-plan.md. Target markets/languages: [decision M]. Put everything under store/ and tell me what I have to enter where. PR, report. Then stop.
+Stage STORE-LISTING from docs/build-plan.md. Read CLAUDE.md, docs/agent.md §1 and §7, and §1, Phase J and the "STORE-LISTING" section of docs/build-plan.md. Launch languages and markets: [the list from decision T]. Put everything under store/ and tell me what I have to enter where. PR, report. Then stop.
 ```
 
-**You test.** Read the texts and look at the screenshots on your phone: would you download the app?
+**You test.** Read the English and German texts and look at the screenshots on your phone: would you download the app?
 
 ### `BETA-2` – the release candidate
 
@@ -1971,7 +2531,9 @@ Stage STORE-LISTING from docs/build-plan.md. Read CLAUDE.md, docs/agent.md §1 a
 
 **Scope**
 - TestFlight external (with beta review) and the Play closed test.
-- Google's required test (≥ 12 testers × 14 days), if `BETA-1` did not already fulfill it.
+- Google's required test (≥ 12 testers × 14 days), if your Google account is a personal one and `BETA-1` did not already fulfill it.
+- **Everything is in:** all three paths, the arena, sign-in and sync, Plus in the sandbox, ads, every launch language.
+- **Testers:** yours (decision O), including native speakers of the launch languages.
 - Last fixes, weekly as in `BETA-1`.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–3 (one session per round)
@@ -1988,10 +2550,10 @@ Stage BETA-2, round [n], from docs/build-plan.md. Read CLAUDE.md and the "BETA-1
 **Goal.** v1.0 is in the stores, and the first week afterwards is looked after.
 
 **Scope**
-1. **Submit** to Apple and Google.
+1. **Submit** to Apple and Google, in every launch market.
 2. **Answer reviews:** Claude drafts answers if a review raises an objection.
-3. **Staged rollout** on Google Play: 10 % → 50 % → 100 %.
-4. **Every day for a week**, look at crashes and ratings.
+3. **Staged rollout:** on Google Play 10 % → 50 % → 100 %; on Apple, the phased release.
+4. **Every day for a week**, look at crashes, ratings and the first subscriptions.
 5. **Hotfixes:** via EAS Update for JS and content bugs, otherwise a new build.
 6. **Retrospective** after one week.
 
@@ -2004,26 +2566,21 @@ Stage RELEASE from docs/build-plan.md. Read CLAUDE.md, §0 (definition of done) 
 
 ---
 
-## 15. Phase K – After the release (outlook)
+## 16. Phase L – After the release (outlook)
 
 Not part of v1.0. Every idea here gets a stage of its own in this plan before it starts.
 
-- **`GERMAN`** (the first stage after the release): the app in German, built on the i18n keys that exist from `ONBOARDING` on.
-  1. Interface: `de.json` next to `en.json`, a language setting (default: the phone's language), German number and date formats.
-  2. Content: all lessons of Chapter 1 and the released paths, chapter by chapter, with the validator and the render test per chapter. Terms follow one glossary (e.g. "Stop-Loss", "Spread" stay English where German traders use them).
-  3. Store texts and legal texts in German.
-  4. A professional human review of the translation, and a German beta round before it ships.
-- **`DAY-TRADING`:** Chapters 2–8 following `docs/curriculum.md`, like Phase H.
+- **More languages:** each one is a `TRANSLATE` run (Phase J).
 - **`FRIENDS`:** an opt-in friends league instead of a global leaderboard (W7). Scored on decisions, not on the amount of XP.
-- **`AI-EXPLAINER`:** "Explain it differently" after a wrong answer, via the Claude API (K9). Only with hard guardrails: no signals, no investment advice, only the lesson's material.
-- **Replays and drills for Swing.**
-- **Widgets:** streak, daily goal.
+- **`AI-EXPLAINER`:** "Explain it differently" after a wrong answer, via the Claude API (K9). Only with hard guardrails: no signals, no investment advice, only the lesson's material. A candidate for Tradle Plus.
+- **Arena extras:** monthly challenges and more scenario packs; real historical data, if a license is affordable.
+- **Widgets:** streak, daily goal, the Daily Tradle.
 - **Trader Card:** sharing, achievements.
 - **Tablet and landscape charts.**
 
 ---
 
-## 16. Appendix
+## 17. Appendix
 
 ### A. Template: bug report
 
@@ -2328,7 +2885,7 @@ Where you cannot decide, say so and name the decision rather than guessing.
 Numbered findings list, most important first, file and screen for each. Change nothing.
 ```
 
-**E.7 – Clause for new paths (Swing, later Day Trading)**
+**E.7 – Clause for new paths (Swing, Day Trading)**
 ```
 The Scalping path's Chapter [N] covers the same ground for a different holding period.
 Read it for structure, pacing and screen mix - then write for this path's timeframe from
@@ -2341,6 +2898,15 @@ scalping's. On swing the risk budget binds, not the account ceiling; positions r
 risk are what matter - the validator checks both. Chapter 3 revises the learner's
 `setup_max_account_pct` with this path's reason. Overnight and weekend gaps are this
 path's own risk; say what a gap does to a stop.
+
+On day trading one position is open at a time, occasionally two, but the stop is wider
+than a scalp's: the 1 % risk budget usually decides the size, and the account ceiling is
+the check you still run (positions 50-95 % of the account). 5-10 trades a day, flat by
+the close; the daily loss limit ends the day. Several same-day round trips need a margin
+account, and in the US the pattern-day-trader rule applies below its equity threshold -
+Chapter 6 Level 9 (the daily limits) and Chapter 8 Level 15 say so plainly (decisions B and C), with
+{{market.regulation_note}} for the current wording. Chapter 3 revises
+`setup_max_account_pct` with this path's reason.
 
 Every [v4] rule applies from the first file: variance (§3.11) from Chapter 2, stop and
 target on directional decisions from Chapter 3, signs (§3.12), text length, spelling,
@@ -2412,7 +2978,7 @@ Ids from `docs/review-2026-09-25.md`.
 | S22 plan card | `ONBOARDING` |
 | S23 error page | `STABLE-APP` |
 | S24 visual details | `LOOK-COMPONENTS` |
-| S25 market profile | `ONBOARDING` |
+| S25 market profile | `ONBOARDING`, `MARKETS` |
 | S26–S27 end of content, path choice | `WIRE` |
 | S28–S37 content | `RULES`, `CONTENT-FIX` |
 | S38 content index | `WIRE`, `UPDATES` |
@@ -2427,16 +2993,16 @@ Ids from `docs/review-2026-09-25.md`.
 | S48–S52 docs, skills | `DOCS` ✅ (bench subtitle: `WIRE`; `first_minutes`: `OFFER`) |
 | S53 using GitHub | `CI` (PR template) |
 | S54 phone tests | `CI` |
-| K1 German | `ONBOARDING` (i18n), Phase K |
+| K1 German | `ONBOARDING` (i18n keys), Phase J (`I18N-PIPELINE`: German is the pilot) |
 | K2–K3 mistakes round, "See the card again" | `LOOP-HEARTS` |
-| K4 leaderboard | Phase K |
-| K5 Trader Card | `STATS`, Phase K |
+| K4 leaderboard | Phase L |
+| K5 Trader Card | `STATS`, Phase L |
 | K6 achievements | `FUN-PASS` |
-| K7 simulator | Phase K |
+| K7 simulator | `SIM-ACCOUNT` (Phase G) |
 | K8 "Report a problem" | `ANALYTICS` |
-| K9 AI explainer | Phase K |
-| K10 weekly review, widget | `LOOP-DAILY`, Phase K |
-| K11 font size, tablet | `LOOK-SYSTEM`, `A11Y-PERF`, Phase K |
+| K9 AI explainer | Phase L |
+| K10 weekly review, widget | `LOOP-DAILY`, Phase L |
+| K11 font size, tablet | `LOOK-SYSTEM`, `A11Y-PERF`, Phase L |
 | K12 match | `LOOP-HEARTS` |
 | K13 mascot | not done (W20) |
 | K14 technical upkeep | `TECH` |

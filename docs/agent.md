@@ -7,13 +7,15 @@ Status: **v3** — expanded curriculum. The path is now eight chapters and ~385 
 
 **[v4] (2026-09-25)** — the release plan. David's goal: learners enjoy the course, and afterwards only practice is missing. The decisions that follow from it (`docs/build-plan.md` §4.1, from the review in `docs/review-2026-09-25.md`) are marked **[v4]**: hearts only in tests, variance taught and shown (§3.11), a sign rule for typed numbers (§3.12), decisions A–C made (§1.1, §3.6), US spelling, shorter body text. The order of all remaining work, with a prompt per stage, is `docs/build-plan.md`.
 
+**[v4.1] (2026-09-25)** — David's answers to the plan's open decisions (`docs/build-plan.md` §4.1): all three paths in v1.0, the app name Tradle, accounts, Tradle Plus with a practice arena, ads in the free tier, and every launch language, translated from the English source. Marked **[v4.1]**.
+
 ---
 
 ## 1. What we are building
 
 A "Duolingo for traders" mobile app. Users learn to trade through short daily lessons (3–4 minutes each), interactive chart scenarios (Long / Short / No trade on historical charts), gamification (XP, streak, hearts, levels, badges, tiers) and spaced repetition. No video course, no PDF. Theory and practice are tightly interleaved: the user "trades" (simulated) within the first five minutes of the app.
 
-Tech stack: React Native + Expo + TypeScript, Supabase (auth + DB), RevenueCat (subscriptions). Content is data (YAML, see `docs/schema.md`), never hard-coded. **[v4]** The Expo app is on `main` (since PR #13); Supabase and RevenueCat are planned, not built — whether v1.0 has accounts at all is decision K in `docs/build-plan.md` §4.2.
+Tech stack: React Native + Expo + TypeScript, Supabase (auth + DB), RevenueCat (subscriptions). Content is data (YAML, see `docs/schema.md`), never hard-coded. **[v4]** The Expo app is on `main` (since PR #13). **[v4.1]** v1.0 has accounts (decision K): Supabase in the EU for sign-in and sync, RevenueCat for Tradle Plus. Both are built in Phase I of `docs/build-plan.md`.
 
 Concept document: the original vision document (`Trading_Learning_App_Konzept.pdf`, gamification and monetization) is not in the repository. Add it to `docs/` if it turns up; where it and these docs differ, these docs win.
 
@@ -35,12 +37,12 @@ One constraint holds under either answer and binds today: **the app must never i
 
 | Topic | Decision |
 |---|---|
-| Content language | English. (i18n later via keys; never mix languages inside content.) **[v4]** Every UI string goes through an i18n key from stage ONBOARDING on; v1.0 ships in English only; German is the second language, added as the first stage after the release (`docs/build-plan.md`, `GERMAN`). |
+| Content language | English. (i18n later via keys; never mix languages inside content.) **[v4]** Every UI string goes through an i18n key from stage ONBOARDING on. **[v4.1]** English is the source language: everything is written in English first. Before the release, the app and all content are translated into every launch language (decision M, `docs/build-plan.md` Phase J) by a checked pipeline. A translated file is generated from its English source and never edited by hand. |
 | Asset class | Stocks are the teaching vehicle. Where a path is typically traded in other instruments in Europe (scalping → futures/CFDs), one lesson says so explicitly; no CFD/forex content is taught. **[v3]** Partly kept, in the wrong place: `{{market.scalping_note}}` says exactly this ("In Europe, retail scalpers often trade futures or CFDs… this app teaches scalping with stocks because the mechanics are the same") — but as **one theory screen inside a fees lesson**, Chapter 3 Level 14-1, rather than as the lesson this row describes, and nowhere near the point where a learner opens an account. **Chapter 8 Level 15, "What You'll Actually Be Offered"** (`docs/curriculum.md`) is that lesson, specified and not yet written. Financial margin still appears zero times in the 387 written sub-levels. |
-| Markets | Two market profiles at launch: `US` and `EU-DE` (`content/market_profiles.yaml`). Session times, currency symbol, index examples and regulation notes are tokens rendered per profile. |
+| Markets | Two market profiles at launch: `US` and `EU-DE` (`content/market_profiles.yaml`). Session times, currency symbol, index examples and regulation notes are tokens rendered per profile. **[v4.1]** More launch markets get a profile of their own or a generic international one (stage MARKETS). The app's language never decides the market. |
 | Path choice | After Chapter 1 (Chapter 1 is shared by all paths). Onboarding does not ask for a path. |
 | Daily target **[v4 — changed]** | The learner picks 1, 2 or 3 sub-levels a day; the default is two ≈ 10 minutes. The streak counts the days on which that goal was met. A path is ~390 sub-levels ≈ 22 hours ≈ 6 months at the default pace. |
-| Hearts **[v4 — changed]** | 5 hearts, spent **only in Tests and Final Exams**: a wrong answer there costs one, and at 0 hearts the Test stops. Lessons never cost a heart — a wrong answer in a lesson comes back once at its end (the mistakes round, `docs/UI.md` §4.5) — and neither does practice; finishing a practice session returns one. Each lost heart refills after 4 hours. (v3 spent hearts in lessons too; the review found it punished exactly what a lesson is for.) |
+| Hearts **[v4 — changed]** | 5 hearts, spent **only in Tests and Final Exams**: a wrong answer there costs one, and at 0 hearts the Test stops. Lessons never cost a heart — a wrong answer in a lesson comes back once at its end (the mistakes round, `docs/UI.md` §4.5) — and neither does practice; finishing a practice session returns one. Each lost heart refills after 4 hours. (v3 spent hearts in lessons too; the review found it punished exactly what a lesson is for.) **[v4.1]** Tradle Plus removes the limit: unlimited hearts in Tests and Final Exams, while the pass mark stays. Hearts are never sold one at a time. |
 | Pressure | No timers, no quick-fire, no countdowns anywhere. Repetition is untimed. This applies to every new interaction type too. |
 | Mascot | **No.** **[v3.1 — reversed]** v2 and v3 specified one recurring mascot plus five recurring characters (retail trader, market maker, institution, bull, bear), and the placeholder art, the poses and the `story` screen's `character` field were all built. All of it is withdrawn: the cast is out of the app, out of `docs/UI.md` §6.9 and out of all 198 sub-levels that named it. A screen carries its meaning in its copy, its data component and the reveal's verdict colour. Reopening this means reopening this row first. **[v4]** Reconsidered on 2026-09-25 (review W20) and kept at No. |
 | Theme | Dark mode default, full light theme available. **[v4]** Light, dark and system; at most three lesson looks, chosen in stage LOOK-BRIEF (`docs/UI.md` §10). |
@@ -49,6 +51,12 @@ One constraint holds under either answer and binds today: **the app must never i
 | Leaderboard **[v4]** | None in v1.0. Later at most an opt-in friends league, scored on decisions, never on XP volume. |
 | Spelling **[v4]** | US English everywhere: color, favor, rumor, practice (noun and verb). |
 | Guarantees | No profitability or success claims anywhere. |
+| Name **[v4.1]** | **Tradle** (decision L). Other products already use the name, so stage BRAND checks trademarks and conflicts first; the store title may add a descriptor ("Tradle – Learn to Trade"). |
+| Paths at launch **[v4.1]** | All three: Scalping, Swing Trading and Day Trading (decision E). Swing is written before Day Trading. |
+| Accounts **[v4.1]** | Sign-in with Apple, Google or email, sync across devices, account deletion and data export inside the app (decision K). The app works before sign-in; a purchase never needs an account. |
+| Money **[v4.1]** | Free: every lesson of every path, checkpoints and final exams, the Practice tab, the glossary, statistics, the Daily Tradle and a taste of the arena — with ads between lessons and 5 hearts in tests. **Tradle Plus** (a subscription through RevenueCat): unlimited hearts, no ads, the full practice arena (decision I). Nothing is sold one at a time (no hearts, no streak freezes), nothing is pay-to-pass, and no paywall uses fake urgency. Lessons never advertise Plus. |
+| Ads **[v4.1]** | Only after a finished lesson, never inside a lesson, test, reveal, the arena or onboarding. Never ads for financial products, trading, crypto, gambling or get-rich-quick (§7). Personalized ads only with consent. Tradle Plus has none. |
+| Practice arena **[v4.1]** | Synthetic charts only, labeled as practice. Clean setups carry a small modeled edge and poor ones a negative edge, with realistic variance (§3.11); the app says plainly that real markets guarantee no edge. The arena does not replace paper trading on real-time data before real money. |
 
 ---
 
@@ -381,7 +389,7 @@ A v3 chapter is 45–52 sub-levels — too much for one clean pass. Write it in 
 3. Scalping Chapters 2–8 — **done: 18/19/18/17/19/19/17 levels, 340 subs**. Chapter 8 Level 15 planned, stage OFFER.
 4. Position sizes — **done**: 0 of 572 priced positions over the §3.6 cap.
 5. The app — **on `main` since 2026-09-25** (PR #13): Chapter 1 and Scalping Chapter 2 Levels 1–3 playable.
-6. **[v4] Everything else** — the order is `docs/build-plan.md`, the findings behind it `docs/review-2026-09-25.md`. Drill bank: 1 of 15 packs written. Swing Trading Chapters 2–8 come before Day Trading (decision W2); Day Trading follows the release.
+6. **[v4] Everything else** — the order is `docs/build-plan.md`, the findings behind it `docs/review-2026-09-25.md`. Drill bank: 1 of 15 packs written. **[v4.1]** Swing Trading Chapters 2–8, then Day Trading Chapters 2–8, both before the release (decision E).
 
 Live status (levels, screens, minutes per chapter) is generated, not hand-written:
 
@@ -400,6 +408,8 @@ python3 tools/validate_content.py --status
 - **[v4] Regulatory facts carry a date.** Every regulation note in `content/market_profiles.yaml` has a `checked:` date and is re-verified before each release; the rules move (the US pattern-day-trader rule is under reform as of 2026). Fee notes name categories, never prices — in market profiles too.
 - **[v4] Warning signs are content.** The path names the red flags a beginner meets first — signal groups, paid "gurus", pump-and-dump schemes, guaranteed returns — without naming anyone.
 - No broker, platform, device or provider recommendations. Fees are explained as a category, not as a price list. **[v3]** Chapter 8 teaches platform *concepts* (order entry, hotkeys, a simulator) generically and names no product.
+- **[v4.1] No financial ads.** An ad for a broker inside a trading course reads like a recommendation, so ads for financial products and services, trading, crypto, gambling and get-rich-quick are blocked (`docs/build-plan.md`, stage ADS). Blocking is best effort; a "Report this ad" link and a monthly look at the served advertisers cover the rest.
+- **[v4.1] The arena is practice, not a market.** Its charts are synthetic, its odds are a training model that the app discloses, and its money is practice money. Nothing in the arena — a share card, a statistic, a Plus text — may read as a signal or as a promise of profit.
 - No content about leverage products beyond the one explanatory lesson noted in section 1 — **Chapter 8 Level 15**, which is orientation and not instruction: it names what a broker will offer and what leverage does to arithmetic the learner already owns, and teaches no CFD, forex or margin *mechanics*, names no product and recommends nothing. **[v3]** This is why §3.6's account ceiling matters: a sizing rule that quietly requires margin is leverage content by the back door.
 - **[v3] Saying nothing is its own failure.** The learner meets margin, settlement, the pattern-day-trader rule and — in Germany — the leveraged wrappers the moment they open an account, and a European retail scalper realistically cannot scalp cash stocks at all. Leaving that unsaid is not caution; it is sending a graduate into the one conversation this app prepared them least for. The answer is the orientation lesson, not silence and not a how-to.
 - **[v3] Tax is out of scope, and saying so is the content.** The path mentions tax **zero** times. That is correct — tax treatment is jurisdiction-specific regulated advice, and this app must not give it — but silence is not the finished answer. Chapter 8 says once, plainly, that trading profits are taxed, that the treatment differs by country and by holding period, and that this is a question for a tax adviser. No rate, no jurisdiction rule, no worked example, no product.
