@@ -59,7 +59,7 @@ export default function TfScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.xl },
+  wrap: { gap: space.xl },
   statement: { ...type.prompt, color: colors.text },
   row: { flexDirection: 'row', gap: space.md },
   half: { flex: 1 },

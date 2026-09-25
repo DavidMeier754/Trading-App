@@ -87,7 +87,7 @@ export default function OutOfHearts() {
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.xl },
+  wrap: { alignItems: 'center', gap: space.xl },
   heart: { width: HEART, height: HEART },
   text: { alignItems: 'center', gap: space.sm, maxWidth: 320 },
   title: { ...type.display, color: colors.text, textAlign: 'center' },

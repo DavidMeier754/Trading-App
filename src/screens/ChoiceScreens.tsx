@@ -112,10 +112,6 @@ export function SortScreen({
   // tap; this keeps that release from also selecting the chip.
   const dragging = useRef(false);
 
-  const unplaced = screen.items
-    .map((item, i) => ({ item, i }))
-    .filter(({ i }) => placed[i] === undefined);
-
   const toneFor = (i: number): Tone => {
     if (!revealed) return 'idle';
     return placed[i] === screen.items[i].bucket ? 'correct' : 'wrong';
@@ -133,8 +129,15 @@ export function SortScreen({
 
       {/* Above the buckets in the stacking order, so a chip dragged down
           passes over them rather than under. */}
+      {/* A sorted chip leaves its place behind, empty, so the chips around it
+          and the buckets under them stay where they were. */}
       <View style={[styles.chips, styles.chipsOver]}>
-        {unplaced.map(({ item, i }) => (
+        {screen.items.map((item, i) =>
+          placed[i] !== undefined ? (
+            <View key={item.text} style={[styles.chip, styles.chipGhost]} pointerEvents="none">
+              <Text style={[styles.chipText, styles.ghostText]}>{copy(item.text)}</Text>
+            </View>
+          ) : (
           <DragChip
             key={item.text}
             disabled={revealed}
@@ -155,7 +158,8 @@ export function SortScreen({
               <Text style={styles.chipText}>{copy(item.text)}</Text>
             </ToneSurface>
           </DragChip>
-        ))}
+          )
+        )}
       </View>
 
       <View style={styles.buckets}>
@@ -324,53 +328,67 @@ export function OrderScreen({
   const order = value.kind === 'sequence' ? value.order : [];
   // Dealt, never in the answer's order (lesson/shuffle.ts).
   const deal = screen.deal ?? screen.items.map((_, i) => i);
-  const remaining = deal
-    .map((i) => ({ text: screen.items[i], i }))
-    .filter(({ i }) => !order.includes(i));
+  const cards = deal.map((i) => ({ text: screen.items[i], i }));
 
+  // Every place in the sequence is drawn from the start, and a card that has
+  // been placed leaves an empty outline in the pile: the list does not grow
+  // under the pile, and the pile does not close up, as the order is built.
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
       <View style={styles.slots}>
-        {order.map((itemIndex, position) => (
-          <ToneSurface
-            key={itemIndex}
-            tone={revealed ? (itemIndex === position ? 'correct' : 'wrong') : 'selected'}
-            disabled={revealed}
-            onPress={() => {
-              onChange({
-                kind: 'sequence',
-                order: order.filter((x) => x !== itemIndex),
-              });
-            }}
-            style={styles.slotRow}
-          >
-            <Text style={styles.slotNum}>{position + 1}</Text>
-            <Text style={styles.slotText}>{copy(screen.items[itemIndex])}</Text>
-          </ToneSurface>
-        ))}
-        {remaining.length > 0 && !revealed ? (
-          <View style={styles.slotEmpty}>
-            <Text style={styles.slotHint}>{`${order.length + 1}. tap a card below`}</Text>
-          </View>
-        ) : null}
+        {screen.items.map((_, position) => {
+          const itemIndex = order[position];
+          if (itemIndex === undefined) {
+            return (
+              <View key={`empty-${position}`} style={styles.slotEmpty}>
+                <Text style={styles.slotHint}>
+                  {position === order.length && !revealed ? `${position + 1}. tap a card below` : `${position + 1}.`}
+                </Text>
+              </View>
+            );
+          }
+          return (
+            <ToneSurface
+              key={itemIndex}
+              tone={revealed ? (itemIndex === position ? 'correct' : 'wrong') : 'selected'}
+              disabled={revealed}
+              onPress={() => {
+                onChange({
+                  kind: 'sequence',
+                  order: order.filter((x) => x !== itemIndex),
+                });
+              }}
+              style={styles.slotRow}
+            >
+              <Text style={styles.slotNum}>{position + 1}</Text>
+              <Text style={styles.slotText}>{copy(screen.items[itemIndex])}</Text>
+            </ToneSurface>
+          );
+        })}
       </View>
 
       <View style={styles.chips}>
-        {remaining.map(({ text, i }) => (
-          <ToneSurface
-            key={text}
-            tone="idle"
-            disabled={revealed}
-            onPress={() => {
-              onChange({ kind: 'sequence', order: [...order, i] });
-            }}
-            style={styles.chip}
-          >
-            <Text style={styles.chipText}>{copy(text)}</Text>
-          </ToneSurface>
-        ))}
+        {cards.map(({ text, i }) =>
+          order.includes(i) ? (
+            <View key={text} style={[styles.chip, styles.chipGhost]} pointerEvents="none">
+              <Text style={[styles.chipText, styles.ghostText]}>{copy(text)}</Text>
+            </View>
+          ) : (
+            <ToneSurface
+              key={text}
+              tone="idle"
+              disabled={revealed}
+              onPress={() => {
+                onChange({ kind: 'sequence', order: [...order, i] });
+              }}
+              style={styles.chip}
+            >
+              <Text style={styles.chipText}>{copy(text)}</Text>
+            </ToneSurface>
+          )
+        )}
       </View>
     </View>
   );
@@ -423,7 +441,7 @@ export function SpotMistakeScreen({
 export { AnswerCard };
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.lg },
+  wrap: { gap: space.lg },
   sentence: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6, rowGap: space.sm },
   sentenceText: { ...type.prompt, color: colors.text },
   blank: {
@@ -451,6 +469,15 @@ const styles = StyleSheet.create({
   chipSmall: { paddingHorizontal: space.sm, paddingVertical: 6 },
   chipSmallText: { ...type.small, color: colors.text },
   chipsOver: { zIndex: 2 },
+  // Where a chip was: the same size, an outline only, its words kept (invisible)
+  // so the place is exactly as wide as the chip that left it.
+  chipGhost: {
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+    borderColor: colors.border,
+    borderRadius: radius.md,
+  },
+  ghostText: { opacity: 0 },
   dragCap: { maxWidth: '100%' },
   buckets: { flexDirection: 'row', gap: space.sm, zIndex: 1 },
   bucketSlot: { flex: 1 },
@@ -490,10 +517,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.md,
   },
   slotHint: { ...type.small, color: colors.textFaint },
-  segments: { gap: space.sm },
+  // The parts run on as one sentence, wrapping like words do, rather than a
+  // list of cards: the learner is reading a claim, and has to hear it whole.
+  segments: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, rowGap: space.sm },
   segment: {
     minHeight: TAP_TARGET,
-    paddingHorizontal: space.lg,
+    maxWidth: '100%',
+    paddingHorizontal: space.md,
     paddingVertical: space.sm,
     justifyContent: 'center',
   },

@@ -105,9 +105,18 @@ export default function NumericInputScreen({
   // docs/UI.md §5.1: the field ramps to its verdict colour over 200 ms.
   const animatedBorder = useBorderTransition(fieldColor, revealed);
 
+  // A minus leads the currency, as every price in the app writes it: "−$0.40",
+  // not "$−0.40".
+  const negative = typed.startsWith('−');
+  const digits = negative ? typed.slice(1) : typed;
+  const canDelete = !revealed && text.length > 0;
+
   const field = (
     <Animated.View style={[styles.field, animatedBorder]}>
       <View style={styles.fieldRow}>
+        {negative && unitIsPrefix ? (
+          <Text style={[styles.fieldText, revealed && { color: fieldColor }]}>−</Text>
+        ) : null}
         {unitIsPrefix && screen.unit ? (
           <Text style={[styles.unit, isEmpty && styles.faint]}>{screen.unit}</Text>
         ) : null}
@@ -118,12 +127,24 @@ export default function NumericInputScreen({
             revealed && !isEmpty && { color: fieldColor },
           ]}
         >
-          {shown}
+          {isEmpty ? shown : unitIsPrefix ? digits : typed}
         </Text>
         {!unitIsPrefix && screen.unit ? (
           <Text style={[styles.unit, isEmpty && styles.faint]}>{screen.unit}</Text>
         ) : null}
       </View>
+      {/* Backspace where the eye already is, the way a calculator has it; the
+          little "Delete" link under the pad was easy to miss. */}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Delete"
+        disabled={!canDelete}
+        onPress={() => onChange({ kind: 'numeric', text: text.slice(0, -1) })}
+        hitSlop={8}
+        style={styles.backspace}
+      >
+        <Text style={[styles.backspaceText, !canDelete && { color: colors.textFaint }]}>⌫</Text>
+      </Pressable>
     </Animated.View>
   );
 
@@ -131,16 +152,22 @@ export default function NumericInputScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
       {revealed && !isRight ? <Shake>{field}</Shake> : field}
-      {revealed && !isRight ? (
-        <Text style={styles.answerLine}>
-          {'Answer: '}
-          <Text style={{ color: colors.success }}>
-            {unitIsPrefix
-              ? signedPrice(screen.answer)
-              : `${screen.answer}${screen.unit ? ` ${screen.unit}` : ''}`}
-          </Text>
-        </Text>
-      ) : null}
+      {/* The answer line keeps its place whether or not it has anything to
+          say, so the pad under it does not drop when a wrong answer is shown. */}
+      <Text style={styles.answerLine}>
+        {revealed && !isRight ? (
+          <>
+            {'Answer: '}
+            <Text style={{ color: colors.success }}>
+              {unitIsPrefix
+                ? signedPrice(screen.answer)
+                : `${screen.answer}${screen.unit ? ` ${screen.unit}` : ''}`}
+            </Text>
+          </>
+        ) : (
+          ' '
+        )}
+      </Text>
 
       <View style={styles.pad}>
         {KEYS.map((key) => (
@@ -148,27 +175,12 @@ export default function NumericInputScreen({
         ))}
       </View>
 
-      <Pressable
-        accessibilityRole="button"
-        disabled={revealed || text.length === 0}
-        onPress={() => onChange({ kind: 'numeric', text: text.slice(0, -1) })}
-        hitSlop={8}
-      >
-        <Text
-          style={[
-            styles.clear,
-            (revealed || text.length === 0) && { color: colors.textFaint },
-          ]}
-        >
-          Delete
-        </Text>
-      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.lg },
+  wrap: { gap: space.lg },
   field: {
     borderWidth: 2,
     borderRadius: radius.md,
@@ -195,5 +207,14 @@ const styles = StyleSheet.create({
   },
   keyDown: { backgroundColor: colors.surfaceAlt },
   keyText: { ...type.prompt, color: colors.text },
-  clear: { ...type.label, color: colors.accent },
+  backspace: {
+    position: 'absolute',
+    right: space.sm,
+    top: 0,
+    bottom: 0,
+    width: TAP_TARGET,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backspaceText: { fontSize: 22, lineHeight: 26, color: colors.textMuted },
 });

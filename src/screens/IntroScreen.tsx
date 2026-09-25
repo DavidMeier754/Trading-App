@@ -39,7 +39,7 @@ export default function IntroScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.md },
+  wrap: { gap: space.md },
   kicker: {
     ...type.label,
     color: colors.accent,

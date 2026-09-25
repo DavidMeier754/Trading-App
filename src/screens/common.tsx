@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -111,12 +111,61 @@ export function AnswerCard({
   );
 }
 
+/**
+ * Several versions of one block -- a carousel's cards, a walkthrough's steps --
+ * laid out in the same place, so the block is as tall as the tallest of them.
+ * Moving to the next one changes what is drawn, never how much room it takes,
+ * and nothing below it moves (docs/UI.md §2). The versions not showing are
+ * still laid out, invisibly and out of reach, only to be measured.
+ */
+export function Stack({
+  current,
+  items,
+  shown,
+}: {
+  current: number;
+  /** Every version, plain, for measuring. */
+  items: React.ReactNode[];
+  /** The one on screen; defaults to `items[current]`. It can carry an entrance. */
+  shown?: React.ReactNode;
+}) {
+  const [heights, setHeights] = useState<number[]>([]);
+  const onItem = useCallback((i: number, h: number) => {
+    setHeights((prev) => {
+      if (Math.abs((prev[i] ?? -1) - h) < 0.5) return prev;
+      const next = prev.slice();
+      next[i] = h;
+      return next;
+    });
+  }, []);
+  const tallest = heights.reduce((m, h) => Math.max(m, h ?? 0), 0);
+  return (
+    <View style={{ minHeight: tallest }}>
+      {items.map((item, i) => (
+        <View
+          key={i}
+          pointerEvents="none"
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+          aria-hidden
+          style={styles.stackGhost}
+          onLayout={(e) => onItem(i, e.nativeEvent.layout.height)}
+        >
+          {item}
+        </View>
+      ))}
+      {shown ?? items[current]}
+    </View>
+  );
+}
+
 export function Card({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
   const spec = useLookSpec();
   return <View style={[styles.card, surfaceStyle(spec), style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
+  stackGhost: { position: 'absolute', top: 0, left: 0, right: 0, opacity: 0 },
   cap: { maxWidth: '100%' },
   prompt: { ...type.prompt, color: colors.text },
   title: { ...type.title, color: colors.text },

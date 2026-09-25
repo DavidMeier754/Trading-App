@@ -33,7 +33,10 @@ export type IconName =
   | 'chevron-down'
   | 'target'
   | 'clock'
-  | 'calendar';
+  | 'calendar'
+  | 'bulb'
+  | 'repeat'
+  | 'quiz';
 
 export default function Icon({
   name,
@@ -149,6 +152,42 @@ export default function Icon({
         <>
           <Rect x={4} y={5.5} width={16} height={14.5} rx={2.5} fill="none" {...stroke} />
           <Path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" {...stroke} />
+        </>
+      );
+      break;
+    case 'bulb':
+      // A lit bulb: a level that teaches something new.
+      body = (
+        <>
+          <Path
+            d="M12 2.8a6.3 6.3 0 0 0-3.7 11.4c.8.6 1.2 1.4 1.2 2.3v.6h5v-.6c0-.9.4-1.7 1.2-2.3A6.3 6.3 0 0 0 12 2.8z"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.2}
+            strokeLinejoin="round"
+          />
+          <Path d="M9.8 19.3h4.4M10.6 21.6h2.8" fill="none" {...stroke} />
+        </>
+      );
+      break;
+    case 'repeat':
+      // Round again: a practice level, what was taught used once more.
+      body = (
+        <>
+          <Path d="M4.5 11V9.8a4.3 4.3 0 0 1 4.3-4.3h10.7" fill="none" {...stroke} />
+          <Path d="M16.3 2.5l3.2 3-3.2 3" fill="none" {...stroke} />
+          <Path d="M19.5 13v1.2a4.3 4.3 0 0 1-4.3 4.3H4.5" fill="none" {...stroke} />
+          <Path d="M7.7 21.5l-3.2-3 3.2-3" fill="none" {...stroke} />
+        </>
+      );
+      break;
+    case 'quiz':
+      // A clipboard with a tick: a Checkpoint, scored.
+      body = (
+        <>
+          <Rect x={5} y={4.5} width={14} height={16.5} rx={2.2} fill="none" {...stroke} />
+          <Path d="M9 4.5V3.2h6v1.3" fill="none" {...stroke} />
+          <Path d="M8.6 12.8l2.4 2.4 4.4-4.8" fill="none" {...stroke} />
         </>
       );
       break;

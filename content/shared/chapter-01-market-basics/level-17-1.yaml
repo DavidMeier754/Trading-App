@@ -129,5 +129,3 @@ screens:
   - type: badge
     name: "Market Basics — Complete"
     unlocks: "Your path"
-
-  - type: path-choice

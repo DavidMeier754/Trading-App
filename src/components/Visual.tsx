@@ -38,6 +38,7 @@ export default function Visual({
   width,
   onTapTarget,
   highlight,
+  focus,
   planValues,
 }: {
   component: ComponentId;
@@ -45,6 +46,8 @@ export default function Visual({
   width: number;
   onTapTarget?: (id: string) => void;
   highlight?: Record<string, string>;
+  /** A walkthrough's spotlight: this target is lit, the rest of the component steps back. */
+  focus?: string;
   planValues?: Record<string, string>;
 }) {
   // Hooks run before the early return. Every chart in the app snaps to the
@@ -56,11 +59,11 @@ export default function Visual({
 
   switch (component) {
     case 'quote-card':
-      return <QuoteCard data={data as any} highlight={highlight} onTapTarget={onTapTarget} />;
+      return <QuoteCard data={data as any} highlight={highlight} focus={focus} onTapTarget={onTapTarget} />;
     case 'quote-panel':
-      return <QuotePanel data={data as any} highlight={highlight} onTapTarget={onTapTarget} />;
+      return <QuotePanel data={data as any} highlight={highlight} focus={focus} onTapTarget={onTapTarget} />;
     case 'order-ticket':
-      return <OrderTicket data={data as any} highlight={highlight} onTapTarget={onTapTarget} />;
+      return <OrderTicket data={data as any} highlight={highlight} focus={focus} onTapTarget={onTapTarget} />;
     case 'order-book':
       return (
         <OrderBook

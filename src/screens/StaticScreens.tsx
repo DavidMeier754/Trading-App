@@ -25,7 +25,7 @@ import type {
 } from '../types';
 import Icon, { IconName } from '../home/icons';
 import { PATHS, TradingPath } from '../content';
-import { Body, Card, ScreenTitle } from './common';
+import { Body, Card, ScreenTitle, Stack } from './common';
 
 /**
  * A carousel card's `icon` (docs/schema.md), drawn where there is a drawing.
@@ -36,6 +36,10 @@ const CARD_ICON: Record<string, IconName> = {
   news: 'news',
   'market-wide': 'globe',
   institution: 'bank',
+  // The three styles wear the path cards' own icons (PATH_CARDS below).
+  'style-scalp': 'bolt',
+  'style-day': 'clock',
+  'style-swing': 'calendar',
 };
 
 /**
@@ -55,37 +59,52 @@ export function CarouselScreen({
   cursor: number;
   onCursor: (n: number) => void;
 }) {
-  const card = screen.cards[Math.min(cursor, screen.cards.length - 1)];
+  const at = Math.min(cursor, screen.cards.length - 1);
+  const face = (card: Carousel['cards'][number]) => (
+    <Card style={styles.carouselCard}>
+      <View style={styles.iconBubble}>
+        {CARD_ICON[card.icon ?? ''] ? (
+          <Icon name={CARD_ICON[card.icon ?? '']} size={22} color={colors.accent} />
+        ) : (
+          <Text style={styles.iconText}>{(card.label ?? '?').slice(0, 1)}</Text>
+        )}
+      </View>
+      <ScreenTitle>{card.label}</ScreenTitle>
+      <Body>{card.text}</Body>
+    </Card>
+  );
   return (
     <View style={styles.centered}>
-      <Text style={styles.counter}>{`${cursor + 1}/${screen.cards.length}`}</Text>
-      {/* Keyed by the cursor: each card slides in from the right as the one
-          before it is done, the direction the reading goes. */}
-      <Arrive key={cursor} from="right">
-        <Card style={styles.carouselCard}>
-          <View style={styles.iconBubble}>
-            {CARD_ICON[card.icon ?? ''] ? (
-              <Icon name={CARD_ICON[card.icon ?? '']} size={22} color={colors.accent} />
-            ) : (
-              <Text style={styles.iconText}>{(card.label ?? '?').slice(0, 1)}</Text>
-            )}
-          </View>
-          <ScreenTitle>{card.label}</ScreenTitle>
-          <Body>{card.text}</Body>
-        </Card>
-      </Arrive>
+      {/* The dots below say where you are; a "1/3" above said it twice. Every
+          card takes the height of the tallest, so the dots and everything
+          else hold still as the cards change. Keyed by the cursor: each card
+          slides in from the right, the direction the reading goes. */}
+      <Stack
+        current={at}
+        items={screen.cards.map((card) => face(card))}
+        shown={
+          <Arrive key={at} from="right">
+            {face(screen.cards[at])}
+          </Arrive>
+        }
+      />
       <View style={styles.dots}>
+        {/* Each dot has a slot as wide as the lit one, so lighting the next
+            dot does not slide the others sideways. */}
         {screen.cards.map((_, i) => (
           <Pressable
             accessibilityRole="button"
+            accessibilityLabel={`Card ${i + 1} of ${screen.cards.length}`}
             key={i}
             onPress={() => {
               tapFeedback();
               onCursor(i);
             }}
             hitSlop={8}
-            style={[styles.dot, i === cursor && styles.dotOn]}
-          />
+            style={styles.dotSlot}
+          >
+            <View style={[styles.dot, i === cursor && styles.dotOn]} />
+          </Pressable>
         ))}
       </View>
     </View>
@@ -102,19 +121,28 @@ export function WalkthroughScreen({
   cursor: number;
   width: number;
 }) {
-  const step = screen.steps[Math.min(cursor, screen.steps.length - 1)];
+  const at = Math.min(cursor, screen.steps.length - 1);
+  const step = screen.steps[at];
+  const line = (text: string) => (
+    <View style={styles.spotlightRow}>
+      <Text style={styles.spotlightText}>{copy(text)}</Text>
+    </View>
+  );
   return (
     <View style={styles.centered}>
-      <Text style={styles.counter}>{`${cursor + 1}/${screen.steps.length}`}</Text>
+      <Text style={styles.counter}>{`${at + 1}/${screen.steps.length}`}</Text>
+      {/* docs/UI.md §3: the spotlighted field is lit and the rest of the
+          component steps back, so the eye goes straight to it. */}
       <Visual
         component={screen.component}
         data={screen.data}
         width={width}
         highlight={{ [step.spotlight]: colors.accent }}
+        focus={step.spotlight}
       />
-      <View style={styles.spotlightRow}>
-        <Text style={styles.spotlightText}>{copy(step.text)}</Text>
-      </View>
+      {/* As tall as the longest step's text, so the next step's shorter or
+          longer line moves nothing. */}
+      <Stack current={at} items={screen.steps.map((s) => line(s.text))} />
     </View>
   );
 }
@@ -133,25 +161,34 @@ export function VisualScreen({ screen, width }: { screen: VisualS; width: number
 export function ChecklistRevealScreen({
   screen,
   cursor,
+  onNext,
 }: {
   screen: Checklist;
   cursor: number;
+  /** Ticks the next item, as the button does: the list itself is tappable. */
+  onNext: () => void;
 }) {
   const shown = Math.min(cursor, screen.items.length);
   const done = shown >= screen.items.length;
   return (
     <View style={styles.centered}>
       <ScreenTitle>{screen.title}</ScreenTitle>
-      <View style={styles.checklist}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={done ? undefined : 'Tick the next item'}
+        disabled={done}
+        onPress={onNext}
+        style={styles.checklist}
+      >
         {screen.items.map((item, i) => (
           <ChecklistRow key={item} text={item} index={i} shown={i < shown} />
         ))}
-      </View>
-      {!done ? (
-        <Text style={styles.checkHint}>
-          {`${shown} of ${screen.items.length} — keep going`}
-        </Text>
-      ) : null}
+      </Pressable>
+      {/* Kept in the layout once the list is done, only emptied, so the last
+          tick does not pull anything up. */}
+      <Text style={styles.checkHint}>
+        {done ? ' ' : `${shown} of ${screen.items.length} — tap the list or the button`}
+      </Text>
     </View>
   );
 }
@@ -175,9 +212,10 @@ function ChecklistRow({ text, index, shown }: { text: string; index: number; sho
     was.current = shown;
   }, [shown, index, m.reduced, v]);
 
+  // The row brightens in place; it used to slide in from the left, and a line
+  // that moves as it is revealed is one more thing moving on the screen.
   const rowStyle = useAnimatedStyle(() => ({
-    opacity: 0.18 + 0.82 * Math.min(1, v.get()),
-    transform: [{ translateX: m.reduced ? 0 : -8 * (1 - Math.min(1, v.get())) }],
+    opacity: 0.45 + 0.55 * Math.min(1, v.get()),
   }));
   const boxStyle = useAnimatedStyle(() => ({ transform: [{ scale: 0.55 + 0.45 * v.get() }] }));
   const markStyle = useAnimatedStyle(() => ({ opacity: Math.min(1, v.get() * 1.6) }));
@@ -187,7 +225,10 @@ function ChecklistRow({ text, index, shown }: { text: string; index: number; sho
       <Animated.View style={[styles.checkBox, boxStyle]}>
         <Animated.Text style={[styles.checkMark, markStyle]}>{'✓'}</Animated.Text>
       </Animated.View>
-      <Text style={styles.checkText}>{copy(text)}</Text>
+      {/* Not yet ticked, the item is a bar where its words will be: the same
+          text laid out in the same space, only not readable yet -- so the list
+          keeps its height and the next item is not given away early. */}
+      <Text style={[styles.checkText, !shown && styles.checkTextHidden]}>{copy(text)}</Text>
     </Animated.View>
   );
 }
@@ -197,9 +238,16 @@ function ChecklistRow({ text, index, shown }: { text: string; index: number; sho
  * there is no character cast to draw (§6.9).
  */
 export function StoryScreen({ screen }: { screen: Story }) {
+  const look = useLookSpec();
+  // A scene, not a statement to judge: a kicker and an accent edge set it apart
+  // from the true/false card it would otherwise look exactly like.
   return (
     <View style={styles.centered}>
-      <Card style={styles.storyCard}>
+      <Card style={StyleSheet.flatten([styles.storyCard, { borderLeftColor: look.accent }])}>
+        <View style={styles.storyKick}>
+          <Icon name="clock" size={14} color={look.accent} />
+          <Text style={[styles.storyKickText, { color: look.accent }]}>The scene</Text>
+        </View>
         <Text style={styles.storyText}>{copy(screen.text)}</Text>
       </Card>
     </View>
@@ -213,8 +261,16 @@ export function StoryScreen({ screen }: { screen: Story }) {
  * again. It is the closing card of a long level, the one that makes nineteen
  * of them in a chapter feel like a path rather than a pile.
  */
-export function RecapScreen({ screen }: { screen: Recap }) {
+export function RecapScreen({
+  screen,
+  source,
+}: {
+  screen: Recap;
+  /** The card a takeaway came from, to open under it (docs/UI.md §3). */
+  source?: (id: string) => { title: string; body: string } | null;
+}) {
   const look = useLookSpec();
+  const [open, setOpen] = useState<number | null>(null);
   return (
     <View style={styles.centered}>
       <Arrive>
@@ -224,13 +280,37 @@ export function RecapScreen({ screen }: { screen: Recap }) {
       <View style={styles.recapList}>
         {screen.points.map((p, i) => (
           <Arrive key={p.text} delay={160 + i * 110}>
-            <View style={[styles.recapRow, surfaceStyle(look)]}>
-              <View style={[styles.recapNum, { backgroundColor: tint(look.accent, 0.18) }]}>
-                <Text style={[styles.recapNumText, { color: look.accent }]}>{i + 1}</Text>
-              </View>
-              <Text style={styles.recapText}>{copy(p.text)}</Text>
-              {p.level ? <Text style={styles.recapLevel}>{`Level ${p.level}`}</Text> : null}
-            </View>
+            {(() => {
+              const card = p.level && source ? source(p.level) : null;
+              const isOpen = open === i && !!card;
+              return (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityState={{ expanded: isOpen, disabled: !card }}
+                  disabled={!card}
+                  onPress={() => {
+                    tapFeedback();
+                    setOpen(isOpen ? null : i);
+                  }}
+                  style={[styles.recapRow, surfaceStyle(look), isOpen && { borderColor: look.accent }]}
+                >
+                  <View style={styles.recapHead}>
+                    <View style={[styles.recapNum, { backgroundColor: tint(look.accent, 0.18) }]}>
+                      <Text style={[styles.recapNumText, { color: look.accent }]}>{i + 1}</Text>
+                    </View>
+                    <Text style={styles.recapText}>{copy(p.text)}</Text>
+                    {p.level ? <Text style={styles.recapLevel}>{`Level ${p.level}`}</Text> : null}
+                  </View>
+                  {/* The card it came from, re-opened under it. */}
+                  {isOpen && card ? (
+                    <View style={[styles.recapCard, { borderLeftColor: look.accent }]}>
+                      <Text style={styles.recapCardTitle}>{copy(card.title)}</Text>
+                      <Text style={styles.recapCardBody}>{copy(card.body)}</Text>
+                    </View>
+                  ) : null}
+                </Pressable>
+              );
+            })()}
           </Arrive>
         ))}
       </View>
@@ -330,7 +410,7 @@ export function useCursor(): [number, (n: number) => void] {
 }
 
 const styles = StyleSheet.create({
-  centered: { flex: 1, justifyContent: 'center', gap: space.lg },
+  centered: { gap: space.lg },
   counter: { ...type.label, color: colors.textMuted, alignSelf: 'center' },
   carouselCard: { gap: space.md, alignItems: 'flex-start' },
   iconBubble: {
@@ -350,6 +430,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceAlt,
   },
   dotOn: { backgroundColor: colors.accent, width: 20 },
+  dotSlot: { width: 20, height: 8, alignItems: 'center' },
   spotlightRow: { flexDirection: 'row', alignItems: 'center', gap: space.md },
   spotlightText: { ...type.body, color: colors.text, flex: 1 },
   caption: { ...type.small, color: colors.textMuted, textAlign: 'center' },
@@ -367,18 +448,28 @@ const styles = StyleSheet.create({
   },
   checkMark: { ...type.small, color: colors.success },
   checkText: { ...type.body, color: colors.text, flex: 1 },
+  checkTextHidden: {
+    color: 'transparent',
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.sm,
+    overflow: 'hidden',
+  },
   checkHint: { ...type.small, color: colors.textFaint },
-  storyCard: { gap: space.sm },
+  storyCard: { gap: space.sm, borderLeftWidth: 3 },
+  storyKick: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  storyKickText: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.2 },
   storyText: { ...type.prompt, color: colors.text },
   recapKicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.2, marginBottom: space.xs },
   recapList: { gap: space.sm },
   recapRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.md,
+    gap: space.sm,
     paddingVertical: space.md,
     paddingHorizontal: space.md,
   },
+  recapHead: { flexDirection: 'row', alignItems: 'center', gap: space.md },
+  recapCard: { borderLeftWidth: 2, paddingLeft: space.md, marginLeft: 40, gap: 2 },
+  recapCardTitle: { ...type.small, fontWeight: '700', color: colors.text },
+  recapCardBody: { ...type.small, color: colors.textMuted },
   recapNum: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   recapNumText: { ...type.label, fontWeight: '800' },
   recapText: { ...type.body, color: colors.text, flex: 1 },

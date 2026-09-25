@@ -12,7 +12,7 @@ import type {
   CompareScreen as Compare,
   SwipeDeckScreen as SwipeDeck,
 } from '../types';
-import { Prompt, ToneSurface } from './common';
+import { Prompt, Stack, ToneSurface } from './common';
 
 /**
  * docs/UI.md §4.2 `swipe-deck` — a deck of mini-charts, one at a time, with a
@@ -74,7 +74,8 @@ export function SwipeDeckScreen({
             </View>
           ))}
         </View>
-        {lastCard ? <Text style={styles.verdict}>{copy(lastCard.note)}</Text> : null}
+        {/* The run is the summary: the last card's own note stays with that
+            card, not under the total where it read as a verdict on the deck. */}
       </View>
     );
   }
@@ -107,16 +108,29 @@ export function SwipeDeckScreen({
       </View>
       {/* Keyed by card, so each one builds itself in as it comes up. */}
       <MiniChart key={index} spec={card.chart} width={width} height={180} />
-      {lastCard && lastRight !== null ? (
-        <PopIn key={`v${picks.length}`}>
-          <View style={styles.verdictRow}>
-            <Text style={[styles.verdictHead, { color: lastRight ? colors.success : colors.warning }]}>
-              {`${lastRight ? '✓ Right' : '✕ Not this one'} · card ${picks.length}`}
-            </Text>
-            <Text style={styles.verdictSmall}>{copy(lastCard.note)}</Text>
+      {/* Room for the longest verdict from the first card on, so the first one
+          to arrive does not push the buttons down under the thumb. */}
+      <Stack
+        current={-1}
+        items={screen.cards.map((c, i) => (
+          <View key={i} style={styles.verdictRow}>
+            <Text style={styles.verdictHead}>{`✕ Not this one · card ${i + 1}`}</Text>
+            <Text style={styles.verdictSmall}>{copy(c.note)}</Text>
           </View>
-        </PopIn>
-      ) : null}
+        ))}
+        shown={
+          lastCard && lastRight !== null ? (
+            <PopIn key={`v${picks.length}`}>
+              <View style={styles.verdictRow}>
+                <Text style={[styles.verdictHead, { color: lastRight ? colors.success : colors.warning }]}>
+                  {`${lastRight ? '✓ Right' : '✕ Not this one'} · card ${picks.length}`}
+                </Text>
+                <Text style={styles.verdictSmall}>{copy(lastCard.note)}</Text>
+              </View>
+            </PopIn>
+          ) : null
+        }
+      />
       <View style={styles.deckButtons}>
         <Pressable accessibilityRole="button" onPress={() => answer('pass')} style={[styles.deckButton, styles.pass]}>
           <Text style={styles.deckButtonText}>Pass</Text>
@@ -170,7 +184,9 @@ export function CompareScreen({
               }}
               style={styles.compareCard}
             >
-              <MiniChart spec={chart} width={chartWidth - 12} height={130} />
+              {/* Taller than a deck card's strip: the difference between the two is
+                  the whole question, and the screen has the room. */}
+              <MiniChart spec={chart} width={chartWidth - 12} height={cols > 2 ? 150 : 180} />
               <Text style={styles.compareLabel}>{id}</Text>
             </ToneSurface>
           );
@@ -193,7 +209,7 @@ export function CompareScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.md },
+  wrap: { gap: space.md },
   pips: { flexDirection: 'row', gap: space.sm, justifyContent: 'center', alignItems: 'center' },
   pip: {
     width: 22,

@@ -16,7 +16,8 @@ import { unlockFeedback } from '../lesson/feedback';
 import { EASE_OUT, EASE_SINE, SPRING_POP, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, type } from '../theme';
-import Icon from './icons';
+import { LEVEL_TYPE_NAME, LevelType, levelTypeOf } from '../content';
+import Icon, { IconName } from './icons';
 import type { LevelStatus, LevelView } from './pathState';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -47,6 +48,15 @@ export function forgetShownPath(): void {
 }
 
 /** The ring fills a beat after the path appears, so the eye is there for it. */
+/** The symbol each kind of level wears on its button (docs/UI.md §7.1). */
+const SYMBOL: Record<LevelType, IconName> = {
+  new: 'bulb',
+  practice: 'repeat',
+  test: 'quiz',
+  final: 'trophy',
+  path: 'signpost',
+};
+
 export const FILL_DELAY = 420;
 export const FILL_MS = 900;
 
@@ -55,11 +65,11 @@ export const FILL_MS = 900;
  * level (LearnScreen plays the parts that are not the node's):
  *
  *   420   the finished level's ring fills the rest of the way, and it turns
- *         green, its number kept, a check pinned to it
+ *         green, its symbol kept, a check pinned to it
  *   1250  the path scrolls down to the next level
  *   1300  the dotted path between them lights up, top to bottom
  *   1900  the lock shakes loose...
- *   2220  ...and bursts off: the level's number pops in, rings go out from it,
+ *   2220  ...and bursts off: the level's symbol pops in, rings go out from it,
  *         the unlock chime, and the banner names the new level
  *   2500  START drops in over it and the halo starts to breathe
  */
@@ -99,7 +109,7 @@ export default function LevelNode({
     !reduced && !unlocking && beforeStatus !== undefined && beforeStatus !== view.status ? 0.82 : 1
   );
   // The unlock: the lock's cover over the open face, the lock's wobble, the
-  // number's pop and the rings that go out as it opens.
+  // symbol's pop and the rings that go out as it opens.
   const cover = useSharedValue(unlocking ? 1 : 0);
   const wobble = useSharedValue(0);
   const digit = useSharedValue(unlocking && !reduced ? 0.4 : 1);
@@ -185,14 +195,13 @@ export default function LevelNode({
   const round = kind !== 'test';
   const what =
     kind === 'test' ? 'Checkpoint' : kind === 'final' ? 'Final Exam' : kind === 'path' ? 'Path choice' : 'Level';
-  const glyph =
-    kind === 'final' ? (
-      <Icon name="trophy" size={34} color="#FFFFFF" />
-    ) : kind === 'path' ? (
-      <Icon name="signpost" size={34} color="#FFFFFF" />
-    ) : (
-      <Text style={[styles.number, kind === 'test' && styles.numberShield]}>{view.level.number}</Text>
-    );
+  // docs/UI.md §7.1: every button shows what kind of level it is -- a bulb for
+  // new ideas, round arrows for practice, a ticked clipboard for a Checkpoint,
+  // the trophy, the signpost -- locked or not. The number is in the label.
+  const type = levelTypeOf(view.level);
+  const symbol = (color: string) => (
+    <Icon name={SYMBOL[type]} size={type === 'test' ? 28 : 32} color={color} strokeWidth={2.4} />
+  );
 
   const tagDelay = unlocking ? (reduced ? 400 : UNLOCK.tag) : 0;
   return (
@@ -226,7 +235,7 @@ export default function LevelNode({
       <Animated.View style={[styles.nodeWrap, press.style, popStyle]}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`${what}${view.level.number ? ` ${view.level.number}` : ''}: ${view.level.title}. ${
+          accessibilityLabel={`${what}${view.level.number ? ` ${view.level.number}` : ''}, ${LEVEL_TYPE_NAME[type]}: ${view.level.title}. ${
             locked ? 'Locked' : complete ? 'Done' : kind === 'lesson' ? `${view.done} of ${view.total} lessons done` : 'Open'
           }`}
           onPressIn={press.onPressIn}
@@ -240,15 +249,16 @@ export default function LevelNode({
           ]}
         >
           {round ? null : <ShieldFace color={face} locked={locked} />}
-          {/* The level keeps its number for good; a finished one wears a
-              check beside it rather than in place of it. */}
-          {/* Above the shield, which is drawn absolutely and would otherwise cover it. */}
+          {/* The level keeps its symbol for good: greyed while locked, white
+              once open, and a finished one wears a check beside it rather than
+              in place of it. Above the shield, which is drawn absolutely and
+              would otherwise cover it. */}
           {locked ? (
-            <View style={styles.glyph}>
-              <Icon name="lock" size={26} color={colors.textFaint} />
-            </View>
+            <View style={[styles.glyph, !round && styles.glyphShield]}>{symbol(colors.textFaint)}</View>
           ) : (
-            <Animated.View style={[styles.glyph, digitStyle]}>{glyph}</Animated.View>
+            <Animated.View style={[styles.glyph, !round && styles.glyphShield, digitStyle]}>
+              {symbol('#FFFFFF')}
+            </Animated.View>
           )}
           {unlocking ? (
             <Animated.View
@@ -256,9 +266,7 @@ export default function LevelNode({
               style={[styles.cover, !round && styles.coverShield, coverStyle]}
             >
               {round ? null : <ShieldFace color={colors.surfaceAlt} locked />}
-              <Animated.View style={lockStyle}>
-                <Icon name="lock" size={26} color={colors.textFaint} />
-              </Animated.View>
+              <View style={[styles.glyph, !round && styles.glyphShield]}>{symbol(colors.textFaint)}</View>
             </Animated.View>
           ) : null}
         </Pressable>
@@ -268,6 +276,15 @@ export default function LevelNode({
             style={[styles.badge, { backgroundColor: view.perfect ? GOLD : colors.success }, badgeStyle]}
           >
             <Icon name="check" size={14} color="#FFFFFF" strokeWidth={3.4} />
+          </Animated.View>
+        ) : null}
+        {/* A locked level wears its lock where a finished one wears its check,
+            so the symbol stays readable; opening it shakes the lock loose. */}
+        {locked || unlocking ? (
+          <Animated.View pointerEvents="none" style={[styles.badge, styles.lockBadge, unlocking && coverStyle]}>
+            <Animated.View style={lockStyle}>
+              <Icon name="lock" size={13} color={colors.textMuted} />
+            </Animated.View>
           </Animated.View>
         ) : null}
       </Animated.View>
@@ -393,10 +410,10 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: colors.accent,
   },
-  number: { fontSize: 28, lineHeight: 32, fontWeight: '800', color: '#FFFFFF' },
-  // A shield is narrower at the foot: its number sits a touch high.
-  numberShield: { marginTop: -6 },
   glyph: { zIndex: 1 },
+  // A shield is narrower at the foot: its symbol sits a touch high.
+  glyphShield: { marginTop: -6 },
+  lockBadge: { backgroundColor: colors.surfaceAlt, borderColor: colors.background },
   coverShield: { backgroundColor: 'transparent', borderWidth: 0 },
   halo: {
     position: 'absolute',

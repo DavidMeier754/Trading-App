@@ -23,6 +23,6 @@ export default function TheoryScreen({ screen, width }: { screen: S; width: numb
 
 const styles = StyleSheet.create({
   // docs/UI.md §2: visual above text.
-  wrap: { flex: 1, justifyContent: 'center', gap: space.xl },
+  wrap: { gap: space.xl },
   text: { gap: space.md },
 });

@@ -276,7 +276,7 @@ const BADGE = 152;
 const GLOW = 280;
 
 const styles = StyleSheet.create({
-  centered: { flex: 1, justifyContent: 'center', gap: space.lg },
+  centered: { gap: space.lg },
   badgeSlot: {
     alignSelf: 'center',
     width: BADGE,

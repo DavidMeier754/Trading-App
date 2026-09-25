@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedProps } from 'react-native-reanimated';
-import Svg, { G, Line, Path } from 'react-native-svg';
+import Svg, { Circle, G, Line, Path, Text as SvgText } from 'react-native-svg';
 
 import { useChartMove } from '../lesson/haptics';
 import { surfaceStyle, useLookSpec } from '../lesson/look';
 import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
+import { price } from '../format';
 import { colors } from '../theme';
 import type { MiniChart as Spec } from '../types';
 import { BUILD_MS, BuildCandle, buildStagger, useEntrance } from './ChartBuild';
@@ -32,10 +33,17 @@ export default function MiniChart({
   width,
   height = 130,
   visible,
+  showPrice = false,
 }: {
   spec: Spec;
   width: number;
   height?: number;
+  /**
+   * Label the last drawn point with its price: a `branch` asks about "$29.70"
+   * and "a stop at $29.60", and a chart with no numbers on it could not be
+   * checked against either.
+   */
+  showPrice?: boolean;
   /**
    * Draw only the first this-many bars, on the scale of all of them: a chart
    * that moves on as a story does (`branch`) keeps its frame still while the
@@ -109,16 +117,28 @@ export default function MiniChart({
       <Svg width={width} height={height}>
         <AnimatedG animatedProps={levelProps}>
           {levels.map((lvl, i) => (
-            <Line
-              key={i}
-              x1={pad}
-              x2={pad + plotW}
-              y1={y(lvl.price)}
-              y2={y(lvl.price)}
-              stroke={colors.warning}
-              strokeWidth={1}
-              strokeDasharray="4 3"
-            />
+            <G key={i}>
+              <Line
+                x1={pad}
+                x2={pad + plotW}
+                y1={y(lvl.price)}
+                y2={y(lvl.price)}
+                stroke={colors.warning}
+                strokeWidth={1}
+                strokeDasharray="4 3"
+              />
+              {lvl.label ? (
+                <SvgText
+                  x={pad + 2}
+                  y={y(lvl.price) - 4}
+                  fontSize={10}
+                  fontWeight="600"
+                  fill={colors.warning}
+                >
+                  {`${lvl.label} ${price(lvl.price)}`}
+                </SvgText>
+              ) : null}
+            </G>
           ))}
         </AnimatedG>
         {isCandles ? (
@@ -155,6 +175,21 @@ export default function MiniChart({
             animatedProps={lineProps}
           />
         )}
+        {showPrice && !isCandles && shown > 0 ? (
+          <AnimatedG animatedProps={levelProps}>
+            <Circle cx={cx(shown - 1)} cy={y(rows[shown - 1] as number)} r={3} fill={look.chartLine} />
+            <SvgText
+              x={Math.min(cx(shown - 1) + 6, width - 4)}
+              y={y(rows[shown - 1] as number) - 7}
+              fontSize={11}
+              fontWeight="700"
+              fill={colors.text}
+              textAnchor={cx(shown - 1) > width - 60 ? 'end' : 'start'}
+            >
+              {price(rows[shown - 1] as number)}
+            </SvgText>
+          </AnimatedG>
+        ) : null}
       </Svg>
     </View>
   );

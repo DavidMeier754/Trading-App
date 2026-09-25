@@ -48,7 +48,8 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 - No back button inside a lesson; theory cards can be re-read from the level sheet ("Review cards") afterwards.
 - **CTA states:** `Continue` (theory), `Check` (question, disabled until an answer is selected), `Got it` (after reveal), `Finish` (last screen).
 - **One screen, one screenful.** A screen never scrolls. Section 1's "one idea per screen" is a layout rule as much as a content one: if a screen does not fit, it is two screens. This is what keeps the CTA in the same place under the thumb on every screen of a 385-sub-level path. The exception is dynamic type (section 10).
-- **Tap-commit types.** `mc`, `numeric-mc`, `match` and `chart-decision` have no `Check` step: choosing *is* answering, and the reveal follows the tap. The CTA is absent until the reveal, then reads `Got it`. Every other question type keeps `Check`, because its answer is assembled from several taps and is not finished until the learner says so.
+- **`Check` on every question but one.** Every question type is graded on `Check`, disabled until an answer exists, then `Got it`: a mis-tap stays a tap the learner can take back, and every screen resolves the same way. `chart-decision` is the exception — its Long / Short / No trade buttons rise into the CTA slot, and choosing one commits it. (Until v3.1, `mc`, `numeric-mc` and `match` committed on the tap; play-testing found the mis-taps cost more than the extra tap.)
+- **Nothing moves unless the learner moved it.** A screen arrives centred in its area — a question screen in its area less the room its reveal will take — and from then on holds still. The reveal rises into space that was already free; content moves only when what is below it would otherwise run under the footer, and then by exactly that much, eased. A block that changes as the learner steps through it takes the height of its tallest version (a carousel's cards, a walkthrough's lines, a swipe-deck's verdicts); a line that comes and goes keeps its place (a hint, a wrong answer's correct value); a chip that is placed leaves its outline behind (`sort`, `order`).
 - Portrait only; charts may offer an expand button (section 6.4).
 
 ---
@@ -62,17 +63,17 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 | `intro` | Intro card | Big headline (one sentence), optional subline. First screen of every sub-level. For tests/exams it shows the scored-question counter ("0/10"). |
 | `theory` | Theory card | Title + body (max 3 lines) + optional visual component. The main teaching screen. |
 | `example` | Example card | A concrete number or mini story + visual, often animated. Follows a theory card. |
-| `carousel` | Concept carousel | 2–4 sibling cards shown one after another with a "1/3" indicator and a Next arrow (swipe also works). Each card = icon + label + 1–2 sentences. Counts as one screen per card. |
-| `walkthrough` | UI walkthrough | A mock UI component with one field spotlighted per step (dimmed background, highlight box, arrow, label). Counts as one screen per step. |
+| `carousel` | Concept carousel | 2–4 sibling cards shown one after another, dots under them for where you are and a `Next` button until the last card. Every card takes the height of the tallest, so nothing around it moves. Each card = icon + label + 1–2 sentences. Counts as one screen per card. |
+| `walkthrough` | UI walkthrough | A mock UI component with one field spotlighted per step: the field lit in the accent, the rest of the component dimmed, the step's line under it. Counts as one screen per step. |
 | `visual` | Info visual | A chart/diagram component with a one-line caption. |
-| `checklist-reveal` | Checklist reveal | Checkbox items appear one per tap, forming a checklist the user later applies. |
-| `story` | Story frame | Short narrative ("9:31. You're watching XYZ…"). The speaker is named in the copy, not drawn — there is no character cast (§6.9). Used before decisions. |
+| `checklist-reveal` | Checklist reveal | Checkbox items are ticked one per tap — the button or the list itself — forming a checklist the user later applies. An item not yet ticked is a bar where its words will be, so the list keeps its size and does not give the next item away. |
+| `story` | Story frame | Short narrative ("9:31. You're watching XYZ…"). The speaker is named in the copy, not drawn — there is no character cast (§6.9). Used before decisions. Marked "The scene", with an accent edge, so it does not read as a statement to judge. |
 | `recap` **[v3]** | Level recap | End-of-level card: 2–4 one-line takeaways from the level's sub-levels, each tappable to re-open that card. Cheap, and it is what makes a 19-level chapter feel navigable. |
-| `plan-card` **[v3]** | Your plan | A card the **user fills in and keeps**: their daily loss limit, their share size, their playbook card. Persists to the profile, re-appears (pre-filled, editable) in later chapters, and is exportable. Every card writes keys from the one plan namespace in `docs/schema.md` ("The plan"), which is what makes the re-appearing real: revisiting a key opens the field on the learner's current value and overwrites it, keeping the old one in a dated history. The single strongest engagement device in the app — the user is building their own document, not just answering. |
-| `summary` | Score summary | "X/N correct", progress ring, per-question list with green/red dots (tap → one-line reminder + link to source level). Pass mark 70 %: pass → "Continue"; below → "Almost — review these" + "Retry". |
+| `plan-card` **[v3]** | Your plan | A card the **user fills in and keeps**: their daily loss limit, their share size, their playbook card. Persists to the profile, re-appears (pre-filled, editable) in later chapters, and is exportable. Every card writes keys from the one plan namespace in `docs/schema.md` ("The plan"), which is what makes the re-appearing real: revisiting a key opens the field on the learner's current value and overwrites it, keeping the old one in a dated history. The single strongest engagement device in the app — the user is building their own document, not just answering. A number line steps with − / + or takes its suggestion in one tap (the suggestion shows, faint, while the line is empty); a text line is typed. The button waits until every line is filled, a number above zero. |
+| `summary` | Score summary | "X/N correct", progress ring, per-question list with green/red dots (tap → one-line reminder + link to source level). Pass mark 70 %: pass → "Continue"; below → "Almost — review these", "Retry", and "Back to path" under it. |
 | `badge` | Chapter complete | Badge unlock animation, chapter name, XP bonus, "Chapter N unlocked". |
 | `tier-up` **[v3]** | Tier unlocked | Fires at the tier boundaries in §7.5. Bigger than a badge: the tier name, what it means, what unlocks. |
-| `path-choice` | Path choice | Three path cards (Scalping / Day Trading / Swing Trading) with holding period, screen time, one-line feel; "You can change this anytime in Settings". Shown once, after Chapter 1's badge. |
+| `path-choice` | Path choice | The last screen of the path-choice lesson, Chapter 1 Level 17-2 (`docs/curriculum.md`), which first lays the three paths side by side. Three path cards (Scalping / Day Trading / Swing Trading) with holding period, screen time, one-line feel; "You can change this any time in Settings". A path whose chapters are not written yet reads "Being written" and cannot be picked. The lesson is its own node on the map after the Final Exam (§7.1); replaying it changes the path, and it costs no hearts. |
 
 ---
 
@@ -80,10 +81,7 @@ long-path gamification are marked **[v3]**. Everything unmarked is unchanged fro
 
 Shared behaviour: prompt on top, answer area in the middle, then **inline reveal** (5.1). Chosen wrong answer turns red in place, the correct one turns green, the explanation slides in.
 
-Whether a `Check` step sits in between depends on how the answer is made:
-
-- **One tap is the whole answer** (`mc`, `numeric-mc`, `match`, `chart-decision`): no `Check`. The tap commits and the reveal follows it. Asking a learner to pick an answer and then confirm it is two taps for one decision, several hundred times over a path this long. For `match` there is nothing left to confirm — each pair locks green as it is made.
-- **The answer is assembled** (`numeric-input`, `fill-tiles`, `fill-choice`, `tf`, `sort`, `order`, and everything in 4.2 built from slots or chips): `Check` CTA, disabled until an answer exists, then `Got it`. `tf` belongs here despite being a single tap: two thumb-sized buttons are the easiest thing in the app to hit by accident, and an unconfirmed mis-tap is a wrong answer the learner never gave.
+Between the answer and the reveal sits a `Check` step on every type but `chart-decision` (§2): disabled until an answer exists, then `Got it`. A single tap is still only a choice until it is checked — two thumb-sized buttons are the easiest thing in the app to hit by accident, and an unconfirmed mis-tap would be a wrong answer the learner never gave.
 
 ### 4.1 Core types (v2, unchanged)
 
@@ -92,17 +90,17 @@ Whether a `Check` step sits in between depends on how the answer is made:
 | `mc` | 2–4 tappable answer cards, single select. | Distractors must be plausible. Max 2 in a row. |
 | `tf` | Two large side-by-side buttons; the choice is confirmed with `Check`. | For misconceptions and single facts. The confirm step is deliberate: the buttons are large and close to the thumb. |
 | `numeric-mc` | Like `mc` with number options; reveal shows the working. | |
-| `numeric-input` | Custom keypad (digits, `.`, `−`); tolerance configurable; reveal shows the working. | Preferred once a calculation has been practiced once. |
+| `numeric-input` | Custom keypad (digits, `.`, `−`) with a backspace in the field; a minus leads the currency (−$0.40); tolerance configurable; reveal shows the working. | Preferred once a calculation has been practiced once. |
 | `fill-tiles` | Sentence with a blank; letter tiles below (with 2–4 distractor letters); tap tiles into the blank. | Exactly one accepted word. |
 | `fill-choice` | Sentence with a blank; 3–4 word chips. | Use when synonyms exist or the word is long. |
-| `match` | Terms left, definitions right; tap term then definition (line connects) or drag; correct pairs lock green, wrong pairs flash red and reset. The last pair resolves the screen — there is no `Check`. | Max 5 pairs; every target unique. Prompt must be specific to the content, never a generic "Match each word to its meaning." Scored on whether the learner got there without a wrong tap. |
-| `sort` | 2–3 labeled buckets; chips are dragged (or tap chip, tap bucket). | |
-| `order` | Drag cards into the right sequence. | 3–5 items. |
+| `match` | Terms left, definitions right; tap term then definition, or drag; correct pairs lock green and carry one number on both halves, so a pair reads as one even when its halves sit in different rows; wrong pairs flash red and reset. `Check` once every pair is made. | Max 5 pairs; every target unique. Prompt must be specific to the content, never a generic "Match each word to its meaning." Scored on whether the learner got there without a wrong tap. |
+| `sort` | 2–3 labeled buckets; chips are dragged (or tap chip, tap bucket). A sorted chip leaves its outline in the pile, so nothing around it moves. | |
+| `order` | Tap cards into the sequence. Every place in it is drawn from the start, and a placed card leaves its outline in the pile. | 3–5 items. |
 | `hotspot` | A mock component (quote card, quote panel, order ticket, chart); tap the right region. | 1–2 targets. |
 | `slider` | Set a value on a slider; reveal shows exact value with a tolerance band. | For proportional intuition. |
 | `chart-tap` | Tap a candle/point/level on a chart. | Prompt must be unambiguous — if two candles could qualify, constrain it ("the first candle *after your entry*"). |
 | `chart-decision` | The scenario engine. See §4.3. | At least one per level from Chapter 2 on. |
-| `spot-mistake` | A short statement or ticket with one wrong part; tap the wrong segment. | Removing the wrong segment must leave a sentence that reads correctly. |
+| `spot-mistake` | A short statement or ticket with one wrong part; the parts run on as one sentence, each tappable; tap the wrong one. | Removing the wrong segment must leave a sentence that reads correctly. |
 
 ### 4.2 New types **[v3]**
 
@@ -188,7 +186,7 @@ Every other interaction shows a frozen chart. Real scalping is recognising a set
 - **[v3] Daily goal is two sub-levels (~10 min).** The ring on the home screen fills in halves, so finishing one lesson visibly leaves the day half-done.
 
 ### 5.4 Chapter complete (`badge`)
-- Badge drops in with a spring, ring of light expands, chapter name types in, XP bonus counts up, "Chapter N unlocked" fades in, CTA last. After Chapter 1 the `path-choice` screen follows.
+- Badge drops in with a spring, ring of light expands, chapter name types in, XP bonus counts up, "Chapter N unlocked" fades in, CTA last. After Chapter 1 the path-choice lesson opens on the map as its own node (§7.1).
 
 ### 5.5 Tier complete (`tier-up`) **[v3]**
 Rarer and louder than a badge: full-screen, the tier name and what it means, the Trader Card updating in place, and one line on what the next tier covers. Four per path (§7.5).
@@ -246,8 +244,8 @@ Side toggle (Buy/Sell), order-type chips (Market / Limit / Stop), quantity, pric
 
 | id | What it is | Used by |
 |---|---|---|
-| `scanner-table` | 4–8 rows: ticker, price, % change, relative volume, float, spread, catalyst tag. Sortable in demo mode; rows tappable. | `scanner-pick`, Chapter 5 theory |
-| `journal-table` | A journal with columns for setup, entry, stop, exit, R, grade, note. Rows fill in one at a time. | `journal-row`, Chapter 6 |
+| `scanner-table` | 4–8 rows: ticker, price, % change, relative volume, float, spread, catalyst tag — a table shows only the columns its rows carry. Sortable in demo mode; rows tappable, and a `scanner-pick` keeps its answer-card look after the reveal. | `scanner-pick`, Chapter 5 theory |
+| `journal-table` | A journal with columns for setup, entry, stop, exit, R, grade, note. Rows fill in one at a time; signed numbers in their sign's colour. A first column keyed `""` is a row label, so the same table carries a small comparison grid (Chapter 1 Level 17-2). | `journal-row`, Chapter 6 |
 | `internals-panel` | The index chart, sector strength, breadth reading and a risk-on/risk-off tag, as one compact panel. | Chapter 5 market-context levels |
 | `hotkey-pad` | A stylised key grid (buy, sell, size, cancel, flatten) that lights up as a sequence plays. | Chapter 8 execution levels |
 | `stats-card` | The learner's own numbers: decision accuracy by setup, best day type, weak concepts. | Stats screen, Chapter 8 |
@@ -275,16 +273,17 @@ watching XYZ"* needs no avatar to say who is watching.
 ## 7. Progress & gamification UI
 
 ### 7.1 Path map (home)
-- Vertical scrollable path of level nodes, gently winding. Chapters are sections with a header card (name, "7/17", badge slot).
-- Node states: locked (grey, lock), available (accent, pulsing halo), in progress (ring partly filled = subs done), completed (filled, keeps its number, with a check badge), perfect (gold ring and a gold check badge).
+- Vertical scrollable path of level nodes, gently winding. Chapters are sections with a header card: chapter number and name, a progress bar and "7/17 levels" (or "Chapter complete"). Tapping the card folds the chapter away or opens it. Before a path is chosen, the next chapter is a closed card, "Your path starts here".
+- Node states: locked (grey face, its symbol greyed, a lock badge where the check will go), available (accent, pulsing halo), in progress (ring partly filled = subs done), completed (filled, keeps its symbol, with a check badge), perfect (gold ring and a gold check badge).
+- **Every button shows what kind of level it is**, as a symbol rather than a number: a bulb for new ideas (a level with any `new-theory` lesson in it), round arrows for practice (`repetition` only), a ticked clipboard on a shield for a Checkpoint, a trophy for the Final Exam, a signpost for the path choice. The number and the kind in words sit in the label beside it ("Level 4 · New ideas").
 - A banner at the top names the chapter, the level the learner is on and its title, with the sub-level they are up to ("2/4 lesson"). The map opens scrolled to that level.
-- Each level is one round button inside a ring that fills one sub-level at a time. The level number, title and sub-level count sit beside it. The available node carries a START / CONTINUE tag.
+- Each level is one round button inside a ring that fills one sub-level at a time. The level number and kind, title and sub-level count sit beside it. The available node carries a START / CONTINUE tag.
 - Coming back from a sub-level, the ring fills by the part just finished. The first draw of the map moves nothing.
-- **Moving on to the next level** is one sequence, about 2.5 s, after the last sub-level of a level: the finished level's ring completes and its check badge pops on; the map scrolls down to the next level; the dotted path between them lights up top to bottom; the lock shakes and bursts off with rings and the unlock sound, and the level's number pops in; the banner names the new level; the START tag drops in and the halo begins. Under reduced motion the steps swap in place without movement.
+- **Moving on to the next level** is one sequence, about 2.5 s, after the last sub-level of a level: the finished level's ring completes and its check badge pops on; the map scrolls down to the next level; the dotted path between them lights up top to bottom; the lock badge shakes and bursts off with rings and the unlock sound, and the level's symbol pops in white; the banner names the new level; the START tag drops in and the halo begins. Under reduced motion the steps swap in place without movement.
 - Tapping a node opens a card under it, pointing at it (not a bottom sheet): level title, the sub-levels as segments with their states, the next lesson with its XP and "about 3 min", and "Start" / "Continue" / "Review" (later also "Review cards" / "Practice"). A locked level's card says which level opens it.
 - Fan-outs: the path splits into up to 3 side-by-side strands and merges into one node; all strands must be completed, any order.
-- Test and Final Exam nodes use a distinct shape (shield / trophy) and show the heart requirement.
-- **[v3] The map must survive 8 chapters.** Collapsed chapter sections by default, with the current one expanded; a sticky chapter header while scrolling; a "jump to current" button; and a zoomed-out overview showing all eight chapters as tiers.
+- Checkpoints are shields and read "10 questions · 70 % to pass" beside them; the Final Exam wears the trophy.
+- **[v3] The map must survive 8 chapters.** Collapsed chapter sections by default, with the current one expanded; a sticky chapter header while scrolling; a "jump to current" button; and a zoomed-out overview showing all eight chapters as tiers. Built so far: the folding sections and the "Jump to" button, which shows while the current level is off screen. Not yet: the sticky header and the overview.
 
 ### 7.2 Persistent HUD
 Streak flame with day count and the XP total inside the daily goal ring (two sub-levels = full) on the left; hearts on the right. No league or rank inside lessons: ranking lives on its own Leaderboard tab (§11).
@@ -359,8 +358,8 @@ Every defined term is rendered with a subtle dotted underline. Tap → bottom sh
 1. **Onboarding:** 3 screens (what the app is, one-line risk note, notification opt-in) → straight into Chapter 1, Level 1. No path question.
 2. **Home** = a tab bar along the bottom: **Learn** (the path map, 7.1), **Practice** (7.3), **Leaderboard** and **Account** (stats and profile, 7.4). Tabs are peers: switching is instant, never a slide.
 3. **Lesson player** (section 2).
-4. **Path choice** appears once, after the Chapter 1 badge (`path-choice`), and is editable in Settings.
-5. **Settings** opens from a button on Account: lesson design (swipe left and right through a live preview of each design; one press applies it, §10), market profile, theme, sounds/haptics, reduce motion, reset progress (asks once more; the settings stay), legal, and a button that opens the all-screens test bench.
+4. **Path choice** is a lesson of its own after the Chapter 1 Final Exam (Level 17-2), played from its own node on the map. The path can be changed in Settings (Your path) or by playing the node again. A path whose chapters are not written yet reads "Being written" and cannot be picked.
+5. **Settings** opens from a button on Account: lesson design (swipe left and right through a live preview of each design; one press applies it, §10), market profile, theme, sounds/haptics, reduce motion, your path, reset progress (asks once more; the settings stay), legal, and a button that opens the all-screens test bench. While the app is being tested, Settings also refills the hearts and skips ahead to any level (everything before it counts as played); both go before release.
 6. The one-line risk note appears on first launch, on every scenario result and on the stats screen; the full disclaimer lives in Settings → Legal.
 
 ---

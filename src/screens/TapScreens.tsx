@@ -107,6 +107,7 @@ export function ScannerPickScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
       <ScannerTable
+        asAnswers
         rows={scannerRowsOf(screen)}
         selected={picked}
         onTapRow={
@@ -425,6 +426,17 @@ export function SliderScreen({
         </Animated.View>
       </GestureDetector>
 
+      {/* The two ends of the scale, so a place on the track reads as a value.
+          Not the middle: a question whose answer is the midpoint would carry
+          its answer under the track. */}
+      <View style={styles.sliderScale} pointerEvents="none">
+        {[screen.min, screen.max].map((v, i) => (
+          <Text key={i} style={[styles.sliderScaleText, i === 1 && { textAlign: 'right' }]}>
+            {sliderText(v, screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined, step)}
+          </Text>
+        ))}
+      </View>
+
       {/* docs/UI.md §10: every drag has a tap alternative. */}
       <View style={styles.nudgeRow}>
         <Pressable accessibilityRole="button" disabled={revealed} onPress={() => nudge(-step)} style={styles.nudge}>
@@ -435,22 +447,24 @@ export function SliderScreen({
         </Pressable>
       </View>
 
-      {revealed ? (
-        <Text style={styles.sliderAnswer}>
-          {`Intended: ${sliderText(screen.answer, screen.unit, step)} (±${sliderText(
-            screen.tolerance ?? 0,
-            // The band is a distance: it keeps a currency or a percent, not a long label.
-            screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
-            step
-          )})`}
-        </Text>
-      ) : null}
+      {/* Kept in the layout before the reveal, only empty, so the line
+          arriving does not move what is above it. */}
+      <Text style={styles.sliderAnswer}>
+        {revealed
+          ? `Intended: ${sliderText(screen.answer, screen.unit, step)} (±${sliderText(
+              screen.tolerance ?? 0,
+              // The band is a distance: it keeps a currency or a percent, not a long label.
+              screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
+              step
+            )})`
+          : ' '}
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.lg },
+  wrap: { gap: space.lg },
   column: { gap: space.lg },
   tapRow: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 },
   tapCol: { position: 'absolute', borderRadius: radius.sm, borderWidth: 1.5 },
@@ -495,4 +509,6 @@ const styles = StyleSheet.create({
   },
   nudgeText: { ...type.title, color: colors.text },
   sliderAnswer: { ...type.small, color: colors.textMuted, textAlign: 'center' },
+  sliderScale: { flexDirection: 'row', marginTop: -space.sm },
+  sliderScaleText: { ...type.small, fontSize: 11, color: colors.textFaint, flex: 1 },
 });

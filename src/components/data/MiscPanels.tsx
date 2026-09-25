@@ -12,6 +12,7 @@ import { PopIn } from '../../lesson/Celebrate';
 import { surfaceStyle, useLookSpec } from '../../lesson/look';
 import { EASE_OUT } from '../../lesson/motion';
 import { useReduceMotion } from '../../lesson/useReduceMotion';
+import { signedPercent } from '../../format';
 import { colors, radius, space, type } from '../../theme';
 import { GROW_DELAY } from './GrowBar';
 
@@ -23,6 +24,28 @@ const AnimatedPath = Animated.createAnimatedComponent(Path);
  * rather than interactions: internals, hotkeys, stats and the R strip. They sit
  * together because each is a handful of rows and they share the same card.
  */
+
+/**
+ * The index's own line, small, beside its name: the panel's data has always
+ * carried it, and "the market around the stock" is a shape before it is a tag.
+ */
+function Sparkline({ values }: { values: number[] }) {
+  const w = 64;
+  const h = 22;
+  if (values.length < 2) return null;
+  const lo = Math.min(...values);
+  const hi = Math.max(...values);
+  const span = hi - lo || 1;
+  const d = values
+    .map((v, i) => `${i === 0 ? 'M' : 'L'}${((i / (values.length - 1)) * (w - 4) + 2).toFixed(1)},${(h - 3 - ((v - lo) / span) * (h - 6)).toFixed(1)}`)
+    .join(' ');
+  const up = values[values.length - 1] >= values[0];
+  return (
+    <Svg width={w} height={h}>
+      <Path d={d} stroke={up ? colors.up : colors.down} strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  );
+}
 
 /** docs/UI.md §6.8 `internals-panel`. */
 export function InternalsPanel({
@@ -39,7 +62,10 @@ export function InternalsPanel({
   return (
     <View style={styles.card}>
       <View style={styles.cardHead}>
-        <Text style={styles.cardTitle}>{data.index?.label ?? 'Index'}</Text>
+        <View style={styles.indexHead}>
+          <Text style={styles.cardTitle}>{data.index?.label ?? 'Index'}</Text>
+          {data.index?.data?.length ? <Sparkline values={data.index.data} /> : null}
+        </View>
         {data.tone ? (
           <View
             style={[
@@ -60,7 +86,7 @@ export function InternalsPanel({
         <Row
           key={s.label}
           label={s.label}
-          value={`${s.value > 0 ? '+' : ''}${s.value}%`}
+          value={signedPercent(s.value)}
           tint={s.value >= 0 ? colors.up : colors.down}
         />
       ))}
@@ -242,7 +268,7 @@ export function RTracker({
         ) : null}
       </View>
       <Text style={styles.rFoot}>
-        {`${trades.length} trades · the line is the running total · ${room.toFixed(1)}R left before the limit`}
+        {`${trades.length} trades · ${room.toFixed(1)}R left before the limit`}
       </Text>
     </View>
   );
@@ -350,6 +376,7 @@ function Row({
 }
 
 const styles = StyleSheet.create({
+  indexHead: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,

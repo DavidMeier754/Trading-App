@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LayoutChangeEvent, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { LayoutChangeEvent, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { useGridOrigin } from '../components/gridAlign';
 import { CHART_GRID_STEP } from '../theme';
 import { FitContext, fitScale, fitTop, useFit } from './fitState';
-import { EASE_IN_OUT } from './motion';
+import { EASE_IN_OUT, EASE_OUT } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
 /**
@@ -39,25 +39,46 @@ export function FitScreen({
   children,
   contentStyle,
   bottomPad,
+  anchor = 'center',
+  reserve = 0,
 }: {
   children: React.ReactNode;
   contentStyle: StyleProp<ViewStyle>;
   /** The content style's bottom padding, which is not the screen's to use. */
   bottomPad: number;
+  /**
+   * `center`: the screen is laid out at its natural height and placed by
+   * `Anchor` below. `fill`: the screen takes the whole area and places its own
+   * content (chart-decision, which holds its chart on the backdrop grid).
+   */
+  anchor?: 'center' | 'fill';
+  /** Room kept free under the content for what arrives there later: a reveal. */
+  reserve?: number;
 }) {
   const reduced = useReduceMotion();
   const originY = useGridOrigin();
   const scroll = useRef<ScrollView | null>(null);
   const [view, setView] = useState(0);
   const [content, setContent] = useState(0);
+  const [natural, setNatural] = useState(0);
   const [settled, setSettled] = useState(0);
 
   // An overflow smaller than the bottom padding only eats into the padding;
   // scaling a whole screen by 0.998 for it would just soften every edge.
-  const target =
-    view > 0 && content > view + Math.min(OVERFLOW_SLACK, bottomPad)
-      ? Math.max(MIN_SCALE, view / content)
-      : 1;
+  const slack = Math.min(OVERFLOW_SLACK, bottomPad);
+  let target = 1;
+  if (anchor === 'center') {
+    // The screen's own height against the area less what is reserved under it
+    // for the reveal: a question screen too tall for both is scaled once, as it
+    // arrives, to the size it will still have once the reveal is up -- so
+    // `Check` changes nothing about it.
+    const area = view - bottomPad;
+    if (view > 0 && natural > 0 && natural + reserve > area + slack) {
+      target = Math.max(MIN_SCALE, Math.min(1, (area - reserve + slack) / natural));
+    }
+  } else if (view > 0 && content > view + slack) {
+    target = Math.max(MIN_SCALE, view / content);
+  }
 
   useEffect(() => {
     const done = () => setSettled((n) => n + 1);
@@ -106,12 +127,141 @@ export function FitScreen({
     >
       <Animated.View style={[{ flexGrow: 1, transformOrigin: 'top' }, contentStyle, style]}>
         <FitContext.Provider value={fitValue}>
-          {children}
+          {anchor === 'fill' ? (
+            children
+          ) : (
+            <Anchor reserve={reserve} onHeight={setNatural}>
+              {children}
+            </Anchor>
+          )}
         </FitContext.Provider>
       </Animated.View>
     </ScrollView>
   );
 }
+
+// ---------------------------------------------------------------------------
+// Content stays where it was first drawn.
+// ---------------------------------------------------------------------------
+
+/** After this long a screen's layout has settled and its content holds still. */
+const LOCK_MS = 600;
+const SHIFT_MS = 280;
+
+/**
+ * docs/UI.md §2: nothing on a screen moves unless the learner moved it.
+ *
+ * A screen arrives centred in its area. Centring is what made things jump: the
+ * area gets shorter when the reveal rises into the footer, a carousel card or a
+ * walkthrough step is a line longer than the one before, a checklist's hint
+ * goes away -- and centred content answers every one of those by sliding up or
+ * down by half the difference. So the centring only lasts until the screen has
+ * settled; from then on the content keeps the
+ * top it had. It moves again only when it has to -- when what is below it would
+ * otherwise run under the footer -- and then by exactly that much, eased.
+ *
+ * A question screen is centred in its area less the room its reveal will take
+ * (`reserve`), so on most screens the reveal lands in space that was already
+ * free and nothing above it moves at all. The reserve gives way first when the
+ * content needs the height.
+ */
+function Anchor({
+  children,
+  reserve,
+  onHeight,
+}: {
+  children: React.ReactNode;
+  reserve: number;
+  /** The content's own height, for the fit to scale by. */
+  onHeight: (height: number) => void;
+}) {
+  const reduced = useReduceMotion();
+  const parent = useFit();
+  // Where the content sat when it locked; null while it is still centring.
+  const [lockedTop, setLockedTop] = useState<number | null>(null);
+  const [area, setArea] = useState(0);
+  const [height, setHeight] = useState(0);
+  const lastY = useRef<number | null>(null);
+  const [shifts, setShifts] = useState(0);
+
+  const lock = useCallback(() => {
+    setLockedTop((prev) => (prev !== null || lastY.current === null ? prev : lastY.current));
+  }, []);
+  useEffect(() => {
+    const t = setTimeout(lock, LOCK_MS);
+    return () => clearTimeout(t);
+  }, [lock]);
+
+  // The reveal lies over the reserved strip at the bottom (LessonPlayer), so
+  // the content keeps clear of it even after the lock.
+  const top = lockedTop === null ? null : Math.max(0, Math.min(lockedTop, area - reserve - height));
+
+  // A forced move is laid out at once -- so the fit and the charts measure the
+  // new place -- and drawn from the old place to it (FLIP), so it glides.
+  const shift = useSharedValue(0);
+  const drawnTop = useRef<number | null>(null);
+  const bump = useCallback(() => setShifts((n) => n + 1), []);
+  useLayoutEffect(() => {
+    const before = drawnTop.current;
+    drawnTop.current = top;
+    if (top === null || before === null || before === top) return;
+    if (reduced) {
+      bump();
+      return;
+    }
+    shift.set(before - top);
+    shift.set(
+      withTiming(0, { duration: SHIFT_MS, easing: EASE_OUT }, (finished) => {
+        'worklet';
+        if (finished) scheduleOnRN(bump);
+      })
+    );
+  }, [top, reduced, shift, bump]);
+  const shiftStyle = useAnimatedStyle(() => ({ transform: [{ translateY: shift.get() }] }));
+
+  // Charts snap to the backdrop grid by measuring where they are; a move they
+  // did not cause is a reason to measure again.
+  const fitValue = useMemo(
+    () => ({ room: parent.room, settled: parent.settled + shifts }),
+    [parent.room, parent.settled, shifts]
+  );
+
+  const content = (
+    <Animated.View
+      style={[top === null ? null : { marginTop: top }, shiftStyle]}
+      onLayout={(e) => {
+        lastY.current = e.nativeEvent.layout.y;
+        setHeight(e.nativeEvent.layout.height);
+        onHeight(e.nativeEvent.layout.height);
+      }}
+    >
+      {children}
+    </Animated.View>
+  );
+
+  return (
+    // No touch hook here: a responder-capture handler on this view swallowed
+    // the first tap of some screens. The timer settles a screen well before a
+    // learner has read it, and nothing the learner can do in that time moves it.
+    <View style={{ flexGrow: 1 }} onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
+      <FitContext.Provider value={fitValue}>
+        {/* The same four children before and after the lock, only resized:
+            swapping the tree around the content would remount the screen, and
+            the tap that caused the lock would land on a component that no
+            longer exists. */}
+        <View style={top === null ? styles.spacer : styles.spacerGone} />
+        {content}
+        <View style={top === null ? styles.spacer : styles.spacerGone} />
+        <View style={top === null && reserve > 0 ? { height: reserve, flexShrink: 1 } : styles.spacerGone} />
+      </FitContext.Provider>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  spacer: { flexGrow: 1 },
+  spacerGone: { height: 0, flexGrow: 0 },
+});
 
 // ---------------------------------------------------------------------------
 // Charts take the room that is left.

@@ -5,10 +5,43 @@ import { useChartMove } from '../../lesson/haptics';
 import { useLookSpec } from '../../lesson/look';
 import { EASE_OUT_SETTLE } from '../../lesson/motion';
 import { useReduceMotion } from '../../lesson/useReduceMotion';
+import { copy, count, volume } from '../../format';
 import { colors, radius, space, type } from '../../theme';
 import GrowBar, { GROW_DELAY, GROW_MS } from './GrowBar';
 
 const STAGGER_MS = 80;
+
+/** Unit words that ride on every value; `tight` ones sit on the number with no space. */
+const SUFFIX: Record<string, { tight: boolean }> = {
+  M: { tight: true },
+  K: { tight: true },
+  '%': { tight: false },
+  x: { tight: true },
+  min: { tight: false },
+  h: { tight: false },
+};
+
+/**
+ * A bar's number and what is said once for all of them. "M shares" puts "M" on
+ * every bar and "shares" under the chart; "shares a day" goes under the chart
+ * whole, so a value column never has to hold a sentence.
+ */
+function splitUnit(unit: string | undefined): { suffix: string; tight: boolean; caption: string } {
+  if (!unit) return { suffix: '', tight: true, caption: '' };
+  if (unit === '$') return { suffix: '$', tight: true, caption: '' };
+  const [first, ...rest] = unit.split(' ');
+  const known = SUFFIX[first];
+  if (known) return { suffix: first, tight: known.tight, caption: rest.join(' ') };
+  return { suffix: '', tight: true, caption: unit };
+}
+
+function valueText(value: number, unit: ReturnType<typeof splitUnit>): string {
+  // Big counts in the chart strip's own short form (4.2M, 640K).
+  const n = value >= 10_000 ? volume(value) : Number.isInteger(value) ? count(value) : String(value);
+  if (unit.suffix === '$') return copy(`$${n}`);
+  if (!unit.suffix) return n;
+  return unit.tight ? `${n}${unit.suffix}` : `${n} ${unit.suffix}`;
+}
 
 /** docs/UI.md §6.5 — a horizontal bar chart. */
 export default function BarChart({
@@ -23,6 +56,7 @@ export default function BarChart({
   const reduced = useReduceMotion();
   const last = data.bars.length - 1;
   useChartMove(GROW_DELAY + last * STAGGER_MS + GROW_MS * EASE_OUT_SETTLE, !reduced && last >= 0);
+  const unit = splitUnit(data.unit);
   return (
     <View style={styles.wrap}>
       {data.bars.map((bar, i) => (
@@ -36,11 +70,12 @@ export default function BarChart({
             />
           </View>
           <Text style={styles.value}>
-            {/* A currency leads its number ($25); anything else follows it (80 %). */}
-            {data.unit === '$' ? `$${bar.value}` : `${bar.value}${data.unit ? ` ${data.unit}` : ''}`}
+            {/* A currency leads its number ($25); anything else follows it (80 %, 4.2M). */}
+            {valueText(bar.value, unit)}
           </Text>
         </View>
       ))}
+      {unit.caption ? <Text style={styles.unit}>{copy(unit.caption)}</Text> : null}
     </View>
   );
 }
@@ -57,5 +92,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   fill: { borderRadius: radius.sm },
-  value: { ...type.small, color: colors.text, width: 52, textAlign: 'right' },
+  value: { ...type.small, color: colors.text, width: 56, textAlign: 'right', fontVariant: ['tabular-nums'] },
+  unit: { ...type.small, fontSize: 11, color: colors.textFaint, textAlign: 'right' },
 });

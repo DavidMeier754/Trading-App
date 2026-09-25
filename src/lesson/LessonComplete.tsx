@@ -283,7 +283,7 @@ function Row({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.xl },
+  wrap: { alignItems: 'center', gap: space.xl },
   textBlock: { alignItems: 'center', gap: space.xs },
   kicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.6 },
   title: { ...type.title, color: colors.text, textAlign: 'center' },

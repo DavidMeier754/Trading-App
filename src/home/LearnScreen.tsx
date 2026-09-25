@@ -21,7 +21,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
-import { LessonEntry, PATHS, TradingPath } from '../content';
+import { LEVEL_TYPE_NAME, LessonEntry, PATHS, TradingPath, levelTypeOf } from '../content';
 import { isQuestion } from '../types';
 import { EASE_IN_OUT, EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
@@ -439,6 +439,12 @@ function nodeName(view: LevelView): string {
   return `Level ${number}`;
 }
 
+/** The label over a node: its number and, in words, the kind its symbol shows. */
+function nodeKicker(view: LevelView): string {
+  if (view.level.kind === 'path') return 'Your path';
+  return `${nodeName(view)} · ${LEVEL_TYPE_NAME[levelTypeOf(view.level)]}`;
+}
+
 /** The level the learner is on, named at the top of the path. */
 function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
   const lesson = Math.min(view.done + 1, view.total);
@@ -659,7 +665,7 @@ function NodeLabel({
         side === 'right' ? { left: RING + space.sm } : { right: RING + space.sm },
       ]}
     >
-      <Text style={[styles.labelKicker, side === 'left' && styles.alignRight]}>{nodeName(view)}</Text>
+      <Text style={[styles.labelKicker, side === 'left' && styles.alignRight]}>{nodeKicker(view)}</Text>
       <Text
         style={[
           styles.labelTitle,

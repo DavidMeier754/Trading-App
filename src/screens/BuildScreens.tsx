@@ -240,12 +240,34 @@ export function BranchScreen({
       ? n
       : Math.min(n, at + 1 + Math.round((visited.length * (n - at - 1)) / Math.max(1, total - 1)));
   const chartView = chart ? (
-    <MiniChart spec={chart} width={width} height={104} visible={shown} />
+    <MiniChart spec={chart} width={width} height={104} visible={shown} showPrice />
   ) : null;
+
+  // The step row stays at the top through to the end, all steps lit, so the
+  // scenario and chart under it do not rise when the path summary replaces the
+  // last question.
+  const stepRow = (reached: number) => (
+    <View style={styles.stepRow}>
+      {screen.steps.map((_, i) => (
+        <View
+          key={i}
+          style={[
+            styles.stepPip,
+            i < reached && { backgroundColor: tint(look.accent, 0.5) },
+            i === reached && { backgroundColor: look.accent, width: 28 },
+          ]}
+        />
+      ))}
+      <Text style={styles.counter}>
+        {reached >= total ? `All ${total} steps` : `Step ${reached + 1} of ${total}`}
+      </Text>
+    </View>
+  );
 
   if (done || revealed) {
     return (
       <View style={styles.wrap}>
+        {stepRow(total)}
         <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
         {chartView}
         <View style={styles.pathList}>
@@ -281,19 +303,7 @@ export function BranchScreen({
   // than silently swapping its text.
   return (
     <View style={styles.wrap}>
-      <View style={styles.stepRow}>
-        {screen.steps.map((_, i) => (
-          <View
-            key={i}
-            style={[
-              styles.stepPip,
-              i < visited.length && { backgroundColor: tint(look.accent, 0.5) },
-              i === visited.length && { backgroundColor: look.accent, width: 28 },
-            ]}
-          />
-        ))}
-        <Text style={styles.counter}>{`Step ${visited.length + 1} of ${total}`}</Text>
-      </View>
+      {stepRow(visited.length)}
       <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
       {chartView}
       <Arrive key={visited.length} from="right" style={styles.stepBody}>
@@ -340,7 +350,7 @@ export function BranchScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.lg },
+  wrap: { gap: space.lg },
   slotList: { gap: space.sm },
   heading: { ...type.label, color: colors.textMuted, textTransform: 'uppercase', letterSpacing: 1 },
   slot: {

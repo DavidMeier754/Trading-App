@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { price, signedPercent, signedPrice } from '../format';
 import { colors, radius, space, type } from '../theme';
+import { spotlight } from './spotlight';
 
 type Data = {
   ticker: string;
@@ -19,10 +20,12 @@ export default function QuoteCard({
   data,
   onTapTarget,
   highlight,
+  focus,
 }: {
   data: Data;
   onTapTarget?: (id: string) => void;
   highlight?: Record<string, string>;
+  focus?: string;
 }) {
   const up = (data.change ?? 0) >= 0;
   const changeColor = up ? colors.up : colors.down;
@@ -35,7 +38,11 @@ export default function QuoteCard({
       testID={`target-${id}`}
       disabled={!onTapTarget}
       onPress={() => onTapTarget?.(id)}
-      style={[styles.target, highlight?.[id] ? { borderColor: highlight[id] } : null]}
+      style={[
+        styles.target,
+        highlight?.[id] ? { borderColor: highlight[id] } : null,
+        spotlight(id, focus, highlight),
+      ]}
     >
       {node}
     </Pressable>

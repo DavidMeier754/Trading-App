@@ -177,7 +177,13 @@ export default function ChartReplayScreen({
                 <Text style={[styles.momentLabel, { color: LABEL_COLOR[l.label] }]}>
                   {l.label}
                 </Text>
-                <Text style={styles.momentBar}>{`bar ${l.bar + 1}`}</Text>
+                {/* Where the moment was and, when it differs, where you acted --
+                    so "Textbook, bar 6" does not contradict "the setup was bar 7". */}
+                <Text style={styles.momentBar}>
+                  {l.moment && l.moment.bar !== l.bar
+                    ? `bar ${l.moment.bar + 1} · you: ${l.bar + 1}`
+                    : `bar ${l.bar + 1}`}
+                </Text>
               </View>
               <Text style={styles.momentNote}>
                 {l.moment?.note ?? 'Nothing was marked here.'}
@@ -289,15 +295,15 @@ export default function ChartReplayScreen({
       </View>
 
       <View style={styles.actions}>
+        {/* At the last bar the button ends the session: before, the only way
+            out was "Nothing here", which is the wrong words after a trade. */}
         <Pressable
           accessibilityRole="button"
-          disabled={atEnd}
-          onPress={nextBar}
+          onPress={atEnd ? end : nextBar}
           style={[
             styles.action,
             surfaceStyle(look),
             { borderColor: look.accent, backgroundColor: tint(look.accent, 0.14) },
-            atEnd && styles.actionOff,
           ]}
         >
           <Text style={styles.actionText}>{atEnd ? 'End of session' : 'Next bar'}</Text>
@@ -312,7 +318,7 @@ export default function ChartReplayScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.sm },
+  wrap: { gap: space.sm },
   column: { gap: space.sm },
   chartBox: { alignSelf: 'center' },
   barCount: { ...type.small, color: colors.textMuted, textAlign: 'center' },

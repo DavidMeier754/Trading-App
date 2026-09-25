@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { copy } from '../format';
 import { tapFeedback } from '../lesson/feedback';
@@ -16,6 +16,23 @@ import { Body, ScreenTitle } from './common';
  * this slice does not have; the keys written here are already the real ones, so
  * wiring a store later is a swap of the setter.
  */
+/** The key a card's field writes: a playbook slot's row, or the plain key. */
+export function planKeyOf(screen: S, key: string): string {
+  return screen.slot ? `card.${screen.slot}.${key}` : key;
+}
+
+/**
+ * Every line of the card filled in: a text line with words in it, a number
+ * above zero -- a loss limit or a trade cap of 0 is not a plan. The card's
+ * button waits for it (LessonPlayer).
+ */
+export function planCardComplete(screen: S, values: Record<string, string>): boolean {
+  return screen.fields.every((field) => {
+    const v = (values[planKeyOf(screen, field.key)] ?? '').trim();
+    return field.kind === 'text' ? v.length > 0 : Number(v) > 0;
+  });
+}
+
 export default function PlanCardScreen({
   screen,
   values,
@@ -26,7 +43,7 @@ export default function PlanCardScreen({
   onChange: (key: string, value: string) => void;
 }) {
   const look = useLookSpec();
-  const scopedKey = (key: string) => (screen.slot ? `card.${screen.slot}.${key}` : key);
+  const scopedKey = (key: string) => planKeyOf(screen, key);
 
   return (
     <View style={styles.wrap}>
@@ -42,12 +59,28 @@ export default function PlanCardScreen({
             <View key={key} style={[styles.field, surfaceStyle(look)]}>
               <Text style={styles.label}>{copy(field.label)}</Text>
               <View style={styles.valueRow}>
-                {/* An empty number reads as 0, in the value's own size and
-                    place: it is plainly a number waiting to be set, where "not
-                    set" read as a status to leave alone. */}
-                <Text style={[styles.value, !current && styles.valueEmpty]}>
-                  {current ?? (field.kind === 'text' ? '—' : '0')}
-                </Text>
+                {field.kind === 'text' ? (
+                  // Words are typed. The suggestion, where there is one, is the
+                  // placeholder (docs/schema.md "The plan").
+                  <TextInput
+                    value={current ?? ''}
+                    onChangeText={(text) => onChange(key, text)}
+                    placeholder={suggestion ?? 'Type it here'}
+                    placeholderTextColor={colors.textFaint}
+                    maxLength={60}
+                    returnKeyType="done"
+                    blurOnSubmit
+                    accessibilityLabel={copy(field.label)}
+                    style={[styles.value, styles.input]}
+                  />
+                ) : (
+                  // An empty number shows its suggestion, faint, in the value's
+                  // own size and place (docs/schema.md: `suggest` is the
+                  // placeholder while the key is empty); 0 only when there is none.
+                  <Text style={[styles.value, !current && styles.valueEmpty]}>
+                    {current ?? suggestion ?? '0'}
+                  </Text>
+                )}
                 {suggestion ? (
                   <Pressable
                     accessibilityRole="button"
@@ -72,8 +105,9 @@ export default function PlanCardScreen({
                       key={sign}
                       onPress={() => {
                         tapFeedback();
-                        // From what is shown: an empty field is 0, so + makes 1.
-                        const base = Number(current ?? 0);
+                        // From what is shown: an empty field steps from its
+                        // faint suggestion, or from 0 when it has none.
+                        const base = Number(current ?? suggestion ?? 0);
                         const next = sign === '+' ? base + 1 : Math.max(0, base - 1);
                         onChange(key, String(next));
                       }}
@@ -95,7 +129,7 @@ export default function PlanCardScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.lg },
+  wrap: { gap: space.lg },
   fields: { gap: space.md },
   field: {
     backgroundColor: colors.surface,
@@ -109,6 +143,14 @@ const styles = StyleSheet.create({
   valueRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
   value: { ...type.title, color: colors.text },
   valueEmpty: { color: colors.textFaint },
+  input: {
+    flex: 1,
+    minHeight: 40,
+    paddingVertical: 4,
+    paddingHorizontal: 0,
+    borderBottomWidth: 1.5,
+    borderBottomColor: colors.borderStrong,
+  },
   suggest: {
     borderRadius: radius.pill,
     borderWidth: 1.5,

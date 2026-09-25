@@ -36,17 +36,21 @@ export default function ScannerTable({
   onTapRow,
   selected,
   resolved,
+  asAnswers,
 }: {
   rows: ScannerRow[];
   onTapRow?: (ticker: string) => void;
   selected?: string | null;
   resolved?: Record<string, string>;
+  /** Drawn as answer cards even when not tappable -- a revealed scanner-pick
+   *  keeps the look it was answered in, instead of collapsing into a table. */
+  asAnswers?: boolean;
 }) {
   const look = useLookSpec();
   // As a question the rows are answers, so they look like answers: a card each,
   // in the look's own surface, with a radio mark that fills when picked. Read
   // only, they stay a table.
-  const tappable = !!onTapRow;
+  const tappable = !!onTapRow || !!asAnswers;
   const columns = COLUMNS.filter((c) => rows.some((r) => r[c.key] !== undefined));
   return (
     <View style={[styles.wrap, tappable && styles.wrapCards]}>

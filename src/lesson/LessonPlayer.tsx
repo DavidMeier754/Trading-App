@@ -24,7 +24,7 @@ import {
 import { BranchScreen, JournalRowScreen, OrderBuildScreen } from '../screens/BuildScreens';
 import { CompareScreen, SwipeDeckScreen } from '../screens/DeckScreens';
 import ExampleScreen from '../screens/ExampleScreen';
-import PlanCardScreen from '../screens/PlanCardScreen';
+import PlanCardScreen, { planCardComplete } from '../screens/PlanCardScreen';
 import {
   CarouselScreen,
   ChecklistRevealScreen,
@@ -36,7 +36,7 @@ import {
 } from '../screens/StaticScreens';
 import { BadgeScreen, TierUpScreen } from '../screens/RewardScreens';
 import Summary, { scoreOf } from './Summary';
-import { NodeKind, PATHS, TradingPath } from '../content';
+import { NodeKind, PATHS, TradingPath, sourceCardOf } from '../content';
 import {
   ChartTapScreen,
   DepthLadderScreen,
@@ -51,7 +51,7 @@ import McScreen from '../screens/McScreen';
 import NumericInputScreen from '../screens/NumericInputScreen';
 import TfScreen from '../screens/TfScreen';
 import TheoryScreen from '../screens/TheoryScreen';
-import { colors, space, type } from '../theme';
+import { colors, radius, space, type } from '../theme';
 import type { Level, QuestionScreen, Screen } from '../types';
 import { isQuestion } from '../types';
 import type { AnswerValue, Grade } from './answers';
@@ -75,10 +75,10 @@ import {
 } from './feedback';
 import ProgressBar from './ProgressBar';
 import QuitSheet, { QuitButton } from './QuitSheet';
-import Reveal from './Reveal';
+import Reveal, { RevealProbe } from './Reveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
-import { FitScreen } from './fit';
+import { FitScreen, REVEAL_GROWTH } from './fit';
 import { fitScale, fitTop } from './fitState';
 import { dealScreen } from './shuffle';
 import { emitMood, useLookSpec } from './look';
@@ -157,7 +157,9 @@ export default function LessonPlayer({
   const [quitOpen, setQuitOpen] = useState(false);
   // docs/UI.md §5.2: a wrong answer costs a heart, and a lesson stops once the
   // last one is gone. The test bench is not on the path and spends none.
-  const spendsHearts = !testBench;
+  // The path-choice lesson costs no hearts: a wrong guess about which style
+  // holds overnight should never stand between the learner and their path.
+  const spendsHearts = !testBench && kind !== 'path';
   const [outOfHearts, setOutOfHearts] = useState(
     () => spendsHearts && heartsNow(getProgress()).hearts === 0
   );
@@ -376,6 +378,9 @@ export default function LessonPlayer({
     if (screen.type === 'checklist-reveal' && cursor < screen.items.length) {
       return cursor === 0 ? 'Start the list' : 'Next item';
     }
+    // A card or step with more after it: "Next", so the button says there is more.
+    if (screen.type === 'carousel' && cursor < screen.cards.length - 1) return 'Next';
+    if (screen.type === 'walkthrough' && cursor < screen.steps.length - 1) return 'Next';
     if (!isQuestion(screen)) return isLast ? 'Finish' : 'Continue';
     if (!isRevealed) return 'Check';
     return isLast ? 'Finish' : 'Got it';
@@ -418,7 +423,9 @@ export default function LessonPlayer({
       isQuestion(screen) &&
       !isRevealed &&
       !(value && canCheck(screen as QuestionScreen, value))) ||
-    (screen?.type === 'path-choice' && pathChoice === null));
+    (screen?.type === 'path-choice' && pathChoice === null) ||
+    // A plan card is filled in before it is kept: every line, or no button.
+    (screen?.type === 'plan-card' && !planCardComplete(screen, plan)));
 
   /** How many sub-steps a screen has, for the types that count as several. */
   const stepCount = (s: Screen | null): number => {
@@ -486,6 +493,11 @@ export default function LessonPlayer({
   // A run of three or more warms the progress bar (ProgressBar).
   const onRun = runBefore(grades, index + 1) >= 3;
 
+  // How tall this screen's verdict will be, from its invisible copy in the
+  // footer; the screen keeps that much room free under itself (lesson/fit.tsx).
+  const [probeH, setProbeH] = useState(0);
+  const revealRoom = probeH > 0 ? probeH + space.md : REVEAL_GROWTH;
+
   const revealLead = useMemo(() => {
     if (!screen || screen.type !== 'chart-decision' || !g || g === 'correct') return undefined;
     const best = DECISION_LABEL[screen.best] ?? screen.best;
@@ -550,6 +562,10 @@ export default function LessonPlayer({
           key={`${runKey}-${index}-${outOfHearts}`}
           contentStyle={styles.content}
           bottomPad={space.lg}
+          // chart-decision holds its own chart on the grid; every other screen
+          // is placed by the fit area and then held still (lesson/fit.tsx).
+          anchor={!outOfHearts && screen?.type === 'chart-decision' ? 'fill' : 'center'}
+          reserve={!outOfHearts && screen && isQuestion(screen) ? revealRoom : 0}
         >
         <VerdictProvider value={verdict}>
         {outOfHearts ? (
@@ -589,20 +605,39 @@ export default function LessonPlayer({
       </Animated.View>
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg }]}>
+        {/* docs/UI.md §2: the reveal lies over a strip the screen kept free for
+            it, just above the button, instead of pushing the content area
+            shorter -- a shorter area is what moved and shrank everything on
+            the screen the moment Check was pressed. The strip is as tall as
+            this screen's own verdict, measured beforehand by a copy of it. */}
+        {!outOfHearts && screen && isQuestion(screen) && !isRevealed ? (
+          <View style={styles.revealSlot} pointerEvents="none">
+            <RevealProbe
+              key={`${runKey}-${index}`}
+              explanation={probeExplanation(screen)}
+              working={!!working}
+              onHeight={setProbeH}
+            />
+          </View>
+        ) : null}
         {!outOfHearts && screen && isQuestion(screen) && isRevealed && g ? (
-          <Reveal
-            grade={g}
-            lead={revealLead}
-            explanation={
-              // A branch's reveals live on its steps (docs/schema.md); the panel
-              // gives the one that matters most for the path taken.
-              screen.type === 'branch'
-                ? branchExplanation(screen, value?.kind === 'branch' ? value.picks : [])
-                : (screen as Exclude<QuestionScreen, { type: 'branch' }>).explanation
-            }
-            working={working}
-            streak={streak}
-          />
+          <View style={styles.revealSlot}>
+            <View style={styles.revealGround}>
+              <Reveal
+                grade={g}
+                lead={revealLead}
+                explanation={
+                  // A branch's reveals live on its steps (docs/schema.md); the panel
+                  // gives the one that matters most for the path taken.
+                  screen.type === 'branch'
+                    ? branchExplanation(screen, value?.kind === 'branch' ? value.picks : [])
+                    : (screen as Exclude<QuestionScreen, { type: 'branch' }>).explanation
+                }
+                working={working}
+                streak={streak}
+              />
+            </View>
+          </View>
         ) : null}
         {showDecisionButtons ? (
           <DecisionButtons
@@ -649,6 +684,14 @@ export default function LessonPlayer({
       />
     </Animated.View>
   );
+}
+
+/** The verdict text a question's reveal will carry, the longest it can be. */
+function probeExplanation(screen: QuestionScreen): string {
+  if (screen.type === 'branch') {
+    return screen.steps.reduce((a, s) => (s.explanation.length > a.length ? s.explanation : a), '');
+  }
+  return (screen as Exclude<QuestionScreen, { type: 'branch' }>).explanation ?? '';
 }
 
 function renderScreen(props: {
@@ -768,11 +811,19 @@ function renderScreen(props: {
     case 'visual':
       return <VisualScreen screen={screen} width={contentWidth} />;
     case 'checklist-reveal':
-      return <ChecklistRevealScreen screen={screen} cursor={cursor} />;
+      return (
+        <ChecklistRevealScreen
+          screen={screen}
+          cursor={cursor}
+          onNext={() => {
+            if (cursor < screen.items.length) setCursor(cursor + 1);
+          }}
+        />
+      );
     case 'story':
       return <StoryScreen screen={screen} />;
     case 'recap':
-      return <RecapScreen screen={screen} />;
+      return <RecapScreen screen={screen} source={(id) => sourceCardOf(level, id)} />;
     case 'plan-card':
       return <PlanCardScreen screen={screen} values={plan} onChange={setPlanValue} />;
     case 'badge':
@@ -857,4 +908,14 @@ const styles = StyleSheet.create({
     borderTopColor: colors.border,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
+  // Just above the footer, over the bottom of the content area.
+  revealSlot: {
+    position: 'absolute',
+    left: space.lg,
+    right: space.lg,
+    bottom: '100%',
+    paddingBottom: space.md,
+  },
+  // The reveal's tint is see-through; over the content area it needs ground.
+  revealGround: { backgroundColor: colors.background, borderRadius: radius.md },
 });

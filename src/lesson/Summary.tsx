@@ -199,7 +199,7 @@ export default function Summary({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flexGrow: 1, justifyContent: 'center', gap: space.lg, paddingVertical: space.lg },
+  wrap: { gap: space.lg, paddingVertical: space.lg },
   kicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.2 },
   title: { ...type.title, color: colors.text, marginTop: -space.sm },
   scoreRow: { flexDirection: 'row', alignItems: 'center', gap: space.xl },

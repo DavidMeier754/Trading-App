@@ -3,12 +3,19 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { price } from '../../format';
 import { colors, radius, space, TAP_TARGET, type } from '../../theme';
+import { spotlight } from '../spotlight';
+
+function capital(value: unknown): string {
+  const text = value === undefined || value === null ? '—' : String(value);
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
 /** docs/UI.md §6.7 — the order ticket mock. */
 export default function OrderTicket({
   data,
   onTapTarget,
   highlight,
+  focus,
 }: {
   data: {
     ticker?: string;
@@ -20,6 +27,7 @@ export default function OrderTicket({
   };
   onTapTarget?: (id: string) => void;
   highlight?: Record<string, string>;
+  focus?: string;
 }) {
   const field = (id: string, label: string, value: React.ReactNode) => (
     <Pressable
@@ -28,7 +36,11 @@ export default function OrderTicket({
       testID={`target-${id}`}
       disabled={!onTapTarget}
       onPress={() => onTapTarget?.(id)}
-      style={[styles.field, highlight?.[id] ? { borderColor: highlight[id] } : null]}
+      style={[
+        styles.field,
+        highlight?.[id] ? { borderColor: highlight[id] } : null,
+        spotlight(id, focus, highlight),
+      ]}
     >
       <Text style={styles.label}>{label}</Text>
       <Text style={styles.value}>{value ?? '—'}</Text>
@@ -39,8 +51,10 @@ export default function OrderTicket({
     <View style={styles.card}>
       <Text style={styles.ticker}>{data.ticker ?? 'XYZ'}</Text>
       <View style={styles.grid}>
-        {field('side', 'Side', String(data.side ?? '—').toUpperCase())}
-        {field('type', 'Order type', String(data.type ?? '—'))}
+        {/* One case for every value on the ticket: "Buy" and "Limit", not
+            "BUY" next to "limit". */}
+        {field('side', 'Side', capital(data.side))}
+        {field('type', 'Order type', capital(data.type))}
         {field('qty', 'Quantity', String(data.qty ?? '—'))}
         {field(
           'price',
@@ -61,7 +75,11 @@ export default function OrderTicket({
         accessibilityRole="button"
         disabled={!onTapTarget}
         onPress={() => onTapTarget?.('submit')}
-        style={[styles.submit, highlight?.submit ? { borderColor: highlight.submit } : null]}
+        style={[
+          styles.submit,
+          highlight?.submit ? { borderColor: highlight.submit } : null,
+          spotlight('submit', focus, highlight),
+        ]}
       >
         <Text style={styles.submitText}>Submit order</Text>
       </Pressable>
@@ -100,10 +118,12 @@ const styles = StyleSheet.create({
     minHeight: TAP_TARGET - 4,
     borderRadius: radius.sm,
     borderWidth: 1.5,
-    borderColor: colors.border,
-    borderStyle: 'dashed',
+    // A mock ticket's send button: drawn like one, in the muted accent, but
+    // not a dashed box that reads as a slot waiting for something.
+    borderColor: 'rgba(79,140,255,0.35)',
+    backgroundColor: 'rgba(79,140,255,0.10)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  submitText: { ...type.small, color: colors.textFaint, letterSpacing: 0.4 },
+  submitText: { ...type.small, fontWeight: '600', color: colors.textMuted, letterSpacing: 0.4 },
 });

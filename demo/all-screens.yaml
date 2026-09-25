@@ -356,7 +356,7 @@ screens:
   - type: branch
     scenario: "You are long 200 shares from $30.00 and it has gone against you."
     shares: 200
-    chart: {kind: line, data: [30.0, 29.94, 29.86, 29.78, 29.7, 29.64, 29.66, 29.82, 30.02, 30.2], decision_index: 4}
+    chart: {kind: line, data: [30.0, 29.94, 29.86, 29.78, 29.7, 29.64, 29.66, 29.82, 30.02, 30.2], decision_index: 4, levels: [{price: 29.60, label: "Stop"}]}
     steps:
       - prompt: "It is $29.70 and your stop is $29.60. What now?"
         options:

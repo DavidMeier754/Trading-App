@@ -51,6 +51,7 @@ import c1_153 from '../content/shared/chapter-01-market-basics/level-15-3.yaml';
 import c1_161 from '../content/shared/chapter-01-market-basics/level-16-1.yaml';
 import c1_162 from '../content/shared/chapter-01-market-basics/level-16-2.yaml';
 import c1_171 from '../content/shared/chapter-01-market-basics/level-17-1.yaml';
+import c1_172 from '../content/shared/chapter-01-market-basics/level-17-2.yaml';
 import s2_011 from '../content/paths/scalping/chapter-02-charts-101/level-01-1.yaml';
 import s2_012 from '../content/paths/scalping/chapter-02-charts-101/level-01-2.yaml';
 import s2_013 from '../content/paths/scalping/chapter-02-charts-101/level-01-3.yaml';
@@ -64,7 +65,7 @@ import s2_033 from '../content/paths/scalping/chapter-02-charts-101/level-03-3.y
 import profilesYaml from '../content/market_profiles.yaml';
 import demoLevel from '../demo/all-screens.yaml';
 
-import type { Level, MarketProfile, Screen } from './types';
+import type { Level, MarketProfile } from './types';
 
 export type LessonEntry = {
   id: string;
@@ -103,6 +104,27 @@ export type PathLevel = {
   subs: LessonEntry[];
 };
 
+/**
+ * docs/UI.md §7.1: what kind of level a node is, which its button shows as a
+ * symbol instead of a number. A level with any new-theory lesson in it teaches
+ * something new; one made only of repetition is practice.
+ */
+export type LevelType = 'new' | 'practice' | 'test' | 'final' | 'path';
+
+export function levelTypeOf(level: PathLevel): LevelType {
+  if (level.kind !== 'lesson') return level.kind;
+  return level.subs.some((s) => s.level.category === 'new-theory') ? 'new' : 'practice';
+}
+
+/** The kind of level in words, beside its symbol. */
+export const LEVEL_TYPE_NAME: Record<LevelType, string> = {
+  new: 'New ideas',
+  practice: 'Practice',
+  test: 'Checkpoint',
+  final: 'Final Exam',
+  path: 'Your path',
+};
+
 export type Chapter = {
   number: number;
   title: string;
@@ -126,7 +148,7 @@ const chapterOne = [
   c1_042, c1_043, c1_044, c1_051, c1_061, c1_062, c1_063, c1_071, c1_072, c1_073, c1_074,
   c1_081, c1_082, c1_083, c1_091, c1_092, c1_101, c1_102, c1_103, c1_111, c1_121, c1_122,
   c1_123, c1_131, c1_132, c1_133, c1_134, c1_141, c1_142, c1_143, c1_151, c1_152, c1_153,
-  c1_161, c1_162, c1_171,
+  c1_161, c1_162, c1_171, c1_172,
 ].map((file) => file as unknown as Level);
 const scalpingTwo = [
   s2_011, s2_012, s2_013, s2_014, s2_021, s2_022, s2_023, s2_031, s2_032, s2_033,
@@ -146,25 +168,14 @@ function kindOf(level: Level): NodeKind {
 }
 
 /**
- * The path choice is the last screen of Chapter 1's Final Exam file
- * (docs/schema.md). On the map it is a level of its own, after the exam: the
- * exam ends on its badge, and the choice is played from its own node -- and
- * can be played again to change the path.
+ * The path choice is a lesson of its own, Level 17-2 (docs/curriculum.md): it
+ * lays the three paths side by side and ends on the `path-choice` screen. On
+ * the map it is not part of Level 17 but a node after it -- the exam ends on
+ * its badge, the choice is played from its own node, and it can be played
+ * again to change the path.
  */
-function splitPathChoice(level: Level): { exam: Level; choice: Level | null } {
-  const at = level.screens.findIndex((s: Screen) => s.type === 'path-choice');
-  if (at === -1) return { exam: level, choice: null };
-  return {
-    exam: { ...level, screens: level.screens.filter((_, i) => i !== at) },
-    choice: {
-      ...level,
-      id: 'path',
-      title: 'Choose Your Path',
-      category: 'path-choice',
-      xp: 0,
-      screens: [level.screens[at]],
-    },
-  };
+function isPathLesson(level: Level): boolean {
+  return level.screens[level.screens.length - 1]?.type === 'path-choice';
 }
 
 /** Groups sub-level files into their levels, from the files' own ids (`2-3` is level 2, sub 3). */
@@ -172,11 +183,10 @@ function chapterFrom(files: Level[], planned: number): Chapter {
   const levels: PathLevel[] = [];
   let pathChoice: Level | null = null;
   for (const file of files) {
-    let level = file;
-    if (kindOf(file) === 'final') {
-      const split = splitPathChoice(file);
-      level = split.exam;
-      pathChoice = split.choice;
+    const level = file;
+    if (isPathLesson(file)) {
+      pathChoice = file;
+      continue;
     }
     const [number] = level.id.split('-').map(Number);
     let node = levels.find((l) => l.number === number);
@@ -269,6 +279,24 @@ export function nodeOf(entryIdToFind: string): PathLevel | undefined {
   return levelsOf([CHAPTER_ONE, ...Object.values(PATH_CHAPTERS).flat()]).find((l) =>
     l.subs.some((s) => s.id === entryIdToFind)
   );
+}
+
+/**
+ * docs/UI.md §3 `recap`: a takeaway re-opens the card it came from. The card is
+ * the first theory card of that sub-level, found in the same chapter and path
+ * as the recap (a recap names its sources by id, `3-1`).
+ */
+export function sourceCardOf(
+  from: Level,
+  id: string
+): { title: string; body: string; lesson: string } | null {
+  const entry = LESSONS.find(
+    (e) => !e.testBench && e.level.id === id && e.level.chapter === from.chapter && e.level.path === from.path
+  );
+  const card = entry?.level.screens.find((s) => s.type === 'theory') as
+    | { title: string; body: string }
+    | undefined;
+  return entry && card ? { title: card.title, body: card.body, lesson: entry.subtitle } : null;
 }
 
 /** Kept for anything that just wants the first lesson. */

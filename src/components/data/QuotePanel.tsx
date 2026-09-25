@@ -3,16 +3,19 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { price } from '../../format';
 import { colors, radius, space, type } from '../../theme';
+import { spotlight } from '../spotlight';
 
 /** docs/UI.md §6.3 — Bid / Ask / Last / Spread. */
 export default function QuotePanel({
   data,
   onTapTarget,
   highlight,
+  focus,
 }: {
   data: { bid: number; ask: number; last?: number };
   onTapTarget?: (id: string) => void;
   highlight?: Record<string, string>;
+  focus?: string;
 }) {
   const spread = data.ask - data.bid;
 
@@ -25,7 +28,9 @@ export default function QuotePanel({
       style={[
         styles.cell,
         tint ? { backgroundColor: tint } : null,
-        highlight?.[id] ? { borderColor: highlight[id], borderWidth: 2 } : null,
+        // One border width lit or not, so lighting a cell never resizes it.
+        highlight?.[id] ? { borderColor: highlight[id] } : null,
+        spotlight(id, focus, highlight),
       ]}
     >
       <Text style={styles.label}>{label}</Text>
@@ -37,7 +42,7 @@ export default function QuotePanel({
     <View style={styles.wrap}>
       <View style={styles.row}>
         {cell('bid', 'BID', price(data.bid), 'rgba(38,194,129,0.10)')}
-        {cell('spread', 'SPREAD', spread.toFixed(2))}
+        {cell('spread', 'SPREAD', price(spread))}
         {cell('ask', 'ASK', price(data.ask), 'rgba(240,87,79,0.10)')}
       </View>
       {data.last !== undefined
@@ -54,7 +59,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: radius.md,
     paddingVertical: space.md,
     alignItems: 'center',

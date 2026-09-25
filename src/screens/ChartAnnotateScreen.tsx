@@ -227,9 +227,11 @@ export default function ChartAnnotateScreen({
       </GestureDetector>
       </View>
 
-      {placed === null && !revealed ? (
-        <Text style={styles.hint}>Tap or drag on the chart to place your line.</Text>
-      ) : null}
+      {/* Kept in the layout once the line is placed, only emptied, so the
+          buttons under it do not jump up at the first tap. */}
+      <Text style={styles.hint}>
+        {placed === null && !revealed ? 'Tap or drag on the chart to place your line.' : ' '}
+      </Text>
 
       {!revealed ? (
         <View style={styles.nudgeRow}>
@@ -251,7 +253,7 @@ export default function ChartAnnotateScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center' },
+  wrap: {},
   column: { gap: space.md },
   overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
   hint: { ...type.small, color: colors.textMuted, textAlign: 'center' },

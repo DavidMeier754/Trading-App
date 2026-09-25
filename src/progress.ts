@@ -165,7 +165,15 @@ export function resetProgress(): void {
  */
 export function choosePath(path: TradingPath): void {
   const p = progress;
-  publish({ ...p, path, done: { ...p.done, [PATH_CHOICE_ID]: { perfect: true } } });
+  // The lesson's XP once, the first time through; changing path later is free.
+  const first = !p.done[PATH_CHOICE_ID];
+  const xp = first ? p.xp + (pathLessonXp() ?? 0) : p.xp;
+  publish({ ...p, path, xp, done: { ...p.done, [PATH_CHOICE_ID]: { perfect: true } } });
+}
+
+function pathLessonXp(): number | undefined {
+  const node = CHAPTER_ONE.levels.find((l) => l.kind === 'path');
+  return node?.subs[0]?.level.xp;
 }
 
 /** A plan card was filled in: its keys join the plan, over any older values. */

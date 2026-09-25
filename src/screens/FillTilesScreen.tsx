@@ -43,12 +43,29 @@ export default function FillTilesScreen({
   // docs/UI.md §5.1: the blank ramps to its verdict colour over 200 ms.
   const animatedSlot = useBorderTransition(slotColor, revealed);
 
+  // Tapping the word takes its last letter back out, as the undo link does:
+  // the eye is on the word when a letter lands wrong.
   const blank = (
-    <Animated.View style={[styles.blank, animatedSlot]}>
-      <Text style={[styles.blankText, { color: revealed ? slotColor : colors.text }]}>
-        {word || ' '}
-      </Text>
-    </Animated.View>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={word ? `Your word, ${word}. Tap to take back the last letter` : 'The blank'}
+      disabled={revealed || placed.length === 0}
+      onPress={() => {
+        tapFeedback();
+        onChange({ kind: 'tiles', placed: placed.slice(0, -1) });
+      }}
+    >
+      <Animated.View style={[styles.blank, animatedSlot]}>
+        {/* The blank is as wide as the word that belongs in it, from the start,
+            so the words after it do not shuffle right with every letter. */}
+        <Text style={[styles.blankText, styles.sizer]} aria-hidden>
+          {screen.answer.toUpperCase()}
+        </Text>
+        <Text style={[styles.blankText, styles.typed, { color: revealed ? slotColor : colors.text }]}>
+          {word || ' '}
+        </Text>
+      </Animated.View>
+    </Pressable>
   );
 
   // The sentence is laid out word by word so the blank sits inline in the flow
@@ -71,12 +88,18 @@ export default function FillTilesScreen({
         ))}
       </View>
 
-      {revealed && !isRight ? (
-        <Text style={styles.answerLine}>
-          {'Answer: '}
-          <Text style={{ color: colors.success }}>{screen.answer}</Text>
-        </Text>
-      ) : null}
+      {/* Always in the layout, so a wrong answer's line does not push the
+          tiles down. */}
+      <Text style={styles.answerLine}>
+        {revealed && !isRight ? (
+          <>
+            {'Answer: '}
+            <Text style={{ color: colors.success }}>{screen.answer}</Text>
+          </>
+        ) : (
+          ' '
+        )}
+      </Text>
 
       <View style={styles.tiles}>
         {pool.map((letter, i) => {
@@ -127,7 +150,7 @@ export default function FillTilesScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.xl },
+  wrap: { gap: space.xl },
   sentence: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -145,6 +168,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.sm,
   },
   blankText: { ...type.prompt, letterSpacing: 1.5 },
+  sizer: { opacity: 0 },
+  typed: { position: 'absolute', left: 0, right: 0, textAlign: 'center' },
   answerLine: { ...type.body, color: colors.textMuted },
   tiles: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   tile: {

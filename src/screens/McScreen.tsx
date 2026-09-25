@@ -53,6 +53,6 @@ export default function McScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.xl },
+  wrap: { gap: space.xl },
   options: { gap: space.md },
 });

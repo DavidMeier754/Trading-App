@@ -15,15 +15,15 @@ Measured, not remembered — re-run the commands and the numbers should match.
 
 | | |
 |---|---|
-| Scalping path | 8 chapters, 144 levels, **387 sub-levels**, 5,095 screens |
-| Validator | 0 errors, 6 warnings (`python3 tools/validate_content.py`) |
+| Scalping path | 8 chapters, 144 levels, **388 sub-levels** (Chapter 1's shared 48 included), 5,109 screens |
+| Validator | 0 errors, 4 warnings (`python3 tools/validate_content.py`) |
 | Self-test | 110/110 (`python3 tools/test_validate.py`) |
-| Sizing | 66 of 572 priced positions over the §3.6 cap (`python3 tools/check_sizing.py`) |
+| Sizing | 57 of 572 priced positions over the §3.6 cap, all in Scalping Chapter 2 Levels 4–18 (`python3 tools/check_sizing.py`) |
 | Drill bank | 1 of 15 packs written; 12 of the other 14 on hold |
 | Replay bank | specified, nothing written |
 | Day Trading, Swing | outlined level by level, no content |
-| Application code | Expo app (SLICE + HOME, below): plays Chapter 1 Levels 1–3 — 10 sub-levels, 135 screens — and the 49-screen test bench in `demo/all-screens.yaml` |
-| Rendered | 135 of 5,095 screens; the other 4,960 have never been drawn |
+| Application code | Expo app (SLICE + HOME, below): plays all of Chapter 1 — 17 levels, 48 sub-levels with the path-choice lesson — and Scalping Chapter 2 Levels 1–3 (10 sub-levels): 783 screens, every one played end to end in the browser; plus the 49-screen test bench in `demo/all-screens.yaml` |
+| Rendered | 783 of 5,109 screens; the other 4,326 have never been drawn |
 
 The last row is why no stage below grows the corpus before its screen types have been seen.
 
@@ -68,6 +68,13 @@ are in `docs/agent.md` and `docs/schema.md`.
   the tab bar (Learn, Practice, Leaderboard, Account; the last three are placeholders), and
   Settings behind Account with the design picker and the test bench. Progress, streak, hearts
   and settings are kept on the device with AsyncStorage; there is still no backend.
+- **PATH** — the map for everything written that plays: all of Chapter 1, the path-choice
+  lesson (Level 17-2) as its own node, and Scalping Chapter 2 Levels 1–3. Chapters are folding
+  sections with a "Jump to" button; each node shows a symbol for its kind of level; Checkpoints and
+  the Final Exam are scored (70 %, Retry / Back to path). Settings has the path row and, for
+  testing only, refill hearts and skip ahead. The lesson player holds its content still: a
+  screen is centred once and then only moves when the reveal would otherwise cover it
+  (`docs/UI.md` §2).
 
 ---
 
@@ -266,12 +273,13 @@ of the §7 line - flag those rather than deciding them.
 
 ---
 
-## SIZING — the 66 positions over the cap
+## SIZING — the 57 positions over the cap
 
 `docs/agent.md` §3.6 caps one position at 95 % of the account named in its own file. Chapters
-3–8 are clean. **66 of 572 priced positions still breach it: 60 in Chapter 2, 6 in Chapter 1**,
-and one of those is a hard error — `chapter-01-market-basics/level-09-2.yaml` screen 4 holds
-500 shares × $12.80 = $6,400 against a $6,000 account. That one goes first.
+3–8 are clean, and so are Chapter 1 and Scalping Chapter 2 Levels 1–3, which were re-sized when
+they were wired into the app (the hard error in `chapter-01-market-basics/level-09-2.yaml` —
+500 shares × $12.80 against a $6,000 account — is gone with them). **57 of 572 priced positions
+still breach it, all in Scalping Chapter 2 Levels 4–18.** Run the prompt below for Chapter 2.
 
 `python3 tools/check_sizing.py --chapter N` lists every breach with each line elsewhere in the
 file that names the same share count — 3,332 corpus-wide, which is why this is a script and not
@@ -588,7 +596,7 @@ Numbered findings list, most important first, file and screen for each. Change n
 ## PATHS — Day Trading and Swing Trading
 
 > **Gated. Do not start until the schema has survived a render of every screen type it uses.**
-> SLICE has run, but only Chapter 1 Levels 1–3 play in the app so far. This stage triples the
+> SLICE has run; Chapter 1 and Scalping Chapter 2 Levels 1–3 play in the app so far. This stage triples the
 > corpus — ~770 further sub-levels — written against a screen contract mostly never rendered. A schema fix costs 327 files today and roughly 980 afterwards.
 
 Chapters 2–8 of each, following the tables in `docs/curriculum.md`. Structurally they mirror

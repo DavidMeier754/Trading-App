@@ -1,9 +1,30 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { copy } from '../../format';
 import { colors, radius, space, type } from '../../theme';
 
-/** docs/UI.md §6.8 — the journal, one row per finished trade. */
+/** A column key as a heading: "setup" reads "Setup"; "R" stays "R". */
+function heading(key: string): string {
+  return key.charAt(0).toUpperCase() + key.slice(1);
+}
+
+/**
+ * A cell as it is read: the profile's currency, a real minus sign, and a
+ * signed number -- an R, a P&L -- in the colour of its sign.
+ */
+function cellOf(value: string | number | undefined): { text: string; color?: string } {
+  if (value === undefined) return { text: '—' };
+  const text = copy(String(value)).replace(/^-(?=[\d$€.])/, '−');
+  if (/^\+\d/.test(text)) return { text, color: colors.up };
+  if (/^−\d/.test(text)) return { text, color: colors.down };
+  return { text };
+}
+
+/**
+ * docs/UI.md §6.8 — the journal, one row per finished trade. The same table
+ * carries any small grid of words: a first column keyed "" is a row label.
+ */
 export default function JournalTable({
   columns,
   rows,
@@ -15,18 +36,25 @@ export default function JournalTable({
     <View style={styles.wrap}>
       <View style={styles.headRow}>
         {columns.map((c) => (
-          <Text key={c} style={styles.head}>
-            {c}
+          <Text key={c} style={[styles.head, c === '' && styles.labelCol]}>
+            {heading(c)}
           </Text>
         ))}
       </View>
       {rows.map((row, i) => (
         <View key={i} style={styles.row}>
-          {columns.map((c) => (
-            <Text key={c} style={styles.cell} numberOfLines={1}>
-              {row[c] !== undefined ? String(row[c]) : '—'}
-            </Text>
-          ))}
+          {columns.map((c) => {
+            const cell = cellOf(row[c]);
+            return (
+              <Text
+                key={c}
+                style={[styles.cell, c === '' && [styles.labelCol, styles.label], cell.color ? { color: cell.color } : null]}
+                numberOfLines={2}
+              >
+                {cell.text}
+              </Text>
+            );
+          })}
         </View>
       ))}
     </View>
@@ -63,4 +91,6 @@ const styles = StyleSheet.create({
     borderTopColor: colors.border,
   },
   cell: { ...type.small, flex: 1, color: colors.text },
+  labelCol: { flex: 1.1 },
+  label: { color: colors.textMuted },
 });

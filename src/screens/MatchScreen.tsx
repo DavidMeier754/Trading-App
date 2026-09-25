@@ -135,13 +135,21 @@ export default function MatchScreen({
               <Pressable
                 accessibilityRole="button"
                 onPress={() => tapLeft(i)}
-                style={[styles.chip, shape, leftStyle(i)]}
+                style={[styles.chip, styles.termChip, shape, leftStyle(i)]}
               >
                 <Text style={styles.term}>{copy(term)}</Text>
+                {/* A locked pair carries one number on both of its halves, so
+                    "Sell" is seen to belong with "Close a position" even when
+                    the two sit in different rows. Pinned to the edge, not in
+                    the text's flow, so the word does not shift when it lands. */}
                 {linked[i] !== undefined ? (
-                  <PopIn>
-                    <Text style={styles.check}>{'✓'}</Text>
-                  </PopIn>
+                  <View style={[styles.pairTag, styles.pairTagRight]} pointerEvents="none">
+                    <PopIn>
+                      <View style={styles.pairDot}>
+                        <Text style={styles.pairNum}>{i + 1}</Text>
+                      </View>
+                    </PopIn>
+                  </View>
                 ) : null}
               </Pressable>
             );
@@ -154,16 +162,26 @@ export default function MatchScreen({
         </View>
         <View style={styles.rightCol}>
           {rightOrder.map((i) => {
+            const isLinked = Object.values(linked).includes(i);
+            const owner = Object.entries(linked).find(([, r]) => r === i)?.[0];
             const chip = (
               <Pressable
                 accessibilityRole="button"
                 onPress={() => tapRight(i)}
-                style={[styles.chip, shape, rightStyle(i)]}
+                style={[styles.chip, styles.definitionChip, shape, rightStyle(i)]}
               >
                 <Text style={styles.definition}>{copy(screen.pairs[i][1])}</Text>
+                {owner !== undefined ? (
+                  <View style={[styles.pairTag, styles.pairTagLeft]} pointerEvents="none">
+                    <PopIn>
+                      <View style={styles.pairDot}>
+                        <Text style={styles.pairNum}>{Number(owner) + 1}</Text>
+                      </View>
+                    </PopIn>
+                  </View>
+                ) : null}
               </Pressable>
             );
-            const isLinked = Object.values(linked).includes(i);
             return (
               <Shake key={screen.pairs[i][1]} onMount={false} trigger={bounces.right[i]}>
                 {isLinked ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
@@ -184,7 +202,7 @@ export default function MatchScreen({
 }
 
 const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'center', gap: space.lg },
+  wrap: { gap: space.lg },
   columns: { flexDirection: 'row', gap: space.sm },
   leftCol: { flex: 4, gap: space.sm },
   rightCol: { flex: 6, gap: space.sm },
@@ -205,6 +223,20 @@ const styles = StyleSheet.create({
   wrong: { borderColor: colors.down, backgroundColor: colors.downTint },
   term: { ...type.answer, color: colors.text, flexShrink: 1 },
   definition: { ...type.small, color: colors.text, flexShrink: 1 },
-  check: { ...type.small, color: colors.success },
+  // Room at the definition's left edge for its pair number.
+  definitionChip: { paddingLeft: space.md + 10 },
+  termChip: { paddingHorizontal: space.md + 10 },
+  pairTag: { position: 'absolute', top: 0, bottom: 0, justifyContent: 'center' },
+  pairTagRight: { right: 6 },
+  pairTagLeft: { left: 5 },
+  pairDot: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: colors.success,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pairNum: { fontSize: 11, lineHeight: 13, fontWeight: '800', color: '#FFFFFF' },
   hint: { ...type.small, color: colors.textMuted },
 });

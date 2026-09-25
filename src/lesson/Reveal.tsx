@@ -183,10 +183,13 @@ export default function Reveal({
 export function RevealProbe({
   lead,
   explanation,
+  working = false,
   onHeight,
 }: {
   lead?: string;
   explanation: string;
+  /** The verdict will carry a "Show working" line. */
+  working?: boolean;
   onHeight: (height: number) => void;
 }) {
   return (
@@ -201,6 +204,7 @@ export function RevealProbe({
       <View style={styles.words}>
         {lead ? <Text style={styles.lead}>{copy(lead)}</Text> : null}
         <Text style={styles.body}>{copy(explanation)}</Text>
+        {working ? <Text style={styles.toggle}>Show working</Text> : null}
       </View>
     </View>
   );
