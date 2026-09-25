@@ -243,9 +243,13 @@ export default function ChartAnnotateScreen({
           </Pressable>
         </View>
       ) : (
-        <Text style={styles.hint}>
-          {`${screen.label ?? 'Intended'}: ${price(screen.answer)} (±${screen.tolerance.toFixed(2)})`}
-        </Text>
+        // In the buttons' place and at their height, so the screen does not get
+        // shorter under the reveal -- a shorter screen is re-fitted, and moves.
+        <View style={styles.answerRow}>
+          <Text style={styles.hint}>
+            {`${screen.label ?? 'Intended'}: ${price(screen.answer)} (±${screen.tolerance.toFixed(2)})`}
+          </Text>
+        </View>
       )}
       </View>
     </View>
@@ -258,6 +262,7 @@ const styles = StyleSheet.create({
   overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
   hint: { ...type.small, color: colors.textMuted, textAlign: 'center' },
   nudgeRow: { flexDirection: 'row', gap: space.md },
+  answerRow: { minHeight: TAP_TARGET, justifyContent: 'center' },
   nudge: {
     flex: 1,
     minHeight: TAP_TARGET,

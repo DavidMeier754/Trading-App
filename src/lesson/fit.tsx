@@ -79,6 +79,20 @@ export function FitScreen({
   } else if (view > 0 && content > view + slack) {
     target = Math.max(MIN_SCALE, view / content);
   }
+  // Once the screen has settled its scale only ever gives: content that gets
+  // shorter under a reveal (buttons swapped for a line) must not grow the whole
+  // screen back, which moves every word on it.
+  const [held, setHeld] = useState<number | null>(null);
+  const current = useRef(target);
+  current.current = target;
+  useEffect(() => {
+    const t = setTimeout(() => setHeld((h) => h ?? current.current), LOCK_MS);
+    return () => clearTimeout(t);
+  }, []);
+  if (held !== null) target = Math.min(target, held);
+  useEffect(() => {
+    if (held !== null && target < held) setHeld(target);
+  }, [held, target]);
 
   useEffect(() => {
     const done = () => setSettled((n) => n + 1);
