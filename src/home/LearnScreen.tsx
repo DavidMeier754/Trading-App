@@ -440,9 +440,43 @@ function nodeName(view: LevelView): string {
 }
 
 /** The label over a node: its number and, in words, the kind its symbol shows. */
-function nodeKicker(view: LevelView): string {
-  if (view.level.kind === 'path') return 'Your path';
-  return `${nodeName(view)} · ${LEVEL_TYPE_NAME[levelTypeOf(view.level)]}`;
+function nodeKicker(view: LevelView): string[] {
+  if (view.level.kind === 'path') return ['Your path'];
+  return [nodeName(view), LEVEL_TYPE_NAME[levelTypeOf(view.level)]];
+}
+
+/**
+ * "Level 4 · New ideas" on one line where the label has the room, and as two
+ * whole lines -- "Level 4", then "New ideas" -- where it has not, instead of
+ * breaking inside "New ideas". The one-line width is measured on an invisible
+ * copy that is never squeezed, so the choice cannot flip back and forth.
+ */
+function Kicker({ parts, right }: { parts: string[]; right: boolean }) {
+  const [full, setFull] = useState(0);
+  const [box, setBox] = useState(0);
+  const line = parts.join(' · ');
+  const split = parts.length > 1 && full > 0 && box > 0 && full > box + 0.5;
+  const align = right ? styles.alignRight : null;
+  return (
+    <View onLayout={(e) => setBox(e.nativeEvent.layout.width)}>
+      <View style={styles.kickerProbeClip} pointerEvents="none" aria-hidden>
+        <View style={styles.kickerProbe}>
+          <Text style={styles.labelKicker} onLayout={(e) => setFull(e.nativeEvent.layout.width)}>
+            {line}
+          </Text>
+        </View>
+      </View>
+      {split ? (
+        parts.map((part) => (
+          <Text key={part} style={[styles.labelKicker, align]}>
+            {part}
+          </Text>
+        ))
+      ) : (
+        <Text style={[styles.labelKicker, align]}>{line}</Text>
+      )}
+    </View>
+  );
 }
 
 /** The level the learner is on, named at the top of the path. */
@@ -665,7 +699,7 @@ function NodeLabel({
         side === 'right' ? { left: RING + space.sm } : { right: RING + space.sm },
       ]}
     >
-      <Text style={[styles.labelKicker, side === 'left' && styles.alignRight]}>{nodeKicker(view)}</Text>
+      <Kicker parts={nodeKicker(view)} right={side === 'left'} />
       <Text
         style={[
           styles.labelTitle,
@@ -1074,6 +1108,10 @@ const styles = StyleSheet.create({
   nodeSlot: { position: 'absolute', width: RING, height: RING },
   label: { position: 'absolute', top: 10, gap: 1 },
   labelKicker: { ...type.small, color: colors.textFaint, textTransform: 'uppercase', letterSpacing: 0.8 },
+  // Clipped to nothing, so the measuring copy is laid out but never seen and
+  // never widens the map.
+  kickerProbeClip: { position: 'absolute', left: 0, top: 0, width: 0, height: 0, overflow: 'hidden' },
+  kickerProbe: { position: 'absolute', left: 0, top: 0, width: 400, flexDirection: 'row' },
   labelTitle: { fontSize: 15, lineHeight: 19, fontWeight: '700', color: colors.text },
   labelMeta: { ...type.small, color: colors.textMuted },
   alignRight: { textAlign: 'right' },

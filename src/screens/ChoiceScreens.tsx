@@ -117,9 +117,21 @@ export function SortScreen({
     return placed[i] === screen.items[i].bucket ? 'correct' : 'wrong';
   };
 
+  // The order chips were put in, so a new one joins the bottom of its bucket
+  // rather than slotting in above one already there and pushing it down.
+  const [dropped, setDropped] = React.useState<number[]>([]);
+  const inBucket = (bucket: string) => {
+    const rank = (i: number) => dropped.indexOf(i);
+    return screen.items
+      .map((_, i) => i)
+      .filter((i) => placed[i] === bucket)
+      .sort((a, b) => rank(a) - rank(b));
+  };
+
   const put = (item: number, bucket: string) => {
     tapFeedback();
     onChange({ kind: 'buckets', placed: { ...placed, [item]: bucket } });
+    setDropped((d) => [...d.filter((x) => x !== item), item]);
     setPending(null);
   };
 
@@ -183,8 +195,9 @@ export function SortScreen({
               <BucketGlow index={b} hover={hover} color={accent} />
               <Text style={styles.bucketTitle} pointerEvents="none">{copy(bucket)}</Text>
               <View style={styles.bucketItems} pointerEvents="box-none">
-                {screen.items.map((item, i) =>
-                  placed[i] === bucket ? (
+                {inBucket(bucket).map((i) => {
+                  const item = screen.items[i];
+                  return (
                     <ToneSurface
                       key={item.text}
                       tone={toneFor(i)}
@@ -202,8 +215,8 @@ export function SortScreen({
                     >
                       <Text style={styles.chipSmallText}>{copy(item.text)}</Text>
                     </ToneSurface>
-                  ) : null
-                )}
+                  );
+                })}
               </View>
             </View>
           </Animated.View>
