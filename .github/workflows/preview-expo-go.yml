@@ -1,0 +1,48 @@
+name: Preview in Expo Go
+
+# Part B of the preview (docs/build-plan.md, stage CI): each PR publishes an
+# EAS Update and comments a QR code to open it in Expo Go, for real haptics
+# and sound. It needs the EXPO_TOKEN secret and the app linked to an Expo
+# project; until both are there, the job is skipped and the check stays grey.
+
+on:
+  pull_request:
+
+concurrency:
+  group: preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update:
+    name: EAS Update + QR code
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - name: Check for the Expo token
+        id: token
+        run: echo "present=${{ env.EXPO_TOKEN != '' }}" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        if: steps.token.outputs.present == 'true'
+      - uses: actions/setup-node@v4
+        if: steps.token.outputs.present == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - uses: expo/expo-github-action@v8
+        if: steps.token.outputs.present == 'true'
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - if: steps.token.outputs.present == 'true'
+        run: npm ci --no-audit --no-fund
+      - uses: expo/expo-github-action/preview@v8
+        if: steps.token.outputs.present == 'true'
+        with:
+          command: eas update --auto --branch ${{ github.head_ref }}
+        env:
+          EXPO_PUBLIC_TEST_TOOLS: '1'
