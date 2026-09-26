@@ -168,24 +168,28 @@ All of this must hold at the same time:
 
 ### How a stage runs
 
-**One stage = one Claude Code session = one pull request.**
+**One stage = one thread in the Claude project = one pull request.**
 
-1. **Open a session:** Claude Code (app or claude.ai/code) → repository `DavidMeier754/Trading-App` → new session.
-2. **Set model and effort before you send the prompt:**
-   - `/model opus` (= Opus 5.5), `/model fable` (= Fable 5.1, if your plan has it), `/model sonnet` (= Sonnet 5).
-   - `/effort high`, `/effort xhigh` or `/effort max`.
-   - **Important:** Opus 5.5 defaults to `medium`. Set the effort deliberately every time.
-   - Where it says "plan mode": Claude shows a plan first, you read it and approve it.
-3. **Paste the prompt:** the stage's prompt from its code block, unchanged. You fill in the placeholders in `[…]`.
-4. **Claude works:**
-   - on the branch the session creates;
-   - opens a PR against `main`;
-   - gets every check green;
-   - writes a report with **your test checklist** and real links to the preview.
-5. **You test** on your phone and answer:
+The work runs in the Claude project linked to `DavidMeier754/Trading-App`. A thread there is a fresh Claude session: it starts with the repository, the project memory and its brief, and nothing else. Wherever this plan says "session", read "thread".
+
+1. **Start the stage in the project chat:** write e.g. `start stage WIRE`.
+   - Claude opens a new thread for it. You do not open a session or paste anything.
+   - The stage's prompt (its code block below) is the thread's brief. Claude fills in the placeholders in `[…]` from your message, so name them there, e.g. `start stage LOOK-COMPONENTS, session 2`.
+   - For stages with "You prepare" material (a critique, feedback, an export), put it in the same message or attach it.
+2. **Model and effort** come from the stage's "Model · effort · sessions" line.
+   - The thread uses the project's default model. If the stage needs something else, say so in your message or in the thread ("use Fable 5.1 at high effort"); Claude switches when you ask.
+   - **Important:** Opus 5.5 defaults to `medium`. Name the effort deliberately when a stage needs `xhigh` or `max`.
+   - Where it says "plan mode": Claude posts its plan in the thread first and builds only after your OK.
+3. **Claude works in the thread:**
+   - on its own branch;
+   - opens a draft PR against `main` and posts the link in the thread;
+   - drives every check to green;
+   - posts the report in the thread, with **your test checklist** and real links to the preview.
+4. **You test** on your phone and answer **in that thread**:
    - `OK <STAGE> – merge` → Claude merges the PR and the stage gets its ✅ in section 2. You can also merge the PR yourself on GitHub.
    - or a list of problems (template "Bug report", Appendix A) → Claude fixes them, you test again.
-6. **Next stage = new session.** A fresh context is more accurate and cheaper.
+5. **Next stage = new thread.** Go back to the project chat and start it there. A fresh context is more accurate and cheaper. A stage with several sessions in section 2 gets one thread per session.
+6. **Where to look:** the project chat shows one line per stage with the thread's status. Questions about a running stage go into its thread, not into the project chat.
 
 ### Which model for what
 
@@ -195,6 +199,8 @@ All of this must hold at the same time:
 | **Fable 5.1** | `/model fable` | The hardest tasks: the knowledge audit, full reviews, design directions. Only where the plan says so. | high (≈ 2.5× Opus) |
 | **Sonnet 5** | `/model sonnet` | Mechanical work that follows a clear pattern (configuration, store metadata) | low |
 | Haiku 4.5 | `/model haiku` | **Never for content with numbers.** At most for hunting typos. | very low |
+
+The commands are for a plain Claude Code session. In a thread, name the model and effort in words.
 
 If your plan does not include Fable 5.1, use Opus 5.5 with `/effort max` there instead.
 
@@ -207,13 +213,13 @@ If your plan does not include Fable 5.1, use Opus 5.5 with `/effort max` there i
 | `xhigh` | Design, didactics, legally sensitive texts, architecture |
 | `max` | Audits where correctness matters more than time |
 
-Tip: write `ultrathink` into a single message when Claude should think harder at one point. The session's effort stays the same.
+Tip: write `ultrathink` into a single message when Claude should think harder at one point. The thread's effort stays the same.
 
-### Rules for every session
+### Rules for every thread
 
 These rules are in `CLAUDE.md`; the prompt does not have to repeat them.
 
-- **Only the session's own stage.** Anything noticed that belongs to a later stage goes into the report, not into the code.
+- **Only the thread's own stage.** Anything noticed that belongs to a later stage goes into the report, not into the code.
 - **The standard checks run before the report** (below), and all are green.
 - **The report**, in this order:
   1. What was built.
@@ -221,7 +227,7 @@ These rules are in `CLAUDE.md`; the prompt does not have to repeat them.
   3. Your test checklist, with real preview links.
   4. Open questions.
 
-  Then **the session stops** and waits for you.
+  Then **the thread stops** and waits for you.
 - **Everything in English:** code, content, docs, commits, PR texts and reports.
 - **Never push to `main` directly.** Always a PR, unless you explicitly say otherwise.
 
@@ -270,7 +276,7 @@ npm run smoke                              # from stage WIRE on: every screen re
 
 ## 2. All stages at a glance
 
-Column "Test" = your time for the acceptance test. Session counts are estimates.
+Column "Test" = your time for the acceptance test. Session counts are estimates; each session is one thread.
 
 | Phase | Stage | What | Model · effort | Sessions | Test |
 |---|---|---|---|---|---|
@@ -2635,7 +2641,7 @@ If the list has an ✗, do not answer "OK" but send the bug report.
 
 ### E. Prompt frame and content prompts
 
-**E.0 – The frame of every prompt** (the stages above fill it in)
+**E.0 – The frame of every prompt** (the stages above fill it in; it becomes the thread's brief)
 ```
 Stage <NAME> from docs/build-plan.md.
 
