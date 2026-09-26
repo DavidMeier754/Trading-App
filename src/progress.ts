@@ -191,9 +191,10 @@ export function savePlan(values: Record<string, string>): void {
 }
 
 /**
- * Temporary, for testing from Settings: jump to the start of level `key`
+ * Test builds only (docs/UI.md §11.5): jump to the start of level `key`
  * (`1-9`, `2-1`) as if everything before it had been played. Earlier lessons
- * count as done, with their XP; nothing at or after it is touched, so what was
+ * count as done but earn no XP (W11): the total stays the sum of the summaries
+ * the learner actually saw. Nothing at or after it is touched, so what was
  * already played there stays. Past Chapter 1 the path is chosen for you as
  * Scalping, the one with chapters written.
  */
@@ -206,20 +207,12 @@ export function skipTo(key: string): void {
   const at = levels.findIndex((l) => l.key === key);
   if (at === -1) return;
   const done = { ...p.done };
-  let xp = p.xp;
   for (const level of levels.slice(0, at)) {
     for (const entry of level.subs) {
-      if (done[entry.id]) continue;
-      done[entry.id] = { perfect: false };
-      xp += entry.level.xp;
+      if (!done[entry.id]) done[entry.id] = { perfect: false };
     }
   }
-  publish({
-    ...p,
-    done,
-    xp,
-    path: at > levels.findIndex((l) => l.kind === 'path') ? path : p.path,
-  });
+  publish({ ...p, done, path: at > levels.findIndex((l) => l.kind === 'path') ? path : p.path });
 }
 
 // ---------------------------------------------------------------------------
@@ -248,7 +241,7 @@ export function heartsNow(p: Progress, now = Date.now()): Hearts & { clock: numb
   return { hearts, nextAt: clock + HEART_REFILL_MS, clock };
 }
 
-/** Temporary, for testing from Settings: every heart back at once. */
+/** Test builds only (docs/UI.md §11.5): every heart back at once. */
 export function refillHearts(): void {
   publish({ ...progress, hearts: MAX_HEARTS, heartsAt: null });
 }

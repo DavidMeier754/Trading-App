@@ -39,6 +39,7 @@ import {
   useProgress,
   waitText,
 } from '../progress';
+import { TEST_TOOLS } from '../testTools';
 import { colors, radius, space, type } from '../theme';
 import Icon from './icons';
 import { forgetShownPath } from './LevelNode';
@@ -150,15 +151,19 @@ export default function SettingsScreen({
         <Text style={styles.section}>Progress</Text>
         <ResetRow />
 
-        <Text style={styles.section}>Testing</Text>
-        <HeartsRow />
-        <SkipRow />
-        <RowButton
-          icon="flask"
-          title="Every screen type"
-          sub="Open the all-screens test level"
-          onPress={onOpenBench}
-        />
+        {TEST_TOOLS && (
+          <>
+            <Text style={styles.section}>Testing</Text>
+            <HeartsRow />
+            <SkipRow />
+            <RowButton
+              icon="flask"
+              title="Every screen type"
+              sub="Open the all-screens test level"
+              onPress={onOpenBench}
+            />
+          </>
+        )}
       </ScrollView>
     </Animated.View>
   );

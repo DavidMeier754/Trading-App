@@ -12,6 +12,7 @@ import Home from './home/Home';
 import { Look, LOOKS, setLook } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
 import { choosePath, completeLesson, getProgress, loadSaved } from './progress';
+import { TEST_TOOLS } from './testTools';
 import { colors, space } from './theme';
 
 /** docs/UI.md §2 is portrait-only, so the player is capped at a phone width. */
@@ -142,7 +143,9 @@ function readDeepLink(): { entry: LessonEntry | null; screen: number; look: bool
   const named = !!look && look in LOOKS;
   if (named) setLook(look as Look);
   const [id, screen] = path.split('/');
-  const entry = LESSONS.find((l) => l.id === id) ?? null;
+  const found = LESSONS.find((l) => l.id === id) ?? null;
+  // The test bench is a testing tool: a release build does not open it.
+  const entry = found?.testBench && !TEST_TOOLS ? null : found;
   if (!entry && !named) return null;
   // Pages count from 1, as they are shown; the player counts from 0.
   return { entry, screen: Math.max(1, Number(screen) || 1) - 1, look: named };
