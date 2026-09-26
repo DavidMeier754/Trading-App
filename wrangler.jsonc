@@ -1,0 +1,15 @@
+// Cloudflare Workers static site for the web preview (docs/setup-preview.md).
+// `build` runs before every deploy and every PR preview, so the dashboard needs no
+// build command. The previews carry the testing tools (EXPO_PUBLIC_TEST_TOOLS=1).
+{
+  "name": "nutrade",
+  "compatibility_date": "2026-09-25",
+  "build": {
+    "command": "EXPO_PUBLIC_TEST_TOOLS=1 npx expo export --platform web --output-dir dist --clear",
+  },
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+  },
+  "previews": {},
+}

@@ -23,7 +23,10 @@ const TABS: { id: Tab; label: string; icon: IconName }[] = [
 export default function TabBar({ tab, onChange }: { tab: Tab; onChange: (next: Tab) => void }) {
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.bar, { paddingBottom: Math.max(insets.bottom, 8) }]} accessibilityRole="tablist">
+    <View
+      style={[styles.bar, { paddingBottom: Math.max(insets.bottom, 8) }]}
+      accessibilityRole="tablist"
+    >
       {TABS.map((item) => {
         const on = item.id === tab;
         const color = on ? colors.accent : colors.textFaint;

@@ -119,7 +119,7 @@ export default function QuitSheet({
     alpha.set(
       withTiming(0, { duration: 80 + CLOSE_MS * left, easing: EASE_OUT }, (done) => {
         if (done) scheduleOnRN(unmount);
-      })
+      }),
     );
   }, [visible, reduced, alpha, y, h, unmount]);
 

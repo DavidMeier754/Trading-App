@@ -80,11 +80,27 @@ const S = Haptics.ImpactFeedbackStyle;
  */
 const STRONG: Record<HapticStyle, readonly (readonly [number, Motor])[]> = {
   selection: [[0, S.Light]],
-  soft: [[0, S.Medium], [24, S.Soft]],
-  light: [[0, S.Medium], [22, S.Soft]],
-  medium: [[0, S.Heavy], [26, S.Soft]],
-  rigid: [[0, S.Rigid], [20, S.Medium]],
-  heavy: [[0, S.Heavy], [30, S.Heavy], [70, S.Soft]],
+  soft: [
+    [0, S.Medium],
+    [24, S.Soft],
+  ],
+  light: [
+    [0, S.Medium],
+    [22, S.Soft],
+  ],
+  medium: [
+    [0, S.Heavy],
+    [26, S.Soft],
+  ],
+  rigid: [
+    [0, S.Rigid],
+    [20, S.Medium],
+  ],
+  heavy: [
+    [0, S.Heavy],
+    [30, S.Heavy],
+    [70, S.Soft],
+  ],
 };
 
 function motor(m: Motor): void {

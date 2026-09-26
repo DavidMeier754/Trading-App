@@ -37,7 +37,8 @@ function splitUnit(unit: string | undefined): { suffix: string; tight: boolean; 
 
 function valueText(value: number, unit: ReturnType<typeof splitUnit>): string {
   // Big counts in the chart strip's own short form (4.2M, 640K).
-  const n = value >= 10_000 ? volume(value) : Number.isInteger(value) ? count(value) : String(value);
+  const n =
+    value >= 10_000 ? volume(value) : Number.isInteger(value) ? count(value) : String(value);
   if (unit.suffix === '$') return copy(`$${n}`);
   if (!unit.suffix) return n;
   return unit.tight ? `${n}${unit.suffix}` : `${n} ${unit.suffix}`;
@@ -92,6 +93,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   fill: { borderRadius: radius.sm },
-  value: { ...type.small, color: colors.text, width: 56, textAlign: 'right', fontVariant: ['tabular-nums'] },
+  value: {
+    ...type.small,
+    color: colors.text,
+    width: 56,
+    textAlign: 'right',
+    fontVariant: ['tabular-nums'],
+  },
   unit: { ...type.small, fontSize: 11, color: colors.textFaint, textAlign: 'right' },
 });

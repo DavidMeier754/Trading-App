@@ -44,6 +44,7 @@ npm install
 npm run web          # browser preview
 npm start            # Expo Go on a phone
 npm run typecheck
+npm run lint && npm test
 ```
 
 More in `README-app.md`.

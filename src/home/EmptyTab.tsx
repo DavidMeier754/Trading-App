@@ -33,7 +33,13 @@ export default function EmptyTab({
 const styles = StyleSheet.create({
   wrap: { flex: 1, paddingHorizontal: space.lg },
   title: { ...type.display, color: colors.text },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.sm, paddingBottom: 60 },
+  center: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: space.sm,
+    paddingBottom: 60,
+  },
   badge: {
     width: 88,
     height: 88,

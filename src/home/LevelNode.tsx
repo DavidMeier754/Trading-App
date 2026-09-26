@@ -106,7 +106,7 @@ export default function LevelNode({
 
   const fill = useSharedValue(reduced || before === undefined ? target : before);
   const pop = useSharedValue(
-    !reduced && !unlocking && beforeStatus !== undefined && beforeStatus !== view.status ? 0.82 : 1
+    !reduced && !unlocking && beforeStatus !== undefined && beforeStatus !== view.status ? 0.82 : 1,
   );
   // The unlock: the lock's cover over the open face, the lock's wobble, the
   // symbol's pop and the rings that go out as it opens.
@@ -116,7 +116,11 @@ export default function LevelNode({
   const burst = useSharedValue(0);
   // A check pinned to a finished level; it arrives with the level's pop.
   const badge = useSharedValue(
-    view.status === 'complete' ? (!reduced && beforeStatus !== undefined && beforeStatus !== 'complete' ? 0 : 1) : 0
+    view.status === 'complete'
+      ? !reduced && beforeStatus !== undefined && beforeStatus !== 'complete'
+        ? 0
+        : 1
+      : 0,
   );
   useEffect(() => {
     shownFill.set(n, target);
@@ -146,9 +150,9 @@ export default function LevelNode({
             withTiming(1, { duration: 80 }),
             withTiming(-0.8, { duration: 80 }),
             withTiming(0.5, { duration: 60 }),
-            withTiming(0, { duration: 40 })
-          )
-        )
+            withTiming(0, { duration: 40 }),
+          ),
+        ),
       );
       cover.set(withDelay(at, withTiming(0, { duration: 260, easing: EASE_OUT })));
       digit.set(withDelay(at, withSpring(1, SPRING_POP)));
@@ -164,7 +168,9 @@ export default function LevelNode({
     opacity: cover.get(),
     transform: [{ scale: 1 + 0.25 * (1 - cover.get()) }],
   }));
-  const lockStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${16 * wobble.get()}deg` }] }));
+  const lockStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${16 * wobble.get()}deg` }],
+  }));
   const digitStyle = useAnimatedStyle(() => ({ transform: [{ scale: digit.get() }] }));
   const badgeStyle = useAnimatedStyle(() => ({
     opacity: badge.get() > 0.01 ? 1 : 0,
@@ -194,7 +200,13 @@ export default function LevelNode({
   // signpost. Ordinary levels are round.
   const round = kind !== 'test';
   const what =
-    kind === 'test' ? 'Checkpoint' : kind === 'final' ? 'Final Exam' : kind === 'path' ? 'Path choice' : 'Level';
+    kind === 'test'
+      ? 'Checkpoint'
+      : kind === 'final'
+        ? 'Final Exam'
+        : kind === 'path'
+          ? 'Path choice'
+          : 'Level';
   // docs/UI.md §7.1: a lesson level's button shows what it teaches or
   // practises -- a candle, a bell for the open -- from its files' `icon`; a
   // Checkpoint shows a ticked clipboard, the Final Exam a trophy, the path
@@ -217,7 +229,14 @@ export default function LevelNode({
         </>
       ) : null}
       <Svg width={RING} height={RING} style={StyleSheet.absoluteFill}>
-        <Circle cx={RING / 2} cy={RING / 2} r={R} stroke={colors.surfaceAlt} strokeWidth={STROKE} fill="none" />
+        <Circle
+          cx={RING / 2}
+          cy={RING / 2}
+          r={R}
+          stroke={colors.surfaceAlt}
+          strokeWidth={STROKE}
+          fill="none"
+        />
         {locked ? null : (
           <AnimatedCircle
             cx={RING / 2}
@@ -239,7 +258,13 @@ export default function LevelNode({
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={`${what}${view.level.number ? ` ${view.level.number}` : ''}, ${LEVEL_TYPE_NAME[type]}: ${view.level.title}. ${
-            locked ? 'Locked' : complete ? 'Done' : kind === 'lesson' ? `${view.done} of ${view.total} lessons done` : 'Open'
+            locked
+              ? 'Locked'
+              : complete
+                ? 'Done'
+                : kind === 'lesson'
+                  ? `${view.done} of ${view.total} lessons done`
+                  : 'Open'
           }`}
           onPressIn={press.onPressIn}
           onPressOut={press.onPressOut}
@@ -257,7 +282,9 @@ export default function LevelNode({
               in place of it. Above the shield, which is drawn absolutely and
               would otherwise cover it. */}
           {locked ? (
-            <View style={[styles.glyph, !round && styles.glyphShield]}>{symbol(colors.textFaint)}</View>
+            <View style={[styles.glyph, !round && styles.glyphShield]}>
+              {symbol(colors.textFaint)}
+            </View>
           ) : (
             <Animated.View style={[styles.glyph, !round && styles.glyphShield, digitStyle]}>
               {symbol('#FFFFFF')}
@@ -269,14 +296,20 @@ export default function LevelNode({
               style={[styles.cover, !round && styles.coverShield, coverStyle]}
             >
               {round ? null : <ShieldFace color={colors.surfaceAlt} locked />}
-              <View style={[styles.glyph, !round && styles.glyphShield]}>{symbol(colors.textFaint)}</View>
+              <View style={[styles.glyph, !round && styles.glyphShield]}>
+                {symbol(colors.textFaint)}
+              </View>
             </Animated.View>
           ) : null}
         </Pressable>
         {complete ? (
           <Animated.View
             pointerEvents="none"
-            style={[styles.badge, { backgroundColor: view.perfect ? GOLD : colors.success }, badgeStyle]}
+            style={[
+              styles.badge,
+              { backgroundColor: view.perfect ? GOLD : colors.success },
+              badgeStyle,
+            ]}
           >
             <Icon name="check" size={14} color="#FFFFFF" strokeWidth={3.4} />
           </Animated.View>
@@ -284,7 +317,10 @@ export default function LevelNode({
         {/* A locked level wears its lock where a finished one wears its check,
             so the symbol stays readable; opening it shakes the lock loose. */}
         {locked || unlocking ? (
-          <Animated.View pointerEvents="none" style={[styles.badge, styles.lockBadge, unlocking && coverStyle]}>
+          <Animated.View
+            pointerEvents="none"
+            style={[styles.badge, styles.lockBadge, unlocking && coverStyle]}
+          >
             <Animated.View style={lockStyle}>
               <Icon name="lock" size={13} color={colors.textMuted} />
             </Animated.View>
@@ -320,7 +356,9 @@ function Halo({ delay = 0 }: { delay?: number }) {
   const t = useSharedValue(0);
   useEffect(() => {
     if (reduced) return;
-    t.set(withDelay(delay, withRepeat(withTiming(1, { duration: 1900, easing: EASE_OUT }), -1, false)));
+    t.set(
+      withDelay(delay, withRepeat(withTiming(1, { duration: 1900, easing: EASE_OUT }), -1, false)),
+    );
   }, [reduced, t, delay]);
   const style = useAnimatedStyle(() => ({
     opacity: reduced ? 0 : 0.5 * (1 - t.get()),
@@ -337,7 +375,9 @@ function Bubble({ label, delay = 0 }: { label: string; delay?: number }) {
   const drop = useSharedValue(delay > 0 ? 0 : 1);
   useEffect(() => {
     if (delay > 0) {
-      drop.set(withDelay(delay, reduced ? withTiming(1, { duration: 200 }) : withSpring(1, SPRING_POP)));
+      drop.set(
+        withDelay(delay, reduced ? withTiming(1, { duration: 200 }) : withSpring(1, SPRING_POP)),
+      );
     }
     if (reduced) return;
     y.set(
@@ -346,12 +386,12 @@ function Bubble({ label, delay = 0 }: { label: string; delay?: number }) {
         withRepeat(
           withSequence(
             withTiming(-5, { duration: 850, easing: EASE_SINE }),
-            withTiming(0, { duration: 850, easing: EASE_SINE })
+            withTiming(0, { duration: 850, easing: EASE_SINE }),
           ),
           -1,
-          false
-        )
-      )
+          false,
+        ),
+      ),
     );
   }, [reduced, y, drop, delay]);
   const style = useAnimatedStyle(() => ({

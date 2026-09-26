@@ -50,20 +50,36 @@ export default function Atmosphere({ width, height }: { width: number; height: n
           flash.set(
             withSequence(
               withTiming(light.peak, { duration: light.rise, easing: Easing.out(Easing.quad) }),
-              withTiming(light.rest, { duration: light.fall, easing: Easing.inOut(Easing.quad) })
-            )
+              withTiming(light.rest, { duration: light.fall, easing: Easing.inOut(Easing.quad) }),
+            ),
           );
         }
         const hot = mood === 'complete' || (mood !== 'wrong' && mood !== 'calm' && run >= 3);
-        warm.set(withTiming(hot ? (mood === 'complete' ? 1 : 0.7) : 0, { duration: hot ? 800 : 1200 }));
+        warm.set(
+          withTiming(hot ? (mood === 'complete' ? 1 : 0.7) : 0, { duration: hot ? 800 : 1200 }),
+        );
       }),
-    [flash, warm]
+    [flash, warm],
   );
 
   return (
     <View style={styles.fill} pointerEvents="none">
-      <EdgeLight id="warm" color={colors.warning} width={width} height={height * 0.5} level={warm} max={0.16} />
-      <EdgeLight id="mood" color={flashColor} width={width} height={height * 0.42} level={flash} max={0.22} />
+      <EdgeLight
+        id="warm"
+        color={colors.warning}
+        width={width}
+        height={height * 0.5}
+        level={warm}
+        max={0.16}
+      />
+      <EdgeLight
+        id="mood"
+        color={flashColor}
+        width={width}
+        height={height * 0.42}
+        level={flash}
+        max={0.22}
+      />
     </View>
   );
 }

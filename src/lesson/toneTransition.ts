@@ -23,7 +23,7 @@ export function isRevealTone(tone: Tone): boolean {
 
 export function tonePalette(
   tone: Tone,
-  spec: LookSpec = LOOKS.classic
+  spec: LookSpec = LOOKS.classic,
 ): {
   border: string;
   background: string;
@@ -85,7 +85,7 @@ export function useToneTransition(tone: Tone) {
           // shortens it rather than removing it.
           duration: reduced ? 140 : DURATION.reveal,
           easing: EASE_OUT,
-        })
+        }),
       );
     } else {
       from.set(tonePalette(tone, spec));
@@ -120,9 +120,7 @@ export function useBorderTransition(target: string, active: boolean) {
     if (active && !wasActive.current) {
       to.set(target);
       progress.set(0);
-      progress.set(
-        withTiming(1, { duration: reduced ? 140 : DURATION.reveal, easing: EASE_OUT })
-      );
+      progress.set(withTiming(1, { duration: reduced ? 140 : DURATION.reveal, easing: EASE_OUT }));
     } else if (!active) {
       from.set(target);
       to.set(target);

@@ -26,8 +26,13 @@ npm install
 npm run web          # browser preview
 npm start            # then press i / a, or scan the QR code with Expo Go
 npm run typecheck
+npm run lint         # ESLint
+npm run format:check # Prettier (npm run format fixes it)
+npm test             # Jest unit tests
 npm run build:web    # static site in dist/
 ```
+
+Every PR and every push to `main` runs these, and the content checks, in GitHub Actions (`.github/workflows/ci.yml`).
 
 ## Open any screen directly
 
@@ -48,7 +53,13 @@ Settings → Testing offers:
 - **Skip ahead** – jumps to any level; everything before it counts as played.
 - **Refill hearts.**
 
-From stage CI on these exist only in test builds (`EXPO_PUBLIC_TEST_TOOLS=1`) and earn no XP.
+They exist only in test builds and earn no XP. To see them locally, start with the flag set:
+
+```bash
+EXPO_PUBLIC_TEST_TOOLS=1 npm run web
+```
+
+The `#all-screens` deep link needs the flag too. The PR previews set it.
 
 ## Put it on the web
 

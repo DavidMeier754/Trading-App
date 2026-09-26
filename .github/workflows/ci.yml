@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A newer push to the same PR cancels the run still going for the old one.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  content:
+    name: Content (Python)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: tools/requirements.txt
+      - run: pip install -r tools/requirements.txt
+      - name: Validate content (0 errors)
+        run: python3 tools/validate_content.py
+      - name: Validator self-test
+        run: python3 tools/test_validate.py
+      - name: Position sizing (0 breaches)
+        run: python3 tools/check_sizing.py --summary
+      - name: Drill batch is up to date
+        run: python3 tools/build_drill_batch.py --check
+
+  app:
+    name: App (Node 22)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Formatting
+        run: npm run format:check
+      - name: Unit tests
+        run: npm test
+      - name: Web build
+        run: npx expo export --platform web --output-dir dist
+        env:
+          EXPO_PUBLIC_TEST_TOOLS: '1'

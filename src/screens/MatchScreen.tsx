@@ -46,11 +46,15 @@ export default function MatchScreen({
 
   const seed = useMemo(
     () => screen.prompt.split('').reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 99991, 11),
-    [screen.prompt]
+    [screen.prompt],
   );
   const rightOrder = useMemo(
-    () => shuffled(screen.pairs.map((_, i) => i), seed),
-    [screen.pairs, seed]
+    () =>
+      shuffled(
+        screen.pairs.map((_, i) => i),
+        seed,
+      ),
+    [screen.pairs, seed],
   );
 
   // Either side can be picked first: a definition tapped first waits for its
@@ -126,14 +130,16 @@ export default function MatchScreen({
   const leftStyle = (i: number) => {
     if (flash?.left === i) return styles.wrong;
     if (linked[i] !== undefined) return styles.locked;
-    if (pendingLeft === i) return { borderColor: spec.accent, backgroundColor: tint(spec.accent, 0.14) };
+    if (pendingLeft === i)
+      return { borderColor: spec.accent, backgroundColor: tint(spec.accent, 0.14) };
     return idle;
   };
 
   const rightStyle = (i: number) => {
     if (flash?.right === i) return styles.wrong;
     if (isRightLinked(i)) return styles.locked;
-    if (pendingRight === i) return { borderColor: spec.accent, backgroundColor: tint(spec.accent, 0.14) };
+    if (pendingRight === i)
+      return { borderColor: spec.accent, backgroundColor: tint(spec.accent, 0.14) };
     return idle;
   };
 
@@ -148,7 +154,12 @@ export default function MatchScreen({
                 accessibilityRole="button"
                 onPress={() => tapLeft(i)}
                 onLayout={(e) => measure(e.nativeEvent.layout.height)}
-                style={[styles.chip, shape, { minHeight: Math.max(TAP_TARGET, tallest) }, leftStyle(i)]}
+                style={[
+                  styles.chip,
+                  shape,
+                  { minHeight: Math.max(TAP_TARGET, tallest) },
+                  leftStyle(i),
+                ]}
               >
                 <Text style={styles.term}>{copy(term)}</Text>
               </Pressable>
@@ -168,7 +179,12 @@ export default function MatchScreen({
                 accessibilityRole="button"
                 onPress={() => tapRight(i)}
                 onLayout={(e) => measure(e.nativeEvent.layout.height)}
-                style={[styles.chip, shape, { minHeight: Math.max(TAP_TARGET, tallest) }, rightStyle(i)]}
+                style={[
+                  styles.chip,
+                  shape,
+                  { minHeight: Math.max(TAP_TARGET, tallest) },
+                  rightStyle(i),
+                ]}
               >
                 <Text style={styles.definition}>{copy(screen.pairs[i][1])}</Text>
               </Pressable>

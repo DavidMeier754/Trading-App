@@ -110,7 +110,17 @@ function useTrackWidth() {
 const TAPE_H = 6;
 const TAPE_GAP = 2;
 
-function Tape({ target, steps, hot, spec }: { target: number; steps: number; hot: boolean; spec: LookSpec }) {
+function Tape({
+  target,
+  steps,
+  hot,
+  spec,
+}: {
+  target: number;
+  steps: number;
+  hot: boolean;
+  spec: LookSpec;
+}) {
   const p = useFill(target);
   const warm = useWarm(hot);
   const { w, onLayout } = useTrackWidth();
@@ -134,7 +144,7 @@ function Tape({ target, steps, hot, spec }: { target: number; steps: number; hot
           <Animated.View key={i} style={[styles.tapeCell, cellColor]} />
         ) : (
           <View key={i} style={[styles.tapeCell, styles.tapeEmpty]} />
-        )
+        ),
       )}
     </View>
   );
@@ -183,7 +193,9 @@ function Blocks({ target, steps, spec }: { target: number; steps: number; spec: 
       return;
     }
     // A hard blink, like a text cursor: on, off, no fade between.
-    blink.set(withRepeat(withTiming(0, { duration: 1060, easing: Easing.steps(2, true) }), -1, false));
+    blink.set(
+      withRepeat(withTiming(0, { duration: 1060, easing: Easing.steps(2, true) }), -1, false),
+    );
   }, [m.reduced, blink]);
 
   const cursor = useAnimatedStyle(() => ({ opacity: blink.get() > 0.5 ? 1 : 0.15 }));
@@ -207,7 +219,12 @@ function Blocks({ target, steps, spec }: { target: number; steps: number; spec: 
             />
           );
         }
-        return <View key={i} style={[styles.block, styles.blockEmpty, { borderColor: tint(spec.accent, 0.3) }]} />;
+        return (
+          <View
+            key={i}
+            style={[styles.block, styles.blockEmpty, { borderColor: tint(spec.accent, 0.3) }]}
+          />
+        );
       })}
     </View>
   );
@@ -239,7 +256,7 @@ function Ruler({ target, steps, spec }: { target: number; steps: number; spec: L
     p.set(
       m.reduced
         ? withTiming(target, { duration: 140 })
-        : withSpring(target, { duration: 700, dampingRatio: 0.85 })
+        : withSpring(target, { duration: 700, dampingRatio: 0.85 }),
     );
   }, [target, m.reduced, p]);
 
@@ -272,7 +289,9 @@ function Ruler({ target, steps, spec }: { target: number; steps: number; spec: L
         </Svg>
       ) : null}
       {/* The measured part, inked over. */}
-      <Animated.View style={[styles.rulerInk, { top: base - 1, backgroundColor: spec.accent }, drawn]} />
+      <Animated.View
+        style={[styles.rulerInk, { top: base - 1, backgroundColor: spec.accent }, drawn]}
+      />
       <Animated.View style={[styles.caret, caret]}>
         <Svg width={10} height={7}>
           <Path d="M0 0 L10 0 L5 7 Z" fill={spec.accent} />
@@ -438,7 +457,17 @@ function Beam({ target, hot, spec }: { target: number; hot: boolean; spec: LookS
 
 const DOTS_H = 10;
 
-function Dots({ target, steps, hot, spec }: { target: number; steps: number; hot: boolean; spec: LookSpec }) {
+function Dots({
+  target,
+  steps,
+  hot,
+  spec,
+}: {
+  target: number;
+  steps: number;
+  hot: boolean;
+  spec: LookSpec;
+}) {
   const m = useMotion();
   const { w, onLayout } = useTrackWidth();
   const done = Math.min(steps, Math.floor(target * steps + 1e-6));
@@ -452,7 +481,7 @@ function Dots({ target, steps, hot, spec }: { target: number; steps: number; hot
     x.set(
       m.reduced
         ? withTiming(done * pitch, { duration: 140 })
-        : withSpring(done * pitch, { duration: 520, dampingRatio: 0.7 })
+        : withSpring(done * pitch, { duration: 520, dampingRatio: 0.7 }),
     );
   }, [done, pitch, m.reduced, x]);
 
@@ -506,7 +535,17 @@ function Dots({ target, steps, hot, spec }: { target: number; steps: number; hot
 
 const BOLD_H = 12;
 
-function Bold({ target, steps, hot, spec }: { target: number; steps: number; hot: boolean; spec: LookSpec }) {
+function Bold({
+  target,
+  steps,
+  hot,
+  spec,
+}: {
+  target: number;
+  steps: number;
+  hot: boolean;
+  spec: LookSpec;
+}) {
   const p = useFill(target, 420);
   const { w, onLayout } = useTrackWidth();
   const fill = useAnimatedStyle(() => ({ width: `${p.get() * 100}%` }));
@@ -545,7 +584,14 @@ const styles = StyleSheet.create({
     borderRadius: BEAM_H / 2,
     backgroundColor: 'rgba(190, 170, 255, 0.10)',
   },
-  beamFill: { position: 'absolute', left: 0, top: 0, bottom: 0, overflow: 'hidden', borderRadius: BEAM_H / 2 },
+  beamFill: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    overflow: 'hidden',
+    borderRadius: BEAM_H / 2,
+  },
   beamHead: {
     position: 'absolute',
     left: 0,

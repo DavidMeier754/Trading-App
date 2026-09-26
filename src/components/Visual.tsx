@@ -8,13 +8,7 @@ import { useGridAnchor } from './gridAlign';
 import BarChart from './data/BarChart';
 import CostStack from './data/CostStack';
 import JournalTable from './data/JournalTable';
-import {
-  HotkeyPad,
-  InternalsPanel,
-  PlanSheet,
-  RTracker,
-  StatsCard,
-} from './data/MiscPanels';
+import { HotkeyPad, InternalsPanel, PlanSheet, RTracker, StatsCard } from './data/MiscPanels';
 import OrderBook from './data/OrderBook';
 import OrderTicket from './data/OrderTicket';
 import OwnershipPie from './data/OwnershipPie';
@@ -59,11 +53,32 @@ export default function Visual({
 
   switch (component) {
     case 'quote-card':
-      return <QuoteCard data={data as any} highlight={highlight} focus={focus} onTapTarget={onTapTarget} />;
+      return (
+        <QuoteCard
+          data={data as any}
+          highlight={highlight}
+          focus={focus}
+          onTapTarget={onTapTarget}
+        />
+      );
     case 'quote-panel':
-      return <QuotePanel data={data as any} highlight={highlight} focus={focus} onTapTarget={onTapTarget} />;
+      return (
+        <QuotePanel
+          data={data as any}
+          highlight={highlight}
+          focus={focus}
+          onTapTarget={onTapTarget}
+        />
+      );
     case 'order-ticket':
-      return <OrderTicket data={data as any} highlight={highlight} focus={focus} onTapTarget={onTapTarget} />;
+      return (
+        <OrderTicket
+          data={data as any}
+          highlight={highlight}
+          focus={focus}
+          onTapTarget={onTapTarget}
+        />
+      );
     case 'order-book':
       return (
         <OrderBook
@@ -82,9 +97,7 @@ export default function Visual({
     case 'cost-stack':
       return <CostStack data={data as any} />;
     case 'scanner-table':
-      return (
-        <ScannerTable rows={data.rows ?? []} onTapRow={onTapTarget} resolved={highlight} />
-      );
+      return <ScannerTable rows={data.rows ?? []} onTapRow={onTapTarget} resolved={highlight} />;
     case 'journal-table':
       return <JournalTable columns={data.columns ?? []} rows={data.rows ?? []} />;
     case 'internals-panel':
@@ -135,9 +148,7 @@ export default function Visual({
     default:
       return (
         <View style={styles.placeholder}>
-          <Text style={styles.placeholderText}>
-            {`No renderer for component "${component}".`}
-          </Text>
+          <Text style={styles.placeholderText}>{`No renderer for component "${component}".`}</Text>
         </View>
       );
   }
@@ -164,7 +175,11 @@ function SeriesPair({
       {series.map((s, i) => (
         <View key={s.label ?? i} style={styles.seriesCard}>
           <Text style={styles.seriesLabel}>{s.label ?? ''}</Text>
-          <MiniChart spec={{ kind: 'line', data: s.data ?? [], range }} width={cardWidth} height={120} />
+          <MiniChart
+            spec={{ kind: 'line', data: s.data ?? [], range }}
+            width={cardWidth}
+            height={120}
+          />
         </View>
       ))}
     </View>

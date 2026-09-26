@@ -91,7 +91,7 @@ function Piece({
     // Most of the burst leaves at once; a few stragglers make it read as thrown.
     const delay = (index / count) * 140 + seed.z * 60;
     progress.set(
-      withDelay(delay, withTiming(1, { duration: 2100 + seed.y * 700, easing: Easing.linear }))
+      withDelay(delay, withTiming(1, { duration: 2100 + seed.y * 700, easing: Easing.linear })),
     );
   }, [index, count, seed, progress]);
 

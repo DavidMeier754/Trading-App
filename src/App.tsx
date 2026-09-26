@@ -12,6 +12,7 @@ import Home from './home/Home';
 import { Look, LOOKS, setLook } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
 import { choosePath, completeLesson, getProgress, loadSaved } from './progress';
+import { TEST_TOOLS } from './testTools';
 import { colors, space } from './theme';
 
 /** docs/UI.md §2 is portrait-only, so the player is capped at a phone width. */
@@ -59,50 +60,50 @@ export default function App() {
     // Drags (a slider, a line on a chart, a chip into a bucket) run through
     // react-native-gesture-handler, which needs its root at the top.
     <GestureHandlerRootView style={styles.gestures}>
-    <SafeAreaProvider>
-      <StatusBar style="light" />
-      <View style={styles.root}>
-        <View
-          ref={frameRef}
-          onLayout={measureFrame}
-          style={[styles.frame, { width: frameWidth }]}
-        >
-          {/* One ground for the whole app: the design picked in Settings is the
+      <SafeAreaProvider>
+        <StatusBar style="light" />
+        <View style={styles.root}>
+          <View
+            ref={frameRef}
+            onLayout={measureFrame}
+            style={[styles.frame, { width: frameWidth }]}
+          >
+            {/* One ground for the whole app: the design picked in Settings is the
               one the home screen stands on too, so a change shows at once. */}
-          <Backdrop width={frameWidth} height={height} />
-          <GridOriginProvider originY={gridOrigin}>
-            <ErrorBoundary>
-              {entry ? (
-                <LessonPlayer
-                  key={entry.id}
-                  level={entry.level}
-                  startAt={link && link.entry === entry ? link.screen : 0}
-                  testBench={entry.testBench}
-                  kind={entry.testBench ? 'lesson' : (nodeOf(entry.id)?.kind ?? 'lesson')}
-                  initialPath={getProgress().path}
-                  onChoosePath={choosePath}
-                  contentWidth={contentWidth}
-                  onQuit={() => setEntry(null)}
-                  // A lesson on the path counts once its summary is reached; the
-                  // test bench is not on the path and just plays again.
-                  onComplete={
-                    entry.testBench
-                      ? undefined
-                      : (result) => completeLesson(entry.id, { ...result, xp: entry.level.xp })
-                  }
-                />
-              ) : ready ? (
-                <Home
-                  width={frameWidth}
-                  onStart={setEntry}
-                  onOpenBench={() => setEntry(TEST_BENCH)}
-                />
-              ) : null}
-            </ErrorBoundary>
-          </GridOriginProvider>
+            <Backdrop width={frameWidth} height={height} />
+            <GridOriginProvider originY={gridOrigin}>
+              <ErrorBoundary>
+                {entry ? (
+                  <LessonPlayer
+                    key={entry.id}
+                    level={entry.level}
+                    startAt={link && link.entry === entry ? link.screen : 0}
+                    testBench={entry.testBench}
+                    kind={entry.testBench ? 'lesson' : (nodeOf(entry.id)?.kind ?? 'lesson')}
+                    initialPath={getProgress().path}
+                    onChoosePath={choosePath}
+                    contentWidth={contentWidth}
+                    onQuit={() => setEntry(null)}
+                    // A lesson on the path counts once its summary is reached; the
+                    // test bench is not on the path and just plays again.
+                    onComplete={
+                      entry.testBench
+                        ? undefined
+                        : (result) => completeLesson(entry.id, { ...result, xp: entry.level.xp })
+                    }
+                  />
+                ) : ready ? (
+                  <Home
+                    width={frameWidth}
+                    onStart={setEntry}
+                    onOpenBench={() => setEntry(TEST_BENCH)}
+                  />
+                ) : null}
+              </ErrorBoundary>
+            </GridOriginProvider>
+          </View>
         </View>
-      </View>
-    </SafeAreaProvider>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }
@@ -142,7 +143,9 @@ function readDeepLink(): { entry: LessonEntry | null; screen: number; look: bool
   const named = !!look && look in LOOKS;
   if (named) setLook(look as Look);
   const [id, screen] = path.split('/');
-  const entry = LESSONS.find((l) => l.id === id) ?? null;
+  const found = LESSONS.find((l) => l.id === id) ?? null;
+  // The test bench is a testing tool: a release build does not open it.
+  const entry = found?.testBench && !TEST_TOOLS ? null : found;
   if (!entry && !named) return null;
   // Pages count from 1, as they are shown; the player counts from 0.
   return { entry, screen: Math.max(1, Number(screen) || 1) - 1, look: named };

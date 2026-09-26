@@ -37,12 +37,22 @@ function Sparkline({ values }: { values: number[] }) {
   const hi = Math.max(...values);
   const span = hi - lo || 1;
   const d = values
-    .map((v, i) => `${i === 0 ? 'M' : 'L'}${((i / (values.length - 1)) * (w - 4) + 2).toFixed(1)},${(h - 3 - ((v - lo) / span) * (h - 6)).toFixed(1)}`)
+    .map(
+      (v, i) =>
+        `${i === 0 ? 'M' : 'L'}${((i / (values.length - 1)) * (w - 4) + 2).toFixed(1)},${(h - 3 - ((v - lo) / span) * (h - 6)).toFixed(1)}`,
+    )
     .join(' ');
   const up = values[values.length - 1] >= values[0];
   return (
     <Svg width={w} height={h}>
-      <Path d={d} stroke={up ? colors.up : colors.down} strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <Path
+        d={d}
+        stroke={up ? colors.up : colors.down}
+        strokeWidth={1.8}
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </Svg>
   );
 }
@@ -67,21 +77,14 @@ export function InternalsPanel({
           {data.index?.data?.length ? <Sparkline values={data.index.data} /> : null}
         </View>
         {data.tone ? (
-          <View
-            style={[
-              styles.tag,
-              { borderColor: riskOn ? colors.up : colors.down },
-            ]}
-          >
+          <View style={[styles.tag, { borderColor: riskOn ? colors.up : colors.down }]}>
             <Text style={[styles.tagText, { color: riskOn ? colors.up : colors.down }]}>
               {data.tone}
             </Text>
           </View>
         ) : null}
       </View>
-      {data.breadth !== undefined ? (
-        <Row label="Breadth" value={String(data.breadth)} />
-      ) : null}
+      {data.breadth !== undefined ? <Row label="Breadth" value={String(data.breadth)} /> : null}
       {(data.sectors ?? []).map((s) => (
         <Row
           key={s.label}
@@ -122,7 +125,9 @@ export function HotkeyPad({
               <Text style={styles.keyLabel}>{k.label}</Text>
               <View style={styles.keyActionRow}>
                 <Text style={[styles.keyGlyph, { color: tone.color }]}>{tone.glyph}</Text>
-                <Text style={[styles.keyAction, { color: tone.color }]}>{capitalise(k.action)}</Text>
+                <Text style={[styles.keyAction, { color: tone.color }]}>
+                  {capitalise(k.action)}
+                </Text>
               </View>
             </View>
           </PopIn>
@@ -134,9 +139,12 @@ export function HotkeyPad({
 
 function keyTone(action: string, accent: string): { color: string; edge: string; glyph: string } {
   const a = action.toLowerCase();
-  if (a.includes('buy') || a.includes('long')) return { color: colors.up, edge: '#1B7A53', glyph: '▲' };
-  if (a.includes('sell') || a.includes('short')) return { color: colors.down, edge: '#8E2F2C', glyph: '▼' };
-  if (a.includes('flat') || a.includes('cancel')) return { color: colors.warning, edge: '#8A6A1E', glyph: '✕' };
+  if (a.includes('buy') || a.includes('long'))
+    return { color: colors.up, edge: '#1B7A53', glyph: '▲' };
+  if (a.includes('sell') || a.includes('short'))
+    return { color: colors.down, edge: '#8E2F2C', glyph: '▼' };
+  if (a.includes('flat') || a.includes('cancel'))
+    return { color: colors.warning, edge: '#8A6A1E', glyph: '✕' };
   return { color: accent, edge: '#2E4A7A', glyph: '⇅' };
 }
 
@@ -168,11 +176,7 @@ export function StatsCard({
  * the day is there, not only its sum. The limit is drawn where it bites, and
  * the room left to it is said in words underneath.
  */
-export function RTracker({
-  data,
-}: {
-  data: { trades: number[]; limit: number };
-}) {
+export function RTracker({ data }: { data: { trades: number[]; limit: number } }) {
   const look = useLookSpec();
   const reduced = useReduceMotion();
   const [w, setW] = useState(0);
@@ -194,15 +198,22 @@ export function RTracker({
   const limitY = y(-data.limit);
   const room = total + data.limit;
 
-  const line = running.map((r, i) => `${i === 0 ? 'M' : 'L'}${cx(i).toFixed(1)},${y(r).toFixed(1)}`).join(' ');
+  const line = running
+    .map((r, i) => `${i === 0 ? 'M' : 'L'}${cx(i).toFixed(1)},${y(r).toFixed(1)}`)
+    .join(' ');
   const lineLen = running.reduce(
     (len, r, i) => (i === 0 ? 0 : len + Math.hypot(slot, y(r) - y(running[i - 1]))),
-    0
+    0,
   );
   const draw = useSharedValue(reduced ? 1 : 0);
   useEffect(() => {
     if (!reduced && w > 0) {
-      draw.set(withDelay(GROW_DELAY + trades.length * 90 + 200, withTiming(1, { duration: 700, easing: EASE_OUT })));
+      draw.set(
+        withDelay(
+          GROW_DELAY + trades.length * 90 + 200,
+          withTiming(1, { duration: 700, easing: EASE_OUT }),
+        ),
+      );
     }
     // once the width is known
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -225,8 +236,17 @@ export function RTracker({
       <View onLayout={(e) => setW(e.nativeEvent.layout.width)} style={{ height: H }}>
         {w > 0 ? (
           <Svg width={w} height={H}>
-            <Line x1={0} x2={plotW} y1={zero} y2={zero} stroke={colors.borderStrong} strokeWidth={1} />
-            <SvgText x={plotW + 6} y={zero + 4} fill={colors.textFaint} fontSize={10}>0R</SvgText>
+            <Line
+              x1={0}
+              x2={plotW}
+              y1={zero}
+              y2={zero}
+              stroke={colors.borderStrong}
+              strokeWidth={1}
+            />
+            <SvgText x={plotW + 6} y={zero + 4} fill={colors.textFaint} fontSize={10}>
+              0R
+            </SvgText>
             <Line
               x1={0}
               x2={plotW}
@@ -358,15 +378,7 @@ export function PlanSheet({
   );
 }
 
-function Row({
-  label,
-  value,
-  tint,
-}: {
-  label: string;
-  value: string;
-  tint?: string;
-}) {
+function Row({ label, value, tint }: { label: string; value: string; tint?: string }) {
   return (
     <View style={styles.row}>
       <Text style={styles.rowLabel}>{label}</Text>
@@ -393,7 +405,12 @@ const styles = StyleSheet.create({
     paddingVertical: space.xs,
   },
   cardTitle: { ...type.answer, color: colors.text },
-  tag: { borderWidth: 1, borderRadius: radius.pill, paddingHorizontal: space.sm, paddingVertical: 2 },
+  tag: {
+    borderWidth: 1,
+    borderRadius: radius.pill,
+    paddingHorizontal: space.sm,
+    paddingVertical: 2,
+  },
   tagText: { ...type.small, fontSize: 10 },
   row: {
     flexDirection: 'row',

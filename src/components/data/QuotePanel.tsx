@@ -45,9 +45,7 @@ export default function QuotePanel({
         {cell('spread', 'SPREAD', price(spread))}
         {cell('ask', 'ASK', price(data.ask), 'rgba(240,87,79,0.10)')}
       </View>
-      {data.last !== undefined
-        ? cell('last', 'LAST', price(data.last))
-        : null}
+      {data.last !== undefined ? cell('last', 'LAST', price(data.last)) : null}
     </View>
   );
 }
