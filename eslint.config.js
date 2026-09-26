@@ -8,6 +8,10 @@ module.exports = defineConfig([
     ignores: ['dist/*', 'web-build/*', '.expo/*', 'node_modules/*', '.claude/*', '.agents/*'],
   },
   {
+    files: ['jest/**'],
+    languageOptions: { globals: { jest: 'readonly' } },
+  },
+  {
     // These three rules are written for the React Compiler, which this app does
     // not use. They misread Reanimated's shared values and gesture callbacks as
     // refs read during render. Warnings for now, so they stay visible without
