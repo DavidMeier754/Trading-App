@@ -8,7 +8,11 @@
  * chart reads as quiet. Candles are left alone: their tight intraday ranges are
  * the point of those charts.
  */
-export function floorSpan(kind: string | undefined, lo: number, hi: number): { lo: number; hi: number } {
+export function floorSpan(
+  kind: string | undefined,
+  lo: number,
+  hi: number,
+): { lo: number; hi: number } {
   if (kind === 'candles') return { lo, hi };
   const mid = (lo + hi) / 2;
   const floor = Math.max(0.12, Math.abs(mid) * 0.015);

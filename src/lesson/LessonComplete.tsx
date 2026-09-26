@@ -124,12 +124,17 @@ export default function LessonComplete({
           'worklet';
           if (!finished) return;
           scheduleOnRN(land);
-          swell.set(withSequence(withTiming(1.09, { duration: 110, easing: EASE_OUT }), withSpring(1, SPRING_POP)));
+          swell.set(
+            withSequence(
+              withTiming(1.09, { duration: 110, easing: EASE_OUT }),
+              withSpring(1, SPRING_POP),
+            ),
+          );
           burst.set(withTiming(1, { duration: 1100, easing: EASE_OUT }));
           count.set(withDelay(260, withTiming(1, { duration: 1100, easing: EASE_OUT })));
           rows.set(withDelay(1100, withSpring(1, SPRING_POP)));
-        })
-      )
+        }),
+      ),
     );
   }, [m.reduced, perfect, accuracy, land, title, ring, swell, burst, count, rows]);
 
@@ -141,7 +146,7 @@ export default function LessonComplete({
       if (previous === null || step <= previous || step < 1 || step > RING_STEPS) return;
       scheduleOnRN(onStep, step - 1);
     },
-    [m.reduced, accuracy, onStep]
+    [m.reduced, accuracy, onStep],
   );
 
   // The number reads off its own curve and crosses to React only when the
@@ -151,7 +156,7 @@ export default function LessonComplete({
     (value, previous) => {
       if (value !== previous) scheduleOnRN(onXp, value);
     },
-    [earned, onXp]
+    [earned, onXp],
   );
 
   const ringProps = useAnimatedProps(() => ({
@@ -265,15 +270,7 @@ function useHalo(v: SharedValue<number>, lag: number, color: string) {
   });
 }
 
-function Row({
-  label,
-  value,
-  accent,
-}: {
-  label: string;
-  value: string;
-  accent?: boolean;
-}) {
+function Row({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
     <View style={styles.row}>
       <Text style={styles.rowLabel}>{label}</Text>

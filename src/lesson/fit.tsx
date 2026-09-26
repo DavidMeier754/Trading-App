@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { LayoutChangeEvent, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+  LayoutChangeEvent,
+  ScrollView,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
@@ -100,7 +107,7 @@ export function FitScreen({
       withTiming(target, { duration: reduced ? 0 : FIT_MS, easing: EASE_IN_OUT }, (finished) => {
         'worklet';
         if (finished) scheduleOnRN(done);
-      })
+      }),
     );
   }, [target, reduced]);
 
@@ -112,7 +119,7 @@ export function FitScreen({
         if (Number.isFinite(y)) fitTop.set(y - originY);
       });
     },
-    [originY]
+    [originY],
   );
 
   const style = useAnimatedStyle(() => ({ transform: [{ scale: fitScale.get() }] }));
@@ -228,7 +235,7 @@ function Anchor({
       withTiming(0, { duration: SHIFT_MS, easing: EASE_OUT }, (finished) => {
         'worklet';
         if (finished) scheduleOnRN(bump);
-      })
+      }),
     );
   }, [top, reduced, shift, bump]);
   const shiftStyle = useAnimatedStyle(() => ({ transform: [{ translateY: shift.get() }] }));
@@ -237,7 +244,7 @@ function Anchor({
   // did not cause is a reason to measure again.
   const fitValue = useMemo(
     () => ({ room: parent.room, settled: parent.settled + shifts }),
-    [parent.room, parent.settled, shifts]
+    [parent.room, parent.settled, shifts],
   );
 
   const content = (
@@ -266,7 +273,11 @@ function Anchor({
         <View style={top === null ? styles.spacer : styles.spacerGone} />
         {content}
         <View style={top === null ? styles.spacer : styles.spacerGone} />
-        <View style={top === null && reserve > 0 ? { height: reserve, flexShrink: 1 } : styles.spacerGone} />
+        <View
+          style={
+            top === null && reserve > 0 ? { height: reserve, flexShrink: 1 } : styles.spacerGone
+          }
+        />
       </FitContext.Provider>
     </View>
   );
@@ -346,7 +357,7 @@ export function useChartGaps({
       natural.current = { height: e.nativeEvent.layout.height, gaps: current.current };
       decide();
     },
-    [decide]
+    [decide],
   );
 
   return { gaps, onLayout };

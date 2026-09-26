@@ -80,11 +80,11 @@ export default function Reveal({
     if (!m.reduced) {
       rise.set(withSpring(1, grade === 'correct' ? SPRING_PANEL : SPRING_PANEL_CALM));
       mark.set(
-        withDelay(pulseAt('correct0', 1), withTiming(1, { duration: 260, easing: EASE_OUT }))
+        withDelay(pulseAt('correct0', 1), withTiming(1, { duration: 260, easing: EASE_OUT })),
       );
     }
     words.set(
-      withDelay(m.reduced ? 0 : 120, withTiming(1, { duration: m.fade(380), easing: EASE_OUT }))
+      withDelay(m.reduced ? 0 : 120, withTiming(1, { duration: m.fade(380), easing: EASE_OUT })),
     );
   }, [grade, m, fade, rise, words, mark]);
 

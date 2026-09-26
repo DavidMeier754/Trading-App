@@ -25,7 +25,15 @@ import { LEVEL_TYPE_NAME, LessonEntry, PATHS, TradingPath, levelTypeOf } from '.
 import { isQuestion } from '../types';
 import { EASE_IN_OUT, EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { DAILY_GOAL, doneToday, Hearts, streakDays, useHearts, useProgress, waitText } from '../progress';
+import {
+  DAILY_GOAL,
+  doneToday,
+  Hearts,
+  streakDays,
+  useHearts,
+  useProgress,
+  waitText,
+} from '../progress';
 import { colors, radius, space, type } from '../theme';
 import Icon from './icons';
 import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
@@ -143,7 +151,14 @@ export default function LearnScreen({
       if (expanded.has(ci)) {
         y += NODES_TOP;
         c.levels.forEach((_, li) => {
-          const node = { t: 'node' as const, gi: gi + li, li, ci, x: cxOf(li), y: y + RING / 2 + li * STEP_Y };
+          const node = {
+            t: 'node' as const,
+            gi: gi + li,
+            li,
+            ci,
+            x: cxOf(li),
+            y: y + RING / 2 + li * STEP_Y,
+          };
           out.push(node);
           at[gi + li] = { x: node.x, y: node.y, li };
         });
@@ -207,12 +222,12 @@ export default function LearnScreen({
       scroll.current?.scrollTo({ y: focusY(unlocking - 1), animated: false });
       setTimeout(
         () => scroll.current?.scrollTo({ y: focusY(unlocking), animated: !reduced }),
-        reduced ? 0 : UNLOCK.scroll
+        reduced ? 0 : UNLOCK.scroll,
       );
     },
     // focusY reads the layout of this render
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [nodeAt, hereAt, unlocking, reduced]
+    [nodeAt, hereAt, unlocking, reduced],
   );
 
   useEffect(() => {
@@ -230,14 +245,16 @@ export default function LearnScreen({
     setOpen((prev) => (prev === gi ? null : gi));
     const cardBottom = (nodeAt[gi]?.y ?? 0) + RING / 2 + 16 + CARD_H;
     const overflow = cardBottom - (scrollYRef.current + viewport.current - space.lg);
-    if (overflow > 0) scroll.current?.scrollTo({ y: scrollYRef.current + overflow, animated: true });
+    if (overflow > 0)
+      scroll.current?.scrollTo({ y: scrollYRef.current + overflow, animated: true });
   };
 
   // docs/UI.md §7.1 "jump to current": offered once the level the learner is
   // on is off screen or folded away.
   const hereY = nodeAt[hereAt]?.y;
   const hereVisible =
-    viewH === 0 || (hereY !== undefined && hereY > scrollY - RING / 2 && hereY < scrollY + viewH - RING / 2);
+    viewH === 0 ||
+    (hereY !== undefined && hereY > scrollY - RING / 2 && hereY < scrollY + viewH - RING / 2);
   const jump = () => {
     const ci = chapterOf(hereAt);
     if (!expanded.has(ci)) {
@@ -325,7 +342,7 @@ export default function LearnScreen({
                 room={labelRoom(it.li)}
               />
             </Animated.View>
-          )
+          ),
         )}
         {open !== null && nodeAt[open] ? (
           <>
@@ -395,7 +412,14 @@ function Hud({
       >
         <View style={styles.goal}>
           <Svg width={26} height={26} style={StyleSheet.absoluteFill}>
-            <Circle cx={13} cy={13} r={r} stroke={colors.surfaceAlt} strokeWidth={2.5} fill="none" />
+            <Circle
+              cx={13}
+              cy={13}
+              r={r}
+              stroke={colors.surfaceAlt}
+              strokeWidth={2.5}
+              fill="none"
+            />
             <Circle
               cx={13}
               cy={13}
@@ -424,7 +448,9 @@ function Hud({
       >
         {hearts.nextAt ? <Text style={styles.hudWait}>{waitText(hearts.nextAt)}</Text> : null}
         <Icon name="heart" size={22} color={hearts.hearts > 0 ? colors.down : colors.textFaint} />
-        <Text style={[styles.hudValue, { color: hearts.hearts > 0 ? colors.down : colors.textFaint }]}>
+        <Text
+          style={[styles.hudValue, { color: hearts.hearts > 0 ? colors.down : colors.textFaint }]}
+        >
           {hearts.hearts}
         </Text>
       </View>
@@ -495,7 +521,12 @@ function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
     if (reduced) return;
     t.set(0);
     t.set(withTiming(1, { duration: 420, easing: EASE_OUT }));
-    swell.set(withSequence(withTiming(1, { duration: 140, easing: EASE_OUT }), withTiming(0, { duration: 420, easing: EASE_OUT })));
+    swell.set(
+      withSequence(
+        withTiming(1, { duration: 140, easing: EASE_OUT }),
+        withTiming(0, { duration: 420, easing: EASE_OUT }),
+      ),
+    );
   }, [view.level.key, reduced, t, swell]);
   const words = useAnimatedStyle(() => ({
     opacity: t.get(),
@@ -562,7 +593,13 @@ function ChapterHeader({
   const reduced = useReduceMotion();
   const turn = useSharedValue(expanded ? 1 : 0);
   useEffect(() => {
-    turn.set(reduced ? (expanded ? 1 : 0) : withTiming(expanded ? 1 : 0, { duration: 200, easing: EASE_OUT }));
+    turn.set(
+      reduced
+        ? expanded
+          ? 1
+          : 0
+        : withTiming(expanded ? 1 : 0, { duration: 200, easing: EASE_OUT }),
+    );
   }, [expanded, reduced, turn]);
   const chevron = useAnimatedStyle(() => ({ transform: [{ rotate: `${180 * turn.get()}deg` }] }));
   const press = usePressFeedback(view !== null, { cue: 'tick' });
@@ -583,7 +620,9 @@ function ChapterHeader({
   const share = door ? 0 : view.done / Math.max(1, view.total);
 
   return (
-    <Animated.View style={[styles.chapter, { top, left: space.lg, width: width - space.lg * 2 }, press.style]}>
+    <Animated.View
+      style={[styles.chapter, { top, left: space.lg, width: width - space.lg * 2 }, press.style]}
+    >
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`${kicker}: ${title}. ${meta}`}
@@ -603,7 +642,10 @@ function ChapterHeader({
         </View>
         <View style={styles.chapterText}>
           <Text style={[styles.chapterKicker, done && { color: colors.warning }]}>{kicker}</Text>
-          <Text style={[styles.chapterTitle, locked && { color: colors.textMuted }]} numberOfLines={1}>
+          <Text
+            style={[styles.chapterTitle, locked && { color: colors.textMuted }]}
+            numberOfLines={1}
+          >
             {title}
           </Text>
           <View style={styles.chapterMetaRow}>
@@ -612,7 +654,10 @@ function ChapterHeader({
                 <View
                   style={[
                     styles.chapterFill,
-                    { width: `${share * 100}%`, backgroundColor: done ? colors.warning : colors.accent },
+                    {
+                      width: `${share * 100}%`,
+                      backgroundColor: done ? colors.warning : colors.accent,
+                    },
                   ]}
                 />
               </View>
@@ -677,7 +722,7 @@ function NodeLabel({
   const meta =
     kind === 'path'
       ? chosen
-        ? PATHS.find((p) => p.id === chosen)?.name ?? ''
+        ? (PATHS.find((p) => p.id === chosen)?.name ?? '')
         : 'Pick one of three'
       : kind === 'lesson'
         ? complete
@@ -758,11 +803,16 @@ function Connectors({
   const reduced = useReduceMotion();
   // Drawn only when the level before it sits in the same chapter, on screen.
   const drawable =
-    drawing !== null && !!nodeAt[drawing] && !!nodeAt[drawing - 1] && chapterOf(drawing) === chapterOf(drawing - 1);
+    drawing !== null &&
+    !!nodeAt[drawing] &&
+    !!nodeAt[drawing - 1] &&
+    chapterOf(drawing) === chapterOf(drawing - 1);
   const draw = useSharedValue(drawable && !reduced ? 0 : 1);
   useEffect(() => {
     if (!drawable || reduced) return;
-    draw.set(withDelay(UNLOCK.draw, withTiming(1, { duration: UNLOCK.drawMs, easing: EASE_IN_OUT })));
+    draw.set(
+      withDelay(UNLOCK.draw, withTiming(1, { duration: UNLOCK.drawMs, easing: EASE_IN_OUT })),
+    );
   }, [drawable, reduced, draw]);
   // The lit copy of that one stretch sits in a window that opens downwards.
   const top = drawable ? nodeAt[(drawing as number) - 1].y : 0;
@@ -770,7 +820,12 @@ function Connectors({
   const reveal = useAnimatedStyle(() => ({ height: span * draw.get() }));
 
   const dots: { x: number; y: number; lit: boolean; seg: number }[] = [];
-  const segment = (a: { x: number; y: number }, b: { x: number; y: number }, lit: boolean, seg: number) => {
+  const segment = (
+    a: { x: number; y: number },
+    b: { x: number; y: number },
+    lit: boolean,
+    seg: number,
+  ) => {
     const steps = Math.max(8, Math.round((b.y - a.y) / 12));
     for (let k = 0; k <= steps; k++) {
       const t = k / steps;
@@ -888,7 +943,13 @@ function LevelCard({
   const locked = view.status === 'locked';
   const complete = view.status === 'complete';
   const xp = view.next.level.xp;
-  const tone = locked ? colors.textFaint : complete ? colors.success : kind === 'lesson' ? colors.accent : colors.warning;
+  const tone = locked
+    ? colors.textFaint
+    : complete
+      ? colors.success
+      : kind === 'lesson'
+        ? colors.accent
+        : colors.warning;
   const pathName = PATHS.find((p) => p.id === chosen)?.name;
 
   // docs/UI.md §5.2: with no hearts left a lesson or test cannot start; the
@@ -947,7 +1008,9 @@ function LevelCard({
       : `${nodeName(view)}${complete ? (view.perfect ? ' · Perfect' : kind === 'lesson' ? ' · Done' : ' · Passed') : locked ? ' · Locked' : ''}`;
 
   return (
-    <Animated.View style={[styles.card, { top, left, width: cardW, transformOrigin: 'top' }, enter]}>
+    <Animated.View
+      style={[styles.card, { top, left, width: cardW, transformOrigin: 'top' }, enter]}
+    >
       <View style={[styles.cardPoint, { left: arrowX - left - 8 }]} />
       <Text style={[styles.cardKicker, { color: tone }]}>{kicker}</Text>
       <Text style={styles.cardTitle}>{view.level.title}</Text>
@@ -1018,7 +1081,12 @@ const styles = StyleSheet.create({
   hudItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   hudValue: { fontSize: 17, lineHeight: 22, fontWeight: '800' },
   hudSpacer: { flex: 1 },
-  hudWait: { ...type.small, color: colors.textMuted, fontVariant: ['tabular-nums'], marginRight: 2 },
+  hudWait: {
+    ...type.small,
+    color: colors.textMuted,
+    fontVariant: ['tabular-nums'],
+    marginRight: 2,
+  },
   goal: { width: 26, height: 26, alignItems: 'center', justifyContent: 'center' },
 
   banner: {
@@ -1077,7 +1145,12 @@ const styles = StyleSheet.create({
   },
   chapterBadgeDone: { backgroundColor: colors.warning },
   chapterText: { flex: 1, gap: 1 },
-  chapterKicker: { ...type.small, color: colors.textMuted, textTransform: 'uppercase', letterSpacing: 1 },
+  chapterKicker: {
+    ...type.small,
+    color: colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
   chapterTitle: { fontSize: 17, lineHeight: 22, fontWeight: '800', color: colors.text },
   chapterMetaRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   chapterBar: {
@@ -1107,10 +1180,22 @@ const styles = StyleSheet.create({
   jumpText: { ...type.label, fontSize: 14, color: '#FFFFFF', fontWeight: '700' },
   nodeSlot: { position: 'absolute', width: RING, height: RING },
   label: { position: 'absolute', top: 10, gap: 1 },
-  labelKicker: { ...type.small, color: colors.textFaint, textTransform: 'uppercase', letterSpacing: 0.8 },
+  labelKicker: {
+    ...type.small,
+    color: colors.textFaint,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+  },
   // Clipped to nothing, so the measuring copy is laid out but never seen and
   // never widens the map.
-  kickerProbeClip: { position: 'absolute', left: 0, top: 0, width: 0, height: 0, overflow: 'hidden' },
+  kickerProbeClip: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0,
+    overflow: 'hidden',
+  },
   kickerProbe: { position: 'absolute', left: 0, top: 0, width: 400, flexDirection: 'row' },
   labelTitle: { fontSize: 15, lineHeight: 19, fontWeight: '700', color: colors.text },
   labelMeta: { ...type.small, color: colors.textMuted },
@@ -1168,6 +1253,10 @@ const styles = StyleSheet.create({
     gap: space.sm,
   },
   cardButtonQuiet: { backgroundColor: colors.surfaceAlt, borderWidth: 1.5, borderColor: '#3A4553' },
-  cardButtonEmpty: { backgroundColor: colors.surfaceAlt, borderWidth: 1.5, borderColor: colors.border },
+  cardButtonEmpty: {
+    backgroundColor: colors.surfaceAlt,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+  },
   cardButtonText: { ...type.prompt, fontSize: 17, color: '#FFFFFF' },
 });

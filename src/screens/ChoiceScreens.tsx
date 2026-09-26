@@ -54,15 +54,27 @@ export function FillChoiceScreen({
   return (
     <View style={styles.wrap}>
       <View style={styles.sentence}>
-        {before.trim().split(/\s+/).filter(Boolean).map((w, i) => (
-          <Text key={`b${i}`} style={styles.sentenceText}>{w}</Text>
-        ))}
+        {before
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((w, i) => (
+            <Text key={`b${i}`} style={styles.sentenceText}>
+              {w}
+            </Text>
+          ))}
         <View style={[styles.blank, filled && styles.blankFilled]}>
           <Text style={styles.blankText}>{filled ?? '      '}</Text>
         </View>
-        {after.trim().split(/\s+/).filter(Boolean).map((w, i) => (
-          <Text key={`a${i}`} style={styles.sentenceText}>{w}</Text>
-        ))}
+        {after
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((w, i) => (
+            <Text key={`a${i}`} style={styles.sentenceText}>
+              {w}
+            </Text>
+          ))}
       </View>
 
       <View style={styles.chips}>
@@ -150,33 +162,38 @@ export function SortScreen({
               <Text style={[styles.chipText, styles.ghostText]}>{copy(item.text)}</Text>
             </View>
           ) : (
-          <DragChip
-            key={item.text}
-            disabled={revealed}
-            bucketRefs={bucketRefs}
-            hover={hover}
-            dragging={dragging}
-            onDrop={(b) => put(i, screen.buckets[b])}
-          >
-            <ToneSurface
-              tone={pending === i ? 'selected' : 'idle'}
+            <DragChip
+              key={item.text}
               disabled={revealed}
-              onPress={() => {
-                if (dragging.current) return;
-                setPending((p) => (p === i ? null : i));
-              }}
-              style={styles.chip}
+              bucketRefs={bucketRefs}
+              hover={hover}
+              dragging={dragging}
+              onDrop={(b) => put(i, screen.buckets[b])}
             >
-              <Text style={styles.chipText}>{copy(item.text)}</Text>
-            </ToneSurface>
-          </DragChip>
-          )
+              <ToneSurface
+                tone={pending === i ? 'selected' : 'idle'}
+                disabled={revealed}
+                onPress={() => {
+                  if (dragging.current) return;
+                  setPending((p) => (p === i ? null : i));
+                }}
+                style={styles.chip}
+              >
+                <Text style={styles.chipText}>{copy(item.text)}</Text>
+              </ToneSurface>
+            </DragChip>
+          ),
         )}
       </View>
 
       <View style={styles.buckets}>
         {screen.buckets.map((bucket, b) => (
-          <Animated.View key={bucket} ref={bucketRefs[b]} style={styles.bucketSlot} collapsable={false}>
+          <Animated.View
+            key={bucket}
+            ref={bucketRefs[b]}
+            style={styles.bucketSlot}
+            collapsable={false}
+          >
             <View style={[styles.bucket, pending !== null && !revealed && styles.bucketOpen]}>
               {/* The whole bucket takes a pending chip -- a tap on a chip
                   already in it included, or a full bucket would have no room
@@ -193,7 +210,9 @@ export function SortScreen({
                 style={StyleSheet.absoluteFill}
               />
               <BucketGlow index={b} hover={hover} color={accent} />
-              <Text style={styles.bucketTitle} pointerEvents="none">{copy(bucket)}</Text>
+              <Text style={styles.bucketTitle} pointerEvents="none">
+                {copy(bucket)}
+              </Text>
               <View style={styles.bucketItems} pointerEvents="box-none">
                 {inBucket(bucket).map((i) => {
                   const item = screen.items[i];
@@ -316,7 +335,15 @@ function DragChip({
 }
 
 /** The bucket under a dragged chip, lit. */
-function BucketGlow({ index, hover, color }: { index: number; hover: SharedValue<number>; color: string }) {
+function BucketGlow({
+  index,
+  hover,
+  color,
+}: {
+  index: number;
+  hover: SharedValue<number>;
+  color: string;
+}) {
   const style = useAnimatedStyle(() => ({ opacity: hover.get() === index ? 1 : 0 }));
   return (
     <Animated.View
@@ -357,7 +384,9 @@ export function OrderScreen({
             return (
               <View key={`empty-${position}`} style={styles.slotEmpty}>
                 <Text style={styles.slotHint}>
-                  {position === order.length && !revealed ? `${position + 1}. tap a card below` : `${position + 1}.`}
+                  {position === order.length && !revealed
+                    ? `${position + 1}. tap a card below`
+                    : `${position + 1}.`}
                 </Text>
               </View>
             );
@@ -400,7 +429,7 @@ export function OrderScreen({
             >
               <Text style={styles.chipText}>{copy(text)}</Text>
             </ToneSurface>
-          )
+          ),
         )}
       </View>
     </View>
@@ -455,7 +484,13 @@ export { AnswerCard };
 
 const styles = StyleSheet.create({
   wrap: { gap: space.lg },
-  sentence: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6, rowGap: space.sm },
+  sentence: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: 6,
+    rowGap: space.sm,
+  },
   sentenceText: { ...type.prompt, color: colors.text },
   blank: {
     minWidth: 92,
@@ -517,7 +552,13 @@ const styles = StyleSheet.create({
   bucketTitle: { ...type.small, color: colors.textMuted },
   bucketItems: { gap: space.xs },
   slots: { gap: space.sm },
-  slotRow: { flexDirection: 'row', alignItems: 'center', minHeight: TAP_TARGET, paddingHorizontal: space.md, gap: space.md },
+  slotRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    minHeight: TAP_TARGET,
+    paddingHorizontal: space.md,
+    gap: space.md,
+  },
   slotNum: { ...type.answer, color: colors.accent, width: 18 },
   slotText: { ...type.answer, color: colors.text, flex: 1 },
   slotEmpty: {

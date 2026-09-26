@@ -34,11 +34,7 @@ export default function FillTilesScreen({
   const word = placed.map((i) => pool[i]).join('');
   const isRight = word === screen.answer.toUpperCase();
 
-  const slotColor = !revealed
-    ? colors.accent
-    : isRight
-      ? colors.success
-      : colors.down;
+  const slotColor = !revealed ? colors.accent : isRight ? colors.success : colors.down;
 
   // docs/UI.md §5.1: the blank ramps to its verdict colour over 200 ms.
   const animatedSlot = useBorderTransition(slotColor, revealed);
@@ -48,7 +44,9 @@ export default function FillTilesScreen({
   const blank = (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={word ? `Your word, ${word}. Tap to take back the last letter` : 'The blank'}
+      accessibilityLabel={
+        word ? `Your word, ${word}. Tap to take back the last letter` : 'The blank'
+      }
       disabled={revealed || placed.length === 0}
       onPress={() => {
         tapFeedback();
@@ -61,7 +59,9 @@ export default function FillTilesScreen({
         <Text style={[styles.blankText, styles.sizer]} aria-hidden>
           {screen.answer.toUpperCase()}
         </Text>
-        <Text style={[styles.blankText, styles.typed, { color: revealed ? slotColor : colors.text }]}>
+        <Text
+          style={[styles.blankText, styles.typed, { color: revealed ? slotColor : colors.text }]}
+        >
           {word || ' '}
         </Text>
       </Animated.View>
@@ -137,10 +137,7 @@ export default function FillTilesScreen({
         hitSlop={8}
       >
         <Text
-          style={[
-            styles.undo,
-            (revealed || placed.length === 0) && { color: colors.textFaint },
-          ]}
+          style={[styles.undo, (revealed || placed.length === 0) && { color: colors.textFaint }]}
         >
           Undo last letter
         </Text>
@@ -182,7 +179,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  tileUsed: { backgroundColor: colors.surfaceAlt, borderColor: colors.border, borderStyle: 'dashed' },
+  tileUsed: {
+    backgroundColor: colors.surfaceAlt,
+    borderColor: colors.border,
+    borderStyle: 'dashed',
+  },
   tileTextUsed: { color: colors.textFaint },
   tileText: { ...type.prompt, color: colors.text },
   undo: { ...type.label, color: colors.accent },

@@ -15,9 +15,21 @@ export default function SessionRibbon({
 }) {
   const accent = useLookSpec().accent;
   const segments = [
-    { key: 'premarket', label: 'Pre-market', value: data.premarket, flex: 3, tint: colors.surfaceAlt },
+    {
+      key: 'premarket',
+      label: 'Pre-market',
+      value: data.premarket,
+      flex: 3,
+      tint: colors.surfaceAlt,
+    },
     { key: 'regular', label: 'Regular', value: data.regular, flex: 5, tint: accent },
-    { key: 'afterhours', label: 'After-hours', value: data.afterhours, flex: 3, tint: colors.surfaceAlt },
+    {
+      key: 'afterhours',
+      label: 'After-hours',
+      value: data.afterhours,
+      flex: 3,
+      tint: colors.surfaceAlt,
+    },
   ].filter((s) => s.value);
 
   return (
@@ -44,9 +56,7 @@ export default function SessionRibbon({
           </Text>
         ))}
       </View>
-      {data.timezone ? (
-        <Text style={styles.tz}>{copy(data.timezone)}</Text>
-      ) : null}
+      {data.timezone ? <Text style={styles.tz}>{copy(data.timezone)}</Text> : null}
     </View>
   );
 }

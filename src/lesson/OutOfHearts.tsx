@@ -73,14 +73,16 @@ export default function OutOfHearts() {
       </Animated.View>
       <Animated.View style={[styles.text, text]}>
         <Text style={styles.title} accessibilityRole="header">
-          You're out of hearts
+          {"You're out of hearts"}
         </Text>
         <Text style={styles.body}>
           {`A heart comes back ${HOURS} hours after you lose it. ${
             nextAt ? `The next one is back in ${waitText(nextAt)}.` : 'One is back already.'
           }`}
         </Text>
-        <Text style={styles.note}>This lesson is not counted yet. Start it again from the path.</Text>
+        <Text style={styles.note}>
+          This lesson is not counted yet. Start it again from the path.
+        </Text>
       </Animated.View>
     </View>
   );

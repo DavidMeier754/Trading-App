@@ -76,7 +76,14 @@ function Ring({ value, passed }: { value: number; passed: boolean }) {
   return (
     <View style={{ width: size, height: size }}>
       <Svg width={size} height={size}>
-        <Circle cx={size / 2} cy={size / 2} r={r} stroke={colors.surfaceAlt} strokeWidth={stroke} fill="none" />
+        <Circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          stroke={colors.surfaceAlt}
+          strokeWidth={stroke}
+          fill="none"
+        />
         {/* The pass mark, a tick on the track at 70 %. */}
         <Circle
           cx={size / 2}
@@ -182,7 +189,10 @@ export default function Summary({
               <View style={styles.rowHead}>
                 <Text style={styles.rowNum}>{k + 1}</Text>
                 <View style={[styles.dot, { backgroundColor: DOT[g] }]} />
-                <Text style={[styles.rowLabel, !passed && g === 'wrong' && styles.rowMissed]} numberOfLines={open ? 3 : 1}>
+                <Text
+                  style={[styles.rowLabel, !passed && g === 'wrong' && styles.rowMissed]}
+                  numberOfLines={open ? 3 : 1}
+                >
                   {lineOf(screen)}
                 </Text>
               </View>
@@ -226,7 +236,13 @@ const styles = StyleSheet.create({
   row: { paddingHorizontal: space.md, paddingVertical: 7, gap: 4 },
   rowRule: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border },
   rowHead: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
-  rowNum: { ...type.small, color: colors.textFaint, width: 16, textAlign: 'right', fontVariant: ['tabular-nums'] },
+  rowNum: {
+    ...type.small,
+    color: colors.textFaint,
+    width: 16,
+    textAlign: 'right',
+    fontVariant: ['tabular-nums'],
+  },
   dot: { width: 9, height: 9, borderRadius: 5 },
   rowLabel: { ...type.small, fontSize: 13, color: colors.textMuted, flex: 1 },
   rowMissed: { color: colors.text },

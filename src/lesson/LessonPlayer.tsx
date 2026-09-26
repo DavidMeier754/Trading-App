@@ -10,9 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import DecisionButtons, { DECISION_LABEL } from '../components/DecisionButtons';
-import ChartDecisionScreen, {
-  DecisionPhase,
-} from '../screens/ChartDecisionScreen';
+import ChartDecisionScreen, { DecisionPhase } from '../screens/ChartDecisionScreen';
 import ChartAnnotateScreen from '../screens/ChartAnnotateScreen';
 import ChartReplayScreen from '../screens/ChartReplayScreen';
 import {
@@ -136,13 +134,11 @@ export default function LessonPlayer({
   const [deckSeed] = useState(() => Math.floor(Math.random() * 2 ** 31));
   const screens = useMemo(
     () => level.screens.map((s, i) => dealScreen(s, deckSeed + runKey * 7919 + i * 104729)),
-    [level.screens, deckSeed, runKey]
+    [level.screens, deckSeed, runKey],
   );
 
   const [index, setIndex] = useState(() => Math.max(0, Math.min(startAt, screens.length - 1)));
-  const [values, setValues] = useState<(AnswerValue | null)[]>(() =>
-    screens.map(emptyValue)
-  );
+  const [values, setValues] = useState<(AnswerValue | null)[]>(() => screens.map(emptyValue));
   const [revealed, setRevealed] = useState<boolean[]>(() => screens.map(() => false));
   const [grades, setGrades] = useState<(Grade | null)[]>(() => screens.map(() => null));
   // The run of right answers each reveal ended on (feedback.ts, streakAfter).
@@ -161,7 +157,7 @@ export default function LessonPlayer({
   // holds overnight should never stand between the learner and their path.
   const spendsHearts = !testBench && kind !== 'path';
   const [outOfHearts, setOutOfHearts] = useState(
-    () => spendsHearts && heartsNow(getProgress()).hearts === 0
+    () => spendsHearts && heartsNow(getProgress()).hearts === 0,
   );
   // docs/UI.md §5.4: on a badge or a tier the CTA comes last. The screen says
   // when its sequence is done, and the CTA is held until then.
@@ -211,14 +207,12 @@ export default function LessonPlayer({
     exit.set(
       withTiming(1, { duration: m.reduced ? 180 : 260, easing: EASE_OUT }, (done) => {
         if (done) scheduleOnRN(onQuit);
-      })
+      }),
     );
   }, [onQuit, exit, m.reduced]);
   const exitStyle = useAnimatedStyle(() => ({
     opacity: 1 - exit.get(),
-    transform: m.reduced
-      ? []
-      : [{ translateY: 18 * exit.get() }, { scale: 1 - 0.03 * exit.get() }],
+    transform: m.reduced ? [] : [{ translateY: 18 * exit.get() }, { scale: 1 - 0.03 * exit.get() }],
   }));
 
   // Android's back button asks before leaving, as the ✕ does, and closes the
@@ -247,7 +241,7 @@ export default function LessonPlayer({
   const decisionPhase: DecisionPhase = phaseAt.index === index ? phaseAt.phase : 'deciding';
   const setDecisionPhase = useCallback(
     (phase: DecisionPhase) => setPhaseAt({ index, phase }),
-    [index]
+    [index],
   );
   const value = atSummary ? null : values[index];
   const isRevealed = atSummary ? false : revealed[index];
@@ -329,10 +323,7 @@ export default function LessonPlayer({
   const depth = spec.depth && !m.reduced ? 0.035 : 0;
   const screenStyle = useAnimatedStyle(() => ({
     opacity: fade.get(),
-    transform: [
-      { translateX: slide.get() },
-      { scale: 1 - depth * (1 - fade.get()) },
-    ],
+    transform: [{ translateX: slide.get() }, { scale: 1 - depth * (1 - fade.get()) }],
   }));
 
   const advance = () => {
@@ -384,7 +375,18 @@ export default function LessonPlayer({
     if (!isQuestion(screen)) return isLast ? 'Finish' : 'Continue';
     if (!isRevealed) return 'Check';
     return isLast ? 'Finish' : 'Got it';
-  }, [screen, isLast, isRevealed, cursor, onComplete, outOfHearts, failedTest, kind, pathName, scored]);
+  }, [
+    screen,
+    isLast,
+    isRevealed,
+    cursor,
+    onComplete,
+    outOfHearts,
+    failedTest,
+    kind,
+    pathName,
+    scored,
+  ]);
 
   // A type that commits on tap has no Check state, so before the reveal there is
   // simply no CTA to show — the answer itself is the button.
@@ -397,8 +399,7 @@ export default function LessonPlayer({
   // keeping its height means the chart does not drop the moment it starts.
   const showDecisionButtons =
     !outOfHearts && !!screen && screen.type === 'chart-decision' && !isRevealed;
-  const chosenDecision =
-    value && value.kind === 'decision' ? value.choice : null;
+  const chosenDecision = value && value.kind === 'decision' ? value.choice : null;
 
   const onSettled = useCallback(() => setSettledAt(index), [index]);
   const held =
@@ -409,13 +410,14 @@ export default function LessonPlayer({
   // One press, one cue. Check fires nothing on the way down: the verdict is its
   // sound, on release. A checklist's CTA reveals the next item, which rings its
   // own note. Everything else that moves the lesson on steps forward.
-  const ctaCue: CueName | null = !screen || outOfHearts
-    ? 'advance'
-    : screen.type === 'checklist-reveal' && cursor < screen.items.length
-      ? null
-      : isQuestion(screen) && !isRevealed
+  const ctaCue: CueName | null =
+    !screen || outOfHearts
+      ? 'advance'
+      : screen.type === 'checklist-reveal' && cursor < screen.items.length
         ? null
-        : 'advance';
+        : isQuestion(screen) && !isRevealed
+          ? null
+          : 'advance';
 
   const ctaDisabled =
     !outOfHearts &&
@@ -423,9 +425,9 @@ export default function LessonPlayer({
       isQuestion(screen) &&
       !isRevealed &&
       !(value && canCheck(screen as QuestionScreen, value))) ||
-    (screen?.type === 'path-choice' && pathChoice === null) ||
-    // A plan card is filled in before it is kept: every line, or no button.
-    (screen?.type === 'plan-card' && !planCardComplete(screen, plan)));
+      (screen?.type === 'path-choice' && pathChoice === null) ||
+      // A plan card is filled in before it is kept: every line, or no button.
+      (screen?.type === 'plan-card' && !planCardComplete(screen, plan)));
 
   /** How many sub-steps a screen has, for the types that count as several. */
   const stepCount = (s: Screen | null): number => {
@@ -513,8 +515,7 @@ export default function LessonPlayer({
 
   const progress = atSummary
     ? 1
-    : (index + (stepCount(screen) > 1 ? cursor / stepCount(screen) : 0)) /
-      screens.length;
+    : (index + (stepCount(screen) > 1 ? cursor / stepCount(screen) : 0)) / screens.length;
 
   return (
     <Animated.View style={[styles.root, exitStyle]}>
@@ -567,40 +568,40 @@ export default function LessonPlayer({
           anchor={!outOfHearts && screen?.type === 'chart-decision' ? 'fill' : 'center'}
           reserve={!outOfHearts && screen && isQuestion(screen) ? revealRoom : 0}
         >
-        <VerdictProvider value={verdict}>
-        {outOfHearts ? (
-          <OutOfHearts />
-        ) : atSummary ? (
-          <LessonComplete
-            screens={screens}
-            grades={grades}
-            levelTitle={level.title}
-            xp={level.xp}
-          />
-        ) : (
-          renderScreen({
-            screen: screen as Screen,
-            value: value as AnswerValue,
-            setValue,
-            isRevealed,
-            contentWidth,
-            level,
-            onPhaseChange: setDecisionPhase,
-            cursor,
-            setCursor,
-            plan,
-            setPlanValue: (key, v) => {
-              setPlan((prev) => ({ ...prev, [key]: v }));
-              if (spendsHearts) savePlan({ [key]: v });
-            },
-            pathChoice,
-            setPathChoice,
-            onSettled,
-            allScreens: screens,
-            grades,
-          })
-        )}
-        </VerdictProvider>
+          <VerdictProvider value={verdict}>
+            {outOfHearts ? (
+              <OutOfHearts />
+            ) : atSummary ? (
+              <LessonComplete
+                screens={screens}
+                grades={grades}
+                levelTitle={level.title}
+                xp={level.xp}
+              />
+            ) : (
+              renderScreen({
+                screen: screen as Screen,
+                value: value as AnswerValue,
+                setValue,
+                isRevealed,
+                contentWidth,
+                level,
+                onPhaseChange: setDecisionPhase,
+                cursor,
+                setCursor,
+                plan,
+                setPlanValue: (key, v) => {
+                  setPlan((prev) => ({ ...prev, [key]: v }));
+                  if (spendsHearts) savePlan({ [key]: v });
+                },
+                pathChoice,
+                setPathChoice,
+                onSettled,
+                allScreens: screens,
+                grades,
+              })
+            )}
+          </VerdictProvider>
         </FitScreen>
       </Animated.View>
 
@@ -737,11 +738,7 @@ function renderScreen(props: {
   switch (screen.type) {
     case 'intro':
       return (
-        <IntroScreen
-          screen={screen}
-          levelTitle={level.title}
-          chapterTitle={level.chapter_title}
-        />
+        <IntroScreen screen={screen} levelTitle={level.title} chapterTitle={level.chapter_title} />
       );
     case 'theory':
       return <TheoryScreen screen={screen} width={contentWidth} />;
@@ -749,40 +746,16 @@ function renderScreen(props: {
       return <ExampleScreen screen={screen} width={contentWidth} />;
     case 'mc':
     case 'numeric-mc':
-      return (
-        <McScreen
-          screen={screen}
-          value={value}
-          onChange={setValue}
-          revealed={isRevealed}
-        />
-      );
+      return <McScreen screen={screen} value={value} onChange={setValue} revealed={isRevealed} />;
     case 'tf':
-      return (
-        <TfScreen
-          screen={screen}
-          value={value}
-          onChange={setValue}
-          revealed={isRevealed}
-        />
-      );
+      return <TfScreen screen={screen} value={value} onChange={setValue} revealed={isRevealed} />;
     case 'fill-tiles':
       return (
-        <FillTilesScreen
-          screen={screen}
-          value={value}
-          onChange={setValue}
-          revealed={isRevealed}
-        />
+        <FillTilesScreen screen={screen} value={value} onChange={setValue} revealed={isRevealed} />
       );
     case 'match':
       return (
-        <MatchScreen
-          screen={screen}
-          value={value}
-          onChange={setValue}
-          revealed={isRevealed}
-        />
+        <MatchScreen screen={screen} value={value} onChange={setValue} revealed={isRevealed} />
       );
     case 'numeric-input':
       return (
@@ -831,14 +804,14 @@ function renderScreen(props: {
     case 'tier-up':
       return <TierUpScreen screen={screen} onSettled={onSettled} />;
     case 'path-choice':
-      return (
-        <PathChoiceScreen screen={screen} value={pathChoice} onChange={setPathChoice} />
-      );
+      return <PathChoiceScreen screen={screen} value={pathChoice} onChange={setPathChoice} />;
     case 'summary':
       // docs/schema.md keeps `summary` for tests and final exams, where a pass
       // mark and a retry make the per-question list mean something. A lesson
       // ends on LessonComplete instead.
-      return <Summary screens={allScreens} grades={grades} levelTitle={level.title} xp={level.xp} />;
+      return (
+        <Summary screens={allScreens} grades={grades} levelTitle={level.title} xp={level.xp} />
+      );
 
     // --- docs/UI.md §4.1, the remaining v2 question types ---
     case 'fill-choice':
@@ -892,7 +865,13 @@ const styles = StyleSheet.create({
     paddingBottom: space.md,
   },
   close: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
-  backText: { fontSize: 30, lineHeight: 32, fontWeight: '500', color: colors.textMuted, marginTop: -3 },
+  backText: {
+    fontSize: 30,
+    lineHeight: 32,
+    fontWeight: '500',
+    color: colors.textMuted,
+    marginTop: -3,
+  },
   backOff: { opacity: 0.25 },
   streakSlot: { minWidth: 32, alignItems: 'flex-end' },
   // Tabular figures, so "9/49" to "10/49" does not nudge the bar.

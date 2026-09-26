@@ -44,8 +44,8 @@ export default function HeartMeter() {
       kick.set(
         withSequence(
           withTiming(0.7, { duration: 90, easing: EASE_OUT }),
-          withSpring(1, SPRING_POP)
-        )
+          withSpring(1, SPRING_POP),
+        ),
       );
       fall.set(0);
       fall.set(withTiming(1, { duration: FALL_MS, easing: EASE_OUT }));
@@ -92,7 +92,13 @@ export default function HeartMeter() {
 
 const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', alignItems: 'center', gap: 3 },
-  count: { ...type.label, fontSize: 16, lineHeight: 20, fontWeight: '800', fontVariant: ['tabular-nums'] },
+  count: {
+    ...type.label,
+    fontSize: 16,
+    lineHeight: 20,
+    fontWeight: '800',
+    fontVariant: ['tabular-nums'],
+  },
   countBig: { fontSize: 18, lineHeight: 22 },
   // Terminal: a readout, like its streak count.
   mono: { ...type.mono, fontSize: 15, fontFamily: 'monospace', fontWeight: '700' },

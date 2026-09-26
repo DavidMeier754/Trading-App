@@ -59,15 +59,13 @@ export default function OrderTicket({
         {field(
           'price',
           'Limit price',
-          typeof data.price === 'number' ? price(data.price) : (data.price ?? '—')
+          typeof data.price === 'number' ? price(data.price) : (data.price ?? '—'),
         )}
         {data.stop_price !== undefined
           ? field(
               'stop_price',
               'Stop price',
-              typeof data.stop_price === 'number'
-                ? price(data.stop_price)
-                : data.stop_price
+              typeof data.stop_price === 'number' ? price(data.stop_price) : data.stop_price,
             )
           : null}
       </View>

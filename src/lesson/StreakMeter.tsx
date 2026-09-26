@@ -33,7 +33,12 @@ export default function StreakMeter({ run }: { run: number }) {
   useEffect(() => {
     on.set(withTiming(shown ? 1 : 0, { duration: shown ? 260 : 420, easing: EASE_OUT }));
     if (run > last.current && shown && !reduced) {
-      kick.set(withSequence(withTiming(1.35, { duration: 110, easing: EASE_OUT }), withSpring(1, SPRING_POP)));
+      kick.set(
+        withSequence(
+          withTiming(1.35, { duration: 110, easing: EASE_OUT }),
+          withSpring(1, SPRING_POP),
+        ),
+      );
     }
     last.current = run;
   }, [run, shown, reduced, on, kick]);
@@ -64,7 +69,9 @@ export default function StreakMeter({ run }: { run: number }) {
           fill={tint}
         />
       </Svg>
-      <Text style={[styles.count, big && styles.countBig, { color: tint }]}>{Math.max(run, 2)}</Text>
+      <Text style={[styles.count, big && styles.countBig, { color: tint }]}>
+        {Math.max(run, 2)}
+      </Text>
     </Animated.View>
   );
 }

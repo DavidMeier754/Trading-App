@@ -149,14 +149,66 @@ export const PATHS: { id: TradingPath; name: string; written: boolean }[] = [
 ];
 
 const chapterOne = [
-  c1_011, c1_012, c1_013, c1_014, c1_021, c1_022, c1_023, c1_031, c1_032, c1_033, c1_041,
-  c1_042, c1_043, c1_044, c1_051, c1_061, c1_062, c1_063, c1_071, c1_072, c1_073, c1_074,
-  c1_081, c1_082, c1_083, c1_091, c1_092, c1_101, c1_102, c1_103, c1_111, c1_121, c1_122,
-  c1_123, c1_131, c1_132, c1_133, c1_134, c1_141, c1_142, c1_143, c1_151, c1_152, c1_153,
-  c1_161, c1_162, c1_171, c1_172,
+  c1_011,
+  c1_012,
+  c1_013,
+  c1_014,
+  c1_021,
+  c1_022,
+  c1_023,
+  c1_031,
+  c1_032,
+  c1_033,
+  c1_041,
+  c1_042,
+  c1_043,
+  c1_044,
+  c1_051,
+  c1_061,
+  c1_062,
+  c1_063,
+  c1_071,
+  c1_072,
+  c1_073,
+  c1_074,
+  c1_081,
+  c1_082,
+  c1_083,
+  c1_091,
+  c1_092,
+  c1_101,
+  c1_102,
+  c1_103,
+  c1_111,
+  c1_121,
+  c1_122,
+  c1_123,
+  c1_131,
+  c1_132,
+  c1_133,
+  c1_134,
+  c1_141,
+  c1_142,
+  c1_143,
+  c1_151,
+  c1_152,
+  c1_153,
+  c1_161,
+  c1_162,
+  c1_171,
+  c1_172,
 ].map((file) => file as unknown as Level);
 const scalpingTwo = [
-  s2_011, s2_012, s2_013, s2_014, s2_021, s2_022, s2_023, s2_031, s2_032, s2_033,
+  s2_011,
+  s2_012,
+  s2_013,
+  s2_014,
+  s2_021,
+  s2_022,
+  s2_023,
+  s2_031,
+  s2_032,
+  s2_033,
 ].map((file) => file as unknown as Level);
 
 /** The id a sub-level is saved and linked under. Chapter 1 keeps its first, short form. */
@@ -222,7 +274,9 @@ function chapterFrom(files: Level[], planned: number): Chapter {
       chapter: files[0].chapter,
       chapterTitle: files[0].chapter_title,
       kind: 'path',
-      subs: [{ id: PATH_CHOICE_ID, title: 'Choose Your Path', subtitle: 'Your path', level: pathChoice }],
+      subs: [
+        { id: PATH_CHOICE_ID, title: 'Choose Your Path', subtitle: 'Your path', level: pathChoice },
+      ],
     });
   }
   return {
@@ -282,7 +336,7 @@ export const LESSONS: LessonEntry[] = [
 /** The node a lesson belongs to. */
 export function nodeOf(entryIdToFind: string): PathLevel | undefined {
   return levelsOf([CHAPTER_ONE, ...Object.values(PATH_CHAPTERS).flat()]).find((l) =>
-    l.subs.some((s) => s.id === entryIdToFind)
+    l.subs.some((s) => s.id === entryIdToFind),
   );
 }
 
@@ -293,14 +347,17 @@ export function nodeOf(entryIdToFind: string): PathLevel | undefined {
  */
 export function sourceCardOf(
   from: Level,
-  id: string
+  id: string,
 ): { title: string; body: string; lesson: string } | null {
   const entry = LESSONS.find(
-    (e) => !e.testBench && e.level.id === id && e.level.chapter === from.chapter && e.level.path === from.path
+    (e) =>
+      !e.testBench &&
+      e.level.id === id &&
+      e.level.chapter === from.chapter &&
+      e.level.path === from.path,
   );
   const card = entry?.level.screens.find((s) => s.type === 'theory') as
-    | { title: string; body: string }
-    | undefined;
+    { title: string; body: string } | undefined;
   return entry && card ? { title: card.title, body: card.body, lesson: entry.subtitle } : null;
 }
 

@@ -65,7 +65,7 @@ export default function MiniChart({
   let { lo, hi } = floorSpan(
     spec.kind,
     Math.min(...lows, ...levels.map((l) => l.price), ...range),
-    Math.max(...highs, ...levels.map((l) => l.price), ...range)
+    Math.max(...highs, ...levels.map((l) => l.price), ...range),
   );
   const span = hi - lo || 1;
   lo -= span * 0.12;
@@ -89,8 +89,10 @@ export default function MiniChart({
   const reduced = useReduceMotion();
   useChartMove(
     ENTRY_DELAY +
-      (isCandles ? (n - 1) * stagger + BUILD_MS * EASE_OUT_SETTLE : DURATION.draw * EASE_OUT_SETTLE),
-    !reduced && n > 0
+      (isCandles
+        ? (n - 1) * stagger + BUILD_MS * EASE_OUT_SETTLE
+        : DURATION.draw * EASE_OUT_SETTLE),
+    !reduced && n > 0,
   );
   const overlay = useEntrance(true, ENTRY_DELAY + n * stagger * 0.7, 480);
 
@@ -177,7 +179,12 @@ export default function MiniChart({
         )}
         {showPrice && !isCandles && shown > 0 ? (
           <AnimatedG animatedProps={levelProps}>
-            <Circle cx={cx(shown - 1)} cy={y(rows[shown - 1] as number)} r={3} fill={look.chartLine} />
+            <Circle
+              cx={cx(shown - 1)}
+              cy={y(rows[shown - 1] as number)}
+              r={3}
+              fill={look.chartLine}
+            />
             <SvgText
               x={Math.min(cx(shown - 1) + 6, width - 4)}
               y={y(rows[shown - 1] as number) - 7}

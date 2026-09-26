@@ -17,8 +17,6 @@
       "bundler": "metro",
       "output": "single"
     },
-    "plugins": [
-      "expo-status-bar"
-    ]
+    "plugins": ["expo-status-bar"]
   }
 }

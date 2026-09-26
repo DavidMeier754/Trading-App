@@ -38,13 +38,7 @@ const TYPE_MS = 36;
  * not from a timer that guesses when that is. The second ring leaves on the
  * cue's second pulse, read from the cue table.
  */
-export function BadgeScreen({
-  screen,
-  onSettled,
-}: {
-  screen: Badge;
-  onSettled: () => void;
-}) {
+export function BadgeScreen({ screen, onSettled }: { screen: Badge; onSettled: () => void }) {
   const m = useMotion();
   const name = copy(screen.name);
   const drop = useSharedValue(m.reduced ? 1 : 0);
@@ -72,20 +66,29 @@ export function BadgeScreen({
         'worklet';
         if (!finished) return;
         scheduleOnRN(landed);
-        squash.set(withSequence(withTiming(0.86, { duration: 70, easing: EASE_OUT }), withSpring(1, SPRING_POP)));
+        squash.set(
+          withSequence(
+            withTiming(0.86, { duration: 70, easing: EASE_OUT }),
+            withSpring(1, SPRING_POP),
+          ),
+        );
         ring1.set(withTiming(1, { duration: 1000, easing: EASE_OUT }));
-        ring2.set(withDelay(pulseAt('badge', 1), withTiming(1, { duration: 1100, easing: EASE_OUT })));
-        typed.set(withDelay(360, withTiming(name.length, { duration: typing, easing: Easing.linear })));
+        ring2.set(
+          withDelay(pulseAt('badge', 1), withTiming(1, { duration: 1100, easing: EASE_OUT })),
+        );
+        typed.set(
+          withDelay(360, withTiming(name.length, { duration: typing, easing: Easing.linear })),
+        );
         unlock.set(
           withDelay(
             360 + typing + 260,
             withTiming(1, { duration: 420, easing: EASE_OUT }, (done) => {
               'worklet';
               if (done) scheduleOnRN(unlocked);
-            })
-          )
+            }),
+          ),
         );
-      })
+      }),
     );
   }, [m.reduced, name, landed, unlocked, onSettled, drop, squash, ring1, ring2, typed, unlock]);
 
@@ -93,7 +96,7 @@ export function BadgeScreen({
     () => Math.floor(typed.get()),
     (n, previous) => {
       if (n !== previous) scheduleOnRN(setLetters, n);
-    }
+    },
   );
 
   const badge = useAnimatedStyle(() => {
@@ -147,13 +150,7 @@ export function BadgeScreen({
  * exactly on the chord, where the light flares, the rings go out and the gold
  * confetti goes up. All of those take the chord's time from the cue table.
  */
-export function TierUpScreen({
-  screen,
-  onSettled,
-}: {
-  screen: TierUp;
-  onSettled: () => void;
-}) {
+export function TierUpScreen({ screen, onSettled }: { screen: TierUp; onSettled: () => void }) {
   const m = useMotion();
   const { width } = useWindowDimensions();
   const hit = pulseAt('tier', 3); // the chord, 460 ms
@@ -185,11 +182,16 @@ export function TierUpScreen({
         'worklet';
         if (!finished) return;
         scheduleOnRN(impact);
-        pop.set(withSequence(withTiming(1.14, { duration: 80, easing: EASE_OUT }), withSpring(1, SPRING_POP)));
+        pop.set(
+          withSequence(
+            withTiming(1.14, { duration: 80, easing: EASE_OUT }),
+            withSpring(1, SPRING_POP),
+          ),
+        );
         flare.set(withTiming(1, { duration: 900, easing: EASE_OUT }));
         ring.set(withTiming(1, { duration: 1100, easing: EASE_OUT }));
         words.set(withDelay(380, withTiming(1, { duration: 520, easing: EASE_OUT })));
-      })
+      }),
     );
     const t = setTimeout(onSettled, hit + 1100);
     return () => clearTimeout(t);
@@ -225,7 +227,13 @@ export function TierUpScreen({
       }
     >
       {burst ? (
-        <Confetti width={stage.width} height={stage.height} pieces={70} gold originY={stage.originY} />
+        <Confetti
+          width={stage.width}
+          height={stage.height}
+          pieces={70}
+          gold
+          originY={stage.originY}
+        />
       ) : null}
       <Animated.View style={kicker}>
         <Text style={styles.tierKicker}>Tier unlocked</Text>
@@ -327,6 +335,12 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: colors.warning,
   },
-  tierName: { ...type.display, fontSize: 38, lineHeight: 46, color: colors.text, textAlign: 'center' },
+  tierName: {
+    ...type.display,
+    fontSize: 38,
+    lineHeight: 46,
+    color: colors.text,
+    textAlign: 'center',
+  },
   tierMeans: { ...type.body, color: colors.textMuted, textAlign: 'center' },
 });

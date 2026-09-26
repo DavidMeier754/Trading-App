@@ -101,14 +101,9 @@ export function canCheck(screen: QuestionScreen, value: AnswerValue): boolean {
     case 'bool':
       return value.value !== null;
     case 'tiles':
-      return (
-        screen.type === 'fill-tiles' && value.placed.length === screen.answer.length
-      );
+      return screen.type === 'fill-tiles' && value.placed.length === screen.answer.length;
     case 'match':
-      return (
-        screen.type === 'match' &&
-        Object.keys(value.linked).length === screen.pairs.length
-      );
+      return screen.type === 'match' && Object.keys(value.linked).length === screen.pairs.length;
     case 'numeric':
       return parseNumeric(value.text) !== null;
     case 'decision':
@@ -120,10 +115,7 @@ export function canCheck(screen: QuestionScreen, value: AnswerValue): boolean {
     case 'slider':
       return value.value !== null;
     case 'buckets':
-      return (
-        screen.type === 'sort' &&
-        Object.keys(value.placed).length === screen.items.length
-      );
+      return screen.type === 'sort' && Object.keys(value.placed).length === screen.items.length;
     case 'sequence':
       return screen.type === 'order' && value.order.length === screen.items.length;
     case 'slots':
@@ -197,9 +189,7 @@ export function tilePool(answer: string): string[] {
   const letters = answer.toUpperCase().split('');
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const distractorCount = 3;
-  const seed = answer
-    .split('')
-    .reduce((acc, ch) => (acc * 31 + ch.charCodeAt(0)) % 100003, 7);
+  const seed = answer.split('').reduce((acc, ch) => (acc * 31 + ch.charCodeAt(0)) % 100003, 7);
   const pool = [...letters];
   let cursor = seed;
   while (pool.length < letters.length + distractorCount) {
@@ -220,16 +210,14 @@ export function correctOptionIndex(options: { correct?: boolean }[]): number {
   return options.findIndex((o) => o.correct === true);
 }
 
-export function decisionButtons(screen: {
-  buttons?: DecisionButton[];
-}): DecisionButton[] {
+export function decisionButtons(screen: { buttons?: DecisionButton[] }): DecisionButton[] {
   // docs/schema.md: default [long, short, no-trade]; Chapter 1 uses [buy, wait].
   return screen.buttons ?? ['long', 'short', 'no-trade'];
 }
 
 export function gradeDecision(
   screen: { best: DecisionButton; reasonable?: DecisionButton[] },
-  choice: DecisionButton
+  choice: DecisionButton,
 ): Grade {
   if (choice === screen.best) return 'correct';
   if (screen.reasonable?.includes(choice)) return 'amber';
@@ -255,9 +243,7 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
       if (value.kind !== 'numeric') return 'wrong';
       const n = parseNumeric(value.text);
       if (n === null) return 'wrong';
-      return Math.abs(n - screen.answer) <= (screen.tolerance ?? 0) + 1e-9
-        ? 'correct'
-        : 'wrong';
+      return Math.abs(n - screen.answer) <= (screen.tolerance ?? 0) + 1e-9 ? 'correct' : 'wrong';
     }
     case 'fill-tiles': {
       if (value.kind !== 'tiles') return 'wrong';
@@ -278,9 +264,7 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
     }
     case 'sort': {
       if (value.kind !== 'buckets') return 'wrong';
-      return screen.items.every((item, i) => value.placed[i] === item.bucket)
-        ? 'correct'
-        : 'wrong';
+      return screen.items.every((item, i) => value.placed[i] === item.bucket) ? 'correct' : 'wrong';
     }
     case 'order': {
       if (value.kind !== 'sequence') return 'wrong';
@@ -296,9 +280,7 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
     case 'slider':
     case 'chart-annotate': {
       if (value.kind !== 'slider' || value.value === null) return 'wrong';
-      return Math.abs(value.value - screen.answer) <= (screen.tolerance ?? 0)
-        ? 'correct'
-        : 'wrong';
+      return Math.abs(value.value - screen.answer) <= (screen.tolerance ?? 0) ? 'correct' : 'wrong';
     }
     case 'chart-tap': {
       if (value.kind !== 'index' || value.index === null) return 'wrong';
@@ -338,7 +320,7 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
       if (value.kind !== 'branch') return 'wrong';
       const { visited } = branchPath(screen, value.picks);
       const right = visited.filter(
-        (step, k) => screen.steps[step].options[value.picks[k]]?.correct === true
+        (step, k) => screen.steps[step].options[value.picks[k]]?.correct === true,
       ).length;
       if (right === visited.length) return 'correct';
       // Managing a trade is a sequence; one wrong turn is not the whole run.
@@ -354,25 +336,17 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
  * arithmetic on the bar index. Restraint is never punished: Missed and Phantom
  * are amber, and a clean run of decoys is green.
  */
-export type ReplayLabel =
-  | 'Textbook'
-  | 'Early'
-  | 'Late'
-  | 'Missed'
-  | 'Phantom'
-  | 'Passed';
+export type ReplayLabel = 'Textbook' | 'Early' | 'Late' | 'Missed' | 'Phantom' | 'Passed';
 
 export function replayLabels(
   screen: ChartReplayScreen,
-  value: Extract<AnswerValue, { kind: 'replay' }>
+  value: Extract<AnswerValue, { kind: 'replay' }>,
 ): { moment: ReplayMoment | null; label: ReplayLabel; bar: number }[] {
   const out: { moment: ReplayMoment | null; label: ReplayLabel; bar: number }[] = [];
   const used = new Set<number>();
 
   for (const moment of screen.moments) {
-    const hit = value.acted.find(
-      (a, i) => !used.has(i) && Math.abs(a.bar - moment.bar) <= 2
-    );
+    const hit = value.acted.find((a, i) => !used.has(i) && Math.abs(a.bar - moment.bar) <= 2);
     const hitIndex = hit ? value.acted.indexOf(hit) : -1;
     if (hitIndex >= 0) used.add(hitIndex);
 
@@ -404,16 +378,11 @@ export function replayLabels(
   return out.sort((a, b) => a.bar - b.bar);
 }
 
-function gradeReplay(
-  screen: ChartReplayScreen,
-  value: AnswerValue
-): Grade {
+function gradeReplay(screen: ChartReplayScreen, value: AnswerValue): Grade {
   if (value.kind !== 'replay') return 'wrong';
   const labels = replayLabels(screen, value);
   if (labels.length === 0) return 'correct';
-  const green = labels.filter(
-    (l) => l.label === 'Textbook' || l.label === 'Passed'
-  ).length;
+  const green = labels.filter((l) => l.label === 'Textbook' || l.label === 'Passed').length;
   if (green === labels.length) return 'correct';
   // §4.4: Missed and Phantom are amber, never red. Only a run that is mostly
   // mistimed drops out of amber.
@@ -428,7 +397,7 @@ function gradeReplay(
  */
 export function branchPath(
   screen: BranchScreen,
-  picks: number[]
+  picks: number[],
 ): { visited: number[]; current: number | null; done: boolean } {
   const visited: number[] = [];
   let at: number | undefined = 0;

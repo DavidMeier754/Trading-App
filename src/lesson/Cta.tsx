@@ -80,7 +80,12 @@ export default function Cta({
   useEffect(() => {
     on.set(withTiming(disabled ? 0 : 1, { duration: 220, easing: EASE_OUT }));
     if (wasDisabled.current && !disabled && !reduced) {
-      pop.set(withSequence(withTiming(1.035, { duration: 110, easing: EASE_OUT }), withSpring(1, SPRING_POP)));
+      pop.set(
+        withSequence(
+          withTiming(1.035, { duration: 110, easing: EASE_OUT }),
+          withSpring(1, SPRING_POP),
+        ),
+      );
     }
     wasDisabled.current = !!disabled;
   }, [disabled, reduced, on, pop]);
@@ -103,7 +108,7 @@ export default function Cta({
     backgroundColor: interpolateColor(
       on.get(),
       [0, 1],
-      [OFF.rim, interpolateColor(green.get(), [0, 1], [rim0, GOOD.rim])]
+      [OFF.rim, interpolateColor(green.get(), [0, 1], [rim0, GOOD.rim])],
     ),
   }));
 
@@ -111,7 +116,7 @@ export default function Cta({
     backgroundColor: interpolateColor(
       on.get(),
       [0, 1],
-      [OFF.face, interpolateColor(green.get(), [0, 1], [face0, GOOD.face])]
+      [OFF.face, interpolateColor(green.get(), [0, 1], [face0, GOOD.face])],
     ),
     // A key sinks into its edge; a flat button (no edge) gives a little instead.
     transform:

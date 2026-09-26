@@ -25,9 +25,17 @@ const COLUMNS: Column[] = [
     cell: (r) => (r.change_pct !== undefined ? signedPercent(r.change_pct) : '—'),
     color: (r) => ((r.change_pct ?? 0) >= 0 ? colors.up : colors.down),
   },
-  { key: 'rvol', head: 'RVol', cell: (r) => (r.rvol !== undefined ? `${r.rvol.toFixed(1)}x` : '—') },
+  {
+    key: 'rvol',
+    head: 'RVol',
+    cell: (r) => (r.rvol !== undefined ? `${r.rvol.toFixed(1)}x` : '—'),
+  },
   { key: 'float', head: 'Float', cell: (r) => r.float ?? '—' },
-  { key: 'spread', head: 'Spread', cell: (r) => (r.spread !== undefined ? r.spread.toFixed(2) : '—') },
+  {
+    key: 'spread',
+    head: 'Spread',
+    cell: (r) => (r.spread !== undefined ? r.spread.toFixed(2) : '—'),
+  },
 ];
 
 /** docs/UI.md §6.8 — the mock scanner / watchlist table. */
@@ -77,7 +85,10 @@ export default function ScannerTable({
               backgroundColor: tint(look.accent, 0.12),
             },
             resolved?.[row.ticker]
-              ? { borderColor: resolved[row.ticker], backgroundColor: tint(resolved[row.ticker], 0.1) }
+              ? {
+                  borderColor: resolved[row.ticker],
+                  backgroundColor: tint(resolved[row.ticker], 0.1),
+                }
               : null,
             pressed && tappable && { transform: [{ scale: 0.985 }] },
           ]}
@@ -93,7 +104,10 @@ export default function ScannerTable({
             >
               {selected === row.ticker || resolved?.[row.ticker] ? (
                 <View
-                  style={[styles.radioDot, { backgroundColor: resolved?.[row.ticker] ?? look.accent }]}
+                  style={[
+                    styles.radioDot,
+                    { backgroundColor: resolved?.[row.ticker] ?? look.accent },
+                  ]}
                 />
               ) : null}
             </View>

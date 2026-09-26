@@ -19,7 +19,12 @@ import { HapticsSetting, setHapticsSetting, useHapticsSetting } from '../lesson/
 import { Look, LOOKS, setLook, useLook } from '../lesson/look';
 import { EASE_OUT, SPRING_POP, usePressFeedback } from '../lesson/motion';
 import { setSoundEnabled, useSoundEnabled } from '../lesson/sound';
-import { MotionSetting, setMotionSetting, useMotionSetting, useReduceMotion } from '../lesson/useReduceMotion';
+import {
+  MotionSetting,
+  setMotionSetting,
+  useMotionSetting,
+  useReduceMotion,
+} from '../lesson/useReduceMotion';
 import { chaptersFor, PathLevel, PATHS } from '../content';
 import {
   choosePath,
@@ -34,6 +39,7 @@ import {
   useProgress,
   waitText,
 } from '../progress';
+import { TEST_TOOLS } from '../testTools';
 import { colors, radius, space, type } from '../theme';
 import Icon from './icons';
 import { forgetShownPath } from './LevelNode';
@@ -145,15 +151,19 @@ export default function SettingsScreen({
         <Text style={styles.section}>Progress</Text>
         <ResetRow />
 
-        <Text style={styles.section}>Testing</Text>
-        <HeartsRow />
-        <SkipRow />
-        <RowButton
-          icon="flask"
-          title="Every screen type"
-          sub="Open the all-screens test level"
-          onPress={onOpenBench}
-        />
+        {TEST_TOOLS && (
+          <>
+            <Text style={styles.section}>Testing</Text>
+            <HeartsRow />
+            <SkipRow />
+            <RowButton
+              icon="flask"
+              title="Every screen type"
+              sub="Open the all-screens test level"
+              onPress={onOpenBench}
+            />
+          </>
+        )}
       </ScrollView>
     </Animated.View>
   );
@@ -186,7 +196,7 @@ function DesignPicker({ width }: { width: number }) {
       const k = Math.max(0, Math.min(ORDER.length - 1, i));
       (scroll.current as unknown as ScrollView | null)?.scrollTo({ x: k * step, animated });
     },
-    [step]
+    [step],
   );
 
   // Open on the look in use.
@@ -224,7 +234,7 @@ function DesignPicker({ width }: { width: number }) {
     (i, prev) => {
       if (prev !== null && i !== prev) scheduleOnRN(onFocus, i);
     },
-    [step, onFocus]
+    [step, onFocus],
   );
 
   const spec = LOOKS[ORDER[focus]];
@@ -484,7 +494,10 @@ function SkipRow() {
           <View style={styles.rowText}>
             <Text style={styles.rowTitle}>Skip ahead</Text>
             <Text style={styles.rowSub}>
-              {landed ?? (here ? `You are on ${labelOf(here.level)}. Pick a level to jump to.` : 'Pick a level to jump to.')}
+              {landed ??
+                (here
+                  ? `You are on ${labelOf(here.level)}. Pick a level to jump to.`
+                  : 'Pick a level to jump to.')}
             </Text>
           </View>
           <Animated.View style={chevron}>
@@ -496,7 +509,9 @@ function SkipRow() {
         <Animated.View entering={FadeIn.duration(180)} style={styles.skipList}>
           {chapters.map((chapter) => (
             <View key={chapter.number} style={styles.skipChapter}>
-              <Text style={styles.skipChapterTitle}>{`Chapter ${chapter.number} · ${chapter.title}`}</Text>
+              <Text
+                style={styles.skipChapterTitle}
+              >{`Chapter ${chapter.number} · ${chapter.title}`}</Text>
               {chapter.levels.map((level) => {
                 const view = views.find((v) => v.level.key === level.key);
                 const status = view?.status ?? 'locked';
@@ -509,7 +524,9 @@ function SkipRow() {
                     onPress={() => {
                       skipTo(level.key);
                       forgetShownPath();
-                      setLanded(`Jumped to ${labelOf(level)}. Everything before it counts as done.`);
+                      setLanded(
+                        `Jumped to ${labelOf(level)}. Everything before it counts as done.`,
+                      );
                       setOpen(false);
                     }}
                     style={({ pressed }) => [styles.skipItem, pressed && styles.skipItemPressed]}
@@ -567,7 +584,12 @@ function HeartsRow() {
         onPressOut={press.onPressOut}
         onPress={() => {
           refillHearts();
-          pop.set(withSequence(withTiming(1.3, { duration: 120, easing: EASE_OUT }), withSpring(1, SPRING_POP)));
+          pop.set(
+            withSequence(
+              withTiming(1.3, { duration: 120, easing: EASE_OUT }),
+              withSpring(1, SPRING_POP),
+            ),
+          );
         }}
         style={styles.row}
       >
@@ -598,8 +620,7 @@ function ResetRow() {
   const xp = totalXp(progress);
   const streak = streakDays(progress);
   const hearts = heartsNow(progress).hearts;
-  const empty =
-    lessons === 0 && streak === 0 && doneToday(progress) === 0 && hearts === MAX_HEARTS;
+  const empty = lessons === 0 && streak === 0 && doneToday(progress) === 0 && hearts === MAX_HEARTS;
   const [stage, setStage] = useState<'idle' | 'confirm' | 'done'>('idle');
   const press = usePressFeedback(!empty && stage === 'idle', { cue: 'tick' });
 
@@ -643,7 +664,9 @@ function ResetRow() {
         onPress={() => setStage('confirm')}
         style={styles.resetHead}
       >
-        <View style={[styles.rowIcon, { backgroundColor: empty ? colors.surfaceAlt : colors.downTint }]}>
+        <View
+          style={[styles.rowIcon, { backgroundColor: empty ? colors.surfaceAlt : colors.downTint }]}
+        >
           <Icon name="reset" size={22} color={empty ? colors.textFaint : colors.down} />
         </View>
         <View style={styles.rowText}>
@@ -694,7 +717,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.lg,
     paddingBottom: space.sm,
   },
-  back: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center', marginLeft: -space.sm },
+  back: {
+    width: 36,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: -space.sm,
+  },
   title: { ...type.title, color: colors.text },
   content: { paddingHorizontal: space.lg, gap: space.md },
   section: {
@@ -747,7 +776,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: space.sm,
   },
-  useButtonOff: { backgroundColor: colors.successTint, borderWidth: 1.5, borderColor: colors.success },
+  useButtonOff: {
+    backgroundColor: colors.successTint,
+    borderWidth: 1.5,
+    borderColor: colors.success,
+  },
   useText: { ...type.prompt, fontSize: 17, color: '#FFFFFF' },
 
   panel: {
@@ -767,7 +800,13 @@ const styles = StyleSheet.create({
     padding: 3,
     gap: 3,
   },
-  segItem: { flex: 1, minHeight: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  segItem: {
+    flex: 1,
+    minHeight: 40,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   segItemOn: { backgroundColor: colors.surfaceAlt, borderWidth: 1, borderColor: colors.accent },
   segText: { ...type.label, color: colors.textMuted },
   segTextOn: { color: colors.text },
@@ -820,7 +859,13 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
   },
   skipItemPressed: { backgroundColor: colors.surfaceAlt },
-  skipNum: { ...type.label, color: colors.textFaint, width: 22, textAlign: 'right', fontVariant: ['tabular-nums'] },
+  skipNum: {
+    ...type.label,
+    color: colors.textFaint,
+    width: 22,
+    textAlign: 'right',
+    fontVariant: ['tabular-nums'],
+  },
   skipTitle: { ...type.answer, color: colors.text, flex: 1 },
   skipState: { ...type.small, color: colors.textFaint, width: 40, textAlign: 'right' },
   resetCard: {

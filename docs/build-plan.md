@@ -276,7 +276,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates.
 |---|---|---|---|---|---|
 | A Foundation | `MERGE` ✅ | PR #13 (the app) merged into `main` | – | – | – |
 | | `DOCS` ✅ | This plan, the review report, all docs brought onto the decisions | – | – | Read |
-| | `CI` | Automatic checks, lint, unit tests, testing tools only in test builds, preview link per PR | Opus 5.5 · high | 1 | 15 min |
+| | `CI` ✅ | Automatic checks, lint, unit tests, testing tools only in test builds, preview link per PR | Opus 5.5 · high | 1 | 15 min |
 | | `WIRE` | Content index instead of hand-written imports, all written chapters playable, render test of every screen | Opus 5.5 · high | 1 | 20 min |
 | B Stable | `STABLE-APP` | Plan overview, recap, reveal (decision vs. outcome), screen-reader leak, error page | Opus 5.5 · high | 1 | 20 min |
 | | `STABLE-DATA` | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
@@ -437,6 +437,8 @@ Also done on 2026-09-25:
 - the whole project in English.
 
 ### `CI` – automatic checks and preview
+
+Done on 2026-09-26 (PR #15). Checks run on every PR, the Cloudflare Pages preview is connected. Part B (Expo Go) is not set up yet: it moved to `LOOK-SYSTEM` (item 9 there). Branch rules are replaced by the merge rule in `CLAUDE.md`, because GitHub Free does not enforce them on private repositories.
 
 **Goal.**
 - No error reaches `main` unnoticed any more.
@@ -819,6 +821,7 @@ Report: the name check · the note for the lawyer · web-address options · logo
    - Clean accessibility labels.
 7. **Web** (S46): title = app name, `theme-color`, `viewport-fit=cover`, favicon.
 8. **Visual comparison:** contact sheets of all bench screens at three sizes (390, 375, 320 pt), each in light and dark, as a CI artifact.
+9. **Expo Go preview** (`CI` part B, moved here): you create an Expo account and the GitHub secret `EXPO_TOKEN` (guide: `docs/setup-preview.md` §2); Claude runs `eas init` and `eas update:configure`. From then on every PR gets a QR code, so motion is tuned on a real phone.
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 

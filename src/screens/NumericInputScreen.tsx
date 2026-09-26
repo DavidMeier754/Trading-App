@@ -280,7 +280,6 @@ export default function NumericInputScreen({
           </View>
         ))}
       </View>
-
     </View>
   );
 }

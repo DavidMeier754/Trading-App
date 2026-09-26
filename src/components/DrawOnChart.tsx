@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  SharedValue,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { SharedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { DURATION, EASE_OUT } from '../lesson/motion';
