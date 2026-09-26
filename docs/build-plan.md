@@ -186,7 +186,7 @@ The work runs in the Claude project linked to `DavidMeier754/Trading-App`. A thr
    - drives every check to green;
    - posts the report in the thread, with **your test checklist** and real links to the preview.
 4. **You test** on your phone and answer **in that thread**:
-   - `OK <STAGE> – merge` → Claude merges the PR and the stage gets its ✅ in section 2. You can also merge the PR yourself on GitHub.
+   - `OK <STAGE> – merge` → Claude merges the PR once every check on it is green (merge rule in `CLAUDE.md`), and the stage gets its ✅ in section 2. You can also merge the PR yourself on GitHub.
    - or a list of problems (template "Bug report", Appendix A) → Claude fixes them, you test again.
 5. **Next stage = new thread.** Go back to the project chat and start it there. A fresh context is more accurate and cheaper. A stage with several sessions in section 2 gets one thread per session.
 6. **Where to look:** the project chat shows one line per stage with the thread's status. Questions about a running stage go into its thread, not into the project chat.
