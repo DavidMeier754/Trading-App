@@ -6,12 +6,12 @@ Run `python3 tools/validate_content.py` before finishing any content step.
 ## How the work is organised
 
 - The order of all work, from today to the store release, is `docs/build-plan.md`.
-- A session does exactly **one stage**:
+- A session (in the Claude project: one thread) does exactly **one stage**:
   - Read the plan's §1 ("How to work with this plan") and the stage's own section.
   - Build that scope and nothing from a later stage. Note anything else you find in the report.
   - Stop at the stage's gate.
 - Findings carry ids (M…, S…, K…, W…) from `docs/review-2026-09-25.md`.
-- Work on the session's branch and open a PR against `main`. Never push to `main` directly unless David says so explicitly.
+- Work on the thread's branch and open a PR against `main`. Never push to `main` directly unless David says so explicitly.
 - Merge a PR only when every CI check on its latest commit is green (`.github/workflows/ci.yml`). A red or pending check blocks the merge, even after David's OK; fix it first. (GitHub cannot enforce this on the private repository, so this rule does.)
 - Everything is in English: code, content, docs, commits, PR texts and reports. English is the source language; the other app languages are generated from it in Phase J of the plan and never edited by hand.
 
