@@ -1,7 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
-import { CHAPTER_ONE, Chapter, PATH, PATH_CHOICE_ID, TradingPath, chaptersFor, levelsOf } from './content';
+import {
+  CHAPTER_ONE,
+  Chapter,
+  PATH,
+  PATH_CHOICE_ID,
+  TradingPath,
+  chaptersFor,
+  levelsOf,
+} from './content';
 import {
   getHapticsSetting,
   HapticsSetting,
@@ -94,7 +102,7 @@ export function useProgress(): Progress {
       };
     },
     getProgress,
-    getProgress
+    getProgress,
   );
 }
 
@@ -134,7 +142,7 @@ export function earnedXp(base: number, perfect: boolean): number {
  */
 export function completeLesson(
   id: string,
-  { perfect, xp }: { perfect: boolean; xp: number }
+  { perfect, xp }: { perfect: boolean; xp: number },
 ): void {
   const today = dayOf(new Date());
   const p = progress;
@@ -206,7 +214,12 @@ export function skipTo(key: string): void {
       xp += entry.level.xp;
     }
   }
-  publish({ ...p, done, xp, path: at > levels.findIndex((l) => l.kind === 'path') ? path : p.path });
+  publish({
+    ...p,
+    done,
+    xp,
+    path: at > levels.findIndex((l) => l.kind === 'path') ? path : p.path,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -319,7 +332,8 @@ export function loadSaved({ restoreLook = true }: { restoreLook?: boolean } = {}
     if (savedProgress) {
       progress = { ...fresh(), ...savedProgress };
       // Saved before hearts could be lost in a lesson: start the clock now.
-      if (progress.hearts < MAX_HEARTS && progress.heartsAt === null) progress.heartsAt = Date.now();
+      if (progress.hearts < MAX_HEARTS && progress.heartsAt === null)
+        progress.heartsAt = Date.now();
       // Saved before XP was kept: each finished lesson once, as its summary showed it.
       if (typeof savedProgress.xp !== 'number') {
         progress.xp = PATH.flatMap((level) => level.subs).reduce((sum, entry) => {

@@ -80,7 +80,9 @@ export default function OutOfHearts() {
             nextAt ? `The next one is back in ${waitText(nextAt)}.` : 'One is back already.'
           }`}
         </Text>
-        <Text style={styles.note}>This lesson is not counted yet. Start it again from the path.</Text>
+        <Text style={styles.note}>
+          This lesson is not counted yet. Start it again from the path.
+        </Text>
       </Animated.View>
     </View>
   );

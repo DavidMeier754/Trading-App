@@ -59,50 +59,50 @@ export default function App() {
     // Drags (a slider, a line on a chart, a chip into a bucket) run through
     // react-native-gesture-handler, which needs its root at the top.
     <GestureHandlerRootView style={styles.gestures}>
-    <SafeAreaProvider>
-      <StatusBar style="light" />
-      <View style={styles.root}>
-        <View
-          ref={frameRef}
-          onLayout={measureFrame}
-          style={[styles.frame, { width: frameWidth }]}
-        >
-          {/* One ground for the whole app: the design picked in Settings is the
+      <SafeAreaProvider>
+        <StatusBar style="light" />
+        <View style={styles.root}>
+          <View
+            ref={frameRef}
+            onLayout={measureFrame}
+            style={[styles.frame, { width: frameWidth }]}
+          >
+            {/* One ground for the whole app: the design picked in Settings is the
               one the home screen stands on too, so a change shows at once. */}
-          <Backdrop width={frameWidth} height={height} />
-          <GridOriginProvider originY={gridOrigin}>
-            <ErrorBoundary>
-              {entry ? (
-                <LessonPlayer
-                  key={entry.id}
-                  level={entry.level}
-                  startAt={link && link.entry === entry ? link.screen : 0}
-                  testBench={entry.testBench}
-                  kind={entry.testBench ? 'lesson' : (nodeOf(entry.id)?.kind ?? 'lesson')}
-                  initialPath={getProgress().path}
-                  onChoosePath={choosePath}
-                  contentWidth={contentWidth}
-                  onQuit={() => setEntry(null)}
-                  // A lesson on the path counts once its summary is reached; the
-                  // test bench is not on the path and just plays again.
-                  onComplete={
-                    entry.testBench
-                      ? undefined
-                      : (result) => completeLesson(entry.id, { ...result, xp: entry.level.xp })
-                  }
-                />
-              ) : ready ? (
-                <Home
-                  width={frameWidth}
-                  onStart={setEntry}
-                  onOpenBench={() => setEntry(TEST_BENCH)}
-                />
-              ) : null}
-            </ErrorBoundary>
-          </GridOriginProvider>
+            <Backdrop width={frameWidth} height={height} />
+            <GridOriginProvider originY={gridOrigin}>
+              <ErrorBoundary>
+                {entry ? (
+                  <LessonPlayer
+                    key={entry.id}
+                    level={entry.level}
+                    startAt={link && link.entry === entry ? link.screen : 0}
+                    testBench={entry.testBench}
+                    kind={entry.testBench ? 'lesson' : (nodeOf(entry.id)?.kind ?? 'lesson')}
+                    initialPath={getProgress().path}
+                    onChoosePath={choosePath}
+                    contentWidth={contentWidth}
+                    onQuit={() => setEntry(null)}
+                    // A lesson on the path counts once its summary is reached; the
+                    // test bench is not on the path and just plays again.
+                    onComplete={
+                      entry.testBench
+                        ? undefined
+                        : (result) => completeLesson(entry.id, { ...result, xp: entry.level.xp })
+                    }
+                  />
+                ) : ready ? (
+                  <Home
+                    width={frameWidth}
+                    onStart={setEntry}
+                    onOpenBench={() => setEntry(TEST_BENCH)}
+                  />
+                ) : null}
+              </ErrorBoundary>
+            </GridOriginProvider>
+          </View>
         </View>
-      </View>
-    </SafeAreaProvider>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }

@@ -81,7 +81,7 @@ export default function OwnershipPie({
   const reduced = useReduceMotion();
   useChartMove(
     GROW_DELAY + (sliced ? owned - 1 : 0) * step + SLICE_MS * EASE_OUT_SETTLE,
-    !reduced && owned > 0
+    !reduced && owned > 0,
   );
 
   return (
@@ -90,21 +90,27 @@ export default function OwnershipPie({
         {sliced ? null : (
           <>
             <Circle cx={cx} cy={cy} r={r} fill={colors.surfaceAlt} />
-            {owned > 0 ? <OwnedSlice d={wedge(owned / total)} fill={accent} delay={GROW_DELAY} /> : null}
+            {owned > 0 ? (
+              <OwnedSlice d={wedge(owned / total)} fill={accent} delay={GROW_DELAY} />
+            ) : null}
           </>
         )}
-        {!sliced ? null : Array.from({ length: total }, (_, i) => (
-          <Path
-            key={i}
-            d={slice(i)}
-            fill={colors.surfaceAlt}
-            stroke={colors.background}
-            strokeWidth={1}
-          />
-        ))}
-        {!sliced ? null : Array.from({ length: owned }, (_, i) => (
-          <OwnedSlice key={`o${i}`} d={slice(i)} fill={accent} delay={GROW_DELAY + i * step} />
-        ))}
+        {!sliced
+          ? null
+          : Array.from({ length: total }, (_, i) => (
+              <Path
+                key={i}
+                d={slice(i)}
+                fill={colors.surfaceAlt}
+                stroke={colors.background}
+                strokeWidth={1}
+              />
+            ))}
+        {!sliced
+          ? null
+          : Array.from({ length: owned }, (_, i) => (
+              <OwnedSlice key={`o${i}`} d={slice(i)} fill={accent} delay={GROW_DELAY + i * step} />
+            ))}
       </Svg>
       <Text style={styles.caption}>
         {`${count(owned)} of ${count(total)} = ${percent(owned, total)} %`}

@@ -52,8 +52,8 @@ export default function Shake({
         withTiming(SWING[1], { duration: swing, easing: sine }),
         withTiming(SWING[2], { duration: swing * 0.88, easing: sine }),
         withTiming(SWING[3], { duration: swing * 0.76, easing: sine }),
-        withTiming(SWING[4], { duration: swing * 0.64, easing: Easing.out(Easing.quad) })
-      )
+        withTiming(SWING[4], { duration: swing * 0.64, easing: Easing.out(Easing.quad) }),
+      ),
     );
   }, [trigger, reduced, onMount, x]);
 

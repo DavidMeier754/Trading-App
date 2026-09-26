@@ -84,7 +84,9 @@ function levelView(progress: Progress, level: PathLevel, open: boolean): LevelVi
     doneFlags,
     total,
     perfect:
-      complete && level.kind !== 'path' && level.subs.every((entry) => progress.done[entry.id]?.perfect),
+      complete &&
+      level.kind !== 'path' &&
+      level.subs.every((entry) => progress.done[entry.id]?.perfect),
     next: level.subs[nextIndex],
     nextIndex,
   };

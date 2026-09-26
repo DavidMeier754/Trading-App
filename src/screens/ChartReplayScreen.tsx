@@ -135,7 +135,10 @@ export default function ChartReplayScreen({
                 }}
                 style={[
                   styles.pmChip,
-                  pmView === v && { borderColor: look.accent, backgroundColor: tint(look.accent, 0.16) },
+                  pmView === v && {
+                    borderColor: look.accent,
+                    backgroundColor: tint(look.accent, 0.16),
+                  },
                 ]}
               >
                 <Text style={[styles.pmChipText, pmView === v && { color: colors.text }]}>
@@ -167,55 +170,55 @@ export default function ChartReplayScreen({
             />
           </View>
         ) : (
-        <View style={styles.momentList}>
-          {labels.map((l, i) => (
-            <View key={i} style={[styles.moment, surfaceStyle(look)]}>
-              <View style={styles.momentHead}>
-                <View style={[styles.momentNum, { backgroundColor: LABEL_COLOR[l.label] }]}>
-                  <Text style={styles.momentNumText}>{i + 1}</Text>
-                </View>
-                <Text style={[styles.momentLabel, { color: LABEL_COLOR[l.label] }]}>
-                  {l.label}
-                </Text>
-                {/* Where the moment was and, when it differs, where you acted --
+          <View style={styles.momentList}>
+            {labels.map((l, i) => (
+              <View key={i} style={[styles.moment, surfaceStyle(look)]}>
+                <View style={styles.momentHead}>
+                  <View style={[styles.momentNum, { backgroundColor: LABEL_COLOR[l.label] }]}>
+                    <Text style={styles.momentNumText}>{i + 1}</Text>
+                  </View>
+                  <Text style={[styles.momentLabel, { color: LABEL_COLOR[l.label] }]}>
+                    {l.label}
+                  </Text>
+                  {/* Where the moment was and, when it differs, where you acted --
                     so "Textbook, bar 6" does not contradict "the setup was bar 7". */}
-                <Text style={styles.momentBar}>
-                  {l.moment && l.moment.bar !== l.bar
-                    ? `bar ${l.moment.bar + 1} · you: ${l.bar + 1}`
-                    : `bar ${l.bar + 1}`}
+                  <Text style={styles.momentBar}>
+                    {l.moment && l.moment.bar !== l.bar
+                      ? `bar ${l.moment.bar + 1} · you: ${l.bar + 1}`
+                      : `bar ${l.bar + 1}`}
+                  </Text>
+                </View>
+                <Text style={styles.momentNote}>
+                  {l.moment?.note ?? 'Nothing was marked here.'}
                 </Text>
-              </View>
-              <Text style={styles.momentNote}>
-                {l.moment?.note ?? 'Nothing was marked here.'}
-              </Text>
-              {l.moment?.fields ? (
-                <View style={styles.fieldRow}>
-                  {l.moment.fields.map((f) => (
-                    <View
-                      key={f.label}
-                      style={[
-                        styles.fieldPip,
-                        {
-                          borderColor: f.filled ? colors.success : colors.borderStrong,
-                          backgroundColor: f.filled ? colors.successTint : 'transparent',
-                        },
-                      ]}
-                    >
-                      <Text
+                {l.moment?.fields ? (
+                  <View style={styles.fieldRow}>
+                    {l.moment.fields.map((f) => (
+                      <View
+                        key={f.label}
                         style={[
-                          styles.fieldText,
-                          { color: f.filled ? colors.success : colors.textFaint },
+                          styles.fieldPip,
+                          {
+                            borderColor: f.filled ? colors.success : colors.borderStrong,
+                            backgroundColor: f.filled ? colors.successTint : 'transparent',
+                          },
                         ]}
                       >
-                        {f.label}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-              ) : null}
-            </View>
-          ))}
-        </View>
+                        <Text
+                          style={[
+                            styles.fieldText,
+                            { color: f.filled ? colors.success : colors.textFaint },
+                          ]}
+                        >
+                          {f.label}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                ) : null}
+              </View>
+            ))}
+          </View>
         )}
         {decoys.length > 0 ? (
           <Text style={styles.discipline}>
@@ -229,89 +232,106 @@ export default function ChartReplayScreen({
   return (
     <View style={styles.wrap}>
       <View style={styles.column} onLayout={fit.onLayout}>
-      <Prompt>{screen.prompt}</Prompt>
+        <Prompt>{screen.prompt}</Prompt>
 
-      <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
-        <Chart
-          spec={{ ...screen.chart, decision_index: -1 }}
-          visibleCount={bar}
-          width={chartWidth}
-          height={height}
-          showDecisionMarker={false}
-          showFuture
-          gridAnchor={grid.gridAnchor}
-        />
-      </View>
-
-      <View style={styles.statusRow}>
-        <Text style={styles.barCount}>{`Bar ${Math.min(bar, total)} of ${total}`}</Text>
-        {/* One pip per trade the session allows; a taken one fills. */}
-        <View style={styles.capRow} accessibilityLabel={`${state.acted.length} of ${TRADE_CAP} trades taken`}>
-          <Text style={styles.barCount}>Trades</Text>
-          {Array.from({ length: TRADE_CAP }, (_, i) => {
-            const taken = state.acted[i];
-            return (
-              <View
-                key={i}
-                style={[
-                  styles.capPip,
-                  taken && {
-                    backgroundColor: taken.side === 'short' ? colors.down : colors.up,
-                    borderColor: taken.side === 'short' ? colors.down : colors.up,
-                  },
-                ]}
-              />
-            );
-          })}
+        <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
+          <Chart
+            spec={{ ...screen.chart, decision_index: -1 }}
+            visibleCount={bar}
+            width={chartWidth}
+            height={height}
+            showDecisionMarker={false}
+            showFuture
+            gridAnchor={grid.gridAnchor}
+          />
         </View>
-      </View>
-      {/* Always in the layout, shown only when it has something to say, so the
+
+        <View style={styles.statusRow}>
+          <Text style={styles.barCount}>{`Bar ${Math.min(bar, total)} of ${total}`}</Text>
+          {/* One pip per trade the session allows; a taken one fills. */}
+          <View
+            style={styles.capRow}
+            accessibilityLabel={`${state.acted.length} of ${TRADE_CAP} trades taken`}
+          >
+            <Text style={styles.barCount}>Trades</Text>
+            {Array.from({ length: TRADE_CAP }, (_, i) => {
+              const taken = state.acted[i];
+              return (
+                <View
+                  key={i}
+                  style={[
+                    styles.capPip,
+                    taken && {
+                      backgroundColor: taken.side === 'short' ? colors.down : colors.up,
+                      borderColor: taken.side === 'short' ? colors.down : colors.up,
+                    },
+                  ]}
+                />
+              );
+            })}
+          </View>
+        </View>
+        {/* Always in the layout, shown only when it has something to say, so the
           chart above does not jump when it does. */}
-      <Text style={[styles.capNote, canAct && styles.capNoteHidden]}>
-        {tradesLeft <= 0
-          ? 'Trade limit reached. Watch the rest, or end the session.'
-          : 'One trade per bar. Advance to act again.'}
-      </Text>
+        <Text style={[styles.capNote, canAct && styles.capNoteHidden]}>
+          {tradesLeft <= 0
+            ? 'Trade limit reached. Watch the rest, or end the session.'
+            : 'One trade per bar. Advance to act again.'}
+        </Text>
 
-      <View style={styles.actions}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityState={{ disabled: !canAct }}
-          disabled={!canAct}
-          onPress={() => act('long')}
-          style={[styles.action, surfaceStyle(look), { borderColor: colors.up }, !canAct && styles.actionOff]}
-        >
-          <Text style={styles.actionText}>Long</Text>
-        </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityState={{ disabled: !canAct }}
-          disabled={!canAct}
-          onPress={() => act('short')}
-          style={[styles.action, surfaceStyle(look), { borderColor: colors.down }, !canAct && styles.actionOff]}
-        >
-          <Text style={styles.actionText}>Short</Text>
-        </Pressable>
-      </View>
+        <View style={styles.actions}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ disabled: !canAct }}
+            disabled={!canAct}
+            onPress={() => act('long')}
+            style={[
+              styles.action,
+              surfaceStyle(look),
+              { borderColor: colors.up },
+              !canAct && styles.actionOff,
+            ]}
+          >
+            <Text style={styles.actionText}>Long</Text>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ disabled: !canAct }}
+            disabled={!canAct}
+            onPress={() => act('short')}
+            style={[
+              styles.action,
+              surfaceStyle(look),
+              { borderColor: colors.down },
+              !canAct && styles.actionOff,
+            ]}
+          >
+            <Text style={styles.actionText}>Short</Text>
+          </Pressable>
+        </View>
 
-      <View style={styles.actions}>
-        {/* At the last bar the button ends the session: before, the only way
+        <View style={styles.actions}>
+          {/* At the last bar the button ends the session: before, the only way
             out was "Nothing here", which is the wrong words after a trade. */}
-        <Pressable
-          accessibilityRole="button"
-          onPress={atEnd ? end : nextBar}
-          style={[
-            styles.action,
-            surfaceStyle(look),
-            { borderColor: look.accent, backgroundColor: tint(look.accent, 0.14) },
-          ]}
-        >
-          <Text style={styles.actionText}>{atEnd ? 'End of session' : 'Next bar'}</Text>
-        </Pressable>
-        <Pressable accessibilityRole="button" onPress={end} style={[styles.action, surfaceStyle(look)]}>
-          <Text style={styles.actionText}>Nothing here</Text>
-        </Pressable>
-      </View>
+          <Pressable
+            accessibilityRole="button"
+            onPress={atEnd ? end : nextBar}
+            style={[
+              styles.action,
+              surfaceStyle(look),
+              { borderColor: look.accent, backgroundColor: tint(look.accent, 0.14) },
+            ]}
+          >
+            <Text style={styles.actionText}>{atEnd ? 'End of session' : 'Next bar'}</Text>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            onPress={end}
+            style={[styles.action, surfaceStyle(look)]}
+          >
+            <Text style={styles.actionText}>Nothing here</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -347,7 +367,12 @@ const styles = StyleSheet.create({
   actionOff: { opacity: 0.45 },
   actionText: { ...type.answer, color: colors.text },
   postTitle: { ...type.title, color: colors.text },
-  pmHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
+  pmHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: space.sm,
+  },
   pmToggle: { flexDirection: 'row', gap: space.xs },
   pmChip: {
     borderRadius: radius.pill,

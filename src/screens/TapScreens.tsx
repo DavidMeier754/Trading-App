@@ -43,7 +43,7 @@ import { Prompt } from './common';
 function resolveHighlight(
   revealed: boolean,
   picked: string | null,
-  correct: string[]
+  correct: string[],
 ): Record<string, string> | undefined {
   if (!revealed) return picked ? { [picked]: colors.accent } : undefined;
   const out: Record<string, string> = {};
@@ -206,67 +206,67 @@ export function ChartTapScreen({
   return (
     <View style={styles.wrap}>
       <View style={styles.column} onLayout={fit.onLayout}>
-      <Prompt>{screen.prompt}</Prompt>
-      <View
-        ref={grid.ref}
-        onLayout={grid.onLayout}
-        style={{ width: chartWidth, height, alignSelf: 'center' }}
-      >
-        <Chart
-          spec={spec}
-          visibleCount={bars}
-          width={chartWidth}
-          height={height}
-          showDecisionMarker={false}
-          gridAnchor={grid.gridAnchor}
-        />
-        {/* An invisible column per bar: a candle is far too small a tap target
+        <Prompt>{screen.prompt}</Prompt>
+        <View
+          ref={grid.ref}
+          onLayout={grid.onLayout}
+          style={{ width: chartWidth, height, alignSelf: 'center' }}
+        >
+          <Chart
+            spec={spec}
+            visibleCount={bars}
+            width={chartWidth}
+            height={height}
+            showDecisionMarker={false}
+            gridAnchor={grid.gridAnchor}
+          />
+          {/* An invisible column per bar: a candle is far too small a tap target
             on its own (docs/UI.md §10, 48 pt minimum). */}
-        <View style={styles.tapRow} pointerEvents="box-none">
-          {Array.from({ length: bars }, (_, i) => {
-            const tint =
-              revealed && i === screen.target
-                ? colors.successTint
-                : revealed && i === picked
-                  ? colors.downTint
-                  : picked === i
-                    ? colors.accentTint
-                    : 'transparent';
-            const border =
-              revealed && i === screen.target
-                ? colors.success
-                : revealed && i === picked
-                  ? colors.down
-                  : picked === i
-                    ? colors.accent
-                    : 'transparent';
-            return (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={`Candle ${i + 1} of ${bars}`}
-                key={i}
-                testID={`candle-${i}`}
-                disabled={revealed}
-                onPress={() => {
-                  tapFeedback();
-                  onChange({ kind: 'index', index: picked === i ? null : i });
-                }}
-                style={[
-                  styles.tapCol,
-                  {
-                    left: layout.cx(i) - layout.slot / 2 + 1,
-                    width: Math.max(1, layout.slot - 2),
-                    top: layout.padTop,
-                    height: layout.priceH,
-                    backgroundColor: tint,
-                    borderColor: border,
-                  },
-                ]}
-              />
-            );
-          })}
+          <View style={styles.tapRow} pointerEvents="box-none">
+            {Array.from({ length: bars }, (_, i) => {
+              const tint =
+                revealed && i === screen.target
+                  ? colors.successTint
+                  : revealed && i === picked
+                    ? colors.downTint
+                    : picked === i
+                      ? colors.accentTint
+                      : 'transparent';
+              const border =
+                revealed && i === screen.target
+                  ? colors.success
+                  : revealed && i === picked
+                    ? colors.down
+                    : picked === i
+                      ? colors.accent
+                      : 'transparent';
+              return (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={`Candle ${i + 1} of ${bars}`}
+                  key={i}
+                  testID={`candle-${i}`}
+                  disabled={revealed}
+                  onPress={() => {
+                    tapFeedback();
+                    onChange({ kind: 'index', index: picked === i ? null : i });
+                  }}
+                  style={[
+                    styles.tapCol,
+                    {
+                      left: layout.cx(i) - layout.slot / 2 + 1,
+                      width: Math.max(1, layout.slot - 2),
+                      top: layout.padTop,
+                      height: layout.priceH,
+                      backgroundColor: tint,
+                      borderColor: border,
+                    },
+                  ]}
+                />
+              );
+            })}
+          </View>
         </View>
-      </View>
       </View>
     </View>
   );
@@ -329,10 +329,7 @@ export function SliderScreen({
   const accent = useLookSpec().accent;
 
   const nudge = (delta: number) => {
-    const next = Math.min(
-      screen.max,
-      Math.max(screen.min, (current ?? rest) + delta)
-    );
+    const next = Math.min(screen.max, Math.max(screen.min, (current ?? rest) + delta));
     tapFeedback();
     onChange({ kind: 'slider', value: Number(next.toFixed(4)) });
   };
@@ -355,7 +352,7 @@ export function SliderScreen({
       detentFeedback();
       onChange({ kind: 'slider', value: v });
     },
-    [onChange]
+    [onChange],
   );
   const { min, max } = screen;
   const pan = Gesture.Pan()
@@ -390,9 +387,7 @@ export function SliderScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
-      <Text style={styles.sliderValue}>
-        {sliderText(shown, screen.unit, step)}
-      </Text>
+      <Text style={styles.sliderValue}>{sliderText(shown, screen.unit, step)}</Text>
 
       <GestureDetector gesture={pan}>
         <Animated.View ref={hit} style={styles.trackHit} collapsable={false}>
@@ -432,17 +427,31 @@ export function SliderScreen({
       <View style={styles.sliderScale} pointerEvents="none">
         {[screen.min, screen.max].map((v, i) => (
           <Text key={i} style={[styles.sliderScaleText, i === 1 && { textAlign: 'right' }]}>
-            {sliderText(v, screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined, step)}
+            {sliderText(
+              v,
+              screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
+              step,
+            )}
           </Text>
         ))}
       </View>
 
       {/* docs/UI.md §10: every drag has a tap alternative. */}
       <View style={styles.nudgeRow}>
-        <Pressable accessibilityRole="button" disabled={revealed} onPress={() => nudge(-step)} style={styles.nudge}>
+        <Pressable
+          accessibilityRole="button"
+          disabled={revealed}
+          onPress={() => nudge(-step)}
+          style={styles.nudge}
+        >
           <Text style={styles.nudgeText}>{'−'}</Text>
         </Pressable>
-        <Pressable accessibilityRole="button" disabled={revealed} onPress={() => nudge(step)} style={styles.nudge}>
+        <Pressable
+          accessibilityRole="button"
+          disabled={revealed}
+          onPress={() => nudge(step)}
+          style={styles.nudge}
+        >
           <Text style={styles.nudgeText}>+</Text>
         </Pressable>
       </View>
@@ -455,7 +464,7 @@ export function SliderScreen({
               screen.tolerance ?? 0,
               // The band is a distance: it keeps a currency or a percent, not a long label.
               screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
-              step
+              step,
             )})`
           : ' '}
       </Text>

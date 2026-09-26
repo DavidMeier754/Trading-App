@@ -1,10 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, {
-  SharedValue,
-  useAnimatedProps,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
+import Animated, { SharedValue, useAnimatedProps, useAnimatedStyle } from 'react-native-reanimated';
 import Svg, {
   Circle,
   Defs,
@@ -24,13 +20,7 @@ import { useLookSpec } from '../lesson/look';
 import { Arrive } from '../lesson/Celebrate';
 import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import {
-  BUILD_MS,
-  BuildCandle,
-  buildStagger,
-  BuildVolume,
-  useEntrance,
-} from './ChartBuild';
+import { BUILD_MS, BuildCandle, buildStagger, BuildVolume, useEntrance } from './ChartBuild';
 import { CHART_GRID_STEP, colors, GRID, type } from '../theme';
 import type { ChartSpec } from '../types';
 
@@ -79,16 +69,16 @@ function AnimatedStroke({
           animatedProps={glow}
         />
       ) : null}
-    <AnimatedPath
-      d={d}
-      stroke={lineColor}
-      strokeWidth={width}
-      fill="none"
-      strokeLinejoin="round"
-      strokeLinecap="round"
-      strokeDasharray={`${length} ${length}`}
-      animatedProps={props}
-    />
+      <AnimatedPath
+        d={d}
+        stroke={lineColor}
+        strokeWidth={width}
+        fill="none"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        strokeDasharray={`${length} ${length}`}
+        animatedProps={props}
+      />
     </G>
   );
 }
@@ -134,14 +124,7 @@ function AnimatedDot({
   return (
     <AnimatedG animatedProps={props}>
       {halo ? <Circle cx={cx} cy={cy} r={10} fill={lineColor} opacity={0.22} /> : null}
-      <Circle
-        cx={cx}
-        cy={cy}
-        r={4}
-        fill={lineColor}
-        stroke={colors.background}
-        strokeWidth={2}
-      />
+      <Circle cx={cx} cy={cy} r={4} fill={lineColor} stroke={colors.background} strokeWidth={2} />
     </AnimatedG>
   );
 }
@@ -224,8 +207,14 @@ function windowAt(g: PlayGeom, t: number) {
   let lo = g.lo0;
   let hi = g.hi0;
   // The same padding domainOf uses, so t=1 lands exactly on the static frame.
-  if (needHi + reach * 0.12 > hi) { hi = needHi + reach * 0.12; lo = hi - span; }
-  if (needLo - reach * 0.1 < lo) { lo = needLo - reach * 0.1; hi = lo + span; }
+  if (needHi + reach * 0.12 > hi) {
+    hi = needHi + reach * 0.12;
+    lo = hi - span;
+  }
+  if (needLo - reach * 0.1 < lo) {
+    lo = needLo - reach * 0.1;
+    hi = lo + span;
+  }
   return { lo, hi };
 }
 
@@ -422,7 +411,7 @@ function PlaybackLine({
     <G>
       <AnimatedPath
         d={`${first} L${firstTip.x.toFixed(2)},${g.baseline.toFixed(2)} L${g.xs[0].toFixed(
-          2
+          2,
         )},${g.baseline.toFixed(2)} Z`}
         animatedProps={fill}
         fill="url(#lineFill)"
@@ -512,9 +501,10 @@ function PlaybackCandle({
     'worklet';
     const u = barProgress(g, t, i);
     if (u <= 0) return null;
-    const s = u >= 1
-      ? { p: g.closes[i], hi: g.highs[i], lo: g.lows[i] }
-      : formAt(g.opens[i], g.highs[i], g.lows[i], g.closes[i], u);
+    const s =
+      u >= 1
+        ? { p: g.closes[i], hi: g.highs[i], lo: g.lows[i] }
+        : formAt(g.opens[i], g.highs[i], g.lows[i], g.closes[i], u);
     const yo = playY(g, t, g.opens[i]);
     const yp = playY(g, t, s.p);
     return {
@@ -613,7 +603,7 @@ function PlaybackVolumeBar({
     if (u <= 0) return { y: floor - 1, height: 1, opacity: 0 };
     const h = Math.max(1, height * u);
     const p = u >= 1 ? g.closes[i] : formAt(g.opens[i], g.highs[i], g.lows[i], g.closes[i], u).p;
-    return { y: floor - h, height: h, opacity: (p >= g.opens[i]) === rising ? 0.45 : 0 };
+    return { y: floor - h, height: h, opacity: p >= g.opens[i] === rising ? 0.45 : 0 };
   };
   const upProps = useAnimatedProps(() => fillFor(progress.get(), true));
   const downProps = useAnimatedProps(() => fillFor(progress.get(), false));
@@ -688,9 +678,23 @@ function PlaybackLivePrice({
         animatedProps={line}
       />
       <AnimatedCircle cx={x1} cy={0} r={8} fill={colors.up} opacity={0} animatedProps={haloUp} />
-      <AnimatedCircle cx={x1} cy={0} r={8} fill={colors.down} opacity={0} animatedProps={haloDown} />
+      <AnimatedCircle
+        cx={x1}
+        cy={0}
+        r={8}
+        fill={colors.down}
+        opacity={0}
+        animatedProps={haloDown}
+      />
       <AnimatedCircle cx={x1} cy={0} r={3.5} fill={colors.up} opacity={0} animatedProps={dotUp} />
-      <AnimatedCircle cx={x1} cy={0} r={3.5} fill={colors.down} opacity={0} animatedProps={dotDown} />
+      <AnimatedCircle
+        cx={x1}
+        cy={0}
+        r={3.5}
+        fill={colors.down}
+        opacity={0}
+        animatedProps={dotDown}
+      />
     </G>
   );
 }
@@ -1098,17 +1102,14 @@ export function chartLayout({
   const fixed = PAD_TOP + PAD_BOTTOM + (hasVolume ? VOLUME_GAP + volH : 0);
 
   // The tallest grid-locked plot that still fits, leaving GRID for the snap.
-  const fitted = PLOT_GAPS.map((g) => g * CHART_GRID_STEP).find(
-    (h) => fixed + GRID + h <= height
-  );
+  const fitted = PLOT_GAPS.map((g) => g * CHART_GRID_STEP).find((h) => fixed + GRID + h <= height);
   const aligns = gridAnchor !== undefined && fitted !== undefined;
 
   // Before the chart has been measured it already takes its grid-locked
   // size, centred in the snap's slack, so the snap when the measurement lands
   // is a shift of at most half a cell -- not a change in the number of lines
   // under a chart that is still building itself in.
-  const priceH =
-    fitted !== undefined ? fitted : Math.max(GRID, height - fixed);
+  const priceH = fitted !== undefined ? fitted : Math.max(GRID, height - fixed);
   // priceH is a whole number of backdrop cells when aligning, so shifting the
   // top by the remainder puts every line on one.
   const padTop = aligns
@@ -1214,7 +1215,11 @@ function Chart({
   // still to come -- lands once most of the row is in.
   const overlay = useEntrance(true, ENTRY_DELAY + shown * stagger * 0.7, OVERLAY_MS);
   // A line chart draws itself on when nothing else is drawing it.
-  const selfDraw = useEntrance(spec.kind === 'line' && !draw && !playback, ENTRY_DELAY, DURATION.draw);
+  const selfDraw = useEntrance(
+    spec.kind === 'line' && !draw && !playback,
+    ENTRY_DELAY,
+    DURATION.draw,
+  );
   const lineDraw = draw ?? selfDraw;
   const overlayProps = useAnimatedProps(() => ({ opacity: overlay.get() }));
   const overlayStyle = useAnimatedStyle(() => ({ opacity: overlay.get() }));
@@ -1224,18 +1229,15 @@ function Chart({
   // from there is windowAt's.
   const { lo, hi } = useMemo(
     () => domainOf(bars, spec, Math.max(1, shown)),
-    [bars, spec.vwap, spec.levels, shown]
+    [bars, spec.vwap, spec.levels, shown],
   );
 
   // Where the axis ends up once every bar is in.
-  const full = useMemo(
-    () => domainOf(bars, spec, n),
-    [bars, spec.vwap, spec.levels, n]
-  );
+  const full = useMemo(() => domainOf(bars, spec, n), [bars, spec.vwap, spec.levels, n]);
 
   const layout = useMemo(
     () => chartLayout({ width, height, bars: n, lo, hi, hasVolume, gridAnchor }),
-    [width, height, n, lo, hi, hasVolume, gridAnchor]
+    [width, height, n, lo, hi, hasVolume, gridAnchor],
   );
   const { padTop, priceH, plotW, bodyW, volTop, volH, gaps, y, cx } = layout;
 
@@ -1257,8 +1259,7 @@ function Chart({
   // only these labels change, and they cross-fade rather than re-render.
   const fullTicks = useMemo(() => {
     const out: number[] = [];
-    for (let i = 0; i <= gaps; i++)
-      out.push(full.lo + ((full.hi - full.lo) * i) / gaps);
+    for (let i = 0; i <= gaps; i++) out.push(full.lo + ((full.hi - full.lo) * i) / gaps);
     return out;
   }, [full.lo, full.hi, gaps]);
 
@@ -1331,7 +1332,7 @@ function Chart({
     const first = cx(0);
     const base = padTop + priceH;
     return `${linePath} L${last.toFixed(2)},${base.toFixed(2)} L${first.toFixed(
-      2
+      2,
     )},${base.toFixed(2)} Z`;
   }, [linePath, shown, layout]);
 
@@ -1348,9 +1349,7 @@ function Chart({
   // A candle has width, so the marker clears the body by a hair instead of
   // cutting through it -- but stays attached to the bar, not half a slot away.
   const decisionX =
-    spec.kind === 'line'
-      ? cx(spec.decision_index)
-      : cx(spec.decision_index) + bodyW / 2 + 3;
+    spec.kind === 'line' ? cx(spec.decision_index) : cx(spec.decision_index) + bodyW / 2 + 3;
   const lastVisible = shown > 0 ? bars[shown - 1] : null;
 
   const decisionZone = showDecisionMarker && revealFrom !== undefined;
@@ -1489,12 +1488,7 @@ function Chart({
             zone right of the decision, so the empty half of the chart reads as
             "not yet" rather than as nothing. */}
         {future && playGeom && playback ? (
-          <PlaybackFuture
-            g={playGeom}
-            progress={playback}
-            zone={future}
-            slot={layout.slot}
-          />
+          <PlaybackFuture g={playGeom} progress={playback} zone={future} slot={layout.slot} />
         ) : future ? (
           <AnimatedG animatedProps={overlayProps}>
             <FutureZone zone={future} />
@@ -1525,35 +1519,30 @@ function Chart({
                 />
               ) : (
                 <G>
-                {neo ? (
+                  {neo ? (
+                    <Path
+                      d={linePath}
+                      stroke={lineColor}
+                      strokeWidth={GLOW_W}
+                      strokeOpacity={GLOW_OPACITY}
+                      fill="none"
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                    />
+                  ) : null}
                   <Path
                     d={linePath}
                     stroke={lineColor}
-                    strokeWidth={GLOW_W}
-                    strokeOpacity={GLOW_OPACITY}
+                    strokeWidth={2.25}
                     fill="none"
                     strokeLinejoin="round"
                     strokeLinecap="round"
                   />
-                ) : null}
-                <Path
-                  d={linePath}
-                  stroke={lineColor}
-                  strokeWidth={2.25}
-                  fill="none"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                />
                 </G>
               )
             ) : null}
             {lastVisible ? (
-              <AnimatedDot
-                cx={cx(shown - 1)}
-                cy={y(lastVisible.c)}
-                draw={lineDraw}
-                halo={neo}
-              />
+              <AnimatedDot cx={cx(shown - 1)} cy={y(lastVisible.c)} draw={lineDraw} halo={neo} />
             ) : null}
           </G>
         ) : playGeom && playback ? (
@@ -1596,38 +1585,36 @@ function Chart({
 
         {/* volume strip */}
         {hasVolume
-          ? (spec.volume as number[])
-              .slice(0, playGeom && playback ? n : shown)
-              .map((v, i) => {
-                const b = bars[i];
-                const upBar = b.c >= b.o;
-                const fill = upBar ? colors.up : colors.down;
-                const barY = volY(v);
-                const barH = Math.max(1, volTop + volH - barY);
-                return playGeom && playback ? (
-                  <PlaybackVolumeBar
-                    key={`v${i}`}
-                    g={playGeom}
-                    i={i}
-                    x={cx(i) - bodyW / 2}
-                    y={barY}
-                    width={bodyW}
-                    height={barH}
-                    progress={playback}
-                  />
-                ) : (
-                  <BuildVolume
-                    key={`v${i}`}
-                    x={cx(i) - bodyW / 2}
-                    width={bodyW}
-                    floor={volTop + volH}
-                    height={barH}
-                    fill={fill}
-                    play={builds(i)}
-                    delay={buildDelay(i)}
-                  />
-                );
-              })
+          ? (spec.volume as number[]).slice(0, playGeom && playback ? n : shown).map((v, i) => {
+              const b = bars[i];
+              const upBar = b.c >= b.o;
+              const fill = upBar ? colors.up : colors.down;
+              const barY = volY(v);
+              const barH = Math.max(1, volTop + volH - barY);
+              return playGeom && playback ? (
+                <PlaybackVolumeBar
+                  key={`v${i}`}
+                  g={playGeom}
+                  i={i}
+                  x={cx(i) - bodyW / 2}
+                  y={barY}
+                  width={bodyW}
+                  height={barH}
+                  progress={playback}
+                />
+              ) : (
+                <BuildVolume
+                  key={`v${i}`}
+                  x={cx(i) - bodyW / 2}
+                  width={bodyW}
+                  floor={volTop + volH}
+                  height={barH}
+                  fill={fill}
+                  play={builds(i)}
+                  delay={buildDelay(i)}
+                />
+              );
+            })
           : null}
         {hasVolume ? (
           <Line
@@ -1640,12 +1627,7 @@ function Chart({
           />
         ) : null}
         {hasVolume ? (
-          <SvgText
-            x={width - AXIS_W + 6}
-            y={volTop + volH}
-            fill={colors.textFaint}
-            fontSize={9}
-          >
+          <SvgText x={width - AXIS_W + 6} y={volTop + volH} fill={colors.textFaint} fontSize={9}>
             {`vol ${fmtVolume(maxVol)}`}
           </SvgText>
         ) : null}
@@ -1719,12 +1701,7 @@ function Chart({
               strokeWidth={1}
               strokeDasharray="3 4"
             />
-            <Circle
-              cx={decisionX}
-              cy={padTop + 1}
-              r={3}
-              fill={colors.textMuted}
-            />
+            <Circle cx={decisionX} cy={padTop + 1} r={3} fill={colors.textMuted} />
           </AnimatedG>
         ) : null}
       </Svg>

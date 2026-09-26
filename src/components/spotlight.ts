@@ -9,7 +9,7 @@ import { tint } from '../lesson/look';
 export function spotlight(
   id: string,
   focus: string | undefined,
-  highlight: Record<string, string> | undefined
+  highlight: Record<string, string> | undefined,
 ) {
   if (!focus) return null;
   if (id !== focus) return { opacity: 0.32 };

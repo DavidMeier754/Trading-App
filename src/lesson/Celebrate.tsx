@@ -73,8 +73,8 @@ export function Celebrate({
       swell.set(
         withSequence(
           withDelay(Math.max(0, second - 80), withTiming(peak, { duration: 80, easing: EASE_OUT })),
-          withSpring(1, SPRING_POP)
-        )
+          withSpring(1, SPRING_POP),
+        ),
       );
     }
   }, [reduced, rings, square, peak, ring1, ring2, swell]);
@@ -135,13 +135,18 @@ function PencilCircle({ w, h, instant }: { w: number; h: number; instant: boolea
       const wobble = 1 + 0.025 * Math.sin(a * 3 + 1.3) + 0.035 * u;
       const x = rx * wobble * Math.cos(a);
       const y = ry * wobble * Math.sin(a);
-      pts.push([cx + x * Math.cos(tilt) - y * Math.sin(tilt), cy + x * Math.sin(tilt) + y * Math.cos(tilt)]);
+      pts.push([
+        cx + x * Math.cos(tilt) - y * Math.sin(tilt),
+        cy + x * Math.sin(tilt) + y * Math.cos(tilt),
+      ]);
     }
     let len = 0;
     for (let i = 1; i < pts.length; i++) {
       len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
     }
-    const path = pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+    const path = pts
+      .map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`)
+      .join(' ');
     return { d: path, length: len };
   }, [w, h]);
 
@@ -183,8 +188,8 @@ function Bloom({ w, h, color }: { w: number; h: number; color: string }) {
     t.set(
       withDelay(
         Math.max(0, pulseAt('correct0', 1) - 60),
-        withTiming(1, { duration: 1100, easing: EASE_OUT })
-      )
+        withTiming(1, { duration: 1100, easing: EASE_OUT }),
+      ),
     );
   }, [t]);
   const style = useAnimatedStyle(() => {
@@ -256,13 +261,23 @@ function Sparks({
           dy={Math.sin(angle) * reach}
           delay={wave === 0 ? 0 : second}
           size={stars ? 7 + 5 * seed : 3 + 3 * seed}
-          color={stars ? STAR_COLORS[i % STAR_COLORS.length] : i % 3 === 0 ? SPARK_COLORS[wave % 2] : color}
+          color={
+            stars
+              ? STAR_COLORS[i % STAR_COLORS.length]
+              : i % 3 === 0
+                ? SPARK_COLORS[wave % 2]
+                : color
+          }
           diamond={stars}
-        />
+        />,
       );
     }
   }
-  return <View pointerEvents="none" style={styles.ring}>{all}</View>;
+  return (
+    <View pointerEvents="none" style={styles.ring}>
+      {all}
+    </View>
+  );
 }
 
 function Spark({
@@ -304,7 +319,12 @@ function Spark({
     <Animated.View
       style={[
         styles.spark,
-        { width: size, height: size, borderRadius: diamond ? 1.5 : size / 2, backgroundColor: color },
+        {
+          width: size,
+          height: size,
+          borderRadius: diamond ? 1.5 : size / 2,
+          backgroundColor: color,
+        },
         style,
       ]}
     />

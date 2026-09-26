@@ -48,7 +48,11 @@ export default function JournalTable({
             return (
               <Text
                 key={c}
-                style={[styles.cell, c === '' && [styles.labelCol, styles.label], cell.color ? { color: cell.color } : null]}
+                style={[
+                  styles.cell,
+                  c === '' && [styles.labelCol, styles.label],
+                  cell.color ? { color: cell.color } : null,
+                ]}
                 numberOfLines={2}
               >
                 {cell.text}

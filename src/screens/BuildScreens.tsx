@@ -323,9 +323,7 @@ export function BranchScreen({
               >
                 {lastRight ? 'Right call' : 'Not quite'}
               </Text>
-              <Text style={styles.consequenceText}>
-                {copy(screen.steps[lastStep].explanation)}
-              </Text>
+              <Text style={styles.consequenceText}>{copy(screen.steps[lastStep].explanation)}</Text>
             </View>
           </PopIn>
         ) : null}
@@ -396,7 +394,13 @@ const styles = StyleSheet.create({
     padding: space.md,
     gap: 2,
   },
-  consequenceKicker: { ...type.small, fontSize: 11, color: colors.textFaint, textTransform: 'uppercase', letterSpacing: 0.8 },
+  consequenceKicker: {
+    ...type.small,
+    fontSize: 11,
+    color: colors.textFaint,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+  },
   consequenceText: { ...type.body, color: colors.text },
   options: { gap: space.sm },
   option: { minHeight: TAP_TARGET, paddingHorizontal: space.lg, justifyContent: 'center' },

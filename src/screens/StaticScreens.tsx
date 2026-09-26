@@ -292,7 +292,11 @@ export function RecapScreen({
                     tapFeedback();
                     setOpen(isOpen ? null : i);
                   }}
-                  style={[styles.recapRow, surfaceStyle(look), isOpen && { borderColor: look.accent }]}
+                  style={[
+                    styles.recapRow,
+                    surfaceStyle(look),
+                    isOpen && { borderColor: look.accent },
+                  ]}
                 >
                   <View style={styles.recapHead}>
                     <View style={[styles.recapNum, { backgroundColor: tint(look.accent, 0.18) }]}>
@@ -330,9 +334,27 @@ const PATH_CARDS: {
   screen: string;
   feel: string;
 }[] = [
-  { id: 'scalping', icon: 'bolt', hold: 'Seconds to minutes', screen: '~90 min a day', feel: '1-minute charts. Many small, fast trades, all attention while it runs.' },
-  { id: 'day-trading', icon: 'clock', hold: 'Minutes to hours', screen: '~60 min a day', feel: '5- and 15-minute charts. A few trades, flat by the close.' },
-  { id: 'swing-trading', icon: 'calendar', hold: 'Days to weeks', screen: '~15 min a day', feel: 'Daily charts. Check in once a day, hold through the nights.' },
+  {
+    id: 'scalping',
+    icon: 'bolt',
+    hold: 'Seconds to minutes',
+    screen: '~90 min a day',
+    feel: '1-minute charts. Many small, fast trades, all attention while it runs.',
+  },
+  {
+    id: 'day-trading',
+    icon: 'clock',
+    hold: 'Minutes to hours',
+    screen: '~60 min a day',
+    feel: '5- and 15-minute charts. A few trades, flat by the close.',
+  },
+  {
+    id: 'swing-trading',
+    icon: 'calendar',
+    hold: 'Days to weeks',
+    screen: '~15 min a day',
+    feel: 'Daily charts. Check in once a day, hold through the nights.',
+  },
 ];
 
 /**
@@ -353,7 +375,10 @@ export function PathChoiceScreen({
     <View style={styles.centered}>
       <View style={styles.pathHead}>
         <ScreenTitle>Choose your path</ScreenTitle>
-        <Body>Chapter 1 was the same for everyone. From Chapter 2 on, the lessons follow how you want to trade.</Body>
+        <Body>
+          Chapter 1 was the same for everyone. From Chapter 2 on, the lessons follow how you want to
+          trade.
+        </Body>
       </View>
       <View style={styles.pathList}>
         {PATH_CARDS.map((card) => {
@@ -378,14 +403,23 @@ export function PathChoiceScreen({
                 !open && styles.pathCardShut,
               ]}
             >
-              <View style={[styles.pathIcon, { backgroundColor: tint(look.accent, open ? 0.16 : 0.06) }]}>
+              <View
+                style={[
+                  styles.pathIcon,
+                  { backgroundColor: tint(look.accent, open ? 0.16 : 0.06) },
+                ]}
+              >
                 <Icon name={card.icon} size={20} color={open ? look.accent : colors.textFaint} />
               </View>
               <View style={styles.pathBody}>
                 <View style={styles.pathTop}>
-                  <Text style={[styles.pathName, !open && { color: colors.textMuted }]}>{path?.name}</Text>
+                  <Text style={[styles.pathName, !open && { color: colors.textMuted }]}>
+                    {path?.name}
+                  </Text>
                   {open ? (
-                    on ? <Icon name="check" size={18} color={look.accent} strokeWidth={3} /> : null
+                    on ? (
+                      <Icon name="check" size={18} color={look.accent} strokeWidth={3} />
+                    ) : null
                   ) : (
                     <Text style={styles.pathSoon}>Being written</Text>
                   )}
@@ -459,7 +493,12 @@ const styles = StyleSheet.create({
   storyKick: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   storyKickText: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.2 },
   storyText: { ...type.prompt, color: colors.text },
-  recapKicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.2, marginBottom: space.xs },
+  recapKicker: {
+    ...type.label,
+    textTransform: 'uppercase',
+    letterSpacing: 1.2,
+    marginBottom: space.xs,
+  },
   recapList: { gap: space.sm },
   recapRow: {
     gap: space.sm,
@@ -470,7 +509,13 @@ const styles = StyleSheet.create({
   recapCard: { borderLeftWidth: 2, paddingLeft: space.md, marginLeft: 40, gap: 2 },
   recapCardTitle: { ...type.small, fontWeight: '700', color: colors.text },
   recapCardBody: { ...type.small, color: colors.textMuted },
-  recapNum: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  recapNum: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   recapNumText: { ...type.label, fontWeight: '800' },
   recapText: { ...type.body, color: colors.text, flex: 1 },
   recapLevel: { ...type.small, fontSize: 11, color: colors.textFaint },
@@ -483,11 +528,27 @@ const styles = StyleSheet.create({
     padding: space.md,
   },
   pathCardShut: { opacity: 0.6 },
-  pathIcon: { width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
+  pathIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   pathBody: { flex: 1, gap: 2 },
-  pathTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
+  pathTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: space.sm,
+  },
   pathName: { ...type.prompt, color: colors.text },
-  pathSoon: { ...type.small, color: colors.textFaint, textTransform: 'uppercase', letterSpacing: 0.8 },
+  pathSoon: {
+    ...type.small,
+    color: colors.textFaint,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+  },
   pathHold: { ...type.small, fontWeight: '700' },
   pathFeel: { ...type.small, fontSize: 13, lineHeight: 18, color: colors.textMuted },
 });

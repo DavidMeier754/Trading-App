@@ -88,10 +88,7 @@ export default function PlanCardScreen({
                       tapFeedback();
                       onChange(key, suggestion);
                     }}
-                    style={[
-                      styles.suggest,
-                      current === suggestion && styles.suggestOn,
-                    ]}
+                    style={[styles.suggest, current === suggestion && styles.suggestOn]}
                   >
                     <Text style={styles.suggestText}>{`Use ${suggestion}`}</Text>
                   </Pressable>
@@ -140,7 +137,12 @@ const styles = StyleSheet.create({
     gap: space.sm,
   },
   label: { ...type.small, color: colors.textMuted },
-  valueRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm },
+  valueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: space.sm,
+  },
   value: { ...type.title, color: colors.text },
   valueEmpty: { color: colors.textFaint },
   input: {

@@ -62,15 +62,12 @@ export default function QuoteCard({
             'change',
             <Text style={[styles.change, { color: changeColor }]}>
               {/* docs/UI.md §6: up/down always paired with an arrow or sign. */}
-              {up ? '▲' : '▼'}{' '}
-              {data.change !== undefined ? signedPrice(data.change) : ''}
+              {up ? '▲' : '▼'} {data.change !== undefined ? signedPrice(data.change) : ''}
               {data.change_pct !== undefined ? ` (${signedPercent(data.change_pct)})` : ''}
-            </Text>
+            </Text>,
           )
         : null}
-      {data.volume
-        ? wrap('volume', <Text style={styles.volume}>Vol {data.volume}</Text>)
-        : null}
+      {data.volume ? wrap('volume', <Text style={styles.volume}>Vol {data.volume}</Text>) : null}
       {data.prev_close !== undefined
         ? wrap('prev_close', <Text style={styles.volume}>Prev close {price(data.prev_close)}</Text>)
         : null}

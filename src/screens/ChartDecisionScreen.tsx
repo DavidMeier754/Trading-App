@@ -91,8 +91,7 @@ export default function ChartDecisionScreen({
   // dot and the axis from it, so the replay is continuous and costs no renders.
   const progress = useSharedValue(revisit ? 1 : PLAY_START);
   const playing = choice !== null && !done;
-  const phase: DecisionPhase =
-    choice === null ? 'deciding' : done ? 'done' : 'playing';
+  const phase: DecisionPhase = choice === null ? 'deciding' : done ? 'done' : 'playing';
 
   useEffect(() => {
     onPhaseChange(phase);
@@ -142,8 +141,8 @@ export default function ChartDecisionScreen({
         withTiming(1, reveal, (finished) => {
           'worklet';
           if (finished) scheduleOnRN(finish);
-        })
-      )
+        }),
+      ),
     );
   }, [choice, reduced, revisit, isLine, legs, progress, finish, quiet]);
 
@@ -155,7 +154,7 @@ export default function ChartDecisionScreen({
       withTiming(1, { duration: SKIP_MS, easing: EASE_OUT }, (finished) => {
         'worklet';
         if (finished) scheduleOnRN(finish);
-      })
+      }),
     );
   };
 
@@ -180,7 +179,7 @@ export default function ChartDecisionScreen({
       withTiming(1, { duration: reduced ? 0 : FOLD_MS, easing: EASE_IN_OUT }, (finished) => {
         'worklet';
         if (finished) scheduleOnRN(done);
-      })
+      }),
     );
   }, [choice, revisit, reduced, fold]);
   const briefStyle = useAnimatedStyle(() => {
@@ -249,7 +248,7 @@ export default function ChartDecisionScreen({
       up: move >= 0,
       flat: Math.abs(move) < 1e-9,
     }),
-    [move, movePct, direction, pnl, screen.shares]
+    [move, movePct, direction, pnl, screen.shares],
   );
   const chartHeight = chartHeightFor(!!screen.chart.volume, fit.gaps);
   const chartWidth = chartWidthFor(width, !!screen.chart.volume, fit.gaps);
@@ -267,7 +266,7 @@ export default function ChartDecisionScreen({
       if (measuring) setColumnH(e.nativeEvent.layout.height);
       fit.onLayout(e);
     },
-    [measuring, fit.onLayout]
+    [measuring, fit.onLayout],
   );
   useEffect(() => {
     if (!measuring || room === undefined || columnH <= 0) return;
@@ -279,57 +278,54 @@ export default function ChartDecisionScreen({
   return (
     <View style={styles.wrap}>
       {revisit ? null : (
-        <RevealProbe
-          lead={longestLead}
-          explanation={screen.explanation}
-          onHeight={setProbeH}
-        />
+        <RevealProbe lead={longestLead} explanation={screen.explanation} onHeight={setProbeH} />
       )}
       <View style={{ height: spacer }} />
       <View style={styles.column} onLayout={onColumnLayout}>
-      {revisit ? null : (
-        <Animated.View
-          style={[styles.brief, briefStyle]}
-          accessibilityElementsHidden={folded}
-          importantForAccessibility={folded ? 'no-hide-descendants' : 'auto'}
-        >
-          <View
-            style={styles.briefText}
-            onLayout={(e) => setBriefText(e.nativeEvent.layout.height)}
+        {revisit ? null : (
+          <Animated.View
+            style={[styles.brief, briefStyle]}
+            accessibilityElementsHidden={folded}
+            importantForAccessibility={folded ? 'no-hide-descendants' : 'auto'}
           >
-            <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
-            {screen.state?.length ? <StateChips state={screen.state} /> : null}
-          </View>
-          <View style={{ height: briefH > 0 ? briefH - briefText : space.md }} />
-        </Animated.View>
-      )}
+            <View
+              style={styles.briefText}
+              onLayout={(e) => setBriefText(e.nativeEvent.layout.height)}
+            >
+              <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
+              {screen.state?.length ? <StateChips state={screen.state} /> : null}
+            </View>
+            <View style={{ height: briefH > 0 ? briefH - briefText : space.md }} />
+          </Animated.View>
+        )}
 
-      <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
-        <Pressable accessibilityRole="button" onPress={onChartPress} disabled={choice === null}>
-          <Chart
-            spec={screen.chart}
-            visibleCount={done ? bars : start}
-            revealFrom={start}
-            playback={playing ? progress : undefined}
-            gridAnchor={grid.gridAnchor}
-            width={chartWidth}
-            height={chartHeight}
-            outcome={phase === 'done' ? outcome : undefined}
-          />
-        </Pressable>
-        {/* In the strip under the plot, opposite the VWAP key: a line of its
+        <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
+          <Pressable accessibilityRole="button" onPress={onChartPress} disabled={choice === null}>
+            <Chart
+              spec={screen.chart}
+              visibleCount={done ? bars : start}
+              revealFrom={start}
+              playback={playing ? progress : undefined}
+              gridAnchor={grid.gridAnchor}
+              width={chartWidth}
+              height={chartHeight}
+              outcome={phase === 'done' ? outcome : undefined}
+            />
+          </Pressable>
+          {/* In the strip under the plot, opposite the VWAP key: a line of its
             own cost the screen a row. While the replay plays it says how to
             skip it; once it is over it carries the risk note docs/UI.md §11.6
             wants on every scenario result. */}
-        <Text
-          pointerEvents="none"
-          accessibilityLabel={phase === 'done' ? `${copy(screen.outcome)} Not a prediction.` : undefined}
-          style={[styles.playHint, phase === 'deciding' && styles.playHintHidden]}
-        >
-          {phase === 'done' ? 'Not a prediction' : 'Tap to skip'}
-        </Text>
-      </View>
-
+          <Text
+            pointerEvents="none"
+            accessibilityLabel={
+              phase === 'done' ? `${copy(screen.outcome)} Not a prediction.` : undefined
+            }
+            style={[styles.playHint, phase === 'deciding' && styles.playHintHidden]}
+          >
+            {phase === 'done' ? 'Not a prediction' : 'Tap to skip'}
+          </Text>
+        </View>
       </View>
     </View>
   );

@@ -24,19 +24,32 @@ export const CUES = {
   },
   commit: {
     file: require('../../assets/sounds/commit.wav'),
-    pulses: [[0, 'rigid'], [70, 'medium']] as readonly Pulse[],
+    pulses: [
+      [0, 'rigid'],
+      [70, 'medium'],
+    ] as readonly Pulse[],
   },
   correct0: {
     file: require('../../assets/sounds/correct0.wav'),
-    pulses: [[0, 'light'], [95, 'rigid']] as readonly Pulse[],
+    pulses: [
+      [0, 'light'],
+      [95, 'rigid'],
+    ] as readonly Pulse[],
   },
   correct1: {
     file: require('../../assets/sounds/correct1.wav'),
-    pulses: [[0, 'light'], [95, 'rigid']] as readonly Pulse[],
+    pulses: [
+      [0, 'light'],
+      [95, 'rigid'],
+    ] as readonly Pulse[],
   },
   streak: {
     file: require('../../assets/sounds/streak.wav'),
-    pulses: [[0, 'light'], [80, 'light'], [160, 'medium']] as readonly Pulse[],
+    pulses: [
+      [0, 'light'],
+      [80, 'light'],
+      [160, 'medium'],
+    ] as readonly Pulse[],
   },
   amber: {
     file: require('../../assets/sounds/amber.wav'),
@@ -44,7 +57,10 @@ export const CUES = {
   },
   wrong: {
     file: require('../../assets/sounds/wrong.wav'),
-    pulses: [[0, 'medium'], [170, 'soft']] as readonly Pulse[],
+    pulses: [
+      [0, 'medium'],
+      [170, 'soft'],
+    ] as readonly Pulse[],
   },
   pop0: {
     file: require('../../assets/sounds/pop0.wav'),
@@ -112,23 +128,46 @@ export const CUES = {
   },
   complete: {
     file: require('../../assets/sounds/complete.wav'),
-    pulses: [[0, 'heavy'], [110, 'light'], [220, 'light'], [330, 'light']] as readonly Pulse[],
+    pulses: [
+      [0, 'heavy'],
+      [110, 'light'],
+      [220, 'light'],
+      [330, 'light'],
+    ] as readonly Pulse[],
   },
   perfect: {
     file: require('../../assets/sounds/perfect.wav'),
-    pulses: [[0, 'heavy'], [100, 'light'], [200, 'light'], [300, 'light'], [420, 'rigid']] as readonly Pulse[],
+    pulses: [
+      [0, 'heavy'],
+      [100, 'light'],
+      [200, 'light'],
+      [300, 'light'],
+      [420, 'rigid'],
+    ] as readonly Pulse[],
   },
   badge: {
     file: require('../../assets/sounds/badge.wav'),
-    pulses: [[0, 'heavy'], [180, 'light']] as readonly Pulse[],
+    pulses: [
+      [0, 'heavy'],
+      [180, 'light'],
+    ] as readonly Pulse[],
   },
   unlock: {
     file: require('../../assets/sounds/unlock.wav'),
-    pulses: [[0, 'light'], [110, 'rigid']] as readonly Pulse[],
+    pulses: [
+      [0, 'light'],
+      [110, 'rigid'],
+    ] as readonly Pulse[],
   },
   tier: {
     file: require('../../assets/sounds/tier.wav'),
-    pulses: [[0, 'light'], [140, 'light'], [280, 'medium'], [440, 'heavy'], [620, 'light']] as readonly Pulse[],
+    pulses: [
+      [0, 'light'],
+      [140, 'light'],
+      [280, 'medium'],
+      [440, 'heavy'],
+      [620, 'light'],
+    ] as readonly Pulse[],
   },
 } as const;
 

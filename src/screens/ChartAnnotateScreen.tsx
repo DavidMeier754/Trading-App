@@ -95,7 +95,7 @@ export default function ChartAnnotateScreen({
       else if (detent) detentFeedback();
       onChange({ kind: 'slider', value: price });
     },
-    [onChange]
+    [onChange],
   );
   const { padTop, priceH } = layout;
   const place = (absoluteY: number, first: boolean) => {
@@ -137,120 +137,120 @@ export default function ChartAnnotateScreen({
   return (
     <View style={styles.wrap}>
       <View style={styles.column} onLayout={fit.onLayout}>
-      <Prompt>{screen.prompt}</Prompt>
+        <Prompt>{screen.prompt}</Prompt>
 
-      <View
-        ref={grid.ref}
-        onLayout={grid.onLayout}
-        style={{ width: chartWidth, height, alignSelf: 'center' }}
-      >
-      <GestureDetector gesture={pan}>
-      <Animated.View
-        ref={hit}
-        collapsable={false}
-        accessibilityRole="adjustable"
-        accessibilityLabel="Chart. Tap or drag to place the line; the buttons below move it a cent."
-        style={{ width: chartWidth, height }}
-      >
-        <Chart
-          spec={chartSpec}
-          visibleCount={rows.length}
-          width={chartWidth}
-          height={height}
-          showDecisionMarker={false}
-          gridAnchor={grid.gridAnchor}
-        />
-        <View style={styles.overlay} pointerEvents="none">
-          <Svg width={chartWidth} height={height}>
-            {revealed ? (
-              <>
-                <Line
-                  x1={0}
-                  x2={chartWidth - AXIS_W}
-                  y1={toY(screen.answer)}
-                  y2={toY(screen.answer)}
-                  stroke={colors.success}
-                  strokeWidth={2}
-                />
-                <Line
-                  x1={0}
-                  x2={chartWidth - AXIS_W}
-                  y1={toY(screen.answer + screen.tolerance)}
-                  y2={toY(screen.answer + screen.tolerance)}
-                  stroke={colors.success}
-                  strokeWidth={1}
-                  strokeDasharray="3 3"
-                  opacity={0.6}
-                />
-                <Line
-                  x1={0}
-                  x2={chartWidth - AXIS_W}
-                  y1={toY(screen.answer - screen.tolerance)}
-                  y2={toY(screen.answer - screen.tolerance)}
-                  stroke={colors.success}
-                  strokeWidth={1}
-                  strokeDasharray="3 3"
-                  opacity={0.6}
-                />
-              </>
-            ) : null}
-            {placed !== null ? (
-              <>
-                <Line
-                  x1={0}
-                  x2={chartWidth - AXIS_W}
-                  y1={toY(placed)}
-                  y2={toY(placed)}
-                  stroke={
-                    !revealed
-                      ? colors.accent
-                      : Math.abs(placed - screen.answer) <= screen.tolerance
-                        ? colors.success
-                        : colors.down
-                  }
-                  strokeWidth={2.5}
-                />
-                <SvgText
-                  x={4}
-                  y={toY(placed) - 6}
-                  fill={colors.accent}
-                  fontSize={11}
-                  fontWeight="700"
-                >
-                  {price(placed)}
-                </SvgText>
-              </>
-            ) : null}
-          </Svg>
+        <View
+          ref={grid.ref}
+          onLayout={grid.onLayout}
+          style={{ width: chartWidth, height, alignSelf: 'center' }}
+        >
+          <GestureDetector gesture={pan}>
+            <Animated.View
+              ref={hit}
+              collapsable={false}
+              accessibilityRole="adjustable"
+              accessibilityLabel="Chart. Tap or drag to place the line; the buttons below move it a cent."
+              style={{ width: chartWidth, height }}
+            >
+              <Chart
+                spec={chartSpec}
+                visibleCount={rows.length}
+                width={chartWidth}
+                height={height}
+                showDecisionMarker={false}
+                gridAnchor={grid.gridAnchor}
+              />
+              <View style={styles.overlay} pointerEvents="none">
+                <Svg width={chartWidth} height={height}>
+                  {revealed ? (
+                    <>
+                      <Line
+                        x1={0}
+                        x2={chartWidth - AXIS_W}
+                        y1={toY(screen.answer)}
+                        y2={toY(screen.answer)}
+                        stroke={colors.success}
+                        strokeWidth={2}
+                      />
+                      <Line
+                        x1={0}
+                        x2={chartWidth - AXIS_W}
+                        y1={toY(screen.answer + screen.tolerance)}
+                        y2={toY(screen.answer + screen.tolerance)}
+                        stroke={colors.success}
+                        strokeWidth={1}
+                        strokeDasharray="3 3"
+                        opacity={0.6}
+                      />
+                      <Line
+                        x1={0}
+                        x2={chartWidth - AXIS_W}
+                        y1={toY(screen.answer - screen.tolerance)}
+                        y2={toY(screen.answer - screen.tolerance)}
+                        stroke={colors.success}
+                        strokeWidth={1}
+                        strokeDasharray="3 3"
+                        opacity={0.6}
+                      />
+                    </>
+                  ) : null}
+                  {placed !== null ? (
+                    <>
+                      <Line
+                        x1={0}
+                        x2={chartWidth - AXIS_W}
+                        y1={toY(placed)}
+                        y2={toY(placed)}
+                        stroke={
+                          !revealed
+                            ? colors.accent
+                            : Math.abs(placed - screen.answer) <= screen.tolerance
+                              ? colors.success
+                              : colors.down
+                        }
+                        strokeWidth={2.5}
+                      />
+                      <SvgText
+                        x={4}
+                        y={toY(placed) - 6}
+                        fill={colors.accent}
+                        fontSize={11}
+                        fontWeight="700"
+                      >
+                        {price(placed)}
+                      </SvgText>
+                    </>
+                  ) : null}
+                </Svg>
+              </View>
+            </Animated.View>
+          </GestureDetector>
         </View>
-      </Animated.View>
-      </GestureDetector>
-      </View>
 
-      {/* Kept in the layout once the line is placed, only emptied, so the
+        {/* Kept in the layout once the line is placed, only emptied, so the
           buttons under it do not jump up at the first tap. */}
-      <Text style={styles.hint}>
-        {placed === null && !revealed ? 'Tap or drag on the chart to place your line.' : ' '}
-      </Text>
+        <Text style={styles.hint}>
+          {placed === null && !revealed ? 'Tap or drag on the chart to place your line.' : ' '}
+        </Text>
 
-      {!revealed ? (
-        <View style={styles.nudgeRow}>
-          <Pressable accessibilityRole="button" onPress={() => nudge(-0.01)} style={styles.nudge}>
-            <Text style={styles.nudgeText}>{'− 1¢'}</Text>
-          </Pressable>
-          <Pressable accessibilityRole="button" onPress={() => nudge(0.01)} style={styles.nudge}>
-            <Text style={styles.nudgeText}>{'+ 1¢'}</Text>
-          </Pressable>
-        </View>
-      ) : (
-        // In the buttons' place and at their height, so the screen does not get
-        // shorter under the reveal -- a shorter screen is re-fitted, and moves.
-        <View style={styles.answerRow}>
-          <Text style={styles.hint}>
-            {`${screen.label ?? 'Intended'}: ${price(screen.answer)} (±${screen.tolerance.toFixed(2)})`}
-          </Text>
-        </View>
-      )}
+        {!revealed ? (
+          <View style={styles.nudgeRow}>
+            <Pressable accessibilityRole="button" onPress={() => nudge(-0.01)} style={styles.nudge}>
+              <Text style={styles.nudgeText}>{'− 1¢'}</Text>
+            </Pressable>
+            <Pressable accessibilityRole="button" onPress={() => nudge(0.01)} style={styles.nudge}>
+              <Text style={styles.nudgeText}>{'+ 1¢'}</Text>
+            </Pressable>
+          </View>
+        ) : (
+          // In the buttons' place and at their height, so the screen does not get
+          // shorter under the reveal -- a shorter screen is re-fitted, and moves.
+          <View style={styles.answerRow}>
+            <Text style={styles.hint}>
+              {`${screen.label ?? 'Intended'}: ${price(screen.answer)} (±${screen.tolerance.toFixed(2)})`}
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );

@@ -52,7 +52,9 @@ export function ToneSurface({
     borderRadius: spec.surface.radius,
     borderWidth: spec.surface.borderWidth,
     ...(spec.surface.edge ? { borderBottomWidth: spec.surface.edge } : null),
-    ...(spec.surface.borderTop && tone === 'idle' ? { borderTopColor: spec.surface.borderTop } : null),
+    ...(spec.surface.borderTop && tone === 'idle'
+      ? { borderTopColor: spec.surface.borderTop }
+      : null),
   };
 
   const surface = (

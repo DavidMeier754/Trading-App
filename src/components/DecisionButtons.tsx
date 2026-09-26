@@ -64,7 +64,12 @@ function Choice({
     lit.set(withTiming(chosen === button ? 1 : 0, { duration: 220, easing: EASE_OUT }));
   }, [locked, chosen, button, dim, lit]);
 
-  const tone = button === 'long' || button === 'buy' ? colors.up : button === 'short' ? colors.down : colors.accent;
+  const tone =
+    button === 'long' || button === 'buy'
+      ? colors.up
+      : button === 'short'
+        ? colors.down
+        : colors.accent;
   const spec = useLookSpec();
   const rest = spec.surface.background;
   const state = useAnimatedStyle(() => ({
@@ -87,7 +92,10 @@ function Choice({
       <Animated.View
         style={[
           styles.button,
-          { borderRadius: spec.surface.radius, borderWidth: Math.max(1.5, spec.surface.borderWidth) },
+          {
+            borderRadius: spec.surface.radius,
+            borderWidth: Math.max(1.5, spec.surface.borderWidth),
+          },
           spec.surface.edge ? { borderBottomWidth: spec.surface.edge } : null,
           state,
           press.style,

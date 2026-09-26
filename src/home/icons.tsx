@@ -84,7 +84,12 @@ export default function Icon({
   filled?: boolean;
   strokeWidth?: number;
 }) {
-  const stroke = { stroke: color, strokeWidth, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  const stroke = {
+    stroke: color,
+    strokeWidth,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+  };
   const fill = filled ? color : 'none';
   let body: React.ReactNode = null;
   switch (name) {
@@ -137,7 +142,13 @@ export default function Icon({
       }
       body = (
         <>
-          <Path d={teeth.join(' ')} fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
+          <Path
+            d={teeth.join(' ')}
+            fill={color}
+            stroke={color}
+            strokeWidth={1.4}
+            strokeLinejoin="round"
+          />
           <Circle cx={12} cy={12} r={6.6} fill="none" {...stroke} />
           <Circle cx={12} cy={12} r={2.4} fill="none" {...stroke} />
         </>
@@ -150,8 +161,18 @@ export default function Icon({
     case 'trophy':
       body = (
         <>
-          <Path d="M7.5 3.5h9v5.5a4.5 4.5 0 0 1-9 0z" fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
-          <Path d="M7.5 5.5H4.5V7a3 3 0 0 0 3 3M16.5 5.5h3V7a3 3 0 0 1-3 3" fill="none" {...stroke} />
+          <Path
+            d="M7.5 3.5h9v5.5a4.5 4.5 0 0 1-9 0z"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.4}
+            strokeLinejoin="round"
+          />
+          <Path
+            d="M7.5 5.5H4.5V7a3 3 0 0 0 3 3M16.5 5.5h3V7a3 3 0 0 1-3 3"
+            fill="none"
+            {...stroke}
+          />
           <Path d="M12 13.5v4M8 20.5h8" fill="none" {...stroke} />
         </>
       );
@@ -161,13 +182,31 @@ export default function Icon({
       body = (
         <>
           <Path d="M12 3v18" fill="none" {...stroke} />
-          <Path d="M12 5h6.5l2 2-2 2H12z" fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
-          <Path d="M12 11H5.5l-2 2 2 2H12z" fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
+          <Path
+            d="M12 5h6.5l2 2-2 2H12z"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.4}
+            strokeLinejoin="round"
+          />
+          <Path
+            d="M12 11H5.5l-2 2 2 2H12z"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.4}
+            strokeLinejoin="round"
+          />
         </>
       );
       break;
     case 'shield':
-      body = <Path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.3 7.5 9.5 4.3-1.2 7.5-4.9 7.5-9.5V6z" fill={fill} {...stroke} />;
+      body = (
+        <Path
+          d="M12 3 4.5 6v5.5c0 4.6 3.2 8.3 7.5 9.5 4.3-1.2 7.5-4.9 7.5-9.5V6z"
+          fill={fill}
+          {...stroke}
+        />
+      );
       break;
     case 'chevron-down':
       body = <Path d="M6 9.5l6 6 6-6" fill="none" {...stroke} />;
@@ -260,7 +299,11 @@ export default function Icon({
       body = (
         <>
           <Path d="M3.5 9.5 12 4.5l8.5 5z" fill={fill} {...stroke} />
-          <Path d="M6.5 12v5.5M10.2 12v5.5M13.8 12v5.5M17.5 12v5.5M4 20h16" fill="none" {...stroke} />
+          <Path
+            d="M6.5 12v5.5M10.2 12v5.5M13.8 12v5.5M17.5 12v5.5M4 20h16"
+            fill="none"
+            {...stroke}
+          />
         </>
       );
       break;
@@ -281,7 +324,13 @@ export default function Icon({
       body = (
         <>
           <Path d="M6 21c0-4 12-3 12-8S6 9 6 5" fill="none" {...stroke} />
-          <Path d="M6 5V2.5l4 1.3-4 1.4" fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
+          <Path
+            d="M6 5V2.5l4 1.3-4 1.4"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.4}
+            strokeLinejoin="round"
+          />
           {filled ? <Circle cx={6} cy={21} r={1.8} fill={color} /> : null}
         </>
       );
@@ -301,7 +350,11 @@ export default function Icon({
       body = (
         <>
           <Path d="M7.5 3.5h9V9a4.5 4.5 0 0 1-9 0z" fill={fill} {...stroke} />
-          <Path d="M7.5 5.5H4.5v1.5a3 3 0 0 0 3 3M16.5 5.5h3v1.5a3 3 0 0 1-3 3" fill="none" {...stroke} />
+          <Path
+            d="M7.5 5.5H4.5v1.5a3 3 0 0 0 3 3M16.5 5.5h3v1.5a3 3 0 0 1-3 3"
+            fill="none"
+            {...stroke}
+          />
           <Path d="M12 13.5v4M8 20.5h8" fill="none" {...stroke} />
         </>
       );
@@ -315,12 +368,24 @@ export default function Icon({
       );
       break;
     case 'play':
-      body = <Path d="M8 5.5v13l10.5-6.5z" fill={color} stroke={color} strokeWidth={1.5} strokeLinejoin="round" />;
+      body = (
+        <Path
+          d="M8 5.5v13l10.5-6.5z"
+          fill={color}
+          stroke={color}
+          strokeWidth={1.5}
+          strokeLinejoin="round"
+        />
+      );
       break;
     case 'flask':
       body = (
         <>
-          <Path d="M9.5 3h5M10.5 3v6L5.2 18.2A1.8 1.8 0 0 0 6.8 21h10.4a1.8 1.8 0 0 0 1.6-2.8L13.5 9V3" fill="none" {...stroke} />
+          <Path
+            d="M9.5 3h5M10.5 3v6L5.2 18.2A1.8 1.8 0 0 0 6.8 21h10.4a1.8 1.8 0 0 0 1.6-2.8L13.5 9V3"
+            fill="none"
+            {...stroke}
+          />
           <Path d="M7.7 15h8.6" fill="none" {...stroke} />
         </>
       );
@@ -329,7 +394,11 @@ export default function Icon({
       body = (
         <>
           <Circle cx={12} cy={12} r={8.5} fill="none" {...stroke} />
-          <Path d="M14.6 9c-.5-.8-1.5-1.3-2.6-1.3-1.5 0-2.6.8-2.6 2s1.1 1.7 2.6 2.1 2.8.8 2.8 2.2-1.2 2.1-2.8 2.1c-1.2 0-2.3-.5-2.8-1.4M12 6v1.7M12 16.3V18" fill="none" {...stroke} />
+          <Path
+            d="M14.6 9c-.5-.8-1.5-1.3-2.6-1.3-1.5 0-2.6.8-2.6 2s1.1 1.7 2.6 2.1 2.8.8 2.8 2.2-1.2 2.1-2.8 2.1c-1.2 0-2.3-.5-2.8-1.4M12 6v1.7M12 16.3V18"
+            fill="none"
+            {...stroke}
+          />
         </>
       );
       break;
@@ -338,8 +407,18 @@ export default function Icon({
         <>
           <Path d="M12 5v15M8 20.5h8M4 7.5h16" fill="none" {...stroke} />
           <Circle cx={12} cy={4.2} r={1.4} fill={color} />
-          <Path d="M6.5 7.5 3.8 13M6.5 7.5 9.2 13M17.5 7.5 14.8 13M17.5 7.5l2.7 5.5" fill="none" {...stroke} />
-          <Path d="M3.3 13h6.4a3.2 3.2 0 0 1-6.4 0zM14.3 13h6.4a3.2 3.2 0 0 1-6.4 0z" fill={color} stroke={color} strokeWidth={1.2} strokeLinejoin="round" />
+          <Path
+            d="M6.5 7.5 3.8 13M6.5 7.5 9.2 13M17.5 7.5 14.8 13M17.5 7.5l2.7 5.5"
+            fill="none"
+            {...stroke}
+          />
+          <Path
+            d="M3.3 13h6.4a3.2 3.2 0 0 1-6.4 0zM14.3 13h6.4a3.2 3.2 0 0 1-6.4 0z"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.2}
+            strokeLinejoin="round"
+          />
         </>
       );
       break;
@@ -372,20 +451,28 @@ export default function Icon({
     case 'drop':
       body = (
         <>
-          <Path d="M12 3c3.2 4.2 6.2 7.3 6.2 11a6.2 6.2 0 0 1-12.4 0c0-3.7 3-6.8 6.2-11z" fill={color} stroke={color} strokeWidth={1.2} strokeLinejoin="round" />
+          <Path
+            d="M12 3c3.2 4.2 6.2 7.3 6.2 11a6.2 6.2 0 0 1-12.4 0c0-3.7 3-6.8 6.2-11z"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.2}
+            strokeLinejoin="round"
+          />
         </>
       );
       break;
     case 'zigzag':
-      body = (
-        <Path d="M2.8 14.5 6.6 8l3.6 9.5 4-13 3.2 9 3.8-4.5" fill="none" {...stroke} />
-      );
+      body = <Path d="M2.8 14.5 6.6 8l3.6 9.5 4-13 3.2 9 3.8-4.5" fill="none" {...stroke} />;
       break;
     case 'gauge':
       body = (
         <>
           <Path d="M3.5 16.5a8.5 8.5 0 0 1 17 0" fill="none" {...stroke} />
-          <Path d="M6.4 10.3l1.3 1.1M12 7.2v1.8M17.6 10.3l-1.3 1.1M12 16.5l4.2-5" fill="none" {...stroke} />
+          <Path
+            d="M6.4 10.3l1.3 1.1M12 7.2v1.8M17.6 10.3l-1.3 1.1M12 16.5l4.2-5"
+            fill="none"
+            {...stroke}
+          />
           <Circle cx={12} cy={16.5} r={2} fill={color} />
         </>
       );
@@ -409,21 +496,38 @@ export default function Icon({
     case 'hourglass':
       body = (
         <>
-          <Path d="M6 3.5h12M6 20.5h12M7.5 3.5c0 4.6 4.5 5.4 4.5 8.5s-4.5 3.9-4.5 8.5M16.5 3.5c0 4.6-4.5 5.4-4.5 8.5s4.5 3.9 4.5 8.5" fill="none" {...stroke} />
+          <Path
+            d="M6 3.5h12M6 20.5h12M7.5 3.5c0 4.6 4.5 5.4 4.5 8.5s-4.5 3.9-4.5 8.5M16.5 3.5c0 4.6-4.5 5.4-4.5 8.5s4.5 3.9 4.5 8.5"
+            fill="none"
+            {...stroke}
+          />
           <Path d="M9 20.2 12 16.5l3 3.7z" fill={color} />
         </>
       );
       break;
     case 'book':
       body = (
-        <Path d="M12 6.5C10 5 7 4.5 3.5 5v13.5c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5zM12 6.5V20" fill="none" {...stroke} />
+        <Path
+          d="M12 6.5C10 5 7 4.5 3.5 5v13.5c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5zM12 6.5V20"
+          fill="none"
+          {...stroke}
+        />
       );
       break;
     case 'candle':
       body = (
         <>
           <Path d="M12 2.5v4.5M12 17v4.5" fill="none" {...stroke} />
-          <Rect x={8.2} y={7} width={7.6} height={10} rx={1.2} fill={color} stroke={color} strokeWidth={1.2} />
+          <Rect
+            x={8.2}
+            y={7}
+            width={7.6}
+            height={10}
+            rx={1.2}
+            fill={color}
+            stroke={color}
+            strokeWidth={1.2}
+          />
         </>
       );
       break;
@@ -431,7 +535,16 @@ export default function Icon({
       body = (
         <>
           <Path d="M7 4v4M7 16v4M17 2.5v4M17 14.5v6" fill="none" {...stroke} />
-          <Rect x={4.3} y={8} width={5.4} height={8} rx={1} fill={color} stroke={color} strokeWidth={1.2} />
+          <Rect
+            x={4.3}
+            y={8}
+            width={5.4}
+            height={8}
+            rx={1}
+            fill={color}
+            stroke={color}
+            strokeWidth={1.2}
+          />
           <Rect x={14.3} y={6.5} width={5.4} height={8} rx={1} fill="none" {...stroke} />
         </>
       );
@@ -441,7 +554,7 @@ export default function Icon({
         <>
           <Circle cx={10.5} cy={10.5} r={6.5} fill="none" {...stroke} />
           <Path d="M15.3 15.3 20.5 20.5M10.5 6.8v7.4" fill="none" {...stroke} />
-          <Rect x={9} y={8.6} width={3} height={3.8} rx={.6} fill={color} />
+          <Rect x={9} y={8.6} width={3} height={3.8} rx={0.6} fill={color} />
         </>
       );
       break;
@@ -458,17 +571,15 @@ export default function Icon({
       body = (
         <>
           <Path d="M8.5 2.5v2M8.5 11v2M15.5 4v2M15.5 11.5v2" fill="none" {...stroke} />
-          <Rect x={6.3} y={4.5} width={4.4} height={6.5} rx={.8} fill={color} />
-          <Rect x={13.3} y={6} width={4.4} height={5.5} rx={.8} fill="none" {...stroke} />
-          <Rect x={6.3} y={16} width={4.4} height={5} rx={.8} fill={color} />
-          <Rect x={13.3} y={18} width={4.4} height={3} rx={.8} fill={color} />
+          <Rect x={6.3} y={4.5} width={4.4} height={6.5} rx={0.8} fill={color} />
+          <Rect x={13.3} y={6} width={4.4} height={5.5} rx={0.8} fill="none" {...stroke} />
+          <Rect x={6.3} y={16} width={4.4} height={5} rx={0.8} fill={color} />
+          <Rect x={13.3} y={18} width={4.4} height={3} rx={0.8} fill={color} />
         </>
       );
       break;
     case 'trend':
-      body = (
-        <Path d="M3.5 17.5l5-5 3.5 3 7.5-8M14.5 7.5h5v5" fill="none" {...stroke} />
-      );
+      body = <Path d="M3.5 17.5l5-5 3.5 3 7.5-8M14.5 7.5h5v5" fill="none" {...stroke} />;
       break;
     case 'pullback':
       body = (
@@ -482,14 +593,28 @@ export default function Icon({
       body = (
         <>
           <Path d="M3 5.5h18M3 18.5h18" fill="none" {...stroke} />
-          <Path d="M5 18.5 8.5 5.5l3.5 13 3.5-13 3.5 8" fill="none" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+          <Path
+            d="M5 18.5 8.5 5.5l3.5 13 3.5-13 3.5 8"
+            fill="none"
+            stroke={color}
+            strokeWidth={1.8}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </>
       );
       break;
     case 'breakout':
       body = (
         <>
-          <Path d="M3 11h18" fill="none" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeDasharray="2.5 3" />
+          <Path
+            d="M3 11h18"
+            fill="none"
+            stroke={color}
+            strokeWidth={1.8}
+            strokeLinecap="round"
+            strokeDasharray="2.5 3"
+          />
           <Path d="M4 19l4.5-4 3 2.5 7-12.5M14.8 5h4.5v4.5" fill="none" {...stroke} />
         </>
       );
@@ -497,7 +622,13 @@ export default function Icon({
     case 'bell':
       body = (
         <>
-          <Path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.8 2.2H4.2z" fill={color} stroke={color} strokeWidth={1.2} strokeLinejoin="round" />
+          <Path
+            d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.8 2.2H4.2z"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.2}
+            strokeLinejoin="round"
+          />
           <Path d="M10 21a2 2 0 0 0 4 0M12 3v2" fill="none" {...stroke} />
         </>
       );
@@ -507,15 +638,27 @@ export default function Icon({
         <>
           <Rect x={2.8} y={7.5} width={16} height={9} rx={2} fill="none" {...stroke} />
           <Path d="M21.2 10.5v3" fill="none" {...stroke} />
-          <Rect x={5.3} y={10} width={3.6} height={4} rx={.6} fill={color} />
+          <Rect x={5.3} y={10} width={3.6} height={4} rx={0.6} fill={color} />
         </>
       );
       break;
     case 'rewind':
       body = (
         <>
-          <Path d="M11.5 6.5v11L4 12z" fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
-          <Path d="M20 6.5v11L12.5 12z" fill={color} stroke={color} strokeWidth={1.4} strokeLinejoin="round" />
+          <Path
+            d="M11.5 6.5v11L4 12z"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.4}
+            strokeLinejoin="round"
+          />
+          <Path
+            d="M20 6.5v11L12.5 12z"
+            fill={color}
+            stroke={color}
+            strokeWidth={1.4}
+            strokeLinejoin="round"
+          />
         </>
       );
       break;

@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
 import { fitScale, fitTop, useFit } from '../lesson/fitState';
@@ -40,9 +33,7 @@ export function GridOriginProvider({
   originY: number;
   children: React.ReactNode;
 }) {
-  return (
-    <GridOriginContext.Provider value={originY}>{children}</GridOriginContext.Provider>
-  );
+  return <GridOriginContext.Provider value={originY}>{children}</GridOriginContext.Provider>;
 }
 
 export function useGridOrigin(): number {
@@ -92,7 +83,7 @@ export function useGridAnchor(token?: unknown): {
       // real move. The old half-point dead band let a first reading taken
       // mid-transition (a third of a point off) stand for good.
       setWindowY((prev) =>
-        prev !== undefined && Math.abs(prev - unscaled) < 0.05 ? prev : unscaled
+        prev !== undefined && Math.abs(prev - unscaled) < 0.05 ? prev : unscaled,
       );
       setScale((prev) => (Math.abs(prev - s) < 1e-3 ? prev : s));
     });
@@ -127,7 +118,7 @@ export function useGridAnchor(token?: unknown): {
       const drawnAt = top + (windowY - top) * scale;
       return (pageY - drawnAt) / scale;
     },
-    [windowY, originY, scale]
+    [windowY, originY, scale],
   );
 
   return {

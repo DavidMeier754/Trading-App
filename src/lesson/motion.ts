@@ -1,10 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import type { CueName } from './cues.generated';
 import { cue as fireCue } from './feedback';
@@ -170,10 +165,7 @@ export function rampEasing(rampIn: number, rampOut: number) {
  * transitions in this app already use, and it has the better thread behaviour
  * anyway: no React render on press at all, where the transition needed two.
  */
-export function usePressFeedback(
-  enabled = true,
-  { cue = 'tick' }: { cue?: CueName | null } = {}
-) {
+export function usePressFeedback(enabled = true, { cue = 'tick' }: { cue?: CueName | null } = {}) {
   const reduced = useReduceMotion();
   const animates = enabled && !reduced;
   // 0 at rest, 1 fully pressed. Exposed so a surface can build its own press
@@ -222,6 +214,6 @@ export function useMotion() {
       fade: (ms: number) => (reduced ? Math.min(ms, 140) : ms),
       move: (ms: number) => (reduced ? 0 : ms),
     }),
-    [reduced]
+    [reduced],
   );
 }

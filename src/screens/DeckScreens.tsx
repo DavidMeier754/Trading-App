@@ -8,10 +8,7 @@ import { PopIn } from '../lesson/Celebrate';
 import { matchHitFeedback, matchMissFeedback } from '../lesson/feedback';
 import { useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
-import type {
-  CompareScreen as Compare,
-  SwipeDeckScreen as SwipeDeck,
-} from '../types';
+import type { CompareScreen as Compare, SwipeDeckScreen as SwipeDeck } from '../types';
 import { Prompt, Stack, ToneSurface } from './common';
 
 /**
@@ -65,8 +62,7 @@ export function SwipeDeckScreen({
               style={[
                 styles.runPip,
                 {
-                  backgroundColor:
-                    picks[i] === c.answer ? colors.success : colors.down,
+                  backgroundColor: picks[i] === c.answer ? colors.success : colors.down,
                 },
               ]}
             >
@@ -92,7 +88,9 @@ export function SwipeDeckScreen({
             const right = picks[i] === c.answer;
             return (
               <PopIn key={i}>
-                <View style={[styles.pip, { backgroundColor: right ? colors.success : colors.down }]}>
+                <View
+                  style={[styles.pip, { backgroundColor: right ? colors.success : colors.down }]}
+                >
                   <Text style={styles.pipMark}>{right ? '✓' : '✕'}</Text>
                 </View>
               </PopIn>
@@ -101,7 +99,10 @@ export function SwipeDeckScreen({
           return (
             <View
               key={i}
-              style={[styles.pip, i === index ? { borderColor: accent, borderWidth: 2 } : styles.pipAhead]}
+              style={[
+                styles.pip,
+                i === index ? { borderColor: accent, borderWidth: 2 } : styles.pipAhead,
+              ]}
             />
           );
         })}
@@ -122,7 +123,12 @@ export function SwipeDeckScreen({
           lastCard && lastRight !== null ? (
             <PopIn key={`v${picks.length}`}>
               <View style={styles.verdictRow}>
-                <Text style={[styles.verdictHead, { color: lastRight ? colors.success : colors.warning }]}>
+                <Text
+                  style={[
+                    styles.verdictHead,
+                    { color: lastRight ? colors.success : colors.warning },
+                  ]}
+                >
                   {`${lastRight ? '✓ Right' : '✕ Not this one'} · card ${picks.length}`}
                 </Text>
                 <Text style={styles.verdictSmall}>{copy(lastCard.note)}</Text>
@@ -132,10 +138,18 @@ export function SwipeDeckScreen({
         }
       />
       <View style={styles.deckButtons}>
-        <Pressable accessibilityRole="button" onPress={() => answer('pass')} style={[styles.deckButton, styles.pass]}>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => answer('pass')}
+          style={[styles.deckButton, styles.pass]}
+        >
           <Text style={styles.deckButtonText}>Pass</Text>
         </Pressable>
-        <Pressable accessibilityRole="button" onPress={() => answer('take')} style={[styles.deckButton, styles.take]}>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => answer('take')}
+          style={[styles.deckButton, styles.take]}
+        >
           <Text style={styles.deckButtonText}>Take it</Text>
         </Pressable>
       </View>
