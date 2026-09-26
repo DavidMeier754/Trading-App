@@ -12,6 +12,7 @@ import Home from './home/Home';
 import { Look, LOOKS, setLook } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
 import { choosePath, completeLesson, getProgress, loadSaved } from './progress';
+import { setMotionSetting } from './lesson/useReduceMotion';
 import { TEST_TOOLS } from './testTools';
 import { colors, space } from './theme';
 
@@ -26,16 +27,65 @@ export default function App() {
   // A web deep link, `#all-screens/34`, opens a lesson on page 34 -- the number
   // the test bench shows in its top bar. It is how the bench's 49 screens get
   // looked at one by one; the app proper has no URLs.
-  const [link] = useState(() => readDeepLink());
+  const [link, setLink] = useState(() => readDeepLink());
   const [entry, setEntry] = useState<LessonEntry | null>(link?.entry ?? null);
 
   // Saved progress and settings come back before the home screen is drawn, so
   // the path never flashes empty first. A deep link opens its lesson at once,
   // and a look it names wins over the saved one.
   const [ready, setReady] = useState(false);
+  const [restoreLook] = useState(() => !link?.look);
   useEffect(() => {
-    loadSaved({ restoreLook: !link?.look }).finally(() => setReady(true));
-  }, [link]);
+    loadSaved({ restoreLook }).finally(() => {
+      if (TEST_MODE) setMotionSetting('reduced');
+      setReady(true);
+    });
+  }, [restoreLook]);
+
+  // The render test (`npm run smoke`, `?test=1`) walks every screen in one page:
+  // each new hash opens its screen afresh, error page included, without
+  // reloading the app, and the page is marked once that screen has rendered.
+  const [visit, setVisit] = useState(0);
+  useEffect(() => {
+    if (!TEST_MODE) return;
+    const onHash = () => {
+      const next = readDeepLink();
+      setLink(next);
+      setEntry(next?.entry ?? null);
+      setVisit((v) => v + 1);
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  useEffect(() => {
+    if (TEST_MODE && ready) document.documentElement.dataset.visit = String(visit);
+  }, [visit, ready]);
+  useEffect(() => {
+    if (!TEST_MODE) return;
+    // What the render test walks: every lesson the app can open, as the app sees it.
+    (window as unknown as { __lessons: unknown }).__lessons = LESSONS.map((e) => ({
+      id: e.id,
+      screens: e.level.screens.length,
+      // Each screen's type and the parts the validator counts as screens of their own.
+      shape: e.level.screens.map((sc) => {
+        const parts = sc as {
+          type: string;
+          cards?: unknown[];
+          steps?: unknown[];
+          items?: unknown[];
+        };
+        return [
+          parts.type,
+          parts.cards?.length ?? 0,
+          parts.steps?.length ?? 0,
+          parts.items?.length ?? 0,
+        ];
+      }),
+      chapter: e.level.chapter,
+      path: e.level.path,
+      bench: !!e.testBench,
+    }));
+  }, []);
 
   // Where the backdrop's grid starts. Charts subtract it from their own measured
   // y to find how far down the grid they sit (components/gridAlign.tsx). It is
@@ -72,10 +122,10 @@ export default function App() {
               one the home screen stands on too, so a change shows at once. */}
             <Backdrop width={frameWidth} height={height} />
             <GridOriginProvider originY={gridOrigin}>
-              <ErrorBoundary>
+              <ErrorBoundary key={visit}>
                 {entry ? (
                   <LessonPlayer
-                    key={entry.id}
+                    key={`${entry.id}#${visit}`}
                     level={entry.level}
                     startAt={link && link.entry === entry ? link.screen : 0}
                     testBench={entry.testBench}
@@ -134,6 +184,16 @@ function pinPage() {
     style.remove();
   };
 }
+
+/**
+ * `?test=1` on a test build: the render test's switch. It turns animations off
+ * (reduced motion) and lets a hash change open the next screen in place.
+ */
+const TEST_MODE =
+  TEST_TOOLS &&
+  Platform.OS === 'web' &&
+  typeof window !== 'undefined' &&
+  /[?&]test=1\b/.test(window.location.search + window.location.hash);
 
 function readDeepLink(): { entry: LessonEntry | null; screen: number; look: boolean } | null {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return null;

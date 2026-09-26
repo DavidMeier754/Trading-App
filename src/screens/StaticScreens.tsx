@@ -24,7 +24,8 @@ import type {
   WalkthroughScreen as Walkthrough,
 } from '../types';
 import Icon, { IconName } from '../home/icons';
-import { PATHS, TradingPath } from '../content';
+import { market, PATHS, TradingPath } from '../content';
+import { toggleWanted, useProgress } from '../progress';
 import { Body, Card, ScreenTitle, Stack } from './common';
 
 /**
@@ -433,8 +434,48 @@ export function PathChoiceScreen({
           );
         })}
       </View>
+      <PathNote />
       <Text style={styles.caption}>You can change this any time in Settings.</Text>
     </View>
+  );
+}
+
+/**
+ * S27: Chapter 1 has just taught that a full-time job points to Swing Trading,
+ * so the one path that is open says what it asks for, and whoever cannot give
+ * it can say they want Swing instead. The flag stays on this device; the
+ * reminder that uses it comes later (stage LOOP-DAILY).
+ */
+export function PathNote() {
+  return (
+    <View style={styles.pathNote}>
+      <Text style={styles.pathNoteText}>
+        {`Scalping needs you at the screen when the market opens, ${market.first_minutes} ${market.timezone} on weekdays. No time then? Swing Trading fits around a job. It is being written, like Day Trading, and both come before the app's release.`}
+      </Text>
+      <WantSwing />
+    </View>
+  );
+}
+
+/** "I want Swing Trading": a local flag (progress.wanted), here and in Settings. */
+export function WantSwing() {
+  const look = useLookSpec();
+  const wanted = useProgress().wanted.includes('swing-trading');
+  return (
+    <Pressable
+      accessibilityRole="checkbox"
+      accessibilityState={{ checked: wanted }}
+      onPress={() => {
+        tapFeedback();
+        toggleWanted('swing-trading');
+      }}
+      style={[styles.wantRow, wanted && { borderColor: look.accent }]}
+    >
+      <Icon name={wanted ? 'check' : 'bell'} size={16} color={look.accent} strokeWidth={2.5} />
+      <Text style={[styles.wantText, { color: look.accent }]}>
+        {wanted ? 'Noted: you want Swing Trading' : 'I want Swing Trading when it is ready'}
+      </Text>
+    </Pressable>
   );
 }
 
@@ -550,5 +591,19 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
   },
   pathHold: { ...type.small, fontWeight: '700' },
+  pathNote: { gap: space.sm },
+  pathNoteText: { ...type.small, fontSize: 13, lineHeight: 18, color: colors.textMuted },
+  wantRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: space.sm,
+    paddingVertical: space.sm,
+    paddingHorizontal: space.md,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.surfaceAlt,
+  },
+  wantText: { ...type.small, fontWeight: '700' },
   pathFeel: { ...type.small, fontSize: 13, lineHeight: 18, color: colors.textMuted },
 });

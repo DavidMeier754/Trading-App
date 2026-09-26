@@ -9,7 +9,7 @@ The app is called **Nutrade** (decision L in `docs/build-plan.md` §4.1; stage B
 ## Where things stand (2026-09-25)
 
 - **Content:** Chapter 1 and the whole Scalping path are written: 388 sub-levels, 5,109 screens, 0 validator errors. Two pieces are planned: Chapter 1 Level 2-4 (variance) and Chapter 8 Level 15 (accounts and rules). Swing Trading and Day Trading are outlined level by level; both are written before the release.
-- **App:** an Expo app at the repo root (`README-app.md`). It plays Chapter 1 and Scalping Chapter 2 Levels 1–3. The rest of the written content is not wired in yet.
+- **App:** an Expo app at the repo root (`README-app.md`). It plays every written lesson: Chapter 1 and Scalping Chapters 2–8.
 - **The plan to release:** `docs/build-plan.md`. About 60 named stages. Each one has a copy-ready prompt, a model and effort, automatic checks, and the test David runs before the next stage starts.
 - **The review it is built on:** `docs/review-2026-09-25.md`: a full play-through, a render of every screen, and every doc read. Each finding is assigned to a stage in appendix F of the plan.
 
@@ -45,6 +45,7 @@ npm run web          # browser preview
 npm start            # Expo Go on a phone
 npm run typecheck
 npm run lint && npm test
+npm run smoke        # every screen renders
 ```
 
 More in `README-app.md`.

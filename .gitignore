@@ -8,3 +8,7 @@ dist/
 web-build/
 *.log
 .wrangler/
+
+# Render test (npm run smoke)
+dist-smoke/
+smoke/

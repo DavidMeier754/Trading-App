@@ -2,66 +2,11 @@
 // All of it is YAML parsed at build time by metro/yaml-transformer.js.
 //
 // The chapter files are the repo's own content and are never copied or
-// rewritten. all-screens is a throwaway test bench that lives in demo/,
-// deliberately outside content/, so tools/validate_content.py never sees it.
-import c1_011 from '../content/shared/chapter-01-market-basics/level-01-1.yaml';
-import c1_012 from '../content/shared/chapter-01-market-basics/level-01-2.yaml';
-import c1_013 from '../content/shared/chapter-01-market-basics/level-01-3.yaml';
-import c1_014 from '../content/shared/chapter-01-market-basics/level-01-4.yaml';
-import c1_021 from '../content/shared/chapter-01-market-basics/level-02-1.yaml';
-import c1_022 from '../content/shared/chapter-01-market-basics/level-02-2.yaml';
-import c1_023 from '../content/shared/chapter-01-market-basics/level-02-3.yaml';
-import c1_031 from '../content/shared/chapter-01-market-basics/level-03-1.yaml';
-import c1_032 from '../content/shared/chapter-01-market-basics/level-03-2.yaml';
-import c1_033 from '../content/shared/chapter-01-market-basics/level-03-3.yaml';
-import c1_041 from '../content/shared/chapter-01-market-basics/level-04-1.yaml';
-import c1_042 from '../content/shared/chapter-01-market-basics/level-04-2.yaml';
-import c1_043 from '../content/shared/chapter-01-market-basics/level-04-3.yaml';
-import c1_044 from '../content/shared/chapter-01-market-basics/level-04-4.yaml';
-import c1_051 from '../content/shared/chapter-01-market-basics/level-05-1.yaml';
-import c1_061 from '../content/shared/chapter-01-market-basics/level-06-1.yaml';
-import c1_062 from '../content/shared/chapter-01-market-basics/level-06-2.yaml';
-import c1_063 from '../content/shared/chapter-01-market-basics/level-06-3.yaml';
-import c1_071 from '../content/shared/chapter-01-market-basics/level-07-1.yaml';
-import c1_072 from '../content/shared/chapter-01-market-basics/level-07-2.yaml';
-import c1_073 from '../content/shared/chapter-01-market-basics/level-07-3.yaml';
-import c1_074 from '../content/shared/chapter-01-market-basics/level-07-4.yaml';
-import c1_081 from '../content/shared/chapter-01-market-basics/level-08-1.yaml';
-import c1_082 from '../content/shared/chapter-01-market-basics/level-08-2.yaml';
-import c1_083 from '../content/shared/chapter-01-market-basics/level-08-3.yaml';
-import c1_091 from '../content/shared/chapter-01-market-basics/level-09-1.yaml';
-import c1_092 from '../content/shared/chapter-01-market-basics/level-09-2.yaml';
-import c1_101 from '../content/shared/chapter-01-market-basics/level-10-1.yaml';
-import c1_102 from '../content/shared/chapter-01-market-basics/level-10-2.yaml';
-import c1_103 from '../content/shared/chapter-01-market-basics/level-10-3.yaml';
-import c1_111 from '../content/shared/chapter-01-market-basics/level-11-1.yaml';
-import c1_121 from '../content/shared/chapter-01-market-basics/level-12-1.yaml';
-import c1_122 from '../content/shared/chapter-01-market-basics/level-12-2.yaml';
-import c1_123 from '../content/shared/chapter-01-market-basics/level-12-3.yaml';
-import c1_131 from '../content/shared/chapter-01-market-basics/level-13-1.yaml';
-import c1_132 from '../content/shared/chapter-01-market-basics/level-13-2.yaml';
-import c1_133 from '../content/shared/chapter-01-market-basics/level-13-3.yaml';
-import c1_134 from '../content/shared/chapter-01-market-basics/level-13-4.yaml';
-import c1_141 from '../content/shared/chapter-01-market-basics/level-14-1.yaml';
-import c1_142 from '../content/shared/chapter-01-market-basics/level-14-2.yaml';
-import c1_143 from '../content/shared/chapter-01-market-basics/level-14-3.yaml';
-import c1_151 from '../content/shared/chapter-01-market-basics/level-15-1.yaml';
-import c1_152 from '../content/shared/chapter-01-market-basics/level-15-2.yaml';
-import c1_153 from '../content/shared/chapter-01-market-basics/level-15-3.yaml';
-import c1_161 from '../content/shared/chapter-01-market-basics/level-16-1.yaml';
-import c1_162 from '../content/shared/chapter-01-market-basics/level-16-2.yaml';
-import c1_171 from '../content/shared/chapter-01-market-basics/level-17-1.yaml';
-import c1_172 from '../content/shared/chapter-01-market-basics/level-17-2.yaml';
-import s2_011 from '../content/paths/scalping/chapter-02-charts-101/level-01-1.yaml';
-import s2_012 from '../content/paths/scalping/chapter-02-charts-101/level-01-2.yaml';
-import s2_013 from '../content/paths/scalping/chapter-02-charts-101/level-01-3.yaml';
-import s2_014 from '../content/paths/scalping/chapter-02-charts-101/level-01-4.yaml';
-import s2_021 from '../content/paths/scalping/chapter-02-charts-101/level-02-1.yaml';
-import s2_022 from '../content/paths/scalping/chapter-02-charts-101/level-02-2.yaml';
-import s2_023 from '../content/paths/scalping/chapter-02-charts-101/level-02-3.yaml';
-import s2_031 from '../content/paths/scalping/chapter-02-charts-101/level-03-1.yaml';
-import s2_032 from '../content/paths/scalping/chapter-02-charts-101/level-03-2.yaml';
-import s2_033 from '../content/paths/scalping/chapter-02-charts-101/level-03-3.yaml';
+// rewritten. Which files there are comes from content.generated.ts, which
+// `npm run gen:content` writes from content/** (CI checks it is up to date).
+// all-screens is a throwaway test bench that lives in demo/, deliberately
+// outside content/, so tools/validate_content.py never sees it.
+import { CHAPTER_FILES } from './content.generated';
 import profilesYaml from '../content/market_profiles.yaml';
 import demoLevel from '../demo/all-screens.yaml';
 
@@ -148,68 +93,11 @@ export const PATHS: { id: TradingPath; name: string; written: boolean }[] = [
   { id: 'swing-trading', name: 'Swing Trading', written: false },
 ];
 
-const chapterOne = [
-  c1_011,
-  c1_012,
-  c1_013,
-  c1_014,
-  c1_021,
-  c1_022,
-  c1_023,
-  c1_031,
-  c1_032,
-  c1_033,
-  c1_041,
-  c1_042,
-  c1_043,
-  c1_044,
-  c1_051,
-  c1_061,
-  c1_062,
-  c1_063,
-  c1_071,
-  c1_072,
-  c1_073,
-  c1_074,
-  c1_081,
-  c1_082,
-  c1_083,
-  c1_091,
-  c1_092,
-  c1_101,
-  c1_102,
-  c1_103,
-  c1_111,
-  c1_121,
-  c1_122,
-  c1_123,
-  c1_131,
-  c1_132,
-  c1_133,
-  c1_134,
-  c1_141,
-  c1_142,
-  c1_143,
-  c1_151,
-  c1_152,
-  c1_153,
-  c1_161,
-  c1_162,
-  c1_171,
-  c1_172,
-].map((file) => file as unknown as Level);
-const scalpingTwo = [
-  s2_011,
-  s2_012,
-  s2_013,
-  s2_014,
-  s2_021,
-  s2_022,
-  s2_023,
-  s2_031,
-  s2_032,
-  s2_033,
-].map((file) => file as unknown as Level);
+/** Each chapter's sub-level files, as generated from content/. */
+const chapterFiles = CHAPTER_FILES.map((c) => ({
+  path: c.path,
+  files: c.files.map((file) => file as Level),
+}));
 
 /** The id a sub-level is saved and linked under. Chapter 1 keeps its first, short form. */
 function entryId(level: Level): string {
@@ -291,19 +179,35 @@ function chapterFrom(files: Level[], planned: number): Chapter {
 /** Saved as done once a path is chosen; the choice itself is `progress.path`. */
 export const PATH_CHOICE_ID = 'path-choice';
 
-/** docs/curriculum.md: Chapter 1 has 17 levels, all written and wired in. */
-export const CHAPTER_ONE: Chapter = chapterFrom(chapterOne, 17);
+/**
+ * A chapter as its files make it. Every written chapter is complete, so what
+ * docs/curriculum.md plans is what is written, with one exception: Scalping
+ * Chapter 8's new Level 15 comes in stage OFFER, which renumbers the levels
+ * after it. Until then that chapter is its 17 written levels.
+ */
+function chapterOf(c: { path: string; files: Level[] }): Chapter {
+  const written = new Set(c.files.filter((f) => !isPathLesson(f)).map((f) => f.id.split('-')[0]));
+  return chapterFrom(c.files, written.size);
+}
+
+const shared = chapterFiles.filter((c) => c.path === 'all').map(chapterOf);
+
+/** docs/curriculum.md: Chapter 1, the one every learner plays. */
+export const CHAPTER_ONE: Chapter = shared[0];
 
 /**
- * Each path's chapters after the first, as far as they are wired in. Scalping
- * Chapter 2 is here to its Level 3; Day Trading and Swing Trading are outlined
- * in docs/curriculum.md and not written yet.
+ * Each path's chapters after the first, from content/paths/<path>/. Scalping's
+ * Chapters 2–8 are written; Day Trading and Swing Trading are outlined in
+ * docs/curriculum.md and not written yet, so they have none.
  */
 export const PATH_CHAPTERS: Record<TradingPath, Chapter[]> = {
-  scalping: [chapterFrom(scalpingTwo, 18)],
+  scalping: [],
   'day-trading': [],
   'swing-trading': [],
 };
+for (const c of chapterFiles) {
+  if (c.path in PATH_CHAPTERS) PATH_CHAPTERS[c.path as TradingPath].push(chapterOf(c));
+}
 
 /** The map for a learner on `path` (none chosen yet: Chapter 1 alone). */
 export function chaptersFor(path: TradingPath | null): Chapter[] {
@@ -322,7 +226,7 @@ export const PATH: PathLevel[] = levelsOf(chaptersFor('scalping'));
 export const TEST_BENCH: LessonEntry = {
   id: 'all-screens',
   title: 'Every Screen Type',
-  subtitle: 'Test bench: all 36 archetypes back to back',
+  subtitle: `Test bench: all ${(demoLevel as unknown as Level).screens.length} screens back to back`,
   level: demoLevel as unknown as Level,
   testBench: true,
 };

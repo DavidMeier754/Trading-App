@@ -50,6 +50,12 @@ export type Progress = {
   /** docs/UI.md §11.4: the path picked after Chapter 1, or null before that. */
   path: TradingPath | null;
   /**
+   * Paths not written yet that the learner wants to hear about (S27): someone
+   * without time at the market open flags Swing Trading. Kept on this device
+   * only; the reminder that reads it comes with stage LOOP-DAILY.
+   */
+  wanted: TradingPath[];
+  /**
    * The learner's plan (docs/schema.md "The plan"): every plan-card field they
    * have filled, by key. A card that asks for a key again opens on this value.
    */
@@ -75,6 +81,7 @@ const fresh = (): Progress => ({
   today: { date: dayOf(new Date()), count: 0 },
   xp: 0,
   path: null,
+  wanted: [],
   plan: {},
   hearts: MAX_HEARTS,
   heartsAt: null,
@@ -182,6 +189,13 @@ export function choosePath(path: TradingPath): void {
 function pathLessonXp(): number | undefined {
   const node = CHAPTER_ONE.levels.find((l) => l.kind === 'path');
   return node?.subs[0]?.level.xp;
+}
+
+/** Flags a path that is not written yet as wanted, or takes the flag back. */
+export function toggleWanted(path: TradingPath): void {
+  const p = progress;
+  const wanted = p.wanted.includes(path) ? p.wanted.filter((w) => w !== path) : [...p.wanted, path];
+  publish({ ...p, wanted });
 }
 
 /** A plan card was filled in: its keys join the plan, over any older values. */
