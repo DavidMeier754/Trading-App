@@ -2,7 +2,7 @@
 
 Status: 2026-09-25. This plan replaces the previous `docs/build-plan.md`, which ordered only the content work. Its proven content prompts are kept in **Appendix E**, unchanged or updated.
 
-Updated the same day with David's answers to the open decisions (§4.1): all three paths, calm motion, the practice arena with Tradle Plus, accounts, every launch language, and a German business as the provider.
+Updated the same day with David's answers to the open decisions (§4.1): all three paths, calm motion, the practice arena with Nutrade Plus, accounts, every launch language, and a German business as the provider.
 
 **One rule first: this file's order is the order.**
 - Stages have names (`CI`, `STABLE-APP`, …), not numbers, because numbers drifted apart before.
@@ -20,7 +20,7 @@ Updated the same day with David's answers to the open decisions (§4.1): all thr
 8. Phase D – Learning loop and fun
 9. Phase E – Scalping content: correct, honest, complete
 10. Phase F – Beta 1
-11. Phase G – The practice arena (Tradle Plus)
+11. Phase G – The practice arena (Nutrade Plus)
 12. Phase H – Swing and Day Trading paths
 13. Phase I – Platform: account, subscription, ads
 14. Phase J – Languages
@@ -139,7 +139,7 @@ All of this must hold at the same time:
   - Chapter 1 and all three paths, Scalping, Swing Trading and Day Trading, are complete (decision E).
   - The validator is green with `--strict`.
   - The reviews are worked through: `KNOWLEDGE` and `REVIEW-A` for scalping, `SWING-REVIEW`, `DAY-REVIEW`, and the expert review (`EXPERT`).
-- **Practice arena:** the Daily Tradle, replays, setup drills and the practice account, for all three paths (Phase G, `ARENA-PATHS`).
+- **Practice arena:** the Daily Chart, replays, setup drills and the practice account, for all three paths (Phase G, `ARENA-PATHS`).
 - **App:**
   - 0 crashes in the render test of all screens, in every launch language.
   - Crash-free ≥ 99.5 % in the beta.
@@ -151,7 +151,7 @@ All of this must hold at the same time:
   - Statistics with decision quality.
 - **Account and money:**
   - Sign-in and sync, account deletion and data export inside the app (decision K).
-  - Tradle Plus: unlimited hearts, no ads, the full arena (decision I). The free app is complete without it.
+  - Nutrade Plus: unlimited hearts, no ads, the full arena (decision I). The free app is complete without it.
   - Ads only where `ADS` allows them, and never for financial products or gambling.
 - **Languages:** every launch language passes the automatic checks and the native speakers' check of its key texts (decision M, Phase J).
 - **Legal:**
@@ -281,7 +281,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates.
 | B Stable | `STABLE-APP` | Plan overview, recap, reveal (decision vs. outcome), screen-reader leak, error page | Opus 5.5 · high | 1 | 20 min |
 | | `STABLE-DATA` | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
 | C Look & feel | `LOOK-BRIEF` | Your critique + three design directions as clickable prototypes, with calm, high-quality motion | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
-| | `BRAND` | "Tradle": conflict and trademark check, logo, icon draft, store title, tone of voice | Opus 5.5 · xhigh | 1 | 20 min + choice |
+| | `BRAND` | "Nutrade": trademark check and filing, web address, logo, icon draft, store title, tone of voice | Opus 5.5 · xhigh | 1 | 20 min + choice |
 | | `LOOK-SYSTEM` | Colors, type, light/dark, ≤ 3 looks, thumb zone, minimum type size, motion system, tap targets | Opus 5.5 · high, plan mode | 1–2 | 30 min |
 | | `LOOK-COMPONENTS` | Charts, match, lesson-complete screen, icons, visuals, badge | Opus 5.5 · high | 2 | 30 min |
 | | `VISUALS` | New teaching graphics: candle anatomy, trade plan | Opus 5.5 · high | 1 | 15 min |
@@ -304,10 +304,10 @@ Column "Test" = your time for the acceptance test. Session counts are estimates.
 | | `STORE-SETUP` | Developer accounts in the business's name, EAS builds, TestFlight, Play internal testing | Sonnet 5 · high | 1 | 30 min setup |
 | | `ANALYTICS` | Crash reports, data-minimal learning analytics (opt-in), "Report a problem" | Opus 5.5 · high | 1 | 10 min |
 | | `BETA-1` | Your testers, 2–4 weeks, weekly evaluation and fixes | Opus 5.5 · high per round | 2–4 | look after testers |
-| G Practice arena | `ARENA-DESIGN` | How the arena, the Daily Tradle and Tradle Plus work: docs and clickable screens | Fable 5.1 · high (else Opus 5.5 · xhigh), plan mode | 1 | 30 min + choice |
+| G Practice arena | `ARENA-DESIGN` | How the arena, the Daily Chart and Nutrade Plus work: docs and clickable screens | Fable 5.1 · high (else Opus 5.5 · xhigh), plan mode | 1 | 30 min + choice |
 | | `REPLAY-PILOT` | One replay by hand + validator rules | Opus 5.5 · high | 1 | 10 min |
 | | `CHART-GEN` | The chart generator: sessions and setups from seeds, checked by code | Opus 5.5 · xhigh, plan mode | 2–3 | 20 min |
-| | `ARENA-TAB` | The arena tab and the Daily Tradle | Opus 5.5 · high | 1–2 | 20 min + 1 week |
+| | `ARENA-TAB` | The arena tab and the Daily Chart | Opus 5.5 · high | 1–2 | 20 min + 1 week |
 | | `SIM-ACCOUNT` | The practice account: orders, costs, journal, statistics, daily limit | Opus 5.5 · high, plan mode | 2 | 30 min |
 | | `DRILLS` | The packs `selection` and `risk-calls`, plus generated setup drills | Opus 5.5 · high | 1–2 | 15 min |
 | | `REPLAY-BANK` | 22 replays for scalping, from generator candidates, annotated by hand | Opus 5.5 · high | ~4 | 10 min each |
@@ -317,7 +317,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates.
 | | `DAY-REVIEW` | Reviews A + B for Day Trading, then corrections | Fable 5.1 · high/max | 2–4 | decide findings |
 | | `ARENA-PATHS` | Arena content for swing and Day Trading: templates, drills, replays | Opus 5.5 · high | 4–6 | 20 min per path |
 | I Platform | `BACKEND` | Accounts and sync: Apple, Google, email; deletion and export (decision K) | Opus 5.5 · xhigh, plan mode | 2–3 | 30 min |
-| | `MONEY` | Tradle Plus: subscription, paywall, unlimited hearts, arena access (decision I) | Opus 5.5 · high, plan mode | 1–2 | 20 min |
+| | `MONEY` | Nutrade Plus: subscription, paywall, unlimited hearts, arena access (decision I) | Opus 5.5 · high, plan mode | 1–2 | 20 min |
 | | `ADS` | Ads in the free tier: placement, consent, blocked categories | Opus 5.5 · high | 1 | 20 min |
 | | `UPDATES` | Content without store updates, progress migration, lazy loading | Opus 5.5 · high | 1 | 15 min |
 | | `TECH` | Clean-up backed by measurements: bundle, start time, Chart.tsx | Opus 5.5 · high | 1–2 | 10 min |
@@ -371,9 +371,9 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | C | **Six trades per session, option (b): we say it plainly.** Several day trades per session need a margin account, and in the US the pattern-day-trader rule applies below $25,000 (check before release, the rule is being reformed). EU-DE has no PDT rule, but broker rules differ. Said in 6·9 and 8·15. | `docs/agent.md` §3.6 |
 | E | **All three paths in v1.0:** Scalping, Swing Trading and Day Trading (David). Swing is written first, then Day Trading (Phase H). Every path gets the same reviews and its own arena content. | agent.md §1, curriculum.md |
 | H | **Motion: calm and high quality** (David). Slower than a typical game, smooth on cheap phones, and never in the way: feedback starts at once, and a tap finishes or skips any motion. How calm, you choose in `LOOK-BRIEF`; the exact durations and curves come from `LOOK-SYSTEM`. | UI.md §1, §5.1, §10 |
-| I | **Money: Tradle Plus** (David), a subscription with unlimited hearts, no ads and the practice arena: hands-on charts beyond the paths (the concept is in Phase G). Free: every lesson of every path, the Practice tab, glossary, statistics, the Daily Tradle and a taste of the arena, with ads between lessons and 5 hearts in tests. Guardrails: nothing is sold one at a time (no hearts, no streak freezes), no pay-to-pass, no fake urgency. | agent.md §1, UI.md §7.7, §7.8 |
+| I | **Money: Nutrade Plus** (David), a subscription with unlimited hearts, no ads and the practice arena: hands-on charts beyond the paths (the concept is in Phase G). Free: every lesson of every path, the Practice tab, glossary, statistics, the Daily Chart and a taste of the arena, with ads between lessons and 5 hearts in tests. Guardrails: nothing is sold one at a time (no hearts, no streak freezes), no pay-to-pass, no fake urgency. | agent.md §1, UI.md §7.7, §7.8 |
 | K | **Accounts in v1.0** (David): sign-in with Apple, Google or email, sync across devices, account deletion and data export inside the app. The app works before sign-in, and a purchase never needs an account. | agent.md §1, `BACKEND` |
-| L | **The name is Tradle** (David). The name is already in use: a daily geography game by the OEC is called "Tradle", and so is a day-trading journal app (tradleapp.com). `BRAND` checks trademarks and conflicts first; if the name is blocked, `BRAND` proposes close alternatives and you decide. | agent.md §1, `BRAND` |
+| L | **The name is Nutrade** (David, 2026-09-26): short, built from "trade", for new traders. Tradle was dropped: it is a registered EU trademark for apps and education (classes 9, 41, 42), and its US filing covers trading education. Checked for Nutrade on 2026-09-26: no app in the App Store or Google Play, and no live trademark for apps, education, finance or software (classes 9, 36, 41, 42) in the EU, Germany, the UK, the US or the international register. The name is in use elsewhere, though: a German maker of vitamin gummies holds NUTRADE for supplements and business services (classes 5 and 35; Germany, UK, international) and uses nutrade.de, and Syngenta holds NUTRADE in Mexico (including class 42). nutrade.com is parked with a domain seller, nutrade.app was registered in May 2026; nutradeapp.com, nutradeapp.app and nutradeapp.de were free. `BRAND` confirms this with the lawyer, files the mark and settles the web address. | agent.md §1, `BRAND` |
 | M | **Every launch language in v1.0** (David): built in English first, then translated before the release by a checked AI pipeline, with the key texts read by native speakers (Phase J). More languages, more markets. The language never decides the market (`MARKETS`). | agent.md §1, UI.md §9 |
 | O | **You find the testers** (David): at least 12 if your Google account is a personal one (Google's closed test), at least 3 without trading knowledge, and for `BETA-2` native speakers of the launch languages. | `BETA-1`, `BETA-2` |
 | P | **The provider is a business registered in Germany** (David), before publishing. Recommended: register it **before `STORE-SETUP`**, so the developer accounts are opened once, in the business's name. The legal form (decision Q) decides how you enroll: a sole proprietorship enrolls with Apple as an individual and sells under your own name; a legal entity (e.g. UG or GmbH) enrolls as an organization and needs a D-U-N-S number (free, can take up to 30 days). A Google organization account needs one too, and is exempt from Google's 12-tester rule. | `LEGAL-DRAFT`, `STORE-SETUP` |
@@ -399,7 +399,7 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 |---|---|---|---|
 | N | Who does the expert review and the legal review? | Still open, as you said. Affordable ways to find and pay both are in `EXPERT` and `LEGAL-FINAL`. | `EXPERT`, `LEGAL-FINAL` |
 | Q | The business's legal form (sole proprietorship, UG, GmbH) and taxes | A question for a tax advisor, not for Claude. It decides how you enroll with Apple and Google (decision P). | `STORE-SETUP` |
-| R | Prices for Tradle Plus: monthly, yearly, trial | `MONEY` proposes prices per region; you decide. | `MONEY` |
+| R | Prices for Nutrade Plus: monthly, yearly, trial | `MONEY` proposes prices per region; you decide. | `MONEY` |
 | S | Personalized ads? | **No** in v1.0: no tracking prompt at first launch and a simpler consent. Look again with real numbers. | `ADS` |
 | T | The list of launch languages | `I18N-PIPELINE` proposes it (store markets, effort, script); you decide. | `I18N-PIPELINE` |
 
@@ -713,7 +713,7 @@ Absolutely not:
      - lesson complete;
      - the map with the HUD.
    - Each direction in light and dark.
-   - The name "Tradle" as text; the logo follows in `BRAND`.
+   - The name "Nutrade" as text; the logo follows in `BRAND`.
    - Reachable under `#prototype/<direction>/<screen>`.
 3. **Motion** (decision H: calm and high quality): every direction shows its motion on the six screens — the reveal, a screen change, a chart playing out, lesson complete. Calm but never sluggish: a tap finishes or skips any motion.
 4. **Layout variants:** answers in the thumb zone versus today; a proposal for the type scale.
@@ -752,22 +752,23 @@ Report: the three directions in three sentences each · links to every variant �
 
 **Done when** Claude has recorded your choice in `docs/UI.md` §10. That happens in the same PR, after your answer.
 
-### `BRAND` – Tradle: the name check and a face
+### `BRAND` – Nutrade: the trademark, the address and a face
 
-**Goal.** The name is safe to use, and the app has a face before store accounts, icons and texts are created.
+**Goal.** The name Nutrade is protected and has a web address, and the app has a face before store accounts, icons and texts are created.
 
 **Scope**
-1. **The conflict and trademark check for "Tradle"** (decision L), first:
-   - Known uses: the OEC's daily geography game "Tradle" (games.oec.world) and a day-trading journal app (tradleapp.com). Find out what else exists in the app stores, as domains and as registered trademarks.
-   - Trademark registers: DPMA (Germany), EUIPO (EU, e.g. via TMview), WIPO (international) and USPTO (US). Nice classes 9 (apps) and 41 (education), and 36 (finance) as a precaution.
-   - The app-store search in the launch markets; domains (.app, .com, .de); social handles.
-   - The result as a traffic light: green (free), amber (risks, with reasons), red (blocked). If amber or red: 5–10 close alternatives with the same checks. You decide.
-   - This does not replace the lawyer's trademark check in `LEGAL-FINAL`. Registering the name early is worth it; you do that.
-2. **How the name reads in the launch languages:** no unfortunate meaning, easy to say (decision M).
-3. **A store title,** e.g. "Tradle – Learn to Trade". Neither title nor subtitle promises profit (`docs/agent.md` §1, §7 and the store guidelines).
-4. **2–3 logo and icon concepts** as SVG, matching the direction from `LOOK-BRIEF`. Optionally image concepts with the `brandkit` skill.
-5. **Tone of voice in five sentences:** sober, friendly, honest.
-6. **After your choice, recorded in:**
+1. **Secure the name** (decision L):
+   - Run the trademark search for "Nutrade" and close spellings again: DPMA (Germany), EUIPO (EU, e.g. via TMview), WIPO (international), USPTO (US) and the launch markets from decision T. Nice classes 9 (apps), 41 (education), 42 (software) and 36 (finance).
+   - Known on 2026-09-26: NUTRADE for supplements and business services (classes 5 and 35; Germany, UK, international), held by a vitamin-gummy maker (nutrade.de); NUTRADE in Mexico, held by Syngenta (including class 42).
+   - A one-page note for the lawyer: can Nutrade for an education app coexist with those marks, and what does Mexico mean for a launch there?
+   - Prepare our own filing: the word mark "Nutrade" in classes 9 and 41 (42 optional). You or the lawyer file it.
+   - The app-store search in the launch markets, and the social handles.
+2. **The web address:** nutrade.com is parked with a domain seller (ask the price); otherwise e.g. nutradeapp.com, nutradeapp.app or nutradeapp.de, which were free on 2026-09-26. You register it.
+3. **How the name reads in the launch languages:** no unfortunate meaning, easy to say (decision M).
+4. **A store title,** e.g. "Nutrade – Learn to Trade". Neither title nor subtitle promises profit (`docs/agent.md` §1, §7 and the store guidelines).
+5. **2–3 logo and icon concepts** as SVG, matching the direction from `LOOK-BRIEF`. Optionally image concepts with the `brandkit` skill.
+6. **Tone of voice in five sentences:** sober, friendly, honest.
+7. **After your choice, recorded in:**
    - `app.json` (name, slug);
    - the web title;
    - placeholders for icon and splash.
@@ -779,14 +780,14 @@ Report: the three directions in three sentences each · links to every variant �
 Stage BRAND from docs/build-plan.md.
 
 Read CLAUDE.md, §1, §4.1 (decision L) and the "BRAND" section of docs/build-plan.md, docs/agent.md §1 and §7, and the direction chosen in LOOK-BRIEF in docs/UI.md §10.
-Check the name "Tradle" first: research on the web (trademark registers, app stores, domains) and state what you checked and what you could not check. Give a traffic light with reasons. Only if it is amber or red, propose close alternatives with the same checks.
+Check the name "Nutrade" first: trademark registers, app stores, domains and social handles. State what you checked and what you could not check. If you find a conflict that is more serious than the ones §4.1 already lists, stop and tell me before any design work.
 No name, title or subtitle may promise profit, wealth or signals.
 
 Open a PR against main with the drafts (SVG) under assets/brand/.
-Report: the name check · logo concepts (links) · store title · tone of voice · open questions. Then stop and wait for my choice.
+Report: the name check · the note for the lawyer · web-address options · logo concepts (links) · store title · tone of voice · open questions. Then stop and wait for my choice.
 ```
 
-**You decide:** whether "Tradle" stays after the check, and the icon direction. Register the trademark early; the lawyer checks it before the release (`LEGAL-FINAL`).
+**You decide:** the web address and the icon direction. File the trademark early; the lawyer checks it before the release (`LEGAL-FINAL`).
 
 ### `LOOK-SYSTEM` – the chosen direction as a system
 
@@ -963,7 +964,7 @@ Report: what you built · check results · my test checklist with real links · 
    - One wrong tap gives amber: counts as correct, costs no heart.
    - From two wrong taps on, the task is wrong.
 9. **An explanation per wrong option** (`why`, W21) is shown where the content has one.
-10. **One switch for unlimited hearts,** read from a single place, for Tradle Plus (`MONEY`, decision I).
+10. **One switch for unlimited hearts,** read from a single place, for Nutrade Plus (`MONEY`, decision I).
 11. **Unit tests** for every rule.
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
@@ -1568,7 +1569,7 @@ Claude provides the exports (`tools/export_readable.py`) and a list of the place
 1. Find the person: an experienced trader, ideally with training or teaching experience. Decision N is still open; ways that do not cost much:
    - **Keep the job small.** Claude's own reviews (`KNOWLEDGE`, `REVIEW-A`) come first, so the expert only checks the risky parts above and Claude's list of doubts. That is hours, not weeks.
    - **Where to look:** student investment and trading clubs at universities; former professional traders on LinkedIn or XING; lecturers who teach investing at adult education centers (Volkshochschule) or business schools; experienced traders among your beta testers; freelance platforms (e.g. Malt, Upwork) with a fixed price per chapter.
-   - **How to pay:** a fixed price per chapter instead of an hourly budget; or, instead of money, lifetime Tradle Plus and a credit in the app (only with their consent, and never worded as an endorsement).
+   - **How to pay:** a fixed price per chapter instead of an hourly budget; or, instead of money, lifetime Nutrade Plus and a credit in the app (only with their consent, and never worded as an endorsement).
    - **If possible, two views:** a practitioner (does it work like that?) and a teacher (is it taught well?).
 2. Agree on scope and fee in writing.
 3. Bring the result back as a list.
@@ -1741,9 +1742,9 @@ PR, every check green, report with a test checklist. Then stop.
 
 ---
 
-## 11. Phase G – The practice arena (Tradle Plus)
+## 11. Phase G – The practice arena (Nutrade Plus)
 
-**Why this phase exists.** The course promises that afterwards only practice is missing. The arena is where that practice starts, inside the app: charts you trade bar by bar, drills without end, and a practice account whose numbers behave like a trader's. It is also what Tradle Plus sells (decision I), so it has to be worth paying for.
+**Why this phase exists.** The course promises that afterwards only practice is missing. The arena is where that practice starts, inside the app: charts you trade bar by bar, drills without end, and a practice account whose numbers behave like a trader's. It is also what Nutrade Plus sells (decision I), so it has to be worth paying for.
 
 ### The idea
 
@@ -1754,11 +1755,11 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
 - The Practice tab: mistakes, weak concepts, scheduled review, the daily mix.
 - Glossary, statistics, streak and daily goal.
 - 5 hearts in tests: one back every 4 hours, or one per finished practice round.
-- **The Daily Tradle:** one chart a day, the same for everyone on the same path, played bar by bar. You pick your moment or stand aside, set stop and target, then see what happened. The result can be shared as a small grid that shows your decisions, never money. It is a reason to open the app every day, and the arena's shop window.
+- **The Daily Chart:** one chart a day, the same for everyone on the same path, played bar by bar. You pick your moment or stand aside, set stop and target, then see what happened. The result can be shared as a small grid that shows your decisions, never money. It is a reason to open the app every day, and the arena's shop window.
 - **A taste of the arena**, e.g. one replay and ten drills, so you know what Plus contains.
 - Ads between lessons (`ADS`).
 
-**Tradle Plus (subscription)**
+**Nutrade Plus (subscription)**
 - **Unlimited hearts.** A test still needs its pass mark.
 - **No ads.**
 - **The full arena:**
@@ -1792,11 +1793,11 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
 - Hand-written replays stay for teaching; the generator makes the volume.
 - Synthetic data avoids the license costs of real market data and cannot be mistaken for a signal. Real historical data can be looked at after the release (Phase L).
 
-**Order in this phase:** the design → one replay by hand → the generator → the tab with the Daily Tradle → the practice account → drills → the scalping replay bank. Swing and Day Trading get their arena content right after their chapters (`ARENA-PATHS`).
+**Order in this phase:** the design → one replay by hand → the generator → the tab with the Daily Chart → the practice account → drills → the scalping replay bank. Swing and Day Trading get their arena content right after their chapters (`ARENA-PATHS`).
 
 ### `ARENA-DESIGN` – the arena on paper
 
-**Goal.** The arena, the Daily Tradle and the line between free and Plus are designed and written into the docs before anything is built.
+**Goal.** The arena, the Daily Chart and the line between free and Plus are designed and written into the docs before anything is built.
 
 **Scope**
 1. **Docs:**
@@ -1808,7 +1809,7 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
    - a replay in progress: plan, management, pass;
    - the end of a replay with the process grade;
    - the practice account: statistics and journal;
-   - the Daily Tradle and its share card;
+   - the Daily Chart and its share card;
    - the paywall.
 3. **The generator's model on one page:** which properties and parameters per path, how "clean", "marginal" and "failed" are defined, how the odds are set, how a chart is checked.
 4. **Free vs. Plus** in one table, with the paywall's places and its texts: a clear price, a clear renewal, a clear way to cancel.
@@ -1877,7 +1878,7 @@ Stage REPLAY-PILOT from docs/build-plan.md. Read CLAUDE.md and §1 of docs/build
    - the correct answers (entry, stop, size for 1 %, R) are computed, never set by hand;
    - property tests over at least 10,000 seeds, with the odds measured over the sample;
    - a render test over a sample of seeds.
-5. **Deterministic:** the same seed gives the same chart on every device. The model carries a version number, so old seeds (a shared Daily Tradle, a bug report) still open the same chart.
+5. **Deterministic:** the same seed gives the same chart on every device. The model carries a version number, so old seeds (a shared Daily Chart, a bug report) still open the same chart.
 6. **Fast:** a session is generated on the phone in well under a second, on a cheap Android device too.
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2–3
@@ -1903,7 +1904,7 @@ Report: what you built · the odds table · 12 sample charts (links: clean, marg
 2. Can you see the setup in the clean ones? Is the marginal one really borderline?
 3. Is there really nothing worth trading in the sessions without a setup?
 
-### `ARENA-TAB` – the arena tab and the Daily Tradle
+### `ARENA-TAB` – the arena tab and the Daily Chart
 
 **Goal.** The arena is in the app, and everyone gets one chart a day.
 
@@ -1912,7 +1913,7 @@ Report: what you built · the odds table · 12 sample charts (links: clean, marg
    - replays chosen by weak concepts;
    - tier-gated by reading level;
    - the strip at the end of a session.
-2. **The Daily Tradle:**
+2. **The Daily Chart:**
    - one chart per day and path, from a date seed, the same on every device;
    - the result grid;
    - sharing as an image or as text.
@@ -1929,7 +1930,7 @@ Read CLAUDE.md, then §1 and the "ARENA-TAB" section of docs/build-plan.md in fu
 Build exactly that scope.
 
 Especially important:
-- The Daily Tradle is the same chart for everyone on the same path and day, and the same on every device (date seed).
+- The Daily Chart is the same chart for everyone on the same path and day, and the same on every device (date seed).
 - The share card shows decisions, never money or profit.
 - Every Plus gate goes through one function; until MONEY, test builds unlock everything.
 
@@ -1939,9 +1940,9 @@ Report: what you built · check results · my test checklist with real links · 
 
 **You test (~20 min + 1 week)**
 1. Open the arena tab and play two replays: is the strip at the end right?
-2. Play the Daily Tradle on two devices on the same day: it is the same chart.
+2. Play the Daily Chart on two devices on the same day: it is the same chart.
 3. Share your result: does the card look good, and does it show no money?
-4. Play the Daily Tradle every day for a week: would you come back for it?
+4. Play the Daily Chart every day for a week: would you come back for it?
 
 ### `SIM-ACCOUNT` – the practice account
 
@@ -2140,7 +2141,7 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 2. **Generated setup drills** for these cards.
 3. **The replay bank:** 22 replays per path, made as in `REPLAY-BANK`.
 4. **Scenario packs** for the path, e.g. earnings weeks for swing, gap days for Day Trading.
-5. **The Daily Tradle** for the path.
+5. **The Daily Chart** for the path.
 
 **Model · effort · sessions:** Opus 5.5 · high · per path 2–3 (templates and drills, then replays)
 
@@ -2159,7 +2160,7 @@ PR, every check green, report with 12 sample charts (templates session) or the r
 
 ### `BACKEND` – accounts and sync (decision K)
 
-**Goal.** Progress lives in an account: safe when a phone is lost, the same on every device, and the base for Tradle Plus.
+**Goal.** Progress lives in an account: safe when a phone is lost, the same on every device, and the base for Nutrade Plus.
 
 **Scope**
 1. **Supabase in the EU** (Frankfurt), with access rules (RLS) on every table, tested.
@@ -2200,9 +2201,9 @@ Report: what you built · check results · my test checklist · open questions. 
 3. Play offline on one device, then go online: both devices agree.
 4. Export your data, then delete the account: you are signed out, and the data is gone.
 
-### `MONEY` – Tradle Plus (decision I)
+### `MONEY` – Nutrade Plus (decision I)
 
-**Goal.** Tradle Plus is built in: honest, within the store rules, and worth its price.
+**Goal.** Nutrade Plus is built in: honest, within the store rules, and worth its price.
 
 **Scope**
 1. **RevenueCat** (`docs/agent.md` §1) with one entitlement, `plus`, and two products: monthly and yearly, optionally with a free trial.
@@ -2241,7 +2242,7 @@ Report: what you built · every paywall text · my test checklist (sandbox purch
 **You test.**
 1. A sandbox purchase on iPhone and on Android; restore; cancel.
 2. With Plus: the hearts show ∞, there are no ads, the whole arena is open.
-3. Without Plus: every lesson is playable, the Daily Tradle and the taste of the arena work, and the paywall appears only where it should.
+3. Without Plus: every lesson is playable, the Daily Chart and the taste of the arena work, and the paywall appears only where it should.
 
 ### `ADS` – ads in the free tier
 
@@ -2491,14 +2492,14 @@ Stage A11Y-PERF from docs/build-plan.md. Read CLAUDE.md, docs/UI.md §10 and §1
 - all legal texts, and which language versions are binding;
 - the risk note and the wording in Chapter 8 Level 15 of every path and in the market profiles, especially the line against investment advice;
 - the arena's honesty rules: synthetic data, the training odds;
-- the name and its trademark (`BRAND`);
+- the name Nutrade and its trademark, including the coexistence with the NUTRADE marks for supplements (classes 5, 35) and in Mexico (`BRAND`);
 - the subscription terms and the right of withdrawal (`MONEY`);
 - ads: the consent and the blocked categories (`ADS`);
 - privacy: account, analytics, ads.
 
 **Keeping it affordable**
 - **Prepare the questions.** Claude writes a short question list with the exact texts, e.g. "Is this financial education and not investment advice?", "Is this disclaimer enough?", "Which language version is binding?". A lawyer answers a focused list in hours, not days. Ask for a fixed price up front.
-- **Legal-text services for apps** with an update service (e.g. IT-Recht Kanzlei, eRecht24): imprint, privacy policy and terms for a monthly fee, kept current when the law changes. Compare the current offers; the lawyer then only checks what is specific to Tradle.
+- **Legal-text services for apps** with an update service (e.g. IT-Recht Kanzlei, eRecht24): imprint, privacy policy and terms for a monthly fee, kept current when the law changes. Compare the current offers; the lawyer then only checks what is specific to Nutrade.
 - **The IHK:** once your business is registered, you are usually a member of your local chamber of commerce. Many IHKs offer free advice for founders and general legal information.
 - **Student law clinics:** some universities offer free, supervised legal advice, some of it for founders. Ask locally.
 
@@ -2572,9 +2573,9 @@ Not part of v1.0. Every idea here gets a stage of its own in this plan before it
 
 - **More languages:** each one is a `TRANSLATE` run (Phase J).
 - **`FRIENDS`:** an opt-in friends league instead of a global leaderboard (W7). Scored on decisions, not on the amount of XP.
-- **`AI-EXPLAINER`:** "Explain it differently" after a wrong answer, via the Claude API (K9). Only with hard guardrails: no signals, no investment advice, only the lesson's material. A candidate for Tradle Plus.
+- **`AI-EXPLAINER`:** "Explain it differently" after a wrong answer, via the Claude API (K9). Only with hard guardrails: no signals, no investment advice, only the lesson's material. A candidate for Nutrade Plus.
 - **Arena extras:** monthly challenges and more scenario packs; real historical data, if a license is affordable.
-- **Widgets:** streak, daily goal, the Daily Tradle.
+- **Widgets:** streak, daily goal, the Daily Chart.
 - **Trader Card:** sharing, achievements.
 - **Tablet and landscape charts.**
 

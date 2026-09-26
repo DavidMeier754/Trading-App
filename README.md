@@ -4,7 +4,7 @@ A "Duolingo for traders": short daily lessons (3–4 min), interactive chart sce
 
 The course has three paths — Scalping, Day Trading and Swing Trading — with eight chapters each; Chapter 1 is shared. A finished path is ~145 levels and ~390 sub-levels: about 22 hours, or six months at two sub-levels a day. The goal for the course is that learners enjoy it, and that afterwards only practice is missing. What a graduate can do, and what the app never claims, is defined in `docs/agent.md` §1.1.
 
-The app is called **Tradle** (decision L in `docs/build-plan.md` §4.1; stage BRAND checks the trademark first). Version 1.0 ships all three paths, a practice arena with the subscription Tradle Plus, accounts, and every launch language.
+The app is called **Nutrade** (decision L in `docs/build-plan.md` §4.1; stage BRAND files the trademark and settles the web address). Version 1.0 ships all three paths, a practice arena with the subscription Nutrade Plus, accounts, and every launch language.
 
 ## Where things stand (2026-09-25)
 
