@@ -63,7 +63,7 @@ screens:
       - {text: "$0.26"}
       - {text: "$0.06"}
       - {text: "$0.32"}
-      - {text: "$0.38"}
+      - {text: "$0.38", correct: true}
     working: "21.44 − 21.06 = 0.38"
     explanation: "Low to high is the whole span of the minute, not just the part between the open and the close."
 
