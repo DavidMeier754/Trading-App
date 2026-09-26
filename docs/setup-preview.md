@@ -1,6 +1,10 @@
 # Preview setup: Cloudflare Pages and Expo Go
 
-## 1. Cloudflare Pages: a preview link on every PR (about 10 minutes)
+## 1. Cloudflare: a preview link on every PR (about 10 minutes)
+
+Cloudflare now sets new projects up as a Worker with static assets. `wrangler.jsonc`
+in the repository tells it to serve `dist/`; without it the preview builds for PR
+branches fail (`wrangler versions upload` needs the file).
 
 1. Go to https://dash.cloudflare.com and sign up (the free plan is enough).
 2. In the left menu open **Compute (Workers & Pages)** and click **Create** → the **Pages** tab → **Connect to Git** (it may be named "Import an existing Git repository").
