@@ -73,7 +73,7 @@ export default function OutOfHearts() {
       </Animated.View>
       <Animated.View style={[styles.text, text]}>
         <Text style={styles.title} accessibilityRole="header">
-          You're out of hearts
+          {"You're out of hearts"}
         </Text>
         <Text style={styles.body}>
           {`A heart comes back ${HOURS} hours after you lose it. ${

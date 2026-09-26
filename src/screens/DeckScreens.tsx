@@ -5,7 +5,7 @@ import MiniChart from '../components/MiniChart';
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { PopIn } from '../lesson/Celebrate';
-import { matchHitFeedback, matchMissFeedback, tapFeedback } from '../lesson/feedback';
+import { matchHitFeedback, matchMissFeedback } from '../lesson/feedback';
 import { useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import type {

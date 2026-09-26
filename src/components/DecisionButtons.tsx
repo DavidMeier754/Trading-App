@@ -38,13 +38,13 @@ export default function DecisionButtons({
   return (
     <View style={styles.row}>
       {buttons.map((button) => (
-        <DecisionButton key={button} button={button} chosen={chosen} onChoose={onChoose} />
+        <Choice key={button} button={button} chosen={chosen} onChoose={onChoose} />
       ))}
     </View>
   );
 }
 
-function DecisionButton({
+function Choice({
   button,
   chosen,
   onChoose,

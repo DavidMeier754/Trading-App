@@ -33,7 +33,7 @@ import {
   revealTiming,
 } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, GRID, radius, space, type } from '../theme';
+import { colors, GRID, space, type } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
 
 /** Which way a choice faces, for the P/L side of the outcome strip. */

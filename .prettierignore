@@ -1,0 +1,15 @@
+node_modules/
+dist/
+web-build/
+.expo/
+.claude/
+.agents/
+content/
+demo/
+docs/
+assets/
+package-lock.json
+skills-lock.json
+*.md
+*.yaml
+*.yml
