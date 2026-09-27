@@ -190,7 +190,8 @@ export type StoryScreen = {
 export type RecapScreen = {
   type: 'recap';
   title: string;
-  points: { text: string; level?: string }[];
+  /** `card`: the 1-based screen index, in that sub-level, of the card the point opens. */
+  points: { text: string; level?: string; card?: number }[];
 };
 
 export type PlanField = {

@@ -9,7 +9,8 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import DecisionButtons, { DECISION_LABEL } from '../components/DecisionButtons';
+import DecisionButtons from '../components/DecisionButtons';
+import { PlanValues } from '../components/Visual';
 import ChartDecisionScreen, { DecisionPhase } from '../screens/ChartDecisionScreen';
 import ChartAnnotateScreen from '../screens/ChartAnnotateScreen';
 import ChartReplayScreen from '../screens/ChartReplayScreen';
@@ -74,6 +75,7 @@ import {
 import ProgressBar from './ProgressBar';
 import QuitSheet, { QuitButton } from './QuitSheet';
 import Reveal, { RevealProbe } from './Reveal';
+import { decisionReveal, longestDecisionReveal } from './decisionReveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
 import { FitScreen, REVEAL_GROWTH } from './fit';
@@ -500,13 +502,13 @@ export default function LessonPlayer({
   const [probeH, setProbeH] = useState(0);
   const revealRoom = probeH > 0 ? probeH + space.md : REVEAL_GROWTH;
 
-  const revealLead = useMemo(() => {
-    if (!screen || screen.type !== 'chart-decision' || !g || g === 'correct') return undefined;
-    const best = DECISION_LABEL[screen.best] ?? screen.best;
-    return g === 'amber'
-      ? `Standing aside costs nothing here. The better call was ${best}.`
-      : `The better call was ${best}.`;
-  }, [screen, g]);
+  // docs/UI.md §5.1b: a chart decision's reveal is worked out from the button
+  // actually pressed, so its first line always speaks to that choice.
+  const decision = useMemo(() => {
+    if (!screen || screen.type !== 'chart-decision' || !g) return undefined;
+    if (value?.kind !== 'decision' || !value.choice) return undefined;
+    return decisionReveal(screen, value.choice, g);
+  }, [screen, g, value]);
 
   const working =
     screen && (screen.type === 'numeric-mc' || screen.type === 'numeric-input')
@@ -569,38 +571,41 @@ export default function LessonPlayer({
           reserve={!outOfHearts && screen && isQuestion(screen) ? revealRoom : 0}
         >
           <VerdictProvider value={verdict}>
-            {outOfHearts ? (
-              <OutOfHearts />
-            ) : atSummary ? (
-              <LessonComplete
-                screens={screens}
-                grades={grades}
-                levelTitle={level.title}
-                xp={level.xp}
-              />
-            ) : (
-              renderScreen({
-                screen: screen as Screen,
-                value: value as AnswerValue,
-                setValue,
-                isRevealed,
-                contentWidth,
-                level,
-                onPhaseChange: setDecisionPhase,
-                cursor,
-                setCursor,
-                plan,
-                setPlanValue: (key, v) => {
-                  setPlan((prev) => ({ ...prev, [key]: v }));
-                  if (spendsHearts) savePlan({ [key]: v });
-                },
-                pathChoice,
-                setPathChoice,
-                onSettled,
-                allScreens: screens,
-                grades,
-              })
-            )}
+            {/* The learner's plan, for every plan-sheet on any screen (review M1). */}
+            <PlanValues.Provider value={plan}>
+              {outOfHearts ? (
+                <OutOfHearts />
+              ) : atSummary ? (
+                <LessonComplete
+                  screens={screens}
+                  grades={grades}
+                  levelTitle={level.title}
+                  xp={level.xp}
+                />
+              ) : (
+                renderScreen({
+                  screen: screen as Screen,
+                  value: value as AnswerValue,
+                  setValue,
+                  isRevealed,
+                  contentWidth,
+                  level,
+                  onPhaseChange: setDecisionPhase,
+                  cursor,
+                  setCursor,
+                  plan,
+                  setPlanValue: (key, v) => {
+                    setPlan((prev) => ({ ...prev, [key]: v }));
+                    if (spendsHearts) savePlan({ [key]: v });
+                  },
+                  pathChoice,
+                  setPathChoice,
+                  onSettled,
+                  allScreens: screens,
+                  grades,
+                })
+              )}
+            </PlanValues.Provider>
           </VerdictProvider>
         </FitScreen>
       </Animated.View>
@@ -617,6 +622,9 @@ export default function LessonPlayer({
               key={`${runKey}-${index}`}
               explanation={probeExplanation(screen)}
               working={!!working}
+              decision={
+                screen.type === 'chart-decision' ? longestDecisionReveal(screen) : undefined
+              }
               onHeight={setProbeH}
             />
           </View>
@@ -626,7 +634,8 @@ export default function LessonPlayer({
             <View style={styles.revealGround}>
               <Reveal
                 grade={g}
-                lead={revealLead}
+                lead={decision?.lead}
+                decision={decision}
                 explanation={
                   // A branch's reveals live on its steps (docs/schema.md); the panel
                   // gives the one that matters most for the path taken.
@@ -796,7 +805,7 @@ function renderScreen(props: {
     case 'story':
       return <StoryScreen screen={screen} />;
     case 'recap':
-      return <RecapScreen screen={screen} source={(id) => sourceCardOf(level, id)} />;
+      return <RecapScreen screen={screen} source={(point) => sourceCardOf(level, point)} />;
     case 'plan-card':
       return <PlanCardScreen screen={screen} values={plan} onChange={setPlanValue} />;
     case 'badge':

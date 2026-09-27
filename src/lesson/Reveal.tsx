@@ -14,6 +14,7 @@ import { copy } from '../format';
 import { colors, radius, space, type } from '../theme';
 import type { Grade } from './answers';
 import { Celebrate, PopIn } from './Celebrate';
+import { type DecisionReveal, decisionRevealLabel } from './decisionReveal';
 import { isStreakMilestone, pulseAt, STREAK_FROM } from './feedback';
 import { useLookSpec } from './look';
 import { EASE_OUT, SPRING_PANEL, SPRING_PANEL_CALM, useMotion } from './motion';
@@ -54,6 +55,7 @@ export default function Reveal({
   working,
   extra,
   streak = 0,
+  decision,
 }: {
   grade: Grade;
   /** docs/UI.md §5.1: an amber reveal opens with what was right about the choice. */
@@ -63,8 +65,14 @@ export default function Reveal({
   extra?: React.ReactNode;
   /** Consecutive right answers, this one included. */
   streak?: number;
+  /**
+   * docs/UI.md §5.1b: a chart decision's reveal names the decision in the chip
+   * and reports the outcome under it, smaller, in a neutral box of its own.
+   */
+  decision?: DecisionReveal;
 }) {
   const tone = TONE[grade];
+  const label = decision ? decision.chip : tone.label;
   const m = useMotion();
   const spec = useLookSpec();
   const [showWorking, setShowWorking] = useState(false);
@@ -120,6 +128,9 @@ export default function Reveal({
         },
         panel,
       ]}
+      // One announcement in §5.1b's order: the grade, the outcome, the result.
+      accessible={decision ? true : undefined}
+      accessibilityLabel={decision ? decisionRevealLabel(decision, explanation) : undefined}
     >
       <View style={styles.headRow}>
         <PopIn style={[styles.badge, { backgroundColor: tone.accent }]}>
@@ -137,7 +148,7 @@ export default function Reveal({
             />
           </Svg>
         </PopIn>
-        <Text style={[styles.head, { color: tone.accent }]}>{tone.label}</Text>
+        <Text style={[styles.head, { color: tone.accent }]}>{label}</Text>
         {showStreak ? (
           <PopIn delay={m.reduced ? 0 : 260} style={styles.pillSlot}>
             {milestone ? (
@@ -153,6 +164,7 @@ export default function Reveal({
       <Animated.View style={[styles.words, wordsStyle]}>
         {lead ? <Text style={[styles.lead, { color: tone.accent }]}>{copy(lead)}</Text> : null}
         <Text style={styles.body}>{copy(explanation)}</Text>
+        {decision ? <DecisionOutcome decision={decision} /> : null}
         {extra}
         {working ? (
           <View style={styles.workingWrap}>
@@ -174,6 +186,33 @@ export default function Reveal({
 }
 
 /**
+ * The outcome, under the grade and smaller than it (docs/UI.md §5.1b): the
+ * level file's sentence, then the result line with the share count. The line
+ * takes its sign's colour but sits in a neutral box, so it never reads as the
+ * verdict; standing aside shows the "would have" in grey. A right call that
+ * lost gets the line that joins the two.
+ */
+function DecisionOutcome({ decision }: { decision: DecisionReveal }) {
+  const color =
+    decision.tone === 'up'
+      ? colors.up
+      : decision.tone === 'down'
+        ? colors.down
+        : decision.tone === 'flat'
+          ? colors.text
+          : colors.textMuted;
+  return (
+    <>
+      <View style={styles.outcomeBox}>
+        <Text style={styles.outcomeText}>{copy(decision.outcome)}</Text>
+        <Text style={[styles.resultText, { color }]}>{copy(decision.result)}</Text>
+      </View>
+      {decision.variance ? <Text style={styles.variance}>{copy(decision.variance)}</Text> : null}
+    </>
+  );
+}
+
+/**
  * How tall a verdict card will be, before there is a verdict: the card's own
  * padding, head row and words, laid out once and invisibly. For a screen that
  * has to keep room for a verdict it has not had yet (ChartDecisionScreen) --
@@ -184,17 +223,24 @@ export function RevealProbe({
   lead,
   explanation,
   working = false,
+  decision,
   onHeight,
 }: {
   lead?: string;
   explanation: string;
   /** The verdict will carry a "Show working" line. */
   working?: boolean;
+  /** A chart decision's outcome block, at its tallest (decisionReveal.ts). */
+  decision?: DecisionReveal;
   onHeight: (height: number) => void;
 }) {
   return (
+    // Hidden from screen readers on every platform: it holds the verdict's
+    // words before there is a verdict (review M6). `aria-hidden` is the one a
+    // browser honours; the other two are the native ones.
     <View
       pointerEvents="none"
+      aria-hidden
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
       style={[styles.wrap, styles.probe]}
@@ -202,8 +248,11 @@ export function RevealProbe({
     >
       <View style={styles.probeHead} />
       <View style={styles.words}>
-        {lead ? <Text style={styles.lead}>{copy(lead)}</Text> : null}
+        {(decision?.lead ?? lead) ? (
+          <Text style={styles.lead}>{copy(decision?.lead ?? lead ?? '')}</Text>
+        ) : null}
         <Text style={styles.body}>{copy(explanation)}</Text>
+        {decision ? <DecisionOutcome decision={decision} /> : null}
         {working ? <Text style={styles.toggle}>Show working</Text> : null}
       </View>
     </View>
@@ -241,6 +290,19 @@ const styles = StyleSheet.create({
   body: { ...type.body, color: colors.text },
   workingWrap: { gap: space.xs },
   toggle: { ...type.label },
+  outcomeBox: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: radius.sm,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+    gap: space.xs,
+  },
+  // docs/UI.md §10: nothing a learner reads to judge the trade goes below 13 pt.
+  outcomeText: { ...type.label, fontWeight: '400', color: colors.textMuted },
+  resultText: { ...type.label, fontWeight: '700', fontVariant: ['tabular-nums'] },
+  variance: { ...type.label, fontWeight: '500', color: colors.text },
   probe: { position: 'absolute', left: 0, right: 0, top: 0, opacity: 0 },
   probeHead: { height: 24 },
   working: {

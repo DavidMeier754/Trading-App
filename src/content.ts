@@ -10,7 +10,7 @@ import { CHAPTER_FILES } from './content.generated';
 import profilesYaml from '../content/market_profiles.yaml';
 import demoLevel from '../demo/all-screens.yaml';
 
-import type { Level, MarketProfile } from './types';
+import type { Level, MarketProfile, Screen } from './types';
 
 export type LessonEntry = {
   id: string;
@@ -244,25 +244,78 @@ export function nodeOf(entryIdToFind: string): PathLevel | undefined {
   );
 }
 
+/** A recap takeaway, as the level file writes it (docs/schema.md `recap`). */
+export type RecapPoint = { text: string; level?: string; card?: number };
+
+/** A card a recap can open: a theory card, or an example (which has no title). */
+export type SourceCard = { title?: string; body: string };
+
+const STOP = new Set(
+  "the and you your are was were for that this with has have had not but its it's from into than then them they what when where which who will would can one only just more most less".split(
+    ' ',
+  ),
+);
+
+/** The words that carry a sentence's meaning, folded so "selling" meets "sell". */
+function meaningWords(text: string): Set<string> {
+  const words = text
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]+/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !STOP.has(w))
+    .map((w) => w.replace(/(ing|ed|es|s|e)$/, ''))
+    .filter((w) => w.length > 2);
+  return new Set(words);
+}
+
 /**
- * docs/UI.md §3 `recap`: a takeaway re-opens the card it came from. The card is
- * the first theory card of that sub-level, found in the same chapter and path
- * as the recap (a recap names its sources by id, `3-1`).
+ * Which of a lesson's cards a takeaway came from (review M4). The point's own
+ * `card:` -- a 1-based screen index -- wins when it names a card. Without it,
+ * the card sharing the most words with the takeaway; a tie goes to the earlier
+ * card. Before this it was always the first card, whatever the takeaway said.
+ */
+export function matchCard(screens: Screen[], point: RecapPoint): SourceCard | null {
+  const isCard = (s: Screen | undefined): s is Screen & SourceCard =>
+    !!s && (s.type === 'theory' || s.type === 'example');
+  if (point.card !== undefined) {
+    const named = screens[point.card - 1];
+    if (isCard(named)) return { title: named.title, body: named.body };
+  }
+  const want = meaningWords(point.text);
+  let best: SourceCard | null = null;
+  let bestScore = -1;
+  for (const s of screens) {
+    if (!isCard(s)) continue;
+    const have = meaningWords(`${s.title ?? ''} ${s.body}`);
+    let score = 0;
+    for (const w of want) if (have.has(w)) score += 1;
+    if (score > bestScore) {
+      best = { title: s.title, body: s.body };
+      bestScore = score;
+    }
+  }
+  return best;
+}
+
+/**
+ * docs/UI.md §3 `recap`: a takeaway re-opens the card it came from, in the
+ * sub-level it names, found in the same chapter and path as the recap (a
+ * recap names its sources by id, `3-1`).
  */
 export function sourceCardOf(
   from: Level,
-  id: string,
-): { title: string; body: string; lesson: string } | null {
+  point: RecapPoint,
+): (SourceCard & { lesson: string }) | null {
+  if (!point.level) return null;
   const entry = LESSONS.find(
     (e) =>
       !e.testBench &&
-      e.level.id === id &&
+      e.level.id === point.level &&
       e.level.chapter === from.chapter &&
       e.level.path === from.path,
   );
-  const card = entry?.level.screens.find((s) => s.type === 'theory') as
-    { title: string; body: string } | undefined;
-  return entry && card ? { title: card.title, body: card.body, lesson: entry.subtitle } : null;
+  const card = entry ? matchCard(entry.level.screens, point) : null;
+  return entry && card ? { ...card, lesson: entry.subtitle } : null;
 }
 
 /** Kept for anything that just wants the first lesson. */

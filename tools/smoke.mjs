@@ -12,7 +12,7 @@
 // opens it once per worker with `?test=1`, which turns animations off and lets
 // each new hash open its screen in place (src/App.tsx). For every screen it
 // records:
-//   - crash:   the error page ("Something broke") is up;
+//   - crash:   the error page (ErrorBoundary.tsx, testID "error-page") is up;
 //   - nan:     `NaN` in a drawn attribute (a price line's y1) or in the text;
 //   - console: an error on the console or an uncaught exception;
 //   - blank:   nothing to read and nothing drawn.
@@ -149,7 +149,7 @@ function keyOf(lesson, keys) {
 function inspect() {
   const rootEl = document.getElementById('root');
   const text = (rootEl?.innerText ?? '').trim();
-  const crash = text.includes('Something broke');
+  const crash = !!rootEl?.querySelector('[data-testid="error-page"]');
   const nan = [];
   for (const el of rootEl?.querySelectorAll('*') ?? []) {
     for (const attr of el.attributes) {
@@ -162,7 +162,9 @@ function inspect() {
   const drawn = (rootEl?.querySelectorAll('svg, img').length ?? 0) > 0;
   return {
     crash,
-    crashMessage: crash ? text.split('\n').slice(1, 2).join(' ').slice(0, 200) : null,
+    crashMessage: crash
+      ? (rootEl.querySelector('[data-testid="error-message"]')?.textContent ?? '').slice(0, 200)
+      : null,
     nan: nan.slice(0, 5),
     blank: text.length === 0 && !drawn,
   };
@@ -303,11 +305,7 @@ await Promise.all(
       if (found.timeout) problems.push({ kind: 'timeout', detail: found.timeout.slice(0, 200) });
       // The error page logs its own throw; that is the crash, not a second finding.
       // A NaN attribute also logs "Expected length, NaN": the same finding.
-      const noise = found.crash
-        ? /render failed|The above error|Something broke/
-        : found.nan.length
-          ? /NaN/
-          : null;
+      const noise = found.crash ? /render failed|The above error/ : found.nan.length ? /NaN/ : null;
       const logged = found.console.filter((c) => !(noise && noise.test(c)));
       if (logged.length && !found.crash) problems.push({ kind: 'console', detail: logged[0] });
       results[task.n] = { problems };

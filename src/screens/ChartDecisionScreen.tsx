@@ -15,15 +15,15 @@ import Chart, {
   DEFAULT_GAPS,
   PLAY_START,
 } from '../components/Chart';
-import { DECISION_LABEL } from '../components/DecisionButtons';
 import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
-import { copy, count, signedPercent, signedPrice } from '../format';
+import { copy, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import { useFit } from '../lesson/fitState';
 import { RevealProbe } from '../lesson/Reveal';
+import { longestDecisionReveal, positionTag } from '../lesson/decisionReveal';
 import {
   EASE_IN_OUT,
   EASE_OUT,
@@ -34,16 +34,7 @@ import {
 } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, GRID, space, type } from '../theme';
-import type { ChartDecisionScreen as S, DecisionButton } from '../types';
-
-/** Which way a choice faces, for the P/L side of the outcome strip. */
-const DIRECTION: Record<DecisionButton, 1 | -1 | 0> = {
-  long: 1,
-  buy: 1,
-  short: -1,
-  'no-trade': 0,
-  wait: 0,
-};
+import type { ChartDecisionScreen as S } from '../types';
 
 export type DecisionPhase = 'deciding' | 'playing' | 'done';
 
@@ -201,19 +192,15 @@ export default function ChartDecisionScreen({
   const finalPrice = closeAt(screen.chart, bars - 1);
   const move = finalPrice - decisionPrice;
   const movePct = (move / decisionPrice) * 100;
-  const direction = choice ? DIRECTION[choice] : 0;
-  const pnl = direction * move * screen.shares;
 
   // The verdict this screen keeps room for, measured rather than guessed: the
   // card laid out invisibly (Reveal.tsx, RevealProbe) with this screen's
-  // explanation and the longest lead a decision can get. Sized for less, a
+  // explanation and the tallest reveal any of its buttons can get. Sized for less, a
   // wrong answer's card overflowed and the whole screen was scaled down to
   // fit it the moment it landed -- the chart squeezed at the very end.
   const [probeH, setProbeH] = useState(0);
   const verdictH = probeH > 0 ? probeH + space.md : REVEAL_GROWTH;
-  const longestLead = `Standing aside costs nothing here. The better call was ${
-    DECISION_LABEL[screen.best] ?? screen.best
-  }.`;
+  const longest = useMemo(() => longestDecisionReveal(screen), [screen]);
 
   // As tall as the screen has room for, counting the reveal still to come
   // (lesson/fit.tsx), and sized from the chart's own geometry, so the
@@ -236,19 +223,17 @@ export default function ChartDecisionScreen({
   });
 
   // docs/UI.md §4.3's outcome strip, as a tag on the chart: the move in
-  // points and percent, and what it did to this position at the scenario's
-  // share count.
+  // points and percent, and the position held. What it made or lost is the
+  // reveal's result line (§5.1b), under the grade -- said here as well, it
+  // was a second, coloured verdict (review M7).
   const outcome = useMemo(
     () => ({
       move: `${move >= 0 ? '▲' : '▼'} ${signedPrice(move)}  ${signedPercent(movePct)}`,
-      position:
-        direction === 0
-          ? `you stood aside · ${count(screen.shares)}`
-          : `${signedPrice(pnl)} on ${count(screen.shares)}`,
+      position: positionTag(screen, choice),
       up: move >= 0,
       flat: Math.abs(move) < 1e-9,
     }),
-    [move, movePct, direction, pnl, screen.shares],
+    [move, movePct, screen, choice],
   );
   const chartHeight = chartHeightFor(!!screen.chart.volume, fit.gaps);
   const chartWidth = chartWidthFor(width, !!screen.chart.volume, fit.gaps);
@@ -278,7 +263,12 @@ export default function ChartDecisionScreen({
   return (
     <View style={styles.wrap}>
       {revisit ? null : (
-        <RevealProbe lead={longestLead} explanation={screen.explanation} onHeight={setProbeH} />
+        <RevealProbe
+          lead={longest.lead}
+          explanation={screen.explanation}
+          decision={longest}
+          onHeight={setProbeH}
+        />
       )}
       <View style={{ height: spacer }} />
       <View style={styles.column} onLayout={onColumnLayout}>
@@ -318,9 +308,8 @@ export default function ChartDecisionScreen({
             wants on every scenario result. */}
           <Text
             pointerEvents="none"
-            accessibilityLabel={
-              phase === 'done' ? `${copy(screen.outcome)} Not a prediction.` : undefined
-            }
+            // The outcome sentence is the reveal's to say, after the grade (docs/UI.md §5.1b).
+            accessibilityLabel={phase === 'done' ? 'Not a prediction.' : undefined}
             style={[styles.playHint, phase === 'deciding' && styles.playHintHidden]}
           >
             {phase === 'done' ? 'Not a prediction' : 'Tap to skip'}

@@ -55,9 +55,12 @@ export default function FillTilesScreen({
     >
       <Animated.View style={[styles.blank, animatedSlot]}>
         {/* The blank is as wide as the word that belongs in it, from the start,
-            so the words after it do not shuffle right with every letter. */}
+            so the words after it do not shuffle right with every letter. It is
+            sized by as many wide placeholder letters, never the word itself:
+            invisible text is still in the page for a screen reader or a
+            search (review M6). */}
         <Text style={[styles.blankText, styles.sizer]} aria-hidden>
-          {screen.answer.toUpperCase()}
+          {sizerText(screen.answer)}
         </Text>
         <Text
           style={[styles.blankText, styles.typed, { color: revealed ? slotColor : colors.text }]}
@@ -188,3 +191,8 @@ const styles = StyleSheet.create({
   tileText: { ...type.prompt, color: colors.text },
   undo: { ...type.label, color: colors.accent },
 });
+
+/** As many wide letters as the answer has, so the blank fits it without holding it. */
+export function sizerText(answer: string): string {
+  return 'M'.repeat(answer.length);
+}
