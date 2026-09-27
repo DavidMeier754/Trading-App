@@ -268,7 +268,7 @@ export function RecapScreen({
 }: {
   screen: Recap;
   /** The card a takeaway came from, to open under it (docs/UI.md §3). */
-  source?: (id: string) => { title: string; body: string } | null;
+  source?: (point: Recap['points'][number]) => { title?: string; body: string } | null;
 }) {
   const look = useLookSpec();
   const [open, setOpen] = useState<number | null>(null);
@@ -282,7 +282,7 @@ export function RecapScreen({
         {screen.points.map((p, i) => (
           <Arrive key={p.text} delay={160 + i * 110}>
             {(() => {
-              const card = p.level && source ? source(p.level) : null;
+              const card = p.level && source ? source(p) : null;
               const isOpen = open === i && !!card;
               return (
                 <Pressable
@@ -309,7 +309,9 @@ export function RecapScreen({
                   {/* The card it came from, re-opened under it. */}
                   {isOpen && card ? (
                     <View style={[styles.recapCard, { borderLeftColor: look.accent }]}>
-                      <Text style={styles.recapCardTitle}>{copy(card.title)}</Text>
+                      {card.title ? (
+                        <Text style={styles.recapCardTitle}>{copy(card.title)}</Text>
+                      ) : null}
                       <Text style={styles.recapCardBody}>{copy(card.body)}</Text>
                     </View>
                   ) : null}

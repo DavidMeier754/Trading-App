@@ -284,7 +284,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | | `DOCS` ✅ | This plan, the review report, all docs brought onto the decisions | – | – | Read |
 | | `CI` ✅ | Automatic checks, lint, unit tests, testing tools only in test builds, preview link per PR | Opus 5.5 · high | 1 | 15 min |
 | | `WIRE` ✅ | Content index instead of hand-written imports, all written chapters playable, render test of every screen | Opus 5.5 · high | 1 | 20 min |
-| B Stable | `STABLE-APP` | Plan overview, recap, reveal (decision vs. outcome), screen-reader leak, error page | Opus 5.5 · high | 1 | 20 min |
+| B Stable | `STABLE-APP` ✅ | Plan overview, recap, reveal (decision vs. outcome), screen-reader leak, error page | Opus 5.5 · high | 1 | 20 min |
 | | `STABLE-DATA` | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
 | C Look & feel | `LOOK-BRIEF` | Your critique + three design directions as clickable prototypes, with calm, high-quality motion | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
 | | `BRAND` | "Nutrade": trademark check and filing, web address, logo, icon draft, store title, tone of voice | Opus 5.5 · xhigh | 1 | 20 min + choice |
@@ -578,7 +578,7 @@ Report: what you built · check results (including the render numbers) · my tes
 
 ## 6. Phase B – Stable
 
-### `STABLE-APP` – the visible bugs
+### `STABLE-APP` ✅ – the visible bugs
 
 **Goal.**
 - The bugs from the review are gone.

@@ -45,7 +45,7 @@ screens:
     best: buy
     reasonable: [wait]
     outcome: "It rose to $10.30. Buying 100 shares here would have made +$30."
-    explanation: "A steady climb is a reasonable moment to buy — you just made your first trade."
+    explanation: "A steady climb is a fair moment to buy: the direction is already on the chart. Waiting is safe too, but it earns nothing."
 
   - type: numeric-mc
     prompt: "You bought 100 shares at $10.00 and sold at $10.30. What's your profit?"

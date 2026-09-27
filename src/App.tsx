@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Backdrop from './components/Backdrop';
 import { GridOriginProvider } from './components/gridAlign';
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary, { DebugCrash } from './ErrorBoundary';
 import { LessonEntry, LESSONS, nodeOf, TEST_BENCH } from './content';
 import Home from './home/Home';
 import { Look, LOOKS, setLook } from './lesson/look';
@@ -29,6 +29,8 @@ export default function App() {
   // looked at one by one; the app proper has no URLs.
   const [link, setLink] = useState(() => readDeepLink());
   const [entry, setEntry] = useState<LessonEntry | null>(link?.entry ?? null);
+  // `#debug-crash`, test builds only: a screen that throws (ErrorBoundary.tsx).
+  const [crash, setCrash] = useState(() => !!link?.crash);
 
   // Saved progress and settings come back before the home screen is drawn, so
   // the path never flashes empty first. A deep link opens its lesson at once,
@@ -52,6 +54,7 @@ export default function App() {
       const next = readDeepLink();
       setLink(next);
       setEntry(next?.entry ?? null);
+      setCrash(!!next?.crash);
       setVisit((v) => v + 1);
     };
     window.addEventListener('hashchange', onHash);
@@ -106,6 +109,17 @@ export default function App() {
 
   useEffect(pinPage, []);
 
+  // "Back to the map" on the error page: home, and a deep link that led to the
+  // crash is dropped, so a reload does not open it again.
+  const backToMap = useCallback(() => {
+    if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    setCrash(false);
+    setEntry(null);
+    setLink(null);
+  }, []);
+
   return (
     // Drags (a slider, a line on a chart, a chip into a bucket) run through
     // react-native-gesture-handler, which needs its root at the top.
@@ -122,8 +136,10 @@ export default function App() {
               one the home screen stands on too, so a change shows at once. */}
             <Backdrop width={frameWidth} height={height} />
             <GridOriginProvider originY={gridOrigin}>
-              <ErrorBoundary key={visit}>
-                {entry ? (
+              <ErrorBoundary key={visit} onBack={backToMap}>
+                {crash ? (
+                  <DebugCrash />
+                ) : entry ? (
                   <LessonPlayer
                     key={`${entry.id}#${visit}`}
                     level={entry.level}
@@ -195,7 +211,12 @@ const TEST_MODE =
   typeof window !== 'undefined' &&
   /[?&]test=1\b/.test(window.location.search + window.location.hash);
 
-function readDeepLink(): { entry: LessonEntry | null; screen: number; look: boolean } | null {
+function readDeepLink(): {
+  entry: LessonEntry | null;
+  screen: number;
+  look: boolean;
+  crash?: boolean;
+} | null {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return null;
   const [path, query = ''] = window.location.hash.replace(/^#/, '').split('?');
   // `?look=neoMono` opens it in a given look, for comparing them screen by screen.
@@ -203,6 +224,8 @@ function readDeepLink(): { entry: LessonEntry | null; screen: number; look: bool
   const named = !!look && look in LOOKS;
   if (named) setLook(look as Look);
   const [id, screen] = path.split('/');
+  if (id === 'debug-crash' && TEST_TOOLS)
+    return { entry: null, screen: 0, look: named, crash: true };
   const found = LESSONS.find((l) => l.id === id) ?? null;
   // The test bench is a testing tool: a release build does not open it.
   const entry = found?.testBench && !TEST_TOOLS ? null : found;

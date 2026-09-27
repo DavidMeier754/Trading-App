@@ -26,6 +26,13 @@ import QuoteCard from './QuoteCard';
  * `visual` screen, a `walkthrough` spotlight and a `hotspot` question without
  * three copies of it existing.
  */
+/**
+ * The learner's own plan (docs/schema.md, "The plan"), for a `plan-sheet`
+ * wherever it sits: a visual screen, a walkthrough or a hotspot. The lesson
+ * player provides it; without it every row read "not set yet" (review M1).
+ */
+export const PlanValues = React.createContext<Record<string, string> | undefined>(undefined);
+
 export default function Visual({
   component,
   data,
@@ -48,6 +55,7 @@ export default function Visual({
   // backdrop, not just the one inside a `chart-decision` -- a theory card whose
   // chart ignored the grid was the most visible half of "sometimes aligned".
   const grid = useGridAnchor(component);
+  const savedPlan = React.useContext(PlanValues);
 
   if (!data) return null;
 
@@ -109,7 +117,7 @@ export default function Visual({
     case 'r-tracker':
       return <RTracker data={data as any} />;
     case 'plan-sheet':
-      return <PlanSheet data={data as any} values={planValues} />;
+      return <PlanSheet data={data as any} values={planValues ?? savedPlan} />;
     case 'chart-line':
     case 'chart-candles': {
       if (component === 'chart-line' && Array.isArray(data.series)) {

@@ -11,14 +11,9 @@ import { EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { colors, radius, space, TAP_TARGET, type } from '../theme';
 import { useLookSpec } from '../lesson/look';
 import type { DecisionButton } from '../types';
+import { DECISION_LABEL } from '../lesson/decisionReveal';
 
-export const DECISION_LABEL: Record<DecisionButton, string> = {
-  long: 'Long',
-  short: 'Short',
-  'no-trade': 'No trade',
-  buy: 'Buy',
-  wait: 'Wait',
-};
+export { DECISION_LABEL };
 
 /**
  * docs/UI.md §6.4 "decision overlay": at the pause point the buttons rise from the
