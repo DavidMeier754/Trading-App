@@ -14,6 +14,7 @@ import {
   resetProgress,
   skipTo,
   streakDays,
+  toggleWanted,
   waitText,
 } from '../progress';
 
@@ -180,5 +181,15 @@ describe(`streak in ${zone}`, () => {
     jest.setSystemTime(new Date(2026, 2, 1, 8));
     completeLesson('b', { perfect: false, xp: 1 });
     expect(getProgress().streak.days).toBe(2);
+  });
+});
+
+describe('wanting a path that is not written yet', () => {
+  it('flags Swing Trading and takes the flag back', () => {
+    expect(getProgress().wanted).toEqual([]);
+    toggleWanted('swing-trading');
+    expect(getProgress().wanted).toEqual(['swing-trading']);
+    toggleWanted('swing-trading');
+    expect(getProgress().wanted).toEqual([]);
   });
 });

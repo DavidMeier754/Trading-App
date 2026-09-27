@@ -283,7 +283,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | A Foundation | `MERGE` ✅ | PR #13 (the app) merged into `main` | – | – | – |
 | | `DOCS` ✅ | This plan, the review report, all docs brought onto the decisions | – | – | Read |
 | | `CI` ✅ | Automatic checks, lint, unit tests, testing tools only in test builds, preview link per PR | Opus 5.5 · high | 1 | 15 min |
-| | `WIRE` | Content index instead of hand-written imports, all written chapters playable, render test of every screen | Opus 5.5 · high | 1 | 20 min |
+| | `WIRE` ✅ | Content index instead of hand-written imports, all written chapters playable, render test of every screen | Opus 5.5 · high | 1 | 20 min |
 | B Stable | `STABLE-APP` | Plan overview, recap, reveal (decision vs. outcome), screen-reader leak, error page | Opus 5.5 · high | 1 | 20 min |
 | | `STABLE-DATA` | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
 | C Look & feel | `LOOK-BRIEF` | Your critique + three design directions as clickable prototypes, with calm, high-quality motion | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
@@ -357,7 +357,7 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 |---|---|
 | Content | Chapter 1 (48 lessons, including the path choice) + Scalping Chapters 2–8 (340) = **388 lessons, 5,109 screens**. Day Trading and Swing: outlined only (`docs/curriculum.md`). |
 | Gaps in the content | Chapter 8 Level 15 is missing (4 lessons, stage `OFFER`). Lesson 1·2-4 (variance) is newly planned (stage `VARIANCE`). |
-| App | On `main` since PR #13 was merged (2026-09-25). Plays Chapter 1 + Scalping Chapter 2 Levels 1–3 (**58 lessons, 783 screens**) without a crash. The rest is written but not wired in (stage `WIRE`). |
+| App | On `main` since PR #13 was merged (2026-09-25). Plays every written lesson since stage `WIRE` (388 lessons, 5,109 screens); the render test finds 40 known crashes, fixed in `STABLE-DATA`. |
 | Render test of all 5,109 screens | **40 crashes** (all `depth-ladder`, in 38 lessons, three of them final exams) and **15 screens with a missing price line** (`NaN`). Both are fixed in `STABLE-DATA`. |
 | Tools | Validator: 0 errors, 3 warnings. Self-test 110/110. Sizing: 0 of 572 positions over the cap. |
 | Missing entirely | CI, app tests, onboarding, risk note, legal texts, glossary, practice tab, statistics, backend, store setup, branding |
@@ -515,7 +515,9 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Done when** every PR has green checks and a preview link, and you have opened the link on your phone.
 
-### `WIRE` – wire everything in, test every screen
+### `WIRE` ✅ – wire everything in, test every screen
+
+Done on 2026-09-27 (PR #16). All 388 written lessons are on the map; `npm run smoke` opens all 5,158 screens and the CI job "Render" reports on every PR (not blocking until `STABLE-DATA`). Found beyond the known 40 crashes and price-line `NaN`s: 5 `cost-stack` screens that print `NaN` (→ `STABLE-DATA`). For `OFFER`: renumbering Chapter 8 Levels 15–17 changes their entry ids, so saved progress on them needs mapping.
 
 **Goal.**
 - Everything that is written is playable.

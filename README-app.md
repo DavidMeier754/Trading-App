@@ -12,12 +12,12 @@ What comes next, stage by stage, is in `docs/build-plan.md`. Its known issues ar
   - the chart engine: line and candles, volume, levels, VWAP, playback;
   - sounds, haptics, reduce motion, nine lesson looks.
 - **Home:**
-  - the path map: all of Chapter 1, the path-choice node, Scalping Chapter 2 Levels 1–3;
+  - the path map: Chapter 1, the path-choice node and Scalping Chapters 2–8, every written lesson;
   - the HUD: streak, daily ring, hearts;
   - tabs: Learn, plus Practice, Leaderboard and Account as placeholders;
   - Settings.
 - **Progress on the device** (AsyncStorage): lessons played, hearts (5, one back every 4 h), XP (+50 % for a perfect run), streak, and the learner's plan. There is no backend.
-- **Not yet wired:** Scalping Chapter 2 Levels 4–18 and Chapters 3–8 are written but not imported. Stage WIRE does that.
+- **Not yet written:** Scalping Chapter 8 Level 15 (stage OFFER), Day Trading and Swing Trading. The map ends on a note that says so.
 
 ## Run it
 
@@ -29,6 +29,8 @@ npm run typecheck
 npm run lint         # ESLint
 npm run format:check # Prettier (npm run format fixes it)
 npm test             # Jest unit tests
+npm run gen:content  # rebuild the content index after adding or removing a lesson file
+npm run smoke        # render test: every screen of every lesson (Playwright)
 npm run build:web    # static site in dist/
 ```
 
@@ -81,14 +83,23 @@ import levelYaml from '../content/shared/chapter-01-market-basics/level-01-1.yam
 
 Nothing under `content/` is copied, rewritten or generated from. Expo's default config lists `yaml` in `assetExts`, which would hand the app a URL instead of the data, so `metro.config.js` moves it to `sourceExts` first.
 
-The 58 hand-written imports in `src/content.ts` become a generated index in stage WIRE.
+Which files there are comes from `src/content.generated.ts`, one import per sub-level file. `npm run gen:content` (`tools/gen_content.mjs`) writes it from `content/**`, and CI fails when it is out of date. A new lesson file therefore needs no hand edit in `src/`: add it, run `npm run gen:content`, commit both. Entry ids come from the file's own `id`, chapter and path (`level-01-2`, `scalping-ch3-level-15-2`), so saved progress survives a regenerated index.
+
+## The render test
+
+`npm run smoke` builds a test build, serves it locally and opens every screen of every lesson by deep link in headless Chromium, several pages in parallel (`--workers N`). `?test=1` in the URL turns animations off and lets each new hash open its screen without reloading the app. For every screen it records crashes (the error page), `NaN` in a drawn attribute or in the text, console errors and blank screens, and checks the app's screen count against `python3 tools/validate_content.py --status`, chapter by chapter.
+
+It writes `smoke/smoke-report.json`, `smoke/summary.md` and one contact sheet per chapter (`smoke/contact-<chapter>.jpg`, problem screens framed red), and exits 1 when it found anything. `--only chapter-03-orders-costs-position-size,…` limits it to some chapters; `--no-build` reuses the last build. Locally, set `CHROMIUM_PATH` if Playwright's own Chromium is not installed.
+
+In CI the "Render" job runs it on changes in `src/`, `content/` and `demo/` (only the touched chapters on a content-only PR), posts the numbers as a comment on the PR and attaches the report and the contact sheets as the `render-report` artifact. It does not block a merge until stage STABLE-DATA.
 
 ## Layout
 
 ```
 src/
   App.tsx               deep links and the page shell
-  content.ts            the playable lessons and the market profile, read at build time
+  content.ts            the map built from the lessons, and the market profile, read at build time
+  content.generated.ts  one import per lesson file (npm run gen:content)
   progress.ts           progress, hearts, XP, streak, plan and settings (AsyncStorage)
   format.ts             docs/UI.md §9: number and {{market.*}} formatting
   theme.ts              docs/UI.md §10: colour and type tokens

@@ -49,6 +49,8 @@ const NODES_BOTTOM = 36;
 const CHAPTER_GAP = 16;
 /** Room under the last section for a level card opened on its last node. */
 const BOTTOM_PAD = 280;
+/** Room for the note after the last chapter (PathFinale). */
+const FINALE_H = 150;
 /** The path winds: centre, left, centre, right, and round again. */
 const WIND = [0, -1, 0, 1];
 
@@ -56,7 +58,8 @@ type Item =
   | { t: 'header'; ci: number; y: number }
   | { t: 'node'; gi: number; li: number; ci: number; x: number; y: number }
   | { t: 'end'; ci: number; x: number; y: number; text: string }
-  | { t: 'teaser'; y: number };
+  | { t: 'teaser'; y: number }
+  | { t: 'finale'; y: number };
 
 /**
  * The home screen's path (docs/UI.md §7.1): Classic's flat panels, on the
@@ -171,7 +174,7 @@ export default function LearnScreen({
             ci,
             x: cxOf(c.levels.length),
             y: y + STEP_Y * 0.55 - RING / 2,
-            text: `Levels ${wired + 1}–${c.chapter.planned} of Chapter ${c.chapter.number} soon`,
+            text: `Levels ${wired + 1}–${c.chapter.planned} of Chapter ${c.chapter.number} are being written`,
           });
           y += STEP_Y * 0.55;
         }
@@ -184,6 +187,10 @@ export default function LearnScreen({
     if (!pathChosen) {
       out.push({ t: 'teaser', y });
       y += HEAD_H + CHAPTER_GAP;
+    } else {
+      // S26: after the last chapter, what there is and what is still to come.
+      out.push({ t: 'finale', y });
+      y += FINALE_H + CHAPTER_GAP;
     }
     return { items: out, nodeAt: at, contentH: y + BOTTOM_PAD };
     // cxOf is derived from the width
@@ -322,6 +329,8 @@ export default function LearnScreen({
               expanded={expanded.has(it.ci)}
               onToggle={() => toggle(it.ci)}
             />
+          ) : it.t === 'finale' ? (
+            <PathFinale key="finale" top={it.y} width={width} />
           ) : it.t === 'end' ? (
             <PathEnd key={`e${it.ci}`} x={it.x} y={it.y} text={it.text} />
           ) : (
@@ -885,6 +894,27 @@ function Connectors({
   );
 }
 
+/**
+ * S26: the end of the map. No "soon" without context: it says that this is
+ * everything written so far, what is still being written, and where practice
+ * will be.
+ */
+function PathFinale({ top, width }: { top: number; width: number }) {
+  return (
+    <View style={[styles.finale, { top, left: space.lg, width: width - space.lg * 2 }]}>
+      <View style={styles.finaleHead}>
+        <Icon name="signpost" size={18} color={colors.textMuted} />
+        <Text style={styles.finaleTitle}>The end of the map, for now</Text>
+      </View>
+      <Text style={styles.finaleText}>
+        Every lesson written so far is on it. Chapter 8 gets one more level before the release: what
+        a broker will actually offer you. After the course, the Practice tab is where you keep your
+        decisions sharp.
+      </Text>
+    </View>
+  );
+}
+
 /** Where a chapter being wired in stops for now. */
 function PathEnd({ x, y, text }: { x: number; y: number; text: string }) {
   return (
@@ -1209,6 +1239,19 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   endText: { ...type.small, color: colors.textFaint },
+  finale: {
+    position: 'absolute',
+    minHeight: FINALE_H,
+    gap: space.sm,
+    padding: space.md,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: colors.surfaceAlt,
+  },
+  finaleHead: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
+  finaleTitle: { ...type.prompt, color: colors.text },
+  finaleText: { ...type.small, color: colors.textMuted },
 
   card: {
     position: 'absolute',

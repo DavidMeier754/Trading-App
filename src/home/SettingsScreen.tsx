@@ -26,6 +26,7 @@ import {
   useReduceMotion,
 } from '../lesson/useReduceMotion';
 import { chaptersFor, PathLevel, PATHS } from '../content';
+import { WantSwing } from '../screens/StaticScreens';
 import {
   choosePath,
   doneToday,
@@ -451,9 +452,10 @@ function PathRow() {
       ) : null}
       <Text style={styles.rowSub}>
         {chosen
-          ? 'Day Trading and Swing Trading are being written. What you finish on one path stays when you switch.'
+          ? "Day Trading and Swing Trading are being written, and both come before the app's release. What you finish on one path stays when you switch."
           : 'You choose your path at the end of Chapter 1. It can be changed here after that.'}
       </Text>
+      <WantSwing />
     </View>
   );
 }

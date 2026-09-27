@@ -13,3 +13,6 @@ skills-lock.json
 *.md
 *.yaml
 *.yml
+src/content.generated.ts
+dist-smoke/
+smoke/
