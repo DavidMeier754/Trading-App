@@ -32,7 +32,7 @@ screens:
     visual_data:
       data: [[12.62, 12.66, 12.56, 12.58], [12.58, 12.62, 12.54, 12.56], [12.56, 12.60, 12.48, 12.50], [12.50, 12.52, 12.34, 12.36], [12.36, 12.40, 12.28, 12.32]]
       volume: [92000, 86000, 148000, 226000, 184000]
-      levels: [12.48]
+      levels: [{price: 12.48}]
 
   - type: mc
     prompt: "Which of the two leaves you still holding 800 shares at $12.36?"

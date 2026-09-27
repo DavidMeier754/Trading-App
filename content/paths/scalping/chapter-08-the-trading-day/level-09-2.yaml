@@ -30,7 +30,7 @@ screens:
       - chart:
           kind: candles
           data: [[15.28, 15.32, 15.20, 15.22], [15.22, 15.26, 15.14, 15.16], [15.16, 15.20, 15.08, 15.10], [15.10, 15.14, 14.98, 15.02], [15.02, 15.08, 14.96, 15.06], [15.06, 15.20, 15.04, 15.18], [15.18, 15.28, 15.14, 15.24], [15.24, 15.34, 15.20, 15.30]]
-          levels: [14.92]
+          levels: [{price: 14.92}]
         answer: take
         note: "The pullback stops four cents above the line CASP broke this morning, and the first minute back up is the widest body in it."
       - chart:
@@ -41,13 +41,13 @@ screens:
       - chart:
           kind: candles
           data: [[14.90, 14.96, 14.84, 14.86], [14.86, 14.90, 14.78, 14.80], [14.80, 14.86, 14.74, 14.84], [14.84, 14.88, 14.76, 14.78], [14.78, 14.84, 14.72, 14.82], [14.82, 14.86, 14.70, 14.74], [14.74, 14.80, 14.68, 14.78], [14.78, 14.82, 14.70, 14.72]]
-          levels: [14.92]
+          levels: [{price: 14.92}]
         answer: pass
         note: "CASP back under the line it broke, chopping either side of nothing. The card that fired this morning is finished, not repeating."
       - chart:
           kind: candles
           data: [[11.52, 11.58, 11.48, 11.56], [11.56, 11.60, 11.50, 11.52], [11.52, 11.58, 11.48, 11.54], [11.54, 11.60, 11.50, 11.56], [11.56, 11.62, 11.52, 11.58], [11.58, 11.72, 11.56, 11.68], [11.68, 11.78, 11.64, 11.74], [11.74, 11.82, 11.70, 11.78]]
-          levels: [11.60]
+          levels: [{price: 11.60}]
         answer: take
         note: "A shallow pause against the line it just cleared, then the first close back in the direction. That is the continuation card, on a name the page holds."
     explanation: "Three passes and two tickets, on five charts that were all worth looking at. The page is what made two of them different."

@@ -95,25 +95,25 @@ screens:
       - chart:
           kind: candles
           data: [[21.36, 21.44, 21.32, 21.42], [21.42, 21.48, 21.38, 21.44], [21.44, 21.52, 21.40, 21.48], [21.48, 21.58, 21.44, 21.54], [21.54, 21.60, 21.50, 21.56], [21.56, 21.62, 21.52, 21.58], [21.58, 21.74, 21.56, 21.72], [21.72, 21.80, 21.68, 21.76]]
-          levels: [21.60]
+          levels: [{price: 21.60}]
         answer: take
         note: "Twelve cents through the line on the biggest body of the run. This is the candle the ticket was built for."
       - chart:
           kind: candles
           data: [[21.38, 21.44, 21.34, 21.42], [21.42, 21.46, 21.38, 21.40], [21.40, 21.48, 21.36, 21.44], [21.44, 21.50, 21.40, 21.46], [21.46, 21.52, 21.42, 21.48], [21.48, 21.54, 21.44, 21.50], [21.50, 21.54, 21.46, 21.52], [21.52, 21.56, 21.48, 21.54]]
-          levels: [21.60]
+          levels: [{price: 21.60}]
         answer: pass
         note: "Six cents under the line for eight straight minutes. The order is ready and nothing has triggered it."
       - chart:
           kind: candles
           data: [[21.44, 21.52, 21.40, 21.50], [21.50, 21.58, 21.46, 21.54], [21.54, 21.62, 21.50, 21.56], [21.56, 21.66, 21.52, 21.58], [21.58, 21.68, 21.54, 21.56], [21.56, 21.60, 21.48, 21.50], [21.50, 21.54, 21.42, 21.44], [21.44, 21.48, 21.36, 21.40]]
-          levels: [21.60]
+          levels: [{price: 21.60}]
         answer: pass
         note: "Three wicks through and three closes back under. A poke is not a close, and the order waits on a close."
       - chart:
           kind: candles
           data: [[21.52, 21.56, 21.44, 21.46], [21.46, 21.50, 21.38, 21.40], [21.40, 21.44, 21.32, 21.34], [21.34, 21.38, 21.28, 21.30], [21.30, 21.34, 21.26, 21.28], [21.28, 21.30, 21.14, 21.16], [21.16, 21.20, 21.04, 21.08], [21.08, 21.12, 20.96, 21.00]]
-          levels: [21.28]
+          levels: [{price: 21.28}]
         answer: take
         note: "Straight through the marked price on the widest body of the morning, and the ready ticket was the sell."
     explanation: "Two sends and two waits. A built ticket is not a reason to use it."

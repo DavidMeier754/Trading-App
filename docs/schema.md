@@ -345,7 +345,7 @@ Use only these component ids and target ids (UI.md §6 defines how they look).
 | `trade-plan` **[v4]** | `entry`, `stop`, `target`, `shares`; optional `chart: [[o,h,l,c], …]` drawn behind the lines | `entry`, `stop`, `target` |
 | `bar-chart` | `bars: [{label, value}]`, optional `unit` | — |
 | `session-ribbon` | `premarket`, `regular`, `afterhours`, `timezone` (tokens) | — |
-| `cost-stack` | `shares`, `spread`, `slippage`, `fees`, `target` (per share) or `rows`, `targets` | — |
+| `cost-stack` | one of three shapes: per share, `shares`, `target` and at least one of `spread`, `slippage`, `fees`; one cost against several moves, `targets: [{label, value}]` with at least one of `spread`, `slippage`, `fees`; or cost totals side by side, `rows: [{label, value}]`, optional `unit` ("$ per day") | — |
 | `ownership-pie` | `total`, `owned` | — |
 | `scanner-table` **[v3]** | `rows: [{ticker, price, change_pct, rvol, float, spread, catalyst}]` | a `ticker` value |
 | `journal-table` **[v3]** | `columns: [...]`, `rows: [{...}]`; a column keyed `""` is a row label | a column key |
@@ -357,7 +357,7 @@ Use only these component ids and target ids (UI.md §6 defines how they look).
 
 `state` holds 1–3 short strings; use it whenever the right answer depends on where the trader stands (day result in R, the limit, the trade count, the current size) rather than on the chart alone.
 
-**[v4] Two shapes that went wrong in the render test (2026-09-25).** `levels` is always a list of objects, `[{price: 24.40, label: "High of day"}]` — never bare numbers, which rendered as missing lines on 15 screens. A `depth-ladder`'s book sits under `data:` exactly as the example above shows; the renderer read it from the top level and all 40 screens crashed. Stage STABLE-DATA fixes both and makes the validator check every component's data against this table.
+**[v4] Two shapes that went wrong in the render test (2026-09-25).** `levels` is always a list of objects, `[{price: 24.40, label: "High of day"}]` — never bare numbers, which rendered as missing lines on 15 screens. A `depth-ladder`'s book sits under `data:` exactly as the example above shows; the renderer read it from the top level and all 40 screens crashed. Stage STABLE-DATA fixed both, and the validator now checks every component's data against this table (see "Validator rules").
 
 Chart conventions: 8–12 bars; `decision_index` between 4 and 7; prices with two decimals; candle `high` ≥ max(open, close) and `low` ≤ min(open, close); outcome visible in the bars after the decision. Chapter 1 uses `chart-line`; path chapters use `chart-candles`. **[v3]** `swipe-deck` and `compare` mini-charts may use 8–10 bars and omit volume.
 
@@ -695,6 +695,8 @@ Errors (must fix):
 - **[v3]** `reinforces` is a list of integers, each lower than this file's `chapter`.
 - **[v3]** On any `chart-decision` with `best` of `long` or `short`, `reasonable` contains `no-trade`.
 - **[v3]** Every key a `plan-sheet` renders is a key some `plan-card` writes (see "The plan" above), and a **learner line** — a field with no literal `value` — is written *before* it is displayed: by an earlier sub-level, or by an earlier screen of the same sub-level. Computed across a whole path, with the shared chapter (`path: all`) counting for every path, so a sheet can never show a line the learner has not yet filled in. `slot:` on a card or a sheet scopes its short field keys to `card.<slot>.<field>`.
+- **[v4, STABLE-DATA]** Component data matches the table in "Components, data and hotspot targets": a known component id, its required fields, no field the renderer does not read, and the shapes the renderer draws: `levels` as `{price, label}` objects (`label` optional), an `order-book` or `depth-ladder` book as non-empty `bids`/`asks` of `[price, size]` (a `depth-ladder` keeps it under `data:`), candles as `[open, high, low, close]`, line data as numbers, `volume`/`vwap` one number per bar, `cost-stack` in one of its three shapes, `bar-chart` bars with a numeric `value`. It covers `visual_data`, `data`, every question's `chart`, swipe-deck cards and compare charts, in lessons and drill packs.
+- **[v4, STABLE-DATA]** The test bench `demo/all-screens.yaml` is checked screen by screen (known type, question shape, component data), without the lesson rules (screen count, question mix, `mc` runs).
 - **[v3]** New types validate their own shape: `swipe-deck` 4–8 cards each with `answer` in {take, pass}; `chart-annotate` numeric `answer` + `tolerance`; `order-build` `answer` keys match `slots` and every answer value appears in `chips`; `scanner-pick` `target` is a `ticker` present in `rows`; `compare` `answer` is a chart `label` or "neither" when `allow_neither`; `branch` 2–4 steps, each with exactly one `correct`; `journal-row` `answer` keys match `slots`; `depth-ladder` `target` exists in the book.
 
 Warnings (review):
@@ -738,4 +740,4 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - Visual quota (§3.4): fewer than 40 % of a chapter's `theory`/`example` screens with a visual.
 - The plan-aware cap (§3.6): a position above the `setup_max_account_pct` the learner has written by that point in the path (its latest `suggest`).
 - Per-trade risk and total exposure (§3.6): `shares × stop distance ÷ account` outside 0.5–2 % where a file names an account and a stop; for several open positions, the sums of position value and of risk against the account.
-- `variance-sim` ranges and positive expectancy; `glossary.yaml` coverage and length; component data against the table above (stage STABLE-DATA); `demo/all-screens.yaml` validated like content.
+- `variance-sim` ranges and positive expectancy; `glossary.yaml` coverage and length. (Component data and the test bench are checked since stage STABLE-DATA, as errors: see above.)

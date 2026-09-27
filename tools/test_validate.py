@@ -587,6 +587,151 @@ expect_no("manifest: a matching pair passes",
           "manifest")
 
 
+print("\n— component data (schema.md table, stage STABLE-DATA) —")
+
+
+def data(screen):
+    return lambda rep: V.validate_screen_data("f.yaml", 1, screen, rep)
+
+
+BARS = [[10.0, 10.2, 9.9, 10.1]] * 3
+BOOK = {"bids": [[20.00, 1200], [19.99, 800]], "asks": [[20.02, 500], [20.03, 2200]]}
+
+# levels: always {price, label}, never bare numbers (review M3)
+expect("levels: a bare number in a question chart",
+       data({"type": "chart-decision", "chart": {"kind": "candles", "data": BARS, "levels": [24.4]}}),
+       "must be {price, label}")
+expect("levels: a bare number in a visual",
+       data({"type": "theory", "visual": "chart-candles", "visual_data": {"data": BARS, "levels": [24.4]}}),
+       "must be {price, label}")
+expect("levels: a bare number on a swipe-deck card",
+       data({"type": "swipe-deck", "cards": [{"chart": {"kind": "candles", "data": BARS, "levels": [24.4]}}]}),
+       "card 1: level 1")
+expect("levels: a bare number on a compare chart",
+       data({"type": "compare", "charts": [{"kind": "candles", "data": BARS, "label": "A", "levels": [24.4]}]}),
+       "chart 1: level 1")
+expect("levels: an unknown field on a level",
+       data({"type": "chart-tap", "chart": {"kind": "candles", "data": BARS, "levels": [{"price": 1, "colour": "red"}]}}),
+       "unknown field")
+expect_no("levels: {price, label} and {price} pass",
+          data({"type": "chart-tap", "chart": {"kind": "candles", "data": BARS,
+                                               "levels": [{"price": 10.1, "label": "High"}, {"price": 10.0}]}}),
+          "level")
+
+# depth-ladder: the book under data (review M2)
+expect("depth-ladder: book at the top level, as the old bench had it",
+       data({"type": "depth-ladder", "bids": BOOK["bids"], "asks": BOOK["asks"], "target": "ask-1"}),
+       "under data")
+expect("depth-ladder: a book row that is not [price, size]",
+       data({"type": "depth-ladder", "data": {"bids": [[20.0]], "asks": BOOK["asks"]}, "target": "ask-1"}),
+       "must be [price, size]")
+expect_no("depth-ladder: book under data passes",
+          data({"type": "depth-ladder", "data": BOOK, "target": "ask-1"}), "depth-ladder")
+
+# order-book
+expect("order-book: an empty side",
+       data({"type": "visual", "component": "order-book", "data": {"bids": BOOK["bids"], "asks": []}}),
+       "asks must be a non-empty list")
+expect_no("order-book: a full book passes",
+          data({"type": "visual", "component": "order-book", "data": BOOK}), "order-book")
+
+# charts
+expect("chart: a candle that is not [o, h, l, c]",
+       data({"type": "compare", "charts": [{"kind": "candles", "data": [[1, 2, 3]], "label": "A"}]}),
+       "must be [open, high, low, close]")
+expect("chart: volume of the wrong length",
+       data({"type": "chart-decision", "chart": {"kind": "candles", "data": BARS, "volume": [1, 2]}}),
+       "volume has 2 values for 3 bars")
+expect("chart: vwap that is not numbers",
+       data({"type": "theory", "visual": "chart-candles", "visual_data": {"data": BARS, "vwap": ["a", "b", "c"]}}),
+       "vwap must be a list of numbers")
+expect("chart: a field the renderer does not read",
+       data({"type": "chart-decision", "chart": {"kind": "candles", "data": BARS, "lines": [1]}}),
+       "unknown field")
+expect("chart-line: neither data nor series",
+       data({"type": "theory", "visual": "chart-line", "visual_data": {"markers": []}}),
+       "needs data or series")
+expect("chart-line: a series without label/data shape",
+       data({"type": "theory", "visual": "chart-line", "visual_data": {"series": [{"closes": [1, 2]}]}}),
+       "series must be a list")
+
+# every component against its row of the table
+expect("component: unknown id",
+       data({"type": "visual", "component": "pie-chart", "data": {}}), "unknown component")
+expect("component: a required field missing",
+       data({"type": "visual", "component": "quote-panel", "data": {"bid": 1}}), "missing ['ask']")
+expect("component: a field the renderer does not read",
+       data({"type": "visual", "component": "quote-panel", "data": {"bid": 1, "ask": 2, "mid": 1.5}}),
+       "does not read: ['mid']")
+expect("component: data that is not a mapping",
+       data({"type": "theory", "visual": "bar-chart", "visual_data": [1, 2]}), "as a mapping")
+expect("component: visual_data without a visual",
+       data({"type": "theory", "visual_data": {"bars": []}}), "without a visual")
+expect("bar-chart: a bar without a value",
+       data({"type": "visual", "component": "bar-chart", "data": {"bars": [{"label": "A"}]}}),
+       "bars must be")
+expect("scanner-pick: rows missing",
+       data({"type": "scanner-pick", "data": {}, "target": "XYZ"}), "needs data")
+
+# cost-stack: three shapes, anything else draws NaN
+expect("cost-stack: per share without a target",
+       data({"type": "theory", "visual": "cost-stack", "visual_data": {"shares": 100, "spread": 0.02}}),
+       "needs target")
+expect("cost-stack: targets without a cost",
+       data({"type": "theory", "visual": "cost-stack",
+             "visual_data": {"targets": [{"label": "A", "value": 0.1}]}}), "need a spread")
+expect("cost-stack: rows without values",
+       data({"type": "theory", "visual": "cost-stack", "visual_data": {"rows": [{"label": "A"}], "unit": "$"}}),
+       "rows must be")
+expect("cost-stack: rows mixed with a per-share field",
+       data({"type": "theory", "visual": "cost-stack",
+             "visual_data": {"rows": [{"label": "A", "value": 1}], "spread": 0.02}}), "take only a unit")
+for shape in ({"shares": 100, "spread": 0.02, "target": 0.1},
+              {"spread": 0.05, "targets": [{"label": "Scalp", "value": 0.12}]},
+              {"rows": [{"label": "Per order", "value": 2}], "unit": "$ per round trip"}):
+    expect_no(f"cost-stack: the {sorted(shape)[0]} shape passes",
+              data({"type": "theory", "visual": "cost-stack", "visual_data": shape}), "cost-stack")
+
+# the rules reach every screen of a lesson and of a drill pack
+expect("lesson file: component data is checked",
+       check_file(lesson(screens=lesson()["screens"][:-1] + [
+           {"type": "theory", "body": "b", "visual": "chart-candles", "visual_data": {"data": BARS, "levels": [1]}},
+           lesson()["screens"][-1]])),
+       "must be {price, label}")
+
+expect("drill pack: component data is checked",
+       check_pack(pack(screens=pack()["screens"][:-1] + [
+           {"type": "depth-ladder", "prompt": "p", "explanation": "e", "target": "ask-1", "data": {"bids": [[1]], "asks": []}}])),
+       "must be [price, size]")
+
+# the test bench is checked as well, with the lesson rules left out
+BENCH = pathlib.Path(V.ROOT) / "demo/test-bench-fixture.yaml"
+
+
+def bench(screens):
+    def run(rep):
+        import yaml
+        BENCH.write_text(yaml.safe_dump({"screens": screens}), encoding="utf-8")
+        try:
+            V.validate_bench(rep, BENCH)
+        finally:
+            BENCH.unlink()
+    return run
+
+
+expect("bench: component data is checked",
+       bench([{"type": "depth-ladder", "bids": BOOK["bids"], "asks": BOOK["asks"], "target": "ask-1",
+               "prompt": "p", "explanation": "e"}]),
+       "under data")
+expect("bench: question shape is checked",
+       bench([{"type": "mc", "prompt": "p", "options": [{"text": "a"}, {"text": "b"}], "explanation": "e"}]),
+       "exactly one correct")
+expect("bench: an unknown type",
+       bench([{"type": "chart-dance"}]), "unknown type")
+expect_no("bench: the lesson rules stay out",
+          bench([{"type": "theory", "body": "b"}]), "screens")
+expect_no("bench: the real bench passes", lambda rep: V.validate_bench(rep), "demo/")
+
 print("\n— strict mode —")
 strict = V.Report(strict=True)
 check_chapter([sub(1)])(strict)

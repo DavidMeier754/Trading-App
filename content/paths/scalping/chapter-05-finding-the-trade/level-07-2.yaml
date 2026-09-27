@@ -77,11 +77,11 @@ screens:
     charts:
       - kind: candles
         data: [[13.20, 13.28, 13.14, 13.24], [13.24, 13.30, 13.18, 13.22], [13.22, 13.28, 13.16, 13.26], [13.26, 13.32, 13.20, 13.24], [13.24, 13.30, 13.18, 13.28], [13.28, 13.34, 13.22, 13.26], [13.26, 13.32, 13.20, 13.28], [13.28, 13.34, 13.22, 13.30]]
-        levels: [13.60]
+        levels: [{price: 13.60}]
         label: "A"
       - kind: candles
         data: [[14.62, 14.70, 14.58, 14.68], [14.68, 14.76, 14.64, 14.72], [14.72, 14.80, 14.66, 14.78], [14.78, 14.84, 14.72, 14.80], [14.80, 14.86, 14.74, 14.82], [14.82, 14.88, 14.78, 14.86], [14.86, 14.98, 14.84, 14.94], [14.94, 15.04, 14.90, 15.00]]
-        levels: [14.86]
+        levels: [{price: 14.86}]
         label: "B"
     answer: "B"
     explanation: "A is thirty cents under its line and going nowhere near it. B has just closed two minutes through its line. Only one of them needs you this minute."

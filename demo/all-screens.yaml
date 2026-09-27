@@ -1,8 +1,11 @@
 # A throwaway lesson that exercises every screen type in docs/UI.md §3, §4.1 and §4.2,
 # one after another, so each renderer can be judged on a phone.
 #
-# It lives in demo/ and NOT in content/: it is not curriculum, it breaks the
-# 12-18 screen rule on purpose, and tools/validate_content.py must never see it.
+# It lives in demo/ and NOT in content/: it is not curriculum and it breaks the
+# 12-18 screen rule on purpose. tools/validate_content.py still checks every screen
+# on it (type, question shape, component data as in docs/schema.md) but not the
+# lesson rules, so the bench can never again be written to fit the renderer
+# instead of the schema (review M2).
 # The content is filler. The interactions are the point.
 id: "0-0"
 title: "Every Screen Type"
@@ -383,8 +386,9 @@ screens:
 
   - type: depth-ladder
     prompt: "You send a market buy for 1,000 shares. Where does the last of it fill?"
-    bids: [[45.20, 1200], [45.19, 800], [45.18, 2400]]
-    asks: [[45.24, 400], [45.25, 900], [45.26, 700]]
+    data:
+      bids: [[45.20, 1200], [45.19, 800], [45.18, 2400]]
+      asks: [[45.24, 400], [45.25, 900], [45.26, 700]]
     target: "ask-2"
     explanation: "400 at $45.24 leaves 600, which comes out of the 900 resting at $45.25."
 

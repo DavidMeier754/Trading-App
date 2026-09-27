@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { count, price } from '../../format';
+import { copy, count, price } from '../../format';
 import { useChartMove } from '../../lesson/haptics';
 import { surfaceStyle, useLookSpec } from '../../lesson/look';
 import { EASE_OUT_SETTLE } from '../../lesson/motion';
@@ -13,23 +13,47 @@ import GrowBar, { GROW_DELAY } from './GrowBar';
 const TARGET_MS = 420;
 const PART_MS = 300;
 
-/** docs/UI.md §6.5 — spread + slippage + fees against the target, per share. */
-export default function CostStack({
-  data,
-}: {
-  data: {
-    shares: number;
-    spread?: number;
-    slippage?: number;
-    fees?: number;
-    target: number;
-  };
-}) {
-  const parts = [
+type PerShare = {
+  shares: number;
+  spread?: number;
+  slippage?: number;
+  fees?: number;
+  target: number;
+};
+/** One cost against several moves: "the same five cents" next to each target. */
+type AgainstTargets = {
+  spread?: number;
+  slippage?: number;
+  fees?: number;
+  targets: { label: string; value: number }[];
+};
+/** Two or more cost totals side by side, e.g. two fee structures. */
+type Totals = { rows: { label: string; value: number }[]; unit?: string };
+
+export type CostStackData = PerShare | AgainstTargets | Totals;
+
+/**
+ * docs/UI.md §6.5 — what costs take out of a trade. docs/schema.md allows three
+ * shapes: the per-share stack against one target, one cost against several
+ * `targets`, or cost totals as `rows`.
+ */
+export default function CostStack({ data }: { data: CostStackData }) {
+  if ('rows' in data && Array.isArray(data.rows)) return <CostTotals data={data} />;
+  if ('targets' in data && Array.isArray(data.targets)) return <CostAgainstTargets data={data} />;
+  return <PerShareStack data={data as PerShare} />;
+}
+
+function costParts(data: { spread?: number; slippage?: number; fees?: number }) {
+  return [
     { key: 'Spread', value: data.spread ?? 0, color: colors.down },
     { key: 'Slippage', value: data.slippage ?? 0, color: colors.warning },
     { key: 'Fees', value: data.fees ?? 0, color: colors.textMuted },
   ].filter((p) => p.value > 0);
+}
+
+/** Spread + slippage + fees against the target, per share. */
+function PerShareStack({ data }: { data: PerShare }) {
+  const parts = costParts(data);
 
   const look = useLookSpec();
   const cost = parts.reduce((a, p) => a + p.value, 0);
@@ -105,6 +129,99 @@ export default function CostStack({
   );
 }
 
+/**
+ * The same cost held against each target in turn: every row is one target at
+ * full width with the cost as its slice, so "three quarters of one, a sixth of
+ * the other" is the picture itself.
+ */
+function CostAgainstTargets({ data }: { data: AgainstTargets }) {
+  const look = useLookSpec();
+  const cost = costParts(data).reduce((a, p) => a + p.value, 0);
+  const rows = data.targets;
+  const reduced = useReduceMotion();
+  useChartMove(
+    GROW_DELAY + TARGET_MS + Math.max(rows.length - 1, 0) * PART_MS + PART_MS * EASE_OUT_SETTLE,
+    !reduced && rows.length > 0,
+  );
+  return (
+    <View style={[styles.wrap, styles.card, surfaceStyle(look)]}>
+      <Text style={styles.headText}>{`The same ${price(cost)} against each move`}</Text>
+      {rows.map((t, i) => {
+        const pct = t.value > 0 ? (cost / t.value) * 100 : 0;
+        return (
+          <View key={`${t.label}-${i}`} style={styles.targetRow}>
+            <View style={styles.targetHead}>
+              <Text style={styles.targetLabel}>{copy(t.label)}</Text>
+              <Text style={[styles.targetPct, { color: pct >= 50 ? colors.down : colors.warning }]}>
+                {pct < 1 && pct > 0 ? '<1%' : `${pct.toFixed(0)}%`}
+              </Text>
+            </View>
+            <View style={[styles.track, styles.trackAlone]}>
+              <GrowBar
+                to={100}
+                delay={i * PART_MS}
+                duration={TARGET_MS}
+                style={{ backgroundColor: colors.up }}
+              />
+              <GrowBar
+                to={Math.min(pct, 100)}
+                delay={TARGET_MS + i * PART_MS}
+                duration={PART_MS}
+                style={{ backgroundColor: colors.down }}
+              />
+            </View>
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
+/** "$ per day" puts "$" on every value and "per day" under the bars. */
+function moneyUnit(unit: string | undefined): { money: boolean; caption: string } {
+  if (!unit) return { money: false, caption: '' };
+  const [first, ...rest] = unit.split(' ');
+  if (first === '$') return { money: true, caption: rest.join(' ') };
+  return { money: false, caption: unit };
+}
+
+/** Cost totals side by side on one scale, e.g. a per-order fee against a per-share one. */
+function CostTotals({ data }: { data: Totals }) {
+  const look = useLookSpec();
+  const unit = moneyUnit(data.unit);
+  const max = Math.max(...data.rows.map((r) => r.value), 0);
+  const reduced = useReduceMotion();
+  useChartMove(
+    GROW_DELAY + Math.max(data.rows.length - 1, 0) * PART_MS + TARGET_MS * EASE_OUT_SETTLE,
+    !reduced && data.rows.length > 0,
+  );
+  const valueText = (v: number) => {
+    const n = Number.isInteger(v) ? count(v) : v.toFixed(2);
+    return unit.money ? copy(`$${n}`) : n;
+  };
+  return (
+    <View style={[styles.wrap, styles.card, surfaceStyle(look)]}>
+      {data.rows.map((r, i) => (
+        <View key={`${r.label}-${i}`} style={styles.targetRow}>
+          <View style={styles.targetHead}>
+            <Text style={styles.targetLabel}>{copy(r.label)}</Text>
+            <Text style={styles.totalValue}>{valueText(r.value)}</Text>
+          </View>
+          <View style={[styles.track, styles.trackAlone]}>
+            <GrowBar
+              to={max > 0 ? (r.value / max) * 100 : 0}
+              delay={i * PART_MS}
+              duration={TARGET_MS}
+              style={{ backgroundColor: colors.down }}
+            />
+          </View>
+        </View>
+      ))}
+      {unit.caption ? <Text style={styles.summary}>{unit.caption}</Text> : null}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   wrap: { gap: space.md },
   card: { padding: space.md },
@@ -128,4 +245,11 @@ const styles = StyleSheet.create({
   dot: { width: 8, height: 8, borderRadius: 4 },
   legendText: { ...type.small, color: colors.textMuted },
   summary: { ...type.small, color: colors.textFaint },
+  targetRow: { gap: space.xs },
+  // A bar under its label, not beside it: full width, its own height.
+  trackAlone: { flexGrow: 0, flexShrink: 0, flexBasis: 'auto' },
+  targetHead: { flexDirection: 'row', justifyContent: 'space-between', gap: space.sm },
+  targetLabel: { ...type.small, color: colors.textMuted, flexShrink: 1 },
+  targetPct: { ...type.small, fontWeight: '700' },
+  totalValue: { ...type.small, color: colors.text },
 });

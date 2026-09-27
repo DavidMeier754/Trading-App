@@ -6,7 +6,7 @@ import type { ChartSpec, ComponentId } from '../types';
 import Chart, { chartHeightFor, chartWidthFor } from './Chart';
 import { useGridAnchor } from './gridAlign';
 import BarChart from './data/BarChart';
-import CostStack from './data/CostStack';
+import CostStack, { type CostStackData } from './data/CostStack';
 import JournalTable from './data/JournalTable';
 import { HotkeyPad, InternalsPanel, PlanSheet, RTracker, StatsCard } from './data/MiscPanels';
 import OrderBook from './data/OrderBook';
@@ -103,7 +103,7 @@ export default function Visual({
     case 'session-ribbon':
       return <SessionRibbon data={data as any} />;
     case 'cost-stack':
-      return <CostStack data={data as any} />;
+      return <CostStack data={data as CostStackData} />;
     case 'scanner-table':
       return <ScannerTable rows={data.rows ?? []} onTapRow={onTapTarget} resolved={highlight} />;
     case 'journal-table':

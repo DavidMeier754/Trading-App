@@ -396,8 +396,8 @@ export type JournalRowScreen = {
 export type DepthLadderScreen = {
   type: 'depth-ladder';
   prompt: string;
-  bids: [number, number][];
-  asks: [number, number][];
+  /** docs/schema.md: the book sits under `data`, best price first on each side. */
+  data: { bids: [number, number][]; asks: [number, number][] };
   target: string;
   explanation: string;
 };
