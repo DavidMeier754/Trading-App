@@ -141,8 +141,8 @@ export function DepthLadderScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
       <OrderBook
-        bids={screen.bids}
-        asks={screen.asks}
+        bids={screen.data.bids}
+        asks={screen.data.asks}
         selected={picked}
         onTapRow={
           revealed

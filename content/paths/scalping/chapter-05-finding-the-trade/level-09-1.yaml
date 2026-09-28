@@ -130,11 +130,11 @@ screens:
     charts:
       - kind: candles
         data: [[13.86, 13.92, 13.80, 13.88], [13.88, 13.94, 13.82, 13.86], [13.86, 13.92, 13.80, 13.90], [13.90, 13.96, 13.84, 13.88], [13.88, 13.94, 13.82, 13.90], [13.90, 13.96, 13.84, 13.88], [13.88, 13.94, 13.82, 13.92], [13.92, 13.98, 13.86, 13.90]]
-        levels: [14.30]
+        levels: [{price: 14.30}]
         label: "A"
       - kind: candles
         data: [[14.60, 14.70, 14.56, 14.68], [14.68, 14.78, 14.64, 14.74], [14.74, 14.84, 14.70, 14.80], [14.80, 14.88, 14.76, 14.84], [14.84, 14.90, 14.78, 14.86], [14.86, 14.98, 14.82, 14.94], [14.94, 15.04, 14.90, 15.00], [15.00, 15.10, 14.96, 15.06]]
-        levels: [14.88]
+        levels: [{price: 14.88}]
         label: "B"
     answer: "B"
     explanation: "A is forty cents under its line and drifting sideways. B has closed three minutes above its line on bigger bodies. Only one of them is where a decision lives."

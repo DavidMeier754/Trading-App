@@ -59,7 +59,7 @@ screens:
       - chart:
           kind: candles
           data: [[16.60, 16.66, 16.56, 16.64], [16.64, 16.70, 16.60, 16.66], [16.66, 16.74, 16.62, 16.70], [16.70, 16.76, 16.66, 16.72], [16.72, 16.78, 16.68, 16.74], [16.74, 16.80, 16.70, 16.76], [16.76, 16.90, 16.74, 16.88], [16.88, 16.96, 16.84, 16.92]]
-          levels: [16.78]
+          levels: [{price: 16.78}]
         answer: take
         note: "Ten cents through the price your page names, on the biggest body since the bell. This is the sentence you wrote an hour ago."
       - chart:
@@ -70,13 +70,13 @@ screens:
       - chart:
           kind: candles
           data: [[16.58, 16.64, 16.54, 16.62], [16.62, 16.66, 16.58, 16.60], [16.60, 16.68, 16.56, 16.64], [16.64, 16.70, 16.60, 16.66], [16.66, 16.72, 16.62, 16.68], [16.68, 16.72, 16.64, 16.70], [16.70, 16.74, 16.66, 16.72], [16.72, 16.74, 16.68, 16.70]]
-          levels: [16.78]
+          levels: [{price: 16.78}]
         answer: pass
         note: "Eight minutes sitting six cents under the trigger. The line has not been touched, so nothing has happened yet."
       - chart:
           kind: candles
           data: [[12.96, 13.00, 12.88, 12.90], [12.90, 12.94, 12.82, 12.84], [12.84, 12.88, 12.78, 12.80], [12.80, 12.84, 12.76, 12.78], [12.78, 12.82, 12.74, 12.76], [12.76, 12.78, 12.64, 12.66], [12.66, 12.70, 12.56, 12.58], [12.58, 12.62, 12.48, 12.52]]
-          levels: [12.74]
+          levels: [{price: 12.74}]
         answer: take
         note: "HOLT through the line your page marked underneath it, on full bodies. Nothing in the page said the trade had to be a long."
     explanation: "Two sends and two passes, and what separated them was decided before the open rather than during it."

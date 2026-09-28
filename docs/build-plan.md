@@ -285,7 +285,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | | `CI` ✅ | Automatic checks, lint, unit tests, testing tools only in test builds, preview link per PR | Opus 5.5 · high | 1 | 15 min |
 | | `WIRE` ✅ | Content index instead of hand-written imports, all written chapters playable, render test of every screen | Opus 5.5 · high | 1 | 20 min |
 | B Stable | `STABLE-APP` ✅ | Plan overview, recap, reveal (decision vs. outcome), screen-reader leak, error page | Opus 5.5 · high | 1 | 20 min |
-| | `STABLE-DATA` | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
+| | `STABLE-DATA` ✅ | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
 | C Look & feel | `LOOK-BRIEF` | Your critique + three design directions as clickable prototypes, with calm, high-quality motion | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
 | | `BRAND` | "Nutrade": trademark check and filing, web address, logo, icon draft, store title, tone of voice | Opus 5.5 · xhigh | 1 | 20 min + choice |
 | | `LOOK-SYSTEM` | Colors, type, light/dark, ≤ 3 looks, thumb zone, minimum type size, motion system, tap targets | Opus 5.5 · high, plan mode | 1–2 | 30 min |
@@ -645,7 +645,7 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Done when** all seven points hold.
 
-### `STABLE-DATA` – schema, renderer and validator say the same thing
+### `STABLE-DATA` ✅ – schema, renderer and validator say the same thing
 
 **Goal.** Every one of the 5,109 screens renders, and it stays that way.
 

@@ -33,7 +33,7 @@ screens:
     visual_data:
       data: [[24.10, 24.24, 24.06, 24.22], [24.22, 24.40, 24.20, 24.30], [24.30, 24.36, 24.22, 24.26], [24.26, 24.40, 24.24, 24.32], [24.32, 24.38, 24.24, 24.28], [24.28, 24.34, 24.18, 24.20], [24.20, 24.28, 24.14, 24.24], [24.24, 24.32, 24.18, 24.22]]
       volume: [96000, 138000, 84000, 126000, 78000, 92000, 70000, 66000]
-      levels: [24.40]
+      levels: [{price: 24.40}]
 
   - type: chart-annotate
     prompt: "Drag the line to the price that has stopped both pushes this morning."
@@ -109,5 +109,5 @@ screens:
     data:
       data: [[26.10, 26.30, 26.06, 26.28], [26.28, 26.30, 26.14, 26.16], [26.16, 26.30, 26.12, 26.26], [26.26, 26.29, 26.10, 26.14]]
       volume: [124000, 88000, 116000, 92000]
-      levels: [26.30]
+      levels: [{price: 26.30}]
     caption: "Three tries, one price, no progress. That is what a level looks like before anyone names it."

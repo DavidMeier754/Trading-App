@@ -31,7 +31,7 @@ screens:
       - chart:
           kind: candles
           data: [[13.44, 13.50, 13.40, 13.48], [13.48, 13.54, 13.44, 13.50], [13.50, 13.56, 13.46, 13.52], [13.52, 13.58, 13.48, 13.54], [13.54, 13.60, 13.50, 13.56], [13.56, 13.62, 13.52, 13.58], [13.58, 13.74, 13.56, 13.70], [13.70, 13.80, 13.66, 13.76]]
-          levels: [13.62]
+          levels: [{price: 13.62}]
         answer: take
         note: "Eight cents through the marked price on the widest body since the bell. The line was written an hour ago and it has just been beaten."
       - chart:
@@ -42,13 +42,13 @@ screens:
       - chart:
           kind: candles
           data: [[18.30, 18.36, 18.26, 18.32], [18.32, 18.38, 18.28, 18.34], [18.34, 18.40, 18.30, 18.36], [18.36, 18.42, 18.32, 18.38], [18.38, 18.44, 18.34, 18.40], [18.40, 18.46, 18.36, 18.42], [18.42, 18.48, 18.38, 18.44], [18.44, 18.50, 18.40, 18.46]]
-          levels: [18.60]
+          levels: [{price: 18.60}]
         answer: pass
         note: "Fourteen cents under the line for eight straight minutes. Nothing you wrote has happened yet, so there is nothing to send."
       - chart:
           kind: candles
           data: [[15.90, 15.94, 15.78, 15.80], [15.80, 15.84, 15.70, 15.72], [15.72, 15.76, 15.64, 15.66], [15.66, 15.70, 15.60, 15.62], [15.62, 15.66, 15.58, 15.60], [15.60, 15.64, 15.46, 15.48], [15.48, 15.52, 15.36, 15.38], [15.38, 15.42, 15.28, 15.32]]
-          levels: [15.58]
+          levels: [{price: 15.58}]
         answer: take
         note: "Straight through the line your page drew underneath it, and the bodies widen as it goes. The page never said the trade had to be a long."
     explanation: "Two sends and two passes. Neither pass was a bad chart; neither was a chart the page had a trade written on."

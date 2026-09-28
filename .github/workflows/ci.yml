@@ -59,11 +59,11 @@ jobs:
           EXPO_PUBLIC_TEST_TOOLS: '1'
 
   # The render test (npm run smoke): every screen of every lesson, by deep link.
-  # Not blocking until stage STABLE-DATA fixes the known crashes: the smoke step
-  # may fail, the job stays green, and the numbers land in the job summary, in a
-  # comment on the PR and in the "render-report" artifact (with contact sheets).
+  # Blocking since stage STABLE-DATA: one crash, NaN, console error or blank
+  # screen fails the job. The numbers land in the job summary, in a comment on
+  # the PR and in the "render-report" artifact (with contact sheets).
   render:
-    name: Render (not blocking yet)
+    name: Render
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -111,7 +111,6 @@ jobs:
       - name: Render every screen
         id: smoke
         if: steps.scope.outputs.run == 'true'
-        continue-on-error: true
         env:
           ONLY: ${{ steps.scope.outputs.only }}
         run: npm run smoke -- ${ONLY:+--only "$ONLY"}
@@ -138,7 +137,7 @@ jobs:
               ? fs.readFileSync('smoke/summary.md', 'utf8')
               : 'The render test wrote no report.';
             const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            const body = `${marker}\n${summary}\n\nContact sheets and the JSON report: the **render-report** artifact of [this run](${run}). Not blocking until stage STABLE-DATA.`;
+            const body = `${marker}\n${summary}\n\nContact sheets and the JSON report: the **render-report** artifact of [this run](${run}).`;
             const { data: comments } = await github.rest.issues.listComments({
               ...context.repo,
               issue_number: context.issue.number,

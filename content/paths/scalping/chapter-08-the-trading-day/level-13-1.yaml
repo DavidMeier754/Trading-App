@@ -35,7 +35,7 @@ screens:
       - chart:
           kind: candles
           data: [[12.48, 12.54, 12.44, 12.50], [12.50, 12.54, 12.46, 12.48], [12.48, 12.52, 12.44, 12.50], [12.50, 12.54, 12.46, 12.48], [12.48, 12.52, 12.44, 12.50], [12.50, 12.58, 12.48, 12.56], [12.56, 12.62, 12.52, 12.60], [12.60, 12.66, 12.56, 12.64]]
-          levels: [12.44]
+          levels: [{price: 12.44}]
         answer: take
         note: "Four-cent bars and a shelf twelve cents under the close. One unit of room pays for exactly that stop at today's size."
       - chart:
@@ -52,7 +52,7 @@ screens:
       - chart:
           kind: candles
           data: [[12.34, 12.42, 12.32, 12.40], [12.40, 12.46, 12.36, 12.44], [12.44, 12.48, 12.36, 12.38], [12.38, 12.42, 12.32, 12.36], [12.36, 12.42, 12.34, 12.40], [12.40, 12.50, 12.38, 12.48], [12.48, 12.56, 12.44, 12.54], [12.54, 12.60, 12.50, 12.58]]
-          levels: [12.32]
+          levels: [{price: 12.32}]
         answer: take
         note: "Three lighter minutes back to the price it broke from, then the first close above them. The stop goes under the pause, eight cents away."
     explanation: "Two tickets and two passes, and neither pass was about the limit: one asks for more risk than the move is worth and the other is nobody's card."

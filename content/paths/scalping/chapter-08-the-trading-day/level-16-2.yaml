@@ -27,7 +27,7 @@ screens:
       - chart:
           kind: candles
           data: [[13.40, 13.46, 13.34, 13.36], [13.36, 13.42, 13.30, 13.34], [13.34, 13.40, 13.28, 13.32], [13.32, 13.38, 13.28, 13.36], [13.36, 13.46, 13.34, 13.44], [13.44, 13.54, 13.42, 13.52], [13.52, 13.60, 13.48, 13.58], [13.58, 13.66, 13.54, 13.62]]
-          levels: [13.28]
+          levels: [{price: 13.28}]
         answer: take
         note: "Three lighter minutes back to the shelf it broke from, then the first close above all of them."
       - chart:
@@ -54,7 +54,7 @@ screens:
       - chart:
           kind: candles
           data: [[13.60, 13.66, 13.54, 13.64], [13.64, 13.72, 13.60, 13.70], [13.70, 13.82, 13.68, 13.72], [13.72, 13.76, 13.62, 13.64], [13.64, 13.70, 13.58, 13.60], [13.60, 13.64, 13.52, 13.54], [13.54, 13.60, 13.48, 13.50], [13.50, 13.56, 13.46, 13.52]]
-          levels: [13.76]
+          levels: [{price: 13.76}]
         answer: pass
         note: "The push through the level failed and came straight back, which is a card on your sheet and not one of this month's two."
     explanation: "Two tickets out of six, and neither pass was close. Four of these are shapes that no card on the page describes, which is what a normal morning looks like."

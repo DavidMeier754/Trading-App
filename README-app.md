@@ -91,7 +91,7 @@ Which files there are comes from `src/content.generated.ts`, one import per sub-
 
 It writes `smoke/smoke-report.json`, `smoke/summary.md` and one contact sheet per chapter (`smoke/contact-<chapter>.jpg`, problem screens framed red), and exits 1 when it found anything. `--only chapter-03-orders-costs-position-size,…` limits it to some chapters; `--no-build` reuses the last build. Locally, set `CHROMIUM_PATH` if Playwright's own Chromium is not installed.
 
-In CI the "Render" job runs it on changes in `src/`, `content/` and `demo/` (only the touched chapters on a content-only PR), posts the numbers as a comment on the PR and attaches the report and the contact sheets as the `render-report` artifact. It does not block a merge until stage STABLE-DATA.
+In CI the "Render" job runs it on changes in `src/`, `content/` and `demo/` (only the touched chapters on a content-only PR), posts the numbers as a comment on the PR and attaches the report and the contact sheets as the `render-report` artifact. Since stage STABLE-DATA it is blocking: any crash, NaN, console error or blank screen fails it.
 
 ## Layout
 

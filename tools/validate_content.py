@@ -38,6 +38,8 @@ INTERACTIVE = {
 } | NEW_QUESTION | {"plan-card"}
 # branch carries its explanation per step, not on the screen
 NO_SCREEN_EXPLANATION = {"branch"}
+# Built but not yet in the schema's content types (docs/UI.md §4.4): only the bench shows them.
+BENCH_ONLY = {"chart-replay"}
 SECONDS = {
     "intro": 8, "theory": 10, "example": 10, "carousel": 10, "walkthrough": 10,
     "visual": 12, "checklist-reveal": 8, "story": 10, "summary": 10, "badge": 10,
@@ -244,6 +246,237 @@ def validate_new_question(f, i, s, rep):
             rep.err(f, f"{where}: target '{tg}' is not in the book ({side}s has {len(levels)} levels)")
 
 
+
+# ---------------------------------------------------------------------------
+# Component data (schema.md, "Components, data and hotspot targets"). The table
+# there is the contract between the content and src/components; a field the
+# renderer does not read, or a value of the wrong shape, is an error here
+# rather than a crash or a missing line on a phone (review S39, M2, M3).
+# ---------------------------------------------------------------------------
+
+# component -> (required fields, optional fields). The chart components and
+# cost-stack have their own checks below as well.
+COMPONENT_FIELDS = {
+    "quote-card": ({"ticker", "price"}, {"name", "change", "change_pct", "volume", "prev_close"}),
+    "quote-panel": ({"bid", "ask"}, {"last", "animate_to"}),
+    "order-ticket": ({"ticker", "side", "qty"}, {"type", "price", "stop_price"}),
+    "order-book": ({"bids", "asks"}, set()),
+    "chart-line": (set(), {"data", "series", "markers", "levels", "decision_index"}),
+    "chart-candles": ({"data"}, {"volume", "levels", "markers", "vwap", "decision_index"}),
+    "candle-anatomy": ({"candle"}, {"labels"}),
+    "trade-plan": ({"entry", "stop", "target", "shares"}, {"chart"}),
+    "bar-chart": ({"bars"}, {"unit"}),
+    "session-ribbon": ({"premarket", "regular", "afterhours", "timezone"}, set()),
+    "cost-stack": (set(), {"shares", "spread", "slippage", "fees", "target", "targets", "rows", "unit"}),
+    "ownership-pie": ({"total", "owned"}, set()),
+    "scanner-table": ({"rows"}, set()),
+    "journal-table": ({"columns", "rows"}, set()),
+    "internals-panel": ({"index", "breadth", "sectors"}, {"tone"}),
+    "hotkey-pad": ({"keys"}, {"sequence"}),
+    "stats-card": ({"rows"}, set()),
+    "r-tracker": ({"trades", "limit"}, set()),
+    "plan-sheet": ({"fields"}, {"slot"}),
+}
+# A chart inside a question screen: `chart:`, a swipe-deck card's chart, a compare chart.
+CHART_SPEC_FIELDS = {"kind", "data", "decision_index", "volume", "levels", "vwap", "markers", "label"}
+
+
+def is_num(x):
+    return isinstance(x, (int, float)) and not isinstance(x, bool)
+
+
+def check_levels(f, where, levels, rep):
+    """schema.md: `levels` is a list of {price, label} objects, never bare numbers."""
+    if not isinstance(levels, list):
+        rep.err(f, f"{where}: levels must be a list of {{price, label}}")
+        return
+    for n, lvl in enumerate(levels, 1):
+        if not isinstance(lvl, dict) or not is_num(lvl.get("price")):
+            rep.err(f, f"{where}: level {n} must be {{price, label}}, not {lvl!r}")
+            continue
+        extra = set(lvl) - {"price", "label"}
+        if extra:
+            rep.err(f, f"{where}: level {n} has unknown field(s) {sorted(extra)}")
+        if "label" in lvl and not isinstance(lvl["label"], str):
+            rep.err(f, f"{where}: level {n} label must be text")
+
+
+def check_book(f, where, data, rep):
+    """order-book and depth-ladder: `bids` and `asks` as [[price, size], …], best first."""
+    for side in ("bids", "asks"):
+        rows = data.get(side)
+        if not isinstance(rows, list) or not rows:
+            rep.err(f, f"{where}: {side} must be a non-empty list of [price, size]")
+            continue
+        for n, row in enumerate(rows, 1):
+            if not (isinstance(row, list) and len(row) == 2 and all(is_num(x) for x in row)):
+                rep.err(f, f"{where}: {side} row {n} must be [price, size], not {row!r}")
+                break
+
+
+def check_series(f, where, name, values, bars, rep):
+    """`volume` and `vwap`: one number per bar."""
+    if not isinstance(values, list) or not all(is_num(x) for x in values):
+        rep.err(f, f"{where}: {name} must be a list of numbers")
+    elif bars is not None and len(values) != bars:
+        rep.err(f, f"{where}: {name} has {len(values)} values for {bars} bars")
+
+
+def check_chart_data(f, where, kind, data, rep):
+    """line: closes; candles: [open, high, low, close] per bar. Returns the bar count."""
+    if not isinstance(data, list) or not data:
+        rep.err(f, f"{where}: chart data must be a non-empty list")
+        return None
+    if kind == "line":
+        if not all(is_num(x) for x in data):
+            rep.err(f, f"{where}: line data must be numbers")
+    else:
+        for n, bar in enumerate(data):
+            if not (isinstance(bar, list) and len(bar) == 4 and all(is_num(x) for x in bar)):
+                rep.err(f, f"{where}: candle {n} must be [open, high, low, close]")
+                break
+    return len(data)
+
+
+def check_chart_extras(f, where, spec, bars, rep):
+    if "levels" in spec:
+        check_levels(f, where, spec["levels"], rep)
+    for name in ("volume", "vwap"):
+        if name in spec:
+            check_series(f, where, name, spec[name], bars, rep)
+
+
+def check_chart_spec(f, where, spec, rep):
+    """A question screen's chart: {kind, data, …} (schema.md chart-decision, swipe-deck …)."""
+    if not isinstance(spec, dict):
+        rep.err(f, f"{where}: chart must be a mapping")
+        return
+    extra = set(spec) - CHART_SPEC_FIELDS
+    if extra:
+        rep.err(f, f"{where}: chart has unknown field(s) {sorted(extra)}")
+    kind = spec.get("kind", "candles")
+    if kind not in ("line", "candles"):
+        rep.err(f, f"{where}: chart.kind must be line or candles")
+        return
+    bars = check_chart_data(f, where, kind, spec.get("data"), rep)
+    check_chart_extras(f, where, spec, bars, rep)
+
+
+def check_cost_stack(f, where, data, rep):
+    """Three shapes (schema.md): per share against one `target`, one cost against several
+    `targets`, or cost totals as `rows`. Anything else draws NaN."""
+    def labelled(name):
+        rows = data.get(name)
+        if not isinstance(rows, list) or not rows or not all(
+                isinstance(r, dict) and isinstance(r.get("label"), str) and is_num(r.get("value"))
+                for r in rows):
+            rep.err(f, f"{where}: {name} must be a non-empty list of {{label, value}}")
+    costs = [k for k in ("spread", "slippage", "fees") if k in data]
+    for k in costs + [k for k in ("shares", "target") if k in data]:
+        if not is_num(data[k]):
+            rep.err(f, f"{where}: cost-stack {k} must be a number")
+    if "rows" in data:
+        labelled("rows")
+        mixed = set(data) - {"rows", "unit"}
+        if mixed:
+            rep.err(f, f"{where}: cost-stack rows take only a unit, not {sorted(mixed)}")
+    elif "targets" in data:
+        labelled("targets")
+        if not costs:
+            rep.err(f, f"{where}: cost-stack targets need a spread, slippage or fees")
+        mixed = set(data) & {"target", "unit"}
+        if mixed:
+            rep.err(f, f"{where}: cost-stack with targets cannot also have {sorted(mixed)}")
+    else:
+        for k in ("shares", "target"):
+            if k not in data:
+                rep.err(f, f"{where}: cost-stack needs {k} (or targets, or rows)")
+        if not costs:
+            rep.err(f, f"{where}: cost-stack needs a spread, slippage or fees")
+        if "unit" in data:
+            rep.err(f, f"{where}: cost-stack unit belongs with rows")
+
+
+def check_component(f, where, component, data, rep):
+    """One component's `data`/`visual_data` against the table in schema.md."""
+    if component not in COMPONENT_FIELDS:
+        rep.err(f, f"{where}: unknown component '{component}'")
+        return
+    if not isinstance(data, dict):
+        rep.err(f, f"{where}: {component} needs its data as a mapping")
+        return
+    required, optional = COMPONENT_FIELDS[component]
+    missing = sorted(required - set(data))
+    if missing:
+        rep.err(f, f"{where}: {component} is missing {missing}")
+    extra = sorted(set(data) - required - optional)
+    if extra:
+        rep.err(f, f"{where}: {component} has field(s) the renderer does not read: {extra}")
+    if component == "order-book":
+        check_book(f, where, data, rep)
+    elif component == "chart-candles":
+        bars = check_chart_data(f, where, "candles", data.get("data"), rep) if "data" in data else None
+        check_chart_extras(f, where, data, bars, rep)
+    elif component == "chart-line":
+        if "series" in data:
+            series = data["series"]
+            if not isinstance(series, list) or not all(
+                    isinstance(s, dict) and set(s) <= {"label", "data"} for s in series):
+                rep.err(f, f"{where}: series must be a list of {{label, data}}")
+            else:
+                for s in series:
+                    check_chart_data(f, where, "line", s.get("data"), rep)
+        elif "data" in data:
+            bars = check_chart_data(f, where, "line", data["data"], rep)
+            check_chart_extras(f, where, data, bars, rep)
+        else:
+            rep.err(f, f"{where}: chart-line needs data or series")
+    elif component == "cost-stack":
+        check_cost_stack(f, where, data, rep)
+    elif component == "bar-chart":
+        bars = data.get("bars")
+        if not isinstance(bars, list) or not bars or not all(
+                isinstance(b, dict) and is_num(b.get("value")) for b in bars):
+            rep.err(f, f"{where}: bars must be a non-empty list of {{label, value}}")
+    elif component == "quote-panel":
+        for k in ("bid", "ask", "last"):
+            if k in data and not is_num(data[k]):
+                rep.err(f, f"{where}: quote-panel {k} must be a number")
+
+
+def validate_screen_data(f, i, s, rep):
+    """Every component and chart a screen carries, wherever it sits."""
+    t = s.get("type")
+    where = f"screen {i} ({t})"
+    if "visual" in s:
+        check_component(f, where, s["visual"], s.get("visual_data"), rep)
+    elif "visual_data" in s:
+        rep.err(f, f"{where}: visual_data without a visual")
+    if "component" in s:
+        check_component(f, where, s["component"], s.get("data"), rep)
+    if t == "depth-ladder":
+        book = s.get("data")
+        if not isinstance(book, dict):
+            rep.err(f, f"{where}: the book goes under data: {{bids, asks}}")
+        else:
+            check_book(f, where, book, rep)
+        stray = sorted({"bids", "asks"} & set(s))
+        if stray:
+            rep.err(f, f"{where}: {stray} belong under data:, where the renderer reads them")
+    if t == "scanner-pick":
+        rows = (s.get("data") or {}).get("rows") if isinstance(s.get("data"), dict) else None
+        if not isinstance(rows, list) or not rows:
+            rep.err(f, f"{where}: scanner-pick needs data: {{rows: [...]}}")
+    if "chart" in s:
+        check_chart_spec(f, where, s["chart"], rep)
+    for n, card in enumerate(s.get("cards") or [], 1):
+        if isinstance(card, dict) and "chart" in card:
+            check_chart_spec(f, f"{where} card {n}", card["chart"], rep)
+    if t == "compare":
+        for n, chart in enumerate(s.get("charts") or [], 1):
+            check_chart_spec(f, f"{where} chart {n}", chart, rep)
+
+
 def validate_question_screen(f, i, s, rep):
     """Shape checks for one question screen.
 
@@ -380,6 +613,7 @@ def validate_file(path, data, rep):
             continue
         units += screen_units(s)
         seconds += screen_seconds(s)
+        validate_screen_data(f, i, s, rep)
         if t in QUESTION:
             qtypes.append(t)
             validate_question_screen(f, i, s, rep)
@@ -993,6 +1227,7 @@ def validate_drill_pack(path_file, data, rep, idx):
             continue
         types.add(t)
         validate_question_screen(f, i, s, rep)
+        validate_screen_data(f, i, s, rep)
     if types and len(types) < DRILL_MIN_TYPES:
         rep.cwarn(f, f"only {len(types)} question type(s) in the pack "
                      f"(want ≥{DRILL_MIN_TYPES}): {', '.join(sorted(types))}")
@@ -1128,6 +1363,36 @@ def validate_drill_manifest(rep, packs, written, idx):
             rep.warn(data["_file"], f"drops concept(s) the manifest lists: {', '.join(gone)}")
 
 
+BENCH = ROOT / "demo/all-screens.yaml"
+
+
+def validate_bench(rep, path=BENCH):
+    """The test bench (demo/all-screens.yaml) is not a lesson, so the lesson rules (screen
+    count, question mix, mc runs) do not apply. Every screen on it still has to be one the
+    content could hold: a known type, a valid question, component data as in schema.md.
+    Written to fit the renderer instead, it once hid the depth-ladder crash (review M2)."""
+    f = path.relative_to(ROOT)
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except yaml.YAMLError as e:
+        rep.err(f, f"YAML error: {e}")
+        return
+    screens = (data or {}).get("screens") if isinstance(data, dict) else None
+    if not isinstance(screens, list) or not screens:
+        rep.err(f, "no screens")
+        return
+    for i, s in enumerate(screens, 1):
+        if not isinstance(s, dict):
+            rep.err(f, f"screen {i}: must be a mapping")
+            continue
+        t = s.get("type")
+        if t not in NON_QUESTION | QUESTION | BENCH_ONLY:
+            rep.err(f, f"screen {i}: unknown type '{t}'")
+            continue
+        if t in QUESTION:
+            validate_question_screen(f, i, s, rep)
+        validate_screen_data(f, i, s, rep)
+
 def main():
     status = "--status" in sys.argv
     strict = "--strict" in sys.argv
@@ -1157,6 +1422,7 @@ def main():
         validate_chapter_v3(folder, files, rep)
     validate_tiers(chapters, rep)
     validate_plan(chapters, rep)
+    validate_bench(rep)
 
     # drill packs (schema.md, "Drill packs"): the Practice hub's bank, validated against
     # the manifest that commissioned it. Batch output is not exempt from --strict.

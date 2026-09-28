@@ -90,7 +90,7 @@ screens:
       - chart:
           kind: candles
           data: [[14.30, 14.38, 14.26, 14.36], [14.36, 14.44, 14.32, 14.40], [14.40, 14.46, 14.36, 14.42], [14.42, 14.50, 14.38, 14.46], [14.46, 14.52, 14.42, 14.48], [14.48, 14.62, 14.46, 14.58], [14.58, 14.70, 14.54, 14.66], [14.66, 14.78, 14.62, 14.74]]
-          levels: [14.50]
+          levels: [{price: 14.50}]
         answer: take
         note: "Through the line the page names, on the biggest body of the run. This is the trade the page was written for."
       - chart:
@@ -101,13 +101,13 @@ screens:
       - chart:
           kind: candles
           data: [[13.60, 13.66, 13.56, 13.62], [13.62, 13.68, 13.58, 13.64], [13.64, 13.70, 13.60, 13.62], [13.62, 13.68, 13.58, 13.66], [13.66, 13.70, 13.62, 13.64], [13.64, 13.70, 13.60, 13.66], [13.66, 13.72, 13.62, 13.68], [13.68, 13.72, 13.64, 13.66]]
-          levels: [13.78]
+          levels: [{price: 13.78}]
         answer: pass
         note: "Six cents under the price the page names, for eight straight minutes. The page names a price, and price has not been there."
       - chart:
           kind: candles
           data: [[14.20, 14.24, 14.10, 14.14], [14.14, 14.18, 14.02, 14.06], [14.06, 14.12, 13.96, 14.00], [14.00, 14.04, 13.88, 13.92], [13.92, 13.96, 13.80, 13.84], [13.84, 13.88, 13.70, 13.74], [13.74, 13.80, 13.64, 13.68], [13.68, 13.74, 13.58, 13.62]]
-          levels: [13.92]
+          levels: [{price: 13.92}]
         answer: take
         note: "The line the page marked underneath it, given up on full bodies. A page names a price, not a direction."
     explanation: "Two takes and two passes. Both takes were written down an hour before they happened, and neither of the passes was."
