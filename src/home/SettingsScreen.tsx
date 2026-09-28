@@ -60,10 +60,12 @@ export default function SettingsScreen({
   width,
   onBack,
   onOpenBench,
+  onOpenPrototype,
 }: {
   width: number;
   onBack: () => void;
   onOpenBench: () => void;
+  onOpenPrototype: () => void;
 }) {
   const insets = useSafeAreaInsets();
   const reduced = useReduceMotion();
@@ -162,6 +164,12 @@ export default function SettingsScreen({
               title="Every screen type"
               sub="Open the all-screens test level"
               onPress={onOpenBench}
+            />
+            <RowButton
+              icon="flask"
+              title="Design directions"
+              sub="The three looks from stage LOOK-BRIEF, full screen"
+              onPress={onOpenPrototype}
             />
           </>
         )}

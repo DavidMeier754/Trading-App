@@ -27,10 +27,12 @@ export default function Home({
   width,
   onStart,
   onOpenBench,
+  onOpenPrototype,
 }: {
   width: number;
   onStart: (entry: LessonEntry) => void;
   onOpenBench: () => void;
+  onOpenPrototype: () => void;
 }) {
   const [tab, setTabState] = useState<Tab>(lastTab);
   const [settings, setSettingsState] = useState(lastSettings);
@@ -45,7 +47,12 @@ export default function Home({
 
   if (settings) {
     return (
-      <SettingsScreen width={width} onBack={() => setSettings(false)} onOpenBench={onOpenBench} />
+      <SettingsScreen
+        width={width}
+        onBack={() => setSettings(false)}
+        onOpenBench={onOpenBench}
+        onOpenPrototype={onOpenPrototype}
+      />
     );
   }
 
