@@ -22,7 +22,7 @@ import { cue } from '../lesson/feedback';
 import type { CueName } from '../lesson/cues.generated';
 import { EASE_OUT } from '../lesson/motion';
 import type { Candle } from './data';
-import type { Direction, LayoutId, Palette, Skin, ThemeId, TypeStep } from './directions';
+import type { Direction, LayoutId, Palette, ScreenId, Skin, ThemeId, TypeStep } from './directions';
 
 /**
  * The prototype's shared kit: the context every direction's screens read, text
@@ -39,8 +39,10 @@ export type Proto = {
   reduced: boolean;
   width: number;
   height: number;
-  /** The prototype's own Continue: on to the next of the six screens. */
+  /** The prototype's own Continue: on to the next screen in the picker's order. */
   next: () => void;
+  /** Straight to a screen: the map's level opens the lesson, its bonus the side lesson. */
+  goto: (screen: ScreenId) => void;
   /** The mix only: the design of today it wears (skin.tsx). */
   skin?: Skin;
 };
@@ -419,6 +421,8 @@ export function CandleChart({
   splitAt,
   hideAfterSplit,
   extent = [],
+  domain,
+  marks = [],
 }: {
   candles: Candle[];
   shown: number;
@@ -431,6 +435,13 @@ export function CandleChart({
   hideAfterSplit?: boolean;
   /** Prices the domain must hold from the first frame, drawn or not yet (stop, target). */
   extent?: number[];
+  /**
+   * Only the first `domain` candles set the price range. A replay passes the
+   * bars on screen, so the axis cannot give away where price goes next.
+   */
+  domain?: number;
+  /** Bars picked out with a band of colour and a word over them (a replay's post-mortem). */
+  marks?: { at: number; color: string; label?: string }[];
 }) {
   const { p, d } = useProto();
   const exact = kind === 'precise' || kind === 'mix';
@@ -440,6 +451,7 @@ export function CandleChart({
   const padTop = 24;
   const padY = 10;
   const prices = candles
+    .slice(0, domain ?? candles.length)
     .flatMap((c) => [c.h, c.l])
     .concat(
       lines.map((l) => l.price),
@@ -451,6 +463,17 @@ export function CandleChart({
   const slot = plotW / candles.length;
   const bodyW = Math.max(3, slot * (kind === 'playful' ? 0.7 : exact ? 0.56 : 0.5));
   const ticks = niceTicks(lo, hi, kind === 'precise' ? 6 : 5);
+  // Two labels close together sit either side of their midpoint, not on top of each other.
+  const labelled = marks.filter((m) => m.label).sort((a, b) => a.at - b.at);
+  const beside = new Map<number, { x: number; anchor: 'start' | 'end' }>();
+  for (let k = 0; k + 1 < labelled.length; k++) {
+    const [a, b] = [labelled[k], labelled[k + 1]];
+    const mid = ((a.at + b.at + 1) * slot) / 2;
+    if ((b.at - a.at) * slot < 56) {
+      beside.set(a.at, { x: mid - 4, anchor: 'end' });
+      beside.set(b.at, { x: mid + 4, anchor: 'start' });
+    }
+  }
   const whole = Math.floor(shown);
   const frac = shown - whole;
   const visible: { c: Candle; i: number; forming: boolean; alpha: number }[] = [];
@@ -526,6 +549,35 @@ export function CandleChart({
           strokeDasharray="3 3"
         />
       )}
+      {marks.map((m) => (
+        <G key={`mark${m.at}`}>
+          <Rect
+            x={m.at * slot + 1}
+            y={padTop - 4}
+            width={Math.max(4, slot - 2)}
+            height={height - padTop - padY + 8}
+            fill={m.color}
+            opacity={0.18}
+            rx={3}
+          />
+          {m.label ? (
+            <SvgText
+              x={beside.get(m.at)?.x ?? Math.min(plotW - 4, Math.max(4, m.at * slot + slot / 2))}
+              y={15}
+              fontSize={13}
+              fontWeight="600"
+              fill={m.color}
+              textAnchor={
+                beside.get(m.at)?.anchor ??
+                (m.at * slot < 40 ? 'start' : m.at * slot > plotW - 40 ? 'end' : 'middle')
+              }
+              fontFamily={d.font}
+            >
+              {m.label}
+            </SvgText>
+          ) : null}
+        </G>
+      ))}
       {visible.map(({ c, i, alpha }) => {
         const up = c.c >= c.o;
         const col = up ? p.up : p.down;

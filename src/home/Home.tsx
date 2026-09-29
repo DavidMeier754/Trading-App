@@ -32,7 +32,7 @@ export default function Home({
   width: number;
   onStart: (entry: LessonEntry) => void;
   onOpenBench: () => void;
-  onOpenPrototype: () => void;
+  onOpenPrototype: (page?: 'suggestions') => void;
 }) {
   const [tab, setTabState] = useState<Tab>(lastTab);
   const [settings, setSettingsState] = useState(lastSettings);

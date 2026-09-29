@@ -65,7 +65,8 @@ export default function SettingsScreen({
   width: number;
   onBack: () => void;
   onOpenBench: () => void;
-  onOpenPrototype: () => void;
+  /** Test builds: the design prototype, or with 'suggestions' its page of design ideas. */
+  onOpenPrototype: (page?: 'suggestions') => void;
 }) {
   const insets = useSafeAreaInsets();
   const reduced = useReduceMotion();
@@ -169,7 +170,13 @@ export default function SettingsScreen({
               icon="flask"
               title="Design directions"
               sub="Your mix and the three directions of stage LOOK-BRIEF, full screen"
-              onPress={onOpenPrototype}
+              onPress={() => onOpenPrototype()}
+            />
+            <RowButton
+              icon="flask"
+              title="Design suggestions"
+              sub="Ideas for the look, and which ones are in your mix"
+              onPress={() => onOpenPrototype('suggestions')}
             />
           </>
         )}

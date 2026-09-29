@@ -2,8 +2,15 @@
 jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock'));
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
 
-import { SCENARIO, outcomeResult } from '../prototype/data';
-import { DIRECTION_ORDER, DIRECTIONS, MIX_LOOK_ORDER, MIX_LOOKS } from '../prototype/directions';
+import { gradeReplay } from '../prototype/Bonus';
+import { BONUS, PATH, SCENARIO, outcomeResult } from '../prototype/data';
+import {
+  DIRECTION_ORDER,
+  DIRECTIONS,
+  MIX_LOOK_ORDER,
+  MIX_LOOKS,
+  screensOf,
+} from '../prototype/directions';
 import { formingCandle, niceTicks } from '../prototype/kit';
 import { parsePrototypeLink, prototypeRoutes } from '../prototype/Prototype';
 import { contrast } from '../prototype/TypeSheet';
@@ -32,18 +39,72 @@ describe('stage LOOK-BRIEF prototypes', () => {
       look: 'classicContrast',
     });
     expect(parsePrototypeLink('prototype/mix/map', 'design=nope')?.look).toBe('neo');
+    // The mix's own screens exist only in the mix.
+    expect(parsePrototypeLink('prototype/mix/bonus', '')?.screen).toBe('bonus');
+    expect(parsePrototypeLink('prototype/calm/streak', '')?.screen).toBe('theory');
     expect(parsePrototypeLink('level-01-1/3', '')).toBeNull();
   });
 
   it('lists every direction, screen and theme for the render test', () => {
     const routes = prototypeRoutes();
     // The mix in three looks, the three directions, and their layout variant.
-    expect(routes).toHaveLength(3 * 7 * 2 + 3 * 7 * 2 + 3 * 3);
+    expect(screensOf('mix')).toHaveLength(11);
+    expect(screensOf('calm')).toHaveLength(7);
+    expect(routes).toHaveLength(3 * 11 * 2 + 3 * 7 * 2 + 3 * 3);
     expect(new Set(routes).size).toBe(routes.length);
     for (const r of routes) {
       const [path, query] = r.split('?');
       expect(parsePrototypeLink(path, query ?? '')).not.toBeNull();
     }
+  });
+
+  it('grades the bonus replay from the bar index (docs/UI.md §4.4)', () => {
+    expect(gradeReplay(14, 14)).toBe('textbook');
+    expect(gradeReplay(14, 13)).toBe('textbook');
+    expect(gradeReplay(14, 15)).toBe('textbook');
+    expect(gradeReplay(14, 11)).toBe('early');
+    expect(gradeReplay(14, 18)).toBe('late');
+    expect(gradeReplay(14, null)).toBe('missed');
+    expect(gradeReplay(null, 9)).toBe('phantom');
+    expect(gradeReplay(null, null)).toBe('passed');
+  });
+
+  it('plants one setup in the first bonus chart and none in the second', () => {
+    for (const r of BONUS.rounds) {
+      for (const k of r.candles) {
+        expect(k.h).toBeGreaterThanOrEqual(Math.max(k.o, k.c));
+        expect(k.l).toBeLessThanOrEqual(Math.min(k.o, k.c));
+      }
+      // The chart opens before the setup, and the setup is not the last bar.
+      if (r.trigger !== null) {
+        expect(r.start).toBeLessThan(r.trigger);
+        expect(r.trigger).toBeLessThan(r.candles.length - 1);
+      }
+    }
+    const [one, two] = BONUS.rounds;
+    const t = one.trigger as number;
+    const k = one.candles;
+    // The first candle that turns up off the pullback's low, and price leaves from there.
+    expect(k[t].c).toBeGreaterThan(k[t].o);
+    expect(k[t - 1].c).toBeLessThan(k[t - 1].o);
+    const low = Math.min(
+      ...k
+        .slice(0, t + 1)
+        .slice(-6)
+        .map((c) => c.l),
+    );
+    expect(Math.min(k[t].l, k[t - 1].l)).toBe(low);
+    expect(k[k.length - 1].c).toBeGreaterThan(k[t].c + 0.2);
+    // The second only swings inside its range.
+    expect(two.trigger).toBeNull();
+    expect(Math.max(...two.candles.map((c) => c.h))).toBeLessThanOrEqual(20.2);
+    expect(Math.min(...two.candles.map((c) => c.l))).toBeGreaterThanOrEqual(20.0);
+  });
+
+  it('gives every level on the map its own symbol', () => {
+    const icons = PATH.levels.map((l) => l.icon);
+    expect(new Set(icons).size).toBe(icons.length);
+    expect(PATH.levels.some((l) => l.n === PATH.bonusAfter && l.state !== 'locked')).toBe(true);
   });
 
   it('puts round prices on the axis', () => {

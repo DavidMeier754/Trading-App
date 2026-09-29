@@ -28,7 +28,7 @@ function rng(seed: number) {
  * uneven size, wicks on both sides, the odd doji, and a trend that pauses.
  * `drift` is the average move per bar; each bar's close lands on a cent.
  */
-function walk(start: number, drifts: number[], seed: number): Candle[] {
+export function walk(start: number, drifts: number[], seed: number): Candle[] {
   const r = rng(seed);
   const out: Candle[] = [];
   let prev = start;
@@ -171,14 +171,15 @@ export const MAP = {
       n: 5,
       title: 'Practice: Volume',
       kind: 'Practice',
-      icon: 'repeat',
+      icon: 'candlevol',
       lessons: 3,
       done: 3,
       state: 'done',
     },
     {
       n: 6,
-      title: 'Candle Signals on the 1-Minute',
+      // A non-breaking hyphen: the title never breaks as "1-" / "Minute".
+      title: 'Candle Signals on the 1\u2011Minute',
       kind: 'New ideas',
       icon: 'candles',
       lessons: 4,
@@ -213,6 +214,164 @@ export const MAP = {
       state: 'locked',
     },
   ] as MapLevel[],
+};
+
+/**
+ * The mix's words: fewer of them. David, 2026-09-29: "there is way too much
+ * text on every screen (keep it simple)". The three directions keep the words
+ * they were rated with.
+ */
+export const SHORT = {
+  theory: {
+    title: 'One candle, four prices',
+    body: 'The body runs from open to close. The wicks show the high and the low.',
+  },
+  choice: {
+    prompt: 'From $50.00 to $51.50. What is the change in percent?',
+    explanation: '$1.50 ÷ $50.00 = 3 %',
+    why: [
+      'That is the change in dollars.',
+      '',
+      'Off by a factor of ten.',
+      'That is the new price.',
+    ],
+  },
+  chart: {
+    prompt: 'Pullback to support in an uptrend. Your call?',
+    first: {
+      long: 'Buying the pullback with a stop under support: the textbook play.',
+      short: 'Shorting into support fights the trend.',
+      none: 'Safe, but the pullback was the cleaner trade.',
+    },
+    lostAnyway: 'Right call. It lost anyway: this setup loses 4 in 10 times.',
+    luck: 'It won, but only by luck.',
+  },
+  match: {
+    prompt: 'Which order does what?',
+    /** By pair, as MATCH.pairs. */
+    meanings: [
+      'Fills now, at the best price',
+      'Fills at your price or better',
+      'Waits, then fires at a price',
+      'Entry with a stop and a target',
+    ],
+    reveal: 'Market: speed. Limit: price. Stop: a trigger. Bracket: all three.',
+  },
+};
+
+/** The streak screens: a streak of 3 becomes 4 on Thursday, or one of 12 is lost. */
+export const STREAK = {
+  from: 3,
+  to: 4,
+  lost: 12,
+  days: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+  /** Today is Thursday; Monday to Wednesday are done. */
+  today: 3,
+};
+
+/** The top bar of the mix's map (David: path, streak, gems, hearts). */
+export const HUD = { path: 'Scalping', streak: 3, gems: 120, hearts: 5 };
+
+/**
+ * The mix's map: today's path (src/home/LearnScreen.tsx) with David's changes.
+ * All of Chapter 4 so far, so the finished levels above the current one show
+ * too; the icons vary as Chapter 1's do.
+ */
+export const PATH = {
+  chapter: 4,
+  title: 'Reading the tape',
+  done: 5,
+  of: 19,
+  levels: [
+    {
+      n: 1,
+      title: 'VWAP',
+      kind: 'New ideas',
+      icon: 'trend',
+      lessons: 4,
+      done: 4,
+      state: 'perfect',
+    },
+    {
+      n: 2,
+      title: 'Practice: VWAP',
+      kind: 'Practice',
+      icon: 'rewind',
+      lessons: 3,
+      done: 3,
+      state: 'done',
+    },
+    {
+      n: 3,
+      title: 'Tape Speed',
+      kind: 'New ideas',
+      icon: 'gauge',
+      lessons: 4,
+      done: 4,
+      state: 'done',
+    },
+    ...MAP.levels,
+  ] as MapLevel[],
+  /** The bonus side lesson opens beside this level once it is done. */
+  bonusAfter: 5,
+};
+
+/**
+ * The bonus side lesson: charts played bar by bar where the learner does not
+ * know where, or whether, there is a setup (docs/UI.md §4.4, `chart-replay`).
+ * The first has one, a pullback to support that turns up at `trigger`; the
+ * second drifts sideways and has none.
+ */
+const setup = walk(
+  20.0,
+  [
+    0.04, 0.05, 0.03, 0.05, 0.04, 0.02, 0.05, 0.03, 0.04, -0.03, -0.04, -0.03, -0.02, -0.01, 0.07,
+    0.05, 0.04, 0.05, 0.03, 0.04, 0.05, 0.03, 0.04, 0.02,
+  ],
+  23,
+);
+/** A range with nothing in it: price swings between 20.00 and 20.20 all morning. */
+const chop: Candle[] = [
+  [20.1, 20.14, 20.06, 20.12],
+  [20.12, 20.16, 20.09, 20.1],
+  [20.1, 20.13, 20.03, 20.05],
+  [20.05, 20.09, 20.01, 20.08],
+  [20.08, 20.15, 20.07, 20.13],
+  [20.13, 20.18, 20.11, 20.12],
+  [20.12, 20.14, 20.06, 20.07],
+  [20.07, 20.1, 20.02, 20.04],
+  [20.04, 20.11, 20.03, 20.1],
+  [20.1, 20.17, 20.09, 20.15],
+  [20.15, 20.19, 20.12, 20.13],
+  [20.13, 20.15, 20.07, 20.08],
+  [20.08, 20.12, 20.04, 20.11],
+  [20.11, 20.16, 20.09, 20.14],
+  [20.14, 20.2, 20.12, 20.13],
+  [20.13, 20.14, 20.06, 20.07],
+  [20.07, 20.09, 20.01, 20.03],
+  [20.03, 20.08, 20.0, 20.06],
+  [20.06, 20.12, 20.05, 20.1],
+  [20.1, 20.15, 20.08, 20.09],
+  [20.09, 20.11, 20.04, 20.05],
+  [20.05, 20.1, 20.03, 20.08],
+  [20.08, 20.13, 20.06, 20.11],
+  [20.11, 20.14, 20.07, 20.09],
+].map(([o, h, l, c]) => ({ o, h, l, c }));
+
+export type BonusRound = {
+  candles: Candle[];
+  /** Bars on screen when the round opens. */
+  start: number;
+  /** The bar the setup triggers on, or null for a chart with none. */
+  trigger: number | null;
+};
+
+export const BONUS: { reward: number; rounds: BonusRound[] } = {
+  reward: 10,
+  rounds: [
+    { candles: setup, start: 8, trigger: 14 },
+    { candles: chop, start: 8, trigger: null },
+  ],
 };
 
 /** Money with a sign in front of the currency: −$48.00. */

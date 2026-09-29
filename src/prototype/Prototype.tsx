@@ -10,13 +10,13 @@ import { CALM } from './Calm';
 import {
   DIRECTION_ORDER,
   DIRECTIONS,
+  hasScreen,
   isDirection,
   isMixLook,
-  isScreen,
   MIX_LOOK_ORDER,
   MIX_LOOKS,
   mixDirection,
-  SCREENS,
+  screensOf,
   type DirectionId,
   type LayoutId,
   type MixLookId,
@@ -24,6 +24,7 @@ import {
   type ThemeId,
 } from './directions';
 import { ProtoProvider, type Proto } from './kit';
+import { MIX } from './Mix';
 import { PLAYFUL } from './Playful';
 import { PRECISE } from './Precise';
 import { MixGround } from './skin';
@@ -64,9 +65,11 @@ export function parsePrototypeLink(path: string, query: string): ProtoLink | nul
   if (head !== 'prototype') return null;
   const q = new URLSearchParams(query);
   const look = q.get('design');
+  const d = isDirection(dir) ? dir : DEFAULT_LINK.dir;
   return {
-    dir: isDirection(dir) ? dir : DEFAULT_LINK.dir,
-    screen: isScreen(screen) ? screen : DEFAULT_LINK.screen,
+    dir: d,
+    // A screen only the mix has falls back to the start for the three directions.
+    screen: hasScreen(d, screen) ? screen : DEFAULT_LINK.screen,
     theme: q.get('theme') === 'dark' ? 'dark' : 'light',
     layout: q.get('layout') === 'today' ? 'today' : 'thumb',
     look: isMixLook(look) ? look : 'neo',
@@ -80,12 +83,12 @@ export function parsePrototypeLink(path: string, query: string): ProtoLink | nul
 export function prototypeRoutes(): string[] {
   const out: string[] = [];
   for (const look of MIX_LOOK_ORDER)
-    for (const s of SCREENS)
+    for (const s of screensOf('mix'))
       for (const theme of ['light', 'dark'] as const)
         out.push(`prototype/mix/${s.id}?theme=${theme}${look === 'neo' ? '' : `&design=${look}`}`);
   const three = DIRECTION_ORDER.filter((d) => d !== 'mix');
   for (const dir of three)
-    for (const s of SCREENS)
+    for (const s of screensOf(dir))
       for (const theme of ['light', 'dark'] as const)
         out.push(`prototype/${dir}/${s.id}?theme=${theme}`);
   for (const dir of three)
@@ -93,8 +96,8 @@ export function prototypeRoutes(): string[] {
   return out;
 }
 
-/** The mix is Calm's screens in a skin (Calm.tsx). */
-const SETS = { mix: CALM, calm: CALM, playful: PLAYFUL, precise: PRECISE };
+/** The mix is Calm's screens in a skin (Calm.tsx), and its own new ones (Mix.tsx). */
+const SETS = { mix: MIX, calm: CALM, playful: PLAYFUL, precise: PRECISE };
 /** The design button's short names. */
 const LOOK_SHORT: Record<MixLookId, string> = {
   neo: 'Neo',
@@ -141,18 +144,27 @@ export default function Prototype({
   }, [link]);
 
   const set = useCallback((patch: Partial<ProtoLink>) => {
-    setLink((l) => ({ ...l, ...patch }));
+    setLink((l) => {
+      const n = { ...l, ...patch };
+      // Leaving the mix on a screen only it has lands on the start.
+      return hasScreen(n.dir, n.screen) ? n : { ...n, screen: 'theory' };
+    });
     setMount((m) => m + 1);
   }, []);
   const step = useCallback(
     (by: number) =>
       setLink((l) => {
-        const i = SCREENS.findIndex((s) => s.id === l.screen);
+        const list = screensOf(l.dir);
+        const i = list.findIndex((s) => s.id === l.screen);
         setMount((m) => m + 1);
-        return { ...l, screen: SCREENS[(i + by + SCREENS.length) % SCREENS.length].id };
+        return { ...l, screen: list[(i + by + list.length) % list.length].id };
       }),
     [],
   );
+  const goto = useCallback((screen: ScreenId) => {
+    setLink((l) => ({ ...l, screen }));
+    setMount((m) => m + 1);
+  }, []);
 
   // Keys on the web, as PICKER.md: 1–4 and ←/→ switch direction, R replays.
   // Here ↑/↓ step through the screens and D flips light and dark.
@@ -206,13 +218,15 @@ export default function Prototype({
       width,
       height: stageH,
       next: () => step(1),
+      goto,
       skin,
     }),
-    [d, p, link.theme, layout, reduced, width, stageH, step, skin],
+    [d, p, link.theme, layout, reduced, width, stageH, step, goto, skin],
   );
   const Body = link.screen === 'type' ? TypeSheet : SETS[link.dir][link.screen];
-  const screenName = SCREENS.find((s) => s.id === link.screen)!.name;
-  const n = SCREENS.findIndex((s) => s.id === link.screen) + 1;
+  const screens = screensOf(link.dir);
+  const screenName = screens.find((s) => s.id === link.screen)?.name ?? '';
+  const n = screens.findIndex((s) => s.id === link.screen) + 1;
 
   return (
     <View style={{ flex: 1, backgroundColor: p.ground }} testID="prototype">
@@ -241,7 +255,11 @@ export default function Prototype({
               onPick={() => {}}
               trailing={[
                 { label: '‹', a11y: 'Previous screen', onPress: () => step(-1) },
-                { label: `${n}/7 ${screenName}`, a11y: 'Screen', onPress: () => step(1) },
+                {
+                  label: `${n}/${screens.length} ${screenName}`,
+                  a11y: 'Screen',
+                  onPress: () => step(1),
+                },
                 { label: '›', a11y: 'Next screen', onPress: () => step(1) },
                 {
                   label: link.theme === 'dark' ? 'Dark' : 'Light',

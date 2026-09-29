@@ -396,7 +396,7 @@ export function mixDirection(look: MixLookId): Direction {
     pitch: [
       "Calm's screens on the ground of today's designs: Neo's grain, glass and blue key, Neo Mono in black and white, or Classic Contrast with its strong outlines.",
       'The question stays at the top and the answers sit right above the button, and the reveal rises into space that was already free, so nothing jumps and nothing overlaps.',
-      'From Precise it takes the numbers in a monospaced face and the chart: candles that form like real ones, a live price tag and labelled levels, and the trade log in the reveal.',
+      'From Precise it takes the numbers in a monospaced face that count up, the step count on the progress bar and the chart: candles that form like real ones, a live price tag and labelled levels, and the trade log in the reveal.',
     ],
     palettes: { light: l.theme.light.p, dark: l.theme.dark.p },
     numberFont: mono,
@@ -406,7 +406,7 @@ export function mixDirection(look: MixLookId): Direction {
       screen: 'Cross-fade with a 6 pt rise, 320 ms, ease-out',
       reveal: 'Panel fades up 8 pt, 280 ms, no bounce',
       chart: 'Candles form with a live price tag, 360 ms each',
-      complete: 'The ring fills once, 900 ms; numbers appear, they do not count',
+      complete: 'The ring fills once, 900 ms, and its numbers count up with it',
     },
   };
 }
@@ -609,21 +609,51 @@ export const DIRECTIONS: Record<DirectionId, Direction> = {
 
 export const DIRECTION_ORDER: DirectionId[] = ['mix', 'calm', 'playful', 'precise'];
 
-export type ScreenId = 'theory' | 'choice' | 'chart' | 'match' | 'complete' | 'map' | 'type';
+export type ScreenId =
+  | 'theory'
+  | 'choice'
+  | 'chart'
+  | 'match'
+  | 'complete'
+  | 'streak'
+  | 'lost'
+  | 'map'
+  | 'bonus'
+  | 'suggestions'
+  | 'type';
 
-export const SCREENS: { id: ScreenId; name: string }[] = [
+/**
+ * The screens, in the picker's order. The three directions have the stage's
+ * six and the type sheet; the mix also has what David asked for on
+ * 2026-09-29: the streak screens, the bonus side lesson and the page of
+ * design suggestions.
+ */
+export const SCREENS: { id: ScreenId; name: string; mixOnly?: boolean }[] = [
   { id: 'theory', name: 'Theory' },
   { id: 'choice', name: 'Choice' },
   { id: 'chart', name: 'Chart' },
   { id: 'match', name: 'Match' },
   { id: 'complete', name: 'Complete' },
+  { id: 'streak', name: 'Streak', mixOnly: true },
+  { id: 'lost', name: 'Streak lost', mixOnly: true },
   { id: 'map', name: 'Map' },
+  { id: 'bonus', name: 'Bonus', mixOnly: true },
+  { id: 'suggestions', name: 'Suggestions', mixOnly: true },
   { id: 'type', name: 'Type' },
 ];
+
+/** The screens a direction has. */
+export function screensOf(dir: DirectionId): { id: ScreenId; name: string }[] {
+  return SCREENS.filter((s) => dir === 'mix' || !s.mixOnly);
+}
 
 export function isDirection(s: string | undefined): s is DirectionId {
   return !!s && s in DIRECTIONS;
 }
 export function isScreen(s: string | undefined): s is ScreenId {
   return !!s && SCREENS.some((x) => x.id === s);
+}
+/** Whether `dir` has the screen `s`. */
+export function hasScreen(dir: DirectionId, s: string | undefined): s is ScreenId {
+  return !!s && screensOf(dir).some((x) => x.id === s);
 }

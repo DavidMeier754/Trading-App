@@ -3,7 +3,17 @@ import { View } from 'react-native';
 import Svg, { G, Line, Rect, Text as SvgText } from 'react-native-svg';
 
 import Icon from '../home/icons';
-import { CHOICE, COMPLETE, MAP, MATCH, SCENARIO, THEORY, money, outcomeResult } from './data';
+import {
+  CHOICE,
+  COMPLETE,
+  MAP,
+  MATCH,
+  SCENARIO,
+  SHORT,
+  THEORY,
+  money,
+  outcomeResult,
+} from './data';
 import {
   Appear,
   CandleChart,
@@ -47,8 +57,17 @@ function skinned(proto: Proto, lit: boolean) {
   };
 }
 
-function TopBar({ step }: { step: number }) {
+/** A lesson's screens, as the step count on the mix's progress bar reads them. */
+export const STEPS = 12;
+
+/**
+ * The lesson's top bar: close, progress and hearts. `step` is the screen the
+ * lesson is on, of STEPS. The mix wears its design's bar and, from Precise,
+ * the step count beside it.
+ */
+export function TopBar({ step }: { step: number }) {
   const { p, skin } = useProto();
+  const share = step / STEPS;
   return (
     <Row
       gap={14}
@@ -69,12 +88,15 @@ function TopBar({ step }: { step: number }) {
         </T>
       </Press>
       {skin ? (
-        <SkinProgress skin={skin} step={step} />
+        <>
+          <SkinProgress skin={skin} step={share} />
+          <T v="label" num color={p.muted}>{`${step}/${STEPS}`}</T>
+        </>
       ) : (
         <View style={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: p.line }}>
           <View
             style={{
-              width: `${step * 100}%`,
+              width: `${share * 100}%`,
               height: 4,
               borderRadius: 2,
               backgroundColor: p.accent,
@@ -92,7 +114,7 @@ function TopBar({ step }: { step: number }) {
   );
 }
 
-function Cta({
+export function Cta({
   label,
   onPress,
   disabled,
@@ -124,7 +146,7 @@ function Cta({
           justifyContent: 'center',
         }}
       >
-        <T v="answer" color={disabled ? p.muted : p.onAccent}>
+        <T v="answer" color={disabled ? p.muted : p.onAccent} lines={1}>
           {label}
         </T>
       </Press>
@@ -133,7 +155,7 @@ function Cta({
 }
 
 /** The reveal: a quiet card with a coloured edge, fading up into its slot. */
-function RevealCard({
+export function RevealCard({
   show,
   tone,
   tint,
@@ -171,7 +193,7 @@ function RevealCard({
 // ---------------------------------------------------------------------------
 
 function Theory() {
-  const { p, next, width } = useProto();
+  const { p, next, width, skin } = useProto();
   const w = width - 40;
   const cx = w / 2;
   // One big candle: open 9.70, close 9.84, high 9.90, low 9.62, labelled by
@@ -200,7 +222,7 @@ function Theory() {
   );
   return (
     <Screen
-      header={<TopBar step={0.15} />}
+      header={<TopBar step={2} />}
       top={
         <>
           <Enter>
@@ -223,12 +245,14 @@ function Theory() {
             </View>
           </Enter>
           <Enter i={1} style={{ gap: 10, marginTop: 20 }}>
-            <T v="label" color={p.muted}>
-              {THEORY.eyebrow}
-            </T>
-            <T v="title">{THEORY.title}</T>
+            {skin ? null : (
+              <T v="label" color={p.muted}>
+                {THEORY.eyebrow}
+              </T>
+            )}
+            <T v="title">{skin ? SHORT.theory.title : THEORY.title}</T>
             <T v="body" color={p.text}>
-              {THEORY.body}
+              {skin ? SHORT.theory.body : THEORY.body}
             </T>
           </Enter>
         </>
@@ -240,15 +264,16 @@ function Theory() {
 
 function Choice() {
   const proto = useProto();
-  const { p, d, next } = proto;
+  const { p, d, next, skin } = proto;
   const q = useChoice();
+  const why = skin ? SHORT.choice.why : CHOICE.why;
   return (
     <Screen
-      header={<TopBar step={0.3} />}
+      header={<TopBar step={4} />}
       top={
         <Enter>
-          <T v="prompt" style={{ marginTop: 16 }}>
-            {CHOICE.prompt}
+          <T v="prompt" num={!!skin} style={{ marginTop: 16 }}>
+            {skin ? SHORT.choice.prompt : CHOICE.prompt}
           </T>
         </Enter>
       }
@@ -321,10 +346,12 @@ function Choice() {
           tint={q.grade === 'correct' ? p.upTint : p.downTint}
           title={q.grade === 'correct' ? 'Correct' : 'Not quite'}
         >
-          <T v="body">{CHOICE.explanation}</T>
-          {q.grade === 'wrong' && q.sel !== null && CHOICE.why[q.sel] ? (
+          <T v="body" num={!!skin}>
+            {skin ? SHORT.choice.explanation : CHOICE.explanation}
+          </T>
+          {q.grade === 'wrong' && q.sel !== null && why[q.sel] ? (
             <T v="caption" color={p.muted}>
-              {CHOICE.why[q.sel]}
+              {why[q.sel]}
             </T>
           ) : null}
         </RevealCard>
@@ -355,22 +382,28 @@ function Chart() {
     copy?.grade === 'correct' ? p.upTint : copy?.grade === 'amber' ? p.amberTint : p.downTint;
   return (
     <Screen
-      header={<TopBar step={0.5} />}
+      header={<TopBar step={6} />}
       top={
         <>
-          <Enter style={{ gap: 6, marginTop: 8 }}>
-            <T v="caption" color={p.muted}>
-              {SCENARIO.story}
-            </T>
-            <T v="prompt">{SCENARIO.prompt}</T>
-            <Row gap={16} style={{ marginTop: 2 }}>
-              {SCENARIO.state.map((s) => (
-                <T key={s} v="caption" num color={p.muted}>
-                  {s}
-                </T>
-              ))}
-            </Row>
-          </Enter>
+          {skin ? (
+            <Enter style={{ marginTop: 8 }}>
+              <T v="prompt">{SHORT.chart.prompt}</T>
+            </Enter>
+          ) : (
+            <Enter style={{ gap: 6, marginTop: 8 }}>
+              <T v="caption" color={p.muted}>
+                {SCENARIO.story}
+              </T>
+              <T v="prompt">{SCENARIO.prompt}</T>
+              <Row gap={16} style={{ marginTop: 2 }}>
+                {SCENARIO.state.map((s) => (
+                  <T key={s} v="caption" num color={p.muted}>
+                    {s}
+                  </T>
+                ))}
+              </Row>
+            </Enter>
+          )}
           <Enter i={1} style={{ marginTop: 12 }}>
             <Press sound={null} onPress={play.skip} label="Chart. Tap to finish the playback.">
               {skin ? (
@@ -439,7 +472,7 @@ function Chart() {
       reveal={
         copy && m.phase === 'reveal' ? (
           <RevealCard show tone={tone} tint={tint} title={copy.chip}>
-            <T v="body">{copy.first}</T>
+            <T v="body">{skin ? SHORT.chart.first[m.side!] : copy.first}</T>
             {skin ? (
               <TradeLog side={m.side!} />
             ) : (
@@ -468,7 +501,9 @@ function Chart() {
             )}
             {m.side === 'long' && (
               <T v="caption" color={p.text}>
-                Right call — this trade lost anyway. This setup loses about 4 in 10 times.{' '}
+                {skin
+                  ? SHORT.chart.lostAnyway
+                  : 'Right call — this trade lost anyway. This setup loses about 4 in 10 times.'}{' '}
                 <T v="caption" color={p.accent}>
                   Why?
                 </T>
@@ -476,7 +511,9 @@ function Chart() {
             )}
             {m.side === 'short' && (
               <T v="caption" color={p.text}>
-                This one happened to win. A win on the wrong call is luck, not a plan.
+                {skin
+                  ? SHORT.chart.luck
+                  : 'This one happened to win. A win on the wrong call is luck, not a plan.'}
               </T>
             )}
             <T v="caption" color={p.muted}>
@@ -527,10 +564,10 @@ function Chart() {
 }
 
 /**
- * The mix's result block, from Precise: the outcome sentence, then the trade
- * as a short log with its numbers lined up in the number face. It stays a
- * neutral block under the grade (docs/UI.md §5.1b); only the numbers carry
- * their sign's colour.
+ * The mix's result block, from Precise: the trade as a short log with its
+ * numbers lined up in the number face. It stays a neutral block under the
+ * grade (docs/UI.md §5.1b); only the numbers carry their sign's colour. The
+ * outcome sentence gave way to the log's first row (fewer words, 2026-09-29).
  */
 function TradeLog({ side }: { side: 'long' | 'short' | 'none' }) {
   const { p } = useProto();
@@ -557,10 +594,7 @@ function TradeLog({ side }: { side: 'long' | 'short' | 'none' }) {
         marginTop: 4,
       }}
     >
-      <T v="caption" color={p.muted}>
-        {decisionCopy(side).outcome}
-      </T>
-      <View style={{ marginTop: 6, borderTopWidth: 1, borderTopColor: p.line, paddingTop: 2 }}>
+      <View>
         {rows.map(([k, v, color, isNum]) => (
           <Row key={k} style={{ justifyContent: 'space-between', paddingVertical: 3 }}>
             <T v="caption" color={p.muted}>
@@ -578,7 +612,7 @@ function TradeLog({ side }: { side: 'long' | 'short' | 'none' }) {
 
 function Match() {
   const proto = useProto();
-  const { p, d, next } = proto;
+  const { p, d, next, skin } = proto;
   const mt = useMatch();
   const card = (
     text: string,
@@ -640,11 +674,11 @@ function Match() {
   };
   return (
     <Screen
-      header={<TopBar step={0.7} />}
+      header={<TopBar step={8} />}
       top={
         <Enter>
           <T v="prompt" style={{ marginTop: 16 }}>
-            {MATCH.prompt}
+            {skin ? SHORT.match.prompt : MATCH.prompt}
           </T>
         </Enter>
       }
@@ -662,7 +696,7 @@ function Match() {
               </View>
               <View style={{ flex: 1 }}>
                 {card(
-                  MATCH.pairs[MATCH.order[i]].meaning,
+                  skin ? SHORT.match.meanings[MATCH.order[i]] : MATCH.pairs[MATCH.order[i]].meaning,
                   `r${i}`,
                   { sel: mt.right === i, slot: mt.slotOfRight(i), miss: mt.miss?.r === i },
                   () => mt.tapRight(i),
@@ -686,7 +720,11 @@ function Match() {
                 : 'Two slips'
           }
         >
-          <T v="body">Market is speed, limit is price, stop is a trigger, bracket is all three.</T>
+          <T v="body">
+            {skin
+              ? SHORT.match.reveal
+              : 'Market is speed, limit is price, stop is a trigger, bracket is all three.'}
+          </T>
         </RevealCard>
       }
       footer={

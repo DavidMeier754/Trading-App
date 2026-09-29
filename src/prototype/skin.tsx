@@ -4,6 +4,7 @@ import Svg, { Defs, Line, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import Atmosphere, { Texture } from '../components/Atmosphere';
 import { GRID } from '../theme';
+import type { CueName } from '../lesson/cues.generated';
 import type { Skin } from './directions';
 import { Press, SOUND, T, useProto, type Proto } from './kit';
 
@@ -241,12 +242,15 @@ export function SkinKey({
   onPress,
   disabled,
   height = 54,
+  sound = SOUND.advance,
 }: {
   skin: Skin;
   label: string;
   onPress?: () => void;
   disabled?: boolean;
   height?: number;
+  /** A small step (the replay's Next bar) takes the quieter sound. */
+  sound?: CueName | null;
 }) {
   const { p } = useProto();
   const k = skin.key;
@@ -262,7 +266,7 @@ export function SkinKey({
       <Press
         onPress={onPress}
         disabled={disabled}
-        sound={SOUND.advance}
+        sound={sound}
         sink={edge}
         style={{
           height,
@@ -272,7 +276,8 @@ export function SkinKey({
           justifyContent: 'center',
         }}
       >
-        <T v="answer" color={disabled ? p.muted : k.text}>
+        {/* One line, always (David: the Continue button must never break). */}
+        <T v="answer" color={disabled ? p.muted : k.text} lines={1}>
           {label}
         </T>
       </Press>

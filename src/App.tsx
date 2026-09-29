@@ -184,7 +184,9 @@ export default function App() {
                     width={frameWidth}
                     onStart={setEntry}
                     onOpenBench={() => setEntry(TEST_BENCH)}
-                    onOpenPrototype={() => setProto(DEFAULT_LINK)}
+                    onOpenPrototype={(page) =>
+                      setProto(page ? { ...DEFAULT_LINK, screen: page } : DEFAULT_LINK)
+                    }
                   />
                 ) : null}
               </ErrorBoundary>
