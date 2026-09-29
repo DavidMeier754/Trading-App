@@ -601,6 +601,9 @@ function Match() {
             borderColor: state.miss ? p.down : (pair ?? (state.sel ? p.accent : p.line)),
             backgroundColor: state.miss ? p.downTint : state.sel ? p.accentTint : p.surface,
             padding: 10,
+            // The pair's number badge has its own column, kept from the start,
+            // so the text never runs under it and never re-wraps when matched.
+            paddingRight: 32,
             justifyContent: 'center',
           },
           skinned(proto, !!(state.sel || pair || state.miss)),
