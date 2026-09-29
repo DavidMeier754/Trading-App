@@ -259,9 +259,10 @@ npm run smoke                              # from stage WIRE on: every screen re
   - `#scalping-ch3-level-15-2/5` = Scalping Chapter 3.
   - `#all-screens/12` = test bench.
   - Append `?look=arcade` = a different look.
-- **Testing tools** (test builds only) under Settings → Testing:
+- **Testing tools** (test builds only: every development run, so Expo Go, and exports with `EXPO_PUBLIC_TEST_TOOLS=1`) under Settings → Testing:
   - "Skip ahead" jumps to any level.
   - "Refill hearts" refills the hearts.
+  - "Animations" plays the animations of rare moments on a tap: a level opening, lesson complete, a perfect run, a chapter's badge, a new tier, the flame, a lost heart (from `LOOK-BRIEF`).
   - From `LOOP-DAILY` on there is "Advance a day".
 - **Test on your phone**, not on your computer. The checklists below are written for that.
 - **A feeling is enough.** If something bothers you but you cannot say why, describe it in words ("sluggish", "cheap", "confusing") with a screen link.
@@ -729,7 +730,7 @@ Absolutely not:
 3. **Motion** (decision H: calm and high quality): every direction shows its motion on the six screens — the reveal, a screen change, a chart playing out, lesson complete. Calm but never sluggish: a tap finishes or skips any motion.
 4. **Layout variants:** answers in the thumb zone versus today; a proposal for the type scale.
 
-**Not in this stage:** rebuilding the real screens. That is `LOOK-SYSTEM`. One exception, which you chose on 2026-09-29: two text bugs in the real app, from your critique, were fixed here — the stray text and cut-off titles on the map, and the Continue key breaking onto a second line (`LOOK-SYSTEM` items 5 and 6).
+**Not in this stage:** rebuilding the real screens. That is `LOOK-SYSTEM`. One exception, which you chose on 2026-09-29: two text bugs in the real app, from your critique, were fixed here — the stray text and cut-off titles on the map, and the Continue key breaking onto a second line (`LOOK-SYSTEM` items 5 and 6). Also added here at your request of the same day, as testing tools: they show in every development run (Expo Go) without a setting, and an **Animations** page under Settings → Testing plays the animations of rare moments on a tap.
 
 **Model · effort · sessions:** Fable 5.1 · high (else Opus 5.5 · xhigh) · 1–2
 
@@ -845,10 +846,10 @@ Report: the name check · the note for the lawyer · web-address options · logo
     - Letter tiles and number keys play the barely-there `detent`, not the answer tap.
 11. **Settings** (your critique):
     - **Change design:** a button that shows each of the three looks full screen on a real lesson screen, with "Use this design" (today they are small cards to swipe past).
-    - The testing tools move to their own **Development** screen, still in test builds only, with the **Design suggestions** page (today Settings → Testing → Design suggestions): ideas for the look, drawn live, each marked in the mix or not (your wish in `LOOK-BRIEF`).
+    - The testing tools move to their own **Development** screen, still in test builds only, with the **Design suggestions** page (today Settings → Testing → Design suggestions): ideas for the look, drawn live, each marked in the mix or not (your wish in `LOOK-BRIEF`), and the **Animations** page (today Settings → Testing → Animations). Every new animation of a rare moment gets a row there, such as the streak screens in `LOOP-DAILY`.
 12. **The path map** (your answers in `LOOK-BRIEF`, `#prototype/mix/map`):
     - Today's design stays, in the chosen look (you: the list-style maps look too professional and not fun).
-    - Smaller level buttons, 58 pt in a 76 pt ring instead of 72 in 96, so small scenes fit at the sides of the path.
+    - Smaller level buttons, 58 pt in a 76 pt ring instead of 72 in 96, so small scenes fit at the sides of the path. The scenes are drawn in the ground's own ink, as faint as its grid and with no colour, so they fit the background instead of standing out (your note of 2026-09-29).
     - A finished level drops its progress ring and keeps its check; only the level you are on shows a ring.
     - The label beside a level is its title alone, in whole lines (`docs/UI.md` §7.1).
 13. **Clean-up:** once the mix is built, `src/prototype/` goes, with its route and its Settings row. The Design suggestions page moves to the Development screen and stays (item 11).

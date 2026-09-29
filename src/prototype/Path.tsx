@@ -10,7 +10,7 @@ import Svg, { Circle, Path as SvgPath } from 'react-native-svg';
 
 import Icon, { type IconName } from '../home/icons';
 import { EASE_OUT } from '../lesson/motion';
-import { Deco, Gem, GEM, PathLogo, type DecoKind } from './art';
+import { Deco, Gem, GEM, inkOf, PathLogo, type DecoKind } from './art';
 import { HUD, PATH, type MapLevel } from './data';
 import { Press, Row, SOUND, T, useProto } from './kit';
 import { restStyle, SkinKey } from './skin';
@@ -46,21 +46,30 @@ const CARD_H = 210;
 const BONUS_NODE = 48;
 const PURPLE = '#8B5CF6';
 
-/** A scene at a level's free side, where its label is not. */
+/**
+ * A scene at a level's free side, where its label is not: one beside every
+ * level but the one the bonus stands beside. At its size where there is room,
+ * smaller where there is less, and left out below `SCENE_MIN`.
+ */
 const SCENES: Partial<Record<number, { kind: DecoKind; size: number }>> = {
-  0: { kind: 'candles', size: 64 },
-  2: { kind: 'coins', size: 60 },
-  3: { kind: 'gems', size: 54 },
-  6: { kind: 'summit', size: 62 },
-  7: { kind: 'bell', size: 52 },
-  8: { kind: 'chest', size: 60 },
+  0: { kind: 'candles', size: 68 },
+  1: { kind: 'target', size: 60 },
+  2: { kind: 'coins', size: 64 },
+  3: { kind: 'gems', size: 60 },
+  5: { kind: 'hourglass', size: 60 },
+  6: { kind: 'summit', size: 68 },
+  7: { kind: 'bell', size: 60 },
+  8: { kind: 'chest', size: 64 },
 };
+const SCENE_MIN = 40;
 
 type Placed = { l: MapLevel; i: number; x: number; y: number; side: 'left' | 'right' };
 
 export default function PathMap() {
   const proto = useProto();
-  const { width, theme, goto } = proto;
+  const { width, goto, p, skin } = proto;
+  // The scenes are drawn in the ground's ink, as faint as its heavier grid line.
+  const { ink, alpha } = inkOf(skin!.ground.grid[1]);
   const amp = Math.min(64, width * 0.17);
   const cx = width / 2;
   const placed: Placed[] = useMemo(
@@ -109,8 +118,8 @@ export default function PathMap() {
           // The scene stands on the side away from the label, centred in what is left.
           const edge = n.side === 'right' ? 16 : width - 16;
           const near = n.side === 'right' ? n.x - RING / 2 - 8 : n.x + RING / 2 + 8;
-          const room = Math.abs(near - edge);
-          if (room < scene.size) return null;
+          const size = Math.min(scene.size, Math.abs(near - edge));
+          if (size < SCENE_MIN) return null;
           const at = (edge + near) / 2;
           return (
             <View
@@ -118,11 +127,11 @@ export default function PathMap() {
               pointerEvents="none"
               style={{
                 position: 'absolute',
-                left: at - scene.size / 2,
-                top: n.y - scene.size / 2 - 4,
+                left: at - size / 2,
+                top: n.y - size / 2,
               }}
             >
-              <Deco kind={scene.kind} size={scene.size} theme={theme} />
+              <Deco kind={scene.kind} size={size} ink={ink} ground={p.ground} alpha={alpha} />
             </View>
           );
         })}

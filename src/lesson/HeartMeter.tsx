@@ -27,8 +27,10 @@ const FALL_MS = 640;
  * count steps down. The last one greys out. Under reduced motion only the count
  * and the colour change.
  */
-export default function HeartMeter() {
-  const { hearts } = useHearts();
+export default function HeartMeter({ count }: { count?: number } = {}) {
+  // `count` stands in for the learner's hearts on the Animations test page.
+  const live = useHearts().hearts;
+  const hearts = count ?? live;
   const spec = useLookSpec();
   const reduced = useReduceMotion();
   const big = spec.id === 'arcade';
