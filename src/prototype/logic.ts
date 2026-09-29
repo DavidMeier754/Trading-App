@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 
 import type { Grade } from '../lesson/answers';
 import { cue, matchHitFeedback, matchMissFeedback, revealFeedback } from '../lesson/feedback';
+import { emitMood } from '../lesson/look';
 import { CHOICE, MATCH, SCENARIO } from './data';
 import { SOUND } from './kit';
 
@@ -10,6 +11,15 @@ import { SOUND } from './kit';
  * directions so they differ only in how they look and move. Kept deliberately
  * small: enough to click through, not a second lesson player.
  */
+
+/**
+ * A verdict lands: its sound, and the mood the lesson player would send, which
+ * lights the bottom edge of the mix's Neo ground (components/Atmosphere.tsx).
+ */
+function landed(grade: Grade) {
+  revealFeedback(grade);
+  emitMood(grade);
+}
 
 export function useChoice() {
   const [sel, setSel] = useState<number | null>(null);
@@ -24,7 +34,7 @@ export function useChoice() {
   const check = useCallback(() => {
     if (sel === null) return;
     setChecked(true);
-    revealFeedback(sel === CHOICE.correct ? 'correct' : 'wrong');
+    landed(sel === CHOICE.correct ? 'correct' : 'wrong');
   }, [sel]);
   return { sel, choose, checked, check, grade };
 }
@@ -78,7 +88,7 @@ export function useMatch() {
     : null;
   const check = () => {
     setChecked(true);
-    revealFeedback(wrongTaps === 0 ? 'correct' : wrongTaps === 1 ? 'amber' : 'wrong');
+    landed(wrongTaps === 0 ? 'correct' : wrongTaps === 1 ? 'amber' : 'wrong');
   };
   /** The pair slot a right-hand card belongs to, once matched. */
   const slotOfRight = (j: number): number | undefined => pairs[MATCH.order[j]];
@@ -114,13 +124,14 @@ export function useDecision() {
     setSide(s);
     setPhase('playing');
     cue(SOUND.commit);
+    emitMood('commit');
   };
   const ended = useCallback(() => {
     setPhase('reveal');
     // The verdict sound belongs to the decision, and it comes once the chart
     // has come to rest, not over its movement.
     setSide((s) => {
-      if (s) revealFeedback(gradeOf(s));
+      if (s) landed(gradeOf(s));
       return s;
     });
   }, []);

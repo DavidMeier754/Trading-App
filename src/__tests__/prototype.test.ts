@@ -3,7 +3,7 @@ jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
 
 import { SCENARIO, outcomeResult } from '../prototype/data';
-import { DIRECTION_ORDER, DIRECTIONS } from '../prototype/directions';
+import { DIRECTION_ORDER, DIRECTIONS, MIX_LOOK_ORDER, MIX_LOOKS } from '../prototype/directions';
 import { formingCandle, niceTicks } from '../prototype/kit';
 import { parsePrototypeLink, prototypeRoutes } from '../prototype/Prototype';
 import { contrast } from '../prototype/TypeSheet';
@@ -15,20 +15,35 @@ describe('stage LOOK-BRIEF prototypes', () => {
       screen: 'chart',
       theme: 'dark',
       layout: 'thumb',
+      look: 'neo',
     });
     expect(parsePrototypeLink('prototype/nope/nope', 'layout=today')).toEqual({
-      dir: 'calm',
+      dir: 'mix',
       screen: 'theory',
       theme: 'light',
       layout: 'today',
+      look: 'neo',
     });
+    expect(parsePrototypeLink('prototype/mix/chart', 'theme=dark&design=classicContrast')).toEqual({
+      dir: 'mix',
+      screen: 'chart',
+      theme: 'dark',
+      layout: 'thumb',
+      look: 'classicContrast',
+    });
+    expect(parsePrototypeLink('prototype/mix/map', 'design=nope')?.look).toBe('neo');
     expect(parsePrototypeLink('level-01-1/3', '')).toBeNull();
   });
 
   it('lists every direction, screen and theme for the render test', () => {
     const routes = prototypeRoutes();
-    expect(routes).toHaveLength(3 * 7 * 2 + 3 * 3);
+    // The mix in three looks, the three directions, and their layout variant.
+    expect(routes).toHaveLength(3 * 7 * 2 + 3 * 7 * 2 + 3 * 3);
     expect(new Set(routes).size).toBe(routes.length);
+    for (const r of routes) {
+      const [path, query] = r.split('?');
+      expect(parsePrototypeLink(path, query ?? '')).not.toBeNull();
+    }
   });
 
   it('puts round prices on the axis', () => {
@@ -69,6 +84,22 @@ describe('stage LOOK-BRIEF prototypes', () => {
       }
       expect(DIRECTIONS[id].type.caption.fontSize).toBeGreaterThanOrEqual(13);
       expect(DIRECTIONS[id].type.label.fontSize).toBeGreaterThanOrEqual(13);
+    }
+  });
+
+  it('keeps the mix legible in each of its three looks, light and dark', () => {
+    for (const look of MIX_LOOK_ORDER) {
+      for (const theme of ['light', 'dark'] as const) {
+        const { p, skin } = MIX_LOOKS[look].theme[theme];
+        for (const fg of [p.text, p.muted, p.up, p.down, p.amber, p.accent]) {
+          expect(contrast(fg, p.ground)).toBeGreaterThanOrEqual(4.5);
+        }
+        // The key's label, the live price tag and the match pair badges.
+        expect(contrast(skin.key.text, skin.key.face)).toBeGreaterThanOrEqual(4.5);
+        expect(contrast(p.onAccent, p.accent)).toBeGreaterThanOrEqual(4.5);
+        for (const pair of p.pairs) expect(contrast(p.onAccent, pair)).toBeGreaterThanOrEqual(4.5);
+        expect(skin.look).toBe(look);
+      }
     }
   });
 });

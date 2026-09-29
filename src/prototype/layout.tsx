@@ -43,7 +43,7 @@ export function Screen({
   overlay?: React.ReactNode;
   pad?: number;
 }) {
-  const { layout, p, reduced } = useProto();
+  const { layout, p, reduced, skin } = useProto();
   // When the reveal arrives and does not fit, the body scrolls by exactly the
   // part that would run under the footer, eased (docs/UI.md §2).
   const scroll = useRef<ScrollView | null>(null);
@@ -55,7 +55,8 @@ export function Screen({
   }, [hasReveal, reserve, reduced]);
   const spacer = <View style={{ flexGrow: 1, minHeight: 12 }} />;
   return (
-    <View style={{ flex: 1, backgroundColor: p.ground }}>
+    // The mix stands on today's ground (skin.tsx), drawn under the screen.
+    <View style={{ flex: 1, backgroundColor: skin ? 'transparent' : p.ground }}>
       {header}
       <ScrollView
         ref={scroll}

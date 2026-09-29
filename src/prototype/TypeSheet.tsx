@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import { Enter, Press, Row, SOUND, T, useProto } from './kit';
 import { Screen } from './layout';
+import { SkinKey } from './skin';
 import type { Direction, Palette } from './directions';
 
 /**
@@ -40,7 +41,7 @@ const STEPS: { key: keyof Direction['type']; use: string }[] = [
 ];
 
 export default function TypeSheet() {
-  const { d, p, next } = useProto();
+  const { d, p, next, skin } = useProto();
   const swatch = (name: string, fg: keyof Palette) => {
     const ratio = contrast(p[fg] as string, p.ground);
     return (
@@ -60,7 +61,10 @@ export default function TypeSheet() {
       top={
         <View style={{ gap: 14, paddingTop: 16, paddingBottom: 12 }}>
           <Enter>
-            <T v="label" color={p.accent}>{`${d.name} · type, colour and motion`}</T>
+            <T
+              v="label"
+              color={p.accent}
+            >{`${d.name}${skin ? ` · ${skin.name}` : ''} · type, colour and motion`}</T>
             <T v="caption" color={p.muted}>
               Sizes in points. Nothing a decision depends on goes below 13.
             </T>
@@ -111,21 +115,25 @@ export default function TypeSheet() {
       }
       footer={
         <View style={{ paddingHorizontal: 20, paddingBottom: 20, paddingTop: 8 }}>
-          <Press
-            onPress={next}
-            sound={SOUND.advance}
-            style={{
-              height: 52,
-              borderRadius: d.radius,
-              backgroundColor: p.accent,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <T v="answer" color={p.onAccent}>
-              Back to the start
-            </T>
-          </Press>
+          {skin ? (
+            <SkinKey skin={skin} label="Back to the start" onPress={next} height={52} />
+          ) : (
+            <Press
+              onPress={next}
+              sound={SOUND.advance}
+              style={{
+                height: 52,
+                borderRadius: d.radius,
+                backgroundColor: p.accent,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <T v="answer" color={p.onAccent}>
+                Back to the start
+              </T>
+            </Press>
+          )}
         </View>
       }
     />

@@ -18,15 +18,37 @@ import {
 } from './kit';
 import { Ring, Screen } from './layout';
 import { decisionCopy, useChoice, useDecision, useMatch } from './logic';
+import { restStyle, SkinKey, SkinProgress } from './skin';
 import type { ScreenId } from './directions';
+import type { Proto } from './kit';
 
 /**
  * Direction 1, "Calm": quiet paper. Hairlines instead of shadows, one accent,
  * full-width answer rows, a reveal that fades up into a slot kept free for it.
+ *
+ * The same screens are the mix (directions.ts): with a skin in the context
+ * they stand on one of today's designs -- its ground, surfaces, key and
+ * progress bar -- and take Precise's chart and trade log. Without one they
+ * are Calm, unchanged.
  */
 
+/**
+ * The mix's surface over Calm's own style: at rest the design's surface, and
+ * lit by a state (a selection, a verdict) only its corners and line width, so
+ * the state's colours stay Calm's. Null for Calm itself.
+ */
+function skinned(proto: Proto, lit: boolean) {
+  const { skin } = proto;
+  if (!skin) return null;
+  if (!lit) return restStyle(proto);
+  return {
+    borderRadius: skin.surface.radius,
+    borderWidth: Math.max(1.5, skin.surface.borderWidth),
+  };
+}
+
 function TopBar({ step }: { step: number }) {
-  const { p } = useProto();
+  const { p, skin } = useProto();
   return (
     <Row
       gap={14}
@@ -46,11 +68,20 @@ function TopBar({ step }: { step: number }) {
           ✕
         </T>
       </Press>
-      <View style={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: p.line }}>
-        <View
-          style={{ width: `${step * 100}%`, height: 4, borderRadius: 2, backgroundColor: p.accent }}
-        />
-      </View>
+      {skin ? (
+        <SkinProgress skin={skin} step={step} />
+      ) : (
+        <View style={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: p.line }}>
+          <View
+            style={{
+              width: `${step * 100}%`,
+              height: 4,
+              borderRadius: 2,
+              backgroundColor: p.accent,
+            }}
+          />
+        </View>
+      )}
       <Row gap={4}>
         <Icon name="heart" size={18} color={p.down} filled />
         <T v="label" num color={p.muted}>
@@ -72,7 +103,13 @@ function Cta({
   disabled?: boolean;
   tone?: string;
 }) {
-  const { p, d } = useProto();
+  const { p, d, skin } = useProto();
+  if (skin)
+    return (
+      <View style={{ paddingHorizontal: 20, paddingTop: 8, paddingBottom: 20 }}>
+        <SkinKey skin={skin} label={label} onPress={onPress} disabled={disabled} />
+      </View>
+    );
   return (
     <View style={{ paddingHorizontal: 20, paddingTop: 8, paddingBottom: 20 }}>
       <Press
@@ -202,7 +239,8 @@ function Theory() {
 }
 
 function Choice() {
-  const { p, d, next } = useProto();
+  const proto = useProto();
+  const { p, d, next } = proto;
   const q = useChoice();
   return (
     <Screen
@@ -227,23 +265,26 @@ function Choice() {
                 role="radio"
                 label={o}
                 onPress={() => q.choose(i)}
-                style={{
-                  minHeight: 56,
-                  borderRadius: d.radius,
-                  borderWidth: chosen || right ? 1.5 : 1,
-                  borderColor: edge,
-                  backgroundColor: right
-                    ? p.upTint
-                    : wrong
-                      ? p.downTint
-                      : chosen
-                        ? p.accentTint
-                        : p.surface,
-                  paddingHorizontal: 16,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 14,
-                }}
+                style={[
+                  {
+                    minHeight: 56,
+                    borderRadius: d.radius,
+                    borderWidth: chosen || right ? 1.5 : 1,
+                    borderColor: edge,
+                    backgroundColor: right
+                      ? p.upTint
+                      : wrong
+                        ? p.downTint
+                        : chosen
+                          ? p.accentTint
+                          : p.surface,
+                    paddingHorizontal: 16,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 14,
+                  },
+                  skinned(proto, chosen || right),
+                ]}
               >
                 <View
                   style={{
@@ -300,7 +341,8 @@ function Choice() {
 }
 
 function Chart() {
-  const { p, d, width, next } = useProto();
+  const proto = useProto();
+  const { p, d, width, next, skin } = proto;
   const m = useDecision();
   const all = [...SCENARIO.history, ...SCENARIO.outcome];
   const n0 = SCENARIO.history.length;
@@ -331,24 +373,65 @@ function Chart() {
           </Enter>
           <Enter i={1} style={{ marginTop: 12 }}>
             <Press sound={null} onPress={play.skip} label="Chart. Tap to finish the playback.">
-              <CandleChart
-                candles={all}
-                shown={shown}
-                width={width - 40}
-                height={196}
-                kind="calm"
-                splitAt={n0}
-                hideAfterSplit={m.phase === 'decide'}
-                extent={[SCENARIO.stop, SCENARIO.target]}
-                lines={
-                  m.phase === 'decide'
-                    ? []
-                    : [
-                        { price: SCENARIO.target, label: 'Target', color: p.up, dash: true },
-                        { price: SCENARIO.stop, label: 'Stop', color: p.down, dash: true },
-                      ]
-                }
-              />
+              {skin ? (
+                // The mix: Precise's chart on a panel of the design's surface,
+                // so the ground's grid does not run through the candles.
+                <View style={[restStyle(proto), { paddingVertical: 6, paddingLeft: 6 }]}>
+                  <CandleChart
+                    candles={all}
+                    shown={shown}
+                    width={width - 40 - 6 - 2 * skin.surface.borderWidth}
+                    height={196}
+                    kind="mix"
+                    splitAt={n0}
+                    hideAfterSplit={m.phase === 'decide'}
+                    extent={[SCENARIO.stop, SCENARIO.target]}
+                    lines={[
+                      {
+                        price: SCENARIO.entry,
+                        label: `Entry ${SCENARIO.entry.toFixed(2)}`,
+                        color: p.muted,
+                        dash: true,
+                      },
+                      ...(m.phase === 'decide'
+                        ? []
+                        : [
+                            {
+                              price: SCENARIO.target,
+                              label: `Target ${SCENARIO.target.toFixed(2)}`,
+                              color: p.up,
+                              dash: true,
+                            },
+                            {
+                              price: SCENARIO.stop,
+                              label: `Stop ${SCENARIO.stop.toFixed(2)}`,
+                              color: p.down,
+                              dash: true,
+                            },
+                          ]),
+                    ]}
+                  />
+                </View>
+              ) : (
+                <CandleChart
+                  candles={all}
+                  shown={shown}
+                  width={width - 40}
+                  height={196}
+                  kind="calm"
+                  splitAt={n0}
+                  hideAfterSplit={m.phase === 'decide'}
+                  extent={[SCENARIO.stop, SCENARIO.target]}
+                  lines={
+                    m.phase === 'decide'
+                      ? []
+                      : [
+                          { price: SCENARIO.target, label: 'Target', color: p.up, dash: true },
+                          { price: SCENARIO.stop, label: 'Stop', color: p.down, dash: true },
+                        ]
+                  }
+                />
+              )}
             </Press>
           </Enter>
         </>
@@ -357,28 +440,32 @@ function Chart() {
         copy && m.phase === 'reveal' ? (
           <RevealCard show tone={tone} tint={tint} title={copy.chip}>
             <T v="body">{copy.first}</T>
-            <View
-              style={{
-                borderRadius: 8,
-                backgroundColor: p.surface,
-                padding: 10,
-                gap: 2,
-                marginTop: 4,
-              }}
-            >
-              <T v="caption" color={p.muted}>
-                {copy.outcome}
-              </T>
-              {res ? (
-                <T v="label" num color={res.total < 0 ? p.down : p.up}>
-                  {`${money(res.total)} on ${SCENARIO.shares} shares · ${res.r < 0 ? '−' : '+'}${Math.abs(res.r).toFixed(1)}R`}
+            {skin ? (
+              <TradeLog side={m.side!} />
+            ) : (
+              <View
+                style={{
+                  borderRadius: 8,
+                  backgroundColor: p.surface,
+                  padding: 10,
+                  gap: 2,
+                  marginTop: 4,
+                }}
+              >
+                <T v="caption" color={p.muted}>
+                  {copy.outcome}
                 </T>
-              ) : (
-                <T v="label" num color={p.muted}>
-                  Had you bought: −$0.12 per share
-                </T>
-              )}
-            </View>
+                {res ? (
+                  <T v="label" num color={res.total < 0 ? p.down : p.up}>
+                    {`${money(res.total)} on ${SCENARIO.shares} shares · ${res.r < 0 ? '−' : '+'}${Math.abs(res.r).toFixed(1)}R`}
+                  </T>
+                ) : (
+                  <T v="label" num color={p.muted}>
+                    Had you bought: −$0.12 per share
+                  </T>
+                )}
+              </View>
+            )}
             {m.side === 'long' && (
               <T v="caption" color={p.text}>
                 Right call — this trade lost anyway. This setup loses about 4 in 10 times.{' '}
@@ -415,15 +502,18 @@ function Chart() {
                   sound={null}
                   disabled={m.phase !== 'decide'}
                   onPress={() => m.choose(s)}
-                  style={{
-                    height: 54,
-                    borderRadius: d.radius,
-                    borderWidth: 1,
-                    borderColor: m.side === s ? p.accent : p.lineStrong,
-                    backgroundColor: m.side === s ? p.accentTint : p.surface,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
+                  style={[
+                    {
+                      height: 54,
+                      borderRadius: d.radius,
+                      borderWidth: 1,
+                      borderColor: m.side === s ? p.accent : p.lineStrong,
+                      backgroundColor: m.side === s ? p.accentTint : p.surface,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    },
+                    skinned(proto, m.side === s),
+                  ]}
                 >
                   <T v="answer">{label}</T>
                 </Press>
@@ -436,8 +526,59 @@ function Chart() {
   );
 }
 
+/**
+ * The mix's result block, from Precise: the outcome sentence, then the trade
+ * as a short log with its numbers lined up in the number face. It stays a
+ * neutral block under the grade (docs/UI.md §5.1b); only the numbers carry
+ * their sign's colour.
+ */
+function TradeLog({ side }: { side: 'long' | 'short' | 'none' }) {
+  const { p } = useProto();
+  const res = side !== 'none' ? outcomeResult(side) : null;
+  const sign = res && res.total < 0 ? p.down : p.up;
+  // [label, value, colour, a number (set in the number face)]
+  const rows: [string, string, string, boolean][] = res
+    ? [
+        ['Outcome', side === 'long' ? 'Stopped out' : 'Won this time', p.text, false],
+        ['Result', `${money(res.total)} on ${SCENARIO.shares} shares`, sign, true],
+        ['In R', `${res.r < 0 ? '−' : '+'}${Math.abs(res.r).toFixed(1)}R`, sign, true],
+      ]
+    : [
+        ['Outcome', 'Stood aside', p.text, false],
+        ['Had you bought', '−$0.12 per share', p.muted, true],
+      ];
+  return (
+    <View
+      style={{
+        borderRadius: 8,
+        backgroundColor: p.surface,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        marginTop: 4,
+      }}
+    >
+      <T v="caption" color={p.muted}>
+        {decisionCopy(side).outcome}
+      </T>
+      <View style={{ marginTop: 6, borderTopWidth: 1, borderTopColor: p.line, paddingTop: 2 }}>
+        {rows.map(([k, v, color, isNum]) => (
+          <Row key={k} style={{ justifyContent: 'space-between', paddingVertical: 3 }}>
+            <T v="caption" color={p.muted}>
+              {k}
+            </T>
+            <T v="label" num={isNum} color={color}>
+              {v}
+            </T>
+          </Row>
+        ))}
+      </View>
+    </View>
+  );
+}
+
 function Match() {
-  const { p, d, next } = useProto();
+  const proto = useProto();
+  const { p, d, next } = proto;
   const mt = useMatch();
   const card = (
     text: string,
@@ -451,16 +592,23 @@ function Match() {
         key={key}
         onPress={onPress}
         sound={null}
-        style={{
-          flex: 1,
-          minHeight: 68,
-          borderRadius: d.radius,
-          borderWidth: state.sel || pair || state.miss ? 1.5 : 1,
-          borderColor: state.miss ? p.down : (pair ?? (state.sel ? p.accent : p.line)),
-          backgroundColor: state.miss ? p.downTint : state.sel ? p.accentTint : p.surface,
-          padding: 10,
-          justifyContent: 'center',
-        }}
+        style={[
+          {
+            flex: 1,
+            minHeight: 68,
+            borderRadius: d.radius,
+            borderWidth: state.sel || pair || state.miss ? 1.5 : 1,
+            borderColor: state.miss ? p.down : (pair ?? (state.sel ? p.accent : p.line)),
+            backgroundColor: state.miss ? p.downTint : state.sel ? p.accentTint : p.surface,
+            padding: 10,
+            justifyContent: 'center',
+          },
+          skinned(proto, !!(state.sel || pair || state.miss)),
+          // A matched card keeps the design's surface under its pair colour.
+          pair && !state.sel && !state.miss && proto.skin
+            ? { backgroundColor: proto.skin.surface.background }
+            : null,
+        ]}
       >
         <T v="label" color={p.text}>
           {text}
@@ -620,10 +768,11 @@ function Complete() {
 }
 
 function Map() {
-  const { p, d, next } = useProto();
+  const proto = useProto();
+  const { p, d, next, skin } = proto;
   const current = MAP.levels.find((l) => l.state === 'current')!;
   return (
-    <View style={{ flex: 1, backgroundColor: p.ground }}>
+    <View style={{ flex: 1, backgroundColor: skin ? 'transparent' : p.ground }}>
       <Row style={{ paddingHorizontal: 20, paddingTop: 14, justifyContent: 'space-between' }}>
         <T v="label" color={p.text}>
           Nutrade
@@ -732,14 +881,17 @@ function Map() {
         answers={
           <Enter i={1}>
             <View
-              style={{
-                borderRadius: d.radius,
-                borderWidth: 1,
-                borderColor: p.line,
-                backgroundColor: p.surface,
-                padding: 16,
-                gap: 4,
-              }}
+              style={[
+                {
+                  borderRadius: d.radius,
+                  borderWidth: 1,
+                  borderColor: p.line,
+                  backgroundColor: p.surface,
+                  padding: 16,
+                  gap: 4,
+                },
+                skinned(proto, false),
+              ]}
             >
               <T v="caption" color={p.muted}>
                 Up next
@@ -749,22 +901,28 @@ function Map() {
                 v="body"
                 color={p.muted}
               >{`Lesson ${current.done + 1} of ${current.lessons} · about 3 min`}</T>
-              <Press
-                onPress={next}
-                sound={SOUND.advance}
-                style={{
-                  marginTop: 12,
-                  height: 52,
-                  borderRadius: d.radius,
-                  backgroundColor: p.accent,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <T v="answer" color={p.onAccent}>
-                  Continue
-                </T>
-              </Press>
+              {skin ? (
+                <View style={{ marginTop: 12 }}>
+                  <SkinKey skin={skin} label="Continue" onPress={next} height={52} />
+                </View>
+              ) : (
+                <Press
+                  onPress={next}
+                  sound={SOUND.advance}
+                  style={{
+                    marginTop: 12,
+                    height: 52,
+                    borderRadius: d.radius,
+                    backgroundColor: p.accent,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <T v="answer" color={p.onAccent}>
+                    Continue
+                  </T>
+                </Press>
+              )}
             </View>
           </Enter>
         }

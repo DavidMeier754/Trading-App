@@ -168,7 +168,7 @@ export default function SettingsScreen({
             <RowButton
               icon="flask"
               title="Design directions"
-              sub="The three looks from stage LOOK-BRIEF, full screen"
+              sub="Your mix and the three directions of stage LOOK-BRIEF, full screen"
               onPress={onOpenPrototype}
             />
           </>

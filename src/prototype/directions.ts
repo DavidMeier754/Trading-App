@@ -5,9 +5,14 @@ import { Platform } from 'react-native';
  * the screens and the copy (data.ts) and nothing else -- ground, type, shape,
  * layout of the answers, where the reveal lives and how things move are each
  * direction's own. Nothing outside src/prototype reads this file.
+ *
+ * The fourth, `mix`, is David's answer (2026-09-29): Calm as the base, on the
+ * ground, surfaces, key and progress bar of today's designs Neo, Neo Mono and
+ * Classic Contrast, with a few parts of Precise. It is Calm's screens in a
+ * skin (MIX_LOOKS below), not a fifth set of screens.
  */
 
-export type DirectionId = 'calm' | 'playful' | 'precise';
+export type DirectionId = 'mix' | 'calm' | 'playful' | 'precise';
 export type ThemeId = 'light' | 'dark';
 export type LayoutId = 'thumb' | 'today';
 
@@ -75,7 +80,339 @@ const mono = Platform.select({
   default: undefined,
 });
 
+/** Calm's type scale, which the mix keeps. */
+const CALM_TYPE: Direction['type'] = {
+  display: { fontSize: 30, lineHeight: 38, fontWeight: '600' },
+  title: { fontSize: 23, lineHeight: 31, fontWeight: '600' },
+  prompt: { fontSize: 20, lineHeight: 28, fontWeight: '500' },
+  body: { fontSize: 17, lineHeight: 26, fontWeight: '400' },
+  answer: { fontSize: 17, lineHeight: 24, fontWeight: '500' },
+  label: { fontSize: 14, lineHeight: 20, fontWeight: '500' },
+  caption: { fontSize: 13, lineHeight: 18, fontWeight: '400' },
+};
+
+// ---------------------------------------------------------------------------
+// The mix: Calm on today's designs
+// ---------------------------------------------------------------------------
+
+/** The three of today's nine designs that ship (docs/UI.md §10). */
+export type MixLookId = 'neo' | 'neoMono' | 'classicContrast';
+export const MIX_LOOK_ORDER: MixLookId[] = ['neo', 'neoMono', 'classicContrast'];
+
+/**
+ * What a design of today (src/lesson/look.ts) brings to the mix: the ground
+ * under everything, the resting surface of an answer or a card, the key (the
+ * main button) and the progress bar. The dark values are today's own; the
+ * light ones are new, because today's designs only come in dark.
+ */
+export type Skin = {
+  look: MixLookId;
+  name: string;
+  ground: {
+    grain: boolean;
+    /** The hairline grid: a cell line and every fourth, heavier one. */
+    grid: [string, string];
+    /** The soft light at the top edge, in this colour; null for none. */
+    glow: string | null;
+    vignette: boolean;
+    /** Light from the bottom edge when an answer lands (components/Atmosphere.tsx). */
+    edgeLight: boolean;
+  };
+  surface: {
+    background: string;
+    border: string;
+    /** A lighter top border: glass catching the light. */
+    borderTop?: string;
+    radius: number;
+    borderWidth: number;
+  };
+  key: { face: string; rim: string; text: string; radius: number; edge: number };
+  progress: 'tape' | 'bead' | 'bold';
+  /** The empty part of the progress bar. */
+  track: string;
+};
+
+const DARK_TEXT = {
+  text: '#E8ECF1',
+  muted: '#93A0B1',
+  up: '#26C281',
+  down: '#F0574F',
+  amber: '#E5A23C',
+  upTint: 'rgba(38, 194, 129, 0.14)',
+  downTint: 'rgba(240, 87, 79, 0.14)',
+  amberTint: 'rgba(229, 162, 60, 0.14)',
+};
+const LIGHT_TEXT = {
+  text: '#121821',
+  muted: '#4E5967',
+  up: '#157347',
+  down: '#BF2F2A',
+  amber: '#895800',
+  upTint: 'rgba(21, 115, 71, 0.10)',
+  downTint: 'rgba(191, 47, 42, 0.09)',
+  amberTint: 'rgba(137, 88, 0, 0.10)',
+};
+const DARK_GRID: [string, string] = ['rgba(255, 255, 255, 0.075)', 'rgba(255, 255, 255, 0.15)'];
+const DARK_PAIRS: Palette['pairs'] = ['#4C8DFF', '#26C281', '#B18CFF', '#E5A23C'];
+const LIGHT_PAIRS: Palette['pairs'] = ['#2360D8', '#157347', '#7B4FD0', '#A9560F'];
+
+export const MIX_LOOKS: Record<
+  MixLookId,
+  { name: string; blurb: string; theme: Record<ThemeId, { p: Palette; skin: Skin }> }
+> = {
+  neo: {
+    name: 'Neo',
+    blurb: 'Grain, glass and a blue key that sinks when pressed.',
+    theme: {
+      dark: {
+        p: {
+          ground: '#0E1116',
+          surface: 'rgba(23, 28, 35, 0.62)',
+          surfaceAlt: '#1F2630',
+          line: 'rgba(255, 255, 255, 0.10)',
+          lineStrong: 'rgba(255, 255, 255, 0.24)',
+          ...DARK_TEXT,
+          accent: '#4C8DFF',
+          onAccent: '#0B1220',
+          accentTint: 'rgba(76, 141, 255, 0.14)',
+          pairs: DARK_PAIRS,
+        },
+        skin: {
+          look: 'neo',
+          name: 'Neo',
+          ground: {
+            grain: true,
+            grid: DARK_GRID,
+            glow: '#4C8DFF',
+            vignette: true,
+            edgeLight: true,
+          },
+          surface: {
+            background: 'rgba(23, 28, 35, 0.62)',
+            border: 'rgba(255, 255, 255, 0.13)',
+            borderTop: 'rgba(255, 255, 255, 0.26)',
+            radius: 10,
+            borderWidth: 1.5,
+          },
+          // Today's blue (#4C8DFF) holds white text at 3.2 : 1; one shade
+          // deeper it holds 4.6 : 1, which LOOK-SYSTEM's contrast rule asks for.
+          key: { face: '#2F6FEB', rim: '#2257C4', text: '#FFFFFF', radius: 12, edge: 4 },
+          progress: 'tape',
+          track: 'rgba(255, 255, 255, 0.09)',
+        },
+      },
+      light: {
+        p: {
+          ground: '#EEF1F5',
+          surface: 'rgba(255, 255, 255, 0.74)',
+          surfaceAlt: '#DEE3EA',
+          line: 'rgba(16, 24, 40, 0.10)',
+          lineStrong: 'rgba(16, 24, 40, 0.22)',
+          ...LIGHT_TEXT,
+          accent: '#2360D8',
+          onAccent: '#FFFFFF',
+          accentTint: 'rgba(35, 96, 216, 0.10)',
+          pairs: LIGHT_PAIRS,
+        },
+        skin: {
+          look: 'neo',
+          name: 'Neo',
+          ground: {
+            grain: true,
+            grid: ['rgba(16, 24, 40, 0.06)', 'rgba(16, 24, 40, 0.11)'],
+            glow: '#2360D8',
+            vignette: false,
+            edgeLight: true,
+          },
+          surface: {
+            background: 'rgba(255, 255, 255, 0.74)',
+            border: 'rgba(16, 24, 40, 0.12)',
+            radius: 10,
+            borderWidth: 1.5,
+          },
+          key: { face: '#2360D8', rim: '#1A48A6', text: '#FFFFFF', radius: 12, edge: 4 },
+          progress: 'tape',
+          track: 'rgba(16, 24, 40, 0.10)',
+        },
+      },
+    },
+  },
+  neoMono: {
+    name: 'Neo Mono',
+    blurb: 'Neo in black and white, with a pill key and a bead of light.',
+    theme: {
+      dark: {
+        p: {
+          ground: '#0B0C0E',
+          surface: 'rgba(24, 26, 30, 0.6)',
+          surfaceAlt: '#1C1E22',
+          line: 'rgba(255, 255, 255, 0.09)',
+          lineStrong: 'rgba(255, 255, 255, 0.28)',
+          ...DARK_TEXT,
+          accent: '#E9ECF1',
+          onAccent: '#0B0C0E',
+          accentTint: 'rgba(233, 236, 241, 0.10)',
+          pairs: ['#E9ECF1', '#26C281', '#B18CFF', '#E5A23C'],
+        },
+        skin: {
+          look: 'neoMono',
+          name: 'Neo Mono',
+          ground: {
+            grain: true,
+            grid: DARK_GRID,
+            glow: '#E9ECF1',
+            vignette: true,
+            edgeLight: true,
+          },
+          surface: {
+            background: 'rgba(24, 26, 30, 0.6)',
+            border: 'rgba(255, 255, 255, 0.10)',
+            borderTop: 'rgba(255, 255, 255, 0.30)',
+            radius: 14,
+            borderWidth: 1,
+          },
+          key: { face: '#F1F3F6', rim: '#8E96A3', text: '#0B0C0E', radius: 26, edge: 0 },
+          progress: 'bead',
+          track: 'rgba(255, 255, 255, 0.12)',
+        },
+      },
+      light: {
+        p: {
+          ground: '#F1F2F4',
+          surface: 'rgba(255, 255, 255, 0.8)',
+          surfaceAlt: '#E2E4E8',
+          line: 'rgba(0, 0, 0, 0.09)',
+          lineStrong: 'rgba(0, 0, 0, 0.24)',
+          ...LIGHT_TEXT,
+          accent: '#15171B',
+          onAccent: '#FFFFFF',
+          accentTint: 'rgba(21, 23, 27, 0.07)',
+          pairs: ['#15171B', '#157347', '#7B4FD0', '#A9560F'],
+        },
+        skin: {
+          look: 'neoMono',
+          name: 'Neo Mono',
+          ground: {
+            grain: true,
+            grid: ['rgba(0, 0, 0, 0.055)', 'rgba(0, 0, 0, 0.10)'],
+            glow: null,
+            vignette: false,
+            edgeLight: true,
+          },
+          surface: {
+            background: 'rgba(255, 255, 255, 0.8)',
+            border: 'rgba(0, 0, 0, 0.09)',
+            radius: 14,
+            borderWidth: 1,
+          },
+          key: { face: '#15171B', rim: '#000000', text: '#FFFFFF', radius: 26, edge: 0 },
+          progress: 'bead',
+          track: 'rgba(0, 0, 0, 0.12)',
+        },
+      },
+    },
+  },
+  classicContrast: {
+    name: 'Classic Contrast',
+    blurb: 'Pure black or white, strong outlines and a bold bar.',
+    theme: {
+      dark: {
+        p: {
+          ground: '#000000',
+          surface: '#000000',
+          surfaceAlt: '#1A1A1A',
+          line: 'rgba(255, 255, 255, 0.28)',
+          lineStrong: 'rgba(255, 255, 255, 0.62)',
+          ...DARK_TEXT,
+          accent: '#4FA8FF',
+          onAccent: '#000000',
+          accentTint: 'rgba(79, 168, 255, 0.16)',
+          pairs: ['#4FA8FF', '#26C281', '#B18CFF', '#E5A23C'],
+        },
+        skin: {
+          look: 'classicContrast',
+          name: 'Classic Contrast',
+          ground: { grain: false, grid: DARK_GRID, glow: null, vignette: false, edgeLight: false },
+          surface: {
+            background: '#000000',
+            border: 'rgba(255, 255, 255, 0.62)',
+            radius: 6,
+            borderWidth: 2,
+          },
+          key: { face: '#FFFFFF', rim: '#B8C0CA', text: '#000000', radius: 6, edge: 0 },
+          progress: 'bold',
+          track: '#000000',
+        },
+      },
+      light: {
+        p: {
+          ground: '#FFFFFF',
+          surface: '#FFFFFF',
+          surfaceAlt: '#EDEDED',
+          line: 'rgba(0, 0, 0, 0.22)',
+          lineStrong: 'rgba(0, 0, 0, 0.7)',
+          ...LIGHT_TEXT,
+          accent: '#0A58CA',
+          onAccent: '#FFFFFF',
+          accentTint: 'rgba(10, 88, 202, 0.10)',
+          pairs: LIGHT_PAIRS,
+        },
+        skin: {
+          look: 'classicContrast',
+          name: 'Classic Contrast',
+          ground: {
+            grain: false,
+            grid: ['rgba(0, 0, 0, 0.06)', 'rgba(0, 0, 0, 0.12)'],
+            glow: null,
+            vignette: false,
+            edgeLight: false,
+          },
+          surface: {
+            background: '#FFFFFF',
+            border: 'rgba(0, 0, 0, 0.78)',
+            radius: 6,
+            borderWidth: 2,
+          },
+          key: { face: '#000000', rim: '#000000', text: '#FFFFFF', radius: 6, edge: 0 },
+          progress: 'bold',
+          track: '#FFFFFF',
+        },
+      },
+    },
+  },
+};
+
+export function isMixLook(s: string | null | undefined): s is MixLookId {
+  return !!s && s in MIX_LOOKS;
+}
+
+/** The mix as a direction, in one of its three looks. */
+export function mixDirection(look: MixLookId): Direction {
+  const l = MIX_LOOKS[look];
+  return {
+    id: 'mix',
+    name: 'Mix',
+    axis: "Calm on today's designs, with Precise's chart and numbers",
+    pitch: [
+      "Calm's screens on the ground of today's designs: Neo's grain, glass and blue key, Neo Mono in black and white, or Classic Contrast with its strong outlines.",
+      'The question stays at the top and the answers sit right above the button, and the reveal rises into space that was already free, so nothing jumps and nothing overlaps.',
+      'From Precise it takes the numbers in a monospaced face and the chart: candles that form like real ones, a live price tag and labelled levels, and the trade log in the reveal.',
+    ],
+    palettes: { light: l.theme.light.p, dark: l.theme.dark.p },
+    numberFont: mono,
+    type: CALM_TYPE,
+    radius: l.theme.dark.skin.surface.radius,
+    motion: {
+      screen: 'Cross-fade with a 6 pt rise, 320 ms, ease-out',
+      reveal: 'Panel fades up 8 pt, 280 ms, no bounce',
+      chart: 'Candles form with a live price tag, 360 ms each',
+      complete: 'The ring fills once, 900 ms; numbers appear, they do not count',
+    },
+  };
+}
+
 export const DIRECTIONS: Record<DirectionId, Direction> = {
+  mix: mixDirection('neo'),
   calm: {
     id: 'calm',
     name: 'Calm',
@@ -125,15 +462,7 @@ export const DIRECTIONS: Record<DirectionId, Direction> = {
         pairs: ['#7EA8FF', '#46C28C', '#C39BF0', '#E9A15F'],
       },
     },
-    type: {
-      display: { fontSize: 30, lineHeight: 38, fontWeight: '600' },
-      title: { fontSize: 23, lineHeight: 31, fontWeight: '600' },
-      prompt: { fontSize: 20, lineHeight: 28, fontWeight: '500' },
-      body: { fontSize: 17, lineHeight: 26, fontWeight: '400' },
-      answer: { fontSize: 17, lineHeight: 24, fontWeight: '500' },
-      label: { fontSize: 14, lineHeight: 20, fontWeight: '500' },
-      caption: { fontSize: 13, lineHeight: 18, fontWeight: '400' },
-    },
+    type: CALM_TYPE,
     radius: 12,
     motion: {
       screen: 'Cross-fade with a 6 pt rise, 320 ms, ease-out',
@@ -278,7 +607,7 @@ export const DIRECTIONS: Record<DirectionId, Direction> = {
   },
 };
 
-export const DIRECTION_ORDER: DirectionId[] = ['calm', 'playful', 'precise'];
+export const DIRECTION_ORDER: DirectionId[] = ['mix', 'calm', 'playful', 'precise'];
 
 export type ScreenId = 'theory' | 'choice' | 'chart' | 'match' | 'complete' | 'map' | 'type';
 

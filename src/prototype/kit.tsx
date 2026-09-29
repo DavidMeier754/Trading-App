@@ -22,7 +22,7 @@ import { cue } from '../lesson/feedback';
 import type { CueName } from '../lesson/cues.generated';
 import { EASE_OUT } from '../lesson/motion';
 import type { Candle } from './data';
-import type { Direction, LayoutId, Palette, ThemeId, TypeStep } from './directions';
+import type { Direction, LayoutId, Palette, Skin, ThemeId, TypeStep } from './directions';
 
 /**
  * The prototype's shared kit: the context every direction's screens read, text
@@ -41,6 +41,8 @@ export type Proto = {
   height: number;
   /** The prototype's own Continue: on to the next of the six screens. */
   next: () => void;
+  /** The mix only: the design of today it wears (skin.tsx). */
+  skin?: Skin;
 };
 
 const Ctx = createContext<Proto | null>(null);
@@ -69,6 +71,25 @@ export function textStyle(d: Direction, v: Variant): TextStyle {
   };
 }
 
+/** A number in running text: a sign, a dollar, digits, a decimal part, then % or R. */
+const NUMBER = /([−+-]?\$?\d[\d,]*(?:\.\d+)?(?:\s?%|R)?)/;
+
+/**
+ * The mix sets only the numbers in the number face and leaves the words around
+ * them in the text face ("4 won, 3 lost"); Precise sets the whole line in it.
+ */
+function numberRuns(text: string, font: string | undefined): React.ReactNode[] {
+  return text.split(NUMBER).map((part, i) =>
+    i % 2 === 1 ? (
+      <Text key={i} style={{ fontFamily: font }}>
+        {part}
+      </Text>
+    ) : (
+      part
+    ),
+  );
+}
+
 export function T({
   v = 'body',
   color,
@@ -90,6 +111,10 @@ export function T({
   lines?: number;
 }) {
   const { d, p } = useProto();
+  const runs =
+    num && d.id === 'mix' && typeof children === 'string'
+      ? numberRuns(children, d.numberFont)
+      : null;
   return (
     <Text
       numberOfLines={lines}
@@ -97,12 +122,15 @@ export function T({
         textStyle(d, v),
         { color: color ?? p.text },
         upper && { textTransform: 'uppercase' },
-        num && { fontVariant: ['tabular-nums'], fontFamily: d.numberFont ?? d.font },
+        num && {
+          fontVariant: ['tabular-nums'],
+          fontFamily: runs ? d.font : (d.numberFont ?? d.font),
+        },
         center && { textAlign: 'center' },
         style,
       ]}
     >
-      {children}
+      {runs ?? children}
     </Text>
   );
 }
@@ -192,17 +220,19 @@ export function Enter({
   children: React.ReactNode;
 }) {
   const { d, reduced } = useProto();
+  // The mix moves like Calm, its base.
+  const moves = d.id === 'mix' ? 'calm' : d.id;
   const t = useSharedValue(reduced ? 1 : 0);
   useEffect(() => {
     if (reduced) return;
-    if (d.id === 'calm') t.set(withTiming(1, { duration: 320, easing: EASE_OUT }));
-    else if (d.id === 'playful') t.set(withSpring(1, { duration: 420, dampingRatio: 0.78 }));
+    if (moves === 'calm') t.set(withTiming(1, { duration: 320, easing: EASE_OUT }));
+    else if (moves === 'playful') t.set(withSpring(1, { duration: 420, dampingRatio: 0.78 }));
     else t.set(withDelay(i * 40, withTiming(1, { duration: 200, easing: EASE_OUT })));
-  }, [d.id, i, reduced, t]);
+  }, [moves, i, reduced, t]);
   const style2 = useAnimatedStyle(() => {
     const v = t.get();
-    if (d.id === 'calm') return { opacity: v, transform: [{ translateY: (1 - v) * 6 }] };
-    if (d.id === 'playful')
+    if (moves === 'calm') return { opacity: v, transform: [{ translateY: (1 - v) * 6 }] };
+    if (moves === 'playful')
       return { opacity: Math.min(1, v * 1.6), transform: [{ translateX: (1 - v) * 48 }] };
     return { opacity: v, transform: [{ translateY: (1 - v) * 3 }] };
   });
@@ -368,10 +398,13 @@ export function niceTicks(lo: number, hi: number, want = 4): number[] {
   return out;
 }
 
-export type ChartStyle = 'calm' | 'playful' | 'precise';
+export type ChartStyle = 'calm' | 'playful' | 'precise' | 'mix';
 
 /**
- * A candle chart in one of three drawings. `shown` is how many candles are
+ * A candle chart in one of four drawings. The mix draws Calm's candles and
+ * grid but takes Precise's behaviour: candles form, a live price tag follows
+ * the forming one, and the axis and the levels carry their prices in the
+ * number face. `shown` is how many candles are
  * visible, the last possibly still forming (a fraction). The price domain is
  * fixed from the first frame over everything the chart will ever show, so the
  * axis never jumps between the decision and the reveal.
@@ -400,7 +433,8 @@ export function CandleChart({
   extent?: number[];
 }) {
   const { p, d } = useProto();
-  const axisW = kind === 'precise' ? 52 : 44;
+  const exact = kind === 'precise' || kind === 'mix';
+  const axisW = exact ? 52 : 44;
   const plotW = width - axisW;
   // The top strip holds the "What happened next" label, above every candle.
   const padTop = 24;
@@ -415,7 +449,7 @@ export function CandleChart({
   const hi = Math.max(...prices) + 0.02;
   const y = (v: number) => padTop + ((hi - v) / (hi - lo)) * (height - padTop - padY);
   const slot = plotW / candles.length;
-  const bodyW = Math.max(3, slot * (kind === 'playful' ? 0.7 : kind === 'precise' ? 0.56 : 0.5));
+  const bodyW = Math.max(3, slot * (kind === 'playful' ? 0.7 : exact ? 0.56 : 0.5));
   const ticks = niceTicks(lo, hi, kind === 'precise' ? 6 : 5);
   const whole = Math.floor(shown);
   const frac = shown - whole;
@@ -435,8 +469,10 @@ export function CandleChart({
     }
   }
   const last = visible[visible.length - 1];
-  const fontFamily = kind === 'precise' ? d.numberFont : d.font;
+  const fontFamily = exact ? d.numberFont : d.font;
   const axisColor = p.muted;
+  // The live price tag sits on the axis; an axis price it would cover steps aside.
+  const tagY = exact && last && shown < candles.length ? y(last.c.c) : null;
   return (
     <Svg
       width={width}
@@ -452,18 +488,20 @@ export function CandleChart({
             y2={y(t)}
             stroke={p.line}
             strokeWidth={1}
-            strokeDasharray={kind === 'calm' ? '2 4' : undefined}
+            strokeDasharray={kind === 'calm' || kind === 'mix' ? '2 4' : undefined}
           />
-          <SvgText
-            x={width - 2}
-            y={y(t) + 4.5}
-            fontSize={13}
-            fill={axisColor}
-            textAnchor="end"
-            fontFamily={fontFamily}
-          >
-            {`$${t.toFixed(2)}`}
-          </SvgText>
+          {tagY === null || Math.abs(y(t) - tagY) > 16 ? (
+            <SvgText
+              x={width - 2}
+              y={y(t) + 4.5}
+              fontSize={13}
+              fill={axisColor}
+              textAnchor="end"
+              fontFamily={fontFamily}
+            >
+              {`$${t.toFixed(2)}`}
+            </SvgText>
+          ) : null}
         </G>
       ))}
       {splitAt !== undefined && hideAfterSplit && (
@@ -565,7 +603,7 @@ export function CandleChart({
           </SvgText>
         </G>
       ))}
-      {kind === 'precise' && last && shown < candles.length && (
+      {exact && last && shown < candles.length && (
         // The live price: a tag on the axis that follows the forming candle.
         <G>
           <Line
