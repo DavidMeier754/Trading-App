@@ -3,6 +3,7 @@ import {
   LayoutChangeEvent,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  PixelRatio,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -483,35 +484,39 @@ function nodeKicker(view: LevelView): string[] {
 /**
  * "Level 4 · New ideas" on one line where the label has the room, and as two
  * whole lines -- "Level 4", then "New ideas" -- where it has not, instead of
- * breaking inside "New ideas". The one-line width is measured on an invisible
- * copy that is never squeezed, so the choice cannot flip back and forth.
+ * breaking inside "New ideas". It is one text either way: set on one line
+ * first, and on two once that wraps, for as long as the label keeps its width,
+ * so the choice cannot flip back and forth. There is no hidden copy to measure
+ * with: an iPhone drew one through its clip, as stray "LE" and "LEVE" over the
+ * titles.
  */
-function Kicker({ parts, right }: { parts: string[]; right: boolean }) {
-  const [full, setFull] = useState(0);
-  const [box, setBox] = useState(0);
-  const line = parts.join(' · ');
-  const split = parts.length > 1 && full > 0 && box > 0 && full > box + 0.5;
-  const align = right ? styles.alignRight : null;
+export function Kicker({ parts, right }: { parts: string[]; right: boolean }) {
+  // The label's width when the one-line kicker wrapped; null while it fits.
+  const [splitAt, setSplitAt] = useState<number | null>(null);
+  const split = parts.length > 1 && splitAt !== null;
+  const onLayout = (e: LayoutChangeEvent) => {
+    const { width, height } = e.nativeEvent.layout;
+    if (splitAt !== null) {
+      // A new width (the window was resized): try one line again.
+      if (Math.abs(width - splitAt) > 0.5) setSplitAt(null);
+    } else if (height > type.small.lineHeight * PixelRatio.getFontScale() * 1.5) {
+      setSplitAt(width);
+    }
+  };
   return (
-    <View onLayout={(e) => setBox(e.nativeEvent.layout.width)}>
-      <View style={styles.kickerProbeClip} pointerEvents="none" aria-hidden>
-        <View style={styles.kickerProbe}>
-          <Text style={styles.labelKicker} onLayout={(e) => setFull(e.nativeEvent.layout.width)}>
-            {line}
-          </Text>
-        </View>
-      </View>
-      {split ? (
-        parts.map((part) => (
-          <Text key={part} style={[styles.labelKicker, align]}>
-            {part}
-          </Text>
-        ))
-      ) : (
-        <Text style={[styles.labelKicker, align]}>{line}</Text>
-      )}
-    </View>
+    <Text style={[styles.labelKicker, right && styles.alignRight]} onLayout={onLayout}>
+      {split ? parts.join('\n') : parts.join(' · ')}
+    </Text>
   );
+}
+
+/**
+ * A title as the map shows it: whole, and never broken at a hyphen ("1-" at
+ * the end of one line, "Minute" on the next). A non-breaking hyphen looks the
+ * same and keeps "1-Minute" together.
+ */
+export function unbroken(title: string): string {
+  return title.replace(/-/g, '\u2011');
 }
 
 /** The level the learner is on, named at the top of the path. */
@@ -550,8 +555,8 @@ function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
             ? `Chapter ${view.level.chapter} · ${view.level.chapterTitle}`
             : `Chapter ${view.level.chapter} · ${nodeName(view)}`}
         </Text>
-        <Text style={styles.bannerTitle} numberOfLines={2}>
-          {allDone ? 'More levels are on the way' : view.level.title}
+        <Text style={styles.bannerTitle}>
+          {allDone ? 'More levels are on the way' : unbroken(view.level.title)}
         </Text>
       </Animated.View>
       <Animated.View style={[styles.bannerBadge, words]}>
@@ -651,11 +656,14 @@ function ChapterHeader({
         </View>
         <View style={styles.chapterText}>
           <Text style={[styles.chapterKicker, done && { color: colors.warning }]}>{kicker}</Text>
+          {/* The header keeps its height, so a long name shrinks to fit its one line. */}
           <Text
             style={[styles.chapterTitle, locked && { color: colors.textMuted }]}
             numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.7}
           >
-            {title}
+            {unbroken(title)}
           </Text>
           <View style={styles.chapterMetaRow}>
             {door ? null : (
@@ -704,7 +712,7 @@ function JumpButton({ view, onPress }: { view: LevelView; onPress: () => void })
         style={styles.jumpInner}
       >
         <Icon name="target" size={18} color="#FFFFFF" />
-        <Text style={styles.jumpText}>{`Jump to ${nodeName(view)}`}</Text>
+        <Text style={styles.jumpText} numberOfLines={1}>{`Jump to ${nodeName(view)}`}</Text>
       </Pressable>
     </Animated.View>
   );
@@ -760,9 +768,8 @@ function NodeLabel({
           locked && { color: colors.textFaint },
           side === 'left' && styles.alignRight,
         ]}
-        numberOfLines={3}
       >
-        {view.level.title}
+        {unbroken(view.level.title)}
       </Text>
       <Text
         style={[
@@ -1003,7 +1010,8 @@ function LevelCard({
           ? `Start ${noun}`
           : view.done === 0
             ? 'Start'
-            : `Continue: lesson ${view.nextIndex + 1}`;
+            : // The line above already says which lesson.
+              'Continue';
 
   const opener =
     before === null
@@ -1043,7 +1051,7 @@ function LevelCard({
     >
       <View style={[styles.cardPoint, { left: arrowX - left - 8 }]} />
       <Text style={[styles.cardKicker, { color: tone }]}>{kicker}</Text>
-      <Text style={styles.cardTitle}>{view.level.title}</Text>
+      <Text style={styles.cardTitle}>{unbroken(view.level.title)}</Text>
       {view.total > 1 ? (
         <View style={styles.segments}>
           {view.level.subs.map((entry, i) => {
@@ -1083,12 +1091,16 @@ function LevelCard({
             ) : complete ? null : (
               <Icon name={kind === 'path' ? 'signpost' : 'play'} size={16} color="#FFFFFF" />
             )}
+            {/* docs/UI.md §10: a key's label is one line, always; a long one shrinks to fit. */}
             <Text
               style={[
                 styles.cardButtonText,
                 complete && { color: colors.text },
                 empty && { color: colors.textMuted },
               ]}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.8}
             >
               {label}
             </Text>
@@ -1216,17 +1228,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.8,
   },
-  // Clipped to nothing, so the measuring copy is laid out but never seen and
-  // never widens the map.
-  kickerProbeClip: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: 0,
-    height: 0,
-    overflow: 'hidden',
-  },
-  kickerProbe: { position: 'absolute', left: 0, top: 0, width: 400, flexDirection: 'row' },
   labelTitle: { fontSize: 15, lineHeight: 19, fontWeight: '700', color: colors.text },
   labelMeta: { ...type.small, color: colors.textMuted },
   alignRight: { textAlign: 'right' },
@@ -1288,6 +1289,7 @@ const styles = StyleSheet.create({
   cardButton: {
     marginTop: space.xs,
     height: 50,
+    paddingHorizontal: space.md,
     borderRadius: radius.md,
     backgroundColor: colors.accent,
     flexDirection: 'row',
@@ -1301,5 +1303,5 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.border,
   },
-  cardButtonText: { ...type.prompt, fontSize: 17, color: '#FFFFFF' },
+  cardButtonText: { ...type.prompt, fontSize: 17, color: '#FFFFFF', flexShrink: 1 },
 });

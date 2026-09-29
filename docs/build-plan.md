@@ -729,7 +729,7 @@ Absolutely not:
 3. **Motion** (decision H: calm and high quality): every direction shows its motion on the six screens — the reveal, a screen change, a chart playing out, lesson complete. Calm but never sluggish: a tap finishes or skips any motion.
 4. **Layout variants:** answers in the thumb zone versus today; a proposal for the type scale.
 
-**Not in this stage:** rebuilding the real screens. That is `LOOK-SYSTEM`.
+**Not in this stage:** rebuilding the real screens. That is `LOOK-SYSTEM`. One exception, which you chose on 2026-09-29: two text bugs in the real app, from your critique, were fixed here — the stray text and cut-off titles on the map, and the Continue key breaking onto a second line (`LOOK-SYSTEM` items 5 and 6).
 
 **Model · effort · sessions:** Fable 5.1 · high (else Opus 5.5 · xhigh) · 1–2
 
@@ -827,13 +827,13 @@ Report: the name check · the note for the lawyer · web-address options · logo
 5. **Controls** (S13, S12):
    - Tap targets ≥ 48 pt.
    - Quit dialog: "Keep learning" is the main button, and the text says "lesson" instead of "sub-level".
-   - A key's label stays on one line and never breaks (your critique: Continue sometimes did). A label that would not fit gets shorter: the level card's "Continue: lesson 3" (`src/home/LearnScreen.tsx`) becomes "Continue".
+   - A key's label stays on one line and never breaks (your critique: Continue sometimes did). Done in `LOOK-BRIEF` for today's keys (you chose to fix it there): the level card's "Continue: lesson 3" (`src/home/LearnScreen.tsx`) became "Continue", and the lesson key and the level card's key shrink a label that would not fit instead of breaking it. The new keys keep that rule.
 6. **Top bar and wording** (S9, S36):
    - The top bar in your order, evenly spaced: the path's logo, the streak, the gems and the hearts, each an icon with its number (`docs/UI.md` §7.2, `#prototype/mix/map`). The daily goal leaves the bar: the flame lights when today's goal is met, and "Today 1/2" shows on lesson complete and when you tap the flame. The gems join in `LOOP-DAILY`; the path logos are stand-ins until `BRAND`.
    - In a lesson, the step count beside the progress bar ("4/12").
    - Banner "Lesson 1 of 4".
    - Clean accessibility labels: "3 day streak", "5 hearts".
-   - Titles on the map that are cut off, or covered by stray text out of place (your screenshots, e.g. "LE", "LEVE"): the stray text is most likely the invisible probe that measures the chapter label (`src/home/LearnScreen.tsx`), which the iPhone draws anyway, and a level's title stops after three lines. Every title shows whole and once, and never breaks at a hyphen ("1-" / "Minute").
+   - Titles on the map that were cut off, or covered by stray text out of place (your screenshots, e.g. "LE", "LEVE"): fixed in `LOOK-BRIEF` (you chose to fix it there). The stray text came from a hidden copy of each level's label, laid out to measure it, which the iPhone drew anyway; the map no longer has one (`src/home/LearnScreen.tsx`). A level's title shows whole (it stopped after three lines), a long chapter name shrinks to fit its one line, and no title breaks at a hyphen ("1-" / "Minute"). The new map keeps this.
    - **Fewer words** (your critique: "way too much text on every screen, keep it simple"): the app's own texts get shorter everywhere, on the map, the level card, lesson complete, the dialogs and Settings, as the prototype shows. The lessons' texts get shorter in `CONTENT-FIX`, under the limit from `RULES`.
 7. **Web** (S46): title = app name, `theme-color`, `viewport-fit=cover`, favicon.
 8. **Visual comparison:** contact sheets of all bench screens at three sizes (390, 375, 320 pt), each in light and dark, as a CI artifact.
