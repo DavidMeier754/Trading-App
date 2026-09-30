@@ -40,9 +40,9 @@ import {
   useProgress,
   waitText,
 } from '../progress';
-import { TEST_TOOLS } from '../testTools';
+import { TEST_TOOLS, type PrototypePage } from '../testTools';
 import { colors, radius, space, type } from '../theme';
-import Icon from './icons';
+import Icon, { type IconName } from './icons';
 import { forgetShownPath } from './LevelNode';
 import LookPreview from './LookPreview';
 import { pathView, totalXp } from './pathState';
@@ -60,10 +60,16 @@ export default function SettingsScreen({
   width,
   onBack,
   onOpenBench,
+  onOpenPrototype,
+  onOpenAnimations,
 }: {
   width: number;
   onBack: () => void;
   onOpenBench: () => void;
+  /** Test builds: the design prototype, or with 'suggestions' its page of design ideas. */
+  onOpenPrototype: (page?: PrototypePage) => void;
+  /** Test builds: the page that plays the animations of rare moments (AnimationsScreen). */
+  onOpenAnimations: () => void;
 }) {
   const insets = useSafeAreaInsets();
   const reduced = useReduceMotion();
@@ -162,6 +168,24 @@ export default function SettingsScreen({
               title="Every screen type"
               sub="Open the all-screens test level"
               onPress={onOpenBench}
+            />
+            <RowButton
+              icon="play"
+              title="Animations"
+              sub="Play the ones that only come in certain moments"
+              onPress={onOpenAnimations}
+            />
+            <RowButton
+              icon="flask"
+              title="Design directions"
+              sub="Your mix and the three directions of stage LOOK-BRIEF, full screen"
+              onPress={() => onOpenPrototype()}
+            />
+            <RowButton
+              icon="flask"
+              title="Design suggestions"
+              sub="Ideas for the look, and which ones are in your mix"
+              onPress={() => onOpenPrototype('suggestions')}
             />
           </>
         )}
@@ -391,7 +415,7 @@ function RowButton({
   sub,
   onPress,
 }: {
-  icon: 'flask';
+  icon: IconName;
   title: string;
   sub: string;
   onPress: () => void;

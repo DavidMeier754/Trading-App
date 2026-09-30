@@ -196,9 +196,12 @@ async function visitScreen(worker, task) {
   worker.errors.length = 0;
   worker.visit += 1;
   const expected = String(worker.visit);
-  await page.evaluate((hash) => {
-    window.location.hash = hash;
-  }, `${task.id}/${task.screen}?test=1`);
+  await page.evaluate(
+    (hash) => {
+      window.location.hash = hash;
+    },
+    task.hash ?? `${task.id}/${task.screen}?test=1`,
+  );
   await page.waitForFunction((v) => document.documentElement.dataset.visit === v, expected, {
     timeout: 20_000,
   });
@@ -222,7 +225,7 @@ async function contactSheet(browser, key, tasks, results) {
     .map((t) => {
       const r = results[t.n];
       const bad = r.problems.length > 0;
-      return `<figure class="${bad ? 'bad' : ''}"><img src="shots/${t.n}.jpg"><figcaption>${t.id.replace(/^[\w-]+-ch\d+-/, '')}/${t.screen}${bad ? ` · ${r.problems.map((p) => p.kind).join(', ')}` : ''}</figcaption></figure>`;
+      return `<figure class="${bad ? 'bad' : ''}"><img src="shots/${t.n}.jpg"><figcaption>${t.hash ? t.hash.replace(/^prototype\//, '') : `${t.id.replace(/^[\w-]+-ch\d+-/, '')}/${t.screen}`}${bad ? ` · ${r.problems.map((p) => p.kind).join(', ')}` : ''}</figcaption></figure>`;
     })
     .join('');
   const html = `<!doctype html><meta charset="utf-8"><style>
@@ -275,6 +278,22 @@ for (const lesson of lessons) {
     });
   }
 }
+// The design directions of stage LOOK-BRIEF (src/prototype): every direction,
+// screen and theme, by its own deep link. They count as screens of their own
+// "prototype" group, outside the validator's chapter counts.
+if (!only.length || only.includes('prototype')) {
+  const routes = await first.page.evaluate(() => window.__prototypes ?? []);
+  for (const hash of routes) {
+    tasks.push({
+      n: tasks.length,
+      id: 'prototype',
+      screen: hash,
+      hash,
+      key: 'prototype',
+      units: 0,
+    });
+  }
+}
 console.log(
   `${tasks.length} screens in ${new Set(tasks.map((t) => t.id)).size} lessons, ${workers} pages in parallel…`,
 );
@@ -320,7 +339,13 @@ const KINDS = ['crash', 'nan', 'console', 'blank', 'timeout'];
 const empty = () => Object.fromEntries(KINDS.map((k) => [k, 0]));
 const chapters = {};
 const problems = [];
-const totals = { screens: tasks.length, lessons: new Set(tasks.map((t) => t.id)).size, ...empty() };
+const protoCount = tasks.filter((t) => t.hash).length;
+const totals = {
+  screens: tasks.length - protoCount,
+  lessons: new Set(tasks.filter((t) => !t.hash).map((t) => t.id)).size,
+  prototypes: protoCount,
+  ...empty(),
+};
 for (const task of tasks) {
   const c = (chapters[task.key] ??= {
     screens: 0,
@@ -336,7 +361,7 @@ for (const task of tasks) {
     c[p.kind] += 1;
     totals[p.kind] += 1;
     problems.push({
-      link: `#${task.id}/${task.screen}`,
+      link: task.hash ? `#${task.hash}` : `#${task.id}/${task.screen}`,
       chapter: task.key,
       kind: p.kind,
       detail: p.detail,
@@ -390,10 +415,10 @@ writeFileSync(join(outDir, 'smoke-report.json'), JSON.stringify(report, null, 2)
 // The summary, also as Markdown for the CI job page and the PR comment.
 const rows = Object.entries(chapters).map(
   ([key, c]) =>
-    `| ${key.split('/').pop()} | ${c.lessons} | ${c.screens} | ${c.units}${c.validatorScreens !== null && c.validatorScreens !== c.units ? ` ≠ ${c.validatorScreens}` : ''} | ${c.crash} | ${c.nan} | ${c.console} | ${c.blank} |`,
+    `| ${key.split('/').pop()} | ${c.lessons} | ${c.screens} | ${key === 'prototype' ? '–' : c.units}${c.validatorScreens !== null && c.validatorScreens !== c.units ? ` ≠ ${c.validatorScreens}` : ''} | ${c.crash} | ${c.nan} | ${c.console} | ${c.blank} |`,
 );
 const md = [
-  `**Render test:** ${totals.screens} screens in ${totals.lessons} lessons, ${report.seconds} s${only.length ? ` (only ${only.join(', ')})` : ''}.`,
+  `**Render test:** ${totals.screens} screens in ${totals.lessons} lessons${totals.prototypes ? ` and ${totals.prototypes} prototype routes` : ''}, ${report.seconds} s${only.length ? ` (only ${only.join(', ')})` : ''}.`,
   '',
   `Crashes **${totals.crash}** · NaN **${totals.nan}** · console errors **${totals.console}** · blank **${totals.blank}**${totals.timeout ? ` · timeouts **${totals.timeout}**` : ''}`,
   '',

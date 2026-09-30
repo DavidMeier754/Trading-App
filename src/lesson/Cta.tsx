@@ -9,7 +9,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { colors, TAP_TARGET, type } from '../theme';
+import { colors, space, TAP_TARGET, type } from '../theme';
 import { useLookSpec } from './look';
 import type { CueName } from './cues.generated';
 import { EASE_OUT, SPRING_POP, usePressFeedback } from './motion';
@@ -157,6 +157,7 @@ export default function Cta({
           style={[styles.rim, { top: EDGE, borderRadius: spec.cta.radius }, rim]}
         />
         <Animated.View style={[styles.face, { borderRadius: spec.cta.radius }, face]}>
+          {/* docs/UI.md §10: one line, always; a long label shrinks to fit. */}
           <Text
             style={[
               styles.label,
@@ -166,6 +167,9 @@ export default function Cta({
               spec.cta.uppercase && styles.upper,
               disabled && styles.labelDisabled,
             ]}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.8}
           >
             {label}
           </Text>
@@ -194,6 +198,7 @@ const styles = StyleSheet.create({
   },
   face: {
     minHeight: TAP_TARGET + 4,
+    paddingHorizontal: space.md,
     alignItems: 'center',
     justifyContent: 'center',
   },

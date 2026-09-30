@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { LessonEntry } from '../content';
+import type { PrototypePage } from '../testTools';
 import AccountScreen from './AccountScreen';
+import AnimationsScreen from './AnimationsScreen';
 import EmptyTab from './EmptyTab';
 import LearnScreen from './LearnScreen';
 import SettingsScreen from './SettingsScreen';
 import TabBar, { Tab } from './TabBar';
 
+/** A page over the tabs: Settings, or its Animations page (test builds). */
+type Page = 'settings' | 'animations' | null;
+
 /**
  * Where the learner was, kept while a lesson is open. The home screen is
  * unmounted under a lesson, so coming back from the test bench opened in
- * Settings lands in Settings, and coming back from a lesson on the path lands
- * on the path.
+ * Settings lands in Settings, coming back from the prototype opened on the
+ * Animations page lands there, and coming back from a lesson on the path
+ * lands on the path.
  */
 let lastTab: Tab = 'learn';
-let lastSettings = false;
+let lastPage: Page = null;
 
 /**
  * The home screen (docs/UI.md §11.2): the path, and the tabs along the bottom.
@@ -27,25 +33,45 @@ export default function Home({
   width,
   onStart,
   onOpenBench,
+  onOpenPrototype,
 }: {
   width: number;
   onStart: (entry: LessonEntry) => void;
   onOpenBench: () => void;
+  onOpenPrototype: (page?: PrototypePage) => void;
 }) {
   const [tab, setTabState] = useState<Tab>(lastTab);
-  const [settings, setSettingsState] = useState(lastSettings);
+  const [page, setPageState] = useState<Page>(lastPage);
   const setTab = (next: Tab) => {
     lastTab = next;
     setTabState(next);
   };
-  const setSettings = (open: boolean) => {
-    lastSettings = open;
-    setSettingsState(open);
+  const setPage = (next: Page) => {
+    lastPage = next;
+    setPageState(next);
   };
 
-  if (settings) {
+  if (page === 'animations') {
     return (
-      <SettingsScreen width={width} onBack={() => setSettings(false)} onOpenBench={onOpenBench} />
+      <AnimationsScreen
+        onBack={() => setPage('settings')}
+        onShowMap={() => {
+          setPage(null);
+          setTab('learn');
+        }}
+        onOpenPrototype={onOpenPrototype}
+      />
+    );
+  }
+  if (page === 'settings') {
+    return (
+      <SettingsScreen
+        width={width}
+        onBack={() => setPage(null)}
+        onOpenBench={onOpenBench}
+        onOpenPrototype={onOpenPrototype}
+        onOpenAnimations={() => setPage('animations')}
+      />
     );
   }
 
@@ -73,7 +99,7 @@ export default function Home({
             line="See how your week compares once the leaderboard opens."
           />
         ) : (
-          <AccountScreen onOpenSettings={() => setSettings(true)} />
+          <AccountScreen onOpenSettings={() => setPage('settings')} />
         )}
       </View>
       <TabBar tab={tab} onChange={setTab} />

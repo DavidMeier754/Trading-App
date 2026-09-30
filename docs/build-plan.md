@@ -259,9 +259,10 @@ npm run smoke                              # from stage WIRE on: every screen re
   - `#scalping-ch3-level-15-2/5` = Scalping Chapter 3.
   - `#all-screens/12` = test bench.
   - Append `?look=arcade` = a different look.
-- **Testing tools** (test builds only) under Settings → Testing:
+- **Testing tools** (test builds only: every development run, so Expo Go, and exports with `EXPO_PUBLIC_TEST_TOOLS=1`) under Settings → Testing:
   - "Skip ahead" jumps to any level.
   - "Refill hearts" refills the hearts.
+  - "Animations" plays the animations of rare moments on a tap: a level opening, lesson complete, a perfect run, a chapter's badge, a new tier, the flame, a lost heart (from `LOOK-BRIEF`).
   - From `LOOP-DAILY` on there is "Advance a day".
 - **Test on your phone**, not on your computer. The checklists below are written for that.
 - **A feeling is enough.** If something bothers you but you cannot say why, describe it in words ("sluggish", "cheap", "confusing") with a screen link.
@@ -286,18 +287,17 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | | `WIRE` ✅ | Content index instead of hand-written imports, all written chapters playable, render test of every screen | Opus 5.5 · high | 1 | 20 min |
 | B Stable | `STABLE-APP` ✅ | Plan overview, recap, reveal (decision vs. outcome), screen-reader leak, error page | Opus 5.5 · high | 1 | 20 min |
 | | `STABLE-DATA` ✅ | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
-| C Look & feel | `LOOK-BRIEF` | Your critique + three design directions as clickable prototypes, with calm, high-quality motion | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
-| | `BRAND` | "Nutrade": trademark check and filing, web address, logo, icon draft, store title, tone of voice | Opus 5.5 · xhigh | 1 | 20 min + choice |
-| | `LOOK-SYSTEM` | Colors, type, light/dark, ≤ 3 looks, thumb zone, minimum type size, motion system, tap targets | Opus 5.5 · high, plan mode | 1–2 | 30 min |
+| C Look & feel | `LOOK-BRIEF` ✅ | Your critique + three design directions as clickable prototypes, with calm, high-quality motion | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
+| | `LOOK-SYSTEM` | The chosen mix as a system: colors, type, light/dark, the 3 looks, thumb zone, minimum type size, motion, sounds, tap targets, fewer words, the path map and the top bar | Opus 5.5 · high, plan mode | 1–2 | 30 min |
 | | `LOOK-COMPONENTS` | Charts, match, lesson-complete screen, icons, visuals, badge | Opus 5.5 · high | 2 | 30 min |
 | | `VISUALS` | New teaching graphics: candle anatomy, trade plan | Opus 5.5 · high | 1 | 15 min |
 | D Learning loop | `LOOP-HEARTS` | Hearts only in tests, mistakes round, review cards, test summary, XP rules | Opus 5.5 · high, plan mode | 1–2 | 30 min |
-| | `LOOP-DAILY` | Choosable daily goal, streak with states, freeze, weekly challenge, reminders | Opus 5.5 · high | 1–2 | 20 min + 3 days |
+| | `LOOP-DAILY` | Choosable daily goal, streak with states and full-screen moments, freeze, weekly challenge, reminders, gems | Opus 5.5 · high | 1–2 | 20 min + 3 days |
 | | `ONBOARDING` | First run, risk note, legal scaffold, market profile + number format, plan card, i18n keys | Opus 5.5 · high | 1–2 | 20 min |
 | | `PRACTICE` | Practice tab with spaced repetition, weak concepts, heart refill | Opus 5.5 · xhigh, plan mode | 2 | 30 min + 1 week |
 | | `GLOSSARY` | Glossary content (every term), popover, list | Opus 5.5 · high | 1–2 | 15 min |
 | | `STATS` | Profile, statistics, Trader Card v1, decision quality | Opus 5.5 · high | 1 | 15 min |
-| | `FUN-PASS` | Fun audit with a newcomer test, then polish | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 45 min |
+| | `FUN-PASS` | Fun audit with a newcomer test, then polish; bonus side lessons on the path | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 45 min |
 | E Scalping content | `RULES` | Your content critique, new validator rules, a worklist per chapter | Opus 5.5 · high | 1–2 | 30 min critique + 10 min |
 | | `VARIANCE` | Variance simulator, lesson 1·2-4, summary "decision vs. outcome" | Opus 5.5 · xhigh | 1–2 | 30 min + newcomer test |
 | | `OFFER` | Chapter 8 Level 15 (account types, margin, PDT, settlement, tax note) + renumbering + market profiles | Opus 5.5 · xhigh | 1–2 | 20 min |
@@ -306,14 +306,15 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | | `KNOWLEDGE-FIX` | Add the missing knowledge | Opus 5.5 · high | 1–3 | 20 min |
 | | `REVIEW-A` | Didactic review of the whole path, then corrections | Fable 5.1 · high (else Opus 5.5 · max) | 1 + 1–3 | decide findings |
 | | `EXPERT` | Expert review by an experienced trader (a human) | – | – | organize |
-| F Beta 1 | `LEGAL-DRAFT` | Drafts in English and German: the business's imprint, privacy policy, terms of use, disclaimer + a web page | Opus 5.5 · high | 1 | read + details |
+| F Beta 1 | `BRAND` | "Nutrade": trademark check and filing, web address, logo, icon draft, store title, tone of voice | Opus 5.5 · xhigh | 1 | 20 min + choice |
+| | `LEGAL-DRAFT` | Drafts in English and German: the business's imprint, privacy policy, terms of use, disclaimer + a web page | Opus 5.5 · high | 1 | read + details |
 | | `STORE-SETUP` | Developer accounts in the business's name, EAS builds, TestFlight, Play internal testing | Sonnet 5 · high | 1 | 30 min setup |
 | | `ANALYTICS` | Crash reports, data-minimal learning analytics (opt-in), "Report a problem" | Opus 5.5 · high | 1 | 10 min |
 | | `BETA-1` | Your testers, 2–4 weeks, weekly evaluation and fixes | Opus 5.5 · high per round | 2–4 | look after testers |
 | G Practice arena | `ARENA-DESIGN` | How the arena, the Daily Chart and Nutrade Plus work: docs and clickable screens | Fable 5.1 · high (else Opus 5.5 · xhigh), plan mode | 1 | 30 min + choice |
 | | `REPLAY-PILOT` | One replay by hand + validator rules | Opus 5.5 · high | 1 | 10 min |
 | | `CHART-GEN` | The chart generator: sessions and setups from seeds, checked by code | Opus 5.5 · xhigh, plan mode | 2–3 | 20 min |
-| | `ARENA-TAB` | The arena tab and the Daily Chart | Opus 5.5 · high | 1–2 | 20 min + 1 week |
+| | `ARENA-TAB` | The arena tab and the Daily Chart; generated charts for the bonus side lessons | Opus 5.5 · high | 1–2 | 20 min + 1 week |
 | | `SIM-ACCOUNT` | The practice account: orders, costs, journal, statistics, daily limit | Opus 5.5 · high, plan mode | 2 | 30 min |
 | | `DRILLS` | The packs `selection` and `risk-calls`, plus generated setup drills | Opus 5.5 · high | 1–2 | 15 min |
 | | `REPLAY-BANK` | 22 replays for scalping, from generator candidates, annotated by hand | Opus 5.5 · high | ~4 | 10 min each |
@@ -376,7 +377,7 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | B | **123 shorts, option (a):** we name the account and keep the content. Short selling needs a margin-enabled account; 1·12, 1·13 and 8·15 say so. | `docs/agent.md` §3.6 |
 | C | **Six trades per session, option (b): we say it plainly.** Several day trades per session need a margin account, and in the US the pattern-day-trader rule applies below $25,000 (check before release, the rule is being reformed). EU-DE has no PDT rule, but broker rules differ. Said in 6·9 and 8·15. | `docs/agent.md` §3.6 |
 | E | **All three paths in v1.0:** Scalping, Swing Trading and Day Trading (David). Swing is written first, then Day Trading (Phase H). Every path gets the same reviews and its own arena content. | agent.md §1, curriculum.md |
-| H | **Motion: calm and high quality** (David). Slower than a typical game, smooth on cheap phones, and never in the way: feedback starts at once, and a tap finishes or skips any motion. How calm, you choose in `LOOK-BRIEF`; the exact durations and curves come from `LOOK-SYSTEM`. | UI.md §1, §5.1, §10 |
+| H | **Motion: calm and high quality** (David). Slower than a typical game, smooth on cheap phones, and never in the way: feedback starts at once, and a tap finishes or skips any motion. How calm: Calm's pace, chosen in `LOOK-BRIEF`; the exact durations and curves come from `LOOK-SYSTEM`. | UI.md §1, §5.1, §10 |
 | I | **Money: Nutrade Plus** (David), a subscription with unlimited hearts, no ads and the practice arena: hands-on charts beyond the paths (the concept is in Phase G). Free: every lesson of every path, the Practice tab, glossary, statistics, the Daily Chart and a taste of the arena, with ads between lessons and 5 hearts in tests. Guardrails: nothing is sold one at a time (no hearts, no streak freezes), no pay-to-pass, no fake urgency. | agent.md §1, UI.md §7.7, §7.8 |
 | K | **Accounts in v1.0** (David): sign-in with Apple, Google or email, sync across devices, account deletion and data export inside the app. The app works before sign-in, and a purchase never needs an account. | agent.md §1, `BACKEND` |
 | L | **The name is Nutrade** (David, 2026-09-26): short, built from "trade", for new traders. Tradle was dropped: it is a registered EU trademark for apps and education (classes 9, 41, 42), and its US filing covers trading education. Checked for Nutrade on 2026-09-26: no app in the App Store or Google Play, and no live trademark for apps, education, finance or software (classes 9, 36, 41, 42) in the EU, Germany, the UK, the US or the international register. The name is in use elsewhere, though: a German maker of vitamin gummies holds NUTRADE for supplements and business services (classes 5 and 35; Germany, UK, international) and uses nutrade.de, and Syngenta holds NUTRADE in Mexico (including class 42). nutrade.com is parked with a domain seller, nutrade.app was registered in May 2026; nutradeapp.com, nutradeapp.app and nutradeapp.de were free. `BRAND` confirms this with the lawyer, files the mark and settles the web address. | agent.md §1, `BRAND` |
@@ -386,7 +387,7 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | W1 | **Hearts only in checkpoints and final exams.** Lessons are for practicing: wrong answers come back in the mistakes round at the end (W25). | agent.md, UI.md §5.2 |
 | W2 | **This order:** the app stable and good-looking before new content. W2b (Swing before replays and drills) no longer sets a priority: since decisions E and I, Swing, Day Trading and the arena all ship in v1.0. The arena engine comes first (Phase G), so each new path gets its arena content right after its chapters. | this plan |
 | W3 | **The 50 % plan value, option (a):** Chapter 1 stays at 50. The scalping path revises the value to 95 in **2·1-4**, with the reason (the revision was meant for Chapter 3, but never existed in the content). | agent.md §3.6, curriculum.md |
-| W4–W6 | **Layout and looks:** answers in the thumb zone. A minimum type size, scrolling if needed. At most 3 looks plus light/dark/system. | UI.md §2, §10 |
+| W4–W6 | **Layout and looks:** answers in the thumb zone. A minimum type size, scrolling if needed. At most 3 looks plus light/dark/system. **The look** (David, `LOOK-BRIEF`, 2026-09-29): Calm on today's designs Neo, Neo Mono and Classic Contrast, with Precise's number face, chart, trade log, count-up numbers and step count; today's path map with his changes; fewer words on every screen; sounds play on silent. | UI.md §2, §7.1, §7.2, §10 |
 | W7 | **No leaderboard in v1.0.** Later at most an opt-in friends league. | UI.md §7.2, §11 |
 | W8 | **"See the card again"** as an overlay in lessons. | UI.md §2 |
 | W9 | **A choosable daily goal** (1/2/3 lessons, default 2). The streak counts when your own goal is met. | agent.md, UI.md §5.3 |
@@ -408,6 +409,7 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | R | Prices for Nutrade Plus: monthly, yearly, trial | `MONEY` proposes prices per region; you decide. | `MONEY` |
 | S | Personalized ads? | **No** in v1.0: no tracking prompt at first launch and a simpler consent. Look again with real numbers. | `ADS` |
 | T | The list of launch languages | `I18N-PIPELINE` proposes it (store markets, effort, script); you decide. | `I18N-PIPELINE` |
+| U | What gems buy (your new currency from `LOOK-BRIEF`) | Earned only, never sold (decision I). They buy streak freezes and cosmetic extras, e.g. scenes beside the path; never hearts or a pass in a test, because tests count (W1). `LOOP-DAILY` proposes the list and the prices in gems; you decide. | `LOOP-DAILY` |
 
 ---
 
@@ -699,7 +701,7 @@ Report: what you built · check results (render numbers before/after) · my test
 
 You are not yet happy with the look. That is why look & feel comes **before** the new learning features, and it starts with you, not with code.
 
-### `LOOK-BRIEF` – your critique and three directions
+### `LOOK-BRIEF` ✅ – your critique and three directions
 
 **Goal.** Decide how the app should look and feel before anything gets rebuilt.
 
@@ -728,7 +730,7 @@ Absolutely not:
 3. **Motion** (decision H: calm and high quality): every direction shows its motion on the six screens — the reveal, a screen change, a chart playing out, lesson complete. Calm but never sluggish: a tap finishes or skips any motion.
 4. **Layout variants:** answers in the thumb zone versus today; a proposal for the type scale.
 
-**Not in this stage:** rebuilding the real screens. That is `LOOK-SYSTEM`.
+**Not in this stage:** rebuilding the real screens. That is `LOOK-SYSTEM`. One exception, which you chose on 2026-09-29: two text bugs in the real app, from your critique, were fixed here — the stray text and cut-off titles on the map, and the Continue key breaking onto a second line (`LOOK-SYSTEM` items 5 and 6). Also added here at your request of the same day, as testing tools: they show in every development run (Expo Go) without a setting, and an **Animations** page under Settings → Testing plays the animations of rare moments on a tap.
 
 **Model · effort · sessions:** Fable 5.1 · high (else Opus 5.5 · xhigh) · 1–2
 
@@ -762,74 +764,58 @@ Report: the three directions in three sentences each · links to every variant �
 
 **Done when** Claude has recorded your choice in `docs/UI.md` §10. That happens in the same PR, after your answer.
 
-### `BRAND` – Nutrade: the trademark, the address and a face
-
-**Goal.** The name Nutrade is protected and has a web address, and the app has a face before store accounts, icons and texts are created.
-
-**Scope**
-1. **Secure the name** (decision L):
-   - Run the trademark search for "Nutrade" and close spellings again: DPMA (Germany), EUIPO (EU, e.g. via TMview), WIPO (international), USPTO (US) and the launch markets from decision T. Nice classes 9 (apps), 41 (education), 42 (software) and 36 (finance).
-   - Known on 2026-09-26: NUTRADE for supplements and business services (classes 5 and 35; Germany, UK, international), held by a vitamin-gummy maker (nutrade.de); NUTRADE in Mexico, held by Syngenta (including class 42).
-   - A one-page note for the lawyer: can Nutrade for an education app coexist with those marks, and what does Mexico mean for a launch there?
-   - Prepare our own filing: the word mark "Nutrade" in classes 9 and 41 (42 optional). You or the lawyer file it.
-   - The app-store search in the launch markets, and the social handles.
-2. **The web address:** nutrade.com is parked with a domain seller (ask the price); otherwise e.g. nutradeapp.com, nutradeapp.app or nutradeapp.de, which were free on 2026-09-26. You register it.
-3. **How the name reads in the launch languages:** no unfortunate meaning, easy to say (decision M).
-4. **A store title,** e.g. "Nutrade – Learn to Trade". Neither title nor subtitle promises profit (`docs/agent.md` §1, §7 and the store guidelines).
-5. **2–3 logo and icon concepts** as SVG, matching the direction from `LOOK-BRIEF`. Optionally image concepts with the `brandkit` skill.
-6. **Tone of voice in five sentences:** sober, friendly, honest.
-7. **After your choice, recorded in:**
-   - `app.json` (name, slug);
-   - the web title;
-   - placeholders for icon and splash.
-
-**Model · effort · sessions:** Opus 5.5 · xhigh · 1
-
-**Prompt**
-```
-Stage BRAND from docs/build-plan.md.
-
-Read CLAUDE.md, §1, §4.1 (decision L) and the "BRAND" section of docs/build-plan.md, docs/agent.md §1 and §7, and the direction chosen in LOOK-BRIEF in docs/UI.md §10.
-Check the name "Nutrade" first: trademark registers, app stores, domains and social handles. State what you checked and what you could not check. If you find a conflict that is more serious than the ones §4.1 already lists, stop and tell me before any design work.
-No name, title or subtitle may promise profit, wealth or signals.
-
-Open a PR against main with the drafts (SVG) under assets/brand/.
-Report: the name check · the note for the lawyer · web-address options · logo concepts (links) · store title · tone of voice · open questions. Then stop and wait for my choice.
-```
-
-**You decide:** the web address and the icon direction. File the trademark early; the lawyer checks it before the release (`LEGAL-FINAL`).
-
 ### `LOOK-SYSTEM` – the chosen direction as a system
 
 **Goal.** Every screen benefits without touching every screen one by one.
+
+**The direction** is your mix from `LOOK-BRIEF` (`docs/UI.md` §10): Calm's layout, type and motion on today's designs Neo, Neo Mono and Classic Contrast, with Precise's number face and the step count beside the progress bar. The home screen wears it too, and the path map keeps today's design with your changes (item 12). Its reference is the prototype `#prototype/mix/<screen>` in a test build. The chart, the trade log and the numbers that count up come in `LOOK-COMPONENTS`; the streak screens and the gems in `LOOP-DAILY`.
 
 **Scope**
 1. **Colors** (S17, S18, W6):
    - Light, dark and system.
    - **Contrast ≥ 4.5 : 1** for every text; a check script runs in CI.
-   - At most three looks.
+   - **The three looks** Neo, Neo Mono and Classic Contrast, each with a light version (today they only come in dark; the prototype's light versions are the starting point, and you found them good as a start). The other six designs and their code go.
    - A color-blind palette in blue/orange.
    - In `app.json`: `userInterfaceStyle: automatic`.
-2. **Type scale** (S2): body text 16–17, labels ≥ 13. Nothing a decision depends on goes below 13, not even the state chips.
+2. **Type scale** (S2): body text 16–17, labels ≥ 13. Nothing a decision depends on goes below 13, not even the state chips. Calm's scale from the prototype, and numbers in a monospaced face while the words around them keep the text face.
 3. **Layout** (W4, W5):
    - Answers in the thumb zone.
-   - `FitScreen` shrinks to 85 % at most; if it still does not fit, the screen scrolls.
+   - `FitScreen` shrinks to 85 % at most; if it still does not fit, the screen scrolls. Your critique: a screen with too much content got squished, and that looks bad.
    - Content no longer sticks to the top.
+   - The reveal gets its slot above the key before it appears, and the screen scrolls to it, so the key never covers the result box (your critique; the prototype's `Screen` in `src/prototype/layout.tsx` shows how).
 4. **Motion system** (decision H, S5):
-   - Calm, high-quality motion tokens: durations, easing curves and springs, tuned on real phones and recorded in `docs/UI.md` §10.
+   - Calm, high-quality motion tokens: durations, easing curves and springs, tuned on real phones and recorded in `docs/UI.md` §10. Calm's pace from `LOOK-BRIEF` is the starting point.
    - A tap never waits for motion: it finishes or skips the running animation.
    - Everything runs on the UI thread (Reanimated) at the display's frame rate, also on a cheap Android phone.
    - Reduce motion replaces movement with short fades.
 5. **Controls** (S13, S12):
    - Tap targets ≥ 48 pt.
    - Quit dialog: "Keep learning" is the main button, and the text says "lesson" instead of "sub-level".
-6. **HUD and wording** (S9, S36):
-   - A labeled HUD: "3 days", "Today 1/2".
+   - A key's label stays on one line and never breaks (your critique: Continue sometimes did). Done in `LOOK-BRIEF` for today's keys (you chose to fix it there): the level card's "Continue: lesson 3" (`src/home/LearnScreen.tsx`) became "Continue", and the lesson key and the level card's key shrink a label that would not fit instead of breaking it. The new keys keep that rule.
+6. **Top bar and wording** (S9, S36):
+   - The top bar in your order, evenly spaced: the path's logo, the streak, the gems and the hearts, each an icon with its number (`docs/UI.md` §7.2, `#prototype/mix/map`). The daily goal leaves the bar: the flame lights when today's goal is met, and "Today 1/2" shows on lesson complete and when you tap the flame. The gems join in `LOOP-DAILY`; the path logos are stand-ins until `BRAND`.
+   - In a lesson, the step count beside the progress bar ("4/12").
    - Banner "Lesson 1 of 4".
-   - Clean accessibility labels.
+   - Clean accessibility labels: "3 day streak", "5 hearts".
+   - Titles on the map that were cut off, or covered by stray text out of place (your screenshots, e.g. "LE", "LEVE"): fixed in `LOOK-BRIEF` (you chose to fix it there). The stray text came from a hidden copy of each level's label, laid out to measure it, which the iPhone drew anyway; the map no longer has one (`src/home/LearnScreen.tsx`). A level's title shows whole (it stopped after three lines), a long chapter name shrinks to fit its one line, and no title breaks at a hyphen ("1-" / "Minute"). The new map keeps this.
+   - **Fewer words** (your critique: "way too much text on every screen, keep it simple"): the app's own texts get shorter everywhere, on the map, the level card, lesson complete, the dialogs and Settings, as the prototype shows. The lessons' texts get shorter in `CONTENT-FIX`, under the limit from `RULES`.
 7. **Web** (S46): title = app name, `theme-color`, `viewport-fit=cover`, favicon.
 8. **Visual comparison:** contact sheets of all bench screens at three sizes (390, 375, 320 pt), each in light and dark, as a CI artifact.
 9. **Expo Go preview** (`CI` part B, moved here): you create an Expo account and the GitHub secret `EXPO_TOKEN` (guide: `docs/setup-preview.md` §2); Claude runs `eas init` and `eas update:configure`. From then on every PR gets a QR code, so motion is tuned on a real phone.
+10. **Sounds** (your critique in `LOOK-BRIEF`):
+    - Sounds play with the phone on silent (your choice): the audio mode plays in silent mode, and the app's Sound toggle stays the one switch that mutes them.
+    - Fast taps lose sounds: each sound has one player, and a second tap rewinds it before the first has played (`src/lesson/sound.ts`). Two or three players per sound, taking turns.
+    - Continue plays the soft tap of the lesson's ✕ (`tick`) instead of its own "advance" sound.
+    - Letter tiles and number keys play the barely-there `detent`, not the answer tap.
+11. **Settings** (your critique):
+    - **Change design:** a button that shows each of the three looks full screen on a real lesson screen, with "Use this design" (today they are small cards to swipe past).
+    - The testing tools move to their own **Development** screen, still in test builds only, with the **Design suggestions** page (today Settings → Testing → Design suggestions): ideas for the look, drawn live, each marked in the mix or not (your wish in `LOOK-BRIEF`), and the **Animations** page (today Settings → Testing → Animations). Every new animation of a rare moment gets a row there, such as the streak screens in `LOOP-DAILY`.
+12. **The path map** (your answers in `LOOK-BRIEF`, `#prototype/mix/map`):
+    - Today's design stays, in the chosen look (you: the list-style maps look too professional and not fun).
+    - Smaller level buttons, 58 pt in a 76 pt ring instead of 72 in 96, so small scenes fit at the sides of the path. The scenes are drawn in the ground's own ink, as faint as its grid and with no colour, so they fit the background instead of standing out (your note of 2026-09-29).
+    - A finished level drops its progress ring and keeps its check; only the level you are on shows a ring.
+    - The label beside a level is its title alone, in whole lines (`docs/UI.md` §7.1).
+13. **Clean-up:** once the mix is built, `src/prototype/` goes, with its route and its Settings row. The Design suggestions page moves to the Development screen and stays (item 11).
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 
@@ -857,6 +843,11 @@ Report: what you built · check results · contact sheets before/after · my tes
 3. Simulate a small display: Chrome on your computer → developer tools → "iPhone SE" and 320 px width. Expected: nothing below ~13 px, nothing cut off.
 4. Switch the look in Settings and turn on the color-blind palette.
 5. Fun question (1–5): does the motion feel calm and polished, and never sluggish?
+6. Sounds: with the phone on silent they still play, and when you tap fast every tap sounds. Continue sounds like the ✕.
+7. Settings → Change design shows each of the three looks full screen.
+8. The map: smaller buttons with scenes beside the path, no ring on a finished level, every title whole and nothing drawn twice.
+9. The top bar: the path logo, the streak and the hearts, evenly spaced (the gems join in `LOOP-DAILY`). No key breaks its label onto two lines.
+10. Fewer words: does any screen still feel like reading?
 
 **Done when** the contact sheets are right and you are happy.
 
@@ -868,29 +859,34 @@ Report: what you built · check results · contact sheets before/after · my tes
 1. **Axis** (S6):
    - Round prices (0.05 / 0.10 / 0.25 / 0.50 / 1) and the currency symbol from the market profile.
    - The axis does not jump between decision and reveal.
+   - Prices in the number face of the mix (`docs/UI.md` §10).
 2. **Decision buttons** (S7):
    - Equal in weight.
    - "What happened next" instead of "NEXT 5 BARS".
    - A text alternative for screen readers, e.g. "Price climbed in steps from 9.80 to 10.05".
-3. **Stop and target lines** when a screen has `stop` or `target` (new, `docs/schema.md`).
+3. **Stop and target lines** when a screen has `stop` or `target` (new, `docs/schema.md`), labelled with their prices, and the entry while the learner decides.
 4. **State chips** easy to read.
+5. **Candles that form** (your critique: the candle animations should move more realistically): a candle opens, runs to its high and low and settles at its close, with a live price tag on the axis, as in `#prototype/mix/chart` (`formingCandle` in `src/prototype/kit.tsx`). A tap still finishes the playback.
+6. **The trade log** in the chart's reveal, from Precise: the outcome, the result and R, lined up in the number face, a neutral block under the grade (`docs/UI.md` §5.1b).
 
 **Session 2 – the rest**
 
-5. **Match:** every pair with its own color or connection (S8).
-6. **Lesson complete** (S11):
+7. **Match:** every pair with its own color or connection (S8).
+8. **Lesson complete** (S11):
    - Confetti only for a perfect run and never over text.
    - The lesson's name (`subtitle`) is shown.
    - The mistakes are listed, with "Practice these" (linked from `PRACTICE` on).
    - Progress toward the daily goal is visible.
-7. **Chapter badge** as in `docs/UI.md` §5.4: the XP bonus counts up, "Chapter N unlocked" (S21).
-8. **Visuals** (S24, W17):
-   - The ownership graphic as a 10×10 grid from 20 parts upward.
-   - Real icons for all 51 carousel icon names (e.g. the `lucide-react-native` library, MIT license, plus a mapping table).
-   - The session ribbon to scale and with a "now" marker.
-   - `spot-mistake` as one sentence.
-   - The swipe gesture in `swipe-deck`.
-   - The label "Takeaway" for a `story` with `label: takeaway`.
+   - Its numbers count up to their value, together with the ring (from Precise, your choice in `LOOK-BRIEF`; `#prototype/mix/complete`). Reduced motion shows them at once.
+9. **Chapter badge** as in `docs/UI.md` §5.4: the XP bonus counts up, "Chapter N unlocked" (S21).
+10. **Visuals** (S24, W17):
+    - The ownership graphic as a 10×10 grid from 20 parts upward.
+    - Real icons for all 51 carousel icon names (e.g. the `lucide-react-native` library, MIT license, plus a mapping table).
+    - The session ribbon to scale and with a "now" marker.
+    - `spot-mistake` as one sentence.
+    - The swipe gesture in `swipe-deck`.
+    - The label "Takeaway" for a `story` with `label: takeaway`.
+11. **Level icons on the map** (your critique; you like Chapters 1 and 2's): a level's symbol is the first `icon:` among its lessons (`levelIconOf` in `src/content.ts`). Chapters 1 and 2 set one in 44 of 48 and 46 of 49 lesson files, Chapters 3–8 in none of their 291, so every level there shows the same symbol for its type. Every level of every chapter gets its own symbol for what it teaches, and the validator warns when a level has none.
 
 **Model · effort · sessions:** Opus 5.5 · high · 2
 
@@ -917,6 +913,9 @@ Report: what you built · check results · contact sheets · my test checklist w
 5. The session ribbon in lesson 1·10-1: the proportions are right, "now" is visible.
 6. Swipe a `swipe-deck` with your finger.
 7. The Chapter 1 badge (skip ahead to the final exam 17-1).
+8. A chart decision (e.g. `#level-01-1/6`): the candles form as they play out, a price tag follows the forming one, and the reveal lists outcome, result and R.
+9. The map: the levels of every chapter, Chapters 3–8 too, have their own icons.
+10. Lesson complete: the numbers count up with the ring.
 
 ### `VISUALS` – new teaching graphics
 
@@ -1015,7 +1014,7 @@ Report: what you built · check results · my test checklist with real links · 
 **Scope**
 1. **Daily goal** (W9):
    - Choosable: 1, 2 or 3 lessons, default 2. In Settings; from `ONBOARDING` on also in the first run.
-   - The HUD shows "Today 1/2".
+   - "Today 1/2" shows on lesson complete and when you tap the flame; the goal left the top bar in `LOOK-SYSTEM`.
 2. **Streak** (S10):
    - It counts the days on which your own goal was met.
    - States:
@@ -1023,6 +1022,7 @@ Report: what you built · check results · my test checklist with real links · 
      - **done:** the flame lights up.
      - **at risk:** in the evening, if the goal is still open.
      - **lost:** a friendly screen, "A new streak starts today".
+   - **Full screen** (your wish in `LOOK-BRIEF`, `#prototype/mix/streak` and `#prototype/mix/lost`): every change of the streak gets its own screen. Up by a day, the flame lights and the count rolls on; lost, the flame goes cold and the count rolls to 0. About a second, only after something you did; Continue ends it (`docs/UI.md` §7.2).
 3. **Streak freeze:**
    - At most two in store.
    - Used automatically, with the message "Freeze used".
@@ -1032,6 +1032,7 @@ Report: what you built · check results · my test checklist with real links · 
    - In the evening, at most one "streak at risk" reminder, and only if the goal is still open.
    - Never guilt-trip texts; everything can be switched off.
 5. **Testing tool** "Advance a day" (+1 day, +2 days).
+6. **Gems** (your wish in `LOOK-BRIEF`, `docs/UI.md` §7.2): a new in-game currency in the top bar, earned in lessons (e.g. a few per lesson, more for a perfect one) and, from `FUN-PASS` on, in bonus side lessons. Never sold (decision I). What they buy is decision U.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
@@ -1051,12 +1052,13 @@ Report: what you built · check results · every reminder text · my test checkl
 ```
 
 **You test (~20 min + 3 days)**
-1. Set the goal to 1 and play one lesson: the flame lights up, the HUD shows "1/1".
+1. Set the goal to 1 and play one lesson: the streak screen plays full screen, the flame lights up, and lesson complete shows "Today 1/1".
 2. Testing → "+1 day": the streak is "open".
 3. "+2 days" without a freeze: the "new streak" screen. With a freeze: "Freeze used".
 4. Play the weekly challenge: you receive a freeze.
 5. Set a reminder for 2 minutes from now: it arrives on the real device.
-6. Use the app normally for three days: does anything annoy you?
+6. Finish a lesson: the gems in the top bar go up.
+7. Use the app normally for three days: does anything annoy you?
 
 ### `ONBOARDING` – first impression, legal and market profile
 
@@ -1233,6 +1235,7 @@ Report: what you built · check results · my test checklist with real links · 
 3. **Implementation:**
    - Audit and newcomer test become a prioritized list. You choose from it.
    - What gets built: e.g. sounds, haptics, micro-animations, achievements for discipline (K6), and whatever the newcomer test showed.
+   - **Bonus side lessons** on the path (your wish in `LOOK-BRIEF`, `docs/UI.md` §7.1, `#prototype/mix/bonus`): a small node beside the path after some levels, opened by the level before it, with two or three charts played bar by bar where you don't know where, or whether, there is a setup (the `chart-replay` of `docs/UI.md` §4.4). Optional, never timed, never a heart; they pay gems. Hand-written charts first; from `ARENA-TAB` on, the generator fills them.
 
 **Model · effort · sessions:**
 - Audit: Fable 5.1 · high (else Opus 5.5 · xhigh).
@@ -1253,7 +1256,7 @@ Report: measurements · the 15 most important findings (screen link, what, why, 
 ```
 Stage FUN-PASS (implementation) from docs/build-plan.md.
 
-Read CLAUDE.md, then §1 and the "FUN-PASS" section of docs/build-plan.md. Implement these approved findings: [list].
+Read CLAUDE.md, then §1 and the "FUN-PASS" section of docs/build-plan.md. Implement these approved findings: [list], and the bonus side lessons (scope item 3).
 Open a PR against main and get every check green. Report with a test checklist. Then stop.
 ```
 
@@ -1288,7 +1291,7 @@ Lessons I liked, and why:
 ```
 
 **Scope** (the rules are in `docs/agent.md` and `docs/schema.md`, marked [v4] there)
-0. **Your critique** goes into this plan, into the chapter-specific items of `CONTENT-FIX`: a part for every chapter, plus the chapter it names. So every chapter pass reads it.
+0. **Your critique** goes into this plan, into the chapter-specific items of `CONTENT-FIX`: a part for every chapter, plus the chapter it names. So every chapter pass reads it. Two points are already in, from `LOOK-BRIEF`: more hands-on lessons where you don't know where, or whether, there is an entry; and fewer words on every screen, for which `RULES` proposes a tighter limit than W10's 150 characters, per screen type (you decide).
 1. **Validator rules:** warnings first, errors under `--strict`.
    - **Variance** (§3.11):
      - the share per chapter;
@@ -1335,7 +1338,7 @@ Report: new rules · warnings per chapter (table) · link to the worklists · my
 
 ### `VARIANCE` – decided right, lost anyway
 
-**Goal.** The learner understands that correct decisions can lose, before it happens to them (§0, "Variance").
+**Goal.** The learner understands that correct decisions can lose, before it happens to them (§0, "Variance"). You asked for the same in `LOOK-BRIEF`: a right decision can still lose, and the app should say so.
 
 **Scope**
 1. **New screen type `variance-sim`** (`docs/UI.md` §3 and §6.10, `docs/schema.md`):
@@ -1449,7 +1452,7 @@ Report: what you built · check results · sources · sentences you are unsure a
 
 **Chapter-specific items** (from `docs/review-2026-09-25.md`, and from your critique once `RULES` has added it)
 
-- **Every chapter:** your critique's general points (added by `RULES`).
+- **Every chapter:** your critique's general points (added by `RULES`). From `LOOK-BRIEF`: more hands-on decisions where the learner has to find the entry, or see that there is none and stand aside. And fewer words: every screen within the limit from `RULES`.
 - **Chapter 1:**
   - Scenarios that already draw the conclusion: 13-2, 16-1.
   - A contradiction about rumors: 13-2 S9 ↔ 16-1 S11.
@@ -1460,6 +1463,7 @@ Report: what you built · check results · sources · sentences you are unsure a
   - In 1·12 one sentence on cash vs. margin accounts; in 1·13 one sentence that short selling needs a margin-enabled account (decision B).
   - In 16-2 one sentence on why your plan value (50 %) sits below the examples so far.
   - The ownership graphic in 3-1 as a grid.
+  - Two questions that read alike (your critique in `LOOK-BRIEF`: the same question twice, with different right answers): 14-1 S11 "Which style fits that life best?" (swing trading) and 17-2 S13 "Which style fits that day best?" (scalping). Each question names its story.
 - **Chapter 2:**
   - In 2·1-4, after the bridge screen, a `plan-card` revision of `setup_max_account_pct`, 50 → 95, with the reason (W3).
   - `candle-anatomy` in 2·1-1.
@@ -1594,6 +1598,45 @@ The corrections are made in a session of their own (Opus 5.5 · high, prompt as 
 ## 10. Phase F – Beta 1 (closed, scalping)
 
 The goal of this phase: real people test the finished scalping course before the arena, Swing and Day Trading are built.
+
+### `BRAND` – Nutrade: the trademark, the address and a face
+
+**Goal.** The name Nutrade is protected and has a web address, and the app has a face before store accounts, icons and texts are created.
+
+**When:** first in Beta 1, before the legal texts, the store accounts and the first builds need the name, the web address and the icon. It moved here from Phase C at your request on 2026-09-30, because it is not important before then. Until it runs, the app shows the name "Nutrade" as text and stand-ins for the logos.
+
+**Scope**
+1. **Secure the name** (decision L):
+   - Run the trademark search for "Nutrade" and close spellings again: DPMA (Germany), EUIPO (EU, e.g. via TMview), WIPO (international), USPTO (US) and the launch markets from decision T. Nice classes 9 (apps), 41 (education), 42 (software) and 36 (finance).
+   - Known on 2026-09-26: NUTRADE for supplements and business services (classes 5 and 35; Germany, UK, international), held by a vitamin-gummy maker (nutrade.de); NUTRADE in Mexico, held by Syngenta (including class 42).
+   - A one-page note for the lawyer: can Nutrade for an education app coexist with those marks, and what does Mexico mean for a launch there?
+   - Prepare our own filing: the word mark "Nutrade" in classes 9 and 41 (42 optional). You or the lawyer file it.
+   - The app-store search in the launch markets, and the social handles.
+2. **The web address:** nutrade.com is parked with a domain seller (ask the price); otherwise e.g. nutradeapp.com, nutradeapp.app or nutradeapp.de, which were free on 2026-09-26. You register it.
+3. **How the name reads in the launch languages:** no unfortunate meaning, easy to say (decision M).
+4. **A store title,** e.g. "Nutrade – Learn to Trade". Neither title nor subtitle promises profit (`docs/agent.md` §1, §7 and the store guidelines).
+5. **2–3 logo and icon concepts** as SVG, matching the direction from `LOOK-BRIEF`, and a small logo for each path (Scalping, Swing Trading, Day Trading) for the top bar (`docs/UI.md` §7.2). Optionally image concepts with the `brandkit` skill.
+6. **Tone of voice in five sentences:** sober, friendly, honest.
+7. **After your choice, recorded in:**
+   - `app.json` (name, slug);
+   - the web title;
+   - placeholders for icon and splash.
+
+**Model · effort · sessions:** Opus 5.5 · xhigh · 1
+
+**Prompt**
+```
+Stage BRAND from docs/build-plan.md.
+
+Read CLAUDE.md, §1, §4.1 (decision L) and the "BRAND" section of docs/build-plan.md, docs/agent.md §1 and §7, and the direction chosen in LOOK-BRIEF in docs/UI.md §10.
+Check the name "Nutrade" first: trademark registers, app stores, domains and social handles. State what you checked and what you could not check. If you find a conflict that is more serious than the ones §4.1 already lists, stop and tell me before any design work.
+No name, title or subtitle may promise profit, wealth or signals.
+
+Open a PR against main with the drafts (SVG) under assets/brand/.
+Report: the name check · the note for the lawyer · web-address options · logo concepts (links) · store title · tone of voice · open questions. Then stop and wait for my choice.
+```
+
+**You decide:** the web address and the icon direction. File the trademark early; the lawyer checks it before the release (`LEGAL-FINAL`).
 
 ### `LEGAL-DRAFT` – legal texts as drafts
 
@@ -1768,6 +1811,7 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
 - 5 hearts in tests: one back every 4 hours, or one per finished practice round.
 - **The Daily Chart:** one chart a day, the same for everyone on the same path, played bar by bar. You pick your moment or stand aside, set stop and target, then see what happened. The result can be shared as a small grid that shows your decisions, never money. It is a reason to open the app every day, and the arena's shop window.
 - **A taste of the arena**, e.g. one replay and ten drills, so you know what Plus contains.
+- **Bonus side lessons** on the path (from `FUN-PASS`): short charts to spot the setup, or see that there is none. They pay gems.
 - Ads between lessons (`ADS`).
 
 **Nutrade Plus (subscription)**
@@ -1930,6 +1974,7 @@ Report: what you built · the odds table · 12 sample charts (links: clean, marg
    - sharing as an image or as text.
 3. **The Plus gate:** every arena part asks one function whether it is unlocked. Until `MONEY`, test builds unlock everything.
 4. **Never costs hearts, never timed.**
+5. **Bonus side lessons** (`FUN-PASS`): from here on the generator fills them, with a new chart each time.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
@@ -2009,6 +2054,7 @@ Report: what you built · check results · my test checklist with real links · 
 1. Both packs are written in the session, following Appendix E.4. The Batch API is not needed for this.
 2. Generated setup drills for the scalping cards, from the `CHART-GEN` templates:
    - valid setup or not, the stop, the size, trade or pass;
+   - charts with no valid entry at all, where passing is the answer (your critique in `LOOK-BRIEF`);
    - weak concepts first.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2

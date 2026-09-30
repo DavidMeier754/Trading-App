@@ -47,6 +47,19 @@ export function forgetShownPath(): void {
   shownStatus.clear();
 }
 
+/**
+ * Testing (Settings → Testing → Animations): the path remembers `done` as it
+ * was one lesson before it was finished and `next` as still locked, so the
+ * next time it is drawn it moves on (UNLOCK) as it does after a level's last
+ * lesson. Progress itself is untouched.
+ */
+export function rewindUnlock(done: LevelView, next: LevelView): void {
+  shownFill.set(done.level.key, Math.max(0, done.total - 1) / Math.max(1, done.total));
+  shownStatus.set(done.level.key, 'current');
+  shownFill.set(next.level.key, 0);
+  shownStatus.set(next.level.key, 'locked');
+}
+
 /** The ring fills a beat after the path appears, so the eye is there for it. */
 /** The symbol each kind of level wears on its button (docs/UI.md §7.1). */
 const SYMBOL: Record<LevelType, IconName> = {

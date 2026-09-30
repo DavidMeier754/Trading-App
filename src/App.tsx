@@ -13,6 +13,12 @@ import { Look, LOOKS, setLook } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
 import { choosePath, completeLesson, getProgress, loadSaved } from './progress';
 import { setMotionSetting } from './lesson/useReduceMotion';
+import Prototype, {
+  DEFAULT_LINK,
+  parsePrototypeLink,
+  prototypeRoutes,
+  type ProtoLink,
+} from './prototype/Prototype';
 import { TEST_TOOLS } from './testTools';
 import { colors, space } from './theme';
 
@@ -31,6 +37,9 @@ export default function App() {
   const [entry, setEntry] = useState<LessonEntry | null>(link?.entry ?? null);
   // `#debug-crash`, test builds only: a screen that throws (ErrorBoundary.tsx).
   const [crash, setCrash] = useState(() => !!link?.crash);
+  // `#prototype/calm/chart`, test builds only: the design directions of stage
+  // LOOK-BRIEF (src/prototype). Also opened from Settings → Testing.
+  const [proto, setProto] = useState<ProtoLink | null>(() => link?.proto ?? null);
 
   // Saved progress and settings come back before the home screen is drawn, so
   // the path never flashes empty first. A deep link opens its lesson at once,
@@ -55,6 +64,7 @@ export default function App() {
       setLink(next);
       setEntry(next?.entry ?? null);
       setCrash(!!next?.crash);
+      setProto(next?.proto ?? null);
       setVisit((v) => v + 1);
     };
     window.addEventListener('hashchange', onHash);
@@ -88,6 +98,8 @@ export default function App() {
       path: e.level.path,
       bench: !!e.testBench,
     }));
+    // And the prototype routes, which the render test opens one by one too.
+    (window as unknown as { __prototypes: string[] }).__prototypes = prototypeRoutes();
   }, []);
 
   // Where the backdrop's grid starts. Charts subtract it from their own measured
@@ -116,6 +128,7 @@ export default function App() {
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
     setCrash(false);
+    setProto(null);
     setEntry(null);
     setLink(null);
   }, []);
@@ -139,6 +152,14 @@ export default function App() {
               <ErrorBoundary key={visit} onBack={backToMap}>
                 {crash ? (
                   <DebugCrash />
+                ) : proto ? (
+                  <Prototype
+                    key={visit}
+                    initial={proto}
+                    width={frameWidth}
+                    height={height}
+                    onExit={backToMap}
+                  />
                 ) : entry ? (
                   <LessonPlayer
                     key={`${entry.id}#${visit}`}
@@ -163,6 +184,9 @@ export default function App() {
                     width={frameWidth}
                     onStart={setEntry}
                     onOpenBench={() => setEntry(TEST_BENCH)}
+                    onOpenPrototype={(page) =>
+                      setProto(page ? { ...DEFAULT_LINK, screen: page } : DEFAULT_LINK)
+                    }
                   />
                 ) : null}
               </ErrorBoundary>
@@ -216,6 +240,7 @@ function readDeepLink(): {
   screen: number;
   look: boolean;
   crash?: boolean;
+  proto?: ProtoLink;
 } | null {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return null;
   const [path, query = ''] = window.location.hash.replace(/^#/, '').split('?');
@@ -226,6 +251,8 @@ function readDeepLink(): {
   const [id, screen] = path.split('/');
   if (id === 'debug-crash' && TEST_TOOLS)
     return { entry: null, screen: 0, look: named, crash: true };
+  const proto = TEST_TOOLS ? parsePrototypeLink(path, query) : null;
+  if (proto) return { entry: null, screen: 0, look: named, proto };
   const found = LESSONS.find((l) => l.id === id) ?? null;
   // The test bench is a testing tool: a release build does not open it.
   const entry = found?.testBench && !TEST_TOOLS ? null : found;
