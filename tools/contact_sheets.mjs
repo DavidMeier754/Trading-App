@@ -51,7 +51,7 @@ const SIZES = [
 ];
 const BENCH = 'all-screens';
 /** The home screens, by their test links (src/home/Home.tsx, openHomeAt). */
-const HOME = ['learn', 'account', 'settings', 'design', 'development', 'animations', 'suggestions'];
+const HOME = ['learn', 'account', 'settings', 'design', 'animations', 'suggestions'];
 
 if (!flag('--no-build') || !existsSync(join(dist, 'index.html'))) {
   console.log('Building the web export with the testing tools…');

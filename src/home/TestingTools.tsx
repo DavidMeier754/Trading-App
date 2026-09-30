@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated, {
   FadeIn,
   useAnimatedStyle,
@@ -8,7 +8,6 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { chaptersFor, PathLevel } from '../content';
 import { tapFeedback } from '../lesson/feedback';
@@ -17,68 +16,50 @@ import { MAX_HEARTS, refillHearts, skipTo, useHearts, useProgress, waitText } fr
 import { colors, radius, space, themed, type } from '../theme';
 import Icon from './icons';
 import { forgetShownPath } from './LevelNode';
-import {
-  PageHeader,
-  pageStyles,
-  RowButton,
-  rowStyles,
-  useBackButton,
-  useSlideIn,
-} from './pageParts';
+import { pageStyles, RowButton, rowStyles } from './pageParts';
 import { pathView } from './pathState';
 
 /**
- * Settings → Development (docs/UI.md §11.5): the testing tools, in test builds
- * only. Two change the learner's progress on the spot -- the hearts back, a
- * jump ahead -- and three open pages of their own: the lesson with every screen
- * type, the Animations page and the Design suggestions.
+ * Settings → Testing (docs/UI.md §11.5): the testing tools, in test builds
+ * only, as a section of Settings itself (David, 2026-09-30: "bring back all
+ * the developer options into the settings"). Two change the learner's progress
+ * on the spot -- the hearts back, a jump ahead -- and three open pages of their
+ * own: the lesson with every screen type, the Animations page and the Design
+ * suggestions.
  */
-export default function DevelopmentScreen({
-  onBack,
+export default function TestingTools({
   onOpenBench,
   onOpenAnimations,
   onOpenSuggestions,
 }: {
-  onBack: () => void;
   onOpenBench: () => void;
   onOpenAnimations: () => void;
   onOpenSuggestions: () => void;
 }) {
-  const insets = useSafeAreaInsets();
-  useBackButton(onBack);
-  const enter = useSlideIn();
   return (
-    <Animated.View style={[pageStyles.wrap, enter]}>
-      <PageHeader title="Development" top={insets.top} onBack={onBack} />
-      <ScrollView
-        contentContainerStyle={[pageStyles.content, { paddingBottom: insets.bottom + space.xxl }]}
-        showsVerticalScrollIndicator={false}
-      >
-        <Text style={pageStyles.section}>Progress</Text>
-        <HeartsRow />
-        <SkipRow />
-
-        <Text style={pageStyles.section}>Pages</Text>
-        <RowButton
-          icon="flask"
-          title="Every screen type"
-          sub="The test lesson"
-          onPress={onOpenBench}
-        />
-        <RowButton
-          icon="play"
-          title="Animations"
-          sub="Rare moments, on a tap"
-          onPress={onOpenAnimations}
-        />
-        <RowButton
-          icon="bulb"
-          title="Design suggestions"
-          sub="Ideas for the look"
-          onPress={onOpenSuggestions}
-        />
-      </ScrollView>
-    </Animated.View>
+    <>
+      <Text style={pageStyles.section}>Testing</Text>
+      <HeartsRow />
+      <SkipRow />
+      <RowButton
+        icon="flask"
+        title="Every screen type"
+        sub="The test lesson"
+        onPress={onOpenBench}
+      />
+      <RowButton
+        icon="play"
+        title="Animations"
+        sub="Rare moments, on a tap"
+        onPress={onOpenAnimations}
+      />
+      <RowButton
+        icon="bulb"
+        title="Design suggestions"
+        sub="Ideas for the look"
+        onPress={onOpenSuggestions}
+      />
+    </>
   );
 }
 

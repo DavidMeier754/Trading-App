@@ -118,21 +118,46 @@ describe('Settings → Change design (docs/UI.md §11.5)', () => {
     expect(getLook()).toBe('neo');
   });
 
-  it('is one row in Settings, with the design in use, beside the Development row', () => {
+  it('is one row in Settings, with the design in use, above the testing tools', () => {
     const onOpenDesign = jest.fn();
-    const onOpenDevelopment = jest.fn();
+    const onOpenBench = jest.fn();
+    const onOpenAnimations = jest.fn();
+    const onOpenSuggestions = jest.fn();
     const tree = render(
       <SettingsScreen
         onBack={() => {}}
         onOpenDesign={onOpenDesign}
-        onOpenDevelopment={onOpenDevelopment}
+        onOpenBench={onOpenBench}
+        onOpenAnimations={onOpenAnimations}
+        onOpenSuggestions={onOpenSuggestions}
       />,
     );
     expect(texts(tree)).toContain(LOOKS.neo.name);
     act(() => button(tree, 'Change design').props.onPress());
-    act(() => button(tree, 'Development').props.onPress());
     expect(onOpenDesign).toHaveBeenCalledTimes(1);
-    expect(onOpenDevelopment).toHaveBeenCalledTimes(1);
+  });
+
+  it('holds the testing tools itself (David, 2026-09-30)', () => {
+    const onOpenBench = jest.fn();
+    const onOpenAnimations = jest.fn();
+    const onOpenSuggestions = jest.fn();
+    const tree = render(
+      <SettingsScreen
+        onBack={() => {}}
+        onOpenDesign={() => {}}
+        onOpenBench={onOpenBench}
+        onOpenAnimations={onOpenAnimations}
+        onOpenSuggestions={onOpenSuggestions}
+      />,
+    );
+    const shown = texts(tree);
+    for (const title of ['Testing', 'Refill hearts', 'Skip ahead']) expect(shown).toContain(title);
+    act(() => button(tree, 'Every screen type').props.onPress());
+    act(() => button(tree, 'Animations').props.onPress());
+    act(() => button(tree, 'Design suggestions').props.onPress());
+    expect(onOpenBench).toHaveBeenCalledTimes(1);
+    expect(onOpenAnimations).toHaveBeenCalledTimes(1);
+    expect(onOpenSuggestions).toHaveBeenCalledTimes(1);
   });
 });
 

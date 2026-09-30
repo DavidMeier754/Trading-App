@@ -9,9 +9,9 @@ import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import Icon, { type IconName } from './icons';
 
 /**
- * What the pages over the tabs share (docs/UI.md §11.5): Settings, Development,
- * Animations and Design suggestions each arrive from the right, go back with
- * the arrow or Android's back button, and open what they hold from rows.
+ * What the pages over the tabs share (docs/UI.md §11.5): Settings, Animations
+ * and Design suggestions each arrive from the right, go back with the arrow or
+ * Android's back button, and open what they hold from rows.
  */
 
 /** Android's back button goes back, as the arrow does, rather than out of the app. */

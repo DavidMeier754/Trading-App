@@ -36,6 +36,7 @@ import {
 } from '../theme';
 import Icon from './icons';
 import { forgetShownPath } from './LevelNode';
+import TestingTools from './TestingTools';
 import {
   PageHeader,
   pageStyles,
@@ -50,18 +51,24 @@ import { totalXp } from './pathState';
  * Settings (docs/UI.md §11.5), opened from Account: the design, which opens
  * full screen on a lesson to be chosen (ChangeDesign.tsx), the theme, the
  * toggles the lesson reads -- haptics, sound, motion -- the path, starting
- * over, and in test builds the Development page.
+ * over, and in test builds the testing tools (TestingTools.tsx).
  */
 export default function SettingsScreen({
   onBack,
   onOpenDesign,
-  onOpenDevelopment,
+  onOpenBench,
+  onOpenAnimations,
+  onOpenSuggestions,
 }: {
   onBack: () => void;
   /** Change design: each look full screen on a lesson (ChangeDesign.tsx). */
   onOpenDesign: () => void;
-  /** Test builds: the testing tools (DevelopmentScreen.tsx). */
-  onOpenDevelopment: () => void;
+  /** Test builds: the lesson with every screen type. */
+  onOpenBench: () => void;
+  /** Test builds: the Animations page. */
+  onOpenAnimations: () => void;
+  /** Test builds: the Design suggestions page. */
+  onOpenSuggestions: () => void;
 }) {
   const insets = useSafeAreaInsets();
   const haptics = useHapticsSetting();
@@ -152,15 +159,11 @@ export default function SettingsScreen({
         <ResetRow />
 
         {TEST_TOOLS ? (
-          <>
-            <Text style={pageStyles.section}>Testing</Text>
-            <RowButton
-              icon="flask"
-              title="Development"
-              sub="Test tools, animations, design ideas"
-              onPress={onOpenDevelopment}
-            />
-          </>
+          <TestingTools
+            onOpenBench={onOpenBench}
+            onOpenAnimations={onOpenAnimations}
+            onOpenSuggestions={onOpenSuggestions}
+          />
         ) : null}
       </ScrollView>
     </Animated.View>

@@ -49,7 +49,7 @@ export function forgetShownPath(): void {
 }
 
 /**
- * Testing (Settings → Development → Animations): the path remembers `done` as it
+ * Testing (Settings → Testing → Animations): the path remembers `done` as it
  * was one lesson before it was finished and `next` as still locked, so the
  * next time it is drawn it moves on (UNLOCK) as it does after a level's last
  * lesson. Progress itself is untouched.

@@ -67,7 +67,7 @@ describe('the testing tools (docs/UI.md §11.5)', () => {
   });
 });
 
-describe('Settings → Development → Animations (David, 2026-09-29)', () => {
+describe('Settings → Testing → Animations (David, 2026-09-29)', () => {
   it('plays a level opening on the map, once a level before it is finished', () => {
     const onShowMap = jest.fn();
     const tree = renderPage(onShowMap);

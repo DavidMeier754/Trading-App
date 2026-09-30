@@ -281,16 +281,7 @@ for (const lesson of lessons) {
 // The home screen's tabs and pages (src/home/Home.tsx, openHomeAt), by their
 // own deep links. They are a "home" group of their own, outside the
 // validator's chapter counts.
-const HOME = [
-  'learn',
-  'practice',
-  'account',
-  'settings',
-  'design',
-  'development',
-  'animations',
-  'suggestions',
-];
+const HOME = ['learn', 'practice', 'account', 'settings', 'design', 'animations', 'suggestions'];
 if (!only.length || only.includes('home')) {
   for (const name of HOME) {
     tasks.push({

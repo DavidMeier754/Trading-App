@@ -5,7 +5,6 @@ import type { LessonEntry } from '../content';
 import AccountScreen from './AccountScreen';
 import AnimationsScreen from './AnimationsScreen';
 import ChangeDesign from './ChangeDesign';
-import DevelopmentScreen from './DevelopmentScreen';
 import EmptyTab from './EmptyTab';
 import LearnScreen from './LearnScreen';
 import SettingsScreen from './SettingsScreen';
@@ -14,29 +13,23 @@ import TabBar, { Tab } from './TabBar';
 
 /**
  * A page over the tabs: Settings and its Change design, and in test builds the
- * Development page with the pages it opens (docs/UI.md §11.5).
+ * pages its testing tools open (docs/UI.md §11.5).
  */
-type Page = 'settings' | 'design' | 'development' | 'animations' | 'suggestions' | null;
-const PAGES: Exclude<Page, null>[] = [
-  'settings',
-  'design',
-  'development',
-  'animations',
-  'suggestions',
-];
+type Page = 'settings' | 'design' | 'animations' | 'suggestions' | null;
+const PAGES: Exclude<Page, null>[] = ['settings', 'design', 'animations', 'suggestions'];
 
 /**
  * Where the learner was, kept while a lesson is open. The home screen is
  * unmounted under a lesson, so coming back from the test bench opened on the
- * Development page lands there, and coming back from a lesson on the path
+ * Settings page lands there, and coming back from a lesson on the path
  * lands on the path.
  */
 let lastTab: Tab = 'learn';
 let lastPage: Page = null;
 
 /**
- * Test builds: `#home/settings` (or another page: design, development,
- * animations, suggestions; or a tab: learn, practice, account) opens the home
+ * Test builds: `#home/settings` (or another page: design, animations,
+ * suggestions; or a tab: learn, practice, account) opens the home
  * screen there, so the contact sheets and the UI check see it
  * (tools/contact_sheets.mjs). Returns false for a name it does not know.
  */
@@ -83,7 +76,7 @@ export default function Home({
   if (page === 'animations') {
     return (
       <AnimationsScreen
-        onBack={() => setPage('development')}
+        onBack={() => setPage('settings')}
         onShowMap={() => {
           setPage(null);
           setTab('learn');
@@ -91,24 +84,16 @@ export default function Home({
       />
     );
   }
-  if (page === 'suggestions') return <Suggestions onBack={() => setPage('development')} />;
-  if (page === 'development') {
-    return (
-      <DevelopmentScreen
-        onBack={() => setPage('settings')}
-        onOpenBench={onOpenBench}
-        onOpenAnimations={() => setPage('animations')}
-        onOpenSuggestions={() => setPage('suggestions')}
-      />
-    );
-  }
+  if (page === 'suggestions') return <Suggestions onBack={() => setPage('settings')} />;
   if (page === 'design') return <ChangeDesign width={width} onBack={() => setPage('settings')} />;
   if (page === 'settings') {
     return (
       <SettingsScreen
         onBack={() => setPage(null)}
         onOpenDesign={() => setPage('design')}
-        onOpenDevelopment={() => setPage('development')}
+        onOpenBench={onOpenBench}
+        onOpenAnimations={() => setPage('animations')}
+        onOpenSuggestions={() => setPage('suggestions')}
       />
     );
   }

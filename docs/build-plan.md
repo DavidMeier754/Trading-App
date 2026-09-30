@@ -259,7 +259,7 @@ npm run smoke                              # from stage WIRE on: every screen re
   - `#scalping-ch3-level-15-2/5` = Scalping Chapter 3.
   - `#all-screens/12` = test bench.
   - Append `?look=neoMono` or `?look=classicContrast` = a different look, `?theme=light` a different theme.
-- **Testing tools** (test builds only: every development run, so Expo Go, and exports with `EXPO_PUBLIC_TEST_TOOLS=1`) under Settings → Development (from `LOOK-SYSTEM`; before that Settings → Testing):
+- **Testing tools** (test builds only: every development run, so Expo Go, and exports with `EXPO_PUBLIC_TEST_TOOLS=1`) under Settings → Testing:
   - "Skip ahead" jumps to any level.
   - "Refill hearts" refills the hearts.
   - "Every screen type" opens the test bench.
@@ -811,13 +811,13 @@ Report: the three directions in three sentences each · links to every variant �
     - Letter tiles and number keys play the barely-there `detent`, not the answer tap.
 11. **Settings** ✅ (your critique):
     - **Change design:** a button that shows each of the three looks full screen on a real lesson screen, with "Use this design" (today they are small cards to swipe past).
-    - The testing tools move to their own **Development** screen, still in test builds only, with the **Design suggestions** page (today Settings → Testing → Design suggestions): ideas for the look, drawn live, each marked in the mix or not (your wish in `LOOK-BRIEF`), and the **Animations** page (today Settings → Testing → Animations). Every new animation of a rare moment gets a row there, such as the streak screens in `LOOP-DAILY`.
+    - The testing tools stay in Settings under **Testing** (a Development screen was built first; on 2026-09-30 you asked for them straight in Settings), still in test builds only, with the **Design suggestions** page (today Settings → Testing → Design suggestions): ideas for the look, drawn live, each marked in the mix or not (your wish in `LOOK-BRIEF`), and the **Animations** page (today Settings → Testing → Animations). Every new animation of a rare moment gets a row there, such as the streak screens in `LOOP-DAILY`.
 12. **The path map** ✅ (your answers in `LOOK-BRIEF`, `#prototype/mix/map`):
     - Today's design stays, in the chosen look (you: the list-style maps look too professional and not fun).
     - Smaller level buttons, 58 pt in a 76 pt ring instead of 72 in 96, so small scenes fit at the sides of the path. The scenes are drawn in the ground's own ink, as faint as its grid and with no colour, so they fit the background instead of standing out (your note of 2026-09-29).
     - A finished level drops its progress ring and keeps its check; only the level you are on shows a ring.
     - The label beside a level is its title alone, in whole lines (`docs/UI.md` §7.1).
-13. **Clean-up** ✅: once the mix is built, `src/prototype/` goes, with its route and its Settings row. The Design suggestions page moves to the Development screen and stays (item 11).
+13. **Clean-up** ✅: once the mix is built, `src/prototype/` goes, with its route and its Settings row. The Design suggestions page stays under Settings → Testing (item 11).
     - **The prototype after it is gone.** Where a later stage points to `#prototype/mix/<screen>` or a file in `src/prototype/` (the forming candle and the count-up in `LOOK-COMPONENTS`, the streak screens in `LOOP-DAILY`, the bonus side lesson in `FUN-PASS`), it reads it at commit `a78e210`, the last one that has it: `git show a78e210:src/prototype/kit.tsx`, or `git checkout a78e210` and open `#prototype/mix/<screen>` in a test build.
 
 **Two sessions** (David, 2026-09-30), each its own PR and thread:

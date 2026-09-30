@@ -25,7 +25,7 @@ import { PageHeader } from './pageParts';
 import { pathView } from './pathState';
 
 /**
- * Settings → Development → Animations (David, 2026-09-29): the animations that
+ * Settings → Testing → Animations (David, 2026-09-29): the animations that
  * only play in certain moments -- a level opening, a perfect run, a chapter's
  * badge, a lost heart -- played on a tap, as often as wanted, without earning
  * or losing anything. Every new animation of a rare moment gets a row here,

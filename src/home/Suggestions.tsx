@@ -20,7 +20,7 @@ import Icon from './icons';
 import { PageHeader, pageStyles, useBackButton, useSlideIn } from './pageParts';
 
 /**
- * Settings → Development → Design suggestions (David, stage LOOK-BRIEF: "add
+ * Settings → Testing → Design suggestions (David, stage LOOK-BRIEF: "add
  * another development page where you show design suggestions like the ones you
  * asked me about"). Each idea is drawn live, in the design in use, and marked
  * in the mix or not. New ideas are shown here before they go in.
