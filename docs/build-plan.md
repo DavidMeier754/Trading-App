@@ -288,7 +288,6 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | B Stable | `STABLE-APP` ✅ | Plan overview, recap, reveal (decision vs. outcome), screen-reader leak, error page | Opus 5.5 · high | 1 | 20 min |
 | | `STABLE-DATA` ✅ | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
 | C Look & feel | `LOOK-BRIEF` ✅ | Your critique + three design directions as clickable prototypes, with calm, high-quality motion | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
-| | `BRAND` | "Nutrade": trademark check and filing, web address, logo, icon draft, store title, tone of voice | Opus 5.5 · xhigh | 1 | 20 min + choice |
 | | `LOOK-SYSTEM` | The chosen mix as a system: colors, type, light/dark, the 3 looks, thumb zone, minimum type size, motion, sounds, tap targets, fewer words, the path map and the top bar | Opus 5.5 · high, plan mode | 1–2 | 30 min |
 | | `LOOK-COMPONENTS` | Charts, match, lesson-complete screen, icons, visuals, badge | Opus 5.5 · high | 2 | 30 min |
 | | `VISUALS` | New teaching graphics: candle anatomy, trade plan | Opus 5.5 · high | 1 | 15 min |
@@ -307,7 +306,8 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | | `KNOWLEDGE-FIX` | Add the missing knowledge | Opus 5.5 · high | 1–3 | 20 min |
 | | `REVIEW-A` | Didactic review of the whole path, then corrections | Fable 5.1 · high (else Opus 5.5 · max) | 1 + 1–3 | decide findings |
 | | `EXPERT` | Expert review by an experienced trader (a human) | – | – | organize |
-| F Beta 1 | `LEGAL-DRAFT` | Drafts in English and German: the business's imprint, privacy policy, terms of use, disclaimer + a web page | Opus 5.5 · high | 1 | read + details |
+| F Beta 1 | `BRAND` | "Nutrade": trademark check and filing, web address, logo, icon draft, store title, tone of voice | Opus 5.5 · xhigh | 1 | 20 min + choice |
+| | `LEGAL-DRAFT` | Drafts in English and German: the business's imprint, privacy policy, terms of use, disclaimer + a web page | Opus 5.5 · high | 1 | read + details |
 | | `STORE-SETUP` | Developer accounts in the business's name, EAS builds, TestFlight, Play internal testing | Sonnet 5 · high | 1 | 30 min setup |
 | | `ANALYTICS` | Crash reports, data-minimal learning analytics (opt-in), "Report a problem" | Opus 5.5 · high | 1 | 10 min |
 | | `BETA-1` | Your testers, 2–4 weeks, weekly evaluation and fixes | Opus 5.5 · high per round | 2–4 | look after testers |
@@ -763,43 +763,6 @@ Report: the three directions in three sentences each · links to every variant �
 3. Rate the motion: calm and polished, or sluggish? (Decision H is made; this sets how calm.)
 
 **Done when** Claude has recorded your choice in `docs/UI.md` §10. That happens in the same PR, after your answer.
-
-### `BRAND` – Nutrade: the trademark, the address and a face
-
-**Goal.** The name Nutrade is protected and has a web address, and the app has a face before store accounts, icons and texts are created.
-
-**Scope**
-1. **Secure the name** (decision L):
-   - Run the trademark search for "Nutrade" and close spellings again: DPMA (Germany), EUIPO (EU, e.g. via TMview), WIPO (international), USPTO (US) and the launch markets from decision T. Nice classes 9 (apps), 41 (education), 42 (software) and 36 (finance).
-   - Known on 2026-09-26: NUTRADE for supplements and business services (classes 5 and 35; Germany, UK, international), held by a vitamin-gummy maker (nutrade.de); NUTRADE in Mexico, held by Syngenta (including class 42).
-   - A one-page note for the lawyer: can Nutrade for an education app coexist with those marks, and what does Mexico mean for a launch there?
-   - Prepare our own filing: the word mark "Nutrade" in classes 9 and 41 (42 optional). You or the lawyer file it.
-   - The app-store search in the launch markets, and the social handles.
-2. **The web address:** nutrade.com is parked with a domain seller (ask the price); otherwise e.g. nutradeapp.com, nutradeapp.app or nutradeapp.de, which were free on 2026-09-26. You register it.
-3. **How the name reads in the launch languages:** no unfortunate meaning, easy to say (decision M).
-4. **A store title,** e.g. "Nutrade – Learn to Trade". Neither title nor subtitle promises profit (`docs/agent.md` §1, §7 and the store guidelines).
-5. **2–3 logo and icon concepts** as SVG, matching the direction from `LOOK-BRIEF`, and a small logo for each path (Scalping, Swing Trading, Day Trading) for the top bar (`docs/UI.md` §7.2). Optionally image concepts with the `brandkit` skill.
-6. **Tone of voice in five sentences:** sober, friendly, honest.
-7. **After your choice, recorded in:**
-   - `app.json` (name, slug);
-   - the web title;
-   - placeholders for icon and splash.
-
-**Model · effort · sessions:** Opus 5.5 · xhigh · 1
-
-**Prompt**
-```
-Stage BRAND from docs/build-plan.md.
-
-Read CLAUDE.md, §1, §4.1 (decision L) and the "BRAND" section of docs/build-plan.md, docs/agent.md §1 and §7, and the direction chosen in LOOK-BRIEF in docs/UI.md §10.
-Check the name "Nutrade" first: trademark registers, app stores, domains and social handles. State what you checked and what you could not check. If you find a conflict that is more serious than the ones §4.1 already lists, stop and tell me before any design work.
-No name, title or subtitle may promise profit, wealth or signals.
-
-Open a PR against main with the drafts (SVG) under assets/brand/.
-Report: the name check · the note for the lawyer · web-address options · logo concepts (links) · store title · tone of voice · open questions. Then stop and wait for my choice.
-```
-
-**You decide:** the web address and the icon direction. File the trademark early; the lawyer checks it before the release (`LEGAL-FINAL`).
 
 ### `LOOK-SYSTEM` – the chosen direction as a system
 
@@ -1635,6 +1598,45 @@ The corrections are made in a session of their own (Opus 5.5 · high, prompt as 
 ## 10. Phase F – Beta 1 (closed, scalping)
 
 The goal of this phase: real people test the finished scalping course before the arena, Swing and Day Trading are built.
+
+### `BRAND` – Nutrade: the trademark, the address and a face
+
+**Goal.** The name Nutrade is protected and has a web address, and the app has a face before store accounts, icons and texts are created.
+
+**When:** first in Beta 1, before the legal texts, the store accounts and the first builds need the name, the web address and the icon. It moved here from Phase C at your request on 2026-09-30, because it is not important before then. Until it runs, the app shows the name "Nutrade" as text and stand-ins for the logos.
+
+**Scope**
+1. **Secure the name** (decision L):
+   - Run the trademark search for "Nutrade" and close spellings again: DPMA (Germany), EUIPO (EU, e.g. via TMview), WIPO (international), USPTO (US) and the launch markets from decision T. Nice classes 9 (apps), 41 (education), 42 (software) and 36 (finance).
+   - Known on 2026-09-26: NUTRADE for supplements and business services (classes 5 and 35; Germany, UK, international), held by a vitamin-gummy maker (nutrade.de); NUTRADE in Mexico, held by Syngenta (including class 42).
+   - A one-page note for the lawyer: can Nutrade for an education app coexist with those marks, and what does Mexico mean for a launch there?
+   - Prepare our own filing: the word mark "Nutrade" in classes 9 and 41 (42 optional). You or the lawyer file it.
+   - The app-store search in the launch markets, and the social handles.
+2. **The web address:** nutrade.com is parked with a domain seller (ask the price); otherwise e.g. nutradeapp.com, nutradeapp.app or nutradeapp.de, which were free on 2026-09-26. You register it.
+3. **How the name reads in the launch languages:** no unfortunate meaning, easy to say (decision M).
+4. **A store title,** e.g. "Nutrade – Learn to Trade". Neither title nor subtitle promises profit (`docs/agent.md` §1, §7 and the store guidelines).
+5. **2–3 logo and icon concepts** as SVG, matching the direction from `LOOK-BRIEF`, and a small logo for each path (Scalping, Swing Trading, Day Trading) for the top bar (`docs/UI.md` §7.2). Optionally image concepts with the `brandkit` skill.
+6. **Tone of voice in five sentences:** sober, friendly, honest.
+7. **After your choice, recorded in:**
+   - `app.json` (name, slug);
+   - the web title;
+   - placeholders for icon and splash.
+
+**Model · effort · sessions:** Opus 5.5 · xhigh · 1
+
+**Prompt**
+```
+Stage BRAND from docs/build-plan.md.
+
+Read CLAUDE.md, §1, §4.1 (decision L) and the "BRAND" section of docs/build-plan.md, docs/agent.md §1 and §7, and the direction chosen in LOOK-BRIEF in docs/UI.md §10.
+Check the name "Nutrade" first: trademark registers, app stores, domains and social handles. State what you checked and what you could not check. If you find a conflict that is more serious than the ones §4.1 already lists, stop and tell me before any design work.
+No name, title or subtitle may promise profit, wealth or signals.
+
+Open a PR against main with the drafts (SVG) under assets/brand/.
+Report: the name check · the note for the lawyer · web-address options · logo concepts (links) · store title · tone of voice · open questions. Then stop and wait for my choice.
+```
+
+**You decide:** the web address and the icon direction. File the trademark early; the lawyer checks it before the release (`LEGAL-FINAL`).
 
 ### `LEGAL-DRAFT` – legal texts as drafts
 
