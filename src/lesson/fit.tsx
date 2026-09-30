@@ -30,12 +30,13 @@ import { useReduceMotion } from './useReduceMotion';
  * that still does not fit keeps that scale and scrolls above the fixed key.
  *
  * A screen sits in the middle of the area (David, 2026-09-30: "the page
- * content in the middle of the screen, not at the top or bottom"), centred in
- * the area less the strip kept free for the reveal, with the key under that
- * (`Centre` below). The strip is kept from the first frame, so the reveal rises
- * into space that was already free and never covers what it grades; on a
- * screen that scrolls, the strip is the end of the scroll, and the screen
- * scrolls to it when the reveal arrives.
+ * content in the middle of the screen, not at the top or bottom"), and higher
+ * only where it must be to stay clear of the strip kept free for the reveal at
+ * the bottom of the area, with the key under that (`Centre` below). The strip
+ * is kept from the first frame, so the reveal rises into space that was
+ * already free and never covers what it grades; on a screen that scrolls, the
+ * strip is the end of the scroll, and the screen scrolls to it when the reveal
+ * arrives.
  *
  * The backdrop grid pulls back with the screen (components/Backdrop.tsx), about
  * the same point, so a chart that sat on the grid still does. Both read the two
@@ -52,9 +53,10 @@ const LOCK_MS = 600;
 /**
  * The lesson's content area.
  *
- * `center` (every screen but one): the screen is centred in the area less the
- * reveal's strip (`Centre`). `fill`: the screen takes the whole area and places
- * its own content (chart-decision, which holds its chart on the backdrop grid).
+ * `center` (every screen but one): the screen is centred in the area and kept
+ * clear of the reveal's strip (`Centre`). `fill`: the screen takes the whole
+ * area and places its own content (chart-decision, which holds its chart on the
+ * backdrop grid).
  */
 export function FitScreen({
   children,
@@ -191,8 +193,12 @@ export function FitScreen({
           {anchor === 'fill' ? (
             children
           ) : (
-            // Centred in the area less the strip, at the scale drawn.
-            <Centre area={space > 0 ? space / target : 0} onMoved={onMoved}>
+            // Centred in the whole area, clear of the strip, at the scale drawn.
+            <Centre
+              area={space > 0 ? space / target : 0}
+              strip={reserve / target}
+              onMoved={onMoved}
+            >
               {children}
             </Centre>
           )}
@@ -215,6 +221,13 @@ const SHIFT_MS = 280;
  * docs/UI.md §2: a screen arrives in the middle of its area, and then holds
  * still -- nothing on a screen moves unless the learner moved it.
  *
+ * The middle is the whole area's, the reveal's strip included, so a screen
+ * with room to spare sits where the eye expects it. Content that would reach
+ * the strip from there rests on it instead, ending where the strip begins.
+ * Both are plain flexbox (centred, or at the end above a padding as tall as
+ * the strip), which Yoga and the web lay out alike; only the choice between
+ * them is made here, from the content's height.
+ *
  * Centring is what makes things jump: a carousel card a line longer than the
  * one before, a hint that goes away, and centred content answers every change
  * in height by sliding half of it. So the centring lasts until the screen has
@@ -225,11 +238,14 @@ const SHIFT_MS = 280;
  */
 function Centre({
   area,
+  strip,
   onMoved,
   children,
 }: {
-  /** The height to centre in: the area less the reveal's strip, as laid out. */
+  /** The room the content may take: the area less the reveal's strip, as laid out. */
   area: number;
+  /** The reveal's strip under that room, as laid out. */
+  strip: number;
   /** A settled screen moved; charts measure again (gridAlign). */
   onMoved: () => void;
   children: React.ReactNode;
@@ -238,21 +254,28 @@ function Centre({
   // Where the content sat when it locked; null while it is still centring.
   const [lockedTop, setLockedTop] = useState<number | null>(null);
   const [own, setOwn] = useState(0);
-  // The two heights as last laid out, for the lock to work out where the
-  // centred content sits. Not the content's own y: on the web a layout event
+  // The two heights as last laid out, and the strip, for the lock to work out
+  // where the content sits. Not the content's own y: on the web a layout event
   // only comes with a change of size, so a y can be stale.
-  const heights = useRef({ box: 0, own: 0 });
+  const heights = useRef({ box: 0, own: 0, strip: 0 });
+  useEffect(() => {
+    heights.current.strip = strip;
+  }, [strip]);
   useEffect(() => {
     const t = setTimeout(
       () =>
-        setLockedTop(
-          (prev) => prev ?? Math.max(0, (heights.current.box - heights.current.own) / 2),
-        ),
+        setLockedTop((prev) => {
+          if (prev !== null) return prev;
+          const { box, own: height, strip: under } = heights.current;
+          return Math.max(0, Math.min((box - height) / 2, box - under - height));
+        }),
       LOCK_MS,
     );
     return () => clearTimeout(t);
   }, []);
   const top = lockedTop === null ? null : Math.max(0, Math.min(lockedTop, area - own));
+  // The content rests on the strip when, centred, it would reach into it.
+  const rests = own > area - strip;
 
   const shift = useSharedValue(0);
   const drawnTop = useRef<number | null>(null);
@@ -276,9 +299,18 @@ function Centre({
 
   return (
     // The same two views before and after the lock, only restyled: swapping the
-    // tree would remount the screen under the tap that caused the change.
+    // tree would remount the screen under the tap that caused the change. The
+    // box reaches down over the strip, which its negative margin gives back, so
+    // it lays out no taller than the area or the content, whichever is taller.
     <View
-      style={{ minHeight: area, justifyContent: top === null ? 'center' : 'flex-start' }}
+      style={[
+        { minHeight: area + strip, marginBottom: -strip },
+        top !== null
+          ? { justifyContent: 'flex-start', paddingBottom: strip }
+          : rests
+            ? { justifyContent: 'flex-end', paddingBottom: strip }
+            : { justifyContent: 'center', paddingVertical: strip / 2 },
+      ]}
       onLayout={(e) => {
         heights.current.box = e.nativeEvent.layout.height;
       }}
