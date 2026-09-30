@@ -824,7 +824,7 @@ Report: the three directions in three sentences each · links to every variant �
 - **Session 1, the system:** items 1, 2, 4, 5 (tap targets and the quit dialog), 7, 8, 9 and 10, plus the check scripts (`npm run check:ui`, `npm run sheets`).
 - **Session 2, the screens:** items 3, 5 (the key's label), 6, 11, 12 and 13, and the docs that go with them. Its test checklist is items 2, 3 and 7–10 of "You test" below; session 1's is items 1 and 4–6.
 
-**Status** (2026-09-30): both sessions are built and are tested and merged together: PR #20 holds session 1, and session 2's PR goes into its branch. Items 1–8 and 10–13 are done; item 9 waits for your `EXPO_TOKEN`. The stage gets its ✅ in section 2 with "OK LOOK-SYSTEM – merge".
+**Status** (2026-09-30): both sessions are built and are tested and merged together: PR #20 holds session 1, and PR #21 (session 2) goes into its branch. Items 1–8 and 10–13 are done; item 9 waits for your `EXPO_TOKEN`. The stage gets its ✅ in section 2 with "OK LOOK-SYSTEM – merge".
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 
