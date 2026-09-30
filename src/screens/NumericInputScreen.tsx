@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import type { AnswerValue } from '../lesson/answers';
@@ -8,7 +8,8 @@ import { isSum, parseNumeric } from '../lesson/answers';
 import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
 import { usePressFeedback } from '../lesson/motion';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { tint } from '../lesson/look';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { NumericInputScreen as S } from '../types';
 import { Prompt } from './common';
 
@@ -65,7 +66,9 @@ function fieldSize(length: number): number {
 
 /**
  * One key. It owns its own press feedback, which is why it is a component and
- * not a branch inside the map: `usePressFeedback` is a hook.
+ * not a branch inside the map: `usePressFeedback` is a hook. A key plays the
+ * barely-there `detent`, not the answer tap: typing a number is many presses
+ * that choose nothing yet (stage LOOK-BRIEF).
  */
 function Key({
   label,
@@ -77,7 +80,7 @@ function Key({
   onPress: () => void;
 }) {
   const operator = label in OP || label === '=';
-  const press = usePressFeedback(!disabled);
+  const press = usePressFeedback(!disabled, { cue: 'detent' });
   const [down, setDown] = React.useState(false);
 
   return (
@@ -284,7 +287,7 @@ export default function NumericInputScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.lg },
   field: {
     borderWidth: 2,
@@ -313,7 +316,10 @@ const styles = StyleSheet.create({
   },
   keyDown: { backgroundColor: colors.surfaceAlt },
   keyText: { ...type.prompt, color: colors.text },
-  keyOperator: { backgroundColor: 'rgba(76,141,255,0.10)', borderColor: 'rgba(76,141,255,0.35)' },
+  keyOperator: {
+    backgroundColor: tint(colors.accent, 0.1),
+    borderColor: tint(colors.accent, 0.35),
+  },
   keyOperatorText: { color: colors.accent },
   backspace: {
     position: 'absolute',
@@ -325,4 +331,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   backspaceText: { fontSize: 22, lineHeight: 26, color: colors.textMuted },
-});
+}));

@@ -10,7 +10,7 @@ import Animated, {
 import Svg, { Path } from 'react-native-svg';
 
 import { HEART_REFILL_MS, useHearts, waitText } from '../progress';
-import { colors, space, type } from '../theme';
+import { colors, space, type, themed } from '../theme';
 import { EASE_OUT, SPRING_POP, useMotion } from './motion';
 
 const HEART = 112;
@@ -88,11 +88,11 @@ export default function OutOfHearts() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { alignItems: 'center', gap: space.xl },
   heart: { width: HEART, height: HEART },
   text: { alignItems: 'center', gap: space.sm, maxWidth: 320 },
   title: { ...type.display, color: colors.text, textAlign: 'center' },
   body: { ...type.body, color: colors.textMuted, textAlign: 'center' },
   note: { ...type.small, fontSize: 13, color: colors.textFaint, textAlign: 'center' },
-});
+}));

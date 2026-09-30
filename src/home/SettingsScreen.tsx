@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { BackHandler, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import Animated, {
   FadeIn,
   SharedValue,
@@ -41,7 +41,19 @@ import {
   waitText,
 } from '../progress';
 import { TEST_TOOLS, type PrototypePage } from '../testTools';
-import { colors, radius, space, type } from '../theme';
+import {
+  colors,
+  radius,
+  setColourBlind,
+  setThemeMode,
+  space,
+  themed,
+  type,
+  useColourBlind,
+  useThemeMode,
+  type ThemeMode,
+  TAP_TARGET,
+} from '../theme';
 import Icon, { type IconName } from './icons';
 import { forgetShownPath } from './LevelNode';
 import LookPreview from './LookPreview';
@@ -76,6 +88,8 @@ export default function SettingsScreen({
   const haptics = useHapticsSetting();
   const sound = useSoundEnabled();
   const motion = useMotionSetting();
+  const theme = useThemeMode();
+  const colourBlind = useColourBlind();
 
   // Android's back button leaves Settings, as the arrow does, rather than the app.
   useEffect(() => {
@@ -118,6 +132,29 @@ export default function SettingsScreen({
       >
         <Text style={styles.section}>Lesson design</Text>
         <DesignPicker width={width} />
+
+        <Text style={styles.section}>Appearance</Text>
+        <View style={styles.panel}>
+          <Segmented<ThemeMode>
+            label="Theme"
+            value={theme}
+            onChange={setThemeMode}
+            options={[
+              { id: 'system', text: 'System' },
+              { id: 'light', text: 'Light' },
+              { id: 'dark', text: 'Dark' },
+            ]}
+          />
+          <Segmented<boolean>
+            label="Colour-blind colours (blue and orange)"
+            value={colourBlind}
+            onChange={setColourBlind}
+            options={[
+              { id: false, text: 'Off' },
+              { id: true, text: 'On' },
+            ]}
+          />
+        </View>
 
         <Text style={styles.section}>Feel</Text>
         <View style={styles.panel}>
@@ -291,7 +328,7 @@ function DesignPicker({ width }: { width: number }) {
               <LookPreview id={id} width={cardW} />
               {id === active ? (
                 <View style={styles.inUseTag}>
-                  <Icon name="check" size={12} color="#FFFFFF" strokeWidth={3} />
+                  <Icon name="check" size={12} color={colors.successText} strokeWidth={3} />
                   <Text style={styles.inUseText}>In use</Text>
                 </View>
               ) : null}
@@ -734,7 +771,7 @@ function ResetRow() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { flex: 1 },
   header: {
     flexDirection: 'row',
@@ -743,12 +780,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.lg,
     paddingBottom: space.sm,
   },
+  // A 48 pt target (docs/UI.md §10) laid out as the 36 pt one it replaced.
   back: {
-    width: 36,
-    height: 36,
+    width: TAP_TARGET,
+    height: TAP_TARGET,
+    margin: -(TAP_TARGET - 36) / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: -space.sm,
+    marginLeft: -space.sm - (TAP_TARGET - 36) / 2,
   },
   title: { ...type.title, color: colors.text },
   content: { paddingHorizontal: space.lg, gap: space.md },
@@ -769,17 +808,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: colors.success,
+    backgroundColor: colors.successFill,
     borderRadius: radius.pill,
     paddingHorizontal: 8,
     paddingVertical: 3,
   },
-  inUseText: { ...type.small, fontSize: 11, color: '#FFFFFF', fontWeight: '700' },
+  inUseText: { ...type.small, color: colors.successText, fontWeight: '700' },
   pagerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.md },
   arrow: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: TAP_TARGET,
+    height: TAP_TARGET,
+    borderRadius: TAP_TARGET / 2,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.surface,
@@ -796,7 +835,7 @@ const styles = StyleSheet.create({
   useButton: {
     height: 50,
     borderRadius: radius.md,
-    backgroundColor: colors.accent,
+    backgroundColor: colors.accentFill,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -807,11 +846,11 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.success,
   },
-  useText: { ...type.prompt, fontSize: 17, color: '#FFFFFF' },
+  useText: { ...type.prompt, fontSize: 17, color: colors.accentText },
 
   panel: {
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
     padding: space.lg,
@@ -828,7 +867,7 @@ const styles = StyleSheet.create({
   },
   segItem: {
     flex: 1,
-    minHeight: 40,
+    minHeight: TAP_TARGET,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
@@ -845,7 +884,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.lg,
     paddingVertical: space.md,
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
   },
@@ -861,7 +900,7 @@ const styles = StyleSheet.create({
 
   skipCard: {
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
     overflow: 'hidden',
@@ -896,7 +935,7 @@ const styles = StyleSheet.create({
   skipState: { ...type.small, color: colors.textFaint, width: 40, textAlign: 'right' },
   resetCard: {
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
   },
@@ -922,10 +961,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  keepButton: { backgroundColor: colors.surfaceAlt, borderWidth: 1, borderColor: '#3A4553' },
+  keepButton: {
+    backgroundColor: colors.surfaceAlt,
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
+  },
   keepText: { ...type.prompt, fontSize: 16, color: colors.text },
-  resetButton: { backgroundColor: colors.down },
-  resetText: { ...type.prompt, fontSize: 16, color: '#FFFFFF' },
+  resetButton: { backgroundColor: colors.dangerFill },
+  resetText: { ...type.prompt, fontSize: 16, color: colors.accentText },
   rowTitle: { ...type.answer, color: colors.text, fontWeight: '700' },
   rowSub: { ...type.small, color: colors.textMuted },
-});
+}));

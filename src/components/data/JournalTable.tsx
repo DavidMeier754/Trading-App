@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { copy } from '../../format';
-import { colors, radius, space, type } from '../../theme';
+import { colors, radius, space, type, themed } from '../../theme';
 
 /** A column key as a heading: "setup" reads "Setup"; "R" stays "R". */
 function heading(key: string): string {
@@ -65,7 +65,7 @@ export default function JournalTable({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: {
     borderRadius: radius.md,
     borderWidth: 1,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   head: {
     ...type.small,
-    fontSize: 10,
+    fontSize: 13,
     flex: 1,
     color: colors.textFaint,
     letterSpacing: 0.6,
@@ -97,4 +97,4 @@ const styles = StyleSheet.create({
   cell: { ...type.small, flex: 1, color: colors.text },
   labelCol: { flex: 1.1 },
   label: { color: colors.textMuted },
-});
+}));

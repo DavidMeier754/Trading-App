@@ -12,8 +12,15 @@ import { useReduceMotion } from './useReduceMotion';
 
 import { colors } from '../theme';
 
-const MIXED = [colors.accent, colors.up, colors.warning, colors.down, '#FA742D', '#B18CFF'];
-const GOLD = [colors.warning, '#FFD36E', '#FFF1C2', colors.warning, '#F5B947', colors.up];
+const mixed = () => [colors.accent, colors.up, colors.warning, colors.down, '#FA742D', '#B18CFF'];
+const goldColors = () => [
+  colors.warning,
+  '#FFD36E',
+  '#FFF1C2',
+  colors.warning,
+  '#F5B947',
+  colors.up,
+];
 
 /**
  * A burst for a finished lesson. Rare tier, so it gets the delight budget.
@@ -43,7 +50,7 @@ export default function Confetti({
 }) {
   const reduced = useReduceMotion();
   if (reduced) return null;
-  const palette = gold ? GOLD : MIXED;
+  const palette = gold ? goldColors() : mixed();
   return (
     <View pointerEvents="none" style={[styles.layer, { overflow: 'hidden' }]}>
       {Array.from({ length: pieces }, (_, i) => (

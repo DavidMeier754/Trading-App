@@ -1,12 +1,11 @@
 {
   "expo": {
-    "name": "Lesson Player",
+    "name": "Nutrade",
     "slug": "lesson-player",
     "version": "0.1.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "dark",
+    "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "backgroundColor": "#0E1116",
     "ios": {
       "supportsTablet": false
     },

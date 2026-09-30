@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LayoutChangeEvent, Pressable, StyleSheet, Text, View } from 'react-native';
+import { LayoutChangeEvent, Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -33,7 +33,7 @@ import {
   revealTiming,
 } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, GRID, space, type } from '../theme';
+import { colors, GRID, space, type, themed } from '../theme';
 import type { ChartDecisionScreen as S } from '../types';
 
 export type DecisionPhase = 'deciding' | 'playing' | 'done';
@@ -320,7 +320,7 @@ export default function ChartDecisionScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { flex: 1 },
   column: {},
   brief: { overflow: 'hidden' },
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
   scenario: { ...type.body, color: colors.text },
   playHint: {
     ...type.small,
-    fontSize: 11,
+    fontSize: 13,
     color: colors.textFaint,
     position: 'absolute',
     right: 0,
@@ -338,4 +338,4 @@ const styles = StyleSheet.create({
   // Kept in the layout at all times: appearing mid-replay would shift the chart
   // under the line that is still drawing.
   playHintHidden: { opacity: 0 },
-});
+}));

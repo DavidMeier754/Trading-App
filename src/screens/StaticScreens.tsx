@@ -13,7 +13,7 @@ import { Arrive } from '../lesson/Celebrate';
 import { NOTE_STEPS, noteFeedback, tapFeedback } from '../lesson/feedback';
 import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import { SPRING_POP, useMotion } from '../lesson/motion';
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type {
   CarouselScreen as Carousel,
   ChecklistRevealScreen as Checklist,
@@ -101,7 +101,6 @@ export function CarouselScreen({
               tapFeedback();
               onCursor(i);
             }}
-            hitSlop={8}
             style={styles.dotSlot}
           >
             <View style={[styles.dot, i === cursor && styles.dotOn]} />
@@ -229,7 +228,9 @@ function ChecklistRow({ text, index, shown }: { text: string; index: number; sho
       {/* Not yet ticked, the item is a bar where its words will be: the same
           text laid out in the same space, only not readable yet -- so the list
           keeps its height and the next item is not given away early. */}
-      <Text style={[styles.checkText, !shown && styles.checkTextHidden]}>{copy(text)}</Text>
+      <Text aria-hidden={!shown} style={[styles.checkText, !shown && styles.checkTextHidden]}>
+        {copy(text)}
+      </Text>
     </Animated.View>
   );
 }
@@ -486,7 +487,7 @@ export function useCursor(): [number, (n: number) => void] {
   return useState(0);
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   centered: { gap: space.lg },
   counter: { ...type.label, color: colors.textMuted, alignSelf: 'center' },
   carouselCard: { gap: space.md, alignItems: 'flex-start' },
@@ -499,7 +500,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   iconText: { ...type.title, color: colors.accent },
-  dots: { flexDirection: 'row', gap: space.sm, alignSelf: 'center' },
+  dots: { flexDirection: 'row', alignSelf: 'center' },
   dot: {
     width: 8,
     height: 8,
@@ -507,7 +508,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceAlt,
   },
   dotOn: { backgroundColor: colors.accent, width: 20 },
-  dotSlot: { width: 20, height: 8, alignItems: 'center' },
+  // A 48 pt target (docs/UI.md §10) around each dot, laid out as the 8 pt row it was.
+  dotSlot: {
+    width: TAP_TARGET,
+    height: TAP_TARGET,
+    marginVertical: -(TAP_TARGET - 8) / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   spotlightRow: { flexDirection: 'row', alignItems: 'center', gap: space.md },
   spotlightText: { ...type.body, color: colors.text, flex: 1 },
   caption: { ...type.small, color: colors.textMuted, textAlign: 'center' },
@@ -561,7 +569,7 @@ const styles = StyleSheet.create({
   },
   recapNumText: { ...type.label, fontWeight: '800' },
   recapText: { ...type.body, color: colors.text, flex: 1 },
-  recapLevel: { ...type.small, fontSize: 11, color: colors.textFaint },
+  recapLevel: { ...type.small, color: colors.textFaint },
   pathHead: { gap: space.sm },
   pathList: { gap: space.md },
   pathCard: {
@@ -608,4 +616,4 @@ const styles = StyleSheet.create({
   },
   wantText: { ...type.small, fontWeight: '700' },
   pathFeel: { ...type.small, fontSize: 13, lineHeight: 18, color: colors.textMuted },
-});
+}));

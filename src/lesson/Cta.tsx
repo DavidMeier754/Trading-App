@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -9,14 +9,11 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { colors, space, TAP_TARGET, type } from '../theme';
-import { useLookSpec } from './look';
+import { colors, space, TAP_TARGET, type, themed } from '../theme';
+import { shade, useLookSpec } from './look';
 import type { CueName } from './cues.generated';
 import { EASE_OUT, SPRING_POP, usePressFeedback } from './motion';
 import { useReduceMotion } from './useReduceMotion';
-
-const OFF = { face: colors.surfaceAlt, rim: '#151A21' };
-const GOOD = { face: colors.success, rim: '#1B8F5E' };
 
 /**
  * docs/UI.md §2: single primary CTA, full width, bottom safe area.
@@ -37,7 +34,7 @@ export default function Cta({
   label,
   disabled,
   onPress,
-  cue = 'advance',
+  cue = 'tick',
   good = false,
   hidden = false,
 }: {
@@ -55,13 +52,16 @@ export default function Cta({
   hidden?: boolean;
 }) {
   const reduced = useReduceMotion();
-  // Colour, corners, depth and lettering are the look's (lesson/look.ts): a
-  // sunken key in Neo, a flat cyan bar in Terminal, a fat yellow one in Arcade.
+  // Colour, corners and depth are the look's (lesson/look.ts): a sunken blue
+  // key in Neo, a flat pill in Neo Mono, a flat white or black bar in Classic
+  // Contrast. The colours are read here, in render, so the worklets below
+  // capture the theme on screen.
   const spec = useLookSpec();
   const EDGE = spec.cta.edge;
   const face0 = spec.cta.face;
   const rim0 = spec.cta.rim;
-  const darkLabel = spec.accentText !== '#FFFFFF';
+  const OFF = { face: colors.surfaceAlt, rim: shade(colors.surfaceAlt, 0.3) };
+  const GOOD = { face: colors.successFill, rim: shade(colors.successFill, 0.3) };
   const inert = disabled || hidden;
   const press = usePressFeedback(!inert, { cue });
   const on = useSharedValue(disabled ? 0 : 1);
@@ -93,11 +93,6 @@ export default function Cta({
   useEffect(() => {
     green.set(withTiming(good ? 1 : 0, { duration: 320, easing: EASE_OUT }));
   }, [good, green]);
-
-  // Neo Violet's key casts its own light, and only while it can be pressed.
-  const glow = useAnimatedStyle(() => ({
-    opacity: on.get() * (1 - 0.4 * green.get()),
-  }));
 
   const keyStyle = useAnimatedStyle(() => ({
     opacity: enter.get(),
@@ -142,16 +137,6 @@ export default function Cta({
           covers all of it but the bottom strip, and all of it once pressed.
           Nothing moves in layout: the footprint is the same either way. */}
       <Animated.View style={[{ paddingBottom: EDGE }, keyStyle]}>
-        {spec.cta.glow ? (
-          <Animated.View
-            pointerEvents="none"
-            style={[
-              styles.glow,
-              { borderRadius: spec.cta.radius, backgroundColor: face0, shadowColor: face0 },
-              glow,
-            ]}
-          />
-        ) : null}
         <Animated.View
           pointerEvents="none"
           style={[styles.rim, { top: EDGE, borderRadius: spec.cta.radius }, rim]}
@@ -161,10 +146,7 @@ export default function Cta({
           <Text
             style={[
               styles.label,
-              {
-                color: good ? (darkLabel ? '#06200F' : '#FFFFFF') : spec.accentText,
-              },
-              spec.cta.uppercase && styles.upper,
+              { color: good ? colors.successText : spec.cta.text },
               disabled && styles.labelDisabled,
             ]}
             numberOfLines={1}
@@ -179,17 +161,7 @@ export default function Cta({
   );
 }
 
-const styles = StyleSheet.create({
-  glow: {
-    position: 'absolute',
-    left: 6,
-    right: 6,
-    top: 8,
-    bottom: 0,
-    shadowOpacity: 0.75,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 6 },
-  },
+const styles = themed(() => ({
   rim: {
     position: 'absolute',
     left: 0,
@@ -202,7 +174,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  upper: { textTransform: 'uppercase', letterSpacing: 2, fontWeight: '800' },
   label: { ...type.prompt, color: colors.accentText, letterSpacing: 0.2 },
   labelDisabled: { color: colors.textFaint },
-});
+}));

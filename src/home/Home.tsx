@@ -24,6 +24,24 @@ let lastTab: Tab = 'learn';
 let lastPage: Page = null;
 
 /**
+ * Test builds: `#home/settings` (or a tab: learn, practice, account) opens the
+ * home screen there, so the contact sheets and the UI check see it
+ * (tools/contact_sheets.mjs). Returns false for a name it does not know.
+ */
+export function openHomeAt(name: string): boolean {
+  if (name === 'settings' || name === 'animations') {
+    lastPage = name;
+    return true;
+  }
+  if (name === 'learn' || name === 'practice' || name === 'account') {
+    lastPage = null;
+    lastTab = name;
+    return true;
+  }
+  return false;
+}
+
+/**
  * The home screen (docs/UI.md §11.2): the path, and the tabs along the bottom.
  * Its panels are Classic's whatever look is picked; the ground under them is
  * the picked look's (components/Backdrop.tsx), so a new design shows here the

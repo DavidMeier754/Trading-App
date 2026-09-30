@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { EASE_OUT, usePressFeedback } from '../lesson/motion';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import { useLookSpec } from '../lesson/look';
 import type { DecisionButton } from '../types';
 import { DECISION_LABEL } from '../lesson/decisionReveal';
@@ -70,7 +70,7 @@ function Choice({
   const state = useAnimatedStyle(() => ({
     opacity: 1 - 0.7 * dim.get(),
     backgroundColor: interpolateColor(lit.get(), [0, 1], [rest, `${tone}33`]),
-    borderColor: interpolateColor(lit.get(), [0, 1], [BORDER[button], tone]),
+    borderColor: interpolateColor(lit.get(), [0, 1], [borderOf(button), tone]),
   }));
 
   return (
@@ -91,7 +91,6 @@ function Choice({
             borderRadius: spec.surface.radius,
             borderWidth: Math.max(1.5, spec.surface.borderWidth),
           },
-          spec.surface.edge ? { borderBottomWidth: spec.surface.edge } : null,
           state,
           press.style,
         ]}
@@ -104,15 +103,18 @@ function Choice({
 
 // docs/UI.md §6: up is green, down is red. The direction buttons carry the same
 // pairing so Long/Short read the way the candles do.
-const BORDER: Record<DecisionButton, string> = {
-  long: colors.up,
-  buy: colors.up,
-  short: colors.down,
-  'no-trade': colors.borderStrong,
-  wait: colors.borderStrong,
-};
+function borderOf(key: DecisionButton): string {
+  const table: Record<DecisionButton, string> = {
+    long: colors.up,
+    buy: colors.up,
+    short: colors.down,
+    'no-trade': colors.borderStrong,
+    wait: colors.borderStrong,
+  };
+  return table[key];
+}
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   row: { flexDirection: 'row', gap: space.sm },
   flex: { flex: 1 },
   button: {
@@ -127,4 +129,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.xs,
   },
   text: { ...type.answer, color: colors.text },
-});
+}));

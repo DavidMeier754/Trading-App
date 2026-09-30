@@ -1,8 +1,8 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { count, price } from '../../format';
-import { colors, radius, space, type } from '../../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../../theme';
 import GrowBar from './GrowBar';
 
 type Level = [number, number];
@@ -70,16 +70,16 @@ export default function OrderBook({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { flexDirection: 'row', gap: space.sm },
   col: { flex: 1, gap: 3 },
-  head: { ...type.small, fontSize: 10, letterSpacing: 1, marginBottom: 2 },
+  head: { ...type.small, letterSpacing: 1, marginBottom: 2 },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: space.sm,
-    minHeight: 34,
+    minHeight: TAP_TARGET,
     borderRadius: radius.sm,
     borderWidth: 1.5,
     borderColor: 'transparent',
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
   sizeBar: { position: 'absolute', top: 0, bottom: 0 },
   price: { ...type.small, fontWeight: '600' },
   size: { ...type.small, color: colors.textMuted },
-});
+}));

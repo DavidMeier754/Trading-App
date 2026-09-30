@@ -70,14 +70,7 @@ export default function Backdrop({ width, height }: { width: number; height: num
 
   const spec = useLookSpec();
   const g = spec.ground;
-  const lineColor = (major: boolean) =>
-    g.grid === 'blueprint'
-      ? major
-        ? 'rgba(170, 205, 255, 0.26)'
-        : 'rgba(170, 205, 255, 0.11)'
-      : major
-        ? colors.gridLineMajor
-        : colors.gridLine;
+  const lineColor = (major: boolean) => g.grid[major ? 1 : 0];
 
   return (
     <View style={styles.fill} pointerEvents="none">
@@ -87,29 +80,27 @@ export default function Backdrop({ width, height }: { width: number; height: num
           the look's choice (lesson/look.ts). */}
       <View style={[styles.fill, { backgroundColor: g.color }]} />
       {g.edgeLight ? <Atmosphere width={width} height={height} /> : null}
-      {g.grid !== 'none' ? (
-        <Animated.View
-          style={[
-            styles.gridLayer,
-            { left: -extX, top: -extY, width: width + 2 * extX, height: height + 2 * extY },
-            pullBack,
-          ]}
-        >
-          <Svg width={width + 2 * extX} height={height + 2 * extY}>
-            {lines.map((l) => (
-              <Line
-                key={l.key}
-                x1={l.x1}
-                y1={l.y1}
-                x2={l.x2}
-                y2={l.y2}
-                stroke={lineColor(l.major)}
-                strokeWidth={1}
-              />
-            ))}
-          </Svg>
-        </Animated.View>
-      ) : null}
+      <Animated.View
+        style={[
+          styles.gridLayer,
+          { left: -extX, top: -extY, width: width + 2 * extX, height: height + 2 * extY },
+          pullBack,
+        ]}
+      >
+        <Svg width={width + 2 * extX} height={height + 2 * extY}>
+          {lines.map((l) => (
+            <Line
+              key={l.key}
+              x1={l.x1}
+              y1={l.y1}
+              x2={l.x2}
+              y2={l.y2}
+              stroke={lineColor(l.major)}
+              strokeWidth={1}
+            />
+          ))}
+        </Svg>
+      </Animated.View>
       <Svg width={width} height={height} style={styles.fill}>
         <Defs>
           <RadialGradient id="backdropGlow" cx="50%" cy="0%" r="80%">
@@ -120,8 +111,8 @@ export default function Backdrop({ width, height }: { width: number; height: num
           {/* A lens: the edges fall off into the dark, so the eye lands in the
               middle where the lesson is. */}
           <RadialGradient id="backdropVignette" cx="50%" cy="45%" r="75%">
-            <Stop offset="0.55" stopColor="#000000" stopOpacity="0" />
-            <Stop offset="1" stopColor="#000000" stopOpacity="0.4" />
+            <Stop offset="0.55" stopColor={colors.shade} stopOpacity="0" />
+            <Stop offset="1" stopColor={colors.shade} stopOpacity="0.4" />
           </RadialGradient>
         </Defs>
 
@@ -132,7 +123,7 @@ export default function Backdrop({ width, height }: { width: number; height: num
           <Rect x={0} y={0} width={width} height={height} fill="url(#backdropVignette)" />
         ) : null}
       </Svg>
-      {g.texture !== 'none' ? <Texture kind={g.texture} /> : null}
+      {g.grain ? <Texture kind="grain" /> : null}
     </View>
   );
 }

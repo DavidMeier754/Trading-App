@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { copy, count, price } from '../../format';
 import { useChartMove } from '../../lesson/haptics';
 import { surfaceStyle, useLookSpec } from '../../lesson/look';
 import { EASE_OUT_SETTLE } from '../../lesson/motion';
 import { useReduceMotion } from '../../lesson/useReduceMotion';
-import { colors, radius, space, type } from '../../theme';
+import { colors, radius, space, type, themed } from '../../theme';
 import GrowBar, { GROW_DELAY } from './GrowBar';
 
 /** The target lands first, then the costs eat into it one at a time. */
@@ -222,7 +222,7 @@ function CostTotals({ data }: { data: Totals }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.md },
   card: { padding: space.md },
   head: { flexDirection: 'row', alignItems: 'baseline', gap: space.sm, flexWrap: 'wrap' },
@@ -252,4 +252,4 @@ const styles = StyleSheet.create({
   targetLabel: { ...type.small, color: colors.textMuted, flexShrink: 1 },
   targetPct: { ...type.small, fontWeight: '700' },
   totalValue: { ...type.small, color: colors.text },
-});
+}));

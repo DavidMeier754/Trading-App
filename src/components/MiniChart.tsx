@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import Animated, { useAnimatedProps } from 'react-native-reanimated';
 import Svg, { Circle, G, Line, Path, Text as SvgText } from 'react-native-svg';
 
@@ -8,7 +8,7 @@ import { surfaceStyle, useLookSpec } from '../lesson/look';
 import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { price } from '../format';
-import { colors } from '../theme';
+import { colors, themed } from '../theme';
 import type { MiniChart as Spec } from '../types';
 import { BUILD_MS, BuildCandle, buildStagger, useEntrance } from './ChartBuild';
 import { floorSpan } from './chartScale';
@@ -133,7 +133,7 @@ export default function MiniChart({
                 <SvgText
                   x={pad + 2}
                   y={y(lvl.price) - 4}
-                  fontSize={10}
+                  fontSize={13}
                   fontWeight="600"
                   fill={colors.warning}
                 >
@@ -188,7 +188,7 @@ export default function MiniChart({
             <SvgText
               x={Math.min(cx(shown - 1) + 6, width - 4)}
               y={y(rows[shown - 1] as number) - 7}
-              fontSize={11}
+              fontSize={13}
               fontWeight="700"
               fill={colors.text}
               textAnchor={cx(shown - 1) > width - 60 ? 'end' : 'start'}
@@ -202,7 +202,7 @@ export default function MiniChart({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: {
     backgroundColor: colors.surface,
     borderRadius: 10,
@@ -210,4 +210,4 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     overflow: 'hidden',
   },
-});
+}));

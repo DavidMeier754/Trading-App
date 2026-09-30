@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import MiniChart from '../components/MiniChart';
 import { copy } from '../format';
@@ -7,7 +7,7 @@ import type { AnswerValue } from '../lesson/answers';
 import { PopIn } from '../lesson/Celebrate';
 import { matchHitFeedback, matchMissFeedback } from '../lesson/feedback';
 import { useLookSpec } from '../lesson/look';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { CompareScreen as Compare, SwipeDeckScreen as SwipeDeck } from '../types';
 import { Prompt, Stack, ToneSurface } from './common';
 
@@ -222,7 +222,7 @@ export function CompareScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.md },
   pips: { flexDirection: 'row', gap: space.sm, justifyContent: 'center', alignItems: 'center' },
   pip: {
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pipAhead: { borderWidth: 1.5, borderColor: colors.borderStrong },
-  pipMark: { fontSize: 12, lineHeight: 14, fontWeight: '800', color: colors.background },
+  pipMark: { fontSize: 13, lineHeight: 16, fontWeight: '800', color: colors.background },
   verdictRow: { alignItems: 'center', gap: 2 },
   verdictHead: { ...type.label },
   deckButtons: { flexDirection: 'row', gap: space.md },
@@ -266,4 +266,4 @@ const styles = StyleSheet.create({
   compareLabel: { ...type.small, color: colors.text },
   neither: { minHeight: TAP_TARGET, alignItems: 'center', justifyContent: 'center' },
   neitherText: { ...type.answer, color: colors.text },
-});
+}));

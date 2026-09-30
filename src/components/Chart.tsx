@@ -16,12 +16,12 @@ import Svg, {
 import { axisPrice, volume as fmtVolume } from '../format';
 import { floorSpan } from './chartScale';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
-import { useLookSpec } from '../lesson/look';
+import { tint, useLookSpec } from '../lesson/look';
 import { Arrive } from '../lesson/Celebrate';
 import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { BUILD_MS, BuildCandle, buildStagger, BuildVolume, useEntrance } from './ChartBuild';
-import { CHART_GRID_STEP, colors, GRID, type } from '../theme';
+import { CHART_GRID_STEP, colors, GRID, type, themed } from '../theme';
 import type { ChartSpec } from '../types';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -763,7 +763,7 @@ function DrawnLevel({
       />
       {label ? (
         <AnimatedG animatedProps={text}>
-          <SvgText x={x1 + 4} y={y - 5} fill={colors.warning} fontSize={10} fontWeight="600">
+          <SvgText x={x1 + 4} y={y - 5} fill={colors.warning} fontSize={13} fontWeight="600">
             {label}
           </SvgText>
         </AnimatedG>
@@ -824,7 +824,7 @@ function FutureZone({ zone }: { zone: Zone }) {
             x={cx}
             y={zone.midY + 3.5}
             fill={colors.textFaint}
-            fontSize={10}
+            fontSize={13}
             fontWeight="700"
             letterSpacing={0.8}
             textAnchor="middle"
@@ -1421,7 +1421,7 @@ function Chart({
                   x={width - AXIS_W + 6}
                   y={y(t) + 4}
                   fill={colors.textFaint}
-                  fontSize={11}
+                  fontSize={13}
                 >
                   {axisPrice(t)}
                 </SvgText>
@@ -1434,7 +1434,7 @@ function Chart({
                   x={width - AXIS_W + 6}
                   y={y(ticks[i]) + 4}
                   fill={colors.textFaint}
-                  fontSize={11}
+                  fontSize={13}
                 >
                   {axisPrice(t)}
                 </SvgText>
@@ -1449,7 +1449,7 @@ function Chart({
                 x={width - AXIS_W + 6}
                 y={y(t) + 4}
                 fill={colors.textFaint}
-                fontSize={11}
+                fontSize={13}
               >
                 {axisPrice(t)}
               </SvgText>
@@ -1627,9 +1627,20 @@ function Chart({
           />
         ) : null}
         {hasVolume ? (
-          <SvgText x={width - AXIS_W + 6} y={volTop + volH} fill={colors.textFaint} fontSize={9}>
-            {`vol ${fmtVolume(maxVol)}`}
-          </SvgText>
+          // Two lines: at 13 pt, "vol 16k" is wider than the axis.
+          <G>
+            <SvgText
+              x={width - AXIS_W + 6}
+              y={volTop + volH - 15}
+              fill={colors.textFaint}
+              fontSize={13}
+            >
+              vol
+            </SvgText>
+            <SvgText x={width - AXIS_W + 6} y={volTop + volH} fill={colors.textFaint} fontSize={13}>
+              {fmtVolume(maxVol)}
+            </SvgText>
+          </G>
         ) : null}
 
         {/* post-mortem markers and the learner's own trades */}
@@ -1651,7 +1662,7 @@ function Chart({
               x={cx(m.bar)}
               y={padTop + priceH + 11.5}
               fill={colors.background}
-              fontSize={10}
+              fontSize={13}
               fontWeight="800"
               textAnchor="middle"
             >
@@ -1744,7 +1755,7 @@ function Chart({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   decisionTag: {
     pointerEvents: 'none',
     position: 'absolute',
@@ -1757,7 +1768,7 @@ const styles = StyleSheet.create({
   },
   decisionTagText: {
     ...type.small,
-    fontSize: 10,
+    fontSize: 13,
     color: colors.textMuted,
   },
   // The VWAP overlay is labelled beside the chart, not on it: at 8-12 bars there
@@ -1778,18 +1789,18 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
     borderColor: colors.accent,
   },
-  legendText: { ...type.small, fontSize: 10, color: colors.accent },
+  legendText: { ...type.small, color: colors.accent },
   outcomeTag: {
     pointerEvents: 'none',
     position: 'absolute',
     height: OUTCOME_TAG_H,
     justifyContent: 'center',
-    backgroundColor: 'rgba(14, 17, 22, 0.88)',
+    backgroundColor: tint(colors.background, 0.88),
     borderColor: colors.border,
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 8,
   },
   outcomeMove: { ...type.label, fontWeight: '700' },
-  outcomePosition: { ...type.small, fontSize: 11, lineHeight: 14, color: colors.textMuted },
-});
+  outcomePosition: { ...type.small, color: colors.textMuted },
+}));

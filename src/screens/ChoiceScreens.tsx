@@ -18,7 +18,7 @@ import { detentFeedback, tapFeedback } from '../lesson/feedback';
 import { fitScale } from '../lesson/fitState';
 import { tint, useLookSpec } from '../lesson/look';
 import type { Tone } from '../lesson/toneTransition';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type {
   FillChoiceScreen as FillChoice,
   OrderScreen as OrderS,
@@ -482,7 +482,7 @@ export function SpotMistakeScreen({
 
 export { AnswerCard };
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.lg },
   sentence: {
     flexDirection: 'row',
@@ -582,4 +582,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   segmentText: { ...type.answer, color: colors.text },
-});
+}));

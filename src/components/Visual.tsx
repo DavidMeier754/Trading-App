@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, type, themed } from '../theme';
 import type { ChartSpec, ComponentId } from '../types';
 import Chart, { chartHeightFor, chartWidthFor } from './Chart';
 import { useGridAnchor } from './gridAlign';
@@ -194,7 +194,7 @@ function SeriesPair({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   chartBox: { alignSelf: 'center' },
   seriesRow: { flexDirection: 'row', gap: space.sm, alignSelf: 'stretch' },
   seriesCard: { flex: 1, gap: 4, alignItems: 'center' },
@@ -207,4 +207,4 @@ const styles = StyleSheet.create({
     padding: space.lg,
   },
   placeholderText: { ...type.small, color: colors.textFaint },
-});
+}));

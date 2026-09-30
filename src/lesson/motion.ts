@@ -32,22 +32,22 @@ export const DURATION = {
   press: 140,
   /** An answer taking its verdict colour. Starts at once (UI.md §1.4), settles slowly. */
   reveal: 380,
-  /** Screen to screen. */
-  screen: 420,
-  /** How long the screen's slide takes to settle. Longer than the fade on purpose. */
-  screenSettle: 640,
+  /** Screen to screen: Calm's cross-fade with a rise of `RISE.screen` (UI.md §10). */
+  screen: 320,
+  /** The reveal panel fading up by `RISE.reveal` (UI.md §10). */
+  panel: 280,
   /** A chart drawing itself. Explanatory, so it is allowed past the UI budget. */
   draw: 1200,
   /** The end-of-lesson ring filling. Rare tier, so it gets the delight budget. */
   celebrate: 1500,
 };
 
-/** No-overshoot settle, for the screen slide. */
-export const SPRING_SETTLE = { duration: DURATION.screenSettle, dampingRatio: 1 } as const;
-/** The reveal panel after a right answer: it arrives with a little lift. */
-export const SPRING_PANEL = { duration: 620, dampingRatio: 0.74 } as const;
-/** The reveal panel after anything else: the same arrival, without the bounce. */
-export const SPRING_PANEL_CALM = { duration: 620, dampingRatio: 1 } as const;
+/**
+ * How far things travel as they arrive, in points: Calm's pace (stage
+ * LOOK-BRIEF, docs/UI.md §10). Short on purpose -- a rise, not a slide.
+ */
+export const RISE = { screen: 6, reveal: 8 } as const;
+
 /** A little life, for marks and badges popping in. */
 export const SPRING_POP = { duration: 520, dampingRatio: 0.55 } as const;
 /**

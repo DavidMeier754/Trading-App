@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { tilePool } from '../lesson/answers';
-import { tapFeedback } from '../lesson/feedback';
+import { detentFeedback } from '../lesson/feedback';
 import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { FillTilesScreen as S } from '../types';
 
 /**
@@ -49,7 +49,7 @@ export default function FillTilesScreen({
       }
       disabled={revealed || placed.length === 0}
       onPress={() => {
-        tapFeedback();
+        detentFeedback();
         onChange({ kind: 'tiles', placed: placed.slice(0, -1) });
       }}
     >
@@ -114,7 +114,7 @@ export default function FillTilesScreen({
               accessibilityLabel={used ? `Take back ${letter}` : `Letter ${letter}`}
               disabled={revealed}
               onPress={() => {
-                tapFeedback();
+                detentFeedback();
                 // A used tile is still there, faded: tap it to take its letter
                 // back out of the word.
                 onChange({
@@ -134,7 +134,7 @@ export default function FillTilesScreen({
         accessibilityRole="button"
         disabled={revealed || placed.length === 0}
         onPress={() => {
-          tapFeedback();
+          detentFeedback();
           onChange({ kind: 'tiles', placed: placed.slice(0, -1) });
         }}
         hitSlop={8}
@@ -149,7 +149,7 @@ export default function FillTilesScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.xl },
   sentence: {
     flexDirection: 'row',
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   tileTextUsed: { color: colors.textFaint },
   tileText: { ...type.prompt, color: colors.text },
   undo: { ...type.label, color: colors.accent },
-});
+}));
 
 /** As many wide letters as the answer has, so the blank fits it without holding it. */
 export function sizerText(answer: string): string {

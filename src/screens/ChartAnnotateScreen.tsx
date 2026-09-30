@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { measure, useAnimatedRef, useSharedValue } from 'react-native-reanimated';
 import Svg, { Line, Text as SvgText } from 'react-native-svg';
@@ -19,7 +19,7 @@ import { price } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { detentFeedback, tapFeedback } from '../lesson/feedback';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { ChartAnnotateScreen as S } from '../types';
 import { Prompt } from './common';
 
@@ -214,7 +214,7 @@ export default function ChartAnnotateScreen({
                         x={4}
                         y={toY(placed) - 6}
                         fill={colors.accent}
-                        fontSize={11}
+                        fontSize={13}
                         fontWeight="700"
                       >
                         {price(placed)}
@@ -256,7 +256,7 @@ export default function ChartAnnotateScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: {},
   column: { gap: space.md },
   overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
@@ -273,4 +273,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nudgeText: { ...type.answer, color: colors.text },
-});
+}));

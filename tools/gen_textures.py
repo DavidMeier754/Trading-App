@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-The looks' ground textures: small tiles, repeated across the screen.
+The ground's texture: a small tile, repeated across the screen.
 
-- grain.png (Neo, Blueprint): film grain. A smooth digital gradient on a dark
+- grain.png (Neo, Neo Mono): film grain. A smooth digital gradient on a dark
   screen is the look that reads as generated; print and film never have one,
   because the medium itself is grainy. A faint, static noise breaks the banding
   and gives the dark a surface. Static on purpose: grain that crawls is a
   filter effect, grain that stays put is a material. Grey + alpha centred on
   mid-grey, so it darkens and lightens in equal measure and tints nothing.
-- scanlines.png (Terminal): one faint light line every third pixel, the raster
-  of an old monitor, in place of a grid.
-- dots.png (Arcade): a dot at every grid intersection (theme.ts GRID, 28 pt),
-  so the arcade board keeps the same 28-point rhythm the charts snap to.
 
 Seeded and deterministic: the files are the same on every run.
 
@@ -25,7 +21,6 @@ import zlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "assets", "textures")
-GRID = 28
 
 
 def chunk(kind, data):
@@ -57,32 +52,9 @@ def grain(size=192, alpha=13):
     png(os.path.join(OUT, "grain.png"), size, size, 4, rows)
 
 
-def scanlines(width=8, period=3, alpha=12):
-    rows = []
-    for y in range(period):
-        a = alpha if y == 0 else 0
-        rows.append(bytes((255, 255, 255, a)) * width)
-    png(os.path.join(OUT, "scanlines.png"), width, period, 6, rows)
-
-
-def dots(size=GRID, alpha=46):
-    rows = []
-    for y in range(size):
-        row = bytearray()
-        for x in range(size):
-            # A 2 x 2 dot, centred on the tile's corner so it sits on the
-            # intersection when the tiles meet.
-            on = (x in (0, size - 1)) and (y in (0, size - 1))
-            row += bytes((255, 255, 255, alpha if on else 0))
-        rows.append(bytes(row))
-    png(os.path.join(OUT, "dots.png"), size, size, 6, rows)
-
-
 def main():
     os.makedirs(OUT, exist_ok=True)
     grain()
-    scanlines()
-    dots()
 
 
 if __name__ == "__main__":

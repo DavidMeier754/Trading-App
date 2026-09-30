@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import Visual from '../components/Visual';
 import { copy } from '../format';
-import { colors, space, type } from '../theme';
+import { colors, space, type, themed } from '../theme';
 import type { ExampleScreen as S } from '../types';
 
 /** docs/UI.md §3 `example`: a concrete number or mini story + visual. */
@@ -21,7 +21,7 @@ export default function ExampleScreen({ screen, width }: { screen: S; width: num
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.xl },
   body: { ...type.body, color: colors.text },
-});
+}));

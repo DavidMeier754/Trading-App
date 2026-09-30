@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 
 import { copy } from '../format';
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, type, themed } from '../theme';
 import type { Grade } from './answers';
 import { Celebrate, PopIn } from './Celebrate';
 import { type DecisionReveal, decisionRevealLabel } from './decisionReveal';
 import { isStreakMilestone, pulseAt, STREAK_FROM } from './feedback';
 import { useLookSpec } from './look';
-import { EASE_OUT, SPRING_PANEL, SPRING_PANEL_CALM, useMotion } from './motion';
+import { DURATION, EASE_OUT, RISE, useMotion } from './motion';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-const TONE = {
-  correct: { accent: colors.success, tint: colors.successTint, label: 'Correct' },
-  amber: { accent: colors.warning, tint: colors.warningTint, label: 'Reasonable' },
-  wrong: { accent: colors.down, tint: colors.downTint, label: 'Not quite' },
-} as const;
+function toneOf(key: 'correct' | 'amber' | 'wrong') {
+  const table = {
+    correct: { accent: colors.success, tint: colors.successTint, label: 'Correct' },
+    amber: { accent: colors.warning, tint: colors.warningTint, label: 'Reasonable' },
+    wrong: { accent: colors.down, tint: colors.downTint, label: 'Not quite' },
+  } as const;
+  return table[key];
+}
 
 /** The mark in the badge, drawn on a 20 x 20 box. */
 const MARK = {
@@ -71,7 +73,7 @@ export default function Reveal({
    */
   decision?: DecisionReveal;
 }) {
-  const tone = TONE[grade];
+  const tone = toneOf(grade);
   const label = decision ? decision.chip : tone.label;
   const m = useMotion();
   const spec = useLookSpec();
@@ -83,10 +85,12 @@ export default function Reveal({
   const mark = useSharedValue(m.reduced ? 1 : 0);
 
   useEffect(() => {
-    // Reduced motion keeps the fades; only the travel and the bounce go.
-    fade.set(withTiming(1, { duration: m.fade(280), easing: EASE_OUT }));
+    // Calm's reveal: the panel fades up a few points (docs/UI.md §10). Reduced
+    // motion keeps the fades; only the travel goes.
+    const up = { duration: m.fade(DURATION.panel), easing: EASE_OUT };
+    fade.set(withTiming(1, up));
     if (!m.reduced) {
-      rise.set(withSpring(1, grade === 'correct' ? SPRING_PANEL : SPRING_PANEL_CALM));
+      rise.set(withTiming(1, up));
       mark.set(
         withDelay(pulseAt('correct0', 1), withTiming(1, { duration: 260, easing: EASE_OUT })),
       );
@@ -96,7 +100,7 @@ export default function Reveal({
     );
   }, [grade, m, fade, rise, words, mark]);
 
-  const travel = m.travel(28);
+  const travel = m.travel(RISE.reveal);
   const panel = useAnimatedStyle(() => ({
     opacity: fade.get(),
     transform: [{ translateY: (1 - rise.get()) * travel }],
@@ -259,7 +263,7 @@ export function RevealProbe({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: {
     borderWidth: 1,
     borderRadius: radius.md,
@@ -314,4 +318,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.sm,
     paddingVertical: space.sm,
   },
-});
+}));

@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import type { Tone } from '../lesson/toneTransition';
-import { colors, space, type } from '../theme';
+import { colors, space, type, themed } from '../theme';
 import type { TfScreen as S } from '../types';
 import { Card, ToneSurface } from './common';
 
@@ -58,11 +58,11 @@ export default function TfScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.xl },
   statement: { ...type.prompt, color: colors.text },
   row: { flexDirection: 'row', gap: space.md },
   half: { flex: 1 },
   button: { height: 92, alignItems: 'center', justifyContent: 'center' },
   buttonText: { ...type.title, color: colors.text },
-});
+}));

@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { useChartMove } from '../../lesson/haptics';
 import { useLookSpec } from '../../lesson/look';
 import { EASE_OUT_SETTLE } from '../../lesson/motion';
 import { useReduceMotion } from '../../lesson/useReduceMotion';
 import { copy, count, volume } from '../../format';
-import { colors, radius, space, type } from '../../theme';
+import { colors, radius, space, type, themed } from '../../theme';
 import GrowBar, { GROW_DELAY, GROW_MS } from './GrowBar';
 
 const STAGGER_MS = 80;
@@ -81,7 +81,7 @@ export default function BarChart({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.sm },
   row: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   label: { ...type.small, color: colors.textMuted, width: 78 },
@@ -100,5 +100,5 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontVariant: ['tabular-nums'],
   },
-  unit: { ...type.small, fontSize: 11, color: colors.textFaint, textAlign: 'right' },
-});
+  unit: { ...type.small, color: colors.textFaint, textAlign: 'right' },
+}));

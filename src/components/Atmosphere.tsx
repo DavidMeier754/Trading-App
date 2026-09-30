@@ -15,8 +15,6 @@ import { colors } from '../theme';
 
 const TEXTURES = {
   grain: require('../../assets/textures/grain.png'),
-  scanlines: require('../../assets/textures/scanlines.png'),
-  dots: require('../../assets/textures/dots.png'),
 } as const;
 
 /**
@@ -44,7 +42,7 @@ export default function Atmosphere({ width, height }: { width: number; height: n
   useEffect(
     () =>
       onMood((mood: Mood, run: number) => {
-        const light = MOOD_LIGHT[mood];
+        const light = moodLight(mood);
         if (light) {
           setFlashColor(light.color);
           flash.set(
@@ -85,8 +83,8 @@ export default function Atmosphere({ width, height }: { width: number; height: n
 }
 
 /**
- * A look's texture (tools/gen_textures.py): grain, scanlines or a dot grid,
- * one small tile repeated over the ground and under everything else.
+ * The ground's grain (tools/gen_textures.py): one small tile repeated over the
+ * ground and under everything else.
  */
 export function Texture({ kind }: { kind: keyof typeof TEXTURES }) {
   return (
@@ -97,17 +95,20 @@ export function Texture({ kind }: { kind: keyof typeof TEXTURES }) {
 }
 
 /** How each beat lights the edge: how bright, how fast up, how slow down. */
-const MOOD_LIGHT: Partial<
-  Record<Mood, { color: string; peak: number; rest: number; rise: number; fall: number }>
-> = {
-  correct: { color: colors.success, peak: 1, rest: 0, rise: 240, fall: 1500 },
-  streak: { color: colors.success, peak: 1, rest: 0, rise: 220, fall: 1700 },
-  amber: { color: colors.warning, peak: 0.75, rest: 0, rise: 260, fall: 1300 },
-  wrong: { color: colors.down, peak: 0.6, rest: 0, rise: 160, fall: 900 },
-  commit: { color: colors.accent, peak: 0.7, rest: 0, rise: 140, fall: 1100 },
-  complete: { color: colors.warning, peak: 1, rest: 0.4, rise: 500, fall: 2400 },
-  calm: { color: colors.success, peak: 0, rest: 0, rise: 1, fall: 400 },
-};
+type Light = { color: string; peak: number; rest: number; rise: number; fall: number };
+
+function moodLight(mood: Mood): Light | undefined {
+  const lights: Partial<Record<Mood, Light>> = {
+    correct: { color: colors.success, peak: 1, rest: 0, rise: 240, fall: 1500 },
+    streak: { color: colors.success, peak: 1, rest: 0, rise: 220, fall: 1700 },
+    amber: { color: colors.warning, peak: 0.75, rest: 0, rise: 260, fall: 1300 },
+    wrong: { color: colors.down, peak: 0.6, rest: 0, rise: 160, fall: 900 },
+    commit: { color: colors.accent, peak: 0.7, rest: 0, rise: 140, fall: 1100 },
+    complete: { color: colors.warning, peak: 1, rest: 0.4, rise: 500, fall: 2400 },
+    calm: { color: colors.success, peak: 0, rest: 0, rise: 1, fall: 400 },
+  };
+  return lights[mood];
+}
 
 /**
  * Light spilling up from the bottom edge. The falloff is stepped like real

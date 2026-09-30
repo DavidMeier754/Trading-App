@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Platform, useWindowDimensions, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -8,8 +8,8 @@ import Backdrop from './components/Backdrop';
 import { GridOriginProvider } from './components/gridAlign';
 import ErrorBoundary, { DebugCrash } from './ErrorBoundary';
 import { LessonEntry, LESSONS, nodeOf, TEST_BENCH } from './content';
-import Home from './home/Home';
-import { Look, LOOKS, setLook } from './lesson/look';
+import Home, { openHomeAt } from './home/Home';
+import { isLook, setLook, useLookSpec } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
 import { choosePath, completeLesson, getProgress, loadSaved } from './progress';
 import { setMotionSetting } from './lesson/useReduceMotion';
@@ -20,7 +20,16 @@ import Prototype, {
   type ProtoLink,
 } from './prototype/Prototype';
 import { TEST_TOOLS } from './testTools';
-import { colors, space } from './theme';
+import {
+  colors,
+  holdSystemTheme,
+  setThemeMode,
+  space,
+  themed,
+  useScheme,
+  useThemeKey,
+  type ThemeMode,
+} from './theme';
 
 /** docs/UI.md §2 is portrait-only, so the player is capped at a phone width. */
 const MAX_WIDTH = 480;
@@ -46,12 +55,13 @@ export default function App() {
   // and a look it names wins over the saved one.
   const [ready, setReady] = useState(false);
   const [restoreLook] = useState(() => !link?.look);
+  const [restoreTheme] = useState(() => !link?.theme);
   useEffect(() => {
-    loadSaved({ restoreLook }).finally(() => {
+    loadSaved({ restoreLook, restoreTheme }).finally(() => {
       if (TEST_MODE) setMotionSetting('reduced');
       setReady(true);
     });
-  }, [restoreLook]);
+  }, [restoreLook, restoreTheme]);
 
   // The render test (`npm run smoke`, `?test=1`) walks every screen in one page:
   // each new hash opens its screen afresh, error page included, without
@@ -121,6 +131,19 @@ export default function App() {
 
   useEffect(pinPage, []);
 
+  // Light, dark or the phone's own (theme.ts). A change draws the app afresh,
+  // so every colour is read again; while a lesson is open, the phone switching
+  // on its own waits until the lesson closes.
+  const themeKey = useThemeKey();
+  const scheme = useScheme();
+  // The look's ground under everything, drawn by the backdrop too; set here so
+  // the frame itself is that colour (tools/ui_audit.mjs measures against it).
+  const ground = useLookSpec().ground.color;
+  useEffect(() => {
+    holdSystemTheme(!!entry);
+  }, [entry]);
+  useEffect(() => paintBrowserBar(ground, scheme), [ground, scheme]);
+
   // "Back to the map" on the error page: home, and a deep link that led to the
   // crash is dropped, so a reload does not open it again.
   const backToMap = useCallback(() => {
@@ -138,12 +161,12 @@ export default function App() {
     // react-native-gesture-handler, which needs its root at the top.
     <GestureHandlerRootView style={styles.gestures}>
       <SafeAreaProvider>
-        <StatusBar style="light" />
-        <View style={styles.root}>
+        <StatusBar style={scheme === 'light' ? 'dark' : 'light'} />
+        <View key={themeKey} style={styles.root}>
           <View
             ref={frameRef}
             onLayout={measureFrame}
-            style={[styles.frame, { width: frameWidth }]}
+            style={[styles.frame, { width: frameWidth, backgroundColor: ground }]}
           >
             {/* One ground for the whole app: the design picked in Settings is the
               one the home screen stands on too, so a change shows at once. */}
@@ -226,6 +249,22 @@ function pinPage() {
 }
 
 /**
+ * On the web, the browser's bar and the page behind the app take the ground's
+ * colour, following the app's own theme rather than only the system's
+ * (public/index.html sets both until the app runs).
+ */
+function paintBrowserBar(ground: string, scheme: 'light' | 'dark') {
+  if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+  document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.remove());
+  const meta = document.createElement('meta');
+  meta.name = 'theme-color';
+  meta.content = ground;
+  document.head.appendChild(meta);
+  document.documentElement.style.colorScheme = scheme;
+  document.body.style.backgroundColor = ground;
+}
+
+/**
  * `?test=1` on a test build: the render test's switch. It turns animations off
  * (reduced motion) and lets a hash change open the next screen in place.
  */
@@ -239,30 +278,43 @@ function readDeepLink(): {
   entry: LessonEntry | null;
   screen: number;
   look: boolean;
+  theme: boolean;
   crash?: boolean;
   proto?: ProtoLink;
 } | null {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return null;
   const [path, query = ''] = window.location.hash.replace(/^#/, '').split('?');
-  // `?look=neoMono` opens it in a given look, for comparing them screen by screen.
-  const look = new URLSearchParams(query).get('look');
-  const named = !!look && look in LOOKS;
-  if (named) setLook(look as Look);
+  // `?look=neoMono` opens it in a given look and `?theme=light` in a given
+  // theme, for comparing them screen by screen (tools/contact_sheets.mjs).
+  const params = new URLSearchParams(query);
+  const look = params.get('look');
+  const named = isLook(look);
+  if (named) setLook(look);
+  const theme = params.get('theme');
+  const themed = theme === 'light' || theme === 'dark' || theme === 'system';
+  if (themed) setThemeMode(theme as ThemeMode);
   const [id, screen] = path.split('/');
+  if (id === 'home' && TEST_TOOLS && openHomeAt(screen ?? ''))
+    return { entry: null, screen: 0, look: named, theme: themed };
   if (id === 'debug-crash' && TEST_TOOLS)
-    return { entry: null, screen: 0, look: named, crash: true };
+    return { entry: null, screen: 0, look: named, theme: themed, crash: true };
   const proto = TEST_TOOLS ? parsePrototypeLink(path, query) : null;
-  if (proto) return { entry: null, screen: 0, look: named, proto };
+  if (proto) return { entry: null, screen: 0, look: named, theme: themed, proto };
   const found = LESSONS.find((l) => l.id === id) ?? null;
   // The test bench is a testing tool: a release build does not open it.
   const entry = found?.testBench && !TEST_TOOLS ? null : found;
-  if (!entry && !named) return null;
+  if (!entry && !named && !themed) return null;
   // Pages count from 1, as they are shown; the player counts from 0.
-  return { entry, screen: Math.max(1, Number(screen) || 1) - 1, look: named };
+  return {
+    entry,
+    screen: Math.max(1, Number(screen) || 1) - 1,
+    look: named,
+    theme: themed,
+  };
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   gestures: { flex: 1 },
-  root: { flex: 1, backgroundColor: '#000', alignItems: 'center' },
-  frame: { flex: 1, backgroundColor: colors.background, overflow: 'hidden' },
-});
+  root: { flex: 1, backgroundColor: colors.shade, alignItems: 'center' },
+  frame: { flex: 1, overflow: 'hidden' },
+}));

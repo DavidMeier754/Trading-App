@@ -1,12 +1,12 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { Celebrate } from '../lesson/Celebrate';
 import { matchHitFeedback, matchMissFeedback, tapFeedback } from '../lesson/feedback';
 import Shake from '../lesson/Shake';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import type { MatchScreen as S } from '../types';
 import { Prompt } from './common';
@@ -208,7 +208,7 @@ export default function MatchScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.lg },
   columns: { flexDirection: 'row', gap: space.sm },
   leftCol: { flex: 4, gap: space.sm },
@@ -231,4 +231,4 @@ const styles = StyleSheet.create({
   term: { ...type.answer, color: colors.text, flexShrink: 1 },
   definition: { ...type.small, color: colors.text, flexShrink: 1 },
   hint: { ...type.small, color: colors.textMuted },
-});
+}));

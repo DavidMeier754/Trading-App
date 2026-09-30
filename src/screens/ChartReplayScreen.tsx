@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import Chart, { chartHeightFor, chartWidthFor, DEFAULT_GAPS } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
@@ -8,21 +8,24 @@ import { replayLabels } from '../lesson/answers';
 import { commitFeedback, NOTE_STEPS, noteFeedback, tapFeedback } from '../lesson/feedback';
 import { useChartGaps } from '../lesson/fit';
 import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { ChartReplayScreen as S } from '../types';
 import { Prompt } from './common';
 
 /** Trades one replay allows. */
 const TRADE_CAP = 3;
 
-const LABEL_COLOR: Record<string, string> = {
-  Textbook: colors.success,
-  Passed: colors.success,
-  Early: colors.warning,
-  Late: colors.warning,
-  Missed: colors.warning,
-  Phantom: colors.warning,
-};
+function labelColor(key: string): string {
+  const table: Record<string, string> = {
+    Textbook: colors.success,
+    Passed: colors.success,
+    Early: colors.warning,
+    Late: colors.warning,
+    Missed: colors.warning,
+    Phantom: colors.warning,
+  };
+  return table[key];
+}
 
 /**
  * docs/UI.md §4.4 `chart-replay` — the spot-it engine.
@@ -112,7 +115,7 @@ export default function ChartReplayScreen({
     const marks = labels.map((l, i) => ({
       bar: Math.min(total - 1, l.bar),
       label: String(i + 1),
-      color: LABEL_COLOR[l.label],
+      color: labelColor(l.label),
     }));
     const trades = state.acted.map((a) => ({
       bar: Math.min(total - 1, a.bar),
@@ -174,10 +177,10 @@ export default function ChartReplayScreen({
             {labels.map((l, i) => (
               <View key={i} style={[styles.moment, surfaceStyle(look)]}>
                 <View style={styles.momentHead}>
-                  <View style={[styles.momentNum, { backgroundColor: LABEL_COLOR[l.label] }]}>
+                  <View style={[styles.momentNum, { backgroundColor: labelColor(l.label) }]}>
                     <Text style={styles.momentNumText}>{i + 1}</Text>
                   </View>
-                  <Text style={[styles.momentLabel, { color: LABEL_COLOR[l.label] }]}>
+                  <Text style={[styles.momentLabel, { color: labelColor(l.label) }]}>
                     {l.label}
                   </Text>
                   {/* Where the moment was and, when it differs, where you acted --
@@ -337,7 +340,7 @@ export default function ChartReplayScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.sm },
   column: { gap: space.sm },
   chartBox: { alignSelf: 'center' },
@@ -390,7 +393,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  momentNumText: { fontSize: 11, lineHeight: 13, fontWeight: '800', color: colors.background },
+  momentNumText: { fontSize: 13, lineHeight: 16, fontWeight: '800', color: colors.background },
   momentList: { gap: space.md },
   moment: {
     backgroundColor: colors.surface,
@@ -411,6 +414,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.sm,
     paddingVertical: 2,
   },
-  fieldText: { ...type.small, fontSize: 10 },
+  fieldText: { ...type.small },
   discipline: { ...type.small, color: colors.textMuted },
-});
+}));
