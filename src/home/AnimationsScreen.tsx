@@ -14,8 +14,9 @@ import { EASE_OUT, usePressFeedback } from '../lesson/motion';
 import OutOfHearts from '../lesson/OutOfHearts';
 import ProgressBar from '../lesson/ProgressBar';
 import StreakMeter from '../lesson/StreakMeter';
+import { StreakLost, StreakUp } from '../lesson/StreakScreens';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { MAX_HEARTS, useProgress } from '../progress';
+import { MAX_HEARTS, streakDays, useProgress } from '../progress';
 import { BadgeScreen, TierUpScreen } from '../screens/RewardScreens';
 import { colors, radius, space, type, themed } from '../theme';
 import type { BadgeScreen as Badge, Screen, TierUpScreen as TierUp } from '../types';
@@ -29,14 +30,22 @@ import { pathView } from './pathState';
  * only play in certain moments -- a level opening, a perfect run, a chapter's
  * badge, a lost heart -- played on a tap, as often as wanted, without earning
  * or losing anything. Every new animation of a rare moment gets a row here,
- * such as the streak screens in stage LOOP-DAILY. Test builds only.
+ * such as the streak screens (David, 2026-09-30: "missing from the play rare
+ * animations tab"). Test builds only.
  */
 
-type StageId = 'complete' | 'perfect' | 'badge' | 'tier' | 'run' | 'heart' | 'out';
+type StageId = 'complete' | 'perfect' | 'up' | 'lost' | 'badge' | 'tier' | 'run' | 'heart' | 'out';
 
 const APP: { id: StageId; icon: IconName; title: string; sub: string }[] = [
   { id: 'complete', icon: 'bolt', title: 'Lesson complete', sub: 'The ring, the XP, the confetti' },
   { id: 'perfect', icon: 'star', title: 'Perfect run', sub: 'Every answer right: gold' },
+  {
+    id: 'up',
+    icon: 'flame',
+    title: 'Streak goes up',
+    sub: "The day's goal met: the flame catches",
+  },
+  { id: 'lost', icon: 'calendar', title: 'Streak lost', sub: 'A day missed: the flame goes out' },
   { id: 'badge', icon: 'trophy', title: 'Chapter complete', sub: "The chapter's badge" },
   { id: 'tier', icon: 'shield', title: 'New tier', sub: 'A new rank, after some chapters' },
   { id: 'run', icon: 'flame', title: 'Right answers in a row', sub: 'The flame in the top bar' },
@@ -106,6 +115,7 @@ export default function AnimationsScreen({
         title={APP.find((a) => a.id === stage)?.title ?? ''}
         levelTitle={here.next.level.title}
         xp={here.next.level.xp}
+        streak={streakDays(progress)}
         onClose={() => setStage(null)}
       />
     );
@@ -155,12 +165,15 @@ function Stage({
   title,
   levelTitle,
   xp,
+  streak,
   onClose,
 }: {
   id: StageId;
   title: string;
   levelTitle: string;
   xp: number;
+  /** The learner's streak today: the streak screens go on from it, or lose it. */
+  streak: number;
   onClose: () => void;
 }) {
   const insets = useSafeAreaInsets();
@@ -187,6 +200,9 @@ function Stage({
   else if (id === 'tier')
     body = TIER ? <TierUpScreen screen={TIER} onSettled={noop} /> : <Missing what="tier" />;
   else if (id === 'out') body = <OutOfHearts />;
+  else if (id === 'up') body = <StreakUp from={streak} to={streak + 1} />;
+  // Nothing to lose yet: a streak of 12 stands in.
+  else if (id === 'lost') body = <StreakLost lost={streak > 0 ? streak : 12} />;
   else body = <TopBarDemo bottom={insets.bottom} />;
 
   return (

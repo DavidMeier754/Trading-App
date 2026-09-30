@@ -165,8 +165,8 @@ describe('the map and the Design suggestions (stage LOOK-BRIEF, David)', () => {
   it("draws the scenes in the ground's own ink", () => {
     expect(inkOf('rgba(255, 255, 255, 0.15)')).toEqual({ ink: '#ffffff', alpha: 0.15 });
     expect(inkOf('rgba(16, 24, 40, 0.11)')).toEqual({ ink: '#101828', alpha: 0.11 });
-    // Eight different scenes, one after another down a chapter.
-    expect(new Set(SCENES.map((s) => s.kind)).size).toBe(SCENES.length);
+    // Eight different drawings, one after another down a chapter.
+    expect(new Set(SCENES).size).toBe(SCENES.length);
   });
 
   it('keeps the five ideas, with the two David chose marked in the mix', () => {

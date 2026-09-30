@@ -1,5 +1,6 @@
 import { CHAPTER_ONE, levelsOf } from '../content';
 import {
+  addGems,
   completeLesson,
   dayOf,
   doneToday,
@@ -191,5 +192,18 @@ describe('wanting a path that is not written yet', () => {
     expect(getProgress().wanted).toEqual(['swing-trading']);
     toggleWanted('swing-trading');
     expect(getProgress().wanted).toEqual([]);
+  });
+});
+
+describe('gems (docs/UI.md §7.2, David 2026-09-30)', () => {
+  it('start at none, and only the testing tools hand them out for now', () => {
+    expect(getProgress().gems).toBe(0);
+    completeLesson(levelsOf([CHAPTER_ONE])[0].subs[0].id, { perfect: true, xp: 10 });
+    expect(getProgress().gems).toBe(0);
+    addGems(50);
+    addGems(50);
+    expect(getProgress().gems).toBe(100);
+    addGems(-500);
+    expect(getProgress().gems).toBe(0);
   });
 });

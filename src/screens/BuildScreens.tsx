@@ -14,7 +14,7 @@ import type {
   JournalRowScreen as JournalRow,
   OrderBuildScreen as OrderBuild,
 } from '../types';
-import { fillArea, Prompt, ThumbZone, ToneSurface } from './common';
+import { Prompt, ToneSurface } from './common';
 
 /**
  * docs/UI.md §4.2 `order-build` and `journal-row` are the same interaction with
@@ -101,7 +101,7 @@ function SlotBuilder({
         // The choices for the field being filled. They are buttons and look it:
         // raised keys in the look's accent, arriving together whenever the
         // field changes, so the tray visibly answers the tap above it.
-        <ThumbZone style={[styles.tray, surfaceStyle(look)]}>
+        <View style={[styles.tray, surfaceStyle(look)]}>
           <Text style={styles.trayLabel}>
             {'Pick the '}
             <Text style={{ color: look.accent }}>{slotLabel(active).toLowerCase()}</Text>
@@ -146,9 +146,9 @@ function SlotBuilder({
               );
             })}
           </View>
-        </ThumbZone>
+        </View>
       ) : slots.every((slot) => filled[slot] === answer[slot]) ? null : (
-        <ThumbZone style={styles.tray}>
+        <View style={styles.tray}>
           <Text style={styles.trayLabel}>Intended</Text>
           {slots
             .filter((slot) => filled[slot] !== answer[slot])
@@ -158,7 +158,7 @@ function SlotBuilder({
                 <Text style={{ color: colors.success }}>{answer[slot]}</Text>
               </Text>
             ))}
-        </ThumbZone>
+        </View>
       )}
     </View>
   );
@@ -306,7 +306,7 @@ export function BranchScreen({
       {stepRow(visited.length)}
       <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
       {chartView}
-      <ThumbZone>
+      <View>
         <Arrive key={visited.length} from="right" style={styles.stepBody}>
           {lastStep !== null ? (
             <PopIn>
@@ -346,13 +346,13 @@ export function BranchScreen({
             ))}
           </View>
         </Arrive>
-      </ThumbZone>
+      </View>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { ...fillArea, gap: space.lg },
+  wrap: { gap: space.lg },
   slotList: { gap: space.sm },
   heading: { ...type.label, color: colors.textMuted, textTransform: 'uppercase', letterSpacing: 1 },
   slot: {

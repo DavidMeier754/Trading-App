@@ -82,7 +82,17 @@ function check(where, textColor, ...ground) {
 }
 
 /** Every colour that is used for text. */
-const TEXT = ['text', 'textMuted', 'textFaint', 'accent', 'up', 'down', 'warning', 'success'];
+const TEXT = [
+  'text',
+  'textMuted',
+  'textFaint',
+  'accent',
+  'up',
+  'down',
+  'warning',
+  'gem',
+  'success',
+];
 
 for (const scheme of ['dark', 'light']) {
   for (const cb of [false, true]) {

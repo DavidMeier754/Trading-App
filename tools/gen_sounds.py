@@ -282,7 +282,70 @@ def glide(freq, ms, gain=1.0):
     return _fade_tail(_render(n, f), 0.25)
 
 
+def _noise_sweep(f_start, f_end, ms, gain, peak_at, seed):
+    """
+    Air: noise through two low-pass stages whose cutoff sweeps from `f_start`
+    to `f_end`, with the rumble taken out, swelling to `peak_at` of its length
+    and dying away after it.
+    """
+    n = int(RATE * ms / 1000)
+    rnd = random.Random(seed)
+    lp1 = lp2 = 0.0
+    hp_in = hp_out = 0.0
+    out = []
+    for i in range(n):
+        u = i / max(1, n - 1)
+        fc = f_start * (f_end / f_start) ** u
+        a = 1 - math.exp(-2 * math.pi * fc / RATE)
+        lp1 += a * (rnd.uniform(-1, 1) - lp1)
+        lp2 += a * (lp1 - lp2)
+        hp = lp2 - hp_in + 0.965 * hp_out
+        hp_in, hp_out = lp2, hp
+        env = (u / peak_at) ** 1.5 if u < peak_at else ((1 - u) / (1 - peak_at)) ** 2
+        out.append(gain * hp * env * 2.4)
+    return _fade_tail(out, 0.1)
+
+
+def whoosh(freq, ms, gain=1.0):
+    """A flame catching: air brightening up to `freq` (a number, in Hz) as it swells."""
+    return _noise_sweep(freq / 8, freq, ms, gain, 0.55, 11)
+
+
+def exhale(freq, ms, gain=1.0):
+    """A flame going out: air dulling down from `freq` (Hz), loudest at the start."""
+    return _noise_sweep(freq, freq / 10, ms, gain, 0.12, 13)
+
+
+def crackle(freq, ms, gain=1.0):
+    """
+    Embers: tiny pops of noise at uneven gaps, thinning out -- wood catching.
+    `freq` only seeds where the pops fall.
+    """
+    n = int(RATE * ms / 1000)
+    rnd = random.Random(int(freq) + 5)
+    out = [0.0] * n
+    t = 0
+    while True:
+        t += int(RATE * rnd.uniform(0.014, 0.07))
+        if t >= n:
+            break
+        amp = rnd.uniform(0.3, 1.0) * (1 - t / n) ** 1.2
+        length = max(2, int(RATE * rnd.uniform(0.002, 0.006)))
+        for j in range(length):
+            if t + j < n:
+                out[t + j] += amp * rnd.uniform(-1, 1) * math.exp(-j / (length * 0.3))
+    prev = 0.0
+    for i in range(n):
+        x = out[i]
+        out[i] = gain * (x - 0.6 * prev)
+        prev = x
+    return out
+
+
 VOICES = {
+    "whoosh": whoosh,
+    "exhale": exhale,
+    "crackle": crackle,
     "felt": felt,
     "bell": bell,
     "marimba": marimba,
@@ -477,11 +540,57 @@ CUES = {
         ],
         peak=0.32, wet=0.3,
     ),
-    # "Level unlocked": the chime's shape, soft.
+    # "Level unlocked" (David, 2026-09-30: a smoother unlock with haptics and
+    # sounds). The lock rattles loose: three small dry ticks on the three
+    # swings of its shake (home/LevelNode.tsx times the swings from here).
+    "rattle": dict(
+        pulses=[
+            P(0, "rigid", [N("tick", "E7", 30, 0.6), N("softtap", "A5", 40, 0.5)]),
+            P(90, "light", [N("tick", "D7", 30, 0.5)]),
+            P(180, "light", [N("tick", "E7", 30, 0.45)]),
+        ],
+        peak=0.11, wet=0.05,
+    ),
+    # Then it bursts off: a pop with a low thump under it, and the chime's
+    # rise going on up to E6 over a pad, with a sparkle as the rings go out.
     "unlock": dict(
-        pulses=[P(0, "light", [N("kalimba", "G5", 420, 0.7)]),
-                P(110, "rigid", [N("kalimba", "C6", 760, 0.9), N("pad", "C4", 700, 0.15)])],
-        peak=0.23, wet=0.24,
+        pulses=[
+            P(0, "rigid", [N("pop", "C6", 160, 0.8), N("kalimba", "G5", 500, 0.6),
+                           N("thud", "C4", 180, 0.35)]),
+            P(100, "light", [N("kalimba", "C6", 700, 0.75)]),
+            P(200, "medium", [N("kalimba", "E6", 1000, 0.85), N("shimmer", "G6", 1100, 0.22),
+                              N("pad", "C4", 1100, 0.18)]),
+        ],
+        peak=0.28, wet=0.28,
+    ),
+    # -- the streak, full screen (UI.md 7.2) -----------------------------------
+    # Up by a day: the flame catches -- air rushing up and a crackle of embers
+    # over a low thump -- then a C major arpeggio lands as it stands full.
+    "ignite": dict(
+        pulses=[
+            P(0, "heavy", [N("whoosh", 3600, 620, 0.9), N("thud", "C3", 220, 0.5),
+                           N("pad", "C3", 1500, 0.3), N("crackle", 1, 900, 0.22)]),
+            P(160, "light", [N("kalimba", "E5", 700, 0.6)]),
+            P(280, "light", [N("kalimba", "G5", 700, 0.6)]),
+            P(400, "medium", [N("kalimba", "C6", 1000, 0.75), N("shimmer", "G6", 1000, 0.18),
+                              N("pad", "G4", 1100, 0.2)]),
+        ],
+        peak=0.32, wet=0.26,
+    ),
+    # The count turning over to its new number: a crisp flip and one clear note.
+    "flip": dict(
+        pulses=[P(0, "rigid", [N("softtap", "E6", 45, 1.0), N("kalimba", "C6", 520, 0.8),
+                               N("pad", "C5", 500, 0.12)])],
+        peak=0.24, wet=0.18,
+    ),
+    # Lost: the flame goes out with a soft breath of air, and a falling third,
+    # dull and quiet, as the count rolls to nought. Never a scolding (UI.md 7.2).
+    "fizzle": dict(
+        pulses=[
+            P(0, "soft", [N("exhale", 2400, 700, 0.8), N("felt", "E4", 700, 0.5)]),
+            P(500, "soft", [N("felt", "C4", 1000, 0.6), N("pad", "C3", 1100, 0.2)]),
+        ],
+        peak=0.2, wet=0.22,
     ),
     # A tier: rarer and fuller than a badge (UI.md 5.5). A pickup, then the chord.
     "tier": dict(

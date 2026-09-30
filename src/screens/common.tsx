@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Pressable, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Pressable, Text, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { copy } from '../format';
@@ -166,27 +166,6 @@ export function Stack({
   );
 }
 
-/**
- * docs/UI.md §1, principle 3 [v4]: a question's answers sit at the bottom of the
- * screen's area, right above the strip kept free for the reveal and the key --
- * where the thumb is -- while the question and its visual stay at the top
- * (Calm's layout, stage LOOK-BRIEF). Wrap the answers in it, in a screen whose
- * root style spreads `fillArea`; on a screen too tall to leave a gap it is
- * simply the next block down.
- */
-export function ThumbZone({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
-}) {
-  return <View style={[styles.thumb, style]}>{children}</View>;
-}
-
-/** A screen root that takes the whole area, so its `ThumbZone` reaches the bottom. */
-export const fillArea = { flexGrow: 1 } as const;
-
 export function Card({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
   const spec = useLookSpec();
   return <View style={[styles.card, surfaceStyle(spec), style]}>{children}</View>;
@@ -194,7 +173,6 @@ export function Card({ children, style }: { children: React.ReactNode; style?: V
 
 const styles = themed(() => ({
   stackGhost: { position: 'absolute', top: 0, left: 0, right: 0, opacity: 0 },
-  thumb: { marginTop: 'auto' },
   cap: { maxWidth: '100%' },
   prompt: { ...type.prompt, color: colors.text },
   title: { ...type.title, color: colors.text },

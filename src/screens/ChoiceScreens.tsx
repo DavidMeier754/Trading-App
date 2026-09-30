@@ -25,7 +25,7 @@ import type {
   SortScreen as SortS,
   SpotMistakeScreen as SpotMistake,
 } from '../types';
-import { AnswerCard, fillArea, Prompt, ThumbZone, ToneSurface } from './common';
+import { AnswerCard, Prompt, ToneSurface } from './common';
 
 /** docs/UI.md §4.1 `fill-choice` — a blank with 3-4 word chips. */
 export function FillChoiceScreen({
@@ -77,7 +77,7 @@ export function FillChoiceScreen({
           ))}
       </View>
 
-      <ThumbZone style={styles.chips}>
+      <View style={styles.chips}>
         {screen.options.map((option, i) => (
           <ToneSurface
             key={option}
@@ -91,7 +91,7 @@ export function FillChoiceScreen({
             <Text style={styles.chipText}>{option}</Text>
           </ToneSurface>
         ))}
-      </ThumbZone>
+      </View>
     </View>
   );
 }
@@ -151,7 +151,7 @@ export function SortScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
-      <ThumbZone style={styles.zone}>
+      <View style={styles.zone}>
         {/* Above the buckets in the stacking order, so a chip dragged down
           passes over them rather than under. */}
         {/* A sorted chip leaves its place behind, empty, so the chips around it
@@ -242,7 +242,7 @@ export function SortScreen({
             </Animated.View>
           ))}
         </View>
-      </ThumbZone>
+      </View>
     </View>
   );
 }
@@ -413,7 +413,7 @@ export function OrderScreen({
         })}
       </View>
 
-      <ThumbZone style={styles.chips}>
+      <View style={styles.chips}>
         {cards.map(({ text, i }) =>
           order.includes(i) ? (
             <View key={text} style={[styles.chip, styles.chipGhost]} pointerEvents="none">
@@ -433,7 +433,7 @@ export function OrderScreen({
             </ToneSurface>
           ),
         )}
-      </ThumbZone>
+      </View>
     </View>
   );
 }
@@ -463,7 +463,7 @@ export function SpotMistakeScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <ThumbZone style={styles.segments}>
+      <View style={styles.segments}>
         {screen.segments.map((segment, i) => (
           <ToneSurface
             key={segment.text}
@@ -477,7 +477,7 @@ export function SpotMistakeScreen({
             <Text style={styles.segmentText}>{copy(segment.text)}</Text>
           </ToneSurface>
         ))}
-      </ThumbZone>
+      </View>
     </View>
   );
 }
@@ -485,7 +485,7 @@ export function SpotMistakeScreen({
 export { AnswerCard };
 
 const styles = themed(() => ({
-  wrap: { ...fillArea, gap: space.lg },
+  wrap: { gap: space.lg },
   zone: { gap: space.lg },
   sentence: {
     flexDirection: 'row',

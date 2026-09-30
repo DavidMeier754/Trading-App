@@ -10,7 +10,7 @@ import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
 import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { FillTilesScreen as S } from '../types';
-import { fillArea, ThumbZone } from './common';
+import {} from './common';
 
 /**
  * docs/UI.md §4.1 `fill-tiles`: sentence with a blank, letter tiles below
@@ -105,7 +105,7 @@ export default function FillTilesScreen({
         )}
       </Text>
 
-      <ThumbZone style={styles.zone}>
+      <View style={styles.zone}>
         <View style={styles.tiles}>
           {pool.map((letter, i) => {
             const used = placed.includes(i);
@@ -147,13 +147,13 @@ export default function FillTilesScreen({
             Undo last letter
           </Text>
         </Pressable>
-      </ThumbZone>
+      </View>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { ...fillArea, gap: space.xl },
+  wrap: { gap: space.xl },
   zone: { gap: space.xl },
   sentence: {
     flexDirection: 'row',

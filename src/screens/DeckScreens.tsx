@@ -9,7 +9,7 @@ import { matchHitFeedback, matchMissFeedback } from '../lesson/feedback';
 import { useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { CompareScreen as Compare, SwipeDeckScreen as SwipeDeck } from '../types';
-import { fillArea, Prompt, Stack, ThumbZone, ToneSurface } from './common';
+import { Prompt, Stack, ToneSurface } from './common';
 
 /**
  * docs/UI.md §4.2 `swipe-deck` — a deck of mini-charts, one at a time, with a
@@ -137,7 +137,7 @@ export function SwipeDeckScreen({
           ) : null
         }
       />
-      <ThumbZone style={styles.deckButtons}>
+      <View style={styles.deckButtons}>
         <Pressable
           accessibilityRole="button"
           onPress={() => answer('pass')}
@@ -152,7 +152,7 @@ export function SwipeDeckScreen({
         >
           <Text style={styles.deckButtonText}>Take it</Text>
         </Pressable>
-      </ThumbZone>
+      </View>
     </View>
   );
 }
@@ -185,7 +185,7 @@ export function CompareScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <ThumbZone style={styles.zone}>
+      <View style={styles.zone}>
         <View style={styles.compareRow}>
           {screen.charts.map((chart, i) => {
             const id = chart.label ?? String(i);
@@ -219,13 +219,13 @@ export function CompareScreen({
             <Text style={styles.neitherText}>Neither</Text>
           </ToneSurface>
         ) : null}
-      </ThumbZone>
+      </View>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { ...fillArea, gap: space.md },
+  wrap: { gap: space.md },
   zone: { gap: space.md },
   pips: { flexDirection: 'row', gap: space.sm, justifyContent: 'center', alignItems: 'center' },
   pip: {

@@ -6,7 +6,7 @@ import type { AnswerValue } from '../lesson/answers';
 import type { Tone } from '../lesson/toneTransition';
 import { colors, space, type, themed } from '../theme';
 import type { TfScreen as S } from '../types';
-import { Card, fillArea, ThumbZone, ToneSurface } from './common';
+import { Card, ToneSurface } from './common';
 
 /**
  * docs/UI.md §4.1 `tf`: two large side-by-side buttons, revealed instantly on tap
@@ -37,7 +37,7 @@ export default function TfScreen({
       <Card>
         <Text style={styles.statement}>{copy(screen.statement)}</Text>
       </Card>
-      <ThumbZone style={styles.row}>
+      <View style={styles.row}>
         {[true, false].map((option) => (
           <View key={String(option)} style={styles.half}>
             <ToneSurface
@@ -53,13 +53,13 @@ export default function TfScreen({
             </ToneSurface>
           </View>
         ))}
-      </ThumbZone>
+      </View>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { ...fillArea, gap: space.xl },
+  wrap: { gap: space.xl },
   statement: { ...type.prompt, color: colors.text },
   row: { flexDirection: 'row', gap: space.md },
   half: { flex: 1 },

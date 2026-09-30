@@ -3,11 +3,11 @@ import Svg, { Circle, Defs, Ellipse, G, LinearGradient, Path, Rect, Stop } from 
 
 /**
  * The map's drawings (docs/UI.md §7.1, §7.2), from David's answers in stage
- * LOOK-BRIEF: a logo for the path in the top bar, the small scenes that stand
- * beside the path, and the streak's flame for the streak screens of stage
- * LOOP-DAILY. The logo and the flame have fixed colours, like stickers, and
- * never carry text. The scenes are the opposite: drawn in the ground's own ink,
- * so they belong to it (`Deco`).
+ * LOOK-BRIEF: a logo for the path in the top bar, the gem of the currency, the
+ * drawings in the path's background, and the streak's flame for the streak
+ * screens. The logo, the gem and the flame are like stickers and never carry
+ * text. The drawings are the opposite: in the ground's own ink, so they belong
+ * to it (`Deco`).
  */
 
 /**
@@ -32,9 +32,28 @@ export function PathLogo({ size = 30, face, mark }: { size?: number; face: strin
   );
 }
 
+/** A cut gem, the currency in the top bar (David, 2026-09-30): the prototype's, in `colors.gem`. */
+export function Gem({ size = 22, color }: { size?: number; color: string }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <Path d="M6 3h12l4.5 6L12 21.5 1.5 9z" fill={color} />
+      <Path d="M6 3h12l4.5 6h-21z" fill="#FFFFFF" opacity={0.3} />
+      <Path d="M8.5 9 12 21.5 15.5 9z" fill="#FFFFFF" opacity={0.2} />
+      <Path
+        d="M6 3l2.5 6L12 3l3.5 6L18 3"
+        fill="none"
+        stroke="#FFFFFF"
+        strokeOpacity={0.55}
+        strokeWidth={1}
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
 /**
  * The streak's flame, big: an outer and an inner tongue. `lit` false is the
- * flame gone cold, for the screen of a lost streak (stage LOOP-DAILY).
+ * flame gone cold, for the screen of a lost streak (lesson/StreakScreens.tsx).
  */
 export function Flame({
   size = 120,
@@ -74,19 +93,17 @@ export function Flame({
 export type DecoKind =
   'candles' | 'target' | 'coins' | 'gems' | 'hourglass' | 'summit' | 'bell' | 'chest';
 
-/** The scenes in the order they stand down a chapter, each at its own size. */
-export const SCENES: { kind: DecoKind; size: number }[] = [
-  { kind: 'candles', size: 68 },
-  { kind: 'target', size: 60 },
-  { kind: 'coins', size: 64 },
-  { kind: 'gems', size: 60 },
-  { kind: 'hourglass', size: 60 },
-  { kind: 'summit', size: 68 },
-  { kind: 'bell', size: 60 },
-  { kind: 'chest', size: 64 },
+/** The drawings, in the order they come down a chapter (home/backdrop.ts scatters them). */
+export const SCENES: readonly DecoKind[] = [
+  'candles',
+  'target',
+  'coins',
+  'gems',
+  'hourglass',
+  'summit',
+  'bell',
+  'chest',
 ];
-/** Below this there is no room for a scene, and none is drawn. */
-export const SCENE_MIN = 40;
 
 /** '#0E1116' → [14, 17, 22]. */
 function rgbOf(hex: string): [number, number, number] {
@@ -107,11 +124,12 @@ export function inkOf(grid: string): { ink: string; alpha: number } {
 }
 
 /**
- * A small scene beside the path (David: "fit a little more decorations at the
- * sides of the path", and on 2026-09-29: they must fit the background and not
- * stand out from it). Each is drawn in the ground's own ink, as faint as its
- * grid (`inkOf`), as outlines over a wash of that ink, with no colour and no
- * shadow; none moves.
+ * A drawing in the path's background (David: "fit a little more decorations
+ * at the sides of the path"; on 2026-09-29 they must fit the background and
+ * not stand out from it; on 2026-09-30 faintly in the background, not always
+ * next to the levels, in several sizes: home/backdrop.ts). Each is drawn in
+ * the ground's own ink, no stronger than its grid (`inkOf`), as outlines over
+ * a wash of that ink, with no colour and no shadow; none moves.
  *
  * Drawn opaque and faded as a whole: `wash` is the ink already mixed into the
  * ground, so a part in front hides what is behind it instead of letting its
@@ -136,9 +154,11 @@ export function Deco({
   const [gr, gg, gb] = rgbOf(ground);
   const w = 0.3;
   const wash = `rgb(${Math.round(gr + (ir - gr) * w)}, ${Math.round(gg + (ig - gg) * w)}, ${Math.round(gb + (ib - gb) * w)})`;
+  // The same weight of line at any size: a big drawing is not a bolder one.
+  const k = (64 / size) * 0.9;
   const line = {
     stroke: ink,
-    strokeWidth: 2,
+    strokeWidth: 2 * k,
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
   };
@@ -155,17 +175,17 @@ export function Deco({
       ) : kind === 'gems' ? (
         <G>
           <G transform="translate(3 13) scale(1.6)">
-            <Path d="M6 3h12l4.5 6L12 21.5 1.5 9z" fill={wash} {...line} strokeWidth={1.25} />
+            <Path d="M6 3h12l4.5 6L12 21.5 1.5 9z" fill={wash} {...line} strokeWidth={1.25 * k} />
             <Path
               d="M1.5 9h21M6 3l2.5 6L12 3l3.5 6L18 3M8.5 9 12 21.5 15.5 9"
               fill="none"
               {...line}
-              strokeWidth={0.8}
+              strokeWidth={0.8 * k}
             />
           </G>
           <G transform="translate(40 33) scale(0.95)">
-            <Path d="M6 3h12l4.5 6L12 21.5 1.5 9z" fill={wash} {...line} strokeWidth={2.1} />
-            <Path d="M1.5 9h21" fill="none" {...line} strokeWidth={1.4} />
+            <Path d="M6 3h12l4.5 6L12 21.5 1.5 9z" fill={wash} {...line} strokeWidth={2.1 * k} />
+            <Path d="M1.5 9h21" fill="none" {...line} strokeWidth={1.4 * k} />
           </G>
         </G>
       ) : kind === 'coins' ? (
@@ -178,7 +198,15 @@ export function Deco({
                 <Path d={`M${x - 17} ${y}v6a17 5.5 0 0 0 34 0v-6`} fill={wash} {...line} />
                 <Ellipse cx={x} cy={y} rx={17} ry={5.5} fill={wash} {...line} />
                 {i === 2 ? (
-                  <Ellipse cx={x} cy={y} rx={9} ry={2.8} fill="none" {...line} strokeWidth={1.4} />
+                  <Ellipse
+                    cx={x}
+                    cy={y}
+                    rx={9}
+                    ry={2.8}
+                    fill="none"
+                    {...line}
+                    strokeWidth={1.4 * k}
+                  />
                 ) : null}
               </G>
             );
@@ -189,7 +217,7 @@ export function Deco({
           <Path d="M4 58 18 38l8 7 12-24 8 10 14-15v42z" fill={wash} />
           <Path d="M4 58 18 38l8 7 12-24 8 10 14-15" fill="none" {...line} />
           <Path d="M38 21V5" fill="none" {...line} />
-          <Path d="M38 5h13l-4 4.5 4 4.5H38z" fill={ink} {...line} strokeWidth={1.5} />
+          <Path d="M38 5h13l-4 4.5 4 4.5H38z" fill={ink} {...line} strokeWidth={1.5 * k} />
         </G>
       ) : kind === 'bell' ? (
         <G>
@@ -207,8 +235,17 @@ export function Deco({
         <G>
           <Rect x={10} y={30} width={44} height={24} rx={3} fill={wash} {...line} />
           <Path d="M10 30v-5c0-8 6-12 22-12s22 4 22 12v5z" fill={wash} {...line} />
-          <Path d="M21 14v40M43 14v40" fill="none" {...line} strokeWidth={1.5} />
-          <Rect x={28} y={26} width={8} height={10} rx={2} fill={ink} {...line} strokeWidth={1.5} />
+          <Path d="M21 14v40M43 14v40" fill="none" {...line} strokeWidth={1.5 * k} />
+          <Rect
+            x={28}
+            y={26}
+            width={8}
+            height={10}
+            rx={2}
+            fill={ink}
+            {...line}
+            strokeWidth={1.5 * k}
+          />
         </G>
       ) : kind === 'target' ? (
         <G>
@@ -227,9 +264,9 @@ export function Deco({
             {...line}
           />
           <Path d="M26 18h12c-1.6 3-4 5-6 6.5-2-1.5-4.4-3.5-6-6.5z" fill={ink} />
-          <Path d="M32 34v12" fill="none" {...line} strokeWidth={1.4} />
+          <Path d="M32 34v12" fill="none" {...line} strokeWidth={1.4 * k} />
           <Path d="M25 52c1.5-3.5 4.5-5.5 7-6.5 2.5 1 5.5 3 7 6.5z" fill={ink} />
-          <Path d="M16 8h32M16 56h32" fill="none" {...line} strokeWidth={2.5} />
+          <Path d="M16 8h32M16 56h32" fill="none" {...line} strokeWidth={2.5 * k} />
         </G>
       )}
     </Svg>

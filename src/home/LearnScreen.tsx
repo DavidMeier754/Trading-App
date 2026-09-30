@@ -5,14 +5,18 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import Animated, {
+  cancelAnimation,
   FadeIn,
   FadeOut,
+  scrollTo,
+  SharedValue,
+  useAnimatedReaction,
+  useAnimatedRef,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -24,6 +28,7 @@ import Svg, { Circle } from 'react-native-svg';
 
 import { LessonEntry, PATHS, TradingPath } from '../content';
 import { isQuestion } from '../types';
+import { noteFeedback } from '../lesson/feedback';
 import { EASE_IN_OUT, EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import {
@@ -37,10 +42,11 @@ import {
 } from '../progress';
 import { tint, useLookSpec } from '../lesson/look';
 import { colors, MONO_FONT, radius, space, type, themed } from '../theme';
+import { Box, Placed, scatter } from './backdrop';
 import Icon from './icons';
 import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
 import { ChapterView, chapterViews, currentLevel, LevelView } from './pathState';
-import { Deco, inkOf, PathLogo, SCENE_MIN, SCENES } from './scenes';
+import { Deco, Gem, inkOf, PathLogo, SCENES } from './scenes';
 
 /** Vertical distance between two nodes' centres. */
 const STEP_Y = 148;
@@ -57,25 +63,31 @@ const FINALE_H = 120;
 /** The path winds: centre, left, centre, right, and round again. */
 const WIND = [0, -1, 0, 1];
 
+type NodeItem = { t: 'node'; gi: number; li: number; ci: number; x: number; y: number };
 type Item =
   | { t: 'header'; ci: number; y: number }
-  | { t: 'node'; gi: number; li: number; ci: number; x: number; y: number }
+  | NodeItem
   | { t: 'end'; ci: number; x: number; y: number; text: string }
   | { t: 'teaser'; y: number }
   | { t: 'finale'; y: number };
+
+/** A title's lines beside its level, near enough: 15 pt bold runs about 8.6 pt a letter. */
+function labelLines(title: string, width: number): number {
+  return Math.max(1, Math.ceil((title.length * 8.6) / width));
+}
 
 /**
  * The home screen's path (docs/UI.md §7.1): Classic's flat panels, on the
  * ground of whichever design is picked.
  *
- * - The top bar (§7.2): the path's logo, the streak and the hearts, evenly
- *   spaced.
+ * - The top bar (§7.2): the path's logo, the streak, the gems and the
+ *   hearts, evenly spaced.
  * - A banner with the level the learner is on.
  * - The path, chapter by chapter. Each chapter has a header card (its name,
  *   levels done of all, and a badge that lights when it is finished) and
  *   folds away under it; the chapter being worked on is open, the others
  *   folded, and any can be opened with a tap. In a chapter, one button per
- *   level winds down the screen, a small scene beside each; an open level
+ *   level winds down the screen over faint drawings in the ground; an open level
  *   sits in a ring that fills a lesson at a time, and a finished one wears a
  *   check. Checkpoints are shields and the Final Exam a trophy. The level
  *   waiting for the learner pulses and wears a START tag, and tapping any
@@ -210,11 +222,72 @@ export default function LearnScreen({
       ? cxOf(li) - RING / 2 - space.sm - space.lg
       : width - (cxOf(li) + RING / 2 + space.sm) - space.lg;
 
+  // docs/UI.md §7.1: the drawings in the ground (home/backdrop.ts), scattered
+  // down each open chapter round what they must not cover.
+  const backdrop = useMemo(() => {
+    const cards: Box[] = [];
+    for (const it of items) {
+      if (it.t === 'header' || it.t === 'teaser' || it.t === 'finale') {
+        const h = it.t === 'finale' ? FINALE_H : HEAD_H - space.sm;
+        cards.push({ left: space.lg, right: width - space.lg, top: it.y, bottom: it.y + h });
+      }
+      if (it.t === 'end') {
+        const top = it.y + RING / 2 + 6;
+        cards.push({ left: it.x - 110, right: it.x + 110, top, bottom: top + 20 });
+      }
+    }
+    const out: (Placed & { ci: number; key: string })[] = [];
+    chapters.forEach((c, ci) => {
+      const nodes = items.filter((it): it is NodeItem => it.t === 'node' && it.ci === ci);
+      if (!nodes.length) return;
+      const keep = [...cards];
+      for (const it of nodes) {
+        const r = RING / 2 + 4;
+        keep.push({ left: it.x - r, right: it.x + r, top: it.y - r, bottom: it.y + r });
+        const w = Math.max(90, Math.min(170, labelRoom(it.li)));
+        const h = labelLines(views[it.gi].level.title, w) * 19;
+        const left =
+          WIND[it.li % WIND.length] > 0
+            ? it.x - RING / 2 - space.sm - w
+            : it.x + RING / 2 + space.sm;
+        keep.push({ left, right: left + w, top: it.y - h / 2 - 4, bottom: it.y + h / 2 + 4 });
+        // The START tag over the level being played.
+        if (it.gi === hereAt) {
+          const bottom = it.y - RING / 2;
+          keep.push({ left: it.x - 64, right: it.x + 64, top: bottom - 46, bottom });
+        }
+      }
+      const last = nodes[nodes.length - 1];
+      const trail = items.some((it) => it.t === 'end' && it.ci === ci) ? STEP_Y * 0.55 : 0;
+      scatter({
+        top: nodes[0].y - RING / 2 - NODES_TOP,
+        bottom: last.y + RING / 2 + trail,
+        width,
+        keepClear: keep,
+        seed: c.chapter.number * 7919 + 101,
+        kinds: SCENES,
+      }).forEach((p, i) => out.push({ ...p, ci, key: `d${c.chapter.number}-${i}` }));
+    });
+    return out;
+    // labelRoom is derived from the width
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, chapters, views, width, hereAt]);
+
   const [open, setOpen] = useState<number | null>(null);
 
   // "The current path in focus": the path opens scrolled to the level the
   // learner is on, and a card opened low on the screen is scrolled into view.
-  const scroll = useRef<ScrollView | null>(null);
+  const scroll = useAnimatedRef<Animated.ScrollView>();
+  // Moving on (UNLOCK), the map glides from the level just finished to the one
+  // it opened: eased in and out, on the UI thread, at the pace of the spark
+  // running down the path between them. A finger on the map stops it.
+  const glide = useSharedValue(-1);
+  useAnimatedReaction(
+    () => glide.get(),
+    (y, before) => {
+      if (y >= 0 && y !== before) scrollTo(scroll, 0, y, false);
+    },
+  );
   const viewport = useRef(0);
   const [viewH, setViewH] = useState(0);
   const [scrollY, setScrollY] = useState(0);
@@ -232,15 +305,24 @@ export default function LearnScreen({
         return;
       }
       // Open on the level just finished, then travel down to the one it opened.
-      scroll.current?.scrollTo({ y: focusY(unlocking - 1), animated: false });
-      setTimeout(
-        () => scroll.current?.scrollTo({ y: focusY(unlocking), animated: !reduced }),
-        reduced ? 0 : UNLOCK.scroll,
+      const from = focusY(unlocking - 1);
+      const to = focusY(unlocking);
+      scroll.current?.scrollTo({ y: from, animated: false });
+      if (reduced) {
+        setTimeout(() => scroll.current?.scrollTo({ y: to, animated: false }), 0);
+        return;
+      }
+      glide.set(from);
+      glide.set(
+        withDelay(
+          UNLOCK.scroll,
+          withTiming(to, { duration: UNLOCK.scrollMs, easing: EASE_IN_OUT }),
+        ),
       );
     },
     // focusY reads the layout of this render
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [nodeAt, hereAt, unlocking, reduced],
+    [nodeAt, hereAt, unlocking, reduced, glide],
   );
 
   useEffect(() => {
@@ -295,18 +377,44 @@ export default function LearnScreen({
         path={progress.path}
         streak={streakDays(progress)}
         today={doneToday(progress)}
+        gems={progress.gems}
         hearts={hearts}
       />
       <Banner view={bannerAt !== null ? views[bannerAt] : here} allDone={allDone} />
-      <ScrollView
+      <Animated.ScrollView
         ref={scroll}
         style={styles.scroll}
         contentContainerStyle={{ height: contentH }}
         showsVerticalScrollIndicator={false}
         onLayout={onViewport}
         onScroll={onScroll}
+        onScrollBeginDrag={() => cancelAnimation(glide)}
         scrollEventThrottle={32}
       >
+        {/* The drawings in the ground, under everything else on the map. */}
+        {backdrop.map((d) => (
+          <Animated.View
+            key={d.key}
+            pointerEvents="none"
+            entering={opened.has(d.ci) ? FadeIn.duration(220) : undefined}
+            style={[
+              styles.scene,
+              {
+                left: d.x - d.size / 2,
+                top: d.y - d.size / 2,
+                transform: [{ rotate: `${d.tilt}deg` }],
+              },
+            ]}
+          >
+            <Deco
+              kind={d.kind}
+              size={d.size}
+              ink={ink}
+              ground={spec.ground.color}
+              alpha={alpha * d.fade}
+            />
+          </Animated.View>
+        ))}
         <Connectors
           views={views}
           nodeAt={nodeAt}
@@ -316,33 +424,6 @@ export default function LearnScreen({
           height={contentH}
           drawing={unlocking}
         />
-        {items.map((it) => {
-          // docs/UI.md §7.1: a scene beside each level, on the side its label
-          // leaves free, centred in the room there; none where there is too little.
-          if (it.t !== 'node') return null;
-          const scene = SCENES[it.li % SCENES.length];
-          const labelLeft = WIND[it.li % WIND.length] > 0;
-          const edge = labelLeft ? width - space.lg : space.lg;
-          const near = labelLeft ? it.x + RING / 2 + space.sm : it.x - RING / 2 - space.sm;
-          const size = Math.min(scene.size, Math.abs(near - edge));
-          if (size < SCENE_MIN) return null;
-          return (
-            <Animated.View
-              key={`s${views[it.gi].level.key}`}
-              pointerEvents="none"
-              entering={opened.has(it.ci) ? FadeIn.duration(220) : undefined}
-              style={[styles.scene, { left: (edge + near) / 2 - size / 2, top: it.y - size / 2 }]}
-            >
-              <Deco
-                kind={scene.kind}
-                size={size}
-                ink={ink}
-                ground={spec.ground.color}
-                alpha={alpha}
-              />
-            </Animated.View>
-          );
-        })}
         {items.map((it) =>
           it.t === 'teaser' ? (
             <ChapterHeader
@@ -408,7 +489,7 @@ export default function LearnScreen({
             />
           </>
         ) : null}
-      </ScrollView>
+      </Animated.ScrollView>
       {!hereVisible && !allDone ? <JumpButton view={here} onPress={jump} /> : null}
     </View>
   );
@@ -420,21 +501,24 @@ export default function LearnScreen({
 
 /**
  * docs/UI.md §7.2: the top bar, evenly spaced -- which path (its logo, a
- * stand-in until stage BRAND), the streak and the hearts. The flame lights once
- * today's goal is met, and a tap on it says how far today has got
- * ("Today 1/2"); the hearts show the wait while one is on its way back.
+ * stand-in until stage BRAND), the streak, the gems (David, 2026-09-30: third,
+ * with their use to come) and the hearts. The flame lights once today's goal
+ * is met, and a tap on it says how far today has got ("Today 1/2"); the hearts
+ * show the wait while one is on its way back.
  */
 function Hud({
   top,
   path,
   streak,
   today,
+  gems,
   hearts,
 }: {
   top: number;
   path: TradingPath | null;
   streak: number;
   today: number;
+  gems: number;
   hearts: Hearts;
 }) {
   const spec = useLookSpec();
@@ -477,18 +561,27 @@ function Hud({
             <Text style={[styles.hudValue, { color: flame }]}>{streak}</Text>
           </Pressable>
         </Animated.View>
+        {/* As wide as the bar round it, not the flame, so the words are whole
+            (David, 2026-09-30: it read "T..."). */}
         {shown ? (
           <Animated.View
             entering={FadeIn.duration(160)}
             exiting={FadeOut.duration(120)}
             pointerEvents="none"
-            style={styles.today}
+            style={styles.todayWrap}
           >
-            <Text style={styles.todayText} numberOfLines={1}>
-              {`Today ${done}/${DAILY_GOAL}`}
-            </Text>
+            <View style={styles.today}>
+              <View style={styles.todayPoint} />
+              <Text style={styles.todayText} numberOfLines={1}>
+                {`Today ${done}/${DAILY_GOAL}`}
+              </Text>
+            </View>
           </Animated.View>
         ) : null}
+      </View>
+      <View accessible accessibilityLabel={`${gems} gems`} style={styles.hudItem}>
+        <Gem size={22} color={colors.gem} />
+        <Text style={[styles.hudValue, { color: colors.gem }]}>{gems}</Text>
       </View>
       {/* docs/UI.md §5.2: while one is on its way back, the wait sits beside them. */}
       <View
@@ -762,6 +855,11 @@ function questionsIn(view: LevelView): number {
  * the trail says which way the path runs without a line cutting through the
  * labels beside the nodes. Only within a chapter: between two chapters the
  * header is the link.
+ *
+ * Moving on (UNLOCK), the stretch into the level that opened lights up as a
+ * spark runs down it: each dot pops as the spark passes, and five notes climb
+ * the scale on the way, each a light tap (David, 2026-09-30: smoother, with
+ * haptics and sounds).
  */
 function Connectors({
   views,
@@ -794,13 +892,14 @@ function Connectors({
     draw.set(
       withDelay(UNLOCK.draw, withTiming(1, { duration: UNLOCK.drawMs, easing: EASE_IN_OUT })),
     );
+    // The notes climb C5 to A5 as the spark runs, under the unlock's G5 to E6.
+    const timers = [0, 1, 2, 3, 4].map((step) =>
+      setTimeout(() => noteFeedback(step), UNLOCK.draw + 60 + step * ((UNLOCK.drawMs - 120) / 4)),
+    );
+    return () => timers.forEach(clearTimeout);
   }, [drawable, reduced, draw]);
-  // The lit copy of that one stretch sits in a window that opens downwards.
-  const top = drawable ? nodeAt[(drawing as number) - 1].y : 0;
-  const span = drawable ? nodeAt[drawing as number].y - top : 0;
-  const reveal = useAnimatedStyle(() => ({ height: span * draw.get() }));
 
-  const dots: { x: number; y: number; lit: boolean; seg: number }[] = [];
+  const dots: { x: number; y: number; t: number; lit: boolean; seg: number }[] = [];
   const segment = (
     a: { x: number; y: number },
     b: { x: number; y: number },
@@ -816,7 +915,7 @@ function Connectors({
       const y = a.y + (b.y - a.y) * t;
       const clear = RING / 2 + 8;
       if (Math.hypot(x - a.x, y - a.y) < clear || Math.hypot(x - b.x, y - b.y) < clear) continue;
-      dots.push({ x, y, lit, seg });
+      dots.push({ x, y, t, lit, seg });
     }
   };
   for (let i = 0; i < views.length - 1; i++) {
@@ -833,6 +932,9 @@ function Connectors({
   }
   // While it draws, that stretch starts dim underneath its lit copy.
   const drawn = (d: (typeof dots)[number]) => drawable && d.seg === (drawing as number) - 1;
+  const trail = dots.filter(drawn);
+  const t0 = trail[0]?.t ?? 0;
+  const t1 = trail[trail.length - 1]?.t ?? 1;
   return (
     <>
       <Svg width={width} height={height} style={StyleSheet.absoluteFill} pointerEvents="none">
@@ -850,21 +952,91 @@ function Connectors({
           );
         })}
       </Svg>
-      {drawable ? (
-        <Animated.View
-          pointerEvents="none"
-          style={[{ position: 'absolute', left: 0, top, width, overflow: 'hidden' }, reveal]}
-        >
-          <Svg width={width} height={span} style={{ position: 'absolute', left: 0, top: 0 }}>
-            {dots.filter(drawn).map((d, k) => (
-              <Circle key={k} cx={d.x} cy={d.y - top} r={3.4} fill={colors.accent} opacity={0.75} />
-            ))}
-          </Svg>
-        </Animated.View>
+      {drawable && trail.length ? (
+        <>
+          {trail.map((d, k) => (
+            <TrailDot
+              key={k}
+              x={d.x}
+              y={d.y}
+              at={(d.t - t0) / Math.max(0.001, t1 - t0)}
+              draw={draw}
+            />
+          ))}
+          <TrailSpark
+            a={nodeAt[(drawing as number) - 1]}
+            b={nodeAt[drawing as number]}
+            t0={t0}
+            t1={t1}
+            draw={draw}
+          />
+        </>
       ) : null}
     </>
   );
 }
+
+/** One dot of the stretch being lit: it pops, a size too big, as the spark reaches it. */
+function TrailDot({
+  x,
+  y,
+  at,
+  draw,
+}: {
+  x: number;
+  y: number;
+  /** How far along the run the spark reaches it, 0 to 1. */
+  at: number;
+  draw: SharedValue<number>;
+}) {
+  const style = useAnimatedStyle(() => {
+    const s = Math.min(1, Math.max(0, (draw.get() - at) / 0.14));
+    const scale = s <= 0 ? 0 : s < 0.45 ? 1.9 * (s / 0.45) : 1.9 - 0.9 * ((s - 0.45) / 0.55);
+    return { opacity: s > 0 ? 0.75 : 0, transform: [{ scale }] };
+  });
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[styles.trailDot, { left: x - 3.4, top: y - 3.4 }, style]}
+    />
+  );
+}
+
+/** The spark: a bright point in a glow, running the stretch's own curve from one level to the next. */
+function TrailSpark({
+  a,
+  b,
+  t0,
+  t1,
+  draw,
+}: {
+  a: { x: number; y: number };
+  b: { x: number; y: number };
+  t0: number;
+  t1: number;
+  draw: SharedValue<number>;
+}) {
+  const style = useAnimatedStyle(() => {
+    const d = draw.get();
+    const t = t0 + (t1 - t0) * d;
+    const e = t * t * (3 - 2 * t);
+    const x = a.x + (b.x - a.x) * e;
+    const y = a.y + (b.y - a.y) * t;
+    return {
+      opacity: d <= 0 || d >= 1 ? 0 : Math.min(1, d / 0.06, (1 - d) / 0.12),
+      transform: [{ translateX: x - SPARK / 2 }, { translateY: y - SPARK / 2 }],
+    };
+  });
+  return (
+    <Animated.View pointerEvents="none" style={[styles.spark, style]}>
+      <View style={styles.sparkGlow} />
+      <View style={styles.sparkCore} />
+    </Animated.View>
+  );
+}
+
+/** The spark's glow, across. */
+const SPARK = 26;
 
 /**
  * S26: the end of the map. No "soon" without context: it says that this is
@@ -1098,16 +1270,27 @@ const styles = themed(() => ({
     fontFamily: MONO_FONT,
     marginRight: 2,
   },
+  todayWrap: { position: 'absolute', top: 48, left: -90, right: -90, alignItems: 'center' },
   today: {
-    position: 'absolute',
-    top: 46,
-    alignSelf: 'center',
     paddingHorizontal: space.md,
     paddingVertical: space.xs,
     borderRadius: radius.md,
     backgroundColor: colors.surface,
     borderColor: colors.borderStrong,
     borderWidth: 1.5,
+  },
+  todayPoint: {
+    position: 'absolute',
+    top: -7,
+    left: '50%',
+    marginLeft: -6,
+    width: 12,
+    height: 12,
+    backgroundColor: colors.surface,
+    borderLeftWidth: 1.5,
+    borderTopWidth: 1.5,
+    borderColor: colors.borderStrong,
+    transform: [{ rotate: '45deg' }],
   },
   todayText: { ...type.label, color: colors.text, fontFamily: MONO_FONT },
 
@@ -1190,6 +1373,31 @@ const styles = themed(() => ({
   },
   jumpText: { ...type.label, fontSize: 14, color: colors.accentText, fontWeight: '700' },
   nodeSlot: { position: 'absolute', width: RING, height: RING },
+  trailDot: {
+    position: 'absolute',
+    width: 6.8,
+    height: 6.8,
+    borderRadius: 3.4,
+    backgroundColor: colors.accent,
+  },
+  spark: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: SPARK,
+    height: SPARK,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sparkGlow: {
+    position: 'absolute',
+    width: SPARK,
+    height: SPARK,
+    borderRadius: SPARK / 2,
+    backgroundColor: colors.accent,
+    opacity: 0.28,
+  },
+  sparkCore: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.accent },
   scene: { position: 'absolute' },
   // Beside its node, centred on it.
   label: { position: 'absolute', top: 0, height: RING, justifyContent: 'center' },

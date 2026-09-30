@@ -37,7 +37,7 @@ import type {
   SliderScreen as SliderS,
 } from '../types';
 import { scannerRowsOf, scannerTargetsOf } from '../types';
-import { fillArea, Prompt, ThumbZone } from './common';
+import { Prompt } from './common';
 
 /** Green for the right target, red for a wrong pick: the same key everywhere. */
 function resolveHighlight(
@@ -72,7 +72,7 @@ export function HotspotScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <ThumbZone>
+      <View>
         <Visual
           component={screen.component}
           data={screen.data}
@@ -87,7 +87,7 @@ export function HotspotScreen({
           }
           highlight={resolveHighlight(revealed, picked, targets)}
         />
-      </ThumbZone>
+      </View>
     </View>
   );
 }
@@ -108,7 +108,7 @@ export function ScannerPickScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <ThumbZone>
+      <View>
         <ScannerTable
           asAnswers
           rows={scannerRowsOf(screen)}
@@ -123,7 +123,7 @@ export function ScannerPickScreen({
           }
           resolved={resolveHighlight(revealed, picked, scannerTargetsOf(screen))}
         />
-      </ThumbZone>
+      </View>
     </View>
   );
 }
@@ -144,7 +144,7 @@ export function DepthLadderScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <ThumbZone>
+      <View>
         <OrderBook
           bids={screen.data.bids}
           asks={screen.data.asks}
@@ -159,7 +159,7 @@ export function DepthLadderScreen({
           }
           resolved={resolveHighlight(revealed, picked, [screen.target])}
         />
-      </ThumbZone>
+      </View>
     </View>
   );
 }
@@ -393,7 +393,7 @@ export function SliderScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
-      <ThumbZone style={styles.zone}>
+      <View style={styles.zone}>
         <Text style={styles.sliderValue}>{sliderText(shown, screen.unit, step)}</Text>
 
         <GestureDetector gesture={pan}>
@@ -475,13 +475,13 @@ export function SliderScreen({
               )})`
             : ' '}
         </Text>
-      </ThumbZone>
+      </View>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { ...fillArea, gap: space.lg },
+  wrap: { gap: space.lg },
   zone: { gap: space.lg },
   column: { gap: space.lg },
   tapRow: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 },

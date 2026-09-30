@@ -6,7 +6,7 @@ import { correctOptionIndex } from '../lesson/answers';
 import type { Tone } from '../lesson/toneTransition';
 import { space } from '../theme';
 import type { McScreen as Mc, NumericMcScreen as NumMc } from '../types';
-import { AnswerCard, fillArea, Prompt, ThumbZone } from './common';
+import { AnswerCard, Prompt } from './common';
 
 /** docs/UI.md §4.1 `mc` and `numeric-mc`: 2-4 answer cards, single select. */
 export default function McScreen({
@@ -33,7 +33,7 @@ export default function McScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <ThumbZone style={styles.options}>
+      <View style={styles.options}>
         {screen.options.map((option, i) => (
           <AnswerCard
             key={`${option.text}-${i}`}
@@ -47,12 +47,12 @@ export default function McScreen({
             }}
           />
         ))}
-      </ThumbZone>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: { ...fillArea, gap: space.xl },
+  wrap: { gap: space.xl },
   options: { gap: space.md },
 });

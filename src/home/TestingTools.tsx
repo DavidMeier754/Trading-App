@@ -12,9 +12,18 @@ import Animated, {
 import { chaptersFor, PathLevel } from '../content';
 import { tapFeedback } from '../lesson/feedback';
 import { EASE_OUT, SPRING_POP, usePressFeedback } from '../lesson/motion';
-import { MAX_HEARTS, refillHearts, skipTo, useHearts, useProgress, waitText } from '../progress';
+import {
+  addGems,
+  MAX_HEARTS,
+  refillHearts,
+  skipTo,
+  useHearts,
+  useProgress,
+  waitText,
+} from '../progress';
 import { colors, radius, space, themed, type } from '../theme';
 import Icon from './icons';
+import { Gem } from './scenes';
 import { forgetShownPath } from './LevelNode';
 import { pageStyles, RowButton, rowStyles } from './pageParts';
 import { pathView } from './pathState';
@@ -22,10 +31,10 @@ import { pathView } from './pathState';
 /**
  * Settings → Testing (docs/UI.md §11.5): the testing tools, in test builds
  * only, as a section of Settings itself (David, 2026-09-30: "bring back all
- * the developer options into the settings"). Two change the learner's progress
- * on the spot -- the hearts back, a jump ahead -- and three open pages of their
- * own: the lesson with every screen type, the Animations page and the Design
- * suggestions.
+ * the developer options into the settings"). Three change the learner's
+ * progress on the spot -- the hearts back, gems for the top bar, a jump ahead --
+ * and three open pages of their own: the lesson with every screen type, the
+ * Animations page and the Design suggestions.
  */
 export default function TestingTools({
   onOpenBench,
@@ -40,6 +49,7 @@ export default function TestingTools({
     <>
       <Text style={pageStyles.section}>Testing</Text>
       <HeartsRow />
+      <GemsRow />
       <SkipRow />
       <RowButton
         icon="flask"
@@ -104,6 +114,44 @@ function HeartsRow() {
               ? `All ${MAX_HEARTS} are here.`
               : `${hearts} of ${MAX_HEARTS}${nextAt ? ` · next in ${waitText(nextAt)}` : ''}`}
           </Text>
+        </View>
+      </Pressable>
+    </Animated.View>
+  );
+}
+
+/**
+ * Gems for the top bar (David, 2026-09-30), 50 a tap, while nothing in the
+ * app hands them out yet: to see the count at two and three digits.
+ */
+function GemsRow() {
+  const { gems } = useProgress();
+  const press = usePressFeedback(true, { cue: 'coin' });
+  const pop = useSharedValue(1);
+  const popStyle = useAnimatedStyle(() => ({ transform: [{ scale: pop.get() }] }));
+  return (
+    <Animated.View style={press.style}>
+      <Pressable
+        accessibilityRole="button"
+        onPressIn={press.onPressIn}
+        onPressOut={press.onPressOut}
+        onPress={() => {
+          addGems(50);
+          pop.set(
+            withSequence(
+              withTiming(1.3, { duration: 120, easing: EASE_OUT }),
+              withSpring(1, SPRING_POP),
+            ),
+          );
+        }}
+        style={rowStyles.row}
+      >
+        <Animated.View style={[rowStyles.rowIcon, popStyle]}>
+          <Gem size={22} color={colors.gem} />
+        </Animated.View>
+        <View style={rowStyles.rowText}>
+          <Text style={rowStyles.rowTitle}>Add 50 gems</Text>
+          <Text style={rowStyles.rowSub}>{`${gems} in the top bar · their use comes later`}</Text>
         </View>
       </Pressable>
     </Animated.View>

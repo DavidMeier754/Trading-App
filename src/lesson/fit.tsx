@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   LayoutChangeEvent,
   ScrollView,
@@ -7,13 +7,13 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { useGridOrigin } from '../components/gridAlign';
 import { CHART_GRID_STEP } from '../theme';
 import { FitContext, fitScale, fitTop, useFit } from './fitState';
-import { EASE_IN_OUT } from './motion';
+import { EASE_IN_OUT, EASE_OUT } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
 /**
@@ -29,11 +29,11 @@ import { useReduceMotion } from './useReduceMotion';
  * small to read (at 60 % body text was 9-10 px on a 320 pt phone), so a screen
  * that still does not fit keeps that scale and scrolls above the fixed key.
  *
- * The layout is Calm's, David's pick in stage LOOK-BRIEF (§10): the question
- * and its visual at the top of the area, the answers at its bottom, right
- * above the strip kept free for the reveal (screens/common.tsx, ThumbZone),
- * and the key under that. The strip is kept from the first frame, so the reveal
- * rises into space that was already free and never covers what it grades; on a
+ * A screen sits in the middle of the area (David, 2026-09-30: "the page
+ * content in the middle of the screen, not at the top or bottom"), centred in
+ * the area less the strip kept free for the reveal, with the key under that
+ * (`Centre` below). The strip is kept from the first frame, so the reveal rises
+ * into space that was already free and never covers what it grades; on a
  * screen that scrolls, the strip is the end of the scroll, and the screen
  * scrolls to it when the reveal arrives.
  *
@@ -52,11 +52,9 @@ const LOCK_MS = 600;
 /**
  * The lesson's content area.
  *
- * `center` (every screen but one): the screen starts at the top of the area and
- * is at least as tall as the area less the reveal's strip, so a screen's
- * `ThumbZone` can sit at the bottom of it. `fill`: the screen takes the whole
- * area and places its own content (chart-decision, which holds its chart on the
- * backdrop grid).
+ * `center` (every screen but one): the screen is centred in the area less the
+ * reveal's strip (`Centre`). `fill`: the screen takes the whole area and places
+ * its own content (chart-decision, which holds its chart on the backdrop grid).
  */
 export function FitScreen({
   children,
@@ -156,6 +154,8 @@ export function FitScreen({
   // Charts snap to the backdrop grid by measuring where they are (gridAlign);
   // a scroll moves them, so it is a reason to measure again.
   const onScrollEnd = useCallback(() => setSettled((n) => n + 1), []);
+  // And so is a move the content made to keep clear of the strip (Centre).
+  const onMoved = onScrollEnd;
 
   return (
     <ScrollView
@@ -191,9 +191,10 @@ export function FitScreen({
           {anchor === 'fill' ? (
             children
           ) : (
-            // At least the area less the strip, at the scale drawn, so the
-            // screen's answers reach down to the strip whatever the scale.
-            <View style={{ minHeight: space > 0 ? space / target : 0 }}>{children}</View>
+            // Centred in the area less the strip, at the scale drawn.
+            <Centre area={space > 0 ? space / target : 0} onMoved={onMoved}>
+              {children}
+            </Centre>
           )}
         </FitContext.Provider>
       </Animated.View>
@@ -206,6 +207,94 @@ const styles = StyleSheet.create({
   grow: { flexGrow: 1 },
   origin: { transformOrigin: 'top' },
 });
+
+/** How long a forced move of settled content takes to glide into place. */
+const SHIFT_MS = 280;
+
+/**
+ * docs/UI.md §2: a screen arrives in the middle of its area, and then holds
+ * still -- nothing on a screen moves unless the learner moved it.
+ *
+ * Centring is what makes things jump: a carousel card a line longer than the
+ * one before, a hint that goes away, and centred content answers every change
+ * in height by sliding half of it. So the centring lasts until the screen has
+ * settled (LOCK_MS); from then on the content keeps the top it had. It moves
+ * again only when what is below it would otherwise run into the reveal's strip,
+ * and then by exactly that much, laid out at once (so the charts measure the new
+ * place) and drawn gliding from the old place (FLIP).
+ */
+function Centre({
+  area,
+  onMoved,
+  children,
+}: {
+  /** The height to centre in: the area less the reveal's strip, as laid out. */
+  area: number;
+  /** A settled screen moved; charts measure again (gridAlign). */
+  onMoved: () => void;
+  children: React.ReactNode;
+}) {
+  const reduced = useReduceMotion();
+  // Where the content sat when it locked; null while it is still centring.
+  const [lockedTop, setLockedTop] = useState<number | null>(null);
+  const [own, setOwn] = useState(0);
+  // The two heights as last laid out, for the lock to work out where the
+  // centred content sits. Not the content's own y: on the web a layout event
+  // only comes with a change of size, so a y can be stale.
+  const heights = useRef({ box: 0, own: 0 });
+  useEffect(() => {
+    const t = setTimeout(
+      () =>
+        setLockedTop(
+          (prev) => prev ?? Math.max(0, (heights.current.box - heights.current.own) / 2),
+        ),
+      LOCK_MS,
+    );
+    return () => clearTimeout(t);
+  }, []);
+  const top = lockedTop === null ? null : Math.max(0, Math.min(lockedTop, area - own));
+
+  const shift = useSharedValue(0);
+  const drawnTop = useRef<number | null>(null);
+  useLayoutEffect(() => {
+    const before = drawnTop.current;
+    drawnTop.current = top;
+    if (top === null || before === null || before === top) return;
+    if (reduced) {
+      onMoved();
+      return;
+    }
+    shift.set(before - top);
+    shift.set(
+      withTiming(0, { duration: SHIFT_MS, easing: EASE_OUT }, (finished) => {
+        'worklet';
+        if (finished) scheduleOnRN(onMoved);
+      }),
+    );
+  }, [top, reduced, shift, onMoved]);
+  const shiftStyle = useAnimatedStyle(() => ({ transform: [{ translateY: shift.get() }] }));
+
+  return (
+    // The same two views before and after the lock, only restyled: swapping the
+    // tree would remount the screen under the tap that caused the change.
+    <View
+      style={{ minHeight: area, justifyContent: top === null ? 'center' : 'flex-start' }}
+      onLayout={(e) => {
+        heights.current.box = e.nativeEvent.layout.height;
+      }}
+    >
+      <Animated.View
+        style={[top === null ? null : { marginTop: top }, shiftStyle]}
+        onLayout={(e) => {
+          heights.current.own = e.nativeEvent.layout.height;
+          setOwn(e.nativeEvent.layout.height);
+        }}
+      >
+        {children}
+      </Animated.View>
+    </View>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Charts take the room that is left.

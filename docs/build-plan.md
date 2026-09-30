@@ -781,7 +781,7 @@ Report: the three directions in three sentences each · links to every variant �
    - In `app.json`: `userInterfaceStyle: automatic`.
 2. **Type scale** ✅ (S2): body text 16–17, labels ≥ 13. Nothing a decision depends on goes below 13, not even the state chips. Calm's scale from the prototype, and numbers in a monospaced face while the words around them keep the text face.
 3. **Layout** ✅ (W4, W5):
-   - Answers in the thumb zone.
+   - Answers in the thumb zone. On 2026-09-30 you changed it: a screen's content sits in the middle of its area ("It looks weird" at the top or the bottom), and the result box has its place at the bottom of that area, right above Continue, so it no longer covers the key.
    - `FitScreen` shrinks to 85 % at most; if it still does not fit, the screen scrolls. Your critique: a screen with too much content got squished, and that looks bad.
    - Content no longer sticks to the top.
    - The reveal gets its slot above the key before it appears, and the screen scrolls to it, so the key never covers the result box (your critique; the prototype's `Screen` in `src/prototype/layout.tsx` shows how).
@@ -795,7 +795,7 @@ Report: the three directions in three sentences each · links to every variant �
    - Quit dialog: "Keep learning" is the main button, and the text says "lesson" instead of "sub-level".
    - A key's label stays on one line and never breaks (your critique: Continue sometimes did). Done in `LOOK-BRIEF` for today's keys (you chose to fix it there): the level card's "Continue: lesson 3" (`src/home/LearnScreen.tsx`) became "Continue", and the lesson key and the level card's key shrink a label that would not fit instead of breaking it. The new keys keep that rule.
 6. **Top bar and wording** ✅ (S9, S36):
-   - The top bar in your order, evenly spaced: the path's logo, the streak, the gems and the hearts, each an icon with its number (`docs/UI.md` §7.2, `#prototype/mix/map`). The daily goal leaves the bar: the flame lights when today's goal is met, and "Today 1/2" shows on lesson complete and when you tap the flame. The gems join in `LOOP-DAILY`; the path logos are stand-ins until `BRAND`.
+   - The top bar in your order, evenly spaced: the path's logo, the streak, the gems and the hearts, each an icon with its number (`docs/UI.md` §7.2, `#prototype/mix/map`). The daily goal leaves the bar: the flame lights when today's goal is met, and "Today 1/2" shows on lesson complete and when you tap the flame. The path logos are stand-ins until `BRAND`. The gems were planned for `LOOP-DAILY`; on 2026-09-30 you asked for them now, so they show third in the bar with their count (0 until they are earned; Settings → Testing adds 50 a tap). Earning them stays in `LOOP-DAILY`, what they buy is decision U.
    - In a lesson, the step count beside the progress bar ("4/12").
    - Banner "Lesson 1 of 4".
    - Clean accessibility labels: "3 day streak", "5 hearts".
@@ -811,10 +811,11 @@ Report: the three directions in three sentences each · links to every variant �
     - Letter tiles and number keys play the barely-there `detent`, not the answer tap.
 11. **Settings** ✅ (your critique):
     - **Change design:** a button that shows each of the three looks full screen on a real lesson screen, with "Use this design" (today they are small cards to swipe past).
-    - The testing tools stay in Settings under **Testing** (a Development screen was built first; on 2026-09-30 you asked for them straight in Settings), still in test builds only, with the **Design suggestions** page (today Settings → Testing → Design suggestions): ideas for the look, drawn live, each marked in the mix or not (your wish in `LOOK-BRIEF`), and the **Animations** page (today Settings → Testing → Animations). Every new animation of a rare moment gets a row there, such as the streak screens in `LOOP-DAILY`.
+    - The testing tools stay in Settings under **Testing** (a Development screen was built first; on 2026-09-30 you asked for them straight in Settings), still in test builds only, with the **Design suggestions** page (today Settings → Testing → Design suggestions): ideas for the look, drawn live, each marked in the mix or not (your wish in `LOOK-BRIEF`), and the **Animations** page (today Settings → Testing → Animations). Every new animation of a rare moment gets a row there. The streak screens were planned for `LOOP-DAILY`; on 2026-09-30 you missed them there and asked for them "real nice fancy", so they are built now (`src/lesson/StreakScreens.tsx`) and play there as "Streak goes up" and "Streak lost". `LOOP-DAILY` shows them in the app's own flow.
 12. **The path map** ✅ (your answers in `LOOK-BRIEF`, `#prototype/mix/map`):
     - Today's design stays, in the chosen look (you: the list-style maps look too professional and not fun).
-    - Smaller level buttons, 58 pt in a 76 pt ring instead of 72 in 96, so small scenes fit at the sides of the path. The scenes are drawn in the ground's own ink, as faint as its grid and with no colour, so they fit the background instead of standing out (your note of 2026-09-29).
+    - Smaller level buttons, 58 pt in a 76 pt ring instead of 72 in 96, so small scenes fit at the sides of the path. The scenes are drawn in the ground's own ink, as faint as its grid and with no colour, so they fit the background instead of standing out (your note of 2026-09-29). On 2026-09-30 you asked for the buttons "a little bigger" (now 66 pt in an 86 pt ring) and the drawings faintly in the background rather than next to each level, in several sizes: they are scattered down each chapter, the biggest partly off the screen (`src/home/backdrop.ts`).
+    - Moving on to the next level, smoother and with haptics and sounds (your wish of 2026-09-30): the map glides down while a spark runs the path to climbing notes, the lock rattles and bursts off with sparks and the unlock chime, and START lands with a pop (`docs/UI.md` §7.1).
     - A finished level drops its progress ring and keeps its check; only the level you are on shows a ring.
     - The label beside a level is its title alone, in whole lines (`docs/UI.md` §7.1).
 13. **Clean-up** ✅: once the mix is built, `src/prototype/` goes, with its route and its Settings row. The Design suggestions page stays under Settings → Testing (item 11).
@@ -824,7 +825,7 @@ Report: the three directions in three sentences each · links to every variant �
 - **Session 1, the system:** items 1, 2, 4, 5 (tap targets and the quit dialog), 7, 8, 9 and 10, plus the check scripts (`npm run check:ui`, `npm run sheets`).
 - **Session 2, the screens:** items 3, 5 (the key's label), 6, 11, 12 and 13, and the docs that go with them. Its test checklist is items 2, 3 and 7–10 of "You test" below; session 1's is items 1 and 4–6.
 
-**Status** (2026-09-30): both sessions are built and are tested and merged together: PR #20 holds session 1, and PR #21 (session 2) goes into its branch. Items 1–8 and 10–13 are done; item 9 waits for your `EXPO_TOKEN`. The stage gets its ✅ in section 2 with "OK LOOK-SYSTEM – merge".
+**Status** (2026-09-30): both sessions are built and are tested and merged together: PR #20 holds session 1, and PR #21 (session 2) goes into its branch. Items 1–8 and 10–13 are done; item 9 waits for your `EXPO_TOKEN`. Your ten improvements of 2026-09-30 are in PR #21 too, among them two things pulled forward from `LOOP-DAILY` at your request: the gems in the top bar and the streak screens (built, and played on the Animations page). The stage gets its ✅ in section 2 with "OK LOOK-SYSTEM – merge".
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 
@@ -854,8 +855,8 @@ Report: what you built · check results · contact sheets before/after · my tes
 5. Fun question (1–5): does the motion feel calm and polished, and never sluggish?
 6. Sounds: with the phone on silent they still play, and when you tap fast every tap sounds. Continue sounds like the ✕.
 7. Settings → Change design shows each of the three looks full screen.
-8. The map: smaller buttons with scenes beside the path, no ring on a finished level, every title whole and nothing drawn twice.
-9. The top bar: the path logo, the streak and the hearts, evenly spaced (the gems join in `LOOP-DAILY`). No key breaks its label onto two lines.
+8. The map: the buttons a little bigger, faint drawings in the background, no ring on a finished level, every title whole and nothing drawn twice.
+9. The top bar: the path logo, the streak, the gems and the hearts, evenly spaced. No key breaks its label onto two lines.
 10. Fewer words: does any screen still feel like reading?
 
 **Done when** the contact sheets are right and you are happy.
@@ -1031,7 +1032,7 @@ Report: what you built · check results · my test checklist with real links · 
      - **done:** the flame lights up.
      - **at risk:** in the evening, if the goal is still open.
      - **lost:** a friendly screen, "A new streak starts today".
-   - **Full screen** (your wish in `LOOK-BRIEF`, `#prototype/mix/streak` and `#prototype/mix/lost` at `a78e210`): every change of the streak gets its own screen. Up by a day, the flame lights and the count rolls on; lost, the flame goes cold and the count rolls to 0. About a second, only after something you did; Continue ends it (`docs/UI.md` §7.2).
+   - **Full screen** (your wish in `LOOK-BRIEF`, `#prototype/mix/streak` and `#prototype/mix/lost` at `a78e210`): every change of the streak gets its own screen. Up by a day, the flame lights and the count rolls on; lost, the flame goes cold and the count rolls to 0. About a second, only after something you did; Continue ends it (`docs/UI.md` §7.2). **Built in `LOOK-SYSTEM`** at your request (`src/lesson/StreakScreens.tsx`, played on Settings → Testing → Animations): this stage shows them in the flow, after the lesson that meets the goal and when the app opens on a lost streak.
 3. **Streak freeze:**
    - At most two in store.
    - Used automatically, with the message "Freeze used".
@@ -1041,7 +1042,7 @@ Report: what you built · check results · my test checklist with real links · 
    - In the evening, at most one "streak at risk" reminder, and only if the goal is still open.
    - Never guilt-trip texts; everything can be switched off.
 5. **Testing tool** "Advance a day" (+1 day, +2 days).
-6. **Gems** (your wish in `LOOK-BRIEF`, `docs/UI.md` §7.2): a new in-game currency in the top bar, earned in lessons (e.g. a few per lesson, more for a perfect one) and, from `FUN-PASS` on, in bonus side lessons. Never sold (decision I). What they buy is decision U.
+6. **Gems** (your wish in `LOOK-BRIEF`, `docs/UI.md` §7.2): a new in-game currency in the top bar, earned in lessons (e.g. a few per lesson, more for a perfect one) and, from `FUN-PASS` on, in bonus side lessons. Never sold (decision I). What they buy is decision U. **In the top bar since `LOOK-SYSTEM`** (your wish of 2026-09-30), stored with the progress and still at 0: this stage makes them earned.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 

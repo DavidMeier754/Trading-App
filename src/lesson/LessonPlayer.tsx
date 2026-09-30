@@ -562,7 +562,7 @@ export default function LessonPlayer({
           contentStyle={styles.content}
           bottomPad={space.lg}
           // chart-decision holds its own chart on the grid; every other screen
-          // starts at the top, its answers at the bottom (lesson/fit.tsx).
+          // sits in the middle of the area (lesson/fit.tsx).
           anchor={!outOfHearts && screen?.type === 'chart-decision' ? 'fill' : 'center'}
           reserve={!outOfHearts && screen && isQuestion(screen) ? revealRoom : 0}
           revealed={isRevealed}
@@ -606,14 +606,14 @@ export default function LessonPlayer({
             </PlanValues.Provider>
           </VerdictProvider>
         </FitScreen>
-      </Animated.View>
-
-      <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg }]}>
         {/* docs/UI.md §2: the reveal lies over a strip the screen kept free for
-            it, just above the button, instead of pushing the content area
-            shorter -- a shorter area is what moved and shrank everything on
-            the screen the moment Check was pressed. The strip is as tall as
-            this screen's own verdict, measured beforehand by a copy of it. */}
+            it, at the bottom of the content area just above the key, instead of
+            pushing the content area shorter -- a shorter area is what moved and
+            shrank everything on the screen the moment Check was pressed. The
+            strip is as tall as this screen's own verdict, measured beforehand
+            by a copy of it. It is placed from the content area's own bottom
+            edge in points (David, 2026-09-30: on his iPhone the box sat over
+            Continue when it hung from the footer by a percentage). */}
         {!outOfHearts && screen && isQuestion(screen) && !isRevealed ? (
           <View style={styles.revealSlot} pointerEvents="none">
             <RevealProbe
@@ -647,6 +647,9 @@ export default function LessonPlayer({
             </View>
           </View>
         ) : null}
+      </Animated.View>
+
+      <View style={[styles.footer, { paddingBottom: insets.bottom + space.lg }]}>
         {showDecisionButtons ? (
           <DecisionButtons
             buttons={decisionButtons(screen as any)}
@@ -901,12 +904,12 @@ const styles = themed(() => ({
     borderTopColor: colors.border,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  // Just above the footer, over the bottom of the content area.
+  // At the bottom of the content area, just above the footer.
   revealSlot: {
     position: 'absolute',
     left: space.lg,
     right: space.lg,
-    bottom: '100%',
+    bottom: 0,
     paddingBottom: space.md,
   },
   // The reveal's tint is see-through; over the content area it needs ground.

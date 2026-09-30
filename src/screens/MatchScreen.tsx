@@ -9,7 +9,7 @@ import Shake from '../lesson/Shake';
 import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import type { MatchScreen as S } from '../types';
-import { fillArea, Prompt, ThumbZone } from './common';
+import { Prompt } from './common';
 
 function shuffled<T>(items: T[], seed: number): T[] {
   const out = [...items];
@@ -146,7 +146,7 @@ export default function MatchScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <ThumbZone style={styles.zone}>
+      <View style={styles.zone}>
         <View style={styles.columns}>
           <View style={styles.leftCol}>
             {screen.pairs.map(([term], i) => {
@@ -205,13 +205,13 @@ export default function MatchScreen({
               : `Matched, after ${misses} wrong ${misses === 1 ? 'tap' : 'taps'}.`
             : `${Object.keys(linked).length}/${screen.pairs.length} matched`}
         </Text>
-      </ThumbZone>
+      </View>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { ...fillArea, gap: space.lg },
+  wrap: { gap: space.lg },
   zone: { gap: space.lg },
   columns: { flexDirection: 'row', gap: space.sm },
   leftCol: { flex: 4, gap: space.sm },

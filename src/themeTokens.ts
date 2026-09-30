@@ -45,6 +45,12 @@ export type Palette = {
   down: string;
   /** Amber: a reasonable answer, a warning. */
   warning: string;
+  /**
+   * The gem of the in-game currency and its count in the top bar (docs/UI.md
+   * §7.2): the prototype's cyan from stage LOOK-BRIEF, one shade deeper on
+   * the light ground so the count holds 4.5 : 1.
+   */
+  gem: string;
   /** A right answer. */
   success: string;
   /** A filled right-answer key (the lesson's key after a right answer). */
@@ -86,6 +92,7 @@ const DARK: Palette = {
   up: '#26C281',
   down: '#F4665E',
   warning: '#E5A23C',
+  gem: '#3CC6E8',
   success: '#26C281',
   successFill: '#26C281',
   successText: '#06200F',
@@ -124,6 +131,7 @@ const LIGHT: Palette = {
   up: '#136B42',
   down: '#B02A25',
   warning: '#7A4E00',
+  gem: '#086C91',
   success: '#136B42',
   successFill: '#157347',
   successText: '#FFFFFF',
