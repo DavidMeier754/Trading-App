@@ -37,7 +37,7 @@ import type {
   SliderScreen as SliderS,
 } from '../types';
 import { scannerRowsOf, scannerTargetsOf } from '../types';
-import { Prompt } from './common';
+import { fillArea, Prompt, ThumbZone } from './common';
 
 /** Green for the right target, red for a wrong pick: the same key everywhere. */
 function resolveHighlight(
@@ -72,20 +72,22 @@ export function HotspotScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <Visual
-        component={screen.component}
-        data={screen.data}
-        width={width}
-        onTapTarget={
-          revealed
-            ? undefined
-            : (id) => {
-                tapFeedback();
-                onChange({ kind: 'target', id: picked === id ? null : id });
-              }
-        }
-        highlight={resolveHighlight(revealed, picked, targets)}
-      />
+      <ThumbZone>
+        <Visual
+          component={screen.component}
+          data={screen.data}
+          width={width}
+          onTapTarget={
+            revealed
+              ? undefined
+              : (id) => {
+                  tapFeedback();
+                  onChange({ kind: 'target', id: picked === id ? null : id });
+                }
+          }
+          highlight={resolveHighlight(revealed, picked, targets)}
+        />
+      </ThumbZone>
     </View>
   );
 }
@@ -106,20 +108,22 @@ export function ScannerPickScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <ScannerTable
-        asAnswers
-        rows={scannerRowsOf(screen)}
-        selected={picked}
-        onTapRow={
-          revealed
-            ? undefined
-            : (ticker) => {
-                tapFeedback();
-                onChange({ kind: 'target', id: picked === ticker ? null : ticker });
-              }
-        }
-        resolved={resolveHighlight(revealed, picked, scannerTargetsOf(screen))}
-      />
+      <ThumbZone>
+        <ScannerTable
+          asAnswers
+          rows={scannerRowsOf(screen)}
+          selected={picked}
+          onTapRow={
+            revealed
+              ? undefined
+              : (ticker) => {
+                  tapFeedback();
+                  onChange({ kind: 'target', id: picked === ticker ? null : ticker });
+                }
+          }
+          resolved={resolveHighlight(revealed, picked, scannerTargetsOf(screen))}
+        />
+      </ThumbZone>
     </View>
   );
 }
@@ -140,20 +144,22 @@ export function DepthLadderScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <OrderBook
-        bids={screen.data.bids}
-        asks={screen.data.asks}
-        selected={picked}
-        onTapRow={
-          revealed
-            ? undefined
-            : (id) => {
-                tapFeedback();
-                onChange({ kind: 'target', id: picked === id ? null : id });
-              }
-        }
-        resolved={resolveHighlight(revealed, picked, [screen.target])}
-      />
+      <ThumbZone>
+        <OrderBook
+          bids={screen.data.bids}
+          asks={screen.data.asks}
+          selected={picked}
+          onTapRow={
+            revealed
+              ? undefined
+              : (id) => {
+                  tapFeedback();
+                  onChange({ kind: 'target', id: picked === id ? null : id });
+                }
+          }
+          resolved={resolveHighlight(revealed, picked, [screen.target])}
+        />
+      </ThumbZone>
     </View>
   );
 }
@@ -387,93 +393,96 @@ export function SliderScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
-      <Text style={styles.sliderValue}>{sliderText(shown, screen.unit, step)}</Text>
+      <ThumbZone style={styles.zone}>
+        <Text style={styles.sliderValue}>{sliderText(shown, screen.unit, step)}</Text>
 
-      <GestureDetector gesture={pan}>
-        <Animated.View ref={hit} style={styles.trackHit} collapsable={false}>
-          <View style={styles.track}>
-            {revealed ? (
-              <View
+        <GestureDetector gesture={pan}>
+          <Animated.View ref={hit} style={styles.trackHit} collapsable={false}>
+            <View style={styles.track}>
+              {revealed ? (
+                <View
+                  style={[
+                    styles.band,
+                    {
+                      left: `${pct(screen.answer - (screen.tolerance ?? 0))}%`,
+                      width: `${(((screen.tolerance ?? 0) * 2) / (screen.max - screen.min)) * 100}%`,
+                    },
+                  ]}
+                />
+              ) : null}
+              <Animated.View style={[styles.fill, { backgroundColor: accent }, fillStyle]} />
+              <Animated.View
                 style={[
-                  styles.band,
-                  {
-                    left: `${pct(screen.answer - (screen.tolerance ?? 0))}%`,
-                    width: `${(((screen.tolerance ?? 0) * 2) / (screen.max - screen.min)) * 100}%`,
+                  styles.knob,
+                  { borderColor: accent },
+                  knobStyle,
+                  revealed && {
+                    borderColor:
+                      Math.abs(shown - screen.answer) <= (screen.tolerance ?? 0)
+                        ? colors.success
+                        : colors.down,
                   },
                 ]}
               />
-            ) : null}
-            <Animated.View style={[styles.fill, { backgroundColor: accent }, fillStyle]} />
-            <Animated.View
-              style={[
-                styles.knob,
-                { borderColor: accent },
-                knobStyle,
-                revealed && {
-                  borderColor:
-                    Math.abs(shown - screen.answer) <= (screen.tolerance ?? 0)
-                      ? colors.success
-                      : colors.down,
-                },
-              ]}
-            />
-          </View>
-        </Animated.View>
-      </GestureDetector>
+            </View>
+          </Animated.View>
+        </GestureDetector>
 
-      {/* The two ends of the scale, so a place on the track reads as a value.
+        {/* The two ends of the scale, so a place on the track reads as a value.
           Not the middle: a question whose answer is the midpoint would carry
           its answer under the track. */}
-      <View style={styles.sliderScale} pointerEvents="none">
-        {[screen.min, screen.max].map((v, i) => (
-          <Text key={i} style={[styles.sliderScaleText, i === 1 && { textAlign: 'right' }]}>
-            {sliderText(
-              v,
-              screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
-              step,
-            )}
-          </Text>
-        ))}
-      </View>
+        <View style={styles.sliderScale} pointerEvents="none">
+          {[screen.min, screen.max].map((v, i) => (
+            <Text key={i} style={[styles.sliderScaleText, i === 1 && { textAlign: 'right' }]}>
+              {sliderText(
+                v,
+                screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
+                step,
+              )}
+            </Text>
+          ))}
+        </View>
 
-      {/* docs/UI.md §10: every drag has a tap alternative. */}
-      <View style={styles.nudgeRow}>
-        <Pressable
-          accessibilityRole="button"
-          disabled={revealed}
-          onPress={() => nudge(-step)}
-          style={styles.nudge}
-        >
-          <Text style={styles.nudgeText}>{'−'}</Text>
-        </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          disabled={revealed}
-          onPress={() => nudge(step)}
-          style={styles.nudge}
-        >
-          <Text style={styles.nudgeText}>+</Text>
-        </Pressable>
-      </View>
+        {/* docs/UI.md §10: every drag has a tap alternative. */}
+        <View style={styles.nudgeRow}>
+          <Pressable
+            accessibilityRole="button"
+            disabled={revealed}
+            onPress={() => nudge(-step)}
+            style={styles.nudge}
+          >
+            <Text style={styles.nudgeText}>{'−'}</Text>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            disabled={revealed}
+            onPress={() => nudge(step)}
+            style={styles.nudge}
+          >
+            <Text style={styles.nudgeText}>+</Text>
+          </Pressable>
+        </View>
 
-      {/* Kept in the layout before the reveal, only empty, so the line
+        {/* Kept in the layout before the reveal, only empty, so the line
           arriving does not move what is above it. */}
-      <Text style={styles.sliderAnswer}>
-        {revealed
-          ? `Intended: ${sliderText(screen.answer, screen.unit, step)} (±${sliderText(
-              screen.tolerance ?? 0,
-              // The band is a distance: it keeps a currency or a percent, not a long label.
-              screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
-              step,
-            )})`
-          : ' '}
-      </Text>
+        <Text style={styles.sliderAnswer}>
+          {revealed
+            ? `Intended: ${sliderText(screen.answer, screen.unit, step)} (±${sliderText(
+                screen.tolerance ?? 0,
+                // The band is a distance: it keeps a currency or a percent, not a long label.
+                screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
+                step,
+              )})`
+            : ' '}
+        </Text>
+      </ThumbZone>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { gap: space.lg },
+  wrap: { ...fillArea, gap: space.lg },
+  zone: { gap: space.lg },
   column: { gap: space.lg },
   tapRow: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 },
   tapCol: { position: 'absolute', borderRadius: radius.sm, borderWidth: 1.5 },

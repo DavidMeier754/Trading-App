@@ -17,7 +17,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { colors, radius, space, type, themed } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
-import { earnedXp } from '../progress';
+import { DAILY_GOAL, doneToday, earnedXp, useProgress } from '../progress';
 import Confetti from './Confetti';
 import { celebrateFeedback, coinFeedback, noteFeedback } from './feedback';
 import { emitMood, surfaceStyle, useLookSpec } from './look';
@@ -56,13 +56,18 @@ export default function LessonComplete({
   grades,
   levelTitle,
   xp,
+  daily = false,
 }: {
   screens: Screen[];
   grades: (Grade | null)[];
   levelTitle: string;
   xp: number;
+  /** The lesson counts towards the daily goal: the summary says how far today has got. */
+  daily?: boolean;
 }) {
   const m = useMotion();
+  // docs/UI.md §7.2: "Today 1/2" -- the goal left the top bar in LOOK-SYSTEM.
+  const today = Math.min(doneToday(useProgress()), DAILY_GOAL);
   const { width } = useWindowDimensions();
 
   const answered = grades.filter((g) => g !== null && g !== undefined) as Grade[];
@@ -196,7 +201,7 @@ export default function LessonComplete({
 
       <Animated.View style={[styles.textBlock, titleStyle]}>
         <Text style={[styles.kicker, { color: tone }]}>
-          {perfect ? 'Perfect run' : 'Lesson complete'}
+          {perfect ? 'Perfect run' : 'Lesson done'}
         </Text>
         <Text style={styles.title}>{levelTitle}</Text>
       </Animated.View>
@@ -245,6 +250,9 @@ export default function LessonComplete({
         <Row label="Lesson" value={`+${xp} XP`} />
         {bonus > 0 ? <Row label="Perfect bonus" value={`+${bonus} XP`} accent /> : null}
         <Row label="Answers" value={`${clean} of ${total}`} accent={accuracy === 1} />
+        {daily ? (
+          <Row label="Today" value={`${today}/${DAILY_GOAL}`} accent={today >= DAILY_GOAL} />
+        ) : null}
       </Animated.View>
     </View>
   );

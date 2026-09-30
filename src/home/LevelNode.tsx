@@ -16,16 +16,19 @@ import { unlockFeedback } from '../lesson/feedback';
 import { EASE_OUT, EASE_SINE, SPRING_POP, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, type, themed } from '../theme';
-import { LEVEL_TYPE_NAME, LevelType, levelIconOf, levelTypeOf } from '../content';
+import { LevelType, levelIconOf, levelTypeOf } from '../content';
 import Icon, { IconName, isIconName } from './icons';
 import type { LevelStatus, LevelView } from './pathState';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-/** The ring's box, the button inside it, and the ring's weight. */
-export const RING = 96;
-const NODE = 72;
-const STROKE = 7;
+/**
+ * The ring's box, the button inside it, and the ring's weight: 58 pt in a
+ * 76 pt ring (David, stage LOOK-BRIEF), so small scenes fit beside the path.
+ */
+export const RING = 76;
+const NODE = 58;
+const STROKE = 6;
 const R = (RING - STROKE) / 2;
 const CIRC = 2 * Math.PI * R;
 
@@ -46,7 +49,7 @@ export function forgetShownPath(): void {
 }
 
 /**
- * Testing (Settings → Testing → Animations): the path remembers `done` as it
+ * Testing (Settings → Development → Animations): the path remembers `done` as it
  * was one lesson before it was finished and `next` as still locked, so the
  * next time it is drawn it moves on (UNLOCK) as it does after a level's last
  * lesson. Progress itself is untouched.
@@ -116,6 +119,12 @@ export default function LevelNode({
   const beforeStatus = shownStatus.get(n);
 
   const fill = useSharedValue(reduced || before === undefined ? target : before);
+  // docs/UI.md §7.1: only a level still open shows its ring. A finished level
+  // keeps its check and drops the ring -- once the ring has filled, when the
+  // lesson just played finished it.
+  const finishing =
+    view.status === 'complete' && !reduced && before !== undefined && before < target;
+  const ringOn = useSharedValue(view.status === 'complete' && !finishing ? 0 : 1);
   const pop = useSharedValue(
     !reduced && !unlocking && beforeStatus !== undefined && beforeStatus !== view.status ? 0.82 : 1,
   );
@@ -145,7 +154,12 @@ export default function LevelNode({
     if (view.status === 'complete' && badge.get() !== 1) {
       badge.set(withDelay(FILL_DELAY + FILL_MS * 0.7, withSpring(1, SPRING_POP)));
     }
-  }, [n, target, view.status, fill, pop, badge]);
+    if (view.status === 'complete' && ringOn.get() !== 0) {
+      ringOn.set(
+        withDelay(FILL_DELAY + FILL_MS, withTiming(0, { duration: 320, easing: EASE_OUT })),
+      );
+    }
+  }, [n, target, view.status, fill, pop, badge, ringOn]);
 
   useEffect(() => {
     if (!unlocking) return;
@@ -174,6 +188,7 @@ export default function LevelNode({
   }, [unlocking, reduced, cover, wobble, digit, burst]);
 
   const ringProps = useAnimatedProps(() => ({ strokeDashoffset: CIRC * (1 - fill.get()) }));
+  const ringStyle = useAnimatedStyle(() => ({ opacity: ringOn.get() }));
   const popStyle = useAnimatedStyle(() => ({ transform: [{ scale: pop.get() }] }));
   const coverStyle = useAnimatedStyle(() => ({
     opacity: cover.get(),
@@ -210,14 +225,6 @@ export default function LevelNode({
   // scored level reads as one from across the map; the path choice is a
   // signpost. Ordinary levels are round.
   const round = kind !== 'test';
-  const what =
-    kind === 'test'
-      ? 'Checkpoint'
-      : kind === 'final'
-        ? 'Final Exam'
-        : kind === 'path'
-          ? 'Path choice'
-          : 'Level';
   // docs/UI.md §7.1: a lesson level's button shows what it teaches or
   // practises -- a candle, a bell for the open -- from its files' `icon`; a
   // Checkpoint shows a ticked clipboard, the Final Exam a trophy, the path
@@ -226,7 +233,7 @@ export default function LevelNode({
   const topic = type === 'new' || type === 'practice' ? levelIconOf(view.level) : undefined;
   const name = topic && isIconName(topic) ? topic : SYMBOL[type];
   const symbol = (color: string) => (
-    <Icon name={name} size={type === 'test' ? 28 : 32} color={color} strokeWidth={2.4} />
+    <Icon name={name} size={type === 'test' ? 24 : 27} color={color} strokeWidth={2.4} />
   );
 
   const tagDelay = unlocking ? (reduced ? 400 : UNLOCK.tag) : 0;
@@ -239,44 +246,40 @@ export default function LevelNode({
           <Animated.View pointerEvents="none" style={[styles.burst, ring2]} />
         </>
       ) : null}
-      <Svg width={RING} height={RING} style={StyleSheet.absoluteFill}>
-        <Circle
-          cx={RING / 2}
-          cy={RING / 2}
-          r={R}
-          stroke={colors.surfaceAlt}
-          strokeWidth={STROKE}
-          fill="none"
-        />
-        {locked ? null : (
-          <AnimatedCircle
-            cx={RING / 2}
-            cy={RING / 2}
-            r={R}
-            stroke={ringColor}
-            strokeWidth={STROKE}
-            strokeLinecap="round"
-            fill="none"
-            strokeDasharray={`${CIRC} ${CIRC}`}
-            strokeDashoffset={CIRC * (1 - fill.get())}
-            rotation={-90}
-            origin={`${RING / 2}, ${RING / 2}`}
-            animatedProps={ringProps}
-          />
-        )}
-      </Svg>
+      {complete && !finishing ? null : (
+        <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, ringStyle]}>
+          <Svg width={RING} height={RING}>
+            <Circle
+              cx={RING / 2}
+              cy={RING / 2}
+              r={R}
+              stroke={colors.surfaceAlt}
+              strokeWidth={STROKE}
+              fill="none"
+            />
+            {locked ? null : (
+              <AnimatedCircle
+                cx={RING / 2}
+                cy={RING / 2}
+                r={R}
+                stroke={ringColor}
+                strokeWidth={STROKE}
+                strokeLinecap="round"
+                fill="none"
+                strokeDasharray={`${CIRC} ${CIRC}`}
+                strokeDashoffset={CIRC * (1 - fill.get())}
+                rotation={-90}
+                origin={`${RING / 2}, ${RING / 2}`}
+                animatedProps={ringProps}
+              />
+            )}
+          </Svg>
+        </Animated.View>
+      )}
       <Animated.View style={[styles.nodeWrap, press.style, popStyle]}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`${what}${view.level.number ? ` ${view.level.number}` : ''}, ${LEVEL_TYPE_NAME[type]}: ${view.level.title}. ${
-            locked
-              ? 'Locked'
-              : complete
-                ? 'Done'
-                : kind === 'lesson'
-                  ? `${view.done} of ${view.total} lessons done`
-                  : 'Open'
-          }`}
+          accessibilityLabel={nodeLabel(view)}
           onPressIn={press.onPressIn}
           onPressOut={press.onPressOut}
           onPress={onPress}
@@ -322,7 +325,7 @@ export default function LevelNode({
               badgeStyle,
             ]}
           >
-            <Icon name="check" size={14} color="#FFFFFF" strokeWidth={3.4} />
+            <Icon name="check" size={13} color="#FFFFFF" strokeWidth={3.4} />
           </Animated.View>
         ) : null}
         {/* A locked level wears its lock where a finished one wears its check,
@@ -333,7 +336,7 @@ export default function LevelNode({
             style={[styles.badge, styles.lockBadge, unlocking && coverStyle]}
           >
             <Animated.View style={lockStyle}>
-              <Icon name="lock" size={13} color={colors.textMuted} />
+              <Icon name="lock" size={12} color={colors.textMuted} />
             </Animated.View>
           </Animated.View>
         ) : null}
@@ -341,6 +344,36 @@ export default function LevelNode({
       {current ? <Bubble label={view.done === 0 ? 'START' : 'CONTINUE'} delay={tagDelay} /> : null}
     </View>
   );
+}
+
+/**
+ * A level as a screen reader says it: its number and title once, then where it
+ * stands -- "Level 4: The Quote Card. 1 of 3 lessons done", "Level 5:
+ * Checkpoint. Locked" (review S9: not "Checkpoint 5, Checkpoint: Checkpoint").
+ * A scored level whose title does not say what it is gets the word.
+ */
+export function nodeLabel(view: LevelView): string {
+  const { kind, number, title } = view.level;
+  const what =
+    kind === 'test' && !/checkpoint/i.test(title)
+      ? ', Checkpoint'
+      : kind === 'final' && !/final/i.test(title)
+        ? ', Final Exam'
+        : '';
+  const name = kind === 'path' ? title : `Level ${number}${what}: ${title}`;
+  const state =
+    view.status === 'locked'
+      ? 'Locked'
+      : view.status === 'complete'
+        ? view.perfect
+          ? 'Perfect'
+          : kind === 'lesson' || kind === 'path'
+            ? 'Done'
+            : 'Passed'
+        : kind === 'lesson'
+          ? `${view.done} of ${view.total} lessons done`
+          : 'Open';
+  return `${name}. ${state}`;
 }
 
 /** A Checkpoint's face: a shield filling the button, drawn so it keeps its outline at any size. */
@@ -446,11 +479,11 @@ const styles = themed(() => ({
   },
   badge: {
     position: 'absolute',
-    right: -4,
-    bottom: -4,
-    width: 26,
-    height: 26,
-    borderRadius: 13,
+    right: -5,
+    bottom: -5,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     borderWidth: 2.5,
     borderColor: colors.background,
     alignItems: 'center',
@@ -466,7 +499,7 @@ const styles = themed(() => ({
   },
   glyph: { zIndex: 1 },
   // A shield is narrower at the foot: its symbol sits a touch high.
-  glyphShield: { marginTop: -6 },
+  glyphShield: { marginTop: -5 },
   lockBadge: { backgroundColor: colors.surfaceAlt, borderColor: colors.background },
   coverShield: { backgroundColor: 'transparent', borderWidth: 0 },
   halo: {
@@ -477,7 +510,7 @@ const styles = themed(() => ({
     borderWidth: 2,
     borderColor: colors.accent,
   },
-  bubbleWrap: { position: 'absolute', top: -44, alignItems: 'center' },
+  bubbleWrap: { position: 'absolute', top: -40, alignItems: 'center' },
   bubble: {
     backgroundColor: colors.surface,
     borderColor: colors.accent,

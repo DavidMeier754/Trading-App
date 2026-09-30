@@ -1,42 +1,40 @@
 import React from 'react';
 import Svg, { Circle, Defs, Ellipse, G, LinearGradient, Path, Rect, Stop } from 'react-native-svg';
 
-import type { ThemeId } from './directions';
-
 /**
- * The mix's drawings for David's answers of 2026-09-29: the gem of the new
- * currency, the flame of the streak screens, a logo for the path in the top
- * bar, and the small scenes that stand beside the path. The gem, the flame
- * and the logo have fixed colours, like stickers: they read on every ground,
- * dark or light, and never carry text. The scenes are the opposite: drawn in
- * the ground's own ink, so they belong to it (`Deco`).
+ * The map's drawings (docs/UI.md §7.1, §7.2), from David's answers in stage
+ * LOOK-BRIEF: a logo for the path in the top bar, the small scenes that stand
+ * beside the path, and the streak's flame for the streak screens of stage
+ * LOOP-DAILY. The logo and the flame have fixed colours, like stickers, and
+ * never carry text. The scenes are the opposite: drawn in the ground's own ink,
+ * so they belong to it (`Deco`).
  */
 
-/** The gem's colour on each ground. */
-export const GEM: Record<ThemeId, string> = { dark: '#3CC6E8', light: '#0A87AD' };
-
-/** A cut gem: the currency in the top bar. */
-export function Gem({ size = 22, color = GEM.dark }: { size?: number; color?: string }) {
+/**
+ * The path's logo in the top bar: which of the three paths this map is. A
+ * stand-in until stage BRAND draws the real ones: a fast zigzag of price, on
+ * the key's colours.
+ */
+export function PathLogo({ size = 30, face, mark }: { size?: number; face: string; mark: string }) {
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24">
-      <Path d="M6 3h12l4.5 6L12 21.5 1.5 9z" fill={color} />
-      <Path d="M6 3h12l4.5 6h-21z" fill="#FFFFFF" opacity={0.3} />
-      <Path d="M8.5 9 12 21.5 15.5 9z" fill="#FFFFFF" opacity={0.2} />
+    <Svg width={size} height={size} viewBox="0 0 30 30">
+      <Rect x={0} y={0} width={30} height={30} rx={8} fill={face} />
       <Path
-        d="M6 3l2.5 6L12 3l3.5 6L18 3"
+        d="M6 19l4.5-5 3.5 3.5L19.5 9l4.5 4.5"
         fill="none"
-        stroke="#FFFFFF"
-        strokeOpacity={0.55}
-        strokeWidth={1}
+        stroke={mark}
+        strokeWidth={2.6}
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
+      <Circle cx={24} cy={13.5} r={2.2} fill={mark} />
     </Svg>
   );
 }
 
 /**
  * The streak's flame, big: an outer and an inner tongue. `lit` false is the
- * flame gone cold, for the lost screen.
+ * flame gone cold, for the screen of a lost streak (stage LOOP-DAILY).
  */
 export function Flame({
   size = 120,
@@ -73,30 +71,22 @@ export function Flame({
   );
 }
 
-/**
- * The path's logo in the top bar: which of the three paths this map is. A
- * stand-in until stage BRAND draws the real ones; Scalping's is a fast
- * zigzag of price.
- */
-export function PathLogo({ size = 30, face, mark }: { size?: number; face: string; mark: string }) {
-  return (
-    <Svg width={size} height={size} viewBox="0 0 30 30">
-      <Rect x={0} y={0} width={30} height={30} rx={8} fill={face} />
-      <Path
-        d="M6 19l4.5-5 3.5 3.5L19.5 9l4.5 4.5"
-        fill="none"
-        stroke={mark}
-        strokeWidth={2.6}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <Circle cx={24} cy={13.5} r={2.2} fill={mark} />
-    </Svg>
-  );
-}
-
 export type DecoKind =
-  'candles' | 'gems' | 'coins' | 'summit' | 'bell' | 'chest' | 'target' | 'hourglass';
+  'candles' | 'target' | 'coins' | 'gems' | 'hourglass' | 'summit' | 'bell' | 'chest';
+
+/** The scenes in the order they stand down a chapter, each at its own size. */
+export const SCENES: { kind: DecoKind; size: number }[] = [
+  { kind: 'candles', size: 68 },
+  { kind: 'target', size: 60 },
+  { kind: 'coins', size: 64 },
+  { kind: 'gems', size: 60 },
+  { kind: 'hourglass', size: 60 },
+  { kind: 'summit', size: 68 },
+  { kind: 'bell', size: 60 },
+  { kind: 'chest', size: 64 },
+];
+/** Below this there is no room for a scene, and none is drawn. */
+export const SCENE_MIN = 40;
 
 /** '#0E1116' → [14, 17, 22]. */
 function rgbOf(hex: string): [number, number, number] {

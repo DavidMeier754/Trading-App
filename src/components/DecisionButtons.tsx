@@ -75,6 +75,7 @@ function Choice({
 
   return (
     <Pressable
+      testID="key"
       accessibilityRole="button"
       accessibilityState={{ disabled: locked, selected: chosen === button }}
       disabled={locked}
@@ -95,7 +96,10 @@ function Choice({
           press.style,
         ]}
       >
-        <Text style={styles.text}>{DECISION_LABEL[button]}</Text>
+        {/* docs/UI.md §10: a key's label stays on one line and shrinks to fit. */}
+        <Text style={styles.text} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
+          {DECISION_LABEL[button]}
+        </Text>
       </Animated.View>
     </Pressable>
   );

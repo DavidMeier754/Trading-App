@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LayoutChangeEvent, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -21,7 +21,6 @@ import { copy, signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
-import { useFit } from '../lesson/fitState';
 import { RevealProbe } from '../lesson/Reveal';
 import { longestDecisionReveal, positionTag } from '../lesson/decisionReveal';
 import {
@@ -238,28 +237,10 @@ export default function ChartDecisionScreen({
   const chartHeight = chartHeightFor(!!screen.chart.volume, fit.gaps);
   const chartWidth = chartWidthFor(width, !!screen.chart.volume, fit.gaps);
 
-  // Centred while there is room to centre in -- in whole backdrop cells, so
-  // the grid still lines up -- but never lower than the finished screen, chart
-  // and verdict with the brief gone, can afford. Worked out while deciding and
-  // then held, so the chart does not move again when the verdict lands.
-  const { room } = useFit();
-  const [columnH, setColumnH] = useState(0);
-  const [spacer, setSpacer] = useState(0);
-  const measuring = phase === 'deciding' || revisit;
-  const onColumnLayout = useCallback(
-    (e: LayoutChangeEvent) => {
-      if (measuring) setColumnH(e.nativeEvent.layout.height);
-      fit.onLayout(e);
-    },
-    [measuring, fit.onLayout],
-  );
-  useEffect(() => {
-    if (!measuring || room === undefined || columnH <= 0) return;
-    const centred = (room - columnH) / 2;
-    const finished = room - (revisit ? 0 : verdictH) - chartHeight;
-    setSpacer(Math.max(0, Math.floor(Math.min(centred, finished) / GRID) * GRID));
-  }, [measuring, revisit, room, columnH, chartHeight, verdictH]);
-
+  // docs/UI.md §2 [v4]: the scenario and its chart start at the top of the
+  // area, as every screen does (Calm's layout, stage LOOK-BRIEF); the decision
+  // buttons are in the footer, under the thumb, and the verdict lands in the
+  // room the brief folds out of.
   return (
     <View style={styles.wrap}>
       {revisit ? null : (
@@ -270,8 +251,7 @@ export default function ChartDecisionScreen({
           onHeight={setProbeH}
         />
       )}
-      <View style={{ height: spacer }} />
-      <View style={styles.column} onLayout={onColumnLayout}>
+      <View style={styles.column} onLayout={fit.onLayout}>
         {revisit ? null : (
           <Animated.View
             style={[styles.brief, briefStyle]}

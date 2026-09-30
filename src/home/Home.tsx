@@ -2,35 +2,48 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { LessonEntry } from '../content';
-import type { PrototypePage } from '../testTools';
 import AccountScreen from './AccountScreen';
 import AnimationsScreen from './AnimationsScreen';
+import ChangeDesign from './ChangeDesign';
+import DevelopmentScreen from './DevelopmentScreen';
 import EmptyTab from './EmptyTab';
 import LearnScreen from './LearnScreen';
 import SettingsScreen from './SettingsScreen';
+import Suggestions from './Suggestions';
 import TabBar, { Tab } from './TabBar';
 
-/** A page over the tabs: Settings, or its Animations page (test builds). */
-type Page = 'settings' | 'animations' | null;
+/**
+ * A page over the tabs: Settings and its Change design, and in test builds the
+ * Development page with the pages it opens (docs/UI.md §11.5).
+ */
+type Page = 'settings' | 'design' | 'development' | 'animations' | 'suggestions' | null;
+const PAGES: Exclude<Page, null>[] = [
+  'settings',
+  'design',
+  'development',
+  'animations',
+  'suggestions',
+];
 
 /**
  * Where the learner was, kept while a lesson is open. The home screen is
- * unmounted under a lesson, so coming back from the test bench opened in
- * Settings lands in Settings, coming back from the prototype opened on the
- * Animations page lands there, and coming back from a lesson on the path
+ * unmounted under a lesson, so coming back from the test bench opened on the
+ * Development page lands there, and coming back from a lesson on the path
  * lands on the path.
  */
 let lastTab: Tab = 'learn';
 let lastPage: Page = null;
 
 /**
- * Test builds: `#home/settings` (or a tab: learn, practice, account) opens the
- * home screen there, so the contact sheets and the UI check see it
+ * Test builds: `#home/settings` (or another page: design, development,
+ * animations, suggestions; or a tab: learn, practice, account) opens the home
+ * screen there, so the contact sheets and the UI check see it
  * (tools/contact_sheets.mjs). Returns false for a name it does not know.
  */
 export function openHomeAt(name: string): boolean {
-  if (name === 'settings' || name === 'animations') {
-    lastPage = name;
+  const page = PAGES.find((p) => p === name);
+  if (page) {
+    lastPage = page;
     return true;
   }
   if (name === 'learn' || name === 'practice' || name === 'account') {
@@ -51,12 +64,10 @@ export default function Home({
   width,
   onStart,
   onOpenBench,
-  onOpenPrototype,
 }: {
   width: number;
   onStart: (entry: LessonEntry) => void;
   onOpenBench: () => void;
-  onOpenPrototype: (page?: PrototypePage) => void;
 }) {
   const [tab, setTabState] = useState<Tab>(lastTab);
   const [page, setPageState] = useState<Page>(lastPage);
@@ -72,23 +83,32 @@ export default function Home({
   if (page === 'animations') {
     return (
       <AnimationsScreen
-        onBack={() => setPage('settings')}
+        onBack={() => setPage('development')}
         onShowMap={() => {
           setPage(null);
           setTab('learn');
         }}
-        onOpenPrototype={onOpenPrototype}
       />
     );
   }
+  if (page === 'suggestions') return <Suggestions onBack={() => setPage('development')} />;
+  if (page === 'development') {
+    return (
+      <DevelopmentScreen
+        onBack={() => setPage('settings')}
+        onOpenBench={onOpenBench}
+        onOpenAnimations={() => setPage('animations')}
+        onOpenSuggestions={() => setPage('suggestions')}
+      />
+    );
+  }
+  if (page === 'design') return <ChangeDesign width={width} onBack={() => setPage('settings')} />;
   if (page === 'settings') {
     return (
       <SettingsScreen
-        width={width}
         onBack={() => setPage(null)}
-        onOpenBench={onOpenBench}
-        onOpenPrototype={onOpenPrototype}
-        onOpenAnimations={() => setPage('animations')}
+        onOpenDesign={() => setPage('design')}
+        onOpenDevelopment={() => setPage('development')}
       />
     );
   }
@@ -108,13 +128,13 @@ export default function Home({
           <EmptyTab
             title="Practice"
             icon="practice"
-            line="Review mixes, setup drills and the replay tab will live here."
+            line="Review mixes and setup drills come here."
           />
         ) : tab === 'leaderboard' ? (
           <EmptyTab
             title="Leaderboard"
             icon="leaderboard"
-            line="See how your week compares once the leaderboard opens."
+            line="How your week compares, once it opens."
           />
         ) : (
           <AccountScreen onOpenSettings={() => setPage('settings')} />

@@ -9,7 +9,7 @@ import { matchHitFeedback, matchMissFeedback } from '../lesson/feedback';
 import { useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { CompareScreen as Compare, SwipeDeckScreen as SwipeDeck } from '../types';
-import { Prompt, Stack, ToneSurface } from './common';
+import { fillArea, Prompt, Stack, ThumbZone, ToneSurface } from './common';
 
 /**
  * docs/UI.md §4.2 `swipe-deck` — a deck of mini-charts, one at a time, with a
@@ -137,7 +137,7 @@ export function SwipeDeckScreen({
           ) : null
         }
       />
-      <View style={styles.deckButtons}>
+      <ThumbZone style={styles.deckButtons}>
         <Pressable
           accessibilityRole="button"
           onPress={() => answer('pass')}
@@ -152,7 +152,7 @@ export function SwipeDeckScreen({
         >
           <Text style={styles.deckButtonText}>Take it</Text>
         </Pressable>
-      </View>
+      </ThumbZone>
     </View>
   );
 }
@@ -185,45 +185,48 @@ export function CompareScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <View style={styles.compareRow}>
-        {screen.charts.map((chart, i) => {
-          const id = chart.label ?? String(i);
-          return (
-            <ToneSurface
-              key={id}
-              tone={toneFor(id) as any}
-              disabled={revealed}
-              onPress={() => {
-                onChange({ kind: 'target', id: picked === id ? null : id });
-              }}
-              style={styles.compareCard}
-            >
-              {/* Taller than a deck card's strip: the difference between the two is
+      <ThumbZone style={styles.zone}>
+        <View style={styles.compareRow}>
+          {screen.charts.map((chart, i) => {
+            const id = chart.label ?? String(i);
+            return (
+              <ToneSurface
+                key={id}
+                tone={toneFor(id) as any}
+                disabled={revealed}
+                onPress={() => {
+                  onChange({ kind: 'target', id: picked === id ? null : id });
+                }}
+                style={styles.compareCard}
+              >
+                {/* Taller than a deck card's strip: the difference between the two is
                   the whole question, and the screen has the room. */}
-              <MiniChart spec={chart} width={chartWidth - 12} height={cols > 2 ? 150 : 180} />
-              <Text style={styles.compareLabel}>{id}</Text>
-            </ToneSurface>
-          );
-        })}
-      </View>
-      {screen.allow_neither ? (
-        <ToneSurface
-          tone={toneFor('neither') as any}
-          disabled={revealed}
-          onPress={() => {
-            onChange({ kind: 'target', id: picked === 'neither' ? null : 'neither' });
-          }}
-          style={styles.neither}
-        >
-          <Text style={styles.neitherText}>Neither</Text>
-        </ToneSurface>
-      ) : null}
+                <MiniChart spec={chart} width={chartWidth - 12} height={cols > 2 ? 150 : 180} />
+                <Text style={styles.compareLabel}>{id}</Text>
+              </ToneSurface>
+            );
+          })}
+        </View>
+        {screen.allow_neither ? (
+          <ToneSurface
+            tone={toneFor('neither') as any}
+            disabled={revealed}
+            onPress={() => {
+              onChange({ kind: 'target', id: picked === 'neither' ? null : 'neither' });
+            }}
+            style={styles.neither}
+          >
+            <Text style={styles.neitherText}>Neither</Text>
+          </ToneSurface>
+        ) : null}
+      </ThumbZone>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { gap: space.md },
+  wrap: { ...fillArea, gap: space.md },
+  zone: { gap: space.md },
   pips: { flexDirection: 'row', gap: space.sm, justifyContent: 'center', alignItems: 'center' },
   pip: {
     width: 22,

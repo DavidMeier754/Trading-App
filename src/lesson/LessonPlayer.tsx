@@ -45,7 +45,7 @@ import McScreen from '../screens/McScreen';
 import NumericInputScreen from '../screens/NumericInputScreen';
 import TfScreen from '../screens/TfScreen';
 import TheoryScreen from '../screens/TheoryScreen';
-import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
+import { colors, MONO_FONT, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { Level, QuestionScreen, Screen } from '../types';
 import { isQuestion } from '../types';
 import type { AnswerValue, Grade } from './answers';
@@ -531,8 +531,10 @@ export default function LessonPlayer({
           </Pressable>
         ) : null}
         <ProgressBar progress={progress} steps={screens.length} hot={onRun} />
-        {testBench && !atSummary ? (
-          <Text style={styles.page} accessibilityLabel={`Page ${index + 1} of ${screens.length}`}>
+        {/* docs/UI.md §2: the step count beside the bar, in the number face
+            (Precise, stage LOOK-BRIEF). */}
+        {!atSummary ? (
+          <Text style={styles.page} accessibilityLabel={`Step ${index + 1} of ${screens.length}`}>
             {`${index + 1}/${screens.length}`}
           </Text>
         ) : null}
@@ -552,17 +554,18 @@ export default function LessonPlayer({
           content area inside gives each screen fresh component state; the
           wrapper around it stays put. */}
       <Animated.View style={[styles.scroll, screenStyle]}>
-        {/* docs/UI.md §2: a screen is one screenful and does not scroll. One
-            that does not fit -- a short window, a long reveal, type past 130% --
-            is scaled down until it does (lesson/fit.tsx), never scrolled. */}
+        {/* docs/UI.md §2: a screen is one screenful. One that does not fit --
+            a short window, a long reveal, type past 130% -- is scaled down to
+            85 % at most, and scrolls past that (lesson/fit.tsx). */}
         <FitScreen
           key={`${runKey}-${index}-${outOfHearts}`}
           contentStyle={styles.content}
           bottomPad={space.lg}
           // chart-decision holds its own chart on the grid; every other screen
-          // is placed by the fit area and then held still (lesson/fit.tsx).
+          // starts at the top, its answers at the bottom (lesson/fit.tsx).
           anchor={!outOfHearts && screen?.type === 'chart-decision' ? 'fill' : 'center'}
           reserve={!outOfHearts && screen && isQuestion(screen) ? revealRoom : 0}
+          revealed={isRevealed}
         >
           <VerdictProvider value={verdict}>
             {/* The learner's plan, for every plan-sheet on any screen (review M1). */}
@@ -575,6 +578,7 @@ export default function LessonPlayer({
                   grades={grades}
                   levelTitle={level.title}
                   xp={level.xp}
+                  daily={!testBench && !!onComplete}
                 />
               ) : (
                 renderScreen({
@@ -884,10 +888,10 @@ const styles = themed(() => ({
   },
   backOff: { opacity: 0.25 },
   streakSlot: { minWidth: 32, alignItems: 'flex-end' },
-  // Tabular figures, so "9/49" to "10/49" does not nudge the bar.
-  page: { ...type.label, color: colors.textMuted, fontVariant: ['tabular-nums'] },
+  // Monospaced, so "9/12" to "10/12" does not nudge the bar.
+  page: { ...type.label, fontFamily: MONO_FONT, color: colors.textMuted },
   scroll: { flex: 1 },
-  content: { flexGrow: 1, paddingHorizontal: space.lg, paddingBottom: space.lg },
+  content: { paddingHorizontal: space.lg, paddingBottom: space.lg },
   secondary: { alignSelf: 'center', paddingVertical: space.xs, paddingHorizontal: space.md },
   secondaryText: { ...type.label, color: colors.textMuted },
   footer: {

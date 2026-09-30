@@ -9,12 +9,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 
-import { HEART_REFILL_MS, useHearts, waitText } from '../progress';
+import { useHearts, waitText } from '../progress';
 import { colors, space, type, themed } from '../theme';
 import { EASE_OUT, SPRING_POP, useMotion } from './motion';
 
 const HEART = 112;
-const HOURS = HEART_REFILL_MS / 3_600_000;
 
 /**
  * docs/UI.md §5.2: the last heart is gone, so the sub-level stops here and the
@@ -76,13 +75,9 @@ export default function OutOfHearts() {
           {"You're out of hearts"}
         </Text>
         <Text style={styles.body}>
-          {`A heart comes back ${HOURS} hours after you lose it. ${
-            nextAt ? `The next one is back in ${waitText(nextAt)}.` : 'One is back already.'
-          }`}
+          {nextAt ? `The next one is back in ${waitText(nextAt)}.` : 'One is back already.'}
         </Text>
-        <Text style={styles.note}>
-          This lesson is not counted yet. Start it again from the path.
-        </Text>
+        <Text style={styles.note}>Start this lesson again from the path.</Text>
       </Animated.View>
     </View>
   );

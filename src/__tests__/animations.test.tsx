@@ -20,16 +20,12 @@ const METRICS = {
 
 const mounted: renderer.ReactTestRenderer[] = [];
 
-function renderPage(onShowMap = jest.fn(), onOpenPrototype = jest.fn()) {
+function renderPage(onShowMap = jest.fn()) {
   let tree!: renderer.ReactTestRenderer;
   act(() => {
     tree = renderer.create(
       <SafeAreaProvider initialMetrics={METRICS}>
-        <AnimationsScreen
-          onBack={() => {}}
-          onShowMap={onShowMap}
-          onOpenPrototype={onOpenPrototype}
-        />
+        <AnimationsScreen onBack={() => {}} onShowMap={onShowMap} />
       </SafeAreaProvider>,
     );
   });
@@ -71,7 +67,7 @@ describe('the testing tools (docs/UI.md §11.5)', () => {
   });
 });
 
-describe('Settings → Testing → Animations (David, 2026-09-29)', () => {
+describe('Settings → Development → Animations (David, 2026-09-29)', () => {
   it('plays a level opening on the map, once a level before it is finished', () => {
     const onShowMap = jest.fn();
     const tree = renderPage(onShowMap);
@@ -87,14 +83,6 @@ describe('Settings → Testing → Animations (David, 2026-09-29)', () => {
     // moves on from one to the other when it is drawn.
     expect(shownStatusOf(first.key)).toBe('current');
     expect(shownStatusOf(second.key)).toBe('locked');
-  });
-
-  it("opens the mix's streak screens in the prototype", () => {
-    const onOpenPrototype = jest.fn();
-    const tree = renderPage(jest.fn(), onOpenPrototype);
-    act(() => button(tree, 'Streak goes up').props.onPress());
-    act(() => button(tree, 'Streak lost').props.onPress());
-    expect(onOpenPrototype.mock.calls).toEqual([['streak'], ['lost']]);
   });
 
   it.each(['Lesson complete', 'Perfect run', 'Chapter complete', 'New tier', 'Out of hearts'])(

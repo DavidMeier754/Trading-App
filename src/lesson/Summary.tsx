@@ -169,7 +169,7 @@ export default function Summary({
           <Text style={styles.scoreNote}>
             {passed
               ? `+${xp + (perfect ? Math.round(xp * 0.5) : 0)} XP`
-              : `${Math.ceil(total * PASS_MARK)} of ${total} passes. Review these and try again.`}
+              : `${Math.ceil(total * PASS_MARK)} of ${total} to pass`}
           </Text>
         </View>
       </View>
@@ -205,7 +205,7 @@ export default function Summary({
         })}
       </View>
       {!passed && misses > 0 ? (
-        <Text style={styles.hint}>Tap a red row for the one-line reminder.</Text>
+        <Text style={styles.hint}>Tap a red row for a reminder.</Text>
       ) : null}
     </Animated.View>
   );

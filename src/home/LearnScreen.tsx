@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  AccessibilityInfo,
   LayoutChangeEvent,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  PixelRatio,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -22,7 +22,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
-import { LEVEL_TYPE_NAME, LessonEntry, PATHS, TradingPath, levelTypeOf } from '../content';
+import { LessonEntry, PATHS, TradingPath } from '../content';
 import { isQuestion } from '../types';
 import { EASE_IN_OUT, EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
@@ -35,16 +35,17 @@ import {
   useProgress,
   waitText,
 } from '../progress';
-import { shade, tint } from '../lesson/look';
+import { tint, useLookSpec } from '../lesson/look';
 import { colors, MONO_FONT, radius, space, type, themed } from '../theme';
 import Icon from './icons';
 import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
-import { ChapterView, chapterViews, currentLevel, LevelView, totalXp } from './pathState';
+import { ChapterView, chapterViews, currentLevel, LevelView } from './pathState';
+import { Deco, inkOf, PathLogo, SCENE_MIN, SCENES } from './scenes';
 
 /** Vertical distance between two nodes' centres. */
-const STEP_Y = 172;
+const STEP_Y = 148;
 /** Room between a chapter's header and its first node, for the START tag. */
-const NODES_TOP = 64;
+const NODES_TOP = 52;
 /** A chapter's header card, and the space left under an expanded chapter's last node. */
 const HEAD_H = 76;
 const NODES_BOTTOM = 36;
@@ -52,7 +53,7 @@ const CHAPTER_GAP = 16;
 /** Room under the last section for a level card opened on its last node. */
 const BOTTOM_PAD = 280;
 /** Room for the note after the last chapter (PathFinale). */
-const FINALE_H = 150;
+const FINALE_H = 120;
 /** The path winds: centre, left, centre, right, and round again. */
 const WIND = [0, -1, 0, 1];
 
@@ -67,15 +68,16 @@ type Item =
  * The home screen's path (docs/UI.md §7.1): Classic's flat panels, on the
  * ground of whichever design is picked.
  *
- * - The HUD (§7.2): the streak, the XP with the day's goal as a ring round it,
- *   and the hearts, top right.
+ * - The top bar (§7.2): the path's logo, the streak and the hearts, evenly
+ *   spaced.
  * - A banner with the level the learner is on.
  * - The path, chapter by chapter. Each chapter has a header card (its name,
  *   levels done of all, and a badge that lights when it is finished) and
  *   folds away under it; the chapter being worked on is open, the others
  *   folded, and any can be opened with a tap. In a chapter, one button per
- *   level winds down the screen, each in a ring that fills a lesson at a
- *   time; Checkpoints are shields and the Final Exam a trophy. The level
+ *   level winds down the screen, a small scene beside each; an open level
+ *   sits in a ring that fills a lesson at a time, and a finished one wears a
+ *   check. Checkpoints are shields and the Final Exam a trophy. The level
  *   waiting for the learner pulses and wears a START tag, and tapping any
  *   level opens its card beneath it.
  * - When the level the learner is on has scrolled away, a button brings it back.
@@ -93,8 +95,10 @@ export default function LearnScreen({
   const views = useMemo(() => chapters.flatMap((c) => c.levels), [chapters]);
   const here = currentLevel(views);
   const hereAt = views.indexOf(here);
-  const xp = useMemo(() => totalXp(progress), [progress]);
   const hearts = useHearts();
+  const spec = useLookSpec();
+  // docs/UI.md §7.1: the scenes are drawn in the ground's ink, as faint as its grid.
+  const { ink, alpha } = inkOf(spec.ground.grid[1]);
   const reduced = useReduceMotion();
   const chapterOf = (gi: number) => {
     let n = 0;
@@ -142,7 +146,7 @@ export default function LearnScreen({
   };
 
   const pathChosen = progress.path !== null;
-  const amp = Math.min(76, width * 0.2);
+  const amp = Math.min(64, width * 0.17);
   const cxOf = (li: number) => width / 2 + WIND[li % WIND.length] * amp;
   // Where everything sits: a header per chapter, then its levels if it is open.
   const { items, nodeAt, contentH } = useMemo(() => {
@@ -176,7 +180,7 @@ export default function LearnScreen({
             ci,
             x: cxOf(c.levels.length),
             y: y + STEP_Y * 0.55 - RING / 2,
-            text: `Levels ${wired + 1}–${c.chapter.planned} of Chapter ${c.chapter.number} are being written`,
+            text: `Levels ${wired + 1}–${c.chapter.planned} are being written`,
           });
           y += STEP_Y * 0.55;
         }
@@ -288,8 +292,8 @@ export default function LearnScreen({
     <View style={styles.wrap}>
       <Hud
         top={insets.top}
+        path={progress.path}
         streak={streakDays(progress)}
-        xp={xp}
         today={doneToday(progress)}
         hearts={hearts}
       />
@@ -312,6 +316,33 @@ export default function LearnScreen({
           height={contentH}
           drawing={unlocking}
         />
+        {items.map((it) => {
+          // docs/UI.md §7.1: a scene beside each level, on the side its label
+          // leaves free, centred in the room there; none where there is too little.
+          if (it.t !== 'node') return null;
+          const scene = SCENES[it.li % SCENES.length];
+          const labelLeft = WIND[it.li % WIND.length] > 0;
+          const edge = labelLeft ? width - space.lg : space.lg;
+          const near = labelLeft ? it.x + RING / 2 + space.sm : it.x - RING / 2 - space.sm;
+          const size = Math.min(scene.size, Math.abs(near - edge));
+          if (size < SCENE_MIN) return null;
+          return (
+            <Animated.View
+              key={`s${views[it.gi].level.key}`}
+              pointerEvents="none"
+              entering={opened.has(it.ci) ? FadeIn.duration(220) : undefined}
+              style={[styles.scene, { left: (edge + near) / 2 - size / 2, top: it.y - size / 2 }]}
+            >
+              <Deco
+                kind={scene.kind}
+                size={size}
+                ink={ink}
+                ground={spec.ground.color}
+                alpha={alpha}
+              />
+            </Animated.View>
+          );
+        })}
         {items.map((it) =>
           it.t === 'teaser' ? (
             <ChapterHeader
@@ -348,7 +379,6 @@ export default function LearnScreen({
               />
               <NodeLabel
                 view={views[it.gi]}
-                chosen={progress.path}
                 side={WIND[it.li % WIND.length] > 0 ? 'left' : 'right'}
                 room={labelRoom(it.li)}
               />
@@ -389,81 +419,88 @@ export default function LearnScreen({
 // ---------------------------------------------------------------------------
 
 /**
- * docs/UI.md §7.2: streak flame with its day count, the daily XP goal as a ring
- * (two lessons fill it), and the hearts -- top right, where the learner looks
- * before starting a test.
+ * docs/UI.md §7.2: the top bar, evenly spaced -- which path (its logo, a
+ * stand-in until stage BRAND), the streak and the hearts. The flame lights once
+ * today's goal is met, and a tap on it says how far today has got
+ * ("Today 1/2"); the hearts show the wait while one is on its way back.
  */
 function Hud({
   top,
+  path,
   streak,
-  xp,
   today,
   hearts,
 }: {
   top: number;
+  path: TradingPath | null;
   streak: number;
-  xp: number;
   today: number;
   hearts: Hearts;
 }) {
-  const goal = Math.min(1, today / DAILY_GOAL);
-  const r = 11;
-  const c = 2 * Math.PI * r;
+  const spec = useLookSpec();
+  const lit = today >= DAILY_GOAL;
+  const done = Math.min(today, DAILY_GOAL);
+  const pathName = PATHS.find((p) => p.id === path)?.name;
+  const press = usePressFeedback(true, { cue: 'tick' });
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    if (!shown) return;
+    const t = setTimeout(() => setShown(false), 2400);
+    return () => clearTimeout(t);
+  }, [shown]);
+  const flame = lit ? colors.warning : colors.textMuted;
+  const heart = hearts.hearts > 0 ? colors.down : colors.textMuted;
   return (
-    <View style={[styles.hud, { paddingTop: top + space.sm }]}>
-      <View style={styles.hudItem} accessibilityLabel={`${streak} day streak`}>
-        <Icon name="flame" size={22} color={streak > 0 ? colors.warning : colors.textFaint} />
-        <Text style={[styles.hudValue, { color: streak > 0 ? colors.warning : colors.textFaint }]}>
-          {streak}
-        </Text>
-      </View>
+    <View style={[styles.hud, { paddingTop: top + space.xs }]}>
       <View
+        accessible
+        accessibilityLabel={pathName ? `Path: ${pathName}` : 'Path: not chosen yet'}
         style={styles.hudItem}
-        accessibilityLabel={`${xp} XP, ${Math.min(today, DAILY_GOAL)} of ${DAILY_GOAL} lessons today`}
       >
-        <View style={styles.goal}>
-          <Svg width={26} height={26} style={StyleSheet.absoluteFill}>
-            <Circle
-              cx={13}
-              cy={13}
-              r={r}
-              stroke={colors.surfaceAlt}
-              strokeWidth={2.5}
-              fill="none"
-            />
-            <Circle
-              cx={13}
-              cy={13}
-              r={r}
-              stroke={colors.accent}
-              strokeWidth={2.5}
-              fill="none"
-              strokeLinecap="round"
-              strokeDasharray={`${c} ${c}`}
-              strokeDashoffset={c * (1 - goal)}
-              rotation={-90}
-              origin="13, 13"
-            />
-          </Svg>
-          <Icon name="bolt" size={14} color={colors.accent} />
-        </View>
-        <Text style={[styles.hudValue, { color: colors.accent }]}>{xp}</Text>
+        <PathLogo size={30} face={spec.cta.face} mark={spec.cta.text} />
       </View>
-      <View style={styles.hudSpacer} />
+      <View>
+        <Animated.View style={press.style}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${streak} day streak`}
+            accessibilityHint="Shows today's lessons"
+            onPressIn={press.onPressIn}
+            onPressOut={press.onPressOut}
+            onPress={() => {
+              setShown((v) => !v);
+              AccessibilityInfo.announceForAccessibility(`Today ${done} of ${DAILY_GOAL} lessons`);
+            }}
+            style={styles.hudItem}
+          >
+            <Icon name="flame" size={22} color={flame} filled={lit} />
+            <Text style={[styles.hudValue, { color: flame }]}>{streak}</Text>
+          </Pressable>
+        </Animated.View>
+        {shown ? (
+          <Animated.View
+            entering={FadeIn.duration(160)}
+            exiting={FadeOut.duration(120)}
+            pointerEvents="none"
+            style={styles.today}
+          >
+            <Text style={styles.todayText} numberOfLines={1}>
+              {`Today ${done}/${DAILY_GOAL}`}
+            </Text>
+          </Animated.View>
+        ) : null}
+      </View>
       {/* docs/UI.md §5.2: while one is on its way back, the wait sits beside them. */}
       <View
+        accessible
         style={styles.hudItem}
         accessibilityLabel={`${hearts.hearts} hearts${
           hearts.nextAt ? `, the next one back in ${waitText(hearts.nextAt)}` : ''
         }`}
       >
         {hearts.nextAt ? <Text style={styles.hudWait}>{waitText(hearts.nextAt)}</Text> : null}
-        <Icon name="heart" size={22} color={hearts.hearts > 0 ? colors.down : colors.textFaint} />
-        <Text
-          style={[styles.hudValue, { color: hearts.hearts > 0 ? colors.down : colors.textFaint }]}
-        >
-          {hearts.hearts}
-        </Text>
+        <Icon name="heart" size={22} color={heart} filled={hearts.hearts > 0} />
+        <Text style={[styles.hudValue, { color: heart }]}>{hearts.hearts}</Text>
       </View>
     </View>
   );
@@ -476,41 +513,6 @@ function nodeName(view: LevelView): string {
   return `Level ${number}`;
 }
 
-/** The label over a node: its number and, in words, the kind its symbol shows. */
-function nodeKicker(view: LevelView): string[] {
-  if (view.level.kind === 'path') return ['Your path'];
-  return [nodeName(view), LEVEL_TYPE_NAME[levelTypeOf(view.level)]];
-}
-
-/**
- * "Level 4 · New ideas" on one line where the label has the room, and as two
- * whole lines -- "Level 4", then "New ideas" -- where it has not, instead of
- * breaking inside "New ideas". It is one text either way: set on one line
- * first, and on two once that wraps, for as long as the label keeps its width,
- * so the choice cannot flip back and forth. There is no hidden copy to measure
- * with: an iPhone drew one through its clip, as stray "LE" and "LEVE" over the
- * titles.
- */
-export function Kicker({ parts, right }: { parts: string[]; right: boolean }) {
-  // The label's width when the one-line kicker wrapped; null while it fits.
-  const [splitAt, setSplitAt] = useState<number | null>(null);
-  const split = parts.length > 1 && splitAt !== null;
-  const onLayout = (e: LayoutChangeEvent) => {
-    const { width, height } = e.nativeEvent.layout;
-    if (splitAt !== null) {
-      // A new width (the window was resized): try one line again.
-      if (Math.abs(width - splitAt) > 0.5) setSplitAt(null);
-    } else if (height > type.small.lineHeight * PixelRatio.getFontScale() * 1.5) {
-      setSplitAt(width);
-    }
-  };
-  return (
-    <Text style={[styles.labelKicker, right && styles.alignRight]} onLayout={onLayout}>
-      {split ? parts.join('\n') : parts.join(' · ')}
-    </Text>
-  );
-}
-
 /**
  * A title as the map shows it: whole, and never broken at a hyphen ("1-" at
  * the end of one line, "Minute" on the next). A non-breaking hyphen looks the
@@ -520,7 +522,10 @@ export function unbroken(title: string): string {
   return title.replace(/-/g, '\u2011');
 }
 
-/** The level the learner is on, named at the top of the path. */
+/**
+ * The level the learner is on, named at the top of the path: where it is in
+ * its level ("Level 4 · Lesson 1 of 3", review S9), and its title.
+ */
 function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
   const lesson = Math.min(view.done + 1, view.total);
   const kind = view.level.kind;
@@ -548,39 +553,24 @@ function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
     transform: [{ translateY: 14 * (1 - t.get()) }],
   }));
   const whole = useAnimatedStyle(() => ({ transform: [{ scale: 1 + 0.035 * swell.get() }] }));
+  const kicker = allDone
+    ? `Chapter ${view.level.chapter} · ${view.level.chapterTitle}`
+    : kind === 'lesson'
+      ? `${nodeName(view)} · Lesson ${lesson} of ${view.total}`
+      : kind === 'test' && !/checkpoint/i.test(view.level.title)
+        ? `${nodeName(view)} · Checkpoint`
+        : kind === 'final' && !/final/i.test(view.level.title)
+          ? `${nodeName(view)} · Final Exam`
+          : kind === 'path'
+            ? `Chapter ${view.level.chapter} · ${nodeName(view)}`
+            : nodeName(view);
   return (
     <Animated.View style={[styles.banner, whole]} accessibilityRole="header">
       <Animated.View style={[styles.bannerText, words]}>
-        <Text style={styles.bannerKicker}>
-          {allDone
-            ? `Chapter ${view.level.chapter} · ${view.level.chapterTitle}`
-            : `Chapter ${view.level.chapter} · ${nodeName(view)}`}
-        </Text>
+        <Text style={styles.bannerKicker}>{kicker}</Text>
         <Text style={styles.bannerTitle}>
           {allDone ? 'More levels are on the way' : unbroken(view.level.title)}
         </Text>
-      </Animated.View>
-      <Animated.View style={[styles.bannerBadge, words]}>
-        {allDone ? (
-          <Icon name="check" size={22} color={colors.accentText} strokeWidth={3} />
-        ) : kind === 'lesson' ? (
-          <>
-            <Text style={styles.bannerBadgeValue}>{`${lesson}/${view.total}`}</Text>
-            <Text style={styles.bannerBadgeLabel}>lesson</Text>
-          </>
-        ) : (
-          <>
-            <Icon
-              name={kind === 'test' ? 'shield' : kind === 'final' ? 'trophy' : 'signpost'}
-              size={20}
-              color={colors.accentText}
-              filled
-            />
-            <Text style={styles.bannerBadgeLabel}>
-              {kind === 'test' ? 'test' : kind === 'final' ? 'exam' : 'choice'}
-            </Text>
-          </>
-        )}
       </Animated.View>
     </Animated.View>
   );
@@ -625,7 +615,7 @@ function ChapterHeader({
   const kicker = door ? 'Chapter 2' : `Chapter ${view.chapter.number}`;
   const title = door ? 'Your path starts here' : view.chapter.title;
   const meta = door
-    ? 'Finish Chapter 1 and choose your path to open it.'
+    ? 'Opens after Chapter 1.'
     : done
       ? 'Chapter complete'
       : view.done >= view.total
@@ -723,36 +713,20 @@ function JumpButton({ view, onPress }: { view: LevelView; onPress: () => void })
 // The path
 // ---------------------------------------------------------------------------
 
-function NodeLabel({
+/**
+ * A level's label beside it, on the side the path leaves open: its title
+ * alone (docs/UI.md §7.1), in whole lines. It wraps, it is never cut off, and
+ * it is one text laid out once, so nothing is drawn twice or out of place.
+ */
+export function NodeLabel({
   view,
-  chosen,
   side,
   room,
 }: {
   view: LevelView;
-  chosen: TradingPath | null;
   side: 'left' | 'right';
   room: number;
 }) {
-  const locked = view.status === 'locked';
-  const complete = view.status === 'complete';
-  const kind = view.level.kind;
-  const meta =
-    kind === 'path'
-      ? chosen
-        ? (PATHS.find((p) => p.id === chosen)?.name ?? '')
-        : 'Pick one of three'
-      : kind === 'lesson'
-        ? complete
-          ? view.perfect
-            ? 'Perfect'
-            : 'Done'
-          : `${view.done}/${view.total} lessons`
-        : complete
-          ? view.perfect
-            ? 'Passed · Perfect'
-            : 'Passed'
-          : `${questionsIn(view)} questions · 70 % to pass`;
   return (
     <View
       pointerEvents="none"
@@ -762,24 +736,14 @@ function NodeLabel({
         side === 'right' ? { left: RING + space.sm } : { right: RING + space.sm },
       ]}
     >
-      <Kicker parts={nodeKicker(view)} right={side === 'left'} />
       <Text
         style={[
           styles.labelTitle,
-          locked && { color: colors.textFaint },
+          view.status === 'locked' && { color: colors.textMuted },
           side === 'left' && styles.alignRight,
         ]}
       >
         {unbroken(view.level.title)}
-      </Text>
-      <Text
-        style={[
-          styles.labelMeta,
-          kind !== 'lesson' && !complete && !locked && { color: colors.warning },
-          side === 'left' && styles.alignRight,
-        ]}
-      >
-        {meta}
       </Text>
     </View>
   );
@@ -915,9 +879,8 @@ function PathFinale({ top, width }: { top: number; width: number }) {
         <Text style={styles.finaleTitle}>The end of the map, for now</Text>
       </View>
       <Text style={styles.finaleText}>
-        Every lesson written so far is on it. Chapter 8 gets one more level before the release: what
-        a broker will actually offer you. After the course, the Practice tab is where you keep your
-        decisions sharp.
+        Every lesson so far is on it. Chapter 8 gets one more level before the release, and after
+        the course the Practice tab keeps you sharp.
       </Text>
     </View>
   );
@@ -941,7 +904,7 @@ const CARD_H = 196;
 
 /**
  * docs/UI.md §7.1: tapping a level shows its title, its lessons as they stand,
- * the XP and the time, and Start. It opens under the level it belongs to, with
+ * the time, and Start. It opens under the level it belongs to, with
  * a point towards it, so it reads as that level's card and not a new screen.
  * A Checkpoint or the Final Exam says what it scores and what passing takes;
  * the path choice says which path is chosen.
@@ -980,7 +943,6 @@ function LevelCard({
   const kind = view.level.kind;
   const locked = view.status === 'locked';
   const complete = view.status === 'complete';
-  const xp = view.next.level.xp;
   const tone = locked
     ? colors.textFaint
     : complete
@@ -994,7 +956,8 @@ function LevelCard({
   // button says when it can instead. Choosing a path costs nothing.
   const empty = hearts.hearts === 0 && kind !== 'path';
   const press = usePressFeedback(!locked && !empty, { cue: 'advance' });
-  const noun = kind === 'test' ? 'test' : kind === 'final' ? 'exam' : 'lesson 1';
+  // Fewer words (David, stage LOOK-BRIEF): the key says what it does, and the
+  // line above it where the level stands.
   const label = empty
     ? hearts.nextAt
       ? `Next heart in ${waitText(hearts.nextAt)}`
@@ -1005,46 +968,38 @@ function LevelCard({
         : 'Choose your path'
       : complete
         ? kind === 'lesson'
-          ? 'Review lesson 1'
-          : `Retake ${noun}`
-        : kind !== 'lesson'
-          ? `Start ${noun}`
-          : view.done === 0
-            ? 'Start'
-            : // The line above already says which lesson.
-              'Continue';
+          ? 'Review'
+          : 'Retake'
+        : kind === 'lesson' && view.done > 0
+          ? 'Continue'
+          : 'Start';
 
   const opener =
     before === null
       ? ''
       : before.level.kind === 'path'
-        ? 'Choose your path to open this level.'
+        ? 'Choose your path first.'
         : before.level.kind === 'test'
-          ? 'Pass the Checkpoint before it to open this.'
+          ? 'Pass the Checkpoint first.'
           : before.level.kind === 'final'
-            ? 'Pass the Final Exam to open this.'
-            : `Finish Level ${before.level.number} to open this.`;
+            ? 'Pass the Final Exam first.'
+            : `Finish Level ${before.level.number} first.`;
   const meta = locked
     ? opener
     : kind === 'path'
       ? pathName
-        ? `You are on ${pathName}. You can change it here or in Settings.`
-        : 'Scalping, Day Trading or Swing Trading: pick the one that fits your day.'
+        ? `You are on ${pathName}.`
+        : 'Scalping, Day Trading or Swing Trading.'
       : kind === 'lesson'
         ? complete
           ? `All ${view.total} lessons done.`
-          : `Lesson ${view.nextIndex + 1} of ${view.total} · +${xp} XP · about 3 min`
+          : `Lesson ${view.nextIndex + 1} of ${view.total} · about 3 min`
         : complete
           ? view.perfect
-            ? 'Passed with every answer right.'
-            : 'Passed. Retake it any time to practise.'
-          : `${questionsIn(view)} scored questions · 70 % to pass · +${xp} XP${
-              kind === 'final' ? ' and the chapter badge' : ''
-            }`;
-  const kicker =
-    kind === 'path'
-      ? 'Your path'
-      : `${nodeName(view)}${complete ? (view.perfect ? ' · Perfect' : kind === 'lesson' ? ' · Done' : ' · Passed') : locked ? ' · Locked' : ''}`;
+            ? 'Passed, every answer right.'
+            : 'Passed.'
+          : `${questionsIn(view)} questions · 70 % to pass`;
+  const kicker = kind === 'path' ? 'Your path' : nodeName(view);
 
   return (
     <Animated.View
@@ -1075,6 +1030,7 @@ function LevelCard({
       {locked ? null : (
         <Animated.View style={press.style}>
           <Pressable
+            testID="key"
             accessibilityRole="button"
             accessibilityState={{ disabled: empty }}
             disabled={empty}
@@ -1118,23 +1074,42 @@ function LevelCard({
 
 const styles = themed(() => ({
   wrap: { flex: 1 },
+  // Over the banner, so the flame's "Today 1/2" can drop down across it.
   hud: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: space.lg,
-    paddingHorizontal: space.lg,
-    paddingBottom: space.sm,
+    justifyContent: 'space-evenly',
+    paddingHorizontal: space.sm,
+    paddingBottom: space.xs,
+    zIndex: 2,
   },
-  hudItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  hudValue: { fontSize: 17, lineHeight: 22, fontWeight: '800' },
-  hudSpacer: { flex: 1 },
+  hudItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    minWidth: 48,
+    minHeight: 48,
+  },
+  hudValue: { fontSize: 17, lineHeight: 22, fontWeight: '800', fontFamily: MONO_FONT },
   hudWait: {
     ...type.small,
     color: colors.textMuted,
-    fontVariant: ['tabular-nums'],
+    fontFamily: MONO_FONT,
     marginRight: 2,
   },
-  goal: { width: 26, height: 26, alignItems: 'center', justifyContent: 'center' },
+  today: {
+    position: 'absolute',
+    top: 46,
+    alignSelf: 'center',
+    paddingHorizontal: space.md,
+    paddingVertical: space.xs,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+    borderColor: colors.borderStrong,
+    borderWidth: 1.5,
+  },
+  todayText: { ...type.label, color: colors.text, fontFamily: MONO_FONT },
 
   banner: {
     marginHorizontal: space.lg,
@@ -1148,7 +1123,7 @@ const styles = themed(() => ({
     alignItems: 'center',
     gap: space.md,
   },
-  bannerText: { flex: 1, gap: 2 },
+  bannerText: { flex: 1, gap: 2, minHeight: 52, justifyContent: 'center' },
   bannerKicker: {
     ...type.label,
     color: colors.accentText,
@@ -1156,23 +1131,6 @@ const styles = themed(() => ({
     letterSpacing: 1,
   },
   bannerTitle: { ...type.title, color: colors.accentText },
-  bannerBadge: {
-    minWidth: 52,
-    height: 52,
-    borderRadius: 12,
-    backgroundColor: shade(colors.accentFill, 0.3),
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: space.sm,
-  },
-  bannerBadgeValue: {
-    fontSize: 17,
-    lineHeight: 20,
-    fontWeight: '800',
-    fontFamily: MONO_FONT,
-    color: colors.accentText,
-  },
-  bannerBadgeLabel: { ...type.small, color: colors.accentText },
 
   scroll: { flex: 1 },
   chapter: { position: 'absolute', height: HEAD_H - space.sm },
@@ -1232,15 +1190,10 @@ const styles = themed(() => ({
   },
   jumpText: { ...type.label, fontSize: 14, color: colors.accentText, fontWeight: '700' },
   nodeSlot: { position: 'absolute', width: RING, height: RING },
-  label: { position: 'absolute', top: 10, gap: 1 },
-  labelKicker: {
-    ...type.small,
-    color: colors.textFaint,
-    textTransform: 'uppercase',
-    letterSpacing: 0.8,
-  },
+  scene: { position: 'absolute' },
+  // Beside its node, centred on it.
+  label: { position: 'absolute', top: 0, height: RING, justifyContent: 'center' },
   labelTitle: { fontSize: 15, lineHeight: 19, fontWeight: '700', color: colors.text },
-  labelMeta: { ...type.small, color: colors.textMuted },
   alignRight: { textAlign: 'right' },
   end: {
     position: 'absolute',

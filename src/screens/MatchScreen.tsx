@@ -9,7 +9,7 @@ import Shake from '../lesson/Shake';
 import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import type { MatchScreen as S } from '../types';
-import { Prompt } from './common';
+import { fillArea, Prompt, ThumbZone } from './common';
 
 function shuffled<T>(items: T[], seed: number): T[] {
   const out = [...items];
@@ -146,70 +146,73 @@ export default function MatchScreen({
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <View style={styles.columns}>
-        <View style={styles.leftCol}>
-          {screen.pairs.map(([term], i) => {
-            const chip = (
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => tapLeft(i)}
-                onLayout={(e) => measure(e.nativeEvent.layout.height)}
-                style={[
-                  styles.chip,
-                  shape,
-                  { minHeight: Math.max(TAP_TARGET, tallest) },
-                  leftStyle(i),
-                ]}
-              >
-                <Text style={styles.term}>{copy(term)}</Text>
-              </Pressable>
-            );
-            return (
-              <Shake key={term} onMount={false} trigger={bounces.left[i]}>
-                {linked[i] !== undefined ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
-              </Shake>
-            );
-          })}
+      <ThumbZone style={styles.zone}>
+        <View style={styles.columns}>
+          <View style={styles.leftCol}>
+            {screen.pairs.map(([term], i) => {
+              const chip = (
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => tapLeft(i)}
+                  onLayout={(e) => measure(e.nativeEvent.layout.height)}
+                  style={[
+                    styles.chip,
+                    shape,
+                    { minHeight: Math.max(TAP_TARGET, tallest) },
+                    leftStyle(i),
+                  ]}
+                >
+                  <Text style={styles.term}>{copy(term)}</Text>
+                </Pressable>
+              );
+              return (
+                <Shake key={term} onMount={false} trigger={bounces.left[i]}>
+                  {linked[i] !== undefined ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
+                </Shake>
+              );
+            })}
+          </View>
+          <View style={styles.rightCol}>
+            {rightOrder.map((i) => {
+              const isLinked = isRightLinked(i);
+              const chip = (
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => tapRight(i)}
+                  onLayout={(e) => measure(e.nativeEvent.layout.height)}
+                  style={[
+                    styles.chip,
+                    shape,
+                    { minHeight: Math.max(TAP_TARGET, tallest) },
+                    rightStyle(i),
+                  ]}
+                >
+                  <Text style={styles.definition}>{copy(screen.pairs[i][1])}</Text>
+                </Pressable>
+              );
+              return (
+                <Shake key={screen.pairs[i][1]} onMount={false} trigger={bounces.right[i]}>
+                  {isLinked ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
+                </Shake>
+              );
+            })}
+          </View>
         </View>
-        <View style={styles.rightCol}>
-          {rightOrder.map((i) => {
-            const isLinked = isRightLinked(i);
-            const chip = (
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => tapRight(i)}
-                onLayout={(e) => measure(e.nativeEvent.layout.height)}
-                style={[
-                  styles.chip,
-                  shape,
-                  { minHeight: Math.max(TAP_TARGET, tallest) },
-                  rightStyle(i),
-                ]}
-              >
-                <Text style={styles.definition}>{copy(screen.pairs[i][1])}</Text>
-              </Pressable>
-            );
-            return (
-              <Shake key={screen.pairs[i][1]} onMount={false} trigger={bounces.right[i]}>
-                {isLinked ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
-              </Shake>
-            );
-          })}
-        </View>
-      </View>
-      <Text style={styles.hint}>
-        {revealed
-          ? misses === 0
-            ? 'Matched without a miss.'
-            : `Matched, after ${misses} wrong ${misses === 1 ? 'tap' : 'taps'}.`
-          : `${Object.keys(linked).length}/${screen.pairs.length} matched`}
-      </Text>
+        <Text style={styles.hint}>
+          {revealed
+            ? misses === 0
+              ? 'Matched without a miss.'
+              : `Matched, after ${misses} wrong ${misses === 1 ? 'tap' : 'taps'}.`
+            : `${Object.keys(linked).length}/${screen.pairs.length} matched`}
+        </Text>
+      </ThumbZone>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { gap: space.lg },
+  wrap: { ...fillArea, gap: space.lg },
+  zone: { gap: space.lg },
   columns: { flexDirection: 'row', gap: space.sm },
   leftCol: { flex: 4, gap: space.sm },
   rightCol: { flex: 6, gap: space.sm },

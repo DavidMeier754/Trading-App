@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // The render test (docs/build-plan.md, stage WIRE): opens every screen of every
-// lesson by deep link and reports what broke.
+// lesson, and the home screen's pages, by deep link and reports what broke.
 //
 //   npm run smoke                       build the web export, then test every screen
 //   npm run smoke -- --no-build         reuse dist-smoke/ from the last run
@@ -225,7 +225,7 @@ async function contactSheet(browser, key, tasks, results) {
     .map((t) => {
       const r = results[t.n];
       const bad = r.problems.length > 0;
-      return `<figure class="${bad ? 'bad' : ''}"><img src="shots/${t.n}.jpg"><figcaption>${t.hash ? t.hash.replace(/^prototype\//, '') : `${t.id.replace(/^[\w-]+-ch\d+-/, '')}/${t.screen}`}${bad ? ` · ${r.problems.map((p) => p.kind).join(', ')}` : ''}</figcaption></figure>`;
+      return `<figure class="${bad ? 'bad' : ''}"><img src="shots/${t.n}.jpg"><figcaption>${t.hash ? t.screen : `${t.id.replace(/^[\w-]+-ch\d+-/, '')}/${t.screen}`}${bad ? ` · ${r.problems.map((p) => p.kind).join(', ')}` : ''}</figcaption></figure>`;
     })
     .join('');
   const html = `<!doctype html><meta charset="utf-8"><style>
@@ -278,18 +278,27 @@ for (const lesson of lessons) {
     });
   }
 }
-// The design directions of stage LOOK-BRIEF (src/prototype): every direction,
-// screen and theme, by its own deep link. They count as screens of their own
-// "prototype" group, outside the validator's chapter counts.
-if (!only.length || only.includes('prototype')) {
-  const routes = await first.page.evaluate(() => window.__prototypes ?? []);
-  for (const hash of routes) {
+// The home screen's tabs and pages (src/home/Home.tsx, openHomeAt), by their
+// own deep links. They are a "home" group of their own, outside the
+// validator's chapter counts.
+const HOME = [
+  'learn',
+  'practice',
+  'account',
+  'settings',
+  'design',
+  'development',
+  'animations',
+  'suggestions',
+];
+if (!only.length || only.includes('home')) {
+  for (const name of HOME) {
     tasks.push({
       n: tasks.length,
-      id: 'prototype',
-      screen: hash,
-      hash,
-      key: 'prototype',
+      id: 'home',
+      screen: name,
+      hash: `home/${name}?test=1`,
+      key: 'home',
       units: 0,
     });
   }
@@ -339,11 +348,11 @@ const KINDS = ['crash', 'nan', 'console', 'blank', 'timeout'];
 const empty = () => Object.fromEntries(KINDS.map((k) => [k, 0]));
 const chapters = {};
 const problems = [];
-const protoCount = tasks.filter((t) => t.hash).length;
+const homeCount = tasks.filter((t) => t.hash).length;
 const totals = {
-  screens: tasks.length - protoCount,
+  screens: tasks.length - homeCount,
   lessons: new Set(tasks.filter((t) => !t.hash).map((t) => t.id)).size,
-  prototypes: protoCount,
+  home: homeCount,
   ...empty(),
 };
 for (const task of tasks) {
@@ -415,10 +424,10 @@ writeFileSync(join(outDir, 'smoke-report.json'), JSON.stringify(report, null, 2)
 // The summary, also as Markdown for the CI job page and the PR comment.
 const rows = Object.entries(chapters).map(
   ([key, c]) =>
-    `| ${key.split('/').pop()} | ${c.lessons} | ${c.screens} | ${key === 'prototype' ? '–' : c.units}${c.validatorScreens !== null && c.validatorScreens !== c.units ? ` ≠ ${c.validatorScreens}` : ''} | ${c.crash} | ${c.nan} | ${c.console} | ${c.blank} |`,
+    `| ${key.split('/').pop()} | ${c.lessons} | ${c.screens} | ${key === 'home' ? '–' : c.units}${c.validatorScreens !== null && c.validatorScreens !== c.units ? ` ≠ ${c.validatorScreens}` : ''} | ${c.crash} | ${c.nan} | ${c.console} | ${c.blank} |`,
 );
 const md = [
-  `**Render test:** ${totals.screens} screens in ${totals.lessons} lessons${totals.prototypes ? ` and ${totals.prototypes} prototype routes` : ''}, ${report.seconds} s${only.length ? ` (only ${only.join(', ')})` : ''}.`,
+  `**Render test:** ${totals.screens} screens in ${totals.lessons} lessons${totals.home ? ` and ${totals.home} home pages` : ''}, ${report.seconds} s${only.length ? ` (only ${only.join(', ')})` : ''}.`,
   '',
   `Crashes **${totals.crash}** · NaN **${totals.nan}** · console errors **${totals.console}** · blank **${totals.blank}**${totals.timeout ? ` · timeouts **${totals.timeout}**` : ''}`,
   '',

@@ -11,7 +11,7 @@ import { usePressFeedback } from '../lesson/motion';
 import { tint } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { NumericInputScreen as S } from '../types';
-import { Prompt } from './common';
+import { fillArea, Prompt, ThumbZone } from './common';
 
 // Digits as on a phone, the four operators down the right the way a
 // calculator has them, and = to fold a sum into its result. The sum is what
@@ -274,7 +274,7 @@ export default function NumericInputScreen({
         )}
       </Text>
 
-      <View style={styles.pad}>
+      <ThumbZone style={styles.pad}>
         {ROWS.map((row) => (
           <View key={row.join('')} style={styles.padRow}>
             {row.map((key) => (
@@ -282,13 +282,13 @@ export default function NumericInputScreen({
             ))}
           </View>
         ))}
-      </View>
+      </ThumbZone>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { gap: space.lg },
+  wrap: { ...fillArea, gap: space.lg },
   field: {
     borderWidth: 2,
     borderRadius: radius.md,
