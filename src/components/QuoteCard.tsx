@@ -1,8 +1,8 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { price, signedPercent, signedPrice } from '../format';
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, type, themed } from '../theme';
 import { spotlight } from './spotlight';
 
 type Data = {
@@ -75,7 +75,7 @@ export default function QuoteCard({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
@@ -97,4 +97,4 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingHorizontal: 2,
   },
-});
+}));

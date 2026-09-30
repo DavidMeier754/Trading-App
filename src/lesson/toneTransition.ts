@@ -23,7 +23,7 @@ export function isRevealTone(tone: Tone): boolean {
 
 export function tonePalette(
   tone: Tone,
-  spec: LookSpec = LOOKS.classic,
+  spec: LookSpec = LOOKS.neo,
 ): {
   border: string;
   background: string;

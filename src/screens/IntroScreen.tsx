@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { copy } from '../format';
 import { Arrive } from '../lesson/Celebrate';
-import { colors, space, type } from '../theme';
+import { colors, space, type, themed } from '../theme';
 import type { IntroScreen as S } from '../types';
 
 /** docs/UI.md §3 `intro`: big headline, optional subline. */
@@ -38,7 +38,7 @@ export default function IntroScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.md },
   kicker: {
     ...type.label,
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   headline: { ...type.display, fontSize: 32, lineHeight: 40, color: colors.text },
   subline: { ...type.body, color: colors.textMuted },
   counter: { ...type.title, color: colors.textMuted, marginTop: space.lg },
-});
+}));

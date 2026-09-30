@@ -15,7 +15,7 @@ import Svg, { Circle, Path } from 'react-native-svg';
 import { unlockFeedback } from '../lesson/feedback';
 import { EASE_OUT, EASE_SINE, SPRING_POP, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, type } from '../theme';
+import { colors, type, themed } from '../theme';
 import { LEVEL_TYPE_NAME, LevelType, levelIconOf, levelTypeOf } from '../content';
 import Icon, { IconName, isIconName } from './icons';
 import type { LevelStatus, LevelView } from './pathState';
@@ -28,8 +28,6 @@ const NODE = 72;
 const STROKE = 7;
 const R = (RING - STROKE) / 2;
 const CIRC = 2 * Math.PI * R;
-
-const GOLD = colors.warning;
 
 /**
  * What each node last showed, kept across visits to the home screen. Coming
@@ -207,7 +205,7 @@ export default function LevelNode({
   const locked = view.status === 'locked';
   const complete = view.status === 'complete';
   const face = locked ? colors.surfaceAlt : complete ? colors.success : colors.accent;
-  const ringColor = view.perfect ? GOLD : complete ? colors.success : colors.accent;
+  const ringColor = view.perfect ? colors.warning : complete ? colors.success : colors.accent;
   // docs/UI.md §7.1: Checkpoints are shields and the Final Exam a trophy, so a
   // scored level reads as one from across the map; the path choice is a
   // signpost. Ordinary levels are round.
@@ -320,7 +318,7 @@ export default function LevelNode({
             pointerEvents="none"
             style={[
               styles.badge,
-              { backgroundColor: view.perfect ? GOLD : colors.success },
+              { backgroundColor: view.perfect ? colors.warning : colors.success },
               badgeStyle,
             ]}
           >
@@ -352,7 +350,7 @@ function ShieldFace({ color, locked }: { color: string; locked: boolean }) {
       <Path
         d="M36 3 8 13v20c0 17 11.5 30.5 28 36 16.5-5.5 28-19 28-36V13z"
         fill={color}
-        stroke={locked ? '#3A4553' : 'none'}
+        stroke={locked ? colors.borderStrong : 'none'}
         strokeWidth={1.5}
       />
     </Svg>
@@ -421,7 +419,7 @@ function Bubble({ label, delay = 0 }: { label: string; delay?: number }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   box: { width: RING, height: RING, alignItems: 'center', justifyContent: 'center' },
   nodeWrap: { width: NODE, height: NODE },
   node: {
@@ -431,7 +429,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  nodeLocked: { borderWidth: 1.5, borderColor: '#3A4553' },
+  nodeLocked: { borderWidth: 1.5, borderColor: colors.borderStrong },
   // The lock over a level that is about to open: the locked face, on top.
   cover: {
     position: 'absolute',
@@ -442,7 +440,7 @@ const styles = StyleSheet.create({
     borderRadius: NODE / 2,
     backgroundColor: colors.surfaceAlt,
     borderWidth: 1.5,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -499,4 +497,4 @@ const styles = StyleSheet.create({
     borderColor: colors.accent,
     transform: [{ rotate: '45deg' }],
   },
-});
+}));

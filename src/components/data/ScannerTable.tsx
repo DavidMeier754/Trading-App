@@ -1,9 +1,9 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { price, signedPercent } from '../../format';
 import { surfaceStyle, tint, useLookSpec } from '../../lesson/look';
-import { colors, radius, space, type } from '../../theme';
+import { colors, radius, space, type, themed } from '../../theme';
 import type { ScannerRow } from '../../types';
 
 type Column = {
@@ -130,13 +130,13 @@ export default function ScannerTable({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: 4 },
   wrapCards: { gap: space.sm },
   headRow: { flexDirection: 'row', paddingHorizontal: space.sm },
   // Clears the radio column, so the headings sit over their numbers.
   headRowCards: { paddingLeft: space.md + 18 + space.sm, paddingRight: space.md },
-  head: { ...type.small, fontSize: 10, color: colors.textFaint, letterSpacing: 0.8 },
+  head: { ...type.small, color: colors.textFaint, letterSpacing: 0.8 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -161,6 +161,6 @@ const styles = StyleSheet.create({
   cTicker: { flex: 3 },
   cNum: { flex: 2, textAlign: 'right' },
   ticker: { ...type.answer, color: colors.text },
-  catalyst: { ...type.small, fontSize: 10, color: colors.textFaint },
+  catalyst: { ...type.small, color: colors.textFaint },
   cell: { ...type.small, color: colors.text },
-});
+}));

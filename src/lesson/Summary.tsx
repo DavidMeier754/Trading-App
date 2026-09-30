@@ -10,7 +10,7 @@ import Animated, {
 import Svg, { Circle } from 'react-native-svg';
 
 import { copy } from '../format';
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, type, themed } from '../theme';
 import type { Screen } from '../types';
 import { isQuestion } from '../types';
 import type { Grade } from './answers';
@@ -23,11 +23,14 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 /** docs/agent.md §3.7 and docs/UI.md §3: a test is passed at 70 %. */
 export const PASS_MARK = 0.7;
 
-const DOT: Record<Grade, string> = {
-  correct: colors.success,
-  amber: colors.warning,
-  wrong: colors.down,
-};
+function dotOf(key: Grade): string {
+  const table: Record<Grade, string> = {
+    correct: colors.success,
+    amber: colors.warning,
+    wrong: colors.down,
+  };
+  return table[key];
+}
 
 /** How a test is scored: right answers and reasonable calls both count; a miss does not. */
 export function scoreOf(screens: Screen[], grades: (Grade | null)[]) {
@@ -188,7 +191,7 @@ export default function Summary({
             >
               <View style={styles.rowHead}>
                 <Text style={styles.rowNum}>{k + 1}</Text>
-                <View style={[styles.dot, { backgroundColor: DOT[g] }]} />
+                <View style={[styles.dot, { backgroundColor: dotOf(g) }]} />
                 <Text
                   style={[styles.rowLabel, !passed && g === 'wrong' && styles.rowMissed]}
                   numberOfLines={open ? 3 : 1}
@@ -208,7 +211,7 @@ export default function Summary({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.lg, paddingVertical: space.lg },
   kicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.2 },
   title: { ...type.title, color: colors.text, marginTop: -space.sm },
@@ -228,7 +231,7 @@ const styles = StyleSheet.create({
   ringText: { ...type.prompt, color: colors.text },
   list: {
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
     overflow: 'hidden',
@@ -248,4 +251,4 @@ const styles = StyleSheet.create({
   rowMissed: { color: colors.text },
   reminder: { ...type.small, fontSize: 13, lineHeight: 18, color: colors.text, marginLeft: 33 },
   hint: { ...type.small, color: colors.textFaint, textAlign: 'center' },
-});
+}));

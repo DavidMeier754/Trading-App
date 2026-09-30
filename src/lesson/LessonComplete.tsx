@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { LayoutChangeEvent, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { LayoutChangeEvent, Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
   SharedValue,
   useAnimatedProps,
@@ -14,7 +14,7 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 import Svg, { Circle } from 'react-native-svg';
 
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, type, themed } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
 import { earnedXp } from '../progress';
@@ -279,7 +279,7 @@ function Row({ label, value, accent }: { label: string; value: string; accent?: 
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { alignItems: 'center', gap: space.xl },
   textBlock: { alignItems: 'center', gap: space.xs },
   kicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.6 },
@@ -312,4 +312,4 @@ const styles = StyleSheet.create({
   },
   rowLabel: { ...type.answer, color: colors.textMuted },
   rowValue: { ...type.answer, color: colors.text },
-});
+}));

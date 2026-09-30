@@ -10,8 +10,7 @@ import Animated, {
 
 import Icon from '../home/icons';
 import { MAX_HEARTS, useHearts } from '../progress';
-import { colors, type } from '../theme';
-import { useLookSpec } from './look';
+import { colors, MONO_FONT, type } from '../theme';
 import { EASE_OUT, SPRING_POP } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
@@ -31,11 +30,8 @@ export default function HeartMeter({ count }: { count?: number } = {}) {
   // `count` stands in for the learner's hearts on the Animations test page.
   const live = useHearts().hearts;
   const hearts = count ?? live;
-  const spec = useLookSpec();
   const reduced = useReduceMotion();
-  const big = spec.id === 'arcade';
-  const mono = spec.streak === 'count';
-  const size = big ? 24 : 20;
+  const size = 20;
   const tint = hearts > 0 ? colors.down : colors.textFaint;
 
   const kick = useSharedValue(1);
@@ -85,9 +81,7 @@ export default function HeartMeter({ count }: { count?: number } = {}) {
           <Icon name="heart" size={size} color={tint} />
         </Animated.View>
       </View>
-      <Text style={[styles.count, big && styles.countBig, mono && styles.mono, { color: tint }]}>
-        {hearts}
-      </Text>
+      <Text style={[styles.count, { color: tint }]}>{hearts}</Text>
     </View>
   );
 }
@@ -99,9 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     fontWeight: '800',
+    fontFamily: MONO_FONT,
     fontVariant: ['tabular-nums'],
   },
-  countBig: { fontSize: 18, lineHeight: 22 },
-  // Terminal: a readout, like its streak count.
-  mono: { ...type.mono, fontSize: 15, fontFamily: 'monospace', fontWeight: '700' },
 });

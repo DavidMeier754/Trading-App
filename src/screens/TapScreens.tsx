@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   measure,
@@ -27,7 +27,7 @@ import type { AnswerValue } from '../lesson/answers';
 import { detentFeedback, tapFeedback } from '../lesson/feedback';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import { useLookSpec } from '../lesson/look';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type {
   ChartSpec,
   ChartTapScreen as ChartTap,
@@ -472,7 +472,7 @@ export function SliderScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.lg },
   column: { gap: space.lg },
   tapRow: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 },
@@ -519,5 +519,5 @@ const styles = StyleSheet.create({
   nudgeText: { ...type.title, color: colors.text },
   sliderAnswer: { ...type.small, color: colors.textMuted, textAlign: 'center' },
   sliderScale: { flexDirection: 'row', marginTop: -space.sm },
-  sliderScaleText: { ...type.small, fontSize: 11, color: colors.textFaint, flex: 1 },
-});
+  sliderScaleText: { ...type.small, color: colors.textFaint, flex: 1 },
+}));

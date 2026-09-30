@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { copy } from '../format';
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, type, themed } from '../theme';
 
 /** docs/UI.md §6.4 — the level file's `state` strings as chips above the chart. */
 export default function StateChips({ state }: { state: string[] }) {
@@ -17,7 +17,7 @@ export default function StateChips({ state }: { state: string[] }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   row: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   chip: {
     backgroundColor: colors.surfaceAlt,
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   text: { ...type.small, color: colors.textMuted },
-});
+}));

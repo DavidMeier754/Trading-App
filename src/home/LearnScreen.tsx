@@ -35,7 +35,8 @@ import {
   useProgress,
   waitText,
 } from '../progress';
-import { colors, radius, space, type } from '../theme';
+import { shade, tint } from '../lesson/look';
+import { colors, MONO_FONT, radius, space, type, themed } from '../theme';
 import Icon from './icons';
 import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
 import { ChapterView, chapterViews, currentLevel, LevelView, totalXp } from './pathState';
@@ -561,7 +562,7 @@ function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
       </Animated.View>
       <Animated.View style={[styles.bannerBadge, words]}>
         {allDone ? (
-          <Icon name="check" size={22} color="#FFFFFF" strokeWidth={3} />
+          <Icon name="check" size={22} color={colors.accentText} strokeWidth={3} />
         ) : kind === 'lesson' ? (
           <>
             <Text style={styles.bannerBadgeValue}>{`${lesson}/${view.total}`}</Text>
@@ -572,7 +573,7 @@ function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
             <Icon
               name={kind === 'test' ? 'shield' : kind === 'final' ? 'trophy' : 'signpost'}
               size={20}
-              color="#FFFFFF"
+              color={colors.accentText}
               filled
             />
             <Text style={styles.bannerBadgeLabel}>
@@ -651,7 +652,7 @@ function ChapterHeader({
           <Icon
             name={door ? 'signpost' : locked ? 'lock' : 'trophy'}
             size={22}
-            color={done ? '#FFFFFF' : locked ? colors.textFaint : colors.warning}
+            color={done ? colors.background : locked ? colors.textFaint : colors.warning}
           />
         </View>
         <View style={styles.chapterText}>
@@ -711,7 +712,7 @@ function JumpButton({ view, onPress }: { view: LevelView; onPress: () => void })
         onPress={onPress}
         style={styles.jumpInner}
       >
-        <Icon name="target" size={18} color="#FFFFFF" />
+        <Icon name="target" size={18} color={colors.accentText} />
         <Text style={styles.jumpText} numberOfLines={1}>{`Jump to ${nodeName(view)}`}</Text>
       </Pressable>
     </Animated.View>
@@ -1089,7 +1090,11 @@ function LevelCard({
             {empty ? (
               <Icon name="heart" size={16} color={colors.textFaint} />
             ) : complete ? null : (
-              <Icon name={kind === 'path' ? 'signpost' : 'play'} size={16} color="#FFFFFF" />
+              <Icon
+                name={kind === 'path' ? 'signpost' : 'play'}
+                size={16}
+                color={colors.accentText}
+              />
             )}
             {/* docs/UI.md §10: a key's label is one line, always; a long one shrinks to fit. */}
             <Text
@@ -1111,7 +1116,7 @@ function LevelCard({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { flex: 1 },
   hud: {
     flexDirection: 'row',
@@ -1134,7 +1139,7 @@ const styles = StyleSheet.create({
   banner: {
     marginHorizontal: space.lg,
     marginBottom: space.xs,
-    backgroundColor: colors.accent,
+    backgroundColor: colors.accentFill,
     borderRadius: 14,
     paddingVertical: space.md,
     paddingLeft: space.lg,
@@ -1146,22 +1151,28 @@ const styles = StyleSheet.create({
   bannerText: { flex: 1, gap: 2 },
   bannerKicker: {
     ...type.label,
-    color: 'rgba(255, 255, 255, 0.78)',
+    color: colors.accentText,
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
-  bannerTitle: { ...type.title, color: '#FFFFFF' },
+  bannerTitle: { ...type.title, color: colors.accentText },
   bannerBadge: {
     minWidth: 52,
     height: 52,
     borderRadius: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.16)',
+    backgroundColor: shade(colors.accentFill, 0.3),
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: space.sm,
   },
-  bannerBadgeValue: { fontSize: 17, lineHeight: 20, fontWeight: '800', color: '#FFFFFF' },
-  bannerBadgeLabel: { ...type.small, fontSize: 10, color: 'rgba(255, 255, 255, 0.78)' },
+  bannerBadgeValue: {
+    fontSize: 17,
+    lineHeight: 20,
+    fontWeight: '800',
+    fontFamily: MONO_FONT,
+    color: colors.accentText,
+  },
+  bannerBadgeLabel: { ...type.small, color: colors.accentText },
 
   scroll: { flex: 1 },
   chapter: { position: 'absolute', height: HEAD_H - space.sm },
@@ -1172,11 +1183,11 @@ const styles = StyleSheet.create({
     gap: space.md,
     paddingHorizontal: space.md,
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
   },
-  chapterLocked: { backgroundColor: 'rgba(23, 28, 35, 0.72)', borderColor: colors.border },
+  chapterLocked: { backgroundColor: tint(colors.surface, 0.72), borderColor: colors.border },
   chapterBadge: {
     width: 44,
     height: 44,
@@ -1212,14 +1223,14 @@ const styles = StyleSheet.create({
     height: 44,
     paddingHorizontal: space.lg,
     borderRadius: 22,
-    backgroundColor: colors.accent,
-    shadowColor: '#000000',
+    backgroundColor: colors.accentFill,
+    shadowColor: colors.shade,
     shadowOpacity: 0.35,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 4 },
     elevation: 6,
   },
-  jumpText: { ...type.label, fontSize: 14, color: '#FFFFFF', fontWeight: '700' },
+  jumpText: { ...type.label, fontSize: 14, color: colors.accentText, fontWeight: '700' },
   nodeSlot: { position: 'absolute', width: RING, height: RING },
   label: { position: 'absolute', top: 10, gap: 1 },
   labelKicker: {
@@ -1257,7 +1268,7 @@ const styles = StyleSheet.create({
   card: {
     position: 'absolute',
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
     padding: space.lg,
@@ -1271,7 +1282,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderLeftWidth: 1.5,
     borderTopWidth: 1.5,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     transform: [{ rotate: '45deg' }],
   },
   cardKicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1 },
@@ -1291,17 +1302,21 @@ const styles = StyleSheet.create({
     height: 50,
     paddingHorizontal: space.md,
     borderRadius: radius.md,
-    backgroundColor: colors.accent,
+    backgroundColor: colors.accentFill,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: space.sm,
   },
-  cardButtonQuiet: { backgroundColor: colors.surfaceAlt, borderWidth: 1.5, borderColor: '#3A4553' },
+  cardButtonQuiet: {
+    backgroundColor: colors.surfaceAlt,
+    borderWidth: 1.5,
+    borderColor: colors.borderStrong,
+  },
   cardButtonEmpty: {
     backgroundColor: colors.surfaceAlt,
     borderWidth: 1.5,
     borderColor: colors.border,
   },
-  cardButtonText: { ...type.prompt, fontSize: 17, color: '#FFFFFF', flexShrink: 1 },
-});
+  cardButtonText: { ...type.prompt, fontSize: 17, color: colors.accentText, flexShrink: 1 },
+}));

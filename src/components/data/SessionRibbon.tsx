@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { copy } from '../../format';
 import { Arrive } from '../../lesson/Celebrate';
-import { useLookSpec } from '../../lesson/look';
-import { colors, radius, space, type } from '../../theme';
+import { inkOn, useLookSpec } from '../../lesson/look';
+import { colors, radius, space, type, themed } from '../../theme';
 import { GROW_DELAY } from './GrowBar';
 
 /** docs/UI.md §6.5 — pre-market / regular / after-hours with a "now" marker. */
@@ -43,7 +43,7 @@ export default function SessionRibbon({
             delay={GROW_DELAY + i * 110}
             style={[styles.segment, { flex: s.flex, backgroundColor: s.tint }]}
           >
-            <Text style={[styles.segLabel, s.tint === accent && { color: readableOn(accent) }]}>
+            <Text style={[styles.segLabel, s.tint === accent && { color: inkOn(accent) }]}>
               {s.label}
             </Text>
           </Arrive>
@@ -62,18 +62,12 @@ export default function SessionRibbon({
 }
 
 /** Dark lettering on a light accent (Neo Mono's white), light on the rest. */
-function readableOn(hex: string): string {
-  const n = parseInt(hex.slice(1), 16);
-  const lum = 0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255);
-  return lum > 170 ? colors.background : colors.text;
-}
-
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.sm },
   ribbon: { flexDirection: 'row', gap: 2, borderRadius: radius.sm, overflow: 'hidden' },
   segment: { paddingVertical: space.md, alignItems: 'center' },
-  segLabel: { ...type.small, fontSize: 11, color: colors.text },
+  segLabel: { ...type.small, color: colors.text },
   times: { flexDirection: 'row', gap: 2 },
   time: { ...type.small, color: colors.textMuted, textAlign: 'center' },
   tz: { ...type.small, color: colors.textFaint, textAlign: 'center' },
-});
+}));

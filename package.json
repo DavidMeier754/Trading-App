@@ -17,7 +17,9 @@
     "format:check": "prettier --check .",
     "test": "TZ=UTC jest && node jest/zones.js",
     "gen:content": "node tools/gen_content.mjs",
-    "smoke": "node tools/smoke.mjs"
+    "smoke": "node tools/smoke.mjs",
+    "check:ui": "node tools/check_ui.mjs",
+    "sheets": "node tools/contact_sheets.mjs"
   },
   "repository": {
     "type": "git",

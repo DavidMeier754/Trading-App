@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Pressable, Text, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { copy } from '../format';
@@ -8,7 +8,7 @@ import Shake from '../lesson/Shake';
 import { usePressFeedback } from '../lesson/motion';
 import { Tone, useToneTransition } from '../lesson/toneTransition';
 import { useVerdict } from '../lesson/verdict';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import { surfaceStyle, useLookSpec } from '../lesson/look';
 
 export function Prompt({ children }: { children: string }) {
@@ -51,7 +51,6 @@ export function ToneSurface({
   const shape = {
     borderRadius: spec.surface.radius,
     borderWidth: spec.surface.borderWidth,
-    ...(spec.surface.edge ? { borderBottomWidth: spec.surface.edge } : null),
     ...(spec.surface.borderTop && tone === 'idle'
       ? { borderTopColor: spec.surface.borderTop }
       : null),
@@ -172,7 +171,7 @@ export function Card({ children, style }: { children: React.ReactNode; style?: V
   return <View style={[styles.card, surfaceStyle(spec), style]}>{children}</View>;
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   stackGhost: { position: 'absolute', top: 0, left: 0, right: 0, opacity: 0 },
   cap: { maxWidth: '100%' },
   prompt: { ...type.prompt, color: colors.text },
@@ -199,4 +198,4 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     padding: space.lg,
   },
-});
+}));

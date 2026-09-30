@@ -1,10 +1,10 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { usePressFeedback } from '../lesson/motion';
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, type, themed } from '../theme';
 import Icon from './icons';
 
 /**
@@ -45,7 +45,7 @@ export default function AccountScreen({ onOpenSettings }: { onOpenSettings: () =
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { flex: 1, paddingHorizontal: space.lg, gap: space.lg },
   title: { ...type.display, color: colors.text },
   profile: {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: space.md,
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
     padding: space.lg,
@@ -76,9 +76,9 @@ const styles = StyleSheet.create({
     minHeight: 56,
     paddingHorizontal: space.lg,
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
   },
   rowText: { ...type.prompt, color: colors.text, flex: 1 },
-});
+}));

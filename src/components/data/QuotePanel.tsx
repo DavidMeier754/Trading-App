@@ -1,8 +1,9 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { price } from '../../format';
-import { colors, radius, space, type } from '../../theme';
+import { tint } from '../../lesson/look';
+import { colors, radius, space, type, themed } from '../../theme';
 import { spotlight } from '../spotlight';
 
 /** docs/UI.md §6.3 — Bid / Ask / Last / Spread. */
@@ -41,16 +42,16 @@ export default function QuotePanel({
   return (
     <View style={styles.wrap}>
       <View style={styles.row}>
-        {cell('bid', 'BID', price(data.bid), 'rgba(38,194,129,0.10)')}
+        {cell('bid', 'BID', price(data.bid), tint(colors.up, 0.1))}
         {cell('spread', 'SPREAD', price(spread))}
-        {cell('ask', 'ASK', price(data.ask), 'rgba(240,87,79,0.10)')}
+        {cell('ask', 'ASK', price(data.ask), tint(colors.down, 0.1))}
       </View>
       {data.last !== undefined ? cell('last', 'LAST', price(data.last)) : null}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.sm },
   row: { flexDirection: 'row', gap: space.sm },
   cell: {
@@ -65,6 +66,6 @@ const styles = StyleSheet.create({
     minHeight: 64,
     justifyContent: 'center',
   },
-  label: { ...type.small, fontSize: 10, color: colors.textMuted, letterSpacing: 1 },
+  label: { ...type.small, color: colors.textMuted, letterSpacing: 1 },
   value: { ...type.answer, color: colors.text },
-});
+}));

@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { detentFeedback } from '../lesson/feedback';
-import { colors, type } from '../theme';
+import { colors, type, themed } from '../theme';
 import Icon, { IconName } from './icons';
 
 export type Tab = 'learn' | 'practice' | 'leaderboard' | 'account';
@@ -50,7 +50,7 @@ export default function TabBar({ tab, onChange }: { tab: Tab; onChange: (next: T
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   bar: {
     flexDirection: 'row',
     backgroundColor: colors.background,
@@ -60,5 +60,5 @@ const styles = StyleSheet.create({
   item: { flex: 1, alignItems: 'center', paddingTop: 6, paddingBottom: 2, gap: 2, minHeight: 52 },
   // A short bar over the open tab, flush with the top edge.
   mark: { width: 28, height: 3, borderRadius: 2, marginTop: -6, marginBottom: 5 },
-  label: { ...type.small, fontSize: 11 },
-});
+  label: { ...type.small },
+}));

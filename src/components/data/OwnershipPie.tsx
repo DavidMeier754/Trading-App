@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Animated, {
   useAnimatedProps,
   useSharedValue,
@@ -14,7 +14,7 @@ import { useChartMove } from '../../lesson/haptics';
 import { useLookSpec } from '../../lesson/look';
 import { EASE_OUT, EASE_OUT_SETTLE } from '../../lesson/motion';
 import { useReduceMotion } from '../../lesson/useReduceMotion';
-import { colors, space, type } from '../../theme';
+import { colors, space, type, themed } from '../../theme';
 import { GROW_DELAY } from './GrowBar';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -139,7 +139,7 @@ function OwnedSlice({ d, fill, delay }: { d: string; fill: string; delay: number
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { alignItems: 'center', gap: space.sm },
   caption: { ...type.body, color: colors.textMuted },
-});
+}));

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { price } from '../../format';
-import { colors, radius, space, TAP_TARGET, type } from '../../theme';
+import { tint } from '../../lesson/look';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../../theme';
 import { spotlight } from '../spotlight';
 
 function capital(value: unknown): string {
@@ -85,7 +86,7 @@ export default function OrderTicket({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    minHeight: 40,
+    minHeight: TAP_TARGET,
     paddingHorizontal: space.md,
     borderRadius: radius.sm,
     borderWidth: 1.5,
@@ -113,15 +114,15 @@ const styles = StyleSheet.create({
   // fields, so it stops pulling the eye away from them. It is still a target
   // (docs/schema.md lists `submit`) and lights like any field when picked.
   submit: {
-    minHeight: TAP_TARGET - 4,
+    minHeight: TAP_TARGET,
     borderRadius: radius.sm,
     borderWidth: 1.5,
     // A mock ticket's send button: drawn like one, in the muted accent, but
     // not a dashed box that reads as a slot waiting for something.
-    borderColor: 'rgba(79,140,255,0.35)',
-    backgroundColor: 'rgba(79,140,255,0.10)',
+    borderColor: tint(colors.accent, 0.35),
+    backgroundColor: tint(colors.accent, 0.1),
     alignItems: 'center',
     justifyContent: 'center',
   },
   submitText: { ...type.small, fontWeight: '600', color: colors.textMuted, letterSpacing: 0.4 },
-});
+}));

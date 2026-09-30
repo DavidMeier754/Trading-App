@@ -1,10 +1,10 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 
 import { copy } from '../format';
 import { tapFeedback } from '../lesson/feedback';
 import { surfaceStyle, useLookSpec } from '../lesson/look';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { PlanCardScreen as S } from '../types';
 import { Body, ScreenTitle } from './common';
 
@@ -125,7 +125,7 @@ export default function PlanCardScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.lg },
   fields: { gap: space.md },
   field: {
@@ -158,14 +158,15 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.borderStrong,
     paddingHorizontal: space.md,
-    paddingVertical: 6,
+    minHeight: TAP_TARGET,
+    justifyContent: 'center',
   },
   suggestOn: { borderColor: colors.accent, backgroundColor: colors.accentTint },
   suggestText: { ...type.small, color: colors.text },
   stepper: { flexDirection: 'row', gap: space.sm },
   stepperKey: {
     flex: 1,
-    minHeight: TAP_TARGET - 8,
+    minHeight: TAP_TARGET,
     borderRadius: radius.sm,
     borderWidth: 1,
     borderColor: colors.borderStrong,
@@ -174,4 +175,4 @@ const styles = StyleSheet.create({
   },
   stepperText: { ...type.prompt, color: colors.text },
   note: { ...type.small, color: colors.textFaint },
-});
+}));

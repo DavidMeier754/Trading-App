@@ -12,3 +12,6 @@ web-build/
 # Render test (npm run smoke)
 dist-smoke/
 smoke/
+
+# Contact sheets and the measured UI check (npm run sheets)
+sheets/

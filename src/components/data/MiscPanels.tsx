@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Animated, {
   useAnimatedProps,
   useSharedValue,
@@ -9,11 +9,11 @@ import Animated, {
 import Svg, { Circle, G, Line, Path, Rect, Text as SvgText } from 'react-native-svg';
 
 import { PopIn } from '../../lesson/Celebrate';
-import { surfaceStyle, useLookSpec } from '../../lesson/look';
+import { shade, surfaceStyle, useLookSpec } from '../../lesson/look';
 import { EASE_OUT } from '../../lesson/motion';
 import { useReduceMotion } from '../../lesson/useReduceMotion';
 import { signedPercent } from '../../format';
-import { colors, radius, space, type } from '../../theme';
+import { colors, radius, space, type, themed } from '../../theme';
 import { GROW_DELAY } from './GrowBar';
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
@@ -140,12 +140,12 @@ export function HotkeyPad({
 function keyTone(action: string, accent: string): { color: string; edge: string; glyph: string } {
   const a = action.toLowerCase();
   if (a.includes('buy') || a.includes('long'))
-    return { color: colors.up, edge: '#1B7A53', glyph: '▲' };
+    return { color: colors.up, edge: shade(colors.up, 0.4), glyph: '▲' };
   if (a.includes('sell') || a.includes('short'))
-    return { color: colors.down, edge: '#8E2F2C', glyph: '▼' };
+    return { color: colors.down, edge: shade(colors.down, 0.4), glyph: '▼' };
   if (a.includes('flat') || a.includes('cancel'))
-    return { color: colors.warning, edge: '#8A6A1E', glyph: '✕' };
-  return { color: accent, edge: '#2E4A7A', glyph: '⇅' };
+    return { color: colors.warning, edge: shade(colors.warning, 0.4), glyph: '✕' };
+  return { color: accent, edge: shade(accent, 0.4), glyph: '⇅' };
 }
 
 function capitalise(s: string): string {
@@ -244,7 +244,7 @@ export function RTracker({ data }: { data: { trades: number[]; limit: number } }
               stroke={colors.borderStrong}
               strokeWidth={1}
             />
-            <SvgText x={plotW + 6} y={zero + 4} fill={colors.textFaint} fontSize={10}>
+            <SvgText x={plotW + 6} y={zero + 4} fill={colors.textFaint} fontSize={13}>
               0R
             </SvgText>
             <Line
@@ -257,7 +257,7 @@ export function RTracker({ data }: { data: { trades: number[]; limit: number } }
               strokeDasharray="4 3"
               opacity={0.8}
             />
-            <SvgText x={plotW + 6} y={limitY + 4} fill={colors.down} fontSize={10}>
+            <SvgText x={plotW + 6} y={limitY + 4} fill={colors.down} fontSize={13}>
               {`−${data.limit}R`}
             </SvgText>
             {trades.map((r, i) => (
@@ -341,7 +341,7 @@ function RBar({
         x={cx}
         y={up ? to - 4 : to + 11}
         fill={color}
-        fontSize={10}
+        fontSize={13}
         fontWeight="700"
         textAnchor="middle"
       >
@@ -387,7 +387,7 @@ function Row({ label, value, tint }: { label: string; value: string; tint?: stri
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   indexHead: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   card: {
     backgroundColor: colors.surface,
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.sm,
     paddingVertical: 2,
   },
-  tagText: { ...type.small, fontSize: 10 },
+  tagText: { ...type.small },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -435,11 +435,11 @@ const styles = StyleSheet.create({
   },
   keyLabel: { ...type.title, fontFamily: 'monospace', color: colors.text },
   keyActionRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  keyGlyph: { fontSize: 11, lineHeight: 14, fontWeight: '800' },
+  keyGlyph: { fontSize: 13, lineHeight: 16, fontWeight: '800' },
   keyAction: { ...type.label },
   rCard: { paddingVertical: space.md, gap: space.sm },
   rHead: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
   rKicker: { ...type.small, color: colors.textMuted },
   rTotal: { ...type.display },
   rFoot: { ...type.small, color: colors.textMuted },
-});
+}));

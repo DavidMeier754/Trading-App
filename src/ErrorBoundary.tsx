@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { reportError } from './errorReport';
 import { TEST_TOOLS } from './testTools';
-import { colors, radius, space, TAP_TARGET, type } from './theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from './theme';
 
 type Props = {
   children: React.ReactNode;
@@ -84,7 +84,7 @@ export function DebugCrash(): React.ReactNode {
   throw new Error('Test crash from #debug-crash');
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: {
     flex: 1,
     backgroundColor: colors.background,
@@ -99,13 +99,13 @@ const styles = StyleSheet.create({
     marginTop: space.sm,
     minHeight: TAP_TARGET,
     borderRadius: radius.md,
-    backgroundColor: colors.accent,
+    backgroundColor: colors.accentFill,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: space.lg,
   },
   pressed: { opacity: 0.8 },
-  buttonText: { ...type.label, fontSize: 16, color: colors.background },
+  buttonText: { ...type.label, fontSize: 16, color: colors.accentText },
   details: {
     flex: 1,
     gap: space.sm,
@@ -117,4 +117,4 @@ const styles = StyleSheet.create({
   message: { ...type.label, color: colors.down },
   scroll: { flex: 1 },
   stack: { ...type.small, color: colors.textMuted, fontFamily: 'monospace' },
-});
+}));

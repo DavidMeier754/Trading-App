@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { colors, space, type } from '../theme';
+import { colors, space, type, themed } from '../theme';
 import Icon, { IconName } from './icons';
 
 /** A tab that is on the bar but not built yet: Practice and Leaderboard, for now. */
@@ -30,7 +30,7 @@ export default function EmptyTab({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { flex: 1, paddingHorizontal: space.lg },
   title: { ...type.display, color: colors.text },
   center: {
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     height: 88,
     borderRadius: 44,
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
   },
   soon: { ...type.prompt, color: colors.text },
   line: { ...type.body, color: colors.textMuted, textAlign: 'center', maxWidth: 280 },
-});
+}));

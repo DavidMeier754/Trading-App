@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 
@@ -50,7 +45,7 @@ import McScreen from '../screens/McScreen';
 import NumericInputScreen from '../screens/NumericInputScreen';
 import TfScreen from '../screens/TfScreen';
 import TheoryScreen from '../screens/TheoryScreen';
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { Level, QuestionScreen, Screen } from '../types';
 import { isQuestion } from '../types';
 import type { AnswerValue, Grade } from './answers';
@@ -77,7 +72,7 @@ import QuitSheet, { QuitButton } from './QuitSheet';
 import Reveal, { RevealProbe } from './Reveal';
 import { decisionReveal, longestDecisionReveal } from './decisionReveal';
 import LessonComplete from './LessonComplete';
-import { DURATION, EASE_OUT, SPRING_SETTLE, useMotion } from './motion';
+import { DURATION, EASE_OUT, RISE, useMotion } from './motion';
 import { FitScreen, REVEAL_GROWTH } from './fit';
 import { fitScale, fitTop } from './fitState';
 import { dealScreen } from './shuffle';
@@ -307,25 +302,23 @@ export default function LessonPlayer({
   const setValue = (next: AnswerValue) =>
     setValues((prev) => prev.map((v, i) => (i === index ? next : v)));
 
-  // The incoming screen is what gets the beat: it arrives from the right and
-  // fades up while the progress bar fills underneath it. Fading the outgoing
-  // screen out first would buy nothing but a blank frame between two screens.
+  // The incoming screen is what gets the beat: Calm's cross-fade, rising a
+  // few points into place (docs/UI.md §10) while the progress bar fills
+  // underneath it. Going back, it settles down from above instead. Fading the
+  // outgoing screen out first would buy nothing but a blank frame between two
+  // screens. A tap never waits for this: Continue and the answers work from
+  // the first frame, and the next screen restarts the beat.
   useEffect(() => {
-    // The fade is a timing curve; the slide is a no-overshoot spring that keeps
-    // settling after the fade is done. That reads smoother than two timings,
-    // which either land together (abrupt) or drift apart (laggy).
+    const beat = { duration: m.fade(DURATION.screen), easing: EASE_OUT };
     fade.set(0);
-    slide.set(m.travel(36) * direction.current);
-    fade.set(withTiming(1, { duration: m.fade(DURATION.screen), easing: EASE_OUT }));
-    slide.set(m.reduced ? 0 : withSpring(0, SPRING_SETTLE));
+    slide.set(m.travel(RISE.screen) * direction.current);
+    fade.set(withTiming(1, beat));
+    slide.set(m.reduced ? 0 : withTiming(0, beat));
   }, [index, runKey, outOfHearts, fade, slide, m]);
 
-  // The new look adds depth to the same beat: the incoming screen also comes
-  // up from slightly further back, so it arrives rather than slides.
-  const depth = spec.depth && !m.reduced ? 0.035 : 0;
   const screenStyle = useAnimatedStyle(() => ({
     opacity: fade.get(),
-    transform: [{ translateX: slide.get() }, { scale: 1 - depth * (1 - fade.get()) }],
+    transform: [{ translateY: slide.get() }],
   }));
 
   const advance = () => {
@@ -411,15 +404,17 @@ export default function LessonPlayer({
 
   // One press, one cue. Check fires nothing on the way down: the verdict is its
   // sound, on release. A checklist's CTA reveals the next item, which rings its
-  // own note. Everything else that moves the lesson on steps forward.
+  // own note. Everything else that moves the lesson on plays the soft tap of
+  // the lesson's ✕ (stage LOOK-BRIEF, docs/UI.md §10): Continue is pressed on
+  // every screen, so it is the quietest sound there is.
   const ctaCue: CueName | null =
     !screen || outOfHearts
-      ? 'advance'
+      ? 'tick'
       : screen.type === 'checklist-reveal' && cursor < screen.items.length
         ? null
         : isQuestion(screen) && !isRevealed
           ? null
-          : 'advance';
+          : 'tick';
 
   const ctaDisabled =
     !outOfHearts &&
@@ -530,7 +525,6 @@ export default function LessonPlayer({
             accessibilityState={{ disabled: !canGoBack }}
             disabled={!canGoBack}
             onPress={goBack}
-            hitSlop={10}
             style={[styles.close, !canGoBack && styles.backOff]}
           >
             <Text style={styles.backText}>{'‹'}</Text>
@@ -863,7 +857,7 @@ function renderScreen(props: {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   // The backdrop paints the ground now; every container above it is glass.
   root: { flex: 1, backgroundColor: 'transparent' },
   topBar: {
@@ -873,7 +867,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.lg,
     paddingBottom: space.md,
   },
-  close: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
+  // A 48 pt target (docs/UI.md §10) that lays out like a 32 pt one.
+  close: {
+    width: TAP_TARGET,
+    height: TAP_TARGET,
+    margin: -(TAP_TARGET - 32) / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   backText: {
     fontSize: 30,
     lineHeight: 32,
@@ -906,4 +907,4 @@ const styles = StyleSheet.create({
   },
   // The reveal's tint is see-through; over the content area it needs ground.
   revealGround: { backgroundColor: colors.background, borderRadius: radius.md },
-});
+}));

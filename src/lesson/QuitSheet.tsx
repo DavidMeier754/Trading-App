@@ -11,7 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import { tapFeedback } from './feedback';
 import { EASE_OUT, SPRING_POP, usePressFeedback } from './motion';
 import { useReduceMotion } from './useReduceMotion';
@@ -54,7 +54,6 @@ export function QuitButton({ open, onPress }: { open: boolean; onPress: () => vo
         if (!reduced) pressed.set(withSpring(0, SPRING_POP));
       }}
       onPress={onPress}
-      hitSlop={12}
       style={styles.close}
     >
       <Animated.View style={style}>
@@ -72,7 +71,8 @@ export function QuitButton({ open, onPress }: { open: boolean; onPress: () => vo
 }
 
 /**
- * docs/UI.md §2: close ✕ opens "Quit lesson? Progress in this sub-level is lost."
+ * docs/UI.md §2: close ✕ opens "Quit this lesson? Your progress in it is lost."
+ * Staying is the main button, and it comes first; quitting is the quiet one.
  *
  * A sheet inside the lesson's own frame rather than a system modal: it rises
  * from the bottom edge over a scrim that darkens as it comes, and goes back the
@@ -170,20 +170,9 @@ export default function QuitSheet({
         >
           <View style={styles.grabber} />
           <Text style={styles.title} accessibilityRole="header">
-            Quit lesson?
+            Quit this lesson?
           </Text>
-          <Text style={styles.body}>Progress in this sub-level is lost.</Text>
-          <Animated.View style={quit.style}>
-            <Pressable
-              accessibilityRole="button"
-              onPressIn={quit.onPressIn}
-              onPressOut={quit.onPressOut}
-              onPress={onQuit}
-              style={styles.quit}
-            >
-              <Text style={styles.quitText}>Quit</Text>
-            </Pressable>
-          </Animated.View>
+          <Text style={styles.body}>Your progress in it is lost.</Text>
           <Animated.View style={stay.style}>
             <Pressable
               accessibilityRole="button"
@@ -195,15 +184,33 @@ export default function QuitSheet({
               <Text style={styles.stayText}>Keep learning</Text>
             </Pressable>
           </Animated.View>
+          <Animated.View style={quit.style}>
+            <Pressable
+              accessibilityRole="button"
+              onPressIn={quit.onPressIn}
+              onPressOut={quit.onPressOut}
+              onPress={onQuit}
+              style={styles.quit}
+            >
+              <Text style={styles.quitText}>Quit</Text>
+            </Pressable>
+          </Animated.View>
         </Animated.View>
       </GestureDetector>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  close: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
-  scrim: { backgroundColor: 'rgba(0, 0, 0, 0.6)' },
+const styles = themed(() => ({
+  // A 48 pt target (docs/UI.md §10) that lays out like the 32 pt icon it holds.
+  close: {
+    width: TAP_TARGET,
+    height: TAP_TARGET,
+    margin: -(TAP_TARGET - 32) / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scrim: { backgroundColor: colors.scrim },
   sheet: {
     position: 'absolute',
     left: 0,
@@ -228,19 +235,19 @@ const styles = StyleSheet.create({
   },
   title: { ...type.title, color: colors.text },
   body: { ...type.body, color: colors.textMuted },
-  quit: {
-    minHeight: TAP_TARGET,
-    borderRadius: radius.md,
-    backgroundColor: colors.down,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  quitText: { ...type.answer, color: colors.text },
   stay: {
     minHeight: TAP_TARGET,
     borderRadius: radius.md,
+    backgroundColor: colors.accentFill,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  stayText: { ...type.answer, color: colors.accent },
-});
+  stayText: { ...type.answer, color: colors.accentText },
+  quit: {
+    minHeight: TAP_TARGET,
+    borderRadius: radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  quitText: { ...type.answer, color: colors.down },
+}));

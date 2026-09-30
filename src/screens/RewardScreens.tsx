@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { LayoutChangeEvent, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { LayoutChangeEvent, Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
   Easing,
   SharedValue,
@@ -18,7 +18,7 @@ import { copy } from '../format';
 import Confetti from '../lesson/Confetti';
 import { badgeFeedback, pulseAt, tierFeedback, unlockFeedback } from '../lesson/feedback';
 import { EASE_OUT, SPRING_POP, useMotion } from '../lesson/motion';
-import { colors, space, type } from '../theme';
+import { colors, space, type, themed } from '../theme';
 import type { BadgeScreen as Badge, TierUpScreen as TierUp } from '../types';
 
 /** How long one letter of the chapter name takes to type in. */
@@ -283,7 +283,7 @@ function useLightRing(v: SharedValue<number>, reach: number) {
 const BADGE = 152;
 const GLOW = 280;
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   centered: { gap: space.lg },
   badgeSlot: {
     alignSelf: 'center',
@@ -343,4 +343,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tierMeans: { ...type.body, color: colors.textMuted, textAlign: 'center' },
-});
+}));

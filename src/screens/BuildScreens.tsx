@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import MiniChart from '../components/MiniChart';
 import { copy } from '../format';
@@ -8,7 +8,7 @@ import { Arrive, PopIn } from '../lesson/Celebrate';
 import { tapFeedback } from '../lesson/feedback';
 import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import type { Tone } from '../lesson/toneTransition';
-import { colors, radius, space, TAP_TARGET, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type {
   BranchScreen as Branch,
   JournalRowScreen as JournalRow,
@@ -347,7 +347,7 @@ export function BranchScreen({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { gap: space.lg },
   slotList: { gap: space.sm },
   heading: { ...type.label, color: colors.textMuted, textTransform: 'uppercase', letterSpacing: 1 },
@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
   },
   consequenceKicker: {
     ...type.small,
-    fontSize: 11,
+    fontSize: 13,
     color: colors.textFaint,
     textTransform: 'uppercase',
     letterSpacing: 0.8,
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
     paddingLeft: space.md,
     gap: 2,
   },
-  pathStepNum: { ...type.small, fontSize: 10, color: colors.textFaint },
+  pathStepNum: { ...type.small, color: colors.textFaint },
   pathStepChoice: { ...type.answer, color: colors.text },
   pathStepConsequence: { ...type.small, color: colors.textMuted },
-});
+}));

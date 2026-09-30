@@ -16,8 +16,16 @@ import {
   setHapticsSetting,
   subscribeHaptics,
 } from './lesson/haptics';
-import { getLook, Look, LOOKS, setLook, subscribeLook } from './lesson/look';
+import { getLook, isLook, Look, setLook, subscribeLook } from './lesson/look';
 import { isSoundEnabled, setSoundEnabled, subscribeSound } from './lesson/sound';
+import {
+  getThemeMode,
+  isColourBlind,
+  setColourBlind,
+  setThemeMode,
+  subscribeTheme,
+  type ThemeMode,
+} from './theme';
 import {
   getMotionSetting,
   MotionSetting,
@@ -303,6 +311,8 @@ type SavedSettings = {
   haptics?: HapticsSetting;
   sound?: boolean;
   motion?: MotionSetting;
+  theme?: ThemeMode;
+  colourBlind?: boolean;
 };
 
 function save(key: string, value: unknown): void {
@@ -329,7 +339,10 @@ let loaded: Promise<void> | null = null;
  * they change. Called once at start; the app shows its home screen when this
  * settles, so the path never flashes empty before the learner's progress lands.
  */
-export function loadSaved({ restoreLook = true }: { restoreLook?: boolean } = {}): Promise<void> {
+export function loadSaved({
+  restoreLook = true,
+  restoreTheme = true,
+}: { restoreLook?: boolean; restoreTheme?: boolean } = {}): Promise<void> {
   if (loaded) return loaded;
   loaded = (async () => {
     const [savedProgress, settings] = await Promise.all([
@@ -351,7 +364,10 @@ export function loadSaved({ restoreLook = true }: { restoreLook?: boolean } = {}
       listeners.forEach((listener) => listener());
     }
     if (settings) {
-      if (restoreLook && settings.look && settings.look in LOOKS) setLook(settings.look);
+      // A design from before stage LOOK-SYSTEM, when there were nine, falls back to Neo.
+      if (restoreLook) setLook(isLook(settings.look) ? settings.look : 'neo');
+      if (restoreTheme && settings.theme) setThemeMode(settings.theme);
+      if (typeof settings.colourBlind === 'boolean') setColourBlind(settings.colourBlind);
       if (settings.haptics) setHapticsSetting(settings.haptics);
       if (typeof settings.sound === 'boolean') setSoundEnabled(settings.sound);
       if (settings.motion) setMotionSetting(settings.motion);
@@ -362,11 +378,14 @@ export function loadSaved({ restoreLook = true }: { restoreLook?: boolean } = {}
         haptics: getHapticsSetting(),
         sound: isSoundEnabled(),
         motion: getMotionSetting(),
+        theme: getThemeMode(),
+        colourBlind: isColourBlind(),
       } satisfies SavedSettings);
     subscribeLook(saveSettings);
     subscribeHaptics(saveSettings);
     subscribeSound(saveSettings);
     subscribeMotion(saveSettings);
+    subscribeTheme(saveSettings);
   })();
   return loaded;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { BackHandler, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, Pressable, ScrollView, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -18,7 +18,7 @@ import { useReduceMotion } from '../lesson/useReduceMotion';
 import { MAX_HEARTS, useProgress } from '../progress';
 import { BadgeScreen, TierUpScreen } from '../screens/RewardScreens';
 import type { PrototypePage } from '../testTools';
-import { colors, radius, space, type } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { BadgeScreen as Badge, Screen, TierUpScreen as TierUp } from '../types';
 import Icon, { type IconName } from './icons';
 import { rewindUnlock } from './LevelNode';
@@ -283,8 +283,18 @@ function TopBarDemo({ bottom }: { bottom: number }) {
       </View>
       <View style={[styles.demoKeys, { paddingBottom: bottom + space.lg }]}>
         <View style={styles.keyRow}>
-          <Key label="Right" color={colors.success} onPress={() => answer('correct')} />
-          <Key label="Wrong" color={colors.down} onPress={() => answer('wrong')} />
+          <Key
+            label="Right"
+            color={colors.successFill}
+            text={colors.successText}
+            onPress={() => answer('correct')}
+          />
+          <Key
+            label="Wrong"
+            color={colors.dangerFill}
+            text={colors.accentText}
+            onPress={() => answer('wrong')}
+          />
         </View>
         <Pressable accessibilityRole="button" onPress={again} hitSlop={8} style={styles.again}>
           <Text style={styles.againText}>Start again</Text>
@@ -294,7 +304,17 @@ function TopBarDemo({ bottom }: { bottom: number }) {
   );
 }
 
-function Key({ label, color, onPress }: { label: string; color: string; onPress: () => void }) {
+function Key({
+  label,
+  color,
+  text,
+  onPress,
+}: {
+  label: string;
+  color: string;
+  text: string;
+  onPress: () => void;
+}) {
   // The verdict's own sound plays on the press; the key itself stays silent.
   const press = usePressFeedback(true, { cue: null });
   return (
@@ -306,7 +326,7 @@ function Key({ label, color, onPress }: { label: string; color: string; onPress:
         onPress={onPress}
         style={[styles.key, { backgroundColor: color }]}
       >
-        <Text style={styles.keyText}>{label}</Text>
+        <Text style={[styles.keyText, { color: text }]}>{label}</Text>
       </Pressable>
     </Animated.View>
   );
@@ -376,7 +396,7 @@ function Row({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = themed(() => ({
   wrap: { flex: 1 },
   header: {
     flexDirection: 'row',
@@ -385,12 +405,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.lg,
     paddingBottom: space.sm,
   },
+  // A 48 pt target (docs/UI.md §10) laid out as the 36 pt one it replaced.
   back: {
-    width: 36,
-    height: 36,
+    width: TAP_TARGET,
+    height: TAP_TARGET,
+    margin: -(TAP_TARGET - 36) / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: -space.sm,
+    marginLeft: -space.sm - (TAP_TARGET - 36) / 2,
   },
   title: { ...type.title, color: colors.text, flexShrink: 1 },
   content: { paddingHorizontal: space.lg, gap: space.md },
@@ -410,7 +432,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.lg,
     paddingVertical: space.md,
     backgroundColor: colors.surface,
-    borderColor: '#3A4553',
+    borderColor: colors.borderStrong,
     borderWidth: 1.5,
     borderRadius: radius.lg,
   },
@@ -456,7 +478,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  keyText: { ...type.prompt, fontSize: 17, color: '#FFFFFF' },
+  keyText: { ...type.prompt, fontSize: 17 },
   again: { alignSelf: 'center', paddingVertical: space.xs, paddingHorizontal: space.md },
   againText: { ...type.label, color: colors.textMuted },
-});
+}));
