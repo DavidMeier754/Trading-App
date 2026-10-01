@@ -19,9 +19,10 @@ import ts from 'typescript';
  *   keeps that copy, so a change of theme never reaches the worklet. The colour
  *   is read in the component, and the worklet takes the string.
  *
- * A worklet is a function with the 'worklet' directive, or one Reanimated runs
- * as a worklet: useAnimatedStyle's updater, an animation's end callback and the
- * like. Everything inside it counts, the functions nested in it too.
+ * A worklet is a function with the 'worklet' directive, or one Reanimated or
+ * Gesture Handler runs as a worklet: useAnimatedStyle's updater, an animation's
+ * end callback, a pan's onUpdate and the like. Everything inside it counts, the
+ * functions nested in it too.
  */
 
 const SRC = join(__dirname, '..');
@@ -40,6 +41,19 @@ const WORKLET_ARGS = new Map<string, number[]>([
   ['withRepeat', [3]],
   ['runOnUI', [0]],
   ['scheduleOnUI', [0]],
+]);
+/** Gesture Handler's callbacks, worklets on a chain that starts `Gesture.Pan()` or the like. */
+const GESTURE_CALLBACKS = new Set([
+  'onBegin',
+  'onStart',
+  'onUpdate',
+  'onChange',
+  'onEnd',
+  'onFinalize',
+  'onTouchesDown',
+  'onTouchesMove',
+  'onTouchesUp',
+  'onTouchesCancelled',
 ]);
 /** Everything in these is a worklet or made to be called from one. */
 const UI_MODULES = new Set(['react-native-reanimated', 'react-native-worklets']);
@@ -130,13 +144,30 @@ function hasDirective(fn: Fn): boolean {
   return false;
 }
 
-/** The worklets in a file: with the directive, or handed to Reanimated. */
+/** Whether a call hands its function to a gesture: `Gesture.Pan().….onUpdate(fn)`. */
+function onGesture(call: ts.CallExpression): boolean {
+  const callee = call.expression;
+  if (!ts.isPropertyAccessExpression(callee) || !GESTURE_CALLBACKS.has(callee.name.text)) {
+    return false;
+  }
+  let link: ts.Expression = callee.expression;
+  while (ts.isCallExpression(link) && ts.isPropertyAccessExpression(link.expression)) {
+    const start = link.expression.expression;
+    if (ts.isIdentifier(start) && start.text === 'Gesture') return true;
+    link = start;
+  }
+  return false;
+}
+
+/** The worklets in a file: with the directive, or handed to Reanimated or a gesture. */
 function worklets(source: ts.SourceFile): Fn[] {
   const found: Fn[] = [];
   const visit = (node: ts.Node) => {
     if (isFunction(node) && hasDirective(node)) found.push(node);
-    if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) {
-      for (const i of WORKLET_ARGS.get(node.expression.text) ?? []) {
+    if (ts.isCallExpression(node)) {
+      const name = ts.isIdentifier(node.expression) ? node.expression.text : '';
+      const args = onGesture(node) ? [0] : (WORKLET_ARGS.get(name) ?? []);
+      for (const i of args) {
         const arg = node.arguments[i];
         if (arg && isFunction(arg) && !hasDirective(arg)) found.push(arg);
       }
