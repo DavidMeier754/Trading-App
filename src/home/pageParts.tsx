@@ -38,15 +38,17 @@ export function useSlideIn() {
   }));
 }
 
-/** The page's title, with the way back before it. */
+/** The page's title, with the way back before it; a long one may take two lines. */
 export function PageHeader({
   title,
   top,
   onBack,
+  lines = 1,
 }: {
   title: string;
   top: number;
   onBack: () => void;
+  lines?: 1 | 2;
 }) {
   return (
     <View style={[styles.header, { paddingTop: top + space.sm }]}>
@@ -60,7 +62,7 @@ export function PageHeader({
       >
         <Icon name="back" size={24} color={colors.text} />
       </Pressable>
-      <Text style={styles.title} numberOfLines={1}>
+      <Text style={styles.title} numberOfLines={lines}>
         {title}
       </Text>
     </View>

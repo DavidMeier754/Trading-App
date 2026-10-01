@@ -147,12 +147,26 @@ function Stage({ suggestion, onClose }: { suggestion: Suggestion; onClose: () =>
     emitMood('calm');
   }, [take]);
   useEffect(() => () => emitMood('calm'), []);
+  // A preview taller than the room left on a small phone is drawn smaller to
+  // fit, rather than cut off.
+  const [room, setRoom] = useState(0);
+  const [natural, setNatural] = useState(0);
+  const scale = room > 0 && natural > room ? room / natural : 1;
   const { Preview } = suggestion;
   return (
     <View style={pageStyles.wrap}>
-      <PageHeader title={suggestion.title} top={insets.top} onBack={onClose} />
-      <View key={take} style={styles.stage}>
-        <Preview />
+      <PageHeader title={suggestion.title} top={insets.top} onBack={onClose} lines={2} />
+      <View
+        key={take}
+        style={styles.stage}
+        onLayout={(e) => setRoom(e.nativeEvent.layout.height - space.md)}
+      >
+        <View
+          style={[styles.fit, scale < 1 && { transform: [{ scale }] }]}
+          onLayout={(e) => setNatural(e.nativeEvent.layout.height)}
+        >
+          <Preview />
+        </View>
       </View>
       <View
         style={[
@@ -196,6 +210,7 @@ const styles = themed(() => ({
     paddingHorizontal: space.lg,
     overflow: 'hidden',
   },
+  fit: { alignSelf: 'stretch', alignItems: 'center' },
   about: { paddingHorizontal: space.lg, paddingTop: space.sm, gap: space.xs },
   aboutLine: { ...type.body, color: colors.text },
   aboutNote: { ...type.small, color: colors.textMuted },
