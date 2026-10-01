@@ -96,6 +96,9 @@ function Tape({
 }) {
   const p = useFill(target);
   const warm = useWarm(hot);
+  // Read here, not in a worklet: on a phone a worklet keeps the copy of
+  // `colors` it got first, and a change of theme would never reach it.
+  const warning = colors.warning;
   const { w, onLayout } = useTrackWidth();
   // Very long lessons would make cells thinner than their gaps; past that the
   // tape is one run, like the classic bar.
@@ -103,7 +106,7 @@ function Tape({
 
   const clip = useAnimatedStyle(() => ({ width: `${p.get() * 100}%` }));
   const cellColor = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(warm.get(), [0, 1], [spec.accent, colors.warning]),
+    backgroundColor: interpolateColor(warm.get(), [0, 1], [spec.accent, warning]),
   }));
   const cap = useAnimatedStyle(() => ({
     opacity: p.get() > 0.001 && p.get() < 0.999 ? 1 : 0,
@@ -145,6 +148,7 @@ function Bead({ target, hot, spec }: { target: number; hot: boolean; spec: LookS
   const m = useMotion();
   const p = useFill(target, 620);
   const warm = useWarm(hot);
+  const warning = colors.warning; // read here, as in Tape
   const breathe = useSharedValue(0);
   const flare = useSharedValue(0);
   const last = useRef(target);
@@ -168,13 +172,13 @@ function Bead({ target, hot, spec }: { target: number; hot: boolean; spec: LookS
 
   const lit = useAnimatedStyle(() => ({
     width: `${p.get() * 100}%`,
-    backgroundColor: interpolateColor(warm.get(), [0, 1], [spec.accent, colors.warning]),
+    backgroundColor: interpolateColor(warm.get(), [0, 1], [spec.accent, warning]),
   }));
   const bead = useAnimatedStyle(() => {
     const k = 1 + 0.18 * breathe.get() + 0.7 * flare.get();
     return {
       opacity: p.get() > 0.001 ? 1 : 0,
-      backgroundColor: interpolateColor(warm.get(), [0, 1], [spec.spark, colors.warning]),
+      backgroundColor: interpolateColor(warm.get(), [0, 1], [spec.spark, warning]),
       shadowOpacity: 0.55 + 0.35 * breathe.get() + 0.4 * flare.get(),
       transform: [{ translateX: w * p.get() - BEAD / 2 }, { scale: k }],
     };

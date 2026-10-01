@@ -67,10 +67,13 @@ function Choice({
         : colors.accent;
   const spec = useLookSpec();
   const rest = spec.surface.background;
+  // Looked up here: the style below is a worklet, and on a phone a worklet
+  // cannot call a plain function.
+  const border = borderOf(button);
   const state = useAnimatedStyle(() => ({
     opacity: 1 - 0.7 * dim.get(),
     backgroundColor: interpolateColor(lit.get(), [0, 1], [rest, `${tone}33`]),
-    borderColor: interpolateColor(lit.get(), [0, 1], [borderOf(button), tone]),
+    borderColor: interpolateColor(lit.get(), [0, 1], [border, tone]),
   }));
 
   return (
