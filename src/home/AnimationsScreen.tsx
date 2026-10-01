@@ -14,45 +14,43 @@ import { EASE_OUT, usePressFeedback } from '../lesson/motion';
 import OutOfHearts from '../lesson/OutOfHearts';
 import ProgressBar from '../lesson/ProgressBar';
 import StreakMeter from '../lesson/StreakMeter';
+import { StreakLost, StreakUp } from '../lesson/StreakScreens';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { MAX_HEARTS, useProgress } from '../progress';
+import { MAX_HEARTS, streakDays, useProgress } from '../progress';
 import { BadgeScreen, TierUpScreen } from '../screens/RewardScreens';
-import type { PrototypePage } from '../testTools';
-import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
+import { colors, radius, space, type, themed } from '../theme';
 import type { BadgeScreen as Badge, Screen, TierUpScreen as TierUp } from '../types';
 import Icon, { type IconName } from './icons';
 import { rewindUnlock } from './LevelNode';
+import { PageHeader } from './pageParts';
 import { pathView } from './pathState';
 
 /**
  * Settings → Testing → Animations (David, 2026-09-29): the animations that
  * only play in certain moments -- a level opening, a perfect run, a chapter's
  * badge, a lost heart -- played on a tap, as often as wanted, without earning
- * or losing anything. The ones from the mix of stage LOOK-BRIEF (the streak
- * screens) open in the prototype. Test builds only, like the rest of Testing.
+ * or losing anything. Every new animation of a rare moment gets a row here,
+ * such as the streak screens (David, 2026-09-30: "missing from the play rare
+ * animations tab"). Test builds only.
  */
 
-type StageId = 'complete' | 'perfect' | 'badge' | 'tier' | 'run' | 'heart' | 'out';
+type StageId = 'complete' | 'perfect' | 'up' | 'lost' | 'badge' | 'tier' | 'run' | 'heart' | 'out';
 
 const APP: { id: StageId; icon: IconName; title: string; sub: string }[] = [
   { id: 'complete', icon: 'bolt', title: 'Lesson complete', sub: 'The ring, the XP, the confetti' },
   { id: 'perfect', icon: 'star', title: 'Perfect run', sub: 'Every answer right: gold' },
+  {
+    id: 'up',
+    icon: 'flame',
+    title: 'Streak goes up',
+    sub: "The day's goal met: the flame catches",
+  },
+  { id: 'lost', icon: 'calendar', title: 'Streak lost', sub: 'A day missed: the flame goes out' },
   { id: 'badge', icon: 'trophy', title: 'Chapter complete', sub: "The chapter's badge" },
   { id: 'tier', icon: 'shield', title: 'New tier', sub: 'A new rank, after some chapters' },
   { id: 'run', icon: 'flame', title: 'Right answers in a row', sub: 'The flame in the top bar' },
   { id: 'heart', icon: 'heart', title: 'Heart lost', sub: 'A wrong answer costs a heart' },
   { id: 'out', icon: 'heart', title: 'Out of hearts', sub: 'The last heart is gone' },
-];
-
-const MIX: { page: PrototypePage; icon: IconName; title: string; sub: string }[] = [
-  {
-    page: 'streak',
-    icon: 'flame',
-    title: 'Streak goes up',
-    sub: "Full screen, after the day's goal",
-  },
-  { page: 'lost', icon: 'flame', title: 'Streak lost', sub: 'Full screen, after a missed day' },
-  { page: 'complete', icon: 'bolt', title: 'Lesson complete', sub: 'The numbers count up' },
 ];
 
 /** A lesson of eight answers: one missed and one "reasonable", so the ring stops at 88 %. */
@@ -76,12 +74,10 @@ const TIER = SCREENS.find((s): s is TierUp => s.type === 'tier-up');
 export default function AnimationsScreen({
   onBack,
   onShowMap,
-  onOpenPrototype,
 }: {
   onBack: () => void;
   /** Leave for the map, which plays what `rewindUnlock` set up. */
   onShowMap: () => void;
-  onOpenPrototype: (page: PrototypePage) => void;
 }) {
   const insets = useSafeAreaInsets();
   const reduced = useReduceMotion();
@@ -119,6 +115,7 @@ export default function AnimationsScreen({
         title={APP.find((a) => a.id === stage)?.title ?? ''}
         levelTitle={here.next.level.title}
         xp={here.next.level.xp}
+        streak={streakDays(progress)}
         onClose={() => setStage(null)}
       />
     );
@@ -126,7 +123,7 @@ export default function AnimationsScreen({
 
   return (
     <Animated.View style={[styles.wrap, enter]}>
-      <Header title="Animations" top={insets.top} onBack={onBack} />
+      <PageHeader title="Animations" top={insets.top} onBack={onBack} />
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + space.xxl }]}
         showsVerticalScrollIndicator={false}
@@ -157,17 +154,6 @@ export default function AnimationsScreen({
             onPress={() => setStage(a.id)}
           />
         ))}
-
-        <Text style={styles.section}>Your mix</Text>
-        {MIX.map((m) => (
-          <Row
-            key={m.page}
-            icon={m.icon}
-            title={m.title}
-            sub={m.sub}
-            onPress={() => onOpenPrototype(m.page)}
-          />
-        ))}
       </ScrollView>
     </Animated.View>
   );
@@ -179,12 +165,15 @@ function Stage({
   title,
   levelTitle,
   xp,
+  streak,
   onClose,
 }: {
   id: StageId;
   title: string;
   levelTitle: string;
   xp: number;
+  /** The learner's streak today: the streak screens go on from it, or lose it. */
+  streak: number;
   onClose: () => void;
 }) {
   const insets = useSafeAreaInsets();
@@ -211,11 +200,14 @@ function Stage({
   else if (id === 'tier')
     body = TIER ? <TierUpScreen screen={TIER} onSettled={noop} /> : <Missing what="tier" />;
   else if (id === 'out') body = <OutOfHearts />;
+  else if (id === 'up') body = <StreakUp from={streak} to={streak + 1} />;
+  // Nothing to lose yet: a streak of 12 stands in.
+  else if (id === 'lost') body = <StreakLost lost={streak > 0 ? streak : 12} />;
   else body = <TopBarDemo bottom={insets.bottom} />;
 
   return (
     <View style={styles.wrap}>
-      <Header title={title} top={insets.top} onBack={onClose} />
+      <PageHeader title={title} top={insets.top} onBack={onClose} />
       {topBar ? (
         body
       ) : (
@@ -338,26 +330,6 @@ function Missing({ what }: { what: string }) {
 
 function noop() {}
 
-function Header({ title, top, onBack }: { title: string; top: number; onBack: () => void }) {
-  return (
-    <View style={[styles.header, { paddingTop: top + space.sm }]}>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Back"
-        onPressIn={tapFeedback}
-        onPress={onBack}
-        hitSlop={10}
-        style={styles.back}
-      >
-        <Icon name="back" size={24} color={colors.text} />
-      </Pressable>
-      <Text style={styles.title} numberOfLines={1}>
-        {title}
-      </Text>
-    </View>
-  );
-}
-
 function Row({
   icon,
   title,
@@ -398,23 +370,6 @@ function Row({
 
 const styles = themed(() => ({
   wrap: { flex: 1 },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.sm,
-    paddingHorizontal: space.lg,
-    paddingBottom: space.sm,
-  },
-  // A 48 pt target (docs/UI.md §10) laid out as the 36 pt one it replaced.
-  back: {
-    width: TAP_TARGET,
-    height: TAP_TARGET,
-    margin: -(TAP_TARGET - 36) / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -space.sm - (TAP_TARGET - 36) / 2,
-  },
-  title: { ...type.title, color: colors.text, flexShrink: 1 },
   content: { paddingHorizontal: space.lg, gap: space.md },
   section: {
     ...type.label,

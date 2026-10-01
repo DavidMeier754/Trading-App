@@ -134,6 +134,41 @@ export function unlockFeedback(): void {
   cue('unlock');
 }
 
+/** A level's lock shaking loose on its three swings, before `unlockFeedback` (home/LevelNode.tsx). */
+export function rattleFeedback(): void {
+  cue('rattle');
+}
+
+/** Something small landing in place: the START tag over a level that has just opened. */
+export function landFeedback(): void {
+  cue('pop0');
+}
+
+/** A level's check badge landing as the level is finished on the map. */
+export function doneFeedback(): void {
+  cue('pop2');
+}
+
+/** The streak screens (docs/UI.md §7.2): the flame catching, as the streak goes up a day. */
+export function igniteFeedback(): void {
+  cue('ignite');
+}
+
+/** A big number turning over to its next value: the streak's day count. */
+export function flipFeedback(): void {
+  cue('flip');
+}
+
+/** Today's dot in the week filling in. */
+export function dayFeedback(): void {
+  cue('pop3');
+}
+
+/** The flame going out, as a streak is lost: soft and falling, never a scolding. */
+export function fizzleFeedback(): void {
+  cue('fizzle');
+}
+
 export function tierFeedback(): void {
   cue('tier');
 }

@@ -152,11 +152,40 @@ export const CUES = {
       [180, 'light'],
     ] as readonly Pulse[],
   },
+  rattle: {
+    file: require('../../assets/sounds/rattle.wav'),
+    pulses: [
+      [0, 'rigid'],
+      [90, 'light'],
+      [180, 'light'],
+    ] as readonly Pulse[],
+  },
   unlock: {
     file: require('../../assets/sounds/unlock.wav'),
     pulses: [
-      [0, 'light'],
-      [110, 'rigid'],
+      [0, 'rigid'],
+      [100, 'light'],
+      [200, 'medium'],
+    ] as readonly Pulse[],
+  },
+  ignite: {
+    file: require('../../assets/sounds/ignite.wav'),
+    pulses: [
+      [0, 'heavy'],
+      [160, 'light'],
+      [280, 'light'],
+      [400, 'medium'],
+    ] as readonly Pulse[],
+  },
+  flip: {
+    file: require('../../assets/sounds/flip.wav'),
+    pulses: [[0, 'rigid']] as readonly Pulse[],
+  },
+  fizzle: {
+    file: require('../../assets/sounds/fizzle.wav'),
+    pulses: [
+      [0, 'soft'],
+      [500, 'soft'],
     ] as readonly Pulse[],
   },
   tier: {

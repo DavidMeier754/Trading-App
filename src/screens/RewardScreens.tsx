@@ -61,6 +61,9 @@ export function BadgeScreen({ screen, onSettled }: { screen: Badge; onSettled: (
       return;
     }
     const typing = name.length * TYPE_MS;
+    // Read here, on the JS thread: the callback below is a worklet, and a plain
+    // function called from one takes the app down on a phone.
+    const echo = pulseAt('badge', 1);
     drop.set(
       withTiming(1, { duration: 420, easing: Easing.in(Easing.quad) }, (finished) => {
         'worklet';
@@ -73,9 +76,7 @@ export function BadgeScreen({ screen, onSettled }: { screen: Badge; onSettled: (
           ),
         );
         ring1.set(withTiming(1, { duration: 1000, easing: EASE_OUT }));
-        ring2.set(
-          withDelay(pulseAt('badge', 1), withTiming(1, { duration: 1100, easing: EASE_OUT })),
-        );
+        ring2.set(withDelay(echo, withTiming(1, { duration: 1100, easing: EASE_OUT })));
         typed.set(
           withDelay(360, withTiming(name.length, { duration: typing, easing: Easing.linear })),
         );

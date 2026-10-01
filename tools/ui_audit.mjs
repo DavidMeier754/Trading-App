@@ -4,7 +4,9 @@
 //   - small:    text below 13 px (MIN_FONT, src/themeTokens.ts);
 //   - contrast: text below 4.5 : 1 against what is behind it (3 : 1 for large
 //               text: 24 px, or 18.5 px bold);
-//   - target:   a button smaller than 48 x 48 (TAP_TARGET) as laid out.
+//   - target:   a button smaller than 48 x 48 (TAP_TARGET) as laid out;
+//   - key:      a key's label (a view with testID "key") on two lines or cut
+//               off: a key keeps its label on one line (docs/UI.md §10).
 //
 // What is behind a text is found by walking up from it: each ancestor's
 // background is laid over the ones above it until one is opaque. The ground
@@ -140,6 +142,23 @@ export function auditScreen({ minFont, tapTarget, narrow }) {
         kind: 'target',
         detail: `${Math.round(w)} x ${Math.round(h)} "${label(el) || el.getAttribute('aria-label') || ''}"`,
       });
+    }
+  }
+  // Keys: the label stays on one line, whole. On a phone a long label shrinks
+  // to fit (adjustsFontSizeToFit), which a browser does not do, so here it
+  // shows as cut off -- a label that long needs shorter words either way.
+  for (const el of root.querySelectorAll('[data-testid="key"]')) {
+    if (hidden(el) || opacityOf(el) < 0.2) continue;
+    for (const t of el.querySelectorAll('*')) {
+      const own = [...t.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+      if (!own || !t.offsetHeight) continue;
+      const cs = getComputedStyle(t);
+      const line = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.25;
+      if (t.offsetHeight > line * 1.5) {
+        findings.push({ kind: 'key', detail: `two lines "${label(t)}"` });
+      } else if (t.scrollWidth > t.clientWidth + 1) {
+        findings.push({ kind: 'key', detail: `cut off "${label(t)}"` });
+      }
     }
   }
   return findings;

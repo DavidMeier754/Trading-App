@@ -28,7 +28,15 @@ const FLICK = 600;
  * when the learner stays. The glyph is drawn, not typed, so it turns about its
  * true centre in every font.
  */
-export function QuitButton({ open, onPress }: { open: boolean; onPress: () => void }) {
+export function QuitButton({
+  open,
+  onPress,
+  label = 'Close lesson',
+}: {
+  open: boolean;
+  onPress: () => void;
+  label?: string;
+}) {
   const reduced = useReduceMotion();
   const turn = useSharedValue(0);
   const pressed = useSharedValue(0);
@@ -45,7 +53,7 @@ export function QuitButton({ open, onPress }: { open: boolean; onPress: () => vo
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel="Close lesson"
+      accessibilityLabel={label}
       onPressIn={() => {
         tapFeedback();
         if (!reduced) pressed.set(withTiming(1, { duration: 100, easing: EASE_OUT }));
@@ -175,24 +183,30 @@ export default function QuitSheet({
           <Text style={styles.body}>Your progress in it is lost.</Text>
           <Animated.View style={stay.style}>
             <Pressable
+              testID="key"
               accessibilityRole="button"
               onPressIn={stay.onPressIn}
               onPressOut={stay.onPressOut}
               onPress={onCancel}
               style={styles.stay}
             >
-              <Text style={styles.stayText}>Keep learning</Text>
+              <Text style={styles.stayText} numberOfLines={1} adjustsFontSizeToFit>
+                Keep learning
+              </Text>
             </Pressable>
           </Animated.View>
           <Animated.View style={quit.style}>
             <Pressable
+              testID="key"
               accessibilityRole="button"
               onPressIn={quit.onPressIn}
               onPressOut={quit.onPressOut}
               onPress={onQuit}
               style={styles.quit}
             >
-              <Text style={styles.quitText}>Quit</Text>
+              <Text style={styles.quitText} numberOfLines={1} adjustsFontSizeToFit>
+                Quit
+              </Text>
             </Pressable>
           </Animated.View>
         </Animated.View>

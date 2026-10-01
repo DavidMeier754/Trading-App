@@ -151,95 +151,97 @@ export function SortScreen({
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
-      {/* Above the buckets in the stacking order, so a chip dragged down
+      <View style={styles.zone}>
+        {/* Above the buckets in the stacking order, so a chip dragged down
           passes over them rather than under. */}
-      {/* A sorted chip leaves its place behind, empty, so the chips around it
+        {/* A sorted chip leaves its place behind, empty, so the chips around it
           and the buckets under them stay where they were. */}
-      <View style={[styles.chips, styles.chipsOver]}>
-        {screen.items.map((item, i) =>
-          placed[i] !== undefined ? (
-            <View key={item.text} style={[styles.chip, styles.chipGhost]} pointerEvents="none">
-              <Text style={[styles.chipText, styles.ghostText]}>{copy(item.text)}</Text>
-            </View>
-          ) : (
-            <DragChip
-              key={item.text}
-              disabled={revealed}
-              bucketRefs={bucketRefs}
-              hover={hover}
-              dragging={dragging}
-              onDrop={(b) => put(i, screen.buckets[b])}
-            >
-              <ToneSurface
-                tone={pending === i ? 'selected' : 'idle'}
+        <View style={[styles.chips, styles.chipsOver]}>
+          {screen.items.map((item, i) =>
+            placed[i] !== undefined ? (
+              <View key={item.text} style={[styles.chip, styles.chipGhost]} pointerEvents="none">
+                <Text style={[styles.chipText, styles.ghostText]}>{copy(item.text)}</Text>
+              </View>
+            ) : (
+              <DragChip
+                key={item.text}
                 disabled={revealed}
-                onPress={() => {
-                  if (dragging.current) return;
-                  setPending((p) => (p === i ? null : i));
-                }}
-                style={styles.chip}
+                bucketRefs={bucketRefs}
+                hover={hover}
+                dragging={dragging}
+                onDrop={(b) => put(i, screen.buckets[b])}
               >
-                <Text style={styles.chipText}>{copy(item.text)}</Text>
-              </ToneSurface>
-            </DragChip>
-          ),
-        )}
-      </View>
+                <ToneSurface
+                  tone={pending === i ? 'selected' : 'idle'}
+                  disabled={revealed}
+                  onPress={() => {
+                    if (dragging.current) return;
+                    setPending((p) => (p === i ? null : i));
+                  }}
+                  style={styles.chip}
+                >
+                  <Text style={styles.chipText}>{copy(item.text)}</Text>
+                </ToneSurface>
+              </DragChip>
+            ),
+          )}
+        </View>
 
-      <View style={styles.buckets}>
-        {screen.buckets.map((bucket, b) => (
-          <Animated.View
-            key={bucket}
-            ref={bucketRefs[b]}
-            style={styles.bucketSlot}
-            collapsable={false}
-          >
-            <View style={[styles.bucket, pending !== null && !revealed && styles.bucketOpen]}>
-              {/* The whole bucket takes a pending chip -- a tap on a chip
+        <View style={styles.buckets}>
+          {screen.buckets.map((bucket, b) => (
+            <Animated.View
+              key={bucket}
+              ref={bucketRefs[b]}
+              style={styles.bucketSlot}
+              collapsable={false}
+            >
+              <View style={[styles.bucket, pending !== null && !revealed && styles.bucketOpen]}>
+                {/* The whole bucket takes a pending chip -- a tap on a chip
                   already in it included, or a full bucket would have no room
                   left to aim at. With nothing pending, a sorted chip takes
                   its own tap and comes back out. */}
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={`Put it in ${bucket}`}
-                disabled={revealed || pending === null}
-                onPress={() => {
-                  if (pending === null) return;
-                  put(pending, bucket);
-                }}
-                style={StyleSheet.absoluteFill}
-              />
-              <BucketGlow index={b} hover={hover} color={accent} />
-              <Text style={styles.bucketTitle} pointerEvents="none">
-                {copy(bucket)}
-              </Text>
-              <View style={styles.bucketItems} pointerEvents="box-none">
-                {inBucket(bucket).map((i) => {
-                  const item = screen.items[i];
-                  return (
-                    <ToneSurface
-                      key={item.text}
-                      tone={toneFor(i)}
-                      disabled={revealed}
-                      onPress={() => {
-                        if (pending !== null) {
-                          put(pending, bucket);
-                          return;
-                        }
-                        const next = { ...placed };
-                        delete next[i];
-                        onChange({ kind: 'buckets', placed: next });
-                      }}
-                      style={styles.chipSmall}
-                    >
-                      <Text style={styles.chipSmallText}>{copy(item.text)}</Text>
-                    </ToneSurface>
-                  );
-                })}
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={`Put it in ${bucket}`}
+                  disabled={revealed || pending === null}
+                  onPress={() => {
+                    if (pending === null) return;
+                    put(pending, bucket);
+                  }}
+                  style={StyleSheet.absoluteFill}
+                />
+                <BucketGlow index={b} hover={hover} color={accent} />
+                <Text style={styles.bucketTitle} pointerEvents="none">
+                  {copy(bucket)}
+                </Text>
+                <View style={styles.bucketItems} pointerEvents="box-none">
+                  {inBucket(bucket).map((i) => {
+                    const item = screen.items[i];
+                    return (
+                      <ToneSurface
+                        key={item.text}
+                        tone={toneFor(i)}
+                        disabled={revealed}
+                        onPress={() => {
+                          if (pending !== null) {
+                            put(pending, bucket);
+                            return;
+                          }
+                          const next = { ...placed };
+                          delete next[i];
+                          onChange({ kind: 'buckets', placed: next });
+                        }}
+                        style={styles.chipSmall}
+                      >
+                        <Text style={styles.chipSmallText}>{copy(item.text)}</Text>
+                      </ToneSurface>
+                    );
+                  })}
+                </View>
               </View>
-            </View>
-          </Animated.View>
-        ))}
+            </Animated.View>
+          ))}
+        </View>
       </View>
     </View>
   );
@@ -484,6 +486,7 @@ export { AnswerCard };
 
 const styles = themed(() => ({
   wrap: { gap: space.lg },
+  zone: { gap: space.lg },
   sentence: {
     flexDirection: 'row',
     flexWrap: 'wrap',

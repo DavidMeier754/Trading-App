@@ -51,7 +51,7 @@ const SIZES = [
 ];
 const BENCH = 'all-screens';
 /** The home screens, by their test links (src/home/Home.tsx, openHomeAt). */
-const HOME = ['learn', 'account', 'settings', 'animations'];
+const HOME = ['learn', 'account', 'settings', 'design', 'animations', 'suggestions'];
 
 if (!flag('--no-build') || !existsSync(join(dist, 'index.html'))) {
   console.log('Building the web export with the testing tools…');
@@ -195,6 +195,7 @@ const kinds = {
   small: 'Text below 13 px',
   contrast: 'Text below 4.5 : 1',
   target: 'Buttons below 48 x 48',
+  key: 'Key labels not on one line',
 };
 const unique = new Map();
 for (const f of findings) {

@@ -24,7 +24,7 @@ export default function AccountScreen({ onOpenSettings }: { onOpenSettings: () =
         </View>
         <View style={styles.profileText}>
           <Text style={styles.name}>Your profile</Text>
-          <Text style={styles.sub}>Stats and your Trader Card will live here.</Text>
+          <Text style={styles.sub}>Your stats and Trader Card come here.</Text>
         </View>
       </View>
 

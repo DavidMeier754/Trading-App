@@ -82,7 +82,17 @@ function check(where, textColor, ...ground) {
 }
 
 /** Every colour that is used for text. */
-const TEXT = ['text', 'textMuted', 'textFaint', 'accent', 'up', 'down', 'warning', 'success'];
+const TEXT = [
+  'text',
+  'textMuted',
+  'textFaint',
+  'accent',
+  'up',
+  'down',
+  'warning',
+  'gem',
+  'success',
+];
 
 for (const scheme of ['dark', 'light']) {
   for (const cb of [false, true]) {
@@ -136,26 +146,17 @@ for (const [name, step] of Object.entries(tokens.TYPE_SCALE)) {
 }
 if (tokens.TAP_TARGET < 48) failures.push(`TAP_TARGET is ${tokens.TAP_TARGET}, below 48`);
 
-/**
- * Written font sizes in src/: `fontSize: 12` or `fontSize={12}`. A line marked
- * `ui-check: picture` (or the line after it) is exempt: the design picker's miniature of a lesson,
- * drawn to scale and hidden from screen readers. The prototypes of stage
- * LOOK-BRIEF go in its second session.
- */
+/** Written font sizes in src/: `fontSize: 12` or `fontSize={12}`. */
 function sources(dir) {
   return readdirSync(dir).flatMap((name) => {
     const path = join(dir, name);
-    if (statSync(path).isDirectory())
-      return name === 'prototype' || name === '__tests__' ? [] : sources(path);
+    if (statSync(path).isDirectory()) return name === '__tests__' ? [] : sources(path);
     return /\.tsx?$/.test(name) ? [path] : [];
   });
 }
 for (const file of sources(join(root, 'src'))) {
   const lines = readFileSync(file, 'utf8').split('\n');
   lines.forEach((line, i) => {
-    // The marker covers its own line and the one after it (a JSX comment
-    // cannot share a line with the style it marks).
-    if (line.includes('ui-check: picture') || lines[i - 1]?.includes('ui-check: picture')) return;
     for (const m of line.matchAll(/fontSize(?::\s*|=\{)(\d+(?:\.\d+)?)\b/g)) {
       if (Number(m[1]) < MIN)
         failures.push(`${relative(root, file)}:${i + 1}: fontSize ${m[1]}, below ${MIN}`);

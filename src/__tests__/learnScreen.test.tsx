@@ -3,41 +3,40 @@ jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
 
 import React from 'react';
-import { PixelRatio, Text } from 'react-native';
+import { Text } from 'react-native';
 import renderer, { act } from 'react-test-renderer';
 
-import { Kicker, unbroken } from '../home/LearnScreen';
+import { NodeLabel, unbroken } from '../home/LearnScreen';
+import { nodeLabel } from '../home/LevelNode';
+import { chapterViews } from '../home/pathState';
+import { getProgress } from '../progress';
 import Cta from '../lesson/Cta';
 
 const texts = (tree: renderer.ReactTestRenderer) =>
   tree.root.findAllByType(Text).map((t) => [t.props.children].flat().join(''));
 
 describe('the map draws each label once (stage LOOK-BRIEF, David: stray "LE", "LEVE")', () => {
-  it('sets the kicker on one line, and on two whole lines once that wraps', () => {
+  const views = chapterViews(getProgress()).flatMap((c) => c.levels);
+
+  it('labels a level with its title alone, in one text (docs/UI.md §7.1)', () => {
+    const view = views[0];
     let tree!: renderer.ReactTestRenderer;
     act(() => {
-      tree = renderer.create(<Kicker parts={['Level 7', 'New ideas']} right={false} />);
+      tree = renderer.create(<NodeLabel view={view} side="right" room={170} />);
     });
-    // A line of the kicker is 16 pt, times the phone's text size.
-    const line = 16 * PixelRatio.getFontScale();
-    const layout = (width: number, lines: number) =>
-      act(() =>
-        tree.root.findByType(Text).props.onLayout({
-          nativeEvent: { layout: { x: 0, y: 0, width, height: line * lines } },
-        }),
-      );
-    // One text, and no hidden copy beside it.
-    expect(texts(tree)).toEqual(['Level 7 · New ideas']);
-    layout(123, 1);
-    expect(texts(tree)).toEqual(['Level 7 · New ideas']);
-    // Wrapped: "Level 7" and "New ideas" on a line each, still one text.
-    layout(96, 2);
-    expect(texts(tree)).toEqual(['Level 7\nNew ideas']);
-    layout(96, 2);
-    expect(texts(tree)).toEqual(['Level 7\nNew ideas']);
-    // A wider label tries one line again.
-    layout(170, 2);
-    expect(texts(tree)).toEqual(['Level 7 · New ideas']);
+    expect(texts(tree)).toEqual([unbroken(view.level.title)]);
+  });
+
+  it('names a level once to a screen reader (review S9)', () => {
+    const first = views[0];
+    expect(nodeLabel(first)).toBe(
+      `Level ${first.level.number}: ${first.level.title}. 0 of ${first.total} lessons done`,
+    );
+    const checkpoint = views.find((v) => v.level.kind === 'test');
+    expect(checkpoint).toBeDefined();
+    const label = nodeLabel(checkpoint!);
+    expect(label.match(/Checkpoint/g)).toHaveLength(1);
+    expect(label).toMatch(/\. Locked$/);
   });
 
   it('never breaks a title at its hyphen', () => {

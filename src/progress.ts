@@ -55,6 +55,13 @@ export type Progress = {
   today: { date: string; count: number };
   /** Every XP the summaries have handed out, replays included. */
   xp: number;
+  /**
+   * Gems, the in-game currency (docs/UI.md §7.2), shown in the top bar since
+   * David asked for them on 2026-09-30. How they are earned and what they buy
+   * come later (stage LOOP-DAILY, decision U); until then only the testing
+   * tools hand them out.
+   */
+  gems: number;
   /** docs/UI.md §11.4: the path picked after Chapter 1, or null before that. */
   path: TradingPath | null;
   /**
@@ -88,6 +95,7 @@ const fresh = (): Progress => ({
   streak: { days: 0, last: null },
   today: { date: dayOf(new Date()), count: 0 },
   xp: 0,
+  gems: 0,
   path: null,
   wanted: [],
   plan: {},
@@ -261,6 +269,11 @@ export function heartsNow(p: Progress, now = Date.now()): Hearts & { clock: numb
   if (hearts >= MAX_HEARTS) return { hearts, nextAt: null, clock: null };
   const clock = p.heartsAt + back * HEART_REFILL_MS;
   return { hearts, nextAt: clock + HEART_REFILL_MS, clock };
+}
+
+/** Test builds only (docs/UI.md §11.5): gems to see the top bar with, until they are earned. */
+export function addGems(n: number): void {
+  publish({ ...progress, gems: Math.max(0, progress.gems + n) });
 }
 
 /** Test builds only (docs/UI.md §11.5): every heart back at once. */

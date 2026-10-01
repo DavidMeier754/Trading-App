@@ -67,14 +67,18 @@ function Choice({
         : colors.accent;
   const spec = useLookSpec();
   const rest = spec.surface.background;
+  // Looked up here: the style below is a worklet, and on a phone a worklet
+  // cannot call a plain function.
+  const border = borderOf(button);
   const state = useAnimatedStyle(() => ({
     opacity: 1 - 0.7 * dim.get(),
     backgroundColor: interpolateColor(lit.get(), [0, 1], [rest, `${tone}33`]),
-    borderColor: interpolateColor(lit.get(), [0, 1], [borderOf(button), tone]),
+    borderColor: interpolateColor(lit.get(), [0, 1], [border, tone]),
   }));
 
   return (
     <Pressable
+      testID="key"
       accessibilityRole="button"
       accessibilityState={{ disabled: locked, selected: chosen === button }}
       disabled={locked}
@@ -95,7 +99,10 @@ function Choice({
           press.style,
         ]}
       >
-        <Text style={styles.text}>{DECISION_LABEL[button]}</Text>
+        {/* docs/UI.md §10: a key's label stays on one line and shrinks to fit. */}
+        <Text style={styles.text} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
+          {DECISION_LABEL[button]}
+        </Text>
       </Animated.View>
     </Pressable>
   );

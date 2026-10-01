@@ -1,46 +1,26 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { BackHandler, Platform, Pressable, ScrollView, Text, View } from 'react-native';
-import Animated, {
-  FadeIn,
-  SharedValue,
-  useAnimatedReaction,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSequence,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
+import React, { useState } from 'react';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { scheduleOnRN } from 'react-native-worklets';
 
-import { detentFeedback, tapFeedback } from '../lesson/feedback';
+import { tapFeedback } from '../lesson/feedback';
 import { HapticsSetting, setHapticsSetting, useHapticsSetting } from '../lesson/haptics';
-import { Look, LOOKS, setLook, useLook } from '../lesson/look';
-import { EASE_OUT, SPRING_POP, usePressFeedback } from '../lesson/motion';
+import { LOOKS, useChosenLook } from '../lesson/look';
+import { usePressFeedback } from '../lesson/motion';
 import { setSoundEnabled, useSoundEnabled } from '../lesson/sound';
-import {
-  MotionSetting,
-  setMotionSetting,
-  useMotionSetting,
-  useReduceMotion,
-} from '../lesson/useReduceMotion';
-import { chaptersFor, PathLevel, PATHS } from '../content';
+import { MotionSetting, setMotionSetting, useMotionSetting } from '../lesson/useReduceMotion';
+import { PATHS } from '../content';
 import { WantSwing } from '../screens/StaticScreens';
 import {
   choosePath,
   doneToday,
   heartsNow,
   MAX_HEARTS,
-  refillHearts,
   resetProgress,
-  skipTo,
   streakDays,
-  useHearts,
   useProgress,
-  waitText,
 } from '../progress';
-import { TEST_TOOLS, type PrototypePage } from '../testTools';
+import { TEST_TOOLS } from '../testTools';
 import {
   colors,
   radius,
@@ -54,86 +34,69 @@ import {
   type ThemeMode,
   TAP_TARGET,
 } from '../theme';
-import Icon, { type IconName } from './icons';
+import Icon from './icons';
 import { forgetShownPath } from './LevelNode';
-import LookPreview from './LookPreview';
-import { pathView, totalXp } from './pathState';
-
-const ORDER = Object.keys(LOOKS) as Look[];
-const IS_WEB = Platform.OS === 'web';
+import TestingTools from './TestingTools';
+import {
+  PageHeader,
+  pageStyles,
+  RowButton,
+  rowStyles,
+  useBackButton,
+  useSlideIn,
+} from './pageParts';
+import { totalXp } from './pathState';
 
 /**
- * Settings (docs/UI.md §11.5), opened from Account. The lesson's design is
- * picked by swiping through previews of each one; the rest are the toggles the
- * lesson already reads -- haptics, sound, motion -- starting over, and the
- * test bench.
+ * Settings (docs/UI.md §11.5), opened from Account: the design, which opens
+ * full screen on a lesson to be chosen (ChangeDesign.tsx), the theme, the
+ * toggles the lesson reads -- haptics, sound, motion -- the path, starting
+ * over, and in test builds the testing tools (TestingTools.tsx).
  */
 export default function SettingsScreen({
-  width,
   onBack,
+  onOpenDesign,
   onOpenBench,
-  onOpenPrototype,
   onOpenAnimations,
+  onOpenSuggestions,
 }: {
-  width: number;
   onBack: () => void;
+  /** Change design: each look full screen on a lesson (ChangeDesign.tsx). */
+  onOpenDesign: () => void;
+  /** Test builds: the lesson with every screen type. */
   onOpenBench: () => void;
-  /** Test builds: the design prototype, or with 'suggestions' its page of design ideas. */
-  onOpenPrototype: (page?: PrototypePage) => void;
-  /** Test builds: the page that plays the animations of rare moments (AnimationsScreen). */
+  /** Test builds: the Animations page. */
   onOpenAnimations: () => void;
+  /** Test builds: the Design suggestions page. */
+  onOpenSuggestions: () => void;
 }) {
   const insets = useSafeAreaInsets();
-  const reduced = useReduceMotion();
   const haptics = useHapticsSetting();
   const sound = useSoundEnabled();
   const motion = useMotionSetting();
   const theme = useThemeMode();
   const colourBlind = useColourBlind();
-
-  // Android's back button leaves Settings, as the arrow does, rather than the app.
-  useEffect(() => {
-    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      onBack();
-      return true;
-    });
-    return () => sub.remove();
-  }, [onBack]);
-
-  // Pushed in from the right, the way a settings page arrives.
-  const t = useSharedValue(reduced ? 1 : 0);
-  useEffect(() => {
-    if (!reduced) t.set(withTiming(1, { duration: 260, easing: EASE_OUT }));
-  }, [reduced, t]);
-  const enter = useAnimatedStyle(() => ({
-    opacity: t.get(),
-    transform: [{ translateX: (1 - t.get()) * 28 }],
-  }));
+  const look = useChosenLook();
+  useBackButton(onBack);
+  const enter = useSlideIn();
 
   return (
-    <Animated.View style={[styles.wrap, enter]}>
-      <View style={[styles.header, { paddingTop: insets.top + space.sm }]}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Back"
-          onPressIn={tapFeedback}
-          onPress={onBack}
-          hitSlop={10}
-          style={styles.back}
-        >
-          <Icon name="back" size={24} color={colors.text} />
-        </Pressable>
-        <Text style={styles.title}>Settings</Text>
-      </View>
+    <Animated.View style={[pageStyles.wrap, enter]}>
+      <PageHeader title="Settings" top={insets.top} onBack={onBack} />
 
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + space.xxl }]}
+        contentContainerStyle={[pageStyles.content, { paddingBottom: insets.bottom + space.xxl }]}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.section}>Lesson design</Text>
-        <DesignPicker width={width} />
+        <Text style={pageStyles.section}>Design</Text>
+        <RowButton
+          icon="monitor"
+          title="Change design"
+          sub={LOOKS[look].name}
+          onPress={onOpenDesign}
+        />
 
-        <Text style={styles.section}>Appearance</Text>
+        <Text style={pageStyles.section}>Appearance</Text>
         <View style={styles.panel}>
           <Segmented<ThemeMode>
             label="Theme"
@@ -146,7 +109,7 @@ export default function SettingsScreen({
             ]}
           />
           <Segmented<boolean>
-            label="Colour-blind colours (blue and orange)"
+            label="Colour-blind colours"
             value={colourBlind}
             onChange={setColourBlind}
             options={[
@@ -156,7 +119,7 @@ export default function SettingsScreen({
           />
         </View>
 
-        <Text style={styles.section}>Feel</Text>
+        <Text style={pageStyles.section}>Feel</Text>
         <View style={styles.panel}>
           <Segmented<HapticsSetting>
             label="Haptics"
@@ -189,222 +152,22 @@ export default function SettingsScreen({
           />
         </View>
 
-        <Text style={styles.section}>Your path</Text>
+        <Text style={pageStyles.section}>Your path</Text>
         <PathRow />
 
-        <Text style={styles.section}>Progress</Text>
+        <Text style={pageStyles.section}>Progress</Text>
         <ResetRow />
 
-        {TEST_TOOLS && (
-          <>
-            <Text style={styles.section}>Testing</Text>
-            <HeartsRow />
-            <SkipRow />
-            <RowButton
-              icon="flask"
-              title="Every screen type"
-              sub="Open the all-screens test level"
-              onPress={onOpenBench}
-            />
-            <RowButton
-              icon="play"
-              title="Animations"
-              sub="Play the ones that only come in certain moments"
-              onPress={onOpenAnimations}
-            />
-            <RowButton
-              icon="flask"
-              title="Design directions"
-              sub="Your mix and the three directions of stage LOOK-BRIEF, full screen"
-              onPress={() => onOpenPrototype()}
-            />
-            <RowButton
-              icon="flask"
-              title="Design suggestions"
-              sub="Ideas for the look, and which ones are in your mix"
-              onPress={() => onOpenPrototype('suggestions')}
-            />
-          </>
-        )}
+        {TEST_TOOLS ? (
+          <TestingTools
+            onOpenBench={onOpenBench}
+            onOpenAnimations={onOpenAnimations}
+            onOpenSuggestions={onOpenSuggestions}
+          />
+        ) : null}
       </ScrollView>
     </Animated.View>
   );
-}
-
-// ---------------------------------------------------------------------------
-// The design picker
-// ---------------------------------------------------------------------------
-
-/**
- * Every look as a lesson in miniature, side by side: swipe left and right to
- * see them, and the one in the middle is named underneath. Picking is a
- * separate press, so a swipe past a design never changes it by accident.
- * docs/UI.md §10 wants a tap alternative to every drag: the arrows either side
- * of the dots step through them too.
- */
-function DesignPicker({ width }: { width: number }) {
-  const active = useLook();
-  const cardW = Math.round(Math.min(210, width * 0.56));
-  const gap = space.lg;
-  const step = cardW + gap;
-  const side = (width - cardW) / 2;
-
-  const scroll = useRef<Animated.ScrollView | null>(null);
-  const x = useSharedValue(ORDER.indexOf(active) * step);
-  const [focus, setFocus] = useState(ORDER.indexOf(active));
-
-  const scrollTo = useCallback(
-    (i: number, animated = true) => {
-      const k = Math.max(0, Math.min(ORDER.length - 1, i));
-      (scroll.current as unknown as ScrollView | null)?.scrollTo({ x: k * step, animated });
-    },
-    [step],
-  );
-
-  // Open on the look in use.
-  const placed = useRef(false);
-  const onLayout = () => {
-    if (placed.current) return;
-    placed.current = true;
-    scrollTo(ORDER.indexOf(active), false);
-  };
-
-  // Native scroll views snap on their own. A browser's reports no end to a
-  // swipe, so there every scroll re-arms a short timer and the row is nudged
-  // onto the nearest card once it has been still for a moment.
-  const idle = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const settleWeb = useCallback(() => {
-    if (idle.current) clearTimeout(idle.current);
-    idle.current = setTimeout(() => {
-      const i = Math.round(x.get() / step);
-      if (Math.abs(x.get() - i * step) > 1) scrollTo(i);
-    }, 140);
-  }, [x, step, scrollTo]);
-  const onScroll = useAnimatedScrollHandler((e) => {
-    x.set(e.contentOffset.x);
-    if (IS_WEB) scheduleOnRN(settleWeb);
-  });
-
-  // The name underneath follows the card in the middle as it passes, and the
-  // hand feels each one settle into place.
-  const onFocus = useCallback((i: number) => {
-    setFocus(i);
-    detentFeedback();
-  }, []);
-  useAnimatedReaction(
-    () => Math.max(0, Math.min(ORDER.length - 1, Math.round(x.get() / step))),
-    (i, prev) => {
-      if (prev !== null && i !== prev) scheduleOnRN(onFocus, i);
-    },
-    [step, onFocus],
-  );
-
-  const spec = LOOKS[ORDER[focus]];
-  const inUse = ORDER[focus] === active;
-  const use = usePressFeedback(!inUse, { cue: 'tick' });
-
-  return (
-    <View style={styles.picker}>
-      <Animated.ScrollView
-        ref={scroll}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={step}
-        decelerationRate="fast"
-        disableIntervalMomentum
-        onScroll={onScroll}
-        scrollEventThrottle={16}
-        onLayout={onLayout}
-        style={{ marginHorizontal: -space.lg }}
-        contentContainerStyle={{ paddingHorizontal: side, paddingTop: 12, gap }}
-      >
-        {ORDER.map((id, i) => (
-          <Slot key={id} index={i} x={x} step={step}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`${LOOKS[id].name} preview`}
-              onPress={() => scrollTo(i)}
-            >
-              <LookPreview id={id} width={cardW} />
-              {id === active ? (
-                <View style={styles.inUseTag}>
-                  <Icon name="check" size={12} color={colors.successText} strokeWidth={3} />
-                  <Text style={styles.inUseText}>In use</Text>
-                </View>
-              ) : null}
-            </Pressable>
-          </Slot>
-        ))}
-      </Animated.ScrollView>
-
-      <View style={styles.pagerRow}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Previous design"
-          onPress={() => scrollTo(focus - 1)}
-          hitSlop={10}
-          style={[styles.arrow, focus === 0 && styles.arrowOff]}
-        >
-          <Icon name="back" size={18} color={colors.textMuted} />
-        </Pressable>
-        <View style={styles.dots}>
-          {ORDER.map((id, i) => (
-            <View key={id} style={[styles.dot, i === focus && styles.dotOn]} />
-          ))}
-        </View>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Next design"
-          onPress={() => scrollTo(focus + 1)}
-          hitSlop={10}
-          style={[styles.arrow, focus === ORDER.length - 1 && styles.arrowOff]}
-        >
-          <Icon name="next" size={18} color={colors.textMuted} />
-        </Pressable>
-      </View>
-
-      <View style={styles.lookText}>
-        <Text style={styles.lookName}>{spec.name}</Text>
-        <Text style={styles.lookBlurb}>{spec.blurb}</Text>
-      </View>
-
-      <Animated.View style={use.style}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityState={{ disabled: inUse }}
-          disabled={inUse}
-          onPressIn={use.onPressIn}
-          onPressOut={use.onPressOut}
-          onPress={() => setLook(ORDER[focus])}
-          style={[styles.useButton, inUse && styles.useButtonOff]}
-        >
-          {inUse ? <Icon name="check" size={18} color={colors.success} strokeWidth={3} /> : null}
-          <Text style={[styles.useText, inUse && { color: colors.success }]}>
-            {inUse ? 'This design is in use' : 'Use this design'}
-          </Text>
-        </Pressable>
-      </Animated.View>
-    </View>
-  );
-}
-
-/** A card in the row: full size in the middle, stepping back as it moves aside. */
-function Slot({
-  index,
-  x,
-  step,
-  children,
-}: {
-  index: number;
-  x: SharedValue<number>;
-  step: number;
-  children: React.ReactNode;
-}) {
-  const style = useAnimatedStyle(() => {
-    const d = Math.min(1, Math.abs(x.get() / step - index));
-    return { opacity: 1 - 0.5 * d, transform: [{ scale: 1 - 0.09 * d }] };
-  });
-  return <Animated.View style={style}>{children}</Animated.View>;
 }
 
 // ---------------------------------------------------------------------------
@@ -446,40 +209,6 @@ function Segmented<T>({
   );
 }
 
-function RowButton({
-  icon,
-  title,
-  sub,
-  onPress,
-}: {
-  icon: IconName;
-  title: string;
-  sub: string;
-  onPress: () => void;
-}) {
-  const press = usePressFeedback(true, { cue: 'tick' });
-  return (
-    <Animated.View style={press.style}>
-      <Pressable
-        accessibilityRole="button"
-        onPressIn={press.onPressIn}
-        onPressOut={press.onPressOut}
-        onPress={onPress}
-        style={styles.row}
-      >
-        <View style={styles.rowIcon}>
-          <Icon name={icon} size={22} color={colors.accent} />
-        </View>
-        <View style={styles.rowText}>
-          <Text style={styles.rowTitle}>{title}</Text>
-          <Text style={styles.rowSub}>{sub}</Text>
-        </View>
-        <Icon name="next" size={20} color={colors.textFaint} />
-      </Pressable>
-    </Animated.View>
-  );
-}
-
 /**
  * docs/UI.md §11.4: the path chosen after Chapter 1, changeable here. Before
  * Chapter 1 is finished there is nothing to change yet, and it says so.
@@ -511,164 +240,13 @@ function PathRow() {
           })}
         </View>
       ) : null}
-      <Text style={styles.rowSub}>
+      <Text style={rowStyles.rowSub}>
         {chosen
-          ? "Day Trading and Swing Trading are being written, and both come before the app's release. What you finish on one path stays when you switch."
-          : 'You choose your path at the end of Chapter 1. It can be changed here after that.'}
+          ? 'Day Trading and Swing Trading come before the release. Your progress stays when you switch.'
+          : 'You choose it after Chapter 1.'}
       </Text>
       <WantSwing />
     </View>
-  );
-}
-
-/**
- * Temporary, for testing: jump ahead to any level. Everything before it counts
- * as done, with its XP; the level itself and what comes after are left as they
- * are. Past Chapter 1 the path is set to Scalping, the one that is written.
- */
-function SkipRow() {
-  const progress = useProgress();
-  const [open, setOpen] = useState(false);
-  const [landed, setLanded] = useState<string | null>(null);
-  const chapters = chaptersFor(progress.path ?? 'scalping');
-  const press = usePressFeedback(true, { cue: 'tick' });
-  const views = pathView(progress);
-  const here = views.find((v) => v.status === 'current');
-  const turn = useSharedValue(0);
-  useEffect(() => {
-    turn.set(withTiming(open ? 1 : 0, { duration: 200, easing: EASE_OUT }));
-  }, [open, turn]);
-  const chevron = useAnimatedStyle(() => ({ transform: [{ rotate: `${180 * turn.get()}deg` }] }));
-
-  return (
-    <View style={styles.skipCard}>
-      <Animated.View style={press.style}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityState={{ expanded: open }}
-          onPressIn={press.onPressIn}
-          onPressOut={press.onPressOut}
-          onPress={() => setOpen((o) => !o)}
-          style={styles.resetHead}
-        >
-          <View style={styles.rowIcon}>
-            <Icon name="next" size={22} color={colors.accent} />
-          </View>
-          <View style={styles.rowText}>
-            <Text style={styles.rowTitle}>Skip ahead</Text>
-            <Text style={styles.rowSub}>
-              {landed ??
-                (here
-                  ? `You are on ${labelOf(here.level)}. Pick a level to jump to.`
-                  : 'Pick a level to jump to.')}
-            </Text>
-          </View>
-          <Animated.View style={chevron}>
-            <Icon name="chevron-down" size={20} color={colors.textMuted} strokeWidth={2.4} />
-          </Animated.View>
-        </Pressable>
-      </Animated.View>
-      {open ? (
-        <Animated.View entering={FadeIn.duration(180)} style={styles.skipList}>
-          {chapters.map((chapter) => (
-            <View key={chapter.number} style={styles.skipChapter}>
-              <Text
-                style={styles.skipChapterTitle}
-              >{`Chapter ${chapter.number} · ${chapter.title}`}</Text>
-              {chapter.levels.map((level) => {
-                const view = views.find((v) => v.level.key === level.key);
-                const status = view?.status ?? 'locked';
-                return (
-                  <Pressable
-                    key={level.key}
-                    accessibilityRole="button"
-                    accessibilityLabel={`Skip to ${labelOf(level)}: ${level.title}`}
-                    onPressIn={tapFeedback}
-                    onPress={() => {
-                      skipTo(level.key);
-                      forgetShownPath();
-                      setLanded(
-                        `Jumped to ${labelOf(level)}. Everything before it counts as done.`,
-                      );
-                      setOpen(false);
-                    }}
-                    style={({ pressed }) => [styles.skipItem, pressed && styles.skipItemPressed]}
-                  >
-                    <Text style={styles.skipNum}>
-                      {level.kind === 'path' ? '→' : String(level.number)}
-                    </Text>
-                    <Text style={styles.skipTitle} numberOfLines={1}>
-                      {level.title}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.skipState,
-                        status === 'complete' && { color: colors.success },
-                        status === 'current' && { color: colors.accent },
-                      ]}
-                    >
-                      {status === 'complete' ? 'Done' : status === 'current' ? 'Here' : ''}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-          ))}
-        </Animated.View>
-      ) : null}
-    </View>
-  );
-}
-
-/** "Level 4", "Checkpoint 5", "the path choice" -- a level named in a sentence. */
-function labelOf(level: PathLevel): string {
-  if (level.kind === 'path') return 'the path choice';
-  const where = level.chapter > 1 ? `Chapter ${level.chapter}, ` : '';
-  return `${where}Level ${level.number}`;
-}
-
-/**
- * Temporary, while hearts are being tried out: every heart back in one tap,
- * without waiting out the four hours. Goes when the refill rules settle.
- */
-function HeartsRow() {
-  const { hearts, nextAt } = useHearts();
-  const full = hearts >= MAX_HEARTS;
-  const press = usePressFeedback(!full, { cue: 'tick' });
-  const pop = useSharedValue(1);
-  const popStyle = useAnimatedStyle(() => ({ transform: [{ scale: pop.get() }] }));
-  return (
-    <Animated.View style={press.style}>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityState={{ disabled: full }}
-        disabled={full}
-        onPressIn={press.onPressIn}
-        onPressOut={press.onPressOut}
-        onPress={() => {
-          refillHearts();
-          pop.set(
-            withSequence(
-              withTiming(1.3, { duration: 120, easing: EASE_OUT }),
-              withSpring(1, SPRING_POP),
-            ),
-          );
-        }}
-        style={styles.row}
-      >
-        <Animated.View style={[styles.rowIcon, { backgroundColor: colors.downTint }, popStyle]}>
-          <Icon name="heart" size={22} color={colors.down} />
-        </Animated.View>
-        <View style={styles.rowText}>
-          <Text style={[styles.rowTitle, full && { color: colors.textMuted }]}>Refill hearts</Text>
-          <Text style={styles.rowSub}>
-            {full
-              ? `All ${MAX_HEARTS} hearts are here. Temporary, for testing.`
-              : `${hearts} of ${MAX_HEARTS}${nextAt ? ` · next one in ${waitText(nextAt)}` : ''}. Tap to fill them now.`}
-          </Text>
-        </View>
-      </Pressable>
-    </Animated.View>
   );
 }
 
@@ -728,19 +306,22 @@ function ResetRow() {
         style={styles.resetHead}
       >
         <View
-          style={[styles.rowIcon, { backgroundColor: empty ? colors.surfaceAlt : colors.downTint }]}
+          style={[
+            rowStyles.rowIcon,
+            { backgroundColor: empty ? colors.surfaceAlt : colors.downTint },
+          ]}
         >
           <Icon name="reset" size={22} color={empty ? colors.textFaint : colors.down} />
         </View>
-        <View style={styles.rowText}>
-          <Text style={[styles.rowTitle, { color: empty ? colors.textMuted : colors.down }]}>
+        <View style={rowStyles.rowText}>
+          <Text style={[rowStyles.rowTitle, { color: empty ? colors.textMuted : colors.down }]}>
             {confirming ? 'Start over from Level 1?' : 'Reset progress'}
           </Text>
-          <Text style={styles.rowSub}>
+          <Text style={rowStyles.rowSub}>
             {confirming
               ? `${lost} Your settings stay.`
               : stage === 'done'
-                ? 'Progress reset. The path starts again at Level 1.'
+                ? 'Done. You start again at Level 1.'
                 : empty
                   ? 'Nothing to reset yet.'
                   : had}
@@ -772,82 +353,6 @@ function ResetRow() {
 }
 
 const styles = themed(() => ({
-  wrap: { flex: 1 },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.sm,
-    paddingHorizontal: space.lg,
-    paddingBottom: space.sm,
-  },
-  // A 48 pt target (docs/UI.md §10) laid out as the 36 pt one it replaced.
-  back: {
-    width: TAP_TARGET,
-    height: TAP_TARGET,
-    margin: -(TAP_TARGET - 36) / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: -space.sm - (TAP_TARGET - 36) / 2,
-  },
-  title: { ...type.title, color: colors.text },
-  content: { paddingHorizontal: space.lg, gap: space.md },
-  section: {
-    ...type.label,
-    color: colors.textMuted,
-    textTransform: 'uppercase',
-    letterSpacing: 1.2,
-    marginTop: space.md,
-  },
-
-  picker: { gap: space.md },
-  // On the card's top edge, over its border, clear of the preview inside.
-  inUseTag: {
-    position: 'absolute',
-    top: -9,
-    alignSelf: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: colors.successFill,
-    borderRadius: radius.pill,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-  },
-  inUseText: { ...type.small, color: colors.successText, fontWeight: '700' },
-  pagerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.md },
-  arrow: {
-    width: TAP_TARGET,
-    height: TAP_TARGET,
-    borderRadius: TAP_TARGET / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  arrowOff: { opacity: 0.35 },
-  dots: { flexDirection: 'row', gap: 6 },
-  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.surfaceAlt },
-  dotOn: { width: 16, backgroundColor: colors.accent },
-  lookText: { alignItems: 'center', gap: 2, minHeight: 46 },
-  lookName: { ...type.prompt, color: colors.text },
-  lookBlurb: { ...type.small, color: colors.textMuted, textAlign: 'center', maxWidth: 300 },
-  useButton: {
-    height: 50,
-    borderRadius: radius.md,
-    backgroundColor: colors.accentFill,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: space.sm,
-  },
-  useButtonOff: {
-    backgroundColor: colors.successTint,
-    borderWidth: 1.5,
-    borderColor: colors.success,
-  },
-  useText: { ...type.prompt, fontSize: 17, color: colors.accentText },
-
   panel: {
     backgroundColor: colors.surface,
     borderColor: colors.borderStrong,
@@ -876,63 +381,6 @@ const styles = themed(() => ({
   segText: { ...type.label, color: colors.textMuted },
   segTextOn: { color: colors.text },
 
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.md,
-    minHeight: 60,
-    paddingHorizontal: space.lg,
-    paddingVertical: space.md,
-    backgroundColor: colors.surface,
-    borderColor: colors.borderStrong,
-    borderWidth: 1.5,
-    borderRadius: radius.lg,
-  },
-  rowIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: 10,
-    backgroundColor: colors.accentTint,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  rowText: { flex: 1, gap: 2 },
-
-  skipCard: {
-    backgroundColor: colors.surface,
-    borderColor: colors.borderStrong,
-    borderWidth: 1.5,
-    borderRadius: radius.lg,
-    overflow: 'hidden',
-  },
-  skipList: { paddingHorizontal: space.md, paddingBottom: space.md, gap: space.md },
-  skipChapter: { gap: 2 },
-  skipChapterTitle: {
-    ...type.small,
-    color: colors.textMuted,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: space.xs,
-    marginLeft: space.sm,
-  },
-  skipItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.md,
-    minHeight: 44,
-    paddingHorizontal: space.sm,
-    borderRadius: radius.md,
-  },
-  skipItemPressed: { backgroundColor: colors.surfaceAlt },
-  skipNum: {
-    ...type.label,
-    color: colors.textFaint,
-    width: 22,
-    textAlign: 'right',
-    fontVariant: ['tabular-nums'],
-  },
-  skipTitle: { ...type.answer, color: colors.text, flex: 1 },
-  skipState: { ...type.small, color: colors.textFaint, width: 40, textAlign: 'right' },
   resetCard: {
     backgroundColor: colors.surface,
     borderColor: colors.borderStrong,
@@ -956,7 +404,7 @@ const styles = themed(() => ({
   },
   confirmButton: {
     flex: 1,
-    height: 46,
+    height: TAP_TARGET,
     borderRadius: radius.md,
     alignItems: 'center',
     justifyContent: 'center',
@@ -969,6 +417,4 @@ const styles = themed(() => ({
   keepText: { ...type.prompt, fontSize: 16, color: colors.text },
   resetButton: { backgroundColor: colors.dangerFill },
   resetText: { ...type.prompt, fontSize: 16, color: colors.accentText },
-  rowTitle: { ...type.answer, color: colors.text, fontWeight: '700' },
-  rowSub: { ...type.small, color: colors.textMuted },
 }));

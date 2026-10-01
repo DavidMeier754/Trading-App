@@ -20,16 +20,12 @@ const METRICS = {
 
 const mounted: renderer.ReactTestRenderer[] = [];
 
-function renderPage(onShowMap = jest.fn(), onOpenPrototype = jest.fn()) {
+function renderPage(onShowMap = jest.fn()) {
   let tree!: renderer.ReactTestRenderer;
   act(() => {
     tree = renderer.create(
       <SafeAreaProvider initialMetrics={METRICS}>
-        <AnimationsScreen
-          onBack={() => {}}
-          onShowMap={onShowMap}
-          onOpenPrototype={onOpenPrototype}
-        />
+        <AnimationsScreen onBack={() => {}} onShowMap={onShowMap} />
       </SafeAreaProvider>,
     );
   });
@@ -89,25 +85,38 @@ describe('Settings → Testing → Animations (David, 2026-09-29)', () => {
     expect(shownStatusOf(second.key)).toBe('locked');
   });
 
-  it("opens the mix's streak screens in the prototype", () => {
-    const onOpenPrototype = jest.fn();
-    const tree = renderPage(jest.fn(), onOpenPrototype);
-    act(() => button(tree, 'Streak goes up').props.onPress());
-    act(() => button(tree, 'Streak lost').props.onPress());
-    expect(onOpenPrototype.mock.calls).toEqual([['streak'], ['lost']]);
+  it.each([
+    'Lesson complete',
+    'Perfect run',
+    'Streak goes up',
+    'Streak lost',
+    'Chapter complete',
+    'New tier',
+    'Out of hearts',
+  ])('plays "%s" on its own page, and again on Play again', (title) => {
+    const tree = renderPage();
+    act(() => button(tree, title).props.onPress());
+    expect(texts(tree)).toContain(title);
+    act(() => button(tree, 'Play again').props.onPress());
+    act(() => jest.runOnlyPendingTimers());
+    expect(texts(tree)).toContain(title);
   });
 
-  it.each(['Lesson complete', 'Perfect run', 'Chapter complete', 'New tier', 'Out of hearts'])(
-    'plays "%s" on its own page, and again on Play again',
-    (title) => {
-      const tree = renderPage();
-      act(() => button(tree, title).props.onPress());
-      expect(texts(tree)).toContain(title);
-      act(() => button(tree, 'Play again').props.onPress());
-      act(() => jest.runOnlyPendingTimers());
-      expect(texts(tree)).toContain(title);
-    },
-  );
+  it('plays the streak screens from the streak as it stands (David, 2026-09-30)', () => {
+    const tree = renderPage();
+    act(() => button(tree, 'Streak goes up').props.onPress());
+    // No streak yet: it goes from 0 to 1 day, and the week shows its seven days.
+    expect(texts(tree)).toEqual(expect.arrayContaining(['0', '1', 'day streak', 'M', 'S']));
+    act(() => jest.runOnlyPendingTimers());
+    act(() => button(tree, 'Play again').props.onPress());
+    expect(texts(tree)).toContain('day streak');
+    act(() => tree.root.findByProps({ accessibilityLabel: 'Back' }).props.onPress());
+    act(() => button(tree, 'Streak lost').props.onPress());
+    // Nothing to lose yet: a streak of 12 rolls to 0, and the words are kind.
+    expect(texts(tree)).toEqual(
+      expect.arrayContaining(['12', '0', 'Streak lost', 'A new one starts today.']),
+    );
+  });
 
   it('counts right answers in a row and takes a heart for a wrong one', () => {
     const tree = renderPage();

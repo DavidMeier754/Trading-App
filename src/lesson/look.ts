@@ -21,19 +21,39 @@ export function isLook(value: unknown): value is Look {
 }
 
 let look: Look = 'neo';
+/**
+ * Settings → Change design: a look worn for a moment to see it full screen,
+ * without choosing it. It is on screen, never saved.
+ */
+let preview: Look | null = null;
 const listeners = new Set<() => void>();
+const shownListeners = new Set<() => void>();
 
 export function setLook(next: Look): void {
   if (next === look) return;
   look = next;
   listeners.forEach((listener) => listener());
+  shownListeners.forEach((listener) => listener());
 }
 
+/** The look chosen in Settings: the one that is saved. */
 export function getLook(): Look {
   return look;
 }
 
-/** Called whenever the look changes (the settings are saved from here). */
+/** Wear `next` on screen until it is called with null (Change design). */
+export function previewLook(next: Look | null): void {
+  if (next === preview) return;
+  preview = next;
+  shownListeners.forEach((listener) => listener());
+}
+
+/** The look on screen: the one being previewed, or else the one chosen. */
+function shownLook(): Look {
+  return preview ?? look;
+}
+
+/** Called whenever the chosen look changes (the settings are saved from here). */
 export function subscribeLook(listener: () => void): () => void {
   listeners.add(listener);
   return () => {
@@ -41,7 +61,20 @@ export function subscribeLook(listener: () => void): () => void {
   };
 }
 
+function subscribeShown(listener: () => void): () => void {
+  shownListeners.add(listener);
+  return () => {
+    shownListeners.delete(listener);
+  };
+}
+
+/** The look on screen, previews included. */
 export function useLook(): Look {
+  return useSyncExternalStore(subscribeShown, shownLook, shownLook);
+}
+
+/** The look chosen in Settings, which a preview does not change. */
+export function useChosenLook(): Look {
   return useSyncExternalStore(subscribeLook, getLook, getLook);
 }
 

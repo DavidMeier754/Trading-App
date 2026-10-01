@@ -122,6 +122,7 @@ export default function Cta({
 
   return (
     <Pressable
+      testID="key"
       accessibilityRole="button"
       accessibilityState={{ disabled: !!inert }}
       accessibilityElementsHidden={hidden}

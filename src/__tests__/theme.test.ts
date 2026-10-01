@@ -12,8 +12,7 @@ import ts from 'typescript';
  */
 
 const SRC = join(__dirname, '..');
-// The prototypes of stage LOOK-BRIEF carry their own palettes and go in LOOK-SYSTEM's second session.
-const SKIP = ['prototype', '__tests__'];
+const SKIP = ['__tests__'];
 
 function files(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {

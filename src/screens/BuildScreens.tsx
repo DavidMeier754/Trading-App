@@ -306,43 +306,47 @@ export function BranchScreen({
       {stepRow(visited.length)}
       <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
       {chartView}
-      <Arrive key={visited.length} from="right" style={styles.stepBody}>
-        {lastStep !== null ? (
-          <PopIn>
-            <View
-              style={[
-                styles.consequence,
-                { borderLeftColor: lastRight ? colors.success : colors.warning },
-              ]}
-            >
-              <Text
+      <View>
+        <Arrive key={visited.length} from="right" style={styles.stepBody}>
+          {lastStep !== null ? (
+            <PopIn>
+              <View
                 style={[
-                  styles.consequenceKicker,
-                  { color: lastRight ? colors.success : colors.warning },
+                  styles.consequence,
+                  { borderLeftColor: lastRight ? colors.success : colors.warning },
                 ]}
               >
-                {lastRight ? 'Right call' : 'Not quite'}
-              </Text>
-              <Text style={styles.consequenceText}>{copy(screen.steps[lastStep].explanation)}</Text>
-            </View>
-          </PopIn>
-        ) : null}
-        <Prompt>{step.prompt}</Prompt>
-        <View style={styles.options}>
-          {step.options.map((option, i) => (
-            <ToneSurface
-              key={option.text}
-              tone="idle"
-              onPress={() => {
-                onChange({ kind: 'branch', picks: [...picks, i] });
-              }}
-              style={styles.option}
-            >
-              <Text style={styles.optionText}>{copy(option.text)}</Text>
-            </ToneSurface>
-          ))}
-        </View>
-      </Arrive>
+                <Text
+                  style={[
+                    styles.consequenceKicker,
+                    { color: lastRight ? colors.success : colors.warning },
+                  ]}
+                >
+                  {lastRight ? 'Right call' : 'Not quite'}
+                </Text>
+                <Text style={styles.consequenceText}>
+                  {copy(screen.steps[lastStep].explanation)}
+                </Text>
+              </View>
+            </PopIn>
+          ) : null}
+          <Prompt>{step.prompt}</Prompt>
+          <View style={styles.options}>
+            {step.options.map((option, i) => (
+              <ToneSurface
+                key={option.text}
+                tone="idle"
+                onPress={() => {
+                  onChange({ kind: 'branch', picks: [...picks, i] });
+                }}
+                style={styles.option}
+              >
+                <Text style={styles.optionText}>{copy(option.text)}</Text>
+              </ToneSurface>
+            ))}
+          </View>
+        </Arrive>
+      </View>
     </View>
   );
 }

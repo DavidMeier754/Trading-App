@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
+  SharedValue,
   useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
@@ -12,20 +13,30 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Circle, Path } from 'react-native-svg';
 
-import { unlockFeedback } from '../lesson/feedback';
-import { EASE_OUT, EASE_SINE, SPRING_POP, usePressFeedback } from '../lesson/motion';
+import {
+  doneFeedback,
+  landFeedback,
+  pulseAt,
+  rattleFeedback,
+  unlockFeedback,
+} from '../lesson/feedback';
+import { EASE_IN_OUT, EASE_OUT, EASE_SINE, SPRING_POP, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, type, themed } from '../theme';
-import { LEVEL_TYPE_NAME, LevelType, levelIconOf, levelTypeOf } from '../content';
+import { LevelType, levelIconOf, levelTypeOf } from '../content';
 import Icon, { IconName, isIconName } from './icons';
 import type { LevelStatus, LevelView } from './pathState';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-/** The ring's box, the button inside it, and the ring's weight. */
-export const RING = 96;
-const NODE = 72;
-const STROKE = 7;
+/**
+ * The ring's box, the button inside it, and the ring's weight: 66 pt in an
+ * 86 pt ring. David made them smaller in stage LOOK-BRIEF (58 in 76, from 72
+ * in 96) and on 2026-09-30 "a little bigger" again.
+ */
+export const RING = 86;
+const NODE = 66;
+const STROKE = 6;
 const R = (RING - STROKE) / 2;
 const CIRC = 2 * Math.PI * R;
 
@@ -73,24 +84,28 @@ export const FILL_MS = 900;
 
 /**
  * Moving on to the next level, as one sequence after the last lesson of a
- * level (LearnScreen plays the parts that are not the node's):
+ * level (LearnScreen plays the parts that are not the node's). David asked on
+ * 2026-09-30 for it smoother, with haptics and sounds:
  *
  *   420   the finished level's ring fills the rest of the way, and it turns
- *         green, its symbol kept, a check pinned to it
- *   1250  the path scrolls down to the next level
- *   1300  the dotted path between them lights up, top to bottom
- *   1900  the lock shakes loose...
- *   2220  ...and bursts off: the level's symbol pops in, rings go out from it,
+ *         green, its symbol kept; its check lands with a pop
+ *   1250  the path glides down to the next level, eased in and out...
+ *   1300  ...while a spark runs down the dotted path between them, lighting
+ *         each dot as it passes, to five notes climbing, each a light tap
+ *   2050  the lock rattles on three swings, a click on each...
+ *   2380  ...and bursts off: the button gathers itself and springs back, the
+ *         lock flies off, the symbol pops in, rings and sparks go out from it,
  *         the unlock chime, and the banner names the new level
- *   2500  START drops in over it and the halo starts to breathe
+ *   2700  START drops in over it with a soft pop, and the halo starts
  */
 export const UNLOCK = {
   scroll: 1250,
+  scrollMs: 850,
   draw: 1300,
-  drawMs: 600,
-  shake: 1900,
-  open: 2220,
-  tag: 2500,
+  drawMs: 700,
+  shake: 2050,
+  open: 2380,
+  tag: 2700,
 } as const;
 
 /** What a level showed the last time the path was drawn, if it has been. */
@@ -115,14 +130,27 @@ export default function LevelNode({
   const before = shownFill.get(n);
   const beforeStatus = shownStatus.get(n);
 
-  const fill = useSharedValue(reduced || before === undefined ? target : before);
+  // Where the ring starts, kept from the first render: the static prop below
+  // must not read the shared value while React renders (Reanimated warns on
+  // every re-render), and must not change under the animation either.
+  const [startFill] = useState(reduced || before === undefined ? target : before);
+  const fill = useSharedValue(startFill);
+  // docs/UI.md §7.1: only a level still open shows its ring. A finished level
+  // keeps its check and drops the ring -- once the ring has filled, when the
+  // lesson just played finished it.
+  const finishing =
+    view.status === 'complete' && !reduced && before !== undefined && before < target;
+  const ringOn = useSharedValue(view.status === 'complete' && !finishing ? 0 : 1);
   const pop = useSharedValue(
     !reduced && !unlocking && beforeStatus !== undefined && beforeStatus !== view.status ? 0.82 : 1,
   );
-  // The unlock: the lock's cover over the open face, the lock's wobble, the
-  // symbol's pop and the rings that go out as it opens.
+  // The unlock: the lock's cover over the open face, the lock's wobble and its
+  // flight off, the button's squash and spring, the symbol's pop, and the
+  // rings and sparks that go out as it opens.
   const cover = useSharedValue(unlocking ? 1 : 0);
   const wobble = useSharedValue(0);
+  const fly = useSharedValue(0);
+  const bounce = useSharedValue(1);
   const digit = useSharedValue(unlocking && !reduced ? 0.4 : 1);
   const burst = useSharedValue(0);
   // A check pinned to a finished level; it arrives with the level's pop.
@@ -142,39 +170,67 @@ export default function LevelNode({
     // A level that has just finished settles into its new face once its
     // ring has filled, and takes its check.
     if (pop.get() !== 1) pop.set(withDelay(FILL_DELAY + FILL_MS * 0.6, withSpring(1, SPRING_POP)));
+    let landed: ReturnType<typeof setTimeout> | undefined;
     if (view.status === 'complete' && badge.get() !== 1) {
       badge.set(withDelay(FILL_DELAY + FILL_MS * 0.7, withSpring(1, SPRING_POP)));
+      landed = setTimeout(doneFeedback, FILL_DELAY + FILL_MS * 0.7);
     }
-  }, [n, target, view.status, fill, pop, badge]);
+    if (view.status === 'complete' && ringOn.get() !== 0) {
+      ringOn.set(
+        withDelay(FILL_DELAY + FILL_MS, withTiming(0, { duration: 320, easing: EASE_OUT })),
+      );
+    }
+    return () => clearTimeout(landed);
+  }, [n, target, view.status, fill, pop, badge, ringOn]);
 
   useEffect(() => {
     if (!unlocking) return;
-    const at = reduced ? 400 : UNLOCK.open;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const at = (ms: number, fn: () => void) => timers.push(setTimeout(fn, ms));
     if (reduced) {
-      cover.set(withDelay(at, withTiming(0, { duration: 200 })));
+      cover.set(withDelay(400, withTiming(0, { duration: 200 })));
+      at(400, unlockFeedback);
     } else {
+      // Three swings, each ending on a click of the rattle: the clicks land
+      // where the cue's pulses are, so the hand feels each swing stop.
+      const first = 45;
+      const second = pulseAt('rattle', 1);
+      const third = pulseAt('rattle', 2);
       wobble.set(
         withDelay(
           UNLOCK.shake,
           withSequence(
-            withTiming(-1, { duration: 60 }),
-            withTiming(1, { duration: 80 }),
-            withTiming(-0.8, { duration: 80 }),
-            withTiming(0.5, { duration: 60 }),
-            withTiming(0, { duration: 40 }),
+            withTiming(-1, { duration: first, easing: EASE_OUT }),
+            withTiming(1, { duration: second, easing: EASE_IN_OUT }),
+            withTiming(-0.7, { duration: third - second, easing: EASE_IN_OUT }),
+            withTiming(0.35, { duration: 65 }),
+            withTiming(0, { duration: UNLOCK.open - UNLOCK.shake - first - third - 65 }),
           ),
         ),
       );
-      cover.set(withDelay(at, withTiming(0, { duration: 260, easing: EASE_OUT })));
-      digit.set(withDelay(at, withSpring(1, SPRING_POP)));
-      burst.set(withDelay(at, withTiming(1, { duration: 900, easing: EASE_OUT })));
+      at(UNLOCK.shake + first, rattleFeedback);
+      // The button gathers itself as the lock gives, and springs back open.
+      bounce.set(
+        withDelay(
+          UNLOCK.open - 110,
+          withSequence(
+            withTiming(0.9, { duration: 110, easing: EASE_OUT }),
+            withSpring(1, SPRING_POP),
+          ),
+        ),
+      );
+      cover.set(withDelay(UNLOCK.open, withTiming(0, { duration: 260, easing: EASE_OUT })));
+      fly.set(withDelay(UNLOCK.open, withTiming(1, { duration: 480, easing: EASE_OUT })));
+      digit.set(withDelay(UNLOCK.open, withSpring(1, SPRING_POP)));
+      burst.set(withDelay(UNLOCK.open, withTiming(1, { duration: 950, easing: EASE_OUT })));
+      at(UNLOCK.open, unlockFeedback);
     }
-    const t = setTimeout(unlockFeedback, at);
-    return () => clearTimeout(t);
-  }, [unlocking, reduced, cover, wobble, digit, burst]);
+    return () => timers.forEach(clearTimeout);
+  }, [unlocking, reduced, cover, wobble, fly, bounce, digit, burst]);
 
   const ringProps = useAnimatedProps(() => ({ strokeDashoffset: CIRC * (1 - fill.get()) }));
-  const popStyle = useAnimatedStyle(() => ({ transform: [{ scale: pop.get() }] }));
+  const ringStyle = useAnimatedStyle(() => ({ opacity: ringOn.get() }));
+  const popStyle = useAnimatedStyle(() => ({ transform: [{ scale: pop.get() * bounce.get() }] }));
   const coverStyle = useAnimatedStyle(() => ({
     opacity: cover.get(),
     transform: [{ scale: 1 + 0.25 * (1 - cover.get()) }],
@@ -182,6 +238,19 @@ export default function LevelNode({
   const lockStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${16 * wobble.get()}deg` }],
   }));
+  // The lock, sprung: up and away to the side, turning, and gone.
+  const flyStyle = useAnimatedStyle(() => {
+    const f = fly.get();
+    return {
+      opacity: f < 0.25 ? 1 : Math.max(0, 1 - (f - 0.25) / 0.75),
+      transform: [
+        { translateX: 16 * f },
+        { translateY: -34 * f },
+        { rotate: `${40 * f}deg` },
+        { scale: 1 + 0.3 * f },
+      ],
+    };
+  });
   const digitStyle = useAnimatedStyle(() => ({ transform: [{ scale: digit.get() }] }));
   const badgeStyle = useAnimatedStyle(() => ({
     opacity: badge.get() > 0.01 ? 1 : 0,
@@ -198,6 +267,14 @@ export default function LevelNode({
       transform: [{ scale: 1 + 1.4 * t }],
     };
   });
+  // A flash of the level's colour behind it as it opens.
+  const flash = useAnimatedStyle(() => {
+    const t = burst.get();
+    return {
+      opacity: t <= 0 || t >= 1 ? 0 : t < 0.12 ? (0.32 * t) / 0.12 : 0.32 * (1 - (t - 0.12) / 0.88),
+      transform: [{ scale: 1 + 0.9 * t }],
+    };
+  });
 
   const press = usePressFeedback(true, { cue: 'tick' });
 
@@ -210,14 +287,6 @@ export default function LevelNode({
   // scored level reads as one from across the map; the path choice is a
   // signpost. Ordinary levels are round.
   const round = kind !== 'test';
-  const what =
-    kind === 'test'
-      ? 'Checkpoint'
-      : kind === 'final'
-        ? 'Final Exam'
-        : kind === 'path'
-          ? 'Path choice'
-          : 'Level';
   // docs/UI.md §7.1: a lesson level's button shows what it teaches or
   // practises -- a candle, a bell for the open -- from its files' `icon`; a
   // Checkpoint shows a ticked clipboard, the Final Exam a trophy, the path
@@ -226,7 +295,7 @@ export default function LevelNode({
   const topic = type === 'new' || type === 'practice' ? levelIconOf(view.level) : undefined;
   const name = topic && isIconName(topic) ? topic : SYMBOL[type];
   const symbol = (color: string) => (
-    <Icon name={name} size={type === 'test' ? 28 : 32} color={color} strokeWidth={2.4} />
+    <Icon name={name} size={type === 'test' ? 27 : 30} color={color} strokeWidth={2.4} />
   );
 
   const tagDelay = unlocking ? (reduced ? 400 : UNLOCK.tag) : 0;
@@ -235,48 +304,48 @@ export default function LevelNode({
       {current ? <Halo delay={tagDelay} /> : null}
       {unlocking ? (
         <>
+          <Animated.View pointerEvents="none" style={[styles.flash, flash]} />
           <Animated.View pointerEvents="none" style={[styles.burst, ring1]} />
           <Animated.View pointerEvents="none" style={[styles.burst, ring2]} />
+          {SPARKS.map((spark, i) => (
+            <Spark key={i} spark={spark} burst={burst} />
+          ))}
         </>
       ) : null}
-      <Svg width={RING} height={RING} style={StyleSheet.absoluteFill}>
-        <Circle
-          cx={RING / 2}
-          cy={RING / 2}
-          r={R}
-          stroke={colors.surfaceAlt}
-          strokeWidth={STROKE}
-          fill="none"
-        />
-        {locked ? null : (
-          <AnimatedCircle
-            cx={RING / 2}
-            cy={RING / 2}
-            r={R}
-            stroke={ringColor}
-            strokeWidth={STROKE}
-            strokeLinecap="round"
-            fill="none"
-            strokeDasharray={`${CIRC} ${CIRC}`}
-            strokeDashoffset={CIRC * (1 - fill.get())}
-            rotation={-90}
-            origin={`${RING / 2}, ${RING / 2}`}
-            animatedProps={ringProps}
-          />
-        )}
-      </Svg>
+      {complete && !finishing ? null : (
+        <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, ringStyle]}>
+          <Svg width={RING} height={RING}>
+            <Circle
+              cx={RING / 2}
+              cy={RING / 2}
+              r={R}
+              stroke={colors.surfaceAlt}
+              strokeWidth={STROKE}
+              fill="none"
+            />
+            {locked ? null : (
+              <AnimatedCircle
+                cx={RING / 2}
+                cy={RING / 2}
+                r={R}
+                stroke={ringColor}
+                strokeWidth={STROKE}
+                strokeLinecap="round"
+                fill="none"
+                strokeDasharray={`${CIRC} ${CIRC}`}
+                strokeDashoffset={CIRC * (1 - startFill)}
+                rotation={-90}
+                origin={`${RING / 2}, ${RING / 2}`}
+                animatedProps={ringProps}
+              />
+            )}
+          </Svg>
+        </Animated.View>
+      )}
       <Animated.View style={[styles.nodeWrap, press.style, popStyle]}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`${what}${view.level.number ? ` ${view.level.number}` : ''}, ${LEVEL_TYPE_NAME[type]}: ${view.level.title}. ${
-            locked
-              ? 'Locked'
-              : complete
-                ? 'Done'
-                : kind === 'lesson'
-                  ? `${view.done} of ${view.total} lessons done`
-                  : 'Open'
-          }`}
+          accessibilityLabel={nodeLabel(view)}
           onPressIn={press.onPressIn}
           onPressOut={press.onPressOut}
           onPress={onPress}
@@ -330,7 +399,7 @@ export default function LevelNode({
         {locked || unlocking ? (
           <Animated.View
             pointerEvents="none"
-            style={[styles.badge, styles.lockBadge, unlocking && coverStyle]}
+            style={[styles.badge, styles.lockBadge, unlocking && flyStyle]}
           >
             <Animated.View style={lockStyle}>
               <Icon name="lock" size={13} color={colors.textMuted} />
@@ -341,6 +410,36 @@ export default function LevelNode({
       {current ? <Bubble label={view.done === 0 ? 'START' : 'CONTINUE'} delay={tagDelay} /> : null}
     </View>
   );
+}
+
+/**
+ * A level as a screen reader says it: its number and title once, then where it
+ * stands -- "Level 4: The Quote Card. 1 of 3 lessons done", "Level 5:
+ * Checkpoint. Locked" (review S9: not "Checkpoint 5, Checkpoint: Checkpoint").
+ * A scored level whose title does not say what it is gets the word.
+ */
+export function nodeLabel(view: LevelView): string {
+  const { kind, number, title } = view.level;
+  const what =
+    kind === 'test' && !/checkpoint/i.test(title)
+      ? ', Checkpoint'
+      : kind === 'final' && !/final/i.test(title)
+        ? ', Final Exam'
+        : '';
+  const name = kind === 'path' ? title : `Level ${number}${what}: ${title}`;
+  const state =
+    view.status === 'locked'
+      ? 'Locked'
+      : view.status === 'complete'
+        ? view.perfect
+          ? 'Perfect'
+          : kind === 'lesson' || kind === 'path'
+            ? 'Done'
+            : 'Passed'
+        : kind === 'lesson'
+          ? `${view.done} of ${view.total} lessons done`
+          : 'Open';
+  return `${name}. ${state}`;
 }
 
 /** A Checkpoint's face: a shield filling the button, drawn so it keeps its outline at any size. */
@@ -378,19 +477,71 @@ function Halo({ delay = 0 }: { delay?: number }) {
   return <Animated.View pointerEvents="none" style={[styles.halo, style]} />;
 }
 
-/** "START" over the current level, bobbing gently like a tag on a string. */
+/**
+ * The sparks that fly out of a level as it opens: evenly round it, each a
+ * little off its line and its own distance out, in the level's colour and
+ * gold, a small diamond turning as it flies and fades.
+ */
+type SparkSpec = { angle: number; dist: number; size: number; gold: boolean };
+const SPARKS: SparkSpec[] = [0, 9, -6, 12, -10, 5, -3, 8, -12, 4].map((jitter, i) => ({
+  angle: ((i * 36 + jitter - 90) * Math.PI) / 180,
+  dist: NODE * 0.85 + (i % 3) * 9,
+  size: i % 2 ? 6 : 8,
+  gold: i % 3 === 1,
+}));
+
+function Spark({ spark, burst }: { spark: SparkSpec; burst: SharedValue<number> }) {
+  const { angle, dist, size } = spark;
+  const style = useAnimatedStyle(() => {
+    const t = burst.get();
+    return {
+      opacity: t <= 0 || t >= 1 ? 0 : t < 0.1 ? t / 0.1 : 1 - (t - 0.1) / 0.9,
+      transform: [
+        { translateX: Math.cos(angle) * dist * t },
+        { translateY: Math.sin(angle) * dist * t },
+        { rotate: `${45 + 120 * t}deg` },
+        { scale: 1 - 0.55 * t },
+      ],
+    };
+  });
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        styles.spark,
+        {
+          width: size,
+          height: size,
+          left: RING / 2 - size / 2,
+          top: RING / 2 - size / 2,
+          backgroundColor: spark.gold ? colors.warning : colors.accent,
+        },
+        style,
+      ]}
+    />
+  );
+}
+
+/**
+ * "START" over the current level, bobbing gently like a tag on a string. One
+ * line, always (David, 2026-09-30): it has the width of the row it sits in,
+ * not of the level under it, so it never wraps.
+ */
 function Bubble({ label, delay = 0 }: { label: string; delay?: number }) {
   const reduced = useReduceMotion();
   const y = useSharedValue(0);
   // After an unlock the tag drops in over the new level before it bobs.
   const drop = useSharedValue(delay > 0 ? 0 : 1);
   useEffect(() => {
+    let landed: ReturnType<typeof setTimeout> | undefined;
     if (delay > 0) {
       drop.set(
         withDelay(delay, reduced ? withTiming(1, { duration: 200 }) : withSpring(1, SPRING_POP)),
       );
+      // It lands with a soft pop; under reduced motion the unlock's own sound says it.
+      if (!reduced) landed = setTimeout(landFeedback, delay + 120);
     }
-    if (reduced) return;
+    if (reduced) return () => clearTimeout(landed);
     y.set(
       withDelay(
         delay,
@@ -404,6 +555,7 @@ function Bubble({ label, delay = 0 }: { label: string; delay?: number }) {
         ),
       ),
     );
+    return () => clearTimeout(landed);
   }, [reduced, y, drop, delay]);
   const style = useAnimatedStyle(() => ({
     opacity: Math.min(1, drop.get() * 1.5),
@@ -412,7 +564,9 @@ function Bubble({ label, delay = 0 }: { label: string; delay?: number }) {
   return (
     <Animated.View pointerEvents="none" style={[styles.bubbleWrap, style]}>
       <View style={styles.bubble}>
-        <Text style={styles.bubbleText}>{label}</Text>
+        <Text style={styles.bubbleText} numberOfLines={1}>
+          {label}
+        </Text>
       </View>
       <View style={styles.pointer} />
     </Animated.View>
@@ -446,8 +600,8 @@ const styles = themed(() => ({
   },
   badge: {
     position: 'absolute',
-    right: -4,
-    bottom: -4,
+    right: -5,
+    bottom: -5,
     width: 26,
     height: 26,
     borderRadius: 13,
@@ -464,6 +618,14 @@ const styles = themed(() => ({
     borderWidth: 3,
     borderColor: colors.accent,
   },
+  flash: {
+    position: 'absolute',
+    width: NODE,
+    height: NODE,
+    borderRadius: NODE / 2,
+    backgroundColor: colors.accent,
+  },
+  spark: { position: 'absolute', borderRadius: 1.5 },
   glyph: { zIndex: 1 },
   // A shield is narrower at the foot: its symbol sits a touch high.
   glyphShield: { marginTop: -6 },
@@ -477,7 +639,8 @@ const styles = themed(() => ({
     borderWidth: 2,
     borderColor: colors.accent,
   },
-  bubbleWrap: { position: 'absolute', top: -44, alignItems: 'center' },
+  // As wide as the row round the level, so the tag's word never wraps.
+  bubbleWrap: { position: 'absolute', top: -42, left: -90, right: -90, alignItems: 'center' },
   bubble: {
     backgroundColor: colors.surface,
     borderColor: colors.accent,

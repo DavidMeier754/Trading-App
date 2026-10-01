@@ -10,6 +10,7 @@ import Shake from '../lesson/Shake';
 import { useBorderTransition } from '../lesson/toneTransition';
 import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { FillTilesScreen as S } from '../types';
+import {} from './common';
 
 /**
  * docs/UI.md §4.1 `fill-tiles`: sentence with a blank, letter tiles below
@@ -104,53 +105,56 @@ export default function FillTilesScreen({
         )}
       </Text>
 
-      <View style={styles.tiles}>
-        {pool.map((letter, i) => {
-          const used = placed.includes(i);
-          return (
-            <Pressable
-              key={`${letter}-${i}`}
-              accessibilityRole="button"
-              accessibilityLabel={used ? `Take back ${letter}` : `Letter ${letter}`}
-              disabled={revealed}
-              onPress={() => {
-                detentFeedback();
-                // A used tile is still there, faded: tap it to take its letter
-                // back out of the word.
-                onChange({
-                  kind: 'tiles',
-                  placed: used ? placed.filter((p) => p !== i) : [...placed, i],
-                });
-              }}
-              style={[styles.tile, used && styles.tileUsed]}
-            >
-              <Text style={[styles.tileText, used && styles.tileTextUsed]}>{letter}</Text>
-            </Pressable>
-          );
-        })}
-      </View>
+      <View style={styles.zone}>
+        <View style={styles.tiles}>
+          {pool.map((letter, i) => {
+            const used = placed.includes(i);
+            return (
+              <Pressable
+                key={`${letter}-${i}`}
+                accessibilityRole="button"
+                accessibilityLabel={used ? `Take back ${letter}` : `Letter ${letter}`}
+                disabled={revealed}
+                onPress={() => {
+                  detentFeedback();
+                  // A used tile is still there, faded: tap it to take its letter
+                  // back out of the word.
+                  onChange({
+                    kind: 'tiles',
+                    placed: used ? placed.filter((p) => p !== i) : [...placed, i],
+                  });
+                }}
+                style={[styles.tile, used && styles.tileUsed]}
+              >
+                <Text style={[styles.tileText, used && styles.tileTextUsed]}>{letter}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
 
-      <Pressable
-        accessibilityRole="button"
-        disabled={revealed || placed.length === 0}
-        onPress={() => {
-          detentFeedback();
-          onChange({ kind: 'tiles', placed: placed.slice(0, -1) });
-        }}
-        hitSlop={8}
-      >
-        <Text
-          style={[styles.undo, (revealed || placed.length === 0) && { color: colors.textFaint }]}
+        <Pressable
+          accessibilityRole="button"
+          disabled={revealed || placed.length === 0}
+          onPress={() => {
+            detentFeedback();
+            onChange({ kind: 'tiles', placed: placed.slice(0, -1) });
+          }}
+          hitSlop={8}
         >
-          Undo last letter
-        </Text>
-      </Pressable>
+          <Text
+            style={[styles.undo, (revealed || placed.length === 0) && { color: colors.textFaint }]}
+          >
+            Undo last letter
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
 
 const styles = themed(() => ({
   wrap: { gap: space.xl },
+  zone: { gap: space.xl },
   sentence: {
     flexDirection: 'row',
     flexWrap: 'wrap',
