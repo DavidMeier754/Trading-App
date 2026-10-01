@@ -22,9 +22,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import renderer, { act } from 'react-test-renderer';
 
 import ChangeDesign from '../home/ChangeDesign';
-import { inkOf, SCENES } from '../home/scenes';
 import SettingsScreen from '../home/SettingsScreen';
-import { IDEAS } from '../home/Suggestions';
+import { SUGGESTIONS } from '../home/ideas';
 import { getLook, LOOK_ORDER, LOOKS, setLook, useLook } from '../lesson/look';
 
 const METRICS = {
@@ -161,16 +160,11 @@ describe('Settings → Change design (docs/UI.md §11.5)', () => {
   });
 });
 
-describe('the map and the Design suggestions (stage LOOK-BRIEF, David)', () => {
-  it("draws the scenes in the ground's own ink", () => {
-    expect(inkOf('rgba(255, 255, 255, 0.15)')).toEqual({ ink: '#ffffff', alpha: 0.15 });
-    expect(inkOf('rgba(16, 24, 40, 0.11)')).toEqual({ ink: '#101828', alpha: 0.11 });
-    // Eight different drawings, one after another down a chapter.
-    expect(new Set(SCENES).size).toBe(SCENES.length);
-  });
-
-  it('keeps the five ideas, with the two David chose marked in the mix', () => {
-    expect(IDEAS).toHaveLength(5);
-    expect(IDEAS.filter((i) => i.inMix).map((i) => i.id)).toEqual(['countup', 'steps']);
+describe('the Design suggestions (stage LOOK-BRIEF, David)', () => {
+  it('keeps the five ideas David was asked about, with the two he chose marked in the mix', () => {
+    const asked = SUGGESTIONS.filter((s) => s.section === 'mix');
+    expect(asked).toHaveLength(5);
+    expect(asked.filter((s) => s.tag === 'in').map((s) => s.id)).toEqual(['countup', 'steps']);
+    expect(asked.filter((s) => s.tag === 'out')).toHaveLength(3);
   });
 });

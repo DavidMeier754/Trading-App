@@ -278,9 +278,9 @@ for (const lesson of lessons) {
     });
   }
 }
-// The home screen's tabs and pages (src/home/Home.tsx, openHomeAt), by their
-// own deep links. They are a "home" group of their own, outside the
-// validator's chapter counts.
+// The home screen's tabs and pages (src/home/Home.tsx, openHomeAt), and each
+// design suggestion's preview, by their own deep links. They are a "home"
+// group of their own, outside the validator's chapter counts.
 const HOME = ['learn', 'practice', 'account', 'settings', 'design', 'animations', 'suggestions'];
 if (!only.length || only.includes('home')) {
   for (const name of HOME) {
@@ -289,6 +289,18 @@ if (!only.length || only.includes('home')) {
       id: 'home',
       screen: name,
       hash: `home/${name}?test=1`,
+      key: 'home',
+      units: 0,
+    });
+  }
+  // Every design suggestion's preview (src/home/ideas), by its own deep link.
+  const suggestions = await first.page.evaluate(() => window.__suggestions ?? []);
+  for (const id of suggestions) {
+    tasks.push({
+      n: tasks.length,
+      id: 'home',
+      screen: `suggestions/${id}`,
+      hash: `home/suggestions/${id}?test=1`,
       key: 'home',
       units: 0,
     });

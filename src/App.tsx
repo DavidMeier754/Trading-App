@@ -9,6 +9,7 @@ import { GridOriginProvider } from './components/gridAlign';
 import ErrorBoundary, { DebugCrash } from './ErrorBoundary';
 import { LessonEntry, LESSONS, nodeOf, TEST_BENCH } from './content';
 import Home, { openHomeAt } from './home/Home';
+import { SUGGESTIONS } from './home/ideas';
 import { isLook, setLook, useLookSpec } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
 import { choosePath, completeLesson, getProgress, loadSaved } from './progress';
@@ -98,6 +99,8 @@ export default function App() {
       path: e.level.path,
       bench: !!e.testBench,
     }));
+    // And every design suggestion, whose previews it opens one by one too.
+    (window as unknown as { __suggestions: string[] }).__suggestions = SUGGESTIONS.map((s) => s.id);
   }, []);
 
   // Where the backdrop's grid starts. Charts subtract it from their own measured
@@ -269,7 +272,7 @@ function readDeepLink(): {
   const themed = theme === 'light' || theme === 'dark' || theme === 'system';
   if (themed) setThemeMode(theme as ThemeMode);
   const [id, screen] = path.split('/');
-  if (id === 'home' && TEST_TOOLS && openHomeAt(screen ?? ''))
+  if (id === 'home' && TEST_TOOLS && openHomeAt(path.split('/').slice(1).join('/')))
     return { entry: null, screen: 0, look: named, theme: themed };
   if (id === 'debug-crash' && TEST_TOOLS)
     return { entry: null, screen: 0, look: named, theme: themed, crash: true };

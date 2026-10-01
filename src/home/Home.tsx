@@ -8,7 +8,7 @@ import ChangeDesign from './ChangeDesign';
 import EmptyTab from './EmptyTab';
 import LearnScreen from './LearnScreen';
 import SettingsScreen from './SettingsScreen';
-import Suggestions from './Suggestions';
+import Suggestions, { openSuggestionAt } from './Suggestions';
 import TabBar, { Tab } from './TabBar';
 
 /**
@@ -31,9 +31,16 @@ let lastPage: Page = null;
  * Test builds: `#home/settings` (or another page: design, animations,
  * suggestions; or a tab: learn, practice, account) opens the home
  * screen there, so the contact sheets and the UI check see it
- * (tools/contact_sheets.mjs). Returns false for a name it does not know.
+ * (tools/contact_sheets.mjs). `#home/suggestions/<id>` opens one design
+ * suggestion's preview. Returns false for a name it does not know.
  */
 export function openHomeAt(name: string): boolean {
+  const [first, sub] = name.split('/');
+  if (sub !== undefined) {
+    if (first !== 'suggestions' || !openSuggestionAt(sub)) return false;
+    lastPage = 'suggestions';
+    return true;
+  }
   const page = PAGES.find((p) => p === name);
   if (page) {
     lastPage = page;

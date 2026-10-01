@@ -331,7 +331,7 @@ export function RecapScreen({
  * holding period, screen time and the feel of it. The screen-time figures are
  * Level 14-1's own rough ones, so the choice repeats what was just taught.
  */
-const PATH_CARDS: {
+export const PATH_CARDS: {
   id: TradingPath;
   icon: IconName;
   hold: string;

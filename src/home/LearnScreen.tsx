@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AccessibilityInfo,
+  BackHandler,
   LayoutChangeEvent,
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -32,6 +33,7 @@ import { noteFeedback } from '../lesson/feedback';
 import { EASE_IN_OUT, EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import {
+  choosePath,
   DAILY_GOAL,
   doneToday,
   Hearts,
@@ -41,12 +43,12 @@ import {
   waitText,
 } from '../progress';
 import { tint, useLookSpec } from '../lesson/look';
+import { PATH_CARDS } from '../screens/StaticScreens';
 import { colors, MONO_FONT, radius, space, type, themed } from '../theme';
-import { Box, Placed, scatter } from './backdrop';
-import Icon from './icons';
+import Icon, { type IconName } from './icons';
 import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
 import { ChapterView, chapterViews, currentLevel, LevelView } from './pathState';
-import { Deco, Gem, inkOf, PathLogo, SCENES } from './scenes';
+import { Gem, PathLogo } from './scenes';
 
 /** Vertical distance between two nodes' centres. */
 const STEP_Y = 148;
@@ -60,6 +62,8 @@ const CHAPTER_GAP = 16;
 const BOTTOM_PAD = 280;
 /** Room for the note after the last chapter (PathFinale). */
 const FINALE_H = 120;
+/** The top bar's row: its 48 pt targets. */
+const HUD_ROW = 48;
 /** The path winds: centre, left, centre, right, and round again. */
 const WIND = [0, -1, 0, 1];
 
@@ -71,23 +75,19 @@ type Item =
   | { t: 'teaser'; y: number }
   | { t: 'finale'; y: number };
 
-/** A title's lines beside its level, near enough: 15 pt bold runs about 8.6 pt a letter. */
-function labelLines(title: string, width: number): number {
-  return Math.max(1, Math.ceil((title.length * 8.6) / width));
-}
-
 /**
  * The home screen's path (docs/UI.md §7.1): Classic's flat panels, on the
  * ground of whichever design is picked.
  *
  * - The top bar (§7.2): the path's logo, the streak, the gems and the
- *   hearts, evenly spaced.
+ *   hearts, lined up with the banner and the cards under it. A tap on the
+ *   logo opens the paths.
  * - A banner with the level the learner is on.
  * - The path, chapter by chapter. Each chapter has a header card (its name,
  *   levels done of all, and a badge that lights when it is finished) and
  *   folds away under it; the chapter being worked on is open, the others
  *   folded, and any can be opened with a tap. In a chapter, one button per
- *   level winds down the screen over faint drawings in the ground; an open level
+ *   level winds down the screen on the look's own ground; an open level
  *   sits in a ring that fills a lesson at a time, and a finished one wears a
  *   check. Checkpoints are shields and the Final Exam a trophy. The level
  *   waiting for the learner pulses and wears a START tag, and tapping any
@@ -108,9 +108,6 @@ export default function LearnScreen({
   const here = currentLevel(views);
   const hereAt = views.indexOf(here);
   const hearts = useHearts();
-  const spec = useLookSpec();
-  // docs/UI.md §7.1: the scenes are drawn in the ground's ink, as faint as its grid.
-  const { ink, alpha } = inkOf(spec.ground.grid[1]);
   const reduced = useReduceMotion();
   const chapterOf = (gi: number) => {
     let n = 0;
@@ -222,58 +219,10 @@ export default function LearnScreen({
       ? cxOf(li) - RING / 2 - space.sm - space.lg
       : width - (cxOf(li) + RING / 2 + space.sm) - space.lg;
 
-  // docs/UI.md §7.1: the drawings in the ground (home/backdrop.ts), scattered
-  // down each open chapter round what they must not cover.
-  const backdrop = useMemo(() => {
-    const cards: Box[] = [];
-    for (const it of items) {
-      if (it.t === 'header' || it.t === 'teaser' || it.t === 'finale') {
-        const h = it.t === 'finale' ? FINALE_H : HEAD_H - space.sm;
-        cards.push({ left: space.lg, right: width - space.lg, top: it.y, bottom: it.y + h });
-      }
-      if (it.t === 'end') {
-        const top = it.y + RING / 2 + 6;
-        cards.push({ left: it.x - 110, right: it.x + 110, top, bottom: top + 20 });
-      }
-    }
-    const out: (Placed & { ci: number; key: string })[] = [];
-    chapters.forEach((c, ci) => {
-      const nodes = items.filter((it): it is NodeItem => it.t === 'node' && it.ci === ci);
-      if (!nodes.length) return;
-      const keep = [...cards];
-      for (const it of nodes) {
-        const r = RING / 2 + 4;
-        keep.push({ left: it.x - r, right: it.x + r, top: it.y - r, bottom: it.y + r });
-        const w = Math.max(90, Math.min(170, labelRoom(it.li)));
-        const h = labelLines(views[it.gi].level.title, w) * 19;
-        const left =
-          WIND[it.li % WIND.length] > 0
-            ? it.x - RING / 2 - space.sm - w
-            : it.x + RING / 2 + space.sm;
-        keep.push({ left, right: left + w, top: it.y - h / 2 - 4, bottom: it.y + h / 2 + 4 });
-        // The START tag over the level being played.
-        if (it.gi === hereAt) {
-          const bottom = it.y - RING / 2;
-          keep.push({ left: it.x - 64, right: it.x + 64, top: bottom - 46, bottom });
-        }
-      }
-      const last = nodes[nodes.length - 1];
-      const trail = items.some((it) => it.t === 'end' && it.ci === ci) ? STEP_Y * 0.55 : 0;
-      scatter({
-        top: nodes[0].y - RING / 2 - NODES_TOP,
-        bottom: last.y + RING / 2 + trail,
-        width,
-        keepClear: keep,
-        seed: c.chapter.number * 7919 + 101,
-        kinds: SCENES,
-      }).forEach((p, i) => out.push({ ...p, ci, key: `d${c.chapter.number}-${i}` }));
-    });
-    return out;
-    // labelRoom is derived from the width
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, chapters, views, width, hereAt]);
-
   const [open, setOpen] = useState<number | null>(null);
+  // The paths, open under the top bar's logo.
+  const [picking, setPicking] = useState(false);
+  const closePicker = useCallback(() => setPicking(false), []);
 
   // "The current path in focus": the path opens scrolled to the level the
   // learner is on, and a card opened low on the screen is scrolled into view.
@@ -375,6 +324,11 @@ export default function LearnScreen({
       <Hud
         top={insets.top}
         path={progress.path}
+        picking={picking}
+        onPickPath={() => {
+          setOpen(null);
+          setPicking((v) => !v);
+        }}
         streak={streakDays(progress)}
         today={doneToday(progress)}
         gems={progress.gems}
@@ -391,30 +345,6 @@ export default function LearnScreen({
         onScrollBeginDrag={() => cancelAnimation(glide)}
         scrollEventThrottle={32}
       >
-        {/* The drawings in the ground, under everything else on the map. */}
-        {backdrop.map((d) => (
-          <Animated.View
-            key={d.key}
-            pointerEvents="none"
-            entering={opened.has(d.ci) ? FadeIn.duration(220) : undefined}
-            style={[
-              styles.scene,
-              {
-                left: d.x - d.size / 2,
-                top: d.y - d.size / 2,
-                transform: [{ rotate: `${d.tilt}deg` }],
-              },
-            ]}
-          >
-            <Deco
-              kind={d.kind}
-              size={d.size}
-              ink={ink}
-              ground={spec.ground.color}
-              alpha={alpha * d.fade}
-            />
-          </Animated.View>
-        ))}
         <Connectors
           views={views}
           nodeAt={nodeAt}
@@ -491,6 +421,14 @@ export default function LearnScreen({
         ) : null}
       </Animated.ScrollView>
       {!hereVisible && !allDone ? <JumpButton view={here} onPress={jump} /> : null}
+      {picking ? (
+        <PathPicker
+          top={insets.top + space.xs + HUD_ROW}
+          width={width}
+          path={progress.path}
+          onClose={closePicker}
+        />
+      ) : null}
     </View>
   );
 }
@@ -500,15 +438,19 @@ export default function LearnScreen({
 // ---------------------------------------------------------------------------
 
 /**
- * docs/UI.md §7.2: the top bar, evenly spaced -- which path (its logo, a
- * stand-in until stage BRAND), the streak, the gems (David, 2026-09-30: third,
- * with their use to come) and the hearts. The flame lights once today's goal
- * is met, and a tap on it says how far today has got ("Today 1/2"); the hearts
- * show the wait while one is on its way back.
+ * docs/UI.md §7.2: the top bar -- which path (its logo, a stand-in until stage
+ * BRAND), the streak, the gems (David, 2026-09-30: third, with their use to
+ * come) and the hearts. It lines up with what is under it (David, 2026-10-01):
+ * the logo on the banner's left edge, the hearts on its right, the streak and
+ * the gems evenly between. A tap on the logo opens the paths (PathPicker). The
+ * flame lights once today's goal is met, and a tap on it says how far today
+ * has got ("Today 1/2"); the hearts show the wait while one is on its way back.
  */
 function Hud({
   top,
   path,
+  picking,
+  onPickPath,
   streak,
   today,
   gems,
@@ -516,6 +458,9 @@ function Hud({
 }: {
   top: number;
   path: TradingPath | null;
+  /** The paths are open under the logo. */
+  picking: boolean;
+  onPickPath: () => void;
   streak: number;
   today: number;
   gems: number;
@@ -526,6 +471,7 @@ function Hud({
   const done = Math.min(today, DAILY_GOAL);
   const pathName = PATHS.find((p) => p.id === path)?.name;
   const press = usePressFeedback(true, { cue: 'tick' });
+  const logoPress = usePressFeedback(true, { cue: 'tick' });
   const [shown, setShown] = useState(false);
   useEffect(() => {
     if (!shown) return;
@@ -536,13 +482,25 @@ function Hud({
   const heart = hearts.hearts > 0 ? colors.down : colors.textMuted;
   return (
     <View style={[styles.hud, { paddingTop: top + space.xs }]}>
-      <View
-        accessible
-        accessibilityLabel={pathName ? `Path: ${pathName}` : 'Path: not chosen yet'}
-        style={styles.hudItem}
-      >
-        <PathLogo size={30} face={spec.cta.face} mark={spec.cta.text} />
-      </View>
+      <Animated.View style={logoPress.style}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={pathName ? `Path: ${pathName}` : 'Path: not chosen yet'}
+          accessibilityHint="Shows the paths"
+          accessibilityState={{ expanded: picking }}
+          onPressIn={logoPress.onPressIn}
+          onPressOut={logoPress.onPressOut}
+          onPress={onPickPath}
+          style={[styles.hudItem, styles.hudStart]}
+        >
+          <PathLogo
+            size={30}
+            face={spec.cta.face}
+            mark={spec.cta.text}
+            icon={PATH_CARDS.find((c) => c.id === path)?.icon}
+          />
+        </Pressable>
+      </Animated.View>
       <View>
         <Animated.View style={press.style}>
           <Pressable
@@ -586,7 +544,7 @@ function Hud({
       {/* docs/UI.md §5.2: while one is on its way back, the wait sits beside them. */}
       <View
         accessible
-        style={styles.hudItem}
+        style={[styles.hudItem, styles.hudEnd]}
         accessibilityLabel={`${hearts.hearts} hearts${
           hearts.nextAt ? `, the next one back in ${waitText(hearts.nextAt)}` : ''
         }`}
@@ -596,6 +554,142 @@ function Hud({
         <Text style={[styles.hudValue, { color: heart }]}>{hearts.hearts}</Text>
       </View>
     </View>
+  );
+}
+
+/**
+ * docs/UI.md §7.2: the paths, from the top bar's logo (David, 2026-10-01: "if
+ * you click the path logo you can choose the path"). A card drops from the
+ * logo, as a level's card opens under its level: the three paths, the one in
+ * use ticked, a path still being written shut. Before Chapter 1 is finished
+ * they show shut, and it says when the choice comes (§11.4: in Chapter 1's
+ * last level), as Settings does. A tap anywhere else, or Android's back
+ * button, closes it.
+ */
+function PathPicker({
+  top,
+  width,
+  path,
+  onClose,
+}: {
+  top: number;
+  width: number;
+  path: TradingPath | null;
+  onClose: () => void;
+}) {
+  const reduced = useReduceMotion();
+  const t = useSharedValue(reduced ? 1 : 0);
+  useEffect(() => {
+    if (!reduced) t.set(withTiming(1, { duration: 200, easing: EASE_OUT }));
+  }, [reduced, t]);
+  const enter = useAnimatedStyle(() => ({
+    opacity: t.get(),
+    transform: [{ translateY: (1 - t.get()) * -6 }, { scale: 0.96 + 0.04 * t.get() }],
+  }));
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      onClose();
+      return true;
+    });
+    return () => sub.remove();
+  }, [onClose]);
+  const chosen = path !== null;
+  return (
+    <View style={styles.pickerLayer} pointerEvents="box-none">
+      <Pressable
+        accessibilityLabel="Close the paths"
+        style={StyleSheet.absoluteFill}
+        onPress={onClose}
+      />
+      <Animated.View
+        accessibilityRole="radiogroup"
+        style={[
+          styles.picker,
+          { top, width: Math.min(width - space.lg * 2, 360), transformOrigin: 'top left' },
+          enter,
+        ]}
+      >
+        <Text style={styles.pickerKicker} accessibilityRole="header">
+          Your path
+        </Text>
+        {PATH_CARDS.map((card) => {
+          const p = PATHS.find((x) => x.id === card.id);
+          return (
+            <PathOption
+              key={card.id}
+              name={p?.name ?? card.id}
+              hold={card.hold}
+              icon={card.icon}
+              on={card.id === path}
+              written={!!p?.written}
+              open={chosen && !!p?.written}
+              onPick={() => {
+                if (card.id !== path) choosePath(card.id);
+                onClose();
+              }}
+            />
+          );
+        })}
+        <Text style={styles.pickerNote}>
+          {chosen ? 'Your progress stays when you switch.' : 'You choose it after Chapter 1.'}
+        </Text>
+      </Animated.View>
+    </View>
+  );
+}
+
+/** One path in the picker: its logo, its name and how long its trades last. */
+function PathOption({
+  name,
+  hold,
+  icon,
+  on,
+  written,
+  open,
+  onPick,
+}: {
+  name: string;
+  hold: string;
+  icon: IconName;
+  on: boolean;
+  written: boolean;
+  /** It can be picked: chosen paths are open once Chapter 1 is done. */
+  open: boolean;
+  onPick: () => void;
+}) {
+  const spec = useLookSpec();
+  const press = usePressFeedback(open, { cue: on ? null : 'tick' });
+  return (
+    <Animated.View style={press.style}>
+      <Pressable
+        accessibilityRole="radio"
+        accessibilityState={{ checked: on, disabled: !open }}
+        accessibilityLabel={`${name}. ${hold}${written ? '' : '. Being written'}`}
+        disabled={!open}
+        onPressIn={press.onPressIn}
+        onPressOut={press.onPressOut}
+        onPress={onPick}
+        style={[styles.option, on && styles.optionOn]}
+      >
+        <PathLogo
+          size={36}
+          icon={icon}
+          face={open || on ? spec.cta.face : colors.surfaceAlt}
+          mark={open || on ? spec.cta.text : colors.textFaint}
+        />
+        <View style={styles.optionText}>
+          <Text style={[styles.optionName, !open && !on && { color: colors.textMuted }]}>
+            {name}
+          </Text>
+          <Text style={styles.optionHold}>{hold}</Text>
+        </View>
+        {on ? (
+          <Icon name="check" size={20} color={colors.accent} strokeWidth={3} />
+        ) : written ? null : (
+          <Text style={styles.optionSoon}>Being written</Text>
+        )}
+      </Pressable>
+    </Animated.View>
   );
 }
 
@@ -1246,12 +1340,13 @@ function LevelCard({
 
 const styles = themed(() => ({
   wrap: { flex: 1 },
-  // Over the banner, so the flame's "Today 1/2" can drop down across it.
+  // Over the banner, so the flame's "Today 1/2" can drop down across it. As
+  // wide as the banner: its first and last items sit on the banner's edges.
   hud: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
-    paddingHorizontal: space.sm,
+    justifyContent: 'space-between',
+    paddingHorizontal: space.lg,
     paddingBottom: space.xs,
     zIndex: 2,
   },
@@ -1263,6 +1358,9 @@ const styles = themed(() => ({
     minWidth: 48,
     minHeight: 48,
   },
+  // The 48 pt targets reach past their icons; these keep the icons on the edges.
+  hudStart: { justifyContent: 'flex-start' },
+  hudEnd: { justifyContent: 'flex-end' },
   hudValue: { fontSize: 17, lineHeight: 22, fontWeight: '800', fontFamily: MONO_FONT },
   hudWait: {
     ...type.small,
@@ -1293,6 +1391,53 @@ const styles = themed(() => ({
     transform: [{ rotate: '45deg' }],
   },
   todayText: { ...type.label, color: colors.text, fontFamily: MONO_FONT },
+
+  // Over everything, the top bar too, so a tap anywhere else closes it.
+  pickerLayer: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 3 },
+  picker: {
+    position: 'absolute',
+    left: space.lg,
+    padding: space.sm,
+    gap: 2,
+    backgroundColor: colors.surface,
+    borderColor: colors.borderStrong,
+    borderWidth: 1.5,
+    borderRadius: radius.lg,
+    shadowColor: colors.shade,
+    shadowOpacity: 0.3,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 8,
+  },
+  pickerKicker: {
+    ...type.label,
+    color: colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    paddingHorizontal: space.sm,
+    paddingTop: space.xs,
+    paddingBottom: space.xs,
+  },
+  pickerNote: {
+    ...type.small,
+    color: colors.textMuted,
+    paddingHorizontal: space.sm,
+    paddingTop: space.xs,
+    paddingBottom: space.xs,
+  },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.md,
+    minHeight: 60,
+    paddingHorizontal: space.sm,
+    borderRadius: radius.md,
+  },
+  optionOn: { backgroundColor: colors.accentTint },
+  optionText: { flex: 1, gap: 1 },
+  optionName: { ...type.answer, fontWeight: '700', color: colors.text },
+  optionHold: { ...type.small, color: colors.textMuted },
+  optionSoon: { ...type.small, color: colors.textFaint },
 
   banner: {
     marginHorizontal: space.lg,
@@ -1398,7 +1543,6 @@ const styles = themed(() => ({
     opacity: 0.28,
   },
   sparkCore: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.accent },
-  scene: { position: 'absolute' },
   // Beside its node, centred on it.
   label: { position: 'absolute', top: 0, height: RING, justifyContent: 'center' },
   labelTitle: { fontSize: 15, lineHeight: 19, fontWeight: '700', color: colors.text },
