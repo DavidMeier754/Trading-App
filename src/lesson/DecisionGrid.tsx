@@ -30,6 +30,9 @@ const CELL_WORDS: Record<DecisionCellName, string> = {
   'wrong-lost': 'A lesson',
 };
 
+/** On the large grid, how far the dot sits below its cell's top edge. */
+const DOT_INSET = 9;
+
 export function cellOf(name: DecisionCellName): GridCell {
   const [row, col] = name.split('-') as ['right' | 'wrong', 'won' | 'lost'];
   return { row, col, hollow: false };
@@ -58,22 +61,25 @@ export default function DecisionGrid({
 
   const large = size === 'large';
   const cellW = large ? 112 : 34;
-  const cellH = large ? 56 : 24;
+  // The large cell holds its name and, above it, room for the dot.
+  const cellH = large ? 76 : 24;
   const gap = large ? 6 : 4;
   const rowLabelW = large ? 92 : 44;
   const lit = (row: 'right' | 'wrong', col: 'won' | 'lost') =>
     !!cell && cell.row === row && cell.col === col;
 
+  const d = large ? 16 : 12;
   // The dot's centre in the grid's own box: a row's middle, or the line
-  // between the rows for an amber call; the same across the columns.
+  // between the rows for an amber call; the same across the columns. On the
+  // large grid it sits at the top of its cell, above the cell's name.
   const top0 = large ? 22 : 18;
+  const inCell = large ? DOT_INSET + d / 2 : cellH / 2;
   const rowY = (r: GridCell['row']) =>
-    top0 + (r === 'right' ? cellH / 2 : r === 'wrong' ? cellH + gap + cellH / 2 : cellH + gap / 2);
+    top0 + (r === 'right' ? inCell : r === 'wrong' ? cellH + gap + inCell : cellH + gap / 2);
   const colX = (c: GridCell['col']) =>
     rowLabelW +
     gap +
     (c === 'won' ? cellW / 2 : c === 'lost' ? cellW + gap + cellW / 2 : cellW + gap / 2);
-  const d = large ? 16 : 12;
 
   return (
     <View
@@ -108,6 +114,7 @@ export default function DecisionGrid({
               style={[
                 styles.cell,
                 { width: cellW, height: cellH },
+                large && { paddingTop: DOT_INSET + d },
                 lit(row, col) && (row === 'right' ? styles.cellRight : styles.cellWrong),
               ]}
             >

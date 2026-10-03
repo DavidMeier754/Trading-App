@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BackHandler, Pressable, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
+import { useDisplayFace } from '../fonts';
 import { tapFeedback } from '../lesson/feedback';
 import { EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
@@ -50,6 +51,7 @@ export function PageHeader({
   onBack: () => void;
   lines?: 1 | 2;
 }) {
+  const display = useDisplayFace();
   return (
     <View style={[styles.header, { paddingTop: top + space.sm }]}>
       <Pressable
@@ -62,7 +64,7 @@ export function PageHeader({
       >
         <Icon name="back" size={24} color={colors.text} />
       </Pressable>
-      <Text style={styles.title} numberOfLines={lines}>
+      <Text style={[styles.title, display]} numberOfLines={lines}>
         {title}
       </Text>
     </View>

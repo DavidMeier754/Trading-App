@@ -30,6 +30,7 @@ import { MaterialRow, TierFlip } from '../rewards/TierCard';
 import { NO_TIER, nextTier, tierNamed, TIERS } from '../rewards/tiers';
 import { colors, space, type, themed } from '../theme';
 import type { BadgeScreen as Badge, TierUpScreen as TierUp } from '../types';
+import { useDisplayFace } from '../fonts';
 
 /** How long one letter of the chapter name takes to type in. */
 const TYPE_MS = 36;
@@ -95,6 +96,7 @@ export function BadgeScreen({
   const opens = useSharedValue(m.reduced ? 1 : 0);
   const [letters, setLetters] = useState(m.reduced ? name.length : 0);
   const line = opensLine(screen.unlocks, path);
+  const display = useDisplayFace();
 
   const landed = useCallback(() => medalFeedback(), []);
   const placed = useCallback(() => landFeedback(), []);
@@ -265,7 +267,7 @@ export function BadgeScreen({
           never reflows the screen; the untyped part is simply invisible. */}
       <View style={styles.titleBlock}>
         <Text style={styles.kickerGold}>{`Chapter ${chapter} complete`}</Text>
-        <Text style={styles.bigTitle} accessibilityRole="header">
+        <Text style={[styles.bigTitle, display]} accessibilityRole="header">
           {name.slice(0, letters)}
           <Text style={styles.untyped}>{name.slice(letters)}</Text>
         </Text>

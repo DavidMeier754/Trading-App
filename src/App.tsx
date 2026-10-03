@@ -16,6 +16,7 @@ import {
   choosePath,
   completeLesson,
   earnGems,
+  finishFirstTrade,
   getProgress,
   giveHeart,
   loadSaved,
@@ -33,12 +34,17 @@ import {
   useThemeKey,
   type ThemeMode,
 } from './theme';
+import { loadFonts } from './fonts';
+import { NEW_DESIGNS } from './home/newDesigns';
+import { FIRST_TRADE } from './onboarding/firstTrade';
 
 /** docs/UI.md §2 is portrait-only, so the player is capped at a phone width. */
 const MAX_WIDTH = 480;
 
 export default function App() {
   const { width, height } = useWindowDimensions();
+  // docs/UI.md §10: the titles' face loads alongside; nothing waits for it.
+  useEffect(() => loadFonts(), []);
   const frameWidth = Math.min(width, MAX_WIDTH);
   const contentWidth = frameWidth - space.lg * 2;
 
@@ -60,7 +66,13 @@ export default function App() {
     loadSaved({ restoreLook, restoreTheme }).finally(() => {
       if (TEST_MODE) setMotionSetting('reduced');
       setReady(true);
+      // docs/UI.md §11.1 [DESIGN-REVIEW]: a fresh install opens on its first
+      // decision -- not over a deep link of any kind (a lesson, a home page, a
+      // look), which asks for its own screen, and not in the render test.
+      if (!TEST_MODE && !link && !getProgress().firstTrade) setEntry(FIRST_TRADE);
     });
+    // Once, as the app opens.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restoreLook, restoreTheme]);
 
   // The render test (`npm run smoke`, `?test=1`) walks every screen in one page:
@@ -180,20 +192,30 @@ export default function App() {
                     startAt={link && link.entry === entry ? link.screen : 0}
                     testBench={entry.testBench}
                     kind={
-                      entry.testBench
-                        ? 'lesson'
-                        : entry.practice
-                          ? 'practice'
-                          : isBonus(entry)
-                            ? 'bonus'
-                            : (nodeOf(entry.id)?.kind ?? 'lesson')
+                      entry === FIRST_TRADE
+                        ? 'first'
+                        : entry.testBench
+                          ? 'lesson'
+                          : entry.practice
+                            ? 'practice'
+                            : isBonus(entry)
+                              ? 'bonus'
+                              : (nodeOf(entry.id)?.kind ?? 'lesson')
                     }
-                    lessonId={entry.testBench || entry.practice ? undefined : entry.id}
+                    lessonId={
+                      entry.testBench || entry.practice || entry === FIRST_TRADE
+                        ? undefined
+                        : entry.id
+                    }
                     sourceKeys={entry.practice?.keys}
                     initialPath={getProgress().path}
                     onChoosePath={choosePath}
                     contentWidth={contentWidth}
-                    onQuit={() => setEntry(null)}
+                    onQuit={() => {
+                      // The first trade is shown once, finished or not.
+                      if (entry === FIRST_TRADE) finishFirstTrade();
+                      setEntry(null);
+                    }}
                     // A lesson on the path counts once its summary is reached; the
                     // test bench is not on the path and just plays again. A
                     // practice round gives a heart back (docs/UI.md §5.2); a bonus
@@ -203,6 +225,10 @@ export default function App() {
                       entry.testBench
                         ? undefined
                         : (result) => {
+                            if (entry === FIRST_TRADE) {
+                              finishFirstTrade();
+                              return;
+                            }
                             if (entry.practice) {
                               giveHeart();
                               return;
@@ -309,7 +335,10 @@ function readDeepLink(): {
     return { entry: null, screen: 0, look: named, theme: themed };
   if (id === 'debug-crash' && TEST_TOOLS)
     return { entry: null, screen: 0, look: named, theme: themed, crash: true };
-  const found = LESSONS.find((l) => l.id === id) ?? null;
+  const found =
+    LESSONS.find((l) => l.id === id) ??
+    (TEST_TOOLS ? [NEW_DESIGNS, FIRST_TRADE].find((l) => l.id === id) : undefined) ??
+    null;
   // The test bench is a testing tool: a release build does not open it.
   const entry = found?.testBench && !TEST_TOOLS ? null : found;
   if (!entry && !named && !themed) return null;

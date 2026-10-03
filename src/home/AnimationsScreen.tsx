@@ -9,6 +9,7 @@ import Cta from '../lesson/Cta';
 import { revealFeedback, runBefore, STREAK_FROM, tapFeedback } from '../lesson/feedback';
 import HeartMeter from '../lesson/HeartMeter';
 import LessonComplete from '../lesson/LessonComplete';
+import MistakesDeck, { type DeckItem } from '../lesson/MistakesDeck';
 import { emitMood, useLookSpec } from '../lesson/look';
 import { EASE_OUT, usePressFeedback } from '../lesson/motion';
 import OutOfHearts from '../lesson/OutOfHearts';
@@ -35,7 +36,8 @@ import { pathView } from './pathState';
  * animations tab"). Test builds only.
  */
 
-type StageId = 'complete' | 'perfect' | 'up' | 'lost' | 'badge' | 'tier' | 'run' | 'heart' | 'out';
+type StageId =
+  'complete' | 'perfect' | 'up' | 'lost' | 'badge' | 'tier' | 'deck' | 'run' | 'heart' | 'out';
 
 const APP: { id: StageId; icon: IconName; title: string; sub: string }[] = [
   { id: 'complete', icon: 'bolt', title: 'Lesson complete', sub: 'The ring, the XP, the confetti' },
@@ -49,6 +51,12 @@ const APP: { id: StageId; icon: IconName; title: string; sub: string }[] = [
   { id: 'lost', icon: 'calendar', title: 'Streak lost', sub: 'A day missed: the flame goes out' },
   { id: 'badge', icon: 'trophy', title: 'Chapter complete', sub: "The chapter's medal lands" },
   { id: 'tier', icon: 'shield', title: 'New tier', sub: 'The tier card turns over' },
+  {
+    id: 'deck',
+    icon: 'repeat',
+    title: 'Mistakes round',
+    sub: 'The missed questions as a deck, then the shuffle',
+  },
   { id: 'run', icon: 'flame', title: 'Right answers in a row', sub: 'The flame in the top bar' },
   { id: 'heart', icon: 'heart', title: 'Heart lost', sub: 'A wrong answer costs a heart' },
   { id: 'out', icon: 'heart', title: 'Out of hearts', sub: 'The last heart is gone' },
@@ -228,6 +236,7 @@ function Stage({
     ) : (
       <Missing what="tier" />
     );
+  else if (id === 'deck') body = <DeckDemo />;
   else if (id === 'out') body = <OutOfHearts />;
   else if (id === 'up') body = <StreakUp from={streak} to={streak + 1} />;
   // Nothing to lose yet: a streak of 12 stands in.
@@ -358,6 +367,23 @@ function Missing({ what }: { what: string }) {
 }
 
 function noop() {}
+
+/** Three missed questions, as a lesson would hand them to the deck. */
+const DECK_ITEMS: DeckItem[] = [
+  { line: 'Which way did the price move?', answer: 'Down' },
+  { line: 'Bought 100 shares at $20.00, sold at $20.50. The profit?', answer: '$5.00' },
+  { line: 'XYZ has been climbing. Buy, or wait?', answer: 'Buy' },
+];
+
+/** The deck fans in; a moment later the key's work plays: it gathers and shuffles. */
+function DeckDemo() {
+  const [dealing, setDealing] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setDealing(true), 1600);
+    return () => clearTimeout(t);
+  }, []);
+  return <MistakesDeck items={DECK_ITEMS} dealing={dealing} />;
+}
 
 function Row({
   icon,

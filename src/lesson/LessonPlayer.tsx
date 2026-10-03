@@ -58,8 +58,10 @@ import {
   grade as gradeAnswer,
 } from './answers';
 import type { CueName } from './cues.generated';
+import { Arrive } from './Celebrate';
 import Cta from './Cta';
 import {
+  advanceFeedback,
   commitFeedback,
   revealFeedback,
   runBefore,
@@ -70,6 +72,7 @@ import {
 import ProgressBar from './ProgressBar';
 import QuitSheet, { QuitButton } from './QuitSheet';
 import Reveal, { RevealProbe } from './Reveal';
+import { FIRST_TRADE_LINE } from '../onboarding/firstTrade';
 import { decisionReveal, longestDecisionReveal } from './decisionReveal';
 import LessonComplete from './LessonComplete';
 import { DURATION, EASE_OUT, RISE, useMotion } from './motion';
@@ -106,7 +109,11 @@ type SkillsScreen = { type: 'skills-learned'; skills: Skill[] };
 type PlayerScreen = Screen | DeckScreen | SkillsScreen;
 
 /** What the player is playing: a node of the path, or a round made in code. */
-export type PlayerKind = NodeKind | 'practice' | 'bonus';
+/**
+ * `first`: the fresh install's first decision (onboarding/firstTrade.ts) --
+ * not graded, no record, no hearts, and it ends on its own note.
+ */
+export type PlayerKind = NodeKind | 'practice' | 'bonus' | 'first';
 
 /** A second press within 90 ms of the last is the same tap fired twice. */
 function doubleFire(last: { current: number }): boolean {
@@ -375,9 +382,13 @@ export default function LessonPlayer({
     setStreaks((prev) => prev.map((x, i) => (i === index ? streak : x)));
     setRevealed((prev) => prev.map((x, i) => (i === index ? true : x)));
     // docs/UI.md §5.1: the verdict lands the instant it is known. A run of right
-    // answers climbs the chime a step at a time.
-    revealFeedback(g, streak);
-    emitMood(g === 'correct' ? (streak >= STREAK_FROM ? 'streak' : 'correct') : g, streak);
+    // answers climbs the chime a step at a time. The first decision has no
+    // verdict: it lands as a page turning.
+    if (kind === 'first') advanceFeedback();
+    else {
+      revealFeedback(g, streak);
+      emitMood(g === 'correct' ? (streak >= STREAK_FROM ? 'streak' : 'correct') : g, streak);
+    }
     // The heart goes with the verdict, in the same frame (HeartMeter).
     if (g === 'wrong' && spendsHearts) loseHeart();
     // docs/UI.md §7.3: the record behind practice and the stats. The test
@@ -399,7 +410,7 @@ export default function LessonPlayer({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [screen, value, index, grades, spendsHearts]);
+  }, [screen, value, index, grades, spendsHearts, kind]);
 
   // Types that commit on the tap itself reveal as soon as an answer exists, with
   // no Check step in between (see COMMITS_ON_TAP). `chart-decision` is the one
@@ -557,6 +568,7 @@ export default function LessonPlayer({
     if (screen.type === 'walkthrough' && cursor < screen.steps.length - 1) return 'Next';
     if (!isQuestion(screen)) return isLast ? 'Finish' : 'Continue';
     if (!isRevealed) return 'Check';
+    if (kind === 'first') return 'Continue';
     return isLast ? 'Finish' : 'Got it';
   }, [
     screen,
@@ -633,6 +645,12 @@ export default function LessonPlayer({
     if (!screen) {
       if (onComplete && onQuit) leave();
       else reset();
+      return;
+    }
+    // The first decision ends on its own note, with no summary.
+    if (kind === 'first' && isRevealed && isLast) {
+      onComplete?.({ perfect: false, skills: [], right: 0, asked: 0 });
+      leave();
       return;
     }
     // The deck gathers and shuffles once, then the round's first card comes.
@@ -910,21 +928,25 @@ export default function LessonPlayer({
             ]}
           >
             <View style={[styles.revealGround, fillsUnderChart ? styles.revealFill : null]}>
-              <Reveal
-                grade={g}
-                lead={decision?.lead}
-                decision={decision}
-                fill={fillsUnderChart}
-                explanation={
-                  // A branch's reveals live on its steps (docs/schema.md); the panel
-                  // gives the one that matters most for the path taken.
-                  screen.type === 'branch'
-                    ? branchExplanation(screen, value?.kind === 'branch' ? value.picks : [])
-                    : (screen as Exclude<QuestionScreen, { type: 'branch' }>).explanation
-                }
-                working={working}
-                streak={streak}
-              />
+              {kind === 'first' ? (
+                <FirstNote fill={fillsUnderChart} />
+              ) : (
+                <Reveal
+                  grade={g}
+                  lead={decision?.lead}
+                  decision={decision}
+                  fill={fillsUnderChart}
+                  explanation={
+                    // A branch's reveals live on its steps (docs/schema.md); the panel
+                    // gives the one that matters most for the path taken.
+                    screen.type === 'branch'
+                      ? branchExplanation(screen, value?.kind === 'branch' ? value.picks : [])
+                      : (screen as Exclude<QuestionScreen, { type: 'branch' }>).explanation
+                  }
+                  working={working}
+                  streak={streak}
+                />
+              )}
             </View>
           </View>
         ) : null}
@@ -948,7 +970,14 @@ export default function LessonPlayer({
             disabled={ctaDisabled}
             onPress={onCta}
             cue={ctaCue}
-            good={!outOfHearts && !!screen && isQuestion(screen) && isRevealed && g === 'correct'}
+            good={
+              kind !== 'first' &&
+              !outOfHearts &&
+              !!screen &&
+              isQuestion(screen) &&
+              isRevealed &&
+              g === 'correct'
+            }
             hidden={held && !outOfHearts}
           />
         )}
@@ -986,6 +1015,25 @@ function probeExplanation(screen: QuestionScreen): string {
     return screen.steps.reduce((a, s) => (s.explanation.length > a.length ? s.explanation : a), '');
   }
   return (screen as Exclude<QuestionScreen, { type: 'branch' }>).explanation ?? '';
+}
+
+/**
+ * docs/UI.md §11.1 [DESIGN-REVIEW]: the first decision is not graded. In the
+ * verdict's place, one neutral note: what just happened, and what the app is.
+ */
+function FirstNote({ fill }: { fill: boolean }) {
+  return (
+    <Arrive style={fill ? styles.firstFill : undefined}>
+      <View
+        style={[styles.firstNote, fill && styles.firstFill]}
+        accessible
+        accessibilityRole="summary"
+      >
+        <Text style={styles.firstTitle}>That was your first decision.</Text>
+        <Text style={styles.firstLine}>{FIRST_TRADE_LINE}</Text>
+      </View>
+    </Arrive>
+  );
 }
 
 function renderScreen(props: {
@@ -1169,6 +1217,17 @@ function renderScreen(props: {
 }
 
 const styles = themed(() => ({
+  firstNote: {
+    gap: space.sm,
+    padding: space.lg,
+    borderRadius: radius.lg,
+    borderWidth: 1.5,
+    borderColor: colors.borderStrong,
+    backgroundColor: colors.surface,
+  },
+  firstFill: { flexGrow: 1 },
+  firstTitle: { ...type.title, color: colors.text },
+  firstLine: { ...type.body, color: colors.textMuted },
   // The backdrop paints the ground now; every container above it is glass.
   root: { flex: 1, backgroundColor: 'transparent' },
   topBar: {

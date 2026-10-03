@@ -134,6 +134,7 @@ export default function Home({
         onBack={() => setPage(null)}
         onOpenDesign={() => setPage('design')}
         onOpenBench={onOpenBench}
+        onOpenLesson={onStart}
         onOpenAnimations={() => setPage('animations')}
         onOpenSuggestions={() => setPage('suggestions')}
       />

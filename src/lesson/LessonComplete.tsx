@@ -22,6 +22,7 @@ import Confetti from './Confetti';
 import { celebrateFeedback, coinFeedback, noteFeedback } from './feedback';
 import { emitMood, surfaceStyle, useLookSpec } from './look';
 import { EASE_OUT, EASE_SINE, SPRING_POP, useMotion } from './motion';
+import { useDisplayFace } from '../fonts';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -77,6 +78,7 @@ export default function LessonComplete({
   gems?: number;
 }) {
   const hearts = useHearts().hearts;
+  const display = useDisplayFace();
   const m = useMotion();
   // docs/UI.md §7.2: "Today 1/2" -- the goal left the top bar in LOOK-SYSTEM.
   const today = Math.min(doneToday(useProgress()), DAILY_GOAL);
@@ -215,7 +217,7 @@ export default function LessonComplete({
         <Text style={[styles.kicker, { color: tone }]}>
           {practice ? 'Round complete' : perfect ? 'Perfect run' : 'Lesson done'}
         </Text>
-        <Text style={styles.title}>{levelTitle}</Text>
+        <Text style={[styles.title, display]}>{levelTitle}</Text>
       </Animated.View>
 
       <View

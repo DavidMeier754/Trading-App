@@ -8,6 +8,7 @@ import Cta from '../lesson/Cta';
 import { tapFeedback } from '../lesson/feedback';
 import { TermSheet } from '../lesson/terms';
 import { dailyMix, openMistakes, PlayedQuestion, roundLevel, weakSpots } from '../practice';
+import { useDisplayFace } from '../fonts';
 import { markSkillsSeen, Progress, useProgress } from '../progress';
 import { skillChapters, type Skill } from '../skills';
 import { colors, radius, space, type, themed } from '../theme';
@@ -51,6 +52,7 @@ function roundEntry(
  * Practice never costs a heart; a finished round gives one back.
  */
 export default function PracticeScreen({ onStart }: { onStart: (entry: LessonEntry) => void }) {
+  const display = useDisplayFace();
   const insets = useSafeAreaInsets();
   const progress = useProgress();
   const [section, setSection] = useState<Section>('mix');
@@ -58,7 +60,7 @@ export default function PracticeScreen({ onStart }: { onStart: (entry: LessonEnt
   const anyPlayed = Object.keys(progress.done).length > 0;
   return (
     <View style={[styles.wrap, { paddingTop: insets.top + space.lg }]}>
-      <Text style={styles.title} accessibilityRole="header">
+      <Text style={[styles.title, display]} accessibilityRole="header">
         Practice
       </Text>
       <Segments value={section} onChange={setSection} mistakes={mistakes.length} />

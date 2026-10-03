@@ -58,6 +58,7 @@ import Icon, { type IconName } from './icons';
 import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
 import { ChapterView, chapterViews, currentLevel, LevelView } from './pathState';
 import { Gem, PathLogo } from './scenes';
+import { useDisplayFace } from '../fonts';
 
 /** Vertical distance between two nodes' centres. */
 const STEP_Y = 148;
@@ -1021,6 +1022,7 @@ export function unbroken(title: string): string {
  * its level ("Level 4 · Lesson 1 of 3", review S9), and its title.
  */
 function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
+  const display = useDisplayFace();
   const lesson = Math.min(view.done + 1, view.total);
   const kind = view.level.kind;
   // When it comes to name a new level, the words rise into place and the
@@ -1062,7 +1064,7 @@ function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
     <Animated.View style={[styles.banner, whole]} accessibilityRole="header">
       <Animated.View style={[styles.bannerText, words]}>
         <Text style={styles.bannerKicker}>{kicker}</Text>
-        <Text style={styles.bannerTitle}>
+        <Text style={[styles.bannerTitle, display]}>
           {allDone ? 'More levels are on the way' : unbroken(view.level.title)}
         </Text>
       </Animated.View>
@@ -1090,6 +1092,7 @@ function ChapterHeader({
   onToggle: () => void;
 }) {
   const reduced = useReduceMotion();
+  const display = useDisplayFace();
   const turn = useSharedValue(expanded ? 1 : 0);
   useEffect(() => {
     turn.set(
@@ -1143,7 +1146,7 @@ function ChapterHeader({
           <Text style={[styles.chapterKicker, done && { color: colors.warning }]}>{kicker}</Text>
           {/* The header keeps its height, so a long name shrinks to fit its one line. */}
           <Text
-            style={[styles.chapterTitle, locked && { color: colors.textMuted }]}
+            style={[styles.chapterTitle, display, locked && { color: colors.textMuted }]}
             numberOfLines={1}
             adjustsFontSizeToFit
             minimumFontScale={0.7}

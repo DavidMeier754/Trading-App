@@ -3,6 +3,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PATHS } from '../content';
+import { useDisplayFace } from '../fonts';
 import { useProgress } from '../progress';
 import { EMBLEM_NAMES, MedalCoin } from '../rewards/Medal';
 import { TierCard } from '../rewards/TierCard';
@@ -28,6 +29,7 @@ export default function AccountScreen({
   onOpenStats: () => void;
   onOpenPlan: () => void;
 }) {
+  const display = useDisplayFace();
   const insets = useSafeAreaInsets();
   const progress = useProgress();
   const { finished, tier } = useMemo(() => standing(progress), [progress]);
@@ -44,7 +46,7 @@ export default function AccountScreen({
       ]}
       onLayout={(e) => setW(e.nativeEvent.layout.width - space.lg * 2)}
     >
-      <Text style={styles.title} accessibilityRole="header">
+      <Text style={[styles.title, display]} accessibilityRole="header">
         Account
       </Text>
       {w > 0 ? <TierCard tier={tier} width={w} path={pathName} /> : null}

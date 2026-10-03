@@ -33,7 +33,12 @@ import type { TradePlan } from '../lesson/tradePlan';
 import { EASE_OUT } from '../lesson/motion';
 import {
   ChartNotes,
+  HaloText,
+  labelBox,
+  type LabelBox,
   PlanLines,
+  planLabels,
+  placeLevelLabels,
   placeNotes,
   RULER_W,
   RulerResult,
@@ -827,49 +832,70 @@ function PlaybackAxis({
 
 /** The outcome tag's height: two short lines. */
 const OUTCOME_TAG_H = 40;
+/** Roughly how wide the outcome tag's words draw, per character. */
+const OUTCOME_CHAR_W = 7.6;
 
 /** How long after mount a chart starts building: the screen is still fading in. */
 const ENTRY_DELAY = 160;
 /** Levels, VWAP and the markers, once the bars are in. */
 const OVERLAY_MS = 520;
 
-/** A marked level, ruled in from the left edge; its label follows the pen. */
+/** A marked level, ruled in from the left edge. Its label is drawn over the bars (LevelLabel). */
 function DrawnLevel({
   x1,
   x2,
   y,
-  label,
   enter,
 }: {
   x1: number;
   x2: number;
   y: number;
-  label?: string;
   enter: SharedValue<number>;
 }) {
   const line = useAnimatedProps(() => ({ x2: x1 + (x2 - x1) * enter.get() }));
+  return (
+    <AnimatedLine
+      x1={x1}
+      x2={x2}
+      y1={y}
+      y2={y}
+      stroke={colors.warning}
+      strokeWidth={1.25}
+      strokeDasharray="5 4"
+      opacity={0.85}
+      animatedProps={line}
+    />
+  );
+}
+
+/** A level's label, on top of the bars so none of them covers it; it follows the pen. */
+function LevelLabel({
+  x,
+  y,
+  anchor,
+  label,
+  enter,
+}: {
+  x: number;
+  y: number;
+  anchor: 'start' | 'end';
+  label: string;
+  enter: SharedValue<number>;
+}) {
   const text = useAnimatedProps(() => ({ opacity: Math.max(0, (enter.get() - 0.35) / 0.65) }));
   return (
-    <G>
-      <AnimatedLine
-        x1={x1}
-        x2={x2}
-        y1={y}
-        y2={y}
-        stroke={colors.warning}
-        strokeWidth={1.25}
-        strokeDasharray="5 4"
-        opacity={0.85}
-        animatedProps={line}
-      />
-      {label ? (
-        <AnimatedG animatedProps={text}>
-          <SvgText x={x1 + 4} y={y - 5} fill={colors.warning} fontSize={13} fontWeight="600">
-            {label}
-          </SvgText>
-        </AnimatedG>
-      ) : null}
-    </G>
+    <AnimatedG animatedProps={text}>
+      <HaloText
+        x={x}
+        y={y}
+        textAnchor={anchor}
+        fill={colors.warning}
+        fontSize={13}
+        fontWeight="600"
+      >
+        {label}
+      </HaloText>
+    </AnimatedG>
   );
 }
 
@@ -1539,6 +1565,72 @@ function Chart({
         }
       : null;
 
+  // The plan's labels, which the levels' labels and the notes keep off.
+  const planBoxes = plan
+    ? planLabels(plan, {
+        y,
+        x0: decisionX,
+        x1: PAD_LEFT + plotW,
+        top: padTop,
+        bottom: padTop + priceH,
+      }).boxes
+    : [];
+  const decisionTagBox = {
+    left: Math.max(0, decisionX - 26),
+    top: Math.max(0, padTop - 15),
+    width: 88,
+    height: 22,
+  };
+
+  // The levels' labels: each at the end of its line where it covers the
+  // fewest bars (docs/UI.md §6.4), drawn over the bars on a rim of the page.
+  const levelLabels = useMemo(() => {
+    const marked = (spec.levels ?? []).filter((lvl) => !!lvl.label);
+    if (!marked.length) return [];
+    const ink: LabelBox[] = [];
+    if (spec.kind === 'line') {
+      // A line's track, sampled along each segment.
+      for (let i = 1; i < n; i++) {
+        for (let k = 0; k <= 8; k++) {
+          const t = k / 8;
+          const px = cx(i - 1) + (cx(i) - cx(i - 1)) * t;
+          const py = y(bars[i - 1].c) + (y(bars[i].c) - y(bars[i - 1].c)) * t;
+          ink.push({ left: px - 2, top: py - 2, width: 4, height: 4 });
+        }
+      }
+    } else {
+      bars.forEach((b, i) => {
+        const bodyTop = y(Math.max(b.o, b.c));
+        ink.push({
+          left: cx(i) - bodyW / 2 - 2,
+          top: bodyTop - 2,
+          width: bodyW + 4,
+          height: Math.max(1, y(Math.min(b.o, b.c)) - bodyTop) + 4,
+        });
+        ink.push({ left: cx(i) - 1, top: y(b.h), width: 2, height: Math.max(1, y(b.l) - y(b.h)) });
+      });
+    }
+    const avoid: LabelBox[] = [...planBoxes];
+    if (showDecisionMarker && spec.decision_index >= 0) avoid.push(decisionTagBox);
+    if (decisionZone && spec.decision_index >= 0) {
+      // The "next 4 bars" pill in the hatched zone (FutureZone).
+      const zx0 = decisionX + 4;
+      const zx1 = PAD_LEFT + plotW;
+      const pillW = `next ${n - spec.decision_index - 1} bars`.length * LABEL_CHAR_W + 14;
+      avoid.push({
+        left: (zx0 + zx1) / 2 - pillW / 2,
+        top: padTop + priceH / 2 - 9,
+        width: pillW,
+        height: 18,
+      });
+    }
+    return placeLevelLabels(
+      marked.map((lvl) => ({ text: `${lvl.label} ${axisPrice(lvl.price)}`, y: y(lvl.price) })),
+      { left: PAD_LEFT, right: PAD_LEFT + plotW, top: padTop, bottom: padTop + priceH, ink, avoid },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spec, bars, n, layout, plan, decisionX, showDecisionMarker, decisionZone]);
+
   // The outcome tag goes where the bars before the decision are not: above
   // them or below, whichever gap is taller, at the left of the plot.
   const showOutcome = !!outcome && shown >= n && !playback && spec.decision_index >= 0;
@@ -1553,10 +1645,33 @@ function Chart({
     }
     const above = top - padTop;
     const below = padTop + priceH - bottom;
-    return below >= above
-      ? Math.min(padTop + priceH - OUTCOME_TAG_H - 4, bottom + (below - OUTCOME_TAG_H) / 2)
-      : Math.max(padTop + 4, padTop + (above - OUTCOME_TAG_H) / 2);
-  }, [showOutcome, spec.decision_index, n, bars, layout, padTop, priceH]);
+    const centred =
+      below >= above
+        ? Math.min(padTop + priceH - OUTCOME_TAG_H - 4, bottom + (below - OUTCOME_TAG_H) / 2)
+        : Math.max(padTop + 4, padTop + (above - OUTCOME_TAG_H) / 2);
+    // Off the levels' labels: step out from the middle of the gap, either way,
+    // to the first spot that clears them all.
+    if (!levelLabels.length) return centred;
+    const width =
+      Math.max(outcome?.move.length ?? 0, outcome?.position.length ?? 0) * OUTCOME_CHAR_W + 18;
+    const boxes = levelLabels.map((l) => labelBox(l.text, l.x, l.y, l.anchor));
+    const [lo, hi] =
+      below >= above
+        ? [bottom + 2, padTop + priceH - OUTCOME_TAG_H - 2]
+        : [padTop + 2, top - OUTCOME_TAG_H - 2];
+    const clear = (t: number) =>
+      !boxes.some(
+        (b) =>
+          b.left < PAD_LEFT + 4 + width &&
+          PAD_LEFT + 4 < b.left + b.width &&
+          b.top < t + OUTCOME_TAG_H + 3 &&
+          t - 3 < b.top + b.height,
+      );
+    for (let d = 0; d <= Math.max(0, hi - lo); d += 4) {
+      for (const t of [centred - d, centred + d]) if (t >= lo && t <= hi && clear(t)) return t;
+    }
+    return centred;
+  }, [showOutcome, spec.decision_index, n, bars, layout, padTop, priceH, levelLabels, outcome]);
 
   return (
     <View style={{ width, height }}>
@@ -1630,7 +1745,6 @@ function Chart({
             x1={PAD_LEFT}
             x2={PAD_LEFT + plotW}
             y={y(lvl.price)}
-            label={lvl.label ? `${lvl.label} ${axisPrice(lvl.price)}` : undefined}
             enter={overlay}
           />
         ))}
@@ -1874,8 +1988,28 @@ function Chart({
 
         {/* docs/UI.md §6.4 [DESIGN-REVIEW]: the plan, once the call is made,
             and the R ruler beside the axis. */}
+        {/* The levels' labels, over the bars. */}
+        {levelLabels.map((l, i) => (
+          <LevelLabel
+            key={`ll${i}`}
+            x={l.x}
+            y={l.y}
+            anchor={l.anchor}
+            label={l.text}
+            enter={overlay}
+          />
+        ))}
+
         {plan ? (
-          <PlanLines plan={plan} y={y} x0={decisionX} x1={PAD_LEFT + plotW} enter={planEnter} />
+          <PlanLines
+            plan={plan}
+            y={y}
+            x0={decisionX}
+            x1={PAD_LEFT + plotW}
+            top={padTop}
+            bottom={padTop + priceH}
+            enter={planEnter}
+          />
         ) : null}
         {plan && ruler ? (
           <RulerScale plan={plan} y={y} x={rulerX} faint={ruler === 'faint'} enter={rulerEnter} />
@@ -1952,6 +2086,17 @@ function Chart({
               yHigh: (bar) => y(bars[bar].h),
               yLow: (bar) => y(bars[bar].l),
               bounds: { left: 0, right: PAD_LEFT + plotW, top: 0, bottom: padTop + priceH + 14 },
+              avoid: [
+                ...levelLabels.map((l) => labelBox(l.text, l.x, l.y, l.anchor)),
+                ...(planShown ? planBoxes : []),
+                ...(showDecisionMarker ? [decisionTagBox] : []),
+              ],
+              bars: bars.slice(0, shown).map((b, i) => ({
+                left: cx(i) - bodyW / 2,
+                top: y(b.h),
+                width: bodyW,
+                height: Math.max(1, y(b.l) - y(b.h)),
+              })),
             },
           )}
           width={width}

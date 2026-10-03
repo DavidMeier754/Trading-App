@@ -16,6 +16,7 @@ import {
   addGems,
   MAX_HEARTS,
   refillHearts,
+  replayFirstTrade,
   skipTo,
   useHearts,
   useProgress,
@@ -27,6 +28,9 @@ import { Gem } from './scenes';
 import { forgetShownPath } from './LevelNode';
 import { pageStyles, RowButton, rowStyles } from './pageParts';
 import { pathView } from './pathState';
+import type { LessonEntry } from '../content';
+import { FIRST_TRADE } from '../onboarding/firstTrade';
+import { NEW_DESIGNS } from './newDesigns';
 
 /**
  * Settings → Testing (docs/UI.md §11.5): the testing tools, in test builds
@@ -38,10 +42,13 @@ import { pathView } from './pathState';
  */
 export default function TestingTools({
   onOpenBench,
+  onOpenLesson,
   onOpenAnimations,
   onOpenSuggestions,
 }: {
   onOpenBench: () => void;
+  /** Opens a lesson made in code: New designs, the first trade. */
+  onOpenLesson: (entry: LessonEntry) => void;
   onOpenAnimations: () => void;
   onOpenSuggestions: () => void;
 }) {
@@ -56,6 +63,21 @@ export default function TestingTools({
         title="Every screen type"
         sub="The test lesson"
         onPress={onOpenBench}
+      />
+      <RowButton
+        icon="bulb"
+        title="New designs"
+        sub="Every new field of the design review"
+        onPress={() => onOpenLesson(NEW_DESIGNS)}
+      />
+      <RowButton
+        icon="signpost"
+        title="Show the first trade"
+        sub="What a fresh install opens on"
+        onPress={() => {
+          replayFirstTrade();
+          onOpenLesson(FIRST_TRADE);
+        }}
       />
       <RowButton
         icon="play"

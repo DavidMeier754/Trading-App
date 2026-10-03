@@ -46,6 +46,7 @@ import {
   useSlideIn,
 } from './pageParts';
 import { totalXp } from './pathState';
+import type { LessonEntry } from '../content';
 
 /**
  * Settings (docs/UI.md §11.5), opened from Account: the design, which opens
@@ -57,6 +58,7 @@ export default function SettingsScreen({
   onBack,
   onOpenDesign,
   onOpenBench,
+  onOpenLesson,
   onOpenAnimations,
   onOpenSuggestions,
 }: {
@@ -65,6 +67,7 @@ export default function SettingsScreen({
   onOpenDesign: () => void;
   /** Test builds: the lesson with every screen type. */
   onOpenBench: () => void;
+  onOpenLesson: (entry: LessonEntry) => void;
   /** Test builds: the Animations page. */
   onOpenAnimations: () => void;
   /** Test builds: the Design suggestions page. */
@@ -161,6 +164,7 @@ export default function SettingsScreen({
         {TEST_TOOLS ? (
           <TestingTools
             onOpenBench={onOpenBench}
+            onOpenLesson={onOpenLesson}
             onOpenAnimations={onOpenAnimations}
             onOpenSuggestions={onOpenSuggestions}
           />

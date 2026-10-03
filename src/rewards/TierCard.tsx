@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Defs, Line, LinearGradient, Rect, Stop } from 'react-native-svg';
 
+import { useDisplayFace } from '../fonts';
 import { EASE_IN_OUT } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, type, themed } from '../theme';
@@ -70,6 +71,7 @@ export const MATERIAL_NAME: Record<Exclude<Material, 'blank'>, string> = {
  * the Account page and turns over on the tier-up screen (TierFlip).
  */
 export function TierCard({ tier, width, path }: { tier: Tier; width: number; path?: string }) {
+  const display = useDisplayFace();
   const height = width / CARD_RATIO;
   const id = `tier-${tier.material}`;
   if (tier.material === 'blank') {
@@ -81,7 +83,7 @@ export function TierCard({ tier, width, path }: { tier: Tier; width: number; pat
       >
         <Text style={[styles.kicker, { color: colors.textMuted }]}>Tier card</Text>
         <View style={styles.fill} />
-        <Text style={[styles.name, { color: colors.textMuted }]}>{tier.name}</Text>
+        <Text style={[styles.name, display, { color: colors.textMuted }]}>{tier.name}</Text>
         <Pips rank={0} color={colors.borderStrong} />
         <Text style={[styles.means, { color: colors.textMuted }]}>{tier.means}</Text>
       </View>
@@ -150,7 +152,7 @@ export function TierCard({ tier, width, path }: { tier: Tier; width: number; pat
         {path ? <Text style={[styles.kicker, { color: m.muted }]}>{path}</Text> : null}
       </View>
       <View style={styles.fill} />
-      <Text style={[styles.name, { color: m.text }]}>{tier.name}</Text>
+      <Text style={[styles.name, display, { color: m.text }]}>{tier.name}</Text>
       <Pips rank={tier.rank} color={m.accent} />
       <Text style={[styles.means, { color: m.muted }]}>{tier.means}</Text>
     </View>

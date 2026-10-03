@@ -127,6 +127,7 @@ describe('Settings → Change design (docs/UI.md §11.5)', () => {
         onBack={() => {}}
         onOpenDesign={onOpenDesign}
         onOpenBench={onOpenBench}
+        onOpenLesson={() => {}}
         onOpenAnimations={onOpenAnimations}
         onOpenSuggestions={onOpenSuggestions}
       />,
@@ -145,6 +146,7 @@ describe('Settings → Change design (docs/UI.md §11.5)', () => {
         onBack={() => {}}
         onOpenDesign={() => {}}
         onOpenBench={onOpenBench}
+        onOpenLesson={() => {}}
         onOpenAnimations={onOpenAnimations}
         onOpenSuggestions={onOpenSuggestions}
       />,

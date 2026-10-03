@@ -178,22 +178,21 @@ export function OrderBuildScreen(props: {
   );
 }
 
+const QTY_SLOTS = new Set(['qty', 'quantity']);
+const PRICE_SLOTS = new Set(['price', 'stop', 'target']);
+
 /** A chip as the ticket shows it: words capitalised, prices and counts formatted. */
 function chipText(slot: string, chip: string | number): string {
-  if (typeof chip === 'number') {
-    return slot === 'qty'
-      ? count(chip)
-      : slot === 'price' || slot === 'stop' || slot === 'target'
-        ? price(chip)
-        : String(chip);
-  }
-  const words = copy(chip);
+  const n = typeof chip === 'number' ? chip : /^\d+(\.\d+)?$/.test(chip) ? Number(chip) : null;
+  if (n !== null && QTY_SLOTS.has(slot)) return count(n);
+  if (n !== null && PRICE_SLOTS.has(slot)) return price(n);
+  const words = copy(String(chip));
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 /** What a row is called on the ticket: the price row follows the order type. */
 function ticketLabel(slot: string, filled: Record<string, string>): string {
-  if (slot === 'qty') return 'Shares';
+  if (QTY_SLOTS.has(slot)) return 'Shares';
   if (slot === 'price') {
     const kind = String(filled.type ?? '').toLowerCase();
     return kind === 'limit' ? 'Limit price' : kind === 'stop' ? 'Stop price' : 'Price';
@@ -232,10 +231,10 @@ function OrderTicket({
     else next[slot] = chip;
     onChange({ kind: 'slots', filled: next });
   };
-  const qty = Number(filled.qty);
+  const qtySlot = screen.slots.find((sl) => QTY_SLOTS.has(sl));
+  const qty = qtySlot ? Number(filled[qtySlot]) : NaN;
   const px = Number(filled.price);
-  const cost =
-    filled.qty !== undefined && filled.price !== undefined && qty > 0 && px > 0 ? qty * px : null;
+  const cost = qty > 0 && px > 0 ? qty * px : null;
 
   // Each segment's look: chosen, and after Check right or wrong; the intended
   // segment of a wrong row is outlined in the success colour.
@@ -303,7 +302,7 @@ function OrderTicket({
           </View>
         );
       })}
-      {screen.slots.includes('price') && screen.slots.includes('qty') ? (
+      {screen.slots.includes('price') && qtySlot ? (
         <View style={styles.estimate}>
           <Text style={styles.ticketLabel}>Estimated cost</Text>
           <Text style={[styles.estimateValue, cost === null && styles.estimateEmpty]}>
