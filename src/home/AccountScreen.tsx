@@ -1,84 +1,103 @@
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import Animated from 'react-native-reanimated';
+import React, { useMemo, useState } from 'react';
+import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { usePressFeedback } from '../lesson/motion';
-import { colors, radius, space, type, themed } from '../theme';
-import Icon from './icons';
+import { PATHS } from '../content';
+import { useProgress } from '../progress';
+import { EMBLEM_NAMES, MedalCoin } from '../rewards/Medal';
+import { TierCard } from '../rewards/TierCard';
+import { colors, space, type, themed } from '../theme';
+import { dayText, planDocument, standing } from './accountData';
+import { pageStyles, RowButton } from './pageParts';
+
+/** A medal on the shelf. */
+const COIN = 34;
 
 /**
- * The Account tab. The profile and stats (docs/UI.md §7.4) are still to come;
- * for now it is where Settings opens from.
+ * docs/UI.md §7.4 [DESIGN-REVIEW] (David, 2026-10-03): the Account page, top
+ * to bottom -- the tier card in its material, the medal shelf, All stats,
+ * Your plan, Settings. The learning chart David liked goes to the tab the
+ * Leaderboard becomes, decided with the tabs concept (§11.2).
  */
-export default function AccountScreen({ onOpenSettings }: { onOpenSettings: () => void }) {
+export default function AccountScreen({
+  onOpenSettings,
+  onOpenStats,
+  onOpenPlan,
+}: {
+  onOpenSettings: () => void;
+  onOpenStats: () => void;
+  onOpenPlan: () => void;
+}) {
   const insets = useSafeAreaInsets();
-  const press = usePressFeedback(true, { cue: 'tick' });
+  const progress = useProgress();
+  const { finished, tier } = useMemo(() => standing(progress), [progress]);
+  const plan = useMemo(() => planDocument(progress), [progress]);
+  const lines = plan.groups.reduce((n, g) => n + g.lines.length, 0);
+  const pathName = PATHS.find((p) => p.id === progress.path)?.name;
+  const [w, setW] = useState(0);
   return (
-    <View style={[styles.wrap, { paddingTop: insets.top + space.lg }]}>
-      <Text style={styles.title}>Account</Text>
+    <ScrollView
+      style={pageStyles.wrap}
+      contentContainerStyle={[
+        pageStyles.content,
+        { paddingTop: insets.top + space.lg, paddingBottom: space.xxl },
+      ]}
+      onLayout={(e) => setW(e.nativeEvent.layout.width - space.lg * 2)}
+    >
+      <Text style={styles.title} accessibilityRole="header">
+        Account
+      </Text>
+      {w > 0 ? <TierCard tier={tier} width={w} path={pathName} /> : null}
 
-      <View style={styles.profile}>
-        <View style={styles.avatar}>
-          <Icon name="account" size={34} color={colors.accent} filled />
-        </View>
-        <View style={styles.profileText}>
-          <Text style={styles.name}>Your profile</Text>
-          <Text style={styles.sub}>Your stats and Trader Card come here.</Text>
-        </View>
+      <Text style={pageStyles.section}>Medals</Text>
+      <View
+        style={styles.shelf}
+        accessible
+        accessibilityLabel={`Medals: ${finished.size} of ${EMBLEM_NAMES.length} chapters finished`}
+      >
+        {EMBLEM_NAMES.map((_, i) => {
+          const n = i + 1;
+          const earned = finished.has(n);
+          return (
+            <View key={n} style={styles.slot}>
+              <MedalCoin chapter={n} size={COIN} earned={earned} id={`shelf-${n}`} />
+              <Text style={[styles.slotNumber, earned && styles.slotNumberEarned]}>{n}</Text>
+            </View>
+          );
+        })}
       </View>
 
-      <Animated.View style={press.style}>
-        <Pressable
-          accessibilityRole="button"
-          onPressIn={press.onPressIn}
-          onPressOut={press.onPressOut}
-          onPress={onOpenSettings}
-          style={styles.row}
-        >
-          <Icon name="gear" size={22} color={colors.text} />
-          <Text style={styles.rowText}>Settings</Text>
-          <Icon name="next" size={20} color={colors.textFaint} />
-        </Pressable>
-      </Animated.View>
-    </View>
+      <Text style={pageStyles.section}>You</Text>
+      <RowButton
+        icon="gauge"
+        title="All stats"
+        sub="Lessons, streaks, skills and your decisions"
+        onPress={onOpenStats}
+      />
+      <RowButton
+        icon="book"
+        title="Your plan"
+        sub={
+          lines && plan.changed
+            ? `${lines} ${lines === 1 ? 'line' : 'lines'} · changed ${dayText(plan.changed)}`
+            : 'Starts in Chapter 1, Level 16'
+        }
+        onPress={onOpenPlan}
+      />
+      <RowButton
+        icon="gear"
+        title="Settings"
+        sub="Design, appearance, feel, your path"
+        onPress={onOpenSettings}
+      />
+    </ScrollView>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { flex: 1, paddingHorizontal: space.lg, gap: space.lg },
   title: { ...type.display, color: colors.text },
-  profile: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.md,
-    backgroundColor: colors.surface,
-    borderColor: colors.borderStrong,
-    borderWidth: 1.5,
-    borderRadius: radius.lg,
-    padding: space.lg,
-  },
-  avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: colors.accentTint,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  profileText: { flex: 1, gap: 2 },
-  name: { ...type.prompt, color: colors.text },
-  sub: { ...type.small, color: colors.textMuted },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.md,
-    minHeight: 56,
-    paddingHorizontal: space.lg,
-    backgroundColor: colors.surface,
-    borderColor: colors.borderStrong,
-    borderWidth: 1.5,
-    borderRadius: radius.lg,
-  },
-  rowText: { ...type.prompt, color: colors.text, flex: 1 },
+  shelf: { flexDirection: 'row', justifyContent: 'space-between' },
+  slot: { alignItems: 'center', gap: 4 },
+  slotNumber: { ...type.small, fontSize: 13, color: colors.textFaint },
+  slotNumberEarned: { color: colors.text, fontWeight: '700' },
 }));

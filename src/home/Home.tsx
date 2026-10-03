@@ -10,8 +10,11 @@ import ChangeDesign from './ChangeDesign';
 import EmptyTab from './EmptyTab';
 import { takeFlight } from './fly';
 import LearnScreen from './LearnScreen';
+import PlanScreen from './PlanScreen';
+import PracticeScreen from './PracticeScreen';
 import SettingsScreen from './SettingsScreen';
 import SkillFlight from './SkillFlight';
+import StatsScreen from './StatsScreen';
 import Suggestions, { openSuggestionAt } from './Suggestions';
 import TabBar, { Tab } from './TabBar';
 
@@ -19,8 +22,15 @@ import TabBar, { Tab } from './TabBar';
  * A page over the tabs: Settings and its Change design, and in test builds the
  * pages its testing tools open (docs/UI.md §11.5).
  */
-type Page = 'settings' | 'design' | 'animations' | 'suggestions' | null;
-const PAGES: Exclude<Page, null>[] = ['settings', 'design', 'animations', 'suggestions'];
+type Page = 'settings' | 'design' | 'animations' | 'suggestions' | 'stats' | 'plan' | null;
+const PAGES: Exclude<Page, null>[] = [
+  'settings',
+  'design',
+  'animations',
+  'suggestions',
+  'stats',
+  'plan',
+];
 
 /**
  * Where the learner was, kept while a lesson is open. The home screen is
@@ -115,6 +125,8 @@ export default function Home({
     );
   }
   if (page === 'suggestions') return <Suggestions onBack={() => setPage('settings')} />;
+  if (page === 'stats') return <StatsScreen onBack={() => setPage(null)} />;
+  if (page === 'plan') return <PlanScreen onBack={() => setPage(null)} />;
   if (page === 'design') return <ChangeDesign width={width} onBack={() => setPage('settings')} />;
   if (page === 'settings') {
     return (
@@ -140,10 +152,11 @@ export default function Home({
             }}
           />
         ) : tab === 'practice' ? (
-          <EmptyTab
-            title="Practice"
-            icon="practice"
-            line="Review mixes and setup drills come here."
+          <PracticeScreen
+            onStart={(entry) => {
+              lastTab = 'practice';
+              onStart(entry);
+            }}
           />
         ) : tab === 'leaderboard' ? (
           <EmptyTab
@@ -152,7 +165,11 @@ export default function Home({
             line="How your week compares, once it opens."
           />
         ) : (
-          <AccountScreen onOpenSettings={() => setPage('settings')} />
+          <AccountScreen
+            onOpenSettings={() => setPage('settings')}
+            onOpenStats={() => setPage('stats')}
+            onOpenPlan={() => setPage('plan')}
+          />
         )}
       </View>
       <TabBar

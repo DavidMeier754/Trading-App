@@ -15,7 +15,16 @@ export { TermsContext, TermText, type ScreenTerms } from './termText';
  * the glossary once it exists, where it was taught, and the card that taught
  * it. Closing it returns to the screen exactly as it was.
  */
-export function TermSheet({ skillId, onClose }: { skillId: string | null; onClose: () => void }) {
+export function TermSheet({
+  skillId,
+  onClose,
+  closeLabel = 'Back to the lesson',
+}: {
+  skillId: string | null;
+  onClose: () => void;
+  /** The key's words: back to where the sheet was opened from. */
+  closeLabel?: string;
+}) {
   const insets = useSafeAreaInsets();
   const skill = skillId ? SKILL_BY_ID.get(skillId) : undefined;
   useEffect(() => {
@@ -53,7 +62,7 @@ export function TermSheet({ skillId, onClose }: { skillId: string | null; onClos
           <SkillCardView skill={skill} entry={lessonOf(skill)} />
         </ScrollView>
         <Pressable testID="key" accessibilityRole="button" onPress={onClose} style={styles.close}>
-          <Text style={styles.closeText}>Back to the lesson</Text>
+          <Text style={styles.closeText}>{closeLabel}</Text>
         </Pressable>
       </Animated.View>
     </Modal>
