@@ -493,6 +493,20 @@ CUES = {
         "pop%d" % i: dict(pulses=[P(0, "light", [N("pop", note, 150)])], peak=0.25, wet=0.12)
         for i, note in enumerate(["G5", "C6", "E6", "G6"])
     },
+    # A chapter's medal landing (docs/UI.md §5.4, DESIGN-REVIEW: the bigger the
+    # accomplishment, the bigger the moment). Heavier and longer than the
+    # badge it replaces: a low thud as it lands, a bell-like fifth rising over
+    # a warm chord, and a long shimmer as the light runs across its face.
+    "medal": dict(
+        pulses=[
+            P(0, "heavy", [N("knock", "C3", 260, 0.9), N("pad", "C3", 1900, 0.4),
+                           N("pad", "G3", 1900, 0.28), N("kalimba", "C5", 900, 0.7)]),
+            P(150, "rigid", [N("kalimba", "G5", 900, 0.7), N("pad", "E4", 1600, 0.2)]),
+            P(300, "medium", [N("kalimba", "C6", 1200, 0.8)]),
+            P(560, "light", [N("shimmer", "G6", 1400, 0.2), N("kalimba", "E6", 1100, 0.45)]),
+        ],
+        peak=0.32, wet=0.32,
+    ),
     # A pair bouncing back: one dry knock, no scolding.
     "miss": dict(pulses=[P(0, "rigid", [N("knock", "D4", 200)])], peak=0.22, wet=0.08),
     # The last pair: the board done. A wave runs across the cards (docs/UI.md

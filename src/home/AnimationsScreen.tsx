@@ -46,8 +46,8 @@ const APP: { id: StageId; icon: IconName; title: string; sub: string }[] = [
     sub: "The day's goal met: the flame catches",
   },
   { id: 'lost', icon: 'calendar', title: 'Streak lost', sub: 'A day missed: the flame goes out' },
-  { id: 'badge', icon: 'trophy', title: 'Chapter complete', sub: "The chapter's badge" },
-  { id: 'tier', icon: 'shield', title: 'New tier', sub: 'A new rank, after some chapters' },
+  { id: 'badge', icon: 'trophy', title: 'Chapter complete', sub: "The chapter's medal lands" },
+  { id: 'tier', icon: 'shield', title: 'New tier', sub: 'The tier card turns over' },
   { id: 'run', icon: 'flame', title: 'Right answers in a row', sub: 'The flame in the top bar' },
   { id: 'heart', icon: 'heart', title: 'Heart lost', sub: 'A wrong answer costs a heart' },
   { id: 'out', icon: 'heart', title: 'Out of hearts', sub: 'The last heart is gone' },
@@ -70,6 +70,12 @@ const ALL_RIGHT: Grade[] = Array.from({ length: 8 }, () => 'correct' as const);
 const SCREENS: Screen[] = LESSONS.flatMap((e) => e.level.screens);
 const BADGE = SCREENS.find((s): s is Badge => s.type === 'badge');
 const TIER = SCREENS.find((s): s is TierUp => s.type === 'tier-up');
+/** The level each sits in: the medal shows its chapter, the tier card its path. */
+const levelWith = (screen: Screen | undefined) =>
+  screen ? LESSONS.find((l) => l.level.screens.includes(screen))?.level : undefined;
+const BADGE_LEVEL = levelWith(BADGE);
+const TIER_LEVEL = levelWith(TIER);
+const pathOf = (path: string | undefined) => (!path || path === 'all' ? null : path);
 
 export default function AnimationsScreen({
   onBack,
@@ -196,9 +202,22 @@ function Stage({
       />
     );
   else if (id === 'badge')
-    body = BADGE ? <BadgeScreen screen={BADGE} onSettled={noop} /> : <Missing what="badge" />;
+    body = BADGE ? (
+      <BadgeScreen
+        screen={BADGE}
+        chapter={BADGE_LEVEL?.chapter ?? 1}
+        path={pathOf(BADGE_LEVEL?.path)}
+        onSettled={noop}
+      />
+    ) : (
+      <Missing what="badge" />
+    );
   else if (id === 'tier')
-    body = TIER ? <TierUpScreen screen={TIER} onSettled={noop} /> : <Missing what="tier" />;
+    body = TIER ? (
+      <TierUpScreen screen={TIER} path={pathOf(TIER_LEVEL?.path)} onSettled={noop} />
+    ) : (
+      <Missing what="tier" />
+    );
   else if (id === 'out') body = <OutOfHearts />;
   else if (id === 'up') body = <StreakUp from={streak} to={streak + 1} />;
   // Nothing to lose yet: a streak of 12 stands in.

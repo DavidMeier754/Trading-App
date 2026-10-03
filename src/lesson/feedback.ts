@@ -135,6 +135,11 @@ export function badgeFeedback(): void {
   cue('badge');
 }
 
+/** A chapter's medal landing: heavier and longer than a badge (docs/UI.md §5.4). */
+export function medalFeedback(): void {
+  cue('medal');
+}
+
 export function unlockFeedback(): void {
   cue('unlock');
 }

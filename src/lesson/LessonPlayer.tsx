@@ -1101,9 +1101,22 @@ function renderScreen(props: {
     case 'plan-card':
       return <PlanCardScreen screen={screen} values={plan} onChange={setPlanValue} />;
     case 'badge':
-      return <BadgeScreen screen={screen} onSettled={onSettled} />;
+      return (
+        <BadgeScreen
+          screen={screen}
+          chapter={level.chapter}
+          path={level.path === 'all' ? null : level.path}
+          onSettled={onSettled}
+        />
+      );
     case 'tier-up':
-      return <TierUpScreen screen={screen} onSettled={onSettled} />;
+      return (
+        <TierUpScreen
+          screen={screen}
+          path={level.path === 'all' ? null : level.path}
+          onSettled={onSettled}
+        />
+      );
     case 'path-choice':
       return <PathChoiceScreen screen={screen} value={pathChoice} onChange={setPathChoice} />;
     case 'summary':

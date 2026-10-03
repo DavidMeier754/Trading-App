@@ -78,6 +78,15 @@ export const CUES = {
     file: require('../../assets/sounds/pop3.wav'),
     pulses: [[0, 'light']] as readonly Pulse[],
   },
+  medal: {
+    file: require('../../assets/sounds/medal.wav'),
+    pulses: [
+      [0, 'heavy'],
+      [150, 'rigid'],
+      [300, 'medium'],
+      [560, 'light'],
+    ] as readonly Pulse[],
+  },
   miss: {
     file: require('../../assets/sounds/miss.wav'),
     pulses: [[0, 'rigid']] as readonly Pulse[],
