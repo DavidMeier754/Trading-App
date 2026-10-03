@@ -24,6 +24,7 @@ import { EASE_IN_OUT, EASE_OUT, EASE_SINE, SPRING_POP, usePressFeedback } from '
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, type, themed } from '../theme';
 import { LevelType, levelIconOf, levelTypeOf } from '../content';
+import { tint } from '../lesson/look';
 import Icon, { IconName, isIconName } from './icons';
 import type { LevelStatus, LevelView } from './pathState';
 
@@ -294,8 +295,16 @@ export default function LevelNode({
   const type = levelTypeOf(view.level);
   const topic = type === 'new' || type === 'practice' ? levelIconOf(view.level) : undefined;
   const name = topic && isIconName(topic) ? topic : SYMBOL[type];
-  const symbol = (color: string) => (
-    <Icon name={name} size={type === 'test' ? 27 : 30} color={color} strokeWidth={2.4} />
+  // docs/UI.md §7.1 [DESIGN-REVIEW] two-tone symbols: under the line, the same
+  // strokes wider and soft, so the symbol has a body as well as an outline.
+  const size = type === 'test' ? 27 : 30;
+  const symbol = (color: string, tone: string = color) => (
+    <View style={{ width: size, height: size }}>
+      <View style={styles.tone}>
+        <Icon name={name} size={size} color={tone} strokeWidth={6.5} filled />
+      </View>
+      <Icon name={name} size={size} color={color} strokeWidth={2.4} />
+    </View>
   );
 
   const tagDelay = unlocking ? (reduced ? 400 : UNLOCK.tag) : 0;
@@ -362,12 +371,14 @@ export default function LevelNode({
               in place of it. Above the shield, which is drawn absolutely and
               would otherwise cover it. */}
           {locked ? (
-            <View style={[styles.glyph, !round && styles.glyphShield]}>
-              {symbol(colors.textFaint)}
+            // A locked level keeps its symbol's own colour at low strength, so
+            // the map ahead has character; the lock badge says it is shut.
+            <View style={[styles.glyph, !round && styles.glyphShield, styles.glyphLocked]}>
+              {symbol(colors.accent, tint(colors.accent, 0.5))}
             </View>
           ) : (
             <Animated.View style={[styles.glyph, !round && styles.glyphShield, digitStyle]}>
-              {symbol('#FFFFFF')}
+              {symbol('#FFFFFF', 'rgba(255,255,255,0.3)')}
             </Animated.View>
           )}
           {unlocking ? (
@@ -376,8 +387,8 @@ export default function LevelNode({
               style={[styles.cover, !round && styles.coverShield, coverStyle]}
             >
               {round ? null : <ShieldFace color={colors.surfaceAlt} locked />}
-              <View style={[styles.glyph, !round && styles.glyphShield]}>
-                {symbol(colors.textFaint)}
+              <View style={[styles.glyph, !round && styles.glyphShield, styles.glyphLocked]}>
+                {symbol(colors.accent, tint(colors.accent, 0.5))}
               </View>
             </Animated.View>
           ) : null}
@@ -627,6 +638,8 @@ const styles = themed(() => ({
   },
   spark: { position: 'absolute', borderRadius: 1.5 },
   glyph: { zIndex: 1 },
+  glyphLocked: { opacity: 0.55 },
+  tone: { position: 'absolute', left: 0, top: 0, opacity: 0.9 },
   // A shield is narrower at the foot: its symbol sits a touch high.
   glyphShield: { marginTop: -6 },
   lockBadge: { backgroundColor: colors.surfaceAlt, borderColor: colors.background },

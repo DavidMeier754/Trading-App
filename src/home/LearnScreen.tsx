@@ -28,6 +28,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
 import { LessonEntry, PATHS, TradingPath } from '../content';
+import { reviewStops, roundLevel, stopMistakes } from '../practice';
+import {
+  SideStopCard,
+  SideStopNode,
+  SideStopSpur,
+  type SideStopState,
+  STOP_RING,
+} from './SideStop';
 import { isQuestion } from '../types';
 import { noteFeedback } from '../lesson/feedback';
 import { EASE_IN_OUT, EASE_OUT, usePressFeedback } from '../lesson/motion';
@@ -40,6 +48,7 @@ import {
   streakDays,
   useHearts,
   useProgress,
+  refillShare,
   waitText,
 } from '../progress';
 import { tint, useLookSpec } from '../lesson/look';
@@ -60,15 +69,56 @@ const NODES_BOTTOM = 36;
 const CHAPTER_GAP = 16;
 /** Room under the last section for a level card opened on its last node. */
 const BOTTOM_PAD = 280;
+/** docs/UI.md §7.1 [DESIGN-REVIEW]: room over a chapter's card for its gate's arch. */
+const GATE_H = 40;
 /** Room for the note after the last chapter (PathFinale). */
 const FINALE_H = 120;
 /** The top bar's row: its 48 pt targets. */
 const HUD_ROW = 48;
-/** The path winds: centre, left, centre, right, and round again. */
+/**
+ * docs/UI.md §7.1 [DESIGN-REVIEW] (David: "a curvy path like a sin
+ * function"): the levels sit on one sine curve, a full swing every four
+ * levels -- centre, left, centre, right -- and the trail follows the same
+ * curve between them. `phase` counts levels down the chapter.
+ */
+function windAt(phase: number): number {
+  return -Math.sin((phase * Math.PI) / 2);
+}
+/** The side a level sits on: -1 left, 0 centre, 1 right. */
 const WIND = [0, -1, 0, 1];
 
 type NodeItem = { t: 'node'; gi: number; li: number; ci: number; x: number; y: number };
+/**
+ * docs/UI.md §7.1 "Side stops": a mistakes review before each test, and a
+ * Spot it bonus where the chapter has one, beside the path after the level
+ * it follows (`gi`, the level's index on the whole path).
+ */
+type StopItem = {
+  t: 'stop';
+  key: string;
+  kind: 'review' | 'bonus';
+  ci: number;
+  gi: number;
+  x: number;
+  y: number;
+  /** Where the spur meets the path. */
+  from: { x: number; y: number };
+};
+/**
+ * docs/UI.md §7.1 "Chapter gates": from Chapter 2 on, a dotted arch over the
+ * chapter's card, and the trail from the chapter before running through it to
+ * the first level. Folded chapters keep their arch.
+ */
+export type Gate = {
+  /** The card's top; the arch rises over it. */
+  top: number;
+  /** The trail: from where the chapter before ends, under the card, to the first level. */
+  from: { x: number; y: number };
+  to: { x: number; y: number } | null;
+  lit: boolean;
+};
 type Item =
+  | StopItem
   | { t: 'header'; ci: number; y: number }
   | NodeItem
   | { t: 'end'; ci: number; x: number; y: number; text: string }
@@ -155,17 +205,34 @@ export default function LearnScreen({
   };
 
   const pathChosen = progress.path !== null;
-  const amp = Math.min(64, width * 0.17);
-  const cxOf = (li: number) => width / 2 + WIND[li % WIND.length] * amp;
+  // About a fifth of the screen to each side; the buttons keep their size
+  // and their spacing (STEP_Y).
+  const amp = Math.min(80, width * 0.2);
+  const cxOf = (li: number) => width / 2 + windAt(li) * amp;
   // Where everything sits: a header per chapter, then its levels if it is open.
-  const { items, nodeAt, contentH } = useMemo(() => {
+  const { items, nodeAt, contentH, gates } = useMemo(() => {
     const out: Item[] = [];
     const at: Record<number, { x: number; y: number; li: number }> = {};
+    const gateList: Gate[] = [];
+    // Where the chapter before ends, for the trail into the next gate.
+    let tail: { x: number; y: number } | null = null;
     let y = space.sm;
     let gi = 0;
     chapters.forEach((c, ci) => {
+      if (ci > 0) y += GATE_H;
+      const headerY = y;
       out.push({ t: 'header', ci, y });
       y += HEAD_H;
+      const firstNodeY = y + NODES_TOP + RING / 2;
+      if (ci > 0 && tail) {
+        gateList.push({
+          top: headerY,
+          from: tail,
+          to: expanded.has(ci) ? { x: cxOf(0), y: firstNodeY } : null,
+          lit: c.status !== 'locked',
+        });
+      }
+      tail = { x: width / 2, y: headerY + HEAD_H - space.sm };
       if (expanded.has(ci)) {
         y += NODES_TOP;
         c.levels.forEach((_, li) => {
@@ -179,6 +246,47 @@ export default function LearnScreen({
           };
           out.push(node);
           at[gi + li] = { x: node.x, y: node.y, li };
+          tail = { x: node.x, y: node.y };
+        });
+        // Side stops, in the room the curve leaves free between two levels:
+        // halfway down, just outside the curve's swing there, where neither
+        // level's label is -- a short spur away.
+        const stopAt = (li: number) => {
+          // Off the middle, away from the level on its side of the path: that
+          // level is below it after a centre level (even li), above it after
+          // a side one.
+          const phase = li + 0.5 + (li % 2 === 0 ? -0.12 : 0.12);
+          const at = y + RING / 2 + phase * STEP_Y;
+          const swing = windAt(li + 0.5);
+          const out = Math.abs(windAt(phase)) * amp + STOP_RING / 2 + 30;
+          return {
+            x: width / 2 + Math.sign(swing) * out,
+            y: at,
+            from: { x: width / 2 + windAt(phase) * amp, y: at },
+          };
+        };
+        reviewStops(c.chapter).forEach((stop) => {
+          if (stop.afterIndex >= c.levels.length - 1) return;
+          out.push({
+            t: 'stop',
+            key: stop.key,
+            kind: 'review',
+            ci,
+            gi: gi + stop.afterIndex,
+            ...stopAt(stop.afterIndex),
+          });
+        });
+        c.chapter.bonus.forEach((bonus) => {
+          const li = c.levels.findIndex((l) => l.level.number === bonus.after);
+          if (li < 0 || li >= c.levels.length - 1) return;
+          out.push({
+            t: 'stop',
+            key: bonus.entry.id,
+            kind: 'bonus',
+            ci,
+            gi: gi + li,
+            ...stopAt(li),
+          });
         });
         y += (c.levels.length - 1) * STEP_Y + RING;
         // A chapter still being wired in trails off to a note of what is next.
@@ -200,6 +308,8 @@ export default function LearnScreen({
     });
     // Before a path is chosen, the chapter after Chapter 1 is a closed door.
     if (!pathChosen) {
+      y += GATE_H;
+      if (tail) gateList.push({ top: y, from: tail, to: null, lit: false });
       out.push({ t: 'teaser', y });
       y += HEAD_H + CHAPTER_GAP;
     } else {
@@ -207,10 +317,10 @@ export default function LearnScreen({
       out.push({ t: 'finale', y });
       y += FINALE_H + CHAPTER_GAP;
     }
-    return { items: out, nodeAt: at, contentH: y + BOTTOM_PAD };
+    return { items: out, nodeAt: at, contentH: y + BOTTOM_PAD, gates: gateList };
     // cxOf is derived from the width
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chapters, expanded, width, pathChosen]);
+  }, [chapters, expanded, width, pathChosen, amp]);
 
   // A label sits on the open side of its node and takes what width is left
   // there, so a long title wraps instead of running off the screen.
@@ -220,6 +330,32 @@ export default function LearnScreen({
       : width - (cxOf(li) + RING / 2 + space.sm) - space.lg;
 
   const [open, setOpen] = useState<number | null>(null);
+  const [stopOpen, setStopOpen] = useState<string | null>(null);
+  // What a side stop holds and whether it is open: it opens with the level
+  // before it, and is done when nothing is left in it (review) or once
+  // played (Spot it).
+  const stopInfo = (it: StopItem) => {
+    const before = views[it.gi];
+    const opened = before?.status === 'complete';
+    if (it.kind === 'review') {
+      const chapter = chapters[it.ci].chapter;
+      const stop = reviewStops(chapter).find((st) => st.key === it.key);
+      const left = stop ? stopMistakes(progress, stop) : [];
+      const state: SideStopState = !opened ? 'locked' : left.length ? 'open' : 'done';
+      return { state, left, bonus: null, stop };
+    }
+    const bonus = chapters[it.ci].chapter.bonus.find((bn) => bn.entry.id === it.key) ?? null;
+    const state: SideStopState = !opened ? 'locked' : progress.done[it.key] ? 'done' : 'open';
+    return { state, left: [], bonus, stop: undefined };
+  };
+  const openStop = (key: string, y: number) => {
+    setOpen(null);
+    setStopOpen((prev) => (prev === key ? null : key));
+    const cardBottom = y + STOP_RING / 2 + 12 + 190;
+    const overflow = cardBottom - (scrollYRef.current + viewport.current - space.lg);
+    if (overflow > 0)
+      scroll.current?.scrollTo({ y: scrollYRef.current + overflow, animated: true });
+  };
   // The paths, open under the top bar's logo.
   const [picking, setPicking] = useState(false);
   const closePicker = useCallback(() => setPicking(false), []);
@@ -286,6 +422,7 @@ export default function LearnScreen({
     setScrollY(e.nativeEvent.contentOffset.y);
   };
   const openCard = (gi: number) => {
+    setStopOpen(null);
     setOpen((prev) => (prev === gi ? null : gi));
     const cardBottom = (nodeAt[gi]?.y ?? 0) + RING / 2 + 16 + CARD_H;
     const overflow = cardBottom - (scrollYRef.current + viewport.current - space.lg);
@@ -319,6 +456,14 @@ export default function LearnScreen({
   }, [nodeAt]);
 
   const allDone = bannerAt === null && views.every((v) => v.status === 'complete');
+  // docs/UI.md §7.1 [DESIGN-REVIEW]: the chapter docks under the banner once
+  // its card has scrolled away under it, and changes as the next card comes up.
+  const docked = useMemo(() => {
+    const headers = items.filter((it): it is Extract<Item, { t: 'header' }> => it.t === 'header');
+    let at: Extract<Item, { t: 'header' }> | null = null;
+    for (const h of headers) if (h.y + HEAD_H - space.sm <= scrollY + 2) at = h;
+    return at;
+  }, [items, scrollY]);
   return (
     <View style={styles.wrap}>
       <Hud
@@ -335,91 +480,188 @@ export default function LearnScreen({
         hearts={hearts}
       />
       <Banner view={bannerAt !== null ? views[bannerAt] : here} allDone={allDone} />
-      <Animated.ScrollView
-        ref={scroll}
-        style={styles.scroll}
-        contentContainerStyle={{ height: contentH }}
-        showsVerticalScrollIndicator={false}
-        onLayout={onViewport}
-        onScroll={onScroll}
-        onScrollBeginDrag={() => cancelAnimation(glide)}
-        scrollEventThrottle={32}
-      >
-        <Connectors
-          views={views}
-          nodeAt={nodeAt}
-          chapterOf={chapterOf}
-          ends={items.filter((it): it is Extract<Item, { t: 'end' }> => it.t === 'end')}
-          width={width}
-          height={contentH}
-          drawing={unlocking}
-        />
-        {items.map((it) =>
-          it.t === 'teaser' ? (
-            <ChapterHeader
-              key="teaser"
-              view={null}
-              top={it.y}
-              width={width}
-              expanded={false}
-              onToggle={() => {}}
-            />
-          ) : it.t === 'header' ? (
-            <ChapterHeader
-              key={`h${it.ci}`}
-              view={chapters[it.ci]}
-              top={it.y}
-              width={width}
-              expanded={expanded.has(it.ci)}
-              onToggle={() => toggle(it.ci)}
-            />
-          ) : it.t === 'finale' ? (
-            <PathFinale key="finale" top={it.y} width={width} />
-          ) : it.t === 'end' ? (
-            <PathEnd key={`e${it.ci}`} x={it.x} y={it.y} text={it.text} />
-          ) : (
-            <Animated.View
-              key={views[it.gi].level.key}
-              entering={opened.has(it.ci) ? FadeIn.duration(220) : undefined}
-              style={[styles.nodeSlot, { left: it.x - RING / 2, top: it.y - RING / 2 }]}
-            >
-              <LevelNode
-                view={views[it.gi]}
-                onPress={() => openCard(it.gi)}
-                unlocking={it.gi === unlocking}
+      <View style={styles.scroll}>
+        <Animated.ScrollView
+          ref={scroll}
+          style={styles.scroll}
+          contentContainerStyle={{ height: contentH }}
+          showsVerticalScrollIndicator={false}
+          onLayout={onViewport}
+          onScroll={onScroll}
+          onScrollBeginDrag={() => cancelAnimation(glide)}
+          scrollEventThrottle={32}
+        >
+          <Connectors
+            views={views}
+            nodeAt={nodeAt}
+            curve={{ cx: width / 2, amp }}
+            gates={gates}
+            chapterOf={chapterOf}
+            ends={items.filter((it): it is Extract<Item, { t: 'end' }> => it.t === 'end')}
+            width={width}
+            height={contentH}
+            drawing={unlocking}
+          />
+          {items.map((it) =>
+            it.t === 'teaser' ? (
+              <ChapterHeader
+                key="teaser"
+                view={null}
+                top={it.y}
+                width={width}
+                expanded={false}
+                onToggle={() => {}}
               />
-              <NodeLabel
-                view={views[it.gi]}
-                side={WIND[it.li % WIND.length] > 0 ? 'left' : 'right'}
-                room={labelRoom(it.li)}
+            ) : it.t === 'header' ? (
+              <ChapterHeader
+                key={`h${it.ci}`}
+                view={chapters[it.ci]}
+                top={it.y}
+                width={width}
+                expanded={expanded.has(it.ci)}
+                onToggle={() => toggle(it.ci)}
               />
-            </Animated.View>
-          ),
-        )}
-        {open !== null && nodeAt[open] ? (
-          <>
-            <Pressable
-              accessibilityLabel="Close level card"
-              style={StyleSheet.absoluteFill}
-              onPress={() => setOpen(null)}
-            />
-            <LevelCard
-              key={open}
-              view={views[open]}
-              before={open > 0 ? views[open - 1] : null}
-              chosen={progress.path}
-              top={nodeAt[open].y + RING / 2 + 16}
-              arrowX={nodeAt[open].x}
-              width={width}
-              hearts={hearts}
-              onStart={(entry) => {
-                setOpen(null);
-                onStart(entry);
-              }}
-            />
-          </>
+            ) : it.t === 'finale' ? (
+              <PathFinale key="finale" top={it.y} width={width} />
+            ) : it.t === 'end' ? (
+              <PathEnd key={`e${it.ci}`} x={it.x} y={it.y} text={it.text} />
+            ) : it.t === 'stop' ? (
+              <React.Fragment key={`s-${it.key}`}>
+                <SideStopSpur from={it.from} to={it} lit={stopInfo(it).state !== 'locked'} />
+                <Animated.View
+                  entering={opened.has(it.ci) ? FadeIn.duration(220) : undefined}
+                  style={[
+                    styles.stopSlot,
+                    { left: it.x - STOP_RING / 2, top: it.y - STOP_RING / 2 },
+                  ]}
+                >
+                  {/* No caption: wherever it went it met a level's label. The
+                    dashed ring and the symbol mark it; its card names it. */}
+                  <SideStopNode
+                    icon={it.kind === 'review' ? 'repeat' : 'target'}
+                    state={stopInfo(it).state}
+                    label={it.kind === 'review' ? 'Your mistakes' : 'Spot it'}
+                    onPress={() => openStop(it.key, it.y)}
+                  />
+                </Animated.View>
+              </React.Fragment>
+            ) : (
+              <Animated.View
+                key={views[it.gi].level.key}
+                entering={opened.has(it.ci) ? FadeIn.duration(220) : undefined}
+                style={[styles.nodeSlot, { left: it.x - RING / 2, top: it.y - RING / 2 }]}
+              >
+                <LevelNode
+                  view={views[it.gi]}
+                  onPress={() => openCard(it.gi)}
+                  unlocking={it.gi === unlocking}
+                />
+                <NodeLabel
+                  view={views[it.gi]}
+                  side={WIND[it.li % WIND.length] > 0 ? 'left' : 'right'}
+                  room={labelRoom(it.li)}
+                />
+              </Animated.View>
+            ),
+          )}
+          {stopOpen !== null
+            ? items
+                .filter((it): it is StopItem => it.t === 'stop' && it.key === stopOpen)
+                .map((it) => {
+                  const info = stopInfo(it);
+                  const before = views[it.gi];
+                  const name = before?.level.number
+                    ? `Level ${before.level.number}`
+                    : 'the level before';
+                  const review = it.kind === 'review';
+                  const n = info.left.length;
+                  const line =
+                    info.state === 'locked'
+                      ? `Opens when ${name} is done. It never blocks the path.`
+                      : review
+                        ? n
+                          ? `${n} ${n === 1 ? 'question' : 'questions'} you missed since the last test${n > 8 ? ', eight at a time' : ''}. No hearts, no timer.`
+                          : 'Nothing to fix here.'
+                        : `Charts played bar by bar: is there a setup, and where?${info.bonus?.gems ? ` +${info.bonus.gems} gems the first time.` : ''}`;
+                  return (
+                    <React.Fragment key={`c-${it.key}`}>
+                      <Pressable
+                        accessibilityLabel="Close"
+                        style={StyleSheet.absoluteFill}
+                        onPress={() => setStopOpen(null)}
+                      />
+                      <SideStopCard
+                        top={it.y + STOP_RING / 2 + 12}
+                        arrowX={it.x}
+                        width={width}
+                        kicker={review ? 'Side stop · Optional' : 'Spot it · Optional'}
+                        title={review ? 'Your mistakes' : (info.bonus?.entry.title ?? 'Spot it')}
+                        line={line}
+                        action={
+                          info.state === 'locked' || (review && n === 0)
+                            ? null
+                            : review
+                              ? 'Practise them'
+                              : info.state === 'done'
+                                ? 'Play again'
+                                : 'Start'
+                        }
+                        onAction={() => {
+                          setStopOpen(null);
+                          if (review) {
+                            const { level, keys } = roundLevel(info.left.slice(0, 8), {
+                              title: 'Your mistakes',
+                              intro:
+                                'The questions you missed since the last test. No hearts, no timer.',
+                            });
+                            onStart({
+                              id: `review-${it.key}`,
+                              title: 'Your mistakes',
+                              subtitle: 'Your mistakes',
+                              level,
+                              practice: { keys },
+                            });
+                          } else if (info.bonus) onStart(info.bonus.entry);
+                        }}
+                      />
+                    </React.Fragment>
+                  );
+                })
+            : null}
+          {open !== null && nodeAt[open] ? (
+            <>
+              <Pressable
+                accessibilityLabel="Close level card"
+                style={StyleSheet.absoluteFill}
+                onPress={() => setOpen(null)}
+              />
+              <LevelCard
+                key={open}
+                view={views[open]}
+                before={open > 0 ? views[open - 1] : null}
+                chosen={progress.path}
+                top={nodeAt[open].y + RING / 2 + 16}
+                arrowX={nodeAt[open].x}
+                width={width}
+                hearts={hearts}
+                onStart={(entry) => {
+                  setOpen(null);
+                  onStart(entry);
+                }}
+              />
+            </>
+          ) : null}
+        </Animated.ScrollView>
+        {docked ? (
+          <DockedChapter
+            key={docked.ci}
+            view={chapters[docked.ci]}
+            onPress={() =>
+              scroll.current?.scrollTo({ y: Math.max(0, docked.y - space.sm), animated: !reduced })
+            }
+          />
         ) : null}
-      </Animated.ScrollView>
+      </View>
       {!hereVisible && !allDone ? <JumpButton view={here} onPress={jump} /> : null}
       {picking ? (
         <PathPicker
@@ -478,6 +720,12 @@ function Hud({
     const t = setTimeout(() => setShown(false), 2400);
     return () => clearTimeout(t);
   }, [shown]);
+  const [heartShown, setHeartShown] = useState(false);
+  useEffect(() => {
+    if (!heartShown) return;
+    const t = setTimeout(() => setHeartShown(false), 2800);
+    return () => clearTimeout(t);
+  }, [heartShown]);
   const flame = lit ? colors.warning : colors.textMuted;
   const heart = hearts.hearts > 0 ? colors.down : colors.textMuted;
   return (
@@ -541,19 +789,78 @@ function Hud({
         <Gem size={22} color={colors.gem} />
         <Text style={[styles.hudValue, { color: colors.gem }]}>{gems}</Text>
       </View>
-      {/* docs/UI.md §5.2: while one is on its way back, the wait sits beside them. */}
-      <View
-        accessible
-        style={[styles.hudItem, styles.hudEnd]}
-        accessibilityLabel={`${hearts.hearts} hearts${
-          hearts.fullAt ? `, all back in ${waitText(hearts.fullAt)}` : ''
-        }`}
-      >
-        {hearts.fullAt ? <Text style={styles.hudWait}>{waitText(hearts.fullAt)}</Text> : null}
-        <Icon name="heart" size={22} color={heart} filled={hearts.hearts > 0} />
-        <Text style={[styles.hudValue, { color: heart }]}>{hearts.hearts}</Text>
+      {/* docs/UI.md §7.2 [DESIGN-REVIEW]: while the hearts are on their way
+          back, a thin ring round the heart fills over the five hours; a tap
+          says how long is left. The ring encloses the heart alone, so the
+          count keeps its own space. */}
+      <View>
+        <Pressable
+          accessibilityRole="button"
+          style={[styles.hudItem, styles.hudEnd]}
+          accessibilityLabel={`${hearts.hearts} hearts${
+            hearts.fullAt ? `, all back in ${waitText(hearts.fullAt)}` : ''
+          }`}
+          onPress={() => {
+            if (!hearts.fullAt) return;
+            setHeartShown((v) => !v);
+            AccessibilityInfo.announceForAccessibility(
+              `All hearts back in ${waitText(hearts.fullAt)}`,
+            );
+          }}
+        >
+          <View style={styles.heartBox}>
+            {hearts.fullAt ? <HeartRing share={refillShare(hearts)} /> : null}
+            <Icon name="heart" size={22} color={heart} filled={hearts.hearts > 0} />
+          </View>
+          <Text style={[styles.hudValue, { color: heart }]}>{hearts.hearts}</Text>
+        </Pressable>
+        {heartShown && hearts.fullAt ? (
+          <Animated.View
+            entering={FadeIn.duration(160)}
+            exiting={FadeOut.duration(120)}
+            pointerEvents="none"
+            style={styles.heartTipWrap}
+          >
+            <View style={styles.today}>
+              <View style={[styles.todayPoint, styles.heartTipPoint]} />
+              <Text style={styles.todayText} numberOfLines={1}>
+                {`All hearts back in ${waitText(hearts.fullAt)}`}
+              </Text>
+            </View>
+          </Animated.View>
+        ) : null}
       </View>
     </View>
+  );
+}
+
+/** The refill ring round the heart: the five hours as a thin arc, filling. */
+function HeartRing({ share }: { share: number }) {
+  const size = 34;
+  const r = size / 2 - 1.5;
+  const c = 2 * Math.PI * r;
+  return (
+    <Svg width={size} height={size} style={styles.heartRing} pointerEvents="none">
+      <Circle
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        fill="none"
+        stroke={colors.border}
+        strokeWidth={2}
+      />
+      <Circle
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        fill="none"
+        stroke={colors.down}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeDasharray={`${c * share} ${c}`}
+        transform={`rotate(-90 ${size / 2} ${size / 2})`}
+      />
+    </Svg>
   );
 }
 
@@ -872,6 +1179,50 @@ function ChapterHeader({
   );
 }
 
+/**
+ * docs/UI.md §7.1 [DESIGN-REVIEW] "The chapter docks while you scroll": a
+ * slim bar under the banner in place of the card that has scrolled away --
+ * the trophy, "Ch 1 · Market Basics", the chapter's bar and "5/17". A tap
+ * scrolls back to the card.
+ */
+function DockedChapter({ view, onPress }: { view: ChapterView; onPress: () => void }) {
+  const done = view.status === 'complete';
+  const locked = view.status === 'locked';
+  const share = view.done / Math.max(1, view.total);
+  return (
+    <Animated.View
+      entering={FadeIn.duration(140)}
+      exiting={FadeOut.duration(120)}
+      style={styles.dock}
+    >
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Chapter ${view.chapter.number}: ${view.chapter.title}. ${view.done} of ${view.total} levels. Back to the chapter.`}
+        onPress={onPress}
+        style={styles.dockInner}
+      >
+        <Icon
+          name={locked ? 'lock' : 'trophy'}
+          size={16}
+          color={locked ? colors.textFaint : colors.warning}
+        />
+        <Text style={styles.dockTitle} numberOfLines={1}>
+          {`Ch ${view.chapter.number} · ${view.chapter.title}`}
+        </Text>
+        <View style={styles.dockBar}>
+          <View
+            style={[
+              styles.dockFill,
+              { width: `${share * 100}%`, backgroundColor: done ? colors.warning : colors.accent },
+            ]}
+          />
+        </View>
+        <Text style={styles.dockCount}>{`${view.done}/${view.total}`}</Text>
+      </Pressable>
+    </Animated.View>
+  );
+}
+
 /** docs/UI.md §7.1 "jump to current": back to the level waiting for the learner. */
 function JumpButton({ view, onPress }: { view: LevelView; onPress: () => void }) {
   const press = usePressFeedback(true, { cue: 'tick' });
@@ -958,6 +1309,8 @@ function questionsIn(view: LevelView): number {
 function Connectors({
   views,
   nodeAt,
+  curve,
+  gates,
   chapterOf,
   ends,
   width,
@@ -965,7 +1318,10 @@ function Connectors({
   drawing,
 }: {
   views: LevelView[];
-  nodeAt: Record<number, { x: number; y: number }>;
+  nodeAt: Record<number, { x: number; y: number; li: number }>;
+  /** The sine the path follows (windAt): its centre line and its swing. */
+  curve: { cx: number; amp: number };
+  gates: Gate[];
   chapterOf: (gi: number) => number;
   ends: { ci: number; x: number; y: number }[];
   width: number;
@@ -995,7 +1351,7 @@ function Connectors({
 
   const dots: { x: number; y: number; t: number; lit: boolean; seg: number }[] = [];
   const segment = (
-    a: { x: number; y: number },
+    a: { x: number; y: number; li: number },
     b: { x: number; y: number },
     lit: boolean,
     seg: number,
@@ -1003,9 +1359,8 @@ function Connectors({
     const steps = Math.max(8, Math.round((b.y - a.y) / 12));
     for (let k = 0; k <= steps; k++) {
       const t = k / steps;
-      // A soft S between the two: out of one straight down, into the next.
-      const e = t * t * (3 - 2 * t);
-      const x = a.x + (b.x - a.x) * e;
+      // The path's own sine from one level to the next (windAt).
+      const x = curve.cx + windAt(a.li + t) * curve.amp;
       const y = a.y + (b.y - a.y) * t;
       const clear = RING / 2 + 8;
       if (Math.hypot(x - a.x, y - a.y) < clear || Math.hypot(x - b.x, y - b.y) < clear) continue;
@@ -1024,6 +1379,35 @@ function Connectors({
       .pop();
     if (last !== undefined) segment(nodeAt[last], { x: end.x, y: end.y }, false, -1);
   }
+  // The gates: the trail from the chapter before, through the arch and under
+  // the card, to the first level; then the arch itself over the card.
+  const arches: { x: number; y: number; lit: boolean }[] = [];
+  for (const g of gates) {
+    const line = (a: { x: number; y: number }, b: { x: number; y: number }, lit: boolean) => {
+      const len = Math.hypot(b.x - a.x, b.y - a.y);
+      for (let d = RING / 2 + 8; d < len - RING / 2 - 8; d += 12)
+        dots.push({
+          x: a.x + ((b.x - a.x) * d) / len,
+          y: a.y + ((b.y - a.y) * d) / len,
+          t: 0,
+          lit,
+          seg: -2,
+        });
+    };
+    const under = { x: curve.cx, y: g.top + HEAD_H / 2 };
+    line(g.from, under, g.lit);
+    if (g.to) line(under, g.to, g.lit);
+    const left = space.lg + 26;
+    const right = curve.cx * 2 - space.lg - 26;
+    const rx = (right - left) / 2;
+    const ry = GATE_H - 8;
+    const feet = g.top + 10;
+    const n = Math.round((Math.PI * (rx + ry)) / 2 / 13);
+    for (let k = 0; k <= n; k++) {
+      const th = Math.PI * (1 - k / n);
+      arches.push({ x: curve.cx + rx * Math.cos(th), y: feet - ry * Math.sin(th), lit: g.lit });
+    }
+  }
   // While it draws, that stretch starts dim underneath its lit copy.
   const drawn = (d: (typeof dots)[number]) => drawable && d.seg === (drawing as number) - 1;
   const trail = dots.filter(drawn);
@@ -1032,6 +1416,16 @@ function Connectors({
   return (
     <>
       <Svg width={width} height={height} style={StyleSheet.absoluteFill} pointerEvents="none">
+        {arches.map((d, k) => (
+          <Circle
+            key={`a${k}`}
+            cx={d.x}
+            cy={d.y}
+            r={2.6}
+            fill={d.lit ? colors.accent : colors.borderStrong}
+            opacity={d.lit ? 0.55 : 0.8}
+          />
+        ))}
         {dots.map((d, k) => {
           const lit = d.lit && !drawn(d);
           return (
@@ -1040,8 +1434,9 @@ function Connectors({
               cx={d.x}
               cy={d.y}
               r={3.4}
-              fill={lit ? colors.accent : colors.surfaceAlt}
-              opacity={lit ? 0.75 : 1}
+              // The way ahead stays visible, quieter than the way behind.
+              fill={lit ? colors.accent : colors.borderStrong}
+              opacity={lit ? 0.75 : 0.9}
             />
           );
         })}
@@ -1060,6 +1455,7 @@ function Connectors({
           <TrailSpark
             a={nodeAt[(drawing as number) - 1]}
             b={nodeAt[drawing as number]}
+            curve={curve}
             t0={t0}
             t1={t1}
             draw={draw}
@@ -1100,21 +1496,24 @@ function TrailDot({
 function TrailSpark({
   a,
   b,
+  curve,
   t0,
   t1,
   draw,
 }: {
-  a: { x: number; y: number };
+  a: { x: number; y: number; li: number };
   b: { x: number; y: number };
+  curve: { cx: number; amp: number };
   t0: number;
   t1: number;
   draw: SharedValue<number>;
 }) {
+  const { cx, amp } = curve;
+  const li = a.li;
   const style = useAnimatedStyle(() => {
     const d = draw.get();
     const t = t0 + (t1 - t0) * d;
-    const e = t * t * (3 - 2 * t);
-    const x = a.x + (b.x - a.x) * e;
+    const x = cx - Math.sin(((li + t) * Math.PI) / 2) * amp;
     const y = a.y + (b.y - a.y) * t;
     return {
       opacity: d <= 0 || d >= 1 ? 0 : Math.min(1, d / 0.06, (1 - d) / 0.12),
@@ -1339,6 +1738,8 @@ function LevelCard({
 }
 
 const styles = themed(() => ({
+  stopSlot: { position: 'absolute', width: STOP_RING, alignItems: 'center' },
+
   wrap: { flex: 1 },
   // Over the banner, so the flame's "Today 1/2" can drop down across it. As
   // wide as the banner: its first and last items sit on the banner's edges.
@@ -1362,12 +1763,10 @@ const styles = themed(() => ({
   hudStart: { justifyContent: 'flex-start' },
   hudEnd: { justifyContent: 'flex-end' },
   hudValue: { fontSize: 17, lineHeight: 22, fontWeight: '800', fontFamily: MONO_FONT },
-  hudWait: {
-    ...type.small,
-    color: colors.textMuted,
-    fontFamily: MONO_FONT,
-    marginRight: 2,
-  },
+  heartBox: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
+  heartRing: { position: 'absolute', left: 0, top: 0 },
+  heartTipWrap: { position: 'absolute', top: 48, right: -8, width: 240, alignItems: 'flex-end' },
+  heartTipPoint: { left: 'auto', right: 38, marginLeft: 0 },
   todayWrap: { position: 'absolute', top: 48, left: -90, right: -90, alignItems: 'center' },
   today: {
     paddingHorizontal: space.md,
@@ -1461,6 +1860,34 @@ const styles = themed(() => ({
   bannerTitle: { ...type.title, color: colors.accentText },
 
   scroll: { flex: 1 },
+  dock: { position: 'absolute', top: 0, left: space.lg, right: space.lg },
+  dockInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.sm,
+    height: 40,
+    paddingHorizontal: space.md,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+  },
+  dockTitle: { ...type.label, color: colors.text, fontWeight: '700', flexShrink: 1 },
+  dockBar: {
+    marginLeft: 'auto',
+    width: 56,
+    height: 5,
+    borderRadius: 3,
+    backgroundColor: colors.surfaceAlt,
+    overflow: 'hidden',
+  },
+  dockFill: { height: 5, borderRadius: 3 },
+  dockCount: {
+    ...type.small,
+    fontSize: 13,
+    color: colors.textMuted,
+    fontVariant: ['tabular-nums'],
+  },
   chapter: { position: 'absolute', height: HEAD_H - space.sm },
   chapterInner: {
     flex: 1,

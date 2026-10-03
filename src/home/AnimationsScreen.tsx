@@ -21,6 +21,7 @@ import { BadgeScreen, TierUpScreen } from '../screens/RewardScreens';
 import { colors, radius, space, type, themed } from '../theme';
 import type { BadgeScreen as Badge, Screen, TierUpScreen as TierUp } from '../types';
 import Icon, { type IconName } from './icons';
+import { flySkills } from './fly';
 import { rewindUnlock } from './LevelNode';
 import { PageHeader } from './pageParts';
 import { pathView } from './pathState';
@@ -148,6 +149,15 @@ export default function AnimationsScreen({
           disabled={!canOpen}
           onPress={() => {
             rewindUnlock(views[k - 1], views[k]);
+            onShowMap();
+          }}
+        />
+        <Row
+          icon="practice"
+          title="Skills into Practice"
+          sub="A lesson's new skills fly into the tab"
+          onPress={() => {
+            flySkills(4);
             onShowMap();
           }}
         />

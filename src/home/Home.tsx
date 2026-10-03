@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { LessonEntry } from '../content';
+import { useReduceMotion } from '../lesson/useReduceMotion';
+import { clearNewSkills, useProgress } from '../progress';
 import AccountScreen from './AccountScreen';
 import AnimationsScreen from './AnimationsScreen';
 import ChangeDesign from './ChangeDesign';
 import EmptyTab from './EmptyTab';
+import { takeFlight } from './fly';
 import LearnScreen from './LearnScreen';
 import SettingsScreen from './SettingsScreen';
+import SkillFlight from './SkillFlight';
 import Suggestions, { openSuggestionAt } from './Suggestions';
 import TabBar, { Tab } from './TabBar';
 
@@ -70,6 +74,15 @@ export default function Home({
   onOpenBench: () => void;
 }) {
   const [tab, setTabState] = useState<Tab>(lastTab);
+  const progress = useProgress();
+  const reduced = useReduceMotion();
+  // docs/UI.md §5.3: the skills a lesson just taught fly into Practice as the
+  // home screen opens (SkillFlight); reduced motion leaves the dot alone.
+  const [flying, setFlying] = useState(0);
+  const [flight, setFlight] = useState(0);
+  const [homeH, setHomeH] = useState(0);
+  const [barY, setBarY] = useState(0);
+  const [bumps, setBumps] = useState(0);
   const [page, setPageState] = useState<Page>(lastPage);
   const setTab = (next: Tab) => {
     lastTab = next;
@@ -79,6 +92,16 @@ export default function Home({
     lastPage = next;
     setPageState(next);
   };
+  // Each time the tabs show again -- back from a lesson, or from the
+  // animations page -- whatever skills are waiting take off.
+  useEffect(() => {
+    if (page !== null) return;
+    const n = takeFlight();
+    if (n > 0 && !reduced) {
+      setFlying(n);
+      setFlight((k) => k + 1);
+    }
+  }, [page, reduced]);
 
   if (page === 'animations') {
     return (
@@ -106,7 +129,7 @@ export default function Home({
   }
 
   return (
-    <View style={styles.wrap}>
+    <View style={styles.wrap} onLayout={(e) => setHomeH(e.nativeEvent.layout.height)}>
       <View style={styles.page}>
         {tab === 'learn' ? (
           <LearnScreen
@@ -132,7 +155,26 @@ export default function Home({
           <AccountScreen onOpenSettings={() => setPage('settings')} />
         )}
       </View>
-      <TabBar tab={tab} onChange={setTab} />
+      <TabBar
+        tab={tab}
+        onChange={(next) => {
+          // Opening Practice takes its dot away (docs/UI.md §5.3).
+          if (next === 'practice') clearNewSkills();
+          setTab(next);
+        }}
+        dots={{ practice: progress.newSkills > 0 && tab !== 'practice' }}
+        bumps={bumps}
+        onLayout={(e) => setBarY(e.nativeEvent.layout.y)}
+      />
+      {flying > 0 && homeH > 0 && barY > 0 ? (
+        <SkillFlight
+          key={flight}
+          count={flying}
+          from={{ x: width / 2, y: homeH * 0.42 }}
+          to={{ x: (width * 3) / 8, y: barY + 18 }}
+          onLand={() => setBumps((n) => n + 1)}
+        />
+      ) : null}
     </View>
   );
 }
