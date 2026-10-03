@@ -24,6 +24,7 @@ The app is called **Nutrade** (decision L in `docs/build-plan.md` §4.1; stage B
 | `docs/curriculum.md` | What is taught in which chapter and level, per path. |
 | `docs/UI.md` | Every screen archetype, interaction, animation, layout and gamification element. |
 | `docs/schema.md` | The YAML format of a lesson file and what the validator checks. |
+| `docs/ContentToDo.md` | The content work David's design review left: new fields, skills, the chart ramp, lessons still to write. Every content session reads it. |
 | `README-app.md` | The app: how to run it, deep links, testing tools, code layout. |
 | `content/market_profiles.yaml` | Market-specific values (session times, currency, index, regulation notes) for `US` and `EU-DE`. |
 | `content/shared/` | Chapter 1 (all paths). |

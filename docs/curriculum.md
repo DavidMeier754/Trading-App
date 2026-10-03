@@ -8,6 +8,8 @@ Status: **v3**. The path is sized so a learner doing two sub-levels a day (~10 m
 
 **[v4.1] (2026-09-25):** all three paths ship in v1.0 (decision E), so Day Trading is written before the release too, right after Swing. The practice arena (`docs/build-plan.md` Phase G) adds hands-on charts beyond the paths; it does not change this outline.
 
+**[DESIGN-REVIEW] (2026-10-03):** the variance simulator is dropped, so 1·2-4 and Scalping 6·6 and 6·13 teach variance without it and without stating any rate (`docs/agent.md` §3.11). Every chapter gets optional side stops beside the path: two or three mistakes reviews the app builds from the learner's own mistakes, and the bonus "Spot it" lessons (below, "Side stops"). Content work that follows from the design review — skills per lesson, the chart ramp, notes, alerts, briefings — is in `docs/ContentToDo.md`.
+
 Legend: `T` = test, `F` = final exam, `R` = repetition sub. Subs listed as a count; files are `level-LL-S.yaml`.
 The **Reinforces** column lists earlier chapters the level deliberately re-tests — it becomes the `reinforces:` header field (`docs/schema.md`). Every chapter from 3 on has one explicit **Callback** level.
 
@@ -43,7 +45,7 @@ Folder: `content/shared/chapter-01-market-basics/` · 17 levels, 48 subs written
 | Level | Title | Subs | Teaches | Reinforces |
 |---|---|---|---|---|
 | 1 | Your First Trade | 4 | Line chart, price, buy/sell, position, profit and loss; the first buy/wait decisions; move × shares; mixed practice | — |
-| 2 | Why Prices Move | **4** | Buyers vs sellers, demand and supply, the imbalance rule; news as the trigger that flips it. **[v4] 2-4 Good Call, Bad Luck (new):** a good read can still lose — the next buyer, seller or headline cannot be known; the `variance-sim` screen (ten trades of one good setup, run again and again, then a hundred); the first correct decision in the course that loses, with its reveal; judge the decision, not the result (`docs/agent.md` §3.11) | — |
+| 2 | Why Prices Move | **4** | Buyers vs sellers, demand and supply, the imbalance rule; news as the trigger that flips it. **[v4] 2-4 Good Call, Bad Luck (new):** a good read can still lose — the next buyer, seller or headline cannot be known; ~~the `variance-sim` screen (ten trades of one good setup, run again and again, then a hundred)~~ **[DESIGN-REVIEW]** the `decision-grid` (decision against result, four cells) and no simulator, no rate; the first correct decision in the course that loses, with its reveal; how often something works is found out from one's own record, not told; judge the decision, not the result (`docs/agent.md` §3.11; a screen sequence in `docs/ContentToDo.md` 4.1) | — |
 | 3 | What You're Actually Buying | 3 | Share = a fraction of a company, shareholder, ticker, exchange; why companies sell shares; your money goes to the seller | — |
 | 4 | The Quote Card | 4 | Price, previous close, daily change in $ and %, volume; reading a quote in two seconds; red days mean nothing alone; practice | — |
 | 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | — |
@@ -196,14 +198,14 @@ The thinnest chapter in v2 and the one where retail traders actually fail, so it
 | 3 | Managing the Trade | 4 | The break-even stop and what it really removes; partial exits and the trade they make; trailing a stop; the time stop when nothing happens | 3 |
 | 4 | Stops and R Practice | 2 R | Five trades sized, stopped and graded in R; one `branch` where the trade goes against you | 3 |
 | 5 | Checkpoint | 1 T | 10 questions on Levels 1–4 | 3 |
-| 6 | Win Rate and Expectancy | 4 | Win rate alone tells you nothing; average win and average loss; expectancy as the value of one average trade; a 40 % win rate that pays. **[v4]** The `variance-sim` again, with this chapter's numbers | 3 |
+| 6 | Win Rate and Expectancy | 4 | Win rate alone tells you nothing; average win and average loss; expectancy as the value of one average trade; a 40 % win rate that pays. ~~**[v4]** The `variance-sim` again, with this chapter's numbers~~ **[DESIGN-REVIEW]** The numbers are examples for the arithmetic and say so; where real numbers come from: your own journal and simulator sample | 3 |
 | 7 | Costs Inside Expectancy | 3 | Spread, slippage and fees inside the average; measuring expectancy after costs; what halving frequency does to it | 3 |
 | 8 | Expectancy Practice | 2 R | Five sets of real-looking numbers; which method to keep and which to delete | 3 |
 | 9 | Session Limits | 3 | The daily loss limit in R, the trade cap, the time cap; written before the open; a limit broken once is not a limit; a `plan-card`. **[v4]** One screen on what the trade cap needs from the account: several same-day round trips need a margin account, and `{{market.regulation_note}}` (the pattern-day-trader rule, settlement) — decision C | 5 |
 | 10 | Checkpoint | 1 T | 10 questions on Levels 6–9 | 3 |
 | 11 | Overtrading and Tilt | 3 | Revenge trading, FOMO, chasing; the signs of tilt in yourself; the trade right after the loss | 5 |
 | 12 | The Reset Routine | 3 | Why a routine beats willpower; the written steps; coming back at half size and what that proves | — |
-| 13 | Thinking in Probabilities | 3 | One trade is close to random; sample size; the two mistakes a losing run and a winning run each cause. **[v4]** A hundred runs of the `variance-sim`: what a losing streak inside a good method looks like | — |
+| 13 | Thinking in Probabilities | 3 | One trade is close to random; sample size; the two mistakes a losing run and a winning run each cause. ~~**[v4]** A hundred runs of the `variance-sim`: what a losing streak inside a good method looks like~~ **[DESIGN-REVIEW]** What a losing run inside a good method looks like, told with a run of the learner's own kind of trades rather than a simulator; how many trades of your own it takes before a method can be judged | — |
 | 14 | Chapter 3 Callback | 2 R | Sizing and costs re-tested as risk: the same trade at two share counts, the same method with two cost structures | 3 |
 | 15 | The Journal | 3 | One row per trade; the execution grade, independent of the result; `journal-row` on a finished trade; writing it the same day | 5 |
 | 16 | The Weekly Review | 3 | Sorting rows by setup and by hour; finding the column that bleeds; one rule for next week | 5 |
@@ -556,6 +558,17 @@ repetition; a replay tests whether recognition survives when the outcome is hidd
 learner has to choose a moment. Both feed the same weak-concept list: a `Phantom` whose decoy
 fails on volume marks *volume* weak exactly as a wrong drill answer would.
 
+## Side stops **[DESIGN-REVIEW]**
+
+Beside the path of every chapter, off its line (`docs/UI.md` §7.1). Optional: they never block a level, cost no hearts and are never timed.
+
+| Side stop | Where | Content |
+|---|---|---|
+| **Your mistakes** (mistakes review) | Before each Checkpoint and before the Final Exam: two or three per chapter | None to write. The app builds it from the questions the learner missed since the previous test and has not answered right since. Every question must stand on its own (`docs/agent.md` §3.4). |
+| **Spot it** (bonus side lesson) | After a level of the content's choosing, 2–3 per chapter from Chapter 2 on; never before a test | A file of its own, `level-LL-bonus.yaml` (`docs/schema.md` "Bonus side lessons"): an intro and 2–3 `chart-replay` screens at reading level 1–2, on what the chapter has taught so far. Hand-written in `FUN-PASS`; from `ARENA-TAB` on, the chart generator proposes them. |
+
+Suggested places for **Spot it** on the scalping path, never right before a test (that place is the mistakes review's): Chapter 2 after Levels 4 (volume bars), 10 (bounce or break) and 13 (the opening minutes); Chapter 3 after Levels 10 (sizing) and 17 (the all-in check); Chapter 4 after Levels 3 (intraday levels) and 13 (map drills); Chapter 5 after Levels 8 and 13; Chapter 6 after Level 8; Chapter 7 after Levels 3, 7 and 13; Chapter 8 after Levels 3 and 8. `FUN-PASS` decides the final list with David.
+
 ## Writing order
 
 1. ✅ Scalping Chapters 2 → 3 → 4 (expand v2 content to the v3 level plan)
@@ -565,6 +578,7 @@ fails on volume marks *volume* weak exactly as a wrong drill answer would.
 5. **[v4]** Chapter 1 Level 2-4 and Scalping Chapter 8 Level 15, then one correction pass per chapter (`docs/build-plan.md` Phase E)
 6. **[v4]** Swing Trading Chapters 2 → 8 — before Day Trading (decision W2: Chapter 1 sends working people to swing, and EU retail traders can hardly scalp cash stocks)
 7. **[v4.1]** Day Trading Chapters 2 → 8 — after Swing, before the release (decision E)
+8. **[DESIGN-REVIEW]** Alongside all of the above: `docs/ContentToDo.md` — skills per lesson, the chart ramp, notes, alerts, briefings and the bonus lessons, done chapter by chapter in the pass that touches the chapter anyway
 
 One chapter per session, written in blocks of 4–6 levels (`docs/agent.md` §6). After each: validator clean, commit, open a PR, short report, stop.
 

@@ -5,6 +5,7 @@ Every sub-level is one YAML file: `content/<scope>/chapter-NN-<slug>/level-LL-S.
 
 Status: **v3** — fields, screen types and validator rules for the eight-chapter curriculum. New items are marked **[v3]**. Everything unmarked is unchanged from v2 and existing content stays valid.
 **[v4] (2026-09-25)** — new optional fields and types for the release plan (`docs/build-plan.md`). Every one of them is optional or new, so existing files stay valid; the validator rules that use them arrive in stage RULES and start as warnings.
+**[DESIGN-REVIEW] (2026-10-03)** — optional fields for David's approved designs: chart `notes`, the open on a chart (`session_open`), a scene's market `alert`, a test briefing's `facts`, a lesson's `skills`, and bonus side lessons as files of their own (`category: bonus`). `variance-sim` is dropped and `decision-grid` added. The app renders all of them and the validator checks their shape; no content file uses them yet — that work is listed in `docs/ContentToDo.md`.
 
 ## Header
 
@@ -21,6 +22,8 @@ icon: ticket              # optional: the level's symbol on the map, what it tea
 learning_goal: "User can choose between a market and a limit order for a given situation."
 purpose: "One sentence on why this matters in real trading."
 terms_introduced: ["Market order", "Limit order"]   # new glossary terms defined in this sub
+skills:                   # [DESIGN-REVIEW] optional: techniques this sub teaches (see below)
+  - {name: "Choosing market or limit", card: 6}
 reinforces: [1, 2]        # [v3] earlier chapters this sub deliberately re-tests; [] for pure new theory
 prerequisite: "3-1"       # or null for the first sub of a chapter
 xp: 20
@@ -32,6 +35,8 @@ screens: [...]
 ```
 
 **`icon`.** Optional. The symbol on the level's map node, standing for what the level teaches or, for a practice level, what it practises: `candle`, `bell` for the open, `levels` for support and resistance. Every lesson of one level names the same icon, or leaves it out; the first one named is used. The names are the ones `src/home/icons.tsx` draws (its `ICON_NAMES`), and the validator rejects any other. Checkpoints, the Final Exam and the path choice ignore it and keep their own symbols (docs/UI.md §7.1). A level without one shows a bulb (new ideas) or round arrows (practice).
+
+**`skills` [DESIGN-REVIEW].** Optional, `new-theory` lessons only, 0–3 entries. What the learner can now *do* after this lesson, as a short name (at most 40 characters: "Reading a quote in two seconds", not "Quotes"), and `card`: the 1-based screen index of the `theory`, `example`, `carousel`, `walkthrough` or `visual` screen that teaches it. Together with `terms_introduced` they are the lesson's **skills**: shown after the lesson, collected in Practice → Skills, each opening the card that taught it (`docs/UI.md` §5.3, §7.3). A term needs no entry here: its card is the first `theory`, `example` or `carousel` screen of the lesson whose text contains it.
 
 **`reinforces` [v3].** A list of chapter numbers (not level ids). It is a claim that this sub-level re-tests that chapter's material *in this chapter's context*. The validator uses it for the reinforcement quotas in `docs/agent.md` §3.3, so do not declare it decoratively — a sub with `reinforces: [1]` must contain at least one question that genuinely needs Chapter 1 knowledge.
 
@@ -49,6 +54,8 @@ and **[v4]** `candle-anatomy`, `trade-plan` (built in stage VISUALS).
 - type: intro
   text: "Before we trade, let's see what a trade even is."
   counter: 10                 # tests/exams only = number of question screens
+  facts: ["Account $22,000", "Risk 1 % a trade"]   # [DESIGN-REVIEW] optional, tests/exams only: 1–3 chips
+                              # of at most 20 characters on the briefing card (UI.md §3 intro)
 
 - type: theory
   title: "What moves a price?"
@@ -85,6 +92,11 @@ and **[v4]** `candle-anatomy`, `trade-plan` (built in stage VISUALS).
 - type: story                  # no `character`: there is no character cast (UI.md §6.9)
   text: "9:31. You're watching XYZ."
   label: scene                 # [v4] optional: scene (default) | takeaway — a closing summary is a takeaway
+  alert:                       # [DESIGN-REVIEW] optional, scenes only: the scene as a market alert (UI.md §3 story)
+    ticker: XYZ                # 1–5 capital letters
+    time: "1 min after the open"   # at most 24 characters; no literal clock time (agent.md §3.6), tokens allowed
+    facts: ["Gap +6.2 %", "RVOL 4.8×"]   # optional, 1–3 chips of at most 16 characters
+    spark: [17.40, 17.62, 17.55, 17.90, 18.10]   # optional, 5–30 prices: the move so far
 
 - type: recap                  # [v3] end-of-level takeaways
   title: "Level 4 in three lines"
@@ -94,16 +106,9 @@ and **[v4]** `candle-anatomy`, `trade-plan` (built in stage VISUALS).
   # [v4] card: the 1-based screen index, in that sub-level, of the theory/example card the point
   # opens. Without it the app has to guess, and until 2026-09-25 it always opened the first card.
 
-- type: variance-sim           # [v4] ungraded; counts as one screen (UI.md §6.10, agent.md §3.11)
-  title: "Ten trades of one good setup"
-  win_rate: 0.55               # this example's hit rate, 0.30–0.70
-  win_r: 2                     # what a winner pays, in R
-  loss_r: 1                    # what a loser costs, in R
-  trades: 10                   # per run, 5–20; a "100 trades" run is always offered as well
-  seed: 7                      # fixes the sequence of runs for tests; every tap still shows a new run
-  caption: "Same setup, same rules. Run it again."
-  # The validator checks the ranges and that the example has a positive expectancy
-  # (win_rate × win_r > (1 − win_rate) × loss_r): the screen shows a good setup losing, never a bad one.
+# - type: variance-sim         # [v4] dropped [DESIGN-REVIEW], never built: a fixed win rate on a screen
+#                               reads as a fact about the market (agent.md §3.11). Lesson 1·2-4 uses the
+#                               `decision-grid` visual instead (Components, below).
 
 - type: plan-card              # [v3] the user writes and keeps this
   title: "Your session limits"
@@ -230,6 +235,12 @@ and **[v4]** `candle-anatomy`, `trade-plan` (built in stage VISUALS).
   target: 10.40               # [v4] optional, as stop; playback ends at the first one the bars touch
   outcome: "Price kept rising to 10.40 — +$40 on 100 shares."
   explanation: "…"
+  notes:                      # [DESIGN-REVIEW] optional, 1–4: shown on the chart after the reveal (UI.md §6.4)
+    - {bar: 9, text: "Higher low"}        # bar: 0-based index into chart.data; text at most 24 characters
+    - {bar: 12, text: "Breaks the high", at: high}   # at: high (default) | low — the end of the bar the leader meets
+  # [DESIGN-REVIEW] stop and target are drawn after the choice, with the entry; the R ruler joins them
+  # from the lesson that introduces the term "R" on (UI.md §6.4). A stop sits below the entry for a long
+  # and above it for a short, the target on the other side.
   # [v4] The outcome sentence must agree with the bars (and with stop/target when present): a
   # loss reads as a loss. How often a correct decision loses is a chapter-level rule (agent.md §3.11).
 
@@ -347,17 +358,20 @@ Use only these component ids and target ids (UI.md §6 defines how they look).
 | `session-ribbon` | `premarket`, `regular`, `afterhours`, `timezone` (tokens) | — |
 | `cost-stack` | one of three shapes: per share, `shares`, `target` and at least one of `spread`, `slippage`, `fees`; one cost against several moves, `targets: [{label, value}]` with at least one of `spread`, `slippage`, `fees`; or cost totals side by side, `rows: [{label, value}]`, optional `unit` ("$ per day") | — |
 | `ownership-pie` | `total`, `owned` | — |
-| `scanner-table` **[v3]** | `rows: [{ticker, price, change_pct, rvol, float, spread, catalyst}]` | a `ticker` value |
+| `scanner-table` **[v3]** | `rows: [{ticker, price, change_pct, rvol, float, spread, catalyst}]`; **[DESIGN-REVIEW]** optional `spark: [price, …]` per row (5–30 prices, the day so far) | a `ticker` value |
 | `journal-table` **[v3]** | `columns: [...]`, `rows: [{...}]`; a column keyed `""` is a row label | a column key |
 | `internals-panel` **[v3]** | `index: {label, data}`, `breadth`, `sectors: [{label, value}]`, `tone` (risk-on/risk-off) | `index`, `breadth`, `sectors`, `tone` |
 | `hotkey-pad` **[v3]** | `keys: [{label, action}]`, optional `sequence: [...]` | a key `label` |
 | `stats-card` **[v3]** | `rows: [{label, value}]` | a row `label` |
 | `r-tracker` **[v3]** | `trades: [r, …]`, `limit` | — |
 | `plan-sheet` **[v3]** | `fields: [{key, label, value?}]`, optional `slot`; keys come from "The plan" below. A field with `value` is a specimen line; without it the renderer fills it from the learner's own plan | a field `key` |
+| `decision-grid` **[DESIGN-REVIEW]** | optional `cell`: `right-won`, `right-lost`, `wrong-won` or `wrong-lost` — the cell that gets the dot; without it the four cells are shown, labelled | a cell name |
 
 `state` holds 1–3 short strings; use it whenever the right answer depends on where the trader stands (day result in R, the limit, the trade count, the current size) rather than on the chart alone.
 
 **[v4] Two shapes that went wrong in the render test (2026-09-25).** `levels` is always a list of objects, `[{price: 24.40, label: "High of day"}]` — never bare numbers, which rendered as missing lines on 15 screens. A `depth-ladder`'s book sits under `data:` exactly as the example above shows; the renderer read it from the top level and all 40 screens crashed. Stage STABLE-DATA fixed both, and the validator now checks every component's data against this table (see "Validator rules").
+
+**[DESIGN-REVIEW] The open on a chart.** Any chart spec (`chart` on `chart-decision`, `chart-tap`, `chart-annotate`, `branch`, and `chart-candles` data) may carry `session_open: <bar>` — the 0-based index of the first bar of the regular session, at least 1 and below the bar count. The bars before it are shaded as pre-market and a dashed line with a bell marks the open (UI.md §6.4). Only where the open matters (`docs/ContentToDo.md` 2.3).
 
 Chart conventions: 8–12 bars; `decision_index` between 4 and 7; prices with two decimals; candle `high` ≥ max(open, close) and `low` ≤ min(open, close); outcome visible in the bars after the decision. Chapter 1 uses `chart-line`; path chapters use `chart-candles`. **[v3]** `swipe-deck` and `compare` mini-charts may use 8–10 bars and omit volume.
 
@@ -388,7 +402,7 @@ chapter wrote** — the validator enforces it.
 **Pre-filled and editable — one live value per key, with a dated history.** When a chapter asks
 for a key the learner already filled, the card opens with their current value in the field. Saving
 overwrites the live value and pushes the old one into that key's history with the date it was
-replaced. `plan-sheet` always renders the live value; the history is for the Trader Card and the
+replaced. `plan-sheet` always renders the live value; the history is for the plan document (Account → Your plan, **[DESIGN-REVIEW]**) and the
 export only. There is never a second live value for one key, so a later chapter and an earlier one
 can never disagree about what the plan says.
 
@@ -516,6 +530,33 @@ exists or add the key to this table and to the `plan-card` that writes it, in th
 ```
 
 Rules (stage GLOSSARY): every term in any `terms_introduced` has exactly one entry for its path; `definition` is one sentence of at most 160 characters and agrees with the screen that defines the term; `taught_in` resolves to that sub-level.
+
+## Bonus side lessons **[DESIGN-REVIEW]**
+
+The optional side stops beside the path (`docs/UI.md` §7.1) come from files of their own, in the chapter's folder, named after the level they follow: `level-04-bonus.yaml` sits beside the path after Level 4.
+
+```yaml
+id: "4-bonus"             # "<level it follows>-bonus", must match the filename
+title: "Spot it"
+subtitle: "Three charts, bar by bar"
+chapter: 2
+chapter_title: "Charts 101"
+path: scalping
+category: bonus           # optional for the learner: never blocks the path, never timed, never a heart
+after: 4                  # the level that opens it: a level of this chapter, not a test, and not the
+                          # level right before a test (that place is the mistakes review's, UI.md §7.1)
+gems: 10                  # paid once, on the first finish
+xp: 10
+tags: [structure]
+learning_goal: "Learner spots a setup forming, or sees there is none, bar by bar."
+purpose: "Recognition with the outcome still hidden."
+prerequisite: null        # always null: a side stop opens with its level, not with a sub
+difficulty: 2
+sources: [consensus]
+screens: [...]            # an intro, then 2–3 chart-replay screens; no summary, no badge
+```
+
+The validator checks the category, that `after` names a level of the chapter that is neither a test nor the level right before one, the screen shape (an `intro` and 2–3 `chart-replay` screens) and the replay rules (§ Replays). A bonus file is not counted in the chapter's levels, sub-levels or question quotas.
 
 ## Market profiles **[v4]**
 
@@ -740,4 +781,18 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - Visual quota (§3.4): fewer than 40 % of a chapter's `theory`/`example` screens with a visual.
 - The plan-aware cap (§3.6): a position above the `setup_max_account_pct` the learner has written by that point in the path (its latest `suggest`).
 - Per-trade risk and total exposure (§3.6): `shares × stop distance ÷ account` outside 0.5–2 % where a file names an account and a stop; for several open positions, the sums of position value and of risk against the account.
-- `variance-sim` ranges and positive expectancy; `glossary.yaml` coverage and length. (Component data and the test bench are checked since stage STABLE-DATA, as errors: see above.)
+- ~~`variance-sim` ranges and positive expectancy~~ (dropped, [DESIGN-REVIEW]); `glossary.yaml` coverage and length.
+
+**[DESIGN-REVIEW] Rules added in stage DESIGN-REVIEW** (errors; each with a case in `tools/test_validate.py`):
+- `notes`: 1–4 entries; each `bar` an integer inside `chart.data`, `text` 1–24 characters, `at` `high` or `low`.
+- `session_open`: an integer from 1 to the bar count − 1.
+- `alert` (on a `story` that is not a takeaway): `ticker` of 1–5 capital letters, `time` at most 24 characters with no clock time written as digits, `facts` 1–3 strings of at most 16 characters, `spark` 5–30 numbers.
+- `facts` on an `intro`: only in tests and final exams, 1–3 strings of at most 20 characters.
+- `skills`: only in `new-theory` lessons, 0–3 entries, `name` 1–40 characters, `card` the 1-based index of a `theory`, `example`, `carousel`, `walkthrough` or `visual` screen.
+- `decision-grid` data: `cell` one of the four names.
+- `scanner-table` rows: `spark` 5–30 numbers.
+- A bonus file (`category: bonus`): as in "Bonus side lessons" above.
+
+Warnings:
+- A term in `terms_introduced` that no `theory`, `example` or `carousel` screen of its lesson contains (the skill would have no card to open).
+- A `new-theory` lesson with neither `terms_introduced` nor `skills` (nothing to collect after it; `docs/ContentToDo.md` 3.1). (Component data and the test bench are checked since stage STABLE-DATA, as errors: see above.)

@@ -4,6 +4,8 @@ Status: 2026-09-25. This plan replaces the previous `docs/build-plan.md`, which 
 
 Updated the same day with David's answers to the open decisions (§4.1): all three paths, calm motion, the practice arena with Nutrade Plus, accounts, every launch language, and a German business as the provider.
 
+**Updated 2026-10-03** (stage `DESIGN-REVIEW`): David's verdicts on 50 design ideas. The approved ones are built in that stage, which is new in this plan (Phase C, after `LOOK-SYSTEM`), and every later stage now says what it no longer needs to build and what it still owns. The variance simulator is dropped and the app never states how often something works (§0 "Variance"). The content these designs need is in the new `docs/ContentToDo.md`, which every content stage reads. And the work runs in **Claude Code sessions** again, one per stage, instead of threads in the Claude project (§1).
+
 **One rule first: this file's order is the order.**
 - Stages have names (`CI`, `STABLE-APP`, …), not numbers, because numbers drifted apart before.
 - To find what comes next, read the table in section 2 from top to bottom. The first stage without ✅ is the next one.
@@ -95,13 +97,14 @@ Today only 12 of the 338 correct long/short/buy decisions end in a loss, and in 
 From now on, **30–40 %** of correct directional decisions lose, as in real trading. On its own that would confuse. So there are five building blocks that belong together:
 
 1. **Explain it first.**
-   - New lesson **1·2-4 "Good Call, Bad Luck"** with a variance simulator (stage `VARIANCE`).
-   - The learner "trades" 10 trades of a good setup, sees winners and losers mixed together, runs it several times and then sees 100 trades.
-   - The message: one trade says almost nothing; the decision counts, the outcome varies.
+   - New lesson **1·2-4 "Good Call, Bad Luck"** (stage `VARIANCE`).
+   - ~~With a variance simulator: the learner "trades" 10 trades of a good setup, sees winners and losers mixed together, runs it several times and then sees 100 trades.~~ **Dropped (David, 2026-10-03):** "this would imply the number given (like 6/10 are right) are reliable and I don't want this. The user should do his own research on how often strats work for him." The lesson uses the learner's own first right call that loses and the decision grid instead (`docs/ContentToDo.md` 4.1).
+   - The message: one trade says almost nothing; the decision counts, the outcome varies; how often a method works, your own record tells you.
 2. **Separate them in every reveal** (`docs/UI.md` §5.1b).
    - At the top, the grade of the *decision*: green, amber or red.
    - Below it, smaller, the *outcome this time*: +/− $.
-   - For "right, but lost" an extra line such as: "Right call – this trade lost anyway. That happens with this setup about 4 times in 10." Plus a "Why?" link to the card from 1·2-4.
+   - For "right, but lost" an extra line, **without a rate** (David, 2026-10-03): "Right call — this trade lost anyway. One trade says little; judge the decision, not the result." Plus a "Why?" link to the card from 1·2-4.
+   - The decision grid (`DESIGN-REVIEW`): a small 2 × 2 of decision against result, with this trade's dot in its cell.
 3. **Right stays right.**
    - A correct decision that loses counts fully as correct: full XP, no mistake, a perfect run is still possible.
    - The outcome never affects the grade.
@@ -113,7 +116,8 @@ From now on, **30–40 %** of correct directional decisions lose, as in real tra
 5. **Keep coming back to it.**
    - The lesson summary shows "Decisions 7/8 right · Results: 4 winners, 3 losers".
    - The statistics measure decision quality, never profit.
-   - Chapter 6 (expectancy, probabilities) uses the simulator with real numbers.
+   - Chapter 6 (expectancy, probabilities) teaches how to measure a method from your own journal and simulator sample. Its numbers are examples for the arithmetic, and say so.
+   - **No reliable-looking odds, anywhere** (`docs/agent.md` §3.11): no screen states how often a setup or a strategy wins as a fact. The 30–40 % above is how realistic the content's charts are, never a number the learner reads.
 
 ### Fun – how we measure it
 
@@ -125,7 +129,7 @@ Checked in the stages of Phase C, Phase D and in the beta:
 - **No dead ends:** mistakes lead to repetition, not to lockouts. Hearts only exist in tests.
 - **Every lesson ends with a small win:** a recap, a checklist, your own plan, the streak.
 - **Variety:** ≥ 3 question types per lesson, pictures instead of text slides.
-- **Visible progress:** the daily goal in words, a streak with states, tiers, the Trader Card.
+- **Visible progress:** the daily goal in words, a streak with states, tiers and their card, the chapter medals, the skills collected.
 - **Beta bar:**
   - Testers rate "fun" at ≥ 4 out of 5 on average.
   - They finish ≥ 85 % of the lessons they start.
@@ -168,28 +172,27 @@ All of this must hold at the same time:
 
 ### How a stage runs
 
-**One stage = one thread in the Claude project = one pull request.**
+**One stage = one Claude Code session = one pull request.**
 
-The work runs in the Claude project linked to `DavidMeier754/Trading-App`. A thread there is a fresh Claude session: it starts with the repository, the project memory and its brief, and nothing else. Wherever this plan says "session", read "thread".
+(From 2026-09-26 to 2026-10-03 the stages ran as threads in the Claude project. David moved back to plain sessions on 2026-10-03: a fresh session per stage, started by him.)
 
-1. **Start the stage in the project chat:** write e.g. `start stage WIRE`.
-   - Claude opens a new thread for it. You do not open a session or paste anything.
-   - The stage's prompt (its code block below) is the thread's brief. Claude fills in the placeholders in `[…]` from your message, so name them there, e.g. `start stage LOOK-COMPONENTS, session 2`.
-   - For stages with "You prepare" material (a critique, feedback, an export), put it in the same message or attach it.
-2. **Model and effort** come from the stage's "Model · effort · sessions" line.
-   - The thread uses the project's default model. If the stage needs something else, say so in your message or in the thread ("use Fable 5.1 at high effort"); Claude switches when you ask.
-   - **Important:** Opus 5.5 defaults to `medium`. Name the effort deliberately when a stage needs `xhigh` or `max`.
-   - Where it says "plan mode": Claude posts its plan in the thread first and builds only after your OK.
-3. **Claude works in the thread:**
-   - on its own branch;
-   - opens a draft PR against `main` and posts the link in the thread;
+1. **Open a session:** Claude Code (the app or claude.ai/code) → repository `DavidMeier754/Trading-App` → new session. A session starts with the repository and nothing else; `CLAUDE.md` tells it what to read.
+2. **Set model and effort before you send the prompt** — the stage's "Model · effort · sessions" line says which:
+   - `/model opus` (= Opus 5.5), `/model fable` (= Fable 5.1, if your plan has it), `/model sonnet` (= Sonnet 5).
+   - `/effort high`, `/effort xhigh` or `/effort max`.
+   - **Important:** Opus 5.5 defaults to `medium`. Set the effort deliberately every time.
+   - Where it says "plan mode": Claude shows its plan first; you read it and approve it before anything is built.
+3. **Paste the prompt:** the stage's prompt from its code block, unchanged. You fill in the placeholders in `[…]` (e.g. `session 2`). For stages with "You prepare" material (a critique, feedback, an export), paste it under the prompt or attach it.
+4. **Claude works:**
+   - on the branch the session creates;
+   - opens a draft PR against `main` (stacked on an open PR's branch only when the stage builds on work that is not merged yet, and then it says so);
    - drives every check to green;
-   - posts the report in the thread, with **your test checklist** and real links to the preview.
-4. **You test** on your phone and answer **in that thread**:
+   - writes the report in the session, with **your test checklist** and real links to the preview.
+5. **You test** on your phone and answer **in the same session**:
    - `OK <STAGE> – merge` → Claude merges the PR once every check on it is green (merge rule in `CLAUDE.md`), and the stage gets its ✅ in section 2. You can also merge the PR yourself on GitHub.
-   - or a list of problems (template "Bug report", Appendix A) → Claude fixes them, you test again.
-5. **Next stage = new thread.** Go back to the project chat and start it there. A fresh context is more accurate and cheaper. A stage with several sessions in section 2 gets one thread per session.
-6. **Where to look:** the project chat shows one line per stage with the thread's status. Questions about a running stage go into its thread, not into the project chat.
+   - or a list of problems (template "Bug report", Appendix A) → Claude fixes them in the same session and PR, and you test again.
+6. **Next stage = new session.** A fresh context is more accurate and cheaper. A stage with several sessions in section 2 gets one session per part (`session 1`, `session 2`), each with its own PR.
+7. **Where to look:** the PR on GitHub shows the stage's state (its checks, the preview link, the report as its description). Questions about a running stage go into its session.
 
 ### Which model for what
 
@@ -199,8 +202,6 @@ The work runs in the Claude project linked to `DavidMeier754/Trading-App`. A thr
 | **Fable 5.1** | `/model fable` | The hardest tasks: the knowledge audit, full reviews, design directions. Only where the plan says so. | high (≈ 2.5× Opus) |
 | **Sonnet 5** | `/model sonnet` | Mechanical work that follows a clear pattern (configuration, store metadata) | low |
 | Haiku 4.5 | `/model haiku` | **Never for content with numbers.** At most for hunting typos. | very low |
-
-The commands are for a plain Claude Code session. In a thread, name the model and effort in words.
 
 If your plan does not include Fable 5.1, use Opus 5.5 with `/effort max` there instead.
 
@@ -213,13 +214,13 @@ If your plan does not include Fable 5.1, use Opus 5.5 with `/effort max` there i
 | `xhigh` | Design, didactics, legally sensitive texts, architecture |
 | `max` | Audits where correctness matters more than time |
 
-Tip: write `ultrathink` into a single message when Claude should think harder at one point. The thread's effort stays the same.
+Tip: write `ultrathink` into a single message when Claude should think harder at one point. The session's effort stays the same.
 
-### Rules for every thread
+### Rules for every session
 
 These rules are in `CLAUDE.md`; the prompt does not have to repeat them.
 
-- **Only the thread's own stage.** Anything noticed that belongs to a later stage goes into the report, not into the code.
+- **Only the session's own stage.** Anything noticed that belongs to a later stage goes into the report, not into the code.
 - **The standard checks run before the report** (below), and all are green.
 - **The report**, in this order:
   1. What was built.
@@ -227,9 +228,10 @@ These rules are in `CLAUDE.md`; the prompt does not have to repeat them.
   3. Your test checklist, with real preview links.
   4. Open questions.
 
-  Then **the thread stops** and waits for you.
+  Then **the session stops** and waits for you.
 - **Everything in English:** code, content, docs, commits, PR texts and reports.
 - **Never push to `main` directly.** Always a PR, unless you explicitly say otherwise.
+- **Content sessions read `docs/ContentToDo.md`** as well as the four docs, and tick what they did there.
 
 ### Standard checks
 
@@ -263,8 +265,10 @@ npm run smoke                              # from stage WIRE on: every screen re
   - "Skip ahead" jumps to any level.
   - "Refill hearts" refills the hearts.
   - "Every screen type" opens the test bench.
-  - "Animations" plays the animations of rare moments on a tap: a level opening, lesson complete, a perfect run, a chapter's badge, a new tier, the flame, a lost heart (from `LOOK-BRIEF`).
+  - "Animations" plays the animations of rare moments on a tap: a level opening, lesson complete, a perfect run, a chapter's badge, a new tier, the flame, a lost heart (from `LOOK-BRIEF`); from `DESIGN-REVIEW` also a chapter's medal, the tier card turning over, skills flying into Practice and the mistakes deck.
   - "Design suggestions" shows ideas for the look before they go in (from `LOOK-BRIEF`).
+  - "New designs" plays a lesson made in code with every content field the content does not use yet: stop and target with the R ruler, chart notes, the open, a market alert, a checkpoint briefing, skills (from `DESIGN-REVIEW`).
+  - "Show the first trade" opens the first-run decision again (from `DESIGN-REVIEW`).
   - From `LOOP-DAILY` on there is "Advance a day".
 - **Test on your phone**, not on your computer. The checklists below are written for that.
 - **A feeling is enough.** If something bothers you but you cannot say why, describe it in words ("sluggish", "cheap", "confusing") with a screen link.
@@ -279,7 +283,7 @@ npm run smoke                              # from stage WIRE on: every screen re
 
 ## 2. All stages at a glance
 
-Column "Test" = your time for the acceptance test. Session counts are estimates; each session is one thread.
+Column "Test" = your time for the acceptance test. Session counts are estimates; each session is one Claude Code session with its own PR.
 
 | Phase | Stage | What | Model · effort | Sessions | Test |
 |---|---|---|---|---|---|
@@ -291,17 +295,20 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | | `STABLE-DATA` ✅ | Depth ladder, price lines, validator and test bench following the schema; the render test becomes mandatory | Opus 5.5 · high | 1 | 15 min |
 | C Look & feel | `LOOK-BRIEF` ✅ | Your critique + three design directions as clickable prototypes, with calm, high-quality motion | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 30 min + choice |
 | | `LOOK-SYSTEM` | The chosen mix as a system: colors, type, light/dark, the 3 looks, thumb zone, minimum type size, motion, sounds, tap targets, fewer words, the path map and the top bar | Opus 5.5 · high, plan mode | 1–2 | 30 min |
-| | `LOOK-COMPONENTS` | Charts, match, lesson-complete screen, icons, visuals, badge | Opus 5.5 · high | 2 | 30 min |
+| | `DESIGN-REVIEW` | 50 design ideas for David's verdict; the approved ones built (chart reveal, map, hearts, mistakes round, skills, Practice, Account, rewards, first trade); every doc and this plan brought up to date; `docs/ContentToDo.md` | Opus 5.5 · high | 1 (+ fixes) | 45 min |
+| | `LOOK-COMPONENTS` | Charts (candles that form, the trade log), lesson-complete screen, icons, visuals — what `DESIGN-REVIEW` left | Opus 5.5 · high | 1–2 | 30 min |
 | | `VISUALS` | New teaching graphics: candle anatomy, trade plan | Opus 5.5 · high | 1 | 15 min |
-| D Learning loop | `LOOP-HEARTS` | Hearts only in tests, mistakes round, review cards, test summary, XP rules | Opus 5.5 · high, plan mode | 1–2 | 30 min |
+| D Learning loop | `LOOP-HEARTS` | Review cards, test summary, out of hearts, XP rules, the level card — hearts in tests only and the mistakes round came in `DESIGN-REVIEW` | Opus 5.5 · high, plan mode | 1 | 30 min |
 | | `LOOP-DAILY` | Choosable daily goal, streak with states and full-screen moments, freeze, weekly challenge, reminders, gems | Opus 5.5 · high | 1–2 | 20 min + 3 days |
 | | `ONBOARDING` | First run, risk note, legal scaffold, market profile + number format, plan card, i18n keys | Opus 5.5 · high | 1–2 | 20 min |
-| | `PRACTICE` | Practice tab with spaced repetition, weak concepts, heart refill | Opus 5.5 · xhigh, plan mode | 2 | 30 min + 1 week |
-| | `GLOSSARY` | Glossary content (every term), popover, list | Opus 5.5 · high | 1–2 | 15 min |
-| | `STATS` | Profile, statistics, Trader Card v1, decision quality | Opus 5.5 · high | 1 | 15 min |
-| | `FUN-PASS` | Fun audit with a newcomer test, then polish; bonus side lessons on the path | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 45 min |
-| E Scalping content | `RULES` | Your content critique, new validator rules, a worklist per chapter | Opus 5.5 · high | 1–2 | 30 min critique + 10 min |
-| | `VARIANCE` | Variance simulator, lesson 1·2-4, summary "decision vs. outcome" | Opus 5.5 · xhigh | 1–2 | 30 min + newcomer test |
+| | `PRACTICE` | Practice tab, the rest: drill packs, weak concepts by term, the links into it, "+1 day" tests — the tab with Daily mix, Skills and Mistakes came in `DESIGN-REVIEW` | Opus 5.5 · xhigh, plan mode | 1–2 | 30 min + 1 week |
+| | `GLOSSARY` | Glossary content (every term), the list with search — the marker and the sheet came in `DESIGN-REVIEW` | Opus 5.5 · high | 1–2 | 15 min |
+| | `STATS` | Accuracy per topic, sharing — the Account page with the tier card, medals, all stats and the variance view came in `DESIGN-REVIEW` | Opus 5.5 · high | 1 | 15 min |
+| | `TABS` | The tab set David chooses from the concept (Analytics instead of Leaderboard; Arena) | Opus 5.5 · high | 1 | 15 min |
+| | `FUN-PASS` | Fun audit with a newcomer test, then polish; the first bonus side lessons (the map draws them since `DESIGN-REVIEW`) | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 45 min |
+| E Scalping content | `CONTENT-DESIGN` | The test bench learns the new content fields (`docs/ContentToDo.md` 4.9) | Opus 5.5 · high | 1 | 10 min |
+| | `RULES` | Your content critique, new validator rules, a worklist per chapter | Opus 5.5 · high | 1–2 | 30 min critique + 10 min |
+| | `VARIANCE` | Lesson 1·2-4 without a simulator and without odds, the decision-vs-outcome summary, the first losers in Chapter 1 | Opus 5.5 · xhigh | 1–2 | 30 min + newcomer test |
 | | `OFFER` | Chapter 8 Level 15 (account types, margin, PDT, settlement, tax note) + renumbering + market profiles | Opus 5.5 · xhigh | 1–2 | 20 min |
 | | `CONTENT-FIX-1` … `-8` | All content corrections, one chapter per stage | Opus 5.5 · high | 8–12 | 20 min each |
 | | `KNOWLEDGE` | Knowledge audit against the graduate profile (review B) | Fable 5.1 · max (else Opus 5.5 · max) | 1 | decide findings |
@@ -366,6 +373,7 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | Missing entirely | CI, app tests, onboarding, risk note, legal texts, glossary, practice tab, statistics, backend, store setup, branding |
 | Review | `docs/review-2026-09-25.md`: 17 must-fix, 54 should-fix, 14 could-do items, 25 doc items (W). Appendix F assigns every item to a stage. |
 | Decisions | A–C, E, H, I, K, L, M, O and P are made; N and Q–T are open (§4). |
+| **Update 2026-10-03** | `LOOK-SYSTEM` is built (PRs #20 and #21 open, waiting for `EXPO_TOKEN` for item 9). `DESIGN-REVIEW` built David's approved designs on top of it (PR stacked on #21). Content unchanged since 2026-09-25: still 388 lessons, 0 validator errors. Open decisions: N, Q–V and X (§4.2). |
 
 ---
 
@@ -412,6 +420,8 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | S | Personalized ads? | **No** in v1.0: no tracking prompt at first launch and a simpler consent. Look again with real numbers. | `ADS` |
 | T | The list of launch languages | `I18N-PIPELINE` proposes it (store markets, effort, script); you decide. | `I18N-PIPELINE` |
 | U | What gems buy (your new currency from `LOOK-BRIEF`) | Earned only, never sold (decision I). They buy streak freezes and cosmetic extras, e.g. scenes beside the path; never hearts or a pass in a test, because tests count (W1). `LOOP-DAILY` proposes the list and the prices in gems; you decide. | `LOOP-DAILY` |
+| V | The tab set (your notes on design ideas 31 and 38): Analytics instead of the Leaderboard placeholder, and where Arena goes | The artifact "Nutrade tabs concept" lays out the options with mockups. Recommended there: Learn, Practice, Analytics, Account now, and Arena as a fifth tab once the arena exists. You choose; `TABS` builds it. | `TABS` |
+| X | Mistakes reviews: your note "a previous mistakes level 2 or 3 times per level". Read as **per chapter**, built as **optional side stops before each Checkpoint and the Final Exam**. Should they instead be required levels on the path, or more frequent? | Keep them optional side stops: mistakes cost nothing in this app (W1), and a required review would make a mistake cost a level. If they get skipped too often, the beta will show it. | `LOOP-HEARTS` |
 
 ---
 
@@ -821,11 +831,11 @@ Report: the three directions in three sentences each · links to every variant �
 13. **Clean-up** ✅: once the mix is built, `src/prototype/` goes, with its route and its Settings row. The Design suggestions page stays under Settings → Testing (item 11).
     - **The prototype after it is gone.** Where a later stage points to `#prototype/mix/<screen>` or a file in `src/prototype/` (the forming candle and the count-up in `LOOK-COMPONENTS`, the streak screens in `LOOP-DAILY`, the bonus side lesson in `FUN-PASS`), it reads it at commit `a78e210`, the last one that has it: `git show a78e210:src/prototype/kit.tsx`, or `git checkout a78e210` and open `#prototype/mix/<screen>` in a test build.
 
-**Two sessions** (David, 2026-09-30), each its own PR and thread:
+**Two sessions** (David, 2026-09-30), each its own PR:
 - **Session 1, the system:** items 1, 2, 4, 5 (tap targets and the quit dialog), 7, 8, 9 and 10, plus the check scripts (`npm run check:ui`, `npm run sheets`).
 - **Session 2, the screens:** items 3, 5 (the key's label), 6, 11, 12 and 13, and the docs that go with them. Its test checklist is items 2, 3 and 7–10 of "You test" below; session 1's is items 1 and 4–6.
 
-**Status** (2026-09-30): both sessions are built and are tested and merged together: PR #20 holds session 1, and PR #21 (session 2) goes into its branch. Items 1–8 and 10–13 are done; item 9 waits for your `EXPO_TOKEN`. Your ten improvements of 2026-09-30 are in PR #21 too, among them two things pulled forward from `LOOP-DAILY` at your request: the gems in the top bar and the streak screens (built, and played on the Animations page). So are the fix for the crash on Animations → Chapter complete and your changes of 2026-10-01: the top bar lined up with the screen under it, the path picker on its logo, no background drawings, and the bigger Design suggestions page. The stage gets its ✅ in section 2 with "OK LOOK-SYSTEM – merge".
+**Status** (2026-09-30, checked 2026-10-03): both sessions are built and are tested and merged together: PR #20 holds session 1, and PR #21 (session 2) goes into its branch. On 2026-10-03 both were still open; `DESIGN-REVIEW` is stacked on #21. Items 1–8 and 10–13 are done; item 9 waits for your `EXPO_TOKEN`. Your ten improvements of 2026-09-30 are in PR #21 too, among them two things pulled forward from `LOOP-DAILY` at your request: the gems in the top bar and the streak screens (built, and played on the Animations page). So are the fix for the crash on Animations → Chapter complete and your changes of 2026-10-01: the top bar lined up with the screen under it, the path picker on its logo, no background drawings, and the bigger Design suggestions page. The stage gets its ✅ in section 2 with "OK LOOK-SYSTEM – merge".
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 
@@ -861,34 +871,144 @@ Report: what you built · check results · contact sheets before/after · my tes
 
 **Done when** the contact sheets are right and you are happy.
 
+### `DESIGN-REVIEW` – fifty ideas, David's verdicts, the approved ones built
+
+**Goal.** Before the remaining look and learning-loop stages, David sees fifty concrete design ideas for the whole app, decides each one, and the approved ones are built — so every later stage starts from his choices instead of guessing them.
+
+**What happened.**
+1. Claude went through every branch, played the app and published an artifact with 50 ideas in six groups (in the lesson, charts and market tools, rewards, the map, home and tabs, first run and the look), each with today's screen, a mockup, a short explanation and an approve box (2026-10-02).
+2. David decided all fifty and left notes on many (2026-10-03). The table below is the record.
+3. This stage built every approved idea, in the form his notes asked for, wrote his notes into the docs, added `docs/ContentToDo.md` for what the level files need (David: "Don't rewrite any .yaml"), brought this plan up to date and moved the work back to Claude Code sessions (§1).
+
+**David's verdicts** (✅ approved and built here · ✗ not taken · 📄 decided, recorded in the docs, built later)
+
+| # | Idea | Verdict | His note, and where it went |
+|---|---|---|---|
+| 1 | The decision grid in the chart reveal | ✅ | "Make sure the whole screen is filled … the chart bigger and the box a little smaller." Compact reveal with the 2 × 2 grid (`docs/UI.md` §5.1b, §2). |
+| 2 | The future behind frosted glass | ✗ | Keep the hatched box, but the frame holds still: the visible line sits in the middle of the chart from the start and the axis never rescales (§6.4). Built. |
+| 3 | An R ruler beside the chart | ✅ | Plus: charts start simple and grow, every element explained (`docs/agent.md` §3.8, `ContentToDo.md` 1.2); every "Good call" panel right above the key (§2). |
+| 4 | Decision keys with a direction | ✅ | §4.3. |
+| 5 | The reveal writes on the chart | ✅ | `notes` (§6.4, `docs/schema.md`). |
+| 6 | A wrong option explains itself | ✗ | |
+| 7 | Numbers that keep their units | ✗ | |
+| 8 | Match pairs tied by a thread | ✗ | No colours per pair; make it fun with animation and haptics instead (§4.1). Built. |
+| 9 | Pull the card in from the edge | ✗ | |
+| 10 | Key terms with a marker | ✅ | "Don't over or underuse them." Marking rules in §8. |
+| 11 | A glossary card with a picture | ✅ (changed) | Skills after every lesson → lesson complete → the cards fly into Practice → Skills by chapter with their info cards (§5.3, §7.3). |
+| 12 | Scenes as market alerts | ✅ | `alert` (§3 `story`). |
+| 13 | A quiet symbol on text-only cards | ✗ | |
+| 14 | The mistakes round as a small deck | ✅ | Plus mistakes reviews, "2 or 3 times per level" (read as per chapter, open question X): side stops before each test (§4.5, §7.1). |
+| 15 | A briefing card for checkpoints | ✅ | `facts` (§3 `intro`). |
+| 16 | The intro shows what is ahead | ✗ | |
+| 17 | The opening bell on the chart | ✅ | Only on charts where the open matters, explained (`session_open`, §6.4). |
+| 18 | Turn the phone for a big chart | ✗ | |
+| 19 | Watch the order eat the book | ✅ | "Too much going on. Keep it simpler." One movement (§4.2 `depth-ladder`). |
+| 20 | A ticket that looks like a broker's | ✅ | §6.7. |
+| 21 | Scanner rows with a sparkline | ✅ | Less space between Stock and Today (§6.8). |
+| 22 | The tape beside the replay | ✗ | |
+| 23 | A slider with ticks and detents | ✗ | "Too much for such a simple question." Became the rule "Don't overdo it" (§1, principle 11). |
+| 24 | The lesson as a row of answers | ✗ | |
+| 25 | The goal track lights the flame | ✗ | |
+| 26 | Collect the takeaway | ✅ (as 11) | The skills of idea 11 instead of takeaways. |
+| 27 | Confetti only for a perfect run | ✅ | §5.3. |
+| 28 | A shelf of chapter medals | ✅ | Account (§7.4). |
+| 29 | An emblem for every chapter | ✅ | Plus: great accomplishments get bigger moments (§1, principle 12; §5.4). |
+| 30 | Tiers as materials | ✅ | §5.5, §7.5. |
+| 31 | Your learning as a price chart | 📄 | Not in Account: "change the Leaderboard tab to an analytics". In the tabs concept (decision V, stage `TABS`). |
+| 32 | The chapter card docks while you scroll | ✅ | §7.1. |
+| 33 | Tier gates between chapters | ✅ | Only general info: chapter, name, levels; no tier sentence, no time (§7.1). |
+| 34 | The level card lists its lessons | ✗ | |
+| 35 | Bonus lessons as side stops | ✅ | In the path's own style; the path a sine curve; buttons and spacing kept (§7.1). |
+| 36 | Today's goal on the START tag | ✗ | |
+| 37 | The ground follows the market clock | ✗ | |
+| 38 | The tabs the plan describes | 📄 | "First don't put this into the app. Give me an artifact where you explain the concept with screenshots." The artifact "Nutrade tabs concept"; decision V. |
+| 39 | Hearts with a refill ring | ✅ | All hearts back after five hours; the ring never covers the count (§5.2, §7.2). |
+| 40 | Pull down for Today | ✗ | |
+| 41 | A Practice tab with something in it | ✅ | Plus a Skills tab and a Mistakes tab, and everything that must be recorded (§7.3). |
+| 42 | The Trader Card | ✗ (changed) | The tier card instead, and All stats (§7.4). |
+| 43 | Right calls that lost, in your stats | ✅ | All stats (§7.4). |
+| 44 | The first decision before anything else | ✅ | §11.1. |
+| 45 | The daily goal as three paces | 📄 | Goes into the registration screens; David adds it later (§11.1). |
+| 46 | A calm risk note | ✗ | |
+| 47 | The variance simulator | ✗ | "This would imply the numbers given are reliable … the user should do his own research." No odds anywhere (`docs/agent.md` §3.11); the simulator is dropped. |
+| 48 | Your plan as a real document | ✅ | "Make the design better and don't overdo." Account → Your plan, and the `plan-sheet` (§6.8, §7.4). |
+| 49 | A face for titles | ✅ | "The title looks too stretched out": Archivo at its normal width (§10). |
+| 50 | Two-tone level symbols | ✅ | §7.1. |
+
+**Scope** (all built in this stage's PR)
+1. **The chart decision** (`docs/UI.md` §4.3, §5.1b, §6.4): the frame that holds still; keys with a direction glyph; after the choice the entry, stop and target lines, playback ending at the first one touched; the R ruler from the lesson that teaches R; the chart notes; the open marker; the compact reveal with the decision grid and the result line without a rate; the chart as large as the screen allows; every reveal right above the key.
+2. **The lesson flow:** hearts only in Checkpoints and Final Exams (W1); the mistakes round with its deck (W25); "What you learned" with the lesson's skills; confetti only for a perfect run; back home, the skills fly into the Practice tab.
+3. **Screens:** match without colours, with the snap, the rising notes and the closing wave; the depth ladder's walk through the book; the order ticket like a broker's; scanner rows with sparkline and volume bar; the scene as a market alert; the checkpoint briefing; the plan sheet as a document; the term marker and its sheet; the `decision-grid` visual.
+4. **Rewards:** a medal with its own emblem for every chapter, as a bigger moment; the tier card in its material, turning over.
+5. **Home:** the map as a sine curve; side stops (mistakes reviews now, bonus lessons as soon as their files exist); the docking chapter bar; chapter gates; two-tone symbols; the title face; the heart ring with all hearts back after five hours; the Practice tab (Daily mix with spaced repetition and weak spots, Skills, Mistakes; a finished round gives a heart back); the Account page (tier card, medal shelf, All stats with the variance view, Your plan).
+6. **First run:** the first trade, once, before anything else.
+7. **The record behind it** (`docs/UI.md` §7.3): every graded question, mistakes, chart decisions, skills, the plan's dates, the longest streak — kept with the progress, `progress.v1` migrated.
+8. **Tools:** validator rules and self-test cases for every new field (`docs/schema.md`); bonus files in the content index; Settings → Testing → **New designs** and **Show the first trade**; new rows on the Animations page.
+9. **Docs:** `docs/UI.md`, `docs/agent.md`, `docs/schema.md`, `docs/curriculum.md`, the new `docs/ContentToDo.md`, this plan, `CLAUDE.md` and `README.md`.
+10. **Not in the app:** the tabs concept (ideas 31 and 38) as an artifact for David's choice (decision V).
+
+**Not in this stage:** any change to a level file or the test bench (David: "Don't rewrite any .yaml"); the tab set (decision V); sharing the plan or a card as an image (`ONBOARDING`, `STATS`).
+
+**Status** (2026-10-03): built, waiting for David's test. The PR is stacked on PR #21 (`LOOK-SYSTEM`, session 2), whose branch it starts from; it merges after #20 and #21.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1, plus a session for fixes if the test finds any.
+
+**Prompt** (for a follow-up session, e.g. fixes after the test)
+```
+Stage DESIGN-REVIEW (fixes) from docs/build-plan.md.
+
+Read CLAUDE.md, then §1 and the "DESIGN-REVIEW" section of docs/build-plan.md in full, docs/UI.md in full and docs/ContentToDo.md.
+Fix exactly these findings from my test: [list]. Change no level file and not the test bench.
+
+Get every check green on the stage's PR.
+Report: what you changed · check results · my test checklist for the fixes with real links · open questions. Then stop.
+```
+
+**You test (~45 min)** — Claude puts the exact links in the report.
+1. A chart decision in Chapter 1 and one in Scalping Chapter 2: the chart fills the screen, the axis never changes while it plays out, the keys carry their arrows, and the reveal is a small panel right on the key with the grid and its dot.
+2. Settings → Testing → New designs: stop and target with the R ruler, chart notes, the open, the market alert, the checkpoint briefing, the skills at the end.
+3. A lesson with two deliberate mistakes: no heart lost, the deck, the round, then "What you learned", lesson complete without confetti, and back home the cards fly into Practice.
+4. A perfect lesson: the gold ring and confetti behind it.
+5. A checkpoint: the briefing card, hearts lost on mistakes; all hearts back after five hours (Settings → Testing → Refill hearts resets it).
+6. The map: the sine curve, a mistakes review beside the path before the checkpoint, the chapter bar docking under the banner, the chapter gate, two-tone symbols, the heart ring and its tap.
+7. Practice: Daily mix, Skills (tap one), Mistakes (play them).
+8. Account: the tier card, the medal shelf, All stats with the variance view, Your plan.
+9. Animations: the chapter medal and the tier card turning over. Is the medal a big enough moment?
+10. A fresh start (Settings → Reset, or a private window): the first trade comes first.
+11. The tabs concept artifact: choose (decision V).
+
+**Done when** David has tested and the PR is merged after #20 and #21.
+
 ### `LOOK-COMPONENTS` – the building blocks of every lesson
 
 **Goal.** The building blocks that appear in every lesson look finished.
 
+**Since `DESIGN-REVIEW`** (2026-10-03) some items are done or changed; each says so. What is left fits one session, two if the candles take long.
+
 **Session 1 – charts and reveal**
 1. **Axis** (S6):
    - Round prices (0.05 / 0.10 / 0.25 / 0.50 / 1) and the currency symbol from the market profile.
-   - The axis does not jump between decision and reveal.
+   - The axis does not jump between decision and reveal. **Done in `DESIGN-REVIEW`:** the frame holds still from the first frame, the visible bars in its middle (`docs/UI.md` §6.4).
    - Prices in the number face of the mix (`docs/UI.md` §10).
 2. **Decision buttons** (S7):
-   - Equal in weight.
+   - Equal in weight. **Done in `DESIGN-REVIEW`,** with a direction glyph on each key.
    - "What happened next" instead of "NEXT 5 BARS".
    - A text alternative for screen readers, e.g. "Price climbed in steps from 9.80 to 10.05".
-3. **Stop and target lines** when a screen has `stop` or `target` (new, `docs/schema.md`), labelled with their prices, and the entry while the learner decides.
+3. **Stop and target lines** when a screen has `stop` or `target` (new, `docs/schema.md`), labelled with their prices, and the entry while the learner decides. **Done in `DESIGN-REVIEW`,** with one change: they appear with the choice, not while the learner decides (they would give the direction away); the R ruler, chart notes and the open marker came with them.
 4. **State chips** easy to read.
 5. **Candles that form** (your critique: the candle animations should move more realistically): a candle opens, runs to its high and low and settles at its close, with a live price tag on the axis, as in `#prototype/mix/chart` (`formingCandle` in `src/prototype/kit.tsx`; both at commit `a78e210`, `LOOK-SYSTEM` item 13). A tap still finishes the playback.
-6. **The trade log** in the chart's reveal, from Precise: the outcome, the result and R, lined up in the number face, a neutral block under the grade (`docs/UI.md` §5.1b).
+6. **The trade log** in the chart's reveal, from Precise: the outcome, the result and R, lined up in the number face, a neutral block under the grade (`docs/UI.md` §5.1b). Since `DESIGN-REVIEW` it shares its row with the decision grid; keep the panel compact (§5.1b).
 
 **Session 2 – the rest**
 
-7. **Match:** every pair with its own color or connection (S8).
+7. ~~**Match:** every pair with its own color or connection (S8).~~ **Done differently in `DESIGN-REVIEW`:** David did not want colours or threads; matched pairs snap together with rising notes and haptics and the board ends on a wave (`docs/UI.md` §4.1).
 8. **Lesson complete** (S11):
-   - Confetti only for a perfect run and never over text.
+   - Confetti only for a perfect run and never over text. **Done in `DESIGN-REVIEW`.**
    - The lesson's name (`subtitle`) is shown.
    - The mistakes are listed, with "Practice these" (linked from `PRACTICE` on).
    - Progress toward the daily goal is visible.
    - Its numbers count up to their value, together with the ring (from Precise, your choice in `LOOK-BRIEF`; `#prototype/mix/complete` at `a78e210`). Reduced motion shows them at once.
-9. **Chapter badge** as in `docs/UI.md` §5.4: the XP bonus counts up, "Chapter N unlocked" (S21).
+9. **Chapter badge** as in `docs/UI.md` §5.4: the XP bonus counts up, "Chapter N unlocked" (S21). **Done in `DESIGN-REVIEW`,** as the chapter's own emblem medal with the next chapter named.
 10. **Visuals** (S24, W17):
     - The ownership graphic as a 10×10 grid from 20 parts upward.
     - Real icons for all 51 carousel icon names (e.g. the `lucide-react-native` library, MIT license, plus a mapping table).
@@ -917,7 +1037,7 @@ Report: what you built · check results · contact sheets · my test checklist w
 
 **You test (~30 min)**
 1. `#level-01-1/6`: the axis shows round prices with $, and nothing jumps after the decision.
-2. A match in the test bench: the pairs are colored.
+2. ~~A match in the test bench: the pairs are colored.~~ (tested in `DESIGN-REVIEW`)
 3. Finish one lesson perfectly and one with mistakes: confetti only for the perfect one, the list of mistakes is visible.
 4. The carousel in lesson 1·6-1: real icons instead of letters.
 5. The session ribbon in lesson 1·10-1: the proportions are right, "now" is visible.
@@ -937,6 +1057,7 @@ Report: what you built · check results · contact sheets · my test checklist w
    - `trade-plan`: entry, stop and target as lines with their distances, plus R and a risk/reward bar.
 2. **Both** in the test bench, in `docs/schema.md` (component table) and in the validator.
 3. **Not built into lessons yet.** `VARIANCE` and `CONTENT-FIX` do that; the visual quota from `RULES` applies there.
+4. **`decision-grid`** (`docs/UI.md` §6.8) is already built, in `DESIGN-REVIEW`: lesson 1·2-4 uses it.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
@@ -963,12 +1084,11 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Goal.** Learning without fear: mistakes in lessons come back instead of locking you out. Hearts exist only in tests.
 
+**Since `DESIGN-REVIEW`** (2026-10-03) items 1 and 2 are built, with David's deck and his heart rule (all hearts back five hours after the first is lost); the stage keeps the rest. Decision X (mistakes reviews) is answered here at the latest.
+
 **Scope**
-1. **Hearts only in checkpoints and final exams** (W1, `docs/UI.md` §5.2).
-2. **Mistakes round** (W25, `docs/UI.md` §4.5):
-   - Wrongly answered questions come back once at the end of the lesson, reshuffled.
-   - The lesson is finished once they are answered correctly.
-   - A lesson with a mistakes round does not count as perfect.
+1. ~~**Hearts only in checkpoints and final exams** (W1, `docs/UI.md` §5.2).~~ **Done in `DESIGN-REVIEW`.**
+2. ~~**Mistakes round** (W25, `docs/UI.md` §4.5): wrongly answered questions come back once at the end of the lesson, reshuffled; the lesson is finished once they are answered; a lesson with a mistakes round does not count as perfect.~~ **Done in `DESIGN-REVIEW`,** opened by the deck.
 3. **Review cards** (S15, W8):
    - Via the level card → "Review cards", a level's theory cards can be browsed without questions.
    - In every question, "See the card again" opens the last theory card as an overlay.
@@ -976,7 +1096,7 @@ Report: what you built · check results · my test checklist with real links · 
 5. **Test summary** (S14):
    - For every wrong question: the correct answer and "Go to the lesson" (opens the source's review card).
    - "Review these" opens a practice round with exactly those questions. Complete from `PRACTICE` on.
-6. **Out of hearts without a dead end:** instead of just "back", the actions "Review the cards" and, from `PRACTICE` on, "Practice → +1 heart".
+6. **Out of hearts without a dead end:** instead of just "back", the actions "Review the cards" and "Practice → +1 heart" (the Practice tab gives a heart back since `DESIGN-REVIEW`).
 7. **XP** (W11):
    - Replays earn ¼ XP.
    - The perfect bonus is paid only on the first perfect run.
@@ -1005,9 +1125,7 @@ Report: what you built · check results · my test checklist with real links · 
 ```
 
 **You test (~30 min)**
-1. Play a lesson with three deliberate mistakes:
-   - You lose no heart.
-   - The three questions come back at the end.
+1. ~~Play a lesson with three deliberate mistakes: you lose no heart; the three questions come back at the end.~~ (tested in `DESIGN-REVIEW`)
 2. Play a checkpoint with two mistakes:
    - Now hearts are lost.
    - The summary shows the correct answers.
@@ -1074,8 +1192,10 @@ Report: what you built · check results · every reminder text · my test checkl
 
 **Goal.** A good first impression, and everything legally and professionally required before the first screen.
 
+**Since `DESIGN-REVIEW`** (2026-10-03): the first trade comes before everything (`docs/UI.md` §11.1, `src/onboarding/`), and the steps below follow it. The daily goal as three paces (Easy, Steady, Serious) belongs to the registration screens, which David adds later himself; this stage keeps the plain choice of 1, 2 or 3.
+
 **Scope**
-1. **First run** (`docs/UI.md` §11.1), in this order:
+1. **First run** (`docs/UI.md` §11.1), in this order, after the first trade:
    1. What the app is.
    2. The risk note in one sentence, with "More".
    3. Daily goal.
@@ -1125,6 +1245,8 @@ Report: what you built · check results · my test checklist with real links · 
 ### `PRACTICE` – the practice tab
 
 **Goal.** A place where knowledge sticks: three minutes a day, never punishing.
+
+**Since `DESIGN-REVIEW`** (2026-10-03) the tab exists (`docs/UI.md` §7.3): **Daily mix** (eight questions from played lessons, never twice in a round, the Leitner boxes 1 → 3 → 7 → 16 → 35 days, weak spots by tag), **Skills** (by chapter, each with its info card) and **Mistakes** (open mistakes, played as a round); a finished round gives a heart back; the record behind it is kept with the progress. This stage reviews that selection, makes it explainable, and adds what is missing: drill packs as a source, weak concepts by glossary term, the links from the test summary and lesson complete, and the "+1 day" testing tool. Keep the three tabs David asked for.
 
 **Scope** (`docs/UI.md` §7.3)
 1. **Practice tab** with three areas:
@@ -1178,10 +1300,10 @@ Report: what you built · check results · my test checklist with real links · 
    - Plus `taught_in` and `aliases`.
 2. **Validator:** every introduced term has an entry, and no definition is too long.
 3. **UI:**
-   - Terms in body text get a dotted underline (first occurrence per screen).
-   - A tap opens a sheet with the definition and "Taught in Level X-Y"; that opens the review card.
+   - ~~Terms in body text get a dotted underline (first occurrence per screen). A tap opens a sheet with the definition and "Taught in Level X-Y"; that opens the review card.~~ **Built in `DESIGN-REVIEW`** with David's marker (highlighter and underline, `docs/UI.md` §8) and his rule "don't over or underuse them"; the sheet shows "Taught in" and the card already. This stage adds the definition line from `content/glossary.yaml`, and the aliases.
    - A glossary list with search in Account.
    - A "recently missed" area, fed by `PRACTICE`.
+4. **`docs/ContentToDo.md` 1.4:** every term in its lesson's `terms_introduced`, spelled as the body spells it, defined on a card of that lesson.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2. The definitions must be exact, so not with Sonnet or Haiku.
 
@@ -1189,7 +1311,7 @@ Report: what you built · check results · my test checklist with real links · 
 ```
 Stage GLOSSARY from docs/build-plan.md.
 
-Read CLAUDE.md, then §1 and the "GLOSSARY" section of docs/build-plan.md in full, plus docs/UI.md §8, docs/schema.md (Glossary) and docs/agent.md §3.9 and §4.
+Read CLAUDE.md, then §1 and the "GLOSSARY" section of docs/build-plan.md in full, plus docs/UI.md §8, docs/schema.md (Glossary), docs/agent.md §3.9 and §4, and docs/ContentToDo.md (Part 1).
 Write every definition to match the lesson that introduces the term — read the screen that defines it. No definition may contradict its lesson.
 
 Open a PR against main and get every check green.
@@ -1205,14 +1327,15 @@ Report: what you built · number of terms · 15 random definitions to proofread 
 
 **Goal.** Progress you can be proud of. Measured by decisions, never by profit.
 
+**Since `DESIGN-REVIEW`** (2026-10-03) the Account page has the tier card in its material, the medal shelf, All stats with the variance view and the risk note, and Your plan (`docs/UI.md` §7.4). David did not take the Trader Card with stats ("the tier card design … could be shown here"), and the learning chart goes to the tab decided in `TABS`. Left for this stage:
+
 **Scope** (`docs/UI.md` §7.4)
 1. **Account and statistics:**
-   - XP, chapters, accuracy per topic.
-   - Decision record: long, short, no trade, the share of "good decisions".
-   - A **variance view**, e.g. "Your correct decisions: 64 % winners, 36 % losers – that is what a good process looks like."
-   - The current tier.
-2. **Trader Card v1:** best setup, a summary of the saved plan, tier. Shareable as an image.
-3. **The risk-note line** on the statistics screen (`docs/agent.md` §7).
+   - Accuracy per topic (a lesson's `tags`) and per setup, from the record `DESIGN-REVIEW` keeps.
+   - Decision record: long, short, no trade. ~~The share of "good decisions".~~ Counts, not rates called good.
+   - ~~A **variance view**, e.g. "Your correct decisions: 64 % winners, 36 % losers – that is what a good process looks like."~~ Built, as counts and without calling any split good (`docs/agent.md` §3.11).
+2. ~~**Trader Card v1:** best setup, a summary of the saved plan, tier. Shareable as an image.~~ **The tier card, shareable as an image,** and the plan as an image if `ONBOARDING` has not done it.
+3. ~~**The risk-note line** on the statistics screen (`docs/agent.md` §7).~~ Built.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
@@ -1229,7 +1352,34 @@ Report: what you built · check results · my test checklist with real links · 
 
 **You test (~15 min)**
 1. Spot-check the numbers against what you played.
-2. Share the Trader Card and look at the image.
+2. Share the tier card and look at the image.
+
+### `TABS` – the tab set David chooses
+
+**Goal.** The bar along the bottom holds the tabs David chose from the concept artifact (ideas 31 and 38 of `DESIGN-REVIEW`, decision V).
+
+**You prepare.** Your choice from the artifact "Nutrade tabs concept", e.g. "Learn, Practice, Analytics, Account; Arena later as a fifth".
+
+**Scope**
+1. The tab bar as chosen; the Leaderboard placeholder goes (W7 already says there is none in v1.0).
+2. **Analytics**, if chosen (David on idea 31: "change the Leaderboard tab to an analytics"): your learning as a weekly XP candle chart with its all-time high, the decision record, the variance view and accuracy by topic — moved from Account → All stats, which then keeps only what belongs to the profile. Measured in decisions and effort, never money.
+3. **Arena**, if chosen: the tab with a lock until `ARENA-TAB` fills it.
+4. `docs/UI.md` §11.2 and §7.4 record the choice.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1
+
+**Prompt**
+```
+Stage TABS from docs/build-plan.md.
+
+Read CLAUDE.md, then §1 and the "TABS" section of docs/build-plan.md in full, plus docs/UI.md §7.3, §7.4, §7.7 and §11.
+My choice from the tabs concept: [paste]
+
+Open a PR against main and get every check green.
+Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+```
+
+**You test (~15 min).** Every tab on your phone; the analytics against what you played.
 
 ### `FUN-PASS` – is it fun?
 
@@ -1245,7 +1395,7 @@ Report: what you built · check results · my test checklist with real links · 
 3. **Implementation:**
    - Audit and newcomer test become a prioritized list. You choose from it.
    - What gets built: e.g. sounds, haptics, micro-animations, achievements for discipline (K6), and whatever the newcomer test showed.
-   - **Bonus side lessons** on the path (your wish in `LOOK-BRIEF`, `docs/UI.md` §7.1, `#prototype/mix/bonus` at `a78e210`): a small node beside the path after some levels, opened by the level before it, with two or three charts played bar by bar where you don't know where, or whether, there is a setup (the `chart-replay` of `docs/UI.md` §4.4). Optional, never timed, never a heart; they pay gems. Hand-written charts first; from `ARENA-TAB` on, the generator fills them.
+   - **Bonus side lessons** on the path (your wish in `LOOK-BRIEF`, `docs/UI.md` §7.1, `#prototype/mix/bonus` at `a78e210`): a small node beside the path after some levels, opened by the level before it, with two or three charts played bar by bar where you don't know where, or whether, there is a setup (the `chart-replay` of `docs/UI.md` §4.4). Optional, never timed, never a heart; they pay gems. Hand-written charts first; from `ARENA-TAB` on, the generator fills them. **Since `DESIGN-REVIEW`** the map draws side stops in the path's own style and reads bonus files (`level-LL-bonus.yaml`, `docs/schema.md`); this stage writes the first ones, at the places in `docs/curriculum.md` "Side stops", and pays their gems (`docs/ContentToDo.md` 2.7, 4.4).
 
 **Model · effort · sessions:**
 - Audit: Fable 5.1 · high (else Opus 5.5 · xhigh).
@@ -1284,6 +1434,33 @@ The order is deliberate:
 
 That way no file is rewritten twice.
 
+### `CONTENT-DESIGN` – the test bench learns the new fields
+
+**Goal.** Every content field the app renders since `DESIGN-REVIEW` has an example in the test bench, so every later content stage can see what it writes.
+
+**Scope** (`docs/ContentToDo.md` 4.9)
+1. In `demo/all-screens.yaml`: a chart decision with `stop`, `target` and `notes`; a chart with `session_open`; a story with an `alert`; a test-style intro with `facts`; `skills` in the header.
+2. One bonus file in `demo/` that the bench can open.
+3. The render test and the contact sheets cover them.
+4. Tick 4.9 in `docs/ContentToDo.md`.
+
+**Not in this stage:** any file in `content/`.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1
+
+**Prompt**
+```
+Stage CONTENT-DESIGN from docs/build-plan.md.
+
+Read CLAUDE.md, then §1 and the "CONTENT-DESIGN" section of docs/build-plan.md in full, plus docs/ContentToDo.md, docs/schema.md (every [DESIGN-REVIEW] field) and docs/UI.md §3, §5.1b, §6.4.
+Change only the test bench; no file in content/.
+
+Open a PR against main and get every check green.
+Report: what you added · check results · my test checklist with real links · open questions. Then stop.
+```
+
+**You test (~10 min).** The new bench screens on your phone (links in the report).
+
 ### `RULES` – new rules and worklists
 
 **Goal.**
@@ -1301,14 +1478,17 @@ Lessons I liked, and why:
 ```
 
 **Scope** (the rules are in `docs/agent.md` and `docs/schema.md`, marked [v4] there)
-0. **Your critique** goes into this plan, into the chapter-specific items of `CONTENT-FIX`: a part for every chapter, plus the chapter it names. So every chapter pass reads it. Two points are already in, from `LOOK-BRIEF`: more hands-on lessons where you don't know where, or whether, there is an entry; and fewer words on every screen, for which `RULES` proposes a tighter limit than W10's 150 characters, per screen type (you decide).
-1. **Validator rules:** warnings first, errors under `--strict`.
+0. **`docs/ContentToDo.md`** is read with the critique: its Part 3 is part of every chapter's worklist.
+1. **Your critique** goes into this plan, into the chapter-specific items of `CONTENT-FIX`: a part for every chapter, plus the chapter it names. So every chapter pass reads it. Two points are already in, from `LOOK-BRIEF`: more hands-on lessons where you don't know where, or whether, there is an entry; and fewer words on every screen, for which `RULES` proposes a tighter limit than W10's 150 characters, per screen type (you decide).
+2. **Validator rules:** warnings first, errors under `--strict`.
    - **Variance** (§3.11):
      - the share per chapter;
      - in Chapter 1, never two "right, but lost" in a row;
      - `stop` and `target` from Chapter 3 on for directional decisions;
      - the `outcome` sentence matches the chart (win or loss).
    - **Signs** (§3.12): amount questions have `sign: any` or a direction word in the prompt.
+   - **No odds** (§3.11, `DESIGN-REVIEW`): a sentence that states how often something wins or loses ("4 in 10", "x % of the time", "most of the time it works") outside a screen that labels its numbers as an example.
+   - **Standalone questions** (§3.4, `DESIGN-REVIEW`): a question whose prompt points back ("the chart above", "this quote") without a `story` right before it.
    - **References and labels:** recap points with `card:`; a `story` screen at the end of a lesson with `label: takeaway`.
    - **Language:**
      - body text ≤ 150 characters;
@@ -1321,9 +1501,9 @@ Lessons I liked, and why:
      - risk per trade between 0.5 and 2 %;
      - with several positions at once: the sum of position values and the sum of the risks against the account;
      - required before the swing and day-trading paths.
-2. **`tools/test_validate.py`:** one case per new rule.
-3. **`tools/content_report.py --chapter N`:** a worklist per chapter (Markdown) with every finding, each with file and screen.
-4. **`tools/export_readable.py --chapter N`:** a chapter as readable text, for you, for `EXPERT` and for the reviews.
+3. **`tools/test_validate.py`:** one case per new rule.
+4. **`tools/content_report.py --chapter N`:** a worklist per chapter (Markdown) with every finding, each with file and screen — including the counts behind `docs/ContentToDo.md` Part 3 (lessons without skills, scenes with a ticker and no alert, test intros without `facts`).
+5. **`tools/export_readable.py --chapter N`:** a chapter as readable text, for you, for `EXPERT` and for the reviews.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
@@ -1350,19 +1530,17 @@ Report: new rules · warnings per chapter (table) · link to the worklists · my
 
 **Goal.** The learner understands that correct decisions can lose, before it happens to them (§0, "Variance"). You asked for the same in `LOOK-BRIEF`: a right decision can still lose, and the app should say so.
 
+**Changed on 2026-10-03 (`DESIGN-REVIEW`):** the variance simulator is dropped — a fixed win rate on a screen would read as reliable, and the learner should find out for themselves how often a method works (`docs/agent.md` §3.11). The reveal line without a rate and the decision grid are already built; this stage writes the content.
+
 **Scope**
-1. **New screen type `variance-sim`** (`docs/UI.md` §3 and §6.10, `docs/schema.md`):
-   - The learner taps "10 trades" and sees winners and losers as a row, plus a curve in R.
-   - Playable several times, a different row each time.
-   - "100 trades" shows how the result approaches the expected value.
-   - No time pressure, reduce-motion respected, deterministically testable via a seed.
+1. ~~**New screen type `variance-sim`**~~ — dropped. The `decision-grid` visual (`docs/UI.md` §6.8) is built and is what 2-4 uses.
 2. **New lesson 1·2-4 "Good Call, Bad Luck":**
-   - In English, 12–16 screens, following `docs/curriculum.md`.
-   - Sequence: story → theory → simulator → the first correct decision that loses (with the new reveal) → `tf` "A trade that lost was a bad decision" (false) → a mini calculation → takeaway.
+   - In English, 12–16 screens, following `docs/curriculum.md` and the sequence in `docs/ContentToDo.md` 4.1: a scene, the first correct decision that loses (with the reveal and its grid), the grid as a card, why a good read can lose, `tf` "A trade that lost was a bad decision" (false), a sort into the grid, a right "wait" that would have won, a mini calculation, "how often it works, your own record says", the takeaway.
+   - No rate anywhere, no simulator.
    - The prerequisite chain: 3-1 now follows 2-4.
-3. **"Why?" link** in the "right, but lost" reveal: opens the card from 1·2-4 as a review card.
-4. **Lesson summary** (`docs/UI.md` §5.3), e.g. "Decisions 7/8 right · Results: 4 winners, 3 losers".
-5. **First losers in Chapter 1:** from Level 3 on, the first correct buy decisions that lose, at the share from §3.11. `CONTENT-FIX-1` does the rest.
+3. **"Why?" link** in the "right, but lost" reveal: opens the grid card from 1·2-4 as a review card.
+4. **Lesson summary** (`docs/UI.md` §5.3), e.g. "Decisions 7/8 right · Results: 4 won, 3 lost".
+5. **First losers in Chapter 1:** from Level 3 on, the first correct buy decisions that lose, at the share from §3.11, worded without odds. `CONTENT-FIX-1` does the rest.
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · 1–2
 
@@ -1370,24 +1548,25 @@ Report: new rules · warnings per chapter (table) · link to the worklists · my
 ```
 Stage VARIANCE from docs/build-plan.md.
 
-Read CLAUDE.md, then §0 ("Variance"), §1 and the "VARIANCE" section of docs/build-plan.md in full, plus docs/agent.md §3.11, docs/UI.md §3, §5.1b, §5.3, §6.10, docs/schema.md (variance-sim) and the reference files from docs/agent.md §3.8.
+Read CLAUDE.md, then §0 ("Variance"), §1 and the "VARIANCE" section of docs/build-plan.md in full, plus docs/agent.md §3.11, docs/UI.md §3, §5.1b, §5.3, §6.8, §6.10, docs/schema.md (decision-grid), docs/ContentToDo.md (Part 1 and 4.1) and the reference files from docs/agent.md §3.8.
 Read content/shared/chapter-01-market-basics/level-02-1.yaml to level-02-3.yaml before you write 2-4 — tone and rhythm must match.
 
 Especially important:
 - The lesson must be understandable for someone with no prior knowledge at all, and variance must never read as an excuse for bad decisions.
-- No profit promises, no win rates stated as facts about real markets — the numbers in the simulator are explicitly an example.
+- No profit promises and no rates: nothing may say how often a setup or a decision wins. Where a number is needed for arithmetic, it is labelled as an example.
 
 Open a PR against main and get every check green.
 Report: what you built · check results · the full text of lesson 2-4 to proofread · my test checklist with real links · open questions. Then stop.
 ```
 
 **You test (~30 min + newcomer test)**
-1. Play lessons 1·2-3 and 2-4. Run the simulator five times: is the row different each time?
+1. Play lessons 1·2-3 and 2-4. Does the grid make "right call, lost anyway" clear without any number?
 2. Play a Chapter 1 decision that was right and loses (link in the report): is it immediately clear that you were *right*?
 3. **Newcomer test:**
    - Someone without trading knowledge plays 2-3 and 2-4.
    - Ask them afterwards: "You decided right and still lost – what does that mean?"
    - Expected, in their own words: "One single trade says little; what counts is whether the decision was good."
+   - And: "How often does a setup work?" Expected: "I'd have to find out from my own trades."
    - If they cannot say that, Claude revises the lesson.
 
 ### `OFFER` – Chapter 8 Level 15, account types and rules
@@ -1423,7 +1602,7 @@ Detailed prompt: **Appendix E.1**.
 ```
 Stage OFFER from docs/build-plan.md.
 
-Read CLAUDE.md, then §1, §4.1 (decisions A, B, C) and the "OFFER" section of docs/build-plan.md in full. Then follow the detailed prompt in Appendix E.1 exactly.
+Read CLAUDE.md, then §1, §4.1 (decisions A, B, C) and the "OFFER" section of docs/build-plan.md in full, and docs/ContentToDo.md (Parts 1–3: the new level is written with skills and the new fields from the start). Then follow the detailed prompt in Appendix E.1 exactly.
 For the rule texts in content/market_profiles.yaml: research the current state on the web, name every source with its date in the report, and flag everything a lawyer has to check.
 
 Open a PR against main and get every check green.
@@ -1453,6 +1632,7 @@ Report: what you built · check results · sources · sentences you are unsure a
    - A `subtitle` for every lesson.
    - `why` for the most important wrong options (typical misconceptions).
 2. **The chapter-specific items** in the list below.
+   - Plus **`docs/ContentToDo.md` Part 3** for the chapter: skills, the chart ramp, notes, the open, alerts, briefings, no odds, standalone questions. Tick them there.
 3. **Way of working:**
    - Blocks of 4–6 levels; after every block the validator and sizing.
    - At the end, the render test for the chapter and a contact sheet of the changed screens.
@@ -1486,7 +1666,7 @@ Report: what you built · check results · sources · sentences you are unsure a
 - **Chapters 4 and 5:** only the worklist.
 - **Chapter 6:**
   - State chips (38 %).
-  - `variance-sim` in 6·6 and 6·13.
+  - ~~`variance-sim` in 6·6 and 6·13.~~ 6·6 and 6·13 without a simulator: example numbers labelled as examples, and "your own sample decides" (`docs/curriculum.md`, `DESIGN-REVIEW`).
   - In 6·9 say plainly: six trades per session need a margin account, plus PDT and settlement (decision C).
 - **Chapter 7:**
   - State chips first, only 16 % today.
@@ -1502,14 +1682,14 @@ Report: what you built · check results · sources · sentences you are unsure a
 ```
 Stage CONTENT-FIX-[N] from docs/build-plan.md.
 
-Read CLAUDE.md, docs/agent.md, docs/schema.md and docs/UI.md in full, the section on Chapter [N] in docs/curriculum.md, §0 ("Variance"), §1 and the "CONTENT-FIX" section of docs/build-plan.md, and the reference files from docs/agent.md §3.8.
+Read CLAUDE.md, docs/agent.md, docs/schema.md and docs/UI.md in full, the section on Chapter [N] in docs/curriculum.md, docs/ContentToDo.md (Parts 1–3), §0 ("Variance"), §1 and the "CONTENT-FIX" section of docs/build-plan.md, and the reference files from docs/agent.md §3.8.
 Then run `python3 tools/content_report.py --chapter [N]` — that is your worklist, together with the chapter-specific items in the plan.
 
 Work in blocks of 4–6 levels. After every block: validate_content.py, check_sizing.py; 0 errors, no warning about a file you touched.
 Recompute every changed chart question completely (entry, stop, size, result in $ and R, outcome sentence).
 Change no learning goals, no level structure, no ids.
 
-At the end: the render test for the chapter, a contact sheet of the changed screens, the three hand checks from §1.
+At the end: the render test for the chapter, a contact sheet of the changed screens, the three hand checks from §1, and Chapter [N]'s ticks in docs/ContentToDo.md.
 Open a PR against main and get every check green.
 Report: before/after numbers from the worklist · deviations with their reason · my test checklist with real links · open questions. Then stop.
 ```
@@ -1553,7 +1733,7 @@ Implements the approved findings: new screens or lessons, following every rule.
 ```
 Stage KNOWLEDGE-FIX from docs/build-plan.md.
 
-Read CLAUDE.md, docs/agent.md, docs/schema.md, docs/UI.md, and §1 of docs/build-plan.md. Implement these approved findings from KNOWLEDGE: [list]. New lessons follow docs/curriculum.md (add them there) and every rule.
+Read CLAUDE.md, docs/agent.md, docs/schema.md, docs/UI.md, docs/ContentToDo.md (Part 1), and §1 of docs/build-plan.md. Implement these approved findings from KNOWLEDGE: [list]. New lessons follow docs/curriculum.md (add them there) and every rule.
 Open a PR against main and get every check green. Report with a test checklist. Then stop.
 ```
 
@@ -1848,6 +2028,7 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
   - The generator gives clean setups a small positive edge and poor ones a negative edge, with realistic variance: 30–40 % of right calls still lose.
   - Over 50 trades the practice account then shows what Chapter 6 teaches: the process decides the curve.
   - The app says plainly that real markets guarantee no edge. The arena's odds are a training model.
+  - **No odds on screen** (David, 2026-10-03, `docs/agent.md` §3.11): the model's rates stay inside the generator. The arena shows the learner their own results — their journal, their sample — and never a setup's modeled win rate as if it were how often it works.
 - **The arena does not replace paper trading on real-time data** before real money (graduate profile, point 15). The copy never implies otherwise.
 - **Lessons never advertise Plus.** The paywall appears only at natural points: when the free part of the arena is used up, when hearts run out in a test (next to the free ways: wait, or practice for a heart), and in Account and Settings (`MONEY`).
 
@@ -1892,7 +2073,7 @@ Read CLAUDE.md, then §0, §1, §4.1 (decision I) and all of Phase G of docs/bui
 Show me your plan first and wait for my approval. Use the "prototype" skill for the screens.
 
 Especially important:
-- Nothing in the arena may read as a signal or a promise of profit; the training odds are disclosed.
+- Nothing in the arena may read as a signal or a promise of profit; that the charts follow a training model is disclosed, and no setup's modeled rate is shown as its odds (docs/agent.md §3.11).
 - No timer, no autoplay: the chart moves only when the learner taps.
 - The free part stays genuinely useful, and the paywall never interrupts a lesson.
 
@@ -1919,7 +2100,7 @@ Report: the design in ten sentences · links to every prototype screen · the fr
 
 **Prompt**
 ```
-Stage REPLAY-PILOT from docs/build-plan.md. Read CLAUDE.md and §1 of docs/build-plan.md, then follow Appendix E.2 (pilot). A PR instead of a push to main. Report with a test checklist. Then stop.
+Stage REPLAY-PILOT from docs/build-plan.md. Read CLAUDE.md, §1 of docs/build-plan.md and docs/ContentToDo.md (Part 1), then follow Appendix E.2 (pilot). A PR instead of a push to main. Report with a test checklist. Then stop.
 ```
 
 **You test.** Play the replay in the test bench:
@@ -2071,7 +2252,7 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Prompt**
 ```
-Stage DRILLS from docs/build-plan.md. Read CLAUDE.md, docs/schema.md § Drill packs, the arena section of docs/UI.md and §1 and the "DRILLS" section of docs/build-plan.md. Write scalping-selection (25) and scalping-risk-calls (25) following Appendix E.4, validated under --strict, and build the generated setup drills for the scalping cards from the CHART-GEN templates. PR, report with a test checklist. Then stop.
+Stage DRILLS from docs/build-plan.md. Read CLAUDE.md, docs/schema.md § Drill packs, the arena section of docs/UI.md, docs/ContentToDo.md (Part 1) and §1 and the "DRILLS" section of docs/build-plan.md. Write scalping-selection (25) and scalping-risk-calls (25) following Appendix E.4, validated under --strict, and build the generated setup drills for the scalping cards from the CHART-GEN templates. PR, report with a test checklist. Then stop.
 ```
 
 **You test.**
@@ -2091,7 +2272,7 @@ Stage DRILLS from docs/build-plan.md. Read CLAUDE.md, docs/schema.md § Drill pa
 
 **Prompt** (per session)
 ```
-Stage REPLAY-BANK from docs/build-plan.md. Read CLAUDE.md, §1 and the "REPLAY-BANK" section of docs/build-plan.md, then follow Appendix E.2 (bank) for the cards [cards] at reading level [1/2/3], starting from CHART-GEN candidates. PR, report with a test checklist. Then stop.
+Stage REPLAY-BANK from docs/build-plan.md. Read CLAUDE.md, §1 and the "REPLAY-BANK" section of docs/build-plan.md and docs/ContentToDo.md (Part 1), then follow Appendix E.2 (bank) for the cards [cards] at reading level [1/2/3], starting from CHART-GEN candidates. PR, report with a test checklist. Then stop.
 ```
 
 **You test.** Play two replays per session in the arena.
@@ -2139,7 +2320,7 @@ In each path's Chapter 3, the plan card revises `setup_max_account_pct` with tha
 ```
 Stage SWING-[N] from docs/build-plan.md.
 
-Read CLAUDE.md, docs/agent.md, docs/schema.md and docs/UI.md in full, the swing section for Chapter [N] in docs/curriculum.md (find it with grep), §0 ("Variance"), §1 and §12 of docs/build-plan.md, and the reference files from docs/agent.md §3.8.
+Read CLAUDE.md, docs/agent.md, docs/schema.md and docs/UI.md in full, the swing section for Chapter [N] in docs/curriculum.md (find it with grep), docs/ContentToDo.md (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/build-plan.md, and the reference files from docs/agent.md §3.8.
 Also follow the clause in Appendix E.7.
 Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
 Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
@@ -2176,7 +2357,7 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 ```
 Stage DAY-[N] from docs/build-plan.md.
 
-Read CLAUDE.md, docs/agent.md, docs/schema.md and docs/UI.md in full, the day-trading section for Chapter [N] in docs/curriculum.md (find it with grep), §0 ("Variance"), §1 and §12 of docs/build-plan.md, and the reference files from docs/agent.md §3.8.
+Read CLAUDE.md, docs/agent.md, docs/schema.md and docs/UI.md in full, the day-trading section for Chapter [N] in docs/curriculum.md (find it with grep), docs/ContentToDo.md (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/build-plan.md, and the reference files from docs/agent.md §3.8.
 Also follow the clause in Appendix E.7.
 Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
 Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
@@ -2215,7 +2396,7 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 **Prompt** (per session)
 ```
 Stage ARENA-PATHS, path [swing|day-trading], session [templates|replays], from docs/build-plan.md.
-Read CLAUDE.md, then §1, Phase G and the "ARENA-PATHS" section of docs/build-plan.md, the arena section of docs/UI.md, the path's Chapter 7 in docs/curriculum.md and Appendix E.2.
+Read CLAUDE.md, then §1, Phase G and the "ARENA-PATHS" section of docs/build-plan.md, the arena section of docs/UI.md, the path's Chapter 7 in docs/curriculum.md, docs/ContentToDo.md (Part 1) and Appendix E.2.
 PR, every check green, report with 12 sample charts (templates session) or the replay list (replays session) and a test checklist. Then stop.
 ```
 
@@ -2643,7 +2824,7 @@ Not part of v1.0. Every idea here gets a stage of its own in this plan before it
 - **`AI-EXPLAINER`:** "Explain it differently" after a wrong answer, via the Claude API (K9). Only with hard guardrails: no signals, no investment advice, only the lesson's material. A candidate for Nutrade Plus.
 - **Arena extras:** monthly challenges and more scenario packs; real historical data, if a license is affordable.
 - **Widgets:** streak, daily goal, the Daily Chart.
-- **Trader Card:** sharing, achievements.
+- **Tier card:** sharing, achievements (the Trader Card with stats was not taken in `DESIGN-REVIEW`).
 - **Tablet and landscape charts.**
 
 ---
@@ -2702,11 +2883,12 @@ If the list has an ✗, do not answer "OK" but send the bug report.
 
 ### E. Prompt frame and content prompts
 
-**E.0 – The frame of every prompt** (the stages above fill it in; it becomes the thread's brief)
+**E.0 – The frame of every prompt** (the stages above fill it in; paste it into a new session)
 ```
 Stage <NAME> from docs/build-plan.md.
 
 Read CLAUDE.md, then §1 and the "<NAME>" section of docs/build-plan.md in full; read the places in docs/ it names.
+<Content stages: docs/ContentToDo.md as well.>
 Build exactly that scope — nothing from later stages.
 
 <Especially important: …>
@@ -2719,6 +2901,7 @@ The following detailed prompts come from the previous plan and have proven thems
 - Decisions A–C are now made.
 - A PR instead of a push to `main`.
 - The new [v4] rules apply.
+- **[DESIGN-REVIEW]** The rules of `docs/ContentToDo.md` Part 1 apply: no odds, the chart ramp, don't overdo, terms used well, standalone questions.
 
 **E.1 – OFFER (Chapter 8 Level 15 and its renumber)**
 ```
@@ -3064,7 +3247,7 @@ Ids from `docs/review-2026-09-25.md`.
 | K1 German | `ONBOARDING` (i18n keys), Phase J (`I18N-PIPELINE`: German is the pilot) |
 | K2–K3 mistakes round, "See the card again" | `LOOP-HEARTS` |
 | K4 leaderboard | Phase L |
-| K5 Trader Card | `STATS`, Phase L |
+| K5 Trader Card | `STATS` (as the tier card, `DESIGN-REVIEW`), Phase L |
 | K6 achievements | `FUN-PASS` |
 | K7 simulator | `SIM-ACCOUNT` (Phase G) |
 | K8 "Report a problem" | `ANALYTICS` |
