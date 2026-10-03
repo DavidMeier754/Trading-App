@@ -3,6 +3,8 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
+  withSequence,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
@@ -27,6 +29,8 @@ import Icon, { IconName } from '../home/icons';
 import { market, PATHS, TradingPath } from '../content';
 import { toggleWanted, useProgress } from '../progress';
 import { Body, Card, ScreenTitle, Stack } from './common';
+import { TermText } from '../lesson/termText';
+import Sparkline from '../components/Sparkline';
 
 /**
  * A carousel card's `icon` (docs/schema.md), drawn where there is a drawing.
@@ -237,22 +241,102 @@ function ChecklistRow({ text, index, shown }: { text: string; index: number; sho
 
 /**
  * docs/UI.md §3 `story` — a short narrative. It carries its speaker in the copy;
- * there is no character cast to draw (§6.9).
+ * there is no character cast to draw (§6.9). A lesson's closing story
+ * (`label: takeaway`) is marked as the takeaway; a scene with `alert` reads as
+ * a market alert (StoryAlertCard).
  */
 export function StoryScreen({ screen }: { screen: Story }) {
   const look = useLookSpec();
+  if (screen.alert && screen.label !== 'takeaway') {
+    return (
+      <View style={styles.centered}>
+        <StoryAlertCard screen={screen} alert={screen.alert} />
+      </View>
+    );
+  }
+  const takeaway = screen.label === 'takeaway';
   // A scene, not a statement to judge: a kicker and an accent edge set it apart
   // from the true/false card it would otherwise look exactly like.
   return (
     <View style={styles.centered}>
       <Card style={StyleSheet.flatten([styles.storyCard, { borderLeftColor: look.accent }])}>
         <View style={styles.storyKick}>
-          <Icon name="clock" size={14} color={look.accent} />
-          <Text style={[styles.storyKickText, { color: look.accent }]}>The scene</Text>
+          <Icon name={takeaway ? 'bulb' : 'clock'} size={14} color={look.accent} />
+          <Text style={[styles.storyKickText, { color: look.accent }]}>
+            {takeaway ? 'Takeaway' : 'The scene'}
+          </Text>
         </View>
-        <Text style={styles.storyText}>{copy(screen.text)}</Text>
+        <TermText text={screen.text} style={styles.storyText} />
       </Card>
     </View>
+  );
+}
+
+/**
+ * docs/UI.md §3 `story` [DESIGN-REVIEW] (David approved the alert on
+ * 2026-10-03): a scene that arrives the way a trader meets it, as a market
+ * alert -- a bell, the ticker and the time in the head row, the sentence, a
+ * small sparkline of the move so far, and up to three facts as chips. Nothing
+ * on it moves but the bell, once, as the card arrives.
+ */
+function StoryAlertCard({ screen, alert }: { screen: Story; alert: NonNullable<Story['alert']> }) {
+  const look = useLookSpec();
+  const [w, setW] = useState(0);
+  return (
+    <Card style={StyleSheet.flatten([styles.storyCard, { borderLeftColor: look.accent }])}>
+      <View
+        style={styles.alertHead}
+        accessible
+        accessibilityLabel={`Alert: ${alert.ticker}${alert.time ? `, ${copy(alert.time)}` : ''}`}
+      >
+        <BellRing color={look.accent} />
+        <Text style={styles.alertTicker}>{alert.ticker}</Text>
+        {alert.time ? <Text style={styles.alertTime}>{copy(alert.time)}</Text> : null}
+      </View>
+      <TermText text={screen.text} style={styles.storyText} />
+      {alert.spark?.length ? (
+        <View onLayout={(e) => setW(e.nativeEvent.layout.width)} style={styles.alertSpark}>
+          {w > 0 ? <Sparkline values={alert.spark} width={w} height={44} /> : null}
+        </View>
+      ) : null}
+      {alert.facts?.length ? (
+        <View style={styles.alertFacts}>
+          {alert.facts.map((f) => (
+            <View key={f} style={styles.alertFact}>
+              <Text style={styles.alertFactText}>{copy(f)}</Text>
+            </View>
+          ))}
+        </View>
+      ) : null}
+    </Card>
+  );
+}
+
+/** The alert's bell: it swings once as the card arrives, and is still after. */
+function BellRing({ color }: { color: string }) {
+  const m = useMotion();
+  const swing = useSharedValue(0);
+  useEffect(() => {
+    if (m.reduced) return;
+    swing.set(
+      withDelay(
+        220,
+        withSequence(
+          withTiming(1, { duration: 90 }),
+          withTiming(-0.7, { duration: 120 }),
+          withTiming(0.35, { duration: 110 }),
+          withSpring(0, SPRING_POP),
+        ),
+      ),
+    );
+  }, [m.reduced, swing]);
+  const style = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${swing.get() * 16}deg` }],
+  }));
+  return (
+    <Animated.View style={style}>
+      <Icon name="bell" size={16} color={color} />
+    </Animated.View>
   );
 }
 
@@ -544,6 +628,26 @@ const styles = themed(() => ({
   storyKick: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   storyKickText: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.2 },
   storyText: { ...type.prompt, color: colors.text },
+  alertHead: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
+  alertTicker: { ...type.label, color: colors.text, fontWeight: '800', letterSpacing: 0.6 },
+  alertTime: { ...type.small, fontSize: 13, color: colors.textMuted },
+  alertSpark: { height: 44 },
+  alertFacts: { flexDirection: 'row', flexWrap: 'wrap', gap: space.xs },
+  alertFact: {
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.background,
+    paddingHorizontal: space.sm,
+    paddingVertical: 2,
+  },
+  alertFactText: {
+    ...type.small,
+    fontSize: 13,
+    color: colors.text,
+    fontWeight: '600',
+    fontVariant: ['tabular-nums'],
+  },
   recapKicker: {
     ...type.label,
     textTransform: 'uppercase',

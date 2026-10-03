@@ -17,7 +17,7 @@ import Chart, {
 } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
-import { copy, signedPercent, signedPrice } from '../format';
+import { signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
@@ -44,6 +44,7 @@ import {
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, GRID, space, type, themed } from '../theme';
 import type { ChartDecisionScreen as S } from '../types';
+import { TermText } from '../lesson/termText';
 
 export type DecisionPhase = 'deciding' | 'playing' | 'done';
 
@@ -301,7 +302,7 @@ export default function ChartDecisionScreen({
               style={styles.briefText}
               onLayout={(e) => setBriefText(e.nativeEvent.layout.height)}
             >
-              <Text style={styles.scenario}>{copy(screen.scenario)}</Text>
+              <TermText text={screen.scenario} style={styles.scenario} />
               {screen.state?.length ? <StateChips state={screen.state} /> : null}
             </View>
             <View style={{ height: briefH > 0 ? briefH - briefText : space.md }} />

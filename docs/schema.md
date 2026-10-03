@@ -337,8 +337,10 @@ and **[v4]** `candle-anatomy`, `trade-plan` (built in stage VISUALS).
     bids: [[20.00, 1200], [19.99, 800], [19.98, 3000]]
     asks: [[20.02, 500], [20.03, 2200], [20.04, 900]]
   target: ask-2               # ask-1…ask-3 | bid-1…bid-3
+  shares: 1000                # [DESIGN-REVIEW] optional: the market order's size; it must fill to the target
   explanation: "…"
 ```
+**[DESIGN-REVIEW]** After Check the order is walked through the book (UI.md §4.2). The app needs its size for that: `shares` when the file gives it, otherwise the first "N shares" / "N-share" in the English prompt — a stopgap that breaks once prompts are translated, so every ladder gets `shares` (`docs/ContentToDo.md`). The validator checks that it ends on the target.
 
 ## Components, data and hotspot targets
 
@@ -790,7 +792,7 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - `facts` on an `intro`: only in tests and final exams, 1–3 strings of at most 20 characters.
 - `skills`: only in `new-theory` lessons, 0–3 entries, `name` 1–40 characters, `card` the 1-based index of a `theory`, `example`, `carousel`, `walkthrough` or `visual` screen.
 - `decision-grid` data: `cell` one of the four names.
-- `scanner-table` rows: `spark` 5–30 numbers.
+- `scanner-table` and `scanner-pick` rows: `spark` 5–30 numbers; a warning when its last value is not the row's `price`, or when its move from the first value differs from `change_pct` by more than 0.15 points (the first value is the previous close).
 - A bonus file (`category: bonus`): as in "Bonus side lessons" above.
 
 Warnings:

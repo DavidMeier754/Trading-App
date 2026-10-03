@@ -69,7 +69,8 @@ describe('the plan sheet shows the saved plan (review M1)', () => {
       .findAll((n) => typeof n.type === 'string' && n.children.every((c) => typeof c === 'string'))
       .map((n) => n.children.join(''));
 
-  it('rows show what the learner wrote, and "not set yet" only for what they did not', () => {
+  // DESIGN-REVIEW: an empty line shows a faint dash (docs/UI.md §6.8, the plan as a document).
+  it('rows show what the learner wrote, and a dash only for what they did not', () => {
     let tree!: renderer.ReactTestRenderer;
     act(() => {
       tree = renderer.create(
@@ -80,7 +81,7 @@ describe('the plan sheet shows the saved plan (review M1)', () => {
     });
     const shown = texts(tree);
     expect(shown).toContain('LUMA');
-    expect(shown.filter((t) => t === 'not set yet')).toHaveLength(1);
+    expect(shown.filter((t) => t === '—')).toHaveLength(1);
     act(() => tree.unmount());
   });
 });

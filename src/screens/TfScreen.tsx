@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import type { Tone } from '../lesson/toneTransition';
 import { colors, space, type, themed } from '../theme';
 import type { TfScreen as S } from '../types';
 import { Card, ToneSurface } from './common';
+import { TermText } from '../lesson/termText';
 
 /**
  * docs/UI.md §4.1 `tf`: two large side-by-side buttons, revealed instantly on tap
@@ -35,7 +35,7 @@ export default function TfScreen({
   return (
     <View style={styles.wrap}>
       <Card>
-        <Text style={styles.statement}>{copy(screen.statement)}</Text>
+        <TermText text={screen.statement} style={styles.statement} />
       </Card>
       <View style={styles.row}>
         {[true, false].map((option) => (

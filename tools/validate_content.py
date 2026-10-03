@@ -252,6 +252,23 @@ def validate_new_question(f, i, s, rep):
         levels = book.get(side + "s") or []
         if not 1 <= n <= len(levels):
             rep.err(f, f"{where}: target '{tg}' is not in the book ({side}s has {len(levels)} levels)")
+            return
+        # [DESIGN-REVIEW] `shares`: the order's size, walked through the book after
+        # Check (UI.md §4.2). It must end on the target, or the walk and the
+        # answer would disagree.
+        if "shares" in s:
+            shares = s["shares"]
+            if not (isinstance(shares, int) and not isinstance(shares, bool) and shares > 0):
+                rep.err(f, f"{where}: shares must be a positive whole number")
+            elif all(isinstance(r, list) and len(r) == 2 and is_num(r[1]) for r in levels[:n]):
+                before = sum(r[1] for r in levels[: n - 1])
+                upto = before + levels[n - 1][1]
+                if not before < shares <= upto:
+                    rep.err(
+                        f,
+                        f"{where}: {shares} shares fill to {'before' if shares <= before else 'past'} "
+                        f"{tg} ({before:g} before it, {upto:g} through it)",
+                    )
 
 
 
@@ -365,6 +382,27 @@ def check_spark(f, where, spark, rep):
     """A sparkline (an alert's, a scanner row's): 5–30 prices."""
     if not (isinstance(spark, list) and 5 <= len(spark) <= 30 and all(is_num(x) for x in spark)):
         rep.err(f, f"{where}: spark must be 5–30 numbers")
+        return False
+    return True
+
+
+def check_row_spark(f, where, row, rep):
+    """A scanner row's day: 5–30 prices from the previous close to `price`, agreeing
+    with `change_pct` (docs/ContentToDo.md 2.4a), so the line and the columns tell
+    one story."""
+    spark = row["spark"]
+    if not check_spark(f, where, spark, rep):
+        return
+    if is_num(row.get("price")) and abs(spark[-1] - row["price"]) > 0.005:
+        rep.warn(f, f"{where}: spark ends at {spark[-1]}, the row's price is {row['price']}")
+    if is_num(row.get("change_pct")) and spark[0]:
+        pct = (spark[-1] - spark[0]) / spark[0] * 100
+        if abs(pct - row["change_pct"]) > 0.15:
+            rep.warn(
+                f,
+                f"{where}: spark moves {pct:+.1f} % from its first price, "
+                f"the row says {row['change_pct']:+.1f} %",
+            )
 
 
 def check_short_strings(f, where, name, values, most, longest, rep):
@@ -477,7 +515,7 @@ def check_component(f, where, component, data, rep):
     elif component == "scanner-table":
         for n, row in enumerate(data.get("rows") or [], 1):
             if isinstance(row, dict) and "spark" in row:
-                check_spark(f, f"{where} row {n}", row["spark"], rep)
+                check_row_spark(f, f"{where} row {n}", row, rep)
 
 
 def validate_screen_data(f, i, s, rep):
@@ -506,7 +544,7 @@ def validate_screen_data(f, i, s, rep):
         else:
             for n, row in enumerate(rows, 1):
                 if isinstance(row, dict) and "spark" in row:
-                    check_spark(f, f"{where} row {n}", row["spark"], rep)
+                    check_row_spark(f, f"{where} row {n}", row, rep)
     if t == "story" and "alert" in s:
         check_alert(f, where, s, rep)
     if "chart" in s:

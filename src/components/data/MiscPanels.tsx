@@ -12,7 +12,7 @@ import { PopIn } from '../../lesson/Celebrate';
 import { shade, surfaceStyle, useLookSpec } from '../../lesson/look';
 import { EASE_OUT } from '../../lesson/motion';
 import { useReduceMotion } from '../../lesson/useReduceMotion';
-import { signedPercent } from '../../format';
+import { copy, signedPercent } from '../../format';
 import { colors, radius, space, type, themed } from '../../theme';
 import { GROW_DELAY } from './GrowBar';
 
@@ -351,7 +351,12 @@ function RBar({
   );
 }
 
-/** docs/UI.md §6.8 `plan-sheet` — the learner's own saved plan. */
+/**
+ * docs/UI.md §6.8 `plan-sheet` — the learner's own saved plan, drawn as a page
+ * of a document [DESIGN-REVIEW]: a small heading, then one line per field --
+ * the label, a dotted leader, the value in the number face. No boxes and no
+ * colours (David: "don't overdo").
+ */
 export function PlanSheet({
   data,
   values,
@@ -360,20 +365,29 @@ export function PlanSheet({
   values?: Record<string, string>;
 }) {
   return (
-    <View style={styles.card}>
+    <View style={styles.page}>
+      <Text style={styles.pageHead}>My trading plan</Text>
       {data.fields.map((f) => {
         // A field with a literal is a specimen; one without renders what the
         // learner wrote (docs/schema.md, "The plan").
         const shown = f.value !== undefined ? String(f.value) : values?.[f.key];
-        return (
-          <Row
-            key={f.key}
-            label={f.label}
-            value={shown ?? 'not set yet'}
-            tint={shown ? undefined : colors.textFaint}
-          />
-        );
+        return <PlanLine key={f.key} label={f.label} value={shown ?? null} />;
       })}
+    </View>
+  );
+}
+
+/** One line of the plan: the label, a dotted leader, the value. */
+export function PlanLine({ label, value }: { label: string; value: string | null }) {
+  return (
+    <View style={styles.line} accessible accessibilityLabel={`${label}: ${value ?? 'not set yet'}`}>
+      <Text style={styles.lineLabel}>{label}</Text>
+      <View style={styles.leader} />
+      {value === null ? (
+        <Text style={styles.lineEmpty}>—</Text>
+      ) : (
+        <Text style={styles.lineValue}>{copy(value)}</Text>
+      )}
     </View>
   );
 }
@@ -388,6 +402,26 @@ function Row({ label, value, tint }: { label: string; value: string; tint?: stri
 }
 
 const styles = themed(() => ({
+  page: { paddingVertical: space.xs, gap: space.sm },
+  pageHead: {
+    ...type.label,
+    color: colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: space.xs,
+  },
+  line: { flexDirection: 'row', alignItems: 'flex-end', gap: space.xs },
+  lineLabel: { ...type.body, color: colors.text, flexShrink: 1 },
+  leader: {
+    flex: 1,
+    minWidth: space.lg,
+    marginBottom: 6,
+    borderBottomWidth: 1.5,
+    borderStyle: 'dotted',
+    borderColor: colors.borderStrong,
+  },
+  lineValue: { ...type.mono, color: colors.text, fontWeight: '600', flexShrink: 0 },
+  lineEmpty: { ...type.body, color: colors.textFaint, flexShrink: 0 },
   indexHead: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   card: {
     backgroundColor: colors.surface,

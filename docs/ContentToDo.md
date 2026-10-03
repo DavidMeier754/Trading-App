@@ -148,6 +148,32 @@ A scene that names a stock at a moment can carry the alert a trader would see: t
 - Only scenes that are a moment in a session with one stock. A takeaway (`label: takeaway`) never has an alert.
 - `spark` follows the realism rules of `docs/agent.md` §3.6 (the price band, ticks).
 
+### 2.4a The day on a scanner row (`spark` on `scanner-table` / `scanner-pick` rows)
+
+Every scanner row shows a small sparkline of its day beside the ticker (`docs/UI.md` §6.8). Without `spark` the app draws a plain line from the previous close to today's change, on one scale for the whole table — honest, but it says no more than the % column. A `spark` shows the shape of the day, which is what Chapter 5 teaches a trader to read at a glance (a steady climb against a spike that faded).
+
+```yaml
+rows:
+  - {ticker: MARL, price: 14.80, change_pct: 8.6, rvol: 6.8, spread: 0.02, catalyst: "Results",
+     spark: [13.63, 13.70, 14.10, 14.55, 14.40, 14.62, 14.80]}   # 5–30 prices, first = previous close
+```
+- The first value is the previous close and the last is `price`, so the line and the % column agree; the validator warns when they do not.
+- Only where the shape matters to the question (a faded spike, a slow grind); a row with no `spark` keeps the plain line.
+
+### 2.4b The order's size on a depth ladder (`shares` on `depth-ladder`)
+
+After Check the app walks the market order through the book, level by level (`docs/UI.md` §4.2). It needs the order's size. Today it reads it from the English prompt ("You market-buy 1,400 shares"), which works for 39 of the 40 ladders and breaks once the prompts are translated (Phase J). So every `depth-ladder` gets `shares`:
+
+```yaml
+- type: depth-ladder
+  prompt: "You market-buy 1,400 shares. Where does the last share fill?"
+  data: {bids: [...], asks: [...]}
+  target: ask-3
+  shares: 1400
+```
+- Mechanical: the number the prompt already names. The validator checks that it fills to the target.
+- The one ladder the app cannot read today: Scalping 8·12-2 screen 7 ("You send the 1,400 as a market order").
+
 ### 2.5 The checkpoint briefing (`facts` on `intro`)
 
 The first screen of a Checkpoint or Final Exam is a briefing card: the level's kind as the kicker ("Checkpoint"), the chapter's name as the title, the intro's `text` as one line, a pip per question, the row "10 questions · 70 % to pass · 5 hearts", and the account facts as chips.
@@ -216,6 +242,8 @@ screens: [intro, 2–3 × chart-replay]
 - [ ] **Chart notes (2.2)** where an explanation points at a candle or a level.
 - [ ] **The open (2.3)** on the charts listed for the chapter below, and nowhere else.
 - [ ] **Alerts (2.4)** on scenes that are a moment with one stock. Today 51 scene stories name a ticker (Ch 1: 13, Ch 2: 7, Ch 3: 10, Ch 4: 3, Ch 5: 1, Ch 6: 1, Ch 7: 15, Ch 8: 1); not every one of them needs an alert.
+- [ ] **Ladder sizes (2.4b)** on every `depth-ladder` (Chapters 3–8: 40 screens).
+- [ ] **Scanner sparks (2.4a)** on the rows of scanner questions where the shape of the day is part of the answer.
 - [ ] **Briefings (2.5).** Every Checkpoint and Final Exam intro: `facts` for the account numbers, and the text shortened to what the card does not show.
 - [ ] **No odds (1.1).** Every sentence that states how often something wins or loses, rewritten.
 - [ ] **Standalone questions (1.5).**
@@ -227,7 +255,7 @@ screens: [intro, 2–3 × chart-replay]
 - **Chapter 2.** Candles from 1-1, volume from 4-1, levels from 9-1 — check that no earlier chart carries volume or levels. The open (2.3) is introduced in 13-1 ("The Opening Minutes") and used in 13 and 17 (the full morning). Notes on the structure decisions of 7, 10, 12 and 17 where the explanation names a higher low, a lower high or a break.
 - **Chapter 3.** `stop` and `target` on every long and short decision (§3.8). The open on 3·3 (spreads at the open) where a chart shows it. Briefings for 5-1, 12-1, 19-1 — 12-1's "Hearts are on." goes.
 - **Chapter 4.** VWAP from 1-1. The open on 3 ("Intraday Levels": the pre-market extremes and the opening price) and 11 ("The Opening Drive"). Notes for the tape and confluence decisions (10, 12, 13).
-- **Chapter 5.** Alerts are this chapter's natural home: the scanner names, the gappers, the catalyst — scenes in 1–3 and 15–16. The open on the pre-market routine's charts (15, 16).
+- **Chapter 5.** Alerts are this chapter's natural home: the scanner names, the gappers, the catalyst — scenes in 1–3 and 15–16. The open on the pre-market routine's charts (15, 16). Scanner sparks (2.4a) on the selection questions (4, 6, 9, 10, 16, 17, 19), where a faded spike against a steady climb is the point.
 - **Chapter 6.** The R ruler arrives on its own from 2-1 (2.1); check that the reveals from there on name results in R where the ruler shows them. Levels 6 and 13 no longer run a simulator (4.1, `docs/curriculum.md`): their numbers are examples of the arithmetic, and the lessons end on "your own sample decides".
 - **Chapter 7.** Every setup card's charts carry what the card needs: VWAP for A, the open and the opening range for B (3) and F (10), levels for D and G. Notes on the trigger bar of each setup's first decision. Alerts for the gap-and-go scenes.
 - **Chapter 8.** The open on 6 ("The Open") and the full-day charts (9, 17). Alerts in 4 (the pre-market hour) and 9. 11 ("Tracking Your Numbers") is where "measure it yourself" (1.1) is taught in full; 14 (the 30 days on sim) repeats it.

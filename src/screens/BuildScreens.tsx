@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import MiniChart from '../components/MiniChart';
-import { copy } from '../format';
+import { copy, count, price } from '../format';
 import { type AnswerValue, branchPath } from '../lesson/answers';
 import { Arrive, PopIn } from '../lesson/Celebrate';
 import { tapFeedback } from '../lesson/feedback';
@@ -171,16 +171,149 @@ export function OrderBuildScreen(props: {
   revealed: boolean;
 }) {
   return (
-    <SlotBuilder
-      prompt={props.screen.prompt}
-      heading={props.screen.ticker ? `Order ticket · ${props.screen.ticker}` : undefined}
-      slots={props.screen.slots}
-      chips={props.screen.chips}
-      answer={props.screen.answer}
-      value={props.value}
-      onChange={props.onChange}
-      revealed={props.revealed}
-    />
+    <View style={styles.wrap}>
+      <Prompt>{props.screen.prompt}</Prompt>
+      <OrderTicket {...props} />
+    </View>
+  );
+}
+
+/** A chip as the ticket shows it: words capitalised, prices and counts formatted. */
+function chipText(slot: string, chip: string | number): string {
+  if (typeof chip === 'number') {
+    return slot === 'qty'
+      ? count(chip)
+      : slot === 'price' || slot === 'stop' || slot === 'target'
+        ? price(chip)
+        : String(chip);
+  }
+  const words = copy(chip);
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
+/** What a row is called on the ticket: the price row follows the order type. */
+function ticketLabel(slot: string, filled: Record<string, string>): string {
+  if (slot === 'qty') return 'Shares';
+  if (slot === 'price') {
+    const kind = String(filled.type ?? '').toLowerCase();
+    return kind === 'limit' ? 'Limit price' : kind === 'stop' ? 'Stop price' : 'Price';
+  }
+  return slotLabel(slot);
+}
+
+const SELL = /^(sell|short)/i;
+
+/**
+ * docs/UI.md §4.2 / §6.7 `order-build` [DESIGN-REVIEW] (David approved the
+ * real ticket on 2026-10-03): the question drawn as a broker's order ticket.
+ * The ticker in the head; a Buy / Sell switch whose chosen half turns green
+ * or red; then each other field as a labelled row of segments; and at the
+ * bottom the estimated cost once shares and a price are chosen. The slots,
+ * chips and grading are the schema's, unchanged: a tap fills a field, a tap
+ * on the chosen segment empties it, and Check grades each row on its own.
+ */
+function OrderTicket({
+  screen,
+  value,
+  onChange,
+  revealed,
+}: {
+  screen: OrderBuild;
+  value: AnswerValue;
+  onChange: (v: AnswerValue) => void;
+  revealed: boolean;
+}) {
+  const look = useLookSpec();
+  const filled = value.kind === 'slots' ? value.filled : {};
+  const set = (slot: string, chip: string) => {
+    tapFeedback();
+    const next = { ...filled };
+    if (next[slot] === chip) delete next[slot];
+    else next[slot] = chip;
+    onChange({ kind: 'slots', filled: next });
+  };
+  const qty = Number(filled.qty);
+  const px = Number(filled.price);
+  const cost =
+    filled.qty !== undefined && filled.price !== undefined && qty > 0 && px > 0 ? qty * px : null;
+
+  // Each segment's look: chosen, and after Check right or wrong; the intended
+  // segment of a wrong row is outlined in the success colour.
+  const segStyle = (slot: string, chip: string, sell = false) => {
+    const on = filled[slot] === chip;
+    if (revealed) {
+      const right = screen.answer[slot] === chip;
+      if (on) return right ? styles.segRight : styles.segWrong;
+      if (right && filled[slot] !== chip) return styles.segIntended;
+      return null;
+    }
+    if (!on) return null;
+    if (slot === 'side') return sell ? styles.segSell : styles.segBuy;
+    return { backgroundColor: tint(look.accent, 0.16), borderColor: look.accent };
+  };
+
+  return (
+    <View style={[styles.ticket, surfaceStyle(look)]}>
+      <View style={styles.ticketHead}>
+        <Text style={styles.ticketKicker}>Order ticket</Text>
+        {screen.ticker ? <Text style={styles.ticketTicker}>{screen.ticker}</Text> : null}
+      </View>
+      {screen.slots.map((slot) => {
+        const chips = (screen.chips[slot] ?? []) as (string | number)[];
+        const side = slot === 'side';
+        return (
+          <View key={slot} style={styles.ticketRow}>
+            {side ? null : <Text style={styles.ticketLabel}>{ticketLabel(slot, filled)}</Text>}
+            <View
+              style={[styles.segments, side && styles.switch]}
+              accessibilityRole="radiogroup"
+              accessibilityLabel={ticketLabel(slot, filled)}
+            >
+              {chips.map((raw) => {
+                const chip = raw as string;
+                const sell = side && SELL.test(String(chip));
+                const on = filled[slot] === chip;
+                return (
+                  <Pressable
+                    key={String(chip)}
+                    accessibilityRole="radio"
+                    accessibilityState={{ checked: on, disabled: revealed }}
+                    disabled={revealed}
+                    onPress={() => set(slot, chip)}
+                    style={({ pressed }) => [
+                      styles.segment,
+                      side && styles.switchHalf,
+                      segStyle(slot, chip, sell),
+                      pressed && { opacity: 0.8 },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.segText,
+                        side && styles.switchText,
+                        on && side && !revealed && { color: colors.background },
+                      ]}
+                    >
+                      {chipText(slot, raw)}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+        );
+      })}
+      {screen.slots.includes('price') && screen.slots.includes('qty') ? (
+        <View style={styles.estimate}>
+          <Text style={styles.ticketLabel}>Estimated cost</Text>
+          <Text style={[styles.estimateValue, cost === null && styles.estimateEmpty]}>
+            {cost === null
+              ? '—'
+              : `≈ ${copy('$')}${count(Math.round(cost))} for ${count(qty)} shares`}
+          </Text>
+        </View>
+      ) : null}
+    </View>
   );
 }
 
@@ -352,6 +485,68 @@ export function BranchScreen({
 }
 
 const styles = themed(() => ({
+  ticket: { padding: space.md, gap: space.md, borderWidth: 1.5, borderColor: colors.borderStrong },
+  ticketHead: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
+  ticketKicker: {
+    ...type.label,
+    color: colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  ticketTicker: { ...type.answer, color: colors.text, fontWeight: '800', letterSpacing: 0.6 },
+  ticketRow: { gap: space.xs },
+  ticketLabel: { ...type.small, fontSize: 13, color: colors.textMuted },
+  segments: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: space.xs,
+  },
+  segment: {
+    flexGrow: 1,
+    flexBasis: 0,
+    minWidth: 72,
+    minHeight: TAP_TARGET - 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: radius.sm,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    backgroundColor: colors.background,
+    paddingHorizontal: space.sm,
+  },
+  segText: { ...type.body, color: colors.text, fontVariant: ['tabular-nums'] },
+  switch: {
+    gap: 0,
+    borderRadius: radius.md,
+    borderWidth: 1.5,
+    borderColor: colors.borderStrong,
+    padding: 3,
+    backgroundColor: colors.background,
+  },
+  switchHalf: { borderWidth: 0, minHeight: TAP_TARGET - 6, backgroundColor: 'transparent' },
+  switchText: { ...type.answer, fontWeight: '700' },
+  segBuy: { backgroundColor: colors.up },
+  segSell: { backgroundColor: colors.down },
+  segRight: { borderWidth: 1.5, borderColor: colors.success, backgroundColor: colors.successTint },
+  segWrong: { borderWidth: 1.5, borderColor: colors.down, backgroundColor: colors.downTint },
+  segIntended: { borderWidth: 1.5, borderColor: colors.success, borderStyle: 'dashed' },
+  estimate: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    paddingTop: space.sm,
+    gap: space.sm,
+  },
+  estimateValue: {
+    ...type.mono,
+    color: colors.text,
+    fontWeight: '700',
+    flexShrink: 1,
+    textAlign: 'right',
+  },
+  estimateEmpty: { ...type.body, color: colors.textFaint },
   wrap: { gap: space.lg },
   slotList: { gap: space.sm },
   heading: { ...type.label, color: colors.textMuted, textTransform: 'uppercase', letterSpacing: 1 },

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import Visual from '../components/Visual';
-import { copy } from '../format';
 import { colors, space, type, themed } from '../theme';
 import type { ExampleScreen as S } from '../types';
+import { TermText } from '../lesson/termText';
 
 /** docs/UI.md §3 `example`: a concrete number or mini story + visual. */
 export default function ExampleScreen({ screen, width }: { screen: S; width: number }) {
@@ -16,7 +16,7 @@ export default function ExampleScreen({ screen, width }: { screen: S; width: num
       {/* The example is the point of the screen, not a caption to it: body
           size, in the text colour, not the muted grey a theory card uses
           under its title. */}
-      <Text style={styles.body}>{copy(screen.body)}</Text>
+      <TermText text={screen.body} style={styles.body} />
     </View>
   );
 }

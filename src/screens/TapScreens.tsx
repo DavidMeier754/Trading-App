@@ -22,6 +22,7 @@ import { useGridAnchor } from '../components/gridAlign';
 import { copy } from '../format';
 import OrderBook from '../components/data/OrderBook';
 import ScannerTable from '../components/data/ScannerTable';
+import { bookWalk } from '../lesson/bookWalk';
 import Visual from '../components/Visual';
 import type { AnswerValue } from '../lesson/answers';
 import { detentFeedback, tapFeedback } from '../lesson/feedback';
@@ -158,6 +159,7 @@ export function DepthLadderScreen({
                 }
           }
           resolved={resolveHighlight(revealed, picked, [screen.target])}
+          walk={revealed ? bookWalk(screen) : null}
         />
       </View>
     </View>

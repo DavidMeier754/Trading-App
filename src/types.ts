@@ -429,6 +429,8 @@ export type DepthLadderScreen = {
   prompt: string;
   /** docs/schema.md: the book sits under `data`, best price first on each side. */
   data: { bids: [number, number][]; asks: [number, number][] };
+  /** docs/schema.md [DESIGN-REVIEW]: the market order's size, for the walk after Check. */
+  shares?: number;
   target: string;
   explanation: string;
 };

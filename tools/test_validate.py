@@ -117,6 +117,11 @@ expect("depth-ladder: target off the book", question({"type": "depth-ladder", "d
 expect("depth-ladder: malformed target", question({"type": "depth-ladder", "data": {"asks": [[1, 2]]}, "target": "top"}), "must look like")
 expect_no("swipe-deck: valid deck passes", question({"type": "swipe-deck", "cards": [{"answer": "take"}, {"answer": "pass"}] * 2}), "swipe-deck")
 expect_no("depth-ladder: valid target passes", question({"type": "depth-ladder", "data": {"asks": [[20.02, 500], [20.03, 100]]}, "target": "ask-2"}), "depth-ladder")
+LADDER = {"type": "depth-ladder", "data": {"asks": [[20.02, 500], [20.03, 2200], [20.04, 900]]}, "target": "ask-2"}
+expect("depth-ladder: shares that fill before the target", question(dict(LADDER, shares=400)), "fill to before ask-2")
+expect("depth-ladder: shares that fill past the target", question(dict(LADDER, shares=3000)), "fill to past ask-2")
+expect("depth-ladder: shares not a whole number", question(dict(LADDER, shares=12.5)), "positive whole number")
+expect_no("depth-ladder: shares that end on the target pass", question(dict(LADDER, shares=1000)), "shares")
 
 print("\n— header and screen rules —")
 expect("reinforces: not lower than own chapter", check_file(lesson(reinforces=[3])), "not lower than this chapter")
@@ -768,6 +773,10 @@ expect("alert: a short sparkline", data(dict(STORY, alert={"ticker": "XYZ", "spa
 expect("alert: on a takeaway", data(dict(STORY, label="takeaway", alert={"ticker": "XYZ"})), "takeaway has no alert")
 expect_no("alert: a valid alert passes", data(dict(STORY, alert={"ticker": "XYZ", "time": "1 min after the open", "facts": ["Gap +6.2 %", "RVOL 4.8×"], "spark": [17.4, 17.6, 17.5, 17.9, 18.1]})), "alert")
 expect("scanner row: a short sparkline", data({"type": "scanner-pick", "data": {"rows": [{"ticker": "XYZ", "spark": [1, 2]}]}}), "spark must be 5–30")
+ROW = {"ticker": "MARL", "price": 14.80, "change_pct": 8.6}
+expect("scanner row: spark ends off the price", data({"type": "scanner-pick", "data": {"rows": [dict(ROW, spark=[13.63, 13.9, 14.2, 14.5, 14.6])]}}), "the row's price is")
+expect("scanner row: spark disagrees with the %", data({"type": "scanner-pick", "data": {"rows": [dict(ROW, spark=[14.0, 14.2, 14.4, 14.6, 14.8])]}}), "the row says")
+expect_no("scanner row: a spark that agrees passes", data({"type": "scanner-pick", "data": {"rows": [dict(ROW, spark=[13.63, 13.9, 14.2, 14.5, 14.8])]}}), "spark")
 expect("decision-grid: an unknown cell", data({"type": "visual", "component": "decision-grid", "data": {"cell": "lucky"}}), "decision-grid cell")
 expect_no("decision-grid: no data at all passes", data({"type": "theory", "body": "b", "visual": "decision-grid"}), "decision-grid")
 expect_no("decision-grid: a known cell passes", data({"type": "visual", "component": "decision-grid", "data": {"cell": "right-lost"}}), "decision-grid")

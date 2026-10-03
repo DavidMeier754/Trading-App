@@ -29,7 +29,7 @@ import {
   WalkthroughScreen,
 } from '../screens/StaticScreens';
 import { BadgeScreen, TierUpScreen } from '../screens/RewardScreens';
-import Summary, { scoreOf } from './Summary';
+import Summary, { PASS_MARK, scoreOf } from './Summary';
 import { NodeKind, PATHS, TradingPath, sourceCardOf } from '../content';
 import {
   ChartTapScreen,
@@ -39,7 +39,7 @@ import {
   SliderScreen,
 } from '../screens/TapScreens';
 import FillTilesScreen from '../screens/FillTilesScreen';
-import IntroScreen from '../screens/IntroScreen';
+import IntroScreen, { type Briefing } from '../screens/IntroScreen';
 import MatchScreen from '../screens/MatchScreen';
 import McScreen from '../screens/McScreen';
 import NumericInputScreen from '../screens/NumericInputScreen';
@@ -221,6 +221,15 @@ export default function LessonPlayer({
   // Lessons, practice and the path choice never cost one -- a lesson's
   // mistakes come back in its mistakes round instead (§4.5).
   const spendsHearts = !testBench && (kind === 'test' || kind === 'final');
+  // A test opens on a briefing: what it asks, the pass mark, the hearts taken in.
+  const briefing: Briefing | undefined = scored
+    ? {
+        kind: kind === 'final' ? 'Final Exam' : 'Checkpoint',
+        questions: base.filter((sc) => isQuestion(sc as Screen)).length,
+        pass: Math.round(PASS_MARK * 100),
+        hearts: spendsHearts ? heartsNow(getProgress()).hearts : null,
+      }
+    : undefined;
   const [outOfHearts, setOutOfHearts] = useState(
     () => spendsHearts && heartsNow(getProgress()).hearts === 0,
   );
@@ -323,7 +332,16 @@ export default function LessonPlayer({
   );
   const value = atSummary ? null : values[index];
   const isRevealed = atSummary ? false : revealed[index];
-  const isLast = index === screens.length - 1;
+  // On a lesson's last screen, its mistakes round and new skills are still to
+  // come when it has any: the key says "Continue", not "Finish".
+  const tailAhead =
+    index === mainLen - 1 &&
+    tail === null &&
+    kind === 'lesson' &&
+    !testBench &&
+    (base.some((s, i) => isQuestion(s) && grades[i] === 'wrong') ||
+      (!!lessonEntry && skillsOf(lessonEntry).some((sk) => !getProgress().skills[sk.id])));
+  const isLast = index === screens.length - 1 && !tailAhead;
 
   const reset = useCallback(() => {
     setIndex(0);
@@ -850,6 +868,7 @@ export default function LessonPlayer({
                         onSettled,
                         allScreens: screens as Screen[],
                         grades,
+                        briefing,
                       })
                     )}
                   </PlanValues.Provider>
@@ -987,6 +1006,8 @@ function renderScreen(props: {
   /** Every screen of the run and its grade, for a test's `summary`. */
   allScreens: Screen[];
   grades: (Grade | null)[];
+  /** A test's intro is a briefing card (docs/UI.md §3 `intro`). */
+  briefing?: Briefing;
 }) {
   const {
     screen,
@@ -1005,6 +1026,7 @@ function renderScreen(props: {
     onSettled,
     allScreens,
     grades,
+    briefing,
   } = props;
 
   const q = { value, onChange: setValue, revealed: isRevealed };
@@ -1012,7 +1034,12 @@ function renderScreen(props: {
   switch (screen.type) {
     case 'intro':
       return (
-        <IntroScreen screen={screen} levelTitle={level.title} chapterTitle={level.chapter_title} />
+        <IntroScreen
+          screen={screen}
+          levelTitle={level.title}
+          chapterTitle={level.chapter_title}
+          briefing={briefing}
+        />
       );
     case 'theory':
       return <TheoryScreen screen={screen} width={contentWidth} />;

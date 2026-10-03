@@ -5,6 +5,7 @@ import Animated from 'react-native-reanimated';
 import { copy } from '../format';
 import { Celebrate, PopIn } from '../lesson/Celebrate';
 import Shake from '../lesson/Shake';
+import { TermText } from '../lesson/termText';
 import { usePressFeedback } from '../lesson/motion';
 import { Tone, useToneTransition } from '../lesson/toneTransition';
 import { useVerdict } from '../lesson/verdict';
@@ -12,7 +13,7 @@ import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import { surfaceStyle, useLookSpec } from '../lesson/look';
 
 export function Prompt({ children }: { children: string }) {
-  return <Text style={styles.prompt}>{copy(children)}</Text>;
+  return <TermText text={children} style={styles.prompt} />;
 }
 
 export function ScreenTitle({ children }: { children: string }) {
@@ -20,7 +21,7 @@ export function ScreenTitle({ children }: { children: string }) {
 }
 
 export function Body({ children }: { children: string }) {
-  return <Text style={styles.body}>{copy(children)}</Text>;
+  return <TermText text={children} style={styles.body} />;
 }
 
 /**
