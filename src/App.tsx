@@ -7,12 +7,20 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Backdrop from './components/Backdrop';
 import { GridOriginProvider } from './components/gridAlign';
 import ErrorBoundary, { DebugCrash } from './ErrorBoundary';
-import { LessonEntry, LESSONS, nodeOf, TEST_BENCH } from './content';
+import { isBonus, LessonEntry, LESSONS, nodeOf, TEST_BENCH } from './content';
 import Home, { openHomeAt } from './home/Home';
 import { SUGGESTIONS } from './home/ideas';
 import { isLook, setLook, useLookSpec } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
-import { choosePath, completeLesson, getProgress, loadSaved } from './progress';
+import {
+  choosePath,
+  completeLesson,
+  earnGems,
+  getProgress,
+  giveHeart,
+  loadSaved,
+} from './progress';
+import { flySkills } from './home/fly';
 import { setMotionSetting } from './lesson/useReduceMotion';
 import { TEST_TOOLS } from './testTools';
 import {
@@ -171,17 +179,42 @@ export default function App() {
                     level={entry.level}
                     startAt={link && link.entry === entry ? link.screen : 0}
                     testBench={entry.testBench}
-                    kind={entry.testBench ? 'lesson' : (nodeOf(entry.id)?.kind ?? 'lesson')}
+                    kind={
+                      entry.testBench
+                        ? 'lesson'
+                        : entry.practice
+                          ? 'practice'
+                          : isBonus(entry)
+                            ? 'bonus'
+                            : (nodeOf(entry.id)?.kind ?? 'lesson')
+                    }
+                    lessonId={entry.testBench || entry.practice ? undefined : entry.id}
+                    sourceKeys={entry.practice?.keys}
                     initialPath={getProgress().path}
                     onChoosePath={choosePath}
                     contentWidth={contentWidth}
                     onQuit={() => setEntry(null)}
                     // A lesson on the path counts once its summary is reached; the
-                    // test bench is not on the path and just plays again.
+                    // test bench is not on the path and just plays again. A
+                    // practice round gives a heart back (docs/UI.md §5.2); a bonus
+                    // lesson pays its gems the first time; new skills fly into
+                    // Practice on the way home (§5.3).
                     onComplete={
                       entry.testBench
                         ? undefined
-                        : (result) => completeLesson(entry.id, { ...result, xp: entry.level.xp })
+                        : (result) => {
+                            if (entry.practice) {
+                              giveHeart();
+                              return;
+                            }
+                            const first = !getProgress().done[entry.id];
+                            completeLesson(entry.id, {
+                              perfect: result.perfect,
+                              xp: entry.level.xp,
+                            });
+                            if (first && isBonus(entry)) earnGems(entry.level.gems ?? 0);
+                            if (result.skills.length) flySkills(result.skills.length);
+                          }
                     }
                   />
                 ) : ready ? (

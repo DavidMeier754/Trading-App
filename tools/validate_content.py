@@ -15,6 +15,14 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content"
 
 CATEGORIES = {"new-theory", "repetition", "test", "final-exam"}
+# docs/schema.md "Bonus side lessons" [DESIGN-REVIEW]: level-NN-bonus.yaml, beside the path.
+BONUS_FILE = re.compile(r"level-(\d+)-bonus\.yaml$")
+# The screens a skill's card may be (docs/schema.md `skills`).
+SKILL_CARD_TYPES = {"theory", "example", "carousel", "walkthrough", "visual"}
+TERM_CARD_TYPES = {"theory", "example", "carousel"}
+DECISION_CELLS = {"right-won", "right-lost", "wrong-won", "wrong-lost"}
+# A clock time written as digits (agent.md §3.6): "9:31", "15:30".
+CLOCK_TIME = re.compile(r"\b\d{1,2}[:.]\d{2}\b")
 PATHS = {"all", "scalping", "day-trading", "swing-trading"}
 NON_QUESTION = {
     "intro", "theory", "example", "carousel", "walkthrough", "visual",
@@ -261,8 +269,8 @@ COMPONENT_FIELDS = {
     "quote-panel": ({"bid", "ask"}, {"last", "animate_to"}),
     "order-ticket": ({"ticker", "side", "qty"}, {"type", "price", "stop_price"}),
     "order-book": ({"bids", "asks"}, set()),
-    "chart-line": (set(), {"data", "series", "markers", "levels", "decision_index"}),
-    "chart-candles": ({"data"}, {"volume", "levels", "markers", "vwap", "decision_index"}),
+    "chart-line": (set(), {"data", "series", "markers", "levels", "decision_index", "session_open"}),
+    "chart-candles": ({"data"}, {"volume", "levels", "markers", "vwap", "decision_index", "session_open"}),
     "candle-anatomy": ({"candle"}, {"labels"}),
     "trade-plan": ({"entry", "stop", "target", "shares"}, {"chart"}),
     "bar-chart": ({"bars"}, {"unit"}),
@@ -276,9 +284,12 @@ COMPONENT_FIELDS = {
     "stats-card": ({"rows"}, set()),
     "r-tracker": ({"trades", "limit"}, set()),
     "plan-sheet": ({"fields"}, {"slot"}),
+    # [DESIGN-REVIEW]
+    "decision-grid": (set(), {"cell"}),
 }
 # A chart inside a question screen: `chart:`, a swipe-deck card's chart, a compare chart.
-CHART_SPEC_FIELDS = {"kind", "data", "decision_index", "volume", "levels", "vwap", "markers", "label"}
+CHART_SPEC_FIELDS = {"kind", "data", "decision_index", "volume", "levels", "vwap", "markers", "label",
+                     "session_open"}
 
 
 def is_num(x):
@@ -344,6 +355,22 @@ def check_chart_extras(f, where, spec, bars, rep):
     for name in ("volume", "vwap"):
         if name in spec:
             check_series(f, where, name, spec[name], bars, rep)
+    if "session_open" in spec:
+        so = spec["session_open"]
+        if not isinstance(so, int) or isinstance(so, bool) or bars is None or not 1 <= so <= bars - 1:
+            rep.err(f, f"{where}: session_open must be a bar index from 1 to {(bars or 1) - 1}, not {so!r}")
+
+
+def check_spark(f, where, spark, rep):
+    """A sparkline (an alert's, a scanner row's): 5–30 prices."""
+    if not (isinstance(spark, list) and 5 <= len(spark) <= 30 and all(is_num(x) for x in spark)):
+        rep.err(f, f"{where}: spark must be 5–30 numbers")
+
+
+def check_short_strings(f, where, name, values, most, longest, rep):
+    if not (isinstance(values, list) and 1 <= len(values) <= most
+            and all(isinstance(v, str) and 1 <= len(v) <= longest for v in values)):
+        rep.err(f, f"{where}: {name} must be 1–{most} texts of at most {longest} characters")
 
 
 def check_chart_spec(f, where, spec, rep):
@@ -402,6 +429,8 @@ def check_component(f, where, component, data, rep):
     if component not in COMPONENT_FIELDS:
         rep.err(f, f"{where}: unknown component '{component}'")
         return
+    if data is None and component == "decision-grid":
+        return  # its one field is optional (schema.md [DESIGN-REVIEW])
     if not isinstance(data, dict):
         rep.err(f, f"{where}: {component} needs its data as a mapping")
         return
@@ -442,6 +471,13 @@ def check_component(f, where, component, data, rep):
         for k in ("bid", "ask", "last"):
             if k in data and not is_num(data[k]):
                 rep.err(f, f"{where}: quote-panel {k} must be a number")
+    elif component == "decision-grid":
+        if "cell" in data and data["cell"] not in DECISION_CELLS:
+            rep.err(f, f"{where}: decision-grid cell must be one of {sorted(DECISION_CELLS)}")
+    elif component == "scanner-table":
+        for n, row in enumerate(data.get("rows") or [], 1):
+            if isinstance(row, dict) and "spark" in row:
+                check_spark(f, f"{where} row {n}", row["spark"], rep)
 
 
 def validate_screen_data(f, i, s, rep):
@@ -467,6 +503,12 @@ def validate_screen_data(f, i, s, rep):
         rows = (s.get("data") or {}).get("rows") if isinstance(s.get("data"), dict) else None
         if not isinstance(rows, list) or not rows:
             rep.err(f, f"{where}: scanner-pick needs data: {{rows: [...]}}")
+        else:
+            for n, row in enumerate(rows, 1):
+                if isinstance(row, dict) and "spark" in row:
+                    check_spark(f, f"{where} row {n}", row["spark"], rep)
+    if t == "story" and "alert" in s:
+        check_alert(f, where, s, rep)
     if "chart" in s:
         check_chart_spec(f, where, s["chart"], rep)
     for n, card in enumerate(s.get("cards") or [], 1):
@@ -532,6 +574,9 @@ def validate_question_screen(f, i, s, rep):
         if s.get("best") in ("long", "short") and "no-trade" in buttons:
             if "no-trade" not in (s.get("reasonable") or []):
                 rep.err(f, f"screen {i}: best is '{s['best']}' so reasonable must contain 'no-trade'")
+        check_decision_plan(f, i, s, rep)
+        if "notes" in s:
+            check_notes(f, i, s, rep)
     if t in ("chart-decision", "chart-tap"):
         chart = s.get("chart") or {}
         bars = chart.get("data") or []
@@ -566,6 +611,193 @@ def validate_question_screen(f, i, s, rep):
             rep.err(f, f"screen {i}: spot-mistake needs exactly one wrong segment")
     if t in NEW_QUESTION:
         validate_new_question(f, i, s, rep)
+
+
+def decision_entry(s):
+    """The entry of a chart decision: the close of its decision bar."""
+    chart = s.get("chart") or {}
+    bars = chart.get("data") or []
+    di = chart.get("decision_index")
+    if not isinstance(di, int) or not 0 <= di < len(bars):
+        return None
+    bar = bars[di]
+    return bar[3] if isinstance(bar, list) and len(bar) == 4 else bar if is_num(bar) else None
+
+
+def check_decision_plan(f, i, s, rep):
+    """docs/schema.md: a stop below the entry for a long and above it for a short, the target
+    on the other side. The app draws them and runs the R ruler from them (DESIGN-REVIEW)."""
+    stop, target = s.get("stop"), s.get("target")
+    for name, v in (("stop", stop), ("target", target)):
+        if v is not None and not is_num(v):
+            rep.err(f, f"screen {i}: chart-decision {name} must be a price")
+            return
+    entry = decision_entry(s)
+    best = s.get("best")
+    if entry is None or best not in ("long", "short", "buy"):
+        return
+    up = best in ("long", "buy")
+    if stop is not None and (stop >= entry if up else stop <= entry):
+        rep.err(f, f"screen {i}: the stop {stop} is on the wrong side of the entry {entry} for a {best}")
+    if target is not None and (target <= entry if up else target >= entry):
+        rep.err(f, f"screen {i}: the target {target} is on the wrong side of the entry {entry} for a {best}")
+
+
+def check_notes(f, i, s, rep):
+    """docs/schema.md `notes` [DESIGN-REVIEW]: 1–4 short notes on bars of the chart."""
+    notes = s["notes"]
+    bars = len((s.get("chart") or {}).get("data") or [])
+    if not isinstance(notes, list) or not 1 <= len(notes) <= 4:
+        rep.err(f, f"screen {i}: notes must be a list of 1–4 notes")
+        return
+    for n, note in enumerate(notes, 1):
+        if not isinstance(note, dict) or set(note) - {"bar", "text", "at"}:
+            rep.err(f, f"screen {i}: note {n} must be {{bar, text, at}}")
+            continue
+        b = note.get("bar")
+        if not isinstance(b, int) or isinstance(b, bool) or not 0 <= b < bars:
+            rep.err(f, f"screen {i}: note {n} bar must be a bar of the chart (0–{bars - 1})")
+        text = note.get("text")
+        if not isinstance(text, str) or not 1 <= len(text) <= 24:
+            rep.err(f, f"screen {i}: note {n} text must be 1–24 characters")
+        if note.get("at", "high") not in ("high", "low"):
+            rep.err(f, f"screen {i}: note {n} at must be high or low")
+
+
+def check_alert(f, where, s, rep):
+    """docs/schema.md `alert` on a story [DESIGN-REVIEW]."""
+    alert = s["alert"]
+    if s.get("label") == "takeaway":
+        rep.err(f, f"{where}: a takeaway has no alert")
+    if not isinstance(alert, dict) or set(alert) - {"ticker", "time", "facts", "spark"}:
+        rep.err(f, f"{where}: alert takes ticker, time, facts and spark")
+        return
+    if not re.fullmatch(r"[A-Z]{1,5}", str(alert.get("ticker", ""))):
+        rep.err(f, f"{where}: alert ticker must be 1–5 capital letters")
+    if "time" in alert:
+        t = alert["time"]
+        if not isinstance(t, str) or not 1 <= len(t) <= 24:
+            rep.err(f, f"{where}: alert time must be at most 24 characters")
+        elif CLOCK_TIME.search(t):
+            rep.err(f, f"{where}: alert time '{t}' writes a clock time; use a token or a relative phrase")
+    if "facts" in alert:
+        check_short_strings(f, where, "alert facts", alert["facts"], 3, 16, rep)
+    if "spark" in alert:
+        check_spark(f, f"{where} alert", alert["spark"], rep)
+
+
+def check_header_extras(f, data, rep):
+    """docs/schema.md [DESIGN-REVIEW]: `skills` in the header, `facts` on a test's intro."""
+    screens = data.get("screens") or []
+    if "skills" in data and data["skills"] is not None:
+        skills = data["skills"]
+        if data.get("category") != "new-theory":
+            rep.err(f, "skills belong only in new-theory lessons")
+        if not isinstance(skills, list) or len(skills) > 3:
+            rep.err(f, "skills must be a list of at most 3")
+        else:
+            for n, sk in enumerate(skills, 1):
+                if not isinstance(sk, dict) or set(sk) != {"name", "card"}:
+                    rep.err(f, f"skill {n} must be {{name, card}}")
+                    continue
+                if not isinstance(sk["name"], str) or not 1 <= len(sk["name"]) <= 40:
+                    rep.err(f, f"skill {n} name must be 1–40 characters")
+                c = sk["card"]
+                if (not isinstance(c, int) or isinstance(c, bool) or not 1 <= c <= len(screens)
+                        or screens[c - 1].get("type") not in SKILL_CARD_TYPES):
+                    rep.err(f, f"skill {n} card must name a theory, example, carousel, walkthrough or visual screen")
+    intro = screens[0] if screens else {}
+    if isinstance(intro, dict) and "facts" in intro:
+        if data.get("category") not in ("test", "final-exam"):
+            rep.err(f, "intro facts belong only in tests and final exams")
+        check_short_strings(f, "screen 1 (intro)", "facts", intro["facts"], 3, 20, rep)
+    # A term no card of its lesson names: its skill would have nothing to open (warning).
+    texts = [card_words(sc) for sc in screens if isinstance(sc, dict) and sc.get("type") in TERM_CARD_TYPES]
+    for term in data.get("terms_introduced") or []:
+        if not any(term_in(term, t) for t in texts):
+            rep.warn(f, f"term '{term}' is on no theory, example or carousel card of this lesson "
+                        f"(its skill has no card to open; docs/ContentToDo.md 1.4)")
+
+
+def card_words(sc):
+    t = sc.get("type")
+    if t == "theory":
+        return f"{sc.get('title', '')} {sc.get('body', '')}"
+    if t == "example":
+        return str(sc.get("body", ""))
+    if t == "carousel":
+        return " ".join(f"{c.get('label', '')} {c.get('text', '')}" for c in sc.get("cards") or []
+                        if isinstance(c, dict))
+    return ""
+
+
+def term_in(term, text):
+    """As src/skills.ts finds a term: whole word, any case (own case up to two letters), plural."""
+    word = term.strip()
+    flags = 0 if len(word) <= 2 else re.I
+    return re.search(rf"(^|[^A-Za-z0-9]){re.escape(word)}(e?s)?(?=$|[^A-Za-z0-9])", text, flags) is not None
+
+
+def validate_bonus_file(path, data, rep):
+    """docs/schema.md "Bonus side lessons" [DESIGN-REVIEW]: one file per side stop, beside the
+    level it follows. Its placement against the chapter's levels is checked by validate_bonus."""
+    f = path.relative_to(ROOT)
+    m = BONUS_FILE.match(path.name)
+    for k in ("id", "title", "chapter", "chapter_title", "path", "category", "after", "screens"):
+        if k not in data:
+            rep.err(f, f"missing field '{k}'")
+    if any(str(f) in e for e in rep.errors):
+        return None
+    if data["id"] != f"{int(m.group(1))}-bonus":
+        rep.err(f, f"id '{data['id']}' does not match filename")
+    if data["category"] != "bonus":
+        rep.err(f, "a bonus file has category: bonus")
+    if data["after"] != int(m.group(1)):
+        rep.err(f, f"after {data['after']!r} must be the level in the filename ({int(m.group(1))})")
+    if data.get("prerequisite") is not None:
+        rep.err(f, "a bonus lesson has prerequisite: null — it opens with its level")
+    gems = data.get("gems", 0)
+    if not isinstance(gems, int) or isinstance(gems, bool) or gems < 0:
+        rep.err(f, "gems must be a whole number, 0 or more")
+    screens = data["screens"] or []
+    if not screens or screens[0].get("type") != "intro":
+        rep.err(f, "first screen must be intro")
+    replays = screens[1:]
+    if not 2 <= len(replays) <= 3 or any(s.get("type") != "chart-replay" for s in replays):
+        rep.err(f, "a bonus lesson is an intro and 2–3 chart-replay screens")
+    for i, s in enumerate(screens[1:], 2):
+        if s.get("type") != "chart-replay":
+            continue
+        chart = s.get("chart") or {}
+        bars = check_chart_data(f, f"screen {i} (chart-replay)", "candles", chart.get("data"), rep)
+        moments = s.get("moments")
+        if not isinstance(moments, list) or not moments:
+            rep.err(f, f"screen {i}: chart-replay needs moments")
+            continue
+        for n, mo in enumerate(moments, 1):
+            b = mo.get("bar") if isinstance(mo, dict) else None
+            if not isinstance(b, int) or bars is None or not 0 <= b < bars:
+                rep.err(f, f"screen {i}: moment {n} bar must be a bar of the chart")
+            if not isinstance(mo, dict) or mo.get("kind") not in ("setup", "decoy"):
+                rep.err(f, f"screen {i}: moment {n} kind must be setup or decoy")
+    data["_file"] = f
+    return data
+
+
+def validate_bonus(bonus, chapters, rep):
+    """A bonus stop sits after a level of its chapter that is neither a test nor right before one."""
+    for folder, files in bonus.items():
+        levels = {}
+        for d in chapters.get(folder, []):
+            levels.setdefault(level_key(d["id"])[0], d["category"])
+        for d in files:
+            after = d.get("after")
+            if after not in levels:
+                rep.err(d["_file"], f"after {after}: the chapter has no Level {after}")
+            elif levels[after] in ("test", "final-exam"):
+                rep.err(d["_file"], f"after {after}: a bonus never follows a test")
+            elif levels.get(after + 1) in ("test", "final-exam"):
+                rep.err(d["_file"], f"after {after}: the level before a test is the mistakes review's place")
 
 
 def validate_file(path, data, rep):
@@ -649,6 +881,7 @@ def validate_file(path, data, rep):
         rep.warn(f, f"estimated {seconds}s (target 160–260s)")
     if data["chapter"] >= 2 and not any(s.get("type") in INTERACTIVE for s in screens):
         rep.warn(f, "no visual/interactive screen in a Chapter ≥2 level")
+    check_header_extras(f, data, rep)
     data["_units"] = units
     data["_seconds"] = seconds
     data["_nq"] = nq
@@ -1398,16 +1631,32 @@ def main():
     strict = "--strict" in sys.argv
     rep = Report(strict=strict)
     chapters = defaultdict(list)
+    bonus = defaultdict(list)
     for path in sorted(CONTENT.rglob("level-*.yaml")):
         try:
             data = yaml.safe_load(path.read_text(encoding="utf-8"))
         except yaml.YAMLError as e:
             rep.err(path.relative_to(ROOT), f"YAML error: {e}")
             continue
+        if BONUS_FILE.match(path.name):
+            data = validate_bonus_file(path, data, rep)
+            if data:
+                bonus[path.parent].append(data)
+            continue
         data = validate_file(path, data, rep)
         if data:
             data["_file"] = path.relative_to(ROOT)
             chapters[path.parent].append(data)
+    validate_bonus(bonus, chapters, rep)
+    # docs/ContentToDo.md 3.1 [DESIGN-REVIEW]: a new-theory lesson with nothing to collect
+    # after it. One line per chapter -- the worklist (stage RULES) lists the lessons.
+    for folder in sorted(chapters):
+        bare = [d for d in chapters[folder]
+                if d["category"] == "new-theory" and not d.get("terms_introduced") and not d.get("skills")]
+        if bare:
+            rep.warn(folder.relative_to(ROOT),
+                     f"{len(bare)} new-theory lessons have neither terms_introduced nor skills "
+                     f"(nothing to collect after them; docs/ContentToDo.md 3.1)")
     infos = {folder: folder_info(folder) for folder in chapters}
     for folder, files in chapters.items():
         path, num = infos[folder]

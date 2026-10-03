@@ -22,7 +22,17 @@ import type { AnswerValue } from '../lesson/answers';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
 import { RevealProbe } from '../lesson/Reveal';
-import { longestDecisionReveal, positionTag } from '../lesson/decisionReveal';
+import {
+  decisionMove,
+  DIRECTION,
+  longestDecisionReveal,
+  positionTag,
+} from '../lesson/decisionReveal';
+import { DecisionSpace, useLessonInfo } from '../lesson/lessonContext';
+import { tradePlanOf } from '../lesson/tradePlan';
+import { RULER_W } from '../components/ChartPlan';
+import { useProgress } from '../progress';
+import { knowsR } from '../skills';
 import {
   EASE_IN_OUT,
   EASE_OUT,
@@ -46,8 +56,12 @@ const SKIP_MS = 220;
 /** The brief folding away once the call is made, as the frame pulls back. */
 const FOLD_MS = 460;
 
-/** The tallest plot this screen may take (lesson/fit.tsx, useChartGaps). */
-const MAX_DECISION_GAPS = 7;
+/**
+ * The tallest plot this screen may take (lesson/fit.tsx, useChartGaps). Eight
+ * since DESIGN-REVIEW: the chart is as large as the screen allows (David,
+ * 2026-10-03: "make the chart bigger").
+ */
+const MAX_DECISION_GAPS = 8;
 
 export default function ChartDecisionScreen({
   screen,
@@ -66,6 +80,13 @@ export default function ChartDecisionScreen({
   const reduced = useReduceMotion();
   const bars = Array.isArray(screen.chart.data) ? screen.chart.data.length : 0;
   const start = screen.chart.decision_index + 1;
+  // docs/UI.md §6.4 [DESIGN-REVIEW]: the plan in the file, where the trade
+  // ended, and whether R has been taught yet -- the ruler waits for that lesson.
+  const plan = useMemo(() => tradePlanOf(screen), [screen]);
+  const endAt = plan ? plan.exit.bar : bars - 1;
+  const { lessonId, everything } = useLessonInfo();
+  const { done: played } = useProgress();
+  const showR = !!plan && (everything || knowsR(lessonId, played));
 
   const choice = value.kind === 'decision' ? value.choice : null;
   // A screen come back to (the back button) opens on its finished chart; the
@@ -94,7 +115,7 @@ export default function ChartDecisionScreen({
   // it. A skip brings the landing forward to the end of the sweep; leaving
   // the screen stops the vibration without one.
   const isLine = screen.chart.kind === 'line';
-  const legs = Math.max(1, bars - start);
+  const legs = Math.max(1, endAt + 1 - start);
   const motion = useRef<ChartMove | null>(null);
   const quiet = useCallback(() => {
     motion.current?.cancel();
@@ -188,8 +209,8 @@ export default function ChartDecisionScreen({
   const grid = useGridAnchor(`${phase === 'done'}-${folded}`);
 
   const decisionPrice = closeAt(screen.chart, screen.chart.decision_index);
-  const finalPrice = closeAt(screen.chart, bars - 1);
-  const move = finalPrice - decisionPrice;
+  // To where the trade ended: the stop or the target when the file has them.
+  const move = decisionMove(screen);
   const movePct = (move / decisionPrice) * 100;
 
   // The verdict this screen keeps room for, measured rather than guessed: the
@@ -199,7 +220,7 @@ export default function ChartDecisionScreen({
   // fit it the moment it landed -- the chart squeezed at the very end.
   const [probeH, setProbeH] = useState(0);
   const verdictH = probeH > 0 ? probeH + space.md : REVEAL_GROWTH;
-  const longest = useMemo(() => longestDecisionReveal(screen), [screen]);
+  const longest = useMemo(() => longestDecisionReveal(screen, { showR }), [screen, showR]);
 
   // As tall as the screen has room for, counting the reveal still to come
   // (lesson/fit.tsx), and sized from the chart's own geometry, so the
@@ -235,7 +256,25 @@ export default function ChartDecisionScreen({
     [move, movePct, screen, choice],
   );
   const chartHeight = chartHeightFor(!!screen.chart.volume, fit.gaps);
-  const chartWidth = chartWidthFor(width, !!screen.chart.volume, fit.gaps);
+  // Once the brief has folded the chart starts at the top of the area, so it
+  // ends at its own height: the reveal takes the room from there to the key.
+  const reportBottom = React.useContext(DecisionSpace);
+  useEffect(() => {
+    reportBottom(phase !== 'deciding' && folded ? chartHeight : null);
+  }, [phase, folded, chartHeight, reportBottom]);
+  useEffect(() => () => reportBottom(null), [reportBottom]);
+  const chartWidth = chartWidthFor(width, !!screen.chart.volume, fit.gaps, showR ? RULER_W : 0);
+  // The ruler measures the file's trade: shown for the learner who took it,
+  // faint for one who stood aside, and not for one who traded the other way.
+  const choiceDir = choice ? DIRECTION[choice] : null;
+  const ruler =
+    !showR || !plan || choiceDir === null
+      ? null
+      : choiceDir === plan.dir
+        ? 'full'
+        : choiceDir === 0
+          ? 'faint'
+          : null;
 
   // docs/UI.md §2 [v4]: the scenario and its chart start at the top of the
   // area, as every screen does (Calm's layout, stage LOOK-BRIEF); the decision
@@ -273,13 +312,20 @@ export default function ChartDecisionScreen({
           <Pressable accessibilityRole="button" onPress={onChartPress} disabled={choice === null}>
             <Chart
               spec={screen.chart}
-              visibleCount={done ? bars : start}
+              visibleCount={done ? endAt + 1 : start}
               revealFrom={start}
               playback={playing ? progress : undefined}
               gridAnchor={grid.gridAnchor}
               width={chartWidth}
               height={chartHeight}
               outcome={phase === 'done' ? outcome : undefined}
+              plan={plan ?? undefined}
+              planShown={choice !== null}
+              ruler={ruler}
+              rulerSpace={showR}
+              endAt={endAt}
+              notes={screen.notes}
+              showNotes={phase === 'done'}
             />
           </Pressable>
           {/* In the strip under the plot, opposite the VWAP key: a line of its

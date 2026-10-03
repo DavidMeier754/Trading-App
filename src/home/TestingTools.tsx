@@ -78,7 +78,7 @@ export default function TestingTools({
  * waiting out the four hours. Goes when the refill rules settle.
  */
 function HeartsRow() {
-  const { hearts, nextAt } = useHearts();
+  const { hearts, fullAt } = useHearts();
   const full = hearts >= MAX_HEARTS;
   const press = usePressFeedback(!full, { cue: 'tick' });
   const pop = useSharedValue(1);
@@ -112,7 +112,7 @@ function HeartsRow() {
           <Text style={rowStyles.rowSub}>
             {full
               ? `All ${MAX_HEARTS} are here.`
-              : `${hearts} of ${MAX_HEARTS}${nextAt ? ` · next in ${waitText(nextAt)}` : ''}`}
+              : `${hearts} of ${MAX_HEARTS}${fullAt ? ` · all back in ${waitText(fullAt)}` : ''}`}
           </Text>
         </View>
       </Pressable>

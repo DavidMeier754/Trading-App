@@ -795,4 +795,4 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 
 Warnings:
 - A term in `terms_introduced` that no `theory`, `example` or `carousel` screen of its lesson contains (the skill would have no card to open).
-- A `new-theory` lesson with neither `terms_introduced` nor `skills` (nothing to collect after it; `docs/ContentToDo.md` 3.1). (Component data and the test bench are checked since stage STABLE-DATA, as errors: see above.)
+- A chapter whose `new-theory` lessons include some with neither `terms_introduced` nor `skills` (nothing to collect after them; `docs/ContentToDo.md` 3.1): one line per chapter with the count, so the run stays readable; the worklist from stage RULES names the lessons. (Component data and the test bench are checked since stage STABLE-DATA, as errors: see above.)

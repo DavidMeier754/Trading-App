@@ -61,7 +61,7 @@ const TABLE: Row[] = [
     [],
     'buy',
     'Good call',
-    'Buying was the right call here.',
+    'Buying was the right call.',
     '+$20.00 on 100 shares',
     'up',
     false,
@@ -74,7 +74,7 @@ const TABLE: Row[] = [
     [],
     'buy',
     'Good call',
-    'Buying was the right call here.',
+    'Buying was the right call.',
     '−$20.00 on 100 shares',
     'down',
     true,
@@ -87,7 +87,7 @@ const TABLE: Row[] = [
     [],
     'wait',
     'Good call',
-    'Waiting was the right call here.',
+    'Waiting was the right call.',
     'Had you bought: +$20.00 on 100 shares',
     'hypothetical',
     false,
@@ -100,7 +100,7 @@ const TABLE: Row[] = [
     [],
     'wait',
     'Good call',
-    'Waiting was the right call here.',
+    'Waiting was the right call.',
     'Had you bought: −$20.00 on 100 shares',
     'hypothetical',
     false,
@@ -113,7 +113,7 @@ const TABLE: Row[] = [
     ['buy'],
     'buy',
     'Reasonable',
-    'Buying here was a fair call, but the better one was Wait.',
+    'Buying was fair. Wait was better.',
     '+$20.00 on 100 shares',
     'up',
     false,
@@ -126,7 +126,7 @@ const TABLE: Row[] = [
     ['buy'],
     'buy',
     'Reasonable',
-    'Buying here was a fair call, but the better one was Wait.',
+    'Buying was fair. Wait was better.',
     '−$20.00 on 100 shares',
     'down',
     false,
@@ -139,7 +139,7 @@ const TABLE: Row[] = [
     ['wait'],
     'wait',
     'Reasonable',
-    'Standing aside costs nothing here. The better call was Buy.',
+    'Waiting costs nothing. Buy was better.',
     'Had you bought: +$20.00 on 100 shares',
     'hypothetical',
     false,
@@ -152,7 +152,7 @@ const TABLE: Row[] = [
     ['wait'],
     'wait',
     'Reasonable',
-    'Standing aside costs nothing here. The better call was Buy.',
+    'Waiting costs nothing. Buy was better.',
     'Had you bought: −$20.00 on 100 shares',
     'hypothetical',
     false,
@@ -165,7 +165,7 @@ const TABLE: Row[] = [
     [],
     'buy',
     'Not this time',
-    'Buying was not the call here. The better one was Wait.',
+    'Buying was not the call. Wait was better.',
     '+$20.00 on 100 shares',
     'up',
     false,
@@ -178,7 +178,7 @@ const TABLE: Row[] = [
     [],
     'buy',
     'Not this time',
-    'Buying was not the call here. The better one was Wait.',
+    'Buying was not the call. Wait was better.',
     '−$20.00 on 100 shares',
     'down',
     false,
@@ -191,7 +191,7 @@ const TABLE: Row[] = [
     [],
     'wait',
     'Not this time',
-    'Waiting was not the call here. The better one was Buy.',
+    'Waiting was not the call. Buy was better.',
     'Had you bought: +$20.00 on 100 shares',
     'hypothetical',
     false,
@@ -204,7 +204,7 @@ const TABLE: Row[] = [
     [],
     'wait',
     'Not this time',
-    'Waiting was not the call here. The better one was Buy.',
+    'Waiting was not the call. Buy was better.',
     'Had you bought: −$20.00 on 100 shares',
     'hypothetical',
     false,
@@ -247,10 +247,10 @@ describe('decisionReveal: the rules behind the table', () => {
     ),
   );
 
-  it('"Standing aside costs nothing" is only said to someone who stood aside', () => {
+  it('"… costs nothing" is only said to someone who stood aside', () => {
     for (const { screen, choice } of combos) {
       const r = decisionReveal(screen, choice);
-      if (!r.stoodAside) expect(r.lead).not.toMatch(/standing aside/i);
+      if (!r.stoodAside) expect(r.lead).not.toMatch(/costs nothing|standing aside/i);
     }
   });
 
@@ -286,7 +286,7 @@ describe('decisionReveal: long, short and no trade', () => {
     const r = decisionReveal(scenario('short', ['no-trade'], FALLS, LSN), 'short');
     expect(r.result).toBe('+$20.00 on 100 shares');
     expect(r.tone).toBe('up');
-    expect(r.lead).toBe('Going short was the right call here.');
+    expect(r.lead).toBe('Going short was the right call.');
   });
 
   it('a right short that loses gets the variance line', () => {
@@ -297,14 +297,14 @@ describe('decisionReveal: long, short and no trade', () => {
 
   it('no trade shows the best trade as the "would have", in grey', () => {
     const r = decisionReveal(scenario('short', ['no-trade'], FALLS, LSN), 'no-trade');
-    expect(r.lead).toBe('Standing aside costs nothing here. The better call was Short.');
+    expect(r.lead).toBe('Staying out costs nothing. Short was better.');
     expect(r.result).toBe('Had you gone short: +$20.00 on 100 shares');
     expect(r.tone).toBe('hypothetical');
   });
 
   it('when no trade was best, the "would have" is the first trade on offer', () => {
     const r = decisionReveal(scenario('no-trade', [], FALLS, LSN), 'no-trade');
-    expect(r.lead).toBe('Staying out was the right call here.');
+    expect(r.lead).toBe('Staying out was the right call.');
     expect(r.result).toBe('Had you gone long: −$20.00 on 100 shares');
   });
 
@@ -385,7 +385,7 @@ describe('the real screens from the test checklist', () => {
         if (s.type !== 'chart-decision') continue;
         for (const b of decisionButtons(s)) {
           const r = decisionReveal(s, b);
-          if (!r.stoodAside) expect(r.lead).not.toMatch(/standing aside/i);
+          if (!r.stoodAside) expect(r.lead).not.toMatch(/costs nothing|standing aside/i);
           expect(r.result).not.toMatch(/NaN/);
         }
       }

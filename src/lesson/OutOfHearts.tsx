@@ -24,7 +24,7 @@ const HEART = 112;
  * still. Nothing loops -- this is a pause, not a scene.
  */
 export default function OutOfHearts() {
-  const { nextAt } = useHearts();
+  const { fullAt } = useHearts();
   const m = useMotion();
   const t = useSharedValue(m.reduced ? 1 : 0);
   const split = useSharedValue(m.reduced ? 1 : 0);
@@ -75,9 +75,9 @@ export default function OutOfHearts() {
           {"You're out of hearts"}
         </Text>
         <Text style={styles.body}>
-          {nextAt ? `The next one is back in ${waitText(nextAt)}.` : 'One is back already.'}
+          {fullAt ? `All of them are back in ${waitText(fullAt)}.` : 'They are back already.'}
         </Text>
-        <Text style={styles.note}>Start this lesson again from the path.</Text>
+        <Text style={styles.note}>Start this test again from the path.</Text>
       </Animated.View>
     </View>
   );

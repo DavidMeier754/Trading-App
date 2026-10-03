@@ -13,6 +13,7 @@ import { copy } from '../format';
 import { colors, radius, space, type, themed } from '../theme';
 import type { Grade } from './answers';
 import { Celebrate, PopIn } from './Celebrate';
+import DecisionGrid from './DecisionGrid';
 import { type DecisionReveal, decisionRevealLabel } from './decisionReveal';
 import { isStreakMilestone, pulseAt, STREAK_FROM } from './feedback';
 import { useLookSpec } from './look';
@@ -58,6 +59,7 @@ export default function Reveal({
   extra,
   streak = 0,
   decision,
+  fill = false,
 }: {
   grade: Grade;
   /** docs/UI.md §5.1: an amber reveal opens with what was right about the choice. */
@@ -72,6 +74,8 @@ export default function Reveal({
    * and reports the outcome under it, smaller, in a neutral box of its own.
    */
   decision?: DecisionReveal;
+  /** Fill the height it is given: the words at the top, the outcome at the bottom. */
+  fill?: boolean;
 }) {
   const tone = toneOf(grade);
   const label = decision ? decision.chip : tone.label;
@@ -121,10 +125,46 @@ export default function Reveal({
     </View>
   );
 
+  const head = (
+    <View style={styles.headRow}>
+      <PopIn style={[styles.badge, { backgroundColor: tone.accent }]}>
+        <Svg width={20} height={20}>
+          <AnimatedPath
+            d={MARK[grade]}
+            stroke={colors.background}
+            strokeWidth={2.6}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+            strokeDasharray={`${MARK_LEN[grade]} ${MARK_LEN[grade]}`}
+            strokeDashoffset={m.reduced ? 0 : MARK_LEN[grade]}
+            animatedProps={markProps}
+          />
+        </Svg>
+      </PopIn>
+      <Text style={[styles.head, { color: tone.accent }]}>{label}</Text>
+      {showStreak ? (
+        <PopIn delay={m.reduced ? 0 : 260} style={styles.pillSlot}>
+          {milestone ? (
+            <Celebrate radius={radius.pill} color={colors.warning}>
+              {pill}
+            </Celebrate>
+          ) : (
+            pill
+          )}
+        </PopIn>
+      ) : null}
+    </View>
+  );
+
   return (
     <Animated.View
       style={[
         styles.wrap,
+        // docs/UI.md §5.1b [DESIGN-REVIEW]: a chart's reveal is compact, so the
+        // chart above it keeps the screen.
+        decision && styles.wrapCompact,
+        fill && styles.fill,
         {
           backgroundColor: tone.tint,
           borderColor: tone.accent,
@@ -136,38 +176,32 @@ export default function Reveal({
       accessible={decision ? true : undefined}
       accessibilityLabel={decision ? decisionRevealLabel(decision, explanation) : undefined}
     >
-      <View style={styles.headRow}>
-        <PopIn style={[styles.badge, { backgroundColor: tone.accent }]}>
-          <Svg width={20} height={20}>
-            <AnimatedPath
-              d={MARK[grade]}
-              stroke={colors.background}
-              strokeWidth={2.6}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-              strokeDasharray={`${MARK_LEN[grade]} ${MARK_LEN[grade]}`}
-              strokeDashoffset={m.reduced ? 0 : MARK_LEN[grade]}
-              animatedProps={markProps}
-            />
-          </Svg>
-        </PopIn>
-        <Text style={[styles.head, { color: tone.accent }]}>{label}</Text>
-        {showStreak ? (
-          <PopIn delay={m.reduced ? 0 : 260} style={styles.pillSlot}>
-            {milestone ? (
-              <Celebrate radius={radius.pill} color={colors.warning}>
-                {pill}
-              </Celebrate>
-            ) : (
-              pill
-            )}
-          </PopIn>
+      {decision ? (
+        // docs/UI.md §5.1b [DESIGN-REVIEW]: the grade and its line on the left,
+        // the decision grid beside them, so the outcome box below can run the
+        // full width and the chart above keeps the room.
+        <View style={styles.decisionTop}>
+          <View style={styles.decisionHead}>
+            {head}
+            <Animated.Text
+              style={[styles.lead, styles.leadCompact, { color: tone.accent }, wordsStyle]}
+            >
+              {copy(decision.lead)}
+            </Animated.Text>
+          </View>
+          <DecisionGrid cell={decision.cell} />
+        </View>
+      ) : (
+        head
+      )}
+      <Animated.View
+        style={[styles.words, decision && styles.wordsCompact, fill && styles.fill, wordsStyle]}
+      >
+        {lead && !decision ? (
+          <Text style={[styles.lead, { color: tone.accent }]}>{copy(lead)}</Text>
         ) : null}
-      </View>
-      <Animated.View style={[styles.words, wordsStyle]}>
-        {lead ? <Text style={[styles.lead, { color: tone.accent }]}>{copy(lead)}</Text> : null}
-        <Text style={styles.body}>{copy(explanation)}</Text>
+        <Text style={[styles.body, decision && styles.bodyCompact]}>{copy(explanation)}</Text>
+        {fill ? <View style={styles.fill} /> : null}
         {decision ? <DecisionOutcome decision={decision} /> : null}
         {extra}
         {working ? (
@@ -247,15 +281,23 @@ export function RevealProbe({
       aria-hidden
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
-      style={[styles.wrap, styles.probe]}
+      style={[styles.wrap, decision && styles.wrapCompact, styles.probe]}
       onLayout={(e) => onHeight(e.nativeEvent.layout.height)}
     >
-      <View style={styles.probeHead} />
-      <View style={styles.words}>
-        {(decision?.lead ?? lead) ? (
-          <Text style={styles.lead}>{copy(decision?.lead ?? lead ?? '')}</Text>
-        ) : null}
-        <Text style={styles.body}>{copy(explanation)}</Text>
+      {decision ? (
+        <View style={styles.decisionTop}>
+          <View style={styles.decisionHead}>
+            <View style={styles.probeHead} />
+            <Text style={[styles.lead, styles.leadCompact]}>{copy(decision.lead)}</Text>
+          </View>
+          <DecisionGrid />
+        </View>
+      ) : (
+        <View style={styles.probeHead} />
+      )}
+      <View style={[styles.words, decision && styles.wordsCompact]}>
+        {lead && !decision ? <Text style={styles.lead}>{copy(lead)}</Text> : null}
+        <Text style={[styles.body, decision && styles.bodyCompact]}>{copy(explanation)}</Text>
         {decision ? <DecisionOutcome decision={decision} /> : null}
         {working ? <Text style={styles.toggle}>Show working</Text> : null}
       </View>
@@ -270,6 +312,11 @@ const styles = themed(() => ({
     padding: space.lg,
     gap: space.sm,
   },
+  fill: { flexGrow: 1 },
+  wrapCompact: { paddingHorizontal: space.md, paddingVertical: space.md, gap: space.xs },
+  wordsCompact: { gap: space.xs },
+  leadCompact: { ...type.body, fontWeight: '600' },
+  bodyCompact: { ...type.body, fontSize: 16, lineHeight: 22 },
   headRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   badge: {
     width: 24,
@@ -294,14 +341,17 @@ const styles = themed(() => ({
   body: { ...type.body, color: colors.text },
   workingWrap: { gap: space.xs },
   toggle: { ...type.label },
+  decisionTop: { flexDirection: 'row', alignItems: 'flex-start', gap: space.sm },
+  decisionHead: { flex: 1, gap: space.xs },
   outcomeBox: {
+    marginTop: space.xs,
     backgroundColor: colors.surface,
     borderColor: colors.border,
     borderWidth: 1,
     borderRadius: radius.sm,
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    gap: space.xs,
+    paddingHorizontal: space.sm,
+    paddingVertical: space.xs,
+    gap: 2,
   },
   // docs/UI.md §10: nothing a learner reads to judge the trade goes below 13 pt.
   outcomeText: { ...type.label, fontWeight: '400', color: colors.textMuted },

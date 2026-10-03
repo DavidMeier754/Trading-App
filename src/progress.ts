@@ -39,8 +39,13 @@ import {
  * Progress is what the path map draws (docs/UI.md §7.1): which sub-levels are
  * finished and whether every answer in one was right (a perfect run earns the
  * gold ring). The HUD reads the rest (§7.2): the streak in days, the daily
- * goal of two sub-levels (§5.3), and the hearts (§5.2): a wrong answer costs
- * one, and each comes back four hours after it was lost.
+ * goal of two sub-levels (§5.3), and the hearts (§5.2): a wrong answer in a
+ * test costs one, and five hours after the first was lost they are all back.
+ *
+ * It also keeps the learner's record (docs/UI.md §7.3, DESIGN-REVIEW): every
+ * graded question with its spaced-repetition box, the mistakes still open,
+ * each chart decision, the skills collected and the plan's dates. Practice,
+ * the mistakes reviews and the stats are built on it. Nothing in it is money.
  *
  * Saved with AsyncStorage (localStorage on the web). A storage that fails or
  * is missing is not an error: the app runs on what is in memory, and simply
@@ -77,15 +82,76 @@ export type Progress = {
   plan: Record<string, string>;
   /** Hearts as last written; `heartsNow` adds the ones that have come back since. */
   hearts: number;
-  /** When the next missing heart started coming back (ms since 1970), or null when full. */
+  /** When the first missing heart was lost (ms since 1970): the refill clock. Null when full. */
   heartsAt: number | null;
+
+  // --- The record (docs/UI.md §7.3) ----------------------------------------
+
+  /** Every graded question, by `questionKey` (`level-01-1#5`). */
+  questions: Record<string, QuestionRecord>;
+  /** Questions missed and not answered right since, with what was answered. */
+  mistakes: Record<string, MistakeRecord>;
+  /** Each chart decision answered, oldest first, the last `DECISION_LOG_MAX`. */
+  decisions: DecisionRecord[];
+  /** Skills collected (`skillsOf` in content.ts), by id: when, and whether Practice has shown it. */
+  skills: Record<string, { at: number; seen: boolean }>;
+  /** Skills collected since the Practice tab was last opened: its dot, and the cards that fly to it. */
+  newSkills: number;
+  /** Times each sub-level was finished. */
+  plays: Record<string, number>;
+  /** When each plan key was last written (ms). */
+  planAt: Record<string, number>;
+  /** The longest streak so far, in days. */
+  bestStreak: number;
+  /** The first trade of a fresh install (docs/UI.md §11.1) has been played. */
+  firstTrade: boolean;
 };
+
+/** One graded question in the record: how it has gone, and when it is due again. */
+export type QuestionRecord = {
+  right: number;
+  wrong: number;
+  last: 'right' | 'wrong';
+  /** When it was last answered (ms). */
+  at: number;
+  /** Its Leitner box, 1–5 (docs/UI.md §7.3). */
+  box: number;
+  /** The local day it is due again, `2026-10-04`. */
+  due: string;
+};
+
+export type MistakeRecord = {
+  /** What the learner answered, in words: "Short", "$0.40". */
+  answer: string;
+  at: number;
+};
+
+export type DecisionRecord = {
+  q: string;
+  choice: string;
+  grade: 'correct' | 'amber' | 'wrong';
+  /** The trade's result, or what standing aside would have given. */
+  result: 'won' | 'lost' | 'flat';
+  /** The learner stood aside (wait, no trade). */
+  aside: boolean;
+  at: number;
+};
+
+/** The decision log keeps this many, newest last. */
+export const DECISION_LOG_MAX = 2000;
+
+/** docs/UI.md §7.3: days until a question is due again, by its box. */
+export const BOX_DAYS = [1, 3, 7, 16, 35] as const;
 
 export const MAX_HEARTS = 5;
 /** docs/UI.md §5.3: the daily goal is two sub-levels. */
 export const DAILY_GOAL = 2;
-/** docs/UI.md §5.2: each lost heart returns after four hours. */
-export const HEART_REFILL_MS = 4 * 60 * 60 * 1000;
+/**
+ * docs/UI.md §5.2 (David, 2026-10-03): "all 5 hours ALL hearts get added
+ * back". The first heart lost starts the clock; five hours later every heart
+ * is back at once.
+ */
+export const HEART_REFILL_MS = 5 * 60 * 60 * 1000;
 
 const PROGRESS_KEY = 'progress.v1';
 const SETTINGS_KEY = 'settings.v1';
@@ -101,6 +167,15 @@ const fresh = (): Progress => ({
   plan: {},
   hearts: MAX_HEARTS,
   heartsAt: null,
+  questions: {},
+  mistakes: {},
+  decisions: [],
+  skills: {},
+  newSkills: 0,
+  plays: {},
+  planAt: {},
+  bestStreak: 0,
+  firstTrade: false,
 });
 
 let progress: Progress = fresh();
@@ -137,8 +212,13 @@ export function dayOf(date: Date): string {
 }
 
 function dayBefore(day: string): string {
+  return addDays(day, -1);
+}
+
+/** A local day `n` days after `day` (or before, for a negative `n`). */
+export function addDays(day: string, n: number): string {
   const [y, m, d] = day.split('-').map(Number);
-  return dayOf(new Date(y, m - 1, d - 1));
+  return dayOf(new Date(y, m - 1, d + n));
 }
 
 /** The streak as it stands today: a run whose last day is before yesterday is over. */
@@ -181,6 +261,8 @@ export function completeLesson(
     xp: p.xp + earnedXp(xp, perfect),
     streak: { days, last: today },
     today: { date: today, count: (p.today.date === today ? p.today.count : 0) + 1 },
+    bestStreak: Math.max(p.bestStreak, days),
+    plays: { ...p.plays, [id]: (p.plays[id] ?? 0) + 1 },
   });
 }
 
@@ -216,8 +298,117 @@ export function toggleWanted(path: TradingPath): void {
 
 /** A plan card was filled in: its keys join the plan, over any older values. */
 export function savePlan(values: Record<string, string>): void {
-  if (Object.keys(values).length === 0) return;
-  publish({ ...progress, plan: { ...progress.plan, ...values } });
+  const keys = Object.keys(values);
+  if (keys.length === 0) return;
+  const now = Date.now();
+  const planAt = { ...progress.planAt };
+  for (const key of keys) planAt[key] = now;
+  publish({ ...progress, plan: { ...progress.plan, ...values }, planAt });
+}
+
+// ---------------------------------------------------------------------------
+// The record (docs/UI.md §7.3).
+// ---------------------------------------------------------------------------
+
+/** A question's id in the record: its lesson and its place in the lesson's screens. */
+export function questionKey(lessonId: string, screen: number): string {
+  return `${lessonId}#${screen}`;
+}
+
+/** Where a key points: the lesson id and the screen index. */
+export function parseQuestionKey(key: string): { lesson: string; screen: number } | null {
+  const at = key.lastIndexOf('#');
+  if (at <= 0) return null;
+  const screen = Number(key.slice(at + 1));
+  return Number.isInteger(screen) ? { lesson: key.slice(0, at), screen } : null;
+}
+
+/** The next state of one question after an answer: the Leitner box moves, and it is due again. */
+export function nextRecord(
+  before: QuestionRecord | undefined,
+  right: boolean,
+  now: number,
+): QuestionRecord {
+  const box = right ? Math.min(BOX_DAYS.length, (before?.box ?? 0) + 1) : 1;
+  return {
+    right: (before?.right ?? 0) + (right ? 1 : 0),
+    wrong: (before?.wrong ?? 0) + (right ? 0 : 1),
+    last: right ? 'right' : 'wrong',
+    at: now,
+    box,
+    due: addDays(dayOf(new Date(now)), BOX_DAYS[box - 1]),
+  };
+}
+
+/**
+ * A graded answer goes into the record. Amber counts as right (it is, docs/UI.md
+ * §4.3). A wrong answer opens a mistake with what was answered; a right one
+ * closes it -- unless `keepMistake`, which the lesson's own mistakes round sets:
+ * that round comes straight after the reveal, too soon to prove anything
+ * (docs/UI.md §7.3).
+ */
+export function recordAnswer(
+  key: string,
+  grade: 'correct' | 'amber' | 'wrong',
+  answer: string,
+  { keepMistake = false }: { keepMistake?: boolean } = {},
+): void {
+  const now = Date.now();
+  const p = progress;
+  const right = grade !== 'wrong';
+  const mistakes = { ...p.mistakes };
+  if (!right) mistakes[key] = { answer, at: now };
+  else if (!keepMistake) delete mistakes[key];
+  publish({
+    ...p,
+    questions: { ...p.questions, [key]: nextRecord(p.questions[key], right, now) },
+    mistakes,
+  });
+}
+
+/** A chart decision for the decision grid's counts and the variance view (docs/UI.md §7.4). */
+export function recordDecision(entry: Omit<DecisionRecord, 'at'>): void {
+  const p = progress;
+  const decisions = [...p.decisions, { ...entry, at: Date.now() }];
+  publish({ ...p, decisions: decisions.slice(-DECISION_LOG_MAX) });
+}
+
+/** Skills reached at the end of a lesson (docs/UI.md §5.3). Returns the ones that are new. */
+export function collectSkills(ids: string[]): string[] {
+  const p = progress;
+  const fresh = ids.filter((id) => !p.skills[id]);
+  if (fresh.length === 0) return [];
+  const now = Date.now();
+  const skills = { ...p.skills };
+  for (const id of fresh) skills[id] = { at: now, seen: false };
+  publish({ ...p, skills, newSkills: p.newSkills + fresh.length });
+  return fresh;
+}
+
+/** The Practice tab was opened: its dot goes. */
+export function clearNewSkills(): void {
+  if (progress.newSkills === 0) return;
+  publish({ ...progress, newSkills: 0 });
+}
+
+/** Practice → Skills showed these: they lose their "new" mark. */
+export function markSkillsSeen(ids: string[]): void {
+  const p = progress;
+  const unseen = ids.filter((id) => p.skills[id] && !p.skills[id].seen);
+  if (unseen.length === 0) return;
+  const skills = { ...p.skills };
+  for (const id of unseen) skills[id] = { ...skills[id], seen: true };
+  publish({ ...p, skills });
+}
+
+/** The first trade has been played (docs/UI.md §11.1). */
+export function finishFirstTrade(): void {
+  if (!progress.firstTrade) publish({ ...progress, firstTrade: true });
+}
+
+/** Test builds only (docs/UI.md §11.5): show the first trade again. */
+export function replayFirstTrade(): void {
+  publish({ ...progress, firstTrade: false });
 }
 
 /**
@@ -251,24 +442,36 @@ export function skipTo(key: string): void {
 
 export type Hearts = {
   hearts: number;
-  /** When the next heart is back (ms), or null when they are all here. */
-  nextAt: number | null;
+  /** When every heart is back (ms), or null when they are all here. */
+  fullAt: number | null;
 };
 
 /**
  * The hearts as they stand at `now`. Nothing ticks in the background: the
- * store keeps the count and when its refill clock started, and every four
- * hours since then is a heart back -- so a phone left in a drawer overnight
- * comes back full without having run a timer.
+ * store keeps the count and when the first one was lost, and five hours after
+ * that they are all back -- so a phone left in a drawer comes back full
+ * without having run a timer. `clock` is when that five hours started.
  */
 export function heartsNow(p: Progress, now = Date.now()): Hearts & { clock: number | null } {
   const held = Math.min(p.hearts, MAX_HEARTS);
-  if (held >= MAX_HEARTS || p.heartsAt === null) return { hearts: held, nextAt: null, clock: null };
-  const back = Math.max(0, Math.floor((now - p.heartsAt) / HEART_REFILL_MS));
-  const hearts = Math.min(MAX_HEARTS, held + back);
-  if (hearts >= MAX_HEARTS) return { hearts, nextAt: null, clock: null };
-  const clock = p.heartsAt + back * HEART_REFILL_MS;
-  return { hearts, nextAt: clock + HEART_REFILL_MS, clock };
+  if (held >= MAX_HEARTS || p.heartsAt === null) return { hearts: held, fullAt: null, clock: null };
+  const fullAt = p.heartsAt + HEART_REFILL_MS;
+  if (now >= fullAt) return { hearts: MAX_HEARTS, fullAt: null, clock: null };
+  return { hearts: held, fullAt, clock: p.heartsAt };
+}
+
+/** How far the refill clock has run, 0 to 1 (the ring round the heart, docs/UI.md §7.2). */
+export function refillShare(h: Hearts & { clock?: number | null }, now = Date.now()): number {
+  if (h.fullAt === null) return 0;
+  return Math.min(1, Math.max(0, 1 - (h.fullAt - now) / HEART_REFILL_MS));
+}
+
+/**
+ * Gems earned (docs/UI.md §7.2): a bonus side lesson pays its gems on the
+ * first finish (DESIGN-REVIEW). The rest of the earning comes in LOOP-DAILY.
+ */
+export function earnGems(n: number): void {
+  if (n > 0) publish({ ...progress, gems: progress.gems + n });
 }
 
 /** Test builds only (docs/UI.md §11.5): gems to see the top bar with, until they are earned. */
@@ -281,7 +484,7 @@ export function refillHearts(): void {
   publish({ ...progress, hearts: MAX_HEARTS, heartsAt: null });
 }
 
-/** A wrong answer (§5.2). A heart already on its way back keeps its place in the queue. */
+/** A wrong answer in a test (§5.2). A clock already running keeps running; it does not restart. */
 export function loseHeart(): void {
   const now = Date.now();
   const { hearts, clock } = heartsNow(progress, now);
@@ -289,21 +492,35 @@ export function loseHeart(): void {
   publish({ ...progress, hearts: hearts - 1, heartsAt: clock ?? now });
 }
 
+/** A finished practice round gives a heart back (docs/UI.md §5.2, §7.3). True if one was missing. */
+export function giveHeart(): boolean {
+  const now = Date.now();
+  const { hearts, clock } = heartsNow(progress, now);
+  if (hearts >= MAX_HEARTS) return false;
+  const next = hearts + 1;
+  publish({
+    ...progress,
+    hearts: next,
+    heartsAt: next >= MAX_HEARTS ? null : (clock ?? now),
+  });
+  return true;
+}
+
 /**
- * The hearts, kept current on screen: it re-renders when the next heart is
- * back, and once a minute in between so a countdown beside them moves.
+ * The hearts, kept current on screen: it re-renders when they are all back,
+ * and once a minute in between so the ring and a countdown move.
  */
 export function useHearts(): Hearts {
   const p = useProgress();
   const [tick, setTick] = useState(0);
-  const { hearts, nextAt } = heartsNow(p);
+  const { hearts, fullAt } = heartsNow(p);
   useEffect(() => {
-    if (nextAt === null) return;
-    const wait = Math.min(60_000, Math.max(1_000, nextAt - Date.now() + 50));
+    if (fullAt === null) return;
+    const wait = Math.min(60_000, Math.max(1_000, fullAt - Date.now() + 50));
     const t = setTimeout(() => setTick((n) => n + 1), wait);
     return () => clearTimeout(t);
-  }, [nextAt, tick]);
-  return { hearts, nextAt };
+  }, [fullAt, tick]);
+  return { hearts, fullAt };
 }
 
 /** "3h 59m", "12m", "under a minute": how long until `at`. */
@@ -364,6 +581,15 @@ export function loadSaved({
     ]);
     if (savedProgress) {
       progress = { ...fresh(), ...savedProgress };
+      // Saved before the first trade existed (DESIGN-REVIEW): someone already
+      // on the path does not get the first-run screen in the middle of it.
+      if (typeof savedProgress.firstTrade !== 'boolean') {
+        progress.firstTrade = Object.keys(progress.done).length > 0;
+      }
+      // Saved before the longest streak was kept: the current one is the best known.
+      if (typeof savedProgress.bestStreak !== 'number') {
+        progress.bestStreak = progress.streak.days;
+      }
       // Saved before hearts could be lost in a lesson: start the clock now.
       if (progress.hearts < MAX_HEARTS && progress.heartsAt === null)
         progress.heartsAt = Date.now();

@@ -17,7 +17,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { colors, radius, space, type, themed } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
-import { DAILY_GOAL, doneToday, earnedXp, useProgress } from '../progress';
+import { DAILY_GOAL, doneToday, earnedXp, MAX_HEARTS, useHearts, useProgress } from '../progress';
 import Confetti from './Confetti';
 import { celebrateFeedback, coinFeedback, noteFeedback } from './feedback';
 import { emitMood, surfaceStyle, useLookSpec } from './look';
@@ -43,8 +43,10 @@ const COIN_GAP_MS = 55;
  *   2. The accuracy ring sweeps round, and every eighth of a circle it passes
  *      rings the next note up the scale, with a tick you feel -- the ring is a
  *      rising arpeggio you can watch.
- *   3. It closes on a chord and a heavy pulse, swells, throws two rings of
- *      light and a burst of confetti. A perfect run is gold and throws more.
+ *   3. It closes on a chord and a heavy pulse, swells and throws two rings of
+ *      light. Only a perfect run turns gold and throws confetti (docs/UI.md
+ *      §5.3; built so in DESIGN-REVIEW: a 7 of 8 threw it too), from behind
+ *      the ring and within its band, never across the words or the numbers.
  *   4. The XP counts up out of the ring, a coin a step.
  *   5. The breakdown settles in underneath, silently: the show is over.
  *
@@ -57,6 +59,8 @@ export default function LessonComplete({
   levelTitle,
   xp,
   daily = false,
+  practice = false,
+  gems = 0,
 }: {
   screens: Screen[];
   grades: (Grade | null)[];
@@ -64,7 +68,15 @@ export default function LessonComplete({
   xp: number;
   /** The lesson counts towards the daily goal: the summary says how far today has got. */
   daily?: boolean;
+  /**
+   * A practice round (docs/UI.md §7.3): no XP; the ring holds the answers
+   * right, and a row says where the hearts stand -- a finished round gives one back.
+   */
+  practice?: boolean;
+  /** A bonus lesson's gems (docs/UI.md §7.1). */
+  gems?: number;
 }) {
+  const hearts = useHearts().hearts;
   const m = useMotion();
   // docs/UI.md §7.2: "Today 1/2" -- the goal left the top bar in LOOK-SYSTEM.
   const today = Math.min(doneToday(useProgress()), DAILY_GOAL);
@@ -189,19 +201,19 @@ export default function LessonComplete({
         setWrap({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })
       }
     >
-      {landed && !m.reduced ? (
-        <Confetti
-          width={wrap.w || width}
-          height={wrap.h || 640}
-          pieces={perfect ? 64 : 30}
-          gold={perfect}
-          originY={wrap.h && ringY ? ringY / wrap.h : 0.4}
-        />
+      {/* The ring's band, behind everything: the confetti stays inside it. */}
+      {landed && !m.reduced && perfect && !practice ? (
+        <View
+          pointerEvents="none"
+          style={[styles.confettiBand, { top: ringY - RING / 2 - 24, height: RING + 48 }]}
+        >
+          <Confetti width={wrap.w || width} height={RING + 48} pieces={56} gold originY={0.5} />
+        </View>
       ) : null}
 
       <Animated.View style={[styles.textBlock, titleStyle]}>
         <Text style={[styles.kicker, { color: tone }]}>
-          {perfect ? 'Perfect run' : 'Lesson done'}
+          {practice ? 'Round complete' : perfect ? 'Perfect run' : 'Lesson done'}
         </Text>
         <Text style={styles.title}>{levelTitle}</Text>
       </Animated.View>
@@ -240,16 +252,29 @@ export default function LessonComplete({
             />
           </Svg>
           <Animated.View style={[styles.ringCenter, xpStyle]}>
-            <Text style={styles.xp}>{`+${shownXp}`}</Text>
-            <Text style={styles.xpLabel}>XP</Text>
+            {practice ? (
+              <>
+                <Text style={styles.xp}>{`${clean}/${total}`}</Text>
+                <Text style={styles.xpLabel}>RIGHT</Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.xp}>{`+${shownXp}`}</Text>
+                <Text style={styles.xpLabel}>XP</Text>
+              </>
+            )}
           </Animated.View>
         </Animated.View>
       </View>
 
       <Animated.View style={[styles.rows, surfaceStyle(spec), rowsStyle]}>
-        <Row label="Lesson" value={`+${xp} XP`} />
-        {bonus > 0 ? <Row label="Perfect bonus" value={`+${bonus} XP`} accent /> : null}
+        {practice ? null : <Row label="Lesson" value={`+${xp} XP`} />}
+        {bonus > 0 && !practice ? (
+          <Row label="Perfect bonus" value={`+${bonus} XP`} accent />
+        ) : null}
         <Row label="Answers" value={`${clean} of ${total}`} accent={accuracy === 1} />
+        {gems > 0 ? <Row label="Gems" value={`+${gems}`} /> : null}
+        {practice ? <Row label="Hearts" value={`${hearts}/${MAX_HEARTS}`} /> : null}
         {daily ? (
           <Row label="Today" value={`${today}/${DAILY_GOAL}`} accent={today >= DAILY_GOAL} />
         ) : null}
@@ -289,6 +314,7 @@ function Row({ label, value, accent }: { label: string; value: string; accent?: 
 
 const styles = themed(() => ({
   wrap: { alignItems: 'center', gap: space.xl },
+  confettiBand: { position: 'absolute', left: 0, right: 0, overflow: 'hidden' },
   textBlock: { alignItems: 'center', gap: space.xs },
   kicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.6 },
   title: { ...type.title, color: colors.text, textAlign: 'center' },

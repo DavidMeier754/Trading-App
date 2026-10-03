@@ -104,6 +104,11 @@ export function matchHitFeedback(n: number): void {
   cue(`pop${Math.max(0, Math.min(3, n))}` as CueName);
 }
 
+/** The last pair locking in: the board is done, and a wave runs across it (docs/UI.md §4.1). */
+export function matchBoardFeedback(): void {
+  cue('board');
+}
+
 /** A pair bouncing back in `match`. */
 export function matchMissFeedback(): void {
   cue('miss');

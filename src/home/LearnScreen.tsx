@@ -546,10 +546,10 @@ function Hud({
         accessible
         style={[styles.hudItem, styles.hudEnd]}
         accessibilityLabel={`${hearts.hearts} hearts${
-          hearts.nextAt ? `, the next one back in ${waitText(hearts.nextAt)}` : ''
+          hearts.fullAt ? `, all back in ${waitText(hearts.fullAt)}` : ''
         }`}
       >
-        {hearts.nextAt ? <Text style={styles.hudWait}>{waitText(hearts.nextAt)}</Text> : null}
+        {hearts.fullAt ? <Text style={styles.hudWait}>{waitText(hearts.fullAt)}</Text> : null}
         <Icon name="heart" size={22} color={heart} filled={hearts.hearts > 0} />
         <Text style={[styles.hudValue, { color: heart }]}>{hearts.hearts}</Text>
       </View>
@@ -1218,15 +1218,15 @@ function LevelCard({
         : colors.warning;
   const pathName = PATHS.find((p) => p.id === chosen)?.name;
 
-  // docs/UI.md §5.2: with no hearts left a lesson or test cannot start; the
-  // button says when it can instead. Choosing a path costs nothing.
-  const empty = hearts.hearts === 0 && kind !== 'path';
+  // docs/UI.md §5.2: with no hearts left a test cannot start; the button says
+  // when it can instead. Lessons and the path choice never cost a heart.
+  const empty = hearts.hearts === 0 && (kind === 'test' || kind === 'final');
   const press = usePressFeedback(!locked && !empty, { cue: 'advance' });
   // Fewer words (David, stage LOOK-BRIEF): the key says what it does, and the
   // line above it where the level stands.
   const label = empty
-    ? hearts.nextAt
-      ? `Next heart in ${waitText(hearts.nextAt)}`
+    ? hearts.fullAt
+      ? `Hearts back in ${waitText(hearts.fullAt)}`
       : 'Out of hearts'
     : kind === 'path'
       ? complete

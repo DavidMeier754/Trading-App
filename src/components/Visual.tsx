@@ -18,6 +18,7 @@ import SessionRibbon from './data/SessionRibbon';
 import DrawOnChart from './DrawOnChart';
 import MiniChart from './MiniChart';
 import QuoteCard from './QuoteCard';
+import DecisionGrid, { cellOf, type DecisionCellName } from '../lesson/DecisionGrid';
 
 /**
  * Renders a component id from docs/UI.md §6 with its `data` / `visual_data`.
@@ -56,6 +57,19 @@ export default function Visual({
   // chart ignored the grid was the most visible half of "sometimes aligned".
   const grid = useGridAnchor(component);
   const savedPlan = React.useContext(PlanValues);
+
+  // docs/UI.md §6.8 [DESIGN-REVIEW]: decision against result, each cell named.
+  // Its one field is optional, so it draws without any data at all.
+  if (component === 'decision-grid') {
+    return (
+      <View style={styles.centred}>
+        <DecisionGrid
+          size="large"
+          cell={data?.cell ? cellOf(data.cell as DecisionCellName) : undefined}
+        />
+      </View>
+    );
+  }
 
   if (!data) return null;
 
@@ -118,6 +132,7 @@ export default function Visual({
       return <RTracker data={data as any} />;
     case 'plan-sheet':
       return <PlanSheet data={data as any} values={planValues ?? savedPlan} />;
+
     case 'chart-line':
     case 'chart-candles': {
       if (component === 'chart-line' && Array.isArray(data.series)) {
@@ -195,6 +210,7 @@ function SeriesPair({
 }
 
 const styles = themed(() => ({
+  centred: { alignItems: 'center' },
   chartBox: { alignSelf: 'center' },
   seriesRow: { flexDirection: 'row', gap: space.sm, alignSelf: 'stretch' },
   seriesCard: { flex: 1, gap: 4, alignItems: 'center' },

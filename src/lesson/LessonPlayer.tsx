@@ -80,9 +80,41 @@ import { emitMood, useLookSpec } from './look';
 import { preloadCues } from './sound';
 import HeartMeter from './HeartMeter';
 import OutOfHearts from './OutOfHearts';
-import { getProgress, heartsNow, loseHeart, savePlan } from '../progress';
+import {
+  collectSkills,
+  getProgress,
+  heartsNow,
+  loseHeart,
+  questionKey,
+  recordAnswer,
+  recordDecision,
+  savePlan,
+} from '../progress';
+import { knowsR, markableTerms, markPlan, skillsOf, type Skill } from '../skills';
+import { LESSONS } from '../content';
+import { answerSummary, questionLine } from './answerSummary';
+import { DecisionSpace, LessonContext } from './lessonContext';
+import MistakesDeck, { DEAL_MS, type DeckItem } from './MistakesDeck';
+import SkillsLearned from './SkillsLearned';
+import { TermSheet, TermsContext } from './terms';
 import StreakMeter from './StreakMeter';
 import { VerdictProvider } from './verdict';
+
+/** A screen the player adds after a lesson's own (DESIGN-REVIEW): the deck, the skills. */
+type DeckScreen = { type: 'mistakes-deck'; items: DeckItem[] };
+type SkillsScreen = { type: 'skills-learned'; skills: Skill[] };
+type PlayerScreen = Screen | DeckScreen | SkillsScreen;
+
+/** What the player is playing: a node of the path, or a round made in code. */
+export type PlayerKind = NodeKind | 'practice' | 'bonus';
+
+/** A second press within 90 ms of the last is the same tap fired twice. */
+function doubleFire(last: { current: number }): boolean {
+  const now = Date.now();
+  if (now - last.current < 90) return true;
+  last.current = now;
+  return false;
+}
 
 export default function LessonPlayer({
   level,
@@ -94,6 +126,8 @@ export default function LessonPlayer({
   kind = 'lesson',
   onChoosePath,
   initialPath = null,
+  lessonId,
+  sourceKeys,
 }: {
   level: Level;
   contentWidth: number;
@@ -103,8 +137,21 @@ export default function LessonPlayer({
    * The sub-level reached its summary: it counts as finished from there, so
    * leaving by the ✕ on the summary still keeps it. Given this, the summary's
    * button goes back to the path instead of playing the lesson again.
+   * `skills` are the ones collected for the first time (docs/UI.md §5.3).
    */
-  onComplete?: (result: { perfect: boolean }) => void;
+  onComplete?: (result: {
+    perfect: boolean;
+    skills: string[];
+    right: number;
+    asked: number;
+  }) => void;
+  /** The lesson's id on the path (content.ts): what the record keys its questions by. */
+  lessonId?: string;
+  /**
+   * A practice round's screens come from many lessons: each one's question
+   * key in the record (progress.ts), or null for a screen that is not graded.
+   */
+  sourceKeys?: (string | null)[];
   /** Open on this screen instead of the first (the test bench's deep links). */
   startAt?: number;
   /**
@@ -117,7 +164,7 @@ export default function LessonPlayer({
    * scored at its `summary` screen: a pass counts it, a miss offers a retry
    * and counts nothing. The path choice ends the moment a path is picked.
    */
-  kind?: NodeKind;
+  kind?: PlayerKind;
   /** The path choice was made (kind `path`). */
   onChoosePath?: (path: TradingPath) => void;
   /** The path already chosen, pre-selected when the choice is made again. */
@@ -125,21 +172,37 @@ export default function LessonPlayer({
 }) {
   const insets = useSafeAreaInsets();
   const scored = kind === 'test' || kind === 'final';
+  const lessonEntry = useMemo(
+    () => (lessonId ? LESSONS.find((e) => e.id === lessonId) : undefined),
+    [lessonId],
+  );
   const [runKey, setRunKey] = useState(0);
   // Every list of choices is dealt afresh each run (lesson/shuffle.ts), and the
   // dealt screens are the ones shown and graded.
   const [deckSeed] = useState(() => Math.floor(Math.random() * 2 ** 31));
-  const screens = useMemo(
+  const base = useMemo(
     () => level.screens.map((s, i) => dealScreen(s, deckSeed + runKey * 7919 + i * 104729)),
     [level.screens, deckSeed, runKey],
   );
+  const mainLen = base.length;
+  // docs/UI.md §4.5 and §5.3 [DESIGN-REVIEW]: after a lesson's own screens,
+  // the mistakes round (opened by its deck) and the skills it taught. Built
+  // when the last screen is passed; `tailFrom` maps each added question back
+  // to the screen it repeats (-1 for the deck, a scene, the skills).
+  const [tail, setTail] = useState<{ screens: PlayerScreen[]; from: number[] } | null>(null);
+  const screens: PlayerScreen[] = useMemo(
+    () => (tail ? [...base, ...tail.screens] : base),
+    [base, tail],
+  );
 
-  const [index, setIndex] = useState(() => Math.max(0, Math.min(startAt, screens.length - 1)));
-  const [values, setValues] = useState<(AnswerValue | null)[]>(() => screens.map(emptyValue));
-  const [revealed, setRevealed] = useState<boolean[]>(() => screens.map(() => false));
-  const [grades, setGrades] = useState<(Grade | null)[]>(() => screens.map(() => null));
+  const [index, setIndex] = useState(() => Math.max(0, Math.min(startAt, base.length - 1)));
+  const [values, setValues] = useState<(AnswerValue | null)[]>(() => base.map(emptyValue));
+  const [revealed, setRevealed] = useState<boolean[]>(() => base.map(() => false));
+  const [grades, setGrades] = useState<(Grade | null)[]>(() => base.map(() => null));
   // The run of right answers each reveal ended on (feedback.ts, streakAfter).
-  const [streaks, setStreaks] = useState<number[]>(() => screens.map(() => 0));
+  const [streaks, setStreaks] = useState<number[]>(() => base.map(() => 0));
+  // The round's deck gathers before its first card is dealt.
+  const [dealing, setDealing] = useState(false);
   // A trade call's phase belongs to the screen that reported it. Kept with its
   // index, so a second chart-decision straight after a first never inherits the
   // first one's 'done' -- which revealed it, graded wrong, before any choice.
@@ -148,11 +211,16 @@ export default function LessonPlayer({
     phase: 'deciding',
   });
   const [quitOpen, setQuitOpen] = useState(false);
-  // docs/UI.md §5.2: a wrong answer costs a heart, and a lesson stops once the
-  // last one is gone. The test bench is not on the path and spends none.
-  // The path-choice lesson costs no hearts: a wrong guess about which style
-  // holds overnight should never stand between the learner and their path.
-  const spendsHearts = !testBench && kind !== 'path';
+  // Where a chart decision's chart ends, once its call is made (DecisionSpace).
+  const [chartBottom, setChartBottom] = useState<number | null>(null);
+  // docs/UI.md §8: the sheet of a marked term, open over the screen.
+  const [termOpen, setTermOpen] = useState<string | null>(null);
+  const closeTerm = useCallback(() => setTermOpen(null), []);
+  // docs/UI.md §5.2 [v4, built in DESIGN-REVIEW]: hearts are spent only in
+  // Checkpoints and Final Exams, and a test stops once the last one is gone.
+  // Lessons, practice and the path choice never cost one -- a lesson's
+  // mistakes come back in its mistakes round instead (§4.5).
+  const spendsHearts = !testBench && (kind === 'test' || kind === 'final');
   const [outOfHearts, setOutOfHearts] = useState(
     () => spendsHearts && heartsNow(getProgress()).hearts === 0,
   );
@@ -223,18 +291,31 @@ export default function LessonPlayer({
   }, []);
 
   const atSummary = index >= screens.length;
+  // The lesson's own answers decide perfect: the mistakes round does not
+  // (docs/UI.md §4.5: a lesson with a round is finished, not perfect).
+  const mainGrades = grades.slice(0, mainLen);
+  const answeredMain = mainGrades.filter((g) => g !== null);
+  const perfectRun = answeredMain.length > 0 && answeredMain.every((g) => g === 'correct');
   // Reported once per run, the moment the summary is reached (docs/UI.md
-  // §5.3). Perfect is the summary's own rule: every graded answer right.
+  // §5.3). The lesson's skills are collected then, and the new ones reported
+  // for the flight into Practice.
   const reported = useRef(-1);
   useEffect(() => {
     // Scored levels and the path choice report on their own terms (onCta).
-    if (kind !== 'lesson') return;
+    if (kind !== 'lesson' && kind !== 'practice' && kind !== 'bonus') return;
     if (!atSummary || !onComplete || reported.current === runKey) return;
     reported.current = runKey;
-    const answered = grades.filter((g) => g !== null);
-    onComplete({ perfect: answered.length > 0 && answered.every((g) => g === 'correct') });
-  }, [atSummary, onComplete, runKey, grades, kind]);
-  const screen = atSummary ? null : screens[index];
+    const fresh =
+      kind === 'lesson' && lessonEntry ? collectSkills(skillsOf(lessonEntry).map((s) => s.id)) : [];
+    onComplete({
+      perfect: perfectRun,
+      skills: fresh,
+      right: answeredMain.filter((g) => g !== 'wrong').length,
+      asked: answeredMain.length,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [atSummary, onComplete, runKey, kind]);
+  const screen = atSummary ? null : (screens[index] as Screen);
   const decisionPhase: DecisionPhase = phaseAt.index === index ? phaseAt.phase : 'deciding';
   const setDecisionPhase = useCallback(
     (phase: DecisionPhase) => setPhaseAt({ index, phase }),
@@ -246,10 +327,12 @@ export default function LessonPlayer({
 
   const reset = useCallback(() => {
     setIndex(0);
-    setValues(screens.map(emptyValue));
-    setRevealed(screens.map(() => false));
-    setGrades(screens.map(() => null));
-    setStreaks(screens.map(() => 0));
+    setTail(null);
+    setDealing(false);
+    setValues(base.map(emptyValue));
+    setRevealed(base.map(() => false));
+    setGrades(base.map(() => null));
+    setStreaks(base.map(() => 0));
     setPhaseAt({ index: -1, phase: 'deciding' });
     setCursor(0);
     setPlan({ ...getProgress().plan });
@@ -261,7 +344,8 @@ export default function LessonPlayer({
     fade.set(1);
     slide.set(0);
     lastAdvance.current = 0;
-  }, [screens, fade, slide]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [base, fade, slide]);
 
   const doReveal = useCallback(() => {
     if (!screen || !isQuestion(screen) || !value) return;
@@ -278,6 +362,25 @@ export default function LessonPlayer({
     emitMood(g === 'correct' ? (streak >= STREAK_FROM ? 'streak' : 'correct') : g, streak);
     // The heart goes with the verdict, in the same frame (HeartMeter).
     if (g === 'wrong' && spendsHearts) loseHeart();
+    // docs/UI.md §7.3: the record behind practice and the stats. The test
+    // bench and the lessons made in code keep none.
+    const key = keyOf(index);
+    if (key) {
+      recordAnswer(key, g, answerSummary(screen as QuestionScreen, value), {
+        keepMistake: index >= mainLen,
+      });
+      if (screen.type === 'chart-decision' && value.kind === 'decision' && value.choice) {
+        const r = decisionReveal(screen, value.choice, g);
+        recordDecision({
+          q: key,
+          choice: value.choice,
+          grade: g,
+          result: r.pnl > 0 ? 'won' : r.pnl < 0 ? 'lost' : 'flat',
+          aside: r.stoodAside,
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen, value, index, grades, spendsHearts]);
 
   // Types that commit on the tap itself reveal as soon as an answer exists, with
@@ -325,11 +428,77 @@ export default function LessonPlayer({
     // Only swallow a true double-fire. This used to block for the whole length
     // of the transition, which ate deliberate fast taps and made the CTA feel
     // like it needed pressing twice.
-    const now = Date.now();
-    if (now - lastAdvance.current < 90) return;
-    lastAdvance.current = now;
+    if (doubleFire(lastAdvance)) return;
     direction.current = 1;
+    // Past a lesson's last screen: its mistakes round and its skills, if any.
+    if (index === mainLen - 1 && tail === null && kind === 'lesson' && !testBench) {
+      const added = buildTail();
+      setTail(added);
+      if (added.screens.length) {
+        const blank = added.screens.map(() => null);
+        setValues((prev) => [...prev, ...added.screens.map((s) => emptyValue(s as Screen))]);
+        setRevealed((prev) => [...prev, ...added.screens.map(() => false)]);
+        setGrades((prev) => [...prev, ...blank]);
+        setStreaks((prev) => [...prev, ...added.screens.map(() => 0)]);
+      }
+    }
     setIndex((i) => i + 1);
+  };
+
+  /**
+   * docs/UI.md §4.5: every question answered wrong comes back once, in a new
+   * order and dealt afresh, opened by the deck; a question that followed a
+   * scene brings the scene. Then §5.3: the skills this lesson taught that the
+   * learner did not have yet.
+   */
+  const buildTail = (): { screens: PlayerScreen[]; from: number[] } => {
+    const out: PlayerScreen[] = [];
+    const from: number[] = [];
+    const missed = base
+      .map((s, i) => ({ s, i }))
+      .filter(({ s, i }) => isQuestion(s) && grades[i] === 'wrong');
+    if (missed.length) {
+      out.push({
+        type: 'mistakes-deck',
+        items: missed.map(({ s, i }) => ({
+          line: questionLine(s),
+          answer: answerSummary(s as QuestionScreen, values[i]),
+        })),
+      });
+      from.push(-1);
+      // A new order: the round's own shuffle, seeded by the run.
+      const order = [...missed].sort(
+        (a, b) =>
+          ((a.i * 7919 + runKey * 31 + deckSeed) % 97) -
+          ((b.i * 7919 + runKey * 31 + deckSeed) % 97),
+      );
+      for (const { i } of order) {
+        const before = level.screens[i - 1];
+        if (before?.type === 'story') {
+          out.push(before);
+          from.push(-1);
+        }
+        out.push(dealScreen(level.screens[i], deckSeed + runKey * 7919 + i * 104729 + 15485863));
+        from.push(i);
+      }
+    }
+    const learned = lessonEntry
+      ? skillsOf(lessonEntry).filter((sk) => !getProgress().skills[sk.id])
+      : [];
+    if (learned.length) {
+      out.push({ type: 'skills-learned', skills: learned });
+      from.push(-1);
+    }
+    return { screens: out, from };
+  };
+
+  /** The record's key for the question on screen `i`, or null where none is kept. */
+  const keyOf = (i: number): string | null => {
+    if (testBench) return null;
+    const at = i < mainLen ? i : (tail?.from[i - mainLen] ?? -1);
+    if (at < 0) return null;
+    if (sourceKeys) return sourceKeys[at] ?? null;
+    return lessonId ? questionKey(lessonId, at) : null;
   };
 
   // Back, on a test level only (docs/UI.md §2 keeps it out of lessons): a card
@@ -349,7 +518,7 @@ export default function LessonPlayer({
   };
 
   // A test's score, for its summary screen's button (Summary.tsx).
-  const score = useMemo(() => scoreOf(screens, grades), [screens, grades]);
+  const score = useMemo(() => scoreOf(screens as Screen[], grades), [screens, grades]);
   const failedTest = scored && screen?.type === 'summary' && !score.passed;
   const pathName = PATHS.find((p) => p.id === pathChoice)?.name;
 
@@ -361,6 +530,7 @@ export default function LessonPlayer({
     if (kind === 'path' && screen.type === 'path-choice') {
       return pathName ? `Start ${pathName}` : 'Pick a path';
     }
+    if ((screen as PlayerScreen).type === 'mistakes-deck') return 'Start the round';
     if (screen.type === 'checklist-reveal' && cursor < screen.items.length) {
       return cursor === 0 ? 'Start the list' : 'Next item';
     }
@@ -447,6 +617,20 @@ export default function LessonPlayer({
       else reset();
       return;
     }
+    // The deck gathers and shuffles once, then the round's first card comes.
+    if ((screen as PlayerScreen).type === 'mistakes-deck') {
+      if (dealing) return;
+      tapFeedback();
+      setDealing(true);
+      setTimeout(
+        () => {
+          setDealing(false);
+          advance();
+        },
+        m.reduced ? 0 : DEAL_MS,
+      );
+      return;
+    }
     // A multi-step screen walks its own cursor first; only the last step moves on.
     const steps = stepCount(screen);
     if (steps > 1 && cursor < steps - 1) {
@@ -479,7 +663,14 @@ export default function LessonPlayer({
     // A passed test ends on its last screen -- the summary, or the badge after
     // a Final Exam -- and goes back to the path, where the next level opens.
     if (scored && isLast) {
-      if (score.passed) onComplete?.({ perfect: score.perfect });
+      if (score.passed) {
+        onComplete?.({
+          perfect: score.perfect,
+          skills: [],
+          right: score.counted,
+          asked: score.total,
+        });
+      }
       leave();
       return;
     }
@@ -499,20 +690,55 @@ export default function LessonPlayer({
 
   // docs/UI.md §5.1b: a chart decision's reveal is worked out from the button
   // actually pressed, so its first line always speaks to that choice.
+  const lessonInfo = useMemo(
+    () => ({ lessonId: lessonId ?? null, everything: testBench }),
+    [lessonId, testBench],
+  );
+  // docs/UI.md §6.4: R joins the result line once the lesson that teaches it is behind.
+  const showR = testBench || knowsR(lessonId ?? null, getProgress().done);
   const decision = useMemo(() => {
     if (!screen || screen.type !== 'chart-decision' || !g) return undefined;
     if (value?.kind !== 'decision' || !value.choice) return undefined;
-    return decisionReveal(screen, value.choice, g);
-  }, [screen, g, value]);
+    return decisionReveal(screen, value.choice, g, { showR });
+  }, [screen, g, value, showR]);
+
+  // docs/UI.md §8 [DESIGN-REVIEW]: which terms each screen marks, worked out
+  // once per run: terms of lessons played, a term's first appearance only, two
+  // on a screen at most.
+  const termPlan = useMemo(
+    () =>
+      testBench
+        ? []
+        : markPlan(screens as Screen[], markableTerms(lessonId ?? null, getProgress().done)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [screens, testBench, lessonId],
+  );
+
+  // The room under a decided chart, from its bottom to the key: the reveal
+  // fills it when it holds the tallest reveal this screen can have.
+  const [areaH, setAreaH] = useState(0);
+  const fillsUnderChart =
+    !!screen &&
+    screen.type === 'chart-decision' &&
+    chartBottom !== null &&
+    areaH > 0 &&
+    areaH - chartBottom - space.sm >= probeH - 2;
 
   const working =
     screen && (screen.type === 'numeric-mc' || screen.type === 'numeric-input')
       ? screen.working
       : undefined;
 
-  const progress = atSummary
-    ? 1
-    : (index + (stepCount(screen) > 1 ? cursor / stepCount(screen) : 0)) / screens.length;
+  // The lesson's own screens fill the bar; the round after them keeps it full
+  // and counts itself beside it ("Fix 1/2").
+  const inTail = !atSummary && index >= mainLen;
+  const roundAt =
+    inTail && tail ? tail.from.slice(0, index - mainLen + 1).filter((f) => f >= 0).length : 0;
+  const roundOf = tail ? tail.from.filter((f) => f >= 0).length : 0;
+  const progress =
+    atSummary || inTail
+      ? 1
+      : (index + (stepCount(screen) > 1 ? cursor / stepCount(screen) : 0)) / mainLen;
 
   return (
     <Animated.View style={[styles.root, exitStyle]}>
@@ -530,12 +756,17 @@ export default function LessonPlayer({
             <Text style={styles.backText}>{'‹'}</Text>
           </Pressable>
         ) : null}
-        <ProgressBar progress={progress} steps={screens.length} hot={onRun} />
+        <ProgressBar progress={progress} steps={mainLen} hot={onRun} />
         {/* docs/UI.md §2: the step count beside the bar, in the number face
-            (Precise, stage LOOK-BRIEF). */}
-        {!atSummary ? (
-          <Text style={styles.page} accessibilityLabel={`Step ${index + 1} of ${screens.length}`}>
-            {`${index + 1}/${screens.length}`}
+            (Precise, stage LOOK-BRIEF). In the mistakes round it counts the
+            round instead. */}
+        {!atSummary && !inTail ? (
+          <Text style={styles.page} accessibilityLabel={`Step ${index + 1} of ${mainLen}`}>
+            {`${index + 1}/${mainLen}`}
+          </Text>
+        ) : inTail && roundAt > 0 ? (
+          <Text style={styles.page} accessibilityLabel={`Mistake ${roundAt} of ${roundOf}`}>
+            {`Fix ${roundAt}/${roundOf}`}
           </Text>
         ) : null}
         {/* The run of right answers, in the looks that count it: a fixed slot,
@@ -553,7 +784,10 @@ export default function LessonPlayer({
           incoming screen stays at the outgoing screen's last value. The keyed
           content area inside gives each screen fresh component state; the
           wrapper around it stays put. */}
-      <Animated.View style={[styles.scroll, screenStyle]}>
+      <Animated.View
+        style={[styles.scroll, screenStyle]}
+        onLayout={(e) => setAreaH(e.nativeEvent.layout.height)}
+      >
         {/* docs/UI.md §2: a screen is one screenful. One that does not fit --
             a short window, a long reveal, type past 130% -- is scaled down to
             85 % at most, and scrolls past that (lesson/fit.tsx). */}
@@ -568,42 +802,60 @@ export default function LessonPlayer({
           revealed={isRevealed}
         >
           <VerdictProvider value={verdict}>
-            {/* The learner's plan, for every plan-sheet on any screen (review M1). */}
-            <PlanValues.Provider value={plan}>
-              {outOfHearts ? (
-                <OutOfHearts />
-              ) : atSummary ? (
-                <LessonComplete
-                  screens={screens}
-                  grades={grades}
-                  levelTitle={level.title}
-                  xp={level.xp}
-                  daily={!testBench && !!onComplete}
-                />
-              ) : (
-                renderScreen({
-                  screen: screen as Screen,
-                  value: value as AnswerValue,
-                  setValue,
-                  isRevealed,
-                  contentWidth,
-                  level,
-                  onPhaseChange: setDecisionPhase,
-                  cursor,
-                  setCursor,
-                  plan,
-                  setPlanValue: (key, v) => {
-                    setPlan((prev) => ({ ...prev, [key]: v }));
-                    if (spendsHearts) savePlan({ [key]: v });
-                  },
-                  pathChoice,
-                  setPathChoice,
-                  onSettled,
-                  allScreens: screens,
-                  grades,
-                })
-              )}
-            </PlanValues.Provider>
+            {/* Which lesson this is, and the terms this screen marks (DESIGN-REVIEW). */}
+            <LessonContext.Provider value={lessonInfo}>
+              <DecisionSpace.Provider value={setChartBottom}>
+                <TermsContext.Provider value={{ ids: termPlan[index] ?? [], onOpen: setTermOpen }}>
+                  {/* The learner's plan, for every plan-sheet on any screen (review M1). */}
+                  <PlanValues.Provider value={plan}>
+                    {outOfHearts ? (
+                      <OutOfHearts />
+                    ) : atSummary ? (
+                      <LessonComplete
+                        screens={base}
+                        grades={mainGrades}
+                        levelTitle={level.title}
+                        xp={kind === 'practice' ? 0 : level.xp}
+                        daily={!testBench && !!onComplete && kind === 'lesson'}
+                        practice={kind === 'practice'}
+                        gems={kind === 'bonus' ? (level.gems ?? 0) : 0}
+                      />
+                    ) : (screen as PlayerScreen).type === 'mistakes-deck' ? (
+                      <MistakesDeck
+                        items={(screen as unknown as DeckScreen).items}
+                        dealing={dealing}
+                      />
+                    ) : (screen as PlayerScreen).type === 'skills-learned' ? (
+                      <SkillsLearned skills={(screen as unknown as SkillsScreen).skills} />
+                    ) : (
+                      renderScreen({
+                        screen: screen as Screen,
+                        value: value as AnswerValue,
+                        setValue,
+                        isRevealed,
+                        contentWidth,
+                        level,
+                        onPhaseChange: setDecisionPhase,
+                        cursor,
+                        setCursor,
+                        plan,
+                        setPlanValue: (key, v) => {
+                          setPlan((prev) => ({ ...prev, [key]: v }));
+                          // The plan is kept from every lesson on the path; the test
+                          // bench and the path choice only show it.
+                          if (!testBench && kind !== 'path') savePlan({ [key]: v });
+                        },
+                        pathChoice,
+                        setPathChoice,
+                        onSettled,
+                        allScreens: screens as Screen[],
+                        grades,
+                      })
+                    )}
+                  </PlanValues.Provider>
+                </TermsContext.Provider>
+              </DecisionSpace.Provider>
+            </LessonContext.Provider>
           </VerdictProvider>
         </FitScreen>
         {/* docs/UI.md §2: the reveal lies over a strip the screen kept free for
@@ -621,19 +873,29 @@ export default function LessonPlayer({
               explanation={probeExplanation(screen)}
               working={!!working}
               decision={
-                screen.type === 'chart-decision' ? longestDecisionReveal(screen) : undefined
+                screen.type === 'chart-decision'
+                  ? longestDecisionReveal(screen, { showR })
+                  : undefined
               }
               onHeight={setProbeH}
             />
           </View>
         ) : null}
         {!outOfHearts && screen && isQuestion(screen) && isRevealed && g ? (
-          <View style={styles.revealSlot}>
-            <View style={styles.revealGround}>
+          <View
+            style={[
+              styles.revealSlot,
+              // A chart decision's reveal fills the room under its chart, so
+              // chart and verdict fill the screen together (DecisionSpace).
+              fillsUnderChart ? { top: (chartBottom as number) + space.sm } : null,
+            ]}
+          >
+            <View style={[styles.revealGround, fillsUnderChart ? styles.revealFill : null]}>
               <Reveal
                 grade={g}
                 lead={decision?.lead}
                 decision={decision}
+                fill={fillsUnderChart}
                 explanation={
                   // A branch's reveals live on its steps (docs/schema.md); the panel
                   // gives the one that matters most for the path taken.
@@ -683,6 +945,8 @@ export default function LessonPlayer({
           </Pressable>
         ) : null}
       </View>
+
+      <TermSheet skillId={termOpen} onClose={closeTerm} />
 
       <QuitSheet
         visible={quitOpen}
@@ -904,14 +1168,16 @@ const styles = themed(() => ({
     borderTopColor: colors.border,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  // At the bottom of the content area, just above the footer.
+  // At the bottom of the content area, right on the footer (DESIGN-REVIEW,
+  // David: "just above the button, else the gap looks weird").
   revealSlot: {
     position: 'absolute',
     left: space.lg,
     right: space.lg,
     bottom: 0,
-    paddingBottom: space.md,
+    paddingBottom: space.xs,
   },
   // The reveal's tint is see-through; over the content area it needs ground.
   revealGround: { backgroundColor: colors.background, borderRadius: radius.md },
+  revealFill: { flex: 1 },
 }));

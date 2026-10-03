@@ -1,6 +1,12 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { SharedValue, useAnimatedProps, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, {
+  SharedValue,
+  useAnimatedProps,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, {
   Circle,
   Defs,
@@ -22,7 +28,18 @@ import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { BUILD_MS, BuildCandle, buildStagger, BuildVolume, useEntrance } from './ChartBuild';
 import { CHART_GRID_STEP, colors, GRID, type, themed } from '../theme';
-import type { ChartSpec } from '../types';
+import type { ChartNote, ChartSpec } from '../types';
+import type { TradePlan } from '../lesson/tradePlan';
+import { EASE_OUT } from '../lesson/motion';
+import {
+  ChartNotes,
+  PlanLines,
+  placeNotes,
+  RULER_W,
+  RulerResult,
+  RulerScale,
+  SessionOpen,
+} from './ChartPlan';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
@@ -165,6 +182,12 @@ export type PlayGeom = {
   /** Running extremes over bars 0..i, so the window can follow the data. */
   runHi: number[];
   runLo: number[];
+  /**
+   * The frame holds still from the first frame to the last (David,
+   * 2026-10-03; docs/UI.md §6.4): lo0..hi0 already covers every bar to come,
+   * centred on the bars the learner can see, so nothing rescales or slides.
+   */
+  fixed: boolean;
 };
 
 /**
@@ -192,6 +215,7 @@ export type PlayGeom = {
  */
 function windowAt(g: PlayGeom, t: number) {
   'worklet';
+  if (g.fixed) return { lo: g.lo0, hi: g.hi0 };
   if (t < 0) {
     const u = t + 1;
     return { lo: g.tlo + (g.lo0 - g.tlo) * u, hi: g.thi + (g.hi0 - g.thi) * u };
@@ -699,6 +723,83 @@ function PlaybackLivePrice({
   );
 }
 
+/**
+ * The R ruler while the trade plays out (docs/UI.md §6.4): a bar from 0 to
+ * wherever the price is now, in R, up or down from the entry and held between
+ * the stop and the target, with a lit point at its end. Worked out per frame
+ * on the UI thread, like the live price.
+ */
+function PlaybackRuler({
+  g,
+  progress,
+  plan,
+  x,
+  faint,
+}: {
+  g: PlayGeom;
+  progress: SharedValue<number>;
+  plan: TradePlan;
+  x: number;
+  faint: boolean;
+}) {
+  const { entry, stop, target } = plan;
+  const lo = Math.min(stop, target);
+  const hi = Math.max(stop, target);
+  const alpha = faint ? 0.5 : 1;
+  const bar = (t: number, rising: boolean) => {
+    'worklet';
+    const live = Math.min(hi, Math.max(lo, liveAt(g, t).p));
+    const y0 = playY(g, t, entry);
+    const y1 = playY(g, t, live);
+    const gaining = (live - entry) * plan.dir >= 0;
+    const on = t > 0 && t < 1 && gaining === rising;
+    return { y: Math.min(y0, y1), height: Math.max(1, Math.abs(y1 - y0)), opacity: on ? alpha : 0 };
+  };
+  const tip = (t: number) => {
+    'worklet';
+    const live = Math.min(hi, Math.max(lo, liveAt(g, t).p));
+    return { cy: playY(g, t, live), opacity: t > 0 && t < 1 ? alpha : 0 };
+  };
+  const upProps = useAnimatedProps(() => bar(progress.get(), true));
+  const downProps = useAnimatedProps(() => bar(progress.get(), false));
+  const tipProps = useAnimatedProps(() => tip(progress.get()));
+  return (
+    <G>
+      <AnimatedRect
+        x={x - 3}
+        y={0}
+        width={6}
+        height={1}
+        rx={3}
+        fill={colors.up}
+        opacity={0}
+        animatedProps={upProps}
+      />
+      <AnimatedRect
+        x={x - 3}
+        y={0}
+        width={6}
+        height={1}
+        rx={3}
+        fill={colors.down}
+        opacity={0}
+        animatedProps={downProps}
+      />
+      <AnimatedCircle cx={x} cy={0} r={5} fill={colors.text} opacity={0} animatedProps={tipProps} />
+    </G>
+  );
+}
+
+/** A shared value that eases to 1 when `on` turns on (at once under reduced motion). */
+function useShowing(on: boolean, ms: number): SharedValue<number> {
+  const reduced = useReduceMotion();
+  const v = useSharedValue(on ? 1 : 0);
+  useEffect(() => {
+    v.set(reduced ? (on ? 1 : 0) : withTiming(on ? 1 : 0, { duration: ms, easing: EASE_OUT }));
+  }, [on, reduced, ms, v]);
+  return v;
+}
+
 /** The axis labels are the only part of the frame the replay changes, so they
  *  cross-fade rather than re-render: old values out, final values in. */
 function PlaybackAxis({
@@ -988,6 +1089,22 @@ type Props = {
   marks?: { bar: number; label: string; color: string }[];
   /** Trades the learner took, as an arrow under (long) or over (short) the bar. */
   trades?: { bar: number; side: 'long' | 'short' }[];
+  /**
+   * docs/UI.md §6.4 [DESIGN-REVIEW]: the trade the file plans (tradePlan.ts).
+   * Its lines are drawn once `planShown`; the frame makes room for them from
+   * the first frame, evenly above and below, so it gives nothing away.
+   */
+  plan?: TradePlan;
+  planShown?: boolean;
+  /** The R ruler beside the axis: the trade taken, or faint for one stood aside. */
+  ruler?: 'full' | 'faint' | null;
+  /** Keep the ruler's column free from the first frame, so nothing shifts when it arrives. */
+  rulerSpace?: boolean;
+  /** The last bar the replay plays: where the trade ended (tradePlan.ts). Default: the last bar. */
+  endAt?: number;
+  /** The file's notes on bars, drawn when `showNotes`. */
+  notes?: ChartNote[];
+  showNotes?: boolean;
 };
 
 export const AXIS_W = 44;
@@ -1036,10 +1153,16 @@ const MAX_PLOT_ASPECT = 2;
  * capped at twice the height of its ink and the chart is centred in whatever is
  * left, so a chart keeps one shape and simply stops growing.
  */
-export function chartWidthFor(available: number, hasVolume: boolean, gaps?: number): number {
+export function chartWidthFor(
+  available: number,
+  hasVolume: boolean,
+  gaps?: number,
+  /** Room beside the axis for the R ruler (ChartPlan.tsx, RULER_W). */
+  extra = 0,
+): number {
   const chosen = gaps ?? DEFAULT_GAPS;
   const ink = chosen * CHART_GRID_STEP + (hasVolume ? VOLUME_GAP + VOLUME_H : 0);
-  return Math.min(available, ink * MAX_PLOT_ASPECT + PAD_LEFT + AXIS_W);
+  return Math.min(available, ink * MAX_PLOT_ASPECT + PAD_LEFT + AXIS_W + extra);
 }
 
 /** The height a chart needs for a grid-aligned plot, with or without volume. */
@@ -1088,6 +1211,7 @@ export function chartLayout({
   hi,
   hasVolume,
   gridAnchor,
+  rightPad = 0,
 }: {
   width: number;
   height: number;
@@ -1096,8 +1220,10 @@ export function chartLayout({
   hi: number;
   hasVolume: boolean;
   gridAnchor?: number;
+  /** Room kept right of the axis (the R ruler's column). */
+  rightPad?: number;
 }): ChartLayout {
-  const plotW = width - PAD_LEFT - AXIS_W;
+  const plotW = width - PAD_LEFT - AXIS_W - rightPad;
   const volH = hasVolume ? VOLUME_H : 0;
   const fixed = PAD_TOP + PAD_BOTTOM + (hasVolume ? VOLUME_GAP + volH : 0);
 
@@ -1160,6 +1286,13 @@ function Chart({
   marks,
   trades,
   emphasis = false,
+  plan,
+  planShown = false,
+  ruler = null,
+  rulerSpace = false,
+  endAt,
+  notes,
+  showNotes = false,
 }: Props) {
   const lookSpec = useLookSpec();
   const neo = lookSpec.chartGlow || emphasis;
@@ -1227,19 +1360,49 @@ function Chart({
   // The window the axis shows: the bars on screen, filling the plot. For a
   // chart that replays an outcome that is the decision frame; how it moves
   // from there is windowAt's.
-  const { lo, hi } = useMemo(
+  //
+  // A chart that replays an outcome (`revealFrom`) holds one frame from the
+  // first frame to the last instead (David, 2026-10-03, docs/UI.md §6.4: "the
+  // line before it gets revealed already is at the middle of the chart so the
+  // y-axis units don't get bigger or smaller"): centred on the bars the learner
+  // can see, and tall enough for every bar to come and the plan's lines. The
+  // extra room is the same above and below, so it says nothing about the way.
+  const fixedFrame = useMemo(() => {
+    if (revealFrom === undefined) return null;
+    const seen = domainOf(bars, spec, Math.max(1, revealFrom));
+    const all = domainOf(bars, spec, n);
+    let lo0 = all.lo;
+    let hi0 = all.hi;
+    if (plan) {
+      const pad = (all.hi - all.lo) * 0.06;
+      lo0 = Math.min(lo0, Math.min(plan.stop, plan.target) - pad);
+      hi0 = Math.max(hi0, Math.max(plan.stop, plan.target) + pad);
+    }
+    const mid = (seen.lo + seen.hi) / 2;
+    const half = Math.max(mid - lo0, hi0 - mid, (seen.hi - seen.lo) / 2);
+    return { lo: mid - half, hi: mid + half };
+  }, [revealFrom, bars, spec, n, plan]);
+  const visibleFrame = useMemo(
     () => domainOf(bars, spec, Math.max(1, shown)),
     [bars, spec.vwap, spec.levels, shown],
   );
+  const { lo, hi } = fixedFrame ?? visibleFrame;
 
   // Where the axis ends up once every bar is in.
-  const full = useMemo(() => domainOf(bars, spec, n), [bars, spec.vwap, spec.levels, n]);
+  const fullFrame = useMemo(() => domainOf(bars, spec, n), [bars, spec.vwap, spec.levels, n]);
+  const full = fixedFrame ?? fullFrame;
 
+  const rightPad = rulerSpace ? RULER_W : 0;
   const layout = useMemo(
-    () => chartLayout({ width, height, bars: n, lo, hi, hasVolume, gridAnchor }),
-    [width, height, n, lo, hi, hasVolume, gridAnchor],
+    () => chartLayout({ width, height, bars: n, lo, hi, hasVolume, gridAnchor, rightPad }),
+    [width, height, n, lo, hi, hasVolume, gridAnchor, rightPad],
   );
   const { padTop, priceH, plotW, bodyW, volTop, volH, gaps, y, cx } = layout;
+  // The price labels, right of the plot; the R ruler's column, if any, after them.
+  const axisX = PAD_LEFT + plotW + 6;
+  const rulerX = PAD_LEFT + plotW + AXIS_W + 8;
+  const planEnter = useShowing(!!plan && planShown, 360);
+  const rulerEnter = useShowing(!!plan && !!ruler, 360);
 
   // With the room reserved up front the window usually never moves, so the
   // labels are the same before and after and swapping them is a flicker.
@@ -1282,7 +1445,7 @@ function Chart({
       runLo.push(ml);
     });
     // The replay's frame: the finished session's height, centred where the
-    // decision frame was.
+    // decision frame was. A fixed frame is that already, from the start.
     const mid = (lo + hi) / 2;
     const half = (full.hi - full.lo) / 2;
     return {
@@ -1292,20 +1455,23 @@ function Chart({
       highs: bars.map((b) => b.h),
       lows: bars.map((b) => b.l),
       from: shown,
-      n,
+      // The replay stops where the trade ended (docs/UI.md §6.4); the bars
+      // after it stay under the hatching.
+      n: endAt !== undefined ? Math.max(shown, Math.min(n, endAt + 1)) : n,
       padTop,
       priceH,
       baseline: padTop + priceH,
       tlo: lo,
       thi: hi,
-      lo0: mid - half,
-      hi0: mid + half,
+      lo0: fixedFrame ? lo : mid - half,
+      hi0: fixedFrame ? hi : mid + half,
       lo1: full.lo,
       hi1: full.hi,
       runHi,
       runLo,
+      fixed: !!fixedFrame,
     };
-  }, [playback, spec, bars, n, shown, layout, lo, hi, full.lo, full.hi]);
+  }, [playback, spec, bars, n, shown, layout, lo, hi, full.lo, full.hi, fixedFrame, endAt]);
 
   const linePath = useMemo(() => {
     if (spec.kind !== 'line' || shown === 0) return '';
@@ -1359,12 +1525,17 @@ function Chart({
           // A decision chart's zone starts at its marker; a replay's at the
           // edge of the last bar it has shown, and it carries no label -- the
           // count is already under the chart, and nothing here is waiting.
-          x0: decisionZone ? decisionX + 4 : PAD_LEFT + layout.slot * shown + 2,
+          // Once the replay has played past the decision -- it ended early, at
+          // the stop or the target -- the zone is only what it never reached.
+          x0:
+            decisionZone && shown <= (revealFrom as number)
+              ? decisionX + 4
+              : PAD_LEFT + layout.slot * shown + 2,
           x1: PAD_LEFT + plotW,
           y0: padTop,
           y1: padTop + priceH + (hasVolume ? VOLUME_GAP + volH : 0),
           midY: padTop + priceH / 2,
-          label: decisionZone ? `next ${n - shown} bars` : '',
+          label: decisionZone && shown <= (revealFrom as number) ? `next ${n - shown} bars` : '',
         }
       : null;
 
@@ -1418,7 +1589,7 @@ function Chart({
               {ticks.map((t, i) => (
                 <SvgText
                   key={`ao${i}`}
-                  x={width - AXIS_W + 6}
+                  x={axisX}
                   y={y(t) + 4}
                   fill={colors.textFaint}
                   fontSize={13}
@@ -1431,7 +1602,7 @@ function Chart({
               {fullTicks.map((t, i) => (
                 <SvgText
                   key={`an${i}`}
-                  x={width - AXIS_W + 6}
+                  x={axisX}
                   y={y(ticks[i]) + 4}
                   fill={colors.textFaint}
                   fontSize={13}
@@ -1444,13 +1615,7 @@ function Chart({
         ) : (
           <G>
             {ticks.map((t, i) => (
-              <SvgText
-                key={`a${i}`}
-                x={width - AXIS_W + 6}
-                y={y(t) + 4}
-                fill={colors.textFaint}
-                fontSize={13}
-              >
+              <SvgText key={`a${i}`} x={axisX} y={y(t) + 4} fill={colors.textFaint} fontSize={13}>
                 {axisPrice(t)}
               </SvgText>
             ))}
@@ -1480,6 +1645,18 @@ function Chart({
               strokeDasharray="4 3"
               fill="none"
               opacity={0.9}
+            />
+          </AnimatedG>
+        ) : null}
+
+        {/* docs/UI.md §6.4 [DESIGN-REVIEW]: the open, where it matters. */}
+        {spec.session_open !== undefined && spec.session_open >= 1 && spec.session_open < n ? (
+          <AnimatedG animatedProps={overlayProps}>
+            <SessionOpen
+              x={PAD_LEFT + layout.slot * spec.session_open}
+              left={PAD_LEFT}
+              top={padTop}
+              bottom={padTop + priceH}
             />
           </AnimatedG>
         ) : null}
@@ -1629,15 +1806,10 @@ function Chart({
         {hasVolume ? (
           // Two lines: at 13 pt, "vol 16k" is wider than the axis.
           <G>
-            <SvgText
-              x={width - AXIS_W + 6}
-              y={volTop + volH - 15}
-              fill={colors.textFaint}
-              fontSize={13}
-            >
+            <SvgText x={axisX} y={volTop + volH - 15} fill={colors.textFaint} fontSize={13}>
               vol
             </SvgText>
-            <SvgText x={width - AXIS_W + 6} y={volTop + volH} fill={colors.textFaint} fontSize={13}>
+            <SvgText x={axisX} y={volTop + volH} fill={colors.textFaint} fontSize={13}>
               {fmtVolume(maxVol)}
             </SvgText>
           </G>
@@ -1687,7 +1859,7 @@ function Chart({
 
         {/* The decision price, carried across to where the replay ended, so
             the move reads as a distance from it. */}
-        {showOutcome ? (
+        {showOutcome && !plan ? (
           <Line
             x1={decisionX}
             x2={PAD_LEFT + plotW}
@@ -1697,6 +1869,24 @@ function Chart({
             strokeWidth={1}
             strokeDasharray="2 3"
             opacity={0.8}
+          />
+        ) : null}
+
+        {/* docs/UI.md §6.4 [DESIGN-REVIEW]: the plan, once the call is made,
+            and the R ruler beside the axis. */}
+        {plan ? (
+          <PlanLines plan={plan} y={y} x0={decisionX} x1={PAD_LEFT + plotW} enter={planEnter} />
+        ) : null}
+        {plan && ruler ? (
+          <RulerScale plan={plan} y={y} x={rulerX} faint={ruler === 'faint'} enter={rulerEnter} />
+        ) : null}
+        {plan && ruler && playGeom && playback ? (
+          <PlaybackRuler
+            g={playGeom}
+            progress={playback}
+            plan={plan}
+            x={rulerX}
+            faint={ruler === 'faint'}
           />
         ) : null}
 
@@ -1743,6 +1933,31 @@ function Chart({
           </Text>
           <Text style={styles.outcomePosition}>{outcome.position}</Text>
         </Arrive>
+      ) : null}
+
+      {plan &&
+      ruler &&
+      !playback &&
+      shown > (revealFrom ?? n) - 1 &&
+      shown >= (endAt ?? n - 1) + 1 ? (
+        <RulerResult plan={plan} y={y} x={rulerX} faint={ruler === 'faint'} />
+      ) : null}
+
+      {notes && notes.length && showNotes ? (
+        <ChartNotes
+          placed={placeNotes(
+            notes.filter((note) => note.bar >= 0 && note.bar < shown),
+            {
+              cx,
+              yHigh: (bar) => y(bars[bar].h),
+              yLow: (bar) => y(bars[bar].l),
+              bounds: { left: 0, right: PAD_LEFT + plotW, top: 0, bottom: padTop + priceH + 14 },
+            },
+          )}
+          width={width}
+          height={height}
+          reduced={reduced}
+        />
       ) : null}
 
       {spec.vwap ? (

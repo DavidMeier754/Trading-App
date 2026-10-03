@@ -2,6 +2,7 @@ import { count, signedPrice } from '../format';
 import type { ChartDecisionScreen, ChartSpec, DecisionButton } from '../types';
 import type { Grade } from './answers';
 import { decisionButtons, gradeDecision } from './answers';
+import { formatR, tradePlanOf } from './tradePlan';
 
 /**
  * docs/UI.md §5.1b: the reveal of a `chart-decision` grades the decision and
@@ -53,9 +54,25 @@ const HAD_YOU: Record<DecisionButton, string> = {
   'no-trade': 'Had you stayed out',
 };
 
-/** docs/UI.md §5.1b, "Right call, losing trade". The "Why?" link follows in stage VARIANCE. */
+/**
+ * docs/UI.md §5.1b, "Right call, losing trade". No rate (David, 2026-10-03):
+ * the app never says how often a setup wins or loses (docs/agent.md §3.11).
+ * The "Why?" link follows in stage VARIANCE.
+ */
 export const VARIANCE_LINE =
-  'Right call — this trade lost anyway. This setup loses about 4 in 10 times; judge the decision, not the result.';
+  'Right call — this trade lost anyway. One trade says little; judge the decision, not the result.';
+
+/**
+ * Where a reveal's dot lands on the decision grid (docs/UI.md §5.1b): the
+ * decision's row, the result's column. An amber call sits on the line between
+ * the rows, an even result on the line between the columns, and standing
+ * aside draws the dot hollow, in the cell of what would have happened.
+ */
+export type GridCell = {
+  row: 'right' | 'wrong' | 'between';
+  col: 'won' | 'lost' | 'between';
+  hollow: boolean;
+};
 
 export type ResultTone = 'up' | 'down' | 'flat' | 'hypothetical';
 
@@ -76,6 +93,10 @@ export type DecisionReveal = {
   stoodAside: boolean;
   /** Dollars made or lost this time; for standing aside, what the hypothetical made. */
   pnl: number;
+  /** The result in R, when the file has a plan and the trade is its trade (tradePlan.ts). */
+  r?: number;
+  /** The dot on the decision grid. */
+  cell: GridCell;
 };
 
 function close(spec: ChartSpec, index: number): number {
@@ -84,8 +105,14 @@ function close(spec: ChartSpec, index: number): number {
   return Array.isArray(bar) ? bar[3] : bar;
 }
 
-/** How far the price went from the decision to the last bar. */
-export function decisionMove(screen: Pick<ChartDecisionScreen, 'chart'>): number {
+/**
+ * How far the price went from the decision to where the trade ended: the
+ * first of stop or target the bars touched when the file has both
+ * (docs/UI.md §6.4), else the last bar.
+ */
+export function decisionMove(screen: ChartDecisionScreen): number {
+  const plan = tradePlanOf(screen);
+  if (plan) return plan.exit.price - plan.entry;
   const bars = Array.isArray(screen.chart.data) ? screen.chart.data.length : 0;
   return close(screen.chart, bars - 1) - close(screen.chart, screen.chart.decision_index);
 }
@@ -113,37 +140,50 @@ export function decisionReveal(
   screen: ChartDecisionScreen,
   choice: DecisionButton,
   grade: Grade = gradeDecision(screen, choice),
+  {
+    showR = false,
+  }: {
+    /** The learner has been taught R (skills.ts, knowsR): the result line says it in R too. */
+    showR?: boolean;
+  } = {},
 ): DecisionReveal {
   const move = decisionMove(screen);
+  const plan = tradePlanOf(screen);
   const direction = DIRECTION[choice];
   const stoodAside = direction === 0;
   const best = DECISION_LABEL[screen.best] ?? screen.best;
 
   // The first line always speaks to the option pressed (docs/UI.md §5.1b):
-  // "Standing aside costs nothing here" only ever to someone who stood aside.
+  // "… costs nothing" only ever to someone who stood aside. Short enough for
+  // one line on most phones (DESIGN-REVIEW), so the chart keeps the room.
   let lead: string;
-  if (grade === 'correct') lead = `${DOING[choice]} was the right call here.`;
+  if (grade === 'correct') lead = `${DOING[choice]} was the right call.`;
   else if (grade === 'amber')
     lead = stoodAside
-      ? `Standing aside costs nothing here. The better call was ${best}.`
-      : `${DOING[choice]} here was a fair call, but the better one was ${best}.`;
-  else lead = `${DOING[choice]} was not the call here. The better one was ${best}.`;
+      ? `${DOING[choice]} costs nothing. ${best} was better.`
+      : `${DOING[choice]} was fair. ${best} was better.`;
+  else lead = `${DOING[choice]} was not the call. ${best} was better.`;
 
   let pnl: number;
   let result: string;
   let tone: ResultTone;
+  let r: number | undefined;
   if (!stoodAside) {
     pnl = cents(direction * move * screen.shares);
+    // The R of the file's plan is this trade's only if it faced the same way.
+    r = plan && plan.dir === direction ? plan.exit.r : undefined;
     result = `${signedPrice(pnl)} on ${shares(screen.shares)}`;
     tone = pnl > 0 ? 'up' : pnl < 0 ? 'down' : 'flat';
   } else {
     const other = tradeNotTaken(screen);
     pnl = other ? cents(DIRECTION[other] * move * screen.shares) : 0;
+    r = plan && other && DIRECTION[other] === plan.dir ? plan.exit.r : undefined;
     result = other
       ? `${HAD_YOU[other]}: ${signedPrice(pnl)} on ${shares(screen.shares)}`
       : `The price moved ${signedPrice(cents(move))} per share`;
     tone = 'hypothetical';
   }
+  if (showR && r !== undefined) result = `${result} · ${formatR(r)}`;
 
   return {
     grade,
@@ -155,6 +195,12 @@ export function decisionReveal(
     variance: grade === 'correct' && !stoodAside && pnl < 0 ? VARIANCE_LINE : undefined,
     stoodAside,
     pnl,
+    r,
+    cell: {
+      row: grade === 'correct' ? 'right' : grade === 'wrong' ? 'wrong' : 'between',
+      col: pnl > 0 ? 'won' : pnl < 0 ? 'lost' : 'between',
+      hollow: stoodAside,
+    },
   };
 }
 
@@ -169,10 +215,13 @@ export function decisionRevealLabel(r: DecisionReveal, explanation: string): str
  * The tallest reveal this screen can get, whichever button is pressed: what
  * the screen keeps room for before the answer (Reveal.tsx, RevealProbe).
  */
-export function longestDecisionReveal(screen: ChartDecisionScreen): DecisionReveal {
+export function longestDecisionReveal(
+  screen: ChartDecisionScreen,
+  opts: { showR?: boolean } = {},
+): DecisionReveal {
   const size = (r: DecisionReveal) => r.lead.length + r.result.length + (r.variance?.length ?? 0);
   return decisionButtons(screen)
-    .map((b) => decisionReveal(screen, b))
+    .map((b) => decisionReveal(screen, b, undefined, opts))
     .reduce((a, b) => (size(b) > size(a) ? b : a));
 }
 

@@ -495,6 +495,17 @@ CUES = {
     },
     # A pair bouncing back: one dry knock, no scolding.
     "miss": dict(pulses=[P(0, "rigid", [N("knock", "D4", 200)])], peak=0.22, wet=0.08),
+    # The last pair: the board done. A wave runs across the cards (docs/UI.md
+    # §4.1, DESIGN-REVIEW) on a firmer pulse and three quick pops up to C7,
+    # over a short C chord -- the pops the pairs made, finished.
+    "board": dict(
+        pulses=[
+            P(0, "medium", [N("pop", "G6", 160), N("pad", "C4", 700, 0.18), N("pad", "G4", 700, 0.12)]),
+            P(90, "light", [N("pop", "A6", 150, 0.8)]),
+            P(180, "rigid", [N("pop", "C7", 260, 0.9), N("shimmer", "C7", 500, 0.12)]),
+        ],
+        peak=0.26, wet=0.2,
+    ),
     # -- notes: replay bars, the ring, the checklist ---------------------------
     # One per pentatonic step, low to high: a kalimba, round and clickless.
     **{

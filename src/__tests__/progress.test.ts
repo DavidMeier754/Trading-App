@@ -1,18 +1,32 @@
 import { CHAPTER_ONE, levelsOf } from '../content';
 import {
   addGems,
+  clearNewSkills,
+  collectSkills,
   completeLesson,
   dayOf,
+  DECISION_LOG_MAX,
   doneToday,
   earnedXp,
+  finishFirstTrade,
   getProgress,
+  giveHeart,
   HEART_REFILL_MS,
   heartsNow,
   loseHeart,
+  markSkillsSeen,
   MAX_HEARTS,
+  nextRecord,
+  parseQuestionKey,
   Progress,
+  questionKey,
+  recordAnswer,
+  recordDecision,
   refillHearts,
+  refillShare,
+  replayFirstTrade,
   resetProgress,
+  savePlan,
   skipTo,
   streakDays,
   toggleWanted,
@@ -30,45 +44,68 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-describe('hearts', () => {
+describe('hearts (docs/UI.md §5.2: all back five hours after the first is lost)', () => {
   const lost = (hearts: number, at: number): Progress => ({
     ...getProgress(),
     hearts,
     heartsAt: at,
   });
 
-  it('a heart comes back exactly after four hours, not a millisecond sooner', () => {
-    expect(HEART_REFILL_MS).toBe(4 * HOUR);
-    const p = lost(4, 0);
-    expect(heartsNow(p, 4 * HOUR - 1)).toEqual({ hearts: 4, nextAt: 4 * HOUR, clock: 0 });
-    expect(heartsNow(p, 4 * HOUR)).toEqual({ hearts: 5, nextAt: null, clock: null });
+  it('every heart comes back at once, exactly five hours after the first was lost', () => {
+    expect(HEART_REFILL_MS).toBe(5 * HOUR);
+    const p = lost(1, 0);
+    expect(heartsNow(p, 5 * HOUR - 1)).toEqual({ hearts: 1, fullAt: 5 * HOUR, clock: 0 });
+    expect(heartsNow(p, 5 * HOUR)).toEqual({ hearts: MAX_HEARTS, fullAt: null, clock: null });
   });
 
-  it('several come back one per four hours, and never above the maximum', () => {
-    const p = lost(1, 0);
-    expect(heartsNow(p, 8 * HOUR).hearts).toBe(3);
-    expect(heartsNow(p, 8 * HOUR).nextAt).toBe(12 * HOUR);
-    expect(heartsNow(p, 100 * HOUR).hearts).toBe(MAX_HEARTS);
+  it('nothing comes back early: four hours in, the count is unchanged', () => {
+    expect(heartsNow(lost(2, 0), 4 * HOUR).hearts).toBe(2);
+    expect(heartsNow(lost(2, 0), 100 * HOUR).hearts).toBe(MAX_HEARTS);
   });
 
   it('full hearts have no clock', () => {
-    expect(heartsNow(getProgress(), 0)).toEqual({ hearts: 5, nextAt: null, clock: null });
+    expect(heartsNow(getProgress(), 0)).toEqual({ hearts: 5, fullAt: null, clock: null });
   });
 
-  it('a lost heart starts the clock; a second one keeps the first in the queue', () => {
+  it('the first lost heart starts the clock; later ones do not restart it', () => {
     jest.setSystemTime(1_000_000);
     loseHeart();
     expect(getProgress()).toMatchObject({ hearts: 4, heartsAt: 1_000_000 });
-    jest.setSystemTime(1_000_000 + HOUR);
+    jest.setSystemTime(1_000_000 + 3 * HOUR);
     loseHeart();
     expect(getProgress()).toMatchObject({ hearts: 3, heartsAt: 1_000_000 });
-    expect(heartsNow(getProgress(), 1_000_000 + 4 * HOUR).hearts).toBe(4);
+    expect(heartsNow(getProgress(), 1_000_000 + 5 * HOUR).hearts).toBe(MAX_HEARTS);
+  });
+
+  it('a heart lost after a full refill starts a new clock', () => {
+    jest.setSystemTime(0);
+    loseHeart();
+    jest.setSystemTime(6 * HOUR);
+    loseHeart();
+    expect(getProgress()).toMatchObject({ hearts: 4, heartsAt: 6 * HOUR });
+  });
+
+  it('the ring fills with the clock', () => {
+    const h = heartsNow(lost(3, 0), 2.5 * HOUR);
+    expect(refillShare(h, 2.5 * HOUR)).toBeCloseTo(0.5);
+    expect(refillShare(heartsNow(getProgress(), 0), 0)).toBe(0);
   });
 
   it('with no hearts left, losing one more does nothing', () => {
     jest.setSystemTime(0);
     for (let i = 0; i < 7; i += 1) loseHeart();
     expect(getProgress().hearts).toBe(0);
+  });
+
+  it('a practice round gives one back and keeps the clock; the last one stops it', () => {
+    jest.setSystemTime(0);
+    loseHeart();
+    loseHeart();
+    expect(giveHeart()).toBe(true);
+    expect(getProgress()).toMatchObject({ hearts: 4, heartsAt: 0 });
+    expect(giveHeart()).toBe(true);
+    expect(getProgress()).toMatchObject({ hearts: 5, heartsAt: null });
+    expect(giveHeart()).toBe(false);
   });
 
   it('refill brings every heart back and stops the clock', () => {
@@ -83,6 +120,109 @@ describe('hearts', () => {
     expect(waitText(4 * HOUR - 60_000, 0)).toBe('3h 59m');
     expect(waitText(12 * 60_000, 0)).toBe('12m');
     expect(waitText(30_000, 0)).toBe('under a minute');
+  });
+});
+
+describe('the record (docs/UI.md §7.3)', () => {
+  it('keys a question by its lesson and screen, and reads the key back', () => {
+    expect(questionKey('level-01-1', 5)).toBe('level-01-1#5');
+    expect(parseQuestionKey('scalping-ch2-level-04-1#12')).toEqual({
+      lesson: 'scalping-ch2-level-04-1',
+      screen: 12,
+    });
+    expect(parseQuestionKey('nonsense')).toBeNull();
+  });
+
+  it('a right answer moves a question up a box, 1 → 3 → 7 → 16 → 35 days, and stops there', () => {
+    const now = new Date(2026, 9, 3, 12).getTime();
+    let r = nextRecord(undefined, true, now);
+    expect(r).toMatchObject({ box: 1, due: '2026-10-04', right: 1, wrong: 0, last: 'right' });
+    r = nextRecord(r, true, now);
+    expect(r).toMatchObject({ box: 2, due: '2026-10-06' });
+    r = nextRecord(r, true, now);
+    expect(r.due).toBe('2026-10-10');
+    r = nextRecord(r, true, now);
+    expect(r.due).toBe('2026-10-19');
+    r = nextRecord(r, true, now);
+    expect(r).toMatchObject({ box: 5, due: '2026-11-07' });
+    r = nextRecord(r, true, now);
+    expect(r.box).toBe(5);
+  });
+
+  it('a wrong answer sends it back to the first box, due tomorrow', () => {
+    const now = new Date(2026, 9, 3, 12).getTime();
+    const r = nextRecord({ ...nextRecord(undefined, true, now), box: 4 }, false, now);
+    expect(r).toMatchObject({ box: 1, due: '2026-10-04', wrong: 1, last: 'wrong' });
+  });
+
+  it('a wrong answer opens a mistake; a right one later closes it', () => {
+    recordAnswer('a#3', 'wrong', 'Short');
+    expect(getProgress().mistakes['a#3']).toMatchObject({ answer: 'Short' });
+    recordAnswer('a#3', 'correct', 'Long');
+    expect(getProgress().mistakes['a#3']).toBeUndefined();
+    expect(getProgress().questions['a#3']).toMatchObject({ right: 1, wrong: 1 });
+  });
+
+  it("the lesson's own mistakes round does not close a mistake", () => {
+    recordAnswer('a#3', 'wrong', 'Short');
+    recordAnswer('a#3', 'correct', 'Long', { keepMistake: true });
+    expect(getProgress().mistakes['a#3']).toBeDefined();
+  });
+
+  it('amber counts as right', () => {
+    recordAnswer('a#4', 'wrong', 'x');
+    recordAnswer('a#4', 'amber', 'No trade');
+    expect(getProgress().mistakes['a#4']).toBeUndefined();
+  });
+
+  it('logs chart decisions, keeping the newest when it is full', () => {
+    for (let i = 0; i < DECISION_LOG_MAX + 3; i += 1) {
+      recordDecision({
+        q: `q#${i}`,
+        choice: 'long',
+        grade: 'correct',
+        result: 'lost',
+        aside: false,
+      });
+    }
+    const log = getProgress().decisions;
+    expect(log).toHaveLength(DECISION_LOG_MAX);
+    expect(log[log.length - 1].q).toBe(`q#${DECISION_LOG_MAX + 2}`);
+  });
+
+  it('collects a skill once, counts the new ones for Practice, and clears the count', () => {
+    expect(collectSkills(['term:spread', 'term:bid'])).toEqual(['term:spread', 'term:bid']);
+    expect(collectSkills(['term:spread', 'term:ask'])).toEqual(['term:ask']);
+    expect(getProgress().newSkills).toBe(3);
+    clearNewSkills();
+    expect(getProgress().newSkills).toBe(0);
+    markSkillsSeen(['term:spread']);
+    expect(getProgress().skills['term:spread'].seen).toBe(true);
+    expect(getProgress().skills['term:bid'].seen).toBe(false);
+  });
+
+  it('dates every plan key it saves', () => {
+    jest.setSystemTime(12345);
+    savePlan({ session_trade_cap: '6' });
+    expect(getProgress().planAt.session_trade_cap).toBe(12345);
+  });
+
+  it('keeps the longest streak and counts plays', () => {
+    jest.setSystemTime(new Date(2026, 8, 24, 12));
+    completeLesson('x', { perfect: false, xp: 1 });
+    jest.setSystemTime(new Date(2026, 8, 25, 12));
+    completeLesson('x', { perfect: false, xp: 1 });
+    jest.setSystemTime(new Date(2026, 8, 28, 12));
+    completeLesson('y', { perfect: false, xp: 1 });
+    expect(getProgress()).toMatchObject({ bestStreak: 2, plays: { x: 2, y: 1 } });
+  });
+
+  it('the first trade is played once, and the testing tool brings it back', () => {
+    expect(getProgress().firstTrade).toBe(false);
+    finishFirstTrade();
+    expect(getProgress().firstTrade).toBe(true);
+    replayFirstTrade();
+    expect(getProgress().firstTrade).toBe(false);
   });
 });
 

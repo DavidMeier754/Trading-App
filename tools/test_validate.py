@@ -732,6 +732,87 @@ expect_no("bench: the lesson rules stay out",
           bench([{"type": "theory", "body": "b"}]), "screens")
 expect_no("bench: the real bench passes", lambda rep: V.validate_bench(rep), "demo/")
 
+print("\n— DESIGN-REVIEW fields (docs/schema.md) —")
+DEC = {"type": "chart-decision", "scenario": "s", "shares": 100, "best": "long", "reasonable": ["no-trade"],
+       "outcome": "o", "explanation": "e",
+       "chart": {"kind": "candles", "decision_index": 4,
+                 "data": [[20, 20.2, 19.9, 20.1]] * 4 + [[20.1, 20.3, 20.0, 20.2]] + [[20.2, 20.4, 20.1, 20.3]] * 5}}
+
+
+def dec(**over):
+    d = dict(DEC)
+    d.update(over)
+    return lambda rep: (V.validate_question_screen("f.yaml", 1, d, rep), V.validate_screen_data("f.yaml", 1, d, rep))
+
+
+expect("notes: more than four", dec(notes=[{"bar": 1, "text": "x"}] * 5), "1–4 notes")
+expect("notes: a bar off the chart", dec(notes=[{"bar": 10, "text": "Lower high"}]), "bar of the chart")
+expect("notes: text too long", dec(notes=[{"bar": 2, "text": "A note far longer than twenty-four"}]), "1–24 characters")
+expect("notes: at neither high nor low", dec(notes=[{"bar": 2, "text": "x", "at": "middle"}]), "high or low")
+expect_no("notes: valid notes pass", dec(notes=[{"bar": 2, "text": "Higher low", "at": "low"}, {"bar": 9, "text": "Breaks the high"}]), "note")
+expect("stop above the entry of a long", dec(stop=20.5, target=21), "stop 20.5 is on the wrong side")
+expect("target below the entry of a long", dec(stop=19.9, target=20.0), "target 20.0 is on the wrong side")
+expect("short: stop below the entry", dec(best="short", stop=20.0, target=19.5), "wrong side")
+expect_no("stop and target on the right sides pass", dec(stop=19.95, target=20.6), "wrong side")
+expect("session_open: off the chart", dec(chart=dict(DEC["chart"], session_open=10)), "session_open")
+expect("session_open: the first bar", dec(chart=dict(DEC["chart"], session_open=0)), "session_open")
+expect_no("session_open: a bar inside passes", dec(chart=dict(DEC["chart"], session_open=3)), "session_open")
+expect("chart-candles takes session_open, not junk", data({"type": "visual", "component": "chart-candles", "data": {"data": BARS, "session_close": 1}}), "does not read")
+expect_no("chart-candles: session_open is read", data({"type": "visual", "component": "chart-candles", "data": {"data": BARS, "session_open": 1}}), "does not read")
+
+STORY = {"type": "story", "text": "XYZ gapped up."}
+expect("alert: a lowercase ticker", data(dict(STORY, alert={"ticker": "xyz"})), "capital letters")
+expect("alert: a clock time written out", data(dict(STORY, alert={"ticker": "XYZ", "time": "9:31"})), "clock time")
+expect("alert: four facts", data(dict(STORY, alert={"ticker": "XYZ", "facts": ["a", "b", "c", "d"]})), "facts must be 1–3")
+expect("alert: a short sparkline", data(dict(STORY, alert={"ticker": "XYZ", "spark": [1, 2, 3]})), "spark must be 5–30")
+expect("alert: on a takeaway", data(dict(STORY, label="takeaway", alert={"ticker": "XYZ"})), "takeaway has no alert")
+expect_no("alert: a valid alert passes", data(dict(STORY, alert={"ticker": "XYZ", "time": "1 min after the open", "facts": ["Gap +6.2 %", "RVOL 4.8×"], "spark": [17.4, 17.6, 17.5, 17.9, 18.1]})), "alert")
+expect("scanner row: a short sparkline", data({"type": "scanner-pick", "data": {"rows": [{"ticker": "XYZ", "spark": [1, 2]}]}}), "spark must be 5–30")
+expect("decision-grid: an unknown cell", data({"type": "visual", "component": "decision-grid", "data": {"cell": "lucky"}}), "decision-grid cell")
+expect_no("decision-grid: no data at all passes", data({"type": "theory", "body": "b", "visual": "decision-grid"}), "decision-grid")
+expect_no("decision-grid: a known cell passes", data({"type": "visual", "component": "decision-grid", "data": {"cell": "right-lost"}}), "decision-grid")
+
+expect("facts on a lesson intro", check_file(lesson(screens=[{"type": "intro", "text": "x", "facts": ["Account $20,000"]}] + lesson()["screens"][1:])), "only in tests")
+expect("facts too long", check_file(exam(10, "test") | {"screens": [{"type": "intro", "text": "x", "counter": 10, "facts": ["An account of twenty-two thousand"]}] + exam(10, "test")["screens"][1:]}), "at most 20 characters")
+expect("skills in a repetition lesson", check_file(lesson(category="repetition", skills=[{"name": "x", "card": 2}])), "only in new-theory")
+expect("skills: a card that is a question", check_file(lesson(skills=[{"name": "Reading a quote", "card": 13}])), "card must name")
+expect("skills: a name too long", check_file(lesson(skills=[{"name": "x" * 41, "card": 2}])), "1–40 characters")
+expect_no("skills: a valid skill passes", check_file(lesson(skills=[{"name": "Reading a quote", "card": 2}])), "skill")
+expect("a term no card names", check_file(lesson(terms_introduced=["Spread"])), "term 'Spread' is on no theory")
+expect_no("a term a card names", check_file(lesson(terms_introduced=["Spread"], screens=[{"type": "intro", "text": "x"}, {"type": "theory", "title": "t", "body": "The spread is the gap."}] + lesson()["screens"][2:])), "term 'Spread'")
+
+REPLAY = {"type": "chart-replay", "prompt": "p", "explanation": "e",
+          "chart": {"kind": "candles", "data": BARS * 4}, "moments": [{"bar": 3, "kind": "setup", "note": "n"}]}
+
+
+def bonus(name="level-04-bonus.yaml", **over):
+    d = {"id": "4-bonus", "title": "Spot it", "chapter": 3, "chapter_title": "C", "path": "scalping",
+         "category": "bonus", "after": 4, "gems": 10, "prerequisite": None,
+         "screens": [{"type": "intro", "text": "x"}, REPLAY, REPLAY]}
+    d.update(over)
+    return lambda rep: V.validate_bonus_file(CHAPTER / name, d, rep)
+
+
+expect("bonus: id does not match the file", bonus(id="5-bonus"), "does not match filename")
+expect("bonus: wrong category", bonus(category="new-theory"), "category: bonus")
+expect("bonus: after differs from the file", bonus(after=5), "must be the level in the filename")
+expect("bonus: a prerequisite", bonus(prerequisite="3-1"), "prerequisite: null")
+expect("bonus: one replay only", bonus(screens=[{"type": "intro", "text": "x"}, REPLAY]), "2–3 chart-replay")
+expect("bonus: a moment off the chart", bonus(screens=[{"type": "intro", "text": "x"}, REPLAY, dict(REPLAY, moments=[{"bar": 99, "kind": "setup"}])]), "moment 1 bar")
+expect_no("bonus: a valid file passes", bonus(), "bonus")
+
+
+def placed(after, categories):
+    files = [dict(sub(n, category=c), _file=f"level-{n}-1.yaml") for n, c in categories]
+    return lambda rep: V.validate_bonus({CHAPTER: [{"after": after, "_file": "level-x-bonus.yaml"}]}, {CHAPTER: files}, rep)
+
+
+LEVELS = [(1, "new-theory"), (2, "new-theory"), (3, "repetition"), (4, "test"), (5, "new-theory")]
+expect("bonus: after a level the chapter lacks", placed(9, LEVELS), "has no Level 9")
+expect("bonus: after a test", placed(4, LEVELS), "never follows a test")
+expect("bonus: right before a test", placed(3, LEVELS), "mistakes review's place")
+expect_no("bonus: after an ordinary level", placed(2, LEVELS), "after 2")
+
 print("\n— strict mode —")
 strict = V.Report(strict=True)
 check_chapter([sub(1)])(strict)

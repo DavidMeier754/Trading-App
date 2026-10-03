@@ -1,11 +1,26 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { Celebrate } from '../lesson/Celebrate';
-import { matchHitFeedback, matchMissFeedback, tapFeedback } from '../lesson/feedback';
+import {
+  matchBoardFeedback,
+  matchHitFeedback,
+  matchMissFeedback,
+  tapFeedback,
+} from '../lesson/feedback';
+import { EASE_OUT, SPRING_POP } from '../lesson/motion';
 import Shake from '../lesson/Shake';
+import { useReduceMotion } from '../lesson/useReduceMotion';
 import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import { surfaceStyle, tint, useLookSpec } from '../lesson/look';
 import type { MatchScreen as S } from '../types';
@@ -22,13 +37,96 @@ function shuffled<T>(items: T[], seed: number): T[] {
   return out;
 }
 
+/** How far a locking pair snaps towards each other, in points. */
+const SNAP = 7;
+/** A locked pair, once it has landed: a step back, so the open cards stand out. */
+const REST_OPACITY = 0.62;
+const REST_SCALE = 0.97;
+/** The wave after the last pair: one card after the next, row by row. */
+const WAVE_STEP_MS = 55;
+
 /**
- * docs/UI.md §4.1 `match`: tap a term and a definition, either first. Correct pairs lock green,
- * wrong pairs flash red and reset. Drag is the alternative the doc also allows;
- * §10 requires the tap-tap path, which is what this builds.
- *
- * The doc draws a connecting line between the two columns; this build marks the
- * locked pair with a shared colour and a check instead (see report).
+ * One card's motion on the board (docs/UI.md §4.1, DESIGN-REVIEW: no colour
+ * per pair, "just make it fun via the animations and the haptic feedback").
+ * When its pair locks it snaps a few points towards its partner and springs
+ * back, under the one ring Celebrate sends out; once it has landed it steps
+ * back a little. When the last pair locks, every card lifts once in turn, a
+ * wave across the board. Reduced motion keeps the step back as a fade and
+ * drops the travel.
+ */
+function MatchCard({
+  side,
+  locked,
+  order,
+  board,
+  children,
+}: {
+  side: 'left' | 'right';
+  locked: boolean;
+  /** Its place in the wave. */
+  order: number;
+  /** The board is done. */
+  board: boolean;
+  children: React.ReactNode;
+}) {
+  const reduced = useReduceMotion();
+  const snap = useSharedValue(0);
+  const rest = useSharedValue(0);
+  const lift = useSharedValue(0);
+
+  // The snap is for the moment the pair locks, not for every render after.
+  const wasLocked = useRef(locked);
+  useEffect(() => {
+    const now = locked && !wasLocked.current;
+    wasLocked.current = locked;
+    if (!locked) {
+      rest.set(0);
+      return;
+    }
+    if (!now) return;
+    if (!reduced) {
+      snap.set(
+        withSequence(withTiming(1, { duration: 90, easing: EASE_OUT }), withSpring(0, SPRING_POP)),
+      );
+    }
+    // The board's last pair does not step back: the wave is its moment.
+    if (!board) rest.set(withDelay(520, withTiming(1, { duration: 360 })));
+  }, [locked, board, reduced, snap, rest]);
+
+  // Come back to a finished board, it is just there: the wave was its moment.
+  const doneAtMount = useRef(board);
+  useEffect(() => {
+    if (!board || reduced || doneAtMount.current) return;
+    rest.set(withTiming(0, { duration: 240 }));
+    lift.set(
+      withDelay(
+        order * WAVE_STEP_MS + 120,
+        withSequence(withTiming(1, { duration: 140, easing: EASE_OUT }), withSpring(0, SPRING_POP)),
+      ),
+    );
+  }, [board, reduced, order, lift, rest]);
+
+  const style = useAnimatedStyle(() => {
+    const r = rest.get();
+    const l = lift.get();
+    return {
+      opacity: 1 - (1 - REST_OPACITY) * r,
+      transform: [
+        { translateX: (side === 'left' ? SNAP : -SNAP) * snap.get() },
+        { translateY: -5 * l },
+        { scale: (1 - (1 - REST_SCALE) * r) * (1 + 0.035 * l) },
+      ],
+    };
+  });
+  return <Animated.View style={style}>{children}</Animated.View>;
+}
+
+/**
+ * docs/UI.md §4.1 `match`: tap a term and a definition, either first. Correct
+ * pairs lock in the one success colour, wrong pairs flash red and reset. Drag
+ * is the alternative the doc also allows; §10 requires the tap-tap path, which
+ * is what this builds. The fun is in the feel (MatchCard): the snap, the ring,
+ * a note a step higher for each pair, and a wave when the board is done.
  */
 export default function MatchScreen({
   screen,
@@ -79,14 +177,17 @@ export default function MatchScreen({
   const measure = (h: number) => setTallest((t) => (h > t + 0.5 ? h : t));
 
   const isRightLinked = (r: number) => Object.values(linked).includes(r);
+  const board = Object.keys(linked).length === screen.pairs.length;
 
   const pair = (left: number, right: number) => {
     setPendingLeft(null);
     setPendingRight(null);
     if (left === right) {
       // Every pair lands with its own feel the moment it lands, each a step
-      // higher than the last.
-      matchHitFeedback(Object.keys(linked).length);
+      // higher than the last; the last one finishes the board, firmer.
+      const n = Object.keys(linked).length;
+      if (n + 1 === screen.pairs.length) matchBoardFeedback();
+      else matchHitFeedback(n);
       onChange({ kind: 'match', linked: { ...linked, [left]: right }, misses });
       return;
     }
@@ -153,6 +254,8 @@ export default function MatchScreen({
               const chip = (
                 <Pressable
                   accessibilityRole="button"
+                  disabled={linked[i] !== undefined}
+                  aria-selected={pendingLeft === i}
                   onPress={() => tapLeft(i)}
                   onLayout={(e) => measure(e.nativeEvent.layout.height)}
                   style={[
@@ -167,17 +270,26 @@ export default function MatchScreen({
               );
               return (
                 <Shake key={term} onMount={false} trigger={bounces.left[i]}>
-                  {linked[i] !== undefined ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
+                  <MatchCard
+                    side="left"
+                    locked={linked[i] !== undefined}
+                    order={i * 2}
+                    board={board}
+                  >
+                    {linked[i] !== undefined ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
+                  </MatchCard>
                 </Shake>
               );
             })}
           </View>
           <View style={styles.rightCol}>
-            {rightOrder.map((i) => {
+            {rightOrder.map((i, row) => {
               const isLinked = isRightLinked(i);
               const chip = (
                 <Pressable
                   accessibilityRole="button"
+                  disabled={isLinked}
+                  aria-selected={pendingRight === i}
                   onPress={() => tapRight(i)}
                   onLayout={(e) => measure(e.nativeEvent.layout.height)}
                   style={[
@@ -192,7 +304,9 @@ export default function MatchScreen({
               );
               return (
                 <Shake key={screen.pairs[i][1]} onMount={false} trigger={bounces.right[i]}>
-                  {isLinked ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
+                  <MatchCard side="right" locked={isLinked} order={row * 2 + 1} board={board}>
+                    {isLinked ? <Celebrate rings={1}>{chip}</Celebrate> : chip}
+                  </MatchCard>
                 </Shake>
               );
             })}

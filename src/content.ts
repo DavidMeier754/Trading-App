@@ -24,6 +24,11 @@ export type LessonEntry = {
    * docs/UI.md §2's rule: no back button inside a lesson.
    */
   testBench?: boolean;
+  /**
+   * A practice round made in code (practice.ts): its screens come from many
+   * lessons, and `keys` gives each one's question key in the record.
+   */
+  practice?: { keys: (string | null)[] };
 };
 
 /**
@@ -83,6 +88,17 @@ export type Chapter = {
   levels: PathLevel[];
   /** How many levels docs/curriculum.md gives the chapter; more than `levels` while it is being wired in. */
   planned: number;
+  /** Its bonus side lessons (docs/schema.md, DESIGN-REVIEW), by the level they follow. */
+  bonus: BonusLesson[];
+};
+
+/** A bonus side lesson beside the path (docs/UI.md §7.1 "Side stops"). */
+export type BonusLesson = {
+  /** The number of the level it follows, in its chapter. */
+  after: number;
+  /** Gems paid on the first finish. */
+  gems: number;
+  entry: LessonEntry;
 };
 
 /** docs/curriculum.md: the three paths, and whether their chapters are written yet. */
@@ -97,6 +113,7 @@ export const PATHS: { id: TradingPath; name: string; written: boolean }[] = [
 const chapterFiles = CHAPTER_FILES.map((c) => ({
   path: c.path,
   files: c.files.map((file) => file as Level),
+  bonus: (c.bonus ?? []).map((file) => file as Level),
 }));
 
 /** The id a sub-level is saved and linked under. Chapter 1 keeps its first, short form. */
@@ -173,7 +190,20 @@ function chapterFrom(files: Level[], planned: number): Chapter {
     path: files[0].path,
     levels,
     planned,
+    bonus: [],
   };
+}
+
+/** A chapter's bonus files as side stops: each after a level the chapter has. */
+function bonusFrom(files: Level[], levels: PathLevel[]): BonusLesson[] {
+  return files
+    .filter((f) => f.category === 'bonus' && levels.some((l) => l.number === f.after))
+    .map((f) => ({
+      after: f.after as number,
+      gems: f.gems ?? 0,
+      entry: { id: entryId(f), title: f.title, subtitle: f.subtitle ?? 'Spot it', level: f },
+    }))
+    .sort((a, b) => a.after - b.after);
 }
 
 /** Saved as done once a path is chosen; the choice itself is `progress.path`. */
@@ -185,9 +215,10 @@ export const PATH_CHOICE_ID = 'path-choice';
  * Chapter 8's new Level 15 comes in stage OFFER, which renumbers the levels
  * after it. Until then that chapter is its 17 written levels.
  */
-function chapterOf(c: { path: string; files: Level[] }): Chapter {
+function chapterOf(c: { path: string; files: Level[]; bonus?: Level[] }): Chapter {
   const written = new Set(c.files.filter((f) => !isPathLesson(f)).map((f) => f.id.split('-')[0]));
-  return chapterFrom(c.files, written.size);
+  const chapter = chapterFrom(c.files, written.size);
+  return { ...chapter, bonus: bonusFrom(c.bonus ?? [], chapter.levels) };
 }
 
 const shared = chapterFiles.filter((c) => c.path === 'all').map(chapterOf);
@@ -231,11 +262,22 @@ export const TEST_BENCH: LessonEntry = {
   testBench: true,
 };
 
-/** Everything a deep link can open: every sub-level of every wired path, and the bench. */
+/** Every bonus side lesson of every wired chapter. */
+export const BONUS_LESSONS: LessonEntry[] = [CHAPTER_ONE, ...Object.values(PATH_CHAPTERS).flat()]
+  .flatMap((c) => c.bonus)
+  .map((b) => b.entry);
+
+/** Everything a deep link can open: every sub-level of every wired path, the bonus lessons, and the bench. */
 export const LESSONS: LessonEntry[] = [
   ...levelsOf([CHAPTER_ONE, ...Object.values(PATH_CHAPTERS).flat()]).flatMap((level) => level.subs),
+  ...BONUS_LESSONS,
   TEST_BENCH,
 ];
+
+/** A bonus side lesson, by its lesson id. */
+export function isBonus(entry: LessonEntry): boolean {
+  return entry.level.category === 'bonus';
+}
 
 /** The node a lesson belongs to. */
 export function nodeOf(entryIdToFind: string): PathLevel | undefined {

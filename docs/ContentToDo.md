@@ -72,6 +72,7 @@ The app marks terms by itself (`docs/UI.md` §8): only terms taught in an earlie
 - Every term a lesson defines is in that lesson's `terms_introduced`, spelled as the body text spells it (case does not matter; the plural with an "s" is found too).
 - A term is defined on a `theory`, `example` or `carousel` screen of that lesson before any question uses it (`docs/agent.md` §3.4). That card is what the learner gets back when they open the term or the skill later.
 - No term is introduced twice.
+- Today (2026-10-03) the validator warns about 9 terms that no card of their lesson names, so their skill has no card to open: 1·1-1 "Trade"; 1·4-1 "Quote", "Previous close", "Daily change" (taught on a walkthrough, which the term search does not read); 1·13-1 "Cover"; 3·1-1 "Quote panel"; 3·14-1 "Per-share fee"; 7·1-1 "Playbook card"; 7·3-1 "Opening-range scalp". Name each on a theory, example or carousel card of its lesson (`CONTENT-FIX-1`, `-3`, `-7`).
 
 ### 1.5 Every question stands on its own
 

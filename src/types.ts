@@ -58,7 +58,13 @@ export type ComponentId =
 
 export type McOption = { text: string; correct?: boolean };
 
-export type IntroScreen = { type: 'intro'; text: string; counter?: number };
+export type IntroScreen = {
+  type: 'intro';
+  text: string;
+  counter?: number;
+  /** docs/schema.md [DESIGN-REVIEW]: a test's briefing chips, the account numbers. */
+  facts?: string[];
+};
 
 export type TheoryScreen = {
   type: 'theory';
@@ -137,7 +143,15 @@ export type ChartSpec = {
    * flat next to a volatile one.
    */
   range?: [number, number];
+  /**
+   * docs/schema.md [DESIGN-REVIEW]: the first bar of the regular session. The
+   * bars before it are shaded as pre-market and a bell line marks the open.
+   */
+  session_open?: number;
 };
+
+/** docs/schema.md [DESIGN-REVIEW]: a short note on a bar, shown after the reveal. */
+export type ChartNote = { bar: number; text: string; at?: 'high' | 'low' };
 
 export type DecisionButton = 'long' | 'short' | 'no-trade' | 'buy' | 'wait';
 
@@ -151,8 +165,13 @@ export type ChartDecisionScreen = {
   buttons?: DecisionButton[];
   best: DecisionButton;
   reasonable?: DecisionButton[];
+  /** docs/schema.md [v4]: the plan's exit lines, drawn after the choice (DESIGN-REVIEW). */
+  stop?: number;
+  target?: number;
   outcome: string;
   explanation: string;
+  /** docs/schema.md [DESIGN-REVIEW]: notes on the chart after the reveal. */
+  notes?: ChartNote[];
 };
 
 // --- docs/UI.md §3, the rest of the non-question archetypes ---
@@ -182,9 +201,19 @@ export type ChecklistRevealScreen = {
   items: string[];
 };
 
+/** docs/schema.md [DESIGN-REVIEW]: a scene as a market alert. */
+export type StoryAlert = {
+  ticker: string;
+  time?: string;
+  facts?: string[];
+  spark?: number[];
+};
+
 export type StoryScreen = {
   type: 'story';
   text: string;
+  label?: 'scene' | 'takeaway';
+  alert?: StoryAlert;
 };
 
 export type RecapScreen = {
@@ -334,6 +363,8 @@ export type ScannerRow = {
   float?: string;
   spread?: number;
   catalyst?: string;
+  /** docs/schema.md [DESIGN-REVIEW]: the day so far, for the row's sparkline. */
+  spark?: number[];
 };
 
 export type ScannerPickScreen = {
@@ -483,9 +514,14 @@ export type QuestionScreen =
   | DepthLadderScreen
   | ChartReplayScreen;
 
+/** docs/schema.md [DESIGN-REVIEW]: a technique a lesson teaches, and the card that teaches it. */
+export type LevelSkill = { name: string; card: number };
+
 export type Level = {
   id: string;
   title: string;
+  /** docs/schema.md [v4]: this sub-level's own short name. */
+  subtitle?: string;
   chapter: number;
   chapter_title: string;
   path: string;
@@ -496,6 +532,11 @@ export type Level = {
   learning_goal: string;
   purpose: string;
   terms_introduced?: string[];
+  /** docs/schema.md [DESIGN-REVIEW]: techniques, beside the terms. */
+  skills?: LevelSkill[];
+  /** A bonus side lesson (`category: bonus`): the level it follows, and the gems it pays once. */
+  after?: number;
+  gems?: number;
   prerequisite: string | null;
   xp: number;
   difficulty: number;
