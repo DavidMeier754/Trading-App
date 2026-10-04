@@ -8,6 +8,7 @@ tags: [orders, execution, practice, levels]
 learning_goal: "User picks and builds the right ticket for a break, for a position going wrong and for a stock that is going nowhere."
 purpose: "The chart says whether there is a trade; the ticket decides how much of it you keep."
 terms_introduced: []
+skills: ["The right ticket for the moment"]
 reinforces: [2]
 prerequisite: "7-3"
 xp: 30

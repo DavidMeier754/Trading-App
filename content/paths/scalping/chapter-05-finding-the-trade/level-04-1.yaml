@@ -8,6 +8,7 @@ tags: [practice, selection, list]
 learning_goal: "User picks the tradeable rows out of a morning list and names the one reason each rejected row was dropped."
 purpose: "A cut you cannot explain in one sentence is a cut you will forget, and the same name will cost you again next week."
 terms_introduced: []
+skills: ["One reason per cut"]
 reinforces: [1, 3]
 prerequisite: "3-3"
 xp: 20

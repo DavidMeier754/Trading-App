@@ -8,6 +8,7 @@ tags: [vwap, levels]
 learning_goal: "User can say what VWAP is and work out a simple volume-weighted average from a handful of trades."
 purpose: "VWAP is the one line almost every intraday trader has on the screen, and it is the first thing a scalper looks at after the shape of the chart."
 terms_introduced: ["VWAP"]
+skills: ["VWAP"]
 reinforces: [1]
 prerequisite: null
 xp: 20

@@ -8,6 +8,7 @@ tags: [gap, extension, setup-f, playbook]
 learning_goal: "User can measure a gap against what the stock normally travels, refuse the one that has already spent a day's range, and drop the card the moment the first print is lost."
 purpose: "The gap that everyone talks about afterwards is usually the one that was already finished when the beginners arrived."
 terms_introduced: []
+skills: ["Measuring a gap"]
 reinforces: [2, 5]
 prerequisite: "10-1"
 xp: 25

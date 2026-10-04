@@ -8,6 +8,7 @@ tags: [stats, review, plan, process]
 learning_goal: "User turns a month of rows into exactly one change, and can say which number on the card is allowed to justify which change."
 purpose: "Reading the numbers is the easy half. Changing one thing at a time is what makes the next month readable."
 terms_introduced: []
+skills: ["One change a month"]
 reinforces: [6]
 prerequisite: "11-3"
 xp: 25

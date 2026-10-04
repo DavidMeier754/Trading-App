@@ -8,6 +8,7 @@ tags: [levels, round-numbers, order-book]
 learning_goal: "User marks round numbers as levels and treats every line as a band a few cents wide rather than one exact price."
 purpose: "Waiting for the exact cent is how a trader watches the level work without ever being in the trade."
 terms_introduced: []
+skills: ["Levels as bands"]
 reinforces: [2]
 prerequisite: "3-2"
 xp: 25

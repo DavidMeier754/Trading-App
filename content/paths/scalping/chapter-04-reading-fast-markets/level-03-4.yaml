@@ -8,6 +8,7 @@ tags: [levels, preparation, orders]
 learning_goal: "User draws the session's map in one pass before the open and places an entry at a line rather than near it."
 purpose: "A map you draw during the session is a map you draw too late."
 terms_introduced: []
+skills: ["Drawing the session's map"]
 reinforces: [2]
 prerequisite: "3-3"
 xp: 25

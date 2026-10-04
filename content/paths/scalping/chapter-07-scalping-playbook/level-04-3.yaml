@@ -8,6 +8,7 @@ tags: [momentum, setup-c, measured-move, timeframes]
 learning_goal: "User counts which push they are joining, projects the measured move from the leg, and refuses a continuation the 5-minute disagrees with."
 purpose: "The shape repeats all morning; what changes is how much of the move is already behind it."
 terms_introduced: []
+skills: ["Which push you are joining"]
 reinforces: [2, 4]
 prerequisite: "4-2"
 xp: 25

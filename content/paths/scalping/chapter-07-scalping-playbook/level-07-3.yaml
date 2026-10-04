@@ -8,6 +8,7 @@ tags: [failed-breakout, setup-e, targets, playbook]
 learning_goal: "User targets a failed break at the far side of the range it came from, sizes it against the account as well as the stop, and tells card E apart from card D."
 purpose: "A fade with no target is a trade you will close on the first red candle, which is where most of this card's money goes."
 terms_introduced: []
+skills: ["The far side as target"]
 reinforces: [3, 4]
 prerequisite: "7-2"
 xp: 25

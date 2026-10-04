@@ -8,6 +8,7 @@ tags: [simulator, practice, process]
 learning_goal: "User can say what a simulator trains and what it flatters, and uses one at the size they will actually trade."
 purpose: "Everything this chapter asks for is learned somewhere. The cheapest somewhere is a screen with no money behind it."
 terms_introduced: ["Simulator"]
+skills: ["Simulator"]
 reinforces: [3]
 prerequisite: "1-3"
 xp: 20

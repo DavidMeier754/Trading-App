@@ -8,6 +8,7 @@ tags: [map, process, confluence]
 learning_goal: "User runs one read in a fixed order — level, side of the average, candle, tape — and stops at the first step that comes back empty."
 purpose: "In a fast market nobody weighs four things at once, so the four things get an order and the order never changes."
 terms_introduced: []
+skills: ["The four-part read"]
 reinforces: [2, 3]
 prerequisite: "11-3"
 xp: 25

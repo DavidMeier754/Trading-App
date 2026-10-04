@@ -8,6 +8,7 @@ tags: [risk, stops, entries, sizing]
 learning_goal: "User treats a worse entry as a longer stop, and pays for it out of the share count instead of out of the loss."
 purpose: "The entry is the one part of the trade you control to the cent, and every cent of hurry lands on the stop distance."
 terms_introduced: []
+skills: ["A worse entry is a longer stop"]
 reinforces: [3, 4]
 prerequisite: "1-3"
 xp: 20

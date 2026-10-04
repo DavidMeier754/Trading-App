@@ -8,6 +8,7 @@ tags: [level-2, order-book, depth]
 learning_goal: "User walks an order through more than one price level, reads aggression from time and sales, and ties book depth back to Chapter 1's liquidity clue."
 purpose: "A book is more than its best row — most orders worth sizing touch more than one."
 terms_introduced: []
+skills: ["Walking an order through the book"]
 reinforces: [1]
 prerequisite: "15-1"
 xp: 20

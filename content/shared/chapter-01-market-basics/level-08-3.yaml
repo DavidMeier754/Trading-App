@@ -9,6 +9,7 @@ icon: zigzag
 learning_goal: "User can pick a stock to learn on by putting both dials in the middle, and say why each extreme is a poor teacher."
 purpose: "The stock you practise on decides how much you learn per hour, and beginners almost always pick one of the two extremes."
 terms_introduced: []
+skills: ["Picking a stock to learn on"]
 reinforces: []
 prerequisite: "8-2"
 xp: 20

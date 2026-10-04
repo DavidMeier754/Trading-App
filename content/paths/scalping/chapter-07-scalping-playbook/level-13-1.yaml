@@ -8,6 +8,7 @@ tags: [mixed, drill, recognition, playbook]
 learning_goal: "User sorts an unseen chart into one of the eight cards or into none, and can say which single feature makes a near miss a near miss."
 purpose: "Eight cards is more than anyone recognises one at a time, and a session hands them over shuffled and unlabelled."
 terms_introduced: []
+skills: ["Spotting the near miss"]
 reinforces: [4, 5]
 prerequisite: "12-3"
 xp: 30

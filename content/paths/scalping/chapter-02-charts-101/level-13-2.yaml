@@ -9,6 +9,7 @@ icon: bell
 learning_goal: "User can read a gap up or down against yesterday's close and tell a gap that is being paid for from one that is being sold."
 purpose: "A gap is the first thing on the chart every morning, and half the crowd misreads it as a discount."
 terms_introduced: ["Gap"]
+skills: ["Gap"]
 reinforces: [1]
 prerequisite: "13-1"
 xp: 20

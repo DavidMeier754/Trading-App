@@ -8,6 +8,7 @@ tags: [orders, stops, execution]
 learning_goal: "User can choose between a stop-market and a stop-limit and explain what each one guarantees when a level breaks fast."
 purpose: "A stop that protects your price instead of your position is the one that turns a small loss into a large one."
 terms_introduced: ["Stop-market", "Stop-limit"]
+skills: ["Stop-market", "Stop-limit"]
 reinforces: [2]
 prerequisite: "9-1"
 xp: 20

@@ -9,6 +9,7 @@ icon: levels
 learning_goal: "User decides at ten fresh levels with no reading in between, and passes on the ones that have not answered."
 purpose: "Levels are recognised, not calculated, and recognition only comes from doing it many times."
 terms_introduced: []
+skills: []
 reinforces: [1]
 prerequisite: "11-1"
 xp: 25

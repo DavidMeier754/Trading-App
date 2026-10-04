@@ -8,6 +8,7 @@ tags: [callback, position-size, account, r-multiple]
 learning_goal: "User sizes the same trade for two different accounts, takes the lower of the two ceilings, and reads both results in the same R column."
 purpose: "Risk is what the two ceilings were always measuring; Chapter 3 just called it arithmetic."
 terms_introduced: []
+skills: ["Two accounts, one R"]
 reinforces: [3]
 prerequisite: "13-3"
 xp: 25

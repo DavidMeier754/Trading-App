@@ -8,6 +8,7 @@ tags: [spread, volatility, opening]
 learning_goal: "User expects the spread to widen at the open and on news, and checks it at the moment of acting rather than the moment of deciding."
 purpose: "A gap is a live number, and the moments a scalper most wants to trade are the moments it is worst."
 terms_introduced: []
+skills: ["Checking the spread when acting"]
 reinforces: [2]
 prerequisite: "3-2"
 xp: 20

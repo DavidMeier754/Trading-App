@@ -8,6 +8,7 @@ tags: [psychology, probability, expectancy]
 learning_goal: "User treats a single trade's outcome as one draw from a series and judges the decision instead of the result."
 purpose: "Nothing else in this chapter survives a losing run unless you already expect losing runs."
 terms_introduced: ["Sample size"]
+skills: ["Sample size"]
 reinforces: [4]
 prerequisite: "12-3"
 xp: 20

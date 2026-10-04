@@ -8,6 +8,7 @@ tags: [practice, risk, sizing, r-multiple]
 learning_goal: "User sizes, stops and grades five different trades in R, and handles one that goes against them without changing the plan."
 purpose: "The arithmetic has to be automatic before the charts start coming at you four a minute."
 terms_introduced: []
+skills: ["Grading trades in R"]
 reinforces: [3]
 prerequisite: "3-4"
 xp: 25

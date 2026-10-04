@@ -9,6 +9,7 @@ icon: ticket
 learning_goal: "User converts between a change in dollars and a change in percent, and uses percent to compare two stocks at different prices."
 purpose: "Dollars tell you what a move paid you; percent tells you whether the move was unusual. Beginners who only read one of them mis-rank every stock they look at."
 terms_introduced: []
+skills: ["Dollars and percent"]
 reinforces: []
 prerequisite: "4-1"
 xp: 20

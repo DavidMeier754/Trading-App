@@ -8,6 +8,7 @@ tags: [orders, execution, market-order]
 learning_goal: "User can send a market order knowing it trades price certainty for speed, and can name the price it fills at and the cash it moves."
 purpose: "It is the simplest instruction there is, and the one that quietly hands over the spread every single time."
 terms_introduced: ["Market order", "Fill"]
+skills: ["Market order", "Fill"]
 reinforces: []
 prerequisite: "5-1"
 xp: 20

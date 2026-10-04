@@ -9,6 +9,7 @@ icon: coin
 learning_goal: "User computes a result from the price move and the share count, and knows that the cash they hold limits how many shares they can buy."
 purpose: "Two traders can take the same move and end up with results ten times apart — the difference is the share count, and it is the part you control."
 terms_introduced: []
+skills: ["Working out a result"]
 reinforces: []
 prerequisite: "1-2"
 xp: 20

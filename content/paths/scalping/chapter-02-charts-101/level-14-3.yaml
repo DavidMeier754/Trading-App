@@ -9,6 +9,7 @@ icon: battery
 learning_goal: "User stops joining the third and fourth leg of a move and can say what the first leg has that the late ones do not."
 purpose: "Almost every beginner's worst trade of the morning is a late one, taken because the earlier legs looked easy."
 terms_introduced: []
+skills: ["Skipping the late legs"]
 reinforces: [1]
 prerequisite: "14-2"
 xp: 25

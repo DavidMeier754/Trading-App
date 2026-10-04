@@ -9,6 +9,7 @@ icon: trend
 learning_goal: "User can name a downtrend from its lower highs and lower lows and take the short side of it."
 purpose: "Half of a scalper's day is on the short side, and beginners keep buying the dips of a shape that has none."
 terms_introduced: ["Downtrend", "Lower high", "Lower low"]
+skills: ["Downtrend", "Lower high", "Lower low"]
 reinforces: [1]
 prerequisite: "7-1"
 xp: 20

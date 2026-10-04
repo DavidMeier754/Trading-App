@@ -8,6 +8,7 @@ tags: [day-type, opening-range, market-context]
 learning_goal: "User reads the day type from the opening range and the give-backs that follow it, and waits for the label instead of guessing it at the bell."
 purpose: "The label is worth most in the first hour and costs most when it is written early and defended all day."
 terms_introduced: []
+skills: ["Waiting for the day type"]
 reinforces: [2, 4]
 prerequisite: "13-1"
 xp: 25

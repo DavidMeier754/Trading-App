@@ -8,6 +8,7 @@ tags: [position-size, risk, liquidity, practice]
 learning_goal: "User sizes two more setups on a smaller account, sees the account ceiling bind again, and judges whether a fixed size fits a stock's own volume."
 purpose: "A smaller account is where the second ceiling stops being the exception from Level 10 and starts being the usual answer."
 terms_introduced: []
+skills: []
 reinforces: [1]
 prerequisite: "11-1"
 xp: 30

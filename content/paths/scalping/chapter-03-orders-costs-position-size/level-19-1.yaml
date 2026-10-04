@@ -8,6 +8,7 @@ tags: [final-exam]
 learning_goal: "Confirm mastery of bid, ask and spread, spread against the expected move, market / limit / marketable limit / stop orders, the two sizing ceilings, slippage, fees, Level 2 basics and the all-in check."
 purpose: "The gate before fast-market chart reading — every scalp from here on assumes these costs are second nature."
 terms_introduced: []
+skills: []
 reinforces: [1, 2]
 prerequisite: "18-2"
 xp: 80

@@ -8,6 +8,7 @@ tags: [levels, failed-test, decisions]
 learning_goal: "User can tell a break that holds from one that is handed back, and knows why the second one travels faster than the first."
 purpose: "The minute after a break fails is one of the few moments a fast market shows you where a crowd is standing."
 terms_introduced: ["Failed test"]
+skills: ["Failed test"]
 reinforces: [2]
 prerequisite: "10-2"
 xp: 30

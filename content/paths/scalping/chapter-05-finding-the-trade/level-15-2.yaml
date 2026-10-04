@@ -8,6 +8,7 @@ tags: [routine, internals, market-context]
 learning_goal: "User runs the market check as a step of the routine, writes the tone on the morning's row, and leaves the day type blank until the session has given it one."
 purpose: "The check is ten seconds of work that changes how many trades you expect, and it is the step most often skipped because it changes no names."
 terms_introduced: []
+skills: ["Writing the tone"]
 reinforces: [2, 3, 4]
 prerequisite: "15-1"
 xp: 25

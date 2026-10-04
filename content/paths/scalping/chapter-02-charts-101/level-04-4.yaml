@@ -9,6 +9,7 @@ icon: volume
 learning_goal: "User reads candle shape and volume as one reading and decides long, short or no trade from the pair."
 purpose: "Neither row of the chart is worth much alone, and from here on every read in this app uses both at once."
 terms_introduced: []
+skills: ["Candle and volume as one reading"]
 reinforces: [1]
 prerequisite: "4-3"
 xp: 20

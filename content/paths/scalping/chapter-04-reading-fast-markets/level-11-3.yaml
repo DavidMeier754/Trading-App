@@ -8,6 +8,7 @@ tags: [open, spread, costs, execution]
 learning_goal: "User prices the opening gap between bid and ask against the move they are going for, and lets the quote settle before paying it."
 purpose: "The first minutes hand you the best reads of the day at the worst prices of the day."
 terms_introduced: []
+skills: ["Letting the quote settle"]
 reinforces: [2, 3]
 prerequisite: "11-2"
 xp: 30

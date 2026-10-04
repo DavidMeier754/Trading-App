@@ -8,6 +8,7 @@ tags: [expectancy, win-rate, risk]
 learning_goal: "User refuses to judge a method by its win rate and always reads it next to the average win and the average loss."
 purpose: "The number every beginner quotes is the one number that cannot answer the question on its own."
 terms_introduced: []
+skills: ["Never the win rate alone"]
 reinforces: [3]
 prerequisite: "6-1"
 xp: 20

@@ -8,6 +8,7 @@ tags: [day-type, filter, market-context]
 learning_goal: "User uses the day type as a filter on trade count, holding time and which setups get looked for, and rewrites the label when the session stops matching it."
 purpose: "A label written once and defended all afternoon costs more than never writing one."
 terms_introduced: []
+skills: ["The day type as a filter"]
 reinforces: [2, 4]
 prerequisite: "13-3"
 xp: 25

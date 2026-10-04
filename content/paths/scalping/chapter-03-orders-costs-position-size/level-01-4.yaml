@@ -8,6 +8,7 @@ tags: [spread, market-maker, costs]
 learning_goal: "User can explain the spread as the income of whoever quotes both sides, and identify who pays it in a given situation."
 purpose: "Knowing where the money goes is what stops the spread feeling like a rounding error."
 terms_introduced: []
+skills: ["Who earns the spread"]
 reinforces: [1]
 prerequisite: "1-3"
 xp: 20

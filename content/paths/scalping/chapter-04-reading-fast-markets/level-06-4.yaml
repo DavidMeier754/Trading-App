@@ -8,6 +8,7 @@ tags: [candles, drill, decisions]
 learning_goal: "User runs two questions on every shape — is it at a line, and did the bar carry weight — and passes when either answer is no."
 purpose: "Telling a signal from a shape that merely looks like one is the whole skill; everything else in this level was vocabulary."
 terms_introduced: []
+skills: ["Two questions for every candle"]
 reinforces: [2]
 prerequisite: "6-3"
 xp: 30

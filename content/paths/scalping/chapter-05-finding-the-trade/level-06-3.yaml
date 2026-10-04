@@ -8,6 +8,7 @@ tags: [scanner, filters, selection]
 learning_goal: "User sets the conditions that keep untradeable names off the list entirely, and still treats what survives as a short list rather than as a set of trades."
 purpose: "A filter you set once on a quiet evening does the same work as a check you would otherwise run eight times every morning under time pressure."
 terms_introduced: []
+skills: ["Setting the scanner's conditions"]
 reinforces: [1, 3]
 prerequisite: "6-2"
 xp: 25

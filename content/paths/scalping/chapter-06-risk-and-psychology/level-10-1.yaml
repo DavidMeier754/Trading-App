@@ -8,6 +8,7 @@ tags: [test, expectancy, costs, limits]
 learning_goal: "Confirm the user can compute expectancy, net it for the all-in cost, judge a method from its two averages, and trade inside the three session caps."
 purpose: "The rest of the chapter is about your own head, and it assumes this arithmetic no longer needs thinking about."
 terms_introduced: []
+skills: []
 reinforces: [3]
 prerequisite: "9-3"
 xp: 50

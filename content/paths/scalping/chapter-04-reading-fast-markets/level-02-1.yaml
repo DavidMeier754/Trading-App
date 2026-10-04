@@ -8,6 +8,7 @@ tags: [vwap, decisions]
 learning_goal: "User can tell price being defended at the line from price being pushed away from it, and picks the side each one gives."
 purpose: "Price comes back to the line several times a session, and what it does when it gets there is the whole trade."
 terms_introduced: ["Rejection"]
+skills: ["Rejection"]
 reinforces: [2]
 prerequisite: "1-4"
 xp: 25

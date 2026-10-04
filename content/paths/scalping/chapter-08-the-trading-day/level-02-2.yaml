@@ -8,6 +8,7 @@ tags: [hotkeys, sequence, execution]
 learning_goal: "User runs one fixed key sequence — size, entry, stop — and knows what each of the other two keys is for."
 purpose: "Five keys pressed in the same order every time is the difference between muscle memory and a decision made at the worst moment."
 terms_introduced: []
+skills: ["One key sequence"]
 reinforces: [3]
 prerequisite: "2-1"
 xp: 25

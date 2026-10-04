@@ -9,6 +9,7 @@ icon: levels
 learning_goal: "User can name the levels that exist before the session starts and use them in the first part of the day."
 purpose: "The first hour trades against numbers that were set before you sat down, and everybody else already has them marked."
 terms_introduced: []
+skills: ["Levels before the open"]
 reinforces: [1]
 prerequisite: "9-2"
 xp: 25

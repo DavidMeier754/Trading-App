@@ -8,6 +8,7 @@ tags: [checkpoint]
 learning_goal: "Verify Levels 6–11: market/limit/marketable limit orders, stop orders and stop distance, position sizing from both ceilings, and where the account binds."
 purpose: "Orders and sizing have to be automatic before slippage and fees stack on top of them."
 terms_introduced: []
+skills: []
 reinforces: [1, 2]
 prerequisite: "11-2"
 xp: 40

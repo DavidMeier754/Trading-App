@@ -9,6 +9,7 @@ icon: levels
 learning_goal: "User can find the price that has turned the last pushes and name it support or resistance."
 purpose: "A scalper trades to and from levels; without them a chart is just a wiggling line."
 terms_introduced: ["Support", "Resistance"]
+skills: ["Support", "Resistance"]
 reinforces: [1]
 prerequisite: "8-3"
 xp: 20

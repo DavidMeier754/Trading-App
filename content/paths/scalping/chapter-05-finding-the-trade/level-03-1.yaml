@@ -8,6 +8,7 @@ tags: [catalyst, in-play, selection]
 learning_goal: "User names the reason a stock is busy today, and knows that the reason explains the crowd and never the direction."
 purpose: "A crowd with a reason stays all session. A crowd without one is a single order that has already finished."
 terms_introduced: ["Catalyst", "In play"]
+skills: ["Catalyst", "In play"]
 reinforces: [1]
 prerequisite: "2-4"
 xp: 20

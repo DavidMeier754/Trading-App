@@ -8,6 +8,7 @@ tags: [journal, review, selection, day-type]
 learning_goal: "User sorts a week of rows by the two columns filled before the open — the name against its own normal and the shape of the session — and reads which of them the losses are sitting in."
 purpose: "The column that explains a losing week is almost never the one you were staring at while you traded it."
 terms_introduced: []
+skills: ["Where the losses sit"]
 reinforces: [5]
 prerequisite: "16-1"
 xp: 20

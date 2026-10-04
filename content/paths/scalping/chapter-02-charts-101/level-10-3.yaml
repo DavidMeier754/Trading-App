@@ -9,6 +9,7 @@ icon: breakout
 learning_goal: "User acts on a level only after the minute has closed, and reads a broken level from the other side."
 purpose: "Almost every level a beginner gets wrong was traded halfway through a candle that had not finished."
 terms_introduced: []
+skills: ["Acting after the close"]
 reinforces: []
 prerequisite: "10-2"
 xp: 25

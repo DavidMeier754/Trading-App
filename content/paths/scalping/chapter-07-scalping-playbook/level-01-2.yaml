@@ -8,6 +8,7 @@ tags: [playbook, invalidation, process]
 learning_goal: "User can separate the stop from the invalidation, act on the invalidation first, and say why a short playbook produces better numbers than a long one."
 purpose: "Most losing scalps announce themselves before the stop is reached, and most bad playbooks are just long ones."
 terms_introduced: []
+skills: ["Invalidation before the stop"]
 reinforces: [6]
 prerequisite: "1-1"
 xp: 20

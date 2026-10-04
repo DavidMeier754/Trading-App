@@ -8,6 +8,7 @@ tags: [risk, limits, discipline]
 learning_goal: "User sets a daily loss limit and a trade limit in advance and stops trading when either is reached."
 purpose: "A scalper's account is rarely ruined by one trade — it is ruined by one morning that nobody stopped."
 terms_introduced: ["Daily loss limit", "Trade limit"]
+skills: ["Daily loss limit", "Trade limit"]
 reinforces: [5]
 prerequisite: "8-2"
 xp: 20

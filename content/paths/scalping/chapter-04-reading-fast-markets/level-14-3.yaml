@@ -8,6 +8,7 @@ tags: [timeframes, management, decisions]
 learning_goal: "User re-checks the slower chart while a trade is on and leaves when the shape that started the trade stops being there."
 purpose: "The chart that let you in is also the one that tells you the reason has gone, usually before the stop does."
 terms_introduced: []
+skills: ["Leaving when the shape goes"]
 reinforces: [2]
 prerequisite: "14-2"
 xp: 25

@@ -8,6 +8,7 @@ tags: [discipline, near-miss, expectancy]
 learning_goal: "User refuses the chart that is one feature short of a card, and can show in R what happens to a card that gets widened to include those charts."
 purpose: "Playbooks are rarely abandoned. They are widened, one reasonable exception at a time, until there is nothing left to follow."
 terms_introduced: []
+skills: ["Not widening a card"]
 reinforces: [6]
 prerequisite: "16-1"
 xp: 25

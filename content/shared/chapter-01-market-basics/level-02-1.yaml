@@ -9,6 +9,7 @@ icon: scale
 learning_goal: "User can explain a price move as the balance of buyers and sellers, and predict the direction from a described imbalance."
 purpose: "Every jump and dip you will ever see is buyers versus sellers — knowing that turns a chart from noise into a story."
 terms_introduced: ["Market", "Buyer", "Seller", "Demand", "Supply"]
+skills: ["Market", "Buyer", "Seller", "Demand", "Supply"]
 prerequisite: "1-4"
 xp: 20
 difficulty: 1

@@ -8,6 +8,7 @@ tags: [levels, touches, decisions]
 learning_goal: "User treats the first test of a level as the one worth trading and expects a level to be thinner on every test after it."
 purpose: "The same level is a different trade the third time price arrives at it, and the chart looks almost identical."
 terms_introduced: []
+skills: ["The first test"]
 reinforces: [2]
 prerequisite: "10-1"
 xp: 25

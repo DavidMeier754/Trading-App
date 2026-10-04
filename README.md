@@ -33,6 +33,7 @@ The app is called **Nutrade** (decision L in `docs/build-plan.md` §4.1; stage B
 | `demo/all-screens.yaml` | The test bench: one example of every screen type. |
 | `tools/validate_content.py` | Validates all lesson files and drill packs; `--status` prints chapter and pack statistics. |
 | `tools/test_validate.py` | Self-test for the validator. Run it after changing `validate_content.py`. |
+| `tools/skills.py` | Every lesson's skills with their info from `content/skills.yaml`; `--sync` adds a lesson's terms to its `skills` line and stub entries for new names. |
 | `tools/check_sizing.py` | Every simulated position against the 95 % concentration rule, with every other line in the file that names the same share count. |
 | `tools/build_drill_batch.py` | Builds Batch API requests for drill packs from the manifest (optional; stage DRILLS writes packs in-session). |
 
@@ -58,6 +59,7 @@ python3 tools/validate_content.py            # errors and warnings
 python3 tools/validate_content.py --status   # levels, screens, minutes per chapter
 python3 tools/validate_content.py --strict   # chapter-level warnings become errors
 python3 tools/test_validate.py               # self-test: every validator rule still fires
+python3 tools/skills.py --chapter 2          # one chapter's skills with their info
 python3 tools/check_sizing.py --summary      # concentration by chapter
 python3 tools/check_sizing.py --chapter 2    # every position in one chapter, with its mentions
 python3 tools/build_drill_batch.py --check   # the drill manifest and its exemplars resolve

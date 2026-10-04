@@ -8,6 +8,7 @@ tags: [vwap, decisions, levels]
 learning_goal: "User can tell a minute that took the line back from a minute that only visited the other side of it."
 purpose: "The trade that pays for knowing the line is the one where control of the session changes hands."
 terms_introduced: ["Reclaim"]
+skills: ["Reclaim"]
 reinforces: [2]
 prerequisite: "2-1"
 xp: 25

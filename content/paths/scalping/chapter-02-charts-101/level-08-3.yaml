@@ -9,6 +9,7 @@ icon: pullback
 learning_goal: "User waits for the first candle that takes ground back and joins the trend there rather than inside the falling dip."
 purpose: "This is the entry a scalper uses more than any other, and it is decided by one candle."
 terms_introduced: []
+skills: ["Joining after the pullback"]
 reinforces: []
 prerequisite: "8-2"
 xp: 25

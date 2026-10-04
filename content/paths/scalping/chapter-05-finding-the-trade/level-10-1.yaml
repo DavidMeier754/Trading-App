@@ -8,6 +8,7 @@ tags: [checkpoint, scanner, watchlist, float]
 learning_goal: "User proves they can set conditions before sorting, cut a list to a watchlist they can actually mark, read a float column, and let the book decide a share count."
 purpose: "Levels 11 to 13 add the market behind the stock, and they only help someone who can already pick the stock."
 terms_introduced: []
+skills: []
 reinforces: [1, 3]
 prerequisite: "9-2"
 xp: 40

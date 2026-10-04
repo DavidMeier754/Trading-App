@@ -8,6 +8,7 @@ tags: [risk, sizing, drawdown, account]
 learning_goal: "User recomputes both sizing ceilings against the account they have today, and can say which of the two decides the size once the risk per trade is cut."
 purpose: "A drawdown changes the numbers on both sides of the sizing sum, and the one that binds swaps over."
 terms_introduced: []
+skills: ["Ceilings for today's account"]
 reinforces: [3]
 prerequisite: "17-1"
 xp: 20

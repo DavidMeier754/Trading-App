@@ -8,6 +8,7 @@ tags: [capstone, session, journal, limits]
 learning_goal: "User closes a session properly: a re-entry taken for the right reason, the trade cap honoured on a winning day, the numbers written down, and the morning graded on process."
 purpose: "How a session ends decides what the next one starts from, and it is the half nobody practises."
 terms_introduced: []
+skills: []
 reinforces: [3, 5, 6]
 prerequisite: "17-2"
 xp: 30

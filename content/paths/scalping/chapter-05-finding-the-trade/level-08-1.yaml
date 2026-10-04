@@ -8,6 +8,7 @@ tags: [float, selection, liquidity]
 learning_goal: "User can say what a float is, read the column, and tell a name's float apart from the volume trading in it today."
 purpose: "Two names at the same multiple behave completely differently if one has ten million shares available and the other has eight hundred million."
 terms_introduced: ["Float"]
+skills: ["Float"]
 reinforces: [1, 3]
 prerequisite: "7-3"
 xp: 20

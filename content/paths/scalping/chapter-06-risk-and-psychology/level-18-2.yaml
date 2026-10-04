@@ -8,6 +8,7 @@ tags: [review, decisions, selection, costs]
 learning_goal: "User traces a losing morning back to the page and the cost of the trades on it, rebuilds the page mid-session and finishes at half size."
 purpose: "Some bad mornings are execution. Most of them were decided before the bell, on a page with nothing worth trading on it."
 terms_introduced: []
+skills: []
 reinforces: [3, 5]
 prerequisite: "18-1"
 xp: 30

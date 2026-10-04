@@ -8,6 +8,7 @@ tags: [risk, r-multiple, session, review]
 learning_goal: "User reads a whole session in R, converts between R and dollars in both directions, and knows which of their rules survive a change of account size."
 purpose: "Every rule in the rest of this chapter is written in R, because R is the only unit that still means the same thing next year."
 terms_introduced: []
+skills: ["A session in R"]
 reinforces: [3]
 prerequisite: "2-3"
 xp: 20

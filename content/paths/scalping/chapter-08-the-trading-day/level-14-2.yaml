@@ -8,6 +8,7 @@ tags: [journal, simulator, costs, review]
 learning_goal: "User records a simulated trade with the two columns a simulator makes necessary, and discounts the sheet by what the fills were given."
 purpose: "A sheet that believes its own fills will tell you the method works right up until the money is real."
 terms_introduced: []
+skills: ["Discounting sim fills"]
 reinforces: [6, 7]
 prerequisite: "14-1"
 xp: 25

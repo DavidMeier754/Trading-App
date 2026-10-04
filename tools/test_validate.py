@@ -9,6 +9,7 @@ Requires only PyYAML, like the validator itself. Exit 0 = all rules fire.
 """
 import pathlib
 import sys
+from collections import defaultdict
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import validate_content as V  # noqa: E402
@@ -55,7 +56,8 @@ def lesson(**over):
     d = {
         "id": "3-1", "title": "T", "chapter": 3, "chapter_title": "C", "path": "scalping",
         "category": "new-theory", "tags": [], "learning_goal": "g", "purpose": "p",
-        "terms_introduced": [], "xp": 20, "difficulty": 1, "sources": ["consensus"],
+        "terms_introduced": [], "skills": ["Reading a quote"], "xp": 20, "difficulty": 1,
+        "sources": ["consensus"],
         "screens": [{"type": "intro", "text": "x"}] + [{"type": "theory", "body": "b"}] * 11 +
                    [{"type": "mc", "prompt": "p",
                      "options": [{"text": "a", "correct": True}, {"text": "b"}], "explanation": "e"}],
@@ -72,7 +74,7 @@ def exam(nq, category):
                   if i % 2 else
                   {"type": "mc", "prompt": f"p{i}",
                    "options": [{"text": "a", "correct": True}, {"text": "b"}], "explanation": "e"})
-    return lesson(category=category,
+    return lesson(category=category, skills=[],
                   screens=[{"type": "intro", "text": "x", "counter": nq}] + qs +
                           [{"type": "summary", "total": nq}, {"type": "badge", "name": "b", "unlocks": "u"}])
 
@@ -783,12 +785,72 @@ expect_no("decision-grid: a known cell passes", data({"type": "visual", "compone
 
 expect("facts on a lesson intro", check_file(lesson(screens=[{"type": "intro", "text": "x", "facts": ["Account $20,000"]}] + lesson()["screens"][1:])), "only in tests")
 expect("facts too long", check_file(exam(10, "test") | {"screens": [{"type": "intro", "text": "x", "counter": 10, "facts": ["An account of twenty-two thousand"]}] + exam(10, "test")["screens"][1:]}), "at most 20 characters")
-expect("skills in a repetition lesson", check_file(lesson(category="repetition", skills=[{"name": "x", "card": 2}])), "only in new-theory")
-expect("skills: a card that is a question", check_file(lesson(skills=[{"name": "Reading a quote", "card": 13}])), "card must name")
-expect("skills: a name too long", check_file(lesson(skills=[{"name": "x" * 41, "card": 2}])), "1–40 characters")
-expect_no("skills: a valid skill passes", check_file(lesson(skills=[{"name": "Reading a quote", "card": 2}])), "skill")
+# docs/schema.md "Skills": a lesson lists names; content/skills.yaml holds the entries.
+no_skills = lesson()
+del no_skills["skills"]
+expect("skills: the field is missing", check_file(no_skills), "missing field 'skills'")
+expect("skills: entries are objects, not names", check_file(lesson(skills=[{"name": "x", "card": 2}])), "list of names")
+expect("skills: a name too long", check_file(lesson(skills=["x" * 41])), "1–40 characters")
+expect("skills: a name listed twice", check_file(lesson(skills=["Reading a quote", "reading a  quote"])), "listed twice")
+expect("skills: a test teaches none", check_file(exam(4, "test") | {"skills": ["Reading a quote"]}), "teach no skills")
+expect("skills: a new-theory lesson with none", check_file(lesson(skills=[])), "at least one skill")
+expect("skills: an introduced term not listed", check_file(lesson(terms_introduced=["Spread"])), "not in skills")
+expect_no("skills: a valid list passes",
+          check_file(lesson(terms_introduced=["Spread"], skills=["Spread", "Reading a quote"])), "skills")
+expect_no("skills: a repetition lesson may list none", check_file(lesson(category="repetition", skills=[])), "skill")
+
+
+def table(entries):
+    return lambda rep: V.check_skill_table("content/skills.yaml", entries, rep)
+
+
+W = {"name": "Spread", "kind": "word", "info": "The gap between bid and ask."}
+T = {"name": "Reading a quote", "kind": "technique", "info": "Reading both prices at once."}
+expect("skill table: not a list", table({"Spread": W}), "must be a list")
+expect("skill table: info missing", table([{"name": "Spread", "kind": "word"}]), "name, kind and info")
+expect("skill table: an unknown field", table([W | {"card": 2}]), "name, kind and info")
+expect("skill table: a kind that is neither", table([W | {"kind": "term"}]), "word or technique")
+expect("skill table: empty info", table([W | {"info": " "}]), "info is empty")
+expect("skill table: info too long", table([W | {"info": "x" * 160 + "."}]), "at most 160")
+expect("skill table: info without a full stop", table([W | {"info": "The gap"}]), "full stop")
+expect("skill table: a name too long", table([W | {"name": "x" * 41}]), "1–40 characters")
+expect("skill table: two entries, one name", table([W, W | {"name": "spread "}]), "already the name")
+expect("skill table: an alias that is a name", table([W | {"aliases": ["reading a quote"]}, T]), "already the name")
+expect("skill table: an alias on a technique", table([T | {"aliases": ["Quote reading"]}]), "only a word")
+expect_no("skill table: a valid table passes", table([W | {"aliases": ["bid-ask spread"]}, T]), "skill")
+
+
+def taught(*files, entries=(W, T)):
+    def run(rep):
+        tbl = V.check_skill_table("content/skills.yaml", list(entries), rep)
+        chapters = defaultdict(list)
+        for n, (folder, d) in enumerate(files):
+            chapters[folder].append(dict(d, _file=f"{folder.name}/level-{n}.yaml"))
+        V.validate_skills(tbl, chapters, rep)
+    return run
+
+
+SHARED = pathlib.Path(V.ROOT) / "content/shared/chapter-01-x"
+DAY = pathlib.Path(V.ROOT) / "content/paths/day-trading/chapter-02-x"
+spread = lesson(terms_introduced=["Spread"], skills=["Spread", "Reading a quote"])
+expect("skills: a name with no entry", taught((CHAPTER, lesson(skills=["Tape reading"]))), "no entry")
+expect("skills: a name spelled otherwise", taught((CHAPTER, lesson(skills=["reading a quote"]))), "is spelled")
+expect("skills: a word not introduced", taught((CHAPTER, lesson(skills=["Spread"]))), "not in terms_introduced")
+expect("skills: a technique in two lessons",
+       taught((CHAPTER, spread), (CHAPTER, lesson(skills=["Reading a quote"]))), "belongs to one lesson")
+expect("skills: a word twice on one path",
+       taught((CHAPTER, spread), (CHAPTER, lesson(terms_introduced=["Spread"], skills=["Spread"]))),
+       "already introduced")
+expect("skills: a word in Chapter 1 and again on a path",
+       taught((SHARED, lesson(path="all", terms_introduced=["Spread"], skills=["Spread"])), (CHAPTER, spread)),
+       "already introduced")
+expect_no("skills: one word on two paths",
+          taught((CHAPTER, spread), (DAY, lesson(path="day-trading", terms_introduced=["Spread"], skills=["Spread"]))),
+          "already introduced")
+expect("skills: an entry no lesson lists", taught((CHAPTER, lesson(skills=["Reading a quote"]))), "listed by no lesson")
+expect_no("skills: every entry listed once", taught((CHAPTER, spread)), "skill")
 expect("a term no card names", check_file(lesson(terms_introduced=["Spread"])), "term 'Spread' is on no theory")
-expect_no("a term a card names", check_file(lesson(terms_introduced=["Spread"], screens=[{"type": "intro", "text": "x"}, {"type": "theory", "title": "t", "body": "The spread is the gap."}] + lesson()["screens"][2:])), "term 'Spread'")
+expect_no("a term a card names", check_file(lesson(terms_introduced=["Spread"], skills=["Spread"], screens=[{"type": "intro", "text": "x"}, {"type": "theory", "title": "t", "body": "The spread is the gap."}] + lesson()["screens"][2:])), "term 'Spread'")
 
 REPLAY = {"type": "chart-replay", "prompt": "p", "explanation": "e",
           "chart": {"kind": "candles", "data": BARS * 4}, "moments": [{"bar": 3, "kind": "setup", "note": "n"}]}

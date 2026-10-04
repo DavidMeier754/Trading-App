@@ -8,6 +8,7 @@ tags: [map, process, tape, levels]
 learning_goal: "User can say what each of the four readings contributes and what it cannot answer, and notices which one is missing."
 purpose: "Four readings that all said the same thing would be one reading. They are worth running because each answers a different question."
 terms_introduced: []
+skills: ["What each reading can't tell you"]
 reinforces: [2, 3]
 prerequisite: "12-1"
 xp: 25

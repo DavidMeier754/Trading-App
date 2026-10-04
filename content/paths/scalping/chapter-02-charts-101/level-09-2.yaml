@@ -9,6 +9,7 @@ icon: levels
 learning_goal: "User knows why whole and half dollars collect orders, and marks them only where price has already reacted."
 purpose: "Round numbers are the levels every other trader can see too, which is exactly what makes them work."
 terms_introduced: []
+skills: ["Round numbers"]
 reinforces: [1]
 prerequisite: "9-1"
 xp: 20

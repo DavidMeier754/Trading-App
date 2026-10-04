@@ -8,6 +8,7 @@ tags: [relative-volume, liquidity, selection]
 learning_goal: "User keeps the multiple and the absolute minute volume apart, and rejects a high multiple of a name that barely trades."
 purpose: "The two numbers answer different questions, and a beginner who uses one of them for both jobs ends up in the least tradeable name on the list."
 terms_introduced: []
+skills: ["Multiple versus shares"]
 reinforces: [1, 2]
 prerequisite: "2-1"
 xp: 25

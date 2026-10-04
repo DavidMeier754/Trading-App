@@ -8,6 +8,7 @@ tags: [callback, levels, spread, cost]
 learning_goal: "User prices a level with the quote in front of it and drops the read when the spread takes most of the room the level was offering."
 purpose: "A level is worth what is left of the move after the quote has taken its share, and that number changes from stock to stock."
 terms_introduced: []
+skills: ["Pricing a level with its quote"]
 reinforces: [2, 3]
 prerequisite: "15-3"
 xp: 30

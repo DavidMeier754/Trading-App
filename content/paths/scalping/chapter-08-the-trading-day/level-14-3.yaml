@@ -8,6 +8,7 @@ tags: [limits, simulator, risk, plan]
 learning_goal: "User bounds the simulated month with a trade cap, a daily limit and a floor for the whole thirty sessions, and holds all three when a card fires past them."
 purpose: "A month with no floor under it can spend thirty sessions proving one mistake very thoroughly."
 terms_introduced: []
+skills: ["Bounding the sim month"]
 reinforces: [6, 7]
 prerequisite: "14-2"
 xp: 25

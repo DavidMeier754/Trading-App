@@ -9,6 +9,7 @@ icon: zoom
 learning_goal: "User can say what a timeframe is and name the job each of the scalper's two charts does."
 purpose: "Scalpers live on the 1-minute chart, and the fastest way to lose on it is to ignore what the 5-minute is doing."
 terms_introduced: ["Timeframe"]
+skills: ["Timeframe"]
 reinforces: []
 prerequisite: "2-3"
 xp: 20

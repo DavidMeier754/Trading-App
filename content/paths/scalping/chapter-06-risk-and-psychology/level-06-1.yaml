@@ -8,6 +8,7 @@ tags: [expectancy, win-rate, costs]
 learning_goal: "User computes expectancy from win rate, average win and average loss, and subtracts costs before judging a method."
 purpose: "A scalper takes hundreds of trades a month; whatever one average trade is worth gets multiplied by all of them."
 terms_introduced: ["Win rate", "Average win", "Average loss", "Expectancy", "Edge"]
+skills: ["Win rate", "Average win", "Average loss", "Expectancy", "Edge"]
 reinforces: [3]
 prerequisite: "5-1"
 xp: 20

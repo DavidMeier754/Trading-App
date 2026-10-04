@@ -8,6 +8,7 @@ tags: [callback, liquidity, volatility, selection]
 learning_goal: "User uses Chapter 1's two dials as the first cut of the morning, and can say which of the two ended a name."
 purpose: "Both dials end a name, they end it for opposite reasons, and a trader who only checks one of them spends the morning on names that cannot pay."
 terms_introduced: []
+skills: ["The two dials as the first cut"]
 reinforces: [1, 4]
 prerequisite: "13-4"
 xp: 30

@@ -8,6 +8,7 @@ tags: [levels, vwap, costs, position-size]
 learning_goal: "User prices every read before taking it: the cost against the distance to the next line, and the size against both ceilings."
 purpose: "A good read you cannot afford is not a trade, and the only way to know is to price it before you send anything."
 terms_introduced: []
+skills: ["Pricing a read"]
 reinforces: [3]
 prerequisite: "3-4"
 xp: 25

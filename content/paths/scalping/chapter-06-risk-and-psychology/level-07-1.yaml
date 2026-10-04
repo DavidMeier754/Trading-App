@@ -8,6 +8,7 @@ tags: [expectancy, costs, spread, fees]
 learning_goal: "User puts the all-in cost on both sides of the average — shrinking the winner and growing the loser — before calling a method positive."
 purpose: "A scalper pays the full cost of a round trip on every single trade, win or lose, and it lands inside the average where it is easy to miss."
 terms_introduced: []
+skills: ["Costs on both sides"]
 reinforces: [3]
 prerequisite: "6-4"
 xp: 20

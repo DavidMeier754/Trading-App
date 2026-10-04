@@ -8,6 +8,7 @@ tags: [day-type, management, market-context]
 learning_goal: "User names what each kind of day offers and what it refuses, and changes how a trade is held rather than which setups are taken."
 purpose: "Most of the money a day type saves you is made after the entry, in what you do with a winner and how long you give it."
 terms_introduced: []
+skills: ["Holding to the day type"]
 reinforces: [2, 4]
 prerequisite: "13-2"
 xp: 25

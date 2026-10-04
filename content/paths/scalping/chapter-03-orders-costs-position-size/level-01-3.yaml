@@ -8,6 +8,7 @@ tags: [spread, quote-panel, practice]
 learning_goal: "User reads a quote panel at speed: which two numbers, how far apart, and what changed since the last look."
 purpose: "In a fast stock the panel is a moving instrument, and a scalper has about a second to read it."
 terms_introduced: []
+skills: ["Reading a quote at speed"]
 reinforces: [1]
 prerequisite: "1-2"
 xp: 20

@@ -8,6 +8,7 @@ tags: [psychology, routine, sizing, r-multiple]
 learning_goal: "User returns from a reset at half size, treats the first trades back as a test of execution, and goes back to full size on a count of trades taken as written."
 purpose: "Half size is not caution; it is the cheapest way to find out whether the state has actually passed."
 terms_introduced: []
+skills: ["Coming back at half size"]
 reinforces: []
 prerequisite: "12-2"
 xp: 20

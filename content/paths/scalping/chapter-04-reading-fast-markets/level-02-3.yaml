@@ -8,6 +8,7 @@ tags: [vwap, closes, decisions]
 learning_goal: "User waits for a finished minute before treating the line as won or lost, and weighs that close against the bar underneath it."
 purpose: "Half of what looks like a change of control at the line is a wick that was handed straight back."
 terms_introduced: []
+skills: ["A finished minute decides"]
 reinforces: [2]
 prerequisite: "2-2"
 xp: 25

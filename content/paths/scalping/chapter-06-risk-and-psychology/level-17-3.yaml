@@ -8,6 +8,7 @@ tags: [risk, sizing, drawdown, execution]
 learning_goal: "User raises share size one written step at a time, on a rule fixed before the drawdown, and can say what a single good morning is worth as evidence."
 purpose: "Coming back too fast is how a recovered drawdown becomes a deeper one."
 terms_introduced: []
+skills: ["Sizing back up"]
 reinforces: [3]
 prerequisite: "17-2"
 xp: 20

@@ -8,6 +8,7 @@ tags: [tape, order-book, execution]
 learning_goal: "User can tell size that is being refreshed as it trades from size that disappears before anybody reaches it."
 purpose: "Half the shares you can see on a ladder are an intention, and intentions are free to change their mind."
 terms_introduced: ["Stacking", "Pulling"]
+skills: ["Stacking", "Pulling"]
 reinforces: [3]
 prerequisite: "9-1"
 xp: 25

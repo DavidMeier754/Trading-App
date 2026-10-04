@@ -8,6 +8,7 @@ tags: [drill, selection, decisions]
 learning_goal: "User runs the four filters and the reason check at speed, on rows and on charts, and passes on the names that fail one of them."
 purpose: "Selection is a habit rather than a calculation, and habits are built by repetition on unseen names."
 terms_introduced: []
+skills: []
 reinforces: [1, 3]
 prerequisite: "4-1"
 xp: 30

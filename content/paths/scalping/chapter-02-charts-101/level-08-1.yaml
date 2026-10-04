@@ -9,6 +9,7 @@ icon: pullback
 learning_goal: "User can tell a pullback inside a trend from the trend actually ending, using the last higher low."
 purpose: "Chasing the push is what beginners do; the give-back after it is where the same trade is available cheaper."
 terms_introduced: ["Pullback"]
+skills: ["Pullback"]
 reinforces: []
 prerequisite: "7-4"
 xp: 20

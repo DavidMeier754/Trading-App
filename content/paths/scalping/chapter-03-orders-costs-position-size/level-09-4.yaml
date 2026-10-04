@@ -8,6 +8,7 @@ tags: [stops, drill, decisions, structure]
 learning_goal: "User judges at a glance whether a chart offers a stop worth trading, and knows what to do when a stop-limit is left behind."
 purpose: "A setup without a nearby price to lean on is not a cheap trade with a wide stop — it is somebody else's trade."
 terms_introduced: []
+skills: ["A stop worth trading"]
 reinforces: [2]
 prerequisite: "9-3"
 xp: 30

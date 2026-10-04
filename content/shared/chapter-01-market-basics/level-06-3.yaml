@@ -9,6 +9,7 @@ icon: people
 learning_goal: "User can read unusual volume and large price steps as the footprint of a big participant, and knows what that footprint does not tell them."
 purpose: "You will never see who is trading, so the whole skill is reading what they leave behind on the only two numbers you have."
 terms_introduced: []
+skills: ["Spotting a big participant"]
 reinforces: []
 prerequisite: "6-2"
 xp: 20

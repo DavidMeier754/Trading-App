@@ -8,6 +8,7 @@ tags: [drills, orders, execution, practice]
 learning_goal: "User builds entry, stop and exit tickets for one position from start to finish, and predicts where each order actually fills."
 purpose: "A ticket you have built a hundred times is one you can build while the candle is still closing."
 terms_introduced: []
+skills: ["From ticket to fill"]
 reinforces: [3, 4]
 prerequisite: "2-3"
 xp: 30

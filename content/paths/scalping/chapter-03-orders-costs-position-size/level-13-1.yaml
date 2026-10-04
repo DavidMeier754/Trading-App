@@ -8,6 +8,7 @@ tags: [slippage, execution]
 learning_goal: "User can define slippage and execution speed, keep both separate from the spread, and compute slippage cost for a share count."
 purpose: "The gap between the price you saw and the price you got is a real, recurring cost — naming it is the first step to controlling it."
 terms_introduced: ["Slippage", "Execution speed"]
+skills: ["Slippage", "Execution speed"]
 reinforces: [2]
 prerequisite: "12-1"
 xp: 20

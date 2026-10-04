@@ -9,6 +9,7 @@ icon: candle
 learning_goal: "User can read all four prices off one candle at a glance and mark the price a candle closed at."
 purpose: "In a sixty-second decision you read the last candle once, and it has to be right the first time."
 terms_introduced: []
+skills: ["Reading a candle's four prices"]
 reinforces: []
 prerequisite: "1-2"
 xp: 20

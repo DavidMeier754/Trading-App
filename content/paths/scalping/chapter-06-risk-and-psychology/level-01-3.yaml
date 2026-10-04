@@ -8,6 +8,7 @@ tags: [risk, stops, costs, discipline]
 learning_goal: "User prices the cost of widening a stop, and treats a fill past the trigger as a cost rather than as a broken plan."
 purpose: "Almost every account-ending loss started as a small planned one that somebody gave a little more room."
 terms_introduced: []
+skills: ["The price of widening a stop"]
 reinforces: [3]
 prerequisite: "1-2"
 xp: 20

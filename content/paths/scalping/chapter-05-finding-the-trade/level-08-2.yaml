@@ -8,6 +8,7 @@ tags: [float, slippage, execution]
 learning_goal: "User can explain why a small float travels faster and fills worse, and reads the cost of that out of an order book."
 purpose: "The same feature that makes a small float worth watching is the one that takes cents out of every entry and every exit."
 terms_introduced: ["Small float"]
+skills: ["Small float"]
 reinforces: [1, 3]
 prerequisite: "8-1"
 xp: 25

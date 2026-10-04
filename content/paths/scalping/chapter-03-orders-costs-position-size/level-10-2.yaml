@@ -8,6 +8,7 @@ tags: [position-size, risk, one-percent]
 learning_goal: "User sets a risk budget of about 1 % of the account and divides it by the stop distance to get a share count."
 purpose: "A fixed budget per trade is what makes a bad run survivable, and it is the first of the two ceilings on size."
 terms_introduced: ["1 % rule"]
+skills: ["1 % rule"]
 reinforces: [1]
 prerequisite: "10-1"
 xp: 20

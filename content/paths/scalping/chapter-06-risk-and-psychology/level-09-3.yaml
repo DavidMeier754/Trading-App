@@ -8,6 +8,7 @@ tags: [risk, limits, discipline, day-type]
 learning_goal: "User keeps a limit that has become inconvenient, sizes the last trade so it cannot breach one, and writes their own three caps down."
 purpose: "A limit is only worth having on the one morning you would rather not have it."
 terms_introduced: []
+skills: ["Keeping an inconvenient limit"]
 reinforces: [5]
 prerequisite: "9-2"
 xp: 20

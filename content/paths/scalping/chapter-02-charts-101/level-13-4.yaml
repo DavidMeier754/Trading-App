@@ -9,6 +9,7 @@ icon: bell
 learning_goal: "User decides at the open: takes the break that finished outside the range on volume, and passes on the poke, the drift and the stock that cannot carry their size."
 purpose: "The open hands you one good decision and about ten bad ones, and they all look similar for the first few seconds."
 terms_introduced: []
+skills: ["Deciding at the open"]
 reinforces: [1]
 prerequisite: "13-3"
 xp: 25

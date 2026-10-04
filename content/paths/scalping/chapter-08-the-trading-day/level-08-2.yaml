@@ -8,6 +8,7 @@ tags: [review, process, journal, discipline]
 learning_goal: "User runs a short post-market review on the day's own charts and separates the trades the page allowed from the ones it did not."
 purpose: "The twenty minutes after the bell are the only time the charts and your reasons for them are both still available."
 terms_introduced: ["Post-market review"]
+skills: ["Post-market review"]
 reinforces: [6]
 prerequisite: "8-1"
 xp: 25

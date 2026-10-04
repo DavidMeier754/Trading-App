@@ -8,6 +8,7 @@ tags: [fees, frequency, costs]
 learning_goal: "User adds fees to the rest of a day's costs, sizes up what each trade needs to clear before it's worth taking, and passes on a range too small to cover it."
 purpose: "The chapter's costs don't arrive one at a time — they stack, and the stack is what a setup actually has to beat."
 terms_introduced: []
+skills: ["Clearing the day's costs"]
 reinforces: [1]
 prerequisite: "14-2"
 xp: 20

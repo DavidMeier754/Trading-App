@@ -8,6 +8,7 @@ tags: [risk, management, stops, costs]
 learning_goal: "User moves a stop to break-even only once price has cleared the level the trade was leaning on, and prices what a scratch costs."
 purpose: "A stop pulled to the entry too early turns a working trade into a scratch, and four scratches cost most of a full stop."
 terms_introduced: []
+skills: ["When to move to break-even"]
 reinforces: [3]
 prerequisite: "2-4"
 xp: 20

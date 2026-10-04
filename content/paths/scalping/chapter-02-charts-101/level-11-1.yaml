@@ -9,6 +9,7 @@ icon: levels
 learning_goal: "User takes four decisions at levels and tells a level that has answered from one that has not."
 purpose: "Everything from Level 9 on only matters at the moment a level is reached, and that moment lasts one minute."
 terms_introduced: []
+skills: ["Has the level answered?"]
 reinforces: [1]
 prerequisite: "10-3"
 xp: 25

@@ -8,6 +8,7 @@ tags: [internals, risk-on, risk-off, market-context]
 learning_goal: "User reads the tone of a morning from the index and the count together, and lets it change how many trades they expect rather than which way they face."
 purpose: "A tone is the shortest honest summary of a morning, and summarising it wrong is how a trader ends up forcing longs into a market that is emptying out."
 terms_introduced: ["Risk-on", "Risk-off"]
+skills: ["Risk-on", "Risk-off"]
 reinforces: [1]
 prerequisite: "12-1"
 xp: 25

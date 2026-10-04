@@ -8,6 +8,7 @@ tags: [stats, expectancy, sample, discipline]
 learning_goal: "User reads their expectancy across the whole sample rather than the last week, and lets a bad stretch change the size before it changes the method."
 purpose: "The week that makes you want to rebuild everything is almost always too small to have said anything."
 terms_introduced: []
+skills: ["The whole sample"]
 reinforces: [6]
 prerequisite: "11-1"
 xp: 25

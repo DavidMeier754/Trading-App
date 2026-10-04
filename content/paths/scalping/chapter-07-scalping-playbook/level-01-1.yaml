@@ -8,6 +8,7 @@ tags: [playbook, setups, process]
 learning_goal: "User can name the five fields of a playbook card and say why a short playbook beats a long one."
 purpose: "Everything after this chapter is one question: which card is this? Without cards there is no question, only guessing."
 terms_introduced: ["Playbook", "Playbook card", "Invalidation"]
+skills: ["Playbook", "Playbook card", "Invalidation"]
 reinforces: [6]
 prerequisite: null
 xp: 20

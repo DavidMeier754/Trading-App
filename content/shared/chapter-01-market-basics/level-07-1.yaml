@@ -9,6 +9,7 @@ icon: drop
 learning_goal: "User can define liquidity as ease of leaving a position, and predict what a normal-sized order does in a liquid versus an illiquid stock."
 purpose: "Getting into a trade is always easy. Liquidity decides whether getting out is, and that is the half beginners never check."
 terms_introduced: ["Liquidity", "Liquid", "Illiquid"]
+skills: ["Liquidity", "Liquid", "Illiquid"]
 reinforces: []
 prerequisite: "6-3"
 xp: 20

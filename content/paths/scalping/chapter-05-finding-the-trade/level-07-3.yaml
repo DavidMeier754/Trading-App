@@ -8,6 +8,7 @@ tags: [watchlist, levels, premarket]
 learning_goal: "User finds the three prices worth marking on a watchlist name and draws them before the session starts."
 purpose: "A line found during a move was found by the move, and the whole point of marking prices in advance is that the move had no say in them."
 terms_introduced: []
+skills: ["Marking a watchlist name"]
 reinforces: [2]
 prerequisite: "7-2"
 xp: 25

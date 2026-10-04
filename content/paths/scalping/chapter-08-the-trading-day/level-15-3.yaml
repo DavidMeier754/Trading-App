@@ -8,6 +8,7 @@ tags: [plan, risk, journal, sizing]
 learning_goal: "User carries the page across to a live account unchanged except for the share count, and starts a second sample rather than continuing the first."
 purpose: "Everything you wrote down over seven chapters is worth exactly as much as the part of it that survives the first real fill."
 terms_introduced: []
+skills: ["A second sample"]
 reinforces: [6]
 prerequisite: "15-2"
 xp: 25

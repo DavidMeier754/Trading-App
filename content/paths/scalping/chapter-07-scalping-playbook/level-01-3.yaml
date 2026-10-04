@@ -8,6 +8,7 @@ tags: [playbook, plan, journal]
 learning_goal: "User turns a vague setup description into a card whose five fields are instructions, sizes it from the stop, and writes the first card of their own playbook."
 purpose: "A card is only worth having if two people could read it and take the same trade in the same minute."
 terms_introduced: []
+skills: ["Writing a card"]
 reinforces: [6]
 prerequisite: "1-2"
 xp: 25

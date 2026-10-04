@@ -516,9 +516,6 @@ export type QuestionScreen =
   | DepthLadderScreen
   | ChartReplayScreen;
 
-/** docs/schema.md [DESIGN-REVIEW]: a technique a lesson teaches, and the card that teaches it. */
-export type LevelSkill = { name: string; card: number };
-
 export type Level = {
   id: string;
   title: string;
@@ -534,8 +531,11 @@ export type Level = {
   learning_goal: string;
   purpose: string;
   terms_introduced?: string[];
-  /** docs/schema.md [DESIGN-REVIEW]: techniques, beside the terms. */
-  skills?: LevelSkill[];
+  /**
+   * docs/schema.md "Skills": the names of the skills this lesson teaches, its
+   * words first, each with its entry in content/skills.yaml.
+   */
+  skills?: string[];
   /** A bonus side lesson (`category: bonus`): the level it follows, and the gems it pays once. */
   after?: number;
   gems?: number;

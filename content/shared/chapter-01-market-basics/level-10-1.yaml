@@ -9,6 +9,7 @@ icon: clock
 learning_goal: "User can name and order the three sessions of a trading day and say which one carries nearly all of the volume."
 purpose: "The same stock behaves like three different stocks across a day, and knowing which block you are looking at explains most of the moves that look wrong."
 terms_introduced: ["Session", "Pre-market", "Regular session", "After-hours"]
+skills: ["Session", "Pre-market", "Regular session", "After-hours"]
 reinforces: []
 prerequisite: "9-2"
 xp: 20

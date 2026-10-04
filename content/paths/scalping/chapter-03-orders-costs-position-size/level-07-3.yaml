@@ -8,6 +8,7 @@ tags: [orders, execution, exits]
 learning_goal: "User rests a limit sell at the target as soon as the entry fills, and knows what it means when that order never trades."
 purpose: "An exit decided in advance is the only exit that is not decided by whatever you happen to be feeling."
 terms_introduced: []
+skills: ["Resting the target order"]
 reinforces: []
 prerequisite: "7-2"
 xp: 20

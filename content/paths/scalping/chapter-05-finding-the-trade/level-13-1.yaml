@@ -8,6 +8,7 @@ tags: [day-type, trend-day, range-day, market-context]
 learning_goal: "User can name a session as a trend day or a range day from the shape of the slower chart, and say what each one keeps offering on the 1-minute."
 purpose: "Two sessions can hand a scalper the same 1-minute signal and pay completely differently, and the difference has a name."
 terms_introduced: ["Trend day", "Range day"]
+skills: ["Trend day", "Range day"]
 reinforces: [2, 4]
 prerequisite: "12-3"
 xp: 20

@@ -8,6 +8,7 @@ tags: [checkpoint]
 learning_goal: "Verify Levels 6–8: the mean reversion card with its half size, moving VWAP target and invalidation; the failed-breakout fade with its stop and its far-side target; and sorting an unseen chart into one of the five cards or none."
 purpose: "Three more cards are coming. Five that blur into each other are worse than three that do not."
 terms_introduced: []
+skills: []
 reinforces: [4, 6]
 prerequisite: "8-2"
 xp: 40

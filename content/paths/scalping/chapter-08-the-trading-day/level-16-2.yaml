@@ -8,6 +8,7 @@ tags: [discipline, tilt, playbook, session]
 learning_goal: "User passes a whole session without a ticket and stops a tilting one after a single row."
 purpose: "The two sessions nobody practises are the empty one and the one that starts badly."
 terms_introduced: []
+skills: []
 reinforces: [5, 6, 7]
 prerequisite: "16-1"
 xp: 30

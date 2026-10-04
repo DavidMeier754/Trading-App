@@ -8,6 +8,7 @@ tags: [selection, practice, decisions]
 learning_goal: "User runs all four filters on a name in the order that costs the least time, and drops it on the first no."
 purpose: "The four questions are worth nothing separately. What makes them a filter is running them every time, in the same order, before the chart."
 terms_introduced: []
+skills: ["The four filters in order"]
 reinforces: [1, 3]
 prerequisite: "1-3"
 xp: 20

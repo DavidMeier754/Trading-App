@@ -8,6 +8,7 @@ tags: [vwap, levels, confluence]
 learning_goal: "User can spot the session's average price arriving at a marked level and trade the price the two of them share."
 purpose: "The cleanest situation a fast chart offers is two independent lines landing on the same cent."
 terms_introduced: []
+skills: ["VWAP meeting a level"]
 reinforces: [2]
 prerequisite: "8-1"
 xp: 25

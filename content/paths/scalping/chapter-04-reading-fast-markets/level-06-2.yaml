@@ -8,6 +8,7 @@ tags: [candles, signals, levels]
 learning_goal: "User can name a rejection candle and an engulfing candle and say which minute each of them cancels."
 purpose: "These are the two shapes that show a price being refused, and both of them turn up at the lines you drew before the open."
 terms_introduced: ["Engulfing candle"]
+skills: ["Engulfing candle"]
 reinforces: [2]
 prerequisite: "6-1"
 xp: 25

@@ -8,6 +8,7 @@ tags: [spread, costs, size]
 learning_goal: "User converts a per-share spread into a dollar cost for a stated share count, and sees how size multiplies it."
 purpose: "Cents are what you read and dollars are what you lose, and scalping size makes the two look nothing alike."
 terms_introduced: []
+skills: ["The spread in dollars"]
 reinforces: [1]
 prerequisite: "2-2"
 xp: 20

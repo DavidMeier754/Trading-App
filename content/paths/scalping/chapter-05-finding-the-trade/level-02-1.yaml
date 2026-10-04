@@ -8,6 +8,7 @@ tags: [relative-volume, selection, volume]
 learning_goal: "User computes relative volume as today's volume over this name's own normal by the same point in the day, and reads it as a multiple."
 purpose: "It is the one number that separates the handful of names something is happening in from the thousands having an ordinary day."
 terms_introduced: ["Relative volume"]
+skills: ["Relative volume"]
 reinforces: [1, 2]
 prerequisite: "1-4"
 xp: 20

@@ -8,6 +8,7 @@ tags: [re-entry, sizing, management, setup-h]
 learning_goal: "User manages a stop-out into a re-entry step by step, sizes the second attempt from what is left of the budget, and drops the card when the context has gone with the first stop."
 purpose: "The minute after a stop is the one where every rule gets rewritten, so the rules have to be arithmetic rather than resolve."
 terms_introduced: []
+skills: ["Sizing the second attempt"]
 reinforces: [6]
 prerequisite: "12-1"
 xp: 25

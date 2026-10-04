@@ -8,6 +8,7 @@ tags: [checkpoint, vwap, levels, costs]
 learning_goal: "User proves they can build the session's average price, read which side of it price is on, tell a held line from a lost one, name the lines that exist before the bell, and price a read before taking it."
 purpose: "Everything from Level 6 on assumes the line and the map are read without effort."
 terms_introduced: []
+skills: []
 reinforces: [2, 3]
 prerequisite: "4-2"
 xp: 40

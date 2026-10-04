@@ -8,6 +8,7 @@ tags: [callback, levels, stops, position-size]
 learning_goal: "User turns a Chapter 2 level into a stop placement, measures the distance, sizes from it, and knows what the opening session's wider quote does to a tight stop."
 purpose: "Chapter 2 taught you to find the price that has turned the market. That price is where the stop has a reason to sit — and the distance to it is what sets your share count."
 terms_introduced: []
+skills: []
 reinforces: [1, 2]
 prerequisite: "16-1"
 xp: 30

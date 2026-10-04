@@ -1,5 +1,6 @@
-import { LESSONS } from '../content';
+import { LESSONS, PATH_CHOICE_ID } from '../content';
 import {
+  definitionOf,
   findTerm,
   knowsR,
   markableTerms,
@@ -34,7 +35,7 @@ describe('finding a term in a text', () => {
   });
 });
 
-describe('skills (docs/UI.md §5.3, docs/schema.md `skills`)', () => {
+describe('skills (docs/UI.md §5.3, docs/schema.md "Skills")', () => {
   it("a lesson's terms are its skills, each with the card that defines it", () => {
     const entry = lesson('level-06-2');
     const skills = skillsOf(entry);
@@ -44,21 +45,41 @@ describe('skills (docs/UI.md §5.3, docs/schema.md `skills`)', () => {
     expect(['theory', 'example', 'carousel']).toContain(entry.level.screens[card as number].type);
     expect(skills[0]).toMatchObject({ id: 'term:spread', kind: 'term', chapter: 1 });
     expect(skills[0].where).toMatch(/^Level 6 · /);
+    expect(skills[0].info).toBe(definitionOf('spread'));
+    expect(skills[0].info).toMatch(/^The gap between/);
   });
 
-  it('techniques come from `skills`, pointing at their card', () => {
+  it("a technique is named in the lesson's `skills`, with its info from content/skills.yaml", () => {
+    const entry = lesson('scalping-ch2-level-05-1');
+    const [skill] = skillsOf(entry);
+    expect(skill).toMatchObject({
+      id: 'skill:the three-question read',
+      name: 'The three-question read',
+      kind: 'technique',
+    });
+    expect(skill.info).toBeTruthy();
+    // It opens the lesson's first teaching card.
+    expect(['theory', 'example', 'carousel', 'walkthrough', 'visual']).toContain(
+      entry.level.screens[skill.card as number].type,
+    );
+  });
+
+  it('words come first, and a lesson without a list teaches its terms', () => {
     const base = lesson('level-06-2');
-    const level: Level = {
-      ...base.level,
-      skills: [
-        { name: 'Reading the spread at a glance', card: 2 },
-        { name: 'Points at a question', card: 999 },
-      ],
-    };
-    const skills = skillsOf({ ...base, level });
-    const techniques = skills.filter((s) => s.kind === 'technique');
-    expect(techniques.map((s) => s.id)).toEqual(['skill:level-06-2:0', 'skill:level-06-2:1']);
-    expect(techniques[1].card).toBeNull();
+    const listed: Level = { ...base.level, skills: ['The three-question read', 'Spread'] };
+    expect(skillsOf({ ...base, level: listed }).map((s) => s.kind)).toEqual(['term', 'technique']);
+    const unlisted: Level = { ...base.level, skills: undefined };
+    expect(skillsOf({ ...base, level: unlisted }).map((s) => s.id)).toEqual(['term:spread']);
+  });
+
+  it('every lesson of the path that is not a test teaches something, every skill has its info', () => {
+    const lessons = LESSONS.filter(
+      (e) => !e.testBench && e.level.category === 'new-theory' && e.level.path !== 'all-screens',
+    );
+    expect(lessons.length).toBeGreaterThan(200);
+    for (const e of lessons) expect(skillsOf(e).length).toBeGreaterThan(0);
+    expect(SKILLS.every((s) => !!s.info)).toBe(true);
+    expect(SKILL_BY_ID.get('skill:choosing your path')?.lessonId).toBe(PATH_CHOICE_ID);
   });
 
   it('every term is one skill, taught where it is first introduced', () => {

@@ -8,6 +8,7 @@ tags: [journal, columns, selection, day-type]
 learning_goal: "User fills every column of a row, including the two that come from the pre-market, and can say what each column is there to answer."
 purpose: "A row you cannot sort is a story, and a hundred stories teach nothing."
 terms_introduced: []
+skills: ["Filling every column"]
 reinforces: [5]
 prerequisite: "15-1"
 xp: 20

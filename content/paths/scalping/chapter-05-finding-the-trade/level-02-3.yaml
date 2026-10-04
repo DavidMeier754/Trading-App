@@ -8,6 +8,7 @@ tags: [relative-volume, list, selection]
 learning_goal: "User reads relative volume as a column on the morning list, sorts by it, and still runs Level 1's filters on whatever comes to the top."
 purpose: "The multiple is how four thousand names become eight. It has never once said which of the eight to trade."
 terms_introduced: []
+skills: ["Sorting by relative volume"]
 reinforces: [1, 2]
 prerequisite: "2-2"
 xp: 20

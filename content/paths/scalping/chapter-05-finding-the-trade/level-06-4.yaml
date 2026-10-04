@@ -8,6 +8,7 @@ tags: [scanner, shortlist, drill]
 learning_goal: "User turns a filtered, sorted list into the handful of names whose charts are worth opening, and stops there."
 purpose: "The shortlist is the only output of the whole scanner routine, and a shortlist of twenty is the same as no shortlist at all."
 terms_introduced: []
+skills: ["From list to charts"]
 reinforces: [1, 3]
 prerequisite: "6-3"
 xp: 25

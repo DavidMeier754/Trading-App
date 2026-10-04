@@ -8,6 +8,7 @@ tags: [mean-reversion, setup-d, sizing, management, playbook]
 learning_goal: "User sizes the mean reversion card from half a risk budget and both ceilings, aims at VWAP as it stands at that minute, and exits on the card's invalidation rather than on the stop."
 purpose: "The card that fights the move is the one where a careless share count and a stale target cost the most."
 terms_introduced: []
+skills: ["Half size against the run"]
 reinforces: [3, 4, 6]
 prerequisite: "6-2"
 xp: 25

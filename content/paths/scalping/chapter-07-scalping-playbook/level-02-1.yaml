@@ -8,6 +8,7 @@ tags: [vwap, setup-a, playbook]
 learning_goal: "User can state the five fields of the VWAP bounce card and pick the entry candle on a chart."
 purpose: "It is the most common intraday scalp there is, because the line it trades against is the one institutions measure themselves by."
 terms_introduced: ["VWAP bounce", "High of day"]
+skills: ["VWAP bounce", "High of day"]
 reinforces: [4, 6]
 prerequisite: "1-3"
 xp: 20

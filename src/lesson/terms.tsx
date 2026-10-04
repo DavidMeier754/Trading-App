@@ -4,15 +4,15 @@ import Animated, { FadeIn, FadeOut, SlideInDown, SlideOutDown } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { copy } from '../format';
-import { definitionOf, lessonOf, SKILL_BY_ID } from '../skills';
+import { lessonOf, SKILL_BY_ID } from '../skills';
 import { colors, radius, space, type, themed } from '../theme';
 import SkillCardView from './SkillCardView';
 
 export { TermsContext, TermText, type ScreenTerms } from './termText';
 
 /**
- * The sheet a marked term opens (docs/UI.md §8): the term, its sentence from
- * the glossary once it exists, where it was taught, and the card that taught
+ * The sheet a marked term or a skill opens (docs/UI.md §8): the name, its
+ * line from content/skills.yaml, where it was taught, and the card that taught
  * it. Closing it returns to the screen exactly as it was.
  */
 export function TermSheet({
@@ -36,7 +36,6 @@ export function TermSheet({
     return () => sub.remove();
   }, [skillId, onClose]);
   if (!skill) return null;
-  const definition = skill.kind === 'term' ? definitionOf(skill.name) : null;
   return (
     <Modal transparent visible animationType="none" onRequestClose={onClose}>
       <Animated.View
@@ -57,7 +56,7 @@ export function TermSheet({
           <Text style={styles.title} accessibilityRole="header">
             {skill.name}
           </Text>
-          {definition ? <Text style={styles.definition}>{copy(definition)}</Text> : null}
+          {skill.info ? <Text style={styles.definition}>{copy(skill.info)}</Text> : null}
           <Text style={styles.where}>{`Taught in ${skill.where}`}</Text>
           <SkillCardView skill={skill} entry={lessonOf(skill)} />
         </ScrollView>

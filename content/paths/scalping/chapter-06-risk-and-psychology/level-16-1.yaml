@@ -8,6 +8,7 @@ tags: [journal, review, routine]
 learning_goal: "User runs a weekly review that finds the best setup, the best hour and the habit that costs most, and turns it into one rule."
 purpose: "The rows are only worth writing if something changes because of them."
 terms_introduced: ["Weekly review"]
+skills: ["Weekly review"]
 reinforces: [3]
 prerequisite: "15-3"
 xp: 20

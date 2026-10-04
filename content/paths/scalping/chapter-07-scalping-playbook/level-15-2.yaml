@@ -8,6 +8,7 @@ tags: [callback, limits, day-type, playbook]
 learning_goal: "User passes a correct card because the session's budget is spent or the day type is wrong for it, and takes the next one at the size the rules give them."
 purpose: "The cards do not know what your morning has cost you, and that is the one thing the sheet cannot tell you."
 terms_introduced: []
+skills: []
 reinforces: [5, 6]
 prerequisite: "15-1"
 xp: 30

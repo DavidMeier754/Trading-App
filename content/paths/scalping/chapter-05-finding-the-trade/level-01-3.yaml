@@ -8,6 +8,7 @@ tags: [selection, position-size, account]
 learning_goal: "User checks a name's share price against the account before reading its chart, and can say which of the two ceilings is binding."
 purpose: "The cheapest way to cross a name off is the price tag: if the account cannot pay for a position that matters, nothing else about the name does."
 terms_introduced: []
+skills: ["Price against the account"]
 reinforces: [1, 3]
 prerequisite: "1-2"
 xp: 20

@@ -9,6 +9,7 @@ icon: volume
 learning_goal: "User can read the volume bars under a candle chart and tell a move that volume backs from a drift nobody is behind."
 purpose: "A scalper needs shares on the other side to get in and out, and volume is the chart's honest answer to whether they are there."
 terms_introduced: ["Volume bar"]
+skills: ["Volume bar"]
 reinforces: [1]
 prerequisite: "3-3"
 xp: 20

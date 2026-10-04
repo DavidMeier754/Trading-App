@@ -8,6 +8,7 @@ tags: [spread, quote-panel, execution]
 learning_goal: "User knows which of the two prices they get on each of the four things a trader can do: open and close a long, open and close a short."
 purpose: "You never pick between the two prices — the side you are on picks for you, and it always picks the worse one."
 terms_introduced: []
+skills: ["Which price you get"]
 reinforces: [1]
 prerequisite: "1-1"
 xp: 20

@@ -8,6 +8,7 @@ tags: [position-size, risk, practice]
 learning_goal: "User runs the two-ceiling sizing habit on fresh setups without prompting, including a short, and names which ceiling bound each one."
 purpose: "Level 10 taught the two ceilings once each. Trading them needs to be a reflex, not a worksheet."
 terms_introduced: []
+skills: ["Naming the binding ceiling"]
 reinforces: [1]
 prerequisite: "10-4"
 xp: 25

@@ -6,6 +6,7 @@ Every sub-level is one YAML file: `content/<scope>/chapter-NN-<slug>/level-LL-S.
 Status: **v3** — fields, screen types and validator rules for the eight-chapter curriculum. New items are marked **[v3]**. Everything unmarked is unchanged from v2 and existing content stays valid.
 **[v4] (2026-09-25)** — new optional fields and types for the release plan (`docs/build-plan.md`). Every one of them is optional or new, so existing files stay valid; the validator rules that use them arrive in stage RULES and start as warnings.
 **[DESIGN-REVIEW] (2026-10-03)** — optional fields for David's approved designs: chart `notes`, the open on a chart (`session_open`), a scene's market `alert`, a test briefing's `facts`, a lesson's `skills`, and bonus side lessons as files of their own (`category: bonus`). `variance-sim` is dropped and `decision-grid` added. The app renders all of them and the validator checks their shape; no content file uses them yet — that work is listed in `docs/ContentToDo.md`.
+**[Skills] (2026-10-04)** — David: "opening a new .yaml file which contains all the skills and infos, and … add every skill name to a new tab in the already existing level .yaml files". `content/skills.yaml` holds every skill with its kind and one line of info, replacing the planned `content/glossary.yaml`; `skills` in every level file is now a required list of names (see "Skills" below). Every level file has it.
 
 ## Header
 
@@ -22,8 +23,7 @@ icon: ticket              # optional: the level's symbol on the map, what it tea
 learning_goal: "User can choose between a market and a limit order for a given situation."
 purpose: "One sentence on why this matters in real trading."
 terms_introduced: ["Market order", "Limit order"]   # new glossary terms defined in this sub
-skills:                   # [DESIGN-REVIEW] optional: techniques this sub teaches (see below)
-  - {name: "Choosing market or limit", card: 6}
+skills: ["Market order", "Limit order", "Choosing market or limit"]   # [Skills] what this sub teaches (see below)
 reinforces: [1, 2]        # [v3] earlier chapters this sub deliberately re-tests; [] for pure new theory
 prerequisite: "3-1"       # or null for the first sub of a chapter
 xp: 20
@@ -36,7 +36,7 @@ screens: [...]
 
 **`icon`.** Optional. The symbol on the level's map node, standing for what the level teaches or, for a practice level, what it practises: `candle`, `bell` for the open, `levels` for support and resistance. Every lesson of one level names the same icon, or leaves it out; the first one named is used. The names are the ones `src/home/icons.tsx` draws (its `ICON_NAMES`), and the validator rejects any other. Checkpoints, the Final Exam and the path choice ignore it and keep their own symbols (docs/UI.md §7.1). A level without one shows a bulb (new ideas) or round arrows (practice).
 
-**`skills` [DESIGN-REVIEW].** Optional, `new-theory` lessons only, 0–3 entries. What the learner can now *do* after this lesson, as a short name (at most 40 characters: "Reading a quote in two seconds", not "Quotes"), and `card`: the 1-based screen index of the `theory`, `example`, `carousel`, `walkthrough` or `visual` screen that teaches it. Together with `terms_introduced` they are the lesson's **skills**: shown after the lesson, collected in Practice → Skills, each opening the card that taught it (`docs/UI.md` §5.3, §7.3). A term needs no entry here: its card is the first `theory`, `example` or `carousel` screen of the lesson whose text contains it.
+**`skills` [Skills].** Required, on one line. The names of the skills this sub-level teaches, each an entry of `content/skills.yaml` (see "Skills" below): its words first, which are exactly its `terms_introduced`, then its techniques. They are shown after the lesson, collected in Practice → Skills, and each opens the card that taught it (`docs/UI.md` §5.3, §7.3): a word the first `theory`, `example` or `carousel` screen whose text contains it, a technique the lesson's first `theory`, `example`, `carousel`, `walkthrough` or `visual` screen. Every `new-theory` sub-level teaches at least one skill; a `repetition` sub-level may teach one (a practice level's technique) or none; tests and final exams have `skills: []`. `python3 tools/skills.py --sync` writes the line and keeps the words in step with `terms_introduced`.
 
 **`reinforces` [v3].** A list of chapter numbers (not level ids). It is a claim that this sub-level re-tests that chapter's material *in this chapter's context*. The validator uses it for the reinforcement quotas in `docs/agent.md` §3.3, so do not declare it decoratively — a sub with `reinforces: [1]` must contain at least one question that genuinely needs Chapter 1 knowledge.
 
@@ -519,19 +519,26 @@ exists or add the key to this table and to the `plan-card` that writes it, in th
 
 **[v4] Choices and ranges.** A field may be `kind: choice` with `options: [...]` (the learner picks one), and a `number` may carry `min` and `max`; an answer outside them is refused with a one-line reason. The history of every key (above) is what the plan screen shows under "changes".
 
-## Glossary **[v4]**
+## Skills **[Skills]**
 
-`content/glossary.yaml` holds one definition per term, and it is where the glossary popover (`docs/UI.md` §8) reads from.
+`content/skills.yaml` holds every skill of the course, one entry each, grouped by chapter and level under comments. It replaces the glossary file planned in v4 (`content/glossary.yaml`): a word's `info` is its definition, and the term sheet (`docs/UI.md` §8), "What you learned" (§5.3) and Practice → Skills (§7.3) all read from it.
 
 ```yaml
-- term: "Spread"
-  definition: "The gap between the highest bid and the lowest ask — what you pay to get in and out at once."
-  taught_in: {chapter: 1, level: "6-2"}       # the sub-level whose terms_introduced lists it
-  aliases: ["bid-ask spread"]                 # optional: other spellings the underline should catch
-  path: all                                   # all | scalping | day-trading | swing-trading
+- name: "Spread"            # 1–40 characters; how lessons list it and the learner reads it
+  kind: word                # word: a term the course defines · technique: something the learner can now do
+  info: "The gap between the price you can sell at and the price you can buy at; buy and sell straight back and you have paid it once."
+  aliases: ["bid-ask spread"]   # optional, words only: other spellings the marker should catch (stage GLOSSARY)
+- name: "Spread before size"
+  kind: technique
+  info: "Holding the spread against the stop distance before sizing, and taking the lower of the two ceilings on the trades that pass."
 ```
 
-Rules (stage GLOSSARY): every term in any `terms_introduced` has exactly one entry for its path; `definition` is one sentence of at most 160 characters and agrees with the screen that defines the term; `taught_in` resolves to that sub-level.
+- **A word** is a term a lesson defines: it is in that lesson's `terms_introduced` and its `skills`. Its `info` is one plain sentence that agrees with the card that defines it. A word is one skill however many paths teach it; each path introduces it once, and a Chapter 1 word counts on every path.
+- **A technique** names what the learner can now *do*, not a topic: "Reading a quote in two seconds", not "Quotes". Its `info` says what doing it means. Exactly one lesson lists it.
+- `info` is one line of at most 160 characters, ending with a full stop.
+- Where a skill is taught is never written here: the level file that lists it says so, and the app reads it from there.
+
+**Adding a skill:** put its name in the level file's `skills` line, run `python3 tools/skills.py --sync` (it appends an entry with empty `info`), write the `info`, move the entry under its chapter's comment, and run the validator. `python3 tools/skills.py` lists every lesson's skills with their info; `--chapter N` lists one chapter.
 
 ## Bonus side lessons **[DESIGN-REVIEW]**
 
@@ -783,18 +790,26 @@ Chapter-level warnings **[v3]** (computed across a whole chapter folder):
 - Visual quota (§3.4): fewer than 40 % of a chapter's `theory`/`example` screens with a visual.
 - The plan-aware cap (§3.6): a position above the `setup_max_account_pct` the learner has written by that point in the path (its latest `suggest`).
 - Per-trade risk and total exposure (§3.6): `shares × stop distance ÷ account` outside 0.5–2 % where a file names an account and a stop; for several open positions, the sums of position value and of risk against the account.
-- ~~`variance-sim` ranges and positive expectancy~~ (dropped, [DESIGN-REVIEW]); `glossary.yaml` coverage and length.
+- ~~`variance-sim` ranges and positive expectancy~~ (dropped, [DESIGN-REVIEW]); ~~`glossary.yaml` coverage and length~~ (now `content/skills.yaml`, checked since [Skills], below).
 
 **[DESIGN-REVIEW] Rules added in stage DESIGN-REVIEW** (errors; each with a case in `tools/test_validate.py`):
 - `notes`: 1–4 entries; each `bar` an integer inside `chart.data`, `text` 1–24 characters, `at` `high` or `low`.
 - `session_open`: an integer from 1 to the bar count − 1.
 - `alert` (on a `story` that is not a takeaway): `ticker` of 1–5 capital letters, `time` at most 24 characters with no clock time written as digits, `facts` 1–3 strings of at most 16 characters, `spark` 5–30 numbers.
 - `facts` on an `intro`: only in tests and final exams, 1–3 strings of at most 20 characters.
-- `skills`: only in `new-theory` lessons, 0–3 entries, `name` 1–40 characters, `card` the 1-based index of a `theory`, `example`, `carousel`, `walkthrough` or `visual` screen.
+- ~~`skills`: only in `new-theory` lessons, 0–3 entries, `name` 1–40 characters, `card` the 1-based index of a teaching screen~~ (replaced by the [Skills] rules below).
 - `decision-grid` data: `cell` one of the four names.
 - `scanner-table` and `scanner-pick` rows: `spark` 5–30 numbers; a warning when its last value is not the row's `price`, or when its move from the first value differs from `change_pct` by more than 0.15 points (the first value is the previous close).
 - A bonus file (`category: bonus`): as in "Bonus side lessons" above.
 
 Warnings:
 - A term in `terms_introduced` that no `theory`, `example` or `carousel` screen of its lesson contains (the skill would have no card to open).
-- A chapter whose `new-theory` lessons include some with neither `terms_introduced` nor `skills` (nothing to collect after them; `docs/ContentToDo.md` 3.1): one line per chapter with the count, so the run stays readable; the worklist from stage RULES names the lessons. (Component data and the test bench are checked since stage STABLE-DATA, as errors: see above.)
+- ~~A chapter whose `new-theory` lessons include some with neither `terms_introduced` nor `skills`~~ (an error since [Skills], below). (Component data and the test bench are checked since stage STABLE-DATA, as errors: see above.)
+
+**[Skills] Rules added 2026-10-04** (errors unless marked; each with a case in `tools/test_validate.py`):
+- `content/skills.yaml` is a list; every entry has `name` (1–40 characters), `kind` (`word` or `technique`) and `info` (not empty, at most 160 characters, ending with a full stop), and nothing else but `aliases` (a list of names, words only). No two entries share a name or an alias, compared without case and extra spaces.
+- Every level file has `skills`: a list of names, each 1–40 characters, none twice. A `new-theory` sub-level lists at least one; a test or final exam lists none.
+- Every name has an entry in `content/skills.yaml`, spelled exactly as there.
+- The words a lesson lists are exactly its `terms_introduced`, both ways.
+- A word is introduced once per path (Chapter 1 counting on every path); a technique is listed by exactly one lesson.
+- Warning: an entry no lesson lists.

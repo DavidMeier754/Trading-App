@@ -8,6 +8,7 @@ tags: [re-entry, discipline, setup-h, playbook]
 learning_goal: "User can name the three conditions that turn a second attempt into a card, and tell that card apart from the trade the last loss chose."
 purpose: "Being stopped out by a cent and then watching the trade work without you is the most common way a good read turns into a bad morning."
 terms_introduced: ["Re-entry trade"]
+skills: ["Re-entry trade"]
 reinforces: [6]
 prerequisite: "11-3"
 xp: 20

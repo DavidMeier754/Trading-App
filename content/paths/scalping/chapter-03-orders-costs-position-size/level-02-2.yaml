@@ -8,6 +8,7 @@ tags: [spread, costs, break-even]
 learning_goal: "User can work out where a position breaks even once the spread is paid, and recognises that a green-looking screen can still be a losing exit."
 purpose: "Break-even is not your entry price, and traders who think it is take half their losses without noticing."
 terms_introduced: []
+skills: ["Breaking even after the spread"]
 reinforces: [1]
 prerequisite: "2-1"
 xp: 20

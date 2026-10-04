@@ -8,6 +8,7 @@ tags: [sizing, execution, costs, risk]
 learning_goal: "User takes one step of size at a time, recomputes the unit and the caps behind it, and picks a name the bigger number can actually be filled in."
 purpose: "The step is arithmetic and a fill, not a feeling of promotion."
 terms_introduced: []
+skills: ["One step of size"]
 reinforces: [6]
 prerequisite: "12-1"
 xp: 25

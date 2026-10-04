@@ -8,6 +8,7 @@ tags: [open, halt, no-trade]
 learning_goal: "User knows what a halt does to an open position and can name the conditions that make the opening minutes untradeable."
 purpose: "Standing aside for the first minutes costs nothing; being in the wrong stock at the wrong second costs a lot."
 terms_introduced: ["Halt"]
+skills: ["Halt"]
 reinforces: [3]
 prerequisite: "14-3"
 xp: 20

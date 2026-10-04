@@ -8,6 +8,7 @@ tags: [orders, execution, marketable-limit]
 learning_goal: "User can place a limit order at or above the ask to get a market-order fill with a ceiling on the price."
 purpose: "This is the ticket most experienced scalpers actually send: in now, but never above the number they chose."
 terms_introduced: ["Marketable limit order"]
+skills: ["Marketable limit order"]
 reinforces: []
 prerequisite: "6-4"
 xp: 20

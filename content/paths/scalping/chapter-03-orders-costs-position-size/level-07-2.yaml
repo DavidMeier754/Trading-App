@@ -8,6 +8,7 @@ tags: [orders, execution, risk]
 learning_goal: "User recognises that a capped order can leave them with no position at all, and handles the miss without chasing the price."
 purpose: "The ceiling is only worth having if you are willing to live with the mornings it costs you the trade."
 terms_introduced: ["Unfilled"]
+skills: ["Unfilled"]
 reinforces: []
 prerequisite: "7-1"
 xp: 20

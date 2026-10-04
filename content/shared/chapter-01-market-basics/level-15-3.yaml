@@ -9,6 +9,7 @@ icon: globe
 learning_goal: "User takes the decision the stock in front of them offers, in either direction, while treating the broad trend as context."
 purpose: "A trend that is used as a signal turns into a reason to take bad longs and to refuse good shorts."
 terms_introduced: []
+skills: ["The trend as context"]
 reinforces: []
 prerequisite: "15-2"
 xp: 25

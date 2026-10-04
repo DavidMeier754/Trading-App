@@ -9,6 +9,7 @@ icon: monitor
 learning_goal: "User can say what puts a stock on the screen in the first place: volume against its own normal day, movement worth the costs, and a price the account can hold."
 purpose: "The best chart reading in the world cannot rescue a stock that should never have been on the screen."
 terms_introduced: []
+skills: ["What puts a stock on the screen"]
 reinforces: [1]
 prerequisite: "15-2"
 xp: 20

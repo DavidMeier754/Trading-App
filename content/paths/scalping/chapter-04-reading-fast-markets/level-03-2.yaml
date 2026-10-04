@@ -8,6 +8,7 @@ tags: [levels, premarket, sessions]
 learning_goal: "User can mark the extremes of the pre-market session and today's opening price, and say which of the day's lines exist before the bell."
 purpose: "The first part of the session trades against prices set before anybody sat down, and the opening price splits the day in two."
 terms_introduced: []
+skills: ["Lines before the bell"]
 reinforces: [2]
 prerequisite: "3-1"
 xp: 25

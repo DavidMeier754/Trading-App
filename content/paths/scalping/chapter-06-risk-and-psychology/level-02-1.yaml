@@ -8,6 +8,7 @@ tags: [risk, r-multiple, sizing]
 learning_goal: "User expresses risk and result as R, rejects trades whose target is smaller than their stop, and knows what moving the stop to break-even and taking a partial actually change."
 purpose: "R is the unit every rule in this chapter is written in — it makes a $40 trade and a $400 trade comparable."
 terms_introduced: ["R", "R-multiple", "Break-even stop", "Partial exit"]
+skills: ["R", "R-multiple", "Break-even stop", "Partial exit"]
 reinforces: [3]
 prerequisite: "1-4"
 xp: 20

@@ -8,6 +8,7 @@ tags: [drill, expectancy, costs, charts]
 learning_goal: "User runs expectancy on five records at speed, nets each one for costs, and says which methods to keep and which to delete."
 purpose: "Deleting a method is a decision most traders never make, and it is the cheapest improvement available to them."
 terms_introduced: []
+skills: []
 reinforces: [3]
 prerequisite: "8-1"
 xp: 25

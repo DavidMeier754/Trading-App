@@ -8,6 +8,7 @@ tags: [opening-range, setup-b, failure-mode]
 learning_goal: "User marks the box from the first five minutes, refuses a break that has not finished outside it, and leaves immediately when a taken break closes back inside."
 purpose: "The break that fails is more common than the break that runs, and it is the one that costs a full stop if you sit through it."
 terms_introduced: []
+skills: ["Leaving on the close back inside"]
 reinforces: [2, 4]
 prerequisite: "3-2"
 xp: 25

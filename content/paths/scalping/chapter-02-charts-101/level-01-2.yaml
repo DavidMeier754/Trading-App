@@ -9,6 +9,7 @@ icon: candle
 learning_goal: "User can name the body and the wicks of a candle, tell green from red, and measure both parts."
 purpose: "The block and the threads are two different pieces of information, and a scalper reads them separately."
 terms_introduced: ["Body", "Wick"]
+skills: ["Body", "Wick"]
 reinforces: []
 prerequisite: "1-1"
 xp: 20

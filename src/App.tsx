@@ -14,6 +14,7 @@ import { isLook, setLook, useLookSpec } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
 import {
   choosePath,
+  collectSkills,
   completeLesson,
   dayOf,
   earnGems,
@@ -26,6 +27,7 @@ import {
   streakDays,
 } from './progress';
 import { flySkills } from './home/fly';
+import { skillsOf } from './skills';
 import { igniteFlame } from './home/moments';
 import StreakMoment, { type StreakChange } from './lesson/StreakMoment';
 import { setMotionSetting } from './lesson/useReduceMotion';
@@ -229,7 +231,13 @@ export default function App() {
                     }
                     sourceKeys={entry.practice?.keys}
                     initialPath={getProgress().path}
-                    onChoosePath={choosePath}
+                    onChoosePath={(path) => {
+                      choosePath(path);
+                      // The path choice ends on its own key, with no summary;
+                      // its skill flies into Practice as any lesson's does.
+                      const fresh = collectSkills(skillsOf(entry).map((s) => s.id));
+                      if (fresh.length) flySkills(fresh.length);
+                    }}
                     contentWidth={contentWidth}
                     onQuit={() => {
                       // The first trade is shown once, finished or not.

@@ -8,6 +8,7 @@ tags: [expectancy, costs, measurement]
 learning_goal: "User measures expectancy from fills rather than intentions, and can take the all-in cost of one round trip straight off the gross number."
 purpose: "The gross version of a record is the one that makes every method look tradeable, and it is the one most beginners keep."
 terms_introduced: []
+skills: ["Expectancy from fills"]
 reinforces: [3]
 prerequisite: "7-1"
 xp: 20

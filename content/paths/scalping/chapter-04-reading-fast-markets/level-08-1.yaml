@@ -8,6 +8,7 @@ tags: [checkpoint, candles, confluence, levels]
 learning_goal: "User proves they can name a 1-minute shape, count the readings standing at a price, price the trade those readings offer, and pass when only one of them is there."
 purpose: "The three strands ahead each assume the shape, the line and the count are read without effort."
 terms_introduced: []
+skills: []
 reinforces: [2, 3]
 prerequisite: "7-3"
 xp: 40

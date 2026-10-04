@@ -8,6 +8,7 @@ tags: [test, stops, r-multiple, management]
 learning_goal: "Confirm the user can place a stop from the chart, size from both ceilings, read a result in R, and manage a live trade with break-even, partial, trail and time stops."
 purpose: "Everything the rest of this chapter measures is measured in the unit these four levels built."
 terms_introduced: []
+skills: []
 reinforces: [3]
 prerequisite: "4-2"
 xp: 50

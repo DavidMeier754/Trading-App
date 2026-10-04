@@ -8,6 +8,7 @@ tags: [limits, playbook, risk, session]
 learning_goal: "User sizes and passes trades against the room left on the page, and treats a complete card that arrives after the limit as a row for the review."
 purpose: "The hardest card to pass is the one that is perfect and arrives a trade too late."
 terms_introduced: []
+skills: ["The room left on the page"]
 reinforces: [6, 7]
 prerequisite: "12-3"
 xp: 30

@@ -9,6 +9,7 @@ icon: key
 learning_goal: "User knows what a broker and a brokerage account do, what an order is, why paper trading comes first, and that fees apply to every trade."
 purpose: "Before a single real trade you need this piece — and knowing fees exist now saves painful surprises later."
 terms_introduced: ["Broker", "Brokerage account", "Order", "Paper trading", "Fee"]
+skills: ["Broker", "Brokerage account", "Order", "Paper trading", "Fee"]
 prerequisite: "11-1"
 xp: 20
 difficulty: 1

@@ -8,6 +8,7 @@ tags: [risk, stops, levels]
 learning_goal: "User reads the stop off the chart — just past the level the idea leans on — and lets the share count absorb the distance."
 purpose: "A stop placed where the chart says survives the normal noise of a fast minute; a stop placed where your wallet says does not."
 terms_introduced: []
+skills: ["Reading the stop off the chart"]
 reinforces: [3]
 prerequisite: "1-1"
 xp: 20

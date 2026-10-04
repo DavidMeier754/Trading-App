@@ -8,6 +8,7 @@ tags: [confluence, costs, decisions]
 learning_goal: "User can say what a one-reason read costs over a morning of them, and passes on reads where only a single reading is standing at the price."
 purpose: "A single reason is roughly a coin flip, and every flip is paid for in full whichever way it lands."
 terms_introduced: []
+skills: ["Passing on one reason"]
 reinforces: [2, 3]
 prerequisite: "7-2"
 xp: 30

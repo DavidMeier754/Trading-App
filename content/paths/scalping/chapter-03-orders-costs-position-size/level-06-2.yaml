@@ -8,6 +8,7 @@ tags: [orders, execution, limit-order]
 learning_goal: "User can post a limit order, knows it fills at their price or better, and accepts that it may simply never trade."
 purpose: "The limit order is the only way to stop paying the gap, and the only way to miss the trade entirely."
 terms_introduced: ["Limit order"]
+skills: ["Limit order"]
 reinforces: []
 prerequisite: "6-1"
 xp: 20

@@ -8,6 +8,7 @@ tags: [position-size, risk, account]
 learning_goal: "User computes both ceilings — risk budget divided by stop distance, and account divided by share price — and takes the lower one."
 purpose: "A share count the stop allows but the account cannot pay for is not a position, and on a small account it is the usual answer."
 terms_introduced: ["Account ceiling"]
+skills: ["Account ceiling"]
 reinforces: [1]
 prerequisite: "10-2"
 xp: 20

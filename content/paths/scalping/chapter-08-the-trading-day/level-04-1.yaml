@@ -8,6 +8,7 @@ tags: [pre-market, routine, plan, process]
 learning_goal: "User knows what the hour before the bell has to produce, and that the page it ends on is written last because everything else feeds it."
 purpose: "Chapter 5 built a routine. This is the hour it lives in, and the document it leaves behind."
 terms_introduced: ["Pre-market plan"]
+skills: ["Pre-market plan"]
 reinforces: [5, 6]
 prerequisite: "3-2"
 xp: 20

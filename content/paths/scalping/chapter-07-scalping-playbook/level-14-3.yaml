@@ -8,6 +8,7 @@ tags: [conditions, range-day, selection, plan]
 learning_goal: "User names the cards a rotating session deals, separates a range day from a day that is simply empty, and writes the day-type filter into their own plan."
 purpose: "A narrow band and a real range look alike for the first twenty minutes, and only one of them pays for the round trip."
 terms_introduced: []
+skills: ["Cards on a rotating day"]
 reinforces: [5, 6]
 prerequisite: "14-2"
 xp: 25

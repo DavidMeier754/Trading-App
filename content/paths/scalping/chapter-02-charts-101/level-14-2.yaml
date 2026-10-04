@@ -9,6 +9,7 @@ icon: battery
 learning_goal: "User can read the end of a run: the heaviest bar of the move, a long wick, a close far from the high, and a next minute that cannot make a new one."
 purpose: "The last minute of a move looks exactly like the strongest one, and beginners buy it every single time."
 terms_introduced: ["Exhaustion"]
+skills: ["Exhaustion"]
 reinforces: [1]
 prerequisite: "14-1"
 xp: 25

@@ -17,8 +17,11 @@ CONTENT = ROOT / "content"
 CATEGORIES = {"new-theory", "repetition", "test", "final-exam"}
 # docs/schema.md "Bonus side lessons" [DESIGN-REVIEW]: level-NN-bonus.yaml, beside the path.
 BONUS_FILE = re.compile(r"level-(\d+)-bonus\.yaml$")
-# The screens a skill's card may be (docs/schema.md `skills`).
-SKILL_CARD_TYPES = {"theory", "example", "carousel", "walkthrough", "visual"}
+# docs/schema.md "Skills": content/skills.yaml holds every skill; a lesson lists names.
+SKILLS_FILE = CONTENT / "skills.yaml"
+SKILL_KINDS = {"word", "technique"}
+SKILL_NAME_MAX = 40
+SKILL_INFO_MAX = 160
 TERM_CARD_TYPES = {"theory", "example", "carousel"}
 DECISION_CELLS = {"right-won", "right-lost", "wrong-won", "wrong-lost"}
 # A clock time written as digits (agent.md §3.6): "9:31", "15:30".
@@ -724,26 +727,32 @@ def check_alert(f, where, s, rep):
         check_spark(f, f"{where} alert", alert["spark"], rep)
 
 
+def fold(name):
+    """A name folded for comparing, as src/skills.ts normTerm: "Stop order" and "stop  order" are one."""
+    return " ".join(str(name).split()).lower()
+
+
 def check_header_extras(f, data, rep):
-    """docs/schema.md [DESIGN-REVIEW]: `skills` in the header, `facts` on a test's intro."""
+    """docs/schema.md: `skills` in the header [Skills], `facts` on a test's intro [DESIGN-REVIEW]."""
     screens = data.get("screens") or []
-    if "skills" in data and data["skills"] is not None:
+    # Which names exist, and of which kind, is checked against content/skills.yaml by validate_skills.
+    if "skills" not in data:
+        rep.err(f, "missing field 'skills' (docs/schema.md \"Skills\"; `python3 tools/skills.py --sync` writes it)")
+    elif (not isinstance(data["skills"], list)
+          or not all(isinstance(n, str) and 1 <= len(n.strip()) <= SKILL_NAME_MAX for n in data["skills"])):
+        rep.err(f, f"skills must be a list of names, each 1–{SKILL_NAME_MAX} characters")
+    else:
         skills = data["skills"]
-        if data.get("category") != "new-theory":
-            rep.err(f, "skills belong only in new-theory lessons")
-        if not isinstance(skills, list) or len(skills) > 3:
-            rep.err(f, "skills must be a list of at most 3")
-        else:
-            for n, sk in enumerate(skills, 1):
-                if not isinstance(sk, dict) or set(sk) != {"name", "card"}:
-                    rep.err(f, f"skill {n} must be {{name, card}}")
-                    continue
-                if not isinstance(sk["name"], str) or not 1 <= len(sk["name"]) <= 40:
-                    rep.err(f, f"skill {n} name must be 1–40 characters")
-                c = sk["card"]
-                if (not isinstance(c, int) or isinstance(c, bool) or not 1 <= c <= len(screens)
-                        or screens[c - 1].get("type") not in SKILL_CARD_TYPES):
-                    rep.err(f, f"skill {n} card must name a theory, example, carousel, walkthrough or visual screen")
+        folded = [fold(n) for n in skills]
+        for n in sorted({n for n in folded if folded.count(n) > 1}):
+            rep.err(f, f"skill '{n}' is listed twice")
+        if data.get("category") in ("test", "final-exam") and skills:
+            rep.err(f, "tests and final exams teach no skills: skills must be []")
+        if data.get("category") == "new-theory" and not skills:
+            rep.err(f, "a new-theory lesson teaches at least one skill (a word or a technique)")
+        for term in data.get("terms_introduced") or []:
+            if fold(term) not in folded:
+                rep.err(f, f"term '{term}' is in terms_introduced but not in skills")
     intro = screens[0] if screens else {}
     if isinstance(intro, dict) and "facts" in intro:
         if data.get("category") not in ("test", "final-exam"):
@@ -774,6 +783,111 @@ def term_in(term, text):
     word = term.strip()
     flags = 0 if len(word) <= 2 else re.I
     return re.search(rf"(^|[^A-Za-z0-9]){re.escape(word)}(e?s)?(?=$|[^A-Za-z0-9])", text, flags) is not None
+
+
+def load_skills(rep, path=SKILLS_FILE):
+    """docs/schema.md "Skills": read content/skills.yaml and check it. {folded name: entry}."""
+    f = path.relative_to(ROOT)
+    if not path.exists():
+        rep.err(f, "missing: every skill a lesson lists is an entry of this file")
+        return {}
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except yaml.YAMLError as e:
+        rep.err(f, f"YAML error: {e}")
+        return {}
+    return check_skill_table(f, data, rep)
+
+
+def check_skill_table(f, data, rep):
+    """Every entry has a name (1–40 characters), a kind (word or technique) and one line of
+    info (at most 160 characters, ending in a full stop); only a word has aliases. No two
+    entries share a name or an alias, folded. Returns the entries by folded name."""
+    table = {}
+    if not isinstance(data, list):
+        rep.err(f, "must be a list of skills")
+        return table
+    taken = {}  # every folded name and alias -> the name it belongs to
+    for n, e in enumerate(data, 1):
+        if (not isinstance(e, dict) or not {"name", "kind", "info"} <= set(e)
+                or set(e) - {"name", "kind", "info", "aliases"}):
+            rep.err(f, f"skill {n} must have name, kind and info, and may have aliases")
+            continue
+        name = e["name"]
+        if not isinstance(name, str) or not 1 <= len(name.strip()) <= SKILL_NAME_MAX:
+            rep.err(f, f"skill {n} name must be 1–{SKILL_NAME_MAX} characters")
+            continue
+        where = f"skill '{name}'"
+        if e["kind"] not in SKILL_KINDS:
+            rep.err(f, f"{where}: kind must be word or technique")
+        info = e["info"]
+        if not isinstance(info, str) or not info.strip():
+            rep.err(f, f"{where}: info is empty (one line: what the word means, what the technique lets you do)")
+        elif len(info) > SKILL_INFO_MAX:
+            rep.err(f, f"{where}: info is {len(info)} characters, at most {SKILL_INFO_MAX}")
+        elif not info.rstrip().endswith("."):
+            rep.err(f, f"{where}: info must end with a full stop")
+        aliases = e.get("aliases") or []
+        if aliases and e["kind"] != "word":
+            rep.err(f, f"{where}: only a word has aliases")
+        if not isinstance(aliases, list) or not all(isinstance(a, str) and a.strip() for a in aliases):
+            rep.err(f, f"{where}: aliases must be a list of names")
+            aliases = []
+        for key in [name] + aliases:
+            k = fold(key)
+            if k in taken:
+                rep.err(f, f"{where}: '{key}' is already the name or an alias of skill '{taken[k]}'")
+                continue
+            taken[k] = name
+            if key is name:
+                table[k] = e
+    return table
+
+
+def validate_skills(table, chapters, rep, skills_file=SKILLS_FILE):
+    """docs/schema.md "Skills": every name a lesson lists is an entry of content/skills.yaml,
+    spelled as there. A word is listed by the lesson that introduces it (`terms_introduced`),
+    once per path, Chapter 1 counting on every path; a technique by exactly one lesson. An
+    entry no lesson lists is a warning."""
+    if not table:
+        return
+    taught = defaultdict(list)  # folded name -> [(file, path)]
+    for folder in sorted(chapters):
+        for d in chapters[folder]:
+            f = d["_file"]
+            names = d.get("skills")
+            if not isinstance(names, list):
+                continue
+            introduced = {fold(t) for t in d.get("terms_introduced") or []}
+            for name in names:
+                if not isinstance(name, str):
+                    continue
+                e = table.get(fold(name))
+                if e is None:
+                    rep.err(f, f"skill '{name}' has no entry in content/skills.yaml "
+                               f"(`python3 tools/skills.py --sync` adds one to fill in)")
+                    continue
+                if e["name"] != name:
+                    rep.err(f, f"skill '{name}' is spelled '{e['name']}' in content/skills.yaml")
+                if e["kind"] == "word" and fold(name) not in introduced:
+                    rep.err(f, f"word '{name}' is in skills but not in terms_introduced")
+                taught[fold(name)].append((f, d.get("path")))
+    for key, where in taught.items():
+        e = table[key]
+        if e["kind"] == "technique" and len(where) > 1:
+            rep.err(where[1][0], f"technique '{e['name']}' is already taught in {where[0][0]}; "
+                                 f"a technique belongs to one lesson")
+        elif e["kind"] == "word":
+            by = defaultdict(list)
+            for f, p in where:
+                by[p].append(f)
+            for p, files in by.items():
+                clash = files + (by.get("all", []) if p != "all" else [])
+                if len(clash) > 1:
+                    rep.err(clash[1], f"word '{e['name']}' is already introduced in {clash[0]}")
+    for key, e in table.items():
+        if key not in taught:
+            rep.warn(skills_file.relative_to(ROOT), f"skill '{e['name']}' is listed by no lesson")
 
 
 def validate_bonus_file(path, data, rep):
@@ -1686,15 +1800,7 @@ def main():
             data["_file"] = path.relative_to(ROOT)
             chapters[path.parent].append(data)
     validate_bonus(bonus, chapters, rep)
-    # docs/ContentToDo.md 3.1 [DESIGN-REVIEW]: a new-theory lesson with nothing to collect
-    # after it. One line per chapter -- the worklist (stage RULES) lists the lessons.
-    for folder in sorted(chapters):
-        bare = [d for d in chapters[folder]
-                if d["category"] == "new-theory" and not d.get("terms_introduced") and not d.get("skills")]
-        if bare:
-            rep.warn(folder.relative_to(ROOT),
-                     f"{len(bare)} new-theory lessons have neither terms_introduced nor skills "
-                     f"(nothing to collect after them; docs/ContentToDo.md 3.1)")
+    validate_skills(load_skills(rep), chapters, rep)
     infos = {folder: folder_info(folder) for folder in chapters}
     for folder, files in chapters.items():
         path, num = infos[folder]

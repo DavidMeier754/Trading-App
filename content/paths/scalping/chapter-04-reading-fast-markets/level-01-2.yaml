@@ -8,6 +8,7 @@ tags: [vwap, volume]
 learning_goal: "User can update a running VWAP with one more minute of trading and explain why the line gets harder to move as the session goes on."
 purpose: "Knowing how fast the line can move tells you how much a single minute of buying is really worth."
 terms_introduced: []
+skills: ["Updating VWAP"]
 reinforces: [1]
 prerequisite: "1-1"
 xp: 20

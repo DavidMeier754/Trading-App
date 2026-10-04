@@ -302,7 +302,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | | `LOOP-DAILY` | ~~Choosable daily goal,~~ streak with states and full-screen moments, freeze, weekly challenge, reminders, gems | Opus 5.5 · high | 1–2 | 20 min + 3 days |
 | | `ONBOARDING` | First run, risk note, legal scaffold, market profile + number format, plan card, i18n keys | Opus 5.5 · high | 1–2 | 20 min |
 | | `PRACTICE` | Practice tab, the rest: drill packs, weak concepts by term, the links into it, "+1 day" tests — the tab with Daily mix, Skills and Mistakes came in `DESIGN-REVIEW` | Opus 5.5 · xhigh, plan mode | 1–2 | 30 min + 1 week |
-| | `GLOSSARY` | Glossary content (every term), the list with search — the marker and the sheet came in `DESIGN-REVIEW` | Opus 5.5 · high | 1–2 | 15 min |
+| | `GLOSSARY` | Proofread the words' lines and add aliases, the list with search — the definitions, the marker and the sheet came in `DESIGN-REVIEW` | Opus 5.5 · high | 1–2 | 15 min |
 | | `STATS` | Accuracy per topic, sharing — the Account page with the tier card, medals, all stats and the variance view came in `DESIGN-REVIEW` | Opus 5.5 · high | 1 | 15 min |
 | | `TABS` | The tab set David chooses from the concept (Analytics instead of Leaderboard; Arena) | Opus 5.5 · high | 1 | 15 min |
 | | `FUN-PASS` | Fun audit with a newcomer test, then polish; the first bonus side lessons (the map draws them since `DESIGN-REVIEW`) | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 45 min |
@@ -947,7 +947,9 @@ Report: what you built · check results · contact sheets before/after · my tes
 9. **Docs:** `docs/UI.md`, `docs/agent.md`, `docs/schema.md`, `docs/curriculum.md`, the new `docs/ContentToDo.md`, this plan, `CLAUDE.md` and `README.md`.
 10. **Not in the app:** the tabs concept (ideas 31 and 38) as an artifact for David's choice (decision V).
 
-**Not in this stage:** any change to a level file or the test bench (David: "Don't rewrite any .yaml"); the tab set (decision V); sharing the plan or a card as an image (`ONBOARDING`, `STATS`).
+11. **After David's test (2026-10-04):** hearts in every lesson; one lesson a day keeps the streak; the path as a true sine; the streak moments in the flow and the flame catching; the medal landing on the shelf; Settings → Testing → **Reset streak**; and the skills: `content/skills.yaml` with every skill and its info, a `skills` line in every level file, `tools/skills.py`, the validator's rules (`docs/schema.md` "Skills").
+
+**Not in this stage:** any other change to a level file or the test bench (David: "Don't rewrite any .yaml" — the `skills` line is the exception he asked for on 2026-10-04); the tab set (decision V); sharing the plan or a card as an image (`ONBOARDING`, `STATS`).
 
 **Status** (2026-10-04): built, waiting for David's test. The PR is stacked on PR #21 (`LOOK-SYSTEM`, session 2), whose branch it starts from; it merges after #20 and #21. The tabs concept is published: ["Nutrade tabs concept"](https://claude.ai/artifact/F7fex6S9DVzby2ZcKyWqHD).
 
@@ -959,9 +961,9 @@ Report: what you built · check results · contact sheets before/after · my tes
 
 **Left for later stages** (each is in its stage's scope):
 - ~~The medal just won shining once on the shelf → `STATS`.~~ Built after David's test (2026-10-04).
-- The one-line meaning on each skill chip of "What you learned" → `GLOSSARY` (it needs `content/glossary.yaml`).
+- ~~The one-line meaning on each skill chip of "What you learned" → `GLOSSARY` (it needs `content/glossary.yaml`).~~ Built after David's test (2026-10-04), from `content/skills.yaml`.
 - "What happened next" instead of "NEXT 5 BARS" over the hidden bars, the first trade included → `LOOK-COMPONENTS`.
-- The new fields in the level files (`stop`, `target`, `notes`, `session_open`, `alert`, `facts`, `skills`, scanner `spark`, ladder `shares`, the bonus lessons and the spot-it levels) → the content sessions, from `docs/ContentToDo.md`.
+- The new fields in the level files (`stop`, `target`, `notes`, `session_open`, `alert`, `facts`, scanner `spark`, ladder `shares`, the bonus lessons and the spot-it levels) → the content sessions, from `docs/ContentToDo.md`. (`skills` is written: 2026-10-04.)
 - The tab set → `TABS`, from decision V.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1, plus a session for fixes if the test finds any.
@@ -1307,14 +1309,11 @@ Report: what you built · check results · my test checklist with real links · 
 **Goal.** Every technical term is explained one tap away (`docs/UI.md` §8, S16).
 
 **Scope**
-1. **`content/glossary.yaml`** (format in `docs/schema.md`):
-   - Every term from all `terms_introduced` (~300).
-   - **One** sentence of definition per term: at most 160 characters, plain words, consistent with the lesson that introduces it.
-   - Plus `taught_in` and `aliases`.
-2. **Validator:** every introduced term has an entry, and no definition is too long.
+1. ~~**`content/glossary.yaml`** (format in `docs/schema.md`): every term from all `terms_introduced`, one sentence of definition each, plus `taught_in` and `aliases`.~~ **The definitions are written** (`DESIGN-REVIEW`, after David's test on 2026-10-04): every word is an entry of `content/skills.yaml` with its `info` line, and where it is taught comes from the level file that lists it (`docs/schema.md` "Skills"). Left for this stage: **proofread** every word's line against the card that defines it (194 words; no line may contradict its lesson), and add **`aliases`** where the body spells a term differently ("bid-ask spread"), so the marker catches them.
+2. ~~**Validator:** every introduced term has an entry, and no definition is too long.~~ Done with `content/skills.yaml` (`docs/schema.md` "Skills", rules of 2026-10-04).
 3. **UI:**
    - ~~Terms in body text get a dotted underline (first occurrence per screen). A tap opens a sheet with the definition and "Taught in Level X-Y"; that opens the review card.~~ **Built in `DESIGN-REVIEW`** with David's marker (highlighter and underline, `docs/UI.md` §8) and his rule "don't over or underuse them"; the sheet shows "Taught in" and the card already. This stage adds the definition line from `content/glossary.yaml`, and the aliases.
-   - The one-line meaning on each skill chip of "What you learned" and on its sheet (`docs/UI.md` §5.3; `DESIGN-REVIEW` shows the names only until this file exists).
+   - ~~The one-line meaning on each skill chip of "What you learned" and on its sheet (`docs/UI.md` §5.3).~~ Built in `DESIGN-REVIEW` (2026-10-04).
    - A glossary list with search in Account.
    - A "recently missed" area, fed by `PRACTICE`.
 4. **`docs/ContentToDo.md` 1.4:** every term in its lesson's `terms_introduced`, spelled as the body spells it, defined on a card of that lesson.
@@ -1325,11 +1324,11 @@ Report: what you built · check results · my test checklist with real links · 
 ```
 Stage GLOSSARY from docs/build-plan.md.
 
-Read CLAUDE.md, then §1 and the "GLOSSARY" section of docs/build-plan.md in full, plus docs/UI.md §8, docs/schema.md (Glossary), docs/agent.md §3.9 and §4, and docs/ContentToDo.md (Part 1).
-Write every definition to match the lesson that introduces the term — read the screen that defines it. No definition may contradict its lesson.
+Read CLAUDE.md, then §1 and the "GLOSSARY" section of docs/build-plan.md in full, plus docs/UI.md §8, docs/schema.md (Skills), docs/agent.md §3.9 and §4, and docs/ContentToDo.md (Part 1).
+Proofread every word's info line in content/skills.yaml against the lesson that introduces the term — read the screen that defines it. No line may contradict its lesson.
 
 Open a PR against main and get every check green.
-Report: what you built · number of terms · 15 random definitions to proofread · my test checklist with real links · open questions. Then stop.
+Report: what you built · number of terms and of lines changed · 15 random definitions to proofread · my test checklist with real links · open questions. Then stop.
 ```
 
 **You test (~15 min)**

@@ -8,6 +8,7 @@ tags: [confluence, filter, candles, volume]
 learning_goal: "User runs four questions over every read — the line, the side of the average, the candle, the weight — and counts the yeses before deciding."
 purpose: "Counting is faster than arguing, and in a fast market you only have time to count."
 terms_introduced: []
+skills: ["Counting the yeses"]
 reinforces: [2, 3]
 prerequisite: "7-1"
 xp: 25

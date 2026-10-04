@@ -8,6 +8,7 @@ tags: [hotkeys, execution, risk]
 learning_goal: "User can say why the exit key matters more than the entry key, and prices a few seconds of hesitation in dollars."
 purpose: "Speed is not a thrill. It is the difference between the stop you planned and the stop you got."
 terms_introduced: ["Hotkey", "Flatten"]
+skills: ["Hotkey", "Flatten"]
 reinforces: [3]
 prerequisite: "1-4"
 xp: 20

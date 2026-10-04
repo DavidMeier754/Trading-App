@@ -8,6 +8,7 @@ tags: [catalyst, news, selection]
 learning_goal: "User reads what the reason actually is before opening the chart, and drops a name whose reason has pinned it in place."
 purpose: "Fifteen seconds of reading is the cheapest way to find out that a name cannot travel today, whatever its multiple says."
 terms_introduced: []
+skills: ["Reading the reason first"]
 reinforces: [1]
 prerequisite: "3-2"
 xp: 25

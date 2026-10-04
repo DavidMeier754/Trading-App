@@ -8,6 +8,7 @@ tags: [drill, map, decisions, sizing, base-rate]
 learning_goal: "User expects most reads to come back a pass and judges a morning by the reads run, not by the trades taken."
 purpose: "A beginner who expects six trades a morning will manufacture four of them."
 terms_introduced: []
+skills: []
 reinforces: [2, 3]
 prerequisite: "13-1"
 xp: 30

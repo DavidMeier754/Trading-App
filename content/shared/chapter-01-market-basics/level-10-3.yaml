@@ -9,6 +9,7 @@ icon: clock
 learning_goal: "User can say which part of the trading day to learn in and what to do with a price printed in a thin one."
 purpose: "Choosing where in the day to practise is the last piece of the beginner's setup, and it costs nothing to get right."
 terms_introduced: []
+skills: ["Choosing when to trade"]
 reinforces: []
 prerequisite: "10-2"
 xp: 20

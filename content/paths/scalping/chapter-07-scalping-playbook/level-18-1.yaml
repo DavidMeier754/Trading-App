@@ -8,6 +8,7 @@ tags: [review, triggers, playbook]
 learning_goal: "User can state all eight cards by their trigger in one line each, and say which of them gets full size and which does not."
 purpose: "Eight cards learned one level at a time are eight separate things until they are laid out side by side."
 terms_introduced: []
+skills: ["All eight cards in a line"]
 reinforces: [4, 6]
 prerequisite: "17-3"
 xp: 25

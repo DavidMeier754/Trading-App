@@ -8,6 +8,7 @@ tags: [sizing, risk, execution, plan]
 learning_goal: "User picks a first live share size from what it makes one stop worth, and can say which fields the switch is allowed to move."
 purpose: "The first live month is an experiment about you, and experiments are run at the smallest size that still produces a reading."
 terms_introduced: ["Going live"]
+skills: ["Going live"]
 reinforces: [6]
 prerequisite: "14-4"
 xp: 25

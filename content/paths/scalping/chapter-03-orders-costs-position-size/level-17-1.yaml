@@ -8,6 +8,7 @@ tags: [costs, all-in-cost]
 learning_goal: "User adds spread, slippage and fees into one per-share number and holds it against the target move as a share of it."
 purpose: "Three costs arriving separately are three things to forget. One number, held against the move, is a habit you can run in a second."
 terms_introduced: ["All-in cost"]
+skills: ["All-in cost"]
 reinforces: [2]
 prerequisite: "16-2"
 xp: 20

@@ -8,6 +8,7 @@ tags: [checkpoint, candles, timeframes, volume]
 learning_goal: "User proves they can read a candle, work between two timeframes, judge a volume bar and decide from the pair."
 purpose: "Everything after this level assumes these four things happen without thinking about them."
 terms_introduced: []
+skills: []
 reinforces: [1]
 prerequisite: "5-2"
 xp: 40

@@ -388,6 +388,7 @@ import f384 from '../content/paths/scalping/chapter-08-the-trading-day/level-16-
 import f385 from '../content/paths/scalping/chapter-08-the-trading-day/level-16-2.yaml';
 import f386 from '../content/paths/scalping/chapter-08-the-trading-day/level-16-3.yaml';
 import f387 from '../content/paths/scalping/chapter-08-the-trading-day/level-17-1.yaml';
+import skills from '../content/skills.yaml';
 
 /**
  * Every chapter folder under content/, in map order, with its sub-level files
@@ -449,5 +450,5 @@ export const CHAPTER_FILES: {
   },
 ];
 
-/** content/glossary.yaml, once stage GLOSSARY has written it. */
-export const GLOSSARY: unknown = null;
+/** content/skills.yaml: every skill, its kind and its one-line info. */
+export const SKILL_LIST: unknown = skills;

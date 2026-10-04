@@ -9,6 +9,7 @@ icon: drop
 learning_goal: "User uses volume on an ordinary day as the clue to liquidity, and can say where that clue misleads."
 purpose: "Nobody publishes a liquidity number, so volume is the reading you actually get — as long as you read the ordinary day and not today's crowd."
 terms_introduced: []
+skills: ["Volume as a liquidity clue"]
 reinforces: []
 prerequisite: "7-1"
 xp: 20

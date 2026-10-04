@@ -8,6 +8,7 @@ tags: [internals, breadth, market-context]
 learning_goal: "User reads breadth as a count of names, tells it apart from the index's move, and knows which of the two to trust for a small name."
 purpose: "An index can be carried by a handful of giants; the stock you are about to trade lives with everybody else."
 terms_introduced: ["Breadth"]
+skills: ["Breadth"]
 reinforces: [1]
 prerequisite: "11-3"
 xp: 20

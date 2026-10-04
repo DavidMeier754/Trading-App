@@ -8,6 +8,7 @@ tags: [fees, frequency, practice]
 learning_goal: "User tells which fee schedule punishes size and which punishes trade count, and can show that a wide spread usually dwarfs the fee line it sits next to."
 purpose: "A commission is one number on a statement. Which number hurts depends on whether you trade big or trade often — and it is rarely the biggest cost in the room."
 terms_introduced: []
+skills: ["Which fee schedule hurts"]
 reinforces: [1]
 prerequisite: "14-1"
 xp: 20

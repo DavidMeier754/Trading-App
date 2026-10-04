@@ -1,20 +1,24 @@
 import { CHAPTER_ONE, LESSONS, LessonEntry, nodeOf, PATH_CHAPTERS } from './content';
-import { GLOSSARY } from './content.generated';
+import { SKILL_LIST } from './content.generated';
 import type { Level, Screen } from './types';
 
 /**
- * Skills (docs/UI.md §5.3, §7.3; docs/schema.md `skills`, DESIGN-REVIEW).
+ * Skills (docs/UI.md §5.3, §7.3; docs/schema.md "Skills").
  *
- * A lesson's skills are its terms (`terms_introduced`) and its techniques
- * (`skills`). After the lesson the learner sees the new ones; the Practice
- * tab keeps them by chapter; each opens the card that taught it. The same
- * terms are what the lesson player marks in later lessons (docs/UI.md §8).
+ * Every skill is an entry of content/skills.yaml: a word (a term the course
+ * defines) or a technique (something the learner can now do), with a one-line
+ * info. A lesson lists the names of the skills it teaches in its `skills`.
+ * After the lesson the learner sees the new ones; the Practice tab keeps them
+ * by chapter; each opens the card that taught it. The words are what the
+ * lesson player marks in later lessons (docs/UI.md §8).
  */
 export type Skill = {
-  /** `term:spread` or `skill:<lesson id>:<n>`. A term is one skill, however many paths teach it. */
+  /** `term:spread` or `skill:<folded name>`. A word is one skill, however many paths teach it. */
   id: string;
   name: string;
   kind: 'term' | 'technique';
+  /** Its one line from content/skills.yaml: a word's meaning, what a technique lets you do. */
+  info: string | null;
   lessonId: string;
   chapter: number;
   path: string;
@@ -39,6 +43,14 @@ const TERM_CARD_TYPES = new Set<Screen['type']>(['theory', 'example', 'carousel'
 export function normTerm(term: string): string {
   return term.trim().toLowerCase().replace(/\s+/g, ' ');
 }
+
+/** An entry of content/skills.yaml (docs/schema.md "Skills"). */
+type SkillEntry = { name: string; kind: 'word' | 'technique'; info: string; aliases?: string[] };
+
+const ENTRIES = (Array.isArray(SKILL_LIST) ? SKILL_LIST : []) as SkillEntry[];
+
+/** Every entry by its folded name. */
+const ENTRY_BY_NAME = new Map(ENTRIES.map((e) => [normTerm(e.name), e]));
 
 function escapeRe(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -86,13 +98,24 @@ export function termCard(level: Level, term: string): number | null {
   return i === -1 ? null : i;
 }
 
+/** The card a technique opens: its lesson's first teaching card. */
+export function techniqueCard(level: Level): number | null {
+  const i = level.screens.findIndex((s) => CARD_TYPES.has(s.type));
+  return i === -1 ? null : i;
+}
+
 function whereOf(entry: LessonEntry): string {
   const node = nodeOf(entry.id);
   if (!node) return entry.title;
   return node.number === null ? node.title : `Level ${node.number} · ${node.title}`;
 }
 
-/** A lesson's skills, terms first, in the order the file gives them. */
+/**
+ * A lesson's skills, words first, each in the order the file gives them. A
+ * lesson without a `skills` list (the test bench, a design sample) teaches
+ * its `terms_introduced`. A name with no entry in content/skills.yaml (the
+ * validator refuses one) is a word if the lesson introduces it.
+ */
 export function skillsOf(entry: LessonEntry): Skill[] {
   const { level } = entry;
   const base = {
@@ -101,25 +124,19 @@ export function skillsOf(entry: LessonEntry): Skill[] {
     path: level.path,
     where: whereOf(entry),
   };
-  const terms: Skill[] = (level.terms_introduced ?? []).map((term) => ({
-    ...base,
-    id: `term:${normTerm(term)}`,
-    name: term,
-    kind: 'term',
-    card: termCard(level, term),
-  }));
-  const techniques: Skill[] = (level.skills ?? []).map((skill, i) => {
-    const at = skill.card - 1;
-    const screen = level.screens[at];
-    return {
-      ...base,
-      id: `skill:${entry.id}:${i}`,
-      name: skill.name,
-      kind: 'technique',
-      card: screen && CARD_TYPES.has(screen.type) ? at : null,
-    };
+  const introduced = new Set((level.terms_introduced ?? []).map(normTerm));
+  const skills: Skill[] = (level.skills ?? level.terms_introduced ?? []).map((name) => {
+    const key = normTerm(name);
+    const known = ENTRY_BY_NAME.get(key);
+    const info = known?.info ?? null;
+    return (known ? known.kind === 'word' : introduced.has(key))
+      ? { ...base, id: `term:${key}`, name, kind: 'term', info, card: termCard(level, name) }
+      : { ...base, id: `skill:${key}`, name, kind: 'technique', info, card: techniqueCard(level) };
   });
-  return [...terms, ...techniques];
+  return [
+    ...skills.filter((s) => s.kind === 'term'),
+    ...skills.filter((s) => s.kind === 'technique'),
+  ];
 }
 
 /** Every lesson on a path, in the order a learner meets them (bonus lessons and the bench aside). */
@@ -245,18 +262,16 @@ export function knowsR(lessonId: string | null, done: Record<string, unknown>): 
   return here !== undefined && there !== undefined && here > there;
 }
 
-type GlossaryEntry = { term: string; definition: string; aliases?: string[] };
-
-const GLOSSARY_BY_TERM = new Map<string, string>(
-  ((Array.isArray(GLOSSARY) ? GLOSSARY : []) as GlossaryEntry[]).flatMap((g) => [
-    [normTerm(g.term), g.definition] as [string, string],
-    ...(g.aliases ?? []).map((a) => [normTerm(a), g.definition] as [string, string]),
+const DEFINITION_BY_TERM = new Map<string, string>(
+  ENTRIES.filter((e) => e.kind === 'word').flatMap((e) => [
+    [normTerm(e.name), e.info] as [string, string],
+    ...(e.aliases ?? []).map((a) => [normTerm(a), e.info] as [string, string]),
   ]),
 );
 
-/** A term's sentence from content/glossary.yaml (stage GLOSSARY), once it exists. */
+/** A word's meaning: its info line in content/skills.yaml, found by its name or an alias. */
 export function definitionOf(term: string): string | null {
-  return GLOSSARY_BY_TERM.get(normTerm(term)) ?? null;
+  return DEFINITION_BY_TERM.get(normTerm(term)) ?? null;
 }
 
 /** The chapters a learner's skills are grouped by: Chapter 1, then their path's. */

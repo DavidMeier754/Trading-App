@@ -8,6 +8,7 @@ tags: [open, opening-range, levels, execution]
 learning_goal: "User trades the opening range as a level: a minute that finishes outside it, a stop back inside it, and a size the account can hold."
 purpose: "It is the only level of the morning that every trader on the name built at the same moment, which is exactly why it gets tested."
 terms_introduced: []
+skills: ["The opening range as a level"]
 reinforces: [2, 4]
 prerequisite: "6-1"
 xp: 25

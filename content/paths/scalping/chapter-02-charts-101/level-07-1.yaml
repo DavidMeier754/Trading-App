@@ -9,6 +9,7 @@ icon: trend
 learning_goal: "User can name an uptrend from its higher highs and higher lows, and reads the last dip as the thing that has to hold."
 purpose: "Every scalp is taken with the shape of the last twenty minutes or against it, and the shape has a name."
 terms_introduced: ["Uptrend", "Higher high", "Higher low"]
+skills: ["Uptrend", "Higher high", "Higher low"]
 reinforces: [1]
 prerequisite: "6-1"
 xp: 20

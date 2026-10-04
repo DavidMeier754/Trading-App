@@ -192,20 +192,26 @@ The first screen of a Checkpoint or Final Exam is a briefing card: the level's k
 ```
 - The text no longer says what the card shows: no "Ten questions", no "Hearts are on", no account numbers (they are chips now).
 
-### 2.6 Skills (`skills` in the header)
+### 2.6 Skills (`skills` in the header, `content/skills.yaml`)
 
-David, 2026-10-03: "After every lesson the User does where he learns a new word, technique, and so on there is a small overview of what he has learned … those cards/skills get transferred to the practice tab … listed by chapter. Here he can get the info cards again for every individual skill."
+David, 2026-10-03: "After every lesson the User does where he learns a new word, technique, and so on there is a small overview of what he has learned … those cards/skills get transferred to the practice tab … listed by chapter. Here he can get the info cards again for every individual skill." And 2026-10-04: "opening a new .yaml file which contains all the skills and infos, and make sure to add every skill name to a new tab in the already existing level .yaml files so it becomes easier and automated."
 
-A lesson's skills are its `terms_introduced` (words) plus its `skills` (techniques). After the lesson the learner sees them as cards; the Practice tab keeps them, by chapter; a tap opens the card that taught it.
+**Done for all eight written chapters (2026-10-04).** `content/skills.yaml` holds 402 skills (194 words, 208 techniques), each with one line of `info`; every level file has its `skills` line. Format and rules: `docs/schema.md` "Skills".
 
 ```yaml
+# a level file
 terms_introduced: ["Stop order", "Stop-loss"]
-skills:
-  - {name: "Placing a stop on the right side", card: 7}   # card: 1-based screen index of the card that teaches it
+skills: ["Stop order", "Stop-loss", "Placing a stop on the right side"]   # words first, then techniques
+
+# content/skills.yaml
+- name: "Placing a stop on the right side"
+  kind: technique
+  info: "…one line of what doing it means, ending with a full stop."
 ```
-- A term's card is found by the app: the first `theory`, `example` or `carousel` screen of the lesson whose text contains the term. Rule 1.4 makes sure there is one.
-- `skills` names what the learner can now *do*, not a topic: "Reading a quote in two seconds", not "Quotes". At most 40 characters. 0–3 per lesson, only in `new-theory` lessons.
-- `card` points at a `theory`, `example`, `carousel`, `walkthrough` or `visual` screen.
+- The words in `skills` are exactly the lesson's `terms_introduced`. A word's card is found by the app: the first `theory`, `example` or `carousel` screen of the lesson whose text contains it. Rule 1.4 makes sure there is one.
+- A technique names what the learner can now *do*, not a topic: "Reading a quote in two seconds", not "Quotes". At most 40 characters. It opens its lesson's first teaching card. One lesson teaches it.
+- Every `new-theory` lesson teaches at least one skill; a practice level teaches the technique it drills, on its first sub-level; tests and final exams teach none.
+- For new chapters (Swing, Day Trading): write the names into each level file, run `python3 tools/skills.py --sync` (it adds the words from `terms_introduced` and appends entries with empty `info` to `content/skills.yaml`), write each `info`, move the entries under their chapter, run the validator. `python3 tools/skills.py --chapter N` reads one chapter's skills back for proofreading.
 
 ### 2.7 Bonus side lessons (new files)
 
@@ -243,7 +249,8 @@ screens: [intro, 2–3 × chart-replay]
 
 ### 3.1 The checklist for every chapter
 
-- [ ] **Skills (2.6).** Every `new-theory` lesson: `terms_introduced` complete — every term the lesson defines, and only those — and 1–3 `skills` with their cards. Today 288 of 388 lessons introduce no term at all, 176 of them `new-theory` (count of 2026-10-03), so most lessons need at least a skill.
+- [x] **Skills (2.6).** Every `new-theory` lesson teaches at least one skill, listed in its `skills` line and described in `content/skills.yaml` (2026-10-04, all eight written chapters).
+- [ ] **Terms (1.4).** `terms_introduced` complete — every term the lesson defines, and only those, each on a card of its lesson. Nine terms are still on no card (the validator's warnings); a term added here goes into `skills` and `content/skills.yaml` too.
 - [ ] **The chart ramp (1.2).** Every chart checked against the ramp: an element before the lesson that explains it goes; the first chart with an element gets its explanation.
 - [ ] **Chart notes (2.2)** where an explanation points at a candle or a level.
 - [ ] **The open (2.3)** on the charts listed for the chapter below, and nowhere else.
@@ -274,12 +281,12 @@ screens: [intro, 2–3 × chart-replay]
 |---|---|---|---|---|
 | 4.1 | Chapter 1 Level 2-4 "Good Call, Bad Luck", **without the variance simulator** (below) | 1 lesson, 12–16 screens | `VARIANCE` | [ ] |
 | 4.2 | Scalping Chapter 8 Level 15 "What You'll Actually Be Offered" + renumbering | 4 lessons | `OFFER` | [ ] |
-| 4.3 | `content/glossary.yaml`: one sentence per term of every `terms_introduced` | ~300 terms | `GLOSSARY` | [ ] |
+| 4.3 | ~~`content/glossary.yaml`~~: one sentence per term of every `terms_introduced` — now the words' `info` in `content/skills.yaml`; `GLOSSARY` adds the aliases | 194 words | `DESIGN-REVIEW` | [x] |
 | 4.4 | Bonus side lessons "Spot it" (2.7) | 2–3 per chapter from Chapter 2 on, 2–3 replays each | `FUN-PASS` (hand-written), `ARENA-TAB` (generated) | [ ] |
 | 4.5 | The replay bank | 22 replays per path | `REPLAY-PILOT`, `REPLAY-BANK`, `ARENA-PATHS` | [ ] |
 | 4.6 | Drill packs `selection` and `risk-calls` | 2 packs | `DRILLS` | [ ] |
 | 4.7 | Swing Trading Chapters 2–8, then Day Trading Chapters 2–8 — written with Parts 1–3 from the start | 14 chapters | `SWING-n`, `DAY-n` | [ ] |
-| 4.8 | Skills (2.6) and term fixes for all written chapters | 388 lessons | `CONTENT-FIX-1` … `-8` | [ ] |
+| 4.8 | ~~Skills (2.6)~~ (done in `DESIGN-REVIEW`) and term fixes (1.4) for all written chapters | 388 lessons | `CONTENT-FIX-1` … `-8` | [ ] |
 | 4.9 | Test bench entries for every new field: a decision with `stop`, `target` and `notes`; a chart with `session_open`; a story with an `alert`; a test intro with `facts`; a header with `skills`; one bonus file | `demo/all-screens.yaml` + one bonus file in `demo/` | `CONTENT-DESIGN` | [ ] |
 | 4.10 | The first trade (onboarding): today a fixed chart in `src/onboarding/firstTrade.ts`. Move it to content if the content sessions want to own it (`content/onboarding.yaml`); otherwise it stays | 1 chart | `ONBOARDING` | [ ] |
 
@@ -308,4 +315,4 @@ The `decision-grid` visual is built (`docs/UI.md` §6.10, `docs/schema.md`). The
 
 | Date | Item | Stage | PR |
 |---|---|---|---|
-| | | | |
+| 2026-10-04 | 2.6 Skills: `content/skills.yaml` (402 skills with their info) and a `skills` line in all 388 level files; 3.1 Skills; 4.3 (definitions); `tools/skills.py` | `DESIGN-REVIEW` | #22 |

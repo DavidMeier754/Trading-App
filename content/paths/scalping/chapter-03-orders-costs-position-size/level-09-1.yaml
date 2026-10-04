@@ -8,6 +8,7 @@ tags: [orders, stops, risk]
 learning_goal: "User places a stop on the correct side of an entry and can state the planned loss in dollars before the trade is taken."
 purpose: "You are going to be wrong all morning long; the stop is the order that keeps being wrong cheap."
 terms_introduced: ["Stop order", "Stop-loss"]
+skills: ["Stop order", "Stop-loss"]
 reinforces: [2]
 prerequisite: "8-2"
 xp: 20

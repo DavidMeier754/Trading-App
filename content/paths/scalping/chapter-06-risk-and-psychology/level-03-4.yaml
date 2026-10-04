@@ -8,6 +8,7 @@ tags: [risk, management, time-stop, discipline]
 learning_goal: "User closes a scalp whose move has failed to arrive, before the stop is reached, and treats the freed risk as the point of doing so."
 purpose: "A scalp is a bet that something happens in the next few minutes; when it does not, the bet has already lost even though the stop is untouched."
 terms_introduced: ["Time stop"]
+skills: ["Time stop"]
 reinforces: [3]
 prerequisite: "3-3"
 xp: 20

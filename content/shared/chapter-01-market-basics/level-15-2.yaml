@@ -9,6 +9,7 @@ icon: globe
 learning_goal: "User can explain why a price reacts to the gap between news and what was expected, and can say where a stock's biggest single days come from."
 purpose: "Every beginner loses an argument with the market the first time good news and a falling price arrive together."
 terms_introduced: []
+skills: ["News against expectations"]
 reinforces: []
 prerequisite: "15-1"
 xp: 20

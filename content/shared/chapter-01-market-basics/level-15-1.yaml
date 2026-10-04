@@ -9,6 +9,7 @@ icon: globe
 learning_goal: "User can name bull and bear markets, treat the trend as context rather than a signal, and explain news as the trigger of sudden supply/demand shifts."
 purpose: "Headlines say 'bull market' and 'bad news' all day — this tells you what they change and what they don't."
 terms_introduced: ["Trend", "Bull market", "Bear market"]
+skills: ["Trend", "Bull market", "Bear market"]
 prerequisite: "14-3"
 xp: 20
 difficulty: 2

@@ -8,6 +8,7 @@ tags: [expectancy, r-multiple, method]
 learning_goal: "User compares methods by expectancy in R, and can see why a 40 % win rate with large winners beats a 70 % one with small ones."
 purpose: "Being right less than half the time is normal for a scalper — this is the arithmetic that makes it survivable."
 terms_introduced: []
+skills: ["Comparing methods by expectancy"]
 reinforces: [3]
 prerequisite: "6-3"
 xp: 20

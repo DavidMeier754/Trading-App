@@ -9,6 +9,7 @@ icon: hourglass
 learning_goal: "User can say how a style multiplies what trading costs, and pick the style that fits the time and the account they actually have."
 purpose: "The three styles are not three tastes; they are three different bills, and the smaller your target the bigger a share of it the bill takes."
 terms_introduced: []
+skills: ["Matching a style to your day"]
 reinforces: []
 prerequisite: "14-2"
 xp: 20

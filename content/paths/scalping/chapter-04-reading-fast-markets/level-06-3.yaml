@@ -8,6 +8,7 @@ tags: [candles, context, levels]
 learning_goal: "User reads the same candle shape differently depending on whether it sits at a marked line or in open space."
 purpose: "A shape is evidence about a price. With no price worth arguing about, it is evidence about nothing."
 terms_introduced: []
+skills: ["A shape at a line"]
 reinforces: [2]
 prerequisite: "6-2"
 xp: 25

@@ -9,6 +9,7 @@ icon: monitor
 learning_goal: "User marks yesterday's extremes, the pre-market extremes and the round numbers before the session starts, and keeps their own screen as a written plan."
 purpose: "Lines drawn during a move are drawn by the move, which is the one thing a level must never be."
 terms_introduced: []
+skills: ["Preparing the screen"]
 reinforces: [1]
 prerequisite: "16-2"
 xp: 25

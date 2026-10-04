@@ -8,6 +8,7 @@ tags: [drills, orders, ladder, practice]
 learning_goal: "User works a short from ticket to fill, reads the average a two-row fill produces, and sends only on the close the plan named."
 purpose: "The second half of execution is knowing when not to press, and the candle decides that, not you."
 terms_introduced: []
+skills: []
 reinforces: [3, 4]
 prerequisite: "3-1"
 xp: 30

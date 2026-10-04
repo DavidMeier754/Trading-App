@@ -8,6 +8,7 @@ tags: [review, costs, position-size, decisions]
 learning_goal: "User runs a setup end to end in one fixed order — price it, size it, place it, decide — and reaches the pass on the second one from the cost line alone."
 purpose: "Every piece of this chapter has been practised separately. A trade uses all of them, in one order, in about ten seconds."
 terms_introduced: []
+skills: ["Price, size, place, decide"]
 reinforces: [1, 2]
 prerequisite: "17-3"
 xp: 30

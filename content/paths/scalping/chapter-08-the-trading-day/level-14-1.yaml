@@ -8,6 +8,7 @@ tags: [simulator, plan, playbook, practice]
 learning_goal: "User builds a thirty-session simulator plan around two cards and can say why the other six wait."
 purpose: "A month of practice that is spread across everything you know teaches you nothing about any of it."
 terms_introduced: []
+skills: ["A 30-session sim plan"]
 reinforces: [6, 7]
 prerequisite: "13-2"
 xp: 25

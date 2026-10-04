@@ -8,6 +8,7 @@ tags: [orders, execution, drill, decisions]
 learning_goal: "User decides in a glance whether a moment is worth paying the ask for, and builds the entry and the exit for a short."
 purpose: "Order choice has to happen at the speed of the chart, which means it has to be drilled rather than reasoned."
 terms_introduced: []
+skills: []
 reinforces: [2]
 prerequisite: "8-1"
 xp: 30

@@ -8,6 +8,7 @@ tags: [market-context, sector, selection]
 learning_goal: "User spots a shortlist that is secretly one bet, and prices the second name of a sector against the account before the chart gets a vote."
 purpose: "The most common way a careful beginner ends up oversized is by taking three names they picked separately and never noticing they were the same trade."
 terms_introduced: []
+skills: ["One bet in disguise"]
 reinforces: [1]
 prerequisite: "11-1"
 xp: 20

@@ -8,6 +8,7 @@ tags: [catalyst, volume, selection]
 learning_goal: "User separates a mover whose crowd has stayed from one whose crowd has left, using the last twenty minutes rather than the first two."
 purpose: "The percentage change is history. What you can trade is whatever is still arriving."
 terms_introduced: []
+skills: ["Has the crowd stayed?"]
 reinforces: [1]
 prerequisite: "3-1"
 xp: 25

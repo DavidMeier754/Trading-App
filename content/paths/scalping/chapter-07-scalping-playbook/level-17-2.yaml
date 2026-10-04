@@ -8,6 +8,7 @@ tags: [capstone, session, costs, decisions]
 learning_goal: "User finishes a session with a losing trade taken correctly, a card passed because the day is wrong for it, and a chart passed on cost alone, and judges the session against the card's expectancy rather than the day's dollars."
 purpose: "The second half of a session is where the playbook is either a rulebook or a suggestion."
 terms_introduced: []
+skills: []
 reinforces: [3, 6]
 prerequisite: "17-1"
 xp: 30

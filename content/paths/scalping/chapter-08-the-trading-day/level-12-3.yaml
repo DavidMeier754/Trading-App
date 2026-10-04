@@ -8,6 +8,7 @@ tags: [sizing, drawdown, risk, stats]
 learning_goal: "User cuts size on results and climbs back on rows, and can say what the smaller unit does to the arithmetic of getting back."
 purpose: "The way down is a rule you wrote in advance. The way back up is the same ladder, taken one rung at a time."
 terms_introduced: []
+skills: ["Cutting fast, climbing slowly"]
 reinforces: [6]
 prerequisite: "12-2"
 xp: 25

@@ -8,6 +8,7 @@ tags: [watchlist, routine, levels]
 learning_goal: "User cuts a shortlist down to three to five names and knows what the watchlist is for: charts that are already marked when a minute arrives."
 purpose: "You cannot watch twelve charts properly, and a chart you are not watching properly is a chart you will trade badly."
 terms_introduced: ["Watchlist"]
+skills: ["Watchlist"]
 reinforces: [2]
 prerequisite: "6-4"
 xp: 20

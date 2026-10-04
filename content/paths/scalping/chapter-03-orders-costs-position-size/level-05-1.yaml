@@ -8,6 +8,7 @@ tags: [checkpoint, spread, quote-panel, costs]
 learning_goal: "User proves they can read a quote panel, name which price they get, turn a spread into dollars, and judge it against the move and against their size."
 purpose: "Everything from Level 6 on assumes these four readings happen without effort."
 terms_introduced: []
+skills: []
 reinforces: [1]
 prerequisite: "4-2"
 xp: 40

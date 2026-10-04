@@ -1,0 +1,1239 @@
+# content/skills.yaml — every skill the course teaches (docs/schema.md, "Skills").
+#
+# A skill is a word (one of a lesson's `terms_introduced`) or a technique (what
+# the learner can do after a lesson). Each level file names the skills it
+# teaches in its `skills:` list; this file holds what the app shows for each:
+# the name, the kind and one sentence of info. After a lesson its new skills
+# fly into the Practice tab, where each opens its info and the card that
+# taught it (docs/UI.md §5.3, §7.3). The words are also the glossary (§8).
+#
+#   name   unique, as the learner reads it; a word is spelled as in its lesson
+#   kind   word | technique
+#   info   one sentence, at most 160 characters, agreeing with the lesson
+#   card   optional: the 1-based screen of the teaching lesson that the
+#          skill opens (default: a word's defining card, a technique's first)
+#
+# python3 tools/skills.py --sync adds a lesson's new words to its `skills:`
+# list; tools/validate_content.py checks both sides.
+
+# ── Chapter 1 · Market Basics (every path) ────────────────────────────────
+- name: "Price"
+  kind: word
+  info: "What one share of a stock costs at a given moment; on a chart, each point is the price at one moment."
+- name: "Chart"
+  kind: word
+  info: "A picture of the price over time: time runs left to right, and the line climbs when the price goes up."
+- name: "Stock"
+  kind: word
+  info: "A small piece of a company that you can buy and sell."
+- name: "Share"
+  kind: word
+  info: "One of the equal pieces a stock comes in: 100 shares means 100 pieces."
+- name: "Buy"
+  kind: word
+  info: "To pay the price for shares; buying opens a position."
+- name: "Sell"
+  kind: word
+  info: "To hand shares over for the price; selling the shares you hold closes the position."
+- name: "Position"
+  kind: word
+  info: "The shares you hold between buying and selling; your profit or loss only becomes real when you close it."
+- name: "Profit"
+  kind: word
+  info: "What you keep when you sell for more than you paid: buy at $10, sell at $11, and you keep $1 per share."
+- name: "Loss"
+  kind: word
+  info: "What you give up when you sell for less than you paid."
+- name: "Trade"
+  kind: word
+  info: "A position opened and closed again: a buy and its sell, with a profit or a loss between them."
+- name: "Buying or waiting"
+  kind: technique
+  info: "Deciding from a line chart whether to buy or to wait, and treating waiting as a full answer, not a failure."
+- name: "Working out a result"
+  kind: technique
+  info: "Working out a profit or loss from the price move and the share count, within the cash you actually hold."
+- name: "Market"
+  kind: word
+  info: "Where buyers and sellers meet and agree on a price; today mostly a computer matching them in milliseconds."
+- name: "Buyer"
+  kind: word
+  info: "Someone who wants shares and pays the price for them; every trade needs one."
+- name: "Seller"
+  kind: word
+  info: "Someone who hands shares over for the price; every trade needs one, on the other side of a buyer."
+- name: "Demand"
+  kind: word
+  info: "How much people want to buy; when it outweighs supply, the price rises until every buyer finds a seller."
+- name: "Supply"
+  kind: word
+  info: "How much is for sale; when it outweighs demand, the price falls until every seller finds a buyer."
+- name: "Reading a news move"
+  kind: technique
+  info: "Explaining a move after news as a change in what people will pay, knowing a price can also move with no news at all."
+- name: "Shareholder"
+  kind: word
+  info: "An owner of shares: own one share and you own that fraction of the company."
+- name: "Ticker"
+  kind: word
+  info: "A stock's short code, so nobody has to type the full name: Apple is AAPL."
+- name: "Exchange"
+  kind: word
+  info: "The marketplace where stocks trade, matching buyers and sellers; you reach it through a broker."
+- name: "Following the money"
+  kind: technique
+  info: "Saying who receives the money when you buy shares: the seller, not the company, which was paid once when the share was first sold."
+- name: "Quote"
+  kind: word
+  info: "A stock's numbers at a glance: the price, the change since the previous close in dollars and percent, and the volume."
+- name: "Previous close"
+  kind: word
+  info: "Yesterday's last price: the reference point for today's change."
+- name: "Daily change"
+  kind: word
+  info: "How far the price has moved since the previous close, in dollars and in percent."
+- name: "Volume"
+  kind: word
+  info: "How many shares changed hands, in a day or in one bar; more volume means more activity."
+- name: "Dollars and percent"
+  kind: technique
+  info: "Turning a change in dollars into percent and back, and using percent to compare two stocks at different prices."
+- name: "Judging today's volume"
+  kind: technique
+  info: "Comparing today's volume with what the stock normally trades, and knowing what volume cannot tell you."
+- name: "Retail trader"
+  kind: word
+  info: "An individual trading their own money from a phone or a laptop: small size, one account, nobody to answer to."
+- name: "Institution"
+  kind: word
+  info: "A fund, bank or pension plan trading millions at a time for other people; when one wants in, the price hears about it."
+- name: "Market maker"
+  kind: word
+  info: "A firm that buys from sellers and sells to buyers all day with no view on the stock, aiming to end the day holding almost nothing."
+- name: "Spread"
+  kind: word
+  info: "The gap between the price you can sell at and the price you can buy at; buy and sell straight back and you have paid it once."
+- name: "Spotting a big participant"
+  kind: technique
+  info: "Reading unusual volume and large price steps as the footprint of a big participant, without reading more into it than it says."
+- name: "Liquidity"
+  kind: word
+  info: "How easily a stock can be bought or sold without pushing the price around."
+- name: "Liquid"
+  kind: word
+  info: "Said of a stock with many buyers and sellers waiting at every price: easy to get into and out of."
+- name: "Illiquid"
+  kind: word
+  info: "Said of a stock with very few buyers and sellers waiting: an ordinary order moves its price."
+- name: "Volume as a liquidity clue"
+  kind: technique
+  info: "Using the volume of an ordinary day as the clue to how liquid a stock is, and knowing where that clue misleads."
+- name: "Walking the price"
+  kind: technique
+  info: "Working out what a large order costs in a thin stock as it fills at one price after another."
+- name: "Volatility"
+  kind: word
+  info: "How far and how fast a price moves; it measures movement in both directions."
+- name: "Volatile"
+  kind: word
+  info: "Said of a stock that moves a lot: one that swings 6 % in a day is volatile, one that drifts 0.3 % is calm."
+- name: "Two dials"
+  kind: technique
+  info: "Keeping liquidity and volatility apart and placing a stock on both, from its volume and its daily range."
+- name: "Picking a stock to learn on"
+  kind: technique
+  info: "Choosing a stock with both dials in the middle, and saying why either extreme is a poor teacher."
+- name: "Both dials at a glance"
+  kind: technique
+  info: "Placing a stock on the liquidity and volatility dials from a quote card or two numbers, quickly and without prompting."
+- name: "Session"
+  kind: word
+  info: "A part of the trading day: the pre-market, the regular session or after-hours."
+- name: "Pre-market"
+  kind: word
+  info: "The hours before the official open: few traders, few shares, and prices that travel a long way on very little."
+- name: "Regular session"
+  kind: word
+  info: "The official trading hours, which carry nearly all of the day's volume and the prices everybody watches."
+- name: "After-hours"
+  kind: word
+  info: "The hours after the close, thin again; news held back until the close lands here first."
+- name: "Weighing the thin hours"
+  kind: technique
+  info: "Seeing why the same order moves the price further in the thin parts of the day, and weighing a move by who is behind it."
+- name: "Choosing when to trade"
+  kind: technique
+  info: "Knowing which part of the day to learn in, and what to make of a price printed in a thin one."
+- name: "Broker"
+  kind: word
+  info: "The company whose app connects you to the exchange and sends your orders to the market."
+- name: "Brokerage account"
+  kind: word
+  info: "Your account at the broker, where your cash, your shares and your history live."
+- name: "Order"
+  kind: word
+  info: "Your instruction to the broker to buy or to sell."
+- name: "Paper trading"
+  kind: word
+  info: "Practising with virtual money and real prices before risking a cent."
+- name: "Fee"
+  kind: word
+  info: "What the broker charges for its service: per order, per share, or hidden in the prices."
+- name: "Building a round trip"
+  kind: technique
+  info: "Putting together the orders that open and close a position, and adding up what the broker's charges take out of it."
+- name: "Long"
+  kind: word
+  info: "Buying first and selling later, to profit if the price rises."
+- name: "Short"
+  kind: word
+  info: "Selling borrowed shares first and buying them back later, to profit if the price falls."
+- name: "Borrow"
+  kind: word
+  info: "To take shares from your broker in order to sell them short; they go back when you buy them back."
+- name: "Cover"
+  kind: word
+  info: "To buy back the shares you sold short and return them, which closes the short."
+- name: "No trade"
+  kind: word
+  info: "Choosing not to trade when the chart offers no clear edge; it is a decision, and here it scores like a good trade."
+- name: "Long and short results"
+  kind: technique
+  info: "Working out the result of a long and of a short with the same subtraction, and why only a long has a worst case you can write down."
+- name: "Holding period"
+  kind: word
+  info: "The time between opening and closing a position: seconds, hours, weeks or years."
+- name: "Scalping"
+  kind: word
+  info: "Trading that holds for seconds to minutes: many small trades a day, tiny moves, full attention."
+- name: "Day trading"
+  kind: word
+  info: "Trading that holds for minutes to hours and always closes before the session ends."
+- name: "Swing trading"
+  kind: word
+  info: "Trading that holds for days to weeks, overnight and over weekends, with the charts checked once or twice a day."
+- name: "Investing"
+  kind: word
+  info: "Holding for months to years on the strength of the company's business rather than the chart."
+- name: "Matching a style to your day"
+  kind: technique
+  info: "Seeing how a trading style multiplies what trading costs, and picking the style that fits your time and your account."
+- name: "Trend"
+  kind: word
+  info: "The direction prices take over weeks and months: mostly up, mostly down, or sideways."
+- name: "Bull market"
+  kind: word
+  info: "The whole market mostly rising for months; it tilts the odds but does not make every stock rise every day."
+- name: "Bear market"
+  kind: word
+  info: "The whole market mostly falling for months."
+- name: "News against expectations"
+  kind: technique
+  info: "Explaining why a price reacts to the gap between the news and what was expected, and where a stock's biggest days come from."
+- name: "The trend as context"
+  kind: technique
+  info: "Taking the decision the stock in front of you offers, in either direction, with the broad trend as context and not as a signal."
+- name: "A whole trading day"
+  kind: technique
+  info: "Using every Chapter 1 idea across one trading day, from the quote card to the result of the trade."
+- name: "Choosing your path"
+  kind: technique
+  info: "Comparing scalping, day trading and swing trading on holding time, targets, overnight risk and screen time, and picking one."
+
+# ── Scalping · Chapter 2 · Charts 101 ─────────────────────────────────────
+- name: "Candle"
+  kind: word
+  info: "One slice of time on a chart, for a scalper one minute: where the price opened, how high and low it went, and where it closed."
+- name: "Open"
+  kind: word
+  info: "The first price traded in a candle's minute."
+- name: "High"
+  kind: word
+  info: "The furthest price up inside a candle's minute."
+- name: "Low"
+  kind: word
+  info: "The furthest price down inside a candle's minute."
+- name: "Close"
+  kind: word
+  info: "The last price traded in a candle's minute."
+- name: "Body"
+  kind: word
+  info: "The thick block of a candle, from the open to the close: green when it closed above the open, red when below."
+- name: "Wick"
+  kind: word
+  info: "A thin thread above or below the body, reaching to the high or the low: a price touched inside the minute and not kept."
+- name: "Reading a candle's four prices"
+  kind: technique
+  info: "Reading the open, high, low and close off one candle at a glance, and marking where it closed."
+- name: "Measuring a candle"
+  kind: technique
+  info: "Measuring a body and a wick to the cent, and making a first decision from a run of candles."
+- name: "Reading a candle's shape"
+  kind: technique
+  info: "Reading conviction, refusal and indecision from how a candle's body and wicks are shared out."
+- name: "A run of candles as a story"
+  kind: technique
+  info: "Reading a run of candles as one story, and knowing what shape alone does not settle."
+- name: "Deciding from shape alone"
+  kind: technique
+  info: "Choosing long, short or no trade from candle shapes, and passing when the shapes disagree with each other."
+- name: "Timeframe"
+  kind: word
+  info: "How much time one candle covers: a minute on a 1-minute chart, five of them on a 5-minute chart."
+- name: "Building a 5-minute candle"
+  kind: technique
+  info: "Building one 5-minute candle out of five 1-minute candles, and reading the bigger candle back onto the smaller ones."
+- name: "Two charts agreeing"
+  kind: technique
+  info: "Taking the 1-minute trigger only when the 5-minute chart agrees, and standing aside when the two point different ways."
+- name: "Volume bar"
+  kind: word
+  info: "The bar under each candle showing how many shares changed hands in its minute: taller bar, more traders involved."
+- name: "Volume against its own normal"
+  kind: technique
+  info: "Judging a volume bar against this stock's own recent minutes, not against a fixed number or another stock."
+- name: "Climax volume"
+  kind: word
+  info: "One bar that dwarfs everything before it at the end of a long run: the whole crowd acting in the same minute."
+- name: "Candle and volume as one reading"
+  kind: technique
+  info: "Reading a candle's shape and its volume bar together, and deciding long, short or no trade from the pair."
+- name: "The three-question read"
+  kind: technique
+  info: "Asking which way, whether anybody meant it, and whether the stock can take your size, before every decision."
+- name: "Uptrend"
+  kind: word
+  info: "A run of higher highs and higher lows: each push tops the last one and each dip stops above the last one."
+- name: "Higher high"
+  kind: word
+  info: "A push that tops above the last push."
+- name: "Higher low"
+  kind: word
+  info: "A dip that stops above the last dip; in an uptrend, the last one is what has to hold."
+- name: "Downtrend"
+  kind: word
+  info: "A run of lower highs and lower lows: each push down ends below the last one and each bounce stalls below the last one."
+- name: "Lower high"
+  kind: word
+  info: "An attempt back up that stalls below the last one."
+- name: "Lower low"
+  kind: word
+  info: "A push down that ends below the last one."
+- name: "Range"
+  kind: word
+  info: "A stretch where neither side wins: price crosses the same two prices again and again."
+- name: "Naming the shape"
+  kind: technique
+  info: "Naming the shape of a fresh chart, uptrend, downtrend or range, in a few seconds, and picking the side it allows."
+- name: "Pullback"
+  kind: word
+  info: "The give-back after each push in a trend: traders taking money off the table, not the crowd changing its mind."
+- name: "Reading a give-back's volume"
+  kind: technique
+  info: "Reading the volume bars under a give-back to tell owners resting from a crowd changing sides."
+- name: "Joining after the pullback"
+  kind: technique
+  info: "Waiting for the first candle that takes ground back, and joining the trend there rather than inside the falling dip."
+- name: "Support"
+  kind: word
+  info: "A price below the current one where buyers have turned the price up before."
+- name: "Resistance"
+  kind: word
+  info: "A price above the current one where sellers have turned the price down before."
+- name: "Round numbers"
+  kind: technique
+  info: "Knowing why whole and half dollars collect orders, and marking them only where price has already reacted."
+- name: "Levels before the open"
+  kind: technique
+  info: "Naming the levels that exist before the session starts, and using them in the first part of the day."
+- name: "Marking the level that matters"
+  kind: technique
+  info: "Marking the one level that matters on a fresh chart, and deciding from where price stands against it."
+- name: "Breakout"
+  kind: word
+  info: "Price going through a level and staying there: the minute closes clearly on the other side, usually on a heavier bar."
+- name: "Bounce"
+  kind: word
+  info: "Price reaching a level and turning away: the minute closes back on the side it came from."
+- name: "Judging by the close"
+  kind: technique
+  info: "Judging a level by where the minute closed, not by how far its wick went through."
+- name: "Acting after the close"
+  kind: technique
+  info: "Acting on a level only once the minute has closed, and reading a broken level from the other side."
+- name: "Has the level answered?"
+  kind: technique
+  info: "Telling a level that has answered from one that has not, and deciding only at the first."
+- name: "Watching the first minutes"
+  kind: technique
+  info: "Knowing why the first minutes of the session behave like no other part of the day, and watching the first five."
+- name: "Gap"
+  kind: word
+  info: "A jump between yesterday's close and the first price of the new session, made while the market was shut."
+- name: "Opening range"
+  kind: word
+  info: "The high and the low of the first five minutes of the session, built on the heaviest volume of the day."
+- name: "Deciding at the open"
+  kind: technique
+  info: "Taking the break that closes outside the opening range on volume, and passing on the poke, the drift and the stock too thin for your size."
+- name: "Momentum"
+  kind: word
+  info: "A move that keeps feeding itself: each body longer than the last, each volume bar taller, and hardly any wick on top."
+- name: "Exhaustion"
+  kind: word
+  info: "The end of a run: its heaviest bar, a long wick where the body used to be, and a close far from the high."
+- name: "Skipping the late legs"
+  kind: technique
+  info: "Not joining the third and fourth leg of a move, and saying what the first leg has that the late ones do not."
+- name: "Chapter 1 on a candle chart"
+  kind: technique
+  info: "Reading liquidity and volatility straight off a candle chart, and refusing the shapes your size cannot trade."
+- name: "What puts a stock on the screen"
+  kind: technique
+  info: "Picking stocks by volume against their own normal day, movement worth the costs, and a price the account can hold."
+- name: "The four things on the screen"
+  kind: technique
+  info: "Naming the four things on a scalper's screen, and refusing a 1-minute trade the 5-minute chart disagrees with."
+- name: "Preparing the screen"
+  kind: technique
+  info: "Marking yesterday's extremes, the pre-market extremes and the round numbers before the session starts, as a written plan."
+- name: "Reading a whole morning"
+  kind: technique
+  info: "Deciding at the open, the break of the range and the first give-back of one morning, one after another."
+
+# ── Scalping · Chapter 3 · Orders, Costs & Position Size ──────────────────
+- name: "Bid"
+  kind: word
+  info: "The highest price a buyer is offering right now: what you get when you sell at once."
+- name: "Ask"
+  kind: word
+  info: "The lowest price a seller will take right now: what you pay when you buy at once."
+- name: "Last"
+  kind: word
+  info: "The price of the trade that actually happened most recently."
+- name: "Quote panel"
+  kind: word
+  info: "The broker's live box with the bid, the ask and the last trade, read in that order before every decision."
+- name: "Which price you get"
+  kind: technique
+  info: "Knowing which side of the quote you get on each move: buying takes the ask, selling takes the bid, for longs and shorts alike."
+- name: "Reading a quote at speed"
+  kind: technique
+  info: "Reading a quote panel in a glance: which two numbers, how far apart, and what changed since the last look."
+- name: "Who earns the spread"
+  kind: technique
+  info: "Seeing the spread as the income of whoever quotes both sides, and saying who pays it in a given trade."
+- name: "Round trip"
+  kind: word
+  info: "One complete position, open and close: getting in crosses the gap and getting out crosses it again."
+- name: "Breaking even after the spread"
+  kind: technique
+  info: "Working out where a position breaks even once the spread is paid, knowing a green-looking screen can still be a losing exit."
+- name: "The spread in dollars"
+  kind: technique
+  info: "Turning a spread per share into a dollar cost for a share count, and seeing how size multiplies it."
+- name: "Target"
+  kind: word
+  info: "The move you are trying to capture; for a scalper, usually five to thirty cents."
+- name: "Expected move"
+  kind: word
+  info: "How far the price is likely to travel while you are in the trade; every spread is judged against it."
+- name: "Why spreads are tight or wide"
+  kind: technique
+  info: "Linking a tight spread to traders competing, reading volume as the clue to it, and pricing what a wide one costs at size."
+- name: "Checking the spread when acting"
+  kind: technique
+  info: "Expecting the spread to widen at the open and on news, and checking it when you act, not when you decide."
+- name: "The three-question quote check"
+  kind: technique
+  info: "How wide, worth it, can my size get out: a verdict on any quote in a few seconds."
+- name: "Market order"
+  kind: word
+  info: "An order that says fill me now: a market buy takes the ask, a market sell takes the bid, and neither waits."
+- name: "Fill"
+  kind: word
+  info: "An order trading: the price it traded at and the shares that changed hands."
+- name: "Limit order"
+  kind: word
+  info: "An order that names a price: it fills at that price or better, and may never fill at all."
+- name: "Taking the ask or posting a price"
+  kind: technique
+  info: "Choosing between paying the ask now and posting a price, by what the gap costs against what missing the trade costs."
+- name: "Filling in a ticket"
+  kind: technique
+  info: "Filling in side, type, quantity and price for an immediate entry, a resting entry and an immediate exit."
+- name: "Marketable limit order"
+  kind: word
+  info: "A limit buy at or above the ask (or a limit sell at or below the bid): it fills at once like a market order, and stops at your number."
+- name: "Unfilled"
+  kind: word
+  info: "Said of an order that has not traded: live and visible, costing nothing, and leaving you with no shares."
+- name: "Resting the target order"
+  kind: technique
+  info: "Resting a limit sell at the target as soon as the entry fills, and knowing what it means when it never trades."
+- name: "The right ticket for the moment"
+  kind: technique
+  info: "Picking and building the right ticket for a break, for a position going wrong, and for a stock going nowhere."
+- name: "Stop order"
+  kind: word
+  info: "An order that does nothing until the price touches its number, and then becomes a live order."
+- name: "Stop-loss"
+  kind: word
+  info: "A stop order used to close a losing position at a price you chose before the trade."
+- name: "Stop-market"
+  kind: word
+  info: "A stop that becomes a market order when touched: you are out, at the next price, which on a fast minute can be cents worse."
+- name: "Stop-limit"
+  kind: word
+  info: "A stop that becomes a limit order when touched: no terrible fill, but it can leave you holding if the price has already gone past."
+- name: "Stop distance"
+  kind: word
+  info: "Entry price minus stop price, per share: the most you plan to lose on each share, and the base of every size."
+- name: "A stop worth trading"
+  kind: technique
+  info: "Judging at a glance whether a chart offers a stop worth trading, and what to do when a stop-limit is left behind."
+- name: "Position size"
+  kind: word
+  info: "How many shares you hold: one number, and the only part of a trade you control completely."
+- name: "Position value"
+  kind: word
+  info: "Shares times price: what a trade ties up in the account."
+- name: "Risk per trade"
+  kind: word
+  info: "Shares times stop distance: what a trade costs if you are wrong."
+- name: "1 % rule"
+  kind: word
+  info: "Risking at most one per cent of the account on any one trade, so a bad morning is boring rather than fatal."
+- name: "Account ceiling"
+  kind: word
+  info: "The most shares the account can pay for: the account divided by the share price, whatever the chart offers."
+- name: "Spread before size"
+  kind: technique
+  info: "Holding the spread against the stop distance before sizing, and taking the lower of the two ceilings on the trades that pass."
+- name: "Naming the binding ceiling"
+  kind: technique
+  info: "Sizing a fresh setup from both ceilings, long or short, and naming which one bound it."
+- name: "Slippage"
+  kind: word
+  info: "The difference between the price you expected and the price you got, because the market moved before the fill."
+- name: "Execution speed"
+  kind: word
+  info: "The time from your tap to the fill: the slower it is, the more room the price has to slip."
+- name: "Capping slippage"
+  kind: technique
+  info: "Naming what widens slippage, capping it with a marketable limit, and telling a high-slip moment from a low-slip one."
+- name: "Living with a slipped entry"
+  kind: technique
+  info: "Knowing what controls execution speed, and keeping the stop where it was after a slipped entry."
+- name: "Commission"
+  kind: word
+  info: "What the broker charges per order or per share; at scalping frequency it adds up by the month."
+- name: "Per-share fee"
+  kind: word
+  info: "A charge on every share traded, so it grows with size: 1,000 shares at $0.005 is $5 a side."
+- name: "Which fee schedule hurts"
+  kind: technique
+  info: "Telling which fee schedule punishes size and which punishes trade count, and seeing a wide spread dwarf the fee line."
+- name: "Clearing the day's costs"
+  kind: technique
+  info: "Adding fees to the rest of a trade's costs, and passing on a range too small to clear them."
+- name: "Level 2"
+  kind: word
+  info: "The order book: bids below the best bid and asks above the best ask, each with the shares waiting there."
+- name: "Order book"
+  kind: word
+  info: "The list of resting buy and sell orders at each price, with how many shares wait at each."
+- name: "Displayed size"
+  kind: word
+  info: "How many shares are shown waiting at one price in the order book."
+- name: "Time and sales"
+  kind: word
+  info: "A scrolling list of every trade, with price, size and time; trades at the ask are buyers lifting, at the bid sellers hitting."
+- name: "Tape"
+  kind: word
+  info: "Traders' name for time and sales, the running record of every trade."
+- name: "Walking an order through the book"
+  kind: technique
+  info: "Filling a large order level by level through the book, and reading aggression from time and sales."
+- name: "Depth as a clue"
+  kind: technique
+  info: "Reading a large resting order with the candle above it, and treating book depth as a clue, never a guarantee."
+- name: "Liquidity as a price"
+  kind: technique
+  info: "Turning the liquidity dial and the volume row into a price: the gap you pay, and the size the stock and the account allow."
+- name: "All-in cost"
+  kind: word
+  info: "Spread, slippage and fees added together, per share, for the whole round trip: what a setup has to beat."
+- name: "Fallback plan"
+  kind: word
+  info: "Written before you need it: how to reach the broker without your screen, a second device and connection, and the one move you make first."
+- name: "The four pre-trade questions"
+  kind: technique
+  info: "Running the four pre-trade questions in order, naming the one that failed, and writing down the cost limits you trade by."
+- name: "Price, size, place, decide"
+  kind: technique
+  info: "Running a setup end to end in one fixed order, and passing from the cost line alone when it says so."
+
+# ── Scalping · Chapter 4 · Reading Fast Markets ───────────────────────────
+- name: "VWAP"
+  kind: word
+  info: "The volume-weighted average price: every trade since the open, each price weighted by its shares, averaged; it moves with every trade."
+- name: "Updating VWAP"
+  kind: technique
+  info: "Updating a running VWAP with one more minute of trading, and seeing why the line gets harder to move as the session goes on."
+- name: "Why the line matters"
+  kind: technique
+  info: "Knowing that large orders are measured against VWAP, and why that makes price react at the line."
+- name: "Trading with the line"
+  kind: technique
+  info: "Picking the side VWAP allows, and standing aside when the session's closes sit on both sides of it."
+- name: "Rejection"
+  kind: word
+  info: "Price pushing into a line from the wrong side, failing to finish a minute through it, and snapping back."
+- name: "Reclaim"
+  kind: word
+  info: "A minute that finishes on the other side of the line after a session on this one, with the next minute staying there."
+- name: "A finished minute decides"
+  kind: technique
+  info: "Waiting for a finished minute before calling the line won or lost, and weighing that close by the bar under it."
+- name: "Yesterday's three prices"
+  kind: technique
+  info: "Naming yesterday's high, low and close, and saying what each of them does to today's session."
+- name: "Lines before the bell"
+  kind: technique
+  info: "Marking the pre-market high and low and today's opening price, and knowing which of the day's lines exist before the bell."
+- name: "Levels as bands"
+  kind: technique
+  info: "Marking round numbers as levels, and treating every line as a band a few cents wide rather than one exact price."
+- name: "Drawing the session's map"
+  kind: technique
+  info: "Drawing every line in one pass before the open, and placing an entry at a line rather than near it."
+- name: "Pricing a read"
+  kind: technique
+  info: "Pricing every read before taking it: the cost against the distance to the next line, and the size against both ceilings."
+- name: "Doji"
+  kind: word
+  info: "A candle that opens and closes at almost the same price, with wicks on both sides: neither side finished in front."
+- name: "Engulfing candle"
+  kind: word
+  info: "A body that covers the whole body of the minute before it, in the other direction, cancelling that minute."
+- name: "A shape at a line"
+  kind: technique
+  info: "Reading the same candle shape differently at a marked line than in open space."
+- name: "Two questions for every candle"
+  kind: technique
+  info: "Asking of every shape whether it sits at a line and whether the bar carried weight, and passing if either answer is no."
+- name: "Confluence"
+  kind: word
+  info: "Two or more separate readings landing on the same price: a second reason arrived at another way, not a louder first one."
+- name: "Counting the yeses"
+  kind: technique
+  info: "Running four questions over every read, the line, the side of the average, the candle and the weight, and counting the yeses."
+- name: "Passing on one reason"
+  kind: technique
+  info: "Seeing what one-reason reads cost over a morning, and passing when only a single reading stands at the price."
+- name: "Print"
+  kind: word
+  info: "A single trade that has already happened: a price and a share count on the tape."
+- name: "Stacking"
+  kind: word
+  info: "Size on one side of the book that is replaced as fast as it is taken: somebody wants all of what is there."
+- name: "Pulling"
+  kind: word
+  info: "Size disappearing from the book before anybody trades against it."
+- name: "Sizing against resting size"
+  kind: technique
+  info: "Sizing a position against the size actually resting under it, and expecting a stop to fill into whatever is left."
+- name: "VWAP meeting a level"
+  kind: technique
+  info: "Spotting the session's average price arriving at a marked level, and trading the price the two share."
+- name: "The first test"
+  kind: technique
+  info: "Treating the first test of a level as the one worth trading, and expecting the level to be thinner on every test after it."
+- name: "Failed test"
+  kind: word
+  info: "A level broken and handed straight back, with a minute finishing on the old side again: whoever joined the break is offside."
+- name: "Opening drive"
+  kind: word
+  info: "A session that opens and keeps going one way: minutes closing near their far end, nothing given back, heavy volume underneath."
+- name: "Trading the range break"
+  kind: technique
+  info: "Taking an opening-range break only after a minute finishes outside the box with weight, and standing aside when price steps back in."
+- name: "Letting the quote settle"
+  kind: technique
+  info: "Pricing the opening spread against the move you want, and letting the quote settle before paying it."
+- name: "The four-part read"
+  kind: technique
+  info: "Reading level, side of the average, candle and tape in a fixed order, and stopping at the first one that comes back empty."
+- name: "What each reading can't tell you"
+  kind: technique
+  info: "Saying what each of the four readings adds and what it cannot answer, and noticing which one is missing."
+- name: "When two readings disagree"
+  kind: technique
+  info: "Standing aside when two readings point opposite ways, and running all four in the time one minute gives."
+- name: "A morning of passes"
+  kind: technique
+  info: "Running the four-part read on unseen charts, expecting most reads to be a pass, and judging a morning by the reads run."
+- name: "The 5-minute decides direction"
+  kind: technique
+  info: "Checking the 5-minute chart for direction before taking a 1-minute trigger, and skipping triggers that fight it."
+- name: "How many triggers a day is worth"
+  kind: technique
+  info: "Naming the shape of the 5-minute chart and letting it decide how many 1-minute triggers the day is worth."
+- name: "Leaving when the shape goes"
+  kind: technique
+  info: "Re-checking the slower chart while a trade is on, and leaving when the shape that started it is gone."
+- name: "Halt"
+  kind: word
+  info: "A pause of a few minutes in a stock's trading, called by the exchange after a move too far too fast or before news."
+- name: "Sizing for the reopening gap"
+  kind: technique
+  info: "Knowing what a reopening after a halt does to a resting stop, and sizing for the gap rather than the stop distance."
+- name: "Naming why you stand aside"
+  kind: technique
+  info: "Sorting a reason to stand aside into the cost, the chart or yourself, and naming what has to change before you look again."
+- name: "Pricing a level with its quote"
+  kind: technique
+  info: "Pricing a level with the quote in front of it, and dropping the read when the spread eats most of the room."
+- name: "A morning, start to finish"
+  kind: technique
+  info: "Running one morning from the first five minutes to the point where it stops offering anything, read by read."
+
+# ── Scalping · Chapter 5 · Finding the Trade ──────────────────────────────
+- name: "Can it take my size?"
+  kind: technique
+  info: "Rejecting a name whose typical minute cannot absorb the size you trade, before reading its chart at all."
+- name: "Does it travel enough?"
+  kind: technique
+  info: "Dropping a name whose quote takes most of what it travels, or that does not travel far enough to pay for any quote."
+- name: "Price against the account"
+  kind: technique
+  info: "Checking a name's share price against the account before its chart, and saying which ceiling binds."
+- name: "The four filters in order"
+  kind: technique
+  info: "Running all four filters on a name in the order that costs the least time, and dropping it on the first no."
+- name: "Relative volume"
+  kind: word
+  info: "Today's volume against what this name normally trades by the same time of day, read as a multiple: 4× its own normal."
+- name: "Multiple versus shares"
+  kind: technique
+  info: "Keeping the multiple and the volume per minute apart, and rejecting a high multiple of a name that barely trades."
+- name: "Sorting by relative volume"
+  kind: technique
+  info: "Sorting the morning list by relative volume, and still running the first filters on whatever comes to the top."
+- name: "The multiple first"
+  kind: technique
+  info: "Using relative volume as the morning's first filter, and running the other checks on the short list it leaves."
+- name: "Catalyst"
+  kind: word
+  info: "Whatever brought the crowd to a stock today: results, a headline, an open far from yesterday's close; it explains the crowd, never the direction."
+- name: "In play"
+  kind: word
+  info: "Said of a name with a catalyst today: where the day's volume and movement are."
+- name: "Has the crowd stayed?"
+  kind: technique
+  info: "Telling a mover whose crowd has stayed from one whose crowd has left, from the last twenty minutes rather than the first two."
+- name: "Reading the reason first"
+  kind: technique
+  info: "Reading what the catalyst actually is before opening the chart, and dropping a name the news has pinned in place."
+- name: "One reason per cut"
+  kind: technique
+  info: "Picking the tradeable rows from a morning list, and naming the one reason each rejected row was dropped."
+- name: "Scanner"
+  kind: word
+  info: "A list that watches every name and shows only those meeting conditions you set; it hands you a short list, never a trade."
+- name: "Gapper"
+  kind: word
+  info: "A name whose first price today sits well away from yesterday's close: something happened while the market was shut."
+- name: "Setting the scanner's conditions"
+  kind: technique
+  info: "Setting conditions that keep untradeable names off the list, and treating what survives as a short list."
+- name: "From list to charts"
+  kind: technique
+  info: "Turning a filtered, sorted list into the handful of names whose charts are worth opening, and stopping there."
+- name: "Watchlist"
+  kind: word
+  info: "The three to five names you will actually watch today, each with its levels marked: the last cut before the bell."
+- name: "Keeping the watchlist short"
+  kind: technique
+  info: "Seeing what a long watchlist costs in lines not drawn before the bell, and drawing the lines yourself."
+- name: "Marking a watchlist name"
+  kind: technique
+  info: "Finding the three prices worth marking on a watchlist name, and drawing them before the session starts."
+- name: "Float"
+  kind: word
+  info: "The number of a company's shares actually available to trade, often far fewer than it has issued."
+- name: "Small float"
+  kind: word
+  info: "A name with only a few million shares to trade: when a crowd arrives, price travels further and faster, and fills get worse."
+- name: "Size from the book"
+  kind: technique
+  info: "Choosing a share count for each name from the book in front of you, not from habit, and taking the smallest ceiling."
+- name: "A watchlist in one run"
+  kind: technique
+  info: "Building a watchlist from a raw list, marking it, and taking the trade the marking made visible, in one run."
+- name: "Index"
+  kind: word
+  info: "One number built out of many shares at once; when it moves, a large part of the market has moved together."
+- name: "Sector"
+  kind: word
+  info: "A group of companies that earn their money the same way, like banks or chipmakers; news reaches them together."
+- name: "One bet in disguise"
+  kind: technique
+  info: "Spotting a shortlist that is secretly one bet on a sector, and pricing the second name against the account first."
+- name: "Relative strength"
+  kind: technique
+  info: "Finding the name that refuses to fall with the room, reading what that shows, and trading it without treating it as a guarantee."
+- name: "Breadth"
+  kind: word
+  info: "How many names are up today against how many are down: a count of names, not of money."
+- name: "Risk-on"
+  kind: word
+  info: "A morning with the index leaning up, most names joining in and the fast movers leading; more names travel far."
+- name: "Risk-off"
+  kind: word
+  info: "A morning with the index leaning down, more names falling than rising, and money in the dull names; fewer travel far."
+- name: "A minute that turns the room"
+  kind: technique
+  info: "Recognising a minute that turns the whole screen at once as the room, not the name, and neither widening a stop nor fighting it."
+- name: "Trend day"
+  kind: word
+  info: "A session that travels one way all day: each push tops the last, give-backs stay shallow, and new highs keep arriving."
+- name: "Range day"
+  kind: word
+  info: "A session that crosses the same two prices over and over, with pushes beyond either edge closing back inside."
+- name: "Waiting for the day type"
+  kind: technique
+  info: "Reading the day type from the opening range and the give-backs after it, and waiting for the label instead of guessing it."
+- name: "Holding to the day type"
+  kind: technique
+  info: "Naming what each kind of day offers and refuses, and changing how a trade is held rather than which setups are taken."
+- name: "The day type as a filter"
+  kind: technique
+  info: "Using the day type to set trade count, holding time and setups, and rewriting the label when the session stops matching it."
+- name: "The two dials as the first cut"
+  kind: technique
+  info: "Using liquidity and volatility as the morning's first cut, and saying which of the two ended a name."
+- name: "Pre-market routine"
+  kind: word
+  info: "The fixed steps you run before the bell, in the same order every morning, so a busy morning cannot shorten it."
+- name: "Writing the tone"
+  kind: technique
+  info: "Running the market check as a step of the routine, writing the tone down, and leaving the day type blank until the session gives it."
+- name: "Writing the page"
+  kind: technique
+  info: "Finishing the routine by writing the names, the size and the caps you will trade by, and keeping them when the open argues."
+- name: "A pre-market, end to end"
+  kind: technique
+  info: "Running one pre-market from an empty screen to two marked names and a tag for the room, step by step."
+
+# ── Scalping · Chapter 6 · Risk & Psychology ──────────────────────────────
+- name: "Setup"
+  kind: word
+  info: "A chart situation you have seen many times and know how to trade: where you get in, where you get out, what makes you drop it."
+- name: "Hard stop"
+  kind: word
+  info: "A stop order resting at your broker, which triggers whether you are watching, thinking or frozen."
+- name: "Mental stop"
+  kind: word
+  info: "A stop price you keep in your head and act on yourself; it only works if you actually click."
+- name: "Reading the stop off the chart"
+  kind: technique
+  info: "Placing the stop just past the level the idea leans on, and letting the share count absorb the distance."
+- name: "The price of widening a stop"
+  kind: technique
+  info: "Pricing what widening a stop costs, and treating a fill past the trigger as a cost rather than a broken plan."
+- name: "A worse entry is a longer stop"
+  kind: technique
+  info: "Paying for a worse entry out of the share count, not out of the loss."
+- name: "R"
+  kind: word
+  info: "One unit of risk: what you lose if the stop hits, entry minus stop times shares; every trade is a bet of exactly 1R."
+- name: "R-multiple"
+  kind: word
+  info: "A result measured in R: a $60 win on $30 of risk is +2R, a better trade than a $100 win on $200 of risk."
+- name: "Break-even stop"
+  kind: word
+  info: "A stop moved up to the entry once a trade is ahead, so the worst case is a scratch and the costs, not a full R."
+- name: "Partial exit"
+  kind: word
+  info: "Closing part of a position early, such as half at 1R, trading a smaller average win for a steadier one."
+- name: "R on a short"
+  kind: technique
+  info: "Working out 1R and an R-multiple on a short as fluently as on a long, across names of different prices."
+- name: "Room before risk"
+  kind: technique
+  info: "Measuring the room to the first level before entering, and refusing a trade that asks more than it offers."
+- name: "A session in R"
+  kind: technique
+  info: "Reading a whole session in R, converting R and dollars both ways, and knowing which rules survive a new account size."
+- name: "When to move to break-even"
+  kind: technique
+  info: "Moving the stop to the entry only once price has cleared the level the trade leaned on, and pricing what a scratch costs."
+- name: "Partials at a level"
+  kind: technique
+  info: "Pricing what a partial exit gives up, and taking it at a level rather than on a feeling."
+- name: "Trailing stop"
+  kind: word
+  info: "A stop moved up behind a working trade, under each new higher low; it only ever moves toward the trade."
+- name: "Time stop"
+  kind: word
+  info: "An exit taken because the expected move has not started, long before the stop is near, putting the risk back in your pocket."
+- name: "Grading trades in R"
+  kind: technique
+  info: "Sizing, stopping and grading trades in R, and handling one that goes against you without changing the plan."
+- name: "Win rate"
+  kind: word
+  info: "The share of trades that end in profit; on its own it says almost nothing about whether a method pays."
+- name: "Average win"
+  kind: word
+  info: "The winners added up and divided by how many there were, in dollars or in R."
+- name: "Average loss"
+  kind: word
+  info: "The losers added up and divided by how many there were, in dollars or in R."
+- name: "Expectancy"
+  kind: word
+  info: "What one average trade is worth: win rate times average win, minus loss rate times average loss."
+- name: "Edge"
+  kind: word
+  info: "A positive expectancy: a method whose average trade pays over a series."
+- name: "Never the win rate alone"
+  kind: technique
+  info: "Judging a method by its win rate only next to its average win and average loss."
+- name: "Averages from the record"
+  kind: technique
+  info: "Building the average win and loss in R from a record, and reading an average loss above 1R as a fault to find."
+- name: "Comparing methods by expectancy"
+  kind: technique
+  info: "Comparing methods by expectancy in R, and seeing why 40 % winners with large wins can beat 70 % with small ones."
+- name: "Costs on both sides"
+  kind: technique
+  info: "Putting the all-in cost on both averages, shrinking the winner and growing the loser, before calling a method positive."
+- name: "Expectancy from fills"
+  kind: technique
+  info: "Measuring expectancy from actual fills, and taking one round trip's all-in cost straight off the gross number."
+- name: "Fewer, larger moves"
+  kind: technique
+  info: "Seeing what halving the trade count does to a day's total, and choosing trades by the move on offer against the round trip."
+- name: "Keep or delete a method"
+  kind: technique
+  info: "Running expectancy on a record, netting it for costs, and deciding which methods to keep and which to delete."
+- name: "Daily loss limit"
+  kind: word
+  info: "The most you will lose today, in R, written down before the open; reach it and the session is over."
+- name: "Trade limit"
+  kind: word
+  info: "A cap on how many trades you take in a session, which catches the quiet day when you trade anyway."
+- name: "The three caps on the page"
+  kind: technique
+  info: "Adding a time cap to the loss and trade caps, and writing all three on the pre-market page with the watchlist."
+- name: "Keeping an inconvenient limit"
+  kind: technique
+  info: "Keeping a limit that has become inconvenient, and sizing the last trade so it cannot breach one."
+- name: "Overtrading"
+  kind: word
+  info: "Taking more trades than the plan calls for: each extra one pays the spread with no edge behind it."
+- name: "Revenge trade"
+  kind: word
+  info: "Going straight back into the stock that just took your money, with bigger size and a thinner setup."
+- name: "FOMO"
+  kind: word
+  info: "Fear of missing out: jumping in late on a stock that ran without you, usually near the end of the move."
+- name: "Chasing"
+  kind: word
+  info: "Paying whatever the ask is because price is moving away from you: a worse entry and a further stop."
+- name: "Tilt"
+  kind: word
+  info: "The state where your next trade is about the last one instead of about the chart: bigger size, no written stop, a racing pulse."
+- name: "Spotting tilt on the ticket"
+  kind: technique
+  info: "Spotting tilt from what is on the ticket and the page, not from how the morning feels."
+- name: "Three checks after a stop"
+  kind: technique
+  info: "Running three checks in the minute after a stop, and letting the answer, not the loss, decide the next trade."
+- name: "Reset routine"
+  kind: word
+  info: "Steps written in advance for after a bad run, so following them needs no judgment, and a return at half size."
+- name: "A countable reset trigger"
+  kind: technique
+  info: "Giving the reset a trigger you can count and a fixed length, both written down before the open."
+- name: "Coming back at half size"
+  kind: technique
+  info: "Returning from a reset at half size, and going back to full size only after a count of trades taken as written."
+- name: "Sample size"
+  kind: word
+  info: "The number of trades a judgment rests on: five tell you nothing, a hundred taken the same way start to."
+- name: "Flinch and swagger"
+  kind: technique
+  info: "Naming the flinch after a losing run and the swagger after a winning one, and keeping the page in charge of both."
+- name: "Two accounts, one R"
+  kind: technique
+  info: "Sizing the same trade for two accounts, taking the lower ceiling, and reading both results in the same R column."
+- name: "Journal"
+  kind: word
+  info: "A record of every trade written the same way each time: a table you can sort, not a diary."
+- name: "Execution grade"
+  kind: word
+  info: "A letter for how well you followed the plan, ignoring the result: a loser taken as written is an A, a chased winner a C."
+- name: "Filling every column"
+  kind: technique
+  info: "Filling every column of a journal row, the pre-market ones included, and saying what each one answers."
+- name: "Writing the row at once"
+  kind: technique
+  info: "Writing the row while the chart is still on the screen, before a night wipes out what you saw."
+- name: "Weekly review"
+  kind: word
+  info: "Sorting a week's rows to answer three questions: which setup paid, which hour paid, and which habit cost the most."
+- name: "Where the losses sit"
+  kind: technique
+  info: "Sorting a week by the columns filled before the open, and reading which of them the losses sit in."
+- name: "One rule a week"
+  kind: technique
+  info: "Turning a sorted week into one rule you can answer before the click, and running it for a week."
+- name: "Drawdown"
+  kind: word
+  info: "The distance from the account's high point down to where it is now; it deepens faster than it fills back in."
+- name: "Ceilings for today's account"
+  kind: technique
+  info: "Recomputing both sizing ceilings for the account you have today, and saying which one decides after a risk cut."
+- name: "Sizing back up"
+  kind: technique
+  info: "Raising size one written step at a time, on a rule fixed before the drawdown, and not on one good morning."
+- name: "A losing morning, handled"
+  kind: technique
+  info: "Walking a losing morning through the stop, the limits, the reset and the smaller size, in that order."
+
+# ── Scalping · Chapter 7 · The Scalping Playbook ──────────────────────────
+- name: "Playbook"
+  kind: word
+  info: "Your short list of written setups, one page each, written before the session and not during it."
+- name: "Playbook card"
+  kind: word
+  info: "One setup's page, with the same five fields every time: context, entry, stop, target and invalidation."
+- name: "Invalidation"
+  kind: word
+  info: "A condition that makes the idea wrong, such as volume drying up or a level giving way; it often gets you out before the stop."
+- name: "Invalidation before the stop"
+  kind: technique
+  info: "Keeping the stop and the invalidation apart, acting on the invalidation first, and keeping the playbook short."
+- name: "Writing a card"
+  kind: technique
+  info: "Turning a vague setup into a card whose five fields are instructions, sized from its stop: the first card of your playbook."
+- name: "VWAP bounce"
+  kind: word
+  info: "Buying the pullback into VWAP in a stock that has held above the line all session, where the buyers who missed the move get their price."
+- name: "High of day"
+  kind: word
+  info: "The highest price a stock has traded since the session opened."
+- name: "Counting the touches"
+  kind: technique
+  info: "Counting touches of the line before taking the bounce, reading the target off the chart first, and sizing from the card's own stop."
+- name: "Opening-range scalp"
+  kind: word
+  info: "Trading a 1-minute close beyond the first five minutes' box on volume, with the stop back inside it and the box's height as the usual reach."
+- name: "Leaving on the close back inside"
+  kind: technique
+  info: "Refusing a break that has not finished outside the box, and leaving at once when a taken break closes back inside."
+- name: "Momentum continuation"
+  kind: word
+  info: "Buying the first candle that closes back in the leg's direction after a shallow pullback: the restart, not the run."
+- name: "Leg"
+  kind: word
+  info: "One push: three or more 1-minute candles running the same way, with bodies growing and volume rising."
+- name: "Measured move"
+  kind: word
+  info: "A target set at the leg's height projected from the entry: a leg that ran $0.40 asks for about $0.40 more."
+- name: "Which push you are joining"
+  kind: technique
+  info: "Counting which push you are joining, projecting the measured move, and refusing a continuation the 5-minute disagrees with."
+- name: "Mean reversion"
+  kind: word
+  info: "Trading a stretched move back toward its average price; on the 1-minute chart, toward VWAP."
+- name: "Half size against the run"
+  kind: technique
+  info: "Sizing the mean-reversion card from half a risk budget and both ceilings, aiming at VWAP where it stands, and leaving on invalidation."
+- name: "Fade"
+  kind: word
+  info: "To trade against a move, here against a break that failed."
+- name: "Re-entry candle"
+  kind: word
+  info: "The first candle that closes back on the level's original side after a break: the trigger for the fade."
+- name: "Trapped traders"
+  kind: word
+  info: "Everyone who took a break that failed, now on the wrong side; their exits fuel the move back."
+- name: "The far side as target"
+  kind: technique
+  info: "Targeting a failed break at the far side of its range, sizing against account and stop, and telling it from the mean-reversion card."
+- name: "Naming the card, or none"
+  kind: technique
+  info: "Running the read before reaching for a card, naming which card a chart is, and answering 'none' when the read is empty."
+- name: "Gap-and-go"
+  kind: word
+  info: "A gap the session keeps paying for: price holds beyond the first print of the day and continues in the gap's direction after a pause."
+- name: "Measuring a gap"
+  kind: technique
+  info: "Measuring a gap against what the stock normally travels, refusing one that has spent a day's range, and dropping it once the first print is lost."
+- name: "Range rotation"
+  kind: word
+  info: "The trip from one edge of an established band to the other, taken at an edge that has already refused price."
+- name: "When not to rotate"
+  kind: technique
+  info: "Refusing the rotation on a session that keeps stepping, reading an edge about to break, and checking the band pays a round trip."
+- name: "Re-entry trade"
+  kind: word
+  info: "Going back into a setup that has already stopped you out once, taken only when its own three conditions hold."
+- name: "Sizing the second attempt"
+  kind: technique
+  info: "Managing a stop-out into a re-entry step by step, sizing it from what is left of the budget, and dropping it when the context is gone."
+- name: "Two stops and done"
+  kind: technique
+  info: "Stopping a card after its second stop-out, reading the session's remaining budget before the chart, and not hurrying the fill."
+- name: "Spotting the near miss"
+  kind: technique
+  info: "Sorting an unseen chart into one of the eight cards or none, and naming the single feature that makes a near miss."
+- name: "Cards for the day"
+  kind: technique
+  info: "Reading the day's condition first and picking the cards it can produce, or none."
+- name: "Cards on a trending day"
+  kind: technique
+  info: "Naming the cards a trending session keeps producing and the ones it quietly stops producing, from the shape of the day."
+- name: "Cards on a rotating day"
+  kind: technique
+  info: "Naming the cards a rotating session deals, telling a range day from an empty one, and writing the filter into your plan."
+- name: "The name and the budget first"
+  kind: technique
+  info: "Refusing a textbook card because of the name it is on, and sizing the card you do take from the stop and the account."
+- name: "What passing costs"
+  kind: technique
+  info: "Saying what a playbook costs in missed trades, and why that cost is what you are buying."
+- name: "Not widening a card"
+  kind: technique
+  info: "Refusing the chart one feature short of a card, and showing in R what happens to a card widened to include it."
+- name: "A full session in order"
+  kind: technique
+  info: "Running a session in order: the plan, the day read, the cards as they appear, and the risk left checked between trades."
+- name: "All eight cards in a line"
+  kind: technique
+  info: "Stating all eight cards by their trigger in one line each, and which of them gets full size."
+
+# ── Scalping · Chapter 8 · The Trading Day ────────────────────────────────
+- name: "Order-entry platform"
+  kind: word
+  info: "The software that turns a decision into an order on an exchange: chart, quote, ticket and positions, four panels with one job."
+- name: "The ladder as a ticket"
+  kind: technique
+  info: "Using the price ladder to place orders, and knowing what resting size does and does not promise."
+- name: "A screen built for frequency"
+  kind: technique
+  info: "Naming what a screen built for many trades does differently, and pricing that against your own trade count."
+- name: "Simulator"
+  kind: word
+  info: "The same platform on live prices with no money behind it: orders are matched against the real quote and reach no exchange."
+- name: "Hotkey"
+  kind: word
+  info: "A keyboard key bound to a complete order, with side, size and type filled in: you press it and the order goes."
+- name: "Flatten"
+  kind: word
+  info: "The key that closes every open position at once: the exit you can reach in half a second."
+- name: "One key sequence"
+  kind: technique
+  info: "Running one fixed key sequence, size, entry, stop, and knowing what each of the other keys is for."
+- name: "Building key reps"
+  kind: technique
+  info: "Practising the keys on a simulator away from the market, and recording every wrong press."
+- name: "From ticket to fill"
+  kind: technique
+  info: "Building the entry, stop and exit tickets for one position, and predicting where each order actually fills."
+- name: "Pre-market plan"
+  kind: word
+  info: "The page the hour before the bell ends on: the names, the size, the numbers and the triggers, written while nothing moves."
+- name: "The market in one sentence"
+  kind: technique
+  info: "Drawing the morning's lines before the bell, and writing the market check as one sentence."
+- name: "If-then plan"
+  kind: word
+  info: "One written line per name: the condition that puts you in, the size, and the price that says you were wrong."
+- name: "Executing the page"
+  kind: technique
+  info: "Running the whole hour on an unseen morning, and executing your page at the open rather than rewriting it."
+- name: "Marking before trading"
+  kind: technique
+  info: "Spending the first minutes marking rather than trading, and naming the three things the open decides that the page could not."
+- name: "The opening range as a level"
+  kind: technique
+  info: "Trading the opening range as a level: a minute outside it, a stop back inside it, and a size the account can hold."
+- name: "The first half hour off the page"
+  kind: technique
+  info: "Taking the triggers the page named, skipping the names it did not, and letting the quote settle instead of chasing it."
+- name: "Midday lull"
+  kind: word
+  info: "The stretch after the first hour when volume thins, minutes overlap and the quote widens: less trading, nothing broken."
+- name: "Three answers to the lull"
+  kind: technique
+  info: "Answering the lull by raising the bar, cutting the size or closing the screen, and pricing the smaller move first."
+- name: "Stopping on a cap"
+  kind: technique
+  info: "Stopping on a cap rather than a feeling, and sizing the last trade of a red session so a full stop cannot breach the limit."
+- name: "Finishing flat"
+  kind: technique
+  info: "Ending every session with no open position, and saying what holding past the close does to the risk you sized."
+- name: "Post-market review"
+  kind: word
+  info: "A short look after the close at the charts you traded, while you remember why: three questions, ending in one line."
+- name: "The evening's rows"
+  kind: technique
+  info: "Writing the day's rows the same evening, grading execution apart from the result, and knowing which column answers what."
+- name: "One page, one process"
+  kind: technique
+  info: "Running a session from the scanner to the first fill with the page, the cards and the caps as one process."
+- name: "Your six numbers"
+  kind: technique
+  info: "Keeping six numbers off your own rows, and saying what each is for and which one the others exist to produce."
+- name: "The whole sample"
+  kind: technique
+  info: "Reading expectancy across the whole sample, not the last week, and letting a bad stretch change size before method."
+- name: "Finding the leaking card"
+  kind: technique
+  info: "Splitting the sample by card, finding the one that leaks, and reading the grades to see whether the card or the execution does it."
+- name: "One change a month"
+  kind: technique
+  info: "Turning a month of rows into exactly one change, justified by the right number on the card."
+- name: "Scaling up"
+  kind: word
+  info: "Raising share size in planned steps, each paid for by evidence from your own rows; decided at the sheet, never at the screen."
+- name: "Grade-A trade"
+  kind: word
+  info: "A trade executed exactly as the card says, trigger, size, stop and exit; the result has no vote."
+- name: "One step of size"
+  kind: technique
+  info: "Taking one step of size at a time, recomputing the unit and caps behind it, and picking names that can fill the bigger order."
+- name: "Cutting fast, climbing slowly"
+  kind: technique
+  info: "Cutting size on results and climbing back on rows, knowing what the smaller unit does to the arithmetic of getting back."
+- name: "The room left on the page"
+  kind: technique
+  info: "Sizing and passing trades against the room left on the page, and logging a card that arrives after the limit for the review."
+- name: "A 30-session sim plan"
+  kind: technique
+  info: "Building a thirty-session simulator plan around two cards, and saying why the other six wait."
+- name: "Discounting sim fills"
+  kind: technique
+  info: "Recording a simulated trade with the two extra columns a simulator needs, and discounting the sheet for its generous fills."
+- name: "Bounding the sim month"
+  kind: technique
+  info: "Holding a trade cap, a daily limit and a floor for all thirty sessions, even when a card fires past them."
+- name: "When the thirty days are done"
+  kind: technique
+  info: "Naming the four conditions that end the thirty days well, and what thirty simulated sessions can never settle."
+- name: "Going live"
+  kind: word
+  info: "Running the same platform, cards and page with your own money behind the orders; only the share count changes."
+- name: "Holding steady with real money"
+  kind: technique
+  info: "Naming the three things that change when the money is real, and holding the stop, the size and the next entry through them."
+- name: "A second sample"
+  kind: technique
+  info: "Moving to a live account with only the share count changed, and starting a new sample rather than continuing the sim one."
+- name: "A week off one page"
+  kind: technique
+  info: "Running green and red sessions off the same page, and letting the red one cost exactly what the page allowed."

@@ -8,6 +8,7 @@ tags: [risk, limits, routine, selection]
 learning_goal: "User adds a time cap to the loss and trade caps, and writes all three onto the same pre-market page as the watchlist."
 purpose: "The caps only work if they are written where the rest of the morning's decisions already live."
 terms_introduced: []
+skills: ["The three caps on the page"]
 reinforces: [5]
 prerequisite: "9-1"
 xp: 20

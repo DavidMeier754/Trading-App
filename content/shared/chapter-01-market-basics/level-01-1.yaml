@@ -9,6 +9,7 @@ icon: coin
 learning_goal: "User makes a simulated buy-and-sell, and can compute profit or loss from price move and share count."
 purpose: "Trading is buying something and selling it at a different price — doing it once, right now, makes every later lesson concrete."
 terms_introduced: ["Price", "Chart", "Stock", "Share", "Buy", "Sell", "Position", "Profit", "Loss", "Trade"]
+skills: ["Price", "Chart", "Stock", "Share", "Buy", "Sell", "Position", "Profit", "Loss", "Trade"]
 prerequisite: null
 xp: 20
 difficulty: 1

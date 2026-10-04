@@ -8,6 +8,7 @@ tags: [midday, volume, spread, session]
 learning_goal: "User recognises the midday lull from volume, bar overlap and quote width, and can say what it does to a setup that worked at the open."
 purpose: "The middle of the session looks like the same market at half speed. It is a different one, and it charges more for the same trade."
 terms_introduced: ["Midday lull"]
+skills: ["Midday lull"]
 reinforces: [4, 6]
 prerequisite: "6-3"
 xp: 20

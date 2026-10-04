@@ -8,6 +8,7 @@ tags: [drill, levels, vwap, costs]
 learning_goal: "User runs the read-then-price sequence on unseen charts and passes on the ones where the room, the cost or the size fails."
 purpose: "Recognition is built on charts you have never seen, not on the ones you have already been told the answer to."
 terms_introduced: []
+skills: []
 reinforces: [3]
 prerequisite: "4-1"
 xp: 30

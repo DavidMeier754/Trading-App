@@ -8,6 +8,7 @@ tags: [platform, order-entry, execution]
 learning_goal: "User names the panels of an order-entry platform and knows that the software checks the order, never the reasoning behind it."
 purpose: "Seven chapters of decisions have to be typed into something, and the something has opinions about none of them."
 terms_introduced: ["Order-entry platform"]
+skills: ["Order-entry platform"]
 reinforces: [3]
 prerequisite: null
 xp: 20

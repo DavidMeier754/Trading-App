@@ -8,6 +8,7 @@ tags: [discipline, no-trade, process]
 learning_goal: "User can say what a playbook costs in missed trades, and why that cost is the thing being bought rather than a side effect."
 purpose: "The sheet only does anything on the mornings it stops you, and those are the mornings it is hardest to keep."
 terms_introduced: []
+skills: ["What passing costs"]
 reinforces: [6]
 prerequisite: "15-2"
 xp: 20

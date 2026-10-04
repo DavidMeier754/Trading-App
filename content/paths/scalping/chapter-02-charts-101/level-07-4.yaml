@@ -9,6 +9,7 @@ icon: trend
 learning_goal: "User names the shape of a fresh chart in a few seconds and picks the side it allows."
 purpose: "Naming the shape is the first thing a scalper does to a chart and the one thing that has to be automatic."
 terms_introduced: []
+skills: ["Naming the shape"]
 reinforces: [1]
 prerequisite: "7-3"
 xp: 25

@@ -8,6 +8,7 @@ tags: [vwap, decisions, practice]
 learning_goal: "User picks the side the line allows and stands aside when the session's closes sit on both sides of it."
 purpose: "The line is only worth having on the chart if it changes which charts you are willing to trade."
 terms_introduced: []
+skills: ["Trading with the line"]
 reinforces: [1]
 prerequisite: "1-3"
 xp: 25

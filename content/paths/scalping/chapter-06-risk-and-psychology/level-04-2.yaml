@@ -8,6 +8,7 @@ tags: [drill, stops, risk, charts]
 learning_goal: "User decides, at speed, whether a chart offers a stop close enough to trade against, and sizes what it does offer."
 purpose: "Recognising an affordable stop in a second is the skill; the arithmetic behind it only helps once it is automatic."
 terms_introduced: []
+skills: []
 reinforces: [3]
 prerequisite: "4-1"
 xp: 25
