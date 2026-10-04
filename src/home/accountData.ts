@@ -4,10 +4,10 @@ import { Progress, streakDays } from '../progress';
 import { tierAfter, type Tier } from '../rewards/tiers';
 import { chapterViews } from './pathState';
 
-/** docs/agent.md §7: the one-line risk note, on every stats screen. */
+/** docs/rules/10-legal-and-safety.md §7: the one-line risk note, on every stats screen. */
 export const RISK_NOTE = 'Trading involves risk of loss. This app teaches concepts, not signals.';
 
-/** The chapters finished, by number, and the tier they give (docs/UI.md §7.5). */
+/** The chapters finished, by number, and the tier they give (docs/ui/13-tiers-replays-and-plus.md §7.5). */
 export function standing(p: Progress): { finished: Set<number>; tier: Tier } {
   const finished = new Set(
     chapterViews(p)
@@ -20,7 +20,7 @@ export function standing(p: Progress): { finished: Set<number>; tier: Tier } {
   return { finished, tier: tierAfter(upTo) };
 }
 
-/** docs/UI.md §7.4 "All stats": the learner's own numbers, never money. */
+/** docs/ui/12-practice-and-stats.md §7.4 "All stats": the learner's own numbers, never money. */
 export function allStats(p: Progress) {
   const done = Object.values(p.done);
   const decisions = p.decisions;
@@ -47,7 +47,7 @@ export function allStats(p: Progress) {
   };
 }
 
-/** A plan key's group, as its prefix names it (docs/schema.md, "The plan"). */
+/** A plan key's group, as its prefix names it (docs/level-files/05-the-plan.md, "The plan"). */
 const GROUPS: [RegExp, string][] = [
   [/^setup_/, 'Setup'],
   [/^cost_/, 'Costs'],

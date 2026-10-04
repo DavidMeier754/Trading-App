@@ -1,7 +1,7 @@
 import type { Grade } from '../answers';
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] "Win screens" (David's pick of 2026-10-04:
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] "Win screens" (David's pick of 2026-10-04:
  * "i want those win screens to change so there are like 5+ different
  * designs"): what every design of the lesson-complete screen is given, and
  * which design a finished lesson gets.

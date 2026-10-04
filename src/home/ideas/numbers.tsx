@@ -70,7 +70,7 @@ export const NUMBERS: Suggestion[] = [
     icon: 'bolt',
     title: 'A combo counter',
     line: 'From three right in a row, a ×3, ×4 and on punches in beside the bar and grows with the run.',
-    note: 'It would stand in for the flame of right answers in a row (docs/UI.md §7.2).',
+    note: 'It would stand in for the flame of right answers in a row (docs/ui/11-top-bar.md §7.2).',
     again: 'Start again',
     Preview: Combo,
   },
@@ -1074,7 +1074,7 @@ function ComboBadge({ run, shown, broke }: { run: number; shown: number; broke: 
   useEffect(() => {
     if (run < STREAK_FROM) {
       if (broke && !reduced) {
-        // Broken: it tips over and drops away, quietly (docs/UI.md §1.6).
+        // Broken: it tips over and drops away, quietly (docs/ui/01-design-principles.md §1.6).
         drop.set(0);
         drop.set(withTiming(1, { duration: 560, easing: Easing.in(Easing.quad) }));
       } else if (broke) {

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate lesson files and drill packs against docs/schema.md. Usage:
+"""Validate lesson files and drill packs against docs/level-files/. Usage:
   python3 tools/validate_content.py            # errors + warnings, exit 1 on errors
   python3 tools/validate_content.py --status   # chapter and drill-pack statistics
   python3 tools/validate_content.py --strict   # chapter-level warnings become errors
@@ -15,16 +15,16 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content"
 
 CATEGORIES = {"new-theory", "repetition", "test", "final-exam"}
-# docs/schema.md "Bonus side lessons" [DESIGN-REVIEW]: level-NN-bonus.yaml, beside the path.
+# docs/level-files/06-skills-bonus-lessons-market-profiles.md "Bonus side lessons" [DESIGN-REVIEW]: level-NN-bonus.yaml, beside the path.
 BONUS_FILE = re.compile(r"level-(\d+)-bonus\.yaml$")
-# docs/schema.md "Skills": content/skills.yaml holds every skill; a lesson lists names.
+# docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills": content/skills.yaml holds every skill; a lesson lists names.
 SKILLS_FILE = CONTENT / "skills.yaml"
 SKILL_KINDS = {"word", "technique"}
 SKILL_NAME_MAX = 40
 SKILL_INFO_MAX = 160
 TERM_CARD_TYPES = {"theory", "example", "carousel"}
 DECISION_CELLS = {"right-won", "right-lost", "wrong-won", "wrong-lost"}
-# A clock time written as digits (agent.md §3.6): "9:31", "15:30".
+# A clock time written as digits (docs/rules/04-numbers-and-realism.md §3.6): "9:31", "15:30".
 CLOCK_TIME = re.compile(r"\b\d{1,2}[:.]\d{2}\b")
 PATHS = {"all", "scalping", "day-trading", "swing-trading"}
 NON_QUESTION = {
@@ -33,7 +33,7 @@ NON_QUESTION = {
     # v3 archetypes
     "recap", "plan-card", "tier-up",
 }
-# v3 question types (schema.md "New question screens")
+# v3 question types (docs/level-files/03-question-screens.md "New question screens")
 NEW_QUESTION = {
     "swipe-deck", "chart-annotate", "order-build", "scanner-pick",
     "compare", "branch", "journal-row", "depth-ladder",
@@ -49,7 +49,7 @@ INTERACTIVE = {
 } | NEW_QUESTION | {"plan-card"}
 # branch carries its explanation per step, not on the screen
 NO_SCREEN_EXPLANATION = {"branch"}
-# Built but not yet in the schema's content types (docs/UI.md §4.4): only the bench shows them.
+# Built but not yet in the schema's content types (docs/ui/05-chart-questions-and-mistakes-round.md §4.4): only the bench shows them.
 BENCH_ONLY = {"chart-replay"}
 SECONDS = {
     "intro": 8, "theory": 10, "example": 10, "carousel": 10, "walkthrough": 10,
@@ -60,7 +60,7 @@ SECONDS = {
     "chart-annotate": 15, "order-build": 15, "scanner-pick": 15,
     "compare": 15, "journal-row": 15, "depth-ladder": 15,
 }
-# agent.md §3.2: the longest run of consecutive `repetition` sub-levels docs/curriculum.md
+# docs/rules/03-content-rules.md §3.2: the longest run of consecutive `repetition` sub-levels docs/course/
 # demands of any path — Chapter 7's Capstone (3 subs) straight into the Chapter Review (2).
 MAX_REPETITION_RUN = 5
 REQUIRED = [
@@ -70,7 +70,7 @@ REQUIRED = [
 ]
 
 
-# docs/schema.md `icon`: the names src/home/icons.tsx can draw, read from its
+# docs/level-files/ `icon`: the names src/home/icons.tsx can draw, read from its
 # ICON_NAMES list so the two cannot drift apart.
 ICON_NAMES = set(re.findall(r"^  '([a-z-]+)',$", (ROOT / "src/home/icons.tsx").read_text().split("] as const")[0].split("ICON_NAMES = [")[1], re.M))
 
@@ -163,13 +163,13 @@ class Report:
         self.warnings.append(f"{f}: {msg}")
 
     def cwarn(self, f, msg):
-        """Chapter-level warning (schema.md). Becomes an error under --strict."""
+        """Chapter-level warning (docs/level-files/). Becomes an error under --strict."""
         self.chapter_warnings += 1
         (self.errors if self.strict else self.warnings).append(f"{f}: {msg}")
 
 
 def validate_new_question(f, i, s, rep):
-    """Shape checks for the v3 question types (schema.md "New question screens")."""
+    """Shape checks for the v3 question types (docs/level-files/03-question-screens.md "New question screens")."""
     t = s["type"]
     where = f"screen {i} ({t})"
 
@@ -257,7 +257,7 @@ def validate_new_question(f, i, s, rep):
             rep.err(f, f"{where}: target '{tg}' is not in the book ({side}s has {len(levels)} levels)")
             return
         # [DESIGN-REVIEW] `shares`: the order's size, walked through the book after
-        # Check (UI.md §4.2). It must end on the target, or the walk and the
+        # Check (docs/ui/04-question-types.md §4.2). It must end on the target, or the walk and the
         # answer would disagree.
         if "shares" in s:
             shares = s["shares"]
@@ -276,7 +276,7 @@ def validate_new_question(f, i, s, rep):
 
 
 # ---------------------------------------------------------------------------
-# Component data (schema.md, "Components, data and hotspot targets"). The table
+# Component data (docs/level-files/04-components-and-data.md, "Components, data and hotspot targets"). The table
 # there is the contract between the content and src/components; a field the
 # renderer does not read, or a value of the wrong shape, is an error here
 # rather than a crash or a missing line on a phone (review S39, M2, M3).
@@ -317,7 +317,7 @@ def is_num(x):
 
 
 def check_levels(f, where, levels, rep):
-    """schema.md: `levels` is a list of {price, label} objects, never bare numbers."""
+    """docs/level-files/: `levels` is a list of {price, label} objects, never bare numbers."""
     if not isinstance(levels, list):
         rep.err(f, f"{where}: levels must be a list of {{price, label}}")
         return
@@ -391,7 +391,7 @@ def check_spark(f, where, spark, rep):
 
 def check_row_spark(f, where, row, rep):
     """A scanner row's day: 5–30 prices from the previous close to `price`, agreeing
-    with `change_pct` (docs/ContentToDo.md 2.4a), so the line and the columns tell
+    with `change_pct` (docs/content-todo/02-new-fields.md 2.4a), so the line and the columns tell
     one story."""
     spark = row["spark"]
     if not check_spark(f, where, spark, rep):
@@ -415,7 +415,7 @@ def check_short_strings(f, where, name, values, most, longest, rep):
 
 
 def check_chart_spec(f, where, spec, rep):
-    """A question screen's chart: {kind, data, …} (schema.md chart-decision, swipe-deck …)."""
+    """A question screen's chart: {kind, data, …} (docs/level-files/ chart-decision, swipe-deck …)."""
     if not isinstance(spec, dict):
         rep.err(f, f"{where}: chart must be a mapping")
         return
@@ -431,7 +431,7 @@ def check_chart_spec(f, where, spec, rep):
 
 
 def check_cost_stack(f, where, data, rep):
-    """Three shapes (schema.md): per share against one `target`, one cost against several
+    """Three shapes (docs/level-files/): per share against one `target`, one cost against several
     `targets`, or cost totals as `rows`. Anything else draws NaN."""
     def labelled(name):
         rows = data.get(name)
@@ -466,12 +466,12 @@ def check_cost_stack(f, where, data, rep):
 
 
 def check_component(f, where, component, data, rep):
-    """One component's `data`/`visual_data` against the table in schema.md."""
+    """One component's `data`/`visual_data` against the table in docs/level-files/."""
     if component not in COMPONENT_FIELDS:
         rep.err(f, f"{where}: unknown component '{component}'")
         return
     if data is None and component == "decision-grid":
-        return  # its one field is optional (schema.md [DESIGN-REVIEW])
+        return  # its one field is optional (docs/level-files/ [DESIGN-REVIEW])
     if not isinstance(data, dict):
         rep.err(f, f"{where}: {component} needs its data as a mapping")
         return
@@ -563,7 +563,7 @@ def validate_screen_data(f, i, s, rep):
 def validate_question_screen(f, i, s, rep):
     """Shape checks for one question screen.
 
-    Shared by lesson files and by drill packs (schema.md, "Drill packs"), which hold the
+    Shared by lesson files and by drill packs (docs/level-files/07-drill-packs-and-replays.md, "Drill packs"), which hold the
     same question screens with no lesson around them. Rules that depend on a screen's
     neighbours — no more than 2 mc in a row — stay with the caller.
     """
@@ -666,7 +666,7 @@ def decision_entry(s):
 
 
 def check_decision_plan(f, i, s, rep):
-    """docs/schema.md: a stop below the entry for a long and above it for a short, the target
+    """docs/level-files/: a stop below the entry for a long and above it for a short, the target
     on the other side. The app draws them and runs the R ruler from them (DESIGN-REVIEW)."""
     stop, target = s.get("stop"), s.get("target")
     for name, v in (("stop", stop), ("target", target)):
@@ -685,7 +685,7 @@ def check_decision_plan(f, i, s, rep):
 
 
 def check_notes(f, i, s, rep):
-    """docs/schema.md `notes` [DESIGN-REVIEW]: 1–4 short notes on bars of the chart."""
+    """docs/level-files/ `notes` [DESIGN-REVIEW]: 1–4 short notes on bars of the chart."""
     notes = s["notes"]
     bars = len((s.get("chart") or {}).get("data") or [])
     if not isinstance(notes, list) or not 1 <= len(notes) <= 4:
@@ -706,7 +706,7 @@ def check_notes(f, i, s, rep):
 
 
 def check_alert(f, where, s, rep):
-    """docs/schema.md `alert` on a story [DESIGN-REVIEW]."""
+    """docs/level-files/ `alert` on a story [DESIGN-REVIEW]."""
     alert = s["alert"]
     if s.get("label") == "takeaway":
         rep.err(f, f"{where}: a takeaway has no alert")
@@ -733,11 +733,11 @@ def fold(name):
 
 
 def check_header_extras(f, data, rep):
-    """docs/schema.md: `skills` in the header [Skills], `facts` on a test's intro [DESIGN-REVIEW]."""
+    """docs/level-files/: `skills` in the header [Skills], `facts` on a test's intro [DESIGN-REVIEW]."""
     screens = data.get("screens") or []
     # Which names exist, and of which kind, is checked against content/skills.yaml by validate_skills.
     if "skills" not in data:
-        rep.err(f, "missing field 'skills' (docs/schema.md \"Skills\"; `python3 tools/skills.py --sync` writes it)")
+        rep.err(f, "missing field 'skills' (docs/level-files/ \"Skills\"; `python3 tools/skills.py --sync` writes it)")
     elif (not isinstance(data["skills"], list)
           or not all(isinstance(n, str) and 1 <= len(n.strip()) <= SKILL_NAME_MAX for n in data["skills"])):
         rep.err(f, f"skills must be a list of names, each 1–{SKILL_NAME_MAX} characters")
@@ -763,7 +763,7 @@ def check_header_extras(f, data, rep):
     for term in data.get("terms_introduced") or []:
         if not any(term_in(term, t) for t in texts):
             rep.warn(f, f"term '{term}' is on no theory, example or carousel card of this lesson "
-                        f"(its skill has no card to open; docs/ContentToDo.md 1.4)")
+                        f"(its skill has no card to open; docs/content-todo/01-rules-from-the-design-review.md 1.4)")
 
 
 def card_words(sc):
@@ -786,7 +786,7 @@ def term_in(term, text):
 
 
 def load_skills(rep, path=SKILLS_FILE):
-    """docs/schema.md "Skills": read content/skills.yaml and check it. {folded name: entry}."""
+    """docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills": read content/skills.yaml and check it. {folded name: entry}."""
     f = path.relative_to(ROOT)
     if not path.exists():
         rep.err(f, "missing: every skill a lesson lists is an entry of this file")
@@ -845,7 +845,7 @@ def check_skill_table(f, data, rep):
 
 
 def validate_skills(table, chapters, rep, skills_file=SKILLS_FILE):
-    """docs/schema.md "Skills": every name a lesson lists is an entry of content/skills.yaml,
+    """docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills": every name a lesson lists is an entry of content/skills.yaml,
     spelled as there. A word is listed by the lesson that introduces it (`terms_introduced`),
     once per path, Chapter 1 counting on every path; a technique by exactly one lesson. An
     entry no lesson lists is a warning."""
@@ -891,7 +891,7 @@ def validate_skills(table, chapters, rep, skills_file=SKILLS_FILE):
 
 
 def validate_bonus_file(path, data, rep):
-    """docs/schema.md "Bonus side lessons" [DESIGN-REVIEW]: one file per side stop, beside the
+    """docs/level-files/06-skills-bonus-lessons-market-profiles.md "Bonus side lessons" [DESIGN-REVIEW]: one file per side stop, beside the
     level it follows. Its placement against the chapter's levels is checked by validate_bonus."""
     f = path.relative_to(ROOT)
     m = BONUS_FILE.match(path.name)
@@ -1103,7 +1103,7 @@ def validate_chapter(folder, files, rep, known_terms):
             if key in seen and seen[key] != d["id"]:
                 rep.warn(d["_file"], f"prompt also used in {seen[key]}: '{p[:60]}…'")
             seen.setdefault(key, d["id"])
-    # consecutive repetition subs (agent.md §3.2). A test or final exam is a distinct,
+    # consecutive repetition subs (docs/rules/03-content-rules.md §3.2). A test or final exam is a distinct,
     # scored event, so it is not "more of the same": it neither lengthens a run nor
     # clears one. Only new material resets the counter, which is what keeps a Checkpoint
     # from being parked between two long review blocks to hide them from this rule.
@@ -1118,7 +1118,7 @@ def validate_chapter(folder, files, rep, known_terms):
         run += 1
         if run > MAX_REPETITION_RUN:
             rep.warn(d["_file"], f"{run} repetition sub-levels in a row with no new material "
-                                 f"in between (agent.md §3.2 allows {MAX_REPETITION_RUN})")
+                                 f"in between (docs/rules/03-content-rules.md §3.2 allows {MAX_REPETITION_RUN})")
 
 
 ACCOUNT_RE = [
@@ -1127,11 +1127,11 @@ ACCOUNT_RE = [
 ]
 PER_SHARE_RE = re.compile(r"\$0\.\d\d")
 VOLUME_MIN, VOLUME_MAX = 4_000, 500_000
-# agent.md §3.6: one position at a time, and it may use at most this share of the account
+# docs/rules/04-numbers-and-realism.md §3.6: one position at a time, and it may use at most this share of the account
 # named in the same file. The rest is the buffer a real fill needs — the learner pays the
 # ask, not the last price the drill quotes, and the fee comes out of the same cash.
 MAX_ACCOUNT_PCT = 0.95
-# agent.md §3.5: inside a chapter's directional chart-decisions, neither side may outnumber
+# docs/rules/03-content-rules.md §3.5: inside a chapter's directional chart-decisions, neither side may outnumber
 # the other by more than this. Judged from MIN_DIRECTIONAL decisions up; under that the ratio
 # is noise rather than a tell.
 MAX_DIRECTION_RATIO = 2.0
@@ -1139,7 +1139,7 @@ MIN_DIRECTIONAL = 8
 
 
 # `state` counts: once session state moves from the scenario into chips
-# (UI.md 6.4), the account a drill is sized against is named there.
+# (docs/ui/08-quotes-and-charts.md 6.4), the account a drill is sized against is named there.
 TEXT_KEYS = ("text", "body", "prompt", "statement", "scenario", "outcome",
              "explanation", "working", "state")
 
@@ -1183,7 +1183,7 @@ def decision_price(s):
 
 
 def answer_key_hygiene(where, screens, rep, digit_tell=False):
-    """agent.md §3.5 over a set of screens: a chapter's, or a drill pack's.
+    """docs/rules/03-content-rules.md §3.5 over a set of screens: a chapter's, or a drill pack's.
 
     Position rotation, the length tell and the true/false split are properties of the
     bank a learner meets, so they are computed over the whole of it. `digit_tell` adds
@@ -1230,7 +1230,7 @@ def answer_key_hygiene(where, screens, rep, digit_tell=False):
 
 
 def direction_balance(where, screens, rep):
-    """agent.md §3.5: neither side of a directional chart-decision may dominate.
+    """docs/rules/03-content-rules.md §3.5: neither side of a directional chart-decision may dominate.
 
     The same answer-key tell as a run of first-position answers, in the one place the
     learner can act on it: if the charts lean one way, "always long" scores without a
@@ -1252,7 +1252,7 @@ def direction_balance(where, screens, rep):
 
 
 def validate_chapter_v3(folder, files, rep):
-    """Chapter-level warnings from docs/schema.md. Errors under --strict."""
+    """Chapter-level warnings from docs/level-files/. Errors under --strict."""
     where = folder.relative_to(ROOT)
     ordered = sorted(files, key=lambda d: level_key(d["id"]))
     chapter_num = ordered[0].get("chapter") if ordered else None
@@ -1287,7 +1287,7 @@ def validate_chapter_v3(folder, files, rep):
     # --- reinforcement ---------------------------------------------------
     if chapter_num and chapter_num >= 3:
         if not any(re.search(r"callback", d.get("title", ""), re.I) for d in ordered):
-            rep.cwarn(where, "no Callback level (agent.md §3.3 requires one from Chapter 3 on)")
+            rep.cwarn(where, "no Callback level (docs/rules/03-content-rules.md §3.3 requires one from Chapter 3 on)")
     if is_path_chapter:   # Chapter 1 has no earlier chapter to reach back to
         total_q = sum(d["_nq"] for d in ordered)
         reinforced_q = sum(d["_nq"] for d in ordered if d.get("reinforces"))
@@ -1298,7 +1298,7 @@ def validate_chapter_v3(folder, files, rep):
             if d["category"] in ("test", "final-exam") and not d.get("reinforces"):
                 want = "25%" if d["category"] == "final-exam" else "20%"
                 rep.cwarn(d["_file"], f"{d['category']} declares no reinforces "
-                                      f"(agent.md §3.3 wants ≥{want} of its questions reaching back)")
+                                      f"(docs/rules/03-content-rules.md §3.3 wants ≥{want} of its questions reaching back)")
 
     # --- answer-key hygiene ---------------------------------------------
     answer_key_hygiene(where, [s for d in ordered for s in d["screens"]], rep)
@@ -1326,7 +1326,7 @@ def validate_chapter_v3(folder, files, rep):
                 vals = set(PER_SHARE_RE.findall(str(s.get("outcome") or "")))
                 outcome_values.extend(vals)
             # A `branch` puts the learner in stock exactly as a `chart-decision` does, so the
-            # same two ceilings apply to it (agent.md §3.6).
+            # same two ceilings apply to it (docs/rules/04-numbers-and-realism.md §3.6).
             if s.get("type") in ("chart-decision", "branch"):
                 shares = s.get("shares")
                 price = decision_price(s)
@@ -1346,14 +1346,14 @@ def validate_chapter_v3(folder, files, rep):
                     if not VOLUME_MIN <= median <= VOLUME_MAX:
                         rep.cwarn(d["_file"], f"screen {i}: typical bar volume {median:,.0f} outside "
                                               f"{VOLUME_MIN:,}–{VOLUME_MAX:,} per bar")
-    # agent.md §3.6 caps one position at MAX_ACCOUNT_PCT of the account named in the same
+    # docs/rules/04-numbers-and-realism.md §3.6 caps one position at MAX_ACCOUNT_PCT of the account named in the same
     # file. Reported once per chapter rather than once per screen — at 45 % of the corpus
     # this would otherwise bury every other finding. `tools/check_sizing.py --chapter N`
     # prints each one with every other line in the file that names the same share count.
     if over_cap:
         pct, worst_file, worst_i, shares, price, value, account = max(over_cap)
         rep.cwarn(where, f"{len(over_cap)}/{sized} positions are over the {MAX_ACCOUNT_PCT:.0%} cap on "
-                         f"one position (agent.md §3.6); worst is {worst_file} screen {worst_i}, "
+                         f"one position (docs/rules/04-numbers-and-realism.md §3.6); worst is {worst_file} screen {worst_i}, "
                          f"{shares:,} shares × ${price:.2f} = ${value:,.0f}, {pct:.1%} of the "
                          f"${account:,} account. Run tools/check_sizing.py for the list.")
 
@@ -1390,7 +1390,7 @@ def validate_chapter_v3(folder, files, rep):
             shape, n = max(shape_close.items(), key=lambda kv: kv[1])
             if n / total > 0.60:
                 rep.cwarn(where, f"{n}/{total} chart-decision scenarios ({n / total:.0%}) end on the same "
-                                 f"sentence shape: '{shape[:60]}…' — use state chips (UI.md §6.4) instead")
+                                 f"sentence shape: '{shape[:60]}…' — use state chips (docs/ui/08-quotes-and-charts.md §6.4) instead")
 
     # --- prompt reuse within a question type -----------------------------
     by_type = defaultdict(lambda: defaultdict(int))
@@ -1421,7 +1421,7 @@ def plan_card_keys(screen):
     """The plan keys a `plan-card` screen writes, resolved through its optional `slot`.
 
     A card with `slot: <id>` fills one playbook row, so its short field names resolve to
-    `card.<slot>.<field>` (schema.md, "The plan"). Every named slot but `draft` also puts a
+    `card.<slot>.<field>` (docs/level-files/05-the-plan.md, "The plan"). Every named slot but `draft` also puts a
     row on the `cards` list the graduation sheet renders.
     """
     slot = screen.get("slot")
@@ -1456,7 +1456,7 @@ def plan_sheet_fields(screen):
 
 
 def validate_plan(chapters, rep):
-    """schema.md "The plan": a plan-sheet may only render keys a plan-card writes.
+    """docs/level-files/05-the-plan.md "The plan": a plan-sheet may only render keys a plan-card writes.
 
     The plan is one document the learner builds across all eight chapters, so this is computed
     over a whole path rather than a chapter. The shared chapter (`path: all`) is part of every
@@ -1492,7 +1492,7 @@ def validate_plan(chapters, rep):
 
 
 def validate_tiers(chapters, rep):
-    """A tier is a milestone, so a learner may only reach it once (UI.md §7.5).
+    """A tier is a milestone, so a learner may only reach it once (docs/ui/13-tiers-replays-and-plus.md §7.5).
 
     The shared chapter belongs to every path, so "all" collides with each of them;
     two different paths awarding the same tier name do not collide with each other.
@@ -1511,13 +1511,13 @@ def validate_tiers(chapters, rep):
 
 
 # ---------------------------------------------------------------------------
-# Drill packs (docs/schema.md, "Drill packs")
+# Drill packs (docs/level-files/07-drill-packs-and-replays.md, "Drill packs")
 # ---------------------------------------------------------------------------
 # A pack is a flat bank of scored screens with no lesson around them: the Practice hub
 # draws from it in its own order, weighted by the learner's weak concepts. So the rules
 # that belong to a *lesson* — screen budget, intro/summary, the run of mc screens, the
 # time estimate — do not apply, and the rules that belong to a *bank* do: every screen
-# stands alone, and the answer key of the whole pack must not be guessable (agent.md §3.5).
+# stands alone, and the answer key of the whole pack must not be guessable (docs/rules/03-content-rules.md §3.5).
 DRILLS = CONTENT / "drills"
 DRILL_MANIFEST = DRILLS / "packs.yaml"
 DRILL_REQUIRED = ["id", "path", "title", "unlocked_by", "unlocked_by_chapter",
@@ -1525,7 +1525,7 @@ DRILL_REQUIRED = ["id", "path", "title", "unlocked_by", "unlocked_by_chapter",
 MANIFEST_REQUIRED = ["id", "slug", "file", "path", "title", "unlocked_by",
                      "unlocked_by_chapter", "screens", "tags", "concepts", "exemplars"]
 DRILL_MIN_SCREENS, DRILL_MAX_SCREENS = 10, 40
-# build-plan.md Stage 4 asks for the interaction to vary across a pack; four types in
+# docs/plan/ Stage 4 asks for the interaction to vary across a pack; four types in
 # 10–40 screens is the floor that keeps a pack from being 30 chart-decisions in a row.
 DRILL_MIN_TYPES = 4
 
@@ -1622,7 +1622,7 @@ def validate_drill_pack(path_file, data, rep, idx):
 
 
 def validate_drill_hygiene(data, rep):
-    """The whole-pack rules: agent.md §3.5 on the answer key, §3.6 on size and volume."""
+    """The whole-pack rules: docs/rules/03-content-rules.md §3.5 on the answer key, §3.6 on size and volume."""
     f = data["_file"]
     screens = data["_screens"]
     answer_key_hygiene(f, screens, rep, digit_tell=True)
@@ -1662,14 +1662,14 @@ def validate_drill_hygiene(data, rep):
     if over_cap:
         pct, i, shares, price, value, account = max(over_cap)
         rep.cwarn(f, f"{len(over_cap)}/{sized} positions are over the {MAX_ACCOUNT_PCT:.0%} cap on "
-                     f"one position (agent.md §3.6); worst is screen {i}, {shares:,} shares × "
+                     f"one position (docs/rules/04-numbers-and-realism.md §3.6); worst is screen {i}, {shares:,} shares × "
                      f"${price:.2f} = ${value:,.0f}, {pct:.1%} of the ${account:,} account")
 
     # --- the pack must contain the near-misses it was commissioned for ----
     decisions = [s for s in screens if s.get("type") == "chart-decision"]
     if len(decisions) >= MIN_DIRECTIONAL and not any(s.get("best") == "no-trade" for s in decisions):
         rep.warn(f, f"none of the pack's {len(decisions)} chart-decisions resolve to no-trade "
-                    f"(build-plan.md Stage 4 asks for about a third near-misses)")
+                    f"(docs/plan/ Stage 4 asks for about a third near-misses)")
 
     # --- one drill, one question ----------------------------------------
     seen = {}
@@ -1683,7 +1683,7 @@ def validate_drill_hygiene(data, rep):
 
 
 def validate_drill_manifest(rep, packs, written, idx):
-    """content/drills/packs.yaml against the packs on disk (schema.md, "Drill packs").
+    """content/drills/packs.yaml against the packs on disk (docs/level-files/07-drill-packs-and-replays.md, "Drill packs").
 
     The manifest is what the batch run is built from, so it is checked whether or not the
     pack has been written yet: a wrong `unlocked_by` or a missing exemplar is cheaper to
@@ -1754,7 +1754,7 @@ BENCH = ROOT / "demo/all-screens.yaml"
 def validate_bench(rep, path=BENCH):
     """The test bench (demo/all-screens.yaml) is not a lesson, so the lesson rules (screen
     count, question mix, mc runs) do not apply. Every screen on it still has to be one the
-    content could hold: a known type, a valid question, component data as in schema.md.
+    content could hold: a known type, a valid question, component data as in docs/level-files/.
     Written to fit the renderer instead, it once hid the depth-ladder crash (review M2)."""
     f = path.relative_to(ROOT)
     try:
@@ -1817,7 +1817,7 @@ def main():
     validate_plan(chapters, rep)
     validate_bench(rep)
 
-    # drill packs (schema.md, "Drill packs"): the Practice hub's bank, validated against
+    # drill packs (docs/level-files/07-drill-packs-and-replays.md, "Drill packs"): the Practice hub's bank, validated against
     # the manifest that commissioned it. Batch output is not exempt from --strict.
     idx = sublevel_index(chapters)
     written = []

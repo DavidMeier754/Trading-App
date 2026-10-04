@@ -35,7 +35,7 @@ import { FIRST_TRADE } from '../onboarding/firstTrade';
 import { NEW_DESIGNS } from './newDesigns';
 
 /**
- * Settings → Testing (docs/UI.md §11.5): the testing tools, in test builds
+ * Settings → Testing (docs/ui/16-navigation.md §11.5): the testing tools, in test builds
  * only, as a section of Settings itself (David, 2026-09-30: "bring back all
  * the developer options into the settings"). Four change the learner's
  * progress on the spot -- the hearts back, the streak back to 0, gems for the

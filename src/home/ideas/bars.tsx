@@ -44,7 +44,7 @@ export const BARS: Suggestion[] = [
     title: 'Tabs with a sliding pill',
     line: 'The open tab sits in a pill that slides to the one you tap, and its icon gives a hop.',
     tag: 'rule',
-    note: 'Tabs switch at once today, never with a slide (docs/UI.md §11.2).',
+    note: 'Tabs switch at once today, never with a slide (docs/ui/16-navigation.md §11.2).',
     Preview: TabPill,
   },
   {
@@ -71,7 +71,7 @@ export const BARS: Suggestion[] = [
     title: 'A ticker under the top bar',
     line: 'Your numbers run past like a stock ticker: XP, accuracy, streak, gems.',
     tag: 'moves',
-    note: 'Moves without a tap, against docs/UI.md §1: "Nothing moves unless the learner moved it".',
+    note: 'Moves without a tap, against docs/ui/01-design-principles.md §1: "Nothing moves unless the learner moved it".',
     Preview: Ticker,
   },
 ];

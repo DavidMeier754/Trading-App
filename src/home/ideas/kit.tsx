@@ -10,7 +10,7 @@ import type { IconName } from '../icons';
 
 /**
  * What every design suggestion is made of (Settings → Testing → Design
- * suggestions, docs/UI.md §10): its row on the list, and the preview that
+ * suggestions, docs/ui/15-theming-and-accessibility.md §10): its row on the list, and the preview that
  * plays when the row is tapped, as the Animations page does it (David,
  * 2026-10-01: "do it like the test animations tab so I can click on the
  * suggestion and then I get a preview").
@@ -33,9 +33,9 @@ export type Suggestion = {
   /**
    * The row's tag: in the app (David's picks of 2026-10-04, built in
    * DESIGN-REVIEW), in the mix or left out of it (David's answers of
-   * 2026-09-29 and 2026-10-04), moving on its own (against docs/UI.md §1,
+   * 2026-09-29 and 2026-10-04), moving on its own (against docs/ui/01-design-principles.md §1,
    * "Nothing moves unless the learner moved it"), or against another rule of
-   * docs/UI.md.
+   * docs/ui/.
    */
   tag?: 'app' | 'in' | 'out' | 'moves' | 'rule';
   /** A line under the preview: which rule it breaks, or what it would replace. */

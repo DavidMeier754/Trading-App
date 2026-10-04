@@ -21,7 +21,7 @@ const AnimatedG = Animated.createAnimatedComponent(G);
 const ENTRY_DELAY = 140;
 
 /**
- * docs/UI.md §6.4 "[v3] Mini variant" — no axes, no volume, 8-10 bars, one
+ * docs/ui/08-quotes-and-charts.md §6.4 "[v3] Mini variant" — no axes, no volume, 8-10 bars, one
  * optional level line. Readable at a glance at half height, for `swipe-deck`
  * and `compare`.
  *

@@ -23,11 +23,11 @@ function blend(a: string, b: string, t: number): string {
 }
 
 /**
- * docs/UI.md §7.4 [DESIGN-REVIEW] "Practice as a heat map" (David's pick of
+ * docs/ui/12-practice-and-stats.md §7.4 [DESIGN-REVIEW] "Practice as a heat map" (David's pick of
  * 2026-10-04): the last eighteen weeks on Account, a square a day, Monday to
  * Sunday down each column, darker the more lessons that day (progress.ts,
  * `days`), today ringed. Over it, the days learned and the longest run of
- * them. It counts days, never judges them (docs/agent.md §3.11).
+ * them. It counts days, never judges them (docs/rules/07-variance-and-typed-numbers.md §3.11).
  */
 export default function PracticeHeatmap({
   days,

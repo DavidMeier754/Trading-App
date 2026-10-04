@@ -31,7 +31,7 @@ const screen = (over: Partial<ChartDecisionScreen> = {}): ChartDecisionScreen =>
   ...over,
 });
 
-describe('the trade plan (docs/UI.md §6.4, docs/schema.md stop/target)', () => {
+describe('the trade plan (docs/ui/08-quotes-and-charts.md §6.4, docs/level-files/ stop/target)', () => {
   it('reads entry, risk and the target in R', () => {
     const plan = tradePlanOf(screen())!;
     expect(plan).toMatchObject({ dir: 1, entry: 18.1, stop: 18.0, target: 18.3 });
@@ -89,7 +89,7 @@ describe('the trade plan (docs/UI.md §6.4, docs/schema.md stop/target)', () => 
   });
 });
 
-describe('the reveal with a plan (docs/UI.md §5.1b)', () => {
+describe('the reveal with a plan (docs/ui/06-reveal-and-hearts.md §5.1b)', () => {
   it('pays out at the exit, not at the last bar', () => {
     const r = decisionReveal(screen(), 'long');
     expect(r.pnl).toBeCloseTo(0.2 * 600);

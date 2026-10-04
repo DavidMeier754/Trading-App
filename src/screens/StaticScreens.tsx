@@ -33,7 +33,7 @@ import { TermText } from '../lesson/termText';
 import Sparkline from '../components/Sparkline';
 
 /**
- * A carousel card's `icon` (docs/schema.md), drawn where there is a drawing.
+ * A carousel card's `icon` (docs/level-files/), drawn where there is a drawing.
  * The rest still show their label's first letter -- three cards in a row whose
  * labels all began with N all read "N", which is why these came first.
  */
@@ -48,13 +48,13 @@ const CARD_ICON: Record<string, IconName> = {
 };
 
 /**
- * The non-question archetypes from docs/UI.md §3 that are not intro / theory /
+ * The non-question archetypes from docs/ui/03-screen-types.md §3 that are not intro / theory /
  * example. `carousel`, `walkthrough` and `branch` count as one screen per card,
  * step or step, so they carry their own internal cursor and only hand the
  * player back control when the last one is done.
  */
 
-/** docs/UI.md §3 `carousel` — 2-4 sibling cards with a "1/3" indicator. */
+/** docs/ui/03-screen-types.md §3 `carousel` — 2-4 sibling cards with a "1/3" indicator. */
 export function CarouselScreen({
   screen,
   cursor,
@@ -115,7 +115,7 @@ export function CarouselScreen({
   );
 }
 
-/** docs/UI.md §3 `walkthrough` — one field spotlighted per step. */
+/** docs/ui/03-screen-types.md §3 `walkthrough` — one field spotlighted per step. */
 export function WalkthroughScreen({
   screen,
   cursor,
@@ -135,7 +135,7 @@ export function WalkthroughScreen({
   return (
     <View style={styles.centered}>
       <Text style={styles.counter}>{`${at + 1}/${screen.steps.length}`}</Text>
-      {/* docs/UI.md §3: the spotlighted field is lit and the rest of the
+      {/* docs/ui/03-screen-types.md §3: the spotlighted field is lit and the rest of the
           component steps back, so the eye goes straight to it. */}
       <Visual
         component={screen.component}
@@ -151,7 +151,7 @@ export function WalkthroughScreen({
   );
 }
 
-/** docs/UI.md §3 `visual` — a component with a one-line caption. */
+/** docs/ui/03-screen-types.md §3 `visual` — a component with a one-line caption. */
 export function VisualScreen({ screen, width }: { screen: VisualS; width: number }) {
   return (
     <View style={styles.centered}>
@@ -161,7 +161,7 @@ export function VisualScreen({ screen, width }: { screen: VisualS; width: number
   );
 }
 
-/** docs/UI.md §3 `checklist-reveal` — items appear one per tap. */
+/** docs/ui/03-screen-types.md §3 `checklist-reveal` — items appear one per tap. */
 export function ChecklistRevealScreen({
   screen,
   cursor,
@@ -240,7 +240,7 @@ function ChecklistRow({ text, index, shown }: { text: string; index: number; sho
 }
 
 /**
- * docs/UI.md §3 `story` — a short narrative. It carries its speaker in the copy;
+ * docs/ui/03-screen-types.md §3 `story` — a short narrative. It carries its speaker in the copy;
  * there is no character cast to draw (§6.9). A lesson's closing story
  * (`label: takeaway`) is marked as the takeaway; a scene with `alert` reads as
  * a market alert (StoryAlertCard).
@@ -273,7 +273,7 @@ export function StoryScreen({ screen }: { screen: Story }) {
 }
 
 /**
- * docs/UI.md §3 `story` [DESIGN-REVIEW] (David approved the alert on
+ * docs/ui/03-screen-types.md §3 `story` [DESIGN-REVIEW] (David approved the alert on
  * 2026-10-03): a scene that arrives the way a trader meets it, as a market
  * alert -- a bell, the ticker and the time in the head row, the sentence, a
  * small sparkline of the move so far, and up to three facts as chips. Nothing
@@ -340,9 +340,9 @@ function BellRing({ color }: { color: string }) {
   );
 }
 
-/** docs/UI.md §3 `recap` — 2-4 one-line takeaways. */
+/** docs/ui/03-screen-types.md §3 `recap` — 2-4 one-line takeaways. */
 /**
- * docs/UI.md §3 `recap` — the end of a level in two to four lines: what it
+ * docs/ui/03-screen-types.md §3 `recap` — the end of a level in two to four lines: what it
  * taught, each tagged with the sub-level it came from so it can be found
  * again. It is the closing card of a long level, the one that makes nineteen
  * of them in a chapter feel like a path rather than a pile.
@@ -352,7 +352,7 @@ export function RecapScreen({
   source,
 }: {
   screen: Recap;
-  /** The card a takeaway came from, to open under it (docs/UI.md §3). */
+  /** The card a takeaway came from, to open under it (docs/ui/03-screen-types.md §3). */
   source?: (point: Recap['points'][number]) => { title?: string; body: string } | null;
 }) {
   const look = useLookSpec();
@@ -411,7 +411,7 @@ export function RecapScreen({
 }
 
 /**
- * The three paths as the learner meets them (docs/UI.md §3 `path-choice`):
+ * The three paths as the learner meets them (docs/ui/03-screen-types.md §3 `path-choice`):
  * holding period, screen time and the feel of it. The screen-time figures are
  * Level 14-1's own rough ones, so the choice repeats what was just taught.
  */
@@ -446,7 +446,7 @@ export const PATH_CARDS: {
 ];
 
 /**
- * docs/UI.md §3 `path-choice`, played as its own level after Chapter 1. One
+ * docs/ui/03-screen-types.md §3 `path-choice`, played as its own level after Chapter 1. One
  * card per path; a path whose chapters are not written yet says so and cannot
  * be picked, rather than leading to an empty map.
  */
@@ -592,7 +592,7 @@ const styles = themed(() => ({
     backgroundColor: colors.surfaceAlt,
   },
   dotOn: { backgroundColor: colors.accent, width: 20 },
-  // A 48 pt target (docs/UI.md §10) around each dot, laid out as the 8 pt row it was.
+  // A 48 pt target (docs/ui/15-theming-and-accessibility.md §10) around each dot, laid out as the 8 pt row it was.
   dotSlot: {
     width: TAP_TARGET,
     height: TAP_TARGET,

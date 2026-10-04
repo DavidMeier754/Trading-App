@@ -22,7 +22,7 @@ function cellOf(value: string | number | undefined): { text: string; color?: str
 }
 
 /**
- * docs/UI.md §6.8 — the journal, one row per finished trade. The same table
+ * docs/ui/09-order-tools-and-other-visuals.md §6.8 — the journal, one row per finished trade. The same table
  * carries any small grid of words: a first column keyed "" is a row label.
  */
 export default function JournalTable({

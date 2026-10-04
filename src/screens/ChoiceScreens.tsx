@@ -27,7 +27,7 @@ import type {
 } from '../types';
 import { AnswerCard, Prompt, ToneSurface } from './common';
 
-/** docs/UI.md §4.1 `fill-choice` — a blank with 3-4 word chips. */
+/** docs/ui/04-question-types.md §4.1 `fill-choice` — a blank with 3-4 word chips. */
 export function FillChoiceScreen({
   screen,
   value,
@@ -96,7 +96,7 @@ export function FillChoiceScreen({
   );
 }
 
-/** docs/UI.md §4.1 `sort` — 2-3 buckets, chips tapped or dragged into them. */
+/** docs/ui/04-question-types.md §4.1 `sort` — 2-3 buckets, chips tapped or dragged into them. */
 export function SortScreen({
   screen,
   value,
@@ -251,7 +251,7 @@ export function SortScreen({
  * A chip that can be picked up. It follows the finger on the UI thread, and
  * the bucket under the finger lights; let go over one and the chip goes in,
  * let go anywhere else and it springs home. A tap still selects it, for the
- * tap-then-bucket path docs/UI.md §10 requires alongside every drag.
+ * tap-then-bucket path docs/ui/15-theming-and-accessibility.md §10 requires alongside every drag.
  */
 function DragChip({
   children,
@@ -355,7 +355,7 @@ function BucketGlow({
   );
 }
 
-/** docs/UI.md §4.1 `order` — put 3-5 cards in sequence. */
+/** docs/ui/04-question-types.md §4.1 `order` — put 3-5 cards in sequence. */
 export function OrderScreen({
   screen,
   value,
@@ -438,7 +438,7 @@ export function OrderScreen({
   );
 }
 
-/** docs/UI.md §4.1 `spot-mistake` — tap the wrong segment of a statement. */
+/** docs/ui/04-question-types.md §4.1 `spot-mistake` — tap the wrong segment of a statement. */
 export function SpotMistakeScreen({
   screen,
   value,

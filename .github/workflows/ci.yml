@@ -60,7 +60,7 @@ jobs:
         env:
           EXPO_PUBLIC_TEST_TOOLS: '1'
 
-  # Contact sheets and the measured UI check (npm run sheets, docs/UI.md §10):
+  # Contact sheets and the measured UI check (npm run sheets, docs/ui/15-theming-and-accessibility.md §10):
   # the test bench and the home screens in the three looks, light and dark, at
   # 390, 375 and 320 pt. A text below 13 px or 4.5 : 1, or a button smaller
   # than 48 x 48, fails the job. The sheets are the "contact-sheets" artifact.

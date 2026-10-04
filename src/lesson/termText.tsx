@@ -7,7 +7,7 @@ import { colors, themed } from '../theme';
 import { tapFeedback } from './feedback';
 
 /**
- * docs/UI.md §8 [DESIGN-REVIEW]: the terms a screen marks, and what a tap on
+ * docs/ui/14-glossary-and-copy.md §8 [DESIGN-REVIEW]: the terms a screen marks, and what a tap on
  * one opens. The lesson player works out which terms each screen marks
  * (skills.ts, markPlan) and provides them here; `TermText` draws them.
  */

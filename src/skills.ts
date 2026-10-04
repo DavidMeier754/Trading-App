@@ -3,14 +3,14 @@ import { SKILL_LIST } from './content.generated';
 import type { Level, Screen } from './types';
 
 /**
- * Skills (docs/UI.md §5.3, §7.3; docs/schema.md "Skills").
+ * Skills (docs/ui/07-lesson-chapter-and-tier-complete.md §5.3, docs/ui/12-practice-and-stats.md §7.3; docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills").
  *
  * Every skill is an entry of content/skills.yaml: a word (a term the course
  * defines) or a technique (something the learner can now do), with a one-line
  * info. A lesson lists the names of the skills it teaches in its `skills`.
  * After the lesson the learner sees the new ones; the Practice tab keeps them
  * by chapter; each opens the card that taught it. The words are what the
- * lesson player marks in later lessons (docs/UI.md §8).
+ * lesson player marks in later lessons (docs/ui/14-glossary-and-copy.md §8).
  */
 export type Skill = {
   /** `term:spread` or `skill:<folded name>`. A word is one skill, however many paths teach it. */
@@ -44,7 +44,7 @@ export function normTerm(term: string): string {
   return term.trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
-/** An entry of content/skills.yaml (docs/schema.md "Skills"). */
+/** An entry of content/skills.yaml (docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills"). */
 type SkillEntry = { name: string; kind: 'word' | 'technique'; info: string; aliases?: string[] };
 
 const ENTRIES = (Array.isArray(SKILL_LIST) ? SKILL_LIST : []) as SkillEntry[];
@@ -181,7 +181,7 @@ function everyday(skill: Skill): boolean {
 }
 
 /**
- * docs/UI.md §8 (David: "don't over or underuse them"): the terms a lesson may
+ * docs/ui/14-glossary-and-copy.md §8 (David: "don't over or underuse them"): the terms a lesson may
  * mark -- taught in another lesson the learner has played, and not one of the
  * course's first words. The lesson that defines a term is busy defining it.
  */
@@ -249,7 +249,7 @@ function overlaps(text: string, a: string, b: string): boolean {
 }
 
 /**
- * docs/UI.md §6.4: the R ruler appears once R has been taught -- the lesson
+ * docs/ui/08-quotes-and-charts.md §6.4: the R ruler appears once R has been taught -- the lesson
  * that introduces the term "R" is played, or this lesson comes after it.
  */
 export function knowsR(lessonId: string | null, done: Record<string, unknown>): boolean {

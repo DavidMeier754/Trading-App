@@ -21,7 +21,7 @@ import ReceiptWin from './wins/Receipt';
 import RingWin from './wins/Ring';
 
 /**
- * docs/UI.md §5.3 — sub-level complete. Rare tier, so this is where the delight
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 — sub-level complete. Rare tier, so this is where the delight
  * budget goes, and it is choreographed rather than thrown on screen at once:
  * the title arrives, the design plays its piece and lands -- a chord and a
  * heavy pulse, from the same cue table as the rest of the app -- and the
@@ -51,11 +51,11 @@ export default function LessonComplete({
   /** The lesson counts for the streak: the summary shows where it stands. */
   daily?: boolean;
   /**
-   * A practice round (docs/UI.md §7.3): no XP; the headline holds the answers
+   * A practice round (docs/ui/12-practice-and-stats.md §7.3): no XP; the headline holds the answers
    * right, and a row says where the hearts stand -- a finished round gives one back.
    */
   practice?: boolean;
-  /** Gems this lesson paid: a bonus lesson's, a chest's (docs/UI.md §7.1, §5.3). */
+  /** Gems this lesson paid: a bonus lesson's, a chest's (docs/ui/10-path-map.md §7.1, docs/ui/07-lesson-chapter-and-tier-complete.md §5.3). */
   gems?: number;
   lessonId?: string | null;
   /** One design rather than the next in turn: the previews and the Animations page. */
@@ -64,7 +64,7 @@ export default function LessonComplete({
   const hearts = useHearts().hearts;
   const display = useDisplayFace();
   const m = useMotion();
-  // docs/UI.md §5.3 (David, 2026-10-04): one lesson a day keeps the streak,
+  // docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 (David, 2026-10-04): one lesson a day keeps the streak,
   // so the summary shows the streak, not a count towards a goal.
   const streak = streakDays(useProgress());
   const { width } = useWindowDimensions();

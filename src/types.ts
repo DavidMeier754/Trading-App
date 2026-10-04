@@ -1,8 +1,8 @@
-// Types for the subset of docs/schema.md this player renders.
+// Types for the subset of docs/level-files/ this player renders.
 // Ten screen types plus the header fields the shell needs.
 
 export type ScreenType =
-  // docs/UI.md §3 — non-question screens
+  // docs/ui/03-screen-types.md §3 — non-question screens
   | 'intro'
   | 'theory'
   | 'example'
@@ -17,7 +17,7 @@ export type ScreenType =
   | 'badge'
   | 'tier-up'
   | 'path-choice'
-  // docs/UI.md §4.1 — question screens
+  // docs/ui/04-question-types.md §4.1 — question screens
   | 'mc'
   | 'tf'
   | 'numeric-mc'
@@ -32,7 +32,7 @@ export type ScreenType =
   | 'chart-tap'
   | 'chart-decision'
   | 'spot-mistake'
-  // docs/UI.md §4.2 — question screens [v3]
+  // docs/ui/04-question-types.md §4.2 — question screens [v3]
   | 'swipe-deck'
   | 'chart-annotate'
   | 'order-build'
@@ -62,7 +62,7 @@ export type IntroScreen = {
   type: 'intro';
   text: string;
   counter?: number;
-  /** docs/schema.md [DESIGN-REVIEW]: a test's briefing chips, the account numbers. */
+  /** docs/level-files/ [DESIGN-REVIEW]: a test's briefing chips, the account numbers. */
   facts?: string[];
 };
 
@@ -144,13 +144,13 @@ export type ChartSpec = {
    */
   range?: [number, number];
   /**
-   * docs/schema.md [DESIGN-REVIEW]: the first bar of the regular session. The
+   * docs/level-files/ [DESIGN-REVIEW]: the first bar of the regular session. The
    * bars before it are shaded as pre-market and a bell line marks the open.
    */
   session_open?: number;
 };
 
-/** docs/schema.md [DESIGN-REVIEW]: a short note on a bar, shown after the reveal. */
+/** docs/level-files/ [DESIGN-REVIEW]: a short note on a bar, shown after the reveal. */
 export type ChartNote = { bar: number; text: string; at?: 'high' | 'low' };
 
 export type DecisionButton = 'long' | 'short' | 'no-trade' | 'buy' | 'wait';
@@ -161,20 +161,20 @@ export type ChartDecisionScreen = {
   shares: number;
   chart: ChartSpec;
   state?: string[];
-  /** default [long, short, no-trade] per docs/schema.md */
+  /** default [long, short, no-trade] per docs/level-files/ */
   buttons?: DecisionButton[];
   best: DecisionButton;
   reasonable?: DecisionButton[];
-  /** docs/schema.md [v4]: the plan's exit lines, drawn after the choice (DESIGN-REVIEW). */
+  /** docs/level-files/ [v4]: the plan's exit lines, drawn after the choice (DESIGN-REVIEW). */
   stop?: number;
   target?: number;
   outcome: string;
   explanation: string;
-  /** docs/schema.md [DESIGN-REVIEW]: notes on the chart after the reveal. */
+  /** docs/level-files/ [DESIGN-REVIEW]: notes on the chart after the reveal. */
   notes?: ChartNote[];
 };
 
-// --- docs/UI.md §3, the rest of the non-question archetypes ---
+// --- docs/ui/03-screen-types.md §3, the rest of the non-question archetypes ---
 
 export type CarouselScreen = {
   type: 'carousel';
@@ -201,7 +201,7 @@ export type ChecklistRevealScreen = {
   items: string[];
 };
 
-/** docs/schema.md [DESIGN-REVIEW]: a scene as a market alert. */
+/** docs/level-files/ [DESIGN-REVIEW]: a scene as a market alert. */
 export type StoryAlert = {
   ticker: string;
   time?: string;
@@ -247,7 +247,7 @@ export type TierUpScreen = { type: 'tier-up'; tier: string; means: string };
 
 export type PathChoiceScreen = { type: 'path-choice' };
 
-// --- docs/UI.md §4.1, the rest of the v2 question types ---
+// --- docs/ui/04-question-types.md §4.1, the rest of the v2 question types ---
 
 export type FillChoiceScreen = {
   type: 'fill-choice';
@@ -315,7 +315,7 @@ export type SpotMistakeScreen = {
   explanation: string;
 };
 
-// --- docs/UI.md §4.2, the v3 question types ---
+// --- docs/ui/04-question-types.md §4.2, the v3 question types ---
 
 export type MiniChart = {
   label?: string;
@@ -329,7 +329,7 @@ export type MiniChart = {
 export type SwipeDeckScreen = {
   type: 'swipe-deck';
   prompt: string;
-  /** docs/schema.md: `note` is the card's one-line verdict as it flies off. */
+  /** docs/level-files/: `note` is the card's one-line verdict as it flies off. */
   cards: { chart: MiniChart; answer: 'take' | 'pass'; note: string }[];
   explanation: string;
 };
@@ -363,19 +363,19 @@ export type ScannerRow = {
   float?: string;
   spread?: number;
   catalyst?: string;
-  /** docs/schema.md [DESIGN-REVIEW]: the day so far, for the row's sparkline. */
+  /** docs/level-files/ [DESIGN-REVIEW]: the day so far, for the row's sparkline. */
   spark?: number[];
 };
 
 export type ScannerPickScreen = {
   type: 'scanner-pick';
   prompt: string;
-  /** docs/schema.md: the rows sit under `data`, like a visual's. */
+  /** docs/level-files/: the rows sit under `data`, like a visual's. */
   data?: { rows: ScannerRow[] };
   /** The older, flat form (the test bench). */
   rows?: ScannerRow[];
   target?: string;
-  /** docs/schema.md: "or targets: [XYZ, DEF]" -- any one of them is right. */
+  /** docs/level-files/03-question-screens.md: "or targets: [XYZ, DEF]" -- any one of them is right. */
   targets?: string[];
   explanation: string;
 };
@@ -398,7 +398,7 @@ export type CompareScreen = {
 };
 
 /**
- * docs/schema.md `branch`: a scenario, its chart, and 2-4 steps. An option's
+ * docs/level-files/ `branch`: a scenario, its chart, and 2-4 steps. An option's
  * `next` is the step it leads to; an option without one ends the path. Each
  * step carries its own explanation -- its reveal -- so the screen has none of
  * its own.
@@ -427,9 +427,9 @@ export type JournalRowScreen = {
 export type DepthLadderScreen = {
   type: 'depth-ladder';
   prompt: string;
-  /** docs/schema.md: the book sits under `data`, best price first on each side. */
+  /** docs/level-files/: the book sits under `data`, best price first on each side. */
   data: { bids: [number, number][]; asks: [number, number][] };
-  /** docs/schema.md [DESIGN-REVIEW]: the market order's size, for the walk after Check. */
+  /** docs/level-files/ [DESIGN-REVIEW]: the market order's size, for the walk after Check. */
   shares?: number;
   target: string;
   explanation: string;
@@ -519,20 +519,20 @@ export type QuestionScreen =
 export type Level = {
   id: string;
   title: string;
-  /** docs/schema.md [v4]: this sub-level's own short name. */
+  /** docs/level-files/ [v4]: this sub-level's own short name. */
   subtitle?: string;
   chapter: number;
   chapter_title: string;
   path: string;
   category: string;
   tags: string[];
-  /** The node's symbol: what the level teaches (docs/schema.md, src/home/icons.tsx). */
+  /** The node's symbol: what the level teaches (docs/level-files/, src/home/icons.tsx). */
   icon?: string;
   learning_goal: string;
   purpose: string;
   terms_introduced?: string[];
   /**
-   * docs/schema.md "Skills": the names of the skills this lesson teaches, its
+   * docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills": the names of the skills this lesson teaches, its
    * words first, each with its entry in content/skills.yaml.
    */
   skills?: string[];

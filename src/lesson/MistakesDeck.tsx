@@ -25,7 +25,7 @@ const SHOWN = 4;
 export type DeckItem = { line: string; answer: string };
 
 /**
- * docs/UI.md §4.5 [DESIGN-REVIEW]: before the mistakes round, the missed
+ * docs/ui/05-chart-questions-and-mistakes-round.md §4.5 [DESIGN-REVIEW]: before the mistakes round, the missed
  * questions lie as a small fanned deck, each with what was answered. The key
  * gathers it, shuffles it once and the round begins. Small and concrete, so
  * it reads as a second chance, not a punishment.

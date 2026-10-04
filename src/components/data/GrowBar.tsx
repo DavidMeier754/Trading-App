@@ -17,7 +17,7 @@ export const GROW_DELAY = 160;
 export const GROW_MS = 400;
 
 /**
- * docs/UI.md §6.5: bars grow from 0 (400 ms, staggered 80 ms).
+ * docs/ui/09-order-tools-and-other-visuals.md §6.5: bars grow from 0 (400 ms, staggered 80 ms).
  *
  * A bar in a data panel, growing from its edge to its value once, on mount.
  * It is absolutely positioned and has no children, so animating its width

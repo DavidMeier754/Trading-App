@@ -73,7 +73,7 @@ const MAX_DECISION_GAPS = 8;
 const CALL_AT = 96;
 
 /**
- * docs/UI.md §4.3 [DESIGN-REVIEW] "Swipe to make the call" (David's pick of
+ * docs/ui/05-chart-questions-and-mistakes-round.md §4.3 [DESIGN-REVIEW] "Swipe to make the call" (David's pick of
  * 2026-10-04): which call a swipe across the chart makes. Right is the call
  * up (Long, Buy); left is Short, or on a Buy / Wait screen, Wait. A screen
  * whose keys have no call for a side does not answer a swipe that way.
@@ -109,7 +109,7 @@ export default function ChartDecisionScreen({
   const reduced = useReduceMotion();
   const bars = Array.isArray(screen.chart.data) ? screen.chart.data.length : 0;
   const start = screen.chart.decision_index + 1;
-  // docs/UI.md §6.4 [DESIGN-REVIEW]: the plan in the file, where the trade
+  // docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW]: the plan in the file, where the trade
   // ended, and whether R has been taught yet -- the ruler waits for that lesson.
   const plan = useMemo(() => tradePlanOf(screen), [screen]);
   const endAt = plan ? plan.exit.bar : bars - 1;
@@ -123,7 +123,7 @@ export default function ChartDecisionScreen({
   const [revisit] = useState(revealed && choice !== null);
   const [done, setDone] = useState(revisit);
 
-  // docs/UI.md §4.3: after the choice the chart continues. It used to do that by
+  // docs/ui/05-chart-questions-and-mistakes-round.md §4.3: after the choice the chart continues. It used to do that by
   // raising a React state one bar at a time on a 120ms interval -- and since the
   // price axis is derived from the bars in view, every one of those steps
   // re-scaled and re-rendered the whole chart. Now a single shared value runs
@@ -168,7 +168,7 @@ export default function ChartDecisionScreen({
       return;
     }
     // First the frame pulls back to the height the session needs (Chart's
-    // windowAt), then docs/UI.md §4.3 plays the outcome bar by bar; how slowly,
+    // windowAt), then docs/ui/05-chart-questions-and-mistakes-round.md §4.3 plays the outcome bar by bar; how slowly,
     // and why the end takes longest, is in lesson/motion.ts. Candles take
     // longer per bar than a line, because each one forms as it goes.
     const reveal = revealTiming(legs, isLine ? REVEAL_BAR_MS : REVEAL_CANDLE_MS);
@@ -271,7 +271,7 @@ export default function ChartDecisionScreen({
     tolerance: 0.03,
   });
 
-  // docs/UI.md §4.3's outcome strip, as a tag on the chart: the move in
+  // docs/ui/05-chart-questions-and-mistakes-round.md §4.3's outcome strip, as a tag on the chart: the move in
   // points and percent, and the position held. What it made or lost is the
   // reveal's result line (§5.1b), under the grade -- said here as well, it
   // was a second, coloured verdict (review M7).
@@ -367,7 +367,7 @@ export default function ChartDecisionScreen({
         ? `Swipe → ${DECISION_LABEL[calls.right!]}`
         : '';
 
-  // docs/UI.md §2 [v4]: the scenario and its chart start at the top of the
+  // docs/ui/02-lesson-player-layout.md §2 [v4]: the scenario and its chart start at the top of the
   // area, as every screen does (Calm's layout, stage LOOK-BRIEF); the decision
   // buttons are in the footer, under the thumb, and the verdict lands in the
   // room the brief folds out of.
@@ -460,11 +460,11 @@ export default function ChartDecisionScreen({
           </GestureDetector>
           {/* In the strip under the plot, opposite the VWAP key: a line of its
             own cost the screen a row. While the replay plays it says how to
-            skip it; once it is over it carries the risk note docs/UI.md §11.6
+            skip it; once it is over it carries the risk note docs/ui/16-navigation.md §11.6
             wants on every scenario result. */}
           <Text
             pointerEvents="none"
-            // The outcome sentence is the reveal's to say, after the grade (docs/UI.md §5.1b).
+            // The outcome sentence is the reveal's to say, after the grade (docs/ui/06-reveal-and-hearts.md §5.1b).
             accessibilityLabel={
               phase === 'done' ? 'Not a prediction.' : phase === 'deciding' ? '' : undefined
             }

@@ -11,7 +11,7 @@ function capital(value: unknown): string {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-/** docs/UI.md §6.7 — the order ticket mock. */
+/** docs/ui/09-order-tools-and-other-visuals.md §6.7 — the order ticket mock. */
 export default function OrderTicket({
   data,
   onTapTarget,
@@ -112,7 +112,7 @@ const styles = themed(() => ({
   value: { ...type.answer, color: colors.text },
   // Part of the mock, not the screen's call to action: drawn as quietly as the
   // fields, so it stops pulling the eye away from them. It is still a target
-  // (docs/schema.md lists `submit`) and lights like any field when picked.
+  // (docs/level-files/ lists `submit`) and lights like any field when picked.
   submit: {
     minHeight: TAP_TARGET,
     borderRadius: radius.sm,

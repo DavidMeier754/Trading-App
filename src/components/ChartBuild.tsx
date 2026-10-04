@@ -19,7 +19,7 @@ const AnimatedRect = Animated.createAnimatedComponent(Rect);
 /**
  * A chart arriving builds itself, left to right, the way the session did.
  *
- * docs/UI.md §6.4 draws a line chart on; candles had no entrance at all and
+ * docs/ui/08-quotes-and-charts.md §6.4 draws a line chart on; candles had no entrance at all and
  * simply were there, which on a screen where everything else rises and pops
  * read as the one thing that had not loaded. Now each candle grows its body
  * from its open to its close -- a green one grows up, a red one down -- and

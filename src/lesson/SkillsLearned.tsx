@@ -15,7 +15,7 @@ const ARRIVE_SPAN_MS = 600;
 const CARDS_UP_TO = 3;
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] (David, 2026-10-03): after a lesson that
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] (David, 2026-10-03): after a lesson that
  * taught something new, "a small overview of what he has learned" -- before
  * lesson complete. A tap on a skill opens the card that taught it (the same
  * sheet as a marked term). Back home they fly into the Practice tab.

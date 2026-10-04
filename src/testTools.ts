@@ -1,5 +1,5 @@
 /**
- * docs/UI.md §11.5: the testing tools (Settings → Testing: Refill hearts,
+ * docs/ui/16-navigation.md §11.5: the testing tools (Settings → Testing: Refill hearts,
  * Skip ahead, the all-screens test bench, the Animations page and the Design
  * suggestions) exist only in test builds. A test build is a development run --
  * `npx expo start`, which is what Expo Go opens, so the tools are there without

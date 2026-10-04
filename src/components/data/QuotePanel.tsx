@@ -6,7 +6,7 @@ import { tint } from '../../lesson/look';
 import { colors, radius, space, type, themed } from '../../theme';
 import { spotlight } from '../spotlight';
 
-/** docs/UI.md §6.3 — Bid / Ask / Last / Spread. */
+/** docs/ui/08-quotes-and-charts.md §6.3 — Bid / Ask / Last / Spread. */
 export default function QuotePanel({
   data,
   onTapTarget,

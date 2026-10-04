@@ -7,7 +7,7 @@ import { themed } from '../../theme';
 import type { Suggestion } from './kit';
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] "Win screens" (David, 2026-10-04: "Actually
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] "Win screens" (David, 2026-10-04: "Actually
  * also add another suggestion tab just dedicated to such designs"): every
  * design of the lesson-complete screen, played with a sample lesson. These
  * are the real screens (lesson/wins/), the ones that take turns in the app;

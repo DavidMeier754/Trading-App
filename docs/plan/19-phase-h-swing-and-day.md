@@ -1,0 +1,126 @@
+# Phase H: Swing and Day Trading
+
+_Part of the [build plan](README.md) · §12_
+
+## 12. Phase H – Swing and Day Trading paths (decision E)
+
+All three paths ship in v1.0. Swing comes first, because Chapter 1 sends people with a full-time job there; Day Trading follows. Each path gets its chapters, its reviews, then its arena content.
+
+**Prerequisites**
+- `RULES` has the rules "per-trade risk" and "total exposure" (required, `docs/rules/04-numbers-and-realism.md` §3.6).
+- `REPLAY-PILOT` has fixed the replay format; Chapters 7 and 8 of every path contain replay screens.
+- Every rule from Phase E applies from the start:
+  - variance from Chapter 2;
+  - `stop`/`target` from Chapter 3;
+  - signs, text length, visual quota.
+
+**Swing is different from scalping**
+- Several positions at the same time.
+- The risk budget binds, not the account cap.
+- Overnight and weekend risk.
+- 90 days on the simulator instead of 30.
+
+**Day trading is different from scalping**
+- 5- and 15-minute charts, with the daily chart as context.
+- 5–10 trades a day, flat by the close.
+- Wider stops: the 1 % risk budget usually decides the size, and the account ceiling is the check that still runs. Positions are typically 50–95 % of the account (`docs/rules/04-numbers-and-realism.md` §3.6).
+- The pattern-day-trader rule bites a day trader hardest. Chapter 6 Level 9 (the daily limits, where the trade cap is taught) and Chapter 8 Level 15 say it plainly, with the current wording from the market profile (decisions B and C).
+- 30 days on the simulator, as for scalping.
+
+In each path's Chapter 3, the plan card revises `setup_max_account_pct` with that path's reason.
+
+**For EU-DE** the swing path points out: swing with cash stocks works without the PDT rule and without leverage. That is exactly the audience Chapter 1 sends to swing.
+
+### `SWING-2` … `SWING-8`
+
+**Goal.** Swing Chapters 2–8 following `docs/course/`.
+
+**Scope:** one chapter per stage, in blocks of 4–6 levels, following every rule from Phase E.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1–2 per chapter
+
+**Prompt** (`[N]` = chapter)
+```
+Stage SWING-[N] from docs/plan/.
+
+Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the swing section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/plan/19-phase-h-swing-and-day.md, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
+Also follow the clause in Appendix E.7.
+Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
+Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
+```
+
+**You test (~20 min per chapter)**
+1. Play two lessons and the checkpoint.
+2. Read one lesson as a beginner would.
+
+**After `SWING-8`:** the path choice unlocks Swing; "Being written" goes away.
+
+### `SWING-REVIEW`
+
+**Goal.** Both reviews for swing: Appendix E.5 (pass A) and E.6 (pass B, with the graduate profile).
+
+**Scope**
+- Findings first, then you decide, then the corrections follow.
+- The expert from `EXPERT` checks the same risky parts here if possible: Chapters 3, 6 and 7, and Chapter 8 Level 15.
+
+**Model · effort · sessions:**
+- Reviews: Fable 5.1 · high (pass A) and max (pass B).
+- Corrections: Opus 5.5 · high.
+- 2–4 sessions in total.
+
+### `DAY-2` … `DAY-8`
+
+**Goal.** Day Trading Chapters 2–8 following `docs/course/`.
+
+**Scope:** one chapter per stage, in blocks of 4–6 levels, following every rule from Phase E.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1–2 per chapter
+
+**Prompt** (`[N]` = chapter)
+```
+Stage DAY-[N] from docs/plan/.
+
+Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the day-trading section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/plan/19-phase-h-swing-and-day.md, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
+Also follow the clause in Appendix E.7.
+Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
+Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
+```
+
+**You test (~20 min per chapter)**
+1. Play two lessons and the checkpoint.
+2. Read one lesson as a beginner would.
+
+**After `DAY-8`:** the path choice unlocks Day Trading; no path says "Being written" any more.
+
+### `DAY-REVIEW`
+
+**Goal.** Both reviews for Day Trading, as in `SWING-REVIEW`.
+
+**Scope**
+- Findings first, then you decide, then the corrections follow.
+- Special attention: the pattern-day-trader rule and the margin account in Chapter 6 Level 9 and Chapter 8 Level 15 (decisions B and C).
+- The expert checks the same risky parts as for swing if possible.
+
+**Model · effort · sessions:** as in `SWING-REVIEW` · 2–4 in total.
+
+### `ARENA-PATHS` – the arena for Swing and Day Trading
+
+**Goal.** At the release, the arena serves all three paths.
+
+**Scope** (per path, after its review)
+1. **Generator templates** for the path's Chapter 7 playbook cards, three qualities each, on the path's timeframe: daily bars and evening decisions for swing, 5-minute bars for Day Trading.
+2. **Generated setup drills** for these cards.
+3. **The replay bank:** 22 replays per path, made as in `REPLAY-BANK`.
+4. **Scenario packs** for the path, e.g. earnings weeks for swing, gap days for Day Trading.
+5. **The Daily Chart** for the path.
+
+**Model · effort · sessions:** Opus 5.5 · high · per path 2–3 (templates and drills, then replays)
+
+**Prompt** (per session)
+```
+Stage ARENA-PATHS, path [swing|day-trading], session [templates|replays], from docs/plan/.
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1, docs/plan/17-phase-g-arena-idea-and-design.md (Phase G) and the "ARENA-PATHS" section in docs/plan/19-phase-h-swing-and-day.md, the arena section of docs/ui/, the path's Chapter 7 in docs/course/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and Appendix E.2.
+PR, every check green, report with 12 sample charts (templates session) or the replay list (replays session) and a test checklist. Then stop.
+```
+
+**You test.** Per path: the 12 sample charts, five drills and two replays.

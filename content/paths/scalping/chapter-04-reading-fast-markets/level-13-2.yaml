@@ -14,7 +14,7 @@ prerequisite: "13-1"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — The PlayBook", "Volman — Understanding Price Action"]
-notes: "One new idea — the base rate of passes — and then the drill that shows it. Three reads plus a deck, two of the three reads are passes. Chapter 2's levels and Chapter 3's two ceilings are inside the sizing. Account named at $22,000. Deviation from the outline's 2 R: kept as new-theory so the level does not make a third review sub in a row (agent.md §3.2)."
+notes: "One new idea — the base rate of passes — and then the drill that shows it. Three reads plus a deck, two of the three reads are passes. Chapter 2's levels and Chapter 3's two ceilings are inside the sizing. Account named at $22,000. Deviation from the outline's 2 R: kept as new-theory so the level does not make a third review sub in a row (docs/rules/03-content-rules.md §3.2)."
 screens:
   - type: intro
     text: "Three reads and a deck, and most of them are not trades."

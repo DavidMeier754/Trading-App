@@ -31,7 +31,7 @@ function percent(owned: number, total: number): string {
 }
 
 /**
- * docs/UI.md §6.1 — a circle of N equal slices, `owned` of them filled.
+ * docs/ui/08-quotes-and-charts.md §6.1 — a circle of N equal slices, `owned` of them filled.
  *
  * Up to MAX_SLICES the slices are drawn and the owned ones counted out. A
  * thousand shares cannot be: each slice would be under half a point wide, the

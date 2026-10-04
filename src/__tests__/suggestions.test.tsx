@@ -49,7 +49,7 @@ describe('Settings → Testing → Design suggestions (David, 2026-10-01: "way m
     expect(SUGGESTIONS.length).toBeGreaterThanOrEqual(30);
   });
 
-  it('says each idea in one short line (fewer words, docs/UI.md §10)', () => {
+  it('says each idea in one short line (fewer words, docs/ui/15-theming-and-accessibility.md §10)', () => {
     for (const s of SUGGESTIONS) {
       expect(s.line.length).toBeLessThanOrEqual(110);
       expect(s.title.length).toBeLessThanOrEqual(40);

@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import { AccessibilityInfo } from 'react-native';
 
 /**
- * docs/UI.md §10: reduce motion removes confetti, flicker and auto-playback.
+ * docs/ui/15-theming-and-accessibility.md §10: reduce motion removes confetti, flicker and auto-playback.
  *
  * One source for the whole app. It used to be two: this hook, which follows the
  * OS live, and Reanimated's own `useReducedMotion`, which reads the setting once

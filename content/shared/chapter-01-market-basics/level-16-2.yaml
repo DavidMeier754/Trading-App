@@ -15,7 +15,7 @@ prerequisite: "16-1"
 xp: 30
 difficulty: 3
 sources: [consensus]
-notes: "Categorised new-theory rather than repetition: 16-1 plus this sub plus the 17-1 exam would otherwise be three review-type subs in a row (agent.md §3.2). Content is review plus the plan-card. Practice account named at $6,000; the worked position is 189 × $15.80 = $2,986.20. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+notes: "Categorised new-theory rather than repetition: 16-1 plus this sub plus the 17-1 exam would otherwise be three review-type subs in a row (docs/rules/03-content-rules.md §3.2). Content is review plus the plan-card. Practice account named at $6,000; the worked position is 189 × $15.80 = $2,986.20. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
 screens:
   - type: intro
     text: "One page, in your words, before the exam. You will still be using it in Chapter 8."

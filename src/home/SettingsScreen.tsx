@@ -49,7 +49,7 @@ import { totalXp } from './pathState';
 import type { LessonEntry } from '../content';
 
 /**
- * Settings (docs/UI.md §11.5), opened from Account: the design, which opens
+ * Settings (docs/ui/16-navigation.md §11.5), opened from Account: the design, which opens
  * full screen on a lesson to be chosen (ChangeDesign.tsx), the theme, the
  * toggles the lesson reads -- haptics, sound, motion -- the path, starting
  * over, and in test builds the testing tools (TestingTools.tsx).
@@ -214,7 +214,7 @@ function Segmented<T>({
 }
 
 /**
- * docs/UI.md §11.4: the path chosen after Chapter 1, changeable here. Before
+ * docs/ui/16-navigation.md §11.4: the path chosen after Chapter 1, changeable here. Before
  * Chapter 1 is finished there is nothing to change yet, and it says so.
  */
 function PathRow() {

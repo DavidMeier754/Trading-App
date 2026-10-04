@@ -20,7 +20,7 @@ const TAG_H = 24;
 const DOT = 12;
 
 /**
- * docs/UI.md §6.4 [DESIGN-REVIEW] "Run a finger along the chart" (David's pick
+ * docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW] "Run a finger along the chart" (David's pick
  * of 2026-10-04): on a chart that is there to be read -- a theory visual, a
  * chart decision once its outcome has played -- a finger run along it brings
  * up a crosshair on the nearest bar, a dot on its close and a tag with the

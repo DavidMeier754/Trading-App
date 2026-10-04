@@ -13,7 +13,7 @@ import type { FillTilesScreen as S } from '../types';
 import {} from './common';
 
 /**
- * docs/UI.md §4.1 `fill-tiles`: sentence with a blank, letter tiles below
+ * docs/ui/04-question-types.md §4.1 `fill-tiles`: sentence with a blank, letter tiles below
  * (with 2-4 distractor letters), tapped into the blank. The level file carries
  * only the answer word, so the distractor letters are generated (see answers.ts).
  */
@@ -37,7 +37,7 @@ export default function FillTilesScreen({
 
   const slotColor = !revealed ? colors.accent : isRight ? colors.success : colors.down;
 
-  // docs/UI.md §5.1: the blank ramps to its verdict colour over 200 ms.
+  // docs/ui/06-reveal-and-hearts.md §5.1: the blank ramps to its verdict colour over 200 ms.
   const animatedSlot = useBorderTransition(slotColor, revealed);
 
   // Tapping the word takes its last letter back out, as the undo link does:

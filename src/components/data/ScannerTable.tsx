@@ -38,7 +38,7 @@ const NUM_W = 46;
 const RVOL_W = 40;
 
 /**
- * docs/UI.md §6.8: the table as wide as it is drawn. Every column fits in
+ * docs/ui/09-order-tools-and-other-visuals.md §6.8: the table as wide as it is drawn. Every column fits in
  * one row on most phones; with less room the sparkline goes first (the
  * percentage stays), and on the narrowest each row takes two lines -- the
  * stock and its move, then its figures by name -- rather than squeezing
@@ -47,7 +47,7 @@ const RVOL_W = 40;
 type Fit = 'full' | 'noSpark' | 'stacked';
 
 /**
- * The day so far, for the row's sparkline (docs/UI.md §6.8 [DESIGN-REVIEW]):
+ * The day so far, for the row's sparkline (docs/ui/09-order-tools-and-other-visuals.md §6.8 [DESIGN-REVIEW]):
  * the file's `spark` when it gives one; otherwise a plain line from the
  * previous close to the change -- never invented wiggles -- drawn in percent
  * on one scale for the whole table, so +0.2 % lies nearly flat and +18.6 %
@@ -65,7 +65,7 @@ function dayOf(
 /** A catalyst that says there is none is no tag. */
 const NO_CATALYST = /^\s*(—|-|–|none|no news)?\s*$/i;
 
-/** docs/UI.md §6.8 — the mock scanner / watchlist table. */
+/** docs/ui/09-order-tools-and-other-visuals.md §6.8 — the mock scanner / watchlist table. */
 export default function ScannerTable({
   rows,
   onTapRow,

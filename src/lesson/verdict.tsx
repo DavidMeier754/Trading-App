@@ -15,7 +15,7 @@ export type Verdict = {
   grade: Grade;
   streak: number;
   /**
-   * docs/UI.md §5.1 [DESIGN-REVIEW] "The answer turns over": the lesson's
+   * docs/ui/06-reveal-and-hearts.md §5.1 [DESIGN-REVIEW] "The answer turns over": the lesson's
    * last question, where the chosen answer turns over to its verdict. Not on
    * every answer (David).
    */

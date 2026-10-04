@@ -14,7 +14,7 @@ prerequisite: "17-3"
 xp: 25
 difficulty: 2
 sources: ["Bellafiore — The PlayBook", "Volman — Understanding Price Action"]
-notes: "The sheet as one page. Deviation from docs/curriculum.md, which lists Level 18 as repetition: this sub is new-theory because it is the first place the eight triggers are set side by side, and because 17-2 through 19-1 as five review-type subs in a row would break docs/agent.md 3.2. Account named at $24,000."
+notes: "The sheet as one page. Deviation from docs/course/, which lists Level 18 as repetition: this sub is new-theory because it is the first place the eight triggers are set side by side, and because 17-2 through 19-1 as five review-type subs in a row would break docs/rules/03-content-rules.md 3.2. Account named at $24,000."
 screens:
   - type: intro
     text: "Eight cards, eight lines. This is the page you would actually keep."

@@ -2,12 +2,12 @@
 
 The app plays the lesson YAML in `content/` exactly as written, on phones and in the browser. It is on `main` since PR #13 (2026-09-25).
 
-What comes next, stage by stage, is in `docs/build-plan.md`. Its known issues are in `docs/review-2026-09-25.md`, items M1–M7; stages STABLE-APP and STABLE-DATA fix them.
+What comes next, stage by stage, is in `docs/plan/`. Its known issues are in `docs/review-2026-09-25/`, items M1–M7; stages STABLE-APP and STABLE-DATA fix them.
 
 ## What it does today
 
 - **Lesson player:**
-  - every screen type in `docs/UI.md` §3–4, with a 49-screen test bench;
+  - every screen type in `docs/ui/` §3–4, with a 49-screen test bench;
   - `Check` → inline reveal → `Got it`;
   - the chart engine: line and candles, volume, levels, VWAP, playback;
   - sounds, haptics, reduce motion, nine lesson looks.
@@ -101,8 +101,8 @@ src/
   content.ts            the map built from the lessons, and the market profile, read at build time
   content.generated.ts  one import per lesson file (npm run gen:content)
   progress.ts           progress, hearts, XP, streak, plan and settings (AsyncStorage)
-  format.ts             docs/UI.md §9: number and {{market.*}} formatting
-  theme.ts              docs/UI.md §10: colour and type tokens
+  format.ts             docs/ui/14-glossary-and-copy.md §9: number and {{market.*}} formatting
+  theme.ts              docs/ui/15-theming-and-accessibility.md §10: colour and type tokens
   home/                 path map, HUD, tabs, settings
   lesson/               the player: progress bar, CTA, reveal, grading, summary, hearts, sounds, haptics
   screens/              one file per screen archetype

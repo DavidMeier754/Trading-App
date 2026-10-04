@@ -18,11 +18,11 @@ import { DECISION_LABEL } from '../lesson/decisionReveal';
 export { DECISION_LABEL };
 
 /**
- * docs/UI.md §6.4 "decision overlay": at the pause point the buttons rise from the
+ * docs/ui/08-quotes-and-charts.md §6.4 "decision overlay": at the pause point the buttons rise from the
  * bottom. They sit in the CTA slot, which is why the player hides the CTA while a
  * chart-decision is still open.
  *
- * DESIGN-REVIEW (docs/UI.md §4.3): the keys are equal in weight and colour --
+ * DESIGN-REVIEW (docs/ui/05-chart-questions-and-mistakes-round.md §4.3): the keys are equal in weight and colour --
  * no green Long and red Short -- and each carries a glyph for its direction,
  * up and to the right, down and to the right, or flat, which nudges that way
  * when pressed. It reads faster than the word and needs no colour.
@@ -115,7 +115,7 @@ function Choice({
           <Animated.View style={glyph} accessibilityElementsHidden importantForAccessibility="no">
             <Glyph button={button} />
           </Animated.View>
-          {/* docs/UI.md §10: a key's label stays on one line and shrinks to fit. */}
+          {/* docs/ui/15-theming-and-accessibility.md §10: a key's label stays on one line and shrinks to fit. */}
           <Text style={styles.text} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
             {DECISION_LABEL[button]}
           </Text>

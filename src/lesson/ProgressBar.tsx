@@ -13,7 +13,7 @@ import { LookSpec, useLookSpec } from './look';
 import { EASE_IN_OUT, EASE_OUT, useMotion } from './motion';
 
 /**
- * docs/UI.md §2 — screens completed in this sub-level.
+ * docs/ui/02-lesson-player-layout.md §2 — screens completed in this sub-level.
  *
  * The bar belongs to the look it sits in (lesson/look.ts), because it is the
  * one piece of chrome on every screen:

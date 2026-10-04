@@ -20,7 +20,7 @@ const AnimatedRect = Animated.createAnimatedComponent(Rect);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 /**
- * The four small [v3] panels from docs/UI.md §6.8 that are read-only surfaces
+ * The four small [v3] panels from docs/ui/09-order-tools-and-other-visuals.md §6.8 that are read-only surfaces
  * rather than interactions: internals, hotkeys, stats and the R strip. They sit
  * together because each is a handful of rows and they share the same card.
  */
@@ -57,7 +57,7 @@ function Sparkline({ values }: { values: number[] }) {
   );
 }
 
-/** docs/UI.md §6.8 `internals-panel`. */
+/** docs/ui/09-order-tools-and-other-visuals.md §6.8 `internals-panel`. */
 export function InternalsPanel({
   data,
 }: {
@@ -97,7 +97,7 @@ export function InternalsPanel({
   );
 }
 
-/** docs/UI.md §6.8 `hotkey-pad`. */
+/** docs/ui/09-order-tools-and-other-visuals.md §6.8 `hotkey-pad`. */
 export function HotkeyPad({
   data,
   active,
@@ -152,7 +152,7 @@ function capitalise(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-/** docs/UI.md §6.8 `stats-card`. */
+/** docs/ui/09-order-tools-and-other-visuals.md §6.8 `stats-card`. */
 export function StatsCard({
   data,
 }: {
@@ -168,7 +168,7 @@ export function StatsCard({
 }
 
 /**
- * docs/UI.md §6.8 `r-tracker` — the session in R, against the day's limit.
+ * docs/ui/09-order-tools-and-other-visuals.md §6.8 `r-tracker` — the session in R, against the day's limit.
  *
  * The total leads, because it is the number that decides whether the day goes
  * on. Under it, each trade is a bar up or down from zero, labelled with its R,
@@ -352,7 +352,7 @@ function RBar({
 }
 
 /**
- * docs/UI.md §6.8 `plan-sheet` — the learner's own saved plan, drawn as a page
+ * docs/ui/09-order-tools-and-other-visuals.md §6.8 `plan-sheet` — the learner's own saved plan, drawn as a page
  * of a document [DESIGN-REVIEW]: a small heading, then one line per field --
  * the label, a dotted leader, the value in the number face. No boxes and no
  * colours (David: "don't overdo").
@@ -369,7 +369,7 @@ export function PlanSheet({
       <Text style={styles.pageHead}>My trading plan</Text>
       {data.fields.map((f) => {
         // A field with a literal is a specimen; one without renders what the
-        // learner wrote (docs/schema.md, "The plan").
+        // learner wrote (docs/level-files/05-the-plan.md, "The plan").
         const shown = f.value !== undefined ? String(f.value) : values?.[f.key];
         return <PlanLine key={f.key} label={f.label} value={shown ?? null} />;
       })}

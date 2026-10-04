@@ -69,7 +69,7 @@ describe('the plan sheet shows the saved plan (review M1)', () => {
       .findAll((n) => typeof n.type === 'string' && n.children.every((c) => typeof c === 'string'))
       .map((n) => n.children.join(''));
 
-  // DESIGN-REVIEW: an empty line shows a faint dash (docs/UI.md §6.8, the plan as a document).
+  // DESIGN-REVIEW: an empty line shows a faint dash (docs/ui/09-order-tools-and-other-visuals.md §6.8, the plan as a document).
   it('rows show what the learner wrote, and a dash only for what they did not', () => {
     let tree!: renderer.ReactTestRenderer;
     act(() => {

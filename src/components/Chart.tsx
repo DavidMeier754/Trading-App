@@ -191,7 +191,7 @@ export type PlayGeom = {
   runLo: number[];
   /**
    * The frame holds still from the first frame to the last (David,
-   * 2026-10-03; docs/UI.md §6.4): lo0..hi0 already covers every bar to come,
+   * 2026-10-03; docs/ui/08-quotes-and-charts.md §6.4): lo0..hi0 already covers every bar to come,
    * centred on the bars the learner can see, so nothing rescales or slides.
    */
   fixed: boolean;
@@ -731,7 +731,7 @@ function PlaybackLivePrice({
 }
 
 /**
- * The R ruler while the trade plays out (docs/UI.md §6.4): a bar from 0 to
+ * The R ruler while the trade plays out (docs/ui/08-quotes-and-charts.md §6.4): a bar from 0 to
  * wherever the price is now, in R, up or down from the entry and held between
  * the stop and the target, with a lit point at its end. Worked out per frame
  * on the UI thread, like the live price.
@@ -1067,7 +1067,7 @@ export function closeAt(spec: ChartSpec, index: number): number {
 type Props = {
   spec: ChartSpec;
   /**
-   * docs/UI.md §6.4 [DESIGN-REVIEW]: a finger run along the chart reads the
+   * docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW]: a finger run along the chart reads the
    * price at each bar (ChartScrub). For charts that are there to be read, not
    * answered on.
    */
@@ -1079,13 +1079,13 @@ type Props = {
   /** Draw the dashed marker at `decision_index`. Off for plain theory visuals. */
   showDecisionMarker?: boolean;
   /**
-   * 0 -> 1 draw-on for a line chart (docs/UI.md §6.4). The whole path is drawn
+   * 0 -> 1 draw-on for a line chart (docs/ui/08-quotes-and-charts.md §6.4). The whole path is drawn
    * and revealed with a dash mask, so the line grows continuously instead of
    * jumping from data point to data point.
    */
   draw?: SharedValue<number>;
   /**
-   * Continuous replay after a decision (docs/UI.md §4.3). `progress` runs 0 -> 1
+   * Continuous replay after a decision (docs/ui/05-chart-questions-and-mistakes-round.md §4.3). `progress` runs 0 -> 1
    * across the bars the learner has not seen; the path, its fill, the leading
    * dot and the axis cross-fade are all derived from it on the UI thread, so the
    * whole replay costs zero React renders.
@@ -1109,7 +1109,7 @@ type Props = {
    */
   showFuture?: boolean;
   /**
-   * What the replay came to, once every bar is in (docs/UI.md §4.3's outcome
+   * What the replay came to, once every bar is in (docs/ui/05-chart-questions-and-mistakes-round.md §4.3's outcome
    * strip), drawn on the chart itself: a line at the decision price and a tag
    * with the move and what it did to the position, in whichever corner the
    * bars before the decision leave free.
@@ -1129,7 +1129,7 @@ type Props = {
   /** Trades the learner took, as an arrow under (long) or over (short) the bar. */
   trades?: { bar: number; side: 'long' | 'short' }[];
   /**
-   * docs/UI.md §6.4 [DESIGN-REVIEW]: the trade the file plans (tradePlan.ts).
+   * docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW]: the trade the file plans (tradePlan.ts).
    * Its lines are drawn once `planShown`; the frame makes room for them from
    * the first frame, evenly above and below, so it gives nothing away.
    */
@@ -1402,7 +1402,7 @@ function Chart({
   // from there is windowAt's.
   //
   // A chart that replays an outcome (`revealFrom`) holds one frame from the
-  // first frame to the last instead (David, 2026-10-03, docs/UI.md §6.4: "the
+  // first frame to the last instead (David, 2026-10-03, docs/ui/08-quotes-and-charts.md §6.4: "the
   // line before it gets revealed already is at the middle of the chart so the
   // y-axis units don't get bigger or smaller"): centred on the bars the learner
   // can see, and tall enough for every bar to come and the plan's lines. The
@@ -1495,7 +1495,7 @@ function Chart({
       highs: bars.map((b) => b.h),
       lows: bars.map((b) => b.l),
       from: shown,
-      // The replay stops where the trade ended (docs/UI.md §6.4); the bars
+      // The replay stops where the trade ended (docs/ui/08-quotes-and-charts.md §6.4); the bars
       // after it stay under the hatching.
       n: endAt !== undefined ? Math.max(shown, Math.min(n, endAt + 1)) : n,
       padTop,
@@ -1597,7 +1597,7 @@ function Chart({
   };
 
   // The levels' labels: each at the end of its line where it covers the
-  // fewest bars (docs/UI.md §6.4), drawn over the bars on a rim of the page.
+  // fewest bars (docs/ui/08-quotes-and-charts.md §6.4), drawn over the bars on a rim of the page.
   const levelLabels = useMemo(() => {
     const marked = (spec.levels ?? []).filter((lvl) => !!lvl.label);
     if (!marked.length) return [];
@@ -1716,7 +1716,7 @@ function Chart({
           </LinearGradient>
         </Defs>
 
-        {/* price gridlines + right-hand axis (docs/UI.md §6.4) */}
+        {/* price gridlines + right-hand axis (docs/ui/08-quotes-and-charts.md §6.4) */}
         <G>
           {ticks.map((t, i) => (
             <Line
@@ -1771,7 +1771,7 @@ function Chart({
         )}
 
         {/* annotation levels: ruled in from the left once the bars are in
-            (docs/UI.md §6.4, "animate in") */}
+            (docs/ui/08-quotes-and-charts.md §6.4, "animate in") */}
         {(spec.levels ?? []).map((lvl, i) => (
           <DrawnLevel
             key={`lvl${i}`}
@@ -1796,7 +1796,7 @@ function Chart({
           </AnimatedG>
         ) : null}
 
-        {/* docs/UI.md §6.4 [DESIGN-REVIEW]: the open, where it matters. */}
+        {/* docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW]: the open, where it matters. */}
         {spec.session_open !== undefined && spec.session_open >= 1 && spec.session_open < n ? (
           <AnimatedG animatedProps={overlayProps}>
             <SessionOpen
@@ -2024,7 +2024,7 @@ function Chart({
           />
         ) : null}
 
-        {/* docs/UI.md §6.4 [DESIGN-REVIEW]: the plan, once the call is made,
+        {/* docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW]: the plan, once the call is made,
             and the R ruler beside the axis. */}
         {/* The levels' labels, over the bars. */}
         {levelLabels.map((l, i) => (

@@ -1,11 +1,11 @@
 # packs.yaml — the drill-pack manifest
 #
-# One entry per pack in the drill table of docs/curriculum.md. It is the single source
+# One entry per pack in the drill table of docs/course/. It is the single source
 # of truth for what the Practice hub is fed: the batch script (tools/build_drill_batch.py)
 # builds one request per entry, and tools/validate_content.py checks every written pack
 # against the entry that commissioned it.
 #
-# Format of a pack file: docs/schema.md, "Drill packs".
+# Format of a pack file: docs/level-files/07-drill-packs-and-replays.md, "Drill packs".
 #
 #   id                  <path>-<slug>, and the file is content/drills/<path>/<slug>.yaml
 #   unlocked_by         the sub-level id ("<level>-<sub>") that must be completed first

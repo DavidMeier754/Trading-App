@@ -16,7 +16,7 @@ export function useLessonInfo(): LessonInfo {
 }
 
 /**
- * docs/UI.md §2 [DESIGN-REVIEW] (David: "make sure the whole screen is
+ * docs/ui/02-lesson-player-layout.md §2 [DESIGN-REVIEW] (David: "make sure the whole screen is
  * filled"): a chart decision reports where its chart ends once the call is
  * made, and its reveal fills the room from there down to the key.
  */

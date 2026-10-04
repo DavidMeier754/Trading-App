@@ -32,7 +32,7 @@ type Tier = {
 };
 
 /**
- * docs/UI.md §7.1 [DESIGN-REVIEW] "All eight chapters at a glance" (David's
+ * docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW] "All eight chapters at a glance" (David's
  * pick of 2026-10-04): a tap on the map's banner opens the course as a
  * mountain of eight tiers, Chapter 1 at its foot -- the chapters done in gold,
  * the one being played in the accent with "You" on it, the rest locked. A tap

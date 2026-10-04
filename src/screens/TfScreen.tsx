@@ -9,7 +9,7 @@ import { Card, ToneSurface } from './common';
 import { TermText } from '../lesson/termText';
 
 /**
- * docs/UI.md §4.1 `tf`: two large side-by-side buttons, revealed instantly on tap
+ * docs/ui/04-question-types.md §4.1 `tf`: two large side-by-side buttons, revealed instantly on tap
  * (so this screen has no Check step — the CTA goes straight to "Got it").
  */
 export default function TfScreen({

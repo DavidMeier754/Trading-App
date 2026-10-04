@@ -15,7 +15,7 @@ const MAJOR_EVERY = 4;
 /**
  * The ground the lesson sits on: a hairline grid plus a glow at the top edge.
  *
- * docs/UI.md §10 names a `background` token but not what fills it, and a flat
+ * docs/ui/15-theming-and-accessibility.md §10 names a `background` token but not what fills it, and a flat
  * fill left every screen reading as empty. The grid gives the empty space a
  * scale and the glow gives it a top. Both sit far below text contrast on
  * purpose -- this is a surface, not content.

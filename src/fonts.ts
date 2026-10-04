@@ -4,7 +4,7 @@ import { useSyncExternalStore } from 'react';
 import type { TextStyle } from 'react-native';
 
 /**
- * docs/UI.md §10 [DESIGN-REVIEW]: one display face, for titles only --
+ * docs/ui/15-theming-and-accessibility.md §10 [DESIGN-REVIEW]: one display face, for titles only --
  * Archivo in its normal width, bold (David: the stretched width "looks too
  * stretched out"). The banner's level title, the chapter cards' names, the
  * lesson-complete headline, the medal's and the tier's names and the page

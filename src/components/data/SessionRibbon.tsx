@@ -7,7 +7,7 @@ import { inkOn, useLookSpec } from '../../lesson/look';
 import { colors, radius, space, type, themed } from '../../theme';
 import { GROW_DELAY } from './GrowBar';
 
-/** docs/UI.md §6.5 — pre-market / regular / after-hours with a "now" marker. */
+/** docs/ui/09-order-tools-and-other-visuals.md §6.5 — pre-market / regular / after-hours with a "now" marker. */
 export default function SessionRibbon({
   data,
 }: {

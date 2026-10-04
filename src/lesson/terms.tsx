@@ -11,7 +11,7 @@ import SkillCardView from './SkillCardView';
 export { TermsContext, TermText, type ScreenTerms } from './termText';
 
 /**
- * The sheet a marked term or a skill opens (docs/UI.md §8): the name, its
+ * The sheet a marked term or a skill opens (docs/ui/14-glossary-and-copy.md §8): the name, its
  * line from content/skills.yaml, where it was taught, and the card that taught
  * it. Closing it returns to the screen exactly as it was.
  */

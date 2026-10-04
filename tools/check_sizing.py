@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Report every simulated position in the corpus against the concentration rule.
 
-`docs/agent.md` §3.6: a position is `shares × price` and it may use at most
+`docs/rules/04-numbers-and-realism.md` §3.6: a position is `shares × price` and it may use at most
 **95 %** of the account named in the same file, one position at a time. This script
 reports every screen that carries a share count — the file, the count, the decision
 price, the account, the position as a percentage of it — and, for each one, every
@@ -39,7 +39,7 @@ import validate_content as V  # noqa: E402
 
 import yaml  # noqa: E402
 
-# docs/agent.md §3.6. Kept in step with validate_content.MAX_ACCOUNT_PCT.
+# docs/rules/04-numbers-and-realism.md §3.6. Kept in step with validate_content.MAX_ACCOUNT_PCT.
 CAP = V.MAX_ACCOUNT_PCT
 
 # Lines that are the screen's own size declaration rather than another mention of it.
@@ -253,8 +253,8 @@ def main():
         if no_account or no_price:
             print(f"{no_account} name no account and {no_price} carry no decision price, so the "
                   f"rule cannot see them — a drill that names no account is unchecked, not exempt.")
-        print(f"{bad} positions breach the {CAP:.0%} cap (docs/agent.md §3.6)."
-              if bad else f"No position breaches the {CAP:.0%} cap (docs/agent.md §3.6).")
+        print(f"{bad} positions breach the {CAP:.0%} cap (docs/rules/04-numbers-and-realism.md §3.6)."
+              if bad else f"No position breaches the {CAP:.0%} cap (docs/rules/04-numbers-and-realism.md §3.6).")
     sys.exit(1 if any(breach(r) for r in rows) else 0)
 
 

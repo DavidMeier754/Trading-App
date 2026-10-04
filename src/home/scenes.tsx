@@ -5,7 +5,7 @@ import Svg, { Circle, Defs, LinearGradient, Path, Rect, Stop } from 'react-nativ
 import Icon, { type IconName } from './icons';
 
 /**
- * The map's drawings (docs/UI.md §7.2), from David's answers in stage
+ * The map's drawings (docs/ui/11-top-bar.md §7.2), from David's answers in stage
  * LOOK-BRIEF: a logo for the path in the top bar, the gem of the currency and
  * the streak's flame for the streak screens. They are like stickers and never
  * carry text. (The drawings in the path's background went on 2026-10-01:
@@ -83,7 +83,7 @@ export function Gem({ size = 22, color }: { size?: number; color: string }) {
 }
 
 /**
- * docs/UI.md §7.2 [DESIGN-REVIEW] "The flame grows with the streak" (David's
+ * docs/ui/11-top-bar.md §7.2 [DESIGN-REVIEW] "The flame grows with the streak" (David's
  * pick of 2026-10-04): the streak's flame in four tiers, one for each stretch
  * of days -- a small orange spark, the streak's flame from 3 days, a red blaze
  * with more tongues from a week, and a blue and white flame from a month.

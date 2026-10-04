@@ -13,7 +13,7 @@ import { scannerTargetsOf } from '../types';
  * Which question types resolve on the tap itself instead of waiting for Check.
  *
  * Only `chart-decision`, and only because its Long / Short / No-trade buttons
- * *are* the CTA -- they rise into the CTA slot (docs/UI.md §6.4), the chart then
+ * *are* the CTA -- they rise into the CTA slot (docs/ui/08-quotes-and-charts.md §6.4), the chart then
  * plays the outcome, and "Got it" follows. There is no place to put a Check.
  *
  * Everything else asks for Check, then Got it. Play-testing went back and forth
@@ -27,7 +27,7 @@ export function commitsOnTap(screen: Screen): boolean {
   return COMMITS_ON_TAP.includes(screen.type);
 }
 
-/** docs/UI.md §5.1 knows three outcomes: green, red, and amber. */
+/** docs/ui/06-reveal-and-hearts.md §5.1 knows three outcomes: green, red, and amber. */
 export type Grade = 'correct' | 'amber' | 'wrong';
 
 /** One value shape per question type. `null` means "nothing chosen yet". */
@@ -93,7 +93,7 @@ export function emptyValue(screen: Screen): AnswerValue | null {
   }
 }
 
-/** docs/UI.md §4: `Check` stays disabled until an answer is chosen. */
+/** docs/ui/04-question-types.md §4: `Check` stays disabled until an answer is chosen. */
 export function canCheck(screen: QuestionScreen, value: AnswerValue): boolean {
   switch (value.kind) {
     case 'option':
@@ -184,7 +184,7 @@ export function isSum(text: string): boolean {
 }
 
 export function tilePool(answer: string): string[] {
-  // docs/UI.md §4.1: the sentence's letters plus 2-4 distractor letters.
+  // docs/ui/04-question-types.md §4.1: the sentence's letters plus 2-4 distractor letters.
   // The level file carries only the answer, so the distractors are generated here.
   const letters = answer.toUpperCase().split('');
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -211,7 +211,7 @@ export function correctOptionIndex(options: { correct?: boolean }[]): number {
 }
 
 export function decisionButtons(screen: { buttons?: DecisionButton[] }): DecisionButton[] {
-  // docs/schema.md: default [long, short, no-trade]; Chapter 1 uses [buy, wait].
+  // docs/level-files/: default [long, short, no-trade]; Chapter 1 uses [buy, wait].
   return screen.buttons ?? ['long', 'short', 'no-trade'];
 }
 
@@ -253,7 +253,7 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
     }
     case 'match': {
       // `match` locks correct pairs as they are made and bounces wrong ones
-      // (docs/UI.md §4.1), so by the time the screen resolves every pair is
+      // (docs/ui/04-question-types.md §4.1), so by the time the screen resolves every pair is
       // right. The score is whether the learner got there without a wrong tap.
       if (value.kind !== 'match') return 'wrong';
       return value.misses === 0 ? 'correct' : 'wrong';
@@ -332,7 +332,7 @@ export function grade(screen: QuestionScreen, value: AnswerValue): Grade {
 }
 
 /**
- * docs/UI.md §4.4 — every marked moment resolves to exactly one label, from
+ * docs/ui/05-chart-questions-and-mistakes-round.md §4.4 — every marked moment resolves to exactly one label, from
  * arithmetic on the bar index. Restraint is never punished: Missed and Phantom
  * are amber, and a clean run of decoys is green.
  */
@@ -390,7 +390,7 @@ function gradeReplay(screen: ChartReplayScreen, value: AnswerValue): Grade {
 }
 
 /**
- * docs/schema.md `branch`: the steps a run of picks has walked. Every run starts
+ * docs/level-files/ `branch`: the steps a run of picks has walked. Every run starts
  * at step 0; each pick's option names the step it leads to in `next`, and one
  * without a `next` ends the path -- so a path can be shorter than the list of
  * steps, and can skip one.

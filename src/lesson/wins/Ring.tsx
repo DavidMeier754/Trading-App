@@ -31,7 +31,7 @@ const CIRC = 2 * Math.PI * R;
 const RING_STEPS = 8;
 
 /**
- * The accuracy ring (docs/UI.md §5.3), the lesson-complete design the app had
+ * The accuracy ring (docs/ui/07-lesson-chapter-and-tier-complete.md §5.3), the lesson-complete design the app had
  * first, now one of the win screens that take turns:
  *
  *   1. The accuracy ring sweeps round, and every eighth of a circle it passes

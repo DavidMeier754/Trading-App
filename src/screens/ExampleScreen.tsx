@@ -6,7 +6,7 @@ import { colors, space, type, themed } from '../theme';
 import type { ExampleScreen as S } from '../types';
 import { TermText } from '../lesson/termText';
 
-/** docs/UI.md §3 `example`: a concrete number or mini story + visual. */
+/** docs/ui/03-screen-types.md §3 `example`: a concrete number or mini story + visual. */
 export default function ExampleScreen({ screen, width }: { screen: S; width: number }) {
   return (
     <View style={styles.wrap}>

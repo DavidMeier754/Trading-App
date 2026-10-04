@@ -16,7 +16,7 @@ import { EASE_OUT, SPRING_POP, usePressFeedback } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
 /**
- * docs/UI.md §2: single primary CTA, full width, bottom safe area.
+ * docs/ui/02-lesson-player-layout.md §2: single primary CTA, full width, bottom safe area.
  *
  * It is a physical key rather than a flat panel: the face sits on a darker edge
  * and sinks into it on press-in, on the same timing as the cue. It is pressed
@@ -143,7 +143,7 @@ export default function Cta({
           style={[styles.rim, { top: EDGE, borderRadius: spec.cta.radius }, rim]}
         />
         <Animated.View style={[styles.face, { borderRadius: spec.cta.radius }, face]}>
-          {/* docs/UI.md §10: one line, always; a long label shrinks to fit. */}
+          {/* docs/ui/15-theming-and-accessibility.md §10: one line, always; a long label shrinks to fit. */}
           <Text
             style={[
               styles.label,

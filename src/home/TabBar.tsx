@@ -52,7 +52,7 @@ export default function TabBar({
 }: {
   tab: Tab;
   onChange: (next: Tab) => void;
-  /** docs/UI.md §5.3 [DESIGN-REVIEW]: a tab with something new waiting (Practice's new skills). */
+  /** docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW]: a tab with something new waiting (Practice's new skills). */
   dots?: Partial<Record<Tab, boolean>>;
   /** Practice's icon swells each time this goes up: a skill card landing in it. */
   bumps?: number;

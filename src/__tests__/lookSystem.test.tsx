@@ -77,7 +77,7 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-describe('Settings → Change design (docs/UI.md §11.5)', () => {
+describe('Settings → Change design (docs/ui/16-navigation.md §11.5)', () => {
   it('shows each look full screen without choosing it, and chooses the one on screen', () => {
     const tree = render(
       <>

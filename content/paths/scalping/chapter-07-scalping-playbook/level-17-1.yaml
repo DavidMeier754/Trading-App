@@ -14,7 +14,7 @@ prerequisite: "16-2"
 xp: 30
 difficulty: 3
 sources: ["Bellafiore — The PlayBook", "Aziz — How to Day Trade for a Living"]
-notes: "First third of the capstone: the plan and the first three charts; 17-2 and 17-3 finish the morning. Deviation from docs/curriculum.md, which lists Level 17 as repetition: this sub is kept as new-theory because it teaches the session procedure (plan, day read, risk check between trades), and because 17-1 through 19-1 as six review-type subs in a row would break the interleaving rule in docs/agent.md 3.2."
+notes: "First third of the capstone: the plan and the first three charts; 17-2 and 17-3 finish the morning. Deviation from docs/course/, which lists Level 17 as repetition: this sub is kept as new-theory because it teaches the session procedure (plan, day read, risk check between trades), and because 17-1 through 19-1 as six review-type subs in a row would break the interleaving rule in docs/rules/03-content-rules.md 3.2."
 screens:
   - type: intro
     text: "One morning, one stock, eight cards and $20,000."

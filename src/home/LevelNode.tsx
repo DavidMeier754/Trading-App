@@ -72,7 +72,7 @@ export function rewindUnlock(done: LevelView, next: LevelView): void {
 }
 
 /** The ring fills a beat after the path appears, so the eye is there for it. */
-/** The symbol each kind of level wears on its button (docs/UI.md §7.1). */
+/** The symbol each kind of level wears on its button (docs/ui/10-path-map.md §7.1). */
 const SYMBOL: Record<LevelType, IconName> = {
   new: 'bulb',
   practice: 'repeat',
@@ -137,7 +137,7 @@ export default function LevelNode({
   // every re-render), and must not change under the animation either.
   const [startFill] = useState(reduced || before === undefined ? target : before);
   const fill = useSharedValue(startFill);
-  // docs/UI.md §7.1: only a level still open shows its ring. A finished level
+  // docs/ui/10-path-map.md §7.1: only a level still open shows its ring. A finished level
   // keeps its check and drops the ring -- once the ring has filled, when the
   // lesson just played finished it.
   const finishing =
@@ -285,18 +285,18 @@ export default function LevelNode({
   const complete = view.status === 'complete';
   const face = locked ? colors.surfaceAlt : complete ? colors.success : colors.accent;
   const ringColor = view.perfect ? colors.warning : complete ? colors.success : colors.accent;
-  // docs/UI.md §7.1: Checkpoints are shields and the Final Exam a trophy, so a
+  // docs/ui/10-path-map.md §7.1: Checkpoints are shields and the Final Exam a trophy, so a
   // scored level reads as one from across the map; the path choice is a
   // signpost. Ordinary levels are round.
   const round = kind !== 'test';
-  // docs/UI.md §7.1: a lesson level's button shows what it teaches or
+  // docs/ui/10-path-map.md §7.1: a lesson level's button shows what it teaches or
   // practises -- a candle, a bell for the open -- from its files' `icon`; a
   // Checkpoint shows a ticked clipboard, the Final Exam a trophy, the path
   // choice a signpost. Locked or not. The number and kind are in the label.
   const type = levelTypeOf(view.level);
   const topic = type === 'new' || type === 'practice' ? levelIconOf(view.level) : undefined;
   const name = topic && isIconName(topic) ? topic : SYMBOL[type];
-  // docs/UI.md §7.1 [DESIGN-REVIEW] two-tone symbols: under the line, the same
+  // docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW] two-tone symbols: under the line, the same
   // strokes wider and soft, so the symbol has a body as well as an outline.
   const size = type === 'test' ? 27 : 30;
   const symbol = (color: string, tone: string = color) => (
@@ -470,7 +470,7 @@ function ShieldFace({ color, locked }: { color: string; locked: boolean }) {
 
 /**
  * The level waiting for the learner breathes: a ring of its own colour going
- * out from it and fading, every couple of seconds (docs/UI.md §7.1, "pulsing
+ * out from it and fading, every couple of seconds (docs/ui/10-path-map.md §7.1, "pulsing
  * halo"). Only the current level has it, so the eye finds it first.
  */
 function Halo({ delay = 0 }: { delay?: number }) {

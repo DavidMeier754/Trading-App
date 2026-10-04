@@ -59,7 +59,7 @@ const BARCODE = (() => {
 })();
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] win screen "A trade receipt" (David's pick
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] win screen "A trade receipt" (David's pick
  * of 2026-10-04): the lesson as an order confirmation. The paper feeds down
  * out of the printer's slot, the lesson and its numbers print on it one line
  * after another, each with a tick, and a FILLED stamp thumps down on it -- the

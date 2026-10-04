@@ -2,7 +2,7 @@ import { Chapter, chaptersFor, LessonEntry, PathLevel } from '../content';
 import type { Progress } from '../progress';
 
 /**
- * The path map's nodes as the learner's progress leaves them (docs/UI.md §7.1).
+ * The path map's nodes as the learner's progress leaves them (docs/ui/10-path-map.md §7.1).
  *
  * A level opens once every level before it is finished -- the files chain each
  * sub-level to the one before through `prerequisite`, so this is the same
@@ -46,7 +46,7 @@ export function chapterViews(progress: Progress): ChapterView[] {
       if (view.status !== 'complete') open = false;
       return view;
     });
-    // Counted in levels as docs/curriculum.md numbers them: the path choice is
+    // Counted in levels as docs/course/ numbers them: the path choice is
     // a step of its own, not one of Chapter 1's 17.
     const counted = levels.filter((v) => v.level.kind !== 'path');
     const done = counted.filter((v) => v.status === 'complete').length;
@@ -104,9 +104,9 @@ export function totalXp(progress: Progress): number {
 }
 
 /**
- * docs/UI.md §7.1 [DESIGN-REVIEW] "Chapter cards with a sparkline" (David's
+ * docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW] "Chapter cards with a sparkline" (David's
  * pick of 2026-10-04): how each level of a chapter went, as the share of its
- * questions answered right (the record, docs/UI.md §7.3), in per cent, for
+ * questions answered right (the record, docs/ui/12-practice-and-stats.md §7.3), in per cent, for
  * the levels played so far, in order. A level with nothing in the record yet
  * ends the line: the chapter is played in order.
  */

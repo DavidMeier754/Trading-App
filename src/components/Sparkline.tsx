@@ -5,7 +5,7 @@ import { colors } from '../theme';
 
 /**
  * A small line of a price's move, with no axis and no numbers: a scene's
- * market alert (docs/UI.md §3 `story`) and a scanner row (§6.8). It takes the
+ * market alert (docs/ui/03-screen-types.md §3 `story`) and a scanner row (§6.8). It takes the
  * colour of its direction, first value to last, and marks where it ends.
  * `base` draws a faint level line, for a row whose day is measured from the
  * previous close.

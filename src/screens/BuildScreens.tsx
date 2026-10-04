@@ -17,7 +17,7 @@ import type {
 import { Prompt, ToneSurface } from './common';
 
 /**
- * docs/UI.md §4.2 `order-build` and `journal-row` are the same interaction with
+ * docs/ui/04-question-types.md §4.2 `order-build` and `journal-row` are the same interaction with
  * different labels: a row of named slots, a chip tray per slot, and a reveal
  * that grades each slot on its own. One component serves both.
  */
@@ -203,7 +203,7 @@ function ticketLabel(slot: string, filled: Record<string, string>): string {
 const SELL = /^(sell|short)/i;
 
 /**
- * docs/UI.md §4.2 / §6.7 `order-build` [DESIGN-REVIEW] (David approved the
+ * docs/ui/04-question-types.md §4.2 / §6.7 `order-build` [DESIGN-REVIEW] (David approved the
  * real ticket on 2026-10-03): the question drawn as a broker's order ticket.
  * The ticker in the head; a Buy / Sell switch whose chosen half turns green
  * or red; then each other field as a labelled row of segments; and at the
@@ -336,11 +336,11 @@ export function JournalRowScreen(props: {
 }
 
 /**
- * docs/UI.md §4.2 `branch` — choose, see what it meant, choose again. The
+ * docs/ui/04-question-types.md §4.2 `branch` — choose, see what it meant, choose again. The
  * scenario and its chart stay on screen the whole way: by the second step the
  * learner still needs to see the position they are managing, and the chart
  * walks on a little with each step, on the scale of the whole session so the
- * frame never jumps. Each step carries its own reveal (docs/schema.md: the
+ * frame never jumps. Each step carries its own reveal (docs/level-files/: the
  * step's `explanation`), shown as the next step arrives; an option's `next`
  * says which step that is, and the last screen shows the path taken.
  */

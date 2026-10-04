@@ -1,5 +1,5 @@
 /**
- * docs/UI.md §7.5: four tiers per path, each unlocked by finishing a chapter,
+ * docs/ui/13-tiers-replays-and-plus.md §7.5: four tiers per path, each unlocked by finishing a chapter,
  * the same four for every path. [DESIGN-REVIEW] Each is printed in a
  * material of its own (§5.5): paper, bronze, silver, graphite and gold.
  */
@@ -12,7 +12,7 @@ export type Tier = {
   /** The chapter whose end unlocks it. */
   after: number;
   material: Material;
-  /** UI.md §7.5's line, for the card. */
+  /** docs/ui/13-tiers-replays-and-plus.md §7.5's line, for the card. */
   means: string;
 };
 

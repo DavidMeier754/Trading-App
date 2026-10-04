@@ -21,7 +21,7 @@ export type LessonEntry = {
    * A test level, not a lesson. It is reviewed screen by screen, so it shows
    * "12/49" in the top bar -- what makes "screen 34 looks off" findable -- and
    * a back button to look at the screen before again. Real lessons keep
-   * docs/UI.md §2's rule: no back button inside a lesson.
+   * docs/ui/02-lesson-player-layout.md §2's rule: no back button inside a lesson.
    */
   testBench?: boolean;
   /**
@@ -32,9 +32,9 @@ export type LessonEntry = {
 };
 
 /**
- * What a node on the path is (docs/UI.md §7.1): a level of lessons, a scored
+ * What a node on the path is (docs/ui/10-path-map.md §7.1): a level of lessons, a scored
  * Checkpoint (`test`, a shield) or Final Exam (`final`, a trophy), or the path
- * choice that closes Chapter 1 (docs/UI.md §11.4).
+ * choice that closes Chapter 1 (docs/ui/16-navigation.md §11.4).
  */
 export type NodeKind = 'lesson' | 'test' | 'final' | 'path';
 
@@ -60,7 +60,7 @@ export function levelIconOf(level: PathLevel): string | undefined {
 }
 
 /**
- * docs/UI.md §7.1: what kind of level a node is, which its button shows as a
+ * docs/ui/10-path-map.md §7.1: what kind of level a node is, which its button shows as a
  * symbol instead of a number. A level with any new-theory lesson in it teaches
  * something new; one made only of repetition is practice.
  */
@@ -86,13 +86,13 @@ export type Chapter = {
   /** `all` for the shared Chapter 1; otherwise the path it belongs to. */
   path: string;
   levels: PathLevel[];
-  /** How many levels docs/curriculum.md gives the chapter; more than `levels` while it is being wired in. */
+  /** How many levels docs/course/ gives the chapter; more than `levels` while it is being wired in. */
   planned: number;
-  /** Its bonus side lessons (docs/schema.md, DESIGN-REVIEW), by the level they follow. */
+  /** Its bonus side lessons (docs/level-files/, DESIGN-REVIEW), by the level they follow. */
   bonus: BonusLesson[];
 };
 
-/** A bonus side lesson beside the path (docs/UI.md §7.1 "Side stops"). */
+/** A bonus side lesson beside the path (docs/ui/10-path-map.md §7.1 "Side stops"). */
 export type BonusLesson = {
   /** The number of the level it follows, in its chapter. */
   after: number;
@@ -101,7 +101,7 @@ export type BonusLesson = {
   entry: LessonEntry;
 };
 
-/** docs/curriculum.md: the three paths, and whether their chapters are written yet. */
+/** docs/course/: the three paths, and whether their chapters are written yet. */
 export type TradingPath = 'scalping' | 'day-trading' | 'swing-trading';
 export const PATHS: { id: TradingPath; name: string; written: boolean }[] = [
   { id: 'scalping', name: 'Scalping', written: true },
@@ -130,7 +130,7 @@ function kindOf(level: Level): NodeKind {
 }
 
 /**
- * The path choice is a lesson of its own, Level 17-2 (docs/curriculum.md): it
+ * The path choice is a lesson of its own, Level 17-2 (docs/course/): it
  * lays the three paths side by side and ends on the `path-choice` screen. On
  * the map it is not part of Level 17 but a node after it -- the exam ends on
  * its badge, the choice is played from its own node, and it can be played
@@ -211,7 +211,7 @@ export const PATH_CHOICE_ID = 'path-choice';
 
 /**
  * A chapter as its files make it. Every written chapter is complete, so what
- * docs/curriculum.md plans is what is written, with one exception: Scalping
+ * docs/course/ plans is what is written, with one exception: Scalping
  * Chapter 8's new Level 15 comes in stage OFFER, which renumbers the levels
  * after it. Until then that chapter is its 17 written levels.
  */
@@ -223,13 +223,13 @@ function chapterOf(c: { path: string; files: Level[]; bonus?: Level[] }): Chapte
 
 const shared = chapterFiles.filter((c) => c.path === 'all').map(chapterOf);
 
-/** docs/curriculum.md: Chapter 1, the one every learner plays. */
+/** docs/course/: Chapter 1, the one every learner plays. */
 export const CHAPTER_ONE: Chapter = shared[0];
 
 /**
  * Each path's chapters after the first, from content/paths/<path>/. Scalping's
  * Chapters 2–8 are written; Day Trading and Swing Trading are outlined in
- * docs/curriculum.md and not written yet, so they have none.
+ * docs/course/ and not written yet, so they have none.
  */
 export const PATH_CHAPTERS: Record<TradingPath, Chapter[]> = {
   scalping: [],
@@ -286,7 +286,7 @@ export function nodeOf(entryIdToFind: string): PathLevel | undefined {
   );
 }
 
-/** A recap takeaway, as the level file writes it (docs/schema.md `recap`). */
+/** A recap takeaway, as the level file writes it (docs/level-files/ `recap`). */
 export type RecapPoint = { text: string; level?: string; card?: number };
 
 /** A card a recap can open: a theory card, or an example (which has no title). */
@@ -340,7 +340,7 @@ export function matchCard(screens: Screen[], point: RecapPoint): SourceCard | nu
 }
 
 /**
- * docs/UI.md §3 `recap`: a takeaway re-opens the card it came from, in the
+ * docs/ui/03-screen-types.md §3 `recap`: a takeaway re-opens the card it came from, in the
  * sub-level it names, found in the same chapter and path as the recap (a
  * recap names its sources by id, `3-1`).
  */
@@ -365,6 +365,6 @@ export const level = LESSONS[0].level;
 
 const profiles = profilesYaml as unknown as Record<string, MarketProfile>;
 
-/** docs/UI.md §11.5 makes this a Settings choice; this player has no settings, so US. */
+/** docs/ui/16-navigation.md §11.5 makes this a Settings choice; this player has no settings, so US. */
 export const ACTIVE_PROFILE = 'US';
 export const market: MarketProfile = profiles[ACTIVE_PROFILE];

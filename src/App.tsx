@@ -46,12 +46,12 @@ import { loadFonts } from './fonts';
 import { NEW_DESIGNS } from './home/newDesigns';
 import { FIRST_TRADE } from './onboarding/firstTrade';
 
-/** docs/UI.md §2 is portrait-only, so the player is capped at a phone width. */
+/** docs/ui/02-lesson-player-layout.md §2 is portrait-only, so the player is capped at a phone width. */
 const MAX_WIDTH = 480;
 
 export default function App() {
   const { width, height } = useWindowDimensions();
-  // docs/UI.md §10: the titles' face loads alongside; nothing waits for it.
+  // docs/ui/15-theming-and-accessibility.md §10: the titles' face loads alongside; nothing waits for it.
   useEffect(() => loadFonts(), []);
   const frameWidth = Math.min(width, MAX_WIDTH);
   const contentWidth = frameWidth - space.lg * 2;
@@ -63,7 +63,7 @@ export default function App() {
   const [entry, setEntry] = useState<LessonEntry | null>(link?.entry ?? null);
   // `#debug-crash`, test builds only: a screen that throws (ErrorBoundary.tsx).
   const [crash, setCrash] = useState(() => !!link?.crash);
-  // docs/UI.md §7.2: a change of the streak, full screen, between a lesson and
+  // docs/ui/11-top-bar.md §7.2: a change of the streak, full screen, between a lesson and
   // the map (up) or as the app opens (lost). `streakUp` waits for the lesson
   // that made it to close.
   const [moment, setMoment] = useState<StreakChange | null>(null);
@@ -85,7 +85,7 @@ export default function App() {
     loadSaved({ restoreLook, restoreTheme }).finally(() => {
       if (TEST_MODE) setMotionSetting('reduced');
       setReady(true);
-      // docs/UI.md §11.1 [DESIGN-REVIEW]: a fresh install opens on its first
+      // docs/ui/16-navigation.md §11.1 [DESIGN-REVIEW]: a fresh install opens on its first
       // decision -- not over a deep link of any kind (a lesson, a home page, a
       // look), which asks for its own screen, and not in the render test.
       if (!TEST_MODE && !link && !getProgress().firstTrade) setEntry(FIRST_TRADE);
@@ -251,7 +251,7 @@ export default function App() {
                     }}
                     // A lesson on the path counts once its summary is reached; the
                     // test bench is not on the path and just plays again. A
-                    // practice round gives a heart back (docs/UI.md §5.2); a bonus
+                    // practice round gives a heart back (docs/ui/06-reveal-and-hearts.md §5.2); a bonus
                     // lesson pays its gems the first time; new skills fly into
                     // Practice on the way home (§5.3).
                     onComplete={
@@ -268,7 +268,7 @@ export default function App() {
                             }
                             const before = getProgress();
                             const first = !before.done[entry.id];
-                            // docs/UI.md §5.3: the day's first lesson keeps the streak.
+                            // docs/ui/07-lesson-chapter-and-tier-complete.md §5.3: the day's first lesson keeps the streak.
                             const firstToday = before.streak.last !== dayOf(new Date());
                             const from = streakDays(before);
                             completeLesson(entry.id, {
@@ -305,7 +305,7 @@ export default function App() {
 }
 
 /**
- * docs/UI.md §2: nothing scrolls. In a browser that has to hold for the page as
+ * docs/ui/02-lesson-player-layout.md §2: nothing scrolls. In a browser that has to hold for the page as
  * well as the app. `overflow: hidden` alone does not stop iOS Safari: the page
  * still rubber-bands, and two quick taps -- a keypad, "Next bar" -- zoom it in,
  * after which the whole lesson pans under the finger. So the page is pinned,

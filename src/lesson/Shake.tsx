@@ -14,7 +14,7 @@ import { useReduceMotion } from './useReduceMotion';
 const SWING = [-6, 5, -3, 1.5, 0];
 
 /**
- * docs/UI.md §5.1: a wrong element shakes.
+ * docs/ui/06-reveal-and-hearts.md §5.1: a wrong element shakes.
  *
  * Not the flat 3 x 4 px buzz it was. It is a knock and a wobble: the element is
  * jolted sideways at once, then swings back and forth, each swing smaller, the

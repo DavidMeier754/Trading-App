@@ -10,7 +10,7 @@ import {
 import type { ChartDecisionScreen, DecisionButton } from '../types';
 
 /**
- * docs/UI.md §5.1b, review M5 and M7: the reveal of a chart decision, for every
+ * docs/ui/06-reveal-and-hearts.md §5.1b, review M5 and M7: the reveal of a chart decision, for every
  * combination of grade × result × traded-or-stood-aside. The decision is made
  * at the second bar (10.10); the chart then ends 20 cents higher or lower, so
  * 100 shares make or lose $20.00.

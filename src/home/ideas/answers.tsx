@@ -100,7 +100,7 @@ export const ANSWERS: Suggestion[] = [
     title: 'Theory typed out like a terminal',
     line: 'A theory card writes itself out in a mono face behind a caret. A tap shows it all at once.',
     tag: 'moves',
-    note: 'It types and blinks without a tap, against docs/UI.md §1: "Nothing moves unless the learner moved it".',
+    note: 'It types and blinks without a tap, against docs/ui/01-design-principles.md §1: "Nothing moves unless the learner moved it".',
     again: 'Play again',
     Preview: TypedTheory,
   },

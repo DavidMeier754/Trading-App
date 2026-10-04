@@ -14,7 +14,7 @@ prerequisite: "16-1"
 xp: 30
 difficulty: 3
 sources: ["Aziz — How to Day Trade for a Living", "Bellafiore — The PlayBook"]
-notes: "Callback sub two: Chapter 2's levels become Chapter 3's stop distance and share count. The account binds on the first read — 2,000 by the risk budget, 1,863 by the cash, 1,700 sent so the fill is still payable at the ask (agent.md §3.6) — and the stop distance kills the second. Account named at $24,000."
+notes: "Callback sub two: Chapter 2's levels become Chapter 3's stop distance and share count. The account binds on the first read — 2,000 by the risk budget, 1,863 by the cash, 1,700 sent so the fill is still payable at the ask (docs/rules/04-numbers-and-realism.md §3.6) — and the stop distance kills the second. Account named at $24,000."
 screens:
   - type: intro
     text: "The level picks the stop. The stop and the account pick the size."

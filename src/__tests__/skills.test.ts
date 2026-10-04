@@ -35,7 +35,7 @@ describe('finding a term in a text', () => {
   });
 });
 
-describe('skills (docs/UI.md §5.3, docs/schema.md "Skills")', () => {
+describe('skills (docs/ui/07-lesson-chapter-and-tier-complete.md §5.3, docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills")', () => {
   it("a lesson's terms are its skills, each with the card that defines it", () => {
     const entry = lesson('level-06-2');
     const skills = skillsOf(entry);
@@ -89,7 +89,7 @@ describe('skills (docs/UI.md §5.3, docs/schema.md "Skills")', () => {
     expect(TERMS.get(normTerm('Stop order'))).toBeDefined();
   });
 
-  it('finds a card for most terms (the rest are content work, docs/ContentToDo.md 1.4)', () => {
+  it('finds a card for most terms (the rest are content work, docs/content-todo/01-rules-from-the-design-review.md 1.4)', () => {
     const terms = SKILLS.filter((s) => s.kind === 'term');
     const found = terms.filter((s) => s.card !== null).length;
     expect(found / terms.length).toBeGreaterThan(0.8);
@@ -105,7 +105,7 @@ describe('skills (docs/UI.md §5.3, docs/schema.md "Skills")', () => {
   });
 });
 
-describe('marking terms (docs/UI.md §8: neither too many nor too few)', () => {
+describe('marking terms (docs/ui/14-glossary-and-copy.md §8: neither too many nor too few)', () => {
   const spread = TERMS.get('spread')!;
   const liquidity = TERMS.get('liquidity')!;
   const volatility = TERMS.get('volatility')!;
@@ -138,7 +138,7 @@ describe('marking terms (docs/UI.md §8: neither too many nor too few)', () => {
   });
 });
 
-describe('the R ruler appears once R is taught (docs/UI.md §6.4)', () => {
+describe('the R ruler appears once R is taught (docs/ui/08-quotes-and-charts.md §6.4)', () => {
   const r = TERMS.get('r');
 
   it('the path teaches R', () => {

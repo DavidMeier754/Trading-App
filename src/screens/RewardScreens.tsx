@@ -61,7 +61,7 @@ export function opensLine(unlocks: string | undefined, path: string | null): str
 }
 
 /**
- * docs/UI.md §5.4 `badge` — chapter complete, a great accomplishment and so a
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.4 `badge` — chapter complete, a great accomplishment and so a
  * bigger moment [DESIGN-REVIEW] (§1, principle 12). In order: the chapter's
  * medal drops from above and lands with the heavy `medal` cue; a glow blooms
  * behind it and light runs once across its face; the name types in; the row
@@ -78,7 +78,7 @@ const TILT = 16;
 const FOIL_W = 110;
 
 /**
- * The medal's tilt (docs/UI.md §5.4 [DESIGN-REVIEW]): a drag leans it
+ * The medal's tilt (docs/ui/07-lesson-chapter-and-tier-complete.md §5.4 [DESIGN-REVIEW]): a drag leans it
  * towards the finger and moves the foil's light with it; a tap wobbles it and
  * runs the light across once.
  */
@@ -326,7 +326,7 @@ export function BadgeScreen({
     opacity: Math.min(1, coin.get() * 2),
     transform: [{ translateY: -14 * (1 - coin.get()) }, { scale: 0.5 + 0.5 * coin.get() }],
   }));
-  // docs/UI.md §5.4 [DESIGN-REVIEW] "A badge you can tilt" (David's pick of
+  // docs/ui/07-lesson-chapter-and-tier-complete.md §5.4 [DESIGN-REVIEW] "A badge you can tilt" (David's pick of
   // 2026-10-04): a finger on the medal leans it towards the finger, and the
   // foil's light and its rainbow follow; let go, it springs back. A tap
   // wobbles it and runs the light across once. Under reduced motion it holds
@@ -460,7 +460,7 @@ export function BadgeScreen({
 }
 
 /**
- * docs/UI.md §5.5 `tier-up` — rarer and louder than a badge.
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.5 `tier-up` — rarer and louder than a badge.
  *
  * [DESIGN-REVIEW] The tier card turns over in place, from the old tier's
  * material to the new one, landing on the `tier` cue's chord -- read from the

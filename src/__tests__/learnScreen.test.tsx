@@ -18,7 +18,7 @@ const texts = (tree: renderer.ReactTestRenderer) =>
 describe('the map draws each label once (stage LOOK-BRIEF, David: stray "LE", "LEVE")', () => {
   const views = chapterViews(getProgress()).flatMap((c) => c.levels);
 
-  it('labels a level with its title alone, in one text (docs/UI.md §7.1)', () => {
+  it('labels a level with its title alone, in one text (docs/ui/10-path-map.md §7.1)', () => {
     const view = views[0];
     let tree!: renderer.ReactTestRenderer;
     act(() => {
@@ -46,7 +46,7 @@ describe('the map draws each label once (stage LOOK-BRIEF, David: stray "LE", "L
   });
 });
 
-describe("a key's label stays on one line (docs/UI.md §10)", () => {
+describe("a key's label stays on one line (docs/ui/15-theming-and-accessibility.md §10)", () => {
   it('the lesson key sets its label on one line and shrinks a long one to fit', () => {
     let tree!: renderer.ReactTestRenderer;
     act(() => {

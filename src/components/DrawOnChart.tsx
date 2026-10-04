@@ -5,7 +5,7 @@ import { useReduceMotion } from '../lesson/useReduceMotion';
 import { DURATION, EASE_OUT } from '../lesson/motion';
 
 /**
- * docs/UI.md §6.4: a Chapter 1 line chart draws on.
+ * docs/ui/08-quotes-and-charts.md §6.4: a Chapter 1 line chart draws on.
  *
  * One 0 -> 1 shared value sweeps a dash mask along the finished path, so the
  * line grows continuously instead of stepping from data point to data point.

@@ -14,7 +14,7 @@ import { surfaceStyle, useLookSpec } from './look';
 const MAX_W = 420;
 
 /**
- * A skill's info card (docs/UI.md §7.3, §8): the card of its lesson that
+ * A skill's info card (docs/ui/12-practice-and-stats.md §7.3, docs/ui/14-glossary-and-copy.md §8): the card of its lesson that
  * taught it, drawn as the lesson drew it. A carousel shows the one card of
  * it that names the term; a walkthrough its component and first line.
  */

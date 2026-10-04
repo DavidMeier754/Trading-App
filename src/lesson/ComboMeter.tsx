@@ -27,13 +27,13 @@ const SPARKS = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => (i * Math.PI) / 4 + Math.PI /
 const RAMP_AT = [0, 0.5, 1];
 
 /**
- * docs/UI.md §2 [DESIGN-REVIEW] "A combo counter" (David's pick of
+ * docs/ui/02-lesson-player-layout.md §2 [DESIGN-REVIEW] "A combo counter" (David's pick of
  * 2026-10-04; it replaces the run's flame, StreakMeter): from the third right
  * answer in a row a "×3" punches in beside the progress bar with a ring and a
  * burst of sparks; every right answer after bumps it harder, the other way
  * each time, and warmer, from the accent through coral to amber at ×6. A wrong
  * answer tips it over and it drops away, quietly: no count-down, no message
- * (docs/UI.md §1.6).
+ * (docs/ui/01-design-principles.md §1.6).
  *
  * It answers the learner's own answer, so it moves only when they do (§1).
  * Under reduced motion it simply shows the count in its colour.

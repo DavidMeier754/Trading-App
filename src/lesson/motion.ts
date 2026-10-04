@@ -30,11 +30,11 @@ export const EASE_SINE = Easing.bezier(0.37, 0, 0.63, 1);
 export const DURATION = {
   /** Press feedback. Kept inside the 100-150 ms band; anything slower lags the finger. */
   press: 140,
-  /** An answer taking its verdict colour. Starts at once (UI.md §1.4), settles slowly. */
+  /** An answer taking its verdict colour. Starts at once (docs/ui/01-design-principles.md §1.4), settles slowly. */
   reveal: 380,
-  /** Screen to screen: Calm's cross-fade with a rise of `RISE.screen` (UI.md §10). */
+  /** Screen to screen: Calm's cross-fade with a rise of `RISE.screen` (docs/ui/15-theming-and-accessibility.md §10). */
   screen: 320,
-  /** The reveal panel fading up by `RISE.reveal` (UI.md §10). */
+  /** The reveal panel fading up by `RISE.reveal` (docs/ui/15-theming-and-accessibility.md §10). */
   panel: 280,
   /** A chart drawing itself. Explanatory, so it is allowed past the UI budget. */
   draw: 1200,
@@ -44,7 +44,7 @@ export const DURATION = {
 
 /**
  * How far things travel as they arrive, in points: Calm's pace (stage
- * LOOK-BRIEF, docs/UI.md §10). Short on purpose -- a rise, not a slide.
+ * LOOK-BRIEF, docs/ui/15-theming-and-accessibility.md §10). Short on purpose -- a rise, not a slide.
  */
 export const RISE = { screen: 6, reveal: 8 } as const;
 

@@ -1,5 +1,5 @@
 /**
- * The app's colour and type tokens as plain data (docs/UI.md §10), in dark and
+ * The app's colour and type tokens as plain data (docs/ui/15-theming-and-accessibility.md §10), in dark and
  * light, with the colour-blind palette on top of either. No imports: the check
  * script (tools/check_ui.mjs) reads this file as it is and measures every text
  * colour against every ground it sits on, so a value here that fails 4.5 : 1
@@ -46,7 +46,7 @@ export type Palette = {
   /** Amber: a reasonable answer, a warning. */
   warning: string;
   /**
-   * The gem of the in-game currency and its count in the top bar (docs/UI.md
+   * The gem of the in-game currency and its count in the top bar (docs/ui/
    * §7.2): the prototype's cyan from stage LOOK-BRIEF, one shade deeper on
    * the light ground so the count holds 4.5 : 1.
    */
@@ -147,7 +147,7 @@ const LIGHT: Palette = {
 };
 
 /**
- * The colour-blind palette (docs/UI.md §10): up and right in blue, down and
+ * The colour-blind palette (docs/ui/15-theming-and-accessibility.md §10): up and right in blue, down and
  * wrong in orange, amber in a yellow that neither is. It changes these and
  * nothing else, and applies to charts too.
  */
@@ -182,7 +182,7 @@ export function paletteFor(scheme: Scheme, colourBlind: boolean): Palette {
 }
 
 /**
- * Calm's type scale from stage LOOK-BRIEF (docs/UI.md §10): display 30, title
+ * Calm's type scale from stage LOOK-BRIEF (docs/ui/15-theming-and-accessibility.md §10): display 30, title
  * 23, prompt 20, body 17, answer 17, label 14, caption 13. Nothing goes below
  * 13 -- not a state chip, not an axis value a question asks about.
  * Numbers take the monospaced face (`mono`) while the words around them keep
@@ -199,7 +199,7 @@ export const TYPE_SCALE = {
   mono: { fontSize: 13, lineHeight: 18, fontWeight: '500' },
 } as const;
 
-/** The smallest type anything may use (docs/UI.md §10). */
+/** The smallest type anything may use (docs/ui/15-theming-and-accessibility.md §10). */
 export const MIN_FONT = 13;
-/** The smallest tap target (docs/UI.md §1.3, §10). */
+/** The smallest tap target (docs/ui/01-design-principles.md §1.3, docs/ui/15-theming-and-accessibility.md §10). */
 export const TAP_TARGET = 48;

@@ -9,10 +9,10 @@ import { allStats, RISK_NOTE } from './accountData';
 import { PageHeader, pageStyles, useBackButton, useSlideIn } from './pageParts';
 
 /**
- * docs/UI.md §7.4 [DESIGN-REVIEW] "All stats" (David: "the all stats can be
+ * docs/ui/12-practice-and-stats.md §7.4 [DESIGN-REVIEW] "All stats" (David: "the all stats can be
  * added"): the learner's own numbers -- lessons, XP, streaks, skills,
  * mistakes, chart decisions -- and the variance view: the right calls as one
- * bar, won against lost. No rate is called good or normal (docs/agent.md
+ * bar, won against lost. No rate is called good or normal (docs/rules/
  * §3.11). The one-line risk note closes the page.
  */
 export default function StatsScreen({ onBack }: { onBack: () => void }) {

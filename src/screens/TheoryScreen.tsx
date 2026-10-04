@@ -6,7 +6,7 @@ import { space } from '../theme';
 import type { TheoryScreen as S } from '../types';
 import { Body, ScreenTitle } from './common';
 
-/** docs/UI.md §3 `theory`: title + body (max 3 lines) + optional visual. */
+/** docs/ui/03-screen-types.md §3 `theory`: title + body (max 3 lines) + optional visual. */
 export default function TheoryScreen({ screen, width }: { screen: S; width: number }) {
   return (
     <View style={styles.wrap}>
@@ -22,7 +22,7 @@ export default function TheoryScreen({ screen, width }: { screen: S; width: numb
 }
 
 const styles = StyleSheet.create({
-  // docs/UI.md §2: visual above text.
+  // docs/ui/02-lesson-player-layout.md §2: visual above text.
   wrap: { gap: space.xl },
   text: { gap: space.md },
 });

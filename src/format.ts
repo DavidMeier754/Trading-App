@@ -3,7 +3,7 @@ import { market } from './content';
 const TOKEN = /\{\{\s*market\.([a-z_]+)\s*\}\}/g;
 
 /**
- * docs/UI.md §9: `{{market.*}}` tokens resolve from the active profile and a literal
+ * docs/ui/14-glossary-and-copy.md §9: `{{market.*}}` tokens resolve from the active profile and a literal
  * `$` in content is replaced by the profile's currency symbol.
  */
 export function copy(input: string): string {
@@ -45,7 +45,7 @@ export function signedPercent(value: number): string {
 }
 
 /**
- * Share counts. docs/UI.md §9 fixes thin-space thousands for *prices* and is silent
+ * Share counts. docs/ui/14-glossary-and-copy.md §9 fixes thin-space thousands for *prices* and is silent
  * on counts; the content writes them with commas ("1,200 shares"), and a strip that
  * reads "1 200" next to prose reading "1,200" looks like a bug. Commas it is.
  */

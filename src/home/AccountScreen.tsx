@@ -27,7 +27,7 @@ import { pageStyles, RowButton } from './pageParts';
 const COIN = 34;
 
 /**
- * docs/UI.md §7.4 [DESIGN-REVIEW] (David, 2026-10-03): the Account page, top
+ * docs/ui/12-practice-and-stats.md §7.4 [DESIGN-REVIEW] (David, 2026-10-03): the Account page, top
  * to bottom -- the tier card in its material, the medal shelf, All stats,
  * Your plan, Settings. The learning chart David liked goes to the tab the
  * Leaderboard becomes, decided with the tabs concept (§11.2).
@@ -49,7 +49,7 @@ export default function AccountScreen({
   const lines = plan.groups.reduce((n, g) => n + g.lines.length, 0);
   const pathName = PATHS.find((p) => p.id === progress.path)?.name;
   const [w, setW] = useState(0);
-  // docs/UI.md §7.4: a medal won since the shelf last showed lands in its slot
+  // docs/ui/12-practice-and-stats.md §7.4: a medal won since the shelf last showed lands in its slot
   // and shines once (David, 2026-10-04: "add every missing animation like the
   // award medal animation"). Worked out once, as the page opens.
   const [landing] = useState(() => {
@@ -97,7 +97,7 @@ export default function AccountScreen({
         })}
       </View>
 
-      {/* docs/UI.md §7.4 [DESIGN-REVIEW] "Practice as a heat map". */}
+      {/* docs/ui/12-practice-and-stats.md §7.4 [DESIGN-REVIEW] "Practice as a heat map". */}
       <Text style={pageStyles.section}>Your days</Text>
       <PracticeHeatmap days={progress.days} />
 

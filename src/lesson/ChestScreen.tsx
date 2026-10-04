@@ -88,7 +88,7 @@ const RAY_PATH = Array.from({ length: 12 }, (_, i) => {
 type Point = { x: number; y: number };
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] "A chest for a perfect lesson" and "Gems fly
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] "A chest for a perfect lesson" and "Gems fly
  * to the counter" (David's picks of 2026-10-04): the first time a lesson is
  * played without a mistake, it leaves a chest, after its last screen and
  * before the summary. Each tap on it rattles it harder, with light leaking

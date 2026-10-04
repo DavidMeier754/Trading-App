@@ -44,7 +44,7 @@ function resolveHighlight(
   return out;
 }
 
-/** docs/UI.md §4.1 `hotspot` — tap the right region of a mock component. */
+/** docs/ui/04-question-types.md §4.1 `hotspot` — tap the right region of a mock component. */
 export function HotspotScreen({
   screen,
   value,
@@ -84,7 +84,7 @@ export function HotspotScreen({
   );
 }
 
-/** docs/UI.md §4.2 `scanner-pick` — tap the row that meets the criteria. */
+/** docs/ui/04-question-types.md §4.2 `scanner-pick` — tap the row that meets the criteria. */
 export function ScannerPickScreen({
   screen,
   value,
@@ -120,7 +120,7 @@ export function ScannerPickScreen({
   );
 }
 
-/** docs/UI.md §4.2 `depth-ladder` — answer where an order fills. */
+/** docs/ui/04-question-types.md §4.2 `depth-ladder` — answer where an order fills. */
 export function DepthLadderScreen({
   screen,
   value,
@@ -157,7 +157,7 @@ export function DepthLadderScreen({
   );
 }
 
-/** docs/UI.md §4.1 `chart-tap` — tap a candle on a chart. */
+/** docs/ui/04-question-types.md §4.1 `chart-tap` — tap a candle on a chart. */
 export function ChartTapScreen({
   screen,
   value,
@@ -220,7 +220,7 @@ export function ChartTapScreen({
             gridAnchor={grid.gridAnchor}
           />
           {/* An invisible column per bar: a candle is far too small a tap target
-            on its own (docs/UI.md §10, 48 pt minimum). */}
+            on its own (docs/ui/15-theming-and-accessibility.md §10, 48 pt minimum). */}
           <View style={styles.tapRow} pointerEvents="box-none">
             {Array.from({ length: bars }, (_, i) => {
               const tint =
@@ -307,7 +307,7 @@ function restOf(screen: SliderS): number {
 }
 
 /**
- * docs/UI.md §4.1 `slider` — set a value with a tolerance band. [DESIGN-REVIEW]
+ * docs/ui/04-question-types.md §4.1 `slider` — set a value with a tolerance band. [DESIGN-REVIEW]
  * The value is set on a dial (screens/Dial.tsx, David's pick of 2026-10-04),
  * with − and + beside it.
  */

@@ -2,7 +2,7 @@
 // Writes src/content.generated.ts: one import per sub-level file under content/,
 // grouped by chapter and in play order. src/content.ts builds the map from it,
 // so a new lesson file is wired in by running `npm run gen:content`, not by
-// hand-editing a list of imports (docs/build-plan.md, stage WIRE; M13, S38).
+// hand-editing a list of imports (docs/plan/05-phase-a-foundation.md, stage WIRE; M13, S38).
 //
 //   node tools/gen_content.mjs           write the index
 //   node tools/gen_content.mjs --check   exit 1 if the index is out of date (CI)
@@ -11,9 +11,9 @@
 // `content/paths/<path>/chapter-*`. Drill packs and the market profiles are not
 // lessons. Order: shared chapters first, then each path in folder order, each
 // chapter by folder name, each file by level number, then sub-level number.
-// A chapter's bonus side lessons, `level-NN-bonus.yaml` (docs/schema.md, stage
+// A chapter's bonus side lessons, `level-NN-bonus.yaml` (docs/level-files/, stage
 // DESIGN-REVIEW), are listed apart, by the level they follow. The skills,
-// `content/skills.yaml` (docs/schema.md "Skills"), are imported as they are.
+// `content/skills.yaml` (docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills"), are imported as they are.
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';

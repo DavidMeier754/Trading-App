@@ -59,7 +59,7 @@ export function commitFeedback(): void {
  * cut in with the streak sound at 3, 5, 10 ..., so a run hopped between a
  * rising chime and a different sound and never settled.)
  *
- * Amber holds a run and wrong ends it -- quietly. docs/UI.md §1 says a wrong
+ * Amber holds a run and wrong ends it -- quietly. docs/ui/01-design-principles.md §1 says a wrong
  * answer in a lesson costs nothing but a second look, and "No trade" is never
  * red, so nothing here ever announces a run being lost. The next correct answer
  * simply starts from the bottom of the scale again.
@@ -104,7 +104,7 @@ export function matchHitFeedback(n: number): void {
   cue(`pop${Math.max(0, Math.min(3, n))}` as CueName);
 }
 
-/** The last pair locking in: the board is done, and a wave runs across it (docs/UI.md §4.1). */
+/** The last pair locking in: the board is done, and a wave runs across it (docs/ui/04-question-types.md §4.1). */
 export function matchBoardFeedback(): void {
   cue('board');
 }
@@ -135,7 +135,7 @@ export function badgeFeedback(): void {
   cue('badge');
 }
 
-/** A chapter's medal landing: heavier and longer than a badge (docs/UI.md §5.4). */
+/** A chapter's medal landing: heavier and longer than a badge (docs/ui/07-lesson-chapter-and-tier-complete.md §5.4). */
 export function medalFeedback(): void {
   cue('medal');
 }
@@ -159,7 +159,7 @@ export function doneFeedback(): void {
   cue('pop2');
 }
 
-/** The streak screens (docs/UI.md §7.2): the flame catching, as the streak goes up a day. */
+/** The streak screens (docs/ui/11-top-bar.md §7.2): the flame catching, as the streak goes up a day. */
 export function igniteFeedback(): void {
   cue('ignite');
 }

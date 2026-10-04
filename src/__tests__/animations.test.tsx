@@ -60,7 +60,7 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-describe('the testing tools (docs/UI.md §11.5)', () => {
+describe('the testing tools (docs/ui/16-navigation.md §11.5)', () => {
   it('are on in a development run, which is what Expo Go opens', () => {
     // Jest runs as development (__DEV__), with no EXPO_PUBLIC_TEST_TOOLS needed.
     expect(TEST_TOOLS).toBe(true);

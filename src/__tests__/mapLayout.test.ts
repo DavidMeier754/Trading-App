@@ -16,7 +16,7 @@ import {
 import { RING, STOP_RING } from '../home/mapSizes';
 
 /**
- * docs/UI.md §7.1 (David, 2026-10-04: "the Start Box over the level overlaps
+ * docs/ui/10-path-map.md §7.1 (David, 2026-10-04: "the Start Box over the level overlaps
  * the optional side levels"): a side stop touches nothing on the map -- not a
  * level, not a level's title, not the START tag any level can wear, not the
  * trail, and it stays on the screen. Checked for every gap between two levels

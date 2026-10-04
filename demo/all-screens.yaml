@@ -1,9 +1,9 @@
-# A throwaway lesson that exercises every screen type in docs/UI.md §3, §4.1 and §4.2,
+# A throwaway lesson that exercises every screen type in docs/ui/03-screen-types.md §3, docs/ui/04-question-types.md §4.1 and §4.2,
 # one after another, so each renderer can be judged on a phone.
 #
 # It lives in demo/ and NOT in content/: it is not curriculum and it breaks the
 # 12-18 screen rule on purpose. tools/validate_content.py still checks every screen
-# on it (type, question shape, component data as in docs/schema.md) but not the
+# on it (type, question shape, component data as in docs/level-files/) but not the
 # lesson rules, so the bench can never again be written to fit the renderer
 # instead of the schema (review M2).
 # The content is filler. The interactions are the point.

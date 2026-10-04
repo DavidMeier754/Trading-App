@@ -52,7 +52,7 @@ const GRIP = Array.from({ length: 36 }, (_, i) => (i * 2 * Math.PI) / 36)
   .map((a) => ({ from: polar(KNOB / 2, a, 50), to: polar(KNOB / 2, a, 56) }));
 
 /**
- * docs/UI.md §4.1 `slider` [DESIGN-REVIEW] "Numbers on a dial" (David's pick
+ * docs/ui/04-question-types.md §4.1 `slider` [DESIGN-REVIEW] "Numbers on a dial" (David's pick
  * of 2026-10-04): the value is set on a dial in place of a track. Twist it
  * anywhere: it turns by as much as the finger goes round its middle, clicks at
  * every step, stops at the ends of the scale and settles into the nearest step

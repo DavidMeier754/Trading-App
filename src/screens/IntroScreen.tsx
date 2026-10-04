@@ -6,7 +6,7 @@ import { Arrive } from '../lesson/Celebrate';
 import { colors, radius, space, type, themed } from '../theme';
 import type { IntroScreen as S } from '../types';
 
-/** What a Checkpoint or Final Exam tells before it starts (docs/UI.md §3 `intro`). */
+/** What a Checkpoint or Final Exam tells before it starts (docs/ui/03-screen-types.md §3 `intro`). */
 export type Briefing = {
   kind: 'Checkpoint' | 'Final Exam';
   questions: number;
@@ -17,7 +17,7 @@ export type Briefing = {
 };
 
 /**
- * docs/UI.md §3 `intro`: big headline, optional subline. A test's intro is a
+ * docs/ui/03-screen-types.md §3 `intro`: big headline, optional subline. A test's intro is a
  * briefing card instead [DESIGN-REVIEW]: the kind as the kicker, the
  * chapter's name as the title, the intro text as one line, a row of empty
  * pips (one per question), the terms in one row -- questions, pass mark,

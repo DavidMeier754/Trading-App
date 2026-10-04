@@ -14,7 +14,7 @@ prerequisite: "17-1"
 xp: 20
 difficulty: 2
 sources: [consensus]
-notes: "The path-choice lesson, played from its own node after the Final Exam (docs/UI.md §7.1) and replayable to change path. Ranges are the curriculum's own: charts, targets and holding periods from docs/curriculum.md, exit distances from docs/agent.md §3.6, screen time from Level 14-1. No account is named and no position is sized. 'Stop' is not a Chapter 1 term, so the table says how far away the exit sits."
+notes: "The path-choice lesson, played from its own node after the Final Exam (docs/ui/10-path-map.md §7.1) and replayable to change path. Ranges are the curriculum's own: charts, targets and holding periods from docs/course/, exit distances from docs/rules/04-numbers-and-realism.md §3.6, screen time from Level 14-1. No account is named and no position is sized. 'Stop' is not a Chapter 1 term, so the table says how far away the exit sits."
 screens:
   - type: intro
     text: "Three paths from here. Same market, three very different days."

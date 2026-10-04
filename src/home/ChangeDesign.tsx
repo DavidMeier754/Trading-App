@@ -80,7 +80,7 @@ export default function ChangeDesign({ width, onBack }: { width: number; onBack:
     setShown(look);
   }, []);
 
-  // docs/UI.md §10: every drag has a tap alternative -- here the arrows.
+  // docs/ui/15-theming-and-accessibility.md §10: every drag has a tap alternative -- here the arrows.
   const swipe = useMemo(
     () =>
       PanResponder.create({

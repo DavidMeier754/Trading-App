@@ -2,7 +2,7 @@
 """
 The app's sounds and haptic patterns, from one table.
 
-docs/UI.md 5.1 pairs every verdict with a sound and a haptic, and 10 gives each
+docs/ui/06-reveal-and-hearts.md 5.1 pairs every verdict with a sound and a haptic, and 10 gives each
 its own toggle. They used to be two separate lists -- six WAVs here, a haptic per
 call site in `src/lesson/haptics.ts` -- and they drifted: an answer card ticked
 the motor on the way down, ticked it again on the way up, and made its only
@@ -25,7 +25,7 @@ Design rules:
   thud under a chord. A strong sound on a faint haptic, or the other way round,
   is exactly the mismatch this table exists to prevent.
 - Good news is bright and rises, bad news is dull and falls, soft enough not to
-  scold: a wrong answer in a lesson costs nothing but a second look (UI.md 1).
+  scold: a wrong answer in a lesson costs nothing but a second look (docs/ui/ 1).
 - Short where it repeats. A tick is 26 ms; a cue the learner hears on every
   screen is gone in well under half a second. Only the rare moments -- a
   finished lesson, a badge, a tier -- are allowed to ring.
@@ -493,7 +493,7 @@ CUES = {
         "pop%d" % i: dict(pulses=[P(0, "light", [N("pop", note, 150)])], peak=0.25, wet=0.12)
         for i, note in enumerate(["G5", "C6", "E6", "G6"])
     },
-    # A chapter's medal landing (docs/UI.md §5.4, DESIGN-REVIEW: the bigger the
+    # A chapter's medal landing (docs/ui/07-lesson-chapter-and-tier-complete.md §5.4, DESIGN-REVIEW: the bigger the
     # accomplishment, the bigger the moment). Heavier and longer than the
     # badge it replaces: a low thud as it lands, a bell-like fifth rising over
     # a warm chord, and a long shimmer as the light runs across its face.
@@ -509,7 +509,7 @@ CUES = {
     ),
     # A pair bouncing back: one dry knock, no scolding.
     "miss": dict(pulses=[P(0, "rigid", [N("knock", "D4", 200)])], peak=0.22, wet=0.08),
-    # The last pair: the board done. A wave runs across the cards (docs/UI.md
+    # The last pair: the board done. A wave runs across the cards (docs/ui/
     # §4.1, DESIGN-REVIEW) on a firmer pulse and three quick pops up to C7,
     # over a short C chord -- the pops the pairs made, finished.
     "board": dict(
@@ -588,7 +588,7 @@ CUES = {
         ],
         peak=0.28, wet=0.28,
     ),
-    # -- the streak, full screen (UI.md 7.2) -----------------------------------
+    # -- the streak, full screen (docs/ui/11-top-bar.md 7.2) -----------------------------------
     # Up by a day: the flame catches -- air rushing up and a crackle of embers
     # over a low thump -- then a C major arpeggio lands as it stands full.
     "ignite": dict(
@@ -609,7 +609,7 @@ CUES = {
         peak=0.24, wet=0.18,
     ),
     # Lost: the flame goes out with a soft breath of air, and a falling third,
-    # dull and quiet, as the count rolls to nought. Never a scolding (UI.md 7.2).
+    # dull and quiet, as the count rolls to nought. Never a scolding (docs/ui/11-top-bar.md 7.2).
     "fizzle": dict(
         pulses=[
             P(0, "soft", [N("exhale", 2400, 700, 0.8), N("felt", "E4", 700, 0.5)]),
@@ -617,7 +617,7 @@ CUES = {
         ],
         peak=0.2, wet=0.22,
     ),
-    # A tier: rarer and fuller than a badge (UI.md 5.5). A pickup, then the chord.
+    # A tier: rarer and fuller than a badge (docs/ui/07-lesson-chapter-and-tier-complete.md 5.5). A pickup, then the chord.
     "tier": dict(
         pulses=[
             P(0, "light", [N("kalimba", "G4", 300, 0.6)]),

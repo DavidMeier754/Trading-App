@@ -1,11 +1,11 @@
-# content/skills.yaml — every skill the course teaches (docs/schema.md, "Skills").
+# content/skills.yaml — every skill the course teaches (docs/level-files/06-skills-bonus-lessons-market-profiles.md, "Skills").
 #
 # A skill is a word (one of a lesson's `terms_introduced`) or a technique (what
 # the learner can do after a lesson). Each level file names the skills it
 # teaches in its `skills:` list; this file holds what the app shows for each:
 # the name, the kind and one sentence of info. After a lesson its new skills
 # fly into the Practice tab, where each opens its info and the card that
-# taught it (docs/UI.md §5.3, §7.3). The words are also the glossary (§8).
+# taught it (docs/ui/07-lesson-chapter-and-tier-complete.md §5.3, docs/ui/12-practice-and-stats.md §7.3). The words are also the glossary (§8).
 #
 #   name   unique, as the learner reads it; a word is spelled as in its lesson
 #   kind   word | technique

@@ -33,7 +33,7 @@ type Totals = { rows: { label: string; value: number }[]; unit?: string };
 export type CostStackData = PerShare | AgainstTargets | Totals;
 
 /**
- * docs/UI.md §6.5 — what costs take out of a trade. docs/schema.md allows three
+ * docs/ui/09-order-tools-and-other-visuals.md §6.5 — what costs take out of a trade. docs/level-files/ allows three
  * shapes: the per-share stack against one target, one cost against several
  * `targets`, or cost totals as `rows`.
  */
@@ -121,7 +121,7 @@ function PerShareStack({ data }: { data: PerShare }) {
         ))}
       </View>
 
-      {/* docs/UI.md §9: cost math always shows a share count. */}
+      {/* docs/ui/14-glossary-and-copy.md §9: cost math always shows a share count. */}
       <Text style={styles.summary}>
         {`${price(cost)} a share, on every one of ${count(data.shares)} shares.`}
       </Text>

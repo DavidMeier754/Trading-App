@@ -30,7 +30,7 @@ function moveOf(g: string): number {
 }
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] win screen "Your lesson as a candle" (made
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] win screen "Your lesson as a candle" (made
  * for David's set of five or more, 2026-10-04): the lesson is one big candle.
  * It opens at the dashed line, and the answers move its price one by one, a
  * rising note for each right one and a dull tick for a miss: the body grows up

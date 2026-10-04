@@ -3,7 +3,7 @@ import { dayOf, parseQuestionKey, Progress, questionKey } from './progress';
 import { isQuestion, Level, Screen } from './types';
 
 /**
- * Practice (docs/UI.md §7.3, built in DESIGN-REVIEW): what a round holds and
+ * Practice (docs/ui/12-practice-and-stats.md §7.3, built in DESIGN-REVIEW): what a round holds and
  * why. Everything is chosen from the learner's own record (progress.ts) and
  * the lessons they have finished -- a question from a lesson not yet played is
  * never drawn, and no question comes twice in one round. Pure, so the choice
@@ -113,7 +113,7 @@ export function openMistakes(p: Progress): (PlayedQuestion & { answer: string; a
 
 /**
  * A round as a lesson the player can play: an intro, then each question,
- * brought along with the scene before it when it follows one (docs/UI.md
+ * brought along with the scene before it when it follows one (docs/ui/
  * §4.5). `keys` lines up with the screens: the record's key for a question,
  * null for the intro and a scene.
  */
@@ -151,7 +151,7 @@ export function roundLevel(
 }
 
 /**
- * docs/UI.md §7.1 "Side stops": a chapter's mistakes reviews, one before each
+ * docs/ui/10-path-map.md §7.1 "Side stops": a chapter's mistakes reviews, one before each
  * Checkpoint and one before the Final Exam. Each holds the lessons since the
  * test before it; it sits beside the path after the level before its test.
  */
@@ -193,7 +193,7 @@ export function stopMistakes(p: Progress, stop: ReviewStop): PlayedQuestion[] {
 }
 
 /**
- * Weak spots (docs/UI.md §7.3): the topics -- a lesson's `tags` -- the learner
+ * Weak spots (docs/ui/12-practice-and-stats.md §7.3): the topics -- a lesson's `tags` -- the learner
  * misses most, from at least three answers each. Strength is the share right.
  */
 export function weakSpots(

@@ -6,7 +6,7 @@
 
 let ignite = false;
 
-/** docs/UI.md §5.3: the day's first lesson is done; the flame catches on the map. */
+/** docs/ui/07-lesson-chapter-and-tier-complete.md §5.3: the day's first lesson is done; the flame catches on the map. */
 export function igniteFlame(): void {
   ignite = true;
 }

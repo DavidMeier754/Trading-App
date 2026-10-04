@@ -1,9 +1,9 @@
 import type { ChartDecisionScreen, ChartSpec } from '../types';
 
 /**
- * The plan a chart decision's file gives (docs/schema.md `stop`, `target`):
+ * The plan a chart decision's file gives (docs/level-files/ `stop`, `target`):
  * where the trade gets in, where it is wrong and where it is done, and where
- * the bars actually took it out. docs/UI.md §6.4 (DESIGN-REVIEW): the chart
+ * the bars actually took it out. docs/ui/08-quotes-and-charts.md §6.4 (DESIGN-REVIEW): the chart
  * draws these after the choice, playback ends at the first line touched, and
  * the R ruler measures the result in R.
  *

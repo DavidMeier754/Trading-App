@@ -9,7 +9,7 @@ import { beforeFirstTap } from './gesture';
  * from the same table as the haptic pulses (see `cues.generated.ts`), so this
  * module plays a file and nothing else: when its notes land is already baked in.
  *
- * docs/UI.md §10 gives sounds their own toggle, separate from haptics.
+ * docs/ui/15-theming-and-accessibility.md §10 gives sounds their own toggle, separate from haptics.
  *
  * Players are made once and kept. `preloadCues` builds them when a lesson opens
  * rather than on first use, for two reasons. A player's first play on a device
@@ -22,7 +22,7 @@ import { beforeFirstTap } from './gesture';
  * sound at a time: a second tap while it still rang rewound it, cutting the
  * first sound off or swallowing the second. With three, fast taps each sound.
  *
- * Sounds play with the phone on silent (stage LOOK-BRIEF, docs/UI.md §10): the
+ * Sounds play with the phone on silent (stage LOOK-BRIEF, docs/ui/15-theming-and-accessibility.md §10): the
  * app's own Sound toggle is the one switch that mutes them. They mix with other
  * apps' audio instead of stopping it.
  */

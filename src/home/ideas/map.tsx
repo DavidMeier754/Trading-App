@@ -69,7 +69,7 @@ export const MAP: Suggestion[] = [
     icon: 'levels',
     title: 'All eight chapters at a glance',
     line: 'The whole course as tiers. Tap a tier to dive into its chapter, and back out again.',
-    note: 'Planned in docs/UI.md §7.1 for the map, not built yet.',
+    note: 'Planned in docs/ui/10-path-map.md §7.1 for the map, not built yet.',
     again: 'Start again',
     Preview: TierOverview,
   },

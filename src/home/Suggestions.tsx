@@ -21,7 +21,7 @@ import { SECTIONS, Suggestion, suggestionById, SUGGESTIONS, TAG_TEXT } from './i
  * would go; a tap plays its preview on a page of its own, drawn with the theme
  * and the design in use. The ideas David was asked about keep their place in
  * or out of the mix, and an idea that moves on its own or breaks another rule
- * of docs/UI.md says so. New ideas are shown here before they go in.
+ * of docs/ui/ says so. New ideas are shown here before they go in.
  */
 
 /** Test builds: `#home/suggestions/<id>` opens that preview (Home.openHomeAt). */

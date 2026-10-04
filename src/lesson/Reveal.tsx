@@ -39,7 +39,7 @@ const MARK = {
 const MARK_LEN = { correct: 16, amber: 9, wrong: 20 } as const;
 
 /**
- * docs/UI.md §5.1 — the inline reveal, tinted by grade, with the "Show working"
+ * docs/ui/06-reveal-and-hearts.md §5.1 — the inline reveal, tinted by grade, with the "Show working"
  * toggle on numeric screens.
  *
  * It arrives in three beats rather than one block. The panel rises on a spring
@@ -49,7 +49,7 @@ const MARK_LEN = { correct: 16, amber: 9, wrong: 20 } as const;
  * note and the second haptic land. Then the words fade up underneath.
  *
  * A run of right answers shows here as "3 in a row", from the third on, and a
- * milestone rings. A run that ends is never mentioned (docs/UI.md §1.6).
+ * milestone rings. A run that ends is never mentioned (docs/ui/01-design-principles.md §1.6).
  */
 export default function Reveal({
   grade,
@@ -62,7 +62,7 @@ export default function Reveal({
   fill = false,
 }: {
   grade: Grade;
-  /** docs/UI.md §5.1: an amber reveal opens with what was right about the choice. */
+  /** docs/ui/06-reveal-and-hearts.md §5.1: an amber reveal opens with what was right about the choice. */
   lead?: string;
   explanation: string;
   working?: string;
@@ -70,7 +70,7 @@ export default function Reveal({
   /** Consecutive right answers, this one included. */
   streak?: number;
   /**
-   * docs/UI.md §5.1b: a chart decision's reveal names the decision in the chip
+   * docs/ui/06-reveal-and-hearts.md §5.1b: a chart decision's reveal names the decision in the chip
    * and reports the outcome under it, smaller, in a neutral box of its own.
    */
   decision?: DecisionReveal;
@@ -89,7 +89,7 @@ export default function Reveal({
   const mark = useSharedValue(m.reduced ? 1 : 0);
 
   useEffect(() => {
-    // Calm's reveal: the panel fades up a few points (docs/UI.md §10). Reduced
+    // Calm's reveal: the panel fades up a few points (docs/ui/15-theming-and-accessibility.md §10). Reduced
     // motion keeps the fades; only the travel goes.
     const up = { duration: m.fade(DURATION.panel), easing: EASE_OUT };
     fade.set(withTiming(1, up));
@@ -161,7 +161,7 @@ export default function Reveal({
     <Animated.View
       style={[
         styles.wrap,
-        // docs/UI.md §5.1b [DESIGN-REVIEW]: a chart's reveal is compact, so the
+        // docs/ui/06-reveal-and-hearts.md §5.1b [DESIGN-REVIEW]: a chart's reveal is compact, so the
         // chart above it keeps the screen.
         decision && styles.wrapCompact,
         fill && styles.fill,
@@ -177,7 +177,7 @@ export default function Reveal({
       accessibilityLabel={decision ? decisionRevealLabel(decision, explanation) : undefined}
     >
       {decision ? (
-        // docs/UI.md §5.1b [DESIGN-REVIEW]: the grade and its line on the left,
+        // docs/ui/06-reveal-and-hearts.md §5.1b [DESIGN-REVIEW]: the grade and its line on the left,
         // the decision grid beside them, so the outcome box below can run the
         // full width and the chart above keeps the room.
         <View style={styles.decisionTop}>
@@ -224,7 +224,7 @@ export default function Reveal({
 }
 
 /**
- * The outcome, under the grade and smaller than it (docs/UI.md §5.1b): the
+ * The outcome, under the grade and smaller than it (docs/ui/06-reveal-and-hearts.md §5.1b): the
  * level file's sentence, then the result line with the share count. The line
  * takes its sign's colour but sits in a neutral box, so it never reads as the
  * verdict; standing aside shows the "would have" in grey. A right call that
@@ -353,7 +353,7 @@ const styles = themed(() => ({
     paddingVertical: space.xs,
     gap: 2,
   },
-  // docs/UI.md §10: nothing a learner reads to judge the trade goes below 13 pt.
+  // docs/ui/15-theming-and-accessibility.md §10: nothing a learner reads to judge the trade goes below 13 pt.
   outcomeText: { ...type.label, fontWeight: '400', color: colors.textMuted },
   resultText: { ...type.label, fontWeight: '700', fontVariant: ['tabular-nums'] },
   variance: { ...type.label, fontWeight: '500', color: colors.text },

@@ -14,7 +14,7 @@ jest.mock('react-native-reanimated', () => jest.requireActual('react-native-rean
 const texts = (tree: renderer.ReactTestRenderer) =>
   tree.root.findAllByType(Text).map((t) => [t.props.children].flat().join(''));
 
-describe('the top bar (docs/UI.md §7.2)', () => {
+describe('the top bar (docs/ui/11-top-bar.md §7.2)', () => {
   const METRICS = {
     frame: { x: 0, y: 0, width: 390, height: 844 },
     insets: { top: 47, left: 0, right: 0, bottom: 34 },

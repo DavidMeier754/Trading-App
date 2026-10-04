@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import { copy } from '../format';
 import { colors, radius, space, type, themed } from '../theme';
 
-/** docs/UI.md §6.4 — the level file's `state` strings as chips above the chart. */
+/** docs/ui/08-quotes-and-charts.md §6.4 — the level file's `state` strings as chips above the chart. */
 export default function StateChips({ state }: { state: string[] }) {
   return (
     <View style={styles.row}>

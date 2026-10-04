@@ -23,7 +23,7 @@ const BORDER = 1.5;
 const SLIDE_MS = 360;
 
 /**
- * docs/UI.md §2 and §6.7 [DESIGN-REVIEW] "Slide to place the trade" (David's
+ * docs/ui/02-lesson-player-layout.md §2 and docs/ui/09-order-tools-and-other-visuals.md §6.7 [DESIGN-REVIEW] "Slide to place the trade" (David's
  * pick of 2026-10-04): on an order ticket (`order-build`) the key that checks
  * it is a track the learner slides a knob along, as a broker's app asks
  * before an order goes in. It clicks at every quarter of the way, and let go

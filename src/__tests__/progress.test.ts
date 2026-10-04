@@ -44,7 +44,7 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-describe('hearts (docs/UI.md §5.2: all back five hours after the first is lost)', () => {
+describe('hearts (docs/ui/06-reveal-and-hearts.md §5.2: all back five hours after the first is lost)', () => {
   const lost = (hearts: number, at: number): Progress => ({
     ...getProgress(),
     hearts,
@@ -123,7 +123,7 @@ describe('hearts (docs/UI.md §5.2: all back five hours after the first is lost)
   });
 });
 
-describe('the record (docs/UI.md §7.3)', () => {
+describe('the record (docs/ui/12-practice-and-stats.md §7.3)', () => {
   it('keys a question by its lesson and screen, and reads the key back', () => {
     expect(questionKey('level-01-1', 5)).toBe('level-01-1#5');
     expect(parseQuestionKey('scalping-ch2-level-04-1#12')).toEqual({
@@ -335,7 +335,7 @@ describe('wanting a path that is not written yet', () => {
   });
 });
 
-describe('gems (docs/UI.md §7.2, David 2026-09-30)', () => {
+describe('gems (docs/ui/11-top-bar.md §7.2, David 2026-09-30)', () => {
   it('start at none, and only the testing tools hand them out for now', () => {
     expect(getProgress().gems).toBe(0);
     completeLesson(levelsOf([CHAPTER_ONE])[0].subs[0].id, { perfect: true, xp: 10 });

@@ -17,7 +17,7 @@ const STOP_NODE = 48;
 export type SideStopState = 'locked' | 'open' | 'done';
 
 /**
- * docs/UI.md §7.1 "Side stops" [DESIGN-REVIEW]: an optional stop beside the
+ * docs/ui/10-path-map.md §7.1 "Side stops" [DESIGN-REVIEW]: an optional stop beside the
  * path, off its line, in the room the curve leaves free between two levels.
  * The path's own family -- the same faces and colours as its levels -- a size
  * smaller and in a dashed ring, so it reads as part of the map and plainly as

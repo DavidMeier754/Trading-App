@@ -21,7 +21,7 @@ const BOOK: DepthLadderScreen = {
   explanation: '',
 };
 
-describe('the walk through the book (docs/UI.md §4.2)', () => {
+describe('the walk through the book (docs/ui/04-question-types.md §4.2)', () => {
   it('drains the levels before the target and the share of it the order takes', () => {
     expect(bookWalk(BOOK)).toEqual({ side: 'ask', levels: 2, last: 500 / 2200 });
   });

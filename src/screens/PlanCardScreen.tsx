@@ -9,10 +9,10 @@ import type { PlanCardScreen as S } from '../types';
 import { Body, ScreenTitle } from './common';
 
 /**
- * docs/UI.md §3 `plan-card` — the card the learner fills in and keeps.
+ * docs/ui/03-screen-types.md §3 `plan-card` — the card the learner fills in and keeps.
  *
  * Values are held by the player for this run only. Persisting them to a profile
- * is what docs/schema.md's "The plan" namespace is for, and that needs storage
+ * is what docs/level-files/'s "The plan" namespace is for, and that needs storage
  * this slice does not have; the keys written here are already the real ones, so
  * wiring a store later is a swap of the setter.
  */
@@ -61,7 +61,7 @@ export default function PlanCardScreen({
               <View style={[styles.valueRow, field.kind === 'text' && styles.valueStack]}>
                 {field.kind === 'text' ? (
                   // Words are typed. The suggestion, where there is one, is the
-                  // placeholder (docs/schema.md "The plan").
+                  // placeholder (docs/level-files/05-the-plan.md "The plan").
                   <TextInput
                     value={current ?? ''}
                     onChangeText={(text) => onChange(key, text)}
@@ -75,7 +75,7 @@ export default function PlanCardScreen({
                   />
                 ) : (
                   // An empty number shows its suggestion, faint, in the value's
-                  // own size and place (docs/schema.md: `suggest` is the
+                  // own size and place (docs/level-files/: `suggest` is the
                   // placeholder while the key is empty); 0 only when there is none.
                   <Text style={[styles.value, !current && styles.valueEmpty]}>
                     {current ?? suggestion ?? '0'}

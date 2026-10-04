@@ -44,7 +44,7 @@ function roundEntry(
 }
 
 /**
- * docs/UI.md §7.3 [DESIGN-REVIEW] (David: "a tab to revisit all the skills …
+ * docs/ui/12-practice-and-stats.md §7.3 [DESIGN-REVIEW] (David: "a tab to revisit all the skills …
  * and maybe revisit mistakes the user did (make two separate tabs for
  * that)"): Practice has three tabs along its top -- the Daily mix, the Skills
  * collected, and the Mistakes still open. Everything comes from the

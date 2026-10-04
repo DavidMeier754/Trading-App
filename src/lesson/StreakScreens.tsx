@@ -20,7 +20,7 @@ import { EASE_OUT, SPRING_POP } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
 /**
- * The streak, full screen (docs/UI.md §7.2; David, 2026-09-29: "an animation
+ * The streak, full screen (docs/ui/11-top-bar.md §7.2; David, 2026-09-29: "an animation
  * for every time the streak is lost or advances ... full screen"; on
  * 2026-09-30: "Make them real nice fancy"). Each comes after something the
  * learner did -- the day's first lesson, opening the app on a
@@ -179,7 +179,7 @@ export function StreakUp({ from, to, now }: { from: number; to: number; now?: Da
  * The streak is lost: the flame gutters -- it dips and flickers -- then goes
  * out with a breath of air, smoke curling up from where it was, and it stands
  * cold and grey; the count rolls down to nought. Friendly, never guilty
- * (docs/UI.md §7.2): no red, and a new streak starts today.
+ * (docs/ui/11-top-bar.md §7.2): no red, and a new streak starts today.
  */
 export function StreakLost({ lost }: { lost: number }) {
   const reduced = useReduceMotion();

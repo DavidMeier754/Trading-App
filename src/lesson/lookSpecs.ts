@@ -1,5 +1,5 @@
 /**
- * The three lesson designs that ship (docs/UI.md §10: Neo, Neo Mono and
+ * The three lesson designs that ship (docs/ui/15-theming-and-accessibility.md §10: Neo, Neo Mono and
  * Classic Contrast, David's choice in stage LOOK-BRIEF), each in dark and
  * light, as plain data. The other six designs went in stage LOOK-SYSTEM.
  *

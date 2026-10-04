@@ -1,7 +1,7 @@
 import type { DepthLadderScreen } from '../types';
 
 /**
- * docs/UI.md §4.2 `depth-ladder` [DESIGN-REVIEW]: after Check a market order
+ * docs/ui/04-question-types.md §4.2 `depth-ladder` [DESIGN-REVIEW]: after Check a market order
  * is walked through the book, level by level from the best price; each
  * level's size drains as it fills, and the level where the last share fills
  * is marked. Pure, so the walk can be tested against every ladder in the
@@ -21,7 +21,7 @@ const SHARES = /(\d{1,3}(?:,\d{3})+|\d+)(?:-share|\s+shares?\b)/;
 /**
  * The order's size: the file's `shares`, else read from the English prompt.
  * Reading the prompt is a stopgap until every ladder carries `shares`
- * (docs/ContentToDo.md): it would break once the prompt is translated.
+ * (docs/content-todo/): it would break once the prompt is translated.
  */
 export function orderShares(screen: DepthLadderScreen): number | null {
   if (typeof screen.shares === 'number' && screen.shares > 0) return screen.shares;

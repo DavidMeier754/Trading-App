@@ -20,7 +20,7 @@ import { useReduceMotion } from './useReduceMotion';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-/** docs/agent.md §3.7 and docs/UI.md §3: a test is passed at 70 %. */
+/** docs/rules/05-tests-consistency-and-copy.md §3.7 and docs/ui/03-screen-types.md §3: a test is passed at 70 %. */
 export const PASS_MARK = 0.7;
 
 function dotOf(key: Grade): string {
@@ -123,7 +123,7 @@ function Ring({ value, passed }: { value: number; passed: boolean }) {
 }
 
 /**
- * docs/UI.md §3 `summary` — the end of a Checkpoint or Final Exam: "X/N
+ * docs/ui/03-screen-types.md §3 `summary` — the end of a Checkpoint or Final Exam: "X/N
  * correct", a ring, and a row per question with its dot; tapping a row gives
  * the one-line reminder from its reveal. Pass mark 70 %: a pass continues (to
  * the badge, after a Final Exam), below it the heading says "Almost" and the

@@ -20,7 +20,7 @@ import TabBar, { Tab } from './TabBar';
 
 /**
  * A page over the tabs: Settings and its Change design, and in test builds the
- * pages its testing tools open (docs/UI.md §11.5).
+ * pages its testing tools open (docs/ui/16-navigation.md §11.5).
  */
 type Page = 'settings' | 'design' | 'animations' | 'suggestions' | 'stats' | 'plan' | null;
 const PAGES: Exclude<Page, null>[] = [
@@ -69,7 +69,7 @@ export function openHomeAt(name: string): boolean {
 }
 
 /**
- * The home screen (docs/UI.md §11.2): the path, and the tabs along the bottom.
+ * The home screen (docs/ui/16-navigation.md §11.2): the path, and the tabs along the bottom.
  * Its panels are Classic's whatever look is picked; the ground under them is
  * the picked look's (components/Backdrop.tsx), so a new design shows here the
  * moment it is chosen.
@@ -86,7 +86,7 @@ export default function Home({
   const [tab, setTabState] = useState<Tab>(lastTab);
   const progress = useProgress();
   const reduced = useReduceMotion();
-  // docs/UI.md §5.3: the skills a lesson just taught fly into Practice as the
+  // docs/ui/07-lesson-chapter-and-tier-complete.md §5.3: the skills a lesson just taught fly into Practice as the
   // home screen opens (SkillFlight); reduced motion leaves the dot alone.
   const [flying, setFlying] = useState(0);
   const [flight, setFlight] = useState(0);
@@ -180,7 +180,7 @@ export default function Home({
       <TabBar
         tab={tab}
         onChange={(next) => {
-          // Opening Practice takes its dot away (docs/UI.md §5.3).
+          // Opening Practice takes its dot away (docs/ui/07-lesson-chapter-and-tier-complete.md §5.3).
           if (next === 'practice') clearNewSkills();
           setTab(next);
         }}

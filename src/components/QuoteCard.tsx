@@ -15,7 +15,7 @@ type Data = {
   prev_close?: number;
 };
 
-/** docs/UI.md §6.2 — quote card. */
+/** docs/ui/08-quotes-and-charts.md §6.2 — quote card. */
 export default function QuoteCard({
   data,
   onTapTarget,
@@ -55,13 +55,13 @@ export default function QuoteCard({
         {data.name ? wrap('name', <Text style={styles.name}>{data.name}</Text>) : null}
       </View>
       {wrap('price', <Text style={styles.price}>{price(data.price)}</Text>)}
-      {/* docs/schema.md: every field of the card is a hotspot target --
+      {/* docs/level-files/: every field of the card is a hotspot target --
           the change and the previous close as much as the price. */}
       {hasChange
         ? wrap(
             'change',
             <Text style={[styles.change, { color: changeColor }]}>
-              {/* docs/UI.md §6: up/down always paired with an arrow or sign. */}
+              {/* docs/ui/08-quotes-and-charts.md §6: up/down always paired with an arrow or sign. */}
               {up ? '▲' : '▼'} {data.change !== undefined ? signedPrice(data.change) : ''}
               {data.change_pct !== undefined ? ` (${signedPercent(data.change_pct)})` : ''}
             </Text>,

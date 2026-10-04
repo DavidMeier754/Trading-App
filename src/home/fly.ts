@@ -1,5 +1,5 @@
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW]: a lesson that taught new skills hands them
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW]: a lesson that taught new skills hands them
  * to the home screen, which flies them into the Practice tab as it opens. Kept
  * here between the two, since the home screen is not mounted under a lesson.
  */

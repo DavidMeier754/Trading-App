@@ -14,7 +14,7 @@ xp: 80
 difficulty: 3
 reinforces: []
 sources: [consensus]
-notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with the badge and the path choice. No tier here: UI.md §7.5 unlocks Observer after Chapter 2, where the chart reading it names is actually taught. Six of the twelve are interactive and three are chart decisions — two Buy/Wait (Levels 1 and 9) and one Long/Short/No-trade (Level 13), all on line charts. No account is named anywhere, so the share counts are the small ones Chapter 1 has used throughout. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
+notes: "12 scored questions. Hearts apply. Pass mark 70 %. Ends with the badge and the path choice. No tier here: docs/ui/13-tiers-replays-and-plus.md §7.5 unlocks Observer after Chapter 2, where the chart reading it names is actually taught. Six of the twelve are interactive and three are chart decisions — two Buy/Wait (Levels 1 and 9) and one Long/Short/No-trade (Level 13), all on line charts. No account is named anywhere, so the share counts are the small ones Chapter 1 has used throughout. Deviation: reinforces is empty because the validator only accepts chapters lower than this file's own, and Chapter 1 has none."
 screens:
   - type: intro
     text: "Final exam: Market Basics. Twelve questions, then your path."

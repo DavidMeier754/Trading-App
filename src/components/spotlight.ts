@@ -1,7 +1,7 @@
 import { tint } from '../lesson/look';
 
 /**
- * docs/UI.md §3 `walkthrough`: one field of a mock component is spotlighted and
+ * docs/ui/03-screen-types.md §3 `walkthrough`: one field of a mock component is spotlighted and
  * the rest of it is dimmed, so the eye lands on the field without hunting for a
  * thin outline. `focus` is the spotlighted target id; the colour is the one the
  * walkthrough highlights it with.

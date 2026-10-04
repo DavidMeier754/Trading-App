@@ -10,7 +10,7 @@ import {
 } from '../components/ChartPlan';
 import type { TradePlan } from '../lesson/tradePlan';
 
-/** docs/UI.md §6.4: the words on a chart keep off each other, and off the bars where they can. */
+/** docs/ui/08-quotes-and-charts.md §6.4: the words on a chart keep off each other, and off the bars where they can. */
 
 const hits = (
   a: { left: number; top: number; width: number; height: number },

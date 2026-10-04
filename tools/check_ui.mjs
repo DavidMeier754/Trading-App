@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// The static half of the UI check (docs/UI.md §10, stage LOOK-SYSTEM). It
+// The static half of the UI check (docs/ui/15-theming-and-accessibility.md §10, stage LOOK-SYSTEM). It
 // reads the colour and type tokens as data -- src/themeTokens.ts and
 // src/lesson/lookSpecs.ts -- and fails when
 //   - a text colour is below 4.5 : 1 on a ground or surface it is drawn on,

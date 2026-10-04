@@ -10,7 +10,7 @@ import { dayText, planDocument } from './accountData';
 import { PageHeader, pageStyles, useBackButton, useSlideIn } from './pageParts';
 
 /**
- * docs/UI.md §7.4 [DESIGN-REVIEW] "Your plan": the plan as one page of a
+ * docs/ui/12-practice-and-stats.md §7.4 [DESIGN-REVIEW] "Your plan": the plan as one page of a
  * document (§6.8 `plan-sheet`) -- "My trading plan", when it was started and
  * last changed, then its lines with dotted leaders, grouped as the plan's
  * keys are. Nothing else on it (David: "don't overdo"). Before the first

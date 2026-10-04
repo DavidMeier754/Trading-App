@@ -34,7 +34,7 @@ function moveOf(g: string): number {
 }
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] win screen "An equity curve" (made for
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] win screen "An equity curve" (made for
  * David's set of five or more, 2026-10-04): the lesson's answers draw a P&L
  * line, as a trading account's curve. It starts at zero on the left and steps
  * up for each right answer and down for a miss; a dot pops at each answer as

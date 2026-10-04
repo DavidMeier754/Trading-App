@@ -17,7 +17,7 @@ import { EASE_IN_OUT, EASE_OUT } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
 /**
- * docs/UI.md §2: one screen, one screenful -- and on a small phone, a scroll
+ * docs/ui/02-lesson-player-layout.md §2: one screen, one screenful -- and on a small phone, a scroll
  * rather than illegible type.
  *
  * Content is authored to fit, and the charts -- the one part of a screen whose
@@ -126,7 +126,7 @@ export function FitScreen({
     );
   }, [target, reduced]);
 
-  // docs/UI.md §2: the reveal gets its slot before it appears, and a screen
+  // docs/ui/02-lesson-player-layout.md §2: the reveal gets its slot before it appears, and a screen
   // that scrolls is brought to it, so the key never covers the result.
   useEffect(() => {
     if (!revealed || !scrolls) return;
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
 const SHIFT_MS = 280;
 
 /**
- * docs/UI.md §2: a screen arrives in the middle of its area, and then holds
+ * docs/ui/02-lesson-player-layout.md §2: a screen arrives in the middle of its area, and then holds
  * still -- nothing on a screen moves unless the learner moved it.
  *
  * The middle is the whole area's, the reveal's strip included, so a screen

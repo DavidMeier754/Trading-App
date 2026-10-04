@@ -79,7 +79,7 @@ export function QuitButton({
 }
 
 /**
- * docs/UI.md §2: close ✕ opens "Quit this lesson? Your progress in it is lost."
+ * docs/ui/02-lesson-player-layout.md §2: close ✕ opens "Quit this lesson? Your progress in it is lost."
  * Staying is the main button, and it comes first; quitting is the quiet one.
  *
  * A sheet inside the lesson's own frame rather than a system modal: it rises
@@ -216,7 +216,7 @@ export default function QuitSheet({
 }
 
 const styles = themed(() => ({
-  // A 48 pt target (docs/UI.md §10) that lays out like the 32 pt icon it holds.
+  // A 48 pt target (docs/ui/15-theming-and-accessibility.md §10) that lays out like the 32 pt icon it holds.
   close: {
     width: TAP_TARGET,
     height: TAP_TARGET,

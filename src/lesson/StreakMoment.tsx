@@ -11,7 +11,7 @@ export type StreakChange =
   { kind: 'up'; from: number; to: number } | { kind: 'lost'; lost: number };
 
 /**
- * docs/UI.md §7.2: every change of the streak gets a screen of its own, in the
+ * docs/ui/11-top-bar.md §7.2: every change of the streak gets a screen of its own, in the
  * app's own flow (David, 2026-10-04: "right now there is no animation when i
  * extend the streak"). Up: after the day's first finished lesson, between the
  * lesson and the map. Lost: as the app opens on a streak that broke. It plays

@@ -13,7 +13,7 @@ import { SPRING_POP } from './motion';
 import { useReduceMotion } from './useReduceMotion';
 
 /**
- * The decision grid (docs/UI.md §5.1b, §6.8; David approved it on 2026-10-03):
+ * The decision grid (docs/ui/06-reveal-and-hearts.md §5.1b, docs/ui/09-order-tools-and-other-visuals.md §6.8; David approved it on 2026-10-03):
  * the decision against the result, four cells. "Right call, lost anyway"
  * becomes a place on the grid instead of only a sentence.
  *

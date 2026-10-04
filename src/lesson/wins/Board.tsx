@@ -61,7 +61,7 @@ function rowDone(at: number, tiles: number): number {
 }
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] win screen "A split-flap board" (David's
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] win screen "A split-flap board" (David's
  * pick of 2026-10-04): the results on a board, as at a station. Each tile
  * turns over through its drum to its character, left to right and row by row,
  * with a soft click as each one lands, and a row's lamp lights once it is

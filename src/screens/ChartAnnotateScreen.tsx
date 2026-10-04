@@ -24,7 +24,7 @@ import type { ChartAnnotateScreen as S } from '../types';
 import { Prompt } from './common';
 
 /**
- * docs/UI.md §4.2 `chart-annotate` — place a horizontal line on the chart to
+ * docs/ui/04-question-types.md §4.2 `chart-annotate` — place a horizontal line on the chart to
  * mark a level. Snaps to cents; the reveal shows the intended line and its
  * tolerance band.
  *
@@ -80,7 +80,7 @@ export default function ChartAnnotateScreen({
   });
   const toY = layout.y;
 
-  // Tap to drop the line, or drag it (docs/UI.md §4.2: "drag a horizontal line
+  // Tap to drop the line, or drag it (docs/ui/04-question-types.md §4.2: "drag a horizontal line
   // onto a chart"). It snaps to cents, and every fifth cent clicks under the
   // finger, so a drag across the chart is felt as well as seen. The price is
   // worked out on the UI thread from the chart's own geometry and handed to

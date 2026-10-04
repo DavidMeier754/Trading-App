@@ -8,7 +8,7 @@ const LO = 50;
 const PAD = 4;
 
 /**
- * docs/UI.md §7.1 [DESIGN-REVIEW] "Chapter cards with a sparkline" (David's
+ * docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW] "Chapter cards with a sparkline" (David's
  * pick of 2026-10-04): in a chapter card, in place of its bar, a point per
  * level played, as high as its right answers, the last one ringed. A finished
  * chapter's line is gold; one under way draws as far as it has got and dashes

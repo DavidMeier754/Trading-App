@@ -21,14 +21,14 @@ import QuoteCard from './QuoteCard';
 import DecisionGrid, { cellOf, type DecisionCellName } from '../lesson/DecisionGrid';
 
 /**
- * Renders a component id from docs/UI.md §6 with its `data` / `visual_data`.
+ * Renders a component id from docs/ui/08-quotes-and-charts.md §6 with its `data` / `visual_data`.
  *
  * `onTapTarget` and `highlight` are what make the same component serve a plain
  * `visual` screen, a `walkthrough` spotlight and a `hotspot` question without
  * three copies of it existing.
  */
 /**
- * The learner's own plan (docs/schema.md, "The plan"), for a `plan-sheet`
+ * The learner's own plan (docs/level-files/05-the-plan.md, "The plan"), for a `plan-sheet`
  * wherever it sits: a visual screen, a walkthrough or a hotspot. The lesson
  * player provides it; without it every row read "not set yet" (review M1).
  */
@@ -58,7 +58,7 @@ export default function Visual({
   const grid = useGridAnchor(component);
   const savedPlan = React.useContext(PlanValues);
 
-  // docs/UI.md §6.8 [DESIGN-REVIEW]: decision against result, each cell named.
+  // docs/ui/09-order-tools-and-other-visuals.md §6.8 [DESIGN-REVIEW]: decision against result, each cell named.
   // Its one field is optional, so it draws without any data at all.
   if (component === 'decision-grid') {
     return (
@@ -179,7 +179,7 @@ export default function Visual({
 }
 
 /**
- * docs/schema.md `chart-line` with `series: [{label, data}]`: the lines side by
+ * docs/level-files/ `chart-line` with `series: [{label, data}]`: the lines side by
  * side, each labelled, on one shared price scale -- so a calm line stays flat
  * next to a volatile one instead of each being stretched to fill its frame.
  */

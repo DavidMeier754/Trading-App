@@ -25,7 +25,7 @@ function played(ids: string[], extra: Partial<Progress> = {}): Progress {
 
 const firstQuestion = (id: string) => lesson(id).level.screens.findIndex((s) => isQuestion(s));
 
-describe('the daily mix (docs/UI.md §7.3)', () => {
+describe('the daily mix (docs/ui/12-practice-and-stats.md §7.3)', () => {
   it('draws only from finished lessons, and never the same question twice', () => {
     const p = played(['level-01-1', 'level-01-2']);
     const { picks } = dailyMix(p, NOW);
@@ -80,7 +80,7 @@ describe('the daily mix (docs/UI.md §7.3)', () => {
   });
 });
 
-describe('mistakes (docs/UI.md §7.3)', () => {
+describe('mistakes (docs/ui/12-practice-and-stats.md §7.3)', () => {
   it('lists the open ones that still point at a question, oldest first', () => {
     const a = questionKey('level-01-1', firstQuestion('level-01-1'));
     const b = questionKey('level-01-2', firstQuestion('level-01-2'));
@@ -95,7 +95,7 @@ describe('mistakes (docs/UI.md §7.3)', () => {
   });
 });
 
-describe('mistakes reviews on the map (docs/UI.md §7.1)', () => {
+describe('mistakes reviews on the map (docs/ui/10-path-map.md §7.1)', () => {
   it('one before each Checkpoint and the Final Exam, holding the lessons since the last test', () => {
     const stops = reviewStops(CHAPTER_ONE);
     const tests = CHAPTER_ONE.levels.filter((l) => l.kind === 'test' || l.kind === 'final');

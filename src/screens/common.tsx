@@ -25,7 +25,7 @@ export function Body({ children }: { children: string }) {
   return <TermText text={children} style={styles.body} />;
 }
 
-/** docs/UI.md §5.1 [DESIGN-REVIEW] "Answers with depth": how far an answer stands on its edge. */
+/** docs/ui/06-reveal-and-hearts.md §5.1 [DESIGN-REVIEW] "Answers with depth": how far an answer stands on its edge. */
 export const ANSWER_EDGE = 4;
 
 /** A colour pushed towards black, for the side of a raised surface; a non-hex colour stays. */
@@ -54,11 +54,11 @@ function edgePalette(tone: Tone, spec: LookSpec = LOOKS.neo) {
 
 /**
  * A tappable answer surface: ticks on press-in, ramps to its verdict colour
- * (docs/UI.md §5.1), wobbles when the verdict is wrong, and rings out when the
+ * (docs/ui/06-reveal-and-hearts.md §5.1), wobbles when the verdict is wrong, and rings out when the
  * learner got it right -- only then: after a wrong pick the right option turns
  * green too, and it does not get the celebration the learner did not earn.
  *
- * `deep` (docs/UI.md §5.1 [DESIGN-REVIEW], "Answers with depth", David's pick
+ * `deep` (docs/ui/06-reveal-and-hearts.md §5.1 [DESIGN-REVIEW], "Answers with depth", David's pick
  * of 2026-10-04): the surface stands on an edge, as the key does, sinks into
  * it while pressed, and the answer the learner chose stays down. The edge is
  * a rounded rim drawn only below the face, so a see-through face never shows
@@ -154,11 +154,11 @@ export function ToneSurface({
   return surface;
 }
 
-/** How long the answer takes to turn over (docs/UI.md §5.1 [DESIGN-REVIEW]). */
+/** How long the answer takes to turn over (docs/ui/06-reveal-and-hearts.md §5.1 [DESIGN-REVIEW]). */
 const FLIP_MS = 560;
 
 /**
- * A single answer card (docs/UI.md §4.1 `mc` / `numeric-mc`).
+ * A single answer card (docs/ui/04-question-types.md §4.1 `mc` / `numeric-mc`).
  *
  * [DESIGN-REVIEW] (David's picks of 2026-10-04): it wears its letter, A to
  * D, and stands on an edge (`ToneSurface` `deep`). On the lesson's last
@@ -276,7 +276,7 @@ function Letter({ letter, tone }: { letter: string; tone: Tone }) {
  * Several versions of one block -- a carousel's cards, a walkthrough's steps --
  * laid out in the same place, so the block is as tall as the tallest of them.
  * Moving to the next one changes what is drawn, never how much room it takes,
- * and nothing below it moves (docs/UI.md §2). The versions not showing are
+ * and nothing below it moves (docs/ui/02-lesson-player-layout.md §2). The versions not showing are
  * still laid out, invisibly and out of reach, only to be measured.
  */
 export function Stack({

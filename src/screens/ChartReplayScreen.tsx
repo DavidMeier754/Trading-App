@@ -28,7 +28,7 @@ function labelColor(key: string): string {
 }
 
 /**
- * docs/UI.md §4.4 `chart-replay` — the spot-it engine.
+ * docs/ui/05-chart-questions-and-mistakes-round.md §4.4 `chart-replay` — the spot-it engine.
  *
  * No autoplay and no clock: the learner taps "Next bar" and the chart never
  * advances on its own (§1.6). They may act at any bar, or end the replay with

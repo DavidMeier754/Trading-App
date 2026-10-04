@@ -6,7 +6,7 @@ import { paletteFor, TYPE_SCALE, type Palette, type Scheme } from './themeTokens
 export { MIN_FONT, TAP_TARGET, type Palette, type Scheme } from './themeTokens';
 
 /**
- * The theme in use: light, dark or the phone's own (docs/UI.md §10), and the
+ * The theme in use: light, dark or the phone's own (docs/ui/15-theming-and-accessibility.md §10), and the
  * colour-blind palette on top. The values are in `themeTokens.ts`; this file
  * serves the ones in use to the app.
  *
@@ -174,7 +174,7 @@ export const radius = {
   pill: 999,
 };
 
-/** The monospaced face numbers take (docs/UI.md §10); the words around them keep the text face. */
+/** The monospaced face numbers take (docs/ui/15-theming-and-accessibility.md §10); the words around them keep the text face. */
 export const MONO_FONT = Platform.select({
   ios: 'Menlo',
   android: 'monospace',
@@ -183,7 +183,7 @@ export const MONO_FONT = Platform.select({
 });
 
 export const type = {
-  // docs/UI.md §10 asks for dynamic type to 130% without truncation; nothing is
+  // docs/ui/15-theming-and-accessibility.md §10 asks for dynamic type to 130% without truncation; nothing is
   // height-clamped, and a screen that grows past its window is scaled to fit
   // it (lesson/fit.tsx) rather than cut off.
   ...TYPE_SCALE,

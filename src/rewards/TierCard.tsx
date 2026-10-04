@@ -65,7 +65,7 @@ export const MATERIAL_NAME: Record<Exclude<Material, 'blank'>, string> = {
 };
 
 /**
- * docs/UI.md §5.5 / §7.4 [DESIGN-REVIEW]: the tier card, printed in the tier's
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.5 / §7.4 [DESIGN-REVIEW]: the tier card, printed in the tier's
  * material -- the tier's name, "Tier 2 of 4", four pips and what the tier
  * means. Before the first tier it is a blank card with a dashed edge. It heads
  * the Account page and turns over on the tier-up screen (TierFlip).
@@ -179,7 +179,7 @@ function Pips({ rank, color }: { rank: number; color: string }) {
 }
 
 /**
- * docs/UI.md §5.5 [DESIGN-REVIEW]: a new tier turns the card over in place,
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.5 [DESIGN-REVIEW]: a new tier turns the card over in place,
  * from the old material to the new. The turn lands at `ms`, on the tier cue's
  * heavy pulse (RewardScreens.tsx). Reduced motion shows the new card at once.
  */

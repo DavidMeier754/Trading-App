@@ -50,7 +50,7 @@ export function tonePalette(
 }
 
 /**
- * docs/UI.md §5.1: "the element turns green (200 ms)", ramping from whatever it
+ * docs/ui/06-reveal-and-hearts.md §5.1: "the element turns green (200 ms)", ramping from whatever it
  * looked like the instant before.
  *
  * On Reanimated this runs on the UI thread. Core `Animated` cannot drive colour

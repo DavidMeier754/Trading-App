@@ -12,7 +12,7 @@ import type { CompareScreen as Compare, SwipeDeckScreen as SwipeDeck } from '../
 import { Prompt, Stack, ToneSurface } from './common';
 
 /**
- * docs/UI.md §4.2 `swipe-deck` — a deck of mini-charts, one at a time, with a
+ * docs/ui/04-question-types.md §4.2 `swipe-deck` — a deck of mini-charts, one at a time, with a
  * one-line verdict as each flies off and a run strip at the end. Never timed.
  *
  * The buttons are the interaction, not a fallback: §10 requires the tap-only
@@ -157,7 +157,7 @@ export function SwipeDeckScreen({
   );
 }
 
-/** docs/UI.md §4.2 `compare` — two or three charts, pick the one that matches. */
+/** docs/ui/04-question-types.md §4.2 `compare` — two or three charts, pick the one that matches. */
 export function CompareScreen({
   screen,
   value,

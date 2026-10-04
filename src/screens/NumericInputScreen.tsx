@@ -119,7 +119,7 @@ function Key({
 }
 
 /**
- * docs/UI.md §4.1 `numeric-input`: a custom keypad (digits, `.`, × ÷ − + and
+ * docs/ui/04-question-types.md §4.1 `numeric-input`: a custom keypad (digits, `.`, × ÷ − + and
  * `=`) — not the OS keyboard — with a configurable tolerance. The field takes a
  * number or a sum; a sum's value shows under it as it is typed, and that value
  * is what is graded. `unit` prefixes or suffixes the field.
@@ -187,7 +187,7 @@ export default function NumericInputScreen({
 
   const fieldColor = !revealed ? colors.accent : isRight ? colors.success : colors.down;
 
-  // docs/UI.md §5.1: the field ramps to its verdict colour over 200 ms.
+  // docs/ui/06-reveal-and-hearts.md §5.1: the field ramps to its verdict colour over 200 ms.
   const animatedBorder = useBorderTransition(fieldColor, revealed);
 
   // A minus leads the currency, as every price in the app writes it: "−$0.40",

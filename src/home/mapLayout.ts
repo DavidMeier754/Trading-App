@@ -2,7 +2,7 @@ import { space } from '../theme';
 import { RING, STOP_RING, TAG_HALF_W, TAG_TOP } from './mapSizes';
 
 /**
- * Where things sit on the map (docs/UI.md §7.1), as plain numbers, so the
+ * Where things sit on the map (docs/ui/10-path-map.md §7.1), as plain numbers, so the
  * layout can be checked without drawing it: the sine the path follows, the
  * room a level's title and its START tag take, and where a side stop goes so
  * that it touches none of them.
@@ -12,7 +12,7 @@ import { RING, STOP_RING, TAG_HALF_W, TAG_TOP } from './mapSizes';
 export const STEP_Y = 148;
 
 /**
- * docs/UI.md §7.1 [DESIGN-REVIEW] (David: "a curvy path like a sin
+ * docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW] (David: "a curvy path like a sin
  * function"; 2026-10-04: "still going in a zickzack movement instead of a sin
  * CURVE"): the levels sit on one sine curve and the trail follows the same
  * curve between them. A full swing takes eight levels, so no level sits at
@@ -124,7 +124,7 @@ const STOP_GAP = 8;
 const TRAIL_GAP = 10;
 
 /**
- * docs/UI.md §7.1 "Side stops": where a side stop goes between the level it
+ * docs/ui/10-path-map.md §7.1 "Side stops": where a side stop goes between the level it
  * follows (`a`, at `phase` on the curve) and the next (`b`). It looks for the
  * spot nearest the path, about halfway down, that keeps clear of:
  *   - both levels' rings;

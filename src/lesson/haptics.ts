@@ -10,7 +10,7 @@ import { beforeFirstTap } from './gesture';
  * so a pattern and its sound share their timings by construction. This module
  * decides what one pulse of each weight *feels* like, and whether it may.
  *
- * docs/UI.md §10 gives haptics a toggle of their own, separate from sounds. It
+ * docs/ui/15-theming-and-accessibility.md §10 gives haptics a toggle of their own, separate from sounds. It
  * is three-way here: off, `classic` (one generator event per pulse, the way it
  * shipped first) and `strong`, the default.
  *

@@ -2,7 +2,7 @@ import type { LessonEntry } from '../content';
 import type { Level } from '../types';
 
 /**
- * docs/UI.md §11.1 [DESIGN-REVIEW] "The first decision comes first": the
+ * docs/ui/16-navigation.md §11.1 [DESIGN-REVIEW] "The first decision comes first": the
  * very first screen of a fresh install is a chart and two keys, Buy and Wait,
  * with one line. The learner chooses, the price plays out as on any chart
  * decision, and the app says "That was your first decision." with one

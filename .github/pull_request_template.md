@@ -1,6 +1,6 @@
 ## Stage
 
-<!-- The stage from docs/build-plan.md, e.g. `CI`, `STABLE-APP`. One stage per PR. -->
+<!-- The stage from docs/plan/, e.g. `CI`, `STABLE-APP`. One stage per PR. -->
 
 ## What
 

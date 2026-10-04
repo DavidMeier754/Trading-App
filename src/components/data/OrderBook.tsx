@@ -23,7 +23,7 @@ const DRAIN_MS = 280;
 type Level = [number, number];
 
 /**
- * docs/UI.md §6.6 — the order-book ladder. Two columns of price levels with size
+ * docs/ui/09-order-tools-and-other-visuals.md §6.6 — the order-book ladder. Two columns of price levels with size
  * bars, best bid/ask highlighted. Rows are tappable for `depth-ladder`.
  */
 export default function OrderBook({
@@ -39,7 +39,7 @@ export default function OrderBook({
   onTapRow?: (id: string) => void;
   selected?: string | null;
   resolved?: Record<string, string>;
-  /** docs/UI.md §4.2 [DESIGN-REVIEW]: after Check, the order walked through the book. */
+  /** docs/ui/04-question-types.md §4.2 [DESIGN-REVIEW]: after Check, the order walked through the book. */
   walk?: BookWalk | null;
 }) {
   // A book drawn already walked (coming back to the screen) shows it done.

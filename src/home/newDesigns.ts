@@ -2,9 +2,9 @@ import type { LessonEntry } from '../content';
 import type { Level } from '../types';
 
 /**
- * Settings → Testing → New designs (docs/UI.md §11.5, DESIGN-REVIEW): a
+ * Settings → Testing → New designs (docs/ui/16-navigation.md §11.5, DESIGN-REVIEW): a
  * lesson made in code that shows every field the design review added, before
- * any level file uses them (docs/ContentToDo.md): a scene as a market alert,
+ * any level file uses them (docs/content-todo/): a scene as a market alert,
  * stop and target with the R ruler and chart notes, the open on a chart, a
  * right call that loses, the decision grid as a card, scanner rows with their
  * day, a ladder with its order size, the order ticket and the match.

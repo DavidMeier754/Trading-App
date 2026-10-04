@@ -13,7 +13,7 @@ const AnimatedG = Animated.createAnimatedComponent(G);
 
 /**
  * What a chart decision draws on top of its bars since DESIGN-REVIEW
- * (docs/UI.md §6.4): the open, the trade plan's lines, the R ruler's scale and
+ * (docs/ui/08-quotes-and-charts.md §6.4): the open, the trade plan's lines, the R ruler's scale and
  * the notes. All of it is static geometry; the ruler's moving part plays in
  * Chart.tsx, where the replay's worklets are.
  */
@@ -169,7 +169,7 @@ export function HaloText({ children, ...props }: TextProps & { children: string 
   );
 }
 
-/** docs/UI.md §6.4: the bars before the open shaded, a dashed line and a bell at the open. */
+/** docs/ui/08-quotes-and-charts.md §6.4: the bars before the open shaded, a dashed line and a bell at the open. */
 export function SessionOpen({
   x,
   left,
@@ -350,7 +350,7 @@ export function rulerMarks(plan: TradePlan): number[] {
 }
 
 /**
- * The R ruler's scale beside the price axis (docs/UI.md §6.4): −1R at the
+ * The R ruler's scale beside the price axis (docs/ui/08-quotes-and-charts.md §6.4): −1R at the
  * stop, 0 at the entry, +1R and on up to the target. Faint when the learner
  * stood aside: it shows what would have happened.
  */
@@ -536,7 +536,7 @@ export function placeNotes(
 }
 
 /**
- * docs/UI.md §6.4: the file's notes on the chart once everything has played
+ * docs/ui/08-quotes-and-charts.md §6.4: the file's notes on the chart once everything has played
  * out, each a few words on a tag with a thin leader to the bar it means. They
  * arrive one after another.
  */
@@ -597,7 +597,7 @@ export function ChartNotes({
 
 const styles = themed(() => ({
   // Coloured words on the surface, not white on colour: green under white
-  // text does not hold 4.5 : 1 in the dark theme (docs/UI.md §10).
+  // text does not hold 4.5 : 1 in the dark theme (docs/ui/15-theming-and-accessibility.md §10).
   pill: {
     position: 'absolute',
     height: 24,

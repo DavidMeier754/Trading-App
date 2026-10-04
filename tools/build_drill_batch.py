@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage 4 (docs/build-plan.md): build the drill-pack batch, one request per pack.
+"""Stage 4 (docs/plan/): build the drill-pack batch, one request per pack.
 
     python3 tools/build_drill_batch.py --check                 # manifest + exemplars resolve
     python3 tools/build_drill_batch.py --print cost-check      # one request, as text
@@ -9,13 +9,13 @@
     python3 tools/build_drill_batch.py --collect results.jsonl # results -> content/drills/<path>/
 
 Every request is keyed by `custom_id = pack id` and is built the same way
-(docs/build-plan.md, Stage 4):
+(docs/plan/, Stage 4):
 
-    system  [0] the docs prefix — agent.md + schema.md + UI.md, byte-identical across
+    system  [0] the docs prefix — docs/rules/ + docs/level-files/ + docs/ui/, byte-identical across
                 every request and marked `cache_control`, so it is read from cache from
                 the second request on
     user        the pack's manifest entry, its three exemplar screens, and the
-                per-request instruction from docs/build-plan.md §"Per-request instruction"
+                per-request instruction from docs/plan/ §"Per-request instruction"
 
 Nothing here writes into content/ except --collect, and --collect writes only the packs
 the manifest asks for. Batch output is not exempt from the validator: run
@@ -31,19 +31,24 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "content/drills/packs.yaml"
-DOCS = ["docs/agent.md", "docs/schema.md", "docs/UI.md"]
+# The rules, the level-file format and the UI reference, file by file (docs/README.md).
+DOCS = [
+    str(p.relative_to(ROOT))
+    for folder in ("docs/rules", "docs/level-files", "docs/ui")
+    for p in sorted((ROOT / folder).glob("*.md"))
+]
 
-# docs/build-plan.md: Stage 4 is Sonnet on the Batch API; `effort: medium` is enough for
+# docs/plan/: Stage 4 is Sonnet on the Batch API; `effort: medium` is enough for
 # work that follows a format already set, and `budget_tokens` 400s on current models.
 MODEL = "claude-sonnet-5"
 MAX_TOKENS = 32000
 THINKING = {"type": "adaptive"}
 OUTPUT_CONFIG = {"effort": "medium"}
 
-# docs/build-plan.md, "Per-request instruction". Reviewed — do not rewrite it here.
+# docs/plan/, "Per-request instruction". Reviewed — do not rewrite it here.
 # `{n}` is the pack's screen count, and it fills both of the instruction's counts.
 INSTRUCTION = """Write {n} drill screens for the pack "{pack_id}", covering these concepts:
-{concepts}. Format per the drill-pack spec in docs/schema.md.
+{concepts}. Format per the drill-pack spec in docs/level-files/.
 
 These are drills, not a lesson: no intro, no theory, no summary — question screens
 only, each one standing alone. The learner has already been taught this material in
@@ -51,7 +56,7 @@ only, each one standing alone. The learner has already been taught this material
 
 Vary the interaction across the pack (swipe-deck, chart-decision, numeric-input,
 compare, branch) and vary the difficulty: about a third should be near-misses where
-the right answer is "pass" or "no trade". Answer-key hygiene per docs/agent.md §3.5
+the right answer is "pass" or "no trade". Answer-key hygiene per docs/rules/03-content-rules.md §3.5
 applies to the pack as a whole — check the distribution across all {n} before you
 finish. Price and volume bands per §3.6. Every number must be arithmetically sound."""
 

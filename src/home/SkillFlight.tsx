@@ -22,7 +22,7 @@ const FLY_MS = 620;
 export const FLY_STEP = 140;
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] (David: "an animation where those
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] (David: "an animation where those
  * cards/skills get transferred to the Practice tab"): back on the home
  * screen, the new skills fly from the middle of the screen into the Practice
  * tab's icon, one after another, on an arc. Each landing is a light tap, and

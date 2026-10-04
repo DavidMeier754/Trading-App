@@ -10,7 +10,7 @@ import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import Icon, { type IconName } from './icons';
 
 /**
- * What the pages over the tabs share (docs/UI.md §11.5): Settings, Animations
+ * What the pages over the tabs share (docs/ui/16-navigation.md §11.5): Settings, Animations
  * and Design suggestions each arrive from the right, go back with the arrow or
  * Android's back button, and open what they hold from rows.
  */
@@ -153,7 +153,7 @@ const styles = themed(() => ({
     paddingHorizontal: space.lg,
     paddingBottom: space.sm,
   },
-  // A 48 pt target (docs/UI.md §10) laid out as the 36 pt one it replaced.
+  // A 48 pt target (docs/ui/15-theming-and-accessibility.md §10) laid out as the 36 pt one it replaced.
   back: {
     width: TAP_TARGET,
     height: TAP_TARGET,

@@ -16,7 +16,7 @@ import { EASE_OUT, SPRING_POP, useMotion } from './motion';
 const HEART = 112;
 
 /**
- * docs/UI.md §5.2: the last heart is gone, so the lesson or test stops here
+ * docs/ui/06-reveal-and-hearts.md §5.2: the last heart is gone, so the lesson or test stops here
  * and the CTA leads back to the path. It says plainly what happened and when the next
  * heart is back -- no alarm, no upsell. The lesson simply is not counted yet.
  *

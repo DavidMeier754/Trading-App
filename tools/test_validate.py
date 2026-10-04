@@ -146,7 +146,7 @@ expect("chapter: position exceeds account", check_chapter([sub(1, screens=[
     {"type": "intro", "text": "You have a $5,000 account."},
     {"type": "chart-decision", "prompt": "p", "explanation": "e", "best": "no-trade",
      "outcome": "flat", "shares": 1000, "chart": CANDLES}])]), "exceeds the $5,000 account")
-# agent.md §3.6: one position, at most 95 % of the account named in the same file.
+# docs/rules/04-numbers-and-realism.md §3.6: one position, at most 95 % of the account named in the same file.
 expect("chapter: position over the 95 % cap", check_chapter([sub(1, screens=[
     {"type": "intro", "text": "You have a $5,000 account."},
     {"type": "chart-decision", "prompt": "p", "explanation": "e", "best": "no-trade",
@@ -496,7 +496,7 @@ expect("pack: too few question types",
        check_pack(pack(screens=[q(i) for i in range(12)])), "question type(s) in the pack")
 expect_no("pack: a valid pack passes", check_pack(pack()), "cost-check.yaml")
 
-print("\n— drill pack hygiene (agent.md §3.5, §3.6) —")
+print("\n— drill pack hygiene (docs/rules/03-content-rules.md §3.5, docs/rules/04-numbers-and-realism.md §3.6) —")
 MC = {"type": "mc", "prompt": "p", "options": [{"text": "a", "correct": True}, {"text": "b"},
                                                {"text": "c"}], "explanation": "e"}
 expect("pack: correct-option position skew",
@@ -594,7 +594,7 @@ expect_no("manifest: a matching pair passes",
           "manifest")
 
 
-print("\n— component data (schema.md table, stage STABLE-DATA) —")
+print("\n— component data (docs/level-files/ table, stage STABLE-DATA) —")
 
 
 def data(screen):
@@ -739,7 +739,7 @@ expect_no("bench: the lesson rules stay out",
           bench([{"type": "theory", "body": "b"}]), "screens")
 expect_no("bench: the real bench passes", lambda rep: V.validate_bench(rep), "demo/")
 
-print("\n— DESIGN-REVIEW fields (docs/schema.md) —")
+print("\n— DESIGN-REVIEW fields (docs/level-files/) —")
 DEC = {"type": "chart-decision", "scenario": "s", "shares": 100, "best": "long", "reasonable": ["no-trade"],
        "outcome": "o", "explanation": "e",
        "chart": {"kind": "candles", "decision_index": 4,
@@ -785,7 +785,7 @@ expect_no("decision-grid: a known cell passes", data({"type": "visual", "compone
 
 expect("facts on a lesson intro", check_file(lesson(screens=[{"type": "intro", "text": "x", "facts": ["Account $20,000"]}] + lesson()["screens"][1:])), "only in tests")
 expect("facts too long", check_file(exam(10, "test") | {"screens": [{"type": "intro", "text": "x", "counter": 10, "facts": ["An account of twenty-two thousand"]}] + exam(10, "test")["screens"][1:]}), "at most 20 characters")
-# docs/schema.md "Skills": a lesson lists names; content/skills.yaml holds the entries.
+# docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills": a lesson lists names; content/skills.yaml holds the entries.
 no_skills = lesson()
 del no_skills["skills"]
 expect("skills: the field is missing", check_file(no_skills), "missing field 'skills'")

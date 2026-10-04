@@ -4,7 +4,7 @@ import { DECISION_LABEL } from './decisionReveal';
 
 /**
  * What a question asked and what the learner answered, in a few words: the
- * mistakes deck's cards (docs/UI.md §4.5) and the Practice tab's Mistakes list
+ * mistakes deck's cards (docs/ui/05-chart-questions-and-mistakes-round.md §4.5) and the Practice tab's Mistakes list
  * (§7.3) show them. Where an answer has no short form -- a match, an order of
  * cards -- it says nothing rather than something long.
  */

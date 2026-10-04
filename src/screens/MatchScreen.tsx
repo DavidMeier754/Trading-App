@@ -46,7 +46,7 @@ const REST_SCALE = 0.97;
 const WAVE_STEP_MS = 55;
 
 /**
- * One card's motion on the board (docs/UI.md §4.1, DESIGN-REVIEW: no colour
+ * One card's motion on the board (docs/ui/04-question-types.md §4.1, DESIGN-REVIEW: no colour
  * per pair, "just make it fun via the animations and the haptic feedback").
  * When its pair locks it snaps a few points towards its partner and springs
  * back, under the one ring Celebrate sends out; once it has landed it steps
@@ -122,7 +122,7 @@ function MatchCard({
 }
 
 /**
- * docs/UI.md §4.1 `match`: tap a term and a definition, either first. Correct
+ * docs/ui/04-question-types.md §4.1 `match`: tap a term and a definition, either first. Correct
  * pairs lock in the one success colour, wrong pairs flash red and reset. Drag
  * is the alternative the doc also allows; §10 requires the tap-tap path, which
  * is what this builds. The fun is in the feel (MatchCard): the snap, the ring,

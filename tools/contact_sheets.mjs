@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Contact sheets of the test bench (docs/build-plan.md, stage LOOK-SYSTEM item 8):
+// Contact sheets of the test bench (docs/plan/08-phase-c-look-system.md, stage LOOK-SYSTEM item 8):
 // every screen of the all-screens lesson at three phone sizes, in light and
 // dark, one sheet per size and theme. On every page it also runs the measured
 // UI check (tools/ui_audit.mjs) and writes sheets/ui-check.md; with --strict
@@ -207,7 +207,7 @@ for (const f of findings) {
 }
 const rows = [...unique.values()];
 const md = [
-  `**UI check** (docs/UI.md §10) on the test bench and the home screens: ${looks.length} look(s) × ${themes.length} theme(s) × ${SIZES.length} sizes.`,
+  `**UI check** (docs/ui/15-theming-and-accessibility.md §10) on the test bench and the home screens: ${looks.length} look(s) × ${themes.length} theme(s) × ${SIZES.length} sizes.`,
   '',
   ...Object.entries(kinds).map(
     ([kind, name]) => `- ${name}: **${rows.filter((r) => r.kind === kind).length}**`,

@@ -1,0 +1,33 @@
+# Lesson player layout
+
+_Part of the [ui reference](README.md) · §2_
+
+## 2. Global layout (lesson player)
+
+```
+┌──────────────────────────────────────┐
+│ ✕   ▓▓▓▓▓▓▓▓░░░░░░░░░░  4/12   ♥ 5   │  top bar: close, progress, step count, hearts
+├──────────────────────────────────────┤
+│                                      │
+│  question, card or visual            │  in the middle of the area; body text max ~3 lines
+│  [ answer                         ]  │  the answers right under it
+│  [ answer                         ]  │
+│                                      │
+│  ( strip kept free for the reveal )  │  the reveal rises into it after Check (calm, §5.1)
+│  ┌──────────────────────────────┐    │
+│  │        CONTINUE / CHECK      │    │  single primary CTA, full width, bottom safe-area
+│  └──────────────────────────────┘    │
+└──────────────────────────────────────┘
+```
+
+- **Progress bar** = screens completed in this sub-level; fills with a 300 ms ease-out per advance.
+- **Step count** **[LOOK-SYSTEM]**: "4/12" beside the bar in every lesson, in the number face (Precise, §10), so the bar keeps its length from "9/12" to "10/12"; screen readers hear "Step 4 of 12".
+- **[DESIGN-REVIEW, picks 2026-10-04]** **The combo counter** ("A combo counter"; it replaces the run's flame): from the third right answer in a row a "×3" punches in beside the step count with a ring and a burst of sparks; each right answer after bumps it harder, the other way each time, and warmer, from the accent through coral to amber at ×6. A wrong answer tips it over and it drops away, quietly. In the looks that count the run (Neo and Neo Mono); Classic Contrast shows none. `src/lesson/ComboMeter.tsx`.
+- **Close ✕** → sheet "Quit this lesson? Your progress in it is lost." **[v4]** The sheet's primary button is **Keep learning**; **Quit** is the secondary action under it. UI copy says "lesson", never "sub-level".
+- No back button inside a lesson; theory cards can be re-read from the level sheet ("Review cards") afterwards. **[v4]** On a question screen, **See the card again** opens the lesson's last theory card as an overlay; closing it returns to the question exactly as it was. The lesson itself never goes back.
+- **CTA states:** `Continue` (theory), `Check` (question, disabled until an answer is selected), `Got it` (after reveal), `Finish` (last screen). **[DESIGN-REVIEW, picks 2026-10-04]** On an order ticket (`order-build`) `Check` is **Slide to place** (§6.7). After a first perfect run the tail ends on the chest, whose key reads **Open the chest** (§5.3).
+- **One screen, one screenful.** A screen never scrolls. Section 1's "one idea per screen" is a layout rule as much as a content one: if a screen does not fit, it is two screens. This is what keeps the CTA in the same place under the thumb on every screen of a 385-sub-level path. The exception is dynamic type (section 10). **[v4]** And small phones: the fitter may shrink a screen to **85 %** at most. Below that the content scrolls above a fixed CTA instead of shrinking further — at 60 % body text was 9–10 px on a 320 pt phone, and an illegible screen that holds still is worse than a legible one that scrolls. A screen that needs the scroll at 390 pt is a content bug (split it); at 320 pt or with large type the scroll is the fallback. **[LOOK-SYSTEM]** On a screen that scrolls, the strip kept for the reveal is the end of the scroll, and the screen scrolls to it when the reveal arrives (at once under reduce motion), so the key never covers the result (`src/lesson/fit.tsx`).
+- **`Check` on every question but one.** Every question type is graded on `Check`, disabled until an answer exists, then `Got it`: a mis-tap stays a tap the learner can take back, and every screen resolves the same way. `chart-decision` is the exception — its Long / Short / No trade buttons rise into the CTA slot, and choosing one commits it. (Until v3.1, `mc`, `numeric-mc` and `match` committed on the tap; play-testing found the mis-taps cost more than the extra tap.)
+- **Nothing moves unless the learner moved it.** A screen arrives laid out — its question and visual at the top of its area, its answers anchored above the room its reveal will take (**[v4]**, built in LOOK-SYSTEM as `ThumbZone` in `src/screens/common.tsx`; until then it arrived centred; `chart-decision` keeps its chart on the backdrop grid; **[LOOK-SYSTEM]** David, 2026-09-30: content at the top or the bottom "looks weird", so a screen's content sits in the middle of its area again, higher only as far as it must be to stay clear of the room for its reveal, which is kept at the bottom of that area, right above the key, and `ThumbZone` is gone; `src/lesson/fit.tsx`) — and from then on holds still. The reveal rises into space that was already free; content moves only when what is below it would otherwise run under the footer, and then by exactly that much, eased. A block that changes as the learner steps through it takes the height of its tallest version (a carousel's cards, a walkthrough's lines, a swipe-deck's verdicts); a line that comes and goes keeps its place (a hint, a wrong answer's correct value); a chip that is placed leaves its outline behind (`sort`, `order`). **[DESIGN-REVIEW, picks 2026-10-04]** One exception David chose (the artifact "Nutrade design picks"): the tab bar's pill slides between tabs (§11.2); reduced motion shows it at once. (~~A theory card's body types itself out~~: built, then taken out by David the same day, §3 `theory`.)
+- **[DESIGN-REVIEW] The reveal sits right on the key.** David, 2026-10-03: every "Good call" panel goes "just above the button, else the gap looks weird". The reveal's strip is at the very bottom of the content area, its lower edge on the footer's line, with no gap between it and the key, on every question type. On `chart-decision` the chart takes all the height the screen has above the decision keys, and after the choice the reveal panel is compact (§5.1b), so the chart stays as large as it can be: "make sure the whole screen is filled … make the chart bigger and the box a little smaller".
+- Portrait only; charts may offer an expand button (section 6.4).

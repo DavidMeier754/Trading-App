@@ -1,4 +1,4 @@
-// The measured half of the UI check (docs/UI.md §10, stage LOOK-SYSTEM): run
+// The measured half of the UI check (docs/ui/15-theming-and-accessibility.md §10, stage LOOK-SYSTEM): run
 // in the page on a rendered screen, it reads every piece of text as the
 // browser drew it and reports
 //   - small:    text below 13 px (MIN_FONT, src/themeTokens.ts);
@@ -6,11 +6,11 @@
 //               text: 24 px, or 18.5 px bold);
 //   - target:   a button smaller than 48 x 48 (TAP_TARGET) as laid out;
 //   - key:      a key's label (a view with testID "key") on two lines or cut
-//               off: a key keeps its label on one line (docs/UI.md §10).
+//               off: a key keeps its label on one line (docs/ui/15-theming-and-accessibility.md §10).
 //   - overlap:  text or a button drawn over another piece of text or button
 //               it is not part of: a START tag on a side stop, two level
 //               labels on one line, a number run into the next column
-//               (docs/UI.md §10; David, 2026-10-04: "the Start Box over the
+//               (docs/ui/15-theming-and-accessibility.md §10; David, 2026-10-04: "the Start Box over the
 //               level overlaps the optional side levels");
 //   - offscreen: a button that runs past the screen's side (outside a row
 //               that scrolls sideways).

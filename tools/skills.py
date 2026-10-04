@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The skills of every lesson (docs/schema.md "Skills"). Usage:
+"""The skills of every lesson (docs/level-files/06-skills-bonus-lessons-market-profiles.md "Skills"). Usage:
   python3 tools/skills.py                 every lesson's skills with their info, by chapter
   python3 tools/skills.py --chapter 3     one chapter (the folder's number)
   python3 tools/skills.py --sync          bring the level files and content/skills.yaml together

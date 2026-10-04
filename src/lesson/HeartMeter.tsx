@@ -21,7 +21,7 @@ const FALL_MS = 640;
  * The learner's hearts, at the right end of the lesson's top bar -- the same
  * count the home screen shows.
  *
- * docs/UI.md §5.2: a wrong answer costs one. It lands with the verdict, in the
+ * docs/ui/06-reveal-and-hearts.md §5.2: a wrong answer costs one. It lands with the verdict, in the
  * same frame: the heart flinches, a copy of it drops away and fades, and the
  * count steps down. The last one greys out. Under reduced motion only the count
  * and the colour change.

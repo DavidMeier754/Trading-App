@@ -44,7 +44,7 @@ function valueText(value: number, unit: ReturnType<typeof splitUnit>): string {
   return unit.tight ? `${n}${unit.suffix}` : `${n} ${unit.suffix}`;
 }
 
-/** docs/UI.md §6.5 — a horizontal bar chart. */
+/** docs/ui/09-order-tools-and-other-visuals.md §6.5 — a horizontal bar chart. */
 export default function BarChart({
   data,
 }: {

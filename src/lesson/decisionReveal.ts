@@ -5,7 +5,7 @@ import { decisionButtons, gradeDecision } from './answers';
 import { formatR, tradePlanOf } from './tradePlan';
 
 /**
- * docs/UI.md §5.1b: the reveal of a `chart-decision` grades the decision and
+ * docs/ui/06-reveal-and-hearts.md §5.1b: the reveal of a `chart-decision` grades the decision and
  * reports the outcome separately. Everything it says is worked out here, from
  * the screen, the button pressed and its grade, so every combination of
  * grade × result × traded-or-stood-aside can be tested without drawing it
@@ -29,7 +29,7 @@ export const DIRECTION: Record<DecisionButton, 1 | -1 | 0> = {
   wait: 0,
 };
 
-/** The chip over the reveal (docs/UI.md §5.1b). */
+/** The chip over the reveal (docs/ui/06-reveal-and-hearts.md §5.1b). */
 export const DECISION_CHIP: Record<Grade, string> = {
   correct: 'Good call',
   amber: 'Reasonable',
@@ -55,15 +55,15 @@ const HAD_YOU: Record<DecisionButton, string> = {
 };
 
 /**
- * docs/UI.md §5.1b, "Right call, losing trade". No rate (David, 2026-10-03):
- * the app never says how often a setup wins or loses (docs/agent.md §3.11).
+ * docs/ui/06-reveal-and-hearts.md §5.1b, "Right call, losing trade". No rate (David, 2026-10-03):
+ * the app never says how often a setup wins or loses (docs/rules/07-variance-and-typed-numbers.md §3.11).
  * The "Why?" link follows in stage VARIANCE.
  */
 export const VARIANCE_LINE =
   'Right call — this trade lost anyway. One trade says little; judge the decision, not the result.';
 
 /**
- * Where a reveal's dot lands on the decision grid (docs/UI.md §5.1b): the
+ * Where a reveal's dot lands on the decision grid (docs/ui/06-reveal-and-hearts.md §5.1b): the
  * decision's row, the result's column. An amber call sits on the line between
  * the rows, an even result on the line between the columns, and standing
  * aside draws the dot hollow, in the cell of what would have happened.
@@ -108,7 +108,7 @@ function close(spec: ChartSpec, index: number): number {
 /**
  * How far the price went from the decision to where the trade ended: the
  * first of stop or target the bars touched when the file has both
- * (docs/UI.md §6.4), else the last bar.
+ * (docs/ui/08-quotes-and-charts.md §6.4), else the last bar.
  */
 export function decisionMove(screen: ChartDecisionScreen): number {
   const plan = tradePlanOf(screen);
@@ -153,7 +153,7 @@ export function decisionReveal(
   const stoodAside = direction === 0;
   const best = DECISION_LABEL[screen.best] ?? screen.best;
 
-  // The first line always speaks to the option pressed (docs/UI.md §5.1b):
+  // The first line always speaks to the option pressed (docs/ui/06-reveal-and-hearts.md §5.1b):
   // "… costs nothing" only ever to someone who stood aside. Short enough for
   // one line on most phones (DESIGN-REVIEW), so the chart keeps the room.
   let lead: string;
@@ -204,7 +204,7 @@ export function decisionReveal(
   };
 }
 
-/** What a screen reader hears, in docs/UI.md §5.1b's order: the grade, the outcome sentence, the result line. */
+/** What a screen reader hears, in docs/ui/06-reveal-and-hearts.md §5.1b's order: the grade, the outcome sentence, the result line. */
 export function decisionRevealLabel(r: DecisionReveal, explanation: string): string {
   return [`${r.chip}.`, r.lead, r.outcome, `${r.result}.`, r.variance, explanation]
     .filter(Boolean)

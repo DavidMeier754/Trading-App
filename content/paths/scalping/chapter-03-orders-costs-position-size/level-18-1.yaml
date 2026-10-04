@@ -14,7 +14,7 @@ prerequisite: "17-3"
 xp: 30
 difficulty: 3
 sources: [consensus]
-notes: "First of the two Chapter Review subs. Account named at $24,000. Setup 1 runs the full sequence and is taken; Setup 2 fails on cost with a chart that was never the problem. Categorised new-theory because the four-step sequence itself is stated here for the first time, and because agent.md §3.2 allows no more than two review-type subs in a row before the Final Exam."
+notes: "First of the two Chapter Review subs. Account named at $24,000. Setup 1 runs the full sequence and is taken; Setup 2 fails on cost with a chart that was never the problem. Categorised new-theory because the four-step sequence itself is stated here for the first time, and because docs/rules/03-content-rules.md §3.2 allows no more than two review-type subs in a row before the Final Exam."
 screens:
   - type: intro
     text: "Two setups, start to finish. Price it, size it, place it, decide."

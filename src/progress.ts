@@ -36,14 +36,14 @@ import {
 /**
  * What the learner has done, and how they like the app, kept on the device.
  *
- * Progress is what the path map draws (docs/UI.md §7.1): which sub-levels are
+ * Progress is what the path map draws (docs/ui/10-path-map.md §7.1): which sub-levels are
  * finished and whether every answer in one was right (a perfect run earns the
  * gold ring). The HUD reads the rest (§7.2): the streak in days -- one
  * finished lesson a day keeps it (§5.3) -- and the hearts (§5.2): a wrong
  * answer in a lesson or a test costs one, and five hours after the first was
  * lost they are all back.
  *
- * It also keeps the learner's record (docs/UI.md §7.3, DESIGN-REVIEW): every
+ * It also keeps the learner's record (docs/ui/12-practice-and-stats.md §7.3, DESIGN-REVIEW): every
  * graded question with its spaced-repetition box, the mistakes still open,
  * each chart decision, the skills collected and the plan's dates. Practice,
  * the mistakes reviews and the stats are built on it. Nothing in it is money.
@@ -62,13 +62,13 @@ export type Progress = {
   /** Every XP the summaries have handed out, replays included. */
   xp: number;
   /**
-   * Gems, the in-game currency (docs/UI.md §7.2), shown in the top bar since
+   * Gems, the in-game currency (docs/ui/11-top-bar.md §7.2), shown in the top bar since
    * David asked for them on 2026-09-30. How they are earned and what they buy
    * come later (stage LOOP-DAILY, decision U); until then only the testing
    * tools hand them out.
    */
   gems: number;
-  /** docs/UI.md §11.4: the path picked after Chapter 1, or null before that. */
+  /** docs/ui/16-navigation.md §11.4: the path picked after Chapter 1, or null before that. */
   path: TradingPath | null;
   /**
    * Paths not written yet that the learner wants to hear about (S27): someone
@@ -77,7 +77,7 @@ export type Progress = {
    */
   wanted: TradingPath[];
   /**
-   * The learner's plan (docs/schema.md "The plan"): every plan-card field they
+   * The learner's plan (docs/level-files/05-the-plan.md "The plan"): every plan-card field they
    * have filled, by key. A card that asks for a key again opens on this value.
    */
   plan: Record<string, string>;
@@ -86,7 +86,7 @@ export type Progress = {
   /** When the first missing heart was lost (ms since 1970): the refill clock. Null when full. */
   heartsAt: number | null;
 
-  // --- The record (docs/UI.md §7.3) ----------------------------------------
+  // --- The record (docs/ui/12-practice-and-stats.md §7.3) ----------------------------------------
 
   /** Every graded question, by `questionKey` (`level-01-1#5`). */
   questions: Record<string, QuestionRecord>;
@@ -106,13 +106,13 @@ export type Progress = {
   bestStreak: number;
   /**
    * Lessons finished on each local day, `2026-10-04` -> 2: the heat map on
-   * Account (docs/UI.md §7.4 [DESIGN-REVIEW], "Practice as a heat map").
+   * Account (docs/ui/12-practice-and-stats.md §7.4 [DESIGN-REVIEW], "Practice as a heat map").
    */
   days: Record<string, number>;
-  /** The first trade of a fresh install (docs/UI.md §11.1) has been played. */
+  /** The first trade of a fresh install (docs/ui/16-navigation.md §11.1) has been played. */
   firstTrade: boolean;
   /**
-   * docs/UI.md §7.4: the chapters whose medal the Account shelf has already
+   * docs/ui/12-practice-and-stats.md §7.4: the chapters whose medal the Account shelf has already
    * landed. A medal won since lands and shines once the next time the shelf
    * shows. Null until the shelf is first seen: it then takes the medals there
    * are as shown, so nothing old plays as new.
@@ -127,7 +127,7 @@ export type QuestionRecord = {
   last: 'right' | 'wrong';
   /** When it was last answered (ms). */
   at: number;
-  /** Its Leitner box, 1–5 (docs/UI.md §7.3). */
+  /** Its Leitner box, 1–5 (docs/ui/12-practice-and-stats.md §7.3). */
   box: number;
   /** The local day it is due again, `2026-10-04`. */
   due: string;
@@ -153,12 +153,12 @@ export type DecisionRecord = {
 /** The decision log keeps this many, newest last. */
 export const DECISION_LOG_MAX = 2000;
 
-/** docs/UI.md §7.3: days until a question is due again, by its box. */
+/** docs/ui/12-practice-and-stats.md §7.3: days until a question is due again, by its box. */
 export const BOX_DAYS = [1, 3, 7, 16, 35] as const;
 
 export const MAX_HEARTS = 5;
 /**
- * docs/UI.md §5.2 (David, 2026-10-03): "all 5 hours ALL hearts get added
+ * docs/ui/06-reveal-and-hearts.md §5.2 (David, 2026-10-03): "all 5 hours ALL hearts get added
  * back". The first heart lost starts the clock; five hours later every heart
  * is back at once.
  */
@@ -241,12 +241,12 @@ export function streakDays(p: Progress, now = new Date()): number {
   return 0;
 }
 
-/** Lessons finished today; one keeps the streak (docs/UI.md §5.3). */
+/** Lessons finished today; one keeps the streak (docs/ui/07-lesson-chapter-and-tier-complete.md §5.3). */
 export function doneToday(p: Progress, now = new Date()): number {
   return p.today.date === dayOf(now) ? p.today.count : 0;
 }
 
-/** docs/UI.md §5.3: what a summary hands out -- the lesson's XP, and half again for a perfect run. */
+/** docs/ui/07-lesson-chapter-and-tier-complete.md §5.3: what a summary hands out -- the lesson's XP, and half again for a perfect run. */
 export function earnedXp(base: number, perfect: boolean): number {
   return base + (perfect ? Math.round(base * 0.5) : 0);
 }
@@ -285,7 +285,7 @@ export function resetProgress(): void {
 }
 
 /**
- * docs/UI.md §7.2: a streak that broke since the last lesson -- it had days,
+ * docs/ui/11-top-bar.md §7.2: a streak that broke since the last lesson -- it had days,
  * and neither today nor yesterday has a lesson. Its screen plays once.
  */
 export function lostStreak(p: Progress, now = new Date()): number {
@@ -309,14 +309,14 @@ export function resetStreak(): void {
   });
 }
 
-/** The shelf has landed these medals (docs/UI.md §7.4). */
+/** The shelf has landed these medals (docs/ui/12-practice-and-stats.md §7.4). */
 export function markMedalsShown(chapters: number[]): void {
   const shown = new Set([...(progress.medalsShown ?? []), ...chapters]);
   publish({ ...progress, medalsShown: [...shown].sort((a, b) => a - b) });
 }
 
 /**
- * docs/UI.md §11.4: the path, chosen once after Chapter 1 and changeable in
+ * docs/ui/16-navigation.md §11.4: the path, chosen once after Chapter 1 and changeable in
  * Settings. Choosing counts the path-choice node as done. Changing it later
  * keeps what was finished on the old path -- ids carry their path -- so going
  * back to it picks up where it was left.
@@ -352,7 +352,7 @@ export function savePlan(values: Record<string, string>): void {
 }
 
 // ---------------------------------------------------------------------------
-// The record (docs/UI.md §7.3).
+// The record (docs/ui/12-practice-and-stats.md §7.3).
 // ---------------------------------------------------------------------------
 
 /** A question's id in the record: its lesson and its place in the lesson's screens. */
@@ -386,11 +386,11 @@ export function nextRecord(
 }
 
 /**
- * A graded answer goes into the record. Amber counts as right (it is, docs/UI.md
+ * A graded answer goes into the record. Amber counts as right (it is, docs/ui/
  * §4.3). A wrong answer opens a mistake with what was answered; a right one
  * closes it -- unless `keepMistake`, which the lesson's own mistakes round sets:
  * that round comes straight after the reveal, too soon to prove anything
- * (docs/UI.md §7.3).
+ * (docs/ui/12-practice-and-stats.md §7.3).
  */
 export function recordAnswer(
   key: string,
@@ -411,14 +411,14 @@ export function recordAnswer(
   });
 }
 
-/** A chart decision for the decision grid's counts and the variance view (docs/UI.md §7.4). */
+/** A chart decision for the decision grid's counts and the variance view (docs/ui/12-practice-and-stats.md §7.4). */
 export function recordDecision(entry: Omit<DecisionRecord, 'at'>): void {
   const p = progress;
   const decisions = [...p.decisions, { ...entry, at: Date.now() }];
   publish({ ...p, decisions: decisions.slice(-DECISION_LOG_MAX) });
 }
 
-/** Skills reached at the end of a lesson (docs/UI.md §5.3). Returns the ones that are new. */
+/** Skills reached at the end of a lesson (docs/ui/07-lesson-chapter-and-tier-complete.md §5.3). Returns the ones that are new. */
 export function collectSkills(ids: string[]): string[] {
   const p = progress;
   const fresh = ids.filter((id) => !p.skills[id]);
@@ -446,18 +446,18 @@ export function markSkillsSeen(ids: string[]): void {
   publish({ ...p, skills });
 }
 
-/** The first trade has been played (docs/UI.md §11.1). */
+/** The first trade has been played (docs/ui/16-navigation.md §11.1). */
 export function finishFirstTrade(): void {
   if (!progress.firstTrade) publish({ ...progress, firstTrade: true });
 }
 
-/** Test builds only (docs/UI.md §11.5): show the first trade again. */
+/** Test builds only (docs/ui/16-navigation.md §11.5): show the first trade again. */
 export function replayFirstTrade(): void {
   publish({ ...progress, firstTrade: false });
 }
 
 /**
- * Test builds only (docs/UI.md §11.5): jump to the start of level `key`
+ * Test builds only (docs/ui/16-navigation.md §11.5): jump to the start of level `key`
  * (`1-9`, `2-1`) as if everything before it had been played. Earlier lessons
  * count as done but earn no XP (W11): the total stays the sum of the summaries
  * the learner actually saw. Nothing at or after it is touched, so what was
@@ -505,26 +505,26 @@ export function heartsNow(p: Progress, now = Date.now()): Hearts & { clock: numb
   return { hearts: held, fullAt, clock: p.heartsAt };
 }
 
-/** How far the refill clock has run, 0 to 1 (the ring round the heart, docs/UI.md §7.2). */
+/** How far the refill clock has run, 0 to 1 (the ring round the heart, docs/ui/11-top-bar.md §7.2). */
 export function refillShare(h: Hearts & { clock?: number | null }, now = Date.now()): number {
   if (h.fullAt === null) return 0;
   return Math.min(1, Math.max(0, 1 - (h.fullAt - now) / HEART_REFILL_MS));
 }
 
 /**
- * Gems earned (docs/UI.md §7.2): a bonus side lesson pays its gems on the
+ * Gems earned (docs/ui/11-top-bar.md §7.2): a bonus side lesson pays its gems on the
  * first finish (DESIGN-REVIEW). The rest of the earning comes in LOOP-DAILY.
  */
 export function earnGems(n: number): void {
   if (n > 0) publish({ ...progress, gems: progress.gems + n });
 }
 
-/** Test builds only (docs/UI.md §11.5): gems to see the top bar with, until they are earned. */
+/** Test builds only (docs/ui/16-navigation.md §11.5): gems to see the top bar with, until they are earned. */
 export function addGems(n: number): void {
   publish({ ...progress, gems: Math.max(0, progress.gems + n) });
 }
 
-/** Test builds only (docs/UI.md §11.5): every heart back at once. */
+/** Test builds only (docs/ui/16-navigation.md §11.5): every heart back at once. */
 export function refillHearts(): void {
   publish({ ...progress, hearts: MAX_HEARTS, heartsAt: null });
 }
@@ -537,7 +537,7 @@ export function loseHeart(): void {
   publish({ ...progress, hearts: hearts - 1, heartsAt: clock ?? now });
 }
 
-/** A finished practice round gives a heart back (docs/UI.md §5.2, §7.3). True if one was missing. */
+/** A finished practice round gives a heart back (docs/ui/06-reveal-and-hearts.md §5.2, docs/ui/12-practice-and-stats.md §7.3). True if one was missing. */
 export function giveHeart(): boolean {
   const now = Date.now();
   const { hearts, clock } = heartsNow(progress, now);

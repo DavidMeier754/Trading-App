@@ -27,7 +27,7 @@ function moveOf(g: string): number {
 }
 
 /**
- * docs/UI.md §5.3 [DESIGN-REVIEW] win screen "A ticker quote" (made for
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [DESIGN-REVIEW] win screen "A ticker quote" (made for
  * David's set of five or more, 2026-10-04): the lesson gets a quote card, as a
  * stock does in a broker's app. Its symbol is the lesson, its price the XP,
  * ticking up to its value a coin a step; its change is the share of answers

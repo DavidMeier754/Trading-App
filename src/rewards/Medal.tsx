@@ -6,7 +6,7 @@ import { shade } from '../lesson/look';
 import { colors } from '../theme';
 
 /**
- * docs/UI.md §5.4 [DESIGN-REVIEW]: every chapter ends with a medal of its
+ * docs/ui/07-lesson-chapter-and-tier-complete.md §5.4 [DESIGN-REVIEW]: every chapter ends with a medal of its
  * own -- a cut, faceted gold medal on two ribbons with the chapter's emblem
  * pressed into it. The same eight emblems for every path, by chapter number.
  */

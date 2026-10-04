@@ -87,7 +87,7 @@ const NODES_BOTTOM = 36;
 const CHAPTER_GAP = 16;
 /** Room under the last section for a level card opened on its last node. */
 const BOTTOM_PAD = 280;
-/** docs/UI.md §7.1 [DESIGN-REVIEW]: room over a chapter's card for its gate's arch. */
+/** docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW]: room over a chapter's card for its gate's arch. */
 const GATE_H = 40;
 /** Room for the note after the last chapter (PathFinale). */
 const FINALE_H = 120;
@@ -95,7 +95,7 @@ const FINALE_H = 120;
 const HUD_ROW = 48;
 type NodeItem = { t: 'node'; gi: number; li: number; ci: number; x: number; y: number };
 /**
- * docs/UI.md §7.1 "Side stops": a mistakes review before each test, and a
+ * docs/ui/10-path-map.md §7.1 "Side stops": a mistakes review before each test, and a
  * Spot it bonus where the chapter has one, beside the path after the level
  * it follows (`gi`, the level's index on the whole path).
  */
@@ -111,7 +111,7 @@ type StopItem = {
   from: { x: number; y: number };
 };
 /**
- * docs/UI.md §7.1 "Chapter gates": from Chapter 2 on, a dotted arch over the
+ * docs/ui/10-path-map.md §7.1 "Chapter gates": from Chapter 2 on, a dotted arch over the
  * chapter's card, and the trail from the chapter before running through it to
  * the first level. Folded chapters keep their arch.
  */
@@ -132,7 +132,7 @@ type Item =
   | { t: 'finale'; y: number };
 
 /**
- * The home screen's path (docs/UI.md §7.1): Classic's flat panels, on the
+ * The home screen's path (docs/ui/10-path-map.md §7.1): Classic's flat panels, on the
  * ground of whichever design is picked.
  *
  * - The top bar (§7.2): the path's logo, the streak, the gems and the
@@ -161,7 +161,7 @@ export default function LearnScreen({
   const progress = useProgress();
   const chapters = useMemo(() => chapterViews(progress), [progress]);
   const views = useMemo(() => chapters.flatMap((c) => c.levels), [chapters]);
-  // docs/UI.md §7.1 [DESIGN-REVIEW]: each chapter card's sparkline.
+  // docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW]: each chapter card's sparkline.
   const scores = useMemo(
     () => chapters.map((c) => chapterScores(progress, c)),
     // The record and the chapters are all it reads.
@@ -196,7 +196,7 @@ export default function LearnScreen({
   // The banner keeps naming the level just finished until the next one opens.
   const [bannerAt, setBannerAt] = useState(unlocking !== null ? unlocking - 1 : null);
 
-  // docs/UI.md §7.1: the chapter being worked on is open and the rest folded.
+  // docs/ui/10-path-map.md §7.1: the chapter being worked on is open and the rest folded.
   // While a level opens, the chapter of the level before it stays open too, so
   // the move from one to the other can be watched across the boundary.
   const [expanded, setExpanded] = useState<Set<number>>(() => {
@@ -426,7 +426,7 @@ export default function LearnScreen({
       scroll.current?.scrollTo({ y: scrollYRef.current + overflow, animated: true });
   };
 
-  // docs/UI.md §7.1 "jump to current": offered once the level the learner is
+  // docs/ui/10-path-map.md §7.1 "jump to current": offered once the level the learner is
   // on is off screen or folded away.
   const hereY = nodeAt[hereAt]?.y;
   const hereVisible =
@@ -445,7 +445,7 @@ export default function LearnScreen({
   };
   const pendingJump = useRef(false);
 
-  // docs/UI.md §7.1 [DESIGN-REVIEW] "All eight chapters at a glance": the
+  // docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW] "All eight chapters at a glance": the
   // banner opens them (ChaptersOverview); a chapter picked there is opened
   // on the map and scrolled to.
   const [overview, setOverview] = useState(false);
@@ -480,7 +480,7 @@ export default function LearnScreen({
   }, [nodeAt]);
 
   const allDone = bannerAt === null && views.every((v) => v.status === 'complete');
-  // docs/UI.md §7.1 [DESIGN-REVIEW]: the chapter docks under the banner once
+  // docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW]: the chapter docks under the banner once
   // its card has scrolled away under it, and changes as the next card comes up.
   // A card that has slid under the docked bar itself counts as gone: the bar
   // names the chapter whose card it covers, never the one before it.
@@ -725,7 +725,7 @@ export default function LearnScreen({
 // ---------------------------------------------------------------------------
 
 /**
- * docs/UI.md §7.2: the top bar -- which path (its logo, a stand-in until stage
+ * docs/ui/11-top-bar.md §7.2: the top bar -- which path (its logo, a stand-in until stage
  * BRAND), the streak, the gems (David, 2026-09-30: third, with their use to
  * come) and the hearts. [DESIGN-REVIEW] "Top bar on the tab columns" (David's
  * pick of 2026-10-04; until then the logo and the hearts sat on the banner's
@@ -758,7 +758,7 @@ function Hud({
   const spec = useLookSpec();
   const lit = today >= 1;
   const todayLine = lit ? "Today's lesson is done" : 'One lesson today keeps it';
-  // docs/UI.md §5.3: back from the day's first lesson (and its streak screen),
+  // docs/ui/07-lesson-chapter-and-tier-complete.md §5.3: back from the day's first lesson (and its streak screen),
   // the flame catches -- it swells with a glow behind it, once, and settles.
   const reduced = useReduceMotion();
   const catchUp = useSharedValue(0);
@@ -837,7 +837,7 @@ function Hud({
           >
             <View>
               <Animated.View pointerEvents="none" style={[styles.flameGlow, flameGlow]} />
-              {/* docs/UI.md §7.2 [DESIGN-REVIEW]: lit, it is the streak's own
+              {/* docs/ui/11-top-bar.md §7.2 [DESIGN-REVIEW]: lit, it is the streak's own
                   flame in its tier -- a spark, the flame, a blaze, a blue
                   flame from a month (home/scenes.tsx, FLAME_TIERS). */}
               <Animated.View style={flameCatch}>
@@ -877,7 +877,7 @@ function Hud({
           <Text style={[styles.hudValue, { color: colors.gem }]}>{gems}</Text>
         </View>
       </View>
-      {/* docs/UI.md §7.2 [DESIGN-REVIEW]: while the hearts are on their way
+      {/* docs/ui/11-top-bar.md §7.2 [DESIGN-REVIEW]: while the hearts are on their way
           back, a thin ring round the heart fills over the five hours; a tap
           says how long is left. The ring encloses the heart alone, so the
           count keeps its own space. */}
@@ -953,7 +953,7 @@ function HeartRing({ share }: { share: number }) {
 }
 
 /**
- * docs/UI.md §7.2: the paths, from the top bar's logo (David, 2026-10-01: "if
+ * docs/ui/11-top-bar.md §7.2: the paths, from the top bar's logo (David, 2026-10-01: "if
  * you click the path logo you can choose the path"). A card drops from the
  * logo, as a level's card opens under its level: the three paths, the one in
  * use ticked, a path still being written shut. Before Chapter 1 is finished
@@ -1115,7 +1115,7 @@ function Banner({
 }: {
   view: LevelView;
   allDone: boolean;
-  /** docs/UI.md §7.1 [DESIGN-REVIEW]: opens all the chapters at a glance (ChaptersOverview). */
+  /** docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW]: opens all the chapters at a glance (ChaptersOverview). */
   onPress: () => void;
 }) {
   const display = useDisplayFace();
@@ -1181,7 +1181,7 @@ function Banner({
 }
 
 /**
- * A chapter's header on the map (docs/UI.md §7.1): its number and name, the
+ * A chapter's header on the map (docs/ui/10-path-map.md §7.1): its number and name, the
  * levels finished of all of them, and a badge slot that lights gold when the
  * chapter is done. A tap folds the chapter away or opens it. `view` null is
  * the closed door after Chapter 1 before a path has been chosen.
@@ -1319,7 +1319,7 @@ function ChapterHeader({
 }
 
 /**
- * docs/UI.md §7.1 [DESIGN-REVIEW] "The chapter docks while you scroll": a
+ * docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW] "The chapter docks while you scroll": a
  * slim bar under the banner in place of the card that has scrolled away --
  * the trophy, "Ch 1 · Market Basics", the chapter's bar and "5/17". A tap
  * scrolls back to the card.
@@ -1367,7 +1367,7 @@ function DockedChapter({ view, onPress }: { view: ChapterView; onPress: () => vo
   );
 }
 
-/** docs/UI.md §7.1 "jump to current": back to the level waiting for the learner. */
+/** docs/ui/10-path-map.md §7.1 "jump to current": back to the level waiting for the learner. */
 function JumpButton({ view, onPress }: { view: LevelView; onPress: () => void }) {
   const press = usePressFeedback(true, { cue: 'tick' });
   return (
@@ -1397,7 +1397,7 @@ function JumpButton({ view, onPress }: { view: LevelView; onPress: () => void })
 
 /**
  * A level's label beside it, on the side the path leaves open: its title
- * alone (docs/UI.md §7.1), in whole lines. It wraps, it is never cut off, and
+ * alone (docs/ui/10-path-map.md §7.1), in whole lines. It wraps, it is never cut off, and
  * it is one text laid out once, so nothing is drawn twice or out of place.
  */
 export function NodeLabel({
@@ -1431,7 +1431,7 @@ export function NodeLabel({
   );
 }
 
-/** A test's scored questions: its intro's counter (docs/schema.md), or a count of them. */
+/** A test's scored questions: its intro's counter (docs/level-files/), or a count of them. */
 function questionsIn(view: LevelView): number {
   const level = view.level.subs[0].level;
   const intro = level.screens[0];
@@ -1727,7 +1727,7 @@ const BUTTON = 66;
 const GROW_MS = 460;
 
 /**
- * docs/UI.md §7.1: tapping a level shows its title, its lessons as they stand,
+ * docs/ui/10-path-map.md §7.1: tapping a level shows its title, its lessons as they stand,
  * the time, and Start. It opens under the level it belongs to, with
  * a point towards it, so it reads as that level's card and not a new screen.
  * A Checkpoint or the Final Exam says what it scores and what passing takes;
@@ -1755,7 +1755,7 @@ function LevelCard({
   const reduced = useReduceMotion();
   const left = space.lg;
   const cardW = width - space.lg * 2;
-  // docs/UI.md §7.1 [DESIGN-REVIEW] "The level card grows out of its button"
+  // docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW] "The level card grows out of its button"
   // (David's pick of 2026-10-04): a blob in the button's colour leaves the
   // button and spreads into the card's frame under it, its corners settling
   // from round to the card's own; then its words come up. The words are laid
@@ -1802,7 +1802,7 @@ function LevelCard({
         : colors.warning;
   const pathName = PATHS.find((p) => p.id === chosen)?.name;
 
-  // docs/UI.md §5.2: with no hearts left neither a lesson nor a test can
+  // docs/ui/06-reveal-and-hearts.md §5.2: with no hearts left neither a lesson nor a test can
   // start; the button says when it can instead. The path choice costs none.
   const empty = hearts.hearts === 0 && kind !== 'path';
   const press = usePressFeedback(!locked && !empty, { cue: 'advance' });
@@ -1912,7 +1912,7 @@ function LevelCard({
                   color={colors.accentText}
                 />
               )}
-              {/* docs/UI.md §10: a key's label is one line, always; a long one shrinks to fit. */}
+              {/* docs/ui/15-theming-and-accessibility.md §10: a key's label is one line, always; a long one shrinks to fit. */}
               <Text
                 style={[
                   styles.cardButtonText,
