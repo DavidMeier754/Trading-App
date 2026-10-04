@@ -950,7 +950,7 @@ Report: what you built · check results · contact sheets before/after · my tes
 11. **After David's test (2026-10-04):** hearts in every lesson; one lesson a day keeps the streak; the path as a true sine; the streak moments in the flow and the flame catching; the medal landing on the shelf; Settings → Testing → **Reset streak**; and the skills: `content/skills.yaml` with every skill and its info, a `skills` line in every level file, `tools/skills.py`, the validator's rules (`docs/schema.md` "Skills").
 12. **Nothing on top of anything** (David, after his test: "the Start Box over the level overlaps the optional side levels. Find every instance where something like this happens in the app and fix it"): side stops placed by search (`src/home/mapLayout.ts`), chart labels that never cover each other, the axis or the zone's pill, the scanner in two lines on the smallest phones, the plan card's suggestion key under its line, the lesson bar's targets apart; and the check that keeps it so: `overlap` and `offscreen` in the UI check and in `npm run smoke` (`docs/UI.md` §10).
 
-13. **David's design picks** (2026-10-04: "implement all that don't contradict the already written features"). Another session had made 37 more ideas into an artifact, "Nutrade design picks"; David marked each Add or Leave out. Every Add is built and every idea now carries its verdict in Settings → Testing → Design suggestions ("In the app" or "Not in your mix"). The record:
+13. **David's design picks** (2026-10-04: "implement all that don't contradict the already written features"). Another session had made 37 more ideas into an artifact, "Nutrade design picks"; David marked each Add or Leave out. Every Add is built (the typed theory taken out again at his word) and every idea now carries its verdict in Settings → Testing → Design suggestions ("In the app" or "Not in your mix"). The record:
 
     | Group | Idea | Verdict | Built as (`docs/UI.md`) |
     |---|---|---|---|
@@ -959,7 +959,7 @@ Report: what you built · check results · contact sheets before/after · my tes
     | Answering | Answers with depth | Add | Answer rows and True / False stand on an edge, sink when pressed and the chosen one stays down (§4.1). |
     | Answering | Slide to place the trade | Add | An order ticket is placed with a slide in the key's place; a tap slides it home (§6.7). |
     | Answering | Run a finger along the chart | Add | Theory charts and a chart decision once played: crosshair, dot and price tag (§6.4). |
-    | Answering | Theory typed out like a terminal | Add | The theory card's body types out fast behind a block caret; a tap shows it all (§1, §3). |
+    | Answering | Theory typed out like a terminal | Add, then taken out ("Remove the terminal typing", the same day) | Built, then removed: the body shows at once (§3). The preview stays, marked "Not in your mix". |
     | Rewards | Lesson complete as a trade receipt | Add, "5+ different designs", "another suggestion tab just for such designs" | Six win screens that take turns — ring, receipt, split-flap board, candle, equity curve, ticker quote — and a **Win screens** group in Design suggestions (§5.3). |
     | Rewards | Split-flap numbers | Add | One of the six (§5.3). |
     | Rewards | Gems fly to the counter | Add | From the chest into a gem counter that counts them in (§5.3). |

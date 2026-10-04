@@ -125,9 +125,6 @@ export function auditScreen({ minFont, tapTarget, narrow, only = null }) {
     const svg = el instanceof SVGElement;
     const ink = parse(svg ? cs.fill : cs.color);
     if (!ink) continue;
-    // Clear ink is laid out, not drawn: the words a theory card has still to
-    // type (lesson/termText.tsx).
-    if (ink[3] < 0.05) continue;
     // A chart label's halo (ChartPlan, HaloText): the same text drawn first
     // as a rim of the page's colour -- fill and a thick stroke alike -- for
     // its ink to sit on. It is a rim, not a word to read.

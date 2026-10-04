@@ -25,8 +25,8 @@ export const SECTIONS: { id: Section; title: string }[] = [
 
 /**
  * David's picks of 2026-10-04 (the artifact "Nutrade design picks"): what went
- * into the app in DESIGN-REVIEW, and what he left out. The rest keep their
- * own tag.
+ * into the app in DESIGN-REVIEW, and what he left out (and the typed theory,
+ * which he took out again after trying it). The rest keep their own tag.
  */
 const IN_APP = new Set([
   'swipe-call',
@@ -34,7 +34,6 @@ const IN_APP = new Set([
   'deep-keys',
   'slide-confirm',
   'chart-scrub',
-  'typed-theory',
   'receipt',
   'split-flap',
   'gem-flight',
@@ -55,6 +54,8 @@ const IN_APP = new Set([
   'steps',
 ]);
 const LEFT_OUT = new Set([
+  // In the app for a moment, then taken out (David, 2026-10-04: "Remove the terminal typing").
+  'typed-theory',
   'candle-bar',
   'breakout',
   'coin-level',
