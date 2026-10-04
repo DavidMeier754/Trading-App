@@ -17,7 +17,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { colors, radius, space, type, themed } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
-import { DAILY_GOAL, doneToday, earnedXp, MAX_HEARTS, useHearts, useProgress } from '../progress';
+import { earnedXp, MAX_HEARTS, streakDays, useHearts, useProgress } from '../progress';
 import Confetti from './Confetti';
 import { celebrateFeedback, coinFeedback, noteFeedback } from './feedback';
 import { emitMood, surfaceStyle, useLookSpec } from './look';
@@ -67,7 +67,7 @@ export default function LessonComplete({
   grades: (Grade | null)[];
   levelTitle: string;
   xp: number;
-  /** The lesson counts towards the daily goal: the summary says how far today has got. */
+  /** The lesson counts for the streak: the summary shows where it stands. */
   daily?: boolean;
   /**
    * A practice round (docs/UI.md §7.3): no XP; the ring holds the answers
@@ -80,8 +80,9 @@ export default function LessonComplete({
   const hearts = useHearts().hearts;
   const display = useDisplayFace();
   const m = useMotion();
-  // docs/UI.md §7.2: "Today 1/2" -- the goal left the top bar in LOOK-SYSTEM.
-  const today = Math.min(doneToday(useProgress()), DAILY_GOAL);
+  // docs/UI.md §5.3 (David, 2026-10-04): one lesson a day keeps the streak,
+  // so the summary shows the streak, not a count towards a goal.
+  const streak = streakDays(useProgress());
   const { width } = useWindowDimensions();
 
   const answered = grades.filter((g) => g !== null && g !== undefined) as Grade[];
@@ -278,7 +279,7 @@ export default function LessonComplete({
         {gems > 0 ? <Row label="Gems" value={`+${gems}`} /> : null}
         {practice ? <Row label="Hearts" value={`${hearts}/${MAX_HEARTS}`} /> : null}
         {daily ? (
-          <Row label="Today" value={`${today}/${DAILY_GOAL}`} accent={today >= DAILY_GOAL} />
+          <Row label="Streak" value={`${streak} ${streak === 1 ? 'day' : 'days'}`} accent />
         ) : null}
       </Animated.View>
     </View>

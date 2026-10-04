@@ -16,8 +16,8 @@ import { EASE_OUT, SPRING_POP, useMotion } from './motion';
 const HEART = 112;
 
 /**
- * docs/UI.md §5.2: the last heart is gone, so the sub-level stops here and the
- * CTA leads back to the path. It says plainly what happened and when the next
+ * docs/UI.md §5.2: the last heart is gone, so the lesson or test stops here
+ * and the CTA leads back to the path. It says plainly what happened and when the next
  * heart is back -- no alarm, no upsell. The lesson simply is not counted yet.
  *
  * The heart settles in cracked: the two halves arrive a hair apart and then sit
@@ -77,7 +77,9 @@ export default function OutOfHearts() {
         <Text style={styles.body}>
           {fullAt ? `All of them are back in ${waitText(fullAt)}.` : 'They are back already.'}
         </Text>
-        <Text style={styles.note}>Start this test again from the path.</Text>
+        <Text style={styles.note}>
+          A finished practice round gives one back. Then start again from the path.
+        </Text>
       </Animated.View>
     </View>
   );

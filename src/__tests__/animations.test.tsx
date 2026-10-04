@@ -25,7 +25,7 @@ function renderPage(onShowMap = jest.fn()) {
   act(() => {
     tree = renderer.create(
       <SafeAreaProvider initialMetrics={METRICS}>
-        <AnimationsScreen onBack={() => {}} onShowMap={onShowMap} />
+        <AnimationsScreen onBack={() => {}} onShowMap={onShowMap} onShowAccount={() => {}} />
       </SafeAreaProvider>,
     );
   });

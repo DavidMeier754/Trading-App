@@ -37,12 +37,11 @@ import {
   STOP_RING,
 } from './SideStop';
 import { isQuestion } from '../types';
-import { noteFeedback } from '../lesson/feedback';
+import { igniteFeedback, noteFeedback } from '../lesson/feedback';
 import { EASE_IN_OUT, EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import {
   choosePath,
-  DAILY_GOAL,
   doneToday,
   Hearts,
   streakDays,
@@ -59,6 +58,7 @@ import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
 import { ChapterView, chapterViews, currentLevel, LevelView } from './pathState';
 import { Gem, PathLogo } from './scenes';
 import { useDisplayFace } from '../fonts';
+import { takeIgnite } from './moments';
 
 /** Vertical distance between two nodes' centres. */
 const STEP_Y = 148;
@@ -82,15 +82,22 @@ const FINALE_H = 120;
 const HUD_ROW = 48;
 /**
  * docs/UI.md §7.1 [DESIGN-REVIEW] (David: "a curvy path like a sin
- * function"): the levels sit on one sine curve, a full swing every four
- * levels -- centre, left, centre, right -- and the trail follows the same
- * curve between them. `phase` counts levels down the chapter.
+ * function"; 2026-10-04: "still going in a zickzack movement instead of a sin
+ * CURVE"): the levels sit on one sine curve and the trail follows the same
+ * curve between them. A full swing takes eight levels, so no level sits at
+ * every turn: between two of them the trail visibly bends, and the path reads
+ * as one wave rather than straight stretches from side to side. (Four levels
+ * a swing put a level on each turn and the centre, and the trail between
+ * looked straight.) `phase` counts levels down the chapter.
  */
+const WAVE_LEVELS = 8;
 function windAt(phase: number): number {
-  return -Math.sin((phase * Math.PI) / 2);
+  return -Math.sin((phase * 2 * Math.PI) / WAVE_LEVELS);
 }
-/** The side a level sits on: -1 left, 0 centre, 1 right. */
-const WIND = [0, -1, 0, 1];
+/** A level's label goes on the side of its node with more room. */
+function labelSide(phase: number): 'left' | 'right' {
+  return windAt(phase) > 0.05 ? 'left' : 'right';
+}
 
 type NodeItem = { t: 'node'; gi: number; li: number; ci: number; x: number; y: number };
 /**
@@ -210,9 +217,9 @@ export default function LearnScreen({
   };
 
   const pathChosen = progress.path !== null;
-  // About a fifth of the screen to each side; the buttons keep their size
-  // and their spacing (STEP_Y).
-  const amp = Math.min(80, width * 0.2);
+  // About a quarter of the screen to each side, so the wave shows; the
+  // buttons keep their size and their spacing (STEP_Y).
+  const amp = Math.min(96, width * 0.24);
   const cxOf = (li: number) => width / 2 + windAt(li) * amp;
   // Where everything sits: a header per chapter, then its levels if it is open.
   const { items, nodeAt, contentH, gates } = useMemo(() => {
@@ -330,7 +337,7 @@ export default function LearnScreen({
   // A label sits on the open side of its node and takes what width is left
   // there, so a long title wraps instead of running off the screen.
   const labelRoom = (li: number) =>
-    WIND[li % WIND.length] > 0
+    labelSide(li) === 'left'
       ? cxOf(li) - RING / 2 - space.sm - space.lg
       : width - (cxOf(li) + RING / 2 + space.sm) - space.lg;
 
@@ -564,11 +571,7 @@ export default function LearnScreen({
                   onPress={() => openCard(it.gi)}
                   unlocking={it.gi === unlocking}
                 />
-                <NodeLabel
-                  view={views[it.gi]}
-                  side={WIND[it.li % WIND.length] > 0 ? 'left' : 'right'}
-                  room={labelRoom(it.li)}
-                />
+                <NodeLabel view={views[it.gi]} side={labelSide(it.li)} room={labelRoom(it.li)} />
               </Animated.View>
             ),
           )}
@@ -693,8 +696,9 @@ export default function LearnScreen({
  * come) and the hearts. It lines up with what is under it (David, 2026-10-01):
  * the logo on the banner's left edge, the hearts on its right, the streak and
  * the gems evenly between. A tap on the logo opens the paths (PathPicker). The
- * flame lights once today's goal is met, and a tap on it says how far today
- * has got ("Today 1/2"); the hearts show the wait while one is on its way back.
+ * flame lights once today's lesson is done -- one a day keeps the streak
+ * (David, 2026-10-04) -- and a tap on it says whether it is; the hearts show
+ * the wait while one is on its way back.
  */
 function Hud({
   top,
@@ -717,8 +721,32 @@ function Hud({
   hearts: Hearts;
 }) {
   const spec = useLookSpec();
-  const lit = today >= DAILY_GOAL;
-  const done = Math.min(today, DAILY_GOAL);
+  const lit = today >= 1;
+  const todayLine = lit ? "Today's lesson is done" : 'One lesson today keeps it';
+  // docs/UI.md §5.3: back from the day's first lesson (and its streak screen),
+  // the flame catches -- it swells with a glow behind it, once, and settles.
+  const reduced = useReduceMotion();
+  const catchUp = useSharedValue(0);
+  useEffect(() => {
+    if (!takeIgnite() || reduced) return;
+    igniteFeedback();
+    catchUp.set(
+      withDelay(
+        280,
+        withSequence(
+          withTiming(1, { duration: 260, easing: EASE_OUT }),
+          withTiming(0, { duration: 520, easing: EASE_IN_OUT }),
+        ),
+      ),
+    );
+  }, [reduced, catchUp]);
+  const flameCatch = useAnimatedStyle(() => ({
+    transform: [{ scale: 1 + 0.55 * catchUp.get() }, { translateY: -3 * catchUp.get() }],
+  }));
+  const flameGlow = useAnimatedStyle(() => ({
+    opacity: 0.55 * catchUp.get(),
+    transform: [{ scale: 0.6 + 0.9 * catchUp.get() }],
+  }));
   const pathName = PATHS.find((p) => p.id === path)?.name;
   const press = usePressFeedback(true, { cue: 'tick' });
   const logoPress = usePressFeedback(true, { cue: 'tick' });
@@ -767,11 +795,16 @@ function Hud({
             onPressOut={press.onPressOut}
             onPress={() => {
               setShown((v) => !v);
-              AccessibilityInfo.announceForAccessibility(`Today ${done} of ${DAILY_GOAL} lessons`);
+              AccessibilityInfo.announceForAccessibility(todayLine);
             }}
             style={styles.hudItem}
           >
-            <Icon name="flame" size={22} color={flame} filled={lit} />
+            <View>
+              <Animated.View pointerEvents="none" style={[styles.flameGlow, flameGlow]} />
+              <Animated.View style={flameCatch}>
+                <Icon name="flame" size={22} color={flame} filled={lit} />
+              </Animated.View>
+            </View>
             <Text style={[styles.hudValue, { color: flame }]}>{streak}</Text>
           </Pressable>
         </Animated.View>
@@ -787,7 +820,7 @@ function Hud({
             <View style={styles.today}>
               <View style={styles.todayPoint} />
               <Text style={styles.todayText} numberOfLines={1}>
-                {`Today ${done}/${DAILY_GOAL}`}
+                {todayLine}
               </Text>
             </View>
           </Animated.View>
@@ -1380,13 +1413,15 @@ function Connectors({
     lit: boolean,
     seg: number,
   ) => {
-    const steps = Math.max(8, Math.round((b.y - a.y) / 12));
+    // Dots close together and right up to the rings, so each stretch shows
+    // its bend (David, 2026-10-04: the path read as a zigzag).
+    const steps = Math.max(10, Math.round((b.y - a.y) / 10));
     for (let k = 0; k <= steps; k++) {
       const t = k / steps;
       // The path's own sine from one level to the next (windAt).
       const x = curve.cx + windAt(a.li + t) * curve.amp;
       const y = a.y + (b.y - a.y) * t;
-      const clear = RING / 2 + 8;
+      const clear = RING / 2 + 5;
       if (Math.hypot(x - a.x, y - a.y) < clear || Math.hypot(x - b.x, y - b.y) < clear) continue;
       dots.push({ x, y, t, lit, seg });
     }
@@ -1537,7 +1572,7 @@ function TrailSpark({
   const style = useAnimatedStyle(() => {
     const d = draw.get();
     const t = t0 + (t1 - t0) * d;
-    const x = cx - Math.sin(((li + t) * Math.PI) / 2) * amp;
+    const x = cx - Math.sin(((li + t) * 2 * Math.PI) / WAVE_LEVELS) * amp;
     const y = a.y + (b.y - a.y) * t;
     return {
       opacity: d <= 0 || d >= 1 ? 0 : Math.min(1, d / 0.06, (1 - d) / 0.12),
@@ -1641,9 +1676,9 @@ function LevelCard({
         : colors.warning;
   const pathName = PATHS.find((p) => p.id === chosen)?.name;
 
-  // docs/UI.md §5.2: with no hearts left a test cannot start; the button says
-  // when it can instead. Lessons and the path choice never cost a heart.
-  const empty = hearts.hearts === 0 && (kind === 'test' || kind === 'final');
+  // docs/UI.md §5.2: with no hearts left neither a lesson nor a test can
+  // start; the button says when it can instead. The path choice costs none.
+  const empty = hearts.hearts === 0 && kind !== 'path';
   const press = usePressFeedback(!locked && !empty, { cue: 'advance' });
   // Fewer words (David, stage LOOK-BRIEF): the key says what it does, and the
   // line above it where the level stands.
@@ -1765,7 +1800,7 @@ const styles = themed(() => ({
   stopSlot: { position: 'absolute', width: STOP_RING, alignItems: 'center' },
 
   wrap: { flex: 1 },
-  // Over the banner, so the flame's "Today 1/2" can drop down across it. As
+  // Over the banner, so the flame's line can drop down across it. As
   // wide as the banner: its first and last items sit on the banner's edges.
   hud: {
     flexDirection: 'row',
@@ -1787,6 +1822,15 @@ const styles = themed(() => ({
   hudStart: { justifyContent: 'flex-start' },
   hudEnd: { justifyContent: 'flex-end' },
   hudValue: { fontSize: 17, lineHeight: 22, fontWeight: '800', fontFamily: MONO_FONT },
+  flameGlow: {
+    position: 'absolute',
+    left: -11,
+    top: -11,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.warning,
+  },
   heartBox: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   heartRing: { position: 'absolute', left: 0, top: 0 },
   heartTipWrap: { position: 'absolute', top: 48, right: -8, width: 240, alignItems: 'flex-end' },

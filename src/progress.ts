@@ -38,9 +38,10 @@ import {
  *
  * Progress is what the path map draws (docs/UI.md §7.1): which sub-levels are
  * finished and whether every answer in one was right (a perfect run earns the
- * gold ring). The HUD reads the rest (§7.2): the streak in days, the daily
- * goal of two sub-levels (§5.3), and the hearts (§5.2): a wrong answer in a
- * test costs one, and five hours after the first was lost they are all back.
+ * gold ring). The HUD reads the rest (§7.2): the streak in days -- one
+ * finished lesson a day keeps it (§5.3) -- and the hearts (§5.2): a wrong
+ * answer in a lesson or a test costs one, and five hours after the first was
+ * lost they are all back.
  *
  * It also keeps the learner's record (docs/UI.md §7.3, DESIGN-REVIEW): every
  * graded question with its spaced-repetition box, the mistakes still open,
@@ -56,7 +57,7 @@ export type Progress = {
   done: Record<string, { perfect: boolean }>;
   /** Days in a row with a finished lesson; `last` is the last of them. */
   streak: { days: number; last: string | null };
-  /** Lessons finished today, towards the daily goal. */
+  /** Lessons finished today: the first of them keeps the streak. */
   today: { date: string; count: number };
   /** Every XP the summaries have handed out, replays included. */
   xp: number;
@@ -105,6 +106,13 @@ export type Progress = {
   bestStreak: number;
   /** The first trade of a fresh install (docs/UI.md §11.1) has been played. */
   firstTrade: boolean;
+  /**
+   * docs/UI.md §7.4: the chapters whose medal the Account shelf has already
+   * landed. A medal won since lands and shines once the next time the shelf
+   * shows. Null until the shelf is first seen: it then takes the medals there
+   * are as shown, so nothing old plays as new.
+   */
+  medalsShown: number[] | null;
 };
 
 /** One graded question in the record: how it has gone, and when it is due again. */
@@ -144,8 +152,6 @@ export const DECISION_LOG_MAX = 2000;
 export const BOX_DAYS = [1, 3, 7, 16, 35] as const;
 
 export const MAX_HEARTS = 5;
-/** docs/UI.md §5.3: the daily goal is two sub-levels. */
-export const DAILY_GOAL = 2;
 /**
  * docs/UI.md §5.2 (David, 2026-10-03): "all 5 hours ALL hearts get added
  * back". The first heart lost starts the clock; five hours later every heart
@@ -176,6 +182,7 @@ const fresh = (): Progress => ({
   planAt: {},
   bestStreak: 0,
   firstTrade: false,
+  medalsShown: null,
 });
 
 let progress: Progress = fresh();
@@ -228,7 +235,7 @@ export function streakDays(p: Progress, now = new Date()): number {
   return 0;
 }
 
-/** Lessons finished today, towards the daily goal. */
+/** Lessons finished today; one keeps the streak (docs/UI.md §5.3). */
 export function doneToday(p: Progress, now = new Date()): number {
   return p.today.date === dayOf(now) ? p.today.count : 0;
 }
@@ -268,6 +275,37 @@ export function completeLesson(
 
 export function resetProgress(): void {
   publish(fresh());
+}
+
+/**
+ * docs/UI.md §7.2: a streak that broke since the last lesson -- it had days,
+ * and neither today nor yesterday has a lesson. Its screen plays once.
+ */
+export function lostStreak(p: Progress, now = new Date()): number {
+  return p.streak.days > 0 && streakDays(p, now) === 0 ? p.streak.days : 0;
+}
+
+/** The lost streak's screen has played: the count is 0 until the next lesson. */
+export function endLostStreak(): void {
+  publish({ ...progress, streak: { days: 0, last: null } });
+}
+
+/**
+ * Settings → Testing → Reset streak (David, 2026-10-04): the streak back to 0,
+ * as if no lesson had been finished today or before. The longest streak stays.
+ */
+export function resetStreak(): void {
+  publish({
+    ...progress,
+    streak: { days: 0, last: null },
+    today: { date: dayOf(new Date()), count: 0 },
+  });
+}
+
+/** The shelf has landed these medals (docs/UI.md §7.4). */
+export function markMedalsShown(chapters: number[]): void {
+  const shown = new Set([...(progress.medalsShown ?? []), ...chapters]);
+  publish({ ...progress, medalsShown: [...shown].sort((a, b) => a - b) });
 }
 
 /**

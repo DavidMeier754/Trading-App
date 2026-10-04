@@ -129,7 +129,7 @@ Checked in the stages of Phase C, Phase D and in the beta:
 - **No dead ends:** mistakes lead to repetition, not to lockouts. Hearts only exist in tests.
 - **Every lesson ends with a small win:** a recap, a checklist, your own plan, the streak.
 - **Variety:** ≥ 3 question types per lesson, pictures instead of text slides.
-- **Visible progress:** the daily goal in words, a streak with states, tiers and their card, the chapter medals, the skills collected.
+- **Visible progress:** ~~the daily goal in words,~~ a streak with states (one lesson a day keeps it), tiers and their card, the chapter medals, the skills collected.
 - **Beta bar:**
   - Testers rate "fun" at ≥ 4 out of 5 on average.
   - They finish ≥ 85 % of the lessons they start.
@@ -149,9 +149,9 @@ All of this must hold at the same time:
   - Crash-free ≥ 99.5 % in the beta.
   - All must-fix items of the review (`docs/review-2026-09-25.md`) are done.
 - **Learning loop:**
-  - Hearts only in tests.
+  - ~~Hearts only in tests.~~ Hearts in every lesson and test, with practice free and giving one back (David, 2026-10-04).
   - Practice tab with heart refill, review cards and glossary.
-  - Daily goal, streak and reminders.
+  - ~~Daily goal,~~ Streak (one lesson a day) and reminders.
   - Statistics with decision quality.
 - **Account and money:**
   - Sign-in and sync, account deletion and data export inside the app (decision K).
@@ -299,7 +299,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | | `LOOK-COMPONENTS` | Charts (candles that form, the trade log), lesson-complete screen, icons, visuals — what `DESIGN-REVIEW` left | Opus 5.5 · high | 1–2 | 30 min |
 | | `VISUALS` | New teaching graphics: candle anatomy, trade plan | Opus 5.5 · high | 1 | 15 min |
 | D Learning loop | `LOOP-HEARTS` | Review cards, test summary, out of hearts, XP rules, the level card — hearts in tests only and the mistakes round came in `DESIGN-REVIEW` | Opus 5.5 · high, plan mode | 1 | 30 min |
-| | `LOOP-DAILY` | Choosable daily goal, streak with states and full-screen moments, freeze, weekly challenge, reminders, gems | Opus 5.5 · high | 1–2 | 20 min + 3 days |
+| | `LOOP-DAILY` | ~~Choosable daily goal,~~ streak with states and full-screen moments, freeze, weekly challenge, reminders, gems | Opus 5.5 · high | 1–2 | 20 min + 3 days |
 | | `ONBOARDING` | First run, risk note, legal scaffold, market profile + number format, plan card, i18n keys | Opus 5.5 · high | 1–2 | 20 min |
 | | `PRACTICE` | Practice tab, the rest: drill packs, weak concepts by term, the links into it, "+1 day" tests — the tab with Daily mix, Skills and Mistakes came in `DESIGN-REVIEW` | Opus 5.5 · xhigh, plan mode | 1–2 | 30 min + 1 week |
 | | `GLOSSARY` | Glossary content (every term), the list with search — the marker and the sheet came in `DESIGN-REVIEW` | Opus 5.5 · high | 1–2 | 15 min |
@@ -394,13 +394,13 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | M | **Every launch language in v1.0** (David): built in English first, then translated before the release by a checked AI pipeline, with the key texts read by native speakers (Phase J). More languages, more markets. The language never decides the market (`MARKETS`). | agent.md §1, UI.md §9 |
 | O | **You find the testers** (David): at least 12 if your Google account is a personal one (Google's closed test), at least 3 without trading knowledge, and for `BETA-2` native speakers of the launch languages. | `BETA-1`, `BETA-2` |
 | P | **The provider is a business registered in Germany** (David), before publishing. Recommended: register it **before `STORE-SETUP`**, so the developer accounts are opened once, in the business's name. The legal form (decision Q) decides how you enroll: a sole proprietorship enrolls with Apple as an individual and sells under your own name; a legal entity (e.g. UG or GmbH) enrolls as an organization and needs a D-U-N-S number (free, can take up to 30 days). A Google organization account needs one too, and is exempt from Google's 12-tester rule. | `LEGAL-DRAFT`, `STORE-SETUP` |
-| W1 | **Hearts only in checkpoints and final exams.** Lessons are for practicing: wrong answers come back in the mistakes round at the end (W25). | agent.md, UI.md §5.2 |
+| W1 | ~~**Hearts only in checkpoints and final exams.** Lessons are for practicing: wrong answers come back in the mistakes round at the end (W25).~~ **Reversed by David, 2026-10-04:** "I want the hearts to go away even if it isn't a checkpoint level." Hearts are spent in every lesson and test; practice is free and gives one back. | agent.md, UI.md §5.2 |
 | W2 | **This order:** the app stable and good-looking before new content. W2b (Swing before replays and drills) no longer sets a priority: since decisions E and I, Swing, Day Trading and the arena all ship in v1.0. The arena engine comes first (Phase G), so each new path gets its arena content right after its chapters. | this plan |
 | W3 | **The 50 % plan value, option (a):** Chapter 1 stays at 50. The scalping path revises the value to 95 in **2·1-4**, with the reason (the revision was meant for Chapter 3, but never existed in the content). | agent.md §3.6, curriculum.md |
 | W4–W6 | **Layout and looks:** answers in the thumb zone. A minimum type size, scrolling if needed. At most 3 looks plus light/dark/system. **The look** (David, `LOOK-BRIEF`, 2026-09-29): Calm on today's designs Neo, Neo Mono and Classic Contrast, with Precise's number face, chart, trade log, count-up numbers and step count; today's path map with his changes; fewer words on every screen; sounds play on silent. | UI.md §2, §7.1, §7.2, §10 |
 | W7 | **No leaderboard in v1.0.** Later at most an opt-in friends league. | UI.md §7.2, §11 |
 | W8 | **"See the card again"** as an overlay in lessons. | UI.md §2 |
-| W9 | **A choosable daily goal** (1/2/3 lessons, default 2). The streak counts when your own goal is met. | agent.md, UI.md §5.3 |
+| W9 | ~~**A choosable daily goal** (1/2/3 lessons, default 2). The streak counts when your own goal is met.~~ **Replaced by David, 2026-10-04:** one lesson a day keeps the streak; no goal to choose. | agent.md, UI.md §5.3 |
 | W10 | **Body text ≤ 150 characters** per screen. | agent.md §3.9, UI.md §9 |
 | W11 | **Replays earn ¼ XP**, "Skip ahead" earns no XP. | UI.md §5.3 |
 | W12–W14 | **Variance rule, sign rule, recap reference.** | agent.md §3.11/§3.12, schema.md |
@@ -928,7 +928,7 @@ Report: what you built · check results · contact sheets before/after · my tes
 | 42 | The Trader Card | ✗ (changed) | The tier card instead, and All stats (§7.4). |
 | 43 | Right calls that lost, in your stats | ✅ | All stats (§7.4). |
 | 44 | The first decision before anything else | ✅ | §11.1. |
-| 45 | The daily goal as three paces | 📄 | Goes into the registration screens; David adds it later (§11.1). |
+| 45 | The daily goal as three paces | ✗ (dropped) | ~~Goes into the registration screens; David adds it later (§11.1).~~ Dropped on 2026-10-04 with the daily goal: one lesson a day keeps the streak (§5.3). |
 | 46 | A calm risk note | ✗ | |
 | 47 | The variance simulator | ✗ | "This would imply the numbers given are reliable … the user should do his own research." No odds anywhere (`docs/agent.md` §3.11); the simulator is dropped. |
 | 48 | Your plan as a real document | ✅ | "Make the design better and don't overdo." Account → Your plan, and the `plan-sheet` (§6.8, §7.4). |
@@ -937,7 +937,7 @@ Report: what you built · check results · contact sheets before/after · my tes
 
 **Scope** (all built in this stage's PR)
 1. **The chart decision** (`docs/UI.md` §4.3, §5.1b, §6.4): the frame that holds still; keys with a direction glyph; after the choice the entry, stop and target lines, playback ending at the first one touched; the R ruler from the lesson that teaches R; the chart notes; the open marker; the compact reveal with the decision grid and the result line without a rate; the chart as large as the screen allows; every reveal right above the key.
-2. **The lesson flow:** hearts only in Checkpoints and Final Exams (W1); the mistakes round with its deck (W25); "What you learned" with the lesson's skills; confetti only for a perfect run; back home, the skills fly into the Practice tab.
+2. **The lesson flow:** ~~hearts only in Checkpoints and Final Exams (W1)~~ hearts in every lesson and test (David's change after his test, 2026-10-04); the mistakes round with its deck (W25); "What you learned" with the lesson's skills; confetti only for a perfect run; back home, the skills fly into the Practice tab.
 3. **Screens:** match without colours, with the snap, the rising notes and the closing wave; the depth ladder's walk through the book; the order ticket like a broker's; scanner rows with sparkline and volume bar; the scene as a market alert; the checkpoint briefing; the plan sheet as a document; the term marker and its sheet; the `decision-grid` visual.
 4. **Rewards:** a medal with its own emblem for every chapter, as a bigger moment; the tier card in its material, turning over.
 5. **Home:** the map as a sine curve; side stops (mistakes reviews now, bonus lessons as soon as their files exist); the docking chapter bar; chapter gates; two-tone symbols; the title face; the heart ring with all hearts back after five hours; the Practice tab (Daily mix with spaced repetition and weak spots, Skills, Mistakes; a finished round gives a heart back); the Account page (tier card, medal shelf, All stats with the variance view, Your plan).
@@ -958,7 +958,7 @@ Report: what you built · check results · contact sheets before/after · my tes
 - Animations has a **Mistakes round** row (§11.5).
 
 **Left for later stages** (each is in its stage's scope):
-- The medal just won shining once on the shelf → `STATS`.
+- ~~The medal just won shining once on the shelf → `STATS`.~~ Built after David's test (2026-10-04).
 - The one-line meaning on each skill chip of "What you learned" → `GLOSSARY` (it needs `content/glossary.yaml`).
 - "What happened next" instead of "NEXT 5 BARS" over the hidden bars, the first trade included → `LOOK-COMPONENTS`.
 - The new fields in the level files (`stop`, `target`, `notes`, `session_open`, `alert`, `facts`, `skills`, scanner `spark`, ladder `shares`, the bonus lessons and the spot-it levels) → the content sessions, from `docs/ContentToDo.md`.
@@ -1019,7 +1019,7 @@ Report: what you changed · check results · my test checklist for the fixes wit
    - Confetti only for a perfect run and never over text. **Done in `DESIGN-REVIEW`.**
    - The lesson's name (`subtitle`) is shown.
    - The mistakes are listed, with "Practice these" (linked from `PRACTICE` on).
-   - Progress toward the daily goal is visible.
+   - ~~Progress toward the daily goal is visible.~~ The streak is shown (one lesson a day keeps it). **Done in `DESIGN-REVIEW`.**
    - Its numbers count up to their value, together with the ring (from Precise, your choice in `LOOK-BRIEF`; `#prototype/mix/complete` at `a78e210`). Reduced motion shows them at once.
 9. **Chapter badge** as in `docs/UI.md` §5.4: the XP bonus counts up, "Chapter N unlocked" (S21). **Done in `DESIGN-REVIEW`,** as the chapter's own emblem medal with the next chapter named.
 10. **Visuals** (S24, W17):
@@ -1095,12 +1095,12 @@ Report: what you built · check results · my test checklist with real links · 
 
 ### `LOOP-HEARTS` – mistakes cost nothing, tests count
 
-**Goal.** Learning without fear: mistakes in lessons come back instead of locking you out. Hearts exist only in tests.
+**Goal.** Learning without fear: mistakes in lessons come back instead of locking you out. ~~Hearts exist only in tests.~~ Since 2026-10-04 hearts are spent in every lesson and test (David); what keeps learning open is practice, which is free and gives a heart back, and the review cards.
 
 **Since `DESIGN-REVIEW`** (2026-10-03) items 1 and 2 are built, with David's deck and his heart rule (all hearts back five hours after the first is lost); the stage keeps the rest. Decision X (mistakes reviews) is answered here at the latest.
 
 **Scope**
-1. ~~**Hearts only in checkpoints and final exams** (W1, `docs/UI.md` §5.2).~~ **Done in `DESIGN-REVIEW`.**
+1. ~~**Hearts only in checkpoints and final exams** (W1, `docs/UI.md` §5.2).~~ **Done in `DESIGN-REVIEW`,** then reversed by David on 2026-10-04: hearts in every lesson and test.
 2. ~~**Mistakes round** (W25, `docs/UI.md` §4.5): wrongly answered questions come back once at the end of the lesson, reshuffled; the lesson is finished once they are answered; a lesson with a mistakes round does not count as perfect.~~ **Done in `DESIGN-REVIEW`,** opened by the deck.
 3. **Review cards** (S15, W8):
    - Via the level card → "Review cards", a level's theory cards can be browsed without questions.
@@ -1153,24 +1153,24 @@ Report: what you built · check results · my test checklist with real links · 
 **Goal.** A reason to come back every day, without pressure and without guilt.
 
 **Scope**
-1. **Daily goal** (W9):
-   - Choosable: 1, 2 or 3 lessons, default 2. In Settings; from `ONBOARDING` on also in the first run.
-   - "Today 1/2" shows on lesson complete and when you tap the flame; the goal left the top bar in `LOOK-SYSTEM`.
+1. ~~**Daily goal** (W9):~~ Dropped by David on 2026-10-04: one lesson a day keeps the streak, there is nothing to choose.
+   - ~~Choosable: 1, 2 or 3 lessons, default 2. In Settings; from `ONBOARDING` on also in the first run.~~
+   - ~~"Today 1/2" shows on lesson complete and when you tap the flame; the goal left the top bar in `LOOK-SYSTEM`.~~ **Done in `DESIGN-REVIEW`:** lesson complete shows the streak, the flame's tap says whether today's lesson is done.
 2. **Streak** (S10):
-   - It counts the days on which your own goal was met.
+   - It counts the days with at least one finished lesson.
    - States:
-     - **open:** today's goal is not met yet.
-     - **done:** the flame lights up.
-     - **at risk:** in the evening, if the goal is still open.
-     - **lost:** a friendly screen, "A new streak starts today".
-   - **Full screen** (your wish in `LOOK-BRIEF`, `#prototype/mix/streak` and `#prototype/mix/lost` at `a78e210`): every change of the streak gets its own screen. Up by a day, the flame lights and the count rolls on; lost, the flame goes cold and the count rolls to 0. About a second, only after something you did; Continue ends it (`docs/UI.md` §7.2). **Built in `LOOK-SYSTEM`** at your request (`src/lesson/StreakScreens.tsx`, played on Settings → Testing → Animations): this stage shows them in the flow, after the lesson that meets the goal and when the app opens on a lost streak.
+     - **open:** no lesson yet today.
+     - **done:** the flame lights up. **Done in `DESIGN-REVIEW`,** with the full-screen "streak goes up" moment after the day's first lesson.
+     - **at risk:** in the evening, if there is no lesson yet.
+     - **lost:** a friendly screen, "A new streak starts today". **Done in `DESIGN-REVIEW`** (2026-10-04), shown once as the app opens on a lost streak.
+   - **Full screen** (your wish in `LOOK-BRIEF`, `#prototype/mix/streak` and `#prototype/mix/lost` at `a78e210`): every change of the streak gets its own screen. Up by a day, the flame lights and the count rolls on; lost, the flame goes cold and the count rolls to 0. About a second, only after something you did; Continue ends it (`docs/UI.md` §7.2). **Built in `LOOK-SYSTEM`** at your request (`src/lesson/StreakScreens.tsx`, played on Settings → Testing → Animations): ~~this stage shows them in the flow, after the lesson that meets the goal and when the app opens on a lost streak.~~ **In the flow since `DESIGN-REVIEW`** (David's test, 2026-10-04): after the day's first lesson, and when the app opens on a lost streak (`src/lesson/StreakMoment.tsx`).
 3. **Streak freeze:**
    - At most two in store.
    - Used automatically, with the message "Freeze used".
    - Earned through the **weekly challenge** (`docs/UI.md` §7.6): 8–12 questions from everything unlocked, bonus XP plus a freeze.
 4. **Reminders** (`expo-notifications`, local only):
    - A daily time of your choosing.
-   - In the evening, at most one "streak at risk" reminder, and only if the goal is still open.
+   - In the evening, at most one "streak at risk" reminder, and only if there is no lesson yet today.
    - Never guilt-trip texts; everything can be switched off.
 5. **Testing tool** "Advance a day" (+1 day, +2 days).
 6. **Gems** (your wish in `LOOK-BRIEF`, `docs/UI.md` §7.2): a new in-game currency in the top bar, earned in lessons (e.g. a few per lesson, more for a perfect one) and, from `FUN-PASS` on, in bonus side lessons. Never sold (decision I). What they buy is decision U. **In the top bar since `LOOK-SYSTEM`** (your wish of 2026-09-30), stored with the progress and still at 0: this stage makes them earned.
@@ -1193,7 +1193,7 @@ Report: what you built · check results · every reminder text · my test checkl
 ```
 
 **You test (~20 min + 3 days)**
-1. Set the goal to 1 and play one lesson: the streak screen plays full screen, the flame lights up, and lesson complete shows "Today 1/1".
+1. ~~Set the goal to 1 and play one lesson: the streak screen plays full screen, the flame lights up, and lesson complete shows "Today 1/1".~~ Play the day's first lesson (Settings → Testing → Reset streak first): the streak screen plays full screen, the flame lights up, and lesson complete shows the streak. (Built in `DESIGN-REVIEW`.)
 2. Testing → "+1 day": the streak is "open".
 3. "+2 days" without a freeze: the "new streak" screen. With a freeze: "Freeze used".
 4. Play the weekly challenge: you receive a freeze.
@@ -1205,13 +1205,13 @@ Report: what you built · check results · every reminder text · my test checkl
 
 **Goal.** A good first impression, and everything legally and professionally required before the first screen.
 
-**Since `DESIGN-REVIEW`** (2026-10-03): the first trade comes before everything (`docs/UI.md` §11.1, `src/onboarding/`), and the steps below follow it. The daily goal as three paces (Easy, Steady, Serious) belongs to the registration screens, which David adds later himself; this stage keeps the plain choice of 1, 2 or 3.
+**Since `DESIGN-REVIEW`** (2026-10-03): the first trade comes before everything (`docs/UI.md` §11.1, `src/onboarding/`), and the steps below follow it. ~~The daily goal as three paces (Easy, Steady, Serious) belongs to the registration screens, which David adds later himself; this stage keeps the plain choice of 1, 2 or 3.~~ There is no daily goal any more (David, 2026-10-04): one lesson a day keeps the streak, so the first run has no goal step.
 
 **Scope**
 1. **First run** (`docs/UI.md` §11.1), in this order, after the first trade:
    1. What the app is.
    2. The risk note in one sentence, with "More".
-   3. Daily goal.
+   3. ~~Daily goal.~~ (dropped, 2026-10-04)
    4. Reminders yes/no.
    5. Market profile ("Where will you trade later?" US / Germany).
 
@@ -1350,7 +1350,7 @@ Report: what you built · number of terms · 15 random definitions to proofread 
    - ~~A **variance view**, e.g. "Your correct decisions: 64 % winners, 36 % losers – that is what a good process looks like."~~ Built, as counts and without calling any split good (`docs/agent.md` §3.11).
 2. ~~**Trader Card v1:** best setup, a summary of the saved plan, tier. Shareable as an image.~~ **The tier card, shareable as an image,** and the plan as an image if `ONBOARDING` has not done it.
 3. ~~**The risk-note line** on the statistics screen (`docs/agent.md` §7).~~ Built.
-4. **The medal just won shines once on the shelf** (`docs/UI.md` §7.4, left from `DESIGN-REVIEW`): the app remembers which medals the shelf has shown, and a new one gets one pass of light the first time Account opens after it.
+4. ~~**The medal just won shines once on the shelf** (`docs/UI.md` §7.4, left from `DESIGN-REVIEW`): the app remembers which medals the shelf has shown, and a new one gets one pass of light the first time Account opens after it.~~ **Done in `DESIGN-REVIEW`** (David's test, 2026-10-04).
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
@@ -2012,8 +2012,8 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
 **Free for everyone**
 - Every lesson of every path, the checkpoints and the final exams.
 - The Practice tab: mistakes, weak concepts, scheduled review, the daily mix.
-- Glossary, statistics, streak and daily goal.
-- 5 hearts in tests: one back every 4 hours, or one per finished practice round.
+- Glossary, statistics and the streak (one lesson a day).
+- 5 hearts in lessons and tests: all back five hours after the first is lost, or one per finished practice round.
 - **The Daily Chart:** one chart a day, the same for everyone on the same path, played bar by bar. You pick your moment or stand aside, set stop and target, then see what happened. The result can be shared as a small grid that shows your decisions, never money. It is a reason to open the app every day, and the arena's shop window.
 - **A taste of the arena**, e.g. one replay and ten drills, so you know what Plus contains.
 - **Bonus side lessons** on the path (from `FUN-PASS`): short charts to spot the setup, or see that there is none. They pay gems.
@@ -2432,7 +2432,7 @@ PR, every check green, report with 12 sample charts (templates session) or the r
    - the app works from the first second;
    - sign-in is offered after the first lessons, in Account and before a purchase, never forced;
    - local progress moves into the account on sign-in, without loss.
-4. **What syncs:** progress, hearts, XP, streak and freezes, daily goal, the plan with its history, the practice schedule, the practice account and journal, settings. The conflict rules between two devices are designed in plan mode and tested.
+4. **What syncs:** progress, hearts, XP, streak and freezes, the plan with its history, the practice schedule, the practice account and journal, settings. The conflict rules between two devices are designed in plan mode and tested.
 5. **Offline first:** everything works offline, and the sync catches up.
 6. **Account deletion** inside the app and on a web page (both stores require it), and a **data export** (GDPR Art. 15 and 20).
 7. **Privacy:** a data-processing agreement with Supabase, the privacy policy extended, the record of processing activities.
@@ -2838,7 +2838,7 @@ Not part of v1.0. Every idea here gets a stage of its own in this plan before it
 - **`FRIENDS`:** an opt-in friends league instead of a global leaderboard (W7). Scored on decisions, not on the amount of XP.
 - **`AI-EXPLAINER`:** "Explain it differently" after a wrong answer, via the Claude API (K9). Only with hard guardrails: no signals, no investment advice, only the lesson's material. A candidate for Nutrade Plus.
 - **Arena extras:** monthly challenges and more scenario packs; real historical data, if a license is affordable.
-- **Widgets:** streak, daily goal, the Daily Chart.
+- **Widgets:** streak (today's lesson done or not), the Daily Chart.
 - **Tier card:** sharing, achievements (the Trader Card with stats was not taken in `DESIGN-REVIEW`).
 - **Tablet and landscape charts.**
 

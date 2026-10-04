@@ -223,11 +223,12 @@ export default function LessonPlayer({
   // docs/UI.md §8: the sheet of a marked term, open over the screen.
   const [termOpen, setTermOpen] = useState<string | null>(null);
   const closeTerm = useCallback(() => setTermOpen(null), []);
-  // docs/UI.md §5.2 [v4, built in DESIGN-REVIEW]: hearts are spent only in
-  // Checkpoints and Final Exams, and a test stops once the last one is gone.
-  // Lessons, practice and the path choice never cost one -- a lesson's
-  // mistakes come back in its mistakes round instead (§4.5).
-  const spendsHearts = !testBench && (kind === 'test' || kind === 'final');
+  // docs/UI.md §5.2 [DESIGN-REVIEW, David 2026-10-04: "I want the hearts to go
+  // away even if it isn't a checkpoint level"]: every wrong answer in a lesson
+  // or a test costs a heart, its mistakes round included, and the run stops
+  // once the last one is gone. Practice, the first trade and the path choice
+  // never cost one; practice gives one back (§7.3).
+  const spendsHearts = !testBench && kind !== 'practice' && kind !== 'first' && kind !== 'path';
   // A test opens on a briefing: what it asks, the pass mark, the hearts taken in.
   const briefing: Briefing | undefined = scored
     ? {

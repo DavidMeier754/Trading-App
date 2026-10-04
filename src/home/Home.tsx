@@ -121,6 +121,10 @@ export default function Home({
           setPage(null);
           setTab('learn');
         }}
+        onShowAccount={() => {
+          setPage(null);
+          setTab('account');
+        }}
       />
     );
   }

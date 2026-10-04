@@ -17,7 +17,9 @@ import {
   MAX_HEARTS,
   refillHearts,
   replayFirstTrade,
+  resetStreak,
   skipTo,
+  streakDays,
   useHearts,
   useProgress,
   waitText,
@@ -35,10 +37,11 @@ import { NEW_DESIGNS } from './newDesigns';
 /**
  * Settings → Testing (docs/UI.md §11.5): the testing tools, in test builds
  * only, as a section of Settings itself (David, 2026-09-30: "bring back all
- * the developer options into the settings"). Three change the learner's
- * progress on the spot -- the hearts back, gems for the top bar, a jump ahead --
- * and three open pages of their own: the lesson with every screen type, the
- * Animations page and the Design suggestions.
+ * the developer options into the settings"). Four change the learner's
+ * progress on the spot -- the hearts back, the streak back to 0, gems for the
+ * top bar, a jump ahead -- and the rest open pages or lessons of their own: the
+ * lesson with every screen type, New designs, the first trade, the Animations
+ * page and the Design suggestions.
  */
 export default function TestingTools({
   onOpenBench,
@@ -56,6 +59,7 @@ export default function TestingTools({
     <>
       <Text style={pageStyles.section}>Testing</Text>
       <HeartsRow />
+      <StreakRow />
       <GemsRow />
       <SkipRow />
       <RowButton
@@ -135,6 +139,57 @@ function HeartsRow() {
             {full
               ? `All ${MAX_HEARTS} are here.`
               : `${hearts} of ${MAX_HEARTS}${fullAt ? ` · all back in ${waitText(fullAt)}` : ''}`}
+          </Text>
+        </View>
+      </Pressable>
+    </Animated.View>
+  );
+}
+
+/**
+ * The streak back to 0 (David, 2026-10-04: "add a button to the developer
+ * settings where i can reset the streak to 0"), so the day's first lesson and
+ * its streak screen can be tried again. The longest streak stays.
+ */
+function StreakRow() {
+  const progress = useProgress();
+  const days = streakDays(progress);
+  const none = days === 0 && progress.today.count === 0;
+  const press = usePressFeedback(!none, { cue: 'tick' });
+  const pop = useSharedValue(1);
+  const popStyle = useAnimatedStyle(() => ({ transform: [{ scale: pop.get() }] }));
+  return (
+    <Animated.View style={press.style}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityState={{ disabled: none }}
+        disabled={none}
+        onPressIn={press.onPressIn}
+        onPressOut={press.onPressOut}
+        onPress={() => {
+          resetStreak();
+          pop.set(
+            withSequence(
+              withTiming(0.7, { duration: 120, easing: EASE_OUT }),
+              withSpring(1, SPRING_POP),
+            ),
+          );
+        }}
+        style={rowStyles.row}
+      >
+        <Animated.View
+          style={[rowStyles.rowIcon, { backgroundColor: colors.warningTint }, popStyle]}
+        >
+          <Icon name="flame" size={22} color={colors.warning} />
+        </Animated.View>
+        <View style={rowStyles.rowText}>
+          <Text style={[rowStyles.rowTitle, none && { color: colors.textMuted }]}>
+            Reset streak
+          </Text>
+          <Text style={rowStyles.rowSub}>
+            {none
+              ? 'The streak is at 0.'
+              : `${days} ${days === 1 ? 'day' : 'days'} · back to 0, today's lesson undone`}
           </Text>
         </View>
       </Pressable>

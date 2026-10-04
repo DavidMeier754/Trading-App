@@ -23,6 +23,8 @@ import { colors, radius, space, type, themed } from '../theme';
 import type { BadgeScreen as Badge, Screen, TierUpScreen as TierUp } from '../types';
 import Icon, { type IconName } from './icons';
 import { flySkills } from './fly';
+import { igniteFlame, replayShelf } from './moments';
+import { standing } from './accountData';
 import { rewindUnlock } from './LevelNode';
 import { PageHeader } from './pageParts';
 import { pathView } from './pathState';
@@ -46,7 +48,7 @@ const APP: { id: StageId; icon: IconName; title: string; sub: string }[] = [
     id: 'up',
     icon: 'flame',
     title: 'Streak goes up',
-    sub: "The day's goal met: the flame catches",
+    sub: "The day's first lesson: the flame catches",
   },
   { id: 'lost', icon: 'calendar', title: 'Streak lost', sub: 'A day missed: the flame goes out' },
   { id: 'badge', icon: 'trophy', title: 'Chapter complete', sub: "The chapter's medal lands" },
@@ -89,10 +91,13 @@ const pathOf = (path: string | undefined) => (!path || path === 'all' ? null : p
 export default function AnimationsScreen({
   onBack,
   onShowMap,
+  onShowAccount,
 }: {
   onBack: () => void;
   /** Leave for the map, which plays what `rewindUnlock` set up. */
   onShowMap: () => void;
+  /** Leave for the Account tab, where a medal lands on the shelf. */
+  onShowAccount: () => void;
 }) {
   const insets = useSafeAreaInsets();
   const reduced = useReduceMotion();
@@ -102,6 +107,8 @@ export default function AnimationsScreen({
   const here = k >= 0 ? views[k] : views[0];
   // A level opens after the one before it: there has to be one, finished.
   const canOpen = k > 0 && views[k - 1].status === 'complete';
+  // The last medal won lands again; before any, Chapter 1's shows how one would.
+  const shelfChapter = Math.max(1, ...standing(progress).finished);
   const [stage, setStage] = useState<StageId | null>(null);
 
   // Android's back button steps back, as the arrow does.
@@ -167,6 +174,24 @@ export default function AnimationsScreen({
           onPress={() => {
             flySkills(4);
             onShowMap();
+          }}
+        />
+        <Row
+          icon="flame"
+          title="The flame catches"
+          sub="Back on the map after the day's first lesson"
+          onPress={() => {
+            igniteFlame();
+            onShowMap();
+          }}
+        />
+        <Row
+          icon="trophy"
+          title="Medal on the shelf"
+          sub={`Account: Chapter ${shelfChapter}'s medal lands and shines`}
+          onPress={() => {
+            replayShelf(shelfChapter);
+            onShowAccount();
           }}
         />
         {APP.map((a) => (

@@ -23,7 +23,7 @@ import { useReduceMotion } from './useReduceMotion';
  * The streak, full screen (docs/UI.md §7.2; David, 2026-09-29: "an animation
  * for every time the streak is lost or advances ... full screen"; on
  * 2026-09-30: "Make them real nice fancy"). Each comes after something the
- * learner did -- the lesson that met the day's goal, opening the app on a
+ * learner did -- the day's first lesson, opening the app on a
  * lost streak -- plays once, about two seconds, and then holds still; the key
  * under it ends it. Under reduced motion each shows where it ends, at once.
  *

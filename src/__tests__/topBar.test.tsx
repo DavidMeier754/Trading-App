@@ -50,13 +50,15 @@ describe('the top bar (docs/UI.md §7.2)', () => {
     expect(texts(tree!)).toContain('120');
   });
 
-  it('says how far today has got, whole, when the flame is tapped (it read "T...")', () => {
+  it('says whether today\'s lesson is done, whole, when the flame is tapped (it read "T...")', () => {
     render();
     const flame = tree!.root.find(
       (n) => n.props.accessibilityLabel === '0 day streak' && typeof n.props.onPress === 'function',
     );
     act(() => flame.props.onPress());
-    const today = tree!.root.findAllByType(Text).find((t) => t.props.children === 'Today 0/2');
+    const today = tree!.root
+      .findAllByType(Text)
+      .find((t) => t.props.children === 'One lesson today keeps it');
     expect(today).toBeDefined();
     expect(today!.props.numberOfLines).toBe(1);
   });

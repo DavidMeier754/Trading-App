@@ -15,13 +15,19 @@ import LessonPlayer from './lesson/LessonPlayer';
 import {
   choosePath,
   completeLesson,
+  dayOf,
   earnGems,
+  endLostStreak,
   finishFirstTrade,
   getProgress,
   giveHeart,
   loadSaved,
+  lostStreak,
+  streakDays,
 } from './progress';
 import { flySkills } from './home/fly';
+import { igniteFlame } from './home/moments';
+import StreakMoment, { type StreakChange } from './lesson/StreakMoment';
 import { setMotionSetting } from './lesson/useReduceMotion';
 import { TEST_TOOLS } from './testTools';
 import {
@@ -55,6 +61,17 @@ export default function App() {
   const [entry, setEntry] = useState<LessonEntry | null>(link?.entry ?? null);
   // `#debug-crash`, test builds only: a screen that throws (ErrorBoundary.tsx).
   const [crash, setCrash] = useState(() => !!link?.crash);
+  // docs/UI.md §7.2: a change of the streak, full screen, between a lesson and
+  // the map (up) or as the app opens (lost). `streakUp` waits for the lesson
+  // that made it to close.
+  const [moment, setMoment] = useState<StreakChange | null>(null);
+  const streakUp = useRef<StreakChange | null>(null);
+  const endMoment = useCallback(() => {
+    if (moment?.kind === 'lost') endLostStreak();
+    // Back on the map, the flame catches (LearnScreen's Hud).
+    if (moment?.kind === 'up') igniteFlame();
+    setMoment(null);
+  }, [moment]);
 
   // Saved progress and settings come back before the home screen is drawn, so
   // the path never flashes empty first. A deep link opens its lesson at once,
@@ -70,6 +87,9 @@ export default function App() {
       // decision -- not over a deep link of any kind (a lesson, a home page, a
       // look), which asks for its own screen, and not in the render test.
       if (!TEST_MODE && !link && !getProgress().firstTrade) setEntry(FIRST_TRADE);
+      // A streak that broke since the last visit gets its screen, once.
+      else if (!TEST_MODE && !link && lostStreak(getProgress()) > 0)
+        setMoment({ kind: 'lost', lost: lostStreak(getProgress()) });
     });
     // Once, as the app opens.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -215,6 +235,11 @@ export default function App() {
                       // The first trade is shown once, finished or not.
                       if (entry === FIRST_TRADE) finishFirstTrade();
                       setEntry(null);
+                      // The day's first lesson: the streak's screen before the map.
+                      if (streakUp.current) {
+                        setMoment(streakUp.current);
+                        streakUp.current = null;
+                      }
                     }}
                     // A lesson on the path counts once its summary is reached; the
                     // test bench is not on the path and just plays again. A
@@ -233,16 +258,28 @@ export default function App() {
                               giveHeart();
                               return;
                             }
-                            const first = !getProgress().done[entry.id];
+                            const before = getProgress();
+                            const first = !before.done[entry.id];
+                            // docs/UI.md §5.3: the day's first lesson keeps the streak.
+                            const firstToday = before.streak.last !== dayOf(new Date());
+                            const from = streakDays(before);
                             completeLesson(entry.id, {
                               perfect: result.perfect,
                               xp: entry.level.xp,
                             });
+                            if (firstToday)
+                              streakUp.current = {
+                                kind: 'up',
+                                from,
+                                to: streakDays(getProgress()),
+                              };
                             if (first && isBonus(entry)) earnGems(entry.level.gems ?? 0);
                             if (result.skills.length) flySkills(result.skills.length);
                           }
                     }
                   />
+                ) : moment ? (
+                  <StreakMoment change={moment} onDone={endMoment} />
                 ) : ready ? (
                   <Home
                     width={frameWidth}
