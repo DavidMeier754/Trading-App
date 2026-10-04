@@ -1,7 +1,13 @@
 jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock'));
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
 
-import { labelBox, placeLevelLabels, placeNotes, planLabels } from '../components/ChartPlan';
+import {
+  labelBox,
+  levelLabelText,
+  placeLevelLabels,
+  placeNotes,
+  planLabels,
+} from '../components/ChartPlan';
 import type { TradePlan } from '../lesson/tradePlan';
 
 /** docs/UI.md §6.4: the words on a chart keep off each other, and off the bars where they can. */
@@ -44,6 +50,34 @@ describe('level labels', () => {
       avoid: [word],
     });
     expect(hits(labelBox(spot.text, spot.x, spot.y, spot.anchor), word)).toBe(false);
+  });
+
+  it('keep off each other when two levels sit at the top, a few cents apart (Ch 4 10-1)', () => {
+    // Above the top level there is no room; under it there is one row.
+    const spots = placeLevelLabels(
+      [
+        { text: 'Round number 19.00', y: 26 },
+        { text: "Yesterday's close 18.98", y: 28 },
+      ],
+      { ...frame, ink: [] },
+    );
+    const [a, b] = spots.map((s) => labelBox(s.text, s.x, s.y, s.anchor));
+    expect(hits(a, b)).toBe(false);
+    for (const box of [a, b]) {
+      expect(box.top).toBeGreaterThanOrEqual(frame.top - 2);
+      expect(box.left).toBeGreaterThanOrEqual(frame.left);
+      expect(box.left + box.width).toBeLessThanOrEqual(frame.right);
+    }
+  });
+
+  it('stay inside the plot, off the price axis (Ch 7 14-1 at 320 pt)', () => {
+    // Too long with its price for a 236 pt plot: the name alone, which fits.
+    const text = levelLabelText('Bottom of the morning range', '26.90', 236);
+    expect(text).toBe('Bottom of the morning range');
+    const [spot] = placeLevelLabels([{ text, y: 120 }], { ...frame, right: 236, ink: [] });
+    const box = labelBox(spot.text, spot.x, spot.y, spot.anchor);
+    expect(box.left + box.width).toBeLessThanOrEqual(237);
+    expect(levelLabelText('Floor', '14.00', 236)).toBe('Floor 14.00');
   });
 
   it('keep off each other', () => {

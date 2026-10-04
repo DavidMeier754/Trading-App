@@ -787,7 +787,7 @@ export default function LessonPlayer({
             accessibilityState={{ disabled: !canGoBack }}
             disabled={!canGoBack}
             onPress={goBack}
-            style={[styles.close, !canGoBack && styles.backOff]}
+            style={[styles.close, styles.back, !canGoBack && styles.backOff]}
           >
             <Text style={styles.backText}>{'‹'}</Text>
           </Pressable>
@@ -1245,6 +1245,8 @@ const styles = themed(() => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  // Its 48 pt target meets the ✕'s instead of covering 4 pt of it.
+  back: { marginLeft: -(TAP_TARGET - 32) / 2 + 4 },
   backText: {
     fontSize: 30,
     lineHeight: 32,

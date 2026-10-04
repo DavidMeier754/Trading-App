@@ -9,8 +9,9 @@ import { usePressFeedback } from '../lesson/motion';
 import { colors, radius, space, type, themed } from '../theme';
 import Icon, { type IconName } from './icons';
 
-/** A side stop is a size smaller than a level (LevelNode: 66 in an 86 ring). */
-export const STOP_RING = 64;
+import { STOP_RING } from './mapSizes';
+
+export { STOP_RING };
 const STOP_NODE = 48;
 
 export type SideStopState = 'locked' | 'open' | 'done';

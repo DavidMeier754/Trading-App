@@ -36,6 +36,7 @@ import {
   HaloText,
   labelBox,
   type LabelBox,
+  levelLabelText,
   PlanLines,
   planLabels,
   placeLevelLabels,
@@ -916,13 +917,18 @@ function hatchPath({ x0, x1, y0, y1 }: Zone, step = 9): string {
   return d;
 }
 
-/** Roughly how wide the zone's label draws, for the pill behind it. */
-const LABEL_CHAR_W = 6.6;
+/**
+ * How wide the zone's pill is: its label in 13 pt bold capitals, letter-spaced,
+ * and a little room each side. The level labels keep off it (levelLabels).
+ */
+export function zonePillWidth(label: string): number {
+  return label.length * 8.4 + 14;
+}
 
 function FutureZone({ zone }: { zone: Zone }) {
   const w = zone.x1 - zone.x0;
   if (w < 12) return null;
-  const labelW = zone.label.length * LABEL_CHAR_W + 14;
+  const labelW = zonePillWidth(zone.label);
   const cx = (zone.x0 + zone.x1) / 2;
   return (
     <G>
@@ -1612,24 +1618,43 @@ function Chart({
     }
     const avoid: LabelBox[] = [...planBoxes];
     if (showDecisionMarker && spec.decision_index >= 0) avoid.push(decisionTagBox);
-    if (decisionZone && spec.decision_index >= 0) {
-      // The "next 4 bars" pill in the hatched zone (FutureZone).
-      const zx0 = decisionX + 4;
-      const zx1 = PAD_LEFT + plotW;
-      const pillW = `next ${n - spec.decision_index - 1} bars`.length * LABEL_CHAR_W + 14;
-      avoid.push({
-        left: (zx0 + zx1) / 2 - pillW / 2,
-        top: padTop + priceH / 2 - 9,
-        width: pillW,
-        height: 18,
-      });
-    }
+    // The "next 5 bars" pill is a hint: it makes way for the labels (pillZone).
     return placeLevelLabels(
-      marked.map((lvl) => ({ text: `${lvl.label} ${axisPrice(lvl.price)}`, y: y(lvl.price) })),
+      marked.map((lvl) => ({
+        text: levelLabelText(lvl.label as string, axisPrice(lvl.price), plotW),
+        y: y(lvl.price),
+      })),
       { left: PAD_LEFT, right: PAD_LEFT + plotW, top: padTop, bottom: padTop + priceH, ink, avoid },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spec, bars, n, layout, plan, decisionX, showDecisionMarker, decisionZone]);
+
+  // The "next 5 bars" pill sits in the middle of the hatched zone, or as near
+  // it as it can without covering a level's label (Ch 4 10-1 at 320 pt: two
+  // levels at the top, their labels reaching into the zone).
+  const pillZone = useMemo(() => {
+    if (!future || !future.label || !levelLabels.length) return future;
+    const boxes = [...levelLabels.map((l) => labelBox(l.text, l.x, l.y, l.anchor)), ...planBoxes];
+    const w = zonePillWidth(future.label);
+    const cxZone = (future.x0 + future.x1) / 2;
+    const free = (midY: number) =>
+      boxes.every(
+        (b) =>
+          b.left > cxZone + w / 2 ||
+          b.left + b.width < cxZone - w / 2 ||
+          b.top > midY + 9 ||
+          b.top + b.height < midY - 9,
+      );
+    for (let k = 0; k <= 8; k++) {
+      for (const sign of k ? [1, -1] : [1]) {
+        const midY = future.midY + sign * k * 10;
+        if (midY - 9 < padTop || midY + 9 > padTop + priceH) continue;
+        if (free(midY)) return { ...future, midY };
+      }
+    }
+    return future;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [future?.x0, future?.x1, future?.midY, future?.label, levelLabels, planBoxes]);
 
   // The outcome tag goes where the bars before the decision are not: above
   // them or below, whichever gap is taller, at the left of the plot.
@@ -1779,10 +1804,15 @@ function Chart({
             zone right of the decision, so the empty half of the chart reads as
             "not yet" rather than as nothing. */}
         {future && playGeom && playback ? (
-          <PlaybackFuture g={playGeom} progress={playback} zone={future} slot={layout.slot} />
-        ) : future ? (
+          <PlaybackFuture
+            g={playGeom}
+            progress={playback}
+            zone={pillZone ?? future}
+            slot={layout.slot}
+          />
+        ) : pillZone ? (
           <AnimatedG animatedProps={overlayProps}>
-            <FutureZone zone={future} />
+            <FutureZone zone={pillZone} />
           </AnimatedG>
         ) : null}
 

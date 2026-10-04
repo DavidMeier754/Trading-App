@@ -262,7 +262,11 @@ const PILL_BACK = { duration: 380, easing: EASE_OUT };
 function TabPill() {
   const reduced = useReduceMotion();
   const [tab, setTab] = useState(0);
-  const [barW, setBarW] = useState(0);
+  // Each tab is at least as wide as its name, and the rest is shared out, so
+  // "Leaderboard" fits on a narrow phone too: the pill goes by the tabs'
+  // measured centres, not by equal columns.
+  const centres = useSharedValue<number[]>([]);
+  const placed = useRef<number[]>([]);
   // The pill's two ends, in tabs from the left.
   const from = useSharedValue(0);
   const to = useSharedValue(0);
@@ -280,15 +284,17 @@ function TabPill() {
     to.set(withTiming(i, right ? PILL_FRONT : PILL_BACK));
   };
 
-  const col = barW / TABS.length;
   const pill = useAnimatedStyle(() => {
-    const a = Math.min(from.get(), to.get());
-    const b = Math.max(from.get(), to.get());
-    return {
-      opacity: col > 0 ? 1 : 0,
-      left: col * a + (col - PILL_W) / 2,
-      width: PILL_W + col * (b - a),
+    const c = centres.get();
+    if (c.length < TABS.length) return { opacity: 0 };
+    // Where a tab position between two tabs lies, by their centres.
+    const at = (t: number) => {
+      const i = Math.min(Math.floor(t), c.length - 2);
+      return c[i] + (c[i + 1] - c[i]) * (t - i);
     };
+    const a = at(Math.min(from.get(), to.get()));
+    const b = at(Math.max(from.get(), to.get()));
+    return { opacity: 1, left: a - PILL_W / 2, width: PILL_W + (b - a) };
   });
 
   const open = TABS[tab];
@@ -301,14 +307,22 @@ function TabPill() {
         <Text style={styles.pillHeroTitle}>{open.label}</Text>
         <Text style={styles.pillHeroLine}>{open.line}</Text>
       </View>
-      <View
-        accessibilityRole="tablist"
-        style={styles.pillBar}
-        onLayout={(e) => setBarW(e.nativeEvent.layout.width)}
-      >
+      <View accessibilityRole="tablist" style={styles.pillBar}>
         <Animated.View pointerEvents="none" style={[styles.pill, pill]} />
         {TABS.map((t, i) => (
-          <PillTab key={t.id} tab={t} on={i === tab} reduced={reduced} onPress={() => pick(i)} />
+          <PillTab
+            key={t.id}
+            tab={t}
+            on={i === tab}
+            reduced={reduced}
+            onPress={() => pick(i)}
+            onCentre={(x) => {
+              placed.current[i] = x;
+              if (placed.current.filter((v) => v !== undefined).length === TABS.length) {
+                centres.set([...placed.current]);
+              }
+            }}
+          />
         ))}
       </View>
     </MiniScreen>
@@ -320,11 +334,14 @@ function PillTab({
   on,
   reduced,
   onPress,
+  onCentre,
 }: {
   tab: Tab;
   on: boolean;
   reduced: boolean;
   onPress: () => void;
+  /** Where the tab's middle lies across the bar, once it is laid out. */
+  onCentre: (x: number) => void;
 }) {
   const lit = useSharedValue(on ? 1 : 0);
   const hop = useSharedValue(0);
@@ -368,7 +385,9 @@ function PillTab({
       accessibilityLabel={tab.label}
       onPressIn={on ? undefined : detentFeedback}
       onPress={onPress}
-      style={styles.pillTab}
+      onLayout={(e) => onCentre(e.nativeEvent.layout.x + e.nativeEvent.layout.width / 2)}
+      // At least as wide as its name (13 pt, about 7 pt a letter), the rest shared.
+      style={[styles.pillTab, { minWidth: tab.label.length * 7 + 8 }]}
     >
       <Animated.View style={[styles.pillIcon, iconStyle]}>
         <Animated.View style={[styles.pillIconLayer, offStyle]}>

@@ -196,6 +196,8 @@ const kinds = {
   contrast: 'Text below 4.5 : 1',
   target: 'Buttons below 48 x 48',
   key: 'Key labels not on one line',
+  overlap: 'Text or buttons on top of each other',
+  offscreen: "Buttons past the screen's side",
 };
 const unique = new Map();
 for (const f of findings) {

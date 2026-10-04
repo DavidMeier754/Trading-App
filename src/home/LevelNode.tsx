@@ -27,6 +27,7 @@ import { LevelType, levelIconOf, levelTypeOf } from '../content';
 import { tint } from '../lesson/look';
 import Icon, { IconName, isIconName } from './icons';
 import type { LevelStatus, LevelView } from './pathState';
+import { RING, TAG_TOP } from './mapSizes';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -35,7 +36,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
  * 86 pt ring. David made them smaller in stage LOOK-BRIEF (58 in 76, from 72
  * in 96) and on 2026-09-30 "a little bigger" again.
  */
-export const RING = 86;
+export { RING };
 const NODE = 66;
 const STROKE = 6;
 const R = (RING - STROKE) / 2;
@@ -653,7 +654,7 @@ const styles = themed(() => ({
     borderColor: colors.accent,
   },
   // As wide as the row round the level, so the tag's word never wraps.
-  bubbleWrap: { position: 'absolute', top: -42, left: -90, right: -90, alignItems: 'center' },
+  bubbleWrap: { position: 'absolute', top: -TAG_TOP, left: -90, right: -90, alignItems: 'center' },
   bubble: {
     backgroundColor: colors.surface,
     borderColor: colors.accent,

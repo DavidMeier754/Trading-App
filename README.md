@@ -47,7 +47,7 @@ npm run web          # browser preview
 npm start            # Expo Go on a phone
 npm run typecheck
 npm run lint && npm test
-npm run smoke        # every screen renders
+npm run smoke        # every screen renders, nothing drawn on top of anything (--width 320: the smallest phone)
 ```
 
 More in `README-app.md`.

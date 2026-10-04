@@ -7,6 +7,7 @@
 //   npm run smoke -- --only chapter-03-orders-costs-position-size,chapter-05-finding-the-trade
 //                                       only those chapter folders (content-only PRs)
 //   npm run smoke -- --workers 4        pages in parallel (default: one per CPU)
+//   npm run smoke -- --width 320        a narrower phone (default: 390)
 //
 // It builds a test build (EXPO_PUBLIC_TEST_TOOLS=1), serves it locally and
 // opens it once per worker with `?test=1`, which turns animations off and lets
@@ -15,7 +16,11 @@
 //   - crash:   the error page (ErrorBoundary.tsx, testID "error-page") is up;
 //   - nan:     `NaN` in a drawn attribute (a price line's y1) or in the text;
 //   - console: an error on the console or an uncaught exception;
-//   - blank:   nothing to read and nothing drawn.
+//   - blank:   nothing to read and nothing drawn;
+//   - overlap: text or a button drawn over another, or a button past the
+//              screen's side (tools/ui_audit.mjs, its overlap and offscreen
+//              kinds; David, 2026-10-04: "the Start Box over the level
+//              overlaps the optional side levels").
 // It writes smoke/smoke-report.json and one contact sheet per chapter
 // (smoke/contact-<chapter>.jpg), and exits 1 when anything was found.
 //
@@ -29,6 +34,8 @@ import { dirname, extname, join, normalize, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { chromium } from 'playwright';
+
+import { AUDIT, auditScreen } from './ui_audit.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist-smoke');
@@ -46,7 +53,7 @@ const only = (option('--only') ?? '')
   .map((s) => s.trim())
   .filter(Boolean);
 const workers = Number(option('--workers')) || Math.max(1, cpus().length);
-const VIEWPORT = { width: 390, height: 844 };
+const VIEWPORT = { width: Number(option('--width')) || 390, height: 844 };
 
 const started = Date.now();
 const seconds = () => Math.round((Date.now() - started) / 100) / 10;
@@ -210,6 +217,9 @@ async function visitScreen(worker, task) {
     () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => r(null)))),
   );
   const found = await page.evaluate(inspect);
+  found.overlap = (
+    await page.evaluate(auditScreen, { ...AUDIT, only: ['overlap', 'offscreen'] })
+  ).map((f) => f.detail);
   const shot = join(shots, `${task.n}.jpg`);
   await page.screenshot({ path: shot, type: 'jpeg', quality: 55 });
   return { ...found, console: [...worker.errors] };
@@ -324,7 +334,14 @@ await Promise.all(
       try {
         found = await visitScreen(worker, task);
       } catch (err) {
-        found = { crash: false, nan: [], blank: false, console: [], timeout: String(err.message) };
+        found = {
+          crash: false,
+          nan: [],
+          blank: false,
+          console: [],
+          overlap: [],
+          timeout: String(err.message),
+        };
         // The page may be stuck; start it again for the next screen.
         await worker.page.context().close();
         Object.assign(worker, await openPage(browser, base));
@@ -333,6 +350,8 @@ await Promise.all(
       if (found.crash) problems.push({ kind: 'crash', detail: found.crashMessage });
       if (found.nan.length) problems.push({ kind: 'nan', detail: found.nan.join(' ') });
       if (found.blank) problems.push({ kind: 'blank', detail: null });
+      if (found.overlap.length)
+        problems.push({ kind: 'overlap', detail: found.overlap.join('; ') });
       if (found.timeout) problems.push({ kind: 'timeout', detail: found.timeout.slice(0, 200) });
       // The error page logs its own throw; that is the crash, not a second finding.
       // A NaN attribute also logs "Expected length, NaN": the same finding.
@@ -347,7 +366,7 @@ await Promise.all(
 );
 
 // Totals, per chapter and overall.
-const KINDS = ['crash', 'nan', 'console', 'blank', 'timeout'];
+const KINDS = ['crash', 'nan', 'console', 'blank', 'overlap', 'timeout'];
 const empty = () => Object.fromEntries(KINDS.map((k) => [k, 0]));
 const chapters = {};
 const problems = [];
@@ -427,12 +446,12 @@ writeFileSync(join(outDir, 'smoke-report.json'), JSON.stringify(report, null, 2)
 // The summary, also as Markdown for the CI job page and the PR comment.
 const rows = Object.entries(chapters).map(
   ([key, c]) =>
-    `| ${key.split('/').pop()} | ${c.lessons} | ${c.screens} | ${key === 'home' ? '–' : c.units}${c.validatorScreens !== null && c.validatorScreens !== c.units ? ` ≠ ${c.validatorScreens}` : ''} | ${c.crash} | ${c.nan} | ${c.console} | ${c.blank} |`,
+    `| ${key.split('/').pop()} | ${c.lessons} | ${c.screens} | ${key === 'home' ? '–' : c.units}${c.validatorScreens !== null && c.validatorScreens !== c.units ? ` ≠ ${c.validatorScreens}` : ''} | ${c.crash} | ${c.nan} | ${c.console} | ${c.blank} | ${c.overlap} |`,
 );
 const md = [
-  `**Render test:** ${totals.screens} screens in ${totals.lessons} lessons${totals.home ? ` and ${totals.home} home pages` : ''}, ${report.seconds} s${only.length ? ` (only ${only.join(', ')})` : ''}.`,
+  `**Render test:** ${totals.screens} screens in ${totals.lessons} lessons${totals.home ? ` and ${totals.home} home pages` : ''} at ${VIEWPORT.width} pt, ${report.seconds} s${only.length ? ` (only ${only.join(', ')})` : ''}.`,
   '',
-  `Crashes **${totals.crash}** · NaN **${totals.nan}** · console errors **${totals.console}** · blank **${totals.blank}**${totals.timeout ? ` · timeouts **${totals.timeout}**` : ''}`,
+  `Crashes **${totals.crash}** · NaN **${totals.nan}** · console errors **${totals.console}** · blank **${totals.blank}** · overlaps **${totals.overlap}**${totals.timeout ? ` · timeouts **${totals.timeout}**` : ''}`,
   '',
   counts
     ? mismatches.length
@@ -440,8 +459,8 @@ const md = [
       : `Every lesson is in the app: its screens, counted the validator's way (a carousel's cards, a deck's cards and a walkthrough's steps count one each), match \`validate_content.py --status\` chapter by chapter (${report.countCheck.validatorScreens}).`
     : 'Screen count not compared (the validator did not run).',
   '',
-  '| Chapter | Lessons | Screens opened | Validator count | Crash | NaN | Console | Blank |',
-  '|---|---:|---:|---:|---:|---:|---:|---:|',
+  '| Chapter | Lessons | Screens opened | Validator count | Crash | NaN | Console | Blank | Overlap |',
+  '|---|---:|---:|---:|---:|---:|---:|---:|---:|',
   ...rows,
   '',
   problems.length

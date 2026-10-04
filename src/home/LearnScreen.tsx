@@ -59,9 +59,20 @@ import { ChapterView, chapterViews, currentLevel, LevelView } from './pathState'
 import { Gem, PathLogo } from './scenes';
 import { useDisplayFace } from '../fonts';
 import { takeIgnite } from './moments';
+import {
+  boxDistance,
+  labelRoom,
+  labelSide,
+  labelWidth,
+  nodeX,
+  sideStopAt,
+  STEP_Y,
+  tagBox,
+  WAVE_LEVELS,
+  waveAmp,
+  windAt,
+} from './mapLayout';
 
-/** Vertical distance between two nodes' centres. */
-const STEP_Y = 148;
 /** Room between a chapter's header and its first node, for the START tag. */
 const NODES_TOP = 52;
 /** A chapter's header card, and the space left under an expanded chapter's last node. */
@@ -80,25 +91,6 @@ const GATE_H = 40;
 const FINALE_H = 120;
 /** The top bar's row: its 48 pt targets. */
 const HUD_ROW = 48;
-/**
- * docs/UI.md §7.1 [DESIGN-REVIEW] (David: "a curvy path like a sin
- * function"; 2026-10-04: "still going in a zickzack movement instead of a sin
- * CURVE"): the levels sit on one sine curve and the trail follows the same
- * curve between them. A full swing takes eight levels, so no level sits at
- * every turn: between two of them the trail visibly bends, and the path reads
- * as one wave rather than straight stretches from side to side. (Four levels
- * a swing put a level on each turn and the centre, and the trail between
- * looked straight.) `phase` counts levels down the chapter.
- */
-const WAVE_LEVELS = 8;
-function windAt(phase: number): number {
-  return -Math.sin((phase * 2 * Math.PI) / WAVE_LEVELS);
-}
-/** A level's label goes on the side of its node with more room. */
-function labelSide(phase: number): 'left' | 'right' {
-  return windAt(phase) > 0.05 ? 'left' : 'right';
-}
-
 type NodeItem = { t: 'node'; gi: number; li: number; ci: number; x: number; y: number };
 /**
  * docs/UI.md §7.1 "Side stops": a mistakes review before each test, and a
@@ -219,8 +211,8 @@ export default function LearnScreen({
   const pathChosen = progress.path !== null;
   // About a quarter of the screen to each side, so the wave shows; the
   // buttons keep their size and their spacing (STEP_Y).
-  const amp = Math.min(96, width * 0.24);
-  const cxOf = (li: number) => width / 2 + windAt(li) * amp;
+  const amp = waveAmp(width);
+  const cxOf = (li: number) => nodeX(li, width);
   // Where everything sits: a header per chapter, then its levels if it is open.
   const { items, nodeAt, contentH, gates } = useMemo(() => {
     const out: Item[] = [];
@@ -261,22 +253,12 @@ export default function LearnScreen({
           tail = { x: node.x, y: node.y };
         });
         // Side stops, in the room the curve leaves free between two levels:
-        // halfway down, just outside the curve's swing there, where neither
-        // level's label is -- a short spur away.
-        const stopAt = (li: number) => {
-          // Off the middle, away from the level on its side of the path: that
-          // level is below it after a centre level (even li), above it after
-          // a side one.
-          const phase = li + 0.5 + (li % 2 === 0 ? -0.12 : 0.12);
-          const at = y + RING / 2 + phase * STEP_Y;
-          const swing = windAt(li + 0.5);
-          const out = Math.abs(windAt(phase)) * amp + STOP_RING / 2 + 30;
-          return {
-            x: width / 2 + Math.sign(swing) * out,
-            y: at,
-            from: { x: width / 2 + windAt(phase) * amp, y: at },
-          };
-        };
+        // clear of both levels, their titles, the START tag any level can
+        // wear, the trail and the screen's sides -- a short spur away
+        // (mapLayout.placeSideStop; David, 2026-10-04: "the Start Box over
+        // the level overlaps the optional side levels").
+        const titles = c.levels.map((l) => l.level.title);
+        const stopAt = (li: number) => sideStopAt({ li, titles, top: y + RING / 2, width });
         reviewStops(c.chapter).forEach((stop) => {
           if (stop.afterIndex >= c.levels.length - 1) return;
           out.push({
@@ -333,13 +315,6 @@ export default function LearnScreen({
     // cxOf is derived from the width
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapters, expanded, width, pathChosen, amp]);
-
-  // A label sits on the open side of its node and takes what width is left
-  // there, so a long title wraps instead of running off the screen.
-  const labelRoom = (li: number) =>
-    labelSide(li) === 'left'
-      ? cxOf(li) - RING / 2 - space.sm - space.lg
-      : width - (cxOf(li) + RING / 2 + space.sm) - space.lg;
 
   const [open, setOpen] = useState<number | null>(null);
   const [stopOpen, setStopOpen] = useState<string | null>(null);
@@ -571,7 +546,11 @@ export default function LearnScreen({
                   onPress={() => openCard(it.gi)}
                   unlocking={it.gi === unlocking}
                 />
-                <NodeLabel view={views[it.gi]} side={labelSide(it.li)} room={labelRoom(it.li)} />
+                <NodeLabel
+                  view={views[it.gi]}
+                  side={labelSide(it.li)}
+                  room={labelRoom(it.li, width)}
+                />
               </Animated.View>
             ),
           )}
@@ -1327,7 +1306,7 @@ export function NodeLabel({
       pointerEvents="none"
       style={[
         styles.label,
-        { width: Math.max(90, Math.min(170, room)) },
+        { width: labelWidth(room) },
         side === 'right' ? { left: RING + space.sm } : { right: RING + space.sm },
       ]}
     >
@@ -1407,6 +1386,12 @@ function Connectors({
   }, [drawable, reduced, draw]);
 
   const dots: { x: number; y: number; t: number; lit: boolean; seg: number }[] = [];
+  // The START tag over the level the learner is on hides the trail under it:
+  // no dot is drawn there, rather than half of one peeking out at its edge.
+  const tags = Object.entries(nodeAt)
+    .filter(([gi]) => views[Number(gi)]?.status === 'current')
+    .map(([, at]) => tagBox(at));
+  const underTag = (x: number, y: number) => tags.some((box) => boxDistance({ x, y }, box) < 4);
   const segment = (
     a: { x: number; y: number; li: number },
     b: { x: number; y: number },
@@ -1423,6 +1408,7 @@ function Connectors({
       const y = a.y + (b.y - a.y) * t;
       const clear = RING / 2 + 5;
       if (Math.hypot(x - a.x, y - a.y) < clear || Math.hypot(x - b.x, y - b.y) < clear) continue;
+      if (underTag(x, y)) continue;
       dots.push({ x, y, t, lit, seg });
     }
   };

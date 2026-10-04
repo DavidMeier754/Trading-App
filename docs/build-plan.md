@@ -948,6 +948,7 @@ Report: what you built · check results · contact sheets before/after · my tes
 10. **Not in the app:** the tabs concept (ideas 31 and 38) as an artifact for David's choice (decision V).
 
 11. **After David's test (2026-10-04):** hearts in every lesson; one lesson a day keeps the streak; the path as a true sine; the streak moments in the flow and the flame catching; the medal landing on the shelf; Settings → Testing → **Reset streak**; and the skills: `content/skills.yaml` with every skill and its info, a `skills` line in every level file, `tools/skills.py`, the validator's rules (`docs/schema.md` "Skills").
+12. **Nothing on top of anything** (David, after his test: "the Start Box over the level overlaps the optional side levels. Find every instance where something like this happens in the app and fix it"): side stops placed by search (`src/home/mapLayout.ts`), chart labels that never cover each other, the axis or the zone's pill, the scanner in two lines on the smallest phones, the plan card's suggestion key under its line, the lesson bar's targets apart; and the check that keeps it so: `overlap` and `offscreen` in the UI check and in `npm run smoke` (`docs/UI.md` §10).
 
 **Not in this stage:** any other change to a level file or the test bench (David: "Don't rewrite any .yaml" — the `skills` line is the exception he asked for on 2026-10-04); the tab set (decision V); sharing the plan or a card as an image (`ONBOARDING`, `STATS`).
 

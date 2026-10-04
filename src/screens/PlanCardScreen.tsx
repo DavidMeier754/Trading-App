@@ -58,7 +58,7 @@ export default function PlanCardScreen({
           return (
             <View key={key} style={[styles.field, surfaceStyle(look)]}>
               <Text style={styles.label}>{copy(field.label)}</Text>
-              <View style={styles.valueRow}>
+              <View style={[styles.valueRow, field.kind === 'text' && styles.valueStack]}>
                 {field.kind === 'text' ? (
                   // Words are typed. The suggestion, where there is one, is the
                   // placeholder (docs/schema.md "The plan").
@@ -88,9 +88,15 @@ export default function PlanCardScreen({
                       tapFeedback();
                       onChange(key, suggestion);
                     }}
+                    accessibilityLabel={`Use ${suggestion}`}
                     style={[styles.suggest, current === suggestion && styles.suggestOn]}
                   >
-                    <Text style={styles.suggestText}>{`Use ${suggestion}`}</Text>
+                    {/* A typed field's suggestion is a sentence, already shown
+                        as its placeholder: the key under it says so in a few
+                        words instead of running off the screen beside it. */}
+                    <Text style={styles.suggestText}>
+                      {field.kind === 'text' ? 'Use the suggestion' : `Use ${suggestion}`}
+                    </Text>
                   </Pressable>
                 ) : null}
               </View>
@@ -143,10 +149,12 @@ const styles = themed(() => ({
     justifyContent: 'space-between',
     gap: space.sm,
   },
+  valueStack: { flexDirection: 'column', alignItems: 'flex-start' },
   value: { ...type.title, color: colors.text },
   valueEmpty: { color: colors.textFaint },
+  // Only typed fields have one, and they stack: the line runs the card's width.
   input: {
-    flex: 1,
+    alignSelf: 'stretch',
     minHeight: 40,
     paddingVertical: 4,
     paddingHorizontal: 0,

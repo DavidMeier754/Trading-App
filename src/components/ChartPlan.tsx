@@ -55,8 +55,25 @@ function overlapArea(a: LabelBox, b: LabelBox): number {
 
 /** What a level label's move away from its usual spot must save, in square points of bar. */
 const MOVE_COST = 40;
+/** A row further from its line: one label's height and a point. */
+const ROW = LABEL_H + 1;
+/**
+ * Stepping a row away costs more than covering any amount of bar -- the rim
+ * keeps a label legible there -- and less than covering another word: a
+ * label leaves its line only to clear a label, a tag or the plot's edge.
+ */
+const STEP_COST = 1e4;
 
 export type LevelLabelSpot = { text: string; x: number; y: number; anchor: 'start' | 'end' };
+
+/**
+ * A level's label: its name and its price, or the name alone when both do not
+ * fit across the plot -- the axis beside it shows the price.
+ */
+export function levelLabelText(label: string, price: string, plotW: number): string {
+  const full = `${label} ${price}`;
+  return full.length * LABEL_CHAR_W <= plotW - 8 ? full : label;
+}
 
 /**
  * Where each level's label goes: at the left or the right end of its line,
@@ -91,27 +108,41 @@ export function placeLevelLabels(
     const lines = levels
       .filter((_, j) => j !== i)
       .map((o) => ({ left, top: o.y - 1.5, width: right - left, height: 3 }));
-    const spots: LevelLabelSpot[] = [
-      { text: lvl.text, x: left + 4, y: lvl.y - 5, anchor: 'start' },
-      { text: lvl.text, x: left + 4, y: lvl.y + 15, anchor: 'start' },
-      { text: lvl.text, x: right - 4, y: lvl.y - 5, anchor: 'end' },
-      { text: lvl.text, x: right - 4, y: lvl.y + 15, anchor: 'end' },
+    // Its usual spots: just above or under its line, at either end. Two
+    // levels a few cents apart cannot both sit there, so a label can also
+    // step one or two rows further from its line, at a cost.
+    const spots: { spot: LevelLabelSpot; cost: number }[] = [];
+    const ends: { x: number; anchor: 'start' | 'end' }[] = [
+      { x: left + 4, anchor: 'start' },
+      { x: right - 4, anchor: 'end' },
     ];
-    let best = spots[0];
+    for (let step = 0; step <= 2; step++) {
+      ends.forEach((end, e) => {
+        [lvl.y - 5 - step * ROW, lvl.y + 15 + step * ROW].forEach((at, d) => {
+          spots.push({
+            spot: { text: lvl.text, x: end.x, y: at, anchor: end.anchor },
+            cost: (e * 2 + d) * MOVE_COST + step * STEP_COST,
+          });
+        });
+      });
+    }
+    let best = spots[0].spot;
     let bestScore = Infinity;
-    spots.forEach((spot, k) => {
+    for (const { spot, cost } of spots) {
       const box = labelBox(spot.text, spot.x, spot.y, spot.anchor);
       // A label moves off its usual spot (left, above) only to clear a real
       // part of a bar, not the tip of a wick.
-      let score = k * MOVE_COST;
+      let score = cost;
       for (const b of [...ink, ...lines]) score += overlapArea(box, b);
       for (const b of [...avoid, ...placed]) if (overlapArea(box, b) > 0) score += 1e5;
+      // Inside the plot: not over the price axis, not off the chart.
       if (box.top < top - 2 || box.top + box.height > bottom + 2) score += 1e6;
+      if (box.left < left - 1 || box.left + box.width > right + 1) score += 1e6;
       if (score < bestScore) {
         best = spot;
         bestScore = score;
       }
-    });
+    }
     placed.push(labelBox(best.text, best.x, best.y, best.anchor));
     return best;
   });

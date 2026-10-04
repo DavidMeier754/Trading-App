@@ -11,6 +11,7 @@ import { price } from '../format';
 import { colors, themed } from '../theme';
 import type { MiniChart as Spec } from '../types';
 import { BUILD_MS, BuildCandle, buildStagger, useEntrance } from './ChartBuild';
+import { HaloText, type LabelBox, levelLabelText, placeLevelLabels } from './ChartPlan';
 import { floorSpan } from './chartScale';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -109,6 +110,31 @@ export default function MiniChart({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows, width, height, isCandles, lo, hi, shown]);
 
+  // The levels' labels, placed as the full chart places them (ChartPlan):
+  // clear of each other and inside the card, off the bars where they can be.
+  // Two levels two cents apart (Ch 4 7-3) no longer print on one spot.
+  const labels = useMemo(() => {
+    const ink: LabelBox[] = isCandles
+      ? (rows as number[][]).map(([o, h, l, c], i) => ({
+          left: cx(i) - bodyW / 2,
+          top: y(Math.max(o, c, h)),
+          width: bodyW,
+          height: Math.max(1, y(Math.min(o, c, l)) - y(Math.max(o, c, h))),
+        }))
+      : (rows as number[]).map((v, i) => ({ left: cx(i) - 2, top: y(v) - 2, width: 4, height: 4 }));
+    return placeLevelLabels(
+      levels
+        .filter((lvl) => !!lvl.label)
+        .map((lvl) => ({
+          text: levelLabelText(lvl.label as string, price(lvl.price), plotW),
+          y: y(lvl.price),
+        })),
+      { left: pad, right: pad + plotW, top: pad, bottom: pad + plotH, ink },
+    );
+    // cx and y are derived from the same inputs
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows, levels, width, height, isCandles, lo, hi]);
+
   const lineProps = useAnimatedProps(() => ({
     strokeDashoffset: line.length * (1 - draw.get()),
   }));
@@ -119,28 +145,29 @@ export default function MiniChart({
       <Svg width={width} height={height}>
         <AnimatedG animatedProps={levelProps}>
           {levels.map((lvl, i) => (
-            <G key={i}>
-              <Line
-                x1={pad}
-                x2={pad + plotW}
-                y1={y(lvl.price)}
-                y2={y(lvl.price)}
-                stroke={colors.warning}
-                strokeWidth={1}
-                strokeDasharray="4 3"
-              />
-              {lvl.label ? (
-                <SvgText
-                  x={pad + 2}
-                  y={y(lvl.price) - 4}
-                  fontSize={13}
-                  fontWeight="600"
-                  fill={colors.warning}
-                >
-                  {`${lvl.label} ${price(lvl.price)}`}
-                </SvgText>
-              ) : null}
-            </G>
+            <Line
+              key={i}
+              x1={pad}
+              x2={pad + plotW}
+              y1={y(lvl.price)}
+              y2={y(lvl.price)}
+              stroke={colors.warning}
+              strokeWidth={1}
+              strokeDasharray="4 3"
+            />
+          ))}
+          {labels.map((l, i) => (
+            <HaloText
+              key={`l${i}`}
+              x={l.x}
+              y={l.y}
+              textAnchor={l.anchor}
+              fontSize={13}
+              fontWeight="600"
+              fill={colors.warning}
+            >
+              {l.text}
+            </HaloText>
           ))}
         </AnimatedG>
         {isCandles ? (
