@@ -92,7 +92,9 @@ export function TierCard({ tier, width, path }: { tier: Tier; width: number; pat
   const m = MATERIALS[tier.material];
   return (
     <View
-      style={[styles.card, { width, height, borderColor: m.edge }]}
+      // The material's middle tone under the drawn face: the words keep their
+      // ground even before the gradient is drawn, or where it is not.
+      style={[styles.card, { width, height, borderColor: m.edge, backgroundColor: m.stops[1] }]}
       accessible
       accessibilityLabel={`Tier card: ${tier.name}, tier ${tier.rank} of ${TIERS.length}. ${tier.means}`}
     >

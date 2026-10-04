@@ -53,7 +53,7 @@ import {
 } from '../progress';
 import { tint, useLookSpec } from '../lesson/look';
 import { PATH_CARDS } from '../screens/StaticScreens';
-import { colors, MONO_FONT, radius, space, type, themed } from '../theme';
+import { colors, MONO_FONT, radius, space, TAP_TARGET, type, themed } from '../theme';
 import Icon, { type IconName } from './icons';
 import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
 import { ChapterView, chapterViews, currentLevel, LevelView } from './pathState';
@@ -66,8 +66,10 @@ const STEP_Y = 148;
 const NODES_TOP = 52;
 /** A chapter's header card, and the space left under an expanded chapter's last node. */
 const HEAD_H = 76;
-/** The docked chapter bar's height (§7.1): a card under it is out of sight. */
-const DOCK_H = 40;
+/** The docked chapter bar as drawn (§7.1). */
+const DOCK_BAR_H = 40;
+/** Where the docked bar's drawn edge ends, from the map's top: a card above it is out of sight. */
+const DOCK_H = (TAP_TARGET - DOCK_BAR_H) / 2 + DOCK_BAR_H;
 const NODES_BOTTOM = 36;
 const CHAPTER_GAP = 16;
 /** Room under the last section for a level card opened on its last node. */
@@ -1216,25 +1218,30 @@ function DockedChapter({ view, onPress }: { view: ChapterView; onPress: () => vo
         accessibilityRole="button"
         accessibilityLabel={`Chapter ${view.chapter.number}: ${view.chapter.title}. ${view.done} of ${view.total} levels. Back to the chapter.`}
         onPress={onPress}
-        style={styles.dockInner}
+        style={styles.dockTarget}
       >
-        <Icon
-          name={locked ? 'lock' : 'trophy'}
-          size={16}
-          color={locked ? colors.textFaint : colors.warning}
-        />
-        <Text style={styles.dockTitle} numberOfLines={1}>
-          {`Ch ${view.chapter.number} · ${view.chapter.title}`}
-        </Text>
-        <View style={styles.dockBar}>
-          <View
-            style={[
-              styles.dockFill,
-              { width: `${share * 100}%`, backgroundColor: done ? colors.warning : colors.accent },
-            ]}
+        <View style={styles.dockInner}>
+          <Icon
+            name={locked ? 'lock' : 'trophy'}
+            size={16}
+            color={locked ? colors.textFaint : colors.warning}
           />
+          <Text style={styles.dockTitle} numberOfLines={1}>
+            {`Ch ${view.chapter.number} · ${view.chapter.title}`}
+          </Text>
+          <View style={styles.dockBar}>
+            <View
+              style={[
+                styles.dockFill,
+                {
+                  width: `${share * 100}%`,
+                  backgroundColor: done ? colors.warning : colors.accent,
+                },
+              ]}
+            />
+          </View>
+          <Text style={styles.dockCount}>{`${view.done}/${view.total}`}</Text>
         </View>
-        <Text style={styles.dockCount}>{`${view.done}/${view.total}`}</Text>
       </Pressable>
     </Animated.View>
   );
@@ -1878,11 +1885,13 @@ const styles = themed(() => ({
 
   scroll: { flex: 1 },
   dock: { position: 'absolute', top: 0, left: space.lg, right: space.lg },
+  // The bar is slim, its target is not: a clear band above and below makes it 48 pt.
+  dockTarget: { paddingVertical: (TAP_TARGET - DOCK_BAR_H) / 2 },
   dockInner: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: space.sm,
-    height: DOCK_H,
+    height: DOCK_BAR_H,
     paddingHorizontal: space.md,
     borderRadius: radius.md,
     borderWidth: 1,
