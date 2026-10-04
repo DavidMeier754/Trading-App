@@ -421,7 +421,7 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | T | The list of launch languages | `I18N-PIPELINE` proposes it (store markets, effort, script); you decide. | `I18N-PIPELINE` |
 | U | What gems buy (your new currency from `LOOK-BRIEF`) | Earned only, never sold (decision I). They buy streak freezes and cosmetic extras, e.g. scenes beside the path; never hearts or a pass in a test, because tests count (W1). `LOOP-DAILY` proposes the list and the prices in gems; you decide. | `LOOP-DAILY` |
 | V | The tab set (your notes on design ideas 31 and 38): Analytics instead of the Leaderboard placeholder, and where Arena goes | The artifact ["Nutrade tabs concept"](https://claude.ai/artifact/F7fex6S9DVzby2ZcKyWqHD) lays out the options with screenshots and mockups, and gives the line to paste into the `TABS` prompt. Recommended there: Learn, Practice, Analytics, Account now, and Arena as a fifth tab once the arena exists. You choose; `TABS` builds it. | `TABS` |
-| X | Mistakes reviews: your note "a previous mistakes level 2 or 3 times per level". Read as **per chapter**, built as **optional side stops before each Checkpoint and the Final Exam**. Should they instead be required levels on the path, or more frequent? | Keep them optional side stops: mistakes cost nothing in this app (W1), and a required review would make a mistake cost a level. If they get skipped too often, the beta will show it. | `LOOP-HEARTS` |
+| X | Mistakes reviews: your note "a previous mistakes level 2 or 3 times per level". Read as **per chapter**, built as **optional side stops before each Checkpoint and the Final Exam**. Should they instead be required levels on the path, or more frequent? | Keep them optional side stops: ~~mistakes cost nothing in this app (W1)~~ a mistake already costs a heart since 2026-10-04, and a required review would make it cost a level as well. If they get skipped too often, the beta will show it. | `LOOP-HEARTS` |
 
 ---
 
@@ -1095,7 +1095,7 @@ Report: what you built · check results · my test checklist with real links · 
 
 ## 8. Phase D – Learning loop and fun
 
-### `LOOP-HEARTS` – mistakes cost nothing, tests count
+### `LOOP-HEARTS` – hearts, practice and the review cards
 
 **Goal.** Learning without fear: mistakes in lessons come back instead of locking you out. ~~Hearts exist only in tests.~~ Since 2026-10-04 hearts are spent in every lesson and test (David); what keeps learning open is practice, which is free and gives a heart back, and the review cards.
 
