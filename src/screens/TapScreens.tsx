@@ -1,14 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, {
-  measure,
-  useAnimatedRef,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
 
 import Chart, {
   chartHeightFor,
@@ -25,10 +16,9 @@ import ScannerTable from '../components/data/ScannerTable';
 import { bookWalk } from '../lesson/bookWalk';
 import Visual from '../components/Visual';
 import type { AnswerValue } from '../lesson/answers';
-import { detentFeedback, tapFeedback } from '../lesson/feedback';
+import { tapFeedback } from '../lesson/feedback';
 import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
-import { useLookSpec } from '../lesson/look';
-import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
+import { colors, radius, space, type, themed } from '../theme';
 import type {
   ChartSpec,
   ChartTapScreen as ChartTap,
@@ -38,6 +28,7 @@ import type {
   SliderScreen as SliderS,
 } from '../types';
 import { scannerRowsOf, scannerTargetsOf } from '../types';
+import Dial from './Dial';
 import { Prompt } from './common';
 
 /** Green for the right target, red for a wrong pick: the same key everywhere. */
@@ -315,7 +306,11 @@ function restOf(screen: SliderS): number {
   return Math.abs(min - answer) >= Math.abs(max - answer) ? min : max;
 }
 
-/** docs/UI.md §4.1 `slider` — set a value with a tolerance band. */
+/**
+ * docs/UI.md §4.1 `slider` — set a value with a tolerance band. [DESIGN-REVIEW]
+ * The value is set on a dial (screens/Dial.tsx, David's pick of 2026-10-04),
+ * with − and + beside it.
+ */
 export function SliderScreen({
   screen,
   value,
@@ -331,148 +326,49 @@ export function SliderScreen({
 }) {
   const step = screen.step ?? 1;
   const current = value.kind === 'slider' ? value.value : null;
-  const rest = restOf(screen);
-  const shown = current ?? rest;
-  const pct = (v: number) => ((v - screen.min) / (screen.max - screen.min)) * 100;
-  const accent = useLookSpec().accent;
-
-  const nudge = (delta: number) => {
-    const next = Math.min(screen.max, Math.max(screen.min, (current ?? rest) + delta));
-    tapFeedback();
-    onChange({ kind: 'slider', value: Number(next.toFixed(4)) });
-  };
-
-  // Drag anywhere on the track. The value moves in the screen's steps, and
-  // each step it lands on clicks -- a tick you hear and feel, like a detent --
-  // so the hand counts the 5s the eye is reading. The reaction to a step is on
-  // the React side, but only when the step changes, never per frame.
-  const hit = useAnimatedRef<View>();
-  const landed = useSharedValue(Number.NaN);
-  const knob = useSharedValue(pct(shown));
-  useEffect(() => {
-    knob.set(withSpring(pct(shown), { duration: 220, dampingRatio: 0.9 }));
-    // pct depends only on the screen's range
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shown, knob]);
-
-  const onStep = useCallback(
-    (v: number) => {
-      detentFeedback();
-      onChange({ kind: 'slider', value: v });
-    },
-    [onChange],
-  );
-  const { min, max } = screen;
-  const pan = Gesture.Pan()
-    .minDistance(0)
-    .enabled(!revealed)
-    .onBegin((e) => {
-      landed.set(Number.NaN);
-      const box = measure(hit);
-      if (!box || box.width <= 0) return;
-      const frac = Math.min(1, Math.max(0, (e.absoluteX - box.pageX) / box.width));
-      const v = Math.round((min + frac * (max - min)) / step) * step;
-      landed.set(v);
-      scheduleOnRN(onStep, v);
-    })
-    .onUpdate((e) => {
-      // Both the touch and the box are where the track is drawn, so a screen
-      // scaled to fit (lesson/fit.tsx) needs no correction here.
-      const box = measure(hit);
-      if (!box || box.width <= 0) return;
-      const frac = Math.min(1, Math.max(0, (e.absoluteX - box.pageX) / box.width));
-      const v = Math.round((min + frac * (max - min)) / step) * step;
-      if (v !== landed.get()) {
-        landed.set(v);
-        scheduleOnRN(onStep, v);
-      }
-    });
-
-  const fillStyle = useAnimatedStyle(() => ({ width: `${knob.get()}%` }));
-  const knobStyle = useAnimatedStyle(() => ({ left: `${knob.get()}%` }));
+  const shown = current ?? restOf(screen);
+  const steps = Math.max(1, Math.round((screen.max - screen.min) / step));
+  const stepOf = (v: number) => Math.round((v - screen.min) / step);
+  const tolerance = screen.tolerance ?? 0;
+  // The ends keep a currency or a percent, not a long unit.
+  const short = screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined;
 
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
 
       <View style={styles.zone}>
-        <Text style={styles.sliderValue}>{sliderText(shown, screen.unit, step)}</Text>
-
-        <GestureDetector gesture={pan}>
-          <Animated.View ref={hit} style={styles.trackHit} collapsable={false}>
-            <View style={styles.track}>
-              {revealed ? (
-                <View
-                  style={[
-                    styles.band,
-                    {
-                      left: `${pct(screen.answer - (screen.tolerance ?? 0))}%`,
-                      width: `${(((screen.tolerance ?? 0) * 2) / (screen.max - screen.min)) * 100}%`,
-                    },
-                  ]}
-                />
-              ) : null}
-              <Animated.View style={[styles.fill, { backgroundColor: accent }, fillStyle]} />
-              <Animated.View
-                style={[
-                  styles.knob,
-                  { borderColor: accent },
-                  knobStyle,
-                  revealed && {
-                    borderColor:
-                      Math.abs(shown - screen.answer) <= (screen.tolerance ?? 0)
-                        ? colors.success
-                        : colors.down,
-                  },
-                ]}
-              />
-            </View>
-          </Animated.View>
-        </GestureDetector>
-
-        {/* The two ends of the scale, so a place on the track reads as a value.
-          Not the middle: a question whose answer is the midpoint would carry
-          its answer under the track. */}
-        <View style={styles.sliderScale} pointerEvents="none">
-          {[screen.min, screen.max].map((v, i) => (
-            <Text key={i} style={[styles.sliderScaleText, i === 1 && { textAlign: 'right' }]}>
-              {sliderText(
-                v,
-                screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
-                step,
-              )}
-            </Text>
-          ))}
-        </View>
-
-        {/* docs/UI.md §10: every drag has a tap alternative. */}
-        <View style={styles.nudgeRow}>
-          <Pressable
-            accessibilityRole="button"
-            disabled={revealed}
-            onPress={() => nudge(-step)}
-            style={styles.nudge}
-          >
-            <Text style={styles.nudgeText}>{'−'}</Text>
-          </Pressable>
-          <Pressable
-            accessibilityRole="button"
-            disabled={revealed}
-            onPress={() => nudge(step)}
-            style={styles.nudge}
-          >
-            <Text style={styles.nudgeText}>+</Text>
-          </Pressable>
-        </View>
+        <Dial
+          steps={steps}
+          step={stepOf(shown)}
+          onStep={(s) =>
+            onChange({ kind: 'slider', value: Number((screen.min + s * step).toFixed(4)) })
+          }
+          text={sliderText(shown, screen.unit, step)}
+          low={sliderText(screen.min, short, step)}
+          high={sliderText(screen.max, short, step)}
+          band={
+            revealed
+              ? [
+                  Math.max(0, stepOf(screen.answer - tolerance)),
+                  Math.min(steps, stepOf(screen.answer + tolerance)),
+                ]
+              : null
+          }
+          verdict={
+            revealed ? (Math.abs(shown - screen.answer) <= tolerance ? 'correct' : 'wrong') : null
+          }
+          width={width}
+        />
 
         {/* Kept in the layout before the reveal, only empty, so the line
           arriving does not move what is above it. */}
         <Text style={styles.sliderAnswer}>
           {revealed
             ? `Intended: ${sliderText(screen.answer, screen.unit, step)} (±${sliderText(
-                screen.tolerance ?? 0,
+                tolerance,
                 // The band is a distance: it keeps a currency or a percent, not a long label.
-                screen.unit === '$' || screen.unit === '%' ? screen.unit : undefined,
+                short,
                 step,
               )})`
             : ' '}
@@ -488,47 +384,5 @@ const styles = themed(() => ({
   column: { gap: space.lg },
   tapRow: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 },
   tapCol: { position: 'absolute', borderRadius: radius.sm, borderWidth: 1.5 },
-  sliderValue: { ...type.display, color: colors.text, textAlign: 'center' },
-  track: {
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: colors.surfaceAlt,
-    justifyContent: 'center',
-  },
-  band: {
-    position: 'absolute',
-    top: -4,
-    bottom: -4,
-    backgroundColor: colors.successTint,
-    borderRadius: radius.sm,
-    borderWidth: 1,
-    borderColor: colors.success,
-  },
-  fill: { position: 'absolute', left: 0, top: 0, bottom: 0, borderRadius: 5 },
-  // The finger's target: the whole row, not the 10-point track inside it.
-  trackHit: { height: 48, justifyContent: 'center' },
-  knob: {
-    position: 'absolute',
-    width: 26,
-    height: 26,
-    marginLeft: -13,
-    borderRadius: 13,
-    backgroundColor: colors.text,
-    borderWidth: 3,
-    borderColor: colors.accent,
-  },
-  nudgeRow: { flexDirection: 'row', gap: space.md },
-  nudge: {
-    flex: 1,
-    minHeight: TAP_TARGET,
-    borderRadius: radius.md,
-    borderWidth: 1.5,
-    borderColor: colors.borderStrong,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  nudgeText: { ...type.title, color: colors.text },
   sliderAnswer: { ...type.small, color: colors.textMuted, textAlign: 'center' },
-  sliderScale: { flexDirection: 'row', marginTop: -space.sm },
-  sliderScaleText: { ...type.small, color: colors.textFaint, flex: 1 },
 }));

@@ -43,6 +43,7 @@ export default function TfScreen({
             <ToneSurface
               tone={toneFor(option)}
               disabled={revealed}
+              deep
               onPress={() => {
                 // Tapped again, the choice is taken back.
                 onChange({ kind: 'bool', value: chosen === option ? null : option });

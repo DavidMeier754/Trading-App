@@ -102,3 +102,37 @@ export function currentLevel(views: LevelView[]): LevelView {
 export function totalXp(progress: Progress): number {
   return progress.xp;
 }
+
+/**
+ * docs/UI.md §7.1 [DESIGN-REVIEW] "Chapter cards with a sparkline" (David's
+ * pick of 2026-10-04): how each level of a chapter went, as the share of its
+ * questions answered right (the record, docs/UI.md §7.3), in per cent, for
+ * the levels played so far, in order. A level with nothing in the record yet
+ * ends the line: the chapter is played in order.
+ */
+export function chapterScores(progress: Progress, view: ChapterView): number[] {
+  const tally = new Map<string, { right: number; wrong: number }>();
+  for (const [key, rec] of Object.entries(progress.questions)) {
+    const lesson = key.slice(0, key.indexOf('#'));
+    const t = tally.get(lesson) ?? { right: 0, wrong: 0 };
+    t.right += rec.right;
+    t.wrong += rec.wrong;
+    tally.set(lesson, t);
+  }
+  const scores: number[] = [];
+  for (const lv of view.levels) {
+    if (lv.level.kind === 'path') continue;
+    let right = 0;
+    let wrong = 0;
+    for (const entry of lv.level.subs) {
+      const t = tally.get(entry.id);
+      if (t) {
+        right += t.right;
+        wrong += t.wrong;
+      }
+    }
+    if (right + wrong === 0) break;
+    scores.push(Math.round((100 * right) / (right + wrong)));
+  }
+  return scores;
+}

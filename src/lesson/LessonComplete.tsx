@@ -1,59 +1,38 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { LayoutChangeEvent, Text, useWindowDimensions, View } from 'react-native';
-import Animated, {
-  SharedValue,
-  useAnimatedProps,
-  useAnimatedReaction,
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withSequence,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
-import Svg, { Circle } from 'react-native-svg';
+import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 
-import { colors, radius, space, type, themed } from '../theme';
+import { colors, space, type, themed } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
-import { earnedXp, MAX_HEARTS, streakDays, useHearts, useProgress } from '../progress';
+import { earnedXp, getProgress, MAX_HEARTS, streakDays, useHearts, useProgress } from '../progress';
 import Confetti from './Confetti';
-import { celebrateFeedback, coinFeedback, noteFeedback } from './feedback';
-import { emitMood, surfaceStyle, useLookSpec } from './look';
-import { EASE_OUT, EASE_SINE, SPRING_POP, useMotion } from './motion';
+import { celebrateFeedback } from './feedback';
+import { emitMood } from './look';
+import { SPRING_POP, useMotion } from './motion';
 import { useDisplayFace } from '../fonts';
-
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-
-const RING = 148;
-const STROKE = 12;
-const R = (RING - STROKE) / 2;
-const CIRC = 2 * Math.PI * R;
-
-/** The ring is heard as it fills: one rising note per eighth of a full circle. */
-const RING_STEPS = 8;
-/** Coins no closer together than this, however fast the number runs. */
-const COIN_GAP_MS = 55;
+import { pickWin, refOf, type WinData, type WinDesign } from './wins/data';
+import { useRise } from './wins/parts';
+import BoardWin from './wins/Board';
+import CandleWin from './wins/Candle';
+import CurveWin from './wins/Curve';
+import QuoteWin from './wins/Quote';
+import ReceiptWin from './wins/Receipt';
+import RingWin from './wins/Ring';
 
 /**
  * docs/UI.md §5.3 — sub-level complete. Rare tier, so this is where the delight
  * budget goes, and it is choreographed rather than thrown on screen at once:
+ * the title arrives, the design plays its piece and lands -- a chord and a
+ * heavy pulse, from the same cue table as the rest of the app -- and the
+ * breakdown settles in, silently.
  *
- *   1. The title arrives.
- *   2. The accuracy ring sweeps round, and every eighth of a circle it passes
- *      rings the next note up the scale, with a tick you feel -- the ring is a
- *      rising arpeggio you can watch.
- *   3. It closes on a chord and a heavy pulse, swells and throws two rings of
- *      light. Only a perfect run turns gold and throws confetti (docs/UI.md
- *      §5.3; built so in DESIGN-REVIEW: a 7 of 8 threw it too), from behind
- *      the ring and within its band, never across the words or the numbers.
- *   4. The XP counts up out of the ring, a coin a step.
- *   5. The breakdown settles in underneath, silently: the show is over.
- *
- * Every sound and haptic in it comes from the same cue table as the rest of the
- * app, so the arpeggio's notes are the replay's notes and the chord is in the
- * same key as every chime before it.
+ * [DESIGN-REVIEW] "Win screens" (David, 2026-10-04: "i want those win screens
+ * to change so there are like 5+ different designs"): six designs take turns,
+ * one a finished lesson, so two lessons in a row never end alike: the accuracy
+ * ring, a trade receipt, a split-flap board, a candle, an equity curve and a
+ * ticker quote (lesson/wins/). Each shows the same numbers and rows. Only a
+ * perfect run throws confetti -- candles and coins -- behind the design.
  */
 export default function LessonComplete({
   grades,
@@ -62,6 +41,8 @@ export default function LessonComplete({
   daily = false,
   practice = false,
   gems = 0,
+  lessonId = null,
+  design,
 }: {
   screens: Screen[];
   grades: (Grade | null)[];
@@ -70,12 +51,15 @@ export default function LessonComplete({
   /** The lesson counts for the streak: the summary shows where it stands. */
   daily?: boolean;
   /**
-   * A practice round (docs/UI.md §7.3): no XP; the ring holds the answers
+   * A practice round (docs/UI.md §7.3): no XP; the headline holds the answers
    * right, and a row says where the hearts stand -- a finished round gives one back.
    */
   practice?: boolean;
-  /** A bonus lesson's gems (docs/UI.md §7.1). */
+  /** Gems this lesson paid: a bonus lesson's, a chest's (docs/UI.md §7.1, §5.3). */
   gems?: number;
+  lessonId?: string | null;
+  /** One design rather than the next in turn: the previews and the Animations page. */
+  design?: WinDesign;
 }) {
   const hearts = useHearts().hearts;
   const display = useDisplayFace();
@@ -84,118 +68,58 @@ export default function LessonComplete({
   // so the summary shows the streak, not a count towards a goal.
   const streak = streakDays(useProgress());
   const { width } = useWindowDimensions();
+  // The design is settled once, when the summary arrives: the lessons finished
+  // so far, replays included, say whose turn it is.
+  const [chosen] = useState<WinDesign>(
+    () =>
+      design ?? pickWin(Object.values(getProgress().plays).reduce((sum, n) => sum + (n ?? 0), 0)),
+  );
 
   const answered = grades.filter((g) => g !== null && g !== undefined) as Grade[];
   const clean = answered.filter((g) => g === 'correct' || g === 'amber').length;
   const total = answered.length;
   const accuracy = total === 0 ? 1 : clean / total;
   const perfect = total > 0 && answered.every((g) => g === 'correct');
-
   const earned = earnedXp(xp, perfect);
-  const bonus = earned - xp;
-  const tone = perfect ? colors.warning : colors.success;
+
+  const data: WinData = {
+    title: levelTitle,
+    ref: refOf(lessonId),
+    practice,
+    perfect,
+    earned,
+    base: xp,
+    bonus: earned - xp,
+    clean,
+    total,
+    accuracy,
+    gems,
+    streak: daily ? streak : null,
+    hearts: practice ? hearts : null,
+    maxHearts: MAX_HEARTS,
+    grades: answered,
+  };
 
   const title = useSharedValue(m.reduced ? 1 : 0);
-  const ring = useSharedValue(m.reduced ? 1 : 0);
-  const swell = useSharedValue(1);
-  const burst = useSharedValue(m.reduced ? 1 : 0);
-  const count = useSharedValue(m.reduced ? 1 : 0);
-  const rows = useSharedValue(m.reduced ? 1 : 0);
-  const [shownXp, setShownXp] = useState(m.reduced ? earned : 0);
-  const [landed, setLanded] = useState(m.reduced);
-  const lastCoin = useRef(0);
-  // Where the ring sits, so the confetti is thrown from it.
-  // (Measured, not the window: on a wide screen the app is a phone-width column,
-  // and a burst sized to the window would be thrown mostly off it.)
+  const [landed, setLanded] = useState(false);
+  // Where the design sits, so the confetti is thrown from it. (Measured, not
+  // the window: on a wide screen the app is a phone-width column.)
   const [wrap, setWrap] = useState({ w: 0, h: 0 });
-  const [ringY, setRingY] = useState(0);
+  const [stage, setStage] = useState({ y: 0, h: 0 });
+
+  useEffect(() => {
+    if (!m.reduced) title.set(withSpring(1, SPRING_POP));
+  }, [m.reduced, title]);
 
   const land = useCallback(() => {
     celebrateFeedback(perfect);
     emitMood('complete');
     setLanded(true);
   }, [perfect]);
-  const spec = useLookSpec();
 
-  const onStep = useCallback((step: number) => noteFeedback(step), []);
-
-  const onXp = useCallback((value: number) => {
-    setShownXp(value);
-    const now = Date.now();
-    if (value > 0 && now - lastCoin.current >= COIN_GAP_MS) {
-      lastCoin.current = now;
-      coinFeedback();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (m.reduced) {
-      // Everything is already in place; the chord still says "done".
-      celebrateFeedback(perfect);
-      return;
-    }
-    title.set(withSpring(1, SPRING_POP));
-    // A fuller ring takes longer to draw, so every step is heard at one pace.
-    const fill = 500 + 1100 * accuracy;
-    ring.set(
-      withDelay(
-        320,
-        withTiming(1, { duration: fill, easing: EASE_SINE }, (finished) => {
-          'worklet';
-          if (!finished) return;
-          scheduleOnRN(land);
-          swell.set(
-            withSequence(
-              withTiming(1.09, { duration: 110, easing: EASE_OUT }),
-              withSpring(1, SPRING_POP),
-            ),
-          );
-          burst.set(withTiming(1, { duration: 1100, easing: EASE_OUT }));
-          count.set(withDelay(260, withTiming(1, { duration: 1100, easing: EASE_OUT })));
-          rows.set(withDelay(1100, withSpring(1, SPRING_POP)));
-        }),
-      ),
-    );
-  }, [m.reduced, perfect, accuracy, land, title, ring, swell, burst, count, rows]);
-
-  // The arpeggio: the eighths of a full circle the arc has passed. A ring that
-  // only reaches 60% plays the first five notes, and stops there.
-  useAnimatedReaction(
-    () => (m.reduced ? -1 : Math.floor(ring.get() * accuracy * RING_STEPS + 1e-6)),
-    (step, previous) => {
-      if (previous === null || step <= previous || step < 1 || step > RING_STEPS) return;
-      scheduleOnRN(onStep, step - 1);
-    },
-    [m.reduced, accuracy, onStep],
-  );
-
-  // The number reads off its own curve and crosses to React only when the
-  // displayed integer changes -- a few dozen times, never every frame.
-  useAnimatedReaction(
-    () => Math.round(earned * count.get()),
-    (value, previous) => {
-      if (value !== previous) scheduleOnRN(onXp, value);
-    },
-    [earned, onXp],
-  );
-
-  const ringProps = useAnimatedProps(() => ({
-    strokeDashoffset: CIRC * (1 - accuracy * ring.get()),
-  }));
-
-  const travel = m.travel(18);
-  const titleStyle = useRise(title, travel);
-  const rowsStyle = useRise(rows, travel);
-  const ringStyle = useAnimatedStyle(() => ({
-    opacity: Math.min(1, title.get() * 1.5),
-    transform: [{ scale: swell.get() * (0.9 + 0.1 * Math.min(1, title.get())) }],
-  }));
-  const xpStyle = useAnimatedStyle(() => ({
-    opacity: Math.min(1, count.get() * 4),
-    transform: [{ scale: 0.7 + 0.3 * Math.min(1, count.get() * 3) }],
-  }));
-  const halo1 = useHalo(burst, 0, tone);
-  const halo2 = useHalo(burst, 0.18, tone);
+  const titleStyle = useRise(title, m.travel(18));
+  const tone = perfect ? colors.warning : colors.success;
+  const props = { data, width: wrap.w || Math.min(width, 440), onLand: land };
 
   return (
     <View
@@ -204,13 +128,10 @@ export default function LessonComplete({
         setWrap({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })
       }
     >
-      {/* The ring's band, behind everything: the confetti stays inside it. */}
+      {/* Behind everything, in the design's band: never across the words. */}
       {landed && !m.reduced && perfect && !practice ? (
-        <View
-          pointerEvents="none"
-          style={[styles.confettiBand, { top: ringY - RING / 2 - 24, height: RING + 48 }]}
-        >
-          <Confetti width={wrap.w || width} height={RING + 48} pieces={56} gold originY={0.5} />
+        <View pointerEvents="none" style={[styles.confettiBand, { top: stage.y, height: stage.h }]}>
+          <Confetti width={wrap.w || width} height={stage.h} pieces={56} gold originY={0.35} />
         </View>
       ) : null}
 
@@ -222,131 +143,34 @@ export default function LessonComplete({
       </Animated.View>
 
       <View
-        style={styles.ringSlot}
-        onLayout={(e: LayoutChangeEvent) => {
-          const { y, height } = e.nativeEvent.layout;
-          setRingY(y + height / 2);
-        }}
+        style={styles.stage}
+        onLayout={(e: LayoutChangeEvent) =>
+          setStage({ y: e.nativeEvent.layout.y, h: e.nativeEvent.layout.height })
+        }
       >
-        <Animated.View pointerEvents="none" style={[styles.halo, halo1]} />
-        <Animated.View pointerEvents="none" style={[styles.halo, halo2]} />
-        <Animated.View style={[styles.ringWrap, ringStyle]}>
-          <Svg width={RING} height={RING}>
-            <Circle
-              cx={RING / 2}
-              cy={RING / 2}
-              r={R}
-              stroke={colors.surfaceAlt}
-              strokeWidth={STROKE}
-              fill="none"
-            />
-            <AnimatedCircle
-              cx={RING / 2}
-              cy={RING / 2}
-              r={R}
-              stroke={tone}
-              strokeWidth={STROKE}
-              strokeLinecap="round"
-              fill="none"
-              strokeDasharray={`${CIRC} ${CIRC}`}
-              strokeDashoffset={CIRC * (1 - accuracy * (m.reduced ? 1 : 0))}
-              animatedProps={ringProps}
-              transform={`rotate(-90 ${RING / 2} ${RING / 2})`}
-            />
-          </Svg>
-          <Animated.View style={[styles.ringCenter, xpStyle]}>
-            {practice ? (
-              <>
-                <Text style={styles.xp}>{`${clean}/${total}`}</Text>
-                <Text style={styles.xpLabel}>RIGHT</Text>
-              </>
-            ) : (
-              <>
-                <Text style={styles.xp}>{`+${shownXp}`}</Text>
-                <Text style={styles.xpLabel}>XP</Text>
-              </>
-            )}
-          </Animated.View>
-        </Animated.View>
+        {chosen === 'receipt' ? (
+          <ReceiptWin {...props} />
+        ) : chosen === 'board' ? (
+          <BoardWin {...props} />
+        ) : chosen === 'candle' ? (
+          <CandleWin {...props} />
+        ) : chosen === 'curve' ? (
+          <CurveWin {...props} />
+        ) : chosen === 'quote' ? (
+          <QuoteWin {...props} />
+        ) : (
+          <RingWin {...props} />
+        )}
       </View>
-
-      <Animated.View style={[styles.rows, surfaceStyle(spec), rowsStyle]}>
-        {practice ? null : <Row label="Lesson" value={`+${xp} XP`} />}
-        {bonus > 0 && !practice ? (
-          <Row label="Perfect bonus" value={`+${bonus} XP`} accent />
-        ) : null}
-        <Row label="Answers" value={`${clean} of ${total}`} accent={accuracy === 1} />
-        {gems > 0 ? <Row label="Gems" value={`+${gems}`} /> : null}
-        {practice ? <Row label="Hearts" value={`${hearts}/${MAX_HEARTS}`} /> : null}
-        {daily ? (
-          <Row label="Streak" value={`${streak} ${streak === 1 ? 'day' : 'days'}`} accent />
-        ) : null}
-      </Animated.View>
-    </View>
-  );
-}
-
-/** A block arriving: fades up from a little below. */
-function useRise(v: SharedValue<number>, travel: number) {
-  return useAnimatedStyle(() => ({
-    opacity: Math.min(1, v.get()),
-    transform: [{ translateY: (1 - v.get()) * travel }],
-  }));
-}
-
-/** A ring of light leaving the closed ring; `lag` delays it along the same curve. */
-function useHalo(v: SharedValue<number>, lag: number, color: string) {
-  return useAnimatedStyle(() => {
-    const t = Math.max(0, Math.min(1, (v.get() - lag) / (1 - lag)));
-    return {
-      borderColor: color,
-      opacity: t <= 0 || t >= 1 ? 0 : 0.8 * (1 - t),
-      transform: [{ scale: 1 + 0.55 * t }],
-    };
-  });
-}
-
-function Row({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
-  return (
-    <View style={styles.row}>
-      <Text style={styles.rowLabel}>{label}</Text>
-      <Text style={[styles.rowValue, accent && { color: colors.warning }]}>{value}</Text>
     </View>
   );
 }
 
 const styles = themed(() => ({
-  wrap: { alignItems: 'center', gap: space.xl },
+  wrap: { alignItems: 'center', gap: space.xl, alignSelf: 'stretch' },
   confettiBand: { position: 'absolute', left: 0, right: 0, overflow: 'hidden' },
   textBlock: { alignItems: 'center', gap: space.xs },
   kicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.6 },
   title: { ...type.title, color: colors.text, textAlign: 'center' },
-  ringSlot: { width: RING, height: RING, alignItems: 'center', justifyContent: 'center' },
-  halo: {
-    position: 'absolute',
-    width: RING,
-    height: RING,
-    borderRadius: RING / 2,
-    borderWidth: 3,
-  },
-  ringWrap: { alignItems: 'center', justifyContent: 'center' },
-  ringCenter: { position: 'absolute', alignItems: 'center', justifyContent: 'center' },
-  xp: { ...type.display, fontSize: 36, lineHeight: 42, color: colors.text },
-  xpLabel: { ...type.label, color: colors.textMuted, letterSpacing: 1.5 },
-  rows: {
-    alignSelf: 'stretch',
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
-    borderRadius: radius.lg,
-    paddingVertical: space.sm,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: space.lg,
-    paddingVertical: space.sm,
-  },
-  rowLabel: { ...type.answer, color: colors.textMuted },
-  rowValue: { ...type.answer, color: colors.text },
+  stage: { alignSelf: 'stretch', alignItems: 'center' },
 }));

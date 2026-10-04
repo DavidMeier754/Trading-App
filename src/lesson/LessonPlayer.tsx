@@ -46,7 +46,7 @@ import NumericInputScreen from '../screens/NumericInputScreen';
 import TfScreen from '../screens/TfScreen';
 import TheoryScreen from '../screens/TheoryScreen';
 import { colors, MONO_FONT, radius, space, TAP_TARGET, type, themed } from '../theme';
-import type { Level, QuestionScreen, Screen } from '../types';
+import type { DecisionButton, Level, QuestionScreen, Screen } from '../types';
 import { isQuestion } from '../types';
 import type { AnswerValue, Grade } from './answers';
 import {
@@ -59,7 +59,9 @@ import {
 } from './answers';
 import type { CueName } from './cues.generated';
 import { Arrive } from './Celebrate';
+import ChestScreen, { CHEST_PAYOUT } from './ChestScreen';
 import Cta from './Cta';
+import SlideKey from './SlideKey';
 import {
   advanceFeedback,
   commitFeedback,
@@ -100,13 +102,14 @@ import { DecisionSpace, LessonContext } from './lessonContext';
 import MistakesDeck, { DEAL_MS, type DeckItem } from './MistakesDeck';
 import SkillsLearned from './SkillsLearned';
 import { TermSheet, TermsContext } from './terms';
-import StreakMeter from './StreakMeter';
+import ComboMeter from './ComboMeter';
 import { VerdictProvider } from './verdict';
 
 /** A screen the player adds after a lesson's own (DESIGN-REVIEW): the deck, the skills. */
 type DeckScreen = { type: 'mistakes-deck'; items: DeckItem[] };
 type SkillsScreen = { type: 'skills-learned'; skills: Skill[] };
-type PlayerScreen = Screen | DeckScreen | SkillsScreen;
+type ChestStep = { type: 'chest' };
+type PlayerScreen = Screen | DeckScreen | SkillsScreen | ChestStep;
 
 /** What the player is playing: a node of the path, or a round made in code. */
 /**
@@ -313,6 +316,15 @@ export default function LessonPlayer({
   const mainGrades = grades.slice(0, mainLen);
   const answeredMain = mainGrades.filter((g) => g !== null);
   const perfectRun = answeredMain.length > 0 && answeredMain.every((g) => g === 'correct');
+  // docs/UI.md §5.3 [DESIGN-REVIEW]: the first perfect run of a lesson leaves
+  // a chest (ChestScreen), after its last screen and before the summary.
+  const [wasPerfect] = useState(() => !!(lessonId && getProgress().done[lessonId]?.perfect));
+  const chestDue =
+    kind === 'lesson' &&
+    !testBench &&
+    !wasPerfect &&
+    base.every((s, i) => !isQuestion(s as Screen) || grades[i] === 'correct') &&
+    base.some((s) => isQuestion(s as Screen));
   // Reported once per run, the moment the summary is reached (docs/UI.md
   // §5.3). The lesson's skills are collected then, and the new ones reported
   // for the flight into Practice.
@@ -348,7 +360,8 @@ export default function LessonPlayer({
     kind === 'lesson' &&
     !testBench &&
     (base.some((s, i) => isQuestion(s) && grades[i] === 'wrong') ||
-      (!!lessonEntry && skillsOf(lessonEntry).some((sk) => !getProgress().skills[sk.id])));
+      (!!lessonEntry && skillsOf(lessonEntry).some((sk) => !getProgress().skills[sk.id])) ||
+      chestDue);
   const isLast = index === screens.length - 1 && !tailAhead;
 
   const reset = useCallback(() => {
@@ -519,6 +532,10 @@ export default function LessonPlayer({
       out.push({ type: 'skills-learned', skills: learned });
       from.push(-1);
     }
+    if (chestDue) {
+      out.push({ type: 'chest' });
+      from.push(-1);
+    }
     return { screens: out, from };
   };
 
@@ -561,6 +578,7 @@ export default function LessonPlayer({
       return pathName ? `Start ${pathName}` : 'Pick a path';
     }
     if ((screen as PlayerScreen).type === 'mistakes-deck') return 'Start the round';
+    if ((screen as PlayerScreen).type === 'chest' && cursor === 0) return 'Open the chest';
     if (screen.type === 'checklist-reveal' && cursor < screen.items.length) {
       return cursor === 0 ? 'Start the list' : 'Next item';
     }
@@ -596,6 +614,9 @@ export default function LessonPlayer({
   const showDecisionButtons =
     !outOfHearts && !!screen && screen.type === 'chart-decision' && !isRevealed;
   const chosenDecision = value && value.kind === 'decision' ? value.choice : null;
+  // docs/UI.md §6.7 [DESIGN-REVIEW]: an order ticket is placed with a slide, not checked with a tap.
+  const slidesToPlace =
+    !outOfHearts && !!screen && screen.type === 'order-build' && !isRevealed && kind !== 'first';
 
   const onSettled = useCallback(() => setSettledAt(index), [index]);
   const held =
@@ -634,6 +655,8 @@ export default function LessonPlayer({
     if (s.type === 'walkthrough') return s.steps.length;
     // One CTA press per item, plus the press that moves on.
     if (s.type === 'checklist-reveal') return s.items.length + 1;
+    // Shut, then open (ChestScreen): the key opens it before it moves on.
+    if ((s as PlayerScreen).type === 'chest') return 2;
     return 1;
   };
 
@@ -716,7 +739,21 @@ export default function LessonPlayer({
 
   const g = atSummary ? null : grades[index];
   const streak = atSummary ? 0 : streaks[index];
-  const verdict = useMemo(() => (g ? { grade: g, streak } : null), [g, streak]);
+  // docs/UI.md §5.1 [DESIGN-REVIEW]: the lesson's last question is the one
+  // whose chosen answer turns over to its verdict.
+  const lastQuestion = useMemo(() => {
+    for (let i = mainLen - 1; i >= 0; i--) if (isQuestion(screens[i] as Screen)) return i;
+    return -1;
+  }, [screens, mainLen]);
+  const big = kind !== 'first' && index === lastQuestion;
+  const verdict = useMemo(() => (g ? { grade: g, streak, big } : null), [g, streak, big]);
+  // A trade call, from its key or a swipe across the chart (docs/UI.md §4.3).
+  // The feel has to land on the call, not when the chart stops playing.
+  const decide = (button: DecisionButton) => {
+    commitFeedback();
+    emitMood('commit', runBefore(grades, index));
+    setValue({ kind: 'decision', choice: button });
+  };
   // A run of three or more warms the progress bar (ProgressBar).
   const onRun = runBefore(grades, index + 1) >= 3;
 
@@ -805,12 +842,11 @@ export default function LessonPlayer({
             {`Fix ${roundAt}/${roundOf}`}
           </Text>
         ) : null}
-        {/* The run of right answers, in the looks that count it: a fixed slot,
-            so the bar keeps its length as the flame comes and goes. */}
+        {/* The run of right answers, in the looks that count it: the combo
+            counter (docs/UI.md §2 [DESIGN-REVIEW]) in a fixed slot, so the
+            bar keeps its length as the badge comes and goes. */}
         {spec.streak !== 'none' ? (
-          <View style={styles.streakSlot}>
-            <StreakMeter run={runBefore(grades, atSummary ? grades.length : index + 1)} />
-          </View>
+          <ComboMeter run={runBefore(grades, atSummary ? grades.length : index + 1)} />
         ) : null}
         <HeartMeter />
       </View>
@@ -854,13 +890,19 @@ export default function LessonPlayer({
                         xp={kind === 'practice' ? 0 : level.xp}
                         daily={!testBench && !!onComplete && kind === 'lesson'}
                         practice={kind === 'practice'}
-                        gems={kind === 'bonus' ? (level.gems ?? 0) : 0}
+                        gems={
+                          (kind === 'bonus' ? (level.gems ?? 0) : 0) +
+                          (tail?.screens.some((t) => t.type === 'chest') ? CHEST_PAYOUT : 0)
+                        }
+                        lessonId={lessonId ?? null}
                       />
                     ) : (screen as PlayerScreen).type === 'mistakes-deck' ? (
                       <MistakesDeck
                         items={(screen as unknown as DeckScreen).items}
                         dealing={dealing}
                       />
+                    ) : (screen as PlayerScreen).type === 'chest' ? (
+                      <ChestScreen open={cursor > 0} onOpen={() => setCursor(1)} />
                     ) : (screen as PlayerScreen).type === 'skills-learned' ? (
                       <SkillsLearned skills={(screen as unknown as SkillsScreen).skills} />
                     ) : (
@@ -872,6 +914,7 @@ export default function LessonPlayer({
                         contentWidth,
                         level,
                         onPhaseChange: setDecisionPhase,
+                        onDecide: decide,
                         cursor,
                         setCursor,
                         plan,
@@ -957,14 +1000,11 @@ export default function LessonPlayer({
           <DecisionButtons
             buttons={decisionButtons(screen as any)}
             chosen={chosenDecision}
-            onChoose={(button) => {
-              // The feel has to land on the tap, not when the chart stops playing.
-              commitFeedback();
-              emitMood('commit', runBefore(grades, index));
-              setValue({ kind: 'decision', choice: button });
-            }}
+            onChoose={decide}
           />
-        ) : ctaHidden ? null : (
+        ) : ctaHidden ? null : slidesToPlace ? (
+          <SlideKey label="Slide to place" disabled={ctaDisabled} onPlace={onCta} />
+        ) : (
           <Cta
             label={ctaLabel}
             disabled={ctaDisabled}
@@ -1044,6 +1084,7 @@ function renderScreen(props: {
   contentWidth: number;
   level: Level;
   onPhaseChange: (p: DecisionPhase) => void;
+  onDecide: (button: DecisionButton) => void;
   cursor: number;
   setCursor: (n: number) => void;
   plan: Record<string, string>;
@@ -1065,6 +1106,7 @@ function renderScreen(props: {
     contentWidth,
     level,
     onPhaseChange,
+    onDecide,
     cursor,
     setCursor,
     plan,
@@ -1122,6 +1164,7 @@ function renderScreen(props: {
           value={value}
           width={contentWidth}
           onPhaseChange={onPhaseChange}
+          onDecide={onDecide}
           revealed={isRevealed}
         />
       );
@@ -1255,7 +1298,6 @@ const styles = themed(() => ({
     marginTop: -3,
   },
   backOff: { opacity: 0.25 },
-  streakSlot: { minWidth: 32, alignItems: 'flex-end' },
   // Monospaced, so "9/12" to "10/12" does not nudge the bar.
   page: { ...type.label, fontFamily: MONO_FONT, color: colors.textMuted },
   scroll: { flex: 1 },

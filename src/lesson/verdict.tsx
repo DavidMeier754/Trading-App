@@ -11,7 +11,16 @@ import type { Grade } from './answers';
  * the answer they did not give. The screen's grade settles it, and it lives in
  * the player, so it is handed down rather than threaded through thirty screens.
  */
-export type Verdict = { grade: Grade; streak: number } | null;
+export type Verdict = {
+  grade: Grade;
+  streak: number;
+  /**
+   * docs/UI.md §5.1 [DESIGN-REVIEW] "The answer turns over": the lesson's
+   * last question, where the chosen answer turns over to its verdict. Not on
+   * every answer (David).
+   */
+  big?: boolean;
+} | null;
 
 const VerdictContext = React.createContext<Verdict>(null);
 

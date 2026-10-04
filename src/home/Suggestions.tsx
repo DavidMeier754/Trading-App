@@ -120,12 +120,20 @@ function Tag({ tag }: { tag: NonNullable<Suggestion['tag']> }) {
     <View
       style={[
         styles.tag,
-        tag === 'in' ? styles.tagIn : tag === 'out' ? styles.tagOut : styles.tagWarn,
+        tag === 'in' || tag === 'app'
+          ? styles.tagIn
+          : tag === 'out'
+            ? styles.tagOut
+            : styles.tagWarn,
       ]}
     >
       <Text
         style={
-          tag === 'in' ? styles.tagInText : tag === 'out' ? styles.tagOutText : styles.tagWarnText
+          tag === 'in' || tag === 'app'
+            ? styles.tagInText
+            : tag === 'out'
+              ? styles.tagOutText
+              : styles.tagWarnText
         }
         numberOfLines={1}
       >

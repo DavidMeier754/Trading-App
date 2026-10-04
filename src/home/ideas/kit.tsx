@@ -21,7 +21,7 @@ import type { IconName } from '../icons';
  * once. "Play again" remounts it.
  */
 
-export type Section = 'answers' | 'rewards' | 'map' | 'bars' | 'numbers' | 'looks' | 'mix';
+export type Section = 'answers' | 'rewards' | 'wins' | 'map' | 'bars' | 'numbers' | 'looks' | 'mix';
 
 export type Suggestion = {
   id: string;
@@ -31,11 +31,13 @@ export type Suggestion = {
   /** What it is, in a line: under the title on the list and under the preview. */
   line: string;
   /**
-   * The row's tag: in the mix or left out of it (David's answers of
-   * 2026-09-29), moving on its own (against docs/UI.md §1, "Nothing moves
-   * unless the learner moved it"), or against another rule of docs/UI.md.
+   * The row's tag: in the app (David's picks of 2026-10-04, built in
+   * DESIGN-REVIEW), in the mix or left out of it (David's answers of
+   * 2026-09-29 and 2026-10-04), moving on its own (against docs/UI.md §1,
+   * "Nothing moves unless the learner moved it"), or against another rule of
+   * docs/UI.md.
    */
-  tag?: 'in' | 'out' | 'moves' | 'rule';
+  tag?: 'app' | 'in' | 'out' | 'moves' | 'rule';
   /** A line under the preview: which rule it breaks, or what it would replace. */
   note?: string;
   /** The key under the preview: plays it again, or puts back what was tried. None for a still. */
@@ -44,6 +46,7 @@ export type Suggestion = {
 };
 
 export const TAG_TEXT: Record<NonNullable<Suggestion['tag']>, string> = {
+  app: 'In the app',
   in: 'In your mix',
   out: 'Not in your mix',
   moves: 'Moves on its own',

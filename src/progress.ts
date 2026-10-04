@@ -104,6 +104,11 @@ export type Progress = {
   planAt: Record<string, number>;
   /** The longest streak so far, in days. */
   bestStreak: number;
+  /**
+   * Lessons finished on each local day, `2026-10-04` -> 2: the heat map on
+   * Account (docs/UI.md §7.4 [DESIGN-REVIEW], "Practice as a heat map").
+   */
+  days: Record<string, number>;
   /** The first trade of a fresh install (docs/UI.md §11.1) has been played. */
   firstTrade: boolean;
   /**
@@ -181,6 +186,7 @@ const fresh = (): Progress => ({
   plays: {},
   planAt: {},
   bestStreak: 0,
+  days: {},
   firstTrade: false,
   medalsShown: null,
 });
@@ -270,6 +276,7 @@ export function completeLesson(
     today: { date: today, count: (p.today.date === today ? p.today.count : 0) + 1 },
     bestStreak: Math.max(p.bestStreak, days),
     plays: { ...p.plays, [id]: (p.plays[id] ?? 0) + 1 },
+    days: { ...p.days, [today]: (p.days[today] ?? 0) + 1 },
   });
 }
 
@@ -623,6 +630,18 @@ export function loadSaved({
       // on the path does not get the first-run screen in the middle of it.
       if (typeof savedProgress.firstTrade !== 'boolean') {
         progress.firstTrade = Object.keys(progress.done).length > 0;
+      }
+      // Saved before the days were kept (DESIGN-REVIEW): the current streak's
+      // days had a lesson each, and today as many as it counts.
+      if (!savedProgress.days || typeof savedProgress.days !== 'object') {
+        const seeded: Record<string, number> = {};
+        if (progress.streak.last) {
+          for (let k = 0; k < progress.streak.days; k++) {
+            seeded[addDays(progress.streak.last, -k)] = 1;
+          }
+        }
+        if (progress.today.count > 0) seeded[progress.today.date] = progress.today.count;
+        progress.days = seeded;
       }
       // Saved before the longest streak was kept: the current one is the best known.
       if (typeof savedProgress.bestStreak !== 'number') {

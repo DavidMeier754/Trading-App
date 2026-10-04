@@ -14,7 +14,8 @@ import { emitMood, useLookSpec } from '../lesson/look';
 import { EASE_OUT, usePressFeedback } from '../lesson/motion';
 import OutOfHearts from '../lesson/OutOfHearts';
 import ProgressBar from '../lesson/ProgressBar';
-import StreakMeter from '../lesson/StreakMeter';
+import ChestScreen from '../lesson/ChestScreen';
+import ComboMeter from '../lesson/ComboMeter';
 import { StreakLost, StreakUp } from '../lesson/StreakScreens';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { MAX_HEARTS, streakDays, useProgress } from '../progress';
@@ -39,11 +40,32 @@ import { pathView } from './pathState';
  */
 
 type StageId =
-  'complete' | 'perfect' | 'up' | 'lost' | 'badge' | 'tier' | 'deck' | 'run' | 'heart' | 'out';
+  | 'complete'
+  | 'perfect'
+  | 'chest'
+  | 'up'
+  | 'lost'
+  | 'badge'
+  | 'tier'
+  | 'deck'
+  | 'run'
+  | 'heart'
+  | 'out';
 
 const APP: { id: StageId; icon: IconName; title: string; sub: string }[] = [
-  { id: 'complete', icon: 'bolt', title: 'Lesson complete', sub: 'The ring, the XP, the confetti' },
+  {
+    id: 'complete',
+    icon: 'bolt',
+    title: 'Lesson complete',
+    sub: 'The win screen whose turn it is (Design suggestions has all six)',
+  },
   { id: 'perfect', icon: 'star', title: 'Perfect run', sub: 'Every answer right: gold' },
+  {
+    id: 'chest',
+    icon: 'key',
+    title: 'A chest',
+    sub: 'A first perfect lesson: tap it open, the gems fly to the counter',
+  },
   {
     id: 'up',
     icon: 'flame',
@@ -59,7 +81,12 @@ const APP: { id: StageId; icon: IconName; title: string; sub: string }[] = [
     title: 'Mistakes round',
     sub: 'The missed questions as a deck, then the shuffle',
   },
-  { id: 'run', icon: 'flame', title: 'Right answers in a row', sub: 'The flame in the top bar' },
+  {
+    id: 'run',
+    icon: 'flame',
+    title: 'Right answers in a row',
+    sub: 'The combo counter in the top bar',
+  },
   { id: 'heart', icon: 'heart', title: 'Heart lost', sub: 'A wrong answer costs a heart' },
   { id: 'out', icon: 'heart', title: 'Out of hearts', sub: 'The last heart is gone' },
 ];
@@ -262,6 +289,7 @@ function Stage({
       <Missing what="tier" />
     );
   else if (id === 'deck') body = <DeckDemo />;
+  else if (id === 'chest') body = <ChestDemo />;
   else if (id === 'out') body = <OutOfHearts />;
   else if (id === 'up') body = <StreakUp from={streak} to={streak + 1} />;
   // Nothing to lose yet: a streak of 12 stands in.
@@ -283,6 +311,16 @@ function Stage({
           </View>
         </>
       )}
+    </View>
+  );
+}
+
+/** The chest, opened by a tap or the key under it, paying nothing (a demo earns nothing). */
+function ChestDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <View style={styles.chestDemo}>
+      <ChestScreen open={open} onOpen={() => setOpen(true)} demo />
     </View>
   );
 }
@@ -321,18 +359,14 @@ function TopBarDemo({ bottom }: { bottom: number }) {
           steps={steps}
           hot={run >= STREAK_FROM}
         />
-        {spec.streak !== 'none' ? (
-          <View style={styles.streakSlot}>
-            <StreakMeter run={run} />
-          </View>
-        ) : null}
+        {spec.streak !== 'none' ? <ComboMeter run={run} /> : null}
         <HeartMeter count={hearts} />
       </View>
       <View style={styles.demoMiddle}>
         <Text style={styles.demoCount}>{`${run} in a row`}</Text>
         {spec.streak === 'none' ? (
           <Text style={styles.note}>
-            {`${spec.name} shows no flame. Neo and the other designs do.`}
+            {`${spec.name} shows no combo counter. Neo and the other designs do.`}
           </Text>
         ) : null}
       </View>
@@ -487,6 +521,7 @@ const styles = themed(() => ({
   footer: { paddingHorizontal: space.lg, paddingTop: space.md },
 
   demo: { flex: 1 },
+  chestDemo: { alignItems: 'center' },
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -495,7 +530,6 @@ const styles = themed(() => ({
     paddingTop: space.sm,
     paddingBottom: space.md,
   },
-  streakSlot: { minWidth: 32, alignItems: 'flex-end' },
   demoMiddle: {
     flex: 1,
     alignItems: 'center',

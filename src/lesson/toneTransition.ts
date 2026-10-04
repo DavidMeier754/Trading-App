@@ -57,8 +57,11 @@ export function tonePalette(
  * natively, so this used to be the one animation stuck on the JS thread — and
  * it fires at the same moment as the shake, which was native. Two halves of one
  * piece of feedback, on two threads.
+ *
+ * `palette` maps a tone to its colours; an answer's edge (screens/common.tsx)
+ * ramps on the same clock with its own.
  */
-export function useToneTransition(tone: Tone) {
+export function useToneTransition(tone: Tone, palette: typeof tonePalette = tonePalette) {
   const reduced = useReduceMotion();
   const spec = useLookSpec();
   const progress = useSharedValue(isRevealTone(tone) ? 1 : 0);
@@ -67,8 +70,8 @@ export function useToneTransition(tone: Tone) {
   // React side never reaches the running animation: the colours would be one
   // render stale. On web that goes unnoticed, because there the worklet closes
   // over the very same object.
-  const from = useSharedValue(tonePalette(tone, spec));
-  const to = useSharedValue(tonePalette(tone, spec));
+  const from = useSharedValue(palette(tone, spec));
+  const to = useSharedValue(palette(tone, spec));
   const previous = useRef<Tone>(tone);
 
   useEffect(() => {
@@ -76,8 +79,8 @@ export function useToneTransition(tone: Tone) {
     const isReveal = isRevealTone(tone);
 
     if (isReveal && !wasReveal) {
-      from.set(tonePalette(previous.current, spec));
-      to.set(tonePalette(tone, spec));
+      from.set(palette(previous.current, spec));
+      to.set(palette(tone, spec));
       progress.set(0);
       progress.set(
         withTiming(1, {
@@ -88,12 +91,12 @@ export function useToneTransition(tone: Tone) {
         }),
       );
     } else {
-      from.set(tonePalette(tone, spec));
-      to.set(tonePalette(tone, spec));
+      from.set(palette(tone, spec));
+      to.set(palette(tone, spec));
       progress.set(0);
     }
     previous.current = tone;
-  }, [tone, reduced, spec, progress, from, to]);
+  }, [tone, reduced, spec, palette, progress, from, to]);
 
   return useAnimatedStyle(() => {
     const t = progress.get();

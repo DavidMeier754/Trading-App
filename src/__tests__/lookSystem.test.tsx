@@ -163,10 +163,22 @@ describe('Settings → Change design (docs/UI.md §11.5)', () => {
 });
 
 describe('the Design suggestions (stage LOOK-BRIEF, David)', () => {
-  it('keeps the five ideas David was asked about, with the two he chose marked in the mix', () => {
+  it('keeps the five ideas David was asked about, with the three now in the app marked so', () => {
+    // LOOK-BRIEF put two in the mix; DESIGN-REVIEW (David's picks of
+    // 2026-10-04) added the answers keyed A to D.
     const asked = SUGGESTIONS.filter((s) => s.section === 'mix');
     expect(asked).toHaveLength(5);
-    expect(asked.filter((s) => s.tag === 'in').map((s) => s.id)).toEqual(['countup', 'steps']);
-    expect(asked.filter((s) => s.tag === 'out')).toHaveLength(3);
+    expect(asked.filter((s) => s.tag === 'app').map((s) => s.id)).toEqual([
+      'countup',
+      'steps',
+      'keys',
+    ]);
+    expect(asked.filter((s) => s.tag === 'out').map((s) => s.id)).toEqual(['smallcaps', 'board']);
+  });
+
+  it('has a group of win screens, each a design the app plays (David, 2026-10-04)', () => {
+    const wins = SUGGESTIONS.filter((s) => s.section === 'wins');
+    expect(wins.length).toBeGreaterThanOrEqual(5);
+    expect(wins.every((s) => s.tag === 'app')).toBe(true);
   });
 });

@@ -37,7 +37,7 @@ import {
   STOP_RING,
 } from './SideStop';
 import { isQuestion } from '../types';
-import { igniteFeedback, noteFeedback } from '../lesson/feedback';
+import { igniteFeedback, landFeedback, noteFeedback } from '../lesson/feedback';
 import { EASE_IN_OUT, EASE_OUT, usePressFeedback } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import {
@@ -55,8 +55,10 @@ import { PATH_CARDS } from '../screens/StaticScreens';
 import { colors, MONO_FONT, radius, space, TAP_TARGET, type, themed } from '../theme';
 import Icon, { type IconName } from './icons';
 import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
-import { ChapterView, chapterViews, currentLevel, LevelView } from './pathState';
-import { Gem, PathLogo } from './scenes';
+import ChapterSpark from './ChapterSpark';
+import ChaptersOverview from './ChaptersOverview';
+import { ChapterView, chapterScores, chapterViews, currentLevel, LevelView } from './pathState';
+import { Flame, Gem, PathLogo } from './scenes';
 import { useDisplayFace } from '../fonts';
 import { takeIgnite } from './moments';
 import {
@@ -159,6 +161,13 @@ export default function LearnScreen({
   const progress = useProgress();
   const chapters = useMemo(() => chapterViews(progress), [progress]);
   const views = useMemo(() => chapters.flatMap((c) => c.levels), [chapters]);
+  // docs/UI.md §7.1 [DESIGN-REVIEW]: each chapter card's sparkline.
+  const scores = useMemo(
+    () => chapters.map((c) => chapterScores(progress, c)),
+    // The record and the chapters are all it reads.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [chapters, progress.questions],
+  );
   const here = currentLevel(views);
   const hereAt = views.indexOf(here);
   const hearts = useHearts();
@@ -435,6 +444,34 @@ export default function LearnScreen({
     scroll.current?.scrollTo({ y: focusY(hereAt), animated: !reduced });
   };
   const pendingJump = useRef(false);
+
+  // docs/UI.md §7.1 [DESIGN-REVIEW] "All eight chapters at a glance": the
+  // banner opens them (ChaptersOverview); a chapter picked there is opened
+  // on the map and scrolled to.
+  const [overview, setOverview] = useState(false);
+  const pendingChapter = useRef<number | null>(null);
+  const scrollToChapter = (ci: number) => {
+    const h = items.find((it) => it.t === 'header' && it.ci === ci);
+    if (h) scroll.current?.scrollTo({ y: Math.max(0, h.y - space.sm), animated: !reduced });
+  };
+  const goChapter = (ci: number) => {
+    setOverview(false);
+    if (expanded.has(ci)) {
+      scrollToChapter(ci);
+      return;
+    }
+    pendingChapter.current = ci;
+    setExpanded((prev) => new Set(prev).add(ci));
+    setOpened((prev) => new Set(prev).add(ci));
+  };
+  useEffect(() => {
+    if (pendingChapter.current === null) return;
+    const ci = pendingChapter.current;
+    pendingChapter.current = null;
+    scrollToChapter(ci);
+    // Once the chapter's levels are placed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
   useEffect(() => {
     if (!pendingJump.current) return;
     pendingJump.current = false;
@@ -468,7 +505,15 @@ export default function LearnScreen({
         gems={progress.gems}
         hearts={hearts}
       />
-      <Banner view={bannerAt !== null ? views[bannerAt] : here} allDone={allDone} />
+      <Banner
+        view={bannerAt !== null ? views[bannerAt] : here}
+        allDone={allDone}
+        onPress={() => {
+          setOpen(null);
+          setPicking(false);
+          setOverview(true);
+        }}
+      />
       <View style={styles.scroll}>
         <Animated.ScrollView
           ref={scroll}
@@ -505,6 +550,7 @@ export default function LearnScreen({
               <ChapterHeader
                 key={`h${it.ci}`}
                 view={chapters[it.ci]}
+                scores={scores[it.ci]}
                 top={it.y}
                 width={width}
                 expanded={expanded.has(it.ci)}
@@ -653,6 +699,15 @@ export default function LearnScreen({
         ) : null}
       </View>
       {!hereVisible && !allDone ? <JumpButton view={here} onPress={jump} /> : null}
+      {overview ? (
+        <ChaptersOverview
+          chapters={chapters}
+          width={width}
+          top={insets.top + space.xs + HUD_ROW}
+          onPick={goChapter}
+          onClose={() => setOverview(false)}
+        />
+      ) : null}
       {picking ? (
         <PathPicker
           top={insets.top + space.xs + HUD_ROW}
@@ -672,9 +727,10 @@ export default function LearnScreen({
 /**
  * docs/UI.md §7.2: the top bar -- which path (its logo, a stand-in until stage
  * BRAND), the streak, the gems (David, 2026-09-30: third, with their use to
- * come) and the hearts. It lines up with what is under it (David, 2026-10-01):
- * the logo on the banner's left edge, the hearts on its right, the streak and
- * the gems evenly between. A tap on the logo opens the paths (PathPicker). The
+ * come) and the hearts. [DESIGN-REVIEW] "Top bar on the tab columns" (David's
+ * pick of 2026-10-04; until then the logo and the hearts sat on the banner's
+ * edges): its four items stand in the tab bar's four columns, each centred
+ * over its tab, so the top and the bottom of the screen line up. A tap on the logo opens the paths (PathPicker). The
  * flame lights once today's lesson is done -- one a day keeps the streak
  * (David, 2026-10-04) -- and a tap on it says whether it is; the hearts show
  * the wait while one is on its way back.
@@ -741,11 +797,12 @@ function Hud({
     const t = setTimeout(() => setHeartShown(false), 2800);
     return () => clearTimeout(t);
   }, [heartShown]);
-  const flame = lit ? colors.warning : colors.textMuted;
+  // The blue flame's count in the gem's blue; the others in the streak's gold.
+  const flame = !lit ? colors.textMuted : streak >= 30 ? colors.gem : colors.warning;
   const heart = hearts.hearts > 0 ? colors.down : colors.textMuted;
   return (
     <View style={[styles.hud, { paddingTop: top + space.xs }]}>
-      <Animated.View style={logoPress.style}>
+      <Animated.View style={[styles.hudColumn, logoPress.style]}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={pathName ? `Path: ${pathName}` : 'Path: not chosen yet'}
@@ -754,7 +811,7 @@ function Hud({
           onPressIn={logoPress.onPressIn}
           onPressOut={logoPress.onPressOut}
           onPress={onPickPath}
-          style={[styles.hudItem, styles.hudStart]}
+          style={styles.hudItem}
         >
           <PathLogo
             size={30}
@@ -764,7 +821,7 @@ function Hud({
           />
         </Pressable>
       </Animated.View>
-      <View>
+      <View style={styles.hudColumn}>
         <Animated.View style={press.style}>
           <Pressable
             accessibilityRole="button"
@@ -780,8 +837,17 @@ function Hud({
           >
             <View>
               <Animated.View pointerEvents="none" style={[styles.flameGlow, flameGlow]} />
+              {/* docs/UI.md §7.2 [DESIGN-REVIEW]: lit, it is the streak's own
+                  flame in its tier -- a spark, the flame, a blaze, a blue
+                  flame from a month (home/scenes.tsx, FLAME_TIERS). */}
               <Animated.View style={flameCatch}>
-                <Icon name="flame" size={22} color={flame} filled={lit} />
+                {lit ? (
+                  <View style={styles.hudFlame}>
+                    <Flame size={20} days={streak} id="hudFlame" />
+                  </View>
+                ) : (
+                  <Icon name="flame" size={22} color={flame} />
+                )}
               </Animated.View>
             </View>
             <Text style={[styles.hudValue, { color: flame }]}>{streak}</Text>
@@ -805,18 +871,20 @@ function Hud({
           </Animated.View>
         ) : null}
       </View>
-      <View accessible accessibilityLabel={`${gems} gems`} style={styles.hudItem}>
-        <Gem size={22} color={colors.gem} />
-        <Text style={[styles.hudValue, { color: colors.gem }]}>{gems}</Text>
+      <View style={styles.hudColumn}>
+        <View accessible accessibilityLabel={`${gems} gems`} style={styles.hudItem}>
+          <Gem size={22} color={colors.gem} />
+          <Text style={[styles.hudValue, { color: colors.gem }]}>{gems}</Text>
+        </View>
       </View>
       {/* docs/UI.md §7.2 [DESIGN-REVIEW]: while the hearts are on their way
           back, a thin ring round the heart fills over the five hours; a tap
           says how long is left. The ring encloses the heart alone, so the
           count keeps its own space. */}
-      <View>
+      <View style={styles.hudColumn}>
         <Pressable
           accessibilityRole="button"
-          style={[styles.hudItem, styles.hudEnd]}
+          style={styles.hudItem}
           accessibilityLabel={`${hearts.hearts} hearts${
             hearts.fullAt ? `, all back in ${waitText(hearts.fullAt)}` : ''
           }`}
@@ -1040,7 +1108,16 @@ export function unbroken(title: string): string {
  * The level the learner is on, named at the top of the path: where it is in
  * its level ("Level 4 · Lesson 1 of 3", review S9), and its title.
  */
-function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
+function Banner({
+  view,
+  allDone,
+  onPress,
+}: {
+  view: LevelView;
+  allDone: boolean;
+  /** docs/UI.md §7.1 [DESIGN-REVIEW]: opens all the chapters at a glance (ChaptersOverview). */
+  onPress: () => void;
+}) {
   const display = useDisplayFace();
   const lesson = Math.min(view.done + 1, view.total);
   const kind = view.level.kind;
@@ -1079,14 +1156,26 @@ function Banner({ view, allDone }: { view: LevelView; allDone: boolean }) {
           : kind === 'path'
             ? `Chapter ${view.level.chapter} · ${nodeName(view)}`
             : nodeName(view);
+  const press = usePressFeedback(true, { cue: 'tick' });
   return (
-    <Animated.View style={[styles.banner, whole]} accessibilityRole="header">
-      <Animated.View style={[styles.bannerText, words]}>
-        <Text style={styles.bannerKicker}>{kicker}</Text>
-        <Text style={[styles.bannerTitle, display]}>
-          {allDone ? 'More levels are on the way' : unbroken(view.level.title)}
-        </Text>
-      </Animated.View>
+    <Animated.View style={[whole, press.style]}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`${kicker}. ${allDone ? 'More levels are on the way' : view.level.title}`}
+        accessibilityHint="Shows all the chapters"
+        onPressIn={press.onPressIn}
+        onPressOut={press.onPressOut}
+        onPress={onPress}
+        style={styles.banner}
+      >
+        <Animated.View style={[styles.bannerText, words]}>
+          <Text style={styles.bannerKicker}>{kicker}</Text>
+          <Text style={[styles.bannerTitle, display]}>
+            {allDone ? 'More levels are on the way' : unbroken(view.level.title)}
+          </Text>
+        </Animated.View>
+        <Icon name="levels" size={22} color={colors.accentText} />
+      </Pressable>
     </Animated.View>
   );
 }
@@ -1104,8 +1193,11 @@ function ChapterHeader({
   expanded,
   onToggle,
   covered = false,
+  scores = [],
 }: {
   view: ChapterView | null;
+  /** Right answers per level played, in per cent: its sparkline (ChapterSpark). */
+  scores?: number[];
   top: number;
   width: number;
   expanded: boolean;
@@ -1182,7 +1274,23 @@ function ChapterHeader({
             {unbroken(title)}
           </Text>
           <View style={styles.chapterMetaRow}>
-            {door ? null : (
+            {door ? null : scores.length > 0 ? (
+              <View style={styles.chapterSpark}>
+                <ChapterSpark
+                  id={`spark${view.chapter.number}`}
+                  scores={scores}
+                  levels={view.total}
+                  width={SPARK_W}
+                  height={SPARK_H}
+                  tone={done ? colors.warning : colors.accent}
+                />
+                <Text
+                  style={[styles.chapterScore, { color: done ? colors.warning : colors.accent }]}
+                >
+                  {`${scores[scores.length - 1]}\u00a0%`}
+                </Text>
+              </View>
+            ) : (
               <View style={styles.chapterBar}>
                 <View
                   style={[
@@ -1611,6 +1719,12 @@ function PathEnd({ x, y, text }: { x: number; y: number; text: string }) {
 // ---------------------------------------------------------------------------
 
 const CARD_H = 196;
+/** A chapter card's sparkline (ChapterSpark), in the room its bar had and a little more. */
+const SPARK_W = 76;
+const SPARK_H = 20;
+/** A level's button inside its ring (LevelNode), and the card's growing out of it. */
+const BUTTON = 66;
+const GROW_MS = 460;
 
 /**
  * docs/UI.md §7.1: tapping a level shows its title, its lessons as they stand,
@@ -1639,17 +1753,43 @@ function LevelCard({
   onStart: (entry: LessonEntry) => void;
 }) {
   const reduced = useReduceMotion();
-  const t = useSharedValue(reduced ? 1 : 0);
-  useEffect(() => {
-    if (!reduced) t.set(withTiming(1, { duration: 200, easing: EASE_OUT }));
-  }, [reduced, t]);
-  const enter = useAnimatedStyle(() => ({
-    opacity: t.get(),
-    transform: [{ translateY: (1 - t.get()) * -6 }, { scale: 0.96 + 0.04 * t.get() }],
-  }));
-
   const left = space.lg;
   const cardW = width - space.lg * 2;
+  // docs/UI.md §7.1 [DESIGN-REVIEW] "The level card grows out of its button"
+  // (David's pick of 2026-10-04): a blob in the button's colour leaves the
+  // button and spreads into the card's frame under it, its corners settling
+  // from round to the card's own; then its words come up. The words are laid
+  // out at the card's size from the start, so nothing reflows while it grows.
+  const t = useSharedValue(reduced ? 1 : 0);
+  const words = useSharedValue(reduced ? 1 : 0);
+  const [cardH, setCardH] = useState(CARD_H);
+  useEffect(() => {
+    if (reduced) return;
+    t.set(withTiming(1, { duration: GROW_MS, easing: EASE_OUT }));
+    words.set(withDelay(GROW_MS * 0.45, withTiming(1, { duration: 240, easing: EASE_OUT })));
+    const timer = setTimeout(landFeedback, GROW_MS * 0.4);
+    return () => clearTimeout(timer);
+  }, [reduced, t, words]);
+  // The button, in the card's own frame: centred on its level, above the card.
+  const bx = arrowX - left - BUTTON / 2;
+  const by = -(RING / 2 + 16) - BUTTON / 2;
+  const blob = useAnimatedStyle(() => {
+    const k = t.get();
+    return {
+      left: bx * (1 - k),
+      top: by * (1 - k),
+      width: BUTTON + (cardW - BUTTON) * k,
+      height: BUTTON + (cardH - BUTTON) * k,
+      borderRadius: BUTTON / 2 + (radius.lg - BUTTON / 2) * k,
+      borderWidth: Math.min(1.5, k * 5),
+    };
+  });
+  const wash = useAnimatedStyle(() => ({ opacity: Math.max(0, 1 - t.get() * 1.8) }));
+  const enter = useAnimatedStyle(() => ({
+    opacity: words.get(),
+    transform: [{ translateY: 6 * (1 - words.get()) }],
+  }));
+  const pointIn = useAnimatedStyle(() => ({ opacity: words.get() }));
   const kind = view.level.kind;
   const locked = view.status === 'locked';
   const complete = view.status === 'complete';
@@ -1712,73 +1852,84 @@ function LevelCard({
   const kicker = kind === 'path' ? 'Your path' : nodeName(view);
 
   return (
-    <Animated.View
-      style={[styles.card, { top, left, width: cardW, transformOrigin: 'top' }, enter]}
+    <View
+      style={[styles.card, styles.cardBare, { top, left, width: cardW }]}
+      onLayout={(e) => setCardH(e.nativeEvent.layout.height)}
     >
-      <View style={[styles.cardPoint, { left: arrowX - left - 8 }]} />
-      <Text style={[styles.cardKicker, { color: tone }]}>{kicker}</Text>
-      <Text style={styles.cardTitle}>{unbroken(view.level.title)}</Text>
-      {view.total > 1 ? (
-        <View style={styles.segments}>
-          {view.level.subs.map((entry, i) => {
-            const done = view.doneFlags[i];
-            const next = !locked && !complete && i === view.nextIndex;
-            return (
-              <View
-                key={entry.id}
-                style={[
-                  styles.segment,
-                  done && { backgroundColor: colors.success, borderColor: colors.success },
-                  next && { borderColor: colors.accent },
-                ]}
-              />
-            );
-          })}
-        </View>
-      ) : null}
-      <Text style={styles.cardMeta}>{meta}</Text>
-      {locked ? null : (
-        <Animated.View style={press.style}>
-          <Pressable
-            testID="key"
-            accessibilityRole="button"
-            accessibilityState={{ disabled: empty }}
-            disabled={empty}
-            onPressIn={press.onPressIn}
-            onPressOut={press.onPressOut}
-            onPress={() => onStart(view.next)}
-            style={[
-              styles.cardButton,
-              complete && styles.cardButtonQuiet,
-              empty && styles.cardButtonEmpty,
-            ]}
-          >
-            {empty ? (
-              <Icon name="heart" size={16} color={colors.textFaint} />
-            ) : complete ? null : (
-              <Icon
-                name={kind === 'path' ? 'signpost' : 'play'}
-                size={16}
-                color={colors.accentText}
-              />
-            )}
-            {/* docs/UI.md §10: a key's label is one line, always; a long one shrinks to fit. */}
-            <Text
+      <Animated.View pointerEvents="none" style={[styles.cardBlob, blob]}>
+        <Animated.View
+          style={[StyleSheet.absoluteFill, { backgroundColor: tone, borderRadius: 999 }, wash]}
+        />
+      </Animated.View>
+      <Animated.View
+        pointerEvents="none"
+        style={[styles.cardPoint, { left: arrowX - left - 8 }, pointIn]}
+      />
+      <Animated.View style={[styles.cardWords, enter]}>
+        <Text style={[styles.cardKicker, { color: tone }]}>{kicker}</Text>
+        <Text style={styles.cardTitle}>{unbroken(view.level.title)}</Text>
+        {view.total > 1 ? (
+          <View style={styles.segments}>
+            {view.level.subs.map((entry, i) => {
+              const done = view.doneFlags[i];
+              const next = !locked && !complete && i === view.nextIndex;
+              return (
+                <View
+                  key={entry.id}
+                  style={[
+                    styles.segment,
+                    done && { backgroundColor: colors.success, borderColor: colors.success },
+                    next && { borderColor: colors.accent },
+                  ]}
+                />
+              );
+            })}
+          </View>
+        ) : null}
+        <Text style={styles.cardMeta}>{meta}</Text>
+        {locked ? null : (
+          <Animated.View style={press.style}>
+            <Pressable
+              testID="key"
+              accessibilityRole="button"
+              accessibilityState={{ disabled: empty }}
+              disabled={empty}
+              onPressIn={press.onPressIn}
+              onPressOut={press.onPressOut}
+              onPress={() => onStart(view.next)}
               style={[
-                styles.cardButtonText,
-                complete && { color: colors.text },
-                empty && { color: colors.textMuted },
+                styles.cardButton,
+                complete && styles.cardButtonQuiet,
+                empty && styles.cardButtonEmpty,
               ]}
-              numberOfLines={1}
-              adjustsFontSizeToFit
-              minimumFontScale={0.8}
             >
-              {label}
-            </Text>
-          </Pressable>
-        </Animated.View>
-      )}
-    </Animated.View>
+              {empty ? (
+                <Icon name="heart" size={16} color={colors.textFaint} />
+              ) : complete ? null : (
+                <Icon
+                  name={kind === 'path' ? 'signpost' : 'play'}
+                  size={16}
+                  color={colors.accentText}
+                />
+              )}
+              {/* docs/UI.md §10: a key's label is one line, always; a long one shrinks to fit. */}
+              <Text
+                style={[
+                  styles.cardButtonText,
+                  complete && { color: colors.text },
+                  empty && { color: colors.textMuted },
+                ]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.8}
+              >
+                {label}
+              </Text>
+            </Pressable>
+          </Animated.View>
+        )}
+      </Animated.View>
+    </View>
   );
 }
 
@@ -1786,16 +1937,15 @@ const styles = themed(() => ({
   stopSlot: { position: 'absolute', width: STOP_RING, alignItems: 'center' },
 
   wrap: { flex: 1 },
-  // Over the banner, so the flame's line can drop down across it. As
-  // wide as the banner: its first and last items sit on the banner's edges.
+  // Over the banner, so the flame's line can drop down across it. Four equal
+  // columns across the whole width, as the tab bar's (TabBar.tsx).
   hud: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: space.lg,
     paddingBottom: space.xs,
     zIndex: 2,
   },
+  hudColumn: { flex: 1, alignItems: 'center' },
   hudItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1804,9 +1954,6 @@ const styles = themed(() => ({
     minWidth: 48,
     minHeight: 48,
   },
-  // The 48 pt targets reach past their icons; these keep the icons on the edges.
-  hudStart: { justifyContent: 'flex-start' },
-  hudEnd: { justifyContent: 'flex-end' },
   hudValue: { fontSize: 17, lineHeight: 22, fontWeight: '800', fontFamily: MONO_FONT },
   flameGlow: {
     position: 'absolute',
@@ -1818,9 +1965,17 @@ const styles = themed(() => ({
     backgroundColor: colors.warning,
   },
   heartBox: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
+  hudFlame: { width: 22, height: 24, alignItems: 'center', justifyContent: 'flex-end' },
   heartRing: { position: 'absolute', left: 0, top: 0 },
-  heartTipWrap: { position: 'absolute', top: 48, right: -8, width: 240, alignItems: 'flex-end' },
-  heartTipPoint: { left: 'auto', right: 38, marginLeft: 0 },
+  // Under the heart, kept on the screen: the column is the last one.
+  heartTipWrap: {
+    position: 'absolute',
+    top: 48,
+    right: space.sm,
+    width: 240,
+    alignItems: 'flex-end',
+  },
+  heartTipPoint: { left: 'auto', right: 30, marginLeft: 0 },
   todayWrap: { position: 'absolute', top: 48, left: -90, right: -90, alignItems: 'center' },
   today: {
     paddingHorizontal: space.md,
@@ -1984,6 +2139,8 @@ const styles = themed(() => ({
     overflow: 'hidden',
   },
   chapterFill: { height: 5, borderRadius: 3 },
+  chapterSpark: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  chapterScore: { ...type.small, fontFamily: MONO_FONT, fontWeight: '700' },
   chapterMeta: { ...type.small, color: colors.textMuted, flexShrink: 1 },
   jump: { position: 'absolute', right: space.lg, bottom: space.lg },
   jumpInner: {
@@ -2063,6 +2220,16 @@ const styles = themed(() => ({
     padding: space.lg,
     gap: space.sm,
   },
+  // The card's frame is the blob's (it grows out of the button): the card
+  // itself only lays out its words.
+  cardBare: { backgroundColor: 'transparent', borderWidth: 0, padding: space.lg + 1.5 },
+  cardBlob: {
+    position: 'absolute',
+    overflow: 'hidden',
+    backgroundColor: colors.surface,
+    borderColor: colors.borderStrong,
+  },
+  cardWords: { gap: space.sm },
   cardPoint: {
     position: 'absolute',
     top: -9,

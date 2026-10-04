@@ -950,6 +950,35 @@ Report: what you built · check results · contact sheets before/after · my tes
 11. **After David's test (2026-10-04):** hearts in every lesson; one lesson a day keeps the streak; the path as a true sine; the streak moments in the flow and the flame catching; the medal landing on the shelf; Settings → Testing → **Reset streak**; and the skills: `content/skills.yaml` with every skill and its info, a `skills` line in every level file, `tools/skills.py`, the validator's rules (`docs/schema.md` "Skills").
 12. **Nothing on top of anything** (David, after his test: "the Start Box over the level overlaps the optional side levels. Find every instance where something like this happens in the app and fix it"): side stops placed by search (`src/home/mapLayout.ts`), chart labels that never cover each other, the axis or the zone's pill, the scanner in two lines on the smallest phones, the plan card's suggestion key under its line, the lesson bar's targets apart; and the check that keeps it so: `overlap` and `offscreen` in the UI check and in `npm run smoke` (`docs/UI.md` §10).
 
+13. **David's design picks** (2026-10-04: "implement all that don't contradict the already written features"). Another session had made 37 more ideas into an artifact, "Nutrade design picks"; David marked each Add or Leave out. Every Add is built and every idea now carries its verdict in Settings → Testing → Design suggestions ("In the app" or "Not in your mix"). The record:
+
+    | Group | Idea | Verdict | Built as (`docs/UI.md`) |
+    |---|---|---|---|
+    | Answering | Swipe to make the call | Add | A swipe across the decision chart makes the call, Long right, Short (or Wait) left; the keys stay (§4.3). |
+    | Answering | The answer turns over | Add, "not on every answer" | The chosen answer turns over to its verdict on the lesson's last question only (§5.1). |
+    | Answering | Answers with depth | Add | Answer rows and True / False stand on an edge, sink when pressed and the chosen one stays down (§4.1). |
+    | Answering | Slide to place the trade | Add | An order ticket is placed with a slide in the key's place; a tap slides it home (§6.7). |
+    | Answering | Run a finger along the chart | Add | Theory charts and a chart decision once played: crosshair, dot and price tag (§6.4). |
+    | Answering | Theory typed out like a terminal | Add | The theory card's body types out fast behind a block caret; a tap shows it all (§1, §3). |
+    | Rewards | Lesson complete as a trade receipt | Add, "5+ different designs", "another suggestion tab just for such designs" | Six win screens that take turns — ring, receipt, split-flap board, candle, equity curve, ticker quote — and a **Win screens** group in Design suggestions (§5.3). |
+    | Rewards | Split-flap numbers | Add | One of the six (§5.3). |
+    | Rewards | Gems fly to the counter | Add | From the chest into a gem counter that counts them in (§5.3). |
+    | Rewards | A badge you can tilt | Add | The chapter medal leans to the finger, foil light and rainbow follow; a tap wobbles it (§5.4). |
+    | Rewards | Confetti of candles and coins | Add | Every confetti burst (§5.3). |
+    | Rewards | A chest for a perfect lesson | Add | The first perfect run of a lesson: a chest before the summary, three taps or the key open it, five gems (§5.3). |
+    | Map | The level card grows out of its button | Add | §7.1. |
+    | Map | Chapter cards with a sparkline | Add | Right answers per level played, in place of the bar (§7.1). |
+    | Map | All eight chapters at a glance | Add | A tap on the banner: the mountain of chapters; a tap on one goes to it (§7.1). |
+    | Bars | Tabs with a sliding pill | Add (breaks §11.2's "never a slide", David's choice) | The pill slides; the screen still switches at once (§11.2). |
+    | Bars | The flame grows with the streak | Add | Spark, flame, blaze, blue flame, in the top bar and on the streak screens (§7.2). |
+    | Bars | Top bar on the tab columns | Add | §7.2. |
+    | Numbers | Numbers on a dial | Add | The `slider` question's track is a dial, − and + beside it (§4.1). |
+    | Numbers | A combo counter | Add | "×3" and up beside the lesson's bar, in place of the run's flame (§2). |
+    | Numbers | Practice as a heat map | Add | Account → Your days, eighteen weeks (§7.4); the progress keeps lessons per day. |
+    | LOOK-BRIEF | Answers keyed A to D | Add (was not taken in `LOOK-BRIEF`) | §4.1, §10. |
+    | LOOK-BRIEF | Numbers that count up · The step count | Add | Already in the app. |
+    | Left out | Progress bar of candles; right answer breaks out; finished levels turn into coins; path as a price line; ticker under the top bar; sloshing progress bar; a heart that breaks; the Terminal, Newsprint, Glass and Arcade looks; small caps; board-style map | Leave out | Kept as previews, marked "Not in your mix". |
+
 **Not in this stage:** any other change to a level file or the test bench (David: "Don't rewrite any .yaml" — the `skills` line is the exception he asked for on 2026-10-04); the tab set (decision V); sharing the plan or a card as an image (`ONBOARDING`, `STATS`).
 
 **Status** (2026-10-04): built, waiting for David's test. The PR is stacked on PR #21 (`LOOK-SYSTEM`, session 2), whose branch it starts from; it merges after #20 and #21. The tabs concept is published: ["Nutrade tabs concept"](https://claude.ai/artifact/F7fex6S9DVzby2ZcKyWqHD).
@@ -1018,12 +1047,12 @@ Report: what you changed · check results · my test checklist for the fixes wit
 **Session 2 – the rest**
 
 7. ~~**Match:** every pair with its own color or connection (S8).~~ **Done differently in `DESIGN-REVIEW`:** David did not want colours or threads; matched pairs snap together with rising notes and haptics and the board ends on a wave (`docs/UI.md` §4.1).
-8. **Lesson complete** (S11):
-   - Confetti only for a perfect run and never over text. **Done in `DESIGN-REVIEW`.**
+8. **Lesson complete** (S11). **Since `DESIGN-REVIEW` (David's picks of 2026-10-04)** it has six designs that take turns (`docs/UI.md` §5.3, `src/lesson/wins/`); what is left here applies to each:
+   - Confetti only for a perfect run and never over text. **Done in `DESIGN-REVIEW`,** as candles and coins.
    - The lesson's name (`subtitle`) is shown.
    - The mistakes are listed, with "Practice these" (linked from `PRACTICE` on).
    - ~~Progress toward the daily goal is visible.~~ The streak is shown (one lesson a day keeps it). **Done in `DESIGN-REVIEW`.**
-   - Its numbers count up to their value, together with the ring (from Precise, your choice in `LOOK-BRIEF`; `#prototype/mix/complete` at `a78e210`). Reduced motion shows them at once.
+   - Its numbers count up to their value, together with the ring (from Precise, your choice in `LOOK-BRIEF`; `#prototype/mix/complete` at `a78e210`). Reduced motion shows them at once. **Done in `DESIGN-REVIEW`** in every design.
 9. **Chapter badge** as in `docs/UI.md` §5.4: the XP bonus counts up, "Chapter N unlocked" (S21). **Done in `DESIGN-REVIEW`,** as the chapter's own emblem medal with the next chapter named.
 10. **Visuals** (S24, W17):
     - The ownership graphic as a 10×10 grid from 20 parts upward.

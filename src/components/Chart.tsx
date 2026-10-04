@@ -21,6 +21,7 @@ import Svg, {
 
 import { axisPrice, volume as fmtVolume } from '../format';
 import { floorSpan } from './chartScale';
+import ChartScrub from './ChartScrub';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { tint, useLookSpec } from '../lesson/look';
 import { Arrive } from '../lesson/Celebrate';
@@ -1065,6 +1066,12 @@ export function closeAt(spec: ChartSpec, index: number): number {
 
 type Props = {
   spec: ChartSpec;
+  /**
+   * docs/UI.md §6.4 [DESIGN-REVIEW]: a finger run along the chart reads the
+   * price at each bar (ChartScrub). For charts that are there to be read, not
+   * answered on.
+   */
+  scrub?: boolean;
   /** How many bars are drawn. Playback raises this one bar at a time. */
   visibleCount: number;
   width: number;
@@ -1325,6 +1332,7 @@ function Chart({
   endAt,
   notes,
   showNotes = false,
+  scrub = false,
 }: Props) {
   const lookSpec = useLookSpec();
   const neo = lookSpec.chartGlow || emphasis;
@@ -2140,6 +2148,19 @@ function Chart({
           <View style={styles.legendSwatch} />
           <Text style={styles.legendText}>VWAP</Text>
         </View>
+      ) : null}
+
+      {scrub && !playback && shown > 1 ? (
+        <ChartScrub
+          width={width}
+          height={height}
+          xs={bars.slice(0, shown).map((_, i) => cx(i))}
+          ys={bars.slice(0, shown).map((b) => y(b.c))}
+          closes={bars.slice(0, shown).map((b) => b.c)}
+          top={padTop}
+          bottom={padTop + priceH}
+          right={PAD_LEFT + plotW}
+        />
       ) : null}
     </View>
   );

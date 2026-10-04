@@ -162,6 +162,7 @@ export default function Visual({
                 draw={spec.kind === 'line' ? draw : undefined}
                 gridAnchor={grid.gridAnchor}
                 emphasis
+                scrub
               />
             )}
           </DrawOnChart>

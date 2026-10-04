@@ -21,7 +21,7 @@ import {
 } from '../lesson/look';
 import ProgressBar from '../lesson/ProgressBar';
 import { QuitButton } from '../lesson/QuitSheet';
-import StreakMeter from '../lesson/StreakMeter';
+import ComboMeter from '../lesson/ComboMeter';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import McScreen from '../screens/McScreen';
 import { colors, MONO_FONT, space, TAP_TARGET, type, themed } from '../theme';
@@ -104,11 +104,7 @@ export default function ChangeDesign({ width, onBack }: { width: number; onBack:
         <Text style={styles.page} accessibilityLabel={`Step ${AT + 1} of ${STEPS}`}>
           {`${AT + 1}/${STEPS}`}
         </Text>
-        {spec.streak !== 'none' ? (
-          <View style={styles.streakSlot}>
-            <StreakMeter run={0} />
-          </View>
-        ) : null}
+        {spec.streak !== 'none' ? <ComboMeter run={0} /> : null}
         <HeartMeter />
       </View>
 
@@ -179,7 +175,6 @@ const styles = themed(() => ({
     paddingHorizontal: space.lg,
     paddingBottom: space.md,
   },
-  streakSlot: { minWidth: 32, alignItems: 'flex-end' },
   page: { ...type.label, fontFamily: MONO_FONT, color: colors.textMuted },
   stage: { flex: 1 },
   content: { paddingHorizontal: space.lg, paddingBottom: space.lg },

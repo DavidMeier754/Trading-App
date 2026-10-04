@@ -20,6 +20,7 @@ import { TierCard } from '../rewards/TierCard';
 import { colors, space, type, themed } from '../theme';
 import { dayText, planDocument, standing } from './accountData';
 import { takeShelfReplay } from './moments';
+import PracticeHeatmap from './PracticeHeatmap';
 import { pageStyles, RowButton } from './pageParts';
 
 /** A medal on the shelf. */
@@ -95,6 +96,10 @@ export default function AccountScreen({
           );
         })}
       </View>
+
+      {/* docs/UI.md §7.4 [DESIGN-REVIEW] "Practice as a heat map". */}
+      <Text style={pageStyles.section}>Your days</Text>
+      <PracticeHeatmap days={progress.days} />
 
       <Text style={pageStyles.section}>You</Text>
       <RowButton

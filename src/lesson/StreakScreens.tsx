@@ -148,7 +148,7 @@ export function StreakUp({ from, to, now }: { from: number; to: number; now?: Da
           <Flame size={FLAME} lit={false} id="suCold" />
         </Animated.View>
         <Animated.View style={[styles.layer, litStyle]}>
-          <Flame size={FLAME} id="suLit" />
+          <Flame size={FLAME} days={to} id="suLit" />
         </Animated.View>
       </View>
       <View>
@@ -251,7 +251,7 @@ export function StreakLost({ lost }: { lost: number }) {
           <Flame size={FLAME} lit={false} id="slCold" />
         </Animated.View>
         <Animated.View style={[styles.layer, litStyle]}>
-          <Flame size={FLAME} id="slLit" />
+          <Flame size={FLAME} days={lost} id="slLit" />
         </Animated.View>
         {WISPS.map((w, i) => (
           <Wisp key={i} spec={w} t={smoke} />

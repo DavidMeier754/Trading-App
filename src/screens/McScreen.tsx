@@ -8,7 +8,10 @@ import { space } from '../theme';
 import type { McScreen as Mc, NumericMcScreen as NumMc } from '../types';
 import { AnswerCard, Prompt } from './common';
 
-/** docs/UI.md §4.1 `mc` and `numeric-mc`: 2-4 answer cards, single select. */
+/**
+ * docs/UI.md §4.1 `mc` and `numeric-mc`: 2-4 answer cards, single select,
+ * keyed A to D ([DESIGN-REVIEW], David's pick of 2026-10-04).
+ */
 export default function McScreen({
   screen,
   value,
@@ -39,6 +42,7 @@ export default function McScreen({
             key={`${option.text}-${i}`}
             label={option.text}
             tone={toneFor(i)}
+            letter={String.fromCharCode(65 + i)}
             disabled={revealed}
             onPress={() => {
               // A choice, not an answer yet: Check commits it (lesson/answers.ts),

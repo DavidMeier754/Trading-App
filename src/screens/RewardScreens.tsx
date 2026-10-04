@@ -12,14 +12,17 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
-import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Svg, { Circle, Defs, LinearGradient, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { copy } from '../format';
 import Confetti from '../lesson/Confetti';
 import {
+  detentFeedback,
   landFeedback,
   medalFeedback,
   pulseAt,
+  tapFeedback,
   tierFeedback,
   unlockFeedback,
 } from '../lesson/feedback';
@@ -70,6 +73,120 @@ export function opensLine(unlocks: string | undefined, path: string | null): str
  * something falling -- and the landing is the animation's own completion, so
  * the cue fires from the frame the medal touches down.
  */
+/** How far the medal leans, in degrees, with a finger at its edge; the foil band's width. */
+const TILT = 16;
+const FOIL_W = 110;
+
+/**
+ * The medal's tilt (docs/UI.md §5.4 [DESIGN-REVIEW]): a drag leans it
+ * towards the finger and moves the foil's light with it; a tap wobbles it and
+ * runs the light across once.
+ */
+function useMedalTilt(still: boolean) {
+  const rx = useSharedValue(0);
+  const ry = useSharedValue(0);
+  const lift = useSharedValue(0);
+  // Where the light is across the face, -1 to 1 (off it at rest), and how bright.
+  const across = useSharedValue(-1.8);
+  const lit = useSharedValue(0);
+  const box = useSharedValue({ w: MEDAL, h: MEDAL });
+
+  const wobble = useCallback(() => {
+    tapFeedback();
+    across.set(
+      withSequence(
+        withTiming(-1.8, { duration: 0 }),
+        withTiming(1.8, { duration: 760, easing: Easing.inOut(Easing.quad) }),
+      ),
+    );
+    lit.set(
+      withSequence(
+        withTiming(1, { duration: 160 }),
+        withDelay(360, withTiming(0, { duration: 300 })),
+      ),
+    );
+    if (still) return;
+    rx.set(withSpring(0, { duration: 500, dampingRatio: 0.6 }));
+    ry.set(
+      withSequence(
+        withTiming(12, { duration: 90, easing: Easing.out(Easing.quad) }),
+        withTiming(-9, { duration: 150, easing: Easing.inOut(Easing.quad) }),
+        withTiming(5, { duration: 130, easing: Easing.inOut(Easing.quad) }),
+        withSpring(0, { duration: 460, dampingRatio: 0.5 }),
+      ),
+    );
+  }, [still, rx, ry, across, lit]);
+
+  const lean = (x: number, y: number) => {
+    'worklet';
+    const b = box.get();
+    return {
+      a: Math.max(-1, Math.min(1, (x - b.w / 2) / (b.w / 2))),
+      d: Math.max(-1, Math.min(1, (y - b.h / 2) / (b.h / 2))),
+    };
+  };
+  const pan = Gesture.Pan()
+    .minDistance(4)
+    .onBegin((e) => {
+      const { a, d } = lean(e.x, e.y);
+      if (!still) {
+        ry.set(withTiming(a * TILT, { duration: 140, easing: Easing.out(Easing.quad) }));
+        rx.set(withTiming(-d * TILT, { duration: 140, easing: Easing.out(Easing.quad) }));
+        lift.set(withTiming(1, { duration: 140 }));
+      }
+      across.set(withTiming(a, { duration: still ? 0 : 140 }));
+      lit.set(withTiming(1, { duration: 140 }));
+    })
+    .onStart(() => {
+      scheduleOnRN(detentFeedback);
+    })
+    .onUpdate((e) => {
+      const { a, d } = lean(e.x, e.y);
+      if (!still) {
+        ry.set(withTiming(a * TILT, { duration: 60 }));
+        rx.set(withTiming(-d * TILT, { duration: 60 }));
+      }
+      across.set(withTiming(a, { duration: 60 }));
+    })
+    .onFinalize(() => {
+      if (!still) {
+        rx.set(withSpring(0, { duration: 700, dampingRatio: 0.45 }));
+        ry.set(withSpring(0, { duration: 700, dampingRatio: 0.45 }));
+        lift.set(withTiming(0, { duration: 260 }));
+      }
+      lit.set(withTiming(0, { duration: still ? 140 : 420 }));
+    });
+  const tap = Gesture.Tap().onEnd(() => {
+    scheduleOnRN(wobble);
+  });
+
+  const style = useAnimatedStyle(() => ({
+    transform: [
+      { perspective: 800 },
+      { rotateX: `${rx.get()}deg` },
+      { rotateY: `${ry.get()}deg` },
+      { scale: 1 + 0.04 * lift.get() },
+    ],
+  }));
+  const glare = useAnimatedStyle(() => ({
+    opacity: 0.55 * lit.get(),
+    transform: [{ translateX: across.get() * MEDAL * 0.45 }, { rotate: '20deg' }],
+  }));
+  const holo = useAnimatedStyle(() => ({
+    opacity: 0.5 * lit.get(),
+    transform: [{ translateX: -across.get() * MEDAL * 0.3 }, { rotate: '20deg' }],
+  }));
+  return {
+    gesture: Gesture.Exclusive(pan, tap),
+    style,
+    glare,
+    holo,
+    wobble,
+    onLayout: (e: LayoutChangeEvent) =>
+      box.set({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }),
+  };
+}
+
 export function BadgeScreen({
   screen,
   chapter,
@@ -209,6 +326,13 @@ export function BadgeScreen({
     opacity: Math.min(1, coin.get() * 2),
     transform: [{ translateY: -14 * (1 - coin.get()) }, { scale: 0.5 + 0.5 * coin.get() }],
   }));
+  // docs/UI.md §5.4 [DESIGN-REVIEW] "A badge you can tilt" (David's pick of
+  // 2026-10-04): a finger on the medal leans it towards the finger, and the
+  // foil's light and its rainbow follow; let go, it springs back. A tap
+  // wobbles it and runs the light across once. Under reduced motion it holds
+  // still and only the light comes and goes.
+  const tilt = useMedalTilt(m.reduced);
+
   const opensStyle = useAnimatedStyle(() => ({
     opacity: opens.get(),
     transform: [{ translateY: 10 * (1 - opens.get()) }],
@@ -229,39 +353,67 @@ export function BadgeScreen({
             <Circle cx={GLOW / 2} cy={GLOW / 2} r={GLOW / 2} fill="url(#medalGlow)" />
           </Svg>
         </Animated.View>
-        <Animated.View style={medalStyle}>
+        <GestureDetector gesture={tilt.gesture}>
           <Animated.View
-            pointerEvents="none"
-            style={[
-              styles.lightRing,
-              {
-                left: face.cx - face.r,
-                top: face.cy - face.r,
-                width: face.r * 2,
-                height: face.r * 2,
-                borderRadius: face.r,
-              },
-              ringStyle,
-            ]}
-          />
-          <Medal chapter={chapter} size={MEDAL} id={`medal-${chapter}`} />
-          {/* The light running across the face, clipped to it. */}
-          <View
-            pointerEvents="none"
-            style={[
-              styles.faceClip,
-              {
-                left: face.cx - face.r,
-                top: face.cy - face.r,
-                width: face.r * 2,
-                height: face.r * 2,
-                borderRadius: face.r,
-              },
-            ]}
+            style={tilt.style}
+            onLayout={tilt.onLayout}
+            accessible
+            accessibilityRole="button"
+            accessibilityLabel={`Chapter ${chapter} medal`}
+            accessibilityHint="Makes its foil shine"
+            onAccessibilityTap={tilt.wobble}
           >
-            <Animated.View style={[styles.sheen, { height: face.r * 3 }, sheenStyle]} />
-          </View>
-        </Animated.View>
+            <Animated.View style={medalStyle}>
+              <Animated.View
+                pointerEvents="none"
+                style={[
+                  styles.lightRing,
+                  {
+                    left: face.cx - face.r,
+                    top: face.cy - face.r,
+                    width: face.r * 2,
+                    height: face.r * 2,
+                    borderRadius: face.r,
+                  },
+                  ringStyle,
+                ]}
+              />
+              <Medal chapter={chapter} size={MEDAL} id={`medal-${chapter}`} />
+              {/* The light running across the face, clipped to it. */}
+              <View
+                pointerEvents="none"
+                style={[
+                  styles.faceClip,
+                  {
+                    left: face.cx - face.r,
+                    top: face.cy - face.r,
+                    width: face.r * 2,
+                    height: face.r * 2,
+                    borderRadius: face.r,
+                  },
+                ]}
+              >
+                <Animated.View style={[styles.sheen, { height: face.r * 3 }, sheenStyle]} />
+                <Animated.View style={[styles.holo, { height: face.r * 3 }, tilt.holo]}>
+                  <Svg width={FOIL_W} height={face.r * 3}>
+                    <Defs>
+                      <LinearGradient id="medalHolo" x1="0" y1="0" x2="1" y2="0">
+                        <Stop offset="0" stopColor="#FF7AD9" stopOpacity={0} />
+                        <Stop offset="0.25" stopColor="#FF7AD9" stopOpacity={0.5} />
+                        <Stop offset="0.45" stopColor="#FFE66D" stopOpacity={0.5} />
+                        <Stop offset="0.65" stopColor="#6DFFD2" stopOpacity={0.5} />
+                        <Stop offset="0.85" stopColor="#7AA8FF" stopOpacity={0.5} />
+                        <Stop offset="1" stopColor="#7AA8FF" stopOpacity={0} />
+                      </LinearGradient>
+                    </Defs>
+                    <Rect x={0} y={0} width={FOIL_W} height={face.r * 3} fill="url(#medalHolo)" />
+                  </Svg>
+                </Animated.View>
+                <Animated.View style={[styles.glare, { height: face.r * 3 }, tilt.glare]} />
+              </View>
+            </Animated.View>
+          </Animated.View>
+        </GestureDetector>
       </View>
       {/* The full name holds the layout from the first frame, so typing it in
           never reflows the screen; the untyped part is simply invisible. */}
@@ -445,6 +597,16 @@ const styles = themed(() => ({
     borderColor: colors.warning,
   },
   faceClip: { position: 'absolute', overflow: 'hidden' },
+  // The foil: a soft white band and a rainbow drifting the other way.
+  glare: {
+    position: 'absolute',
+    top: -20,
+    left: '50%',
+    width: 34,
+    marginLeft: -17,
+    backgroundColor: '#FFFFFF',
+  },
+  holo: { position: 'absolute', top: -20, left: '50%', width: FOIL_W, marginLeft: -FOIL_W / 2 },
   sheen: {
     position: 'absolute',
     top: -20,
