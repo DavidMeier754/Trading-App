@@ -66,6 +66,8 @@ const STEP_Y = 148;
 const NODES_TOP = 52;
 /** A chapter's header card, and the space left under an expanded chapter's last node. */
 const HEAD_H = 76;
+/** The docked chapter bar's height (§7.1): a card under it is out of sight. */
+const DOCK_H = 40;
 const NODES_BOTTOM = 36;
 const CHAPTER_GAP = 16;
 /** Room under the last section for a level card opened on its last node. */
@@ -459,10 +461,12 @@ export default function LearnScreen({
   const allDone = bannerAt === null && views.every((v) => v.status === 'complete');
   // docs/UI.md §7.1 [DESIGN-REVIEW]: the chapter docks under the banner once
   // its card has scrolled away under it, and changes as the next card comes up.
+  // A card that has slid under the docked bar itself counts as gone: the bar
+  // names the chapter whose card it covers, never the one before it.
   const docked = useMemo(() => {
     const headers = items.filter((it): it is Extract<Item, { t: 'header' }> => it.t === 'header');
     let at: Extract<Item, { t: 'header' }> | null = null;
-    for (const h of headers) if (h.y + HEAD_H - space.sm <= scrollY + 2) at = h;
+    for (const h of headers) if (h.y + HEAD_H - space.sm <= scrollY + DOCK_H) at = h;
     return at;
   }, [items, scrollY]);
   return (
@@ -521,6 +525,7 @@ export default function LearnScreen({
                 width={width}
                 expanded={expanded.has(it.ci)}
                 onToggle={() => toggle(it.ci)}
+                covered={docked?.ci === it.ci}
               />
             ) : it.t === 'finale' ? (
               <PathFinale key="finale" top={it.y} width={width} />
@@ -1084,12 +1089,15 @@ function ChapterHeader({
   width,
   expanded,
   onToggle,
+  covered = false,
 }: {
   view: ChapterView | null;
   top: number;
   width: number;
   expanded: boolean;
   onToggle: () => void;
+  /** Under the docked bar, which stands for it: hidden, so no edge of it shows past the bar. */
+  covered?: boolean;
 }) {
   const reduced = useReduceMotion();
   const display = useDisplayFace();
@@ -1123,7 +1131,13 @@ function ChapterHeader({
 
   return (
     <Animated.View
-      style={[styles.chapter, { top, left: space.lg, width: width - space.lg * 2 }, press.style]}
+      style={[
+        styles.chapter,
+        { top, left: space.lg, width: width - space.lg * 2 },
+        press.style,
+        covered && styles.chapterCovered,
+      ]}
+      aria-hidden={covered || undefined}
     >
       <Pressable
         accessibilityRole="button"
@@ -1868,7 +1882,7 @@ const styles = themed(() => ({
     flexDirection: 'row',
     alignItems: 'center',
     gap: space.sm,
-    height: 40,
+    height: DOCK_H,
     paddingHorizontal: space.md,
     borderRadius: radius.md,
     borderWidth: 1,
@@ -1892,6 +1906,7 @@ const styles = themed(() => ({
     fontVariant: ['tabular-nums'],
   },
   chapter: { position: 'absolute', height: HEAD_H - space.sm },
+  chapterCovered: { opacity: 0, pointerEvents: 'none' },
   chapterInner: {
     flex: 1,
     flexDirection: 'row',

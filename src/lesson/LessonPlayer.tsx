@@ -746,7 +746,6 @@ export default function LessonPlayer({
       testBench
         ? []
         : markPlan(screens as Screen[], markableTerms(lessonId ?? null, getProgress().done)),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [screens, testBench, lessonId],
   );
 

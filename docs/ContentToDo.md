@@ -1,6 +1,6 @@
 # ContentToDo.md — content work from the design review
 
-Status: 2026-10-03. Written in stage `DESIGN-REVIEW` (`docs/build-plan.md`) from David's verdicts on the 50 design ideas of that stage (the artifact "Nutrade design review"). The app side of every approved idea is built in that stage. **No content file was changed there** — David, 2026-10-03: "Don't rewrite any .yaml". Everything the level files need is listed here instead, for the content sessions that follow.
+Status: 2026-10-04. Written in stage `DESIGN-REVIEW` (`docs/build-plan.md`) from David's verdicts on the 50 design ideas of that stage (the artifact "Nutrade design review"). The app side of every approved idea is built in that stage. **No content file was changed there** — David, 2026-10-03: "Don't rewrite any .yaml". Everything the level files need is listed here instead, for the content sessions that follow.
 
 Read this file together with `docs/agent.md`, `docs/schema.md`, `docs/UI.md` and `docs/curriculum.md`. Where this file and those disagree, those win, and this file gets corrected in the same PR.
 
@@ -85,7 +85,7 @@ New since `DESIGN-REVIEW`: the app replays questions outside their lesson — in
 
 ## Part 2 — New optional fields the app renders
 
-All of them are optional, so every existing file stays valid. The formats are in `docs/schema.md`, marked **[DESIGN-REVIEW]**; the validator knows them; the test bench does not show them yet (item 4.9). Until content uses them, Settings → Testing → **New designs** in a test build plays a lesson that does.
+All of them are optional, so every existing file stays valid. The formats are in `docs/schema.md`, marked **[DESIGN-REVIEW]**; the validator knows them; the test bench does not show them yet (item 4.9). Until content uses them, Settings → Testing → **New designs** in a test build plays a lesson that does (`src/home/newDesigns.ts`: the market alert; stop and target with two notes and the open; the same setup stopped out; the `decision-grid` card; scanner rows with `spark`; a ladder with `shares`; the order ticket; the match). Its objects show each field's shape, written in TypeScript instead of YAML.
 
 ### 2.1 Stop and target on `chart-decision` (`stop`, `target`)
 
@@ -116,6 +116,12 @@ After the reveal, short notes appear on the chart itself, each with a thin leade
 - Text at most 24 characters, no full stop. The words of the explanation, shortened, not new ideas.
 - Only where the explanation points at a particular candle or level. At most one chart decision in three per lesson carries notes, so they stay a help and not a habit.
 - The notes may point at bars after `decision_index`: they appear only once everything has played out.
+- The app keeps a note's tag off the chart's other words (the levels' labels, the plan's labels, the "decision" tag) and, where it can, off the other bars; with no room on its side it takes the bar's other side (`docs/UI.md` §6.4). Short notes leave it the most room.
+
+### 2.2a Level labels (the existing `levels[].label`) — a recommendation
+
+Not a new field, but since `DESIGN-REVIEW` the app draws a level's label (the label and its price, "Pre-market high 16.60") over the bars on a rim of the page's colour, at the end of the line where it covers the fewest bars (`docs/UI.md` §6.4). On a narrow chart a long label still crosses candles, sometimes the decision candle.
+- [ ] Keep a label at **20 characters or fewer** (the price is added after it). Today 33 of the 291 labelled levels run past 24 characters with their price; the longest is "The price that stopped the last two pushes" (Scalping 5·7-2). `CONTENT-FIX-N` shortens these while it touches the chapter ("Stopped two pushes", "Morning range top"), keeping the words the explanation uses.
 
 ### 2.3 The open on a chart (`session_open`)
 

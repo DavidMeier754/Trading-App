@@ -152,7 +152,8 @@ export default function ScannerTable({
             <View style={styles.cStock}>
               <Text style={styles.ticker}>{row.ticker}</Text>
               {row.catalyst && !NO_CATALYST.test(row.catalyst) ? (
-                <Text style={styles.catalyst} numberOfLines={1}>
+                // Two lines at most: "Halted, reopened" wraps rather than losing its end.
+                <Text style={styles.catalyst} numberOfLines={2}>
                   {row.catalyst}
                 </Text>
               ) : null}
@@ -253,8 +254,8 @@ const styles = themed(() => ({
   ticker: { ...type.answer, color: colors.text },
   catalyst: {
     ...type.small,
-    fontSize: 12,
-    lineHeight: 15,
+    fontSize: 13,
+    lineHeight: 17,
     color: colors.textMuted,
     backgroundColor: colors.background,
     borderRadius: radius.pill,
@@ -264,7 +265,7 @@ const styles = themed(() => ({
   },
   cell: { ...type.small, color: colors.text, fontVariant: ['tabular-nums'] },
   change: { ...type.small, fontWeight: '700', fontVariant: ['tabular-nums'] },
-  sub: { ...type.small, fontSize: 12, color: colors.textFaint, fontVariant: ['tabular-nums'] },
+  sub: { ...type.small, fontSize: 13, color: colors.textFaint, fontVariant: ['tabular-nums'] },
   rvolTrack: {
     marginTop: 3,
     width: 36,

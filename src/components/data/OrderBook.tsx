@@ -182,8 +182,8 @@ const styles = themed(() => ({
   },
   lastFillText: {
     ...type.small,
-    fontSize: 11,
-    lineHeight: 14,
+    fontSize: 13,
+    lineHeight: 17,
     color: colors.background,
     fontWeight: '700',
   },

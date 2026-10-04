@@ -420,7 +420,7 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | S | Personalized ads? | **No** in v1.0: no tracking prompt at first launch and a simpler consent. Look again with real numbers. | `ADS` |
 | T | The list of launch languages | `I18N-PIPELINE` proposes it (store markets, effort, script); you decide. | `I18N-PIPELINE` |
 | U | What gems buy (your new currency from `LOOK-BRIEF`) | Earned only, never sold (decision I). They buy streak freezes and cosmetic extras, e.g. scenes beside the path; never hearts or a pass in a test, because tests count (W1). `LOOP-DAILY` proposes the list and the prices in gems; you decide. | `LOOP-DAILY` |
-| V | The tab set (your notes on design ideas 31 and 38): Analytics instead of the Leaderboard placeholder, and where Arena goes | The artifact "Nutrade tabs concept" lays out the options with mockups. Recommended there: Learn, Practice, Analytics, Account now, and Arena as a fifth tab once the arena exists. You choose; `TABS` builds it. | `TABS` |
+| V | The tab set (your notes on design ideas 31 and 38): Analytics instead of the Leaderboard placeholder, and where Arena goes | The artifact ["Nutrade tabs concept"](https://claude.ai/artifact/F7fex6S9DVzby2ZcKyWqHD) lays out the options with screenshots and mockups, and gives the line to paste into the `TABS` prompt. Recommended there: Learn, Practice, Analytics, Account now, and Arena as a fifth tab once the arena exists. You choose; `TABS` builds it. | `TABS` |
 | X | Mistakes reviews: your note "a previous mistakes level 2 or 3 times per level". Read as **per chapter**, built as **optional side stops before each Checkpoint and the Final Exam**. Should they instead be required levels on the path, or more frequent? | Keep them optional side stops: mistakes cost nothing in this app (W1), and a required review would make a mistake cost a level. If they get skipped too often, the beta will show it. | `LOOP-HEARTS` |
 
 ---
@@ -921,7 +921,7 @@ Report: what you built · check results · contact sheets before/after · my tes
 | 35 | Bonus lessons as side stops | ✅ | In the path's own style; the path a sine curve; buttons and spacing kept (§7.1). |
 | 36 | Today's goal on the START tag | ✗ | |
 | 37 | The ground follows the market clock | ✗ | |
-| 38 | The tabs the plan describes | 📄 | "First don't put this into the app. Give me an artifact where you explain the concept with screenshots." The artifact "Nutrade tabs concept"; decision V. |
+| 38 | The tabs the plan describes | 📄 | "First don't put this into the app. Give me an artifact where you explain the concept with screenshots." The artifact ["Nutrade tabs concept"](https://claude.ai/artifact/F7fex6S9DVzby2ZcKyWqHD); decision V. |
 | 39 | Hearts with a refill ring | ✅ | All hearts back after five hours; the ring never covers the count (§5.2, §7.2). |
 | 40 | Pull down for Today | ✗ | |
 | 41 | A Practice tab with something in it | ✅ | Plus a Skills tab and a Mistakes tab, and everything that must be recorded (§7.3). |
@@ -949,7 +949,20 @@ Report: what you built · check results · contact sheets before/after · my tes
 
 **Not in this stage:** any change to a level file or the test bench (David: "Don't rewrite any .yaml"); the tab set (decision V); sharing the plan or a card as an image (`ONBOARDING`, `STATS`).
 
-**Status** (2026-10-03): built, waiting for David's test. The PR is stacked on PR #21 (`LOOK-SYSTEM`, session 2), whose branch it starts from; it merges after #20 and #21.
+**Status** (2026-10-04): built, waiting for David's test. The PR is stacked on PR #21 (`LOOK-SYSTEM`, session 2), whose branch it starts from; it merges after #20 and #21. The tabs concept is published: ["Nutrade tabs concept"](https://claude.ai/artifact/F7fex6S9DVzby2ZcKyWqHD).
+
+**Also done on the way** (found while checking the built screens):
+- The words on a chart stay readable: labels sit over the bars on a rim of the page's colour, a level's label takes the end of its line that covers the fewest bars, the stop's and target's labels clear the "decision" tag, and notes and the outcome tag keep off every label (`docs/UI.md` §6.4).
+- The docked chapter bar names the chapter whose card it covers, not the one before it, and that card no longer shows past the bar's corners (§7.1).
+- A test build opened on any deep link skips the first trade (§11.1).
+- Animations has a **Mistakes round** row (§11.5).
+
+**Left for later stages** (each is in its stage's scope):
+- The medal just won shining once on the shelf → `STATS`.
+- The one-line meaning on each skill chip of "What you learned" → `GLOSSARY` (it needs `content/glossary.yaml`).
+- "What happened next" instead of "NEXT 5 BARS" over the hidden bars, the first trade included → `LOOK-COMPONENTS`.
+- The new fields in the level files (`stop`, `target`, `notes`, `session_open`, `alert`, `facts`, `skills`, scanner `spark`, ladder `shares`, the bonus lessons and the spot-it levels) → the content sessions, from `docs/ContentToDo.md`.
+- The tab set → `TABS`, from decision V.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1, plus a session for fixes if the test finds any.
 
@@ -966,16 +979,16 @@ Report: what you changed · check results · my test checklist for the fixes wit
 
 **You test (~45 min)** — Claude puts the exact links in the report.
 1. A chart decision in Chapter 1 and one in Scalping Chapter 2: the chart fills the screen, the axis never changes while it plays out, the keys carry their arrows, and the reveal is a small panel right on the key with the grid and its dot.
-2. Settings → Testing → New designs: stop and target with the R ruler, chart notes, the open, the market alert, the checkpoint briefing, the skills at the end.
+2. Settings → Testing → New designs: the market alert; stop and target with the R ruler, two chart notes and the open; the same setup stopped out (right call, lost); the decision grid card; scanner rows with their day; the ladder's walk; the order ticket; the match.
 3. A lesson with two deliberate mistakes: no heart lost, the deck, the round, then "What you learned", lesson complete without confetti, and back home the cards fly into Practice.
 4. A perfect lesson: the gold ring and confetti behind it.
 5. A checkpoint: the briefing card, hearts lost on mistakes; all hearts back after five hours (Settings → Testing → Refill hearts resets it).
 6. The map: the sine curve, a mistakes review beside the path before the checkpoint, the chapter bar docking under the banner, the chapter gate, two-tone symbols, the heart ring and its tap.
 7. Practice: Daily mix, Skills (tap one), Mistakes (play them).
 8. Account: the tier card, the medal shelf, All stats with the variance view, Your plan.
-9. Animations: the chapter medal and the tier card turning over. Is the medal a big enough moment?
+9. Animations: Chapter complete (the medal), New tier (the card turning over), Skills into Practice and Mistakes round. Is the medal a big enough moment?
 10. A fresh start (Settings → Reset, or a private window): the first trade comes first.
-11. The tabs concept artifact: choose (decision V).
+11. The [tabs concept](https://claude.ai/artifact/F7fex6S9DVzby2ZcKyWqHD): choose (decision V) and copy the line for `TABS`.
 
 **Done when** David has tested and the PR is merged after #20 and #21.
 
@@ -1301,6 +1314,7 @@ Report: what you built · check results · my test checklist with real links · 
 2. **Validator:** every introduced term has an entry, and no definition is too long.
 3. **UI:**
    - ~~Terms in body text get a dotted underline (first occurrence per screen). A tap opens a sheet with the definition and "Taught in Level X-Y"; that opens the review card.~~ **Built in `DESIGN-REVIEW`** with David's marker (highlighter and underline, `docs/UI.md` §8) and his rule "don't over or underuse them"; the sheet shows "Taught in" and the card already. This stage adds the definition line from `content/glossary.yaml`, and the aliases.
+   - The one-line meaning on each skill chip of "What you learned" and on its sheet (`docs/UI.md` §5.3; `DESIGN-REVIEW` shows the names only until this file exists).
    - A glossary list with search in Account.
    - A "recently missed" area, fed by `PRACTICE`.
 4. **`docs/ContentToDo.md` 1.4:** every term in its lesson's `terms_introduced`, spelled as the body spells it, defined on a card of that lesson.
@@ -1336,6 +1350,7 @@ Report: what you built · number of terms · 15 random definitions to proofread 
    - ~~A **variance view**, e.g. "Your correct decisions: 64 % winners, 36 % losers – that is what a good process looks like."~~ Built, as counts and without calling any split good (`docs/agent.md` §3.11).
 2. ~~**Trader Card v1:** best setup, a summary of the saved plan, tier. Shareable as an image.~~ **The tier card, shareable as an image,** and the plan as an image if `ONBOARDING` has not done it.
 3. ~~**The risk-note line** on the statistics screen (`docs/agent.md` §7).~~ Built.
+4. **The medal just won shines once on the shelf** (`docs/UI.md` §7.4, left from `DESIGN-REVIEW`): the app remembers which medals the shelf has shown, and a new one gets one pass of light the first time Account opens after it.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
@@ -1358,7 +1373,7 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Goal.** The bar along the bottom holds the tabs David chose from the concept artifact (ideas 31 and 38 of `DESIGN-REVIEW`, decision V).
 
-**You prepare.** Your choice from the artifact "Nutrade tabs concept", e.g. "Learn, Practice, Analytics, Account; Arena later as a fifth".
+**You prepare.** Your choice from the artifact ["Nutrade tabs concept"](https://claude.ai/artifact/F7fex6S9DVzby2ZcKyWqHD): its "Copy the line" button gives the line for the prompt, e.g. "Option A: Learn, Practice, Analytics, Account now; the Arena joins as a fifth tab once the arena exists."
 
 **Scope**
 1. The tab bar as chosen; the Leaderboard placeholder goes (W7 already says there is none in v1.0).
