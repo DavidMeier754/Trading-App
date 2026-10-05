@@ -43,4 +43,4 @@ The `decision-grid` visual is built (`docs/ui/09-order-tools-and-other-visuals.m
 | Date | Item | Stage | PR |
 |---|---|---|---|
 | 2026-10-04 | 2.6 Skills: `content/skills.yaml` (402 skills with their info) and a `skills` line in all 388 level files; 3.1 Skills; 4.3 (definitions); `tools/skills.py` | `DESIGN-REVIEW` | #22 |
-| 2026-10-05 | 6 (Part 6, the content review): the spread sweep in all chapters (C1-14, C2-05, C3-01, C6-14); Print, Fill, Gap and Setup taught in Chapter 1, Leg in Chapter 2, Grade-A trade in 6·15-1 (C1-08, C1-09, C2-06, C6-17, C6-18); the 7·3-2 box labels (C7-01, C7-02); the word rules (`docs/rules/03-content-rules.md` §3.4a) | `CONTENT-REVIEW` | (this PR) |
+| 2026-10-05 | 6 (Part 6, the content review): the spread sweep in all chapters (C1-14, C2-05, C3-01, C6-14); Print, Fill, Gap and Setup taught in Chapter 1, Leg in Chapter 2, Grade-A trade in 6·15-1 (C1-08, C1-09, C2-06, C6-17, C6-18); the 7·3-2 box labels (C7-01, C7-02); the word rules (`docs/rules/03-content-rules.md` §3.4a) | `CONTENT-REVIEW` | #24 |
