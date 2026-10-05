@@ -28,10 +28,13 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 | | `TABS` | The tab set David chooses from the concept (Analytics instead of Leaderboard; Arena) | Opus 5.5 · high | 1 | 15 min |
 | | `FUN-PASS` | Fun audit with a newcomer test, then polish; the first bonus side lessons (the map draws them since `DESIGN-REVIEW`) | Fable 5.1 · high (else Opus 5.5 · xhigh) | 1–2 | 45 min |
 | E Scalping content | `CONTENT-DESIGN` | The test bench learns the new content fields (`docs/content-todo/04-still-to-write-and-done-log.md` 4.9) | Opus 5.5 · high | 1 | 10 min |
-| | `RULES` | Your content critique, new validator rules, a worklist per chapter | Opus 5.5 · high | 1–2 | 30 min critique + 10 min |
+| | `CONTENT-REVIEW` ✅ | The beginner's read of every chapter: 88 changes approved (`docs/content-todo/05-content-review.md`); the cross-chapter fixes (spread sweep, terms taught where first used, two chart labels); the word rules; Chapter 9's outline | Opus 5.5 · high | 1 | 30 min |
+| | `RULES` | Your content critique (most of it collected in `CONTENT-REVIEW`), new validator rules, a worklist per chapter | Opus 5.5 · high | 1–2 | 30 min critique + 10 min |
 | | `VARIANCE` | Lesson 1·2-4 without a simulator and without odds, the decision-vs-outcome summary, the first losers in Chapter 1 | Opus 5.5 · xhigh | 1–2 | 30 min + newcomer test |
 | | `OFFER` | Chapter 8 Level 15 (account types, margin, PDT, settlement, tax note) + renumbering + market profiles | Opus 5.5 · xhigh | 1–2 | 20 min |
-| | `CONTENT-FIX-1` … `-8` | All content corrections, one chapter per stage | Opus 5.5 · high | 8–12 | 20 min each |
+| | `CONTENT-FIX-1` … `-8` | All content corrections, one chapter per stage, now with the content review's items; may run in parallel since `CONTENT-REVIEW` | Opus 5.5 · high | 8–12 | 20 min each |
+| | `OWN-STRATEGY-OUTLINE` | Chapter 9 "Your Own Strategy" (shared by every path): the level plan for your OK | Opus 5.5 · xhigh, plan mode | 1 | 20 min |
+| | `OWN-STRATEGY` | Chapter 9, written and playable after any path's Final Exam | Opus 5.5 · xhigh | 1–2 | 30 min |
 | | `KNOWLEDGE` | Knowledge audit against the graduate profile (review B) | Fable 5.1 · max (else Opus 5.5 · max) | 1 | decide findings |
 | | `KNOWLEDGE-FIX` | Add the missing knowledge | Opus 5.5 · high | 1–3 | 20 min |
 | | `REVIEW-A` | Didactic review of the whole path, then corrections | Fable 5.1 · high (else Opus 5.5 · max) | 1 + 1–3 | decide findings |
@@ -95,3 +98,4 @@ Roughly 90–150 sessions in total. Most of them are content: the scalping pass 
 | Review | `docs/review-2026-09-25/`: 17 must-fix, 54 should-fix, 14 could-do items, 25 doc items (W). Appendix F assigns every item to a stage. |
 | Decisions | A–C, E, H, I, K, L, M, O and P are made; N and Q–T are open (§4). |
 | **Update 2026-10-03** | `LOOK-SYSTEM` is built (PRs #20 and #21 open, waiting for `EXPO_TOKEN` for item 9). `DESIGN-REVIEW` built David's approved designs on top of it (PR stacked on #21). Content unchanged since 2026-09-25: still 388 lessons, 0 validator errors. Open decisions: N, Q–V and X (§4.2). |
+| **Update 2026-10-05** | `CONTENT-REVIEW`: every lesson read as a beginner would; David approved all 88 changes (`docs/content-todo/05-content-review.md`). The cross-chapter ones are done (245 texts say "spread" instead of "gap"; Print, Fill, Gap and Setup taught in Chapter 1, Leg in Chapter 2, Grade-A trade in 6·15-1; the 7·3-2 labels). The rest is each `CONTENT-FIX-N`'s, and the passes may now run in parallel. New: Chapter 9 "Your Own Strategy" (`OWN-STRATEGY-OUTLINE`, `OWN-STRATEGY`), tap to explain (`LOOK-COMPONENTS`), test my card (`SIM-ACCOUNT`), the four sums (`FUN-PASS`). |

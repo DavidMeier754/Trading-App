@@ -104,7 +104,7 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: []
-    outcome: "Four minutes later it was $18.20 — $0.04 a share past the decision, $40 on 1,000 shares against the $140 the gap would have taken."
+    outcome: "Four minutes later it was $18.20 — $0.04 a share past the decision, $40 on 1,000 shares against the $140 the spread would have taken."
     explanation: "Fourteen cents wide against minutes that travel ten, and 1,000 shares is a tenth of everything this stock trades in a minute. The read is the least of the problems."
 
   - type: fill-choice
@@ -117,6 +117,6 @@ screens:
     title: "Pricing a read"
     items:
       - "How far is the next line from the entry?"
-      - "What do the gap, the slippage and the fees take out of it?"
+      - "What do the spread, the slippage and the fees take out of it?"
       - "What does the stop allow, and what can the account pay for?"
       - "Which of those two share counts is smaller?"

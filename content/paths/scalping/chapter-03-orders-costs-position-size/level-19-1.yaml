@@ -28,7 +28,7 @@ screens:
     explanation: "You leave at the bid, so break-even arrives when the bid reaches what you paid, not when the last print does."
 
   - type: numeric-input
-    prompt: "Bid $31.08, ask $31.13, 700 shares, one complete position. What has the gap taken?"
+    prompt: "Bid $31.08, ask $31.13, 700 shares, one complete position. What has the spread taken?"
     answer: 35
     tolerance: 1
     unit: "$"
@@ -38,7 +38,7 @@ screens:
   - type: mc
     prompt: "One name quotes nine cents wide and has been making forty-cent minutes; another quotes two cents and has been making five-cent minutes. Which is the cheaper scalp?"
     options:
-      - {text: "The two-cent quote, because a tight gap is always cheaper"}
+      - {text: "The two-cent quote, because a tight spread is always cheaper"}
       - {text: "Neither, since the share prices are not given"}
       - {text: "The nine-cent quote, at under a quarter of the move", correct: true}
     explanation: "Nine out of forty is 23 %; two out of five is 40 %. The wider quote is the cheaper trade, and the share price never came into it."
@@ -53,7 +53,7 @@ screens:
       qty: [400, 700, 1400]
       price: [31.08, 31.13, 31.48]
     answer: {side: sell, type: limit, qty: 700, price: 31.48}
-    explanation: "A resting limit sell at the target collects the gap from whoever takes it, instead of paying it to get out."
+    explanation: "A resting limit sell at the target collects the spread from whoever takes it, instead of paying it to get out."
 
   - type: tf
     statement: "A stop-limit can leave you still holding the stock after the price it names has already traded."
@@ -117,7 +117,7 @@ screens:
     best: short
     reasonable: [no-trade]
     outcome: "It slid on to $16.47 — $0.47 a share past the decision, +$517 short on 1,100 shares before the two cents of quote."
-    explanation: "A price that has held the market up twice, a close through it on the biggest bar of the session, and two cents of gap against a move worth far more. Chapter 2 found the level; this chapter priced it."
+    explanation: "A price that has held the market up twice, a close through it on the biggest bar of the session, and two cents of spread against a move worth far more. Chapter 2 found the level; this chapter priced it."
 
   - type: chart-decision
     scenario: "A different name has stepped up for six minutes and closed at $19.80, but every bar under it is around 7,000 shares and the panel reads bid $19.66 / ask $19.80. Your $26,000 account allows 1,200 shares here."

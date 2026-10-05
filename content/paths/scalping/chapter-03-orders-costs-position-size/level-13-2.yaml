@@ -51,7 +51,7 @@ screens:
       - {text: "A stock basing quietly between two prices"}
       - {text: "A stock whose bodies and volume bars are both growing minute by minute", correct: true}
       - {text: "A stock printing the same close three minutes running"}
-    explanation: "Fast, expanding price action is exactly when the gap between your tap and your fill opens widest."
+    explanation: "Fast, expanding price action is exactly when the difference between your tap and your fill opens widest."
 
   - type: tf
     statement: "A marketable limit removes slippage entirely."
@@ -78,7 +78,7 @@ screens:
       - {text: "A tight base going nowhere for five minutes", bucket: "Low risk"}
       - {text: "The heaviest, fastest bar of the whole morning", bucket: "High risk"}
       - {text: "A slow, steady drift on thin, shrinking bars", bucket: "Low risk"}
-    explanation: "Speed and size are what widen the gap between your tap and your fill — a quiet chart has neither."
+    explanation: "Speed and size are what widen the difference between your tap and your fill — a quiet chart has neither."
 
   - type: chart-decision
     scenario: "XYZ has run for five minutes already — each body longer than the last, each bar heavier than the last — and the quote has gone from two cents wide to twelve. Your $16,000 account allows 900 shares here."

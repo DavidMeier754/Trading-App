@@ -62,7 +62,7 @@ screens:
       - {kind: candles, data: [[12.62, 12.64, 12.56, 12.58], [12.58, 12.60, 12.52, 12.54], [12.54, 12.56, 12.50, 12.52], [12.52, 12.54, 12.47, 12.49], [12.49, 12.51, 12.45, 12.46], [12.46, 12.48, 12.42, 12.44], [12.44, 12.46, 12.40, 12.42], [12.42, 12.44, 12.38, 12.40]], label: "A"}
       - {kind: candles, data: [[12.62, 12.64, 12.56, 12.58], [12.58, 12.60, 12.54, 12.56], [12.56, 12.58, 12.50, 12.52], [12.52, 12.54, 12.32, 12.34], [12.34, 12.38, 12.28, 12.30], [12.30, 12.34, 12.22, 12.26], [12.26, 12.30, 12.20, 12.24], [12.24, 12.28, 12.18, 12.22]], label: "B"}
     answer: "A"
-    explanation: "A walks down two cents at a time, so there is trading at $12.48 and just under it. B jumps twenty cents in one minute, and a limit sitting in that gap never gets a chance."
+    explanation: "A walks down two cents at a time, so there is trading at $12.48 and just under it. B jumps twenty cents in one minute, and a limit sitting inside that jump never gets a chance."
 
   - type: sort
     prompt: "Which order does each of these describe?"

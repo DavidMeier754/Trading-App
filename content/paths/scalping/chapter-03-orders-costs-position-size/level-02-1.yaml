@@ -21,7 +21,7 @@ screens:
 
   - type: theory
     title: "One position, two crossings"
-    body: "Getting in crosses the gap. Getting out crosses it again. A round trip is one complete position — open and close — and the gap is paid once across the pair."
+    body: "Getting in crosses the spread. Getting out crosses it again. A round trip is one complete position — open and close — and the spread is paid once across the pair."
 
   - type: theory
     title: "It is paid at the start, not at the end"
@@ -41,12 +41,12 @@ screens:
     explanation: "Four cents times fifteen hundred shares, and the price never had to move at all."
 
   - type: tf
-    statement: "The gap is charged twice on a position — once going in and once coming out."
+    statement: "The spread is charged twice on a position — once going in and once coming out."
     answer: false
     explanation: "Once per round trip. Buying at the ask while the bid sits lower already accounts for both ends."
 
   - type: mc
-    prompt: "Nobody bills you for the gap. Why is it still money you have lost?"
+    prompt: "Nobody bills you for the spread. Why is it still money you have lost?"
     options:
       - {text: "It is built into the two prices", correct: true}
       - {text: "It appears on the monthly statement"}
@@ -54,7 +54,7 @@ screens:
     explanation: "It never appears as a line item anywhere, which is exactly why beginners forget it."
 
   - type: sort
-    prompt: "Which of these actually crosses the gap?"
+    prompt: "Which of these actually crosses the spread?"
     buckets: ["Crosses it", "Does not"]
     items:
       - {text: "Buying now and selling ten seconds later", bucket: "Crosses it"}
@@ -69,7 +69,7 @@ screens:
     explanation: "The unit a scalper counts costs in — not per order, per round trip."
 
   - type: numeric-mc
-    prompt: "Four cents between the sides, 800 shares, one complete position. What has the gap taken?"
+    prompt: "Four cents between the sides, 800 shares, one complete position. What has the spread taken?"
     options:
       - {text: "$3.20"}
       - {text: "$320"}
@@ -79,7 +79,7 @@ screens:
     explanation: "Per-share numbers have to be multiplied by the share count before they mean anything."
 
   - type: slider
-    prompt: "A six-cent gap on a stock that travels about fifteen cents while you hold it. What share of that fifteen cents is gone before you start?"
+    prompt: "A six-cent spread on a stock that travels about fifteen cents while you hold it. What share of that fifteen cents is gone before you start?"
     min: 0
     max: 100
     step: 5

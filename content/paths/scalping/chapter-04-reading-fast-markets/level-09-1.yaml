@@ -7,8 +7,8 @@ category: new-theory
 tags: [tape, prints, execution]
 learning_goal: "User can read a run of prints for speed, size and side, and say which crowd is paying up."
 purpose: "The chart tells you what the last minute settled; the prints tell you what is being paid for right now."
-terms_introduced: ["Print"]
-skills: ["Print"]
+terms_introduced: []
+skills: ["Reading prints for speed, size and side"]
 reinforces: [3]
 prerequisite: "8-1"
 xp: 25

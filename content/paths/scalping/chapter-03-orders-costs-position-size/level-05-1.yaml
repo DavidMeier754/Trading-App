@@ -28,7 +28,7 @@ screens:
     explanation: "$28.49. Buying takes the seller's price, and the seller's price is always the higher one."
 
   - type: numeric-input
-    prompt: "Bid $19.06, ask $19.13. You take 1,200 shares and close the position a minute later. What has the gap alone taken?"
+    prompt: "Bid $19.06, ask $19.13. You take 1,200 shares and close the position a minute later. What has the spread alone taken?"
     answer: 84
     tolerance: 0.01
     unit: "$"
@@ -49,7 +49,7 @@ screens:
     explanation: "The last is history. You are level when the bid reaches your entry, because the bid is where you will be leaving."
 
   - type: numeric-mc
-    prompt: "Three cents wide, 1,900 shares of a $12 stock, one complete position. What does the gap hand over?"
+    prompt: "Three cents wide, 1,900 shares of a $12 stock, one complete position. What does the spread hand over?"
     options:
       - {text: "$5.70"}
       - {text: "$570"}
@@ -59,14 +59,14 @@ screens:
     explanation: "A per-share number is meaningless until the share count is attached to it."
 
   - type: sort
-    prompt: "Each of these is a gap held against the move expected. Pay it, or leave it?"
+    prompt: "Each of these is a spread held against the move expected. Pay it, or leave it?"
     buckets: ["Pay it", "Leave it"]
     items:
       - {text: "$0.02 against a $0.30 move", bucket: "Pay it"}
       - {text: "$0.07 against a $0.10 move", bucket: "Leave it"}
       - {text: "$0.12 against a $2.40 move", bucket: "Pay it"}
       - {text: "$0.04 against a $0.06 move", bucket: "Leave it"}
-    explanation: "Seven per cent and five per cent on the left; seventy and sixty-seven on the right. The twelve-cent gap is the cheapest trade on the list."
+    explanation: "Seven per cent and five per cent on the left; seventy and sixty-seven on the right. The twelve-cent spread is the cheapest trade on the list."
 
   - type: chart-decision
     scenario: "XYZ held a base at $13.10 for ten minutes and the minute that just closed finished under it on nearly twice the volume of anything before it. Bid $12.99 / ask $13.01, and your $25,000 account allows 1,400 shares here."
@@ -80,15 +80,15 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It slid to $12.69 — $0.31 a share below the decision, +$434 short on 1,400 shares, of which the two-cent gap took $28."
-    explanation: "Two cents of gap against a minute that travelled fourteen, on double the volume, with 1,400 shares a small slice of that bar. All three questions come back clean."
+    outcome: "It slid to $12.69 — $0.31 a share below the decision, +$434 short on 1,400 shares, of which the two-cent spread took $28."
+    explanation: "Two cents of spread against a minute that travelled fourteen, on double the volume, with 1,400 shares a small slice of that bar. All three questions come back clean."
 
   - type: match
     prompt: "Chapter 1 described every stock on two dials. Match each kind of stock to the quote it usually shows."
     pairs:
-      - ["Heavily traded all session", "A gap of a cent or two"]
-      - ["Barely traded all session", "A gap of ten cents or more"]
-      - ["Volatile but thinly traded", "A wide gap and a move big enough to tempt you into it"]
+      - ["Heavily traded all session", "A spread of a cent or two"]
+      - ["Barely traded all session", "A spread of ten cents or more"]
+      - ["Volatile but thinly traded", "A wide spread and a move big enough to tempt you into it"]
     explanation: "Liquidity sets the width. Volatility sets what the width is worth. The third one is where beginners lose money."
 
   - type: chart-decision
@@ -100,11 +100,11 @@ screens:
       volume: [9000, 7000, 6000, 8000, 5000, 11000, 8000, 7000, 6000, 9000]
       decision_index: 5
     best: no-trade
-    outcome: "It turned and gave it all back to $17.26 — $0.36 a share against a long, $396 on 1,100 shares, before the $154 the gap would have taken."
+    outcome: "It turned and gave it all back to $17.26 — $0.36 a share against a long, $396 on 1,100 shares, before the $154 the spread would have taken."
     explanation: "Fourteen cents wide is the stock telling you what your exit costs, and 1,100 shares is a sixth of everything this stock trades in a minute."
 
   - type: fill-choice
-    sentence: "A complete position, open and close, pays the gap ___."
+    sentence: "A complete position, open and close, pays the spread ___."
     options: ["once", "twice", "never"]
     answer: "once"
     explanation: "Buying at the ask while the bid sits lower already accounts for both ends of the trade."

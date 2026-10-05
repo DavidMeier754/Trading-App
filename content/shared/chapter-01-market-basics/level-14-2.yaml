@@ -66,7 +66,7 @@ screens:
     chart: {kind: line, data: [40.00, 40.20, 40.35, 40.50, 40.70, 40.80, 40.90, 41.00, 39.40, 39.30, 39.20], decision_index: 5}
     best: no-trade
     reasonable: [long]
-    outcome: "It closed strong — and gapped down 4 % overnight on news. A day trader was flat; a long held overnight lost $160."
+    outcome: "It closed strong — and opened 4 % lower the next morning, after news overnight. A day trader was flat; a long held overnight lost $160."
     explanation: "A day trader doesn't open positions minutes before the close; there's no time to be right and no way to manage the overnight."
 
   - type: numeric-input

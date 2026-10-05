@@ -46,7 +46,7 @@ describe('skills (docs/ui/07-lesson-chapter-and-tier-complete.md §5.3, docs/lev
     expect(skills[0]).toMatchObject({ id: 'term:spread', kind: 'term', chapter: 1 });
     expect(skills[0].where).toMatch(/^Level 6 · /);
     expect(skills[0].info).toBe(definitionOf('spread'));
-    expect(skills[0].info).toMatch(/^The gap between/);
+    expect(skills[0].info).toMatch(/^The difference between/);
   });
 
   it("a technique is named in the lesson's `skills`, with its info from content/skills.yaml", () => {
@@ -99,7 +99,7 @@ describe('skills (docs/ui/07-lesson-chapter-and-tier-complete.md §5.3, docs/lev
     const screens: Screen[] = [
       { type: 'intro', text: 'The spread.' },
       { type: 'tf', statement: 'The spread is free.', answer: false, explanation: '' },
-      { type: 'theory', title: 'Two prices', body: 'The gap between them is the spread.' },
+      { type: 'theory', title: 'Two prices', body: 'The difference between them is the spread.' },
     ];
     expect(termCard({ screens } as Level, 'Spread')).toBe(2);
   });

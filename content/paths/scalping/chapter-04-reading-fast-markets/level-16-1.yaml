@@ -132,7 +132,7 @@ screens:
       - {text: "The spread is six cents on a fourteen-cent move,"}
       - {text: "which is fine because the share price is high,", wrong: true}
       - {text: "so this one is not worth the quote."}
-    explanation: "Judge the gap against the move you are going for, never against the price of the share."
+    explanation: "Judge the spread against the move you are going for, never against the price of the share."
 
   - type: example
     body: "Two identical reads and two different answers. Nothing on either chart decided it — the four cents between the two quotes did."

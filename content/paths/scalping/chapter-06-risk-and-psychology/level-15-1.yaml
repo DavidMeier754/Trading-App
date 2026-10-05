@@ -7,8 +7,8 @@ category: new-theory
 tags: [journal, review, execution]
 learning_goal: "User logs a scalp as one row — setup, prices, R risked and made, execution grade, state — and grades execution independently of the result."
 purpose: "Twenty trades a day is a lot of evidence, and none of it survives until Friday unless it is written down."
-terms_introduced: ["Journal", "Execution grade"]
-skills: ["Journal", "Execution grade"]
+terms_introduced: ["Journal", "Execution grade", "Grade-A trade"]
+skills: ["Journal", "Execution grade", "Grade-A trade"]
 prerequisite: "14-2"
 xp: 20
 difficulty: 2
@@ -32,7 +32,7 @@ screens:
 
   - type: theory
     title: "Execution grade"
-    body: "A letter for how well you followed the plan, ignoring the result. A losing trade taken exactly as written is an A. A winner you chased into is a C."
+    body: "A letter for how well you followed the plan, ignoring the result. A losing trade taken exactly as written is an A, a grade-A trade. A winner you chased into is a C."
 
   - type: example
     body: "Tuesday's row: pullback to VWAP, 1,000 shares, in $44.28, stop $44.16, out $44.52. Risked $120, made $240 — +2R, grade A."

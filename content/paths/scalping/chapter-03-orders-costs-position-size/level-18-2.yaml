@@ -30,7 +30,7 @@ screens:
         - {ticker: ORC, price: 24.10, change_pct: -5.6, spread: 0.02}
         - {ticker: PLT, price: 14.80, change_pct: -3.9, spread: 0.16}
     target: HVN
-    explanation: "ORC is the biggest faller and 900 of it costs $21,690, which the account does not have. PLT's sixteen-cent gap takes $144 of the trade before it starts. HVN is the only row left standing."
+    explanation: "ORC is the biggest faller and 900 of it costs $21,690, which the account does not have. PLT's sixteen-cent spread takes $144 of the trade before it starts. HVN is the only row left standing."
 
   - type: numeric-input
     prompt: "Short HVN from $18.58 with the stop four cents above the broken level at $18.70, so $18.74. What does the trade risk on 900 shares?"
@@ -92,7 +92,7 @@ screens:
       decision_index: 5
     best: no-trade
     outcome: "It drifted another $0.12 a share to $13.48 — $144 on 1,200 shares, which an eleven-cent round trip would have cut to $12."
-    explanation: "Eleven cents of gap in a minute that trades 8,000 shares, and 1,200 of them would be yours. The chart is falling cleanly and there is still no trade in it."
+    explanation: "Eleven cents of spread in a minute that trades 8,000 shares, and 1,200 of them would be yours. The chart is falling cleanly and there is still no trade in it."
 
   - type: tf
     statement: "A stock moving enough to be worth trading is, by that fact, liquid enough to trade it in."
@@ -109,10 +109,10 @@ screens:
     explanation: "Four different screens, four separate answers, and any one of them can end the trade on its own."
 
   - type: fill-choice
-    sentence: "An eleven-cent gap in a minute of 8,000 shares is Chapter 1's ___ dial, written as a price."
+    sentence: "An eleven-cent spread in a minute of 8,000 shares is Chapter 1's ___ dial, written as a price."
     options: ["liquidity", "volatility", "volume"]
     answer: "liquidity"
-    explanation: "Liquidity was always the question of who else is there to trade against. The gap is that answer, quoted in cents."
+    explanation: "Liquidity was always the question of who else is there to trade against. The spread is that answer, quoted in cents."
 
   - type: recap
     title: "Level 18 in three lines"

@@ -110,9 +110,15 @@
 - name: "Market maker"
   kind: word
   info: "A firm that buys from sellers and sells to buyers all day with no view on the stock, aiming to end the day holding almost nothing."
+- name: "Fill"
+  kind: word
+  info: "An order trading: the price it traded at and the shares that changed hands."
 - name: "Spread"
   kind: word
-  info: "The gap between the price you can sell at and the price you can buy at; buy and sell straight back and you have paid it once."
+  info: "The difference between the price you can sell at and the price you can buy at; buy and sell straight back and you have paid it once."
+- name: "Print"
+  kind: word
+  info: "A single trade that has already happened: one price and one share count."
 - name: "Spotting a big participant"
   kind: technique
   info: "Reading unusual volume and large price steps as the footprint of a big participant, without reading more into it than it says."
@@ -196,7 +202,10 @@
   info: "To buy back the shares you sold short and return them, which closes the short."
 - name: "No trade"
   kind: word
-  info: "Choosing not to trade when the chart offers no clear edge; it is a decision, and here it scores like a good trade."
+  info: "Choosing not to trade when the chart offers no clear setup; it is a decision, and here it scores like a good trade."
+- name: "Setup"
+  kind: word
+  info: "A chart situation you have seen many times and know how to trade: where you get in, where you get out, what makes you drop it."
 - name: "Long and short results"
   kind: technique
   info: "Working out the result of a long and of a short with the same subtraction, and why only a long has a worst case you can write down."
@@ -227,9 +236,12 @@
 - name: "Bear market"
   kind: word
   info: "The whole market mostly falling for months."
+- name: "Gap"
+  kind: word
+  info: "A jump between yesterday's close and the first price of the new session, made while the market was shut."
 - name: "News against expectations"
   kind: technique
-  info: "Explaining why a price reacts to the gap between the news and what was expected, and where a stock's biggest days come from."
+  info: "Explaining why a price reacts to the difference between the news and what was expected, and where a stock's biggest days come from."
 - name: "The trend as context"
   kind: technique
   info: "Taking the decision the stock in front of you offers, in either direction, with the broad trend as context and not as a signal."
@@ -367,9 +379,9 @@
 - name: "Watching the first minutes"
   kind: technique
   info: "Knowing why the first minutes of the session behave like no other part of the day, and watching the first five."
-- name: "Gap"
-  kind: word
-  info: "A jump between yesterday's close and the first price of the new session, made while the market was shut."
+- name: "Reading a gap at the open"
+  kind: technique
+  info: "Measuring a gap against yesterday's close, and telling one the session keeps paying for from one it is selling back."
 - name: "Opening range"
   kind: word
   info: "The high and the low of the first five minutes of the session, built on the heaviest volume of the day."
@@ -382,6 +394,9 @@
 - name: "Exhaustion"
   kind: word
   info: "The end of a run: its heaviest bar, a long wick where the body used to be, and a close far from the high."
+- name: "Leg"
+  kind: word
+  info: "One push of a move: candles running the same way, one after another, before the move pauses."
 - name: "Skipping the late legs"
   kind: technique
   info: "Not joining the third and fourth leg of a move, and saying what the first leg has that the late ones do not."
@@ -425,7 +440,7 @@
   info: "Seeing the spread as the income of whoever quotes both sides, and saying who pays it in a given trade."
 - name: "Round trip"
   kind: word
-  info: "One complete position, open and close: getting in crosses the gap and getting out crosses it again."
+  info: "One complete position, open and close: getting in crosses the spread and getting out crosses it again."
 - name: "Breaking even after the spread"
   kind: technique
   info: "Working out where a position breaks even once the spread is paid, knowing a green-looking screen can still be a losing exit."
@@ -450,15 +465,12 @@
 - name: "Market order"
   kind: word
   info: "An order that says fill me now: a market buy takes the ask, a market sell takes the bid, and neither waits."
-- name: "Fill"
-  kind: word
-  info: "An order trading: the price it traded at and the shares that changed hands."
 - name: "Limit order"
   kind: word
   info: "An order that names a price: it fills at that price or better, and may never fill at all."
 - name: "Taking the ask or posting a price"
   kind: technique
-  info: "Choosing between paying the ask now and posting a price, by what the gap costs against what missing the trade costs."
+  info: "Choosing between paying the ask now and posting a price, by what the spread costs against what missing the trade costs."
 - name: "Filling in a ticket"
   kind: technique
   info: "Filling in side, type, quantity and price for an immediate entry, a resting entry and an immediate exit."
@@ -560,7 +572,7 @@
   info: "Reading a large resting order with the candle above it, and treating book depth as a clue, never a guarantee."
 - name: "Liquidity as a price"
   kind: technique
-  info: "Turning the liquidity dial and the volume row into a price: the gap you pay, and the size the stock and the account allow."
+  info: "Turning the liquidity dial and the volume row into a price: the spread you pay, and the size the stock and the account allow."
 - name: "All-in cost"
   kind: word
   info: "Spread, slippage and fees added together, per share, for the whole round trip: what a setup has to beat."
@@ -632,9 +644,9 @@
 - name: "Passing on one reason"
   kind: technique
   info: "Seeing what one-reason reads cost over a morning, and passing when only a single reading stands at the price."
-- name: "Print"
-  kind: word
-  info: "A single trade that has already happened: a price and a share count on the tape."
+- name: "Reading prints for speed, size and side"
+  kind: technique
+  info: "Reading a run of prints for how fast they arrive, how big each one is and which side they go off at, and naming who is paying up."
 - name: "Stacking"
   kind: word
   info: "Size on one side of the book that is replaced as fast as it is taken: somebody wants all of what is there."
@@ -828,9 +840,6 @@
   info: "Running one pre-market from an empty screen to two marked names and a tag for the room, step by step."
 
 # ── Scalping · Chapter 6 · Risk & Psychology ──────────────────────────────
-- name: "Setup"
-  kind: word
-  info: "A chart situation you have seen many times and know how to trade: where you get in, where you get out, what makes you drop it."
 - name: "Hard stop"
   kind: word
   info: "A stop order resting at your broker, which triggers whether you are watching, thinking or frozen."
@@ -975,6 +984,9 @@
 - name: "Execution grade"
   kind: word
   info: "A letter for how well you followed the plan, ignoring the result: a loser taken as written is an A, a chased winner a C."
+- name: "Grade-A trade"
+  kind: word
+  info: "A trade taken exactly as written, entry, size, stop and exit; the result has no vote."
 - name: "Filling every column"
   kind: technique
   info: "Filling every column of a journal row, the pre-market ones included, and saying what each one answers."
@@ -1037,9 +1049,6 @@
 - name: "Momentum continuation"
   kind: word
   info: "Buying the first candle that closes back in the leg's direction after a shallow pullback: the restart, not the run."
-- name: "Leg"
-  kind: word
-  info: "One push: three or more 1-minute candles running the same way, with bodies growing and volume rising."
 - name: "Measured move"
   kind: word
   info: "A target set at the leg's height projected from the entry: a leg that ran $0.40 asks for about $0.40 more."
@@ -1201,9 +1210,6 @@
 - name: "Scaling up"
   kind: word
   info: "Raising share size in planned steps, each paid for by evidence from your own rows; decided at the sheet, never at the screen."
-- name: "Grade-A trade"
-  kind: word
-  info: "A trade executed exactly as the card says, trigger, size, stop and exit; the result has no vote."
 - name: "One step of size"
   kind: technique
   info: "Taking one step of size at a time, recomputing the unit and caps behind it, and picking names that can fill the bigger order."

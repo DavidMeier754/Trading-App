@@ -60,7 +60,7 @@ screens:
     shares: 200
     chart: {kind: line, data: [24.08, 24.10, 24.09, 24.11, 24.10, 24.10, 24.11, 24.09, 24.10, 24.12], decision_index: 5}
     best: no-trade
-    outcome: "Twelve more minutes, three cents of range. A round trip either way would have paid the gap and collected nothing."
+    outcome: "Twelve more minutes, three cents of range. A round trip either way would have paid the spread and collected nothing."
     explanation: "Easy to get in and out of, and nothing to be paid for once you are. No pressure either way is a no trade."
 
   - type: numeric-input

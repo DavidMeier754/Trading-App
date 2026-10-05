@@ -21,10 +21,10 @@ screens:
 
   - type: theory
     title: "The quote, against what the name travels"
-    body: "Chapter 3 held a quote against the move you were going for. Selection runs the same sum before there is a chart: what does this name travel in a minute, and what does the gap take out of it?"
+    body: "Chapter 3 held a quote against the move you were going for. Selection runs the same sum before there is a chart: what does this name travel in a minute, and what does the spread take out of it?"
 
   - type: example
-    body: "GRAN travels about eight cents in a minute. HALO travels about thirty-four. The same six-cent gap is three quarters of one of them and a sixth of the other."
+    body: "GRAN travels about eight cents in a minute. HALO travels about thirty-four. The same six-cent spread is three quarters of one of them and a sixth of the other."
     visual: cost-stack
     visual_data: {spread: 0.06, targets: [{label: "GRAN travels $0.08", value: 0.08}, {label: "HALO travels $0.34", value: 0.34}]}
 
@@ -34,7 +34,7 @@ screens:
     tolerance: 1
     unit: "%"
     working: "0.04 ÷ 0.34 ≈ 0.12 = 12 %"
-    explanation: "An eighth of one minute's travel. On this name the gap is a toll rather than the trade."
+    explanation: "An eighth of one minute's travel. On this name the spread is a toll rather than the trade."
 
   - type: theory
     title: "And something to pay it for"
@@ -87,7 +87,7 @@ screens:
     best: no-trade
     reasonable: [long]
     outcome: "It reached $12.59 — $0.11 a share past the decision, and the six-cent quote was more than half of that before a cent of it arrived."
-    explanation: "Eight-cent minutes and a six-cent gap. The volume is fine and there is nothing left over for you."
+    explanation: "Eight-cent minutes and a six-cent spread. The volume is fine and there is nothing left over for you."
 
   - type: numeric-mc
     prompt: "Six cents of quote on 1,600 shares. What does one complete position hand over?"

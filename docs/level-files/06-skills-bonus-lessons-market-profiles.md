@@ -9,7 +9,7 @@ _Part of the [level file format](README.md)_
 ```yaml
 - name: "Spread"            # 1–40 characters; how lessons list it and the learner reads it
   kind: word                # word: a term the course defines · technique: something the learner can now do
-  info: "The gap between the price you can sell at and the price you can buy at; buy and sell straight back and you have paid it once."
+  info: "The difference between the price you can sell at and the price you can buy at; buy and sell straight back and you have paid it once."
   aliases: ["bid-ask spread"]   # optional, words only: other spellings the marker should catch (stage GLOSSARY)
 - name: "Spread before size"
   kind: technique

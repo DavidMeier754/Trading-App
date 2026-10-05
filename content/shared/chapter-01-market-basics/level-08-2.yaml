@@ -71,7 +71,7 @@ screens:
       - ["Shares traded on a normal day", "How easily you can leave"]
       - ["The day's high minus its low", "How far the price moves"]
       - ["Your own trade moving the price", "A sign the stock is thin"]
-      - ["The gap between the two prices", "Part of what the trade costs"]
+      - ["The difference between the two prices", "Part of what the trade costs"]
     explanation: "Two dials, one symptom and one bill."
 
   - type: spot-mistake

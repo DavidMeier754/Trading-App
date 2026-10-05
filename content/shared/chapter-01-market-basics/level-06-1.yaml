@@ -8,8 +8,8 @@ tags: [participants, institutions, market-maker]
 icon: people
 learning_goal: "User can name the three kinds of participant on the other side of a trade and say what each one is doing there."
 purpose: "Big moves that seem to come from nowhere usually have somebody large behind them, and knowing who is out there is what stops them feeling like magic."
-terms_introduced: ["Retail trader", "Institution", "Market maker"]
-skills: ["Retail trader", "Institution", "Market maker"]
+terms_introduced: ["Retail trader", "Institution", "Market maker", "Fill"]
+skills: ["Retail trader", "Institution", "Market maker", "Fill"]
 reinforces: []
 prerequisite: "5-1"
 xp: 20
@@ -22,7 +22,7 @@ screens:
 
   - type: theory
     title: "Two sides, every time"
-    body: "A trade needs a buyer and a seller in the same moment. When you buy 100 shares, somebody sold you 100 shares. There is always somebody there."
+    body: "A trade needs a buyer and a seller in the same moment. When you buy 100 shares, somebody sold you 100 shares. The moment that happens, your order fills. There is always somebody there."
 
   - type: carousel
     cards:

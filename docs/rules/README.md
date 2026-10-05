@@ -10,7 +10,7 @@ Section numbers are the same as before the docs were split into these files.
 | --- | --- | --- |
 | [01-what-we-build.md](01-what-we-build.md) | §1–1.1 | The product, what finishing a path means, and the fixed product decisions. |
 | [02-paths-and-chapters.md](02-paths-and-chapters.md) | §2 | The three paths and their eight chapters. |
-| [03-content-rules.md](03-content-rules.md) | §3–3.5 | Units and sizing, categories and rhythm, reinforcement, screens, answer-key hygiene. |
+| [03-content-rules.md](03-content-rules.md) | §3–3.5 | Units and sizing, categories and rhythm, reinforcement, screens, plain words with one meaning each (§3.4a), answer-key hygiene. |
 | [04-numbers-and-realism.md](04-numbers-and-realism.md) | §3.6 | Prices, volumes, accounts and position sizes that hold up in a real market. |
 | [05-tests-consistency-and-copy.md](05-tests-consistency-and-copy.md) | §3.7–3.9 | Tests and exams, staying consistent across sessions, and how copy is written. |
 | [06-replays.md](06-replays.md) | §3.10 | How replays of real charts are chosen and written. |

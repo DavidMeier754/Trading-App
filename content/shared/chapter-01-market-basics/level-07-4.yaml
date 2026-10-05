@@ -28,7 +28,7 @@ screens:
         note: "Small steps all the way up. Somebody is trading this every minute."
       - chart: {kind: line, data: [9.80, 9.80, 9.80, 10.15, 10.15, 10.15, 10.50, 10.50]}
         answer: pass
-        note: "Three trades in the whole stretch, 35 cents apart. You would be leaving through those same gaps."
+        note: "Three trades in the whole stretch, 35 cents apart. You would be leaving through those same 35-cent jumps."
       - chart: {kind: line, data: [21.40, 21.46, 21.44, 21.52, 21.58, 21.63, 21.69, 21.76]}
         answer: take
         note: "A busy, even climb, with company on both sides of it."

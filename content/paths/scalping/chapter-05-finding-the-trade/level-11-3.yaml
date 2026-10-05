@@ -127,7 +127,7 @@ screens:
       - {text: "0.4 points"}
       - {text: "1.6 points", correct: true}
     working: "+0.4 % − (−1.2 %) = 1.6 percentage points"
-    explanation: "One and a half points of distance opened between a name and its room in a single morning, and that gap is the whole reading."
+    explanation: "One and a half points of distance opened between a name and its room in a single morning, and that distance is the whole reading."
 
   - type: recap
     title: "Level 11 in three lines"

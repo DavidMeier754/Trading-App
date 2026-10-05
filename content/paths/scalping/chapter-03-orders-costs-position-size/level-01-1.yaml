@@ -36,7 +36,7 @@ screens:
 
   - type: theory
     title: "This panel is your instrument"
-    body: "Bid, ask, last and the gap between the first two. Four numbers, one glance. A scalper reads this more often than the chart."
+    body: "Bid, ask, last and the spread between the first two. Four numbers, one glance. A scalper reads this more often than the chart."
 
   - type: hotspot
     component: quote-panel
@@ -67,7 +67,7 @@ screens:
     explanation: "A card reports the trade that already happened. The panel shows you the two live prices behind it."
 
   - type: numeric-mc
-    prompt: "Bid $67.42, ask $67.49. How wide is the gap?"
+    prompt: "Bid $67.42, ask $67.49. How wide is the spread?"
     options:
       - {text: "$0.07", correct: true}
       - {text: "$0.70"}
@@ -78,7 +78,7 @@ screens:
 
   - type: hotspot
     component: quote-panel
-    prompt: "Tap both of the prices that the gap is measured between."
+    prompt: "Tap both of the prices that the spread is measured between."
     data: {bid: 15.12, ask: 15.20, last: 15.15}
     targets: [bid, ask]
     explanation: "15.20 − 15.12 = $0.08. The last does not come into it."

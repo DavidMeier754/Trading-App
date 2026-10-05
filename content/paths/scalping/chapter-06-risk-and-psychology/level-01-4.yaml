@@ -104,7 +104,7 @@ screens:
     sentence: "Every cent you pay above the planned entry is a cent added to your ___."
     options: ["stop distance", "target", "position value"]
     answer: "stop distance"
-    explanation: "The stop stays where the chart put it, so the gap it has to cover gets longer."
+    explanation: "The stop stays where the chart put it, so the distance it has to cover gets longer."
 
   - type: numeric-input
     prompt: "Long 900 shares of KELP at $16.54 with the stop still at $16.32. What does the trade risk?"

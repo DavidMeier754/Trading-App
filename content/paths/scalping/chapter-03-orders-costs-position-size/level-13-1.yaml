@@ -53,7 +53,7 @@ screens:
   - type: tf
     statement: "A tight spread protects you from slippage."
     answer: false
-    explanation: "Spread is the gap at one moment; slippage is the move during execution. They're independent."
+    explanation: "Spread is the difference at one moment; slippage is the move during execution. They're independent."
 
   - type: sort
     prompt: "Spread or slippage?"
@@ -63,7 +63,7 @@ screens:
       - {text: "Price moved between tap and fill", bucket: "Slippage"}
       - {text: "Paid on every round trip", bucket: "Spread"}
       - {text: "Biggest in fast, volatile stocks", bucket: "Slippage"}
-    explanation: "A gap versus a move."
+    explanation: "A cost you can see before you send, against a move that happens while the order travels."
 
   - type: numeric-mc
     prompt: "Spread $0.02, slippage $0.03 on entry, 1,000 shares. Cost so far?"
@@ -99,7 +99,7 @@ screens:
     explanation: "A quote moving several cents between looks is slippage waiting to happen, and it is bigger than half your target."
 
   - type: fill-tiles
-    sentence: "The gap between the expected price and your fill is ___."
+    sentence: "The difference between the expected price and your fill is ___."
     answer: "slippage"
     explanation: "The market moved while you were executing."
 

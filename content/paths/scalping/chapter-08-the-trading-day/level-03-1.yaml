@@ -111,7 +111,7 @@ screens:
       - {text: "The stop triggered at $16.30,"}
       - {text: "so the fill came back at $16.30,", wrong: true}
       - {text: "and the loss came out a little above the $154 you planned."}
-    explanation: "The trigger is a price you chose; the fill is whatever the book has. That gap is the slippage Chapter 3 measured."
+    explanation: "The trigger is a price you chose; the fill is whatever the book has. That difference is the slippage Chapter 3 measured."
 
   - type: tf
     statement: "A market order sent into a thin book can fill across three price levels."

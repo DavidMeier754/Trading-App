@@ -21,12 +21,12 @@ screens:
 
   - type: theory
     title: "The four questions"
-    body: "Is the gap small against the move? Is the all-in cost under about a third of the target? Is the size the lower of the two ceilings? Are the tools solid?"
+    body: "Is the spread small against the move? Is the all-in cost under about a third of the target? Is the size the lower of the two ceilings? Are the tools solid?"
 
   - type: checklist-reveal
     title: "The check, in order"
     items:
-      - "The gap, held against the move these minutes are making"
+      - "The spread, held against the move these minutes are making"
       - "Slippage and fees on top of it, as a share of the target"
       - "Shares: the lower of what the stop allows and what the account can pay"
       - "The screen, the connection, and a way to reach the broker without them"
@@ -34,21 +34,21 @@ screens:
   - type: order
     prompt: "Put the four checks into the order you actually run them."
     items:
-      - "Hold the gap against the move you expect"
+      - "Hold the spread against the move you expect"
       - "Add slippage and fees for the cost per share"
       - "Size from the stop and from the account"
       - "Check the tools, then send the entry"
     explanation: "Cost first, because a cost you cannot clear ends the decision before sizing is worth doing. Tools last, because they are the one check that does not depend on the chart."
 
   - type: numeric-mc
-    prompt: "Gap three cents, slippage two, fees one, target twenty cents. Does this one clear the third?"
+    prompt: "Spread three cents, slippage two, fees one, target twenty cents. Does this one clear the third?"
     options:
       - {text: "No, six cents is more than a third of twenty"}
-      - {text: "No, the gap alone is already a third"}
-      - {text: "Yes, at 30 %, and the gap is two cents inside the stop too"}
+      - {text: "No, the spread alone is already a third"}
+      - {text: "Yes, at 30 %, and the spread is two cents inside the stop too"}
       - {text: "Yes, six cents is 30 % of twenty", correct: true}
     working: "$0.03 + $0.02 + $0.01 = $0.06; $0.06 ÷ $0.20 = 0.30"
-    explanation: "Thirty per cent is just inside the line. Close enough that a wider gap or one extra cent of slippage turns it into a pass."
+    explanation: "Thirty per cent is just inside the line. Close enough that a wider spread or one extra cent of slippage turns it into a pass."
 
   - type: mc
     prompt: "All-in cost 18 % of the target, connection solid, and the size came from the stop alone. Which check failed?"
@@ -100,17 +100,17 @@ screens:
   - type: spot-mistake
     prompt: "Tap the mistake."
     segments:
-      - {text: "The gap is two cents against a thirty-cent move,"}
+      - {text: "The spread is two cents against a thirty-cent move,"}
       - {text: "so the costs are settled and the size can wait,", wrong: true}
       - {text: "and the connection has been solid all session."}
-    explanation: "The gap is one layer of three, and the share count is the question that decides what any of those cents actually cost you."
+    explanation: "The spread is one layer of three, and the share count is the question that decides what any of those cents actually cost you."
 
   - type: plan-card
     title: "Your cost limits"
     intro: "Three numbers you will trade by from here. You can change them later."
     fields:
       - {key: cost_max_share_of_target, label: "Most of a target you will let costs take (%)", kind: number, suggest: 33}
-      - {key: cost_max_spread_cents, label: "Widest gap you will pay, in cents", kind: number, suggest: 5}
+      - {key: cost_max_spread_cents, label: "Widest spread you will pay, in cents", kind: number, suggest: 5}
       - {key: session_risk_pct, label: "Risk per trade (% of the account)", kind: number, suggest: 1}
     note: "Chapter 6 adds the daily limits that sit on top of these."
 
@@ -119,4 +119,4 @@ screens:
     points:
       - {text: "Spread, slippage and fees added per share is the all-in cost, and it is judged as a share of the target.", level: "17-1"}
       - {text: "A dropped connection is a cost you cannot price, so a fallback plan is written before you need it.", level: "17-2"}
-      - {text: "Four questions in order: the gap, the cost ratio, the lower ceiling, the tools.", level: "17-3"}
+      - {text: "Four questions in order: the spread, the cost ratio, the lower ceiling, the tools.", level: "17-3"}

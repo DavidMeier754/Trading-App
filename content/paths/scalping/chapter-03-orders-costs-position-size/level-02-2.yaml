@@ -21,7 +21,7 @@ screens:
 
   - type: theory
     title: "Break-even sits above your entry"
-    body: "You bought at the ask, and you will sell at the bid. To get out for what you paid, the bid has to climb all the way to your entry price — which means the whole gap has to be travelled first."
+    body: "You bought at the ask, and you will sell at the bid. To get out for what you paid, the bid has to climb all the way to your entry price — which means the whole spread has to be travelled first."
 
   - type: example
     body: "Bid $11.96, ask $12.00. You buy at $12.00. You are level again only when the bid reaches $12.00, and that needs the ask up at $12.04."
@@ -44,9 +44,9 @@ screens:
   - type: mc
     prompt: "You buy at the ask and for a full minute neither price moves. Where do you stand?"
     options:
-      - {text: "Down one gap", correct: true}
+      - {text: "Down one spread", correct: true}
       - {text: "Exactly flat"}
-      - {text: "Down two gaps"}
+      - {text: "Down two spreads"}
     explanation: "The bid never came up to meet your entry, so closing costs you the whole distance — once."
 
   - type: numeric-mc
@@ -71,7 +71,7 @@ screens:
       volume: [58000, 52000, 46000, 51000, 44000, 48000, 42000, 47000, 45000, 50000]
       decision_index: 5
     best: no-trade
-    outcome: "Four minutes later it was $18.12 — $0.04 a share above the decision, which is +$56 on 1,400 shares against $84 of gap."
+    outcome: "Four minutes later it was $18.12 — $0.04 a share above the decision, which is +$56 on 1,400 shares against $84 of spread."
     explanation: "The hole is six cents deep and the stock has not managed six cents in ten minutes. There is nothing here to win."
 
   - type: spot-mistake
@@ -83,12 +83,12 @@ screens:
     explanation: "You break even when the bid reaches your entry, not when the ask does."
 
   - type: match
-    prompt: "Chapter 1's volatility dial, with a four-cent gap put against it."
+    prompt: "Chapter 1's volatility dial, with a four-cent spread put against it."
     pairs:
       - ["Travels $0.40 in a busy minute", "Four cents is a tenth of the move"]
       - ["Travels $0.06 in a busy minute", "Four cents is most of the move"]
       - ["Has not moved in twenty minutes", "Four cents is the whole trade"]
-    explanation: "The same gap is cheap, expensive or fatal depending only on how far the stock actually travels."
+    explanation: "The same spread is cheap, expensive or fatal depending only on how far the stock actually travels."
 
   - type: fill-choice
     sentence: "You break even when the ___ reaches the price you paid."

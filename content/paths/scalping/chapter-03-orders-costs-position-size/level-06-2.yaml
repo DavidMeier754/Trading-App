@@ -63,7 +63,7 @@ screens:
     tolerance: 0.01
     unit: "$"
     working: "$18.34 − $18.30 = $0.04 per share; $0.04 × 700 = $28"
-    explanation: "Four cents times seven hundred shares, kept rather than handed across the gap."
+    explanation: "Four cents times seven hundred shares, kept rather than handed across the spread."
 
   - type: story
     text: "You wanted those 700 shares at $18.30. The bid never traded below $18.31, and a few minutes later the stock is $18.62."

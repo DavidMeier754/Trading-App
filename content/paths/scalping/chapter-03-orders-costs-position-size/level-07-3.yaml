@@ -17,7 +17,7 @@ sources: [consensus]
 notes: "Account named at $20,000; the chart decision is 1,100 shares near $16. Closes Level 7 with the exit half of the kit."
 screens:
   - type: intro
-    text: "You paid the gap to get in. On the way out, you can make somebody else pay it."
+    text: "You paid the spread to get in. On the way out, you can make somebody else pay it."
 
   - type: theory
     title: "Rest the exit, do not watch for it"
@@ -57,7 +57,7 @@ screens:
     explanation: "Trading at your price is what your order was waiting for, provided enough was bought there to reach it."
 
   - type: tf
-    statement: "With a resting sell at your target, you are collecting the gap instead of paying it."
+    statement: "With a resting sell at your target, you are collecting the spread instead of paying it."
     answer: true
     explanation: "Somebody is paying the ask to take your shares off you, which is the market maker's side of the same trade you paid for on the way in."
 

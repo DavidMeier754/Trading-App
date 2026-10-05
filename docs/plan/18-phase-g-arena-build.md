@@ -106,6 +106,7 @@ Report: what you built · check results · my test checklist with real links · 
 6. **Seasons:** a reset starts a new season; old seasons stay readable.
 7. **Stored locally;** `BACKEND` syncs it.
 8. **Unit tests** for fills, P/L, R and every statistic, using the course's own worked examples.
+9. **[CONTENT-REVIEW] Test my card** (item P-02 of `docs/content-todo/05-content-review.md`): pick one of your playbook cards, or the one you wrote in Chapter 9, and play replays bar by bar; mark the minute your card fires, set the stop and target, watch it play out. Every attempt is a row in that card's own sheet, with a cost you set; the sheet shows the count, the average trade in R and how many rows are still missing before it says anything. The app never says whether the card is good — the rows do.
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 2
 

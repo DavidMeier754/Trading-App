@@ -92,7 +92,7 @@ screens:
   - type: tf
     statement: "A simulator can prove the routine runs and still tell you nothing about your nerve."
     answer: true
-    explanation: "That gap is the whole reason the next step is a live size small enough that finding out is cheap."
+    explanation: "That difference is the whole reason the next step is a live size small enough that finding out is cheap."
 
   - type: fill-choice
     sentence: "The thirty days are finished when the sheet can be read, not when it turns ___."

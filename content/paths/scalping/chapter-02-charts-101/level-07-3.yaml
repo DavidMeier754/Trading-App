@@ -39,7 +39,7 @@ screens:
 
   - type: theory
     title: "Why it is expensive"
-    body: "Twenty cents from floor to ceiling sounds like room. You never get in at the floor, you pay the market maker's gap on the way in and again on the way out, and what is left is a few cents of noise."
+    body: "Twenty cents from floor to ceiling sounds like room. You never get in at the floor, you pay the spread on the way in and again on the way out, and what is left is a few cents of noise."
 
   - type: slider
     prompt: "The stretch above runs from $17.34 to $17.54. You buy at $17.46 and plan to sell at the ceiling. How much of it is still there to pay you?"

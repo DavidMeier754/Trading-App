@@ -131,7 +131,7 @@ screens:
     tolerance: 1
     unit: "$"
     working: "$0.18 a share × 1,400 shares = $252"
-    explanation: "Two hundred and fifty-two dollars before the name has moved at all. QUAY's two-cent quote takes $28 for the same size, and that gap is the whole of the cut."
+    explanation: "Two hundred and fifty-two dollars before the name has moved at all. QUAY's two-cent quote takes $28 for the same size, and that difference is the whole of the cut."
 
   - type: chart-decision
     scenario: "The room is heavy: the index is down since the bell and more names are falling than rising. LODE sits in the sector doing worst of all and has made lower highs all morning. The minute that just closed gave up the low of the day at $13.40 on the heaviest bar yet."

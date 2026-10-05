@@ -20,7 +20,7 @@ screens:
     text: "One last check before the share count: how much of your stop has the quote already eaten?"
 
   - type: theory
-    title: "The gap sits inside the stop"
+    title: "The spread sits inside the stop"
     body: "You bought at the ask and you will be marked against the bid. The whole width of the quote is spent inside the distance between your entry and your stop, before the stock has moved a tick."
 
   - type: example

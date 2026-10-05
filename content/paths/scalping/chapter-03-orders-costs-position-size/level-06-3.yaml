@@ -21,7 +21,7 @@ screens:
 
   - type: theory
     title: "Two costs, and only one has a number"
-    body: "Taking the ask costs the gap, and you can work that out before you press. Waiting at your own price costs nothing at all until the trade leaves without you."
+    body: "Taking the ask costs the spread, and you can work that out before you press. Waiting at your own price costs nothing at all until the trade leaves without you."
 
   - type: example
     body: "1,800 shares of a $12.40 stock, two cents wide, out of a $25,000 account: taking the ask costs $36. The twenty cents you are going for is worth $360."
@@ -58,7 +58,7 @@ screens:
       - {text: "Take the ask and be done with it"}
       - {text: "Take the ask, then post a second order lower"}
       - {text: "Post your price at the low of the range", correct: true}
-    explanation: "Nothing is running away from you here. In a stock going nowhere, the gap is the only thing you can still control."
+    explanation: "Nothing is running away from you here. In a stock going nowhere, the spread is the only thing you can still control."
 
   - type: chart-decision
     scenario: "XYZ has pressed at $12.50 for four minutes and the candle that just closed finished six cents above it on the heaviest bar of the session. The quote is two cents wide and your $25,000 account allows 1,800 shares here."
@@ -110,6 +110,6 @@ screens:
     title: "Which ticket is this moment's ticket"
     items:
       - "Is something happening right now, or is the stock asleep?"
-      - "How many dollars is the gap on the size I want?"
+      - "How many dollars is the spread on the size I want?"
       - "What is the move worth if I get it?"
       - "If my price never trades, am I happy to have missed this?"

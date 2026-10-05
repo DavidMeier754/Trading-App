@@ -62,7 +62,7 @@ screens:
   - type: tf
     statement: "A four-cent stop is worth the same in the first minutes after {{market.regular_open}} as it is an hour later."
     answer: false
-    explanation: "Chapter 1 called the open the jumpiest part of the day, and Level 3 showed the quote at its widest there. A four-cent stop with an eight-cent gap inside it is not a stop at all."
+    explanation: "Chapter 1 called the open the jumpiest part of the day, and Level 3 showed the quote at its widest there. A four-cent stop with an eight-cent spread inside it is not a stop at all."
 
   - type: order-build
     prompt: "Send the protection for that short: buy back all 1,000 shares if $23.63 trades, at whatever price is there."

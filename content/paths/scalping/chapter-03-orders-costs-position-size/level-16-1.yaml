@@ -32,7 +32,7 @@ screens:
         - {ticker: RDN, price: 13.90, change_pct: 3.8, spread: 0.14}
         - {ticker: TQP, price: 11.20, change_pct: 0.3, spread: 0.03}
     target: ORN
-    explanation: "ORN is the only row where all three answers come back clean: a two-cent gap, a day that is actually moving, and 1,100 shares the account can cover."
+    explanation: "ORN is the only row where all three answers come back clean: a two-cent spread, a day that is actually moving, and 1,100 shares the account can cover."
 
   - type: numeric-input
     prompt: "1,100 shares of ORN at $17.40. What does the position tie up?"
@@ -46,14 +46,14 @@ screens:
     prompt: "KLM showed the biggest day's move on that list. Why was it never a candidate?"
     options:
       - {text: "The account cannot pay for 1,100 shares at $26.80", correct: true}
-      - {text: "Its gap is $0.14, too wide to pay on a round trip"}
+      - {text: "Its spread is $0.14, too wide to pay on a round trip"}
       - {text: "A stock that has already moved five per cent has nothing left"}
-    explanation: "1,100 × $26.80 is $29,480, and there is $22,000. KLM quotes two cents like ORN does; it is the price tag, not the gap, that rules it out."
+    explanation: "1,100 × $26.80 is $29,480, and there is $22,000. KLM quotes two cents like ORN does; it is the price tag, not the spread, that rules it out."
 
   - type: tf
-    statement: "A two-cent gap is reason enough to trade a name, whatever its day's move has been."
+    statement: "A two-cent spread is reason enough to trade a name, whatever its day's move has been."
     answer: false
-    explanation: "Chapter 1 put every stock on two dials. A tight gap is the liquidity dial saying you can leave cheaply; without movement there is nothing there to pay for the trip."
+    explanation: "Chapter 1 put every stock on two dials. A tight spread is the liquidity dial saying you can leave cheaply; without movement there is nothing there to pay for the trip."
 
   - type: compare
     prompt: "Your costs run four cents a share in both of these. In which one does a twelve-cent target exist at all?"

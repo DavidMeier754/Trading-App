@@ -64,7 +64,7 @@ screens:
     explanation: "Five hundred at $16.30, four hundred more three cents lower, and the last two hundred at $16.22 — eight cents below the top of the book."
 
   - type: theory
-    title: "That gap is slippage, not failure"
+    title: "That difference is slippage, not failure"
     body: "A stop-market gets you out; it never promises where. On a fast minute the fill sits a few cents past the trigger, and that is a cost you budget for, the same way you budget for the spread."
 
   - type: numeric-input

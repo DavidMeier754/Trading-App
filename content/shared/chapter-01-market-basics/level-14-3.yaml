@@ -21,16 +21,16 @@ screens:
     text: "Your style decides how many times a day you pay to get in and back out."
 
   - type: theory
-    title: "Every round trip pays the gap"
-    body: "In and out once pays the gap between the two prices, plus whatever the broker takes. Nothing about that depends on whether you were right. Your style only decides how often it happens."
+    title: "Every round trip pays the spread"
+    body: "In and out once pays the spread between the two prices, plus whatever the broker takes. Nothing about that depends on whether you were right. Your style only decides how often it happens."
 
   - type: example
-    body: "LUMA has a two-cent gap. A scalper doing 20 round trips of 200 shares pays 20 × 200 × $0.02 = $80 of gap in one day. A swing trader doing 20 round trips pays the same $80 across a whole year."
+    body: "LUMA has a two-cent spread. A scalper doing 20 round trips of 200 shares pays 20 × 200 × $0.02 = $80 of spread in one day. A swing trader doing 20 round trips pays the same $80 across a whole year."
     visual: cost-stack
     visual_data: {shares: 300, spread: 0.02, slippage: 0.0, fees: 0.01, target: 0.06}
 
   - type: numeric-input
-    prompt: "Same two-cent gap, 300 shares of LUMA, 8 round trips in one day. What has the gap alone taken?"
+    prompt: "Same two-cent spread, 300 shares of LUMA, 8 round trips in one day. What has the spread alone taken?"
     answer: 48
     tolerance: 0.01
     unit: "$"
@@ -38,7 +38,7 @@ screens:
     explanation: "Per share, per round trip, and the round trips are what your style chooses."
 
   - type: slider
-    prompt: "A scalper is playing for six cents a share and the gap is two cents. What share of that target does the gap take?"
+    prompt: "A scalper is playing for six cents a share and the spread is two cents. What share of that target does the spread take?"
     min: 0
     max: 60
     step: 1
@@ -48,7 +48,7 @@ screens:
     explanation: "Two cents out of six is a third of the target, gone before the price has moved at all."
 
   - type: numeric-mc
-    prompt: "A swing trader is playing for $2.00 a share, and pays three cents of cost: the two-cent gap and a cent of charges. What share of that target is the cost?"
+    prompt: "A swing trader is playing for $2.00 a share, and pays three cents of cost: the two-cent spread and a cent of charges. What share of that target is the cost?"
     options:
       - {text: "15 %"}
       - {text: "50 %"}
@@ -100,12 +100,12 @@ screens:
   - type: fill-tiles
     sentence: "Buying and then selling the same shares once is one round ___."
     answer: "trip"
-    explanation: "One round trip, one gap, one set of charges."
+    explanation: "One round trip, one spread, one set of charges."
 
   - type: checklist-reveal
     title: "Choosing a style honestly"
     items:
       - "How many hours can I actually watch a screen, on an ordinary week?"
       - "How many round trips does that style need per day?"
-      - "What does one round trip cost me, gap and charges together?"
+      - "What does one round trip cost me, spread and charges together?"
       - "Is the move I would be playing for big enough to carry that cost?"

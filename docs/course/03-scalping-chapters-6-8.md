@@ -29,7 +29,7 @@ The thinnest chapter in v2 and the one where retail traders actually fail, so it
 | 18 | A Losing Morning, Handled | 2 R | One narrated morning: a clean stop, a limit respected, a reset, a return at half size, finishing down 1R instead of 5 | 3, 5 |
 | 19 | Final Exam | 1 F | 14 questions → badge → `tier-up` (Planner) | 3, 4, 5 |
 
-**New terms:** Setup, Hard stop, Mental stop, R, R-multiple, Break-even stop, Partial exit, Trailing stop, Time stop, Win rate, Average win, Average loss, Expectancy, Edge, Daily loss limit, Trade limit, Overtrading, Revenge trade, FOMO, Chasing, Tilt, Reset routine, Sample size, Journal, Execution grade, Weekly review, Drawdown.
+**New terms:** ~~Setup~~ (since `CONTENT-REVIEW` taught in 1·13-2), Hard stop, Mental stop, R, R-multiple, Break-even stop, Partial exit, Trailing stop, Time stop, Win rate, Average win, Average loss, Expectancy, Edge, Daily loss limit, Trade limit, Overtrading, Revenge trade, FOMO, Chasing, Tilt, Reset routine, Sample size, Journal, Execution grade, Grade-A trade (**[CONTENT-REVIEW]** moved here from Chapter 8: 6·15-1), Weekly review, Drawdown.
 
 ### Chapter 7 — The Scalping Playbook — written
 
@@ -50,7 +50,7 @@ Eight setups instead of five. Every setup is a playbook card: context, entry, st
 | 10 | Setup F — Gap-and-Go Continuation | 3 | The gap that holds, the first pullback, entry on the resumption; when a gap is too extended to join | 2, 5 |
 | 11 | Setup G — Range Rotation | 3 | The range day's edges; fading the edge with the day type as permission; why this card is forbidden on a trend day | 5 |
 | 12 | Setup H — The Re-Entry | 3 | Getting back into a trade that stopped you out: what has to be true, what makes it revenge instead, the size it deserves | 6 |
-| 13 | Mixed Drill II | 2 R | Eight charts across all eight cards, half of them passes | 4, 5 |
+| 13 | Mixed Drill II | 2 R | Eight charts across all eight cards, half of them passes. **[CONTENT-REVIEW]** Becomes "Setup I — Level Break" (3 subs) in `CONTENT-FIX-7`; these charts move into Level 18 (C8-01, `docs/plan/15-phase-e-offer-fixes-reviews.md`) | 4, 5 |
 | 14 | Choosing the Setup for the Day | 3 | Day type → which cards are on the table; trend days feed continuation, range days feed reversion; when none are | 5 |
 | 15 | Chapters 5 & 6 Callback | 2 R | Selection and risk re-tested inside the playbook: right card, wrong stock; right card, wrong day; right card, no risk budget left | 5, 6 |
 | 16 | When Nothing Fits | 2 | The discipline of the empty morning; what a playbook costs you in missed trades and why that is the price | 6 |
@@ -58,7 +58,7 @@ Eight setups instead of five. Every setup is a playbook card: context, entry, st
 | 18 | Chapter Review | 2 R | The eight cards summarised by trigger, then a mixed `compare` set | 4, 5, 6 |
 | 19 | Final Exam | 1 F | 14 questions → badge | 4, 5, 6 |
 
-**New terms:** Playbook, Playbook card, Invalidation, VWAP bounce, High of day, Opening-range scalp, Momentum continuation, Leg, Measured move, Mean reversion, Fade, Re-entry candle, Trapped traders, Gap-and-go, Range rotation, Re-entry trade.
+**New terms:** Playbook, Playbook card, Invalidation, VWAP bounce, High of day, Opening-range scalp, Momentum continuation, ~~Leg~~ (since `CONTENT-REVIEW` taught in 2·14-3), Measured move, Mean reversion, Fade, Re-entry candle, Trapped traders, Gap-and-go, Range rotation, Re-entry trade.
 
 ### Chapter 8 — The Trading Day — written
 
@@ -92,4 +92,4 @@ Execution, the full routine, and the honest handover to a simulator. Sources: Az
 | 17 | Capstone — A Full Week | 3 R | Five sessions compressed: a green day, a red day inside the limit, a day with no trades, a tilt caught early, a weekly review that produces one rule | 5, 6, 7 |
 | 18 | Final Exam and Graduation | 1 F | 15 questions → badge → `tier-up` (Sim Trader) → the user's finished `plan-sheet` | 4, 5, 6, 7 |
 
-**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, Grade-A trade, Going live, **Cash account, Margin account, Settlement, Leverage, Day-trade limit**.
+**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, ~~Grade-A trade~~ (since `CONTENT-REVIEW` taught in 6·15-1), Going live, **Cash account, Margin account, Settlement, Leverage, Day-trade limit**.

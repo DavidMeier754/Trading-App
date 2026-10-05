@@ -7,8 +7,8 @@ category: new-theory
 tags: [risk, stops, discipline]
 learning_goal: "User picks the stop before sending the entry, tells a hard stop from a mental stop, and never widens a stop that is about to be hit."
 purpose: "At scalping speed the stop is the only thing between a loss you planned and one you didn't."
-terms_introduced: ["Setup", "Hard stop", "Mental stop"]
-skills: ["Setup", "Hard stop", "Mental stop"]
+terms_introduced: ["Hard stop", "Mental stop"]
+skills: ["Hard stop", "Mental stop"]
 reinforces: [3]
 prerequisite: null
 xp: 20
