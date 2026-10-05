@@ -53,7 +53,7 @@ Report: what you built · check results · sources · sentences you are unsure a
 
 **Order:** 1 → 2 → 3 → … → 8. Chapter 8 comes after `OFFER`.
 
-**[CONTENT-REVIEW] Parallel since 2026-10-05.** The content review's cross-chapter edits are done (`docs/content-todo/05-content-review.md`, stage `CONTENT-REVIEW`): the spread sweep and the terms taught where they are first used. So no pass needs another chapter's files any more, and the passes may run at the same time, each in its own session and PR, merged one at a time with every check green. Chapter 1 still waits for `VARIANCE` and Chapter 8 for `OFFER`. Chapters 4 and 5 are small enough to share one session. If a fix turns out to need another chapter's file after all, the pass leaves it, names it in the report, and that chapter's pass does it.
+**[CONTENT-REVIEW] Parallel since 2026-10-05.** The content review's cross-chapter edits are done (`docs/content-todo/05-content-review.md`, stage `CONTENT-REVIEW`): the spread sweep and the terms taught where they are first used. So no pass needs another chapter's files any more, and the passes may run at the same time, each in its own session and PR, merged one at a time with every check green. All of them start after `RULES`, which builds the worklist every pass reads (`tools/content_report.py`); the next session after `CONTENT-REVIEW` is therefore `RULES` (decided 2026-10-05). Chapter 1 still waits for `VARIANCE` and Chapter 8 for `OFFER`. Chapters 4 and 5 are small enough to share one session. If a fix turns out to need another chapter's file after all, the pass leaves it, names it in the report, and that chapter's pass does it.
 
 **Scope per chapter**
 1. **Work through the worklist** (`python3 tools/content_report.py --chapter N`):
@@ -96,7 +96,7 @@ Report: what you built · check results · sources · sentences you are unsure a
 - **Chapter 3:**
   - State chips following Appendix E.3 (37 % today).
   - `stop`/`target` apply from here on.
-  - 3·10 confirms the plan revision. **[CONTENT-REVIEW]** 3·10-3 teaches the account ceiling with the plan's limit — "95 % of the account (your plan's limit) ÷ price" — so that Chapters 6 and 8 agree with Chapter 3 (C6-01, corrected), and says how share counts are rounded (C7-12).
+  - 3·10 confirms the plan revision. **[CONTENT-REVIEW]** 3·10-3 teaches the account ceiling with the plan's limit — "95 % of the account (your plan's limit) ÷ price" — so that Chapters 6 and 8 agree with Chapter 3 (C6-01, corrected; David confirmed on 2026-10-05), and says how share counts are rounded (C7-12).
   - 3·14-1 consistent with decision B.
   - "Hearts are on." in 12-1.
 - **Chapters 4 and 5:** the worklist and their part of Part 6.
@@ -107,7 +107,7 @@ Report: what you built · check results · sources · sentences you are unsure a
 - **Chapter 7:**
   - State chips first, only 16 % today.
   - Realistic variance per setup.
-  - **[CONTENT-REVIEW]** A ninth card for breaks of a marked price (C8-01), because Chapter 8's if-then lines trade exactly that and no card describes it: "Setup I — Level Break" (a close through a price drawn before the open, on volume, stop back on the other side), as its own level after Level 12. That makes 20 levels, one over §3.1's 19; ask David first whether to accept it or to fold Mixed Drill II into the Chapter Review. The rows in Chapter 8 that file level breaks under other cards are `CONTENT-FIX-8`'s.
+  - **[CONTENT-REVIEW]** A ninth card for breaks of a marked price (C8-01), because Chapter 8's if-then lines trade exactly that and no card describes it: "Setup I — Level Break" (a close through a price drawn before the open, on volume, stop back on the other side), as Level 13. Decided on 2026-10-05 (David took the recommendation): it replaces Mixed Drill II, whose charts, now across nine cards, move into the Chapter Review (Level 18), so the chapter keeps 19 levels (§3.1). This is the one level-structure change a `CONTENT-FIX` makes; Levels 14–19 keep their numbers, and the Chapter Review, Capstone and Final Exam count nine cards. The rows in Chapter 8 that file level breaks under other cards are `CONTENT-FIX-8`'s.
 - **Chapter 8:**
   - "Hearts are on." in 5-1 and 10-1.
   - An honest ending: "ready to practice, not ready to profit".
@@ -125,7 +125,7 @@ Then run `python3 tools/content_report.py --chapter [N]` — that is your workli
 
 Work in blocks of 4–6 levels. After every block: validate_content.py, check_sizing.py; 0 errors, no warning about a file you touched.
 Recompute every changed chart question completely (entry, stop, size, result in $ and R, outcome sentence).
-Change no learning goals, no level structure, no ids.
+Change no learning goals, no level structure, no ids (the one exception: Chapter 7's Level 13, as the plan says).
 
 At the end: the render test for the chapter, a contact sheet of the changed screens, the three hand checks from §1, and Chapter [N]'s ticks in docs/content-todo/.
 Open a PR against main and get every check green.
@@ -146,7 +146,7 @@ Report: before/after numbers from the worklist · deviations with their reason �
 
 **Scope**
 1. The level plan in `docs/course/08-chapter-9-your-own-strategy.md`: about six levels and 16 sub-levels, as outlined.
-2. The open points in that file decided or put to David: examples per path, the replay step, whether there is a Checkpoint.
+2. The open points in that file were decided on 2026-10-05 (one set of examples, `chart-replay` then `journal-row`, no Checkpoint); the outline builds on them and puts any new question to David.
 3. The new plan-sheet slot for the learner's own card (`docs/level-files/05-the-plan.md`).
 4. What the app needs, if anything (a chapter that belongs to every path after its Chapter 8; the map's ninth chapter): written as a short list for the stage that builds it.
 5. No content files yet.

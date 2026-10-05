@@ -37,8 +37,8 @@ only where the learner has just been given the card it needs:
 
 | Chapter | Level | Reading level | Why here |
 |---|---|---|---|
-| 7 | each setup level (2, 3, 4, 6, 7, 10, 11, 12) | 1 | The card is on the screen; the replay is the card applied once, in motion |
-| 7 | 8 Mixed Drill I, 13 Mixed Drill II | 2 | Setup named, card from memory |
+| 7 | each setup level (2, 3, 4, 6, 7, 10, 11, 12; 13 once `CONTENT-FIX-7` makes it Setup I) | 1 | The card is on the screen; the replay is the card applied once, in motion |
+| 7 | 8 Mixed Drill I, 13 Mixed Drill II (its charts move into 18 Chapter Review in `CONTENT-FIX-7`, C8-01) | 2 | Setup named, card from memory |
 | 7 | 14 Choosing the Setup for the Day | 3 | Any of the eight — that is the level's whole question |
 | 7 | 17 Capstone — A Full Session | 3 | One session, several moments, decoys included |
 | 8 | 9 Full-Day Practice, 16 Capstone — A Full Week | 3 | Includes a session that offers nothing (`allow_none`) |

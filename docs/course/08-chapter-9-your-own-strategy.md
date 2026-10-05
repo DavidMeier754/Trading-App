@@ -28,9 +28,11 @@ Chapter 7 hands the learner finished cards and Chapter 8 a routine to run them; 
 
 **New terms (draft):** Backtest, Forward test, Curve fitting, Hindsight. The outline stage confirms them and checks none is already taught.
 
-## Open points for `OWN-STRATEGY-OUTLINE`
+## Decided on 2026-10-05
 
-- Examples per path: one set of charts on the 1-minute chart for every path, or a variant per path (a daily chart for swing). The content format has no path switch inside a shared chapter yet (`docs/level-files/`).
-- Whether Level 3 uses the `chart-replay` screen as it is (`docs/ui/05-chart-questions-and-mistakes-round.md` §4.4) or needs a "log this trigger" step.
-- A Checkpoint: the chapter is short enough to end on the capstone; the outline stage says whether one test helps.
-- The practice tool that lets the learner keep testing their card after the chapter is `SIM-ACCOUNT`'s (item P-02, `docs/plan/18-phase-g-arena-build.md`).
+The outline's three open points, decided when David took the recommendations:
+- **One set of examples for every path.** The chapter teaches a method, not a setup, so its charts are drawn so the time frame is not the point. There is no path switch inside a shared chapter (`docs/level-files/`), and none is built for this. When the swing and day-trading paths are written, their review stages (`SWING-REVIEW`, `DAY-REVIEW`) check that the examples still read right after their Chapter 8.
+- **The replay step needs no new screen.** Level 3 uses `chart-replay` as it is (`docs/ui/05-chart-questions-and-mistakes-round.md` §4.4), and the next screen is a `journal-row` (`docs/ui/04-question-types.md`) where the learner logs the trigger they just took or passed.
+- **No Checkpoint.** The chapter has six levels and ends on the capstone, which is its test.
+
+The practice tool that lets the learner keep testing their card after the chapter is `SIM-ACCOUNT`'s (item P-02, `docs/plan/18-phase-g-arena-build.md`).
