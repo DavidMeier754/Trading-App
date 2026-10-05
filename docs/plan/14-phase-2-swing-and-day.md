@@ -41,7 +41,7 @@ In each path's Chapter 3, the plan card revises `setup_max_account_pct` with tha
 ```
 Stage SWING-[N] from docs/plan/.
 
-Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the swing section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/plan/14-phase-2-swing-and-day.md, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
+Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the swing section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), docs/plan/01-goal-and-guardrails.md §0 ("Variance"), docs/plan/02-how-to-work.md §1, docs/plan/14-phase-2-swing-and-day.md in full, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
 Also follow the clause in Appendix E.7.
 Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
 Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
@@ -96,7 +96,7 @@ Stage SWING-REVIEW (corrections) from docs/plan/14-phase-2-swing-and-day.md. Rea
 ```
 Stage DAY-[N] from docs/plan/.
 
-Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the day-trading section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/plan/14-phase-2-swing-and-day.md, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
+Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the day-trading section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), docs/plan/01-goal-and-guardrails.md §0 ("Variance"), docs/plan/02-how-to-work.md §1, docs/plan/14-phase-2-swing-and-day.md in full, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
 Also follow the clause in Appendix E.7.
 Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
 Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
