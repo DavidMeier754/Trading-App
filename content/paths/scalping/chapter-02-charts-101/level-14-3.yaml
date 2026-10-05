@@ -8,8 +8,8 @@ tags: [momentum, exhaustion, patience, decisions]
 icon: battery
 learning_goal: "User stops joining the third and fourth leg of a move and can say what the first leg has that the late ones do not."
 purpose: "Almost every beginner's worst trade of the morning is a late one, taken because the earlier legs looked easy."
-terms_introduced: []
-skills: ["Skipping the late legs"]
+terms_introduced: ["Leg"]
+skills: ["Leg", "Skipping the late legs"]
 reinforces: [1]
 prerequisite: "14-2"
 xp: 25
@@ -25,7 +25,7 @@ screens:
 
   - type: theory
     title: "Every leg spends the next one"
-    body: "Each push pulls in buyers who were not in yet. They are then in, and they cannot buy again. The later the leg, the fewer people are left to pay you for it."
+    body: "Each push (traders call one push a leg) pulls in buyers who were not in yet. They are then in, and they cannot buy again. The later the leg, the fewer people are left to pay you for it."
 
   - type: branch
     scenario: "XYZ has made three pushes this morning with a dip between each. A fourth is starting and you are looking at 1,200 shares against a $20,000 account."

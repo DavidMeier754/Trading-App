@@ -107,7 +107,7 @@ screens:
     items:
       - {text: "The price moved 25 cents", bucket: "Per share"}
       - {text: "You made $75 on 300 shares", bucket: "Whole position"}
-      - {text: "The gap between your buy price and your sell price", bucket: "Per share"}
+      - {text: "The difference between your buy price and your sell price", bucket: "Per share"}
       - {text: "The number that reaches your cash", bucket: "Whole position"}
     explanation: "The move is per share. What you keep depends on how many of them you held."
 

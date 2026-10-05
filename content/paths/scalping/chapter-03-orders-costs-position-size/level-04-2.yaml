@@ -33,14 +33,14 @@ screens:
         note: "Twenty-four-cent minutes going down. Direction does not change the arithmetic."
       - chart: {kind: candles, data: [[17.30, 17.34, 17.28, 17.32], [17.32, 17.37, 17.30, 17.35], [17.35, 17.39, 17.32, 17.33], [17.33, 17.38, 17.31, 17.36], [17.36, 17.40, 17.34, 17.38], [17.38, 17.42, 17.35, 17.37], [17.37, 17.41, 17.34, 17.40], [17.40, 17.44, 17.37, 17.42]], volume: [48000, 52000, 44000, 50000, 46000, 53000, 47000, 51000]}
         answer: pass
-        note: "A tidy little uptrend of six-cent minutes. The gap takes two thirds of one."
+        note: "A tidy little uptrend of six-cent minutes. The spread takes two thirds of one."
       - chart: {kind: candles, data: [[25.10, 25.24, 25.06, 25.20], [25.20, 25.30, 25.14, 25.16], [25.16, 25.32, 25.12, 25.28], [25.28, 25.42, 25.24, 25.38], [25.38, 25.46, 25.30, 25.32], [25.32, 25.48, 25.28, 25.44], [25.44, 25.58, 25.40, 25.54], [25.54, 25.62, 25.46, 25.50]], volume: [92000, 86000, 98000, 104000, 82000, 96000, 108000, 90000]}
         answer: take
-        note: "Sixteen to twenty cents a minute, and the gap is a quarter of one of them."
+        note: "Sixteen to twenty cents a minute, and the spread is a quarter of one of them."
       - chart: {kind: candles, data: [[12.40, 12.42, 12.38, 12.41], [12.41, 12.44, 12.39, 12.40], [12.40, 12.43, 12.38, 12.42], [12.42, 12.45, 12.40, 12.41], [12.41, 12.44, 12.39, 12.43], [12.43, 12.45, 12.41, 12.42], [12.42, 12.46, 12.40, 12.44], [12.44, 12.47, 12.42, 12.45]], volume: [41000, 44000, 39000, 43000, 40000, 45000, 42000, 46000]}
         answer: pass
-        note: "Four-cent minutes and a four-cent gap. There is nothing here to divide."
-    explanation: "Three takes and three passes, decided by one division each: the gap over what a minute of this stock is actually worth."
+        note: "Four-cent minutes and a four-cent spread. There is nothing here to divide."
+    explanation: "Three takes and three passes, decided by one division each: the spread over what a minute of this stock is actually worth."
 
   - type: chart-decision
     scenario: "XYZ has based for five minutes and the bar under the last candle is nearly double anything before it. Bid $14.09 / ask $14.11, and your $25,000 account allows 1,600 shares here."
@@ -52,7 +52,7 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It carried to $14.38 — $0.28 a share above the decision, +$448 long on 1,600 shares, of which the two-cent gap took $32."
+    outcome: "It carried to $14.38 — $0.28 a share above the decision, +$448 long on 1,600 shares, of which the two-cent spread took $32."
     explanation: "Two cents against a stock that has just moved eleven in one minute, on double the volume, and 1,600 shares is a small slice of that bar."
 
   - type: chart-decision
@@ -64,11 +64,11 @@ screens:
       volume: [38000, 42000, 36000, 40000, 44000, 39000, 41000, 37000, 43000, 40000]
       decision_index: 5
     best: no-trade
-    outcome: "Four minutes later it was two cents above the decision — $26 on 1,300 shares, against $117 of gap."
+    outcome: "Four minutes later it was two cents above the decision — $26 on 1,300 shares, against $117 of spread."
     explanation: "Nine cents wide in a stock whose whole minute is nine cents. The verdict is decided before you even look at the candles."
 
   - type: numeric-input
-    prompt: "Back to the first of those: 1,600 shares, twenty-eight cents a share, two cents of gap. What is left?"
+    prompt: "Back to the first of those: 1,600 shares, twenty-eight cents a share, two cents of spread. What is left?"
     answer: 416
     tolerance: 0.5
     unit: "$"
@@ -85,7 +85,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It slid to $12.34 — $0.32 a share, +$576 short on 1,800 shares, with $36 of gap paid."
+    outcome: "It slid to $12.34 — $0.32 a share, +$576 short on 1,800 shares, with $36 of spread paid."
     explanation: "Two refusals at one price, a heavy red body, and a two-cent quote in a busy name. All three questions come back clean."
 
   - type: tf
@@ -97,10 +97,10 @@ screens:
     prompt: "In the three-second check, which of these settles it and which is noise?"
     buckets: ["Settles it", "Noise"]
     items:
-      - {text: "The gap as a share of the move you expect", bucket: "Settles it"}
+      - {text: "The spread as a share of the move you expect", bucket: "Settles it"}
       - {text: "The shares printed each minute against your size", bucket: "Settles it"}
       - {text: "Whether the share price is $9 or $90", bucket: "Noise"}
-      - {text: "Whether the gap is a round number of cents", bucket: "Noise"}
+      - {text: "Whether the spread is a round number of cents", bucket: "Noise"}
     explanation: "Two ratios decide it. Everything else on the screen is scenery."
 
   - type: recap
@@ -108,4 +108,4 @@ screens:
     points:
       - {text: "Width, then the ratio, then whether your size can get back out.", level: "4-1"}
       - {text: "Half of a good-looking deck is a pass once you divide.", level: "4-2"}
-      - {text: "Direction never changes the arithmetic — a short pays the same gap.", level: "4-2"}
+      - {text: "Direction never changes the arithmetic — a short pays the same spread.", level: "4-2"}

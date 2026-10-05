@@ -8,8 +8,8 @@ tags: [news, expectations, volatility]
 icon: globe
 learning_goal: "User can explain why a price reacts to the gap between news and what was expected, and can say where a stock's biggest single days come from."
 purpose: "Every beginner loses an argument with the market the first time good news and a falling price arrive together."
-terms_introduced: []
-skills: ["News against expectations"]
+terms_introduced: ["Gap"]
+skills: ["Gap", "News against expectations"]
 reinforces: []
 prerequisite: "15-1"
 xp: 20
@@ -38,7 +38,7 @@ screens:
 
   - type: theory
     title: "Two numbers, not one"
-    body: "There is the number a company reports, and the number people were braced for. Headlines only print the first one. The price answers the gap between them."
+    body: "There is the number a company reports, and the number people were braced for. Headlines only print the first one. The price answers the difference between them."
 
   - type: mc
     prompt: "Two companies report exactly the same 10 % profit growth on the same morning. One stock jumps, the other falls. What must have been different?"
@@ -46,7 +46,7 @@ screens:
       - {text: "The size of the two companies"}
       - {text: "What was already expected of each one", correct: true}
       - {text: "That one reported before the open and one after"}
-    explanation: "Same news, two different expectations, so two different gaps for the price to answer."
+    explanation: "Same news, two different expectations, so two different surprises for the price to answer."
 
   - type: tf
     statement: "A report that lands exactly where everybody expected it still moves the price sharply, because the news is now confirmed."
@@ -56,6 +56,10 @@ screens:
   - type: theory
     title: "Where the sudden volatility lives"
     body: "Most of a stock's biggest single days land on dates that were on the calendar: results, decisions, scheduled announcements. The date is public long in advance. The number is not."
+
+  - type: theory
+    title: "A gap"
+    body: "When news lands while the market is shut, the next session's first price can sit far from yesterday's close. That jump is a gap."
 
   - type: chart-annotate
     prompt: "LUMA closed yesterday at $15.00. Overnight it reported, and this morning the market has taken it 8 % above that close. Drag the line to where that puts the price."
@@ -76,7 +80,7 @@ screens:
   - type: mc
     prompt: "Why is a scheduled report the riskiest thing a swing trader holds through?"
     options:
-      - {text: "Brokers widen the gap between the two prices after a report"}
+      - {text: "Brokers widen the spread between the two prices after a report"}
       - {text: "Reports are usually bad news for a price"}
       - {text: "Overnight the price can travel further than a whole ordinary day", correct: true}
     explanation: "The position is open while nobody is trading, and the first price you can act on is already on the other side of the move."
@@ -102,7 +106,7 @@ screens:
     explanation: "$1.00 out of $20.00 is 5 %, made in one step while you could not trade."
 
   - type: fill-choice
-    sentence: "A price reacts to the gap between the news and what people ___."
+    sentence: "A price reacts to the difference between the news and what people ___."
     options: ["expected", "hoped", "announced"]
     answer: "expected"
     explanation: "The news alone is only half of the pair."

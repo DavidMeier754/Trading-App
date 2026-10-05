@@ -21,8 +21,8 @@ Section numbers are the same as before the docs were split into these files.
 | [11-phase-c-components-and-visuals.md](11-phase-c-components-and-visuals.md) | §7 | `LOOK-COMPONENTS`, `VISUALS`. |
 | [12-phase-d-hearts-daily-onboarding.md](12-phase-d-hearts-daily-onboarding.md) | §8 | `LOOP-HEARTS`, `LOOP-DAILY`, `ONBOARDING`. |
 | [13-phase-d-practice-to-fun-pass.md](13-phase-d-practice-to-fun-pass.md) | §8 | `PRACTICE`, `GLOSSARY`, `STATS`, `TABS`, `FUN-PASS`. |
-| [14-phase-e-design-rules-variance.md](14-phase-e-design-rules-variance.md) | §9 | `CONTENT-DESIGN`, `RULES`, `VARIANCE`. |
-| [15-phase-e-offer-fixes-reviews.md](15-phase-e-offer-fixes-reviews.md) | §9 | `OFFER`, `CONTENT-FIX-1` … `-8`, `KNOWLEDGE`, `KNOWLEDGE-FIX`, `REVIEW-A`, `EXPERT`. |
+| [14-phase-e-design-rules-variance.md](14-phase-e-design-rules-variance.md) | §9 | `CONTENT-DESIGN`, `CONTENT-REVIEW` ✅, `RULES`, `VARIANCE`. |
+| [15-phase-e-offer-fixes-reviews.md](15-phase-e-offer-fixes-reviews.md) | §9 | `OFFER`, `CONTENT-FIX-1` … `-8`, `OWN-STRATEGY-OUTLINE`, `OWN-STRATEGY`, `KNOWLEDGE`, `KNOWLEDGE-FIX`, `REVIEW-A`, `EXPERT`. |
 | [16-phase-f-beta-1.md](16-phase-f-beta-1.md) | §10 | `BRAND`, `LEGAL-DRAFT`, `STORE-SETUP`, `ANALYTICS`, `BETA-1`. |
 | [17-phase-g-arena-idea-and-design.md](17-phase-g-arena-idea-and-design.md) | §11 | The idea, `ARENA-DESIGN`, `REPLAY-PILOT`. |
 | [18-phase-g-arena-build.md](18-phase-g-arena-build.md) | §11 | `CHART-GEN`, `ARENA-TAB`, `SIM-ACCOUNT`, `DRILLS`, `REPLAY-BANK`. |
@@ -42,6 +42,8 @@ Status: 2026-09-25. This plan replaces the previous build plan, which ordered on
 Updated the same day with David's answers to the open decisions (§4.1): all three paths, calm motion, the practice arena with Nutrade Plus, accounts, every launch language, and a German business as the provider.
 
 **Updated 2026-10-03** (stage `DESIGN-REVIEW`): David's verdicts on 50 design ideas. The approved ones are built in that stage, which is new in this plan (Phase C, after `LOOK-SYSTEM`), and every later stage now says what it no longer needs to build and what it still owns. The variance simulator is dropped and the app never states how often something works (§0 "Variance"). The content these designs need is in the new `docs/content-todo/`, which every content stage reads. And the work runs in **Claude Code sessions** again, one per stage, instead of threads in the Claude project (§1).
+
+**Updated 2026-10-05** (stage `CONTENT-REVIEW`): the beginner's read of every chapter, all 88 changes approved by David (`docs/content-todo/05-content-review.md`). The cross-chapter fixes are done; the `CONTENT-FIX` passes carry the rest and may run in parallel; Chapter 9 "Your Own Strategy" has two new stages.
 
 **One rule first: this plan's order is the order.**
 - Stages have names (`CI`, `STABLE-APP`, …), not numbers, because numbers drifted apart before.

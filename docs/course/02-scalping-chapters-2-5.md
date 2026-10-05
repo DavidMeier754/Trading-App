@@ -34,7 +34,7 @@ First candlestick charts of the app. Every level from 3 on has at least one `cha
 | 17 | Chapter Review | 2 R | One full morning: open, break, pullback, climax, refusal, chop — six decisions in order | 1 |
 | 18 | Final Exam | 1 F | 13 questions → badge → `tier-up` (Observer) | 1 |
 
-**New terms:** Candle, Open, High, Low, Close, Body, Wick, Timeframe, Volume bar, Climax volume, Uptrend, Downtrend, Range, Higher high, Higher low, Lower high, Lower low, Pullback, Support, Resistance, Breakout, Bounce, Gap, Opening range, Momentum, Exhaustion.
+**New terms:** Candle, Open, High, Low, Close, Body, Wick, Timeframe, Volume bar, Climax volume, Uptrend, Downtrend, Range, Higher high, Higher low, Lower high, Lower low, Pullback, Support, Resistance, Breakout, Bounce, ~~Gap~~ (since `CONTENT-REVIEW` taught in 1·15-2), Leg (**[CONTENT-REVIEW]** moved here from Chapter 7: 2·14-3), Opening range, Momentum, Exhaustion.
 
 ### Chapter 3 — Orders, Costs & Position Size — written
 
@@ -62,7 +62,7 @@ Folder: `chapter-03-orders-costs-position-size` · 19 levels, 50 subs
 | 18 | Chapter Review | 2 R | Three setups run end to end: check the cost, size it, place it, decide | 1, 2 |
 | 19 | Final Exam | 1 F | 13 questions → badge | 1, 2 |
 
-**New terms:** Bid, Ask, Last, Quote panel, Round trip, Target, Expected move, Market order, Limit order, Fill, Marketable limit order, Unfilled, Stop order, Stop-loss, Stop-market, Stop-limit, Stop distance, Position size, Position value, Risk per trade, 1 % rule, Account ceiling, Slippage, Execution speed, Commission, Per-share fee, Level 2, Order book, Displayed size, Time and sales, Tape, All-in cost, Fallback plan.
+**New terms:** Bid, Ask, Last, Quote panel, Round trip, Target, Expected move, Market order, Limit order, ~~Fill~~ (since `CONTENT-REVIEW` taught in 1·6-1), Marketable limit order, Unfilled, Stop order, Stop-loss, Stop-market, Stop-limit, Stop distance, Position size, Position value, Risk per trade, 1 % rule, Account ceiling, Slippage, Execution speed, Commission, Per-share fee, Level 2, Order book, Displayed size, Time and sales, Tape, All-in cost, Fallback plan.
 
 ### Chapter 4 — Reading Fast Markets — written
 
@@ -90,7 +90,7 @@ Contains the path's one fan-out (Levels 9–11 → merge at 12). Sources: Aziz, 
 | 17 | Chapter Review | 2 R | Two mornings read end to end, with the four-part read written out each time | 2, 3 |
 | 18 | Final Exam | 1 F | 13 questions → badge → `tier-up` (Student) | 1, 2, 3 |
 
-**New terms:** VWAP, Rejection, Reclaim, Confluence, Doji, Engulfing candle, Print, Stacking, Pulling, Failed test, Opening drive, Halt.
+**New terms:** VWAP, Rejection, Reclaim, Confluence, Doji, Engulfing candle, ~~Print~~ (since `CONTENT-REVIEW` taught in 1·6-3), Stacking, Pulling, Failed test, Opening drive, Halt.
 
 ### Chapter 5 — Finding the Trade — written
 

@@ -57,9 +57,9 @@ screens:
     items:
       - {text: "$1 an order", bucket: "Same whatever the size"}
       - {text: "Half a cent a share", bucket: "Grows with the size"}
-      - {text: "The gap between the two prices on offer", bucket: "Grows with the size"}
+      - {text: "The spread between the two prices on offer", bucket: "Grows with the size"}
       - {text: "A monthly charge for the platform", bucket: "Same whatever the size"}
-    explanation: "Anything priced per share scales with you. The gap between the two prices is per share too, even though nobody sends you a bill for it."
+    explanation: "Anything priced per share scales with you. The spread between the two prices is per share too, even though nobody sends you a bill for it."
 
   - type: mc
     prompt: "You place 30 orders of 100 shares today. Somebody else places 3 orders of 1,000 shares. Same broker, $1 an order. Who pays more, and why?"

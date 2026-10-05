@@ -50,7 +50,7 @@ screens:
     prompt: "Three people from Chapter 1, one line. What is each of them doing with it?"
     pairs:
       - ["A desk buying 400,000 shares", "Wants its average fill to end up under the line"]
-      - ["A market maker quoting both sides", "Earns the gap between its two prices wherever the line sits"]
+      - ["A market maker quoting both sides", "Earns the spread between its two prices wherever the line sits"]
       - ["A scalper holding for two minutes", "Uses the line to pick which side to take"]
     explanation: "One is being scored on it, one is indifferent to it, and one is borrowing the first one's orders."
 
@@ -80,7 +80,7 @@ screens:
   - type: tf
     statement: "A market maker quoting both sides of XYZ makes its money from where price sits relative to VWAP."
     answer: false
-    explanation: "It earns the gap between its own two prices. The line is the other side's scorecard, not its income."
+    explanation: "It earns the spread between its own two prices. The line is the other side's scorecard, not its income."
 
   - type: fill-choice
     sentence: "A desk filling a large buy order is measured against the session's ___ price."

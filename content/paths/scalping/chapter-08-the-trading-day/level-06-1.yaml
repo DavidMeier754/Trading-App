@@ -91,7 +91,7 @@ screens:
     prompt: "Tap the part of the panel that decides whether an eighteen-cent target is worth a ticket at all."
     data: {bid: 13.02, ask: 13.13, last: 13.08}
     target: spread
-    explanation: "Eleven cents of the eighteen are gone before the stock moves. The bid and the ask on their own say nothing until you read the gap between them."
+    explanation: "Eleven cents of the eighteen are gone before the stock moves. The bid and the ask on their own say nothing until you read the spread between them."
 
   - type: order
     prompt: "Put the first stretch of a planned session in the order you do it."

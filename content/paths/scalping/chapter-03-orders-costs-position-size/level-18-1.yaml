@@ -27,7 +27,7 @@ screens:
     text: "Setup 1. XYZ has turned up twice off the same price this morning. Bid $16.44 / ask $16.46, its minutes have been travelling about twenty cents, fees run a cent a share and slippage about two."
 
   - type: numeric-input
-    prompt: "Gap two cents, slippage two cents, fees one cent. What does Setup 1 cost per share, in and out?"
+    prompt: "Spread two cents, slippage two cents, fees one cent. What does Setup 1 cost per share, in and out?"
     answer: 0.05
     tolerance: 0.001
     unit: "$"
@@ -102,7 +102,7 @@ screens:
     unit: "%"
     answer: 85
     tolerance: 10
-    explanation: "Eight cents of gap plus two of slippage and fees is ten cents, out of twelve. There is almost nothing left to be right about."
+    explanation: "Eight cents of spread plus two of slippage and fees is ten cents, out of twelve. There is almost nothing left to be right about."
 
   - type: chart-decision
     scenario: "Setup 2, live. It has just closed out of the top of its range on the biggest bar of the morning, the ask is $12.46 and the bid is $12.38. Your $24,000 account allows 1,800 shares here."

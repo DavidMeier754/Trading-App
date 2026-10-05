@@ -49,12 +49,12 @@ screens:
     prompt: "The panel went from bid $22.40 / ask $22.43 to bid $22.46 / ask $22.49. What changed?"
     options:
       - {text: "The two sides swapped, so the bid now sits above the ask"}
-      - {text: "The price rose and the gap stayed at three cents", correct: true}
-      - {text: "The gap widened from three cents to six"}
+      - {text: "The price rose and the spread stayed at three cents", correct: true}
+      - {text: "The spread widened from three cents to six"}
     explanation: "Both numbers moved six cents up. The distance between them never changed."
 
   - type: numeric-mc
-    prompt: "Bid $10.97, ask $11.03. What is the gap?"
+    prompt: "Bid $10.97, ask $11.03. What is the spread?"
     options:
       - {text: "$0.60"}
       - {text: "$0.06", correct: true}
@@ -64,7 +64,7 @@ screens:
     explanation: "Crossing a round number changes nothing about the subtraction."
 
   - type: order
-    prompt: "Four panels on four stocks. Put them in order, tightest gap first."
+    prompt: "Four panels on four stocks. Put them in order, tightest spread first."
     items:
       - "Bid $14.20 / ask $14.21"
       - "Bid $14.20 / ask $14.23"
@@ -104,10 +104,10 @@ screens:
     prompt: "Tap the number that records where a trade actually happened."
     data: {bid: 28.31, ask: 28.36, last: 28.33}
     target: last
-    explanation: "$28.33 — inside the gap, which is where a lot of trades end up."
+    explanation: "$28.33 — inside the spread, which is where a lot of trades end up."
 
   - type: fill-choice
-    sentence: "The gap between the two live prices is measured in ___."
+    sentence: "The spread between the two live prices is measured in ___."
     options: ["cents", "shares", "minutes"]
     answer: "cents"
     explanation: "Not as a percentage of the share price, and not relative to yesterday. Just cents."

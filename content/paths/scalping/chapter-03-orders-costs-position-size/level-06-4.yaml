@@ -67,7 +67,7 @@ screens:
   - type: tf
     statement: "That order has to wait for a seller willing to come down to $19.00."
     answer: true
-    explanation: "Nothing about a limit order reaches across the gap. It sits on your side and waits to be hit."
+    explanation: "Nothing about a limit order reaches across the spread. It sits on your side and waits to be hit."
 
   - type: hotspot
     component: order-ticket
@@ -109,6 +109,6 @@ screens:
   - type: recap
     title: "Level 6 in three lines"
     points:
-      - {text: "A market order buys you speed and charges you the gap for it.", level: "6-1"}
+      - {text: "A market order buys you speed and charges you the spread for it.", level: "6-1"}
       - {text: "A limit order names your price and may sit there all day.", level: "6-2"}
       - {text: "Something happening means take the ask; nothing happening means post and wait.", level: "6-3"}

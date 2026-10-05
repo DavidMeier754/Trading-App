@@ -22,7 +22,7 @@ screens:
 
   - type: theory
     title: "Widest when it is loudest"
-    body: "In the first minutes nobody knows what the price is yet, so the gap between the bid and the ask is at its widest. The same trade you would pay three cents for later costs twelve now."
+    body: "In the first minutes nobody knows what the price is yet, so the spread between the bid and the ask is at its widest. The same trade you would pay three cents for later costs twelve now."
 
   - type: visual
     component: quote-panel
@@ -34,7 +34,7 @@ screens:
     caption: "Twelve cents wide in the first minutes, three cents wide once the session settles. Same stock, same screen."
 
   - type: numeric-input
-    prompt: "Bid $17.86 / ask $17.98 and you want 1,000 shares in and back out. What does the gap alone take?"
+    prompt: "Bid $17.86 / ask $17.98 and you want 1,000 shares in and back out. What does the spread alone take?"
     answer: 120
     tolerance: 0.01
     unit: "$"
@@ -42,7 +42,7 @@ screens:
     explanation: "Paid once across the open and the close, and paid before the read is asked to be right about anything."
 
   - type: slider
-    prompt: "Nine cents of gap, and the move you are going for is thirty cents. How much of it goes on the gap?"
+    prompt: "Nine cents of spread, and the move you are going for is thirty cents. How much of it goes on the spread?"
     min: 0
     max: 100
     step: 5
@@ -52,7 +52,7 @@ screens:
     explanation: "$0.09 ÷ $0.30 = 30 %. The same nine cents against a ten-cent scalp would be most of the trade."
 
   - type: mc
-    prompt: "Why is the gap between bid and ask at its widest in the first minutes?"
+    prompt: "Why is the spread between bid and ask at its widest in the first minutes?"
     options:
       - {text: "Because nobody yet knows what the price should be", correct: true}
       - {text: "Because fewer shares trade then than at any other time"}
@@ -80,18 +80,18 @@ screens:
       decision_index: 5
     best: no-trade
     reasonable: [long]
-    outcome: "It faded back to $17.84 — $0.10 a share against a long, $100 on 1,000 shares, on top of the $120 the gap alone would have taken."
-    explanation: "There is nothing wrong with the read. Twelve cents of gap against a move of this size is what is wrong, and the quote is the part you can wait out."
+    outcome: "It faded back to $17.84 — $0.10 a share against a long, $100 on 1,000 shares, on top of the $120 the spread alone would have taken."
+    explanation: "There is nothing wrong with the read. Twelve cents of spread against a move of this size is what is wrong, and the quote is the part you can wait out."
 
   - type: sort
-    prompt: "Pay the gap now, or let the quote settle first?"
+    prompt: "Pay the spread now, or let the quote settle first?"
     buckets: ["Pay it now", "Let it settle"]
     items:
       - {text: "Three cents wide, and the move you are going for is thirty", bucket: "Pay it now"}
       - {text: "Twelve cents wide, and the move you are going for is twenty", bucket: "Let it settle"}
       - {text: "Two cents wide on a level that has just been finished through", bucket: "Pay it now"}
       - {text: "Nine cents wide in the first minute of a stock you have never traded", bucket: "Let it settle"}
-    explanation: "The gap is never judged on its own. It is judged against the distance you are going for, exactly as Chapter 3 priced it."
+    explanation: "The spread is never judged on its own. It is judged against the distance you are going for, exactly as Chapter 3 priced it."
 
   - type: tf
     statement: "A quote that is wide at the open narrows as the session settles, so the same read costs less later."
@@ -113,7 +113,7 @@ screens:
     best: long
     reasonable: [no-trade]
     outcome: "It stepped up to $18.35 — $0.19 a share past the decision, +$209 long on 1,100 shares."
-    explanation: "Same kind of read as twenty minutes ago, and now three cents of gap instead of twelve takes $33 of it instead of $132."
+    explanation: "Same kind of read as twenty minutes ago, and now three cents of spread instead of twelve takes $33 of it instead of $132."
 
   - type: order-build
     prompt: "Take it: 1,100 shares long, and you will pay up to three cents over the ask of $18.16 and no further."
@@ -132,4 +132,4 @@ screens:
     points:
       - {text: "An opening drive keeps everything it takes, and the first five minutes are still for watching.", level: "11-1"}
       - {text: "The box breaks on a finished minute beyond the edge with weight, not on a visit.", level: "11-2"}
-      - {text: "The opening quote is at its widest, so price the gap against the move before paying it.", level: "11-3"}
+      - {text: "The opening quote is at its widest, so price the spread against the move before paying it.", level: "11-3"}

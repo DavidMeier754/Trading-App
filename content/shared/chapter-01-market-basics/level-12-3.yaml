@@ -36,7 +36,7 @@ screens:
         - {ticker: APEX, price: 24.10, change_pct: 0.2, spread: 0.01}
         - {ticker: MOON, price: 8.60, change_pct: 31.3, spread: 0.26}
     target: TIDE
-    explanation: "RUSK and MOON both move, and both have an 18- and a 26-cent gap standing between you and the exit. APEX is easy to leave and goes nowhere. TIDE is the one where both readings work."
+    explanation: "RUSK and MOON both move, and both have an 18- and a 26-cent spread standing between you and the exit. APEX is easy to leave and goes nowhere. TIDE is the one where both readings work."
 
   - type: theory
     title: "The rules where you trade"

@@ -109,6 +109,6 @@ screens:
   - type: recap
     title: "Level 13 in three lines"
     points:
-      - {text: "Slippage is the gap between the price you expected and the one you got, and it runs both ways.", level: "13-1"}
+      - {text: "Slippage is the difference between the price you expected and the one you got, and it runs both ways.", level: "13-1"}
       - {text: "It's biggest in a fast, expanding move, and a marketable limit is what caps it.", level: "13-2"}
       - {text: "Execution speed is the one link in the chain that's actually yours to fix.", level: "13-3"}

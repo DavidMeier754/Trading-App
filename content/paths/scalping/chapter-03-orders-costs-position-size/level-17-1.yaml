@@ -100,7 +100,7 @@ screens:
     prompt: "Chapter 2 called twenty minutes of flat highs and flat lows a range. Why is that the first shape the all-in cost rules out?"
     options:
       - {text: "The whole move on offer is barely bigger than the round trip", correct: true}
-      - {text: "A range always quotes a wider gap than a trend does"}
+      - {text: "A range always quotes a wider spread than a trend does"}
       - {text: "A range has no volume, so there is nothing to pay the costs with"}
     explanation: "Chapter 2 called the range expensive without putting a number on it. The number is this one: buy in the middle of twelve cents and five cents of cost is most of the best case."
 

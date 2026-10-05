@@ -29,7 +29,7 @@ screens:
     explanation: "A fill means the other side was already sitting there."
 
   - type: numeric-mc
-    prompt: "The two prices on a stock are 3 cents apart. You buy 600 shares and sell them straight back. What has that gap cost you?"
+    prompt: "The two prices on a stock are 3 cents apart. You buy 600 shares and sell them straight back. What has that spread cost you?"
     options:
       - {text: "$1.80"}
       - {text: "$0.03"}

@@ -8,8 +8,8 @@ tags: [participants, volume, footprints]
 icon: people
 learning_goal: "User can read unusual volume and large price steps as the footprint of a big participant, and knows what that footprint does not tell them."
 purpose: "You will never see who is trading, so the whole skill is reading what they leave behind on the only two numbers you have."
-terms_introduced: []
-skills: ["Spotting a big participant"]
+terms_introduced: ["Print"]
+skills: ["Print", "Spotting a big participant"]
 reinforces: []
 prerequisite: "6-2"
 xp: 20
@@ -22,7 +22,7 @@ screens:
 
   - type: theory
     title: "Two numbers, one trail"
-    body: "Your screen tells you how far the price went and how many shares it took. Those two together are as close as you get to seeing who was in the room."
+    body: "Every trade that happens is a print: one price and one share count. Your screen tells you how far the price went and how many shares it took. Those two together are as close as you get to seeing who was in the room."
 
   - type: visual
     component: bar-chart
@@ -110,5 +110,5 @@ screens:
     title: "Level 6 in three lines"
     points:
       - {text: "Retail traders, institutions and market makers are who you trade against.", level: "6-1"}
-      - {text: "The market maker's two prices are a gap apart, and that gap is the spread.", level: "6-2"}
+      - {text: "The market maker's two prices are a few cents apart, and that difference is the spread.", level: "6-2"}
       - {text: "Size leaves a trail: unusual volume, moving in unusually large steps.", level: "6-3"}

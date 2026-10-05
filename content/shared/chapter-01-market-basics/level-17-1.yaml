@@ -90,7 +90,7 @@ screens:
       - {text: "A market maker", correct: true}
       - {text: "An institution buying in size"}
       - {text: "A retail trader with a large order"}
-    explanation: "Standing on both sides all day is the job, and the gap between the two prices is what pays for it."
+    explanation: "Standing on both sides all day is the job, and the spread between the two prices is what pays for it."
 
   - type: numeric-mc
     prompt: "Your broker charges $1 an order. You open and close eight positions on Monday and five on Tuesday. What have the fees come to?"

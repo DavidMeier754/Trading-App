@@ -15,7 +15,7 @@ _Part of the [build plan](README.md) · §7_
    - Prices in the number face of the mix (`docs/ui/15-theming-and-accessibility.md` §10).
 2. **Decision buttons** (S7):
    - Equal in weight. **Done in `DESIGN-REVIEW`,** with a direction glyph on each key.
-   - "What happened next" instead of "NEXT 5 BARS".
+   - "What happened next" instead of "NEXT 5 BARS". **[CONTENT-REVIEW]** (C1-01, C2-01): on a line chart "What happens next", on a candle chart "Next 5 candles" — the course says candles, and "bars" are the volume bars.
    - A text alternative for screen readers, e.g. "Price climbed in steps from 9.80 to 10.05".
 3. **Stop and target lines** when a screen has `stop` or `target` (new, `docs/level-files/`), labelled with their prices, and the entry while the learner decides. **Done in `DESIGN-REVIEW`,** with one change: they appear with the choice, not while the learner decides (they would give the direction away); the R ruler, chart notes and the open marker came with them.
 4. **State chips** easy to read.
@@ -40,6 +40,7 @@ _Part of the [build plan](README.md) · §7_
     - The swipe gesture in `swipe-deck`.
     - The label "Takeaway" for a `story` with `label: takeaway`.
 11. **Level icons on the map** (your critique; you like Chapters 1 and 2's): a level's symbol is the first `icon:` among its lessons (`levelIconOf` in `src/content.ts`). Chapters 1 and 2 set one in 44 of 48 and 46 of 49 lesson files, Chapters 3–8 in none of their 291, so every level there shows the same symbol for its type. Every level of every chapter gets its own symbol for what it teaches, and the validator warns when a level has none.
+12. **[CONTENT-REVIEW] Tap to explain** (item P-05 of `docs/content-todo/05-content-review.md`): a tap or long press on a chart element the learner has already been taught — the VWAP line, a level's label, the "what happens next" pill, a volume bar, a state chip, a scanner column heading, and with `stop`/`target` the plan's lines and the R ruler — opens a small card with that element's one line (the skill's `info` from `content/skills.yaml`) and a link to the skill card. Elements not yet taught do nothing, the same rule as the term marker (`docs/ui/14-glossary-and-copy.md` §8). A short section in `docs/ui/08-quotes-and-charts.md` first.
 
 **Model · effort · sessions:** Opus 5.5 · high · 2
 

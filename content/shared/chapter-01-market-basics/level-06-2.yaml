@@ -36,8 +36,8 @@ screens:
     explanation: "Four cents between the two, and the market maker keeps them."
 
   - type: theory
-    title: "That gap is the spread"
-    body: "The gap between the price you can sell at and the price you can buy at is the spread. Buy and sell straight back, and you have paid it once, whichever way the price went."
+    title: "That difference is the spread"
+    body: "The difference between the price you can sell at and the price you can buy at is the spread. Buy and sell straight back, and you have paid it once, whichever way the price went."
 
   - type: tf
     statement: "Buying a stock and selling it a minute later at unchanged prices leaves you level."
@@ -45,7 +45,7 @@ screens:
     explanation: "You bought at the higher of the two prices and sold at the lower one. The spread came out of the middle."
 
   - type: numeric-mc
-    prompt: "You buy 400 shares and sell them straight back, with the two prices four cents apart. What has that gap cost you?"
+    prompt: "You buy 400 shares and sell them straight back, with the two prices four cents apart. What has that spread cost you?"
     options:
       - {text: "$4"}
       - {text: "$16", correct: true}
@@ -60,10 +60,10 @@ screens:
       - {text: "It buys at the lower and sells at the higher", correct: true}
       - {text: "Large traders get one price, small traders the other"}
       - {text: "A second price lets a trade be cancelled later"}
-    explanation: "Thousands of small gaps a day is the whole business."
+    explanation: "Thousands of small spreads a day is the whole business."
 
   - type: slider
-    prompt: "The two prices are 4 cents apart and you are hoping for a 20-cent move. What share of that move does the gap take?"
+    prompt: "The two prices are 4 cents apart and you are hoping for a 20-cent move. What share of that move does the spread take?"
     min: 0
     max: 100
     step: 5
@@ -73,25 +73,25 @@ screens:
     explanation: "4 ÷ 20 is a fifth of what you are playing for, gone before the price has moved at all."
 
   - type: sort
-    prompt: "Which way does each of these push the gap between the two prices?"
-    buckets: ["Makes the gap wider", "Makes the gap narrower"]
+    prompt: "Which way does each of these push the spread between the two prices?"
+    buckets: ["Makes the spread wider", "Makes the spread narrower"]
     items:
-      - {text: "Almost nobody trading the stock", bucket: "Makes the gap wider"}
-      - {text: "Thousands of buyers and sellers at every price", bucket: "Makes the gap narrower"}
-      - {text: "A headline nobody has digested yet", bucket: "Makes the gap wider"}
-      - {text: "A quiet hour in a very busy stock", bucket: "Makes the gap narrower"}
+      - {text: "Almost nobody trading the stock", bucket: "Makes the spread wider"}
+      - {text: "Thousands of buyers and sellers at every price", bucket: "Makes the spread narrower"}
+      - {text: "A headline nobody has digested yet", bucket: "Makes the spread wider"}
+      - {text: "A quiet hour in a very busy stock", bucket: "Makes the spread narrower"}
     explanation: "The more competition there is to trade with you, the less the market maker can get away with."
 
   - type: story
-    text: "Both sides of forty stocks on one screen, and no opinion about any of them. It only wants the gap, many times over."
+    text: "Both sides of forty stocks on one screen, and no opinion about any of them. It only wants the spread, many times over."
 
   - type: fill-tiles
-    sentence: "The gap between the price you can sell at and the price you can buy at is the ___."
+    sentence: "The difference between the price you can sell at and the price you can buy at is the ___."
     answer: "spread"
     explanation: "You meet it on the way in and again on the way out."
 
   - type: mc
-    prompt: "Two stocks both trade near $20. One shows a 2-cent gap between its two prices, the other 25 cents. What separates them?"
+    prompt: "Two stocks both trade near $20. One shows a 2-cent spread between its two prices, the other 25 cents. What separates them?"
     options:
       - {text: "How many people are competing to trade it", correct: true}
       - {text: "How profitable the two companies are"}
@@ -99,8 +99,8 @@ screens:
     explanation: "Where there is a crowd, the market maker cannot ask for much. Where there is not, it can."
 
   - type: checklist-reveal
-    title: "What the gap means for you"
+    title: "What the spread means for you"
     items:
       - "You start every trade slightly behind."
-      - "The gap is a cost, not a price move."
-      - "A wide gap needs a bigger move to be worth taking."
+      - "The spread is a cost, not a price move."
+      - "A wide spread needs a bigger move to be worth taking."

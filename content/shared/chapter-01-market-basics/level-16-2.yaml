@@ -33,7 +33,7 @@ screens:
         - {ticker: APEX, price: 24.10, change_pct: 0.2, spread: 0.01}
         - {ticker: MOON, price: 8.60, change_pct: 18.6, spread: 0.26}
     target: LUMA
-    explanation: "DUST and MOON each have a gap of a quarter of a dollar standing between you and the exit. APEX you can leave any time and there is nothing to leave with. LUMA is the row where both readings work."
+    explanation: "DUST and MOON each have a spread of a quarter of a dollar standing between you and the exit. APEX you can leave any time and there is nothing to leave with. LUMA is the row where both readings work."
 
   - type: numeric-input
     prompt: "Your practice account is $6,000 and you decide that one position will never use more than half of it. LUMA is $15.80. How many shares is your ceiling?"

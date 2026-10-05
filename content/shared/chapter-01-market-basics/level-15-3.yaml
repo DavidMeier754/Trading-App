@@ -104,5 +104,5 @@ screens:
     title: "Level 15 in three lines"
     points:
       - {text: "A trend is context: it tilts the odds and settles nothing on its own.", level: "15-1"}
-      - {text: "Prices answer the gap between the news and what was expected.", level: "15-2"}
+      - {text: "Prices answer the difference between the news and what was expected.", level: "15-2"}
       - {text: "Take the decision the stock offers, in either direction, whatever the weather is doing.", level: "15-3"}

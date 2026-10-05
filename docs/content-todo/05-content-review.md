@@ -1,0 +1,450 @@
+# The content review of 2026-10-04
+
+_Part of the [content to do](README.md) · §6_
+
+## Part 6 — Every approved change from the beginner's read
+
+On 2026-10-04 every lesson of Chapter 1 and Scalping Chapters 2–8 was read as a complete beginner would read it: is everything that is not obvious explained before it is used — words, chart markers, the chips, the table columns — and what is missing? The 81 findings and 7 bigger proposals went to David on a review page (the artifact "Content Review"), and **David approved all 88 on 2026-10-05, without notes.** Where a finding offered two options, the review's recommendation was approved with it; the one place where that recommendation was wrong is marked "Corrected" (C6-01).
+
+This part is the record of that review. It is read together with Parts 1–3: every `CONTENT-FIX-N` works through its chapter's list below as well as Part 3 and the worklist, ticks what it did here, and adds a line to Part 5.
+
+**What was done straight away** (stage `CONTENT-REVIEW`, the session that wrote this file): everything that crosses chapters, so that the chapter passes can run in parallel without editing the same files:
+- the spread sweep (C1-14, C2-05, C3-01, C6-14): "gap" now means only a jump while trading was shut;
+- six terms taught where they are first used: Print, Fill, Gap, Setup (Chapter 1), Leg (Chapter 2), Grade-A trade (Chapter 6);
+- the two mislabelled box lines in 7·3-2 (C7-01, C7-02);
+- the word rules in `docs/rules/03-content-rules.md` §3.4a, the Chapter 9 outline, and the new stages in `docs/plan/`.
+
+**How to read an item.** The id is the review page's (C = a finding, with its chapter; P = a bigger proposal). "Where" uses the course's notation: `6·2-1 s7` is Chapter 6, lesson file `level-02-1.yaml`, screen 7. An item that touches several chapters is listed under the chapter that owns it and named again under the others.
+
+## 6.1 Bigger items and where they went
+
+- [ ] **P-01** New chapter: build, test and keep your own strategy · high
+  - What: Six levels, about 16 sub-levels, written like the rest of the course and with no odds from us – every number comes from the learner's own rows.
+    - 9·1 Where ideas come from: your journal's best column, the near misses you keep noting, a shape you keep seeing. An idea is not a strategy until it is a card.
+    - 9·2 Write it as a card: the five fields as instructions (7·1-3), plus which names, which time of day, which day type and the size rule. Test: would two traders act in the same minute?
+    - 9·3 Test it on the past, honestly: replay charts bar by bar, decide before the next bar, log every trigger including the ugly ones. Two traps: hindsight, and changing the rules until the past looks good. Rules first, then look.
+    - 9·4 Count it: R after costs, at least 30 rows (6·13), expectancy, the grade column; compare it with a card you already trade; one change at a time, dated (8·11).
+    - 9·5 Forward test: its own 30 sessions on the simulator, then live at the smallest size, the ladder from 8·12 and 8·15; when to retire a card.
+    - 9·6 Capstone: the learner writes their card on the plan sheet and runs it through ten replays inside the lesson; the result is shown only as their own count.
+  - Docs: docs/rules/02 (paths have 8 chapters → '8 plus the shared Chapter 9'), a new docs/course/08-chapter-9-your-own-strategy.md, a new stage in docs/plan, content-todo.
+  - Goes to: Outline in `docs/course/08-chapter-9-your-own-strategy.md`; stages `OWN-STRATEGY-OUTLINE` and `OWN-STRATEGY` in `docs/plan/15-phase-e-offer-fixes-reviews.md`. Placement: a new Chapter 9, shared by all three paths (the review's recommendation, approved with it).
+- [ ] **P-02** Practice tab: 'Test my card' on replay charts · med
+  - What: A Practice tool: pick one of your cards, play replays bar by bar, press 'Trigger' when your card fires, drag the stop and target, watch it play out. Every attempt becomes a row in a small sheet for that card: R, win or loss, after a cost you set. The sheet shows your count, your average trade and how many rows you still need before it means anything. The app never says whether the card is good; your rows do. Comes after P-01 and after the replay bank exists.
+  - Goes to: `SIM-ACCOUNT` (`docs/plan/18-phase-g-arena-build.md`), item 9.
+- [ ] **P-03** Rule: one word, one meaning (gap, flat, leg, the bell, spread) · high
+  - What: Write a reserved-words list into the content rules and apply it everywhere:
+    - spread = the bid–ask difference (never 'gap')
+    - gap = only a jump while trading was shut: overnight, or across a halt
+    - flat = holding nothing (never break-even; say 'break-even')
+    - leg = one push of a move (orders: 'in and out', 'each side')
+    - the open / the close (or 'the bell' defined once as either)
+    - ask, with 'offer' introduced once as the same thing
+    - edge only after 6·6-1
+  - The Swing and Day Trading chapters are written with the list from the start. Covers C1-14, C2-05, C3-01, C3-02, C6-09, C6-14, C7-07, C7-08, C1-15, C3-04 (approving this approves the direction; each of those items still says where).
+  - Goes to: The rule is in `docs/rules/03-content-rules.md` §3.4a (`CONTENT-REVIEW`); the gap part is applied (C3-01). The validator warning is `RULES`; the other words are done by each `CONTENT-FIX-N`.
+- [ ] **P-04** A plain-words list: idioms to avoid, with replacements · med
+  - What: Add the list with a plain replacement for each to the content rules, and let the validator warn (not fail) when a level file uses one before the lesson that explains it. New chapters (Swing, Day) then avoid them by default, and Phase J's translations get easier.
+  - Goes to: The list is in `docs/rules/03-content-rules.md` §3.4a (`CONTENT-REVIEW`); the warning is `RULES`; the text by each `CONTENT-FIX-N`.
+- [ ] **P-05** Tap any chart element to see what it is · high
+  - What: A tap (or long press) on the VWAP line, a level's label, the 'what happens next' pill, a volume bar, a state chip, a scanner column heading, and later the stop and target lines and the R ruler opens a small card with one line of explanation and a link to its skill card. Only for elements the learner has already been taught (same rule as the term marker). The texts are the skills' info lines, so nothing new to write and nothing extra to translate. Needs a short section in docs/ui/08.
+  - Goes to: `LOOK-COMPONENTS` (`docs/plan/11-phase-c-components-and-visuals.md`), item 12.
+- [ ] **P-06** Optional 'The four sums' refresher in Chapter 1 · low
+  - What: One optional side lesson, about ten screens, no hearts, no timer: each sum once with a worked example and two questions. Bonus side lessons today may only hold chart replays (docs/level-files 06), so this needs one line there allowing a 'refresher' bonus kind.
+  - Goes to: `FUN-PASS` (`docs/plan/13-phase-d-practice-to-fun-pass.md`), with one line in `docs/level-files/06-skills-bonus-lessons-market-profiles.md` for the refresher kind.
+- [ ] **P-07** Make this review's checks permanent in the validator · med
+  - What: Three new warnings: (1) a level labelled high/ceiling/box top that sits under most closes before the decision, or two lines with the same label on one chart (flips like 'yesterday's low, now overhead' are allowed); (2) a taught term used in an earlier lesson than the one that introduces it; (3) the words of P-03 and P-04 in the wrong place. Warnings only, so nothing blocks; the tests in tools/test_validate.py cover each.
+  - Goes to: `RULES` (`docs/plan/14-phase-e-design-rules-variance.md`), scope item 2.
+
+## 6.2 Chapter 1 · Market Basics (`CONTENT-FIX-1`)
+
+- [ ] **C1-01** First decision chart: explain the hidden 'what happens next' box · high
+  - Where: 1·1-1 s6 (first chart-decision) + app
+  - Problem: The first decision chart hides its right part behind a striped box with a pill "NEXT 5 BARS". Nothing says what the box is, and "bars" is a word Chapter 1 never teaches (candles/bars come in 2·1-1); Chapter 1 charts are lines.
+  - Change: Add one sentence to the theory card s2 ("This is a price chart"): "On a decision chart the right part is hidden behind a striped box: that is what happens next. You decide first, then it plays out." App: on line charts (and before 2·1-1) the pill reads "WHAT HAPPENS NEXT" instead of "NEXT 5 BARS".
+  - The app half is `LOOK-COMPONENTS` item 2 ("What happened next" instead of "NEXT 5 BARS"); the sentence on the card is `CONTENT-FIX-1`.
+- [ ] **C1-02** Say that the numbers on the right are prices · med
+  - Where: 1·1-1 s2
+  - Problem: The price axis (numbers on the right edge) is never named; a total beginner may not know the numbers are prices.
+  - Change: s2 body: add "The numbers on the right edge are prices."
+- [ ] **C1-03** Explain 'interest-rate decision' · low
+  - Where: 1·2-3 s3
+  - Problem: "An interest-rate decision moves most stocks at once" — interest-rate decision is not explained anywhere.
+  - Change: Add "(the central bank changing what borrowing costs)".
+- [ ] **C1-04** Explain 'K' (800K) next to 'M' · med
+  - Where: 1·4-1 s8, 1·4-3 s12
+  - Problem: "3.2 M" is explained, but "K" (800K, 900K in 1·4-3 s12) is not.
+  - Change: 1·4-1 s8: "3.2 M means 3.2 million shares; 800K means 800 thousand."
+- [ ] **C1-05** 'The open' used before it is taught · low
+  - Where: 1·4-1 s12
+  - Problem: "Half an hour after the open" uses "the open" before Level 10 teaches when the market opens.
+  - Change: "Half an hour after the market opened".
+- [ ] **C1-06** 'It fills' used before 'fill' is taught · med
+  - Where: 1·6-1 s4
+  - Problem: "You sell 200 shares … and it fills straight away" — "fill" is only taught in 3·6-1; a beginner does not know an order "fills".
+  - Change: Reword: "and the sale goes through straight away", or add "(it fills: the trade happens)".
+- [ ] **C1-07** 'A single print' used before 'print' is taught · med
+  - Where: 1·6-3 s8
+  - Problem: "60,000 shares go through in a single print" — "print" is taught only in 4·9-1.
+  - Change: "in a single trade".
+- [x] **C1-08** Teach 'print' in Chapter 1, where it is first used · high
+  - Where: Ch1: 1·6-3 s8, 1·10-2 s5–s6, 1·10-3 s7, 1·15-2 … (20 lessons before 4·9-1)
+  - Problem: "Print/printed" (a trade at a price) is used all through Chapter 1 and 2 but defined only in 4·9-1.
+  - Change: Define it once where it first matters: 1·6-3 add a line to theory s2: "Every trade that happens is a print: one price and one share count." Move the term "Print" to 1·6-3 (4·9-1 then builds on it rather than introducing it). Replace the 1·6-3 s8 use by "single trade" if the move is not wanted.
+  - Done in `CONTENT-REVIEW`: "Print" is taught in 1·6-3 s2 and no longer in 4·9-1, which teaches the technique "Reading prints for speed, size and side" instead.
+- [x] **C1-09** Teach 'fill' in Chapter 1, where it is first used · high
+  - Where: Ch1 (1·6-1 s4, 1·7-1…, 1·11-1 s2; 10 lessons before 3·6-1)
+  - Problem: "Fill / it fills" is used through Ch1–2 and taught only in 3·6-1.
+  - Change: Teach it with orders: 1·12-1 theory s2 add "When the market finds the other side of your order, the order is filled." Move term "Fill" to 1·12-1. Reword the two uses before 1·12-1 (1·6-1 s4, 1·7-x) to "goes through".
+  - Done in `CONTENT-REVIEW`, one lesson earlier than proposed: "Fill" is taught in 1·6-1 s2, where Chapter 1 first uses it, so no earlier use needed rewording; 3·6-1 no longer introduces it.
+- [ ] **C1-10** First stock table: say what the rows and columns are · med
+  - Where: 1·12-3 s4 (first scanner-pick)
+  - Problem: First table of stocks ("Four names on your practice watchlist") with columns price, change %, spread — no card says what a watchlist is or what the columns are; "watchlist" is taught only in 5·7-1.
+  - Change: Reword prompt: "Four stocks you are watching, one row each: price, today's change and the spread. Which one …?"
+- [ ] **C1-11** First long/short lesson is full of trader slang · high
+  - Where: 1·13-2 s4, s5, s9, s10
+  - Problem: First long/short/no-trade decisions use trader slang a beginner has never met: "broke sharply lower", "every small bounce gets sold", "chopping sideways in a tight range", "whipsawed", "waiting for structure", "Break lower", "Sideways chop".
+  - Change: s4 "dropped hard after bad news on heavy volume; every small rise is sold into again"; s5 "going up and down in a narrow band, getting nowhere, on light volume"; s9 outcome "It jerked up and down before settling"; s9 explanation "waiting until the price picks a clear direction is a valid choice"; s10 items "Sharp drop on heavy selling", "Up and down, going nowhere, no news".
+- [ ] **C1-12** 'A stop' mentioned without a word on what it is · low
+  - Where: 1·13-1 s7
+  - Problem: "Shorts need discipline, and a stop — Chapter 3." "Stop" is undefined here.
+  - Change: "…and a stop: an exit price you set in advance (Chapter 3)."
+- [ ] **C1-13** Add a card: what a fall and a rise look like · high
+  - Where: 1·13-2, 1·13-4 s2–s4, 1·15-1 s10, 1·15-3 s5, 1·16-1 s6/s11, 1·17-1 s11
+  - Problem: The first long/short decisions describe charts with words Chapter 2 teaches later: "lower high", "lower lows", "bounce", "dip", "pulling back", "buyers taking every offer", "sellers taking every bid" (bid is taught in 3·1-1, lower high in 2·7-2, bounce in 2·10-1).
+  - Change: Add one theory card to 1·13-2 before its first decision, "What a fall looks like": "A falling price rarely drops in a straight line. It falls, bounces up a little, and falls further, and each bounce stops lower than the last. A rise is the mirror: each dip stops higher than the one before." Replace "taking every bid/offer" with "selling at whatever buyers pay" / "buying whatever is for sale".
+- [x] **C1-14** 'Gap' means two things in Chapter 1 · high
+  - Where: 1·6-2 … 1·17-2 (spread) vs 1·14-2 s8, 1·15-2 s10/s13 (overnight jump)
+  - Problem: "Gap" means two different things in Chapter 1: the spread ("the gap between the two prices", "every round trip pays the gap", "two-cent gap") and a price jump while the market is shut ("gapped down 4 % overnight", "How big is that gap?"). A beginner cannot tell them apart; "Gap" is formally taught only in 2·13-2.
+  - Change: After 1·6-2 names the spread, say "spread" every time (1·12-2 s7, 1·13-4 s5, 1·14-3 s2–s5, 1·16-x, 1·17-2 s7). Keep "gap" only for the jump, and define it in 1·15-2 s10: "When a stock opens far from where it closed, that jump is called a gap." Move term "Gap" to 1·15-2 (2·13-2 then builds on it).
+  - Done in `CONTENT-REVIEW` across all chapters (see C3-01): the spread is "spread" everywhere, "Gap" is taught in 1·15-2 (a new card before the 8 % question), 1·14-2 s8 no longer says "gapped", and 2·13-2 teaches the technique "Reading a gap at the open".
+- [ ] **C1-15** 'Flat' and 'the bell' are never explained · med
+  - Where: 1·14-2 s8, 1·16-1 s12/s13, 1·16-2 s9, 1·17-1 s12, 1·17-2 s3/s5
+  - Problem: "Flat" (holding nothing) and "the bell" (the open/close) are trader slang, used across Chapter 1 and never defined.
+  - Change: Define "flat" once in 1·14-1's Day trading card: "always closed before the session ends: flat, holding nothing, overnight." Replace "the bell" with "the close"/"the open" in Chapter 1 (keep it from Chapter 2 on if wanted, with a one-time explanation).
+- [ ] **C1-16** Path choice talks about candles and timeframes too early · med
+  - Where: 1·17-2 s3, s9, s10
+  - Problem: The path choice speaks of "the 1-minute chart", "5- and 15-minute charts", "the daily chart" and "how much time one candle has to cover" before candles or timeframes exist (2·1-1, 2·2).
+  - Change: Add one line to s2: "A chart can show each minute, each quarter hour or each day as one step." Change s9 explanation to "…how much time each step on the chart covers".
+- [ ] **C1-17** Planned margin-account sentences are missing · med
+  - Where: 1·12 and 1·13 (planned [v4] sentences)
+  - Problem: The course outline (docs/course/01) plans two [v4] sentences that are not in the content: 1·12 "there are cash accounts and margin accounts, and they allow different things" and 1·13 "a short needs a margin-enabled account" (decision B). Chapter 1 never says what a margin account is, although the U.S. rules note shown in 1·12 uses the word (see C1-18).
+  - Change: Add them: 1·12-1 carousel or theory ("Accounts come in two kinds: a cash account trades with your own money; a margin account also lets you borrow, which shorting needs.") and 1·13-1 s3 ("Your broker lends the shares only on a margin account.").
+  - Already a `CONTENT-FIX-1` item (decision B, `docs/plan/15-phase-e-offer-fixes-reviews.md`).
+- [ ] **C1-18** The U.S. trading rule uses words nobody explained · med
+  - Where: 1·12-1 s4 (carousel "Rules"), 1·12-3 s5 (the regulation note)
+  - Problem: The rules card shows the market's regulation note, which for the U.S. reads "a margin account under $25,000 is limited to 3 day trades in 5 business days (the pattern day trader rule)". Nothing in the course says what a margin account or a day trade is, so the one legal rule a beginner must know arrives in words they cannot read.
+  - Change: Covered by C1-17's account sentence; also add to 1·12-3: "A day trade is buying and selling the same stock on the same day."
+
+## 6.3 Chapter 2 · Charts 101 (`CONTENT-FIX-2`)
+
+- [ ] **C2-01** Pill says 'NEXT 5 BARS', the course says candles · high
+  - Where: app, every chart-decision from 2·1-4 s8
+  - Problem: The hidden part of a decision chart is labelled "NEXT 5 BARS". The course calls the shapes "candles" and uses "bars" only for the volume bars under the chart (2·4-1), so "bars" reads as volume.
+  - Change: Pill text "NEXT 5 CANDLES" on candle charts (and "WHAT HAPPENS NEXT" on line charts, see C1-01). Small app change in src/components/Chart.tsx.
+  - App: `LOOK-COMPONENTS` item 2. Line charts read "What happens next", candle charts "Next 5 candles".
+- [ ] **C2-02** First state chips above a chart are not explained · low
+  - Where: 2·1-4 s7–s8 (first state chips)
+  - Problem: The chips above a decision ("Account: $20,000", "Size: 800 shares") appear for the first time with no word on what the row is. The theory card s7 explains the account but not the chips.
+  - Change: s7 body: add "The chips above each decision show the account and the size you are trading."
+- [ ] **C2-03** 'Rallied', 'rolled back over': use plain words · low
+  - Where: 2·3-3 s9, Ch2 generally
+  - Problem: "rallied six candles", "rolled back over" — slang where plain words work.
+  - Change: "climbed for six candles", "turned back down".
+- [ ] **C2-04** A stop described before stops are taught · low
+  - Where: 2·8-3 s5, s10
+  - Problem: "Join it, with $19.20 underneath the trade" / "with the low of the give-back underneath you" describes a stop before stops exist (3·9-1). A beginner may not read it as "this is where you get out".
+  - Change: "Join it, and plan to get out if it falls back under $19.20."
+- [x] **C2-05** Spread called 'the market maker's gap' · low
+  - Where: 2·7-3 s4 (and later chapters)
+  - Problem: "you pay the market maker's gap on the way in and again on the way out" — the spread again called "gap" (see C1-14).
+  - Change: "you pay the spread on the way in and again on the way out".
+  - Done in `CONTENT-REVIEW` (the spread sweep).
+- [x] **C2-06** 'Leg' used from Chapter 2, taught in Chapter 7 · med
+  - Where: 2·4-3 s10, 2·14-3 s3 (title "Every leg spends the next one")
+  - Problem: "Leg" (one push of a move) is used from Chapter 2 on but taught only in 7·4-1.
+  - Change: 2·14-3 s3: "Each push (traders call one push a leg) pulls in buyers…". Move the term "Leg" to 2·14-3.
+  - Done in `CONTENT-REVIEW`: "Leg" is taught in 2·14-3 s3 and no longer in 7·4-1; 2·4-3 s10 says "push".
+- [ ] **C2-07** 'Offside' is slang · low
+  - Where: 2·13-2 s13, 2·14-1 s12, 2·14-2 s6
+  - Problem: "offside" for a losing position is slang.
+  - Change: "losing", "underwater" is already used elsewhere; or define "offside" once.
+- [ ] **C2-08** 'In play' used three chapters early · low
+  - Where: 2·16-1 s9
+  - Problem: "That is what a stock in play looks like" — "in play" is taught in 5·3-1.
+  - Change: "That is what a stock with a crowd in it today looks like."
+- [ ] **C2-09** Contradiction: spread paid 'twice over' vs once · high
+  - Where: 2·14-3 s7
+  - Problem: The explanation says a flat trade "still charged you the spread twice over", while the arithmetic ($0.03 × 1,200 = $36) charges it once, and 1·6-2, 3·2-1 s6 and 3·5-1 s11 teach "once per round trip".
+  - Change: "…so a trade that went nowhere still cost you the spread once: $36."
+
+## 6.4 Chapter 3 · Orders, Costs & Position Size (`CONTENT-FIX-3`)
+
+- [x] **C3-01** Spread called 'gap' on dozens of screens (glossary shows the wrong card) · high
+  - Where: Chapter 3 throughout (Levels 1–5), also Ch1 and later
+  - Problem: The spread is called "the gap" on dozens of Chapter 3 screens ("Judge every gap against…", "the gap is paid once", "four-cent gap"), but "Gap" is a taught term from 2·13-2 meaning the overnight price jump. The app's term marker underlines a taught term on its first appearance in a lesson, so tapping "gap" in Chapter 3 opens the overnight-jump card: the glossary contradicts the screen.
+  - Change: Say "spread" wherever the spread is meant (a mechanical pass over Ch1–Ch8 text; "gap" stays only for the overnight jump). Same fix as C1-14, done once across the course.
+  - Done in `CONTENT-REVIEW`: 245 texts in 66 files. "Spread" where the bid–ask difference is meant, "difference" where a general difference is meant (slippage, news against expectations), "jump" inside a session; "gap" stays only for a jump while trading was shut (overnight, or a halt). `content/skills.yaml` follows.
+- [ ] **C3-02** 'Flat' also used for break-even · med
+  - Where: 3·2-2 s1, s6, s13 (and Ch1 "flat" = holding nothing)
+  - Problem: "Flat" means two things: holding nothing (Ch1, 1·14-2 onward) and break-even ("Your screen says you are flat", "Exactly flat", "Before you call a position flat").
+  - Change: Keep "flat" for "holding nothing"; say "level" or "break-even" in 3·2-2.
+- [ ] **C3-03** 'A nickel' is US coin slang · low
+  - Where: 3·6-3 s5
+  - Problem: "Post a nickel under" — US coin slang; the app ships in every launch language.
+  - Change: "Post five cents under".
+- [ ] **C3-03b** 'A dime' is US coin slang · low
+  - Where: 5·14-1 s11 ("has still not covered a dime"), also the nickel in 3·6-3
+  - Problem: US coin slang (dime, nickel) in a course that ships in every launch language.
+  - Change: "ten cents", "five cents".
+- [ ] **C3-04** 'Offer' (= ask) never taught · med
+  - Where: 3·12-1 s2 (and Ch1 "taking every offer")
+  - Problem: "The offer is $20.62 … Priced through the offer" — "offer" as another word for the ask is never taught.
+  - Change: Say "ask", or teach the synonym once in 3·1-1 s3: "The ask (traders also call it the offer)".
+- [ ] **C3-05** 'The book' used before it is taught · low
+  - Where: 3·13-2 s13
+  - Problem: "before the order even reaches the book" — the order book is taught in 3·15-1.
+  - Change: "before the order even reaches the exchange".
+- [ ] **C3-06** 'Restricted' never explained · low
+  - Where: 3·14-1 s10
+  - Problem: "a stock that has just fallen hard can also be restricted" — what restricted means is never said.
+  - Change: "…can also have new shorts restricted by the exchange for the rest of the day".
+- [ ] **C3-07** 'Lifting the offer' is an idiom · low
+  - Where: 3·15-1 s10
+  - Problem: "Aggressive buyers lifting the offer" — trader idiom, and "offer" is not taught (C3-04).
+  - Change: "Buyers paying the ask, more of them each time".
+- [ ] **C3-08** 'Flatten' used five chapters early · low
+  - Where: 3·17-2 s4
+  - Problem: "Flatten, fix the connection…" — "flatten" is taught in 8·2-1.
+  - Change: "Close the position, fix the connection…".
+- [ ] **C3-09** 'Edge' used long before it is defined · low
+  - Where: 1·13-2 s2, 3·14-1 s1/s18, 3·14-3 s11
+  - Problem: "Edge" in its trading sense ("a clear edge", "your edge", "the cheapest edge") is used long before 6·6-1 defines it.
+  - Change: Ch1: "Not every chart offers a clear reason to trade." Ch3: keep "fewer, better trades" and drop "edge" until 6·6-1.
+  - Partly done: Chapter 1's use is gone (1·13-2 s2, with C6-17). Chapter 3's uses are left for `CONTENT-FIX-3`.
+- [ ] **C6-01** Sizing: Chapter 6 uses '95 % of the account', Chapter 3 the full account · high
+  - Where: 6·1-2 s11, 6·4-1 s7 s10, 6·5-1 s4, 6·6-2 s11, 6·6-4 s11 (working lines)
+  - Problem: Chapter 6 sizes the account ceiling as "95 % of the account ÷ price", but Chapter 3 (3·10-3, "Account ceiling") teaches account ÷ price, with no 5 % held back. Chapter 6 itself mixes both (6·1-4 s4 and 6·14-1 s4 use the full account). A learner who does what Chapter 3 taught gets a different number than the explanation.
+  - Change: Recommended: use Chapter 3's rule everywhere and recompute those six screens (answers and options change slightly). Alternative: teach the 5 % buffer once in 3·10-3 ("keep about 5 % unspent for costs and a price that moves while the order travels") and use it everywhere.
+  - **Corrected after approval (2026-10-05).** The 95 % is not a mistake: it is the scalping value of the plan key `setup_max_account_pct`, which `docs/rules/04-numbers-and-realism.md` §3.6 (decision W3) has Scalping 2·1-4 revise from 50 to 95 and 3·10 prove with the arithmetic. Neither is written yet (`CONTENT-FIX-2`, `-3`), so Chapter 3 still divides the whole account. The fix is therefore the review's alternative, not its recommendation: `CONTENT-FIX-3` teaches the account ceiling as "95 % of the account (your plan's limit) ÷ price" in 3·10-3, and `CONTENT-FIX-6` brings 6·1-4 s4 and 6·14-1 s4 (which divide the whole account) in line. `CONTENT-FIX-8` does the same for 8·13-2 s4 (C8-06), which already uses 95 %.
+  - Listed here for this chapter's part; the item is under Chapter 6.
+- [ ] **C7-12** Share counts rounded two different ways · low
+  - Where: 7·9-1 s4, 6·1-2 s11, 7·6-3 s6
+  - Problem: Share counts are rounded down sometimes to the hundred (1,154 → 1,100) and sometimes to the fifty (2,380 → 2,350; 1,796 → 1,750). The rounding rule is never said.
+  - Change: One line in 3·10-3: "Round down to a round number — the nearest 100, or 50 on a small account." Then use one rule.
+  - Listed here for this chapter's part; the item is under Chapter 7.
+
+## 6.5 Chapter 4 · Reading Fast Markets (`CONTENT-FIX-4`)
+
+- [ ] **C4-01** Lesson titles show internal labels ('Fan-out A', 'Callback', 'Sim') · med
+  - Where: Lesson titles (map, path, win screens)
+  - Problem: Three Chapter 4 levels carry the curriculum's internal label in their learner-facing title: "Fan-out A — Tape Reading", "Fan-out B — VWAP & Levels in Action", "Fan-out C — The Opening Drive". Six "… Callback" titles ("Chapter 1 Callback", "Chapters 1–2 Callback" …) also use designer vocabulary. "Your First 30 Days on Sim" uses "Sim".
+  - Change: "Tape Reading", "VWAP and Levels in Action", "The Opening Drive"; Callback levels → "Back to Chapter 1", "Back to Chapters 1–2" …; "Your First 30 Days in the Simulator".
+- [ ] **C4-02** First-person story: unclear who is speaking · low
+  - Where: 4·9-1 s13 (story)
+  - Problem: "The size going off at my ask is not slowing down. I can keep offering at this price, or I can move up…" — first person, but the speaker is a seller/market maker, not the learner; nothing says who is talking.
+  - Change: Prefix: "A seller watching the tape thinks: …" or end the lesson on the learner's view.
+
+## 6.6 Chapter 5 · Finding the Trade (`CONTENT-FIX-5`)
+
+- [ ] **C5-01** Scanner column 'RVol' never named · low
+  - Where: 5·2-3 s2–s3 (first scanner with the multiple) + app
+  - Problem: The scanner column is headed "RVol", but every lesson calls it "relative volume" or "the multiple column"; the abbreviation is never shown or explained.
+  - Change: 5·2-3 s2: "…as one number per row, in the column headed RVol." (or have the app head it "Rel. vol").
+- [ ] **C5-02** 'Takeover offer' never explained · med
+  - Where: 5·3-3 s3 carousel, s4, s6; 5·4-1, 5·5-1
+  - Problem: "A takeover offer" drives several screens, but what a takeover is is never said (1·2-3 only hints at "about to be bought by a bigger company").
+  - Change: 5·3-3 s3 label text: "Another company offers to buy every share at a set price. The stock jumps to just under that price and then barely moves."
+- [ ] **C5-03** 'Guidance' never explained · low
+  - Where: 5·9-1 s9
+  - Problem: "PIKE is up 9 % on guidance being cut" — "guidance" is never explained.
+  - Change: "…on the company cutting its own forecast".
+- [ ] **C5-04** 'The street' used one screen before it is explained · low
+  - Where: 5·11-1 s4 (before s5)
+  - Problem: "Part the street, part this company" uses the "street" metaphor one screen before the carousel (s5) explains it ("The street your name lives on").
+  - Change: s4 answer text: "Part its sector, part this company".
+- [ ] **C5-05** Chapter 5 journal row uses R and grades before Chapter 6 · high
+  - Where: 5·16-2 s10 (journal-row, Chapter 5 review)
+  - Problem: The row asks for "R risked", "+1R / +2R / +3R" and a process grade A/B/C. R is taught in 6·2-1 ("R — The Unit") and grading trades in 8·12, so a Chapter 5 learner meets both cold; the explanation ("which is two of them") assumes R.
+  - Change: Use dollar slots in Chapter 5 (risked $154, made $308, made ÷ risked = 2) and leave R and the grade to Chapter 6+. Or move this journal row to the Chapter 6 review.
+
+## 6.7 Chapter 6 · Risk & Psychology (`CONTENT-FIX-6`)
+
+- [ ] **C6-01** Sizing: Chapter 6 uses '95 % of the account', Chapter 3 the full account · high
+  - Where: 6·1-2 s11, 6·4-1 s7 s10, 6·5-1 s4, 6·6-2 s11, 6·6-4 s11 (working lines)
+  - Problem: Chapter 6 sizes the account ceiling as "95 % of the account ÷ price", but Chapter 3 (3·10-3, "Account ceiling") teaches account ÷ price, with no 5 % held back. Chapter 6 itself mixes both (6·1-4 s4 and 6·14-1 s4 use the full account). A learner who does what Chapter 3 taught gets a different number than the explanation.
+  - Change: Recommended: use Chapter 3's rule everywhere and recompute those six screens (answers and options change slightly). Alternative: teach the 5 % buffer once in 3·10-3 ("keep about 5 % unspent for costs and a price that moves while the order travels") and use it everywhere.
+  - **Corrected after approval (2026-10-05).** The 95 % is not a mistake: it is the scalping value of the plan key `setup_max_account_pct`, which `docs/rules/04-numbers-and-realism.md` §3.6 (decision W3) has Scalping 2·1-4 revise from 50 to 95 and 3·10 prove with the arithmetic. Neither is written yet (`CONTENT-FIX-2`, `-3`), so Chapter 3 still divides the whole account. The fix is therefore the review's alternative, not its recommendation: `CONTENT-FIX-3` teaches the account ceiling as "95 % of the account (your plan's limit) ÷ price" in 3·10-3, and `CONTENT-FIX-6` brings 6·1-4 s4 and 6·14-1 s4 (which divide the whole account) in line. `CONTENT-FIX-8` does the same for 8·13-2 s4 (C8-06), which already uses 95 %.
+- [ ] **C6-02** Expectancy formula: 'loss rate' and 0.6 for 60 % never explained · high
+  - Where: 6·6-1 s4 (Expectancy card), 6·6-4 s2
+  - Problem: The chapter's core formula uses "loss rate", which is never defined, and writes 60 % as 0.6 without saying so. For a beginner this is the step where the maths gets lost.
+  - Change: Add one line to the card: "Loss rate is the rest: 100 % minus the win rate. In the sum a percentage is written as a decimal: 60 % is 0.6, 40 % is 0.4."
+- [ ] **C6-03** 'Scratch' used seven times, never defined · med
+  - Where: 6·2-1 s7, 6·3-1 s4 s9 s10, 6·11-3 s6
+  - Problem: "Scratch" (a trade closed at its entry, only the costs lost) is used seven times and never defined.
+  - Change: Define it in 6·2-1 s7: "…the worst case is a scratch — out at your entry, losing only the costs." Add "Scratch" to that lesson's terms.
+- [ ] **C6-04** The R ruler appears without a word of explanation · med
+  - Where: 6·2-1 → R ruler (app)
+  - Problem: From 6·2-1 on the app draws an R ruler beside the price axis on decisions with stop and target, but no screen says what it is. docs/ui/08-quotes-and-charts.md says it "teaches R … without a sentence"; docs/rules/05 §3.8 and content-todo 1.2 say the first chart with an element explains it. The two docs disagree.
+  - Change: Add one card at the end of 6·2-1: "From now on, after you decide, a ruler beside the prices shows the trade in R: −1R at the stop, 0 at your entry, +1R, +2R up to the target. A marker runs along it and stops on the result." Change docs/ui/08 to match ("explained once in 6·2-1, then it teaches by being there"). Only visible once decisions carry stop and target (content-todo 2.1).
+- [ ] **C6-05** Win-rate numbers read like facts (odds rule) · med
+  - Where: 6·13-1 s4, s13
+  - Problem: "At a 55 % win rate, about one four-trade stretch in twenty-four is four losses in a row" and "A 20-trade day at a 55 % win rate … about nine losers" read like facts about a real method. Rule 1.1 wants example numbers marked as examples.
+  - Change: "Say a method wins 55 % of its trades. Then …". Same check for 6·13-1 s5 caption.
+- [ ] **C6-06** Levels 6 and 13 should end on 'your own sample decides' · med
+  - Where: 6·6 and 6·13 endings
+  - Problem: content-todo 3.2 says Levels 6 and 13 end on "your own sample decides"; today they end on "Expectancy is the score" (6·6-1 s14) and "only the thousand has a result you can count on" (6·13-1 s14). Already planned for CONTENT-FIX-6.
+  - Change: Last card of 6·6-1 and 6·13-1: "Nobody can tell you your win rate. Your own journal will, after enough trades (Level 13 says how many)."
+  - Already a `CONTENT-FIX-6` item (`DESIGN-REVIEW`).
+- [ ] **C6-07** 'Playing with house money' is a casino idiom · low
+  - Where: 6·3-2 s1
+  - Problem: "Half off, and the rest is playing with house money" — casino idiom.
+  - Change: "Half off, and the rest feels free. That feeling is doing a lot of hiding."
+- [ ] **C6-08** 'Swing low' used once, never taught · low
+  - Where: 6·1-1 s6
+  - Problem: "The last swing low" — "swing low" is used once and never taught.
+  - Change: "The low of the last dip is $18.28".
+- [ ] **C6-09** 'Leg' also used for one half of a round trip · low
+  - Where: 6·3-3 s4 s9, 6·7-2 s12, 6·7-3 s7
+  - Problem: "Leg" means two things: a stretch of a move (6·3-3, before it is taught in 7·4-1) and one half of a round trip ("both legs", "each leg").
+  - Change: Move "Leg" (move) earlier (see C2-06); for orders write "in and out" / "each side".
+  - Partly done: The move sense is done (C2-06). "Both legs" / "each leg" for the two halves of a round trip (6·7-2 s12, 6·7-3 s7) are left for `CONTENT-FIX-6`.
+- [ ] **C6-10** 'Two cents through' for an order price is jargon · low
+  - Where: 6·12-2 s11, 6·14-1 s12, 6·17-2 s12
+  - Problem: "capped two cents through", "a limit two cents through" — "through" for an order price is jargon.
+  - Change: "a limit two cents above the ask".
+- [ ] **C6-11** 'Tight candle', 'under water': idioms · low
+  - Where: 6·12-1 s9, 6·12-2 s8
+  - Problem: "holds it with a tight candle", "32 cents under water" — idioms.
+  - Change: "with a small candle", "32 cents down".
+- [ ] **C6-12** 'Distance first' means stepping away, not stop distance · low
+  - Where: 6·19-1 s9 explanation
+  - Problem: "Distance first, then the writing, then the plan" — in this chapter "distance" always means stop distance; here it means stepping away.
+  - Change: "Step away first, then write it down, then re-read the plan".
+- [ ] **C6-13** One chart implies a 5R daily limit, every other one says 3R · low
+  - Where: 6·13-1 s10
+  - Problem: "Day: −4R, 1R of room left" implies a 5R daily limit; every other lesson uses 3R.
+  - Change: "Day: −2R", "Limit: 3R".
+- [x] **C6-14** 'That gap is slippage' – gap again · low
+  - Where: 6·1-3 s9 title
+  - Problem: "That gap is slippage" — "gap" again for a price difference (see C3-01).
+  - Change: "That difference is slippage".
+  - Done in `CONTENT-REVIEW` (the spread sweep): "That difference is slippage, not failure".
+- [ ] **C6-15** 'Ceiling fade' used before 'fade' is taught · low
+  - Where: 6·15-3 s5 s8, 6·17-3 s9, 6·19-1 s13 (setup "Ceiling fade")
+  - Problem: "Fade" is a Chapter 7 term (7·7-1) used as a setup name in Chapter 6.
+  - Change: "Ceiling rejection" until 7·7.
+- [ ] **C6-16** Planned screen on account rules for many trades a day is missing · med
+  - Where: 6·9-1 or 6·9-2 (planned [v4] screen)
+  - Problem: The course outline plans one screen in Session Limits on what the trade cap needs from the account: several round trips a day need a margin account, and {{market.regulation_note}} applies (the pattern-day-trader rule, settlement). It is not in the content, so a scalper on a small U.S. account can plan six trades a day that their broker will not allow.
+  - Change: Add one theory card to 6·9-1 after "Trade limit": "Several trades a day need the right account. {{market.regulation_note}} Check what yours allows before you write the cap."
+  - Already a `CONTENT-FIX-6` item (decision C).
+- [x] **C6-17** 'Setup' used from Chapter 1, defined in Chapter 6 · med
+  - Where: 1·13-2, 1·15-3, Chapter 3 (16 lessons before 6·1-1)
+  - Problem: "Setup" is used from Chapter 1 on ("each kind of setup", "what a setup has to beat") and defined only in 6·1-1.
+  - Change: Define it where it first matters, in 1·13-2: "A setup is a chart situation you know how to trade." Move the term there; 6·1-1 s2 becomes a reminder.
+  - Done in `CONTENT-REVIEW`: "Setup" is taught in 1·13-2 s2 (which also drops Chapter 1's "edge"), no longer in 6·1-1; 7·1-1 s2 now says "You met the word in Chapter 1".
+- [x] **C6-18** 'Grade-A trade' used before it is introduced · low
+  - Where: 6·17-1 s12 (bucket "After a run of grade-A trades")
+  - Problem: "Grade-A trade" is used in 6·17-1 and introduced only in 8·12-1, although the execution grade itself is taught in 6·15-1.
+  - Change: Move the term "Grade-A trade" to 6·15-1 (one line on the Execution grade card: "A trade taken exactly as written is a grade-A trade").
+  - Done in `CONTENT-REVIEW`: "Grade-A trade" is taught on 6·15-1's Execution grade card, no longer in 8·12-1.
+- [ ] **C7-12** Share counts rounded two different ways · low
+  - Where: 7·9-1 s4, 6·1-2 s11, 7·6-3 s6
+  - Problem: Share counts are rounded down sometimes to the hundred (1,154 → 1,100) and sometimes to the fifty (2,380 → 2,350; 1,796 → 1,750). The rounding rule is never said.
+  - Change: One line in 3·10-3: "Round down to a round number — the nearest 100, or 50 on a small account." Then use one rule.
+  - Listed here for this chapter's part; the item is under Chapter 7.
+
+## 6.8 Chapter 7 · The Scalping Playbook (`CONTENT-FIX-7`)
+
+- [x] **C7-01** Bug: box top labelled 'Opening-range low' · high
+  - Where: 7·3-2 s3 (chart levels)
+  - Problem: The box is $12.80 to $13.10, but both lines are labelled "Opening-range low"; the $13.10 line is the top of the box. The learner is asked to buy a break of a line the chart calls the low.
+  - Change: Label the $13.10 line "Opening-range high". (An automated check over all 1,300+ charts found this and C7-02; every other level label sits on the right side of price or is an intended flip.)
+  - Done in `CONTENT-REVIEW`.
+- [x] **C7-02** Bug: box bottom labelled 'Opening-range high' · high
+  - Where: 7·3-2 s12 (chart level)
+  - Problem: The scenario is a short on a break of the opening-range low at $18.44, but the line is labelled "Opening-range high".
+  - Change: Label it "Opening-range low".
+  - Done in `CONTENT-REVIEW`.
+- [ ] **C7-03** 'Most breaks fail' – frequency claims (odds rule) · med
+  - Where: 7·3-3 s1, 7·3-4 s6, 7·3-1 s13
+  - Problem: "Most of those breaks do not last two minutes", "it saves the other four", "the run of breaks that fail, which is most of them", "Failed breakouts are so common" — frequency claims about a setup, which rule 1.1 forbids.
+  - Change: "Many breaks give themselves back within a minute or two. How often it happens on your names is a number your own journal will tell you." Drop "the other four".
+- [ ] **C7-04** Contradiction: stop trading a name after two stops, or not? · high
+  - Where: 7·12-3 s2 vs 6·11-3 s9
+  - Problem: 6·11-3 s9 teaches that stopping trading a name after two stops is NOT the safe move ("A name you prepared … is often still the best one on the page"). 7·12-3 s2 says after two stops on one card "the card is finished for the session, and so is the stock as far as today goes".
+  - Change: 7·12-3 s2: "The card is finished on this stock for today. Another card on the same stock still counts, if its own first line is on the chart." That keeps both lessons true.
+- [ ] **C7-05** Range day mapped to card D instead of the range card G · med
+  - Where: 7·14-1 s9 and s12
+  - Problem: A short at the top of a morning range on a range day is explained as "card D, exactly where that card belongs", and the match pairs "A range day with clean edges" with "Mean reversion at a level". The card for a range day's edges is G (Range rotation, 7·11); 7·14-3 s4 pairs the same shape with G. Card D needs a stretched run into a level marked before the open.
+  - Change: s9: label the level as a marked level (e.g. "Yesterday's high") and keep D, or call it card G. s12: pair "A range day with clean edges" with "Range rotation" and "A stretched run into a marked price" with "Mean reversion at a level".
+- [ ] **C7-06** Contradiction: card G takes the third test, then calls it worse · med
+  - Where: 7·11-3 s8 vs 7·11-1 s9/s13, 7·11-2 s11
+  - Problem: Card G is taken at "an edge that has already refused price" (third refusal in 7·11-1 s9; "the ones where the edge had already refused twice" in s13). Then 7·11-3 s8 says the third test is worse than the first because "the first one has the most of it still sitting there" — but the card never takes the first test.
+  - Change: Rewrite s8: "An edge gets stronger every time it is tested." False — "Each test spends some of the order that made the edge. The card wants an edge that has refused once or twice; by the fourth or fifth arrival it is thinner, not stronger."
+- [ ] **C7-07** 'Spread' used for a range of outcomes · med
+  - Where: 7·17-2 s12
+  - Problem: "Today sits inside a normal spread of days" — "spread" here means a range of outcomes; everywhere else it is the bid–ask gap.
+  - Change: "Today is one of the normal ups and downs of a method that pays."
+- [ ] **C7-08** 'Flat before the bell' – the bell means the close here · low
+  - Where: 7·17-3 s9
+  - Problem: "Being flat before the bell" means before the closing bell; elsewhere "the bell" is the open.
+  - Change: "Out of every position before the close".
+- [ ] **C7-09** 'Half size the morning after a limit day' was never taught · low
+  - Where: 7·15-2 s6, 7·18-1 s7
+  - Problem: "Yesterday finished at the limit, so your reset routine has you back at half size" — Chapter 6's reset routine (6·12) is an intraday rule after stops in a row; half size the next morning after a limit day is never taught.
+  - Change: Add one line to 6·12-2 (or 6·9-3): "The morning after a day that hit the loss limit starts at half size too." Or reword 7·15-2 to "your plan has you back at half size".
+- [ ] **C7-10** More frequency claims about setups (odds rule) · med
+  - Where: 7·7-1 s3 title, 7·7-2 s11, 7·10-2 s5, 7·14-2 s11, 7·14-3 s8
+  - Problem: "Most breaks do not hold", "the slower chart wins more often", "usually the top of it", "gets taken on the second or third try", "the fifth and sixth are where the edges usually stop holding" — frequency statements about setups.
+  - Change: Title "Many breaks do not hold"; rewrite the others as what to look for, not how often it happens ("Fading against the slower chart is fighting the bigger crowd").
+- [ ] **C7-11** 'Climax volume', 'counter-trend' not defined · low
+  - Where: 7·6-1 s13, 7·6-2 s3 ("climax volume"), 7·4-3 s7 / 7·6-1 s11 ("countertrend / counter-trend")
+  - Problem: "Climax volume" and "counter-trend" appear without a definition (the card says "the heaviest volume of the whole run", which is fine).
+  - Change: Use the card's words: "on the heaviest volume of the run"; "a trade against the trend".
+- [ ] **C7-12** Share counts rounded two different ways · low
+  - Where: 7·9-1 s4, 6·1-2 s11, 7·6-3 s6
+  - Problem: Share counts are rounded down sometimes to the hundred (1,154 → 1,100) and sometimes to the fifty (2,380 → 2,350; 1,796 → 1,750). The rounding rule is never said.
+  - Change: One line in 3·10-3: "Round down to a round number — the nearest 100, or 50 on a small account." Then use one rule.
+- [ ] **C8-01** Chapter 8 trades level breaks, but no card in Chapter 7 is one · high
+  - Where: Chapter 8 triggers vs Chapter 7 cards (8·4-3 s4, 8·9-1 s5–6, 8·9-2 s4/s6, 8·9-3 s3/s6, 8·17-1 s6/s9, plus 8·1-4, 8·4-4, 8·11-2, 8·12-2)
+  - Problem: Chapter 7 ends on "No card, no trade" with eight cards, none of which is a plain break of a marked level (B is only the opening box). Chapter 8's if-then lines and most of its decisions are exactly that: "if KORL closes a minute above $14.46". The journal rows then file them under cards that do not fit: ORRIN's close through the morning high is logged as "Momentum continuation"; ALDER's break under a shelf in the final exam is logged as "Failed-breakout fade".
+  - Change: Either add a ninth card in Chapter 7 — "Level break: a close through a price you marked before the open, on volume, stop back on the other side" — or relabel these rows and say in 8·4-3 that an if-then line is a card the learner writes for one name. Fits the proposed own-strategy levels (P-01).
+  - Listed here for this chapter's part; the item is under Chapter 8.
+
+## 6.9 Chapter 8 · The Trading Day (`CONTENT-FIX-8`)
+
+- [ ] **C8-01** Chapter 8 trades level breaks, but no card in Chapter 7 is one · high
+  - Where: Chapter 8 triggers vs Chapter 7 cards (8·4-3 s4, 8·9-1 s5–6, 8·9-2 s4/s6, 8·9-3 s3/s6, 8·17-1 s6/s9, plus 8·1-4, 8·4-4, 8·11-2, 8·12-2)
+  - Problem: Chapter 7 ends on "No card, no trade" with eight cards, none of which is a plain break of a marked level (B is only the opening box). Chapter 8's if-then lines and most of its decisions are exactly that: "if KORL closes a minute above $14.46". The journal rows then file them under cards that do not fit: ORRIN's close through the morning high is logged as "Momentum continuation"; ALDER's break under a shelf in the final exam is logged as "Failed-breakout fade".
+  - Change: Either add a ninth card in Chapter 7 — "Level break: a close through a price you marked before the open, on volume, stop back on the other side" — or relabel these rows and say in 8·4-3 that an if-then line is a card the learner writes for one name. Fits the proposed own-strategy levels (P-01).
+- [ ] **C8-02** Card D called 'your fade card' · low
+  - Where: 8·14-1 s8
+  - Problem: A run into a marked level that closes back under it is called "your fade card"; in Chapter 7 that shape is card D (mean reversion), and "fade" is card E.
+  - Change: "your mean-reversion card (D)".
+- [ ] **C8-03** 'Size halves' but 1,400 becomes 800 · low
+  - Where: 8·12-3 s7 vs s11
+  - Problem: "The stretch reaches −5R and the size halves that day", but the cut goes from 1,400 to 800 shares, not 700. s3 says "down a rung".
+  - Change: s11: "the size drops a rung that day".
+- [ ] **C8-04** Simulator size 600 vs 700, 'a fifth' vs a third · low
+  - Where: 8·15-1 s4 s12, 8·15-3 s10
+  - Problem: The 30 days on sim used 600 shares and $72 a unit (8·14), but 8·15-1 says the simulator stop cost $84 and "you drilled 700 shares". 8·15-3 s10 calls the live start "a fifth" of the size; 200 of 600 is a third.
+  - Change: Use 600 shares / $72 and "a third" throughout.
+- [ ] **C8-05** 'Three checks of the reset routine' points to the wrong lesson · low
+  - Where: 8·9-2 s8
+  - Problem: "Run the three checks the reset routine asks for" — the three checks after a stop are 6·11-3's, not the reset routine (6·12).
+  - Change: "Run the three checks for the minute after a stop".
+- [ ] **C8-06** The 95 % rule again (follows C6-01) · low
+  - Where: 8·13-2 s4
+  - Problem: "$20,000 × 0.95 ÷ $24.50" — the 95 % rule again (see C6-01).
+  - Change: Follow whatever C6-01 decides.
+- [ ] **C8-07** 'Rebalancing', 'money put on', 'haircut': jargon · low
+  - Where: 8·8-1 s7, 8·4-2 s4 s12, 8·14-2 s3
+  - Problem: "rebalancing", "money being put on or taken off", "the haircut" — market jargon with no explanation.
+  - Change: "funds adjusting what they hold", "whether big buyers are adding or selling", "the cut for costs".
+- [ ] **C6-01** Sizing: Chapter 6 uses '95 % of the account', Chapter 3 the full account · high
+  - Where: 6·1-2 s11, 6·4-1 s7 s10, 6·5-1 s4, 6·6-2 s11, 6·6-4 s11 (working lines)
+  - Problem: Chapter 6 sizes the account ceiling as "95 % of the account ÷ price", but Chapter 3 (3·10-3, "Account ceiling") teaches account ÷ price, with no 5 % held back. Chapter 6 itself mixes both (6·1-4 s4 and 6·14-1 s4 use the full account). A learner who does what Chapter 3 taught gets a different number than the explanation.
+  - Change: Recommended: use Chapter 3's rule everywhere and recompute those six screens (answers and options change slightly). Alternative: teach the 5 % buffer once in 3·10-3 ("keep about 5 % unspent for costs and a price that moves while the order travels") and use it everywhere.
+  - **Corrected after approval (2026-10-05).** The 95 % is not a mistake: it is the scalping value of the plan key `setup_max_account_pct`, which `docs/rules/04-numbers-and-realism.md` §3.6 (decision W3) has Scalping 2·1-4 revise from 50 to 95 and 3·10 prove with the arithmetic. Neither is written yet (`CONTENT-FIX-2`, `-3`), so Chapter 3 still divides the whole account. The fix is therefore the review's alternative, not its recommendation: `CONTENT-FIX-3` teaches the account ceiling as "95 % of the account (your plan's limit) ÷ price" in 3·10-3, and `CONTENT-FIX-6` brings 6·1-4 s4 and 6·14-1 s4 (which divide the whole account) in line. `CONTENT-FIX-8` does the same for 8·13-2 s4 (C8-06), which already uses 95 %.
+  - Listed here for this chapter's part; the item is under Chapter 6.

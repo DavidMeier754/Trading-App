@@ -55,7 +55,7 @@ screens:
     explanation: "Today's crowd came for one headline. Tomorrow it is back to 40,000, and so is your way out."
 
   - type: tf
-    statement: "A price that moves in jumps with flat gaps between them is a sign of very few trades."
+    statement: "A price that moves in jumps with flat stretches between them is a sign of very few trades."
     answer: true
     explanation: "Each jump is one trade reaching the next price. A busy stock fills in the space between."
 

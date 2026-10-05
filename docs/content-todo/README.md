@@ -12,6 +12,7 @@ Section numbers are the same as before the docs were split into these files.
 | [02-new-fields.md](02-new-fields.md) | §2–2.7 | Part 2: the optional fields the app already renders and how to fill them. |
 | [03-work-per-chapter.md](03-work-per-chapter.md) | §3–3.2 | Part 3: the checklist for every chapter, and the state chapter by chapter. |
 | [04-still-to-write-and-done-log.md](04-still-to-write-and-done-log.md) | §4–5 | Part 4: lessons still to be written. Part 5: what is done. |
+| [05-content-review.md](05-content-review.md) | §6 | Part 6: every change David approved from the beginner's read of all eight chapters (2026-10-05), chapter by chapter. |
 
 ## About this list
 
@@ -29,5 +30,6 @@ Read these files together with `docs/rules/`, `docs/level-files/`, `docs/ui/` an
   - Part 3: the work per chapter, done by `CONTENT-FIX-N` while it touches the chapter anyway, so no file is rewritten twice.
   - Part 4: content that is still to be written, with its stage.
   - Part 5: the log of what is done.
+  - Part 6: the content review of 2026-10-04: words and chart elements a beginner meets before they are explained, contradictions, odds, bugs, and the bigger items (Chapter 9, tap to explain). Each `CONTENT-FIX-N` works through its chapter's list.
 - **How to tick.** A session that finishes an item ticks it (`[x]`) and adds a line to Part 5 with its PR number. Nothing is deleted; an item that turns out wrong is struck through with the reason.
 - **The usual gates hold.** `python3 tools/validate_content.py` at 0 errors, `tools/test_validate.py`, `tools/check_sizing.py --summary`, the render test, and the three hand checks in `docs/plan/02-how-to-work.md` §1.

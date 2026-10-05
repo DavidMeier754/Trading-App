@@ -22,7 +22,7 @@ screens:
   - type: checklist-reveal
     title: "The three-second check"
     items:
-      - "How wide is the gap right now?"
+      - "How wide is the spread right now?"
       - "How much of the move I expect does that take?"
       - "Can this stock take my share count, in and out?"
 
@@ -38,7 +38,7 @@ screens:
     explanation: "$21.36, three cents under the ask you paid to get in."
 
   - type: numeric-input
-    prompt: "Same panel — bid $21.36, ask $21.39 — and you expect a move of twenty-four cents. What share of it does the gap take?"
+    prompt: "Same panel — bid $21.36, ask $21.39 — and you expect a move of twenty-four cents. What share of it does the spread take?"
     answer: 12.5
     tolerance: 0.5
     unit: "%"
@@ -54,7 +54,7 @@ screens:
     explanation: "All three questions come back clean: narrow, a small fraction, and busy enough to leave."
 
   - type: tf
-    statement: "A one-cent gap is reason enough to trade a stock."
+    statement: "A one-cent spread is reason enough to trade a stock."
     answer: false
     explanation: "One cent out of a two-cent move is half your trade. The width means nothing until you divide it by the move."
 
@@ -67,7 +67,7 @@ screens:
     explanation: "A's whole minute is six or seven cents, so four of them is most of it. B travels fifteen to twenty a minute, and four cents out of that is a toll you can afford."
 
   - type: numeric-mc
-    prompt: "Gap six cents, expected move ten cents. What share is eaten?"
+    prompt: "Spread six cents, expected move ten cents. What share is eaten?"
     options:
       - {text: "6 %"}
       - {text: "16 %"}
@@ -80,11 +80,11 @@ screens:
     prompt: "Run the check on each of these. Candidate or skip?"
     buckets: ["Candidate", "Skip"]
     items:
-      - {text: "Gap is 5 % of the move, 200,000 shares a minute", bucket: "Candidate"}
-      - {text: "Gap is 70 % of the move", bucket: "Skip"}
-      - {text: "One-cent gap, and the stock has moved a cent in an hour", bucket: "Skip"}
-      - {text: "Eight-cent gap in a busy name that travels a dollar", bucket: "Candidate"}
-    explanation: "Two of these have the smallest gaps on the list and both are skips. The ratio decides, and the size question can still veto it."
+      - {text: "Spread is 5 % of the move, 200,000 shares a minute", bucket: "Candidate"}
+      - {text: "Spread is 70 % of the move", bucket: "Skip"}
+      - {text: "One-cent spread, and the stock has moved a cent in an hour", bucket: "Skip"}
+      - {text: "Eight-cent spread in a busy name that travels a dollar", bucket: "Candidate"}
+    explanation: "Two of these have the smallest spreads on the list and both are skips. The ratio decides, and the size question can still veto it."
 
   - type: story
     text: "XYZ ran all morning and has now stalled twice at $27.04. Bid $26.73 / ask $26.76, 150,000 shares a minute, and your $30,000 account allows 1,000 shares here."
@@ -99,7 +99,7 @@ screens:
       decision_index: 5
     best: short
     reasonable: [no-trade]
-    outcome: "It rolled over to $26.30 — $0.44 a share, +$440 short on 1,000 shares, of which the three-cent gap took $30."
+    outcome: "It rolled over to $26.30 — $0.44 a share, +$440 short on 1,000 shares, of which the three-cent spread took $30."
     explanation: "Two refusals at the same price and a heavy red body is the read. Three cents on a forty-cent expectation is what makes it worth acting on."
 
   - type: match

@@ -13,11 +13,12 @@ What is taught in which chapter and level, per path. It is the authority for *wh
 | [05-swing-trading.md](05-swing-trading.md) | The Swing Trading path, Chapters 2–8 (planned). |
 | [06-drill-packs-and-replays.md](06-drill-packs-and-replays.md) | The drill packs per path and the replay bank. |
 | [07-side-stops-and-writing-order.md](07-side-stops-and-writing-order.md) | The optional stops beside the path, and the order the chapters are written in. |
+| [08-chapter-9-your-own-strategy.md](08-chapter-9-your-own-strategy.md) | **[CONTENT-REVIEW]** Chapter 9, shared by every path: building, testing and keeping your own strategy (planned). |
 
 ## About the outline
 
 Authority for *what* is taught where. Rules live in `docs/rules/`, UI in `docs/ui/`, format in `docs/level-files/`.
-Every path has **8 chapters**. Chapter 1 is shared and ends with the path choice.
+Every path has **8 chapters**. Chapter 1 is shared and ends with the path choice. **[CONTENT-REVIEW]** After a path's Final Exam, the shared Chapter 9 "Your Own Strategy" follows (`08-chapter-9-your-own-strategy.md`, planned).
 
 Status: **v3**. The path is sized so a learner doing two sub-levels a day (~10 minutes) finishes in about six months and comes out able to run a plan: pick the stock, read the day, recognise the setup, size it, manage it, and review it. See `docs/rules/01-what-we-build.md` §1.1 for what "finished" is allowed to claim.
 **[v4] (2026-09-25):** one new sub-level in Chapter 1 (2-4, variance), the scalping plan revision moved to Chapter 2 Level 1-4, the account facts that decisions B and C require, and Swing written before Day Trading. The order of all work is `docs/plan/`.

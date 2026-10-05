@@ -29,7 +29,7 @@ The thinnest chapter in v2 and the one where retail traders actually fail, so it
 | 18 | A Losing Morning, Handled | 2 R | One narrated morning: a clean stop, a limit respected, a reset, a return at half size, finishing down 1R instead of 5 | 3, 5 |
 | 19 | Final Exam | 1 F | 14 questions → badge → `tier-up` (Planner) | 3, 4, 5 |
 
-**New terms:** Setup, Hard stop, Mental stop, R, R-multiple, Break-even stop, Partial exit, Trailing stop, Time stop, Win rate, Average win, Average loss, Expectancy, Edge, Daily loss limit, Trade limit, Overtrading, Revenge trade, FOMO, Chasing, Tilt, Reset routine, Sample size, Journal, Execution grade, Weekly review, Drawdown.
+**New terms:** ~~Setup~~ (since `CONTENT-REVIEW` taught in 1·13-2), Hard stop, Mental stop, R, R-multiple, Break-even stop, Partial exit, Trailing stop, Time stop, Win rate, Average win, Average loss, Expectancy, Edge, Daily loss limit, Trade limit, Overtrading, Revenge trade, FOMO, Chasing, Tilt, Reset routine, Sample size, Journal, Execution grade, Grade-A trade (**[CONTENT-REVIEW]** moved here from Chapter 8: 6·15-1), Weekly review, Drawdown.
 
 ### Chapter 7 — The Scalping Playbook — written
 
@@ -58,7 +58,7 @@ Eight setups instead of five. Every setup is a playbook card: context, entry, st
 | 18 | Chapter Review | 2 R | The eight cards summarised by trigger, then a mixed `compare` set | 4, 5, 6 |
 | 19 | Final Exam | 1 F | 14 questions → badge | 4, 5, 6 |
 
-**New terms:** Playbook, Playbook card, Invalidation, VWAP bounce, High of day, Opening-range scalp, Momentum continuation, Leg, Measured move, Mean reversion, Fade, Re-entry candle, Trapped traders, Gap-and-go, Range rotation, Re-entry trade.
+**New terms:** Playbook, Playbook card, Invalidation, VWAP bounce, High of day, Opening-range scalp, Momentum continuation, ~~Leg~~ (since `CONTENT-REVIEW` taught in 2·14-3), Measured move, Mean reversion, Fade, Re-entry candle, Trapped traders, Gap-and-go, Range rotation, Re-entry trade.
 
 ### Chapter 8 — The Trading Day — written
 
@@ -92,4 +92,4 @@ Execution, the full routine, and the honest handover to a simulator. Sources: Az
 | 17 | Capstone — A Full Week | 3 R | Five sessions compressed: a green day, a red day inside the limit, a day with no trades, a tilt caught early, a weekly review that produces one rule | 5, 6, 7 |
 | 18 | Final Exam and Graduation | 1 F | 15 questions → badge → `tier-up` (Sim Trader) → the user's finished `plan-sheet` | 4, 5, 6, 7 |
 
-**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, Grade-A trade, Going live, **Cash account, Margin account, Settlement, Leverage, Day-trade limit**.
+**New terms:** Order-entry platform, Simulator, Hotkey, Flatten, Pre-market plan, If-then plan, Midday lull, Post-market review, Scaling up, ~~Grade-A trade~~ (since `CONTENT-REVIEW` taught in 6·15-1), Going live, **Cash account, Margin account, Settlement, Leverage, Day-trade limit**.

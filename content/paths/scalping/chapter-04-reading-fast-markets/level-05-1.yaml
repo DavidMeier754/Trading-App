@@ -92,7 +92,7 @@ screens:
     explanation: "Two of them are homework you can do in the quiet, and two of them need the session to have started."
 
   - type: numeric-input
-    prompt: "Bid $16.18 / ask $16.22, and you take 1,200 shares in and back out. What does the gap alone take?"
+    prompt: "Bid $16.18 / ask $16.22, and you take 1,200 shares in and back out. What does the spread alone take?"
     answer: 48
     tolerance: 0.01
     unit: "$"
@@ -100,9 +100,9 @@ screens:
     explanation: "Paid once across the open and the close, and it comes out of the distance to your next line."
 
   - type: tf
-    statement: "A four-cent gap matters more against a ten-cent move than against a forty-cent one."
+    statement: "A four-cent spread matters more against a ten-cent move than against a forty-cent one."
     answer: true
-    explanation: "Forty per cent of the move against ten per cent of it. The gap is only ever judged as a share of the room you are going for."
+    explanation: "Forty per cent of the move against ten per cent of it. The spread is only ever judged as a share of the room you are going for."
 
   - type: chart-decision
     scenario: "Yesterday's high is $16.40. XYZ has held above the line all session and the last six bars have shrunk every minute."

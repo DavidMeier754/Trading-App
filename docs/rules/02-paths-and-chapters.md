@@ -12,7 +12,7 @@ Three paths, organized by trading style (holding period), not by asset class:
 | Swing Trading | `content/paths/swing-trading/` | days to weeks |
 | Scalping | `content/paths/scalping/` | seconds to minutes |
 
-Every path has **8 chapters**. Chapter 1 is shared (`content/shared/chapter-01-market-basics/`) and is followed by the path choice. Chapters 2–8 live in the path folder. The full outline, per path, is in `docs/course/` — that file is the curriculum authority; this file holds the rules.
+Every path has **8 chapters**. Chapter 1 is shared (`content/shared/chapter-01-market-basics/`) and is followed by the path choice. Chapters 2–8 live in the path folder. **[CONTENT-REVIEW]** After the path's Chapter 8 comes **Chapter 9 "Your Own Strategy"**, shared by all three paths (`content/shared/chapter-09-your-own-strategy/`, planned in `docs/course/08-chapter-9-your-own-strategy.md`). It is shorter than a path chapter on purpose — about six levels — so §3.1's 15-level minimum does not apply to it; every other content rule does. The full outline, per path, is in `docs/course/` — that file is the curriculum authority; this file holds the rules.
 
 Chapter skeleton (same for all paths, content differs):
 

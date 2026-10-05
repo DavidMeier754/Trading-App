@@ -21,7 +21,7 @@ screens:
 
   - type: theory
     title: "Two numbers, never mixed"
-    body: "A gap is quoted per share. Your bill is that gap times how many shares you took. At scalping size those two numbers are not in the same world."
+    body: "A spread is quoted per share. Your bill is that spread times how many shares you took. At scalping size those two numbers are not in the same world."
 
   - type: example
     body: "1,500 shares of a $16 stock, four cents between the sides: $60 spent at the moment of entry. The eighteen cents you are playing for is worth $270."
@@ -44,18 +44,18 @@ screens:
       - {text: "$2"}
       - {text: "$0.05"}
     working: "$0.05 × 400 = $20"
-    explanation: "Identical stock, identical gap, a quarter of the bill. Size is the only thing that changed."
+    explanation: "Identical stock, identical spread, a quarter of the bill. Size is the only thing that changed."
 
   - type: mc
-    prompt: "You want $200 out of a scalp on a $12 stock with a four-cent gap. You can take 1,000 shares and need twenty cents, or 2,000 shares and need ten. What does doubling the size do to the gap you pay?"
+    prompt: "You want $200 out of a scalp on a $12 stock with a four-cent spread. You can take 1,000 shares and need twenty cents, or 2,000 shares and need ten. What does doubling the size do to the spread you pay?"
     options:
       - {text: "Halves it, because the move you need is halved"}
-      - {text: "Leaves it at $40, since the gap is per share"}
+      - {text: "Leaves it at $40, since the spread is per share"}
       - {text: "Doubles it, from $40 to $80", correct: true}
-    explanation: "The gap follows the share count, not the move. Bigger size buys you a shorter move and a larger bill."
+    explanation: "The spread follows the share count, not the move. Bigger size buys you a shorter move and a larger bill."
 
   - type: slider
-    prompt: "Eighteen cents on 1,500 shares is $270 gross. What share of that does a four-cent gap take?"
+    prompt: "Eighteen cents on 1,500 shares is $270 gross. What share of that does a four-cent spread take?"
     min: 0
     max: 50
     step: 2
@@ -65,14 +65,14 @@ screens:
     explanation: "$60 out of $270 is a little over a fifth, on a trade that went exactly to plan."
 
   - type: sort
-    prompt: "Which of these do you need before you can say what a position's gap will cost?"
+    prompt: "Which of these do you need before you can say what a position's spread will cost?"
     buckets: ["Need it", "Do not need it"]
     items:
       - {text: "The distance between the two prices", bucket: "Need it"}
       - {text: "How many shares you are taking", bucket: "Need it"}
       - {text: "The share price", bucket: "Do not need it"}
       - {text: "How long you plan to hold", bucket: "Do not need it"}
-    explanation: "Two numbers, multiplied. A $9 stock and a $90 stock with the same gap and the same size cost you the same."
+    explanation: "Two numbers, multiplied. A $9 stock and a $90 stock with the same spread and the same size cost you the same."
 
   - type: story
     text: "XYZ has based for five minutes and just pushed up on the heaviest bar of the morning. Bid $12.11 / ask $12.13, and your $25,000 account allows 1,900 shares here."
@@ -87,22 +87,22 @@ screens:
       decision_index: 5
     best: long
     reasonable: [no-trade]
-    outcome: "It ran to $12.35 — $0.23 a share above the decision, +$437 long on 1,900 shares, of which the two-cent gap took $38."
-    explanation: "A two-cent gap on 1,900 shares is $38. The bar underneath says the move is worth more than that."
+    outcome: "It ran to $12.35 — $0.23 a share above the decision, +$437 long on 1,900 shares, of which the two-cent spread took $38."
+    explanation: "A two-cent spread on 1,900 shares is $38. The bar underneath says the move is worth more than that."
 
   - type: tf
-    statement: "Halving your share count halves what the gap costs you."
+    statement: "Halving your share count halves what the spread costs you."
     answer: true
     explanation: "It is a straight multiplication, so the cost scales exactly with size — which is one reason size is a risk decision and not an ambition."
 
   - type: fill-tiles
-    sentence: "A gap is quoted per share; your bill is that gap times your share ___."
+    sentence: "A spread is quoted per share; your bill is that spread times your share ___."
     answer: "count"
     explanation: "Never quote yourself a cost in cents. Quote it in dollars, with the size attached."
 
   - type: recap
     title: "Level 2 in three lines"
     points:
-      - {text: "A round trip pays the gap once, and it is paid at the moment you enter.", level: "2-1"}
+      - {text: "A round trip pays the spread once, and it is paid at the moment you enter.", level: "2-1"}
       - {text: "Break-even is where the bid reaches your entry, not where your entry was.", level: "2-2"}
       - {text: "Cents become dollars when you multiply by the share count.", level: "2-3"}

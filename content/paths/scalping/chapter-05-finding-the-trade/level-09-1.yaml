@@ -47,7 +47,7 @@ screens:
       - {text: "$224", correct: true}
       - {text: "$28"}
     working: "$0.16 a share × 1,400 shares = $224"
-    explanation: "Two hundred and twenty-four dollars. ROAN's two-cent quote takes $28 for the same size, and that gap is the whole of the cut."
+    explanation: "Two hundred and twenty-four dollars. ROAN's two-cent quote takes $28 for the same size, and that difference is the whole of the cut."
 
   - type: chart-annotate
     prompt: "ROAN, before the bell. Drag the line to the price its last two pushes stopped at."

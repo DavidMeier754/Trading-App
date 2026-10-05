@@ -87,7 +87,7 @@ screens:
   - type: mc
     prompt: "Twenty minutes into a run, one bar towers over every bar before it and that candle finished well below its own high. The safer read is:"
     options:
-      - {text: "the run has just been confirmed for another leg"}
+      - {text: "the run has just been confirmed for another push"}
       - {text: "the stock is more liquid now, so the move is safer to join"}
       - {text: "the move may be finishing", correct: true}
     explanation: "Everyone trading at once at the end of a run is usually the last of the buyers rather than the first."

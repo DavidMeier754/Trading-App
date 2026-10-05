@@ -60,7 +60,7 @@ screens:
     text: "Meanwhile the market maker keeps quoting XYZ all day: buy at $52.78, sell at $52.80."
 
   - type: tf
-    statement: "The market maker profits from the gap between its two prices, not from XYZ going up."
+    statement: "The market maker profits from the spread between its two prices, not from XYZ going up."
     answer: true
     explanation: "Two cents, thousands of times — that's the spread."
 

@@ -39,6 +39,14 @@ Report: what you added · check results · my test checklist with real links · 
 
 **You test (~10 min).** The new bench screens on your phone (links in the report).
 
+### `CONTENT-REVIEW` ✅ – the beginner's read **[CONTENT-REVIEW]**
+
+**Done 2026-10-05**, outside the planned order: David asked for every lesson to be read as the least experienced learner would read it, and for every proposed change on a page where he could approve it.
+
+- **The review:** 81 findings and 7 bigger proposals; David approved all 88. They are `docs/content-todo/05-content-review.md` (Part 6), chapter by chapter, and every `CONTENT-FIX-N` works through its part.
+- **Done in the stage itself**, because it crosses chapters: "spread" instead of "gap" in 245 texts of 66 files; Print, Fill, Gap and Setup taught in Chapter 1, Leg in Chapter 2, Grade-A trade in 6·15-1; the two mislabelled box lines in 7·3-2.
+- **Rules and plan:** the word rules (`docs/rules/03-content-rules.md` §3.4a), Chapter 9's outline (`docs/course/08-chapter-9-your-own-strategy.md`), the stages `OWN-STRATEGY-OUTLINE` and `OWN-STRATEGY`, and items added to `RULES`, `LOOK-COMPONENTS`, `FUN-PASS` and `SIM-ACCOUNT`.
+
 ### `RULES` – new rules and worklists
 
 **Goal.**
@@ -57,7 +65,7 @@ Lessons I liked, and why:
 
 **Scope** (the rules are in `docs/rules/` and `docs/level-files/`, marked [v4] there)
 0. **`docs/content-todo/`** is read with the critique: its Part 3 is part of every chapter's worklist.
-1. **Your critique** goes into this plan, into the chapter-specific items of `CONTENT-FIX`: a part for every chapter, plus the chapter it names. So every chapter pass reads it. Two points are already in, from `LOOK-BRIEF`: more hands-on lessons where you don't know where, or whether, there is an entry; and fewer words on every screen, for which `RULES` proposes a tighter limit than W10's 150 characters, per screen type (you decide).
+1. **Your critique** — **[CONTENT-REVIEW]** largely collected already: the beginner's read of every chapter, approved by you on 2026-10-05, is `docs/content-todo/05-content-review.md` Part 6, and every `CONTENT-FIX-N` reads it. Add only what you find on top. It goes into this plan, into the chapter-specific items of `CONTENT-FIX`: a part for every chapter, plus the chapter it names. So every chapter pass reads it. Two points are already in, from `LOOK-BRIEF`: more hands-on lessons where you don't know where, or whether, there is an entry; and fewer words on every screen, for which `RULES` proposes a tighter limit than W10's 150 characters, per screen type (you decide).
 2. **Validator rules:** warnings first, errors under `--strict`.
    - **Variance** (§3.11):
      - the share per chapter;
@@ -73,6 +81,11 @@ Lessons I liked, and why:
      - US spelling (a list of British forms);
      - no gesture words in prompts ("drag", "tap", "swipe") and no mechanics hints like "Hearts are on."
    - **Tells** (§3.5): the length tell downwards as well (< ~15 %); the punctuation tell in chapters too, not only in packs.
+   - **[CONTENT-REVIEW] Words** (§3.4a, item P-07 of `docs/content-todo/05-content-review.md`):
+     - a word of the one-meaning table used in its other meaning where that is detectable ("gap" next to bid, ask, quote or spread; "flat" next to R or break-even);
+     - a word of the plain-words table outside the lessons that explain it;
+     - a taught term used in a lesson before the one that introduces it, in this chapter or an earlier one (today the check only reads question screens of one chapter).
+   - **[CONTENT-REVIEW] Level labels:** a level labelled high, ceiling, top or box high that sits under most closes before the decision (or the reverse), and two lines with the same label on one chart. Flips that a scenario explains ("yesterday's low, now overhead") are allowed by label family. This is how C7-01 and C7-02 were found.
    - **Visual quota:** ≥ 40 % of a chapter's `theory` and `example` screens have a visual (W23).
    - **Plan-aware cap:** after a `plan-card` that writes `setup_max_account_pct`, positions stay under the suggested value until the next revision.
    - **Per-trade risk and total exposure** (`docs/rules/04-numbers-and-realism.md` §3.6):

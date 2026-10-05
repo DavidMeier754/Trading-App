@@ -88,7 +88,7 @@ screens:
       - ["Liquidity", "How easily a stock trades without moving"]
       - ["Illiquid", "Few buyers and sellers waiting"]
       - ["Volume", "The count of shares that traded"]
-      - ["Spread", "The gap between the two prices on offer"]
+      - ["Spread", "The difference between the two prices on offer"]
     explanation: "Volume is a count, liquidity is an ease, and the spread is part of what that ease costs you."
 
   - type: numeric-input

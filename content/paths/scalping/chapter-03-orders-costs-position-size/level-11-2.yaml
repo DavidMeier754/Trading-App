@@ -69,7 +69,7 @@ screens:
     explanation: "A four-cent stop is tight enough that almost any account becomes the real ceiling."
 
   - type: mc
-    prompt: "The four-cent stop belongs to a stock barely moving all morning; the twenty-two-cent stop belongs to one swinging hard through the same hour. Which of Chapter 1's two dials explains the gap?"
+    prompt: "The four-cent stop belongs to a stock barely moving all morning; the twenty-two-cent stop belongs to one swinging hard through the same hour. Which of Chapter 1's two dials explains the difference?"
     options:
       - {text: "Liquidity — the busier stock earns the tighter stop"}
       - {text: "Volatility — the calmer stock earns the tight stop, the wild one needs the room", correct: true}

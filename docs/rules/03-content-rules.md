@@ -61,6 +61,52 @@ The single biggest risk of a 385-sub-level path is that Chapter 2 is forgotten b
 - **[DESIGN-REVIEW] Don't overdo it** (`docs/ui/01-design-principles.md` §1, principle 11). The new optional fields — chart notes, the open on a chart, a market alert, briefing facts — go only where they teach something on that screen. A simple question stays simple.
 - Hedges ("generally", "though it varies") go into reveal notes, never into headlines or answer options.
 
+### 3.4a Plain words, one meaning each **[CONTENT-REVIEW]**
+
+From the content review of 2026-10-04 (`docs/content-todo/05-content-review.md`, items P-03 and P-04), approved by David on 2026-10-05. The learner is a complete beginner, and the app's term marker opens a taught word's card wherever the word appears (`docs/ui/14-glossary-and-copy.md` §8). So a word that means two things shows the wrong card, and an idiom a beginner cannot read is a screen they cannot answer.
+
+**One word, one meaning.** These words mean exactly one thing in every lesson, test and pack. Where the other meaning is wanted, use the word on the right.
+
+| Word | Means only | For the other meaning say |
+|---|---|---|
+| spread | the difference between the bid and the ask | — (never "gap" for the spread) |
+| gap | a jump in price while trading was shut: overnight, or across a halt | "difference" (slippage, news against expectations), "jump" (inside a session), "distance" |
+| flat | holding nothing | "break-even", "level" (a trade that made nothing) |
+| leg | one push of a move (taught in 2·14-3) | "in and out", "each side" (the two halves of a round trip) |
+| the open, the close | the start and the end of the regular session | "the bell" only after one card says it means either |
+| ask | the lowest price a seller is asking | "offer" only after one card says it is the same thing |
+| edge | positive expectancy (taught in 6·6-1) | before 6·6-1: "a reason to trade", "an advantage" |
+| fill | your order trading (taught in 1·6-1) | — |
+| print | one trade that happened: a price and a share count (taught in 1·6-3) | "show" for numbers on a screen |
+
+**Plain words.** These idioms and slang words stay out of lessons, or appear only after a card has explained them. Use the plain words instead.
+
+| Avoid | Say |
+|---|---|
+| house money | "the rest feels free" (and say why it is not) |
+| under water, offside | down, losing |
+| whipsawed, chop, chopping | jerked up and down, went nowhere |
+| rallied, rolled over | climbed, turned back down |
+| broke sharply lower | dropped hard |
+| a bounce gets sold | every small rise is sold into |
+| lifting the offer, taking every bid | paying the ask, selling at whatever buyers pay |
+| in play (before 5·3) | a stock with a crowd in it today |
+| the street (before 5·11) | its sector |
+| nickel, dime | five cents, ten cents |
+| tight candle | small candle |
+| climax volume | the heaviest volume of the run |
+| counter-trend | against the trend |
+| swing low | the low of the last dip |
+| haircut | the cut for costs |
+| rebalancing | funds adjusting what they hold |
+| money put on, taken off | big buyers adding, selling |
+| "two cents through" (an order price) | two cents above the ask, below the bid |
+| restricted (a stock) | say what is restricted: "new shorts are not allowed today" |
+
+**Every term before its first use.** A taught word appears on a card of its lesson before any later lesson uses it, in this chapter or an earlier one; the validator warns about a word used before the lesson that introduces it (`RULES`). Words that are only plain English in an early lesson ("high", "close", "range") are not affected.
+
+The Swing and Day Trading chapters are written with both tables from the start. Stage `RULES` adds the validator warnings (`docs/plan/14-phase-e-design-rules-variance.md`); each `CONTENT-FIX-N` fixes its chapter.
+
 ### 3.5 Answer-key hygiene **[v3 — new section]**
 
 A learner must not be able to score well without knowing the material. These are checked by the validator.

@@ -39,7 +39,7 @@ screens:
         note: "Two quiet minutes of give-back, then the first close back up. This is the entry, not the chase."
       - chart: {kind: candles, data: [[14.50, 14.62, 14.44, 14.48], [14.48, 14.60, 14.42, 14.58], [14.58, 14.64, 14.46, 14.50], [14.50, 14.62, 14.44, 14.60], [14.60, 14.64, 14.48, 14.52], [14.52, 14.63, 14.46, 14.58], [14.58, 14.62, 14.45, 14.49], [14.49, 14.61, 14.44, 14.57]], volume: [96000, 104000, 88000, 110000, 92000, 102000, 98000, 106000]}
         answer: pass
-        note: "Eight minutes, every bar overlapping the last. You would pay the gap twice to end up where you started."
+        note: "Eight minutes, every bar overlapping the last. You would pay the spread twice to end up where you started."
     explanation: "Three takes and three passes. Pay the sellers' price when something is happening on volume; leave your own price sitting there when it is not."
 
   - type: chart-decision

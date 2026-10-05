@@ -87,7 +87,7 @@ screens:
     prompt: "You are long and want out immediately. Tap the price your sell fills at."
     data: {bid: 38.88, ask: 38.92, last: 38.90}
     target: bid
-    explanation: "A seller in a hurry takes the bid, four cents below the ask. That gap is the round trip."
+    explanation: "A seller in a hurry takes the bid, four cents below the ask. That spread is the round trip."
 
   - type: fill-choice
     sentence: "The only one of the four inputs that shows you what is happening right now is the ___."

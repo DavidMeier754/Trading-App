@@ -56,7 +56,7 @@ screens:
     explanation: "Only a position held through the night meets the morning's price. The other two had closed before the news came out."
 
   - type: example
-    body: "The same three cents of cost, a two-cent gap and a cent of charges, take a third of a scalper's nine-cent target. Out of a swing trader's $2.00 target they take one and a half per cent."
+    body: "The same three cents of cost, a two-cent spread and a cent of charges, take a third of a scalper's nine-cent target. Out of a swing trader's $2.00 target they take one and a half per cent."
     visual: cost-stack
     visual_data: {shares: 1000, spread: 0.02, slippage: 0.0, fees: 0.01, target: 0.09}
 

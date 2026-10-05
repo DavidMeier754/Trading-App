@@ -8,8 +8,8 @@ tags: [long-short, decisions]
 icon: updown
 learning_goal: "User makes long / short / no-trade decisions on simple charts and treats 'no trade' as a valid answer."
 purpose: "This is the decision you'll make thousands of times — starting now, while the charts are still simple."
-terms_introduced: ["No trade"]
-skills: ["No trade"]
+terms_introduced: ["No trade", "Setup"]
+skills: ["No trade", "Setup"]
 prerequisite: "13-1"
 xp: 20
 difficulty: 2
@@ -20,7 +20,7 @@ screens:
 
   - type: theory
     title: "No trade is a decision"
-    body: "Not every chart offers a clear edge. When buyers and sellers look balanced, or you can't explain the move, the best trade is none. It scores the same as a good trade here."
+    body: "Not every chart is a setup, a situation you know how to trade. When buyers and sellers look balanced, or you can't explain the move, the best trade is none. It scores the same as a good trade here."
 
   - type: chart-decision
     scenario: "XYZ has climbed steadily on rising volume for 15 minutes; buyers are clearly in charge. 100 shares."
