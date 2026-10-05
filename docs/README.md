@@ -11,7 +11,7 @@ Every doc of the project, by what it is for. Each folder has a README that lists
 | [`ui/`](ui/README.md) | How every screen looks, moves and reacts. | Every code session; content sessions for the screen types. |
 | [`level-files/`](level-files/README.md) | The YAML format of a level file, and what the validator checks. | Every content session; code that reads level files. |
 | [`content-todo/`](content-todo/README.md) | The content work left from David's design review and from the content review of 2026-10-04 (Part 6). | Every content session; it ticks what it did. |
-| [`plan/`](plan/README.md) | The order of all work to the release: one stage per session, each with its prompt and David's test. | Every session: `plan/02-how-to-work.md` and its own stage. |
+| [`plan/`](plan/README.md) | The order of all work to the finished app, in two lanes: one stage per session, each with its prompt and David's test. | Every session: `plan/02-how-to-work.md` and its own stage. |
 | [`review-2026-09-25/`](review-2026-09-25/README.md) | The review the plan is built on (finding ids M…, S…, K…, W…). A record of that day. | When a stage names a finding. |
 | [`setup-preview.md`](setup-preview.md) | How the web preview is set up. | When the preview needs changing. |
 

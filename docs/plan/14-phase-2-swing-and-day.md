@@ -1,15 +1,13 @@
-# Phase H: Swing and Day Trading
+# Phase 2, content lane – Swing and Day Trading
 
-_Part of the [build plan](README.md) · §12_
+_Part of the [build plan](README.md)_
 
-## 12. Phase H – Swing and Day Trading paths (decision E)
-
-All three paths ship in v1.0. Swing comes first, because Chapter 1 sends people with a full-time job there; Day Trading follows. Each path gets its chapters, its reviews, then its arena content.
+All three paths are part of the finished app. They start once Scalping is finished in every layer (the end of Phase 1). Swing comes first, because Chapter 1 sends people with a full-time job there; Day Trading follows. Each path gets its chapters, its reviews, then its arena content.
 
 **Prerequisites**
 - `RULES` has the rules "per-trade risk" and "total exposure" (required, `docs/rules/04-numbers-and-realism.md` §3.6).
 - `REPLAY-PILOT` has fixed the replay format; Chapters 7 and 8 of every path contain replay screens.
-- Every rule from Phase E applies from the start:
+- Every rule from Phase 1 applies from the start:
   - variance from Chapter 2;
   - `stop`/`target` from Chapter 3;
   - signs, text length, visual quota.
@@ -35,7 +33,7 @@ In each path's Chapter 3, the plan card revises `setup_max_account_pct` with tha
 
 **Goal.** Swing Chapters 2–8 following `docs/course/`.
 
-**Scope:** one chapter per stage, in blocks of 4–6 levels, following every rule from Phase E.
+**Scope:** one chapter per stage, in blocks of 4–6 levels, following every rule from Phase 1.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2 per chapter
 
@@ -43,7 +41,7 @@ In each path's Chapter 3, the plan card revises `setup_max_account_pct` with tha
 ```
 Stage SWING-[N] from docs/plan/.
 
-Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the swing section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/plan/19-phase-h-swing-and-day.md, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
+Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the swing section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/plan/14-phase-2-swing-and-day.md, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
 Also follow the clause in Appendix E.7.
 Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
 Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
@@ -61,7 +59,7 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 
 **Scope**
 - Findings first, then you decide, then the corrections follow.
-- The expert from `EXPERT` checks the same risky parts here if possible: Chapters 3, 6 and 7, and Chapter 8 Level 15.
+- Chapter 9 read against Swing's Chapter 8: its examples and references still work after this path (`docs/course/08-chapter-9-your-own-strategy.md`).
 
 **Model · effort · sessions:**
 - Reviews: Fable 5.1 · high (pass A) and max (pass B).
@@ -72,7 +70,7 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 
 **Goal.** Day Trading Chapters 2–8 following `docs/course/`.
 
-**Scope:** one chapter per stage, in blocks of 4–6 levels, following every rule from Phase E.
+**Scope:** one chapter per stage, in blocks of 4–6 levels, following every rule from Phase 1.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2 per chapter
 
@@ -80,7 +78,7 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 ```
 Stage DAY-[N] from docs/plan/.
 
-Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the day-trading section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/plan/19-phase-h-swing-and-day.md, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
+Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the day-trading section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), §0 ("Variance"), §1 and §12 of docs/plan/14-phase-2-swing-and-day.md, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
 Also follow the clause in Appendix E.7.
 Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
 Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
@@ -99,13 +97,13 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 **Scope**
 - Findings first, then you decide, then the corrections follow.
 - Special attention: the pattern-day-trader rule and the margin account in Chapter 6 Level 9 and Chapter 8 Level 15 (decisions B and C).
-- The expert checks the same risky parts as for swing if possible.
+- Chapter 9 read against Day Trading's Chapter 8, as for Swing.
 
 **Model · effort · sessions:** as in `SWING-REVIEW` · 2–4 in total.
 
 ### `ARENA-PATHS` – the arena for Swing and Day Trading
 
-**Goal.** At the release, the arena serves all three paths.
+**Goal.** In the finished app, the arena serves all three paths.
 
 **Scope** (per path, after its review)
 1. **Generator templates** for the path's Chapter 7 playbook cards, three qualities each, on the path's timeframe: daily bars and evening decisions for swing, 5-minute bars for Day Trading.
@@ -119,7 +117,7 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 **Prompt** (per session)
 ```
 Stage ARENA-PATHS, path [swing|day-trading], session [templates|replays], from docs/plan/.
-Read CLAUDE.md, then docs/plan/02-how-to-work.md §1, docs/plan/17-phase-g-arena-idea-and-design.md (Phase G) and the "ARENA-PATHS" section in docs/plan/19-phase-h-swing-and-day.md, the arena section of docs/ui/, the path's Chapter 7 in docs/course/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and Appendix E.2.
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1, docs/plan/09-phase-1-app-arena-design-and-generator.md ("The Arena idea") and the "ARENA-PATHS" section in docs/plan/14-phase-2-swing-and-day.md, the arena section of docs/ui/, the path's Chapter 7 in docs/course/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and Appendix E.2.
 PR, every check green, report with 12 sample charts (templates session) or the replay list (replays session) and a test checklist. Then stop.
 ```
 

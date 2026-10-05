@@ -2,7 +2,7 @@
 // Writes src/content.generated.ts: one import per sub-level file under content/,
 // grouped by chapter and in play order. src/content.ts builds the map from it,
 // so a new lesson file is wired in by running `npm run gen:content`, not by
-// hand-editing a list of imports (docs/plan/05-phase-a-foundation.md, stage WIRE; M13, S38).
+// hand-editing a list of imports (docs/plan/05-done-so-far.md, stage WIRE; M13, S38).
 //
 //   node tools/gen_content.mjs           write the index
 //   node tools/gen_content.mjs --check   exit 1 if the index is out of date (CI)

@@ -3,6 +3,11 @@
 _Part of the [ui reference](README.md) · §7.3–7.4_
 
 ### 7.3 Practice hub **[v3 — expanded]**
+
+**[2026-10-05] David's picks.** Practice is optional everywhere and never sets a quota. The tab keeps **Daily mix · Skills · Mistakes**. What draws a learner back:
+- **Fading skills:** on the Skills tab, a skill not practiced for a while fades; practicing it brings it back. Nothing is lost and nothing locks. David found the first sketch not obvious enough, so stage `PRACTICE` shows him clearer designs first.
+- **Shining medals:** a chapter's medal goes from bronze to silver to gold through that chapter's practice levels (§7.1).
+- The chart calendar (§7.7), gems (`docs/ui/11-top-bar.md` §7.2) and the weekly challenge (§7.6).
 Lists weak concepts (from wrong answers) and offers an untimed 3-minute review mix. Never costs hearts.
 - Draws from **the drill bank** (`content/drills/`, see `docs/level-files/`) as well as from questions already seen, so practice does not become re-reading.
 - Spaced repetition schedules terms and setups automatically; a concept the learner keeps missing surfaces sooner.
@@ -30,6 +35,8 @@ Lists weak concepts (from wrong answers) and offers an untimed 3-minute review m
 - **Later, from the stages that need them:** time spent per lesson and per screen (only with the analytics consent, `ANALYTICS`), the daily-goal history (`LOOP-DAILY`), weak concepts per glossary term (`GLOSSARY`, `PRACTICE`), the arena's practice-account journal (`SIM-ACCOUNT`).
 
 ### 7.4 Stats / profile
+
+**[2026-10-05] The You tab** (David, decision V): Account becomes **You**, the fourth tab. It opens with **your numbers**, measured in decisions and effort, never in money: the weekly XP candle chart with its all-time high, the decision record as counts, the variance view, and accuracy by topic and by setup. Below them the tier card, the medal shelf, the heat map, the glossary, Your plan and Settings (stage `TABS`, which takes over `STATS`).
 Total XP, chapters completed, accuracy per tag, scenario record (Long/Short/No-trade decisions and "good decision" rate — never "profit").
 **[v3]** Adds the **Trader Card**: the user's best setup, their decision accuracy by day type, their current tier, their saved plan, and the number of scenarios traded. It is the thing a learner screenshots. **[DESIGN-REVIEW]** Not taken in this form: the **tier card** (§5.5) is what Account shows, and the numbers go to All stats (below).
 **[v4]** Adds the **variance view**: of the learner's correct decisions, how many won and how many lost, with one line on why that split is what a good process looks like. The one-line risk note sits at the bottom (`docs/rules/10-legal-and-safety.md` §7).

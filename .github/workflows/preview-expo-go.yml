@@ -1,6 +1,6 @@
 name: Preview in Expo Go
 
-# Part B of the preview (docs/plan/05-phase-a-foundation.md, stage CI): each PR publishes an
+# Part B of the preview (docs/plan/05-done-so-far.md, stage CI): each PR publishes an
 # EAS Update and comments a QR code to open it in Expo Go, for real haptics
 # and sound. It needs the EXPO_TOKEN secret and the app linked to an Expo
 # project; until both are there, the job is skipped and the check stays grey.

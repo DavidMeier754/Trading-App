@@ -1,51 +1,14 @@
-# Phase E: Design, rules, variance
+# Phase 1, content lane – rules and the new building blocks
 
-_Part of the [build plan](README.md) · §9_
+_Part of the [build plan](README.md)_
 
-## 9. Phase E – Scalping content: correct, honest, complete
+The content lane runs beside the app lane. Its order is deliberate:
+1. First the validator learns the new rules, and every chapter gets its worklist (`RULES`).
+2. Then the new building blocks are made (`CONTENT-DESIGN`, `VARIANCE`, `OFFER`).
+3. Then every chapter is touched **once** (`CONTENT-FIX`, `docs/plan/12-phase-1-content-chapter-fixes.md`). Chapters 2–7 run at the same time once `RULES` and the app lane's `VISUALS` are merged.
+4. Only then come the reviews (`docs/plan/13-phase-1-content-reviews-and-chapter-9.md`).
 
-The order is deliberate:
-1. First your critique is collected, and the validator checks the new rules (`RULES`).
-2. Then the new building blocks are made (`VARIANCE`, `OFFER`).
-3. Then every chapter is touched **once** (`CONTENT-FIX`).
-4. Only then come the big reviews.
-
-That way no file is rewritten twice.
-
-### `CONTENT-DESIGN` – the test bench learns the new fields
-
-**Goal.** Every content field the app renders since `DESIGN-REVIEW` has an example in the test bench, so every later content stage can see what it writes.
-
-**Scope** (`docs/content-todo/04-still-to-write-and-done-log.md` 4.9)
-1. In `demo/all-screens.yaml`: a chart decision with `stop`, `target` and `notes`; a chart with `session_open`; a story with an `alert`; a test-style intro with `facts`; `skills` in the header.
-2. One bonus file in `demo/` that the bench can open.
-3. The render test and the contact sheets cover them.
-4. Tick 4.9 in `docs/content-todo/`.
-
-**Not in this stage:** any file in `content/`.
-
-**Model · effort · sessions:** Opus 5.5 · high · 1
-
-**Prompt**
-```
-Stage CONTENT-DESIGN from docs/plan/14-phase-e-design-rules-variance.md.
-
-Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "CONTENT-DESIGN" section in docs/plan/14-phase-e-design-rules-variance.md in full, plus docs/content-todo/, docs/level-files/ (every [DESIGN-REVIEW] field) and docs/ui/03-screen-types.md §3, docs/ui/06-reveal-and-hearts.md §5.1b, docs/ui/08-quotes-and-charts.md §6.4.
-Change only the test bench; no file in content/.
-
-Open a PR against main and get every check green.
-Report: what you added · check results · my test checklist with real links · open questions. Then stop.
-```
-
-**You test (~10 min).** The new bench screens on your phone (links in the report).
-
-### `CONTENT-REVIEW` ✅ – the beginner's read **[CONTENT-REVIEW]**
-
-**Done 2026-10-05**, outside the planned order: David asked for every lesson to be read as the least experienced learner would read it, and for every proposed change on a page where he could approve it.
-
-- **The review:** 81 findings and 7 bigger proposals; David approved all 88. They are `docs/content-todo/05-content-review.md` (Part 6), chapter by chapter, and every `CONTENT-FIX-N` works through its part.
-- **Done in the stage itself**, because it crosses chapters: "spread" instead of "gap" in 245 texts of 66 files; Print, Fill, Gap and Setup taught in Chapter 1, Leg in Chapter 2, Grade-A trade in 6·15-1; the two mislabelled box lines in 7·3-2.
-- **Rules and plan:** the word rules (`docs/rules/03-content-rules.md` §3.4a), Chapter 9's outline (`docs/course/08-chapter-9-your-own-strategy.md`), the stages `OWN-STRATEGY-OUTLINE` and `OWN-STRATEGY`, and items added to `RULES`, `LOOK-COMPONENTS`, `FUN-PASS` and `SIM-ACCOUNT`.
+That way no file is rewritten twice. Your critique of the lessons is collected in `docs/content-todo/05-content-review.md` (the content review of 2026-10-05); `RULES` adds only what you find on top.
 
 ### `RULES` – new rules and worklists
 
@@ -86,6 +49,7 @@ Lessons I liked, and why:
      - a word of the plain-words table outside the lessons that explain it;
      - a taught term used in a lesson before the one that introduces it, in this chapter or an earlier one (today the check only reads question screens of one chapter).
    - **[CONTENT-REVIEW] Level labels:** a level labelled high, ceiling, top or box high that sits under most closes before the decision (or the reverse), and two lines with the same label on one chart. Flips that a scenario explains ("yesterday's low, now overhead") are allowed by label family. This is how C7-01 and C7-02 were found.
+   - **[2026-10-05] No quotas:** a sentence that tells the learner how many lessons to do or that they must practice ("one lesson a day", "do three lessons", "practice daily"). The app and the course set no quota (David).
    - **Visual quota:** ≥ 40 % of a chapter's `theory` and `example` screens have a visual (W23).
    - **Plan-aware cap:** after a `plan-card` that writes `setup_max_account_pct`, positions stay under the suggested value until the next revision.
    - **Per-trade risk and total exposure** (`docs/rules/04-numbers-and-realism.md` §3.6):
@@ -94,15 +58,15 @@ Lessons I liked, and why:
      - required before the swing and day-trading paths.
 3. **`tools/test_validate.py`:** one case per new rule.
 4. **`tools/content_report.py --chapter N`:** a worklist per chapter (Markdown) with every finding, each with file and screen — including the counts behind `docs/content-todo/03-work-per-chapter.md` Part 3 (lessons without skills, scenes with a ticker and no alert, test intros without `facts`).
-5. **`tools/export_readable.py --chapter N`:** a chapter as readable text, for you, for `EXPERT` and for the reviews.
+5. **`tools/export_readable.py --chapter N`:** a chapter as readable text, for you and for the reviews.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
 **Prompt**
 ```
-Stage RULES from docs/plan/14-phase-e-design-rules-variance.md.
+Stage RULES from docs/plan/11-phase-1-content-rules.md.
 
-Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "RULES" section in docs/plan/14-phase-e-design-rules-variance.md in full, plus docs/rules/ and docs/level-files/ in full (every rule marked [v4]).
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "RULES" section in docs/plan/11-phase-1-content-rules.md in full, plus docs/rules/ and docs/level-files/ in full (every rule marked [v4]).
 New rules start as warnings; a plain `validate_content.py` stays at 0 errors. No content changes in this stage.
 
 My critique of the lessons:
@@ -116,6 +80,33 @@ Report: new rules · warnings per chapter (table) · link to the worklists · my
 1. Read the worklists for Chapters 1 and 7: are the numbers plausible? The variance share today is e.g. 0 %.
 2. Open a chapter export: is it easy to read?
 3. Find your critique in the `CONTENT-FIX` section: is every point there, in the right chapter?
+
+### `CONTENT-DESIGN` – the test bench learns the new fields
+
+**Goal.** Every content field the app renders since `DESIGN-REVIEW` has an example in the test bench, so every later content stage can see what it writes.
+
+**Scope** (`docs/content-todo/04-still-to-write-and-done-log.md` 4.9)
+1. In `demo/all-screens.yaml`: a chart decision with `stop`, `target` and `notes`; a chart with `session_open`; a story with an `alert`; a test-style intro with `facts`; `skills` in the header.
+2. One bonus file in `demo/` that the bench can open.
+3. The render test and the contact sheets cover them.
+4. Tick 4.9 in `docs/content-todo/`.
+
+**Not in this stage:** any file in `content/`.
+
+**Model · effort · sessions:** Opus 5.5 · high · 1
+
+**Prompt**
+```
+Stage CONTENT-DESIGN from docs/plan/11-phase-1-content-rules.md.
+
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "CONTENT-DESIGN" section in docs/plan/11-phase-1-content-rules.md in full, plus docs/content-todo/, docs/level-files/ (every [DESIGN-REVIEW] field) and docs/ui/03-screen-types.md §3, docs/ui/06-reveal-and-hearts.md §5.1b, docs/ui/08-quotes-and-charts.md §6.4.
+Change only the test bench; no file in content/.
+
+Open a PR against main and get every check green.
+Report: what you added · check results · my test checklist with real links · open questions. Then stop.
+```
+
+**You test (~10 min).** The new bench screens on your phone (links in the report).
 
 ### `VARIANCE` – decided right, lost anyway
 
@@ -137,9 +128,9 @@ Report: new rules · warnings per chapter (table) · link to the worklists · my
 
 **Prompt**
 ```
-Stage VARIANCE from docs/plan/14-phase-e-design-rules-variance.md.
+Stage VARIANCE from docs/plan/11-phase-1-content-rules.md.
 
-Read CLAUDE.md, then docs/plan/01-goal-and-guardrails.md §0 ("Variance"), docs/plan/02-how-to-work.md §1 and the "VARIANCE" section in docs/plan/14-phase-e-design-rules-variance.md in full, plus docs/rules/07-variance-and-typed-numbers.md §3.11, docs/ui/03-screen-types.md §3, docs/ui/06-reveal-and-hearts.md §5.1b, docs/ui/07-lesson-chapter-and-tier-complete.md §5.3, docs/ui/09-order-tools-and-other-visuals.md §6.8, §6.10, docs/level-files/ (decision-grid), docs/content-todo/01-rules-from-the-design-review.md (Part 1 and 4.1) and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
+Read CLAUDE.md, then docs/plan/01-goal-and-guardrails.md §0 ("Variance"), docs/plan/02-how-to-work.md §1 and the "VARIANCE" section in docs/plan/11-phase-1-content-rules.md in full, plus docs/rules/07-variance-and-typed-numbers.md §3.11, docs/ui/03-screen-types.md §3, docs/ui/06-reveal-and-hearts.md §5.1b, docs/ui/07-lesson-chapter-and-tier-complete.md §5.3, docs/ui/09-order-tools-and-other-visuals.md §6.8, §6.10, docs/level-files/ (decision-grid), docs/content-todo/01-rules-from-the-design-review.md (Part 1 and 4.1) and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
 Read content/shared/chapter-01-market-basics/level-02-1.yaml to level-02-3.yaml before you write 2-4 — tone and rhythm must match.
 
 Especially important:
@@ -150,12 +141,57 @@ Open a PR against main and get every check green.
 Report: what you built · check results · the full text of lesson 2-4 to proofread · my test checklist with real links · open questions. Then stop.
 ```
 
-**You test (~30 min + newcomer test)**
+**You test (~30 min, plus a newcomer if you have one)**
 1. Play lessons 1·2-3 and 2-4. Does the grid make "right call, lost anyway" clear without any number?
 2. Play a Chapter 1 decision that was right and loses (link in the report): is it immediately clear that you were *right*?
-3. **Newcomer test:**
+3. **Newcomer test, if you have someone to ask** (optional, as in `FUN-PASS`):
    - Someone without trading knowledge plays 2-3 and 2-4.
    - Ask them afterwards: "You decided right and still lost – what does that mean?"
    - Expected, in their own words: "One single trade says little; what counts is whether the decision was good."
    - And: "How often does a setup work?" Expected: "I'd have to find out from my own trades."
    - If they cannot say that, Claude revises the lesson.
+
+### `OFFER` – Chapter 8 Level 15, account types and rules
+
+**Goal.** Chapter 8 Level 15 "What You'll Actually Be Offered" teaches the knowledge for the step into a real account (decisions A, B, C).
+
+**Scope**
+1. **Part 1 – renumbering** as a commit of its own:
+   - Chapter 8 Levels 15–17 become 16–18.
+   - The prerequisite chain and every reference move with them.
+2. **Part 2 – Level 15 with four lessons** following `docs/course/`. Decisions A–C are made now; nothing is left open.
+   - Account types and what each allows. Short selling needs a margin-enabled account.
+   - What leverage does to numbers the learner already knows: the ruin arithmetic.
+   - The rules against your own plan:
+     - the PDT rule against six trades per session;
+     - settlement;
+     - taxes as a question for an adviser.
+   - Practice: the account that fits your own plan.
+3. **`content/market_profiles.yaml`** (M17):
+   - EU-DE `fee_note` without prices.
+   - EU-DE `regulation_note` precise: the negative-balance protection covers CFDs.
+   - The US PDT rule at its current state. Research with a source, because the FINRA reform is under way.
+   - A new field `checked: <date>`.
+   - `timezone` "German time" instead of "CET".
+   - `first_minutes` in the same format as `premarket`.
+4. **Not here:** the one-sentence additions in Chapter 1 (1·12, 1·13) and in 6·9 are done by `CONTENT-FIX-1` and `CONTENT-FIX-6`.
+
+Detailed prompt: **Appendix E.1**.
+
+**Model · effort · sessions:** Opus 5.5 · xhigh · 1–2
+
+**Prompt**
+```
+Stage OFFER from docs/plan/11-phase-1-content-rules.md.
+
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1, docs/plan/04-decisions.md §4.1 (decisions A, B, C) and the "OFFER" section in docs/plan/11-phase-1-content-rules.md in full, and docs/content-todo/ (Parts 1–3: the new level is written with skills and the new fields from the start). Then follow the detailed prompt in Appendix E.1 exactly.
+For the rule texts in content/market_profiles.yaml: research the current state on the web, name every source with its date in the report, and flag every sentence you are unsure about.
+
+Open a PR against main and get every check green.
+Report: what you built · check results · sources · sentences you are unsure about (for me to check) · my test checklist with real links. Then stop.
+```
+
+**You test (~20 min)**
+1. Skip ahead to Chapter 8 Level 15 and play all four lessons, once with the US profile and once with Germany.
+2. Check: informative, no recommendation, no product name, understandable.
+3. Read every place where Claude was unsure; the plan has no outside reviewer, so you decide.

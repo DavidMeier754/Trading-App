@@ -1,8 +1,6 @@
-# Appendix A–D: Templates
+# Appendix A–C: Templates
 
-_Part of the [build plan](README.md) · §17_
-
-## 17. Appendix
+_Part of the [build plan](README.md)_
 
 ### A. Template: bug report
 
@@ -30,7 +28,9 @@ What I noticed (small things too, and things for later stages):
 
 If the list has an ✗, do not answer "OK" but send the bug report.
 
-### C. Newcomer test (for `FUN-PASS` and `VARIANCE`)
+### C. Newcomer test (optional, for `FUN-PASS` and `VARIANCE`)
+
+Only if you have someone to ask (David, 2026-10-05); Claude's own play-through in `FUN-PASS` runs either way.
 
 1. **The person:** no trading knowledge, if possible not from your closest circle.
 2. **Introduction:** only say "This is a learning app for trading, try it out". No further explanation.
@@ -42,14 +42,3 @@ If the list has an ✗, do not answer "OK" but send the bug report.
    - You decided right and still lost – what does that mean? (after 1·2-4)
    - Would you carry on tomorrow? Why (not)?
 6. **Result:** give your notes to Claude unedited.
-
-### D. Beta questionnaire (end of week 1 and week 2)
-
-1. How much fun is the app? (1–5)
-2. How well do you understand what is explained? (1–5)
-3. Too hard, just right, or too easy?
-4. What annoys you most?
-5. What do you like best?
-6. You decided right and still lost money. What does that mean? (free text)
-7. Your account holds $10,000. You risk 1 % per trade, and your stop is $0.20 away. How many shares do you buy? (Correct: 500)
-8. Would you recommend the app? (0–10)

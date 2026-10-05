@@ -10,7 +10,7 @@ Section numbers are the same as before the docs were split into these files.
 | --- | --- | --- |
 | [01-what-we-build.md](01-what-we-build.md) | §1–1.1 | The product, what finishing a path means, and the fixed product decisions. |
 | [02-paths-and-chapters.md](02-paths-and-chapters.md) | §2 | The three paths and their eight chapters. |
-| [03-content-rules.md](03-content-rules.md) | §3–3.5 | Units and sizing, categories and rhythm, reinforcement, screens, plain words with one meaning each (§3.4a), answer-key hygiene. |
+| [03-content-rules.md](03-content-rules.md) | §3–3.5 | Units and sizing, categories and rhythm, reinforcement, screens, plain words with one meaning each (§3.4a), no quotas (§3.4b), answer-key hygiene. |
 | [04-numbers-and-realism.md](04-numbers-and-realism.md) | §3.6 | Prices, volumes, accounts and position sizes that hold up in a real market. |
 | [05-tests-consistency-and-copy.md](05-tests-consistency-and-copy.md) | §3.7–3.9 | Tests and exams, staying consistent across sessions, and how copy is written. |
 | [06-replays.md](06-replays.md) | §3.10 | How replays of real charts are chosen and written. |
@@ -30,4 +30,6 @@ Status: **v3** — expanded curriculum. The path is now eight chapters and ~385 
 
 **[v4.1] (2026-09-25)** — David's answers to the plan's open decisions (`docs/plan/04-decisions.md` §4.1): all three paths in v1.0, the app name Nutrade, accounts, Nutrade Plus with a practice arena, ads in the free tier, and every launch language, translated from the English source. Marked **[v4.1]**.
 
-**[DESIGN-REVIEW] (2026-10-03)** — David's verdicts on 50 design ideas (`docs/plan/09-phase-c-design-review.md`, stage DESIGN-REVIEW). For content they mean: **no reliable-looking odds** anywhere (§3.11), the variance simulator dropped, **charts that start simple and grow** with every element explained (§3.8), questions that stand on their own (§3.4), skills per lesson, and hearts that all come back five hours after the first is lost (§1). The content work they leave is listed in `docs/content-todo/`; every content session reads it.
+**[2026-10-05]** — the build plan rebuilt from David's picks (`docs/plan/`): only the app, two lanes, Scalping first. For content: **no quotas** (`03-content-rules.md` §3.4b); the streak grows only on a day a lesson is finished.
+
+**[DESIGN-REVIEW] (2026-10-03)** — David's verdicts on 50 design ideas (`docs/plan/05-done-so-far.md`, stage DESIGN-REVIEW). For content they mean: **no reliable-looking odds** anywhere (§3.11), the variance simulator dropped, **charts that start simple and grow** with every element explained (§3.8), questions that stand on their own (§3.4), skills per lesson, and hearts that all come back five hours after the first is lost (§1). The content work they leave is listed in `docs/content-todo/`; every content session reads it.

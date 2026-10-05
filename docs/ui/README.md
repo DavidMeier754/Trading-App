@@ -34,6 +34,8 @@ Everything about *how* a screen looks, moves and reacts lives in these files.
 
 Status: **v3** — expanded for the eight-chapter curriculum. New interaction types, components and
 long-path gamification are marked **[v3]**. Everything unmarked is unchanged from v2.
+**[2026-10-05]** — David's picks for the finished app (`docs/plan/04-decisions.md`, Y1–Y12): the tabs Learn · Practice · Arena · You, no quotas, the streak rule, practice levels with a Skip, fading skills, shining medals, the chart calendar, the "?" key, the short first run. Marked **[2026-10-05]**.
+
 **[v4] (2026-09-25)** — the release plan's decisions (`docs/plan/04-decisions.md` §4.1): hearts only in
 tests, the mistakes round, the reveal that grades a decision apart from its outcome, answers in the
 thumb zone, a scroll fallback instead of illegible shrinking, at most three looks plus light and dark,
@@ -42,7 +44,7 @@ no leaderboard in v1.0. Marked **[v4]**.
 practice arena and Nutrade Plus with ads in the free tier (I), accounts (K), every launch language
 (M). Marked **[v4.1]**.
 **[DESIGN-REVIEW] (2026-10-03)** — David's verdicts on 50 design ideas (stage `DESIGN-REVIEW` in
-`docs/plan/09-phase-c-design-review.md`): the decision grid in the chart reveal, a fixed chart frame, the R ruler, chart
+`docs/plan/05-done-so-far.md`): the decision grid in the chart reveal, a fixed chart frame, the R ruler, chart
 notes, the open on the chart, keys with a direction, matches without colours, the mistakes deck, the
 checkpoint briefing, skills collected after each lesson, a Practice tab with Daily mix, Skills and
 Mistakes, hearts that all come back after five hours, chapter emblems, tier materials, the Account

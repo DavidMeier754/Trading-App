@@ -23,7 +23,7 @@ Every path has **8 chapters**. Chapter 1 is shared and ends with the path choice
 Status: **v3**. The path is sized so a learner doing two sub-levels a day (~10 minutes) finishes in about six months and comes out able to run a plan: pick the stock, read the day, recognise the setup, size it, manage it, and review it. See `docs/rules/01-what-we-build.md` §1.1 for what "finished" is allowed to claim.
 **[v4] (2026-09-25):** one new sub-level in Chapter 1 (2-4, variance), the scalping plan revision moved to Chapter 2 Level 1-4, the account facts that decisions B and C require, and Swing written before Day Trading. The order of all work is `docs/plan/`.
 
-**[v4.1] (2026-09-25):** all three paths ship in v1.0 (decision E), so Day Trading is written before the release too, right after Swing. The practice arena (`docs/plan/17-phase-g-arena-idea-and-design.md` Phase G) adds hands-on charts beyond the paths; it does not change this outline.
+**[v4.1] (2026-09-25):** all three paths are part of the finished app (decision E), so Day Trading is written right after Swing. The practice arena (`docs/plan/09-phase-1-app-arena-design-and-generator.md`) adds hands-on charts beyond the paths; it does not change this outline.
 
 **[DESIGN-REVIEW] (2026-10-03):** the variance simulator is dropped, so 1·2-4 and Scalping 6·6 and 6·13 teach variance without it and without stating any rate (`docs/rules/07-variance-and-typed-numbers.md` §3.11). Every chapter gets optional side stops beside the path: two or three mistakes reviews the app builds from the learner's own mistakes, and the bonus "Spot it" lessons (below, "Side stops"). Content work that follows from the design review — skills per lesson, the chart ramp, notes, alerts, briefings — is in `docs/content-todo/`.
 

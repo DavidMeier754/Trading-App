@@ -1,6 +1,6 @@
 # Appendix E.0–E.2: Prompt frame, offer, replays
 
-_Part of the [build plan](README.md) · §17_
+_Part of the [build plan](README.md)_
 
 ### E. Prompt frame and content prompts
 

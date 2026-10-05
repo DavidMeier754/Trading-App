@@ -6,7 +6,7 @@ Run `python3 tools/validate_content.py` before finishing any content step.
 
 ## How the work is organised
 
-- The order of all work, from today to the store release, is `docs/plan/`; the table of stages is `docs/plan/03-stages-at-a-glance.md`.
+- The order of all work, from today to the finished app, is `docs/plan/`; the table of stages is `docs/plan/03-stages-at-a-glance.md`. It has two lanes, app and content, that run at the same time; the next stage of a lane is its first one without ✅.
 - A Claude Code session does exactly **one stage** (David starts a new session for every stage; `docs/plan/02-how-to-work.md` §1):
   - Read `docs/plan/02-how-to-work.md` (§1, "How to work with this plan") and the stage's own section; `docs/plan/README.md` says which file holds it.
   - Build that scope and nothing from a later stage. Note anything else you find in the report.
@@ -14,7 +14,7 @@ Run `python3 tools/validate_content.py` before finishing any content step.
 - Findings carry ids (M…, S…, K…, W…) from `docs/review-2026-09-25/`.
 - Work on the session's branch and open a PR against `main`. Never push to `main` directly unless David says so explicitly.
 - Merge a PR only when every CI check on its latest commit is green (`.github/workflows/ci.yml`). A red or pending check blocks the merge, even after David's OK; fix it first. (GitHub cannot enforce this on the private repository, so this rule does.)
-- Everything is in English: code, content, docs, commits, PR texts and reports. English is the source language; the other app languages are generated from it in Phase J of the plan and never edited by hand.
+- Everything is in English: code, content, docs, commits, PR texts and reports. English is the source language; the other app languages are generated from it in Phase 3 of the plan and never edited by hand.
 
 ## Before every report
 

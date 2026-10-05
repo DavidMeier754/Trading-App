@@ -2,7 +2,7 @@
 
 _Part of the [course outline](README.md)_
 
-**[CONTENT-REVIEW]** (2026-10-05). From the content review of 2026-10-04, item P-01 (`docs/content-todo/05-content-review.md`), approved by David. Status: **planned** — this is the outline the stage `OWN-STRATEGY-OUTLINE` turns into a level plan for David's OK, and `OWN-STRATEGY` writes (`docs/plan/15-phase-e-offer-fixes-reviews.md`).
+**[CONTENT-REVIEW]** (2026-10-05). From the content review of 2026-10-04, item P-01 (`docs/content-todo/05-content-review.md`), approved by David. Status: **planned** — this is the outline the stage `OWN-STRATEGY-OUTLINE` turns into a level plan for David's OK, and `OWN-STRATEGY` writes (`docs/plan/13-phase-1-content-reviews-and-chapter-9.md`).
 
 ## Why the chapter exists
 
@@ -35,4 +35,4 @@ The outline's three open points, decided when David took the recommendations:
 - **The replay step needs no new screen.** Level 3 uses `chart-replay` as it is (`docs/ui/05-chart-questions-and-mistakes-round.md` §4.4), and the next screen is a `journal-row` (`docs/ui/04-question-types.md`) where the learner logs the trigger they just took or passed.
 - **No Checkpoint.** The chapter has six levels and ends on the capstone, which is its test.
 
-The practice tool that lets the learner keep testing their card after the chapter is `SIM-ACCOUNT`'s (item P-02, `docs/plan/18-phase-g-arena-build.md`).
+The practice tool that lets the learner keep testing their card after the chapter is `SIM-ACCOUNT`'s (item P-02, `docs/plan/10-phase-1-app-arena-build.md`).

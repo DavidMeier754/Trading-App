@@ -27,10 +27,10 @@ This part is the record of that review. It is read together with Parts 1–3: ev
     - 9·5 Forward test: its own 30 sessions on the simulator, then live at the smallest size, the ladder from 8·12 and 8·15; when to retire a card.
     - 9·6 Capstone: the learner writes their card on the plan sheet and runs it through ten replays inside the lesson; the result is shown only as their own count.
   - Docs: docs/rules/02 (paths have 8 chapters → '8 plus the shared Chapter 9'), a new docs/course/08-chapter-9-your-own-strategy.md, a new stage in docs/plan, content-todo.
-  - Goes to: Outline in `docs/course/08-chapter-9-your-own-strategy.md`; stages `OWN-STRATEGY-OUTLINE` and `OWN-STRATEGY` in `docs/plan/15-phase-e-offer-fixes-reviews.md`. Placement: a new Chapter 9, shared by all three paths (the review's recommendation, approved with it). Its three open points were decided on 2026-10-05 (David took the recommendations): one set of examples for every path, the replay step is `chart-replay` followed by a `journal-row`, and no Checkpoint.
+  - Goes to: Outline in `docs/course/08-chapter-9-your-own-strategy.md`; stages `OWN-STRATEGY-OUTLINE` and `OWN-STRATEGY` in `docs/plan/13-phase-1-content-reviews-and-chapter-9.md`. Placement: a new Chapter 9, shared by all three paths (the review's recommendation, approved with it). Its three open points were decided on 2026-10-05 (David took the recommendations): one set of examples for every path, the replay step is `chart-replay` followed by a `journal-row`, and no Checkpoint.
 - [ ] **P-02** Practice tab: 'Test my card' on replay charts · med
   - What: A Practice tool: pick one of your cards, play replays bar by bar, press 'Trigger' when your card fires, drag the stop and target, watch it play out. Every attempt becomes a row in a small sheet for that card: R, win or loss, after a cost you set. The sheet shows your count, your average trade and how many rows you still need before it means anything. The app never says whether the card is good; your rows do. Comes after P-01 and after the replay bank exists.
-  - Goes to: `SIM-ACCOUNT` (`docs/plan/18-phase-g-arena-build.md`), item 9.
+  - Goes to: `SIM-ACCOUNT` (`docs/plan/10-phase-1-app-arena-build.md`), item 9.
 - [ ] **P-03** Rule: one word, one meaning (gap, flat, leg, the bell, spread) · high
   - What: Write a reserved-words list into the content rules and apply it everywhere:
     - spread = the bid–ask difference (never 'gap')
@@ -43,17 +43,17 @@ This part is the record of that review. It is read together with Parts 1–3: ev
   - The Swing and Day Trading chapters are written with the list from the start. Covers C1-14, C2-05, C3-01, C3-02, C6-09, C6-14, C7-07, C7-08, C1-15, C3-04 (approving this approves the direction; each of those items still says where).
   - Goes to: The rule is in `docs/rules/03-content-rules.md` §3.4a (`CONTENT-REVIEW`); the gap part is applied (C3-01). The validator warning is `RULES`; the other words are done by each `CONTENT-FIX-N`.
 - [ ] **P-04** A plain-words list: idioms to avoid, with replacements · med
-  - What: Add the list with a plain replacement for each to the content rules, and let the validator warn (not fail) when a level file uses one before the lesson that explains it. New chapters (Swing, Day) then avoid them by default, and Phase J's translations get easier.
+  - What: Add the list with a plain replacement for each to the content rules, and let the validator warn (not fail) when a level file uses one before the lesson that explains it. New chapters (Swing, Day) then avoid them by default, and Phase 3's translations get easier.
   - Goes to: The list is in `docs/rules/03-content-rules.md` §3.4a (`CONTENT-REVIEW`); the warning is `RULES`; the text by each `CONTENT-FIX-N`.
 - [ ] **P-05** Tap any chart element to see what it is · high
   - What: A tap (or long press) on the VWAP line, a level's label, the 'what happens next' pill, a volume bar, a state chip, a scanner column heading, and later the stop and target lines and the R ruler opens a small card with one line of explanation and a link to its skill card. Only for elements the learner has already been taught (same rule as the term marker). The texts are the skills' info lines, so nothing new to write and nothing extra to translate. Needs a short section in docs/ui/08.
-  - Goes to: `LOOK-COMPONENTS` (`docs/plan/11-phase-c-components-and-visuals.md`), item 12.
+  - Goes to: `LOOK-COMPONENTS` (`docs/plan/06-phase-1-app-look.md`), item 12. **Changed by David on 2026-10-05:** a "?" key on every chart screen labels everything taught on that chart at once, instead of a tap on each element.
 - [ ] **P-06** Optional 'The four sums' refresher in Chapter 1 · low
   - What: One optional side lesson, about ten screens, no hearts, no timer: each sum once with a worked example and two questions. Bonus side lessons today may only hold chart replays (docs/level-files 06), so this needs one line there allowing a 'refresher' bonus kind.
-  - Goes to: `FUN-PASS` (`docs/plan/13-phase-d-practice-to-fun-pass.md`), with one line in `docs/level-files/06-skills-bonus-lessons-market-profiles.md` for the refresher kind.
+  - Goes to: `FUN-PASS` (`docs/plan/10-phase-1-app-arena-build.md`), with one line in `docs/level-files/06-skills-bonus-lessons-market-profiles.md` for the refresher kind.
 - [ ] **P-07** Make this review's checks permanent in the validator · med
   - What: Three new warnings: (1) a level labelled high/ceiling/box top that sits under most closes before the decision, or two lines with the same label on one chart (flips like 'yesterday's low, now overhead' are allowed); (2) a taught term used in an earlier lesson than the one that introduces it; (3) the words of P-03 and P-04 in the wrong place. Warnings only, so nothing blocks; the tests in tools/test_validate.py cover each.
-  - Goes to: `RULES` (`docs/plan/14-phase-e-design-rules-variance.md`), scope item 2.
+  - Goes to: `RULES` (`docs/plan/11-phase-1-content-rules.md`), scope item 2.
 
 ## 6.2 Chapter 1 · Market Basics (`CONTENT-FIX-1`)
 
@@ -129,7 +129,7 @@ This part is the record of that review. It is read together with Parts 1–3: ev
   - Where: 1·12 and 1·13 (planned [v4] sentences)
   - Problem: The course outline (docs/course/01) plans two [v4] sentences that are not in the content: 1·12 "there are cash accounts and margin accounts, and they allow different things" and 1·13 "a short needs a margin-enabled account" (decision B). Chapter 1 never says what a margin account is, although the U.S. rules note shown in 1·12 uses the word (see C1-18).
   - Change: Add them: 1·12-1 carousel or theory ("Accounts come in two kinds: a cash account trades with your own money; a margin account also lets you borrow, which shorting needs.") and 1·13-1 s3 ("Your broker lends the shares only on a margin account.").
-  - Already a `CONTENT-FIX-1` item (decision B, `docs/plan/15-phase-e-offer-fixes-reviews.md`).
+  - Already a `CONTENT-FIX-1` item (decision B, `docs/plan/12-phase-1-content-chapter-fixes.md`).
 - [ ] **C1-18** The U.S. trading rule uses words nobody explained · med
   - Where: 1·12-1 s4 (carousel "Rules"), 1·12-3 s5 (the regulation note)
   - Problem: The rules card shows the market's regulation note, which for the U.S. reads "a margin account under $25,000 is limited to 3 day trades in 5 business days (the pattern day trader rule)". Nothing in the course says what a margin account or a day trade is, so the one legal rule a beginner must know arrives in words they cannot read.

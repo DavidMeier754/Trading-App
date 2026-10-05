@@ -87,7 +87,7 @@ rows:
 
 ### 2.4b The order's size on a depth ladder (`shares` on `depth-ladder`)
 
-After Check the app walks the market order through the book, level by level (`docs/ui/04-question-types.md` §4.2). It needs the order's size. Today it reads it from the English prompt ("You market-buy 1,400 shares"), which works for 39 of the 40 ladders and breaks once the prompts are translated (Phase J). So every `depth-ladder` gets `shares`:
+After Check the app walks the market order through the book, level by level (`docs/ui/04-question-types.md` §4.2). It needs the order's size. Today it reads it from the English prompt ("You market-buy 1,400 shares"), which works for 39 of the 40 ladders and breaks once the prompts are translated (Phase 3). So every `depth-ladder` gets `shares`:
 
 ```yaml
 - type: depth-ladder

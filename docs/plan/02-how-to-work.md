@@ -10,6 +10,11 @@ _Part of the [build plan](README.md) · §1_
 
 (From 2026-09-26 to 2026-10-03 the stages ran as threads in the Claude project. David moved back to plain sessions on 2026-10-03: a fresh session per stage, started by him.)
 
+**Two lanes** (David, 2026-10-05). The work runs in two lanes at the same time: the **app lane** (screens, the learning loop, the arena, the platform) and the **content lane** (rules, chapters, reviews, new paths). Section 2 (`03-stages-at-a-glance.md`) lists each lane's stages in order and says where one lane waits for the other.
+- You may run one session of each lane at once; where a stage says "parallel" (the chapter fixes), several sessions of it run at once too.
+- Each stage keeps its own PR. PRs are merged one at a time, each with every check green on its latest commit; a later PR merges `main` in first.
+- If a session needs a file the other lane is changing, it leaves it, names it in the report, and the later stage picks it up.
+
 1. **Open a session:** Claude Code (the app or claude.ai/code) → repository `DavidMeier754/Trading-App` → new session. A session starts with the repository and nothing else; `CLAUDE.md` tells it what to read.
 2. **Set model and effort before you send the prompt** — the stage's "Model · effort · sessions" line says which:
    - `/model opus` (= Opus 5.5), `/model fable` (= Fable 5.1, if your plan has it), `/model sonnet` (= Sonnet 5).
@@ -25,7 +30,7 @@ _Part of the [build plan](README.md) · §1_
 5. **You test** on your phone and answer **in the same session**:
    - `OK <STAGE> – merge` → Claude merges the PR once every check on it is green (merge rule in `CLAUDE.md`), and the stage gets its ✅ in section 2. You can also merge the PR yourself on GitHub.
    - or a list of problems (template "Bug report", Appendix A) → Claude fixes them in the same session and PR, and you test again.
-6. **Next stage = new session.** A fresh context is more accurate and cheaper. A stage with several sessions in section 2 gets one session per part (`session 1`, `session 2`), each with its own PR.
+6. **Next stage = new session.** A fresh context is more accurate and cheaper. The next stage is the first one without ✅ in its lane. A stage with several sessions in section 2 gets one session per part (`session 1`, `session 2`), each with its own PR.
 7. **Where to look:** the PR on GitHub shows the stage's state (its checks, the preview link, the report as its description). Questions about a running stage go into its session.
 
 ### Which model for what
@@ -34,7 +39,7 @@ _Part of the [build plan](README.md) · §1_
 |---|---|---|---|
 | **Opus 5.5** | `/model opus` | The default for code and content, everything that takes judgment | medium |
 | **Fable 5.1** | `/model fable` | The hardest tasks: the knowledge audit, full reviews, design directions. Only where the plan says so. | high (≈ 2.5× Opus) |
-| **Sonnet 5** | `/model sonnet` | Mechanical work that follows a clear pattern (configuration, store metadata) | low |
+| **Sonnet 5** | `/model sonnet` | Mechanical work that follows a clear pattern (configuration) | low |
 | Haiku 4.5 | `/model haiku` | **Never for content with numbers.** At most for hunting typos. | very low |
 
 If your plan does not include Fable 5.1, use Opus 5.5 with `/effort max` there instead.
@@ -89,7 +94,7 @@ npm run smoke                              # from stage WIRE on: every screen re
 
 - **Preview:**
   - From stage `CI` on, every PR gets a link (web preview, for your phone).
-  - From `CI` part B on there is also a QR code for Expo Go: real haptics, real sounds.
+  - Every PR also gets a QR code for Expo Go: real haptics, real sounds.
 - **Deep links open any screen directly:**
   - `<preview>/#level-09-2/3` = Chapter 1, Level 9, lesson 2, screen 3.
   - `#scalping-ch3-level-15-2/5` = Scalping Chapter 3.

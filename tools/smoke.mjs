@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// The render test (docs/plan/05-phase-a-foundation.md, stage WIRE): opens every screen of every
+// The render test (docs/plan/05-done-so-far.md, stage WIRE): opens every screen of every
 // lesson, and the home screen's pages, by deep link and reports what broke.
 //
 //   npm run smoke                       build the web export, then test every screen

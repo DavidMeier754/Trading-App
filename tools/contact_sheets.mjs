@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Contact sheets of the test bench (docs/plan/08-phase-c-look-system.md, stage LOOK-SYSTEM item 8):
+// Contact sheets of the test bench (docs/plan/05-done-so-far.md, stage LOOK-SYSTEM item 8):
 // every screen of the all-screens lesson at three phone sizes, in light and
 // dark, one sheet per size and theme. On every page it also runs the measured
 // UI check (tools/ui_audit.mjs) and writes sheets/ui-check.md; with --strict

@@ -19,11 +19,11 @@ Suggested places for **Spot it** on the scalping path, never right before a test
 2. ✅ Chapter 1 (expand — done after Scalping 2–4 so the callbacks are known)
 3. ✅ Scalping Chapters 5 → 6 → 7 → 8 (5 and 8 are new)
 4. ◐ Scalping drill packs — manifest and tooling done, 1 of 15 packs written
-5. **[v4]** Chapter 1 Level 2-4 and Scalping Chapter 8 Level 15, then one correction pass per chapter (`docs/plan/14-phase-e-design-rules-variance.md` Phase E)
+5. **[v4]** Chapter 1 Level 2-4 and Scalping Chapter 8 Level 15, then one correction pass per chapter (`docs/plan/12-phase-1-content-chapter-fixes.md`)
 6. **[v4]** Swing Trading Chapters 2 → 8 — before Day Trading (decision W2: Chapter 1 sends working people to swing, and EU retail traders can hardly scalp cash stocks)
-7. **[v4.1]** Day Trading Chapters 2 → 8 — after Swing, before the release (decision E)
+7. **[v4.1]** Day Trading Chapters 2 → 8 — after Swing, in Phase 2 of the plan (decision E)
 8. **[DESIGN-REVIEW]** Alongside all of the above: `docs/content-todo/` — skills per lesson, the chart ramp, notes, alerts, briefings and the bonus lessons, done chapter by chapter in the pass that touches the chapter anyway
 
 One chapter per session, written in blocks of 4–6 levels (`docs/rules/09-working-and-process.md` §6). After each: validator clean, commit, open a PR, short report, stop.
 
-The order of all work — app, content and release — with a prompt, model and effort per stage: `docs/plan/`.
+The order of all work — app and content — with a prompt, model and effort per stage: `docs/plan/`.
