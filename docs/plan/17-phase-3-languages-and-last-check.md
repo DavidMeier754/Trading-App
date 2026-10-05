@@ -66,6 +66,17 @@ Only if Arabic, Hebrew or another right-to-left language is on the list.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
+**Prompt**
+```
+Stage RTL from docs/plan/17-phase-3-languages-and-last-check.md.
+
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "RTL" section in docs/plan/17-phase-3-languages-and-last-check.md in full, plus docs/ui/14-glossary-and-copy.md §9 and docs/ui/15-theming-and-accessibility.md.
+Build exactly that scope. Charts keep time running left to right and numbers stay left to right.
+
+Open a PR against main and get every check green.
+Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+```
+
 **You test.** One lesson and the arena in Arabic or Hebrew: nothing overlaps, and the charts read left to right.
 
 ### `A11Y-PERF` – accessibility and speed on real devices
