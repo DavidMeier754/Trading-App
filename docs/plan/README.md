@@ -7,8 +7,8 @@ The order of all work, from today to the finished app. A Claude Code session doe
 | File | Sections | What is in it |
 | --- | --- | --- |
 | [01-goal-and-guardrails.md](01-goal-and-guardrails.md) | §0 | The goal, the graduate profile, variance, fun (no quotas), what "the finished app" means. |
-| [02-how-to-work.md](02-how-to-work.md) | §1 | How a stage runs, the two lanes, models and effort, the rules, the checks, how David tests. |
-| [03-stages-at-a-glance.md](03-stages-at-a-glance.md) | §2–3 | Every stage, phase by phase and lane by lane, and where things stand today. |
+| [02-how-to-work.md](02-how-to-work.md) | §1 | How a stage runs, one stage at a time (app, then content), your turns, models and effort, the rules, the checks, how David tests. |
+| [03-stages-at-a-glance.md](03-stages-at-a-glance.md) | §2–3 | Every stage in the order it runs, and where things stand today. |
 | [04-decisions.md](04-decisions.md) | §4 | The decisions made, the ones still open, and how each stage is described. |
 | [05-done-so-far.md](05-done-so-far.md) | | The finished stages, one line each, with their PRs. |
 | [06-phase-1-app-look.md](06-phase-1-app-look.md) | Phase 1 · app | `LOOK-COMPONENTS`, `VISUALS`. |
@@ -27,16 +27,18 @@ The order of all work, from today to the finished app. A Claude Code session doe
 | [19-appendix-prompt-frame.md](19-appendix-prompt-frame.md) | Appendix E.0–E.2 | The frame of every prompt, and the prompts for `OFFER` and the replays. |
 | [20-appendix-content-prompts.md](20-appendix-content-prompts.md) | Appendix E.3–E.8 | State chips, drills, review passes A and B, new paths, sizing. |
 | [21-appendix-review-map.md](21-appendix-review-map.md) | Appendix F | Every review item and the stage that handles it. |
+| [22-your-turn.md](22-your-turn.md) | All phases | `YOUR-TURN-1` … `-9`: your own changes, the design or anything else; the parked wishes. |
 
 ## About this plan
 
 **Rebuilt on 2026-10-05** from David's picks (the artifacts "Nutrade App Vision" and "Nutrade Build Plan"):
 - **Only the app.** The plan ends at the finished app (`01-goal-and-guardrails.md` §0). Everything about taking it to people (trademark, legal texts, store accounts and listings, testers, betas, the release) left the plan, together with the expert review, a native speakers' review and update channels.
-- **Two lanes, Scalping first.** App and content run side by side; Swing starts once Scalping is finished in every layer.
+- **One stage at a time, Scalping first** (changed on 2026-10-06). In each phase the app comes first, then the content; Swing starts once Scalping is finished in every layer.
+- **Your turn** (2026-10-06). After every block a stage for your own changes, the design or anything else (`22-your-turn.md`).
 - **No quotas.** As many lessons as the learner likes; practice and today's chart optional; the streak grows only on a day a lesson is finished.
 
 Earlier: the plan of 2026-09-25 replaced the content-only build plan; `DESIGN-REVIEW` (2026-10-03/04) and `CONTENT-REVIEW` (2026-10-05) updated it. Their stages are in `05-done-so-far.md`.
 
 **One rule first: this plan's order is the order.**
 - Stages have names (`RULES`, `TABS`, …), not numbers, because numbers drifted apart before.
-- To find what comes next, read the tables in section 2 (`03-stages-at-a-glance.md`): the first stage without ✅ in each lane is that lane's next one.
+- To find what comes next, read the tables in section 2 (`03-stages-at-a-glance.md`) top to bottom: the first stage without ✅ is the next one.

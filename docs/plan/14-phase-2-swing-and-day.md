@@ -2,7 +2,7 @@
 
 _Part of the [build plan](README.md)_
 
-All three paths are part of the finished app. They start once Scalping is finished in every layer (the end of Phase 1). Swing comes first, because Chapter 1 sends people with a full-time job there; Day Trading follows. Each path gets its chapters, its reviews, then its arena content.
+All three paths are part of the finished app. They start once Scalping is finished in every layer (the end of Phase 1) and Phase 2's app lane is done (`YOUR-TURN-6`). Swing comes first, because Chapter 1 sends people with a full-time job there; Day Trading follows. Each path gets its chapters, its reviews, then its arena content.
 
 **Prerequisites**
 - `RULES` has the rules "per-trade risk" and "total exposure" (required, `docs/rules/04-numbers-and-realism.md` §3.6).

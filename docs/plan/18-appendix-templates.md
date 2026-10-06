@@ -24,6 +24,7 @@ OK <STAGE> – merge
 Checklist: 1 ✓ 2 ✓ 3 ✗ (see below) 4 ✓
 Fun (1–5):
 What I noticed (small things too, and things for later stages):
+Wishes for my next turn (parked in docs/plan/22-your-turn.md):
 ```
 
 If the list has an ✗, do not answer "OK" but send the bug report.

@@ -2,7 +2,7 @@
 
 _Part of the [build plan](README.md)_
 
-While the content lane writes Swing and Day Trading, the app lane builds what the app needs around them: accounts and sync, Nutrade Plus and ads here; crash reports, a measured clean-up and the language pipeline in `docs/plan/16-phase-2-analytics-speed-languages.md`.
+Phase 2 starts with the app (David, 2026-10-06): before Swing and Day Trading are written, the app gets what it needs around them: accounts and sync, Nutrade Plus and ads here; crash reports, a measured clean-up and the language pipeline in `docs/plan/16-phase-2-analytics-speed-languages.md`.
 
 **Test keys only.** Plus, ads and Sign in with Apple are built and tested with test keys and sandboxes. Switching them on for real needs the store accounts, which are outside this plan (David, 2026-10-05). Each stage says what you prepare.
 

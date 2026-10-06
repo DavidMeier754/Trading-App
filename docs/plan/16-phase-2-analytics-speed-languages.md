@@ -64,7 +64,7 @@ Stage TECH from docs/plan/16-phase-2-analytics-speed-languages.md. Read CLAUDE.m
 
 ### `I18N-PIPELINE` – how a language is added
 
-**When.** At the end of Phase 2's app lane. The pilot needs only Chapter 1 and the app; the other languages wait for the final English (Phase 3).
+**When.** At the end of Phase 2's app lane, before `YOUR-TURN-6` and Swing. The pilot needs only Chapter 1 and the app; the other languages wait for the final English (Phase 3).
 
 **Goal.** Adding a language becomes a repeatable, checked process. It is proven on German first, because you can judge German yourself.
 

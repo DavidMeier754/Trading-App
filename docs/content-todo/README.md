@@ -16,7 +16,7 @@ Section numbers are the same as before the docs were split into these files.
 
 ## About this list
 
-**Updated 2026-10-05:** the build plan was rebuilt from David's picks (`docs/plan/`: only the app, two lanes, Scalping first). For this list that means: §1.6 "No quotas" is new, tap-to-explain became the "?" key (Part 6, P-05), and the stages that read it are named below.
+**Updated 2026-10-05:** the build plan was rebuilt from David's picks (`docs/plan/`: only the app, Scalping first; since 2026-10-06 one stage at a time, the app before the content). For this list that means: §1.6 "No quotas" is new, tap-to-explain became the "?" key (Part 6, P-05), and the stages that read it are named below.
 
 Status: 2026-10-04. Written in stage `DESIGN-REVIEW` (`docs/plan/`) from David's verdicts on the 50 design ideas of that stage (the artifact "Nutrade design review"). The app side of every approved idea is built in that stage. **No content file was changed there** — David, 2026-10-03: "Don't rewrite any .yaml". Everything the level files need is listed here instead, for the content sessions that follow.
 

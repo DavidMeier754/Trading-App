@@ -8,7 +8,7 @@ On 2026-10-04 every lesson of Chapter 1 and Scalping Chapters 2–8 was read as 
 
 This part is the record of that review. It is read together with Parts 1–3: every `CONTENT-FIX-N` works through its chapter's list below as well as Part 3 and the worklist, ticks what it did here, and adds a line to Part 5.
 
-**What was done straight away** (stage `CONTENT-REVIEW`, the session that wrote this file): everything that crosses chapters, so that the chapter passes can run in parallel without editing the same files:
+**What was done straight away** (stage `CONTENT-REVIEW`, the session that wrote this file): everything that crosses chapters, so that each chapter pass edits only its own chapter's files:
 - the spread sweep (C1-14, C2-05, C3-01, C6-14): "gap" now means only a jump while trading was shut;
 - six terms taught where they are first used: Print, Fill, Gap, Setup (Chapter 1), Leg (Chapter 2), Grade-A trade (Chapter 6);
 - the two mislabelled box lines in 7·3-2 (C7-01, C7-02);

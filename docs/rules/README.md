@@ -30,6 +30,6 @@ Status: **v3** — expanded curriculum. The path is now eight chapters and ~385 
 
 **[v4.1] (2026-09-25)** — David's answers to the plan's open decisions (`docs/plan/04-decisions.md` §4.1): all three paths in v1.0, the app name Nutrade, accounts, Nutrade Plus with a practice arena, ads in the free tier, and every launch language, translated from the English source. Marked **[v4.1]**.
 
-**[2026-10-05]** — the build plan rebuilt from David's picks (`docs/plan/`): only the app, two lanes, Scalping first. For content: **no quotas** (`03-content-rules.md` §3.4b); the streak grows only on a day a lesson is finished.
+**[2026-10-05]** — the build plan rebuilt from David's picks (`docs/plan/`): only the app, Scalping first; since 2026-10-06 one stage at a time, the app before the content. For content: **no quotas** (`03-content-rules.md` §3.4b); the streak grows only on a day a lesson is finished.
 
 **[DESIGN-REVIEW] (2026-10-03)** — David's verdicts on 50 design ideas (`docs/plan/05-done-so-far.md`, stage DESIGN-REVIEW). For content they mean: **no reliable-looking odds** anywhere (§3.11), the variance simulator dropped, **charts that start simple and grow** with every element explained (§3.8), questions that stand on their own (§3.4), skills per lesson, and hearts that all come back five hours after the first is lost (§1). The content work they leave is listed in `docs/content-todo/`; every content session reads it.

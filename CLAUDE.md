@@ -6,10 +6,10 @@ Run `python3 tools/validate_content.py` before finishing any content step.
 
 ## How the work is organised
 
-- The order of all work, from today to the finished app, is `docs/plan/`; the table of stages is `docs/plan/03-stages-at-a-glance.md`. It has two lanes, app and content, that run at the same time; the next stage of a lane is its first one without ✅.
+- The order of all work, from today to the finished app, is `docs/plan/`; the table of stages is `docs/plan/03-stages-at-a-glance.md`. One stage at a time: in each phase the app stages come first, then the content stages; the next stage is the first one without ✅. `YOUR-TURN` stages are David's own changes (`docs/plan/22-your-turn.md`).
 - A Claude Code session does exactly **one stage** (David starts a new session for every stage; `docs/plan/02-how-to-work.md` §1):
   - Read `docs/plan/02-how-to-work.md` (§1, "How to work with this plan") and the stage's own section; `docs/plan/README.md` says which file holds it.
-  - Build that scope and nothing from a later stage. Note anything else you find in the report.
+  - Build that scope and nothing from a later stage. Note anything else you find in the report. A wish David voices beyond the stage goes under "Parked wishes" in `docs/plan/22-your-turn.md`.
   - Stop at the stage's gate.
 - Findings carry ids (M…, S…, K…, W…) from `docs/review-2026-09-25/`.
 - Work on the session's branch and open a PR against `main`. Never push to `main` directly unless David says so explicitly.

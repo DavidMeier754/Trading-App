@@ -2,10 +2,10 @@
 
 _Part of the [build plan](README.md)_
 
-The content lane runs beside the app lane. Its order is deliberate:
+The content lane is the second part of Phase 1: it starts once the app lane and `YOUR-TURN-3` are done (`docs/plan/03-stages-at-a-glance.md`). Its order is deliberate:
 1. First the validator learns the new rules, and every chapter gets its worklist (`RULES`).
 2. Then the new building blocks are made (`CONTENT-DESIGN`, `VARIANCE`, `OFFER`).
-3. Then every chapter is touched **once** (`CONTENT-FIX`, `docs/plan/12-phase-1-content-chapter-fixes.md`). Chapters 2–7 run at the same time once `RULES` and the app lane's `VISUALS` are merged.
+3. Then every chapter is touched **once** (`CONTENT-FIX`, `docs/plan/12-phase-1-content-chapter-fixes.md`). Chapters 2–7 one after the other, then Chapters 1 and 8.
 4. Only then come the reviews (`docs/plan/13-phase-1-content-reviews-and-chapter-9.md`).
 
 That way no file is rewritten twice. Your critique of the lessons is collected in `docs/content-todo/05-content-review.md` (the content review of 2026-10-05); `RULES` adds only what you find on top.

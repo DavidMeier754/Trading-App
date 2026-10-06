@@ -2,7 +2,7 @@
 
 _Part of the [build plan](README.md)_
 
-The arena in the app, from the tab and today's chart to the practice account and the drills. `FUN-PASS` is the last stage of the app lane in Phase 1.
+The arena in the app, from the tab and today's chart to the practice account and the drills. `FUN-PASS` is the last stage of the app lane in Phase 1; after it come `YOUR-TURN-3` and then the content lane (`docs/plan/11-phase-1-content-rules.md`).
 
 ### `ARENA-TAB` – the arena tab and the Daily Chart
 

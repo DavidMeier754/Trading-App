@@ -2,7 +2,7 @@
 
 _Part of the [build plan](README.md)_
 
-After every chapter is fixed, Claude checks the whole Scalping course twice: for knowledge against the graduate profile (`docs/plan/01-goal-and-guardrails.md` §0) and for teaching quality. The plan has no outside expert (David, 2026-10-05): where a finding needs outside knowledge, it goes to you. Then the replay bank and Chapter 9, both of which wait for the app lane's `CHART-GEN`.
+After every chapter is fixed, Claude checks the whole Scalping course twice: for knowledge against the graduate profile (`docs/plan/01-goal-and-guardrails.md` §0) and for teaching quality. The plan has no outside expert (David, 2026-10-05): where a finding needs outside knowledge, it goes to you. Then the replay bank and Chapter 9, both of which use the app lane's `CHART-GEN`, finished by then.
 
 ### `KNOWLEDGE` – is the knowledge enough for practice?
 
@@ -135,4 +135,4 @@ Report: what you built · check results · my test checklist with real links · 
 
 ### Milestone – Scalping is finished
 
-Phase 1 ends when both lanes are done: Chapter 1 and Scalping Chapters 2–9 fixed and reviewed, the learning loop complete, the arena and its practice account working for Scalping. Only then does Swing start (Phase 2). That is the rule from David's pick of 2026-10-05: one path finished in every layer before the next begins, so Swing and Day Trading become content work on screens that already exist.
+Phase 1 ends when both lanes are done, and with `YOUR-TURN-5`: Chapter 1 and Scalping Chapters 2–9 fixed and reviewed, the learning loop complete, the arena and its practice account working for Scalping. Only then does Swing start (Phase 2). That is the rule from David's pick of 2026-10-05: one path finished in every layer before the next begins, so Swing and Day Trading become content work on screens that already exist.

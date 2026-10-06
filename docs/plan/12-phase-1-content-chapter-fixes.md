@@ -2,15 +2,15 @@
 
 _Part of the [build plan](README.md)_
 
-One pass per chapter, so every file is touched once. Chapters 2–7 at the same time, then Chapters 1 and 8.
+One pass per chapter, so every file is touched once. Chapters 2–7 one after the other, then Chapters 1 and 8.
 
 ### `CONTENT-FIX-1` … `CONTENT-FIX-8` – one pass per chapter
 
 **Goal.** Every chapter meets every rule. One pass per chapter, so every file is touched only once.
 
-**Order (the content lane, 2026-10-05):** `CONTENT-FIX-2` … `-7` run at the same time once `RULES` and `VISUALS` are merged (`VISUALS` brings the graphics the passes place). `CONTENT-FIX-1` waits for `VARIANCE`, `CONTENT-FIX-8` for `OFFER`.
+**Order (David, 2026-10-06):** `CONTENT-FIX-2` … `-7` run one after the other, after `RULES` and `CONTENT-DESIGN`; the app lane, with `VISUALS`' graphics, is done by then. `CONTENT-FIX-1` comes after `VARIANCE`, `CONTENT-FIX-8` after `OFFER`. Then `YOUR-TURN-4`.
 
-**[CONTENT-REVIEW] Parallel since 2026-10-05.** The content review's cross-chapter edits are done (`docs/content-todo/05-content-review.md`, stage `CONTENT-REVIEW`): the spread sweep and the terms taught where they are first used. So no pass needs another chapter's files any more, and the passes may run at the same time, each in its own session and PR, merged one at a time with every check green. All of them start after `RULES`, which builds the worklist every pass reads (`tools/content_report.py`); the next session after `CONTENT-REVIEW` is therefore `RULES` (decided 2026-10-05). Chapter 1 still waits for `VARIANCE` and Chapter 8 for `OFFER`. Chapters 4 and 5 are small enough to share one session. If a fix turns out to need another chapter's file after all, the pass leaves it, names it in the report, and that chapter's pass does it.
+**[CONTENT-REVIEW] One chapter per pass.** The content review's cross-chapter edits are done (`docs/content-todo/05-content-review.md`, stage `CONTENT-REVIEW`): the spread sweep and the terms taught where they are first used. So no pass needs another chapter's files any more. Each pass has its own session and PR, merged with every check green before the next pass starts. All of them start after `RULES`, which builds the worklist every pass reads (`tools/content_report.py`). Chapter 1 waits for `VARIANCE` and Chapter 8 for `OFFER`. Chapters 4 and 5 are small enough to share one session. If a fix turns out to need another chapter's file after all, the pass leaves it, names it in the report, and that chapter's pass does it (or, for a chapter already fixed, the next `YOUR-TURN`).
 
 **Scope per chapter**
 1. **Work through the worklist** (`python3 tools/content_report.py --chapter N`):

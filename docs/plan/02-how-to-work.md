@@ -10,10 +10,12 @@ _Part of the [build plan](README.md) · §1_
 
 (From 2026-09-26 to 2026-10-03 the stages ran as threads in the Claude project. David moved back to plain sessions on 2026-10-03: a fresh session per stage, started by him.)
 
-**Two lanes** (David, 2026-10-05). The work runs in two lanes at the same time: the **app lane** (screens, the learning loop, the arena, the platform) and the **content lane** (rules, chapters, reviews, new paths). Section 2 (`03-stages-at-a-glance.md`) lists each lane's stages in order and says where one lane waits for the other.
-- You may run one session of each lane at once; where a stage says "parallel" (the chapter fixes), several sessions of it run at once too.
-- Each stage keeps its own PR. PRs are merged one at a time, each with every check green on its latest commit; a later PR merges `main` in first.
-- If a session needs a file the other lane is changing, it leaves it, names it in the report, and the later stage picks it up.
+**One stage at a time** (David, 2026-10-06). Phases 1 and 2 each have two parts that run one after the other: first **the app** (screens, the learning loop, the arena, the platform), then **the content** (rules, chapters, reviews, new paths). Section 2 (`03-stages-at-a-glance.md`) lists every stage in that order.
+- Only one session runs at a time. The next stage is the first one without ✅, top to bottom.
+- The app comes first because the content uses what it builds: the chapter fixes place `VISUALS`' graphics, the replays and Chapter 9 use `CHART-GEN`.
+- Each stage keeps its own PR, merged with every check green on its latest commit before the next stage starts.
+
+**Your turn** (David, 2026-10-06). After every block of stages comes a `YOUR-TURN` stage: you change whatever you want, the design or anything else (`22-your-turn.md`). You may start an extra one between any two stages, or skip one. A wish you have while testing another stage waits for it under "Parked wishes" in the same file.
 
 1. **Open a session:** Claude Code (the app or claude.ai/code) → repository `DavidMeier754/Trading-App` → new session. A session starts with the repository and nothing else; `CLAUDE.md` tells it what to read.
 2. **Set model and effort before you send the prompt** — the stage's "Model · effort · sessions" line says which:
@@ -30,7 +32,8 @@ _Part of the [build plan](README.md) · §1_
 5. **You test** on your phone and answer **in the same session**:
    - `OK <STAGE> – merge` → Claude merges the PR once every check on it is green (merge rule in `CLAUDE.md`), and the stage gets its ✅ in section 2. You can also merge the PR yourself on GitHub.
    - or a list of problems (template "Bug report", Appendix A) → Claude fixes them in the same session and PR, and you test again.
-6. **Next stage = new session.** A fresh context is more accurate and cheaper. The next stage is the first one without ✅ in its lane. A stage with several sessions in section 2 gets one session per part (`session 1`, `session 2`), each with its own PR.
+   - A wish that is not a problem of this stage (something new, a different look) → Claude writes it under "Parked wishes" in `22-your-turn.md`, in this PR, and your next `YOUR-TURN` builds it.
+6. **Next stage = new session.** A fresh context is more accurate and cheaper. The next stage is the first one without ✅ in section 2. A stage with several sessions in section 2 gets one session per part (`session 1`, `session 2`), each with its own PR.
 7. **Where to look:** the PR on GitHub shows the stage's state (its checks, the preview link, the report as its description). Questions about a running stage go into its session.
 
 ### Which model for what
@@ -59,7 +62,7 @@ Tip: write `ultrathink` into a single message when Claude should think harder at
 
 These rules are in `CLAUDE.md`; the prompt does not have to repeat them.
 
-- **Only the session's own stage.** Anything noticed that belongs to a later stage goes into the report, not into the code.
+- **Only the session's own stage.** Anything noticed that belongs to a later stage goes into the report, not into the code. Your wishes beyond the stage go under "Parked wishes" in `22-your-turn.md`.
 - **The standard checks run before the report** (below), and all are green.
 - **The report**, in this order:
   1. What was built.

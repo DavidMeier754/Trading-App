@@ -5,7 +5,7 @@ _Part of the [build plan](README.md)_
 **The principle.**
 - English is the source. Every other language is generated from it by a checked pipeline and never edited by hand.
 - The automatic checks per language decide. A reading by native speakers is outside this plan (David, 2026-10-05).
-- The phase starts when the English content is final, after the path reviews. A later change to an English file re-translates just that file (its source hash changes).
+- The phase starts when the English content is final, after the path reviews and `YOUR-TURN-8`. `YOUR-TURN-9` comes after `RTL`, before the last check (`A11Y-PERF`). A later change to an English file re-translates just that file (its source hash changes).
 
 **The language does not decide the market.** A Spanish speaker in Mexico may trade US stocks, so the market profile stays a setting of its own (`MARKETS`).
 

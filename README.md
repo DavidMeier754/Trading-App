@@ -10,7 +10,7 @@ The app is called **Nutrade** (decision L in `docs/plan/04-decisions.md` §4.1; 
 
 - **Content:** Chapter 1 and the whole Scalping path are written: 388 sub-levels, 5,109 screens, 0 validator errors. Two pieces are planned: Chapter 1 Level 2-4 (variance) and Chapter 8 Level 15 (accounts and rules). Swing Trading and Day Trading are outlined level by level; both are written in Phase 2 of the plan.
 - **App:** an Expo app at the repo root (`README-app.md`). It plays every written lesson: Chapter 1 and Scalping Chapters 2–8.
-- **The plan to the finished app:** `docs/plan/`. Three phases, two lanes (app and content) side by side. Each one has a copy-ready prompt, a model and effort, automatic checks, and the test David runs before the next stage starts.
+- **The plan to the finished app:** `docs/plan/`. Three phases, one stage at a time (in each phase the app first, then the content), and a turn for David's own changes after every block. Each one has a copy-ready prompt, a model and effort, automatic checks, and the test David runs before the next stage starts.
 - **The review it is built on:** `docs/review-2026-09-25/`: a full play-through, a render of every screen, and every doc read. Each finding is assigned to a stage in appendix F of the plan.
 
 ## Start here

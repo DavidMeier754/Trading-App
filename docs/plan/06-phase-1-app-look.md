@@ -2,7 +2,7 @@
 
 _Part of the [build plan](README.md)_
 
-The app lane runs beside the content lane (`docs/plan/03-stages-at-a-glance.md`). It starts with the building blocks of every lesson. `VISUALS` comes early on purpose: the content lane's chapter fixes start once it is merged, so they can place its graphics.
+The app lane is the first part of Phase 1; the content lane follows once it is done (`docs/plan/03-stages-at-a-glance.md`). It starts with the building blocks of every lesson, so the chapter fixes later place finished components and `VISUALS`' graphics. After `VISUALS` comes your first turn for your own changes (`YOUR-TURN-1`, `docs/plan/22-your-turn.md`).
 
 ### `LOOK-COMPONENTS` – the building blocks of every lesson
 
