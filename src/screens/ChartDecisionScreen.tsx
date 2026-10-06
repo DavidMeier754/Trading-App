@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSequence,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
@@ -15,16 +13,12 @@ import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
-import { decisionButtons } from '../lesson/answers';
-import { detentFeedback } from '../lesson/feedback';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
-import { REVEAL_GROWTH } from '../lesson/fit';
 import { useFit } from '../lesson/fitState';
 import { RevealProbe } from '../lesson/Reveal';
 import {
   decisionMove,
   decisionReveal,
-  DECISION_LABEL,
   DIRECTION,
   longestDecisionReveal,
   positionTag,
@@ -42,8 +36,8 @@ import {
   revealTiming,
 } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, MONO_FONT, space, type, themed } from '../theme';
-import type { ChartDecisionScreen as S, DecisionButton } from '../types';
+import { colors, space, type, themed } from '../theme';
+import type { ChartDecisionScreen as S } from '../types';
 import { TermText } from '../lesson/termText';
 
 export type DecisionPhase = 'deciding' | 'playing' | 'done';
@@ -63,40 +57,17 @@ const MAKE_ROOM_MS = 360;
 /** Points kept spare under the screen's content, so it never quite needs the scale. */
 const FIT_SLACK = 4;
 
-/** How far the chart is dragged, in points, before letting go makes the call. */
-const CALL_AT = 96;
-
-/**
- * docs/ui/05-chart-questions-and-mistakes-round.md §4.3 [DESIGN-REVIEW] "Swipe to make the call" (David's pick of
- * 2026-10-04): which call a swipe across the chart makes. Right is the call
- * up (Long, Buy); left is Short, or on a Buy / Wait screen, Wait. A screen
- * whose keys have no call for a side does not answer a swipe that way.
- */
-export function swipeCalls(buttons: DecisionButton[]): {
-  right: DecisionButton | null;
-  left: DecisionButton | null;
-} {
-  const right = buttons.find((b) => b === 'long' || b === 'buy') ?? null;
-  const left =
-    buttons.find((b) => b === 'short') ??
-    (buttons.includes('buy') ? (buttons.find((b) => b === 'wait') ?? null) : null);
-  return { right, left };
-}
-
 export default function ChartDecisionScreen({
   screen,
   value,
   width,
   onPhaseChange,
-  onDecide,
   revealed = false,
 }: {
   screen: S;
   value: AnswerValue;
   width: number;
   onPhaseChange: (phase: DecisionPhase) => void;
-  /** A call made by swiping the chart, as its key would make it. */
-  onDecide?: (button: DecisionButton) => void;
   /** Already answered: a screen come back to, which shows its end state. */
   revealed?: boolean;
 }) {
@@ -245,7 +216,6 @@ export default function ChartDecisionScreen({
   // wrong answer's card overflowed and the whole screen was scaled down to
   // fit it the moment it landed -- the chart squeezed at the very end.
   const [probeH, setProbeH] = useState(0);
-  const verdictH = probeH > 0 ? probeH + space.md : REVEAL_GROWTH;
   // Before the call, the tallest reveal any key can bring; once the call is
   // made, the one it brings -- so the chart gives up exactly the room its own
   // verdict takes, and no gap is left inside the verdict.
@@ -286,7 +256,11 @@ export default function ChartDecisionScreen({
       : chartHeightFor(hasVolume, DEFAULT_GAPS);
   const short =
     room !== undefined && probeH > 0
-      ? Math.max(least, room - verdictH - space.sm - FIT_SLACK)
+      ? // The verdict hangs from the chart's foot (space.sm under it) to the
+        // key, over the content's bottom padding (space.lg) and the slot's own
+        // (space.xs): LessonPlayer's revealSlot. Exactly that, so no gap is
+        // left inside it.
+        Math.max(least, room + space.lg - space.sm - space.xs - probeH - 2)
       : tall;
   // Settled while the learner looks: once the call is made the tall size holds
   // until the replay ends, whatever is measured meanwhile.
@@ -345,70 +319,6 @@ export default function ChartDecisionScreen({
           ? 'faint'
           : null;
 
-  // The swipe: while the call is open the chart follows the finger sideways,
-  // leaning the way it goes, with the call it would make stamped on it; let
-  // go far enough and that call is made, as its key would make it, and the
-  // chart springs back into place to play it out. Not far enough, it springs
-  // back and nothing is decided. The keys stay the tap path (§10).
-  const calls = useMemo(() => swipeCalls(decisionButtons(screen)), [screen]);
-  const drag = useSharedValue(0);
-  const armed = useSharedValue(0);
-  const canSwipe = choice === null && !revisit && !!onDecide;
-  const call = useCallback(
-    (right: boolean) => {
-      const button = right ? calls.right : calls.left;
-      if (button) onDecide?.(button);
-    },
-    [calls, onDecide],
-  );
-  const armedFeel = useCallback(() => detentFeedback(), []);
-  const hasRight = !!calls.right;
-  const hasLeft = !!calls.left;
-  const swipe = Gesture.Pan()
-    .enabled(canSwipe && (hasRight || hasLeft))
-    // One finger: two are a pinch, the chart's zoom (Chart.tsx).
-    .maxPointers(1)
-    // Sideways only: an up-and-down move is the page's.
-    .activeOffsetX([-12, 12])
-    .failOffsetY([-14, 14])
-    .onUpdate((e) => {
-      const x = e.translationX;
-      // A side with no call gives a little and no further.
-      const to = (x > 0 && !hasRight) || (x < 0 && !hasLeft) ? x * 0.15 : x * 0.8;
-      drag.set(to);
-      const far = Math.abs(to) >= CALL_AT ? 1 : 0;
-      if (far !== armed.get()) {
-        armed.set(far);
-        if (far) scheduleOnRN(armedFeel);
-      }
-    })
-    .onEnd((e) => {
-      const x = drag.get();
-      const right = x + e.velocityX * 0.05 > 0;
-      const allowed = right ? hasRight : hasLeft;
-      const far = Math.abs(x) >= CALL_AT || (Math.abs(e.velocityX) > 900 && Math.abs(x) > 40);
-      if (far && allowed) scheduleOnRN(call, right);
-    })
-    .onFinalize(() => {
-      armed.set(0);
-      drag.set(reduced ? 0 : withSpring(0, { duration: 420, dampingRatio: 0.7 }));
-    });
-  const dragStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: drag.get() }, { rotate: `${drag.get() / 40}deg` }],
-  }));
-  const rightStamp = useAnimatedStyle(() => ({
-    opacity: Math.min(1, Math.max(0, drag.get() / CALL_AT)),
-  }));
-  const leftStamp = useAnimatedStyle(() => ({
-    opacity: Math.min(1, Math.max(0, -drag.get() / CALL_AT)),
-  }));
-  const swipeHint =
-    hasLeft && hasRight
-      ? `← ${DECISION_LABEL[calls.left!]} · ${DECISION_LABEL[calls.right!]} →`
-      : hasRight
-        ? `Swipe → ${DECISION_LABEL[calls.right!]}`
-        : '';
-
   // docs/ui/02-lesson-player-layout.md §2 [v4]: the scenario and its chart start at the top of the
   // area, as every screen does (Calm's layout, stage LOOK-BRIEF); the decision
   // buttons are in the footer, under the thumb, and the verdict lands in the
@@ -442,70 +352,36 @@ export default function ChartDecisionScreen({
         )}
 
         <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
-          <GestureDetector gesture={swipe}>
-            <Animated.View style={dragStyle}>
-              <Pressable
-                // Only while the replay plays is the chart a key (tap to skip);
-                // otherwise a screen reader reaches the chart's own sentence.
-                accessible={phase === 'playing'}
-                accessibilityRole="button"
-                accessibilityLabel="Skip the replay"
-                onPress={onChartPress}
-                disabled={choice === null}
-              >
-                <Chart
-                  spec={screen.chart}
-                  visibleCount={done ? endAt + 1 : start}
-                  revealFrom={start}
-                  playback={playing ? progress : undefined}
-                  gridAnchor={grid.gridAnchor}
-                  width={chartWidth}
-                  height={chartHeight}
-                  outcome={phase === 'done' ? outcome : undefined}
-                  plan={plan ?? undefined}
-                  planShown={choice !== null}
-                  ruler={ruler}
-                  rulerSpace={showR}
-                  endAt={endAt}
-                  notes={screen.notes}
-                  showNotes={phase === 'done'}
-                  scrub={phase === 'done'}
-                  free
-                  zoom={phase === 'deciding' || phase === 'done'}
-                />
-              </Pressable>
-              {canSwipe && hasRight ? (
-                <Animated.View
-                  pointerEvents="none"
-                  style={[styles.stamp, styles.stampRight, { borderColor: colors.up }, rightStamp]}
-                >
-                  <Text style={[styles.stampText, { color: colors.up }]}>
-                    {DECISION_LABEL[calls.right!].toUpperCase()}
-                  </Text>
-                </Animated.View>
-              ) : null}
-              {canSwipe && hasLeft ? (
-                <Animated.View
-                  pointerEvents="none"
-                  style={[
-                    styles.stamp,
-                    styles.stampLeft,
-                    { borderColor: calls.left === 'short' ? colors.down : colors.textMuted },
-                    leftStamp,
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.stampText,
-                      { color: calls.left === 'short' ? colors.down : colors.textMuted },
-                    ]}
-                  >
-                    {DECISION_LABEL[calls.left!].toUpperCase()}
-                  </Text>
-                </Animated.View>
-              ) : null}
-            </Animated.View>
-          </GestureDetector>
+          <Pressable
+            // Only while the replay plays is the chart a key (tap to skip);
+            // otherwise a screen reader reaches the chart's own sentence.
+            accessible={phase === 'playing'}
+            accessibilityRole="button"
+            accessibilityLabel="Skip the replay"
+            onPress={onChartPress}
+            disabled={choice === null}
+          >
+            <Chart
+              spec={screen.chart}
+              visibleCount={done ? endAt + 1 : start}
+              revealFrom={start}
+              playback={playing ? progress : undefined}
+              gridAnchor={grid.gridAnchor}
+              width={chartWidth}
+              height={chartHeight}
+              outcome={phase === 'done' ? outcome : undefined}
+              plan={plan ?? undefined}
+              planShown={choice !== null}
+              ruler={ruler}
+              rulerSpace={showR}
+              endAt={endAt}
+              notes={screen.notes}
+              showNotes={phase === 'done'}
+              scrub={phase === 'done'}
+              free
+              zoom={phase === 'deciding' || phase === 'done'}
+            />
+          </Pressable>
           {/* In the strip under the plot, opposite the VWAP key: a line of its
             own cost the screen a row. While the replay plays it says how to
             skip it; once it is over it carries the risk note docs/ui/16-navigation.md §11.6
@@ -516,16 +392,9 @@ export default function ChartDecisionScreen({
             accessibilityLabel={
               phase === 'done' ? 'Not a prediction.' : phase === 'deciding' ? '' : undefined
             }
-            style={[
-              styles.playHint,
-              phase === 'deciding' && !(canSwipe && swipeHint) && styles.playHintHidden,
-            ]}
+            style={[styles.playHint, phase === 'deciding' && styles.playHintHidden]}
           >
-            {phase === 'done'
-              ? 'Not a prediction'
-              : phase === 'deciding'
-                ? swipeHint || 'Tap to skip'
-                : 'Tap to skip'}
+            {phase === 'done' ? 'Not a prediction' : 'Tap to skip'}
           </Text>
         </View>
       </View>
@@ -551,21 +420,4 @@ const styles = themed(() => ({
   // Kept in the layout at all times: appearing mid-replay would shift the chart
   // under the line that is still drawing.
   playHintHidden: { opacity: 0 },
-  stamp: {
-    position: 'absolute',
-    top: space.lg,
-    paddingHorizontal: space.md,
-    paddingVertical: space.xs,
-    borderWidth: 3,
-    borderRadius: 8,
-  },
-  stampRight: { left: space.lg, transform: [{ rotate: '-12deg' }] },
-  stampLeft: { right: space.xxl + space.lg, transform: [{ rotate: '12deg' }] },
-  stampText: {
-    fontFamily: MONO_FONT,
-    fontSize: 22,
-    lineHeight: 28,
-    fontWeight: '900',
-    letterSpacing: 1,
-  },
 }));

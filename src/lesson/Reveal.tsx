@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedProps,
   useAnimatedStyle,
@@ -201,9 +201,12 @@ export default function Reveal({
         {lead && !decision ? (
           <Text style={[styles.lead, { color: tone.accent }]}>{copy(lead)}</Text>
         ) : null}
-        <Text style={[styles.body, decision && styles.bodyCompact]}>{copy(explanation)}</Text>
-        {fill ? <View style={styles.fill} /> : null}
+        {/* docs/ui/06-reveal-and-hearts.md §5.1b [David, 2026-10-06: "the reveal box is way too big
+            and unordered"]: a chart decision's reveal reads top to bottom --
+            the verdict, the trade log, then why. */}
         {decision ? <DecisionOutcome decision={decision} /> : null}
+        <Text style={[styles.body, decision && styles.bodyCompact]}>{copy(explanation)}</Text>
+        {fill && !decision ? <View style={styles.fill} /> : null}
         {extra}
         {working ? (
           <View style={styles.workingWrap}>
@@ -225,13 +228,15 @@ export default function Reveal({
 }
 
 /**
- * The outcome, under the grade and smaller than it (docs/ui/06-reveal-and-hearts.md §5.1b): the
- * level file's sentence, then the trade log from Precise (LOOK-BRIEF) -- how
- * the trade ended, the result with the share count, and R once R is taught --
- * each a name on the left and its value on the right in the number face, so
- * the numbers line up. Only the values take their sign's colour, and the box
- * stays neutral, so it never reads as the verdict; standing aside shows the
- * "would have" in grey. A right call that lost gets the line that joins the two.
+ * The trade log, under the grade and smaller than it (docs/ui/06-reveal-and-hearts.md §5.1b; Precise's
+ * log from LOOK-BRIEF): how the trade ended, the result with the share count,
+ * and R once R is taught -- each a name on the left and its value on the right
+ * in the number face, so the numbers line up, between two hairlines. Only the
+ * values take their sign's colour, so it never reads as the verdict; standing
+ * aside shows the "would have" in grey. The level file's outcome sentence is
+ * not drawn (David, 2026-10-06: the box was "way too big"); a screen reader
+ * still hears it (decisionRevealLabel). A right call that lost gets the line
+ * that joins the two.
  */
 function DecisionOutcome({ decision }: { decision: DecisionReveal }) {
   const colorOf = (tone: LogRow['tone']) =>
@@ -244,18 +249,15 @@ function DecisionOutcome({ decision }: { decision: DecisionReveal }) {
           : colors.textMuted;
   return (
     <>
-      <View style={styles.outcomeBox}>
-        <Text style={styles.outcomeText}>{copy(decision.outcome)}</Text>
-        <View style={styles.log}>
-          {decision.log.map((row) => (
-            <View key={row.label} style={styles.logRow}>
-              <Text style={styles.logLabel}>{row.label}</Text>
-              <NumberText style={[styles.logValue, { color: colorOf(row.tone) }]}>
-                {copy(row.value)}
-              </NumberText>
-            </View>
-          ))}
-        </View>
+      <View style={styles.log}>
+        {decision.log.map((row) => (
+          <View key={row.label} style={styles.logRow}>
+            <Text style={styles.logLabel}>{row.label}</Text>
+            <NumberText style={[styles.logValue, { color: colorOf(row.tone) }]}>
+              {copy(row.value)}
+            </NumberText>
+          </View>
+        ))}
       </View>
       {decision.variance ? <Text style={styles.variance}>{copy(decision.variance)}</Text> : null}
     </>
@@ -309,8 +311,8 @@ export function RevealProbe({
       )}
       <View style={[styles.words, decision && styles.wordsCompact]}>
         {lead && !decision ? <Text style={styles.lead}>{copy(lead)}</Text> : null}
-        <Text style={[styles.body, decision && styles.bodyCompact]}>{copy(explanation)}</Text>
         {decision ? <DecisionOutcome decision={decision} /> : null}
+        <Text style={[styles.body, decision && styles.bodyCompact]}>{copy(explanation)}</Text>
         {working ? <Text style={styles.toggle}>Show working</Text> : null}
       </View>
     </View>
@@ -328,7 +330,7 @@ const styles = themed(() => ({
   wrapCompact: { paddingHorizontal: space.md, paddingVertical: space.md, gap: space.xs },
   wordsCompact: { gap: space.xs },
   leadCompact: { ...type.body, fontWeight: '600' },
-  bodyCompact: { ...type.body, fontSize: 16, lineHeight: 22 },
+  bodyCompact: { ...type.body, fontSize: 15, lineHeight: 21 },
   headRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   badge: {
     width: 24,
@@ -355,23 +357,12 @@ const styles = themed(() => ({
   toggle: { ...type.label },
   decisionTop: { flexDirection: 'row', alignItems: 'flex-start', gap: space.sm },
   decisionHead: { flex: 1, gap: space.xs },
-  outcomeBox: {
-    marginTop: space.xs,
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
-    borderRadius: radius.sm,
-    paddingHorizontal: space.sm,
-    paddingVertical: space.xs,
-    gap: 2,
-  },
-  // docs/ui/15-theming-and-accessibility.md §10: nothing a learner reads to judge the trade goes below 13 pt.
-  outcomeText: { ...type.label, fontWeight: '400', color: colors.textMuted },
   log: {
-    marginTop: 2,
-    paddingTop: 4,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
+    marginVertical: 2,
+    paddingVertical: 4,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.borderStrong,
     gap: 1,
   },
   logRow: { flexDirection: 'row', alignItems: 'baseline', gap: space.sm },

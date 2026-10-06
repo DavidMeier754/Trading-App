@@ -1680,8 +1680,8 @@ function Chart({
     if (lastStep.current !== layout.step && dragging.current) detentFeedback();
     lastStep.current = layout.step;
   }, [layout.step]);
-  // Built each render, as the decision screen's swipe is: the handlers they
-  // call are stable, so what reaches the gesture system does not change.
+  // Built each render: the handlers they call are stable, so what reaches the
+  // gesture system does not change.
   const axisPan = Gesture.Pan()
     .enabled(zoomOn)
     .maxPointers(1)
