@@ -56,6 +56,8 @@ import { colors, MONO_FONT, radius, space, TAP_TARGET, type, themed } from '../t
 import Icon, { type IconName } from './icons';
 import LevelNode, { RING, shownStatusOf, UNLOCK } from './LevelNode';
 import ChapterSpark from './ChapterSpark';
+import ChapterSwitcher, { type SwitcherItem } from './ChapterSwitcher';
+import { useMapStyle } from './mapStyle';
 import ChaptersOverview from './ChaptersOverview';
 import { ChapterView, chapterScores, chapterViews, currentLevel, LevelView } from './pathState';
 import { Flame, Gem, PathLogo } from './scenes';
@@ -218,6 +220,22 @@ export default function LearnScreen({
   };
 
   const pathChosen = progress.path !== null;
+
+  // docs/ui/10-path-map.md §7.1 [David, 2026-10-06]: the chapter switcher, the alternative to
+  // the chapter cards (home/mapStyle.ts). The banner holds one chapter -- or,
+  // before a path is chosen, the closed door after Chapter 1 -- and the map
+  // shows that chapter's path alone.
+  const switcher = useMapStyle() === 'switcher';
+  const hereCi = chapterOf(hereAt);
+  const switcherItems = useMemo<SwitcherItem[]>(
+    () => [
+      ...chapters.map((view) => ({ kind: 'chapter' as const, view })),
+      ...(pathChosen ? [] : [{ kind: 'door' as const }]),
+    ],
+    [chapters, pathChosen],
+  );
+  const [shownCi, setShownCi] = useState(hereCi);
+  const pendingTop = useRef(false);
   // About a quarter of the screen to each side, so the wave shows; the
   // buttons keep their size and their spacing (STEP_Y).
   const amp = waveAmp(width);
@@ -232,21 +250,29 @@ export default function LearnScreen({
     let y = space.sm;
     let gi = 0;
     chapters.forEach((c, ci) => {
-      if (ci > 0) y += GATE_H;
+      // The switcher's map: the chapter in the banner alone, open, no card.
+      if (switcher && ci !== shownCi) {
+        gi += c.levels.length;
+        return;
+      }
+      const isOpen = switcher || expanded.has(ci);
+      if (ci > 0 && !switcher) y += GATE_H;
       const headerY = y;
-      out.push({ t: 'header', ci, y });
-      y += HEAD_H;
+      if (!switcher) {
+        out.push({ t: 'header', ci, y });
+        y += HEAD_H;
+      }
       const firstNodeY = y + NODES_TOP + RING / 2;
-      if (ci > 0 && tail) {
+      if (ci > 0 && tail && !switcher) {
         gateList.push({
           top: headerY,
           from: tail,
-          to: expanded.has(ci) ? { x: cxOf(0), y: firstNodeY } : null,
+          to: isOpen ? { x: cxOf(0), y: firstNodeY } : null,
           lit: c.status !== 'locked',
         });
       }
       tail = { x: width / 2, y: headerY + HEAD_H - space.sm };
-      if (expanded.has(ci)) {
+      if (isOpen) {
         y += NODES_TOP;
         c.levels.forEach((_, li) => {
           const node = {
@@ -310,7 +336,16 @@ export default function LearnScreen({
       y += CHAPTER_GAP;
     });
     // Before a path is chosen, the chapter after Chapter 1 is a closed door.
-    if (!pathChosen) {
+    if (switcher) {
+      // The switcher shows the door on its own, and the finale under the last chapter.
+      if (shownCi >= chapters.length) {
+        out.push({ t: 'teaser', y });
+        y += HEAD_H + CHAPTER_GAP;
+      } else if (pathChosen && shownCi === chapters.length - 1) {
+        out.push({ t: 'finale', y });
+        y += FINALE_H + CHAPTER_GAP;
+      }
+    } else if (!pathChosen) {
       y += GATE_H;
       if (tail) gateList.push({ top: y, from: tail, to: null, lit: false });
       out.push({ t: 'teaser', y });
@@ -323,7 +358,7 @@ export default function LearnScreen({
     return { items: out, nodeAt: at, contentH: y + BOTTOM_PAD, gates: gateList };
     // cxOf is derived from the width
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chapters, expanded, width, pathChosen, amp]);
+  }, [chapters, expanded, width, pathChosen, amp, switcher, shownCi]);
 
   const [open, setOpen] = useState<number | null>(null);
   const [stopOpen, setStopOpen] = useState<string | null>(null);
@@ -434,6 +469,15 @@ export default function LearnScreen({
     (hereY !== undefined && hereY > scrollY - RING / 2 && hereY < scrollY + viewH - RING / 2);
   const jump = () => {
     const ci = chapterOf(hereAt);
+    if (switcher) {
+      if (shownCi !== ci) {
+        setShownCi(ci);
+        pendingJump.current = true;
+        return;
+      }
+      scroll.current?.scrollTo({ y: focusY(hereAt), animated: !reduced });
+      return;
+    }
     if (!expanded.has(ci)) {
       setExpanded((prev) => new Set(prev).add(ci));
       setOpened((prev) => new Set(prev).add(ci));
@@ -456,6 +500,12 @@ export default function LearnScreen({
   };
   const goChapter = (ci: number) => {
     setOverview(false);
+    if (switcher) {
+      setShownCi(ci);
+      if (ci === hereCi) pendingJump.current = true;
+      else pendingTop.current = true;
+      return;
+    }
     if (expanded.has(ci)) {
       scrollToChapter(ci);
       return;
@@ -478,6 +528,25 @@ export default function LearnScreen({
     scroll.current?.scrollTo({ y: focusY(hereAt), animated: !reduced });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodeAt]);
+
+  // An arrow on the switcher: the next chapter in the banner, its path from
+  // the top -- or, back in the chapter the learner is in, at their level.
+  const step = (by: -1 | 1) => {
+    const next = Math.max(0, Math.min(switcherItems.length - 1, shownCi + by));
+    if (next === shownCi) return;
+    setOpen(null);
+    setStopOpen(null);
+    setShownCi(next);
+    if (next === hereCi) pendingJump.current = true;
+    else pendingTop.current = true;
+  };
+  useEffect(() => {
+    if (!pendingTop.current) return;
+    pendingTop.current = false;
+    scroll.current?.scrollTo({ y: 0, animated: false });
+    // Once the chapter's levels are placed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
 
   const allDone = bannerAt === null && views.every((v) => v.status === 'complete');
   // docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW]: the chapter docks under the banner once
@@ -505,15 +574,31 @@ export default function LearnScreen({
         gems={progress.gems}
         hearts={hearts}
       />
-      <Banner
-        view={bannerAt !== null ? views[bannerAt] : here}
-        allDone={allDone}
-        onPress={() => {
-          setOpen(null);
-          setPicking(false);
-          setOverview(true);
-        }}
-      />
+      {switcher ? (
+        <ChapterSwitcher
+          items={switcherItems}
+          shown={Math.min(shownCi, switcherItems.length - 1)}
+          hereCi={hereCi}
+          here={bannerAt !== null ? views[bannerAt] : here}
+          allDone={allDone}
+          onStep={step}
+          onPress={() => {
+            setOpen(null);
+            setPicking(false);
+            setOverview(true);
+          }}
+        />
+      ) : (
+        <Banner
+          view={bannerAt !== null ? views[bannerAt] : here}
+          allDone={allDone}
+          onPress={() => {
+            setOpen(null);
+            setPicking(false);
+            setOverview(true);
+          }}
+        />
+      )}
       <View style={styles.scroll}>
         <Animated.ScrollView
           ref={scroll}

@@ -33,6 +33,7 @@ import { pathView } from './pathState';
 import type { LessonEntry } from '../content';
 import { FIRST_TRADE } from '../onboarding/firstTrade';
 import { NEW_DESIGNS } from './newDesigns';
+import { setMapStyle, useMapStyle } from './mapStyle';
 
 /**
  * Settings → Testing (docs/ui/16-navigation.md §11.5): the testing tools, in test builds
@@ -62,6 +63,7 @@ export default function TestingTools({
       <StreakRow />
       <GemsRow />
       <SkipRow />
+      <MapStyleRow />
       <RowButton
         icon="flask"
         title="Every screen type"
@@ -96,6 +98,31 @@ export default function TestingTools({
         onPress={onOpenSuggestions}
       />
     </>
+  );
+}
+
+/**
+ * docs/ui/10-path-map.md §7.1 [David, 2026-10-06]: the map's two ways of showing its
+ * chapters, to compare on the phone -- the chapter cards on the path, or the
+ * chapter switcher in the banner (home/mapStyle.ts).
+ */
+function MapStyleRow() {
+  const style = useMapStyle();
+  const switcher = style === 'switcher';
+  return (
+    <RowButton
+      icon="levels"
+      title={switcher ? 'Map: chapter switcher' : 'Map: chapter cards'}
+      sub={
+        switcher
+          ? 'The banner holds the chapter, with ‹ ›. Tap for the cards.'
+          : 'Every chapter as a card on the path. Tap for the switcher.'
+      }
+      onPress={() => {
+        tapFeedback();
+        setMapStyle(switcher ? 'cards' : 'switcher');
+      }}
+    />
   );
 }
 

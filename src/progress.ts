@@ -11,6 +11,13 @@ import {
   levelsOf,
 } from './content';
 import {
+  getMapStyle,
+  isMapStyle,
+  type MapStyle,
+  setMapStyle,
+  subscribeMapStyle,
+} from './home/mapStyle';
+import {
   getHapticsSetting,
   HapticsSetting,
   setHapticsSetting,
@@ -588,6 +595,8 @@ type SavedSettings = {
   motion?: MotionSetting;
   theme?: ThemeMode;
   colourBlind?: boolean;
+  /** How the map shows its chapters (home/mapStyle.ts). */
+  mapStyle?: MapStyle;
 };
 
 function save(key: string, value: unknown): void {
@@ -617,7 +626,12 @@ let loaded: Promise<void> | null = null;
 export function loadSaved({
   restoreLook = true,
   restoreTheme = true,
-}: { restoreLook?: boolean; restoreTheme?: boolean } = {}): Promise<void> {
+  restoreMapStyle = true,
+}: {
+  restoreLook?: boolean;
+  restoreTheme?: boolean;
+  restoreMapStyle?: boolean;
+} = {}): Promise<void> {
   if (loaded) return loaded;
   loaded = (async () => {
     const [savedProgress, settings] = await Promise.all([
@@ -667,6 +681,7 @@ export function loadSaved({
       if (settings.haptics) setHapticsSetting(settings.haptics);
       if (typeof settings.sound === 'boolean') setSoundEnabled(settings.sound);
       if (settings.motion) setMotionSetting(settings.motion);
+      if (restoreMapStyle && isMapStyle(settings.mapStyle)) setMapStyle(settings.mapStyle);
     }
     const saveSettings = () =>
       save(SETTINGS_KEY, {
@@ -676,12 +691,14 @@ export function loadSaved({
         motion: getMotionSetting(),
         theme: getThemeMode(),
         colourBlind: isColourBlind(),
+        mapStyle: getMapStyle(),
       } satisfies SavedSettings);
     subscribeLook(saveSettings);
     subscribeHaptics(saveSettings);
     subscribeSound(saveSettings);
     subscribeMotion(saveSettings);
     subscribeTheme(saveSettings);
+    subscribeMapStyle(saveSettings);
   })();
   return loaded;
 }

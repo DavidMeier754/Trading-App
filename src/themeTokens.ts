@@ -59,6 +59,13 @@ export type Palette = {
   successText: string;
   /** A button that destroys something (Reset progress). White text on it. */
   dangerFill: string;
+  /**
+   * A finished chapter's banner on the map's chapter switcher (docs/ui/10-path-map.md
+   * §7.1, David 2026-10-06): gold, with a sheen.
+   */
+  goldFill: string;
+  /** Text on `goldFill`. */
+  goldText: string;
 
   // Tints behind revealed answers.
   successTint: string;
@@ -97,6 +104,8 @@ const DARK: Palette = {
   successFill: '#26C281',
   successText: '#06200F',
   dangerFill: '#C9362F',
+  goldFill: '#D9A23A',
+  goldText: '#1C1300',
 
   successTint: 'rgba(38, 194, 129, 0.14)',
   downTint: 'rgba(244, 102, 94, 0.14)',
@@ -136,6 +145,8 @@ const LIGHT: Palette = {
   successFill: '#157347',
   successText: '#FFFFFF',
   dangerFill: '#B02A25',
+  goldFill: '#8F6200',
+  goldText: '#FFFFFF',
 
   successTint: 'rgba(21, 115, 71, 0.10)',
   downTint: 'rgba(176, 42, 37, 0.09)',

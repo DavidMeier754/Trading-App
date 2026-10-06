@@ -9,6 +9,7 @@ import { GridOriginProvider } from './components/gridAlign';
 import ErrorBoundary, { DebugCrash } from './ErrorBoundary';
 import { isBonus, LessonEntry, LESSONS, nodeOf, TEST_BENCH } from './content';
 import Home, { openHomeAt } from './home/Home';
+import { isMapStyle, setMapStyle } from './home/mapStyle';
 import { SUGGESTIONS } from './home/ideas';
 import { isLook, setLook, useLookSpec } from './lesson/look';
 import LessonPlayer from './lesson/LessonPlayer';
@@ -81,8 +82,9 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [restoreLook] = useState(() => !link?.look);
   const [restoreTheme] = useState(() => !link?.theme);
+  const [restoreMapStyle] = useState(() => !link?.map);
   useEffect(() => {
-    loadSaved({ restoreLook, restoreTheme }).finally(() => {
+    loadSaved({ restoreLook, restoreTheme, restoreMapStyle }).finally(() => {
       if (TEST_MODE) setMotionSetting('reduced');
       setReady(true);
       // docs/ui/16-navigation.md §11.1 [DESIGN-REVIEW]: a fresh install opens on its first
@@ -95,7 +97,7 @@ export default function App() {
     });
     // Once, as the app opens.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [restoreLook, restoreTheme]);
+  }, [restoreLook, restoreTheme, restoreMapStyle]);
 
   // The render test (`npm run smoke`, `?test=1`) walks every screen in one page:
   // each new hash opens its screen afresh, error page included, without
@@ -362,6 +364,7 @@ function readDeepLink(): {
   screen: number;
   look: boolean;
   theme: boolean;
+  map?: boolean;
   crash?: boolean;
 } | null {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return null;
@@ -375,9 +378,13 @@ function readDeepLink(): {
   const theme = params.get('theme');
   const themed = theme === 'light' || theme === 'dark' || theme === 'system';
   if (themed) setThemeMode(theme as ThemeMode);
+  // `?map=switcher` (test builds): the map's chapter switcher (home/mapStyle.ts).
+  const map = params.get('map');
+  const mapped = TEST_TOOLS && isMapStyle(map);
+  if (mapped) setMapStyle(map);
   const [id, screen] = path.split('/');
   if (id === 'home' && TEST_TOOLS && openHomeAt(path.split('/').slice(1).join('/')))
-    return { entry: null, screen: 0, look: named, theme: themed };
+    return { entry: null, screen: 0, look: named, theme: themed, map: mapped };
   if (id === 'debug-crash' && TEST_TOOLS)
     return { entry: null, screen: 0, look: named, theme: themed, crash: true };
   const found =
