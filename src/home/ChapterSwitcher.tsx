@@ -21,8 +21,8 @@ import type { ChapterView, LevelView } from './pathState';
  * - a chapter still ahead: plain and quiet, with a lock and when it opens;
  * - before a path is chosen, the closed door after Chapter 1.
  *
- * Under the words a pip per chapter tells them apart at a glance -- gold done,
- * blue now, hollow ahead -- with the one shown ringed. A tap on the words
+ * (A row of pips, one per chapter, was taken out again: David, 2026-10-06.)
+ * A tap on the words
  * opens all the chapters at a glance (ChaptersOverview), as the banner did.
  * Nothing moves unless the learner moved it: the words change with a short
  * fade when an arrow is pressed, and not otherwise.
@@ -143,7 +143,6 @@ export default function ChapterSwitcher({
               <Text style={[styles.meta, { color: quiet }]} numberOfLines={1}>
                 {meta}
               </Text>
-              <Pips items={items} shown={shown} hereCi={hereCi} tone={tone} />
             </View>
           </Animated.View>
         </Pressable>
@@ -192,46 +191,6 @@ function Arrow({
         </View>
       </Pressable>
     </Animated.View>
-  );
-}
-
-/**
- * A pip per chapter: gold done, blue the one the learner is in, hollow ahead;
- * the one in the banner ringed.
- */
-function Pips({
-  items,
-  shown,
-  hereCi,
-  tone,
-}: {
-  items: SwitcherItem[];
-  shown: number;
-  hereCi: number;
-  tone: 'now' | 'done' | 'ahead';
-}) {
-  // On the blue and the gold the pips need a light rim to show.
-  const rim = tone === 'ahead' ? colors.borderStrong : 'rgba(255, 255, 255, 0.75)';
-  return (
-    <View style={styles.pips} accessibilityElementsHidden importantForAccessibility="no">
-      {items.map((it, k) => {
-        const done = it.kind === 'chapter' && it.view.status === 'complete';
-        const now = k === hereCi && !done;
-        return (
-          <View
-            key={k}
-            style={[
-              styles.pip,
-              { borderColor: rim },
-              // On the gold itself a done pip is the gold's ink, or it would vanish.
-              done && { backgroundColor: tone === 'done' ? colors.goldText : colors.goldFill },
-              now && { backgroundColor: tone === 'now' ? colors.accentText : colors.accentFill },
-              k === shown && styles.pipShown,
-            ]}
-          />
-        );
-      })}
-    </View>
   );
 }
 
@@ -290,7 +249,4 @@ const styles = themed(() => ({
   title: { ...type.title },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   meta: { ...type.label, fontWeight: '500', flexShrink: 1 },
-  pips: { flexDirection: 'row', gap: 4, marginLeft: 'auto' },
-  pip: { width: 8, height: 8, borderRadius: 4, borderWidth: 1.5 },
-  pipShown: { transform: [{ scale: 1.35 }] },
 }));
