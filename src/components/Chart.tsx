@@ -1,5 +1,14 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   SharedValue,
   useAnimatedProps,
@@ -11,6 +20,7 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 import Svg, {
   Circle,
+  ClipPath,
   Defs,
   G,
   Line,
@@ -22,12 +32,21 @@ import Svg, {
 } from 'react-native-svg';
 
 import { axisPrice, axisTick, price as fmtPrice, volume as fmtVolume } from '../format';
-import { floorSpan, roundFrame } from './chartScale';
+import {
+  floorSpan,
+  niceTicks,
+  pinchView,
+  scaleFrame,
+  X_MIN_SLOTS,
+  Y_SCALE_MAX,
+  Y_SCALE_MIN,
+} from './chartScale';
 import ChartScrub from './ChartScrub';
 import { describeChart, PILL_LINE_H, zoneLabel, zonePillLines, zonePillSize } from './chartWords';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { tint, useLookSpec } from '../lesson/look';
 import { Arrive } from '../lesson/Celebrate';
+import { detentFeedback } from '../lesson/feedback';
 import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { BUILD_MS, BuildCandle, buildStagger, BuildVolume, useEntrance } from './ChartBuild';
@@ -738,7 +757,9 @@ function PlaybackLivePrice({
 function liveTag(g: PlayGeom, t: number) {
   'worklet';
   const on = t > 0 && t < 1 ? Math.min(1, t / 0.03) * Math.min(1, (1 - t) / 0.03) : 0;
-  return { y: playY(g, t, liveAt(g, t).p), on };
+  // Held on the plot's edge when a stretched axis puts the price past it.
+  const yy = playY(g, t, liveAt(g, t).p);
+  return { y: Math.max(g.padTop, Math.min(g.padTop + g.priceH, yy)), on };
 }
 
 /** The live price tag's height, and how near an axis price may come to it before it steps aside. */
@@ -914,31 +935,6 @@ function useShowing(on: boolean, ms: number): SharedValue<number> {
   return v;
 }
 
-/** The axis labels are the only part of the frame the replay changes, so they
- *  cross-fade rather than re-render: old values out, final values in. */
-function PlaybackAxis({
-  progress,
-  children,
-  fadeOut,
-}: {
-  progress: SharedValue<number>;
-  children: React.ReactNode;
-  fadeOut: boolean;
-}) {
-  const props = useAnimatedProps(() => {
-    const t = progress.get();
-    // The labels belong to the frame, so they follow it: the decision's set
-    // leaves in the first half of the pull-back, and the finished session's
-    // set arrives as the frame comes to rest on it. In between the frame is
-    // moving and any printed price would be a stale one.
-    const opacity = fadeOut
-      ? Math.max(0, Math.min(1, (-0.5 - t) / 0.5))
-      : Math.max(0, Math.min(1, (t - 0.85) / 0.15));
-    return { opacity };
-  });
-  return <AnimatedG animatedProps={props}>{children}</AnimatedG>;
-}
-
 /** The outcome tag's height: two short lines. */
 const OUTCOME_TAG_H = 40;
 /** Roughly how wide the outcome tag's words draw, per character. */
@@ -1084,15 +1080,18 @@ function PlaybackFuture({
   progress,
   zone,
   slot,
+  originX,
 }: {
   g: PlayGeom;
   progress: SharedValue<number>;
   zone: Zone;
   slot: number;
+  /** Where slot 0 starts: the plot's left edge, or left of it when zoomed in. */
+  originX: number;
 }) {
   const shade = useAnimatedProps(() => {
     const head = playHead(g, progress.get());
-    const x = Math.min(zone.x1, Math.max(zone.x0, PAD_LEFT + slot * (head + 1)));
+    const x = Math.min(zone.x1, Math.max(zone.x0, originX + slot * (head + 1)));
     return { x, width: Math.max(0, zone.x1 - x) };
   });
   const marks = useAnimatedProps(() => ({ opacity: Math.max(0, 1 - progress.get() * 6) }));
@@ -1247,6 +1246,14 @@ type Props = {
   /** The file's notes on bars, drawn when `showNotes`. */
   notes?: ChartNote[];
   showNotes?: boolean;
+  /**
+   * docs/ui/08-quotes-and-charts.md §6.4 [David, 2026-10-06]: the learner can drag the price axis to
+   * stretch or squeeze it and pinch to zoom in time, as on TradingView. Off
+   * while a replay plays.
+   */
+  zoom?: boolean;
+  /** The plot takes all the height given, not whole backdrop steps (chartLayout). */
+  free?: boolean;
 };
 
 /**
@@ -1257,6 +1264,8 @@ export const AXIS_W = 54;
 export const PAD_LEFT = 6;
 const PAD_TOP = 10;
 const PAD_BOTTOM = 18; // leaves room for the legend strip under the plot
+/** A free plot's room above it for the decision's tag (chartLayout). */
+const FREE_TOP = 8;
 // The gap and the strip together are one backdrop cell pair, so the line under
 // the volume strip lands on the grid as well. Picked as a pair for that reason:
 // 16 + 46 left it 6 points off, which is exactly the kind of near-miss that
@@ -1334,18 +1343,20 @@ export type ChartLayout = {
   volH: number;
   /** Number of gaps between price gridlines; there is one more line than gaps. */
   gaps: number;
-  /**
-   * The window drawn: the one asked for, rounded out so every gridline is a
-   * round price (chartScale.ts, roundFrame), and the step between the lines.
-   */
+  /** The window drawn, and the step between its gridlines (chartScale.ts, niceTicks). */
   lo: number;
   hi: number;
   step: number;
   /** The gridlines' prices, bottom to top. */
   ticks: number[];
+  /** The first slot in view (a pinch can move it). */
+  xStart: number;
   y: (price: number) => number;
   priceAt: (y: number) => number;
+  /** A bar's centre. */
   cx: (i: number) => number;
+  /** A slot's left edge. */
+  slotX: (k: number) => number;
 };
 
 /**
@@ -1367,6 +1378,9 @@ export function chartLayout({
   hasVolume,
   gridAnchor,
   rightPad = 0,
+  free = false,
+  xStart = 0,
+  xCount,
 }: {
   width: number;
   height: number;
@@ -1377,34 +1391,53 @@ export function chartLayout({
   gridAnchor?: number;
   /** Room kept right of the axis (the R ruler's column). */
   rightPad?: number;
+  /**
+   * The plot takes all the height it is given, not a whole number of backdrop
+   * steps: the chart that fills its screen (ChartDecisionScreen).
+   */
+  free?: boolean;
+  /** The bars in view (a pinch, docs/ui/08-quotes-and-charts.md §6.4): from slot `xStart`, `xCount` slots. */
+  xStart?: number;
+  xCount?: number;
 }): ChartLayout {
   const plotW = width - PAD_LEFT - AXIS_W - rightPad;
   const volH = hasVolume ? VOLUME_H : 0;
   const fixed = PAD_TOP + PAD_BOTTOM + (hasVolume ? VOLUME_GAP + volH : 0);
 
   // The tallest grid-locked plot that still fits, leaving GRID for the snap.
-  const fitted = PLOT_GAPS.map((g) => g * CHART_GRID_STEP).find((h) => fixed + GRID + h <= height);
+  const fitted = free
+    ? undefined
+    : PLOT_GAPS.map((g) => g * CHART_GRID_STEP).find((h) => fixed + GRID + h <= height);
   const aligns = gridAnchor !== undefined && fitted !== undefined;
 
   // Before the chart has been measured it already takes its grid-locked
   // size, centred in the snap's slack, so the snap when the measurement lands
   // is a shift of at most half a cell -- not a change in the number of lines
-  // under a chart that is still building itself in.
-  const priceH = fitted !== undefined ? fitted : Math.max(GRID, height - fixed);
+  // under a chart that is still building itself in. A free plot takes it all,
+  // less a little room on top for the decision's tag.
+  const priceH = free
+    ? Math.max(GRID, height - fixed - FREE_TOP)
+    : fitted !== undefined
+      ? fitted
+      : Math.max(GRID, height - fixed);
   // priceH is a whole number of backdrop cells when aligning, so shifting the
-  // top by the remainder puts every line on one.
-  const padTop = aligns
-    ? PAD_TOP + ((GRID - (((gridAnchor as number) + PAD_TOP) % GRID)) % GRID)
-    : PAD_TOP + (fitted !== undefined ? GRID / 2 : 0);
-  const gaps = fitted !== undefined ? fitted / CHART_GRID_STEP : 3;
+  // top by the remainder puts the plot's edges on the grid.
+  const padTop = free
+    ? PAD_TOP + FREE_TOP
+    : aligns
+      ? PAD_TOP + ((GRID - (((gridAnchor as number) + PAD_TOP) % GRID)) % GRID)
+      : PAD_TOP + (fitted !== undefined ? GRID / 2 : 0);
+  const gaps =
+    fitted !== undefined
+      ? fitted / CHART_GRID_STEP
+      : Math.max(1, Math.round(priceH / CHART_GRID_STEP));
 
-  const slot = plotW / Math.max(1, bars);
-  // docs/ui/08-quotes-and-charts.md §6.4: the axis counts in round prices.
-  const frame = roundFrame(lo, hi, gaps);
-  ({ lo, hi } = frame);
+  const count = Math.max(1, xCount ?? bars);
+  const slot = plotW / count;
   const span = hi - lo || 1;
-  const ticks: number[] = [];
-  for (let i = 0; i <= gaps; i++) ticks.push(lo + (span * i) / gaps);
+  // docs/ui/08-quotes-and-charts.md §6.4: the lines fall on round prices inside the frame, as many
+  // as the plot's height holds without crowding (chartScale.ts, niceTicks).
+  const { ticks, step } = niceTicks(lo, lo + span, priceH);
 
   return {
     aligns,
@@ -1413,18 +1446,21 @@ export function chartLayout({
     plotW,
     slot,
     // Wide enough to read as bodies rather than ticks. At 0.62 of the slot the
-    // gaps between candles were nearly as wide as the candles.
-    bodyW: Math.max(3, Math.min(slot * 0.7, 24)),
+    // gaps between candles were nearly as wide as the candles. Zoomed in, a
+    // candle may grow wider than at rest, up to a third of the plot.
+    bodyW: Math.max(3, Math.min(slot * 0.7, xCount !== undefined ? plotW / 3 : 24)),
     volTop: padTop + priceH + VOLUME_GAP,
     volH,
     gaps,
     lo,
-    hi,
-    step: frame.step,
+    hi: lo + span,
+    step,
     ticks,
+    xStart,
     y: (price: number) => padTop + priceH - ((price - lo) / span) * priceH,
     priceAt: (yPx: number) => lo + ((padTop + priceH - yPx) / priceH) * span,
-    cx: (i: number) => PAD_LEFT + slot * (i + 0.5),
+    cx: (i: number) => PAD_LEFT + slot * (i - xStart + 0.5),
+    slotX: (k: number) => PAD_LEFT + slot * (k - xStart),
   };
 }
 
@@ -1458,8 +1494,13 @@ function Chart({
   notes,
   showNotes = false,
   scrub = false,
+  zoom = false,
+  free = false,
 }: Props) {
   const lookSpec = useLookSpec();
+  // Ids of this chart's own clip paths: more than one chart can share a page.
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
+  const clip = { x: `cx${uid}`, price: `cp${uid}`, row: `cr${uid}` };
   const neo = lookSpec.chartGlow || emphasis;
   const lineW = emphasis ? LINE_W_EMPHASIS : LINE_W;
   const lineColor = lookSpec.chartLine;
@@ -1553,7 +1594,15 @@ function Chart({
     () => domainOf(bars, spec, Math.max(1, shown)),
     [bars, spec.vwap, spec.levels, shown],
   );
-  const want = fixedFrame ?? visibleFrame;
+  const base = fixedFrame ?? visibleFrame;
+
+  // docs/ui/08-quotes-and-charts.md §6.4 [David, 2026-10-06]: the learner's own view, as on
+  // TradingView -- the price axis dragged to stretch or squeeze the prices, a
+  // pinch to zoom in time. Kept while the chart is on screen; Reset (or a
+  // double tap on the axis) goes back to the chart as drawn.
+  const [yScale, setYScale] = useState(1);
+  const [xView, setXView] = useState<{ start: number; count: number } | null>(null);
+  const want = yScale === 1 ? base : scaleFrame(base.lo, base.hi, yScale);
 
   const rightPad = rulerSpace ? RULER_W : 0;
   const layout = useMemo(
@@ -1567,41 +1616,123 @@ function Chart({
         hasVolume,
         gridAnchor,
         rightPad,
+        free,
+        xStart: xView?.start ?? 0,
+        xCount: xView?.count,
       }),
-    [width, height, n, want.lo, want.hi, hasVolume, gridAnchor, rightPad],
+    [width, height, n, want.lo, want.hi, hasVolume, gridAnchor, rightPad, free, xView],
   );
-  const { padTop, priceH, plotW, bodyW, volTop, volH, gaps, y, cx, ticks } = layout;
-  // The window as drawn: on round prices (chartLayout).
+  const { padTop, priceH, plotW, bodyW, volTop, volH, y, cx, ticks } = layout;
+  // The window as drawn (chartLayout).
   const { lo, hi } = layout;
+  const zoomed = yScale !== 1 || xView !== null;
 
-  // Where the axis ends up once every bar is in, rounded the same way.
+  // The gestures that change the view. They work out their numbers here, on
+  // the JS side: the worklets only pass the finger's numbers across. The
+  // handlers read the view through a ref, so they stay the same functions
+  // while a drag re-renders the chart under it.
+  const zoomOn = zoom && !playback;
+  const live = useRef({ yScale, xView, plotW: layout.plotW, n });
+  useLayoutEffect(() => {
+    live.current = { yScale, xView, plotW: layout.plotW, n };
+  });
+  const gestureFrom = useRef({ y: 1, x: { start: 0, count: n }, focal: 0 });
+  const dragging = useRef(false);
+  const reset = useCallback(() => {
+    setYScale(1);
+    setXView(null);
+  }, []);
+  const axisStart = useCallback(() => {
+    gestureFrom.current.y = live.current.yScale;
+    dragging.current = true;
+  }, []);
+  const axisMove = useCallback((dy: number) => {
+    // Up stretches the prices, down squeezes them; 160 points is a factor of e.
+    const k = gestureFrom.current.y * Math.exp(dy / 160);
+    setYScale(Math.max(Y_SCALE_MIN, Math.min(Y_SCALE_MAX, k)));
+  }, []);
+  const gestureEnd = useCallback(() => {
+    dragging.current = false;
+  }, []);
+  const pinchStart = useCallback((focalX: number) => {
+    const { xView: view, n: total } = live.current;
+    gestureFrom.current.x = view ?? { start: 0, count: total };
+    gestureFrom.current.focal = focalX - PAD_LEFT;
+    dragging.current = true;
+  }, []);
+  const pinchMove = useCallback((scale: number, focalX: number) => {
+    const { plotW: w, n: total } = live.current;
+    const next = pinchView(
+      gestureFrom.current.x,
+      scale,
+      gestureFrom.current.focal,
+      focalX - PAD_LEFT,
+      w,
+      total,
+    );
+    // All of it in view again is the chart as drawn.
+    setXView(next.count >= total - 1e-3 && next.start < 1e-3 ? null : next);
+  }, []);
+  // A click under the finger each time the axis changes its step, so the
+  // drag is felt as well as seen.
+  const lastStep = useRef(layout.step);
+  useEffect(() => {
+    if (lastStep.current !== layout.step && dragging.current) detentFeedback();
+    lastStep.current = layout.step;
+  }, [layout.step]);
+  // Built each render: the handlers they call are stable, so what reaches the
+  // gesture system does not change.
+  const axisPan = Gesture.Pan()
+    .enabled(zoomOn)
+    .maxPointers(1)
+    .activeOffsetY([-4, 4])
+    .failOffsetX([-20, 20])
+    .onStart(() => {
+      scheduleOnRN(axisStart);
+    })
+    .onUpdate((e) => {
+      scheduleOnRN(axisMove, e.translationY);
+    })
+    .onFinalize(() => {
+      scheduleOnRN(gestureEnd);
+    });
+  const axisDoubleTap = Gesture.Tap()
+    .enabled(zoomOn)
+    .numberOfTaps(2)
+    // A finger that travels is a drag, not a tap.
+    .maxDistance(8)
+    .onEnd(() => {
+      scheduleOnRN(reset);
+    });
+  // Whichever is first: the drag the moment the finger moves, the double tap
+  // on the second tap.
+  const axisGesture = Gesture.Race(axisPan, axisDoubleTap);
+  const resetTap = Gesture.Tap().onEnd(() => {
+    scheduleOnRN(reset);
+  });
+  const pinch = Gesture.Pinch()
+    .enabled(zoomOn && n > X_MIN_SLOTS)
+    .onStart((e) => {
+      scheduleOnRN(pinchStart, e.focalX);
+    })
+    .onUpdate((e) => {
+      scheduleOnRN(pinchMove, e.scale, e.focalX);
+    })
+    .onFinalize(() => {
+      scheduleOnRN(gestureEnd);
+    });
+
+  // Where the axis ends up once every bar is in.
   const fullFrame = useMemo(() => domainOf(bars, spec, n), [bars, spec.vwap, spec.levels, n]);
-  const full = useMemo(
-    () => (fixedFrame ? { lo, hi } : roundFrame(fullFrame.lo, fullFrame.hi, gaps)),
-    [fixedFrame, lo, hi, fullFrame, gaps],
-  );
+  const full = fixedFrame ? { lo, hi } : fullFrame;
   // The price labels, right of the plot; the R ruler's column, if any, after them.
   const axisX = PAD_LEFT + plotW + 6;
   const rulerX = PAD_LEFT + plotW + AXIS_W + 8;
   const planEnter = useShowing(!!plan && planShown, 360);
   const rulerEnter = useShowing(!!plan && !!ruler, 360);
 
-  // With the room reserved up front the window usually never moves, so the
-  // labels are the same before and after and swapping them is a flicker.
-  const axisMoves = Math.abs(full.lo - lo) > 1e-9 || Math.abs(full.hi - hi) > 1e-9;
-
   const maxVol = hasVolume ? Math.max(...(spec.volume as number[])) : 1;
   const volY = (v: number) => volTop + volH - (v / maxVol) * volH;
-
-  // The same lines read against the domain the replay ends on. The lines
-  // themselves never move -- they are fixed fractions of the plot height -- so
-  // only these labels change, and they cross-fade rather than re-render.
-  const fullStep = (full.hi - full.lo) / gaps;
-  const fullTicks = useMemo(() => {
-    const out: number[] = [];
-    for (let i = 0; i <= gaps; i++) out.push(full.lo + ((full.hi - full.lo) * i) / gaps);
-    return out;
-  }, [full.lo, full.hi, gaps]);
 
   const playGeom = useMemo<PlayGeom | null>(() => {
     if (!playback || shown < 1) return null;
@@ -1704,10 +1835,12 @@ function Chart({
           // count is already under the chart, and nothing here is waiting.
           // Once the replay has played past the decision -- it ended early, at
           // the stop or the target -- the zone is only what it never reached.
-          x0:
+          x0: Math.max(
+            PAD_LEFT,
             decisionZone && shown <= (revealFrom as number)
               ? decisionX + 4
-              : PAD_LEFT + layout.slot * shown + 2,
+              : layout.slotX(shown) + 2,
+          ),
           x1: PAD_LEFT + plotW,
           y0: padTop,
           y1: padTop + priceH + (hasVolume ? VOLUME_GAP + volH : 0),
@@ -1857,475 +1990,561 @@ function Chart({
   }, [spec, shown, showDecisionMarker, showNotes, notes]);
 
   return (
-    <View
-      style={{ width, height }}
-      accessible
-      accessibilityRole="image"
-      accessibilityLabel={description}
-    >
-      <Svg width={width} height={height}>
-        <Defs>
-          <LinearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={lineColor} stopOpacity={emphasis ? '0.4' : '0.28'} />
-            <Stop offset="1" stopColor={lineColor} stopOpacity="0" />
-          </LinearGradient>
-        </Defs>
+    <GestureDetector gesture={pinch}>
+      <View
+        style={{ width, height }}
+        accessible
+        accessibilityRole="image"
+        accessibilityLabel={description}
+      >
+        <Svg width={width} height={height}>
+          <Defs>
+            <LinearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
+              <Stop offset="0" stopColor={lineColor} stopOpacity={emphasis ? '0.4' : '0.28'} />
+              <Stop offset="1" stopColor={lineColor} stopOpacity="0" />
+            </LinearGradient>
+            {/* What a zoomed-in chart may draw on (docs/ui/08-quotes-and-charts.md §6.4): bars and
+              lines stay inside the plot, the volume strip inside its own columns. */}
+            <ClipPath id={clip.x}>
+              <Rect x={PAD_LEFT} y={0} width={plotW} height={height} />
+            </ClipPath>
+            <ClipPath id={clip.price}>
+              <Rect x={PAD_LEFT} y={padTop - 4} width={plotW} height={priceH + 8} />
+            </ClipPath>
+            <ClipPath id={clip.row}>
+              <Rect x={0} y={padTop - 8} width={width} height={priceH + 16} />
+            </ClipPath>
+          </Defs>
 
-        {/* price gridlines + right-hand axis (docs/ui/08-quotes-and-charts.md §6.4) */}
-        <G>
-          {ticks.map((t, i) => (
-            <Line
-              key={`tl${i}`}
-              x1={PAD_LEFT}
-              x2={PAD_LEFT + plotW}
-              y1={y(t)}
-              y2={y(t)}
-              stroke={colors.border}
-              strokeWidth={1}
-            />
-          ))}
-        </G>
-
-        {playGeom && playback && axisMoves ? (
-          <G>
-            <PlaybackAxis progress={playback} fadeOut>
-              {ticks.map((t, i) => (
-                <AxisText key={`ao${i}`} x={axisX} y={y(t) + 4.5}>
-                  {axisTick(t, layout.step)}
-                </AxisText>
-              ))}
-            </PlaybackAxis>
-            <PlaybackAxis progress={playback} fadeOut={false}>
-              {fullTicks.map((t, i) => (
-                <AxisText key={`an${i}`} x={axisX} y={y(ticks[i]) + 4.5}>
-                  {axisTick(t, fullStep)}
-                </AxisText>
-              ))}
-            </PlaybackAxis>
-          </G>
-        ) : playGeom && playback && spec.kind === 'candles' ? (
+          {/* price gridlines + right-hand axis (docs/ui/08-quotes-and-charts.md §6.4) */}
           <G>
             {ticks.map((t, i) => (
-              <PlaybackAxisTick key={`a${i}`} g={playGeom} progress={playback} y={y(t)}>
-                <AxisText x={axisX} y={y(t) + 4.5}>
-                  {axisTick(t, layout.step)}
-                </AxisText>
-              </PlaybackAxisTick>
-            ))}
-          </G>
-        ) : (
-          <G>
-            {ticks.map((t, i) => (
-              <AxisText key={`a${i}`} x={axisX} y={y(t) + 4.5}>
-                {axisTick(t, layout.step)}
-              </AxisText>
-            ))}
-          </G>
-        )}
-
-        {/* annotation levels: ruled in from the left once the bars are in
-            (docs/ui/08-quotes-and-charts.md §6.4, "animate in") */}
-        {(spec.levels ?? []).map((lvl, i) => (
-          <DrawnLevel
-            key={`lvl${i}`}
-            x1={PAD_LEFT}
-            x2={PAD_LEFT + plotW}
-            y={y(lvl.price)}
-            enter={overlay}
-          />
-        ))}
-
-        {/* VWAP overlay */}
-        {vwapPath ? (
-          <AnimatedG animatedProps={overlayProps}>
-            <Path
-              d={vwapPath}
-              stroke={colors.accent}
-              strokeWidth={1.5}
-              strokeDasharray="4 3"
-              fill="none"
-              opacity={0.9}
-            />
-          </AnimatedG>
-        ) : null}
-
-        {/* docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW]: the open, where it matters. */}
-        {spec.session_open !== undefined && spec.session_open >= 1 && spec.session_open < n ? (
-          <AnimatedG animatedProps={overlayProps}>
-            <SessionOpen
-              x={PAD_LEFT + layout.slot * spec.session_open}
-              left={PAD_LEFT}
-              top={padTop}
-              bottom={padTop + priceH}
-            />
-          </AnimatedG>
-        ) : null}
-
-        {/* The bars still to come, before and during the replay: a hatched
-            zone right of the decision, so the empty half of the chart reads as
-            "not yet" rather than as nothing. */}
-        {future && playGeom && playback ? (
-          <PlaybackFuture
-            g={playGeom}
-            progress={playback}
-            zone={pillZone ?? future}
-            slot={layout.slot}
-          />
-        ) : pillZone ? (
-          <AnimatedG animatedProps={overlayProps}>
-            <FutureZone zone={pillZone} />
-          </AnimatedG>
-        ) : null}
-
-        {/* bars */}
-        {spec.kind === 'line' && playGeom && playback ? (
-          <G>
-            <PlaybackLine g={playGeom} progress={playback} neo={neo} />
-          </G>
-        ) : spec.kind === 'line' ? (
-          <G>
-            {lineFill ? (
-              // The fill covers the whole plot from the first frame, so it
-              // cannot fade in alongside the stroke -- it would sit out to the
-              // right of a line that has not arrived yet. It follows instead.
-              <AnimatedFill d={lineFill} draw={lineDraw} />
-            ) : null}
-            {linePath ? (
-              linePathLength > 0 ? (
-                <AnimatedStroke
-                  d={linePath}
-                  length={linePathLength}
-                  draw={lineDraw}
-                  neo={neo}
-                  width={lineW}
-                />
-              ) : (
-                <G>
-                  {neo ? (
-                    <Path
-                      d={linePath}
-                      stroke={lineColor}
-                      strokeWidth={GLOW_W}
-                      strokeOpacity={GLOW_OPACITY}
-                      fill="none"
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                    />
-                  ) : null}
-                  <Path
-                    d={linePath}
-                    stroke={lineColor}
-                    strokeWidth={2.25}
-                    fill="none"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                  />
-                </G>
-              )
-            ) : null}
-            {lastVisible ? (
-              <AnimatedDot cx={cx(shown - 1)} cy={y(lastVisible.c)} draw={lineDraw} halo={neo} />
-            ) : null}
-          </G>
-        ) : playGeom && playback ? (
-          <G>
-            {bars.map((b, i) => (
-              <PlaybackCandle
-                key={`pc${i}`}
-                g={playGeom}
-                i={i}
-                bar={b}
-                bodyW={bodyW}
-                progress={playback}
+              <Line
+                key={`tl${i}`}
+                x1={PAD_LEFT}
+                x2={PAD_LEFT + plotW}
+                y1={y(t)}
+                y2={y(t)}
+                stroke={colors.border}
+                strokeWidth={1}
               />
             ))}
-            <PlaybackLivePrice
-              g={playGeom}
-              progress={playback}
-              x0={PAD_LEFT}
-              x1={PAD_LEFT + plotW}
-            />
+          </G>
+
+          {playGeom && playback && spec.kind === 'candles' ? (
+            <G>
+              {ticks.map((t, i) => (
+                <PlaybackAxisTick key={`a${i}`} g={playGeom} progress={playback} y={y(t)}>
+                  <AxisText x={axisX} y={y(t) + 4.5}>
+                    {axisTick(t, layout.step)}
+                  </AxisText>
+                </PlaybackAxisTick>
+              ))}
+            </G>
+          ) : (
+            <G>
+              {ticks.map((t, i) => (
+                <AxisText key={`a${i}`} x={axisX} y={y(t) + 4.5}>
+                  {axisTick(t, layout.step)}
+                </AxisText>
+              ))}
+            </G>
+          )}
+
+          <G clipPath={`url(#${clip.price})`}>
+            {/* annotation levels: ruled in from the left once the bars are in
+            (docs/ui/08-quotes-and-charts.md §6.4, "animate in") */}
+            {(spec.levels ?? []).map((lvl, i) => (
+              <DrawnLevel
+                key={`lvl${i}`}
+                x1={PAD_LEFT}
+                x2={PAD_LEFT + plotW}
+                y={y(lvl.price)}
+                enter={overlay}
+              />
+            ))}
+
+            {/* VWAP overlay */}
+            {vwapPath ? (
+              <AnimatedG animatedProps={overlayProps}>
+                <Path
+                  d={vwapPath}
+                  stroke={colors.accent}
+                  strokeWidth={1.5}
+                  strokeDasharray="4 3"
+                  fill="none"
+                  opacity={0.9}
+                />
+              </AnimatedG>
+            ) : null}
+          </G>
+
+          <G clipPath={`url(#${clip.x})`}>
+            {/* docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW]: the open, where it matters. */}
+            {spec.session_open !== undefined && spec.session_open >= 1 && spec.session_open < n ? (
+              <AnimatedG animatedProps={overlayProps}>
+                <SessionOpen
+                  x={layout.slotX(spec.session_open)}
+                  left={PAD_LEFT}
+                  top={padTop}
+                  bottom={padTop + priceH}
+                />
+              </AnimatedG>
+            ) : null}
+
+            {/* The bars still to come, before and during the replay: a hatched
+            zone right of the decision, so the empty half of the chart reads as
+            "not yet" rather than as nothing. */}
+            {future && playGeom && playback ? (
+              <PlaybackFuture
+                g={playGeom}
+                progress={playback}
+                zone={pillZone ?? future}
+                slot={layout.slot}
+                originX={layout.slotX(0)}
+              />
+            ) : pillZone ? (
+              <AnimatedG animatedProps={overlayProps}>
+                <FutureZone zone={pillZone} />
+              </AnimatedG>
+            ) : null}
+          </G>
+
+          <G clipPath={`url(#${clip.price})`}>
+            {/* bars */}
+            {spec.kind === 'line' && playGeom && playback ? (
+              <G>
+                <PlaybackLine g={playGeom} progress={playback} neo={neo} />
+              </G>
+            ) : spec.kind === 'line' ? (
+              <G>
+                {lineFill ? (
+                  // The fill covers the whole plot from the first frame, so it
+                  // cannot fade in alongside the stroke -- it would sit out to the
+                  // right of a line that has not arrived yet. It follows instead.
+                  <AnimatedFill d={lineFill} draw={lineDraw} />
+                ) : null}
+                {linePath ? (
+                  linePathLength > 0 ? (
+                    <AnimatedStroke
+                      d={linePath}
+                      length={linePathLength}
+                      draw={lineDraw}
+                      neo={neo}
+                      width={lineW}
+                    />
+                  ) : (
+                    <G>
+                      {neo ? (
+                        <Path
+                          d={linePath}
+                          stroke={lineColor}
+                          strokeWidth={GLOW_W}
+                          strokeOpacity={GLOW_OPACITY}
+                          fill="none"
+                          strokeLinejoin="round"
+                          strokeLinecap="round"
+                        />
+                      ) : null}
+                      <Path
+                        d={linePath}
+                        stroke={lineColor}
+                        strokeWidth={2.25}
+                        fill="none"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                      />
+                    </G>
+                  )
+                ) : null}
+                {lastVisible ? (
+                  <AnimatedDot
+                    cx={cx(shown - 1)}
+                    cy={y(lastVisible.c)}
+                    draw={lineDraw}
+                    halo={neo}
+                  />
+                ) : null}
+              </G>
+            ) : playGeom && playback ? (
+              <G>
+                {bars.map((b, i) => (
+                  <PlaybackCandle
+                    key={`pc${i}`}
+                    g={playGeom}
+                    i={i}
+                    bar={b}
+                    bodyW={bodyW}
+                    progress={playback}
+                  />
+                ))}
+                <PlaybackLivePrice
+                  g={playGeom}
+                  progress={playback}
+                  x0={PAD_LEFT}
+                  x1={PAD_LEFT + plotW}
+                />
+              </G>
+            ) : (
+              <G>
+                {bars.slice(0, shown).map((b, i) => (
+                  <BuildCandle
+                    key={`c${i}`}
+                    x={cx(i)}
+                    bodyW={bodyW}
+                    yOpen={y(b.o)}
+                    yClose={y(b.c)}
+                    yHigh={y(b.h)}
+                    yLow={y(b.l)}
+                    up={b.c >= b.o}
+                    play={builds(i)}
+                    delay={buildDelay(i)}
+                  />
+                ))}
+              </G>
+            )}
+          </G>
+
+          <G clipPath={`url(#${clip.x})`}>
+            {/* volume strip */}
+            {hasVolume
+              ? (spec.volume as number[]).slice(0, playGeom && playback ? n : shown).map((v, i) => {
+                  const b = bars[i];
+                  const upBar = b.c >= b.o;
+                  const fill = upBar ? colors.up : colors.down;
+                  const barY = volY(v);
+                  const barH = Math.max(1, volTop + volH - barY);
+                  return playGeom && playback ? (
+                    <PlaybackVolumeBar
+                      key={`v${i}`}
+                      g={playGeom}
+                      i={i}
+                      x={cx(i) - bodyW / 2}
+                      y={barY}
+                      width={bodyW}
+                      height={barH}
+                      progress={playback}
+                    />
+                  ) : (
+                    <BuildVolume
+                      key={`v${i}`}
+                      x={cx(i) - bodyW / 2}
+                      width={bodyW}
+                      floor={volTop + volH}
+                      height={barH}
+                      fill={fill}
+                      play={builds(i)}
+                      delay={buildDelay(i)}
+                    />
+                  );
+                })
+              : null}
+            {hasVolume ? (
+              <Line
+                x1={PAD_LEFT}
+                x2={PAD_LEFT + plotW}
+                y1={volTop + volH}
+                y2={volTop + volH}
+                stroke={colors.border}
+                strokeWidth={1}
+              />
+            ) : null}
+            {/* post-mortem markers and the learner's own trades */}
+            {(marks ?? []).map((m, i) => (
+              <G key={`mk${i}`}>
+                <Line
+                  x1={cx(m.bar)}
+                  x2={cx(m.bar)}
+                  y1={padTop}
+                  y2={padTop + priceH}
+                  stroke={m.color}
+                  strokeWidth={1.25}
+                  strokeDasharray="3 3"
+                  opacity={0.8}
+                />
+                {/* In the gap under the plot, which every chart has. */}
+                <Circle cx={cx(m.bar)} cy={padTop + priceH + 8} r={7} fill={m.color} />
+                <SvgText
+                  x={cx(m.bar)}
+                  y={padTop + priceH + 11.5}
+                  fill={colors.background}
+                  fontSize={13}
+                  fontWeight="800"
+                  textAnchor="middle"
+                >
+                  {m.label}
+                </SvgText>
+              </G>
+            ))}
+            {(trades ?? []).map((t, i) => {
+              const b = bars[Math.min(n - 1, Math.max(0, t.bar))];
+              const x = cx(t.bar);
+              const long = t.side === 'long';
+              const tip = long ? y(b.l) + 5 : y(b.h) - 5;
+              const base = long ? tip + 8 : tip - 8;
+              return (
+                <Path
+                  key={`tr${i}`}
+                  d={`M${x},${tip} L${x - 5},${base} L${x + 5},${base} Z`}
+                  fill={long ? colors.up : colors.down}
+                />
+              );
+            })}
+          </G>
+
+          <G clipPath={`url(#${clip.price})`}>
+            {/* The decision price, carried across to where the replay ended, so
+            the move reads as a distance from it. */}
+            {showOutcome && !plan ? (
+              <Line
+                x1={decisionX}
+                x2={PAD_LEFT + plotW}
+                y1={entryY}
+                y2={entryY}
+                stroke={colors.textMuted}
+                strokeWidth={1}
+                strokeDasharray="2 3"
+                opacity={0.8}
+              />
+            ) : null}
+
+            {/* docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW]: the plan, once the call is made,
+            and the R ruler beside the axis. */}
+            {/* The levels' labels, over the bars. */}
+            {levelLabels.map((l, i) => (
+              <LevelLabel
+                key={`ll${i}`}
+                x={l.x}
+                y={l.y}
+                anchor={l.anchor}
+                label={l.text}
+                enter={overlay}
+              />
+            ))}
+
+            {plan ? (
+              <PlanLines
+                plan={plan}
+                y={y}
+                x0={decisionX}
+                x1={PAD_LEFT + plotW}
+                top={padTop}
+                bottom={padTop + priceH}
+                enter={planEnter}
+              />
+            ) : null}
+          </G>
+
+          <G clipPath={`url(#${clip.row})`}>
+            {plan && ruler ? (
+              <RulerScale
+                plan={plan}
+                y={y}
+                x={rulerX}
+                faint={ruler === 'faint'}
+                enter={rulerEnter}
+              />
+            ) : null}
+            {plan && ruler && playGeom && playback ? (
+              <PlaybackRuler
+                g={playGeom}
+                progress={playback}
+                plan={plan}
+                x={rulerX}
+                faint={ruler === 'faint'}
+              />
+            ) : null}
+          </G>
+
+          <G clipPath={`url(#${clip.x})`}>
+            {/* decision marker */}
+            {showDecisionMarker ? (
+              <AnimatedG animatedProps={overlayProps}>
+                <Line
+                  x1={decisionX}
+                  x2={decisionX}
+                  y1={padTop}
+                  y2={padTop + priceH + (hasVolume ? VOLUME_GAP + volH : 0)}
+                  stroke={colors.textMuted}
+                  strokeWidth={1}
+                  strokeDasharray="3 4"
+                />
+                <Circle cx={decisionX} cy={padTop + 1} r={3} fill={colors.textMuted} />
+              </AnimatedG>
+            ) : null}
+          </G>
+
+          {hasVolume ? (
+            // Two lines: at 13 pt, "vol 16k" is wider than the axis.
+            <G>
+              <SvgText x={axisX} y={volTop + volH - 15} fill={colors.textFaint} fontSize={13}>
+                vol
+              </SvgText>
+              <SvgText x={axisX} y={volTop + volH} fill={colors.textFaint} fontSize={13}>
+                {fmtVolume(maxVol)}
+              </SvgText>
+            </G>
+          ) : null}
+
+          {/* The live price tag, in the axis column. */}
+          {playGeom && playback && spec.kind === 'candles' ? (
             <PlaybackPriceTag
               g={playGeom}
               progress={playback}
               x={PAD_LEFT + plotW + 2}
               width={AXIS_W - 2}
             />
-          </G>
-        ) : (
-          <G>
-            {bars.slice(0, shown).map((b, i) => (
-              <BuildCandle
-                key={`c${i}`}
-                x={cx(i)}
-                bodyW={bodyW}
-                yOpen={y(b.o)}
-                yClose={y(b.c)}
-                yHigh={y(b.h)}
-                yLow={y(b.l)}
-                up={b.c >= b.o}
-                play={builds(i)}
-                delay={buildDelay(i)}
-              />
-            ))}
-          </G>
-        )}
+          ) : null}
+        </Svg>
 
-        {/* volume strip */}
-        {hasVolume
-          ? (spec.volume as number[]).slice(0, playGeom && playback ? n : shown).map((v, i) => {
-              const b = bars[i];
-              const upBar = b.c >= b.o;
-              const fill = upBar ? colors.up : colors.down;
-              const barY = volY(v);
-              const barH = Math.max(1, volTop + volH - barY);
-              return playGeom && playback ? (
-                <PlaybackVolumeBar
-                  key={`v${i}`}
-                  g={playGeom}
-                  i={i}
-                  x={cx(i) - bodyW / 2}
-                  y={barY}
-                  width={bodyW}
-                  height={barH}
-                  progress={playback}
-                />
-              ) : (
-                <BuildVolume
-                  key={`v${i}`}
-                  x={cx(i) - bodyW / 2}
-                  width={bodyW}
-                  floor={volTop + volH}
-                  height={barH}
-                  fill={fill}
-                  play={builds(i)}
-                  delay={buildDelay(i)}
-                />
-              );
-            })
-          : null}
-        {hasVolume ? (
-          <Line
-            x1={PAD_LEFT}
-            x2={PAD_LEFT + plotW}
-            y1={volTop + volH}
-            y2={volTop + volH}
-            stroke={colors.border}
-            strokeWidth={1}
-          />
-        ) : null}
-        {hasVolume ? (
-          // Two lines: at 13 pt, "vol 16k" is wider than the axis.
-          <G>
-            <SvgText x={axisX} y={volTop + volH - 15} fill={colors.textFaint} fontSize={13}>
-              vol
-            </SvgText>
-            <SvgText x={axisX} y={volTop + volH} fill={colors.textFaint} fontSize={13}>
-              {fmtVolume(maxVol)}
-            </SvgText>
-          </G>
-        ) : null}
-
-        {/* post-mortem markers and the learner's own trades */}
-        {(marks ?? []).map((m, i) => (
-          <G key={`mk${i}`}>
-            <Line
-              x1={cx(m.bar)}
-              x2={cx(m.bar)}
-              y1={padTop}
-              y2={padTop + priceH}
-              stroke={m.color}
-              strokeWidth={1.25}
-              strokeDasharray="3 3"
-              opacity={0.8}
-            />
-            {/* In the gap under the plot, which every chart has. */}
-            <Circle cx={cx(m.bar)} cy={padTop + priceH + 8} r={7} fill={m.color} />
-            <SvgText
-              x={cx(m.bar)}
-              y={padTop + priceH + 11.5}
-              fill={colors.background}
-              fontSize={13}
-              fontWeight="800"
-              textAnchor="middle"
-            >
-              {m.label}
-            </SvgText>
-          </G>
-        ))}
-        {(trades ?? []).map((t, i) => {
-          const b = bars[Math.min(n - 1, Math.max(0, t.bar))];
-          const x = cx(t.bar);
-          const long = t.side === 'long';
-          const tip = long ? y(b.l) + 5 : y(b.h) - 5;
-          const base = long ? tip + 8 : tip - 8;
-          return (
-            <Path
-              key={`tr${i}`}
-              d={`M${x},${tip} L${x - 5},${base} L${x + 5},${base} Z`}
-              fill={long ? colors.up : colors.down}
-            />
-          );
-        })}
-
-        {/* The decision price, carried across to where the replay ended, so
-            the move reads as a distance from it. */}
-        {showOutcome && !plan ? (
-          <Line
-            x1={decisionX}
-            x2={PAD_LEFT + plotW}
-            y1={entryY}
-            y2={entryY}
-            stroke={colors.textMuted}
-            strokeWidth={1}
-            strokeDasharray="2 3"
-            opacity={0.8}
-          />
-        ) : null}
-
-        {/* docs/ui/08-quotes-and-charts.md §6.4 [DESIGN-REVIEW]: the plan, once the call is made,
-            and the R ruler beside the axis. */}
-        {/* The levels' labels, over the bars. */}
-        {levelLabels.map((l, i) => (
-          <LevelLabel
-            key={`ll${i}`}
-            x={l.x}
-            y={l.y}
-            anchor={l.anchor}
-            label={l.text}
-            enter={overlay}
-          />
-        ))}
-
-        {plan ? (
-          <PlanLines
-            plan={plan}
-            y={y}
-            x0={decisionX}
-            x1={PAD_LEFT + plotW}
-            top={padTop}
-            bottom={padTop + priceH}
-            enter={planEnter}
-          />
-        ) : null}
-        {plan && ruler ? (
-          <RulerScale plan={plan} y={y} x={rulerX} faint={ruler === 'faint'} enter={rulerEnter} />
-        ) : null}
-        {plan && ruler && playGeom && playback ? (
-          <PlaybackRuler
-            g={playGeom}
-            progress={playback}
-            plan={plan}
-            x={rulerX}
-            faint={ruler === 'faint'}
-          />
-        ) : null}
-
-        {/* decision marker */}
-        {showDecisionMarker ? (
-          <AnimatedG animatedProps={overlayProps}>
-            <Line
-              x1={decisionX}
-              x2={decisionX}
-              y1={padTop}
-              y2={padTop + priceH + (hasVolume ? VOLUME_GAP + volH : 0)}
-              stroke={colors.textMuted}
-              strokeWidth={1}
-              strokeDasharray="3 4"
-            />
-            <Circle cx={decisionX} cy={padTop + 1} r={3} fill={colors.textMuted} />
-          </AnimatedG>
-        ) : null}
-      </Svg>
-
-      {showDecisionMarker ? (
-        <Animated.View
-          style={[
-            styles.decisionTag,
-            { left: Math.max(0, decisionX - 26), top: Math.max(0, padTop - 15) },
-            overlayStyle,
-          ]}
-        >
-          <Text style={styles.decisionTagText}>
-            {shown > spec.decision_index + 1 ? 'decision' : 'you are here'}
-          </Text>
-        </Animated.View>
-      ) : null}
-
-      {showOutcome && outcome ? (
-        <Arrive style={[styles.outcomeTag, { left: PAD_LEFT + 4, top: outcomeTop }]}>
-          <Text
+        {showDecisionMarker && decisionX >= PAD_LEFT && decisionX <= PAD_LEFT + plotW ? (
+          <Animated.View
             style={[
-              styles.outcomeMove,
-              { color: outcome.flat ? colors.textMuted : outcome.up ? colors.up : colors.down },
+              styles.decisionTag,
+              { left: Math.max(0, decisionX - 26), top: Math.max(0, padTop - 15) },
+              overlayStyle,
             ]}
           >
-            {outcome.move}
-          </Text>
-          <Text style={styles.outcomePosition}>{outcome.position}</Text>
-        </Arrive>
-      ) : null}
+            <Text style={styles.decisionTagText}>
+              {shown > spec.decision_index + 1 ? 'decision' : 'you are here'}
+            </Text>
+          </Animated.View>
+        ) : null}
 
-      {plan &&
-      ruler &&
-      !playback &&
-      shown > (revealFrom ?? n) - 1 &&
-      shown >= (endAt ?? n - 1) + 1 ? (
-        <RulerResult plan={plan} y={y} x={rulerX} faint={ruler === 'faint'} />
-      ) : null}
+        {showOutcome && outcome ? (
+          <Arrive style={[styles.outcomeTag, { left: PAD_LEFT + 4, top: outcomeTop }]}>
+            <Text
+              style={[
+                styles.outcomeMove,
+                { color: outcome.flat ? colors.textMuted : outcome.up ? colors.up : colors.down },
+              ]}
+            >
+              {outcome.move}
+            </Text>
+            <Text style={styles.outcomePosition}>{outcome.position}</Text>
+          </Arrive>
+        ) : null}
 
-      {notes && notes.length && showNotes ? (
-        <ChartNotes
-          placed={placeNotes(
-            notes.filter((note) => note.bar >= 0 && note.bar < shown),
-            {
-              cx,
-              yHigh: (bar) => y(bars[bar].h),
-              yLow: (bar) => y(bars[bar].l),
-              bounds: { left: 0, right: PAD_LEFT + plotW, top: 0, bottom: padTop + priceH + 14 },
-              avoid: [
-                ...levelLabels.map((l) => labelBox(l.text, l.x, l.y, l.anchor)),
-                ...(planShown ? planBoxes : []),
-                ...(showDecisionMarker ? [decisionTagBox] : []),
-              ],
-              bars: bars.slice(0, shown).map((b, i) => ({
-                left: cx(i) - bodyW / 2,
-                top: y(b.h),
-                width: bodyW,
-                height: Math.max(1, y(b.l) - y(b.h)),
-              })),
-            },
-          )}
-          width={width}
-          height={height}
-          reduced={reduced}
-        />
-      ) : null}
+        {plan &&
+        ruler &&
+        !playback &&
+        shown > (revealFrom ?? n) - 1 &&
+        shown >= (endAt ?? n - 1) + 1 ? (
+          <RulerResult plan={plan} y={y} x={rulerX} faint={ruler === 'faint'} />
+        ) : null}
 
-      {spec.vwap ? (
-        <View style={styles.legend}>
-          <View style={styles.legendSwatch} />
-          <Text style={styles.legendText}>VWAP</Text>
-        </View>
-      ) : null}
+        {notes && notes.length && showNotes ? (
+          <ChartNotes
+            placed={placeNotes(
+              notes.filter(
+                (note) =>
+                  note.bar >= 0 &&
+                  note.bar < shown &&
+                  // Off the plot after a pinch: no tag pointing at nothing.
+                  cx(note.bar) >= PAD_LEFT &&
+                  cx(note.bar) <= PAD_LEFT + plotW,
+              ),
+              {
+                cx,
+                yHigh: (bar) => y(bars[bar].h),
+                yLow: (bar) => y(bars[bar].l),
+                bounds: { left: 0, right: PAD_LEFT + plotW, top: 0, bottom: padTop + priceH + 14 },
+                avoid: [
+                  ...levelLabels.map((l) => labelBox(l.text, l.x, l.y, l.anchor)),
+                  ...(planShown ? planBoxes : []),
+                  ...(showDecisionMarker ? [decisionTagBox] : []),
+                ],
+                bars: bars.slice(0, shown).map((b, i) => ({
+                  left: cx(i) - bodyW / 2,
+                  top: y(b.h),
+                  width: bodyW,
+                  height: Math.max(1, y(b.l) - y(b.h)),
+                })),
+              },
+            )}
+            width={width}
+            height={height}
+            reduced={reduced}
+          />
+        ) : null}
 
-      {scrub && !playback && shown > 1 ? (
-        <ChartScrub
-          width={width}
-          height={height}
-          xs={bars.slice(0, shown).map((_, i) => cx(i))}
-          ys={bars.slice(0, shown).map((b) => y(b.c))}
-          closes={bars.slice(0, shown).map((b) => b.c)}
-          top={padTop}
-          bottom={padTop + priceH}
-          right={PAD_LEFT + plotW}
-        />
-      ) : null}
-    </View>
+        {spec.vwap ? (
+          <View style={styles.legend}>
+            <View style={styles.legendSwatch} />
+            <Text style={styles.legendText}>VWAP</Text>
+          </View>
+        ) : null}
+
+        {scrub && !playback && shown > 1 ? (
+          <ChartScrub
+            width={width}
+            height={height}
+            xs={bars.slice(0, shown).map((_, i) => cx(i))}
+            ys={bars.slice(0, shown).map((b) => y(b.c))}
+            closes={bars.slice(0, shown).map((b) => b.c)}
+            top={padTop}
+            bottom={padTop + priceH}
+            right={PAD_LEFT + plotW}
+          />
+        ) : null}
+
+        {/* docs/ui/08-quotes-and-charts.md §6.4 [David, 2026-10-06]: the price axis, as on
+          TradingView -- drag it up to stretch the prices, down to squeeze
+          them; a double tap puts it back. */}
+        {zoomOn ? (
+          <GestureDetector gesture={axisGesture}>
+            <View
+              style={[
+                styles.axisGrip,
+                { left: PAD_LEFT + plotW, top: padTop, width: AXIS_W, height: priceH },
+              ]}
+            />
+          </GestureDetector>
+        ) : null}
+        {zoomOn && zoomed ? (
+          // A tap gesture, not a Pressable: it sits inside the chart's own
+          // gestures (and, on a decision, a key that is off while the learner
+          // decides), which a Pressable's press does not get through on the web.
+          <GestureDetector gesture={resetTap}>
+            <View
+              accessible
+              accessibilityRole="button"
+              accessibilityLabel="Reset the chart's zoom"
+              onAccessibilityTap={reset}
+              style={[styles.resetHit, { left: PAD_LEFT, top: padTop }]}
+            >
+              <View style={styles.resetPill}>
+                <Text style={styles.resetText}>Reset</Text>
+              </View>
+            </View>
+          </GestureDetector>
+        ) : null}
+      </View>
+    </GestureDetector>
   );
 }
 
 const styles = themed(() => ({
+  // The price axis's grip: the whole column beside the plot.
+  axisGrip: { position: 'absolute' },
+  resetHit: {
+    position: 'absolute',
+    minWidth: 48,
+    height: 48,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    paddingTop: 4,
+    paddingLeft: 4,
+  },
+  resetPill: {
+    backgroundColor: colors.surface,
+    borderColor: colors.borderStrong,
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+  },
+  resetText: { ...type.small, fontSize: 13, fontWeight: '700', color: colors.text },
   decisionTag: {
     pointerEvents: 'none',
     position: 'absolute',

@@ -747,7 +747,7 @@ export default function LessonPlayer({
   }, [screens, mainLen]);
   const big = kind !== 'first' && index === lastQuestion;
   const verdict = useMemo(() => (g ? { grade: g, streak, big } : null), [g, streak, big]);
-  // A trade call, from its key or a swipe across the chart (docs/ui/05-chart-questions-and-mistakes-round.md §4.3).
+  // A trade call, from its key (docs/ui/05-chart-questions-and-mistakes-round.md §4.3).
   // The feel has to land on the call, not when the chart stops playing.
   const decide = (button: DecisionButton) => {
     commitFeedback();
@@ -914,7 +914,6 @@ export default function LessonPlayer({
                         contentWidth,
                         level,
                         onPhaseChange: setDecisionPhase,
-                        onDecide: decide,
                         cursor,
                         setCursor,
                         plan,
@@ -954,7 +953,11 @@ export default function LessonPlayer({
               working={!!working}
               decision={
                 screen.type === 'chart-decision'
-                  ? longestDecisionReveal(screen, { showR })
+                  ? // Once the call is made, the verdict it brings (ChartDecisionScreen
+                    // sizes its chart to that one).
+                    value?.kind === 'decision' && value.choice
+                    ? decisionReveal(screen, value.choice, undefined, { showR })
+                    : longestDecisionReveal(screen, { showR })
                   : undefined
               }
               onHeight={setProbeH}
@@ -1084,7 +1087,6 @@ function renderScreen(props: {
   contentWidth: number;
   level: Level;
   onPhaseChange: (p: DecisionPhase) => void;
-  onDecide: (button: DecisionButton) => void;
   cursor: number;
   setCursor: (n: number) => void;
   plan: Record<string, string>;
@@ -1106,7 +1108,6 @@ function renderScreen(props: {
     contentWidth,
     level,
     onPhaseChange,
-    onDecide,
     cursor,
     setCursor,
     plan,
@@ -1164,7 +1165,6 @@ function renderScreen(props: {
           value={value}
           width={contentWidth}
           onPhaseChange={onPhaseChange}
-          onDecide={onDecide}
           revealed={isRevealed}
         />
       );

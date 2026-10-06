@@ -133,6 +133,7 @@ for (const scheme of ['dark', 'light']) {
     check(`${tag}: accentText on accentFill`, p.accentText, p.accentFill);
     check(`${tag}: successText on successFill`, p.successText, p.successFill);
     check(`${tag}: accentText on dangerFill`, p.accentText, p.dangerFill);
+    check(`${tag}: goldText on goldFill`, p.goldText, p.goldFill);
   }
 }
 

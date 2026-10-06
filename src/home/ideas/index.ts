@@ -29,7 +29,6 @@ export const SECTIONS: { id: Section; title: string }[] = [
  * which he took out again after trying it). The rest keep their own tag.
  */
 const IN_APP = new Set([
-  'swipe-call',
   'flip-reveal',
   'deep-keys',
   'slide-confirm',
@@ -56,6 +55,8 @@ const IN_APP = new Set([
 const LEFT_OUT = new Set([
   // In the app for a moment, then taken out (David, 2026-10-04: "Remove the terminal typing").
   'typed-theory',
+  // In the app from DESIGN-REVIEW, taken out by David on 2026-10-06 ("remove the swipe chart feature").
+  'swipe-call',
   'candle-bar',
   'breakout',
   'coin-level',

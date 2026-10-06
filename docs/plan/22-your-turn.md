@@ -30,7 +30,7 @@ A wish you have while testing another stage, one that is not a problem of that s
 
 | Wish | From | Note |
 |---|---|---|
-| — | | |
+| More candles before the decision as context, especially on the harder chart-reading exercises ("there could be more charts on the screen as context before"). | David, 2026-10-06, testing `LOOK-COMPONENTS` | Needs new chart data, not app code: today's convention is 8–12 bars with the call on bar 4–7 (`docs/level-files/04-components-and-data.md`, validator rule). The app already draws any count, and the pinch zoom (PR #27) lets a long history be read on a phone. Natural home: `CHART-GEN` (sessions from seeds, any length) and the chapter fixes; the convention and the validator change with it. |
 
 A turn removes the lines it built; the PR is the record.
 
