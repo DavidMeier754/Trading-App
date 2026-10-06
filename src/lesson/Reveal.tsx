@@ -249,9 +249,7 @@ function DecisionOutcome({ decision }: { decision: DecisionReveal }) {
         <View style={styles.log}>
           {decision.log.map((row) => (
             <View key={row.label} style={styles.logRow}>
-              <Text style={styles.logLabel} numberOfLines={1}>
-                {row.label}
-              </Text>
+              <Text style={styles.logLabel}>{row.label}</Text>
               <NumberText style={[styles.logValue, { color: colorOf(row.tone) }]}>
                 {copy(row.value)}
               </NumberText>
@@ -377,10 +375,12 @@ const styles = themed(() => ({
     gap: 1,
   },
   logRow: { flexDirection: 'row', alignItems: 'baseline', gap: space.sm },
-  logLabel: { ...type.label, fontWeight: '400', color: colors.textMuted, flexShrink: 1 },
+  // The name keeps its width; a long value wraps under itself instead.
+  logLabel: { ...type.label, fontWeight: '400', color: colors.textMuted, flexShrink: 0 },
   logValue: {
     ...type.label,
     fontWeight: '700',
+    flexShrink: 1,
     marginLeft: 'auto',
     textAlign: 'right',
   },
