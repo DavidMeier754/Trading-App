@@ -374,6 +374,20 @@ describe('the real screens from the test checklist', () => {
     expect(r.result).toBe('Had you bought: +$45.00 on 250 shares');
   });
 
+  it('level-09-2 screen 3: the trade log, outcome then result', () => {
+    const bought = decisionReveal(screenOf('level-09-2', 3), 'buy');
+    expect(bought.log.map((row) => row.label)).toEqual(['Outcome', 'Result']);
+    expect(bought.log[0].value).toMatch(/^Closed at \$/);
+    expect(bought.log[1]).toEqual({ label: 'Result', value: '+$45.00 on 250 shares', tone: 'up' });
+    const waited = decisionReveal(screenOf('level-09-2', 3), 'wait');
+    expect(waited.log[0].value).toBe('Stood aside');
+    expect(waited.log[1]).toEqual({
+      label: 'Had you bought',
+      value: '+$45.00 on 250 shares',
+      tone: 'hypothetical',
+    });
+  });
+
   it('level-01-1 screen 6 fits both choices', () => {
     const screen = screenOf('level-01-1', 6);
     expect(screen.explanation).not.toMatch(/you just made your first trade/i);
@@ -390,5 +404,39 @@ describe('the real screens from the test checklist', () => {
         }
       }
     }
+  });
+});
+
+describe('the trade log with a plan (docs/ui/06-reveal-and-hearts.md §5.1b)', () => {
+  // Long at 10.10, stop 10.00, target 10.30: the third bar reaches the target.
+  const planned = (): ChartDecisionScreen => ({
+    ...scenario('buy', ['wait'], RISES),
+    stop: 10.0,
+    target: 10.3,
+  });
+
+  it('names the target, the result and R once R is taught', () => {
+    const r = decisionReveal(planned(), 'buy', undefined, { showR: true });
+    expect(r.log).toEqual([
+      { label: 'Outcome', value: 'Target hit at $10.30', tone: 'plain' },
+      { label: 'Result', value: '+$20.00 on 100 shares', tone: 'up' },
+      { label: 'In R', value: '+2R', tone: 'up' },
+    ]);
+  });
+
+  it('keeps R out until it is taught', () => {
+    const r = decisionReveal(planned(), 'buy');
+    expect(r.log.map((row) => row.label)).toEqual(['Outcome', 'Result']);
+  });
+
+  it('names the stop when the trade was stopped out', () => {
+    const r = decisionReveal(
+      { ...scenario('buy', ['wait'], FALLS), stop: 9.95, target: 10.4 },
+      'buy',
+      undefined,
+      { showR: true },
+    );
+    expect(r.log[0].value).toBe('Stopped out at $9.95');
+    expect(r.log[2]).toEqual({ label: 'In R', value: '−1R', tone: 'down' });
   });
 });

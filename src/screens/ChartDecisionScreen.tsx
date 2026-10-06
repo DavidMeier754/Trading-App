@@ -403,7 +403,11 @@ export default function ChartDecisionScreen({
           <GestureDetector gesture={swipe}>
             <Animated.View style={dragStyle}>
               <Pressable
+                // Only while the replay plays is the chart a key (tap to skip);
+                // otherwise a screen reader reaches the chart's own sentence.
+                accessible={phase === 'playing'}
                 accessibilityRole="button"
+                accessibilityLabel="Skip the replay"
                 onPress={onChartPress}
                 disabled={choice === null}
               >

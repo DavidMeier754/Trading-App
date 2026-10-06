@@ -10,11 +10,12 @@ import Animated, {
 import Svg, { Path } from 'react-native-svg';
 
 import { copy } from '../format';
+import NumberText from '../components/NumberText';
 import { colors, radius, space, type, themed } from '../theme';
 import type { Grade } from './answers';
 import { Celebrate, PopIn } from './Celebrate';
 import DecisionGrid from './DecisionGrid';
-import { type DecisionReveal, decisionRevealLabel } from './decisionReveal';
+import { type DecisionReveal, decisionRevealLabel, type LogRow } from './decisionReveal';
 import { isStreakMilestone, pulseAt, STREAK_FROM } from './feedback';
 import { useLookSpec } from './look';
 import { DURATION, EASE_OUT, RISE, useMotion } from './motion';
@@ -225,25 +226,36 @@ export default function Reveal({
 
 /**
  * The outcome, under the grade and smaller than it (docs/ui/06-reveal-and-hearts.md §5.1b): the
- * level file's sentence, then the result line with the share count. The line
- * takes its sign's colour but sits in a neutral box, so it never reads as the
- * verdict; standing aside shows the "would have" in grey. A right call that
- * lost gets the line that joins the two.
+ * level file's sentence, then the trade log from Precise (LOOK-BRIEF) -- how
+ * the trade ended, the result with the share count, and R once R is taught --
+ * each a name on the left and its value on the right in the number face, so
+ * the numbers line up. Only the values take their sign's colour, and the box
+ * stays neutral, so it never reads as the verdict; standing aside shows the
+ * "would have" in grey. A right call that lost gets the line that joins the two.
  */
 function DecisionOutcome({ decision }: { decision: DecisionReveal }) {
-  const color =
-    decision.tone === 'up'
+  const colorOf = (tone: LogRow['tone']) =>
+    tone === 'up'
       ? colors.up
-      : decision.tone === 'down'
+      : tone === 'down'
         ? colors.down
-        : decision.tone === 'flat'
+        : tone === 'flat' || tone === 'plain'
           ? colors.text
           : colors.textMuted;
   return (
     <>
       <View style={styles.outcomeBox}>
         <Text style={styles.outcomeText}>{copy(decision.outcome)}</Text>
-        <Text style={[styles.resultText, { color }]}>{copy(decision.result)}</Text>
+        <View style={styles.log}>
+          {decision.log.map((row) => (
+            <View key={row.label} style={styles.logRow}>
+              <Text style={styles.logLabel}>{row.label}</Text>
+              <NumberText style={[styles.logValue, { color: colorOf(row.tone) }]}>
+                {copy(row.value)}
+              </NumberText>
+            </View>
+          ))}
+        </View>
       </View>
       {decision.variance ? <Text style={styles.variance}>{copy(decision.variance)}</Text> : null}
     </>
@@ -355,7 +367,23 @@ const styles = themed(() => ({
   },
   // docs/ui/15-theming-and-accessibility.md §10: nothing a learner reads to judge the trade goes below 13 pt.
   outcomeText: { ...type.label, fontWeight: '400', color: colors.textMuted },
-  resultText: { ...type.label, fontWeight: '700', fontVariant: ['tabular-nums'] },
+  log: {
+    marginTop: 2,
+    paddingTop: 4,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    gap: 1,
+  },
+  logRow: { flexDirection: 'row', alignItems: 'baseline', gap: space.sm },
+  // The name keeps its width; a long value wraps under itself instead.
+  logLabel: { ...type.label, fontWeight: '400', color: colors.textMuted, flexShrink: 0 },
+  logValue: {
+    ...type.label,
+    fontWeight: '700',
+    flexShrink: 1,
+    marginLeft: 'auto',
+    textAlign: 'right',
+  },
   variance: { ...type.label, fontWeight: '500', color: colors.text },
   probe: { position: 'absolute', left: 0, right: 0, top: 0, opacity: 0 },
   probeHead: { height: 24 },

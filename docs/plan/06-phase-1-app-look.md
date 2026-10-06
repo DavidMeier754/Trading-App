@@ -15,14 +15,16 @@ The app lane is the first part of Phase 1; the content lane follows once it is d
    - Round prices (0.05 / 0.10 / 0.25 / 0.50 / 1) and the currency symbol from the market profile.
    - The axis does not jump between decision and reveal. **Done in `DESIGN-REVIEW`:** the frame holds still from the first frame, the visible bars in its middle (`docs/ui/08-quotes-and-charts.md` §6.4).
    - Prices in the number face of the mix (`docs/ui/15-theming-and-accessibility.md` §10).
+   - **Built in session 1** (2026-10-06): round steps on the backdrop's grid, "$10.25" in the number face (`docs/ui/08-quotes-and-charts.md` §6.4).
 2. **Decision buttons** (S7):
    - Equal in weight. **Done in `DESIGN-REVIEW`,** with a direction glyph on each key.
    - "What happened next" instead of "NEXT 5 BARS". **[CONTENT-REVIEW]** (C1-01, C2-01): on a line chart "What happens next", on a candle chart "Next 5 candles" — the course says candles, and "bars" are the volume bars.
    - A text alternative for screen readers, e.g. "Price climbed in steps from 9.80 to 10.05".
+   - **Built in session 1:** the pill and the sentence (`src/components/chartWords.ts`).
 3. **Stop and target lines** when a screen has `stop` or `target` (new, `docs/level-files/`), labelled with their prices, and the entry while the learner decides. **Done in `DESIGN-REVIEW`,** with one change: they appear with the choice, not while the learner decides (they would give the direction away); the R ruler, chart notes and the open marker came with them.
-4. **State chips** easy to read.
-5. **Candles that form** (your critique: the candle animations should move more realistically): a candle opens, runs to its high and low and settles at its close, with a live price tag on the axis, as in `#prototype/mix/chart` (`formingCandle` in `src/prototype/kit.tsx`; both at commit `a78e210`, `LOOK-SYSTEM` item 13). A tap still finishes the playback.
-6. **The trade log** in the chart's reveal, from Precise: the outcome, the result and R, lined up in the number face, a neutral block under the grade (`docs/ui/06-reveal-and-hearts.md` §5.1b). Since `DESIGN-REVIEW` it shares its row with the decision grid; keep the panel compact (§5.1b).
+4. **State chips** easy to read. **Built in session 1:** name quiet, value bold in the number face, a day's R in its sign's colour.
+5. **Candles that form** (your critique: the candle animations should move more realistically): a candle opens, runs to its high and low and settles at its close, with a live price tag on the axis, as in `#prototype/mix/chart` (`formingCandle` in `src/prototype/kit.tsx`; both at commit `a78e210`, `LOOK-SYSTEM` item 13). A tap still finishes the playback. **Built in session 1:** the candle already formed (since `LOOK-SYSTEM`); the live price tag on the axis is new.
+6. **The trade log** in the chart's reveal, from Precise: the outcome, the result and R, lined up in the number face, a neutral block under the grade (`docs/ui/06-reveal-and-hearts.md` §5.1b). Since `DESIGN-REVIEW` it shares its row with the decision grid; keep the panel compact (§5.1b). **Built in session 1:** Outcome, Result and In R rows under the outcome sentence (`docs/ui/06-reveal-and-hearts.md` §5.1b).
 
 **Session 2 – the rest**
 

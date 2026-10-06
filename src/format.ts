@@ -33,9 +33,18 @@ export function signedPrice(value: number): string {
   return `${sign}${market.currency_symbol}${groupThousands(int)}.${frac}`;
 }
 
-/** A bare price with no currency symbol, for chart axes. */
+/** A bare price with no currency symbol, for labels on a chart. */
 export function axisPrice(value: number): string {
   return value.toFixed(2);
+}
+
+/**
+ * A price on a chart's axis (docs/ui/08-quotes-and-charts.md §6.4): the profile's currency
+ * symbol and the price, to the cent below a dollar step and whole from it
+ * ("$10.25", "$125").
+ */
+export function axisTick(value: number, step: number): string {
+  return `${market.currency_symbol}${value.toFixed(step >= 1 ? 0 : 2)}`;
 }
 
 /** Percentages: one decimal. */
