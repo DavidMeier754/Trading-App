@@ -3,10 +3,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
   SharedValue,
   useAnimatedProps,
+  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import Svg, {
   Circle,
   Defs,
@@ -19,16 +21,17 @@ import Svg, {
   Text as SvgText,
 } from 'react-native-svg';
 
-import { axisPrice, volume as fmtVolume } from '../format';
-import { floorSpan } from './chartScale';
+import { axisPrice, axisTick, price as fmtPrice, volume as fmtVolume } from '../format';
+import { floorSpan, roundFrame } from './chartScale';
 import ChartScrub from './ChartScrub';
+import { describeChart, PILL_LINE_H, zoneLabel, zonePillLines, zonePillSize } from './chartWords';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { tint, useLookSpec } from '../lesson/look';
 import { Arrive } from '../lesson/Celebrate';
 import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
 import { BUILD_MS, BuildCandle, buildStagger, BuildVolume, useEntrance } from './ChartBuild';
-import { CHART_GRID_STEP, colors, GRID, type, themed } from '../theme';
+import { CHART_GRID_STEP, colors, GRID, MONO_FONT, type, themed } from '../theme';
 import type { ChartNote, ChartSpec } from '../types';
 import type { TradePlan } from '../lesson/tradePlan';
 import { EASE_OUT } from '../lesson/motion';
@@ -54,6 +57,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedG = Animated.createAnimatedComponent(G);
 const AnimatedLine = Animated.createAnimatedComponent(Line);
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
+const AnimatedSvgText = Animated.createAnimatedComponent(SvgText);
 
 export type Candle = { o: number; h: number; l: number; c: number };
 
@@ -730,6 +734,109 @@ function PlaybackLivePrice({
   );
 }
 
+/** Where the live price tag is drawn, and whether it shows, at replay position `t`. */
+function liveTag(g: PlayGeom, t: number) {
+  'worklet';
+  const on = t > 0 && t < 1 ? Math.min(1, t / 0.03) * Math.min(1, (1 - t) / 0.03) : 0;
+  return { y: playY(g, t, liveAt(g, t).p), on };
+}
+
+/** The live price tag's height, and how near an axis price may come to it before it steps aside. */
+const TAG_H = 20;
+const TAG_CLEAR = 15;
+
+/**
+ * The live price on the axis while the candles form (docs/ui/08-quotes-and-charts.md §6.4,
+ * Precise's chart from LOOK-BRIEF): a tag in the price column that rides the
+ * price of the forming candle, with that price in the number face. Its place
+ * is worked out per frame on the UI thread; its words change only when the
+ * price moves a cent, as a React update of this tag alone.
+ */
+function PlaybackPriceTag({
+  g,
+  progress,
+  x,
+  width,
+}: {
+  g: PlayGeom;
+  progress: SharedValue<number>;
+  /** The axis column's left edge. */
+  x: number;
+  width: number;
+}) {
+  const [cents, setCents] = React.useState(() => Math.round(g.closes[g.from - 1] * 100));
+  useAnimatedReaction(
+    () => Math.round(liveAt(g, progress.get()).p * 100),
+    (now, before) => {
+      if (now !== before) scheduleOnRN(setCents, now);
+    },
+  );
+  const box = useAnimatedProps(() => {
+    const k = liveTag(g, progress.get());
+    return { y: k.y - TAG_H / 2, opacity: k.on };
+  });
+  const words = useAnimatedProps(() => {
+    const k = liveTag(g, progress.get());
+    return { y: k.y + 4.5, opacity: k.on };
+  });
+  return (
+    <G pointerEvents="none">
+      <AnimatedRect
+        x={x}
+        y={0}
+        width={width}
+        height={TAG_H}
+        rx={4}
+        fill={colors.accentFill}
+        opacity={0}
+        animatedProps={box}
+      />
+      <AnimatedSvgText
+        x={x + 4}
+        y={0}
+        fill={colors.accentText}
+        fontSize={13}
+        fontWeight="700"
+        fontFamily={MONO_FONT}
+        opacity={0}
+        animatedProps={words}
+      >
+        {fmtPrice(cents / 100)}
+      </AnimatedSvgText>
+    </G>
+  );
+}
+
+/** An axis price during the replay: it steps aside while the live tag passes over it. */
+function PlaybackAxisTick({
+  g,
+  progress,
+  y,
+  children,
+}: {
+  g: PlayGeom;
+  progress: SharedValue<number>;
+  y: number;
+  children: React.ReactNode;
+}) {
+  const props = useAnimatedProps(() => {
+    const k = liveTag(g, progress.get());
+    const near = Math.max(0, 1 - Math.max(0, Math.abs(k.y - y) - TAG_CLEAR) / 6);
+    // Gone before the tag is fully there, so the two never show half over each other.
+    return { opacity: 1 - near * Math.min(1, k.on * 3) };
+  });
+  return <AnimatedG animatedProps={props}>{children}</AnimatedG>;
+}
+
+/** A price on the axis: the number face, 13 pt (docs/ui/15-theming-and-accessibility.md §10). */
+function AxisText({ x, y, children }: { x: number; y: number; children: string }) {
+  return (
+    <SvgText x={x} y={y} fill={colors.textFaint} fontSize={13} fontFamily={MONO_FONT}>
+      {children}
+    </SvgText>
+  );
+}
+
 /**
  * The R ruler while the trade plays out (docs/ui/08-quotes-and-charts.md §6.4): a bar from 0 to
  * wherever the price is now, in R, up or down from the entry and held between
@@ -918,18 +1025,11 @@ function hatchPath({ x0, x1, y0, y1 }: Zone, step = 9): string {
   return d;
 }
 
-/**
- * How wide the zone's pill is: its label in 13 pt bold capitals, letter-spaced,
- * and a little room each side. The level labels keep off it (levelLabels).
- */
-export function zonePillWidth(label: string): number {
-  return label.length * 8.4 + 14;
-}
-
 function FutureZone({ zone }: { zone: Zone }) {
   const w = zone.x1 - zone.x0;
   if (w < 12) return null;
-  const labelW = zonePillWidth(zone.label);
+  const lines = zonePillLines(zone.label, w - 8);
+  const pill = zonePillSize(lines);
   const cx = (zone.x0 + zone.x1) / 2;
   return (
     <G>
@@ -943,28 +1043,31 @@ function FutureZone({ zone }: { zone: Zone }) {
         opacity={0.025}
       />
       <Path d={hatchPath(zone)} stroke={colors.text} strokeOpacity={0.055} strokeWidth={1} />
-      {zone.label && w >= labelW + 8 ? (
+      {lines.length && w >= pill.width + 8 ? (
         <G>
           <Rect
-            x={cx - labelW / 2}
-            y={zone.midY - 9}
-            width={labelW}
-            height={18}
+            x={cx - pill.width / 2}
+            y={zone.midY - pill.height / 2}
+            width={pill.width}
+            height={pill.height}
             rx={9}
             fill={colors.background}
             opacity={0.85}
           />
-          <SvgText
-            x={cx}
-            y={zone.midY + 3.5}
-            fill={colors.textFaint}
-            fontSize={13}
-            fontWeight="700"
-            letterSpacing={0.8}
-            textAnchor="middle"
-          >
-            {zone.label.toUpperCase()}
-          </SvgText>
+          {lines.map((line, i) => (
+            <SvgText
+              key={line}
+              x={cx}
+              y={zone.midY - pill.height / 2 + 1 + PILL_LINE_H * i + 12.5}
+              fill={colors.textFaint}
+              fontSize={13}
+              fontWeight="700"
+              letterSpacing={0.8}
+              textAnchor="middle"
+            >
+              {line}
+            </SvgText>
+          ))}
         </G>
       ) : null}
     </G>
@@ -1146,7 +1249,11 @@ type Props = {
   showNotes?: boolean;
 };
 
-export const AXIS_W = 44;
+/**
+ * The price axis's column: room for "$10.25" in the number face at 13 pt
+ * (docs/ui/15-theming-and-accessibility.md §10).
+ */
+export const AXIS_W = 54;
 export const PAD_LEFT = 6;
 const PAD_TOP = 10;
 const PAD_BOTTOM = 18; // leaves room for the legend strip under the plot
@@ -1227,6 +1334,15 @@ export type ChartLayout = {
   volH: number;
   /** Number of gaps between price gridlines; there is one more line than gaps. */
   gaps: number;
+  /**
+   * The window drawn: the one asked for, rounded out so every gridline is a
+   * round price (chartScale.ts, roundFrame), and the step between the lines.
+   */
+  lo: number;
+  hi: number;
+  step: number;
+  /** The gridlines' prices, bottom to top. */
+  ticks: number[];
   y: (price: number) => number;
   priceAt: (y: number) => number;
   cx: (i: number) => number;
@@ -1283,7 +1399,12 @@ export function chartLayout({
   const gaps = fitted !== undefined ? fitted / CHART_GRID_STEP : 3;
 
   const slot = plotW / Math.max(1, bars);
+  // docs/ui/08-quotes-and-charts.md §6.4: the axis counts in round prices.
+  const frame = roundFrame(lo, hi, gaps);
+  ({ lo, hi } = frame);
   const span = hi - lo || 1;
+  const ticks: number[] = [];
+  for (let i = 0; i <= gaps; i++) ticks.push(lo + (span * i) / gaps);
 
   return {
     aligns,
@@ -1297,6 +1418,10 @@ export function chartLayout({
     volTop: padTop + priceH + VOLUME_GAP,
     volH,
     gaps,
+    lo,
+    hi,
+    step: frame.step,
+    ticks,
     y: (price: number) => padTop + priceH - ((price - lo) / span) * priceH,
     priceAt: (yPx: number) => lo + ((padTop + priceH - yPx) / priceH) * span,
     cx: (i: number) => PAD_LEFT + slot * (i + 0.5),
@@ -1410,7 +1535,9 @@ function Chart({
   const fixedFrame = useMemo(() => {
     if (revealFrom === undefined) return null;
     const seen = domainOf(bars, spec, Math.max(1, revealFrom));
-    const all = domainOf(bars, spec, n);
+    // Every bar the replay will play: up to where the trade ended, when it
+    // ends early; the bars after it stay under the hatching.
+    const all = domainOf(bars, spec, endAt !== undefined ? Math.min(n, endAt + 1) : n);
     let lo0 = all.lo;
     let hi0 = all.hi;
     if (plan) {
@@ -1421,23 +1548,38 @@ function Chart({
     const mid = (seen.lo + seen.hi) / 2;
     const half = Math.max(mid - lo0, hi0 - mid, (seen.hi - seen.lo) / 2);
     return { lo: mid - half, hi: mid + half };
-  }, [revealFrom, bars, spec, n, plan]);
+  }, [revealFrom, bars, spec, n, plan, endAt]);
   const visibleFrame = useMemo(
     () => domainOf(bars, spec, Math.max(1, shown)),
     [bars, spec.vwap, spec.levels, shown],
   );
-  const { lo, hi } = fixedFrame ?? visibleFrame;
-
-  // Where the axis ends up once every bar is in.
-  const fullFrame = useMemo(() => domainOf(bars, spec, n), [bars, spec.vwap, spec.levels, n]);
-  const full = fixedFrame ?? fullFrame;
+  const want = fixedFrame ?? visibleFrame;
 
   const rightPad = rulerSpace ? RULER_W : 0;
   const layout = useMemo(
-    () => chartLayout({ width, height, bars: n, lo, hi, hasVolume, gridAnchor, rightPad }),
-    [width, height, n, lo, hi, hasVolume, gridAnchor, rightPad],
+    () =>
+      chartLayout({
+        width,
+        height,
+        bars: n,
+        lo: want.lo,
+        hi: want.hi,
+        hasVolume,
+        gridAnchor,
+        rightPad,
+      }),
+    [width, height, n, want.lo, want.hi, hasVolume, gridAnchor, rightPad],
   );
-  const { padTop, priceH, plotW, bodyW, volTop, volH, gaps, y, cx } = layout;
+  const { padTop, priceH, plotW, bodyW, volTop, volH, gaps, y, cx, ticks } = layout;
+  // The window as drawn: on round prices (chartLayout).
+  const { lo, hi } = layout;
+
+  // Where the axis ends up once every bar is in, rounded the same way.
+  const fullFrame = useMemo(() => domainOf(bars, spec, n), [bars, spec.vwap, spec.levels, n]);
+  const full = useMemo(
+    () => (fixedFrame ? { lo, hi } : roundFrame(fullFrame.lo, fullFrame.hi, gaps)),
+    [fixedFrame, lo, hi, fullFrame, gaps],
+  );
   // The price labels, right of the plot; the R ruler's column, if any, after them.
   const axisX = PAD_LEFT + plotW + 6;
   const rulerX = PAD_LEFT + plotW + AXIS_W + 8;
@@ -1451,15 +1593,10 @@ function Chart({
   const maxVol = hasVolume ? Math.max(...(spec.volume as number[])) : 1;
   const volY = (v: number) => volTop + volH - (v / maxVol) * volH;
 
-  const ticks = useMemo(() => {
-    const out: number[] = [];
-    for (let i = 0; i <= gaps; i++) out.push(lo + ((hi - lo) * i) / gaps);
-    return out;
-  }, [lo, hi, gaps]);
-
-  // The same four lines read against the domain the replay ends on. The lines
+  // The same lines read against the domain the replay ends on. The lines
   // themselves never move -- they are fixed fractions of the plot height -- so
   // only these labels change, and they cross-fade rather than re-render.
+  const fullStep = (full.hi - full.lo) / gaps;
   const fullTicks = useMemo(() => {
     const out: number[] = [];
     for (let i = 0; i <= gaps; i++) out.push(full.lo + ((full.hi - full.lo) * i) / gaps);
@@ -1575,7 +1712,8 @@ function Chart({
           y0: padTop,
           y1: padTop + priceH + (hasVolume ? VOLUME_GAP + volH : 0),
           midY: padTop + priceH / 2,
-          label: decisionZone && shown <= (revealFrom as number) ? `next ${n - shown} bars` : '',
+          label:
+            decisionZone && shown <= (revealFrom as number) ? zoneLabel(spec.kind, n - shown) : '',
         }
       : null;
 
@@ -1626,7 +1764,7 @@ function Chart({
     }
     const avoid: LabelBox[] = [...planBoxes];
     if (showDecisionMarker && spec.decision_index >= 0) avoid.push(decisionTagBox);
-    // The "next 5 bars" pill is a hint: it makes way for the labels (pillZone).
+    // The "next 5 candles" pill is a hint: it makes way for the labels (pillZone).
     return placeLevelLabels(
       marked.map((lvl) => ({
         text: levelLabelText(lvl.label as string, axisPrice(lvl.price), plotW),
@@ -1637,26 +1775,28 @@ function Chart({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spec, bars, n, layout, plan, decisionX, showDecisionMarker, decisionZone]);
 
-  // The "next 5 bars" pill sits in the middle of the hatched zone, or as near
-  // it as it can without covering a level's label (Ch 4 10-1 at 320 pt: two
-  // levels at the top, their labels reaching into the zone).
+  // The "next 5 candles" pill sits in the middle of the hatched zone, or as
+  // near it as it can without covering a level's label (Ch 4 10-1 at 320 pt:
+  // two levels at the top, their labels reaching into the zone).
   const pillZone = useMemo(() => {
     if (!future || !future.label || !levelLabels.length) return future;
     const boxes = [...levelLabels.map((l) => labelBox(l.text, l.x, l.y, l.anchor)), ...planBoxes];
-    const w = zonePillWidth(future.label);
+    const pill = zonePillSize(zonePillLines(future.label, future.x1 - future.x0 - 8));
+    const w = pill.width;
+    const half = pill.height / 2;
     const cxZone = (future.x0 + future.x1) / 2;
     const free = (midY: number) =>
       boxes.every(
         (b) =>
           b.left > cxZone + w / 2 ||
           b.left + b.width < cxZone - w / 2 ||
-          b.top > midY + 9 ||
-          b.top + b.height < midY - 9,
+          b.top > midY + half ||
+          b.top + b.height < midY - half,
       );
     for (let k = 0; k <= 8; k++) {
       for (const sign of k ? [1, -1] : [1]) {
         const midY = future.midY + sign * k * 10;
-        if (midY - 9 < padTop || midY + 9 > padTop + priceH) continue;
+        if (midY - half < padTop || midY + half > padTop + priceH) continue;
         if (free(midY)) return { ...future, midY };
       }
     }
@@ -1706,8 +1846,23 @@ function Chart({
     return centred;
   }, [showOutcome, spec.decision_index, n, bars, layout, padTop, priceH, levelLabels, outcome]);
 
+  // docs/ui/08-quotes-and-charts.md §6.4 [v4]: the chart in a sentence, for screen readers, from
+  // the bars on screen only; the notes are part of it once they show.
+  const description = useMemo(() => {
+    const said = describeChart(spec, shown, {
+      decisionAt: showDecisionMarker && spec.decision_index >= 0 ? spec.decision_index : undefined,
+    });
+    const noted = showNotes && notes?.length ? ` ${notes.map((x) => x.text).join('. ')}.` : '';
+    return said + noted;
+  }, [spec, shown, showDecisionMarker, showNotes, notes]);
+
   return (
-    <View style={{ width, height }}>
+    <View
+      style={{ width, height }}
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel={description}
+    >
       <Svg width={width} height={height}>
         <Defs>
           <LinearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
@@ -1735,37 +1890,35 @@ function Chart({
           <G>
             <PlaybackAxis progress={playback} fadeOut>
               {ticks.map((t, i) => (
-                <SvgText
-                  key={`ao${i}`}
-                  x={axisX}
-                  y={y(t) + 4}
-                  fill={colors.textFaint}
-                  fontSize={13}
-                >
-                  {axisPrice(t)}
-                </SvgText>
+                <AxisText key={`ao${i}`} x={axisX} y={y(t) + 4.5}>
+                  {axisTick(t, layout.step)}
+                </AxisText>
               ))}
             </PlaybackAxis>
             <PlaybackAxis progress={playback} fadeOut={false}>
               {fullTicks.map((t, i) => (
-                <SvgText
-                  key={`an${i}`}
-                  x={axisX}
-                  y={y(ticks[i]) + 4}
-                  fill={colors.textFaint}
-                  fontSize={13}
-                >
-                  {axisPrice(t)}
-                </SvgText>
+                <AxisText key={`an${i}`} x={axisX} y={y(ticks[i]) + 4.5}>
+                  {axisTick(t, fullStep)}
+                </AxisText>
               ))}
             </PlaybackAxis>
+          </G>
+        ) : playGeom && playback && spec.kind === 'candles' ? (
+          <G>
+            {ticks.map((t, i) => (
+              <PlaybackAxisTick key={`a${i}`} g={playGeom} progress={playback} y={y(t)}>
+                <AxisText x={axisX} y={y(t) + 4.5}>
+                  {axisTick(t, layout.step)}
+                </AxisText>
+              </PlaybackAxisTick>
+            ))}
           </G>
         ) : (
           <G>
             {ticks.map((t, i) => (
-              <SvgText key={`a${i}`} x={axisX} y={y(t) + 4} fill={colors.textFaint} fontSize={13}>
-                {axisPrice(t)}
-              </SvgText>
+              <AxisText key={`a${i}`} x={axisX} y={y(t) + 4.5}>
+                {axisTick(t, layout.step)}
+              </AxisText>
             ))}
           </G>
         )}
@@ -1891,6 +2044,12 @@ function Chart({
               progress={playback}
               x0={PAD_LEFT}
               x1={PAD_LEFT + plotW}
+            />
+            <PlaybackPriceTag
+              g={playGeom}
+              progress={playback}
+              x={PAD_LEFT + plotW + 2}
+              width={AXIS_W - 2}
             />
           </G>
         ) : (

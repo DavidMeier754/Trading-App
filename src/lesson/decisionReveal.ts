@@ -1,4 +1,4 @@
-import { count, signedPrice } from '../format';
+import { count, price, signedPrice } from '../format';
 import type { ChartDecisionScreen, ChartSpec, DecisionButton } from '../types';
 import type { Grade } from './answers';
 import { decisionButtons, gradeDecision } from './answers';
@@ -76,6 +76,12 @@ export type GridCell = {
 
 export type ResultTone = 'up' | 'down' | 'flat' | 'hypothetical';
 
+/**
+ * One row of the trade log (docs/ui/06-reveal-and-hearts.md §5.1b, Precise's log from LOOK-BRIEF):
+ * a name on the left, its value on the right in the number face.
+ */
+export type LogRow = { label: string; value: string; tone: ResultTone | 'plain' };
+
 export type DecisionReveal = {
   grade: Grade;
   /** The chip: Good call, Reasonable, Not this time. */
@@ -97,6 +103,8 @@ export type DecisionReveal = {
   r?: number;
   /** The dot on the decision grid. */
   cell: GridCell;
+  /** The trade log under the outcome sentence: how it ended, the result, and R once taught. */
+  log: LogRow[];
 };
 
 function close(spec: ChartSpec, index: number): number {
@@ -168,11 +176,14 @@ export function decisionReveal(
   let result: string;
   let tone: ResultTone;
   let r: number | undefined;
+  let resultLabel = 'Result';
+  let resultValue: string;
   if (!stoodAside) {
     pnl = cents(direction * move * screen.shares);
     // The R of the file's plan is this trade's only if it faced the same way.
     r = plan && plan.dir === direction ? plan.exit.r : undefined;
     result = `${signedPrice(pnl)} on ${shares(screen.shares)}`;
+    resultValue = result;
     tone = pnl > 0 ? 'up' : pnl < 0 ? 'down' : 'flat';
   } else {
     const other = tradeNotTaken(screen);
@@ -181,9 +192,33 @@ export function decisionReveal(
     result = other
       ? `${HAD_YOU[other]}: ${signedPrice(pnl)} on ${shares(screen.shares)}`
       : `The price moved ${signedPrice(cents(move))} per share`;
+    resultLabel = other ? HAD_YOU[other] : 'The price moved';
+    resultValue = other
+      ? `${signedPrice(pnl)} on ${shares(screen.shares)}`
+      : `${signedPrice(cents(move))} per share`;
     tone = 'hypothetical';
   }
   if (showR && r !== undefined) result = `${result} · ${formatR(r)}`;
+
+  // The log: how the trade ended, what it made, and in R once R is taught.
+  const log: LogRow[] = [];
+  const exitPrice = plan ? plan.exit.price : close(screen.chart, screen.chart.data.length - 1);
+  let ended: string;
+  if (stoodAside) ended = 'Stood aside';
+  else if (plan && plan.dir === direction && plan.exit.reason === 'target')
+    ended = `Target hit at ${price(exitPrice)}`;
+  else if (plan && plan.dir === direction && plan.exit.reason === 'stop')
+    ended = `Stopped out at ${price(exitPrice)}`;
+  else ended = `Closed at ${price(exitPrice)}`;
+  log.push({ label: 'Outcome', value: ended, tone: 'plain' });
+  log.push({ label: resultLabel, value: resultValue, tone });
+  if (showR && r !== undefined) {
+    log.push({
+      label: 'In R',
+      value: formatR(r),
+      tone: stoodAside ? 'hypothetical' : r > 0 ? 'up' : r < 0 ? 'down' : 'flat',
+    });
+  }
 
   return {
     grade,
@@ -201,6 +236,7 @@ export function decisionReveal(
       col: pnl > 0 ? 'won' : pnl < 0 ? 'lost' : 'between',
       hollow: stoodAside,
     },
+    log,
   };
 }
 
@@ -219,7 +255,8 @@ export function longestDecisionReveal(
   screen: ChartDecisionScreen,
   opts: { showR?: boolean } = {},
 ): DecisionReveal {
-  const size = (r: DecisionReveal) => r.lead.length + r.result.length + (r.variance?.length ?? 0);
+  // A log row is a line of its own, worth about a line of lead.
+  const size = (r: DecisionReveal) => r.lead.length + r.log.length * 60 + (r.variance?.length ?? 0);
   return decisionButtons(screen)
     .map((b) => decisionReveal(screen, b, undefined, opts))
     .reduce((a, b) => (size(b) > size(a) ? b : a));

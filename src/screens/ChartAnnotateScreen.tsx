@@ -67,17 +67,17 @@ export default function ChartAnnotateScreen({
   // reveal drew underneath it.
   const bars = toCandles(screen.chart);
   const base = domainOf(bars, screen.chart, bars.length);
-  const lo = Math.min(base.lo, screen.answer);
-  const hi = Math.max(base.hi, screen.answer);
   const layout = chartLayout({
     width: chartWidth,
     height,
     bars: bars.length,
-    lo,
-    hi,
+    lo: Math.min(base.lo, screen.answer),
+    hi: Math.max(base.hi, screen.answer),
     hasVolume,
     gridAnchor: grid.gridAnchor,
   });
+  // The window as drawn, on round prices (Chart.tsx, chartLayout).
+  const { lo, hi } = layout;
   const toY = layout.y;
 
   // Tap to drop the line, or drag it (docs/ui/04-question-types.md §4.2: "drag a horizontal line
