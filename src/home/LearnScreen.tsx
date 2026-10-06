@@ -87,7 +87,7 @@ const NODES_BOTTOM = 36;
 const CHAPTER_GAP = 16;
 /** Room under the last section for a level card opened on its last node. */
 const BOTTOM_PAD = 280;
-/** docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW]: room over a chapter's card for its gate's arch. */
+/** docs/ui/10-path-map.md §7.1 [DESIGN-REVIEW]: room over a chapter's card, where its gate's trail comes in. */
 const GATE_H = 40;
 /** Room for the note after the last chapter (PathFinale). */
 const FINALE_H = 120;
@@ -111,12 +111,12 @@ type StopItem = {
   from: { x: number; y: number };
 };
 /**
- * docs/ui/10-path-map.md §7.1 "Chapter gates": from Chapter 2 on, a dotted arch over the
- * chapter's card, and the trail from the chapter before running through it to
- * the first level. Folded chapters keep their arch.
+ * docs/ui/10-path-map.md §7.1 "Chapter gates": from Chapter 2 on, the trail from the chapter
+ * before runs under the chapter's card to its first level. (The dotted arch
+ * that stood over the card was taken out on 2026-10-06.)
  */
 export type Gate = {
-  /** The card's top; the arch rises over it. */
+  /** The card's top. */
   top: number;
   /** The trail: from where the chapter before ends, under the card, to the first level. */
   from: { x: number; y: number };
@@ -1532,9 +1532,9 @@ function Connectors({
       .pop();
     if (last !== undefined) segment(nodeAt[last], { x: end.x, y: end.y }, false, -1);
   }
-  // The gates: the trail from the chapter before, through the arch and under
-  // the card, to the first level; then the arch itself over the card.
-  const arches: { x: number; y: number; lit: boolean }[] = [];
+  // The gates: the trail from the chapter before, under the card, to the first
+  // level. The dotted arch that stood over the card is gone (David,
+  // 2026-10-06: "remove the dots above the chapters").
   for (const g of gates) {
     const line = (a: { x: number; y: number }, b: { x: number; y: number }, lit: boolean) => {
       const len = Math.hypot(b.x - a.x, b.y - a.y);
@@ -1550,16 +1550,6 @@ function Connectors({
     const under = { x: curve.cx, y: g.top + HEAD_H / 2 };
     line(g.from, under, g.lit);
     if (g.to) line(under, g.to, g.lit);
-    const left = space.lg + 26;
-    const right = curve.cx * 2 - space.lg - 26;
-    const rx = (right - left) / 2;
-    const ry = GATE_H - 8;
-    const feet = g.top + 10;
-    const n = Math.round((Math.PI * (rx + ry)) / 2 / 13);
-    for (let k = 0; k <= n; k++) {
-      const th = Math.PI * (1 - k / n);
-      arches.push({ x: curve.cx + rx * Math.cos(th), y: feet - ry * Math.sin(th), lit: g.lit });
-    }
   }
   // While it draws, that stretch starts dim underneath its lit copy.
   const drawn = (d: (typeof dots)[number]) => drawable && d.seg === (drawing as number) - 1;
@@ -1569,16 +1559,6 @@ function Connectors({
   return (
     <>
       <Svg width={width} height={height} style={StyleSheet.absoluteFill} pointerEvents="none">
-        {arches.map((d, k) => (
-          <Circle
-            key={`a${k}`}
-            cx={d.x}
-            cy={d.y}
-            r={2.6}
-            fill={d.lit ? colors.accent : colors.borderStrong}
-            opacity={d.lit ? 0.55 : 0.8}
-          />
-        ))}
         {dots.map((d, k) => {
           const lit = d.lit && !drawn(d);
           return (
