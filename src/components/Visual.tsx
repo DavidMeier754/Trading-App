@@ -163,6 +163,7 @@ export default function Visual({
                 gridAnchor={grid.gridAnchor}
                 emphasis
                 scrub
+                zoom
               />
             )}
           </DrawOnChart>

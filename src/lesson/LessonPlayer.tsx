@@ -954,7 +954,11 @@ export default function LessonPlayer({
               working={!!working}
               decision={
                 screen.type === 'chart-decision'
-                  ? longestDecisionReveal(screen, { showR })
+                  ? // Once the call is made, the verdict it brings (ChartDecisionScreen
+                    // sizes its chart to that one).
+                    value?.kind === 'decision' && value.choice
+                    ? decisionReveal(screen, value.choice, undefined, { showR })
+                    : longestDecisionReveal(screen, { showR })
                   : undefined
               }
               onHeight={setProbeH}

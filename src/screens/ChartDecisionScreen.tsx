@@ -10,13 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import Chart, {
-  chartHeightFor,
-  chartWidthFor,
-  closeAt,
-  DEFAULT_GAPS,
-  PLAY_START,
-} from '../components/Chart';
+import Chart, { chartHeightFor, closeAt, DEFAULT_GAPS, PLAY_START } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
 import { signedPercent, signedPrice } from '../format';
@@ -24,10 +18,12 @@ import type { AnswerValue } from '../lesson/answers';
 import { decisionButtons } from '../lesson/answers';
 import { detentFeedback } from '../lesson/feedback';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
-import { REVEAL_GROWTH, useChartGaps } from '../lesson/fit';
+import { REVEAL_GROWTH } from '../lesson/fit';
+import { useFit } from '../lesson/fitState';
 import { RevealProbe } from '../lesson/Reveal';
 import {
   decisionMove,
+  decisionReveal,
   DECISION_LABEL,
   DIRECTION,
   longestDecisionReveal,
@@ -35,7 +31,6 @@ import {
 } from '../lesson/decisionReveal';
 import { DecisionSpace, useLessonInfo } from '../lesson/lessonContext';
 import { tradePlanOf } from '../lesson/tradePlan';
-import { RULER_W } from '../components/ChartPlan';
 import { useProgress } from '../progress';
 import { knowsR } from '../skills';
 import {
@@ -47,7 +42,7 @@ import {
   revealTiming,
 } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
-import { colors, GRID, MONO_FONT, space, type, themed } from '../theme';
+import { colors, MONO_FONT, space, type, themed } from '../theme';
 import type { ChartDecisionScreen as S, DecisionButton } from '../types';
 import { TermText } from '../lesson/termText';
 
@@ -62,12 +57,11 @@ const SKIP_MS = 220;
 /** The brief folding away once the call is made, as the frame pulls back. */
 const FOLD_MS = 460;
 
-/**
- * The tallest plot this screen may take (lesson/fit.tsx, useChartGaps). Eight
- * since DESIGN-REVIEW: the chart is as large as the screen allows (David,
- * 2026-10-03: "make the chart bigger").
- */
-const MAX_DECISION_GAPS = 8;
+/** How long the chart takes to make room for the verdict once the replay is over. */
+const MAKE_ROOM_MS = 360;
+
+/** Points kept spare under the screen's content, so it never quite needs the scale. */
+const FIT_SLACK = 4;
 
 /** How far the chart is dragged, in points, before letting go makes the call. */
 const CALL_AT = 96;
@@ -114,14 +108,17 @@ export default function ChartDecisionScreen({
   const plan = useMemo(() => tradePlanOf(screen), [screen]);
   const endAt = plan ? plan.exit.bar : bars - 1;
   const { lessonId, everything } = useLessonInfo();
-  const { done: played } = useProgress();
-  const showR = !!plan && (everything || knowsR(lessonId, played));
+  const { done: lessonsDone } = useProgress();
+  const showR = !!plan && (everything || knowsR(lessonId, lessonsDone));
 
   const choice = value.kind === 'decision' ? value.choice : null;
   // A screen come back to (the back button) opens on its finished chart; the
   // replay and what it plays on the hand belong to the first time only.
   const [revisit] = useState(revealed && choice !== null);
   const [done, setDone] = useState(revisit);
+  // The replay has played to its end; the chart is still while it makes room
+  // for the verdict, and only then is the screen done.
+  const [played, setPlayed] = useState(revisit);
 
   // docs/ui/05-chart-questions-and-mistakes-round.md §4.3: after the choice the chart continues. It used to do that by
   // raising a React state one bar at a time on a 120ms interval -- and since the
@@ -130,7 +127,7 @@ export default function ChartDecisionScreen({
   // 0 -> 1 on the UI thread and the chart derives the line, its fill, the leading
   // dot and the axis from it, so the replay is continuous and costs no renders.
   const progress = useSharedValue(revisit ? 1 : PLAY_START);
-  const playing = choice !== null && !done;
+  const playing = choice !== null && !played;
   const phase: DecisionPhase = choice === null ? 'deciding' : done ? 'done' : 'playing';
 
   useEffect(() => {
@@ -155,7 +152,7 @@ export default function ChartDecisionScreen({
   const finish = useCallback(() => {
     motion.current?.land();
     motion.current = null;
-    setDone(true);
+    setPlayed(true);
   }, []);
 
   useEffect(() => {
@@ -164,7 +161,7 @@ export default function ChartDecisionScreen({
     if (reduced) {
       quiet();
       progress.set(1);
-      setDone(true);
+      setPlayed(true);
       return;
     }
     // First the frame pulls back to the height the session needs (Chart's
@@ -188,7 +185,7 @@ export default function ChartDecisionScreen({
 
   // Tap to skip: the rest of the replay in one short sweep, not a jump cut.
   const onChartPress = () => {
-    if (choice === null || done) return;
+    if (choice === null || played) return;
     motion.current?.retime(SKIP_MS * EASE_OUT_SETTLE);
     progress.set(
       withTiming(1, { duration: SKIP_MS, easing: EASE_OUT }, (finished) => {
@@ -209,7 +206,7 @@ export default function ChartDecisionScreen({
   // its glide exactly as far down the grid as it started and nothing has to
   // snap into line after it.
   const [briefText, setBriefText] = useState(0);
-  const briefH = briefText > 0 ? Math.ceil((briefText + space.md) / GRID) * GRID : 0;
+  const briefH = briefText > 0 ? briefText + space.md : 0;
   const fold = useSharedValue(revisit ? 1 : 0);
   const [folded, setFolded] = useState(revisit);
   useEffect(() => {
@@ -249,27 +246,16 @@ export default function ChartDecisionScreen({
   // fit it the moment it landed -- the chart squeezed at the very end.
   const [probeH, setProbeH] = useState(0);
   const verdictH = probeH > 0 ? probeH + space.md : REVEAL_GROWTH;
-  const longest = useMemo(() => longestDecisionReveal(screen, { showR }), [screen, showR]);
-
-  // As tall as the screen has room for, counting the reveal still to come
-  // (lesson/fit.tsx), and sized from the chart's own geometry, so the
-  // grid-aligned plot, the volume strip and the slack the snap shifts into all
-  // fit exactly. Nothing else joins the screen after the replay: the outcome
-  // is drawn on the chart, so the chart can have that room too.
-  const fit = useChartGaps({
-    preferred: DEFAULT_GAPS,
-    // The verdict moves into the room the brief folds out of, so only what it
-    // needs past that has to be kept free. Come back to, the reveal is already
-    // under the screen and the room measured already allows for it.
-    growth: revisit ? 0 : Math.max(0, verdictH - briefH),
-    locked: phase !== 'deciding' && !revisit,
-    max: MAX_DECISION_GAPS,
-    // With the verdict's room measured, only a sliver past it is let through:
-    // at worst -- the longest lead, on a phone where the chart just fits -- a
-    // scale of about one in a hundred, too little to see. Guessing the room
-    // instead scaled the screen by up to a fifth.
-    tolerance: 0.03,
-  });
+  // Before the call, the tallest reveal any key can bring; once the call is
+  // made, the one it brings -- so the chart gives up exactly the room its own
+  // verdict takes, and no gap is left inside the verdict.
+  const longest = useMemo(
+    () =>
+      choice
+        ? decisionReveal(screen, choice, undefined, { showR })
+        : longestDecisionReveal(screen, { showR }),
+    [screen, showR, choice],
+  );
 
   // docs/ui/05-chart-questions-and-mistakes-round.md §4.3's outcome strip, as a tag on the chart: the move in
   // points and percent, and the position held. What it made or lost is the
@@ -284,7 +270,61 @@ export default function ChartDecisionScreen({
     }),
     [move, movePct, screen, choice],
   );
-  const chartHeight = chartHeightFor(!!screen.chart.volume, fit.gaps);
+  // docs/ui/02-lesson-player-layout.md §2 [David, 2026-10-06: "the chart could take way more
+  // space on the screen"]: while the learner decides and the outcome plays,
+  // the chart takes all the height above the keys the brief leaves it. When
+  // the replay is over it eases smaller -- by exactly the room the verdict
+  // needs past what the folded brief gave back -- and the verdict rises into
+  // that room. The chart's plot is free of the backdrop's steps for this
+  // (Chart's `free`), so every point of the height is the chart's.
+  const hasVolume = !!screen.chart.volume;
+  const { room } = useFit();
+  const least = chartHeightFor(hasVolume, 2);
+  const tall =
+    room !== undefined && (briefText > 0 || revisit)
+      ? Math.max(least, room - (revisit ? 0 : briefH) - FIT_SLACK)
+      : chartHeightFor(hasVolume, DEFAULT_GAPS);
+  const short =
+    room !== undefined && probeH > 0
+      ? Math.max(least, room - verdictH - space.sm - FIT_SLACK)
+      : tall;
+  // Settled while the learner looks: once the call is made the tall size holds
+  // until the replay ends, whatever is measured meanwhile.
+  const [heldTall, setHeldTall] = useState<number | null>(null);
+  useEffect(() => {
+    if (phase === 'deciding') setHeldTall(null);
+    else setHeldTall((h) => h ?? tall);
+  }, [phase, tall]);
+  const [easing, setEasing] = useState<number | null>(null);
+  useEffect(() => {
+    if (!played || done) return;
+    const from = heldTall ?? tall;
+    const to = short;
+    if (reduced || Math.abs(from - to) < 1) {
+      setDone(true);
+      return;
+    }
+    // A JS-side ease: the chart is drawn afresh at each height, so its words
+    // keep their size while its plot gives up the room.
+    let frame = 0;
+    const t0 = Date.now();
+    const step = () => {
+      const k = Math.min(1, (Date.now() - t0) / MAKE_ROOM_MS);
+      const e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      setEasing(from + (to - from) * e);
+      if (k < 1) frame = requestAnimationFrame(step);
+      else {
+        setEasing(null);
+        setDone(true);
+      }
+    };
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [played]);
+  const chartHeight =
+    easing ?? (done || revisit ? short : phase === 'deciding' ? tall : (heldTall ?? tall));
+
   // Once the brief has folded the chart starts at the top of the area, so it
   // ends at its own height: the reveal takes the room from there to the key.
   const reportBottom = React.useContext(DecisionSpace);
@@ -292,7 +332,7 @@ export default function ChartDecisionScreen({
     reportBottom(phase !== 'deciding' && folded ? chartHeight : null);
   }, [phase, folded, chartHeight, reportBottom]);
   useEffect(() => () => reportBottom(null), [reportBottom]);
-  const chartWidth = chartWidthFor(width, !!screen.chart.volume, fit.gaps, showR ? RULER_W : 0);
+  const chartWidth = width;
   // The ruler measures the file's trade: shown for the learner who took it,
   // faint for one who stood aside, and not for one who traded the other way.
   const choiceDir = choice ? DIRECTION[choice] : null;
@@ -326,6 +366,8 @@ export default function ChartDecisionScreen({
   const hasLeft = !!calls.left;
   const swipe = Gesture.Pan()
     .enabled(canSwipe && (hasRight || hasLeft))
+    // One finger: two are a pinch, the chart's zoom (Chart.tsx).
+    .maxPointers(1)
     // Sideways only: an up-and-down move is the page's.
     .activeOffsetX([-12, 12])
     .failOffsetY([-14, 14])
@@ -381,7 +423,7 @@ export default function ChartDecisionScreen({
           onHeight={setProbeH}
         />
       )}
-      <View style={styles.column} onLayout={fit.onLayout}>
+      <View style={styles.column}>
         {revisit ? null : (
           <Animated.View
             style={[styles.brief, briefStyle]}
@@ -428,6 +470,8 @@ export default function ChartDecisionScreen({
                   notes={screen.notes}
                   showNotes={phase === 'done'}
                   scrub={phase === 'done'}
+                  free
+                  zoom={phase === 'deciding' || phase === 'done'}
                 />
               </Pressable>
               {canSwipe && hasRight ? (

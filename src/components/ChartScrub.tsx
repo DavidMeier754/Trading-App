@@ -83,6 +83,8 @@ export default function ChartScrub({
     }
   };
   const pan = Gesture.Pan()
+    // One finger: two are a pinch, the chart's zoom (Chart.tsx).
+    .maxPointers(1)
     .enabled(n > 1)
     // Sideways: a tap, or a page scrolled up and down, is not a scrub.
     .activeOffsetX([-6, 6])

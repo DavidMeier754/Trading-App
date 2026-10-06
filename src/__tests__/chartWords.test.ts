@@ -1,5 +1,12 @@
 import { describeChart, describeMove, zoneLabel, zonePillLines } from '../components/chartWords';
-import { AXIS_STEPS, roundFrame } from '../components/chartScale';
+import {
+  AXIS_STEPS,
+  MIN_TICK_GAP,
+  niceTicks,
+  pinchView,
+  scaleFrame,
+  X_MIN_SLOTS,
+} from '../components/chartScale';
 import { numberRuns } from '../components/NumberText';
 import type { ChartSpec } from '../types';
 
@@ -34,23 +41,51 @@ describe('the chart in a sentence (docs/ui/08-quotes-and-charts.md §6.4)', () =
   });
 });
 
-describe('round prices on the axis', () => {
-  it('lands every gridline on a round price', () => {
-    const f = roundFrame(9.731, 10.122, 5);
-    expect(AXIS_STEPS).toContain(f.step);
-    expect(f.lo).toBeLessThanOrEqual(9.731);
-    expect(f.hi).toBeGreaterThanOrEqual(10.122);
-    for (let i = 0; i <= 5; i++) {
-      const tick = f.lo + ((f.hi - f.lo) * i) / 5;
-      const cents = Math.round(tick * 100);
-      expect(Math.abs(tick * 100 - cents)).toBeLessThan(1e-6);
-      expect(cents % 5 === 0 || f.step < 0.05).toBe(true);
+describe('the price axis (TradingView-style)', () => {
+  it('puts every gridline on a round price inside the frame', () => {
+    const { ticks, step } = niceTicks(9.731, 10.122, 300);
+    expect(AXIS_STEPS).toContain(step);
+    expect(ticks.length).toBeGreaterThan(1);
+    for (const t of ticks) {
+      expect(t).toBeGreaterThanOrEqual(9.731);
+      expect(t).toBeLessThanOrEqual(10.122);
+      const cents = Math.round(t * 100);
+      expect(Math.abs(t * 100 - cents)).toBeLessThan(1e-6);
+      expect(cents % Math.round(step * 100)).toBe(0);
     }
   });
 
-  it('keeps a centred window centred to within half a step', () => {
-    const f = roundFrame(19.62, 20.38, 7);
-    expect(Math.abs((f.lo + f.hi) / 2 - 20)).toBeLessThanOrEqual(f.step / 2 + 1e-9);
+  it('never crowds the lines, and stretching the plot makes the step finer', () => {
+    const tall = niceTicks(10, 11, 600);
+    const short = niceTicks(10, 11, 150);
+    expect(tall.step).toBeLessThan(short.step);
+    expect(tall.step * 600).toBeGreaterThanOrEqual(MIN_TICK_GAP);
+    expect(short.step * 150).toBeGreaterThanOrEqual(MIN_TICK_GAP);
+  });
+
+  it('stretches and squeezes about the middle', () => {
+    expect(scaleFrame(10, 12, 0.5)).toEqual({ lo: 10.5, hi: 11.5 });
+    expect(scaleFrame(10, 12, 2)).toEqual({ lo: 9, hi: 13 });
+  });
+});
+
+describe('a pinch zooms in time about the fingers', () => {
+  it('keeps the slot under the fingers under them', () => {
+    const v = pinchView({ start: 0, count: 10 }, 2, 150, 150, 300, 10);
+    expect(v.count).toBe(5);
+    // Slot 5 sat under x = 150 before; it still does.
+    expect(v.start + (150 / 300) * v.count).toBeCloseTo(5);
+  });
+
+  it('pans with the fingers and stops at either end', () => {
+    const v = pinchView({ start: 2, count: 6 }, 1, 150, 0, 300, 10);
+    expect(v.start).toBe(4);
+    expect(pinchView({ start: 0, count: 6 }, 1, 0, 300, 300, 10).start).toBe(0);
+    expect(pinchView({ start: 0, count: 10 }, 0.5, 150, 150, 300, 10)).toEqual({
+      start: 0,
+      count: 10,
+    });
+    expect(pinchView({ start: 0, count: 10 }, 100, 150, 150, 300, 10).count).toBe(X_MIN_SLOTS);
   });
 });
 
