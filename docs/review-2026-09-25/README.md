@@ -23,7 +23,7 @@ Section numbers are the same as before the docs were split into these files.
 > - W20 (mascot) is not implemented, because it was not recommended.
 > - W3 was implemented as option (a).
 > - The decisions from section 7 are recorded in `docs/plan/04-decisions.md` §4.
-> - Which stage handles which item is in `docs/plan/26-appendix-f-review-map.md`, Appendix F.
+> - Which stage handles which item is in `docs/plan/21-appendix-review-map.md`, Appendix F.
 > - The text below is the state of the review day. Numbers and findings are not updated here; the current state is in the build plan.
 > - The report was written in German and translated into English on the same day. Ids, numbers and quotes are unchanged.
 

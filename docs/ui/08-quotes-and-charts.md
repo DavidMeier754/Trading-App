@@ -29,6 +29,8 @@ Digits flicker (100 ms) on update in live-demo mode. Every field can be a `hotsp
 Bid green-tinted left, Ask red-tinted right, spread as a bracketed gap with its value. **Spread animation:** the gap physically widens/narrows (300 ms) when values change. Optional depth bars below (6.6).
 
 ### 6.4 Chart component
+
+**[2026-10-05] The "?" key** (David, instead of tap-to-explain, item P-05 of `docs/content-todo/05-content-review.md`): a small "?" key on every chart screen labels every element the learner has already been taught — the VWAP line, each level's label, the "what happens next" pill, the volume bars, the state chips, a scanner's column headings, and with `stop`/`target` the plan's lines and the R ruler — each with its one line from `content/skills.yaml`; pressed again, the labels go. Untaught elements get no label. The labels never cover the decision keys or the reveal. Stage `LOOK-COMPONENTS` writes the details here and builds it.
 - **Line chart** in Chapter 1 (one line, draw-on animation 800 ms).
 - **Candlestick chart** from Chapter 2 on (green/red bodies, wicks, optional volume bars, time axis, price axis right).
 - **Playback:** candles appear one by one (120 ms, play/pause, tap to skip). Used by `chart-decision`.

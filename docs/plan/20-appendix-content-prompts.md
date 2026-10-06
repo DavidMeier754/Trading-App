@@ -1,6 +1,6 @@
 # Appendix E.3–E.8: Content prompts
 
-_Part of the [build plan](README.md) · §17_
+_Part of the [build plan](README.md)_
 
 **E.3 – State chips (part of `CONTENT-FIX-3`, `-6`, `-7`)**
 

@@ -6,7 +6,7 @@ _Part of the [course outline](README.md)_
 
 Folder: `content/drills/<path>/<slug>.yaml` · format in `docs/level-files/`. These feed the Practice hub (docs/ui/12-practice-and-stats.md §7.3), not the path map. They are the rep volume that turns recognition into reflex, and they are written **after** the chapter they unlock from.
 
-The table below is the plan; `content/drills/packs.yaml` is the manifest built from it, and it is what `tools/build_drill_batch.py` (**[v4]** stage DRILLS in `docs/plan/18-phase-g-arena-build.md`) and `tools/validate_content.py` both read. **Path `all` means every path gets a pack of this shape, not that one file serves three paths:** chapters 2–8 differ per path, so each pack is written once per path against that path's charts, prices and setups, and `unlocked_by` resolves inside that path. The "Unlocked by" column names a chapter's exam or a setup's level; the manifest turns each into the sub-level id that actually exists (a chapter's final exam, or the last sub of the setup's level — the one that writes its playbook card).
+The table below is the plan; `content/drills/packs.yaml` is the manifest built from it, and it is what `tools/build_drill_batch.py` (**[v4]** stage DRILLS in `docs/plan/10-phase-1-app-arena-build.md`) and `tools/validate_content.py` both read. **Path `all` means every path gets a pack of this shape, not that one file serves three paths:** chapters 2–8 differ per path, so each pack is written once per path against that path's charts, prices and setups, and `unlocked_by` resolves inside that path. The "Unlocked by" column names a chapter's exam or a setup's level; the manifest turns each into the sub-level id that actually exists (a chapter's final exam, or the last sub of the setup's level — the one that writes its playbook card).
 
 | Pack | Path | Unlocked by | Size | Contents |
 |---|---|---|---|---|
@@ -47,7 +47,7 @@ only where the learner has just been given the card it needs:
 and two `allow_none` sessions — **22 replays per path**, ~1,300 bars authored. That is a
 smaller number of files than the drill bank and considerably more work per file; see
 `docs/plan/`, stages REPLAY-PILOT and REPLAY-BANK. **[v4.1]** All three paths get
-their bank before the release (REPLAY-BANK, ARENA-PATHS); the chart generator proposes the
+their bank in the finished app (REPLAY-BANK, ARENA-PATHS); the chart generator proposes the
 candidates, and each replay is picked and annotated by hand.
 
 **Replays and drills are not the same job.** Drills build recognition at volume with spaced

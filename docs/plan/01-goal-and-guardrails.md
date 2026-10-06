@@ -2,6 +2,8 @@
 
 _Part of the [build plan](README.md) · §0_
 
+**Updated 2026-10-05** with David's picks: the plan now ends at the finished app, not at a store release ("The finished app" below); no quotas anywhere; practice and today's chart optional; the streak grows only on a day a lesson is finished.
+
 ## 0. Goal and guardrails
 
 ### The goal (David, 2026-09-25)
@@ -91,47 +93,38 @@ From now on, **30–40 %** of correct directional decisions lose, as in real tra
 
 ### Fun – how we measure it
 
-Checked in the stages of Phase C, Phase D and in the beta:
+Checked in every app stage, above all in `FUN-PASS`:
 
+- **No quotas** (David, 2026-10-05): the learner does as many lessons as they like. Practice, the practice levels on the path and today's chart are optional, and nothing in the app says how much to do. What draws a learner back is a pull, never a duty: fading skills, shining medals, the chart calendar, gems, the weekly challenge, and a reminder only if they asked for one.
 - **Pace:**
-  - A lesson takes 3–4 minutes, and no screen asks for more than ~20 s without interaction.
+  - A lesson is short, and no screen asks for more than ~20 s without interaction.
   - Feedback starts at once (< 100 ms). The motion itself is calm and high quality (decision H): unhurried, smooth on cheap phones, and never in the way, because a tap finishes or skips it.
 - **No dead ends:** mistakes lead to repetition, not to lockouts. Hearts only exist in tests.
 - **Every lesson ends with a small win:** a recap, a checklist, your own plan, the streak.
 - **Variety:** ≥ 3 question types per lesson, pictures instead of text slides.
-- **Visible progress:** ~~the daily goal in words,~~ a streak with states (one lesson a day keeps it), tiers and their card, the chapter medals, the skills collected.
-- **Beta bar:**
-  - Testers rate "fun" at ≥ 4 out of 5 on average.
-  - They finish ≥ 85 % of the lessons they start.
-  - They answer the comprehension questions (variance, position size) ≥ 80 % correctly.
+- **Visible progress:** a streak with states (it grows on a day a lesson on the path is finished; opening the app, a skip, a practice round or today's chart never count), tiers and their card, the chapter medals, the skills collected, the chart calendar.
+### The finished app
 
-### Definition of done for release v1.0
-
-All of this must hold at the same time:
+The plan is done when all of this holds at the same time. Everything about taking the app to people (the trademark, legal texts, store accounts and listings, testers, the release) is outside this plan (David, 2026-10-05).
 
 - **Content:**
-  - Chapter 1 and all three paths, Scalping, Swing Trading and Day Trading, are complete (decision E).
+  - Chapter 1 and all three paths, Scalping, Swing Trading and Day Trading, are complete (decision E), with Chapter 9 "Your Own Strategy" after each path's Chapter 8.
   - The validator is green with `--strict`.
-  - The reviews are worked through: `KNOWLEDGE` and `REVIEW-A` for scalping, `SWING-REVIEW`, `DAY-REVIEW`, and the expert review (`EXPERT`).
-- **Practice arena:** the Daily Chart, replays, setup drills and the practice account, for all three paths (Phase G, `ARENA-PATHS`).
-- **App:**
-  - 0 crashes in the render test of all screens, in every launch language.
-  - Crash-free ≥ 99.5 % in the beta.
-  - All must-fix items of the review (`docs/review-2026-09-25/`) are done.
+  - Claude's reviews are worked through: `KNOWLEDGE` and `REVIEW-A` for Scalping, `SWING-REVIEW`, `DAY-REVIEW`.
+- **Practice arena:** today's chart, replays, setup drills, the chart calendar and the practice account, for all three paths (`ARENA-PATHS`).
 - **Learning loop:**
-  - ~~Hearts only in tests.~~ Hearts in every lesson and test, with practice free and giving one back (David, 2026-10-04).
-  - Practice tab with heart refill, review cards and glossary.
-  - ~~Daily goal,~~ Streak (one lesson a day) and reminders.
-  - Statistics with decision quality.
-- **Account and money:**
-  - Sign-in and sync, account deletion and data export inside the app (decision K).
-  - Nutrade Plus: unlimited hearts, no ads, the full arena (decision I). The free app is complete without it.
-  - Ads only where `ADS` allows them, and never for financial products or gambling.
-- **Languages:** every launch language passes the automatic checks and the native speakers' check of its key texts (decision M, Phase J).
-- **Legal:**
-  - The risk note in every place listed in `docs/rules/10-legal-and-safety.md` §7.
-  - Legal page, the business's imprint (decision P), privacy policy (account, analytics, ads, subscription) and terms of use, reviewed by a lawyer.
-- **Store:**
-  - Name and icon after the conflict check (decision L), screenshots and texts in every launch language, privacy details, age rating.
-  - TestFlight passed, and Google's closed test where the account type requires it.
+  - Hearts in every lesson and test, with practice free and giving one back (David, 2026-10-04).
+  - The Practice tab (Daily mix · Skills · Mistakes), the practice levels on the path with their Skip, fading skills, shining medals, the glossary.
+  - The streak, streak freezes, the weekly challenge, gems and what they buy, reminders.
+  - Your numbers on the You tab, measured in decisions, never in money.
+  - No quota anywhere.
+- **Account and money:** sign-in and sync, account deletion and data export inside the app (decision K); Nutrade Plus with its paywall, and ads with their consent (decision I), all working with test keys.
+- **Crash reports and learning analytics,** only with consent.
+- **The app's face:** its icon, splash and the three path logos.
+- **Languages:** every launch language passes the automatic checks (decision M, Phase 3).
+- **Quality:**
+  - 0 crashes in the render test of every screen, in every language.
+  - All must-fix items of the review (`docs/review-2026-09-25/`) are done.
+  - Smooth on a cheap Android phone, usable with a screen reader, with large text and with reduced motion (`A11Y-PERF`).
+- **The risk note** in every place listed in `docs/rules/10-legal-and-safety.md` §7.
 - **You have accepted every stage.**

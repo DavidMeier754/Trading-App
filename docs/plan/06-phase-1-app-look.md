@@ -1,6 +1,8 @@
-# Phase C: Components and visuals
+# Phase 1, app lane – charts and teaching graphics
 
-_Part of the [build plan](README.md) · §7_
+_Part of the [build plan](README.md)_
+
+The app lane is the first part of Phase 1; the content lane follows once it is done (`docs/plan/03-stages-at-a-glance.md`). It starts with the building blocks of every lesson, so the chapter fixes later place finished components and `VISUALS`' graphics. After `VISUALS` comes your first turn for your own changes (`YOUR-TURN-1`, `docs/plan/22-your-turn.md`).
 
 ### `LOOK-COMPONENTS` – the building blocks of every lesson
 
@@ -40,7 +42,7 @@ _Part of the [build plan](README.md) · §7_
     - The swipe gesture in `swipe-deck`.
     - The label "Takeaway" for a `story` with `label: takeaway`.
 11. **Level icons on the map** (your critique; you like Chapters 1 and 2's): a level's symbol is the first `icon:` among its lessons (`levelIconOf` in `src/content.ts`). Chapters 1 and 2 set one in 44 of 48 and 46 of 49 lesson files, Chapters 3–8 in none of their 291, so every level there shows the same symbol for its type. Every level of every chapter gets its own symbol for what it teaches, and the validator warns when a level has none.
-12. **[CONTENT-REVIEW] Tap to explain** (item P-05 of `docs/content-todo/05-content-review.md`): a tap or long press on a chart element the learner has already been taught — the VWAP line, a level's label, the "what happens next" pill, a volume bar, a state chip, a scanner column heading, and with `stop`/`target` the plan's lines and the R ruler — opens a small card with that element's one line (the skill's `info` from `content/skills.yaml`) and a link to the skill card. Elements not yet taught do nothing, the same rule as the term marker (`docs/ui/14-glossary-and-copy.md` §8). A short section in `docs/ui/08-quotes-and-charts.md` first.
+12. **The "?" key** (item P-05 of `docs/content-todo/05-content-review.md`; David chose the key over tap-to-explain on 2026-10-05): a small "?" key on every chart screen. Pressed, it labels every element on that chart the learner has already been taught — the VWAP line, each level's label, the "what happens next" pill, the volume bars, the state chips, a scanner's column headings, and with `stop`/`target` the plan's lines and the R ruler — each with its one line (the skill's `info` from `content/skills.yaml`); pressed again, the labels go. An element not yet taught gets no label, the same rule as the term marker (`docs/ui/14-glossary-and-copy.md` §8). The labels never cover the decision keys or the reveal. A short section in `docs/ui/08-quotes-and-charts.md` first.
 
 **Model · effort · sessions:** Opus 5.5 · high · 2
 
@@ -48,7 +50,7 @@ _Part of the [build plan](README.md) · §7_
 ```
 Stage LOOK-COMPONENTS, session [1|2], from docs/plan/.
 
-Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "LOOK-COMPONENTS" section in docs/plan/11-phase-c-components-and-visuals.md in full, plus docs/ui/04-question-types.md §4–§6 and docs/level-files/04-components-and-data.md (components).
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "LOOK-COMPONENTS" section in docs/plan/06-phase-1-app-look.md in full, plus docs/ui/04-question-types.md §4–§6 and docs/level-files/04-components-and-data.md (components).
 Build only the items of the named session.
 
 Especially important:
@@ -70,6 +72,7 @@ Report: what you built · check results · contact sheets · my test checklist w
 8. A chart decision (e.g. `#level-01-1/6`): the candles form as they play out, a price tag follows the forming one, and the reveal lists outcome, result and R.
 9. The map: the levels of every chapter, Chapters 3–8 too, have their own icons.
 10. Lesson complete: the numbers count up with the ring.
+11. A chart in Chapter 4 (link in the report): press "?" — every element you were taught is labelled, and nothing covers the keys; press it again — the labels go.
 
 ### `VISUALS` – new teaching graphics
 
@@ -87,9 +90,9 @@ Report: what you built · check results · contact sheets · my test checklist w
 
 **Prompt**
 ```
-Stage VISUALS from docs/plan/11-phase-c-components-and-visuals.md.
+Stage VISUALS from docs/plan/06-phase-1-app-look.md.
 
-Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "VISUALS" section in docs/plan/11-phase-c-components-and-visuals.md in full, plus docs/ui/08-quotes-and-charts.md §6 and docs/level-files/04-components-and-data.md (components).
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "VISUALS" section in docs/plan/06-phase-1-app-look.md in full, plus docs/ui/08-quotes-and-charts.md §6 and docs/level-files/04-components-and-data.md (components).
 Build exactly that scope; no content except the entries in demo/all-screens.yaml.
 
 Open a PR against main and get every check green.

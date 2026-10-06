@@ -1,8 +1,10 @@
-# Phase I: Platform
+# Phase 2, app lane – accounts, Nutrade Plus and ads
 
-_Part of the [build plan](README.md) · §13_
+_Part of the [build plan](README.md)_
 
-## 13. Phase I – Platform: account, subscription, ads
+Phase 2 starts with the app (David, 2026-10-06): before Swing and Day Trading are written, the app gets what it needs around them: accounts and sync, Nutrade Plus and ads here; crash reports, a measured clean-up and the language pipeline in `docs/plan/16-phase-2-analytics-speed-languages.md`.
+
+**Test keys only.** Plus, ads and Sign in with Apple are built and tested with test keys and sandboxes. Switching them on for real needs the store accounts, which are outside this plan (David, 2026-10-05). Each stage says what you prepare.
 
 ### `BACKEND` – accounts and sync (decision K)
 
@@ -13,24 +15,24 @@ _Part of the [build plan](README.md) · §13_
 2. **Sign-in with Apple, Google and email** (a one-time code). Apple's rule: an app that offers third-party logins must also offer an equivalent privacy-friendly one; Sign in with Apple covers it.
 3. **No sign-in wall:**
    - the app works from the first second;
-   - sign-in is offered after the first lessons, in Account and before a purchase, never forced;
+   - sign-in is offered after the first lessons, in You and before a purchase, never forced;
    - local progress moves into the account on sign-in, without loss.
 4. **What syncs:** progress, hearts, XP, streak and freezes, the plan with its history, the practice schedule, the practice account and journal, settings. The conflict rules between two devices are designed in plan mode and tested.
 5. **Offline first:** everything works offline, and the sync catches up.
-6. **Account deletion** inside the app and on a web page (both stores require it), and a **data export** (GDPR Art. 15 and 20).
-7. **Privacy:** a data-processing agreement with Supabase, the privacy policy extended, the record of processing activities.
+6. **Account deletion** inside the app, and a **data export** (GDPR Art. 15 and 20).
+7. **Sign in with Apple** needs an Apple developer account, which is outside this plan: it is built behind its own switch, and Google and email are what you test.
 
 **You prepare.**
-- A Supabase account. The free plan is enough to start; the paid plan before the release.
-- The keys for Sign in with Apple and Google from the developer accounts. Claude gives you the steps.
+- A Supabase account. The free plan is enough.
+- The key for Sign in with Google. Claude gives you the steps.
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2–3
 
 **Prompt**
 ```
-Stage BACKEND from docs/plan/20-phase-i-platform.md.
+Stage BACKEND from docs/plan/15-phase-2-accounts-plus-ads.md.
 
-Read CLAUDE.md, then docs/plan/02-how-to-work.md §1, docs/plan/04-decisions.md §4.1 (decision K) and the "BACKEND" section in docs/plan/20-phase-i-platform.md in full, plus docs/rules/01-what-we-build.md §1 and docs/rules/10-legal-and-safety.md §7.
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1, docs/plan/04-decisions.md §4.1 (decision K) and the "BACKEND" section in docs/plan/15-phase-2-accounts-plus-ads.md in full, plus docs/rules/01-what-we-build.md §1 and docs/rules/10-legal-and-safety.md §7.
 Show me your plan first (data model, conflicts between two devices, moving local progress into the account, privacy) and wait for my approval.
 
 Especially important:
@@ -56,29 +58,28 @@ Report: what you built · check results · my test checklist · open questions. 
 2. **What Plus unlocks,** all through one check:
    - unlimited hearts (the switch from `LOOP-HEARTS`);
    - no ads (`ADS`);
-   - the full arena (Phase G).
+   - the full arena.
 3. **The paywall,** as designed in `ARENA-DESIGN` (`docs/ui/13-tiers-replays-and-plus.md` §7.8):
-   - only at natural points: the free part of the arena used up; out of hearts in a test, next to the free ways (wait, practice for a heart); Account and Settings;
+   - only at natural points: the free part of the arena used up; out of hearts in a test, next to the free ways (wait, practice for a heart); You and Settings;
    - never in a lesson, never at app start, never over a reveal;
    - a clear price per period, a clear renewal, a clear way to cancel; a trial names its end date, and a reminder comes the day before it ends;
    - no fake urgency, no pre-selected expensive option without its price.
 4. **A purchase never needs an account.** "Restore purchases" works without one; with an account, Plus follows you to other devices.
 5. **Prices per region** from the stores' price tiers: `MONEY` proposes, you decide (decision R).
-6. **Terms:** the subscription terms, the EU right of withdrawal for digital content, cancellation.
-7. **Never:** single purchases of hearts or streak freezes, pay-to-pass, "profit" promises.
+6. **Never:** single purchases of hearts or streak freezes, pay-to-pass, "profit" promises.
+7. **Built and tested with test keys:** RevenueCat's test store and the sandbox. Real products in the stores need the store accounts, which are outside this plan.
 8. **Tests:** sandbox purchase, renewal, expiry, refund, restore, offline.
 
 **You prepare.**
-- The paid-apps agreements with Apple and Google, with the business's tax and bank details (decision P).
 - A RevenueCat account.
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 
 **Prompt**
 ```
-Stage MONEY from docs/plan/20-phase-i-platform.md. Prices: [monthly, yearly, trial – or "propose"].
+Stage MONEY from docs/plan/15-phase-2-accounts-plus-ads.md. Prices: [monthly, yearly, trial – or "propose"].
 
-Read CLAUDE.md, docs/rules/01-what-we-build.md §1 and docs/rules/10-legal-and-safety.md §7, docs/ui/06-reveal-and-hearts.md §5.2, docs/ui/13-tiers-replays-and-plus.md §7.7 and §7.8, and docs/plan/02-how-to-work.md §1, docs/plan/04-decisions.md §4.1 (decision I) and the "MONEY" section in docs/plan/20-phase-i-platform.md in full.
+Read CLAUDE.md, docs/rules/01-what-we-build.md §1 and docs/rules/10-legal-and-safety.md §7, docs/ui/06-reveal-and-hearts.md §5.2, docs/ui/13-tiers-replays-and-plus.md §7.7 and §7.8, and docs/plan/02-how-to-work.md §1, docs/plan/04-decisions.md §4.1 (decision I) and the "MONEY" section in docs/plan/15-phase-2-accounts-plus-ads.md in full.
 Show me your plan first and wait for my approval.
 
 Open a PR against main and get every check green.
@@ -86,7 +87,7 @@ Report: what you built · every paywall text · my test checklist (sandbox purch
 ```
 
 **You test.**
-1. A sandbox purchase on iPhone and on Android; restore; cancel.
+1. A test purchase through RevenueCat's test store; restore; cancel.
 2. With Plus: the hearts show ∞, there are no ads, the whole arena is open.
 3. Without Plus: every lesson is playable, the Daily Chart and the taste of the arena work, and the paywall appears only where it should.
 
@@ -99,27 +100,27 @@ Report: what you built · every paywall text · my test checklist (sandbox purch
 2. **Consent:**
    - Google's consent tool (UMP, a certified consent platform) wherever the law requires consent (EEA, UK, Switzerland);
    - personalized ads only with consent;
-   - recommendation for v1.0: no personalized ads at all, so there is no tracking prompt on the iPhone (decision S).
+   - recommendation: no personalized ads at all, so there is no tracking prompt on the iPhone (decision S).
 3. **Placement:**
    - at most one full-screen ad after a finished lesson, once its result has been shown, and not after every lesson; the caps per day are set here;
    - never inside a lesson, test, reveal, the arena or onboarding; never on the first day; never at app start;
-   - no banners and no rewarded ads in v1.0.
+   - no banners and no rewarded ads.
 4. **Blocked content:**
    - every category of financial products and services the network offers (brokers, trading and investing apps, crypto, forex and CFDs, loans), gambling and betting, get-rich-quick, and age-restricted content;
    - the reason: an ad for a broker inside a trading course reads like a recommendation (`docs/rules/10-legal-and-safety.md` §7);
-   - blocking is best effort, so there is a "Report this ad" link, and after the release the served advertisers get a look once a month.
+   - blocking is best effort, so there is a "Report this ad" link, and the served advertisers get a look once ads run for real.
 5. **Plus users see no ads.** A test proves it.
-6. **Privacy:** the privacy policy, the store privacy details and the consent texts are extended, and the age rating is checked again.
+6. **Built and tested with Google's test ad units.** Real ads need the store accounts, which are outside this plan.
 
-**You prepare.** An AdMob account, in the business's name.
+**You prepare.** An AdMob account.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
 **Prompt**
 ```
-Stage ADS from docs/plan/20-phase-i-platform.md.
+Stage ADS from docs/plan/15-phase-2-accounts-plus-ads.md.
 
-Read CLAUDE.md, docs/rules/01-what-we-build.md §1 and docs/rules/10-legal-and-safety.md §7, docs/ui/13-tiers-replays-and-plus.md §7.8, and docs/plan/02-how-to-work.md §1, docs/plan/04-decisions.md §4.1 (decision I) and the "ADS" section in docs/plan/20-phase-i-platform.md in full.
+Read CLAUDE.md, docs/rules/01-what-we-build.md §1 and docs/rules/10-legal-and-safety.md §7, docs/ui/13-tiers-replays-and-plus.md §7.8, and docs/plan/02-how-to-work.md §1, docs/plan/04-decisions.md §4.1 (decision I) and the "ADS" section in docs/plan/15-phase-2-accounts-plus-ads.md in full.
 Research the current AdMob and consent requirements and name your sources with their date.
 
 Especially important:
@@ -133,45 +134,3 @@ Report: every place an ad can appear · the blocked categories · my test checkl
 1. Play five lessons in a test build: ads only where planned.
 2. Decline consent: the app still works.
 3. With Plus: no ad anywhere.
-
-### `UPDATES` – content without store updates
-
-**Goal.** Content can change after the release without a new store build and without lost progress.
-
-**Scope**
-- `expo-updates` with channels (preview, production).
-- Content versions, per language (Phase J).
-- **Progress migration:** if a lesson id changes after the release, a migration table makes sure no progress is lost. The rule for it is in `docs/rules/09-working-and-process.md` §6.
-- Chapters and languages are loaded on demand instead of everything in the first bundle.
-- Offline behavior.
-
-**Model · effort · sessions:** Opus 5.5 · high · 1
-
-**Prompt**
-```
-Stage UPDATES from docs/plan/20-phase-i-platform.md. Read CLAUDE.md, docs/rules/09-working-and-process.md §6 and docs/plan/02-how-to-work.md §1 and the "UPDATES" section in docs/plan/20-phase-i-platform.md. PR, every check green, report with a test checklist. Then stop.
-```
-
-**You test.**
-- Send a content update to the preview: it arrives without reinstalling.
-- A renamed test lesson keeps its progress.
-
-### `TECH` – clean-up, only backed by measurements
-
-**Goal.** Clean up where a measurement shows that it helps.
-
-**Scope**
-1. **Measure first:** bundle size, cold start, memory and frame rate on a cheap Android device.
-2. **Then only what the measurement justifies:**
-   - Split `Chart.tsx` (1,818 lines).
-   - Optionally `expo-router`.
-   - Optionally a JSON schema as the single source for the TS types and the validator (S39).
-
-**Model · effort · sessions:** Opus 5.5 · high · 1–2
-
-**Prompt**
-```
-Stage TECH from docs/plan/20-phase-i-platform.md. Read CLAUDE.md and docs/plan/02-how-to-work.md §1 and the "TECH" section in docs/plan/20-phase-i-platform.md. Measure first and report; change only what a measurement justifies, and measure again afterwards. PR, every check green, report (measurements before/after) with a test checklist. Then stop.
-```
-
-**You test.** The app feels the same or faster; the measurements before and after are in the report.

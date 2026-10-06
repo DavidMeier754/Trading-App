@@ -50,7 +50,7 @@ Eight setups instead of five. Every setup is a playbook card: context, entry, st
 | 10 | Setup F — Gap-and-Go Continuation | 3 | The gap that holds, the first pullback, entry on the resumption; when a gap is too extended to join | 2, 5 |
 | 11 | Setup G — Range Rotation | 3 | The range day's edges; fading the edge with the day type as permission; why this card is forbidden on a trend day | 5 |
 | 12 | Setup H — The Re-Entry | 3 | Getting back into a trade that stopped you out: what has to be true, what makes it revenge instead, the size it deserves | 6 |
-| 13 | Mixed Drill II | 2 R | Eight charts across all eight cards, half of them passes. **[CONTENT-REVIEW]** Becomes "Setup I — Level Break" (3 subs) in `CONTENT-FIX-7`; these charts move into Level 18 (C8-01, `docs/plan/15-phase-e-offer-fixes-reviews.md`) | 4, 5 |
+| 13 | Mixed Drill II | 2 R | Eight charts across all eight cards, half of them passes. **[CONTENT-REVIEW]** Becomes "Setup I — Level Break" (3 subs) in `CONTENT-FIX-7`; these charts move into Level 18 (C8-01, `docs/plan/12-phase-1-content-chapter-fixes.md`) | 4, 5 |
 | 14 | Choosing the Setup for the Day | 3 | Day type → which cards are on the table; trend days feed continuation, range days feed reversion; when none are | 5 |
 | 15 | Chapters 5 & 6 Callback | 2 R | Selection and risk re-tested inside the playbook: right card, wrong stock; right card, wrong day; right card, no risk budget left | 5, 6 |
 | 16 | When Nothing Fits | 2 | The discipline of the empty morning; what a playbook costs you in missed trades and why that is the price | 6 |

@@ -10,7 +10,7 @@ _Part of the [rules for content and code](README.md) · §5–6_
 4. Hook first. Every chapter's first level does something, not just explains something.
 5. Simple first exposure, depth through repetition and scenarios.
 6. **[v3]** Reps beat prose. When a choice exists between one more explanation and one more drill, write the drill.
-7. Stop after each step and wait for explicit approval before the next (section 6). **[v4]** In the release plan every stage ends at a gate: a report with David's test checklist, then nothing until his "OK" (`docs/plan/02-how-to-work.md` §1).
+7. Stop after each step and wait for explicit approval before the next (section 6). **[v4]** In the build plan every stage ends at a gate: a report with David's test checklist, then nothing until his "OK" (`docs/plan/02-how-to-work.md` §1).
 8. Run `python3 tools/validate_content.py` and fix every error and warning before declaring a step done, then do a zero-knowledge read-through of the whole chapter (typos, jargon before definition, absolute claims, coverage gaps, boredom).
 
 ---
@@ -44,4 +44,4 @@ Live status (levels, screens, minutes per chapter) is generated, not hand-writte
 python3 tools/validate_content.py --status
 ```
 
-**[v4] After release, ids are stable.** A sub-level id that learners have progress on is never renumbered without a migration entry (stage UPDATES). Inserting a level before release — as Chapter 8 Level 15 does — renumbers freely; after release, new levels are appended or carried by a migration.
+**[v4] After release, ids are stable.** A sub-level id that learners have progress on is never renumbered without a migration entry (the migration table, stage TECH). Inserting a level before release — as Chapter 8 Level 15 does — renumbers freely; after release, new levels are appended or carried by a migration.

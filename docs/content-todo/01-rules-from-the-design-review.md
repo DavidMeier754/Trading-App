@@ -1,6 +1,6 @@
 # Rules from the design review
 
-_Part of the [content to do](README.md) · §1–1.5_
+_Part of the [content to do](README.md) · §1–1.6_
 
 ## Part 1 — Rules from David's verdicts
 
@@ -62,3 +62,7 @@ New since `DESIGN-REVIEW`: the app replays questions outside their lesson — in
 - A question names what it needs ("XYZ's chart", "the quote above" is fine only when the quote is on the same screen).
 - The one exception: a question right after a `story` scene. The app brings the scene along, so "What do you do now?" after a scene still works.
 - `CONTENT-FIX-N` checks every question of its chapter for this.
+
+### 1.6 No quotas **[2026-10-05]**
+
+David, 2026-10-05: the learner should "be able to do as many lessons as he wants, and the practice levels should be optional." So no lesson tells the learner how many lessons to do, that they must practice, or that they have to come back tomorrow. Inviting is fine ("Practice these"); a number or a duty is not. Rule: `docs/rules/03-content-rules.md` §3.4b; `RULES` adds the warning, and each `CONTENT-FIX-N` checks its chapter.

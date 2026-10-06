@@ -105,7 +105,11 @@ From the content review of 2026-10-04 (`docs/content-todo/05-content-review.md`,
 
 **Every term before its first use.** A taught word appears on a card of its lesson before any later lesson uses it, in this chapter or an earlier one; the validator warns about a word used before the lesson that introduces it (`RULES`). Words that are only plain English in an early lesson ("high", "close", "range") are not affected.
 
-The Swing and Day Trading chapters are written with both tables from the start. Stage `RULES` adds the validator warnings (`docs/plan/14-phase-e-design-rules-variance.md`); each `CONTENT-FIX-N` fixes its chapter.
+The Swing and Day Trading chapters are written with both tables from the start. Stage `RULES` adds the validator warnings (`docs/plan/11-phase-1-content-rules.md`); each `CONTENT-FIX-N` fixes its chapter.
+
+### 3.4b No quotas **[2026-10-05]**
+
+The learner does as many lessons as they like (David, 2026-10-05). No lesson tells them how many lessons to do in a day, that they must practice, or that they have to come back tomorrow; practice, the practice levels on the path and today's chart are offered, never required. Inviting a learner to practice is fine ("Practice these" after a lesson); setting a number or a duty is not. `RULES` adds a validator warning.
 
 ### 3.5 Answer-key hygiene **[v3 — new section]**
 

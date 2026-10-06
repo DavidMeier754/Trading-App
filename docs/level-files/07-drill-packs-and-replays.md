@@ -44,7 +44,7 @@ last screen, and no "2 `mc` in a row" — the Practice hub draws in its own orde
 ### The manifest — `content/drills/packs.yaml`
 
 One entry per pack in the drill table of `docs/course/`, and the thing the batch run
-(`tools/build_drill_batch.py`, stage DRILLS in `docs/plan/18-phase-g-arena-build.md`) is built from. An entry carries
+(`tools/build_drill_batch.py`, stage DRILLS in `docs/plan/10-phase-1-app-arena-build.md`) is built from. An entry carries
 the pack's header fields plus `slug`, `file`, the commissioned `screens` count, and three
 `exemplars` — screens from the linear chapter the pack unlocks from, by file and 1-based
 screen index, one `straightforward`, one `near-miss` whose answer is pass or no trade, one

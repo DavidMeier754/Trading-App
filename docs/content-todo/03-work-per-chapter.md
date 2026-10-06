@@ -4,7 +4,7 @@ _Part of the [content to do](README.md) · §3–3.2_
 
 ## Part 3 — Work per chapter
 
-`CONTENT-FIX-N` does these while it touches the chapter for its worklist anyway (`docs/plan/14-phase-e-design-rules-variance.md` Phase E). The same list applies to every Swing and Day Trading chapter as it is written.
+`CONTENT-FIX-N` does these while it touches the chapter for its worklist anyway (`docs/plan/12-phase-1-content-chapter-fixes.md`). The same list applies to every Swing and Day Trading chapter as it is written.
 
 ### 3.1 The checklist for every chapter
 

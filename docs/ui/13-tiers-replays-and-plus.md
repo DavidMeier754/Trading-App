@@ -19,7 +19,9 @@ One untimed, optional mixed set per week (8–12 questions drawn from everything
 
 ### 7.7 Spot it — the replay tab **[v3]**
 
-**[v4.1] This tab grows into the arena** (decision I, `docs/plan/17-phase-g-arena-idea-and-design.md` Phase G). Stage ARENA-DESIGN rewrites this section; the rules below stay.
+**[2026-10-05] David's picks.** The arena is its own tab (Learn · Practice · Arena · You), with one practice account per path. **Today's chart** is new every day and the same for everyone on a path. **The chart calendar:** every Daily Chart played fills its day with the decision's grade (good call, reasonable, not this time, stood aside), and a full month earns a medal of its own; today's chart pays gems, and learners with reminders on can switch on "today's chart is ready". Replays, drills and scenario packs as many as the learner likes (stages `ARENA-DESIGN`, `ARENA-TAB`, `SIM-ACCOUNT`).
+
+**[v4.1] This tab grows into the arena** (decision I, `docs/plan/09-phase-1-app-arena-design-and-generator.md`). Stage ARENA-DESIGN rewrites this section; the rules below stay.
 - **For everyone:** the **Daily Chart** — one chart a day, the same for everyone on a path, played bar by bar, with a share card that shows decisions and never money — and a taste of each arena part.
 - **With Nutrade Plus:** replays of whole sessions, unlimited setup drills from the chart generator, the practice account with its journal and statistics, and scenario packs.
 - **Synthetic charts only.** Their odds are a training model, and the app says so (`docs/rules/10-legal-and-safety.md` §7).

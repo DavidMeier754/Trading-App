@@ -1,12 +1,10 @@
-# Phase G: The arena, idea and design
+# Phase 1, app lane – the Arena: idea, design and generator
 
-_Part of the [build plan](README.md) · §11_
+_Part of the [build plan](README.md)_
 
-## 11. Phase G – The practice arena (Nutrade Plus)
+**Why the Arena exists.** The course promises that afterwards only practice is missing. The arena is where that practice starts, inside the app: charts you trade bar by bar, drills, and a practice account whose numbers behave like a trader's. It is also what Nutrade Plus sells (decision I), so it has to be worth paying for.
 
-**Why this phase exists.** The course promises that afterwards only practice is missing. The arena is where that practice starts, inside the app: charts you trade bar by bar, drills without end, and a practice account whose numbers behave like a trader's. It is also what Nutrade Plus sells (decision I), so it has to be worth paying for.
-
-### The idea
+### The Arena idea
 
 David asked for the concept; `ARENA-DESIGN` turns it into the docs and the screens.
 
@@ -46,16 +44,18 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
   - The app says plainly that real markets guarantee no edge. The arena's odds are a training model.
   - **No odds on screen** (David, 2026-10-03, `docs/rules/07-variance-and-typed-numbers.md` §3.11): the model's rates stay inside the generator. The arena shows the learner their own results — their journal, their sample — and never a setup's modeled win rate as if it were how often it works.
 - **The arena does not replace paper trading on real-time data** before real money (graduate profile, point 15). The copy never implies otherwise.
-- **Lessons never advertise Plus.** The paywall appears only at natural points: when the free part of the arena is used up, when hearts run out in a test (next to the free ways: wait, or practice for a heart), and in Account and Settings (`MONEY`).
+- **Lessons never advertise Plus.** The paywall appears only at natural points: when the free part of the arena is used up, when hearts run out in a test (next to the free ways: wait, or practice for a heart), and in You and Settings (`MONEY`).
 
 **How the charts are made.**
 - A chart generator (`CHART-GEN`) produces sessions from a seed: trend and range phases, volatility clusters, the intraday volume curve, gaps, a wider spread at the open, realistic ticks and volumes (`docs/rules/04-numbers-and-realism.md` §3.6).
 - The playbook's setups are planted as templates in three qualities: clean, marginal and failed. Some sessions contain nothing worth trading.
 - Code checks every chart: valid candles, the planted setup is really there, the right answers can be computed.
 - Hand-written replays stay for teaching; the generator makes the volume.
-- Synthetic data avoids the license costs of real market data and cannot be mistaken for a signal. Real historical data can be looked at after the release (Phase L).
+- Synthetic data avoids the license costs of real market data and cannot be mistaken for a signal. Real historical data stays outside this plan.
 
-**Order in this phase:** the design → one replay by hand → the generator → the tab with the Daily Chart → the practice account → drills → the scalping replay bank. Swing and Day Trading get their arena content right after their chapters (`ARENA-PATHS`).
+**Order in the app lane:** the design → one replay by hand → the generator → the tab with the Daily Chart → the practice account → drills. The scalping replay bank is the content lane's (`REPLAY-BANK`, `docs/plan/13-phase-1-content-reviews-and-chapter-9.md`). Swing and Day Trading get their arena content right after their chapters (`ARENA-PATHS`, Phase 2).
+
+**[2026-10-05] What draws you back** (David picked all six): fading skills and shining medals (`PRACTICE`), the chart calendar and the "today's chart is ready" reminder (`ARENA-TAB`), gems for practice and today's chart (`LOOP-DAILY`, `ARENA-TAB`), the weekly challenge (`LOOP-DAILY`). None of them is required, and nothing sets a quota.
 
 ### `ARENA-DESIGN` – the arena on paper
 
@@ -72,6 +72,7 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
    - the end of a replay with the process grade;
    - the practice account: statistics and journal;
    - the Daily Chart and its share card;
+   - the chart calendar (`ARENA-TAB`);
    - the paywall.
 3. **The generator's model on one page:** which properties and parameters per path, how "clean", "marginal" and "failed" are defined, how the odds are set, how a chart is checked.
 4. **Free vs. Plus** in one table, with the paywall's places and its texts: a clear price, a clear renewal, a clear way to cancel.
@@ -83,9 +84,9 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
 
 **Prompt**
 ```
-Stage ARENA-DESIGN from docs/plan/17-phase-g-arena-idea-and-design.md.
+Stage ARENA-DESIGN from docs/plan/09-phase-1-app-arena-design-and-generator.md.
 
-Read CLAUDE.md, then §0, §1, §4.1 (decision I) and all of Phase G of docs/plan/, docs/ui/ in full, docs/rules/01-what-we-build.md §1, docs/rules/04-numbers-and-realism.md §3.6, docs/rules/06-replays.md §3.10, docs/rules/07-variance-and-typed-numbers.md §3.11 and docs/rules/10-legal-and-safety.md §7, and docs/level-files/07-drill-packs-and-replays.md § Replays.
+Read CLAUDE.md, then §0, §1, §4.1 (decision I) and the Arena part of docs/plan/09-phase-1-app-arena-design-and-generator.md, docs/ui/ in full, docs/rules/01-what-we-build.md §1, docs/rules/04-numbers-and-realism.md §3.6, docs/rules/06-replays.md §3.10, docs/rules/07-variance-and-typed-numbers.md §3.11 and docs/rules/10-legal-and-safety.md §7, and docs/level-files/07-drill-packs-and-replays.md § Replays.
 Show me your plan first and wait for my approval. Use the "prototype" skill for the screens.
 
 Especially important:
@@ -116,9 +117,52 @@ Report: the design in ten sentences · links to every prototype screen · the fr
 
 **Prompt**
 ```
-Stage REPLAY-PILOT from docs/plan/17-phase-g-arena-idea-and-design.md. Read CLAUDE.md, §1 of docs/plan/02-how-to-work.md and docs/content-todo/01-rules-from-the-design-review.md (Part 1), then follow Appendix E.2 (pilot). A PR instead of a push to main. Report with a test checklist. Then stop.
+Stage REPLAY-PILOT from docs/plan/09-phase-1-app-arena-design-and-generator.md. Read CLAUDE.md, §1 of docs/plan/02-how-to-work.md and docs/content-todo/01-rules-from-the-design-review.md (Part 1), then follow Appendix E.2 (pilot). A PR instead of a push to main. Report with a test checklist. Then stop.
 ```
 
 **You test.** Play the replay in the test bench:
 - Is the "is it now?" feeling there?
 - Are the grades (textbook, early, late, phantom) fair?
+
+### `CHART-GEN` – the chart generator
+
+**Goal.** An endless supply of realistic, checked practice charts.
+
+**Scope**
+1. **The market model** from `ARENA-DESIGN`:
+   - bars from a seed, per timeframe (1-minute, 5-minute, daily);
+   - trend and range phases, volatility clusters, the intraday volume curve, gaps, a wider spread at the open;
+   - realistic ticks and volumes (`docs/rules/04-numbers-and-realism.md` §3.6: price bands, volume magnitudes).
+2. **Setup templates** for the scalping playbook cards (Chapter 7), each in three qualities (clean, marginal, failed), plus sessions without a setup. Swing and Day Trading templates follow in `ARENA-PATHS`.
+3. **Outcomes with honest odds:** the edge per quality is a parameter. Over large samples, the share of right calls that lose stays within 30–40 % (§3.11).
+4. **Checks by code:**
+   - valid candles, ticks and volumes;
+   - a detector confirms the planted setup, and finds nothing in a session without one;
+   - the correct answers (entry, stop, size for 1 %, R) are computed, never set by hand;
+   - property tests over at least 10,000 seeds, with the odds measured over the sample;
+   - a render test over a sample of seeds.
+5. **Deterministic:** the same seed gives the same chart on every device. The model carries a version number, so old seeds (a shared Daily Chart, a bug report) still open the same chart.
+6. **Fast:** a session is generated on the phone in well under a second, on a cheap Android device too.
+
+**Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2–3
+
+**Prompt**
+```
+Stage CHART-GEN from docs/plan/09-phase-1-app-arena-design-and-generator.md.
+
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1, docs/plan/09-phase-1-app-arena-design-and-generator.md ("The Arena idea") and the "CHART-GEN" section in docs/plan/09-phase-1-app-arena-design-and-generator.md in full, plus the generator spec from ARENA-DESIGN (docs/ui/, docs/level-files/), docs/rules/04-numbers-and-realism.md §3.6 and docs/rules/07-variance-and-typed-numbers.md §3.11, and the scalping Chapter 7 cards in docs/course/.
+Show me your plan first (model, templates, checks) and wait for my approval.
+
+Especially important:
+- Every correct answer is computed by code, never written by hand.
+- Measure the odds over at least 10,000 seeds and put the table in the report.
+- The same seed gives the same chart everywhere; test it.
+
+Open a PR against main and get every check green.
+Report: what you built · the odds table · 12 sample charts (links: clean, marginal, failed, none) · the timing on a cheap device · my test checklist · open questions. Then stop.
+```
+
+**You test (~20 min)**
+1. Look at the 12 sample charts: do they look like real charts, or like computer charts?
+2. Can you see the setup in the clean ones? Is the marginal one really borderline?
+3. Is there really nothing worth trading in the sessions without a setup?
