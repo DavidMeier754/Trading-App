@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [journal, review, execution, process]
+icon: session-after
 learning_goal: "User writes the day's rows the same evening, grades execution independently of the result, and can say which column of the row answers which question."
 purpose: "Everything the review found is gone by tomorrow unless it is in a row you can sort."
 terms_introduced: []

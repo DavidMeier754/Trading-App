@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [platform, ladder, order-entry]
+icon: monitor
 learning_goal: "User treats the ladder as an order-entry surface, not a picture, and knows what resting size does and does not promise."
 purpose: "Chapter 3 read the book. This is the panel a scalper clicks orders onto."
 terms_introduced: []

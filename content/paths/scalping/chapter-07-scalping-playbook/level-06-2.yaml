@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: repetition
 tags: [mean-reversion, levels, setup-d, practice, decisions]
+icon: mean-reversion
 learning_goal: "User fades stretched runs only at marked levels with climax volume and a rejection close, and passes when the level, the rejection or the room to VWAP is missing."
 purpose: "Counter-trend trades punish loose rules faster than any other card, so the rules get drilled hardest here."
 terms_introduced: []

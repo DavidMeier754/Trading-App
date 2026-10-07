@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [journal, review, execution]
+icon: journal
 learning_goal: "User logs a scalp as one row — setup, prices, R risked and made, execution grade, state — and grades execution independently of the result."
 purpose: "Twenty trades a day is a lot of evidence, and none of it survives until Friday unless it is written down."
 terms_introduced: ["Journal", "Execution grade", "Grade-A trade"]

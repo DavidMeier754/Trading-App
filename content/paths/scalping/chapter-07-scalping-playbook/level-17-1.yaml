@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: repetition
 tags: [capstone, session, process, decisions]
+icon: capstone
 learning_goal: "User runs a session in order: plan, day read, cards as they appear, and the risk left checked between trades."
 purpose: "Setups are the easy half. Running them in sequence, with costs and a limit, is the job."
 terms_introduced: []

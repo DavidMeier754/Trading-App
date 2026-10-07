@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [orders, stops, risk]
+icon: stop
 learning_goal: "User places a stop on the correct side of an entry and can state the planned loss in dollars before the trade is taken."
 purpose: "You are going to be wrong all morning long; the stop is the order that keeps being wrong cheap."
 terms_introduced: ["Stop order", "Stop-loss"]

@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: repetition
 tags: [drills, orders, execution, practice]
+icon: drill
 learning_goal: "User builds entry, stop and exit tickets for one position from start to finish, and predicts where each order actually fills."
 purpose: "A ticket you have built a hundred times is one you can build while the candle is still closing."
 terms_introduced: []

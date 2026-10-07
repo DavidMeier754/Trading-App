@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [selection, spread, expected-move]
+icon: selection
 learning_goal: "User drops a name whose quote takes most of what it travels, and one that does not travel far enough to pay for any quote at all."
 purpose: "Selection asks Chapter 3's question before there is a chart: what does this name usually travel, and what does its quote take out of that?"
 terms_introduced: []

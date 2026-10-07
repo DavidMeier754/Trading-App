@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: new-theory
 tags: [vwap, setup-a, playbook]
+icon: vwap
 learning_goal: "User can state the five fields of the VWAP bounce card and pick the entry candle on a chart."
 purpose: "It is the most common intraday scalp there is, because the line it trades against is the one institutions measure themselves by."
 terms_introduced: ["VWAP bounce", "High of day"]

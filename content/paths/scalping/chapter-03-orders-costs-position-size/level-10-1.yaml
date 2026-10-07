@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [position-size, risk, liquidity]
+icon: size
 learning_goal: "User separates what a position ties up from what it risks, and can compute both from a share count, a price and a stop distance."
 purpose: "Two numbers describe every position, and confusing them is how a sensible-looking trade turns into an unsurvivable one."
 terms_introduced: ["Position size", "Position value", "Risk per trade"]

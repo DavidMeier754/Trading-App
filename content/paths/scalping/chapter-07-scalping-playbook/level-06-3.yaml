@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: new-theory
 tags: [mean-reversion, setup-d, sizing, management, playbook]
+icon: mean-reversion
 learning_goal: "User sizes the mean reversion card from half a risk budget and both ceilings, aims at VWAP as it stands at that minute, and exits on the card's invalidation rather than on the stop."
 purpose: "The card that fights the move is the one where a careless share count and a stale target cost the most."
 terms_introduced: []

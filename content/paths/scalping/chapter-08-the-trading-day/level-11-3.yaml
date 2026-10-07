@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [stats, playbook, review, expectancy]
+icon: numbers
 learning_goal: "User splits the sample by card, finds the one that leaks, and reads the grade column to see whether the card or the execution is doing it."
 purpose: "A method rarely fails all at once. One card bleeds quietly and the good ones pay for it."
 terms_introduced: []

@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: repetition
 tags: [callback, sizing, stop, levels]
+icon: rewind
 learning_goal: "User turns a Chapter 2 level into a stop, sizes it from both Chapter 3 ceilings, and passes when the stop the chart offers makes the position too small to be worth its costs."
 purpose: "The chart chooses the stop, the stop and the account choose the size, and sometimes the size they choose ends the trade."
 terms_introduced: []

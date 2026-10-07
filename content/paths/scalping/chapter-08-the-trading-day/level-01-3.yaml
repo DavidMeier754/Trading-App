@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [platform, costs, routing, frequency]
+icon: monitor
 learning_goal: "User names what a screen built for frequency does differently, and prices that difference against their own trade count."
 purpose: "A screen cannot make a method good, and the wrong one can make a good method unaffordable."
 terms_introduced: []

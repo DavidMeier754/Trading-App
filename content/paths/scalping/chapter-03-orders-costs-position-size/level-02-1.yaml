@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [spread, costs, round-trip]
+icon: cost-spread
 learning_goal: "User can define a round trip and explain why the whole spread is already paid the moment a position is opened."
 purpose: "Every trade starts behind, and knowing exactly how far behind is what stops a scalper taking trades that were never worth taking."
 terms_introduced: ["Round trip"]

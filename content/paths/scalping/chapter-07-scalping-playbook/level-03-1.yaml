@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: new-theory
 tags: [opening-range, setup-b, playbook]
+icon: opening-range
 learning_goal: "User can define the opening range, name the trigger and stop for the opening-range scalp, and size a target in R."
 purpose: "The first minutes carry the day's heaviest volume, and this is the card built for them."
 terms_introduced: ["Opening-range scalp"]

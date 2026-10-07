@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [slippage, execution]
+icon: slippage
 learning_goal: "User can define slippage and execution speed, keep both separate from the spread, and compute slippage cost for a share count."
 purpose: "The gap between the price you saw and the price you got is a real, recurring cost — naming it is the first step to controlling it."
 terms_introduced: ["Slippage", "Execution speed"]

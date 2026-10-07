@@ -268,6 +268,8 @@ function Stage({
         screens={[]}
         grades={id === 'perfect' ? ALL_RIGHT : SOME_MISSED}
         levelTitle={levelTitle}
+        subtitle="Level 6 · Lesson 2 of 4"
+        missed={id === 'perfect' ? [] : ['Who is on the other side when you buy at the ask?']}
         xp={xp}
       />
     );

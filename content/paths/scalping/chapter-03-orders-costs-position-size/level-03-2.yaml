@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [spread, liquidity, volume]
+icon: judge
 learning_goal: "User links a tight spread to competition between traders, reads volume as the visible clue to it, and prices what a wide one costs at size."
 purpose: "Chapter 1's liquidity dial has a price tag on it, and volume is the only part of it you can see on a chart."
 terms_introduced: []

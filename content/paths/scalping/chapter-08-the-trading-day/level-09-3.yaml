@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: repetition
 tags: [practice, close, review, journal]
+icon: full-day
 learning_goal: "User finishes the same session flat, adds up the day in R rather than in dollars, and turns four rows into one line for tomorrow."
 purpose: "A session is only finished when it has been written down, and that is the part nobody feels like doing."
 terms_introduced: []

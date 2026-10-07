@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [map, process, confluence]
+icon: scalper-map
 learning_goal: "User runs one read in a fixed order — level, side of the average, candle, tape — and stops at the first step that comes back empty."
 purpose: "In a fast market nobody weighs four things at once, so the four things get an order and the order never changes."
 terms_introduced: []

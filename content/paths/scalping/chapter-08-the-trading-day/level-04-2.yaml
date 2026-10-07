@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [pre-market, levels, internals, market-check]
+icon: session-pre
 learning_goal: "User draws the morning's lines before the bell and turns the market check into a single written sentence."
 purpose: "The two slowest steps of the hour are the two that a late start deletes, and they are the two that pay."
 terms_introduced: []

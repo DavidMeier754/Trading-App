@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import MiniChart from '../components/MiniChart';
 import { copy } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { PopIn } from '../lesson/Celebrate';
-import { matchHitFeedback, matchMissFeedback } from '../lesson/feedback';
+import { detentFeedback, matchHitFeedback, matchMissFeedback } from '../lesson/feedback';
+import { fitScale } from '../lesson/fitState';
 import { useLookSpec } from '../lesson/look';
 import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { CompareScreen as Compare, SwipeDeckScreen as SwipeDeck } from '../types';
@@ -15,8 +25,11 @@ import { Prompt, Stack, ToneSurface } from './common';
  * docs/ui/04-question-types.md §4.2 `swipe-deck` — a deck of mini-charts, one at a time, with a
  * one-line verdict as each flies off and a run strip at the end. Never timed.
  *
- * The buttons are the interaction, not a fallback: §10 requires the tap-only
- * path, and a swipe gesture on top of it is a later nicety, not the contract.
+ * [LOOK-COMPONENTS] The card is swiped: it follows the finger sideways,
+ * leaning as it goes, and the word it will mean -- "Take it" to the right,
+ * "Pass" to the left -- comes up on it. Let go past a third of its width (or
+ * flicked) and it flies off that way and counts as that call; short of it, it
+ * springs back. The buttons underneath stay: §10's tap-only path.
  */
 export function SwipeDeckScreen({
   screen,
@@ -108,7 +121,9 @@ export function SwipeDeckScreen({
         })}
       </View>
       {/* Keyed by card, so each one builds itself in as it comes up. */}
-      <MiniChart key={index} spec={card.chart} width={width} height={180} />
+      <SwipeCard key={index} width={width} onSwipe={answer}>
+        <MiniChart spec={card.chart} width={width} height={180} />
+      </SwipeCard>
       {/* Room for the longest verdict from the first card on, so the first one
           to arrive does not push the buttons down under the thumb. */}
       <Stack
@@ -154,6 +169,87 @@ export function SwipeDeckScreen({
         </Pressable>
       </View>
     </View>
+  );
+}
+
+/** How far a card must travel, as a share of its width, to count as a swipe. */
+const SWIPE_AT = 0.33;
+/** A flick this fast (points a second) counts however short it was. */
+const FLICK = 900;
+
+/**
+ * One card of the deck under the finger. Only the learner moves it: it holds
+ * still until dragged, follows the finger, and either flies off the side it
+ * was swiped to or springs back to where it was.
+ */
+function SwipeCard({
+  width,
+  onSwipe,
+  children,
+}: {
+  width: number;
+  onSwipe: (pick: 'take' | 'pass') => void;
+  children: React.ReactNode;
+}) {
+  const x = useSharedValue(0);
+  const gone = useSharedValue(0);
+  const commit = useCallback((pick: 'take' | 'pass') => onSwipe(pick), [onSwipe]);
+  const tick = useCallback(() => detentFeedback(), []);
+
+  const pan = Gesture.Pan()
+    // Sideways only: an up-and-down drag is left to the screen.
+    .activeOffsetX([-12, 12])
+    .failOffsetY([-14, 14])
+    .onStart(() => {
+      scheduleOnRN(tick);
+    })
+    .onUpdate((e) => {
+      if (gone.get()) return;
+      x.set(e.translationX / fitScale.get());
+    })
+    .onEnd((e) => {
+      if (gone.get()) return;
+      const dx = x.get();
+      const far = Math.abs(dx) > width * SWIPE_AT;
+      const flick = Math.abs(e.velocityX) > FLICK && Math.sign(e.velocityX) === Math.sign(dx);
+      if (far || flick) {
+        const dir = dx > 0 ? 1 : -1;
+        gone.set(1);
+        x.set(
+          withTiming(dir * width * 1.3, { duration: 200 }, (finished) => {
+            if (finished) scheduleOnRN(commit, dir > 0 ? 'take' : 'pass');
+          }),
+        );
+      } else {
+        x.set(withSpring(0, { duration: 380, dampingRatio: 0.8 }));
+      }
+    });
+
+  const card = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: x.get() },
+      { rotate: `${interpolate(x.get(), [-width, width], [-8, 8])}deg` },
+    ],
+  }));
+  const takeWord = useAnimatedStyle(() => ({
+    opacity: interpolate(x.get(), [0, width * SWIPE_AT], [0, 1], 'clamp'),
+  }));
+  const passWord = useAnimatedStyle(() => ({
+    opacity: interpolate(x.get(), [-width * SWIPE_AT, 0], [1, 0], 'clamp'),
+  }));
+
+  return (
+    <GestureDetector gesture={pan}>
+      <Animated.View style={card} accessibilityHint="Swipe right to take it, left to pass">
+        {children}
+        <Animated.View pointerEvents="none" style={[styles.swipeWord, styles.swipeTake, takeWord]}>
+          <Text style={[styles.swipeWordText, { color: colors.success }]}>Take it</Text>
+        </Animated.View>
+        <Animated.View pointerEvents="none" style={[styles.swipeWord, styles.swipePass, passWord]}>
+          <Text style={[styles.swipeWordText, { color: colors.down }]}>Pass</Text>
+        </Animated.View>
+      </Animated.View>
+    </GestureDetector>
   );
 }
 
@@ -225,6 +321,18 @@ export function CompareScreen({
 }
 
 const styles = themed(() => ({
+  swipeWord: {
+    position: 'absolute',
+    top: space.sm,
+    paddingHorizontal: space.sm,
+    paddingVertical: 2,
+    borderRadius: radius.sm,
+    borderWidth: 2,
+    backgroundColor: colors.surface,
+  },
+  swipeTake: { left: space.sm, borderColor: colors.success },
+  swipePass: { right: space.sm, borderColor: colors.down },
+  swipeWordText: { ...type.label, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 1 },
   wrap: { gap: space.md },
   zone: { gap: space.md },
   pips: { flexDirection: 'row', gap: space.sm, justifyContent: 'center', alignItems: 'center' },

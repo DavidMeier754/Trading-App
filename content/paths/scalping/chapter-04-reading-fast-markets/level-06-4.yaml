@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [candles, drill, decisions]
+icon: candle-rejection
 learning_goal: "User runs two questions on every shape — is it at a line, and did the bar carry weight — and passes when either answer is no."
 purpose: "Telling a signal from a shape that merely looks like one is the whole skill; everything else in this level was vocabulary."
 terms_introduced: []

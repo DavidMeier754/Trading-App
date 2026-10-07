@@ -98,6 +98,8 @@ import {
 import { knowsR, markableTerms, markPlan, skillsOf, type Skill } from '../skills';
 import { LESSONS } from '../content';
 import { answerSummary, questionLine } from './answerSummary';
+import { resolveKey } from '../practice';
+import { copy } from '../format';
 import { DecisionSpace, LessonContext } from './lessonContext';
 import MistakesDeck, { DEAL_MS, type DeckItem } from './MistakesDeck';
 import SkillsLearned from './SkillsLearned';
@@ -138,6 +140,7 @@ export default function LessonPlayer({
   initialPath = null,
   lessonId,
   sourceKeys,
+  onPractice,
 }: {
   level: Level;
   contentWidth: number;
@@ -179,6 +182,11 @@ export default function LessonPlayer({
   onChoosePath?: (path: TradingPath) => void;
   /** The path already chosen, pre-selected when the choice is made again. */
   initialPath?: string | null;
+  /**
+   * docs/ui/07-lesson-chapter-and-tier-complete.md §5.3: "Practice these" on lesson complete, with
+   * the record's keys of the questions missed in the lesson.
+   */
+  onPractice?: (keys: string[]) => void;
 }) {
   const insets = useSafeAreaInsets();
   const scored = kind === 'test' || kind === 'final';
@@ -548,6 +556,17 @@ export default function LessonPlayer({
     return lessonId ? questionKey(lessonId, at) : null;
   };
 
+  // docs/ui/07-lesson-chapter-and-tier-complete.md §5.3 [v4]: the questions missed in the lesson's
+  // own screens (the mistakes round does not count again), for the list on
+  // lesson complete and its "Practice these".
+  const missed = base
+    .map((sc, i) => ({ sc: sc as Screen, i }))
+    .filter(({ sc, i }) => isQuestion(sc) && mainGrades[i] === 'wrong')
+    .map(({ sc, i }) => ({ line: copy(questionLine(sc, 56)) || `Screen ${i + 1}`, key: keyOf(i) }));
+  const missedKeys = missed
+    .map((m) => m.key)
+    .filter((k): k is string => k !== null && resolveKey(k) !== null);
+
   // Back, on a test level only (docs/ui/02-lesson-player-layout.md §2 keeps it out of lessons): a card
   // within a carousel or walkthrough first, then the screen before. Nothing is
   // undone -- an answered screen comes back answered, its reveal showing and
@@ -887,6 +906,17 @@ export default function LessonPlayer({
                         screens={base}
                         grades={mainGrades}
                         levelTitle={level.title}
+                        subtitle={
+                          kind === 'practice'
+                            ? undefined
+                            : (level.subtitle ?? (testBench ? undefined : lessonEntry?.subtitle))
+                        }
+                        missed={missed.map((m) => m.line)}
+                        onPractice={
+                          onPractice && kind !== 'practice' && missedKeys.length > 0
+                            ? () => onPractice(missedKeys)
+                            : undefined
+                        }
                         xp={kind === 'practice' ? 0 : level.xp}
                         daily={!testBench && !!onComplete && kind === 'lesson'}
                         practice={kind === 'practice'}

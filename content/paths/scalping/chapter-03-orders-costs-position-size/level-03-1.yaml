@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [spread, target, expected-move]
+icon: judge
 learning_goal: "User judges a spread as a fraction of the move they are going for, and ignores the share price entirely when doing it."
 purpose: "A gap that looks tiny in dollars can be most of a scalp, and the only way to tell is to hold it against the move."
 terms_introduced: ["Target", "Expected move"]

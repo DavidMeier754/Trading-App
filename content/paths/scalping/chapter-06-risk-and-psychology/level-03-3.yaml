@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [risk, management, stops, trend]
+icon: manage
 learning_goal: "User trails a stop under each new higher low, knows it always gives back the last leg, and does not run one in a chart with no legs."
 purpose: "A trail is how a scalp is allowed to become a bigger winner without anybody having to guess where the move ends."
 terms_introduced: ["Trailing stop"]

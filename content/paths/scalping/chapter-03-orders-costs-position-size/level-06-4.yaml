@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [orders, execution, tickets]
+icon: ticket
 learning_goal: "User fills in a complete ticket — side, type, quantity and price — for an immediate entry, a resting entry and an immediate exit."
 purpose: "Knowing the two order types is not the same as being able to send one without thinking about it."
 terms_introduced: []

@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [scanner, columns, selection]
+icon: scanner
 learning_goal: "User names what each column of a scanner is for, and reads a row as four answers rather than as a recommendation."
 purpose: "The tool that hands you the morning's names is the one tool a scalper uses every single day, and it is usually read wrong."
 terms_introduced: ["Scanner"]

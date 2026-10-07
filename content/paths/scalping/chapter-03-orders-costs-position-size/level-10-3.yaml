@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [position-size, risk, account]
+icon: size
 learning_goal: "User computes both ceilings — risk budget divided by stop distance, and account divided by share price — and takes the lower one."
 purpose: "A share count the stop allows but the account cannot pay for is not a position, and on a small account it is the usual answer."
 terms_introduced: ["Account ceiling"]

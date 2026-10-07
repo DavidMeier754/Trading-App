@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [relative-volume, liquidity, selection]
+icon: rvol
 learning_goal: "User keeps the multiple and the absolute minute volume apart, and rejects a high multiple of a name that barely trades."
 purpose: "The two numbers answer different questions, and a beginner who uses one of them for both jobs ends up in the least tradeable name on the list."
 terms_introduced: []

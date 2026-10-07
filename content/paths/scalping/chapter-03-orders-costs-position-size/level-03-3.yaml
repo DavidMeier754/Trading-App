@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [spread, volatility, opening]
+icon: judge
 learning_goal: "User expects the spread to widen at the open and on news, and checks it at the moment of acting rather than the moment of deciding."
 purpose: "A gap is a live number, and the moments a scalper most wants to trade are the moments it is worst."
 terms_introduced: []

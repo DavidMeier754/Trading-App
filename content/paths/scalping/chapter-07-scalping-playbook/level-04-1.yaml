@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: new-theory
 tags: [momentum, setup-c, playbook]
+icon: momentum
 learning_goal: "User can identify a leg, judge whether the pullback is shallow enough, and place the entry, stop and measured-move target."
 purpose: "Most of a fast move happens after the first push, and this is the card that gets you in without chasing."
 terms_introduced: ["Momentum continuation", "Measured move"]

@@ -8,6 +8,7 @@ import Backdrop from './components/Backdrop';
 import { GridOriginProvider } from './components/gridAlign';
 import ErrorBoundary, { DebugCrash } from './ErrorBoundary';
 import { isBonus, LessonEntry, LESSONS, nodeOf, TEST_BENCH } from './content';
+import { resolveKey, roundLevel } from './practice';
 import Home, { openHomeAt } from './home/Home';
 import { isMapStyle, setMapStyle } from './home/mapStyle';
 import { SUGGESTIONS } from './home/ideas';
@@ -241,6 +242,25 @@ export default function App() {
                       if (fresh.length) flySkills(fresh.length);
                     }}
                     contentWidth={contentWidth}
+                    // docs/ui/07-lesson-chapter-and-tier-complete.md §5.3: "Practice these" plays the
+                    // lesson's missed questions as a practice round (no hearts).
+                    onPractice={(keys) => {
+                      const picks = keys
+                        .map(resolveKey)
+                        .filter((q): q is NonNullable<typeof q> => q !== null);
+                      if (!picks.length) return;
+                      const { level, keys: roundKeys } = roundLevel(picks, {
+                        title: 'Your mistakes',
+                        intro: 'The questions you just missed, once more. No hearts, no timer.',
+                      });
+                      setEntry({
+                        id: `review-${entry.id}`,
+                        title: 'Your mistakes',
+                        subtitle: 'Your mistakes',
+                        level,
+                        practice: { keys: roundKeys },
+                      });
+                    }}
                     onQuit={() => {
                       // The first trade is shown once, finished or not.
                       if (entry === FIRST_TRADE) finishFirstTrade();

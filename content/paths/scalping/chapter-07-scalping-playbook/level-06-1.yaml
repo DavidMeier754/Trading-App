@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: new-theory
 tags: [mean-reversion, levels, setup-d, playbook]
+icon: mean-reversion
 learning_goal: "User can spot a stretched run into a marked level, take the rejection candle against it with a smaller share count, and target VWAP."
 purpose: "Price spends the session leaving VWAP and coming back to it; this is the card for the coming back."
 terms_introduced: ["Mean reversion"]

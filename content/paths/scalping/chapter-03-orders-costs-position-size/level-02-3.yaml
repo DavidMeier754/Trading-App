@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [spread, costs, size]
+icon: cost-spread
 learning_goal: "User converts a per-share spread into a dollar cost for a stated share count, and sees how size multiplies it."
 purpose: "Cents are what you read and dollars are what you lose, and scalping size makes the two look nothing alike."
 terms_introduced: []

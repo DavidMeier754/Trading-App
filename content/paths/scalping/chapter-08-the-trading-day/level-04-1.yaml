@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [pre-market, routine, plan, process]
+icon: session-pre
 learning_goal: "User knows what the hour before the bell has to produce, and that the page it ends on is written last because everything else feeds it."
 purpose: "Chapter 5 built a routine. This is the hour it lives in, and the document it leaves behind."
 terms_introduced: ["Pre-market plan"]

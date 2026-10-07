@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [scanner, shortlist, drill]
+icon: scanner
 learning_goal: "User turns a filtered, sorted list into the handful of names whose charts are worth opening, and stops there."
 purpose: "The shortlist is the only output of the whole scanner routine, and a shortlist of twenty is the same as no shortlist at all."
 terms_introduced: []

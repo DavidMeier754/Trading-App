@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [costs, reliability, fallback-plan]
+icon: checklist
 learning_goal: "User treats a dropping connection or a frozen screen as a hard no, and can say what a written fallback plan contains before it is needed."
 purpose: "Every cost in this chapter can be paid in cents. The one that cannot is the tools failing while you are holding stock."
 terms_introduced: ["Fallback plan"]

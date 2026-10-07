@@ -25,7 +25,7 @@ import type {
   VisualScreen as VisualS,
   WalkthroughScreen as Walkthrough,
 } from '../types';
-import Icon, { IconName } from '../home/icons';
+import Icon, { IconName, isIconName } from '../home/icons';
 import { market, PATHS, TradingPath } from '../content';
 import { toggleWanted, useProgress } from '../progress';
 import { Body, Card, ScreenTitle, Stack } from './common';
@@ -33,19 +33,13 @@ import { TermText } from '../lesson/termText';
 import Sparkline from '../components/Sparkline';
 
 /**
- * A carousel card's `icon` (docs/level-files/), drawn where there is a drawing.
- * The rest still show their label's first letter -- three cards in a row whose
- * labels all began with N all read "N", which is why these came first.
+ * A carousel card's `icon` (docs/level-files/): every name the content uses is in
+ * the mapping table (home/symbols.tsx), and the validator rejects any other.
+ * A card without one shows its label's first letter.
  */
-const CARD_ICON: Record<string, IconName> = {
-  news: 'news',
-  'market-wide': 'globe',
-  institution: 'bank',
-  // The three styles wear the path cards' own icons (PATH_CARDS below).
-  'style-scalp': 'bolt',
-  'style-day': 'clock',
-  'style-swing': 'calendar',
-};
+function cardIcon(name: string | undefined): IconName | null {
+  return name && isIconName(name) ? name : null;
+}
 
 /**
  * The non-question archetypes from docs/ui/03-screen-types.md §3 that are not intro / theory /
@@ -68,8 +62,8 @@ export function CarouselScreen({
   const face = (card: Carousel['cards'][number]) => (
     <Card style={styles.carouselCard}>
       <View style={styles.iconBubble}>
-        {CARD_ICON[card.icon ?? ''] ? (
-          <Icon name={CARD_ICON[card.icon ?? '']} size={22} color={colors.accent} />
+        {cardIcon(card.icon) ? (
+          <Icon name={cardIcon(card.icon)!} size={22} color={colors.accent} />
         ) : (
           <Text style={styles.iconText}>{(card.label ?? '?').slice(0, 1)}</Text>
         )}

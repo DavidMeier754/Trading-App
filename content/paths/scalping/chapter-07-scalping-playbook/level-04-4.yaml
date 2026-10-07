@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: repetition
 tags: [momentum, setup-c, practice, management]
+icon: momentum
 learning_goal: "User sorts continuations from unwinding pushes at a glance, manages one to its invalidation rather than its stop, and places the stop against the pause instead of the leg."
 purpose: "This card comes round more often than any other, so the cost of judging it slowly is paid several times a morning."
 terms_introduced: []

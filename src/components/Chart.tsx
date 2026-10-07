@@ -46,6 +46,8 @@ import { describeChart, PILL_LINE_H, zoneLabel, zonePillLines, zonePillSize } fr
 import { type ChartMove, startChartMove } from '../lesson/haptics';
 import { tint, useLookSpec } from '../lesson/look';
 import { Arrive } from '../lesson/Celebrate';
+import { BADGE, ExplainBadge, ExplainKeyButton } from './ExplainKey';
+import type { ExplainItem } from './explain';
 import { detentFeedback } from '../lesson/feedback';
 import { DURATION, EASE_OUT_SETTLE } from '../lesson/motion';
 import { useReduceMotion } from '../lesson/useReduceMotion';
@@ -1254,6 +1256,15 @@ type Props = {
   zoom?: boolean;
   /** The plot takes all the height given, not whole backdrop steps (chartLayout). */
   free?: boolean;
+  /**
+   * docs/ui/08-quotes-and-charts.md §6.4a: the "?" key. What this screen can label, already
+   * cut to what the learner has been taught (explain.ts); the chart numbers
+   * the ones it draws and holds the legend. Without any, there is no key.
+   */
+  explain?: ExplainItem[];
+  /** The key's state, when the screen holds it (the state chips above share it). */
+  explainOn?: boolean;
+  onExplain?: () => void;
 };
 
 /**
@@ -1496,6 +1507,9 @@ function Chart({
   scrub = false,
   zoom = false,
   free = false,
+  explain,
+  explainOn,
+  onExplain,
 }: Props) {
   const lookSpec = useLookSpec();
   // Ids of this chart's own clip paths: more than one chart can share a page.
@@ -1988,6 +2002,39 @@ function Chart({
     const noted = showNotes && notes?.length ? ` ${notes.map((x) => x.text).join('. ')}.` : '';
     return said + noted;
   }, [spec, shown, showDecisionMarker, showNotes, notes]);
+
+  // docs/ui/08-quotes-and-charts.md §6.4a: the "?" key. Off while the replay plays (the chart
+  // is a key that skips it then), and on only while the learner keeps it on.
+  const [ownExplain, setOwnExplain] = useState(false);
+  const explainKeyShown = !!explain?.length && !playback;
+  const labelsOn = explainKeyShown && (explainOn ?? ownExplain);
+  const toggleExplain = useCallback(() => {
+    if (onExplain) onExplain();
+    else setOwnExplain((v) => !v);
+  }, [onExplain]);
+  // Where each element's number goes: at the element, inside the plot.
+  const explainAnchors = useMemo(() => {
+    const out: Record<string, { x: number; y: number }> = {};
+    if (!labelsOn) return out;
+    const right = PAD_LEFT + plotW;
+    const inPlot = (yy: number) => yy >= padTop - 2 && yy <= padTop + priceH + 2;
+    const k = Math.max(0, shown - 1);
+    if (spec.vwap && shown > 0 && spec.vwap[k] !== undefined && inPlot(y(spec.vwap[k])))
+      out.vwap = { x: Math.min(right - 12, cx(k) + bodyW / 2 + 12), y: y(spec.vwap[k]) };
+    (spec.levels ?? []).forEach((lvl, i) => {
+      if (inPlot(y(lvl.price))) out[`level:${i}`] = { x: right - 14, y: y(lvl.price) };
+    });
+    if (hasVolume) out.volume = { x: PAD_LEFT + 12, y: volTop + volH / 2 };
+    if (pillZone && pillZone.label)
+      out.pill = { x: (pillZone.x0 + pillZone.x1) / 2, y: pillZone.midY - 26 };
+    if (plan && planShown) {
+      if (inPlot(y(plan.stop))) out.stop = { x: right - 40, y: y(plan.stop) };
+      if (inPlot(y(plan.target))) out.target = { x: right - 40, y: y(plan.target) };
+    }
+    if (plan && ruler) out.ruler = { x: rulerX + 12, y: y(plan.entry) };
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [labelsOn, layout, shown, spec, hasVolume, pillZone, plan, planShown, ruler, rulerX]);
 
   return (
     <GestureDetector gesture={pinch}>
@@ -2501,6 +2548,18 @@ function Chart({
             />
           </GestureDetector>
         ) : null}
+        {explainKeyShown ? (
+          <ExplainOverlay
+            items={explain ?? []}
+            on={labelsOn}
+            onToggle={toggleExplain}
+            anchors={explainAnchors}
+            keyX={PAD_LEFT + plotW - 48}
+            keyY={padTop - 6}
+            width={width}
+            height={height}
+          />
+        ) : null}
         {zoomOn && zoomed ? (
           // A tap gesture, not a Pressable: it sits inside the chart's own
           // gestures (and, on a decision, a key that is off while the learner
@@ -2521,6 +2580,57 @@ function Chart({
         ) : null}
       </View>
     </GestureDetector>
+  );
+}
+
+/**
+ * docs/ui/08-quotes-and-charts.md §6.4a: the "?" key in the top-right corner of the plot, and
+ * with it pressed, a number at every element it labels. The legend with the
+ * numbers' names and lines is the screen's, under the chart (ExplainLegend),
+ * so nothing on the chart is covered by it.
+ */
+function ExplainOverlay({
+  items,
+  on,
+  onToggle,
+  anchors,
+  keyX,
+  keyY,
+  width,
+  height,
+}: {
+  items: ExplainItem[];
+  on: boolean;
+  onToggle: () => void;
+  anchors: Record<string, { x: number; y: number }>;
+  keyX: number;
+  keyY: number;
+  width: number;
+  height: number;
+}) {
+  return (
+    <>
+      {on
+        ? items.map((it, i) => {
+            const at = anchors[it.key];
+            return at ? (
+              <ExplainBadge
+                key={it.key}
+                n={i + 1}
+                style={{
+                  left: Math.max(0, Math.min(width - BADGE, at.x - BADGE / 2)),
+                  top: Math.max(0, Math.min(height - BADGE, at.y - BADGE / 2)),
+                }}
+              />
+            ) : null;
+          })
+        : null}
+      <ExplainKeyButton
+        on={on}
+        onToggle={onToggle}
+        style={{ position: 'absolute', left: keyX, top: Math.max(0, keyY) }}
+      />
+    </>
   );
 }
 

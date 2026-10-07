@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [risk, sizing, drawdown, execution]
+icon: size
 learning_goal: "User raises share size one written step at a time, on a rule fixed before the drawdown, and can say what a single good morning is worth as evidence."
 purpose: "Coming back too fast is how a recovered drawdown becomes a deeper one."
 terms_introduced: []

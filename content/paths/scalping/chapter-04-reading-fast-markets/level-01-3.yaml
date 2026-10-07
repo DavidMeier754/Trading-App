@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [vwap, participants]
+icon: vwap
 learning_goal: "User can explain why large orders are measured against VWAP and why that makes price react at the line."
 purpose: "The line works because of who is being graded on it, and Chapter 1 already introduced every one of those people."
 terms_introduced: []

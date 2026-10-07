@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [psychology, tilt, overtrading]
+icon: tilt
 learning_goal: "User names revenge trading, FOMO and chasing, and recognizes tilt in their own behavior before the next trade."
 purpose: "The most expensive trades of a scalper's month are usually the ones taken right after a loss."
 terms_introduced: ["Overtrading", "Revenge trade", "FOMO", "Chasing", "Tilt"]

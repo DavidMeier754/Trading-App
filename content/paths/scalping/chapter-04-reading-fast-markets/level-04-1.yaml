@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: repetition
 tags: [levels, vwap, costs, position-size]
+icon: map
 learning_goal: "User prices every read before taking it: the cost against the distance to the next line, and the size against both ceilings."
 purpose: "A good read you cannot afford is not a trade, and the only way to know is to price it before you send anything."
 terms_introduced: []

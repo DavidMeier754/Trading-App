@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [level-2, order-book, synthesis]
+icon: depth
 learning_goal: "User reads a stacked resting order alongside the candle it sits under, walks a second order through the book, and treats book depth as a clue rather than a guarantee."
 purpose: "Closing the level: the book, the tape and the chart are three views of the same few seconds, and they're most useful read together."
 terms_introduced: []

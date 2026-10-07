@@ -70,9 +70,22 @@ REQUIRED = [
 ]
 
 
-# docs/level-files/ `icon`: the names src/home/icons.tsx can draw, read from its
-# ICON_NAMES list so the two cannot drift apart.
-ICON_NAMES = set(re.findall(r"^  '([a-z-]+)',$", (ROOT / "src/home/icons.tsx").read_text().split("] as const")[0].split("ICON_NAMES = [")[1], re.M))
+# docs/level-files/ `icon`: the names the app can draw, read from its lists so the
+# two cannot drift apart: the icons drawn by hand (ICON_NAMES in
+# src/home/icons.tsx) and the mapping table (ALIASES and SYMBOLS in
+# src/home/symbols.tsx, one entry a line). A level's icon and a carousel card's
+# icon are both checked against them.
+def _table_names(text, const):
+    body = text.split(f"export const {const} = {{")[1].split("\n}")[0]
+    return set(re.findall(r"^  '?([a-z0-9-]+)'?: ", body, re.M))
+
+
+_SYMBOLS_TSX = (ROOT / "src/home/symbols.tsx").read_text()
+ICON_NAMES = (
+    set(re.findall(r"^  '([a-z0-9-]+)',$", (ROOT / "src/home/icons.tsx").read_text().split("] as const")[0].split("ICON_NAMES = [")[1], re.M))
+    | _table_names(_SYMBOLS_TSX, "ALIASES")
+    | _table_names(_SYMBOLS_TSX, "SYMBOLS")
+)
 
 # numbers, money and percentages collapse to "#" so two sentences that differ only
 # in their figures count as one shape
@@ -965,7 +978,13 @@ def validate_file(path, data, rep):
     if data["category"] not in CATEGORIES:
         rep.err(f, f"bad category '{data['category']}'")
     if "icon" in data and data["icon"] not in ICON_NAMES:
-        rep.err(f, f"icon '{data['icon']}' is not one src/home/icons.tsx draws")
+        rep.err(f, f"icon '{data['icon']}' is not one the app draws (src/home/icons.tsx, src/home/symbols.tsx)")
+    for n, sc in enumerate(data.get("screens") or [], 1):
+        if isinstance(sc, dict) and sc.get("type") == "carousel":
+            for card in sc.get("cards") or []:
+                if isinstance(card, dict) and "icon" in card and card["icon"] not in ICON_NAMES:
+                    rep.err(f, f"screen {n}: carousel icon '{card['icon']}' is not in the mapping table "
+                               "(src/home/icons.tsx, src/home/symbols.tsx)")
     if data["path"] not in PATHS:
         rep.err(f, f"bad path '{data['path']}'")
     if "reinforces" in data and data["reinforces"] is not None:
@@ -1060,6 +1079,17 @@ def validate_chapter(folder, files, rep, known_terms):
     for lvl, names in icons.items():
         if len(names) > 1:
             rep.err(folder, f"level {lvl} names more than one icon: {sorted(names)}")
+    # [LOOK-COMPONENTS] Every level of lessons shows its own symbol on the map:
+    # one that names none falls back to the bulb or the round arrows its type
+    # draws. Tests, exams and the path choice keep their own symbols.
+    lesson_levels = {
+        level_key(d["id"])[0] for d in files
+        if d.get("category") in ("new-theory", "repetition")
+        and not any(isinstance(sc, dict) and sc.get("type") == "path-choice" for sc in d.get("screens") or [])
+    }
+    for lvl in sorted(lesson_levels):
+        if lvl not in icons:
+            rep.warn(folder, f"level {lvl} has no icon: none of its lessons names one (docs/level-files/01-header.md)")
     for i, d in enumerate(ordered):
         p = d.get("prerequisite")
         if p is not None and p not in ids:

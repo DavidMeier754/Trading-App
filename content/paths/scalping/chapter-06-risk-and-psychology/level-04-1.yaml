@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: repetition
 tags: [practice, risk, sizing, r-multiple]
+icon: r-unit
 learning_goal: "User sizes, stops and grades five different trades in R, and handles one that goes against them without changing the plan."
 purpose: "The arithmetic has to be automatic before the charts start coming at you four a minute."
 terms_introduced: []

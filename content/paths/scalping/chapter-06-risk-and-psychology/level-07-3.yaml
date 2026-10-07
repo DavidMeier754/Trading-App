@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [expectancy, costs, frequency]
+icon: cost-spread
 learning_goal: "User can show what halving trade count does to a day's total, and picks trades by the size of the move on offer against the round trip."
 purpose: "Frequency is the one thing a scalper controls completely, and it multiplies whichever average they happen to have."
 terms_introduced: []

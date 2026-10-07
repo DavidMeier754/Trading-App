@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [expectancy, win-rate, risk]
+icon: expectancy
 learning_goal: "User refuses to judge a method by its win rate and always reads it next to the average win and the average loss."
 purpose: "The number every beginner quotes is the one number that cannot answer the question on its own."
 terms_introduced: []

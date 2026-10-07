@@ -452,6 +452,7 @@ export function SpotMistakeScreen({
 }) {
   const picked = value.kind === 'index' ? value.index : null;
   const wrongIndex = screen.segments.findIndex((s) => s.wrong);
+  const accent = useLookSpec().accent;
 
   const toneFor = (i: number): Tone => {
     if (!revealed) return picked === i ? 'selected' : 'idle';
@@ -460,24 +461,42 @@ export function SpotMistakeScreen({
     return 'idle';
   };
 
+  // [LOOK-COMPONENTS] One sentence (docs/ui/04-question-types.md §4.1): the parts run on as
+  // the words of one paragraph, each a tap of its own, on a soft ground and a dotted
+  // underline; the one picked is lit, and after Check the wrong part turns
+  // green (found) and a wrong pick red, in place, so nothing reflows.
+  const styleFor = (i: number) => {
+    const tone = toneFor(i);
+    if (tone === 'selected') return [styles.partOn, { backgroundColor: tint(accent, 0.22) }];
+    if (tone === 'correct') return [styles.partOn, styles.partRight];
+    if (tone === 'wrong') return [styles.partOn, styles.partWrong];
+    return styles.partIdle;
+  };
+
   return (
     <View style={styles.wrap}>
       <Prompt>{screen.prompt}</Prompt>
-      <View style={styles.segments}>
+      <Text style={styles.sentenceParts}>
         {screen.segments.map((segment, i) => (
-          <ToneSurface
-            key={segment.text}
-            tone={toneFor(i)}
-            disabled={revealed}
-            onPress={() => {
-              onChange({ kind: 'index', index: picked === i ? null : i });
-            }}
-            style={styles.segment}
-          >
-            <Text style={styles.segmentText}>{copy(segment.text)}</Text>
-          </ToneSurface>
+          <React.Fragment key={`${i}-${segment.text}`}>
+            {i > 0 ? ' ' : null}
+            <Text
+              accessibilityRole="button"
+              accessibilityLabel={`Part ${i + 1} of ${screen.segments.length}: ${copy(segment.text)}`}
+              accessibilityState={{ selected: picked === i, disabled: revealed }}
+              disabled={revealed}
+              suppressHighlighting
+              onPress={() => {
+                tapFeedback();
+                onChange({ kind: 'index', index: picked === i ? null : i });
+              }}
+              style={[styles.part, styleFor(i)]}
+            >
+              {copy(segment.text)}
+            </Text>
+          </React.Fragment>
         ))}
-      </View>
+      </Text>
     </View>
   );
 }
@@ -576,13 +595,18 @@ const styles = themed(() => ({
   slotHint: { ...type.small, color: colors.textFaint },
   // The parts run on as one sentence, wrapping like words do, rather than a
   // list of cards: the learner is reading a claim, and has to hear it whole.
-  segments: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, rowGap: space.sm },
-  segment: {
-    minHeight: TAP_TARGET,
-    maxWidth: '100%',
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    justifyContent: 'center',
+  // A line as tall as a finger is wide, so the parts on two lines stay apart.
+  sentenceParts: { ...type.prompt, color: colors.text, lineHeight: 40 },
+  part: { color: colors.text, borderRadius: radius.sm },
+  // Each part on a soft ground of its own, so where one ends and the next
+  // begins shows at a glance: the space between them stays bare.
+  partIdle: {
+    backgroundColor: colors.surfaceAlt,
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'dotted',
+    textDecorationColor: colors.textMuted,
   },
-  segmentText: { ...type.answer, color: colors.text },
+  partOn: { fontWeight: '700' },
+  partRight: { backgroundColor: colors.successTint, color: colors.success },
+  partWrong: { backgroundColor: colors.downTint, color: colors.down },
 }));

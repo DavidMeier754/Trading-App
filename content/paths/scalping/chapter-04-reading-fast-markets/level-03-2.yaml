@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [levels, premarket, sessions]
+icon: levels
 learning_goal: "User can mark the extremes of the pre-market session and today's opening price, and say which of the day's lines exist before the bell."
 purpose: "The first part of the session trades against prices set before anybody sat down, and the opening price splits the day in two."
 terms_introduced: []

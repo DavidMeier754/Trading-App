@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [scanner, gapper, premarket]
+icon: scanner
 learning_goal: "User knows which of the two lists to read before the open and which after it, and that a gap is a question rather than a direction."
 purpose: "The two lists answer different questions, and reading the wrong one at the wrong time is how a morning gets spent on names that stopped moving an hour ago."
 terms_introduced: ["Gapper"]

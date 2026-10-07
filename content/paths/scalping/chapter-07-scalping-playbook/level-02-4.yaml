@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: repetition
 tags: [vwap, setup-a, management, decisions]
+icon: vwap
 learning_goal: "User tells the bounce from its mirror image, holds a live bounce to the card's target without renegotiating it, and books the trade in R."
 purpose: "Most of what goes wrong with a good card goes wrong after the fill."
 terms_introduced: []

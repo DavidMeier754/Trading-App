@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: repetition
 tags: [drills, orders, ladder, practice]
+icon: drill
 learning_goal: "User works a short from ticket to fill, reads the average a two-row fill produces, and sends only on the close the plan named."
 purpose: "The second half of execution is knowing when not to press, and the candle decides that, not you."
 terms_introduced: []

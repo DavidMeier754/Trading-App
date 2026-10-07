@@ -11,6 +11,7 @@ Errors (must fix):
 - ≥3 distinct question types (lessons); no more than 2 `mc`/`numeric-mc` in a row.
 - `mc`/`numeric-mc`: 2–4 options, exactly one `correct`, unique texts. `tf.answer` boolean. `fill-tiles.answer` one word. `match`: 2–5 pairs, unique left and right. `sort`: every item's bucket exists. `chart-decision.best` in its buttons.
 - Every question screen has an `explanation`.
+- **[LOOK-COMPONENTS]** A header's `icon` and every carousel card's `icon` is a name the app draws (`src/home/icons.tsx`, the mapping table in `src/home/symbols.tsx`); the lessons of one level name one icon at most.
 - `prerequisite` exists in the same chapter.
 - **[v3]** `reinforces` is a list of integers, each lower than this file's `chapter`.
 - **[v3]** On any `chart-decision` with `best` of `long` or `short`, `reasonable` contains `no-trade`.
@@ -24,6 +25,7 @@ Warnings (review):
 - A glossary term used in a question before the sub-level that introduces it. Known terms = Chapter 1 terms plus terms from lower-numbered chapters of the same path.
 - A term re-introduced that a lower chapter already introduced.
 - Folder chapter number differs from the `chapter` field.
+- **[LOOK-COMPONENTS]** A level of `new-theory` or `repetition` lessons none of which names an `icon`: its node would show only the bulb or the round arrows.
 - Identical prompt text in two different files of the same chapter (prompt *and* answer content; a shared prompt over different content is caught by the chapter-level rule below).
 - Level without a visual/interactive screen in Chapter ≥2.
 - More than 5 `repetition` sub-levels in a row. A `test` or `final-exam` sub neither extends the run nor resets it; only a `new-theory` sub resets it (`docs/rules/03-content-rules.md` §3.2).

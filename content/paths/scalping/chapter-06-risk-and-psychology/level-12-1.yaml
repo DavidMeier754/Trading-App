@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [psychology, routine, sizing]
+icon: reset
 learning_goal: "User follows a written reset routine after a bad run and returns at half size instead of full size."
 purpose: "Willpower is the tool that breaks first; a routine decided in advance is the one that still works."
 terms_introduced: ["Reset routine"]
