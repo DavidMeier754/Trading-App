@@ -26,7 +26,7 @@ import {
   longestDecisionReveal,
   positionTag,
 } from '../lesson/decisionReveal';
-import { DecisionSpace, useLessonInfo } from '../lesson/lessonContext';
+import { DecisionSpace, RevealAside, useLessonInfo } from '../lesson/lessonContext';
 import { tradePlanOf } from '../lesson/tradePlan';
 import { useProgress } from '../progress';
 import { knowsR } from '../skills';
@@ -313,6 +313,28 @@ export default function ChartDecisionScreen({
 
   // Once the brief has folded the chart starts at the top of the area, so it
   // ends at its own height: the reveal takes the room from there to the key.
+  // docs/ui/08-quotes-and-charts.md §6.4a: the "?" key's legend goes under the chart, which
+  // gives up exactly its room while the learner decides. Once the verdict
+  // shows, the legend takes the verdict's place instead (it steps aside,
+  // RevealAside) and the chart keeps its size: giving up the legend's room as
+  // well as the verdict's left it squeezed (David, 2026-10-08), and a chart
+  // that changed size would move the key from under the finger. Only a legend
+  // taller than the verdict takes the difference from the chart. Pressed
+  // again, the verdict is back where it was.
+  const setAside = React.useContext(RevealAside);
+  const aside = explainOn && phase === 'done';
+  useEffect(() => {
+    setAside(aside);
+  }, [aside, setAside]);
+  useEffect(() => () => setAside(false), [setAside]);
+  const fullHeight = room !== undefined ? room - FIT_SLACK : chartHeight;
+  const shownHeight = !explainOn
+    ? chartHeight
+    : Math.max(
+        least,
+        aside ? Math.min(chartHeight, fullHeight - legendRoom) : chartHeight - legendRoom,
+      );
+
   const reportBottom = React.useContext(DecisionSpace);
   useEffect(() => {
     reportBottom(phase !== 'deciding' && folded ? chartHeight : null);
@@ -428,7 +450,7 @@ export default function ChartDecisionScreen({
               playback={playing ? progress : undefined}
               gridAnchor={grid.gridAnchor}
               width={chartWidth}
-              height={explainOn ? Math.max(least, chartHeight - legendRoom) : chartHeight}
+              height={shownHeight}
               outcome={phase === 'done' ? outcome : undefined}
               plan={plan ?? undefined}
               planShown={choice !== null}

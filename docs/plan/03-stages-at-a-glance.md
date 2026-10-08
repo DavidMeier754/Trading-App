@@ -4,11 +4,13 @@ _Part of the [build plan](README.md) · §2–3_
 
 ## 2. All stages at a glance
 
-The plan as David approved it on 2026-10-05, in the order he set on 2026-10-06: **one stage at a time, top to bottom.** In Phases 1 and 2 the app comes first, then the content (`02-how-to-work.md` §1, "One stage at a time"). **The next stage is the first one without ✅.**
+The plan as David approved it on 2026-10-05, in the order he set on 2026-10-06: **one stage at a time, top to bottom.** In Phases 1 and 2 the app comes first, then the content (`02-how-to-work.md` §1, "One stage at a time"). **The next stage is the first one without ✅**, and in it the first session without ✅.
+
+**How the marks get here** (David, 2026-10-08). Every stage PR carries its own mark from its first push: "session 1 ✅" after the stage's name for a finished session of a stage with several, ✅ on the stage once nothing of it is left. The mark reaches `main` when the PR is merged, so this table always shows what is merged, and `Next stage.` (`02-how-to-work.md` §1) starts at the right row. A skipped `YOUR-TURN` reads "✅ skipped".
 
 After every block there is a **`YOUR-TURN`** stage: you change whatever you want, the design or anything else (`22-your-turn.md`). Skip it if you have nothing; start an extra one between any two stages if you like.
 
-Column "Test" = your time for the acceptance test. Session counts are estimates; each session is one Claude Code session with its own PR. The finished stages are in `05-done-so-far.md`.
+Column "Needs you" = what the stage is likely to ask of you; the report's "Needs your review" says what it actually does, often nothing. Session counts are estimates; each session is one Claude Code session with its own PR. The finished stages are in `05-done-so-far.md`.
 
 ### Phase 1 – Scalping, finished
 
@@ -16,7 +18,7 @@ Column "Test" = your time for the acceptance test. Session counts are estimates;
 
 | Stage | What | Model · effort | Sessions | Test | File |
 |---|---|---|---|---|---|
-| `LOOK-COMPONENTS` | Charts and the reveal: round prices, "Next 5 candles", candles that form, the trade log, the "?" key, an icon for every level | Opus 5.5 · high | 1–2 | 30 min | `06` |
+| `LOOK-COMPONENTS` ✅ | Charts and the reveal: round prices, "Next 5 candles", candles that form, the trade log, the "?" key, an icon for every level | Opus 5.5 · high | 1–2 | 30 min | `06` |
 | `VISUALS` | Candle anatomy and the trade plan as components | Opus 5.5 · high | 1 | 15 min | `06` |
 | `YOUR-TURN-1` | **Your changes** to the lesson screens: charts, graphics, the reveal | Opus 5.5 · high, plan mode | 0–1 | as you like | `22` |
 | `LOOP-HEARTS` | Review cards, the test summary, out of hearts, XP rules, the one switch for Plus | Opus 5.5 · high, plan mode | 1 | 30 min | `07` |
@@ -102,12 +104,12 @@ Starts when the English course is final (after `YOUR-TURN-8`). A later change to
 
 ---
 
-## 3. Where things stand today (2026-10-06)
+## 3. Where things stand today (2026-10-08)
 
 | | |
 |---|---|
 | Content | Chapter 1 (48 lessons, including the path choice) + Scalping Chapters 2–8 (340) = **388 lessons**. The content review's cross-chapter fixes are in (`CONTENT-REVIEW`, PR #24); every other approved item waits in `docs/content-todo/05-content-review.md` for its `CONTENT-FIX`. Swing and Day Trading: outlined only (`docs/course/`). Chapter 9: outlined (`docs/course/08-chapter-9-your-own-strategy.md`). |
 | Gaps in the content | Chapter 8 Level 15 (`OFFER`), lesson 1·2-4 (`VARIANCE`), Chapter 7's Setup I (`CONTENT-FIX-7`), Chapter 9 (`OWN-STRATEGY`). |
-| App | Plays every written lesson; the render test opens every screen with 0 crashes. The look, the map, the reveal, hearts, the mistakes round, the Practice tab, Account and the first trade are built (`DESIGN-REVIEW`). The Expo Go QR code works on every PR. |
-| Tools | Validator: 0 errors, 12 warnings. Self-test 224/224. Sizing: 0 positions over the cap. |
-| Next | `LOOK-COMPONENTS`, the first stage of Phase 1's app part. The content part starts with `RULES` after `YOUR-TURN-3`. |
+| App | Plays every written lesson; the render test opens every screen with 0 crashes. The look, the map, the reveal, hearts, the mistakes round, the Practice tab, Account and the first trade are built (`DESIGN-REVIEW`); the charts like TradingView, the "?" key, a symbol for every level and every carousel card (`LOOK-COMPONENTS`). Settings → Testing → Open a screen opens any screen by its link. The Expo Go QR code works on every PR. |
+| Tools | Validator: 0 errors, 12 warnings. Self-test 231/231. Sizing: 0 positions over the cap. |
+| Next | `VISUALS`. The content part starts with `RULES` after `YOUR-TURN-3`. Each stage PR updates this line along with its ✅. |

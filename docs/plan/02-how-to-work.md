@@ -17,24 +17,32 @@ _Part of the [build plan](README.md) · §1_
 
 **Your turn** (David, 2026-10-06). After every block of stages comes a `YOUR-TURN` stage: you change whatever you want, the design or anything else (`22-your-turn.md`). You may start an extra one between any two stages, or skip one. A wish you have while testing another stage waits for it under "Parked wishes" in the same file.
 
+**One prompt for every session** (David, 2026-10-08: no more copying prompts from a cheat sheet). You send the same words each time; the session finds the next step in this plan itself.
+
 1. **Open a session:** Claude Code (the app or claude.ai/code) → repository `DavidMeier754/Trading-App` → new session. A session starts with the repository and nothing else; `CLAUDE.md` tells it what to read.
-2. **Set model and effort before you send the prompt** — the stage's "Model · effort · sessions" line says which:
+2. **Set model and effort before you send the prompt.** The last report's "Next:" line says which, from the "Model · effort" column of section 2:
    - `/model opus` (= Opus 5.5), `/model fable` (= Fable 5.1, if your plan has it), `/model sonnet` (= Sonnet 5).
    - `/effort high`, `/effort xhigh` or `/effort max`.
    - **Important:** Opus 5.5 defaults to `medium`. Set the effort deliberately every time.
-   - Where it says "plan mode": Claude shows its plan first; you read it and approve it before anything is built.
-3. **Paste the prompt:** the stage's prompt from its code block, unchanged. You fill in the placeholders in `[…]` (e.g. `session 2`). For stages with "You prepare" material (a critique, feedback, an export), paste it under the prompt or attach it.
-4. **Claude works:**
-   - on the branch the session creates;
-   - opens a draft PR against `main` (stacked on an open PR's branch only when the stage builds on work that is not merged yet, and then it says so);
-   - drives every check to green;
-   - writes the report in the session, with **your test checklist** and real links to the preview.
-5. **You test** on your phone and answer **in the same session**:
-   - `OK <STAGE> – merge` → Claude merges the PR once every check on it is green (merge rule in `CLAUDE.md`), and the stage gets its ✅ in section 2. You can also merge the PR yourself on GitHub.
-   - or a list of problems (template "Bug report", Appendix A) → Claude fixes them in the same session and PR, and you test again.
+   - Where it says "plan mode", the session shows you its plan first and builds nothing until you say OK.
+3. **Send the prompt:**
+   ```
+   Next stage.
+   ```
+   Lines under it are for what only you can give: your wishes for a `YOUR-TURN`, material a stage asks you to prepare ("You prepare"), `skip YOUR-TURN-3`. If a stage needs something and the prompt does not carry it, the session asks.
+4. **Claude finds and does the step** (`CLAUDE.md`, "Next stage."):
+   - the first stage in section 2 without ✅, and in it the first session without ✅;
+   - that stage section's "Session instructions" are its prompt; it reads `docs/` as they say;
+   - it works on the branch the session creates and opens a draft PR against `main` (stacked on an open PR's branch only when you say so);
+   - **the PR marks its own step done:** "session n ✅" in the stage's row of section 2, or ✅ on the stage once nothing of it is left, with its line in `05-done-so-far.md` and the "Next" line of section 3. The mark lands on `main` with the merge and never before, so whoever merges, the next "Next stage." starts at the right place;
+   - it drives every check to green and checks the changed screens itself (screenshots at phone size, both themes, the states that matter);
+   - it writes the report in the session, with **"Needs your review"** only where you are really needed (below).
+5. **You answer in the same session:**
+   - `OK <STAGE> – merge` → Claude merges the PR once every check on it is green (merge rule in `CLAUDE.md`). You can also merge it yourself on GitHub; the ✅ is already in it.
+   - or a list of problems (template "Bug report", Appendix A) → Claude fixes them in the same session and PR.
    - A wish that is not a problem of this stage (something new, a different look) → Claude writes it under "Parked wishes" in `22-your-turn.md`, in this PR, and your next `YOUR-TURN` builds it.
-6. **Next stage = new session.** A fresh context is more accurate and cheaper. The next stage is the first one without ✅ in section 2. A stage with several sessions in section 2 gets one session per part (`session 1`, `session 2`), each with its own PR.
-7. **Where to look:** the PR on GitHub shows the stage's state (its checks, the preview link, the report as its description). Questions about a running stage go into its session.
+6. **Next step = new session**, with the same prompt. A fresh context is more accurate and cheaper. A stage with several sessions in section 2 gets one session per part, each with its own PR.
+7. **Where to look:** the PR on GitHub shows the step's state (its checks, the preview link, the report as its description). Questions about a running step go into its session.
 
 ### Which model for what
 
@@ -64,11 +72,12 @@ These rules are in `CLAUDE.md`; the prompt does not have to repeat them.
 
 - **Only the session's own stage.** Anything noticed that belongs to a later stage goes into the report, not into the code. Your wishes beyond the stage go under "Parked wishes" in `22-your-turn.md`.
 - **The standard checks run before the report** (below), and all are green.
-- **The report**, in this order:
-  1. What was built.
-  2. Check results.
-  3. Your test checklist, with real preview links.
+- **The report**, in this order (`CLAUDE.md`, "The report"):
+  1. What was built, each item with where you can see it if you want to (a link, or the place in the app).
+  2. Check results, including what Claude looked at itself.
+  3. **Needs your review:** only what really needs you (below, "What needs you"). Often nothing.
   4. Open questions.
+  5. Next: the next step, with its model and effort.
 
   Then **the session stops** and waits for you.
 - **Everything in English:** code, content, docs, commits, PR texts and reports.
@@ -93,17 +102,30 @@ npm run smoke                              # from stage WIRE on: every screen re
 2. Check one callback against the lesson it refers to.
 3. Read one lesson as a beginner would. Boredom does not raise a warning.
 
-### How you test
+### What needs you, and how you look
 
+**Claude checks its own work** (David, 2026-10-08: "only mark something I should review if it's really necessary"). Before the report it opens every screen it changed in a test build and looks at it, at phone size, light and dark, in the states that matter (before and after the answer, reduced motion), besides the standard checks and the render test of every screen. What it has seen working goes under "What was built", with a link, and is yours to look at only if you want to.
+
+**"Needs your review"** lists only:
+- a **choice** only you can make: between versions, a design direction, a finding to decide, a wording that is a matter of taste;
+- what only a **real phone** shows (haptics, sound, how a gesture feels) when the stage is about exactly that;
+- what Claude **could not verify** itself, with the reason.
+
+If nothing is on it, the report says so, and you can merge without testing. Each stage's section has a "Needs you" line saying what is likely to come up, and a "Where to look" list of the links worth opening if you want to see the result.
+
+**How to look**
 - **Preview:**
-  - From stage `CI` on, every PR gets a link (web preview, for your phone).
+  - Every PR gets a link (web preview, for your phone).
   - Every PR also gets a QR code for Expo Go: real haptics, real sounds.
+- **Open a screen** (Settings → Testing, from 2026-10-08): type or paste a link from the report, with or without the `#`, or the whole preview address, and Open goes straight to that screen. The last six links stay under it, one tap each.
 - **Deep links open any screen directly:**
   - `<preview>/#level-09-2/3` = Chapter 1, Level 9, lesson 2, screen 3.
   - `#scalping-ch3-level-15-2/5` = Scalping Chapter 3.
   - `#all-screens/12` = test bench.
+  - `#home/settings`, `#home/animations` = a page of the home screen.
   - Append `?look=neoMono` or `?look=classicContrast` = a different look, `?theme=light` a different theme.
 - **Testing tools** (test builds only: every development run, so Expo Go, and exports with `EXPO_PUBLIC_TEST_TOOLS=1`) under Settings → Testing:
+  - "Open a screen" opens any screen by its link (above).
   - "Skip ahead" jumps to any level.
   - "Refill hearts" refills the hearts.
   - "Every screen type" opens the test bench.
@@ -112,7 +134,7 @@ npm run smoke                              # from stage WIRE on: every screen re
   - "New designs" plays a lesson made in code with every content field the content does not use yet: stop and target with the R ruler, chart notes, the open, a market alert, a checkpoint briefing, skills (from `DESIGN-REVIEW`).
   - "Show the first trade" opens the first-run decision again (from `DESIGN-REVIEW`).
   - From `LOOP-DAILY` on there is "Advance a day".
-- **Test on your phone**, not on your computer. The checklists below are written for that.
+- **On your phone**, not on your computer, when you do look.
 - **A feeling is enough.** If something bothers you but you cannot say why, describe it in words ("sluggish", "cheap", "confusing") with a screen link.
 
 ### When something goes wrong

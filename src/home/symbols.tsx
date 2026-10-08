@@ -5,7 +5,8 @@
  * tools/validate_content.py reads the three lists (ICON_NAMES in icons.tsx,
  * ALIASES and SYMBOLS below) and rejects any other name.
  *
- * The symbols come from Lucide (lucide-react-native, ISC licence): drawn on
+ * The symbols come from Lucide (lucide-react-native, ISC licence; its notice
+ * is in THIRD_PARTY_NOTICES.md): drawn on
  * the same 24-point grid with round 2-point strokes as the app's own icons,
  * so the two sit side by side. Each is imported on its own, so only these
  * end up in the app. One entry a line: the validator reads the names.

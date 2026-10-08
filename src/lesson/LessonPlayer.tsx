@@ -100,7 +100,7 @@ import { LESSONS } from '../content';
 import { answerSummary, questionLine } from './answerSummary';
 import { resolveKey } from '../practice';
 import { copy } from '../format';
-import { DecisionSpace, LessonContext } from './lessonContext';
+import { DecisionSpace, LessonContext, RevealAside } from './lessonContext';
 import MistakesDeck, { DEAL_MS, type DeckItem } from './MistakesDeck';
 import SkillsLearned from './SkillsLearned';
 import { TermSheet, TermsContext } from './terms';
@@ -231,6 +231,9 @@ export default function LessonPlayer({
   const [quitOpen, setQuitOpen] = useState(false);
   // Where a chart decision's chart ends, once its call is made (DecisionSpace).
   const [chartBottom, setChartBottom] = useState<number | null>(null);
+  // The verdict stepped aside for the "?" key's legend (RevealAside).
+  const [revealAside, setRevealAside] = useState(false);
+  useEffect(() => setRevealAside(false), [index]);
   // docs/ui/14-glossary-and-copy.md §8: the sheet of a marked term, open over the screen.
   const [termOpen, setTermOpen] = useState<string | null>(null);
   const closeTerm = useCallback(() => setTermOpen(null), []);
@@ -896,73 +899,77 @@ export default function LessonPlayer({
             {/* Which lesson this is, and the terms this screen marks (DESIGN-REVIEW). */}
             <LessonContext.Provider value={lessonInfo}>
               <DecisionSpace.Provider value={setChartBottom}>
-                <TermsContext.Provider value={{ ids: termPlan[index] ?? [], onOpen: setTermOpen }}>
-                  {/* The learner's plan, for every plan-sheet on any screen (review M1). */}
-                  <PlanValues.Provider value={plan}>
-                    {outOfHearts ? (
-                      <OutOfHearts />
-                    ) : atSummary ? (
-                      <LessonComplete
-                        screens={base}
-                        grades={mainGrades}
-                        levelTitle={level.title}
-                        subtitle={
-                          kind === 'practice'
-                            ? undefined
-                            : (level.subtitle ?? (testBench ? undefined : lessonEntry?.subtitle))
-                        }
-                        missed={missed.map((m) => m.line)}
-                        onPractice={
-                          onPractice && kind !== 'practice' && missedKeys.length > 0
-                            ? () => onPractice(missedKeys)
-                            : undefined
-                        }
-                        xp={kind === 'practice' ? 0 : level.xp}
-                        daily={!testBench && !!onComplete && kind === 'lesson'}
-                        practice={kind === 'practice'}
-                        gems={
-                          (kind === 'bonus' ? (level.gems ?? 0) : 0) +
-                          (tail?.screens.some((t) => t.type === 'chest') ? CHEST_PAYOUT : 0)
-                        }
-                        lessonId={lessonId ?? null}
-                      />
-                    ) : (screen as PlayerScreen).type === 'mistakes-deck' ? (
-                      <MistakesDeck
-                        items={(screen as unknown as DeckScreen).items}
-                        dealing={dealing}
-                      />
-                    ) : (screen as PlayerScreen).type === 'chest' ? (
-                      <ChestScreen open={cursor > 0} onOpen={() => setCursor(1)} />
-                    ) : (screen as PlayerScreen).type === 'skills-learned' ? (
-                      <SkillsLearned skills={(screen as unknown as SkillsScreen).skills} />
-                    ) : (
-                      renderScreen({
-                        screen: screen as Screen,
-                        value: value as AnswerValue,
-                        setValue,
-                        isRevealed,
-                        contentWidth,
-                        level,
-                        onPhaseChange: setDecisionPhase,
-                        cursor,
-                        setCursor,
-                        plan,
-                        setPlanValue: (key, v) => {
-                          setPlan((prev) => ({ ...prev, [key]: v }));
-                          // The plan is kept from every lesson on the path; the test
-                          // bench and the path choice only show it.
-                          if (!testBench && kind !== 'path') savePlan({ [key]: v });
-                        },
-                        pathChoice,
-                        setPathChoice,
-                        onSettled,
-                        allScreens: screens as Screen[],
-                        grades,
-                        briefing,
-                      })
-                    )}
-                  </PlanValues.Provider>
-                </TermsContext.Provider>
+                <RevealAside.Provider value={setRevealAside}>
+                  <TermsContext.Provider
+                    value={{ ids: termPlan[index] ?? [], onOpen: setTermOpen }}
+                  >
+                    {/* The learner's plan, for every plan-sheet on any screen (review M1). */}
+                    <PlanValues.Provider value={plan}>
+                      {outOfHearts ? (
+                        <OutOfHearts />
+                      ) : atSummary ? (
+                        <LessonComplete
+                          screens={base}
+                          grades={mainGrades}
+                          levelTitle={level.title}
+                          subtitle={
+                            kind === 'practice'
+                              ? undefined
+                              : (level.subtitle ?? (testBench ? undefined : lessonEntry?.subtitle))
+                          }
+                          missed={missed.map((m) => m.line)}
+                          onPractice={
+                            onPractice && kind !== 'practice' && missedKeys.length > 0
+                              ? () => onPractice(missedKeys)
+                              : undefined
+                          }
+                          xp={kind === 'practice' ? 0 : level.xp}
+                          daily={!testBench && !!onComplete && kind === 'lesson'}
+                          practice={kind === 'practice'}
+                          gems={
+                            (kind === 'bonus' ? (level.gems ?? 0) : 0) +
+                            (tail?.screens.some((t) => t.type === 'chest') ? CHEST_PAYOUT : 0)
+                          }
+                          lessonId={lessonId ?? null}
+                        />
+                      ) : (screen as PlayerScreen).type === 'mistakes-deck' ? (
+                        <MistakesDeck
+                          items={(screen as unknown as DeckScreen).items}
+                          dealing={dealing}
+                        />
+                      ) : (screen as PlayerScreen).type === 'chest' ? (
+                        <ChestScreen open={cursor > 0} onOpen={() => setCursor(1)} />
+                      ) : (screen as PlayerScreen).type === 'skills-learned' ? (
+                        <SkillsLearned skills={(screen as unknown as SkillsScreen).skills} />
+                      ) : (
+                        renderScreen({
+                          screen: screen as Screen,
+                          value: value as AnswerValue,
+                          setValue,
+                          isRevealed,
+                          contentWidth,
+                          level,
+                          onPhaseChange: setDecisionPhase,
+                          cursor,
+                          setCursor,
+                          plan,
+                          setPlanValue: (key, v) => {
+                            setPlan((prev) => ({ ...prev, [key]: v }));
+                            // The plan is kept from every lesson on the path; the test
+                            // bench and the path choice only show it.
+                            if (!testBench && kind !== 'path') savePlan({ [key]: v });
+                          },
+                          pathChoice,
+                          setPathChoice,
+                          onSettled,
+                          allScreens: screens as Screen[],
+                          grades,
+                          briefing,
+                        })
+                      )}
+                    </PlanValues.Provider>
+                  </TermsContext.Provider>
+                </RevealAside.Provider>
               </DecisionSpace.Provider>
             </LessonContext.Provider>
           </VerdictProvider>
@@ -1001,7 +1008,15 @@ export default function LessonPlayer({
               // A chart decision's reveal fills the room under its chart, so
               // chart and verdict fill the screen together (DecisionSpace).
               fillsUnderChart ? { top: (chartBottom as number) + space.sm } : null,
+              // Stepped aside for the "?" key's legend: kept laid out, so it is
+              // back exactly where it was (RevealAside).
+              revealAside && screen.type === 'chart-decision' ? styles.revealAside : null,
             ]}
+            pointerEvents={revealAside && screen.type === 'chart-decision' ? 'none' : 'auto'}
+            accessibilityElementsHidden={revealAside && screen.type === 'chart-decision'}
+            importantForAccessibility={
+              revealAside && screen.type === 'chart-decision' ? 'no-hide-descendants' : 'auto'
+            }
           >
             <View style={[styles.revealGround, fillsUnderChart ? styles.revealFill : null]}>
               {kind === 'first' ? (
@@ -1343,6 +1358,7 @@ const styles = themed(() => ({
   },
   // At the bottom of the content area, right on the footer (DESIGN-REVIEW,
   // David: "just above the button, else the gap looks weird").
+  revealAside: { opacity: 0 },
   revealSlot: {
     position: 'absolute',
     left: space.lg,

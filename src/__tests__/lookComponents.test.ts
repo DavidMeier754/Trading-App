@@ -14,6 +14,7 @@ import { ICON_NAMES, isIconName } from '../home/icons';
 import { ALIASES, SYMBOLS } from '../home/symbols';
 import { LESSONS } from '../content';
 import { knowsTerm, TERMS } from '../skills';
+import * as opener from '../home/screenOpener';
 
 /** Stage LOOK-COMPONENTS, session 2 (docs/plan/06-phase-1-app-look.md). */
 
@@ -164,5 +165,39 @@ describe('the "?" key (docs/ui/08-quotes-and-charts.md §6.4a)', () => {
       'Relative volume',
       'Float',
     ]);
+  });
+});
+
+describe('Settings → Testing → Open a screen (home/screenOpener.ts)', () => {
+  it('keeps the part after the #, without the preview address or ?test=1', () => {
+    expect(opener.cleanLink('#level-09-2/3')).toBe('level-09-2/3');
+    expect(opener.cleanLink('  level-09-2/3 ')).toBe('level-09-2/3');
+    expect(
+      opener.cleanLink(
+        'https://look-components-2-nutrade.david-meier.workers.dev/#all-screens/34?test=1',
+      ),
+    ).toBe('all-screens/34');
+    expect(opener.cleanLink('#scalping-ch4-level-02-1/5?look=neoMono&test=1')).toBe(
+      'scalping-ch4-level-02-1/5?look=neoMono',
+    );
+  });
+
+  it('hands the link to the app, and keeps the ones that opened, newest first', () => {
+    const seen: string[] = [];
+    const stop = opener.setScreenOpener((link) => {
+      seen.push(link);
+      return link !== 'nothing-here';
+    });
+    expect(opener.openScreen('#level-01-1/6')).toBe(true);
+    expect(opener.openScreen('#nothing-here')).toBe(false);
+    expect(opener.openScreen('home/settings')).toBe(true);
+    expect(seen).toEqual(['level-01-1/6', 'nothing-here', 'home/settings']);
+    expect(opener.recentLinks()).toEqual(['home/settings', 'level-01-1/6']);
+    opener.openScreen('level-01-1/6');
+    expect(opener.recentLinks()).toEqual(['level-01-1/6', 'home/settings']);
+    stop();
+    expect(opener.openScreen('level-01-1/6')).toBe(false);
+    opener.clearRecent();
+    expect(opener.recentLinks()).toEqual([]);
   });
 });

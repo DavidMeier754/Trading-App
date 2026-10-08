@@ -2012,29 +2012,179 @@ function Chart({
     if (onExplain) onExplain();
     else setOwnExplain((v) => !v);
   }, [onExplain]);
-  // Where each element's number goes: at the element, inside the plot.
+  // The key goes in the plot's top-right corner, or its bottom-right one when
+  // the bars fill the top -- after a call that ran up, the last candles sit
+  // right where the key would be (David, 2026-10-08).
+  const explainKey = useMemo(() => {
+    const left = PAD_LEFT + plotW - 48;
+    const corners = [padTop - 6, padTop + priceH - 42];
+    const labels: LabelBox[] = [
+      ...levelLabels.map((l) => labelBox(l.text, l.x, l.y, l.anchor)),
+      ...(planShown ? planBoxes : []),
+    ];
+    // How much of the key's box candles and labels would lie under; a label
+    // counts double, its words being what the key would hide.
+    const covered = (top: number) => {
+      const key = { left, top, width: 48, height: 48 };
+      const over = (b: LabelBox) => {
+        const w = Math.min(key.left + 48, b.left + b.width) - Math.max(key.left, b.left);
+        const h = Math.min(key.top + 48, b.top + b.height) - Math.max(key.top, b.top);
+        return w > 0 && h > 0 ? w * h : 0;
+      };
+      let area = 0;
+      for (let i = 0; i < shown; i++) {
+        const b = bars[i];
+        area += over({
+          left: cx(i) - bodyW / 2 - 2,
+          top: y(b.h),
+          width: bodyW + 4,
+          height: Math.max(1, y(b.l) - y(b.h)),
+        });
+      }
+      for (const l of labels) area += 2 * over(l);
+      return area;
+    };
+    // While the learner decides, always the top: the chart gives up the
+    // legend's room at its foot then, and a key at the top stays put under
+    // the finger. The top-right is the hatched part still to come, empty.
+    const deciding = revealFrom !== undefined && shown <= revealFrom;
+    if (deciding) return { left, top: corners[0] };
+    // After the call, the top too unless candles or labels would lie under a
+    // sixth of it and the bottom is freer: a key at the top stays put should
+    // the chart give up room at its foot.
+    const top = covered(corners[0]);
+    return {
+      left,
+      top: top > (48 * 48) / 6 && covered(corners[1]) < top ? corners[1] : corners[0],
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layout, shown, bars, revealFrom, levelLabels, planBoxes, planShown]);
+  // Where each element's number goes: on its own line or beside it, at the
+  // first spot along it that covers no label, no bar, no other number and not
+  // the key (David, 2026-10-08: a number on a label's words or on a candle
+  // read as pointing at the wrong thing).
   const explainAnchors = useMemo(() => {
     const out: Record<string, { x: number; y: number }> = {};
     if (!labelsOn) return out;
     const right = PAD_LEFT + plotW;
+    const half = BADGE / 2 + 1;
     const inPlot = (yy: number) => yy >= padTop - 2 && yy <= padTop + priceH + 2;
-    const k = Math.max(0, shown - 1);
-    if (spec.vwap && shown > 0 && spec.vwap[k] !== undefined && inPlot(y(spec.vwap[k])))
-      out.vwap = { x: Math.min(right - 12, cx(k) + bodyW / 2 + 12), y: y(spec.vwap[k]) };
-    (spec.levels ?? []).forEach((lvl, i) => {
-      if (inPlot(y(lvl.price))) out[`level:${i}`] = { x: right - 14, y: y(lvl.price) };
+    const boxOf = (p: { x: number; y: number }): LabelBox => ({
+      left: p.x - half,
+      top: p.y - half,
+      width: half * 2,
+      height: half * 2,
     });
-    if (hasVolume) out.volume = { x: PAD_LEFT + 12, y: volTop + volH / 2 };
-    if (pillZone && pillZone.label)
-      out.pill = { x: (pillZone.x0 + pillZone.x1) / 2, y: pillZone.midY - 26 };
-    if (plan && planShown) {
-      if (inPlot(y(plan.stop))) out.stop = { x: right - 40, y: y(plan.stop) };
-      if (inPlot(y(plan.target))) out.target = { x: right - 40, y: y(plan.target) };
+    const pillBox = (zone: Zone): LabelBox => {
+      const pill = zonePillSize(zonePillLines(zone.label, zone.x1 - zone.x0 - 8));
+      return {
+        left: (zone.x0 + zone.x1) / 2 - pill.width / 2,
+        top: zone.midY - pill.height / 2,
+        width: pill.width,
+        height: pill.height,
+      };
+    };
+    const taken: LabelBox[] = [
+      { left: explainKey.left, top: explainKey.top, width: 48, height: 48 },
+      ...levelLabels.map((l) => labelBox(l.text, l.x, l.y, l.anchor)),
+      ...(planShown ? planBoxes : []),
+      ...(showDecisionMarker && spec.decision_index >= 0 ? [decisionTagBox] : []),
+      ...bars.slice(0, shown).map((b, i) => ({
+        left: cx(i) - bodyW / 2 - 1,
+        top: y(b.h) - 1,
+        width: bodyW + 2,
+        height: Math.max(2, y(b.l) - y(b.h)) + 2,
+      })),
+    ];
+    if (showOutcome) {
+      const w =
+        Math.max(outcome?.move.length ?? 0, outcome?.position.length ?? 0) * OUTCOME_CHAR_W + 18;
+      taken.push({ left: PAD_LEFT + 4, top: outcomeTop, width: w, height: OUTCOME_TAG_H });
     }
-    if (plan && ruler) out.ruler = { x: rulerX + 12, y: y(plan.entry) };
+    if (pillZone && pillZone.label) taken.push(pillBox(pillZone));
+    const cost = (p: { x: number; y: number }) => {
+      const me = boxOf(p);
+      let c = 0;
+      for (const t of taken) {
+        const w = Math.min(me.left + me.width, t.left + t.width) - Math.max(me.left, t.left);
+        const h = Math.min(me.top + me.height, t.top + t.height) - Math.max(me.top, t.top);
+        if (w > 0 && h > 0) c += w * h;
+      }
+      return c;
+    };
+    // The first clear spot of the candidates, else the least covered one.
+    const place = (key: string, spots: { x: number; y: number }[]) => {
+      let best: { x: number; y: number } | null = null;
+      let bestCost = Infinity;
+      for (const p of spots) {
+        const c = cost(p);
+        if (c < bestCost) {
+          best = p;
+          bestCost = c;
+        }
+        if (c === 0) break;
+      }
+      if (best) {
+        out[key] = best;
+        taken.push(boxOf(best));
+      }
+    };
+    // Along a horizontal line, from its right end leftwards to `from`.
+    const along = (yy: number, from = PAD_LEFT) => {
+      const spots: { x: number; y: number }[] = [];
+      for (let x = right - half - 2; x >= from + half; x -= 14) spots.push({ x, y: yy });
+      return spots;
+    };
+    if (pillZone && pillZone.label) {
+      place('pill', [{ x: (pillZone.x0 + pillZone.x1) / 2, y: pillBox(pillZone).top - half - 2 }]);
+    }
+    if (plan && planShown) {
+      if (inPlot(y(plan.target))) place('target', along(y(plan.target), decisionX));
+      if (inPlot(y(plan.stop))) place('stop', along(y(plan.stop), decisionX));
+    }
+    (spec.levels ?? []).forEach((lvl, i) => {
+      if (inPlot(y(lvl.price))) place(`level:${i}`, along(y(lvl.price)));
+    });
+    // The VWAP line at its points in view, the latest first: after a pinch,
+    // the last bar can be past the plot's edge.
+    if (spec.vwap) {
+      const spots: { x: number; y: number }[] = [];
+      for (let i = shown - 1; i >= 0; i--) {
+        const v = spec.vwap[i];
+        if (v === undefined || cx(i) > right || cx(i) < PAD_LEFT || !inPlot(y(v))) continue;
+        spots.push({ x: Math.min(right - half, cx(i)), y: y(v) });
+      }
+      place('vwap', spots);
+    }
+    if (hasVolume) out.volume = { x: PAD_LEFT + half, y: volTop + volH / 2 };
+    // The ruler's number under its lower end, clear of its R marks; over its
+    // upper end where the chart has no room below.
+    if (plan && ruler) {
+      const below = y(Math.min(plan.stop, plan.target)) + half + 12;
+      out.ruler = {
+        x: rulerX + 4,
+        y: below + half < height ? below : y(Math.max(plan.stop, plan.target)) - half - 12,
+      };
+    }
     return out;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [labelsOn, layout, shown, spec, hasVolume, pillZone, plan, planShown, ruler, rulerX]);
+  }, [
+    labelsOn,
+    layout,
+    shown,
+    spec,
+    hasVolume,
+    pillZone,
+    plan,
+    planShown,
+    ruler,
+    rulerX,
+    explainKey,
+    levelLabels,
+    planBoxes,
+    showOutcome,
+    outcomeTop,
+  ]);
 
   return (
     <GestureDetector gesture={pinch}>
@@ -2554,8 +2704,8 @@ function Chart({
             on={labelsOn}
             onToggle={toggleExplain}
             anchors={explainAnchors}
-            keyX={PAD_LEFT + plotW - 48}
-            keyY={padTop - 6}
+            keyX={explainKey.left}
+            keyY={explainKey.top}
             width={width}
             height={height}
           />
