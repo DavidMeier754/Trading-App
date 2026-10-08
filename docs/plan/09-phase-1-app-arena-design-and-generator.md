@@ -82,7 +82,7 @@ David asked for the concept; `ARENA-DESIGN` turns it into the docs and the scree
 
 **Model · effort · sessions:** Fable 5.1 · high (else Opus 5.5 · xhigh) · plan mode · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage ARENA-DESIGN from docs/plan/09-phase-1-app-arena-design-and-generator.md.
 
@@ -94,14 +94,17 @@ Especially important:
 - No timer, no autoplay: the chart moves only when the learner taps.
 - The free part stays genuinely useful, and the paywall never interrupts a lesson.
 
-Open a PR against main.
-Report: the design in ten sentences · links to every prototype screen · the free/Plus table · open questions. Then stop and wait for my choice.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · the design in ten sentences · links to every prototype screen · the free/Plus table · needs your review (only what really does) · open questions · next. Then stop and wait for my choice.
 ```
 
-**You test (~30 min)**
+**Needs you:** the design is your choice (its direction, the line between free and Plus, the paywall):
 1. Click through the prototypes on your phone: would you pay for this? What is missing?
 2. Is the free part still worth using without paying?
 3. Read the free/Plus table and the paywall texts.
+
+**Where to look** (optional; the report links each): every prototype screen, and the free/Plus table with the paywall texts.
 
 **Done when** you have approved the design and it is recorded in the docs.
 
@@ -115,14 +118,14 @@ Report: the design in ten sentences · links to every prototype screen · the fr
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
-Stage REPLAY-PILOT from docs/plan/09-phase-1-app-arena-design-and-generator.md. Read CLAUDE.md, §1 of docs/plan/02-how-to-work.md and docs/content-todo/01-rules-from-the-design-review.md (Part 1), then follow Appendix E.2 (pilot). A PR instead of a push to main. Report with a test checklist. Then stop.
+Stage REPLAY-PILOT from docs/plan/09-phase-1-app-arena-design-and-generator.md. Read CLAUDE.md, §1 of docs/plan/02-how-to-work.md and docs/content-todo/01-rules-from-the-design-review.md (Part 1), then follow Appendix E.2 (pilot). Open a PR against main (instead of a push to main) that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test.** Play the replay in the test bench:
-- Is the "is it now?" feeling there?
-- Are the grades (textbook, early, late, phantom) fair?
+**Needs you:** the pilot's verdict, since it decides whether the twelve drill packs stay canceled: play the replay in the test bench — is the "is it now?" feeling there?
+
+**Where to look** (optional; the report links each): the replay in the test bench — are the grades (textbook, early, late, phantom) fair?
 
 ### `CHART-GEN` – the chart generator
 
@@ -146,7 +149,7 @@ Stage REPLAY-PILOT from docs/plan/09-phase-1-app-arena-design-and-generator.md. 
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2–3
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage CHART-GEN from docs/plan/09-phase-1-app-arena-design-and-generator.md.
 
@@ -158,11 +161,14 @@ Especially important:
 - Measure the odds over at least 10,000 seeds and put the table in the report.
 - The same seed gives the same chart everywhere; test it.
 
-Open a PR against main and get every check green.
-Report: what you built · the odds table · 12 sample charts (links: clean, marginal, failed, none) · the timing on a cheap device · my test checklist · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · the odds table · 12 sample charts (links: clean, marginal, failed, none) · the timing on a cheap device · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min)**
-1. Look at the 12 sample charts: do they look like real charts, or like computer charts?
-2. Can you see the setup in the clean ones? Is the marginal one really borderline?
-3. Is there really nothing worth trading in the sessions without a setup?
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- the 12 sample charts: do they look like real charts, or like computer charts?
+- the clean ones: can you see the setup? The marginal one: is it really borderline?
+- the sessions without a setup: is there really nothing worth trading?

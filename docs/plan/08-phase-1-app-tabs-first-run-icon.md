@@ -20,21 +20,24 @@ The rest of the frame around the lessons: every word one tap away, the tab bar D
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2. The definitions must be exact, so not with Sonnet or Haiku.
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage GLOSSARY from docs/plan/08-phase-1-app-tabs-first-run-icon.md.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "GLOSSARY" section in docs/plan/08-phase-1-app-tabs-first-run-icon.md in full, plus docs/ui/14-glossary-and-copy.md §8, docs/level-files/06-skills-bonus-lessons-market-profiles.md (Skills), docs/rules/05-tests-consistency-and-copy.md §3.9 and docs/rules/08-sources.md §4, and docs/content-todo/01-rules-from-the-design-review.md (Part 1).
 Proofread every word's info line in content/skills.yaml against the lesson that introduces the term — read the screen that defines it. No line may contradict its lesson.
 
-Open a PR against main and get every check green.
-Report: what you built · number of terms and of lines changed · 15 random definitions to proofread · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · number of terms and of lines changed · 15 random definitions to proofread · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~15 min)**
-1. Tap underlined terms in three lessons.
-2. Search the glossary for "VWAP", "Spread" and "R".
-3. Read the 15 definitions from the report: correct and understandable?
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- Underlined terms in three lessons, tapped.
+- The glossary in You, searched for "VWAP", "Spread" and "R".
+- The 15 definitions in the report: correct and understandable?
 
 ### `TABS` – Learn · Practice · Arena · You
 
@@ -50,21 +53,24 @@ Report: what you built · number of terms and of lines changed · 15 random defi
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage TABS from docs/plan/08-phase-1-app-tabs-first-run-icon.md.
 
 Read CLAUDE.md, then docs/plan/01-goal-and-guardrails.md §0 ("Variance"), docs/plan/02-how-to-work.md §1 and the "TABS" section in docs/plan/08-phase-1-app-tabs-first-run-icon.md in full, plus docs/ui/12-practice-and-stats.md §7.3–§7.5, docs/ui/13-tiers-replays-and-plus.md §7.7, docs/ui/16-navigation.md §11 and docs/rules/10-legal-and-safety.md §7.
 Never show profit or money as a measure of performance — only decisions and effort.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~15 min)**
-1. Every tab on your phone; the Arena tab shows its lock.
-2. You: spot-check your numbers against what you played.
-3. Share the tier card and look at the image.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- Every tab, on your phone: the Arena tab shows its lock.
+- You: your numbers against what you played.
+- The tier card, shared: the image.
 
 ### `ONBOARDING` – the short first run, the risk note, the plan and the language foundation
 
@@ -91,7 +97,7 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage ONBOARDING from docs/plan/08-phase-1-app-tabs-first-run-icon.md.
 
@@ -103,17 +109,20 @@ Especially important:
 - The risk note is visible but unobtrusive; it must not cover the chart reveal.
 - After the i18n switch, no UI string may be hard-coded any more (check script).
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min)**
-1. A fresh install (Settings → Reset, or a private browser window): the first trade, the risk note, lesson 1 — nothing else.
-2. Finish lesson 1: the reminder question comes now.
-3. Choose the market profile "Germany": prices with € and a decimal comma, clock times in German time (lesson 1·10-1).
-4. After a chart decision: the risk-note line is visible but unobtrusive.
-5. Fill the plan card with nonsense: it is refused or queried. Then share the plan.
-6. Settings → Legal opens: an empty page with the risk note.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- A fresh install (Settings → Reset, or a private browser window): the first trade, the risk note, lesson 1 — nothing else.
+- Lesson 1, finished: the reminder question comes now.
+- The market profile "Germany": prices with € and a decimal comma, clock times in German time (lesson 1·10-1).
+- A chart decision: the risk-note line after it is visible but unobtrusive.
+- The plan card filled with nonsense: it is refused or queried; then the plan shared.
+- Settings → Legal: an empty page with the risk note.
 
 ### `ICON` – the app's face
 
@@ -128,15 +137,21 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage ICON from docs/plan/08-phase-1-app-tabs-first-run-icon.md.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "ICON" section in docs/plan/08-phase-1-app-tabs-first-run-icon.md in full, plus docs/ui/11-top-bar.md §7.2 and docs/ui/15-theming-and-accessibility.md §10.
 First show me the concepts as an artifact and wait for my choice; then build it in.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~15 min).** The favicon and splash in the web preview, the app icon in Expo Go's project list, and the path logo in the top bar, in light and dark.
+**Needs you:** your choice from the concepts (the session shows them first and waits). Claude checks the built-in icon, splash and logos itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- The favicon and splash in the web preview, in light and dark.
+- The app icon in Expo Go's project list.
+- The path logo in the top bar, in light and dark.

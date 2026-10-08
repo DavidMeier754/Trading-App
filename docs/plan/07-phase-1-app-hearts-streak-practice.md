@@ -33,7 +33,7 @@ The learning loop, under David's rules of 2026-10-05: as many lessons as the lea
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage LOOP-HEARTS from docs/plan/07-phase-1-app-hearts-streak-practice.md.
 
@@ -44,20 +44,18 @@ Especially important:
 - Existing progress is kept (migrate progress.v1 if necessary).
 - Every rule has a unit test that would be red without the rule.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min)**
-1. ~~Play a lesson with three deliberate mistakes: you lose no heart; the three questions come back at the end.~~ (tested in `DESIGN-REVIEW`)
-2. Play a checkpoint with two mistakes:
-   - Now hearts are lost.
-   - The summary shows the correct answers.
-   - "Go to the lesson" opens the matching card.
-3. On a finished level, replay lesson 3 on its own: it earns only a few XP.
-4. Lose all hearts in the checkpoint: "Review the cards" works.
-5. A match with one wrong tap: amber, counts as correct.
-6. Fun question (1–5): do mistakes feel fair now?
+**Needs you:** the fun question (1–5): do mistakes feel fair now? Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- A checkpoint with two mistakes: hearts are lost, the summary shows the correct answers, and "Go to the lesson" opens the matching card.
+- A finished level with lesson 3 replayed on its own: it earns only a few XP.
+- The checkpoint with all hearts lost: "Review the cards" works.
+- A match with one wrong tap: amber, counts as correct.
 
 ### `LOOP-DAILY` – the streak and coming back, without pressure
 
@@ -82,7 +80,7 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage LOOP-DAILY from docs/plan/07-phase-1-app-hearts-streak-practice.md.
 
@@ -93,18 +91,22 @@ Especially important:
 - Day boundaries follow the device's local time; test daylight-saving changes and midnight.
 - Reminder texts: friendly, never threatening, never guilt. Show me every text in the report.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · every reminder text · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · every reminder text · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min + 3 days)**
-1. Play the day's first lesson (Settings → Testing → Reset streak first): the streak screen plays full screen and the flame lights up. (Built in `DESIGN-REVIEW`.)
-2. Testing → "+1 day": the streak is "open". Skip a practice level and play a Practice round: still open. Finish a practice level on the path: done.
-3. "+2 days" without a freeze: the "new streak" screen. With a freeze: "Freeze used".
-4. Play the weekly challenge: you receive a freeze.
-5. Set a reminder for 2 minutes from now: it arrives on the real device.
-6. Finish a lesson and a practice round: the gems go up. Spend some on a streak freeze and a map scene.
-7. Use the app normally for three days: does anything feel like a duty?
+**Needs you:**
+- The stage's proposals: how many streak freezes can be kept, and the gem prices (you decide).
+- A reminder set for 2 minutes from now arrives on the real device (Claude cannot see a real notification).
+- Use the app normally for three days, with real reminders: does anything feel like a duty?
+
+**Where to look** (optional; the report links each; Claude runs the days with "Advance a day"):
+- Settings → Testing → Reset streak, then the day's first lesson: the streak screen plays full screen and the flame lights up. (Built in `DESIGN-REVIEW`.)
+- Testing → "+1 day": the streak is "open"; still open after a skipped practice level and a Practice round; done after a practice level finished on the path.
+- "+2 days" without a freeze: the "new streak" screen; with a freeze: "Freeze used".
+- The weekly challenge: it gives a freeze.
+- A lesson and a practice round: the gems go up; some spent on a streak freeze and a map scene.
 
 ### `PRACTICE` – practice that pulls, never pushes
 
@@ -123,7 +125,7 @@ Report: what you built · check results · every reminder text · my test checkl
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage PRACTICE from docs/plan/07-phase-1-app-hearts-streak-practice.md.
 
@@ -135,14 +137,18 @@ Especially important:
 - No question twice in one round; no question whose lesson has not been played yet.
 - Nothing in Practice is required, and nothing tells me how much to do.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min + 1 week)**
-1. Play a few lessons with mistakes: the tab shows exactly those concepts.
-2. On the path, a practice level looks different and smaller; skip it: the next level opens.
-3. Lose a heart, then play a practice round: the heart is back.
-4. Testing → "+1 day" and "+3 days": the due questions appear, and a skill you have not practiced fades; practicing it brings it back.
-5. Play a chapter's practice levels: its medal shines up a step.
-6. Use it for a week: does it pull you back without feeling like a duty?
+**Needs you:**
+- Your pick of the fading-skill designs (prototypes, shown with the plan).
+- Use it for a week: does it pull you back without feeling like a duty?
+
+**Where to look** (optional; the report links each; Claude runs the days with "Advance a day"):
+- The Practice tab after a few lessons with mistakes: it shows exactly those concepts.
+- A practice level on the path: it looks different and smaller; skipped, the next level opens.
+- A practice round after a lost heart: the heart is back.
+- Testing → "+1 day" and "+3 days": the due questions appear, and a skill not practiced fades; practicing it brings it back.
+- A chapter's practice levels, played: its medal shines up a step.

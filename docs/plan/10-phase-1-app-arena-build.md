@@ -26,7 +26,7 @@ The arena in the app, from the tab and today's chart to the practice account and
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage ARENA-TAB from docs/plan/10-phase-1-app-arena-build.md.
 
@@ -38,16 +38,18 @@ Especially important:
 - The share card shows decisions, never money or profit.
 - Every Plus gate goes through one function; until MONEY, test builds unlock everything.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min + 1 week)**
-1. Open the arena tab and play two replays: is the strip at the end right?
-2. Play the Daily Chart on two devices on the same day: it is the same chart.
-3. Share your result: does the card look good, and does it show no money?
-4. Play the Daily Chart on three days: the calendar fills and the gems go up.
-5. Play it every day for a week: would you come back for it?
+**Needs you:** only what real days on your phone show: play the Daily Chart every day for a week — would you come back for it? (With "today's chart is ready" switched on, you also see whether the reminder arrives.)
+
+**Where to look** (optional; the report links each):
+- the arena tab after two replays: is the strip at the end right?
+- the Daily Chart on two devices on the same day: it is the same chart.
+- your shared result: does the card look good, and does it show no money?
+- the Daily Chart on three days (Settings → Testing → "Advance a day"): the calendar fills and the gems go up.
 
 ### `SIM-ACCOUNT` – the practice account
 
@@ -73,7 +75,7 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage SIM-ACCOUNT from docs/plan/10-phase-1-app-arena-build.md.
 
@@ -84,15 +86,18 @@ Especially important:
 - Every number is computed the way the course teaches it; the unit tests use the course's own worked examples.
 - Every statistic shows its sample size, and nothing reads as a promise.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min)**
-1. Trade ten arena replays: does the journal fill itself correctly?
-2. Break your own daily loss limit on purpose: the session ends, and the break is recorded.
-3. Check two results by hand, in $ and in R.
-4. Look at the statistics: are they understandable, and does the sample-size note show?
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- the journal after ten arena replays: does it fill itself correctly?
+- the daily loss limit, broken on purpose: the session ends, and the break is recorded.
+- two results, checked by hand in $ and in R.
+- the statistics: are they understandable, and does the sample-size note show?
 
 ### `DRILLS` – two packs and generated drills
 
@@ -109,14 +114,16 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
-Stage DRILLS from docs/plan/10-phase-1-app-arena-build.md. Read CLAUDE.md, docs/level-files/07-drill-packs-and-replays.md § Drill packs, the arena section of docs/ui/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and docs/plan/02-how-to-work.md §1 and the "DRILLS" section in docs/plan/10-phase-1-app-arena-build.md. Write scalping-selection (25) and scalping-risk-calls (25) following Appendix E.4, validated under --strict, and build the generated setup drills for the scalping cards from the CHART-GEN templates. PR, report with a test checklist. Then stop.
+Stage DRILLS from docs/plan/10-phase-1-app-arena-build.md. Read CLAUDE.md, docs/level-files/07-drill-packs-and-replays.md § Drill packs, the arena section of docs/ui/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and docs/plan/02-how-to-work.md §1 and the "DRILLS" section in docs/plan/10-phase-1-app-arena-build.md. Write scalping-selection (25) and scalping-risk-calls (25) following Appendix E.4, validated under --strict, and build the generated setup drills for the scalping cards from the CHART-GEN templates. Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test.**
-1. In the Practice tab, play five questions from each pack.
-2. In the arena, play twenty generated drills: are they fair, and do they vary?
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- the Practice tab: five questions from each pack.
+- the arena: twenty generated drills — are they fair, and do they vary?
 
 ### `FUN-PASS` – is it fun?
 
@@ -139,23 +146,28 @@ Stage DRILLS from docs/plan/10-phase-1-app-arena-build.md. Read CLAUDE.md, docs/
 - Audit: Fable 5.1 · high (else Opus 5.5 · xhigh).
 - Implementation: Opus 5.5 · high · 1–2.
 
-**Prompt (audit)**
+**Session instructions** (audit, session 1: the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage FUN-PASS (audit) from docs/plan/10-phase-1-app-arena-build.md.
 
 Read CLAUDE.md, then docs/plan/01-goal-and-guardrails.md §0 ("Fun"), docs/plan/02-how-to-work.md §1 and the "FUN-PASS" section in docs/plan/10-phase-1-app-arena-build.md in full, plus docs/ui/ in full.
 Play Chapter 1 and Scalping Chapter 2 in the web preview automatically (Playwright), measure the time per screen and per lesson, and assess them against the fun criteria in §0.
-Change nothing.
+Change nothing in the app or the content. Open a PR against main that marks this step ✅ in docs/plan/, with the 15 findings in the section's "Left for session 2:" line, and get every check green.
 
-Report: measurements · the 15 most important findings (screen link, what, why, proposal), sorted by impact · open questions. Then stop.
+Report: measurements · the 15 most important findings (screen link, what, why, proposal), sorted by impact · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**Prompt (implementation)**
+**Session instructions** (implementation, session 2, and 3 if needed: the session takes them as its prompt when `Next stage.` reaches this stage after the audit, and fills `[list]` from your lines under `Next stage.`)
 ```
 Stage FUN-PASS (implementation) from docs/plan/10-phase-1-app-arena-build.md.
 
-Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "FUN-PASS" section in docs/plan/10-phase-1-app-arena-build.md. Implement these approved findings: [list], and the bonus side lessons (scope item 3).
-Open a PR against main and get every check green. Report with a test checklist. Then stop.
+Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "FUN-PASS" section in docs/plan/10-phase-1-app-arena-build.md. Implement these approved findings, from my lines under "Next stage." (ask me for them if they are missing): [list], and the bonus side lessons (scope item 3).
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~45 min).** If you have someone: the newcomer test from Appendix C. Then play Levels 1–4 yourself after the implementation.
+**Needs you:**
+1. If you have someone: the newcomer test from Appendix C.
+2. After the audit: which findings get built. Send them as lines under `Next stage.` for the implementation session.
+3. After the implementation: play Levels 1–4 yourself, on your phone — is it fun? (Sounds and haptics, if they were built, only show there.)
+
+**Where to look** (optional; the report links each): every audit finding at its screen link, and the screens the implementation changed.

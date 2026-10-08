@@ -52,7 +52,7 @@ The app lane is the first part of Phase 1; the content lane follows once it is d
 
 **Model · effort · sessions:** Opus 5.5 · high · 2
 
-**Prompt** (for each of the two sessions; insert `[1]` or `[2]`)
+**Session instructions** (for each of the two sessions; the session takes them as its prompt when `Next stage.` reaches this stage and puts in `[1]` or `[2]` itself)
 ```
 Stage LOOK-COMPONENTS, session [1|2], from docs/plan/.
 
@@ -63,22 +63,22 @@ Especially important:
 - Nothing moves that the learner did not move (docs/ui/02-lesson-player-layout.md §2).
 - Icons: a mapping table icon name → symbol for every name the content uses; the validator rejects unknown names.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · contact sheets · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · contact sheets · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min)**
-1. `#level-01-1/6`: the axis shows round prices with $, and nothing jumps after the decision.
-2. ~~A match in the test bench: the pairs are colored.~~ (tested in `DESIGN-REVIEW`)
-3. Finish one lesson perfectly and one with mistakes: confetti only for the perfect one, the list of mistakes is visible.
-4. The carousel in lesson 1·6-1: real icons instead of letters.
-5. The session ribbon in lesson 1·10-1: the proportions are right, "now" is visible.
-6. Swipe a `swipe-deck` with your finger.
-7. The Chapter 1 badge (skip ahead to the final exam 17-1).
-8. A chart decision (e.g. `#level-01-1/6`): the candles form as they play out, a price tag follows the forming one, and the reveal lists outcome, result and R.
-9. The map: the levels of every chapter, Chapters 3–8 too, have their own icons.
-10. Lesson complete: the numbers count up with the ring.
-11. A chart in Chapter 4 (link in the report): press "?" — every element you were taught is labelled, and nothing covers the keys; press it again — the labels go.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- A chart decision, `#level-01-1/6`: the axis shows round prices with $ and nothing jumps after the decision; the candles form as they play out, a price tag follows the forming one, and the reveal lists outcome, result and R.
+- Lesson complete, after one perfect lesson and one with mistakes: confetti only for the perfect one, the list of mistakes, the numbers counting up with the ring.
+- The carousel in lesson 1·6-1: real icons instead of letters.
+- The session ribbon in lesson 1·10-1: the proportions are right, "now" is visible.
+- A `swipe-deck`, swiped with your finger.
+- The Chapter 1 badge (skip ahead to the final exam 17-1).
+- The map: the levels of every chapter, Chapters 3–8 too, have their own icons.
+- A chart in Chapter 4 (link in the report): "?" labels every element you were taught, and nothing covers the keys; pressed again, the labels go.
 
 ### `VISUALS` – new teaching graphics
 
@@ -94,17 +94,19 @@ Report: what you built · check results · contact sheets · my test checklist w
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage VISUALS from docs/plan/06-phase-1-app-look.md.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "VISUALS" section in docs/plan/06-phase-1-app-look.md in full, plus docs/ui/08-quotes-and-charts.md §6 and docs/level-files/04-components-and-data.md (components).
 Build exactly that scope; no content except the entries in demo/all-screens.yaml.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~15 min).** Both components in the test bench on your phone:
-- Are they understandable without explanation?
-- Are light and dark both right?
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- Both components in the test bench (Settings → Testing → Every screen type; the `#all-screens/…` links in the report): understandable without explanation, and right in light and dark.
