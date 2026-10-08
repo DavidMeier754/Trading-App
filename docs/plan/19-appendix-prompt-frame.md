@@ -4,9 +4,9 @@ _Part of the [build plan](README.md)_
 
 ### E. Prompt frame and content prompts
 
-**E.0 – The frame of every prompt** (the stages above fill it in; paste it into a new session)
+**E.0 – The frame of every block of session instructions** (each stage's section fills it in). Nobody pastes it: David sends `Next stage.`, and the session finds its stage and takes the block as its prompt (`02-how-to-work.md` §1, `CLAUDE.md` "Next stage.").
 ```
-Stage <NAME> from docs/plan/.
+Stage <NAME>, session [n], from docs/plan/.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "<NAME>" section in docs/plan/ in full; read the places in docs/ it names.
 <Content stages: docs/content-todo/ as well.>
@@ -14,9 +14,12 @@ Build exactly that scope — nothing from later stages.
 
 <Especially important: …>
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
+
+The blocks E.1–E.8 below are older prompts, kept as the detailed instructions of their stages; the frame's first and last lines apply to them too.
 
 The following detailed prompts come from the previous plan and have proven themselves. Updated:
 - Decisions A–C are now made.

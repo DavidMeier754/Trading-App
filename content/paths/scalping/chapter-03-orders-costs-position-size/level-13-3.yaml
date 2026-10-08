@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [slippage, execution, speed]
+icon: slippage
 learning_goal: "User names what actually controls execution speed, handles a slipped entry without widening the stop to match, and contrasts a momentum minute's slippage risk with an exhausted one's."
 purpose: "The chain from tap to fill has several weak links, and only one of them is yours to fix."
 terms_introduced: []

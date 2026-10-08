@@ -6,6 +6,10 @@ import { surfaceStyle, tint, useLookSpec } from '../../lesson/look';
 import { colors, radius, space, type, themed } from '../../theme';
 import type { ScannerRow } from '../../types';
 import Sparkline from '../Sparkline';
+import { scannerExplain, knowsFor } from '../explain';
+import { BADGE, ExplainBadge, ExplainKeyButton, ExplainLegend } from '../ExplainKey';
+import { useLessonInfo } from '../../lesson/lessonContext';
+import { useProgress } from '../../progress';
 
 type Column = {
   key: keyof ScannerRow;
@@ -110,26 +114,81 @@ export default function ScannerTable({
   const fit: Fit = need(true) <= width ? 'full' : need(false) <= width ? 'noSpark' : 'stacked';
   const stacked = fit === 'stacked';
   const spark = hasChange && fit === 'full';
+
+  // docs/ui/08-quotes-and-charts.md §6.4a: the "?" key labels the column headings the learner
+  // has been taught. Only where there are headings (not the stacked rows of
+  // the narrowest phones).
+  const { lessonId, everything } = useLessonInfo();
+  const { done } = useProgress();
+  const columns = [
+    'ticker',
+    ...(rows.some((r) => r.catalyst && !NO_CATALYST.test(r.catalyst)) ? ['catalyst'] : []),
+    ...(hasChange ? ['change_pct'] : hasPrice ? ['price'] : []),
+    ...(hasRvol ? ['rvol'] : []),
+    ...more.map((c) => c.key as string),
+  ];
+  const explain = stacked ? [] : scannerExplain(columns, knowsFor(lessonId, done, everything));
+  const [explainOn, setExplainOn] = useState(false);
+  const [headBottom, setHeadBottom] = useState(0);
+  const numberOf = (col: string) => {
+    const i = explain.findIndex((it) => it.key === `col:${col}`);
+    return explainOn && i >= 0 ? i + 1 : null;
+  };
+  const head = (text: string, style: object, ...cols: string[]) => {
+    const ns = cols.map(numberOf).filter((n): n is number => n !== null);
+    return (
+      <View style={[styles.headCell, style, style === styles.cNum && styles.headNum]}>
+        <Text style={styles.head}>{text}</Text>
+        {/* Over the heading, not beside it: the columns keep their widths. */}
+        {ns.map((n, k) => (
+          <ExplainBadge
+            key={n}
+            n={n}
+            style={[
+              styles.headBadge,
+              style === styles.cNum ? { right: k * (BADGE + 2) } : { left: k * (BADGE + 2) },
+            ]}
+          />
+        ))}
+      </View>
+    );
+  };
   return (
     <View
       style={[styles.wrap, tappable && styles.wrapCards]}
       onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
     >
+      {explain.length ? (
+        <View style={styles.keyRow}>
+          <ExplainKeyButton
+            on={explainOn}
+            onToggle={() => setExplainOn((v) => !v)}
+            style={styles.keyHit}
+          />
+        </View>
+      ) : null}
       {stacked ? null : (
-        <View style={[styles.headRow, tappable && styles.headRowCards]}>
-          <Text style={[styles.head, styles.cStock]}>Stock</Text>
-          {spark ? <Text style={[styles.head, styles.cToday]}>Today</Text> : null}
-          {hasChange || hasPrice ? (
-            <Text style={[styles.head, styles.cNum]}>{hasChange ? '%' : 'Price'}</Text>
-          ) : null}
-          {hasRvol ? <Text style={[styles.head, styles.cNum]}>RVol</Text> : null}
+        <View
+          style={[styles.headRow, tappable && styles.headRowCards]}
+          onLayout={(e) => setHeadBottom(e.nativeEvent.layout.y + e.nativeEvent.layout.height)}
+        >
+          {head('Stock', styles.cStock, 'ticker', 'catalyst')}
+          {spark ? head('Today', styles.cToday) : null}
+          {hasChange || hasPrice
+            ? head(hasChange ? '%' : 'Price', styles.cNum, hasChange ? 'change_pct' : 'price')
+            : null}
+          {hasRvol ? head('RVol', styles.cNum, 'rvol') : null}
           {more.map((c) => (
-            <Text key={c.key} style={[styles.head, styles.cNum]}>
-              {c.head}
-            </Text>
+            <React.Fragment key={c.key}>{head(c.head, styles.cNum, c.key)}</React.Fragment>
           ))}
         </View>
       )}
+      {explainOn && explain.length ? (
+        <ExplainLegend
+          items={explain}
+          style={{ position: 'absolute', left: 0, right: 0, top: headBottom + 4, zIndex: 5 }}
+        />
+      ) : null}
       {rows.map((row) => {
         const day = dayOf(row, pctRange);
         const stock = (
@@ -288,6 +347,13 @@ const styles = themed(() => ({
   // Clears the radio column, so the headings sit over their numbers.
   headRowCards: { paddingLeft: space.md + 18 + space.sm, paddingRight: space.md },
   head: { ...type.small, color: colors.textFaint, letterSpacing: 0.8 },
+  headCell: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  headBadge: { top: -BADGE - 1 },
+  headNum: { justifyContent: 'flex-end' },
+  // The key's circle at the top of its target, so the headings' numbers have
+  // the row's lower half.
+  keyRow: { flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 2 },
+  keyHit: { justifyContent: 'flex-start', paddingTop: 2 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',

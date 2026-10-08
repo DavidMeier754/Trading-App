@@ -169,6 +169,16 @@ function twinkle(cx: number, cy: number, r: number): string {
 }
 
 /**
+ * How far down its 120-unit frame each shape's ink reaches, top and bottom:
+ * the spark is drawn in the lower two thirds, the flames from near the top.
+ */
+const INK_Y: Record<FlameTier['shape'], [number, number]> = {
+  spark: [34, 116],
+  flame: [4, 116],
+  blaze: [4, 116],
+};
+
+/**
  * The streak's flame: an outer and an inner tongue, in the tier of `days`
  * (FLAME_TIERS). `lit` false is the flame gone cold, for the screen of a lost
  * streak (lesson/StreakScreens.tsx): the streak's own shape, in grey.
@@ -178,19 +188,29 @@ export function Flame({
   lit = true,
   days = 3,
   id,
+  centred = false,
 }: {
   size?: number;
   lit?: boolean;
   /** The streak it burns for: its tier. */
   days?: number;
   id: string;
+  /**
+   * The ink in the middle of the frame, at the same size: for the top bar,
+   * where the flame sits beside the streak's number and has to line up with
+   * it. Unset, every tier stands on the frame's floor, as on the streak
+   * screens, where the flame grows from the same base.
+   */
+  centred?: boolean;
 }) {
   const tier = lit ? flameTier(days) : FLAME_TIERS[1];
+  const [inkTop, inkBottom] = INK_Y[tier.shape];
+  const shift = centred ? (inkTop + inkBottom) / 2 - 60 : 0;
   const outer = lit ? tier.outer : ['#56606D', '#7C8795'];
   const inner = lit ? tier.inner : ['#8A95A3', '#B7C0CB'];
   const spark = tier.shape === 'spark';
   return (
-    <Svg width={size} height={size * 1.2} viewBox="0 0 100 120">
+    <Svg width={size} height={size * 1.2} viewBox={`0 ${shift} 100 120`}>
       <Defs>
         <LinearGradient id={`${id}o`} x1="0" y1="1" x2="0" y2="0">
           <Stop offset="0" stopColor={outer[0]} />

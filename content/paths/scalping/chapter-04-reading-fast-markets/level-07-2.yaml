@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [confluence, filter, candles, volume]
+icon: confluence
 learning_goal: "User runs four questions over every read — the line, the side of the average, the candle, the weight — and counts the yeses before deciding."
 purpose: "Counting is faster than arguing, and in a fast market you only have time to count."
 terms_introduced: []

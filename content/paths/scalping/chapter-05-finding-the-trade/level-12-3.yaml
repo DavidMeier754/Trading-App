@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [internals, market-context, management]
+icon: internals
 learning_goal: "User recognises a minute that turns the whole screen at once, treats it as the room rather than the name, and neither widens a stop nor re-fights it on lighter volume."
 purpose: "Almost every scalper's worst minute of the week is one the whole market shared, and almost none of them noticed at the time."
 terms_introduced: []

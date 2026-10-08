@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [market-context, index, sector]
+icon: market-wide
 learning_goal: "User can say what an index and a sector are, and treat both as context that shortens a list rather than as a signal that picks a side."
 purpose: "A name is never alone on the screen, and a beginner who ignores the two things around it spends the day wondering why good setups keep failing."
 terms_introduced: ["Index", "Sector"]

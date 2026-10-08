@@ -21,13 +21,16 @@ For several items, just write them one below the other. Claude sorts them.
 
 ```
 OK <STAGE> – merge
-Checklist: 1 ✓ 2 ✓ 3 ✗ (see below) 4 ✓
-Fun (1–5):
+```
+
+That is all it takes. Optionally, under it:
+```
+Needs your review: 1 ✓ 2 ✗ (see below)
 What I noticed (small things too, and things for later stages):
 Wishes for my next turn (parked in docs/plan/22-your-turn.md):
 ```
 
-If the list has an ✗, do not answer "OK" but send the bug report.
+If an item you were asked to review is ✗, do not answer "OK" but send the bug report. The PR already carries the stage's ✅ (`02-how-to-work.md` §1), so after the merge the next session starts with `Next stage.`
 
 ### C. Newcomer test (optional, for `FUN-PASS` and `VARIANCE`)
 

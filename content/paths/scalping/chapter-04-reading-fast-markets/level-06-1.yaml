@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [candles, signals]
+icon: candle-rejection
 learning_goal: "User can name a momentum candle and a doji on a 1-minute chart and say who won the minute in each."
 purpose: "On a fast chart one candle is the smallest piece of evidence you get, and you have to read it in a glance."
 terms_introduced: ["Doji"]

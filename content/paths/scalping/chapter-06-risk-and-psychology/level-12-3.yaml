@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [psychology, routine, sizing, r-multiple]
+icon: reset
 learning_goal: "User returns from a reset at half size, treats the first trades back as a test of execution, and goes back to full size on a count of trades taken as written."
 purpose: "Half size is not caution; it is the cheapest way to find out whether the state has actually passed."
 terms_introduced: []

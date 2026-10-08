@@ -73,7 +73,7 @@ One pass per chapter, so every file is touched once. Chapters 2–7 one after th
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2 per chapter
 
-**Prompt** (`[N]` = chapter number)
+**Session instructions** (`[N]` = chapter number; the session takes them as its prompt when `Next stage.` reaches a `CONTENT-FIX` stage and puts in its chapter number itself)
 ```
 Stage CONTENT-FIX-[N] from docs/plan/.
 
@@ -85,12 +85,15 @@ Recompute every changed chart question completely (entry, stop, size, result in 
 Change no learning goals, no level structure, no ids (the one exception: Chapter 7's Level 13, as the plan says).
 
 At the end: the render test for the chapter, a contact sheet of the changed screens, the three hand checks from §1, and Chapter [N]'s ticks in docs/content-todo/.
-Open a PR against main and get every check green.
-Report: before/after numbers from the worklist · deviations with their reason · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · before/after numbers from the worklist · deviations with their reason · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min per chapter)**
-1. Play two lessons and the checkpoint (links in the report).
-2. Read the before/after numbers.
-3. Look at three changed decisions, one of them "right, but lost".
-4. Read one lesson as a beginner would.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each), per chapter:
+- Two lessons and the checkpoint.
+- The before/after numbers in the report.
+- Three changed decisions, one of them "right, but lost".
+- One lesson, read as a beginner would.

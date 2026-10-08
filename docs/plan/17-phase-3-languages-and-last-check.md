@@ -22,14 +22,16 @@ _Part of the [build plan](README.md)_
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage, and fills `[list]` from your lines under `Next stage.`)
 ```
-Stage MARKETS from docs/plan/17-phase-3-languages-and-last-check.md. Launch markets: [list].
+Stage MARKETS from docs/plan/17-phase-3-languages-and-last-check.md. Launch markets, from my lines under "Next stage." (ask me if they are missing): [list].
 Read CLAUDE.md, docs/rules/10-legal-and-safety.md §7, content/market_profiles.yaml and docs/plan/02-how-to-work.md §1 and the "MARKETS" section in docs/plan/17-phase-3-languages-and-last-check.md. Research every rule on the web and name every source with its date. No advice, no provider names, no tax rules.
-PR, every check green, report: sources · sentences you should check · my test checklist. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · sources · sentences you should check · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test.** Play Chapter 8 Level 15 with two of the new profiles.
+**Needs you:** the sentences Claude is unsure about (scope item 5), listed in the report: check them.
+
+**Where to look** (optional; the report links each): Chapter 8 Level 15 with two of the new profiles.
 
 ### `TRANSLATE-1` … `TRANSLATE-n` – the launch languages
 
@@ -45,14 +47,16 @@ PR, every check green, report: sources · sentences you should check · my test 
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2 per batch
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage, puts in `[n]` itself and fills `[list]` from your lines under `Next stage.`)
 ```
-Stage TRANSLATE-[n] from docs/plan/. Languages: [list].
+Stage TRANSLATE-[n] from docs/plan/. Languages, from my lines under "Next stage." (ask me if they are missing): [list].
 Read CLAUDE.md, §1, Phase 3 and the "I18N-PIPELINE" and "TRANSLATE" sections of docs/plan/. Run the pipeline for these languages. Fix every failed check through the glossary or the style sheet — never by editing a translation by hand — and report the numbers per language.
-PR, every check green, report with contact sheets and a test checklist. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · contact sheets · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~15 min per batch).** Switch the app to each language and play one lesson. You don't need to understand it: look for cut-off text, English leftovers and broken numbers.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each): each language, one lesson. You don't need to understand it: look for cut-off text, English leftovers and broken numbers.
 
 ### `RTL` – right-to-left languages
 
@@ -66,18 +70,21 @@ Only if Arabic, Hebrew or another right-to-left language is on the list.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage RTL from docs/plan/17-phase-3-languages-and-last-check.md.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "RTL" section in docs/plan/17-phase-3-languages-and-last-check.md in full, plus docs/ui/14-glossary-and-copy.md §9 and docs/ui/15-theming-and-accessibility.md.
 Build exactly that scope. Charts keep time running left to right and numbers stay left to right.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test.** One lesson and the arena in Arabic or Hebrew: nothing overlaps, and the charts read left to right.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each): one lesson and the arena in Arabic or Hebrew — nothing overlaps, and the charts read left to right.
 
 ### `A11Y-PERF` – accessibility and speed on real devices
 
@@ -93,12 +100,14 @@ Report: what you built · check results · my test checklist with real links · 
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
-Stage A11Y-PERF from docs/plan/17-phase-3-languages-and-last-check.md. Read CLAUDE.md, docs/ui/15-theming-and-accessibility.md §10 and docs/plan/02-how-to-work.md §1 and the "A11Y-PERF" section in docs/plan/17-phase-3-languages-and-last-check.md. Check what can be checked automatically, fix the findings and write me the device checklist. PR, report. Then stop.
+Stage A11Y-PERF from docs/plan/17-phase-3-languages-and-last-check.md. Read CLAUDE.md, docs/ui/15-theming-and-accessibility.md §10 and docs/plan/02-how-to-work.md §1 and the "A11Y-PERF" section in docs/plan/17-phase-3-languages-and-last-check.md. Check what can be checked automatically, fix the findings and write me the device checklist. Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · the device checklist · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min).** The device checklist from the report, with VoiceOver or TalkBack on.
+**Needs you:** the device checklist from the report, with VoiceOver or TalkBack on. Screen readers, cheap devices and the battery on a real phone are what Claude cannot check itself.
+
+**Where to look** (optional; the report links each): the screens the fixes changed.
 
 ### The finished app
 

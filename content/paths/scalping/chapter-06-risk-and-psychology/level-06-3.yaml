@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [expectancy, risk, r-multiple]
+icon: expectancy
 learning_goal: "User builds an average win and an average loss in R from a record, and reads an average loss above 1R as a fault to find."
 purpose: "The two averages are where a method tells you the truth about itself, and the loser column is the one that tells it first."
 terms_introduced: []

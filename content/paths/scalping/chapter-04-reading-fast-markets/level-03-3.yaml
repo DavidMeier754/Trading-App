@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [levels, round-numbers, order-book]
+icon: levels
 learning_goal: "User marks round numbers as levels and treats every line as a band a few cents wide rather than one exact price."
 purpose: "Waiting for the exact cent is how a trader watches the level work without ever being in the trade."
 terms_introduced: []

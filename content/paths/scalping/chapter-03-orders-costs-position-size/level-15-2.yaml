@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [level-2, order-book, depth]
+icon: depth
 learning_goal: "User walks an order through more than one price level, reads aggression from time and sales, and ties book depth back to Chapter 1's liquidity clue."
 purpose: "A book is more than its best row — most orders worth sizing touch more than one."
 terms_introduced: []

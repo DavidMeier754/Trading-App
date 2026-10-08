@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [orders, execution, decisions]
+icon: ticket
 learning_goal: "User chooses between taking the ask and posting a price by comparing what the gap costs against what missing the trade would cost."
 purpose: "Both orders have a bill; only one of the two bills is printed on the screen in front of you."
 terms_introduced: []

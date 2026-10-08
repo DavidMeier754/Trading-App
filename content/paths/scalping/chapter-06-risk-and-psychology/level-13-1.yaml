@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [psychology, probability, expectancy]
+icon: probability
 learning_goal: "User treats a single trade's outcome as one draw from a series and judges the decision instead of the result."
 purpose: "Nothing else in this chapter survives a losing run unless you already expect losing runs."
 terms_introduced: ["Sample size"]

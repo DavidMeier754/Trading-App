@@ -17,7 +17,7 @@ That way no file is rewritten twice. Your critique of the lessons is collected i
 - The new content rules are checked automatically.
 - Every content session gets a ready-made worklist.
 
-**You prepare (~30 min).** Play a few lessons from Chapter 1 and Scalping Chapters 2–3, then write down what bothers you, like the look critique in `LOOK-BRIEF`. Paste it under the prompt:
+**You prepare (~30 min).** Play a few lessons from Chapter 1 and Scalping Chapters 2–3, then write down what bothers you, like the look critique in `LOOK-BRIEF`. Send it as lines under `Next stage.`:
 ```
 What bothers me in the lessons (screen link + one sentence):
 - …
@@ -62,24 +62,27 @@ Lessons I liked, and why:
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage, and takes the critique from your lines under `Next stage.`)
 ```
 Stage RULES from docs/plan/11-phase-1-content-rules.md.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "RULES" section in docs/plan/11-phase-1-content-rules.md in full, plus docs/rules/ and docs/level-files/ in full (every rule marked [v4]).
 New rules start as warnings; a plain `validate_content.py` stays at 0 errors. No content changes in this stage.
 
-My critique of the lessons:
+My critique of the lessons, from my lines under "Next stage." (ask me for it if it is missing):
 [paste your template here]
 
-Open a PR against main and get every check green.
-Report: new rules · warnings per chapter (table) · link to the worklists · my test checklist · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the worklists and a chapter export yourself.
+Report: what was built (with where to see it) · check results · new rules · warnings per chapter (table) · link to the worklists · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~10 min)**
-1. Read the worklists for Chapters 1 and 7: are the numbers plausible? The variance share today is e.g. 0 %.
-2. Open a chapter export: is it easy to read?
-3. Find your critique in the `CONTENT-FIX` section: is every point there, in the right chapter?
+**Needs you:** the tighter word limit per screen type that `RULES` proposes (scope item 1): you decide it. Claude checks the worklists, the export and where your critique landed itself, and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- The worklists for Chapters 1 and 7: are the numbers plausible? The variance share today is e.g. 0 %.
+- A chapter export: is it easy to read?
+- Your critique in the `CONTENT-FIX` section: is every point there, in the right chapter?
 
 ### `CONTENT-DESIGN` – the test bench learns the new fields
 
@@ -95,18 +98,22 @@ Report: new rules · warnings per chapter (table) · link to the worklists · my
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage CONTENT-DESIGN from docs/plan/11-phase-1-content-rules.md.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "CONTENT-DESIGN" section in docs/plan/11-phase-1-content-rules.md in full, plus docs/content-todo/, docs/level-files/ (every [DESIGN-REVIEW] field) and docs/ui/03-screen-types.md §3, docs/ui/06-reveal-and-hearts.md §5.1b, docs/ui/08-quotes-and-charts.md §6.4.
 Change only the test bench; no file in content/.
 
-Open a PR against main and get every check green.
-Report: what you added · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~10 min).** The new bench screens on your phone (links in the report).
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- The new bench screens (Settings → Testing → Every screen type; the `#all-screens/…` links in the report).
 
 ### `VARIANCE` – decided right, lost anyway
 
@@ -126,7 +133,7 @@ Report: what you added · check results · my test checklist with real links · 
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage VARIANCE from docs/plan/11-phase-1-content-rules.md.
 
@@ -137,19 +144,21 @@ Especially important:
 - The lesson must be understandable for someone with no prior knowledge at all, and variance must never read as an excuse for bad decisions.
 - No profit promises and no rates: nothing may say how often a setup or a decision wins. Where a number is needed for arithmetic, it is labelled as an example.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · the full text of lesson 2-4 to proofread · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · the full text of lesson 2-4 to proofread · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min, plus a newcomer if you have one)**
-1. Play lessons 1·2-3 and 2-4. Does the grid make "right call, lost anyway" clear without any number?
-2. Play a Chapter 1 decision that was right and loses (link in the report): is it immediately clear that you were *right*?
-3. **Newcomer test, if you have someone to ask** (optional, as in `FUN-PASS`):
-   - Someone without trading knowledge plays 2-3 and 2-4.
-   - Ask them afterwards: "You decided right and still lost – what does that mean?"
-   - Expected, in their own words: "One single trade says little; what counts is whether the decision was good."
-   - And: "How often does a setup work?" Expected: "I'd have to find out from my own trades."
-   - If they cannot say that, Claude revises the lesson.
+**Needs you:** only the **newcomer test, if you have someone to ask** (optional, as in `FUN-PASS`; Claude cannot play someone who has never seen the course):
+- Someone without trading knowledge plays 2-3 and 2-4.
+- Ask them afterwards: "You decided right and still lost – what does that mean?"
+- Expected, in their own words: "One single trade says little; what counts is whether the decision was good."
+- And: "How often does a setup work?" Expected: "I'd have to find out from my own trades."
+- If they cannot say that, Claude revises the lesson.
+
+**Where to look** (optional; the report links each):
+- Lessons 1·2-3 and 2-4: does the grid make "right call, lost anyway" clear without any number?
+- A Chapter 1 decision that was right and loses (link in the report): is it immediately clear that you were *right*?
 
 ### `OFFER` – Chapter 8 Level 15, account types and rules
 
@@ -180,18 +189,19 @@ Detailed prompt: **Appendix E.1**.
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage OFFER from docs/plan/11-phase-1-content-rules.md.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1, docs/plan/04-decisions.md §4.1 (decisions A, B, C) and the "OFFER" section in docs/plan/11-phase-1-content-rules.md in full, and docs/content-todo/ (Parts 1–3: the new level is written with skills and the new fields from the start). Then follow the detailed prompt in Appendix E.1 exactly.
 For the rule texts in content/market_profiles.yaml: research the current state on the web, name every source with its date in the report, and flag every sentence you are unsure about.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · sources · sentences you are unsure about (for me to check) · my test checklist with real links. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · sources · sentences you are unsure about (for me to check) · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min)**
-1. Skip ahead to Chapter 8 Level 15 and play all four lessons, once with the US profile and once with Germany.
-2. Check: informative, no recommendation, no product name, understandable.
-3. Read every place where Claude was unsure; the plan has no outside reviewer, so you decide.
+**Needs you:** every place where Claude was unsure (listed in the report with its sources); the plan has no outside reviewer, so you decide.
+
+**Where to look** (optional; the report links each):
+- Chapter 8 Level 15 (Settings → Testing → Skip ahead), all four lessons, once with the US profile and once with Germany: informative, no recommendation, no product name, understandable.

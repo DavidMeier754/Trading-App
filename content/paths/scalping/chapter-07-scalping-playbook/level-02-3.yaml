@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: new-theory
 tags: [vwap, setup-a, touches, practice]
+icon: vwap
 learning_goal: "User counts the touches before taking the bounce, reads the target off the chart before entering, and sizes the card from its own stop distance."
 purpose: "The same chart shape is a good trade at the first touch of the line and a bad one at the fifth."
 terms_introduced: []

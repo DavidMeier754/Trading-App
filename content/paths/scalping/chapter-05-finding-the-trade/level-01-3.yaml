@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [selection, position-size, account]
+icon: selection
 learning_goal: "User checks a name's share price against the account before reading its chart, and can say which of the two ceilings is binding."
 purpose: "The cheapest way to cross a name off is the price tag: if the account cannot pay for a position that matters, nothing else about the name does."
 terms_introduced: []

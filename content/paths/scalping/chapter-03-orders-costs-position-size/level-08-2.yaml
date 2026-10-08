@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: repetition
 tags: [orders, execution, drill, decisions]
+icon: ticket
 learning_goal: "User decides in a glance whether a moment is worth paying the ask for, and builds the entry and the exit for a short."
 purpose: "Order choice has to happen at the speed of the chart, which means it has to be drilled rather than reasoned."
 terms_introduced: []

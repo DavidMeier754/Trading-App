@@ -10,7 +10,7 @@ _Part of the [rules for content and code](README.md) · §5–6_
 4. Hook first. Every chapter's first level does something, not just explains something.
 5. Simple first exposure, depth through repetition and scenarios.
 6. **[v3]** Reps beat prose. When a choice exists between one more explanation and one more drill, write the drill.
-7. Stop after each step and wait for explicit approval before the next (section 6). **[v4]** In the build plan every stage ends at a gate: a report with David's test checklist, then nothing until his "OK" (`docs/plan/02-how-to-work.md` §1).
+7. Stop after each step and wait for explicit approval before the next (section 6). **[v4]** In the build plan every stage ends at a gate: a report, then nothing until David's "OK" (`docs/plan/02-how-to-work.md` §1). **[2026-10-08]** The report asks David to review only what really needs him; what Claude has checked itself it lists, with a link, under what was built.
 8. Run `python3 tools/validate_content.py` and fix every error and warning before declaring a step done, then do a zero-knowledge read-through of the whole chapter (typos, jargon before definition, absolute claims, coverage gaps, boredom).
 
 ---

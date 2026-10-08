@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [vwap, volume]
+icon: vwap
 learning_goal: "User can update a running VWAP with one more minute of trading and explain why the line gets harder to move as the session goes on."
 purpose: "Knowing how fast the line can move tells you how much a single minute of buying is really worth."
 terms_introduced: []

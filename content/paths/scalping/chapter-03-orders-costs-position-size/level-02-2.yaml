@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [spread, costs, break-even]
+icon: cost-spread
 learning_goal: "User can work out where a position breaks even once the spread is paid, and recognises that a green-looking screen can still be a losing exit."
 purpose: "Break-even is not your entry price, and traders who think it is take half their losses without noticing."
 terms_introduced: []

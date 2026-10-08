@@ -21,3 +21,11 @@ export function useLessonInfo(): LessonInfo {
  * made, and its reveal fills the room from there down to the key.
  */
 export const DecisionSpace = createContext<(bottom: number | null) => void>(() => {});
+
+/**
+ * docs/ui/08-quotes-and-charts.md §6.4a (David, 2026-10-08: with the verdict showing, the
+ * "?" key's legend squeezed the chart): a chart decision whose "?" is pressed
+ * after the call asks its verdict to step aside, and the legend takes its
+ * place; pressed again, the verdict is back where it was.
+ */
+export const RevealAside = createContext<(aside: boolean) => void>(() => {});

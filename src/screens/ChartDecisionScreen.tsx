@@ -11,6 +11,9 @@ import { scheduleOnRN } from 'react-native-worklets';
 import Chart, { chartHeightFor, closeAt, DEFAULT_GAPS, PLAY_START } from '../components/Chart';
 import { useGridAnchor } from '../components/gridAlign';
 import StateChips from '../components/StateChips';
+import { ExplainLegend } from '../components/ExplainKey';
+import { chartExplain, knowsFor } from '../components/explain';
+import { zoneLabel } from '../components/chartWords';
 import { signedPercent, signedPrice } from '../format';
 import type { AnswerValue } from '../lesson/answers';
 import { type ChartMove, startChartMove } from '../lesson/haptics';
@@ -23,7 +26,7 @@ import {
   longestDecisionReveal,
   positionTag,
 } from '../lesson/decisionReveal';
-import { DecisionSpace, useLessonInfo } from '../lesson/lessonContext';
+import { DecisionSpace, RevealAside, useLessonInfo } from '../lesson/lessonContext';
 import { tradePlanOf } from '../lesson/tradePlan';
 import { useProgress } from '../progress';
 import { knowsR } from '../skills';
@@ -83,6 +86,15 @@ export default function ChartDecisionScreen({
   const showR = !!plan && (everything || knowsR(lessonId, lessonsDone));
 
   const choice = value.kind === 'decision' ? value.choice : null;
+  // docs/ui/08-quotes-and-charts.md §6.4a: the "?" key, shared by the chart and the chips
+  // above it. The call puts it away; it can be pressed again once the
+  // outcome has played.
+  const [explainOn, setExplainOn] = useState(false);
+  const [legendH, setLegendH] = useState(0);
+  const legendRoom = legendH + space.sm;
+  useEffect(() => {
+    if (choice !== null) setExplainOn(false);
+  }, [choice]);
   // A screen come back to (the back button) opens on its finished chart; the
   // replay and what it plays on the hand belong to the first time only.
   const [revisit] = useState(revealed && choice !== null);
@@ -301,6 +313,28 @@ export default function ChartDecisionScreen({
 
   // Once the brief has folded the chart starts at the top of the area, so it
   // ends at its own height: the reveal takes the room from there to the key.
+  // docs/ui/08-quotes-and-charts.md §6.4a: the "?" key's legend goes under the chart, which
+  // gives up exactly its room while the learner decides. Once the verdict
+  // shows, the legend takes the verdict's place instead (it steps aside,
+  // RevealAside) and the chart keeps its size: giving up the legend's room as
+  // well as the verdict's left it squeezed (David, 2026-10-08), and a chart
+  // that changed size would move the key from under the finger. Only a legend
+  // taller than the verdict takes the difference from the chart. Pressed
+  // again, the verdict is back where it was.
+  const setAside = React.useContext(RevealAside);
+  const aside = explainOn && phase === 'done';
+  useEffect(() => {
+    setAside(aside);
+  }, [aside, setAside]);
+  useEffect(() => () => setAside(false), [setAside]);
+  const fullHeight = room !== undefined ? room - FIT_SLACK : chartHeight;
+  const shownHeight = !explainOn
+    ? chartHeight
+    : Math.max(
+        least,
+        aside ? Math.min(chartHeight, fullHeight - legendRoom) : chartHeight - legendRoom,
+      );
+
   const reportBottom = React.useContext(DecisionSpace);
   useEffect(() => {
     reportBottom(phase !== 'deciding' && folded ? chartHeight : null);
@@ -318,6 +352,40 @@ export default function ChartDecisionScreen({
         : choiceDir === 0
           ? 'faint'
           : null;
+
+  const visible = done ? endAt + 1 : start;
+  const explain = useMemo(
+    () =>
+      chartExplain(
+        {
+          chips: phase === 'deciding' ? (screen.state ?? []) : [],
+          pill:
+            phase === 'deciding' && visible < bars
+              ? zoneLabel(screen.chart.kind, bars - visible)
+              : null,
+          vwap: !!screen.chart.vwap,
+          levels: screen.chart.levels ?? [],
+          last: closeAt(screen.chart, Math.max(0, visible - 1)),
+          volume: hasVolume,
+          plan: !!plan && choice !== null,
+          ruler: !!ruler,
+        },
+        knowsFor(lessonId, lessonsDone, everything),
+      ),
+    [
+      screen,
+      phase,
+      visible,
+      bars,
+      hasVolume,
+      plan,
+      choice,
+      ruler,
+      lessonId,
+      lessonsDone,
+      everything,
+    ],
+  );
 
   // docs/ui/02-lesson-player-layout.md §2 [v4]: the scenario and its chart start at the top of the
   // area, as every screen does (Calm's layout, stage LOOK-BRIEF); the decision
@@ -345,7 +413,21 @@ export default function ChartDecisionScreen({
               onLayout={(e) => setBriefText(e.nativeEvent.layout.height)}
             >
               <TermText text={screen.scenario} style={styles.scenario} />
-              {screen.state?.length ? <StateChips state={screen.state} /> : null}
+              {screen.state?.length ? (
+                <StateChips
+                  state={screen.state}
+                  numbers={
+                    explainOn
+                      ? Object.fromEntries(
+                          explain
+                            .map((it, i) => [it.key, i + 1] as const)
+                            .filter(([k]) => k.startsWith('chip:'))
+                            .map(([k, n]) => [Number(k.slice(5)), n]),
+                        )
+                      : undefined
+                  }
+                />
+              ) : null}
             </View>
             <View style={{ height: briefH > 0 ? briefH - briefText : space.md }} />
           </Animated.View>
@@ -363,12 +445,12 @@ export default function ChartDecisionScreen({
           >
             <Chart
               spec={screen.chart}
-              visibleCount={done ? endAt + 1 : start}
+              visibleCount={visible}
               revealFrom={start}
               playback={playing ? progress : undefined}
               gridAnchor={grid.gridAnchor}
               width={chartWidth}
-              height={chartHeight}
+              height={shownHeight}
               outcome={phase === 'done' ? outcome : undefined}
               plan={plan ?? undefined}
               planShown={choice !== null}
@@ -380,6 +462,9 @@ export default function ChartDecisionScreen({
               scrub={phase === 'done'}
               free
               zoom={phase === 'deciding' || phase === 'done'}
+              explain={explain}
+              explainOn={explainOn}
+              onExplain={() => setExplainOn((v) => !v)}
             />
           </Pressable>
           {/* In the strip under the plot, opposite the VWAP key: a line of its
@@ -397,6 +482,22 @@ export default function ChartDecisionScreen({
             {phase === 'done' ? 'Not a prediction' : 'Tap to skip'}
           </Text>
         </View>
+        {/* docs/ui/08-quotes-and-charts.md §6.4a: the "?" key's legend, under the chart, which
+            gives up exactly its room -- so it covers nothing, and the keys and
+            the verdict stay where they are. Measured beforehand by a copy. */}
+        {explain.length ? (
+          <View
+            style={styles.legendProbe}
+            pointerEvents="none"
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          >
+            <ExplainLegend items={explain} style={{ width: chartWidth }} onHeight={setLegendH} />
+          </View>
+        ) : null}
+        {explainOn && explain.length ? (
+          <ExplainLegend items={explain} style={{ width: chartWidth, marginTop: space.sm }} />
+        ) : null}
       </View>
     </View>
   );
@@ -417,6 +518,7 @@ const styles = themed(() => ({
     right: 0,
     bottom: 0,
   },
+  legendProbe: { position: 'absolute', left: 0, top: 0, opacity: 0 },
   // Kept in the layout at all times: appearing mid-replay would shift the chart
   // under the line that is still drawing.
   playHintHidden: { opacity: 0 },

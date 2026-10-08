@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [close, flat, overnight, risk]
+icon: session-after
 learning_goal: "User finishes every session flat and can say what a position held past the close does to the risk they sized."
 purpose: "A scalp held overnight is not a scalp that went on longer. It is a different trade, with the stop switched off."
 terms_introduced: []

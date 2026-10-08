@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [stops, levels, structure]
+icon: stop
 learning_goal: "User measures stop distance from the entry to the price the chart says has to hold, and converts it into dollars for a given size."
 purpose: "Stop distance is the number the whole next level runs on, and the chart chooses it rather than you."
 terms_introduced: ["Stop distance"]

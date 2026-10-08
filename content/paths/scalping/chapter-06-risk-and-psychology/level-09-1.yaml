@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [risk, limits, discipline]
+icon: session-limit
 learning_goal: "User sets a daily loss limit and a trade limit in advance and stops trading when either is reached."
 purpose: "A scalper's account is rarely ruined by one trade — it is ruined by one morning that nobody stopped."
 terms_introduced: ["Daily loss limit", "Trade limit"]

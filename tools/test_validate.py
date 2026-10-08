@@ -213,6 +213,14 @@ expect_no("chapter: no-trade is not part of the split", check_chapter(split(8, 4
 expect_no("chapter: too few directional decisions to judge", check_chapter(split(6, 0)),
           "want no worse than 2:1")
 
+expect("header: unknown level icon", check_file(lesson(icon="no-such-icon")), "icon 'no-such-icon' is not one the app draws")
+expect_no("header: icon from the mapping table", check_file(lesson(icon="scanner")), "is not one the app draws")
+expect("carousel: unknown card icon", check_file(lesson(screens=lesson()["screens"][:-1] + [
+    {"type": "carousel", "cards": [{"label": "a", "text": "b", "icon": "unicorn"}, {"label": "c", "text": "d", "icon": "bull"}]},
+    lesson()["screens"][-1]])), "carousel icon 'unicorn' is not in the mapping table")
+expect_no("carousel: known card icons", check_file(lesson(screens=lesson()["screens"][:-1] + [
+    {"type": "carousel", "cards": [{"label": "a", "text": "b", "icon": "retail-trader"}, {"label": "c", "text": "d", "icon": "news"}]},
+    lesson()["screens"][-1]])), "mapping table")
 expect("chapter: no callback level", check_chapter([sub(i) for i in range(1, 20)]), "no Callback level")
 expect("chapter: difficulty run", check_chapter([sub(i, difficulty=2) for i in range(1, 20)]), "consecutive sub-levels at difficulty 2")
 expect("chapter: reinforcement quota", check_chapter([sub(i) for i in range(1, 20)]), "sit in subs declaring reinforces")
@@ -238,6 +246,11 @@ def chained(*ids, **over):
         d.update(over.get(lid, {}))
         out.append(d)
     return out
+
+
+expect("chapter: level without an icon", check_chain(chained("1-1", "1-2")), "level 1 has no icon")
+expect_no("chapter: one lesson of the level names it", check_chain(chained("1-1", "1-2", **{"1-2": {"icon": "candle"}})), "has no icon")
+expect_no("chapter: a test needs none", check_chain([exam(10, "test")]), "has no icon")
 
 
 expect("chain: prerequisite skips a sub",

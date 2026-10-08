@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [orders, execution, risk]
+icon: limit
 learning_goal: "User recognises that a capped order can leave them with no position at all, and handles the miss without chasing the price."
 purpose: "The ceiling is only worth having if you are willing to live with the mornings it costs you the trade."
 terms_introduced: ["Unfilled"]

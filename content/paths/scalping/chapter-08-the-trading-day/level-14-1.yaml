@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [simulator, plan, playbook, practice]
+icon: sim
 learning_goal: "User builds a thirty-session simulator plan around two cards and can say why the other six wait."
 purpose: "A month of practice that is spread across everything you know teaches you nothing about any of it."
 terms_introduced: []

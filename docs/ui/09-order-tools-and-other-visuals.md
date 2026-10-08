@@ -4,7 +4,7 @@ _Part of the [ui reference](README.md) · §6.5–6.10_
 
 ### 6.5 Bars, timelines, stacks
 - Horizontal bar chart: bars grow from 0 (400 ms, staggered 80 ms).
-- Session ribbon: horizontal ribbon with three colored segments (pre-market, regular, after-hours) and a "now" marker; times from the market profile. **[v4]** Drawn to scale in hours, with "now" in the learner's own time zone.
+- Session ribbon: horizontal ribbon with three colored segments (pre-market, regular, after-hours) and a "now" marker; times from the market profile. **[v4]** Drawn to scale in hours, with "now" in the learner's own time zone. **[LOOK-COMPONENTS] Built:** each session as wide as it is long; a session too narrow for its name (Germany's one-hour pre-market) leaves the name to the key under the ribbon, which lists each session with its times, then "Times in ET". "Now" is a bar through the ribbon where the market's clock stands as the screen opens, with a tag above it in the learner's own clock ("Now 19:03 your time"; "your time" is left out when the two clocks agree); outside the sessions it waits at the nearer end and adds "closed". It does not tick (§2).
 - Cost stack: stacked bar (spread + slippage + fees) against a target-profit bar with the consumed percentage. Always labeled with the share count.
 
 ### 6.6 Order book ladder (Chapter 3+)

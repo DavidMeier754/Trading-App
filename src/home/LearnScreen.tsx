@@ -927,8 +927,10 @@ function Hud({
                   flame from a month (home/scenes.tsx, FLAME_TIERS). */}
               <Animated.View style={flameCatch}>
                 {lit ? (
+                  // Its ink centred in the box, so it lines up with the number
+                  // beside it in every tier (the spark is drawn low in its frame).
                   <View style={styles.hudFlame}>
-                    <Flame size={20} days={streak} id="hudFlame" />
+                    <Flame size={20} days={streak} id="hudFlame" centred />
                   </View>
                 ) : (
                   <Icon name="flame" size={22} color={flame} />
@@ -2030,7 +2032,7 @@ const styles = themed(() => ({
     backgroundColor: colors.warning,
   },
   heartBox: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
-  hudFlame: { width: 22, height: 24, alignItems: 'center', justifyContent: 'flex-end' },
+  hudFlame: { width: 22, height: 24, alignItems: 'center', justifyContent: 'center' },
   heartRing: { position: 'absolute', left: 0, top: 0 },
   // Under the heart, kept on the screen: the column is the last one.
   heartTipWrap: {

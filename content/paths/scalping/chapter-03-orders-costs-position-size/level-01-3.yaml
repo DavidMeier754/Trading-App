@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [spread, quote-panel, practice]
+icon: spread
 learning_goal: "User reads a quote panel at speed: which two numbers, how far apart, and what changed since the last look."
 purpose: "In a fast stock the panel is a moving instrument, and a scalper has about a second to read it."
 terms_introduced: []

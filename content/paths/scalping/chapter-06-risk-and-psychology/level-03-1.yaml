@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [risk, management, stops, costs]
+icon: manage
 learning_goal: "User moves a stop to break-even only once price has cleared the level the trade was leaning on, and prices what a scratch costs."
 purpose: "A stop pulled to the entry too early turns a working trade into a scratch, and four scratches cost most of a full stop."
 terms_introduced: []

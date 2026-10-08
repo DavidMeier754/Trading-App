@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [spread, quote-panel, bid-ask]
+icon: spread
 learning_goal: "User reads bid, ask, last and the spread off a quote panel and can subtract one from the other without thinking about it."
 purpose: "Every scalp begins at one of these two prices and ends at the other, so reading them has to be instant."
 terms_introduced: ["Bid", "Ask", "Last", "Quote panel"]

@@ -1,13 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { LayoutChangeEvent, Text, useWindowDimensions, View } from 'react-native';
-import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
+import { LayoutChangeEvent, Pressable, Text, useWindowDimensions, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 
-import { colors, space, type, themed } from '../theme';
+import { colors, radius, space, TAP_TARGET, type, themed } from '../theme';
 import type { Screen } from '../types';
 import type { Grade } from './answers';
 import { earnedXp, getProgress, MAX_HEARTS, streakDays, useHearts, useProgress } from '../progress';
 import Confetti from './Confetti';
-import { celebrateFeedback } from './feedback';
+import { celebrateFeedback, tapFeedback } from './feedback';
 import { emitMood } from './look';
 import { SPRING_POP, useMotion } from './motion';
 import { useDisplayFace } from '../fonts';
@@ -43,10 +48,19 @@ export default function LessonComplete({
   gems = 0,
   lessonId = null,
   design,
+  subtitle,
+  missed = [],
+  onPractice,
 }: {
   screens: Screen[];
   grades: (Grade | null)[];
   levelTitle: string;
+  /** [v4] The lesson's own name (`subtitle`), or where it sits on the path until it has one. */
+  subtitle?: string;
+  /** [v4] One line for each question missed in the lesson. */
+  missed?: string[];
+  /** [v4] "Practice these": a round of the missed questions. */
+  onPractice?: () => void;
   xp: number;
   /** The lesson counts for the streak: the summary shows where it stands. */
   daily?: boolean;
@@ -118,6 +132,14 @@ export default function LessonComplete({
   }, [perfect]);
 
   const titleStyle = useRise(title, m.travel(18));
+  // The missed questions are laid out from the start, so nothing moves when
+  // they show: they come up once the design has landed.
+  const after = useSharedValue(m.reduced ? 1 : 0);
+  useEffect(() => {
+    if (landed && !m.reduced) after.set(withTiming(1, { duration: 280 }));
+  }, [landed, m.reduced, after]);
+  const afterStyle = useAnimatedStyle(() => ({ opacity: after.get() }));
+  const shownMissed = missed.slice(0, MISSED_ROWS);
   const tone = perfect ? colors.warning : colors.success;
   const props = { data, width: wrap.w || Math.min(width, 440), onLand: land };
 
@@ -140,6 +162,7 @@ export default function LessonComplete({
           {practice ? 'Round complete' : perfect ? 'Perfect run' : 'Lesson done'}
         </Text>
         <Text style={[styles.title, display]}>{levelTitle}</Text>
+        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       </Animated.View>
 
       <View
@@ -162,9 +185,45 @@ export default function LessonComplete({
           <RingWin {...props} />
         )}
       </View>
+
+      {missed.length > 0 ? (
+        <Animated.View style={[styles.missed, afterStyle]}>
+          <Text style={styles.missedHead}>
+            {`Missed ${missed.length === 1 ? '1 question' : `${missed.length} questions`}`}
+          </Text>
+          {shownMissed.map((line, i) => (
+            <View key={i} style={styles.missedRow}>
+              <View style={styles.missedDot} />
+              <Text style={styles.missedLine} numberOfLines={1}>
+                {line}
+              </Text>
+            </View>
+          ))}
+          {missed.length > shownMissed.length ? (
+            <Text
+              style={styles.missedMore}
+            >{`and ${missed.length - shownMissed.length} more`}</Text>
+          ) : null}
+          {onPractice ? (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => {
+                tapFeedback();
+                onPractice();
+              }}
+              style={({ pressed }) => [styles.practice, pressed && { opacity: 0.7 }]}
+            >
+              <Text style={styles.practiceText}>Practice these</Text>
+            </Pressable>
+          ) : null}
+        </Animated.View>
+      ) : null}
     </View>
   );
 }
+
+/** A long list of misses shows its first rows and a count. */
+const MISSED_ROWS = 3;
 
 const styles = themed(() => ({
   wrap: { alignItems: 'center', gap: space.xl, alignSelf: 'stretch' },
@@ -173,4 +232,35 @@ const styles = themed(() => ({
   kicker: { ...type.label, textTransform: 'uppercase', letterSpacing: 1.6 },
   title: { ...type.title, color: colors.text, textAlign: 'center' },
   stage: { alignSelf: 'stretch', alignItems: 'center' },
+  subtitle: { ...type.body, color: colors.textMuted, textAlign: 'center' },
+  missed: {
+    alignSelf: 'stretch',
+    gap: 6,
+    padding: space.md,
+    borderRadius: radius.lg,
+    borderWidth: 1.5,
+    borderColor: colors.borderStrong,
+    backgroundColor: colors.surface,
+  },
+  missedHead: {
+    ...type.label,
+    color: colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  missedRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
+  missedDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.down },
+  missedLine: { ...type.small, color: colors.text, flex: 1 },
+  missedMore: { ...type.small, color: colors.textMuted, marginLeft: 16 },
+  practice: {
+    minHeight: TAP_TARGET,
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    paddingHorizontal: space.lg,
+    marginTop: 2,
+    borderRadius: radius.md,
+    borderWidth: 1.5,
+    borderColor: colors.accent,
+  },
+  practiceText: { ...type.answer, color: colors.accent, fontWeight: '700' },
 }));

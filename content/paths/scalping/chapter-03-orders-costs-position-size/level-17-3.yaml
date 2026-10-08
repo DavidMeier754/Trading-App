@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [costs, checklist, plan]
+icon: checklist
 learning_goal: "User runs the four pre-trade questions in order, names which one has failed when one does, and writes down the cost limits they will trade by."
 purpose: "A chapter's worth of arithmetic is only useful if it collapses into four questions you can answer before the next candle closes."
 terms_introduced: []

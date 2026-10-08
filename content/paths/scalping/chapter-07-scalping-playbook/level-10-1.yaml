@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: new-theory
 tags: [gap, continuation, setup-f, playbook]
+icon: gap
 learning_goal: "User can tell a gap that is being held from one that is being sold, and take the first quiet pullback above the session's first print with a stop under it."
 purpose: "A gap is the loudest thing on the chart at the open, and without a card the learner either buys it blind or watches the whole move from the sidelines."
 terms_introduced: ["Gap-and-go"]

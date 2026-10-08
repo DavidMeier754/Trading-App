@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [vwap, decisions, levels]
+icon: vwap-trade
 learning_goal: "User can tell a minute that took the line back from a minute that only visited the other side of it."
 purpose: "The trade that pays for knowing the line is the one where control of the session changes hands."
 terms_introduced: ["Reclaim"]

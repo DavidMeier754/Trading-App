@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [pre-market, risk, if-then, plan]
+icon: session-pre
 learning_goal: "User writes the day's three risk numbers and one if-then line per name, naming the trigger, the size and the price that ends it."
 purpose: "A sentence written an hour early is a rule; the same sentence written at the open is a justification."
 terms_introduced: ["If-then plan"]

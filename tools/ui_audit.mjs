@@ -40,10 +40,18 @@ export const TAP_TARGET = 48;
  */
 const NARROW = ['^Candle \\d+ of \\d+$'];
 
-/** The options `auditScreen` takes. */
-export const AUDIT = { minFont: MIN_FONT, tapTarget: TAP_TARGET, narrow: NARROW };
+/**
+ * Buttons that are words in a line of text. A `spot-mistake` statement is one
+ * sentence whose parts are each a tap (docs/ui/04-question-types.md §4.1): a part is as
+ * tall as its line (40 pt), and a part on a line of its own as wide as its
+ * words. The Check step stands behind a mis-tap.
+ */
+const INLINE = ['^Part \\d+ of \\d+: '];
 
-export function auditScreen({ minFont, tapTarget, narrow, only = null }) {
+/** The options `auditScreen` takes. */
+export const AUDIT = { minFont: MIN_FONT, tapTarget: TAP_TARGET, narrow: NARROW, inline: INLINE };
+
+export function auditScreen({ minFont, tapTarget, narrow, inline = [], only = null }) {
   const parse = (value) => {
     const m = /rgba?\(([^)]+)\)/.exec(value || '');
     if (!m) return null;
@@ -156,6 +164,7 @@ export function auditScreen({ minFont, tapTarget, narrow, only = null }) {
     const h = el.offsetHeight ?? box.height;
     const name = el.getAttribute('aria-label') || '';
     if (h >= tapTarget && narrow.some((re) => new RegExp(re).test(name))) continue;
+    if (inline.some((re) => new RegExp(re).test(name))) continue;
     if (w < tapTarget - 0.5 || h < tapTarget - 0.5) {
       findings.push({
         kind: 'target',

@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: repetition
 tags: [callback, liquidity, spread, position-size]
+icon: rewind
 learning_goal: "User runs Chapter 1's liquidity dial and Chapter 2's volume row as a price: the gap it produces, and the share count the stock and the account will both allow."
 purpose: "Liquidity was a feeling in Chapter 1 and a row on the chart in Chapter 2. Here it is a number in cents, and it decides how much stock you can hold."
 terms_introduced: []

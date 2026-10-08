@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [limits, simulator, risk, plan]
+icon: sim
 learning_goal: "User bounds the simulated month with a trade cap, a daily limit and a floor for the whole thirty sessions, and holds all three when a card fires past them."
 purpose: "A month with no floor under it can spend thirty sessions proving one mistake very thoroughly."
 terms_introduced: []

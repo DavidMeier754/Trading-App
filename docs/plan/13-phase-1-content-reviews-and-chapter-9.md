@@ -14,18 +14,20 @@ After every chapter is fixed, Claude checks the whole Scalping course twice: for
 
 **Model · effort · sessions:** Fable 5.1 · max (else Opus 5.5 · max) · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage KNOWLEDGE from docs/plan/13-phase-1-content-reviews-and-chapter-9.md.
 
 Read CLAUDE.md, then docs/plan/01-goal-and-guardrails.md §0 (graduate profile) and the "KNOWLEDGE" section in docs/plan/13-phase-1-content-reviews-and-chapter-9.md, then follow the detailed prompt in Appendix E.6 for the scalping path.
 An additional fifth question: go through the graduate profile point by point and name, for every point, where it is taught (file, screen) — or that it is missing, and where it would belong.
-Change nothing.
+Change nothing. Open a PR against main that marks this step ✅ in docs/plan/ (its only change), and get every check green.
 
-Report: a numbered list of findings, most important first, with file and screen · items that need outside knowledge (law, broker practice), for me to judge · open questions. Then stop.
+Report: a numbered list of findings, most important first, with file and screen · items that need outside knowledge (law, broker practice), for me to judge · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You:** read the findings and decide each one: yes, no or later. The yes-findings go to `KNOWLEDGE-FIX`. Items that need outside knowledge (law, broker practice) are listed for you; the plan has no outside expert (David, 2026-10-05).
+**Needs you:** read the findings and decide each one: yes, no or later. The yes-findings go to `KNOWLEDGE-FIX`: send them as lines under `Next stage.` for its session. Items that need outside knowledge (law, broker practice) are listed for you; the plan has no outside expert (David, 2026-10-05).
+
+**Where to look** (optional; the report links each): every finding at its file and screen.
 
 ### `KNOWLEDGE-FIX`
 
@@ -33,15 +35,17 @@ Implements the approved findings: new screens or lessons, following every rule.
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–3
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage, and fills `[list]` from your lines under `Next stage.`)
 ```
 Stage KNOWLEDGE-FIX from docs/plan/13-phase-1-content-reviews-and-chapter-9.md.
 
-Read CLAUDE.md, docs/rules/, docs/level-files/, docs/ui/, docs/content-todo/01-rules-from-the-design-review.md (Part 1), and §1 of docs/plan/02-how-to-work.md. Implement these approved findings from KNOWLEDGE: [list]. New lessons follow docs/course/ (add them there) and every rule.
-Open a PR against main and get every check green. Report with a test checklist. Then stop.
+Read CLAUDE.md, docs/rules/, docs/level-files/, docs/ui/, docs/content-todo/01-rules-from-the-design-review.md (Part 1), and §1 of docs/plan/02-how-to-work.md. Implement these approved findings from KNOWLEDGE, from my lines under "Next stage." (ask me for them if they are missing): [list]. New lessons follow docs/course/ (add them there) and every rule.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test:** play the new lessons.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each): the new lessons.
 
 ### `REVIEW-A` – does the course teach well?
 
@@ -51,15 +55,19 @@ Open a PR against main and get every check green. Report with a test checklist. 
 - Review: Fable 5.1 · high (else Opus 5.5 · max) · 1.
 - Corrections: Opus 5.5 · high · 1–3.
 
-**Prompt (review)**
+**Session instructions** (review, session 1: the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
-Stage REVIEW-A from docs/plan/13-phase-1-content-reviews-and-chapter-9.md. Read CLAUDE.md and follow the detailed prompt in Appendix E.5 for the scalping path. Change nothing. Then stop.
+Stage REVIEW-A from docs/plan/13-phase-1-content-reviews-and-chapter-9.md. Read CLAUDE.md and follow the detailed prompt in Appendix E.5 for the scalping path. Change nothing. Open a PR against main that marks this step ✅ in docs/plan/ (its only change), and get every check green. Report: the numbered list of findings, most important first, with file and screen · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**Prompt (corrections)**
+**Session instructions** (corrections, from session 2 on: the session takes them as its prompt when `Next stage.` reaches this stage after the review, and fills `[list]` from your lines under `Next stage.`)
 ```
-Stage REVIEW-A (corrections) from docs/plan/13-phase-1-content-reviews-and-chapter-9.md. Read CLAUDE.md, docs/rules/, docs/level-files/, docs/ui/ and §1 of docs/plan/02-how-to-work.md. Implement these approved findings: [list]. PR, every check green, report with a test checklist. Then stop.
+Stage REVIEW-A (corrections) from docs/plan/13-phase-1-content-reviews-and-chapter-9.md. Read CLAUDE.md, docs/rules/, docs/level-files/, docs/ui/ and §1 of docs/plan/02-how-to-work.md. Implement these approved findings, from my lines under "Next stage." (ask me for them if they are missing): [list]. Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
+
+**Needs you:** after the review, which findings get built: approve them and send them as lines under `Next stage.` for the corrections. Claude checks the corrected screens itself.
+
+**Where to look** (optional; the report links each): every finding at its file and screen, and the screens the corrections changed.
 
 ### `REPLAY-BANK` – 22 replays for scalping
 
@@ -74,12 +82,14 @@ Stage REVIEW-A (corrections) from docs/plan/13-phase-1-content-reviews-and-chapt
 
 **Model · effort · sessions:** Opus 5.5 · high · ~4 (about six replays per session)
 
-**Prompt** (per session)
+**Session instructions** (per session: the session takes them as its prompt when `Next stage.` reaches this stage, and fills `[cards]` and `[1/2/3]` itself, from the replays `docs/course/` plans that are not written yet, or from the "Left for session n:" line)
 ```
-Stage REPLAY-BANK from docs/plan/13-phase-1-content-reviews-and-chapter-9.md. Read CLAUDE.md, docs/plan/02-how-to-work.md §1 and the "REPLAY-BANK" section in docs/plan/13-phase-1-content-reviews-and-chapter-9.md and docs/content-todo/01-rules-from-the-design-review.md (Part 1), then follow Appendix E.2 (bank) for the cards [cards] at reading level [1/2/3], starting from CHART-GEN candidates. PR, report with a test checklist. Then stop.
+Stage REPLAY-BANK from docs/plan/13-phase-1-content-reviews-and-chapter-9.md. Read CLAUDE.md, docs/plan/02-how-to-work.md §1 and the "REPLAY-BANK" section in docs/plan/13-phase-1-content-reviews-and-chapter-9.md and docs/content-todo/01-rules-from-the-design-review.md (Part 1), then follow Appendix E.2 (bank) for the cards [cards] at reading level [1/2/3], starting from CHART-GEN candidates. Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test.** Play two replays per session in the arena.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each): two replays per session, in the arena.
 
 ### `OWN-STRATEGY-OUTLINE` – Chapter 9's level plan **[CONTENT-REVIEW]**
 
@@ -96,18 +106,20 @@ Stage REPLAY-BANK from docs/plan/13-phase-1-content-reviews-and-chapter-9.md. Re
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage OWN-STRATEGY-OUTLINE from docs/plan/13-phase-1-content-reviews-and-chapter-9.md.
 
 Read CLAUDE.md, docs/plan/02-how-to-work.md §1, the "OWN-STRATEGY-OUTLINE" section in docs/plan/13-phase-1-content-reviews-and-chapter-9.md, docs/course/08-chapter-9-your-own-strategy.md, docs/rules/ and docs/level-files/ in full, and the Chapter 6–8 sections of docs/course/.
 Write Chapter 9's level plan into docs/course/08-chapter-9-your-own-strategy.md. No content files.
 
-Open a PR against main and get every check green.
-Report: the level plan · decisions I need to make · what the app needs. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Report: what was built (with where to see it) · check results · the level plan · decisions I need to make · what the app needs · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min).** Read the level plan and decide the open points.
+**Needs you:** the level plan is yours to approve: read it and decide the open points.
+
+**Where to look** (optional; the report links each): the level plan in `docs/course/08-chapter-9-your-own-strategy.md`, in the PR.
 
 ### `OWN-STRATEGY` – Chapter 9, written **[CONTENT-REVIEW]**
 
@@ -120,18 +132,21 @@ Report: the level plan · decisions I need to make · what the app needs. Then s
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage OWN-STRATEGY from docs/plan/13-phase-1-content-reviews-and-chapter-9.md.
 
 Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, docs/content-todo/ (Parts 1–3 and 6), docs/plan/02-how-to-work.md §1, the "OWN-STRATEGY" section in docs/plan/13-phase-1-content-reviews-and-chapter-9.md and the approved level plan in docs/course/08-chapter-9-your-own-strategy.md.
 Write Chapter 9 as planned. Work in blocks of two levels; after every block validate_content.py and check_sizing.py.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min).** Play the chapter from the first lesson to the capstone, once as a beginner would.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each): the chapter from the first lesson to the capstone, played once as a beginner would.
 
 ### Milestone – Scalping is finished
 

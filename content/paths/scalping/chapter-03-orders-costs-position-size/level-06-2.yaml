@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [orders, execution, limit-order]
+icon: ticket
 learning_goal: "User can post a limit order, knows it fills at their price or better, and accepts that it may simply never trade."
 purpose: "The limit order is the only way to stop paying the gap, and the only way to miss the trade entirely."
 terms_introduced: ["Limit order"]

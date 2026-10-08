@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [level-2, order-book]
+icon: depth
 learning_goal: "User can read a basic Level 2 ladder and time & sales, and predict how an order larger than the displayed size moves the price."
 purpose: "The quote panel shows two numbers; Level 2 shows the crowd behind them — and how far your own order will push the price."
 terms_introduced: ["Level 2", "Order book", "Displayed size", "Time and sales", "Tape"]

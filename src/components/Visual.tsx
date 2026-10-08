@@ -16,6 +16,7 @@ import QuotePanel from './data/QuotePanel';
 import ScannerTable from './data/ScannerTable';
 import SessionRibbon from './data/SessionRibbon';
 import DrawOnChart from './DrawOnChart';
+import { ExplainLegend, useChartExplain } from './ExplainKey';
 import MiniChart from './MiniChart';
 import QuoteCard from './QuoteCard';
 import DecisionGrid, { cellOf, type DecisionCellName } from '../lesson/DecisionGrid';
@@ -146,29 +147,7 @@ export default function Visual({
         levels: data.levels,
         vwap: data.vwap,
       };
-      const bars = Array.isArray(spec.data) ? spec.data.length : 0;
-      const hasVolume = Array.isArray(spec.volume) && spec.volume.length > 0;
-      const chartWidth = chartWidthFor(width, hasVolume);
-      return (
-        <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
-          <DrawOnChart bars={bars}>
-            {(visibleCount, draw) => (
-              <Chart
-                spec={spec}
-                visibleCount={visibleCount}
-                width={chartWidth}
-                height={chartHeightFor(hasVolume)}
-                showDecisionMarker={false}
-                draw={spec.kind === 'line' ? draw : undefined}
-                gridAnchor={grid.gridAnchor}
-                emphasis
-                scrub
-                zoom
-              />
-            )}
-          </DrawOnChart>
-        </View>
-      );
+      return <ReadChart spec={spec} width={width} grid={grid} />;
     }
     default:
       return (
@@ -177,6 +156,54 @@ export default function Visual({
         </View>
       );
   }
+}
+
+/**
+ * A chart that is there to be read (a theory card's, a `visual`'s): it draws
+ * on, can be scrubbed and zoomed, and has the "?" key (docs/ui/08-quotes-and-charts.md §6.4a) for
+ * what the learner has been taught on it.
+ */
+function ReadChart({
+  spec,
+  width,
+  grid,
+}: {
+  spec: ChartSpec;
+  width: number;
+  grid: ReturnType<typeof useGridAnchor>;
+}) {
+  const bars = Array.isArray(spec.data) ? spec.data.length : 0;
+  const hasVolume = Array.isArray(spec.volume) && spec.volume.length > 0;
+  const chartWidth = chartWidthFor(width, hasVolume);
+  const explain = useChartExplain(spec, bars);
+  const [explainOn, setExplainOn] = React.useState(false);
+  return (
+    <View ref={grid.ref} onLayout={grid.onLayout} style={styles.chartBox}>
+      <DrawOnChart bars={bars}>
+        {(visibleCount, draw) => (
+          <Chart
+            spec={spec}
+            visibleCount={visibleCount}
+            width={chartWidth}
+            height={chartHeightFor(hasVolume)}
+            showDecisionMarker={false}
+            draw={spec.kind === 'line' ? draw : undefined}
+            gridAnchor={grid.gridAnchor}
+            emphasis
+            scrub
+            zoom
+            explain={explain}
+            explainOn={explainOn}
+            onExplain={() => setExplainOn((v) => !v)}
+          />
+        )}
+      </DrawOnChart>
+      {/* The "?" key's legend (docs/ui/08-quotes-and-charts.md §6.4a), under the chart while it is on. */}
+      {explainOn && explain.length ? (
+        <ExplainLegend items={explain} style={{ width: chartWidth, marginTop: space.sm }} />
+      ) : null}
+    </View>
+  );
 }
 
 /**

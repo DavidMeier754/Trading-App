@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [vwap, levels]
+icon: vwap
 learning_goal: "User can say what VWAP is and work out a simple volume-weighted average from a handful of trades."
 purpose: "VWAP is the one line almost every intraday trader has on the screen, and it is the first thing a scalper looks at after the shape of the chart."
 terms_introduced: ["VWAP"]

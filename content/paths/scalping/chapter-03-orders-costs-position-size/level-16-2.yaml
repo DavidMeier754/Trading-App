@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: repetition
 tags: [callback, levels, stops, position-size]
+icon: rewind
 learning_goal: "User turns a Chapter 2 level into a stop placement, measures the distance, sizes from it, and knows what the opening session's wider quote does to a tight stop."
 purpose: "Chapter 2 taught you to find the price that has turned the market. That price is where the stop has a reason to sit — and the distance to it is what sets your share count."
 terms_introduced: []

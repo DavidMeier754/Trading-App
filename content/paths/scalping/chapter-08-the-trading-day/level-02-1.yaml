@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [hotkeys, execution, risk]
+icon: hotkeys
 learning_goal: "User can say why the exit key matters more than the entry key, and prices a few seconds of hesitation in dollars."
 purpose: "Speed is not a thrill. It is the difference between the stop you planned and the stop you got."
 terms_introduced: ["Hotkey", "Flatten"]

@@ -5,6 +5,7 @@ chapter_title: "Scalping Playbook"
 path: scalping
 category: repetition
 tags: [vwap, setup-a, practice, decisions]
+icon: vwap
 learning_goal: "User takes the VWAP bounce only when all five fields are filled, and passes when the context or the volume is wrong."
 purpose: "A card is worth nothing until you can spot the charts that almost look like it."
 terms_introduced: []

@@ -253,13 +253,31 @@ function overlaps(text: string, a: string, b: string): boolean {
  * that introduces the term "R" is played, or this lesson comes after it.
  */
 export function knowsR(lessonId: string | null, done: Record<string, unknown>): boolean {
-  const r = TERMS.get('r');
-  if (!r) return false;
-  if (done[r.lessonId]) return true;
-  if (lessonId === null) return false;
+  return knowsTerm('R', lessonId, done) !== null;
+}
+
+/**
+ * A term the learner has been taught, with its line, or null: the lesson that
+ * introduces it is played, or this lesson comes after it on the path
+ * (docs/ui/08-quotes-and-charts.md §6.4: the "?" key, and the R ruler's rule).
+ */
+export function knowsTerm(
+  name: string,
+  lessonId: string | null,
+  done: Record<string, unknown>,
+): Skill | null {
+  const term = TERMS.get(normTerm(name)) ?? null;
+  if (!term) return null;
+  if (done[term.lessonId]) return term;
+  if (lessonId === null) return null;
   const here = ORDER.get(lessonId);
-  const there = ORDER.get(r.lessonId);
-  return here !== undefined && there !== undefined && here > there;
+  const there = ORDER.get(term.lessonId);
+  return here !== undefined && there !== undefined && here > there ? term : null;
+}
+
+/** Every term the course defines, by name: for the elements a chart can explain. */
+export function termNamed(name: string): Skill | null {
+  return TERMS.get(normTerm(name)) ?? null;
 }
 
 const DEFINITION_BY_TERM = new Map<string, string>(

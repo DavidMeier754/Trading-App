@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: repetition
 tags: [session, selection, limits, playbook]
+icon: week
 learning_goal: "User runs a green session and a red session off the same page, and lets the red one cost exactly what the page allowed."
 purpose: "Two sessions that look like opposites are the same page being followed twice."
 terms_introduced: []

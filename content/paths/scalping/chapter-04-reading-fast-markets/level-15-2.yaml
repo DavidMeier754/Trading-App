@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [halt, risk, sizing]
+icon: halt
 learning_goal: "User can say what a reopening does to a resting stop and sizes for the gap rather than for the stop distance."
 purpose: "The only part of a halt you control is the share count you chose before it happened."
 terms_introduced: []

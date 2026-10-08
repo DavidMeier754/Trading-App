@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [sizing, execution, costs, risk]
+icon: size-up
 learning_goal: "User takes one step of size at a time, recomputes the unit and the caps behind it, and picks a name the bigger number can actually be filled in."
 purpose: "The step is arithmetic and a fill, not a feeling of promotion."
 terms_introduced: []

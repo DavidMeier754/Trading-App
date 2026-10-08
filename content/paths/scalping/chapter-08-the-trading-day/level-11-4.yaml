@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [stats, review, plan, process]
+icon: numbers
 learning_goal: "User turns a month of rows into exactly one change, and can say which number on the card is allowed to justify which change."
 purpose: "Reading the numbers is the easy half. Changing one thing at a time is what makes the next month readable."
 terms_introduced: []

@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [candles, context, levels]
+icon: candle-rejection
 learning_goal: "User reads the same candle shape differently depending on whether it sits at a marked line or in open space."
 purpose: "A shape is evidence about a price. With no price worth arguing about, it is evidence about nothing."
 terms_introduced: []

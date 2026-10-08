@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [selection, liquidity, volume]
+icon: selection
 learning_goal: "User rejects a name whose typical minute cannot absorb the size they trade, before the chart is read at all."
 purpose: "A scalp is held for a minute, so the only volume that matters is the volume in a minute — and most names do not have it."
 terms_introduced: []

@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [slippage, execution, order-types]
+icon: slippage
 learning_goal: "User names what widens or narrows slippage, builds a marketable-limit ticket that caps it, and can tell a high-slip moment from a low-slip one on sight."
 purpose: "Naming slippage was Level 13-1. Controlling it is a ticket you build and a shape on the chart you learn to recognise."
 terms_introduced: []

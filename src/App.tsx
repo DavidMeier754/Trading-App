@@ -8,6 +8,7 @@ import Backdrop from './components/Backdrop';
 import { GridOriginProvider } from './components/gridAlign';
 import ErrorBoundary, { DebugCrash } from './ErrorBoundary';
 import { isBonus, LessonEntry, LESSONS, nodeOf, TEST_BENCH } from './content';
+import { resolveKey, roundLevel } from './practice';
 import Home, { openHomeAt } from './home/Home';
 import { isMapStyle, setMapStyle } from './home/mapStyle';
 import { SUGGESTIONS } from './home/ideas';
@@ -30,6 +31,7 @@ import {
 import { flySkills } from './home/fly';
 import { skillsOf } from './skills';
 import { igniteFlame } from './home/moments';
+import { setScreenOpener } from './home/screenOpener';
 import StreakMoment, { type StreakChange } from './lesson/StreakMoment';
 import { setMotionSetting } from './lesson/useReduceMotion';
 import { TEST_TOOLS } from './testTools';
@@ -114,6 +116,22 @@ export default function App() {
     };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  // Settings → Testing → Open a screen (test builds): a link typed or pasted
+  // there opens its screen as a deep link does, on the phone too, where there
+  // is no address bar (home/screenOpener.ts).
+  useEffect(() => {
+    if (!TEST_TOOLS) return;
+    return setScreenOpener((text) => {
+      const next = linkFrom(text);
+      if (!next) return false;
+      setLink(next);
+      setEntry(next.entry);
+      setCrash(!!next.crash);
+      setMoment(null);
+      setVisit((v) => v + 1);
+      return true;
+    });
   }, []);
   useEffect(() => {
     if (TEST_MODE && ready) document.documentElement.dataset.visit = String(visit);
@@ -241,6 +259,25 @@ export default function App() {
                       if (fresh.length) flySkills(fresh.length);
                     }}
                     contentWidth={contentWidth}
+                    // docs/ui/07-lesson-chapter-and-tier-complete.md §5.3: "Practice these" plays the
+                    // lesson's missed questions as a practice round (no hearts).
+                    onPractice={(keys) => {
+                      const picks = keys
+                        .map(resolveKey)
+                        .filter((q): q is NonNullable<typeof q> => q !== null);
+                      if (!picks.length) return;
+                      const { level, keys: roundKeys } = roundLevel(picks, {
+                        title: 'Your mistakes',
+                        intro: 'The questions you just missed, once more. No hearts, no timer.',
+                      });
+                      setEntry({
+                        id: `review-${entry.id}`,
+                        title: 'Your mistakes',
+                        subtitle: 'Your mistakes',
+                        level,
+                        practice: { keys: roundKeys },
+                      });
+                    }}
                     onQuit={() => {
                       // The first trade is shown once, finished or not.
                       if (entry === FIRST_TRADE) finishFirstTrade();
@@ -359,16 +396,33 @@ const TEST_MODE =
   typeof window !== 'undefined' &&
   /[?&]test=1\b/.test(window.location.search + window.location.hash);
 
-function readDeepLink(): {
+type DeepLink = {
   entry: LessonEntry | null;
   screen: number;
   look: boolean;
   theme: boolean;
   map?: boolean;
   crash?: boolean;
-} | null {
+};
+
+function readDeepLink(): DeepLink | null {
   if (Platform.OS !== 'web' || typeof window === 'undefined') return null;
-  const [path, query = ''] = window.location.hash.replace(/^#/, '').split('?');
+  return linkFrom(window.location.hash);
+}
+
+/**
+ * What a link opens: `level-09-2/3` (a lesson on its third screen),
+ * `all-screens/34`, `home/settings`, with `?look=…`, `?theme=…`, `?map=…`
+ * after it. A leading `#` and a whole preview address before it are allowed,
+ * so a link pasted from a report opens as it is (Settings → Testing → Open a
+ * screen, home/screenOpener.ts). Applies the look, theme and map it names.
+ */
+function linkFrom(text: string): DeepLink | null {
+  const hash = text
+    .trim()
+    .replace(/^[^#]*#/, '')
+    .replace(/^\/+/, '');
+  const [path, query = ''] = hash.split('?');
   // `?look=neoMono` opens it in a given look and `?theme=light` in a given
   // theme, for comparing them screen by screen (tools/contact_sheets.mjs).
   const params = new URLSearchParams(query);

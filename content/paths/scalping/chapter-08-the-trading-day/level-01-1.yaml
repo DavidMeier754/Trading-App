@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [platform, order-entry, execution]
+icon: monitor
 learning_goal: "User names the panels of an order-entry platform and knows that the software checks the order, never the reasoning behind it."
 purpose: "Seven chapters of decisions have to be typed into something, and the something has opinions about none of them."
 terms_introduced: ["Order-entry platform"]

@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: repetition
 tags: [spread, drill, decisions]
+icon: spread
 learning_goal: "User judges six quotes at a glance and then prices three live setups, taking the ones where the gap is small against the move and the stock can carry the size."
 purpose: "Judging a quote is a reflex or it is nothing, and reflexes are built by repetition, not by explanation."
 terms_introduced: []

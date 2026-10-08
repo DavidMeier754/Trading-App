@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: repetition
 tags: [callback, costs, expectancy, liquidity]
+icon: rewind
 learning_goal: "User runs the same method through two cost structures and sees one of them turn a positive average trade negative."
 purpose: "Two traders with identical charts and identical stops can end the month on opposite sides of zero, and the difference is on the quote."
 terms_introduced: []

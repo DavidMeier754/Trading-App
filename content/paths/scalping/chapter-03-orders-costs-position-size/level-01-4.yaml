@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [spread, market-maker, costs]
+icon: spread
 learning_goal: "User can explain the spread as the income of whoever quotes both sides, and identify who pays it in a given situation."
 purpose: "Knowing where the money goes is what stops the spread feeling like a rounding error."
 terms_introduced: []

@@ -1,6 +1,8 @@
 import React from 'react';
 import Svg, { Circle, Path, Polygon, Rect } from 'react-native-svg';
 
+import { ALIASES, SYMBOLS, type AliasName, type SymbolName } from './symbols';
+
 /**
  * The home screen's icons, drawn rather than pulled from an icon font: the app
  * has no icon dependency, and a dozen 24-point glyphs are cheaper than one.
@@ -63,12 +65,23 @@ export const ICON_NAMES = [
   'battery',
   'rewind',
   'monitor',
+  // Four candles a carousel card names (LOOK-COMPONENTS).
+  'candle-momentum',
+  'candle-doji',
+  'candle-engulfing',
+  'candle-rejection',
 ] as const;
 
-export type IconName = (typeof ICON_NAMES)[number];
+type DrawnName = (typeof ICON_NAMES)[number];
+
+/**
+ * Every name an icon can have: the ones drawn here, and the content's names in
+ * the mapping table (symbols.tsx).
+ */
+export type IconName = DrawnName | AliasName | SymbolName;
 
 export function isIconName(name: string): name is IconName {
-  return (ICON_NAMES as readonly string[]).includes(name);
+  return (ICON_NAMES as readonly string[]).includes(name) || name in ALIASES || name in SYMBOLS;
 }
 
 export default function Icon({
@@ -90,6 +103,16 @@ export default function Icon({
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
   };
+  if (name in ALIASES) {
+    const drawn = ALIASES[name as AliasName];
+    return (
+      <Icon name={drawn} size={size} color={color} filled={filled} strokeWidth={strokeWidth} />
+    );
+  }
+  if (name in SYMBOLS) {
+    const Glyph = SYMBOLS[name as SymbolName];
+    return <Glyph size={size} color={color} strokeWidth={strokeWidth} />;
+  }
   const fill = filled ? color : 'none';
   let body: React.ReactNode = null;
   switch (name) {
@@ -658,6 +681,65 @@ export default function Icon({
             stroke={color}
             strokeWidth={1.4}
             strokeLinejoin="round"
+          />
+        </>
+      );
+      break;
+    case 'candle-momentum':
+      // One long body, barely a wick: the candle that moves.
+      body = (
+        <>
+          <Path d="M12 1.8v2.2M12 20v2.2" fill="none" {...stroke} />
+          <Rect
+            x={8}
+            y={4}
+            width={8}
+            height={16}
+            rx={1.2}
+            fill={color}
+            stroke={color}
+            strokeWidth={1.2}
+          />
+        </>
+      );
+      break;
+    case 'candle-doji':
+      // Open and close the same: a cross on a long wick.
+      body = <Path d="M12 2.5v19M6.5 12h11" fill="none" {...stroke} />;
+      break;
+    case 'candle-engulfing':
+      // A small candle, then one whose body covers it.
+      body = (
+        <>
+          <Path d="M7 7v3M7 15v3M16.5 3v2.5M16.5 19v2.5" fill="none" {...stroke} />
+          <Rect x={4.6} y={10} width={4.8} height={5} rx={0.8} fill="none" {...stroke} />
+          <Rect
+            x={13}
+            y={5.5}
+            width={7}
+            height={13.5}
+            rx={1.2}
+            fill={color}
+            stroke={color}
+            strokeWidth={1.2}
+          />
+        </>
+      );
+      break;
+    case 'candle-rejection':
+      // A small body at the top of a long lower wick: price pushed down, and refused.
+      body = (
+        <>
+          <Path d="M12 2.5v2.5M12 11v10.5" fill="none" {...stroke} />
+          <Rect
+            x={8.4}
+            y={5}
+            width={7.2}
+            height={6}
+            rx={1}
+            fill={color}
+            stroke={color}
+            strokeWidth={1.2}
           />
         </>
       );

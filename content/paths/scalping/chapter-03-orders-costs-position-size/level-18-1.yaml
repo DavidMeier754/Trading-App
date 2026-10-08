@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: repetition
 tags: [review, costs, position-size, decisions]
+icon: book
 learning_goal: "User runs a setup end to end in one fixed order — price it, size it, place it, decide — and reaches the pass on the second one from the cost line alone."
 purpose: "Every piece of this chapter has been practised separately. A trade uses all of them, in one order, in about ten seconds."
 terms_introduced: []

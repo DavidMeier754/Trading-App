@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [expectancy, win-rate, costs]
+icon: expectancy
 learning_goal: "User computes expectancy from win rate, average win and average loss, and subtracts costs before judging a method."
 purpose: "A scalper takes hundreds of trades a month; whatever one average trade is worth gets multiplied by all of them."
 terms_introduced: ["Win rate", "Average win", "Average loss", "Expectancy", "Edge"]

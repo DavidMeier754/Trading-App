@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [selection, practice, decisions]
+icon: selection
 learning_goal: "User runs all four filters on a name in the order that costs the least time, and drops it on the first no."
 purpose: "The four questions are worth nothing separately. What makes them a filter is running them every time, in the same order, before the chart."
 terms_introduced: []

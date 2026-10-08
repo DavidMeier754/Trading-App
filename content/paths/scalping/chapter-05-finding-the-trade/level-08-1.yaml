@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [float, selection, liquidity]
+icon: float
 learning_goal: "User can say what a float is, read the column, and tell a name's float apart from the volume trading in it today."
 purpose: "Two names at the same multiple behave completely differently if one has ten million shares available and the other has eight hundred million."
 terms_introduced: ["Float"]

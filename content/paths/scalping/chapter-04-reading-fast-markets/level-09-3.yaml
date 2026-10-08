@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [tape, stops, slippage, position-size]
+icon: tape-prints
 learning_goal: "User sizes a position against the size actually resting under it, and expects a stop to fill into whatever is left rather than at the price they asked for."
 purpose: "A stop is a request. What it costs you is decided by whoever is still there when it triggers."
 terms_introduced: []

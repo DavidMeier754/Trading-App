@@ -5,6 +5,7 @@ chapter_title: "Risk & Psychology"
 path: scalping
 category: new-theory
 tags: [risk, r-multiple, shorts, sizing]
+icon: r-unit
 learning_goal: "User computes 1R and an R-multiple on a short as fluently as on a long, and holds the unit steady across names of different prices."
 purpose: "The unit is only useful if it is the same size every time, in every name, on both sides of the market."
 terms_introduced: []

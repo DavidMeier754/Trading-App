@@ -5,6 +5,7 @@ chapter_title: "The Trading Day"
 path: scalping
 category: new-theory
 tags: [practice, hotkeys, review]
+icon: hotkeys
 learning_goal: "User builds key reps on a simulator away from the market, and treats a wrong press as an event worth recording."
 purpose: "The reps have to happen somewhere, and a live morning is the most expensive classroom there is."
 terms_introduced: []

@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [position-size, risk, spread, stops]
+icon: size
 learning_goal: "User holds the spread against the stop distance before sizing, and takes the lower of the two ceilings on the trades that survive that check."
 purpose: "A stop only a few cents wider than the quote is a trade that starts most of the way to being stopped out."
 terms_introduced: []

@@ -5,6 +5,7 @@ chapter_title: "Orders, Costs & Position Size"
 path: scalping
 category: new-theory
 tags: [orders, execution, marketable-limit]
+icon: limit
 learning_goal: "User can place a limit order at or above the ask to get a market-order fill with a ceiling on the price."
 purpose: "This is the ticket most experienced scalpers actually send: in now, but never above the number they chose."
 terms_introduced: ["Marketable limit order"]

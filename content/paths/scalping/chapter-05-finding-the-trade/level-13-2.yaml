@@ -5,6 +5,7 @@ chapter_title: "Finding the Trade"
 path: scalping
 category: new-theory
 tags: [day-type, opening-range, market-context]
+icon: day-type
 learning_goal: "User reads the day type from the opening range and the give-backs that follow it, and waits for the label instead of guessing it at the bell."
 purpose: "The label is worth most in the first hour and costs most when it is written early and defended all day."
 terms_introduced: []

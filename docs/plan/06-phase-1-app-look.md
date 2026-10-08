@@ -37,6 +37,7 @@ The app lane is the first part of Phase 1; the content lane follows once it is d
    - The mistakes are listed, with "Practice these" (linked from `PRACTICE` on).
    - ~~Progress toward the daily goal is visible.~~ The streak is shown (one lesson a day keeps it). **Done in `DESIGN-REVIEW`.**
    - Its numbers count up to their value, together with the ring (from Precise, your choice in `LOOK-BRIEF`; `#prototype/mix/complete` at `a78e210`). Reduced motion shows them at once. **Done in `DESIGN-REVIEW`** in every design.
+   - **Built in session 2** (2026-10-07): the subtitle under the title (the lesson's place until the files have one), the missed questions in a box under the design, and **Practice these**, which already plays them as a practice round (`docs/ui/07-lesson-chapter-and-tier-complete.md` §5.3).
 9. **Chapter badge** as in `docs/ui/07-lesson-chapter-and-tier-complete.md` §5.4: the XP bonus counts up, "Chapter N unlocked" (S21). **Done in `DESIGN-REVIEW`,** as the chapter's own emblem medal with the next chapter named.
 10. **Visuals** (S24, W17):
     - The ownership graphic as a 10×10 grid from 20 parts upward.
@@ -45,12 +46,13 @@ The app lane is the first part of Phase 1; the content lane follows once it is d
     - `spot-mistake` as one sentence.
     - The swipe gesture in `swipe-deck`.
     - The label "Takeaway" for a `story` with `label: takeaway`.
-11. **Level icons on the map** (your critique; you like Chapters 1 and 2's): a level's symbol is the first `icon:` among its lessons (`levelIconOf` in `src/content.ts`). Chapters 1 and 2 set one in 44 of 48 and 46 of 49 lesson files, Chapters 3–8 in none of their 291, so every level there shows the same symbol for its type. Every level of every chapter gets its own symbol for what it teaches, and the validator warns when a level has none.
-12. **The "?" key** (item P-05 of `docs/content-todo/05-content-review.md`; David chose the key over tap-to-explain on 2026-10-05): a small "?" key on every chart screen. Pressed, it labels every element on that chart the learner has already been taught — the VWAP line, each level's label, the "what happens next" pill, the volume bars, the state chips, a scanner's column headings, and with `stop`/`target` the plan's lines and the R ruler — each with its one line (the skill's `info` from `content/skills.yaml`); pressed again, the labels go. An element not yet taught gets no label, the same rule as the term marker (`docs/ui/14-glossary-and-copy.md` §8). The labels never cover the decision keys or the reveal. A short section in `docs/ui/08-quotes-and-charts.md` first.
+    - **Built in session 2:** the grid (`docs/ui/08-quotes-and-charts.md` §6.1); a mapping table for all 51 carousel icon names (`src/home/symbols.tsx`: 38 Lucide symbols, ISC licence; 6 names drawn as the app's own icons; 3 of its own icons by name; 4 candles newly drawn by hand), which the validator checks; the ribbon to scale with "now" (§6.5); `spot-mistake` as one sentence and the swipe in `swipe-deck` (`docs/ui/04-question-types.md`). "Takeaway" was already built in `DESIGN-REVIEW`.
+11. **Level icons on the map** (your critique; you like Chapters 1 and 2's): a level's symbol is the first `icon:` among its lessons (`levelIconOf` in `src/content.ts`). Chapters 1 and 2 set one in 44 of 48 and 46 of 49 lesson files, Chapters 3–8 in none of their 291, so every level there shows the same symbol for its type. Every level of every chapter gets its own symbol for what it teaches, and the validator warns when a level has none. **Built in session 2:** an `icon` in all 273 lesson files of Chapters 3–8, most from the mapping table (`docs/level-files/01-header.md`), and the warning.
+12. **The "?" key** (item P-05 of `docs/content-todo/05-content-review.md`; David chose the key over tap-to-explain on 2026-10-05): a small "?" key on every chart screen. Pressed, it labels every element on that chart the learner has already been taught — the VWAP line, each level's label, the "what happens next" pill, the volume bars, the state chips, a scanner's column headings, and with `stop`/`target` the plan's lines and the R ruler — each with its one line (the skill's `info` from `content/skills.yaml`); pressed again, the labels go. An element not yet taught gets no label, the same rule as the term marker (`docs/ui/14-glossary-and-copy.md` §8). The labels never cover the decision keys or the reveal. A short section in `docs/ui/08-quotes-and-charts.md` first. **Built in session 2:** numbers on the elements and a legend under the chart, which gives up the legend's room (`docs/ui/08-quotes-and-charts.md` §6.4a).
 
 **Model · effort · sessions:** Opus 5.5 · high · 2
 
-**Prompt** (for each of the two sessions; insert `[1]` or `[2]`)
+**Session instructions** (for each of the two sessions; the session takes them as its prompt when `Next stage.` reaches this stage and puts in `[1]` or `[2]` itself)
 ```
 Stage LOOK-COMPONENTS, session [1|2], from docs/plan/.
 
@@ -61,22 +63,22 @@ Especially important:
 - Nothing moves that the learner did not move (docs/ui/02-lesson-player-layout.md §2).
 - Icons: a mapping table icon name → symbol for every name the content uses; the validator rejects unknown names.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · contact sheets · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · contact sheets · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min)**
-1. `#level-01-1/6`: the axis shows round prices with $, and nothing jumps after the decision.
-2. ~~A match in the test bench: the pairs are colored.~~ (tested in `DESIGN-REVIEW`)
-3. Finish one lesson perfectly and one with mistakes: confetti only for the perfect one, the list of mistakes is visible.
-4. The carousel in lesson 1·6-1: real icons instead of letters.
-5. The session ribbon in lesson 1·10-1: the proportions are right, "now" is visible.
-6. Swipe a `swipe-deck` with your finger.
-7. The Chapter 1 badge (skip ahead to the final exam 17-1).
-8. A chart decision (e.g. `#level-01-1/6`): the candles form as they play out, a price tag follows the forming one, and the reveal lists outcome, result and R.
-9. The map: the levels of every chapter, Chapters 3–8 too, have their own icons.
-10. Lesson complete: the numbers count up with the ring.
-11. A chart in Chapter 4 (link in the report): press "?" — every element you were taught is labelled, and nothing covers the keys; press it again — the labels go.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- A chart decision, `#level-01-1/6`: the axis shows round prices with $ and nothing jumps after the decision; the candles form as they play out, a price tag follows the forming one, and the reveal lists outcome, result and R.
+- Lesson complete, after one perfect lesson and one with mistakes: confetti only for the perfect one, the list of mistakes, the numbers counting up with the ring.
+- The carousel in lesson 1·6-1: real icons instead of letters.
+- The session ribbon in lesson 1·10-1: the proportions are right, "now" is visible.
+- A `swipe-deck`, swiped with your finger.
+- The Chapter 1 badge (skip ahead to the final exam 17-1).
+- The map: the levels of every chapter, Chapters 3–8 too, have their own icons.
+- A chart in Chapter 4 (link in the report): "?" labels every element you were taught, and nothing covers the keys; pressed again, the labels go.
 
 ### `VISUALS` – new teaching graphics
 
@@ -92,17 +94,19 @@ Report: what you built · check results · contact sheets · my test checklist w
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage VISUALS from docs/plan/06-phase-1-app-look.md.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "VISUALS" section in docs/plan/06-phase-1-app-look.md in full, plus docs/ui/08-quotes-and-charts.md §6 and docs/level-files/04-components-and-data.md (components).
 Build exactly that scope; no content except the entries in demo/all-screens.yaml.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~15 min).** Both components in the test bench on your phone:
-- Are they understandable without explanation?
-- Are light and dark both right?
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- Both components in the test bench (Settings → Testing → Every screen type; the `#all-screens/…` links in the report): understandable without explanation, and right in light and dark.

@@ -5,6 +5,7 @@ chapter_title: "Reading Fast Markets"
 path: scalping
 category: new-theory
 tags: [vwap, levels, confluence]
+icon: in-action
 learning_goal: "User can spot the session's average price arriving at a marked level and trade the price the two of them share."
 purpose: "The cleanest situation a fast chart offers is two independent lines landing on the same cent."
 terms_introduced: []

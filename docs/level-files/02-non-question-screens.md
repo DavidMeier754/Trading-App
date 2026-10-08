@@ -33,7 +33,8 @@ and **[v4]** `candle-anatomy`, `trade-plan` (built in stage VISUALS).
 - type: carousel               # counts as one screen per card
   cards:
     - {label: "Retail trader", text: "Individuals trading their own money.", icon: retail-trader}
-  # `icon` is a free-form hint at what the card is about, for whoever draws it.
+  # `icon`: the card's symbol, a name from the app's mapping table (src/home/symbols.tsx, with the
+  # hand-drawn icons of src/home/icons.tsx); the validator rejects any other name. [LOOK-COMPONENTS]
   # It is not a character reference — there is no character cast (docs/ui/09-order-tools-and-other-visuals.md §6.9).
 
 - type: walkthrough            # counts as one screen per step

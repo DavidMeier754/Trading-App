@@ -4,16 +4,10 @@ import { Text, View } from 'react-native';
 import { copy } from '../format';
 import { colors, radius, space, type, themed } from '../theme';
 import NumberText from './NumberText';
+import { BADGE, ExplainBadge } from './ExplainKey';
+import { chipParts } from './explain';
 
-/**
- * A chip's two parts: "Day: −2R" is the name "Day" and the value "−2R". A
- * chip with no name ("1R of room left") is all value.
- */
-export function chipParts(chip: string): { name: string | null; value: string } {
-  const at = chip.indexOf(': ');
-  if (at <= 0) return { name: null, value: chip };
-  return { name: chip.slice(0, at), value: chip.slice(at + 2) };
-}
+export { chipParts };
 
 /** A value that is a day's result in R takes its sign's colour; the sign stays with it. */
 function toneOf(value: string): 'up' | 'down' | null {
@@ -28,10 +22,17 @@ function toneOf(value: string): 'up' | 'down' | null {
  * Easy to read at a glance: the name quiet, the value in the text colour and
  * the number face, a day's result in R in its sign's colour.
  */
-export default function StateChips({ state }: { state: string[] }) {
+export default function StateChips({
+  state,
+  numbers,
+}: {
+  state: string[];
+  /** docs/ui/08-quotes-and-charts.md §6.4a: with the "?" key on, a chip's number in its legend. */
+  numbers?: Record<number, number>;
+}) {
   return (
     <View style={styles.row}>
-      {state.map((chip) => {
+      {state.map((chip, i) => {
         const { name, value } = chipParts(copy(chip));
         const tone = toneOf(value);
         return (
@@ -46,6 +47,7 @@ export default function StateChips({ state }: { state: string[] }) {
             >
               {value}
             </NumberText>
+            {numbers?.[i] ? <ExplainBadge n={numbers[i]} style={styles.badge} /> : null}
           </View>
         );
       })}
@@ -67,5 +69,7 @@ const styles = themed(() => ({
     paddingVertical: 5,
   },
   name: { ...type.label, fontWeight: '500', color: colors.textMuted },
+  // On the chip's corner, over its border, so the chip keeps its size.
+  badge: { top: -BADGE / 2, right: -BADGE / 3 },
   value: { ...type.label, fontWeight: '700', color: colors.text },
 }));

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import React, { useEffect, useState, useSyncExternalStore } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import Animated, {
   FadeIn,
   useAnimatedStyle,
@@ -11,6 +11,7 @@ import Animated, {
 
 import { chaptersFor, PathLevel } from '../content';
 import { tapFeedback } from '../lesson/feedback';
+import { inkOn } from '../lesson/look';
 import { EASE_OUT, SPRING_POP, usePressFeedback } from '../lesson/motion';
 import {
   addGems,
@@ -24,7 +25,7 @@ import {
   useProgress,
   waitText,
 } from '../progress';
-import { colors, radius, space, themed, type } from '../theme';
+import { colors, MONO_FONT, radius, space, TAP_TARGET, themed, type } from '../theme';
 import Icon from './icons';
 import { Gem } from './scenes';
 import { forgetShownPath } from './LevelNode';
@@ -34,6 +35,7 @@ import type { LessonEntry } from '../content';
 import { FIRST_TRADE } from '../onboarding/firstTrade';
 import { NEW_DESIGNS } from './newDesigns';
 import { setMapStyle, useMapStyle } from './mapStyle';
+import { clearRecent, openScreen, recentLinks, watchRecent } from './screenOpener';
 
 /**
  * Settings → Testing (docs/ui/16-navigation.md §11.5): the testing tools, in test builds
@@ -42,7 +44,8 @@ import { setMapStyle, useMapStyle } from './mapStyle';
  * progress on the spot -- the hearts back, the streak back to 0, gems for the
  * top bar, a jump ahead -- and the rest open pages or lessons of their own: the
  * lesson with every screen type, New designs, the first trade, the Animations
- * page and the Design suggestions.
+ * page and the Design suggestions. First of all, Open a screen: any screen by
+ * the link a report gives for it (David, 2026-10-08).
  */
 export default function TestingTools({
   onOpenBench,
@@ -59,6 +62,7 @@ export default function TestingTools({
   return (
     <>
       <Text style={pageStyles.section}>Testing</Text>
+      <ScreenOpenerRow />
       <HeartsRow />
       <StreakRow />
       <GemsRow />
@@ -98,6 +102,97 @@ export default function TestingTools({
         onPress={onOpenSuggestions}
       />
     </>
+  );
+}
+
+/**
+ * Open a screen (David, 2026-10-08): the link a report gives for a screen --
+ * `#level-09-2/3`, `#scalping-ch4-level-02-1/5`, `#all-screens/34`,
+ * `#home/animations`, with `?look=` or `?theme=` after it, or the whole
+ * preview address -- typed or pasted, and Open takes the app straight there,
+ * on the phone as in the browser (home/screenOpener.ts). The last six opened
+ * stay under it, one tap each.
+ */
+function ScreenOpenerRow() {
+  const [text, setText] = useState('');
+  const [missed, setMissed] = useState<string | null>(null);
+  const recent = useSyncExternalStore(watchRecent, recentLinks, recentLinks);
+  const open = (link: string) => {
+    tapFeedback();
+    if (!link.trim()) return;
+    if (openScreen(link)) {
+      setMissed(null);
+      setText('');
+    } else setMissed(link.trim());
+  };
+  return (
+    <View style={styles.skipCard}>
+      <View style={styles.skipHead}>
+        <View style={rowStyles.rowIcon}>
+          <Icon name="zoom" size={22} color={colors.accent} />
+        </View>
+        <View style={rowStyles.rowText}>
+          <Text style={rowStyles.rowTitle}>Open a screen</Text>
+          <Text style={rowStyles.rowSub}>The link from a report, e.g. #level-09-2/3</Text>
+        </View>
+      </View>
+      <View style={styles.openerBody}>
+        <View style={styles.openerRow}>
+          <TextInput
+            value={text}
+            onChangeText={(t) => {
+              setText(t);
+              setMissed(null);
+            }}
+            onSubmitEditing={() => open(text)}
+            placeholder="#level-09-2/3"
+            placeholderTextColor={colors.textFaint}
+            autoCapitalize="none"
+            autoCorrect={false}
+            spellCheck={false}
+            returnKeyType="go"
+            accessibilityLabel="Link of the screen to open"
+            style={styles.openerInput}
+          />
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Open the screen"
+            onPress={() => open(text)}
+            style={({ pressed }) => [styles.openerGo, pressed && { opacity: 0.8 }]}
+          >
+            <Text style={[styles.openerGoText, { color: inkOn(colors.accent) }]}>Open</Text>
+          </Pressable>
+        </View>
+        {missed ? (
+          <Text style={styles.openerMissed}>{`No screen has the link "${missed}".`}</Text>
+        ) : null}
+        {recent.length ? (
+          <View style={styles.openerRecent}>
+            {recent.map((link) => (
+              <Pressable
+                key={link}
+                accessibilityRole="button"
+                accessibilityLabel={`Open ${link} again`}
+                onPress={() => open(link)}
+                style={({ pressed }) => [styles.skipItem, pressed && styles.skipItemPressed]}
+              >
+                <Text style={styles.openerLink} numberOfLines={1}>{`#${link}`}</Text>
+              </Pressable>
+            ))}
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => {
+                tapFeedback();
+                clearRecent();
+              }}
+              style={({ pressed }) => [styles.skipItem, pressed && styles.skipItemPressed]}
+            >
+              <Text style={styles.openerClear}>Clear the list</Text>
+            </Pressable>
+          </View>
+        ) : null}
+      </View>
+    </View>
   );
 }
 
@@ -407,4 +502,34 @@ const styles = themed(() => ({
   },
   skipTitle: { ...type.answer, color: colors.text, flex: 1 },
   skipState: { ...type.small, color: colors.textMuted, width: 40, textAlign: 'right' },
+  openerBody: { paddingHorizontal: space.md, paddingBottom: space.md, gap: space.sm },
+  openerRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
+  // 17 pt, so a phone does not zoom in on it while it is typed in.
+  openerInput: {
+    ...type.answer,
+    flex: 1,
+    minHeight: TAP_TARGET,
+    paddingHorizontal: space.md,
+    color: colors.text,
+    backgroundColor: colors.background,
+    borderColor: colors.borderStrong,
+    borderWidth: 1.5,
+    borderRadius: radius.md,
+    fontFamily: MONO_FONT,
+  },
+  openerGo: {
+    minHeight: TAP_TARGET,
+    minWidth: 72,
+    paddingHorizontal: space.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: radius.md,
+    backgroundColor: colors.accent,
+  },
+  // Dark or light ink, whichever reads on the theme's accent (lesson/look.ts).
+  openerGoText: { ...type.answer, fontWeight: '700' },
+  openerMissed: { ...type.small, color: colors.down, marginLeft: space.sm },
+  openerRecent: { gap: 2 },
+  openerLink: { ...type.answer, fontFamily: MONO_FONT, color: colors.text, flex: 1 },
+  openerClear: { ...type.small, color: colors.textMuted },
 }));

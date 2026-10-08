@@ -68,9 +68,9 @@ Answered on 2026-10-05: U (Y11), V (Y5), X (Y6). Dropped with the parts of the p
 - **Not in this stage:** where needed.
 - **You prepare:** if something is needed from you.
 - **Model · effort · sessions.**
-- **Prompt:** ready to copy.
-- **Claude checks automatically.**
-- **You test:** your checklist. Claude puts the exact links in the report.
+- **Session instructions:** what the session takes as its prompt. You do not paste them: you send `Next stage.` and the session finds them (`02-how-to-work.md` §1, David 2026-10-08).
+- **Claude checks automatically**, including the changed screens, which it opens and looks at itself.
+- **Needs you:** what is likely to need your review (a choice, the feel on a real phone), or "nothing". **Where to look:** the links worth opening if you want to see the result. The report's "Needs your review" says what actually does.
 - **Done when.**
 
-Every prompt follows the same frame (Appendix E.0). That keeps them short: the details live in this file, and Claude reads them.
+Every block of session instructions follows the same frame (Appendix E.0). That keeps them short: the details live in the stage's section, and Claude reads them.
