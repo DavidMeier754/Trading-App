@@ -106,18 +106,20 @@ Stage REPLAY-BANK from docs/plan/13-phase-1-content-reviews-and-chapter-9.md. Re
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage OWN-STRATEGY-OUTLINE from docs/plan/13-phase-1-content-reviews-and-chapter-9.md.
 
 Read CLAUDE.md, docs/plan/02-how-to-work.md §1, the "OWN-STRATEGY-OUTLINE" section in docs/plan/13-phase-1-content-reviews-and-chapter-9.md, docs/course/08-chapter-9-your-own-strategy.md, docs/rules/ and docs/level-files/ in full, and the Chapter 6–8 sections of docs/course/.
 Write Chapter 9's level plan into docs/course/08-chapter-9-your-own-strategy.md. No content files.
 
-Open a PR against main and get every check green.
-Report: the level plan · decisions I need to make · what the app needs. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Report: what was built (with where to see it) · check results · the level plan · decisions I need to make · what the app needs · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min).** Read the level plan and decide the open points.
+**Needs you:** the level plan is yours to approve: read it and decide the open points.
+
+**Where to look** (optional; the report links each): the level plan in `docs/course/08-chapter-9-your-own-strategy.md`, in the PR.
 
 ### `OWN-STRATEGY` – Chapter 9, written **[CONTENT-REVIEW]**
 
@@ -130,18 +132,21 @@ Report: the level plan · decisions I need to make · what the app needs. Then s
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage OWN-STRATEGY from docs/plan/13-phase-1-content-reviews-and-chapter-9.md.
 
 Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, docs/content-todo/ (Parts 1–3 and 6), docs/plan/02-how-to-work.md §1, the "OWN-STRATEGY" section in docs/plan/13-phase-1-content-reviews-and-chapter-9.md and the approved level plan in docs/course/08-chapter-9-your-own-strategy.md.
 Write Chapter 9 as planned. Work in blocks of two levels; after every block validate_content.py and check_sizing.py.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min).** Play the chapter from the first lesson to the capstone, once as a beginner would.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each): the chapter from the first lesson to the capstone, played once as a beginner would.
 
 ### Milestone – Scalping is finished
 

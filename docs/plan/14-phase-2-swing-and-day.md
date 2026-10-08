@@ -37,19 +37,23 @@ In each path's Chapter 3, the plan card revises `setup_max_account_pct` with tha
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2 per chapter
 
-**Prompt** (`[N]` = chapter)
+**Session instructions** (`[N]` = chapter; the session takes them as its prompt when `Next stage.` reaches this stage and puts in `[N]` itself)
 ```
 Stage SWING-[N] from docs/plan/.
 
 Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the swing section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), docs/plan/01-goal-and-guardrails.md §0 ("Variance"), docs/plan/02-how-to-work.md §1, docs/plan/14-phase-2-swing-and-day.md in full, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
 Also follow the clause in Appendix E.7.
 Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
-Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · --status table · deviations from the outline with their reason · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min per chapter)**
-1. Play two lessons and the checkpoint.
-2. Read one lesson as a beginner would.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- Two lessons and the checkpoint of the chapter.
+- One lesson, read as a beginner would.
 
 **After `SWING-8`:** the path choice unlocks Swing; "Being written" goes away.
 
@@ -66,23 +70,25 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 - Corrections: Opus 5.5 · high.
 - 2–4 sessions in total.
 
-**Prompt (reviews)**
+**Session instructions** (reviews: the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage SWING-REVIEW (reviews) from docs/plan/14-phase-2-swing-and-day.md.
 
 Read CLAUDE.md, then docs/plan/01-goal-and-guardrails.md §0 (graduate profile) and the "SWING-REVIEW" section in docs/plan/14-phase-2-swing-and-day.md, then follow the detailed prompts in Appendix E.5 (pass A) and E.6 (pass B, with the graduate profile as a fifth question) for the swing path.
 Also read Chapter 9 (docs/course/08-chapter-9-your-own-strategy.md and its lessons) against Swing's Chapter 8: name every example or reference that does not work after this path.
-Change nothing.
+Change nothing in the app or the content. Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
 
-Report: a numbered list of findings, most important first, with file and screen · items that need outside knowledge, for me to judge · open questions. Then stop.
+Report: a numbered list of findings, most important first, with file and screen · items that need outside knowledge, for me to judge · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**Prompt (corrections)**
+**Session instructions** (corrections: the session takes them as its prompt when `Next stage.` reaches this stage after the reviews, and fills `[list]` from your lines under `Next stage.`)
 ```
-Stage SWING-REVIEW (corrections) from docs/plan/14-phase-2-swing-and-day.md. Read CLAUDE.md, docs/rules/, docs/level-files/, docs/ui/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and §1 of docs/plan/02-how-to-work.md. Implement these approved findings: [list]. PR, every check green, report with a test checklist. Then stop.
+Stage SWING-REVIEW (corrections) from docs/plan/14-phase-2-swing-and-day.md. Read CLAUDE.md, docs/rules/, docs/level-files/, docs/ui/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and §1 of docs/plan/02-how-to-work.md. Implement these approved findings, from my lines under "Next stage." (ask me for them if they are missing): [list]. Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed lessons yourself (the three hand checks). Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You:** read the findings and decide each one: yes, no or later. Then play two corrected lessons (links in the report).
+**Needs you:** after the reviews, read the findings and decide each one: yes, no or later. Send the approved ones as lines under `Next stage.` for the corrections session.
+
+**Where to look** (optional; the report links each): two corrected lessons.
 
 ### `DAY-2` … `DAY-8`
 
@@ -92,19 +98,23 @@ Stage SWING-REVIEW (corrections) from docs/plan/14-phase-2-swing-and-day.md. Rea
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2 per chapter
 
-**Prompt** (`[N]` = chapter)
+**Session instructions** (`[N]` = chapter; the session takes them as its prompt when `Next stage.` reaches this stage and puts in `[N]` itself)
 ```
 Stage DAY-[N] from docs/plan/.
 
 Read CLAUDE.md, docs/rules/, docs/level-files/ and docs/ui/ in full, the day-trading section for Chapter [N] in docs/course/ (find it with grep), docs/content-todo/ (Parts 1–3: write the chapter with skills, the chart ramp and the new fields from the start), docs/plan/01-goal-and-guardrails.md §0 ("Variance"), docs/plan/02-how-to-work.md §1, docs/plan/14-phase-2-swing-and-day.md in full, and the reference files from docs/rules/05-tests-consistency-and-copy.md §3.8.
 Also follow the clause in Appendix E.7.
 Write in blocks of 4–6 levels; after every block validate_content.py (0 errors, no warning about your files) and check_sizing.py. At the end --strict for the chapter, the render test, the three hand checks.
-Open a PR against main. Report: --status table · deviations from the outline with their reason · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · --status table · deviations from the outline with their reason · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~20 min per chapter)**
-1. Play two lessons and the checkpoint.
-2. Read one lesson as a beginner would.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each):
+- Two lessons and the checkpoint of the chapter.
+- One lesson, read as a beginner would.
 
 **After `DAY-8`:** the path choice unlocks Day Trading; no path says "Being written" any more.
 
@@ -119,23 +129,25 @@ Open a PR against main. Report: --status table · deviations from the outline wi
 
 **Model · effort · sessions:** as in `SWING-REVIEW` · 2–4 in total.
 
-**Prompt (reviews)**
+**Session instructions** (reviews: the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage DAY-REVIEW (reviews) from docs/plan/14-phase-2-swing-and-day.md.
 
 Read CLAUDE.md, then docs/plan/01-goal-and-guardrails.md §0 (graduate profile) and the "DAY-REVIEW" section in docs/plan/14-phase-2-swing-and-day.md, then follow the detailed prompts in Appendix E.5 (pass A) and E.6 (pass B, with the graduate profile as a fifth question) for the day-trading path.
 Special attention: the pattern-day-trader rule and the margin account in Chapter 6 Level 9 and Chapter 8 Level 15 (decisions B and C). Also read Chapter 9 against Day Trading's Chapter 8.
-Change nothing.
+Change nothing in the app or the content. Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
 
-Report: a numbered list of findings, most important first, with file and screen · items that need outside knowledge, for me to judge · open questions. Then stop.
+Report: a numbered list of findings, most important first, with file and screen · items that need outside knowledge, for me to judge · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**Prompt (corrections)**
+**Session instructions** (corrections: the session takes them as its prompt when `Next stage.` reaches this stage after the reviews, and fills `[list]` from your lines under `Next stage.`)
 ```
-Stage DAY-REVIEW (corrections) from docs/plan/14-phase-2-swing-and-day.md. Read CLAUDE.md, docs/rules/, docs/level-files/, docs/ui/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and §1 of docs/plan/02-how-to-work.md. Implement these approved findings: [list]. PR, every check green, report with a test checklist. Then stop.
+Stage DAY-REVIEW (corrections) from docs/plan/14-phase-2-swing-and-day.md. Read CLAUDE.md, docs/rules/, docs/level-files/, docs/ui/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and §1 of docs/plan/02-how-to-work.md. Implement these approved findings, from my lines under "Next stage." (ask me for them if they are missing): [list]. Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed lessons yourself (the three hand checks). Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You:** read the findings and decide each one: yes, no or later. Then play two corrected lessons (links in the report).
+**Needs you:** after the reviews, read the findings and decide each one: yes, no or later. Send the approved ones as lines under `Next stage.` for the corrections session.
+
+**Where to look** (optional; the report links each): two corrected lessons.
 
 ### `ARENA-PATHS` – the arena for Swing and Day Trading
 
