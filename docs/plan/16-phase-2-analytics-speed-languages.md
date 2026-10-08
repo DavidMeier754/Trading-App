@@ -20,23 +20,25 @@ The rest of Phase 2's app lane: crash reports and learning analytics with consen
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage ANALYTICS from docs/plan/16-phase-2-analytics-speed-languages.md.
 
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1 and the "ANALYTICS" section in docs/plan/16-phase-2-analytics-speed-languages.md in full, plus docs/rules/10-legal-and-safety.md §7.
 Without consent nothing is sent — prove it with a test.
 
-Open a PR against main and get every check green.
-Report: what you built · which data goes where (table) · my test checklist · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · which data goes where (table) · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
 **You prepare.** A Sentry account in the EU region; Claude gives you the steps.
 
-**You test.**
-1. Decline consent: nothing is sent.
-2. Agree and trigger `#debug-crash`: the crash appears in the dashboard.
-3. Try "Report a problem" once.
+**Needs you:** only if Claude cannot see your Sentry dashboard (the report says whether it could): agree, trigger `#debug-crash`, and the crash appears in the dashboard.
+
+**Where to look** (optional; the report links each):
+- Consent declined: nothing is sent (a test proves it).
+- "Report a problem", tried once.
 
 ### `TECH` – clean-up, only backed by measurements
 
@@ -55,12 +57,14 @@ Report: what you built · which data goes where (table) · my test checklist · 
 
 **Model · effort · sessions:** Opus 5.5 · high · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
-Stage TECH from docs/plan/16-phase-2-analytics-speed-languages.md. Read CLAUDE.md and docs/plan/02-how-to-work.md §1 and the "TECH" section in docs/plan/16-phase-2-analytics-speed-languages.md. Measure first and report; change only what a measurement justifies, and measure again afterwards. PR, every check green, report (measurements before/after) with a test checklist. Then stop.
+Stage TECH from docs/plan/16-phase-2-analytics-speed-languages.md. Read CLAUDE.md and docs/plan/02-how-to-work.md §1 and the "TECH" section in docs/plan/16-phase-2-analytics-speed-languages.md. Measure first and report; change only what a measurement justifies, and measure again afterwards. Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · measurements before/after · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test.** The app feels the same or faster; the measurements before and after are in the report.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each): the app on your phone feels the same or faster; the measurements before and after are in the report.
 
 ### `I18N-PIPELINE` – how a language is added
 
@@ -89,7 +93,7 @@ Stage TECH from docs/plan/16-phase-2-analytics-speed-languages.md. Read CLAUDE.m
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage I18N-PIPELINE from docs/plan/16-phase-2-analytics-speed-languages.md.
 
@@ -101,12 +105,13 @@ Especially important:
 - A number that changes its value in translation is an error, not a warning.
 - Measure cost and time for one chapter before proposing the full run.
 
-Open a PR against main and get every check green.
-Report: what you built · cost and quality of the pilot · the proposed language list · my test checklist with real links · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · cost and quality of the pilot · the proposed language list · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~45 min)**
-1. Switch the app to German: the whole UI is German, and the numbers look German.
-2. Play Chapter 1 Levels 1–4 in German: does it read like a German app, or like a translation?
-3. Note every term that sounds wrong; they go into the German glossary.
-4. Choose the launch languages.
+**Needs you:**
+1. Play Chapter 1 Levels 1–4 in German: does it read like a German app, or like a translation? Note every term that sounds wrong; they go into the German glossary.
+2. Choose the launch languages (decision T).
+
+**Where to look** (optional; the report links each): the app switched to German — the whole UI is German, and the numbers look German.
