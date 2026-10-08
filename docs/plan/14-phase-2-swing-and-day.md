@@ -162,11 +162,13 @@ Stage DAY-REVIEW (corrections) from docs/plan/14-phase-2-swing-and-day.md. Read 
 
 **Model · effort · sessions:** Opus 5.5 · high · per path 2–3 (templates and drills, then replays)
 
-**Prompt** (per session)
+**Session instructions** (per session; the session takes them as its prompt when `Next stage.` reaches this stage and puts in the path and the session itself)
 ```
 Stage ARENA-PATHS, path [swing|day-trading], session [templates|replays], from docs/plan/.
 Read CLAUDE.md, then docs/plan/02-how-to-work.md §1, docs/plan/09-phase-1-app-arena-design-and-generator.md ("The Arena idea") and the "ARENA-PATHS" section in docs/plan/14-phase-2-swing-and-day.md, the arena section of docs/ui/, the path's Chapter 7 in docs/course/, docs/content-todo/01-rules-from-the-design-review.md (Part 1) and Appendix E.2.
-PR, every check green, report with 12 sample charts (templates session) or the replay list (replays session) and a test checklist. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green. Check the changed screens yourself. Report: what was built (with where to see it) · check results · 12 sample charts (templates session) or the replay list (replays session) · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test.** Per path: the 12 sample charts, five drills and two replays.
+**Needs you:** nothing, as a rule — Claude checks the screens itself and lists them under what was built.
+
+**Where to look** (optional; the report links each): per path, the 12 sample charts, five drills and two replays.

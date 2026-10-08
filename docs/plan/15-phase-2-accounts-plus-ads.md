@@ -28,7 +28,7 @@ Phase 2 starts with the app (David, 2026-10-06): before Swing and Day Trading ar
 
 **Model · effort · sessions:** Opus 5.5 · xhigh · plan mode · 2–3
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage BACKEND from docs/plan/15-phase-2-accounts-plus-ads.md.
 
