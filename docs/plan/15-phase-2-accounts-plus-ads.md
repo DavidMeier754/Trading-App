@@ -39,15 +39,17 @@ Especially important:
 - No progress may be lost: local to account, two devices, offline and back.
 - Deleting the account removes everything, and a test proves it.
 
-Open a PR against main and get every check green.
-Report: what you built · check results · my test checklist · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test (~30 min)**
-1. Play three lessons without an account, then sign in: nothing is lost.
-2. Sign in on a second device: the same state.
-3. Play offline on one device, then go online: both devices agree.
-4. Export your data, then delete the account: you are signed out, and the data is gone.
+**Needs you:** a real sign-in, which Claude cannot do with your accounts: sign in with Google and with an email code on your phone, then on a second device — the same state.
+
+**Where to look** (optional; the report links each):
+- Three lessons played without an account, then the sign-in: nothing is lost.
+- Offline play on one device, then online: both devices agree.
+- The data export, then the account deleted: you are signed out, and the data is gone.
 
 ### `MONEY` – Nutrade Plus (decision I)
 
@@ -75,21 +77,25 @@ Report: what you built · check results · my test checklist · open questions. 
 
 **Model · effort · sessions:** Opus 5.5 · high · plan mode · 1–2
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage, and fills the prices from your lines under `Next stage.`)
 ```
-Stage MONEY from docs/plan/15-phase-2-accounts-plus-ads.md. Prices: [monthly, yearly, trial – or "propose"].
+Stage MONEY from docs/plan/15-phase-2-accounts-plus-ads.md. Prices, from my lines under "Next stage." (ask me if they are missing): [monthly, yearly, trial – or "propose"].
 
 Read CLAUDE.md, docs/rules/01-what-we-build.md §1 and docs/rules/10-legal-and-safety.md §7, docs/ui/06-reveal-and-hearts.md §5.2, docs/ui/13-tiers-replays-and-plus.md §7.7 and §7.8, and docs/plan/02-how-to-work.md §1, docs/plan/04-decisions.md §4.1 (decision I) and the "MONEY" section in docs/plan/15-phase-2-accounts-plus-ads.md in full.
 Show me your plan first and wait for my approval.
 
-Open a PR against main and get every check green.
-Report: what you built · every paywall text · my test checklist (sandbox purchases) · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · every paywall text · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test.**
-1. A test purchase through RevenueCat's test store; restore; cancel.
-2. With Plus: the hearts show ∞, there are no ads, the whole arena is open.
-3. Without Plus: every lesson is playable, the Daily Chart and the taste of the arena work, and the paywall appears only where it should.
+**Needs you:**
+- The prices per region, when the stage proposes them (decision R: you decide).
+- A test purchase on your phone through RevenueCat's test store; restore; cancel. A store sandbox on a device is what Claude cannot run itself.
+
+**Where to look** (optional; the report links each):
+- With Plus: the hearts show ∞, there are no ads, the whole arena is open.
+- Without Plus: every lesson is playable, the Daily Chart and the taste of the arena work, and the paywall appears only where it should.
 
 ### `ADS` – ads in the free tier
 
@@ -116,7 +122,7 @@ Report: what you built · every paywall text · my test checklist (sandbox purch
 
 **Model · effort · sessions:** Opus 5.5 · high · 1
 
-**Prompt**
+**Session instructions** (the session takes them as its prompt when `Next stage.` reaches this stage)
 ```
 Stage ADS from docs/plan/15-phase-2-accounts-plus-ads.md.
 
@@ -126,11 +132,13 @@ Research the current AdMob and consent requirements and name your sources with t
 Especially important:
 - No ad inside a lesson, test, reveal or the arena; financial and gambling categories blocked; no ads for Plus.
 
-Open a PR against main and get every check green.
-Report: every place an ad can appear · the blocked categories · my test checklist · open questions. Then stop.
+Open a PR against main that marks this step ✅ in docs/plan/, and get every check green.
+Check the changed screens yourself.
+Report: what was built (with where to see it) · check results · every place an ad can appear · the blocked categories · needs your review (only what really does) · open questions · next. Then stop.
 ```
 
-**You test.**
-1. Play five lessons in a test build: ads only where planned.
-2. Decline consent: the app still works.
-3. With Plus: no ad anywhere.
+**Needs you:** a development build on your phone, since ads do not run in Expo Go or the web preview and Claude cannot see them there:
+- Five lessons: Google's test ads only where planned.
+- Consent declined: the app still works.
+
+**Where to look** (optional; the report links each): with Plus, no ad anywhere (a test proves it).
